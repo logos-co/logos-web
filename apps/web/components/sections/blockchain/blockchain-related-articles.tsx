@@ -1,70 +1,9 @@
-import Image from 'next/image'
-
 import type { PressArticle } from '@repo/content/loaders'
 import type { RelatedArticlesSection } from '@repo/content/schemas'
 
 import { Button, ButtonArrowIcon } from '@/components/ui'
 
-const formatPressDateUTC = (iso: string): string => {
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'UTC',
-    year: '2-digit',
-    month: '2-digit',
-    day: '2-digit',
-  }).formatToParts(new Date(iso))
-  const month = parts.find((p) => p.type === 'month')?.value ?? ''
-  const day = parts.find((p) => p.type === 'day')?.value ?? ''
-  const year = parts.find((p) => p.type === 'year')?.value ?? ''
-  return `${month}.${day}.${year}`
-}
-
-interface ArticleCardProps {
-  title: string
-  imageSrc: string
-  imageAlt: string
-  date: string
-  author: string
-  href: string
-}
-
-function ArticleCard({
-  title,
-  imageSrc,
-  imageAlt,
-  date,
-  author,
-  href,
-}: ArticleCardProps) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group flex w-84.75 shrink-0 cursor-pointer flex-col gap-1.5 md:w-auto"
-    >
-      <div className="aspect-339/431 w-full overflow-hidden">
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          width={339}
-          height={431}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-      </div>
-      <div className="flex items-baseline gap-10">
-        <p className="text-body-sans flex-1 font-medium text-brand-dark-green">
-          {title}
-        </p>
-        <div className="shrink-0">
-          <p className="text-mono-s text-brand-dark-green">{date}</p>
-          {author ? (
-            <p className="text-mono-s text-brand-dark-green">{author}</p>
-          ) : null}
-        </div>
-      </div>
-    </a>
-  )
-}
+import { ArticleCard, articlesToCards } from '../shared/related-articles-card'
 
 type Props = {
   data: RelatedArticlesSection
@@ -72,14 +11,7 @@ type Props = {
 }
 
 export default function BlockchainRelatedArticles({ data, articles }: Props) {
-  const cards = articles.map((article) => ({
-    title: article.title,
-    imageSrc: article.image.src,
-    imageAlt: article.image.alt || article.title,
-    date: article.displayDate ?? formatPressDateUTC(article.publishedAt),
-    author: article.author?.name ?? '',
-    href: article.externalUrl,
-  }))
+  const cards = articlesToCards(articles)
 
   return (
     <section className="bg-brand-off-white">
