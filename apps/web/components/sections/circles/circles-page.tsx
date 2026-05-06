@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import type { ComponentProps, ReactNode } from 'react'
 
 import {
   type Circle,
@@ -13,8 +12,8 @@ import { LogosMark } from '@repo/ui'
 
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
-import { Link } from '@/i18n/navigation'
 
+import { ArrowIcon, isExternalHref, SmartLink } from './_helpers'
 import CirclesMap from './circles-map'
 
 type CirclesPageProps = {
@@ -24,42 +23,6 @@ type CirclesPageProps = {
   initiatives: CircleInitiative[]
   resources: CircleResource[]
   locale: Language
-}
-
-type SmartLinkProps = ComponentProps<'a'> & {
-  href: string
-  children: ReactNode
-}
-
-const isExternalHref = (href: string) => /^https?:\/\//.test(href)
-
-function SmartLink({ href, children, ...props }: SmartLinkProps) {
-  if (isExternalHref(href)) {
-    return (
-      <a href={href} {...props}>
-        {children}
-      </a>
-    )
-  }
-
-  return (
-    <Link href={href} {...props}>
-      {children}
-    </Link>
-  )
-}
-
-function ArrowIcon() {
-  return (
-    <span
-      aria-hidden="true"
-      className="size-[15px] shrink-0 bg-current"
-      style={{
-        mask: 'url(/icons/right-arrow.svg) center / contain no-repeat',
-        WebkitMask: 'url(/icons/right-arrow.svg) center / contain no-repeat',
-      }}
-    />
-  )
 }
 
 const formatHostList = (hosts: { name: string }[]) =>

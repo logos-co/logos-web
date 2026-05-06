@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import type { ComponentProps, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 import {
   type Circle,
@@ -12,7 +12,8 @@ import { LogosMark } from '@repo/ui'
 
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
-import { Link } from '@/i18n/navigation'
+
+import { ArrowIcon, isExternalHref, SmartLink } from './_helpers'
 
 type CircleDetailPageViewProps = {
   circle: Circle
@@ -22,45 +23,8 @@ type CircleDetailPageViewProps = {
   locale: Language
 }
 
-type SmartLinkProps = ComponentProps<'a'> & {
-  href: string
-  children: ReactNode
-}
-
-const isExternalHref = (href: string) => /^https?:\/\//.test(href)
-
-function SmartLink({ href, children, ...props }: SmartLinkProps) {
-  if (isExternalHref(href)) {
-    return (
-      <a href={href} {...props}>
-        {children}
-      </a>
-    )
-  }
-
-  return (
-    <Link href={href} {...props}>
-      {children}
-    </Link>
-  )
-}
-
 function MaskIcon({ name }: { name: 'calendar' | 'clock' | 'map-pin' }) {
   const url = `/icons/${name}.svg`
-  return (
-    <span
-      aria-hidden="true"
-      className="size-[15px] shrink-0 bg-current"
-      style={{
-        mask: `url(${url}) center / contain no-repeat`,
-        WebkitMask: `url(${url}) center / contain no-repeat`,
-      }}
-    />
-  )
-}
-
-function ArrowIcon({ direction = 'right' }: { direction?: 'left' | 'right' }) {
-  const url = direction === 'left' ? '/icons/arrow-left.svg' : '/icons/right-arrow.svg'
   return (
     <span
       aria-hidden="true"
