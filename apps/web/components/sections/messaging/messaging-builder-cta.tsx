@@ -4,7 +4,7 @@ import type { CardGridSection } from '@repo/content/schemas'
 
 import { Button } from '@/components/ui'
 
-import { DownloadIcon } from './messaging-shared'
+import { DownloadIcon } from '../shared/builder-cta-card'
 
 type CardContentProps = {
   title: string

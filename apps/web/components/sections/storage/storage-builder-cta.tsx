@@ -2,35 +2,12 @@ import Image from 'next/image'
 
 import type { CardGridSection } from '@repo/content/schemas'
 
-import { IconMask } from '@/components/icons/icon-mask'
 import { Button } from '@/components/ui'
 
-function DownloadIcon() {
-  return <IconMask src="/icons/download.svg" className="size-3.75" />
-}
+import { CardContent, DownloadIcon } from '../shared/builder-cta-card'
 
-type CardContentProps = {
-  title: string
-  body: string
-  cta: React.ReactNode
-  tone: 'dark' | 'light'
-}
-
-function CardContent({ title, body, cta, tone }: CardContentProps) {
-  return (
-    <div className="flex flex-col items-center justify-center gap-6 md:gap-10">
-      <div
-        className={`flex w-full max-w-108 flex-col items-center gap-3 px-4 text-center ${
-          tone === 'dark' ? 'text-brand-dark-green' : 'text-brand-off-white'
-        }`}
-      >
-        <p className="text-subhead-sans w-full">{title}</p>
-        <p className="text-mono-s w-full max-w-95">{body}</p>
-      </div>
-      {cta}
-    </div>
-  )
-}
+const CARD_WRAPPER_CLASSNAME =
+  'flex flex-col items-center justify-center gap-6 md:gap-10'
 
 type Props = {
   data: CardGridSection
@@ -54,6 +31,7 @@ export default function StorageBuilderCta({ data }: Props) {
               title={docsCard.title}
               body={docsCard.description ?? ''}
               tone="dark"
+              wrapperClassName={CARD_WRAPPER_CLASSNAME}
               cta={
                 docsCard.cta ? (
                   <Button href={docsCard.cta.href} variant="primary">
@@ -83,6 +61,7 @@ export default function StorageBuilderCta({ data }: Props) {
                 title={builderHubCard.title}
                 body={builderHubCard.description ?? ''}
                 tone="light"
+                wrapperClassName={CARD_WRAPPER_CLASSNAME}
                 cta={
                   builderHubCard.cta ? (
                     <Button
@@ -105,6 +84,7 @@ export default function StorageBuilderCta({ data }: Props) {
               title={logosAppCard.title}
               body={logosAppCard.description ?? ''}
               tone="dark"
+              wrapperClassName={CARD_WRAPPER_CLASSNAME}
               cta={
                 logosAppCard.cta ? (
                   <Button

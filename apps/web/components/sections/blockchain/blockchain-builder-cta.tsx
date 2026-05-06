@@ -2,35 +2,9 @@ import Image from 'next/image'
 
 import type { CardGridSection } from '@repo/content/schemas'
 
-import { IconMask } from '@/components/icons/icon-mask'
 import { Button } from '@/components/ui'
 
-function DownloadIcon() {
-  return <IconMask src="/icons/download.svg" className="size-3.75" />
-}
-
-type CardContentProps = {
-  title: string
-  body: string
-  cta: React.ReactNode
-  color: 'dark' | 'light'
-}
-
-function CardContent({ title, body, cta, color }: CardContentProps) {
-  const textColor =
-    color === 'dark' ? 'text-brand-dark-green' : 'text-brand-off-white'
-  return (
-    <div className="flex flex-col items-center justify-center gap-10">
-      <div
-        className={`flex w-full max-w-108 flex-col items-center gap-3 px-4 text-center ${textColor}`}
-      >
-        <p className="text-subhead-sans w-full">{title}</p>
-        <p className="text-mono-s w-full max-w-95">{body}</p>
-      </div>
-      {cta}
-    </div>
-  )
-}
+import { CardContent, DownloadIcon } from '../shared/builder-cta-card'
 
 type Props = {
   data: CardGridSection
@@ -60,7 +34,7 @@ export default function BlockchainBuilderCta({ data }: Props) {
             <CardContent
               title={docsCard.title}
               body={docsCard.description ?? ''}
-              color="dark"
+              tone="dark"
               cta={
                 docsCard.cta ? (
                   <Button href={docsCard.cta.href} variant="primary">
@@ -90,7 +64,7 @@ export default function BlockchainBuilderCta({ data }: Props) {
               <CardContent
                 title={builderHubCard.title}
                 body={builderHubCard.description ?? ''}
-                color="light"
+                tone="light"
                 cta={
                   builderHubCard.cta ? (
                     <Button
@@ -113,7 +87,7 @@ export default function BlockchainBuilderCta({ data }: Props) {
             <CardContent
               title={logosAppCard.title}
               body={logosAppCard.description ?? ''}
-              color="dark"
+              tone="dark"
               cta={
                 logosAppCard.cta ? (
                   <Button
