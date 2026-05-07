@@ -9,13 +9,15 @@ type DefaultMetadataProps = {
   path?: string
 }
 
-const baseUrl = siteConfig.url
+const baseUrl = siteConfig.url.replace(/\/+$/, '')
 
 export function absoluteUrl(
   path: string,
   locale: string = siteConfig.defaultLocale
 ) {
-  return `${siteConfig.url}${locale === siteConfig.defaultLocale ? '' : `/${locale}`}${path}`
+  const localeSegment = locale === siteConfig.defaultLocale ? '' : `/${locale}`
+  const normalizedPath = path === '' || path.startsWith('/') ? path : `/${path}`
+  return `${baseUrl}${localeSegment}${normalizedPath}`
 }
 
 export async function createDefaultMetadata({
