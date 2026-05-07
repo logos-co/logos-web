@@ -7,7 +7,7 @@
  *   - components.tsx    → Cards / Buttons / Tables / GiantSwitches /
  *                         ViewToggles / Paginations / Footers
  */
-import { createDefaultMetadata } from '@/utils/metadata'
+import { createDefaultMetadata } from '@/lib/metadata'
 
 import { ColorPalette } from './_sections/color-palette'
 import {

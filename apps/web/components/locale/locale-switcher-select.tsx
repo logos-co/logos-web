@@ -1,9 +1,11 @@
 'use client'
 
 import { ChangeEvent, ReactNode, useTransition } from 'react'
-import { usePathname } from '@/i18n/navigation'
 import clsx from 'clsx'
 import { Locale } from 'next-intl'
+
+import { IconMask } from '@/components/icons/icon-mask'
+import { usePathname } from '@/i18n/navigation'
 
 type Props = {
   children: ReactNode
@@ -40,13 +42,9 @@ export default function LocaleSwitcherSelect({
         <optgroup label="Language">{children}</optgroup>
       </select>
 
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 right-2 size-4 -translate-y-1/2 bg-gray-500"
-        style={{
-          mask: 'url(/icons/chevron-down.svg) center / contain no-repeat',
-          WebkitMask: 'url(/icons/chevron-down.svg) center / contain no-repeat',
-        }}
+      <IconMask
+        src="/icons/chevron-down.svg"
+        className="pointer-events-none absolute top-1/2 right-2 size-4 -translate-y-1/2 bg-gray-500!"
       />
     </div>
   )

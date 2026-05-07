@@ -14,7 +14,7 @@
 import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 
-import { createDefaultMetadata } from '@/utils/metadata'
+import { createDefaultMetadata } from '@/lib/metadata'
 
 type RouteParams = { params: Promise<{ locale: string }> }
 

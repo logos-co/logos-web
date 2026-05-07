@@ -12,6 +12,8 @@ import Image from 'next/image'
 
 import type { PressArticle } from '@repo/content/loaders'
 
+import { formatDateMdy2 } from '@/lib/dates'
+
 export type ArticleCardProps = {
   title: string
   imageSrc: string
@@ -30,20 +32,6 @@ export type ArticleCardProps = {
 const DEFAULT_TITLE_CLASSNAME =
   'text-body-sans flex-1 font-medium text-brand-dark-green'
 
-/** Format an ISO timestamp as `MM.DD.YY` in UTC (en-US 2-digit parts). */
-export function formatPressDateUTC(iso: string): string {
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'UTC',
-    year: '2-digit',
-    month: '2-digit',
-    day: '2-digit',
-  }).formatToParts(new Date(iso))
-  const month = parts.find((p) => p.type === 'month')?.value ?? ''
-  const day = parts.find((p) => p.type === 'day')?.value ?? ''
-  const year = parts.find((p) => p.type === 'year')?.value ?? ''
-  return `${month}.${day}.${year}`
-}
-
 /** Reshape a `PressArticle[]` into props for `<ArticleCard />`. */
 export function articlesToCards(
   articles: ReadonlyArray<PressArticle>,
@@ -52,7 +40,7 @@ export function articlesToCards(
     title: article.title,
     imageSrc: article.image.src,
     imageAlt: article.image.alt || article.title,
-    date: article.displayDate ?? formatPressDateUTC(article.publishedAt),
+    date: article.displayDate ?? formatDateMdy2(article.publishedAt),
     author: article.author?.name ?? '',
     href: article.externalUrl,
   }))

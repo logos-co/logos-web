@@ -1,32 +1,15 @@
 import { notFound } from 'next/navigation'
 
-import { getActiveLocales, isActiveLocale } from '@repo/content/locales'
+import { getActiveLocales } from '@repo/content/locales'
 import { getAllIdeas, getAllRfps, getIdeaBySlug } from '@repo/content/loaders'
 
 import { BuildersHubDetailLayout } from '@/components/sections/builders-hub/builders-hub-detail-layout'
-import { Link } from '@/i18n/navigation'
+import { RelatedLinksList } from '@/components/sections/builders-hub/related-links-list'
 import { ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/utils/metadata'
-
-const formatReward = (
-  reward: { amount: number; currency: string; xp?: number } | undefined
-): string | null => {
-  if (!reward) return null
-  return reward.xp
-    ? `${reward.amount} ${reward.currency} + ${reward.xp} XP`
-    : `${reward.amount} ${reward.currency}`
-}
-
-const formatDate = (iso: string): string => {
-  const d = new Date(iso)
-  if (Number.isNaN(d.getTime())) return iso
-  return d.toLocaleDateString('en-US', {
-    timeZone: 'UTC',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
-}
+import { formatDateLong } from '@/lib/dates'
+import { createDefaultMetadata } from '@/lib/metadata'
+import { resolveLocale, type LocaleSlugParams } from '@/lib/route-params'
+import { formatReward } from '@/lib/reward'
 
 export async function generateStaticParams() {
   const params: Array<{ locale: string; slug: string }> = []
@@ -37,15 +20,9 @@ export async function generateStaticParams() {
   return params
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string; slug: string }>
-}) {
-  const { locale, slug } = await params
-  if (!isActiveLocale(locale)) {
-    throw new Error(`generateMetadata received non-active locale "${locale}"`)
-  }
+export async function generateMetadata({ params }: LocaleSlugParams) {
+  const locale = await resolveLocale(params, 'generateMetadata')
+  const { slug } = await params
   try {
     const idea = await getIdeaBySlug(slug, locale)
     return createDefaultMetadata({
@@ -64,15 +41,9 @@ export async function generateMetadata({
   }
 }
 
-export default async function IdeaDetailPage({
-  params,
-}: {
-  params: Promise<{ locale: string; slug: string }>
-}) {
-  const { locale, slug } = await params
-  if (!isActiveLocale(locale)) {
-    throw new Error(`IdeaDetailPage received non-active locale "${locale}"`)
-  }
+export default async function IdeaDetailPage({ params }: LocaleSlugParams) {
+  const locale = await resolveLocale(params, 'IdeaDetailPage')
+  const { slug } = await params
 
   let idea
   try {
@@ -93,7 +64,7 @@ export default async function IdeaDetailPage({
     { label: 'Submitter', value: submitter },
     reward ? { label: 'Reward', value: reward } : null,
     idea.submittedAt
-      ? { label: 'Submitted', value: formatDate(idea.submittedAt) }
+      ? { label: 'Submitted', value: formatDateLong(idea.submittedAt) }
       : null,
     idea.tags.length > 0
       ? { label: 'Tags', value: idea.tags.join(', ') }
@@ -130,25 +101,11 @@ export default async function IdeaDetailPage({
       }
       meta={meta}
       footer={
-        related.length > 0 ? (
-          <>
-            <h2 className="font-mono text-[10px] font-medium leading-[1.3] text-brand-dark-green/70 uppercase mb-4">
-              Related RFPs
-            </h2>
-            <ul className="space-y-2">
-              {related.map((rfp) => (
-                <li key={rfp.slug}>
-                  <Link
-                    href={`${ROUTES.rfps}/${rfp.slug}`}
-                    className="cursor-pointer font-sans text-[14px] leading-[1.4] text-brand-dark-green underline underline-offset-4 hover:opacity-70"
-                  >
-                    {rfp.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </>
-        ) : null
+        <RelatedLinksList
+          heading="Related RFPs"
+          hrefBase={ROUTES.rfps}
+          items={related}
+        />
       }
     />
   )

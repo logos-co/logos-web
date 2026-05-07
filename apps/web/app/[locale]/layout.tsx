@@ -1,6 +1,6 @@
 import '@/css/tailwind.css'
 
-import { themeInitScript } from '@/utils/theme'
+import { themeInitScript } from '@/lib/theme'
 import { fontVariables } from '@/app/fonts'
 import PageTransition from '@/components/page-transition'
 import ScrollToTop from '@/components/scroll-to-top'

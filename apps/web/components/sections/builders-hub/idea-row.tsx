@@ -2,16 +2,11 @@ import type { Idea } from '@repo/content/loaders'
 
 import { Link } from '@/i18n/navigation'
 import { ROUTES } from '@/constants/routes'
+import { formatRewardLines } from '@/lib/reward'
 
 type Props = {
   index: number
   idea: Idea
-}
-
-const formatRewardLines = (reward: Idea['reward']): string[] => {
-  if (!reward) return []
-  const amount = `${reward.amount} ${reward.currency}`
-  return reward.xp ? [amount, `+ ${reward.xp} XP`] : [amount]
 }
 
 /**

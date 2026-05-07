@@ -1,32 +1,15 @@
 import { notFound } from 'next/navigation'
 
-import { getActiveLocales, isActiveLocale } from '@repo/content/locales'
+import { getActiveLocales } from '@repo/content/locales'
 import { getAllIdeas, getAllRfps, getRfpBySlug } from '@repo/content/loaders'
 
 import { BuildersHubDetailLayout } from '@/components/sections/builders-hub/builders-hub-detail-layout'
-import { Link } from '@/i18n/navigation'
+import { RelatedLinksList } from '@/components/sections/builders-hub/related-links-list'
 import { ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/utils/metadata'
-
-const formatReward = (reward: {
-  amount: number
-  currency: string
-  xp?: number
-}): string =>
-  reward.xp
-    ? `${reward.amount} ${reward.currency} + ${reward.xp} XP`
-    : `${reward.amount} ${reward.currency}`
-
-const formatDate = (iso: string): string => {
-  const d = new Date(iso)
-  if (Number.isNaN(d.getTime())) return iso
-  return d.toLocaleDateString('en-US', {
-    timeZone: 'UTC',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
-}
+import { formatDateLong } from '@/lib/dates'
+import { createDefaultMetadata } from '@/lib/metadata'
+import { resolveLocale, type LocaleSlugParams } from '@/lib/route-params'
+import { formatReward } from '@/lib/reward'
 
 export async function generateStaticParams() {
   const params: Array<{ locale: string; slug: string }> = []
@@ -37,15 +20,9 @@ export async function generateStaticParams() {
   return params
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string; slug: string }>
-}) {
-  const { locale, slug } = await params
-  if (!isActiveLocale(locale)) {
-    throw new Error(`generateMetadata received non-active locale "${locale}"`)
-  }
+export async function generateMetadata({ params }: LocaleSlugParams) {
+  const locale = await resolveLocale(params, 'generateMetadata')
+  const { slug } = await params
   try {
     const rfp = await getRfpBySlug(slug, locale)
     return createDefaultMetadata({
@@ -64,15 +41,9 @@ export async function generateMetadata({
   }
 }
 
-export default async function RfpDetailPage({
-  params,
-}: {
-  params: Promise<{ locale: string; slug: string }>
-}) {
-  const { locale, slug } = await params
-  if (!isActiveLocale(locale)) {
-    throw new Error(`RfpDetailPage received non-active locale "${locale}"`)
-  }
+export default async function RfpDetailPage({ params }: LocaleSlugParams) {
+  const locale = await resolveLocale(params, 'RfpDetailPage')
+  const { slug } = await params
 
   let rfp
   try {
@@ -82,13 +53,16 @@ export default async function RfpDetailPage({
   }
   if (rfp.status !== 'published') notFound()
 
+  const reward = formatReward(rfp.reward)
   const meta = [
     { label: 'Status', value: rfp.status },
-    { label: 'Reward', value: formatReward(rfp.reward) },
+    reward ? { label: 'Reward', value: reward } : null,
     rfp.publishedAt
-      ? { label: 'Published', value: formatDate(rfp.publishedAt) }
+      ? { label: 'Published', value: formatDateLong(rfp.publishedAt) }
       : null,
-    rfp.closesAt ? { label: 'Closes', value: formatDate(rfp.closesAt) } : null,
+    rfp.closesAt
+      ? { label: 'Closes', value: formatDateLong(rfp.closesAt) }
+      : null,
     rfp.owner
       ? {
           label: 'Owner',
@@ -126,25 +100,11 @@ export default async function RfpDetailPage({
       }}
       meta={meta}
       footer={
-        related.length > 0 ? (
-          <>
-            <h2 className="font-mono text-[10px] font-medium leading-[1.3] text-brand-dark-green/70 uppercase mb-4">
-              Related ideas
-            </h2>
-            <ul className="space-y-2">
-              {related.map((idea) => (
-                <li key={idea.slug}>
-                  <Link
-                    href={`${ROUTES.ideas}/${idea.slug}`}
-                    className="cursor-pointer font-sans text-[14px] leading-[1.4] text-brand-dark-green underline underline-offset-4 hover:opacity-70"
-                  >
-                    {idea.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </>
-        ) : null
+        <RelatedLinksList
+          heading="Related ideas"
+          hrefBase={ROUTES.ideas}
+          items={related}
+        />
       }
     />
   )

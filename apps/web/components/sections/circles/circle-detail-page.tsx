@@ -13,6 +13,8 @@ import { LogosMark } from '@repo/ui'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
+import { IconMask } from '@/components/icons/icon-mask'
+
 import { ArrowIcon, isExternalHref, SmartLink } from './_helpers'
 
 type CircleDetailPageViewProps = {
@@ -24,17 +26,7 @@ type CircleDetailPageViewProps = {
 }
 
 function MaskIcon({ name }: { name: 'calendar' | 'clock' | 'map-pin' }) {
-  const url = `/icons/${name}.svg`
-  return (
-    <span
-      aria-hidden="true"
-      className="size-[15px] shrink-0 bg-current"
-      style={{
-        mask: `url(${url}) center / contain no-repeat`,
-        WebkitMask: `url(${url}) center / contain no-repeat`,
-      }}
-    />
-  )
+  return <IconMask src={`/icons/${name}.svg`} className="size-[15px]" />
 }
 
 const formatHostList = (hosts: { name: string }[]) => {

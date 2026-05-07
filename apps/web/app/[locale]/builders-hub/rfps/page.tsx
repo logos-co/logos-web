@@ -3,7 +3,7 @@ import { isActiveLocale } from '@repo/content/locales'
 
 import { BuildersHubListingClient } from '@/components/sections/builders-hub/builders-hub-listing-client'
 import { ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/utils/metadata'
+import { createDefaultMetadata } from '@/lib/metadata'
 
 const ROUTE = ROUTES.rfps
 

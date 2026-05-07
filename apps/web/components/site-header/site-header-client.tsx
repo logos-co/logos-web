@@ -11,6 +11,7 @@ import {
   type NavOverlayPressItem,
 } from '@repo/ui'
 
+import { IconMask } from '@/components/icons/icon-mask'
 import { ROUTES } from '@/constants/routes'
 import { Link, usePathname } from '@/i18n/navigation'
 
@@ -32,14 +33,7 @@ type Props = {
 
 function HamburgerIcon() {
   return (
-    <span
-      aria-hidden="true"
-      className="size-[15px] shrink-0 bg-current"
-      style={{
-        mask: 'url(/icons/hamburger-menu.svg) center / contain no-repeat',
-        WebkitMask: 'url(/icons/hamburger-menu.svg) center / contain no-repeat',
-      }}
-    />
+    <IconMask src="/icons/hamburger-menu.svg" className="size-[15px]" />
   )
 }
 

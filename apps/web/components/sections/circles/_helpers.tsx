@@ -8,6 +8,7 @@
  */
 import type { ComponentProps, ReactNode } from 'react'
 
+import { IconMask } from '@/components/icons/icon-mask'
 import { Link } from '@/i18n/navigation'
 
 export type SmartLinkProps = ComponentProps<'a'> & {
@@ -47,16 +48,7 @@ export function ArrowIcon({
 }: {
   direction?: 'left' | 'right'
 }) {
-  const url =
+  const src =
     direction === 'left' ? '/icons/arrow-left.svg' : '/icons/right-arrow.svg'
-  return (
-    <span
-      aria-hidden="true"
-      className="size-[15px] shrink-0 bg-current"
-      style={{
-        mask: `url(${url}) center / contain no-repeat`,
-        WebkitMask: `url(${url}) center / contain no-repeat`,
-      }}
-    />
-  )
+  return <IconMask src={src} className="size-[15px]" />
 }

@@ -12,6 +12,7 @@ import { LogosMark } from '@repo/ui'
 
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
+import { formatTzOffsetLabel } from '@/lib/dates'
 
 import { ArrowIcon, isExternalHref, SmartLink } from './_helpers'
 import CirclesMap from './circles-map'
@@ -28,13 +29,6 @@ type CirclesPageProps = {
 const formatHostList = (hosts: { name: string }[]) =>
   hosts.length > 0 ? `By ${hosts.map((host) => host.name).join(', ')}` : ''
 
-const getOffsetLabel = (timeZone: string, iso: string) => {
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone,
-    timeZoneName: 'shortOffset',
-  }).formatToParts(new Date(iso))
-  return parts.find((part) => part.type === 'timeZoneName')?.value ?? timeZone
-}
 
 function SectionIntro({
   title,
@@ -206,7 +200,7 @@ function EventCard({
   locale: Language
 }) {
   const time = formatEventDateForSurface(event, 'index-card-time', locale)
-  const offset = getOffsetLabel(event.timezone, event.startsAt)
+  const offset = formatTzOffsetLabel(event.timezone, event.startsAt)
   const hostList = formatHostList(event.hostedBy)
 
   return (

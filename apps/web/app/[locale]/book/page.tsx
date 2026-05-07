@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server'
 
 import { IconMask } from '@/components/icons/icon-mask'
 import { ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/utils/metadata'
+import { createDefaultMetadata } from '@/lib/metadata'
 
 const actions = [
   {

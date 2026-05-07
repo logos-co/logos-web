@@ -3,7 +3,7 @@ import { isActiveLocale } from '@repo/content/locales'
 import { ActiveCirclesPageView } from '@/components/sections/active-circles'
 import { ROUTES } from '@/constants/routes'
 import { getActiveCirclesOverview } from '@/lib/active-circles'
-import { createDefaultMetadata } from '@/utils/metadata'
+import { createDefaultMetadata } from '@/lib/metadata'
 
 export async function generateMetadata({
   params,

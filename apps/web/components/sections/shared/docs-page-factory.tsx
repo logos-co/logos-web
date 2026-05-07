@@ -15,7 +15,7 @@
  */
 import { getTranslations } from 'next-intl/server'
 
-import { createDefaultMetadata } from '@/utils/metadata'
+import { createDefaultMetadata } from '@/lib/metadata'
 
 import { DocsPageShell } from './docs-page-shell'
 import type { DocsTocKey } from './docs-toc'

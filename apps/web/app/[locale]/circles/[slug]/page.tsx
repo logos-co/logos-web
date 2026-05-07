@@ -12,7 +12,7 @@ import { isActiveLocale } from '@repo/content/locales'
 import { CircleDetailPageView } from '@/components/sections/circles'
 import { ROUTES } from '@/constants/routes'
 import { routing } from '@/i18n/routing'
-import { createDefaultMetadata } from '@/utils/metadata'
+import { createDefaultMetadata } from '@/lib/metadata'
 
 export const dynamicParams = false
 

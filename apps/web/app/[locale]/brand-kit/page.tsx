@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server'
 
 import { DocsPageShell } from '@/components/sections/shared/docs-page-shell'
 import { ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/utils/metadata'
+import { createDefaultMetadata } from '@/lib/metadata'
 
 export async function generateMetadata({
   params,

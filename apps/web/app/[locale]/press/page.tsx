@@ -3,7 +3,7 @@ import { isActiveLocale } from '@repo/content/locales'
 
 import { ROUTES } from '@/constants/routes'
 import { getPressPageData, repeatToLength } from '@/lib/press-engine'
-import { createDefaultMetadata } from '@/utils/metadata'
+import { createDefaultMetadata } from '@/lib/metadata'
 
 import {
   ArticleEntry,

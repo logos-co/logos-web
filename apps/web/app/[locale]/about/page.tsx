@@ -8,7 +8,7 @@ import {
   AboutWhoWeAre,
 } from '@/components/sections/about'
 import { ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/utils/metadata'
+import { createDefaultMetadata } from '@/lib/metadata'
 
 export async function generateMetadata({
   params,
