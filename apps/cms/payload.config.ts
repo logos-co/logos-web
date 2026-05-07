@@ -49,11 +49,7 @@ const serverURL =
     ? `https://${process.env.VERCEL_URL}`
     : 'http://localhost:3001')
 
-const frontendURL =
-  process.env.NEXT_PUBLIC_WEB_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : 'http://localhost:3000')
+const frontendURL = process.env.NEXT_PUBLIC_WEB_URL || 'http://localhost:3000'
 
 // Database — Postgres (Supabase / Neon / Vercel Postgres). The schema name
 // scopes Payload tables under a dedicated namespace, so coexisting with other

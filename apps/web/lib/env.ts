@@ -26,6 +26,11 @@ export type Env = {
    * analytics, etc.). Currently used by `lib/metadata.ts`.
    */
   NEXT_PUBLIC_API_MODE: ApiMode | undefined
+  /**
+   * Public site URL (e.g. `https://logos-co-web.vercel.app`). Used for
+   * canonical, OG and Twitter absolute URLs. Set per environment.
+   */
+  NEXT_PUBLIC_SITE_URL: string | undefined
 }
 
 function assertOneOf<T extends string>(
@@ -58,6 +63,11 @@ function assertOneOf<T extends string>(
   return raw as T
 }
 
+function readOptionalString(raw: string | undefined): string | undefined {
+  if (raw === undefined || raw === '') return undefined
+  return raw
+}
+
 export const env: Env = {
   NODE_ENV:
     assertOneOf(process.env.NODE_ENV, NODE_ENV_VALUES, 'NODE_ENV', true) ??
@@ -68,4 +78,5 @@ export const env: Env = {
     'NEXT_PUBLIC_API_MODE',
     true
   ),
+  NEXT_PUBLIC_SITE_URL: readOptionalString(process.env.NEXT_PUBLIC_SITE_URL),
 }

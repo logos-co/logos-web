@@ -9,7 +9,7 @@ Operational notes for deploying `apps/web` and `apps/cms`. The full architectura
 | **Development / staging** | Vercel (`acidinfo` team — `logos-co-web`, `logos-co-cms`) | Per-PR previews, fast iteration, cheap |
 | **Production** | **Self-hosted Node** (Next.js standalone build) | Stable home for the public web + editor CMS |
 
-The codebase is vendor-neutral. Vercel-specific env fallbacks (`VERCEL_URL`, `VERCEL_PROJECT_PRODUCTION_URL`) only apply when those vars are set; on a self-hosted host they no-op and the explicit `NEXT_PUBLIC_SERVER_URL` / `NEXT_PUBLIC_WEB_URL` env vars take over. The Postgres adapter, schemas, loaders, and admin UI have no runtime dependency on Vercel.
+The codebase is vendor-neutral. The CMS still falls back to `VERCEL_URL` for its own `serverURL` so per-deploy preview URLs work without manual config; everything else (frontend URL, web app site URL) requires explicit `NEXT_PUBLIC_SERVER_URL` / `NEXT_PUBLIC_WEB_URL` / `NEXT_PUBLIC_SITE_URL`. The Postgres adapter, schemas, loaders, and admin UI have no runtime dependency on Vercel.
 
 In production-like environments outside Vercel, the CMS refuses to boot when `NEXT_PUBLIC_SERVER_URL` or `NEXT_PUBLIC_WEB_URL` is missing — silently falling back to localhost in a self-hosted prod cluster would break CORS and cookie scoping in non-obvious ways.
 
@@ -61,7 +61,7 @@ For local dev copy apps/cms/.env.example to apps/cms/.env and fill it in.
 | `GITHUB_CONTENT_BRANCH_PREFIX` | optional | Defaults to `content/`. Mutation primitives reject branches outside this prefix unless `CONTENT_DIRECT_COMMIT_ENABLED=true`. |
 | `CONTENT_DIRECT_COMMIT_ENABLED` | optional | `true` allows commits to staging/production directly. Off by default — branch protection enforces this on the GitHub side too. |
 | `NEXT_PUBLIC_SERVER_URL` | recommended | Public CMS URL for CORS + CSRF. Falls back to `https://$VERCEL_URL` (different per preview deploy). |
-| `NEXT_PUBLIC_WEB_URL` | recommended | Public web URL for CORS + CSRF. Falls back to `https://$VERCEL_PROJECT_PRODUCTION_URL`. |
+| `NEXT_PUBLIC_WEB_URL` | recommended | Public web URL for CORS + CSRF. Falls back to `http://localhost:3000` if unset — set explicitly on every non-local deploy. |
 
 Set all of these for both **Production** and **Preview** environments in the Vercel dashboard (Settings → Environment Variables). Preview deploys without `DATABASE_URL` will throw at build time.
 

@@ -5,7 +5,6 @@
     "NODE_ENV",
     "VERCEL",
     "VERCEL_URL",
-    "VERCEL_PROJECT_PRODUCTION_URL",
     "LOGOS_CONTENT_ROOT"
   ],
   "tasks": {
