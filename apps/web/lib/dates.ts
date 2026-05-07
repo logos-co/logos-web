@@ -49,11 +49,20 @@ export function formatDateLong(iso: string): string {
 /**
  * Short timezone offset label (`PST`, `KST`, ...). Used by event lists
  * that show local-time-aware metadata.
+ *
+ * Falls back to the input `timeZone` string when the runtime rejects it
+ * (e.g. malformed zone, ICU data missing) — callers want to keep rendering
+ * something rather than blow up the whole event list.
  */
 export function formatTzOffsetLabel(timeZone: string, iso: string): string {
-  const parts = new Intl.DateTimeFormat(UTC_LOCALE, {
-    timeZone,
-    timeZoneName: 'shortOffset',
-  }).formatToParts(new Date(iso))
+  let parts: Intl.DateTimeFormatPart[]
+  try {
+    parts = new Intl.DateTimeFormat(UTC_LOCALE, {
+      timeZone,
+      timeZoneName: 'shortOffset',
+    }).formatToParts(new Date(iso))
+  } catch {
+    return timeZone
+  }
   return parts.find((part) => part.type === 'timeZoneName')?.value ?? timeZone
 }
