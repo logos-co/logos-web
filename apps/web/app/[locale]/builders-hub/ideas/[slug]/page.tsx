@@ -1,7 +1,12 @@
 import { notFound } from 'next/navigation'
 
 import { getActiveLocales } from '@repo/content/locales'
-import { getAllIdeas, getAllRfps, getIdeaBySlug } from '@repo/content/loaders'
+import {
+  ContentNotFoundError,
+  getAllIdeas,
+  getAllRfps,
+  getIdeaBySlug,
+} from '@repo/content/loaders'
 
 import { BuildersHubDetailLayout } from '@/components/sections/builders-hub/builders-hub-detail-layout'
 import { RelatedLinksList } from '@/components/sections/builders-hub/related-links-list'
@@ -31,7 +36,8 @@ export async function generateMetadata({ params }: LocaleSlugParams) {
       locale,
       path: `${ROUTES.ideas}/${slug}`,
     })
-  } catch {
+  } catch (error) {
+    if (!(error instanceof ContentNotFoundError)) throw error
     return createDefaultMetadata({
       title: 'Idea not found',
       description: 'This idea does not exist or has not been published yet.',
@@ -48,8 +54,9 @@ export default async function IdeaDetailPage({ params }: LocaleSlugParams) {
   let idea
   try {
     idea = await getIdeaBySlug(slug, locale)
-  } catch {
-    notFound()
+  } catch (error) {
+    if (error instanceof ContentNotFoundError) notFound()
+    throw error
   }
   if (idea.status !== 'published') notFound()
 

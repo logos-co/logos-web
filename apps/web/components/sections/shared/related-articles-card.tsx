@@ -12,6 +12,7 @@ import Image from 'next/image'
 
 import type { PressArticle } from '@repo/content/loaders'
 
+import { ExternalLink } from '@/components/ui'
 import { formatDateMdy2 } from '@/lib/dates'
 
 export type ArticleCardProps = {
@@ -57,10 +58,8 @@ export function ArticleCard({
   titleClassName = DEFAULT_TITLE_CLASSNAME,
 }: ArticleCardProps) {
   return (
-    <a
+    <ExternalLink
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
       className="group flex w-84.75 shrink-0 cursor-pointer flex-col gap-1.5 md:w-auto"
     >
       <div className="aspect-339/431 w-full overflow-hidden">
@@ -81,6 +80,6 @@ export function ArticleCard({
           ) : null}
         </div>
       </div>
-    </a>
+    </ExternalLink>
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import {
   AttributionControl,
   MapContainer,
@@ -90,7 +90,7 @@ function ZoomButton({
 }: {
   ariaLabel: string
   onClick: () => void
-  children: React.ReactNode
+  children: ReactNode
 }) {
   return (
     <button

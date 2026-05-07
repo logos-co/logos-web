@@ -1,5 +1,7 @@
 import '@/css/tailwind.css'
 
+import type { ReactNode } from 'react'
+
 import { themeInitScript } from '@/lib/theme'
 import { fontVariables } from '@/app/fonts'
 import PageTransition from '@/components/page-transition'
@@ -21,7 +23,7 @@ export default async function RootLayout({
   children,
   params,
 }: {
-  children: React.ReactNode
+  children: ReactNode
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params

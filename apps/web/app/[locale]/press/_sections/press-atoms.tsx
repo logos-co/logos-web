@@ -3,7 +3,9 @@
  * All exports are private to the `/press` route.
  */
 import Image from 'next/image'
+import type { ReactNode } from 'react'
 
+import { ExternalLink } from '@/components/ui'
 import { cn } from '@/lib/cn'
 
 export function Dot({ className }: { className?: string }) {
@@ -22,17 +24,15 @@ export function TextLink({
   tone = 'dark',
   className,
 }: {
-  children: React.ReactNode
+  children: ReactNode
   href: string
   label?: string
   tone?: 'dark' | 'light'
   className?: string
 }) {
   return (
-    <a
+    <ExternalLink
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
       aria-label={label}
       className={cn(
         'font-mono text-[10px] font-semibold leading-[1.35] uppercase underline underline-offset-[3px] transition-opacity hover:opacity-70',
@@ -43,11 +43,11 @@ export function TextLink({
       )}
     >
       {children}
-    </a>
+    </ExternalLink>
   )
 }
 
-export function UnderlineLabel({ children }: { children: React.ReactNode }) {
+export function UnderlineLabel({ children }: { children: ReactNode }) {
   return (
     <span className="font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-dark-green underline decoration-brand-dark-green/50 underline-offset-[3px]">
       {children}
@@ -87,13 +87,11 @@ export function PressRowLink({
   href: string
   index: number
   className?: string
-  children: React.ReactNode
+  children: ReactNode
 }) {
   return (
-    <a
+    <ExternalLink
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
       className={cn(
         'group relative block overflow-hidden text-brand-dark-green transition-colors duration-200 hover:bg-brand-yellow focus-visible:bg-brand-yellow',
         getAlternatingRowBackground(index),
@@ -101,7 +99,7 @@ export function PressRowLink({
       )}
     >
       {children}
-    </a>
+    </ExternalLink>
   )
 }
 

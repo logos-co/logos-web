@@ -4,6 +4,7 @@
  */
 import Image from 'next/image'
 
+import { ExternalLink } from '@/components/ui'
 import type { PressArticleRow } from '@/lib/press-engine'
 
 import {
@@ -101,11 +102,9 @@ export function GallerySection({ articles }: { articles: PressArticleRow[] }) {
     <section className="h-[319px] overflow-x-auto overflow-y-hidden bg-accent-tan md:h-auto md:overflow-visible md:px-3 md:py-10">
       <div className="flex w-max gap-3 py-10 pl-3 pr-3 md:grid md:w-auto md:grid-cols-4 md:p-0">
         {articles.map((article) => (
-          <a
+          <ExternalLink
             key={article.title}
             href={article.href}
-            target="_blank"
-            rel="noopener noreferrer"
             className="group flex w-[339px] shrink-0 flex-col gap-1.5 text-brand-dark-green md:w-auto"
           >
             <div className="relative aspect-video w-full overflow-hidden bg-brand-dark-green/10">
@@ -126,7 +125,7 @@ export function GallerySection({ articles }: { articles: PressArticleRow[] }) {
                 <p>{article.author}</p>
               </div>
             </div>
-          </a>
+          </ExternalLink>
         ))}
       </div>
     </section>

@@ -1,4 +1,5 @@
 import { getLatestEventsByCity } from './circle-events'
+import { logger } from './logger'
 
 const LOGOS_GRAPHQL_API_URL = 'https://api.logos.co/v1/graphql'
 const BI_GRAPHQL_API_URL = 'https://hasura.bi.status.im/v1/graphql'
@@ -58,7 +59,7 @@ async function postGraphql<TData>(
     const payload = (await response.json()) as GraphqlResponse<TData>
     return payload.data ?? null
   } catch (error) {
-    console.error('Failed to fetch active circles data:', error)
+    logger.error('Failed to fetch active circles data', { error })
     return null
   }
 }

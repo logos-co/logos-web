@@ -1,3 +1,5 @@
+import { logger } from './logger'
+
 const HASURA_URL = 'https://api.logos.co/v1/graphql'
 
 const CIRCLE_EVENTS_QUERY = `query CircleEvents {
@@ -59,7 +61,7 @@ export async function fetchCircleEvents(): Promise<CircleEvent[]> {
       return !Number.isNaN(lat) && !Number.isNaN(lng)
     })
   } catch (error) {
-    console.error('Failed to fetch circle events from Hasura:', error)
+    logger.error('Failed to fetch circle events from Hasura', { error })
     return []
   }
 }

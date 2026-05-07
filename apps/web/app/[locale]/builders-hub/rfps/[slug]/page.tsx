@@ -1,7 +1,12 @@
 import { notFound } from 'next/navigation'
 
 import { getActiveLocales } from '@repo/content/locales'
-import { getAllIdeas, getAllRfps, getRfpBySlug } from '@repo/content/loaders'
+import {
+  ContentNotFoundError,
+  getAllIdeas,
+  getAllRfps,
+  getRfpBySlug,
+} from '@repo/content/loaders'
 
 import { BuildersHubDetailLayout } from '@/components/sections/builders-hub/builders-hub-detail-layout'
 import { RelatedLinksList } from '@/components/sections/builders-hub/related-links-list'
@@ -31,7 +36,8 @@ export async function generateMetadata({ params }: LocaleSlugParams) {
       locale,
       path: `${ROUTES.rfps}/${slug}`,
     })
-  } catch {
+  } catch (error) {
+    if (!(error instanceof ContentNotFoundError)) throw error
     return createDefaultMetadata({
       title: 'RFP not found',
       description: 'This RFP does not exist or has not been published yet.',
@@ -48,8 +54,9 @@ export default async function RfpDetailPage({ params }: LocaleSlugParams) {
   let rfp
   try {
     rfp = await getRfpBySlug(slug, locale)
-  } catch {
-    notFound()
+  } catch (error) {
+    if (error instanceof ContentNotFoundError) notFound()
+    throw error
   }
   if (rfp.status !== 'published') notFound()
 

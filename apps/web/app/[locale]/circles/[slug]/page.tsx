@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 
 import {
+  ContentNotFoundError,
   getCircleBySlug,
   getCircleEvents,
   getCircleInitiatives,
@@ -75,9 +76,7 @@ export default async function CircleDetailPage({
       />
     )
   } catch (error) {
-    if (error instanceof Error && error.message.includes('failed to read')) {
-      notFound()
-    }
+    if (error instanceof ContentNotFoundError) notFound()
     throw error
   }
 }

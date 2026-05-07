@@ -7,12 +7,14 @@
  * (Public Sans) and `--font-display` (serif fallback) until licensed woff2s
  * are dropped in.
  */
+import type { CSSProperties, ReactNode } from 'react'
+
 type TypeRow = {
-  label: React.ReactNode
+  label: ReactNode
   desktopClass: string
-  desktopStyle?: React.CSSProperties
+  desktopStyle?: CSSProperties
   mobileClass: string
-  mobileStyle?: React.CSSProperties
+  mobileStyle?: CSSProperties
   desktopMeta: [string, string, string, string, string]
   mobileMeta: [string, string, string, string, string]
   sameAsDesktop?: boolean

@@ -7,6 +7,7 @@ import type { CardGridSection } from '@repo/content/schemas'
 
 import { Button } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
+import { BREAKPOINTS } from '@/lib/breakpoints'
 
 const CARD_IMAGE_CLASSNAMES = [
   'h-[120px] w-24 right-[10px] bottom-[11px]',
@@ -101,7 +102,8 @@ export default function UseCasesSection({ data }: Props) {
 
   useEffect(() => {
     if (!scrollRef.current) return
-    scrollRef.current.scrollLeft = window.innerWidth >= 768 ? 120 : 0
+    scrollRef.current.scrollLeft =
+      window.innerWidth >= BREAKPOINTS.md ? 120 : 0
   }, [])
 
   const scroll = (direction: 'left' | 'right') => {

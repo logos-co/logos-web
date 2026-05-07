@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import type { ReactNode } from 'react'
 
 import { LogosMark } from '@repo/ui'
 import type { CardGridSection } from '@repo/content/schemas'
@@ -44,7 +45,7 @@ function CryptarchiaImage({
 }: {
   sizes?: string
   className?: string
-  children?: React.ReactNode
+  children?: ReactNode
 }) {
   return (
     <div className={`relative overflow-hidden rounded-3xl ${className}`}>

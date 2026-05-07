@@ -1,3 +1,4 @@
+export { ContentNotFoundError } from './_fs'
 export * from './press'
 export * from './site'
 export * from './builders-hub'

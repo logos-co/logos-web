@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import type { ReactNode } from 'react'
 
 import type { CardGridSection } from '@repo/content/schemas'
 
@@ -9,7 +10,7 @@ import { DownloadIcon } from '../shared/builder-cta-card'
 type CardContentProps = {
   title: string
   body: string
-  cta: React.ReactNode
+  cta: ReactNode
   tone: 'dark' | 'light'
 }
 

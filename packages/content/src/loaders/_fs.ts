@@ -58,6 +58,27 @@ export const contentPath = (...segments: string[]): string => {
   return resolve(getContentRoot(), ...segments)
 }
 
+/**
+ * Distinguishes "the requested content file does not exist" (404 territory)
+ * from genuine read/parse failures (which should bubble up to the
+ * route's `error.tsx` boundary). Page code can `instanceof` check this to
+ * decide between `notFound()` and re-throwing.
+ */
+export class ContentNotFoundError extends Error {
+  readonly filePath: string
+  constructor(filePath: string) {
+    super(`content file not found: ${filePath}`)
+    this.name = 'ContentNotFoundError'
+    this.filePath = filePath
+  }
+}
+
+const isFsNotFound = (err: unknown): boolean =>
+  typeof err === 'object' &&
+  err !== null &&
+  'code' in err &&
+  (err as { code: unknown }).code === 'ENOENT'
+
 export const readJson = async <S extends ZodTypeAny>(
   filePath: string,
   schema: S,
@@ -66,6 +87,9 @@ export const readJson = async <S extends ZodTypeAny>(
   try {
     raw = await readFile(filePath, 'utf-8')
   } catch (err) {
+    if (isFsNotFound(err)) {
+      throw new ContentNotFoundError(filePath)
+    }
     const reason = err instanceof Error ? err.message : String(err)
     throw new Error(`failed to read ${filePath}: ${reason}`)
   }
