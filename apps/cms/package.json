@@ -4,12 +4,13 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --port 3001",
-    "build": "next build",
+    "build": "pnpm generate-import-map && next build",
     "start": "next start",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "check-types": "next typegen && tsc --noEmit",
     "generate-types": "PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:types",
+    "generate-import-map": "PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:importmap",
     "save-as-pr-smoke": "tsx scripts/save-as-pr-smoke.ts",
     "sync-from-content": "tsx scripts/sync-from-content.ts"
   },
