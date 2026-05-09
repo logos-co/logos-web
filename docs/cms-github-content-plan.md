@@ -26,12 +26,13 @@ The repository content files are the production data source.
 
 ### Branch Strategy Adoption
 
-This plan adopts a `develop`-first flow. **Current state (2026-04): `develop` is the default branch; `master` is not yet present in the repo.** The plan still assumes a `develop` → `master` split for the eventual production cut-over; `master` will be created from `develop` when production deploys spin up. Until then `develop` doubles as the production source.
+This plan adopts a `develop`-first flow. Both `develop` (default branch, staging) and `master` (production) exist on the canonical repo. CMS-generated PRs always target `develop`; `master` is reached through a separate promotion PR.
 
-- `develop` exists as the default branch (created from the original `master` before this plan landed).
-- Configure branch protection on `develop` (and on `master` once it exists): require PR review, block direct push.
+- `develop` is the default branch and the staging deploy source.
+- `master` is the production deploy source.
+- Configure branch protection on both `develop` and `master`: require PR review, block direct push.
 - All CMS-generated PRs target `develop`.
-- A separate `release` PR will promote `develop` to `master` on a controlled cadence once production is live.
+- A separate `release` PR promotes `develop` to `master` on a controlled cadence.
 
 ### Web Consumption Model
 

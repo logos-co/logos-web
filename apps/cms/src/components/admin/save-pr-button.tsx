@@ -162,4 +162,12 @@ export const SaveCirclePrButton = createSavePrButton({
   endpoint: '/api/content-workflow/save-circle-as-pr',
 })
 
+export const SaveCircleEventPrButton = createSavePrButton({
+  endpoint: '/api/content-workflow/save-circle-event-as-pr',
+})
+
+export const SaveCircleInitiativePrButton = createSavePrButton({
+  endpoint: '/api/content-workflow/save-circle-initiative-as-pr',
+})
+
 export default SaveRfpPrButton

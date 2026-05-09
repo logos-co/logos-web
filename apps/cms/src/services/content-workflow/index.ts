@@ -20,3 +20,13 @@ export {
   saveCircleAsPullRequest,
   type CircleDocLike,
 } from './save-circle-as-pr'
+export {
+  buildCircleEventFixtureChanges,
+  saveCircleEventAsPullRequest,
+  type CircleEventDocLike,
+} from './save-circle-event-as-pr'
+export {
+  buildCircleInitiativeFixtureChanges,
+  saveCircleInitiativeAsPullRequest,
+  type CircleInitiativeDocLike,
+} from './save-circle-initiative-as-pr'

@@ -189,6 +189,17 @@ export const CircleEvents: CollectionConfig = {
       admin: { initCollapsed: true },
       fields: imageFields,
     },
+    // ----- Action: Create / update PR -----
+    {
+      name: 'createPrAction',
+      type: 'ui',
+      admin: {
+        components: {
+          Field:
+            '@/components/admin/save-pr-button.tsx#SaveCircleEventPrButton',
+        },
+      },
+    },
   ],
   timestamps: true,
 }
@@ -231,6 +242,17 @@ export const CircleInitiatives: CollectionConfig = {
     },
     { name: 'featured', type: 'checkbox', defaultValue: false },
     { name: 'order', type: 'number', min: 0 },
+    // ----- Action: Create / update PR -----
+    {
+      name: 'createPrAction',
+      type: 'ui',
+      admin: {
+        components: {
+          Field:
+            '@/components/admin/save-pr-button.tsx#SaveCircleInitiativePrButton',
+        },
+      },
+    },
   ],
   timestamps: true,
 }
