@@ -71,6 +71,10 @@ export interface Config {
     pages: Page;
     rfps: Rfp;
     ideas: Idea;
+    circles: Circle;
+    'circle-events': CircleEvent;
+    'circle-initiatives': CircleInitiative;
+    'circle-resources': CircleResource;
     'content-change-requests': ContentChangeRequest;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -83,6 +87,10 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     rfps: RfpsSelect<false> | RfpsSelect<true>;
     ideas: IdeasSelect<false> | IdeasSelect<true>;
+    circles: CirclesSelect<false> | CirclesSelect<true>;
+    'circle-events': CircleEventsSelect<false> | CircleEventsSelect<true>;
+    'circle-initiatives': CircleInitiativesSelect<false> | CircleInitiativesSelect<true>;
+    'circle-resources': CircleResourcesSelect<false> | CircleResourcesSelect<true>;
     'content-change-requests': ContentChangeRequestsSelect<false> | ContentChangeRequestsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -296,6 +304,120 @@ export interface Idea {
   createdAt: string;
 }
 /**
+ * Local Logos chapters. Shape mirrors content/circles/circles fixtures.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "circles".
+ */
+export interface Circle {
+  id: number;
+  slug: string;
+  status: 'draft' | 'review' | 'published' | 'archived';
+  name: string;
+  description: string;
+  city: string;
+  country: string;
+  region?: string | null;
+  lat: number;
+  lng: number;
+  timezone: string;
+  memberCount?: number | null;
+  discordChannel?: string | null;
+  discordUrl?: string | null;
+  forumUrl?: string | null;
+  joinUrl: string;
+  organizers?:
+    | {
+        name: string;
+        handle?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  imageSrc?: string | null;
+  imageAlt?: string | null;
+  imageWidth?: number | null;
+  imageHeight?: number | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Circle gatherings. Shape mirrors content/circles/events fixtures.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "circle-events".
+ */
+export interface CircleEvent {
+  id: number;
+  slug: string;
+  status: 'draft' | 'review' | 'published' | 'archived';
+  circleSlug: string;
+  title: string;
+  locationLabel: string;
+  startsAt: string;
+  endsAt?: string | null;
+  timezone: string;
+  venueName?: string | null;
+  address?: string | null;
+  eventUrl?: string | null;
+  hostedBy?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
+  featured?: boolean | null;
+  sequenceNumber?: number | null;
+  imageSrc?: string | null;
+  imageAlt?: string | null;
+  imageWidth?: number | null;
+  imageHeight?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Winnable local issues. Shape mirrors content/circles/initiatives fixtures.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "circle-initiatives".
+ */
+export interface CircleInitiative {
+  id: number;
+  slug: string;
+  status: 'draft' | 'review' | 'published' | 'archived';
+  circleSlug: string;
+  href: string;
+  locationLabel: string;
+  title: string;
+  description: string;
+  ctaLabel: string;
+  imageSrc?: string | null;
+  imageAlt?: string | null;
+  imageWidth?: number | null;
+  imageHeight?: number | null;
+  featured?: boolean | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Resources shown on the Circles page. Shape mirrors content/circles/resources.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "circle-resources".
+ */
+export interface CircleResource {
+  id: number;
+  slug: string;
+  status: 'draft' | 'review' | 'published' | 'archived';
+  title: string;
+  description: string;
+  ctaLabel: string;
+  href: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Mirror of in-flight content PRs. Rows are created by the CMS workflow service — do not edit by hand unless you know what you are doing.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -374,6 +496,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'ideas';
         value: number | Idea;
+      } | null)
+    | ({
+        relationTo: 'circles';
+        value: number | Circle;
+      } | null)
+    | ({
+        relationTo: 'circle-events';
+        value: number | CircleEvent;
+      } | null)
+    | ({
+        relationTo: 'circle-initiatives';
+        value: number | CircleInitiative;
+      } | null)
+    | ({
+        relationTo: 'circle-resources';
+        value: number | CircleResource;
       } | null)
     | ({
         relationTo: 'content-change-requests';
@@ -505,6 +643,108 @@ export interface IdeasSelect<T extends boolean = true> {
   featured?: T;
   order?: T;
   submittedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "circles_select".
+ */
+export interface CirclesSelect<T extends boolean = true> {
+  slug?: T;
+  status?: T;
+  name?: T;
+  description?: T;
+  city?: T;
+  country?: T;
+  region?: T;
+  lat?: T;
+  lng?: T;
+  timezone?: T;
+  memberCount?: T;
+  discordChannel?: T;
+  discordUrl?: T;
+  forumUrl?: T;
+  joinUrl?: T;
+  organizers?:
+    | T
+    | {
+        name?: T;
+        handle?: T;
+        id?: T;
+      };
+  imageSrc?: T;
+  imageAlt?: T;
+  imageWidth?: T;
+  imageHeight?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "circle-events_select".
+ */
+export interface CircleEventsSelect<T extends boolean = true> {
+  slug?: T;
+  status?: T;
+  circleSlug?: T;
+  title?: T;
+  locationLabel?: T;
+  startsAt?: T;
+  endsAt?: T;
+  timezone?: T;
+  venueName?: T;
+  address?: T;
+  eventUrl?: T;
+  hostedBy?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
+  featured?: T;
+  sequenceNumber?: T;
+  imageSrc?: T;
+  imageAlt?: T;
+  imageWidth?: T;
+  imageHeight?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "circle-initiatives_select".
+ */
+export interface CircleInitiativesSelect<T extends boolean = true> {
+  slug?: T;
+  status?: T;
+  circleSlug?: T;
+  href?: T;
+  locationLabel?: T;
+  title?: T;
+  description?: T;
+  ctaLabel?: T;
+  imageSrc?: T;
+  imageAlt?: T;
+  imageWidth?: T;
+  imageHeight?: T;
+  featured?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "circle-resources_select".
+ */
+export interface CircleResourcesSelect<T extends boolean = true> {
+  slug?: T;
+  status?: T;
+  title?: T;
+  description?: T;
+  ctaLabel?: T;
+  href?: T;
   updatedAt?: T;
   createdAt?: T;
 }
