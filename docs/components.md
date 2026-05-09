@@ -6,7 +6,7 @@ Reusable components used across all pages. Each entry includes a Figma reference
 
 ## 1. Nav Bar
 
-**Figma:** [`Nav` section — node 40009046:23611](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-23611)
+**Figma:** `Nav` section — node 40009046:23611
 **Instance name in frames:** `D2 Nav`
 
 ### Closed state (default)
@@ -71,7 +71,7 @@ interface NavProps {
 
 **Implementation:** [`packages/ui/src/primitives/footer/footer.tsx`](../packages/ui/src/primitives/footer/footer.tsx)
 **Site wrapper:** [`apps/web/components/site-footer.tsx`](../apps/web/components/site-footer.tsx) — wires Logos-specific links
-**Figma:** [`Footer` desktop — node 40009046:22948](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22948) · [mobile — node 40009046:22697](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22697)
+**Figma:** `Footer` desktop — node 40009046:22948 · mobile — node 40009046:22697
 
 Background: `bg-brand-dark-green`, `text-brand-off-white`.
 
@@ -103,7 +103,7 @@ interface FooterProps {
 ## 3. Button
 
 **Implementation:** [`packages/ui/src/primitives/button/button.tsx`](../packages/ui/src/primitives/button/button.tsx)
-**Figma:** [`CTA` component set — node 1022:6225](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=1022-6225)
+**Figma:** `CTA` component set — node 1022:6225
 
 Renders `<a>` when `href` is provided, `<button>` otherwise. Label is auto-uppercased via CSS.
 
@@ -132,7 +132,7 @@ interface ButtonProps {
 ## 4. GiantSwitch
 
 **Implementation:** [`packages/ui/src/primitives/giant-switch/giant-switch.tsx`](../packages/ui/src/primitives/giant-switch/giant-switch.tsx)
-**Figma:** [`Logos App Giant Switch` component set — node 1972:22168](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=1972-22168)
+**Figma:** `Logos App Giant Switch` component set — node 1972:22168
 
 Oversized banner panel with a circular image disc and a content block. Used in Builders Hub for the "Install the Logos app" section. Also exports `GiantSwitchTag` for pill labels inside `tags`.
 
@@ -175,7 +175,7 @@ interface GiantSwitchTagProps {
 ## 5. Card
 
 **Implementation:** [`packages/ui/src/primitives/card/card.tsx`](../packages/ui/src/primitives/card/card.tsx)
-**Figma:** [`Card hover` section — node 40009046:27669](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-27669)
+**Figma:** `Card hover` section — node 40009046:27669
 
 Tech-stack / feature card used on the Homepage and Technology Stack pages. Default state: transparent bg, dark-green border, centred Lambda icon + title. Hover state: light-blue bg, top-left thumbnail, top-right CTA pill, description revealed.
 
@@ -202,7 +202,7 @@ interface CardProps {
 ## 6. Table + TableRow
 
 **Implementation:** [`packages/ui/src/primitives/table/table.tsx`](../packages/ui/src/primitives/table/table.tsx)
-**Figma:** [`Side by Side` section — node 2259:43916](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=2259-43916)
+**Figma:** `Side by Side` section — node 2259:43916
 
 Used in list view on `/builders-hub/rfps` and `/builders-hub/ideas`. `Table` provides the header (serif title, mono subtitle, optional action slot). `TableRow` is a 50px full-width row — odd rows get a 5% dark-green tint, even rows grey-01; all rows switch to light-blue on hover.
 
@@ -275,7 +275,7 @@ interface TableRowProps {
 ## 7. ViewToggle
 
 **Implementation:** [`packages/ui/src/primitives/view-toggle/view-toggle.tsx`](../packages/ui/src/primitives/view-toggle/view-toggle.tsx)
-**Figma:** Labels `Grid (default)` / `List` — [`RFPs` section — node 2213:32470](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=2213-32470)
+**Figma:** Labels `Grid (default)` / `List` — `RFPs` section — node 2213:32470
 
 Generic view-mode switcher — `Grid / List` labels with a slash separator. Inactive option dimmed; active option underlined. Accepts either `getHref` (SSR-friendly, renders `<a>`) or `onChange` (client-side, renders `<button>`).
 

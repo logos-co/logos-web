@@ -26,9 +26,9 @@ File: `qpsaED5iVKrOXoxwCWXuN3` (Logos).
 
 | Page | Route | Figma desktop | Figma mobile |
 |---|---|---|---|
-| Builders Hub home | `/builders-hub` | [`40009046-23948`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-23948&m=dev) | [`40009046-23764`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-23764&m=dev) |
-| Ideas listing | `/builders-hub/ideas` | [`40009046-24754`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-24754&m=dev) | [`40009046-24678`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-24678&m=dev) |
-| RFPs listing | `/builders-hub/rfps` | [`40009046-25012`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-25012&m=dev) | [`40009046-24924`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-24924&m=dev) |
+| Builders Hub home | `/builders-hub` | `40009046-23948` | `40009046-23764` |
+| Ideas listing | `/builders-hub/ideas` | `40009046-24754` | `40009046-24678` |
+| RFPs listing | `/builders-hub/rfps` | `40009046-25012` | `40009046-24924` |
 
 For the MCP `get_design_context` calls, convert each `40009046-NNNNN`
 to `40009046:NNNNN` (Figma URL → API form). Pagination subroutes

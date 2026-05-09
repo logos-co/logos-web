@@ -21,14 +21,14 @@ All nodes live in the `_Dev Handoff: All Pages` page (`2267:46449`).
 
 **Route:** `/`
 **Figma section:** `40009046:22441`
-**Desktop frame:** [`40009046:22699`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22699) — 1440 × 12728
-**Mobile frame:** [`40009046:22442`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22442) — 393 × 12711
+**Desktop frame:** `40009046:22699` — 1440 × 12728
+**Mobile frame:** `40009046:22442` — 393 × 12711
 
 **Prototype / motion references:**
 
-- [`40009046:23208`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-23208) — ATF hero at viewport (800 px): headline + card **peeking** up from the bottom edge with rounded top corners visible. Invites scroll.
-- [`40009046:22710`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22710) — Desktop Build / Node / Circles triptych (1440 × 1363): 3 large rounded-xl cards, photo backgrounds, `Lambda icon Title` + description + CTA on the left, numbered examples table on the right.
-- [`40009046:22453`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22453) — Mobile Build / Node / Circles (393 × 1363): same 3 cards stacked, tables collapsed, just title + description + CTA visible.
+- `40009046:23208` — ATF hero at viewport (800 px): headline + card **peeking** up from the bottom edge with rounded top corners visible. Invites scroll.
+- `40009046:22710` — Desktop Build / Node / Circles triptych (1440 × 1363): 3 large rounded-xl cards, photo backgrounds, `Lambda icon Title` + description + CTA on the left, numbered examples table on the right.
+- `40009046:22453` — Mobile Build / Node / Circles (393 × 1363): same 3 cards stacked, tables collapsed, just title + description + CTA visible.
 
 **Animation library:** `motion` (v12 — modern framer-motion). Shared variants live in [`apps/web/lib/motion.ts`](../apps/web/lib/motion.ts); helpers in [`apps/web/components/motion/`](../apps/web/components/motion/).
 
@@ -75,8 +75,8 @@ Respect `prefers-reduced-motion`: all `motion` components auto-degrade to instan
 
 **Route:** `/technology-stack`
 **Figma section:** `40009046:20737`
-**Desktop frame:** [`40009046:20804`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-20804) — 1440 × 5800
-**Mobile frame:** [`40009046:20738`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-20738) — 393 × 5130
+**Desktop frame:** `40009046:20804` — 1440 × 5800
+**Mobile frame:** `40009046:20738` — 393 × 5130
 
 1. **Hero** — "The Logos Technology Stack" centered serif heading + body copy.
 2. **Four pillars** — grid of 4 `<Card>` components: Storage, Messaging, Blockchain, Live Modules. Each links to its respective tech sub-page.
@@ -100,8 +100,8 @@ Respect `prefers-reduced-motion`: all `motion` components auto-degrade to instan
 
 **Route:** `/technology-stack/blockchain`
 **Figma section:** `40009046:21013`
-**Desktop frame:** [`40009046:21116`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-21116) — 1440 × 4986
-**Mobile frame:** [`40009046:21014`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-21014) — 393 × 5892
+**Desktop frame:** `40009046:21116` — 1440 × 4986
+**Mobile frame:** `40009046:21014` — 393 × 5892
 
 1. **Breadcrumb** — `← Technology Stack` link.
 2. **Page header** — `Lambda icon Blockchain` display title + description copy + `LEARN MORE →` CTA.
@@ -127,8 +127,8 @@ Respect `prefers-reduced-motion`: all `motion` components auto-degrade to instan
 
 **Route:** `/technology-stack/networking`
 **Figma section:** `40009046:21377`
-**Desktop frame:** [`40009046:21445`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-21445) — 1440 × 4525
-**Mobile frame:** [`40009046:21378`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-21378) — 393 × 5752
+**Desktop frame:** `40009046:21445` — 1440 × 4525
+**Mobile frame:** `40009046:21378` — 393 × 5752
 
 Same template as Blockchain. Unique content:
 
@@ -146,8 +146,8 @@ Same template as Blockchain. Unique content:
 
 **Route:** `/technology-stack/messaging`
 **Figma section:** `40009046:21599`
-**Desktop frame:** [`40009046:21710`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-21710) — 1440 × 5444
-**Mobile frame:** [`40009046:21600`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-21600) — 393 × 5506
+**Desktop frame:** `40009046:21710` — 1440 × 5444
+**Mobile frame:** `40009046:21600` — 393 × 5506
 
 Same template as Blockchain. Unique content:
 
@@ -166,8 +166,8 @@ Same template as Blockchain. Unique content:
 
 **Route:** `/technology-stack/storage`
 **Figma section:** `40009046:21993`
-**Desktop frame:** [`40009046:22067`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22067) — 1440 × 4558
-**Mobile frame:** [`40009046:21994`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-21994) — 393 × 4992
+**Desktop frame:** `40009046:22067` — 1440 × 4558
+**Mobile frame:** `40009046:21994` — 393 × 4992
 
 Same template as Blockchain. Unique content:
 
@@ -184,9 +184,9 @@ Same template as Blockchain. Unique content:
 
 **Route:** `/builders-hub`
 **Figma section:** `40009046:23763`
-**Desktop frame:** [`40009046:23948`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-23948) — 1440 × 4573
-**Mobile frame:** [`40009046:23764`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-23764) — 393 × 5279
-**Builder Hub Dev Handoff page:** [`2211:26807`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=2211-26807)
+**Desktop frame:** `40009046:23948` — 1440 × 4573
+**Mobile frame:** `40009046:23764` — 393 × 5279
+**Builder Hub Dev Handoff page:** `2211:26807`
 
 1. **Page header** — "Logos Builders Hub" large serif title.
 2. **Numbered RFP list** — `<Table>` + `<TableRow>` with title, description, reward (`USDC + XP`), and `VIEW` / date links.
@@ -210,8 +210,8 @@ Same template as Blockchain. Unique content:
 
 **Route:** `/builders-hub/ideas`
 **Figma section:** `40009046:24677`
-**Desktop frame:** [`40009046:24754`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-24754) — 1440 × 2160
-**Mobile frame:** [`40009046:24678`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-24678) — 393 × 2423
+**Desktop frame:** `40009046:24754` — 1440 × 2160
+**Mobile frame:** `40009046:24678` — 393 × 2423
 **Builder Hub Dev Handoff:** Ideas section — `2213:30214`
 
 1. **Sub-nav breadcrumb** — `← BUILDERS HUB`
@@ -231,9 +231,9 @@ Same template as Blockchain. Unique content:
 
 **Route:** `/builders-hub/rfps`
 **Figma section:** `40009046:24923`
-**Desktop frame (grid view):** [`40009046:25012`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-25012) — 1440 × 2438
-**Desktop frame (list view):** [`2259:42388`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=2259-42388) — 1440 × 2438
-**Mobile frame:** [`40009046:24924`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-24924) — 393 × 3902
+**Desktop frame (grid view):** `40009046:25012` — 1440 × 2438
+**Desktop frame (list view):** `2259:42388` — 1440 × 2438
+**Mobile frame:** `40009046:24924` — 393 × 3902
 **Builder Hub Dev Handoff:** RFPs section — `2213:32470`
 
 Same shell as Ideas. Unique content:
@@ -255,8 +255,8 @@ Same shell as Ideas. Unique content:
 
 **Route:** `/circles`
 **Figma section:** `40009046:25109`
-**Desktop frame:** [`40009046:25359`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-25359) — 1440 × 4160
-**Mobile frame:** [`40009046:25110`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-25110) — 393 × 4923
+**Desktop frame:** `40009046:25359` — 1440 × 4160
+**Mobile frame:** `40009046:25110` — 393 × 4923
 
 1. **Page header** — `Lambda icon Logos Circles` title + description + `FIND A CIRCLE →` + `JOIN A CIRCLE →` CTAs.
 2. **World map** — interactive SVG world map with `Lambda icon` markers at each circle location. `+` / `−` zoom controls. Clicking a marker navigates to the circle detail page.
@@ -280,8 +280,8 @@ Same shell as Ideas. Unique content:
 
 **Route:** `/circles/[slug]`
 **Figma section:** `40009046:25921`
-**Desktop frame:** [`40009046:26015`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-26015) — 1440 × 2014
-**Mobile frame:** [`40009046:25922`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-25922) — 393 × 2735
+**Desktop frame:** `40009046:26015` — 1440 × 2014
+**Mobile frame:** `40009046:25922` — 393 × 2735
 
 1. **Breadcrumb** — `← ALL CIRCLES`
 2. **Circle header** — `Lambda icon [City Name]` title + description + `JOIN THIS CIRCLE →` CTA. Below: metadata grid — `MEMBERS`, `DISCORD`, `FORUM`.
@@ -298,8 +298,8 @@ Same shell as Ideas. Unique content:
 
 **Route:** `/press`
 **Figma section:** `40009046:26291`
-**Desktop frame:** [`40009046:26490`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-26490) — 1440 × 6214
-**Mobile frame:** [`40009046:26292`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-26292) — 393 × 6823
+**Desktop frame:** `40009046:26490` — 1440 × 6214
+**Mobile frame:** `40009046:26292` — 393 × 6823
 
 1. **Page header** — "The Logos Press Engine" serif title.
 2. **Article list (above fold)** — numbered rows with thumbnail (left), date, headline, read-time. Desktop: image + text side by side; mobile: stacked.
@@ -323,8 +323,8 @@ Same shell as Ideas. Unique content:
 
 **Route:** `/about`
 **Figma section:** `40009046:27109`
-**Desktop frame:** [`40009046:27248`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-27248) — 1440 × 6004
-**Mobile frame:** [`40009046:27110`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-27110) — 393 × 6332
+**Desktop frame:** `40009046:27248` — 1440 × 6004
+**Mobile frame:** `40009046:27110` — 393 × 6332
 
 1. **Hero** — "Logos is on a mission to revitalize Civil Society." very large display headline, full-bleed dark background image.
 2. **Community teaser** — `<WorldMap>` (shared with Circles) + "We are a community of builders…" body + `LEARN MORE →`.
@@ -351,8 +351,8 @@ Same shell as Ideas. Unique content:
 
 **Route:** `/faq`
 **Figma section:** `40009046:22275`
-**Desktop frame:** [`40009046:22317`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22317) — 1440 × 800
-**Mobile frame:** [`40009046:22276`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22276) — 393 × 1602
+**Desktop frame:** `40009046:22317` — 1440 × 800
+**Mobile frame:** `40009046:22276` — 393 × 1602
 
 1. **`<LegalLayout>` wrapper** — two-column: left sidebar + right content.
 2. **Left sidebar** — vertical nav: Guides, Logos Forum, Research Forum, Brand Kit, Terms & Conditions, Privacy Policy, Security, FAQ. Active item prefixed with `●`.
@@ -371,8 +371,8 @@ Same shell as Ideas. Unique content:
 
 **Route:** `/terms-and-conditions`
 **Figma section:** `40009046:22241`
-**Desktop frame:** [`40009046:22250`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22250) — 1440 × 1802
-**Mobile frame:** [`40009046:22242`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22242) — 393 × 2237
+**Desktop frame:** `40009046:22250` — 1440 × 1802
+**Mobile frame:** `40009046:22242` — 393 × 2237
 
 1. **`<LegalLayout>`** — same wrapper as FAQs; `● TERMS & CONDITIONS` active in sidebar.
 2. **"TERMS & CONDITIONS" eyebrow heading**
