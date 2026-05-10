@@ -1,7 +1,12 @@
 import { ideaIndexSchema, ideaLocaleSchema } from '@repo/content/schemas'
-import type { FileChange } from '@repo/content/github'
 import type { Payload } from 'payload'
 
+import {
+  createFixturePair,
+  stripEmpty,
+  toIsoDateOrUndefined,
+  type FixturePair,
+} from './fixture-helpers'
 import { saveAsPullRequest, type SaveAsPullRequestResult } from './save-as-pr'
 
 /**
@@ -28,33 +33,12 @@ export type IdeaDocLike = {
   submittedAt?: string | null
 }
 
-const stripEmpty = <T extends Record<string, unknown>>(obj: T): T => {
-  const out: Record<string, unknown> = {}
-  for (const [k, v] of Object.entries(obj)) {
-    if (v === undefined || v === null || v === '') continue
-    if (Array.isArray(v) && v.length === 0) continue
-    out[k] = v
-  }
-  return out as T
-}
-
-const toIsoDateOrUndefined = (
-  raw: string | null | undefined
-): string | undefined => {
-  if (!raw) return undefined
-  const d = new Date(raw)
-  if (Number.isNaN(d.getTime())) return undefined
-  return d.toISOString()
-}
-
 /**
  * Maps a Payload Idea document to the locale-agnostic `index.json` shape and
  * the per-locale `<lang>.json` shape, then Zod-validates each. Reward is
  * built only when an amount is provided — keeps the published fixture lean.
  */
-export const buildIdeaFixtureChanges = (
-  doc: IdeaDocLike
-): { indexChange: FileChange; localeChange: FileChange } => {
+export const buildIdeaFixtureChanges = (doc: IdeaDocLike): FixturePair => {
   const targetDir = `content/builders-hub/ideas/${doc.slug}`
 
   const reward =
@@ -94,16 +78,12 @@ export const buildIdeaFixtureChanges = (
   const indexParsed = ideaIndexSchema.parse(indexCandidate)
   const localeParsed = ideaLocaleSchema.parse(localeCandidate)
 
-  return {
-    indexChange: {
-      path: `${targetDir}/index.json`,
-      content: JSON.stringify(indexParsed, null, 2) + '\n',
-    },
-    localeChange: {
-      path: `${targetDir}/en.json`,
-      content: JSON.stringify(localeParsed, null, 2) + '\n',
-    },
-  }
+  return createFixturePair({
+    targetDir,
+    locale: 'en',
+    indexValue: indexParsed,
+    localeValue: localeParsed,
+  })
 }
 
 export const saveIdeaAsPullRequest = async ({

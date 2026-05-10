@@ -1,7 +1,11 @@
 import { circleIndexSchema, circleLocaleSchema } from '@repo/content/schemas'
-import type { FileChange } from '@repo/content/github'
 import type { Payload } from 'payload'
 
+import {
+  createFixturePair,
+  stripEmpty,
+  type FixturePair,
+} from './fixture-helpers'
 import { saveAsPullRequest, type SaveAsPullRequestResult } from './save-as-pr'
 
 /**
@@ -36,16 +40,6 @@ export type CircleDocLike = {
   order?: number | null
 }
 
-const stripEmpty = <T extends Record<string, unknown>>(obj: T): T => {
-  const out: Record<string, unknown> = {}
-  for (const [k, v] of Object.entries(obj)) {
-    if (v === undefined || v === null || v === '') continue
-    if (Array.isArray(v) && v.length === 0) continue
-    out[k] = v
-  }
-  return out as T
-}
-
 /**
  * Maps a Payload Circle document to the locale-agnostic `index.json` shape and
  * the per-locale `<lang>.json` shape used by `@repo/content` loaders, then
@@ -60,9 +54,7 @@ const stripEmpty = <T extends Record<string, unknown>>(obj: T): T => {
  *   set so the resulting fixture stays lean.
  * - `organizers` entries with no `handle` are normalised to `{ name }`.
  */
-export const buildCircleFixtureChanges = (
-  doc: CircleDocLike
-): { indexChange: FileChange; localeChange: FileChange } => {
+export const buildCircleFixtureChanges = (doc: CircleDocLike): FixturePair => {
   const targetDir = `content/circles/circles/${doc.slug}`
 
   const image = doc.imageSrc
@@ -109,16 +101,12 @@ export const buildCircleFixtureChanges = (
   const indexParsed = circleIndexSchema.parse(indexCandidate)
   const localeParsed = circleLocaleSchema.parse(localeCandidate)
 
-  return {
-    indexChange: {
-      path: `${targetDir}/index.json`,
-      content: JSON.stringify(indexParsed, null, 2) + '\n',
-    },
-    localeChange: {
-      path: `${targetDir}/en.json`,
-      content: JSON.stringify(localeParsed, null, 2) + '\n',
-    },
-  }
+  return createFixturePair({
+    targetDir,
+    locale: 'en',
+    indexValue: indexParsed,
+    localeValue: localeParsed,
+  })
 }
 
 /**
