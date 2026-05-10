@@ -9,6 +9,8 @@ import {
   type FixturePair,
 } from './fixture-helpers'
 import {
+  createContentUpdatePrBody,
+  createContentUpdateSubject,
   saveAsPullRequest,
   type SaveAsPullRequestResult,
   type SaveContentAsPullRequestInput,
@@ -99,20 +101,26 @@ export const saveCircleInitiativeAsPullRequest = async ({
   editor,
 }: SaveContentAsPullRequestInput<CircleInitiativeDocLike>): Promise<SaveAsPullRequestResult> => {
   const { indexChange, localeChange } = buildCircleInitiativeFixtureChanges(doc)
+  const subject = createContentUpdateSubject({
+    scope: 'circle-initiative',
+    slug: doc.slug,
+  })
 
   return saveAsPullRequest({
     contentType: 'circle-initiative',
     identifier: doc.slug,
     changes: [indexChange, localeChange],
-    commitMessage: `content(circle-initiative): update ${doc.slug}`,
-    prTitle: `content(circle-initiative): update ${doc.slug}`,
-    prBody: [
-      `Updates the **${doc.title}** Circle initiative fixture from the CMS Admin.`,
-      '',
-      `- slug: \`${doc.slug}\``,
-      `- circleSlug: \`${doc.circleSlug}\``,
-      `- status: \`${doc.status}\``,
-    ].join('\n'),
+    commitMessage: subject,
+    prTitle: subject,
+    prBody: createContentUpdatePrBody({
+      displayName: doc.title,
+      contentLabel: 'Circle initiative',
+      details: [
+        `- slug: \`${doc.slug}\``,
+        `- circleSlug: \`${doc.circleSlug}\``,
+        `- status: \`${doc.status}\``,
+      ],
+    }),
     draft: true,
     editor,
     payload,

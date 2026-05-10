@@ -21,6 +21,29 @@ export interface SaveContentAsPullRequestInput<TDoc> {
   payload: Payload
 }
 
+export const createContentUpdateSubject = ({
+  scope,
+  slug,
+}: {
+  scope: string
+  slug: string
+}): string => `content(${scope}): update ${slug}`
+
+export const createContentUpdatePrBody = ({
+  displayName,
+  contentLabel,
+  details,
+}: {
+  displayName: string
+  contentLabel: string
+  details: string[]
+}): string =>
+  [
+    `Updates the **${displayName}** ${contentLabel} fixture from the CMS Admin.`,
+    '',
+    ...details,
+  ].join('\n')
+
 export type SaveAsPullRequestInput = {
   /** Logical content type — used for branch naming and the CCR row. */
   contentType: string

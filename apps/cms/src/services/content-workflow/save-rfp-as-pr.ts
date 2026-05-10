@@ -1,8 +1,4 @@
-import {
-  ideaIndexSchema as _ideaIndexSchema,
-  rfpIndexSchema,
-  rfpLocaleSchema,
-} from '@repo/content/schemas'
+import { rfpIndexSchema, rfpLocaleSchema } from '@repo/content/schemas'
 
 import {
   createFixturePair,
@@ -11,12 +7,12 @@ import {
   type FixturePair,
 } from './fixture-helpers'
 import {
+  createContentUpdatePrBody,
+  createContentUpdateSubject,
   saveAsPullRequest,
   type SaveAsPullRequestResult,
   type SaveContentAsPullRequestInput,
 } from './save-as-pr'
-
-void _ideaIndexSchema // ensures we can extend the same way for ideas later
 
 /**
  * Shape of an Rfp doc as Payload returns it from `payload.findByID`. Mirrors
@@ -115,20 +111,26 @@ export const saveRfpAsPullRequest = async ({
   editor,
 }: SaveContentAsPullRequestInput<RfpDocLike>): Promise<SaveAsPullRequestResult> => {
   const { indexChange, localeChange } = buildRfpFixtureChanges(doc)
+  const subject = createContentUpdateSubject({
+    scope: 'rfp',
+    slug: doc.slug,
+  })
 
   return saveAsPullRequest({
     contentType: 'rfp',
     identifier: doc.slug,
     changes: [indexChange, localeChange],
-    commitMessage: `content(rfp): update ${doc.slug}`,
-    prTitle: `content(rfp): update ${doc.slug}`,
-    prBody: [
-      `Updates the **${doc.title}** RFP fixture from the CMS Admin.`,
-      '',
-      `- slug: \`${doc.slug}\``,
-      `- status: \`${doc.status}\``,
-      `- reward: ${doc.rewardAmount} ${doc.rewardCurrency}${doc.rewardXp ? ` + ${doc.rewardXp} XP` : ''}`,
-    ].join('\n'),
+    commitMessage: subject,
+    prTitle: subject,
+    prBody: createContentUpdatePrBody({
+      displayName: doc.title,
+      contentLabel: 'RFP',
+      details: [
+        `- slug: \`${doc.slug}\``,
+        `- status: \`${doc.status}\``,
+        `- reward: ${doc.rewardAmount} ${doc.rewardCurrency}${doc.rewardXp ? ` + ${doc.rewardXp} XP` : ''}`,
+      ],
+    }),
     draft: true,
     editor,
     payload,

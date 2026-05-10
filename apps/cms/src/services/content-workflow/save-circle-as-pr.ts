@@ -6,6 +6,8 @@ import {
   type FixturePair,
 } from './fixture-helpers'
 import {
+  createContentUpdatePrBody,
+  createContentUpdateSubject,
   saveAsPullRequest,
   type SaveAsPullRequestResult,
   type SaveContentAsPullRequestInput,
@@ -123,20 +125,26 @@ export const saveCircleAsPullRequest = async ({
   editor,
 }: SaveContentAsPullRequestInput<CircleDocLike>): Promise<SaveAsPullRequestResult> => {
   const { indexChange, localeChange } = buildCircleFixtureChanges(doc)
+  const subject = createContentUpdateSubject({
+    scope: 'circle',
+    slug: doc.slug,
+  })
 
   return saveAsPullRequest({
     contentType: 'circle',
     identifier: doc.slug,
     changes: [indexChange, localeChange],
-    commitMessage: `content(circle): update ${doc.slug}`,
-    prTitle: `content(circle): update ${doc.slug}`,
-    prBody: [
-      `Updates the **${doc.name}** Circle fixture from the CMS Admin.`,
-      '',
-      `- slug: \`${doc.slug}\``,
-      `- status: \`${doc.status}\``,
-      `- city: ${doc.city}, ${doc.country}`,
-    ].join('\n'),
+    commitMessage: subject,
+    prTitle: subject,
+    prBody: createContentUpdatePrBody({
+      displayName: doc.name,
+      contentLabel: 'Circle',
+      details: [
+        `- slug: \`${doc.slug}\``,
+        `- status: \`${doc.status}\``,
+        `- city: ${doc.city}, ${doc.country}`,
+      ],
+    }),
     draft: true,
     editor,
     payload,

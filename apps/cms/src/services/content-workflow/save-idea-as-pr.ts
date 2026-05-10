@@ -7,6 +7,8 @@ import {
   type FixturePair,
 } from './fixture-helpers'
 import {
+  createContentUpdatePrBody,
+  createContentUpdateSubject,
   saveAsPullRequest,
   type SaveAsPullRequestResult,
   type SaveContentAsPullRequestInput,
@@ -95,20 +97,26 @@ export const saveIdeaAsPullRequest = async ({
   editor,
 }: SaveContentAsPullRequestInput<IdeaDocLike>): Promise<SaveAsPullRequestResult> => {
   const { indexChange, localeChange } = buildIdeaFixtureChanges(doc)
+  const subject = createContentUpdateSubject({
+    scope: 'idea',
+    slug: doc.slug,
+  })
 
   return saveAsPullRequest({
     contentType: 'idea',
     identifier: doc.slug,
     changes: [indexChange, localeChange],
-    commitMessage: `content(idea): update ${doc.slug}`,
-    prTitle: `content(idea): update ${doc.slug}`,
-    prBody: [
-      `Updates the **${doc.title}** Idea fixture from the CMS Admin.`,
-      '',
-      `- slug: \`${doc.slug}\``,
-      `- status: \`${doc.status}\``,
-      `- submitter: @${doc.submitterHandle}${doc.submitterName ? ` (${doc.submitterName})` : ''}`,
-    ].join('\n'),
+    commitMessage: subject,
+    prTitle: subject,
+    prBody: createContentUpdatePrBody({
+      displayName: doc.title,
+      contentLabel: 'Idea',
+      details: [
+        `- slug: \`${doc.slug}\``,
+        `- status: \`${doc.status}\``,
+        `- submitter: @${doc.submitterHandle}${doc.submitterName ? ` (${doc.submitterName})` : ''}`,
+      ],
+    }),
     draft: true,
     editor,
     payload,

@@ -1,5 +1,7 @@
 export { buildContentBranchName } from './branch-naming'
 export {
+  createContentUpdatePrBody,
+  createContentUpdateSubject,
   saveAsPullRequest,
   type SaveAsPullRequestInput,
   type SaveAsPullRequestResult,

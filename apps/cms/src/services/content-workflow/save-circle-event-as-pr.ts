@@ -10,6 +10,8 @@ import {
   type FixturePair,
 } from './fixture-helpers'
 import {
+  createContentUpdatePrBody,
+  createContentUpdateSubject,
   saveAsPullRequest,
   type SaveAsPullRequestResult,
   type SaveContentAsPullRequestInput,
@@ -105,21 +107,27 @@ export const saveCircleEventAsPullRequest = async ({
   editor,
 }: SaveContentAsPullRequestInput<CircleEventDocLike>): Promise<SaveAsPullRequestResult> => {
   const { indexChange, localeChange } = buildCircleEventFixtureChanges(doc)
+  const subject = createContentUpdateSubject({
+    scope: 'circle-event',
+    slug: doc.slug,
+  })
 
   return saveAsPullRequest({
     contentType: 'circle-event',
     identifier: doc.slug,
     changes: [indexChange, localeChange],
-    commitMessage: `content(circle-event): update ${doc.slug}`,
-    prTitle: `content(circle-event): update ${doc.slug}`,
-    prBody: [
-      `Updates the **${doc.title}** Circle event fixture from the CMS Admin.`,
-      '',
-      `- slug: \`${doc.slug}\``,
-      `- circleSlug: \`${doc.circleSlug}\``,
-      `- status: \`${doc.status}\``,
-      `- startsAt: ${doc.startsAt}`,
-    ].join('\n'),
+    commitMessage: subject,
+    prTitle: subject,
+    prBody: createContentUpdatePrBody({
+      displayName: doc.title,
+      contentLabel: 'Circle event',
+      details: [
+        `- slug: \`${doc.slug}\``,
+        `- circleSlug: \`${doc.circleSlug}\``,
+        `- status: \`${doc.status}\``,
+        `- startsAt: ${doc.startsAt}`,
+      ],
+    }),
     draft: true,
     editor,
     payload,
