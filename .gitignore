@@ -57,3 +57,4 @@ apps/*/public/fonts/**/*.otf
 !apps/*/public/fonts/rhymes-display/*.woff2
 
 mcp.json
+.env*.local

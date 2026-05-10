@@ -69,6 +69,14 @@ if (isProduction && !payloadSecret) {
   )
 }
 
+const databasePoolMax = Number.parseInt(
+  process.env.PAYLOAD_DB_POOL_MAX || (isProduction ? '10' : '3'),
+  10
+)
+if (!Number.isInteger(databasePoolMax) || databasePoolMax < 1) {
+  throw new Error('PAYLOAD_DB_POOL_MAX must be a positive integer')
+}
+
 export default buildConfig({
   admin: {
     components: {
@@ -97,6 +105,7 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: databaseUrl,
+      max: databasePoolMax,
     },
     // Isolate Payload tables from any other app sharing the database.
     schemaName: process.env.PAYLOAD_DB_SCHEMA || 'payload',

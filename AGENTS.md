@@ -61,6 +61,8 @@ pnpm generate-types   # cms only — regenerates packages/types/src/payload.ts
 - **Every clickable element gets `cursor-pointer`** in its Tailwind className: buttons, `onClick` handlers, anchors, clickable cards.
 - **Visuals match Figma 1:1.** Pull the spec (font sizes, fills, gaps, padding) from Figma before implementing. See `docs/components.md` for canonical node IDs and `docs/web-pages.md` for per-page references.
 - **Types on public APIs.** Exported functions, shared utilities, component props. Use `interface` for object shapes, `type` for unions/intersections. Avoid `any`; use `unknown` + narrowing for external input.
+- **Keep reusable code out of generated or oversized files.** If a type, constant list, validator, or UI helper is used in more than one place, move it into a focused module and import it. Do not let generated files or collection configs absorb long literal unions, large option arrays, or repeated validation logic.
+- **Split files by feature when they grow.** Prefer small folders with focused files (types, constants, validators, components) over large catch-all modules. Create a feature folder once a file mixes multiple responsibilities or becomes hard to scan.
 - **Immutability.** Spread/copy, never mutate. `Readonly<T>` on inputs where it clarifies intent.
 - **No `console.log` in committed code.**
 - **Follow existing file organization.** Many small focused files over large ones. Routes live under `apps/web/app/[locale]/<route>/`; section components under `apps/web/components/sections/<section>/`.

@@ -1,11 +1,6 @@
 import type { CollectionConfig, Field } from 'payload'
 
-const timeZoneOptions = ['UTC', ...Intl.supportedValuesOf('timeZone')].map(
-  (timeZone) => ({
-    label: timeZone,
-    value: timeZone,
-  })
-)
+import { isValidIanaTimeZone } from '@/lib/timezones'
 
 const statusField: Field = {
   name: 'status',
@@ -37,10 +32,24 @@ const slugField: Field = {
 
 const createTimeZoneField = (width: string): Field => ({
   name: 'timezone',
-  type: 'select',
+  type: 'text',
   required: true,
-  options: timeZoneOptions,
-  admin: { width },
+  admin: {
+    components: {
+      Field: '@/components/admin/timezone-field.tsx#TimezoneField',
+    },
+    width,
+  },
+  validate: (value) => {
+    if (typeof value !== 'string' || value.length === 0) {
+      return 'A timezone is required.'
+    }
+
+    return (
+      isValidIanaTimeZone(value) ||
+      'Must be a valid IANA timezone, e.g. "America/Los_Angeles".'
+    )
+  },
 })
 
 export const Circles: CollectionConfig = {
