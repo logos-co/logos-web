@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "slug": "barcelona",
+  "status": "published",
+  "city": "Barcelona",
+  "country": "Spain",
+  "coordinates": {
+    "lat": 41.3874,
+    "lng": 2.1686
+  },
+  "timezone": "Europe/Madrid",
+  "joinUrl": "https://luma.com/wqlrhskv"
+}
