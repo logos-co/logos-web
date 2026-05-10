@@ -71,6 +71,11 @@ if (isProduction && !payloadSecret) {
 
 export default buildConfig({
   admin: {
+    components: {
+      graphics: {
+        Icon: '@/components/admin/logos-admin-icon.tsx#LogosAdminIcon',
+      },
+    },
     meta: {
       icons: '/favicon.ico',
     },

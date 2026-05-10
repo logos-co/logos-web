@@ -25,6 +25,10 @@ import type { CollectionConfig } from 'payload'
  */
 export const Rfps: CollectionConfig = {
   slug: 'rfps',
+  labels: {
+    plural: 'RFSs',
+    singular: 'RFS',
+  },
   admin: {
     defaultColumns: ['title', 'slug', 'status', 'featured', 'updatedAt'],
     useAsTitle: 'title',

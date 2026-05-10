@@ -28,6 +28,7 @@ import { SaveIdeaPrButton as SaveIdeaPrButton_4ee2b20d9808739a2dc76b5b7d69dc52 }
 import { SaveCirclePrButton as SaveCirclePrButton_4ee2b20d9808739a2dc76b5b7d69dc52 } from '@/components/admin/save-pr-button.tsx'
 import { SaveCircleEventPrButton as SaveCircleEventPrButton_4ee2b20d9808739a2dc76b5b7d69dc52 } from '@/components/admin/save-pr-button.tsx'
 import { SaveCircleInitiativePrButton as SaveCircleInitiativePrButton_4ee2b20d9808739a2dc76b5b7d69dc52 } from '@/components/admin/save-pr-button.tsx'
+import { LogosAdminIcon as LogosAdminIcon_3f85cd2944b0930640c630ac2df975a7 } from '@/components/admin/logos-admin-icon.tsx'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -62,5 +63,6 @@ export const importMap = {
   "@/components/admin/save-pr-button.tsx#SaveCirclePrButton": SaveCirclePrButton_4ee2b20d9808739a2dc76b5b7d69dc52,
   "@/components/admin/save-pr-button.tsx#SaveCircleEventPrButton": SaveCircleEventPrButton_4ee2b20d9808739a2dc76b5b7d69dc52,
   "@/components/admin/save-pr-button.tsx#SaveCircleInitiativePrButton": SaveCircleInitiativePrButton_4ee2b20d9808739a2dc76b5b7d69dc52,
+  "@/components/admin/logos-admin-icon.tsx#LogosAdminIcon": LogosAdminIcon_3f85cd2944b0930640c630ac2df975a7,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
