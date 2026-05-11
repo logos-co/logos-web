@@ -5,6 +5,7 @@ import {
   createLockBannerField,
   createPublishStatusField,
   createSlugField,
+  recentPrAdminComponents,
 } from './shared-fields'
 import {
   createChangePullRequestHook,
@@ -38,6 +39,7 @@ import {
 export const Ideas: CollectionConfig = {
   slug: 'ideas',
   admin: {
+    components: recentPrAdminComponents,
     defaultColumns: ['title', 'slug', 'status', 'featured', 'updatedAt'],
     useAsTitle: 'title',
     description:

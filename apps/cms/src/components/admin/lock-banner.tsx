@@ -161,9 +161,8 @@ const LockBannerInner = ({ contentDir }: { contentDir: string }) => {
         ))}
       </ul>
       <p style={{ margin: '8px 0 0 0', fontSize: 12, opacity: 0.8 }}>
-        Saving and clicking <em>Create PR</em> will open a separate branch.
-        Coordinate with the other editor or wait for the existing PR to merge /
-        close.
+        Saving will open a separate branch. Coordinate with the other editor or
+        wait for the existing PR to merge / close.
       </p>
     </BannerShell>
   )

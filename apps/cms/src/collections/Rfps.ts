@@ -5,6 +5,7 @@ import {
   createLockBannerField,
   createPublishStatusField,
   createSlugField,
+  recentPrAdminComponents,
 } from './shared-fields'
 import {
   createChangePullRequestHook,
@@ -46,6 +47,7 @@ export const Rfps: CollectionConfig = {
     singular: 'RFS',
   },
   admin: {
+    components: recentPrAdminComponents,
     defaultColumns: ['title', 'slug', 'status', 'featured', 'updatedAt'],
     useAsTitle: 'title',
     description:

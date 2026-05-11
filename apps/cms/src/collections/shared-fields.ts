@@ -59,3 +59,14 @@ export const createPrActionField = (component: string): Field => ({
     },
   },
 })
+
+export const recentPrAdminComponents = {
+  beforeList: [
+    '@/components/admin/recent-pr-banner.tsx#RecentCollectionPrBanner',
+  ],
+  edit: {
+    beforeDocumentControls: [
+      '@/components/admin/recent-pr-banner.tsx#RecentDocumentPrBanner',
+    ],
+  },
+} satisfies NonNullable<CollectionConfig['admin']>['components']

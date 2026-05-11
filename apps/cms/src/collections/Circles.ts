@@ -5,6 +5,7 @@ import {
   createImageFields,
   createPublishStatusField,
   createSlugField,
+  recentPrAdminComponents,
 } from './shared-fields'
 import {
   createChangePullRequestHook,
@@ -51,6 +52,7 @@ const createTimeZoneField = (width: string): Field => ({
 export const Circles: CollectionConfig = {
   slug: 'circles',
   admin: {
+    components: recentPrAdminComponents,
     defaultColumns: ['name', 'slug', 'city', 'status', 'updatedAt'],
     useAsTitle: 'name',
     description:
@@ -146,6 +148,7 @@ export const Circles: CollectionConfig = {
 export const CircleEvents: CollectionConfig = {
   slug: 'circle-events',
   admin: {
+    components: recentPrAdminComponents,
     defaultColumns: ['title', 'slug', 'circleSlug', 'status', 'startsAt'],
     useAsTitle: 'title',
     description:
@@ -216,6 +219,7 @@ export const CircleEvents: CollectionConfig = {
 export const CircleInitiatives: CollectionConfig = {
   slug: 'circle-initiatives',
   admin: {
+    components: recentPrAdminComponents,
     defaultColumns: ['title', 'slug', 'circleSlug', 'status', 'updatedAt'],
     useAsTitle: 'title',
     description:
@@ -266,6 +270,7 @@ export const CircleInitiatives: CollectionConfig = {
 export const CircleResources: CollectionConfig = {
   slug: 'circle-resources',
   admin: {
+    components: recentPrAdminComponents,
     defaultColumns: ['title', 'slug', 'status', 'updatedAt'],
     useAsTitle: 'title',
     description:
