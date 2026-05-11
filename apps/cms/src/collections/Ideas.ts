@@ -1,6 +1,12 @@
 import type { CollectionConfig } from 'payload'
 
-import { createPublishStatusField } from './shared-fields'
+import {
+  authenticatedCollectionAccess,
+  createLockBannerField,
+  createPrActionField,
+  createPublishStatusField,
+  createSlugField,
+} from './shared-fields'
 
 /**
  * Editor-facing collection for Builders Hub Ideas — community-submitted
@@ -30,36 +36,12 @@ export const Ideas: CollectionConfig = {
       'Community-submitted concepts driving sovereignty forward. ' +
       'Saves as a draft to Payload; click "Create PR" to publish to the repo.',
   },
-  access: {
-    read: () => true,
-    create: ({ req }) => Boolean(req.user),
-    update: ({ req }) => Boolean(req.user),
-    delete: ({ req }) => Boolean(req.user),
-  },
+  access: authenticatedCollectionAccess,
   fields: [
-    // ----- Lock banner: surface in-flight PRs for this slug -----
-    {
-      name: 'lockBanner',
-      type: 'ui',
-      admin: {
-        components: {
-          Field: '@/components/admin/lock-banner.tsx#IdeaLockBanner',
-        },
-      },
-    },
-
-    // ----- Identity / status -----
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      index: true,
-      admin: {
-        description:
-          'URL-safe identifier — kebab-case, ASCII only. Used as the directory name in `content/builders-hub/ideas/<slug>/`.',
-      },
-    },
+    createLockBannerField('@/components/admin/lock-banner.tsx#IdeaLockBanner'),
+    createSlugField(
+      'URL-safe identifier — kebab-case, ASCII only. Used as the directory name in `content/builders-hub/ideas/<slug>/`.'
+    ),
     createPublishStatusField(),
 
     // ----- Locale-level (English) -----
@@ -193,16 +175,9 @@ export const Ideas: CollectionConfig = {
       ],
     },
 
-    // ----- Action: Create / update PR -----
-    {
-      name: 'createPrAction',
-      type: 'ui',
-      admin: {
-        components: {
-          Field: '@/components/admin/save-pr-button.tsx#SaveIdeaPrButton',
-        },
-      },
-    },
+    createPrActionField(
+      '@/components/admin/save-pr-button.tsx#SaveIdeaPrButton'
+    ),
   ],
   timestamps: true,
 }

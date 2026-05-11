@@ -1,22 +1,13 @@
 import type { CollectionConfig, Field } from 'payload'
 
-import { createPublishStatusField } from './shared-fields'
+import {
+  authenticatedCollectionAccess,
+  createImageFields,
+  createPrActionField,
+  createPublishStatusField,
+  createSlugField,
+} from './shared-fields'
 import { isValidIanaTimeZone } from '@/lib/timezones'
-
-const imageFields: Field[] = [
-  { name: 'imageSrc', type: 'text', admin: { width: '50%' } },
-  { name: 'imageAlt', type: 'text', admin: { width: '50%' } },
-  { name: 'imageWidth', type: 'number', admin: { width: '50%' } },
-  { name: 'imageHeight', type: 'number', admin: { width: '50%' } },
-]
-
-const slugField: Field = {
-  name: 'slug',
-  type: 'text',
-  required: true,
-  unique: true,
-  index: true,
-}
 
 const createTimeZoneField = (width: string): Field => ({
   name: 'timezone',
@@ -48,14 +39,9 @@ export const Circles: CollectionConfig = {
     description:
       'Local Logos chapters. Shape mirrors content/circles/circles fixtures.',
   },
-  access: {
-    read: () => true,
-    create: ({ req }) => Boolean(req.user),
-    update: ({ req }) => Boolean(req.user),
-    delete: ({ req }) => Boolean(req.user),
-  },
+  access: authenticatedCollectionAccess,
   fields: [
-    slugField,
+    createSlugField(),
     createPublishStatusField(),
     {
       type: 'collapsible',
@@ -120,19 +106,12 @@ export const Circles: CollectionConfig = {
       type: 'collapsible',
       label: 'Image',
       admin: { initCollapsed: true },
-      fields: imageFields,
+      fields: createImageFields(),
     },
     { name: 'order', type: 'number', min: 0 },
-    // ----- Action: Create / update PR -----
-    {
-      name: 'createPrAction',
-      type: 'ui',
-      admin: {
-        components: {
-          Field: '@/components/admin/save-pr-button.tsx#SaveCirclePrButton',
-        },
-      },
-    },
+    createPrActionField(
+      '@/components/admin/save-pr-button.tsx#SaveCirclePrButton'
+    ),
   ],
   timestamps: true,
 }
@@ -145,14 +124,9 @@ export const CircleEvents: CollectionConfig = {
     description:
       'Circle gatherings. Shape mirrors content/circles/events fixtures.',
   },
-  access: {
-    read: () => true,
-    create: ({ req }) => Boolean(req.user),
-    update: ({ req }) => Boolean(req.user),
-    delete: ({ req }) => Boolean(req.user),
-  },
+  access: authenticatedCollectionAccess,
   fields: [
-    slugField,
+    createSlugField(),
     createPublishStatusField(),
     { name: 'circleSlug', type: 'text', required: true, index: true },
     {
@@ -193,19 +167,11 @@ export const CircleEvents: CollectionConfig = {
       type: 'collapsible',
       label: 'Image',
       admin: { initCollapsed: true },
-      fields: imageFields,
+      fields: createImageFields(),
     },
-    // ----- Action: Create / update PR -----
-    {
-      name: 'createPrAction',
-      type: 'ui',
-      admin: {
-        components: {
-          Field:
-            '@/components/admin/save-pr-button.tsx#SaveCircleEventPrButton',
-        },
-      },
-    },
+    createPrActionField(
+      '@/components/admin/save-pr-button.tsx#SaveCircleEventPrButton'
+    ),
   ],
   timestamps: true,
 }
@@ -218,14 +184,9 @@ export const CircleInitiatives: CollectionConfig = {
     description:
       'Winnable local issues. Shape mirrors content/circles/initiatives fixtures.',
   },
-  access: {
-    read: () => true,
-    create: ({ req }) => Boolean(req.user),
-    update: ({ req }) => Boolean(req.user),
-    delete: ({ req }) => Boolean(req.user),
-  },
+  access: authenticatedCollectionAccess,
   fields: [
-    slugField,
+    createSlugField(),
     createPublishStatusField(),
     { name: 'circleSlug', type: 'text', required: true, index: true },
     { name: 'href', type: 'text', required: true },
@@ -244,21 +205,13 @@ export const CircleInitiatives: CollectionConfig = {
       type: 'collapsible',
       label: 'Image',
       admin: { initCollapsed: true },
-      fields: imageFields,
+      fields: createImageFields(),
     },
     { name: 'featured', type: 'checkbox', defaultValue: false },
     { name: 'order', type: 'number', min: 0 },
-    // ----- Action: Create / update PR -----
-    {
-      name: 'createPrAction',
-      type: 'ui',
-      admin: {
-        components: {
-          Field:
-            '@/components/admin/save-pr-button.tsx#SaveCircleInitiativePrButton',
-        },
-      },
-    },
+    createPrActionField(
+      '@/components/admin/save-pr-button.tsx#SaveCircleInitiativePrButton'
+    ),
   ],
   timestamps: true,
 }
@@ -271,14 +224,9 @@ export const CircleResources: CollectionConfig = {
     description:
       'Resources shown on the Circles page. Shape mirrors content/circles/resources.',
   },
-  access: {
-    read: () => true,
-    create: ({ req }) => Boolean(req.user),
-    update: ({ req }) => Boolean(req.user),
-    delete: ({ req }) => Boolean(req.user),
-  },
+  access: authenticatedCollectionAccess,
   fields: [
-    slugField,
+    createSlugField(),
     createPublishStatusField(),
     { name: 'title', type: 'text', required: true },
     { name: 'description', type: 'textarea', required: true },

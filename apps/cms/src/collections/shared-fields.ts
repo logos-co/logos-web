@@ -1,4 +1,24 @@
-import type { Field } from 'payload'
+import type { CollectionConfig, Field } from 'payload'
+
+export const authenticatedCollectionAccess: CollectionConfig['access'] = {
+  read: () => true,
+  create: ({ req }) => Boolean(req.user),
+  update: ({ req }) => Boolean(req.user),
+  delete: ({ req }) => Boolean(req.user),
+}
+
+export const createSlugField = (description?: string): Field => ({
+  name: 'slug',
+  type: 'text',
+  required: true,
+  unique: true,
+  index: true,
+  ...(description && {
+    admin: {
+      description,
+    },
+  }),
+})
 
 export const createPublishStatusField = (): Field => ({
   name: 'status',
@@ -11,4 +31,31 @@ export const createPublishStatusField = (): Field => ({
     { label: 'Published', value: 'published' },
     { label: 'Archived', value: 'archived' },
   ],
+})
+
+export const createImageFields = (): Field[] => [
+  { name: 'imageSrc', type: 'text', admin: { width: '50%' } },
+  { name: 'imageAlt', type: 'text', admin: { width: '50%' } },
+  { name: 'imageWidth', type: 'number', admin: { width: '50%' } },
+  { name: 'imageHeight', type: 'number', admin: { width: '50%' } },
+]
+
+export const createLockBannerField = (component: string): Field => ({
+  name: 'lockBanner',
+  type: 'ui',
+  admin: {
+    components: {
+      Field: component,
+    },
+  },
+})
+
+export const createPrActionField = (component: string): Field => ({
+  name: 'createPrAction',
+  type: 'ui',
+  admin: {
+    components: {
+      Field: component,
+    },
+  },
 })

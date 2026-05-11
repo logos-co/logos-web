@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { createSlugField } from './shared-fields'
+
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
@@ -12,13 +14,7 @@ export const Pages: CollectionConfig = {
       type: 'text',
       required: true,
     },
-    {
-      name: 'slug',
-      type: 'text',
-      index: true,
-      required: true,
-      unique: true,
-    },
+    createSlugField(),
     {
       name: 'content',
       type: 'richText',
