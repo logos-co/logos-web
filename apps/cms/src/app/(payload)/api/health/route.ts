@@ -3,6 +3,91 @@ import { getPayload } from 'payload'
 
 import config from '@payload-config'
 
+interface HealthErrorDetail {
+  cause?: HealthErrorDetail
+  code?: string
+  message: string
+  name?: string
+}
+
+const getStringProperty = (
+  value: unknown,
+  property: string
+): string | undefined => {
+  if (!value || typeof value !== 'object') {
+    return undefined
+  }
+
+  const propertyValue = (value as Record<string, unknown>)[property]
+  return typeof propertyValue === 'string' ? propertyValue : undefined
+}
+
+const getCause = (value: unknown): unknown => {
+  if (!value || typeof value !== 'object') {
+    return undefined
+  }
+
+  return (value as Record<string, unknown>).cause
+}
+
+const formatError = (error: unknown): HealthErrorDetail => ({
+  ...(getCause(error) ? { cause: formatError(getCause(error)) } : {}),
+  ...(getStringProperty(error, 'code')
+    ? { code: getStringProperty(error, 'code') }
+    : {}),
+  message: error instanceof Error ? error.message : String(error),
+  ...(getStringProperty(error, 'name')
+    ? { name: getStringProperty(error, 'name') }
+    : {}),
+})
+
+const getDatabaseDiagnostics = () => {
+  let database:
+    | {
+        host: string
+        pathname: string
+        port: string
+        protocol: string
+        usernameShape: 'project-ref' | 'plain' | 'empty'
+      }
+    | { parseError: string }
+
+  try {
+    const url = new URL(process.env.DATABASE_URL || '')
+    database = {
+      host: url.hostname,
+      pathname: url.pathname,
+      port: url.port || '(default)',
+      protocol: url.protocol,
+      usernameShape: url.username
+        ? url.username.includes('.')
+          ? 'project-ref'
+          : 'plain'
+        : 'empty',
+    }
+  } catch (error) {
+    database = {
+      parseError: error instanceof Error ? error.message : String(error),
+    }
+  }
+
+  return {
+    database,
+    pool: {
+      connectionTimeoutMs:
+        process.env.PAYLOAD_DB_CONNECTION_TIMEOUT_MS || '5000',
+      idleTimeoutMs: process.env.PAYLOAD_DB_IDLE_TIMEOUT_MS || '5000',
+      max: process.env.PAYLOAD_DB_POOL_MAX || 'default',
+      queryTimeoutMs: process.env.PAYLOAD_DB_QUERY_TIMEOUT_MS || '15000',
+    },
+    schema: process.env.PAYLOAD_DB_SCHEMA || 'payload',
+    vercel: {
+      env: process.env.VERCEL_ENV || null,
+      region: process.env.VERCEL_REGION || null,
+    },
+  }
+}
+
 const healthTimeoutMs = (() => {
   const value = Number.parseInt(
     process.env.PAYLOAD_HEALTH_TIMEOUT_MS || '10000',
@@ -79,6 +164,8 @@ export const GET = async (): Promise<NextResponse> => {
       {
         ok: false,
         db: 'down',
+        detail: formatError(err),
+        diagnostics: getDatabaseDiagnostics(),
         error: err instanceof Error ? err.message : String(err),
         latencyMs: Date.now() - startedAt,
       },
