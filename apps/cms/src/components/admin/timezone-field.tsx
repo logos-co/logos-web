@@ -62,30 +62,46 @@ export function TimezoneField({
   )
 
   return (
-    <SelectInput
-      AfterInput={AfterInput}
-      BeforeInput={BeforeInput}
-      Description={Description}
-      description={field.admin?.description}
-      Error={Error}
-      filterOption={({ label, value: optionValue }, search) =>
-        optionByValue.has(optionValue) &&
-        label.toLowerCase().includes(search.toLowerCase())
-      }
-      isClearable={field.admin?.isClearable ?? false}
-      Label={Label}
-      label={field.label}
-      name={field.name}
-      onChange={(selectedOption) => {
-        setValue(getSelectedValue(selectedOption))
-      }}
-      options={IANA_TIME_ZONE_OPTIONS}
-      path={path}
-      placeholder={field.admin?.placeholder ?? 'Select a timezone'}
-      readOnly={readOnly || disabled}
-      required={field.required}
-      showError={showError}
-      value={typeof value === 'string' ? value : undefined}
-    />
+    <>
+      <SelectInput
+        AfterInput={AfterInput}
+        BeforeInput={BeforeInput}
+        className="timezone-field"
+        Description={Description}
+        description={field.admin?.description}
+        Error={Error}
+        filterOption={({ label, value: optionValue }, search) =>
+          optionByValue.has(optionValue) &&
+          label.toLowerCase().includes(search.toLowerCase())
+        }
+        isClearable={field.admin?.isClearable ?? false}
+        Label={Label}
+        label={field.label}
+        name={field.name}
+        onChange={(selectedOption) => {
+          setValue(getSelectedValue(selectedOption))
+        }}
+        options={IANA_TIME_ZONE_OPTIONS}
+        path={path}
+        placeholder={field.admin?.placeholder ?? 'Select a timezone'}
+        readOnly={readOnly || disabled}
+        required={field.required}
+        showError={showError}
+        style={{ minWidth: 0, width: '100%' }}
+        value={typeof value === 'string' ? value : undefined}
+      />
+      <style jsx global>{`
+        .timezone-field .react-select,
+        .timezone-field .rs__control,
+        .timezone-field .rs__menu {
+          min-width: 0;
+          width: 100%;
+        }
+
+        .timezone-field .rs__menu {
+          min-width: 100%;
+        }
+      `}</style>
+    </>
   )
 }

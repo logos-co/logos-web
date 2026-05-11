@@ -69,8 +69,9 @@ if (isProduction && !payloadSecret) {
   )
 }
 
+const defaultDatabasePoolMax = isVercel ? '1' : isProduction ? '10' : '3'
 const databasePoolMax = Number.parseInt(
-  process.env.PAYLOAD_DB_POOL_MAX || (isProduction ? '10' : '3'),
+  process.env.PAYLOAD_DB_POOL_MAX || defaultDatabasePoolMax,
   10
 )
 if (!Number.isInteger(databasePoolMax) || databasePoolMax < 1) {
