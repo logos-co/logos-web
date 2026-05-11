@@ -14,13 +14,16 @@ import { isValidIanaTimeZone } from '@/lib/timezones'
 import {
   deleteCircleEventAsPullRequest,
   deleteCircleInitiativeAsPullRequest,
+  deleteCircleResourceAsPullRequest,
   deleteCircleAsPullRequest,
   saveCircleEventAsPullRequest,
   saveCircleInitiativeAsPullRequest,
+  saveCircleResourceAsPullRequest,
   saveCircleAsPullRequest,
   type CircleDocLike,
   type CircleEventDocLike,
   type CircleInitiativeDocLike,
+  type CircleResourceDocLike,
 } from '@/services/content-workflow'
 
 const createTimeZoneField = (width: string): Field => ({
@@ -269,6 +272,19 @@ export const CircleResources: CollectionConfig = {
       'Resources shown on the Circles page. Shape mirrors content/circles/resources.',
   },
   access: authenticatedCollectionAccess,
+  hooks: {
+    beforeChange: [
+      createChangePullRequestHook<CircleResourceDocLike>({
+        save: saveCircleResourceAsPullRequest,
+      }),
+    ],
+    beforeDelete: [
+      createDeletePullRequestHook<CircleResourceDocLike>({
+        collection: 'circle-resources',
+        save: deleteCircleResourceAsPullRequest,
+      }),
+    ],
+  },
   fields: [
     createSlugField(),
     createPublishStatusField(),
