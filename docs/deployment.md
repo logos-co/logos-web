@@ -48,7 +48,11 @@ For local dev copy apps/cms/.env.example to apps/cms/.env and fill it in.
 | `PAYLOAD_SECRET` | yes | `openssl rand -hex 32`. Used for cookies / JWTs. Production build throws when unset. |
 | `DATABASE_URL` | yes | Postgres connection string. Supabase pooler URLs (port 6543) work directly. |
 | `PAYLOAD_DB_SCHEMA` | optional | Schema name scoping Payload tables. Defaults to `payload`. Use a distinct value per env when sharing one database (e.g. `payload_preview`). |
-| `PAYLOAD_DB_POOL_MAX` | optional | Max Postgres clients per CMS runtime. Defaults to `1` on Vercel, `3` locally, `10` on self-hosted production. Keep Vercel low with Supabase session pooler limits. |
+| `PAYLOAD_DB_POOL_MAX` | optional | Max Postgres clients per CMS runtime. Defaults to `1` on Vercel, `3` locally, `10` on self-hosted production. Keep Vercel low with Supabase pooler limits. |
+| `PAYLOAD_DB_CONNECTION_TIMEOUT_MS` | optional | Postgres connect timeout. Defaults to `5000` to fail fast instead of waiting for the Vercel runtime timeout. |
+| `PAYLOAD_DB_QUERY_TIMEOUT_MS` | optional | Postgres query and statement timeout. Defaults to `15000`. |
+| `PAYLOAD_DB_IDLE_TIMEOUT_MS` | optional | Idle pool client timeout. Defaults to `5000`. |
+| `PAYLOAD_HEALTH_TIMEOUT_MS` | optional | Per-step `/api/health` timeout. Defaults to `10000`, and reports whether `getPayload` or the DB read timed out. |
 | `PAYLOAD_DB_PUSH` | optional | When `false`, disables automatic schema sync. Default behaviour pushes schema changes on every boot — leave it on until proper migrations are wired up (Phase 4+). |
 | `GITHUB_OWNER` | required (Phase 4+) | Repo owner / org for the content repository (this repo). |
 | `GITHUB_REPO` | required (Phase 4+) | Repo name. |
@@ -218,6 +222,7 @@ A 401 means Payload booted, talked to Postgres, and answered. A 500 means env va
 | `connection reset` / `ECONNRESET` mid-request | Supabase pooler timeout under heavy load | Switch port from `6543` (transaction) to `5432` (session) in `DATABASE_URL`. |
 | `prepared statement "S_1" does not exist` | transaction pooler dropped a prepared statement | Same fix — use the session pooler at port `5432`. |
 | `(EMAXCONNSESSION) max clients reached in session mode` | Too many Vercel serverless instances each opening a Postgres pool against a small Supabase session-pool limit | Set `PAYLOAD_DB_POOL_MAX=1` in Vercel, redeploy, and close stale Admin tabs. |
+| `/api/health` times out until Vercel's 300s runtime limit | Payload or Postgres is hanging during initialization or the first DB read | Keep `PAYLOAD_DB_POOL_MAX=1`, set the DB timeout env vars above if needed, redeploy, then check `/api/health` for the exact timed-out step. |
 | `relation "payload.users" does not exist` | tables not yet created in the target schema (Drizzle push only runs in dev mode) | Bootstrap by running `pnpm --filter cms dev` locally with `DATABASE_URL` set to the same value Vercel uses, hit `/admin` once, then redeploy prod. See "Bootstrapping the schema" above. |
 | CORS errors from `apps/web` calling the CMS | `NEXT_PUBLIC_WEB_URL` mismatch | Set the env var to the exact web origin (no trailing slash). |
 | Admin login redirects then fails | Cookie domain mismatch or stale session | Ensure `NEXT_PUBLIC_SERVER_URL` matches the URL the browser is using. Clear cookies. |
