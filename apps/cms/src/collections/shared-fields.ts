@@ -68,5 +68,7 @@ export const recentPrAdminComponents = {
     beforeDocumentControls: [
       '@/components/admin/recent-pr-banner.tsx#RecentDocumentPrBanner',
     ],
+    SaveButton:
+      '@/components/admin/content-pr-save-button.tsx#ContentPrSaveButton',
   },
 } satisfies NonNullable<CollectionConfig['admin']>['components']
