@@ -130,8 +130,8 @@ const withTimeout = async <T>(
  * monitors (UptimeRobot, Vercel Cron, etc.) can poll this URL on a schedule
  * to:
  *   1. Verify CMS + DB are reachable from the public internet.
- *   2. Reset Supabase's free-tier idle timer (the project auto-pauses after
- *      ~7 days with zero queries).
+ *   2. Keep the backing Postgres project warm when the provider idles
+ *      inactive databases.
  *
  * Public, unauthenticated. Returns no internal detail beyond OK / not-OK so
  * it is safe to expose. Cache disabled — every poll must hit the DB to be
@@ -148,13 +148,7 @@ export const GET = async (): Promise<NextResponse> => {
   const startedAt = Date.now()
   try {
     const payload = await withTimeout(getPayload({ config }), 'getPayload')
-    // Cheapest possible read against a known collection. `limit: 0` skips
-    // serializing rows but still issues the SQL roundtrip Supabase needs to
-    // see in order to count us as active.
-    await withTimeout(
-      payload.find({ collection: 'users', limit: 0, depth: 0 }),
-      'payload.find(users)'
-    )
+    await withTimeout(payload.db.pool.query('select 1 as ok'), 'database ping')
     return NextResponse.json(
       { ok: true, db: 'ok', latencyMs: Date.now() - startedAt },
       { headers: { 'Cache-Control': 'no-store' } }
