@@ -40,7 +40,8 @@ export type BroadcastEventRow = {
   localDateKey: string
   localTimestamp: number
   timeMinutes: number | null
-  link: string
+  links: string[]
+  link?: string
 }
 
 type PressSearchPost = {
@@ -254,6 +255,9 @@ const isMeaningful = (value?: string | null) => {
 const meaningfulText = (value?: string | null) =>
   isMeaningful(value) ? value!.trim() : ''
 
+const getEventLinks = (links?: string[]) =>
+  links?.map(meaningfulText).filter(Boolean) ?? []
+
 const toBroadcastEventRow = (event: CalendarEvent): BroadcastEventRow => {
   const typeLabel = event.type.label
   const topic = meaningfulText(event.topic)
@@ -264,6 +268,7 @@ const toBroadcastEventRow = (event: CalendarEvent): BroadcastEventRow => {
   const detailParts = [topic, guest].filter(Boolean)
   const localDateTime =
     getEventLocalDateTime(event) ?? new Date(`${event.date}T00:00:00.000Z`)
+  const links = getEventLinks(event.links)
 
   return {
     id: event.id,
@@ -279,7 +284,8 @@ const toBroadcastEventRow = (event: CalendarEvent): BroadcastEventRow => {
     localDateKey: formatLocalDateKey(localDateTime),
     localTimestamp: localDateTime.getTime(),
     timeMinutes: getEventTimeMinutesSinceMidnight(event.time),
-    link: event.links?.[0] ?? 'https://youtube.com/@logosnetwork',
+    links,
+    link: links[0],
   }
 }
 

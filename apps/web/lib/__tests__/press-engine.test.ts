@@ -77,7 +77,7 @@ describe('getBroadcastEvents', () => {
             speakers: [],
             topic: null,
             notes: null,
-            links: ['https://example.com/update'],
+            links: ['https://example.com/update', 'https://example.com/backup'],
           },
           {
             id: 2,
@@ -109,6 +109,8 @@ describe('getBroadcastEvents', () => {
       calendarTitle: 'Logos Weekly Update',
       localDateKey: formatLocalDateKey(new Date(Date.UTC(2026, 3, 30, 16))),
       timeMinutes: 960,
+      links: ['https://example.com/update', 'https://example.com/backup'],
+      link: 'https://example.com/update',
     })
   })
 })

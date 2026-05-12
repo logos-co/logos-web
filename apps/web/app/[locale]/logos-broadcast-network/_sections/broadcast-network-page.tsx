@@ -243,11 +243,8 @@ function EventCard({
   copy: BroadcastNetworkCopy
   image: string
 }) {
-  return (
-    <ExternalLink
-      href={event.link}
-      className="flex min-w-0 cursor-pointer items-center gap-3 rounded-3xl bg-brand-off-white/50 py-1.5 pl-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-brand-yellow"
-    >
+  const content = (
+    <>
       <div className="relative size-32 shrink-0 overflow-hidden rounded-[18px]">
         <Image src={image} alt="" fill sizes="128px" className="object-cover" />
       </div>
@@ -271,7 +268,18 @@ function EventCard({
           </div>
         </div>
       </div>
+    </>
+  )
+
+  const className =
+    'flex min-w-0 items-center gap-3 rounded-3xl bg-brand-off-white/50 py-1.5 pl-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-brand-yellow'
+
+  return event.link ? (
+    <ExternalLink href={event.link} className={cn(className, 'cursor-pointer')}>
+      {content}
     </ExternalLink>
+  ) : (
+    <div className={className}>{content}</div>
   )
 }
 
@@ -314,16 +322,25 @@ function CalendarCell({ day }: { day: CalendarDay }) {
         </span>
       </div>
       {day.events.length > 0 ? (
-        <div className="flex flex-col gap-1 overflow-hidden">
-          {day.events.map((event) => (
-            <ExternalLink
-              key={event.id}
-              href={event.link}
-              className="block cursor-pointer rounded-lg border border-brand-dark-green/50 p-2 font-mono text-[10px] font-medium uppercase leading-[1.3] transition-colors group-hover:bg-[#c7f3ff]"
-            >
-              <span className="line-clamp-2">{event.calendarTitle}</span>
-            </ExternalLink>
-          ))}
+        <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto pr-1">
+          {day.events.map((event) =>
+            event.link ? (
+              <ExternalLink
+                key={event.id}
+                href={event.link}
+                className="block cursor-pointer rounded-lg border border-brand-dark-green/50 p-2 font-mono text-[10px] font-medium uppercase leading-[1.3] transition-colors group-hover:bg-[#c7f3ff]"
+              >
+                <span className="line-clamp-2">{event.calendarTitle}</span>
+              </ExternalLink>
+            ) : (
+              <div
+                key={event.id}
+                className="block rounded-lg border border-brand-dark-green/50 p-2 font-mono text-[10px] font-medium uppercase leading-[1.3] transition-colors group-hover:bg-[#c7f3ff]"
+              >
+                <span className="line-clamp-2">{event.calendarTitle}</span>
+              </div>
+            )
+          )}
         </div>
       ) : null}
     </div>
