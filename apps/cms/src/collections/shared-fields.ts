@@ -62,6 +62,7 @@ export const createPrActionField = (component: string): Field => ({
 
 export const recentPrAdminComponents = {
   beforeList: [
+    '@/components/admin/production-sync-panel.tsx#ProductionSyncPanel',
     '@/components/admin/recent-pr-banner.tsx#RecentCollectionPrBanner',
   ],
   edit: {

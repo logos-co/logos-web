@@ -12,6 +12,12 @@ export {
 } from './save-as-pr'
 export { getContentLock, type ContentLockResult } from './get-lock'
 export {
+  mergeContentPullRequest,
+  type MergeContentPullRequestInput,
+  type MergeContentPullRequestResult,
+} from './merge-pr'
+export { syncProductionToStaging } from './sync-production'
+export {
   buildRfpFixtureDeleteChanges,
   buildRfpFixtureChanges,
   deleteRfpAsPullRequest,

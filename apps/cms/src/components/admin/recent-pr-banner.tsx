@@ -18,6 +18,15 @@ type RecentPrResult = {
   error?: string
 }
 
+type MergePrResult = {
+  contentChangeRequestId?: string | number
+  error?: string
+  merged?: boolean
+  message?: string
+  pullRequestNumber?: number
+  sha?: string | null
+}
+
 const COLLECTION_LABELS: Record<string, string> = {
   circles: 'Circle',
   'circle-events': 'Circle event',
@@ -78,6 +87,8 @@ const RecentPrBannerInner = ({
   const [result, setResult] = useState<RecentPrResult | null>(null)
   const [pending, setPending] = useState(false)
   const [dismissed, setDismissed] = useState(false)
+  const [mergeError, setMergeError] = useState<string | null>(null)
+  const [mergingPr, setMergingPr] = useState<number | null>(null)
 
   const dismissKey = useMemo(() => {
     if (!collection || !result || result.pullRequests.length === 0) return null
@@ -139,6 +150,42 @@ const RecentPrBannerInner = ({
     setDismissed(true)
   }, [dismissKey])
 
+  const onMerge = useCallback(async (pullRequestNumber?: number | null) => {
+    if (!pullRequestNumber) return
+
+    setMergeError(null)
+    setMergingPr(pullRequestNumber)
+    try {
+      const response = await fetch('/api/content-workflow/merge-pr', {
+        body: JSON.stringify({ pullRequestNumber }),
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      })
+      const json = (await response.json()) as MergePrResult
+      if (!response.ok) {
+        throw new Error(json.error ?? `request failed (${response.status})`)
+      }
+
+      setResult((current) =>
+        current
+          ? {
+              ...current,
+              pullRequests: current.pullRequests.filter(
+                (pr) => pr.pullRequestNumber !== pullRequestNumber
+              ),
+            }
+          : current
+      )
+    } catch (error) {
+      setMergeError(error instanceof Error ? error.message : String(error))
+    } finally {
+      setMergingPr(null)
+    }
+  }, [])
+
   if (!collection || !COLLECTION_LABELS[collection]) return null
   if (pending || !result || result.pullRequests.length === 0) return null
   if (dismissed) return null
@@ -185,19 +232,55 @@ const RecentPrBannerInner = ({
       {result.error ? (
         <div style={{ marginTop: 6 }}>PR lookup failed: {result.error}</div>
       ) : null}
+      {mergeError ? (
+        <div style={{ marginTop: 6 }}>PR merge failed: {mergeError}</div>
+      ) : null}
       <ul style={{ margin: '8px 0 0 0', paddingLeft: 18 }}>
         {result.pullRequests.map((pr) => (
           <li key={pr.id} style={{ marginBottom: 4 }}>
-            <a
-              href={pr.pullRequestUrl ?? '#'}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontWeight: 700 }}
+            <span
+              style={{
+                alignItems: 'center',
+                display: 'inline-flex',
+                flexWrap: 'wrap',
+                gap: 8,
+              }}
             >
-              PR #{pr.pullRequestNumber ?? '?'}
-            </a>{' '}
-            <span style={{ opacity: 0.78 }}>
-              <code>{pr.branchName}</code>
+              <a
+                href={pr.pullRequestUrl ?? '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ fontWeight: 700 }}
+              >
+                PR #{pr.pullRequestNumber ?? '?'}
+              </a>
+              <span style={{ opacity: 0.78 }}>
+                <code>{pr.branchName}</code>
+              </span>
+              <button
+                type="button"
+                disabled={
+                  !pr.pullRequestNumber || mergingPr === pr.pullRequestNumber
+                }
+                onClick={() => void onMerge(pr.pullRequestNumber)}
+                style={{
+                  border: '1px solid var(--theme-success-300, #88d39f)',
+                  borderRadius: 4,
+                  background: 'var(--theme-bg, #fff)',
+                  color: 'var(--theme-success-800, #155724)',
+                  cursor:
+                    !pr.pullRequestNumber || mergingPr === pr.pullRequestNumber
+                      ? 'not-allowed'
+                      : 'pointer',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  padding: '4px 8px',
+                }}
+              >
+                {mergingPr === pr.pullRequestNumber
+                  ? 'Merging...'
+                  : 'Merge to develop'}
+              </button>
             </span>
           </li>
         ))}
