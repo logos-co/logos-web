@@ -8,18 +8,45 @@ import { ExternalLink } from '@/components/ui'
 import type { PressArticleRow } from '@/lib/press-engine'
 
 import {
+  ArrowIcon,
   Dot,
   PressRowLink,
   RowThumbnail,
+  SectionCta,
   TextLink,
   UnderlineLabel,
 } from './press-atoms'
 
 const PRESS_HERO_IMAGE = '/images/press-engine/press-hero.jpg'
 
-export function PressHero({ lead }: { lead: PressArticleRow }) {
+export interface PressCopy {
+  heroHeading: string
+  navArticles: string
+  navPodcasts: string
+  navBroadcast: string
+  articlesHeading: string
+  readArticle: string
+  seeMoreArticles: string
+  broadcastHeading: string
+  broadcastDescription: string
+  watch: string
+  broadcastCta: string
+}
+
+export function PressHero({
+  lead,
+  copy,
+}: {
+  lead: PressArticleRow
+  copy: Pick<
+    PressCopy,
+    'heroHeading' | 'navArticles' | 'navPodcasts' | 'navBroadcast'
+  >
+}) {
+  const [headingLine1, ...headingRest] = copy.heroHeading.split(' Press ')
+
   return (
-    <section className="h-[374px] bg-accent-tan px-3 pt-6 md:h-[342px] md:pb-[100px]">
+    <section className="relative h-[374px] bg-accent-tan px-3 pt-6 md:h-[359px] md:pt-6">
       <div className="mx-auto flex w-full max-w-[370px] flex-col gap-[100px] md:max-w-[1416px] md:gap-10">
         <div className="relative h-[81px] w-full md:w-[1186px]">
           <div className="absolute left-0 top-0 aspect-video w-[107px] overflow-hidden">
@@ -36,11 +63,30 @@ export function PressHero({ lead }: { lead: PressArticleRow }) {
             {lead.description || lead.title}
           </p>
         </div>
-        <h1 className="font-display text-center text-[40px] leading-none tracking-[-0.03em] text-brand-dark-green md:text-[56px] md:tracking-normal">
-          <span className="block">The Logos</span>
-          <span className="block">Press Engine</span>
+        <h1 className="font-display text-center text-[40px] leading-none tracking-[-0.03em] text-brand-dark-green md:text-[56px]">
+          <span className="block">{headingLine1}</span>
+          <span className="block">Press {headingRest.join(' Press ')}</span>
         </h1>
       </div>
+      <nav
+        aria-label="Press sections"
+        className="absolute left-[calc(50%+6px)] top-[342px] hidden items-center gap-6 text-brand-dark-green md:flex"
+      >
+        {[
+          { href: '#articles', label: copy.navArticles },
+          { href: '#podcasts', label: copy.navPodcasts },
+          { href: '#broadcast', label: copy.navBroadcast },
+        ].map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className="inline-flex cursor-pointer items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35] transition-opacity hover:opacity-70"
+          >
+            <ArrowIcon direction="down" />
+            {item.label}
+          </a>
+        ))}
+      </nav>
     </section>
   )
 }
@@ -60,7 +106,7 @@ export function ArticleEntry({
     <PressRowLink
       href={article.href}
       index={index}
-      className="h-[122px] md:h-[122px]"
+      className="h-[122px] md:h-[158px]"
     >
       <RowThumbnail
         src={article.image}
@@ -97,6 +143,19 @@ export function ArticleEntry({
   )
 }
 
+export function ArticlesHeading({ label }: { label: string }) {
+  return (
+    <div
+      id="articles"
+      className="flex h-12 items-start px-3 text-brand-dark-green md:pt-0"
+    >
+      <h2 className="font-sans text-[36px] leading-none tracking-[-0.02em]">
+        {label}
+      </h2>
+    </div>
+  )
+}
+
 export function GallerySection({ articles }: { articles: PressArticleRow[] }) {
   return (
     <section className="h-[319px] overflow-x-auto overflow-y-hidden bg-accent-tan md:h-auto md:overflow-visible md:px-3 md:py-10">
@@ -105,7 +164,7 @@ export function GallerySection({ articles }: { articles: PressArticleRow[] }) {
           <ExternalLink
             key={article.title}
             href={article.href}
-            className="group flex w-[339px] shrink-0 flex-col gap-1.5 text-brand-dark-green md:w-auto"
+            className="group flex w-[339px] shrink-0 cursor-pointer flex-col gap-1.5 text-brand-dark-green md:w-auto"
           >
             <div className="relative aspect-video w-full overflow-hidden bg-brand-dark-green/10">
               <Image
@@ -133,6 +192,16 @@ export function GallerySection({ articles }: { articles: PressArticleRow[] }) {
 }
 
 export function FeaturedArticle({ article }: { article: PressArticleRow }) {
+  return <FeaturedArticleContent article={article} readArticleLabel="Read Article" />
+}
+
+export function FeaturedArticleContent({
+  article,
+  readArticleLabel,
+}: {
+  article: PressArticleRow
+  readArticleLabel: string
+}) {
   return (
     <section className="relative h-[994px] overflow-hidden bg-accent-tan md:flex md:h-[1044px] md:justify-center md:gap-3 md:overflow-visible md:pr-3">
       <div className="absolute left-0 top-0 z-10 h-[313px] w-full px-3 pt-10 md:sticky md:top-10 md:h-[495px] md:flex-1 md:pl-[129px] md:pt-[100px]">
@@ -155,7 +224,7 @@ export function FeaturedArticle({ article }: { article: PressArticleRow }) {
               tone="light"
               className="md:text-brand-dark-green md:decoration-brand-dark-green/50"
             >
-              Read Article
+              {readArticleLabel}
             </TextLink>
           </div>
         </div>
@@ -169,6 +238,85 @@ export function FeaturedArticle({ article }: { article: PressArticleRow }) {
           className="absolute left-[-303px] top-0 h-[1040px] w-[1300px] max-w-none object-cover md:left-[-104px] md:h-full md:w-[1242px]"
         />
       </div>
+    </section>
+  )
+}
+
+export function ArticlesCta({
+  href,
+  label,
+}: {
+  href: string
+  label: string
+}) {
+  return <SectionCta href={href} label={label} />
+}
+
+export function BroadcastSection({
+  articles,
+  copy,
+}: {
+  articles: PressArticleRow[]
+  copy: Pick<
+    PressCopy,
+    'broadcastHeading' | 'broadcastDescription' | 'watch' | 'broadcastCta'
+  >
+}) {
+  return (
+    <section
+      id="broadcast"
+      className="hidden bg-accent-tan pt-[100px] text-brand-dark-green md:block"
+    >
+      <div className="flex items-start justify-between gap-3 px-3 pb-3">
+        <h2 className="w-[702px] font-sans text-[36px] leading-none tracking-[-0.02em]">
+          {copy.broadcastHeading}
+        </h2>
+        <p className="text-mono-s w-[345px]">{copy.broadcastDescription}</p>
+        <p aria-hidden="true" className="text-mono-s w-[345px] opacity-0">
+          {copy.broadcastDescription}
+        </p>
+      </div>
+      <div>
+        {articles.map((article, index) => (
+          <PressRowLink
+            key={`${article.title}-broadcast-${index}`}
+            href={article.href}
+            index={index}
+            className="h-[122px] md:h-[158px]"
+          >
+            <RowThumbnail
+              src={article.image}
+              className="left-3 top-3 w-[107px]"
+            />
+            <div className="absolute left-[119px] top-0 grid h-full w-[1150px] grid-cols-[595px_345px_1fr] gap-x-3">
+              <div className="flex flex-col justify-center py-3 pl-3">
+                <h3 className="w-[333px] text-[18px] leading-[1.15] tracking-[-0.01em]">
+                  {article.titleSerif ? (
+                    <>
+                      <span className="font-display block leading-[1.1]">
+                        {article.titleSerif}
+                      </span>
+                      <span className="font-sans block">
+                        {article.title.replace(article.titleSerif, '').trim()}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="font-sans">{article.title}</span>
+                  )}
+                </h3>
+              </div>
+              <p className="text-mono-s py-3">{article.description}</p>
+              <div className="py-3">
+                <UnderlineLabel>{copy.watch}</UnderlineLabel>
+              </div>
+            </div>
+          </PressRowLink>
+        ))}
+      </div>
+      <SectionCta
+        href="https://press.logos.co/broadcast"
+        label={copy.broadcastCta}
+      />
     </section>
   )
 }

@@ -280,6 +280,7 @@
     "accent": "grey",
     "imagePosition": "left",
     "title": "Install Basecamp.",
+    "mobileTitle": "Install the Logos app.",
     "description": "The Logos App is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting \"Simple Apps\" that let users interact with the various modules:",
     "tags": [
       { "label": "Wallet", "icon": "wallet" },
@@ -352,12 +353,18 @@
           {
             "title": "Logos App",
             "description": "An introduction to the Logos technology stack",
-            "cta": { "label": "Learn more", "href": "/technology-stack#logos-app" }
+            "cta": {
+              "label": "Learn more",
+              "href": "/technology-stack#logos-app"
+            }
           },
           {
             "title": "Logos Execution Zone",
             "description": "An introduction to the Logos technology stack",
-            "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+            "cta": {
+              "label": "Learn more",
+              "href": "/technology-stack/blockchain"
+            }
           },
           {
             "title": "Architecture Overview",
@@ -382,12 +389,18 @@
           {
             "title": "Logos App",
             "description": "An introduction to the Logos technology stack",
-            "cta": { "label": "Learn more", "href": "/technology-stack#logos-app" }
+            "cta": {
+              "label": "Learn more",
+              "href": "/technology-stack#logos-app"
+            }
           },
           {
             "title": "Logos Execution Zone",
             "description": "An introduction to the Logos technology stack",
-            "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+            "cta": {
+              "label": "Learn more",
+              "href": "/technology-stack/blockchain"
+            }
           },
           {
             "title": "Architecture Overview",
@@ -407,17 +420,26 @@
           {
             "title": "What is Logos",
             "description": "An introduction to the Logos technology stack",
-            "cta": { "label": "Learn more", "href": "/technology-stack/messaging" }
+            "cta": {
+              "label": "Learn more",
+              "href": "/technology-stack/messaging"
+            }
           },
           {
             "title": "Logos App",
             "description": "An introduction to the Logos technology stack",
-            "cta": { "label": "Learn more", "href": "/technology-stack#logos-app" }
+            "cta": {
+              "label": "Learn more",
+              "href": "/technology-stack#logos-app"
+            }
           },
           {
             "title": "Logos Execution Zone",
             "description": "An introduction to the Logos technology stack",
-            "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+            "cta": {
+              "label": "Learn more",
+              "href": "/technology-stack/blockchain"
+            }
           },
           {
             "title": "Architecture Overview",
@@ -437,17 +459,26 @@
           {
             "title": "What is Logos",
             "description": "An introduction to the Logos technology stack",
-            "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+            "cta": {
+              "label": "Learn more",
+              "href": "/technology-stack/blockchain"
+            }
           },
           {
             "title": "Logos App",
             "description": "An introduction to the Logos technology stack",
-            "cta": { "label": "Learn more", "href": "/technology-stack#logos-app" }
+            "cta": {
+              "label": "Learn more",
+              "href": "/technology-stack#logos-app"
+            }
           },
           {
             "title": "Logos Execution Zone",
             "description": "An introduction to the Logos technology stack",
-            "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+            "cta": {
+              "label": "Learn more",
+              "href": "/technology-stack/blockchain"
+            }
           },
           {
             "title": "Architecture Overview",
@@ -467,17 +498,26 @@
           {
             "title": "What is Logos",
             "description": "An introduction to the Logos technology stack",
-            "cta": { "label": "Learn more", "href": "/technology-stack/storage" }
+            "cta": {
+              "label": "Learn more",
+              "href": "/technology-stack/storage"
+            }
           },
           {
             "title": "Logos App",
             "description": "An introduction to the Logos technology stack",
-            "cta": { "label": "Learn more", "href": "/technology-stack#logos-app" }
+            "cta": {
+              "label": "Learn more",
+              "href": "/technology-stack#logos-app"
+            }
           },
           {
             "title": "Logos Execution Zone",
             "description": "An introduction to the Logos technology stack",
-            "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+            "cta": {
+              "label": "Learn more",
+              "href": "/technology-stack/blockchain"
+            }
           },
           {
             "title": "Architecture Overview",

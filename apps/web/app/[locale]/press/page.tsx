@@ -2,11 +2,18 @@ import { getTranslations } from 'next-intl/server'
 import { isActiveLocale } from '@repo/content/locales'
 
 import { ROUTES } from '@/constants/routes'
-import { getPressPageData, repeatToLength } from '@/lib/press-engine'
+import {
+  PRESS_ORIGIN,
+  getPressPageData,
+  repeatToLength,
+} from '@/lib/press-engine'
 import { createDefaultMetadata } from '@/lib/metadata'
 
 import {
   ArticleEntry,
+  ArticlesCta,
+  ArticlesHeading,
+  BroadcastSection,
   FeaturedArticle,
   GallerySection,
   PressHero,
@@ -48,14 +55,25 @@ export default async function PressPage({
 
   const repeatedArticles = repeatToLength(articles, 12)
   const galleryArticles = articles.slice(0, 4)
+  const broadcastArticles = repeatToLength(articles, 4)
   const featuredArticle =
     articles.find((article) => article.href.endsWith('/article/realfi-hack')) ??
     articles[0]
+  const t = await getTranslations({ locale, namespace: 'pages.press' })
 
   return (
     <div className="bg-accent-tan pt-10">
-      <PressHero lead={articles[0]} />
+      <PressHero
+        lead={articles[0]}
+        copy={{
+          heroHeading: t('heading'),
+          navArticles: t('nav.articles'),
+          navPodcasts: t('nav.podcasts'),
+          navBroadcast: t('nav.broadcast'),
+        }}
+      />
       <section className="bg-accent-tan">
+        <ArticlesHeading label={t('articles.heading')} />
         {repeatedArticles.slice(0, 4).map((article, index) => (
           <ArticleEntry key={`top-${index}`} article={article} index={index} />
         ))}
@@ -71,8 +89,32 @@ export default async function PressPage({
             index={index}
           />
         ))}
+        <ArticlesCta
+          href={`${PRESS_ORIGIN}/articles`}
+          label={t('articles.seeMore')}
+        />
       </section>
-      <PodcastsSection podcasts={podcasts} />
+      <PodcastsSection
+        podcasts={podcasts}
+        copy={{
+          heading: t('podcasts.heading'),
+          media: t('podcasts.media'),
+          heroTitle: t('podcasts.heroTitle'),
+          heroDescription: t('podcasts.heroDescription'),
+          latestEpisode: t('podcasts.latestEpisode'),
+          seeAllEpisodes: t('podcasts.seeAllEpisodes'),
+          listenOnApp: t('podcasts.listenOnApp'),
+        }}
+      />
+      <BroadcastSection
+        articles={broadcastArticles}
+        copy={{
+          broadcastHeading: t('broadcast.heading'),
+          broadcastDescription: t('broadcast.description'),
+          watch: t('broadcast.watch'),
+          broadcastCta: t('broadcast.cta'),
+        }}
+      />
     </div>
   )
 }

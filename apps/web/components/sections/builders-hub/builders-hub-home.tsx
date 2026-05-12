@@ -30,7 +30,7 @@ export function BuildersHubHome({
 }: BuildersHubHomeProps) {
   return (
     <div className="bg-brand-off-white">
-      <BuildersHubHeroDesktop hero={settings.hero} />
+      <BuildersHubHero hero={settings.hero} />
       {settings.journey ? <JourneySection data={settings.journey} /> : null}
       {settings.inspiration ? (
         <InspirationSection
@@ -52,17 +52,13 @@ export function BuildersHubHome({
   )
 }
 
-function BuildersHubHeroDesktop({
-  hero,
-}: {
-  hero: BuilderHubSettings['hero']
-}) {
+function BuildersHubHero({ hero }: { hero: BuilderHubSettings['hero'] }) {
   const ctas = [...(hero.secondaryCtas ?? []), hero.topRightCta].filter(
     (cta): cta is Cta => Boolean(cta)
   )
 
   return (
-    <section className="relative h-[487px] px-3 pt-6">
+    <section className="relative h-[483px] px-3 pt-6 md:h-[487px]">
       <div className="absolute top-6 left-3 h-[75px] w-[107px] overflow-hidden">
         <Image
           src="/images/builders-hub/hero.webp"
@@ -75,12 +71,12 @@ function BuildersHubHeroDesktop({
       </div>
 
       {hero.eyebrow ? (
-        <p className="absolute top-6 left-1/2 w-[226px] translate-x-[6px] text-mono-s">
+        <p className="absolute top-6 left-[203px] w-[178px] text-mono-s md:left-1/2 md:w-[226px] md:translate-x-[6px]">
           {hero.eyebrow}
         </p>
       ) : null}
 
-      <div className="absolute top-[11px] left-[83.33%] flex translate-x-[2px] flex-col items-start gap-[6px]">
+      <div className="absolute top-[279px] left-3 flex flex-col items-start gap-3 md:top-[11px] md:left-[83.33%] md:translate-x-[2px] md:gap-[6px]">
         {ctas.map((cta) => (
           <Button
             key={cta.label}
@@ -93,13 +89,13 @@ function BuildersHubHeroDesktop({
         ))}
       </div>
 
-      <h1 className="absolute top-[140px] left-1/2 w-[464px] -translate-x-1/2 text-center font-display text-[56px] leading-[0.86] tracking-[-0.03em] text-brand-dark-green">
+      <h1 className="absolute top-[140px] left-[-35px] w-[464px] text-center font-display text-[40px] leading-[0.86] tracking-[-0.03em] text-brand-dark-green md:left-1/2 md:-translate-x-1/2 md:text-[56px]">
         <span className="block">Logos</span>
         <span className="block">Builders Hub</span>
       </h1>
 
       {hero.description ? (
-        <p className="absolute top-[307px] left-1/2 w-[226px] translate-x-[6px] text-mono-s">
+        <p className="absolute top-[279px] left-[203px] w-[178px] text-mono-s md:top-[307px] md:left-1/2 md:w-[226px] md:translate-x-[6px]">
           {hero.description}
         </p>
       ) : null}
@@ -113,21 +109,23 @@ function JourneySection({
   data: NonNullable<BuilderHubSettings['journey']>
 }) {
   return (
-    <section className="px-3 pb-[100px]">
-      <h2 className="text-h3-sans">{data.title}</h2>
+    <section className="px-3 pb-[100px] md:pb-[100px]">
+      <h2 className="text-[30px] leading-none tracking-[-0.02em] md:text-h3-sans">
+        {data.title}
+      </h2>
       <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-5">
         {data.links.map((link, index) => (
           <Link
             key={link.href}
             href={link.href}
-            className="flex h-[83px] cursor-pointer flex-col items-start justify-between rounded-xl bg-brand-dark-green p-3 text-brand-off-white"
+            className="flex h-[71px] cursor-pointer flex-col items-start justify-between rounded-xl bg-brand-dark-green p-3 text-brand-off-white md:h-[83px]"
           >
             <span className="font-mono text-[10px] font-semibold leading-[1.35]">
               {(index + 1).toString().padStart(2, '0')}
             </span>
             <span className="inline-flex items-center gap-1 text-subhead-sans">
               {link.label}
-              <span className="rotate-90">
+              <span className="rotate-90 [&>span]:size-[12px] md:[&>span]:size-[15px]">
                 <ButtonArrowIcon />
               </span>
             </span>
@@ -155,10 +153,12 @@ function SectionFrame({
       className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px]"
     >
       <div className="flex items-baseline gap-3 whitespace-nowrap">
-        <span className="font-display text-[36px] leading-none tracking-[-0.03em] text-brand-dark-green/50">
+        <span className="font-display text-[30px] leading-none tracking-[-0.03em] text-brand-dark-green/50 md:text-[36px]">
           {index}
         </span>
-        <h2 className="text-h3-sans">{title}</h2>
+        <h2 className="text-[30px] leading-none tracking-[-0.02em] md:text-h3-sans">
+          {title}
+        </h2>
       </div>
       <div className="mt-10">{children}</div>
     </section>
@@ -184,7 +184,7 @@ function InspirationSection({
               {data.ideasDescription}
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex -translate-x-[232px] gap-3 md:translate-x-0">
             {featuredIdeas.map((idea) => (
               <div
                 key={idea.slug}
@@ -227,7 +227,7 @@ function InspirationSection({
             alt={data.issuesImage.alt}
             width={data.issuesImage.width}
             height={data.issuesImage.height}
-            className="absolute top-[179px] left-[15px] h-[227px] w-[670px] object-cover mix-blend-darken"
+            className="absolute top-[185px] left-[31px] h-[218px] w-[644px] object-cover mix-blend-darken md:top-[179px] md:left-[15px] md:h-[227px] md:w-[670px]"
           />
         </div>
       </div>
@@ -246,10 +246,10 @@ function PrepareSection({
         {data.cards.map((card) => (
           <div
             key={card.title}
-            className="flex h-[589px] flex-col gap-[6px] overflow-hidden rounded-xl bg-gray-01 p-[6px]"
+            className="flex h-[458px] flex-col gap-[6px] overflow-hidden rounded-xl bg-gray-01 p-[6px] md:h-[589px]"
           >
             {card.image ? (
-              <div className="relative h-[313px] overflow-hidden rounded-md">
+              <div className="relative h-[314px] overflow-hidden rounded-md md:h-[313px]">
                 <Image
                   src={card.image.src}
                   alt={card.image.alt}
@@ -283,7 +283,7 @@ function BuildSection({
         {data.cards.map((card) => (
           <div
             key={card.title}
-            className="flex h-[370px] flex-col items-center justify-between rounded-xl bg-accent-light-blue px-4 pt-[60px] pb-3 text-center"
+            className="flex h-[300px] flex-col items-center justify-between rounded-xl bg-accent-light-blue px-4 pt-[60px] pb-3 text-center md:h-[370px]"
           >
             <div className="flex flex-col items-center gap-3">
               <h3 className="text-subhead-sans">{card.title}</h3>
@@ -308,6 +308,17 @@ function ProgramsSection({
   data: NonNullable<BuilderHubSettings['programs']>
   rfps: BuilderHubHomeRfpResolution['rfps']
 }) {
+  const previewRfps = [
+    'attack-resistant-public-registries',
+    'decentralized-archives',
+    'private-financial-networks',
+    'community-governance-tooling',
+  ]
+    .map((slug) => rfps.find((rfp) => rfp.slug === slug))
+    .filter((rfp): rfp is BuilderHubHomeRfpResolution['rfps'][number] =>
+      Boolean(rfp)
+    )
+
   return (
     <SectionFrame id="builder-programs" index="04" title={data.title}>
       <div className="grid gap-3 md:grid-cols-2">
@@ -335,8 +346,8 @@ function ProgramsSection({
             <h3 className="text-subhead-sans">{data.rfpsTitle}</h3>
             <p className="w-[338px] text-mono-s">{data.rfpsDescription}</p>
           </div>
-          <div className="mt-[60px] flex w-[1416px] -translate-x-[373px] gap-3">
-            {rfps.slice(0, 4).map((rfp, index) => (
+          <div className="mt-[60px] flex w-[1416px] -translate-x-[176px] gap-3">
+            {previewRfps.map((rfp, index) => (
               <Link
                 key={rfp.slug}
                 href={`/builders-hub/rfps/${rfp.slug}`}
@@ -377,10 +388,12 @@ function SupportSection({
   return (
     <SectionFrame id="get-support" index="05" title={data.title}>
       <div className="grid gap-3 md:grid-cols-3">
-        {data.cards.map((card) => (
+        {data.cards.map((card, index) => (
           <div
             key={card.title}
-            className="flex h-[250px] flex-col items-start justify-between rounded-xl bg-gray-01 p-4"
+            className={`flex flex-col items-start justify-between rounded-xl bg-gray-01 p-4 ${
+              index === 0 ? 'h-[250px]' : 'h-[171px] md:h-[250px]'
+            }`}
           >
             <div className="flex flex-col gap-3">
               <h3 className="text-h4-sans">{card.title}</h3>
@@ -422,8 +435,8 @@ function AppInstallSection({
 }) {
   return (
     <section id="app-install" className="px-3 pb-10">
-      <div className="relative h-[590px] overflow-hidden rounded-[200px] bg-gray-01">
-        <div className="absolute top-3 left-3 h-[566px] w-[566px] overflow-hidden rounded-[188px]">
+      <div className="relative flex min-h-[828px] flex-col overflow-hidden rounded-[100px] bg-gray-01 p-3 pb-14 md:block md:h-[590px] md:min-h-0 md:rounded-[200px] md:p-0">
+        <div className="relative aspect-square w-full overflow-hidden rounded-[88px] md:absolute md:top-3 md:left-3 md:h-[566px] md:w-[566px] md:rounded-[188px]">
           <Image
             src={data.image.src}
             alt={data.image.alt}
@@ -432,15 +445,20 @@ function AppInstallSection({
             className="object-cover"
           />
         </div>
-        <div className="absolute top-1/2 left-[714px] flex w-[464px] -translate-y-1/2 flex-col items-start gap-10">
+        <div className="flex flex-col items-center gap-10 pt-20 text-center md:absolute md:top-1/2 md:left-[714px] md:w-[464px] md:-translate-y-1/2 md:items-start md:pt-0 md:text-left">
           <div>
-            <h2 className="text-h3-serif">{data.title}</h2>
+            <h2 className="text-h3-serif">
+              <span className="md:hidden">
+                {data.mobileTitle ?? data.title}
+              </span>
+              <span className="hidden md:inline">{data.title}</span>
+            </h2>
             <p className="mt-6 text-body-sans">{data.description}</p>
-            <div className="mt-5 flex flex-wrap gap-[6px]">
+            <div className="mx-auto mt-5 flex max-w-[260px] flex-wrap justify-center gap-[6px] md:mx-0 md:max-w-none md:justify-start">
               {data.tags.map((tag) => (
                 <span
                   key={tag.label}
-                  className="rounded-xl bg-brand-off-white/50 px-2.5 py-2 text-body-sans"
+                  className="rounded-xl bg-brand-off-white/50 px-2 py-1.5 text-[10px] leading-[1.2] md:px-2.5 md:py-2 md:text-body-sans"
                 >
                   {tag.label}
                 </span>
@@ -471,8 +489,10 @@ function DocumentationSection({
       id="resources"
       className="border-t border-brand-dark-green/10 pt-10"
     >
-      <div className="grid px-3 pb-[77px] md:grid-cols-2">
-        <h2 className="text-h3-serif">{data.title}</h2>
+      <div className="grid gap-6 px-3 pb-8 md:grid-cols-2 md:gap-0 md:pb-[77px]">
+        <h2 className="text-[30px] leading-none tracking-[-0.03em] md:text-h3-serif">
+          {data.title}
+        </h2>
         <p className="w-[226px] text-mono-s">{data.description}</p>
       </div>
       <div>
@@ -484,7 +504,7 @@ function DocumentationSection({
                 <li key={`${category.title}-${link.title}-${index}`}>
                   <Link
                     href={link.cta.href}
-                    className={`grid h-[50px] cursor-pointer items-center px-3 md:grid-cols-[1fr_1fr_179px] ${
+                    className={`grid min-h-[50px] cursor-pointer grid-cols-1 gap-1 px-3 py-3 md:h-[50px] md:grid-cols-[1fr_1fr_179px] md:gap-0 md:py-0 ${
                       index % 2 === 0 ? 'bg-gray-01' : 'bg-brand-off-white'
                     }`}
                   >
@@ -494,8 +514,10 @@ function DocumentationSection({
                       </span>
                       <span className="text-body-serif">{link.title}</span>
                     </span>
-                    <span className="text-mono-s">{link.description}</span>
-                    <span className="font-mono text-[10px] font-semibold uppercase underline underline-offset-[3px]">
+                    <span className="hidden text-mono-s md:block">
+                      {link.description}
+                    </span>
+                    <span className="hidden font-mono text-[10px] font-semibold uppercase underline underline-offset-[3px] md:block">
                       {link.cta.label}
                     </span>
                   </Link>

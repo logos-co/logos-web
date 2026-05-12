@@ -8,6 +8,28 @@ import type { ReactNode } from 'react'
 import { ExternalLink } from '@/components/ui'
 import { cn } from '@/lib/cn'
 
+export function ArrowIcon({
+  direction = 'right',
+}: {
+  direction?: 'down' | 'right'
+}) {
+  const maskStyle = {
+    mask: 'url(/icons/right-arrow.svg) center / contain no-repeat',
+    WebkitMask: 'url(/icons/right-arrow.svg) center / contain no-repeat',
+  }
+
+  return (
+    <span
+      aria-hidden="true"
+      className={cn(
+        'size-[15px] shrink-0 bg-current',
+        direction === 'down' ? 'rotate-90' : ''
+      )}
+      style={maskStyle}
+    />
+  )
+}
+
 export function Dot({ className }: { className?: string }) {
   return (
     <span
@@ -35,7 +57,7 @@ export function TextLink({
       href={href}
       aria-label={label}
       className={cn(
-        'font-mono text-[10px] font-semibold leading-[1.35] uppercase underline underline-offset-[3px] transition-opacity hover:opacity-70',
+        'cursor-pointer font-mono text-[10px] font-semibold leading-[1.35] uppercase underline underline-offset-[3px] transition-opacity hover:opacity-70',
         tone === 'light'
           ? 'text-brand-off-white decoration-brand-off-white/50'
           : 'text-brand-dark-green decoration-brand-dark-green/50',
@@ -93,7 +115,7 @@ export function PressRowLink({
     <ExternalLink
       href={href}
       className={cn(
-        'group relative block overflow-hidden text-brand-dark-green transition-colors duration-200 hover:bg-brand-yellow focus-visible:bg-brand-yellow',
+        'group relative block cursor-pointer overflow-hidden text-brand-dark-green transition-colors duration-200 hover:bg-brand-yellow focus-visible:bg-brand-yellow',
         getAlternatingRowBackground(index),
         className
       )}
@@ -119,6 +141,28 @@ export function RowThumbnail({
         height={60}
         className="h-full w-full object-cover"
       />
+    </div>
+  )
+}
+
+export function SectionCta({
+  href,
+  label,
+}: {
+  href: string
+  label: string
+}) {
+  return (
+    <div className="flex h-24 items-center justify-center px-3 pb-3">
+      <ExternalLink
+        href={href}
+        className="flex h-[84px] w-full cursor-pointer items-center justify-center rounded-xl border border-brand-dark-green text-brand-dark-green transition-colors hover:bg-brand-yellow"
+      >
+        <span className="inline-flex items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35]">
+          {label}
+          <ArrowIcon />
+        </span>
+      </ExternalLink>
     </div>
   )
 }

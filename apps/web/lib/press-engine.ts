@@ -17,8 +17,9 @@ export type PressArticleRow = {
 export type PressPodcastRow = {
   title: string
   image: string
+  description: string
   date: string
-  duration: string
+  episodeNumber?: number
   href: string
 }
 
@@ -126,8 +127,9 @@ const toPodcastRow = (post: PressSearchPost): PressPodcastRow => {
   return {
     title: data.title,
     image: data.coverImage?.url || '',
+    description: stripHtml(data.description || data.summary || ''),
     date: formatLongDate(data.publishedAt),
-    duration: '33 min',
+    episodeNumber: data.episodeNumber,
     href: `${PRESS_ORIGIN}/podcasts/logos-state/${data.slug}`,
   }
 }
@@ -147,4 +149,9 @@ export const getPressPageData = async () => {
     articles: articlePosts.map(toArticleRow).filter(hasImage),
     podcasts: podcastPosts.map(toPodcastRow).filter(hasImage),
   }
+}
+
+export const getLatestPressPodcasts = async (limit = 20) => {
+  const podcastPosts = await getPressSearchItems('podcast', limit)
+  return podcastPosts.map(toPodcastRow).filter(hasImage)
 }

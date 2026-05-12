@@ -150,7 +150,31 @@
     "press": {
       "title": "Press | Logos",
       "description": "The Logos Press Engine — essays, news, and podcasts from the Logos movement.",
-      "heading": "The Logos Press Engine"
+      "heading": "The Logos Press Engine",
+      "nav": {
+        "articles": "Articles",
+        "podcasts": "Podcasts",
+        "broadcast": "Logos Broadcast Network"
+      },
+      "articles": {
+        "heading": "Articles",
+        "seeMore": "See more articles"
+      },
+      "podcasts": {
+        "heading": "Podcasts",
+        "media": "Media",
+        "heroTitle": "Logos Podcast",
+        "heroDescription": "Logos Podcast is a bi-weekly interview show about building sovereign communities: the people, philosophies, challenges, and solutions. We invite the world's foremost experts and radical thinkers to discuss how to emancipate from repressive systems through new social, political, and economic institutions.",
+        "latestEpisode": "Latest episode",
+        "seeAllEpisodes": "See all episodes",
+        "listenOnApp": "Listen on an app"
+      },
+      "broadcast": {
+        "heading": "Logos Broadcast Network",
+        "description": "Regular programming, live sessions, and office hours for your viewing pleasure",
+        "watch": "Watch",
+        "cta": "Logos broadcast network"
+      }
     },
     "about": {
       "title": "About | Logos",
