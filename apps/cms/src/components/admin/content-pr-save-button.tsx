@@ -68,6 +68,23 @@ type BranchSyncResponse = {
   updated?: boolean
 }
 
+const shortSha = (sha?: string): string =>
+  sha && sha.length > 7 ? sha.slice(0, 7) : (sha ?? 'unknown')
+
+const getSyncStatusMessage = (
+  response: BranchSyncResponse | null
+): string | null => {
+  if (!response || response.error || !response.decision) return null
+  if (response.updated) return 'Production synced to develop.'
+  if (response.decision.kind === 'already-synced') {
+    return `Production already matches develop at ${shortSha(
+      response.decision.sha
+    )}.`
+  }
+  if (response.decision.kind === 'blocked') return response.decision.reason
+  return null
+}
+
 const useCollectionSlug = (): string | null => {
   if (typeof window === 'undefined') return null
   const match = window.location.pathname.match(/\/collections\/([^/]+)/)
@@ -328,7 +345,10 @@ export const ContentPrSaveButton = () => {
   }
 
   const canMerge = Boolean(recentPr?.pullRequestNumber)
-  const canSync = syncResponse?.decision?.kind === 'fast-forward'
+  const syncStatusMessage = getSyncStatusMessage(syncResponse)
+  const canSync =
+    syncResponse?.decision?.kind === 'fast-forward' &&
+    syncResponse.updated !== true
 
   return (
     <div
@@ -446,6 +466,20 @@ export const ContentPrSaveButton = () => {
         >
           Compare
         </a>
+      ) : null}
+      {syncStatusMessage ? (
+        <span
+          style={{
+            color:
+              syncResponse?.decision?.kind === 'blocked'
+                ? 'var(--theme-error-700, #b00020)'
+                : 'var(--theme-success-700, #1e6b3a)',
+            fontSize: 12,
+            fontWeight: 700,
+          }}
+        >
+          {syncStatusMessage}
+        </span>
       ) : null}
       {recentPrError ? (
         <span

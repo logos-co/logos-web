@@ -43,6 +43,9 @@ const getStatusText = (response: BranchSyncResponse | null): string => {
     return 'Sync status unavailable'
 
   const { comparison, decision } = response
+  if (response.updated) {
+    return `${comparison.productionBranch} synced to ${comparison.stagingBranch}.`
+  }
   if (decision.kind === 'already-synced') {
     return `${comparison.productionBranch} already matches ${comparison.stagingBranch} at ${shortSha(
       decision.sha
@@ -112,7 +115,8 @@ export const ProductionSyncPanel = () => {
     void fetchStatus()
   }, [fetchStatus])
 
-  const canSync = response?.decision?.kind === 'fast-forward'
+  const canSync =
+    response?.decision?.kind === 'fast-forward' && response.updated !== true
 
   return (
     <div
