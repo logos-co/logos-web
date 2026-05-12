@@ -6,6 +6,7 @@ import {
   createPublishStatusField,
   createSlugField,
   recentPrAdminComponents,
+  shouldOpenCollapsible,
 } from './shared-fields'
 import {
   createChangePullRequestHook,
@@ -48,6 +49,24 @@ const createTimeZoneField = (width: string): Field => ({
     )
   },
 })
+
+const circleCommunityFields: Field[] = [
+  { name: 'memberCount', type: 'number', min: 0 },
+  { name: 'discordChannel', type: 'text' },
+  { name: 'discordUrl', type: 'text' },
+  { name: 'forumUrl', type: 'text' },
+  { name: 'joinUrl', type: 'text', required: true },
+  {
+    name: 'organizers',
+    type: 'array',
+    fields: [
+      { name: 'name', type: 'text', required: true },
+      { name: 'handle', type: 'text' },
+    ],
+  },
+]
+
+const circleImageFields = createImageFields()
 
 export const Circles: CollectionConfig = {
   slug: 'circles',
@@ -117,28 +136,14 @@ export const Circles: CollectionConfig = {
     {
       type: 'collapsible',
       label: 'Community',
-      admin: { initCollapsed: true },
-      fields: [
-        { name: 'memberCount', type: 'number', min: 0 },
-        { name: 'discordChannel', type: 'text' },
-        { name: 'discordUrl', type: 'text' },
-        { name: 'forumUrl', type: 'text' },
-        { name: 'joinUrl', type: 'text', required: true },
-        {
-          name: 'organizers',
-          type: 'array',
-          fields: [
-            { name: 'name', type: 'text', required: true },
-            { name: 'handle', type: 'text' },
-          ],
-        },
-      ],
+      admin: { initCollapsed: !shouldOpenCollapsible(circleCommunityFields) },
+      fields: circleCommunityFields,
     },
     {
       type: 'collapsible',
       label: 'Image',
-      admin: { initCollapsed: true },
-      fields: createImageFields(),
+      admin: { initCollapsed: false },
+      fields: circleImageFields,
     },
     { name: 'order', type: 'number', min: 0 },
   ],

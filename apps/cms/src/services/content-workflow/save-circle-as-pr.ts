@@ -67,12 +67,14 @@ export const buildCircleFixtureChanges = (doc: CircleDocLike): FixturePair => {
   const targetDir = `content/circles/circles/${doc.slug}`
 
   const image = doc.imageSrc
-    ? stripEmpty({
+    ? {
+        ...stripEmpty({
+          width: doc.imageWidth ?? undefined,
+          height: doc.imageHeight ?? undefined,
+        }),
         src: doc.imageSrc,
         alt: doc.imageAlt ?? '',
-        width: doc.imageWidth ?? undefined,
-        height: doc.imageHeight ?? undefined,
-      })
+      }
     : undefined
 
   const organizers =

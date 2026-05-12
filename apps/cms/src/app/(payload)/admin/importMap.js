@@ -22,7 +22,7 @@ import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997e
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { RfpLockBanner as RfpLockBanner_24e027e9ff0225667bcf33133ddb2c82 } from '@/components/admin/lock-banner.tsx'
-import { ProductionSyncPanel as ProductionSyncPanel_d99338400a055abf885e3419f2cd0126 } from '@/components/admin/production-sync-panel.tsx'
+import { ProductionSyncPanel as ProductionSyncPanel_103dd02be74075f9c34760e8c992a7ba } from '@/components/admin/production-sync-panel.tsx'
 import { RecentCollectionPrBanner as RecentCollectionPrBanner_a102a2e2c84a5d6790a167d2e193e7bc } from '@/components/admin/recent-pr-banner.tsx'
 import { RecentDocumentPrBanner as RecentDocumentPrBanner_a102a2e2c84a5d6790a167d2e193e7bc } from '@/components/admin/recent-pr-banner.tsx'
 import { ContentPrSaveButton as ContentPrSaveButton_eff21f8e3c112d205ed6bcb1ea85fe6f } from '@/components/admin/content-pr-save-button.tsx'
@@ -82,7 +82,7 @@ export const importMap = {
   '@/components/admin/lock-banner.tsx#RfpLockBanner':
     RfpLockBanner_24e027e9ff0225667bcf33133ddb2c82,
   '@/components/admin/production-sync-panel.tsx#ProductionSyncPanel':
-    ProductionSyncPanel_d99338400a055abf885e3419f2cd0126,
+    ProductionSyncPanel_103dd02be74075f9c34760e8c992a7ba,
   '@/components/admin/recent-pr-banner.tsx#RecentCollectionPrBanner':
     RecentCollectionPrBanner_a102a2e2c84a5d6790a167d2e193e7bc,
   '@/components/admin/recent-pr-banner.tsx#RecentDocumentPrBanner':

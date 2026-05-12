@@ -1,5 +1,24 @@
 import type { CollectionConfig, Field } from 'payload'
 
+type FieldWithChildren = Field & {
+  fields?: Field[]
+  required?: boolean
+}
+
+export const collapsibleHasRequiredField = (
+  fields: readonly Field[]
+): boolean =>
+  fields.some((field) => {
+    const candidate = field as FieldWithChildren
+    if (candidate.required === true) return true
+    return candidate.fields
+      ? collapsibleHasRequiredField(candidate.fields)
+      : false
+  })
+
+export const shouldOpenCollapsible = (fields: readonly Field[]): boolean =>
+  collapsibleHasRequiredField(fields)
+
 export const authenticatedCollectionAccess: CollectionConfig['access'] = {
   read: () => true,
   create: ({ req }) => Boolean(req.user),
