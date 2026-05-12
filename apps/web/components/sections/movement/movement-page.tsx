@@ -1,9 +1,12 @@
 import Image from 'next/image'
 import type { CSSProperties, ReactNode } from 'react'
 
+import type { Circle } from '@repo/content/loaders'
+import type { CirclesSettings } from '@repo/content/schemas'
 import { LogosMark } from '@repo/ui'
 
 import { IconMask } from '@/components/icons/icon-mask'
+import CirclesMap from '@/components/sections/circles/circles-map'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
 
@@ -24,7 +27,6 @@ const movementImages = {
   coalition: '/images/movement/action-coalition.webp',
   building: '/images/movement/action-building.webp',
   campaign: '/images/movement/campaign-sunset.webp',
-  map: '/images/movement/world-map.webp',
   issueLosAngeles: '/images/movement/issue-los-angeles.webp',
   issueLondon: '/images/movement/issue-london.webp',
   issuePorto: '/images/movement/issue-porto.webp',
@@ -294,64 +296,6 @@ function CampaignSection({ t }: { t: Translate }) {
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover"
           />
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function CircleMapSection({ t }: { t: Translate }) {
-  const pins = [
-    ['14%', '40%'],
-    ['17%', '46%'],
-    ['28%', '41%'],
-    ['36%', '70%'],
-    ['46%', '34%'],
-    ['48%', '31%'],
-    ['50%', '36%'],
-    ['58%', '41%'],
-    ['69%', '50%'],
-    ['82%', '55%'],
-    ['87%', '40%'],
-    ['91%', '82%'],
-  ]
-
-  return (
-    <section className="bg-brand-off-white pb-10 md:pb-[82px]">
-      <div className="px-3">
-        <div className="relative h-[720px] overflow-hidden rounded-[64px] bg-gray-01 md:rounded-[100px]">
-          <Image
-            src={movementImages.map}
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover object-[center_54%] md:object-[center_62%]"
-          />
-          {pins.map(([left, top]) => (
-            <LambdaBadge
-              key={`${left}-${top}`}
-              size={23}
-              tone="yellow"
-              className="absolute"
-              style={{ left, top }}
-            />
-          ))}
-          <div className="absolute top-[47px] right-[45px] flex flex-col gap-3 md:top-[50px] md:right-[52px] md:flex-row md:gap-2">
-            <button
-              type="button"
-              aria-label={t('map.zoomOut')}
-              className="flex h-[66px] w-[72px] cursor-pointer items-center justify-center rounded-full bg-brand-dark-green text-brand-off-white transition-opacity hover:opacity-80"
-            >
-              <span className="h-px w-[11px] bg-current" />
-            </button>
-            <button
-              type="button"
-              aria-label={t('map.zoomIn')}
-              className="flex h-[66px] w-[72px] cursor-pointer items-center justify-center rounded-full bg-brand-dark-green text-brand-off-white transition-opacity hover:opacity-80"
-            >
-              <span className="relative size-[11px] before:absolute before:top-1/2 before:left-0 before:h-px before:w-full before:-translate-y-1/2 before:bg-current after:absolute after:left-1/2 after:top-0 after:h-full after:w-px after:-translate-x-1/2 after:bg-current" />
-            </button>
-          </div>
         </div>
       </div>
     </section>
@@ -729,7 +673,15 @@ function ResourcesSection({ t }: { t: Translate }) {
   )
 }
 
-export function MovementPageView({ t }: { t: Translate }) {
+export function MovementPageView({
+  t,
+  circlesSettings,
+  circles,
+}: {
+  t: Translate
+  circlesSettings: CirclesSettings
+  circles: Circle[]
+}) {
   const findCta = (
     <CenterCtaSection
       title={t('find.title')}
@@ -744,11 +696,11 @@ export function MovementPageView({ t }: { t: Translate }) {
       <ActionCardsSection t={t} />
       <CampaignSection t={t} />
       <div className="md:hidden">
-        <CircleMapSection t={t} />
+        <CirclesMap settings={circlesSettings} circles={circles} />
       </div>
       <div className="hidden md:block">{findCta}</div>
       <div className="hidden md:block">
-        <CircleMapSection t={t} />
+        <CirclesMap settings={circlesSettings} circles={circles} />
       </div>
       <div className="md:hidden">{findCta}</div>
       <ActivismSection t={t} />
