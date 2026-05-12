@@ -1,4 +1,5 @@
 export { BuildersHubHero } from './builders-hub-hero'
+export { BuildersHubHome } from './builders-hub-home'
 export { BuildersHubOverviewLinks } from './builders-hub-overview-links'
 export { BuildersHubAppInstall } from './builders-hub-app-install'
 export { BuildersHubRfpsSection } from './builders-hub-rfps-section'

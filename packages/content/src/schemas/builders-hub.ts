@@ -264,6 +264,43 @@ const resourcesSectionSchema = z.object({
   helpCenterCta: ctaSchema.optional(),
 })
 
+const journeyLinkSchema = z.object({
+  label: z.string().min(1),
+  href: linkHrefSchema,
+})
+
+const builderHubInfoCardSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1),
+  image: mediaRefSchema.optional(),
+  ctas: z.array(ctaSchema).default([]),
+})
+
+const supportMetricSchema = z.object({
+  value: z.string().min(1),
+  label: z.string().min(1),
+})
+
+const supportCardSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1).optional(),
+  cta: ctaSchema,
+  metrics: z.array(supportMetricSchema).optional(),
+})
+
+const documentationCategorySchema = z.object({
+  title: z.string().min(1),
+  links: z
+    .array(
+      z.object({
+        title: z.string().min(1),
+        description: z.string().min(1),
+        cta: ctaSchema,
+      })
+    )
+    .default([]),
+})
+
 export const builderHubSettingsSchema = z.object({
   schemaVersion: schemaVersion(1),
   language: languageSchema,
@@ -273,6 +310,7 @@ export const builderHubSettingsSchema = z.object({
     eyebrow: z.string().min(1).optional(),
     backLink: backLinkSchema.optional(),
     topRightCta: ctaSchema.optional(),
+    secondaryCtas: z.array(ctaSchema).optional(),
   }),
   overviewLinks: z.array(overviewLinkSchema).default([]),
   rfpsSection: rfpsSectionSchema,
@@ -281,6 +319,58 @@ export const builderHubSettingsSchema = z.object({
   actionPanels: z.array(actionPanelSchema).default([]),
   officeHours: officeHoursSchema.optional(),
   resourcesSection: resourcesSectionSchema,
+  journey: z
+    .object({
+      title: z.string().min(1),
+      links: z.array(journeyLinkSchema).min(1),
+    })
+    .optional(),
+  inspiration: z
+    .object({
+      title: z.string().min(1),
+      ideasTitle: z.string().min(1),
+      ideasDescription: z.string().min(1),
+      issuesTitle: z.string().min(1),
+      issuesDescription: z.string().min(1),
+      issuesImage: mediaRefSchema,
+    })
+    .optional(),
+  prepare: z
+    .object({
+      title: z.string().min(1),
+      cards: z.array(builderHubInfoCardSchema).min(1),
+    })
+    .optional(),
+  build: z
+    .object({
+      title: z.string().min(1),
+      cards: z.array(builderHubInfoCardSchema).min(1),
+    })
+    .optional(),
+  programs: z
+    .object({
+      title: z.string().min(1),
+      prizeTitle: z.string().min(1),
+      prizeHeading: z.string().min(1),
+      prizeDescription: z.string().min(1),
+      prizeImage: mediaRefSchema,
+      rfpsTitle: z.string().min(1),
+      rfpsDescription: z.string().min(1),
+    })
+    .optional(),
+  support: z
+    .object({
+      title: z.string().min(1),
+      cards: z.array(supportCardSchema).min(1),
+    })
+    .optional(),
+  documentation: z
+    .object({
+      title: z.string().min(1),
+      description: z.string().min(1),
+      categories: z.array(documentationCategorySchema).min(1),
+    })
+    .optional(),
 })
 export type BuilderHubSettings = z.infer<typeof builderHubSettingsSchema>
 

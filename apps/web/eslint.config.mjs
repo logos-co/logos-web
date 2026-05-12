@@ -1,3 +1,3 @@
 import nextConfig from '../../packages/config/eslint/next.mjs'
 
-export default nextConfig
+export default [{ ignores: ['next-env.d.ts'] }, ...nextConfig]

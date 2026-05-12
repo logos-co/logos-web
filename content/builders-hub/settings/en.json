@@ -3,11 +3,198 @@
   "language": "en",
   "hero": {
     "title": "Logos Builders Hub",
-    "description": "Ideas, resources, and everything you need to start building with Logos tech today.",
+    "eyebrow": "Build the future of Civil Society.",
+    "description": "The logos technology stack is our toolkit for charting a new path. The builder hub provides ideas, resources, and everything you need to start your expedition into a new frontier.",
     "topRightCta": {
-      "label": "Logos App Install",
+      "label": "Install Basecamp",
       "href": "/builders-hub#app-install"
+    },
+    "secondaryCtas": [
+      {
+        "label": "Join Discord",
+        "href": "https://discord.gg/logosnetwork",
+        "external": true
+      },
+      { "label": "View the Docs", "href": "/technology-stack" }
+    ]
+  },
+  "journey": {
+    "title": "Start Your Builder Journey",
+    "links": [
+      { "label": "Get Inspired", "href": "/builders-hub#get-inspired" },
+      {
+        "label": "Prepare for the Expedition",
+        "href": "/builders-hub#prepare"
+      },
+      { "label": "Start Building", "href": "/builders-hub#start-building" },
+      { "label": "Builder Programs", "href": "/builders-hub#builder-programs" },
+      { "label": "Get Support", "href": "/builders-hub#get-support" }
+    ]
+  },
+  "inspiration": {
+    "title": "Get Inspired",
+    "ideasTitle": "Community Ideas Repo",
+    "ideasDescription": "Browse ideas from the community, vote on ones you love, or submit your own",
+    "issuesTitle": "Start contributing on open issues",
+    "issuesDescription": "Pick up good first issues to get you started and submit your first PR",
+    "issuesImage": {
+      "src": "/images/builders-hub/open-issues.png",
+      "alt": "",
+      "width": 670,
+      "height": 227
     }
+  },
+  "prepare": {
+    "title": "Prepare for the Expedition",
+    "cards": [
+      {
+        "title": "Install Basecamp",
+        "description": "Logos Basecamp is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable interface. It allows you to easily interact with simple apps built on the various modules.",
+        "image": {
+          "src": "/images/builders-hub/basecamp-card.png",
+          "alt": "",
+          "width": 690,
+          "height": 313
+        }
+      },
+      {
+        "title": "Run a Node in less than 10 minutes Using CLI",
+        "description": "Participate in the network by becoming a node operator. Connect to the testnet in 10 minutes and engage with the protocol.",
+        "image": {
+          "src": "/images/builders-hub/node-cli-card.png",
+          "alt": "",
+          "width": 850,
+          "height": 326
+        }
+      }
+    ]
+  },
+  "build": {
+    "title": "Start Building",
+    "cards": [
+      {
+        "title": "Read the docs",
+        "description": "Deep dive into the Logos stack architecture, modules, APIs and integration guides.",
+        "ctas": [
+          { "label": "Blockchain", "href": "/technology-stack/blockchain" },
+          { "label": "Storage", "href": "/technology-stack/storage" },
+          { "label": "Messaging", "href": "/technology-stack/messaging" }
+        ]
+      },
+      {
+        "title": "Start with the Scaffold Boilerplate",
+        "description": "A Rust CLI for bootstrapping LSSA program_deployment projects in standalone mode.",
+        "ctas": [
+          {
+            "label": "Learn more",
+            "href": "https://github.com/logos-co",
+            "external": true
+          }
+        ]
+      },
+      {
+        "title": "Sample Apps",
+        "description": "Run real sample apps to learn from.",
+        "ctas": [
+          {
+            "label": "Atomic swaps",
+            "href": "https://github.com/logos-co",
+            "external": true
+          },
+          {
+            "label": "Multisig",
+            "href": "https://github.com/logos-co",
+            "external": true
+          }
+        ]
+      },
+      {
+        "title": "Workshops and Tutorials",
+        "description": "Live coding sessions and step by step guides.",
+        "ctas": [
+          {
+            "label": "Learn more",
+            "href": "https://youtube.com/@logos_network",
+            "external": true
+          }
+        ]
+      }
+    ]
+  },
+  "programs": {
+    "title": "Builder Programs",
+    "prizeTitle": "Prize",
+    "prizeHeading": "The frontier is open. Build what’s next.",
+    "prizeDescription": "Lambda Prizes is a competitive prize framework for the Logos ecosystem. λPrize targets contributions where Logos cares about the outcome but not the path.",
+    "prizeImage": {
+      "src": "/images/builders-hub/lambda-prize-bg.png",
+      "alt": "",
+      "width": 702,
+      "height": 877
+    },
+    "rfpsTitle": "Explore RFPs",
+    "rfpsDescription": "The Logos RFP Program supports developers to build applications on the Logos Stack. Browse all open requests for proposals below."
+  },
+  "support": {
+    "title": "Get Support",
+    "cards": [
+      {
+        "title": "Developer office hours",
+        "description": "Every Friday\n12:00 UTC",
+        "metrics": [
+          { "value": "04", "label": "Days" },
+          { "value": "02", "label": "Hours" },
+          { "value": "55", "label": "Minutes" },
+          { "value": "33", "label": "Seconds" }
+        ],
+        "cta": {
+          "label": "Add to calendar",
+          "href": "https://logos.co/office-hours",
+          "external": true
+        }
+      },
+      {
+        "title": "Logos Community Forum",
+        "cta": {
+          "label": "Learn more",
+          "href": "https://forum.logos.co",
+          "external": true
+        }
+      },
+      {
+        "title": "Follow us on X",
+        "description": "For announcements, updates and threads (Logos and Logos Devs)",
+        "cta": {
+          "label": "Follow",
+          "href": "https://x.com/logos_network",
+          "external": true
+        }
+      },
+      {
+        "title": "Schedule a call and speak with a contributor",
+        "cta": {
+          "label": "Learn more",
+          "href": "/work-with-us"
+        }
+      },
+      {
+        "title": "Join Discord",
+        "description": "Chat with us and get real time support.",
+        "cta": {
+          "label": "Join",
+          "href": "https://discord.gg/logosnetwork",
+          "external": true
+        }
+      },
+      {
+        "title": "Logos Research Forum",
+        "cta": {
+          "label": "Learn more",
+          "href": "https://forum.vac.dev",
+          "external": true
+        }
+      }
+    ]
   },
   "overviewLinks": [
     {
@@ -92,8 +279,8 @@
   "appInstall": {
     "accent": "grey",
     "imagePosition": "left",
-    "title": "Install the Logos app.",
-    "description": "The Logos App is a a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting \"Simple Apps\" that let users interact with the various modules:",
+    "title": "Install Basecamp.",
+    "description": "The Logos App is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting \"Simple Apps\" that let users interact with the various modules:",
     "tags": [
       { "label": "Wallet", "icon": "wallet" },
       { "label": "Chat Interface", "icon": "chat" },
@@ -149,5 +336,161 @@
     "title": "Additional Resources",
     "description": "Reference material to help you ship faster.",
     "helpCenterCta": { "label": "Get help", "href": "/faq" }
+  },
+  "documentation": {
+    "title": "Useful documentation links",
+    "description": "Understand the core concepts of the Logos network and its technology stack.",
+    "categories": [
+      {
+        "title": "Introductions",
+        "links": [
+          {
+            "title": "What is Logos",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack" }
+          },
+          {
+            "title": "Logos App",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack#logos-app" }
+          },
+          {
+            "title": "Logos Execution Zone",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+          },
+          {
+            "title": "Architecture Overview",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack" }
+          },
+          {
+            "title": "Documentation Status",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack" }
+          }
+        ]
+      },
+      {
+        "title": "Guides & Journeys",
+        "links": [
+          {
+            "title": "What is Logos",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack" }
+          },
+          {
+            "title": "Logos App",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack#logos-app" }
+          },
+          {
+            "title": "Logos Execution Zone",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+          },
+          {
+            "title": "Architecture Overview",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack" }
+          },
+          {
+            "title": "Documentation Status",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack" }
+          }
+        ]
+      },
+      {
+        "title": "Messaging",
+        "links": [
+          {
+            "title": "What is Logos",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack/messaging" }
+          },
+          {
+            "title": "Logos App",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack#logos-app" }
+          },
+          {
+            "title": "Logos Execution Zone",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+          },
+          {
+            "title": "Architecture Overview",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack" }
+          },
+          {
+            "title": "Documentation Status",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack" }
+          }
+        ]
+      },
+      {
+        "title": "Blockchain",
+        "links": [
+          {
+            "title": "What is Logos",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+          },
+          {
+            "title": "Logos App",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack#logos-app" }
+          },
+          {
+            "title": "Logos Execution Zone",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+          },
+          {
+            "title": "Architecture Overview",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack" }
+          },
+          {
+            "title": "Documentation Status",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack" }
+          }
+        ]
+      },
+      {
+        "title": "Storage",
+        "links": [
+          {
+            "title": "What is Logos",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack/storage" }
+          },
+          {
+            "title": "Logos App",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack#logos-app" }
+          },
+          {
+            "title": "Logos Execution Zone",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+          },
+          {
+            "title": "Architecture Overview",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack" }
+          },
+          {
+            "title": "Documentation Status",
+            "description": "An introduction to the Logos technology stack",
+            "cta": { "label": "Learn more", "href": "/technology-stack" }
+          }
+        ]
+      }
+    ]
   }
 }
