@@ -5,12 +5,16 @@
   "city": "Los Angeles",
   "country": "United States",
   "region": "California",
-  "coordinates": { "lat": 34.0522, "lng": -118.2437 },
+  "coordinates": {
+    "lat": 34.0522,
+    "lng": -118.2437
+  },
   "timezone": "America/Los_Angeles",
   "memberCount": 84,
   "discordChannel": "circle-los-angeles",
   "discordUrl": "https://discord.gg/logos",
-  "joinUrl": "https://luma.com/fvtjixui",
+  "forumUrl": "https://forum.logos.co/c/circles/los-angeles",
+  "joinUrl": "https://forms.logos.co/join/los-angeles",
   "image": {
     "src": "/cms/circles/los-angeles/cover.webp",
     "alt": "",
@@ -18,9 +22,10 @@
     "height": 480
   },
   "organizers": [
-    { "name": "InfinityBase Events", "handle": "infinitybase" },
-    { "name": "JB", "handle": "jb" },
-    { "name": "Fabio Seva", "handle": "fabioseva" }
+    {
+      "name": "Chair",
+      "handle": "chair"
+    }
   ],
   "order": 1
 }
