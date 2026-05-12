@@ -487,8 +487,9 @@ export const ContentPrSaveButton = () => {
             color: 'var(--theme-error-700, #b00020)',
             fontSize: 12,
           }}
+          title={recentPrError}
         >
-          PR lookup failed
+          PR lookup failed: {recentPrError}
         </span>
       ) : null}
       {mergeResult?.error ? (
@@ -517,8 +518,9 @@ export const ContentPrSaveButton = () => {
             color: 'var(--theme-error-700, #b00020)',
             fontSize: 12,
           }}
+          title={syncResponse.error}
         >
-          Sync unavailable
+          Sync unavailable: {syncResponse.error}
         </span>
       ) : null}
     </div>
