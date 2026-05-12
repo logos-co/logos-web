@@ -79,22 +79,31 @@ function episodeLabel(podcast: PressPodcastRow) {
 }
 
 function formatCalendarKey(date: Date) {
-  const year = date.getUTCFullYear()
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0')
-  const day = String(date.getUTCDate()).padStart(2, '0')
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
   return `${year}-${month}-${day}`
 }
 
-function getInitialCalendarDate(events: BroadcastEventRow[]) {
+function getInitialCalendarDate() {
   const today = new Date()
-  const firstEventDate = events[0]
-    ? new Date(`${events[0].date}T00:00:00.000Z`)
-    : today
 
   return {
-    year: firstEventDate.getUTCFullYear(),
-    month: firstEventDate.getUTCMonth(),
+    year: today.getFullYear(),
+    month: today.getMonth(),
   }
+}
+
+function compareEvents(a: BroadcastEventRow, b: BroadcastEventRow) {
+  if (a.localTimestamp !== b.localTimestamp) {
+    return a.localTimestamp - b.localTimestamp
+  }
+
+  const minutesA = a.timeMinutes ?? Number.MAX_SAFE_INTEGER
+  const minutesB = b.timeMinutes ?? Number.MAX_SAFE_INTEGER
+  if (minutesA !== minutesB) return minutesA - minutesB
+
+  return a.id - b.id
 }
 
 function buildCalendarDays(
@@ -102,30 +111,40 @@ function buildCalendarDays(
   year: number,
   month: number
 ) {
-  const monthStart = new Date(Date.UTC(year, month, 1))
-  const monthEnd = new Date(Date.UTC(year, month + 1, 0))
-  const startOffset = (monthStart.getUTCDay() + 6) % 7
-  const endOffset = 6 - ((monthEnd.getUTCDay() + 6) % 7)
+  const monthStart = new Date(year, month, 1)
+  const monthEnd = new Date(year, month + 1, 0)
+  const startOffset = (monthStart.getDay() + 6) % 7
+  const endOffset = 6 - ((monthEnd.getDay() + 6) % 7)
   const calendarStart = new Date(monthStart)
-  calendarStart.setUTCDate(monthStart.getUTCDate() - startOffset)
-  const totalDays = startOffset + monthEnd.getUTCDate() + endOffset
+  calendarStart.setDate(monthStart.getDate() - startOffset)
+  const totalDays = startOffset + monthEnd.getDate() + endOffset
   const eventsByDate = new Map<string, BroadcastEventRow[]>()
+  const seenTitles = new Map<string, Set<string>>()
 
   for (const event of events) {
-    const dayEvents = eventsByDate.get(event.date) ?? []
+    const dayEvents = eventsByDate.get(event.localDateKey) ?? []
+    const titlesForDate = seenTitles.get(event.localDateKey) ?? new Set()
+    if (titlesForDate.has(event.calendarTitle)) continue
+
+    titlesForDate.add(event.calendarTitle)
     dayEvents.push(event)
-    eventsByDate.set(event.date, dayEvents)
+    eventsByDate.set(event.localDateKey, dayEvents)
+    seenTitles.set(event.localDateKey, titlesForDate)
+  }
+
+  for (const [key, dayEvents] of eventsByDate) {
+    eventsByDate.set(key, [...dayEvents].sort(compareEvents))
   }
 
   const days = Array.from({ length: totalDays }, (_, index): CalendarDay => {
     const date = new Date(calendarStart)
-    date.setUTCDate(calendarStart.getUTCDate() + index)
+    date.setDate(calendarStart.getDate() + index)
     const key = formatCalendarKey(date)
 
     return {
       key,
-      dayNumber: String(date.getUTCDate()).padStart(2, '0'),
-      isCurrentMonth: date.getUTCMonth() === month,
+      dayNumber: String(date.getDate()).padStart(2, '0'),
+      isCurrentMonth: date.getMonth() === month,
       events: eventsByDate.get(key) ?? [],
     }
   })
@@ -138,10 +157,23 @@ function getCalendarYears(events: BroadcastEventRow[]) {
   const years = new Set([currentYear - 1, currentYear, currentYear + 1])
 
   for (const event of events) {
-    years.add(new Date(`${event.date}T00:00:00.000Z`).getUTCFullYear())
+    years.add(new Date(event.localTimestamp).getFullYear())
   }
 
   return [...years].sort((a, b) => a - b)
+}
+
+function getUpcomingEvents(events: BroadcastEventRow[]) {
+  const now = new Date()
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const upcomingEvents = events.filter(
+    (event) => event.localTimestamp >= today.getTime()
+  )
+
+  return (upcomingEvents.length > 0 ? upcomingEvents : events)
+    .slice()
+    .sort(compareEvents)
+    .slice(0, 6)
 }
 
 function PlayIcon() {
@@ -250,10 +282,12 @@ function EventCards({
   events: BroadcastEventRow[]
   copy: BroadcastNetworkCopy
 }) {
+  const displayEvents = getUpcomingEvents(events)
+
   return (
     <section className="bg-accent-tan px-3 pb-10">
       <div className="grid grid-cols-3 gap-3">
-        {events.slice(0, 6).map((event, index) => (
+        {displayEvents.map((event, index) => (
           <EventCard
             key={event.id}
             event={event}
@@ -267,8 +301,6 @@ function EventCards({
 }
 
 function CalendarCell({ day }: { day: CalendarDay }) {
-  const event = day.events[0]
-
   return (
     <div
       className={cn(
@@ -281,13 +313,18 @@ function CalendarCell({ day }: { day: CalendarDay }) {
           {day.dayNumber}
         </span>
       </div>
-      {event ? (
-        <ExternalLink
-          href={event.link}
-          className="block cursor-pointer rounded-lg border border-brand-dark-green/50 p-2 font-mono text-[10px] font-medium uppercase leading-[1.3] transition-colors group-hover:bg-[#c7f3ff]"
-        >
-          <span className="line-clamp-2">{event.title}</span>
-        </ExternalLink>
+      {day.events.length > 0 ? (
+        <div className="flex flex-col gap-1 overflow-hidden">
+          {day.events.map((event) => (
+            <ExternalLink
+              key={event.id}
+              href={event.link}
+              className="block cursor-pointer rounded-lg border border-brand-dark-green/50 p-2 font-mono text-[10px] font-medium uppercase leading-[1.3] transition-colors group-hover:bg-[#c7f3ff]"
+            >
+              <span className="line-clamp-2">{event.calendarTitle}</span>
+            </ExternalLink>
+          ))}
+        </div>
       ) : null}
     </div>
   )
@@ -300,7 +337,7 @@ function EventsCalendar({
   events: BroadcastEventRow[]
   copy: BroadcastNetworkCopy
 }) {
-  const initialDate = useMemo(() => getInitialCalendarDate(events), [events])
+  const initialDate = useMemo(() => getInitialCalendarDate(), [])
   const [calendarDate, setCalendarDate] = useState(initialDate)
   const years = useMemo(() => getCalendarYears(events), [events])
   const { days } = buildCalendarDays(
@@ -310,12 +347,10 @@ function EventsCalendar({
   )
 
   const goToMonth = (offset: number) => {
-    const next = new Date(
-      Date.UTC(calendarDate.year, calendarDate.month + offset, 1)
-    )
+    const next = new Date(calendarDate.year, calendarDate.month + offset, 1)
     setCalendarDate({
-      year: next.getUTCFullYear(),
-      month: next.getUTCMonth(),
+      year: next.getFullYear(),
+      month: next.getMonth(),
     })
   }
 

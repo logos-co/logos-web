@@ -109,10 +109,12 @@ function DataRows({ rows }: { rows: RowCopy[] }) {
       {rows.map((row, index) => (
         <div
           key={`${row.label}-${index}`}
-          className="grid min-h-[31px] grid-cols-2 border-t border-brand-dark-green/10 py-1.5 last:border-b"
+          className="flex min-h-[36px] min-w-0 flex-col border-t border-brand-dark-green/10 py-1.5 last:border-b md:grid md:min-h-[31px] md:grid-cols-2"
         >
           <p className="text-mono-s">{row.label}</p>
-          <p className="text-mono-s pr-2">{row.body}</p>
+          <p className="text-mono-s min-w-0 pr-2 break-words [overflow-wrap:anywhere]">
+            {row.body}
+          </p>
         </div>
       ))}
     </div>
@@ -139,14 +141,14 @@ function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
             <LogosMark size={20} />
             <span>{copy.label}</span>
           </div>
-          <h1 className="font-display text-[56px] leading-[0.88] tracking-[-0.03em]">
+          <h1 className="w-full max-w-[369px] font-display text-[40px] leading-none tracking-[-0.03em] md:max-w-none md:text-[56px] md:leading-[0.88]">
             {headingLines.map((line) => (
               <span key={line} className="block">
                 {line}
               </span>
             ))}
           </h1>
-          <p className="text-mono-s mt-[60px] w-[462px] max-w-full">
+          <p className="text-mono-s mt-[60px] w-full max-w-[345px] md:w-[462px] md:max-w-full">
             {copy.body}
           </p>
           <div className="mt-[60px] flex gap-1">
@@ -178,9 +180,9 @@ function HowItWorks({
   evaluation: LambdaPrizePageCopy['evaluation']
 }) {
   return (
-    <section className="grid h-[650px] grid-cols-2 gap-3 bg-brand-off-white p-3 text-brand-dark-green">
-      <div className="flex flex-col justify-between">
-        <div className="flex flex-col gap-20">
+    <section className="flex flex-col gap-3 bg-brand-off-white p-3 text-brand-dark-green md:grid md:h-[650px] md:grid-cols-2">
+      <div className="order-2 flex min-h-[687px] flex-col justify-between md:order-1 md:min-h-0">
+        <div className="flex flex-col gap-10 md:gap-20">
           <div>
             <h2 className="text-h4-serif mb-6">{copy.heading}</h2>
             <DataRows rows={copy.rows} />
@@ -203,13 +205,13 @@ function HowItWorks({
           </Button>
         </div>
       </div>
-      <div className="relative overflow-hidden">
+      <div className="relative order-1 h-[626px] overflow-hidden md:order-2 md:h-auto">
         <Image
           src="/images/lambda-prize/how-it-works.webp"
           alt=""
           fill
           sizes="50vw"
-          className="object-cover"
+          className="object-cover object-left md:object-center"
         />
       </div>
     </section>
@@ -222,13 +224,13 @@ function PrizeCard({ prize, image }: { prize: PrizeCopy; image: string }) {
       <Image src={image} alt="" fill sizes="33vw" className="object-cover" />
       <div className="absolute inset-0 bg-brand-dark-green/45" />
       <div className="relative z-10 flex h-full flex-col justify-between p-3">
-        <div className="flex items-start justify-between">
+        <div className="flex min-w-0 items-start justify-between gap-3">
           <div className="text-mono-s flex flex-col">
             {prize.meta.map((line) => (
               <span key={line}>{line}</span>
             ))}
           </div>
-          <span className="text-mono-s rounded-full bg-brand-off-white px-3 py-1.5 text-brand-dark-green">
+          <span className="text-mono-s shrink-0 rounded-full bg-brand-off-white px-3 py-1.5 text-brand-dark-green">
             {prize.status}
           </span>
         </div>
@@ -249,9 +251,9 @@ function PrizeCard({ prize, image }: { prize: PrizeCopy; image: string }) {
 
 function FeaturedPrizes({ copy }: { copy: LambdaPrizePageCopy['featured'] }) {
   return (
-    <section className="h-[1011px] bg-brand-off-white pt-[200px] text-brand-dark-green">
+    <section className="h-[1931px] bg-brand-off-white pt-[100px] text-brand-dark-green md:h-[1011px] md:pt-[200px]">
       <h2 className="text-h3-serif px-3">{copy.heading}</h2>
-      <div className="mt-6 grid grid-cols-3 gap-3 px-3">
+      <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-3 md:px-3">
         {copy.prizes.map((prize, index) => (
           <PrizeCard
             key={`${prize.title}-${index}`}
@@ -266,8 +268,8 @@ function FeaturedPrizes({ copy }: { copy: LambdaPrizePageCopy['featured'] }) {
 
 function AboutProgramme({ copy }: { copy: LambdaPrizePageCopy['about'] }) {
   return (
-    <section className="grid h-[600px] grid-cols-2 gap-3 bg-brand-off-white p-3 text-brand-dark-green">
-      <div className="relative overflow-hidden">
+    <section className="flex h-[960px] flex-col gap-3 bg-brand-off-white p-3 text-brand-dark-green md:grid md:h-[600px] md:grid-cols-2">
+      <div className="relative h-[405px] overflow-hidden md:h-auto">
         <Image
           src="/images/lambda-prize/about.webp"
           alt=""
@@ -276,8 +278,8 @@ function AboutProgramme({ copy }: { copy: LambdaPrizePageCopy['about'] }) {
           className="object-cover"
         />
       </div>
-      <div className="flex flex-col justify-between">
-        <div className="flex items-start justify-between">
+      <div className="flex min-h-[519px] flex-col justify-between md:min-h-0">
+        <div className="flex flex-col items-start justify-between gap-3 md:flex-row md:gap-0">
           <h2 className="text-h3-serif">{copy.heading}</h2>
           <div className="flex gap-1">
             <Button href={ROUTES.rfps} className="cursor-pointer">
@@ -301,7 +303,7 @@ function AboutProgramme({ copy }: { copy: LambdaPrizePageCopy['about'] }) {
 
 function TechCard({ title }: { title: string }) {
   return (
-    <div className="flex h-[196px] items-center justify-center rounded-3xl border border-brand-dark-green text-center md:h-[366px]">
+    <div className="flex h-[258px] items-center justify-center rounded-3xl border border-brand-dark-green text-center md:h-[366px]">
       <div className="flex flex-col items-center gap-3">
         <LogosMark size={18} />
         <h3 className="text-subhead-sans">{title}</h3>
@@ -314,10 +316,10 @@ function TechStack({ copy }: { copy: LambdaPrizePageCopy['techStack'] }) {
   const headingLines = copy.heading.split('\n')
 
   return (
-    <section className="h-[1507px] bg-brand-off-white px-3 pt-3 text-brand-dark-green">
+    <section className="mt-[100px] h-[1506px] bg-brand-off-white px-3 pt-3 text-brand-dark-green md:mt-0 md:h-[1507px]">
       <div className="flex items-start justify-between">
         <p className="text-mono-s w-[226px]">{copy.disclaimer}</p>
-        <div className="flex gap-1">
+        <div className="flex flex-col gap-1 md:flex-row">
           <Button href={ROUTES.technologyStack} className="cursor-pointer">
             {copy.primaryCta}
           </Button>
@@ -330,8 +332,8 @@ function TechStack({ copy }: { copy: LambdaPrizePageCopy['techStack'] }) {
           </Button>
         </div>
       </div>
-      <div className="mx-auto mt-[52px] flex w-[464px] flex-col items-center text-center">
-        <h2 className="font-display text-[56px] leading-[0.88] tracking-[-0.03em]">
+      <div className="mx-auto mt-[70px] flex w-full max-w-[464px] flex-col items-center text-center md:mt-[52px]">
+        <h2 className="font-display text-[40px] leading-none tracking-[-0.03em] md:text-[56px] md:leading-[0.88]">
           {headingLines.map((line) => (
             <span key={line} className="block">
               {line}
@@ -344,16 +346,20 @@ function TechStack({ copy }: { copy: LambdaPrizePageCopy['techStack'] }) {
         </div>
       </div>
       <div className="mt-[100px] flex flex-col gap-3">
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {copy.cards.map((card) => (
             <TechCard key={card} title={card} />
           ))}
         </div>
         <div className="flex h-[196px] items-center justify-center rounded-3xl border border-brand-dark-green">
-          <h3 className="text-subhead-sans">{copy.networking}</h3>
+          <h3 className="text-subhead-sans w-[320px] max-w-full px-3 text-center whitespace-normal">
+            {copy.networking}
+          </h3>
         </div>
         <div className="flex h-[196px] items-center justify-center rounded-3xl border border-brand-dark-green">
-          <h3 className="text-subhead-sans">{copy.foundation}</h3>
+          <h3 className="text-subhead-sans w-[320px] max-w-full px-3 text-center whitespace-normal">
+            {copy.foundation}
+          </h3>
         </div>
       </div>
     </section>
@@ -362,19 +368,21 @@ function TechStack({ copy }: { copy: LambdaPrizePageCopy['techStack'] }) {
 
 function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
   return (
-    <section className="h-[421px] border-t border-brand-dark-green/10 bg-brand-off-white pt-10 text-brand-dark-green">
-      <div className="grid grid-cols-3 px-3">
+    <section className="h-[406px] border-t border-brand-dark-green/10 bg-brand-off-white pt-10 text-brand-dark-green md:h-[421px]">
+      <div className="grid grid-cols-[1fr_auto] gap-y-6 px-3 md:grid-cols-3">
         <h2 className="text-h3-serif">{copy.heading}</h2>
-        <p className="text-mono-s w-[226px]">{copy.body}</p>
-        <div>
+        <p className="text-mono-s col-start-1 row-start-2 w-[178px] md:col-start-auto md:row-start-auto md:w-[226px]">
+          {copy.body}
+        </p>
+        <div className="col-start-2 row-start-1 md:col-start-auto md:row-start-auto">
           <TertiaryCta href={ROUTES.faq}>{copy.cta}</TertiaryCta>
         </div>
       </div>
-      <div className="mt-[91px]">
+      <div className="mt-[35px] md:mt-[91px]">
         {copy.rows.map((row, index) => (
           <div
             key={row.label}
-            className={`grid h-[50px] grid-cols-[714px_464px_1fr] px-3 py-3 ${
+            className={`grid h-[58px] grid-cols-[1fr_83px] items-start px-3 py-3 md:h-[50px] md:grid-cols-[714px_464px_1fr] ${
               index % 2 === 0 ? 'bg-gray-01' : 'bg-brand-dark-green/5'
             }`}
           >
@@ -384,7 +392,7 @@ function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
               </p>
               <h3 className="text-body-serif">{row.label}</h3>
             </div>
-            <p className="text-mono-s w-[312px]">{row.body}</p>
+            <p className="text-mono-s hidden w-[312px] md:block">{row.body}</p>
             <TertiaryCta href={ROUTES.faq}>{row.action}</TertiaryCta>
           </div>
         ))}
@@ -395,7 +403,7 @@ function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
 
 export function LambdaPrizePage({ copy }: LambdaPrizePageProps) {
   return (
-    <main className="bg-brand-off-white">
+    <main className="overflow-hidden bg-brand-off-white">
       <Hero copy={copy.hero} />
       <HowItWorks copy={copy.howItWorks} evaluation={copy.evaluation} />
       <FeaturedPrizes copy={copy.featured} />
