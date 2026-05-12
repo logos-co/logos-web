@@ -6,15 +6,106 @@ import {
   useDocumentInfo,
   useEditDepth,
   useForm,
+  useFormFields,
   useFormModified,
   useFormProcessing,
   useHotkey,
   useOperation,
   useTranslation,
 } from '@payloadcms/ui'
-import { useEffect, useRef, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react'
 
 const toastId = 'content-pr-save-in-progress'
+
+type RecentPullRequest = {
+  branchName?: string | null
+  pullRequestNumber?: number | null
+  pullRequestUrl?: string | null
+}
+
+type RecentPrResult = {
+  pullRequests?: RecentPullRequest[]
+  error?: string
+}
+
+type MergePrResult = {
+  error?: string
+  pullRequestNumber?: number
+  pullRequestUrl?: string
+}
+
+type BranchSyncDecision =
+  | {
+      kind: 'fast-forward'
+      sha: string
+    }
+  | {
+      kind: 'already-synced'
+      sha: string
+    }
+  | {
+      kind: 'blocked'
+      reason: string
+    }
+
+type BranchSyncLinks = {
+  compareUrl: string
+  productionBranchUrl: string
+  stagingBranchUrl: string
+}
+
+type BranchSyncResponse = {
+  decision?: BranchSyncDecision
+  error?: string
+  links?: BranchSyncLinks
+  updated?: boolean
+}
+
+const useCollectionSlug = (): string | null => {
+  if (typeof window === 'undefined') return null
+  const match = window.location.pathname.match(/\/collections\/([^/]+)/)
+  return match?.[1] ? decodeURIComponent(match[1]) : null
+}
+
+const useFormSlug = (): string | undefined =>
+  useFormFields(([fields]) => {
+    const field = fields?.['slug']
+    return typeof field?.value === 'string' ? field.value : undefined
+  })
+
+const buildRecentPrHref = ({
+  collection,
+  slug,
+}: {
+  collection: string
+  slug?: string
+}): string => {
+  const params = new URLSearchParams({ collection })
+  if (slug) params.set('slug', slug)
+  return `/api/content-workflow/recent-pr?${params.toString()}`
+}
+
+const actionButtonStyle = ({
+  disabled,
+}: {
+  disabled?: boolean
+}): CSSProperties => ({
+  border: '1px solid var(--theme-elevation-300, #b8b8b8)',
+  borderRadius: 4,
+  background: 'var(--theme-bg, #fff)',
+  color: 'inherit',
+  cursor: disabled ? 'not-allowed' : 'pointer',
+  fontSize: 13,
+  fontWeight: 700,
+  opacity: disabled ? 0.5 : 1,
+  padding: '8px 12px',
+})
 
 const LoadingIcon = () => (
   <svg
@@ -56,6 +147,8 @@ export const ContentPrSaveButton = () => {
   const { uploadStatus } = useDocumentInfo()
   const { submit } = useForm()
   const { t } = useTranslation()
+  const collection = useCollectionSlug()
+  const slug = useFormSlug()
   const modified = useFormModified()
   const processing = useFormProcessing()
   const editDepth = useEditDepth()
@@ -63,6 +156,14 @@ export const ContentPrSaveButton = () => {
   const ref = useRef<HTMLButtonElement | null>(null)
   const sawProcessingRef = useRef(false)
   const [showFeedback, setShowFeedback] = useState(false)
+  const [recentPr, setRecentPr] = useState<RecentPullRequest | null>(null)
+  const [recentPrError, setRecentPrError] = useState<string | null>(null)
+  const [mergeResult, setMergeResult] = useState<MergePrResult | null>(null)
+  const [merging, setMerging] = useState(false)
+  const [syncResponse, setSyncResponse] = useState<BranchSyncResponse | null>(
+    null
+  )
+  const [syncing, setSyncing] = useState(false)
 
   const disabled =
     (operation === 'update' && !modified) || uploadStatus === 'uploading'
@@ -73,6 +174,44 @@ export const ContentPrSaveButton = () => {
     sawProcessingRef.current = false
     toast.loading('Creating pull request...', { id: toastId })
   }
+
+  const loadSyncStatus = useCallback(async () => {
+    try {
+      const response = await fetch('/api/content-workflow/sync-production', {
+        credentials: 'same-origin',
+      })
+      const json = (await response.json()) as BranchSyncResponse
+      setSyncResponse(
+        response.ok
+          ? json
+          : { error: json.error ?? `request failed (${response.status})` }
+      )
+    } catch (error) {
+      setSyncResponse({
+        error: error instanceof Error ? error.message : String(error),
+      })
+    }
+  }, [])
+
+  const loadRecentPullRequest = useCallback(async () => {
+    if (!collection) return
+
+    try {
+      const response = await fetch(buildRecentPrHref({ collection, slug }), {
+        credentials: 'same-origin',
+      })
+      const json = (await response.json()) as RecentPrResult
+      if (!response.ok) {
+        throw new Error(json.error ?? `request failed (${response.status})`)
+      }
+
+      setRecentPr(json.pullRequests?.[0] ?? null)
+      setRecentPrError(null)
+    } catch (error) {
+      setRecentPr(null)
+      setRecentPrError(error instanceof Error ? error.message : String(error))
+    }
+  }, [collection, slug])
 
   const stopFeedback = () => {
     setShowFeedback(false)
@@ -89,12 +228,21 @@ export const ContentPrSaveButton = () => {
     }
 
     const timeout = window.setTimeout(
-      stopFeedback,
+      () => {
+        stopFeedback()
+        void loadRecentPullRequest()
+        void loadSyncStatus()
+      },
       sawProcessingRef.current ? 0 : 800
     )
 
     return () => window.clearTimeout(timeout)
-  }, [processing, showFeedback])
+  }, [loadRecentPullRequest, loadSyncStatus, processing, showFeedback])
+
+  useEffect(() => {
+    void loadRecentPullRequest()
+    void loadSyncStatus()
+  }, [loadRecentPullRequest, loadSyncStatus])
 
   useHotkey(
     {
@@ -115,31 +263,208 @@ export const ContentPrSaveButton = () => {
   const handleSubmit = () => {
     if (uploadStatus === 'uploading') return
 
+    setRecentPr(null)
+    setRecentPrError(null)
+    setMergeResult(null)
     startFeedback()
     return void submit()
   }
 
+  const onMerge = async () => {
+    if (!recentPr?.pullRequestNumber) return
+
+    setMerging(true)
+    setMergeResult(null)
+    try {
+      const response = await fetch('/api/content-workflow/merge-pr', {
+        body: JSON.stringify({ pullRequestNumber: recentPr.pullRequestNumber }),
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      })
+      const json = (await response.json()) as MergePrResult
+      if (!response.ok) {
+        throw new Error(json.error ?? `request failed (${response.status})`)
+      }
+
+      setMergeResult(json)
+      setRecentPr(null)
+      await loadSyncStatus()
+    } catch (error) {
+      setMergeResult({
+        error: error instanceof Error ? error.message : String(error),
+      })
+    } finally {
+      setMerging(false)
+    }
+  }
+
+  const onSync = async () => {
+    setSyncing(true)
+    try {
+      const response = await fetch('/api/content-workflow/sync-production', {
+        credentials: 'same-origin',
+        method: 'POST',
+      })
+      const json = (await response.json()) as BranchSyncResponse
+      setSyncResponse(
+        response.ok
+          ? json
+          : {
+              ...json,
+              error: json.error ?? `request failed (${response.status})`,
+            }
+      )
+    } catch (error) {
+      setSyncResponse({
+        error: error instanceof Error ? error.message : String(error),
+      })
+    } finally {
+      setSyncing(false)
+    }
+  }
+
+  const canMerge = Boolean(recentPr?.pullRequestNumber)
+  const canSync = syncResponse?.decision?.kind === 'fast-forward'
+
   return (
-    <FormSubmit
-      buttonId="action-save"
-      disabled={disabled}
-      extraButtonProps={{ style: { minWidth: 120 } }}
-      onClick={handleSubmit}
-      ref={ref}
-      size="medium"
-      type="button"
+    <div
+      style={{
+        alignItems: 'center',
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 12,
+        justifyContent: 'flex-end',
+      }}
     >
-      <span
-        style={{
-          alignItems: 'center',
-          display: 'inline-flex',
-          gap: 8,
-          justifyContent: 'center',
-        }}
+      <FormSubmit
+        buttonId="action-save"
+        disabled={disabled}
+        extraButtonProps={{ style: { minWidth: 120 } }}
+        onClick={handleSubmit}
+        ref={ref}
+        size="medium"
+        type="button"
       >
-        {pending ? <LoadingIcon /> : null}
-        <span>{pending ? 'Creating PR...' : t('general:save')}</span>
-      </span>
-    </FormSubmit>
+        <span
+          style={{
+            alignItems: 'center',
+            display: 'inline-flex',
+            gap: 8,
+            justifyContent: 'center',
+          }}
+        >
+          {pending ? <LoadingIcon /> : null}
+          <span>{pending ? 'Creating PR...' : t('general:save')}</span>
+        </span>
+      </FormSubmit>
+      {recentPr?.pullRequestUrl ? (
+        <a
+          href={recentPr.pullRequestUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: 'var(--theme-success-700, #1e6b3a)',
+            fontSize: 13,
+            fontWeight: 700,
+            textDecoration: 'underline',
+          }}
+        >
+          PR #{recentPr.pullRequestNumber ?? '?'}
+        </a>
+      ) : null}
+      {mergeResult?.pullRequestUrl ? (
+        <a
+          href={mergeResult.pullRequestUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: 'var(--theme-success-700, #1e6b3a)',
+            fontSize: 13,
+            fontWeight: 700,
+            textDecoration: 'underline',
+          }}
+        >
+          Merged PR #{mergeResult.pullRequestNumber ?? '?'}
+        </a>
+      ) : null}
+      <button
+        type="button"
+        disabled={!canMerge || merging}
+        onClick={() => void onMerge()}
+        style={actionButtonStyle({ disabled: !canMerge || merging })}
+      >
+        {merging ? 'Merging...' : 'Merge'}
+      </button>
+      <button
+        type="button"
+        disabled={!canSync || syncing}
+        onClick={() => void onSync()}
+        style={actionButtonStyle({ disabled: !canSync || syncing })}
+      >
+        {syncing ? 'Syncing...' : 'Sync production'}
+      </button>
+      {syncResponse?.links?.productionBranchUrl ? (
+        <a
+          href={syncResponse.links.productionBranchUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: 'inherit',
+            fontSize: 13,
+            fontWeight: 700,
+            textDecoration: 'underline',
+          }}
+        >
+          Production branch
+        </a>
+      ) : null}
+      {syncResponse?.links?.compareUrl ? (
+        <a
+          href={syncResponse.links.compareUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: 'inherit',
+            fontSize: 13,
+            textDecoration: 'underline',
+          }}
+        >
+          Compare
+        </a>
+      ) : null}
+      {recentPrError ? (
+        <span
+          style={{
+            color: 'var(--theme-error-700, #b00020)',
+            fontSize: 12,
+          }}
+        >
+          PR lookup failed
+        </span>
+      ) : null}
+      {mergeResult?.error ? (
+        <span
+          style={{
+            color: 'var(--theme-error-700, #b00020)',
+            fontSize: 12,
+          }}
+        >
+          Merge failed
+        </span>
+      ) : null}
+      {syncResponse?.error ? (
+        <span
+          style={{
+            color: 'var(--theme-error-700, #b00020)',
+            fontSize: 12,
+          }}
+        >
+          Sync unavailable
+        </span>
+      ) : null}
+    </div>
   )
 }

@@ -18,6 +18,7 @@ export interface MergeContentPullRequestResult {
   merged: boolean
   message: string
   pullRequestNumber: number
+  pullRequestUrl: string
   sha: string | null
 }
 
@@ -69,6 +70,7 @@ export const mergeContentPullRequest = async (
     merged: result.merged,
     message: result.message,
     pullRequestNumber: result.pullRequestNumber,
+    pullRequestUrl: result.pullRequestUrl,
     sha: result.sha,
   }
 }

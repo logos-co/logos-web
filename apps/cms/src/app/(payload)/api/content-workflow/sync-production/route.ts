@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 
 import {
   compareProductionToStaging,
+  getBranchSyncLinks,
   getBranchSyncDecision,
   loadGithubConfigFromEnv,
   setGithubConfig,
@@ -47,9 +48,16 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
 
   try {
     const comparison = await compareProductionToStaging()
+    const githubConfig = loadGithubConfigFromEnv()
     return NextResponse.json({
       comparison,
       decision: getBranchSyncDecision(comparison),
+      links: getBranchSyncLinks({
+        owner: githubConfig.owner,
+        repo: githubConfig.repo,
+        productionBranch: comparison.productionBranch,
+        stagingBranch: comparison.stagingBranch,
+      }),
     })
   } catch (error) {
     return NextResponse.json({ error: getErrorMessage(error) }, { status: 502 })

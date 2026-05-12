@@ -33,9 +33,16 @@ export interface BranchSyncComparison {
   status: BranchComparisonStatus
 }
 
+export interface BranchSyncLinks {
+  compareUrl: string
+  productionBranchUrl: string
+  stagingBranchUrl: string
+}
+
 export interface BranchSyncResult {
   comparison: BranchSyncComparison
   decision: BranchSyncDecision
+  links: BranchSyncLinks
   updated: boolean
 }
 
@@ -43,7 +50,27 @@ export interface MergePullRequestResult {
   merged: boolean
   message: string
   pullRequestNumber: number
+  pullRequestUrl: string
   sha: string | null
+}
+
+export const getBranchSyncLinks = ({
+  owner,
+  productionBranch,
+  repo,
+  stagingBranch,
+}: {
+  owner: string
+  productionBranch: string
+  repo: string
+  stagingBranch: string
+}): BranchSyncLinks => {
+  const repoUrl = `https://github.com/${owner}/${repo}`
+  return {
+    compareUrl: `${repoUrl}/compare/${productionBranch}...${stagingBranch}`,
+    productionBranchUrl: `${repoUrl}/tree/${productionBranch}`,
+    stagingBranchUrl: `${repoUrl}/tree/${stagingBranch}`,
+  }
 }
 
 export const getBranchSyncDecision = (
@@ -102,16 +129,24 @@ export const syncProductionBranchToStaging =
   async (): Promise<BranchSyncResult> => {
     const comparison = await compareProductionToStaging()
     const decision = getBranchSyncDecision(comparison)
+    const { owner, repo } = getGithubConfig()
+    const links = getBranchSyncLinks({
+      owner,
+      repo,
+      productionBranch: comparison.productionBranch,
+      stagingBranch: comparison.stagingBranch,
+    })
     if (decision.kind !== 'fast-forward') {
       return {
         comparison,
         decision,
+        links,
         updated: false,
       }
     }
 
     const octokit = getOctokit()
-    const { owner, productionBranch, repo } = getGithubConfig()
+    const { productionBranch } = getGithubConfig()
     await octokit.git.updateRef({
       owner,
       repo,
@@ -123,6 +158,7 @@ export const syncProductionBranchToStaging =
     return {
       comparison,
       decision,
+      links,
       updated: true,
     }
   }
@@ -152,6 +188,7 @@ export const mergePullRequestToBase = async ({
     merged: data.merged,
     message: data.message,
     pullRequestNumber,
+    pullRequestUrl: pr.htmlUrl,
     sha: data.sha,
   }
 }

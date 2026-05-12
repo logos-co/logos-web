@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
 import {
+  getBranchSyncLinks,
   getBranchSyncDecision,
   type BranchComparisonStatus,
 } from '../promotion'
@@ -43,5 +44,29 @@ describe('getBranchSyncDecision', () => {
 
     assert.equal(decision.kind, 'blocked')
     assert.match(decision.reason, /behind/)
+  })
+})
+
+describe('getBranchSyncLinks', () => {
+  it('builds GitHub compare and branch links', () => {
+    const links = getBranchSyncLinks({
+      owner: 'logos-co',
+      productionBranch: 'master',
+      repo: 'logos-co',
+      stagingBranch: 'develop',
+    })
+
+    assert.equal(
+      links.compareUrl,
+      'https://github.com/logos-co/logos-co/compare/master...develop'
+    )
+    assert.equal(
+      links.productionBranchUrl,
+      'https://github.com/logos-co/logos-co/tree/master'
+    )
+    assert.equal(
+      links.stagingBranchUrl,
+      'https://github.com/logos-co/logos-co/tree/develop'
+    )
   })
 })

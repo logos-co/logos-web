@@ -24,6 +24,7 @@ type MergePrResult = {
   merged?: boolean
   message?: string
   pullRequestNumber?: number
+  pullRequestUrl?: string
   sha?: string | null
 }
 
@@ -88,6 +89,7 @@ const RecentPrBannerInner = ({
   const [pending, setPending] = useState(false)
   const [dismissed, setDismissed] = useState(false)
   const [mergeError, setMergeError] = useState<string | null>(null)
+  const [mergedPr, setMergedPr] = useState<MergePrResult | null>(null)
   const [mergingPr, setMergingPr] = useState<number | null>(null)
 
   const dismissKey = useMemo(() => {
@@ -154,6 +156,7 @@ const RecentPrBannerInner = ({
     if (!pullRequestNumber) return
 
     setMergeError(null)
+    setMergedPr(null)
     setMergingPr(pullRequestNumber)
     try {
       const response = await fetch('/api/content-workflow/merge-pr', {
@@ -168,6 +171,7 @@ const RecentPrBannerInner = ({
       if (!response.ok) {
         throw new Error(json.error ?? `request failed (${response.status})`)
       }
+      setMergedPr(json)
 
       setResult((current) =>
         current
@@ -187,7 +191,8 @@ const RecentPrBannerInner = ({
   }, [])
 
   if (!collection || !COLLECTION_LABELS[collection]) return null
-  if (pending || !result || result.pullRequests.length === 0) return null
+  if (pending || !result) return null
+  if (result.pullRequests.length === 0 && !mergedPr) return null
   if (dismissed) return null
 
   const label = COLLECTION_LABELS[collection]
@@ -235,56 +240,72 @@ const RecentPrBannerInner = ({
       {mergeError ? (
         <div style={{ marginTop: 6 }}>PR merge failed: {mergeError}</div>
       ) : null}
-      <ul style={{ margin: '8px 0 0 0', paddingLeft: 18 }}>
-        {result.pullRequests.map((pr) => (
-          <li key={pr.id} style={{ marginBottom: 4 }}>
-            <span
-              style={{
-                alignItems: 'center',
-                display: 'inline-flex',
-                flexWrap: 'wrap',
-                gap: 8,
-              }}
-            >
-              <a
-                href={pr.pullRequestUrl ?? '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontWeight: 700 }}
-              >
-                PR #{pr.pullRequestNumber ?? '?'}
-              </a>
-              <span style={{ opacity: 0.78 }}>
-                <code>{pr.branchName}</code>
-              </span>
-              <button
-                type="button"
-                disabled={
-                  !pr.pullRequestNumber || mergingPr === pr.pullRequestNumber
-                }
-                onClick={() => void onMerge(pr.pullRequestNumber)}
+      {mergedPr?.pullRequestUrl ? (
+        <div style={{ marginTop: 8 }}>
+          Merged:{' '}
+          <a
+            href={mergedPr.pullRequestUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ fontWeight: 700 }}
+          >
+            PR #{mergedPr.pullRequestNumber ?? '?'}
+          </a>
+        </div>
+      ) : null}
+      {result.pullRequests.length > 0 ? (
+        <ul style={{ margin: '8px 0 0 0', paddingLeft: 18 }}>
+          {result.pullRequests.map((pr) => (
+            <li key={pr.id} style={{ marginBottom: 4 }}>
+              <span
                 style={{
-                  border: '1px solid var(--theme-success-300, #88d39f)',
-                  borderRadius: 4,
-                  background: 'var(--theme-bg, #fff)',
-                  color: 'var(--theme-success-800, #155724)',
-                  cursor:
-                    !pr.pullRequestNumber || mergingPr === pr.pullRequestNumber
-                      ? 'not-allowed'
-                      : 'pointer',
-                  fontSize: 12,
-                  fontWeight: 700,
-                  padding: '4px 8px',
+                  alignItems: 'center',
+                  display: 'inline-flex',
+                  flexWrap: 'wrap',
+                  gap: 8,
                 }}
               >
-                {mergingPr === pr.pullRequestNumber
-                  ? 'Merging...'
-                  : 'Merge to develop'}
-              </button>
-            </span>
-          </li>
-        ))}
-      </ul>
+                <a
+                  href={pr.pullRequestUrl ?? '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ fontWeight: 700 }}
+                >
+                  PR #{pr.pullRequestNumber ?? '?'}
+                </a>
+                <span style={{ opacity: 0.78 }}>
+                  <code>{pr.branchName}</code>
+                </span>
+                <button
+                  type="button"
+                  disabled={
+                    !pr.pullRequestNumber || mergingPr === pr.pullRequestNumber
+                  }
+                  onClick={() => void onMerge(pr.pullRequestNumber)}
+                  style={{
+                    border: '1px solid var(--theme-success-300, #88d39f)',
+                    borderRadius: 4,
+                    background: 'var(--theme-bg, #fff)',
+                    color: 'var(--theme-success-800, #155724)',
+                    cursor:
+                      !pr.pullRequestNumber ||
+                      mergingPr === pr.pullRequestNumber
+                        ? 'not-allowed'
+                        : 'pointer',
+                    fontSize: 12,
+                    fontWeight: 700,
+                    padding: '4px 8px',
+                  }}
+                >
+                  {mergingPr === pr.pullRequestNumber
+                    ? 'Merging...'
+                    : 'Merge to develop'}
+                </button>
+              </span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   )
 }
