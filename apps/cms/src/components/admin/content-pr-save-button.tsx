@@ -125,6 +125,39 @@ const actionButtonStyle = ({
   padding: '8px 12px',
 })
 
+const statusLinkStyle = ({
+  tone = 'neutral',
+}: {
+  tone?: 'neutral' | 'success'
+}): CSSProperties => ({
+  color:
+    tone === 'success'
+      ? 'var(--theme-success-700, #1e6b3a)'
+      : 'var(--theme-elevation-800, #333)',
+  fontSize: 12,
+  fontWeight: 700,
+  textDecoration: 'underline',
+  whiteSpace: 'nowrap',
+})
+
+const statusTextStyle = ({
+  tone = 'neutral',
+}: {
+  tone?: 'error' | 'neutral' | 'success' | 'warning'
+}): CSSProperties => ({
+  color:
+    tone === 'error'
+      ? 'var(--theme-error-700, #b00020)'
+      : tone === 'success'
+        ? 'var(--theme-success-700, #1e6b3a)'
+        : tone === 'warning'
+          ? 'var(--theme-warning-700, #8a5a00)'
+          : 'var(--theme-elevation-650, #555)',
+  fontSize: 12,
+  fontWeight: tone === 'neutral' ? 500 : 700,
+  whiteSpace: 'nowrap',
+})
+
 const LoadingIcon = () => (
   <svg
     aria-hidden="true"
@@ -349,179 +382,175 @@ export const ContentPrSaveButton = () => {
   const canSync =
     syncResponse?.decision?.kind === 'fast-forward' &&
     syncResponse.updated !== true
+  const hasStatusDetails = Boolean(
+    recentPr?.pullRequestUrl ||
+    recentPr?.draft ||
+    mergeResult?.pullRequestUrl ||
+    syncResponse?.links?.productionBranchUrl ||
+    syncResponse?.links?.compareUrl ||
+    syncStatusMessage ||
+    recentPrError ||
+    mergeResult?.error ||
+    syncResponse?.error
+  )
 
   return (
     <div
       style={{
-        alignItems: 'center',
+        alignItems: 'flex-end',
         display: 'flex',
-        flexWrap: 'wrap',
-        gap: 12,
-        justifyContent: 'flex-end',
+        flexDirection: 'column',
+        gap: 6,
+        position: 'relative',
       }}
     >
-      <FormSubmit
-        buttonId="action-save"
-        disabled={disabled}
-        extraButtonProps={{ style: { minWidth: 120 } }}
-        onClick={handleSubmit}
-        ref={ref}
-        size="medium"
-        type="button"
+      <div
+        style={{
+          alignItems: 'center',
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 12,
+          justifyContent: 'flex-end',
+        }}
       >
-        <span
+        <FormSubmit
+          buttonId="action-save"
+          disabled={disabled}
+          extraButtonProps={{ style: { minWidth: 120 } }}
+          onClick={handleSubmit}
+          ref={ref}
+          size="medium"
+          type="button"
+        >
+          <span
+            style={{
+              alignItems: 'center',
+              display: 'inline-flex',
+              gap: 8,
+              justifyContent: 'center',
+            }}
+          >
+            {pending ? <LoadingIcon /> : null}
+            <span>{pending ? 'Creating PR...' : t('general:save')}</span>
+          </span>
+        </FormSubmit>
+        <button
+          type="button"
+          disabled={!canMerge || merging}
+          onClick={() => void onMerge()}
+          style={actionButtonStyle({ disabled: !canMerge || merging })}
+        >
+          {merging ? 'Merging...' : 'Merge'}
+        </button>
+        <button
+          type="button"
+          disabled={!canSync || syncing}
+          onClick={() => void onSync()}
+          style={actionButtonStyle({ disabled: !canSync || syncing })}
+        >
+          {syncing ? 'Syncing...' : 'Sync production'}
+        </button>
+      </div>
+      {hasStatusDetails ? (
+        <div
           style={{
             alignItems: 'center',
-            display: 'inline-flex',
-            gap: 8,
-            justifyContent: 'center',
+            background: 'var(--theme-bg, #fff)',
+            border: '1px solid var(--theme-elevation-150, #dcdcdc)',
+            borderRadius: 4,
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.04)',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '6px 12px',
+            justifyContent: 'flex-end',
+            maxWidth: 'min(920px, calc(100vw - 96px))',
+            padding: '6px 8px',
+            position: 'absolute',
+            right: 0,
+            top: 'calc(100% + 8px)',
+            zIndex: 2,
           }}
         >
-          {pending ? <LoadingIcon /> : null}
-          <span>{pending ? 'Creating PR...' : t('general:save')}</span>
-        </span>
-      </FormSubmit>
-      {recentPr?.pullRequestUrl ? (
-        <a
-          href={recentPr.pullRequestUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            color: 'var(--theme-success-700, #1e6b3a)',
-            fontSize: 13,
-            fontWeight: 700,
-            textDecoration: 'underline',
-          }}
-        >
-          PR #{recentPr.pullRequestNumber ?? '?'}
-        </a>
-      ) : null}
-      {recentPr?.draft ? (
-        <span
-          style={{
-            color: 'var(--theme-warning-700, #8a5a00)',
-            fontSize: 12,
-            fontWeight: 700,
-          }}
-        >
-          Draft PR
-        </span>
-      ) : null}
-      {mergeResult?.pullRequestUrl ? (
-        <a
-          href={mergeResult.pullRequestUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            color: 'var(--theme-success-700, #1e6b3a)',
-            fontSize: 13,
-            fontWeight: 700,
-            textDecoration: 'underline',
-          }}
-        >
-          Merged PR #{mergeResult.pullRequestNumber ?? '?'}
-        </a>
-      ) : null}
-      <button
-        type="button"
-        disabled={!canMerge || merging}
-        onClick={() => void onMerge()}
-        style={actionButtonStyle({ disabled: !canMerge || merging })}
-      >
-        {merging ? 'Merging...' : 'Merge'}
-      </button>
-      <button
-        type="button"
-        disabled={!canSync || syncing}
-        onClick={() => void onSync()}
-        style={actionButtonStyle({ disabled: !canSync || syncing })}
-      >
-        {syncing ? 'Syncing...' : 'Sync production'}
-      </button>
-      {syncResponse?.links?.productionBranchUrl ? (
-        <a
-          href={syncResponse.links.productionBranchUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            color: 'inherit',
-            fontSize: 13,
-            fontWeight: 700,
-            textDecoration: 'underline',
-          }}
-        >
-          Production branch
-        </a>
-      ) : null}
-      {syncResponse?.links?.compareUrl ? (
-        <a
-          href={syncResponse.links.compareUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            color: 'inherit',
-            fontSize: 13,
-            textDecoration: 'underline',
-          }}
-        >
-          Compare
-        </a>
-      ) : null}
-      {syncStatusMessage ? (
-        <span
-          style={{
-            color:
-              syncResponse?.decision?.kind === 'blocked'
-                ? 'var(--theme-error-700, #b00020)'
-                : 'var(--theme-success-700, #1e6b3a)',
-            fontSize: 12,
-            fontWeight: 700,
-          }}
-        >
-          {syncStatusMessage}
-        </span>
-      ) : null}
-      {recentPrError ? (
-        <span
-          style={{
-            color: 'var(--theme-error-700, #b00020)',
-            fontSize: 12,
-          }}
-          title={recentPrError}
-        >
-          PR lookup failed: {recentPrError}
-        </span>
-      ) : null}
-      {mergeResult?.error ? (
-        <span
-          style={{
-            color: 'var(--theme-error-700, #b00020)',
-            fontSize: 12,
-          }}
-        >
-          Merge failed
-        </span>
-      ) : null}
-      {recentPr?.draft ? (
-        <span
-          style={{
-            color: 'var(--theme-warning-700, #8a5a00)',
-            fontSize: 12,
-          }}
-        >
-          Merge will mark it ready for review first.
-        </span>
-      ) : null}
-      {syncResponse?.error ? (
-        <span
-          style={{
-            color: 'var(--theme-error-700, #b00020)',
-            fontSize: 12,
-          }}
-          title={syncResponse.error}
-        >
-          Sync unavailable: {syncResponse.error}
-        </span>
+          {recentPr?.pullRequestUrl ? (
+            <a
+              href={recentPr.pullRequestUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={statusLinkStyle({ tone: 'success' })}
+            >
+              PR #{recentPr.pullRequestNumber ?? '?'}
+            </a>
+          ) : null}
+          {recentPr?.draft ? (
+            <span style={statusTextStyle({ tone: 'warning' })}>Draft PR</span>
+          ) : null}
+          {mergeResult?.pullRequestUrl ? (
+            <a
+              href={mergeResult.pullRequestUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={statusLinkStyle({ tone: 'success' })}
+            >
+              Merged PR #{mergeResult.pullRequestNumber ?? '?'}
+            </a>
+          ) : null}
+          {syncResponse?.links?.productionBranchUrl ? (
+            <a
+              href={syncResponse.links.productionBranchUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={statusLinkStyle({})}
+            >
+              Production branch
+            </a>
+          ) : null}
+          {syncResponse?.links?.compareUrl ? (
+            <a
+              href={syncResponse.links.compareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={statusLinkStyle({})}
+            >
+              Compare
+            </a>
+          ) : null}
+          {syncStatusMessage ? (
+            <span
+              style={statusTextStyle({
+                tone:
+                  syncResponse?.decision?.kind === 'blocked'
+                    ? 'error'
+                    : 'success',
+              })}
+            >
+              {syncStatusMessage}
+            </span>
+          ) : null}
+          {recentPrError ? (
+            <span
+              style={statusTextStyle({ tone: 'error' })}
+              title={recentPrError}
+            >
+              PR lookup failed: {recentPrError}
+            </span>
+          ) : null}
+          {mergeResult?.error ? (
+            <span style={statusTextStyle({ tone: 'error' })}>Merge failed</span>
+          ) : null}
+          {recentPr?.draft ? (
+            <span style={statusTextStyle({ tone: 'warning' })}>
+              Merge will mark it ready for review first.
+            </span>
+          ) : null}
+          {syncResponse?.error ? (
+            <span
+              style={statusTextStyle({ tone: 'error' })}
+              title={syncResponse.error}
+            >
+              Sync unavailable: {syncResponse.error}
+            </span>
+          ) : null}
+        </div>
       ) : null}
     </div>
   )
