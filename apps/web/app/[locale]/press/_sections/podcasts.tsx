@@ -5,11 +5,7 @@
 import Image from 'next/image'
 import { LogosMark } from '@repo/ui'
 
-import {
-  PRESS_ORIGIN,
-  repeatToLength,
-  type PressPodcastRow,
-} from '@/lib/press-engine'
+import { repeatToLength, type PressPodcastRow } from '@/lib/press-engine'
 
 import {
   Dot,
@@ -17,7 +13,6 @@ import {
   PressRowLink,
   RowThumbnail,
   SectionCta,
-  TextLink,
   UnderlineLabel,
 } from './press-atoms'
 
@@ -29,6 +24,9 @@ interface PodcastsCopy {
   latestEpisode: string
   seeAllEpisodes: string
   listenOnApp: string
+  cta: string
+  episodePrefix: string
+  fallbackEpisode: string
 }
 
 function PodcastHero({
@@ -55,7 +53,7 @@ function PodcastHero({
           sizes="100vw"
           className="scale-110 object-cover object-center blur-[20px]"
         />
-        <div className="absolute left-3 top-3 flex h-[268px] w-[345px] max-w-[calc(100%-24px)] flex-col justify-between text-brand-off-white md:h-[380px] md:w-[453px]">
+        <div className="absolute left-3 top-3 flex h-[268px] w-[345px] max-w-[calc(100%-24px)] min-w-0 flex-col justify-between overflow-hidden text-brand-off-white md:h-[380px] md:w-[453px]">
           <div className="flex items-center gap-[102px]">
             <LogosMark size={6} className="shrink-0" />
             <span className="font-mono text-[10px] font-medium uppercase leading-[1.3]">
@@ -66,24 +64,28 @@ function PodcastHero({
             <h3 className="font-sans text-[24px] leading-[1.1] tracking-normal">
               {copy.heroTitle}
             </h3>
-            <p className="text-mono-s max-w-[453px] text-brand-off-white">
+            <p className="text-mono-s line-clamp-5 max-w-[453px] text-brand-off-white md:line-clamp-7">
               {copy.heroDescription}
             </p>
           </div>
-          <div className="flex items-center gap-2.5">
+          <div className="flex min-w-0 items-center gap-2.5">
             <PlayIcon inverted />
-            <span className="font-sans text-[14px] font-medium leading-[1.2]">
+            <span className="shrink-0 font-sans text-[14px] font-medium leading-[1.2]">
               {copy.latestEpisode}
             </span>
-            <span className="font-display text-[14px] leading-[1.2] whitespace-nowrap text-gray-02">
+            <span className="min-w-0 truncate font-display text-[14px] leading-[1.2] text-gray-02">
               {latestPodcast.title}
             </span>
           </div>
         </div>
-        <div className="absolute left-3 top-[397px] flex h-[290px] w-[350px] items-center justify-center rounded-[100px] bg-accent-tan md:left-auto md:right-3 md:top-3 md:h-[382px] md:w-[702px] md:max-w-[calc(100%-24px)]">
-          <TextLink href={PRESS_ORIGIN} className="no-underline">
-            {copy.seeAllEpisodes}
-          </TextLink>
+        <div className="absolute left-3 top-[342px] aspect-video w-[calc(100%-24px)] overflow-hidden rounded md:left-auto md:right-3 md:top-3 md:h-[382px] md:w-[679px] md:max-w-[calc(100%-24px)]">
+          <Image
+            src={latestPodcast.image}
+            alt=""
+            fill
+            sizes="(max-width: 768px) 369px, 679px"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+          />
         </div>
       </div>
     </div>
@@ -94,14 +96,18 @@ function PodcastEntry({
   podcast,
   index,
   listenOnAppLabel,
+  episodePrefix,
+  fallbackEpisode,
 }: {
   podcast: PressPodcastRow
   index: number
   listenOnAppLabel: string
+  episodePrefix: string
+  fallbackEpisode: string
 }) {
   const episodeLabel = podcast.episodeNumber
-    ? `Episode ${podcast.episodeNumber}`
-    : 'Logos Podcast'
+    ? `${episodePrefix} ${podcast.episodeNumber}`
+    : fallbackEpisode
 
   return (
     <PressRowLink
@@ -111,7 +117,7 @@ function PodcastEntry({
     >
       <RowThumbnail
         src={podcast.image}
-        className="right-[11px] top-3 w-[107px] md:left-3 md:right-auto"
+        className="right-[11px] top-3 z-10 h-[60px] w-[107px] md:left-3 md:right-auto"
       />
       <div className="absolute left-3 top-[13px] flex w-[238px] flex-col gap-2.5 md:hidden">
         <PlayIcon />
@@ -153,9 +159,11 @@ function PodcastEntry({
 export function PodcastsSection({
   podcasts,
   copy,
+  ctaHref,
 }: {
   podcasts: PressPodcastRow[]
   copy: PodcastsCopy
+  ctaHref: string
 }) {
   const repeatedPodcasts = repeatToLength(podcasts, 8)
 
@@ -177,9 +185,11 @@ export function PodcastsSection({
             podcast={podcast}
             index={index}
             listenOnAppLabel={copy.listenOnApp}
+            episodePrefix={copy.episodePrefix}
+            fallbackEpisode={copy.fallbackEpisode}
           />
         ))}
-        <SectionCta href={`${PRESS_ORIGIN}/podcasts`} label={copy.heading} />
+        <SectionCta href={ctaHref} label={copy.cta} />
       </div>
     </section>
   )

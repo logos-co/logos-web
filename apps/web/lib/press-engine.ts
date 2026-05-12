@@ -1,6 +1,11 @@
+import { env } from '@/lib/env'
+
 export const PRESS_ORIGIN = 'https://press.logos.co'
 
 const PRESS_SEARCH_API = `${PRESS_ORIGIN}/api/search`
+const ADMIN_ACID_API_ORIGIN =
+  env.NEXT_PUBLIC_ADMIN_ACID_API_URL ?? 'https://admin-acid.logos.co/api'
+const CALENDAR_PUBLIC_PATH = '/calendar/public'
 
 export type PressArticleRow = {
   title: string
@@ -23,6 +28,16 @@ export type PressPodcastRow = {
   href: string
 }
 
+export type BroadcastEventRow = {
+  id: number
+  title: string
+  description: string
+  host: string
+  date: string
+  dateLabel: string
+  link: string
+}
+
 type PressSearchPost = {
   data: {
     title: string
@@ -36,6 +51,7 @@ type PressSearchPost = {
     summary?: string | null
     description?: string | null
     readingTime?: number | null
+    episodeNumber?: number | null
     authors?: { name: string }[]
   }
   type: 'article' | 'podcast'
@@ -45,6 +61,26 @@ type PressSearchResponse = {
   data?: {
     posts?: PressSearchPost[]
   }
+}
+
+type CalendarEvent = {
+  id: number
+  date: string
+  time?: string | null
+  type: {
+    label: string
+    value: string
+  }
+  guest: string | null
+  speakers: (string | null)[]
+  topic: string | null
+  notes: string | null
+  links?: string[]
+}
+
+type CalendarResponse = {
+  success?: boolean
+  data?: CalendarEvent[]
 }
 
 const stripHtml = (value: string): string =>
@@ -77,6 +113,14 @@ const formatGalleryDate = (iso?: string | null) => {
   }).formatToParts(new Date(iso))
   return `${parts.find((p) => p.type === 'month')?.value ?? ''}.${parts.find((p) => p.type === 'day')?.value ?? ''}.${parts.find((p) => p.type === 'year')?.value ?? ''}`
 }
+
+const formatEventDateLabel = (iso: string) =>
+  new Intl.DateTimeFormat('en-US', {
+    timeZone: 'UTC',
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  }).format(new Date(`${iso}T00:00:00.000Z`))
 
 const inferSerifPrefix = (title: string) => {
   const colonIndex = title.indexOf(':')
@@ -129,8 +173,37 @@ const toPodcastRow = (post: PressSearchPost): PressPodcastRow => {
     image: data.coverImage?.url || '',
     description: stripHtml(data.description || data.summary || ''),
     date: formatLongDate(data.publishedAt),
-    episodeNumber: data.episodeNumber,
+    episodeNumber: data.episodeNumber ?? undefined,
     href: `${PRESS_ORIGIN}/podcasts/logos-state/${data.slug}`,
+  }
+}
+
+const isMeaningful = (value?: string | null) => {
+  if (!value) return false
+  return value.trim().length > 0 && value.trim().toLowerCase() !== 'null'
+}
+
+const meaningfulText = (value?: string | null) =>
+  isMeaningful(value) ? value!.trim() : ''
+
+const toBroadcastEventRow = (event: CalendarEvent): BroadcastEventRow => {
+  const typeLabel = event.type.label
+  const topic = meaningfulText(event.topic) || typeLabel
+  const guest = meaningfulText(event.guest)
+  const speakers = event.speakers.map(meaningfulText).filter(Boolean).join(', ')
+  const host = speakers || guest || 'Logos Network'
+  const detailParts = [topic !== typeLabel ? topic : '', guest].filter(Boolean)
+
+  return {
+    id: event.id,
+    title: typeLabel,
+    description:
+      detailParts.join(' featuring ') ||
+      'Live streams, updates, and regular programming from the Logos network.',
+    host,
+    date: event.date,
+    dateLabel: formatEventDateLabel(event.date),
+    link: event.links?.[0] ?? 'https://youtube.com/@logosnetwork',
   }
 }
 
@@ -154,4 +227,35 @@ export const getPressPageData = async () => {
 export const getLatestPressPodcasts = async (limit = 20) => {
   const podcastPosts = await getPressSearchItems('podcast', limit)
   return podcastPosts.map(toPodcastRow).filter(hasImage)
+}
+
+export const getBroadcastEvents = async () => {
+  const response = await fetch(
+    `${ADMIN_ACID_API_ORIGIN}${CALENDAR_PUBLIC_PATH}`,
+    {
+      cache: 'force-cache',
+    }
+  )
+  if (!response.ok) {
+    throw new Error(`Broadcast calendar failed: ${response.status}`)
+  }
+
+  const json = (await response.json()) as CalendarResponse
+  if (!json.success || !json.data) {
+    throw new Error('Broadcast calendar returned an invalid response')
+  }
+
+  const now = new Date()
+  const uniqueEvents = Array.from(
+    new Map(json.data.map((event) => [event.id, event])).values()
+  )
+
+  return uniqueEvents
+    .filter((event) => new Date(`${event.date}T23:59:59.999Z`) >= now)
+    .sort((a, b) => {
+      const dateDelta = a.date.localeCompare(b.date)
+      if (dateDelta !== 0) return dateDelta
+      return (a.time ?? '').localeCompare(b.time ?? '')
+    })
+    .map(toBroadcastEventRow)
 }

@@ -6,6 +6,7 @@ import Image from 'next/image'
 import type { ReactNode } from 'react'
 
 import { ExternalLink } from '@/components/ui'
+import { Link } from '@/i18n/navigation'
 import { cn } from '@/lib/cn'
 
 export function ArrowIcon({
@@ -145,24 +146,27 @@ export function RowThumbnail({
   )
 }
 
-export function SectionCta({
-  href,
-  label,
-}: {
-  href: string
-  label: string
-}) {
+export function SectionCta({ href, label }: { href: string; label: string }) {
+  const className =
+    'flex h-[84px] w-full cursor-pointer items-center justify-center rounded-xl border border-brand-dark-green text-brand-dark-green transition-colors hover:bg-brand-yellow'
+  const content = (
+    <span className="inline-flex items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35]">
+      {label}
+      <ArrowIcon />
+    </span>
+  )
+
   return (
     <div className="flex h-24 items-center justify-center px-3 pb-3">
-      <ExternalLink
-        href={href}
-        className="flex h-[84px] w-full cursor-pointer items-center justify-center rounded-xl border border-brand-dark-green text-brand-dark-green transition-colors hover:bg-brand-yellow"
-      >
-        <span className="inline-flex items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35]">
-          {label}
-          <ArrowIcon />
-        </span>
-      </ExternalLink>
+      {href.startsWith('http') ? (
+        <ExternalLink href={href} className={className}>
+          {content}
+        </ExternalLink>
+      ) : (
+        <Link href={href} className={className}>
+          {content}
+        </Link>
+      )}
     </div>
   )
 }

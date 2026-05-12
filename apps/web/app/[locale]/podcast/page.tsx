@@ -1,0 +1,100 @@
+import { getTranslations } from 'next-intl/server'
+import { isActiveLocale } from '@repo/content/locales'
+import { LogosMark } from '@repo/ui'
+
+import { ROUTES } from '@/constants/routes'
+import { createDefaultMetadata } from '@/lib/metadata'
+import { PRESS_ORIGIN, getLatestPressPodcasts } from '@/lib/press-engine'
+
+import { PodcastsSection } from '../press/_sections/podcasts'
+
+interface PodcastIntroCopy {
+  title: string
+  description: string
+  hostedBy: string
+}
+
+function PodcastIntro({ copy }: { copy: PodcastIntroCopy }) {
+  return (
+    <section className="h-[246px] bg-accent-tan px-3 pt-10 text-brand-dark-green md:h-[282px] md:px-0 md:pt-[60px]">
+      <div className="mx-auto grid w-full max-w-[1416px] gap-6 md:grid-cols-12">
+        <div className="flex items-center gap-3 md:col-span-5">
+          <LogosMark size={20} className="shrink-0" />
+          <h1 className="font-display text-[30px] leading-none tracking-[-0.03em] md:text-[36px]">
+            {copy.title}
+          </h1>
+        </div>
+        <div className="text-mono-s flex h-[122px] min-w-0 max-w-[369px] flex-col justify-between overflow-hidden text-black md:col-start-7 md:col-end-10 md:h-auto md:gap-6 md:overflow-visible">
+          <p className="break-words line-clamp-6 md:line-clamp-none">
+            {copy.description}
+          </p>
+          <p>{copy.hostedBy}</p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'pages.podcast' })
+  return createDefaultMetadata({
+    title: t('title'),
+    description: t('description'),
+    locale,
+    path: ROUTES.podcast,
+  })
+}
+
+export default async function LogosPodcastPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!isActiveLocale(locale)) {
+    throw new Error(`LogosPodcastPage received non-active locale "${locale}"`)
+  }
+
+  const [t, pressT, podcasts] = await Promise.all([
+    getTranslations({ locale, namespace: 'pages.podcast' }),
+    getTranslations({ locale, namespace: 'pages.press.podcasts' }),
+    getLatestPressPodcasts(20),
+  ])
+
+  if (podcasts.length === 0) {
+    throw new Error('Podcast page requires at least one podcast from press API')
+  }
+
+  return (
+    <div className="overflow-hidden bg-accent-tan">
+      <PodcastIntro
+        copy={{
+          title: t('heading'),
+          description: t('intro.description'),
+          hostedBy: t('intro.hostedBy'),
+        }}
+      />
+      <PodcastsSection
+        podcasts={podcasts}
+        ctaHref={`${PRESS_ORIGIN}/podcasts`}
+        copy={{
+          heading: t('latestHeading'),
+          media: t('eyebrow'),
+          heroTitle: podcasts[0].title,
+          heroDescription: podcasts[0].description,
+          latestEpisode: t('latestEpisode'),
+          seeAllEpisodes: t('seeAllEpisodes'),
+          listenOnApp: t('listenOnApp'),
+          cta: pressT('cta'),
+          episodePrefix: t('episodePrefix'),
+          fallbackEpisode: t('fallbackEpisode'),
+        }}
+      />
+    </div>
+  )
+}

@@ -38,6 +38,10 @@ export type Env = {
    * content pipeline reads from local files, not this URL.
    */
   NEXT_PUBLIC_CMS_URL: string | undefined
+  /**
+   * Public calendar API origin used at build time for Logos Broadcast Network.
+   */
+  NEXT_PUBLIC_ADMIN_ACID_API_URL: string | undefined
 }
 
 function assertOneOf<T extends string>(
@@ -87,4 +91,7 @@ export const env: Env = {
   ),
   NEXT_PUBLIC_SITE_URL: readOptionalString(process.env.NEXT_PUBLIC_SITE_URL),
   NEXT_PUBLIC_CMS_URL: readOptionalString(process.env.NEXT_PUBLIC_CMS_URL),
+  NEXT_PUBLIC_ADMIN_ACID_API_URL: readOptionalString(
+    process.env.NEXT_PUBLIC_ADMIN_ACID_API_URL
+  ),
 }

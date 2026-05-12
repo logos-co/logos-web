@@ -28,6 +28,7 @@ export const ROUTES = {
   buildersHub: '/builders-hub',
   ideas: '/builders-hub/ideas',
   rfps: '/builders-hub/rfps',
+  lambdaPrize: '/lambda-prize',
 
   // Circles
   circles: '/circles',
@@ -45,6 +46,8 @@ export const ROUTES = {
 
   // Press
   press: '/press',
+  podcast: '/podcast',
+  logosBroadcastNetwork: '/logos-broadcast-network',
 
   // About
   about: '/about',

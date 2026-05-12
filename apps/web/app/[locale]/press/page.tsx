@@ -66,10 +66,13 @@ export default async function PressPage({
       <PressHero
         lead={articles[0]}
         copy={{
-          heroHeading: t('heading'),
+          heroHeadingLine1: t('hero.line1'),
+          heroHeadingLine2: t('hero.line2'),
+          navLabel: t('nav.label'),
           navArticles: t('nav.articles'),
           navPodcasts: t('nav.podcasts'),
           navBroadcast: t('nav.broadcast'),
+          navBroadcastHref: ROUTES.logosBroadcastNetwork,
         }}
       />
       <section className="bg-accent-tan">
@@ -81,7 +84,10 @@ export default async function PressPage({
         {repeatedArticles.slice(4, 8).map((article, index) => (
           <ArticleEntry key={`mid-${index}`} article={article} index={index} />
         ))}
-        <FeaturedArticle article={featuredArticle} />
+        <FeaturedArticle
+          article={featuredArticle}
+          readArticleLabel={t('articles.readArticle')}
+        />
         {repeatedArticles.slice(8, 12).map((article, index) => (
           <ArticleEntry
             key={`bottom-${index}`}
@@ -90,12 +96,13 @@ export default async function PressPage({
           />
         ))}
         <ArticlesCta
-          href={`${PRESS_ORIGIN}/articles`}
+          href={`${PRESS_ORIGIN}/search?type=article`}
           label={t('articles.seeMore')}
         />
       </section>
       <PodcastsSection
         podcasts={podcasts}
+        ctaHref={ROUTES.podcast}
         copy={{
           heading: t('podcasts.heading'),
           media: t('podcasts.media'),
@@ -104,10 +111,14 @@ export default async function PressPage({
           latestEpisode: t('podcasts.latestEpisode'),
           seeAllEpisodes: t('podcasts.seeAllEpisodes'),
           listenOnApp: t('podcasts.listenOnApp'),
+          cta: t('podcasts.cta'),
+          episodePrefix: t('podcasts.episodePrefix'),
+          fallbackEpisode: t('podcasts.fallbackEpisode'),
         }}
       />
       <BroadcastSection
         articles={broadcastArticles}
+        href={ROUTES.logosBroadcastNetwork}
         copy={{
           broadcastHeading: t('broadcast.heading'),
           broadcastDescription: t('broadcast.description'),

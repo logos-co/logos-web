@@ -5,6 +5,7 @@
 import Image from 'next/image'
 
 import { ExternalLink } from '@/components/ui'
+import { Link } from '@/i18n/navigation'
 import type { PressArticleRow } from '@/lib/press-engine'
 
 import {
@@ -21,9 +22,13 @@ const PRESS_HERO_IMAGE = '/images/press-engine/press-hero.jpg'
 
 export interface PressCopy {
   heroHeading: string
+  heroHeadingLine1: string
+  heroHeadingLine2: string
+  navLabel: string
   navArticles: string
   navPodcasts: string
   navBroadcast: string
+  navBroadcastHref: string
   articlesHeading: string
   readArticle: string
   seeMoreArticles: string
@@ -40,11 +45,15 @@ export function PressHero({
   lead: PressArticleRow
   copy: Pick<
     PressCopy,
-    'heroHeading' | 'navArticles' | 'navPodcasts' | 'navBroadcast'
+    | 'heroHeadingLine1'
+    | 'heroHeadingLine2'
+    | 'navLabel'
+    | 'navArticles'
+    | 'navPodcasts'
+    | 'navBroadcast'
+    | 'navBroadcastHref'
   >
 }) {
-  const [headingLine1, ...headingRest] = copy.heroHeading.split(' Press ')
-
   return (
     <section className="relative h-[374px] bg-accent-tan px-3 pt-6 md:h-[359px] md:pt-6">
       <div className="mx-auto flex w-full max-w-[370px] flex-col gap-[100px] md:max-w-[1416px] md:gap-10">
@@ -64,28 +73,35 @@ export function PressHero({
           </p>
         </div>
         <h1 className="font-display text-center text-[40px] leading-none tracking-[-0.03em] text-brand-dark-green md:text-[56px]">
-          <span className="block">{headingLine1}</span>
-          <span className="block">Press {headingRest.join(' Press ')}</span>
+          <span className="block">{copy.heroHeadingLine1}</span>
+          <span className="block">{copy.heroHeadingLine2}</span>
         </h1>
       </div>
       <nav
-        aria-label="Press sections"
+        aria-label={copy.navLabel}
         className="absolute left-[calc(50%+6px)] top-[342px] hidden items-center gap-6 text-brand-dark-green md:flex"
       >
         {[
           { href: '#articles', label: copy.navArticles },
           { href: '#podcasts', label: copy.navPodcasts },
-          { href: '#broadcast', label: copy.navBroadcast },
-        ].map((item) => (
-          <a
-            key={item.href}
-            href={item.href}
-            className="inline-flex cursor-pointer items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35] transition-opacity hover:opacity-70"
-          >
-            <ArrowIcon direction="down" />
-            {item.label}
-          </a>
-        ))}
+        ].map((item) => {
+          const className =
+            'inline-flex cursor-pointer items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35] transition-opacity hover:opacity-70'
+
+          return (
+            <a key={item.href} href={item.href} className={className}>
+              <ArrowIcon direction="down" />
+              {item.label}
+            </a>
+          )
+        })}
+        <Link
+          href={copy.navBroadcastHref}
+          className="inline-flex cursor-pointer items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35] transition-opacity hover:opacity-70"
+        >
+          <ArrowIcon direction="down" />
+          {copy.navBroadcast}
+        </Link>
       </nav>
     </section>
   )
@@ -191,11 +207,7 @@ export function GallerySection({ articles }: { articles: PressArticleRow[] }) {
   )
 }
 
-export function FeaturedArticle({ article }: { article: PressArticleRow }) {
-  return <FeaturedArticleContent article={article} readArticleLabel="Read Article" />
-}
-
-export function FeaturedArticleContent({
+export function FeaturedArticle({
   article,
   readArticleLabel,
 }: {
@@ -220,7 +232,7 @@ export function FeaturedArticleContent({
             </p>
             <TextLink
               href={article.href}
-              label={`Read ${article.title}`}
+              label={`${readArticleLabel}: ${article.title}`}
               tone="light"
               className="md:text-brand-dark-green md:decoration-brand-dark-green/50"
             >
@@ -242,21 +254,17 @@ export function FeaturedArticleContent({
   )
 }
 
-export function ArticlesCta({
-  href,
-  label,
-}: {
-  href: string
-  label: string
-}) {
+export function ArticlesCta({ href, label }: { href: string; label: string }) {
   return <SectionCta href={href} label={label} />
 }
 
 export function BroadcastSection({
   articles,
+  href,
   copy,
 }: {
   articles: PressArticleRow[]
+  href: string
   copy: Pick<
     PressCopy,
     'broadcastHeading' | 'broadcastDescription' | 'watch' | 'broadcastCta'
@@ -313,10 +321,7 @@ export function BroadcastSection({
           </PressRowLink>
         ))}
       </div>
-      <SectionCta
-        href="https://press.logos.co/broadcast"
-        label={copy.broadcastCta}
-      />
+      <SectionCta href={href} label={copy.broadcastCta} />
     </section>
   )
 }
