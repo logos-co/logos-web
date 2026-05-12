@@ -7,6 +7,7 @@ type RecentPullRequest = {
   id: string | number
   branchName?: string | null
   contentType?: string | null
+  draft?: boolean | null
   pullRequestNumber?: number | null
   pullRequestUrl?: string | null
   status?: string | null
@@ -276,6 +277,9 @@ const RecentPrBannerInner = ({
                 <span style={{ opacity: 0.78 }}>
                   <code>{pr.branchName}</code>
                 </span>
+                {pr.draft ? (
+                  <span style={{ fontWeight: 700 }}>Draft PR</span>
+                ) : null}
                 <button
                   type="button"
                   disabled={
@@ -301,6 +305,11 @@ const RecentPrBannerInner = ({
                     ? 'Merging...'
                     : 'Merge to develop'}
                 </button>
+                {pr.draft ? (
+                  <span style={{ opacity: 0.78 }}>
+                    Merge will mark it ready for review first.
+                  </span>
+                ) : null}
               </span>
             </li>
           ))}

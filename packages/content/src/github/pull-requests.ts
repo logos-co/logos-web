@@ -5,7 +5,9 @@ export type PullRequestSummary = {
   number: number
   title: string
   htmlUrl: string
+  nodeId: string
   state: 'open' | 'closed'
+  draft: boolean
   merged: boolean
   branchName: string
   baseBranch: string
@@ -16,7 +18,9 @@ const toSummary = (pr: {
   number: number
   title: string
   html_url: string
+  node_id: string
   state: string
+  draft?: boolean
   merged_at: string | null
   head: { ref: string }
   base: { ref: string }
@@ -25,7 +29,9 @@ const toSummary = (pr: {
   number: pr.number,
   title: pr.title,
   htmlUrl: pr.html_url,
+  nodeId: pr.node_id,
   state: pr.state === 'closed' ? 'closed' : 'open',
+  draft: pr.draft ?? false,
   merged: pr.merged_at !== null,
   branchName: pr.head.ref,
   baseBranch: pr.base.ref,

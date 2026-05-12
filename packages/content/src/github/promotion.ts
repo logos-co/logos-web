@@ -51,7 +51,28 @@ export interface MergePullRequestResult {
   message: string
   pullRequestNumber: number
   pullRequestUrl: string
+  readyForReview: boolean
   sha: string | null
+}
+
+const markPullRequestReadyForReview = async ({
+  nodeId,
+}: {
+  nodeId: string
+}): Promise<void> => {
+  const octokit = getOctokit()
+  await octokit.graphql(
+    `mutation MarkPullRequestReadyForReview($pullRequestId: ID!) {
+      markPullRequestReadyForReview(input: { pullRequestId: $pullRequestId }) {
+        pullRequest {
+          id
+        }
+      }
+    }`,
+    {
+      pullRequestId: nodeId,
+    }
+  )
 }
 
 export const getBranchSyncLinks = ({
@@ -177,6 +198,12 @@ export const mergePullRequestToBase = async ({
   }
 
   const octokit = getOctokit()
+  let readyForReview = false
+  if (pr.draft) {
+    await markPullRequestReadyForReview({ nodeId: pr.nodeId })
+    readyForReview = true
+  }
+
   const { data } = await octokit.pulls.merge({
     owner,
     repo,
@@ -189,6 +216,7 @@ export const mergePullRequestToBase = async ({
     message: data.message,
     pullRequestNumber,
     pullRequestUrl: pr.htmlUrl,
+    readyForReview,
     sha: data.sha,
   }
 }

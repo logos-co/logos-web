@@ -25,6 +25,7 @@ const toastId = 'content-pr-save-in-progress'
 
 type RecentPullRequest = {
   branchName?: string | null
+  draft?: boolean | null
   pullRequestNumber?: number | null
   pullRequestUrl?: string | null
 }
@@ -375,6 +376,17 @@ export const ContentPrSaveButton = () => {
           PR #{recentPr.pullRequestNumber ?? '?'}
         </a>
       ) : null}
+      {recentPr?.draft ? (
+        <span
+          style={{
+            color: 'var(--theme-warning-700, #8a5a00)',
+            fontSize: 12,
+            fontWeight: 700,
+          }}
+        >
+          Draft PR
+        </span>
+      ) : null}
       {mergeResult?.pullRequestUrl ? (
         <a
           href={mergeResult.pullRequestUrl}
@@ -453,6 +465,16 @@ export const ContentPrSaveButton = () => {
           }}
         >
           Merge failed
+        </span>
+      ) : null}
+      {recentPr?.draft ? (
+        <span
+          style={{
+            color: 'var(--theme-warning-700, #8a5a00)',
+            fontSize: 12,
+          }}
+        >
+          Merge will mark it ready for review first.
         </span>
       ) : null}
       {syncResponse?.error ? (

@@ -14,7 +14,7 @@ export interface MergeContentPullRequestInput {
 }
 
 export interface MergeContentPullRequestResult {
-  contentChangeRequestId: string | number
+  contentChangeRequestId: string | number | null
   merged: boolean
   message: string
   pullRequestNumber: number
@@ -25,7 +25,7 @@ export interface MergeContentPullRequestResult {
 const findChangeRequest = async ({
   payload,
   pullRequestNumber,
-}: MergeContentPullRequestInput): Promise<ChangeRequestDoc> => {
+}: MergeContentPullRequestInput): Promise<ChangeRequestDoc | null> => {
   const result = await payload.find({
     collection: 'content-change-requests',
     depth: 0,
@@ -41,11 +41,7 @@ const findChangeRequest = async ({
   })
 
   const doc = result.docs[0] as unknown as ChangeRequestDoc | undefined
-  if (!doc) {
-    throw new Error(`open content PR #${pullRequestNumber} was not found`)
-  }
-
-  return doc
+  return doc ?? null
 }
 
 export const mergeContentPullRequest = async (
@@ -56,17 +52,19 @@ export const mergeContentPullRequest = async (
     pullRequestNumber: input.pullRequestNumber,
   })
 
-  await input.payload.update({
-    collection: 'content-change-requests',
-    id: changeRequest.id,
-    data: {
-      commitSha: result.sha ?? undefined,
-      status: 'merged',
-    },
-  })
+  if (changeRequest) {
+    await input.payload.update({
+      collection: 'content-change-requests',
+      id: changeRequest.id,
+      data: {
+        commitSha: result.sha ?? undefined,
+        status: 'merged',
+      },
+    })
+  }
 
   return {
-    contentChangeRequestId: changeRequest.id,
+    contentChangeRequestId: changeRequest?.id ?? null,
     merged: result.merged,
     message: result.message,
     pullRequestNumber: result.pullRequestNumber,
