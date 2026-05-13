@@ -130,7 +130,7 @@
         "heading": "The frontier is open.\nBuild what's next.",
         "body": "Prize is the competitive prize framework powering the Logos network. A programme to accelerate real, shipped applications built on the Logos stack.",
         "primaryCta": "View Prizes",
-        "secondaryCta": "Submit Prize"
+        "secondaryCta": "Builder Hub"
       },
       "howItWorks": {
         "heading": "How It Works",
@@ -164,7 +164,7 @@
       "evaluation": {
         "heading": "Evaluation Criteria",
         "primaryCta": "View Prizes",
-        "secondaryCta": "Build on the Logos Stack",
+        "secondaryCta": "Connect with the team on Discord",
         "rows": {
           "1": {
             "label": "Step 1",
@@ -183,29 +183,29 @@
           "1": {
             "meta": {
               "id": "LP-0017",
-              "effort": "Effort: Medium",
+              "effort": "Effort: MEDIUM",
               "prize": "Prize: $400"
             },
             "title": "Whistleblower: Censorship-resistant document upload and indexing mini-app",
-            "body": "This prize funds Whistleblower, a Logos mini-app that lets anyone upload a document and make it permanently discoverable without relying on any centralized server."
+            "body": "This prize funds Whistleblower, a Logos mini-app that lets anyone upload a document and make it permanently discoverable without relying on any centralized server, without requiring the publisher to hold tokens, and without a single point of censorship. A user selects a file, adds optional met"
           },
           "2": {
             "meta": {
               "id": "LP-0017",
-              "effort": "Effort: Medium",
+              "effort": "Effort: MEDIUM",
               "prize": "Prize: $400"
             },
             "title": "Whistleblower: Censorship-resistant document upload and indexing mini-app",
-            "body": "This prize funds Whistleblower, a Logos mini-app that lets anyone upload a document and make it permanently discoverable without relying on any centralized server."
+            "body": "This prize funds Whistleblower, a Logos mini-app that lets anyone upload a document and make it permanently discoverable without relying on any centralized server, without requiring the publisher to hold tokens, and without a single point of censorship. A user selects a file, adds optional met"
           },
           "3": {
             "meta": {
               "id": "LP-0017",
-              "effort": "Effort: Medium",
+              "effort": "Effort: MEDIUM",
               "prize": "Prize: $400"
             },
             "title": "Whistleblower: Censorship-resistant document upload and indexing mini-app",
-            "body": "This prize funds Whistleblower, a Logos mini-app that lets anyone upload a document and make it permanently discoverable without relying on any centralized server."
+            "body": "This prize funds Whistleblower, a Logos mini-app that lets anyone upload a document and make it permanently discoverable without relying on any centralized server, without requiring the publisher to hold tokens, and without a single point of censorship. A user selects a file, adds optional met"
           }
         }
       },
@@ -213,7 +213,7 @@
         "heading": "About the Programme",
         "body": "The systems that were supposed to protect us, the institutions, the corporations, the platforms, have been captured. They surveil us, extract from us, and make decisions on our behalf without our consent. We are not asking them to change. Lambda Prize is for the builders who want to create the alternative.",
         "primaryCta": "View Prizes",
-        "secondaryCta": "Submit Prize",
+        "secondaryCta": "Builder Hub",
         "rows": {
           "1": {
             "label": "Real outcomes, not proposals",
@@ -233,17 +233,44 @@
         "disclaimer": "Disclaimer: This diagram oversimplifies the stack.",
         "heading": "The Logos\nTechnology Stack",
         "body": "Logos provides developers with a modular, plugin-based runtime for building decentralized applications.",
-        "cta": "Learn more",
-        "primaryCta": "Explore Stack",
+        "cta": "See the stack",
+        "primaryCta": "Documentation",
         "secondaryCta": "Builder Hub",
-        "cards": {
-          "storage": "Storage",
-          "messaging": "Messaging",
-          "blockchain": "Blockchain",
-          "userModules": "User Modules"
+        "basecamp": {
+          "title": "Basecamp",
+          "body": "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem.",
+          "cta": "Install"
         },
-        "networking": "The Networking Stack: Discovery, Peering, and Mix-Net",
-        "foundation": "The Foundation: Logos Kernel"
+        "cards": {
+          "storage": {
+            "title": "Storage",
+            "body": "Decentralized file storage and retrieval, using content-addressed (CID-based) data"
+          },
+          "messaging": {
+            "title": "Messaging",
+            "body": "Private, censorship-resistant communication between parties."
+          },
+          "blockchain": {
+            "title": "Blockchain",
+            "body": "Decentralized compute and consensus.",
+            "badges": {
+              "1": "LOGOS Execution zone (LEZ)",
+              "2": "Data Availability and Consensus: Cryptarchia"
+            }
+          },
+          "userModules": {
+            "title": "User Modules",
+            "body": "Anyone can build modules that plug into the same IPC infrastructure."
+          }
+        },
+        "networking": {
+          "title": "The Networking Stack:\nDiscovery, Peering, and Mix-Net",
+          "body": "This layer handles how Logos nodes find each other, establish connections, and communicate."
+        },
+        "foundation": {
+          "title": "The Foundation: Logos Kernel",
+          "body": "A microkernel that handles the essential primitives every decentralized application needs."
+        }
       },
       "support": {
         "heading": "Get Support",

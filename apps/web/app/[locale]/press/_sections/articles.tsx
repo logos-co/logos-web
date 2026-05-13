@@ -55,7 +55,7 @@ export function PressHero({
   >
 }) {
   return (
-    <section className="relative h-[374px] bg-accent-tan px-3 pt-6 md:h-[359px] md:pt-6">
+    <section className="relative h-[473px] bg-accent-tan px-3 pt-6 md:h-[359px] md:pt-6">
       <div className="mx-auto flex w-full max-w-[370px] flex-col gap-[100px] md:max-w-[1416px] md:gap-10">
         <div className="relative h-[81px] w-full md:w-[1186px]">
           <div className="absolute left-0 top-0 aspect-video w-[107px] overflow-hidden">
@@ -79,7 +79,7 @@ export function PressHero({
       </div>
       <nav
         aria-label={copy.navLabel}
-        className="absolute left-[calc(50%+6px)] top-[342px] hidden items-center gap-6 text-brand-dark-green md:flex"
+        className="absolute left-[calc(50%+6px)] top-[334px] flex flex-col items-start gap-2 text-brand-dark-green md:top-[342px] md:flex-row md:items-center md:gap-6"
       >
         {[
           { href: '#articles', label: copy.navArticles },
@@ -119,11 +119,7 @@ export function ArticleEntry({
     : article.title
 
   return (
-    <PressRowLink
-      href={article.href}
-      index={index}
-      className="h-[122px] md:h-[158px]"
-    >
+    <PressRowLink href={article.href} index={index} className="h-[158px]">
       <RowThumbnail
         src={article.image}
         className="left-3 top-3 w-[107px] md:block"
@@ -163,7 +159,7 @@ export function ArticlesHeading({ label }: { label: string }) {
   return (
     <div
       id="articles"
-      className="flex h-12 items-start px-3 text-brand-dark-green md:pt-0"
+      className="flex h-12 items-start px-3 text-brand-dark-green md:h-[88px] md:pt-10"
     >
       <h2 className="font-sans text-[36px] leading-none tracking-[-0.02em]">
         {label}
@@ -273,14 +269,19 @@ export function BroadcastSection({
   return (
     <section
       id="broadcast"
-      className="hidden bg-accent-tan pt-[100px] text-brand-dark-green md:block"
+      className="bg-accent-tan pt-[100px] text-brand-dark-green"
     >
       <div className="flex items-start justify-between gap-3 px-3 pb-3">
-        <h2 className="w-[702px] font-sans text-[36px] leading-none tracking-[-0.02em]">
+        <h2 className="w-full font-sans text-[36px] leading-none tracking-[-0.02em] md:w-[702px]">
           {copy.broadcastHeading}
         </h2>
-        <p className="text-mono-s w-[345px]">{copy.broadcastDescription}</p>
-        <p aria-hidden="true" className="text-mono-s w-[345px] opacity-0">
+        <p className="text-mono-s hidden w-[345px] md:block">
+          {copy.broadcastDescription}
+        </p>
+        <p
+          aria-hidden="true"
+          className="text-mono-s hidden w-[345px] opacity-0 md:block"
+        >
           {copy.broadcastDescription}
         </p>
       </div>
@@ -290,15 +291,15 @@ export function BroadcastSection({
             key={`${article.title}-broadcast-${index}`}
             href={article.href}
             index={index}
-            className="h-[122px] md:h-[158px]"
+            className="h-[158px]"
           >
             <RowThumbnail
               src={article.image}
               className="left-3 top-3 w-[107px]"
             />
-            <div className="absolute left-[119px] top-0 grid h-full w-[1150px] grid-cols-[595px_345px_1fr] gap-x-3">
-              <div className="flex flex-col justify-center py-3 pl-3">
-                <h3 className="w-[333px] text-[18px] leading-[1.15] tracking-[-0.01em]">
+            <div className="absolute left-[119px] top-0 flex h-full w-[274px] flex-col justify-center gap-1.5 py-3 pl-3 md:grid md:w-[1150px] md:grid-cols-[595px_345px_1fr] md:gap-x-3 md:p-0">
+              <div className="flex flex-col justify-center md:py-3 md:pl-3">
+                <h3 className="w-[250px] text-[18px] leading-[1.15] tracking-[-0.01em] md:w-[333px]">
                   {article.titleSerif ? (
                     <>
                       <span className="font-display block leading-[1.1]">
@@ -313,8 +314,10 @@ export function BroadcastSection({
                   )}
                 </h3>
               </div>
-              <p className="text-mono-s py-3">{article.description}</p>
-              <div className="py-3">
+              <p className="text-mono-s hidden py-3 md:block">
+                {article.description}
+              </p>
+              <div className="hidden py-3 md:block">
                 <UnderlineLabel>{copy.watch}</UnderlineLabel>
               </div>
             </div>

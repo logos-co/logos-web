@@ -540,7 +540,7 @@ function BuilderSection({ t }: { t: Translate }) {
   const details = ['problem', 'solution', 'stack']
 
   return (
-    <section className="bg-brand-off-white pb-10 text-brand-dark-green md:pb-[100px]">
+    <section className="bg-brand-off-white pt-[260px] pb-10 text-brand-dark-green md:pt-0 md:pb-[100px]">
       <CenterCtaSection
         title={t('builder.title')}
         body={t('builder.body')}
@@ -618,7 +618,7 @@ function ResourcesSection({ t }: { t: Translate }) {
   const rows = ['start', 'forum', 'discord']
 
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-[114px] text-brand-dark-green">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-[180px] text-brand-dark-green md:pb-[114px]">
       <SectionHeader
         title={
           <>

@@ -78,12 +78,12 @@ function PodcastHero({
             </span>
           </div>
         </div>
-        <div className="absolute left-3 top-[342px] aspect-video w-[calc(100%-24px)] overflow-hidden rounded md:left-auto md:right-3 md:top-3 md:h-[382px] md:w-[679px] md:max-w-[calc(100%-24px)]">
+        <div className="absolute left-3 top-[342px] aspect-video w-[calc(100%-24px)] overflow-hidden rounded md:left-auto md:right-3 md:top-3 md:h-[382px] md:w-[702px] md:max-w-[calc(100%-24px)]">
           <Image
             src={latestPodcast.image}
             alt=""
             fill
-            sizes="(max-width: 768px) 369px, 679px"
+            sizes="(max-width: 768px) 369px, 702px"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
         </div>

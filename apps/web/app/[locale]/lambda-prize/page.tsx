@@ -134,14 +134,41 @@ export default async function Page({
           heading: t('techStack.heading'),
           body: t('techStack.body'),
           cta: t('techStack.cta'),
+          basecamp: {
+            title: t('techStack.basecamp.title'),
+            body: t('techStack.basecamp.body'),
+            cta: t('techStack.basecamp.cta'),
+          },
           cards: [
-            t('techStack.cards.storage'),
-            t('techStack.cards.messaging'),
-            t('techStack.cards.blockchain'),
-            t('techStack.cards.userModules'),
+            {
+              title: t('techStack.cards.storage.title'),
+              body: t('techStack.cards.storage.body'),
+            },
+            {
+              title: t('techStack.cards.messaging.title'),
+              body: t('techStack.cards.messaging.body'),
+            },
+            {
+              title: t('techStack.cards.blockchain.title'),
+              body: t('techStack.cards.blockchain.body'),
+              badges: [
+                t('techStack.cards.blockchain.badges.1'),
+                t('techStack.cards.blockchain.badges.2'),
+              ],
+            },
+            {
+              title: t('techStack.cards.userModules.title'),
+              body: t('techStack.cards.userModules.body'),
+            },
           ],
-          networking: t('techStack.networking'),
-          foundation: t('techStack.foundation'),
+          networking: {
+            title: t('techStack.networking.title'),
+            body: t('techStack.networking.body'),
+          },
+          foundation: {
+            title: t('techStack.foundation.title'),
+            body: t('techStack.foundation.body'),
+          },
           primaryCta: t('techStack.primaryCta'),
           secondaryCta: t('techStack.secondaryCta'),
         },

@@ -47,7 +47,7 @@ function ZoomControls({
         type="button"
         aria-label={zoomOutAriaLabel}
         onClick={() => map.zoomOut()}
-        className="flex h-[66px] w-[72px] cursor-pointer items-center justify-center rounded-full bg-brand-dark-green text-brand-off-white transition-opacity hover:opacity-80 md:size-10"
+        className="order-2 flex h-[66px] w-[72px] cursor-pointer items-center justify-center rounded-full bg-brand-dark-green text-brand-off-white transition-opacity hover:opacity-80 md:order-1 md:size-10"
       >
         -
       </button>
@@ -55,7 +55,7 @@ function ZoomControls({
         type="button"
         aria-label={zoomInAriaLabel}
         onClick={() => map.zoomIn()}
-        className="flex h-[66px] w-[72px] cursor-pointer items-center justify-center rounded-full bg-brand-dark-green text-brand-off-white transition-opacity hover:opacity-80 md:size-10"
+        className="order-1 flex h-[66px] w-[72px] cursor-pointer items-center justify-center rounded-full bg-brand-dark-green text-brand-off-white transition-opacity hover:opacity-80 md:order-2 md:size-10"
       >
         +
       </button>

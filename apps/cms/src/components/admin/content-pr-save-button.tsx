@@ -215,6 +215,7 @@ export const ContentPrSaveButton = () => {
     null
   )
   const [syncing, setSyncing] = useState(false)
+  const [statusPanelDismissed, setStatusPanelDismissed] = useState(false)
 
   const disabled =
     (operation === 'update' && !modified) || uploadStatus === 'uploading'
@@ -295,6 +296,10 @@ export const ContentPrSaveButton = () => {
     void loadSyncStatus()
   }, [loadRecentPullRequest, loadSyncStatus])
 
+  useEffect(() => {
+    setStatusPanelDismissed(false)
+  }, [collection, slug])
+
   useHotkey(
     {
       cmdCtrlKey: true,
@@ -314,6 +319,7 @@ export const ContentPrSaveButton = () => {
   const handleSubmit = () => {
     if (uploadStatus === 'uploading') return
 
+    setStatusPanelDismissed(false)
     setRecentPr(null)
     setRecentPrError(null)
     setMergeResult(null)
@@ -324,6 +330,7 @@ export const ContentPrSaveButton = () => {
   const onMerge = async () => {
     if (!recentPr?.pullRequestNumber) return
 
+    setStatusPanelDismissed(false)
     setMerging(true)
     setMergeResult(null)
     try {
@@ -353,6 +360,7 @@ export const ContentPrSaveButton = () => {
   }
 
   const onSync = async () => {
+    setStatusPanelDismissed(false)
     setSyncing(true)
     try {
       const response = await fetch('/api/content-workflow/sync-production', {
@@ -382,17 +390,19 @@ export const ContentPrSaveButton = () => {
   const canSync =
     syncResponse?.decision?.kind === 'fast-forward' &&
     syncResponse.updated !== true
-  const hasStatusDetails = Boolean(
-    recentPr?.pullRequestUrl ||
-    recentPr?.draft ||
-    mergeResult?.pullRequestUrl ||
-    syncResponse?.links?.productionBranchUrl ||
-    syncResponse?.links?.compareUrl ||
-    syncStatusMessage ||
-    recentPrError ||
-    mergeResult?.error ||
-    syncResponse?.error
-  )
+  const hasStatusDetails =
+    !statusPanelDismissed &&
+    Boolean(
+      recentPr?.pullRequestUrl ||
+      recentPr?.draft ||
+      mergeResult?.pullRequestUrl ||
+      syncResponse?.links?.productionBranchUrl ||
+      syncResponse?.links?.compareUrl ||
+      syncStatusMessage ||
+      recentPrError ||
+      mergeResult?.error ||
+      syncResponse?.error
+    )
 
   return (
     <div
@@ -464,7 +474,7 @@ export const ContentPrSaveButton = () => {
             gap: '6px 12px',
             justifyContent: 'flex-end',
             maxWidth: 'min(920px, calc(100vw - 96px))',
-            padding: '6px 8px',
+            padding: '6px 6px 6px 8px',
             position: 'absolute',
             right: 0,
             top: 'calc(100% + 8px)',
@@ -550,6 +560,28 @@ export const ContentPrSaveButton = () => {
               Sync unavailable: {syncResponse.error}
             </span>
           ) : null}
+          <button
+            type="button"
+            aria-label="Hide status panel"
+            onClick={() => setStatusPanelDismissed(true)}
+            style={{
+              alignItems: 'center',
+              background: 'transparent',
+              border: 0,
+              borderRadius: 3,
+              color: 'var(--theme-elevation-650, #555)',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              fontSize: 16,
+              height: 22,
+              justifyContent: 'center',
+              lineHeight: 1,
+              padding: 0,
+              width: 22,
+            }}
+          >
+            ×
+          </button>
         </div>
       ) : null}
     </div>
