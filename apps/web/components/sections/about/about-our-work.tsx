@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { LogosMark } from '@repo/ui'
 
 import { Button } from '@/components/ui'
+import { ROUTES } from '@/constants/routes'
 
 /**
  * About — "Our Work" section. Top intro row (mark + body + "All Case Studies"
@@ -34,7 +35,7 @@ export async function AboutOurWork() {
               <p className="text-mono-s text-brand-dark-green md:max-w-[226px]">
                 {t('body')}
               </p>
-              <Button href="#" variant="link" className="self-start">
+              <Button href={ROUTES.press} variant="link" className="self-start">
                 {t('ctaAll')}
               </Button>
             </div>
@@ -101,7 +102,7 @@ function Card({ eyebrow, title, body, cta, image, imageRatio }: CardProps) {
       </div>
 
       <Button
-        href="#"
+        href={ROUTES.press}
         variant="primary"
         className="absolute top-[11px] right-[11px] hidden md:inline-flex"
       >

@@ -10,8 +10,8 @@
   "memberCount": 38,
   "discordChannel": "circle-florianopolis",
   "discordUrl": "https://discord.gg/logos",
-  "forumUrl": "https://forum.logos.co/c/circles/florianopolis",
-  "joinUrl": "https://forms.logos.co/join/florianopolis",
+  "forumUrl": "https://forms.logos.co",
+  "joinUrl": "/circles#resources",
   "image": {
     "src": "/cms/circles/florianopolis/cover.webp",
     "alt": "",

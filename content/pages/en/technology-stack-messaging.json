@@ -16,8 +16,16 @@
       "headline": "Messaging",
       "body": "Private peer-to-peer communication that resists surveillance and censorship.",
       "ctas": [
-        { "label": "Logos app", "href": "https://logos.co/app", "external": true, "variant": "primary" },
-        { "label": "Docs", "href": "https://docs.logos.co/messaging", "external": true, "variant": "secondary" }
+        {
+          "label": "Logos app",
+          "href": "/builders-hub#app-install",
+          "variant": "primary"
+        },
+        {
+          "label": "Docs",
+          "href": "/technology-stack/messaging",
+          "variant": "secondary"
+        }
       ]
     },
     {
@@ -28,8 +36,7 @@
       "description": "Logos Messaging (formerly Waku) was designed and developed as the replacement for Whisper - the messaging protocol of Ethereum. This protocol is used in a number of production applications and provides strong privacy and security guarantees.",
       "cta": {
         "label": "View the docs",
-        "href": "https://docs.logos.co/messaging",
-        "external": true
+        "href": "/technology-stack/messaging"
       }
     },
     {
@@ -86,8 +93,7 @@
           "description": "Reference for the kernel, modules, and UI packages.",
           "cta": {
             "label": "View the docs",
-            "href": "https://docs.logos.co",
-            "external": true
+            "href": "/technology-stack"
           }
         },
         {
@@ -106,8 +112,7 @@
           "description": "Download the app to start building with the kernel + modules + UI packages bundled.",
           "cta": {
             "label": "Download",
-            "href": "https://logos.co/app",
-            "external": true
+            "href": "/builders-hub#app-install"
           }
         }
       ]

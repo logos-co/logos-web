@@ -17,13 +17,16 @@
  *
  * Skipped (out of scope for this script):
  *   - pages: collection is a stub (no fields defined)
- *   - press / site / builders-hub settings: globals, not per-row collections
+ *   - press / site settings: globals, not per-row collections
  */
 import { getPayload } from 'payload'
 
 import {
   getAllIdeas,
   getAllRfps,
+  getBuilderHubListingSettings,
+  getBuilderHubSettings,
+  getBuilderResources,
   getCircleEvents,
   getCircleInitiatives,
   getCircleResources,
@@ -32,9 +35,14 @@ import {
   type CircleEvent,
   type CircleInitiative,
   type CircleResource,
+  type BuilderResource,
   type Idea,
   type Rfp,
 } from '@repo/content/loaders'
+import type {
+  BuilderHubListingPageSettings,
+  BuilderHubSettings,
+} from '@repo/content/schemas'
 
 import config from '@payload-config'
 import { SKIP_CONTENT_PR_CONTEXT } from '../src/collections/content-pr-hooks'
@@ -146,6 +154,44 @@ const mapCircleResource = (
   href: r.href,
 })
 
+const mapBuilderResource = (
+  r: BuilderResource
+): Record<string, unknown> & { slug: string } => ({
+  slug: r.slug,
+  status: r.status,
+  title: r.title,
+  description: r.description,
+  ctaLabel: r.ctaLabel,
+  href: r.href,
+})
+
+const mapBuilderListingSettings = (
+  settings: BuilderHubListingPageSettings
+): Record<string, unknown> & { page: 'ideas' | 'rfps' } => ({
+  page: settings.page,
+  title: settings.title,
+  description: settings.description,
+  breadcrumbLabel: settings.breadcrumbLabel,
+  submitCtaLabel: settings.submitCta.label,
+  submitCtaHref: settings.submitCta.href,
+  submitCtaExternal: settings.submitCta.external ?? false,
+  defaultView: settings.defaultView,
+  pageSize: settings.pageSize,
+  previousLabel: settings.pagination.previousLabel,
+  nextLabel: settings.pagination.nextLabel,
+  bottomCtaTitle: settings.bottomCta.title,
+  bottomCtaLabel: settings.bottomCta.cta.label,
+  bottomCtaHref: settings.bottomCta.cta.href,
+  bottomCtaExternal: settings.bottomCta.cta.external ?? false,
+})
+
+const mapBuilderHubSettings = (
+  settings: BuilderHubSettings
+): Record<string, unknown> & { slug: string } => ({
+  slug: 'builders-hub',
+  settings,
+})
+
 const mapRfp = (r: Rfp): Record<string, unknown> & { slug: string } => ({
   slug: r.slug,
   status: r.status,
@@ -195,11 +241,21 @@ const upsertBySlug = async (
   collection: string,
   data: Record<string, unknown> & { slug: string }
 ): Promise<'created' | 'updated'> => {
+  return upsertByField(payload, collection, 'slug', data.slug, data)
+}
+
+const upsertByField = async (
+  payload: PayloadInstance,
+  collection: string,
+  field: string,
+  value: string,
+  data: Record<string, unknown>
+): Promise<'created' | 'updated'> => {
   const found = await payload.find({
     collection: collection as Parameters<
       PayloadInstance['find']
     >[0]['collection'],
-    where: { slug: { equals: data.slug } },
+    where: { [field]: { equals: value } },
     limit: 1,
     depth: 0,
   })
@@ -222,6 +278,30 @@ const upsertBySlug = async (
     context: { [SKIP_CONTENT_PR_CONTEXT]: true },
   })
   return 'created'
+}
+
+const syncSingleton = async <TData extends Record<string, unknown>>(
+  payload: PayloadInstance,
+  collectionSlug: string,
+  field: string,
+  value: string,
+  data: TData
+): Promise<SyncResult> => {
+  try {
+    const op = await upsertByField(payload, collectionSlug, field, value, data)
+    return {
+      created: op === 'created' ? 1 : 0,
+      updated: op === 'updated' ? 1 : 0,
+      skipped: 0,
+    }
+  } catch (err) {
+    console.error(
+      `  ✗ ${collectionSlug}/${value}: ${
+        err instanceof Error ? err.message : String(err)
+      }`
+    )
+    return { created: 0, updated: 0, skipped: 1 }
+  }
 }
 
 const syncCollection = async <T extends { slug: string }>(
@@ -290,6 +370,53 @@ const main = async (): Promise<void> => {
           'circle-resources',
           () => getCircleResources({ locale: 'en' }),
           mapCircleResource
+        ),
+    },
+    {
+      name: 'builder-resources',
+      run: () =>
+        syncCollection(
+          payload,
+          'builder-resources',
+          () => getBuilderResources({ locale: 'en' }),
+          mapBuilderResource
+        ),
+    },
+    {
+      name: 'builder-listing-rfps',
+      run: async () =>
+        syncSingleton(
+          payload,
+          'builder-listing-settings',
+          'page',
+          'rfps',
+          mapBuilderListingSettings(
+            await getBuilderHubListingSettings({ page: 'rfps', locale: 'en' })
+          )
+        ),
+    },
+    {
+      name: 'builder-listing-ideas',
+      run: async () =>
+        syncSingleton(
+          payload,
+          'builder-listing-settings',
+          'page',
+          'ideas',
+          mapBuilderListingSettings(
+            await getBuilderHubListingSettings({ page: 'ideas', locale: 'en' })
+          )
+        ),
+    },
+    {
+      name: 'builder-hub-settings',
+      run: async () =>
+        syncSingleton(
+          payload,
+          'builder-hub-settings',
+          'slug',
+          'builders-hub',
+          mapBuilderHubSettings(await getBuilderHubSettings('en'))
         ),
     },
     {

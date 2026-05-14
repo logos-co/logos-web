@@ -7,6 +7,11 @@ import { buildConfig } from 'payload'
 
 import { ContentChangeRequests } from './src/collections/ContentChangeRequests'
 import {
+  BuilderHubSettings,
+  BuilderListingSettings,
+} from './src/collections/BuilderHub'
+import { BuilderResources } from './src/collections/BuilderResources'
+import {
   CircleEvents,
   CircleInitiatives,
   CircleResources,
@@ -120,8 +125,11 @@ export default buildConfig({
   collections: [
     Users,
     Pages,
+    BuilderHubSettings,
+    BuilderListingSettings,
     Rfps,
     Ideas,
+    BuilderResources,
     Circles,
     CircleEvents,
     CircleInitiatives,

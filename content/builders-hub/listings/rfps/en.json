@@ -7,7 +7,7 @@
   "breadcrumbLabel": "RFPs",
   "submitCta": {
     "label": "Submit an idea",
-    "href": "https://forms.logos.co/rfp",
+    "href": "https://discord.gg/logosnetwork",
     "external": true
   },
   "defaultView": "grid",
@@ -20,7 +20,7 @@
     "title": "Have a build idea worth funding?",
     "cta": {
       "label": "Submit an RFP",
-      "href": "https://forms.logos.co/rfp",
+      "href": "https://discord.gg/logosnetwork",
       "external": true
     }
   }

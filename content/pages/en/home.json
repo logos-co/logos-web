@@ -49,8 +49,7 @@
           "description": "The Node Program is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
           "cta": {
             "label": "Apply",
-            "href": "https://forms.logos.co/node-program",
-            "external": true
+            "href": "/node-program"
           }
         },
         {
@@ -108,8 +107,7 @@
       "subheadingExtra": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
       "cta": {
         "label": "View the Docs",
-        "href": "https://docs.logos.co",
-        "external": true
+        "href": "/technology-stack"
       },
       "cards": [
         {

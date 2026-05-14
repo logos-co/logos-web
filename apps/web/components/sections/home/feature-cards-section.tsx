@@ -163,20 +163,20 @@ export default function FeatureCardsSection() {
               tableLabel={t('node.examples')}
               rows={[
                 {
-                  title: 'Lorem ipsum',
-                  desc: 'Lorem ipsum dolor sit amet consectetur.',
+                  title: t('node.row1Title'),
+                  desc: t('node.row1Desc'),
                 },
                 {
-                  title: 'Dolor si',
-                  desc: 'Sed quis in purus ante nunc nulla habitant fringilla.',
+                  title: t('node.row2Title'),
+                  desc: t('node.row2Desc'),
                 },
                 {
-                  title: 'Lorem ipsum dolor',
-                  desc: 'Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla.',
+                  title: t('node.row3Title'),
+                  desc: t('node.row3Desc'),
                 },
                 {
-                  title: 'Amet',
-                  desc: 'Sed quis in purus ante nunc nulla habitant fringilla.',
+                  title: t('node.row4Title'),
+                  desc: t('node.row4Desc'),
                 },
               ]}
               bgImage="/images/home/node-card-bg.webp"
@@ -194,23 +194,23 @@ export default function FeatureCardsSection() {
               rows={[
                 {
                   title: '',
-                  desc: 'Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla.',
+                  desc: t('circles.issue1Desc'),
                 },
                 {
                   title: '',
-                  desc: 'Scelerisque erat convallis non cursus sagittis turpis. Consectetur in mollis in mattis. Mi imperdiet eget in nunc blandit tristique scelerisque nec.',
+                  desc: t('circles.issue2Desc'),
                 },
                 {
                   title: '',
-                  desc: 'Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla.',
+                  desc: t('circles.issue3Desc'),
                 },
                 {
                   title: '',
-                  desc: 'Scelerisque erat convallis non cursus sagittis turpis. Consectetur in mollis in mattis. Mi imperdiet eget in nunc blandit tristique scelerisque nec.',
+                  desc: t('circles.issue4Desc'),
                 },
                 {
                   title: '',
-                  desc: 'Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla. dolor sit amet consectetur. Lectus arcu libero non varius tempus cursus pulvinar massa sed.',
+                  desc: t('circles.issue5Desc'),
                 },
               ]}
               bgImage="/images/home/circles-card-bg.webp"

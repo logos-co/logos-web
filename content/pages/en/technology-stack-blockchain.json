@@ -6,7 +6,14 @@
   "description": "This isn't just another L1 — it's a purpose-built blockchain using Cryptarchia, a private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
   "heading": "Blockchain",
   "seo": {
-    "keywords": ["logos", "blockchain", "cryptarchia", "proof of stake", "privacy", "consensus"]
+    "keywords": [
+      "logos",
+      "blockchain",
+      "cryptarchia",
+      "proof of stake",
+      "privacy",
+      "consensus"
+    ]
   },
   "sections": [
     {
@@ -16,8 +23,16 @@
       "headline": "Blockchain",
       "body": "This isn't just another L1 — it's a purpose-built blockchain using Cryptarchia, a private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
       "ctas": [
-        { "label": "Logos app", "href": "https://logos.co/app", "external": true, "variant": "primary" },
-        { "label": "Docs", "href": "https://docs.logos.co/blockchain", "external": true, "variant": "secondary" }
+        {
+          "label": "Logos app",
+          "href": "/builders-hub#app-install",
+          "variant": "primary"
+        },
+        {
+          "label": "Docs",
+          "href": "/technology-stack/blockchain",
+          "variant": "secondary"
+        }
       ]
     },
     {
@@ -28,8 +43,7 @@
       "description": "Logos addresses privacy concerns through a combination of private leadership elections and anonymous broadcasting, creating a system where proposers can participate in consensus without revealing their identity or stake.",
       "cta": {
         "label": "View the docs",
-        "href": "https://docs.logos.co/blockchain/privacy",
-        "external": true
+        "href": "/technology-stack/blockchain"
       }
     },
     {
@@ -40,8 +54,7 @@
       "subheading": "A private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
       "cta": {
         "label": "View the docs",
-        "href": "https://docs.logos.co/blockchain/cryptarchia",
-        "external": true
+        "href": "/technology-stack/blockchain"
       },
       "cards": [
         {
@@ -63,8 +76,7 @@
           "description": "Reference for the kernel, modules, and UI packages.",
           "cta": {
             "label": "View the docs",
-            "href": "https://docs.logos.co",
-            "external": true
+            "href": "/technology-stack"
           }
         },
         {
@@ -83,8 +95,7 @@
           "description": "Download the app to start building with the kernel + modules + UI packages bundled.",
           "cta": {
             "label": "Download",
-            "href": "https://logos.co/app",
-            "external": true
+            "href": "/builders-hub#app-install"
           }
         }
       ]

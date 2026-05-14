@@ -9,16 +9,14 @@
   "memberCount": 47,
   "discordChannel": "circle-porto",
   "discordUrl": "https://discord.gg/logos",
-  "forumUrl": "https://forum.logos.co/c/circles/porto",
-  "joinUrl": "https://forms.logos.co/join/porto",
+  "forumUrl": "https://forms.logos.co",
+  "joinUrl": "/circles#resources",
   "image": {
     "src": "/cms/circles/porto/cover.webp",
     "alt": "",
     "width": 720,
     "height": 480
   },
-  "organizers": [
-    { "name": "Mariana Costa", "handle": "mariana" }
-  ],
+  "organizers": [{ "name": "Mariana Costa", "handle": "mariana" }],
   "order": 3
 }

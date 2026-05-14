@@ -6,7 +6,14 @@
   "description": "Privacy built from the ground up. The Logos networking layer handles how nodes discover each other, peer, and route messages through a mix-net without exposing identities or metadata.",
   "heading": "Networking Stack",
   "seo": {
-    "keywords": ["logos", "networking", "mix-net", "discovery", "peering", "privacy"]
+    "keywords": [
+      "logos",
+      "networking",
+      "mix-net",
+      "discovery",
+      "peering",
+      "privacy"
+    ]
   },
   "sections": [
     {
@@ -16,7 +23,11 @@
       "headline": "Networking Stack",
       "body": "Built with privacy from the ground up, this layer handles how Logos nodes find each other, establish connections, and communicate. Discovery, Peering, and Mix-Net.",
       "ctas": [
-        { "label": "Logos app", "href": "https://logos.co/app", "external": true, "variant": "primary" }
+        {
+          "label": "Logos app",
+          "href": "/builders-hub#app-install",
+          "variant": "primary"
+        }
       ]
     },
     {
@@ -26,8 +37,7 @@
       "description": "The networking layer handles how Logos nodes find each other, establish connections, and communicate. Private-by-default, this layer doesn't care whether modules above it are storing files, sending chat messages, or processing transactions. It provides private, reliable communication as a shared foundation.",
       "cta": {
         "label": "View the docs",
-        "href": "https://docs.logos.co/networking",
-        "external": true
+        "href": "/technology-stack/networking"
       }
     },
     {
@@ -75,8 +85,7 @@
           "description": "Reference for the kernel, modules, and UI packages.",
           "cta": {
             "label": "View the docs",
-            "href": "https://docs.logos.co",
-            "external": true
+            "href": "/technology-stack"
           }
         },
         {
@@ -95,8 +104,7 @@
           "description": "Download the app to start building with the kernel + modules + UI packages bundled.",
           "cta": {
             "label": "Download",
-            "href": "https://logos.co/app",
-            "external": true
+            "href": "/builders-hub#app-install"
           }
         }
       ]

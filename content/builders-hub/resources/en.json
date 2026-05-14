@@ -7,7 +7,7 @@
       "title": "Quick Start",
       "description": "Spin up a Logos-powered app in under five minutes.",
       "ctaLabel": "Read",
-      "href": "https://docs.logos.co/quick-start",
+      "href": "/technology-stack",
       "status": "published"
     },
     {
@@ -15,7 +15,7 @@
       "title": "Documentation",
       "description": "Reference for the kernel, modules, and UI packages.",
       "ctaLabel": "Browse",
-      "href": "https://docs.logos.co",
+      "href": "/technology-stack",
       "status": "published"
     },
     {
@@ -23,7 +23,7 @@
       "title": "Boilerplates",
       "description": "Reference applications you can fork to skip the scaffolding.",
       "ctaLabel": "View",
-      "href": "https://github.com/logos-co/boilerplates",
+      "href": "https://github.com/logos-co",
       "status": "published"
     },
     {

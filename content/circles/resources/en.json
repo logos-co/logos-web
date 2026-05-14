@@ -7,7 +7,7 @@
       "title": "Start your own Circle",
       "description": "A step-by-step guide to launching a circle in your city.",
       "ctaLabel": "Read",
-      "href": "https://docs.logos.co/circles/start",
+      "href": "/circles#resources",
       "status": "published"
     },
     {
@@ -15,7 +15,7 @@
       "title": "Forum",
       "description": "Cross-circle conversation, post-mortems, and proposals.",
       "ctaLabel": "Visit",
-      "href": "https://forum.logos.co/c/circles",
+      "href": "https://forms.logos.co",
       "status": "published"
     },
     {

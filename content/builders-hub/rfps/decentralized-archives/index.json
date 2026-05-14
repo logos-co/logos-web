@@ -3,7 +3,7 @@
   "slug": "decentralized-archives",
   "status": "published",
   "reward": { "amount": 2000, "currency": "USDC", "xp": 800 },
-  "applyUrl": "https://forms.logos.co/rfp/decentralized-archives",
+  "applyUrl": "https://discord.gg/logosnetwork",
   "tags": ["archives", "preservation", "codex"],
   "image": {
     "src": "/cms/builders-hub/rfps/decentralized-archives/cover.webp",

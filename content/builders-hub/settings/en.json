@@ -149,7 +149,7 @@
         ],
         "cta": {
           "label": "Add to calendar",
-          "href": "https://logos.co/office-hours",
+          "href": "https://discord.gg/logosnetwork",
           "external": true
         }
       },
@@ -157,7 +157,7 @@
         "title": "Logos Community Forum",
         "cta": {
           "label": "Learn more",
-          "href": "https://forum.logos.co",
+          "href": "https://forms.logos.co",
           "external": true
         }
       },
@@ -190,7 +190,7 @@
         "title": "Logos Research Forum",
         "cta": {
           "label": "Learn more",
-          "href": "https://forum.vac.dev",
+          "href": "https://forms.logos.co",
           "external": true
         }
       }
@@ -244,7 +244,7 @@
     "seeAllCta": { "label": "Explore RFPs", "href": "/builders-hub/rfps" },
     "submitCta": {
       "label": "Submit an RFP",
-      "href": "https://forms.logos.co/rfp",
+      "href": "https://discord.gg/logosnetwork",
       "external": true
     },
     "displayCount": 8,
@@ -271,7 +271,7 @@
     "seeAllCta": { "label": "See all ideas", "href": "/builders-hub/ideas" },
     "submitCta": {
       "label": "Submit an idea",
-      "href": "https://forms.logos.co/idea",
+      "href": "https://discord.gg/logosnetwork",
       "external": true
     },
     "displayCount": 7
@@ -290,8 +290,7 @@
     ],
     "installCta": {
       "label": "Install",
-      "href": "https://logos.co/app",
-      "external": true,
+      "href": "/builders-hub#app-install",
       "variant": "primary"
     },
     "learnMoreCta": {
@@ -319,7 +318,7 @@
       },
       "cta": {
         "label": "Go",
-        "href": "https://github.com/logos-co/boilerplates",
+        "href": "https://github.com/logos-co",
         "external": true
       }
     }
@@ -329,7 +328,7 @@
     "description": "Talk to Logos core contributors.",
     "cta": {
       "label": "Join",
-      "href": "https://logos.co/office-hours",
+      "href": "https://discord.gg/logosnetwork",
       "external": true
     }
   },

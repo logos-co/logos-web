@@ -3,7 +3,7 @@
   "slug": "community-governance-tooling",
   "status": "published",
   "reward": { "amount": 1800, "currency": "USDC", "xp": 600 },
-  "applyUrl": "https://forms.logos.co/rfp/community-governance-tooling",
+  "applyUrl": "https://discord.gg/logosnetwork",
   "tags": ["governance", "circles", "voting"],
   "image": {
     "src": "/cms/builders-hub/rfps/community-governance-tooling/cover.webp",

@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server'
 import type { ReactNode } from 'react'
 
 import { Button } from '@/components/ui'
+import { ROUTES } from '@/constants/routes'
 
 /**
  * About — "Who We Are" sticky-scroll section. Top eyebrow row, then a sticky
@@ -87,7 +88,7 @@ export async function AboutWhoWeAre() {
         image="/images/about/how-we-work.webp"
         title={t('howWeWorkTitle')}
         body={t('howWeWorkBody')}
-        cta={{ label: t('howWeWorkCta'), href: '#' }}
+        cta={{ label: t('howWeWorkCta'), href: ROUTES.workWithUs }}
         useCases={useCases}
         useCasesLabel={t('useCasesLabel')}
         topOffset={202}

@@ -308,16 +308,7 @@ function ProgramsSection({
   data: NonNullable<BuilderHubSettings['programs']>
   rfps: BuilderHubHomeRfpResolution['rfps']
 }) {
-  const previewRfps = [
-    'attack-resistant-public-registries',
-    'decentralized-archives',
-    'private-financial-networks',
-    'community-governance-tooling',
-  ]
-    .map((slug) => rfps.find((rfp) => rfp.slug === slug))
-    .filter((rfp): rfp is BuilderHubHomeRfpResolution['rfps'][number] =>
-      Boolean(rfp)
-    )
+  const previewRfps = rfps.filter((rfp) => !rfp.featured).slice(0, 4)
 
   return (
     <SectionFrame id="builder-programs" index="04" title={data.title}>

@@ -10,8 +10,7 @@
     },
     "joinCta": {
       "label": "Start a circle",
-      "href": "https://forms.logos.co/start-a-circle",
-      "external": true
+      "href": "/circles#resources"
     }
   },
   "map": {
@@ -47,8 +46,7 @@
     "title": "Winnable Issues",
     "cta": {
       "label": "Submit an initiative",
-      "href": "https://forms.logos.co/initiative",
-      "external": true
+      "href": "/circles#resources"
     }
   },
   "detailJoinCtaLabel": "Join this circle",

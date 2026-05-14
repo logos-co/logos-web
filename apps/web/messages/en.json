@@ -20,6 +20,16 @@
       "miilestones": "Milestones"
     }
   },
+  "designSystems": {
+    "components": {
+      "table": {
+        "placeholderTitle": "Lorem Ipsum Dolor Si Amet"
+      },
+      "giantSwitch": {
+        "downloadDescription": "If you don’t immediately see lorem ipsum dolor si amet consectetur in your browser downloads, click Download Again below."
+      }
+    }
+  },
   "home": {
     "build": {
       "eyebrow": "Build",
@@ -41,14 +51,27 @@
       "number": "02",
       "description": "The Node Program is for anyone who wants to join our movement to revitalize civil society using decentralized technologies.",
       "cta": "Apply",
-      "examples": "examples"
+      "examples": "examples",
+      "row1Title": "Lorem ipsum",
+      "row1Desc": "Lorem ipsum dolor sit amet consectetur.",
+      "row2Title": "Dolor si",
+      "row2Desc": "Sed quis in purus ante nunc nulla habitant fringilla.",
+      "row3Title": "Lorem ipsum dolor",
+      "row3Desc": "Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla.",
+      "row4Title": "Amet",
+      "row4Desc": "Sed quis in purus ante nunc nulla habitant fringilla."
     },
     "circles": {
       "eyebrow": "Circles",
       "number": "03",
       "description": "Local chapters are at the heart of our movement. Learn civil organizing, share skills, and forge new connections.",
       "cta": "Join a Circle",
-      "winnableIssues": "winnable issues"
+      "winnableIssues": "winnable issues",
+      "issue1Desc": "Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla.",
+      "issue2Desc": "Scelerisque erat convallis non cursus sagittis turpis. Consectetur in mollis in mattis. Mi imperdiet eget in nunc blandit tristique scelerisque nec.",
+      "issue3Desc": "Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla.",
+      "issue4Desc": "Scelerisque erat convallis non cursus sagittis turpis. Consectetur in mollis in mattis. Mi imperdiet eget in nunc blandit tristique scelerisque nec.",
+      "issue5Desc": "Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla. dolor sit amet consectetur. Lectus arcu libero non varius tempus cursus pulvinar massa sed."
     },
     "about": {
       "quote": "The system is no longer working for us, so we are charting a new course.",

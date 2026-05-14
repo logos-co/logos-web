@@ -111,11 +111,6 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
             submitCta={settings.submitCta}
             view={view}
             onViewChange={(nextView) => updateUrl(nextView, 1)}
-            mobileDescription={
-              kind === 'ideas'
-                ? 'Lorem ipsum dolor sit amet consectetur. Sed in quis lorem vel proin auctor feugiat ut eget. Enim at in tellus sed fusce odio mi.'
-                : 'Lorem ipsum dolor sit amet consectetur. Risus ut sollicitudin tortor aliquet sed. Consequat vestibulum lacus mauris mauris.'
-            }
             mobileSpacious={kind === 'rfps'}
             backHref={ROUTES.buildersHub}
           />

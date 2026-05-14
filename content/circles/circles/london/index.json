@@ -10,8 +10,8 @@
   "memberCount": 112,
   "discordChannel": "circle-london",
   "discordUrl": "https://discord.gg/logos",
-  "forumUrl": "https://forum.logos.co/c/circles/london",
-  "joinUrl": "https://forms.logos.co/join/london",
+  "forumUrl": "https://forms.logos.co",
+  "joinUrl": "/circles#resources",
   "image": {
     "src": "/cms/circles/london/cover.webp",
     "alt": "",

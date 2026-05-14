@@ -3,7 +3,7 @@
   "slug": "attack-resistant-public-registries",
   "status": "published",
   "reward": { "amount": 3000, "currency": "USDC", "xp": 1200 },
-  "applyUrl": "https://forms.logos.co/rfp/attack-resistant-public-registries",
+  "applyUrl": "https://discord.gg/logosnetwork",
   "tags": ["registry", "censorship-resistance", "consensus"],
   "image": {
     "src": "/cms/builders-hub/rfps/attack-resistant-public-registries/cover.webp",

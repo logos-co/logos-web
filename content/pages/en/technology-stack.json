@@ -6,7 +6,14 @@
   "description": "Modular by design. Storage, Messaging, Blockchain, and User Modules form the foundation for privacy-first decentralised applications.",
   "heading": "The Logos Technology Stack",
   "seo": {
-    "keywords": ["logos", "technology stack", "storage", "messaging", "blockchain", "modules"]
+    "keywords": [
+      "logos",
+      "technology stack",
+      "storage",
+      "messaging",
+      "blockchain",
+      "modules"
+    ]
   },
   "sections": [
     {
@@ -69,8 +76,7 @@
       ],
       "primaryCta": {
         "label": "Install",
-        "href": "https://logos.co/app",
-        "external": true,
+        "href": "/builders-hub#app-install",
         "variant": "primary"
       },
       "secondaryCta": {
@@ -97,30 +103,56 @@
       "heading": "Use Cases",
       "subheading": "We know today's systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
       "subheadingExtra": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
-      "cta": { "label": "View the Docs", "href": "https://docs.logos.co", "external": true },
+      "cta": { "label": "View the Docs", "href": "/technology-stack" },
       "cards": [
         {
           "title": "Attack-Resistant Public Registries",
           "description": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
-          "image": { "src": "/images/technology-stack/usecase-1.jpg", "alt": "", "width": 96, "height": 120 },
-          "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+          "image": {
+            "src": "/images/technology-stack/usecase-1.jpg",
+            "alt": "",
+            "width": 96,
+            "height": 120
+          },
+          "cta": {
+            "label": "Learn more",
+            "href": "/technology-stack/blockchain"
+          }
         },
         {
           "title": "Decentralised Archives",
           "description": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
-          "image": { "src": "/images/technology-stack/usecase-2.jpg", "alt": "", "width": 96, "height": 77 },
+          "image": {
+            "src": "/images/technology-stack/usecase-2.jpg",
+            "alt": "",
+            "width": 96,
+            "height": 77
+          },
           "cta": { "label": "Learn more", "href": "/technology-stack/storage" }
         },
         {
           "title": "Private Financial Networks",
           "description": "Money that moves securely and freely, without surveillance or control.",
-          "image": { "src": "/images/technology-stack/usecase-3.jpg", "alt": "", "width": 96, "height": 119 },
-          "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+          "image": {
+            "src": "/images/technology-stack/usecase-3.jpg",
+            "alt": "",
+            "width": 96,
+            "height": 119
+          },
+          "cta": {
+            "label": "Learn more",
+            "href": "/technology-stack/blockchain"
+          }
         },
         {
           "title": "Community Governance",
           "description": "Self-organising groups establish and enforce their own rules, with members engaging voluntarily.",
-          "image": { "src": "/images/technology-stack/usecase-4.jpg", "alt": "", "width": 96, "height": 127 },
+          "image": {
+            "src": "/images/technology-stack/usecase-4.jpg",
+            "alt": "",
+            "width": 96,
+            "height": 127
+          },
           "cta": { "label": "Learn more", "href": "/circles" }
         }
       ]

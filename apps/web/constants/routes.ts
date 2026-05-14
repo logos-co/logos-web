@@ -84,7 +84,8 @@ export const EXTERNAL_URLS = {
   github: 'https://github.com/logos-co',
 
   // Forums
-  forum: 'https://forum.logos.co',
+  forum: 'https://forms.logos.co',
+  forms: 'https://forms.logos.co',
 
   // Research
   vacp2p: 'https://vac.dev',

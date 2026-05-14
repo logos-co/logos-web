@@ -7,7 +7,7 @@
   "breadcrumbLabel": "Ideas",
   "submitCta": {
     "label": "lorem ipsum",
-    "href": "https://forms.logos.co/idea",
+    "href": "https://discord.gg/logosnetwork",
     "external": true
   },
   "defaultView": "list",
@@ -20,7 +20,7 @@
     "title": "We want your ideas.",
     "cta": {
       "label": "Submit an idea",
-      "href": "https://forms.logos.co/idea",
+      "href": "https://discord.gg/logosnetwork",
       "external": true
     }
   }

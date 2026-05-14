@@ -69,8 +69,11 @@ export interface Config {
   collections: {
     users: User;
     pages: Page;
+    'builder-hub-settings': BuilderHubSetting;
+    'builder-listing-settings': BuilderListingSetting;
     rfps: Rfp;
     ideas: Idea;
+    'builder-resources': BuilderResource;
     circles: Circle;
     'circle-events': CircleEvent;
     'circle-initiatives': CircleInitiative;
@@ -85,8 +88,11 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    'builder-hub-settings': BuilderHubSettingsSelect<false> | BuilderHubSettingsSelect<true>;
+    'builder-listing-settings': BuilderListingSettingsSelect<false> | BuilderListingSettingsSelect<true>;
     rfps: RfpsSelect<false> | RfpsSelect<true>;
     ideas: IdeasSelect<false> | IdeasSelect<true>;
+    'builder-resources': BuilderResourcesSelect<false> | BuilderResourcesSelect<true>;
     circles: CirclesSelect<false> | CirclesSelect<true>;
     'circle-events': CircleEventsSelect<false> | CircleEventsSelect<true>;
     'circle-initiatives': CircleInitiativesSelect<false> | CircleInitiativesSelect<true>;
@@ -187,6 +193,59 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * Raw Builders Hub page settings. Saving validates and writes content/builders-hub/settings/en.json through a GitHub pull request.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "builder-hub-settings".
+ */
+export interface BuilderHubSetting {
+  id: number;
+  /**
+   * Use "builders-hub".
+   */
+  slug: string;
+  /**
+   * Must match @repo/content builderHubSettingsSchema exactly.
+   */
+  settings:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Settings for /builders-hub/ideas and /builders-hub/rfps listing pages. Saving writes the matching content/builders-hub/listings file through a GitHub pull request.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "builder-listing-settings".
+ */
+export interface BuilderListingSetting {
+  id: number;
+  page: 'ideas' | 'rfps';
+  title: string;
+  description: string;
+  breadcrumbLabel: string;
+  submitCtaLabel: string;
+  submitCtaHref: string;
+  submitCtaExternal?: boolean | null;
+  defaultView: 'grid' | 'list';
+  pageSize: number;
+  previousLabel: string;
+  nextLabel: string;
+  bottomCtaTitle: string;
+  bottomCtaLabel: string;
+  bottomCtaHref: string;
+  bottomCtaExternal?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Funded calls for builders to ship Logos-powered applications. Saving creates a GitHub pull request for review.
@@ -300,6 +359,23 @@ export interface Idea {
    */
   order?: number | null;
   submittedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Resources shown on Builders Hub. Shape mirrors content/builders-hub/resources.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "builder-resources".
+ */
+export interface BuilderResource {
+  id: number;
+  slug: string;
+  status: 'draft' | 'review' | 'published' | 'archived';
+  title: string;
+  description: string;
+  ctaLabel: string;
+  href: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -490,12 +566,24 @@ export interface PayloadLockedDocument {
         value: number | Page;
       } | null)
     | ({
+        relationTo: 'builder-hub-settings';
+        value: number | BuilderHubSetting;
+      } | null)
+    | ({
+        relationTo: 'builder-listing-settings';
+        value: number | BuilderListingSetting;
+      } | null)
+    | ({
         relationTo: 'rfps';
         value: number | Rfp;
       } | null)
     | ({
         relationTo: 'ideas';
         value: number | Idea;
+      } | null)
+    | ({
+        relationTo: 'builder-resources';
+        value: number | BuilderResource;
       } | null)
     | ({
         relationTo: 'circles';
@@ -596,6 +684,39 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "builder-hub-settings_select".
+ */
+export interface BuilderHubSettingsSelect<T extends boolean = true> {
+  slug?: T;
+  settings?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "builder-listing-settings_select".
+ */
+export interface BuilderListingSettingsSelect<T extends boolean = true> {
+  page?: T;
+  title?: T;
+  description?: T;
+  breadcrumbLabel?: T;
+  submitCtaLabel?: T;
+  submitCtaHref?: T;
+  submitCtaExternal?: T;
+  defaultView?: T;
+  pageSize?: T;
+  previousLabel?: T;
+  nextLabel?: T;
+  bottomCtaTitle?: T;
+  bottomCtaLabel?: T;
+  bottomCtaHref?: T;
+  bottomCtaExternal?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "rfps_select".
  */
 export interface RfpsSelect<T extends boolean = true> {
@@ -643,6 +764,20 @@ export interface IdeasSelect<T extends boolean = true> {
   featured?: T;
   order?: T;
   submittedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "builder-resources_select".
+ */
+export interface BuilderResourcesSelect<T extends boolean = true> {
+  slug?: T;
+  status?: T;
+  title?: T;
+  description?: T;
+  ctaLabel?: T;
+  href?: T;
   updatedAt?: T;
   createdAt?: T;
 }

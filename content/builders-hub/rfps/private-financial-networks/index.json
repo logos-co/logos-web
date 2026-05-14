@@ -3,7 +3,7 @@
   "slug": "private-financial-networks",
   "status": "published",
   "reward": { "amount": 4000, "currency": "USDC", "xp": 1500 },
-  "applyUrl": "https://forms.logos.co/rfp/private-financial-networks",
+  "applyUrl": "https://discord.gg/logosnetwork",
   "tags": ["payments", "privacy", "circles"],
   "image": {
     "src": "/cms/builders-hub/rfps/private-financial-networks/cover.webp",

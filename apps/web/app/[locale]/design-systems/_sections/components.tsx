@@ -4,6 +4,7 @@
  * Each render block mirrors a Figma frame and exists only for visual review.
  */
 import Image from 'next/image'
+import { getTranslations } from 'next-intl/server'
 
 import {
   CardInfo,
@@ -17,6 +18,7 @@ import {
   ViewToggle,
 } from '@repo/ui'
 import { Button, Card } from '@/components/ui'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 const cardImages = {
   storage: '/design-systems/storage.png',
@@ -57,7 +59,7 @@ function CardGrid({ state }: { state: 'default' | 'hover' }) {
               ? 'Decentralized file storage and retrieval, using content-addressed (CID-based) data'
               : undefined
           }
-          ctaHref={isHover ? '#' : undefined}
+          ctaHref={isHover ? ROUTES.storage : undefined}
         />
         <Card
           height={366}
@@ -70,7 +72,7 @@ function CardGrid({ state }: { state: 'default' | 'hover' }) {
               ? 'Private, censorship-resistant communication between parties.'
               : undefined
           }
-          ctaHref={isHover ? '#' : undefined}
+          ctaHref={isHover ? ROUTES.messaging : undefined}
         />
         <Card
           height={366}
@@ -81,7 +83,7 @@ function CardGrid({ state }: { state: 'default' | 'hover' }) {
           description={
             isHover ? 'Decentralized compute and consensus.' : undefined
           }
-          ctaHref={isHover ? '#' : undefined}
+          ctaHref={isHover ? ROUTES.blockchain : undefined}
         >
           {isHover && (
             <>
@@ -109,7 +111,7 @@ function CardGrid({ state }: { state: 'default' | 'hover' }) {
               ? 'Anyone can build modules that plug into the same IPC infrastructure.'
               : undefined
           }
-          ctaHref={isHover ? '#' : undefined}
+          ctaHref={isHover ? ROUTES.technologyStack : undefined}
         />
       </div>
 
@@ -126,7 +128,7 @@ function CardGrid({ state }: { state: 'default' | 'hover' }) {
             ? 'This layer handles how Logos nodes find each other, establish connections, and communicate.'
             : undefined
         }
-        ctaHref={isHover ? '#' : undefined}
+        ctaHref={isHover ? ROUTES.networking : undefined}
       />
 
       {/* Row 3: wide band — Foundation Kernel (no Lambda icon glyph in Figma) */}
@@ -142,7 +144,7 @@ function CardGrid({ state }: { state: 'default' | 'hover' }) {
             ? 'A microkernel that handles the essential primitives every decentralized application needs.'
             : undefined
         }
-        ctaHref={isHover ? '#' : undefined}
+        ctaHref={isHover ? ROUTES.technologyStack : undefined}
       />
     </div>
   )
@@ -181,7 +183,7 @@ export function Buttons() {
           <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Primary
           </p>
-          <Button variant="primary" href="#">
+          <Button variant="primary" href={ROUTES.technologyStack}>
             View The Docs
           </Button>
         </div>
@@ -189,7 +191,7 @@ export function Buttons() {
           <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Secondary
           </p>
-          <Button variant="secondary" href="#">
+          <Button variant="secondary" href={ROUTES.technologyStack}>
             View The Docs
           </Button>
         </div>
@@ -197,7 +199,7 @@ export function Buttons() {
           <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Tertiary
           </p>
-          <Button variant="tertiary" href="#">
+          <Button variant="tertiary" href={ROUTES.technologyStack}>
             View The Docs
           </Button>
         </div>
@@ -205,7 +207,7 @@ export function Buttons() {
           <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Link
           </p>
-          <Button variant="link" href="#">
+          <Button variant="link" href={ROUTES.technologyStack}>
             View The Docs
           </Button>
         </div>
@@ -216,17 +218,20 @@ export function Buttons() {
 
 // --- Table --------------------------------------------------------------
 
-const tableRows = [
-  { number: '01', title: 'Secure and Decentralized Frontends' },
-  { number: '02', title: 'Build a DEX' },
-  { number: '03', title: 'Integrate Logos blockchain into Fileverse' },
-  { number: '02', title: 'Lorem Ipsum Dolor Si Amet' },
-  { number: '03', title: 'Secure and Decentralized Frontends' },
-  { number: '02', title: 'Build a DEX' },
-  { number: '03', title: 'Integrate Logos blockchain into Fileverse' },
-] as const
+const createTableRows = (placeholderTitle: string) =>
+  [
+    { number: '01', title: 'Secure and Decentralized Frontends' },
+    { number: '02', title: 'Build a DEX' },
+    { number: '03', title: 'Integrate Logos blockchain into Fileverse' },
+    { number: '02', title: placeholderTitle },
+    { number: '03', title: 'Secure and Decentralized Frontends' },
+    { number: '02', title: 'Build a DEX' },
+    { number: '03', title: 'Integrate Logos blockchain into Fileverse' },
+  ] as const
 
-export function Tables() {
+export async function Tables() {
+  const t = await getTranslations('designSystems.components')
+  const tableRows = createTableRows(t('table.placeholderTitle'))
   const description = (
     <>
       <p>Quadratic voting platform for DAO members</p>
@@ -249,7 +254,7 @@ export function Tables() {
         title="Ideas"
         subtitle="Ideas from our community driving sovereignty forward."
         action={
-          <Button variant="link" href="#">
+          <Button variant="link" href={ROUTES.ideas}>
             See all ideas
           </Button>
         }
@@ -262,7 +267,7 @@ export function Tables() {
             description={description}
             reward={reward}
             action={
-              <Button variant="link" href="#">
+              <Button variant="link" href={ROUTES.rfps}>
                 Apply
               </Button>
             }
@@ -280,7 +285,8 @@ function TagIcon({ src, alt }: { src: string; alt: string }) {
   return <img src={src} alt={alt} width={14} height={14} />
 }
 
-export function GiantSwitches() {
+export async function GiantSwitches() {
+  const t = await getTranslations('designSystems.components')
   const installTags = (
     <>
       <GiantSwitchTag
@@ -324,10 +330,10 @@ export function GiantSwitches() {
         tags={installTags}
         actions={
           <>
-            <Button variant="secondary" href="#">
+            <Button variant="secondary" href={ROUTES.buildersHub}>
               Install
             </Button>
-            <Button variant="tertiary" href="#">
+            <Button variant="tertiary" href={ROUTES.technologyStack}>
               Learn more
             </Button>
           </>
@@ -339,13 +345,13 @@ export function GiantSwitches() {
         imagePosition="right"
         image={heroImage}
         title="Download started!"
-        description="If you don’t immediately see lorem ipsum dolor si amet consectetur in your browser downloads, click Download Again below."
+        description={t('giantSwitch.downloadDescription')}
         actions={
           <>
-            <Button variant="secondary" href="#">
+            <Button variant="secondary" href={ROUTES.buildersHub}>
               Download again
             </Button>
-            <Button variant="tertiary" href="#">
+            <Button variant="tertiary" href={ROUTES.technologyStack}>
               Learn more
             </Button>
           </>
@@ -451,27 +457,27 @@ function LogosLockup() {
 
 export function Footers() {
   const mainLinks = [
-    { label: 'Work With Us', href: '#' },
-    { label: 'Brand Kit', href: '#' },
+    { label: 'Work With Us', href: ROUTES.workWithUs },
+    { label: 'Brand Kit', href: ROUTES.brandKit },
   ]
   const socialLinks = [
-    { label: 'Twitter', href: '#' },
-    { label: 'Discord', href: '#' },
-    { label: 'YouTube', href: '#' },
-    { label: 'Blog', href: '#' },
-    { label: 'Github', href: '#' },
+    { label: 'Twitter', href: EXTERNAL_URLS.twitter },
+    { label: 'Discord', href: EXTERNAL_URLS.discord },
+    { label: 'YouTube', href: EXTERNAL_URLS.youtube },
+    { label: 'Blog', href: ROUTES.blog },
+    { label: 'Github', href: EXTERNAL_URLS.github },
   ]
-  const researchLinks = [{ label: 'VacP2P', href: '#' }]
+  const researchLinks = [{ label: 'VacP2P', href: EXTERNAL_URLS.vacp2p }]
   const infrastructureLinks = [
-    { label: 'Waku', href: '#' },
-    { label: 'Nimbus', href: '#' },
-    { label: 'Codex', href: '#' },
-    { label: 'Nomos', href: '#' },
+    { label: 'Waku', href: EXTERNAL_URLS.waku },
+    { label: 'Nimbus', href: EXTERNAL_URLS.nimbus },
+    { label: 'Codex', href: EXTERNAL_URLS.codex },
+    { label: 'Nomos', href: EXTERNAL_URLS.nomos },
   ]
   const legalLinks = [
-    { label: 'Terms & Conditions', href: '#' },
-    { label: 'Privacy Policy', href: '#' },
-    { label: 'Security', href: '#' },
+    { label: 'Terms & Conditions', href: ROUTES.terms },
+    { label: 'Privacy Policy', href: ROUTES.privacy },
+    { label: 'Security', href: ROUTES.security },
   ]
 
   return (
@@ -495,7 +501,11 @@ export function Footers() {
         researchLinks={researchLinks}
         infrastructureLinks={infrastructureLinks}
         legalLinks={legalLinks}
-        builtBy={{ label: 'Built by', attribution: 'IFT', href: '#' }}
+        builtBy={{
+          label: 'Built by',
+          attribution: 'IFT',
+          href: EXTERNAL_URLS.ift,
+        }}
       />
     </div>
   )
