@@ -23,10 +23,10 @@
   "designSystems": {
     "components": {
       "table": {
-        "placeholderTitle": "Lorem Ipsum Dolor Si Amet"
+        "placeholderTitle": "Component State Example"
       },
       "giantSwitch": {
-        "downloadDescription": "If you don’t immediately see lorem ipsum dolor si amet consectetur in your browser downloads, click Download Again below."
+        "downloadDescription": "If the download does not start automatically, click Download Again below."
       }
     }
   },
@@ -41,8 +41,8 @@
       "row1Desc": "Build a bank powered by logic you've programmed",
       "row2Title": "Your own currency",
       "row2Desc": "Create tokens that you can transfer and use across applications",
-      "row3Title": "A JavaScript Lorem Ipsum wallet",
-      "row3Desc": "Use existing languages to interact with Lorem Ipsum and other applications",
+      "row3Title": "A JavaScript Logos wallet",
+      "row3Desc": "Use familiar tooling to interact with Logos modules and applications",
       "row4Title": "An open, permissionless DNS",
       "row4Desc": "Re-imagine existing services as decentralized, open applications"
     },
@@ -52,14 +52,14 @@
       "description": "The Node Program is for anyone who wants to join our movement to revitalize civil society using decentralized technologies.",
       "cta": "Apply",
       "examples": "examples",
-      "row1Title": "Lorem ipsum",
-      "row1Desc": "Lorem ipsum dolor sit amet consectetur.",
-      "row2Title": "Dolor si",
-      "row2Desc": "Sed quis in purus ante nunc nulla habitant fringilla.",
-      "row3Title": "Lorem ipsum dolor",
-      "row3Desc": "Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla.",
-      "row4Title": "Amet",
-      "row4Desc": "Sed quis in purus ante nunc nulla habitant fringilla."
+      "row1Title": "Run infrastructure",
+      "row1Desc": "Operate network services that help keep Logos resilient.",
+      "row2Title": "Support the network",
+      "row2Desc": "Contribute uptime, feedback, and operational experience.",
+      "row3Title": "Join a cohort",
+      "row3Desc": "Work with other operators as the stack matures.",
+      "row4Title": "Learn operations",
+      "row4Desc": "Build the habits needed to run sovereign infrastructure."
     },
     "circles": {
       "eyebrow": "Circles",
@@ -67,11 +67,11 @@
       "description": "Local chapters are at the heart of our movement. Learn civil organizing, share skills, and forge new connections.",
       "cta": "Join a Circle",
       "winnableIssues": "winnable issues",
-      "issue1Desc": "Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla.",
+      "issue1Desc": "Local organizers coordinate practical work around shared community needs.",
       "issue2Desc": "Scelerisque erat convallis non cursus sagittis turpis. Consectetur in mollis in mattis. Mi imperdiet eget in nunc blandit tristique scelerisque nec.",
-      "issue3Desc": "Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla.",
+      "issue3Desc": "Circles turn local problems into focused actions with clear ownership.",
       "issue4Desc": "Scelerisque erat convallis non cursus sagittis turpis. Consectetur in mollis in mattis. Mi imperdiet eget in nunc blandit tristique scelerisque nec.",
-      "issue5Desc": "Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla. dolor sit amet consectetur. Lectus arcu libero non varius tempus cursus pulvinar massa sed."
+      "issue5Desc": "Members share skills, run workshops, and support each other as projects move from idea to action."
     },
     "about": {
       "quote": "The system is no longer working for us, so we are charting a new course.",
@@ -87,8 +87,8 @@
       "example1Desc": "Build a bank powered by logic you've programmed",
       "example2Title": "Your own currency",
       "example2Desc": "Create tokens that you can transfer and use across applications",
-      "example3Title": "A JavaScript Lorem Ipsum wallet",
-      "example3Desc": "Use existing languages to interact with Lorem Ipsum and other applications",
+      "example3Title": "A JavaScript Logos wallet",
+      "example3Desc": "Use familiar tooling to interact with Logos modules and applications",
       "example4Title": "An open, permissionless DNS",
       "example4Desc": "Re-imagine existing services as decentralized, open applications",
       "useCasesLabel": "Use Cases",
@@ -261,7 +261,7 @@
         "secondaryCta": "Builder Hub",
         "basecamp": {
           "title": "Basecamp",
-          "body": "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem.",
+          "body": "Basecamp bundles the Logos stack into a practical starting point for builders.",
           "cta": "Install"
         },
         "cards": {
@@ -297,27 +297,27 @@
       },
       "support": {
         "heading": "Get Support",
-        "body": "Orem ipsum dolor si amet.",
+        "body": "Find examples, tutorials, and community channels for building on Logos.",
         "cta": "Help Center",
         "rows": {
           "1": {
             "label": "Sample Apps",
-            "body": "Lorem ipsum dolor sit amet consectetur. Tristique proin neque nisl facilisi.",
+            "body": "Explore reference applications that demonstrate common Logos workflows.",
             "action": "View"
           },
           "2": {
             "label": "Demos and Tutorials",
-            "body": "Lorem ipsum dolor sit amet consectetur. Euismod blandit in ante lorem sed.",
+            "body": "Follow practical walkthroughs for core stack concepts and integrations.",
             "action": "View"
           },
           "3": {
             "label": "Install Basecamp",
-            "body": "Lorem ipsum dolor sit amet consectetur. Mi dolor a diam at velit ut.",
+            "body": "Set up Basecamp and start experimenting with bundled modules.",
             "action": "Install"
           },
           "4": {
             "label": "Connect with Logos",
-            "body": "Lorem ipsum dolor sit amet consectetur. Vulputate purus amet posuere consectetur at.",
+            "body": "Join the community channels for implementation support and feedback.",
             "action": "Connect"
           }
         }
@@ -591,20 +591,20 @@
         "cta": "Join a circle"
       },
       "initiative": {
-        "caption": "Our lorem ipsum initiative dolor si amet."
+        "caption": "Our initiatives connect local action with sovereign technology."
       },
       "whoWeAre": {
         "title": "Who We Are",
-        "eyebrow": "Lorem Ipsum",
-        "taglineLine1": "Lorem ipsum dolor.",
-        "taglineLine2": "Si amet.",
+        "eyebrow": "People first",
+        "taglineLine1": "A movement",
+        "taglineLine2": "for civil society.",
         "useCasesLabel": "Use Cases",
         "useCase1Label": "Your own bank",
         "useCase1Body": "Build a bank powered by logic you've programmedd",
         "useCase2Label": "Your own currency",
         "useCase2Body": "Create tokens that you can transfer and use across applications",
-        "useCase3Label": "A JavaScript Lorem Ipsum wallet",
-        "useCase3Body": "Use existing languages to interact with Lorem Ipsum and other applications",
+        "useCase3Label": "A JavaScript Logos wallet",
+        "useCase3Body": "Use familiar tooling to interact with Logos modules and applications",
         "useCase4Label": "An open, permissionless DNS",
         "useCase4Body": "Re-imagine existing services as decentralized, open applications",
         "historyTitle": "Our History",
@@ -624,7 +624,7 @@
         "cardCta": "Learn More",
         "card1Title": "Logos-Powered Nextdoor App Clone",
         "card2Title": "Digital ID Replacement with Logos",
-        "cardBody": "Lorem ipsum dolor sit amet consectetur. At vulputate volutpat amet vitae morbi. Laoreet cursus magna arcu consectetur scelerisque natoque pretium proin. Nec vivamus pellentesque senectus iaculis tristique odio.\n\nDolor sit amet consectetur. At vulputate volutpat amet vitae morbi. Laoreet cursus magna arcu consectetur scelerisque natoque pretium proin. Nec vivamus pellentesque senectus iaculis tristique odio.\n\nAt vulputate volutpat amet vitae morbi. Laoreet cursus magna arcu consectetur scelerisque natoque pretium proin. Nec vivamus pellentesque senectus iaculis tristique odio. Lorem ipsum dolor sit amet consectetur."
+        "cardBody": "Local communities are using Logos-aligned tools to coordinate around practical needs, from neighborhood organizing to digital rights.\n\nThese case studies show how civic action and resilient technology can reinforce each other.\n\nEach example starts with a concrete problem and a small group of people willing to build a better path."
       }
     },
     "faq": {

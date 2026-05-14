@@ -355,6 +355,7 @@ export const builderHubSettingsSchema = z.object({
       prizeHeading: z.string().min(1),
       prizeDescription: z.string().min(1),
       prizeImage: mediaRefSchema,
+      prizeHref: linkHrefSchema,
       rfpsTitle: z.string().min(1),
       rfpsDescription: z.string().min(1),
     })

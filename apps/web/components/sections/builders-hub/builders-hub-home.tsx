@@ -8,6 +8,7 @@ import type { BuilderHubSettings } from '@repo/content/schemas'
 import { LogosMark } from '@repo/ui'
 
 import { Button, ButtonArrowIcon } from '@/components/ui'
+import { ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
 
 type BuildersHubHomeProps = {
@@ -313,7 +314,11 @@ function ProgramsSection({
   return (
     <SectionFrame id="builder-programs" index="04" title={data.title}>
       <div className="grid gap-3 md:grid-cols-2">
-        <div className="relative flex h-[370px] flex-col items-center justify-center gap-10 overflow-hidden rounded-xl px-4 py-10 text-center text-brand-off-white">
+        <Link
+          href={data.prizeHref}
+          aria-label={`${data.prizeTitle}: ${data.prizeHeading}`}
+          className="relative flex h-[370px] cursor-pointer flex-col items-center justify-center gap-10 overflow-hidden rounded-xl px-4 py-10 text-center text-brand-off-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green"
+        >
           <Image
             src={data.prizeImage.src}
             alt={data.prizeImage.alt}
@@ -330,7 +335,7 @@ function ProgramsSection({
             <h3 className="text-subhead-sans">{data.prizeHeading}</h3>
             <p className="w-[338px] text-mono-s">{data.prizeDescription}</p>
           </div>
-        </div>
+        </Link>
 
         <div className="flex h-[370px] flex-col items-center justify-center overflow-hidden rounded-xl border border-brand-dark-green px-4 py-10">
           <div className="flex flex-col items-center gap-3 text-center">
@@ -341,7 +346,7 @@ function ProgramsSection({
             {previewRfps.map((rfp, index) => (
               <Link
                 key={rfp.slug}
-                href={`/builders-hub/rfps/${rfp.slug}`}
+                href={`${ROUTES.rfps}/${rfp.slug}`}
                 className={`relative h-[166px] w-[345px] shrink-0 cursor-pointer overflow-hidden rounded-xl border border-brand-dark-green/50 p-4 ${
                   index % 2 === 1 ? 'opacity-50' : ''
                 }`}
