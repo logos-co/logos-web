@@ -18,10 +18,15 @@ import {
   Circles,
 } from './src/collections/Circles'
 import { Ideas } from './src/collections/Ideas'
+import { Media } from './src/collections/Media'
 import { Pages } from './src/collections/Pages'
 import { Rfps } from './src/collections/Rfps'
+import {
+  SiteFooterContent,
+  SiteNavigationContent,
+  SiteSettingsContent,
+} from './src/collections/SiteContent'
 import { Users } from './src/collections/Users'
-import { SiteSettings } from './src/globals/SiteSettings'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -124,9 +129,13 @@ export default buildConfig({
   },
   collections: [
     Users,
+    Media,
     Pages,
     BuilderHubSettings,
     BuilderListingSettings,
+    SiteSettingsContent,
+    SiteNavigationContent,
+    SiteFooterContent,
     Rfps,
     Ideas,
     BuilderResources,
@@ -158,7 +167,6 @@ export default buildConfig({
     push: process.env.PAYLOAD_DB_PUSH !== 'false',
   }),
   editor: lexicalEditor(),
-  globals: [SiteSettings],
   secret: payloadSecret || 'dev-only-insecure-secret',
   serverURL,
   typescript: {

@@ -35,7 +35,7 @@ interface DocsTocItem {
 
 const ITEMS: ReadonlyArray<DocsTocItem> = [
   { key: 'guides', href: ROUTES.buildersHub },
-  { key: 'logosForum', href: EXTERNAL_URLS.forum, external: true },
+  { key: 'logosForum', href: EXTERNAL_URLS.forms, external: true },
   { key: 'researchForum', href: EXTERNAL_URLS.forms, external: true },
   { key: 'brandKit', href: ROUTES.brandKit },
   { key: 'terms', href: ROUTES.terms },

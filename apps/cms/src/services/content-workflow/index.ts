@@ -74,3 +74,19 @@ export {
   saveBuilderHubSettingsAsPullRequest,
   type BuilderHubSettingsDocLike,
 } from './save-builder-hub-settings-as-pr'
+export {
+  buildPageFixtureChange,
+  savePageAsPullRequest,
+  type PageDocLike,
+} from './save-page-as-pr'
+export {
+  buildSiteFooterFileChange,
+  buildSiteNavigationFileChange,
+  buildSiteSettingsFileChange,
+  saveSiteFooterAsPullRequest,
+  saveSiteNavigationAsPullRequest,
+  saveSiteSettingsAsPullRequest,
+  type SiteFooterDocLike,
+  type SiteNavigationDocLike,
+  type SiteSettingsDocLike,
+} from './save-site-content-as-pr'

@@ -16,13 +16,13 @@
  *     pnpm sync-from-content
  *
  * Skipped (out of scope for this script):
- *   - pages: collection is a stub (no fields defined)
- *   - press / site settings: globals, not per-row collections
+ *   - press article metadata: external publication bodies stay outside CMS
  */
 import { getPayload } from 'payload'
 
 import {
   getAllIdeas,
+  getAllPageCopy,
   getAllRfps,
   getBuilderHubListingSettings,
   getBuilderHubSettings,
@@ -31,17 +31,24 @@ import {
   getCircleInitiatives,
   getCircleResources,
   getCircles,
+  getFooter,
+  getNavigationContent,
+  getSiteSettings,
   type Circle,
   type CircleEvent,
   type CircleInitiative,
   type CircleResource,
   type BuilderResource,
+  type PageCopyRecord,
   type Idea,
   type Rfp,
 } from '@repo/content/loaders'
 import type {
   BuilderHubListingPageSettings,
   BuilderHubSettings,
+  Footer,
+  Navigation,
+  SiteSettings,
 } from '@repo/content/schemas'
 
 import config from '@payload-config'
@@ -192,6 +199,36 @@ const mapBuilderHubSettings = (
   settings,
 })
 
+const mapPage = (
+  record: PageCopyRecord
+): Record<string, unknown> & { slug: string } => ({
+  slug: record.slug,
+  route: record.page.route,
+  title: record.page.title,
+  page: record.page,
+})
+
+const mapSiteSettings = (
+  settings: SiteSettings
+): Record<string, unknown> & { slug: string } => ({
+  slug: 'settings',
+  settings,
+})
+
+const mapSiteNavigation = (
+  navigation: Navigation
+): Record<string, unknown> & { slug: string } => ({
+  slug: 'navigation',
+  navigation,
+})
+
+const mapSiteFooter = (
+  footer: Footer
+): Record<string, unknown> & { slug: string } => ({
+  slug: 'footer',
+  footer,
+})
+
 const mapRfp = (r: Rfp): Record<string, unknown> & { slug: string } => ({
   slug: r.slug,
   status: r.status,
@@ -332,6 +369,44 @@ const main = async (): Promise<void> => {
   const payload = await getPayload({ config })
 
   const targets = [
+    {
+      name: 'pages',
+      run: () =>
+        syncCollection(payload, 'pages', () => getAllPageCopy('en'), mapPage),
+    },
+    {
+      name: 'site-settings',
+      run: async () =>
+        syncSingleton(
+          payload,
+          'site-settings-content',
+          'slug',
+          'settings',
+          mapSiteSettings(await getSiteSettings('en'))
+        ),
+    },
+    {
+      name: 'site-navigation',
+      run: async () =>
+        syncSingleton(
+          payload,
+          'site-navigation-content',
+          'slug',
+          'navigation',
+          mapSiteNavigation(await getNavigationContent('en'))
+        ),
+    },
+    {
+      name: 'site-footer',
+      run: async () =>
+        syncSingleton(
+          payload,
+          'site-footer-content',
+          'slug',
+          'footer',
+          mapSiteFooter(await getFooter('en'))
+        ),
+    },
     {
       name: 'circles',
       run: () =>

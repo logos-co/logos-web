@@ -1,3 +1,6 @@
+import { readdir } from 'node:fs/promises'
+import { basename, extname } from 'node:path'
+
 import type { ZodTypeAny, infer as zInfer } from 'zod'
 
 import { assertActiveLocale } from '../locales/registry'
@@ -66,6 +69,44 @@ export const getPageCopy = async (
   }
   validateAndNarrowCustomSections(page, filePath)
   return page
+}
+
+export type PageCopyRecord = {
+  slug: string
+  page: PageCopy
+}
+
+export const getAllPageCopy = async (
+  locale: Language
+): Promise<PageCopyRecord[]> => {
+  assertActiveLocale(locale)
+  const dir = contentPath(PAGES_DIR, locale)
+  const entries = await readdir(dir, { withFileTypes: true })
+  const files = entries
+    .filter((entry) => entry.isFile() && extname(entry.name) === '.json')
+    .map((entry) => entry.name)
+    .sort((a, b) => a.localeCompare(b))
+
+  return Promise.all(
+    files.map(async (file) => {
+      const slug = basename(file, '.json')
+      const page = await readJson(
+        contentPath(PAGES_DIR, locale, file),
+        pageCopySchema
+      )
+      const expectedSlug = routeToPageSlug(page.route)
+      if (slug !== expectedSlug) {
+        throw new Error(
+          `page slug mismatch at ${file}: route "${page.route}" maps to "${expectedSlug}"`
+        )
+      }
+      validateAndNarrowCustomSections(
+        page,
+        contentPath(PAGES_DIR, locale, file)
+      )
+      return { slug, page }
+    })
+  )
 }
 
 /**

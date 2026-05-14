@@ -188,7 +188,7 @@ function ActionCardsSection({ t }: { t: Translate }) {
     {
       key: 'coalition',
       image: movementImages.coalition,
-      href: EXTERNAL_URLS.forum,
+      href: EXTERNAL_URLS.forms,
     },
     {
       key: 'building',
@@ -526,7 +526,7 @@ function GetInvolvedSection({ t }: { t: Translate }) {
             </p>
           </div>
           <Cta
-            href={EXTERNAL_URLS.forum}
+            href={EXTERNAL_URLS.forms}
             label={t('coalition.cta')}
             tone="light"
           />
@@ -659,7 +659,7 @@ function ResourcesSection({ t }: { t: Translate }) {
                   row === 'discord'
                     ? EXTERNAL_URLS.discord
                     : row === 'forum'
-                      ? EXTERNAL_URLS.forum
+                      ? EXTERNAL_URLS.forms
                       : ROUTES.circles
                 }
                 label={t(`resources.rows.${row}.cta`)}

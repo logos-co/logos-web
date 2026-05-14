@@ -132,6 +132,52 @@ export const saveAsPullRequest = async (
   }
 
   const config = getGithubConfig()
+  const targetPath = input.changes[0]!.path
+  const existing = await input.payload.find({
+    collection: 'content-change-requests',
+    where: {
+      and: [
+        { targetPath: { equals: targetPath } },
+        { status: { in: ['draft', 'open'] } },
+      ],
+    },
+    sort: '-updatedAt',
+    limit: 1,
+  })
+
+  const existingRequest = existing.docs[0]
+  if (existingRequest) {
+    if (!existingRequest.pullRequestNumber || !existingRequest.pullRequestUrl) {
+      throw new Error(
+        `open content change request ${existingRequest.id} is missing pull request metadata`
+      )
+    }
+
+    const branchName = existingRequest.branchName
+    const { commitSha } = await commitFiles({
+      branch: branchName,
+      message: input.commitMessage,
+      changes: input.changes,
+    })
+
+    await input.payload.update({
+      collection: 'content-change-requests',
+      id: existingRequest.id,
+      data: {
+        status: 'open',
+        commitSha,
+      },
+    })
+
+    return {
+      branchName,
+      pullRequestNumber: existingRequest.pullRequestNumber,
+      pullRequestUrl: existingRequest.pullRequestUrl,
+      commitSha,
+      contentChangeRequestId: existingRequest.id,
+    }
+  }
+
   const branchName = buildContentBranchName({
     contentType: input.contentType,
     identifier: input.identifier,
@@ -159,7 +205,6 @@ export const saveAsPullRequest = async (
     draft: input.draft ?? true,
   })
 
-  const targetPath = input.changes[0]!.path
   const created = await input.payload.create({
     collection: 'content-change-requests',
     data: {

@@ -68,9 +68,13 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
+    media: Media;
     pages: Page;
     'builder-hub-settings': BuilderHubSetting;
     'builder-listing-settings': BuilderListingSetting;
+    'site-settings-content': SiteSettingsContent;
+    'site-navigation-content': SiteNavigationContent;
+    'site-footer-content': SiteFooterContent;
     rfps: Rfp;
     ideas: Idea;
     'builder-resources': BuilderResource;
@@ -87,9 +91,13 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     'builder-hub-settings': BuilderHubSettingsSelect<false> | BuilderHubSettingsSelect<true>;
     'builder-listing-settings': BuilderListingSettingsSelect<false> | BuilderListingSettingsSelect<true>;
+    'site-settings-content': SiteSettingsContentSelect<false> | SiteSettingsContentSelect<true>;
+    'site-navigation-content': SiteNavigationContentSelect<false> | SiteNavigationContentSelect<true>;
+    'site-footer-content': SiteFooterContentSelect<false> | SiteFooterContentSelect<true>;
     rfps: RfpsSelect<false> | RfpsSelect<true>;
     ideas: IdeasSelect<false> | IdeasSelect<true>;
     'builder-resources': BuilderResourcesSelect<false> | BuilderResourcesSelect<true>;
@@ -107,12 +115,8 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {
-    siteSettings: SiteSetting;
-  };
-  globalsSelect: {
-    siteSettings: SiteSettingsSelect<false> | SiteSettingsSelect<true>;
-  };
+  globals: {};
+  globalsSelect: {};
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -168,28 +172,62 @@ export interface User {
   collection: 'users';
 }
 /**
+ * Uploaded media stored inside apps/web/public/cms/uploads so content JSON can reference repo-owned public assets.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  /**
+   * Use an empty string only for decorative images. Content images need descriptive alt text.
+   */
+  alt: string;
+  /**
+   * Public path to copy into imageSrc fields, e.g. /cms/uploads/example.webp.
+   */
+  publicPath?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * Repo-backed page metadata and sections. Saving validates and writes content/pages/en/<slug>.json through a GitHub pull request.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
 export interface Page {
   id: number;
-  title: string;
+  /**
+   * Route-derived file slug, e.g. "/" -> "home".
+   */
   slug: string;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
+  title: string;
+  /**
+   * Internal route starting with "/". Must match page.route in the JSON payload.
+   */
+  route: string;
+  /**
+   * Must match @repo/content pageCopySchema exactly.
+   */
+  page:
+    | {
         [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -244,6 +282,87 @@ export interface BuilderListingSetting {
   bottomCtaLabel: string;
   bottomCtaHref: string;
   bottomCtaExternal?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Repo-backed site settings. Saving validates and writes content/site/en/settings.json through a GitHub pull request.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings-content".
+ */
+export interface SiteSettingsContent {
+  id: number;
+  /**
+   * Use "settings".
+   */
+  slug: string;
+  /**
+   * Must match @repo/content siteSettingsSchema.
+   */
+  settings:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Repo-backed site navigation. Saving validates and writes content/site/en/navigation.json through a GitHub pull request.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-navigation-content".
+ */
+export interface SiteNavigationContent {
+  id: number;
+  /**
+   * Use "navigation".
+   */
+  slug: string;
+  /**
+   * Must match @repo/content navigationSchema.
+   */
+  navigation:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Repo-backed site footer. Saving validates and writes content/site/en/footer.json through a GitHub pull request.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-footer-content".
+ */
+export interface SiteFooterContent {
+  id: number;
+  /**
+   * Use "footer".
+   */
+  slug: string;
+  /**
+   * Must match @repo/content footerSchema.
+   */
+  footer:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -562,6 +681,10 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
         relationTo: 'pages';
         value: number | Page;
       } | null)
@@ -572,6 +695,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'builder-listing-settings';
         value: number | BuilderListingSetting;
+      } | null)
+    | ({
+        relationTo: 'site-settings-content';
+        value: number | SiteSettingsContent;
+      } | null)
+    | ({
+        relationTo: 'site-navigation-content';
+        value: number | SiteNavigationContent;
+      } | null)
+    | ({
+        relationTo: 'site-footer-content';
+        value: number | SiteFooterContent;
       } | null)
     | ({
         relationTo: 'rfps';
@@ -672,12 +807,32 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  publicPath?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
-  title?: T;
   slug?: T;
-  content?: T;
+  title?: T;
+  route?: T;
+  page?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -712,6 +867,36 @@ export interface BuilderListingSettingsSelect<T extends boolean = true> {
   bottomCtaLabel?: T;
   bottomCtaHref?: T;
   bottomCtaExternal?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings-content_select".
+ */
+export interface SiteSettingsContentSelect<T extends boolean = true> {
+  slug?: T;
+  settings?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-navigation-content_select".
+ */
+export interface SiteNavigationContentSelect<T extends boolean = true> {
+  slug?: T;
+  navigation?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-footer-content_select".
+ */
+export interface SiteFooterContentSelect<T extends boolean = true> {
+  slug?: T;
+  footer?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -938,28 +1123,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "siteSettings".
- */
-export interface SiteSetting {
-  id: number;
-  siteName: string;
-  siteDescription?: string | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "siteSettings_select".
- */
-export interface SiteSettingsSelect<T extends boolean = true> {
-  siteName?: T;
-  siteDescription?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

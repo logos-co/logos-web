@@ -46,14 +46,20 @@ export const getFooter = async (locale: Language): Promise<Footer> => {
   return readJson(contentPath(SITE_DIR, locale, 'footer.json'), footerSchema)
 }
 
-export const getNavigation = async (
+export const getNavigationContent = async (
   locale: Language
-): Promise<NavigationViewModel> => {
+): Promise<Navigation> => {
   assertActiveLocale(locale)
-  const navigation = await readJson(
+  return readJson(
     contentPath(SITE_DIR, locale, 'navigation.json'),
     navigationSchema
   )
+}
+
+export const getNavigation = async (
+  locale: Language
+): Promise<NavigationViewModel> => {
+  const navigation = await getNavigationContent(locale)
 
   const limit = navigation.press.visibleCount ?? DEFAULT_PRESS_VISIBLE_COUNT
   const articles = await resolvePressList(navigation.press.pinnedSlugs, {
