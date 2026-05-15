@@ -24,6 +24,13 @@ In your Tailwind entry stylesheet:
 @import '@acid-info/logos-tokens/theme.css';
 ```
 
+If you also use `@acid-info/logos-ui`, include the UI package in Tailwind's
+source scan:
+
+```css
+@import '@acid-info/logos-ui/styles.css';
+```
+
 Individual layers are also exported if you need a subset:
 
 - `@acid-info/logos-tokens/colors.css`

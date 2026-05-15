@@ -29,7 +29,12 @@ For Tailwind v4, import the token package in your app stylesheet:
 ```css
 @import 'tailwindcss';
 @import '@acid-info/logos-tokens/theme.css';
+@import '@acid-info/logos-ui/styles.css';
 ```
+
+The UI stylesheet registers the package's compiled component files as Tailwind
+sources. This is required because Tailwind does not scan `node_modules` by
+default.
 
 The React package does not inject global CSS by itself.
 

@@ -1,6 +1,6 @@
 {
   "name": "@acid-info/logos-tokens",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Logos design tokens as CSS imports.",
   "type": "module",
   "sideEffects": [

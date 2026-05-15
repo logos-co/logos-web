@@ -1,9 +1,11 @@
 {
   "name": "@acid-info/logos-ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Shared Logos React primitives and SVG icons.",
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -13,10 +15,16 @@
       "types": "./dist/client.d.ts",
       "import": "./dist/client.js"
     },
+    "./styles.css": {
+      "style": "./styles.css",
+      "import": "./styles.css",
+      "default": "./styles.css"
+    },
     "./package.json": "./package.json"
   },
   "files": [
-    "dist"
+    "dist",
+    "styles.css"
   ],
   "publishConfig": {
     "access": "public"
@@ -32,7 +40,7 @@
     "tailwind-merge": "^3.3.1"
   },
   "peerDependencies": {
-    "@acid-info/logos-tokens": "0.1.0",
+    "@acid-info/logos-tokens": "^0.1.0",
     "react": ">=18.3.0 || >=19.0.0"
   },
   "peerDependenciesMeta": {
