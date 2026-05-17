@@ -3,11 +3,14 @@ import {
   commitFiles,
   createBranch,
   createOrGetPullRequest,
+  findOpenPullRequestsTouchingPath,
+  findPullRequestByBranch,
   getGithubConfig,
 } from '@repo/content/github'
 import type { Payload } from 'payload'
 
 import { buildContentBranchName } from './branch-naming'
+import { collectReferencedCmsUploadChanges } from './media-file-changes'
 
 export interface SavePrEditor {
   email?: string
@@ -111,6 +114,57 @@ export type SaveAsPullRequestResult = {
   contentChangeRequestId: string | number
 }
 
+const recordContentChangeRequest = async (
+  input: SaveAsPullRequestInput & {
+    branchName: string
+    commitSha: string
+    pullRequestNumber: number
+    pullRequestUrl: string
+    targetPath: string
+  }
+): Promise<string | number> => {
+  const existing = await input.payload.find({
+    collection: 'content-change-requests',
+    where: {
+      or: [
+        { branchName: { equals: input.branchName } },
+        { pullRequestNumber: { equals: input.pullRequestNumber } },
+      ],
+    },
+    sort: '-updatedAt',
+    limit: 1,
+  })
+
+  const existingRequest = existing.docs[0]
+  const data = {
+    contentType: input.contentType,
+    targetPath: input.targetPath,
+    branchName: input.branchName,
+    pullRequestNumber: input.pullRequestNumber,
+    pullRequestUrl: input.pullRequestUrl,
+    status: 'open',
+    commitSha: input.commitSha,
+    ...(input.editor?.payloadUserId !== undefined && {
+      createdBy: input.editor.payloadUserId,
+    }),
+  }
+
+  if (existingRequest) {
+    await input.payload.update({
+      collection: 'content-change-requests',
+      id: existingRequest.id,
+      data,
+    })
+    return existingRequest.id
+  }
+
+  const created = await input.payload.create({
+    collection: 'content-change-requests',
+    data,
+  })
+  return created.id
+}
+
 /**
  * Single entry point that the Payload `Create PR` action calls.
  *
@@ -133,6 +187,10 @@ export const saveAsPullRequest = async (
 
   const config = getGithubConfig()
   const targetPath = input.changes[0]!.path
+  const mediaChanges = await collectReferencedCmsUploadChanges({
+    changes: input.changes,
+  })
+  const changes = [...input.changes, ...mediaChanges]
   const existing = await input.payload.find({
     collection: 'content-change-requests',
     where: {
@@ -154,27 +212,38 @@ export const saveAsPullRequest = async (
     }
 
     const branchName = existingRequest.branchName
-    const { commitSha } = await commitFiles({
-      branch: branchName,
-      message: input.commitMessage,
-      changes: input.changes,
-    })
+    const liveRequest = await findPullRequestByBranch(branchName)
+    if (!liveRequest) {
+      await input.payload.update({
+        collection: 'content-change-requests',
+        id: existingRequest.id,
+        data: { status: 'closed' },
+      })
+    } else {
+      const { commitSha } = await commitFiles({
+        branch: branchName,
+        message: input.commitMessage,
+        changes,
+      })
 
-    await input.payload.update({
-      collection: 'content-change-requests',
-      id: existingRequest.id,
-      data: {
-        status: 'open',
+      await input.payload.update({
+        collection: 'content-change-requests',
+        id: existingRequest.id,
+        data: {
+          pullRequestNumber: liveRequest.number,
+          pullRequestUrl: liveRequest.htmlUrl,
+          status: 'open',
+          commitSha,
+        },
+      })
+
+      return {
+        branchName,
+        pullRequestNumber: liveRequest.number,
+        pullRequestUrl: liveRequest.htmlUrl,
         commitSha,
-      },
-    })
-
-    return {
-      branchName,
-      pullRequestNumber: existingRequest.pullRequestNumber,
-      pullRequestUrl: existingRequest.pullRequestUrl,
-      commitSha,
-      contentChangeRequestId: existingRequest.id,
+        contentChangeRequestId: existingRequest.id,
+      }
     }
   }
 
@@ -184,12 +253,44 @@ export const saveAsPullRequest = async (
   })
   const baseBranch = config.prBaseBranch
 
+  const livePullRequests = await findOpenPullRequestsTouchingPath(targetPath)
+  if (livePullRequests.length > 1) {
+    throw new Error(
+      `multiple open pull requests already touch ${targetPath}; merge or close one before saving`
+    )
+  }
+  const livePullRequest = livePullRequests[0]
+  if (livePullRequest) {
+    const { commitSha } = await commitFiles({
+      branch: livePullRequest.branchName,
+      message: input.commitMessage,
+      changes,
+    })
+
+    const contentChangeRequestId = await recordContentChangeRequest({
+      ...input,
+      branchName: livePullRequest.branchName,
+      commitSha,
+      pullRequestNumber: livePullRequest.number,
+      pullRequestUrl: livePullRequest.htmlUrl,
+      targetPath,
+    })
+
+    return {
+      branchName: livePullRequest.branchName,
+      pullRequestNumber: livePullRequest.number,
+      pullRequestUrl: livePullRequest.htmlUrl,
+      commitSha,
+      contentChangeRequestId,
+    }
+  }
+
   await createBranch({ newBranch: branchName, fromBranch: baseBranch })
 
   const { commitSha } = await commitFiles({
     branch: branchName,
     message: input.commitMessage,
-    changes: input.changes,
+    changes,
   })
 
   // PR body intentionally omits editor identity. The internal CCR row
@@ -205,20 +306,13 @@ export const saveAsPullRequest = async (
     draft: input.draft ?? true,
   })
 
-  const created = await input.payload.create({
-    collection: 'content-change-requests',
-    data: {
-      contentType: input.contentType,
-      targetPath,
-      branchName,
-      pullRequestNumber: pr.number,
-      pullRequestUrl: pr.htmlUrl,
-      status: 'open',
-      commitSha,
-      ...(input.editor?.payloadUserId !== undefined && {
-        createdBy: input.editor.payloadUserId,
-      }),
-    },
+  const contentChangeRequestId = await recordContentChangeRequest({
+    ...input,
+    branchName,
+    commitSha,
+    pullRequestNumber: pr.number,
+    pullRequestUrl: pr.htmlUrl,
+    targetPath,
   })
 
   return {
@@ -226,6 +320,6 @@ export const saveAsPullRequest = async (
     pullRequestNumber: pr.number,
     pullRequestUrl: pr.htmlUrl,
     commitSha,
-    contentChangeRequestId: created.id,
+    contentChangeRequestId,
   }
 }

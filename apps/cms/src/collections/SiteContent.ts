@@ -31,7 +31,7 @@ export const SiteSettingsContent: CollectionConfig = {
   },
   access: noDeleteAccess,
   hooks: {
-    beforeChange: [
+    afterChange: [
       createChangePullRequestHook<SiteSettingsDocLike>({
         save: saveSiteSettingsAsPullRequest,
       }),
@@ -60,7 +60,7 @@ export const SiteNavigationContent: CollectionConfig = {
   },
   access: noDeleteAccess,
   hooks: {
-    beforeChange: [
+    afterChange: [
       createChangePullRequestHook<SiteNavigationDocLike>({
         save: saveSiteNavigationAsPullRequest,
       }),
@@ -89,7 +89,7 @@ export const SiteFooterContent: CollectionConfig = {
   },
   access: noDeleteAccess,
   hooks: {
-    beforeChange: [
+    afterChange: [
       createChangePullRequestHook<SiteFooterDocLike>({
         save: saveSiteFooterAsPullRequest,
       }),

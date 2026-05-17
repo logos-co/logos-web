@@ -27,7 +27,7 @@ export const BuilderResources: CollectionConfig = {
   },
   access: authenticatedCollectionAccess,
   hooks: {
-    beforeChange: [
+    afterChange: [
       createChangePullRequestHook<BuilderResourceDocLike>({
         save: saveBuilderResourceAsPullRequest,
       }),

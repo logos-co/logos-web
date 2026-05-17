@@ -38,6 +38,14 @@ const { owner, repo, prBaseBranch: baseBranch } = config
  * assert on the row itself; it just needs the call to resolve.
  */
 const stubPayload = {
+  find: async ({ collection }: { collection: string }) => {
+    if (collection !== 'content-change-requests') {
+      throw new Error(
+        `stub payload received unexpected collection "${collection}"`
+      )
+    }
+    return { docs: [] }
+  },
   create: async ({ collection }: { collection: string }) => {
     if (collection !== 'content-change-requests') {
       throw new Error(
@@ -45,6 +53,14 @@ const stubPayload = {
       )
     }
     return { id: 'stub-ccr-id' }
+  },
+  update: async ({ collection, id }: { collection: string; id: string }) => {
+    if (collection !== 'content-change-requests') {
+      throw new Error(
+        `stub payload received unexpected collection "${collection}"`
+      )
+    }
+    return { id }
   },
 } as unknown as Payload
 

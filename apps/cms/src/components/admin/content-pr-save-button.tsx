@@ -21,6 +21,8 @@ import {
   type CSSProperties,
 } from 'react'
 
+import { getContentWorkflowCollection } from '@/services/content-workflow/collection-metadata'
+
 const toastId = 'content-pr-save-in-progress'
 
 type RecentPullRequest = {
@@ -97,15 +99,24 @@ const useFormSlug = (): string | undefined =>
     return typeof field?.value === 'string' ? field.value : undefined
   })
 
+const useFormListingPage = (): string | undefined =>
+  useFormFields(([fields]) => {
+    const field = fields?.['page']
+    return typeof field?.value === 'string' ? field.value : undefined
+  })
+
 const buildRecentPrHref = ({
   collection,
+  page,
   slug,
 }: {
   collection: string
+  page?: string
   slug?: string
 }): string => {
   const params = new URLSearchParams({ collection })
   if (slug) params.set('slug', slug)
+  if (page) params.set('page', page)
   return `/api/content-workflow/recent-pr?${params.toString()}`
 }
 
@@ -199,6 +210,7 @@ export const ContentPrSaveButton = () => {
   const { submit } = useForm()
   const { t } = useTranslation()
   const collection = useCollectionSlug()
+  const listingPage = useFormListingPage()
   const slug = useFormSlug()
   const modified = useFormModified()
   const processing = useFormProcessing()
@@ -249,9 +261,12 @@ export const ContentPrSaveButton = () => {
     if (!collection) return
 
     try {
-      const response = await fetch(buildRecentPrHref({ collection, slug }), {
-        credentials: 'same-origin',
-      })
+      const response = await fetch(
+        buildRecentPrHref({ collection, page: listingPage, slug }),
+        {
+          credentials: 'same-origin',
+        }
+      )
       const json = (await response.json()) as RecentPrResult
       if (!response.ok) {
         throw new Error(json.error ?? `request failed (${response.status})`)
@@ -263,7 +278,7 @@ export const ContentPrSaveButton = () => {
       setRecentPr(null)
       setRecentPrError(error instanceof Error ? error.message : String(error))
     }
-  }, [collection, slug])
+  }, [collection, listingPage, slug])
 
   const stopFeedback = () => {
     setShowFeedback(false)
@@ -385,7 +400,10 @@ export const ContentPrSaveButton = () => {
     }
   }
 
-  const canMerge = Boolean(recentPr?.pullRequestNumber)
+  const supportedCollection = collection
+    ? Boolean(getContentWorkflowCollection(collection))
+    : false
+  const canMerge = supportedCollection && Boolean(recentPr?.pullRequestNumber)
   const syncStatusMessage = getSyncStatusMessage(syncResponse)
   const canSync =
     syncResponse?.decision?.kind === 'fast-forward' &&

@@ -25,7 +25,7 @@ export const Pages: CollectionConfig = {
     delete: () => false,
   },
   hooks: {
-    beforeChange: [
+    afterChange: [
       createChangePullRequestHook<PageDocLike>({
         save: savePageAsPullRequest,
       }),

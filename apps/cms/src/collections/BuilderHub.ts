@@ -29,7 +29,7 @@ export const BuilderHubSettings: CollectionConfig = {
   },
   access: noDeleteAccess,
   hooks: {
-    beforeChange: [
+    afterChange: [
       createChangePullRequestHook<BuilderHubSettingsDocLike>({
         save: saveBuilderHubSettingsAsPullRequest,
       }),
@@ -61,7 +61,7 @@ export const BuilderListingSettings: CollectionConfig = {
   },
   access: noDeleteAccess,
   hooks: {
-    beforeChange: [
+    afterChange: [
       createChangePullRequestHook<BuilderListingSettingsDocLike>({
         save: saveBuilderListingSettingsAsPullRequest,
       }),

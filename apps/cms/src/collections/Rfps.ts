@@ -56,7 +56,7 @@ export const Rfps: CollectionConfig = {
   },
   access: authenticatedCollectionAccess,
   hooks: {
-    beforeChange: [
+    afterChange: [
       createChangePullRequestHook<RfpDocLike>({
         save: saveRfpAsPullRequest,
       }),

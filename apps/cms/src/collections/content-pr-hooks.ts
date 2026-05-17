@@ -1,5 +1,5 @@
 import type {
-  CollectionBeforeChangeHook,
+  CollectionAfterChangeHook,
   CollectionBeforeDeleteHook,
   Payload,
   User,
@@ -38,22 +38,17 @@ const shouldSkipContentPr = (context: Record<string, unknown>): boolean =>
 export const createChangePullRequestHook =
   <TDoc>({
     save,
-  }: CreateChangePullRequestHookInput<TDoc>): CollectionBeforeChangeHook =>
-  async ({ context, data, operation, originalDoc, req }) => {
-    if (shouldSkipContentPr(context) || !req.user) return data
-
-    const doc =
-      operation === 'update'
-        ? ({ ...(originalDoc ?? {}), ...data } as TDoc)
-        : (data as TDoc)
+  }: CreateChangePullRequestHookInput<TDoc>): CollectionAfterChangeHook =>
+  async ({ context, doc, req }) => {
+    if (shouldSkipContentPr(context) || !req.user) return doc
 
     await save({
-      doc,
+      doc: doc as TDoc,
       payload: req.payload,
       editor: getEditor(req.user),
     })
 
-    return data
+    return doc
   }
 
 export const createDeletePullRequestHook =

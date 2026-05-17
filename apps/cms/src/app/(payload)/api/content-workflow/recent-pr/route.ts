@@ -8,6 +8,10 @@ import {
 } from '@repo/content/github'
 
 import config from '@payload-config'
+import {
+  getContentWorkflowCollection,
+  getContentWorkflowTargetPath,
+} from '@/services/content-workflow/collection-metadata'
 
 type ChangeRequestDoc = {
   id: string | number
@@ -20,23 +24,6 @@ type ChangeRequestDoc = {
   updatedAt?: string | null
 }
 
-const COLLECTION_CONTENT_TYPES: Record<string, string[]> = {
-  circles: ['circle'],
-  'circle-events': ['circle-event'],
-  'circle-initiatives': ['circle-initiative'],
-  'circle-resources': ['circle-resource'],
-  ideas: ['idea'],
-  rfps: ['rfp'],
-}
-
-const COLLECTION_CONTENT_DIRS: Record<string, string> = {
-  circles: 'content/circles/circles',
-  'circle-events': 'content/circles/events',
-  'circle-initiatives': 'content/circles/initiatives',
-  ideas: 'content/builders-hub/ideas',
-  rfps: 'content/builders-hub/rfps',
-}
-
 const getErrorMessage = (error: unknown): string =>
   error instanceof Error ? error.message : String(error)
 
@@ -44,11 +31,6 @@ const matchesSlug = (doc: ChangeRequestDoc, slug: string): boolean => {
   const branchName = doc.branchName ?? ''
   const targetPath = doc.targetPath ?? ''
   return branchName.includes(slug) || targetPath.includes(`/${slug}/`)
-}
-
-const buildTargetPath = (collection: string, slug: string): string | null => {
-  const contentDir = COLLECTION_CONTENT_DIRS[collection]
-  return contentDir ? `${contentDir}/${slug}/index.json` : null
 }
 
 export const GET = async (req: NextRequest): Promise<NextResponse> => {
@@ -61,14 +43,16 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
   const { searchParams } = new URL(req.url)
   const collection = searchParams.get('collection')
   const slug = searchParams.get('slug')
-  if (!collection || !COLLECTION_CONTENT_TYPES[collection]) {
+  const page = searchParams.get('page')
+  const metadata = collection ? getContentWorkflowCollection(collection) : null
+  if (!collection || !metadata) {
     return NextResponse.json(
       { error: 'unsupported or missing collection' },
       { status: 400 }
     )
   }
 
-  const contentTypes = new Set(COLLECTION_CONTENT_TYPES[collection])
+  const contentTypes = new Set(metadata.contentTypes)
   const [result, livePullRequests] = await Promise.all([
     payload.find({
       collection: 'content-change-requests',
@@ -82,8 +66,10 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
       },
     }),
     (async () => {
-      if (!slug) return []
-      const targetPath = buildTargetPath(collection, slug)
+      const targetPath = getContentWorkflowTargetPath(collection, {
+        page,
+        slug,
+      })
       if (!targetPath) return []
 
       try {
@@ -118,12 +104,12 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
       {
         id: `github-${pr.number}`,
         branchName: pr.branchName,
-        contentType: COLLECTION_CONTENT_TYPES[collection][0],
+        contentType: metadata.contentTypes[0],
         draft: pr.draft,
         pullRequestNumber: pr.number,
         pullRequestUrl: pr.htmlUrl,
         status: pr.state,
-        targetPath: slug ? buildTargetPath(collection, slug) : null,
+        targetPath: getContentWorkflowTargetPath(collection, { page, slug }),
         updatedAt: null,
       },
     ])

@@ -79,7 +79,7 @@ export const Circles: CollectionConfig = {
   },
   access: authenticatedCollectionAccess,
   hooks: {
-    beforeChange: [
+    afterChange: [
       createChangePullRequestHook<CircleDocLike>({
         save: saveCircleAsPullRequest,
       }),
@@ -161,7 +161,7 @@ export const CircleEvents: CollectionConfig = {
   },
   access: authenticatedCollectionAccess,
   hooks: {
-    beforeChange: [
+    afterChange: [
       createChangePullRequestHook<CircleEventDocLike>({
         save: saveCircleEventAsPullRequest,
       }),
@@ -232,7 +232,7 @@ export const CircleInitiatives: CollectionConfig = {
   },
   access: authenticatedCollectionAccess,
   hooks: {
-    beforeChange: [
+    afterChange: [
       createChangePullRequestHook<CircleInitiativeDocLike>({
         save: saveCircleInitiativeAsPullRequest,
       }),
@@ -283,7 +283,7 @@ export const CircleResources: CollectionConfig = {
   },
   access: authenticatedCollectionAccess,
   hooks: {
-    beforeChange: [
+    afterChange: [
       createChangePullRequestHook<CircleResourceDocLike>({
         save: saveCircleResourceAsPullRequest,
       }),

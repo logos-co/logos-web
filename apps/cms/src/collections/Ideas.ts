@@ -48,7 +48,7 @@ export const Ideas: CollectionConfig = {
   },
   access: authenticatedCollectionAccess,
   hooks: {
-    beforeChange: [
+    afterChange: [
       createChangePullRequestHook<IdeaDocLike>({
         save: saveIdeaAsPullRequest,
       }),

@@ -3,6 +3,8 @@
 import { useFormFields } from '@payloadcms/ui'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { getContentWorkflowCollectionLabel } from '@/services/content-workflow/collection-metadata'
+
 type RecentPullRequest = {
   id: string | number
   branchName?: string | null
@@ -29,15 +31,6 @@ type MergePrResult = {
   sha?: string | null
 }
 
-const COLLECTION_LABELS: Record<string, string> = {
-  circles: 'Circle',
-  'circle-events': 'Circle event',
-  'circle-initiatives': 'Circle initiative',
-  'circle-resources': 'Circle resource',
-  ideas: 'Idea',
-  rfps: 'RFP',
-}
-
 const useCollectionSlug = (): string | null =>
   useMemo(() => {
     if (typeof window === 'undefined') return null
@@ -51,15 +44,24 @@ const useFormSlug = (): string | undefined =>
     return typeof field?.value === 'string' ? field.value : undefined
   })
 
+const useFormListingPage = (): string | undefined =>
+  useFormFields(([fields]) => {
+    const field = fields?.['page']
+    return typeof field?.value === 'string' ? field.value : undefined
+  })
+
 const buildHref = ({
   collection,
+  page,
   slug,
 }: {
   collection: string
+  page?: string
   slug?: string
 }): string => {
   const params = new URLSearchParams({ collection })
   if (slug) params.set('slug', slug)
+  if (page) params.set('page', page)
   return `/api/content-workflow/recent-pr?${params.toString()}`
 }
 
@@ -79,9 +81,11 @@ const buildDismissKey = ({
 }
 
 const RecentPrBannerInner = ({
+  page,
   scope,
   slug,
 }: {
+  page?: string
   scope: 'document' | 'list'
   slug?: string
 }) => {
@@ -104,12 +108,12 @@ const RecentPrBannerInner = ({
   }, [collection, result, scope, slug])
 
   useEffect(() => {
-    if (!collection || !COLLECTION_LABELS[collection]) return
+    if (!collection || !getContentWorkflowCollectionLabel(collection)) return
 
     let cancelled = false
     setPending(true)
     setDismissed(false)
-    void fetch(buildHref({ collection, slug }), {
+    void fetch(buildHref({ collection, page, slug }), {
       credentials: 'same-origin',
     })
       .then(async (res) => {
@@ -139,7 +143,7 @@ const RecentPrBannerInner = ({
     return () => {
       cancelled = true
     }
-  }, [collection, slug])
+  }, [collection, page, slug])
 
   useEffect(() => {
     if (!dismissKey) return
@@ -191,12 +195,14 @@ const RecentPrBannerInner = ({
     }
   }, [])
 
-  if (!collection || !COLLECTION_LABELS[collection]) return null
+  const label = collection
+    ? getContentWorkflowCollectionLabel(collection)
+    : null
+  if (!collection || !label) return null
   if (pending || !result) return null
   if (result.pullRequests.length === 0 && !mergedPr) return null
   if (dismissed) return null
 
-  const label = COLLECTION_LABELS[collection]
   return (
     <div
       style={{
@@ -320,8 +326,9 @@ const RecentPrBannerInner = ({
 }
 
 export const RecentDocumentPrBanner = () => {
+  const page = useFormListingPage()
   const slug = useFormSlug()
-  return <RecentPrBannerInner scope="document" slug={slug} />
+  return <RecentPrBannerInner page={page} scope="document" slug={slug} />
 }
 
 export const RecentCollectionPrBanner = () => (
