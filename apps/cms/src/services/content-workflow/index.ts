@@ -10,7 +10,6 @@ export {
   type SaveContentAsPullRequestInput,
   type SavePrEditor,
 } from './save-as-pr'
-export { getContentLock, type ContentLockResult } from './get-lock'
 export {
   mergeContentPullRequest,
   type MergeContentPullRequestInput,

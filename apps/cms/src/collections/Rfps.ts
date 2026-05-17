@@ -2,7 +2,6 @@ import type { CollectionConfig } from 'payload'
 
 import {
   authenticatedCollectionAccess,
-  createLockBannerField,
   createPublishStatusField,
   createSlugField,
   recentPrAdminComponents,
@@ -69,7 +68,6 @@ export const Rfps: CollectionConfig = {
     ],
   },
   fields: [
-    createLockBannerField('@/components/admin/lock-banner.tsx#RfpLockBanner'),
     createSlugField(
       'URL-safe identifier — kebab-case, ASCII only. Used as the directory name in `content/builders-hub/rfps/<slug>/`.'
     ),

@@ -2,7 +2,6 @@ import type { CollectionConfig } from 'payload'
 
 import {
   authenticatedCollectionAccess,
-  createLockBannerField,
   createPublishStatusField,
   createSlugField,
   recentPrAdminComponents,
@@ -61,7 +60,6 @@ export const Ideas: CollectionConfig = {
     ],
   },
   fields: [
-    createLockBannerField('@/components/admin/lock-banner.tsx#IdeaLockBanner'),
     createSlugField(
       'URL-safe identifier — kebab-case, ASCII only. Used as the directory name in `content/builders-hub/ideas/<slug>/`.'
     ),

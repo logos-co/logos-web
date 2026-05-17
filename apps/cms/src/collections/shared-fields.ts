@@ -59,26 +59,6 @@ export const createImageFields = (): Field[] => [
   { name: 'imageHeight', type: 'number', admin: { width: '50%' } },
 ]
 
-export const createLockBannerField = (component: string): Field => ({
-  name: 'lockBanner',
-  type: 'ui',
-  admin: {
-    components: {
-      Field: component,
-    },
-  },
-})
-
-export const createPrActionField = (component: string): Field => ({
-  name: 'createPrAction',
-  type: 'ui',
-  admin: {
-    components: {
-      Field: component,
-    },
-  },
-})
-
 export const recentPrAdminComponents = {
   beforeList: [
     '@/components/admin/production-sync-panel.tsx#ProductionSyncPanel',
