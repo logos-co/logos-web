@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
+import type { CollectionConfig } from 'payload'
 
 import { ContentChangeRequests } from './src/collections/ContentChangeRequests'
 import {
@@ -115,6 +116,32 @@ const databaseIdleTimeoutMs = parsePositiveIntEnv(
   5000
 )
 
+const disableDocumentLocks = (
+  collection: CollectionConfig
+): CollectionConfig => ({
+  ...collection,
+  lockDocuments: false,
+})
+
+const collections = [
+  Users,
+  Media,
+  Pages,
+  BuilderHubSettings,
+  BuilderListingSettings,
+  SiteSettingsContent,
+  SiteNavigationContent,
+  SiteFooterContent,
+  Rfps,
+  Ideas,
+  BuilderResources,
+  Circles,
+  CircleEvents,
+  CircleInitiatives,
+  CircleResources,
+  ContentChangeRequests,
+].map(disableDocumentLocks)
+
 export default buildConfig({
   admin: {
     components: {
@@ -127,24 +154,7 @@ export default buildConfig({
     },
     user: Users.slug,
   },
-  collections: [
-    Users,
-    Media,
-    Pages,
-    BuilderHubSettings,
-    BuilderListingSettings,
-    SiteSettingsContent,
-    SiteNavigationContent,
-    SiteFooterContent,
-    Rfps,
-    Ideas,
-    BuilderResources,
-    Circles,
-    CircleEvents,
-    CircleInitiatives,
-    CircleResources,
-    ContentChangeRequests,
-  ],
+  collections,
   cors: [serverURL, frontendURL],
   csrf: [serverURL, frontendURL],
   db: postgresAdapter({

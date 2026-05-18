@@ -43,6 +43,38 @@ const importPayloadConfig = async (
   }
 }
 
+const readPayloadCollections = async (): Promise<
+  Array<{ lockDocuments?: false | { duration: number }; slug: string }>
+> => {
+  const { stdout } = await execFileAsync(
+    process.execPath,
+    [
+      '--import',
+      'tsx',
+      '-e',
+      [
+        "const { default: configPromise } = await import('./payload.config.ts')",
+        'const config = await configPromise',
+        'console.log(JSON.stringify(config.collections.map(({ slug, lockDocuments }) => ({ slug, lockDocuments }))))',
+      ].join('; '),
+    ],
+    {
+      cwd: process.cwd(),
+      env: {
+        ...process.env,
+        DATABASE_URL: 'postgresql://user:pass@localhost:5432/logos',
+        NODE_ENV: 'development',
+        PAYLOAD_SECRET: 'test-secret',
+      },
+    }
+  )
+
+  return JSON.parse(stdout) as Array<{
+    lockDocuments?: false | { duration: number }
+    slug: string
+  }>
+}
+
 describe('Payload production env guard', () => {
   it('refuses self-hosted production without an explicit CMS origin', async () => {
     const result = await importPayloadConfig({
@@ -70,5 +102,22 @@ describe('Payload production env guard', () => {
     })
 
     assert.match(result.stderr, /NEXT_PUBLIC_WEB_URL is required/)
+  })
+})
+
+describe('Payload admin document locking', () => {
+  it('keeps document locking disabled for CMS collections', async () => {
+    const collections = await readPayloadCollections()
+    const collectionLocks = new Map(
+      collections.map((collection) => [
+        collection.slug,
+        collection.lockDocuments,
+      ])
+    )
+
+    assert.equal(collectionLocks.has('payload-locked-documents'), false)
+    assert.equal(collectionLocks.get('circles'), false)
+    assert.equal(collectionLocks.get('media'), false)
+    assert.equal(collectionLocks.get('users'), false)
   })
 })
