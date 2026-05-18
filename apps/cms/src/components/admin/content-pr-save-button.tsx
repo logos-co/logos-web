@@ -19,11 +19,13 @@ import {
   useRef,
   useState,
   type CSSProperties,
+  type ReactNode,
 } from 'react'
 
 import { getContentWorkflowCollection } from '@/services/content-workflow/collection-metadata'
 
 const toastId = 'content-pr-save-in-progress'
+const savedToastId = 'content-pr-save-created'
 
 type RecentPullRequest = {
   branchName?: string | null
@@ -35,6 +37,10 @@ type RecentPullRequest = {
 type RecentPrResult = {
   pullRequests?: RecentPullRequest[]
   error?: string
+}
+
+type LoadRecentPullRequestOptions = {
+  notify?: boolean
 }
 
 type MergePrResult = {
@@ -169,6 +175,43 @@ const statusTextStyle = ({
   whiteSpace: 'nowrap',
 })
 
+const toastContentStyle: CSSProperties = {
+  alignItems: 'center',
+  display: 'inline-flex',
+  flexWrap: 'wrap',
+  gap: 6,
+}
+
+const toastLinkStyle: CSSProperties = {
+  color: 'inherit',
+  cursor: 'pointer',
+  fontWeight: 700,
+  textDecoration: 'underline',
+}
+
+const getPullRequestLabel = (pullRequest: RecentPullRequest): string =>
+  `PR #${pullRequest.pullRequestNumber ?? '?'}`
+
+const getPullRequestToastContent = (
+  pullRequest: RecentPullRequest
+): ReactNode => {
+  if (!pullRequest.pullRequestUrl) return 'Pull request created.'
+
+  return (
+    <span style={toastContentStyle}>
+      <span>Pull request ready:</span>
+      <a
+        href={pullRequest.pullRequestUrl}
+        rel="noopener noreferrer"
+        style={toastLinkStyle}
+        target="_blank"
+      >
+        {getPullRequestLabel(pullRequest)}
+      </a>
+    </span>
+  )
+}
+
 const LoadingIcon = () => (
   <svg
     aria-hidden="true"
@@ -257,28 +300,38 @@ export const ContentPrSaveButton = () => {
     }
   }, [])
 
-  const loadRecentPullRequest = useCallback(async () => {
-    if (!collection) return
+  const loadRecentPullRequest = useCallback(
+    async ({ notify = false }: LoadRecentPullRequestOptions = {}) => {
+      if (!collection) return
 
-    try {
-      const response = await fetch(
-        buildRecentPrHref({ collection, page: listingPage, slug }),
-        {
-          credentials: 'same-origin',
+      try {
+        const response = await fetch(
+          buildRecentPrHref({ collection, page: listingPage, slug }),
+          {
+            credentials: 'same-origin',
+          }
+        )
+        const json = (await response.json()) as RecentPrResult
+        if (!response.ok) {
+          throw new Error(json.error ?? `request failed (${response.status})`)
         }
-      )
-      const json = (await response.json()) as RecentPrResult
-      if (!response.ok) {
-        throw new Error(json.error ?? `request failed (${response.status})`)
-      }
 
-      setRecentPr(json.pullRequests?.[0] ?? null)
-      setRecentPrError(null)
-    } catch (error) {
-      setRecentPr(null)
-      setRecentPrError(error instanceof Error ? error.message : String(error))
-    }
-  }, [collection, listingPage, slug])
+        const pullRequest = json.pullRequests?.[0] ?? null
+        setRecentPr(pullRequest)
+        setRecentPrError(null)
+        if (notify && pullRequest) {
+          toast.success(getPullRequestToastContent(pullRequest), {
+            duration: 10000,
+            id: savedToastId,
+          })
+        }
+      } catch (error) {
+        setRecentPr(null)
+        setRecentPrError(error instanceof Error ? error.message : String(error))
+      }
+    },
+    [collection, listingPage, slug]
+  )
 
   const stopFeedback = () => {
     setShowFeedback(false)
@@ -297,7 +350,7 @@ export const ContentPrSaveButton = () => {
     const timeout = window.setTimeout(
       () => {
         stopFeedback()
-        void loadRecentPullRequest()
+        void loadRecentPullRequest({ notify: true })
         void loadSyncStatus()
       },
       sawProcessingRef.current ? 0 : 800
