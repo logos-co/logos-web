@@ -84,7 +84,6 @@ export interface Config {
     'circle-resources': CircleResource;
     'content-change-requests': ContentChangeRequest;
     'payload-kv': PayloadKv;
-    'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -107,7 +106,6 @@ export interface Config {
     'circle-resources': CircleResourcesSelect<false> | CircleResourcesSelect<true>;
     'content-change-requests': ContentChangeRequestsSelect<false> | ContentChangeRequestsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
-    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
@@ -671,85 +669,6 @@ export interface PayloadKv {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-locked-documents".
- */
-export interface PayloadLockedDocument {
-  id: number;
-  document?:
-    | ({
-        relationTo: 'users';
-        value: number | User;
-      } | null)
-    | ({
-        relationTo: 'media';
-        value: number | Media;
-      } | null)
-    | ({
-        relationTo: 'pages';
-        value: number | Page;
-      } | null)
-    | ({
-        relationTo: 'builder-hub-settings';
-        value: number | BuilderHubSetting;
-      } | null)
-    | ({
-        relationTo: 'builder-listing-settings';
-        value: number | BuilderListingSetting;
-      } | null)
-    | ({
-        relationTo: 'site-settings-content';
-        value: number | SiteSettingsContent;
-      } | null)
-    | ({
-        relationTo: 'site-navigation-content';
-        value: number | SiteNavigationContent;
-      } | null)
-    | ({
-        relationTo: 'site-footer-content';
-        value: number | SiteFooterContent;
-      } | null)
-    | ({
-        relationTo: 'rfps';
-        value: number | Rfp;
-      } | null)
-    | ({
-        relationTo: 'ideas';
-        value: number | Idea;
-      } | null)
-    | ({
-        relationTo: 'builder-resources';
-        value: number | BuilderResource;
-      } | null)
-    | ({
-        relationTo: 'circles';
-        value: number | Circle;
-      } | null)
-    | ({
-        relationTo: 'circle-events';
-        value: number | CircleEvent;
-      } | null)
-    | ({
-        relationTo: 'circle-initiatives';
-        value: number | CircleInitiative;
-      } | null)
-    | ({
-        relationTo: 'circle-resources';
-        value: number | CircleResource;
-      } | null)
-    | ({
-        relationTo: 'content-change-requests';
-        value: number | ContentChangeRequest;
-      } | null);
-  globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
@@ -1091,17 +1010,6 @@ export interface ContentChangeRequestsSelect<T extends boolean = true> {
 export interface PayloadKvSelect<T extends boolean = true> {
   key?: T;
   data?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-locked-documents_select".
- */
-export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
-  document?: T;
-  globalSlug?: T;
-  user?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
