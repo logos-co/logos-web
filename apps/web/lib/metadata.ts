@@ -1,9 +1,10 @@
 import siteConfig from '@/constants/site-config'
 import { env } from '@/lib/env'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 type DefaultMetadataProps = {
   locale: string
+  noindex?: boolean
   title?: string
   description?: string
   path?: string
@@ -24,6 +25,7 @@ export async function createDefaultMetadata({
   title = '',
   description = '',
   locale,
+  noindex = false,
   path = '',
 }: DefaultMetadataProps): Promise<Metadata> {
   const _title = title || siteConfig.title
@@ -68,8 +70,8 @@ export async function createDefaultMetadata({
     creator: siteConfig.name,
     keywords: siteConfig.keywords,
     robots: {
-      index: env.NEXT_PUBLIC_API_MODE === 'production',
-      follow: true,
+      index: !noindex && env.NEXT_PUBLIC_API_MODE === 'production',
+      follow: !noindex,
     },
   }
 }

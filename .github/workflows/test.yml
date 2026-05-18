@@ -26,6 +26,7 @@ jobs:
           - 5432:5432
     env:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/logos_test
+      NEXT_PUBLIC_API_MODE: production
       NEXT_PUBLIC_SERVER_URL: http://localhost:3001
       NEXT_PUBLIC_WEB_URL: http://localhost:3000
       PAYLOAD_SECRET: test-secret-at-least-32-characters

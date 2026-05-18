@@ -69,7 +69,7 @@ find "$OUT_DIR" -type f -name "*.html" ! -name "index.html" ! -name "404.html" !
   mv "$html_file" "$route_dir/index.html"
 done
 
-find "$OUT_DIR" -type f -name "*.txt" ! -name "index.txt" ! -name "404.txt" ! -name "_not-found.txt" | while read -r txt_file; do
+find "$OUT_DIR" -type f -name "*.txt" ! -name "index.txt" ! -name "404.txt" ! -name "_not-found.txt" ! -name "robots.txt" | while read -r txt_file; do
   route_dir="${txt_file%.txt}"
   mkdir -p "$route_dir"
   mv "$txt_file" "$route_dir/index.txt"

@@ -1,5 +1,7 @@
 import { env } from '@/lib/env'
 
+import siteSettings from '../../../content/site/en/settings.json'
+
 type SiteConfig = {
   name: string
   title: string
@@ -11,10 +13,10 @@ type SiteConfig = {
 
 const siteConfig: SiteConfig = {
   name: 'Logos',
-  title: 'Logos Next Tailwind Template',
-  description: 'Template for Next.js, Tailwind CSS, and Acid Info LSD',
+  title: siteSettings.siteTitle,
+  description: siteSettings.siteDescription,
   url: env.NEXT_PUBLIC_SITE_URL ?? 'https://logos.co',
-  keywords: ['Logos', 'Web3'],
+  keywords: siteSettings.keywords,
   defaultLocale: 'en',
 }
 

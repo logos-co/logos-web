@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { ROUTES } from '@/constants/routes'
+import { absoluteUrl } from '@/lib/metadata'
 
 /**
  * Static-export-friendly redirect from /farewell-to-westphalia → /book.
@@ -19,7 +20,7 @@ const TARGET = ROUTES.book
 export const metadata: Metadata = {
   title: 'Redirecting…',
   robots: { index: false, follow: false },
-  alternates: { canonical: TARGET },
+  alternates: { canonical: absoluteUrl(TARGET) },
 }
 
 export default function FarewellToWestphaliaPage() {

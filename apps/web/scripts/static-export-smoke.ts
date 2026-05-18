@@ -73,6 +73,39 @@ const collectExpectedRoutes = async (): Promise<string[]> => {
   ].sort((a, b) => a.localeCompare(b))
 }
 
+const toCanonicalUrl = (route: string): string => {
+  return route === '/' ? 'https://logos.co/' : `https://logos.co${route}`
+}
+
+const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
+  const failures: string[] = []
+  const robotsPath = join(outDir, 'robots.txt')
+  const sitemapPath = join(outDir, 'sitemap.xml')
+
+  if (!existsSync(robotsPath)) {
+    failures.push('robots.txt is missing from the static export root')
+  } else {
+    const robots = readFileSync(robotsPath, 'utf8')
+    if (!robots.includes('Sitemap: https://logos.co/sitemap.xml')) {
+      failures.push('robots.txt is missing the production sitemap URL')
+    }
+  }
+
+  if (!existsSync(sitemapPath)) {
+    failures.push('sitemap.xml is missing from the static export root')
+  } else {
+    const sitemap = readFileSync(sitemapPath, 'utf8')
+    for (const route of expectedRoutes) {
+      const loc = `<loc>${toCanonicalUrl(route)}</loc>`
+      if (!sitemap.includes(loc)) {
+        failures.push(`sitemap.xml is missing ${toCanonicalUrl(route)}`)
+      }
+    }
+  }
+
+  return failures
+}
+
 const isLocalAssetHref = (href: string): boolean => {
   if (!href.startsWith('/')) return false
   if (href.startsWith('//')) return false
@@ -127,7 +160,10 @@ const main = async (): Promise<void> => {
 
   const failures: string[] = []
   const checkedHtmlFiles = new Set<string>()
-  for (const route of await collectExpectedRoutes()) {
+  const expectedRoutes = await collectExpectedRoutes()
+  failures.push(...assertSeoFiles(expectedRoutes))
+
+  for (const route of expectedRoutes) {
     const htmlFile = findHtmlFile(route)
     if (!htmlFile) {
       failures.push(`${route} did not export an HTML file`)

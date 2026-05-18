@@ -1,21 +1,70 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next'
+
+import { getAllIdeas, getAllRfps, getCircles } from '@repo/content/loaders'
+
 import siteConfig from '@/constants/site-config'
 import { ROUTES } from '@/constants/routes'
 
 export const dynamic = 'force-static'
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = siteConfig.url
+const staticIndexableRoutes = [
+  ROUTES.home,
+  ROUTES.about,
+  ROUTES.activeCircles,
+  ROUTES.blog,
+  ROUTES.book,
+  ROUTES.brandKit,
+  ROUTES.buildersHub,
+  ROUTES.ideas,
+  ROUTES.rfps,
+  ROUTES.circles,
+  ROUTES.faq,
+  ROUTES.lambdaPrize,
+  ROUTES.links,
+  ROUTES.logosBroadcastNetwork,
+  ROUTES.movement,
+  ROUTES.nodeProgram,
+  ROUTES.podcast,
+  ROUTES.press,
+  ROUTES.privacy,
+  ROUTES.security,
+  ROUTES.technologyStack,
+  ROUTES.blockchain,
+  ROUTES.messaging,
+  ROUTES.networking,
+  ROUTES.storage,
+  ROUTES.terms,
+  ROUTES.workWithUs,
+] as const
+
+const buildSitemapEntry = (
+  route: string,
+  lastModified: string
+): MetadataRoute.Sitemap[number] => {
+  const normalizedSiteUrl = siteConfig.url.replace(/\/+$/, '')
+  return {
+    url:
+      route === '/' ? `${normalizedSiteUrl}/` : `${normalizedSiteUrl}${route}`,
+    lastModified,
+  }
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const lastModified = new Date().toISOString().split('T')[0]!
+  const [rfps, ideas, circles] = await Promise.all([
+    getAllRfps({ locale: 'en', status: 'published' }),
+    getAllIdeas({ locale: 'en', status: 'published' }),
+    getCircles({ locale: 'en', status: 'published' }),
+  ])
 
   const routes = [
-    ROUTES.home,
-    ROUTES.activeCircles,
-    ROUTES.lambdaPrize,
-    ROUTES.logosBroadcastNetwork,
-  ].map((route) => ({
-    url: `${siteUrl}${route}`,
-    lastModified: new Date().toISOString().split('T')[0],
-  }))
+    ...staticIndexableRoutes,
+    ...rfps.map((rfp) => `${ROUTES.rfps}/${rfp.slug}`),
+    ...ideas.map((idea) => `${ROUTES.ideas}/${idea.slug}`),
+    ...circles.map((circle) => ROUTES.circle(circle.slug)),
+  ]
 
-  return [...routes]
+  return [...new Set(routes)]
+    .sort((a, b) => a.localeCompare(b))
+    .map((route) => buildSitemapEntry(route, lastModified))
 }

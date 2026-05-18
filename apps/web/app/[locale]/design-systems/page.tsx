@@ -32,6 +32,7 @@ export async function generateMetadata({
     description:
       'Logos design tokens — Color Palette and Type Styles mirrored from Figma.',
     locale,
+    noindex: true,
     path: '/design-systems',
   })
 }

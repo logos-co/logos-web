@@ -33,9 +33,9 @@ export default function NetworkingHero({ data, backHref }: Props) {
         <div className="relative hidden md:block md:h-29.75">
           <div className="absolute top-0 left-0 flex items-center gap-3">
             <LogosMark size={26} className="shrink-0 text-gray-03" />
-            <span className="text-h3-serif leading-none text-brand-dark-green">
+            <h1 className="text-h3-serif leading-none text-brand-dark-green">
               {data.headline}
-            </span>
+            </h1>
           </div>
 
           {data.body ? (
