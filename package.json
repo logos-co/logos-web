@@ -9,6 +9,9 @@
     "format": "prettier --write \"**/*.{js,mjs,ts,tsx,json,md,css}\"",
     "check-types": "turbo run check-types",
     "test": "turbo run test",
+    "test:static": "pnpm --filter web test:static",
+    "test:perf": "pnpm --filter web test:perf",
+    "test:release": "pnpm lint && pnpm check-types && pnpm test && pnpm --filter @repo/content validate && pnpm build && pnpm test:static && pnpm test:perf",
     "generate-types": "turbo run generate-types --filter=cms"
   },
   "devDependencies": {

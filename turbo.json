@@ -32,6 +32,14 @@
       "dependsOn": ["^build"],
       "outputs": []
     },
+    "test:static": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "test:perf": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
     "check-types": {
       "dependsOn": ["^check-types"]
     },
