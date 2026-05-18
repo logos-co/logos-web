@@ -11,7 +11,7 @@
     "test": "turbo run test",
     "test:static": "pnpm --filter web test:static",
     "test:perf": "pnpm --filter web test:perf",
-    "test:web-deploy-build": "rm -rf packages/ui/dist && pnpm --filter web build",
+    "test:web-deploy-build": "rm -rf packages/*/dist && pnpm --filter web build",
     "test:release": "pnpm lint && pnpm check-types && pnpm test && pnpm --filter @repo/content validate && pnpm test:web-deploy-build && pnpm build && pnpm test:static && pnpm test:perf",
     "generate-types": "turbo run generate-types --filter=cms"
   },
