@@ -253,7 +253,10 @@ function EventsSection({
   locale: Language
 }) {
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
+    <section
+      id="initiatives"
+      className="border-t border-brand-dark-green/10 bg-brand-off-white"
+    >
       <SectionIntro
         title={settings.eventsSection.title}
         description={settings.eventsSection.description}
@@ -356,7 +359,10 @@ function ResourcesSection({
   resources: CircleResource[]
 }) {
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-15">
+    <section
+      id="resources"
+      className="border-t border-brand-dark-green/10 bg-brand-off-white pb-15"
+    >
       <SectionIntro
         title={settings.resourcesSection.title}
         description={settings.resourcesSection.description}

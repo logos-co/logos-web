@@ -52,7 +52,7 @@ export default function TechOverviewLogosApp({ data }: Props) {
   const mobileTitleTail = titleWords.slice(-2).join(' ')
 
   return (
-    <section className="bg-brand-off-white py-10">
+    <section id="logos-app" className="bg-brand-off-white py-10">
       <GiantSwitch
         accent={data.accent}
         imagePosition={data.imagePosition}

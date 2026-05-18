@@ -14,7 +14,7 @@
     "check-types": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:perf": "tsx test/performance/export-performance.test.ts",
-    "test:static": "tsx scripts/static-export-smoke.ts",
+    "test:static": "tsx scripts/static-export-smoke.ts && tsx test/static-export/accessibility.test.ts && tsx test/static-export/navigation.test.ts",
     "test:watch": "vitest"
   },
   "dependencies": {
