@@ -43,6 +43,28 @@ const required = (name: string, value: string | undefined): string => {
   return value
 }
 
+const normalizePrivateKey = (value: string): string => {
+  const trimmed = value.trim()
+  const unquoted =
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+      ? trimmed.slice(1, -1)
+      : trimmed
+  const normalized = unquoted.replace(/\\n/g, '\n')
+
+  if (
+    !normalized.includes('-----BEGIN') ||
+    !normalized.includes('PRIVATE KEY-----') ||
+    !normalized.includes('-----END')
+  ) {
+    throw new Error(
+      'GITHUB_APP_PRIVATE_KEY must include the full PEM value with BEGIN and END lines'
+    )
+  }
+
+  return normalized
+}
+
 const optional = (value: string | undefined): string | undefined => {
   if (!value || value.trim() === '') return undefined
   return value
@@ -94,9 +116,8 @@ export const loadGithubConfigFromEnv = (): GithubConfig => {
     contentBranchPrefix:
       process.env.GITHUB_CONTENT_BRANCH_PREFIX || DEFAULT_BRANCH_PREFIX,
     appId: required('GITHUB_APP_ID', process.env.GITHUB_APP_ID),
-    appPrivateKey: required(
-      'GITHUB_APP_PRIVATE_KEY',
-      process.env.GITHUB_APP_PRIVATE_KEY
+    appPrivateKey: normalizePrivateKey(
+      required('GITHUB_APP_PRIVATE_KEY', process.env.GITHUB_APP_PRIVATE_KEY)
     ),
     installationId: requiredInstallationId(process.env.GITHUB_INSTALLATION_ID),
     directCommitEnabled:

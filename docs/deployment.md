@@ -57,7 +57,7 @@ For local dev copy apps/cms/.env.example to apps/cms/.env and fill it in.
 | `GITHUB_OWNER` | required (Phase 4+) | Repo owner / org for the content repository (this repo). |
 | `GITHUB_REPO` | required (Phase 4+) | Repo name. |
 | `GITHUB_APP_ID` | required (App auth) | GitHub App ID. Preferred mode for staging/production. |
-| `GITHUB_APP_PRIVATE_KEY` | required (App auth) | Multiline PEM. In Vercel paste verbatim — Vercel preserves newlines. |
+| `GITHUB_APP_PRIVATE_KEY` | required (App auth) | Multiline PEM. In Vercel paste verbatim — Vercel preserves newlines. In local `.env` files, wrap the value in double quotes and encode line breaks as `\n`. |
 | `GITHUB_INSTALLATION_ID` | required (App auth) | Numeric ID from the App's installation page. |
 | `GITHUB_STAGING_BRANCH` | optional | Defaults to `develop`. Where CMS PRs land first. |
 | `GITHUB_PRODUCTION_BRANCH` | optional | Defaults to `master`. The promoted branch. |
@@ -95,6 +95,14 @@ Generate and store the private key:
 3. Store the downloaded `.pem` file in the team's secret manager.
 4. Use the full PEM contents, including the `BEGIN` and `END` lines, as `GITHUB_APP_PRIVATE_KEY`.
 
+For local `.env` files, keep the PEM on one quoted line and replace every real newline with `\n`:
+
+```dotenv
+GITHUB_APP_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----"
+```
+
+Do not remove the `BEGIN` / `END` lines. In Vercel, paste the multiline PEM value directly instead; Vercel preserves the newlines.
+
 Install the App on this repository:
 
 1. In the App settings sidebar, click **Install App**.
@@ -102,6 +110,14 @@ Install the App on this repository:
 3. Choose **Only select repositories**.
 4. Select `logos-co`.
 5. Review the requested permissions and click **Install**.
+
+Find the installation ID:
+
+1. Start from the App settings page, for example `https://github.com/organizations/acid-info/settings/apps/logos-cms`.
+2. In the left sidebar, click **Install App**.
+3. If the App is already installed on `acid-info`, click **Configure** next to `acid-info`. If it is not installed yet, complete the installation steps above first.
+4. Confirm the browser URL has changed from `/settings/apps/<app-slug>` to `/settings/installations/<number>`.
+5. Use that trailing number as `GITHUB_INSTALLATION_ID`. For example, in `https://github.com/organizations/acid-info/settings/installations/12345678`, the installation ID is `12345678`.
 
 Record the environment values:
 
@@ -112,8 +128,6 @@ GITHUB_APP_ID=<App ID from the App settings General page>
 GITHUB_APP_PRIVATE_KEY=<full PEM contents from the downloaded private key>
 GITHUB_INSTALLATION_ID=<numeric ID from the installation settings URL>
 ```
-
-The installation ID is the number in the installed App URL. For example, in `https://github.com/organizations/acid-info/settings/installations/12345678`, the installation ID is `12345678`.
 
 After setting these variables, restart the CMS and create a test content PR. The PR author should be the GitHub App bot, not a personal account. Editor attribution stays in Payload's `ContentChangeRequest.createdBy` audit record instead of the public GitHub author field.
 
