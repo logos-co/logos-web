@@ -61,9 +61,9 @@ export default async function BlockchainPage({
     'blockchain.relatedArticles'
   )
 
-  const articles = await getLatestPressArticles(
-    relatedArticles.visibleCount ?? 4
-  )
+  const articles = relatedArticles.items
+    ? []
+    : await getLatestPressArticles(relatedArticles.visibleCount ?? 4)
 
   return (
     <>
@@ -71,8 +71,8 @@ export default async function BlockchainPage({
       <BlockchainPrivacy data={privacy} />
       <BlockchainCryptarchia data={cryptarchia} />
       <BlockchainBuilderCta data={builderCta} />
-      <TechStackExplorer locale={locale} />
       <BlockchainRelatedArticles data={relatedArticles} articles={articles} />
+      <TechStackExplorer locale={locale} />
     </>
   )
 }

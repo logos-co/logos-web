@@ -11,7 +11,17 @@ type Props = {
 }
 
 export default function BlockchainRelatedArticles({ data, articles }: Props) {
-  const cards = articlesToCards(articles)
+  const cards =
+    data.items?.map((item) => ({
+      title: item.title,
+      mobileTitle: item.mobileTitle,
+      imageSrc: item.image.src,
+      imageAlt: item.image.alt,
+      imagePosition: item.imagePosition,
+      date: item.date,
+      author: item.author,
+      href: item.href,
+    })) ?? articlesToCards(articles)
 
   return (
     <section className="bg-brand-off-white">
@@ -45,12 +55,11 @@ export default function BlockchainRelatedArticles({ data, articles }: Props) {
           </h2>
           <div className="absolute top-60.25 right-3 left-3 grid grid-cols-4 gap-3">
             {cards.map((card) => (
-              <ArticleCard key={card.href} {...card} />
+              <ArticleCard key={card.title} {...card} />
             ))}
           </div>
         </div>
 
-        {/* Mobile: simple stacked flow */}
         <div className="overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:hidden">
           <div className="flex items-start justify-between">
             {data.label ? (
@@ -71,12 +80,12 @@ export default function BlockchainRelatedArticles({ data, articles }: Props) {
               </div>
             ) : null}
           </div>
-          <h2 className="text-h3-serif mt-16.25 text-center whitespace-nowrap text-brand-dark-green">
+          <h2 className="text-h4-serif mt-16 text-brand-dark-green">
             {data.title}
           </h2>
-          <div className="mt-17.5 flex gap-3 overflow-x-auto">
+          <div className="mt-8 flex gap-3 overflow-x-auto">
             {cards.map((card) => (
-              <ArticleCard key={card.href} {...card} />
+              <ArticleCard key={card.title} {...card} />
             ))}
           </div>
         </div>

@@ -15,8 +15,10 @@ import type { PressArticleRow } from '@/lib/press-engine'
 
 export type ArticleCardProps = {
   title: string
+  mobileTitle?: string
   imageSrc: string
   imageAlt: string
+  imagePosition?: string
   date: string
   author: string
   href: string
@@ -48,8 +50,10 @@ export function articlesToCards(
 /** Article card used inside related-articles section frames on tech pages. */
 export function ArticleCard({
   title,
+  mobileTitle,
   imageSrc,
   imageAlt,
+  imagePosition,
   date,
   author,
   href,
@@ -67,10 +71,20 @@ export function ArticleCard({
           width={339}
           height={431}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          style={imagePosition ? { objectPosition: imagePosition } : undefined}
         />
       </div>
       <div className="flex items-baseline gap-10">
-        <p className={titleClassName}>{title}</p>
+        <p className={titleClassName}>
+          {mobileTitle ? (
+            <>
+              <span className="md:hidden">{mobileTitle}</span>
+              <span className="hidden md:inline">{title}</span>
+            </>
+          ) : (
+            title
+          )}
+        </p>
         <div className="shrink-0">
           <p className="text-mono-s text-brand-dark-green">{date}</p>
           {author ? (

@@ -160,6 +160,7 @@ export const relatedArticlesSectionSchema = z.object({
     .array(
       z.object({
         title: z.string().min(1),
+        mobileTitle: z.string().min(1).optional(),
         image: mediaRefSchema,
         imagePosition: z.string().min(1).optional(),
         date: z.string().min(1),

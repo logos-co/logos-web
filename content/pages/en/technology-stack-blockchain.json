@@ -3,7 +3,7 @@
   "language": "en",
   "route": "/technology-stack/blockchain",
   "title": "Blockchain | Logos",
-  "description": "This isn't just another L1 — it's a purpose-built blockchain using Cryptarchia, a private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
+  "description": "Privacy-first consensus for decentralised applications and social institutions. Formerly known as Nomos.",
   "heading": "Blockchain",
   "seo": {
     "keywords": [
@@ -21,12 +21,37 @@
       "key": "blockchain.hero",
       "eyebrow": "Technology stack",
       "headline": "Blockchain",
-      "body": "This isn't just another L1 — it's a purpose-built blockchain using Cryptarchia, a private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
+      "body": "Privacy-first consensus for decentralised applications and social institutions. Formerly known as Nomos.",
+      "bodySecondary": "Key Repositories:",
+      "items": [
+        {
+          "title": "NOMOS-NODE",
+          "description": "Full node implementation (Rust)"
+        },
+        {
+          "title": "NOMOS-SPECS",
+          "description": "Protocol specifications"
+        },
+        {
+          "title": "NOMOS-RESEARCH",
+          "description": "Cryptographic research and proofs"
+        }
+      ],
+      "status": {
+        "label": "Current Status",
+        "body": "Logos Blockchain is live on Testnet v0.1. The testnet includes the LEZ sequencer, a block explorer, and demo applications for atomic swaps and ZK-multisig. It is designed for backend validation and developer experimentation.",
+        "cta": {
+          "label": "Install Testnet v0.1",
+          "href": "/technology-stack/blockchain",
+          "variant": "secondary",
+          "iconOverride": "download"
+        }
+      },
       "ctas": [
         {
-          "label": "Logos app",
+          "label": "Install & Run A Node",
           "href": "/builders-hub#app-install",
-          "variant": "primary"
+          "variant": "tertiary"
         },
         {
           "label": "Docs",
@@ -38,9 +63,9 @@
     {
       "componentType": "ctaPanel",
       "key": "blockchain.privacy",
-      "eyebrow": "Privacy",
-      "title": "Privacy as infrastructure.",
-      "description": "Logos addresses privacy concerns through a combination of private leadership elections and anonymous broadcasting, creating a system where proposers can participate in consensus without revealing their identity or stake.",
+      "eyebrow": "Overview",
+      "title": "Overview",
+      "description": "Logos Blockchain is a proof-of-stake layer-1 with privacy built into the consensus mechanism itself — not bolted on at the application layer. Block proposers are anonymous. Transactions are private by default. The chain supports the deployment of application-specific execution environments called Sovereign Zones, connected through Mantle Channels for interoperability.",
       "cta": {
         "label": "View the docs",
         "href": "/technology-stack/blockchain"
@@ -58,12 +83,64 @@
       },
       "cards": [
         {
-          "title": "The Blend Network",
-          "description": "Providing network-level anonymity for block propagation."
+          "title": "Cryptarchia:\nPrivate Proof-of-Stake",
+          "description": "Most proof-of-stake systems reveal who proposed each block, creating a target for censorship, bribery, and coercion. Logos solves this with Cryptarchia, a Private Proof-of-Stake mechanism where block proposers are selected through a private lottery and anonymised through Blend, a mixnet-based protocol.\n\nThe result: validators participate in consensus without revealing their identity during block proposal. This is a fundamental privacy guarantee that most blockchains cannot offer.",
+          "image": {
+            "src": "/images/blockchain/overview/mantle.webp",
+            "alt": "",
+            "width": 640,
+            "height": 512
+          },
+          "cta": {
+            "label": "Repo",
+            "href": "/technology-stack/blockchain",
+            "variant": "primary"
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "/technology-stack/blockchain",
+            "variant": "secondary"
+          }
         },
         {
           "title": "Logos Execution Zone (LEZ)",
-          "description": "Enabling programmable state — both public and private — where developers can deploy programs, run AMMs, transfer tokens, and build financial primitives with built-in privacy."
+          "description": "LEZ is the first Sovereign Zone, serving as the primary execution environment for the Logos stack. It provides a sequencer, block explorer, and core application infrastructure including atomic swaps and multisig with zero-knowledge proofs.",
+          "image": {
+            "src": "/images/blockchain/overview/cryptarchia.webp",
+            "alt": "",
+            "width": 384,
+            "height": 480
+          },
+          "cta": {
+            "label": "Repo",
+            "href": "/technology-stack/blockchain",
+            "variant": "primary"
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "/technology-stack/blockchain",
+            "variant": "secondary"
+          }
+        },
+        {
+          "title": "Mantle Channels",
+          "description": "Mantle Channels enable interoperability between Sovereign Zones. They provide a cross-Zone messaging protocol that allows applications in different Zones to communicate and transact without sacrificing sovereignty or privacy.",
+          "image": {
+            "src": "/images/blockchain/overview/lez.webp",
+            "alt": "",
+            "width": 384,
+            "height": 598
+          },
+          "cta": {
+            "label": "Repo",
+            "href": "/technology-stack/blockchain",
+            "variant": "primary"
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "/technology-stack/blockchain",
+            "variant": "secondary"
+          }
         }
       ]
     },
@@ -73,7 +150,7 @@
       "cards": [
         {
           "title": "Docs",
-          "description": "Reference for the kernel, modules, and UI packages.",
+          "description": "Lorem ipsum dolor sit amet consectetur",
           "cta": {
             "label": "View the docs",
             "href": "/technology-stack"
@@ -81,7 +158,7 @@
         },
         {
           "title": "Logos Builder Hub",
-          "description": "Everything you need to start building privacy-first decentralised applications. Explore RFPs, find ideas, and connect with other builders.",
+          "description": "Lorem ipsum dolor sit amet consectetur. Augue feugiat dictum aliquet feugiat.",
           "image": {
             "src": "/images/blockchain/builder-hub.jpg",
             "alt": "",
@@ -91,10 +168,10 @@
           "cta": { "label": "Build", "href": "/builders-hub" }
         },
         {
-          "title": "Logos App",
-          "description": "Download the app to start building with the kernel + modules + UI packages bundled.",
+          "title": "Install Basecamp",
+          "description": "Download the app to start building.",
           "cta": {
-            "label": "Download",
+            "label": "Install",
             "href": "/builders-hub#app-install"
           }
         }
@@ -103,10 +180,62 @@
     {
       "componentType": "relatedArticles",
       "key": "blockchain.relatedArticles",
-      "label": "Logos Press Engine",
+      "label": "Lorem ipsum dolor si amet",
       "eyebrow": "Logos in the News",
       "title": "Related Articles",
       "cta": { "label": "Explore all articles", "href": "/press" },
+      "items": [
+        {
+          "title": "State of the Logos Network: November 2025",
+          "mobileTitle": "Story of the Network: From CyberNetics to Blockchain Communities",
+          "image": {
+            "src": "/images/blockchain/related/state-november.webp",
+            "alt": "",
+            "width": 678,
+            "height": 904
+          },
+          "date": "02.14.26",
+          "author": "Sterlin Lujan",
+          "href": "/press"
+        },
+        {
+          "title": "Story of the Network: From CyberNetics to Blockchain Communities",
+          "image": {
+            "src": "/images/blockchain/related/story-network.webp",
+            "alt": "",
+            "width": 678,
+            "height": 452
+          },
+          "imagePosition": "left center",
+          "date": "02.14.26",
+          "author": "Sterlin Lujan",
+          "href": "/press"
+        },
+        {
+          "title": "State of the Logos Network: October 2025",
+          "image": {
+            "src": "/images/blockchain/related/state-october.webp",
+            "alt": "",
+            "width": 678,
+            "height": 848
+          },
+          "date": "02.14.26",
+          "author": "Sterlin Lujan",
+          "href": "/press"
+        },
+        {
+          "title": "Hacking for Real World Impact with Funding the Commons & Tor",
+          "image": {
+            "src": "/images/blockchain/related/hacking-impact.webp",
+            "alt": "",
+            "width": 678,
+            "height": 848
+          },
+          "date": "02.14.26",
+          "author": "Sterlin Lujan",
+          "href": "/press"
+        }
+      ],
       "visibleCount": 4
     }
   ]
