@@ -77,15 +77,15 @@ export default function AboutScrollStack({
       const section = sectionRef.current
       if (!section) return
 
-      const progress = clamp(-section.getBoundingClientRect().top, 0, 4600)
+      const progress = clamp(-section.getBoundingClientRect().top, 0, 6200)
       const startY = window.innerHeight + 140
 
       cardRefs.current.forEach((card, index) => {
         if (!card) return
 
         const targetY = 102 + index * 20
-        const start = index * 780
-        const end = start + 1500
+        const start = -700 + index * 1050
+        const end = start + 3200
         const amount = easeInOutCubic(
           clamp((progress - start) / (end - start), 0, 1)
         )
@@ -106,7 +106,7 @@ export default function AboutScrollStack({
   }, [])
 
   return (
-    <div ref={sectionRef} className="hidden h-[6600px] md:block">
+    <div ref={sectionRef} className="hidden h-[8600px] md:block">
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center">
           <p className="text-h3-serif w-[940px] text-center">{intro}</p>
