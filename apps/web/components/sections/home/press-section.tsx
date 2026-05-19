@@ -101,11 +101,11 @@ function CardBody({
           alt={imageAlt}
           width={339}
           height={431}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="h-full w-full object-cover"
         />
       </div>
-      <div className="flex gap-10 items-baseline">
-        <p className="text-body-sans flex-1 font-medium text-brand-dark-green">
+      <div className="flex w-[339px] items-baseline gap-10">
+        <p className="text-body-sans h-[42px] w-[169.5px] shrink-0 overflow-hidden font-normal text-brand-dark-green">
           {title}
         </p>
         <div className="shrink-0">
@@ -137,39 +137,37 @@ export default function PressSection({ data, articles }: Props) {
 
   return (
     <section id="press" className="h-[880px] bg-brand-off-white py-3">
-      <div className="mx-auto max-w-354 px-3">
-        <div className="relative h-[856px] overflow-hidden rounded-xl bg-accent-tan px-3">
-          <div className="absolute top-6 right-3 left-3 flex items-start justify-between">
-            {data.label ? (
-              <p className="text-mono-s text-brand-dark-green w-56.5">
-                {data.label}
-              </p>
-            ) : null}
-            {data.eyebrow ? (
-              <p className="text-mono-s hidden text-center text-brand-dark-green md:block">
-                {data.eyebrow}
-              </p>
-            ) : null}
-            {data.cta ? (
-              <div className="w-56.5 flex justify-end">
-                <Button
-                  href={data.cta.href}
-                  variant="link"
-                  icon={<ButtonArrowIcon />}
-                  className="transition-opacity hover:opacity-70"
-                >
-                  {data.cta.label}
-                </Button>
-              </div>
-            ) : null}
-          </div>
+      <div className="mx-auto max-w-354 px-3 md:px-0">
+        <div className="relative h-[856px] overflow-hidden rounded-xl bg-accent-tan">
+          {data.label ? (
+            <p className="text-mono-s absolute top-6 left-3 w-56.5 text-brand-dark-green">
+              {data.label}
+            </p>
+          ) : null}
+          {data.eyebrow ? (
+            <p className="text-mono-s absolute top-6 left-[714px] hidden w-56.5 text-brand-dark-green md:block">
+              {data.eyebrow}
+            </p>
+          ) : null}
+          {data.cta ? (
+            <div className="absolute top-[22px] left-[191px] md:left-[1190px]">
+              <Button
+                href={data.cta.href}
+                variant="link"
+                icon={<ButtonArrowIcon />}
+                className="cursor-pointer transition-opacity hover:opacity-70"
+              >
+                {data.cta.label}
+              </Button>
+            </div>
+          ) : null}
 
-          <h2 className="text-h2 text-brand-dark-green absolute top-[102px] right-3 left-3 text-center">
+          <h2 className="text-h2 absolute top-[102px] left-1/2 w-[464px] -translate-x-1/2 text-center text-brand-dark-green">
             {data.title}
           </h2>
 
           <div
-            className="absolute top-[241px] right-0 left-3 flex gap-3 overflow-x-auto pr-3 md:right-3 md:grid md:grid-cols-4 md:overflow-visible md:pr-0"
+            className="absolute top-[229px] right-0 left-3 flex gap-3 overflow-x-auto pr-3 md:right-3 md:grid md:grid-cols-4 md:overflow-visible md:pr-0"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {cards.map((card) => (
