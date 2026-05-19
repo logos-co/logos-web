@@ -84,7 +84,7 @@ export default function AboutScrollStack({
         if (!card) return
 
         const targetY = 102 + index * 20
-        const start = 500 + index * 780
+        const start = index * 780
         const end = start + 1500
         const amount = easeInOutCubic(
           clamp((progress - start) / (end - start), 0, 1)
