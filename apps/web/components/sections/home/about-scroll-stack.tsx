@@ -106,7 +106,7 @@ export default function AboutScrollStack({
   }, [])
 
   return (
-    <div ref={sectionRef} className="hidden h-[8600px] md:block">
+    <div ref={sectionRef} className="hidden h-[6400px] md:block">
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center">
           <p className="text-h3-serif w-[940px] text-center">{intro}</p>
