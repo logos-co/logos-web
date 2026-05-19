@@ -16,13 +16,13 @@ interface SocialProofCard {
 function SocialProofCardView({ card }: { card: SocialProofCard }) {
   return (
     <article
-      className={`relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl p-1.5 md:h-[432px] md:w-[345px] ${card.mobileClassName ?? 'h-[411px]'}`}
+      className={`relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl p-1.5 md:h-[432px] ${card.mobileClassName ?? 'h-[411px]'}`}
     >
       <Image
         src={card.image}
         alt=""
         fill
-        sizes="(max-width: 768px) 369px, 345px"
+        sizes="(max-width: 768px) 369px, 25vw"
         className={`object-cover ${card.imageClassName ?? ''}`}
       />
       <div className="absolute inset-0 bg-black/20" />
