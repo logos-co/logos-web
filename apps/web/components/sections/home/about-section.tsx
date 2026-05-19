@@ -24,14 +24,14 @@ function ProblemCardView({
 }) {
   return (
     <article
-      className={`grid h-[720px] gap-3 rounded-[18px] p-1.5 md:h-[434px] md:grid-cols-[minmax(0,698px)_minmax(0,696px)] ${card.tone} ${card.textTone} ${className ?? ''}`}
+      className={`grid h-[720px] gap-3 rounded-[18px] p-1.5 md:h-[434px] md:grid-cols-2 ${card.tone} ${card.textTone} ${className ?? ''}`}
     >
       <div className="relative min-h-[333px] overflow-hidden rounded-xl md:min-h-[422px]">
         <Image
           src={card.image}
           alt=""
           fill
-          sizes="(max-width: 768px) 333px, 698px"
+          sizes="(max-width: 768px) 333px, 50vw"
           className={`object-cover ${card.imageClassName ?? ''}`}
         />
       </div>
@@ -121,9 +121,9 @@ export default async function AboutSection({ locale }: { locale: string }) {
   ]
   const desktopTopClasses = [
     'md:top-[969px]',
-    'md:top-[1489px]',
-    'md:top-[2009px]',
-    'md:top-[2529px]',
+    'md:top-[1186px]',
+    'md:top-[1403px]',
+    'md:top-[1620px]',
   ]
 
   return (
@@ -142,7 +142,7 @@ export default async function AboutSection({ locale }: { locale: string }) {
           <ProblemCardView
             key={card.key}
             card={card}
-            className={`absolute left-[24px] w-[345px] md:left-3 md:w-[1416px] ${mobileTopClasses[index]} ${desktopTopClasses[index]}`}
+            className={`absolute left-[24px] w-[345px] md:right-3 md:left-3 md:w-auto ${mobileTopClasses[index]} ${desktopTopClasses[index]}`}
           />
         )
       })}
