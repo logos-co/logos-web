@@ -60,7 +60,7 @@ export default function HeroSectionView({ data }: Props) {
         </motion.h1>
 
         <motion.div
-          className="absolute top-[389px] left-1/2 flex w-[274px] -translate-x-1/2 flex-col items-center gap-6 text-center md:top-[454px] md:left-[calc(50%+6px)] md:w-[345px] md:translate-x-0 md:items-start md:text-left"
+          className="absolute top-[389px] left-1/2 flex w-[274px] -translate-x-1/2 flex-col items-center gap-6 text-center min-[640px]:top-[454px] min-[640px]:left-[calc(50%+6px)] min-[640px]:w-[345px] min-[640px]:translate-x-0 min-[640px]:items-start min-[640px]:text-left"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.8 }}
@@ -92,13 +92,13 @@ export default function HeroSectionView({ data }: Props) {
 
       {data.body ? (
         <motion.p
-          className="text-mono-s absolute top-[138px] left-1/2 w-[226px] -translate-x-1/2 text-center text-brand-off-white md:top-[192px] md:left-[calc(50%+6px)] md:w-[345px] md:translate-x-0 md:text-left"
+          className="text-mono-s absolute top-[138px] left-1/2 w-[226px] -translate-x-1/2 text-center text-brand-off-white min-[640px]:top-[192px] min-[640px]:left-[calc(50%+6px)] min-[640px]:w-[345px] min-[640px]:translate-x-0 min-[640px]:text-left"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.6 }}
         >
-          <span className="md:hidden">{t('mobileBody')}</span>
-          <span className="hidden md:inline">{data.body}</span>
+          <span className="min-[640px]:hidden">{t('mobileBody')}</span>
+          <span className="hidden min-[640px]:inline">{data.body}</span>
         </motion.p>
       ) : null}
     </section>

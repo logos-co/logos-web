@@ -126,7 +126,7 @@ export default function SiteHeaderClient({
       >
         <div
           className={clsx(
-            'grid h-10 grid-cols-3 items-center px-3 transition-colors duration-300 md:hidden',
+            'grid h-10 grid-cols-3 items-center px-3 transition-colors duration-300 min-[640px]:hidden',
             headerToneClass
           )}
         >
@@ -139,21 +139,21 @@ export default function SiteHeaderClient({
 
           <nav
             aria-label="Primary"
-            className="hidden items-center justify-center gap-10 md:flex"
+            className="hidden items-center justify-center gap-10 min-[640px]:flex"
           >
             {menuPanels.map((panel) => (
               <button
                 key={panel.label}
                 type="button"
                 onClick={open}
-                className="text-eyebrow cursor-pointer tracking-[0.08em] uppercase transition-opacity hover:opacity-70"
+                className="text-eyebrow cursor-pointer tracking-[0.08em] whitespace-nowrap uppercase transition-opacity hover:opacity-70"
               >
                 {panel.label}
               </button>
             ))}
           </nav>
 
-          <div className="flex justify-center md:hidden">
+          <div className="flex justify-center min-[640px]:hidden">
             <button
               type="button"
               onClick={open}
@@ -169,7 +169,7 @@ export default function SiteHeaderClient({
             {primaryCta ? (
               <Link
                 href={primaryCta.href}
-                className="text-eyebrow hidden min-h-7 cursor-pointer items-center rounded-2xl bg-brand-dark-green px-4 uppercase text-brand-off-white transition-opacity hover:opacity-85 md:inline-flex"
+                className="text-eyebrow hidden min-h-7 cursor-pointer items-center rounded-2xl bg-brand-dark-green px-4 uppercase text-brand-off-white transition-opacity hover:opacity-85 min-[640px]:inline-flex"
               >
                 {primaryCta.label}
               </Link>
@@ -179,14 +179,14 @@ export default function SiteHeaderClient({
 
         <div
           className={clsx(
-            'hidden h-[42px] items-baseline justify-between px-3 py-1.5 transition-colors duration-300 md:flex',
+            'hidden h-[42px] items-baseline justify-between px-3 py-1.5 transition-colors duration-300 min-[640px]:flex',
             headerToneClass
           )}
         >
           <div className="flex items-baseline gap-3">
             <a
               href={ROUTES.home}
-              className="text-eyebrow inline-flex h-[15px] w-[702px] cursor-pointer items-baseline tracking-[0.08em] transition-opacity hover:opacity-70"
+              className="text-eyebrow inline-flex h-[15px] w-[calc(50vw-18px)] max-w-[702px] cursor-pointer items-baseline tracking-[0.08em] transition-opacity hover:opacity-70"
             >
               <BrandLockup label={closedBar.brandLabel} />
             </a>
@@ -197,7 +197,7 @@ export default function SiteHeaderClient({
                   key={panel.label}
                   type="button"
                   onClick={open}
-                  className="text-eyebrow cursor-pointer tracking-[0.08em] uppercase transition-opacity hover:opacity-70"
+                  className="text-eyebrow cursor-pointer tracking-[0.08em] whitespace-nowrap uppercase transition-opacity hover:opacity-70"
                 >
                   {panel.label}
                 </button>
