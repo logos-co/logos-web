@@ -19,8 +19,10 @@ interface AboutScrollStackProps {
   cards: AboutProblemCard[]
 }
 
-function easeOutCubic(value: number): number {
-  return 1 - Math.pow(1 - value, 3)
+function easeInOutCubic(value: number): number {
+  return value < 0.5
+    ? 4 * value * value * value
+    : 1 - Math.pow(-2 * value + 2, 3) / 2
 }
 
 function clamp(value: number, min: number, max: number): number {
@@ -75,16 +77,16 @@ export default function AboutScrollStack({
       const section = sectionRef.current
       if (!section) return
 
-      const progress = clamp(-section.getBoundingClientRect().top, 0, 1800)
-      const startY = window.innerHeight + 120
+      const progress = clamp(-section.getBoundingClientRect().top, 0, 3200)
+      const startY = window.innerHeight + 140
 
       cardRefs.current.forEach((card, index) => {
         if (!card) return
 
         const targetY = 102 + index * 20
-        const start = 220 + index * 260
-        const end = start + 520
-        const amount = easeOutCubic(
+        const start = 360 + index * 520
+        const end = start + 900
+        const amount = easeInOutCubic(
           clamp((progress - start) / (end - start), 0, 1)
         )
         const y = startY + (targetY - startY) * amount
@@ -104,7 +106,7 @@ export default function AboutScrollStack({
   }, [])
 
   return (
-    <div ref={sectionRef} className="hidden h-[3400px] md:block">
+    <div ref={sectionRef} className="hidden h-[5000px] md:block">
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center">
           <p className="text-h3-serif w-[940px] text-center">{intro}</p>
