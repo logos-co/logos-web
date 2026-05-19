@@ -15,10 +15,16 @@ interface ProblemCard {
   imageClassName?: string
 }
 
-function ProblemCardView({ card }: { card: ProblemCard }) {
+function ProblemCardView({
+  card,
+  className,
+}: {
+  card: ProblemCard
+  className?: string
+}) {
   return (
     <article
-      className={`grid min-h-[720px] gap-3 rounded-[18px] p-1.5 md:min-h-[434px] md:grid-cols-[minmax(0,698px)_minmax(0,696px)] ${card.tone} ${card.textTone}`}
+      className={`grid h-[720px] gap-3 rounded-[18px] p-1.5 md:h-[434px] md:grid-cols-[minmax(0,698px)_minmax(0,696px)] ${card.tone} ${card.textTone} ${className ?? ''}`}
     >
       <div className="relative min-h-[333px] overflow-hidden rounded-xl md:min-h-[422px]">
         <Image
@@ -107,39 +113,51 @@ export default async function AboutSection({ locale }: { locale: string }) {
       imageClassName: 'object-[50%_45%]',
     },
   ]
+  const mobileTopClasses = [
+    'top-[929px]',
+    'top-[1849px]',
+    'top-[2769px]',
+    'top-[3689px]',
+  ]
+  const desktopTopClasses = [
+    'md:top-[969px]',
+    'md:top-[1489px]',
+    'md:top-[2009px]',
+    'md:top-[2529px]',
+  ]
 
   return (
     <section
       id="about"
-      className="h-[5195px] overflow-hidden rounded-[48px] bg-brand-dark-green px-3 py-24 text-brand-off-white md:h-[4074px] md:rounded-[100px] md:py-0"
+      className="relative h-[5195px] overflow-hidden rounded-[48px] bg-brand-dark-green text-brand-off-white md:h-[4074px] md:rounded-[100px]"
     >
-      <div className="mx-auto max-w-[1416px]">
-        <div className="flex min-h-[520px] items-center justify-center md:min-h-[709px]">
-          <p className="text-h3-serif max-w-[940px] text-center">
-            {t('intro')}
-          </p>
-        </div>
+      <p className="text-h3-serif absolute top-[360px] left-1/2 w-[369px] -translate-x-1/2 text-center md:top-[342px] md:w-[940px]">
+        {t('intro')}
+      </p>
 
-        <div className="flex flex-col gap-12 md:gap-20">
-          {cards.map((card) => (
-            <ProblemCardView key={card.key} card={card} />
-          ))}
-        </div>
+      <div className="absolute top-[936px] left-0 h-[3507px] w-full bg-brand-dark-green md:top-[1323px] md:left-3 md:h-[1964px] md:w-[calc(100%-24px)]" />
 
-        <div className="mx-auto flex max-w-[940px] flex-col items-center gap-[60px] py-36 text-center md:py-60">
-          <div className="text-h3-serif flex flex-col gap-9">
-            <p>{t('closing1')}</p>
-            <p>{t('closing2')}</p>
-            <p>{t('closing3')}</p>
-          </div>
+      {cards.map((card, index) => {
+        return (
+          <ProblemCardView
+            key={card.key}
+            card={card}
+            className={`absolute left-[24px] w-[345px] md:left-3 md:w-[1416px] ${mobileTopClasses[index]} ${desktopTopClasses[index]}`}
+          />
+        )
+      })}
 
-          <Button
-            href={ROUTES.about}
-            className="cursor-pointer bg-brand-off-white text-brand-dark-green transition-opacity hover:opacity-80"
-          >
-            {t('cta')}
-          </Button>
-        </div>
+      <div className="absolute top-[4642px] left-3 flex w-[369px] flex-col items-center gap-[60px] text-center md:top-[3508px] md:left-1/2 md:w-[940px] md:-translate-x-1/2">
+        <p className="text-h3-serif">
+          {t('closing1')} {t('closing2')} {t('closing3')}
+        </p>
+
+        <Button
+          href={ROUTES.about}
+          className="cursor-pointer bg-brand-off-white text-brand-dark-green transition-opacity hover:opacity-80"
+        >
+          {t('cta')}
+        </Button>
       </div>
     </section>
   )
