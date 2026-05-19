@@ -4,7 +4,7 @@ Operating guide for AI coding agents working in this repo. Keep changes minimal,
 
 ## Repo shape
 
-pnpm + Turborepo monorepo. Node `>=20.9`, pnpm `10.9`.
+pnpm + Turborepo monorepo. Node `24`, pnpm `11.1`.
 
 | Path | Role |
 | --- | --- |

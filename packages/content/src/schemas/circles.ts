@@ -25,7 +25,7 @@ export type Coordinates = z.infer<typeof coordinatesSchema>
 /**
  * IANA timezone validator. Defers to the runtime's `Intl.DateTimeFormat`
  * implementation so the supported list stays in sync with the platform we
- * actually run on (Node 20+ in CI, Node 20+ at build time on Vercel).
+ * actually run on (Node 24 in CI, Node 24 at build time on Vercel).
  */
 const isValidIanaTimeZone = (value: string): boolean => {
   try {

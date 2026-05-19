@@ -15,7 +15,7 @@ Apps are entrypoints only. Shared logic lives in packages. The web app reads `co
 
 ## Requirements
 
-Node `>=20.9`, pnpm `10.9.0`.
+Node `24`, pnpm `11.1.0`.
 
 ## Quick start
 

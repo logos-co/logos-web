@@ -632,7 +632,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v5
         with:
-          version: 10.9.0
+          version: 11.1.0
       - uses: actions/setup-node@v6
         with:
           node-version: 24

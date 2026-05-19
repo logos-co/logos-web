@@ -273,9 +273,9 @@ Set `NODE_ENV=production` so Payload's prod guards are active and Next runs the 
 
 ```dockerfile
 # 1. Install deps + build
-FROM node:22-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /app
-RUN corepack enable && corepack prepare pnpm@10.9.0 --activate
+RUN corepack enable && corepack prepare pnpm@11.1.0 --activate
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json ./
 COPY apps/cms ./apps/cms
 COPY packages ./packages
@@ -284,7 +284,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm --filter cms build
 
 # 2. Runtime image — only ship the standalone output
-FROM node:22-alpine AS runtime
+FROM node:24-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=build /app/apps/cms/.next/standalone ./
