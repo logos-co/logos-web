@@ -1,4 +1,7 @@
 import type { TechStackOverviewSection } from '@repo/content/schemas'
+import Image from 'next/image'
+
+import { LogosMark } from '@acid-info/logos-ui'
 
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
@@ -7,15 +10,18 @@ import {
   StackCard,
   StackRow,
 } from '@/components/sections/technology-stack/stack-item'
+import { DownloadIcon } from '@/components/sections/shared/builder-cta-card'
 
 const desktopCardClassName =
   'h-[366px] w-full border-brand-dark-green p-1.5 hover:bg-gray-01'
 const desktopRowClassName =
   'h-[196px] w-full border-brand-dark-green hover:bg-gray-01'
+const desktopBasecampRowClassName = 'h-[196px] w-full border-brand-dark-green'
 const mobileCardClassName =
   'h-[140px] w-full border-brand-dark-green p-1.5 hover:bg-gray-01'
 const mobileRowClassName =
   'h-[105px] w-full border-brand-dark-green hover:bg-gray-01'
+const mobileBasecampRowClassName = 'h-[105px] w-full border-brand-dark-green'
 
 function formatEyebrow(eyebrow: string) {
   return eyebrow.replaceAll('. ', '.\n')
@@ -23,6 +29,52 @@ function formatEyebrow(eyebrow: string) {
 
 function formatNetworkingTitle(title: string) {
   return title.replace(': ', ':\n')
+}
+
+function BasecampRow({
+  basecamp,
+  className,
+}: {
+  basecamp: NonNullable<TechStackOverviewSection['basecamp']>
+  className: string
+}) {
+  return (
+    <div
+      className={`group/basecamp relative flex items-center justify-center overflow-hidden rounded-3xl border border-brand-dark-green px-6 text-center text-brand-dark-green transition-colors duration-200 ${className} hover:border-transparent hover:bg-accent-light-blue`}
+    >
+      <span className="pointer-events-none absolute top-3 left-3 hidden h-[57px] w-[46px] overflow-hidden opacity-0 transition-opacity duration-200 group-hover/basecamp:opacity-100 md:block">
+        <Image
+          src="/images/technology-stack/logos-basecamp.jpg"
+          alt=""
+          fill
+          sizes="46px"
+          className="object-cover"
+        />
+      </span>
+
+      {basecamp.cta ? (
+        <Button
+          href={basecamp.cta.href}
+          icon={<DownloadIcon />}
+          className="absolute top-2.5 right-2.5 z-10 cursor-pointer md:top-3 md:right-3"
+        >
+          {basecamp.cta.label}
+        </Button>
+      ) : null}
+
+      <div className="flex max-w-[222px] flex-col items-center gap-3">
+        <span className="text-subhead-sans flex items-center gap-2.5">
+          <LogosMark size={14} className="shrink-0 text-gray-03" />
+          {basecamp.title}
+        </span>
+        {basecamp.body ? (
+          <p className="text-mono-s hidden text-center opacity-0 transition-opacity duration-200 group-hover/basecamp:opacity-100 md:block">
+            {basecamp.body}
+          </p>
+        ) : null}
+      </div>
+    </div>
+  )
 }
 
 type Props = {
@@ -90,9 +142,12 @@ export default function TechStackSection({
         </p>
 
         <div className="absolute top-[437px] right-3 left-3">
-          <StackRow href={ROUTES.buildersHub} className={mobileRowClassName}>
-            Basecamp
-          </StackRow>
+          {data.basecamp ? (
+            <BasecampRow
+              basecamp={data.basecamp}
+              className={mobileBasecampRowClassName}
+            />
+          ) : null}
 
           <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
             {data.pillars.map((pillar) => (
@@ -171,9 +226,12 @@ export default function TechStackSection({
         </p>
 
         <div className="absolute top-[517px] left-0 flex w-full flex-col gap-3 px-3">
-          <StackRow href={ROUTES.buildersHub} className={desktopRowClassName}>
-            Basecamp
-          </StackRow>
+          {data.basecamp ? (
+            <BasecampRow
+              basecamp={data.basecamp}
+              className={desktopBasecampRowClassName}
+            />
+          ) : null}
 
           <div className="grid w-full grid-cols-4 gap-3">
             {data.pillars.map((pillar) => (

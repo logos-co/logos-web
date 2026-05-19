@@ -4,6 +4,8 @@ import Image from 'next/image'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
+import { DownloadIcon } from '../shared/builder-cta-card'
+
 interface BasecampFeatureProps {
   label: string
   image: string
@@ -40,17 +42,19 @@ export default async function BuilderPortalSection({
   const t = await getTranslations({ locale, namespace: 'home.builderPortal' })
 
   return (
-    <section className="relative h-[1281px] border-t border-brand-dark-green/10 bg-brand-off-white py-24 md:h-[1045px] md:py-0">
-      <div className="mx-auto max-w-354 px-3 md:absolute md:inset-x-0 md:top-[212px] md:px-0">
+    <section className="relative h-[1281px] border-t border-brand-dark-green/10 bg-brand-off-white pt-5 pb-24 md:h-[1045px] md:py-0">
+      <div className="mx-auto max-w-354 px-[10px] md:absolute md:inset-x-0 md:top-[212px] md:px-0">
         <div className="grid gap-3 md:grid-cols-[464px_minmax(0,940px)]">
-          <div className="flex min-h-[324px] flex-col justify-between md:min-h-[532px]">
+          <div className="flex min-h-[531px] flex-col justify-between md:min-h-[532px]">
             <div>
-              <h2 className="text-h2 max-w-[702px] text-brand-dark-green">
+              <h2 className="text-h1 max-w-[702px] text-brand-dark-green md:text-h2">
                 {t('title')}
               </h2>
               <div className="mt-[30px]">
                 <Button
                   href={ROUTES.buildersHub}
+                  variant="secondary"
+                  icon={<DownloadIcon />}
                   className="cursor-pointer transition-opacity hover:opacity-80"
                 >
                   {t('cta')}
@@ -58,7 +62,7 @@ export default async function BuilderPortalSection({
               </div>
             </div>
 
-            <p className="font-sans text-[14px] leading-[1.2] font-medium text-brand-dark-green md:w-[345px]">
+            <p className="text-mono-s whitespace-pre-line text-brand-dark-green md:w-[345px] md:font-sans md:text-[14px] md:leading-[1.2] md:font-medium">
               {t('description')}
             </p>
           </div>

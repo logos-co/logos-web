@@ -32,7 +32,11 @@
           "href": "/builders-hub",
           "variant": "primary"
         },
-        { "label": "Start Building", "href": "/builders-hub", "variant": "secondary" }
+        {
+          "label": "Start Building",
+          "href": "/builders-hub",
+          "variant": "secondary"
+        }
       ]
     },
     {
@@ -70,6 +74,15 @@
       "eyebrow": "A unified ecosystem. Private-by-default. Built for real life.",
       "title": "The Logos Technology Stack",
       "cta": { "label": "See the Stack", "href": "/technology-stack" },
+      "basecamp": {
+        "title": "Basecamp",
+        "body": "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem.",
+        "href": "/technology-stack#logos-app",
+        "cta": {
+          "label": "Install",
+          "href": "/technology-stack#logos-app"
+        }
+      },
       "pillars": [
         {
           "id": "storage",

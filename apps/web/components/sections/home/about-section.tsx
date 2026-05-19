@@ -114,40 +114,68 @@ export default async function AboutSection({ locale }: { locale: string }) {
     },
   ]
   const mobileTopClasses = [
-    'top-[929px]',
-    'top-[1849px]',
-    'top-[2769px]',
-    'top-[3689px]',
+    'top-[calc(100vh+0px)]',
+    'top-[calc(100vh+920px)]',
+    'top-[calc(100vh+1840px)]',
+    'top-[calc(100vh+2760px)]',
   ]
-  const desktopTopClasses = [
-    'md:top-[969px]',
-    'md:top-[1186px]',
-    'md:top-[1403px]',
-    'md:top-[1620px]',
+  const desktopStickyTopClasses = [
+    'md:top-[102px]',
+    'md:top-[122px]',
+    'md:top-[142px]',
+    'md:top-[162px]',
+  ]
+  const desktopStackClasses = [
+    'md:z-10',
+    'md:z-20 md:-mt-[217px]',
+    'md:z-30 md:-mt-[217px]',
+    'md:z-40 md:-mt-[217px]',
   ]
 
   return (
     <section
       id="about"
-      className="relative h-[5195px] overflow-hidden rounded-[48px] bg-brand-dark-green text-brand-off-white md:h-[4074px] md:rounded-[100px]"
+      className="relative h-[calc(100vh+4266px)] overflow-hidden rounded-[48px] bg-brand-dark-green text-brand-off-white md:h-auto md:overflow-visible md:rounded-[100px]"
     >
-      <p className="text-h3-serif absolute top-[360px] left-1/2 w-[369px] -translate-x-1/2 text-center md:top-[342px] md:w-[940px]">
-        {t('intro')}
-      </p>
+      <div className="md:hidden">
+        <div className="absolute top-0 left-0 flex h-screen w-full items-center justify-center px-3">
+          <p className="text-h3-serif w-[369px] text-center">{t('intro')}</p>
+        </div>
 
-      <div className="absolute top-[936px] left-0 h-[3507px] w-full bg-brand-dark-green md:top-[1323px] md:left-3 md:h-[1964px] md:w-[calc(100%-24px)]" />
+        <div className="absolute top-[100vh] left-0 h-[3507px] w-full bg-brand-dark-green" />
 
-      {cards.map((card, index) => {
-        return (
-          <ProblemCardView
-            key={card.key}
-            card={card}
-            className={`absolute left-[24px] w-[345px] md:right-3 md:left-3 md:w-auto ${mobileTopClasses[index]} ${desktopTopClasses[index]}`}
-          />
-        )
-      })}
+        {cards.map((card, index) => {
+          return (
+            <ProblemCardView
+              key={card.key}
+              card={card}
+              className={`absolute left-[24px] w-[345px] ${mobileTopClasses[index]}`}
+            />
+          )
+        })}
+      </div>
 
-      <div className="absolute top-[4642px] left-3 flex w-[369px] flex-col items-center gap-[60px] text-center md:top-[3508px] md:left-1/2 md:w-[940px] md:-translate-x-1/2">
+      <div className="hidden md:block">
+        <div className="relative h-screen">
+          <div className="sticky top-0 flex h-screen items-center justify-center">
+            <p className="text-h3-serif w-[940px] text-center">{t('intro')}</p>
+          </div>
+        </div>
+
+        <div className="relative px-3 pt-[120px] pb-[1500px]">
+          {cards.map((card, index) => {
+            return (
+              <ProblemCardView
+                key={card.key}
+                card={card}
+                className={`sticky w-full shadow-[0_24px_80px_rgba(0,0,0,0.28)] ${desktopStickyTopClasses[index]} ${desktopStackClasses[index]}`}
+              />
+            )
+          })}
+        </div>
+      </div>
+
+      <div className="absolute top-[calc(100vh+3713px)] left-3 flex w-[369px] flex-col items-center gap-[60px] text-center md:relative md:top-auto md:left-1/2 md:w-[940px] md:-translate-x-1/2 md:pt-[120px] md:pb-[360px]">
         <p className="text-h3-serif">
           {t('closing1')} {t('closing2')} {t('closing3')}
         </p>
