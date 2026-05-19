@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "language": "en",
   "route": "/",
-  "title": "Logos — Pioneering a New Era of Freedom",
-  "description": "Logos is a movement building open technology to enable and restore civil society.",
-  "heading": "Pioneering a New Era of Freedom",
+  "title": "Logos — We are charting a new path",
+  "description": "Logos is private-by-default infrastructure for parallel societies.",
+  "heading": "We are charting a new path.",
   "seo": {
     "keywords": [
       "logos",
@@ -18,8 +18,8 @@
     {
       "componentType": "hero",
       "key": "home.atf",
-      "headline": "Pioneering a New Era\nof Freedom",
-      "body": "LOGOS is a movement building open technology to enable and restore civil society.",
+      "headline": "We are charting a new path.",
+      "body": "Logos is the private-by-default infrastructure for parallel societies. Built for a world where existing systems have stopped working. Built for a world where we are in control.",
       "background": {
         "src": "/cms/pages/home/atf-background.jpg",
         "alt": "",
@@ -28,11 +28,11 @@
       },
       "ctas": [
         {
-          "label": "Join the Movement",
-          "href": "/circles",
+          "label": "Install Basecamp",
+          "href": "/builders-hub",
           "variant": "primary"
         },
-        { "label": "Learn More", "href": "/about", "variant": "secondary" }
+        { "label": "Start Building", "href": "/builders-hub", "variant": "secondary" }
       ]
     },
     {
@@ -216,42 +216,42 @@
       "items": [
         {
           "image": {
-            "src": "/images/home/event-1.jpg",
+            "src": "/images/home/figma-refresh/parallel-1.webp",
             "alt": "",
             "width": 720,
             "height": 480
           },
-          "caption": "Parallel Society — Lisbon",
+          "caption": "Lorem ipsum",
           "date": "02.14.26"
         },
         {
           "image": {
-            "src": "/images/home/event-2.jpg",
+            "src": "/images/home/figma-refresh/parallel-2.webp",
             "alt": "",
             "width": 720,
             "height": 480
           },
-          "caption": "Music + technology converge",
+          "caption": "Lorem ipsum",
           "date": "02.14.26"
         },
         {
           "image": {
-            "src": "/images/home/event-3.jpg",
+            "src": "/images/home/figma-refresh/parallel-3.webp",
             "alt": "",
             "width": 720,
             "height": 480
           },
-          "caption": "Two days, one parallel",
+          "caption": "Lorem ipsum",
           "date": "02.14.26"
         },
         {
           "image": {
-            "src": "/images/home/event-4.jpg",
+            "src": "/images/home/figma-refresh/parallel-4.webp",
             "alt": "",
             "width": 720,
             "height": 480
           },
-          "caption": "Builders, artists, dreamers",
+          "caption": "Lorem ipsum",
           "date": "02.14.26"
         }
       ]
@@ -274,7 +274,7 @@
       "key": "home.press",
       "eyebrow": "Logos in the News",
       "title": "Press",
-      "label": "Logos Press Engine",
+      "label": "Lorem ipsum dolor si amet",
       "cta": { "label": "Explore all articles", "href": "/press" },
       "visibleCount": 4
     },
@@ -291,11 +291,11 @@
       "componentType": "featuredText",
       "key": "home.circlesCta",
       "title": {
-        "highlight": "19",
-        "rest": "Circles and Counting."
+        "highlight": "Header → Video:",
+        "rest": "Powering Effective Crisis Response"
       },
       "body": [
-        "These meetups are essential for anyone taking action with us. Explore what nonviolence is, how we use it, and what it can help us achieve. If there isn't a Logos Circle listed in your area, please get in touch with the team."
+        "Logos is built for those who believe the window for reform has closed. Circles are essential for anyone taking actions with us. If there isn’t a Logos Circle listed in your area, please get in touch with the team."
       ],
       "cta": { "label": "Find a Circle Near You", "href": "/circles" },
       "secondaryCta": { "label": "Start a Circle", "href": "/circles" }

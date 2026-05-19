@@ -1,92 +1,33 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
-import { LogosMark } from '@acid-info/logos-ui'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
-const BUILDER_PORTAL_IMAGE_OVERLAY =
-  'linear-gradient(to bottom, rgba(0,0,0,0.3) 25.835%, rgba(0,0,0,0) 50%)'
-const DESKTOP_FEATURE_TOP_START = 213
-const DESKTOP_FEATURE_TOP_STEP = 92
-
-type ExampleRow = {
-  title: string
-  desc: string
+interface BasecampFeatureProps {
+  label: string
+  image: string
+  imageClassName?: string
 }
 
-type FeatureRow = {
-  id: string
-  body: string
-}
-
-function BuilderPortalImage({
-  title,
-  buildLabel,
-  buildDesc,
-  mobile = false,
-}: {
-  title: string
-  buildLabel: string
-  buildDesc: string
-  mobile?: boolean
-}) {
+function BasecampFeature({
+  label,
+  image,
+  imageClassName,
+}: BasecampFeatureProps) {
   return (
-    <div
-      className={`relative w-full overflow-hidden rounded-xl ${
-        mobile ? 'aspect-[369/402]' : 'h-156.5'
-      }`}
-    >
+    <div className="relative flex h-[55px] items-center justify-center overflow-hidden rounded-xl border border-brand-dark-green/50 font-sans text-[18px] leading-[1.15] tracking-[-0.01em] text-brand-dark-green md:h-[189px]">
       <Image
-        src="/images/home/builder-portal.jpg"
-        alt={title}
+        src={image}
+        alt=""
         fill
-        className="object-cover object-center"
+        sizes="(max-width: 768px) 369px, 464px"
+        className={`object-cover blur-[20px] md:hidden ${imageClassName ?? ''}`}
       />
-
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: BUILDER_PORTAL_IMAGE_OVERLAY }}
-      />
-
-      <div
-        className={`absolute top-3 right-3 left-3 flex items-start justify-between ${
-          mobile ? 'gap-4' : ''
-        }`}
-      >
-        <div className="flex w-[7.8125rem] items-center justify-between">
-          <LogosMark size={9} className="shrink-0 text-brand-off-white" />
-          <span className="text-eyebrow text-brand-off-white">
-            {buildLabel}
-          </span>
-        </div>
-
-        <p
-          className={`text-mono-s text-brand-off-white ${
-            mobile ? 'w-[10.875rem]' : 'w-83.25'
-          }`}
-        >
-          {buildDesc}
-        </p>
-      </div>
-    </div>
-  )
-}
-
-function MobileFeatureRow({ id, body }: FeatureRow) {
-  return (
-    <div className="flex items-start gap-3 text-brand-dark-green">
-      <span className="text-mono-s w-18 shrink-0">{id}</span>
-      <p className="text-mono-s flex-1">{body}</p>
-    </div>
-  )
-}
-
-function MobileExampleRow({ title, desc }: ExampleRow) {
-  return (
-    <div className="grid grid-cols-2 gap-3 border-t border-brand-dark-green/50 pt-1.5">
-      <span className="text-eyebrow text-brand-dark-green">{title}</span>
-      <span className="text-mono-s text-brand-dark-green">{desc}</span>
+      <div className="absolute inset-0 bg-black/20 md:hidden" />
+      <span className="relative z-[1] text-brand-off-white md:text-brand-dark-green">
+        {label}
+      </span>
     </div>
   )
 }
@@ -98,112 +39,59 @@ export default async function BuilderPortalSection({
 }) {
   const t = await getTranslations({ locale, namespace: 'home.builderPortal' })
 
-  const features: FeatureRow[] = [
-    { id: '01', body: t('feature1') },
-    { id: '02', body: t('feature2') },
-    { id: '03', body: t('feature3') },
-  ]
-
-  const examples: ExampleRow[] = [
-    { title: t('example1Title'), desc: t('example1Desc') },
-    { title: t('example2Title'), desc: t('example2Desc') },
-    { title: t('example3Title'), desc: t('example3Desc') },
-    { title: t('example4Title'), desc: t('example4Desc') },
-  ]
-
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pt-10 pb-25">
+    <section className="h-[1281px] border-t border-brand-dark-green/10 bg-brand-off-white py-24 md:h-auto md:py-[155.5px]">
       <div className="mx-auto max-w-354 px-3">
-        <div className="md:hidden">
-          <h2 className="text-h2 max-w-[22.875rem] text-brand-dark-green">
-            {t('title')}
-          </h2>
+        <div className="grid gap-3 md:grid-cols-[464px_minmax(0,940px)]">
+          <div className="flex min-h-[324px] flex-col justify-between md:min-h-[532px]">
+            <div>
+              <h2 className="text-h2 max-w-[702px] text-brand-dark-green">
+                {t('title')}
+              </h2>
+              <div className="mt-[30px]">
+                <Button
+                  href={ROUTES.buildersHub}
+                  className="cursor-pointer transition-opacity hover:opacity-80"
+                >
+                  {t('cta')}
+                </Button>
+              </div>
+            </div>
 
-          <div className="mt-7.5 flex flex-col gap-7.5">
-            <BuilderPortalImage
-              title={t('title')}
-              buildLabel={t('buildLabel')}
-              buildDesc={t('buildDesc')}
-              mobile
-            />
-
-            <Button
-              href={ROUTES.buildersHub}
-              className="w-fit transition-opacity hover:opacity-70"
-            >
-              {t('cta')}
-            </Button>
-          </div>
-
-          <div className="mt-10 flex flex-col gap-7">
-            {features.map((feature) => (
-              <MobileFeatureRow key={feature.id} {...feature} />
-            ))}
-          </div>
-
-          <div className="mt-10">
-            <p className="text-eyebrow mb-7 text-center text-brand-dark-green">
-              {t('useCasesLabel')}
+            <p className="font-sans text-[14px] leading-[1.2] font-medium text-brand-dark-green md:w-[345px]">
+              {t('description')}
             </p>
+          </div>
 
-            <div className="flex flex-col gap-3">
-              {examples.map((example) => (
-                <MobileExampleRow key={example.title} {...example} />
-              ))}
+          <div className="relative h-[532px] overflow-hidden rounded-3xl bg-[#1c1c1c]">
+            <div className="absolute top-[76px] left-[-84px] h-[379px] w-[836px] overflow-hidden rounded-md md:top-[88px] md:left-[33px] md:h-[356px] md:w-[785px]">
+              <Image
+                src="/images/home/figma-refresh/basecamp.webp"
+                alt=""
+                fill
+                sizes="(max-width: 768px) 321px, 785px"
+                className="object-cover object-center"
+              />
             </div>
           </div>
         </div>
 
-        <div className="hidden gap-3 pt-3 md:flex">
-          <div className="relative h-174 w-175.5 shrink-0 text-brand-dark-green">
-            <h2 className="text-h2 absolute top-1.25 w-145.5">{t('title')}</h2>
-
-            {features.map((feature, index) => (
-              <div
-                key={feature.id}
-                className="absolute w-86.25 -translate-y-full"
-                style={{
-                  top: `${DESKTOP_FEATURE_TOP_START + index * DESKTOP_FEATURE_TOP_STEP}px`,
-                }}
-              >
-                <p className="text-mono-s">
-                  <span className="inline-block w-30">{feature.id}</span>
-                  {feature.body}
-                </p>
-              </div>
-            ))}
-
-            <div className="absolute top-118.5 w-full flex flex-col gap-3">
-              {examples.map((example) => (
-                <div
-                  key={example.title}
-                  className="flex items-start gap-3 border-t border-brand-dark-green/50 pt-1.5"
-                >
-                  <span className="text-eyebrow w-86.25 shrink-0 text-brand-dark-green">
-                    {example.title}
-                  </span>
-                  <span className="text-mono-s flex-1 text-brand-dark-green">
-                    {example.desc}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex min-w-0 flex-1 flex-col items-start gap-7.5">
-            <BuilderPortalImage
-              title={t('title')}
-              buildLabel={t('buildLabel')}
-              buildDesc={t('buildDesc')}
-            />
-
-            <Button
-              href={ROUTES.buildersHub}
-              className="transition-opacity hover:opacity-70"
-            >
-              {t('cta')}
-            </Button>
-          </div>
+        <div className="mt-3 grid gap-3 md:grid-cols-3">
+          <BasecampFeature
+            label={t('featureChat')}
+            image="/images/home/figma-refresh/basecamp-chat.webp"
+            imageClassName="rotate-90 scale-125"
+          />
+          <BasecampFeature
+            label={t('featureNode')}
+            image="/images/home/figma-refresh/basecamp-node.webp"
+            imageClassName="scale-125"
+          />
+          <BasecampFeature
+            label={t('featureTransactions')}
+            image="/images/home/figma-refresh/basecamp-transactions.webp"
+            imageClassName="scale-125"
+          />
         </div>
       </div>
     </section>

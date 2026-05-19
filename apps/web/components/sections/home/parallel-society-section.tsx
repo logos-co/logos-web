@@ -100,9 +100,8 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
   }))
 
   return (
-    <section className="overflow-hidden bg-brand-off-white py-20 md:py-28">
-      <div className="mx-auto max-w-354 px-3">
-        {/* Headline — highlighted leading word + dimmed trailing words */}
+    <section className="relative h-[1368px] overflow-hidden bg-brand-off-white">
+      <div className="absolute top-[132px] right-3 left-3 mx-auto max-w-354">
         <h2 className="text-h1 text-brand-dark-green mb-4 text-center">
           <span className="text-brand-dark-green">
             {headline.title.highlight}{' '}
@@ -124,7 +123,7 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
       </div>
 
       <div
-        className="overflow-x-auto px-3 pb-2 md:hidden"
+        className="absolute top-[578px] right-0 left-0 overflow-x-auto px-3 pb-2 md:hidden"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         <div className="flex w-max snap-x snap-mandatory items-start gap-3 pr-3">
@@ -142,7 +141,7 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
 
       {/* Gallery — bleed outside container on desktop */}
       <div
-        className="hidden items-start gap-3 px-3 md:flex"
+        className="absolute top-[578px] hidden items-start gap-3 px-3 md:flex"
         style={{ marginLeft: '-141px', width: 'calc(100% + 282px)' }}
       >
         {items.map((item) => (

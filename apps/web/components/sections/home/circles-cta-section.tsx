@@ -13,13 +13,11 @@ export default async function CirclesCtaSection({ data }: Props) {
   const events = await fetchCircleEvents()
 
   return (
-    <section className="bg-brand-off-white py-20 md:py-28">
+    <section className="h-[1180px] overflow-hidden bg-brand-off-white py-24 md:h-[1225px] md:py-[100px]">
       <div className="mx-auto max-w-354 px-3">
-        {/* Headline + body + CTAs */}
         <div className="flex flex-col items-center text-center">
-          <h2 className="text-h1 text-brand-dark-green">
-            <span className="text-brand-yellow">{data.title.highlight}</span>{' '}
-            {data.title.rest}
+          <h2 className="text-h2 max-w-[940px] text-brand-dark-green">
+            <span>{data.title.highlight}</span> {data.title.rest}
           </h2>
 
           {data.body && data.body.length > 0 ? (
@@ -30,11 +28,11 @@ export default async function CirclesCtaSection({ data }: Props) {
             </div>
           ) : null}
 
-          <div className="mt-8 flex items-center gap-4">
+          <div className="mt-8 flex items-center gap-3">
             {data.cta ? (
               <Button
                 href={data.cta.href}
-                className="transition-opacity hover:opacity-70"
+                className="cursor-pointer transition-opacity hover:opacity-70"
               >
                 {data.cta.label}
               </Button>
@@ -43,7 +41,7 @@ export default async function CirclesCtaSection({ data }: Props) {
               <Button
                 href={data.secondaryCta.href}
                 variant="link"
-                className="transition-opacity hover:opacity-70"
+                className="cursor-pointer transition-opacity hover:opacity-70"
               >
                 {data.secondaryCta.label}
               </Button>
@@ -51,8 +49,7 @@ export default async function CirclesCtaSection({ data }: Props) {
           </div>
         </div>
 
-        {/* World map */}
-        <div className="bg-gray-01 mt-14 aspect-1416/710 overflow-hidden rounded-[100px]">
+        <div className="bg-gray-01 mt-16 aspect-[369/710] overflow-hidden rounded-xl md:aspect-1416/710">
           <CirclesMapLoader events={events} />
         </div>
       </div>

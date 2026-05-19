@@ -1,7 +1,6 @@
 import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
-  CardGridSection,
   FeaturedTextSection,
   GallerySection,
   HeroSection,
@@ -14,11 +13,11 @@ import BuilderPortalSection from '@/components/sections/home/builder-portal-sect
 import CirclesCtaSection from '@/components/sections/home/circles-cta-section'
 import FeatureCardsSection from '@/components/sections/home/feature-cards-section'
 import HeroSectionView from '@/components/sections/home/hero-section'
-import MountainSection from '@/components/sections/home/mountain-section'
 import ParallelSocietySection from '@/components/sections/home/parallel-society-section'
 import PressSection from '@/components/sections/home/press-section'
+import SocialProofSection from '@/components/sections/home/social-proof-section'
+import StartBuildingSection from '@/components/sections/home/start-building-section'
 import TechStackSection from '@/components/sections/home/tech-stack-section'
-import UseCasesSection from '@/components/sections/home/use-cases-section'
 
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
@@ -31,21 +30,6 @@ const ROUTE = ROUTES.home
 
 export const generateMetadata = createPageMetadata(ROUTE)
 
-/**
- * Eight of ten home sections wired to PageCopy. The remaining two
- * (about-section, builder-portal-section, feature-cards-section) keep using
- * `getTranslations` because their composite shapes do not fit any current
- * PageSection type cleanly:
- *
- *   - feature-cards-section : Build/Node/Circles cards each with 4 sub-rows
- *                             and a sticky-scroll layout (cardGrid + table-
- *                             style row data needs a new section type).
- *   - about-section         : large quote + image card + headline + body
- *                             composite (no matching schema; would need a
- *                             `quoteCard` type).
- *   - builder-portal-section: 4 example rows + 3 feature blurbs + use-case
- *                             banner — too rich for ctaPanel/cardGrid alone.
- */
 export default async function HomePage({
   params,
 }: {
@@ -63,11 +47,6 @@ export default async function HomePage({
     'techStackOverview',
     'home.techStack'
   )
-  const useCases = findSection<CardGridSection>(
-    page.sections,
-    'cardGrid',
-    'home.useCases'
-  )
   const parallelSocietyHeadline = findSection<FeaturedTextSection>(
     page.sections,
     'featuredText',
@@ -77,11 +56,6 @@ export default async function HomePage({
     page.sections,
     'gallery',
     'home.parallelSociety'
-  )
-  const mountain = findSection<FeaturedTextSection>(
-    page.sections,
-    'featuredText',
-    'home.mountain'
   )
   const press = findSection<RelatedArticlesSection>(
     page.sections,
@@ -99,22 +73,22 @@ export default async function HomePage({
   return (
     <>
       <HeroSectionView data={hero} />
-      <FeatureCardsSection />
+      <SocialProofSection />
       <AboutSection locale={locale} />
+      <BuilderPortalSection locale={locale} />
+      <FeatureCardsSection />
       <TechStackSection
         data={techStack}
         networkingHref={ROUTES.networking}
         foundationHref={ROUTES.technologyStack}
       />
-      <UseCasesSection data={useCases} />
+      <StartBuildingSection locale={locale} />
+      <CirclesCtaSection data={circlesCta} />
       <ParallelSocietySection
         headline={parallelSocietyHeadline}
         gallery={parallelSocietyGallery}
       />
-      <BuilderPortalSection locale={locale} />
-      <MountainSection data={mountain} />
       <PressSection data={press} articles={articles} />
-      <CirclesCtaSection data={circlesCta} />
     </>
   )
 }

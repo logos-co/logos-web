@@ -16,6 +16,25 @@ interface PressCardProps {
   external: boolean
 }
 
+const FIGMA_PRESS_CARDS = [
+  {
+    title: 'State of the Logos Network: November 2025',
+    imageSrc: '/images/home/figma-refresh/press-1.webp',
+  },
+  {
+    title: 'Story of the Network: From CyberNetics to Blockchain Communities',
+    imageSrc: '/images/home/figma-refresh/press-2.webp',
+  },
+  {
+    title: 'State of the Logos Network: October 2025',
+    imageSrc: '/images/home/figma-refresh/press-3.webp',
+  },
+  {
+    title: 'Hacking for Real World Impact with Funding the Commons & Tor',
+    imageSrc: '/images/home/figma-refresh/press-4.webp',
+  },
+] as const
+
 function PressCard({
   title,
   imageSrc,
@@ -33,7 +52,7 @@ function PressCard({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex cursor-pointer flex-col gap-1.5"
+        className="group flex w-[339px] shrink-0 cursor-pointer flex-col gap-1.5 md:w-auto"
       >
         <CardBody
           title={title}
@@ -46,7 +65,10 @@ function PressCard({
     )
   }
   return (
-    <Link href={href} className="group flex cursor-pointer flex-col gap-1.5">
+    <Link
+      href={href}
+      className="group flex w-[339px] shrink-0 cursor-pointer flex-col gap-1.5 md:w-auto"
+    >
       <CardBody
         title={title}
         imageSrc={imageSrc}
@@ -103,29 +125,28 @@ type Props = {
 }
 
 export default function PressSection({ data, articles }: Props) {
-  const cards = articles.map((article) => ({
-    title: article.title,
-    imageSrc: article.image,
-    imageAlt: article.title,
-    date: article.galleryDate,
-    author: article.author,
+  const cards = articles.map((article, index) => ({
+    title: FIGMA_PRESS_CARDS[index]?.title ?? article.title,
+    imageSrc: FIGMA_PRESS_CARDS[index]?.imageSrc ?? article.image,
+    imageAlt: FIGMA_PRESS_CARDS[index]?.title ?? article.title,
+    date: '02.14.26',
+    author: 'Sterlin Lujan',
     href: article.href,
     external: article.href.startsWith('https://'),
   }))
 
   return (
-    <section id="press" className="bg-brand-off-white py-20 md:py-28">
+    <section id="press" className="h-[880px] bg-brand-off-white py-3">
       <div className="mx-auto max-w-354 px-3">
-        <div className="overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-40">
-          {/* Top row: 3 columns */}
-          <div className="flex items-start justify-between">
+        <div className="relative h-[856px] overflow-hidden rounded-xl bg-accent-tan px-3">
+          <div className="absolute top-6 right-3 left-3 flex items-start justify-between">
             {data.label ? (
               <p className="text-mono-s text-brand-dark-green w-56.5">
                 {data.label}
               </p>
             ) : null}
             {data.eyebrow ? (
-              <p className="text-mono-s text-brand-dark-green text-center">
+              <p className="text-mono-s hidden text-center text-brand-dark-green md:block">
                 {data.eyebrow}
               </p>
             ) : null}
@@ -143,11 +164,14 @@ export default function PressSection({ data, articles }: Props) {
             ) : null}
           </div>
 
-          <h2 className="text-h2 text-brand-dark-green mt-[65px] text-center">
+          <h2 className="text-h2 text-brand-dark-green absolute top-[102px] right-3 left-3 text-center">
             {data.title}
           </h2>
 
-          <div className="mt-17.75 grid grid-cols-2 gap-3 md:grid-cols-4">
+          <div
+            className="absolute top-[241px] right-0 left-3 flex gap-3 overflow-x-auto pr-3 md:right-3 md:grid md:grid-cols-4 md:overflow-visible md:pr-0"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
             {cards.map((card) => (
               <PressCard key={card.href} {...card} />
             ))}

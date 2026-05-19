@@ -31,6 +31,33 @@
     }
   },
   "home": {
+    "hero": {
+      "mobileHeadline": "We are charting\na new path.",
+      "kicker": "Basecamp is the private-by-default exit tool.",
+      "mobileBody": "Logos is the private-by-defualt infrastructure for parallel societies. Built for a world where existing systems have stopped working. Built for a world where we are in control."
+    },
+    "socialProof": {
+      "contributions": {
+        "value": "2262",
+        "label": "Contributions",
+        "body": "An open source community of builders, researchers, and technologists."
+      },
+      "nodes": {
+        "value": "205",
+        "label": "Node Operators",
+        "body": "Open source tools, libraries, and infrastructure to inspect, fork, and build on."
+      },
+      "circles": {
+        "value": "26",
+        "label": "Circles",
+        "body": "Local chapters of activists and change seekers solving real world issues."
+      },
+      "issues": {
+        "value": "26",
+        "label": "Winnable Issues",
+        "body": "Local issues that Circles identify and solve – from privacy tech to community funding."
+      }
+    },
     "build": {
       "eyebrow": "Build",
       "number": "01",
@@ -76,10 +103,46 @@
     "about": {
       "quote": "The system is no longer working for us, so we are charting a new course.",
       "headline": "Logos exists at the intersection of human exploration and technological revolution.",
-      "body": "We are a movement for builders, explorers, and dreamers who refuse to accept the world as it is. We're part of a generation fed up with corruption, surveillance, and stagnation often associated with incumbent institutions."
+      "body": "We are a movement for builders, explorers, and dreamers who refuse to accept the world as it is. We're part of a generation fed up with corruption, surveillance, and stagnation often associated with incumbent institutions.",
+      "intro": "The world's systems of money, law, and governance are increasingly coerced by interests that do not serve the people inside them. The institutions, the corporations, the platforms, have been captured.",
+      "closing1": "They surveil us, extract from us, and make decisions on our behalf without our consent. Why are we placing our trust in ancient nation-state technology?",
+      "closing2": "We are not asking them to change.",
+      "closing3": "We are building the alternative.",
+      "cta": "About us",
+      "problems": {
+        "debt": {
+          "title": "Debt",
+          "body": "We've inherited insurmountable debt handed down by older generations. Debt we did not choose, debt we did not benefit from, and debt we are now expected to pay back with interest.",
+          "fact1": "Global government debt has climbed to a record $111 trillion in 2025, rising by $8.3 trillion in a single year.",
+          "fact2": "The average millennial in the US has 30% less wealth than the average Boomer by age 35.",
+          "fact3": "3.4 billion people now live in countries that spend more on interest payments than on either health or education.",
+          "fact4": "Just 27% of Gen Z and 55% of millennials own a home, compared to 80% of Baby Boomers."
+        },
+        "surveillance": {
+          "title": "Surveillance",
+          "body": "We are the most watched generation in human history. Every click, every step, every conversation is harvested, stored, and sold without our consent. Privacy is no longer the default. It's a privilege you have to fight for.",
+          "fact1": "There are now ~1 billion surveillance cameras installed worldwide. More than 1 for every 8 people on Earth.",
+          "fact2": "75% of police forces globally now have access to facial recognition technology.",
+          "fact3": "Governments now legally purchase massive quantities of citizens' personal data from commercial brokers."
+        },
+        "corruption": {
+          "title": "Corruption",
+          "body": "The game is rigged, and they're not even hiding it anymore. Policy is no longer written for the people — it's written for whoever can afford the most lobbyists, the biggest donations, and the closest seats at the inauguration.",
+          "fact1": "Billionaires are now estimated to be 4,000 times more likely to hold political office than ordinary citizens.",
+          "fact2": "In the US alone, federal lobbying smashed records in 2025, with corporations and interest groups spending $5.08 billion in a single year to influence Washington.",
+          "fact3": "Two-thirds of Americans (67%) now believe their federal government is \"corrupt\", and trust in government has crashed to just 17%."
+        },
+        "stagnation": {
+          "title": "Stagnation",
+          "body": "We work harder, we're better educated, and we earn less. The economy is producing record wealth at record speed — it's just not flowing to us. And those in power intend to keep it that way.",
+          "fact1": "The 12 richest billionaires now own more wealth than the poorest half of humanity — 4 billion people.",
+          "fact2": "Millennials work in an economy 70% more productive than when boomers were the same age — yet their median compensation has barely moved."
+        }
+      }
     },
     "builderPortal": {
-      "title": "The Logos Builder Portal",
+      "title": "Basecamp is our Exit Guide.",
+      "description": "Basecamp is a ready-to-run distribution that you deploy on your own hardware, under your control. Full stack privacy is the only option for a parallel society – coercion resistant coordfination, transactions free of surveillance, money you control.\n\nThe Logos Runtime runs running locally, core modules are loaded, and essential applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one.",
       "feature1": "Everything you need to start building privacy-first decentralized applications. Explore ideas, find bounties, and connect with others.",
       "feature2": "The Node Program is for anyone who wants to join our movement to revitalize civil society using decentralized technologies.",
       "feature3": "Local chapters are at the heart of our movement. Learn civil organizing, share skills, and forge new connections.",
@@ -94,14 +157,48 @@
       "useCasesLabel": "Use Cases",
       "buildLabel": "BUILD",
       "buildDesc": "Operate early. Help harden a private-by-default network that protects civil liberties and strengthens trust in our communities.",
-      "cta": "Get Involved"
+      "cta": "Install",
+      "featureChat": "Basic Chat App",
+      "featureNode": "Run a Node",
+      "featureTransactions": "Private Transactions"
+    },
+    "paths": {
+      "kicker": "The right response to broken systems is not to reform them but to build alongside them, and eventually, beyond them.",
+      "title": "Choose your path.",
+      "body": "We call these alternatives parallel societies: communities, institutions, and economies that operate with genuine autonomy, governed by the people inside them. Pick your path on our journey to self reliance.",
+      "build": {
+        "title": "Build",
+        "body": "Everything you need to start building privacy-first decentralized applications. Explore ideas, find bounties, and connect with others.",
+        "cta": "Start Building"
+      },
+      "operate": {
+        "title": "Operate",
+        "body": "The Node Program is for anyone who wants to join our movement to revitalize civil society using decentralized technologies. Whether you are a builder or a node operator, there is a role for you.",
+        "cta": "Run a Node"
+      },
+      "activism": {
+        "title": "Activism",
+        "body": "Lorem ipsum dolor sit amet consectetur. Egestas lectus sapien purus risus sit sed porttitor quis. Vestibulum sit sit eros purus rhoncus egestas bibendum.",
+        "cta": "Community activisms"
+      }
+    },
+    "startBuilding": {
+      "title": "Start building.",
+      "body": "Explore programs and resoruces to help you build your cyberstate.",
+      "mobileBody": "Lorem ipsum dolor sit amet consectetur. Morbi vel eget posuere pretium adipiscing feugiat donec sit vitae. Ante quisque sed in duis at. Velit felis libero maecenas faucibus sollicitudin odio interdum nulla viverra.",
+      "cta": "Builder Hub",
+      "cardCta": "Learn more",
+      "lambdaPrize": "Lambda Prize",
+      "rfps": "RFPs",
+      "ideas": "Starter Issues and Comnunity Ideas Repo",
+      "docs": "Docs, Tutorials, Community Support Channels"
     }
   },
   "pages": {
     "home": {
-      "title": "Logos — Pioneering a New Era of Freedom",
-      "description": "Logos is a movement building open technology to enable and restore civil society.",
-      "heading": "Pioneering a New Era of Freedom"
+      "title": "Logos — We are charting a new path",
+      "description": "Logos is private-by-default infrastructure for parallel societies.",
+      "heading": "We are charting a new path."
     },
     "technologyStack": {
       "title": "Technology Stack | Logos",
@@ -118,6 +215,9 @@
         "messaging": "Messaging",
         "blockchain": "Blockchain",
         "userModules": "User Modules",
+        "basecamp": "Basecamp",
+        "basecampBody": "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem.",
+        "basecampCta": "Install",
         "networkingLine1": "The Networking Stack:",
         "networkingLine2": "Discovery, Peering, and Mix-Net",
         "foundation": "The Foundation: Logos Kernel"
