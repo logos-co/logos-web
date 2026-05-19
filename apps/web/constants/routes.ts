@@ -25,6 +25,7 @@ export const ROUTES = {
   storage: '/technology-stack/storage',
 
   // Builders Hub
+  getStarted: '/get-started',
   buildersHub: '/builders-hub',
   ideas: '/builders-hub/ideas',
   rfps: '/builders-hub/rfps',
@@ -85,6 +86,7 @@ export const EXTERNAL_URLS = {
 
   // Forum
   forum: 'https://forum.logos.co/',
+  docs: 'https://docs.logos.co',
 
   // Research
   vacp2p: 'https://vac.dev',

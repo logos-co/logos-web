@@ -16,7 +16,7 @@
     { "label": "Book", "href": "/book" },
     { "label": "λ Prize", "href": "/lambda-prize" }
   ],
-  "primaryCta": { "label": "Install Basecamp", "href": "/links" },
+  "primaryCta": { "label": "Install Basecamp", "href": "/get-started" },
   "communityCards": [
     {
       "label": "Build",
@@ -50,7 +50,7 @@
             { "label": "Docs", "href": "/technology-stack" },
             { "label": "Events", "href": "/movement" },
             { "label": "Join Community", "href": "https://discord.gg/logos" },
-            { "label": "Install Basecamp", "href": "/links" }
+            { "label": "Install Basecamp", "href": "/get-started" }
           ]
         }
       ],
@@ -95,7 +95,7 @@
           "links": [
             { "label": "Discord", "href": "https://discord.gg/logos" },
             { "label": "Status", "href": "https://forum.logos.co/" },
-            { "label": "Basecamp", "href": "/links" },
+            { "label": "Basecamp", "href": "/get-started" },
             { "label": "YouTube", "href": "https://youtube.com/@logos_network" },
             { "label": "X", "href": "https://twitter.com/logos_network" }
           ]
@@ -192,7 +192,7 @@
             },
             {
               "label": "Basecamp",
-              "href": "/links",
+              "href": "/get-started",
               "description": "Complete distribution that bundles the runtime,  default modules, and UI.",
               "image": { "src": "/nav-overlay/figma/technology-thumb.webp", "alt": "" }
             }

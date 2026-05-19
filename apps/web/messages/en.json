@@ -200,6 +200,101 @@
       "description": "Logos is private-by-default infrastructure for parallel societies.",
       "heading": "We are charting a new path."
     },
+    "getStarted": {
+      "title": "Get Started | Logos",
+      "description": "Install Basecamp, read the Logos docs, join the community, and start building with the Logos testnet.",
+      "heading": "Get Started",
+      "intro": "Logos Testnet v0.1 is live. It packages consensus, execution, networking, storage, and messaging into a unified stack that you can install, run, and build against.\n\nStart here.",
+      "sections": {
+        "install": {
+          "number": "01",
+          "heading": "Install Basecamp",
+          "cardTitle": "Install Logos Basecamp",
+          "body": "Basecamp is the development environment for Logos. It sets up a local node, connects you to the testnet, and provides CLI tools for interacting with all three protocol modules.",
+          "cta": "Install Basecamp",
+          "imageAlt": "Logos Basecamp application interface"
+        },
+        "docs": {
+          "number": "02",
+          "heading": "Read the Docs",
+          "body": "Docs, open RFPs (requests for proposals), architecture guides, and project proposals.",
+          "cta": "View all docs",
+          "items": {
+            "architecture": {
+              "title": "Architecture Overview",
+              "body": "How the modules fit together."
+            },
+            "blockchain": {
+              "title": "Logos Blockchain Docs",
+              "body": "Cryptarchia consensus, Sovereign Zones"
+            },
+            "messaging": {
+              "title": "Logos Messaging SDK",
+              "body": "Integration guides for JS, Nim, and Go"
+            },
+            "storage": {
+              "title": "Logos Storage API",
+              "body": "File storage and retrieval"
+            },
+            "api": {
+              "title": "API Reference",
+              "body": "Full API documentation for all modules"
+            }
+          },
+          "cardCta": "Learn more"
+        },
+        "community": {
+          "number": "03",
+          "heading": "Join the community",
+          "cta": "Learn more",
+          "items": {
+            "forum": "Community Forum",
+            "research": "Research Forum",
+            "discord": "Discord",
+            "xLogosNetwork": "X Logos_network",
+            "xLogosDevs": "X Logos_devs",
+            "youtubeTutorials": "YouTube Tutorials"
+          }
+        },
+        "build": {
+          "number": "04",
+          "heading": "What can you build today",
+          "cta": "Run app",
+          "nodeCta": "Run a node",
+          "messagingCta": "Messaging SDK",
+          "deployCta": "Deploy",
+          "tryItOutCta": "Try it out",
+          "scaffoldCta": "Run scaffold",
+          "items": {
+            "node": {
+              "title": "Run a node",
+              "body": "Participate in the testnet by running a full node. Help validate module integration and stress-test the infrastructure."
+            },
+            "messaging": {
+              "title": "Build with Logos Messaging SDK",
+              "body": "Add private, censorship-resistant messaging to any application using the JavaScript, Nim, or Go SDKs."
+            },
+            "lez": {
+              "title": "Deploy to the LEZ",
+              "body": "The Logos Execution Zone is the first Sovereign Zone. Deploy applications using the sequencer, block explorer, and core APIs."
+            },
+            "storage": {
+              "title": "Store files on Logos Storage",
+              "body": "Use decentralised storage for application data, documents, or media."
+            },
+            "atomicSwaps": {
+              "title": "Run Atomic Swaps Demo App"
+            },
+            "zkMultiSig": {
+              "title": "Run ZK Multi-Sig Demo App"
+            },
+            "scaffold": {
+              "title": "Logos Scaffold"
+            }
+          }
+        }
+      }
+    },
     "technologyStack": {
       "title": "Technology Stack | Logos",
       "description": "Modular by design. Storage, Messaging, Blockchain, and User Modules form the foundation for privacy-first decentralized applications.",
