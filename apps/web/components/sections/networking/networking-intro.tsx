@@ -7,68 +7,28 @@ type Props = {
 }
 
 export default function NetworkingIntro({ data }: Props) {
-  // Title supports `\n` for visual line breaks (currently rendered as
-  // separate <p> blocks for whitespace-nowrap control on each line).
-  const titleLines = data.title.split('\n')
-
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
-      <div className="mx-auto max-w-360 px-3">
-        {/* Desktop: three columns, absolute positioning to match Figma */}
-        <div className="relative hidden md:block md:h-39.5">
-          <div className="text-h4-sans absolute top-[39px] left-0 text-brand-dark-green">
-            {titleLines.map((line, i) => (
-              <p key={i} className="whitespace-nowrap">
-                {line}
-              </p>
-            ))}
-          </div>
+    <section className="h-[235px] border-t border-brand-dark-green/10 bg-brand-off-white md:h-[158px]">
+      <div className="relative mx-auto h-full max-w-360 px-3 text-brand-dark-green">
+        <h2 className="text-h4-sans absolute top-10 left-3">{data.title}</h2>
 
-          {data.description ? (
-            <p className="text-mono-s absolute top-[39px] left-178.5 w-86.25 text-brand-dark-green">
-              {data.description}
-            </p>
-          ) : null}
+        {data.description ? (
+          <p className="text-mono-s absolute top-[78px] left-3 w-[calc(100%-48px)] md:top-10 md:left-181.5 md:w-86.25">
+            {data.description}
+          </p>
+        ) : null}
 
-          {data.cta ? (
-            <div className="absolute top-[39px] left-297.5">
-              <Button
-                href={data.cta.href}
-                variant="tertiary"
-                className="cursor-pointer transition-opacity hover:opacity-70"
-              >
-                {data.cta.label}
-              </Button>
-            </div>
-          ) : null}
-        </div>
-
-        {/* Mobile: vertical stack — title→body gap 12, body→cta gap 24 */}
-        <div className="flex flex-col gap-6 pt-10 pb-10 md:hidden">
-          <div className="flex flex-col gap-3">
-            <div className="text-h4-sans text-brand-dark-green">
-              {titleLines.map((line, i) => (
-                <p key={i} className="whitespace-nowrap">
-                  {line}
-                </p>
-              ))}
-            </div>
-            {data.description ? (
-              <p className="text-mono-s text-brand-dark-green">
-                {data.description}
-              </p>
-            ) : null}
-          </div>
-          {data.cta ? (
+        {data.cta ? (
+          <div className="absolute top-[180px] left-3 md:top-10 md:left-[1202px]">
             <Button
               href={data.cta.href}
               variant="tertiary"
-              className="w-fit cursor-pointer transition-opacity hover:opacity-70"
+              className="cursor-pointer transition-opacity hover:opacity-70"
             >
               {data.cta.label}
             </Button>
-          ) : null}
-        </div>
+          </div>
+        ) : null}
       </div>
     </section>
   )

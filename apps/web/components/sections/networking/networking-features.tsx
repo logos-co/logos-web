@@ -30,7 +30,7 @@ function FeatureCard({
   imageAlt,
 }: FeatureCardProps) {
   return (
-    <div className="flex flex-1 flex-col items-start justify-between gap-3 rounded-3xl bg-gray-01 p-1.5">
+    <article className="flex h-[358px] shrink-0 flex-col items-start justify-between rounded-3xl bg-gray-01 p-1.5 md:h-[396px] md:flex-1">
       <div className="flex w-full flex-col gap-3 p-3">
         <div className="flex items-center gap-3">
           <span
@@ -43,7 +43,7 @@ function FeatureCard({
         </div>
         <p className="text-mono-s text-brand-dark-green">{body}</p>
       </div>
-      <div className="relative h-62 w-full overflow-hidden rounded-[18px]">
+      <div className="relative h-[202px] w-full overflow-hidden rounded-[18px] md:h-62">
         <Image
           src={imageSrc}
           alt={imageAlt}
@@ -52,7 +52,7 @@ function FeatureCard({
           className="object-cover"
         />
       </div>
-    </div>
+    </article>
   )
 }
 
@@ -62,8 +62,8 @@ type Props = {
 
 export default function NetworkingFeatures({ data }: Props) {
   return (
-    <section className="bg-brand-off-white">
-      <div className="mx-auto max-w-360 px-3 pt-3 pb-3 md:pt-[100px]">
+    <section className="bg-brand-off-white md:mt-25">
+      <div className="mx-auto max-w-360 px-3">
         <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
           {data.cards.map((card, index) =>
             card.image ? (

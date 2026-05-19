@@ -14,9 +14,9 @@ export default function NetworkingRelatedArticles({ data, articles }: Props) {
   const cards = articlesToCards(articles)
 
   return (
-    <section className="bg-brand-off-white">
-      <div className="mx-auto max-w-360 px-3 py-3">
-        <div className="relative overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:pb-14">
+    <section className="mt-15 bg-brand-off-white md:mt-25">
+      <div className="mx-auto h-220 max-w-360 px-3 py-3">
+        <div className="relative h-full overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:pb-14">
           {/* Header row */}
           <div className="flex items-start justify-between">
             {data.label ? (

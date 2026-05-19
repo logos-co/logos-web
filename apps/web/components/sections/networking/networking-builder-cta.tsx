@@ -78,5 +78,10 @@ export default function NetworkingBuilderCta({ data }: Props) {
     (card): card is TechBuilderCtaCard => card !== undefined
   )
 
-  return <TechBuilderCtaDeck cards={cards} />
+  return (
+    <TechBuilderCtaDeck
+      cards={cards}
+      className="mt-15 mb-15 md:mt-25 md:mb-25"
+    />
+  )
 }

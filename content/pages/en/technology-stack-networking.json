@@ -24,16 +24,21 @@
       "body": "Built with privacy from the ground up, this layer handles how Logos nodes find each other, establish connections, and communicate. Discovery, Peering, and Mix-Net.",
       "ctas": [
         {
-          "label": "Logos app",
-          "href": "/builders-hub#app-install",
+          "label": "Use Basecamp",
+          "href": "/technology-stack/networking",
           "variant": "primary"
+        },
+        {
+          "label": "Docs",
+          "href": "/technology-stack/networking",
+          "variant": "secondary"
         }
       ]
     },
     {
       "componentType": "ctaPanel",
       "key": "networking.intro",
-      "title": "Privacy built from\nthe ground up.",
+      "title": "Overview",
       "description": "The networking layer handles how Logos nodes find each other, establish connections, and communicate. Private-by-default, this layer doesn't care whether modules above it are storing files, sending chat messages, or processing transactions. It provides private, reliable communication as a shared foundation.",
       "cta": {
         "label": "View the docs",
