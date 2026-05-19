@@ -28,8 +28,8 @@ function MobileGalleryCard({
   date: string
 }) {
   return (
-    <div className="w-[calc(100vw-3.25rem)] max-w-[22.25rem] min-w-[18rem] shrink-0 snap-start">
-      <div className="aspect-[356/440] overflow-hidden rounded-[4.375rem] bg-brand-dark-green/10">
+    <div className="w-[357px] shrink-0 snap-start">
+      <div className="h-[440px] w-[356px] overflow-hidden rounded-[70px] bg-brand-dark-green/10">
         <Image
           src={src}
           alt={alt}
@@ -64,7 +64,7 @@ function DesktopGalleryCard({
   return (
     <div className="shrink-0" style={{ width: `${w}px` }}>
       <div
-        className="overflow-hidden rounded-2xl bg-brand-dark-green/10 transition-transform duration-700 hover:scale-[1.02]"
+        className="overflow-hidden rounded-[100px] bg-brand-dark-green/10"
         style={{ height: `${h}px` }}
       >
         <Image
@@ -100,27 +100,27 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
   }))
 
   return (
-    <section className="relative h-[1368px] overflow-hidden bg-brand-off-white">
+    <section className="relative h-[1368px] overflow-hidden bg-brand-off-white shadow-[inset_0_1px_0_rgba(21,37,33,0.1)]">
       <div className="absolute top-[132px] right-3 left-3 mx-auto max-w-354">
-        <h2 className="text-h1 text-brand-dark-green mb-4 text-center">
+        <h2 className="text-h1 text-brand-dark-green text-center">
           <span className="text-brand-dark-green">
             {headline.title.highlight}{' '}
           </span>
           <span className="text-gray-04">{headline.title.rest}</span>
         </h2>
-
-        {headline.cta ? (
-          <div className="mb-10 flex justify-center">
-            <Button
-              href={headline.cta.href}
-              variant="link"
-              className="transition-opacity hover:opacity-70"
-            >
-              {headline.cta.label}
-            </Button>
-          </div>
-        ) : null}
       </div>
+
+      {headline.cta ? (
+        <div className="absolute top-[508px] right-3 left-3 flex justify-center md:top-[450px]">
+          <Button
+            href={headline.cta.href}
+            variant="link"
+            className="cursor-pointer transition-opacity hover:opacity-70"
+          >
+            {headline.cta.label}
+          </Button>
+        </div>
+      ) : null}
 
       <div
         className="absolute top-[578px] right-0 left-0 overflow-x-auto px-3 pb-2 md:hidden"
@@ -141,7 +141,7 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
 
       {/* Gallery — bleed outside container on desktop */}
       <div
-        className="absolute top-[578px] hidden items-start gap-3 px-3 md:flex"
+        className="absolute top-[578px] hidden items-start gap-3 md:flex"
         style={{ marginLeft: '-141px', width: 'calc(100% + 282px)' }}
       >
         {items.map((item) => (
