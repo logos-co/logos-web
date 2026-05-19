@@ -57,6 +57,7 @@ export type NavOverlayMenuPanel = {
 export type NavOverlayProps = {
   isOpen: boolean
   onClose: () => void
+  initialSelectedPanelLabel?: string
   logo?: ReactNode
   logoHref?: string
   sitemap: NavOverlayLink[]
@@ -524,6 +525,7 @@ function MobilePanel({
 export function NavOverlay({
   isOpen,
   onClose,
+  initialSelectedPanelLabel,
   logo,
   logoHref = '/',
   sitemap,
@@ -580,9 +582,12 @@ export function NavOverlay({
 
   useEffect(() => {
     if (!isOpen) return
-    setSelectedPanelLabel(panels[0]?.label ?? '')
+    const initialPanel = panels.find(
+      (panel) => panel.label === initialSelectedPanelLabel
+    )
+    setSelectedPanelLabel(initialPanel?.label ?? panels[0]?.label ?? '')
     setSelectedMobilePanelLabel(null)
-  }, [isOpen, panels])
+  }, [initialSelectedPanelLabel, isOpen, panels])
 
   useEffect(() => {
     if (!isOpen) return
@@ -633,10 +638,10 @@ export function NavOverlay({
               key={panel.label}
               type="button"
               onClick={() => setSelectedPanelLabel(panel.label)}
-              className={`text-eyebrow cursor-pointer font-semibold uppercase transition-opacity hover:opacity-70 ${
+              className={`text-eyebrow cursor-pointer border-b pb-0.5 tracking-[0.08em] uppercase transition-opacity hover:opacity-70 ${
                 isActive
-                  ? 'border-b border-brand-off-white/50 pb-0.5 text-brand-off-white'
-                  : 'text-brand-off-white/50'
+                  ? 'border-brand-off-white/50 text-brand-off-white'
+                  : 'border-transparent text-brand-off-white/50'
               }`}
             >
               {panel.label}

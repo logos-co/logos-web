@@ -67,6 +67,9 @@ export default function SiteHeaderClient({
   primaryCta,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false)
+  const [initialPanelLabel, setInitialPanelLabel] = useState<string | null>(
+    null
+  )
   const [hasPassedHero, setHasPassedHero] = useState(false)
   const pathname = usePathname()
   const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
@@ -114,6 +117,11 @@ export default function SiteHeaderClient({
       : 'text-white'
     : 'text-brand-dark-green'
 
+  const openPanel = (panelLabel: string) => {
+    setInitialPanelLabel(panelLabel)
+    setIsOpen(true)
+  }
+
   return (
     <>
       {/* Closed nav bar. Hero pages keep the overlay treatment; regular pages
@@ -145,7 +153,7 @@ export default function SiteHeaderClient({
               <button
                 key={panel.label}
                 type="button"
-                onClick={open}
+                onClick={() => openPanel(panel.label)}
                 className="text-eyebrow cursor-pointer tracking-[0.08em] whitespace-nowrap uppercase transition-opacity hover:opacity-70"
               >
                 {panel.label}
@@ -196,7 +204,7 @@ export default function SiteHeaderClient({
                 <button
                   key={panel.label}
                   type="button"
-                  onClick={open}
+                  onClick={() => openPanel(panel.label)}
                   className="text-eyebrow cursor-pointer tracking-[0.08em] whitespace-nowrap uppercase transition-opacity hover:opacity-70"
                 >
                   {panel.label}
@@ -225,6 +233,7 @@ export default function SiteHeaderClient({
       <NavOverlay
         isOpen={isOpen}
         onClose={close}
+        initialSelectedPanelLabel={initialPanelLabel ?? undefined}
         sitemap={sitemap}
         community={community}
         menuPanels={menuPanels}
