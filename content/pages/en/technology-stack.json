@@ -80,7 +80,7 @@
           "This architecture allows nodes to dynamically discover and load modules while preserving privacy. This approach allows the network to evolve and provides a foundation for decentralised applications and social institutions that remain resistant to capture and corruption – whether deployed by local communities or nation‑state operators."
         ],
         "cta": {
-          "label": "Learn More",
+          "label": "View the docs",
           "href": "/technology-stack#stack"
         },
         "image": {

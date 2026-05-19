@@ -77,48 +77,50 @@ export default function TechOverviewStack({
     >
       <div className="mx-auto max-w-354">
         {data.architecture ? (
-          <div className="grid gap-3 pb-[52px] md:grid-cols-2 md:pb-[100px]">
-            <div className="relative h-[317px] md:h-[357px]">
-              {data.architecture.eyebrow ? (
-                <div className="absolute top-3 left-0 md:top-3">
-                  <SectionMarker label={data.architecture.eyebrow} />
-                </div>
-              ) : null}
-
-              <div className="absolute top-[62px] left-0 max-w-[485px] md:top-[89px]">
-                <h2 className="text-h4-sans text-brand-dark-green">
-                  {data.architecture.title}
-                </h2>
-                <div className="text-body-sans mt-3 flex flex-col gap-3 text-brand-dark-green md:mt-4">
-                  {data.architecture.body.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
-                  ))}
-                </div>
-                {data.architecture.cta ? (
-                  <Button
-                    href={data.architecture.cta.href}
-                    variant="secondary"
-                    className="mt-6 cursor-pointer"
-                  >
-                    {data.architecture.cta.label}
-                  </Button>
+          <div className="-mx-3 mb-10 h-[658px] bg-gray-01 px-3 py-3 md:mb-[100px] md:h-[381px]">
+            <div className="grid md:grid-cols-2 md:gap-3">
+              <div className="relative h-[317px] md:h-[357px]">
+                {data.architecture.eyebrow ? (
+                  <div className="absolute top-0 left-0">
+                    <SectionMarker label={data.architecture.eyebrow} />
+                  </div>
                 ) : null}
+
+                <div className="absolute top-[50px] left-0 max-w-[485px] md:top-[77px]">
+                  <h2 className="text-h4-sans text-brand-dark-green">
+                    {data.architecture.title}
+                  </h2>
+                  <div className="mt-3 flex flex-col gap-3 text-[12px] leading-[1.2] font-medium text-brand-dark-green">
+                    {data.architecture.body.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                  {data.architecture.cta ? (
+                    <Button
+                      href={data.architecture.cta.href}
+                      variant="secondary"
+                      className="mt-6 cursor-pointer"
+                    >
+                      {data.architecture.cta.label}
+                    </Button>
+                  ) : null}
+                </div>
+
+                <div className="absolute top-[304px] left-0 md:top-[344px]">
+                  <SectionMarker label={data.pillars[0].title} />
+                </div>
               </div>
 
-              <div className="absolute top-[304px] left-0 md:top-[344px]">
-                <SectionMarker label={data.pillars[0].title} />
-              </div>
-            </div>
-
-            <div className="relative h-[317px] overflow-hidden rounded-xl md:h-[357px]">
-              <div className="absolute top-[-53px] left-0 h-[936px] w-[702px] md:top-[-33px]">
-                <Image
-                  src={data.architecture.image.src}
-                  alt={data.architecture.image.alt}
-                  fill
-                  sizes="702px"
-                  className="object-cover"
-                />
+              <div className="relative h-[317px] overflow-hidden rounded-[24px] md:h-[357px] md:rounded-xl">
+                <div className="absolute top-[-53px] left-0 h-[936px] w-[702px] md:top-[-33px]">
+                  <Image
+                    src={data.architecture.image.src}
+                    alt={data.architecture.image.alt}
+                    fill
+                    sizes="702px"
+                    className="object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
