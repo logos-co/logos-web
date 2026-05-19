@@ -619,67 +619,73 @@ export function NavOverlay({
       role="dialog"
       aria-modal="true"
       aria-label="Navigation menu"
-      className={`fixed inset-0 z-50 flex flex-col overflow-y-auto bg-brand-dark-green text-brand-off-white md:bottom-auto md:h-[700px] ${className ?? ''}`}
+      className={`fixed inset-0 z-50 flex flex-col overflow-y-auto bg-brand-dark-green text-brand-off-white md:bg-[rgba(21,37,33,0.5)] md:backdrop-blur-[20px] ${className ?? ''}`}
     >
-      <OverlayHeader
-        logo={logo}
-        logoHref={logoHref}
-        logoLabel={logoLabel}
-        closeMenu={closeMenu}
-        onClose={onClose}
-        linkAs={LinkAs}
-      />
+      <div className="relative flex min-h-full flex-col bg-brand-dark-green md:h-[700px] md:min-h-0 md:overflow-y-auto">
+        <OverlayHeader
+          logo={logo}
+          logoHref={logoHref}
+          logoLabel={logoLabel}
+          closeMenu={closeMenu}
+          onClose={onClose}
+          linkAs={LinkAs}
+        />
 
-      <div className="absolute top-3.5 left-[calc(50%+6px)] z-30 hidden items-start gap-6 md:flex">
-        {panels.map((panel) => {
-          const isActive = selectedPanel?.label === panel.label
-          return (
-            <button
-              key={panel.label}
-              type="button"
-              onClick={() => setSelectedPanelLabel(panel.label)}
-              className={`text-eyebrow cursor-pointer border-b pb-0.5 tracking-[0.08em] uppercase transition-opacity hover:opacity-70 ${
-                isActive
-                  ? 'border-brand-off-white/50 text-brand-off-white'
-                  : 'border-transparent text-brand-off-white/50'
-              }`}
-            >
-              {panel.label}
-            </button>
-          )
-        })}
+        <div className="absolute top-3.5 left-[calc(50%+6px)] z-30 hidden items-start gap-6 md:flex">
+          {panels.map((panel) => {
+            const isActive = selectedPanel?.label === panel.label
+            return (
+              <button
+                key={panel.label}
+                type="button"
+                onClick={() => setSelectedPanelLabel(panel.label)}
+                className={`text-eyebrow cursor-pointer border-b pb-0.5 tracking-[0.08em] uppercase transition-opacity hover:opacity-70 ${
+                  isActive
+                    ? 'border-brand-off-white/50 text-brand-off-white'
+                    : 'border-transparent text-brand-off-white/50'
+                }`}
+              >
+                {panel.label}
+              </button>
+            )
+          })}
+        </div>
+
+        {primaryCta && (
+          <LinkAs
+            href={primaryCta.href}
+            onClick={onClose}
+            className="text-eyebrow absolute top-1.5 right-3 z-30 hidden cursor-pointer rounded-xl bg-brand-off-white px-3 py-2 font-semibold text-brand-dark-green transition-opacity hover:opacity-80 md:inline-flex"
+          >
+            {primaryCta.label}
+          </LinkAs>
+        )}
+
+        {selectedPanel && (
+          <DesktopPanel
+            panel={selectedPanel}
+            onClose={onClose}
+            linkAs={LinkAs}
+          />
+        )}
+
+        {selectedMobilePanel ? (
+          <MobilePanel
+            panel={selectedMobilePanel}
+            clearSelectedPanel={() => setSelectedMobilePanelLabel(null)}
+            onClose={onClose}
+            linkAs={LinkAs}
+          />
+        ) : (
+          <MobileRoot
+            panels={panels}
+            primaryCta={primaryCta}
+            setSelectedPanel={setSelectedMobilePanelLabel}
+            onClose={onClose}
+            linkAs={LinkAs}
+          />
+        )}
       </div>
-
-      {primaryCta && (
-        <LinkAs
-          href={primaryCta.href}
-          onClick={onClose}
-          className="text-eyebrow absolute top-1.5 right-3 z-30 hidden cursor-pointer rounded-xl bg-brand-off-white px-3 py-2 font-semibold text-brand-dark-green transition-opacity hover:opacity-80 md:inline-flex"
-        >
-          {primaryCta.label}
-        </LinkAs>
-      )}
-
-      {selectedPanel && (
-        <DesktopPanel panel={selectedPanel} onClose={onClose} linkAs={LinkAs} />
-      )}
-
-      {selectedMobilePanel ? (
-        <MobilePanel
-          panel={selectedMobilePanel}
-          clearSelectedPanel={() => setSelectedMobilePanelLabel(null)}
-          onClose={onClose}
-          linkAs={LinkAs}
-        />
-      ) : (
-        <MobileRoot
-          panels={panels}
-          primaryCta={primaryCta}
-          setSelectedPanel={setSelectedMobilePanelLabel}
-          onClose={onClose}
-          linkAs={LinkAs}
-        />
-      )}
     </div>
   )
 }

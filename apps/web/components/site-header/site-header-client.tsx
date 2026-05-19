@@ -81,8 +81,14 @@ export default function SiteHeaderClient({
     normalizedPathname.endsWith(ROUTES.lambdaPrize)
   const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.press)
   const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
-  const open = () => setIsOpen(true)
-  const close = () => setIsOpen(false)
+  const open = () => {
+    setInitialPanelLabel(null)
+    setIsOpen(true)
+  }
+  const close = () => {
+    setInitialPanelLabel(null)
+    setIsOpen(false)
+  }
 
   useEffect(() => {
     window.addEventListener('logos:navigation-start', close)
