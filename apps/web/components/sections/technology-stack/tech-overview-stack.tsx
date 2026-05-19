@@ -78,12 +78,14 @@ export default function TechOverviewStack({
       <div className="mx-auto max-w-354">
         {data.architecture ? (
           <div className="grid gap-3 pb-[52px] md:grid-cols-2 md:pb-[100px]">
-            <div className="flex min-h-[317px] flex-col justify-between md:min-h-[357px]">
+            <div className="relative h-[317px] md:h-[357px]">
               {data.architecture.eyebrow ? (
-                <SectionMarker label={data.architecture.eyebrow} />
+                <div className="absolute top-3 left-0 md:top-3">
+                  <SectionMarker label={data.architecture.eyebrow} />
+                </div>
               ) : null}
 
-              <div className="max-w-[485px]">
+              <div className="absolute top-[62px] left-0 max-w-[485px] md:top-[89px]">
                 <h2 className="text-h4-sans text-brand-dark-green">
                   {data.architecture.title}
                 </h2>
@@ -103,7 +105,9 @@ export default function TechOverviewStack({
                 ) : null}
               </div>
 
-              <SectionMarker label={data.pillars[0].title} />
+              <div className="absolute top-[304px] left-0 md:top-[344px]">
+                <SectionMarker label={data.pillars[0].title} />
+              </div>
             </div>
 
             <div className="relative h-[317px] overflow-hidden rounded-xl md:h-[357px]">
