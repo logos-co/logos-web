@@ -21,6 +21,7 @@ export type ArticleCardProps = {
   imagePosition?: string
   date: string
   author: string
+  readingTime?: number
   href: string
   /**
    * Optional override for the card title's `<p>` className.
@@ -43,6 +44,7 @@ export function articlesToCards(
     imageAlt: article.title,
     date: article.galleryDate,
     author: article.author,
+    readingTime: article.readingTime,
     href: article.href,
   }))
 }
@@ -56,6 +58,7 @@ export function ArticleCard({
   imagePosition,
   date,
   author,
+  readingTime,
   href,
   titleClassName = DEFAULT_TITLE_CLASSNAME,
 }: ArticleCardProps) {
@@ -64,15 +67,23 @@ export function ArticleCard({
       href={href}
       className="group flex w-84.75 shrink-0 cursor-pointer flex-col gap-1.5 md:w-auto"
     >
-      <div className="aspect-339/431 w-full overflow-hidden">
+      <div className="relative aspect-339/431 w-full overflow-hidden">
         <Image
           src={imageSrc}
           alt={imageAlt}
           width={339}
           height={431}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="h-full w-full object-cover transition-[filter,transform] duration-300 ease-out group-hover:scale-[1.02] group-hover:blur-[12px] group-focus-visible:scale-[1.02] group-focus-visible:blur-[12px]"
           style={imagePosition ? { objectPosition: imagePosition } : undefined}
         />
+        <div className="absolute inset-0 bg-brand-dark-green/0 transition-colors duration-300 ease-out group-hover:bg-brand-dark-green/18 group-focus-visible:bg-brand-dark-green/18" />
+        {readingTime ? (
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100">
+            <p className="text-eyebrow border-b border-brand-off-white pb-1 text-brand-off-white">
+              {readingTime} min read
+            </p>
+          </div>
+        ) : null}
       </div>
       <div className="flex items-baseline gap-10">
         <p className={titleClassName}>

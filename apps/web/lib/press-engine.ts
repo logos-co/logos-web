@@ -64,6 +64,18 @@ type PressSearchPost = {
   type: 'article' | 'podcast'
 }
 
+type PressArticlePageResponse = {
+  props?: {
+    pageProps?: {
+      data?: {
+        data?: {
+          readingTime?: number | null
+        }
+      }
+    }
+  }
+}
+
 type PressSearchResponse = {
   data?: {
     posts?: PressSearchPost[]
@@ -217,10 +229,42 @@ const getPressSearchItems = async (
   return json.data?.posts?.filter((post) => post.type === type) ?? []
 }
 
-const toArticleRow = (post: PressSearchPost): PressArticleRow => {
+const getPositiveReadingTime = (value?: number | null) =>
+  typeof value === 'number' && Number.isFinite(value) && value > 0
+    ? value
+    : undefined
+
+const extractArticlePageReadingTime = (html: string) => {
+  const match = html.match(
+    /<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/
+  )
+  if (!match) return undefined
+
+  const pageData = JSON.parse(match[1]) as PressArticlePageResponse
+  return getPositiveReadingTime(
+    pageData.props?.pageProps?.data?.data?.readingTime
+  )
+}
+
+const getArticlePageReadingTime = async (slug: string) => {
+  const url = `${PRESS_ORIGIN}/article/${slug}`
+  const response = await fetch(url, { cache: 'force-cache' })
+  if (!response.ok) {
+    throw new Error(`Press article page failed: ${response.status} ${url}`)
+  }
+
+  return extractArticlePageReadingTime(await response.text())
+}
+
+const toArticleRow = (
+  post: PressSearchPost,
+  readingTimeOverride?: number
+): PressArticleRow => {
   const data = post.data
   const author = data.authors?.map((item) => item.name).join(', ') || 'Logos'
   const description = stripHtml(data.subtitle || data.summary || '')
+  const readingTime =
+    readingTimeOverride ?? getPositiveReadingTime(data.readingTime) ?? 1
 
   return {
     title: data.title,
@@ -231,7 +275,7 @@ const toArticleRow = (post: PressSearchPost): PressArticleRow => {
     description,
     image: data.coverImage?.url || '',
     href: `${PRESS_ORIGIN}/article/${data.slug}`,
-    readingTime: data.readingTime || 1,
+    readingTime,
   }
 }
 
@@ -296,7 +340,22 @@ export const getLatestPressArticles = async (limit = 4) => {
     limit * PRESS_ARTICLE_IMAGE_OVERFETCH_MULTIPLIER
   )
   const articlePosts = await getPressSearchItems('article', searchLimit)
-  return articlePosts.map(toArticleRow).filter(hasImage).slice(0, limit)
+  const visiblePosts = articlePosts
+    .map((post) => ({ post, row: toArticleRow(post) }))
+    .filter(({ row }) => hasImage(row))
+    .slice(0, limit)
+
+  return Promise.all(
+    visiblePosts.map(async ({ post, row }) => {
+      if (row.readingTime > 1) return row
+
+      const pageReadingTime = await getArticlePageReadingTime(post.data.slug)
+      return {
+        ...row,
+        readingTime: pageReadingTime ?? row.readingTime,
+      }
+    })
+  )
 }
 
 export const getPressPageData = async () => {

@@ -6,6 +6,16 @@ import {
   getLatestPressPodcasts,
 } from '../press-engine'
 
+const articlePageHtml = (readingTime: number) => `
+  <html>
+    <body>
+      <script id="__NEXT_DATA__" type="application/json">
+        {"props":{"pageProps":{"data":{"data":{"readingTime":${readingTime}}}}}}
+      </script>
+    </body>
+  </html>
+`
+
 const formatLocalDateKey = (date: Date) => {
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -18,73 +28,89 @@ afterEach(() => {
 })
 
 describe('getLatestPressArticles', () => {
-  test('overfetches before image filtering so card grids keep the requested size', async () => {
-    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        data: {
-          posts: [
-            {
-              type: 'article',
-              data: {
-                title: 'Missing image',
-                slug: 'missing-image',
-                publishedAt: '2026-05-10',
-              },
-            },
-            {
-              type: 'article',
-              data: {
-                title: 'Article one',
-                slug: 'article-one',
-                publishedAt: '2026-05-09',
-                coverImage: {
-                  url: 'https://cms-press.logos.co/uploads/article-one.jpg',
+  test('overfetches before image filtering and enriches stale reading times', async () => {
+    const fetchMock = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          data: {
+            posts: [
+              {
+                type: 'article',
+                data: {
+                  title: 'Missing image',
+                  slug: 'missing-image',
+                  publishedAt: '2026-05-10',
                 },
               },
-            },
-            {
-              type: 'podcast',
-              data: {
-                title: 'Wrong type',
-                slug: 'wrong-type',
-                publishedAt: '2026-05-08',
-                coverImage: {
-                  url: 'https://cms-press.logos.co/uploads/wrong-type.jpg',
+              {
+                type: 'article',
+                data: {
+                  title: 'Article one',
+                  slug: 'article-one',
+                  publishedAt: '2026-05-09',
+                  readingTime: 1,
+                  coverImage: {
+                    url: 'https://cms-press.logos.co/uploads/article-one.jpg',
+                  },
                 },
               },
-            },
-            {
-              type: 'article',
-              data: {
-                title: 'Article two',
-                slug: 'article-two',
-                publishedAt: '2026-05-07',
-                coverImage: {
-                  url: 'https://cms-press.logos.co/uploads/article-two.jpg',
+              {
+                type: 'podcast',
+                data: {
+                  title: 'Wrong type',
+                  slug: 'wrong-type',
+                  publishedAt: '2026-05-08',
+                  coverImage: {
+                    url: 'https://cms-press.logos.co/uploads/wrong-type.jpg',
+                  },
                 },
-                authors: [{ name: 'Logos' }],
               },
-            },
-          ],
-        },
-      }),
-    } as Response)
+              {
+                type: 'article',
+                data: {
+                  title: 'Article two',
+                  slug: 'article-two',
+                  publishedAt: '2026-05-07',
+                  coverImage: {
+                    url: 'https://cms-press.logos.co/uploads/article-two.jpg',
+                  },
+                  readingTime: 5,
+                  authors: [{ name: 'Logos' }],
+                },
+              },
+            ],
+          },
+        }),
+      } as Response)
+      .mockResolvedValueOnce({
+        ok: true,
+        text: async () => articlePageHtml(13),
+      } as Response)
 
     const articles = await getLatestPressArticles(2)
 
-    expect(fetchMock).toHaveBeenCalledWith(
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      1,
       'https://press.logos.co/api/search?type=article&limit=6',
+      { cache: 'force-cache' }
+    )
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      2,
+      'https://press.logos.co/article/article-one',
       { cache: 'force-cache' }
     )
     expect(articles).toMatchObject([
       {
         title: 'Article one',
         href: 'https://press.logos.co/article/article-one',
+        readingTime: 13,
       },
       {
         title: 'Article two',
         href: 'https://press.logos.co/article/article-two',
+        readingTime: 5,
       },
     ])
   })

@@ -17,25 +17,6 @@ interface PressCardProps {
   external: boolean
 }
 
-const FIGMA_PRESS_CARDS = [
-  {
-    title: 'State of the Logos Network: November 2025',
-    imageSrc: '/images/home/figma-refresh/press-1.webp',
-  },
-  {
-    title: 'Story of the Network: From CyberNetics to Blockchain Communities',
-    imageSrc: '/images/home/figma-refresh/press-2.webp',
-  },
-  {
-    title: 'State of the Logos Network: October 2025',
-    imageSrc: '/images/home/figma-refresh/press-3.webp',
-  },
-  {
-    title: 'Hacking for Real World Impact with Funding the Commons & Tor',
-    imageSrc: '/images/home/figma-refresh/press-4.webp',
-  },
-] as const
-
 function PressCard({
   title,
   imageSrc,
@@ -117,7 +98,7 @@ function CardBody({
         </div>
       </div>
       <div className="flex w-[339px] items-baseline gap-10">
-        <p className="text-body-sans h-[42px] w-[169.5px] shrink-0 overflow-hidden font-normal text-brand-dark-green">
+        <p className="text-body-sans min-h-[51px] w-[169.5px] shrink-0 font-normal break-words text-brand-dark-green">
           {title}
         </p>
         <div className="shrink-0">
@@ -137,12 +118,12 @@ type Props = {
 }
 
 export default function PressSection({ data, articles }: Props) {
-  const cards = articles.map((article, index) => ({
-    title: FIGMA_PRESS_CARDS[index]?.title ?? article.title,
-    imageSrc: FIGMA_PRESS_CARDS[index]?.imageSrc ?? article.image,
-    imageAlt: FIGMA_PRESS_CARDS[index]?.title ?? article.title,
-    date: '02.14.26',
-    author: 'Sterlin Lujan',
+  const cards = articles.map((article) => ({
+    title: article.title,
+    imageSrc: article.image,
+    imageAlt: article.title,
+    date: article.galleryDate,
+    author: article.author,
     readingTime: article.readingTime,
     href: article.href,
     external: article.href.startsWith('https://'),
