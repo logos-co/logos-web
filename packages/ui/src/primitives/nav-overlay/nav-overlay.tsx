@@ -87,6 +87,35 @@ function Chevron({ direction }: { direction: 'left' | 'right' }) {
   )
 }
 
+function getActionImageClassName(label: string) {
+  if (label === 'Build') {
+    return 'absolute top-[-334px] left-0 h-[904px] w-[723px]'
+  }
+  if (label === 'Operate') {
+    return 'absolute top-[-301px] left-0 h-[571px] w-[713px]'
+  }
+  if (label === 'Movement') {
+    return 'absolute top-[-144px] left-0 h-[350px] w-[711px]'
+  }
+  return 'absolute inset-0'
+}
+
+function ActionImageOverlay({ label }: { label: string }) {
+  if (label === 'Movement') {
+    return (
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            'linear-gradient(179.658deg, rgba(0, 0, 0, 0) 58.234%, rgba(0, 0, 0, 0.5) 81.9%), linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 100%)',
+        }}
+      />
+    )
+  }
+
+  return <div className="absolute inset-0 bg-black/20" />
+}
+
 function OverlayHeader({
   logo,
   logoHref,
@@ -183,9 +212,13 @@ function ActionCard({
       className="group relative flex h-[132px] w-full cursor-pointer overflow-hidden rounded-3xl bg-brand-off-white/10 p-[18px] text-brand-off-white transition-opacity hover:opacity-85 md:h-auto md:flex-1"
     >
       {imageNodes.length > 0 && (
-        <div className="pointer-events-none absolute inset-0 overflow-hidden *:size-full *:object-cover">
-          {imageNodes}
-          <div className="absolute inset-0 bg-black/20" />
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div
+            className={`${getActionImageClassName(label)} overflow-hidden *:size-full *:object-cover`}
+          >
+            {imageNodes}
+            <ActionImageOverlay label={label} />
+          </div>
         </div>
       )}
       <div className="relative z-10 flex w-full flex-col justify-between gap-4">
@@ -199,14 +232,14 @@ function ActionCard({
           <p className="max-w-[326px] font-sans text-[12px] font-medium leading-[1.2]">
             {description}
           </p>
-          {ctaLabel && (
-            <span className="text-eyebrow hidden shrink-0 items-center gap-1 font-semibold uppercase md:inline-flex">
-              {ctaLabel}
-              <ButtonArrowIcon />
-            </span>
-          )}
         </div>
       </div>
+      {ctaLabel && (
+        <span className="text-eyebrow absolute top-[18px] right-[22px] z-10 hidden shrink-0 items-center gap-1 font-semibold uppercase md:inline-flex">
+          {ctaLabel}
+          <ButtonArrowIcon />
+        </span>
+      )}
     </LinkAs>
   )
 }
@@ -324,7 +357,7 @@ function DesktopPanel({
               {panel.label}
             </p>
             <div className="h-px w-full bg-brand-off-white/10" />
-            <div className="flex min-h-[551px] flex-1 flex-col gap-3">
+            <div className="flex h-[551px] flex-none flex-col gap-3">
               {panel.actionCards.map((card) => (
                 <ActionCard
                   key={card.href + card.label}
@@ -364,14 +397,14 @@ function MobileRoot({
   linkAs: LinkLikeComponent
 }) {
   return (
-    <div className="flex flex-1 items-center px-3 pb-3 md:hidden">
+    <div className="flex flex-1 px-3 pt-[248px] pb-3 md:hidden">
       <div className="flex flex-col items-start">
         {panels.map((panel) => (
           <button
             key={panel.label}
             type="button"
             onClick={() => setSelectedPanel(panel.label)}
-            className="flex cursor-pointer items-center gap-1.5 py-3 font-display text-[40px] leading-none text-brand-off-white"
+            className="flex h-[53px] cursor-pointer items-center gap-1.5 font-display text-[40px] leading-none text-brand-off-white"
           >
             {panel.label}
             <Chevron direction="right" />
@@ -381,7 +414,7 @@ function MobileRoot({
           <LinkAs
             href={primaryCta.href}
             onClick={onClose}
-            className="cursor-pointer py-3 font-display text-[40px] leading-none text-brand-off-white"
+            className="flex h-[53px] cursor-pointer items-center font-display text-[40px] leading-none text-brand-off-white"
           >
             {primaryCta.label}
           </LinkAs>
@@ -407,7 +440,7 @@ function MobilePanel({
       <button
         type="button"
         onClick={clearSelectedPanel}
-        className="flex w-fit cursor-pointer items-center gap-1.5 py-3 font-display text-[40px] leading-none text-brand-off-white"
+        className="flex h-[53px] w-fit cursor-pointer items-center gap-1.5 font-display text-[40px] leading-none text-brand-off-white"
       >
         <Chevron direction="left" />
         {panel.label}
@@ -546,7 +579,7 @@ export function NavOverlay({
       role="dialog"
       aria-modal="true"
       aria-label="Navigation menu"
-      className={`fixed inset-0 z-50 flex flex-col overflow-y-auto bg-brand-dark-green text-brand-off-white ${className ?? ''}`}
+      className={`fixed inset-0 z-50 flex flex-col overflow-y-auto bg-brand-dark-green text-brand-off-white md:bottom-auto md:h-[700px] ${className ?? ''}`}
     >
       <OverlayHeader
         logo={logo}
