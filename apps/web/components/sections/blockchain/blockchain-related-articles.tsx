@@ -12,16 +12,18 @@ type Props = {
 
 export default function BlockchainRelatedArticles({ data, articles }: Props) {
   const cards =
-    data.items?.map((item) => ({
-      title: item.title,
-      mobileTitle: item.mobileTitle,
-      imageSrc: item.image.src,
-      imageAlt: item.image.alt,
-      imagePosition: item.imagePosition,
-      date: item.date,
-      author: item.author,
-      href: item.href,
-    })) ?? articlesToCards(articles)
+    articles.length > 0
+      ? articlesToCards(articles)
+      : (data.items?.map((item) => ({
+          title: item.title,
+          mobileTitle: item.mobileTitle,
+          imageSrc: item.image.src,
+          imageAlt: item.image.alt,
+          imagePosition: item.imagePosition,
+          date: item.date,
+          author: item.author,
+          href: item.href,
+        })) ?? [])
 
   return (
     <section className="bg-brand-off-white pt-15 pb-15 md:pt-[87px] md:pb-[93px]">

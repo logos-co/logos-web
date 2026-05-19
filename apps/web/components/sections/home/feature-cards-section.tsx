@@ -40,7 +40,7 @@ function PathCardView({ card }: { card: PathCard }) {
 
       <Button
         href={card.href}
-        className="absolute top-3 right-3 cursor-pointer bg-brand-off-white text-brand-dark-green backdrop-blur-[5px] hover:bg-brand-off-white focus-visible:bg-brand-off-white group-hover/path-card:bg-brand-off-white"
+        className="absolute top-3 right-3 cursor-pointer bg-brand-off-white text-brand-dark-green backdrop-blur-[5px] transition-colors duration-300 ease-out hover:bg-accent-steel-teal focus-visible:bg-accent-steel-teal group-hover/path-card:bg-accent-steel-teal"
       >
         {card.cta}
       </Button>

@@ -61,9 +61,9 @@ export default async function BlockchainPage({
     'blockchain.relatedArticles'
   )
 
-  const articles = relatedArticles.items
-    ? []
-    : await getLatestPressArticles(relatedArticles.visibleCount ?? 4)
+  const articles = await getLatestPressArticles(
+    relatedArticles.visibleCount ?? 4
+  )
 
   return (
     <>
