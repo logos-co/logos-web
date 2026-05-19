@@ -21,7 +21,7 @@ interface PathCard {
 
 function PathCardView({ card }: { card: PathCard }) {
   return (
-    <article className="relative h-[360px] overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white">
+    <article className="relative h-[422px] overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white">
       <Image
         src={card.image}
         alt=""
@@ -87,23 +87,21 @@ export default function FeatureCardsSection() {
   ]
 
   return (
-    <section className="hidden h-[848px] border-t border-brand-dark-green/10 bg-brand-off-white py-[82px] md:block">
-      <div className="mx-auto max-w-354 px-3">
-        <div className="grid gap-10 md:grid-cols-12 md:gap-3">
-          <p className="text-mono-s text-brand-dark-green md:col-start-7 md:col-span-2">
-            {t('kicker')}
-          </p>
+    <section className="relative hidden h-[848px] border-t border-brand-dark-green/10 bg-brand-off-white md:block">
+      <div className="mx-auto max-w-354">
+        <p className="text-mono-s absolute top-6 left-[calc(50%+6px)] w-[226px] text-brand-dark-green">
+          {t('kicker')}
+        </p>
 
-          <h2 className="text-h2 text-center text-brand-dark-green md:col-span-12 md:mt-6">
-            {t('title')}
-          </h2>
+        <h2 className="text-h2 absolute top-[124px] left-1/2 w-[400px] -translate-x-1/2 text-center text-brand-dark-green">
+          {t('title')}
+        </h2>
 
-          <p className="text-mono-s text-brand-dark-green md:col-start-7 md:col-span-2 md:mt-11">
-            {t('body')}
-          </p>
-        </div>
+        <p className="text-mono-s absolute top-[230px] left-[calc(50%+6px)] w-[230px] text-brand-dark-green">
+          {t('body')}
+        </p>
 
-        <div className="mt-12 grid gap-3 md:grid-cols-3">
+        <div className="absolute top-[372px] left-1/2 grid w-[1416px] -translate-x-1/2 grid-cols-3 gap-3">
           {cards.map((card) => (
             <PathCardView key={card.key} card={card} />
           ))}
