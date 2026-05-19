@@ -40,8 +40,8 @@ export default async function BuilderPortalSection({
   const t = await getTranslations({ locale, namespace: 'home.builderPortal' })
 
   return (
-    <section className="h-[1281px] border-t border-brand-dark-green/10 bg-brand-off-white py-24 md:h-auto md:py-[155.5px]">
-      <div className="mx-auto max-w-354 px-3">
+    <section className="relative h-[1281px] border-t border-brand-dark-green/10 bg-brand-off-white py-24 md:h-[1045px] md:py-0">
+      <div className="mx-auto max-w-354 px-3 md:absolute md:inset-x-0 md:top-[212px] md:px-0">
         <div className="grid gap-3 md:grid-cols-[464px_minmax(0,940px)]">
           <div className="flex min-h-[324px] flex-col justify-between md:min-h-[532px]">
             <div>
