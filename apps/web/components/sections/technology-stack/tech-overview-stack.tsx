@@ -37,7 +37,9 @@ function StackTile({ title, body, href, className, children }: StackTileProps) {
     >
       <div className="flex flex-col items-center gap-3 px-3 py-1">
         <span className="text-subhead-sans flex items-center gap-2.5">
-          <LogosMark size={14} className="hidden shrink-0 md:block" />
+          <span className="hidden shrink-0 md:block">
+            <LogosMark size={14} />
+          </span>
           {title}
         </span>
         {body ? (
@@ -69,10 +71,13 @@ export default function TechOverviewStack({
   const [networkLine1, networkLine2] = data.networkingTitle.split('\n')
 
   return (
-    <section id="stack" className="bg-brand-off-white px-3 pb-10 md:pb-[100px]">
+    <section
+      id="stack"
+      className="bg-brand-off-white px-3 pb-[27px] md:pb-[100px]"
+    >
       <div className="mx-auto max-w-354">
         {data.architecture ? (
-          <div className="grid gap-3 pb-[100px] md:grid-cols-2">
+          <div className="grid gap-3 pb-[52px] md:grid-cols-2 md:pb-[100px]">
             <div className="flex min-h-[317px] flex-col justify-between md:min-h-[357px]">
               {data.architecture.eyebrow ? (
                 <SectionMarker label={data.architecture.eyebrow} />
@@ -102,13 +107,15 @@ export default function TechOverviewStack({
             </div>
 
             <div className="relative h-[317px] overflow-hidden rounded-xl md:h-[357px]">
-              <Image
-                src={data.architecture.image.src}
-                alt={data.architecture.image.alt}
-                fill
-                sizes="(max-width: 767px) 369px, 702px"
-                className="object-cover"
-              />
+              <div className="absolute top-[-53px] left-0 h-[936px] w-[702px] md:top-[-33px]">
+                <Image
+                  src={data.architecture.image.src}
+                  alt={data.architecture.image.alt}
+                  fill
+                  sizes="702px"
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
         ) : null}
@@ -131,7 +138,9 @@ export default function TechOverviewStack({
             {data.basecamp ? (
               <div className="relative flex h-[111px] flex-col items-start justify-center overflow-hidden rounded-xl border border-brand-dark-green p-3 text-brand-dark-green md:h-[196px] md:items-center md:rounded-3xl">
                 <span className="text-subhead-sans flex items-center gap-2.5">
-                  <LogosMark size={14} className="hidden shrink-0 md:block" />
+                  <span className="hidden shrink-0 md:block">
+                    <LogosMark size={14} />
+                  </span>
                   {data.basecamp.title}
                 </span>
                 {data.basecamp.body ? (
@@ -177,7 +186,7 @@ export default function TechOverviewStack({
 
             <Link
               href={networkingHref}
-              className="flex h-[196px] cursor-pointer items-center justify-center rounded-3xl border border-brand-dark-green px-3 text-center text-brand-dark-green"
+              className="flex h-[196px] cursor-pointer flex-col items-center justify-center gap-3 rounded-3xl border border-brand-dark-green px-3 text-center text-brand-dark-green"
             >
               <span className="text-subhead-sans">
                 <span className="block">{networkLine1}</span>
@@ -185,13 +194,23 @@ export default function TechOverviewStack({
                   <span className="block">{networkLine2}</span>
                 ) : null}
               </span>
+              {data.networkingDescription ? (
+                <p className="text-mono-s w-[208px] md:hidden">
+                  {data.networkingDescription}
+                </p>
+              ) : null}
             </Link>
 
             <Link
               href={foundationHref}
-              className="flex h-[196px] cursor-pointer items-center justify-center rounded-3xl border border-brand-dark-green px-3 text-center text-brand-dark-green"
+              className="flex h-[196px] cursor-pointer flex-col items-center justify-center gap-3 rounded-3xl border border-brand-dark-green px-3 text-center text-brand-dark-green"
             >
               <span className="text-subhead-sans">{data.foundationTitle}</span>
+              {data.foundationDescription ? (
+                <p className="text-mono-s w-[208px] md:hidden">
+                  {data.foundationDescription}
+                </p>
+              ) : null}
             </Link>
           </div>
         </div>

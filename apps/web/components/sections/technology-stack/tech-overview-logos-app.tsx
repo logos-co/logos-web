@@ -53,7 +53,7 @@ export default function TechOverviewLogosApp({ data }: Props) {
   return (
     <section
       id="logos-app"
-      className="mt-10 mb-10 bg-brand-off-white py-4 md:mt-[100px] md:mb-[100px] md:py-0"
+      className="mt-10 mb-10 h-[828px] overflow-hidden bg-brand-off-white py-4 md:mt-[100px] md:mb-[100px] md:h-auto md:py-0"
     >
       <GiantSwitch
         accent={data.accent}
@@ -63,6 +63,7 @@ export default function TechOverviewLogosApp({ data }: Props) {
             src={data.image.src}
             alt={data.image.alt}
             fill
+            priority
             sizes="(max-width: 767px) 345px, 566px"
           />
         }

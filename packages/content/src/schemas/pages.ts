@@ -69,6 +69,7 @@ export const heroSectionSchema = z.object({
       label: z.string().min(1),
       body: z.string().min(1),
       cta: ctaSchema.optional(),
+      secondaryCta: ctaSchema.optional(),
     })
     .optional(),
   background: mediaRefSchema.optional(),
@@ -153,6 +154,7 @@ export const relatedArticlesSectionSchema = z.object({
   componentType: z.literal('relatedArticles'),
   key: sectionKeySchema,
   label: z.string().min(1).optional(),
+  mobileLabel: z.string().min(1).optional(),
   eyebrow: z.string().min(1).optional(),
   title: z.string().min(1),
   cta: ctaSchema.optional(),
@@ -254,7 +256,9 @@ export const techStackOverviewSectionSchema = z.object({
   basecamp: techStackBasecampSchema.optional(),
   pillars: z.array(techStackPillarSchema).length(4),
   networkingTitle: z.string().min(1),
+  networkingDescription: z.string().min(1).optional(),
   foundationTitle: z.string().min(1),
+  foundationDescription: z.string().min(1).optional(),
 })
 export type TechStackOverviewSection = z.infer<
   typeof techStackOverviewSectionSchema

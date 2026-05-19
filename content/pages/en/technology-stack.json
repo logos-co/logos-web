@@ -25,33 +25,53 @@
       "background": {
         "src": "/images/technology-stack/header-status.jpg",
         "alt": "",
-        "width": 320,
-        "height": 400
+        "width": 332,
+        "height": 416
       },
       "ctas": [
         {
-          "label": "See the Stack",
-          "href": "/technology-stack#stack",
-          "variant": "primary"
+          "label": "Install basecamp",
+          "href": "/builders-hub#app-install",
+          "variant": "primary",
+          "iconOverride": "download"
         },
         {
-          "label": "Basecamp",
-          "href": "/technology-stack#logos-app",
+          "label": "Builder hub",
+          "href": "/builders-hub",
           "variant": "secondary"
         },
         {
-          "label": "Docs",
+          "label": "Documentation",
           "href": "/technology-stack#open-source",
           "variant": "secondary"
         }
-      ]
+      ],
+      "status": {
+        "label": "Current Status",
+        "body": "Testnet v0.1 launched in March 2026. This is the first release where all modules are packaged tog...",
+        "cta": {
+          "label": "Install testnet v0.1",
+          "href": "/builders-hub#app-install",
+          "variant": "secondary",
+          "iconOverride": "download"
+        },
+        "secondaryCta": {
+          "label": "READ MORE",
+          "href": "/blog",
+          "variant": "link",
+          "iconOverride": "none"
+        }
+      }
     },
     {
       "componentType": "techStackOverview",
       "key": "techStack.overview",
       "title": "The Stack",
       "eyebrow": "Disclaimer: Abstract representation of the stack.",
-      "cta": { "label": "Docs", "href": "/technology-stack#open-source" },
+      "cta": {
+        "label": "Docs",
+        "href": "/technology-stack#open-source"
+      },
       "architecture": {
         "eyebrow": "Technology",
         "title": "Architecture Overview",
@@ -59,7 +79,10 @@
           "Logos provides developers with a modular, plugin-based runtime for building decentralised applications.",
           "This architecture allows nodes to dynamically discover and load modules while preserving privacy. This approach allows the network to evolve and provides a foundation for decentralised applications and social institutions that remain resistant to capture and corruption – whether deployed by local communities or nation‑state operators."
         ],
-        "cta": { "label": "Learn More", "href": "/technology-stack#stack" },
+        "cta": {
+          "label": "Learn More",
+          "href": "/technology-stack#stack"
+        },
         "image": {
           "src": "/images/technology-stack/architecture-overview.jpg",
           "alt": "",
@@ -103,7 +126,9 @@
         }
       ],
       "networkingTitle": "The Networking Stack:\nDiscovery, Peering, and Mix-Net",
-      "foundationTitle": "The Foundation: Logos Kernel"
+      "networkingDescription": "This layer handles how Logos nodes find each other, establish connections, and communicate.",
+      "foundationTitle": "The Foundation: Logos Kernel",
+      "foundationDescription": "A microkernel that handles the essential primitives every decentralized application needs."
     },
     {
       "componentType": "giantSwitch",
@@ -119,10 +144,22 @@
         "height": 1246
       },
       "tags": [
-        { "label": "Wallet", "icon": "wallet" },
-        { "label": "Chat Interface", "icon": "chat" },
-        { "label": "Filesharing Tool", "icon": "files" },
-        { "label": "Explorer", "icon": "explorer" }
+        {
+          "label": "Wallet",
+          "icon": "wallet"
+        },
+        {
+          "label": "Chat Interface",
+          "icon": "chat"
+        },
+        {
+          "label": "Filesharing Tool",
+          "icon": "files"
+        },
+        {
+          "label": "Explorer",
+          "icon": "explorer"
+        }
       ],
       "primaryCta": {
         "label": "Install",
@@ -229,7 +266,10 @@
       "heading": "Use Cases",
       "subheading": "We know today’s systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
       "subheadingExtra": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
-      "cta": { "label": "View the Docs", "href": "/technology-stack" },
+      "cta": {
+        "label": "View the Docs",
+        "href": "/technology-stack"
+      },
       "cards": [
         {
           "title": "Attack Resistant Public Registries",
@@ -254,7 +294,10 @@
             "width": 96,
             "height": 77
           },
-          "cta": { "label": "Learn more", "href": "/technology-stack/storage" }
+          "cta": {
+            "label": "Learn more",
+            "href": "/technology-stack/storage"
+          }
         },
         {
           "title": "Private Financial Networks",
@@ -279,7 +322,10 @@
             "width": 96,
             "height": 127
           },
-          "cta": { "label": "Learn more", "href": "/circles" }
+          "cta": {
+            "label": "Learn more",
+            "href": "/circles"
+          }
         }
       ]
     }

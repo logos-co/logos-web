@@ -55,7 +55,7 @@ function ScrollControl({
       type="button"
       onClick={onClick}
       aria-label={direction === 'left' ? 'Scroll left' : 'Scroll right'}
-      className="bg-brand-off-white/10 inline-flex size-10 items-center justify-center rounded-[4px] text-brand-dark-green backdrop-blur-[5px] transition-opacity hover:opacity-70"
+      className="bg-brand-off-white/10 inline-flex size-10 cursor-pointer items-center justify-center rounded-[4px] text-brand-dark-green backdrop-blur-[5px] transition-opacity hover:opacity-70"
     >
       <ArrowIcon direction={direction} />
     </button>
@@ -81,7 +81,7 @@ function UseCaseCard({
         <Button
           href={href}
           variant="link"
-          className="transition-opacity hover:opacity-70"
+          className="cursor-pointer transition-opacity hover:opacity-70"
         >
           {ctaLabel}
         </Button>
@@ -173,7 +173,7 @@ export default function TechOverviewUseCases({ data }: Props) {
   }
 
   return (
-    <section className="overflow-hidden bg-brand-off-white px-3 pt-10 pb-10 md:pb-16">
+    <section className="h-[820px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-10 md:h-auto md:pb-16">
       <div className="mx-auto max-w-354">
         <div className="flex items-start justify-between gap-4 md:hidden">
           <div className="relative h-[81px] w-[107px] shrink-0 overflow-hidden">
