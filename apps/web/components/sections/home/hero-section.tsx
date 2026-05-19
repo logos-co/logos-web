@@ -92,7 +92,7 @@ export default function HeroSectionView({ data }: Props) {
 
       {data.body ? (
         <motion.p
-          className="text-mono-s absolute top-[138px] left-1/2 w-[226px] -translate-x-1/2 text-center text-brand-off-white md:top-[152px] md:left-[calc(50%+6px)] md:w-[345px] md:translate-x-0 md:text-left"
+          className="text-mono-s absolute top-[138px] left-1/2 w-[226px] -translate-x-1/2 text-center text-brand-off-white md:top-[192px] md:left-[calc(50%+6px)] md:w-[345px] md:translate-x-0 md:text-left"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.6 }}

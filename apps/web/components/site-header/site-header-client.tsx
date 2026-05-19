@@ -39,6 +39,26 @@ function LambdaGlyph({ className }: { className?: string }) {
   return <LogosMark size={14} className={clsx('shrink-0', className)} />
 }
 
+function BrandLockup({
+  label,
+  className,
+}: {
+  label: string
+  className?: string
+}) {
+  const formattedLabel =
+    label.length > 0
+      ? `${label.charAt(0)}${label.slice(1).toLowerCase()}`
+      : label
+
+  return (
+    <span className={clsx('inline-flex items-center gap-1.5', className)}>
+      <LambdaGlyph />
+      <span>{formattedLabel}</span>
+    </span>
+  )
+}
+
 export default function SiteHeaderClient({
   closedBar,
   sitemap,
@@ -106,18 +126,34 @@ export default function SiteHeaderClient({
       >
         <div
           className={clsx(
-            'grid h-10 grid-cols-3 items-center px-3 transition-colors duration-300',
+            'grid h-10 grid-cols-3 items-center px-3 transition-colors duration-300 md:hidden',
             headerToneClass
           )}
         >
           <a
             href={ROUTES.home}
-            className="text-eyebrow -mx-3 inline-flex min-h-10 w-fit cursor-pointer items-center px-3 tracking-[0.12em] transition-opacity hover:opacity-70"
+            className="-mx-3 inline-flex min-h-10 w-fit cursor-pointer items-center px-3 font-serif text-[18px] leading-none tracking-normal normal-case transition-opacity hover:opacity-70"
           >
-            {closedBar.brandLabel}
+            <BrandLockup label={closedBar.brandLabel} />
           </a>
 
-          <div className="flex justify-center">
+          <nav
+            aria-label="Primary"
+            className="hidden items-center justify-center gap-10 md:flex"
+          >
+            {menuPanels.map((panel) => (
+              <button
+                key={panel.label}
+                type="button"
+                onClick={open}
+                className="text-eyebrow cursor-pointer tracking-[0.08em] uppercase transition-opacity hover:opacity-70"
+              >
+                {panel.label}
+              </button>
+            ))}
+          </nav>
+
+          <div className="flex justify-center md:hidden">
             <button
               type="button"
               onClick={open}
@@ -130,14 +166,58 @@ export default function SiteHeaderClient({
           </div>
 
           <div className="flex justify-end">
+            {primaryCta ? (
+              <Link
+                href={primaryCta.href}
+                className="text-eyebrow hidden min-h-7 cursor-pointer items-center rounded-2xl bg-brand-dark-green px-4 uppercase text-brand-off-white transition-opacity hover:opacity-85 md:inline-flex"
+              >
+                {primaryCta.label}
+              </Link>
+            ) : null}
+          </div>
+        </div>
+
+        <div
+          className={clsx(
+            'hidden h-[42px] items-baseline justify-between px-3 py-1.5 transition-colors duration-300 md:flex',
+            headerToneClass
+          )}
+        >
+          <div className="flex items-baseline gap-3">
             <a
               href={ROUTES.home}
-              aria-label={closedBar.brandLabel}
-              className="-mx-3 inline-flex min-h-10 cursor-pointer items-center px-3 transition-opacity hover:opacity-70"
+              className="text-eyebrow inline-flex h-[15px] w-[702px] cursor-pointer items-baseline tracking-[0.08em] transition-opacity hover:opacity-70"
             >
-              <LambdaGlyph className={headerToneClass} />
+              <BrandLockup label={closedBar.brandLabel} />
             </a>
+
+            <nav aria-label="Primary" className="flex items-start gap-6">
+              {menuPanels.map((panel) => (
+                <button
+                  key={panel.label}
+                  type="button"
+                  onClick={open}
+                  className="text-eyebrow cursor-pointer tracking-[0.08em] uppercase transition-opacity hover:opacity-70"
+                >
+                  {panel.label}
+                </button>
+              ))}
+            </nav>
           </div>
+
+          {primaryCta ? (
+            <Link
+              href={primaryCta.href}
+              className={clsx(
+                'text-eyebrow inline-flex min-h-7 cursor-pointer items-center rounded-xl px-3 uppercase transition-opacity hover:opacity-85',
+                usesHeroHeaderTone && !hasPassedHero
+                  ? 'bg-brand-off-white text-brand-dark-green'
+                  : 'bg-brand-dark-green text-brand-off-white'
+              )}
+            >
+              {primaryCta.label}
+            </Link>
+          ) : null}
         </div>
       </header>
 
