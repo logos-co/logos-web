@@ -458,7 +458,7 @@ function LogosLockup() {
 export function Footers() {
   const mainLinks = [
     { label: 'Work With Us', href: ROUTES.workWithUs },
-    { label: 'Brand Kit', href: ROUTES.brandKit },
+    { label: 'Brand Guidelines', href: ROUTES.brandKit },
   ]
   const socialLinks = [
     { label: 'Twitter', href: EXTERNAL_URLS.twitter },
@@ -495,6 +495,13 @@ export function Footers() {
           />
         }
         logo={<LogosLockup />}
+        newsletter={{
+          title: 'Stay ahead with the latest updates.',
+          emailLabel: 'Enter email',
+          roleLabel: 'Role',
+          cityLabel: 'city',
+          submitLabel: 'Submit',
+        }}
         tagline="Pioneering a new era of freedom."
         mainLinks={mainLinks}
         socialLinks={socialLinks}

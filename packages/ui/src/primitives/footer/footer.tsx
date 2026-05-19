@@ -4,17 +4,8 @@
  *
  * Site footer. Dark-green bg, off-white text.
  *
- * Desktop (md+): 12-column grid × 4 rows. Three content columns occupy
- * grid columns 1–2, 7–8, and 11–12 — matching Figma's left (x=12),
- * center (x=726) and right (x=1203) anchor points.
- *
- *   Row 1 — image            · Lambda icon Logos               · tagline
- *   Row 2 — (empty)          · Work With Us + BG     · Twitter/Discord/…
- *   Row 3 — Built by IFT     · Research + VacP2P     · Infrastructure + Waku/…
- *   Row 4 — (empty)          · Terms/Privacy/Security · (empty)
- *
- * Mobile: 2-column grid. Col 1: image, work-with-us, research, legal.
- *         Col 2: logo+tagline, socials, infrastructure, built-by-IFT.
+ * Desktop and mobile use absolute positions from Figma's footer component so
+ * page-height audits can compare the shared footer directly against the frame.
  */
 import type { ReactNode } from 'react'
 
@@ -28,6 +19,13 @@ export type FooterLink = {
 
 export type FooterProps = {
   image?: ReactNode
+  newsletter: {
+    title: string
+    emailLabel: string
+    roleLabel: string
+    cityLabel: string
+    submitLabel: string
+  }
   tagline?: ReactNode
   logo?: ReactNode
   mainLinks: FooterLink[]
@@ -41,6 +39,39 @@ export type FooterProps = {
   className?: string
 }
 
+function FooterChevronIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="size-[15px] shrink-0"
+      fill="none"
+      viewBox="0 0 15 15"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M4.5 6L7.5 9L10.5 6" stroke="currentColor" />
+    </svg>
+  )
+}
+
+function FooterArrowIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="size-[15px] shrink-0"
+      fill="none"
+      viewBox="0 0 15 15"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3.5 7.5H11.5M11.5 7.5L8 4M11.5 7.5L8 11"
+        stroke="currentColor"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+      />
+    </svg>
+  )
+}
+
 function FooterLinkItem({
   label,
   href,
@@ -49,7 +80,7 @@ function FooterLinkItem({
 }: FooterLink & { linkAs?: LinkLikeComponent }) {
   const external_ = external || href.startsWith('http')
   const className =
-    'text-mono-s text-brand-off-white transition-opacity hover:opacity-70'
+    'text-mono-s cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70'
   if (external_) {
     return (
       <a
@@ -92,108 +123,77 @@ function LinkList({
 
 export function Footer({
   image,
+  newsletter,
   tagline,
   mainLinks,
   socialLinks,
   researchLinks,
   infrastructureLinks,
   legalLinks,
-  builtBy,
   logo,
   className,
 }: FooterProps) {
   return (
     <footer
-      className={`bg-brand-dark-green px-3 pt-6 pb-11 text-brand-off-white md:pt-6 md:pb-11 ${className ?? ''}`}
+      className={`relative mb-[126px] h-[709px] overflow-hidden bg-brand-dark-green text-brand-off-white md:mb-0 md:h-[688px] ${className ?? ''}`}
     >
-      <div
-        className={[
-          // Mobile: 2-col simple grid
-          'grid grid-cols-2 gap-x-6 gap-y-44',
-          // Desktop: 12-col × 4-row grid, tighter row gaps
-          'md:grid-cols-12 md:grid-rows-[auto_auto_auto_auto] md:gap-x-3 md:gap-y-22.5',
-        ].join(' ')}
-      >
-        {/* ------------------------------------------------------------ */}
-        {/* Row 1 — brand                                                */}
-        {/* ------------------------------------------------------------ */}
-
-        {/* Image — desktop col 1-2 row 1 / mobile col 1 row 1 */}
-        <div className="row-start-1 md:col-span-2 md:row-start-1">
-          <div className="relative h-11.75 w-20.75 overflow-hidden rounded-sm md:h-31.75 md:w-56.5 *:size-full *:object-cover">
-            {image}
+      <div className="absolute top-6 left-3 flex w-[370px] max-w-[calc(100%-24px)] flex-col gap-3 md:w-[345px]">
+        <p className="w-[314px] font-sans text-[18px] leading-[1.15] tracking-[-0.18px] text-brand-off-white">
+          {newsletter.title}
+        </p>
+        <div className="flex w-full flex-col gap-1">
+          <button className="text-eyebrow flex h-[32px] w-full cursor-pointer items-center justify-center border border-brand-off-white/50 px-3 py-2 text-brand-off-white uppercase backdrop-blur-[5px]">
+            {newsletter.emailLabel}
+          </button>
+          <div className="flex w-full items-center gap-1">
+            <button className="text-eyebrow flex h-[32px] min-w-0 flex-1 cursor-pointer items-center justify-center gap-1 border border-brand-off-white/50 px-3 py-2 text-brand-off-white uppercase backdrop-blur-[5px]">
+              {newsletter.roleLabel}
+              <FooterChevronIcon />
+            </button>
+            <button className="text-eyebrow flex h-[32px] min-w-0 flex-1 cursor-pointer items-center justify-center gap-1 border border-brand-off-white/50 px-3 py-2 text-brand-off-white uppercase backdrop-blur-[5px]">
+              {newsletter.cityLabel}
+              <FooterChevronIcon />
+            </button>
+            <button className="text-eyebrow flex h-[32px] shrink-0 cursor-pointer items-center justify-center gap-1 rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green uppercase backdrop-blur-[5px]">
+              {newsletter.submitLabel}
+              <FooterArrowIcon />
+            </button>
           </div>
         </div>
+      </div>
 
-        {/* Lambda icon Logos lockup — desktop col 7-8 row 1 / mobile col 2 row 1 */}
-        <div className="row-start-1 md:col-start-7 md:col-end-9 md:row-start-1">
-          {logo}
-        </div>
+      <div className="absolute top-[244px] left-3 h-[47px] w-[83px] overflow-hidden md:top-[549px] md:h-[127px] md:w-[226px] *:size-full *:object-cover">
+        {image}
+      </div>
 
-        {/* Tagline — desktop col 11-12 row 1 / mobile col 2 row 1 (under logo) */}
-        {tagline && (
-          <div className="col-start-2 row-start-1 mt-12.5 md:col-start-11 md:col-end-13 md:mt-0">
-            <p className="text-body-serif text-brand-off-white">{tagline}</p>
-          </div>
-        )}
+      <div className="absolute top-[244px] left-[calc(50%+6px)] md:top-6">
+        {logo}
+      </div>
 
-        {/* ------------------------------------------------------------ */}
-        {/* Row 2 — primary nav links                                    */}
-        {/* ------------------------------------------------------------ */}
+      {tagline && (
+        <p className="text-body-serif absolute top-[295px] left-[calc(50%+6px)] w-[175px] text-brand-off-white md:top-[22px] md:left-[calc(83.33%+2px)] md:w-[226px]">
+          {tagline}
+        </p>
+      )}
 
-        {/* Work With Us + Brand Guidelines — col 1 mobile / col 7-8 desktop */}
-        <div className="row-start-2 md:col-start-7 md:col-end-9 md:row-start-2">
-          <LinkList links={mainLinks} />
-        </div>
+      <div className="absolute top-[433px] left-3 md:top-[133px] md:left-[calc(50%+6px)]">
+        <LinkList links={mainLinks} />
+      </div>
 
-        {/* Socials — col 2 mobile / col 11-12 desktop */}
-        <div className="row-start-2 md:col-start-11 md:col-end-13 md:row-start-2">
-          <LinkList links={socialLinks} />
-        </div>
+      <div className="absolute top-[433px] left-[calc(50%+6px)] md:top-[133px] md:left-[calc(83.33%+3px)]">
+        <LinkList links={socialLinks} />
+      </div>
 
-        {/* ------------------------------------------------------------ */}
-        {/* Row 3 — sub-category lists                                   */}
-        {/* ------------------------------------------------------------ */}
+      <div className="absolute top-[608px] left-3 md:top-[322px] md:left-[calc(50%+8px)]">
+        <LinkList label="Research" links={researchLinks} />
+      </div>
 
-        {/* Research — col 1 mobile / col 7-8 desktop */}
-        <div className="row-start-3 md:col-start-7 md:col-end-9 md:row-start-3">
-          <LinkList label="Research" links={researchLinks} />
-        </div>
+      <div className="absolute top-[608px] left-[calc(50%+6px)] md:top-[322px] md:left-[calc(83.33%+3px)]">
+        <LinkList label="Infrastructure" links={infrastructureLinks} />
+      </div>
 
-        {/* Infrastructure — col 2 mobile / col 11-12 desktop */}
-        <div className="row-start-3 md:col-start-11 md:col-end-13 md:row-start-3">
-          <LinkList label="Infrastructure" links={infrastructureLinks} />
-        </div>
-
-        {/* ------------------------------------------------------------ */}
-        {/* Row 4 — legal + built-by                                     */}
-        {/* ------------------------------------------------------------ */}
-
-        {/* Legal links — col 1 mobile / col 7-8 desktop */}
-        <div className="row-start-4 md:col-start-7 md:col-end-9 md:row-start-4">
-          <LinkList links={legalLinks} />
-        </div>
-
-        {/* Built by IFT — desktop col 1-2 row 3 (mid-left) / mobile col 2 row 4 */}
-        {builtBy && (
-          <div className="col-start-2 row-start-4 self-start md:col-start-1 md:col-end-3 md:row-start-3">
-            <p className="text-mono-s text-brand-off-white">
-              {builtBy.label}{' '}
-              {builtBy.href ? (
-                <a
-                  href={builtBy.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline-offset-2 hover:underline"
-                >
-                  {builtBy.attribution}
-                </a>
-              ) : (
-                builtBy.attribution
-              )}
-            </p>
-          </div>
-        )}
+      <div className="absolute top-[788px] left-3 md:top-[617px] md:left-[calc(50%+6px)]">
+        <LinkList links={legalLinks} />
       </div>
     </footer>
   )

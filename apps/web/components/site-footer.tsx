@@ -38,6 +38,7 @@ export default async function SiteFooter({ locale }: { locale: string }) {
         />
       }
       logo={<LogosLockup />}
+      newsletter={footer.newsletter}
       tagline={footer.tagline}
       mainLinks={footer.mainLinks}
       socialLinks={footer.socialLinks}

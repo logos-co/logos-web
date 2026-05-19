@@ -41,18 +41,20 @@ type Props = {
 }
 
 export default function TechOverviewLogosApp({ data }: Props) {
-  // Mobile breaks the title at the second-to-last word — keep the existing
-  // "Install the\nLogos app." pattern by splitting at the last whitespace
-  // group. Editors who care about the break can leave the title clean and
-  // rely on this rule, or adjust copy length so natural wrapping handles it.
   const titleWords = data.title.split(' ')
-  const mobileTitleHead = titleWords
-    .slice(0, Math.max(1, titleWords.length - 2))
-    .join(' ')
-  const mobileTitleTail = titleWords.slice(-2).join(' ')
+  const shouldBreakMobileTitle = titleWords.length > 2
+  const mobileTitleHead = shouldBreakMobileTitle
+    ? titleWords.slice(0, Math.max(1, titleWords.length - 2)).join(' ')
+    : data.title
+  const mobileTitleTail = shouldBreakMobileTitle
+    ? titleWords.slice(-2).join(' ')
+    : ''
 
   return (
-    <section id="logos-app" className="bg-brand-off-white py-10">
+    <section
+      id="logos-app"
+      className="mt-10 mb-10 bg-brand-off-white py-4 md:mt-[100px] md:mb-[100px] md:py-0"
+    >
       <GiantSwitch
         accent={data.accent}
         imagePosition={data.imagePosition}
@@ -68,8 +70,12 @@ export default function TechOverviewLogosApp({ data }: Props) {
           <>
             <span className="md:hidden">
               {mobileTitleHead}
-              <br />
-              {mobileTitleTail}
+              {mobileTitleTail ? (
+                <>
+                  <br />
+                  {mobileTitleTail}
+                </>
+              ) : null}
             </span>
             <span className="hidden md:inline">{data.title}</span>
           </>

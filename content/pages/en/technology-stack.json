@@ -19,36 +19,86 @@
     {
       "componentType": "hero",
       "key": "techStack.hero",
-      "eyebrow": "Open by design, open in spirit.",
+      "eyebrow": "Open by design, open in spirit. Build truly decentralized applications with the modular Logos Technology Stack.",
       "headline": "The Logos Technology Stack",
-      "body": "The Logos Technology Stack is a unified ecosystem of distinct modules. The entire stack is modular so developers can assemble their own Logos-based platform with a different selection of modules."
+      "body": "The Logos Technology Stack is a unified ecosystem of distinct modules. The entire stack is modular so developers can assemble their own Logos-based platform with a different selection of modules.",
+      "background": {
+        "src": "/images/technology-stack/header-status.jpg",
+        "alt": "",
+        "width": 320,
+        "height": 400
+      },
+      "ctas": [
+        {
+          "label": "See the Stack",
+          "href": "/technology-stack#stack",
+          "variant": "primary"
+        },
+        {
+          "label": "Basecamp",
+          "href": "/technology-stack#logos-app",
+          "variant": "secondary"
+        },
+        {
+          "label": "Docs",
+          "href": "/technology-stack#open-source",
+          "variant": "secondary"
+        }
+      ]
     },
     {
       "componentType": "techStackOverview",
       "key": "techStack.overview",
+      "title": "The Stack",
+      "eyebrow": "Disclaimer: Abstract representation of the stack.",
+      "cta": { "label": "Docs", "href": "/technology-stack#open-source" },
+      "architecture": {
+        "eyebrow": "Technology",
+        "title": "Architecture Overview",
+        "body": [
+          "Logos provides developers with a modular, plugin-based runtime for building decentralised applications.",
+          "This architecture allows nodes to dynamically discover and load modules while preserving privacy. This approach allows the network to evolve and provides a foundation for decentralised applications and social institutions that remain resistant to capture and corruption – whether deployed by local communities or nation‑state operators."
+        ],
+        "cta": { "label": "Learn More", "href": "/technology-stack#stack" },
+        "image": {
+          "src": "/images/technology-stack/architecture-overview.jpg",
+          "alt": "",
+          "width": 1404,
+          "height": 1872
+        }
+      },
+      "basecamp": {
+        "title": "Basecamp",
+        "body": "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem.",
+        "href": "/technology-stack#logos-app",
+        "cta": {
+          "label": "Install",
+          "href": "/technology-stack#logos-app"
+        }
+      },
       "pillars": [
         {
           "id": "storage",
           "title": "Storage",
-          "body": "Codex-based content addressing with reproducible attestation and graceful client-side fallback.",
+          "body": "Decentralized file storage and retrieval, using content-addressed (CID-based) data",
           "href": "/technology-stack/storage"
         },
         {
           "id": "messaging",
           "title": "Messaging",
-          "body": "Waku peer-to-peer messaging that survives hostile networks and adversarial intermediaries.",
+          "body": "Private, censorship-resistant communication between parties.",
           "href": "/technology-stack/messaging"
         },
         {
           "id": "blockchain",
           "title": "Blockchain",
-          "body": "Cryptarchia: a private proof-of-stake consensus where validator identities and stake amounts remain hidden.",
+          "body": "Decentralized compute and consensus.",
           "href": "/technology-stack/blockchain"
         },
         {
           "id": "userModules",
           "title": "User Modules",
-          "body": "Wallet, chat, files, and explorer modules composing into the Logos App.",
+          "body": "Anyone can build modules that plug into the same IPC infrastructure.",
           "href": "/technology-stack#logos-app"
         }
       ],
@@ -59,14 +109,14 @@
       "componentType": "giantSwitch",
       "key": "techStack.appInstall",
       "accent": "grey",
-      "imagePosition": "right",
-      "title": "Install the Logos app.",
-      "description": "The Logos App is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting Simple Apps that let users interact with the various modules.",
+      "imagePosition": "left",
+      "title": "Logos Basecamp",
+      "description": "Basecamp is a a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting “Simple Apps” that let users interact with the various modules",
       "image": {
-        "src": "/cms/builders-hub/settings/app-install.webp",
+        "src": "/images/technology-stack/logos-basecamp.jpg",
         "alt": "",
-        "width": 566,
-        "height": 566
+        "width": 1132,
+        "height": 1246
       },
       "tags": [
         { "label": "Wallet", "icon": "wallet" },
@@ -88,25 +138,101 @@
     {
       "componentType": "featuredText",
       "key": "techStack.modular",
+      "eyebrow": "Build",
       "title": {
-        "highlight": "Modular",
-        "rest": "by design."
+        "highlight": "How Logos",
+        "rest": "Compares"
       },
       "body": [
-        "Logos provides developers with a modular, plugin-based runtime for building decentralised applications. Consolidated development and deployment across the Logos network.",
-        "This architecture allows nodes to dynamically discover and load modules while preserving privacy. This approach allows the network to evolve and provides a foundation for decentralised applications and social institutions that remain resistant to capture and corruption — whether deployed by local communities or nation-states."
+        "Most blockchain platforms provide consensus only — you bring your own messaging and storage, or rely on centralised fallbacks. Logos ships all three as a unified stack with privacy at every layer.",
+        "Bitcoin proved that decentralised value transactions are possible. Ethereum generalised this for arbitrary computation. Logos extends it further: a platform for deploying arbitrary social institutions — governance systems, communication networks, data archives — with network-level and transaction-level privacy.",
+        "Where Zcash focuses on private transactions, Logos provides a full application platform. Where Polkadot focuses on chain interoperability, Logos focuses on privacy and self-governance. Where Cosmos provides a framework for sovereign chains, Logos provides a complete integrated stack."
+      ],
+      "image": {
+        "src": "/images/technology-stack/how-logos-compares.jpg",
+        "alt": "",
+        "width": 1404,
+        "height": 1755
+      }
+    },
+    {
+      "componentType": "table",
+      "key": "techStack.openSource",
+      "title": "Open Source",
+      "subtitle": "All Logos code is open source, licensed under permissive licenses. The primary development happens across several GitHub organisations.",
+      "rows": [
+        {
+          "number": "01",
+          "title": "logos-co",
+          "description": "132 repositories: Basecamp, module system, protocol modules, LEZ, SDKs, dev tooling",
+          "cta": {
+            "label": "Repo",
+            "href": "https://github.com/logos-co",
+            "external": true
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "https://docs.logos.co",
+            "external": true
+          }
+        },
+        {
+          "number": "02",
+          "title": "waku-org",
+          "description": "Logos Messaging (formerly Waku) protocol implementations",
+          "cta": {
+            "label": "Repo",
+            "href": "https://github.com/waku-org",
+            "external": true
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "https://docs.waku.org",
+            "external": true
+          }
+        },
+        {
+          "number": "03",
+          "title": "codex-storage",
+          "description": "Logos Storage (formerly Codex) protocol implementations",
+          "cta": {
+            "label": "Repo",
+            "href": "https://github.com/codex-storage",
+            "external": true
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "https://docs.codex.storage",
+            "external": true
+          }
+        },
+        {
+          "number": "04",
+          "title": "vacp2p",
+          "description": "Foundational peer-to-peer and cryptographic research",
+          "cta": {
+            "label": "Repo",
+            "href": "https://github.com/vacp2p",
+            "external": true
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "https://vac.dev",
+            "external": true
+          }
+        }
       ]
     },
     {
       "componentType": "cardGrid",
       "key": "techStack.useCases",
       "heading": "Use Cases",
-      "subheading": "We know today's systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
+      "subheading": "We know today’s systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
       "subheadingExtra": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
       "cta": { "label": "View the Docs", "href": "/technology-stack" },
       "cards": [
         {
-          "title": "Attack-Resistant Public Registries",
+          "title": "Attack Resistant Public Registries",
           "description": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
           "image": {
             "src": "/images/technology-stack/usecase-1.jpg",
@@ -120,7 +246,7 @@
           }
         },
         {
-          "title": "Decentralised Archives",
+          "title": "Decentralized Archives",
           "description": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
           "image": {
             "src": "/images/technology-stack/usecase-2.jpg",
@@ -145,8 +271,8 @@
           }
         },
         {
-          "title": "Community Governance",
-          "description": "Self-organising groups establish and enforce their own rules, with members engaging voluntarily.",
+          "title": "Community Governance Processes",
+          "description": "Self-organising groups can establish and enforce their own rules, with members engaging voluntarily.",
           "image": {
             "src": "/images/technology-stack/usecase-4.jpg",
             "alt": "",

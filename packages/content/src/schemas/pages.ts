@@ -54,6 +54,23 @@ export const heroSectionSchema = z.object({
   eyebrow: z.string().min(1).optional(),
   headline: z.string().min(1),
   body: z.string().min(1).optional(),
+  bodySecondary: z.string().min(1).optional(),
+  items: z
+    .array(
+      z.object({
+        label: z.string().min(1).optional(),
+        title: z.string().min(1),
+        description: z.string().min(1).optional(),
+      })
+    )
+    .optional(),
+  status: z
+    .object({
+      label: z.string().min(1),
+      body: z.string().min(1),
+      cta: ctaSchema.optional(),
+    })
+    .optional(),
   background: mediaRefSchema.optional(),
   ctas: z.array(ctaSchema).optional(),
 })
@@ -71,6 +88,7 @@ const cardGridCardSchema = z.object({
   description: z.string().min(1).optional(),
   image: mediaRefSchema.optional(),
   cta: ctaSchema.optional(),
+  secondaryCta: ctaSchema.optional(),
   showIcon: z.boolean().optional(),
 })
 
@@ -104,6 +122,7 @@ const tableRowSchema = z.object({
   description: z.string().min(1).optional(),
   reward: rewardSchema.optional(),
   cta: ctaSchema.optional(),
+  secondaryCta: ctaSchema.optional(),
 })
 
 export const tableSectionSchema = z.object({
@@ -137,6 +156,18 @@ export const relatedArticlesSectionSchema = z.object({
   eyebrow: z.string().min(1).optional(),
   title: z.string().min(1),
   cta: ctaSchema.optional(),
+  items: z
+    .array(
+      z.object({
+        title: z.string().min(1),
+        image: mediaRefSchema,
+        imagePosition: z.string().min(1).optional(),
+        date: z.string().min(1),
+        author: z.string().min(1),
+        href: linkHrefSchema,
+      })
+    )
+    .optional(),
   visibleCount: z.number().int().positive().optional(),
 })
 export type RelatedArticlesSection = z.infer<
@@ -190,6 +221,21 @@ const techStackPillarSchema = z.object({
   href: linkHrefSchema,
 })
 
+const techStackArchitectureSchema = z.object({
+  eyebrow: z.string().min(1).optional(),
+  title: z.string().min(1),
+  body: z.array(z.string().min(1)).min(1),
+  cta: ctaSchema.optional(),
+  image: mediaRefSchema,
+})
+
+const techStackBasecampSchema = z.object({
+  title: z.string().min(1),
+  body: z.string().min(1).optional(),
+  href: linkHrefSchema,
+  cta: ctaSchema.optional(),
+})
+
 export const techStackOverviewSectionSchema = z.object({
   componentType: z.literal('techStackOverview'),
   key: sectionKeySchema,
@@ -203,6 +249,8 @@ export const techStackOverviewSectionSchema = z.object({
   title: z.string().min(1).optional(),
   /** Optional section-level CTA (e.g. "See the Stack"). */
   cta: ctaSchema.optional(),
+  architecture: techStackArchitectureSchema.optional(),
+  basecamp: techStackBasecampSchema.optional(),
   pillars: z.array(techStackPillarSchema).length(4),
   networkingTitle: z.string().min(1),
   foundationTitle: z.string().min(1),

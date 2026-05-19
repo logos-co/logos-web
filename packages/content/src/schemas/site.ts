@@ -99,6 +99,13 @@ export type Navigation = z.infer<typeof navigationSchema>
 export const footerSchema = z.object({
   schemaVersion: schemaVersion(1),
   language: languageSchema,
+  newsletter: z.object({
+    title: z.string().min(1),
+    emailLabel: z.string().min(1),
+    roleLabel: z.string().min(1),
+    cityLabel: z.string().min(1),
+    submitLabel: z.string().min(1),
+  }),
   tagline: z.string().min(1),
   image: mediaRefSchema,
   mainLinks: z.array(footerLinkSchema).default([]),

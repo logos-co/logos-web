@@ -1,11 +1,53 @@
+import Image from 'next/image'
+import type { ReactNode } from 'react'
+
+import { LogosMark } from '@acid-info/logos-ui'
 import type { TechStackOverviewSection } from '@repo/content/schemas'
 
-import { StackCard, StackRow } from './stack-item'
+import { IconMask } from '@/components/icons/icon-mask'
+import { Button } from '@/components/ui'
+import { Link } from '@/i18n/navigation'
 
-const cardClassName =
-  'border-brand-dark-green/50 hover:border-brand-dark-green h-64.5 md:h-91.5'
-const rowClassName =
-  'border-brand-dark-green/50 hover:border-brand-dark-green h-35 md:h-49'
+function SectionMarker({ label }: { label: string }) {
+  return (
+    <div className="text-mono-s flex items-center gap-[102px] text-brand-dark-green">
+      <span className="size-[7px] rotate-45 bg-brand-dark-green" />
+      <span>{label}</span>
+    </div>
+  )
+}
+
+function DownloadIcon() {
+  return <IconMask src="/icons/download.svg" className="size-[15px]" />
+}
+
+type StackTileProps = {
+  title: string
+  body?: string
+  href: string
+  className: string
+  children?: ReactNode
+}
+
+function StackTile({ title, body, href, className, children }: StackTileProps) {
+  return (
+    <Link
+      href={href}
+      className={`relative flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-3xl border border-brand-dark-green text-center text-brand-dark-green ${className}`}
+    >
+      <div className="flex flex-col items-center gap-3 px-3 py-1">
+        <span className="text-subhead-sans flex items-center gap-2.5">
+          <LogosMark size={14} className="hidden shrink-0 md:block" />
+          {title}
+        </span>
+        {body ? (
+          <p className="text-mono-s w-[152px] md:hidden">{body}</p>
+        ) : null}
+      </div>
+      {children}
+    </Link>
+  )
+}
 
 type Props = {
   data: TechStackOverviewSection
@@ -27,29 +69,131 @@ export default function TechOverviewStack({
   const [networkLine1, networkLine2] = data.networkingTitle.split('\n')
 
   return (
-    <section className="bg-brand-off-white px-3 pb-10 md:pb-10">
+    <section id="stack" className="bg-brand-off-white px-3 pb-10 md:pb-[100px]">
       <div className="mx-auto max-w-354">
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {data.pillars.map((pillar) => (
-            <StackCard
-              key={pillar.id}
-              label={pillar.title}
-              href={pillar.href}
-              className={cardClassName}
-            />
-          ))}
-        </div>
+        {data.architecture ? (
+          <div className="grid gap-3 pb-[100px] md:grid-cols-2">
+            <div className="flex min-h-[317px] flex-col justify-between md:min-h-[357px]">
+              {data.architecture.eyebrow ? (
+                <SectionMarker label={data.architecture.eyebrow} />
+              ) : null}
 
-        <div className="mt-3 space-y-3">
-          <StackRow href={networkingHref} className={rowClassName}>
-            <span className="block">{networkLine1}</span>
-            {networkLine2 ? (
-              <span className="block">{networkLine2}</span>
+              <div className="max-w-[485px]">
+                <h2 className="text-h4-sans text-brand-dark-green">
+                  {data.architecture.title}
+                </h2>
+                <div className="text-body-sans mt-3 flex flex-col gap-3 text-brand-dark-green md:mt-4">
+                  {data.architecture.body.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+                {data.architecture.cta ? (
+                  <Button
+                    href={data.architecture.cta.href}
+                    variant="secondary"
+                    className="mt-6 cursor-pointer"
+                  >
+                    {data.architecture.cta.label}
+                  </Button>
+                ) : null}
+              </div>
+
+              <SectionMarker label={data.pillars[0].title} />
+            </div>
+
+            <div className="relative h-[317px] overflow-hidden rounded-xl md:h-[357px]">
+              <Image
+                src={data.architecture.image.src}
+                alt={data.architecture.image.alt}
+                fill
+                sizes="(max-width: 767px) 369px, 702px"
+                className="object-cover"
+              />
+            </div>
+          </div>
+        ) : null}
+
+        <div className="flex flex-col gap-[60px] md:gap-[100px]">
+          <div className="grid gap-3 pt-[100px] md:grid-cols-2">
+            {data.title ? (
+              <h2 className="text-h4-sans md:text-h3-sans text-brand-dark-green">
+                {data.title}
+              </h2>
             ) : null}
-          </StackRow>
-          <StackRow href={foundationHref} className={rowClassName}>
-            {data.foundationTitle}
-          </StackRow>
+            {data.eyebrow ? (
+              <p className="text-mono-s w-[226px] text-brand-dark-green">
+                {data.eyebrow}
+              </p>
+            ) : null}
+          </div>
+
+          <div className="flex flex-col gap-3">
+            {data.basecamp ? (
+              <div className="relative flex h-[111px] flex-col items-start justify-center overflow-hidden rounded-xl border border-brand-dark-green p-3 text-brand-dark-green md:h-[196px] md:items-center md:rounded-3xl">
+                <span className="text-subhead-sans flex items-center gap-2.5">
+                  <LogosMark size={14} className="hidden shrink-0 md:block" />
+                  {data.basecamp.title}
+                </span>
+                {data.basecamp.body ? (
+                  <p className="text-mono-s mt-3 w-[208px] md:hidden">
+                    {data.basecamp.body}
+                  </p>
+                ) : null}
+                {data.basecamp.cta ? (
+                  <Button
+                    href={data.basecamp.cta.href}
+                    variant="primary"
+                    icon={<DownloadIcon />}
+                    className="absolute top-2.5 right-2.5 cursor-pointer md:hidden"
+                  >
+                    {data.basecamp.cta.label}
+                  </Button>
+                ) : null}
+              </div>
+            ) : null}
+
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+              {data.pillars.map((pillar) => (
+                <StackTile
+                  key={pillar.id}
+                  title={pillar.title}
+                  body={pillar.body}
+                  href={pillar.href}
+                  className="h-[258px] md:h-[366px]"
+                >
+                  {pillar.id === 'blockchain' ? (
+                    <div className="mt-3 flex w-full flex-col gap-1.5 px-1.5 md:hidden">
+                      <div className="text-eyebrow rounded-[18px] border border-brand-dark-green/50 px-3 py-3 uppercase">
+                        Logos Execution Zone (LEZ)
+                      </div>
+                      <div className="text-eyebrow rounded-[18px] border border-brand-dark-green/50 px-3 py-3 uppercase">
+                        Data Availability and Consensus: Cryptarchia
+                      </div>
+                    </div>
+                  ) : null}
+                </StackTile>
+              ))}
+            </div>
+
+            <Link
+              href={networkingHref}
+              className="flex h-[196px] cursor-pointer items-center justify-center rounded-3xl border border-brand-dark-green px-3 text-center text-brand-dark-green"
+            >
+              <span className="text-subhead-sans">
+                <span className="block">{networkLine1}</span>
+                {networkLine2 ? (
+                  <span className="block">{networkLine2}</span>
+                ) : null}
+              </span>
+            </Link>
+
+            <Link
+              href={foundationHref}
+              className="flex h-[196px] cursor-pointer items-center justify-center rounded-3xl border border-brand-dark-green px-3 text-center text-brand-dark-green"
+            >
+              <span className="text-subhead-sans">{data.foundationTitle}</span>
+            </Link>
+          </div>
         </div>
       </div>
     </section>
