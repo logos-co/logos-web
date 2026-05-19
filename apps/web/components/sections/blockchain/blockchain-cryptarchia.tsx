@@ -21,7 +21,7 @@ function OverviewCard({ card, index }: OverviewCardProps) {
   const imageAlt = card.image?.alt ?? ''
 
   return (
-    <article className="flex min-h-94 w-full min-w-0 flex-col justify-between overflow-hidden rounded-xl border border-brand-dark-green bg-brand-off-white p-3 text-brand-dark-green md:min-h-101.5">
+    <article className="flex min-h-101.5 w-full min-w-0 flex-col justify-between overflow-hidden rounded-xl border border-brand-dark-green bg-brand-off-white p-3 text-brand-dark-green">
       <div className="flex items-start justify-between gap-4">
         <div className="relative h-19.25 w-24 overflow-hidden bg-gray-02">
           <Image
@@ -76,7 +76,7 @@ type Props = {
 export default function BlockchainCryptarchia({ data }: Props) {
   return (
     <section className="bg-brand-off-white">
-      <div className="mx-auto grid max-w-360 gap-3 px-3 pb-10 md:grid-cols-3 md:pb-25">
+      <div className="mx-auto grid max-w-360 gap-3 px-3 pt-7.5 pb-15 md:grid-cols-3 md:pt-0 md:pb-25">
         {data.cards.map((card, index) => (
           <OverviewCard key={card.title} card={card} index={index} />
         ))}

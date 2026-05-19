@@ -15,7 +15,7 @@ export default function BlockchainHero({ data, backHref }: Props) {
   const [primaryCta, secondaryCta] = data.ctas ?? []
 
   return (
-    <section className="bg-brand-off-white pt-8 md:pt-12">
+    <section className="bg-brand-off-white pt-5 md:pt-7.5">
       <div className="relative z-51 mx-auto max-w-360 px-3">
         <Link
           href={backHref}
@@ -30,13 +30,13 @@ export default function BlockchainHero({ data, backHref }: Props) {
         </Link>
       </div>
 
-      <div className="mx-auto grid max-w-360 gap-10 px-3 pt-8 pb-10 text-brand-dark-green md:grid-cols-4 md:gap-3 md:pt-12 md:pb-23">
+      <div className="mx-auto grid max-w-360 gap-5 px-3 pt-4 pb-2 text-brand-dark-green md:grid-cols-4 md:gap-3 md:pt-7.5 md:pb-23">
         <h1 className="text-h3-serif flex self-start items-center gap-3 md:col-span-2">
           <LogosMark size={42} className="shrink-0 text-gray-03" />
           {data.headline}
         </h1>
 
-        <div className="flex flex-col gap-8 md:col-span-2 md:grid md:grid-cols-2 md:gap-3">
+        <div className="flex flex-col gap-6 md:col-span-2 md:grid md:grid-cols-2 md:gap-3">
           <div className="flex flex-col gap-6">
             {data.body ? (
               <p className="text-mono-s max-w-86 text-black">{data.body}</p>
@@ -57,7 +57,7 @@ export default function BlockchainHero({ data, backHref }: Props) {
             ) : null}
 
             {data.status ? (
-              <div className="border-brand-dark-green/10 flex flex-col gap-6 border-t pt-6">
+              <div className="border-brand-dark-green/10 flex flex-col gap-3 border-t pt-6 md:gap-6">
                 <span className="text-eyebrow w-fit rounded bg-brand-yellow px-1 py-0.5 text-brand-dark-green">
                   {data.status.label}
                 </span>

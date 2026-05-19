@@ -71,7 +71,7 @@ export default async function TechStackExplorer({
 
   return (
     <section className="border-brand-dark-green/10 bg-brand-off-white border-t">
-      <div className="mx-auto max-w-360 px-3 pt-25 pb-10">
+      <div className="mx-auto max-w-360 px-3 pt-25 pb-[59px] md:pb-[117px]">
         <div className="flex flex-col gap-3 text-brand-dark-green md:flex-row md:gap-0">
           <h2 className="text-h4-sans md:w-178.5">
             {t('titleLine1')}
@@ -85,7 +85,9 @@ export default async function TechStackExplorer({
           <div className="flex h-27.75 items-start justify-between rounded-xl border border-brand-dark-green px-3 py-3 text-brand-dark-green md:h-49 md:items-center md:justify-center">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-2">
               <span className="text-subhead-sans flex items-center gap-2">
-                <LogosMark size={14} className="shrink-0 text-gray-03" />
+                <span className="hidden shrink-0 md:inline-flex">
+                  <LogosMark size={14} className="text-gray-03" />
+                </span>
                 {t('basecamp')}
               </span>
               <span className="text-mono-s max-w-52 md:hidden">

@@ -30,7 +30,7 @@ export default function BlockchainBuilderCta({ data }: Props) {
       <div className="mx-auto flex max-w-360 flex-col gap-3 px-3 py-10 md:flex-row md:items-start">
         {/* Card 1: Docs — bordered, square corners, off-white bg */}
         {docsCard ? (
-          <div className="flex h-75 w-full flex-col items-center justify-center overflow-hidden border border-brand-dark-green p-4 md:h-91.5 md:flex-1">
+          <div className="flex h-75 w-full flex-col items-center justify-center overflow-hidden border border-brand-dark-green p-4 md:h-125 md:flex-1">
             <CardContent
               title={docsCard.title}
               body={docsCard.description ?? ''}
@@ -48,7 +48,7 @@ export default function BlockchainBuilderCta({ data }: Props) {
 
         {/* Card 2: Logos Builder Hub — rounded pill, blurred dark image bg */}
         {builderHubCard ? (
-          <div className="relative h-75 w-full overflow-hidden rounded-[200px] bg-brand-dark-green md:h-91.5 md:flex-1">
+          <div className="relative h-75 w-full overflow-hidden rounded-[200px] bg-brand-dark-green md:h-125 md:flex-1">
             {builderHubCard.image ? (
               <div className="pointer-events-none absolute inset-0 overflow-hidden">
                 <Image
@@ -83,7 +83,7 @@ export default function BlockchainBuilderCta({ data }: Props) {
 
         {/* Card 3: Logos App — gray-01 bg, rounded */}
         {logosAppCard ? (
-          <div className="flex h-75 w-full flex-col items-center justify-center overflow-hidden rounded-[60px] bg-gray-01 p-4 md:h-91.5 md:flex-1">
+          <div className="flex h-75 w-full flex-col items-center justify-center overflow-hidden rounded-[60px] bg-gray-01 p-4 md:h-125 md:flex-1">
             <CardContent
               title={logosAppCard.title}
               body={logosAppCard.description ?? ''}

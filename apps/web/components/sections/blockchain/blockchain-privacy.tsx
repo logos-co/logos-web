@@ -7,7 +7,7 @@ type Props = {
 export default function BlockchainPrivacy({ data }: Props) {
   return (
     <section className="border-brand-dark-green/10 bg-brand-off-white border-t">
-      <div className="mx-auto grid max-w-360 gap-10 px-3 py-10 text-brand-dark-green md:grid-cols-4 md:gap-3 md:pt-10 md:pb-25">
+      <div className="mx-auto grid max-w-360 gap-10 px-3 py-10 text-brand-dark-green md:grid-cols-4 md:gap-3 md:pt-[22px] md:pb-[118px]">
         <h2 className="text-h4-sans md:col-span-2">
           {data.eyebrow ?? data.title}
         </h2>

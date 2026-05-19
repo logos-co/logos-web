@@ -1,6 +1,6 @@
 /**
  * @figma-node   40009046:22948 / 40009046:21794 (desktop 1440 × 708)
- *               40009046:22697 (mobile 394 × 711)
+ *               40009046:22697 (mobile 394 × 847)
  *
  * Site footer. Dark-green bg, off-white text.
  *
@@ -135,7 +135,7 @@ export function Footer({
 }: FooterProps) {
   return (
     <footer
-      className={`relative mb-[126px] h-[709px] overflow-hidden bg-brand-dark-green text-brand-off-white md:mb-0 md:h-[688px] ${className ?? ''}`}
+      className={`relative mb-[84px] h-[847px] overflow-hidden bg-brand-dark-green text-brand-off-white md:mb-0 md:h-[688px] ${className ?? ''}`}
     >
       <div className="absolute top-6 left-3 flex w-[370px] max-w-[calc(100%-24px)] flex-col gap-3 md:w-[345px]">
         <p className="w-[314px] font-sans text-[18px] leading-[1.15] tracking-[-0.18px] text-brand-off-white">

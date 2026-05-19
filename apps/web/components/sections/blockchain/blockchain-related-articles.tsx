@@ -24,7 +24,7 @@ export default function BlockchainRelatedArticles({ data, articles }: Props) {
     })) ?? articlesToCards(articles)
 
   return (
-    <section className="bg-brand-off-white">
+    <section className="bg-brand-off-white pt-15 pb-15 md:pt-[87px] md:pb-[93px]">
       <div className="mx-auto max-w-360 px-3 py-3">
         {/* Desktop: Figma-exact absolute layout (tan bg w-1416, h-856) */}
         <div className="relative hidden h-214 overflow-hidden rounded-xl bg-accent-tan md:block">
@@ -60,11 +60,11 @@ export default function BlockchainRelatedArticles({ data, articles }: Props) {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:hidden">
+        <div className="h-214 overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:hidden">
           <div className="flex items-start justify-between">
             {data.label ? (
-              <p className="text-mono-s w-56.5 max-w-[50%] text-brand-dark-green">
-                {data.label}
+              <p className="text-mono-s w-[111px] text-brand-dark-green">
+                {data.mobileLabel ?? data.label}
               </p>
             ) : null}
             {data.cta ? (
@@ -80,7 +80,7 @@ export default function BlockchainRelatedArticles({ data, articles }: Props) {
               </div>
             ) : null}
           </div>
-          <h2 className="text-h4-serif mt-16 text-brand-dark-green">
+          <h2 className="text-h3-serif mt-16 text-center text-brand-dark-green">
             {data.title}
           </h2>
           <div className="mt-8 flex gap-3 overflow-x-auto">
