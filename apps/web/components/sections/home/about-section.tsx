@@ -3,23 +3,13 @@ import Image from 'next/image'
 
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
-
-interface ProblemCard {
-  key: 'debt' | 'surveillance' | 'corruption' | 'stagnation'
-  title: string
-  body: string
-  facts: string[]
-  image: string
-  tone: string
-  textTone: string
-  imageClassName?: string
-}
+import AboutScrollStack, { type AboutProblemCard } from './about-scroll-stack'
 
 function ProblemCardView({
   card,
   className,
 }: {
-  card: ProblemCard
+  card: AboutProblemCard
   className?: string
 }) {
   return (
@@ -60,7 +50,7 @@ function ProblemCardView({
 export default async function AboutSection({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home.about' })
 
-  const cards: ProblemCard[] = [
+  const cards: AboutProblemCard[] = [
     {
       key: 'debt',
       title: t('problems.debt.title'),
@@ -119,18 +109,6 @@ export default async function AboutSection({ locale }: { locale: string }) {
     'top-[calc(100vh+1840px)]',
     'top-[calc(100vh+2760px)]',
   ]
-  const desktopStickyTopClasses = [
-    'md:top-[102px]',
-    'md:top-[122px]',
-    'md:top-[142px]',
-    'md:top-[162px]',
-  ]
-  const desktopStackClasses = [
-    'md:z-10',
-    'md:z-20 md:-mt-[217px]',
-    'md:z-30 md:-mt-[217px]',
-    'md:z-40 md:-mt-[217px]',
-  ]
 
   return (
     <section
@@ -155,25 +133,7 @@ export default async function AboutSection({ locale }: { locale: string }) {
         })}
       </div>
 
-      <div className="hidden md:block">
-        <div className="relative h-screen">
-          <div className="sticky top-0 flex h-screen items-center justify-center">
-            <p className="text-h3-serif w-[940px] text-center">{t('intro')}</p>
-          </div>
-        </div>
-
-        <div className="relative px-3 pt-[120px] pb-[1500px]">
-          {cards.map((card, index) => {
-            return (
-              <ProblemCardView
-                key={card.key}
-                card={card}
-                className={`sticky w-full shadow-[0_24px_80px_rgba(0,0,0,0.28)] ${desktopStickyTopClasses[index]} ${desktopStackClasses[index]}`}
-              />
-            )
-          })}
-        </div>
-      </div>
+      <AboutScrollStack intro={t('intro')} cards={cards} />
 
       <div className="absolute top-[calc(100vh+3713px)] left-3 flex w-[369px] flex-col items-center gap-[60px] text-center md:relative md:top-auto md:left-1/2 md:w-[940px] md:-translate-x-1/2 md:pt-[120px] md:pb-[360px]">
         <p className="text-h3-serif">
