@@ -186,7 +186,7 @@ export default function SiteHeaderClient({
           <div className="flex items-baseline gap-3">
             <a
               href={ROUTES.home}
-              className="text-eyebrow inline-flex h-[15px] w-[calc(50vw-18px)] max-w-[702px] cursor-pointer items-baseline tracking-[0.08em] transition-opacity hover:opacity-70"
+              className="text-eyebrow inline-flex h-[15px] w-[calc(50vw-18px)] cursor-pointer items-baseline tracking-[0.08em] transition-opacity hover:opacity-70"
             >
               <BrandLockup label={closedBar.brandLabel} />
             </a>
