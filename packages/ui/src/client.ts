@@ -7,4 +7,7 @@ export type {
   NavOverlayCommunityCard,
   NavOverlayPressItem,
   NavOverlayLabels,
+  NavOverlaySection,
+  NavOverlayCardSection,
+  NavOverlayMenuPanel,
 } from './primitives/nav-overlay'

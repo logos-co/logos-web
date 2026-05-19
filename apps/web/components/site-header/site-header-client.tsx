@@ -7,7 +7,7 @@ import {
   LogosMark,
   type NavOverlayCommunityCard,
   type NavOverlayLink,
-  type NavOverlayPressItem,
+  type NavOverlayMenuPanel,
 } from '@acid-info/logos-ui'
 import { NavOverlay } from '@acid-info/logos-ui/client'
 
@@ -27,8 +27,8 @@ type Props = {
   closedBar: ClosedBarLabels
   sitemap: NavOverlayLink[]
   community: NavOverlayCommunityCard[]
-  press: NavOverlayPressItem[]
-  pressSeeAllHref: string
+  menuPanels: NavOverlayMenuPanel[]
+  primaryCta?: NavOverlayLink
 }
 
 function HamburgerIcon() {
@@ -43,8 +43,8 @@ export default function SiteHeaderClient({
   closedBar,
   sitemap,
   community,
-  press,
-  pressSeeAllHref,
+  menuPanels,
+  primaryCta,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false)
   const [hasPassedHero, setHasPassedHero] = useState(false)
@@ -147,9 +147,9 @@ export default function SiteHeaderClient({
         onClose={close}
         sitemap={sitemap}
         community={community}
-        press={press}
-        pressSeeAllHref={pressSeeAllHref}
-        labels={{ closeMenu: closedBar.closeAriaLabel }}
+        menuPanels={menuPanels}
+        primaryCta={primaryCta}
+        labels={{ closeMenu: closedBar.closeLabel }}
         linkAs={Link}
       />
     </>

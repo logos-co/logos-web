@@ -25,9 +25,30 @@ export const navCommunityCardSchema = z.object({
   label: z.string().min(1),
   href: linkHrefSchema,
   description: z.string().min(1),
+  ctaLabel: z.string().min(1).optional(),
   image: mediaRefSchema,
 })
 export type NavCommunityCard = z.infer<typeof navCommunityCardSchema>
+
+export const navSectionSchema = z.object({
+  label: z.string().min(1),
+  links: z.array(navLinkSchema).min(1),
+})
+export type NavSection = z.infer<typeof navSectionSchema>
+
+export const navCardSectionSchema = z.object({
+  label: z.string().min(1),
+  cards: z.array(navCommunityCardSchema).min(1),
+})
+export type NavCardSection = z.infer<typeof navCardSectionSchema>
+
+export const navMenuPanelSchema = z.object({
+  label: z.string().min(1),
+  textSections: z.array(navSectionSchema).default([]),
+  cardSections: z.array(navCardSectionSchema).default([]),
+  actionCards: z.array(navCommunityCardSchema).default([]),
+})
+export type NavMenuPanel = z.infer<typeof navMenuPanelSchema>
 
 export const siteSettingsSchema = z.object({
   schemaVersion: schemaVersion(1),
@@ -60,6 +81,11 @@ export const navigationSchema = z.object({
     closeAriaLabel: z.string().min(1),
   }),
   sitemap: z.array(navLinkSchema).min(1),
+  topLinks: z.array(navLinkSchema).default([]),
+  primaryCta: navLinkSchema.optional(),
+  resources: navSectionSchema.optional(),
+  exploreSections: z.array(navCardSectionSchema).default([]),
+  menuPanels: z.array(navMenuPanelSchema).default([]),
   communityCards: z.array(navCommunityCardSchema).default([]),
   press: z.object({
     label: z.string().min(1),

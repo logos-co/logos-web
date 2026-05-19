@@ -1,8 +1,10 @@
 /**
- * @figma-node  40009046:23459 (Nav section — closed + open)
- *              40009046:23458 (D2 Nav instance — bar)
- *              40009046:23534 (open desktop, 1440)
- *              40009046:23460 (open mobile, 393)
+ * @figma-node  1484:11139 (desktop Take Action)
+ *              1484:10638 (desktop Explore)
+ *              1484:10816 (desktop Technology)
+ *              1484:10980 (desktop Research)
+ *              1484:10314 (mobile root)
+ *              1484:10334, 1484:10377, 1484:10414, 1484:10438 (mobile panels)
  *
  * Site header = fixed 40px top bar + <NavOverlay> (dialog from @acid-info/logos-ui).
  * The overlay is a shared primitive — this server component owns the data
@@ -15,10 +17,9 @@ import { isActiveLocale } from '@repo/content/locales'
 import type {
   NavOverlayCommunityCard,
   NavOverlayLink,
-  NavOverlayPressItem,
+  NavOverlayMenuPanel,
+  NavOverlaySection,
 } from '@acid-info/logos-ui'
-
-import { getLatestPressArticles } from '@/lib/press-engine'
 
 import SiteHeaderClient from './site-header-client'
 
@@ -26,43 +27,54 @@ export default async function SiteHeader({ locale }: { locale: string }) {
   if (!isActiveLocale(locale)) {
     throw new Error(`SiteHeader received non-active locale "${locale}"`)
   }
-  const [navigation, latestPressArticles] = await Promise.all([
-    getNavigationContent(locale),
-    getLatestPressArticles(4),
-  ])
+  const navigation = await getNavigationContent(locale)
 
   const sitemap: NavOverlayLink[] = navigation.sitemap
 
+  const mapCard = (card: {
+    label: string
+    href: string
+    description: string
+    ctaLabel?: string
+    image: { src: string; alt: string }
+  }): NavOverlayCommunityCard => ({
+    label: card.label,
+    href: card.href,
+    description: card.description,
+    ctaLabel: card.ctaLabel,
+    image: (
+      <Image
+        src={card.image.src}
+        alt={card.image.alt}
+        fill
+        sizes="(max-width: 768px) 42px, 226px"
+      />
+    ),
+  })
+
   const community: NavOverlayCommunityCard[] = navigation.communityCards.map(
-    (card) => ({
-      label: card.label,
-      href: card.href,
-      description: card.description,
-      image: (
-        <Image
-          src={card.image.src}
-          alt={card.image.alt}
-          fill
-          sizes="(max-width: 768px) 100vw, 33vw"
-        />
-      ),
-    })
+    (card) => mapCard(card)
   )
 
-  const press: NavOverlayPressItem[] = latestPressArticles.map((article) => ({
-    date: article.galleryDate,
-    headline: article.title,
-    href: article.href,
-    image: <Image src={article.image} alt="" fill sizes="160px" />,
-  }))
+  const menuPanels: NavOverlayMenuPanel[] = navigation.menuPanels.map(
+    (panel) => ({
+      label: panel.label,
+      textSections: panel.textSections as NavOverlaySection[],
+      actionCards: panel.actionCards.map(mapCard),
+      cardSections: panel.cardSections.map((section) => ({
+        label: section.label,
+        cards: section.cards.map(mapCard),
+      })),
+    })
+  )
 
   return (
     <SiteHeaderClient
       closedBar={navigation.closedBar}
       sitemap={sitemap}
       community={community}
-      press={press}
-      pressSeeAllHref={navigation.press.seeAllHref}
+      menuPanels={menuPanels}
+      primaryCta={navigation.primaryCta}
     />
   )
 }
