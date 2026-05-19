@@ -42,9 +42,9 @@ export default async function StartBuildingSection({
   ]
 
   return (
-    <section className="h-[1236px] overflow-hidden bg-brand-off-white py-24 md:h-[820px] md:py-[62px]">
-      <div className="mx-auto grid max-w-354 gap-3 px-3 md:grid-cols-2">
-        <div className="relative h-[319px] overflow-hidden rounded-[100px] bg-brand-dark-green/10 md:h-[696px]">
+    <section className="h-[1236px] overflow-hidden bg-brand-off-white pt-[100px] md:h-[820px] md:pt-3 md:pb-28">
+      <div className="mx-auto grid max-w-354 gap-3 px-3 md:grid-cols-2 md:px-0">
+        <div className="relative h-[319px] w-[365px] overflow-hidden rounded-[100px] bg-brand-dark-green/10 md:h-[696px] md:w-auto">
           <Image
             src="/images/home/figma-refresh/start-building.webp"
             alt=""
@@ -54,15 +54,17 @@ export default async function StartBuildingSection({
           />
         </div>
 
-        <div className="flex min-h-[705px] flex-col justify-between rounded-xl bg-[#dbddd7] p-6 text-brand-dark-green md:min-h-[696px]">
-          <div className="mx-auto mt-8 flex max-w-[320px] flex-col items-center gap-6 text-center md:mt-[113px]">
-            <h2 className="font-display text-[30px] leading-none tracking-[-0.03em] md:text-[36px]">
-              {t('title')}
-            </h2>
-            <p className="font-sans text-[14px] leading-[1.2]">
-              <span className="md:hidden">{t('mobileBody')}</span>
-              <span className="hidden md:inline">{t('body')}</span>
-            </p>
+        <div className="flex min-h-[705px] flex-col justify-between rounded-xl bg-[#dbddd7] p-3 text-brand-dark-green md:min-h-[696px] md:p-6">
+          <div className="mx-auto mt-7 flex max-w-[320px] flex-col items-center gap-10 text-center md:mt-[113px]">
+            <div className="flex flex-col items-center gap-6 md:w-[320px]">
+              <h2 className="font-display text-[30px] leading-none tracking-[-0.03em] md:text-[36px]">
+                {t('title')}
+              </h2>
+              <p className="h-[28px] overflow-hidden font-sans text-[12px] leading-[1.2] md:h-auto md:w-[254px]">
+                <span className="md:hidden">{t('mobileBody')}</span>
+                <span className="hidden md:inline">{t('body')}</span>
+              </p>
+            </div>
             <Button
               href={ROUTES.buildersHub}
               className="cursor-pointer transition-opacity hover:opacity-80"
