@@ -4,12 +4,12 @@ import { getAllIdeas, getAllRfps, getCircles } from '@repo/content/loaders'
 
 import siteConfig from '@/constants/site-config'
 import { ROUTES } from '@/constants/routes'
+import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
 
 export const dynamic = 'force-static'
 
 const staticIndexableRoutes = [
   ROUTES.home,
-  ROUTES.about,
   ROUTES.activeCircles,
   ROUTES.blog,
   ROUTES.book,
@@ -36,6 +36,7 @@ const staticIndexableRoutes = [
   ROUTES.storage,
   ROUTES.terms,
   ROUTES.workWithUs,
+  ...(ROUTE_AVAILABILITY.about ? [ROUTES.about] : []),
 ] as const
 
 const buildSitemapEntry = (
@@ -62,7 +63,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticIndexableRoutes,
     ...rfps.map((rfp) => `${ROUTES.rfps}/${rfp.slug}`),
     ...ideas.map((idea) => `${ROUTES.ideas}/${idea.slug}`),
-    ...circles.map((circle) => ROUTES.circle(circle.slug)),
+    ...(ROUTE_AVAILABILITY.circleDetailLinks
+      ? circles.map((circle) => ROUTES.circle(circle.slug))
+      : []),
   ]
 
   return [...new Set(routes)]

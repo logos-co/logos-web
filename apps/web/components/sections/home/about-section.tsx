@@ -3,6 +3,7 @@ import Image from 'next/image'
 
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
+import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
 import AboutScrollStack, { type AboutProblemCard } from './about-scroll-stack'
 
 function ProblemCardView({
@@ -140,12 +141,14 @@ export default async function AboutSection({ locale }: { locale: string }) {
           {t('closing1')} {t('closing2')} {t('closing3')}
         </p>
 
-        <Button
-          href={ROUTES.about}
-          className="cursor-pointer bg-brand-off-white text-brand-dark-green transition-opacity hover:opacity-80"
-        >
-          {t('cta')}
-        </Button>
+        {ROUTE_AVAILABILITY.about ? (
+          <Button
+            href={ROUTES.about}
+            className="cursor-pointer bg-brand-off-white text-brand-dark-green transition-opacity hover:opacity-80"
+          >
+            {t('cta')}
+          </Button>
+        ) : null}
       </div>
     </section>
   )

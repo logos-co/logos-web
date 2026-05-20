@@ -106,12 +106,6 @@
           "label": "About",
           "cards": [
             {
-              "label": "About",
-              "href": "/about",
-              "description": "A mission to revitalize civil society through privacy",
-              "image": { "src": "/nav-overlay/figma/explore-thumb.webp", "alt": "" }
-            },
-            {
               "label": "Logos Press Engine",
               "href": "/logos-broadcast-network",
               "description": "Media throughout the Logos ecosystem",

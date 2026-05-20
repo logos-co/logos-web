@@ -15,6 +15,7 @@ import type { Circle } from '@repo/content/loaders'
 import type { CirclesSettings } from '@repo/content/schemas'
 
 import { ROUTES } from '@/constants/routes'
+import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
 import { Link } from '@/i18n/navigation'
 
 const ARCGIS_LIGHT_GRAY_TILES =
@@ -107,12 +108,14 @@ export default function CirclesLeafletMap({
                   <p className="text-mono-s text-brand-dark-green/70 mb-3">
                     {[circle.city, circle.country].filter(Boolean).join(', ')}
                   </p>
-                  <Link
-                    href={ROUTES.circle(circle.slug)}
-                    className="text-eyebrow text-brand-dark-green cursor-pointer border-b border-current/50"
-                  >
-                    {circle.name}
-                  </Link>
+                  {ROUTE_AVAILABILITY.circleDetailLinks ? (
+                    <Link
+                      href={ROUTES.circle(circle.slug)}
+                      className="text-eyebrow text-brand-dark-green cursor-pointer border-b border-current/50"
+                    >
+                      {circle.name}
+                    </Link>
+                  ) : null}
                 </div>
               </Popup>
             </Marker>

@@ -259,7 +259,7 @@ Same shell as Ideas. Unique content:
 **Mobile frame:** `40009046:25110` — 393 × 4923
 
 1. **Page header** — `Lambda icon Logos Circles` title + description + `FIND A CIRCLE →` + `JOIN A CIRCLE →` CTAs.
-2. **World map** — interactive SVG world map with `Lambda icon` markers at each circle location. `+` / `−` zoom controls. Clicking a marker navigates to the circle detail page.
+2. **World map** — interactive SVG world map with `Lambda icon` markers at each circle location. `+` / `−` zoom controls. Individual circle landing pages are out of scope for now, so markers must not navigate to `/circles/[slug]` while `ROUTE_AVAILABILITY.circleDetailLinks` is disabled.
 3. **"Find a Circle near you."** — centered text + `FIND A CIRCLE NEAR YOU →` button.
 4. **Upcoming Events** — section header + `SEE FULL CALENDAR →`; event cards in a 2-col grid. Each card: image thumbnail, circle name, event title, date/time, location, hosted-by line.
 5. **Winnable Issues** — 3-col card row (dark image cards with location tag, `VIEW ISSUE →`, title, description).
@@ -282,6 +282,7 @@ Same shell as Ideas. Unique content:
 **Figma section:** `40009046:25921`
 **Desktop frame:** `40009046:26015` — 1440 × 2014
 **Mobile frame:** `40009046:25922` — 393 × 2735
+**Current status:** Not needed for the current release. Keep the implementation and content fixtures, but do not index or link to individual circle landing pages while `ROUTE_AVAILABILITY.circleDetailLinks` is disabled. The static export may still emit these routes while the route file exists.
 
 1. **Breadcrumb** — `← ALL CIRCLES`
 2. **Circle header** — `Lambda icon [City Name]` title + description + `JOIN THIS CIRCLE →` CTA. Below: metadata grid — `MEMBERS`, `DISCORD`, `FORUM`.
@@ -325,6 +326,7 @@ Same shell as Ideas. Unique content:
 **Figma section:** `40009046:27109`
 **Desktop frame:** `40009046:27248` — 1440 × 6004
 **Mobile frame:** `40009046:27110` — 393 × 6332
+**Current status:** Not needed for the current release. Keep the implementation and assets, but do not surface it in navigation, sitemap, or homepage CTAs while `ROUTE_AVAILABILITY.about` is disabled.
 
 1. **Hero** — "Logos is on a mission to revitalize Civil Society." very large display headline, full-bleed dark background image.
 2. **Community teaser** — `<WorldMap>` (shared with Circles) + "We are a community of builders…" body + `LEARN MORE →`.
@@ -398,11 +400,11 @@ Same shell as Ideas. Unique content:
 | 8        | Messaging                 | Same template                                        |
 | 9        | Storage                   | Same template                                        |
 | 10       | Logos Circles             | New interactive component (world map)                |
-| 11       | Circle Detail Page        | Dynamic route; depends on Circles                    |
-| 12       | About                     | Reuses world map; parallax-heavy                     |
-| 13       | Press Engine              | Standalone content page                              |
-| 14       | FAQs                      | Establishes LegalLayout                              |
-| 15       | Terms & Conditions        | Reuses LegalLayout                                   |
+| 11       | Press Engine              | Standalone content page                              |
+| 12       | FAQs                      | Establishes LegalLayout                              |
+| 13       | Terms & Conditions        | Reuses LegalLayout                                   |
+| Future   | Circle Detail Page        | Not needed for current release                       |
+| Future   | About                     | Not needed for current release                       |
 
 ---
 

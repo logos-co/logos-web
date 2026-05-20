@@ -8,7 +8,6 @@ export const performanceBudgets = {
 
 export const criticalRoutes = [
   '/',
-  '/about',
   '/active-circles',
   '/builders-hub',
   '/builders-hub/rfps',

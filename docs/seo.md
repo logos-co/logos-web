@@ -38,7 +38,7 @@ Living checklist for all SEO work on logos.co. Status keys: ✅ done · ⏳ in p
 - [ ] Each page passes a unique `title` (50–60 chars, keyword near front, brand suffix)
 - [ ] Each page passes a unique `description` (140–160 chars, includes primary keyword)
 - [ ] Each page passes a unique `path` so canonical + OG URL are correct
-- [ ] Dynamic routes (e.g. `/circles/[slug]`) generate metadata per param
+- [ ] Enabled dynamic routes generate metadata per param
 - [ ] `404` (`not-found.tsx`) sets `title: '404 — Page not found'` and `robots: { index: false }`
 
 ### Canonical URLs
@@ -56,8 +56,9 @@ Living checklist for all SEO work on logos.co. Status keys: ✅ done · ⏳ in p
 
 ### Sitemap
 
-- [ ] `sitemap.xml` includes all 15 pages from [pages.md](pages.md)
-- [ ] Dynamic entries: `/circles/[slug]` per city, `/builders-hub/ideas/[id]`, `/builders-hub/rfps/[id]`; article pages live on `press.logos.co`
+- [ ] `sitemap.xml` includes the currently enabled public pages from [web-pages.md](web-pages.md)
+- [ ] Dynamic entries: `/builders-hub/ideas/[id]`, `/builders-hub/rfps/[id]`; article pages live on `press.logos.co`
+- [ ] Keep `/about` and `/circles/[slug]` out of sitemap while their route availability flags are disabled.
 - [ ] Each entry includes `lastModified`, `changeFrequency`, `priority`
 - [ ] One entry per canonical English path
 - [ ] Sitemap submitted to Google Search Console + Bing Webmaster Tools
@@ -69,7 +70,7 @@ Living checklist for all SEO work on logos.co. Status keys: ✅ done · ⏳ in p
 - [ ] `BreadcrumbList` on every non-home page
 - [ ] `CollectionPage` on `/press`; individual `Article` JSON-LD is owned by `press.logos.co`
 - [ ] `FAQPage` on `/faq` with all Q/A pairs
-- [ ] `Event` on `/circles/[slug]` upcoming-event cards
+- [ ] `Event` on `/circles` upcoming-event cards
 - [ ] All JSON-LD rendered as `<script type="application/ld+json">` in the page `<head>`
 
 ---
@@ -97,9 +98,7 @@ Living checklist for all SEO work on logos.co. Status keys: ✅ done · ⏳ in p
 | Ideas         | community ideas                      | "Ideas — Logos Community Submissions"                              |
 | RFPs          | web3 bounties                        | "RFPs — Fund Your Build on Logos"                                  |
 | Circles       | logos circles / local chapters       | "Logos Circles — Find Your Local Chapter"                          |
-| Circle Detail | `[city] logos circle`                | "Logos Circle [City] — Join Your Local Movement"                   |
 | Press         | logos news                           | "The Logos Press Engine"                                           |
-| About         | about logos                          | "About — Logos's Mission to Revitalize Civil Society"              |
 | FAQ           | —                                    | "FAQ \| Logos" (set `robots.index: true` but low priority)         |
 | Terms         | —                                    | "Terms & Conditions \| Logos" (set `robots.index: false` optional) |
 
@@ -130,7 +129,7 @@ Routing is English-only. There should be no public `/fr/*` or `/ko/*` routes.
 
 - [ ] `og:image` is 1200 × 630 with brand typography (Logos wordmark + headline)
 - [ ] Dynamic OG endpoint (`/og?title=...&description=...`) is wired from each page's metadata — currently all pages share `/og` (generic). Update to pass per-page title/description.
-- [ ] `og:type: website` on listing pages and `profile` on `/circles/[slug]`; individual article previews are owned by `press.logos.co`
+- [ ] `og:type: website` on listing pages; individual article previews are owned by `press.logos.co`
 - [ ] Twitter card: `summary_large_image`, `twitter:site`, `twitter:creator` set
 - [ ] Preview validated via [Twitter card validator](https://cards-dev.twitter.com/validator), [LinkedIn post inspector](https://www.linkedin.com/post-inspector/), [Facebook sharing debugger](https://developers.facebook.com/tools/debug/)
 
@@ -165,7 +164,7 @@ Targets: **LCP ≤ 2.5 s · INP ≤ 200 ms · CLS ≤ 0.1** (75th percentile, mo
 
 ### Rendering
 
-- [ ] Static pages use RSC + `generateStaticParams` where possible (Press, About, FAQ, Ts&Cs, tech pages)
+- [ ] Static pages use RSC + `generateStaticParams` where possible (Press, FAQ, Ts&Cs, tech pages)
 - [ ] Dynamic pages use ISR where content changes daily (Circles, Ideas, RFPs)
 - [ ] `generateMetadata` runs on the server
 - [ ] Prefetching: Next `<Link>` default prefetch is ON for above-the-fold nav
@@ -212,9 +211,7 @@ For each page in [pages.md](pages.md), ensure:
 | `/builders-hub/ideas`          | `ItemList`                           | Home → Builders Hub → Ideas    | 0.8                 |
 | `/builders-hub/rfps`           | `ItemList`                           | Home → Builders Hub → RFPs     | 0.8                 |
 | `/circles`                     | `ItemList` (locations)               | Home → Circles                 | 0.9                 |
-| `/circles/[slug]`              | `LocalBusiness` or `Place` + `Event` | Home → Circles → [City]        | 0.7                 |
 | `/press`                       | `CollectionPage`                     | Home → Press                   | 0.7                 |
-| `/about`                       | `AboutPage` + `Organization`         | Home → About                   | 0.8                 |
 | `/faq`                         | `FAQPage`                            | Home → FAQ                     | 0.5                 |
 | `/terms-and-conditions`        | —                                    | Home → Terms                   | 0.3                 |
 

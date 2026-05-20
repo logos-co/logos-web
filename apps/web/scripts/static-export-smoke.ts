@@ -4,6 +4,7 @@ import { join, relative } from 'node:path'
 import { getAllIdeas, getAllRfps, getCircles } from '@repo/content/loaders'
 
 import { ROUTES } from '../constants/routes'
+import { ROUTE_AVAILABILITY } from '../constants/route-availability'
 
 const webRoot = process.cwd()
 const outDir = join(webRoot, 'out')
@@ -69,7 +70,9 @@ const collectExpectedRoutes = async (): Promise<string[]> => {
     ...staticRoutes,
     ...rfps.map((rfp) => `${ROUTES.rfps}/${rfp.slug}`),
     ...ideas.map((idea) => `${ROUTES.ideas}/${idea.slug}`),
-    ...circles.map((circle) => ROUTES.circle(circle.slug)),
+    ...(ROUTE_AVAILABILITY.circleDetailLinks
+      ? circles.map((circle) => ROUTES.circle(circle.slug))
+      : []),
   ].sort((a, b) => a.localeCompare(b))
 }
 

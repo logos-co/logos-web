@@ -12,6 +12,7 @@ import { LogosMark } from '@acid-info/logos-ui'
 
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
+import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
 import { formatTzOffsetLabel } from '@/lib/dates'
 
 import { ArrowIcon, isExternalHref, SmartLink } from './_helpers'
@@ -201,10 +202,15 @@ function EventCard({
   const time = formatEventDateForSurface(event, 'index-card-time', locale)
   const offset = formatTzOffsetLabel(event.timezone, event.startsAt)
   const hostList = formatHostList(event.hostedBy)
+  const href =
+    event.eventUrl ??
+    (ROUTE_AVAILABILITY.circleDetailLinks
+      ? ROUTES.circle(event.circleSlug)
+      : `${ROUTES.circles}#events`)
 
   return (
     <SmartLink
-      href={event.eventUrl ?? ROUTES.circle(event.circleSlug)}
+      href={href}
       className="grid w-full grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02 md:w-[463px]"
       {...(event.eventUrl
         ? { target: '_blank', rel: 'noopener noreferrer' }
@@ -254,7 +260,7 @@ function EventsSection({
 }) {
   return (
     <section
-      id="initiatives"
+      id="events"
       className="border-t border-brand-dark-green/10 bg-brand-off-white"
     >
       <SectionIntro
@@ -337,7 +343,10 @@ function InitiativesSection({
   initiatives: CircleInitiative[]
 }) {
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
+    <section
+      id="initiatives"
+      className="border-t border-brand-dark-green/10 bg-brand-off-white"
+    >
       <SectionIntro
         title={settings.initiativesSection.title}
         cta={settings.initiativesSection.cta}
