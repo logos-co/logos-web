@@ -1,5 +1,6 @@
 import type { RelatedArticlesSection } from '@repo/content/schemas'
 
+import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 import type { PressArticleRow } from '@/lib/press-engine'
 
@@ -16,7 +17,10 @@ export default function NetworkingRelatedArticles({ data, articles }: Props) {
   return (
     <section className="mt-15 bg-brand-off-white md:mt-25">
       <div className="mx-auto h-220 max-w-360 px-3 py-3">
-        <div className="relative h-full overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:pb-14">
+        <Reveal
+          amount={0.15}
+          className="relative h-full overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:pb-14"
+        >
           {/* Header row */}
           <div className="flex items-start justify-between">
             {data.label ? (
@@ -48,12 +52,18 @@ export default function NetworkingRelatedArticles({ data, articles }: Props) {
           </h2>
 
           {/* Cards */}
-          <div className="mt-17.5 flex gap-3 overflow-x-auto md:mt-[103px] md:grid md:grid-cols-4 md:overflow-visible">
+          <Reveal
+            stagger
+            amount={0.2}
+            className="mt-17.5 flex gap-3 overflow-x-auto md:mt-[103px] md:grid md:grid-cols-4 md:overflow-visible"
+          >
             {cards.map((card) => (
-              <ArticleCard key={card.href} {...card} />
+              <RevealItem key={card.href}>
+                <ArticleCard {...card} />
+              </RevealItem>
             ))}
-          </div>
-        </div>
+          </Reveal>
+        </Reveal>
       </div>
     </section>
   )

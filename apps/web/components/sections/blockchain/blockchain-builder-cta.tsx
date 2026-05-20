@@ -6,6 +6,7 @@ import {
 } from '@acid-info/logos-ui'
 import type { CardGridSection } from '@repo/content/schemas'
 
+import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 
 import { DownloadIcon } from '../shared/builder-cta-card'
@@ -84,5 +85,9 @@ export default function BlockchainBuilderCta({ data }: Props) {
     (card): card is TechBuilderCtaCard => card !== undefined
   )
 
-  return <TechBuilderCtaDeck cards={cards} />
+  return (
+    <Reveal amount={0.2}>
+      <TechBuilderCtaDeck cards={cards} />
+    </Reveal>
+  )
 }

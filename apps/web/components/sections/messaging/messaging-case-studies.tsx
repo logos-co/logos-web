@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { TechCaseStudyCard } from '@acid-info/logos-ui'
 import type { CardGridSection } from '@repo/content/schemas'
 
+import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 
 /**
@@ -71,38 +72,50 @@ export default function MessagingCaseStudies({ data }: Props) {
   return (
     <section className="mt-15 bg-brand-off-white md:mt-10">
       <div className="mx-auto max-w-360 px-3 pt-25 md:px-0 md:pt-25">
-        <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-3 md:px-3">
+        <Reveal
+          stagger
+          className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-3 md:px-3"
+        >
           {data.heading ? (
-            <h2 className="text-h4-sans text-brand-dark-green">
-              {data.heading}
-            </h2>
+            <RevealItem>
+              <h2 className="text-h4-sans text-brand-dark-green">
+                {data.heading}
+              </h2>
+            </RevealItem>
           ) : null}
           {data.subheading ? (
-            <p className="text-mono-s text-brand-dark-green md:w-83.5">
-              {data.subheading}
-            </p>
+            <RevealItem>
+              <p className="text-mono-s text-brand-dark-green md:w-83.5">
+                {data.subheading}
+              </p>
+            </RevealItem>
           ) : null}
-        </div>
+        </Reveal>
 
-        <div className="mt-[71px] flex flex-col gap-3 md:mt-10 md:flex-row md:px-3">
+        <Reveal
+          stagger
+          amount={0.2}
+          className="mt-[71px] flex flex-col gap-3 md:mt-10 md:flex-row md:px-3"
+        >
           {data.cards.map((card, index) =>
             card.image ? (
-              <CaseStudyCard
-                key={card.title}
-                title={card.title}
-                body={card.description ?? ''}
-                imageSrc={card.image.src}
-                imageAlt={card.image.alt}
-                imageClassName={
-                  CARD_IMAGE_CLASSNAMES[index] ?? CARD_IMAGE_CLASSNAMES[0]
-                }
-                markerLabel={data.eyebrow ?? data.heading ?? ''}
-                ctaLabel={card.cta?.label}
-                ctaHref={card.cta?.href}
-              />
+              <RevealItem key={card.title}>
+                <CaseStudyCard
+                  title={card.title}
+                  body={card.description ?? ''}
+                  imageSrc={card.image.src}
+                  imageAlt={card.image.alt}
+                  imageClassName={
+                    CARD_IMAGE_CLASSNAMES[index] ?? CARD_IMAGE_CLASSNAMES[0]
+                  }
+                  markerLabel={data.eyebrow ?? data.heading ?? ''}
+                  ctaLabel={card.cta?.label}
+                  ctaHref={card.cta?.href}
+                />
+              </RevealItem>
             ) : null
           )}
-        </div>
+        </Reveal>
       </div>
     </section>
   )

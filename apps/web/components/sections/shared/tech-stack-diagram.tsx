@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import { LogosMark } from '@acid-info/logos-ui'
 import type { TechStackOverviewSection } from '@repo/content/schemas'
 
+import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 
 import { DownloadIcon } from './builder-cta-card'
@@ -121,45 +122,56 @@ export function TechStackDiagram({
   return (
     <div className={className}>
       {data.basecamp ? (
-        <HoverStackItem
-          title={data.basecamp.title}
-          description={data.basecamp.body}
-          href={data.basecamp.cta?.href ?? data.basecamp.href}
-          ctaLabel={data.basecamp.cta?.label ?? 'Install'}
-          ctaIcon={<DownloadIcon />}
-          ctaVisibleByDefault
-          className="h-[105px] w-full border-brand-dark-green md:h-[196px]"
-        />
+        <Reveal amount={0.2}>
+          <HoverStackItem
+            title={data.basecamp.title}
+            description={data.basecamp.body}
+            href={data.basecamp.cta?.href ?? data.basecamp.href}
+            ctaLabel={data.basecamp.cta?.label ?? 'Install'}
+            ctaIcon={<DownloadIcon />}
+            ctaVisibleByDefault
+            className="h-[105px] w-full border-brand-dark-green md:h-[196px]"
+          />
+        </Reveal>
       ) : null}
 
-      <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
+      <Reveal
+        stagger
+        amount={0.15}
+        className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4"
+      >
         {data.pillars.map((pillar) => (
-          <HoverStackItem
-            key={pillar.id}
-            title={pillar.title}
-            description={pillar.body}
-            href={pillar.href}
-            className="h-[140px] w-full md:h-[366px]"
-            details={pillar.details}
-          />
+          <RevealItem key={pillar.id}>
+            <HoverStackItem
+              title={pillar.title}
+              description={pillar.body}
+              href={pillar.href}
+              className="h-[140px] w-full md:h-[366px]"
+              details={pillar.details}
+            />
+          </RevealItem>
         ))}
-      </div>
+      </Reveal>
 
-      <div className="mt-3 space-y-3">
-        <HoverStackItem
-          title={formatNetworkingTitle(data.networkingTitle)}
-          description={data.networkingDescription}
-          href={networkingHref}
-          className="h-[105px] w-full md:h-[196px]"
-          labelClassName="whitespace-pre-line"
-        />
-        <HoverStackItem
-          title={data.foundationTitle}
-          description={data.foundationDescription}
-          href={foundationHref}
-          className="h-[105px] w-full md:h-[196px]"
-        />
-      </div>
+      <Reveal stagger amount={0.2} className="mt-3 space-y-3">
+        <RevealItem>
+          <HoverStackItem
+            title={formatNetworkingTitle(data.networkingTitle)}
+            description={data.networkingDescription}
+            href={networkingHref}
+            className="h-[105px] w-full md:h-[196px]"
+            labelClassName="whitespace-pre-line"
+          />
+        </RevealItem>
+        <RevealItem>
+          <HoverStackItem
+            title={data.foundationTitle}
+            description={data.foundationDescription}
+            href={foundationHref}
+            className="h-[105px] w-full md:h-[196px]"
+          />
+        </RevealItem>
+      </Reveal>
     </div>
   )
 }

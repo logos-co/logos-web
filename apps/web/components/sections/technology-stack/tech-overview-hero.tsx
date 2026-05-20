@@ -3,6 +3,7 @@ import Image from 'next/image'
 import type { HeroSection } from '@repo/content/schemas'
 
 import { IconMask } from '@/components/icons/icon-mask'
+import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 
 type Props = {
@@ -123,16 +124,18 @@ export default function TechOverviewHero({ data }: Props) {
           </p>
         </div>
 
-        <h1 className="text-h2 absolute top-[126px] left-1/2 w-[464px] max-w-none -translate-x-1/2 text-center text-brand-dark-green md:top-[115px] md:left-[476px] md:w-[464px] md:translate-x-0">
-          {data.headline === 'The Logos Technology Stack' ? (
-            <>
-              <span className="block">The Logos</span>
-              <span className="block">Technology Stack</span>
-            </>
-          ) : (
-            data.headline
-          )}
-        </h1>
+        <Reveal className="absolute top-[126px] left-1/2 w-[464px] max-w-none -translate-x-1/2 md:top-[115px] md:left-[476px] md:w-[464px] md:translate-x-0">
+          <h1 className="text-h2 text-center text-brand-dark-green">
+            {data.headline === 'The Logos Technology Stack' ? (
+              <>
+                <span className="block">The Logos</span>
+                <span className="block">Technology Stack</span>
+              </>
+            ) : (
+              data.headline
+            )}
+          </h1>
+        </Reveal>
 
         <p className="text-mono-s absolute top-[259px] left-[202px] w-[178px] text-brand-dark-green md:hidden">
           {data.body}

@@ -6,6 +6,7 @@ import {
 } from '@acid-info/logos-ui'
 import type { CardGridSection } from '@repo/content/schemas'
 
+import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 
 import { DownloadIcon } from '../shared/builder-cta-card'
@@ -79,9 +80,11 @@ export default function NetworkingBuilderCta({ data }: Props) {
   )
 
   return (
-    <TechBuilderCtaDeck
-      cards={cards}
-      className="mt-15 mb-15 md:mt-25 md:mb-25"
-    />
+    <Reveal amount={0.2}>
+      <TechBuilderCtaDeck
+        cards={cards}
+        className="mt-15 mb-15 md:mt-25 md:mb-25"
+      />
+    </Reveal>
   )
 }

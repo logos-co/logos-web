@@ -6,6 +6,7 @@ import Image from 'next/image'
 import type { CardGridSection } from '@repo/content/schemas'
 
 import { IconMask } from '@/components/icons/icon-mask'
+import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 
 type UseCaseCardData = {
@@ -175,7 +176,7 @@ export default function TechOverviewUseCases({ data }: Props) {
   return (
     <section className="h-[820px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-10 md:pb-16">
       <div className="mx-auto max-w-354">
-        <div className="flex items-start justify-between gap-4 md:hidden">
+        <Reveal className="flex items-start justify-between gap-4 md:hidden">
           <div className="relative h-[81px] w-[107px] shrink-0 overflow-hidden">
             <Image
               src="/images/technology-stack/use-cases-top.jpg"
@@ -189,9 +190,9 @@ export default function TechOverviewUseCases({ data }: Props) {
           <p className="text-mono-s w-[178px] text-brand-dark-green">
             {[data.subheading, data.subheadingExtra].filter(Boolean).join(' ')}
           </p>
-        </div>
+        </Reveal>
 
-        <div className="relative hidden md:block md:h-[309px]">
+        <Reveal className="relative hidden md:block md:h-[309px]">
           <div className="absolute left-0 top-6 h-[81px] w-[107px] overflow-hidden">
             <Image
               src="/images/technology-stack/use-cases-top.jpg"
@@ -233,12 +234,14 @@ export default function TechOverviewUseCases({ data }: Props) {
               {data.cta.label}
             </Button>
           ) : null}
-        </div>
+        </Reveal>
 
         {data.heading ? (
-          <h2 className="text-h2 relative left-1/2 mt-16 w-[464px] max-w-none -translate-x-1/2 text-center text-brand-dark-green md:hidden">
-            {data.heading}
-          </h2>
+          <Reveal className="relative left-1/2 mt-16 w-[464px] max-w-none -translate-x-1/2 md:hidden">
+            <h2 className="text-h2 text-center text-brand-dark-green">
+              {data.heading}
+            </h2>
+          </Reveal>
         ) : null}
 
         {data.cta ? (
@@ -254,21 +257,25 @@ export default function TechOverviewUseCases({ data }: Props) {
         ) : null}
       </div>
 
-      <div
-        ref={scrollRef}
-        className={`mt-[76px] flex gap-3 overflow-x-auto px-3 pb-4 select-none md:mt-[94px] ${
-          isDragging ? 'cursor-grabbing' : 'cursor-grab'
-        }`}
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={stopDragging}
-        onMouseLeave={stopDragging}
-      >
-        {cards.map((card, index) => (
-          <UseCaseCard key={`${card.title}-${index}`} {...card} />
-        ))}
-      </div>
+      <Reveal amount={0.15}>
+        <div
+          ref={scrollRef}
+          className={`mt-[76px] flex gap-3 overflow-x-auto px-3 pb-4 select-none md:mt-[94px] ${
+            isDragging ? 'cursor-grabbing' : 'cursor-grab'
+          }`}
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={stopDragging}
+          onMouseLeave={stopDragging}
+        >
+          {cards.map((card, index) => (
+            <RevealItem key={`${card.title}-${index}`}>
+              <UseCaseCard {...card} />
+            </RevealItem>
+          ))}
+        </div>
+      </Reveal>
     </section>
   )
 }

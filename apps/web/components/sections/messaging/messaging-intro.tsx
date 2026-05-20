@@ -4,6 +4,8 @@ import type { ReactNode } from 'react'
 import { TechTextSplitSection } from '@acid-info/logos-ui'
 import type { CtaPanelSection } from '@repo/content/schemas'
 
+import { Reveal } from '@/components/motion/reveal'
+
 import { SectionMarker } from './messaging-shared'
 
 function LmnImage() {
@@ -52,7 +54,7 @@ function MessagingFeaturePanel({
           reverse ? 'md:flex-row-reverse' : 'md:flex-row'
         }`}
       >
-        <div className="flex h-72 flex-col md:h-144 md:w-175.5">
+        <Reveal className="flex h-72 flex-col md:h-144 md:w-175.5">
           {data.eyebrow ? <SectionMarker label={data.eyebrow} /> : null}
 
           <div className="mt-11.5 flex flex-col gap-3 text-brand-dark-green md:mt-auto">
@@ -61,9 +63,9 @@ function MessagingFeaturePanel({
               <p className="text-mono-s md:w-121.25">{data.description}</p>
             ) : null}
           </div>
-        </div>
+        </Reveal>
 
-        {image}
+        <Reveal amount={0.2}>{image}</Reveal>
       </div>
     </section>
   )
@@ -81,17 +83,19 @@ type Props = {
 export default function MessagingIntro({ privacy, lmn, censorship }: Props) {
   return (
     <>
-      <TechTextSplitSection
-        className="mb-15 md:mb-0"
-        title={privacy.title}
-        body={
-          privacy.description
-            ? privacy.description
-                .split('\n\n')
-                .map((paragraph) => <p key={paragraph}>{paragraph}</p>)
-            : null
-        }
-      />
+      <Reveal amount={0.2}>
+        <TechTextSplitSection
+          className="mb-15 md:mb-0"
+          title={privacy.title}
+          body={
+            privacy.description
+              ? privacy.description
+                  .split('\n\n')
+                  .map((paragraph) => <p key={paragraph}>{paragraph}</p>)
+              : null
+          }
+        />
+      </Reveal>
 
       <MessagingFeaturePanel data={lmn} image={<LmnImage />} />
       <MessagingFeaturePanel

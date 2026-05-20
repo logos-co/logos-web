@@ -2,6 +2,8 @@ import Image from 'next/image'
 
 import type { CardGridSection } from '@repo/content/schemas'
 
+import { Reveal, RevealItem } from '@/components/motion/reveal'
+
 /**
  * Dot accent colors are positional — Figma has three fixed accent dots in
  * mix-net / capability-discovery / peering order. Editors managing this
@@ -30,7 +32,7 @@ function FeatureCard({
   imageAlt,
 }: FeatureCardProps) {
   return (
-    <article className="flex h-[358px] shrink-0 flex-col items-start justify-between rounded-3xl bg-gray-01 p-1.5 md:h-[396px] md:flex-1">
+    <article className="flex h-[358px] w-full shrink-0 flex-col items-start justify-between rounded-3xl bg-gray-01 p-1.5 md:h-[396px]">
       <div className="flex w-full flex-col gap-3 p-3">
         <div className="flex items-center gap-3">
           <span
@@ -64,20 +66,25 @@ export default function NetworkingFeatures({ data }: Props) {
   return (
     <section className="bg-brand-off-white md:mt-25">
       <div className="mx-auto max-w-360 px-3">
-        <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
+        <Reveal
+          stagger
+          amount={0.15}
+          className="flex flex-col gap-3 md:flex-row md:items-stretch"
+        >
           {data.cards.map((card, index) =>
             card.image ? (
-              <FeatureCard
-                key={card.title}
-                title={card.title}
-                body={card.description ?? ''}
-                dotClassName={DOT_CLASSNAMES[index] ?? DOT_CLASSNAMES[0]}
-                imageSrc={card.image.src}
-                imageAlt={card.image.alt}
-              />
+              <RevealItem key={card.title} className="md:flex-1">
+                <FeatureCard
+                  title={card.title}
+                  body={card.description ?? ''}
+                  dotClassName={DOT_CLASSNAMES[index] ?? DOT_CLASSNAMES[0]}
+                  imageSrc={card.image.src}
+                  imageAlt={card.image.alt}
+                />
+              </RevealItem>
             ) : null
           )}
-        </div>
+        </Reveal>
       </div>
     </section>
   )

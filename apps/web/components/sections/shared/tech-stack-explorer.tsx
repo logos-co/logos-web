@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server'
 import { getPageCopy } from '@repo/content/loaders'
 import type { Language, TechStackOverviewSection } from '@repo/content/schemas'
 
+import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { ROUTES } from '@/constants/routes'
 import { createSectionFinder } from '@/lib/page-sections'
 
@@ -29,14 +30,21 @@ export default async function TechStackExplorer({
   return (
     <section className="border-brand-dark-green/10 bg-brand-off-white border-t">
       <div className="mx-auto max-w-360 px-3 pt-25 pb-[118px] md:pb-6">
-        <div className="flex flex-col gap-3 text-brand-dark-green md:flex-row md:gap-0">
-          <h2 className="text-h4-sans md:w-178.5">
-            {t('titleLine1')}
-            <br />
-            {t('titleLine2')}
-          </h2>
-          <p className="text-mono-s md:w-83.5">{t('body')}</p>
-        </div>
+        <Reveal
+          stagger
+          className="flex flex-col gap-3 text-brand-dark-green md:flex-row md:gap-0"
+        >
+          <RevealItem className="md:w-178.5">
+            <h2 className="text-h4-sans">
+              {t('titleLine1')}
+              <br />
+              {t('titleLine2')}
+            </h2>
+          </RevealItem>
+          <RevealItem className="md:w-83.5">
+            <p className="text-mono-s">{t('body')}</p>
+          </RevealItem>
+        </Reveal>
 
         <TechStackDiagram
           data={overview}

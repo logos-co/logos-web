@@ -1,5 +1,6 @@
 import type { RelatedArticlesSection } from '@repo/content/schemas'
 
+import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import type { PressArticleRow } from '@/lib/press-engine'
 
@@ -19,7 +20,10 @@ export default function StorageRelatedArticles({ data, articles }: Props) {
   return (
     <section className="mt-15 bg-brand-off-white md:mt-25">
       <div className="mx-auto h-220 max-w-360 px-3 py-3">
-        <div className="relative h-full overflow-hidden rounded-xl bg-accent-tan">
+        <Reveal
+          amount={0.15}
+          className="relative h-full overflow-hidden rounded-xl bg-accent-tan"
+        >
           {data.label ? (
             <p className="text-mono-s absolute top-6 left-3 w-56.5 text-brand-dark-green">
               {data.label}
@@ -45,16 +49,18 @@ export default function StorageRelatedArticles({ data, articles }: Props) {
           <h2 className="text-h3-serif absolute top-25.5 left-1/2 w-116 -translate-x-1/2 text-center whitespace-nowrap text-brand-dark-green">
             {data.title}
           </h2>
-          <div className="absolute top-60.25 right-0 left-6 flex gap-3 overflow-x-auto md:right-3 md:left-3 md:grid md:grid-cols-4 md:overflow-visible">
+          <Reveal
+            stagger
+            amount={0.2}
+            className="absolute top-60.25 right-0 left-6 flex gap-3 overflow-x-auto md:right-3 md:left-3 md:grid md:grid-cols-4 md:overflow-visible"
+          >
             {cards.map((card) => (
-              <ArticleCard
-                key={card.href}
-                {...card}
-                titleClassName={TITLE_CLASSNAME}
-              />
+              <RevealItem key={card.href}>
+                <ArticleCard {...card} titleClassName={TITLE_CLASSNAME} />
+              </RevealItem>
             ))}
-          </div>
-        </div>
+          </Reveal>
+        </Reveal>
       </div>
     </section>
   )

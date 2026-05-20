@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { TechUseCaseGrid, type TechUseCaseCard } from '@acid-info/logos-ui'
 import type { CardGridSection } from '@repo/content/schemas'
 
+import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 
 const CARD_IMAGES = [
@@ -45,5 +46,9 @@ export default function StorageUseCases({ data }: Props) {
     }
   })
 
-  return <TechUseCaseGrid cards={cards} />
+  return (
+    <Reveal amount={0.2}>
+      <TechUseCaseGrid cards={cards} />
+    </Reveal>
+  )
 }
