@@ -2,6 +2,7 @@ import Image from 'next/image'
 
 import type { RelatedArticlesSection } from '@repo/content/schemas'
 
+import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
 import type { PressArticleRow } from '@/lib/press-engine'
@@ -156,18 +157,27 @@ export default function PressSection({ data, articles }: Props) {
             </div>
           ) : null}
 
-          <h2 className="text-h2 absolute top-[102px] left-1/2 w-[464px] -translate-x-1/2 text-center text-brand-dark-green">
-            {data.title}
-          </h2>
+          <Reveal
+            amount={0.2}
+            className="absolute top-[102px] left-1/2 w-[464px] -translate-x-1/2"
+          >
+            <h2 className="text-h2 text-center text-brand-dark-green">
+              {data.title}
+            </h2>
+          </Reveal>
 
-          <div
+          <Reveal
+            stagger
+            amount={0.18}
             className="absolute top-[229px] right-0 left-3 flex gap-3 overflow-x-auto pr-3 md:right-3 md:grid md:grid-cols-4 md:overflow-visible md:pr-0"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {cards.map((card) => (
-              <PressCard key={card.href} {...card} />
+              <RevealItem key={card.href}>
+                <PressCard {...card} />
+              </RevealItem>
             ))}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

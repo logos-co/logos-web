@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
+import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
@@ -44,7 +45,10 @@ export default async function StartBuildingSection({
   return (
     <section className="h-[1236px] overflow-hidden bg-brand-off-white pt-[100px] md:h-[820px] md:pt-3 md:pb-28">
       <div className="mx-auto grid max-w-354 gap-3 px-3 md:grid-cols-2 md:px-0">
-        <div className="relative h-[319px] w-[365px] overflow-hidden rounded-[100px] bg-brand-dark-green/10 md:h-[696px] md:w-auto">
+        <Reveal
+          amount={0.2}
+          className="relative h-[319px] w-[365px] overflow-hidden rounded-[100px] bg-brand-dark-green/10 md:h-[696px] md:w-auto"
+        >
           <Image
             src="/images/home/figma-refresh/start-building.webp"
             alt=""
@@ -52,9 +56,12 @@ export default async function StartBuildingSection({
             sizes="(max-width: 768px) 369px, 702px"
             className="object-cover object-center"
           />
-        </div>
+        </Reveal>
 
-        <div className="flex min-h-[705px] flex-col justify-between rounded-xl bg-[#dbddd7] p-3 text-brand-dark-green md:min-h-[696px] md:p-6">
+        <Reveal
+          amount={0.2}
+          className="flex min-h-[705px] flex-col justify-between rounded-xl bg-[#dbddd7] p-3 text-brand-dark-green md:min-h-[696px] md:p-6"
+        >
           <div className="mx-auto mt-7 flex max-w-[320px] flex-col items-center gap-10 text-center md:mt-[113px]">
             <div className="flex flex-col items-center gap-6 md:w-[320px]">
               <h2 className="font-display text-[30px] leading-none tracking-[-0.03em] md:text-[36px]">
@@ -73,12 +80,14 @@ export default async function StartBuildingSection({
             </Button>
           </div>
 
-          <div className="grid gap-3 md:grid-cols-2">
+          <Reveal stagger amount={0.25} className="grid gap-3 md:grid-cols-2">
             {cards.map((card) => (
-              <SupportCardView key={card.title} card={card} />
+              <RevealItem key={card.title}>
+                <SupportCardView card={card} />
+              </RevealItem>
             ))}
-          </div>
-        </div>
+          </Reveal>
+        </Reveal>
       </div>
     </section>
   )

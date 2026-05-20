@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
+import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
@@ -46,7 +47,7 @@ export default async function BuilderPortalSection({
       <div className="mx-auto max-w-354 px-[10px] md:absolute md:inset-x-0 md:top-[212px] md:px-0">
         <div className="grid gap-3 md:grid-cols-[464px_minmax(0,940px)]">
           <div className="flex min-h-[531px] flex-col justify-between md:min-h-[532px]">
-            <div>
+            <Reveal amount={0.2}>
               <h2 className="text-h1 max-w-[702px] whitespace-pre-line text-brand-dark-green md:text-h2">
                 {t('title')}
               </h2>
@@ -60,14 +61,20 @@ export default async function BuilderPortalSection({
                   {t('cta')}
                 </Button>
               </div>
-            </div>
+            </Reveal>
 
-            <p className="text-mono-s whitespace-pre-line text-brand-dark-green md:w-[345px] md:font-sans md:text-[14px] md:leading-[1.2] md:font-medium">
+            <Reveal
+              amount={0.2}
+              className="text-mono-s whitespace-pre-line text-brand-dark-green md:w-[345px] md:font-sans md:text-[14px] md:leading-[1.2] md:font-medium"
+            >
               {t('description')}
-            </p>
+            </Reveal>
           </div>
 
-          <div className="relative h-[532px] overflow-hidden rounded-3xl bg-[#1c1c1c]">
+          <Reveal
+            amount={0.2}
+            className="relative h-[532px] overflow-hidden rounded-3xl bg-[#1c1c1c]"
+          >
             <div className="absolute top-[76px] left-[-84px] h-[379px] w-[836px] overflow-hidden rounded-md md:top-[88px] md:left-[33px] md:h-[356px] md:w-[785px]">
               <Image
                 src="/images/home/figma-refresh/basecamp.webp"
@@ -77,26 +84,32 @@ export default async function BuilderPortalSection({
                 className="object-cover object-center"
               />
             </div>
-          </div>
+          </Reveal>
         </div>
 
-        <div className="mt-3 grid gap-3 md:grid-cols-3">
-          <BasecampFeature
-            label={t('featureChat')}
-            image="/images/home/figma-refresh/basecamp-chat.webp"
-            imageClassName="rotate-90 scale-125"
-          />
-          <BasecampFeature
-            label={t('featureNode')}
-            image="/images/home/figma-refresh/basecamp-node.webp"
-            imageClassName="scale-125"
-          />
-          <BasecampFeature
-            label={t('featureTransactions')}
-            image="/images/home/figma-refresh/basecamp-transactions.webp"
-            imageClassName="scale-125"
-          />
-        </div>
+        <Reveal stagger amount={0.2} className="mt-3 grid gap-3 md:grid-cols-3">
+          <RevealItem>
+            <BasecampFeature
+              label={t('featureChat')}
+              image="/images/home/figma-refresh/basecamp-chat.webp"
+              imageClassName="rotate-90 scale-125"
+            />
+          </RevealItem>
+          <RevealItem>
+            <BasecampFeature
+              label={t('featureNode')}
+              image="/images/home/figma-refresh/basecamp-node.webp"
+              imageClassName="scale-125"
+            />
+          </RevealItem>
+          <RevealItem>
+            <BasecampFeature
+              label={t('featureTransactions')}
+              image="/images/home/figma-refresh/basecamp-transactions.webp"
+              imageClassName="scale-125"
+            />
+          </RevealItem>
+        </Reveal>
       </div>
     </section>
   )

@@ -2,11 +2,13 @@
 
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
+import { motion } from 'motion/react'
 
 import { LogosMark } from '@acid-info/logos-ui'
 
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
+import { EASE, VIEWPORT_ONCE } from '@/lib/motion'
 
 interface PathCard {
   key: 'build' | 'operate' | 'activism'
@@ -19,9 +21,19 @@ interface PathCard {
   imageClassName?: string
 }
 
-function PathCardView({ card }: { card: PathCard }) {
+function PathCardView({ card, index }: { card: PathCard; index: number }) {
   return (
-    <article className="group/path-card relative h-[422px] overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white">
+    <motion.article
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.58, delay: index * 0.09, ease: EASE.out },
+      }}
+      whileHover={{ y: -10 }}
+      viewport={VIEWPORT_ONCE}
+      className="group/path-card relative h-[422px] overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white"
+    >
       <Image
         src={card.image}
         alt=""
@@ -48,7 +60,7 @@ function PathCardView({ card }: { card: PathCard }) {
       <p className="absolute right-6 bottom-6 left-6 font-sans text-[14px] leading-[1.2] font-medium">
         {card.body}
       </p>
-    </article>
+    </motion.article>
   )
 }
 
@@ -104,8 +116,8 @@ export default function FeatureCardsSection() {
         </p>
 
         <div className="absolute top-[372px] left-1/2 grid w-[1416px] -translate-x-1/2 grid-cols-3 gap-3">
-          {cards.map((card) => (
-            <PathCardView key={card.key} card={card} />
+          {cards.map((card, index) => (
+            <PathCardView key={card.key} card={card} index={index} />
           ))}
         </div>
       </div>

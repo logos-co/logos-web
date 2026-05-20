@@ -8,8 +8,8 @@
  *   </Reveal>
  *
  *   <Reveal stagger>
- *     <Reveal.Item>Card 1</Reveal.Item>
- *     <Reveal.Item>Card 2</Reveal.Item>
+ *     <RevealItem>Card 1</RevealItem>
+ *     <RevealItem>Card 2</RevealItem>
  *   </Reveal>
  */
 'use client'
@@ -50,7 +50,7 @@ export function Reveal({
   )
 }
 
-Reveal.Item = function RevealItem({
+export function RevealItem({
   children,
   ...rest
 }: ComponentPropsWithoutRef<typeof motion.div>) {

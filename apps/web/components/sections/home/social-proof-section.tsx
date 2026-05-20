@@ -2,6 +2,9 @@
 
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
+import { motion } from 'motion/react'
+
+import { EASE, VIEWPORT_ONCE } from '@/lib/motion'
 
 interface SocialProofCard {
   key: 'contributions' | 'nodes' | 'circles' | 'issues'
@@ -13,9 +16,23 @@ interface SocialProofCard {
   imageClassName?: string
 }
 
-function SocialProofCardView({ card }: { card: SocialProofCard }) {
+function SocialProofCardView({
+  card,
+  index,
+}: {
+  card: SocialProofCard
+  index: number
+}) {
   return (
-    <article
+    <motion.article
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.55, delay: index * 0.08, ease: EASE.out },
+      }}
+      whileHover={{ y: -8 }}
+      viewport={VIEWPORT_ONCE}
       className={`relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl p-1.5 md:h-[432px] ${card.mobileClassName ?? 'h-[411px]'}`}
     >
       <Image
@@ -41,7 +58,7 @@ function SocialProofCardView({ card }: { card: SocialProofCard }) {
           {card.body}
         </p>
       </div>
-    </article>
+    </motion.article>
   )
 }
 
@@ -90,8 +107,8 @@ export default function SocialProofSection() {
   return (
     <section className="relative z-[2] -mt-10 overflow-hidden rounded-t-[36px] bg-brand-off-white px-3 pt-3 pb-[100px]">
       <div className="grid gap-3 md:grid-cols-4">
-        {cards.map((card) => (
-          <SocialProofCardView key={card.key} card={card} />
+        {cards.map((card, index) => (
+          <SocialProofCardView key={card.key} card={card} index={index} />
         ))}
       </div>
     </section>
