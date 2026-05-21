@@ -46,7 +46,7 @@
       "outputs": []
     },
     "check-types": {
-      "dependsOn": ["^check-types"]
+      "dependsOn": ["^build", "^check-types"]
     },
     "generate-types": {
       "cache": false,
