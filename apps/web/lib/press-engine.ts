@@ -1,6 +1,6 @@
 import { env } from '@/lib/env'
 
-export const PRESS_ORIGIN = 'https://press.logos.co'
+export const PRESS_ORIGIN = 'https://blog.logos.co'
 
 const PRESS_SEARCH_API = `${PRESS_ORIGIN}/api/search`
 const ADMIN_ACID_API_ORIGIN =
