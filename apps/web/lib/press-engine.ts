@@ -102,6 +102,87 @@ type CalendarResponse = {
   data?: CalendarEvent[]
 }
 
+const BODY_SNIPPET_LIMIT = 200
+
+const truncate = (value: string, limit = BODY_SNIPPET_LIMIT) =>
+  value.length > limit ? `${value.slice(0, limit)}…(${value.length} chars)` : value
+
+type FetchResult<T> =
+  | { ok: true; data: T }
+  | { ok: false; error: Error }
+
+async function tryFetchText(
+  url: string,
+  label: string,
+  cache: RequestCache,
+  acceptJson: boolean
+): Promise<FetchResult<{ text: string; contentType: string; status: number }>> {
+  try {
+    const response = await fetch(url, {
+      cache,
+      headers: acceptJson ? { Accept: 'application/json' } : undefined,
+    })
+    const text = await response.text()
+    const contentType = response.headers.get('content-type') ?? '<missing>'
+    if (!response.ok) {
+      return {
+        ok: false,
+        error: new Error(
+          `${label} failed: status=${response.status} content-type=${contentType} url=${url} body=${truncate(text)}`
+        ),
+      }
+    }
+    return { ok: true, data: { text, contentType, status: response.status } }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    return {
+      ok: false,
+      error: new Error(`${label} fetch threw: ${message} url=${url}`),
+    }
+  }
+}
+
+function parseFetchedJson<T>(
+  result: FetchResult<{ text: string; contentType: string; status: number }>,
+  url: string,
+  label: string
+): FetchResult<T> {
+  if (!result.ok) return result
+  const { text, contentType, status } = result.data
+  try {
+    return { ok: true, data: JSON.parse(text) as T }
+  } catch {
+    return {
+      ok: false,
+      error: new Error(
+        `${label} returned non-JSON: status=${status} content-type=${contentType} url=${url} body=${truncate(text)}`
+      ),
+    }
+  }
+}
+
+async function fetchJsonResilient<T>(url: string, label: string): Promise<T> {
+  const firstAttempt = await tryFetchText(url, label, 'force-cache', true)
+  const parsed = parseFetchedJson<T>(firstAttempt, url, label)
+  if (parsed.ok) return parsed.data
+
+  const retry = await tryFetchText(url, label, 'no-store', true)
+  const retryParsed = parseFetchedJson<T>(retry, url, label)
+  if (retryParsed.ok) return retryParsed.data
+
+  throw retryParsed.error
+}
+
+async function fetchTextResilient(url: string, label: string): Promise<string> {
+  const firstAttempt = await tryFetchText(url, label, 'force-cache', false)
+  if (firstAttempt.ok) return firstAttempt.data.text
+
+  const retry = await tryFetchText(url, label, 'no-store', false)
+  if (retry.ok) return retry.data.text
+
+  throw retry.error
+}
+
 const stripHtml = (value: string): string =>
   value
     .replace(/<[^>]*>/g, ' ')
@@ -221,11 +302,7 @@ const getPressSearchItems = async (
   limit: number
 ): Promise<PressSearchPost[]> => {
   const url = `${PRESS_SEARCH_API}?type=${type}&limit=${limit}`
-  const response = await fetch(url, { cache: 'force-cache' })
-  if (!response.ok) {
-    throw new Error(`Press search failed: ${response.status} ${url}`)
-  }
-  const json = (await response.json()) as PressSearchResponse
+  const json = await fetchJsonResilient<PressSearchResponse>(url, 'Press search')
   return json.data?.posts?.filter((post) => post.type === type) ?? []
 }
 
@@ -248,12 +325,8 @@ const extractArticlePageReadingTime = (html: string) => {
 
 const getArticlePageReadingTime = async (slug: string) => {
   const url = `${PRESS_ORIGIN}/article/${slug}`
-  const response = await fetch(url, { cache: 'force-cache' })
-  if (!response.ok) {
-    throw new Error(`Press article page failed: ${response.status} ${url}`)
-  }
-
-  return extractArticlePageReadingTime(await response.text())
+  const html = await fetchTextResilient(url, 'Press article page')
+  return extractArticlePageReadingTime(html)
 }
 
 const toArticleRow = (
@@ -376,19 +449,15 @@ export const getLatestPressPodcasts = async (limit = 20) => {
 }
 
 export const getBroadcastEvents = async () => {
-  const response = await fetch(
-    `${ADMIN_ACID_API_ORIGIN}${CALENDAR_PUBLIC_PATH}`,
-    {
-      cache: 'force-cache',
-    }
+  const url = `${ADMIN_ACID_API_ORIGIN}${CALENDAR_PUBLIC_PATH}`
+  const json = await fetchJsonResilient<CalendarResponse>(
+    url,
+    'Broadcast calendar'
   )
-  if (!response.ok) {
-    throw new Error(`Broadcast calendar failed: ${response.status}`)
-  }
-
-  const json = (await response.json()) as CalendarResponse
   if (!json.success || !json.data) {
-    throw new Error('Broadcast calendar returned an invalid response')
+    throw new Error(
+      `Broadcast calendar returned an invalid response: url=${url} success=${json.success} hasData=${Boolean(json.data)}`
+    )
   }
 
   const uniqueEvents = Array.from(

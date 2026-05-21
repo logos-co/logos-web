@@ -23,6 +23,32 @@ const formatLocalDateKey = (date: Date) => {
   return `${year}-${month}-${day}`
 }
 
+const jsonResponse = (payload: unknown): Response =>
+  ({
+    ok: true,
+    status: 200,
+    headers: new Headers({ 'content-type': 'application/json' }),
+    text: async () => JSON.stringify(payload),
+  }) as unknown as Response
+
+const htmlResponse = (html: string): Response =>
+  ({
+    ok: true,
+    status: 200,
+    headers: new Headers({ 'content-type': 'text/html; charset=utf-8' }),
+    text: async () => html,
+  }) as unknown as Response
+
+const FETCH_INIT_JSON = {
+  cache: 'force-cache',
+  headers: { Accept: 'application/json' },
+}
+
+const FETCH_INIT_HTML = {
+  cache: 'force-cache',
+  headers: undefined,
+}
+
 afterEach(() => {
   vi.restoreAllMocks()
 })
@@ -31,9 +57,8 @@ describe('getLatestPressArticles', () => {
   test('overfetches before image filtering and enriches stale reading times', async () => {
     const fetchMock = vi
       .spyOn(globalThis, 'fetch')
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
+      .mockResolvedValueOnce(
+        jsonResponse({
           data: {
             posts: [
               {
@@ -82,24 +107,21 @@ describe('getLatestPressArticles', () => {
               },
             ],
           },
-        }),
-      } as Response)
-      .mockResolvedValueOnce({
-        ok: true,
-        text: async () => articlePageHtml(13),
-      } as Response)
+        })
+      )
+      .mockResolvedValueOnce(htmlResponse(articlePageHtml(13)))
 
     const articles = await getLatestPressArticles(2)
 
     expect(fetchMock).toHaveBeenNthCalledWith(
       1,
       'https://blog.logos.co/api/search?type=article&limit=6',
-      { cache: 'force-cache' }
+      FETCH_INIT_JSON
     )
     expect(fetchMock).toHaveBeenNthCalledWith(
       2,
       'https://blog.logos.co/article/article-one',
-      { cache: 'force-cache' }
+      FETCH_INIT_HTML
     )
     expect(articles).toMatchObject([
       {
@@ -118,9 +140,8 @@ describe('getLatestPressArticles', () => {
 
 describe('getLatestPressPodcasts', () => {
   test('maps podcast search results without inventing missing fields', async () => {
-    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue({
-      ok: true,
-      json: async () => ({
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      jsonResponse({
         data: {
           posts: [
             {
@@ -138,14 +159,14 @@ describe('getLatestPressPodcasts', () => {
             },
           ],
         },
-      }),
-    } as Response)
+      })
+    )
 
     const podcasts = await getLatestPressPodcasts(1)
 
     expect(fetchMock).toHaveBeenCalledWith(
       'https://blog.logos.co/api/search?type=podcast&limit=1',
-      { cache: 'force-cache' }
+      FETCH_INIT_JSON
     )
     expect(podcasts).toEqual([
       {
@@ -163,9 +184,8 @@ describe('getLatestPressPodcasts', () => {
 
 describe('getBroadcastEvents', () => {
   test('keeps all calendar events and maps UTC event time to a local calendar date', async () => {
-    vi.spyOn(globalThis, 'fetch').mockResolvedValue({
-      ok: true,
-      json: async () => ({
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      jsonResponse({
         success: true,
         data: [
           {
@@ -197,8 +217,8 @@ describe('getBroadcastEvents', () => {
             links: ['https://example.com/past'],
           },
         ],
-      }),
-    } as Response)
+      })
+    )
 
     const events = await getBroadcastEvents()
 
