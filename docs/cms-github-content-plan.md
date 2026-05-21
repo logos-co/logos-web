@@ -60,13 +60,13 @@ The repository routing is locale-aware (`apps/web/app/[locale]/...`) and the i18
 
 The Figma node IDs supplied for Builders Hub and Circles were reconciled directly against the Figma file (file key `qpsaED5iVKrOXoxwCWXuN3`):
 
-| Plan reference | Actual frame name | Status |
-| --- | --- | --- |
-| `40009046:23948` | `Builders Hub` (1440×4573) | confirmed |
+| Plan reference   | Actual frame name                  | Status    |
+| ---------------- | ---------------------------------- | --------- |
+| `40009046:23948` | `Builders Hub` (1440×4573)         | confirmed |
 | `40009046:24754` | `Builders Hub / Ideas` (1440×2160) | confirmed |
-| `40009046:25012` | `Builders Hub / RFPs` (1440×2438) | confirmed |
-| `40009046:25359` | `Circles` (1440×4160) | confirmed |
-| `40009046:26015` | `Circles Detail Page` (1440×2014) | confirmed |
+| `40009046:25012` | `Builders Hub / RFPs` (1440×2438)  | confirmed |
+| `40009046:25359` | `Circles` (1440×4160)              | confirmed |
+| `40009046:26015` | `Circles Detail Page` (1440×2014)  | confirmed |
 
 The earlier conflict with `docs/components.md` (which listed `40009046:23948` as Footer desktop) was a stale entry in components.md, not a node-ID mismatch in this plan. Update `docs/components.md` so Footer desktop points at its actual node and Builders Hub points at `40009046:23948`.
 
@@ -241,11 +241,11 @@ type Navigation = {
   schemaVersion: 1
   language: Language
   closedBar: {
-    brandLabel: string             // wordmark text shown left ("LOGOS")
-    menuLabel: string              // closed-state button text ("MENU")
-    closeLabel: string             // open-state button text ("CLOSE MENU")
-    openAriaLabel: string          // "Open navigation menu"
-    closeAriaLabel: string         // "Close navigation menu"
+    brandLabel: string // wordmark text shown left ("LOGOS")
+    menuLabel: string // closed-state button text ("MENU")
+    closeLabel: string // open-state button text ("CLOSE MENU")
+    openAriaLabel: string // "Open navigation menu"
+    closeAriaLabel: string // "Close navigation menu"
   }
   sitemap: NavLink[]
   communityCards: Array<{
@@ -255,10 +255,10 @@ type Navigation = {
     image: MediaRef
   }>
   press: {
-    label: string                  // section title in overlay ("Press")
-    seeAllLabel: string             // "SEE ALL"
-    seeAllHref: string              // /press
-    visibleCount?: number           // Press Engine query limit; UI applies default of 4 when omitted
+    label: string // section title in overlay ("Press")
+    seeAllLabel: string // "SEE ALL"
+    seeAllHref: string // /press
+    visibleCount?: number // Press Engine query limit; UI applies default of 4 when omitted
   }
 }
 ```
@@ -307,8 +307,8 @@ type PageCopy = {
 }
 
 type PageSeo = {
-  metaTitle?: string             // overrides `title` for <title>
-  metaDescription?: string       // overrides `description` for meta description
+  metaTitle?: string // overrides `title` for <title>
+  metaDescription?: string // overrides `description` for meta description
   keywords?: string[]
   ogImage?: MediaRef
   noindex?: boolean
@@ -325,11 +325,11 @@ type PageSection =
   | CtaPanelSection
   | GallerySection
   | TechStackOverviewSection
-  | CustomSection                // escape hatch with explicit JSON schema
+  | CustomSection // escape hatch with explicit JSON schema
 
 type HeroSection = {
   componentType: 'hero'
-  key: string                    // e.g. 'home.atf'
+  key: string // e.g. 'home.atf'
   eyebrow?: string
   headline: string
   body?: string
@@ -374,7 +374,7 @@ type RelatedArticlesSection = {
   eyebrow?: string
   title: string
   cta?: CTA
-  visibleCount?: number          // Press Engine query limit; UI applies default of 4 when omitted
+  visibleCount?: number // Press Engine query limit; UI applies default of 4 when omitted
 }
 
 // Minimal placeholders for sections used today — full shapes filled in alongside Figma walkthrough.
@@ -393,20 +393,36 @@ type TableSection = {
     cta?: CTA
   }>
 }
-type CtaPanelSection = { componentType: 'ctaPanel'; key: string; title: string; description?: string; image?: MediaRef; cta: CTA }
-type GallerySection = { componentType: 'gallery'; key: string; items: Array<{ image: MediaRef; caption?: string; date?: string }> }
+type CtaPanelSection = {
+  componentType: 'ctaPanel'
+  key: string
+  title: string
+  description?: string
+  image?: MediaRef
+  cta: CTA
+}
+type GallerySection = {
+  componentType: 'gallery'
+  key: string
+  items: Array<{ image: MediaRef; caption?: string; date?: string }>
+}
 type TechStackOverviewSection = {
   componentType: 'techStackOverview'
   key: string
-  pillars: Array<{ id: 'storage'|'messaging'|'blockchain'|'userModules'; title: string; body: string; href: string }>
+  pillars: Array<{
+    id: 'storage' | 'messaging' | 'blockchain' | 'userModules'
+    title: string
+    body: string
+    href: string
+  }>
   networkingTitle: string
   foundationTitle: string
 }
 type CustomSection = {
   componentType: 'custom'
   key: string
-  customSchemaId: string         // names a Zod schema registered in @repo/content/schemas/custom-sections
-  payload: unknown               // shape validated against the named schema at load time
+  customSchemaId: string // names a Zod schema registered in @repo/content/schemas/custom-sections
+  payload: unknown // shape validated against the named schema at load time
 }
 ```
 
@@ -422,7 +438,7 @@ Tech-stack sub-pages (`storage`, `messaging`, `blockchain`, `networking`) reuse 
 type Language = 'en' | 'fr' | 'ko'
 
 type MediaRef = {
-  src: string         // absolute path from apps/web/public, e.g. /cms/...
+  src: string // absolute path from apps/web/public, e.g. /cms/...
   alt: string
   width?: number
   height?: number
@@ -430,7 +446,7 @@ type MediaRef = {
 }
 
 type CTA = {
-  label: string                                            // stored sentence case (e.g. "Join this circle"); component renders uppercase via CSS
+  label: string // stored sentence case (e.g. "Join this circle"); component renders uppercase via CSS
   href: string
   external?: boolean
   variant?: 'primary' | 'secondary' | 'tertiary' | 'link' // default 'primary'
@@ -473,12 +489,12 @@ Place names like `Circle.city`, `Circle.country`, `CircleEvent.venueName`, and `
 
 `startsAt`, `endsAt`, `publishedAt`, `submittedAt`, `closesAt` are always ISO 8601 in UTC. Surface-specific display strings are produced by the loader, not stored:
 
-| Surface | Example | Generated by |
-| --- | --- | --- |
-| Circles index event group header | `JANUARY 21 / WEDNESDAY` | `formatEventDateForSurface(event, 'index-group', locale)` |
-| Circles index event card (no date — date is in the group header above) | time row only: `12:00 PM · 6:00 PM GMT+1` (event-local · viewer-local) | `formatEventDateForSurface(event, 'index-card', locale)` |
-| Circle detail event card | calendar row `February 22, 2026`, clock row `12:00 PM` | `formatEventDateForSurface(event, 'detail-card', locale)` |
-| Press article card | `02.14.26` | Logos Press Engine response |
+| Surface                                                                | Example                                                                | Generated by                                              |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------- |
+| Circles index event group header                                       | `JANUARY 21 / WEDNESDAY`                                               | `formatEventDateForSurface(event, 'index-group', locale)` |
+| Circles index event card (no date — date is in the group header above) | time row only: `12:00 PM · 6:00 PM GMT+1` (event-local · viewer-local) | `formatEventDateForSurface(event, 'index-card', locale)`  |
+| Circle detail event card                                               | calendar row `February 22, 2026`, clock row `12:00 PM`                 | `formatEventDateForSurface(event, 'detail-card', locale)` |
+| Press article card                                                     | `02.14.26`                                                             | Logos Press Engine response                               |
 
 The index-card time row pairs the event's local time with the viewer's local time using the browser's `Intl.DateTimeFormat`. The detail-card surface omits viewer-local conversion to keep copy unambiguous when the page is shared.
 
@@ -486,10 +502,10 @@ The index-card time row pairs the event's local time with the viewer's local tim
 
 #### Event Card Surface Mapping
 
-| Surface | Date row | Title | Location field used | Avatar stack |
-| --- | --- | --- | --- | --- |
+| Surface                      | Date row                                              | Title                     | Location field used             | Avatar stack                                                         |
+| ---------------------------- | ----------------------------------------------------- | ------------------------- | ------------------------------- | -------------------------------------------------------------------- |
 | Circles index card (463×135) | none — date is in the date+weekday group header above | `CircleEventLocale.title` | `locationLabel` (city + region) | up to 3 avatars; missing slots fall back to grey placeholder circles |
-| Circle detail card (702×234) | yes — calendar row + separate clock row | `CircleEventLocale.title` | `venueName` (single venue) | up to 3 avatars; missing slots fall back to grey placeholder circles |
+| Circle detail card (702×234) | yes — calendar row + separate clock row               | `CircleEventLocale.title` | `venueName` (single venue)      | up to 3 avatars; missing slots fall back to grey placeholder circles |
 
 ### Builders Hub
 
@@ -504,18 +520,24 @@ type BuilderHubSettings = {
   schemaVersion: 1
   language: Language
   hero: {
-    title: string                           // "Logos Builders Hub"
-    description?: string                    // right-side intro paragraph
-    eyebrow?: string                        // small top-left label, optional
+    title: string // "Logos Builders Hub"
+    description?: string // right-side intro paragraph
+    eyebrow?: string // small top-left label, optional
     backLink?: { label: string; href: string } // small "← <parent>" link above the hero
-    topRightCta?: CTA                       // top-right utility CTA in the hero (e.g. external link)
+    topRightCta?: CTA // top-right utility CTA in the hero (e.g. external link)
   }
   overviewLinks: Array<{
-    key: 'ideas' | 'rfps' | 'resources' | 'github-issues' | 'contribute' | string
-    title: string                           // "Ideas", "RFPs", etc.
-    description: string                     // single-line summary shown to the right of the title
-    primaryCta: CTA                         // first of the two CTAs on each row (60×17 in Figma)
-    secondaryCta?: CTA                      // second CTA on each row (78×17 in Figma)
+    key:
+      | 'ideas'
+      | 'rfps'
+      | 'resources'
+      | 'github-issues'
+      | 'contribute'
+      | string
+    title: string // "Ideas", "RFPs", etc.
+    description: string // single-line summary shown to the right of the title
+    primaryCta: CTA // first of the two CTAs on each row (60×17 in Figma)
+    secondaryCta?: CTA // second CTA on each row (78×17 in Figma)
   }>
   // The home-page submit CTAs and the listing-page submit CTAs are intentionally
   // separate: the home page often shows shorter copy ("Submit") next to a section
@@ -530,14 +552,15 @@ type BuilderHubSettings = {
     description?: string
     filterCta?: CTA
     seeAllCta: CTA
-    submitCta?: CTA           // home-page section header; listing page uses BuilderHubListingPageSettings.submitCta
-    pinnedSlugs?: string[]    // RFPs displayed on the home grid; loader fills remaining slots from latest published
-    displayCount?: number     // total tiles on the home grid (Figma default 7 RFP cards + 1 terminator = 8)
-    terminatorCard?: {        // last grid cell: cross-promotion tile with thumbnails of related items
+    submitCta?: CTA // home-page section header; listing page uses BuilderHubListingPageSettings.submitCta
+    pinnedSlugs?: string[] // RFPs displayed on the home grid; loader fills remaining slots from latest published
+    displayCount?: number // total tiles on the home grid (Figma default 7 RFP cards + 1 terminator = 8)
+    terminatorCard?: {
+      // last grid cell: cross-promotion tile with thumbnails of related items
       kind: 'see-all-rfps' | 'see-all-ideas'
-      title: string                  // "See all ideas"
-      thumbnailSlugs: string[]       // 4 slugs from the linked collection (ideas / rfps)
-      href: string                   // entire card is the click surface; Figma renders no inner CTA button
+      title: string // "See all ideas"
+      thumbnailSlugs: string[] // 4 slugs from the linked collection (ideas / rfps)
+      href: string // entire card is the click surface; Figma renders no inner CTA button
     }
   }
   ideasSection: {
@@ -545,12 +568,12 @@ type BuilderHubSettings = {
     description?: string
     seeAllCta: CTA
     submitCta?: CTA
-    pinnedSlugs?: string[]    // Ideas displayed on the home table; loader fills remaining slots from latest published
-    displayCount?: number     // number of rows on the home (Figma default 7)
+    pinnedSlugs?: string[] // Ideas displayed on the home table; loader fills remaining slots from latest published
+    displayCount?: number // number of rows on the home (Figma default 7)
   }
   appInstall: {
-    accent: 'grey' | 'yellow'                              // GiantSwitch accent
-    imagePosition: 'left' | 'right'                        // GiantSwitch image position
+    accent: 'grey' | 'yellow' // GiantSwitch accent
+    imagePosition: 'left' | 'right' // GiantSwitch image position
     title: string
     description: string
     tags: Array<{
@@ -562,10 +585,10 @@ type BuilderHubSettings = {
     image: MediaRef
   }
   actionPanels: Array<{
-    variant: 'image-overlay' | 'flat'    // Figma shows two distinct treatments: rounded image-overlay (boilerplate apps) and flat dark-green pill (office hours)
+    variant: 'image-overlay' | 'flat' // Figma shows two distinct treatments: rounded image-overlay (boilerplate apps) and flat dark-green pill (office hours)
     title: string
     description?: string
-    image?: MediaRef                     // required when variant = 'image-overlay'
+    image?: MediaRef // required when variant = 'image-overlay'
     cta: CTA
   }>
   officeHours?: {
@@ -606,7 +629,7 @@ type RFPIndex = {
     name: string
     handle?: string
   }
-  relatedIdeas?: string[]   // slug references; validated for existence at load time
+  relatedIdeas?: string[] // slug references; validated for existence at load time
 }
 ```
 
@@ -635,9 +658,10 @@ type IdeaIndex = {
   status: PublishState
   submitter: {
     name?: string
-    handle: string         // stored without leading '@'
+    handle: string // stored without leading '@'
   }
-  reward?: {               // Figma renders rewards on Idea rows in both the home table and the listing
+  reward?: {
+    // Figma renders rewards on Idea rows in both the home table and the listing
     amount: number
     currency: 'USDC'
     xp?: number
@@ -673,12 +697,12 @@ type BuilderResourcesFile = {
 }
 
 type BuilderResourceLocale = {
-  slug: string                 // unique within this collection
+  slug: string // unique within this collection
   title: string
   description: string
   ctaLabel: string
-  href: string                 // duplicated across locale files; loader warns on divergence
-  status: PublishState         // duplicated across locale files; loader warns on divergence
+  href: string // duplicated across locale files; loader warns on divergence
+  status: PublishState // duplicated across locale files; loader warns on divergence
 }
 ```
 
@@ -725,20 +749,20 @@ type CirclesSettings = {
   schemaVersion: 1
   language: Language
   hero: {
-    title: string                       // "Logos Circles"
-    description: string                 // long body copy on the right
-    eyebrow?: string                    // small top-left label
-    backLink?: { label: string; href: string }  // small "← <parent>" link above hero
-    topRightCta?: CTA                   // small top-right utility link
-    findCta: CTA                        // primary bottom-left CTA ("Find a Circle Near You")
-    joinCta: CTA                        // primary bottom-right CTA ("Start a Circle")
+    title: string // "Logos Circles"
+    description: string // long body copy on the right
+    eyebrow?: string // small top-left label
+    backLink?: { label: string; href: string } // small "← <parent>" link above hero
+    topRightCta?: CTA // small top-right utility link
+    findCta: CTA // primary bottom-left CTA ("Find a Circle Near You")
+    joinCta: CTA // primary bottom-right CTA ("Start a Circle")
   }
   map: {
     defaultZoom: number
     defaultCenter: { lat: number; lng: number }
-    image?: MediaRef                    // static-image fallback for Phase 1
-    zoomInAriaLabel: string             // aria-label for the icon-only zoom-in button
-    zoomOutAriaLabel: string            // aria-label for the icon-only zoom-out button
+    image?: MediaRef // static-image fallback for Phase 1
+    zoomInAriaLabel: string // aria-label for the icon-only zoom-in button
+    zoomOutAriaLabel: string // aria-label for the icon-only zoom-out button
   }
   // Section between the map and the events list. The Figma copy ("These meetups are
   // essential for anyone taking actions with us...") matches messages.en.json
@@ -746,7 +770,7 @@ type CirclesSettings = {
   // /circles. The Figma layer name "Header → Video: Powering Effective Crisis Response"
   // is a designer note, not the rendered headline.
   nearbyCta: {
-    title: string                       // e.g. "Circles and Counting." (was home.circlesCta.headline)
+    title: string // e.g. "Circles and Counting." (was home.circlesCta.headline)
     description?: string
     cta: CTA
   }
@@ -759,7 +783,7 @@ type CirclesSettings = {
     title: string
     cta?: CTA
   }
-  detailJoinCtaLabel: string             // shared label for the hero Join button on every Circle detail page (Figma value: "Join this circle"). Stored sentence case; component uppercases.
+  detailJoinCtaLabel: string // shared label for the hero Join button on every Circle detail page (Figma value: "Join this circle"). Stored sentence case; component uppercases.
   resourcesSection: {
     title: string
     description?: string
@@ -787,7 +811,7 @@ type CircleIndex = {
   // GeoJSON-friendly accessor (loader computed): [lng, lat]
   timezone: string
   memberCount?: number
-  discordChannel?: string         // stored without leading '#'; UI prepends it (Figma displays "#circle-los-angeles")
+  discordChannel?: string // stored without leading '#'; UI prepends it (Figma displays "#circle-los-angeles")
   discordUrl?: string
   forumUrl?: string
   joinUrl: string
@@ -819,29 +843,29 @@ type CircleEventIndex = {
   schemaVersion: 1
   slug: string
   status: PublishState
-  circleSlug: string         // must reference an existing circle
-  startsAt: string           // ISO 8601 in UTC — primary source of truth for all date/time rendering
+  circleSlug: string // must reference an existing circle
+  startsAt: string // ISO 8601 in UTC — primary source of truth for all date/time rendering
   endsAt?: string
-  timezone: string           // IANA timezone for the event venue
-  displayDateOverride?: string    // escape hatch — only used when the auto-formatted date must be replaced (rare)
+  timezone: string // IANA timezone for the event venue
+  displayDateOverride?: string // escape hatch — only used when the auto-formatted date must be replaced (rare)
   displayWeekdayOverride?: string
   displayTimeOverride?: string
-  venueName?: string         // e.g. "Chateau Marmont"
+  venueName?: string // e.g. "Chateau Marmont"
   address?: string
   eventUrl?: string
-  image?: MediaRef           // shown on the detail-page card (702×234) and the index card (463×135)
+  image?: MediaRef // shown on the detail-page card (702×234) and the index card (463×135)
   hostedBy: Array<{
-    name: string             // e.g. "InfinityBase Events"
-    avatar?: MediaRef        // small avatar shown in the host stack
+    name: string // e.g. "InfinityBase Events"
+    avatar?: MediaRef // small avatar shown in the host stack
   }>
   featured: boolean
-  sequenceNumber?: number    // optional series number, e.g. 5 → renders as "Los Angeles Circle #5". Loader auto-prefills max+1 within circleSlug.
+  sequenceNumber?: number // optional series number, e.g. 5 → renders as "Los Angeles Circle #5". Loader auto-prefills max+1 within circleSlug.
 }
 
 type CircleEventLocale = {
   language: Language
-  title: string              // override; loader prefills from circle.name + sequenceNumber, e.g. "Los Angeles Circle #5"
-  locationLabel: string      // city + region shown on the index card with map-pin icon (e.g. "Florianópolis, Santa Catarina"). Detail card uses `venueName` instead.
+  title: string // override; loader prefills from circle.name + sequenceNumber, e.g. "Los Angeles Circle #5"
+  locationLabel: string // city + region shown on the index card with map-pin icon (e.g. "Florianópolis, Santa Catarina"). Detail card uses `venueName` instead.
 }
 ```
 
@@ -891,11 +915,11 @@ type CircleResourceLocale = {
 }
 ```
 
-### Press
+### Blog
 
-Press articles are not stored in repo content or edited through this CMS. The open-overlay Press section in the navbar, the homepage Press strip, the `/press` index, and every tech-stack sub-page's `Related Articles` block fetch article data from Logos Press Engine.
+Blog articles are not stored in repo content or edited through this CMS. The open-overlay Press section in the navbar, the homepage Press strip, the `/press` index, and every tech-stack sub-page's `Related Articles` block fetch article data from Logos Press Engine.
 
-Repo content owns only surrounding chrome copy such as section labels, CTA labels, and `visibleCount`. Article title, author, image, date, and canonical URL come from `https://press.logos.co/api/search`.
+Repo content owns only surrounding chrome copy such as section labels, CTA labels, and `visibleCount`. Article title, author, image, date, and canonical URL come from `https://blog.logos.co/api/search`.
 
 ## 5. Figma Coverage Audit
 
@@ -903,68 +927,68 @@ The schemas in this plan were validated directly against the Figma file (file ke
 
 ### Builders Hub Coverage
 
-| Figma frame | Required content | Coverage |
-| --- | --- | --- |
-| `40009046:23948` Builders Hub | Hero title, intro copy, optional eyebrow, optional back link, optional top-right CTA | `BuilderHubSettings.hero` |
-| `40009046:23948` Builders Hub | Top overview rows: Ideas, RFPs, Resources, GitHub Issues, Contribute, each with two CTAs | `BuilderHubSettings.overviewLinks` (`primaryCta` + `secondaryCta`) |
-| `40009046:23948` Builders Hub | Logos App Giant Switch content, tags, image, install CTA, learn-more CTA | `BuilderHubSettings.appInstall` |
+| Figma frame                   | Required content                                                                                     | Coverage                                                                                      |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `40009046:23948` Builders Hub | Hero title, intro copy, optional eyebrow, optional back link, optional top-right CTA                 | `BuilderHubSettings.hero`                                                                     |
+| `40009046:23948` Builders Hub | Top overview rows: Ideas, RFPs, Resources, GitHub Issues, Contribute, each with two CTAs             | `BuilderHubSettings.overviewLinks` (`primaryCta` + `secondaryCta`)                            |
+| `40009046:23948` Builders Hub | Logos App Giant Switch content, tags, image, install CTA, learn-more CTA                             | `BuilderHubSettings.appInstall`                                                               |
 | `40009046:23948` Builders Hub | RFP card grid (7 cards) + cross-promotion `See all ideas` terminator tile + filter CTA + see-all CTA | `BuilderHubSettings.rfpsSection` with `pinnedSlugs`, `displayCount`, `terminatorCard` + `RFP` |
-| `40009046:23948` Builders Hub | Ideas table (7 rows on home) | `BuilderHubSettings.ideasSection` with `pinnedSlugs`, `displayCount` + `Idea` |
-| `40009046:23948` Builders Hub | Two large CTA panels: boilerplate apps and office hours | `BuilderHubSettings.actionPanels` and `BuilderHubSettings.officeHours` |
-| `40009046:23948` Builders Hub | Additional Resources table: Quick Start, Documentation, Boilerplates, Video Tutorials | `BuilderResourcesFile` and `BuilderHubSettings.resourcesSection` |
-| `40009046:24754` Ideas | Breadcrumb, page header (logomark + title), submit CTA, grid/list toggle, default list view | `BuilderHubListingPageSettings` |
-| `40009046:24754` Ideas | Ten list rows (no pagination — `pageSize` reaches list count) | `Idea` plus listing settings |
-| `40009046:24754` Ideas | Bottom CTA: `We want your ideas.` | `BuilderHubListingPageSettings.bottomCta` |
-| `40009046:25012` RFPs | Breadcrumb, page header, submit CTA, grid/list toggle, default grid view | `BuilderHubListingPageSettings` |
-| `40009046:25012` RFPs | RFP cards and list rows with reward and apply CTA | `RFP` |
+| `40009046:23948` Builders Hub | Ideas table (7 rows on home)                                                                         | `BuilderHubSettings.ideasSection` with `pinnedSlugs`, `displayCount` + `Idea`                 |
+| `40009046:23948` Builders Hub | Two large CTA panels: boilerplate apps and office hours                                              | `BuilderHubSettings.actionPanels` and `BuilderHubSettings.officeHours`                        |
+| `40009046:23948` Builders Hub | Additional Resources table: Quick Start, Documentation, Boilerplates, Video Tutorials                | `BuilderResourcesFile` and `BuilderHubSettings.resourcesSection`                              |
+| `40009046:24754` Ideas        | Breadcrumb, page header (logomark + title), submit CTA, grid/list toggle, default list view          | `BuilderHubListingPageSettings`                                                               |
+| `40009046:24754` Ideas        | Ten list rows (no pagination — `pageSize` reaches list count)                                        | `Idea` plus listing settings                                                                  |
+| `40009046:24754` Ideas        | Bottom CTA: `We want your ideas.`                                                                    | `BuilderHubListingPageSettings.bottomCta`                                                     |
+| `40009046:25012` RFPs         | Breadcrumb, page header, submit CTA, grid/list toggle, default grid view                             | `BuilderHubListingPageSettings`                                                               |
+| `40009046:25012` RFPs         | RFP cards and list rows with reward and apply CTA                                                    | `RFP`                                                                                         |
 
 ### Circles Coverage
 
-| Figma frame | Required content | Coverage |
-| --- | --- | --- |
-| `40009046:25359` Circles | Hero title, intro copy, optional eyebrow + top-right CTA + back link, find/join CTAs | `CirclesSettings.hero` |
-| `40009046:25359` Circles | World map image (1432×926), city markers, two icon-only zoom buttons | `CirclesSettings.map` (with aria-only zoom labels) + `Circle.coordinates` |
-| `40009046:25359` Circles | Find-a-circle-nearby CTA block below the map (matches `home.circlesCta` body copy) | `CirclesSettings.nearbyCta` |
-| `40009046:25359` Circles | Upcoming events grouped by date + weekday header with divider | `CircleEvent.displayDate`, `displayWeekday`, `startsAt` + `getCircleEventsGroupedByDate` loader |
-| `40009046:25359` Circles | Index event card (463×135): location, date/time, venue, host stack, image | `CircleEvent` |
-| `40009046:25359` Circles | Winnable Issues cards (3 across) with location label, title, body, CTA, background image | `CircleInitiative` |
-| `40009046:25359` Circles | Circles Resources table: Start your own Circle, Forum, Discord | `CircleResourcesFile` and `CirclesSettings.resourcesSection` |
-| `40009046:26015` Circle detail | Back link "← Circles" above hero, city title (logomark + name), description, members/Discord/forum metadata, Join CTA | `Circle` + `Circle.detailBackLink` |
-| `40009046:26015` Circle detail | Metadata rows: members count, Discord channel `#circle-...`, Forum URL | `Circle.memberCount`, `discordChannel` (no leading `#`), `discordUrl`, `forumUrl` |
-| `40009046:26015` Circle detail | Detail event cards (702×234) with image, "Circle #N" title, date / time / location rows, host stack with avatars | `CircleEvent` (incl. `sequenceNumber`, `hostedBy[].avatar`) filtered by `circleSlug` |
-| `40009046:26015` Circle detail | Two initiative cards (702×282) with location, title, body, CTA, image | `CircleInitiative` filtered by `circleSlug` |
+| Figma frame                    | Required content                                                                                                      | Coverage                                                                                        |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `40009046:25359` Circles       | Hero title, intro copy, optional eyebrow + top-right CTA + back link, find/join CTAs                                  | `CirclesSettings.hero`                                                                          |
+| `40009046:25359` Circles       | World map image (1432×926), city markers, two icon-only zoom buttons                                                  | `CirclesSettings.map` (with aria-only zoom labels) + `Circle.coordinates`                       |
+| `40009046:25359` Circles       | Find-a-circle-nearby CTA block below the map (matches `home.circlesCta` body copy)                                    | `CirclesSettings.nearbyCta`                                                                     |
+| `40009046:25359` Circles       | Upcoming events grouped by date + weekday header with divider                                                         | `CircleEvent.displayDate`, `displayWeekday`, `startsAt` + `getCircleEventsGroupedByDate` loader |
+| `40009046:25359` Circles       | Index event card (463×135): location, date/time, venue, host stack, image                                             | `CircleEvent`                                                                                   |
+| `40009046:25359` Circles       | Winnable Issues cards (3 across) with location label, title, body, CTA, background image                              | `CircleInitiative`                                                                              |
+| `40009046:25359` Circles       | Circles Resources table: Start your own Circle, Forum, Discord                                                        | `CircleResourcesFile` and `CirclesSettings.resourcesSection`                                    |
+| `40009046:26015` Circle detail | Back link "← Circles" above hero, city title (logomark + name), description, members/Discord/forum metadata, Join CTA | `Circle` + `Circle.detailBackLink`                                                              |
+| `40009046:26015` Circle detail | Metadata rows: members count, Discord channel `#circle-...`, Forum URL                                                | `Circle.memberCount`, `discordChannel` (no leading `#`), `discordUrl`, `forumUrl`               |
+| `40009046:26015` Circle detail | Detail event cards (702×234) with image, "Circle #N" title, date / time / location rows, host stack with avatars      | `CircleEvent` (incl. `sequenceNumber`, `hostedBy[].avatar`) filtered by `circleSlug`            |
+| `40009046:26015` Circle detail | Two initiative cards (702×282) with location, title, body, CTA, image                                                 | `CircleInitiative` filtered by `circleSlug`                                                     |
 
 ### Tech Stack and Home Coverage
 
-| Page | Required content | Coverage |
-| --- | --- | --- |
-| `/` Home | ATF hero, Build/Node/Circles triptych, About teaser, Tech stack, Use cases, App Install banner, Builder Portal, Editorial image, Press strip, Circles teaser | `PageCopy` with `hero`, `cardGrid`, `richText`, `techStackOverview`, `giantSwitch`, `ctaPanel`, `gallery`, `relatedArticles` sections |
-| `/technology-stack` | Hero, four pillar cards, networking + foundation rows, App Install banner, large circle image, Use cases | `PageCopy` with `hero`, `techStackOverview`, `giantSwitch`, `cardGrid` sections |
-| `/technology-stack/storage` | Hero, intro, builder CTA panel, related articles, sibling tech-stack overview | `PageCopy` with `hero`, `richText`, `ctaPanel`, `relatedArticles`, `techStackOverview` |
-| `/technology-stack/messaging` | Hero, intro, case studies, builder CTA panel, related articles | Same as above plus a `cardGrid` for case studies |
-| `/technology-stack/blockchain` | Hero, privacy/cryptarchia explainers, builder CTA panel, related articles | Same as above plus a `cardGrid` for `blendNetwork` and `lez` |
-| `/technology-stack/networking` | Hero, intro, three feature cards, builder CTA panel, related articles | Same as above |
-| `/press` | Engine label, list of latest articles | UI copy from translations plus Logos Press Engine data |
+| Page                           | Required content                                                                                                                                             | Coverage                                                                                                                              |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `/` Home                       | ATF hero, Build/Node/Circles triptych, About teaser, Tech stack, Use cases, App Install banner, Builder Portal, Editorial image, Press strip, Circles teaser | `PageCopy` with `hero`, `cardGrid`, `richText`, `techStackOverview`, `giantSwitch`, `ctaPanel`, `gallery`, `relatedArticles` sections |
+| `/technology-stack`            | Hero, four pillar cards, networking + foundation rows, App Install banner, large circle image, Use cases                                                     | `PageCopy` with `hero`, `techStackOverview`, `giantSwitch`, `cardGrid` sections                                                       |
+| `/technology-stack/storage`    | Hero, intro, builder CTA panel, related articles, sibling tech-stack overview                                                                                | `PageCopy` with `hero`, `richText`, `ctaPanel`, `relatedArticles`, `techStackOverview`                                                |
+| `/technology-stack/messaging`  | Hero, intro, case studies, builder CTA panel, related articles                                                                                               | Same as above plus a `cardGrid` for case studies                                                                                      |
+| `/technology-stack/blockchain` | Hero, privacy/cryptarchia explainers, builder CTA panel, related articles                                                                                    | Same as above plus a `cardGrid` for `blendNetwork` and `lez`                                                                          |
+| `/technology-stack/networking` | Hero, intro, three feature cards, builder CTA panel, related articles                                                                                        | Same as above                                                                                                                         |
+| `/press`                       | Engine label, list of latest articles                                                                                                                        | UI copy from translations plus Logos Press Engine data                                                                                |
 
 ### Home → Content Migration Map
 
 The migration moves keys out of `apps/web/messages/en.json` into `content/pages/en/*.json`. UI chrome, validation strings, and label-only keys stay behind.
 
-| messages.en.json path | Content destination |
-| --- | --- |
-| `home.atf.*` | `content/pages/en/home.json` → section `home.atf` (`hero`) |
-| `home.build.*` / `home.node.*` / `home.circles.*` | `content/pages/en/home.json` → section `home.triptych` (`cardGrid`) |
-| `home.about.*` | `content/pages/en/home.json` → section `home.about` (`richText`) |
-| `home.techStack.*` | `content/pages/en/home.json` → section `home.techStack` (`techStackOverview`) |
-| `home.useCases.*` | `content/pages/en/home.json` → section `home.useCases` (`cardGrid`) |
-| `home.parallelSociety.*` / `home.mountain.*` | `content/pages/en/home.json` → section `home.parallelSociety` (`gallery`) |
-| `home.builderPortal.*` | `content/pages/en/home.json` → section `home.builderPortal` (`ctaPanel`) |
-| `home.press.*` | `content/pages/en/home.json` owns the section label, CTA, and visible count; article rows come from Logos Press Engine. |
-| `home.circlesCta.*` | `content/pages/en/home.json` → section `home.circlesCta` (`ctaPanel`) |
-| `pages.<route>.title/description/heading` | `content/pages/en/<route>.json` → top-level `title`, `description`, `heading` |
-| `pages.<route>.hero.*` / `pages.<route>.intro.*` etc. | `content/pages/en/<route>.json` → matching section |
-| `footer.*` | `content/site/en/footer.json` |
-| `common.*`, `locale.*` | Stays in `messages/<locale>.json` |
+| messages.en.json path                                 | Content destination                                                                                                     |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `home.atf.*`                                          | `content/pages/en/home.json` → section `home.atf` (`hero`)                                                              |
+| `home.build.*` / `home.node.*` / `home.circles.*`     | `content/pages/en/home.json` → section `home.triptych` (`cardGrid`)                                                     |
+| `home.about.*`                                        | `content/pages/en/home.json` → section `home.about` (`richText`)                                                        |
+| `home.techStack.*`                                    | `content/pages/en/home.json` → section `home.techStack` (`techStackOverview`)                                           |
+| `home.useCases.*`                                     | `content/pages/en/home.json` → section `home.useCases` (`cardGrid`)                                                     |
+| `home.parallelSociety.*` / `home.mountain.*`          | `content/pages/en/home.json` → section `home.parallelSociety` (`gallery`)                                               |
+| `home.builderPortal.*`                                | `content/pages/en/home.json` → section `home.builderPortal` (`ctaPanel`)                                                |
+| `home.press.*`                                        | `content/pages/en/home.json` owns the section label, CTA, and visible count; article rows come from Logos Press Engine. |
+| `home.circlesCta.*`                                   | `content/pages/en/home.json` → section `home.circlesCta` (`ctaPanel`)                                                   |
+| `pages.<route>.title/description/heading`             | `content/pages/en/<route>.json` → top-level `title`, `description`, `heading`                                           |
+| `pages.<route>.hero.*` / `pages.<route>.intro.*` etc. | `content/pages/en/<route>.json` → matching section                                                                      |
+| `footer.*`                                            | `content/site/en/footer.json`                                                                                           |
+| `common.*`, `locale.*`                                | Stays in `messages/<locale>.json`                                                                                       |
 
 The migration ships incrementally: each route can move independently. After a route migrates, its `pages.<route>.*` keys are deleted from `messages/<locale>.json` in the same PR.
 
@@ -1083,7 +1107,7 @@ PR metadata model:
 type ContentChangeRequest = {
   id: string
   contentType: string
-  targetPath: string                  // indexed for lock queries
+  targetPath: string // indexed for lock queries
   branchName: string
   pullRequestUrl?: string
   pullRequestNumber?: number
@@ -1098,10 +1122,10 @@ type ContentChangeRequest = {
 
 Two roles in Payload, with GitHub permissions as the second line of defense.
 
-| Role     | Can edit drafts | Can create PR to `develop` | Can promote `develop`→`master` | Can ship schema PR |
-| -------- | --------------- | -------------------------- | ------------------------------ | ------------------ |
-| Editor   | yes             | yes                        | no                             | no                 |
-| Admin    | yes             | yes                        | yes                            | yes                |
+| Role   | Can edit drafts | Can create PR to `develop` | Can promote `develop`→`master` | Can ship schema PR |
+| ------ | --------------- | -------------------------- | ------------------------------ | ------------------ |
+| Editor | yes             | yes                        | no                             | no                 |
+| Admin  | yes             | yes                        | yes                            | yes                |
 
 GitHub branch protection enforces the `develop`→`master` promotion rule independently of the CMS, so a misbehaving CMS cannot push to `master` directly.
 
@@ -1434,18 +1458,18 @@ Done when:
 
 Rough effort estimate for one engineer working full-time (excluding code review, design review, and unblocking on Figma assets). Treat as planning hints, not commitments.
 
-| Phase | Effort | Critical path? |
-| --- | --- | --- |
-| 0 — Branch strategy + protection | 0.5 day | yes |
-| 1 — `@repo/content` package + schemas + fixtures | 4–5 days | yes |
-| 2 — Navbar, Footer, page-copy migration (route by route) | 6–8 days | yes |
-| 3 — Payload Admin local-read | 3–4 days | parallelizable with later parts of Phase 2 |
-| 4a — GitHub auth + mutation primitives | 3 days | yes |
-| 4b — Payload Save → PR wiring | 3–4 days | yes |
-| 4c — PR status panel + preview links | 2–3 days | yes |
-| 5 — Schema migration policy + first migration test | 2 days | no |
-| 6 — External media storage | 3–4 days | deferred |
-| 7 — Interactive map | 2–3 days | deferred |
+| Phase                                                    | Effort   | Critical path?                             |
+| -------------------------------------------------------- | -------- | ------------------------------------------ |
+| 0 — Branch strategy + protection                         | 0.5 day  | yes                                        |
+| 1 — `@repo/content` package + schemas + fixtures         | 4–5 days | yes                                        |
+| 2 — Navbar, Footer, page-copy migration (route by route) | 6–8 days | yes                                        |
+| 3 — Payload Admin local-read                             | 3–4 days | parallelizable with later parts of Phase 2 |
+| 4a — GitHub auth + mutation primitives                   | 3 days   | yes                                        |
+| 4b — Payload Save → PR wiring                            | 3–4 days | yes                                        |
+| 4c — PR status panel + preview links                     | 2–3 days | yes                                        |
+| 5 — Schema migration policy + first migration test       | 2 days   | no                                         |
+| 6 — External media storage                               | 3–4 days | deferred                                   |
+| 7 — Interactive map                                      | 2–3 days | deferred                                   |
 
 ### Initial Seed Dataset
 
@@ -1500,14 +1524,14 @@ Real copy comes from `apps/web/messages/en.json` plus the Figma walkthrough; no 
 
 A concrete first-week plan to remove the cold-start ambiguity.
 
-| Day | Output |
-| --- | --- |
-| Day 1 AM | Create `develop` from `master`, configure branch protection on both branches, document promotion process in `docs/branching.md`. Land Phase 0. |
-| Day 1 PM | Scaffold `packages/content` workspace. `package.json` with `check-types`, `validate`, `validate-locales`, `rename-slug` scripts. `tsconfig.json` extending repo base. |
-| Day 2 | Write `schemas/common.ts` and `schemas/site.ts` Zod schemas with `schemaVersion`. Add minimal `loaders/site.ts`. |
-| Day 3 | Write `schemas/builders-hub.ts` and `schemas/circles.ts`. Add `loaders/builders-hub.ts` (incl. `resolveBuilderHubHomeRfps`/`Ideas`) and `loaders/circles.ts` (incl. `getCircleEventsGroupedByDate`). |
-| Day 4 | Write `schemas/pages.ts` with the typed `PageSection` discriminator. Add `loaders/pages.ts` and the custom-section schema registry stub. Build `locales/registry.ts` reading `routing.locales`. |
-| Day 5 | Author seed fixtures for all listed slugs. Wire `apps/web` Builders Hub and Circles list pages to call the loaders as a smoke test. Run `pnpm --filter @repo/content validate` and `pnpm --filter web build` until green. |
+| Day      | Output                                                                                                                                                                                                                    |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Day 1 AM | Create `develop` from `master`, configure branch protection on both branches, document promotion process in `docs/branching.md`. Land Phase 0.                                                                            |
+| Day 1 PM | Scaffold `packages/content` workspace. `package.json` with `check-types`, `validate`, `validate-locales`, `rename-slug` scripts. `tsconfig.json` extending repo base.                                                     |
+| Day 2    | Write `schemas/common.ts` and `schemas/site.ts` Zod schemas with `schemaVersion`. Add minimal `loaders/site.ts`.                                                                                                          |
+| Day 3    | Write `schemas/builders-hub.ts` and `schemas/circles.ts`. Add `loaders/builders-hub.ts` (incl. `resolveBuilderHubHomeRfps`/`Ideas`) and `loaders/circles.ts` (incl. `getCircleEventsGroupedByDate`).                      |
+| Day 4    | Write `schemas/pages.ts` with the typed `PageSection` discriminator. Add `loaders/pages.ts` and the custom-section schema registry stub. Build `locales/registry.ts` reading `routing.locales`.                           |
+| Day 5    | Author seed fixtures for all listed slugs. Wire `apps/web` Builders Hub and Circles list pages to call the loaders as a smoke test. Run `pnpm --filter @repo/content validate` and `pnpm --filter web build` until green. |
 
 End of Day 5: Phase 0 + Phase 1 done, the web build is loader-driven for Builders Hub and Circles list pages. Phase 2 starts the route-by-route page-copy migration.
 
@@ -1697,14 +1721,20 @@ Paste-ready material for the work the plan calls for. None of this is final — 
       "key": "ideas",
       "title": "Ideas",
       "description": "Advanced privacy for a new era of decentralised applications and social institutions.",
-      "primaryCta": { "label": "Learn more", "href": "/builders-hub/ideas#about" },
+      "primaryCta": {
+        "label": "Learn more",
+        "href": "/builders-hub/ideas#about"
+      },
       "secondaryCta": { "label": "View now", "href": "/builders-hub/ideas" }
     },
     {
       "key": "rfps",
       "title": "RFPs",
       "description": "Advanced privacy for a new era of decentralised applications and social institutions.",
-      "primaryCta": { "label": "Learn more", "href": "/builders-hub/rfps#about" },
+      "primaryCta": {
+        "label": "Learn more",
+        "href": "/builders-hub/rfps#about"
+      },
       "secondaryCta": { "label": "View now", "href": "/builders-hub/rfps" }
     }
   ],
@@ -1712,7 +1742,10 @@ Paste-ready material for the work the plan calls for. None of this is final — 
     "title": "RFPs",
     "description": "Lorem ipsum dolor si amet.",
     "seeAllCta": { "label": "See all RFPs", "href": "/builders-hub/rfps" },
-    "submitCta": { "label": "Submit an RFP", "href": "https://forum.logos.co/" },
+    "submitCta": {
+      "label": "Submit an RFP",
+      "href": "https://forum.logos.co/"
+    },
     "displayCount": 8,
     "pinnedSlugs": [
       "secure-decentralized-frontends",
@@ -1722,7 +1755,12 @@ Paste-ready material for the work the plan calls for. None of this is final — 
     "terminatorCard": {
       "kind": "see-all-ideas",
       "title": "See all ideas",
-      "thumbnailSlugs": ["quadratic-voting", "community-bank", "permissionless-dns", "secure-decentralized-frontends"],
+      "thumbnailSlugs": [
+        "quadratic-voting",
+        "community-bank",
+        "permissionless-dns",
+        "secure-decentralized-frontends"
+      ],
       "href": "/builders-hub/ideas"
     }
   },
@@ -1730,7 +1768,10 @@ Paste-ready material for the work the plan calls for. None of this is final — 
     "title": "Ideas",
     "description": "Ideas from our community driving sovereignty forward.",
     "seeAllCta": { "label": "See all ideas", "href": "/builders-hub/ideas" },
-    "submitCta": { "label": "Submit an idea", "href": "https://forum.logos.co/" },
+    "submitCta": {
+      "label": "Submit an idea",
+      "href": "https://forum.logos.co/"
+    },
     "displayCount": 7
   },
   "appInstall": {
@@ -1744,8 +1785,16 @@ Paste-ready material for the work the plan calls for. None of this is final — 
       { "label": "Filesharing Tool", "icon": "files" },
       { "label": "Explorer", "icon": "explorer" }
     ],
-    "installCta": { "label": "Install", "href": "https://logos.co/app", "variant": "primary" },
-    "learnMoreCta": { "label": "Learn more", "href": "/technology-stack#logos-app", "variant": "secondary" },
+    "installCta": {
+      "label": "Install",
+      "href": "https://logos.co/app",
+      "variant": "primary"
+    },
+    "learnMoreCta": {
+      "label": "Learn more",
+      "href": "/technology-stack#logos-app",
+      "variant": "secondary"
+    },
     "image": {
       "src": "/cms/builders-hub/settings/app-install.webp",
       "alt": "",
@@ -1789,7 +1838,7 @@ Paste-ready material for the work the plan calls for. None of this is final — 
 import { defineRouting } from 'next-intl/routing'
 
 export const routing = defineRouting({
-  locales: ['en'],          // Phase 2 — single-locale shipping
+  locales: ['en'], // Phase 2 — single-locale shipping
   defaultLocale: 'en',
   localePrefix: 'as-needed',
   localeDetection: false,
@@ -1862,10 +1911,21 @@ module.exports = {
     'type-enum': [
       2,
       'always',
-      ['content', 'schema', 'feat', 'fix', 'chore', 'docs', 'refactor', 'test', 'build', 'ci'],
+      [
+        'content',
+        'schema',
+        'feat',
+        'fix',
+        'chore',
+        'docs',
+        'refactor',
+        'test',
+        'build',
+        'ci',
+      ],
     ],
     'scope-enum': [
-      0,                                                  // free-form scope; PR title rules in §9 govern by convention
+      0, // free-form scope; PR title rules in §9 govern by convention
     ],
     'subject-case': [0],
   },
@@ -1911,9 +1971,19 @@ export const Rfps: CollectionConfig = {
   admin: { useAsTitle: 'title' },
   fields: [
     { name: 'slug', type: 'text', required: true, admin: { readOnly: true } },
-    { name: 'status', type: 'select', options: ['draft', 'review', 'published', 'archived'], required: true },
+    {
+      name: 'status',
+      type: 'select',
+      options: ['draft', 'review', 'published', 'archived'],
+      required: true,
+    },
     { name: 'rewardAmount', type: 'number', required: true },
-    { name: 'rewardCurrency', type: 'select', options: ['USDC'], defaultValue: 'USDC' },
+    {
+      name: 'rewardCurrency',
+      type: 'select',
+      options: ['USDC'],
+      defaultValue: 'USDC',
+    },
     { name: 'rewardXp', type: 'number' },
     { name: 'applyUrl', type: 'text', required: true },
     { name: 'tags', type: 'text', hasMany: true },
@@ -1928,7 +1998,7 @@ export const Rfps: CollectionConfig = {
   hooks: {
     // Phase 3: hydrate from local file
     beforeRead: async ({ doc }) => {
-      const fromGit = await loadRfp(doc.slug, 'en')   // Phase 4a switches this to GitHub-backed read
+      const fromGit = await loadRfp(doc.slug, 'en') // Phase 4a switches this to GitHub-backed read
       return { ...doc, ...fromGit }
     },
     // Phase 4b: replace DB-write with PR creation
@@ -1943,10 +2013,10 @@ export const Rfps: CollectionConfig = {
             localeJson: { en: pickLocaleFields(data) },
             editor: req.user,
           })
-          return false   // skip default DB write; loader will reflect the PR diff once merged
+          return false // skip default DB write; loader will reflect the PR diff once merged
         }
       }
-      return data        // 'draft' falls through to a Payload-DB save
+      return data // 'draft' falls through to a Payload-DB save
     },
   },
 }
@@ -1954,13 +2024,13 @@ export const Rfps: CollectionConfig = {
 
 ### 15.11 Glossary
 
-| Term | Meaning |
-| --- | --- |
-| `index.json` | Locale-agnostic record file — coordinates, dates, slugs, references |
-| `<locale>.json` | Per-locale record file living next to `index.json` — translatable copy only |
-| Active locale | A locale present in `apps/web/i18n/routing.ts` `routing.locales` |
-| Content branch | A branch whose name starts with `content/` — managed by the CMS, base = `develop` |
-| Schema branch | A branch whose name starts with `schema/` — touches `@repo/content/schemas`, base = `develop` |
-| Promotion PR | A `develop`→`master` PR that releases content + code to production |
-| Content lock | An open PR that touches a path; the CMS warns when a second editor opens the same path |
-| Terminator card | The 8th tile on the Builders Hub home RFP grid that cross-promotes the Ideas collection |
+| Term            | Meaning                                                                                       |
+| --------------- | --------------------------------------------------------------------------------------------- |
+| `index.json`    | Locale-agnostic record file — coordinates, dates, slugs, references                           |
+| `<locale>.json` | Per-locale record file living next to `index.json` — translatable copy only                   |
+| Active locale   | A locale present in `apps/web/i18n/routing.ts` `routing.locales`                              |
+| Content branch  | A branch whose name starts with `content/` — managed by the CMS, base = `develop`             |
+| Schema branch   | A branch whose name starts with `schema/` — touches `@repo/content/schemas`, base = `develop` |
+| Promotion PR    | A `develop`→`master` PR that releases content + code to production                            |
+| Content lock    | An open PR that touches a path; the CMS warns when a second editor opens the same path        |
+| Terminator card | The 8th tile on the Builders Hub home RFP grid that cross-promotes the Ideas collection       |

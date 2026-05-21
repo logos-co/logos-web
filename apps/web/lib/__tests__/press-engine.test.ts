@@ -93,23 +93,23 @@ describe('getLatestPressArticles', () => {
 
     expect(fetchMock).toHaveBeenNthCalledWith(
       1,
-      'https://press.logos.co/api/search?type=article&limit=6',
+      'https://blog.logos.co/api/search?type=article&limit=6',
       { cache: 'force-cache' }
     )
     expect(fetchMock).toHaveBeenNthCalledWith(
       2,
-      'https://press.logos.co/article/article-one',
+      'https://blog.logos.co/article/article-one',
       { cache: 'force-cache' }
     )
     expect(articles).toMatchObject([
       {
         title: 'Article one',
-        href: 'https://press.logos.co/article/article-one',
+        href: 'https://blog.logos.co/article/article-one',
         readingTime: 13,
       },
       {
         title: 'Article two',
-        href: 'https://press.logos.co/article/article-two',
+        href: 'https://blog.logos.co/article/article-two',
         readingTime: 5,
       },
     ])
@@ -144,7 +144,7 @@ describe('getLatestPressPodcasts', () => {
     const podcasts = await getLatestPressPodcasts(1)
 
     expect(fetchMock).toHaveBeenCalledWith(
-      'https://press.logos.co/api/search?type=podcast&limit=1',
+      'https://blog.logos.co/api/search?type=podcast&limit=1',
       { cache: 'force-cache' }
     )
     expect(podcasts).toEqual([
@@ -154,7 +154,7 @@ describe('getLatestPressPodcasts', () => {
         description: 'Actual podcast description',
         date: '18 Sept 2024',
         episodeNumber: 14,
-        href: 'https://press.logos.co/podcasts/logos-state/federico-ast-kleros',
+        href: 'https://blog.logos.co/podcasts/logos-state/federico-ast-kleros',
       },
     ])
     expect('duration' in podcasts[0]).toBe(false)

@@ -57,7 +57,7 @@ Living checklist for all SEO work on logos.co. Status keys: ✅ done · ⏳ in p
 ### Sitemap
 
 - [ ] `sitemap.xml` includes the currently enabled public pages from [web-pages.md](web-pages.md)
-- [ ] Dynamic entries: `/builders-hub/ideas/[id]`, `/builders-hub/rfps/[id]`; article pages live on `press.logos.co`
+- [ ] Dynamic entries: `/builders-hub/ideas/[id]`, `/builders-hub/rfps/[id]`; article pages live on `blog.logos.co`
 - [ ] Keep `/about` and `/circles/[slug]` out of sitemap while their route availability flags are disabled.
 - [ ] Each entry includes `lastModified`, `changeFrequency`, `priority`
 - [ ] One entry per canonical English path
@@ -68,7 +68,7 @@ Living checklist for all SEO work on logos.co. Status keys: ✅ done · ⏳ in p
 - [ ] `Organization` schema on every page (name, url, logo, sameAs social URLs)
 - [ ] `WebSite` schema with `SearchAction` on the homepage
 - [ ] `BreadcrumbList` on every non-home page
-- [ ] `CollectionPage` on `/press`; individual `Article` JSON-LD is owned by `press.logos.co`
+- [ ] `CollectionPage` on `/press`; individual `Article` JSON-LD is owned by `blog.logos.co`
 - [ ] `FAQPage` on `/faq` with all Q/A pairs
 - [ ] `Event` on `/circles` upcoming-event cards
 - [ ] All JSON-LD rendered as `<script type="application/ld+json">` in the page `<head>`
@@ -129,7 +129,7 @@ Routing is English-only. There should be no public `/fr/*` or `/ko/*` routes.
 
 - [ ] `og:image` is 1200 × 630 with brand typography (Logos wordmark + headline)
 - [ ] Dynamic OG endpoint (`/og?title=...&description=...`) is wired from each page's metadata — currently all pages share `/og` (generic). Update to pass per-page title/description.
-- [ ] `og:type: website` on listing pages; individual article previews are owned by `press.logos.co`
+- [ ] `og:type: website` on listing pages; individual article previews are owned by `blog.logos.co`
 - [ ] Twitter card: `summary_large_image`, `twitter:site`, `twitter:creator` set
 - [ ] Preview validated via [Twitter card validator](https://cards-dev.twitter.com/validator), [LinkedIn post inspector](https://www.linkedin.com/post-inspector/), [Facebook sharing debugger](https://developers.facebook.com/tools/debug/)
 
@@ -199,21 +199,21 @@ For each page in [pages.md](pages.md), ensure:
 4. Internal links to relevant related pages
 5. JSON-LD per table below
 
-| Page                           | JSON-LD type                         | Breadcrumb                     | Priority in sitemap |
-| ------------------------------ | ------------------------------------ | ------------------------------ | ------------------- |
-| `/`                            | `Organization` + `WebSite`           | —                              | 1.0                 |
-| `/technology-stack`            | `WebPage`                            | Home → Tech Stack              | 0.9                 |
-| `/technology-stack/blockchain` | `TechArticle`                        | Home → Tech Stack → Blockchain | 0.8                 |
-| `/technology-stack/networking` | `TechArticle`                        | Home → Tech Stack → Networking | 0.8                 |
-| `/technology-stack/messaging`  | `TechArticle`                        | Home → Tech Stack → Messaging  | 0.8                 |
-| `/technology-stack/storage`    | `TechArticle`                        | Home → Tech Stack → Storage    | 0.8                 |
-| `/builders-hub`                | `WebPage` + `ItemList`               | Home → Builders Hub            | 0.9                 |
-| `/builders-hub/ideas`          | `ItemList`                           | Home → Builders Hub → Ideas    | 0.8                 |
-| `/builders-hub/rfps`           | `ItemList`                           | Home → Builders Hub → RFPs     | 0.8                 |
-| `/circles`                     | `ItemList` (locations)               | Home → Circles                 | 0.9                 |
-| `/press`                       | `CollectionPage`                     | Home → Press                   | 0.7                 |
-| `/faq`                         | `FAQPage`                            | Home → FAQ                     | 0.5                 |
-| `/terms-and-conditions`        | —                                    | Home → Terms                   | 0.3                 |
+| Page                           | JSON-LD type               | Breadcrumb                     | Priority in sitemap |
+| ------------------------------ | -------------------------- | ------------------------------ | ------------------- |
+| `/`                            | `Organization` + `WebSite` | —                              | 1.0                 |
+| `/technology-stack`            | `WebPage`                  | Home → Tech Stack              | 0.9                 |
+| `/technology-stack/blockchain` | `TechArticle`              | Home → Tech Stack → Blockchain | 0.8                 |
+| `/technology-stack/networking` | `TechArticle`              | Home → Tech Stack → Networking | 0.8                 |
+| `/technology-stack/messaging`  | `TechArticle`              | Home → Tech Stack → Messaging  | 0.8                 |
+| `/technology-stack/storage`    | `TechArticle`              | Home → Tech Stack → Storage    | 0.8                 |
+| `/builders-hub`                | `WebPage` + `ItemList`     | Home → Builders Hub            | 0.9                 |
+| `/builders-hub/ideas`          | `ItemList`                 | Home → Builders Hub → Ideas    | 0.8                 |
+| `/builders-hub/rfps`           | `ItemList`                 | Home → Builders Hub → RFPs     | 0.8                 |
+| `/circles`                     | `ItemList` (locations)     | Home → Circles                 | 0.9                 |
+| `/press`                       | `CollectionPage`           | Home → Press                   | 0.7                 |
+| `/faq`                         | `FAQPage`                  | Home → FAQ                     | 0.5                 |
+| `/terms-and-conditions`        | —                          | Home → Terms                   | 0.3                 |
 
 ---
 
