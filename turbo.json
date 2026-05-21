@@ -19,7 +19,12 @@
         "PAYLOAD_DB_SCHEMA",
         "PAYLOAD_DB_PUSH",
         "NEXT_PUBLIC_SERVER_URL",
-        "NEXT_PUBLIC_WEB_URL"
+        "NEXT_PUBLIC_WEB_URL",
+        "CIVICRM_BASE_URL",
+        "CIVICRM_API_KEY",
+        "ACTIVE_VIEW",
+        "KEYCLOAK_USER_EMAIL_HEADER",
+        "DEV_USER_EMAIL_MOCK"
       ]
     },
     "lint": {

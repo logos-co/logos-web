@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+@import '@acid-info/logos-tokens/theme.css';
+@import '@acid-info/logos-ui/styles.css';
+
+@source "../../../packages/ui/src/**/*.{ts,tsx}";
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--color-brand-off-white);
+  color: var(--color-brand-dark-green);
+}
