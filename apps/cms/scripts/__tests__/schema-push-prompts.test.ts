@@ -45,14 +45,8 @@ describe('schema push prompt automation', () => {
     const output =
       'Is payload.media table created or renamed from another table?'
 
-    assert.equal(
-      shouldSubmitDefaultSchemaChoice(output, state, 1000),
-      true
-    )
-    assert.equal(
-      shouldSubmitDefaultSchemaChoice(output, state, 1200),
-      false
-    )
+    assert.equal(shouldSubmitDefaultSchemaChoice(output, state, 1000), true)
+    assert.equal(shouldSubmitDefaultSchemaChoice(output, state, 1200), false)
   })
 
   it('allows the next schema prompt after a previous prompt resolved', () => {

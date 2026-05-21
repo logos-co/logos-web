@@ -105,11 +105,11 @@ type CalendarResponse = {
 const BODY_SNIPPET_LIMIT = 200
 
 const truncate = (value: string, limit = BODY_SNIPPET_LIMIT) =>
-  value.length > limit ? `${value.slice(0, limit)}…(${value.length} chars)` : value
+  value.length > limit
+    ? `${value.slice(0, limit)}…(${value.length} chars)`
+    : value
 
-type FetchResult<T> =
-  | { ok: true; data: T }
-  | { ok: false; error: Error }
+type FetchResult<T> = { ok: true; data: T } | { ok: false; error: Error }
 
 async function tryFetchText(
   url: string,
@@ -302,7 +302,10 @@ const getPressSearchItems = async (
   limit: number
 ): Promise<PressSearchPost[]> => {
   const url = `${PRESS_SEARCH_API}?type=${type}&limit=${limit}`
-  const json = await fetchJsonResilient<PressSearchResponse>(url, 'Press search')
+  const json = await fetchJsonResilient<PressSearchResponse>(
+    url,
+    'Press search'
+  )
   return json.data?.posts?.filter((post) => post.type === type) ?? []
 }
 

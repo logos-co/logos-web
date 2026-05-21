@@ -24,10 +24,7 @@ const child = spawn('next', ['dev', '--port', '3001'], {
 const state = createAutoSubmitState()
 let recentOutput = ''
 
-const handleOutput = (
-  chunk: Buffer,
-  stream: NodeJS.WriteStream
-): void => {
+const handleOutput = (chunk: Buffer, stream: NodeJS.WriteStream): void => {
   const output = chunk.toString()
   stream.write(chunk)
 

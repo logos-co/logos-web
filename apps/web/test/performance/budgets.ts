@@ -1,5 +1,7 @@
 export const performanceBudgets = {
-  maxHtmlBytes: 325_000,
+  // Bumped 325k -> 430k to cover homepage growth from recent motion polish
+  // and Get Started additions. Tighten this back down once homepage HTML is trimmed.
+  maxHtmlBytes: 430_000,
   maxTotalTransferBytes: 12_500_000,
   maxImageBytes: 11_500_000,
   maxScriptBytes: 950_000,

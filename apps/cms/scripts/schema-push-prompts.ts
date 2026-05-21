@@ -22,8 +22,7 @@ export const createAutoSubmitState = (): AutoSubmitState => ({
 
 export const isLocalSchemaPushAutomationAllowed = (
   env: SchemaPushAutomationEnv
-): boolean =>
-  env.NODE_ENV !== 'production' && !env.VERCEL && !env.VERCEL_ENV
+): boolean => env.NODE_ENV !== 'production' && !env.VERCEL && !env.VERCEL_ENV
 
 export const shouldSubmitDefaultSchemaChoice = (
   output: string,

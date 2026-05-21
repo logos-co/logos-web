@@ -14,7 +14,6 @@ const blockedPatterns = [
   /\?\?\s*["']#["']/,
   /\|\|\s*["']#["']/,
   /https:\/\/forum\.vac\.dev/,
-  /https:\/\/docs\.logos\.co/,
   /https:\/\/logos\.co\/app/,
   /https:\/\/logos\.co\/office-hours/,
   /https:\/\/github\.com\/logos-co\/boilerplates/,

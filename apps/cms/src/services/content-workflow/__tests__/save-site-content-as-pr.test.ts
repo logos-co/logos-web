@@ -58,6 +58,13 @@ describe('site content fixture builders', () => {
       footer: {
         schemaVersion: 1,
         language: 'en',
+        newsletter: {
+          title: 'Subscribe',
+          emailLabel: 'Email',
+          roleLabel: 'Role',
+          cityLabel: 'City',
+          submitLabel: 'Submit',
+        },
         tagline: 'Pioneering a new era of freedom.',
         image: { src: '/images/home/footer-image.jpg', alt: '' },
         mainLinks: [],
