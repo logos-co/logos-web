@@ -16,7 +16,7 @@
     { "label": "Book", "href": "/book" },
     { "label": "λ Prize", "href": "/lambda-prize" }
   ],
-  "primaryCta": { "label": "Install Basecamp", "href": "/get-started" },
+  "primaryCta": { "label": "Install Basecamp", "href": "/basecamp" },
   "communityCards": [
     {
       "label": "Build",
@@ -30,14 +30,20 @@
       "href": "/node-program",
       "ctaLabel": "apply",
       "description": "The Node Program is for anyone who wants to join our movement to revitalize civil society using decentralized technologies.",
-      "image": { "src": "/nav-overlay/figma/take-action-operate.webp", "alt": "" }
+      "image": {
+        "src": "/nav-overlay/figma/take-action-operate.webp",
+        "alt": ""
+      }
     },
     {
       "label": "Movement",
       "href": "/circles",
       "ctaLabel": "Join a circle",
       "description": "Local chapters are at the heart of our movement. Learn civil organizing, share skills, and forge new connections.",
-      "image": { "src": "/nav-overlay/figma/take-action-movement.webp", "alt": "" }
+      "image": {
+        "src": "/nav-overlay/figma/take-action-movement.webp",
+        "alt": ""
+      }
     }
   ],
   "menuPanels": [
@@ -50,7 +56,7 @@
             { "label": "Docs", "href": "/technology-stack" },
             { "label": "Events", "href": "/movement" },
             { "label": "Join Community", "href": "https://discord.gg/logos" },
-            { "label": "Install Basecamp", "href": "/get-started" }
+            { "label": "Install Basecamp", "href": "/basecamp" }
           ]
         }
       ],
@@ -60,21 +66,30 @@
           "href": "/builders-hub",
           "ctaLabel": "Start building",
           "description": "Everything you need to start building privacy-first decentralized applications. Explore ideas, find bounties, and connect with others.",
-          "image": { "src": "/nav-overlay/figma/take-action-build.webp", "alt": "" }
+          "image": {
+            "src": "/nav-overlay/figma/take-action-build.webp",
+            "alt": ""
+          }
         },
         {
           "label": "Operate",
           "href": "/node-program",
           "ctaLabel": "apply",
           "description": "The Node Program is for anyone who wants to join our movement to revitalize civil society using decentralized technologies.",
-          "image": { "src": "/nav-overlay/figma/take-action-operate.webp", "alt": "" }
+          "image": {
+            "src": "/nav-overlay/figma/take-action-operate.webp",
+            "alt": ""
+          }
         },
         {
           "label": "Movement",
           "href": "/circles",
           "ctaLabel": "Join a circle",
           "description": "Local chapters are at the heart of our movement. Learn civil organizing, share skills, and forge new connections.",
-          "image": { "src": "/nav-overlay/figma/take-action-movement.webp", "alt": "" }
+          "image": {
+            "src": "/nav-overlay/figma/take-action-movement.webp",
+            "alt": ""
+          }
         }
       ]
     },
@@ -95,8 +110,11 @@
           "links": [
             { "label": "Discord", "href": "https://discord.gg/logos" },
             { "label": "Status", "href": "https://forum.logos.co/" },
-            { "label": "Basecamp", "href": "/get-started" },
-            { "label": "YouTube", "href": "https://youtube.com/@logos_network" },
+            { "label": "Basecamp", "href": "/basecamp" },
+            {
+              "label": "YouTube",
+              "href": "https://youtube.com/@logos_network"
+            },
             { "label": "X", "href": "https://twitter.com/logos_network" }
           ]
         }
@@ -109,13 +127,19 @@
               "label": "Logos Press Engine",
               "href": "/logos-broadcast-network",
               "description": "Media throughout the Logos ecosystem",
-              "image": { "src": "/nav-overlay/figma/explore-thumb.webp", "alt": "" }
+              "image": {
+                "src": "/nav-overlay/figma/explore-thumb.webp",
+                "alt": ""
+              }
             },
             {
               "label": "Roadmap",
               "href": "/movement",
               "description": "View the path to Parallel Societies",
-              "image": { "src": "/nav-overlay/figma/explore-thumb.webp", "alt": "" }
+              "image": {
+                "src": "/nav-overlay/figma/explore-thumb.webp",
+                "alt": ""
+              }
             }
           ]
         },
@@ -126,13 +150,19 @@
               "label": "Lambda Prize",
               "href": "/lambda-prize",
               "description": "A mission to revitalize civil society through privacy",
-              "image": { "src": "/nav-overlay/figma/explore-thumb.webp", "alt": "" }
+              "image": {
+                "src": "/nav-overlay/figma/explore-thumb.webp",
+                "alt": ""
+              }
             },
             {
               "label": "RFPs",
               "href": "/builders-hub/rfps",
               "description": "Media throughout the Logos ecosystem",
-              "image": { "src": "/nav-overlay/figma/explore-thumb.webp", "alt": "" }
+              "image": {
+                "src": "/nav-overlay/figma/explore-thumb.webp",
+                "alt": ""
+              }
             }
           ]
         }
@@ -158,37 +188,55 @@
               "label": "Overview",
               "href": "/technology-stack",
               "description": "Private by default, modular infra for parallel societies",
-              "image": { "src": "/nav-overlay/figma/technology-thumb.webp", "alt": "" }
+              "image": {
+                "src": "/nav-overlay/figma/technology-thumb.webp",
+                "alt": ""
+              }
             },
             {
               "label": "Blockchain",
               "href": "/technology-stack/blockchain",
               "description": "Advanced privacy for decentralised applications and social institutions.",
-              "image": { "src": "/nav-overlay/figma/technology-thumb.webp", "alt": "" }
+              "image": {
+                "src": "/nav-overlay/figma/technology-thumb.webp",
+                "alt": ""
+              }
             },
             {
               "label": "Messaging",
               "href": "/technology-stack/messaging",
               "description": "Private peer-to-peer communication",
-              "image": { "src": "/nav-overlay/figma/technology-thumb.webp", "alt": "" }
+              "image": {
+                "src": "/nav-overlay/figma/technology-thumb.webp",
+                "alt": ""
+              }
             },
             {
               "label": "Networking",
               "href": "/technology-stack/networking",
               "description": "Discovery, Peering, and Mix-net",
-              "image": { "src": "/nav-overlay/figma/technology-thumb.webp", "alt": "" }
+              "image": {
+                "src": "/nav-overlay/figma/technology-thumb.webp",
+                "alt": ""
+              }
             },
             {
               "label": "Storage",
               "href": "/technology-stack/storage",
               "description": "Secure decentralised storage for decentralized apps and file sharing.",
-              "image": { "src": "/nav-overlay/figma/technology-thumb.webp", "alt": "" }
+              "image": {
+                "src": "/nav-overlay/figma/technology-thumb.webp",
+                "alt": ""
+              }
             },
             {
               "label": "Basecamp",
-              "href": "/get-started",
+              "href": "/basecamp",
               "description": "Complete distribution that bundles the runtime,  default modules, and UI.",
-              "image": { "src": "/nav-overlay/figma/technology-thumb.webp", "alt": "" }
+              "image": {
+                "src": "/nav-overlay/figma/technology-thumb.webp",
+                "alt": ""
+              }
             }
           ]
         }
@@ -211,15 +259,21 @@
           "cards": [
             {
               "label": "Research Hub",
-              "href": "/blog",
+              "href": "/research",
               "description": "Learn about the research efforts led by Logos.",
-              "image": { "src": "/nav-overlay/figma/research-thumb.webp", "alt": "" }
+              "image": {
+                "src": "/nav-overlay/figma/research-thumb.webp",
+                "alt": ""
+              }
             },
             {
               "label": "R&D Service Units",
-              "href": "/technology-stack",
+              "href": "/research",
               "description": "Base components and secure, unbiased protocols",
-              "image": { "src": "/nav-overlay/figma/research-thumb.webp", "alt": "" }
+              "image": {
+                "src": "/nav-overlay/figma/research-thumb.webp",
+                "alt": ""
+              }
             }
           ]
         }

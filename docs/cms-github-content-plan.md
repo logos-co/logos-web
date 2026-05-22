@@ -1792,7 +1792,7 @@ Paste-ready material for the work the plan calls for. None of this is final — 
     },
     "learnMoreCta": {
       "label": "Learn more",
-      "href": "/technology-stack#logos-app",
+      "href": "/basecamp",
       "variant": "secondary"
     },
     "image": {

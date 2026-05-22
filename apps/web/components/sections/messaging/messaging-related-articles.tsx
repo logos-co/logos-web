@@ -15,7 +15,17 @@ type Props = {
 }
 
 export default function MessagingRelatedArticles({ data, articles }: Props) {
-  const cards = articlesToCards(articles)
+  const cards =
+    data.items?.map((item) => ({
+      title: item.title,
+      mobileTitle: item.mobileTitle,
+      imageSrc: item.image.src,
+      imageAlt: item.image.alt,
+      imagePosition: item.imagePosition,
+      date: item.date,
+      author: item.author,
+      href: item.href,
+    })) ?? articlesToCards(articles)
 
   return (
     <section className="bg-brand-off-white md:mt-0">
@@ -59,7 +69,7 @@ export default function MessagingRelatedArticles({ data, articles }: Props) {
             className="mt-27.75 flex gap-3 overflow-x-auto md:grid md:grid-cols-4 md:overflow-visible"
           >
             {cards.map((card) => (
-              <RevealItem key={card.href}>
+              <RevealItem key={card.title}>
                 <ArticleCard {...card} titleClassName={TITLE_CLASSNAME} />
               </RevealItem>
             ))}

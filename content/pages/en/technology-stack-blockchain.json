@@ -172,7 +172,7 @@
           "description": "Download the app to start building.",
           "cta": {
             "label": "Install",
-            "href": "/builders-hub#app-install"
+            "href": "/basecamp"
           }
         }
       ]

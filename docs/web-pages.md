@@ -96,6 +96,23 @@ Respect `prefers-reduced-motion`: all `motion` components auto-degrade to instan
 
 ---
 
+## 2a. Basecamp
+
+**Route:** `/basecamp`
+**Figma frame:** `146:15527` — 1440 × 4060
+
+1. **Page header** — `← Technology Stack`, `Lambda icon Basecamp`, overview copy, local-first bullets, current-status blocks, install/read-more CTAs.
+2. **How Basecamp Works** — three numbered rows beside the large field image.
+3. **Local First** — two-column grey panel with image left and explanatory copy right.
+4. **Modular by design** — left title with body copy in the right column.
+5. **Capabilities** — six grey cards for Wallet, Private Messaging, Blockchain Explorer, File Sharing, Node Dashboard, and Package Manager.
+6. **Docs / Builder Hub / Install 3-up** — bordered documentation card, circular Builder Hub image card, and rounded install card.
+
+- Source copy lives in `content/pages/en/basecamp.json`.
+- Basecamp cards elsewhere should link to `/basecamp`, not the old `/technology-stack#logos-app` anchor.
+
+---
+
 ## 3. Blockchain
 
 **Route:** `/technology-stack/blockchain`

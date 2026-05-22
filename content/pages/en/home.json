@@ -29,7 +29,7 @@
       "ctas": [
         {
           "label": "Install Basecamp",
-          "href": "/builders-hub",
+          "href": "/basecamp",
           "variant": "primary"
         },
         {
@@ -77,10 +77,10 @@
       "basecamp": {
         "title": "Basecamp",
         "body": "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem.",
-        "href": "/technology-stack#logos-app",
+        "href": "/basecamp",
         "cta": {
           "label": "Install",
-          "href": "/technology-stack#logos-app"
+          "href": "/basecamp"
         }
       },
       "pillars": [
@@ -116,7 +116,7 @@
           "id": "userModules",
           "title": "User Modules",
           "body": "Wallet, chat, files, and explorer modules composing into the Logos App.",
-          "href": "/technology-stack#logos-app"
+          "href": "/basecamp"
         }
       ],
       "networkingTitle": "The Networking Stack: Discovery, Peering, and Mix-Net",

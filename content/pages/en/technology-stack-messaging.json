@@ -14,40 +14,39 @@
       "key": "messaging.hero",
       "eyebrow": "Technology stack",
       "headline": "Messaging",
-      "body": "Logos Messaging is a decentralised communication protocol built for privacy and resilience. It provides the messaging layer for the Logos stack — enabling applications to send messages, relay data, and coordinate without relying on centralised servers or exposing metadata to surveillance.",
+      "body": "Decentralised peer-to-peer communication built for privacy and resilience.",
       "bodySecondary": "Key Repositories:",
       "items": [
         {
-          "title": "WAKU-ORG/NWAKU",
-          "description": "Nim reference implementation"
+          "title": "Logos-delivery — Peer-to-peer transport layer with spam protection."
         },
         {
-          "title": "WAKU-ORG/JS-WAKU",
-          "description": "JavaScript SDK for browser and Node.js"
-        },
-        {
-          "title": "WAKU-ORG/GO-WAKU",
-          "description": "Go implementation"
+          "title": "logos-chat — Library for private, end-to-end encrypted p2p chat."
         }
       ],
       "status": {
         "label": "Current Status",
-        "body": "Logos Messaging is the most mature module in the Logos stack, with an active developer community and SDK implementations in multiple languages. It powers messaging in the Status application and is integrated into Testnet v0.1.",
+        "body": "Logos Messaging is the most mature module in the stack, with an active developer community and SDK implementations in several languages. It powers messaging in the Status application and is integrated into Testnet v0.1.",
         "cta": {
-          "label": "Install Testnet v0.1",
+          "label": "Install testnet v0.1",
           "href": "/technology-stack/messaging",
           "variant": "secondary",
           "iconOverride": "download"
+        },
+        "secondaryCta": {
+          "label": "READ MORE",
+          "href": "/technology-stack/messaging",
+          "variant": "tertiary"
         }
       },
       "ctas": [
         {
-          "label": "Use Messaging SDK",
+          "label": "use messaging sdk",
           "href": "/technology-stack/messaging",
           "variant": "primary"
         },
         {
-          "label": "Docs",
+          "label": "DOCS",
           "href": "/technology-stack/messaging",
           "variant": "secondary"
         }
@@ -58,7 +57,7 @@
       "key": "messaging.privacy",
       "eyebrow": "Overview",
       "title": "Overview",
-      "description": "Logos Messaging uses a peer-to-peer relay network where messages are propagated across nodes without a central broker. The protocol supports multiple messaging patterns: private one-to-one messaging, group messaging, and public broadcast channels for applications.\n\nMessages can be encrypted end-to-end, and the relay network is designed to resist traffic analysis — making it difficult for observers to determine who is communicating with whom, even if they can observe the network.",
+      "description": "Logos Messaging provides the messaging layer for the Logos stack, letting applications send messages, relay data, and coordinate without relying on centralised servers or exposing metadata to surveillance.\n\nIt uses a peer-to-peer relay network in which messages propagate across nodes with no central broker, and it supports private one-to-one messaging, group messaging, and public broadcast channels.\n\nMessages can be encrypted end-to-end, and the relay network is designed to resist traffic analysis, making it difficult for observers to determine who is communicating with whom.",
       "cta": {
         "label": "View the docs",
         "href": "/technology-stack/messaging"
@@ -68,26 +67,26 @@
       "componentType": "ctaPanel",
       "key": "messaging.lmn",
       "eyebrow": "Messaging",
-      "title": "Logos Messaging Nim (LMN)",
-      "description": "Built around the Logos Messaging Nim (LMN) node, it provides publish-subscribe messaging, reliable delivery, and is evolving toward a ChatSDK that simplifies building encrypted communication into applications."
+      "title": "Delivery",
+      "description": "The transport layer. A peer-to-peer messaging network with DoS protection via RLN (Rate Limiting Nullifiers). Any application can use it to send and receive messages over an open, censorship-resistant network."
     },
     {
       "componentType": "ctaPanel",
       "key": "messaging.censorship",
-      "eyebrow": "Privacy",
-      "title": "Censorship Resistance",
-      "description": "Logos Messaging was designed to route communication across a peer-to-peer relay network, reducing dependence on any single operator and making it harder to block or observe private conversations."
+      "eyebrow": "Messaging",
+      "title": "Chat",
+      "description": "The chat layer. A protocol and library that provides 1:1 and group conversations with end-to-end encryption using de-MLS - everything an application needs to add private chat without rolling its own protocol."
     },
     {
       "componentType": "cardGrid",
       "key": "messaging.caseStudies",
       "eyebrow": "Case Study",
       "heading": "Case Studies",
-      "subheading": "Real-world deployments built on the Logos Messaging stack — from social networks to identity systems — proving the protocol scales with privacy guarantees intact.",
+      "subheading": "Lorem ipsum dolor sit amet consectetur. Dignissim mattis ut pulvinar massa.",
       "cards": [
         {
-          "title": "Case Study: Status",
-          "description": "Status uses Logos Messaging (Waku) to deliver private peer-to-peer chat to hundreds of thousands of users without operating servers that could be compelled to log conversations.",
+          "title": "Case Study:\nStatus",
+          "description": "Status is a decentralised super app designed for privacy and security. The open-source application uses Logos Messaging to provide private and decentralised messaging, group chats, and Communities.",
           "image": {
             "src": "/images/messaging/status.webp",
             "alt": "",
@@ -95,14 +94,14 @@
             "height": 120
           },
           "cta": {
-            "label": "Learn more",
+            "label": "learn more",
             "href": "https://status.app",
             "external": true
           }
         },
         {
-          "title": "Case Study: Railgun",
-          "description": "Railgun integrates Logos Messaging primitives to coordinate privacy-preserving DeFi flows where transaction metadata never reaches a central observer.",
+          "title": "Case Study:\nRailgun",
+          "description": "RAILGUN delivers private on-chain transactions on top of the Ethereum blockchain. The project uses Logos Messaging protocols to preserve the privacy of users transacting on the network.",
           "image": {
             "src": "/images/messaging/railgun.webp",
             "alt": "",
@@ -110,7 +109,7 @@
             "height": 120
           },
           "cta": {
-            "label": "Learn more",
+            "label": "learn more",
             "href": "https://railgun.org",
             "external": true
           }
@@ -123,7 +122,7 @@
       "cards": [
         {
           "title": "Docs",
-          "description": "Reference for the kernel, modules, and UI packages.",
+          "description": "Lorem ipsum dolor sit amet consectetur",
           "cta": {
             "label": "View the docs",
             "href": "/technology-stack"
@@ -131,7 +130,7 @@
         },
         {
           "title": "Logos Builder Hub",
-          "description": "Everything you need to start building privacy-first decentralised applications. Explore RFPs, find ideas, and connect with other builders.",
+          "description": "Lorem ipsum dolor sit amet consectetur. Augue feugiat dictum aliquet feugiat.",
           "image": {
             "src": "/images/messaging/builder-hub.webp",
             "alt": "",
@@ -141,11 +140,11 @@
           "cta": { "label": "Build", "href": "/builders-hub" }
         },
         {
-          "title": "Logos App",
-          "description": "Download the app to start building with the kernel + modules + UI packages bundled.",
+          "title": "Install Basecamp",
+          "description": "Download the app to start building.",
           "cta": {
-            "label": "Download",
-            "href": "/builders-hub#app-install"
+            "label": "Install",
+            "href": "/basecamp"
           }
         }
       ]
@@ -153,10 +152,60 @@
     {
       "componentType": "relatedArticles",
       "key": "messaging.relatedArticles",
-      "label": "Logos Press Engine",
+      "label": "Lorem ipsum dolor si amet",
       "eyebrow": "Logos in the News",
       "title": "Related Articles",
       "cta": { "label": "Explore all articles", "href": "/press" },
+      "items": [
+        {
+          "title": "State of the Logos Network: November 2025",
+          "image": {
+            "src": "/images/messaging/press-1.webp",
+            "alt": "",
+            "width": 647,
+            "height": 862
+          },
+          "date": "02.14.26",
+          "author": "Sterlin Lujan",
+          "href": "/press"
+        },
+        {
+          "title": "Story of the Network:\nFrom CyberNetics to Blockchain Communities",
+          "image": {
+            "src": "/images/messaging/press-2.webp",
+            "alt": "",
+            "width": 1304,
+            "height": 869
+          },
+          "date": "02.14.26",
+          "author": "Sterlin Lujan",
+          "href": "/press"
+        },
+        {
+          "title": "State of the Logos Network: October 2025",
+          "image": {
+            "src": "/images/messaging/press-3.webp",
+            "alt": "",
+            "width": 716,
+            "height": 895
+          },
+          "date": "02.14.26",
+          "author": "Sterlin Lujan",
+          "href": "/press"
+        },
+        {
+          "title": "Hacking for Real World Impact with Funding the Commons & Tor",
+          "image": {
+            "src": "/images/messaging/press-4.webp",
+            "alt": "",
+            "width": 702,
+            "height": 878
+          },
+          "date": "02.14.26",
+          "author": "Sterlin Lujan",
+          "href": "/press"
+        }
+      ],
       "visibleCount": 4
     }
   ]
