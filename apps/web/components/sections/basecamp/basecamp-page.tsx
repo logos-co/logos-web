@@ -204,6 +204,12 @@ function LocalFirstSection({ data }: { data: CtaPanelSection }) {
             />
           ) : null}
         </div>
+        {data.footerLabel ? (
+          <div className="text-mono-s flex items-center gap-[102px] text-brand-dark-green">
+            <LogosMark size={9} />
+            <span>{data.footerLabel}</span>
+          </div>
+        ) : null}
       </div>
     </section>
   )

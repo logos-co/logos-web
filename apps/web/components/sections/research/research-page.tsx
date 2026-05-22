@@ -20,6 +20,7 @@ type OverviewCopy = {
 }
 
 type ContributeCopy = {
+  howTitle: string
   contact: string
   jobs: string
   links: {
@@ -168,7 +169,7 @@ function OverviewSection({
   cta: LinkItem
 }) {
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 py-10 text-brand-dark-green md:min-h-[642px]">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 py-10 text-brand-dark-green md:min-h-[670px]">
       <div className="grid gap-10 md:grid-cols-12 md:gap-3">
         <h2 className="text-[24px] leading-[1.1] tracking-[-0.24px] md:col-span-3">
           {title}
@@ -250,6 +251,7 @@ function ContributeSection({
           {title}
         </h2>
         <div className="text-mono-s md:col-span-4 md:col-start-7 md:w-[345px]">
+          <p className="font-bold">{copy.howTitle}</p>
           <p>{contact}</p>
           <p className="mt-[13px]">{jobs}</p>
           <p className="mt-[26px] font-bold">{copy.whatTitle}</p>
@@ -302,7 +304,7 @@ export default async function ResearchPageView({ locale }: { locale: string }) {
   })
 
   return (
-    <div className="bg-brand-off-white pt-10">
+    <div className="flex flex-col gap-10 bg-brand-off-white pt-10 pb-10">
       <HeroSection
         kicker={t('hero.kicker')}
         title={t('hero.title')}

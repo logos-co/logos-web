@@ -847,7 +847,7 @@
           "paragraphs": [
             "Logos Research, formerly Vac, is a principle-driven R&D team that provides comprehensive technical support to Logos and other IFT projects. Logos Research consists of specialised R&D service units and innovative incubator projects. We focus on developing foundational components and unopinionated protocols that both IFT projects and the broader community can utilise.",
             "Part of our work is conducting applied research that drives the development of cutting-edge protocols, libraries, specifications, and publications. Our dual approach combines hands-on development with in-depth research, allowing us to create robust solutions tailored to the needs of the Logos ecosystem, IFT projects, and decentralised technologies in general.",
-            "Logos Research maintains an active forum and research pipeline, fostering collaboration and knowledge exchange within the broader community.",
+            "Logos Research maintains an active forum and research platform, fostering collaboration and knowledge exchange within the broader community.",
             "As custodians of the components and protocols we develop, we adhere a set of principles that guide our work, ensuring alignment with our values and objectives in advancing free and open technologies.",
             "Logos Research conducts innovative exploration within the Logos ecosystem and wider IFT. Embedded within R&D service units, we ensure the work remains practical and relevant to Logos and the IFT. Rather than focusing on academic publications, we aim to actively bridge theory and practice. Logos Research collaborates with IFT projects to implement our research findings, and identifies and initiates new incubator projects, translating our research into real-world applications.",
             "Logos Research spans multiple R&D service units, primarily ACZ and P2P. Key focus areas of Logos Research include zero-knowledge proofs (ZKP) and their applications, libp2p gossipsub improvements, and anonymisation networks. By maintaining close ties with various Logos and IFT teams, we drive innovation and practical advancements across the projects we work with. In the realm of ZKP, Logos Research has made contributions that have given rise to the incubator project Logos Execution Environment.",
@@ -888,6 +888,7 @@
       "contribute": {
         "title": "Contribute",
         "copy": {
+          "howTitle": "How to contribute",
           "contact": "Get in touch with us by <discord></discord>, <forum></forum>, or <github></github>.",
           "jobs": "Also, see our <jobs></jobs>.",
           "links": {
@@ -898,7 +899,7 @@
           },
           "whatTitle": "What to contribute",
           "whatBody": "We are interested in both research and code contributions.",
-          "codeIntro": "For code contributions, see our good first issue lists for various Vac-related code bases:",
+          "codeIntro": "For code contributions, see our \"good first issue\" lists for various Vac-related code bases:",
           "codeLinks": [
             {
               "label": "nim-libp2p",

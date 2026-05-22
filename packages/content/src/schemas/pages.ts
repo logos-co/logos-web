@@ -184,6 +184,7 @@ export const ctaPanelSectionSchema = z.object({
   key: sectionKeySchema,
   /** Optional small eyebrow label rendered above the title. */
   eyebrow: z.string().min(1).optional(),
+  footerLabel: z.string().min(1).optional(),
   title: z.string().min(1),
   description: z.string().min(1).optional(),
   image: mediaRefSchema.optional(),

@@ -80,6 +80,7 @@
       "componentType": "ctaPanel",
       "key": "basecamp.localFirst",
       "eyebrow": "basecamp",
+      "footerLabel": "Storage",
       "title": "Local First",
       "description": "Logos Basecamp runs entirely on your own hardware. Your keys, your data, and your activity never leave your device unless you choose to broadcast a transaction to the network.\n\nThere is no hosted backend, no telemetry layer, and no intermediary between you and the network. When you run Basecamp, you are the infrastructure. Running local-first software means no server breaches, data harvesting, platform deplatforming, or silent policy changes that affect how your information is stored or shared.",
       "image": {
