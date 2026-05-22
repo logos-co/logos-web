@@ -9,6 +9,8 @@
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "check-types": "tsc --noEmit",
+    "check-all": "pnpm lint && pnpm check-types && pnpm test",
+    "check-all:fix": "pnpm lint:fix && pnpm check-types && pnpm test",
     "test": "vitest run"
   },
   "dependencies": {

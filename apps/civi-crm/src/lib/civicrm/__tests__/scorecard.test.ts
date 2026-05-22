@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { computeScorecard } from './scorecard'
+import { computeScorecard } from '../scorecard'
 
 describe('computeScorecard', () => {
   it('returns null when all values are null', () => {

@@ -290,11 +290,14 @@ A thin `fetch` wrapper. Holds `CIVICRM_BASE_URL` and `CIVICRM_API_KEY` from serv
 
 ```typescript
 // Conceptual interface — not implementation
+type CiviWhereValue = boolean | number | string | null
+
+type CiviWhere = [string, string, CiviWhereValue | CiviWhereValue[]]
+
 type CiviParams = {
   select?: string[]
-  // null is valid as the third element for no-value operators (e.g. 'IS NULL', 'IS NOT NULL').
-  where?: [string, string, string | number | null][]
-  values?: Record<string, unknown>
+  where?: CiviWhere[]
+  orderBy?: [string, 'ASC' | 'DESC'][]
   limit?: number
   offset?: number
 }
@@ -302,14 +305,17 @@ type CiviParams = {
 class CiviCRMClient {
   get<T>(entity: string, params: CiviParams): Promise<T[]>
   create<T>(entity: string, values: Record<string, unknown>): Promise<T>
-  update<T>(entity: string, where: CiviParams['where'], values: Record<string, unknown>): Promise<T[]>
-  delete(entity: string, where: CiviParams['where']): Promise<void>
+  update<T>(entity: string, where: CiviWhere[], values: Record<string, unknown>): Promise<T[]>
+  delete(entity: string, where: CiviWhere[]): Promise<void>
+  count(entity: string, params: Pick<CiviParams, 'where'>): Promise<number>
 }
 ```
 
 The client throws a typed `CiviCRMError` on non-2xx responses, carrying status code and CiviCRM's error object. Route handlers catch this and translate to appropriate HTTP responses.
 
 Authentication uses the `X-Civi-Auth: Bearer <key>` header on every request.
+
+For query patterns, valid entities and fields, operators, and anti-patterns see [`docs/civi-crm/api.md`](api.md).
 
 ### 6.2 Scorecard computation (`src/lib/civicrm/scorecard.ts`)
 

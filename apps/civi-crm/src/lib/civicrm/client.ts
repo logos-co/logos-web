@@ -1,11 +1,15 @@
 import type { CiviResponse } from './types'
 
 // null is valid as the third element for operators that take no value (e.g. 'IS NULL', 'IS NOT NULL').
-export type CiviWhere = [string, string, string | number | null]
+// Array form is used for 'IN' / 'NOT IN' operators: ['id', 'IN', [1, 2, 3]]
+export type CiviWhereValue = boolean | number | string | null
+
+export type CiviWhere = [string, string, CiviWhereValue | CiviWhereValue[]]
 
 export type CiviParams = {
   select?: string[]
   where?: CiviWhere[]
+  orderBy?: [string, 'ASC' | 'DESC'][]
   values?: Record<string, unknown>
   limit?: number
   offset?: number
@@ -87,6 +91,23 @@ export class CiviCRMClient {
       body: JSON.stringify({ where }),
     })
     if (!res.ok) throw new CiviCRMError(res.status, await res.text())
+  }
+
+  async count(
+    entity: string,
+    params: Pick<CiviParams, 'where'>
+  ): Promise<number> {
+    const url = `${this.baseUrl}/civicrm/ajax/api4/${entity}/get`
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: this.authHeaders,
+      // row_count is an aggregate pseudo-field: the API returns a single record
+      // { row_count: N } without fetching any entity rows.
+      body: JSON.stringify({ select: ['row_count'], where: params.where }),
+    })
+    if (!res.ok) throw new CiviCRMError(res.status, await res.text())
+    const data: CiviResponse<{ row_count: number }> = await res.json()
+    return data.values[0]?.row_count ?? 0
   }
 }
 

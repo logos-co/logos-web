@@ -30,7 +30,6 @@ export type CiviCaseContact = {
   contact_id: number
   'contact_id.display_name': string
   'contact_id.email_primary': string
-  role: string
 }
 
 export type CiviRelationship = {

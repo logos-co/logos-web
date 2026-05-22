@@ -10,7 +10,7 @@ pnpm + Turborepo monorepo. Node `24`, pnpm `11.1`.
 | --- | --- |
 | `apps/web` | Public Next.js 16 site. Tailwind v4, `next-intl`, static export. Port `3000`. |
 | `apps/cms` | Payload CMS 3.x admin app (Next.js 16 + Postgres). Port `3001`, admin at `/admin`. |
-| `apps/civi-crm` | CiviCRM internal web layer (Next.js 16). Keycloak-protected. Port `3002`. See [`docs/civi-crm-architecture.md`](docs/civi-crm-architecture.md). |
+| `apps/civi-crm` | CiviCRM internal web layer (Next.js 16). Keycloak-protected. Port `3002`. See [`docs/civi-crm/architecture.md`](docs/civi-crm/architecture.md). |
 | `packages/content` | Content schemas, loaders for `content/**`, GitHub mutation helpers, locale registry. |
 | `packages/ui` | Shared React primitives + SVG icon components. |
 | `packages/tokens` | Design tokens. |

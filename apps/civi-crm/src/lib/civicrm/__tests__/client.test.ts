@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { CiviCRMClient, CiviCRMError } from './client'
+import { CiviCRMClient, CiviCRMError } from '../client'
 
 const BASE_URL = 'https://crm.example.com'
 const API_KEY = 'test-key'
@@ -149,7 +149,7 @@ describe('CiviCRMClient', () => {
 
   describe('count', () => {
     it('POSTs to the /get endpoint', async () => {
-      vi.mocked(fetch).mockResolvedValue(okResponse([{ row_count: 0 }]))
+      vi.mocked(fetch).mockResolvedValue(okResponse([]))
 
       await makeClient().count('Case', {})
 

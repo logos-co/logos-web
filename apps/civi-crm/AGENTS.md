@@ -6,12 +6,15 @@ Guidance for agents working inside `apps/civi-crm`. The root `AGENTS.md` still a
 
 This is the Logos CiviCRM web layer — a Next.js 16 internal tool for managing Circle Case onboarding through a cleaner, custom interface on top of CiviCRM. It uses Tailwind v4, `@acid-info/logos-ui`, and `@acid-info/logos-tokens`. No database — CiviCRM is the sole data store. Authentication is handled by a Keycloak reverse proxy. Dev server runs on port **3002**.
 
-**Architecture document:** [`docs/civi-crm-architecture.md`](../../docs/civi-crm-architecture.md)
+**Architecture document:** [`docs/civi-crm/architecture.md`](../../docs/civi-crm/architecture.md)
 Read it before designing any feature. It defines the view config system, API layer, auth seam, activity logging, caching, and all key architectural decisions.
+
+**CiviCRM API guide:** [`docs/civi-crm/api.md`](../../docs/civi-crm/api.md)
+Read it before writing any CiviCRM query. It documents every entity and field used by this app, valid operators, query patterns, and anti-patterns.
 
 ## Keeping Docs Up to Date
 
-When you make a structural change, update both `docs/civi-crm-architecture.md` **and** this `AGENTS.md` in the same commit or PR if either is affected. Changes that require a doc update:
+When you make a structural change, update `docs/civi-crm/architecture.md` **and** this `AGENTS.md` in the same commit or PR if either is affected. When adding or modifying CiviCRM queries, update `docs/civi-crm/api.md` if the change introduces a new entity, field, or pattern not yet documented. Changes that require an architecture doc update:
 
 - Adding, removing, or renaming files in the `src/` tree
 - Adding, removing, or changing API routes
