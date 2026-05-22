@@ -29,4 +29,10 @@ export const civiConfig = {
    * Logged activities are marked completed immediately on creation.
    */
   ACTIVITY_STATUS_COMPLETED_ID: 2,
+
+  /**
+   * CiviCRM APIv4 prefix used in CaseContact deep-join field paths.
+   * Strip this prefix when querying the Contact entity directly.
+   */
+  CONTACT_ID_PREFIX: 'contact_id.' as const,
 } as const

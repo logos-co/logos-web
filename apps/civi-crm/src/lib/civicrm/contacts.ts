@@ -1,6 +1,8 @@
 import { civiClient } from './client'
+import { civiConfig } from './config'
 import type { CiviContact, CiviEmail } from './types'
 import type { ContactDetail } from '@/types/contact'
+import type { ViewConfig } from '@/lib/views'
 
 export async function getContactById(
   contactId: string
@@ -53,6 +55,53 @@ export async function updateEmail(
       is_primary: true,
     })
   }
+}
+
+export async function getContactFieldValues(
+  contactId: string,
+  view: ViewConfig
+): Promise<Record<string, unknown>> {
+  const { CONTACT_ID_PREFIX: prefix } = civiConfig
+  const fields = view.fields.filter(
+    (f) =>
+      !f.skipSelect &&
+      (f.updateTarget.entity === 'Contact' || f.updateTarget.entity === 'Email')
+  )
+
+  const select = new Set<string>(['id'])
+  for (const f of fields) {
+    const path = f.civiPath.startsWith(prefix)
+      ? f.civiPath.slice(prefix.length)
+      : f.civiPath
+    select.add(path)
+    if (f.civiLabelPath) {
+      const lpath = f.civiLabelPath.startsWith(prefix)
+        ? f.civiLabelPath.slice(prefix.length)
+        : f.civiLabelPath
+      select.add(lpath)
+    }
+  }
+
+  const rows = await civiClient.get<Record<string, unknown>>('Contact', {
+    select: [...select],
+    where: [['id', '=', Number(contactId)]],
+  })
+  const row = rows[0] ?? {}
+
+  const fieldValues: Record<string, unknown> = {}
+  for (const f of fields) {
+    const path = f.civiPath.startsWith(prefix)
+      ? f.civiPath.slice(prefix.length)
+      : f.civiPath
+    const displayPath = f.civiLabelPath
+      ? f.civiLabelPath.startsWith(prefix)
+        ? f.civiLabelPath.slice(prefix.length)
+        : f.civiLabelPath
+      : path
+    fieldValues[f.key] = row[displayPath] ?? row[path] ?? null
+  }
+
+  return fieldValues
 }
 
 export async function resolveOrCreateContactByEmail(
