@@ -1,3 +1,5 @@
+import type { CiviResponse } from './types'
+
 // null is valid as the third element for operators that take no value (e.g. 'IS NULL', 'IS NOT NULL').
 export type CiviWhere = [string, string, string | number | null]
 
@@ -27,24 +29,64 @@ export class CiviCRMClient {
     private readonly apiKey: string = process.env.CIVICRM_API_KEY ?? ''
   ) {}
 
-  get<T>(_entity: string, _params: CiviParams): Promise<T[]> {
-    throw new Error('Not implemented')
+  private get authHeaders() {
+    return {
+      'Content-Type': 'application/json',
+      'X-Civi-Auth': `Bearer ${this.apiKey}`,
+    }
   }
 
-  create<T>(_entity: string, _values: Record<string, unknown>): Promise<T> {
-    throw new Error('Not implemented')
+  async get<T>(entity: string, params: CiviParams): Promise<T[]> {
+    const url = `${this.baseUrl}/civicrm/ajax/api4/${entity}/get`
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: this.authHeaders,
+      body: JSON.stringify(params),
+    })
+    if (!res.ok) throw new CiviCRMError(res.status, await res.text())
+    const data: CiviResponse<T> = await res.json()
+    return data.values
   }
 
-  update<T>(
-    _entity: string,
-    _where: CiviParams['where'],
-    _values: Record<string, unknown>
+  async create<T>(entity: string, values: Record<string, unknown>): Promise<T> {
+    const url = `${this.baseUrl}/civicrm/ajax/api4/${entity}/create`
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: this.authHeaders,
+      body: JSON.stringify({ values }),
+    })
+    if (!res.ok) throw new CiviCRMError(res.status, await res.text())
+    const data: CiviResponse<T> = await res.json()
+    const record = data.values[0]
+    if (record === undefined)
+      throw new CiviCRMError(200, 'create returned empty values')
+    return record
+  }
+
+  async update<T>(
+    entity: string,
+    where: CiviParams['where'],
+    values: Record<string, unknown>
   ): Promise<T[]> {
-    throw new Error('Not implemented')
+    const url = `${this.baseUrl}/civicrm/ajax/api4/${entity}/update`
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: this.authHeaders,
+      body: JSON.stringify({ where, values }),
+    })
+    if (!res.ok) throw new CiviCRMError(res.status, await res.text())
+    const data: CiviResponse<T> = await res.json()
+    return data.values
   }
 
-  delete(_entity: string, _where: CiviParams['where']): Promise<void> {
-    throw new Error('Not implemented')
+  async delete(entity: string, where: CiviParams['where']): Promise<void> {
+    const url = `${this.baseUrl}/civicrm/ajax/api4/${entity}/delete`
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: this.authHeaders,
+      body: JSON.stringify({ where }),
+    })
+    if (!res.ok) throw new CiviCRMError(res.status, await res.text())
   }
 }
 

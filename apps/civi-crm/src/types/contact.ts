@@ -1,2 +1,6 @@
-// TODO: domain types for Contact entities
-// Types to define: ContactDetail, ContactUpdate, ContactPatchPayload
+export type ContactDetail = {
+  contactId: string
+  fieldValues: Record<string, unknown>
+}
+
+export type ContactPatchPayload = Record<string, unknown>
