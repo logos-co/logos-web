@@ -43,12 +43,7 @@
   "researchLinks": [
     { "label": "VacP2P", "href": "https://vac.dev", "external": true }
   ],
-  "infrastructureLinks": [
-    { "label": "Waku", "href": "https://waku.org", "external": true },
-    { "label": "Nimbus", "href": "https://nimbus.team", "external": true },
-    { "label": "Codex", "href": "https://codex.storage", "external": true },
-    { "label": "Nomos", "href": "https://nomos.tech", "external": true }
-  ],
+  "infrastructureLinks": [],
   "legalLinks": [
     { "label": "Terms & Conditions", "href": "/terms-and-conditions" },
     { "label": "Privacy Policy", "href": "/privacy-policy" },
