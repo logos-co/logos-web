@@ -228,4 +228,67 @@ describe('CiviCRMClient', () => {
       expect(err.status).toBe(401)
     })
   })
+
+  describe('debug logging', () => {
+    let debugSpy: ReturnType<typeof vi.spyOn>
+
+    beforeEach(() => {
+      debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    })
+
+    afterEach(() => {
+      vi.restoreAllMocks()
+      vi.unstubAllEnvs()
+    })
+
+    it('logs request and response when LOG_LEVEL=DEBUG', async () => {
+      vi.stubEnv('LOG_LEVEL', 'DEBUG')
+      vi.mocked(fetch).mockResolvedValue(okResponse([{ id: 1 }]))
+
+      await makeClient().get('Case', { select: ['id'] })
+
+      expect(debugSpy).toHaveBeenCalledTimes(2)
+      expect(debugSpy.mock.calls[0][0]).toContain('[CiviCRM] → POST')
+      expect(debugSpy.mock.calls[0][0]).toContain('/civicrm/ajax/api4/Case/get')
+      expect(debugSpy.mock.calls[1][0]).toContain('[CiviCRM] ← 200')
+      expect(debugSpy.mock.calls[1][0]).toContain('"id":1')
+    })
+
+    it('is case-insensitive -- logs when LOG_LEVEL=debug', async () => {
+      vi.stubEnv('LOG_LEVEL', 'debug')
+      vi.mocked(fetch).mockResolvedValue(okResponse([]))
+
+      await makeClient().get('Case', {})
+
+      expect(debugSpy).toHaveBeenCalledTimes(2)
+    })
+
+    it('does not log when LOG_LEVEL is absent', async () => {
+      vi.stubEnv('LOG_LEVEL', '')
+      vi.mocked(fetch).mockResolvedValue(okResponse([]))
+
+      await makeClient().get('Case', {})
+
+      expect(debugSpy).not.toHaveBeenCalled()
+    })
+
+    it('does not log when LOG_LEVEL=INFO', async () => {
+      vi.stubEnv('LOG_LEVEL', 'INFO')
+      vi.mocked(fetch).mockResolvedValue(okResponse([]))
+
+      await makeClient().get('Case', {})
+
+      expect(debugSpy).not.toHaveBeenCalled()
+    })
+
+    it('includes the request body in the log', async () => {
+      vi.stubEnv('LOG_LEVEL', 'DEBUG')
+      vi.mocked(fetch).mockResolvedValue(okResponse([]))
+      const params = { select: ['id', 'subject'], limit: 5 }
+
+      await makeClient().get('Case', params)
+
+      expect(debugSpy.mock.calls[0][0]).toContain(JSON.stringify(params))
+    })
+  })
 })
