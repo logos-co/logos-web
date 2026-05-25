@@ -290,5 +290,19 @@ describe('CiviCRMClient', () => {
 
       expect(debugSpy.mock.calls[0][0]).toContain(JSON.stringify(params))
     })
+
+    it('trims logged response body to 1000 characters', async () => {
+      vi.stubEnv('LOG_LEVEL', 'DEBUG')
+      const values = [{ body: 'x'.repeat(1500) }]
+      const serialized = JSON.stringify({ values, count: values.length })
+      vi.mocked(fetch).mockResolvedValue(okResponse(values))
+
+      await makeClient().get('Case', {})
+
+      const responseLog = debugSpy.mock.calls[1]?.[0]
+      const [, loggedBody = ''] = responseLog.split('\n            ')
+      expect(loggedBody).toHaveLength(1000)
+      expect(loggedBody).toBe(serialized.slice(0, 1000))
+    })
   })
 })
