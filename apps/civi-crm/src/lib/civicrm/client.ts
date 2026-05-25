@@ -9,7 +9,7 @@ export type CiviWhere = [string, string, CiviWhereValue | CiviWhereValue[]]
 export type CiviParams = {
   select?: string[]
   where?: CiviWhere[]
-  orderBy?: [string, 'ASC' | 'DESC'][]
+  orderBy?: Record<string, 'ASC' | 'DESC'>
   values?: Record<string, unknown>
   limit?: number
   offset?: number
@@ -37,8 +37,8 @@ export class CiviCRMClient {
 
   private get authHeaders() {
     return {
-      'Content-Type': 'application/json',
       'X-Civi-Auth': `Bearer ${this.apiKey}`,
+      'X-Requested-With': 'XMLHttpRequest',
     }
   }
 
@@ -46,15 +46,36 @@ export class CiviCRMClient {
     return process.env.LOG_LEVEL?.toLowerCase() === 'debug'
   }
 
-  private async request(url: string, body: string): Promise<Response> {
+  private buildUrlWithParams(
+    url: string,
+    params?: Record<string, unknown>
+  ): string {
+    if (!params) {
+      return url
+    }
+    const query = new URLSearchParams({
+      params: JSON.stringify(params),
+    })
+    return `${url}?${query.toString()}`
+  }
+
+  private async request(
+    url: string,
+    options?: {
+      method?: 'GET' | 'POST'
+      params?: Record<string, unknown>
+    }
+  ): Promise<Response> {
+    const method = options?.method ?? 'POST'
+    const finalUrl = this.buildUrlWithParams(url, options?.params)
+
     if (this.isDebug) {
-      console.debug(`[CiviCRM] → POST ${url}\n            ${body}`)
+      console.debug(`[CiviCRM] → ${method} ${finalUrl}`)
     }
     const start = Date.now()
-    const res = await fetch(url, {
-      method: 'POST',
+    const res = await fetch(finalUrl, {
+      method,
       headers: this.authHeaders,
-      body,
     })
     if (this.isDebug) {
       const responseBody = await res.clone().text()
@@ -63,7 +84,7 @@ export class CiviCRMClient {
         CiviCRMClient.MAX_LOGGED_RESPONSE_CHARS
       )
       console.debug(
-        `[CiviCRM] ← ${res.status} ${url} (${Date.now() - start}ms)\n            ${responseBodyForLog}`
+        `[CiviCRM] ← ${res.status} ${finalUrl} (${Date.now() - start}ms)\n            ${responseBodyForLog}`
       )
     }
     return res
@@ -71,7 +92,7 @@ export class CiviCRMClient {
 
   async get<T>(entity: string, params: CiviParams): Promise<T[]> {
     const url = `${this.baseUrl}/civicrm/ajax/api4/${entity}/get`
-    const res = await this.request(url, JSON.stringify(params))
+    const res = await this.request(url, { method: 'GET', params })
     if (!res.ok) throw new CiviCRMError(res.status, await res.text())
     const data: CiviResponse<T> = await res.json()
     return data.values
@@ -79,7 +100,10 @@ export class CiviCRMClient {
 
   async create<T>(entity: string, values: Record<string, unknown>): Promise<T> {
     const url = `${this.baseUrl}/civicrm/ajax/api4/${entity}/create`
-    const res = await this.request(url, JSON.stringify({ values }))
+    const res = await this.request(url, {
+      method: 'POST',
+      params: { values },
+    })
     if (!res.ok) throw new CiviCRMError(res.status, await res.text())
     const data: CiviResponse<T> = await res.json()
     const record = data.values[0]
@@ -94,7 +118,10 @@ export class CiviCRMClient {
     values: Record<string, unknown>
   ): Promise<T[]> {
     const url = `${this.baseUrl}/civicrm/ajax/api4/${entity}/update`
-    const res = await this.request(url, JSON.stringify({ where, values }))
+    const res = await this.request(url, {
+      method: 'POST',
+      params: { where, values },
+    })
     if (!res.ok) throw new CiviCRMError(res.status, await res.text())
     const data: CiviResponse<T> = await res.json()
     return data.values
@@ -102,7 +129,10 @@ export class CiviCRMClient {
 
   async delete(entity: string, where: CiviParams['where']): Promise<void> {
     const url = `${this.baseUrl}/civicrm/ajax/api4/${entity}/delete`
-    const res = await this.request(url, JSON.stringify({ where }))
+    const res = await this.request(url, {
+      method: 'POST',
+      params: { where },
+    })
     if (!res.ok) throw new CiviCRMError(res.status, await res.text())
   }
 
@@ -113,10 +143,10 @@ export class CiviCRMClient {
     const url = `${this.baseUrl}/civicrm/ajax/api4/${entity}/get`
     // row_count is an aggregate pseudo-field: the API returns a single record
     // { row_count: N } without fetching any entity rows.
-    const res = await this.request(
-      url,
-      JSON.stringify({ select: ['row_count'], where: params.where })
-    )
+    const res = await this.request(url, {
+      method: 'GET',
+      params: { select: ['row_count'], where: params.where },
+    })
     if (!res.ok) throw new CiviCRMError(res.status, await res.text())
     const data: CiviResponse<{ row_count: number }> = await res.json()
     return data.values[0]?.row_count ?? 0

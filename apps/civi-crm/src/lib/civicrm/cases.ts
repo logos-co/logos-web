@@ -106,7 +106,7 @@ export async function listCases(
     civiClient.get<CiviCase>('Case', {
       select: buildCaseSelect(view),
       where: caseWhere,
-      orderBy: [[sortPath, sortDir]],
+      orderBy: { [sortPath]: sortDir },
       limit: PAGE_SIZE,
       offset,
     }),
