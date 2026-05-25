@@ -98,11 +98,22 @@ export class CiviCRMClient {
     return data.values
   }
 
-  async create<T>(entity: string, values: Record<string, unknown>): Promise<T> {
+  async create<T>(
+    entity: string,
+    values: Record<string, unknown>,
+    options?: {
+      chain?: Record<string, unknown>
+    }
+  ): Promise<T> {
+    const params: Record<string, unknown> = { values }
+    if (options?.chain) {
+      params.chain = options.chain
+    }
+
     const url = `${this.baseUrl}/civicrm/ajax/api4/${entity}/create`
     const res = await this.request(url, {
       method: 'POST',
-      params: { values },
+      params,
     })
     if (!res.ok) throw new CiviCRMError(res.status, await res.text())
     const data: CiviResponse<T> = await res.json()
