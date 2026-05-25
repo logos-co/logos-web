@@ -38,6 +38,10 @@ const staticIndexableRoutes = [
   ROUTES.storage,
   ROUTES.terms,
   ROUTES.workWithUs,
+  ROUTES.connect,
+  ROUTES.activistBuilder,
+  ROUTES.activistLeaderSteward,
+  ROUTES.coalitionPartner,
   ...(ROUTE_AVAILABILITY.about ? [ROUTES.about] : []),
 ] as const
 

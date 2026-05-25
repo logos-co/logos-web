@@ -42,6 +42,15 @@ export type Env = {
    * Public calendar API origin used at build time for Logos Broadcast Network.
    */
   NEXT_PUBLIC_ADMIN_ACID_API_URL: string | undefined
+  /**
+   * Public CiviCRM API origin (e.g. `https://civi.logos.co` or `http://localhost:3002`).
+   * Used by connect/intake forms to submit data.
+   */
+  NEXT_PUBLIC_CIVI_CRM_URL: string | undefined
+  /**
+   * hCaptcha public sitekey for connect forms.
+   */
+  NEXT_PUBLIC_HCAPTCHA_SITEKEY: string | undefined
 }
 
 function assertOneOf<T extends string>(
@@ -93,5 +102,11 @@ export const env: Env = {
   NEXT_PUBLIC_CMS_URL: readOptionalString(process.env.NEXT_PUBLIC_CMS_URL),
   NEXT_PUBLIC_ADMIN_ACID_API_URL: readOptionalString(
     process.env.NEXT_PUBLIC_ADMIN_ACID_API_URL
+  ),
+  NEXT_PUBLIC_CIVI_CRM_URL: readOptionalString(
+    process.env.NEXT_PUBLIC_CIVI_CRM_URL
+  ),
+  NEXT_PUBLIC_HCAPTCHA_SITEKEY: readOptionalString(
+    process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY
   ),
 }

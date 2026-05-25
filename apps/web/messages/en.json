@@ -996,6 +996,53 @@
       "title": "Blog | Logos",
       "description": "Essays, updates, and technical writing from the Logos team.",
       "heading": "Blog"
+    },
+    "connect": {
+      "title": "Let's Connect | Logos",
+      "description": "Be part of what's unfolding. Receive updates on progress, gatherings and opportunities to contribute.",
+      "heading": "Let's Connect."
+    },
+    "activistBuilder": {
+      "title": "Activist Builder | Logos",
+      "description": "Join as an Activist Builder and help communities coordinate and become more self-sufficient.",
+      "heading": "Activist Builder"
+    },
+    "activistLeaderSteward": {
+      "title": "Activist Leader / Steward | Logos",
+      "description": "Start or steward a Circle in your area and build durable local community with structure and impact.",
+      "heading": "Activist Leader / Steward"
+    },
+    "coalitionPartner": {
+      "title": "Coalition Partner | Logos",
+      "description": "Partner with Logos if you're building aligned organisations, networks, or community infrastructure.",
+      "heading": "Coalition Partner"
     }
+  },
+  "connectForm": {
+    "submit": "Send",
+    "submitting": "Sending...",
+    "selectPlaceholder": "Select…",
+    "selectAtLeastOne": "Please select at least one",
+    "selectFieldRequired": "Please select {field}",
+    "fieldRequired": "Please enter {field}",
+    "emailInvalid": "Please enter a valid email address",
+    "captchaRequired": "Please complete the captcha.",
+    "captchaFailed": "Captcha verification failed. Please try again.",
+    "submitError": "Something went wrong. Please try again.",
+    "networkError": "Network error. Please check your connection and try again.",
+    "defaultConfirmation": "Thank you for reaching out!",
+    "successBody": "We've received your information and our People Ops team will review it shortly. If relevant, we'll schedule an intro call or connect you with the right people.",
+    "successAnnouncement": "Form submitted successfully. Thank you for reaching out!",
+    "loadingAnnouncement": "Submitting form, please wait...",
+    "errorsAnnouncement": "Form has {count, plural, one {# error} other {# errors}}. Please correct the highlighted fields.",
+    "chatLabel": "Chat name / chat service",
+    "chatHandlePlaceholder": "Chat handle",
+    "chatServicePlaceholder": "Service",
+    "remove": "Remove",
+    "addAnother": "+ Add another",
+    "addChatRow": "Add another chat",
+    "removeChatRow": "Remove chat row {index}",
+    "addFieldRow": "Add another {field}",
+    "removeFieldRow": "Remove {field} {index}"
   }
 }
