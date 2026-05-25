@@ -366,7 +366,7 @@ Rather than fetching supplementary data per-case:
 
 This is 4 total CiviCRM calls per page when a page has rows (plus 1 optional pre-step call when `assignee` is provided). If the requested page is empty, Round 2 is skipped.
 
-**Default assignee filter:** On first load the Server Component reads the logged-in user's email from request headers (`KEYCLOAK_USER_EMAIL_HEADER` / `x-auth-request-email` fallback), resolves their CiviCRM `contact_id` via `findContactByEmail()`, and passes it as the default `?assignee=` search param. The user can clear the filter in `CasesFilters` to see all cases. The resolved `contact_id` is passed as the `assignee` query parameter to this route, which applies it as an additional `where` clause on the pre-step `/Relationship` call.
+**Default assignee filter:** On first load the Server Component reads the logged-in user's email from request headers (`KEYCLOAK_USER_EMAIL_HEADER` / `x-auth-request-email` fallback), resolves their CiviCRM `contact_id` via `resolveOrCreateContactByEmail()`, and passes it as the default `?assignee=` search param. The user can clear the filter in `CasesFilters` to see all cases. The resolved `contact_id` is passed as the `assignee` query parameter to this route, which applies it as an additional `where` clause on the pre-step `/Relationship` call.
 
 **`select[]` arrays are derived server-side from the active view's `listColumns` field definitions**, ensuring only needed fields are fetched.
 

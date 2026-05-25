@@ -104,7 +104,11 @@ On error, CiviCRM returns a non-2xx status with a plain-text or JSON body. The c
 ```typescript
 class CiviCRMClient {
   get<T>(entity: string, params: CiviParams): Promise<T[]>
-  create<T>(entity: string, values: Record<string, unknown>): Promise<T>
+  create<T>(
+    entity: string,
+    values: Record<string, unknown>,
+    options?: { chain?: Record<string, unknown> }
+  ): Promise<T>
   update<T>(entity: string, where: CiviWhere[], values: Record<string, unknown>): Promise<T[]>
   delete(entity: string, where: CiviWhere[]): Promise<void>
   count(entity: string, params: Pick<CiviParams, 'where'>): Promise<number>
@@ -312,7 +316,7 @@ Table: `civicrm_contact`
 | `display_name` | `string` | Full formatted name |
 | `first_name` | `string` | |
 | `last_name` | `string` | |
-| `email_primary` | `string` | Calculated shortcut to the primary email address. Supported as a **read field** (select/where), **write shortcut** in `create` (creates an Email record), and **filter** in `where`. Requires a recent CiviCRM 5.x version. |
+| `email_primary` | `string` | Calculated shortcut to the primary email address. Supported as a **read field** (`select`/`where`) and as a **filter** in `where`. |
 | `contact_type` | `string` | `'Individual'`, `'Organization'`, or `'Household'` -- required on `create` |
 
 **`email_primary` in `where`:** filtering on this field works via an implicit join. Use it to look up a contact by email address:
@@ -321,10 +325,28 @@ Table: `civicrm_contact`
 where: [['email_primary', '=', 'user@example.com']]
 ```
 
-**`email_primary` in `create` values:** creates a primary Email record atomically:
+**Creating Contact + Email in one request:** `Contact` and `Email` are separate entities. In this app, create the Contact, then chain an `Email.create` operation using `$id` as a back-reference to the newly created contact:
 
 ```typescript
-civiClient.create('Contact', { contact_type: 'Individual', email_primary: 'user@example.com' })
+civiClient.create(
+  'Contact',
+  { contact_type: 'Individual' },
+  {
+    chain: {
+      create_email: [
+        'Email',
+        'create',
+        {
+          values: {
+            email: 'user@example.com',
+            contact_id: '$id',
+            is_primary: true,
+          },
+        },
+      ],
+    },
+  }
+)
 ```
 
 ---
@@ -466,6 +488,35 @@ const total = await civiClient.count(...)
 ```
 
 When a second round of queries depends on IDs from the first (e.g., fetching CaseContacts after getting case IDs), use `Promise.all` within each round but keep the rounds sequential.
+
+### APIv4 chaining for dependent creates
+
+Use APIv4 `chain` when you must create related entities in one request and the second write depends on the first write's generated ID.
+
+In this codebase, the canonical example is Contact + Email creation. `Contact` and `Email` are separate entities, so create the Contact first, then chain `Email.create` and pass `contact_id: '$id'` (back-reference to the outer Contact create result):
+
+```typescript
+await civiClient.create('Contact', { contact_type: 'Individual' }, {
+  chain: {
+    create_email: [
+      'Email',
+      'create',
+      {
+        values: {
+          email: userEmail,
+          contact_id: '$id',
+          is_primary: true,
+        },
+      },
+    ],
+  },
+})
+```
+
+Rules:
+- Use chaining only for true dependencies (inner call needs outer call output).
+- Keep the outer `values` payload valid by itself (e.g., `contact_type` is required for Contact create).
+- Prefer normal `Promise.all` parallel writes when operations are independent.
 
 ### `IN` filter over per-row fetches
 
