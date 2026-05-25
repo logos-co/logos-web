@@ -28,6 +28,8 @@ export class CiviCRMError extends Error {
 // Thin fetch wrapper around CiviCRM APIv4.
 // All CiviCRM HTTP calls must go through this class — never call CiviCRM directly from route handlers.
 export class CiviCRMClient {
+  private static readonly MAX_LOGGED_RESPONSE_CHARS = 1000
+
   constructor(
     private readonly baseUrl: string = process.env.CIVICRM_BASE_URL ?? '',
     private readonly apiKey: string = process.env.CIVICRM_API_KEY ?? ''
@@ -56,8 +58,12 @@ export class CiviCRMClient {
     })
     if (this.isDebug) {
       const responseBody = await res.clone().text()
+      const responseBodyForLog = responseBody.slice(
+        0,
+        CiviCRMClient.MAX_LOGGED_RESPONSE_CHARS
+      )
       console.debug(
-        `[CiviCRM] ← ${res.status} ${url} (${Date.now() - start}ms)\n            ${responseBody}`
+        `[CiviCRM] ← ${res.status} ${url} (${Date.now() - start}ms)\n            ${responseBodyForLog}`
       )
     }
     return res
