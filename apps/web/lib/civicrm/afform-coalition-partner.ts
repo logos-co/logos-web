@@ -164,28 +164,6 @@ export const AFFORM = {
       "inputAttrs": [],
       "formKey": "wantsNewsletter",
       "inputType": "checkbox"
-    },
-    {
-      "entity": "Case1",
-      "join": null,
-      "fieldName": "Circle_Case.Profile",
-      "label": "Circle_Case.Profile",
-      "required": false,
-      "options": null,
-      "inputAttrs": [],
-      "formKey": "caseProfile",
-      "inputType": "hidden"
-    },
-    {
-      "entity": "Case1",
-      "join": null,
-      "fieldName": "Circle_Case.Lead_Source",
-      "label": "Circle_Case.Lead_Source",
-      "required": false,
-      "options": null,
-      "inputAttrs": [],
-      "formKey": "caseLeadSource",
-      "inputType": "hidden"
     }
   ]
 };
@@ -341,28 +319,6 @@ export const AFFORM_FIELDS = [
     "inputAttrs": [],
     "formKey": "wantsNewsletter",
     "inputType": "checkbox"
-  },
-  {
-    "entity": "Case1",
-    "join": null,
-    "fieldName": "Circle_Case.Profile",
-    "label": "Circle_Case.Profile",
-    "required": false,
-    "options": null,
-    "inputAttrs": [],
-    "formKey": "caseProfile",
-    "inputType": "hidden"
-  },
-  {
-    "entity": "Case1",
-    "join": null,
-    "fieldName": "Circle_Case.Lead_Source",
-    "label": "Circle_Case.Lead_Source",
-    "required": false,
-    "options": null,
-    "inputAttrs": [],
-    "formKey": "caseLeadSource",
-    "inputType": "hidden"
   }
 ];
 

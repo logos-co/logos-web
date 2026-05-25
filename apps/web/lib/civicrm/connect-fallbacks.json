@@ -1,0 +1,325 @@
+{
+  "optionGroupIds": {
+    "role": 117,
+    "skills": 107
+  },
+  "options": {
+    "role": [
+      {
+        "value": "1",
+        "label": "Builder",
+        "name": "Builder"
+      },
+      {
+        "value": "2",
+        "label": "Node Operator",
+        "name": "Node_Operator"
+      },
+      {
+        "value": "3",
+        "label": "Activist",
+        "name": "Activist"
+      }
+    ],
+    "skills": [
+      {
+        "value": "1",
+        "label": "Developer",
+        "name": "Web_Dev"
+      },
+      {
+        "value": "2",
+        "label": "Web3 builder",
+        "name": "Blockchain"
+      },
+      {
+        "value": "3",
+        "label": "Privacy domain expert",
+        "name": "Comms"
+      },
+      {
+        "value": "4",
+        "label": "Website developer",
+        "name": "Volunteer"
+      },
+      {
+        "value": "5",
+        "label": "Product designer",
+        "name": "Product_designer"
+      },
+      {
+        "value": "6",
+        "label": "Researcher",
+        "name": "Researcher"
+      },
+      {
+        "value": "7",
+        "label": "Activist",
+        "name": "Activist"
+      },
+      {
+        "value": "8",
+        "label": "Project manager",
+        "name": "Project_manager"
+      },
+      {
+        "value": "9",
+        "label": "Community builder",
+        "name": "Community_builder"
+      },
+      {
+        "value": "10",
+        "label": "Thought leader / Influencer",
+        "name": "Thought_leader_Influencer"
+      },
+      {
+        "value": "11",
+        "label": "Creative",
+        "name": "Creative"
+      },
+      {
+        "value": "12",
+        "label": "Marketer",
+        "name": "Marketer"
+      },
+      {
+        "value": "13",
+        "label": "Fundraiser",
+        "name": "Fundraiser"
+      },
+      {
+        "value": "14",
+        "label": "Educator",
+        "name": "Educator"
+      },
+      {
+        "value": "15",
+        "label": "Policy advocate",
+        "name": "Policy_advocate"
+      },
+      {
+        "value": "16",
+        "label": "Translator",
+        "name": "Translator"
+      }
+    ],
+    "chatService": [
+      {
+        "value": "1",
+        "label": "Discord",
+        "name": "Discord"
+      },
+      {
+        "value": "2",
+        "label": "Telegram",
+        "name": "Telegram"
+      },
+      {
+        "value": "3",
+        "label": "X",
+        "name": "X"
+      },
+      {
+        "value": "4",
+        "label": "Farcaster",
+        "name": "Farcaster"
+      },
+      {
+        "value": "5",
+        "label": "Signal",
+        "name": "Signal"
+      },
+      {
+        "value": "6",
+        "label": "GitHub",
+        "name": "GitHub"
+      },
+      {
+        "value": "7",
+        "label": "Status App",
+        "name": "Status App"
+      },
+      {
+        "value": "8",
+        "label": "WhatsApp",
+        "name": "WhatsApp"
+      },
+      {
+        "value": "9",
+        "label": "Other",
+        "name": "Other"
+      }
+    ]
+  },
+  "fieldConfig": [
+    {
+      "formKey": "role",
+      "individualField": "Contacts_Custom_Fields.Role",
+      "customFieldId": 35,
+      "optionGroupId": 117,
+      "dataType": "String",
+      "options": [
+        {
+          "value": "1",
+          "label": "Builder",
+          "name": "Builder"
+        },
+        {
+          "value": "2",
+          "label": "Node Operator",
+          "name": "Node_Operator"
+        },
+        {
+          "value": "3",
+          "label": "Activist",
+          "name": "Activist"
+        }
+      ]
+    },
+    {
+      "formKey": "name",
+      "individualField": "nick_name",
+      "customFieldId": null,
+      "optionGroupId": null,
+      "dataType": "String",
+      "options": null
+    },
+    {
+      "formKey": "skills",
+      "individualField": "Skills_Socials.Skills_Experience",
+      "customFieldId": 19,
+      "optionGroupId": 107,
+      "dataType": "String",
+      "options": [
+        {
+          "value": "1",
+          "label": "Developer",
+          "name": "Web_Dev"
+        },
+        {
+          "value": "2",
+          "label": "Web3 builder",
+          "name": "Blockchain"
+        },
+        {
+          "value": "3",
+          "label": "Privacy domain expert",
+          "name": "Comms"
+        },
+        {
+          "value": "4",
+          "label": "Website developer",
+          "name": "Volunteer"
+        },
+        {
+          "value": "5",
+          "label": "Product designer",
+          "name": "Product_designer"
+        },
+        {
+          "value": "6",
+          "label": "Researcher",
+          "name": "Researcher"
+        },
+        {
+          "value": "7",
+          "label": "Activist",
+          "name": "Activist"
+        },
+        {
+          "value": "8",
+          "label": "Project manager",
+          "name": "Project_manager"
+        },
+        {
+          "value": "9",
+          "label": "Community builder",
+          "name": "Community_builder"
+        },
+        {
+          "value": "10",
+          "label": "Thought leader / Influencer",
+          "name": "Thought_leader_Influencer"
+        },
+        {
+          "value": "11",
+          "label": "Creative",
+          "name": "Creative"
+        },
+        {
+          "value": "12",
+          "label": "Marketer",
+          "name": "Marketer"
+        },
+        {
+          "value": "13",
+          "label": "Fundraiser",
+          "name": "Fundraiser"
+        },
+        {
+          "value": "14",
+          "label": "Educator",
+          "name": "Educator"
+        },
+        {
+          "value": "15",
+          "label": "Policy advocate",
+          "name": "Policy_advocate"
+        },
+        {
+          "value": "16",
+          "label": "Translator",
+          "name": "Translator"
+        }
+      ]
+    },
+    {
+      "formKey": "city",
+      "individualField": "primary_address_id.city",
+      "customFieldId": null,
+      "optionGroupId": null,
+      "dataType": "String",
+      "options": null
+    },
+    {
+      "formKey": "affiliatedOrgs",
+      "individualField": "Contacts_Custom_Fields.Affiliated_Organizations",
+      "customFieldId": null,
+      "optionGroupId": null,
+      "dataType": "String",
+      "options": null
+    },
+    {
+      "formKey": "email",
+      "individualField": "email_primary.email",
+      "customFieldId": null,
+      "optionGroupId": null,
+      "dataType": "String",
+      "options": null
+    },
+    {
+      "formKey": "website",
+      "individualField": "website_primary.url",
+      "customFieldId": null,
+      "optionGroupId": null,
+      "dataType": "String",
+      "options": null
+    },
+    {
+      "formKey": "chat",
+      "individualField": "Contacts_Custom_Fields.Chat_Handle",
+      "customFieldId": null,
+      "optionGroupId": null,
+      "dataType": "String",
+      "options": null
+    },
+    {
+      "formKey": "socials",
+      "individualField": "Contacts_Custom_Fields.Socials",
+      "customFieldId": null,
+      "optionGroupId": null,
+      "dataType": "String",
+      "options": null
+    }
+  ]
+}

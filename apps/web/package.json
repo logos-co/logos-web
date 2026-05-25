@@ -16,7 +16,14 @@
     "test": "vitest run",
     "test:perf": "tsx test/performance/export-performance.test.ts",
     "test:static": "tsx scripts/static-export-smoke.ts && tsx test/static-export/accessibility.test.ts && tsx test/static-export/navigation.test.ts",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "generate:civicrm-fields": "node scripts/generate-civicrm-connect-fields.mjs",
+    "fetch:afform-contact": "node scripts/fetch-afform-contact-form.mjs",
+    "fetch:afform-contact:dry-run": "node scripts/fetch-afform-contact-form.mjs --dry-run",
+    "fetch:afform-activist-builder": "node scripts/fetch-afform-contact-form.mjs --form afformActivistBuilder",
+    "fetch:afform-activist-leader": "node scripts/fetch-afform-contact-form.mjs --form afformActivistLeaderSteward",
+    "fetch:afform-coalition-partner": "node scripts/fetch-afform-contact-form.mjs --form afformCoalitionPartner",
+    "fetch:afform-all": "pnpm fetch:afform-contact && pnpm fetch:afform-activist-builder && pnpm fetch:afform-activist-leader && pnpm fetch:afform-coalition-partner"
   },
   "dependencies": {
     "@hcaptcha/react-hcaptcha": "^1.12.0",
@@ -43,6 +50,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitest/coverage-v8": "^4.1.5",
+    "dotenv": "^17.2.2",
     "eslint": "^10.2.1",
     "postcss": "^8.5.10",
     "tailwindcss": "^4.2.2",
