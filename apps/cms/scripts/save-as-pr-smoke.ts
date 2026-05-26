@@ -3,7 +3,7 @@
  *
  * Picks one existing RFP fixture, simulates an editor change to its tagline,
  * and runs the full create-branch → atomic-commit → open-PR pipeline against
- * the real `acid-info/logos-co` repository. Verifies the PR exists and points
+ * the real `logos-co/logos-web` repository. Verifies the PR exists and points
  * at the expected file path, then cleans up (close PR + delete branch).
  *
  * Authentication: uses GitHub App installation credentials only.
