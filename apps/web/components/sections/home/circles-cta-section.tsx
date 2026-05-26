@@ -15,7 +15,12 @@ export default async function CirclesCtaSection({ data }: Props) {
 
   return (
     <section className="relative h-[1180px] overflow-hidden bg-brand-off-white md:h-[1225px]">
-      <Reveal amount={0.15} className="absolute top-[100px] left-0 w-full">
+      <Reveal
+        amount={0.4}
+        delay={0.18}
+        viewportMargin="0px 0px -20% 0px"
+        className="absolute top-[100px] left-0 w-full"
+      >
         <h2 className="text-h1 flex flex-col items-center gap-[6px] text-center text-brand-dark-green md:gap-0">
           <span>{data.title.highlight}</span>
           <span className="md:-mt-1">{data.title.rest}</span>

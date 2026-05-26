@@ -15,9 +15,16 @@
 'use client'
 
 import { motion } from 'motion/react'
+import type { Variants } from 'motion/react'
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
-import { fadeUp, stagger as staggerVariants, VIEWPORT_ONCE } from '@/lib/motion'
+import {
+  DURATION,
+  EASE,
+  fadeUp,
+  stagger as staggerVariants,
+  VIEWPORT_ONCE,
+} from '@/lib/motion'
 
 type RevealProps = ComponentPropsWithoutRef<typeof motion.div> & {
   children: ReactNode
@@ -25,17 +32,45 @@ type RevealProps = ComponentPropsWithoutRef<typeof motion.div> & {
   stagger?: boolean
   /** Custom viewport amount (0–1). Default 0.3. */
   amount?: number
+  /** Optional delay for the reveal transition, in seconds. */
+  delay?: number
+  /** Optional IntersectionObserver root margin for later or earlier trigger points. */
+  viewportMargin?: string
 }
 
 export function Reveal({
   children,
   stagger = false,
   amount,
+  delay,
+  viewportMargin,
   ...rest
 }: RevealProps) {
-  const variants = stagger ? staggerVariants : fadeUp
+  const delayedFadeUp: Variants | undefined =
+    delay === undefined
+      ? undefined
+      : {
+          hidden: { opacity: 0, y: 12 },
+          visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+              duration: DURATION.base,
+              ease: EASE.out,
+              delay,
+            },
+          },
+        }
+  const variants =
+    delay === undefined
+      ? stagger
+        ? staggerVariants
+        : fadeUp
+      : delayedFadeUp
   const viewport =
-    amount !== undefined ? { ...VIEWPORT_ONCE, amount } : VIEWPORT_ONCE
+    amount !== undefined || viewportMargin !== undefined
+      ? { ...VIEWPORT_ONCE, amount, margin: viewportMargin }
+      : VIEWPORT_ONCE
 
   return (
     <motion.div

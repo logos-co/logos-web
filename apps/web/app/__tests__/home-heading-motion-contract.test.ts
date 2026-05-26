@@ -22,7 +22,11 @@ describe('home heading motion contract', () => {
     )
 
     for (const source of [builderPortal, circlesCta, parallelSociety]) {
-      expect(source).toMatch(/<Reveal[\s\S]*?amount=\{0\.15\}/)
+      expect(source).toMatch(/<Reveal[\s\S]*?amount=\{0\.4\}/)
+      expect(source).toMatch(/<Reveal[\s\S]*?delay=\{0\.18\}/)
+      expect(source).toMatch(
+        /<Reveal[\s\S]*?viewportMargin="0px 0px -20% 0px"/
+      )
     }
   })
 })

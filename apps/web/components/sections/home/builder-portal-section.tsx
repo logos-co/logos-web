@@ -48,7 +48,11 @@ export default async function BuilderPortalSection({
         <div className="grid gap-3 md:grid-cols-[464px_minmax(0,940px)]">
           <div className="flex min-h-[531px] flex-col justify-between md:min-h-[532px]">
             <div>
-              <Reveal amount={0.15}>
+              <Reveal
+                amount={0.4}
+                delay={0.18}
+                viewportMargin="0px 0px -20% 0px"
+              >
                 <h2 className="text-h1 max-w-[702px] whitespace-pre-line text-brand-dark-green md:text-h2">
                   {t('title')}
                 </h2>
