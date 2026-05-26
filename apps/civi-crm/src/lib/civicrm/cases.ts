@@ -81,10 +81,14 @@ export async function listCases(
             '=',
             civiConfig.COORDINATOR_RELATIONSHIP_TYPE_NAME,
           ],
+          ['case_id', 'IS NOT NULL', null],
+          ['case_id.case_type_id:name', '=', view.caseTypeName],
         ],
       }
     )
-    caseIdsForAssignee = assigneeRels.map((r) => r.case_id)
+    caseIdsForAssignee = assigneeRels
+      .map((r) => r.case_id)
+      .filter((id): id is number => id != null)
     if (caseIdsForAssignee.length === 0) {
       return { items: [], total: 0, page, pageSize: PAGE_SIZE }
     }
@@ -147,7 +151,7 @@ export async function listCases(
   const coordinatorByCaseId = new Map<number, string>()
   for (const rel of coordinatorRels) {
     coordinatorByCaseId.set(
-      rel.case_id,
+      rel.case_id!,
       String(rel['contact_id_b.display_name'] ?? '')
     )
   }
