@@ -72,15 +72,26 @@ function HoverStackItem({
       : hasDetails
         ? 'md:group-hover/stack-item:-translate-y-8'
         : ''
+  const stackItemLayoutClass = mobileFeatured
+    ? 'items-start justify-start p-3 md:items-center md:justify-center md:px-6 md:py-0'
+    : hasDetails
+      ? 'items-end justify-between p-1.5 md:items-center md:justify-center md:px-6 md:py-0'
+      : 'items-center justify-center px-3 md:px-6'
+  const contentLayoutClass = mobileFeatured
+    ? 'items-start text-left md:items-center md:text-center'
+    : hasDetails
+      ? 'h-[134px] w-full items-center justify-center px-3 py-[34px] text-center md:h-auto md:w-auto md:px-0 md:py-0'
+      : 'items-center'
+  const mobileDescriptionClass = mobileFeatured
+    ? 'text-left'
+    : hasDetails
+      ? 'w-full text-center'
+      : 'text-center'
 
   return (
     <Link
       href={href}
-      className={`group/stack-item relative flex cursor-pointer overflow-hidden rounded-3xl border border-brand-dark-green px-6 text-center text-brand-dark-green transition-[border-color] duration-200 ease-out hover:border-brand-dark-green/30 focus-visible:border-brand-dark-green/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green ${
-        mobileFeatured
-          ? 'items-start justify-start md:items-center md:justify-center'
-          : 'items-center justify-center'
-      } ${className}`}
+      className={`group/stack-item relative flex flex-col cursor-pointer overflow-hidden rounded-3xl border border-brand-dark-green text-center text-brand-dark-green transition-[border-color] duration-200 ease-out hover:border-brand-dark-green/30 focus-visible:border-brand-dark-green/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green ${stackItemLayoutClass} ${className}`}
     >
       <span className="pointer-events-none absolute inset-0 rounded-3xl bg-accent-light-blue opacity-0 transition-opacity duration-200 ease-out group-hover/stack-item:opacity-100" />
 
@@ -106,11 +117,7 @@ function HoverStackItem({
       </StackItemCta>
 
       <div
-        className={`relative z-[1] flex max-w-[222px] flex-col gap-3 transition-transform duration-200 ease-out ${
-          mobileFeatured
-            ? 'items-start text-left md:items-center md:text-center'
-            : 'items-center'
-        } ${contentHoverOffset}`}
+        className={`relative z-[1] flex max-w-[222px] flex-col gap-3 transition-transform duration-200 ease-out ${contentLayoutClass} ${contentHoverOffset}`}
       >
         <span
           className={`text-subhead-sans flex items-center gap-2.5 ${labelClassName ?? ''}`}
@@ -123,9 +130,7 @@ function HoverStackItem({
         {description ? (
           <>
             <p
-              className={`text-mono-s md:hidden ${
-                mobileFeatured ? 'text-left' : 'text-center'
-              }`}
+              className={`text-mono-s md:hidden ${mobileDescriptionClass}`}
             >
               {description}
             </p>
@@ -138,13 +143,13 @@ function HoverStackItem({
 
       {hasDetails ? (
         <>
-          <div className="absolute right-1.5 bottom-1.5 left-1.5 z-[1] flex flex-col gap-1.5 md:hidden">
+          <div className="relative z-[1] flex w-full shrink-0 flex-col gap-1.5 md:hidden">
             {details.map((detail) => (
               <div
                 key={detail.title}
-                className="flex min-h-[50px] items-center justify-center rounded-[18px] border border-brand-dark-green/50 px-2 text-brand-dark-green"
+                className="flex h-[50px] items-center justify-center rounded-[18px] border border-brand-dark-green/50 px-2 text-brand-dark-green"
               >
-                <p className="font-mono text-[10px] leading-[1.3] font-medium uppercase">
+                <p className="text-center font-mono text-[10px] leading-[1.3] font-medium uppercase">
                   {detail.title}
                 </p>
               </div>
@@ -193,7 +198,7 @@ export function TechStackDiagram({
           ctaIcon={<DownloadIcon />}
           ctaVisibleByDefault
           mobileFeatured
-          className="h-[111px] w-full border-brand-dark-green p-3 md:h-[196px] md:px-6"
+          className="h-[111px] w-full border-brand-dark-green md:h-[196px]"
         />
       ) : null}
 
@@ -204,7 +209,7 @@ export function TechStackDiagram({
             title={pillar.title}
             description={pillar.body}
             href={pillar.href}
-            className="h-[258px] w-full px-3 md:h-[366px] md:px-6"
+            className="h-[258px] w-full md:h-[366px]"
             details={pillar.details}
           />
         ))}

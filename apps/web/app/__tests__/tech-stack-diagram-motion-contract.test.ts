@@ -31,4 +31,24 @@ describe('tech stack diagram motion contract', () => {
     )
     expect(diagram).toContain("'md:group-hover/stack-item:-translate-y-8'")
   })
+
+  test('reserves mobile space for stack item detail cards', () => {
+    const diagram = readAppFile(
+      '../components/sections/shared/tech-stack-diagram.tsx'
+    )
+
+    expect(diagram).toContain(
+      "'items-end justify-between p-1.5 md:items-center md:justify-center md:px-6 md:py-0'"
+    )
+    expect(diagram).toContain('relative flex flex-col cursor-pointer')
+    expect(diagram).toContain(
+      "'h-[134px] w-full items-center justify-center px-3 py-[34px] text-center md:h-auto md:w-auto md:px-0 md:py-0'"
+    )
+    expect(diagram).toContain(
+      'relative z-[1] flex w-full shrink-0 flex-col gap-1.5 md:hidden'
+    )
+    expect(diagram).not.toContain(
+      'absolute right-1.5 bottom-1.5 left-1.5 z-[1] flex flex-col gap-1.5 md:hidden'
+    )
+  })
 })
