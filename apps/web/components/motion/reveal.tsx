@@ -61,11 +61,28 @@ export function Reveal({
             },
           },
         }
-  const variants =
+  const delayedStagger: Variants | undefined =
     delay === undefined
-      ? stagger
-        ? staggerVariants
-        : fadeUp
+      ? undefined
+      : {
+          ...staggerVariants,
+          visible: {
+            ...((staggerVariants.visible as Record<string, unknown>) ?? {}),
+            transition: {
+              ...((((staggerVariants.visible as Record<string, unknown>)?.transition as Record<
+                string,
+                unknown
+              >) ?? {})),
+              delayChildren: delay,
+            },
+          },
+        }
+  const variants = stagger
+    ? delay === undefined
+      ? staggerVariants
+      : delayedStagger
+    : delay === undefined
+      ? fadeUp
       : delayedFadeUp
   const viewport =
     amount !== undefined || viewportMargin !== undefined
