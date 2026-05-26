@@ -86,7 +86,11 @@ export function Reveal({
       : delayedFadeUp
   const viewport =
     amount !== undefined || viewportMargin !== undefined
-      ? { ...VIEWPORT_ONCE, amount, margin: viewportMargin }
+      ? {
+          ...VIEWPORT_ONCE,
+          ...(amount !== undefined ? { amount } : {}),
+          ...(viewportMargin !== undefined ? { margin: viewportMargin } : {}),
+        }
       : VIEWPORT_ONCE
 
   return (
