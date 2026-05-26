@@ -117,6 +117,12 @@ function ActionImageOverlay({ label }: { label: string }) {
   return <div className="absolute inset-0 bg-black/20" />
 }
 
+function externalLinkProps(href: string) {
+  return /^https?:\/\//.test(href)
+    ? ({ target: '_blank', rel: 'noopener noreferrer' } as const)
+    : {}
+}
+
 function OverlayHeader({
   logo,
   logoHref,
@@ -182,6 +188,7 @@ function TextLinkSection({
               href={link.href}
               onClick={onClose}
               className="block cursor-pointer font-display text-[24px] leading-[1.1] text-brand-off-white transition-opacity hover:opacity-60"
+              {...externalLinkProps(link.href)}
             >
               {link.label}
             </LinkAs>
@@ -211,6 +218,7 @@ function ActionCard({
       href={href}
       onClick={onClose}
       className="group relative flex h-[132px] w-full cursor-pointer overflow-hidden rounded-3xl bg-brand-off-white/10 p-[18px] text-brand-off-white transition-opacity hover:opacity-85 md:h-auto md:flex-1"
+      {...externalLinkProps(href)}
     >
       {imageNodes.length > 0 && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -263,6 +271,7 @@ function MenuCard({
       href={href}
       onClick={onClose}
       className="relative flex h-[117px] w-full cursor-pointer flex-col justify-between overflow-hidden rounded-xl bg-brand-off-white/10 p-3 text-brand-off-white transition-opacity hover:opacity-80 md:h-[170px] md:min-w-0 md:flex-1"
+      {...externalLinkProps(href)}
     >
       <p className="w-[148px] font-sans text-[14px] leading-[1.2]">{label}</p>
       <p className="font-sans text-[12px] font-medium leading-[1.2] text-brand-off-white/50">
@@ -451,6 +460,7 @@ function MobileRoot({
             href={primaryCta.href}
             onClick={onClose}
             className="flex h-[53px] cursor-pointer items-center font-display text-[40px] leading-none text-brand-off-white"
+            {...externalLinkProps(primaryCta.href)}
           >
             {primaryCta.label}
           </LinkAs>
@@ -656,6 +666,7 @@ export function NavOverlay({
             href={primaryCta.href}
             onClick={onClose}
             className="text-eyebrow absolute top-1.5 right-3 z-30 hidden cursor-pointer rounded-xl bg-brand-off-white px-3 py-2 font-semibold text-brand-dark-green transition-opacity hover:opacity-80 md:inline-flex"
+            {...externalLinkProps(primaryCta.href)}
           >
             {primaryCta.label}
           </LinkAs>

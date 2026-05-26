@@ -47,7 +47,12 @@ export function HeaderAction() {
   return (
     <div className="flex items-center gap-3 text-brand-dark-green">
       <LogosMark size={24} />
-      <Button href="/work-with-us" variant="secondary">
+      <Button
+        href="https://free.technology/jobs"
+        target="_blank"
+        rel="noopener noreferrer"
+        variant="secondary"
+      >
         Work with us
       </Button>
     </div>

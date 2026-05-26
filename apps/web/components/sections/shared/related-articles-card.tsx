@@ -40,7 +40,7 @@ export function articlesToCards(
 ): Omit<ArticleCardProps, 'titleClassName'>[] {
   return articles.map((article) => ({
     title: article.title,
-    imageSrc: article.image,
+    imageSrc: article.cardImage,
     imageAlt: article.title,
     date: article.galleryDate,
     author: article.author,

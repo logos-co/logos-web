@@ -127,6 +127,12 @@ describe('getLatestPressArticles', () => {
       {
         title: 'Article one',
         href: 'https://blog.logos.co/article/article-one',
+        image: 'https://cms-press.logos.co/uploads/large_article-one.jpg',
+        thumbnailImage:
+          'https://cms-press.logos.co/uploads/thumbnail_article-one.jpg',
+        galleryImage: 'https://cms-press.logos.co/uploads/small_article-one.jpg',
+        cardImage: 'https://cms-press.logos.co/uploads/large_article-one.jpg',
+        featuredImage: 'https://cms-press.logos.co/uploads/article-one.jpg',
         readingTime: 13,
       },
       {

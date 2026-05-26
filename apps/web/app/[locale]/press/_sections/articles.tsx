@@ -119,19 +119,19 @@ export function ArticleEntry({
     : article.title
 
   return (
-    <PressRowLink href={article.href} index={index} className="h-[158px]">
+    <PressRowLink href={article.href} index={index} className="h-[107px]">
       <RowThumbnail
-        src={article.image}
-        className="left-3 top-3 w-[107px] md:block"
+        src={article.thumbnailImage}
+        className="left-3 top-[15px] w-[107px] md:block"
       />
-      <div className="absolute left-[119px] top-0 flex h-full w-[274px] flex-col justify-center gap-1.5 py-3 pl-3 md:left-[119px] md:grid md:w-[1150px] md:grid-cols-[595px_345px_1fr] md:gap-x-3 md:p-0">
-        <div className="flex flex-col justify-center gap-1.5 md:justify-start md:py-3 md:pl-3">
+      <div className="absolute left-[119px] top-0 flex h-full w-[274px] flex-col justify-center gap-1.5 py-3 pl-3 md:left-[119px] md:grid md:w-[1150px] md:grid-cols-[595px_543px] md:gap-x-3 md:p-0">
+        <div className="flex flex-col justify-center gap-1.5 md:py-3 md:pl-3">
           <div className="text-mono-s flex items-center gap-2.5 text-brand-dark-green">
             <span>{article.date}</span>
             <Dot />
             <span>{article.author}</span>
           </div>
-          <div className="w-[250px] text-[18px] leading-[1.15] tracking-[-0.01em] text-brand-dark-green md:w-full md:max-w-[333px] md:tracking-normal">
+          <div className="w-[250px] text-[18px] leading-[1.15] tracking-[-0.01em] text-brand-dark-green md:w-full md:max-w-[333px]">
             {article.titleSerif ? (
               <>
                 <span className="font-display block leading-[1.1]">
@@ -144,11 +144,13 @@ export function ArticleEntry({
             )}
           </div>
         </div>
-        <p className="text-mono-s hidden max-w-[345px] text-brand-dark-green md:block md:py-3">
-          {article.description}
-        </p>
-        <div className="hidden md:block md:py-3">
-          <UnderlineLabel>{article.readingTime} min read</UnderlineLabel>
+        <div className="hidden md:flex md:items-start md:gap-[132px]">
+          <p className="text-mono-s w-[345px] py-3 text-brand-dark-green">
+            {article.description}
+          </p>
+          <div className="shrink-0 py-3">
+            <UnderlineLabel>{article.readingTime} min read</UnderlineLabel>
+          </div>
         </div>
       </div>
     </PressRowLink>
@@ -180,7 +182,7 @@ export function GallerySection({ articles }: { articles: PressArticleRow[] }) {
           >
             <div className="relative aspect-video w-full overflow-hidden bg-brand-dark-green/10">
               <Image
-                src={article.image}
+                src={article.galleryImage}
                 alt=""
                 fill
                 sizes="(max-width: 768px) 100vw, 345px"
@@ -239,7 +241,7 @@ export function FeaturedArticle({
       </div>
       <div className="absolute inset-0 h-[994px] overflow-hidden md:relative md:inset-auto md:h-[994px] md:w-[714px] md:shrink-0">
         <Image
-          src={article.image}
+          src={article.featuredImage}
           alt=""
           width={1242}
           height={994}
@@ -291,13 +293,13 @@ export function BroadcastSection({
             key={`${article.title}-broadcast-${index}`}
             href={article.href}
             index={index}
-            className="h-[158px]"
+            className="h-[107px]"
           >
             <RowThumbnail
-              src={article.image}
-              className="left-3 top-3 w-[107px]"
+              src={article.thumbnailImage}
+              className="left-3 top-[15px] w-[107px]"
             />
-            <div className="absolute left-[119px] top-0 flex h-full w-[274px] flex-col justify-center gap-1.5 py-3 pl-3 md:grid md:w-[1150px] md:grid-cols-[595px_345px_1fr] md:gap-x-3 md:p-0">
+            <div className="absolute left-[119px] top-0 flex h-full w-[274px] flex-col justify-center gap-1.5 py-3 pl-3 md:grid md:w-[1150px] md:grid-cols-[595px_543px] md:gap-x-3 md:p-0">
               <div className="flex flex-col justify-center md:py-3 md:pl-3">
                 <h3 className="w-[250px] text-[18px] leading-[1.15] tracking-[-0.01em] md:w-[333px]">
                   {article.titleSerif ? (
@@ -314,11 +316,13 @@ export function BroadcastSection({
                   )}
                 </h3>
               </div>
-              <p className="text-mono-s hidden py-3 md:block">
-                {article.description}
-              </p>
-              <div className="hidden py-3 md:block">
-                <UnderlineLabel>{copy.watch}</UnderlineLabel>
+              <div className="hidden md:flex md:items-start md:gap-[132px]">
+                <p className="text-mono-s w-[345px] py-3">
+                  {article.description}
+                </p>
+                <div className="shrink-0 py-3">
+                  <UnderlineLabel>{copy.watch}</UnderlineLabel>
+                </div>
               </div>
             </div>
           </PressRowLink>

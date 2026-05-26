@@ -102,7 +102,7 @@
             { "label": "White Paper", "href": "/book" },
             { "label": "Community Forum", "href": "https://forum.logos.co/" },
             { "label": "Brand Kit", "href": "/brand-kit" },
-            { "label": "Contact Us", "href": "/work-with-us" }
+            { "label": "Contact Us", "href": "https://free.technology/jobs" }
           ]
         },
         {
@@ -125,7 +125,7 @@
           "cards": [
             {
               "label": "Logos Press Engine",
-              "href": "/logos-broadcast-network",
+              "href": "/press",
               "description": "Media throughout the Logos ecosystem",
               "image": {
                 "src": "/nav-overlay/figma/explore-thumb.webp",

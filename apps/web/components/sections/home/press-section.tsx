@@ -121,7 +121,7 @@ type Props = {
 export default function PressSection({ data, articles }: Props) {
   const cards = articles.map((article) => ({
     title: article.title,
-    imageSrc: article.image,
+    imageSrc: article.cardImage,
     imageAlt: article.title,
     date: article.galleryDate,
     author: article.author,

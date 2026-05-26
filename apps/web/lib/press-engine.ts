@@ -15,7 +15,12 @@ export type PressArticleRow = {
   galleryDate: string
   author: string
   description: string
+  /** Default large card image for backwards-compatible consumers. */
   image: string
+  thumbnailImage: string
+  galleryImage: string
+  cardImage: string
+  featuredImage: string
   href: string
   readingTime: number
 }
@@ -294,6 +299,48 @@ const inferSerifPrefix = (title: string) => {
 const hasImage = <T extends { image: string }>(item: T) =>
   item.image.trim().length > 0
 
+type PressImageVariant = 'thumbnail' | 'small' | 'large' | 'original'
+
+const PRESS_IMAGE_VARIANT_PREFIXES = [
+  'thumbnail_',
+  'small_',
+  'medium_',
+  'large_',
+] as const
+
+const pressImageVariantPrefix = (variant: PressImageVariant) =>
+  variant === 'original' ? '' : `${variant}_`
+
+const getPressImageVariantUrl = (
+  imageUrl: string,
+  variant: PressImageVariant
+) => {
+  if (!imageUrl) return ''
+
+  try {
+    const url = new URL(imageUrl)
+    const slashIndex = url.pathname.lastIndexOf('/')
+    if (slashIndex === -1) return imageUrl
+
+    const directory = url.pathname.slice(0, slashIndex + 1)
+    const fileName = url.pathname.slice(slashIndex + 1)
+    const baseFileName =
+      PRESS_IMAGE_VARIANT_PREFIXES.find((prefix) =>
+        fileName.startsWith(prefix)
+      ) !== undefined
+        ? fileName.replace(
+            /^(thumbnail_|small_|medium_|large_)/,
+            ''
+          )
+        : fileName
+
+    url.pathname = `${directory}${pressImageVariantPrefix(variant)}${baseFileName}`
+    return url.toString()
+  } catch {
+    return imageUrl
+  }
+}
+
 export const repeatToLength = <T>(items: T[], length: number): T[] =>
   Array.from({ length }, (_, index) => items[index % items.length])
 
@@ -341,6 +388,11 @@ const toArticleRow = (
   const description = stripHtml(data.subtitle || data.summary || '')
   const readingTime =
     readingTimeOverride ?? getPositiveReadingTime(data.readingTime) ?? 1
+  const coverImage = data.coverImage?.url || ''
+  const thumbnailImage = getPressImageVariantUrl(coverImage, 'thumbnail')
+  const galleryImage = getPressImageVariantUrl(coverImage, 'small')
+  const cardImage = getPressImageVariantUrl(coverImage, 'large')
+  const featuredImage = getPressImageVariantUrl(coverImage, 'original')
 
   return {
     title: data.title,
@@ -349,7 +401,11 @@ const toArticleRow = (
     galleryDate: formatGalleryDate(data.publishedAt),
     author,
     description,
-    image: data.coverImage?.url || '',
+    image: cardImage,
+    thumbnailImage,
+    galleryImage,
+    cardImage,
+    featuredImage,
     href: `${PRESS_ORIGIN}/article/${data.slug}`,
     readingTime,
   }
