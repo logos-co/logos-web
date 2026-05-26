@@ -3,6 +3,10 @@ import { join, relative } from 'node:path'
 
 import { describe, expect, it } from 'vitest'
 
+import { ROUTES } from '@/constants/routes'
+
+import navigation from '../../../../content/site/en/navigation.json' with { type: 'json' }
+
 const repoRoot = join(__dirname, '../../../..')
 const webRoot = join(repoRoot, 'apps/web')
 const scannedRoots = ['apps/web', 'content', 'packages/content'].map((root) =>
@@ -39,6 +43,28 @@ const collectTextFiles = (dir: string): string[] => {
 }
 
 describe('link policy', () => {
+  it('routes Research navigation cards to the Research page', () => {
+    const researchPanel = navigation.menuPanels.find(
+      (panel) => panel.label === 'Research'
+    )
+    const researchCards =
+      researchPanel?.cardSections.flatMap((section) => section.cards) ?? []
+
+    expect(ROUTES.research).toBe('/research')
+    expect(researchCards).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: 'Research Hub',
+          href: ROUTES.research,
+        }),
+        expect.objectContaining({
+          label: 'R&D Service Units',
+          href: ROUTES.research,
+        }),
+      ])
+    )
+  })
+
   it('does not ship placeholder or known-broken links', () => {
     const offenders = scannedRoots.flatMap(collectTextFiles).flatMap((file) => {
       const text = readFileSync(file, 'utf8')

@@ -7,7 +7,7 @@
     "description": "The logos technology stack is our toolkit for charting a new path. The builder hub provides ideas, resources, and everything you need to start your expedition into a new frontier.",
     "topRightCta": {
       "label": "Install Basecamp",
-      "href": "/builders-hub#app-install"
+      "href": "/basecamp"
     },
     "secondaryCtas": [
       {
@@ -296,7 +296,7 @@
     },
     "learnMoreCta": {
       "label": "Learn more",
-      "href": "/technology-stack#logos-app",
+      "href": "/basecamp",
       "variant": "secondary"
     },
     "image": {
@@ -355,7 +355,7 @@
             "description": "An introduction to the Logos technology stack",
             "cta": {
               "label": "Learn more",
-              "href": "/technology-stack#logos-app"
+              "href": "/basecamp"
             }
           },
           {
@@ -391,7 +391,7 @@
             "description": "An introduction to the Logos technology stack",
             "cta": {
               "label": "Learn more",
-              "href": "/technology-stack#logos-app"
+              "href": "/basecamp"
             }
           },
           {
@@ -430,7 +430,7 @@
             "description": "An introduction to the Logos technology stack",
             "cta": {
               "label": "Learn more",
-              "href": "/technology-stack#logos-app"
+              "href": "/basecamp"
             }
           },
           {
@@ -469,7 +469,7 @@
             "description": "An introduction to the Logos technology stack",
             "cta": {
               "label": "Learn more",
-              "href": "/technology-stack#logos-app"
+              "href": "/basecamp"
             }
           },
           {
@@ -508,7 +508,7 @@
             "description": "An introduction to the Logos technology stack",
             "cta": {
               "label": "Learn more",
-              "href": "/technology-stack#logos-app"
+              "href": "/basecamp"
             }
           },
           {

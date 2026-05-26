@@ -19,6 +19,7 @@ export const ROUTES = {
 
   // Technology Stack
   technologyStack: '/technology-stack',
+  basecamp: '/basecamp',
   blockchain: '/technology-stack/blockchain',
   networking: '/technology-stack/networking',
   messaging: '/technology-stack/messaging',
@@ -52,6 +53,9 @@ export const ROUTES = {
 
   // About
   about: '/about',
+
+  // Research
+  research: '/research',
 
   // Info / Help
   faq: '/faq',
@@ -90,6 +94,12 @@ export const EXTERNAL_URLS = {
 
   // Research
   vacp2p: 'https://vac.dev',
+  researchSpecs: 'https://dev-rfc.vac.dev/index.html',
+  researchForum: 'https://forum.research.logos.co/',
+  researchDiscord: 'https://discord.gg/PQFdubGt6d',
+  researchX: 'https://twitter.com/LogosRnD',
+  vacGithub: 'https://github.com/vacp2p',
+  vacJobs: 'https://jobs.status.im/?search=Vac',
 
   // Infrastructure projects
   waku: 'https://waku.org',

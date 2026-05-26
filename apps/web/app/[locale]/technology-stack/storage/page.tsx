@@ -9,6 +9,7 @@ import type {
 
 import StorageBuilderCta from '@/components/sections/storage/storage-builder-cta'
 import StorageHero from '@/components/sections/storage/storage-hero'
+import StorageAccess from '@/components/sections/storage/storage-access'
 import StorageMain from '@/components/sections/storage/storage-main'
 import StorageRelatedArticles from '@/components/sections/storage/storage-related-articles'
 import StorageTechStack from '@/components/sections/storage/storage-tech-stack'
@@ -61,6 +62,11 @@ export default async function StoragePage({
     'cardGrid',
     'storage.useCases'
   )
+  const access = findSection<CardGridSection>(
+    page.sections,
+    'cardGrid',
+    'storage.access'
+  )
   const builderCta = findSection<CardGridSection>(
     page.sections,
     'cardGrid',
@@ -80,6 +86,7 @@ export default async function StoragePage({
     <>
       <StorageHero data={hero} backHref={ROUTES.technologyStack} />
       <StorageMain data={main} />
+      <StorageAccess data={access} />
       <StorageUseCases data={useCases} />
       <StorageBuilderCta data={builderCta} />
       <StorageTechStack locale={locale} />

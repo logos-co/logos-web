@@ -20,23 +20,23 @@
       "key": "storage.hero",
       "eyebrow": "Technology stack",
       "headline": "Storage",
-      "body": "Logos Storage is a decentralised storage protocol that removes the dependency on centralised cloud providers. It enables applications to store and retrieve data — files, application state, archives, media — across a distributed network with cryptographic guarantees of data integrity and availability.",
+      "body": "Decentralised file storage and retrieval using content identifiers.",
       "bodySecondary": "Key Repositories:",
       "items": [
         {
-          "title": "codex-storage/nim-codex",
-          "description": "Nim reference implementation"
+          "title": "LOGOS-STORAGE-MODULE",
+          "description": "Logos module for decentralised file storage and retrieval."
         },
         {
-          "title": "codex-storage/codex-contracts-eth",
-          "description": "On-chain storage contracts"
+          "title": "LOGOS-STORAGE-NIM",
+          "description": "Logos Storage file-sharing client."
         }
       ],
       "status": {
         "label": "Current Status",
-        "body": "Logos Storage is in active development, with the Codex node and storage contracts providing the foundation for durable, content-addressed data availability across the Logos stack.",
+        "body": "Logos Storage is integrated into the stack with a module API and a libstorage library for lower-level access and language bindings. The Logos Storage module is available within Logos Basecamp.",
         "cta": {
-          "label": "Install Testnet v0.1",
+          "label": "Install testnet v0.1",
           "href": "/technology-stack/storage",
           "variant": "secondary",
           "iconOverride": "download"
@@ -44,12 +44,12 @@
       },
       "ctas": [
         {
-          "label": "Use Storage SDK",
+          "label": "Try Logos Storage",
           "href": "/technology-stack/storage",
           "variant": "primary"
         },
         {
-          "label": "Docs",
+          "label": "DOCS",
           "href": "/technology-stack/storage",
           "variant": "secondary"
         }
@@ -60,11 +60,41 @@
       "key": "storage.main",
       "eyebrow": "Overview",
       "title": "Overview",
-      "description": "Logos Storage lets applications address data by content instead of location, so files and application state can be verified cryptographically after retrieval.\n\nThe protocol is designed for privacy-preserving, decentralised availability: data can be distributed across independent storage providers while applications retain integrity guarantees and avoid dependence on a single centralised cloud service.",
+      "description": "Files are addressed by content rather than by location. When you store a file, the network returns a CID — a content identifier derived from the file itself — and anyone with that CID can retrieve the file from whichever nodes hold it. There is no central server to depend on and no single host to fail. The usage is straightforward: store a file and get back a content identifier; provide a content identifier and get back the file. Storage works both inside the Logos App and from your own applications, through either the high-level module API or the lower-level libstorage library.",
       "cta": {
         "label": "View the docs",
         "href": "/technology-stack/storage"
       }
+    },
+    {
+      "componentType": "cardGrid",
+      "key": "storage.access",
+      "cards": [
+        {
+          "label": "Messaging",
+          "footerLabel": "Messaging",
+          "title": "Storage Module API",
+          "description": "The module API gives applications a clean interface for storing and retrieving content: initialise the module, start the node, upload a file to receive a CID, and download by CID. Streaming upload is available where you need finer control.",
+          "image": {
+            "src": "/images/storage/use-case-1.webp",
+            "alt": "",
+            "width": 2880,
+            "height": 3839
+          }
+        },
+        {
+          "label": "Messaging",
+          "footerLabel": "Storage",
+          "title": "libstorage",
+          "description": "For lower-level access or to build bindings for another language, libstorage exposes the underlying storage primitives directly.",
+          "image": {
+            "src": "/images/storage/use-case-2.webp",
+            "alt": "",
+            "width": 2560,
+            "height": 2048
+          }
+        }
+      ]
     },
     {
       "componentType": "cardGrid",
@@ -73,7 +103,7 @@
       "cards": [
         {
           "title": "Sample App 1",
-          "description": "A storage-backed application that keeps user data portable, verifiable, and independent from centralised infrastructure.",
+          "description": "Lorem ipsum dolor sit amet consectetur. At vulputate volutpat amet vitae morbi.",
           "image": {
             "src": "/images/storage/use-case-1.webp",
             "alt": "",
@@ -81,13 +111,13 @@
             "height": 3839
           },
           "cta": {
-            "label": "Use app",
+            "label": "View use cases",
             "href": "/technology-stack/storage"
           }
         },
         {
           "title": "Sample App 2",
-          "description": "A decentralised archive workflow using content-addressed storage for durable publication and retrieval.",
+          "description": "Lorem ipsum dolor sit amet consectetur. At vulputate volutpat amet vitae morbi.",
           "image": {
             "src": "/images/storage/use-case-2.webp",
             "alt": "",
@@ -95,7 +125,7 @@
             "height": 2048
           },
           "cta": {
-            "label": "Use app",
+            "label": "View use cases",
             "href": "/technology-stack/storage"
           }
         }
@@ -107,7 +137,7 @@
       "cards": [
         {
           "title": "Docs",
-          "description": "Reference for the kernel, modules, and UI packages.",
+          "description": "Lorem ipsum dolor sit amet consectetur",
           "cta": {
             "label": "View the docs",
             "href": "/technology-stack"
@@ -115,7 +145,7 @@
         },
         {
           "title": "Logos Builder Hub",
-          "description": "Everything you need to start building privacy-first decentralised applications. Explore RFPs, find ideas, and connect with other builders.",
+          "description": "Lorem ipsum dolor sit amet consectetur. Augue feugiat dictum aliquet feugiat.",
           "image": {
             "src": "/images/storage/builder-hub.webp",
             "alt": "",
@@ -125,11 +155,11 @@
           "cta": { "label": "Build", "href": "/builders-hub" }
         },
         {
-          "title": "Logos App",
-          "description": "Download the app to start building with the kernel + modules + UI packages bundled.",
+          "title": "Install Basecamp",
+          "description": "Download the app to start building.",
           "cta": {
-            "label": "Download",
-            "href": "/builders-hub#app-install"
+            "label": "Install",
+            "href": "/basecamp"
           }
         }
       ]
@@ -137,10 +167,60 @@
     {
       "componentType": "relatedArticles",
       "key": "storage.relatedArticles",
-      "label": "Logos Press Engine",
+      "label": "Lorem ipsum dolor si amet",
       "eyebrow": "Logos in the News",
       "title": "Related Articles",
       "cta": { "label": "Explore all articles", "href": "/press" },
+      "items": [
+        {
+          "title": "State of the Logos Network: November 2025",
+          "image": {
+            "src": "/images/storage/press-1.webp",
+            "alt": "",
+            "width": 678,
+            "height": 904
+          },
+          "date": "02.14.26",
+          "author": "Sterlin Lujan",
+          "href": "/press"
+        },
+        {
+          "title": "Story of the Network: From CyberNetics to Blockchain Communities",
+          "image": {
+            "src": "/images/storage/press-2.webp",
+            "alt": "",
+            "width": 678,
+            "height": 452
+          },
+          "date": "02.14.26",
+          "author": "Sterlin Lujan",
+          "href": "/press"
+        },
+        {
+          "title": "State of the Logos Network: October 2025",
+          "image": {
+            "src": "/images/storage/press-3.webp",
+            "alt": "",
+            "width": 678,
+            "height": 848
+          },
+          "date": "02.14.26",
+          "author": "Sterlin Lujan",
+          "href": "/press"
+        },
+        {
+          "title": "Hacking for Real World Impact with Funding the Commons & Tor",
+          "image": {
+            "src": "/images/storage/press-4.webp",
+            "alt": "",
+            "width": 678,
+            "height": 848
+          },
+          "date": "02.14.26",
+          "author": "Sterlin Lujan",
+          "href": "/press"
+        }
+      ],
       "visibleCount": 4
     }
   ]

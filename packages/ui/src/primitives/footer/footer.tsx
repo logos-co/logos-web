@@ -109,6 +109,10 @@ function LinkList({
   links: FooterLink[]
   linkAs?: LinkLikeComponent
 }) {
+  if (links.length === 0) {
+    return null
+  }
+
   return (
     <div className="flex flex-col gap-1">
       {label && (

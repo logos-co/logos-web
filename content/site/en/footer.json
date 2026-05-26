@@ -10,7 +10,7 @@
   },
   "tagline": "Pioneering a new era of freedom.",
   "image": {
-    "src": "/images/home/footer-image.jpg",
+    "src": "/images/home/footer-image.webp",
     "alt": ""
   },
   "mainLinks": [
@@ -19,18 +19,18 @@
   ],
   "socialLinks": [
     {
-      "label": "Twitter",
-      "href": "https://twitter.com/logos_network",
+      "label": "X",
+      "href": "https://x.com/Logos_network",
       "external": true
     },
     {
       "label": "Discord",
-      "href": "https://discord.gg/logos",
+      "href": "https://discord.gg/logosnetwork",
       "external": true
     },
     {
       "label": "YouTube",
-      "href": "https://youtube.com/@logos_network",
+      "href": "https://www.youtube.com/@LogosNetwork",
       "external": true
     },
     { "label": "Blog", "href": "/blog" },
@@ -43,12 +43,7 @@
   "researchLinks": [
     { "label": "VacP2P", "href": "https://vac.dev", "external": true }
   ],
-  "infrastructureLinks": [
-    { "label": "Waku", "href": "https://waku.org", "external": true },
-    { "label": "Nimbus", "href": "https://nimbus.team", "external": true },
-    { "label": "Codex", "href": "https://codex.storage", "external": true },
-    { "label": "Nomos", "href": "https://nomos.tech", "external": true }
-  ],
+  "infrastructureLinks": [],
   "legalLinks": [
     { "label": "Terms & Conditions", "href": "/terms-and-conditions" },
     { "label": "Privacy Policy", "href": "/privacy-policy" },

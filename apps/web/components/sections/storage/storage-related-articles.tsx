@@ -15,7 +15,17 @@ type Props = {
 }
 
 export default function StorageRelatedArticles({ data, articles }: Props) {
-  const cards = articlesToCards(articles)
+  const cards =
+    data.items?.map((item) => ({
+      title: item.title,
+      mobileTitle: item.mobileTitle,
+      imageSrc: item.image.src,
+      imageAlt: item.image.alt,
+      imagePosition: item.imagePosition,
+      date: item.date,
+      author: item.author,
+      href: item.href,
+    })) ?? articlesToCards(articles)
 
   return (
     <section className="mt-15 bg-brand-off-white md:mt-25">

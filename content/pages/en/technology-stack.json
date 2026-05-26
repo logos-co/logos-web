@@ -31,7 +31,7 @@
       "ctas": [
         {
           "label": "Install basecamp",
-          "href": "/builders-hub#app-install",
+          "href": "/basecamp",
           "variant": "primary",
           "iconOverride": "download"
         },
@@ -93,10 +93,10 @@
       "basecamp": {
         "title": "Basecamp",
         "body": "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem.",
-        "href": "/technology-stack#logos-app",
+        "href": "/basecamp",
         "cta": {
           "label": "Install",
-          "href": "/technology-stack#logos-app"
+          "href": "/basecamp"
         }
       },
       "pillars": [
@@ -122,7 +122,7 @@
           "id": "userModules",
           "title": "User Modules",
           "body": "Anyone can build modules that plug into the same IPC infrastructure.",
-          "href": "/technology-stack#logos-app"
+          "href": "/basecamp"
         }
       ],
       "networkingTitle": "The Networking Stack:\nDiscovery, Peering, and Mix-Net",
@@ -168,7 +168,7 @@
       },
       "secondaryCta": {
         "label": "Learn more",
-        "href": "/technology-stack#logos-app",
+        "href": "/basecamp",
         "variant": "secondary"
       }
     },

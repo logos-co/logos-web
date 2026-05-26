@@ -415,7 +415,7 @@ function TechStack({ copy }: { copy: LambdaPrizePageCopy['techStack'] }) {
             </p>
           </div>
           <Button
-            href={ROUTES.buildersHub}
+            href={ROUTES.basecamp}
             icon={<DownloadIcon />}
             className="cursor-pointer"
           >
