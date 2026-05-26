@@ -64,7 +64,7 @@ const stubPayload = {
   },
 } as unknown as Payload
 
-const SLUG = 'secure-decentralized-frontends'
+const SLUG = 'secure-decentralised-frontends'
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..')
 const fixtureIndexPath = `content/builders-hub/rfps/${SLUG}/index.json`
 const fixtureLocalePath = `content/builders-hub/rfps/${SLUG}/en.json`

@@ -56,7 +56,7 @@ function CardGrid({ state }: { state: 'default' | 'hover' }) {
           title="Storage"
           description={
             isHover
-              ? 'Decentralized file storage and retrieval, using content-addressed (CID-based) data'
+              ? 'Decentralised file storage and retrieval, using content-addressed (CID-based) data'
               : undefined
           }
           ctaHref={isHover ? ROUTES.storage : undefined}
@@ -81,7 +81,7 @@ function CardGrid({ state }: { state: 'default' | 'hover' }) {
           image={isHover && <Thumb src={cardImages.blockchain} alt="" />}
           title="Blockchain"
           description={
-            isHover ? 'Decentralized compute and consensus.' : undefined
+            isHover ? 'Decentralised compute and consensus.' : undefined
           }
           ctaHref={isHover ? ROUTES.blockchain : undefined}
         >
@@ -141,7 +141,7 @@ function CardGrid({ state }: { state: 'default' | 'hover' }) {
         title="The Foundation: Logos Kernel"
         description={
           isHover
-            ? 'A microkernel that handles the essential primitives every decentralized application needs.'
+            ? 'A microkernel that handles the essential primitives every decentralised application needs.'
             : undefined
         }
         ctaHref={isHover ? ROUTES.technologyStack : undefined}
@@ -220,11 +220,11 @@ export function Buttons() {
 
 const createTableRows = (placeholderTitle: string) =>
   [
-    { number: '01', title: 'Secure and Decentralized Frontends' },
+    { number: '01', title: 'Secure and Decentralised Frontends' },
     { number: '02', title: 'Build a DEX' },
     { number: '03', title: 'Integrate Logos blockchain into Fileverse' },
     { number: '02', title: placeholderTitle },
-    { number: '03', title: 'Secure and Decentralized Frontends' },
+    { number: '03', title: 'Secure and Decentralised Frontends' },
     { number: '02', title: 'Build a DEX' },
     { number: '03', title: 'Integrate Logos blockchain into Fileverse' },
   ] as const

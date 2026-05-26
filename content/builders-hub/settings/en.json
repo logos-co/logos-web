@@ -27,7 +27,7 @@
         "href": "/builders-hub#prepare"
       },
       { "label": "Start Building", "href": "/builders-hub#start-building" },
-      { "label": "Builder Programs", "href": "/builders-hub#builder-programs" },
+      { "label": "Builder Programmes", "href": "/builders-hub#builder-programs" },
       { "label": "Get Support", "href": "/builders-hub#get-support" }
     ]
   },
@@ -122,7 +122,7 @@
     ]
   },
   "programs": {
-    "title": "Builder Programs",
+    "title": "Builder Programmes",
     "prizeTitle": "Prize",
     "prizeHeading": "The frontier is open. Build what’s next.",
     "prizeDescription": "Lambda Prizes is a competitive prize framework for the Logos ecosystem. λPrize targets contributions where Logos cares about the outcome but not the path.",
@@ -250,7 +250,7 @@
     },
     "displayCount": 8,
     "pinnedSlugs": [
-      "secure-decentralized-frontends",
+      "secure-decentralised-frontends",
       "build-a-dex",
       "integrate-fileverse"
     ],

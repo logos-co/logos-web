@@ -141,15 +141,15 @@ const buildBuilderHubChecks = (locale: Language): Check[] => [
           throw new Error(`Idea "${idea.slug}" missing relatedRfpSlugs array`)
         }
       }
-      // quadratic-voting is referenced by secure-decentralized-frontends.relatedIdeas
+      // quadratic-voting is referenced by secure-decentralised-frontends.relatedIdeas
       // → its reverse ref must contain that RFP slug.
       const qv = ideas.find((i) => i.slug === 'quadratic-voting')
       if (
         qv &&
-        !qv.relatedRfpSlugs.includes('secure-decentralized-frontends')
+        !qv.relatedRfpSlugs.includes('secure-decentralised-frontends')
       ) {
         throw new Error(
-          `quadratic-voting.relatedRfpSlugs missing "secure-decentralized-frontends": got [${qv.relatedRfpSlugs.join(', ')}]`
+          `quadratic-voting.relatedRfpSlugs missing "secure-decentralised-frontends": got [${qv.relatedRfpSlugs.join(', ')}]`
         )
       }
       return ideas
