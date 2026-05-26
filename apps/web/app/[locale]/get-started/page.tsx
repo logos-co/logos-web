@@ -136,7 +136,10 @@ export default async function GetStartedPage({
         </p>
       </section>
 
-      <section id="install" className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px] md:pt-10">
+      <section
+        id="install"
+        className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px] md:pt-10"
+      >
         <div className="mx-auto flex w-full max-w-[1416px] flex-col gap-10">
           <SectionHeading
             number={t('sections.install.number')}
