@@ -55,7 +55,7 @@ function buildInitialData(fields: AfformField[]): FormValues {
     } else if (field.repeatable) {
       data[field.formKey] = ['']
     } else {
-      data[field.formKey] = field.inputType === 'checkbox' ? true : ''
+      data[field.formKey] = field.inputType === 'checkbox' ? false : ''
     }
   }
   return data
@@ -480,7 +480,7 @@ export function ConnectFormSection({
                   />
                   <div className="mt-0.5 mr-3 flex size-[14px] shrink-0 items-center justify-center border border-brand-dark-green">
                     <Check
-                      className="size-3 text-transparent peer-checked:text-brand-dark-green"
+                      className="size-3 text-transparent group-has-[input:checked]:text-brand-dark-green"
                       aria-hidden
                     />
                   </div>
