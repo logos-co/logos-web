@@ -15,7 +15,7 @@ function ProblemCardView({
 }) {
   return (
     <article
-      className={`grid h-[720px] gap-3 rounded-[18px] p-1.5 md:h-[434px] md:grid-cols-2 ${card.tone} ${card.textTone} ${className ?? ''}`}
+      className={`grid min-h-[760px] gap-3 rounded-[18px] p-1.5 md:h-[434px] md:min-h-0 md:grid-cols-2 ${card.tone} ${card.textTone} ${className ?? ''}`}
     >
       <div className="relative min-h-[333px] overflow-hidden rounded-xl md:min-h-[422px]">
         <Image
@@ -118,7 +118,9 @@ export default async function AboutSection({ locale }: { locale: string }) {
     >
       <div className="md:hidden">
         <div className="absolute top-0 left-0 flex h-screen w-full items-center justify-center px-3">
-          <p className="text-h3-serif w-[369px] text-center">{t('intro')}</p>
+          <p className="text-h3-serif w-full max-w-[369px] text-center">
+            {t('intro')}
+          </p>
         </div>
 
         <div className="absolute top-[100vh] left-0 h-[3507px] w-full bg-brand-dark-green" />
@@ -128,7 +130,7 @@ export default async function AboutSection({ locale }: { locale: string }) {
             <ProblemCardView
               key={card.key}
               card={card}
-              className={`absolute left-[24px] w-[345px] ${mobileTopClasses[index]}`}
+              className={`absolute left-1/2 w-[calc(100%-48px)] max-w-[345px] -translate-x-1/2 ${mobileTopClasses[index]}`}
             />
           )
         })}
@@ -136,7 +138,7 @@ export default async function AboutSection({ locale }: { locale: string }) {
 
       <AboutScrollStack intro={t('intro')} cards={cards} />
 
-      <div className="absolute top-[calc(100vh+3713px)] left-3 flex w-[369px] flex-col items-center gap-[60px] text-center md:relative md:top-auto md:left-1/2 md:w-[940px] md:-translate-x-1/2 md:pt-[120px] md:pb-[360px]">
+      <div className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] max-w-[369px] -translate-x-1/2 flex-col items-center gap-[60px] text-center md:relative md:top-auto md:w-[940px] md:max-w-none md:pt-[120px] md:pb-[360px]">
         <p className="text-h3-serif">
           {t('closing1')} {t('closing2')} {t('closing3')}
         </p>

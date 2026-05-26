@@ -8,6 +8,10 @@ function formatEyebrow(eyebrow: string) {
   return eyebrow.replaceAll('. ', '.\n')
 }
 
+function formatMobileTitle(title: string) {
+  return title.replace(' Technology Stack', '\nTechnology Stack')
+}
+
 type Props = {
   data: TechStackOverviewSection
   /**
@@ -42,13 +46,6 @@ export default function TechStackSection({
         ) : null}
 
         <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5">
-          <Button
-            href={ROUTES.buildersHub}
-            icon={<ButtonArrowIcon />}
-            className="cursor-pointer transition-opacity hover:opacity-70"
-          >
-            Builder Hub
-          </Button>
           {data.cta ? (
             <Button
               href={data.cta.href}
@@ -59,11 +56,18 @@ export default function TechStackSection({
               Documentation
             </Button>
           ) : null}
+          <Button
+            href={ROUTES.buildersHub}
+            icon={<ButtonArrowIcon />}
+            className="cursor-pointer transition-opacity hover:opacity-70"
+          >
+            Builder Hub
+          </Button>
         </div>
 
         {data.title ? (
           <h2 className="text-h2 absolute top-[193px] left-1/2 w-[464px] -translate-x-1/2 whitespace-pre-line text-center text-brand-dark-green">
-            {data.title}
+            {formatMobileTitle(data.title)}
           </h2>
         ) : null}
 

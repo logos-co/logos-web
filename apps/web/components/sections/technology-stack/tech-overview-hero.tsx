@@ -157,11 +157,11 @@ export default function TechOverviewHero({ data }: Props) {
           </div>
         ) : null}
       </div>
-      <div className="absolute top-[500px] left-0 h-10 w-full px-3 md:hidden">
+      <div className="absolute top-[540px] left-0 h-10 w-full px-3 md:hidden">
         <div className="h-px w-full bg-brand-dark-green/10" />
       </div>
       {data.status ? (
-        <div className="absolute top-[500px] left-0 w-full md:hidden">
+        <div className="absolute top-[540px] left-0 w-full md:hidden">
           <StatusCard status={data.status} />
         </div>
       ) : null}

@@ -61,8 +61,7 @@ export default async function StartBuildingSection({
                 {t('title')}
               </h2>
               <p className="h-[28px] overflow-hidden font-sans text-[12px] leading-[1.2] md:h-auto md:w-[254px]">
-                <span className="md:hidden">{t('mobileBody')}</span>
-                <span className="hidden md:inline">{t('body')}</span>
+                {t('body')}
               </p>
             </div>
             <Button

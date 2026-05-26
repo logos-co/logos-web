@@ -108,7 +108,9 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
   return (
     <section className="relative h-[1368px] overflow-hidden bg-brand-off-white shadow-[inset_0_1px_0_rgba(21,37,33,0.1)]">
       <Reveal
-        amount={0.15}
+        amount={0.4}
+        delay={0.18}
+        viewportMargin="0px 0px -20% 0px"
         className="absolute top-[132px] right-3 left-3 mx-auto max-w-354"
       >
         <h2 className="text-h1 text-brand-dark-green text-center">
