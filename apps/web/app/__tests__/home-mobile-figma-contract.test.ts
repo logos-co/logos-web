@@ -21,10 +21,14 @@ describe('home mobile Figma section contracts', () => {
   })
 
   test('Tech Stack mobile uses the Figma two-column diagram sizing', () => {
+    const section = readAppFile(
+      '../components/sections/home/tech-stack-section.tsx'
+    )
     const source = readAppFile(
       '../components/sections/shared/tech-stack-diagram.tsx'
     )
 
+    expect(section).toContain("replace(' Technology Stack', '\\nTechnology Stack')")
     expect(source).toContain('grid-cols-2')
     expect(source).toContain('h-[111px]')
     expect(source).toContain('h-[258px]')

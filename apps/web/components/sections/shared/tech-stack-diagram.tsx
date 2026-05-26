@@ -115,7 +115,9 @@ function HoverStackItem({
         <span
           className={`text-subhead-sans flex items-center gap-2.5 ${labelClassName ?? ''}`}
         >
-          <LogosMark size={14} className="hidden shrink-0 text-gray-03 md:block" />
+          <span className="hidden shrink-0 md:block">
+            <LogosMark size={14} className="text-gray-03" />
+          </span>
           {title}
         </span>
         {description ? (

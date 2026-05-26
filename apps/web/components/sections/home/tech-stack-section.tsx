@@ -8,6 +8,10 @@ function formatEyebrow(eyebrow: string) {
   return eyebrow.replaceAll('. ', '.\n')
 }
 
+function formatMobileTitle(title: string) {
+  return title.replace(' Technology Stack', '\nTechnology Stack')
+}
+
 type Props = {
   data: TechStackOverviewSection
   /**
@@ -63,7 +67,7 @@ export default function TechStackSection({
 
         {data.title ? (
           <h2 className="text-h2 absolute top-[193px] left-1/2 w-[464px] -translate-x-1/2 whitespace-pre-line text-center text-brand-dark-green">
-            {data.title}
+            {formatMobileTitle(data.title)}
           </h2>
         ) : null}
 
