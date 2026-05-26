@@ -38,8 +38,8 @@ export const ROUTES = {
   /** Dynamic route — `/circles/[slug]`. */
   circle: (slug: string) => `/circles/${slug}`,
 
-  // Node Program
-  nodeProgram: '/node-program',
+  // Node Programme
+  nodeProgram: '/node-programme',
 
   // Movement / Top-level nav
   movement: '/movement',

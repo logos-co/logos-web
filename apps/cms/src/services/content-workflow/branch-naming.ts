@@ -3,7 +3,7 @@
  *
  * Examples:
  *   content/nav-main-20260427-1530
- *   content/builders-hub-rfp-secure-decentralized-frontends-20260427-1530
+ *   content/builders-hub-rfp-secure-decentralised-frontends-20260427-1530
  *   content/circles-event-los-angeles-circle-4-20260427-1530
  *
  * The trailing timestamp keeps re-edits unique even if the editor cancels and

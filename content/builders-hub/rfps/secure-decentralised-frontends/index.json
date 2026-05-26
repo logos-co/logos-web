@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "slug": "secure-decentralized-frontends",
+  "slug": "secure-decentralised-frontends",
   "status": "published",
   "reward": { "amount": 2500, "currency": "USDC", "xp": 1000 },
   "applyUrl": "https://discord.gg/logosnetwork",
   "tags": ["frontend", "privacy", "infrastructure"],
   "image": {
-    "src": "/cms/builders-hub/rfps/secure-decentralized-frontends/cover.webp",
+    "src": "/cms/builders-hub/rfps/secure-decentralised-frontends/cover.webp",
     "alt": "",
     "width": 96,
     "height": 120

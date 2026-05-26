@@ -49,11 +49,11 @@
           "cta": { "label": "Start building", "href": "/builders-hub" }
         },
         {
-          "title": "Node Program",
-          "description": "The Node Program is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
+          "title": "Node Programme",
+          "description": "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
           "cta": {
             "label": "Apply",
-            "href": "/node-program"
+            "href": "/node-programme"
           }
         },
         {
@@ -122,7 +122,7 @@
       "networkingTitle": "The Networking Stack: Discovery, Peering, and Mix-Net",
       "networkingDescription": "This layer handles how Logos nodes find each other, establish connections, and communicate.",
       "foundationTitle": "The Foundation: Logos Kernel",
-      "foundationDescription": "A microkernel that handles the essential primitives every decentralized application needs."
+      "foundationDescription": "A microkernel that handles the essential primitives every decentralised application needs."
     },
     {
       "componentType": "cardGrid",
@@ -150,7 +150,7 @@
           }
         },
         {
-          "title": "Decentralized Archives",
+          "title": "Decentralised Archives",
           "description": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
           "image": {
             "src": "/images/home/usecase-2.jpg",
