@@ -67,7 +67,7 @@ export type ViewConfig = {
 const movementView: ViewConfig = {
   id: 'movement_view',
   label: 'Movement View',
-  caseTypeName: 'movement_view',
+  caseTypeName: 'circles_onboarding',
 
   scorecardFieldKeys: [
     'missionValuesAlignment',
