@@ -2,6 +2,7 @@ import './globals.css'
 
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
+import AppNav from '@/components/layout/AppNav'
 
 export const metadata: Metadata = {
   title: 'Logos CiviCRM',
@@ -11,7 +12,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AppNav />
+        {children}
+      </body>
     </html>
   )
 }
