@@ -10,16 +10,19 @@ function readAppFile(path: string) {
 }
 
 describe('technology stack mobile hero contract', () => {
-  test('places the status block after the 40px divider band', () => {
+  test('places the divider below the CTA stack and status after the divider', () => {
     const source = readAppFile(
       '../components/sections/technology-stack/tech-overview-hero.tsx'
     )
 
     expect(source).toContain(
-      '<div className="absolute top-[500px] left-0 h-10 w-full px-3 md:hidden">'
+      '<div className="absolute top-[540px] left-0 h-10 w-full px-3 md:hidden">'
     )
     expect(source).toContain(
       '<div className="absolute top-[540px] left-0 w-full md:hidden">'
+    )
+    expect(source).not.toContain(
+      '<div className="absolute top-[500px] left-0 h-10 w-full px-3 md:hidden">'
     )
   })
 })

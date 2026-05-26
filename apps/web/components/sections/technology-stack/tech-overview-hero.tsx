@@ -157,7 +157,7 @@ export default function TechOverviewHero({ data }: Props) {
           </div>
         ) : null}
       </div>
-      <div className="absolute top-[500px] left-0 h-10 w-full px-3 md:hidden">
+      <div className="absolute top-[540px] left-0 h-10 w-full px-3 md:hidden">
         <div className="h-px w-full bg-brand-dark-green/10" />
       </div>
       {data.status ? (
