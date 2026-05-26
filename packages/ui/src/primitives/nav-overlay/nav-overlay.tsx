@@ -442,7 +442,7 @@ function MobileRoot({
   linkAs: LinkLikeComponent
 }) {
   return (
-    <div className="flex flex-1 px-3 pt-[248px] pb-3 md:hidden">
+    <div className="-mt-10 flex min-h-svh flex-1 flex-col justify-center-safe px-3 py-16 md:hidden">
       <div className="flex flex-col items-start">
         {panels.map((panel) => (
           <button

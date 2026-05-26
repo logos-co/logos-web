@@ -28,6 +28,24 @@ Payload Admin: <http://localhost:3001/admin>.
 
 `apps/cms` requires `PAYLOAD_SECRET` and `DATABASE_URL` (Postgres). Copy `apps/cms/.env.example` to `apps/cms/.env` and fill it in. See [docs/deployment.md](./docs/deployment.md) for the full env matrix.
 
+### Workspace package builds
+
+Apps consume internal packages (`@acid-info/logos-ui`, `@acid-info/logos-content`, etc.) through their compiled `dist/` outputs declared in each package's `exports` map. Turborepo's `dev` task declares `dependsOn: ["^build"]`, so `pnpm dev` builds upstream packages before starting the app servers.
+
+If a `dist/` directory goes missing (e.g. after `git clean -fdx` or manually removing `node_modules`) and an app is started directly without going through `pnpm dev`, you may see errors like:
+
+```text
+Module not found: Can't resolve '@acid-info/logos-ui/client'
+```
+
+Rebuild the affected workspace package to fix it:
+
+```bash
+pnpm --filter @acid-info/logos-ui build
+```
+
+Or run `pnpm build` once at the repo root to compile every package.
+
 ## Common scripts
 
 ```bash

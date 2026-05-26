@@ -53,6 +53,7 @@
       "outputs": ["packages/types/src/payload.ts"]
     },
     "dev": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     }
