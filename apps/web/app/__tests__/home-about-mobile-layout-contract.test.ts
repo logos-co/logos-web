@@ -19,4 +19,13 @@ describe('home about mobile layout contract', () => {
     expect(aboutSection).not.toContain('left-3 flex w-[369px]')
     expect(aboutSection).toMatch(/left-1\/2[\s\S]*?-translate-x-1\/2/)
   })
+
+  test('lets mobile problem cards grow when facts wrap', () => {
+    const aboutSection = readAppFile(
+      '../components/sections/home/about-section.tsx'
+    )
+
+    expect(aboutSection).toContain('grid min-h-[760px]')
+    expect(aboutSection).not.toContain('grid h-[720px]')
+  })
 })

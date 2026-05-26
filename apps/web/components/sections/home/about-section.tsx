@@ -15,7 +15,7 @@ function ProblemCardView({
 }) {
   return (
     <article
-      className={`grid h-[720px] gap-3 rounded-[18px] p-1.5 md:h-[434px] md:grid-cols-2 ${card.tone} ${card.textTone} ${className ?? ''}`}
+      className={`grid min-h-[760px] gap-3 rounded-[18px] p-1.5 md:h-[434px] md:min-h-0 md:grid-cols-2 ${card.tone} ${card.textTone} ${className ?? ''}`}
     >
       <div className="relative min-h-[333px] overflow-hidden rounded-xl md:min-h-[422px]">
         <Image
