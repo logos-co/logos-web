@@ -1,7 +1,6 @@
 import type { TableSection } from '@repo/content/schemas'
 
 import { IconMask } from '@/components/icons/icon-mask'
-import { Reveal, RevealItem } from '@/components/motion/reveal'
 
 function ExternalLinkIcon() {
   return <IconMask src="/icons/external-link.svg" className="size-[15px]" />
@@ -31,24 +30,20 @@ export default function TechOverviewOpenSource({ data }: Props) {
       id="open-source"
       className="relative h-[460px] border-t border-brand-dark-green/10 bg-brand-off-white md:h-[421px]"
     >
-      <Reveal className="absolute top-[39px] left-3">
+      <div className="absolute top-[39px] left-3">
         <h2 className="text-h4-sans whitespace-nowrap text-brand-dark-green">
           {data.title}
         </h2>
-      </Reveal>
+      </div>
       {data.subtitle ? (
-        <Reveal className="absolute top-[79px] left-3 w-[369px] max-w-[calc(100%-24px)] md:top-[39px] md:left-[calc(50%+6px)] md:w-[226px]">
+        <div className="absolute top-[79px] left-3 w-[369px] max-w-[calc(100%-24px)] md:top-[39px] md:left-[calc(50%+6px)] md:w-[226px]">
           <p className="text-mono-s text-brand-dark-green">{data.subtitle}</p>
-        </Reveal>
+        </div>
       ) : null}
 
-      <Reveal
-        stagger
-        amount={0.15}
-        className="absolute top-[136px] left-0 flex w-full flex-col md:top-[156px]"
-      >
+      <div className="absolute top-[136px] left-0 flex w-full flex-col md:top-[156px]">
         {data.rows.map((row, index) => (
-          <RevealItem
+          <div
             key={`${row.number}-${row.title}`}
             className={`relative h-[82px] w-full shrink-0 text-brand-dark-green md:h-[50px] ${
               index % 2 === 0 ? 'bg-[#dbddd7]' : 'bg-brand-dark-green/[0.05]'
@@ -109,9 +104,9 @@ export default function TechOverviewOpenSource({ data }: Props) {
                 />
               ) : null}
             </div>
-          </RevealItem>
+          </div>
         ))}
-      </Reveal>
+      </div>
     </section>
   )
 }

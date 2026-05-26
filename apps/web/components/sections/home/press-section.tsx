@@ -2,7 +2,6 @@ import Image from 'next/image'
 
 import type { RelatedArticlesSection } from '@repo/content/schemas'
 
-import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
 import type { PressArticleRow } from '@/lib/press-engine'
@@ -89,7 +88,7 @@ function CardBody({
           alt={imageAlt}
           width={339}
           height={431}
-          className="h-full w-full object-cover transition-[filter,transform] duration-300 ease-out group-hover:scale-[1.02] group-hover:blur-[12px] group-focus-visible:scale-[1.02] group-focus-visible:blur-[12px]"
+          className="h-full w-full object-cover transition-[filter,transform] duration-700 ease-out group-hover:scale-[1.01] group-hover:blur-[4px] group-focus-visible:scale-[1.01] group-focus-visible:blur-[4px]"
         />
         <div className="absolute inset-0 bg-brand-dark-green/0 transition-colors duration-300 ease-out group-hover:bg-brand-dark-green/18 group-focus-visible:bg-brand-dark-green/18" />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100">
@@ -157,27 +156,20 @@ export default function PressSection({ data, articles }: Props) {
             </div>
           ) : null}
 
-          <Reveal
-            amount={0.2}
-            className="absolute top-[102px] left-1/2 w-[464px] -translate-x-1/2"
-          >
+          <div className="absolute top-[102px] left-1/2 w-[464px] -translate-x-1/2">
             <h2 className="text-h2 text-center text-brand-dark-green">
               {data.title}
             </h2>
-          </Reveal>
+          </div>
 
-          <Reveal
-            stagger
-            amount={0.18}
+          <div
             className="absolute top-[229px] right-0 left-3 flex gap-3 overflow-x-auto pr-3 md:right-3 md:grid md:grid-cols-4 md:overflow-visible md:pr-0"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {cards.map((card) => (
-              <RevealItem key={card.href}>
-                <PressCard {...card} />
-              </RevealItem>
+              <PressCard key={card.href} {...card} />
             ))}
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

@@ -379,15 +379,22 @@ const getArticlePageReadingTime = async (slug: string) => {
   return extractArticlePageReadingTime(html)
 }
 
-const toArticleRow = (
+const withArticlePageReadingTime = async (
   post: PressSearchPost,
-  readingTimeOverride?: number
-): PressArticleRow => {
+  row: PressArticleRow
+): Promise<PressArticleRow> => {
+  const pageReadingTime = await getArticlePageReadingTime(post.data.slug)
+  return {
+    ...row,
+    readingTime: pageReadingTime ?? row.readingTime,
+  }
+}
+
+const toArticleRow = (post: PressSearchPost): PressArticleRow => {
   const data = post.data
   const author = data.authors?.map((item) => item.name).join(', ') || 'Logos'
   const description = stripHtml(data.subtitle || data.summary || '')
-  const readingTime =
-    readingTimeOverride ?? getPositiveReadingTime(data.readingTime) ?? 1
+  const readingTime = getPositiveReadingTime(data.readingTime) ?? 1
   const coverImage = data.coverImage?.url || ''
   const thumbnailImage = getPressImageVariantUrl(coverImage, 'thumbnail')
   const galleryImage = getPressImageVariantUrl(coverImage, 'small')
@@ -479,13 +486,7 @@ export const getLatestPressArticles = async (limit = 4) => {
 
   return Promise.all(
     visiblePosts.map(async ({ post, row }) => {
-      if (row.readingTime > 1) return row
-
-      const pageReadingTime = await getArticlePageReadingTime(post.data.slug)
-      return {
-        ...row,
-        readingTime: pageReadingTime ?? row.readingTime,
-      }
+      return withArticlePageReadingTime(post, row)
     })
   )
 }
@@ -497,7 +498,12 @@ export const getPressPageData = async () => {
   ])
 
   return {
-    articles: articlePosts.map(toArticleRow).filter(hasImage),
+    articles: await Promise.all(
+      articlePosts
+        .map((post) => ({ post, row: toArticleRow(post) }))
+        .filter(({ row }) => hasImage(row))
+        .map(({ post, row }) => withArticlePageReadingTime(post, row))
+    ),
     podcasts: podcastPosts.map(toPodcastRow).filter(hasImage),
   }
 }

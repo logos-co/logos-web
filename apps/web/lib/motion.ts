@@ -25,8 +25,8 @@ export const EASE = {
 
 export const DURATION = {
   fast: 0.3,
-  base: 0.5,
-  slow: 0.8,
+  base: 0.75,
+  slow: 1.0,
   hero: 1.0,
 } as const
 
@@ -37,15 +37,15 @@ const heroOut: Transition = { duration: DURATION.hero, ease: EASE.out }
 // Primitive variants
 // ---------------------------------------------------------------------------
 
-/** Simple fade + 20px slide-up. Default for body copy, cards, eyebrows. */
+/** Simple fade + 12px slide-up. Default for body copy, cards, eyebrows. */
 export const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 12 },
   visible: { opacity: 1, y: 0, transition: baseOut },
 }
 
-/** Larger 40px slide-up. For hero headlines and big display text. */
+/** Larger 20px slide-up. For hero headlines and big display text. */
 export const heroFadeUp: Variants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: heroOut },
 }
 
@@ -55,9 +55,9 @@ export const fadeIn: Variants = {
   visible: { opacity: 1, transition: baseOut },
 }
 
-/** Scale-in from 95% + fade. For feature cards revealing on scroll. */
+/** Scale-in from 98.5% + fade. For feature cards revealing on scroll. */
 export const scaleIn: Variants = {
-  hidden: { opacity: 0, scale: 0.95 },
+  hidden: { opacity: 0, scale: 0.985 },
   visible: { opacity: 1, scale: 1, transition: baseOut },
 }
 
@@ -69,7 +69,7 @@ export const scaleIn: Variants = {
 export const stagger: Variants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.08, delayChildren: 0.08 },
   },
 }
 
@@ -77,7 +77,7 @@ export const stagger: Variants = {
 export const wordStagger: Variants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.06, delayChildren: 0.2 },
+    transition: { staggerChildren: 0.05, delayChildren: 0.16 },
   },
 }
 
