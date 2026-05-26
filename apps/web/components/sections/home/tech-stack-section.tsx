@@ -42,13 +42,6 @@ export default function TechStackSection({
         ) : null}
 
         <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5">
-          <Button
-            href={ROUTES.buildersHub}
-            icon={<ButtonArrowIcon />}
-            className="cursor-pointer transition-opacity hover:opacity-70"
-          >
-            Builder Hub
-          </Button>
           {data.cta ? (
             <Button
               href={data.cta.href}
@@ -59,6 +52,13 @@ export default function TechStackSection({
               Documentation
             </Button>
           ) : null}
+          <Button
+            href={ROUTES.buildersHub}
+            icon={<ButtonArrowIcon />}
+            className="cursor-pointer transition-opacity hover:opacity-70"
+          >
+            Builder Hub
+          </Button>
         </div>
 
         {data.title ? (

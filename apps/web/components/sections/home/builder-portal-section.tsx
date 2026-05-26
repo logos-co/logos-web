@@ -43,11 +43,11 @@ export default async function BuilderPortalSection({
   const t = await getTranslations({ locale, namespace: 'home.builderPortal' })
 
   return (
-    <section className="relative h-[1281px] border-t border-brand-dark-green/10 bg-brand-off-white pt-5 pb-24 md:h-[1045px] md:py-0">
-      <div className="mx-auto max-w-354 px-[10px] md:absolute md:inset-x-0 md:top-[212px] md:px-0">
+    <section className="relative border-t border-brand-dark-green/10 bg-brand-off-white py-[100px] md:h-[1045px] md:py-0">
+      <div className="mx-auto max-w-354 px-3 md:absolute md:inset-x-0 md:top-[212px] md:px-0">
         <div className="grid gap-3 md:grid-cols-[464px_minmax(0,940px)]">
-          <div className="flex min-h-[531px] flex-col justify-between md:min-h-[532px]">
-            <div>
+          <div className="flex flex-col gap-[40px] md:min-h-[532px] md:justify-between md:gap-0">
+            <div className="flex flex-col gap-[30px]">
               <Reveal
                 amount={0.4}
                 delay={0.18}
@@ -57,16 +57,14 @@ export default async function BuilderPortalSection({
                   {t('title')}
                 </h2>
               </Reveal>
-              <div className="mt-[30px]">
-                <Button
-                  href={ROUTES.buildersHub}
-                  variant="secondary"
-                  icon={<DownloadIcon />}
-                  className="cursor-pointer transition-opacity hover:opacity-80"
-                >
-                  {t('cta')}
-                </Button>
-              </div>
+              <Button
+                href={ROUTES.basecamp}
+                variant="secondary"
+                icon={<DownloadIcon />}
+                className="w-fit cursor-pointer transition-opacity hover:opacity-80"
+              >
+                {t('cta')}
+              </Button>
             </div>
 
             <p className="text-mono-s whitespace-pre-line text-brand-dark-green md:w-[345px] md:font-sans md:text-[14px] md:leading-[1.2] md:font-medium">
