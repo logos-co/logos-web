@@ -409,7 +409,9 @@ export async function POST(req: NextRequest) {
 
   const {
     captchaToken,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     fields: _fields,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     formName: _formName,
     ...formData
   } = body as {
