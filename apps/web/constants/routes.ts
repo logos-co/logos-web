@@ -109,6 +109,7 @@ export const EXTERNAL_URLS = {
 
   // Attribution
   ift: 'https://free.technology',
+  iftJobs: 'https://free.technology/jobs',
 } as const
 
 export type RouteKey = keyof typeof ROUTES

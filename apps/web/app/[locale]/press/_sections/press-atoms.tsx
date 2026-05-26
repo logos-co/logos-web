@@ -134,12 +134,12 @@ export function RowThumbnail({
   className?: string
 }) {
   return (
-    <div className={cn('absolute aspect-video overflow-hidden', className)}>
+    <div className={cn('absolute h-[77px] overflow-hidden', className)}>
       <Image
         src={src}
         alt=""
         width={107}
-        height={60}
+        height={77}
         className="h-full w-full object-cover"
       />
     </div>

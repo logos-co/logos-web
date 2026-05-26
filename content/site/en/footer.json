@@ -14,7 +14,11 @@
     "alt": ""
   },
   "mainLinks": [
-    { "label": "Work With Us", "href": "/work-with-us" },
+    {
+      "label": "Work With Us",
+      "href": "https://free.technology/jobs",
+      "external": true
+    },
     { "label": "Brand Guidelines", "href": "/brand-kit" }
   ],
   "socialLinks": [

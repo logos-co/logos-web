@@ -175,7 +175,8 @@
         "title": "Schedule a call and speak with a contributor",
         "cta": {
           "label": "Learn more",
-          "href": "/work-with-us"
+          "href": "https://free.technology/jobs",
+          "external": true
         }
       },
       {
@@ -232,7 +233,11 @@
       "key": "contribute",
       "title": "Contribute",
       "description": "Pathways for joining the build — from one-off issues to long-term contributions.",
-      "primaryCta": { "label": "Get started", "href": "/work-with-us" }
+      "primaryCta": {
+        "label": "Get started",
+        "href": "https://free.technology/jobs",
+        "external": true
+      }
     }
   ],
   "rfpsSection": {
