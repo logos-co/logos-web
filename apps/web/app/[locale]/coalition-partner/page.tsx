@@ -24,7 +24,9 @@ export const generateMetadata = createTranslatedPageMetadata({
 
 function getAfformSubmitApiUrl() {
   const base = env.NEXT_PUBLIC_CIVI_CRM_URL
-  return base ? `${base.replace(/\/+$/, '')}/api/public/afform-submit` : ''
+  return base
+    ? `${base.replace(/\/+$/, '')}/api/public/notion-coalition-partner`
+    : ''
 }
 
 export default function CoalitionPartnerPage() {
