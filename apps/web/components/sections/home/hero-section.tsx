@@ -20,8 +20,8 @@ export default function HeroSectionView({ data }: Props) {
     offset: ['start start', 'end start'],
   })
 
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08])
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0])
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.025])
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0.35])
 
   const [primaryCta, secondaryCta] = data.ctas ?? []
 
@@ -51,9 +51,9 @@ export default function HeroSectionView({ data }: Props) {
       >
         <motion.h1
           className="text-h1 absolute top-[268px] left-1/2 w-[369px] -translate-x-1/2 text-center leading-[0.98] whitespace-pre-line md:top-[314px] md:w-[1178px]"
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}
+          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.18 }}
         >
           <span className="md:hidden">{t('mobileHeadline')}</span>
           <span className="hidden md:inline">{data.headline}</span>
@@ -61,9 +61,9 @@ export default function HeroSectionView({ data }: Props) {
 
         <motion.div
           className="absolute top-[389px] left-1/2 flex w-[274px] -translate-x-1/2 flex-col items-center gap-6 text-center min-[640px]:top-[454px] min-[640px]:left-[calc(50%+6px)] min-[640px]:w-[345px] min-[640px]:translate-x-0 min-[640px]:items-start min-[640px]:text-left"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.8 }}
+          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.55 }}
         >
           <p className="text-mono-s w-56.5 text-brand-off-white md:w-full">
             {t('kicker')}
@@ -93,9 +93,9 @@ export default function HeroSectionView({ data }: Props) {
       {data.body ? (
         <motion.p
           className="text-mono-s absolute top-[138px] left-1/2 w-[226px] -translate-x-1/2 text-center text-brand-off-white min-[640px]:top-[192px] min-[640px]:left-[calc(50%+6px)] min-[640px]:w-[345px] min-[640px]:translate-x-0 min-[640px]:text-left"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.6 }}
+          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.38 }}
         >
           <span className="min-[640px]:hidden">{t('mobileBody')}</span>
           <span className="hidden min-[640px]:inline">{data.body}</span>

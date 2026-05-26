@@ -3,7 +3,6 @@ import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
 import type { TechStackOverviewSection } from '@repo/content/schemas'
 
-import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { TechStackDiagram } from '@/components/sections/shared/tech-stack-diagram'
 import { Button } from '@/components/ui'
 
@@ -54,10 +53,7 @@ export default function TechOverviewStack({
     >
       <div className="mx-auto max-w-354">
         {data.architecture ? (
-          <Reveal
-            amount={0.15}
-            className="-mx-3 mb-10 h-[658px] bg-gray-01 px-3 py-3 md:mb-[100px] md:h-[381px]"
-          >
+          <div className="-mx-3 mb-10 h-[658px] bg-gray-01 px-3 py-3 md:mb-[100px] md:h-[381px]">
             <div className="grid md:grid-cols-2 md:gap-3">
               <div className="relative h-[317px] md:h-[357px]">
                 {data.architecture.eyebrow ? (
@@ -109,26 +105,22 @@ export default function TechOverviewStack({
                 </div>
               </div>
             </div>
-          </Reveal>
+          </div>
         ) : null}
 
         <div className="flex flex-col gap-[60px] md:gap-[100px]">
-          <Reveal stagger className="grid gap-3 pt-[100px] md:grid-cols-2">
+          <div className="grid gap-3 pt-[100px] md:grid-cols-2">
             {data.title ? (
-              <RevealItem>
-                <h2 className="text-h4-sans md:text-h3-sans text-brand-dark-green">
-                  {data.title}
-                </h2>
-              </RevealItem>
+              <h2 className="text-h4-sans md:text-h3-sans text-brand-dark-green">
+                {data.title}
+              </h2>
             ) : null}
             {data.eyebrow ? (
-              <RevealItem>
-                <p className="text-mono-s w-[226px] text-brand-dark-green">
-                  {data.eyebrow}
-                </p>
-              </RevealItem>
+              <p className="text-mono-s w-[226px] text-brand-dark-green">
+                {data.eyebrow}
+              </p>
             ) : null}
-          </Reveal>
+          </div>
 
           <TechStackDiagram
             data={data}

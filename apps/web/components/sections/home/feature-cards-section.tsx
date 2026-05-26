@@ -2,13 +2,11 @@
 
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { motion } from 'motion/react'
 
 import { LogosMark } from '@acid-info/logos-ui'
 
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
-import { EASE, VIEWPORT_ONCE } from '@/lib/motion'
 
 interface PathCard {
   key: 'build' | 'operate' | 'activism'
@@ -21,17 +19,9 @@ interface PathCard {
   imageClassName?: string
 }
 
-function PathCardView({ card, index }: { card: PathCard; index: number }) {
+function PathCardView({ card }: { card: PathCard }) {
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.58, delay: index * 0.09, ease: EASE.out },
-      }}
-      whileHover={{ y: -10 }}
-      viewport={VIEWPORT_ONCE}
+    <article
       className="group/path-card relative h-[422px] overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white"
     >
       <Image
@@ -39,7 +29,7 @@ function PathCardView({ card, index }: { card: PathCard; index: number }) {
         alt=""
         fill
         sizes="(max-width: 768px) 369px, 464px"
-        className={`object-cover transition-transform duration-500 ease-out group-hover/path-card:scale-[1.04] ${card.imageClassName ?? ''}`}
+        className={`object-cover transition-transform duration-700 ease-out group-hover/path-card:scale-[1.01] ${card.imageClassName ?? ''}`}
       />
       <div
         className={`absolute inset-0 transition-opacity duration-300 ease-out group-hover/path-card:opacity-80 ${card.overlay}`}
@@ -60,7 +50,7 @@ function PathCardView({ card, index }: { card: PathCard; index: number }) {
       <p className="absolute right-6 bottom-6 left-6 font-sans text-[14px] leading-[1.2] font-medium">
         {card.body}
       </p>
-    </motion.article>
+    </article>
   )
 }
 
@@ -116,8 +106,8 @@ export default function FeatureCardsSection() {
         </p>
 
         <div className="absolute top-[372px] left-1/2 grid w-[1416px] -translate-x-1/2 grid-cols-3 gap-3">
-          {cards.map((card, index) => (
-            <PathCardView key={card.key} card={card} index={index} />
+          {cards.map((card) => (
+            <PathCardView key={card.key} card={card} />
           ))}
         </div>
       </div>
