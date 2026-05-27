@@ -7,10 +7,10 @@ import type {
   RelatedArticlesSection,
 } from '@repo/content/schemas'
 
-import BlockchainBuilderCta from '@/components/sections/blockchain/blockchain-builder-cta'
 import BlockchainCryptarchia from '@/components/sections/blockchain/blockchain-cryptarchia'
 import BlockchainHero from '@/components/sections/blockchain/blockchain-hero'
 import BlockchainPrivacy from '@/components/sections/blockchain/blockchain-privacy'
+import TechStackBuilderCta from '@/components/sections/shared/tech-stack-builder-cta'
 import TechStackExplorer from '@/components/sections/shared/tech-stack-explorer'
 import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 import { ROUTES } from '@/constants/routes'
@@ -70,7 +70,7 @@ export default async function BlockchainPage({
       <BlockchainHero data={hero} backHref={ROUTES.technologyStack} />
       <BlockchainPrivacy data={privacy} />
       <BlockchainCryptarchia data={cryptarchia} />
-      <BlockchainBuilderCta data={builderCta} />
+      <TechStackBuilderCta data={builderCta} />
       <TechStackRelatedArticles
         data={relatedArticles}
         articles={articles}

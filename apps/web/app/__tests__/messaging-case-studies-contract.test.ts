@@ -61,7 +61,7 @@ describe('messaging page Figma layout contract', () => {
 
   test('keeps the builder CTA aligned to the desktop Figma spacing', () => {
     const source = readAppFile(
-      '../components/sections/messaging/messaging-builder-cta.tsx'
+      '../app/[locale]/technology-stack/messaging/page.tsx'
     )
 
     expect(source).toContain('md:mt-[100px]')

@@ -7,12 +7,12 @@ import type {
   RelatedArticlesSection,
 } from '@repo/content/schemas'
 
-import StorageBuilderCta from '@/components/sections/storage/storage-builder-cta'
 import StorageHero from '@/components/sections/storage/storage-hero'
 import StorageAccess from '@/components/sections/storage/storage-access'
 import StorageMain from '@/components/sections/storage/storage-main'
 import StorageTechStack from '@/components/sections/storage/storage-tech-stack'
 import StorageUseCases from '@/components/sections/storage/storage-use-cases'
+import TechStackBuilderCta from '@/components/sections/shared/tech-stack-builder-cta'
 import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 
 import { ROUTES } from '@/constants/routes'
@@ -31,7 +31,7 @@ const findSection = createSectionFinder('storage')
  *   - storage.hero            → StorageHero
  *   - storage.main            → StorageMain
  *   - storage.useCases        → StorageUseCases
- *   - storage.builderCta      → StorageBuilderCta
+ *   - storage.builderCta      → TechStackBuilderCta
  *   - storage.relatedArticles → TechStackRelatedArticles
  *
  * `StorageTechStack` composes the shared tech stack explorer so the card grid
@@ -85,7 +85,10 @@ export default async function StoragePage({
       <StorageMain data={main} />
       <StorageAccess data={access} />
       <StorageUseCases data={useCases} />
-      <StorageBuilderCta data={builderCta} />
+      <TechStackBuilderCta
+        data={builderCta}
+        className="mt-15 mb-15 md:mt-25 md:mb-25"
+      />
       <StorageTechStack locale={locale} />
       <TechStackRelatedArticles data={relatedArticles} articles={articles} />
     </>
