@@ -47,7 +47,8 @@
         },
         {
           "label": "DOCS",
-          "href": "/technology-stack/messaging",
+          "href": "https://github.com/logos-co/logos-docs",
+          "external": true,
           "variant": "secondary"
         }
       ]
@@ -60,7 +61,8 @@
       "description": "Logos Messaging provides the messaging layer for the Logos stack, letting applications send messages, relay data, and coordinate without relying on centralised servers or exposing metadata to surveillance.\n\nIt uses a peer-to-peer relay network in which messages propagate across nodes with no central broker, and it supports private one-to-one messaging, group messaging, and public broadcast channels.\n\nMessages can be encrypted end-to-end, and the relay network is designed to resist traffic analysis, making it difficult for observers to determine who is communicating with whom.",
       "cta": {
         "label": "View the docs",
-        "href": "/technology-stack/messaging"
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
       }
     },
     {
@@ -125,7 +127,8 @@
           "description": "Lorem ipsum dolor sit amet consectetur",
           "cta": {
             "label": "View the docs",
-            "href": "/technology-stack"
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true
           }
         },
         {

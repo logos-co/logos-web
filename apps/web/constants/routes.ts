@@ -90,7 +90,7 @@ export const EXTERNAL_URLS = {
 
   // Forum
   forum: 'https://forum.logos.co/',
-  docs: 'https://docs.logos.co',
+  docs: 'https://github.com/logos-co/logos-docs',
 
   // Research
   vacp2p: 'https://vac.dev',

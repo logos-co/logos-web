@@ -11,10 +11,10 @@ const NAMESPACE = 'pages.getStarted'
 
 const docs = [
   { key: 'architecture', href: EXTERNAL_URLS.docs },
-  { key: 'blockchain', href: `${EXTERNAL_URLS.docs}/logos-stack/blockchain` },
-  { key: 'messaging', href: `${EXTERNAL_URLS.docs}/logos-stack/messaging` },
-  { key: 'storage', href: `${EXTERNAL_URLS.docs}/logos-stack/storage` },
-  { key: 'api', href: `${EXTERNAL_URLS.docs}/api` },
+  { key: 'blockchain', href: EXTERNAL_URLS.docs },
+  { key: 'messaging', href: EXTERNAL_URLS.docs },
+  { key: 'storage', href: EXTERNAL_URLS.docs },
+  { key: 'api', href: EXTERNAL_URLS.docs },
 ] as const
 
 const communityLinks = [

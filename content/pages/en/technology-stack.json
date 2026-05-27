@@ -42,7 +42,8 @@
         },
         {
           "label": "Documentation",
-          "href": "/technology-stack#open-source",
+          "href": "https://github.com/logos-co/logos-docs",
+          "external": true,
           "variant": "secondary"
         }
       ],
@@ -70,7 +71,8 @@
       "eyebrow": "Disclaimer: Abstract representation of the stack.",
       "cta": {
         "label": "Docs",
-        "href": "/technology-stack#open-source"
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
       },
       "architecture": {
         "eyebrow": "Technology",
@@ -81,7 +83,8 @@
         ],
         "cta": {
           "label": "View the docs",
-          "href": "/technology-stack#stack"
+          "href": "https://github.com/logos-co/logos-docs",
+          "external": true
         },
         "image": {
           "src": "/images/technology-stack/architecture-overview.jpg",
@@ -209,7 +212,7 @@
           },
           "secondaryCta": {
             "label": "Docs",
-            "href": "https://docs.logos.co",
+            "href": "https://github.com/logos-co/logos-docs",
             "external": true
           }
         },
@@ -224,7 +227,7 @@
           },
           "secondaryCta": {
             "label": "Docs",
-            "href": "https://docs.waku.org",
+            "href": "https://github.com/logos-co/logos-docs",
             "external": true
           }
         },
@@ -239,7 +242,7 @@
           },
           "secondaryCta": {
             "label": "Docs",
-            "href": "https://docs.codex.storage",
+            "href": "https://github.com/logos-co/logos-docs",
             "external": true
           }
         },
@@ -254,7 +257,7 @@
           },
           "secondaryCta": {
             "label": "Docs",
-            "href": "https://vac.dev",
+            "href": "https://github.com/logos-co/logos-docs",
             "external": true
           }
         }
@@ -268,7 +271,8 @@
       "subheadingExtra": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
       "cta": {
         "label": "View the Docs",
-        "href": "/technology-stack"
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
       },
       "cards": [
         {

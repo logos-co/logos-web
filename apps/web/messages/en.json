@@ -38,24 +38,20 @@
     },
     "socialProof": {
       "contributions": {
-        "value": "2262",
-        "label": "Contributions",
+        "label": "Total contributions",
         "body": "An open source community of builders, researchers, and technologists."
       },
-      "nodes": {
-        "value": "205",
-        "label": "Node Operators",
+      "contributors": {
+        "label": "Active contributors",
+        "body": "An open source community of builders, researchers, and technologists."
+      },
+      "repositories": {
+        "label": "Repositories",
         "body": "Open source tools, libraries, and infrastructure to inspect, fork, and build on."
       },
       "circles": {
-        "value": "26",
         "label": "Circles",
         "body": "Local chapters of activists and change seekers solving real world issues."
-      },
-      "issues": {
-        "value": "26",
-        "label": "Winnable Issues",
-        "body": "Local issues that Circles identify and solve – from privacy tech to community funding."
       }
     },
     "build": {
@@ -305,29 +301,7 @@
       "stack": {
         "titleLine1": "Explore the Logos",
         "titleLine2": "Technology Stack.",
-        "body": "The Logos technology stack is a unified ecosystem of distinct modules. The entire stack is modular so developers can assemble their own Logos-based platform with a different selection of modules.",
-        "storage": "Storage",
-        "messaging": "Messaging",
-        "blockchain": "Blockchain",
-        "userModules": "User Modules",
-        "basecamp": "Basecamp",
-        "basecampBody": "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem.",
-        "basecampCta": "Install",
-        "networkingLine1": "The Networking Stack:",
-        "networkingLine2": "Discovery, Peering, and Mix-Net",
-        "foundation": "The Foundation: Logos Kernel"
-      }
-    },
-    "storage": {
-      "techStack": {
-        "storageBody": "Decentralised file storage and retrieval, using content-addressed (CID-based) data",
-        "messagingBody": "Private, censorship-resistant communication between parties.",
-        "blockchainBody": "Decentralised compute and consensus.",
-        "userModulesBody": "Anyone can build modules that plug into the same IPC infrastructure.",
-        "networkingBody": "This layer handles how Logos nodes find each other, establish connections, and communicate.",
-        "foundationBody": "A microkernel that handles the essential primitives every decentralised application needs.",
-        "lez": "LOGOS Execution zone (LEZ)",
-        "cryptarchia": "Data Availability and Consensus: Cryptarchia"
+        "body": "The Logos technology stack is a unified ecosystem of distinct modules. The entire stack is modular so developers can assemble their own Logos-based platform with a different selection of modules."
       }
     },
     "ideas": {
@@ -445,49 +419,6 @@
             "label": "Builders get support on their journey",
             "body": "Regular office hours, livestreams, and direct access to the ecosystem development engineering team to support you."
           }
-        }
-      },
-      "techStack": {
-        "disclaimer": "Disclaimer: This diagram oversimplifies the stack.",
-        "heading": "The Logos\nTechnology Stack",
-        "body": "Logos provides developers with a modular, plugin-based runtime for building decentralised applications.",
-        "cta": "See the stack",
-        "primaryCta": "Documentation",
-        "secondaryCta": "Builder Hub",
-        "basecamp": {
-          "title": "Basecamp",
-          "body": "Basecamp bundles the Logos stack into a practical starting point for builders.",
-          "cta": "Install"
-        },
-        "cards": {
-          "storage": {
-            "title": "Storage",
-            "body": "Decentralised file storage and retrieval, using content-addressed (CID-based) data"
-          },
-          "messaging": {
-            "title": "Messaging",
-            "body": "Private, censorship-resistant communication between parties."
-          },
-          "blockchain": {
-            "title": "Blockchain",
-            "body": "Decentralised compute and consensus.",
-            "badges": {
-              "1": "LOGOS Execution zone (LEZ)",
-              "2": "Data Availability and Consensus: Cryptarchia"
-            }
-          },
-          "userModules": {
-            "title": "User Modules",
-            "body": "Anyone can build modules that plug into the same IPC infrastructure."
-          }
-        },
-        "networking": {
-          "title": "The Networking Stack:\nDiscovery, Peering, and Mix-Net",
-          "body": "This layer handles how Logos nodes find each other, establish connections, and communicate."
-        },
-        "foundation": {
-          "title": "The Foundation: Logos Kernel",
-          "body": "A microkernel that handles the essential primitives every decentralised application needs."
         }
       },
       "support": {

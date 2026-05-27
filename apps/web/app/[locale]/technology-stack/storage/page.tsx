@@ -34,11 +34,8 @@ const findSection = createSectionFinder('storage')
  *   - storage.builderCta      → StorageBuilderCta
  *   - storage.relatedArticles → StorageRelatedArticles
  *
- * `StorageTechStack` is deferred: it composes the global techStackOverview
- * (shared with `/technology-stack`) with a storage-specific intro and per-card
- * body text (`pages.storage.techStack.*`). Migrating cleanly needs either a
- * cross-page shared partial or extra fields on `techStackOverview`. Until then
- * the component continues to read from `messages.en.json`.
+ * `StorageTechStack` composes the shared tech stack explorer so the card grid
+ * stays aligned with `/technology-stack`.
  */
 export default async function StoragePage({
   params,

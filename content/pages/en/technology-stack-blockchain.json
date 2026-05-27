@@ -55,7 +55,8 @@
         },
         {
           "label": "Docs",
-          "href": "/technology-stack/blockchain",
+          "href": "https://github.com/logos-co/logos-docs",
+          "external": true,
           "variant": "secondary"
         }
       ]
@@ -68,7 +69,8 @@
       "description": "Logos Blockchain is a proof-of-stake layer-1 with privacy built into the consensus mechanism itself — not bolted on at the application layer. Block proposers are anonymous. Transactions are private by default. The chain supports the deployment of application-specific execution environments called Sovereign Zones, connected through Mantle Channels for interoperability.",
       "cta": {
         "label": "View the docs",
-        "href": "/technology-stack/blockchain"
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
       }
     },
     {
@@ -79,7 +81,8 @@
       "subheading": "A private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
       "cta": {
         "label": "View the docs",
-        "href": "/technology-stack/blockchain"
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
       },
       "cards": [
         {
@@ -98,7 +101,8 @@
           },
           "secondaryCta": {
             "label": "Docs",
-            "href": "/technology-stack/blockchain",
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true,
             "variant": "secondary"
           }
         },
@@ -118,7 +122,8 @@
           },
           "secondaryCta": {
             "label": "Docs",
-            "href": "/technology-stack/blockchain",
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true,
             "variant": "secondary"
           }
         },
@@ -138,7 +143,8 @@
           },
           "secondaryCta": {
             "label": "Docs",
-            "href": "/technology-stack/blockchain",
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true,
             "variant": "secondary"
           }
         }
@@ -153,7 +159,8 @@
           "description": "Lorem ipsum dolor sit amet consectetur",
           "cta": {
             "label": "View the docs",
-            "href": "/technology-stack"
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true
           }
         },
         {

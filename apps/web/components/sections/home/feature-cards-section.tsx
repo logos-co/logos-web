@@ -5,8 +5,9 @@ import { useTranslations } from 'next-intl'
 
 import { LogosMark } from '@acid-info/logos-ui'
 
-import { Button } from '@/components/ui'
+import { ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
+import { Link } from '@/i18n/navigation'
 
 interface PathCard {
   key: 'build' | 'operate' | 'activism'
@@ -21,8 +22,9 @@ interface PathCard {
 
 function PathCardView({ card }: { card: PathCard }) {
   return (
-    <article
-      className="group/path-card relative h-[422px] overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white"
+    <Link
+      href={card.href}
+      className="group/path-card relative block h-[422px] cursor-pointer overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green"
     >
       <Image
         src={card.image}
@@ -40,17 +42,21 @@ function PathCardView({ card }: { card: PathCard }) {
         <h3 className="text-h3-serif">{card.title}</h3>
       </div>
 
-      <Button
-        href={card.href}
-        className="absolute top-3 right-3 cursor-pointer bg-brand-off-white text-brand-dark-green backdrop-blur-[5px] transition-colors duration-300 ease-out hover:bg-accent-steel-teal focus-visible:bg-accent-steel-teal group-hover/path-card:bg-accent-steel-teal"
+      <span
+        className="absolute top-3 right-3 inline-flex items-center justify-center rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green backdrop-blur-[5px] transition-colors duration-300 ease-out group-hover/path-card:bg-accent-steel-teal group-focus-visible/path-card:bg-accent-steel-teal"
       >
-        {card.cta}
-      </Button>
+        <span className="inline-flex items-center gap-1">
+          <span className="font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
+            {card.cta}
+          </span>
+          <ButtonArrowIcon />
+        </span>
+      </span>
 
       <p className="absolute right-6 bottom-6 left-6 font-sans text-[14px] leading-[1.2] font-medium">
         {card.body}
       </p>
-    </article>
+    </Link>
   )
 }
 

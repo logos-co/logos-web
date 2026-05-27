@@ -19,4 +19,17 @@ describe('broadcast network page contract', () => {
     expect(source).toContain('h-[107px] w-[190px]')
     expect(source).not.toContain('size-[107px]')
   })
+
+  test('header background matches the press audio page tone', () => {
+    const source = readComponent(
+      '../components/site-header/site-header-client.tsx'
+    )
+
+    expect(source).toContain('usesAccentTanHeaderTone')
+    expect(source).toContain('ROUTES.logosBroadcastNetwork')
+    expect(source).toContain('ROUTES.podcast')
+    expect(source).toContain(
+      "usesAccentTanHeaderTone && 'bg-accent-tan'"
+    )
+  })
 })

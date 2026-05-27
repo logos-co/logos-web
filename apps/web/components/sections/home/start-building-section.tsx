@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
 import { Button } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 interface SupportCard {
   title: string
@@ -38,7 +38,7 @@ export default async function StartBuildingSection({
     { title: t('lambdaPrize'), href: ROUTES.lambdaPrize, cta: t('cardCta') },
     { title: t('rfps'), href: ROUTES.rfps, cta: t('cardCta') },
     { title: t('ideas'), href: ROUTES.ideas, cta: t('cardCta') },
-    { title: t('docs'), href: ROUTES.technologyStack, cta: t('cardCta') },
+    { title: t('docs'), href: EXTERNAL_URLS.docs, cta: t('cardCta') },
   ]
 
   return (

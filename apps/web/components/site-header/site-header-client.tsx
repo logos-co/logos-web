@@ -81,6 +81,9 @@ export default function SiteHeaderClient({
     normalizedPathname.endsWith(ROUTES.lambdaPrize)
   const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.press)
   const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
+  const usesAccentTanHeaderTone =
+    normalizedPathname.endsWith(ROUTES.logosBroadcastNetwork) ||
+    normalizedPathname.endsWith(ROUTES.podcast)
   const open = () => {
     setInitialPanelLabel(null)
     setIsOpen(true)
@@ -135,7 +138,8 @@ export default function SiteHeaderClient({
       <header
         className={clsx(
           'left-0 right-0 top-0 z-50',
-          usesOverlayHeader ? 'fixed' : 'sticky'
+          usesOverlayHeader ? 'fixed' : 'sticky',
+          usesAccentTanHeaderTone && 'bg-accent-tan'
         )}
       >
         <div
