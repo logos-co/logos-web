@@ -76,6 +76,14 @@ describe('messaging page Figma layout contract', () => {
     expect(source).toContain('md:mb-[100px]')
   })
 
+  test('keeps the desktop Figma gap between related articles and the footer', () => {
+    const source = readAppFile(
+      '../components/sections/messaging/messaging-related-articles.tsx'
+    )
+
+    expect(source).toContain('md:pb-3')
+  })
+
   test('keeps mobile-only Figma copy in content instead of component literals', () => {
     const schema = readRepoFile('packages/content/src/schemas/pages.ts')
     const content = readRepoFile(

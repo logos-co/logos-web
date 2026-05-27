@@ -28,7 +28,7 @@ export default function MessagingRelatedArticles({ data, articles }: Props) {
     })) ?? articlesToCards(articles)
 
   return (
-    <section className="bg-brand-off-white md:mt-0">
+    <section className="bg-brand-off-white md:mt-0 md:pb-3">
       <div className="mx-auto max-w-360 px-3 py-3 md:pb-0">
         <Reveal
           amount={0.15}
