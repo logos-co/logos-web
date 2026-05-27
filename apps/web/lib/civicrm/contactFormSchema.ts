@@ -26,7 +26,7 @@ function buildFieldSchema(
   const { formKey, inputType } = field
   const isReq = requiredFields.has(formKey)
 
-  if (inputType === 'checkbox') return z.boolean().optional().default(false)
+  if (inputType === 'checkbox') return z.boolean().optional().default(true)
   if (inputType === 'hidden') return z.any().optional()
 
   if (inputType === 'email') {
