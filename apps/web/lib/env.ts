@@ -42,6 +42,11 @@ export type Env = {
    * Public calendar API origin used at build time for Logos Broadcast Network.
    */
   NEXT_PUBLIC_ADMIN_ACID_API_URL: string | undefined
+  /**
+   * Optional override for static forms that post directly to the take-action
+   * service.
+   */
+  NEXT_PUBLIC_TAKE_ACTION_API_URL: string | undefined
 }
 
 function assertOneOf<T extends string>(
@@ -93,5 +98,8 @@ export const env: Env = {
   NEXT_PUBLIC_CMS_URL: readOptionalString(process.env.NEXT_PUBLIC_CMS_URL),
   NEXT_PUBLIC_ADMIN_ACID_API_URL: readOptionalString(
     process.env.NEXT_PUBLIC_ADMIN_ACID_API_URL
+  ),
+  NEXT_PUBLIC_TAKE_ACTION_API_URL: readOptionalString(
+    process.env.NEXT_PUBLIC_TAKE_ACTION_API_URL
   ),
 }

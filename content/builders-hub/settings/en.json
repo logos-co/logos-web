@@ -27,7 +27,10 @@
         "href": "/builders-hub#prepare"
       },
       { "label": "Start Building", "href": "/builders-hub#start-building" },
-      { "label": "Builder Programmes", "href": "/builders-hub#builder-programs" },
+      {
+        "label": "Builder Programmes",
+        "href": "/builders-hub#builder-programs"
+      },
       { "label": "Get Support", "href": "/builders-hub#get-support" }
     ]
   },
@@ -175,7 +178,7 @@
         "title": "Schedule a call and speak with a contributor",
         "cta": {
           "label": "Learn more",
-          "href": "https://free.technology/jobs",
+          "href": "https://cal.com/team/logos-onboarding/intro",
           "external": true
         }
       },

@@ -1,7 +1,7 @@
 'use client'
 
 import { Children, useEffect, useMemo, useState } from 'react'
-import type { ReactNode } from 'react'
+import type { MouseEvent, ReactNode } from 'react'
 
 import { LogosMark } from '../../icons/logos-mark'
 import { XIcon } from '../../icons/x-icon'
@@ -90,13 +90,13 @@ function Chevron({ direction }: { direction: 'left' | 'right' }) {
 
 function getActionImageClassName(label: string) {
   if (label === 'Build') {
-    return 'absolute top-[-334px] left-0 h-[904px] w-[723px]'
+    return 'absolute inset-0 *:object-[50%_38%]'
   }
   if (label === 'Operate') {
-    return 'absolute top-[-301px] left-0 h-[571px] w-[713px]'
+    return 'absolute inset-0 *:object-[50%_52%]'
   }
   if (label === 'Movement') {
-    return 'absolute top-[-144px] left-0 h-[350px] w-[711px]'
+    return 'absolute inset-0 *:object-[50%_56%]'
   }
   return 'absolute inset-0'
 }
@@ -624,14 +624,19 @@ export function NavOverlay({
   const selectedMobilePanel =
     panels.find((panel) => panel.label === selectedMobilePanelLabel) ?? null
 
+  const handleBackdropClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) onClose()
+  }
+
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-label="Navigation menu"
-      className={`fixed inset-0 z-50 flex flex-col overflow-y-auto bg-brand-dark-green text-brand-off-white md:bg-[rgba(21,37,33,0.5)] md:backdrop-blur-[20px] ${className ?? ''}`}
+      onClick={handleBackdropClick}
+      className={`fixed inset-0 z-50 flex cursor-pointer flex-col overflow-y-auto bg-brand-dark-green text-brand-off-white md:bg-[rgba(21,37,33,0.5)] md:backdrop-blur-[20px] ${className ?? ''}`}
     >
-      <div className="relative flex min-h-full flex-col bg-brand-dark-green md:h-[700px] md:min-h-0 md:overflow-y-auto">
+      <div className="relative flex min-h-full cursor-default flex-col bg-brand-dark-green md:h-[700px] md:min-h-0 md:overflow-y-auto">
         <OverlayHeader
           logo={logo}
           logoHref={logoHref}

@@ -525,8 +525,88 @@
     },
     "nodeProgram": {
       "title": "Node Programme | Logos",
-      "description": "Run a Logos node. Help revitalise civil society with decentralised technology.",
-      "heading": "Node Programme"
+      "description": "Sign up for early access to the Logos node programme and help decentralise the network.",
+      "heading": "Node Programme",
+      "hero": {
+        "eyebrow": "Node Programme",
+        "title": "Be the first to join the node programme",
+        "body": "Sign up for early access to the upcoming node programme and help decentralise the network.",
+        "cta": "Sign up",
+        "secondaryCta": "View the stack"
+      },
+      "builders": {
+        "eyebrow": "Operate",
+        "title": "Calling builders and node operators",
+        "body": "The node programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies. Whether you are a builder or a node operator, there is a role for you.",
+        "imageAlt": "Logos node programme builders and node operators"
+      },
+      "stack": {
+        "title": "The Logos technology stack is a unified ecosystem.",
+        "titleMuted": "Private-by-default. Built for real life.",
+        "items": [
+          {
+            "title": "Blockchain",
+            "body": "Advanced privacy for a new era of decentralised applications and social institutions.",
+            "icon": "/images/node-programme/blockchain.png",
+            "alt": "Blockchain"
+          },
+          {
+            "title": "Messaging",
+            "body": "Private peer-to-peer communication that resists surveillance and censorship.",
+            "icon": "/images/node-programme/messaging.png",
+            "alt": "Messaging"
+          },
+          {
+            "title": "Storage",
+            "body": "Secure decentralised storage enabling fully decentralised apps and file sharing.",
+            "icon": "/images/node-programme/storage.png",
+            "alt": "Storage"
+          }
+        ]
+      },
+      "useCases": {
+        "title": "Use cases.",
+        "titleMuted": "We know today's systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
+        "items": [
+          {
+            "title": "Community governance",
+            "body": "Self-organising groups that define and enforce their own rules, voluntarily and transparently."
+          },
+          {
+            "title": "Corruption-resistant public registries",
+            "body": "Tamper-proof records for votes, land, licences, and trade agreements."
+          },
+          {
+            "title": "Private financial networks",
+            "body": "Money that moves securely and freely, without borders."
+          },
+          {
+            "title": "Decentralised archives",
+            "body": "Permanent, censorship-resistant preservation of knowledge, culture, and history."
+          },
+          {
+            "title": "Secure communications",
+            "body": "Resilient, private messaging for coordination in hostile environments."
+          }
+        ]
+      },
+      "signup": {
+        "title": "Sign up for the node programme",
+        "emailLabel": "Email address",
+        "emailPlaceholder": "Enter email",
+        "roleLabel": "Role",
+        "rolePlaceholder": "Select role",
+        "roles": ["Node operator", "Builder"],
+        "submit": "Submit",
+        "submitting": "Submitting",
+        "invalidEmail": "Please enter a valid email address.",
+        "missingRole": "Please select a role.",
+        "genericError": "Failed to submit. Please try again.",
+        "success": "Thanks for stepping in early.",
+        "successLink": "Join our server",
+        "imageAlt": "Forest landscape for the Logos node programme",
+        "endpointPath": "/api/forms/logos-co/take-action"
+      }
     },
     "movement": {
       "title": "Movement | Logos",
