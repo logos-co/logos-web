@@ -82,7 +82,10 @@ export default function MessagingBuilderCta({ data }: Props) {
 
   return (
     <Reveal amount={0.2}>
-      <TechBuilderCtaDeck cards={cards} className="mt-15 md:mt-10" />
+      <TechBuilderCtaDeck
+        cards={cards}
+        className="mt-15 md:mt-[100px] md:mb-[100px]"
+      />
     </Reveal>
   )
 }
