@@ -206,9 +206,10 @@ export function ConnectFormSection({
     })
   }
 
-  const handleCheckbox = (field: string) => () => {
-    setFormData((prev) => ({ ...prev, [field]: !prev[field] }))
-  }
+  const handleCheckbox =
+    (field: string) => (event: ChangeEvent<HTMLInputElement>) => {
+      setFormData((prev) => ({ ...prev, [field]: event.target.checked }))
+    }
 
   const handleMultiselectToggle = (fieldKey: string, optionValue: string) => () => {
     setFormData((prev) => {
@@ -323,7 +324,7 @@ export function ConnectFormSection({
           const hasFieldError = hasError(field.formKey)
           const label = capitalizeLabel(field.label)
           const placeholder =
-            label || (field.inputType === 'select' ? t('selectPlaceholder') : '')
+            field.inputType === 'select' ? t('selectPlaceholder') : ''
 
           if (field.formKey === 'role' || field.formKey === 'skills') {
             const options = getOptionsForField(field, afformOptions)
@@ -386,7 +387,6 @@ export function ConnectFormSection({
                     <div className="min-w-[120px] flex-1">
                       <TextInput
                         name={`chat[${index}]`}
-                        placeholder={t('chatHandlePlaceholder')}
                         onChange={handleChangeRepeatable('chat', index)}
                         value={chatVal}
                         disabled={loadingState}
@@ -399,7 +399,6 @@ export function ConnectFormSection({
                         options={chatServiceOptions}
                         value={chatServiceValues[index] ?? ''}
                         onChange={handleChangeRepeatable('chatService', index)}
-                        placeholder={t('chatServicePlaceholder')}
                         disabled={loadingState}
                         isOpen={openDropdown === `chatService-${index}`}
                         onToggle={() =>
@@ -469,18 +468,31 @@ export function ConnectFormSection({
           }
 
           if (field.inputType === 'checkbox') {
+            const isChecked = value === true
             return (
               <div key={field.formKey} className="w-full">
-                <label className="group inline-flex cursor-pointer items-start font-mono text-[10px] leading-[1.3]">
+                <label className="inline-flex cursor-pointer items-start font-mono text-[10px] leading-[1.3]">
                   <input
-                    className="peer hidden"
+                    className="sr-only"
                     type="checkbox"
-                    checked={!!value}
+                    name={field.formKey}
+                    checked={isChecked}
                     onChange={handleCheckbox(field.formKey)}
                   />
-                  <div className="mt-0.5 mr-3 flex size-[14px] shrink-0 items-center justify-center border border-brand-dark-green">
+                  <div
+                    className={cn(
+                      'mt-0.5 mr-3 flex size-[14px] shrink-0 items-center justify-center border border-brand-dark-green',
+                      isChecked && 'bg-brand-dark-green/10'
+                    )}
+                    aria-hidden
+                  >
                     <Check
-                      className="size-3 text-transparent peer-checked:text-brand-dark-green"
+                      className={cn(
+                        'size-3',
+                        isChecked
+                          ? 'text-brand-dark-green'
+                          : 'text-transparent'
+                      )}
                       aria-hidden
                     />
                   </div>
