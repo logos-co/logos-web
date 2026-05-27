@@ -33,10 +33,8 @@ const findSection = createSectionFinder('messaging')
  *   - messaging.builderCta      → MessagingBuilderCta
  *   - messaging.relatedArticles → MessagingRelatedArticles
  *
- * `MessagingTechStack` is deferred (same rationale as `StorageTechStack`):
- * it composes the global techStackOverview with messaging-specific intro
- * copy. Migration awaits either a cross-page shared partial or extra fields
- * on `techStackOverview`.
+ * `MessagingTechStack` composes the shared tech stack explorer so the card
+ * grid stays aligned with `/technology-stack`.
  */
 export default async function MessagingPage({
   params,

@@ -1,6 +1,9 @@
 import { getTranslations } from 'next-intl/server'
 
+import { isActiveLocale } from '@repo/content/locales'
+
 import { ROUTES } from '@/constants/routes'
+import { getHomeTechStackOverview } from '@/lib/tech-stack-overview'
 import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
 
 import { LambdaPrizePage } from './_sections/lambda-prize-page'
@@ -18,10 +21,15 @@ export default async function Page({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  if (!isActiveLocale(locale)) {
+    throw new Error(`LambdaPrizePage received non-active locale "${locale}"`)
+  }
   const t = await getTranslations({ locale, namespace: NAMESPACE })
+  const techStack = await getHomeTechStackOverview(locale)
 
   return (
     <LambdaPrizePage
+      techStack={techStack}
       copy={{
         hero: {
           label: t('hero.label'),
@@ -128,49 +136,6 @@ export default async function Page({
               body: t('about.rows.3.body'),
             },
           ],
-        },
-        techStack: {
-          disclaimer: t('techStack.disclaimer'),
-          heading: t('techStack.heading'),
-          body: t('techStack.body'),
-          cta: t('techStack.cta'),
-          basecamp: {
-            title: t('techStack.basecamp.title'),
-            body: t('techStack.basecamp.body'),
-            cta: t('techStack.basecamp.cta'),
-          },
-          cards: [
-            {
-              title: t('techStack.cards.storage.title'),
-              body: t('techStack.cards.storage.body'),
-            },
-            {
-              title: t('techStack.cards.messaging.title'),
-              body: t('techStack.cards.messaging.body'),
-            },
-            {
-              title: t('techStack.cards.blockchain.title'),
-              body: t('techStack.cards.blockchain.body'),
-              badges: [
-                t('techStack.cards.blockchain.badges.1'),
-                t('techStack.cards.blockchain.badges.2'),
-              ],
-            },
-            {
-              title: t('techStack.cards.userModules.title'),
-              body: t('techStack.cards.userModules.body'),
-            },
-          ],
-          networking: {
-            title: t('techStack.networking.title'),
-            body: t('techStack.networking.body'),
-          },
-          foundation: {
-            title: t('techStack.foundation.title'),
-            body: t('techStack.foundation.body'),
-          },
-          primaryCta: t('techStack.primaryCta'),
-          secondaryCta: t('techStack.secondaryCta'),
         },
         support: {
           heading: t('support.heading'),

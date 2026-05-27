@@ -50,7 +50,8 @@
         },
         {
           "label": "DOCS",
-          "href": "/technology-stack/storage",
+          "href": "https://github.com/logos-co/logos-docs",
+          "external": true,
           "variant": "secondary"
         }
       ]
@@ -63,7 +64,8 @@
       "description": "Files are addressed by content rather than by location. When you store a file, the network returns a CID — a content identifier derived from the file itself — and anyone with that CID can retrieve the file from whichever nodes hold it. There is no central server to depend on and no single host to fail. The usage is straightforward: store a file and get back a content identifier; provide a content identifier and get back the file. Storage works both inside the Logos App and from your own applications, through either the high-level module API or the lower-level libstorage library.",
       "cta": {
         "label": "View the docs",
-        "href": "/technology-stack/storage"
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
       }
     },
     {
@@ -140,7 +142,8 @@
           "description": "Lorem ipsum dolor sit amet consectetur",
           "cta": {
             "label": "View the docs",
-            "href": "/technology-stack"
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true
           }
         },
         {

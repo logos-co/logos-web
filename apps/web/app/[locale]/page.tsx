@@ -42,26 +42,31 @@ export default async function HomePage({
   const page = await getPageCopy(ROUTE, locale)
 
   const hero = findSection<HeroSection>(page.sections, 'hero', 'home.atf')
+
   const techStack = findSection<TechStackOverviewSection>(
     page.sections,
     'techStackOverview',
     'home.techStack'
   )
+
   const parallelSocietyHeadline = findSection<FeaturedTextSection>(
     page.sections,
     'featuredText',
     'home.parallelSocietyHeadline'
   )
+
   const parallelSocietyGallery = findSection<GallerySection>(
     page.sections,
     'gallery',
     'home.parallelSociety'
   )
+
   const press = findSection<RelatedArticlesSection>(
     page.sections,
     'relatedArticles',
     'home.press'
   )
+
   const circlesCta = findSection<FeaturedTextSection>(
     page.sections,
     'featuredText',

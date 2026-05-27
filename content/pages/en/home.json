@@ -73,7 +73,11 @@
       "key": "home.techStack",
       "eyebrow": "A unified ecosystem. Private-by-default. Built for real life.",
       "title": "The Logos Technology Stack",
-      "cta": { "label": "See the Stack", "href": "/technology-stack" },
+      "cta": {
+        "label": "See the Stack",
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
+      },
       "basecamp": {
         "title": "Basecamp",
         "body": "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem.",
@@ -132,7 +136,8 @@
       "subheadingExtra": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
       "cta": {
         "label": "View the Docs",
-        "href": "/technology-stack"
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
       },
       "cards": [
         {
