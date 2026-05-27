@@ -483,38 +483,44 @@ function DocumentationSection({
   return (
     <section
       id="resources"
-      className="border-t border-brand-dark-green/10 pt-10"
+      className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 pt-[39px] pb-[100px] text-brand-dark-green"
     >
-      <div className="grid gap-6 px-3 pb-8 md:grid-cols-2 md:gap-0 md:pb-[77px]">
-        <h2 className="text-[30px] leading-none tracking-[-0.03em] md:text-h3-serif">
+      <div className="md:grid md:grid-cols-[1fr_1fr] md:gap-3">
+        <h2 className="text-h3-serif whitespace-nowrap">
           {data.title}
         </h2>
-        <p className="w-[226px] text-mono-s">{data.description}</p>
+        <p className="mt-5 w-[226px] text-mono-s md:mt-0">
+          {data.description}
+        </p>
       </div>
-      <div>
+
+      <div className="mt-[31px] grid gap-3 md:mt-[78px] md:grid-cols-3">
         {data.categories.map((category) => (
-          <div key={category.title}>
-            <h3 className="px-3 py-3 text-subhead-sans">{category.title}</h3>
-            <ul>
+          <div key={category.title} className="w-full">
+            <h3 className="flex h-[45px] items-start px-3 py-3 text-subhead-sans">
+              {category.title}
+            </h3>
+            <ul className="overflow-hidden rounded-xl">
               {category.links.map((link, index) => (
                 <li key={`${category.title}-${link.title}-${index}`}>
                   <Link
                     href={link.cta.href}
-                    className={`grid min-h-[50px] cursor-pointer grid-cols-1 gap-1 px-3 py-3 md:h-[50px] md:grid-cols-[1fr_1fr_179px] md:gap-0 md:py-0 ${
-                      index % 2 === 0 ? 'bg-gray-01' : 'bg-brand-off-white'
+                    aria-label={`${link.title}: ${link.cta.label}`}
+                    className={`flex h-[60px] cursor-pointer items-start gap-3 py-3 pr-3 pl-3 transition-colors hover:bg-accent-light-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-yellow ${
+                      index % 2 === 0 ? 'bg-gray-01' : 'bg-brand-dark-green/5'
                     }`}
+                    {...externalProps(link.cta)}
                   >
-                    <span className="flex items-center gap-3">
-                      <span className="w-[18px] text-mono-s">
-                        {(index + 1).toString().padStart(2, '0')}
+                    <span className="w-[18px] shrink-0 pt-1 text-body-sans font-medium">
+                      {(index + 1).toString().padStart(2, '0')}
+                    </span>
+                    <span className="flex min-w-0 flex-col gap-[6px]">
+                      <span className="text-body-serif whitespace-nowrap">
+                        {link.title}
                       </span>
-                      <span className="text-body-serif">{link.title}</span>
-                    </span>
-                    <span className="hidden text-mono-s md:block">
-                      {link.description}
-                    </span>
-                    <span className="hidden font-mono text-[10px] font-semibold uppercase underline underline-offset-[3px] md:block">
-                      {link.cta.label}
+                      <span className="w-[312px] max-w-full text-mono-s">
+                        {link.description}
+                      </span>
                     </span>
                   </Link>
                 </li>
