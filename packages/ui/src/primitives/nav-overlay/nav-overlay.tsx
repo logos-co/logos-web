@@ -90,13 +90,13 @@ function Chevron({ direction }: { direction: 'left' | 'right' }) {
 
 function getActionImageClassName(label: string) {
   if (label === 'Build') {
-    return 'absolute top-[-334px] left-0 h-[904px] w-[723px]'
+    return 'absolute inset-0 md:top-[-334px] md:left-0 md:h-[904px] md:w-[723px]'
   }
   if (label === 'Operate') {
-    return 'absolute top-[-301px] left-0 h-[571px] w-[713px]'
+    return 'absolute inset-0 md:top-[-301px] md:left-0 md:h-[571px] md:w-[713px]'
   }
   if (label === 'Movement') {
-    return 'absolute top-[-144px] left-0 h-[350px] w-[711px]'
+    return 'absolute inset-0 md:top-[-144px] md:left-0 md:h-[350px] md:w-[711px]'
   }
   return 'absolute inset-0'
 }

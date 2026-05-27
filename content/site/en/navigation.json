@@ -53,9 +53,15 @@
         {
           "label": "Resources",
           "links": [
-            { "label": "Docs", "href": "/technology-stack" },
-            { "label": "Events", "href": "/movement" },
-            { "label": "Join Community", "href": "https://discord.gg/logos" },
+            {
+              "label": "Docs",
+              "href": "https://github.com/logos-co/logos-docs"
+            },
+            { "label": "Events", "href": "/circles" },
+            {
+              "label": "Join Community",
+              "href": "https://discord.gg/logosnetwork"
+            },
             { "label": "Install Basecamp", "href": "/basecamp" }
           ]
         }
@@ -83,7 +89,7 @@
         },
         {
           "label": "Movement",
-          "href": "/circles",
+          "href": "/movement",
           "ctaLabel": "Join a circle",
           "description": "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections.",
           "image": {
@@ -108,7 +114,7 @@
         {
           "label": "Socials",
           "links": [
-            { "label": "Discord", "href": "https://discord.gg/logos" },
+            { "label": "Discord", "href": "https://discord.gg/logosnetwork" },
             { "label": "Status", "href": "https://forum.logos.co/" },
             { "label": "Basecamp", "href": "/basecamp" },
             {
@@ -174,7 +180,10 @@
         {
           "label": "Resources",
           "links": [
-            { "label": "Documentation", "href": "/technology-stack" },
+            {
+              "label": "Documentation",
+              "href": "https://github.com/logos-co/logos-docs"
+            },
             { "label": "GitHub", "href": "https://github.com/logos-co" },
             { "label": "Builder Hub", "href": "/builders-hub" }
           ]
