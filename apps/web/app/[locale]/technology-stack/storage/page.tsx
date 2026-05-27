@@ -11,9 +11,9 @@ import StorageBuilderCta from '@/components/sections/storage/storage-builder-cta
 import StorageHero from '@/components/sections/storage/storage-hero'
 import StorageAccess from '@/components/sections/storage/storage-access'
 import StorageMain from '@/components/sections/storage/storage-main'
-import StorageRelatedArticles from '@/components/sections/storage/storage-related-articles'
 import StorageTechStack from '@/components/sections/storage/storage-tech-stack'
 import StorageUseCases from '@/components/sections/storage/storage-use-cases'
+import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
@@ -32,7 +32,7 @@ const findSection = createSectionFinder('storage')
  *   - storage.main            → StorageMain
  *   - storage.useCases        → StorageUseCases
  *   - storage.builderCta      → StorageBuilderCta
- *   - storage.relatedArticles → StorageRelatedArticles
+ *   - storage.relatedArticles → TechStackRelatedArticles
  *
  * `StorageTechStack` composes the shared tech stack explorer so the card grid
  * stays aligned with `/technology-stack`.
@@ -87,7 +87,7 @@ export default async function StoragePage({
       <StorageUseCases data={useCases} />
       <StorageBuilderCta data={builderCta} />
       <StorageTechStack locale={locale} />
-      <StorageRelatedArticles data={relatedArticles} articles={articles} />
+      <TechStackRelatedArticles data={relatedArticles} articles={articles} />
     </>
   )
 }

@@ -1,12 +1,6 @@
 /**
- * Shared building blocks for the per-domain `*-related-articles.tsx` sections
- * on the technology-stack pages (blockchain / storage / networking /
- * messaging).
- *
- * The four pages keep their own outer layout to preserve Figma pixel fidelity
- * (each frame has different absolute/flow positioning, heights, and Button
- * variants), but the article-card markup and Press Engine row → card-prop
- * reshape are byte-identical and live here.
+ * Shared building blocks for related-articles sections on technology-stack
+ * pages.
  */
 import Image from 'next/image'
 

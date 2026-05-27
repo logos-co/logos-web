@@ -11,8 +11,8 @@ import MessagingBuilderCta from '@/components/sections/messaging/messaging-build
 import MessagingCaseStudies from '@/components/sections/messaging/messaging-case-studies'
 import MessagingHero from '@/components/sections/messaging/messaging-hero'
 import MessagingIntro from '@/components/sections/messaging/messaging-intro'
-import MessagingRelatedArticles from '@/components/sections/messaging/messaging-related-articles'
 import MessagingTechStack from '@/components/sections/messaging/messaging-tech-stack'
+import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
@@ -31,7 +31,7 @@ const findSection = createSectionFinder('messaging')
  *                              → MessagingIntro
  *   - messaging.caseStudies     → MessagingCaseStudies
  *   - messaging.builderCta      → MessagingBuilderCta
- *   - messaging.relatedArticles → MessagingRelatedArticles
+ *   - messaging.relatedArticles → TechStackRelatedArticles
  *
  * `MessagingTechStack` composes the shared tech stack explorer so the card
  * grid stays aligned with `/technology-stack`.
@@ -90,7 +90,11 @@ export default async function MessagingPage({
       <MessagingCaseStudies data={caseStudies} />
       <MessagingBuilderCta data={builderCta} />
       <MessagingTechStack locale={locale} />
-      <MessagingRelatedArticles data={relatedArticles} articles={articles} />
+      <TechStackRelatedArticles
+        data={relatedArticles}
+        articles={articles}
+        sectionClassName="mt-0 md:mt-0"
+      />
     </>
   )
 }

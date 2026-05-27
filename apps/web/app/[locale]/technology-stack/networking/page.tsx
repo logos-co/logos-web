@@ -11,7 +11,7 @@ import NetworkingBuilderCta from '@/components/sections/networking/networking-bu
 import NetworkingFeatures from '@/components/sections/networking/networking-features'
 import NetworkingHero from '@/components/sections/networking/networking-hero'
 import NetworkingIntro from '@/components/sections/networking/networking-intro'
-import NetworkingRelatedArticles from '@/components/sections/networking/networking-related-articles'
+import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 import TechStackExplorer from '@/components/sections/shared/tech-stack-explorer'
 
 import { ROUTES } from '@/constants/routes'
@@ -73,7 +73,7 @@ export default async function NetworkingPage({
       <NetworkingFeatures data={features} />
       <NetworkingBuilderCta data={builderCta} />
       <TechStackExplorer locale={locale} />
-      <NetworkingRelatedArticles data={relatedArticles} articles={articles} />
+      <TechStackRelatedArticles data={relatedArticles} articles={articles} />
     </>
   )
 }
