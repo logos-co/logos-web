@@ -18,6 +18,7 @@ export default function MessagingHero({ data, backHref }: Props) {
   return (
     <Reveal amount={0.2}>
       <TechDetailHero
+        className="md:h-[453px]"
         title={data.headline}
         body={data.body}
         bodySecondary={data.bodySecondary}
