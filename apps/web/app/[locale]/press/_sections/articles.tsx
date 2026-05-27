@@ -3,6 +3,7 @@
  * and the full-bleed featured spread.
  */
 import Image from 'next/image'
+import { LogosMark } from '@acid-info/logos-ui'
 
 import { ExternalLink } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
@@ -11,6 +12,7 @@ import type { PressArticleRow } from '@/lib/press-engine'
 import {
   ArrowIcon,
   Dot,
+  PlayIcon,
   PressRowLink,
   RowThumbnail,
   SectionCta,
@@ -19,6 +21,8 @@ import {
 } from './press-atoms'
 
 const PRESS_HERO_IMAGE = '/images/press-engine/press-hero.jpg'
+const BROADCAST_BACKGROUND_IMAGE =
+  '/images/press-engine/broadcast-network-bg.webp'
 
 export interface PressCopy {
   heroHeading: string
@@ -34,7 +38,8 @@ export interface PressCopy {
   seeMoreArticles: string
   broadcastHeading: string
   broadcastDescription: string
-  watch: string
+  media: string
+  latestEpisode: string
   broadcastCta: string
 }
 
@@ -257,15 +262,19 @@ export function ArticlesCta({ href, label }: { href: string; label: string }) {
 }
 
 export function BroadcastSection({
-  articles,
   href,
+  latestEpisodeTitle,
   copy,
 }: {
-  articles: PressArticleRow[]
   href: string
+  latestEpisodeTitle: string
   copy: Pick<
     PressCopy,
-    'broadcastHeading' | 'broadcastDescription' | 'watch' | 'broadcastCta'
+    | 'broadcastHeading'
+    | 'broadcastDescription'
+    | 'media'
+    | 'latestEpisode'
+    | 'broadcastCta'
   >
 }) {
   return (
@@ -273,62 +282,58 @@ export function BroadcastSection({
       id="broadcast"
       className="bg-accent-tan pt-[100px] text-brand-dark-green"
     >
-      <div className="flex items-start justify-between gap-3 px-3 pb-3">
-        <h2 className="w-full font-sans text-[36px] leading-none tracking-[-0.02em] md:w-[702px]">
-          {copy.broadcastHeading}
-        </h2>
-        <p className="text-mono-s hidden w-[345px] md:block">
-          {copy.broadcastDescription}
-        </p>
-        <p
-          aria-hidden="true"
-          className="text-mono-s hidden w-[345px] opacity-0 md:block"
+      <div className="px-3 pb-3">
+        <Link
+          href={href}
+          className="group relative block h-[560px] cursor-pointer overflow-hidden rounded-xl bg-brand-dark-green text-brand-off-white md:h-[406px]"
         >
-          {copy.broadcastDescription}
-        </p>
-      </div>
-      <div>
-        {articles.map((article, index) => (
-          <PressRowLink
-            key={`${article.title}-broadcast-${index}`}
-            href={article.href}
-            index={index}
-            className="h-[107px]"
-          >
-            <RowThumbnail
-              src={article.thumbnailImage}
-              className="left-3 top-[15px] w-[107px]"
+          <div className="absolute inset-0 blur-[30px] md:inset-auto md:left-[-39px] md:top-1/2 md:h-[1897px] md:w-[1518px] md:-translate-y-1/2">
+            <Image
+              src={BROADCAST_BACKGROUND_IMAGE}
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-cover"
             />
-            <div className="absolute left-[119px] top-0 flex h-full w-[274px] flex-col justify-center gap-1.5 py-3 pl-3 md:grid md:w-[1150px] md:grid-cols-[595px_543px] md:gap-x-3 md:p-0">
-              <div className="flex flex-col justify-center md:py-3 md:pl-3">
-                <h3 className="w-[250px] text-[18px] leading-[1.15] tracking-[-0.01em] md:w-[333px]">
-                  {article.titleSerif ? (
-                    <>
-                      <span className="font-display block leading-[1.1]">
-                        {article.titleSerif}
-                      </span>
-                      <span className="font-sans block">
-                        {article.title.replace(article.titleSerif, '').trim()}
-                      </span>
-                    </>
-                  ) : (
-                    <span className="font-sans">{article.title}</span>
-                  )}
-                </h3>
-              </div>
-              <div className="hidden md:flex md:items-start md:gap-[132px]">
-                <p className="text-mono-s w-[345px] py-3">
-                  {article.description}
-                </p>
-                <div className="shrink-0 py-3">
-                  <UnderlineLabel>{copy.watch}</UnderlineLabel>
-                </div>
-              </div>
+          </div>
+          <div className="absolute inset-0 bg-black/40" />
+
+          <div className="absolute left-3 top-3 flex h-[calc(100%-24px)] w-[calc(100%-24px)] flex-col justify-between md:h-[380px] md:w-[453px]">
+            <div className="flex items-center gap-[102px]">
+              <LogosMark size={6} className="shrink-0 text-brand-off-white" />
+              <p className="font-mono text-[10px] font-medium uppercase leading-[1.3] text-brand-off-white">
+                {copy.media}
+              </p>
             </div>
-          </PressRowLink>
-        ))}
+
+            <div className="mb-[226px] flex w-full flex-col gap-3 md:mb-0">
+              <h2 className="w-[185px] font-sans text-[24px] leading-[1.1] tracking-[-0.01em] text-brand-off-white">
+                {copy.broadcastHeading}
+              </h2>
+              <p className="font-mono text-[10px] leading-[1.3] text-brand-off-white md:w-full">
+                {copy.broadcastDescription}
+              </p>
+            </div>
+
+            <div className="flex h-[30px] min-w-0 items-center gap-2.5">
+              <PlayIcon inverted />
+              <p className="shrink-0 whitespace-nowrap font-sans text-[14px] font-medium leading-[1.2] text-brand-off-white">
+                {copy.latestEpisode}
+              </p>
+              <p className="min-w-0 truncate whitespace-nowrap font-display text-[14px] leading-[1.2] text-gray-03">
+                {latestEpisodeTitle}
+              </p>
+            </div>
+          </div>
+
+          <div className="absolute left-3 right-3 top-[292px] h-[158px] overflow-hidden rounded-[72px] bg-accent-tan text-brand-dark-green transition-colors group-hover:bg-brand-yellow md:left-auto md:right-3 md:top-3 md:h-[382px] md:w-[702px] md:rounded-[100px]">
+            <span className="absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35]">
+              {copy.broadcastCta}
+              <ArrowIcon />
+            </span>
+          </div>
+        </Link>
       </div>
-      <SectionCta href={href} label={copy.broadcastCta} />
     </section>
   )
 }

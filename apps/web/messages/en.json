@@ -811,8 +811,9 @@
       "broadcast": {
         "heading": "Logos Broadcast Network",
         "description": "Regular programming, live sessions, and office hours for your viewing pleasure",
-        "watch": "Watch",
-        "cta": "Logos broadcast network"
+        "media": "Media",
+        "latestEpisode": "Latest episode",
+        "cta": "Learn more"
       }
     },
     "podcast": {

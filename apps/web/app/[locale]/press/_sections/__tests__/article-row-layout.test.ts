@@ -23,4 +23,16 @@ describe('press article row layout', () => {
     expect(articlesSource).toContain('md:grid-cols-[595px_543px]')
     expect(articlesSource).toContain('md:gap-[132px]')
   })
+
+  test('renders the broadcast network panel as the Figma-linked route card', () => {
+    const articlesSource = readSectionFile('articles.tsx')
+
+    expect(articlesSource).toContain('BROADCAST_BACKGROUND_IMAGE')
+    expect(articlesSource).toContain('href={href}')
+    expect(articlesSource).toContain('rounded-[100px]')
+    expect(articlesSource).toContain('copy.latestEpisode')
+    expect(articlesSource).not.toContain(
+      'key={`${article.title}-broadcast-${index}`}'
+    )
+  })
 })
