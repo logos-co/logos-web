@@ -9,7 +9,7 @@ const CirclesLeafletMap = dynamic(() => import('./circles-leaflet-map'), {
   ssr: false,
   loading: () => (
     <section id="map" className="bg-brand-off-white px-3 pb-3 md:pb-12">
-      <div className="relative mx-auto h-[720px] max-w-[369px] overflow-hidden rounded-[100px] bg-gray-01 md:h-[675px] md:max-w-[1416px] md:rounded-[64px]" />
+      <div className="relative h-[720px] overflow-hidden rounded-[100px] bg-gray-01 md:h-[675px] md:rounded-[64px]" />
     </section>
   ),
 })

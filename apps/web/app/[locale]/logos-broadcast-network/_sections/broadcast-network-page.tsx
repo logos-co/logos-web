@@ -207,7 +207,7 @@ function UnderlineLabel({ children }: { children: string }) {
 function BroadcastHero({ copy }: { copy: BroadcastNetworkCopy }) {
   return (
     <section className="bg-accent-tan px-3 pb-[100px] pt-16 text-brand-dark-green md:pt-6">
-      <div className="mx-auto flex w-full max-w-[1416px] flex-col gap-10">
+      <div className="flex w-full flex-col gap-10">
         <div className="flex w-full max-w-[1186px] items-start justify-between gap-6">
           <div className="relative h-[86px] w-[107px] shrink-0 overflow-hidden">
             <Image
