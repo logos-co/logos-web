@@ -38,24 +38,20 @@
     },
     "socialProof": {
       "contributions": {
-        "value": "2262",
-        "label": "Contributions",
+        "label": "Total contributions",
         "body": "An open source community of builders, researchers, and technologists."
       },
-      "nodes": {
-        "value": "205",
-        "label": "Node Operators",
+      "contributors": {
+        "label": "Active contributors",
+        "body": "An open source community of builders, researchers, and technologists."
+      },
+      "repositories": {
+        "label": "Repositories",
         "body": "Open source tools, libraries, and infrastructure to inspect, fork, and build on."
       },
       "circles": {
-        "value": "26",
         "label": "Circles",
         "body": "Local chapters of activists and change seekers solving real world issues."
-      },
-      "issues": {
-        "value": "26",
-        "label": "Winnable Issues",
-        "body": "Local issues that Circles identify and solve – from privacy tech to community funding."
       }
     },
     "build": {

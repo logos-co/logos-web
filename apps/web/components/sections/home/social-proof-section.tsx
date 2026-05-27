@@ -3,8 +3,10 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
+import type { SocialProofStats } from '@/lib/social-proof-stats'
+
 interface SocialProofCard {
-  key: 'contributions' | 'nodes' | 'circles' | 'issues'
+  key: 'contributions' | 'contributors' | 'repositories' | 'circles'
   value: string
   label: string
   body: string
@@ -49,13 +51,17 @@ function SocialProofCardView({
   )
 }
 
-export default function SocialProofSection() {
+interface SocialProofSectionProps {
+  stats: SocialProofStats
+}
+
+export default function SocialProofSection({ stats }: SocialProofSectionProps) {
   const t = useTranslations('home.socialProof')
 
   const cards: SocialProofCard[] = [
     {
       key: 'contributions',
-      value: t('contributions.value'),
+      value: stats.contributions,
       label: t('contributions.label'),
       body: t('contributions.body'),
       image: '/images/home/figma-refresh/social-contributions.webp',
@@ -63,31 +69,31 @@ export default function SocialProofSection() {
       imageClassName: 'object-[47%_52%]',
     },
     {
-      key: 'nodes',
-      value: t('nodes.value'),
-      label: t('nodes.label'),
-      body: t('nodes.body'),
+      key: 'contributors',
+      value: stats.contributors,
+      label: t('contributors.label'),
+      body: t('contributors.body'),
       image: '/images/home/figma-refresh/social-node.webp',
       mobileClassName: 'h-[432px]',
       imageClassName: 'object-[50%_52%]',
     },
     {
+      key: 'repositories',
+      value: stats.repositories,
+      label: t('repositories.label'),
+      body: t('repositories.body'),
+      image: '/images/home/figma-refresh/social-issues.webp',
+      mobileClassName: 'h-[411px]',
+      imageClassName: 'object-[47%_51%]',
+    },
+    {
       key: 'circles',
-      value: t('circles.value'),
+      value: stats.circles,
       label: t('circles.label'),
       body: t('circles.body'),
       image: '/images/home/figma-refresh/social-circles.webp',
-      mobileClassName: 'h-[411px]',
-      imageClassName: 'object-[50%_50%]',
-    },
-    {
-      key: 'issues',
-      value: t('issues.value'),
-      label: t('issues.label'),
-      body: t('issues.body'),
-      image: '/images/home/figma-refresh/social-issues.webp',
       mobileClassName: 'h-[432px]',
-      imageClassName: 'object-[47%_51%]',
+      imageClassName: 'object-[50%_50%]',
     },
   ]
 

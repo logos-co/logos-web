@@ -23,6 +23,7 @@ import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 import { getLatestPressArticles } from '@/lib/press-engine'
+import { getSocialProofStats } from '@/lib/social-proof-stats'
 
 const findSection = createSectionFinder('home')
 
@@ -73,12 +74,15 @@ export default async function HomePage({
     'home.circlesCta'
   )
 
-  const articles = await getLatestPressArticles(press.visibleCount ?? 4)
+  const [articles, socialProofStats] = await Promise.all([
+    getLatestPressArticles(press.visibleCount ?? 4),
+    getSocialProofStats(),
+  ])
 
   return (
     <>
       <HeroSectionView data={hero} />
-      <SocialProofSection />
+      <SocialProofSection stats={socialProofStats} />
       <AboutSection locale={locale} />
       <BuilderPortalSection locale={locale} />
       <FeatureCardsSection />
