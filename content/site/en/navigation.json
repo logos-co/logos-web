@@ -257,7 +257,7 @@
         {
           "label": "Resources",
           "links": [
-            { "label": "Specs / RFC", "href": "/technology-stack" },
+            { "label": "Specs / RFC", "href": "https://research.logos.co/" },
             { "label": "Research Forum", "href": "https://forum.logos.co/" }
           ]
         }
@@ -277,7 +277,7 @@
             },
             {
               "label": "R&D Service Units",
-              "href": "/research",
+              "href": "https://research.logos.co/",
               "description": "Base components and secure, unbiased protocols",
               "image": {
                 "src": "/nav-overlay/figma/research-thumb.webp",
