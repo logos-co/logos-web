@@ -8,7 +8,6 @@ import {
   AFFORM,
   AFFORM_NAME,
   AFFORM_OPTIONS,
-  AFFORM_PAGE_HEADING,
   AFFORM_PAGE_INTRO,
   AFFORM_PAGE_PRIVACY,
   AFFORM_PAGE_PRIVACY_LINK,
@@ -29,10 +28,7 @@ function getAfformSubmitApiUrl() {
 
 export default function CoalitionPartnerPage() {
   return (
-    <ConnectPageLayout
-      heading={AFFORM_PAGE_HEADING || 'Coalition Partner'}
-      intro={AFFORM_PAGE_INTRO || undefined}
-    >
+    <ConnectPageLayout intro={AFFORM_PAGE_INTRO || undefined}>
       <ConnectFormSection
         afform={AFFORM}
         afformOptions={AFFORM_OPTIONS}
