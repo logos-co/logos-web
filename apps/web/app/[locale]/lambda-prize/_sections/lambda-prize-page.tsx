@@ -127,7 +127,7 @@ function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
         priority
       />
       <div className="absolute inset-0 bg-brand-dark-green/35" />
-      <div className="relative z-10 mx-auto flex h-full max-w-[1416px] items-center justify-center">
+      <div className="relative z-10 flex h-full items-center justify-center">
         <div className="flex w-full -translate-y-[6px] flex-col items-center text-center">
           <div className="text-h4-serif mb-[60px] inline-flex items-center gap-3">
             <LogosMark size={20} />

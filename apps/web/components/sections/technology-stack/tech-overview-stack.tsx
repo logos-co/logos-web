@@ -51,7 +51,7 @@ export default function TechOverviewStack({
       id="stack"
       className="bg-brand-off-white px-3 pb-[27px] md:pb-[100px]"
     >
-      <div className="mx-auto max-w-354">
+      <div>
         {data.architecture ? (
           <div className="-mx-3 mb-10 h-[658px] bg-gray-01 px-3 py-3 md:mb-[100px] md:h-[381px]">
             <div className="grid md:grid-cols-2 md:gap-3">
@@ -93,7 +93,7 @@ export default function TechOverviewStack({
                 </div>
               </div>
 
-              <div className="relative h-[317px] overflow-hidden rounded-[24px] md:h-[357px] md:rounded-xl">
+              <div className="relative h-[317px] overflow-hidden rounded-[24px] md:h-[357px] md:rounded-[24px]">
                 <div className="absolute top-[-53px] left-0 h-[936px] w-[702px] md:top-[-33px]">
                   <Image
                     src={data.architecture.image.src}

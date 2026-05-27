@@ -9,9 +9,9 @@ type Props = {
 export default function TechOverviewModular({ data }: Props) {
   return (
     <section className="my-10 bg-brand-off-white p-3 md:my-[102px]">
-      <div className="mx-auto max-w-354">
+      <div>
         <div className="grid gap-3 md:grid-cols-2">
-          <div className="relative h-[248px] overflow-hidden rounded-[100px] md:h-[518px] md:rounded-xl">
+          <div className="relative h-[248px] overflow-hidden rounded-[100px] md:h-[518px] md:rounded-[100px]">
             <Image
               src={
                 data.image?.src ??
@@ -26,7 +26,7 @@ export default function TechOverviewModular({ data }: Props) {
 
           <div className="relative h-[572px] overflow-hidden rounded-xl bg-gray-01 p-6 md:h-[518px]">
             {data.eyebrow ? (
-              <div className="text-mono-s absolute top-[-7px] left-1/2 flex -translate-x-1/2 items-center gap-[88px] text-brand-dark-green uppercase opacity-0 md:top-6 md:left-6 md:translate-x-0 md:gap-[81px] md:opacity-100">
+              <div className="text-mono-s absolute top-[-7px] left-1/2 flex -translate-x-1/2 items-center gap-[88px] text-brand-dark-green uppercase opacity-0 md:top-6 md:left-6 md:translate-x-0 md:gap-[88px] md:opacity-100">
                 <span className="size-[7px] rotate-45 bg-brand-dark-green" />
                 <span>{data.eyebrow}</span>
               </div>
