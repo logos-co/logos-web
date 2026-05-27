@@ -111,7 +111,7 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
         amount={0.4}
         delay={0.18}
         viewportMargin="0px 0px -20% 0px"
-        className="absolute top-[132px] right-3 left-3 mx-auto max-w-354"
+        className="absolute top-[132px] right-3 left-3"
       >
         <h2 className="text-h1 text-brand-dark-green text-center">
           <span className="text-brand-dark-green">

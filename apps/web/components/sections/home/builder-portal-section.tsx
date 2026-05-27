@@ -44,7 +44,7 @@ export default async function BuilderPortalSection({
 
   return (
     <section className="relative border-t border-brand-dark-green/10 bg-brand-off-white py-[100px] md:h-[1045px] md:py-0">
-      <div className="mx-auto max-w-354 px-3 md:absolute md:inset-x-0 md:top-[212px] md:px-0">
+      <div className="px-3 md:absolute md:inset-x-0 md:top-[212px] md:px-3">
         <div className="grid gap-3 md:grid-cols-[464px_minmax(0,940px)]">
           <div className="flex flex-col gap-[40px] md:min-h-[532px] md:justify-between md:gap-0">
             <div className="flex flex-col gap-[30px]">

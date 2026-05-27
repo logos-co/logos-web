@@ -98,7 +98,7 @@ export default function FeatureCardsSection() {
 
   return (
     <section className="relative hidden h-[848px] border-t border-brand-dark-green/10 bg-brand-off-white md:block">
-      <div className="mx-auto max-w-354">
+      <div>
         <p className="text-mono-s absolute top-6 left-[calc(50%+6px)] w-[226px] text-brand-dark-green">
           {t('kicker')}
         </p>
@@ -111,7 +111,7 @@ export default function FeatureCardsSection() {
           {t('body')}
         </p>
 
-        <div className="absolute top-[372px] left-1/2 grid w-[1416px] -translate-x-1/2 grid-cols-3 gap-3">
+        <div className="absolute top-[372px] left-3 right-3 grid grid-cols-3 gap-3">
           {cards.map((card) => (
             <PathCardView key={card.key} card={card} />
           ))}

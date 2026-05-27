@@ -131,7 +131,7 @@ export default function PressSection({ data, articles }: Props) {
 
   return (
     <section id="press" className="h-[880px] bg-brand-off-white py-3">
-      <div className="mx-auto max-w-354 px-3 md:px-0">
+      <div className="px-3">
         <div className="relative h-[856px] overflow-hidden rounded-xl bg-accent-tan">
           {data.label ? (
             <p className="text-mono-s absolute top-6 left-3 w-56.5 text-brand-dark-green">
