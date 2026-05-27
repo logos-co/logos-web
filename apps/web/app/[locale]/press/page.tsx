@@ -55,7 +55,7 @@ export default async function PressPage({
 
   const repeatedArticles = repeatToLength(articles, 12)
   const galleryArticles = articles.slice(0, 4)
-  const broadcastArticles = repeatToLength(articles, 4)
+  const latestBroadcastEpisode = podcasts[0]
   const featuredArticle =
     articles.find((article) => article.href.endsWith('/article/realfi-hack')) ??
     articles[0]
@@ -117,12 +117,13 @@ export default async function PressPage({
         }}
       />
       <BroadcastSection
-        articles={broadcastArticles}
         href={ROUTES.logosBroadcastNetwork}
+        latestEpisodeTitle={latestBroadcastEpisode.title}
         copy={{
           broadcastHeading: t('broadcast.heading'),
           broadcastDescription: t('broadcast.description'),
-          watch: t('broadcast.watch'),
+          media: t('broadcast.media'),
+          latestEpisode: t('broadcast.latestEpisode'),
           broadcastCta: t('broadcast.cta'),
         }}
       />

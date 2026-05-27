@@ -496,16 +496,16 @@ function EpisodeRow({
         background
       )}
     >
-      <div className="absolute left-3 top-3 size-[107px] overflow-hidden">
+      <div className="absolute left-3 top-3 h-[107px] w-[190px] overflow-hidden">
         <Image
           src={podcast.image}
           alt=""
           fill
-          sizes="107px"
+          sizes="190px"
           className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
       </div>
-      <div className="absolute left-[119px] top-0 grid h-full w-[1150px] grid-cols-[595px_345px_1fr] gap-x-3">
+      <div className="absolute left-[202px] top-0 grid h-full w-[1150px] grid-cols-[595px_345px_1fr] gap-x-3">
         <div className="flex h-full flex-col justify-between py-3 pl-3">
           <div className="text-mono-s flex items-center gap-2.5">
             <span>{podcast.date}</span>
@@ -519,7 +519,7 @@ function EpisodeRow({
             </h3>
           </div>
         </div>
-        <p className="text-mono-s line-clamp-4 py-3">{podcast.description}</p>
+        <div aria-hidden="true" />
         <div className="py-3">
           <UnderlineLabel>{listenOnApp}</UnderlineLabel>
         </div>

@@ -187,7 +187,7 @@ function TextLinkSection({
             <LinkAs
               href={link.href}
               onClick={onClose}
-              className="block cursor-pointer font-display text-[24px] leading-[1.1] text-brand-off-white transition-opacity hover:opacity-60"
+              className="block w-fit cursor-pointer font-display text-[24px] leading-[1.1] text-brand-off-white transition-opacity hover:opacity-60"
               {...externalLinkProps(link.href)}
             >
               {link.label}
