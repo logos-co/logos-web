@@ -32,6 +32,7 @@ const repoPressArticlePaths = [
   'packages/content/src/schemas/press.ts',
 ].map((path) => join(repoRoot, path))
 const jobsHref = 'https://free.technology/jobs'
+const onboardingCalendarHref = 'https://cal.com/team/logos-onboarding/intro'
 const routeUsageAllowlist = new Set([
   'apps/web/app/[locale]/work-with-us/page.tsx',
   'apps/web/app/sitemap.ts',
@@ -68,7 +69,7 @@ describe('link policy', () => {
         }),
         expect.objectContaining({
           label: 'R&D Service Units',
-          href: ROUTES.research,
+          href: 'https://research.logos.co/',
         }),
       ])
     )
@@ -122,22 +123,26 @@ describe('link policy', () => {
       })
     )
 
-    const supportCtas = buildersHubSettings.support.cards.map(
-      (card) => card.cta
-    )
     const overviewCtas = buildersHubSettings.overviewLinks.map(
       (link) => link.primaryCta
     )
 
-    expect(supportCtas).toContainEqual(
+    expect(overviewCtas).toContainEqual(
       expect.objectContaining({
         href: jobsHref,
         external: true,
       })
     )
-    expect(overviewCtas).toContainEqual(
+  })
+
+  it('routes the Builders Hub onboarding support CTA to the calendar', () => {
+    const supportCard = buildersHubSettings.support.cards.find(
+      (card) => card.title === 'Schedule a call and speak with a contributor'
+    )
+
+    expect(supportCard?.cta).toEqual(
       expect.objectContaining({
-        href: jobsHref,
+        href: onboardingCalendarHref,
         external: true,
       })
     )
