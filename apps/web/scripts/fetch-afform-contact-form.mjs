@@ -337,6 +337,31 @@ function findAllTextByTag(children, tag, out = []) {
   return out;
 }
 
+function decodeHtmlEntities(text) {
+  return String(text ?? "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function findAllAfMarkupBlocks(children, out = []) {
+  if (!Array.isArray(children)) return out;
+  for (const node of children) {
+    if (!node || typeof node !== "object") continue;
+    if (String(node.class ?? "").includes("af-markup")) {
+      out.push({
+        text: decodeHtmlEntities(getTextRecursive(node["#children"] ?? [])),
+        link: findFirstLinkHref(node["#children"] ?? []) || "",
+      });
+    }
+    if (node["#children"]) findAllAfMarkupBlocks(node["#children"], out);
+  }
+  return out;
+}
+
 function findTextByClass(children, className) {
   if (!Array.isArray(children)) return "";
   for (const node of children) {
@@ -382,12 +407,17 @@ function extractPageCopy(layout) {
   for (const node of layout) {
     if (!node?.["#children"]) continue;
     const kids = node["#children"];
-    result.pageHeading = findFirstTextInLayout(kids, "h1");
-    const allParagraphs = findAllTextByTag(kids, "p", []);
-    result.pageIntro = allParagraphs[0] ?? "";
-    result.pagePrivacy = findTextByClass(kids, "af-markup");
-    result.pagePrivacyLink = findFirstLinkHrefByClass(kids, "af-markup");
-    if (!result.pagePrivacy && allParagraphs.length > 1) result.pagePrivacy = allParagraphs[1];
+    result.pageHeading = decodeHtmlEntities(findFirstTextInLayout(kids, "h1"));
+    const allParagraphs = findAllTextByTag(kids, "p", []).map(decodeHtmlEntities);
+    const markupBlocks = findAllAfMarkupBlocks(kids);
+    const privacyBlock = markupBlocks.find((b) => /privacy|consent/i.test(b.text));
+    const introBlock = markupBlocks.find((b) => !/privacy|consent/i.test(b.text));
+    result.pageIntro = introBlock?.text || allParagraphs[0] || "";
+    result.pagePrivacy = privacyBlock?.text || "";
+    result.pagePrivacyLink = privacyBlock?.link || "";
+    if (!result.pagePrivacy && allParagraphs.length > 1) {
+      result.pagePrivacy = allParagraphs[allParagraphs.length - 1];
+    }
     if (result.pageHeading || result.pageIntro || result.pagePrivacy) break;
   }
   return result;
