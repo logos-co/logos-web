@@ -126,57 +126,28 @@ export default function SiteHeaderClient({
       >
         <div
           className={clsx(
-            'relative grid h-10 grid-cols-3 items-center px-3 transition-colors duration-300 min-[640px]:hidden',
+            'relative h-10 transition-colors duration-300 min-[640px]:hidden',
             headerToneClass
           )}
         >
           <a
             href={ROUTES.home}
-            className="absolute top-3.5 left-3 inline-flex cursor-pointer items-center gap-1 transition-opacity hover:opacity-70"
+            className="absolute top-1/2 left-3 -translate-y-1/2 inline-flex cursor-pointer items-center gap-1 transition-opacity hover:opacity-70"
           >
             <span className="sr-only">{closedBar.brandLabel}</span>
             <LambdaGlyph />
             <LogosWordmark className="translate-y-[1px]" />
           </a>
 
-          <nav
-            aria-label="Primary"
-            className="hidden items-center justify-center gap-10 min-[640px]:flex"
+          <button
+            type="button"
+            onClick={open}
+            aria-expanded={isOpen}
+            aria-label={closedBar.openAriaLabel}
+            className="text-eyebrow absolute top-1/2 left-[62.5%] -translate-x-1/2 -translate-y-1/2 font-semibold inline-flex cursor-pointer items-center gap-1.5 transition-opacity hover:opacity-70"
           >
-            {menuPanels.map((panel) => (
-              <button
-                key={panel.label}
-                type="button"
-                onClick={() => openPanel(panel.label)}
-                className="text-eyebrow font-semibold cursor-pointer whitespace-nowrap uppercase transition-opacity hover:opacity-70"
-              >
-                {panel.label}
-              </button>
-            ))}
-          </nav>
-
-          <div className="flex justify-center min-[640px]:hidden">
-            <button
-              type="button"
-              onClick={open}
-              aria-expanded={isOpen}
-              aria-label={closedBar.openAriaLabel}
-              className="text-eyebrow -mx-3 inline-flex min-h-10 cursor-pointer items-center gap-1.5 px-3 tracking-[0.08em] transition-opacity hover:opacity-70"
-            >
-              {closedBar.menuLabel} <HamburgerIcon />
-            </button>
-          </div>
-
-          <div className="flex justify-end">
-            {primaryCta ? (
-              <Link
-                href={primaryCta.href}
-                className="text-eyebrow hidden min-h-7 cursor-pointer items-center rounded-2xl bg-brand-dark-green px-4 uppercase text-brand-off-white transition-opacity hover:opacity-85 min-[640px]:inline-flex"
-              >
-                {primaryCta.label}
-              </Link>
-            ) : null}
-          </div>
+            {closedBar.menuLabel} <HamburgerIcon />
+          </button>
         </div>
 
         <div
@@ -187,7 +158,7 @@ export default function SiteHeaderClient({
         >
           <a
             href={ROUTES.home}
-            className="absolute top-3.5 left-3 inline-flex cursor-pointer items-center gap-1 transition-opacity hover:opacity-70"
+            className="absolute top-1/2 left-3 -translate-y-1/2 inline-flex cursor-pointer items-center gap-1 transition-opacity hover:opacity-70"
           >
             <span className="sr-only">{closedBar.brandLabel}</span>
             <LambdaGlyph />
@@ -196,7 +167,7 @@ export default function SiteHeaderClient({
 
           <nav
             aria-label="Primary"
-            className="absolute top-3.5 left-[calc(50%+6px)] flex items-start gap-6"
+            className="absolute top-1/2 left-[calc(50%+6px)] -translate-y-1/2 flex items-center gap-6"
           >
             {menuPanels.map((panel) => (
               <button
@@ -214,7 +185,7 @@ export default function SiteHeaderClient({
             <Link
               href={primaryCta.href}
               className={clsx(
-                'absolute top-1.5 right-3 text-eyebrow font-semibold inline-flex cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
+                'absolute top-1/2 right-3 -translate-y-1/2 text-eyebrow font-semibold inline-flex cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
                 usesHeroHeaderTone && !hasPassedHero
                   ? 'bg-brand-off-white text-brand-dark-green'
                   : 'bg-brand-dark-green text-brand-off-white'
