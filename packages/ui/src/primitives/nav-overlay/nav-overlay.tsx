@@ -4,6 +4,7 @@ import { Children, useEffect, useMemo, useState } from 'react'
 import type { MouseEvent, ReactNode } from 'react'
 
 import { LogosMark } from '../../icons/logos-mark'
+import { LogosWordmark } from '../../icons/logos-wordmark'
 import { XIcon } from '../../icons/x-icon'
 import { ButtonArrowIcon } from '../button/button'
 import type { LinkLikeComponent } from '../button/button'
@@ -143,12 +144,13 @@ function OverlayHeader({
       <LinkAs
         href={logoHref}
         onClick={onClose}
-        className="absolute top-[12px] left-3 inline-flex cursor-pointer items-center gap-1 font-display text-[12px] leading-[1.1] text-brand-off-white transition-opacity hover:opacity-70 md:top-1.5"
+        className="absolute top-1/2 left-3 -translate-y-1/2 inline-flex cursor-pointer items-center gap-1 text-brand-off-white transition-opacity hover:opacity-70"
       >
         {logo ?? (
           <>
+            <span className="sr-only">{logoLabel}</span>
             <LambdaGlyph size={11} />
-            <span>{logoLabel}</span>
+            <LogosWordmark className="translate-y-[1px]" />
           </>
         )}
       </LinkAs>
@@ -157,7 +159,7 @@ function OverlayHeader({
         type="button"
         onClick={onClose}
         aria-label="Close navigation menu"
-        className="text-eyebrow absolute top-[14px] left-[62.5%] inline-flex -translate-x-1/2 cursor-pointer items-center gap-1 font-semibold text-brand-off-white uppercase transition-opacity hover:opacity-70 md:left-[calc(41.67%+7px)] md:translate-x-0"
+        className="text-eyebrow absolute top-1/2 left-[62.5%] inline-flex -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center gap-1 font-semibold text-brand-off-white uppercase transition-opacity hover:opacity-70 md:left-[calc(41.67%+7px)] md:translate-x-0"
       >
         {closeMenu}
         <XIcon size={15} />
@@ -646,7 +648,7 @@ export function NavOverlay({
           linkAs={LinkAs}
         />
 
-        <div className="absolute top-3.5 left-[calc(50%+6px)] z-30 hidden items-start gap-6 md:flex">
+        <div className="absolute top-[22.5px] left-[calc(50%+6px)] z-30 hidden -translate-y-1/2 items-center gap-6 md:flex">
           {panels.map((panel) => {
             const isActive = selectedPanel?.label === panel.label
             return (
@@ -654,7 +656,7 @@ export function NavOverlay({
                 key={panel.label}
                 type="button"
                 onClick={() => setSelectedPanelLabel(panel.label)}
-                className={`text-eyebrow cursor-pointer border-b pb-0.5 tracking-[0.08em] uppercase transition-opacity hover:opacity-70 ${
+                className={`font-semibold text-eyebrow cursor-pointer border-b pb-0.5 uppercase transition-opacity hover:opacity-70 ${
                   isActive
                     ? 'border-brand-off-white/50 text-brand-off-white'
                     : 'border-transparent text-brand-off-white/50'
@@ -670,7 +672,7 @@ export function NavOverlay({
           <LinkAs
             href={primaryCta.href}
             onClick={onClose}
-            className="text-eyebrow absolute top-1.5 right-3 z-30 hidden cursor-pointer rounded-xl bg-brand-off-white px-3 py-2 font-semibold text-brand-dark-green transition-opacity hover:opacity-80 md:inline-flex"
+            className="text-eyebrow absolute top-[22px] right-3 -translate-y-1/2 z-30 hidden cursor-pointer rounded-xl bg-brand-off-white px-3 py-2.5 font-semibold text-brand-dark-green transition-opacity hover:opacity-80 md:inline-flex"
             {...externalLinkProps(primaryCta.href)}
           >
             {primaryCta.label}
