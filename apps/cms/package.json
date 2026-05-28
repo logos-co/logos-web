@@ -12,6 +12,9 @@
     "check-types": "next typegen && tsc --noEmit",
     "generate-types": "PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:types",
     "generate-import-map": "PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:importmap",
+    "migrate": "PAYLOAD_CONFIG_PATH=payload.config.ts payload migrate",
+    "migrate:create": "PAYLOAD_CONFIG_PATH=payload.config.ts payload migrate:create",
+    "migrate:status": "PAYLOAD_CONFIG_PATH=payload.config.ts payload migrate:status",
     "save-as-pr-smoke": "tsx scripts/save-as-pr-smoke.ts",
     "sync-from-content": "tsx scripts/sync-from-content.ts"
   },
