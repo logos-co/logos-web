@@ -60,23 +60,20 @@ type ButtonElementProps = CommonProps &
 
 export type ButtonProps = AnchorProps | ButtonElementProps
 
-export function ButtonArrowIcon({
-  className,
-  ...props
-}: SVGAttributes<SVGSVGElement>) {
+export function ButtonArrowIcon(props: SVGAttributes<SVGSVGElement>) {
   return (
     <svg
       aria-hidden="true"
-      className={`size-[15px] shrink-0 stroke-current ${className ?? ''}`}
-      fill="none"
-      viewBox="0 0 15 15"
       xmlns="http://www.w3.org/2000/svg"
+      width="10"
+      height="10"
+      viewBox="0 0 10 10"
+      fill="none"
       {...props}
     >
       <path
-        d="M3.5 7.5H11.5M11.5 7.5L8 4M11.5 7.5L8 11"
-        strokeLinecap="square"
-        strokeLinejoin="miter"
+        d="M10 5L5 10L4.08262 9.08261L7.51647 5.64876H0V4.35124H7.51647L4.08262 0.917385L5 0L10 5Z"
+        fill="currentColor"
       />
     </svg>
   )
@@ -84,9 +81,9 @@ export function ButtonArrowIcon({
 
 const containerByVariant: Record<ButtonVariant, string> = {
   primary:
-    'inline-flex items-center justify-center rounded-xl bg-brand-dark-green px-3 py-2 text-brand-off-white backdrop-blur-[5px]',
+    'inline-flex items-center justify-center rounded-xl bg-brand-dark-green px-3 py-2 text-brand-off-white backdrop-blur-[5px] transition-colors hover:bg-accent-steel-teal',
   secondary:
-    'inline-flex items-center justify-center rounded-[4px] border border-brand-dark-green/50 px-3 py-2 text-brand-dark-green',
+    'inline-flex items-center justify-center border border-brand-dark-green/50 px-3 py-2 text-brand-dark-green transition-colors hover:bg-gray-02 hover:border-transparent',
   tertiary:
     'inline-flex items-center justify-center rounded-[4px] text-brand-dark-green',
   link: 'inline-flex items-center justify-center text-brand-dark-green',
@@ -108,7 +105,7 @@ export function Button(props: ButtonProps) {
   }`
 
   const content = (
-    <span className="inline-flex items-center gap-1">
+    <span className="inline-flex items-center gap-1.5">
       <span className={labelClass}>{children}</span>
       {resolvedIcon}
     </span>
