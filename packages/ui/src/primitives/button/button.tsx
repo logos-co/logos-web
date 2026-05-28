@@ -60,10 +60,7 @@ type ButtonElementProps = CommonProps &
 
 export type ButtonProps = AnchorProps | ButtonElementProps
 
-export function ButtonArrowIcon({
-  className,
-  ...props
-}: SVGAttributes<SVGSVGElement>) {
+export function ButtonArrowIcon(props: SVGAttributes<SVGSVGElement>) {
   return (
     <svg
       aria-hidden="true"
@@ -76,7 +73,7 @@ export function ButtonArrowIcon({
     >
       <path
         d="M10 5L5 10L4.08262 9.08261L7.51647 5.64876H0V4.35124H7.51647L4.08262 0.917385L5 0L10 5Z"
-        fill="#152521"
+        fill="currentColor"
       />
     </svg>
   )
