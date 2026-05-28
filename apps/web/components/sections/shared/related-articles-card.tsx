@@ -67,7 +67,7 @@ export function ArticleCard({
           alt={imageAlt}
           width={339}
           height={431}
-          className="h-full w-full object-cover transition-[filter,transform] duration-300 ease-out group-hover:scale-[1.02] group-hover:blur-[12px] group-focus-visible:scale-[1.02] group-focus-visible:blur-[12px]"
+          className="h-full w-full object-cover transition-[filter,transform] duration-700 ease-out group-hover:scale-[1.01] group-hover:blur-[4px] group-focus-visible:scale-[1.01] group-focus-visible:blur-[4px]"
           style={imagePosition ? { objectPosition: imagePosition } : undefined}
         />
         <div className="absolute inset-0 bg-brand-dark-green/0 transition-colors duration-300 ease-out group-hover:bg-brand-dark-green/18 group-focus-visible:bg-brand-dark-green/18" />

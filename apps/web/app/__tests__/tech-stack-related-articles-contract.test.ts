@@ -13,6 +13,15 @@ function appFileExists(path: string) {
   return existsSync(fileURLToPath(new URL(`../${path}`, import.meta.url)))
 }
 
+function readRepoFile(path: string) {
+  return readFileSync(
+    fileURLToPath(new URL(`../../../../${path}`, import.meta.url)),
+    {
+      encoding: 'utf8',
+    }
+  )
+}
+
 describe('technology stack related articles sections', () => {
   test('technology detail pages reuse one shared section component', () => {
     const routes = [
@@ -58,5 +67,32 @@ describe('technology stack related articles sections', () => {
     expect(source).toContain('mx-auto h-220 max-w-360 px-3 py-3')
     expect(source).not.toContain('md:pb-25')
     expect(source).not.toContain('md:pb-3')
+  })
+
+  test('uses the home press hover treatment and shows reading time for pinned cards', () => {
+    const relatedCardSource = readAppFile(
+      '../components/sections/shared/related-articles-card.tsx'
+    )
+    const relatedSectionSource = readAppFile(
+      '../components/sections/shared/tech-stack-related-articles.tsx'
+    )
+    const schemaSource = readRepoFile('packages/content/src/schemas/pages.ts')
+
+    expect(relatedCardSource).toContain('duration-700')
+    expect(relatedCardSource).toContain('group-hover:scale-[1.01]')
+    expect(relatedCardSource).toContain('group-hover:blur-[4px]')
+    expect(relatedCardSource).toContain('{readingTime} min read')
+    expect(relatedSectionSource).toContain('readingTime: item.readingTime')
+    expect(schemaSource).toContain('readingTime: z.number().int().positive()')
+
+    for (const page of [
+      'technology-stack-blockchain',
+      'technology-stack-messaging',
+      'technology-stack-storage',
+    ]) {
+      const source = readRepoFile(`content/pages/en/${page}.json`)
+
+      expect(source).toContain('"readingTime"')
+    }
   })
 })

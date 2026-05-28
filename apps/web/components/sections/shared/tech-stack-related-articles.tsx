@@ -31,6 +31,7 @@ export default function TechStackRelatedArticles({
       imagePosition: item.imagePosition,
       date: item.date,
       author: item.author,
+      readingTime: item.readingTime,
       href: item.href,
     })) ?? articlesToCards(articles)
 
