@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 
 import {
   LogosMark,
+  LogosWordmark,
   type NavOverlayCommunityCard,
   type NavOverlayLink,
   type NavOverlayMenuPanel,
@@ -36,7 +37,7 @@ function HamburgerIcon() {
 }
 
 function LambdaGlyph({ className }: { className?: string }) {
-  return <LogosMark size={14} className={clsx('shrink-0', className)} />
+  return <LogosMark size={11} className={clsx('shrink-0', className)} />
 }
 
 function BrandLockup({
@@ -46,15 +47,11 @@ function BrandLockup({
   label: string
   className?: string
 }) {
-  const formattedLabel =
-    label.length > 0
-      ? `${label.charAt(0)}${label.slice(1).toLowerCase()}`
-      : label
-
   return (
-    <span className={clsx('inline-flex items-center gap-1.5', className)}>
+    <span className={clsx('inline-flex items-center gap-1', className)}>
+      <span className="sr-only">{label}</span>
       <LambdaGlyph />
-      <span>{formattedLabel}</span>
+      <LogosWordmark className="translate-y-[1px]" />
     </span>
   )
 }
@@ -150,7 +147,7 @@ export default function SiteHeaderClient({
         >
           <a
             href={ROUTES.home}
-            className="-mx-3 inline-flex min-h-10 w-fit cursor-pointer items-center px-3 font-serif text-[18px] leading-none tracking-normal normal-case transition-opacity hover:opacity-70"
+            className="-mx-3 inline-flex min-h-10 w-fit cursor-pointer items-center px-3 text-eyebrow transition-opacity hover:opacity-70"
           >
             <BrandLockup label={closedBar.brandLabel} />
           </a>
