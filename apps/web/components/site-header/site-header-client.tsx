@@ -40,21 +40,6 @@ function LambdaGlyph({ className }: { className?: string }) {
   return <LogosMark size={11} className={clsx('shrink-0', className)} />
 }
 
-function BrandLockup({
-  label,
-  className,
-}: {
-  label: string
-  className?: string
-}) {
-  return (
-    <span className={clsx('inline-flex items-center gap-1', className)}>
-      <span className="sr-only">{label}</span>
-      <LambdaGlyph />
-      <LogosWordmark className="translate-y-[1px]" />
-    </span>
-  )
-}
 
 export default function SiteHeaderClient({
   closedBar,
@@ -141,15 +126,17 @@ export default function SiteHeaderClient({
       >
         <div
           className={clsx(
-            'grid h-10 grid-cols-3 items-center px-3 transition-colors duration-300 min-[640px]:hidden',
+            'relative grid h-10 grid-cols-3 items-center px-3 transition-colors duration-300 min-[640px]:hidden',
             headerToneClass
           )}
         >
           <a
             href={ROUTES.home}
-            className="-mx-3 inline-flex min-h-10 w-fit cursor-pointer items-center px-3 text-eyebrow transition-opacity hover:opacity-70"
+            className="absolute top-3.5 left-3 inline-flex cursor-pointer items-center gap-1 transition-opacity hover:opacity-70"
           >
-            <BrandLockup label={closedBar.brandLabel} />
+            <span className="sr-only">{closedBar.brandLabel}</span>
+            <LambdaGlyph />
+            <LogosWordmark className="translate-y-[1px]" />
           </a>
 
           <nav
@@ -161,7 +148,7 @@ export default function SiteHeaderClient({
                 key={panel.label}
                 type="button"
                 onClick={() => openPanel(panel.label)}
-                className="text-eyebrow cursor-pointer tracking-[0.08em] whitespace-nowrap uppercase transition-opacity hover:opacity-70"
+                className="text-eyebrow font-semibold cursor-pointer whitespace-nowrap uppercase transition-opacity hover:opacity-70"
               >
                 {panel.label}
               </button>
@@ -194,37 +181,40 @@ export default function SiteHeaderClient({
 
         <div
           className={clsx(
-            'hidden h-[42px] items-baseline justify-between px-3 py-1.5 transition-colors duration-300 min-[640px]:flex',
+            'relative hidden h-[42px] transition-colors duration-300 min-[640px]:block',
             headerToneClass
           )}
         >
-          <div className="flex items-baseline gap-3">
-            <a
-              href={ROUTES.home}
-              className="text-eyebrow inline-flex h-[15px] w-[calc(50vw-18px)] cursor-pointer items-baseline tracking-[0.08em] transition-opacity hover:opacity-70"
-            >
-              <BrandLockup label={closedBar.brandLabel} />
-            </a>
+          <a
+            href={ROUTES.home}
+            className="absolute top-3.5 left-3 inline-flex cursor-pointer items-center gap-1 transition-opacity hover:opacity-70"
+          >
+            <span className="sr-only">{closedBar.brandLabel}</span>
+            <LambdaGlyph />
+            <LogosWordmark className="translate-y-[1px]" />
+          </a>
 
-            <nav aria-label="Primary" className="flex items-start gap-6">
-              {menuPanels.map((panel) => (
-                <button
-                  key={panel.label}
-                  type="button"
-                  onClick={() => openPanel(panel.label)}
-                  className="text-eyebrow cursor-pointer tracking-[0.08em] whitespace-nowrap uppercase transition-opacity hover:opacity-70"
-                >
-                  {panel.label}
-                </button>
-              ))}
-            </nav>
-          </div>
+          <nav
+            aria-label="Primary"
+            className="absolute top-3.5 left-[calc(50%+6px)] flex items-start gap-6"
+          >
+            {menuPanels.map((panel) => (
+              <button
+                key={panel.label}
+                type="button"
+                onClick={() => openPanel(panel.label)}
+                className="text-eyebrow font-semibold cursor-pointer whitespace-nowrap uppercase transition-opacity hover:opacity-70"
+              >
+                {panel.label}
+              </button>
+            ))}
+          </nav>
 
           {primaryCta ? (
             <Link
               href={primaryCta.href}
               className={clsx(
-                'text-eyebrow inline-flex min-h-7 cursor-pointer items-center rounded-xl px-3 uppercase transition-opacity hover:opacity-85',
+                'absolute top-1.5 right-3 text-eyebrow font-semibold inline-flex cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
                 usesHeroHeaderTone && !hasPassedHero
                   ? 'bg-brand-off-white text-brand-dark-green'
                   : 'bg-brand-dark-green text-brand-off-white'
