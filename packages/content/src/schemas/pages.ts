@@ -169,6 +169,7 @@ export const relatedArticlesSectionSchema = z.object({
         imagePosition: z.string().min(1).optional(),
         date: z.string().min(1),
         author: z.string().min(1),
+        readingTime: z.number().int().positive(),
         href: linkHrefSchema,
       })
     )
