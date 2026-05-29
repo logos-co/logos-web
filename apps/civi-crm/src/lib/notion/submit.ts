@@ -56,7 +56,7 @@ export async function submitToNotion(
   formName: string
 ): Promise<NotionSubmitResult> {
   const token = process.env.NOTION_API_TOKEN ?? ''
-  const databaseId = process.env.NOTION_COALITION_PARTNER_DB_ID ?? ''
+  const databaseId = process.env.NOTION_DB_ID ?? ''
 
   if (!token || !databaseId) {
     return { ok: false, message: 'Notion is not configured' }
