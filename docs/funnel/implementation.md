@@ -13,9 +13,9 @@ Movement BD should see every intake submission as one row in a single Notion dat
 | 1. [Schema](#1-notion-schema-ddl) | Add nine intake columns on the existing funnel data source | Done (Notion MCP) |
 | 2. [Visibility](#2-hide-when-empty-manual) | Keep legacy CRM rows readable in Notion UI | Manual checklist pending |
 | 3. [Notion lib](#3-notion-lib-appscivi-crmsrclibnotion) | Map form payloads → Notion page properties; POST new rows | Done |
-| 4. [CiviCRM lib](#4-civicrm-submit-module) | Isolate Afform.submit behind a reusable function | Partial |
-| 5. [Orchestrator route](#5-orchestrator-afform-submit) | One captcha, Notion required, CiviCRM best-effort | Pending |
-| 6. [Wire web pages](#6-wire-web-pages) | All three forms → single API endpoint | Partial |
+| 4. [CiviCRM lib](#4-civicrm-submit-module) | Isolate Afform.submit behind a reusable function | Done |
+| 5. [Orchestrator route](#5-orchestrator-afform-submit) | One captcha, Notion required, CiviCRM best-effort | Done |
+| 6. [Wire web pages](#6-wire-web-pages) | All three forms → single API endpoint | Done |
 | 7. [Cleanup](#7-cleanup) | Remove duplicate route; sync civi-crm docs | Pending |
 
 ---
@@ -90,7 +90,10 @@ resolveOrganizationSelect(submitted, existingOptions): string
 2. `GET https://api.notion.com/v1/databases/{id}` — read `Organization` select option names (one request per submission today).
 3. `resolveOrganizationSelect(affiliatedOrgs, options)` — lowercase compare; use canonical option name or submitted value for a new option.
 4. `buildNotionProperties` — map fields per [notion-database.md](./notion-database.md#property-mapping-reuse-first); join websites and chat with ` | `; map Civi country/skill/chat IDs via `maps.ts`.
-5. `POST https://api.notion.com/v1/pages` — `parent.database_id`, `properties`; header `Notion-Version: 2026-03-11`.
+5. Always set:
+   - `Mvmt Status = New Lead`
+   - `BU = Movement`
+6. `POST https://api.notion.com/v1/pages` — `parent.database_id`, `properties`; header `Notion-Version: 2026-03-11`.
 
 ### Afform `formName` → Profile
 
@@ -112,9 +115,9 @@ resolveOrganizationSelect(submitted, existingOptions): string
 
 `getBackground` uses the first non-empty `backgroundPartner` \| `backgroundBuilder` \| `backgroundLeader`.
 
-### Not wired yet
+### Wired through orchestrator
 
-`submitToNotion` is not imported by any route. Coalition Partner still posts to `/api/public/notion-coalition-partner`. Steps 5–7 will call the lib from `afform-submit`, point all web pages at that route, and delete the legacy route.
+`submitToNotion` is called by `POST /api/public/afform-submit` after hCaptcha verification (unless disabled via env; see §5).
 
 ---
 
@@ -122,15 +125,15 @@ resolveOrganizationSelect(submitted, existingOptions): string
 
 **Goal:** Mirror the Notion split — extract `buildAfformValues` + `Afform.submit` HTTP into `src/lib/civicrm/submit-afform.ts` with **no** Notion imports. The orchestrator calls `submitToCiviCrm(formData, fieldDefs, formName)` after Notion succeeds.
 
-**Status:** Partial.
+**Status:** Done.
 
-| Piece | Location today |
+| Piece | Location |
 | --- | --- |
 | `buildAfformValues` | `src/lib/civicrm/build-afform-values.ts` (shared) |
-| Afform.submit fetch | Inline in `src/app/api/public/afform-submit/route.ts` |
+| Afform.submit fetch | `src/lib/civicrm/submit-afform.ts` |
 | Case defaults on intake | `src/lib/civicrm/afform-case-defaults.ts` |
 
-**Remaining:** Move the fetch + error handling into `submitToCiviCrm(formData, fieldDefs, formName)` and thin the route handler.
+The route orchestrator should treat CiviCRM as a backup destination by default (see §5).
 
 ---
 
@@ -142,10 +145,21 @@ resolveOrganizationSelect(submitted, existingOptions): string
 
 1. Validate body, `formName`, and `fields` (Afform field defs).
 2. Verify hCaptcha when `HCAPTCHA_SECRET` is set.
-3. `submitToNotion(formData, formName)` — **required**; on failure return 5xx/4xx to the user.
-4. `submitToCiviCrm(...)` — **best-effort**; on failure still return success if Notion succeeded, with `detail` in the JSON body (no `console.log`).
+3. Check opt-out flags:
+   - `FUNNEL_INTAKE_NOTION_DISABLED` (truthy → skip Notion)
+   - `FUNNEL_INTAKE_CIVICRM_DISABLED` (truthy → skip CiviCRM)
+4. If Notion is enabled: `submitToNotion(formData, formName)` — **required**; on failure return an error to the user.
+5. If CiviCRM is enabled: `submitToCiviCrm(...)` — **best-effort** when Notion is enabled; on failure still return success with `detail` in the JSON body (no `console.log`).
+6. CORS: the route supports `OPTIONS` and includes permissive `Access-Control-Allow-*` headers so the static `apps/web` site can POST cross-origin.
 
-**Status:** Pending. Current `afform-submit` route only calls CiviCRM (steps 1–2 and 4’s Civi path only).
+**Status:** Done.
+
+### Opt-out behaviour (per destination)
+
+- Default (no flags set): **Notion required**, CiviCRM best-effort.
+- Notion disabled only: CiviCRM becomes required (errors become fatal).
+- CiviCRM disabled only: Notion required; no CiviCRM call is made.
+- Both disabled: route returns success after captcha (useful for local dry-runs).
 
 ---
 
@@ -159,7 +173,7 @@ resolveOrganizationSelect(submitted, existingOptions): string
 | Activist Leader / Steward | `afform-submit` | `afform-submit` (unchanged) |
 | Coalition Partner | `notion-coalition-partner` | `afform-submit` |
 
-**Status:** Partial — activist pages already correct; coalition-partner still uses `notion-coalition-partner` in `apps/web/app/[locale]/coalition-partner/page.tsx`.
+**Status:** Done — all three pages post to `POST /api/public/afform-submit`.
 
 ---
 

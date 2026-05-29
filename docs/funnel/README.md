@@ -16,10 +16,10 @@ Operational and design notes for routing the three public connect intake forms i
 | 1. Schema | Nine intake columns on funnel data source | Done |
 | 2. Visibility | Hide when empty on new columns (Notion UI) | Manual — [checklist](./notion-database.md#manual-checklist-required) |
 | 3. Notion lib | Map payloads → funnel properties; `submitToNotion` | Done — [details](./implementation.md#3-notion-lib-appscivi-crmsrclibnotion) |
-| 4. CiviCRM lib | `submitToCiviCrm` without Notion imports | Partial |
-| 5. Orchestrator | One captcha; Notion required; Civi backup | Pending |
-| 6. Web pages | All three → `afform-submit` | Partial |
-| 7. Cleanup | Remove `notion-coalition-partner`; update civi-crm docs | Pending |
+| 4. CiviCRM lib | `submitToCiviCrm` without Notion imports | Done — [details](./implementation.md#4-civicrm-submit-module) |
+| 5. Orchestrator | One captcha; Notion required; Civi backup | Done — [details](./implementation.md#5-orchestrator-afform-submit) |
+| 6. Web pages | All three → `afform-submit` | Done — [details](./implementation.md#6-wire-web-pages) |
+| 7. Cleanup | Remove `notion-coalition-partner`; sync docs | Pending |
 
 Full goals, what changed, and acceptance criteria: [implementation.md](./implementation.md).
 
@@ -34,11 +34,10 @@ Full goals, what changed, and acceptance criteria: [implementation.md](./impleme
 | Concern | Value |
 | --- | --- |
 | Target endpoint (all three) | `POST /api/public/afform-submit` on `apps/civi-crm` |
-| Coalition Partner today | `POST /api/public/notion-coalition-partner` (Notion only; to be removed) |
-| Activist forms today | `POST /api/public/afform-submit` (CiviCRM only) |
+| Submission flow | Notion **primary** (required by default), CiviCRM **backup** (best-effort by default) |
 | Notion database (UI) | [IFT BD CRM -- funnel test](https://www.notion.so/ede0c08525554244b940f681318a0891) |
 | Notion data source ID | `5919873c-d7b1-42ff-acdf-380b62a4176c` (`collection://5919873c-d7b1-42ff-acdf-380b62a4176c`) |
-| Env vars | `NOTION_API_TOKEN`, `NOTION_COALITION_PARTNER_DB_ID` (see `apps/civi-crm/.env.example`) |
+| Env vars | `NOTION_API_TOKEN`, `NOTION_COALITION_PARTNER_DB_ID` (+ optional `FUNNEL_INTAKE_*_DISABLED`, see `apps/civi-crm/.env.example`) |
 
 ## Documentation in this folder
 
@@ -66,6 +65,7 @@ Form-specific textareas:
 - **One `Background` column** — All `background*` textareas map to a single rich-text property; vision questions stay on `Tech Vision` and `Activities Vision`.
 - **Joined multi-values** — Multiple websites → `Website` (pipe-separated); multiple chat handles → `Phone or Social Handle` (`handle (service)` per entry, joined).
 - **`Organization` select** — Case-insensitive match against existing options at submit time; unmatched values are written as-is and Notion creates a new option.
+- **Default business unit** — Every new row sets `BU = Movement` for consistent BD triage.
 - **Env naming** — Keep `NOTION_COALITION_PARTNER_DB_ID` and `/api/public/afform-submit` to avoid deploy churn across environments.
 
 ## Related repo docs
