@@ -1,12 +1,15 @@
 import type { TechStackOverviewSection } from '@repo/content/schemas'
 
-import { Reveal } from '@/components/motion/reveal'
 import { TechStackDiagram } from '@/components/sections/shared/tech-stack-diagram'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
 function formatEyebrow(eyebrow: string) {
   return eyebrow.replaceAll('. ', '.\n')
+}
+
+function formatMobileTitle(title: string) {
+  return title.replace(' Technology Stack', '\nTechnology Stack')
 }
 
 type Props = {
@@ -43,13 +46,6 @@ export default function TechStackSection({
         ) : null}
 
         <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5">
-          <Button
-            href={ROUTES.buildersHub}
-            icon={<ButtonArrowIcon />}
-            className="cursor-pointer transition-opacity hover:opacity-70"
-          >
-            Builder Hub
-          </Button>
           {data.cta ? (
             <Button
               href={data.cta.href}
@@ -60,11 +56,18 @@ export default function TechStackSection({
               Documentation
             </Button>
           ) : null}
+          <Button
+            href={ROUTES.buildersHub}
+            icon={<ButtonArrowIcon />}
+            className="cursor-pointer transition-opacity hover:opacity-70"
+          >
+            Builder Hub
+          </Button>
         </div>
 
         {data.title ? (
           <h2 className="text-h2 absolute top-[193px] left-1/2 w-[464px] -translate-x-1/2 whitespace-pre-line text-center text-brand-dark-green">
-            {data.title}
+            {formatMobileTitle(data.title)}
           </h2>
         ) : null}
 
@@ -73,13 +76,13 @@ export default function TechStackSection({
           societies possible.
         </p>
 
-        <Reveal amount={0.12} className="absolute top-[437px] right-3 left-3">
+        <div className="absolute top-[437px] right-3 left-3">
           <TechStackDiagram
             data={data}
             networkingHref={networkingHref}
             foundationHref={foundationHref}
           />
-        </Reveal>
+        </div>
       </div>
 
       <div className="relative mx-auto hidden h-full max-w-[1440px] md:block">
@@ -88,18 +91,12 @@ export default function TechStackSection({
         </p>
 
         {data.eyebrow ? (
-          <Reveal
-            amount={0.2}
-            className="text-mono-s absolute top-[97px] left-[calc(50%+6px)] w-[226px] whitespace-pre-line text-brand-dark-green"
-          >
+          <p className="text-mono-s absolute top-[97px] left-[calc(50%+6px)] w-[226px] whitespace-pre-line text-brand-dark-green">
             {formatEyebrow(data.eyebrow)}
-          </Reveal>
+          </p>
         ) : null}
 
-        <Reveal
-          amount={0.2}
-          className="absolute top-[11px] right-3 flex items-center gap-1.5"
-        >
+        <div className="absolute top-[11px] right-3 flex items-center gap-1.5">
           <Button
             href={ROUTES.buildersHub}
             icon={<ButtonArrowIcon />}
@@ -125,37 +122,28 @@ export default function TechStackSection({
           >
             Specs
           </Button>
-        </Reveal>
+        </div>
 
         {data.title ? (
-          <Reveal
-            amount={0.2}
-            className="absolute top-[184px] left-[calc(33.33%+8px)] w-[464px]"
-          >
+          <div className="absolute top-[184px] left-[calc(33.33%+8px)] w-[464px]">
             <h2 className="text-h2 whitespace-pre-line text-center text-brand-dark-green">
               {data.title}
             </h2>
-          </Reveal>
+          </div>
         ) : null}
 
-        <Reveal
-          amount={0.2}
-          className="text-mono-s absolute top-[333px] left-[calc(50%+6px)] w-[226px] text-brand-dark-green"
-        >
+        <p className="text-mono-s absolute top-[333px] left-[calc(50%+6px)] w-[226px] text-brand-dark-green">
           Private-by-default infrastructure is a requirement to make parallel
           societies possible.
-        </Reveal>
+        </p>
 
-        <Reveal
-          amount={0.12}
-          className="absolute top-[517px] left-0 w-full px-3"
-        >
+        <div className="absolute top-[517px] left-0 w-full px-3">
           <TechStackDiagram
             data={data}
             networkingHref={networkingHref}
             foundationHref={foundationHref}
           />
-        </Reveal>
+        </div>
       </div>
     </section>
   )

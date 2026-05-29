@@ -16,8 +16,8 @@ interface PodcastIntroCopy {
 
 function PodcastIntro({ copy }: { copy: PodcastIntroCopy }) {
   return (
-    <section className="h-[246px] bg-accent-tan px-3 pt-10 text-brand-dark-green md:h-[282px] md:px-0 md:pt-[60px]">
-      <div className="mx-auto grid w-full max-w-[1416px] gap-6 md:grid-cols-12">
+    <section className="h-[246px] bg-accent-tan px-3 pt-10 text-brand-dark-green md:h-[282px] md:pt-[60px]">
+      <div className="grid w-full gap-6 md:grid-cols-12">
         <div className="flex items-center gap-3 md:col-span-5">
           <LogosMark size={20} className="shrink-0" />
           <h1 className="font-display text-[30px] leading-none tracking-[-0.03em] md:text-[36px]">

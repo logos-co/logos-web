@@ -1,5 +1,11 @@
 import { type NextRequest, NextResponse } from 'next/server'
 
+import { isAfformIntakeFormName } from '@/lib/civicrm/afform-case-defaults'
+import {
+  buildAfformValues,
+  type AfformFieldDef,
+} from '@/lib/civicrm/build-afform-values'
+
 const CIVICRM_BASE_URL = process.env.CIVICRM_BASE_URL ?? ''
 const CIVICRM_API_KEY = process.env.CIVICRM_API_KEY ?? ''
 const HCAPTCHA_SECRET = process.env.HCAPTCHA_SECRET ?? ''
@@ -9,15 +15,6 @@ const ALLOWED_FORMS = new Set([
   'afformActivistLeaderSteward',
   'afformCoalitionPartner',
 ])
-
-const MULTI_RECORD_JOINS = new Set(['Website', 'IM'])
-
-interface AfformField {
-  formKey: string
-  fieldName: string
-  join: string | null
-  inputType: string
-}
 
 async function verifyHCaptcha(token: string, remoteip: string): Promise<boolean> {
   const res = await fetch('https://api.hcaptcha.com/siteverify', {
@@ -31,68 +28,6 @@ async function verifyHCaptcha(token: string, remoteip: string): Promise<boolean>
   })
   const json = await res.json()
   return json.success === true
-}
-
-function buildAfformValues(
-  data: Record<string, unknown>,
-  fieldDefs: AfformField[]
-): Record<string, unknown> {
-  const trim = (s: unknown) =>
-    s && typeof s === 'string' ? s.trim() : ''
-  const toArray = (v: unknown): string[] =>
-    Array.isArray(v) ? (v as string[]) : v ? [String(v)] : []
-
-  const fields: Record<string, unknown> = {}
-  const joins: Record<string, Record<string, unknown>[]> = {}
-
-  for (const fieldDef of fieldDefs) {
-    if (!fieldDef.formKey) continue
-    const { formKey, fieldName, join, inputType } = fieldDef
-    const raw = data[formKey]
-
-    if (!join) {
-      if (inputType === 'checkbox') {
-        fields[fieldName] = raw === true ? ['1'] : []
-      } else if (inputType === 'select') {
-        fields[fieldName] = toArray(raw)
-          .map((s) => String(s).trim())
-          .filter(Boolean)
-      } else if (inputType === 'hidden') {
-        if (raw != null) fields[fieldName] = raw
-      } else {
-        fields[fieldName] = trim(raw) || ''
-      }
-      continue
-    }
-
-    if (!joins[join]) joins[join] = []
-
-    if (MULTI_RECORD_JOINS.has(join)) {
-      const values = toArray(raw).map((s) => trim(s)).filter(Boolean)
-      values.forEach((val, i) => {
-        if (!joins[join][i]) joins[join][i] = {}
-        joins[join][i][fieldName] =
-          inputType === 'select' ? Number(val) || val : val
-      })
-    } else {
-      if (!joins[join][0]) joins[join][0] = {}
-      joins[join][0][fieldName] = trim(raw) || ''
-    }
-  }
-
-  if (joins.Email?.[0]) joins.Email[0].is_primary = true
-  if (joins.Address?.[0]) joins.Address[0].location_type_id = 3
-
-  for (const joinName of Object.keys(joins)) {
-    if (MULTI_RECORD_JOINS.has(joinName) && joins[joinName].length === 0) {
-      joins[joinName] = []
-    }
-  }
-
-  return {
-    extra: [],
-    Individual1: [{ fields, joins }],
-  }
 }
 
 function getClientIp(req: NextRequest): string {
@@ -124,7 +59,7 @@ export async function POST(req: NextRequest) {
   const { formName, captchaToken, fields: fieldDefs, ...formData } = body as {
     formName?: string
     captchaToken?: string
-    fields?: AfformField[]
+    fields?: AfformFieldDef[]
     [key: string]: unknown
   }
 
@@ -156,7 +91,11 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const values = buildAfformValues(formData, fieldDefs)
+    const values = buildAfformValues(
+      formData,
+      fieldDefs,
+      isAfformIntakeFormName(formName) ? formName : undefined
+    )
     const params = JSON.stringify({ name: formName, values, args: {} })
 
     const res = await fetch(

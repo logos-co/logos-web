@@ -76,18 +76,21 @@ export default function AboutScrollStack({
     const update = () => {
       const section = sectionRef.current
       if (!section) return
+      const reducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches
 
-      const progress = clamp(-section.getBoundingClientRect().top, 0, 6200)
-      const startY = window.innerHeight + 140
+      const progress = clamp(-section.getBoundingClientRect().top, 0, 4400)
+      const startY = reducedMotion ? 140 : window.innerHeight + 64
 
       cardRefs.current.forEach((card, index) => {
         if (!card) return
 
-        const targetY = 102 + index * 20
-        const start = -700 + index * 1050
-        const end = start + 3200
+        const targetY = 132 + index * 12
+        const start = -360 + index * 760
+        const end = start + 2200
         const amount = easeInOutCubic(
-          clamp((progress - start) / (end - start), 0, 1)
+          reducedMotion ? 1 : clamp((progress - start) / (end - start), 0, 1)
         )
         const y = startY + (targetY - startY) * amount
 
@@ -106,7 +109,7 @@ export default function AboutScrollStack({
   }, [])
 
   return (
-    <div ref={sectionRef} className="hidden h-[6400px] md:block">
+    <div ref={sectionRef} className="hidden h-[4600px] md:block">
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center">
           <p className="text-h3-serif w-[940px] text-center">{intro}</p>
@@ -121,7 +124,7 @@ export default function AboutScrollStack({
             className="absolute inset-x-0 top-0 px-3 will-change-transform"
             style={{
               zIndex: index + 1,
-              transform: 'translate3d(0, calc(100vh + 120px), 0)',
+              transform: 'translate3d(0, calc(100vh + 64px), 0)',
             }}
           >
             <DesktopProblemCard card={card} />

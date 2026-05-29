@@ -79,7 +79,7 @@ Reused component already designed as a "giant switch" (left/right pair with roun
 | Card description | absolute `bottom-[15px] left-[15px] w-[186px]` (Figma uses bottom-anchored offsets, e.g. `bottom-[39px] translate-y-full`). Fira Mono 10 / 1.3, color `brand-dark-green`. |
 | Card image | absolute `bottom-[10–11px] right-[9–10px] w-[96px]` height variable (77 / 119 / 120 / 127 px depending on asset). |
 | Card CTA | absolute `left-[15px] top-[82px]`, "Learn More" eyebrow underline-style pill. **Fixture has `ctaLabel: "Apply"`** — clarify whether card CTA is "Apply" (per-RFP `applyUrl`) or "Learn More" (RFP detail page). |
-| Sample card titles in Figma | Attack Resistant Public Registries, Decentralized Archives, Private Financial Networks, Community Governance Processes (these are placeholder strings, **real titles from `rfps/<slug>/en.json`**). |
+| Sample card titles in Figma | Attack Resistant Public Registries, Decentralised Archives, Private Financial Networks, Community Governance Processes (these are placeholder strings, **real titles from `rfps/<slug>/en.json`**). |
 | Terminator card (last cell, node `:24066`) | Title "See all ideas". Body slot empty. Decorative strip of 4 stacked thumbnails at `top-[177px] left-[-27px] gap-[6px]`, each `w-[96px]`, mixed heights. Maps to fixture `rfpsSection.terminatorCard.thumbnailSlugs` = ideas (`quadratic-voting`, `community-bank`, `permissionless-dns`). Note: only 3 slugs in fixture but Figma shows 4 thumbnails — schema gap. |
 
 ### 2.4 Ideas Section (node `40009046:24075`)
@@ -94,7 +94,7 @@ Reused component already designed as a "giant switch" (left/right pair with roun
 | Row layout | Three columns at gap 12: **(1) Index + Title** `w-[714px] pl-[12px] py-[12px] items-baseline`. **(2) Submitter line** `w-[464px] py-[12px]`, two-line block (line 1: idea summary, line 2: "Idea by @<handle>"). Both lines Fira Mono 10/1.3. **(3) Reward + CTA** `gap-[12px] py-[12px]`. |
 | Reward block | `w-[107px]` two lines: `2500 USDC` then `+ 1000 XP`. Fira Mono 10/1.3. |
 | Per-row CTA | "Apply" — eyebrow underline-style pill (matches RFP card CTA). |
-| Row title strings (Figma) | row 1 "Secure and Decentralized Frontends" (RFP slug — likely placeholder copy in Ideas, designer reused); rows 2–7: "Build a DEX", "Integrate Logos blockchain into Fileverse", "Lorem Ipsum Dolor Si Amet", "Secure and Decentralized Frontends", "Build a DEX", "Integrate Logos blockchain into Fileverse". All placeholders — **real copy from `ideas/<slug>/en.json` titles**. |
+| Row title strings (Figma) | row 1 "Secure and Decentralised Frontends" (RFP slug — likely placeholder copy in Ideas, designer reused); rows 2–7: "Build a DEX", "Integrate Logos blockchain into Fileverse", "Lorem Ipsum Dolor Si Amet", "Secure and Decentralised Frontends", "Build a DEX", "Integrate Logos blockchain into Fileverse". All placeholders — **real copy from `ideas/<slug>/en.json` titles**. |
 
 ### 2.5 Action Panels — Boilerplate + Office Hours (node `40009046:24159`, confirmed via metadata re-fetch)
 

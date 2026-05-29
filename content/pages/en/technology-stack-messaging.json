@@ -47,7 +47,8 @@
         },
         {
           "label": "DOCS",
-          "href": "/technology-stack/messaging",
+          "href": "https://github.com/logos-co/logos-docs",
+          "external": true,
           "variant": "secondary"
         }
       ]
@@ -58,9 +59,11 @@
       "eyebrow": "Overview",
       "title": "Overview",
       "description": "Logos Messaging provides the messaging layer for the Logos stack, letting applications send messages, relay data, and coordinate without relying on centralised servers or exposing metadata to surveillance.\n\nIt uses a peer-to-peer relay network in which messages propagate across nodes with no central broker, and it supports private one-to-one messaging, group messaging, and public broadcast channels.\n\nMessages can be encrypted end-to-end, and the relay network is designed to resist traffic analysis, making it difficult for observers to determine who is communicating with whom.",
+      "mobileDescription": "Logos Messaging uses a peer-to-peer relay network where messages are propagated across nodes without a central broker. The protocol supports multiple messaging patterns: private one-to-one messaging, group messaging, and public broadcast channels for applications. Messages can be encrypted end-to-end, and the relay network is designed to resist traffic analysis — making it difficult for observers to determine who is communicating with whom, even if they can observe the network.",
       "cta": {
         "label": "View the docs",
-        "href": "/technology-stack/messaging"
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
       }
     },
     {
@@ -68,14 +71,19 @@
       "key": "messaging.lmn",
       "eyebrow": "Messaging",
       "title": "Delivery",
-      "description": "The transport layer. A peer-to-peer messaging network with DoS protection via RLN (Rate Limiting Nullifiers). Any application can use it to send and receive messages over an open, censorship-resistant network."
+      "mobileTitle": "Logos Messaging Nim (LMN)",
+      "description": "The transport layer. A peer-to-peer messaging network with DoS protection via RLN (Rate Limiting Nullifiers). Any application can use it to send and receive messages over an open, censorship-resistant network.",
+      "mobileDescription": "Built around the Logos Messaging Nim (LMN) node, it provides publish-subscribe messaging, reliable delivery, and is evolving toward a ChatSDK that simplifies building encrypted communication into applications."
     },
     {
       "componentType": "ctaPanel",
       "key": "messaging.censorship",
       "eyebrow": "Messaging",
+      "mobileEyebrow": "Privacy",
       "title": "Chat",
-      "description": "The chat layer. A protocol and library that provides 1:1 and group conversations with end-to-end encryption using de-MLS - everything an application needs to add private chat without rolling its own protocol."
+      "mobileTitle": "Censorship Resistance",
+      "description": "The chat layer. A protocol and library that provides 1:1 and group conversations with end-to-end encryption using de-MLS - everything an application needs to add private chat without rolling its own protocol.",
+      "mobileDescription": "The relay network is designed to function even in hostile network environments. There is no single point of failure, no central server to block, and no metadata that reveals communication patterns to observers."
     },
     {
       "componentType": "cardGrid",
@@ -125,7 +133,8 @@
           "description": "Lorem ipsum dolor sit amet consectetur",
           "cta": {
             "label": "View the docs",
-            "href": "/technology-stack"
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true
           }
         },
         {
@@ -167,6 +176,7 @@
           },
           "date": "02.14.26",
           "author": "Sterlin Lujan",
+          "readingTime": 6,
           "href": "/press"
         },
         {
@@ -179,6 +189,7 @@
           },
           "date": "02.14.26",
           "author": "Sterlin Lujan",
+          "readingTime": 6,
           "href": "/press"
         },
         {
@@ -191,6 +202,7 @@
           },
           "date": "02.14.26",
           "author": "Sterlin Lujan",
+          "readingTime": 6,
           "href": "/press"
         },
         {
@@ -203,6 +215,7 @@
           },
           "date": "02.14.26",
           "author": "Sterlin Lujan",
+          "readingTime": 6,
           "href": "/press"
         }
       ],

@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 
-import { usePathname, useRouter } from '@/i18n/navigation'
+import { usePathname } from '@/i18n/navigation'
 
 type Props = {
   children: ReactNode
@@ -15,16 +15,14 @@ const COVER_IN_MS = 560
 
 export default function PageTransition({ children }: Props) {
   const pathname = usePathname()
-  const router = useRouter()
   const shouldReduceMotion = useReducedMotion()
   const [isCovered, setIsCovered] = useState(false)
   const isNavigatingRef = useRef(false)
   const timeoutRef = useRef<number | null>(null)
 
   useEffect(() => {
-    // Always cancel any pending router.push timer so a browser back/forward
-    // press during the cover-in window doesn't get hijacked into a forward
-    // navigation 560 ms later.
+    // Always cancel any pending navigation timer so browser history controls
+    // during the cover-in window do not get hijacked 560 ms later.
     if (timeoutRef.current) {
       window.clearTimeout(timeoutRef.current)
       timeoutRef.current = null
@@ -66,8 +64,6 @@ export default function PageTransition({ children }: Props) {
   }, [])
 
   useEffect(() => {
-    if (shouldReduceMotion) return
-
     const shouldIgnoreClick = (
       event: MouseEvent,
       anchor: HTMLAnchorElement
@@ -102,6 +98,18 @@ export default function PageTransition({ children }: Props) {
       if (shouldIgnoreClick(event, anchor)) return
 
       event.preventDefault()
+      const nextUrl = new URL(anchor.href, window.location.href)
+      const navigate = () => {
+        window.location.assign(
+          `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`
+        )
+      }
+
+      if (shouldReduceMotion) {
+        navigate()
+        return
+      }
+
       window.dispatchEvent(new CustomEvent('logos:navigation-start'))
       isNavigatingRef.current = true
       setIsCovered(true)
@@ -110,10 +118,7 @@ export default function PageTransition({ children }: Props) {
         window.clearTimeout(timeoutRef.current)
       }
 
-      const nextUrl = new URL(anchor.href, window.location.href)
-      timeoutRef.current = window.setTimeout(() => {
-        router.push(`${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`)
-      }, COVER_IN_MS)
+      timeoutRef.current = window.setTimeout(navigate, COVER_IN_MS)
     }
 
     document.addEventListener('click', handleDocumentClick, true)
@@ -124,7 +129,7 @@ export default function PageTransition({ children }: Props) {
         window.clearTimeout(timeoutRef.current)
       }
     }
-  }, [router, shouldReduceMotion])
+  }, [shouldReduceMotion])
 
   return (
     <>

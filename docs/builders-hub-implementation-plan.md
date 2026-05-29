@@ -56,7 +56,7 @@ Fixtures already authored:
 
 - `content/builders-hub/settings/en.json`
 - `content/builders-hub/listings/{ideas,rfps}/en.json`
-- `content/builders-hub/rfps/{secure-decentralized-frontends, build-a-dex, integrate-fileverse}/{index,en}.json`
+- `content/builders-hub/rfps/{secure-decentralised-frontends, build-a-dex, integrate-fileverse}/{index,en}.json`
 - `content/builders-hub/ideas/{quadratic-voting, community-bank, permissionless-dns}/{index,en}.json`
 - `content/builders-hub/resources/en.json`
 - `content/pages/en/builders-hub.json` — page-level SEO + heading.

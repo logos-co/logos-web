@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server'
 import type { ReactNode } from 'react'
 
 import { Button } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS } from '@/constants/routes'
 
 /**
  * About — "Who We Are" sticky-scroll section. Top eyebrow row, then a sticky
@@ -88,7 +88,11 @@ export async function AboutWhoWeAre() {
         image="/images/about/how-we-work.webp"
         title={t('howWeWorkTitle')}
         body={t('howWeWorkBody')}
-        cta={{ label: t('howWeWorkCta'), href: ROUTES.workWithUs }}
+        cta={{
+          label: t('howWeWorkCta'),
+          href: EXTERNAL_URLS.iftJobs,
+          external: true,
+        }}
         useCases={useCases}
         useCasesLabel={t('useCasesLabel')}
         topOffset={202}
@@ -104,7 +108,7 @@ type PanelProps = {
   body: ReactNode
   useCases: { label: string; body: string }[]
   useCasesLabel: string
-  cta?: { label: string; href: string }
+  cta?: { label: string; href: string; external?: boolean }
   topOffset: number
 }
 
@@ -155,6 +159,9 @@ function Panel({
             href={cta.href}
             variant="link"
             className="absolute top-[484px] left-3 md:top-[78px] md:left-[1083px]"
+            {...(cta.external
+              ? { target: '_blank', rel: 'noopener noreferrer' }
+              : {})}
           >
             {cta.label}
           </Button>

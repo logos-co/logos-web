@@ -56,7 +56,7 @@ export function GiantSwitch({
   actions,
   className,
 }: GiantSwitchProps) {
-  const hoverShiftDistance = imagePosition === 'left' ? '702px' : '-702px'
+  const hoverShiftDistance = imagePosition === 'left' ? '12px' : '-12px'
   const hoverShiftStyles = installHoverShift
     ? `
       @media (min-width: 48rem) {
@@ -64,20 +64,10 @@ export function GiantSwitch({
           transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .giant-switch--install-hover .giant-switch__content {
-          transition: opacity 180ms ease-out;
-        }
-
         .giant-switch--install-hover:has([data-giant-switch-install-trigger]:hover) .giant-switch__image,
         .giant-switch--install-hover:has([data-giant-switch-install-trigger]:focus-within) .giant-switch__image,
         .giant-switch--install-hover:has([data-giant-switch-install-trigger]:focus-visible) .giant-switch__image {
           transform: translateX(${hoverShiftDistance});
-        }
-
-        .giant-switch--install-hover:has([data-giant-switch-install-trigger]:hover) .giant-switch__content,
-        .giant-switch--install-hover:has([data-giant-switch-install-trigger]:focus-within) .giant-switch__content,
-        .giant-switch--install-hover:has([data-giant-switch-install-trigger]:focus-visible) .giant-switch__content {
-          opacity: 0;
         }
       }
     `

@@ -54,7 +54,7 @@
           "description": "Basecamp is built around a modular architecture. At its core is a lightweight runtime that manages self-contained modules, each providing a distinct capability such as private peer-to-peer messaging or distributed storage.",
           "cta": {
             "label": "Documentation",
-            "href": "https://docs.logos.co",
+            "href": "https://github.com/logos-co/logos-docs",
             "external": true,
             "variant": "primary"
           },
@@ -176,7 +176,7 @@
           "description": "Basecamp is an open-source application. If you want to explore the codebase, build from source, or develop your own modules, everything lives on GitHub.",
           "cta": {
             "label": "View the docs",
-            "href": "https://docs.logos.co",
+            "href": "https://github.com/logos-co/logos-docs",
             "external": true,
             "variant": "primary"
           }

@@ -2,13 +2,12 @@
 
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { motion } from 'motion/react'
 
 import { LogosMark } from '@acid-info/logos-ui'
 
-import { Button } from '@/components/ui'
+import { ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
-import { EASE, VIEWPORT_ONCE } from '@/lib/motion'
+import { Link } from '@/i18n/navigation'
 
 interface PathCard {
   key: 'build' | 'operate' | 'activism'
@@ -21,25 +20,18 @@ interface PathCard {
   imageClassName?: string
 }
 
-function PathCardView({ card, index }: { card: PathCard; index: number }) {
+function PathCardView({ card }: { card: PathCard }) {
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.58, delay: index * 0.09, ease: EASE.out },
-      }}
-      whileHover={{ y: -10 }}
-      viewport={VIEWPORT_ONCE}
-      className="group/path-card relative h-[422px] overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white"
+    <Link
+      href={card.href}
+      className="group/path-card relative block h-[422px] cursor-pointer overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green"
     >
       <Image
         src={card.image}
         alt=""
         fill
         sizes="(max-width: 768px) 369px, 464px"
-        className={`object-cover transition-transform duration-500 ease-out group-hover/path-card:scale-[1.04] ${card.imageClassName ?? ''}`}
+        className={`object-cover transition-transform duration-700 ease-out group-hover/path-card:scale-[1.01] ${card.imageClassName ?? ''}`}
       />
       <div
         className={`absolute inset-0 transition-opacity duration-300 ease-out group-hover/path-card:opacity-80 ${card.overlay}`}
@@ -50,17 +42,21 @@ function PathCardView({ card, index }: { card: PathCard; index: number }) {
         <h3 className="text-h3-serif">{card.title}</h3>
       </div>
 
-      <Button
-        href={card.href}
-        className="absolute top-3 right-3 cursor-pointer bg-brand-off-white text-brand-dark-green backdrop-blur-[5px] transition-colors duration-300 ease-out hover:bg-accent-steel-teal focus-visible:bg-accent-steel-teal group-hover/path-card:bg-accent-steel-teal"
+      <span
+        className="absolute top-3 right-3 inline-flex items-center justify-center rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green backdrop-blur-[5px] transition-colors duration-300 ease-out group-hover/path-card:bg-accent-steel-teal group-focus-visible/path-card:bg-accent-steel-teal"
       >
-        {card.cta}
-      </Button>
+        <span className="inline-flex items-center gap-1">
+          <span className="font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
+            {card.cta}
+          </span>
+          <ButtonArrowIcon />
+        </span>
+      </span>
 
       <p className="absolute right-6 bottom-6 left-6 font-sans text-[14px] leading-[1.2] font-medium">
         {card.body}
       </p>
-    </motion.article>
+    </Link>
   )
 }
 
@@ -83,7 +79,7 @@ export default function FeatureCardsSection() {
       title: t('operate.title'),
       body: t('operate.body'),
       cta: t('operate.cta'),
-      href: ROUTES.nodeProgram,
+      href: ROUTES.nodeProgramme,
       image: '/images/home/figma-refresh/path-operate.webp',
       overlay: 'bg-black/45',
       imageClassName: 'object-[45%_50%]',
@@ -102,7 +98,7 @@ export default function FeatureCardsSection() {
 
   return (
     <section className="relative hidden h-[848px] border-t border-brand-dark-green/10 bg-brand-off-white md:block">
-      <div className="mx-auto max-w-354">
+      <div>
         <p className="text-mono-s absolute top-6 left-[calc(50%+6px)] w-[226px] text-brand-dark-green">
           {t('kicker')}
         </p>
@@ -115,9 +111,9 @@ export default function FeatureCardsSection() {
           {t('body')}
         </p>
 
-        <div className="absolute top-[372px] left-1/2 grid w-[1416px] -translate-x-1/2 grid-cols-3 gap-3">
-          {cards.map((card, index) => (
-            <PathCardView key={card.key} card={card} index={index} />
+        <div className="absolute top-[372px] left-3 right-3 grid grid-cols-3 gap-3">
+          {cards.map((card) => (
+            <PathCardView key={card.key} card={card} />
           ))}
         </div>
       </div>

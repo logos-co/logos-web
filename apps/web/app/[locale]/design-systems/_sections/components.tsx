@@ -7,7 +7,6 @@ import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 
 import {
-  CardInfo,
   Footer,
   GiantSwitch,
   GiantSwitchTag,
@@ -17,155 +16,28 @@ import {
   TableRow,
   ViewToggle,
 } from '@acid-info/logos-ui'
-import { Button, Card } from '@/components/ui'
+import type { Language } from '@repo/content/schemas'
+
+import { TechStackDiagram } from '@/components/sections/shared/tech-stack-diagram'
+import { Button } from '@/components/ui'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
-
-const cardImages = {
-  storage: '/design-systems/storage.png',
-  messaging: '/design-systems/messaging.png',
-  blockchain: '/design-systems/blockchain.png',
-  userModules: '/design-systems/user-modules.png',
-  networking: '/design-systems/networking.png',
-  kernel: '/design-systems/kernel.png',
-} as const
-
-function Thumb({ src, alt }: { src: string; alt: string }) {
-  return <Image src={src} alt={alt} width={46} height={57} />
-}
+import { getHomeTechStackOverview } from '@/lib/tech-stack-overview'
 
 // --- Cards --------------------------------------------------------------
 
-function CardGrid({ state }: { state: 'default' | 'hover' }) {
-  const isHover = state === 'hover'
-  const networkingTitle = (
-    <>
-      <span className="block">The Networking Stack:</span>
-      <span className="block">Discovery, Peering, and Mix-Net</span>
-    </>
-  )
+export async function Cards({ locale }: { locale: Language }) {
+  const techStack = await getHomeTechStackOverview(locale)
 
   return (
-    <div className="flex flex-col gap-[12px]">
-      {/* Row 1: four small cards */}
-      <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2 lg:grid-cols-4">
-        <Card
-          height={366}
-          forceHover={isHover}
-          staticDefault={!isHover}
-          image={isHover && <Thumb src={cardImages.storage} alt="" />}
-          title="Storage"
-          description={
-            isHover
-              ? 'Decentralized file storage and retrieval, using content-addressed (CID-based) data'
-              : undefined
-          }
-          ctaHref={isHover ? ROUTES.storage : undefined}
-        />
-        <Card
-          height={366}
-          forceHover={isHover}
-          staticDefault={!isHover}
-          image={isHover && <Thumb src={cardImages.messaging} alt="" />}
-          title="Messaging"
-          description={
-            isHover
-              ? 'Private, censorship-resistant communication between parties.'
-              : undefined
-          }
-          ctaHref={isHover ? ROUTES.messaging : undefined}
-        />
-        <Card
-          height={366}
-          forceHover={isHover}
-          staticDefault={!isHover}
-          image={isHover && <Thumb src={cardImages.blockchain} alt="" />}
-          title="Blockchain"
-          description={
-            isHover ? 'Decentralized compute and consensus.' : undefined
-          }
-          ctaHref={isHover ? ROUTES.blockchain : undefined}
-        >
-          {isHover && (
-            <>
-              <CardInfo
-                height={78}
-                label="Logos Execution Zone (LEZ)"
-                description="Developers can deploy programs, run AMMs, transfer tokens, and build financial primitives with built-in privacy."
-              />
-              <CardInfo
-                height={78}
-                label="Data Availability and Consensus: Cryptarchia"
-                description="A private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden."
-              />
-            </>
-          )}
-        </Card>
-        <Card
-          height={366}
-          forceHover={isHover}
-          staticDefault={!isHover}
-          image={isHover && <Thumb src={cardImages.userModules} alt="" />}
-          title="User Modules"
-          description={
-            isHover
-              ? 'Anyone can build modules that plug into the same IPC infrastructure.'
-              : undefined
-          }
-          ctaHref={isHover ? ROUTES.technologyStack : undefined}
-        />
-      </div>
-
-      {/* Row 2: wide band — Networking Stack (no Lambda icon glyph in Figma) */}
-      <Card
-        height={196}
-        forceHover={isHover}
-        staticDefault={!isHover}
-        showIcon={false}
-        image={isHover && <Thumb src={cardImages.networking} alt="" />}
-        title={networkingTitle}
-        description={
-          isHover
-            ? 'This layer handles how Logos nodes find each other, establish connections, and communicate.'
-            : undefined
-        }
-        ctaHref={isHover ? ROUTES.networking : undefined}
+    <div className="flex w-full flex-col gap-[32px] bg-white p-[20px]">
+      <h2 className="font-display text-[64px] leading-[1] tracking-[-0.03em] text-brand-dark-green">
+        Cards
+      </h2>
+      <TechStackDiagram
+        data={techStack}
+        networkingHref={ROUTES.networking}
+        foundationHref={ROUTES.technologyStack}
       />
-
-      {/* Row 3: wide band — Foundation Kernel (no Lambda icon glyph in Figma) */}
-      <Card
-        height={196}
-        forceHover={isHover}
-        staticDefault={!isHover}
-        showIcon={false}
-        image={isHover && <Thumb src={cardImages.kernel} alt="" />}
-        title="The Foundation: Logos Kernel"
-        description={
-          isHover
-            ? 'A microkernel that handles the essential primitives every decentralized application needs.'
-            : undefined
-        }
-        ctaHref={isHover ? ROUTES.technologyStack : undefined}
-      />
-    </div>
-  )
-}
-
-export function Cards() {
-  return (
-    <div className="flex w-full flex-col gap-[80px] bg-white p-[20px]">
-      <div className="flex flex-col gap-[32px]">
-        <h2 className="font-display text-[64px] leading-[1] tracking-[-0.03em] text-brand-dark-green">
-          Default
-        </h2>
-        <CardGrid state="default" />
-      </div>
-
-      <div className="flex flex-col gap-[32px]">
-        <h2 className="font-display text-[64px] leading-[1] tracking-[-0.03em] text-brand-dark-green">
-          Hover
-        </h2>
-        <CardGrid state="hover" />
-      </div>
     </div>
   )
 }
@@ -183,7 +55,7 @@ export function Buttons() {
           <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Primary
           </p>
-          <Button variant="primary" href={ROUTES.technologyStack}>
+          <Button variant="primary" href={EXTERNAL_URLS.docs}>
             View The Docs
           </Button>
         </div>
@@ -191,7 +63,7 @@ export function Buttons() {
           <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Secondary
           </p>
-          <Button variant="secondary" href={ROUTES.technologyStack}>
+          <Button variant="secondary" href={EXTERNAL_URLS.docs}>
             View The Docs
           </Button>
         </div>
@@ -199,7 +71,7 @@ export function Buttons() {
           <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Tertiary
           </p>
-          <Button variant="tertiary" href={ROUTES.technologyStack}>
+          <Button variant="tertiary" href={EXTERNAL_URLS.docs}>
             View The Docs
           </Button>
         </div>
@@ -207,7 +79,7 @@ export function Buttons() {
           <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Link
           </p>
-          <Button variant="link" href={ROUTES.technologyStack}>
+          <Button variant="link" href={EXTERNAL_URLS.docs}>
             View The Docs
           </Button>
         </div>
@@ -220,11 +92,11 @@ export function Buttons() {
 
 const createTableRows = (placeholderTitle: string) =>
   [
-    { number: '01', title: 'Secure and Decentralized Frontends' },
+    { number: '01', title: 'Secure and Decentralised Frontends' },
     { number: '02', title: 'Build a DEX' },
     { number: '03', title: 'Integrate Logos blockchain into Fileverse' },
     { number: '02', title: placeholderTitle },
-    { number: '03', title: 'Secure and Decentralized Frontends' },
+    { number: '03', title: 'Secure and Decentralised Frontends' },
     { number: '02', title: 'Build a DEX' },
     { number: '03', title: 'Integrate Logos blockchain into Fileverse' },
   ] as const
@@ -457,7 +329,7 @@ function LogosLockup() {
 
 export function Footers() {
   const mainLinks = [
-    { label: 'Work With Us', href: ROUTES.workWithUs },
+    { label: 'Work With Us', href: EXTERNAL_URLS.iftJobs, external: true },
     { label: 'Brand Guidelines', href: ROUTES.brandKit },
   ]
   const socialLinks = [

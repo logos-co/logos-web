@@ -23,6 +23,7 @@ import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 import { getLatestPressArticles } from '@/lib/press-engine'
+import { getSocialProofStats } from '@/lib/social-proof-stats'
 
 const findSection = createSectionFinder('home')
 
@@ -42,38 +43,46 @@ export default async function HomePage({
   const page = await getPageCopy(ROUTE, locale)
 
   const hero = findSection<HeroSection>(page.sections, 'hero', 'home.atf')
+
   const techStack = findSection<TechStackOverviewSection>(
     page.sections,
     'techStackOverview',
     'home.techStack'
   )
+
   const parallelSocietyHeadline = findSection<FeaturedTextSection>(
     page.sections,
     'featuredText',
     'home.parallelSocietyHeadline'
   )
+
   const parallelSocietyGallery = findSection<GallerySection>(
     page.sections,
     'gallery',
     'home.parallelSociety'
   )
+
   const press = findSection<RelatedArticlesSection>(
     page.sections,
     'relatedArticles',
     'home.press'
   )
+
   const circlesCta = findSection<FeaturedTextSection>(
     page.sections,
     'featuredText',
     'home.circlesCta'
   )
 
-  const articles = await getLatestPressArticles(press.visibleCount ?? 4)
+  const [articles, socialProofStats] = await Promise.all([
+    getLatestPressArticles(press.visibleCount ?? 4),
+    getSocialProofStats(),
+  ])
 
   return (
     <>
       <HeroSectionView data={hero} />
-      <SocialProofSection />
+      <SocialProofSection stats={socialProofStats} />
       <AboutSection locale={locale} />
       <BuilderPortalSection locale={locale} />
       <FeatureCardsSection />

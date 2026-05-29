@@ -7,11 +7,11 @@ import type {
   RelatedArticlesSection,
 } from '@repo/content/schemas'
 
-import NetworkingBuilderCta from '@/components/sections/networking/networking-builder-cta'
 import NetworkingFeatures from '@/components/sections/networking/networking-features'
 import NetworkingHero from '@/components/sections/networking/networking-hero'
 import NetworkingIntro from '@/components/sections/networking/networking-intro'
-import NetworkingRelatedArticles from '@/components/sections/networking/networking-related-articles'
+import TechStackBuilderCta from '@/components/sections/shared/tech-stack-builder-cta'
+import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 import TechStackExplorer from '@/components/sections/shared/tech-stack-explorer'
 
 import { ROUTES } from '@/constants/routes'
@@ -71,9 +71,12 @@ export default async function NetworkingPage({
       <NetworkingHero data={hero} backHref={ROUTES.technologyStack} />
       <NetworkingIntro data={intro} />
       <NetworkingFeatures data={features} />
-      <NetworkingBuilderCta data={builderCta} />
+      <TechStackBuilderCta
+        data={builderCta}
+        className="mt-15 mb-15 md:mt-25 md:mb-25"
+      />
       <TechStackExplorer locale={locale} />
-      <NetworkingRelatedArticles data={relatedArticles} articles={articles} />
+      <TechStackRelatedArticles data={relatedArticles} articles={articles} />
     </>
   )
 }

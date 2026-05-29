@@ -208,7 +208,7 @@ export const mergePullRequestToBase = async ({
     owner,
     repo,
     pull_number: pullRequestNumber,
-    merge_method: 'merge',
+    merge_method: 'squash',
   })
 
   return {

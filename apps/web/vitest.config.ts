@@ -10,7 +10,11 @@ import { fileURLToPath } from 'node:url'
 export default defineConfig({
   test: {
     environment: 'node',
-    include: ['lib/**/*.test.ts', 'lib/**/__tests__/**/*.test.ts'],
+    include: [
+      'lib/**/*.test.ts',
+      'lib/**/__tests__/**/*.test.ts',
+      'app/**/__tests__/**/*.test.ts',
+    ],
     coverage: {
       provider: 'v8',
       include: ['lib/**/*.ts'],

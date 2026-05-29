@@ -49,11 +49,11 @@
           "cta": { "label": "Start building", "href": "/builders-hub" }
         },
         {
-          "title": "Node Program",
-          "description": "The Node Program is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
+          "title": "Node Programme",
+          "description": "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
           "cta": {
             "label": "Apply",
-            "href": "/node-program"
+            "href": "/node-programme"
           }
         },
         {
@@ -73,7 +73,11 @@
       "key": "home.techStack",
       "eyebrow": "A unified ecosystem. Private-by-default. Built for real life.",
       "title": "The Logos Technology Stack",
-      "cta": { "label": "See the Stack", "href": "/technology-stack" },
+      "cta": {
+        "label": "See the Stack",
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
+      },
       "basecamp": {
         "title": "Basecamp",
         "body": "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem.",
@@ -99,7 +103,7 @@
         {
           "id": "blockchain",
           "title": "Blockchain",
-          "body": "Privacy-preserving consensus designed for sovereign communities.",
+          "body": "Decentralised compute and consensus.",
           "href": "/technology-stack/blockchain",
           "details": [
             {
@@ -122,7 +126,7 @@
       "networkingTitle": "The Networking Stack: Discovery, Peering, and Mix-Net",
       "networkingDescription": "This layer handles how Logos nodes find each other, establish connections, and communicate.",
       "foundationTitle": "The Foundation: Logos Kernel",
-      "foundationDescription": "A microkernel that handles the essential primitives every decentralized application needs."
+      "foundationDescription": "A microkernel that handles the essential primitives every decentralised application needs."
     },
     {
       "componentType": "cardGrid",
@@ -132,7 +136,8 @@
       "subheadingExtra": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
       "cta": {
         "label": "View the Docs",
-        "href": "/technology-stack"
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
       },
       "cards": [
         {
@@ -150,7 +155,7 @@
           }
         },
         {
-          "title": "Decentralized Archives",
+          "title": "Decentralised Archives",
           "description": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
           "image": {
             "src": "/images/home/usecase-2.jpg",

@@ -12,9 +12,9 @@ export const AFFORM = {
   "submitEnabled": true,
   "createSubmission": true,
   "pageHeading": "Activist Leader / Steward",
-  "pageIntro": "If you care about building stronger local communities, bringing people together, and turning ideas into action, you might be steward material. We're looking for people who want to build something durable in their area - not just host occasional meetups, but create a real local community with structure, continuity, and impact.",
-  "pagePrivacy": "If you care about building stronger local communities, bringing people together, and turning ideas into action, you might be steward material. We're looking for people who want to build something durable in their area - not just host occasional meetups, but create a real local community with structure, continuity, and impact. Let us know how we can reach you, tell us a bit more about yourself, and share why you'd like to start a Circle in your area. Not every field is required, but more context helps us understand the fit and how we can best support you. We'll review your submission and be in touch. If you want to learn more about Circles first, please check out our Circle Guide",
-  "pagePrivacyLink": "http://circles.logos.co",
+  "pageIntro": "If you care about building stronger local communities, bringing people together, and turning ideas into action, you might be steward material. We're looking for people who want to build something durable in their area - not just host occasional meetups, but create a real local community with structure, continuity, and impact. Let us know how we can reach you, tell us a bit more about yourself, and share why you'd like to start a Circle in your area. Not every field is required, but more context helps us understand the fit and how we can best support you. We'll review your submission and be in touch. If you want to learn more about Circles first, please check out our Circle Guide",
+  "pagePrivacy": "We respect your privacy. By clicking 'Submit', you consent to our processing of your personal data as described above and in our Privacy Policy .",
+  "pagePrivacyLink": "https://logos.co/privacy-policy",
   "fields": [
     {
       "entity": "Individual1",
@@ -345,9 +345,9 @@ export const AFFORM_FIELDS = [
 ];
 
 export const AFFORM_PAGE_HEADING = "Activist Leader / Steward";
-export const AFFORM_PAGE_INTRO = "If you care about building stronger local communities, bringing people together, and turning ideas into action, you might be steward material. We're looking for people who want to build something durable in their area - not just host occasional meetups, but create a real local community with structure, continuity, and impact.";
-export const AFFORM_PAGE_PRIVACY = "If you care about building stronger local communities, bringing people together, and turning ideas into action, you might be steward material. We're looking for people who want to build something durable in their area - not just host occasional meetups, but create a real local community with structure, continuity, and impact. Let us know how we can reach you, tell us a bit more about yourself, and share why you'd like to start a Circle in your area. Not every field is required, but more context helps us understand the fit and how we can best support you. We'll review your submission and be in touch. If you want to learn more about Circles first, please check out our Circle Guide";
-export const AFFORM_PAGE_PRIVACY_LINK = "http://circles.logos.co";
+export const AFFORM_PAGE_INTRO = "If you care about building stronger local communities, bringing people together, and turning ideas into action, you might be steward material. We're looking for people who want to build something durable in their area - not just host occasional meetups, but create a real local community with structure, continuity, and impact. Let us know how we can reach you, tell us a bit more about yourself, and share why you'd like to start a Circle in your area. Not every field is required, but more context helps us understand the fit and how we can best support you. We'll review your submission and be in touch. If you want to learn more about Circles first, please check out our Circle Guide";
+export const AFFORM_PAGE_PRIVACY = "We respect your privacy. By clicking 'Submit', you consent to our processing of your personal data as described above and in our Privacy Policy .";
+export const AFFORM_PAGE_PRIVACY_LINK = "https://logos.co/privacy-policy";
 
 export const AFFORM_OPTIONS = {
   "role": [
