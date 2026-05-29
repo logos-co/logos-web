@@ -1,0 +1,144 @@
+import {
+  isAfformIntakeFormName,
+  type AfformIntakeFormName,
+} from '@/lib/civicrm/afform-case-defaults'
+
+import {
+  CHAT_SERVICE_MAP,
+  COUNTRY_MAP,
+  MVMT_STATUS_NEW_LEAD,
+  PROFILE_BY_FORM,
+  SKILLS_MAP,
+} from './maps'
+
+export type NotionPageProperties = Record<string, unknown>
+
+function toArray(v: unknown): string[] {
+  return Array.isArray(v) ? (v as string[]) : v ? [String(v)] : []
+}
+
+function trim(s: unknown): string {
+  return s && typeof s === 'string' ? s.trim() : ''
+}
+
+function richText(content: string): NotionPageProperties {
+  return {
+    rich_text: [{ type: 'text', text: { content: content.slice(0, 2000) } }],
+  }
+}
+
+function optionalRichText(content: string): NotionPageProperties | undefined {
+  if (!content) return undefined
+  return richText(content)
+}
+
+export function resolveOrganizationSelect(
+  submitted: string,
+  existingOptions: readonly string[]
+): string {
+  const value = submitted.trim()
+  if (!value) return ''
+  const lower = value.toLowerCase()
+  const match = existingOptions.find((option) => option.toLowerCase() === lower)
+  return match ?? value
+}
+
+function getBackground(data: Record<string, unknown>): string {
+  return (
+    trim(data.backgroundPartner) ||
+    trim(data.backgroundBuilder) ||
+    trim(data.backgroundLeader) ||
+    ''
+  )
+}
+
+function getProfileName(formName: string): string | undefined {
+  if (!isAfformIntakeFormName(formName)) return undefined
+  return PROFILE_BY_FORM[formName as AfformIntakeFormName]
+}
+
+export function buildNotionProperties(
+  data: Record<string, unknown>,
+  formName: string,
+  organizationSelect: string
+): NotionPageProperties {
+  const name = trim(data.name) || 'Unknown'
+  const email = trim(data.email)
+  const city = trim(data.city)
+  const countryId = trim(data.country)
+  const country = COUNTRY_MAP[countryId] ?? countryId
+
+  const background = getBackground(data)
+  const techVision = trim(data.techVision)
+  const activitiesVision = trim(data.activitiesVision)
+  const questions = trim(data.questions)
+  const wantsEvents = data.wantsEvents === true
+  const wantsNewsletter = data.wantsNewsletter === true
+
+  const skillIds = toArray(data.skills)
+  const skillNames = skillIds
+    .map((id) => SKILLS_MAP[id] ?? id)
+    .filter(Boolean)
+    .map((skillName) => ({ name: skillName }))
+
+  const websiteArr = toArray(data.website).map(trim).filter(Boolean)
+  const websitesStr = websiteArr.join(' | ')
+
+  const chatArr = toArray(data.chat).map(trim)
+  const chatServiceArr = toArray(data.chatService).map(trim)
+  const chatPairs = chatArr
+    .map((handle, i): string | null => {
+      if (!handle) return null
+      const svcId = chatServiceArr[i] ?? ''
+      const svcLabel = CHAT_SERVICE_MAP[svcId] ?? svcId
+      return svcLabel ? `${handle} (${svcLabel})` : handle
+    })
+    .filter((v): v is string => v !== null)
+  const chatStr = chatPairs.join(' | ')
+
+  const profileName = getProfileName(formName)
+
+  const properties: NotionPageProperties = {
+    Name: { title: [{ type: 'text', text: { content: name } }] },
+    'Mvmt Status': { select: { name: MVMT_STATUS_NEW_LEAD } },
+    'Wants Events': { checkbox: wantsEvents },
+    'Wants Newsletter': { checkbox: wantsNewsletter },
+    Skills: { multi_select: skillNames },
+  }
+
+  if (email) {
+    properties['Email/Website'] = { email }
+  }
+  if (city) {
+    properties.City = richText(city)
+  }
+  if (country) {
+    properties.Country = richText(country)
+  }
+  if (organizationSelect) {
+    properties.Organization = { select: { name: organizationSelect } }
+  }
+  if (profileName) {
+    properties.Profile = { select: { name: profileName } }
+  }
+  if (websitesStr) {
+    properties.Website = { url: websitesStr }
+  }
+  if (chatStr) {
+    properties['Phone or Social Handle'] = { phone_number: chatStr }
+  }
+
+  const backgroundProp = optionalRichText(background)
+  if (backgroundProp) properties.Background = backgroundProp
+
+  const techVisionProp = optionalRichText(techVision)
+  if (techVisionProp) properties['Tech Vision'] = techVisionProp
+
+  const activitiesVisionProp = optionalRichText(activitiesVision)
+  if (activitiesVisionProp) properties['Activities Vision'] = activitiesVisionProp
+
+  const questionsProp = optionalRichText(questions)
+  if (questionsProp) properties.Questions = questionsProp
+
+  return properties
+}
