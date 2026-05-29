@@ -543,6 +543,10 @@ KEYCLOAK_USER_EMAIL_HEADER=
 # the Keycloak header. Use in .env.local during local development.
 # Remove or leave unset in staging/production.
 DEV_USER_EMAIL_MOCK=
+
+# Intake funnel (POST /api/public/afform-submit) — optional opt-out per destination
+# FUNNEL_INTAKE_NOTION_DISABLED=1
+# FUNNEL_INTAKE_CIVICRM_DISABLED=1
 ```
 
 No `NEXT_PUBLIC_` prefixed env vars are needed — all CiviCRM communication is server-side.
