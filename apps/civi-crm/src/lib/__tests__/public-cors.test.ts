@@ -8,17 +8,21 @@ import {
 const PREVIEW_WEB_ORIGIN =
   'https://logos-co-web-git-felicio-forms-acidinfo.vercel.app'
 
+function setEnvVar(name: string, value: string | undefined): void {
+  process.env[name] = value
+}
+
 describe('public-cors', () => {
   afterEach(() => {
-    delete process.env.CORS_ALLOWED_ORIGINS
-    delete process.env.VERCEL_ENV
-    delete process.env.NODE_ENV
+    setEnvVar('CORS_ALLOWED_ORIGINS', undefined)
+    setEnvVar('VERCEL_ENV', undefined)
+    setEnvVar('NODE_ENV', undefined)
   })
 
   describe('isPublicCorsOriginAllowed', () => {
     it('allows only logos.co on production deployments', () => {
-      process.env.VERCEL_ENV = 'production'
-      process.env.NODE_ENV = 'production'
+      setEnvVar('VERCEL_ENV', 'production')
+      setEnvVar('NODE_ENV', 'production')
 
       expect(isPublicCorsOriginAllowed('https://logos.co')).toBe(true)
       expect(isPublicCorsOriginAllowed('http://localhost:3000')).toBe(false)
@@ -26,8 +30,8 @@ describe('public-cors', () => {
     })
 
     it('allows localhost and preview URLs outside production', () => {
-      process.env.VERCEL_ENV = 'preview'
-      process.env.NODE_ENV = 'production'
+      setEnvVar('VERCEL_ENV', 'preview')
+      setEnvVar('NODE_ENV', 'production')
 
       expect(isPublicCorsOriginAllowed('https://logos.co')).toBe(true)
       expect(isPublicCorsOriginAllowed('http://localhost:3000')).toBe(true)
@@ -35,14 +39,14 @@ describe('public-cors', () => {
     })
 
     it('allows localhost in local development', () => {
-      process.env.NODE_ENV = 'development'
+      setEnvVar('NODE_ENV', 'development')
 
       expect(isPublicCorsOriginAllowed('http://localhost:3000')).toBe(true)
       expect(isPublicCorsOriginAllowed(PREVIEW_WEB_ORIGIN)).toBe(true)
     })
 
     it('rejects unrelated origins', () => {
-      process.env.VERCEL_ENV = 'preview'
+      setEnvVar('VERCEL_ENV', 'preview')
 
       expect(isPublicCorsOriginAllowed('https://evil.example')).toBe(false)
       expect(isPublicCorsOriginAllowed('https://other-app.vercel.app')).toBe(
@@ -51,9 +55,11 @@ describe('public-cors', () => {
     })
 
     it('allows origins from CORS_ALLOWED_ORIGINS on any deployment', () => {
-      process.env.VERCEL_ENV = 'production'
-      process.env.CORS_ALLOWED_ORIGINS =
+      setEnvVar('VERCEL_ENV', 'production')
+      setEnvVar(
+        'CORS_ALLOWED_ORIGINS',
         'http://localhost:3000,https://staging.example'
+      )
 
       expect(isPublicCorsOriginAllowed('http://localhost:3000')).toBe(true)
       expect(isPublicCorsOriginAllowed('https://staging.example')).toBe(true)
@@ -62,7 +68,7 @@ describe('public-cors', () => {
 
   describe('getPublicCorsHeaders', () => {
     it('returns CORS headers for allowed origins', () => {
-      process.env.VERCEL_ENV = 'preview'
+      setEnvVar('VERCEL_ENV', 'preview')
 
       expect(getPublicCorsHeaders(PREVIEW_WEB_ORIGIN)).toEqual({
         'Access-Control-Allow-Origin': PREVIEW_WEB_ORIGIN,
@@ -74,7 +80,7 @@ describe('public-cors', () => {
     })
 
     it('returns no headers for disallowed origins', () => {
-      process.env.VERCEL_ENV = 'production'
+      setEnvVar('VERCEL_ENV', 'production')
 
       expect(getPublicCorsHeaders(PREVIEW_WEB_ORIGIN)).toEqual({})
       expect(getPublicCorsHeaders('https://evil.example')).toEqual({})
