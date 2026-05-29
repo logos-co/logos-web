@@ -1,10 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server'
 
-import { isAfformIntakeFormName } from '@/lib/civicrm/afform-case-defaults'
-import {
-  buildAfformValues,
-  type AfformFieldDef,
-} from '@/lib/civicrm/build-afform-values'
+import { type AfformFieldDef } from '@/lib/civicrm/build-afform-values'
+import { submitToCiviCrm } from '@/lib/civicrm/submit-afform'
 
 const CIVICRM_BASE_URL = process.env.CIVICRM_BASE_URL ?? ''
 const CIVICRM_API_KEY = process.env.CIVICRM_API_KEY ?? ''
@@ -90,38 +87,17 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  try {
-    const values = buildAfformValues(
-      formData,
-      fieldDefs,
-      isAfformIntakeFormName(formName) ? formName : undefined
-    )
-    const params = JSON.stringify({ name: formName, values, args: {} })
+  const result = await submitToCiviCrm(formData, fieldDefs, formName)
 
-    const res = await fetch(
-      `${CIVICRM_BASE_URL}/civicrm/ajax/api4/Afform/submit`,
-      {
-        method: 'POST',
-        headers: {
-          'X-Civi-Auth': `Bearer ${CIVICRM_API_KEY}`,
-          'X-Requested-With': 'XMLHttpRequest',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `params=${encodeURIComponent(params)}`,
-      }
-    )
-
-    if (!res.ok) {
-      const text = await res.text()
-      throw new Error(`Afform.submit (${res.status}): ${text.slice(0, 200)}`)
-    }
-
-    return NextResponse.json({ success: true }, { status: 201 })
-  } catch (e) {
-    const message = e instanceof Error ? e.message : 'Unknown error'
+  if (!result.ok) {
     return NextResponse.json(
-      { error: 'Failed to submit form. Please try again.', detail: message },
+      {
+        error: 'Failed to submit form. Please try again.',
+        detail: result.message,
+      },
       { status: 502 }
     )
   }
+
+  return NextResponse.json({ success: true }, { status: 201 })
 }
