@@ -159,6 +159,18 @@ The generated file under `src/migrations/` and the updated `src/migrations/index
 - **A failed migration blocks the deploy.** The entrypoint runs under `set -e`, so if `payload migrate` exits non-zero the container stops before serving traffic. Test migrations against a staging database first.
 - **Single-instance assumption.** The entrypoint migrates on every container start. If you scale the CMS to more than one replica, run migrations as a separate one-shot step (or gate them behind a leader) so replicas don't migrate the same database concurrently — the bundled `docker-compose.prod.yml` runs a single `cms` service, so this is safe as-is.
 
+### First admin user
+
+There is **no environment variable** for the initial admin account — Payload never bakes credentials into the image or config. The first admin is created interactively:
+
+1. After the container boots and migrations run, the `users` table is empty.
+2. Open `/admin` on the public CMS origin (`NEXT_PUBLIC_SERVER_URL`, e.g. `https://cms.logos.co`).
+3. Payload serves a **"Create first user"** screen — the email / password you enter there becomes the first admin account.
+
+Additional accounts are created afterward from the **Users** collection inside Admin.
+
+> **Do this immediately after the first deploy.** Until the first user exists, anyone who reaches `/admin` can claim the admin account. Keep `/admin` behind your reverse proxy / network controls until you've created it.
+
 ### Health check
 
 The image exposes a health endpoint used by Docker's `HEALTHCHECK`:

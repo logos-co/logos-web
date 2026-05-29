@@ -9,6 +9,15 @@ function readAppFile(path: string) {
   })
 }
 
+function readRepoFile(path: string) {
+  return readFileSync(
+    fileURLToPath(new URL(`../../../../${path}`, import.meta.url)),
+    {
+      encoding: 'utf8',
+    }
+  )
+}
+
 describe('tech stack diagram motion contract', () => {
   test('makes the whole stack item card the link target', () => {
     const diagram = readAppFile(
@@ -50,5 +59,17 @@ describe('tech stack diagram motion contract', () => {
     expect(diagram).not.toContain(
       'absolute right-1.5 bottom-1.5 left-1.5 z-[1] flex flex-col gap-1.5 md:hidden'
     )
+  })
+
+  test('keeps the app install hover image shift subtle', () => {
+    const giantSwitch = readRepoFile(
+      'packages/ui/src/primitives/giant-switch/giant-switch.tsx'
+    )
+
+    expect(giantSwitch).toContain(
+      "const hoverShiftDistance = imagePosition === 'left' ? '12px' : '-12px'"
+    )
+    expect(giantSwitch).not.toContain('702px')
+    expect(giantSwitch).not.toContain('opacity: 0')
   })
 })
