@@ -51,6 +51,11 @@ export type Env = {
    * hCaptcha public sitekey for connect forms.
    */
   NEXT_PUBLIC_HCAPTCHA_SITEKEY: string | undefined
+  /**
+   * Optional override for static forms that post directly to the take-action
+   * service.
+   */
+  NEXT_PUBLIC_TAKE_ACTION_API_URL: string | undefined
 }
 
 function assertOneOf<T extends string>(
@@ -108,5 +113,8 @@ export const env: Env = {
   ),
   NEXT_PUBLIC_HCAPTCHA_SITEKEY: readOptionalString(
     process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY
+  ),
+  NEXT_PUBLIC_TAKE_ACTION_API_URL: readOptionalString(
+    process.env.NEXT_PUBLIC_TAKE_ACTION_API_URL
   ),
 }

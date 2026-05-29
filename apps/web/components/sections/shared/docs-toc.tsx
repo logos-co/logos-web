@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
+import { Link } from '@/i18n/navigation'
 
 /**
  * Shared left-side ToC used by FAQ, Terms, Privacy, Security
@@ -77,15 +77,25 @@ export async function DocsToc({ activeKey }: DocsTocProps) {
           )
         }
 
+        const className =
+          'text-mono-s cursor-pointer text-brand-dark-green transition-opacity hover:opacity-60'
+
+        if (item.external) {
+          return (
+            <a
+              key={item.key}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={className}
+            >
+              {t(item.key)}
+            </a>
+          )
+        }
+
         return (
-          <Link
-            key={item.key}
-            href={item.href}
-            {...(item.external
-              ? { target: '_blank', rel: 'noopener noreferrer' }
-              : {})}
-            className="text-mono-s cursor-pointer text-brand-dark-green transition-opacity hover:opacity-60"
-          >
+          <Link key={item.key} href={item.href} className={className}>
             {t(item.key)}
           </Link>
         )

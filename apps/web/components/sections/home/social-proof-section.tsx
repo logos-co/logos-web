@@ -2,12 +2,11 @@
 
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { motion } from 'motion/react'
 
-import { EASE, VIEWPORT_ONCE } from '@/lib/motion'
+import type { SocialProofStats } from '@/lib/social-proof-stats'
 
 interface SocialProofCard {
-  key: 'contributions' | 'nodes' | 'circles' | 'issues'
+  key: 'contributions' | 'contributors' | 'repositories' | 'circles'
   value: string
   label: string
   body: string
@@ -18,21 +17,11 @@ interface SocialProofCard {
 
 function SocialProofCardView({
   card,
-  index,
 }: {
   card: SocialProofCard
-  index: number
 }) {
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.55, delay: index * 0.08, ease: EASE.out },
-      }}
-      whileHover={{ y: -8 }}
-      viewport={VIEWPORT_ONCE}
+    <article
       className={`relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl p-1.5 md:h-[432px] ${card.mobileClassName ?? 'h-[411px]'}`}
     >
       <Image
@@ -58,17 +47,21 @@ function SocialProofCardView({
           {card.body}
         </p>
       </div>
-    </motion.article>
+    </article>
   )
 }
 
-export default function SocialProofSection() {
+interface SocialProofSectionProps {
+  stats: SocialProofStats
+}
+
+export default function SocialProofSection({ stats }: SocialProofSectionProps) {
   const t = useTranslations('home.socialProof')
 
   const cards: SocialProofCard[] = [
     {
       key: 'contributions',
-      value: t('contributions.value'),
+      value: stats.contributions,
       label: t('contributions.label'),
       body: t('contributions.body'),
       image: '/images/home/figma-refresh/social-contributions.webp',
@@ -76,39 +69,39 @@ export default function SocialProofSection() {
       imageClassName: 'object-[47%_52%]',
     },
     {
-      key: 'nodes',
-      value: t('nodes.value'),
-      label: t('nodes.label'),
-      body: t('nodes.body'),
+      key: 'contributors',
+      value: stats.contributors,
+      label: t('contributors.label'),
+      body: t('contributors.body'),
       image: '/images/home/figma-refresh/social-node.webp',
       mobileClassName: 'h-[432px]',
       imageClassName: 'object-[50%_52%]',
     },
     {
+      key: 'repositories',
+      value: stats.repositories,
+      label: t('repositories.label'),
+      body: t('repositories.body'),
+      image: '/images/home/figma-refresh/social-issues.webp',
+      mobileClassName: 'h-[411px]',
+      imageClassName: 'object-[47%_51%]',
+    },
+    {
       key: 'circles',
-      value: t('circles.value'),
+      value: stats.circles,
       label: t('circles.label'),
       body: t('circles.body'),
       image: '/images/home/figma-refresh/social-circles.webp',
-      mobileClassName: 'h-[411px]',
-      imageClassName: 'object-[50%_50%]',
-    },
-    {
-      key: 'issues',
-      value: t('issues.value'),
-      label: t('issues.label'),
-      body: t('issues.body'),
-      image: '/images/home/figma-refresh/social-issues.webp',
       mobileClassName: 'h-[432px]',
-      imageClassName: 'object-[47%_51%]',
+      imageClassName: 'object-[50%_50%]',
     },
   ]
 
   return (
     <section className="relative z-[2] -mt-10 overflow-hidden rounded-t-[36px] bg-brand-off-white px-3 pt-3 pb-[100px]">
       <div className="grid gap-3 md:grid-cols-4">
-        {cards.map((card, index) => (
-          <SocialProofCardView key={card.key} card={card} index={index} />
+        {cards.map((card) => (
+          <SocialProofCardView key={card.key} card={card} />
         ))}
       </div>
     </section>

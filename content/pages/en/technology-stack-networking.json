@@ -30,7 +30,8 @@
         },
         {
           "label": "Docs",
-          "href": "/technology-stack/networking",
+          "href": "https://github.com/logos-co/logos-docs",
+          "external": true,
           "variant": "secondary"
         }
       ]
@@ -42,7 +43,8 @@
       "description": "The networking layer handles how Logos nodes find each other, establish connections, and communicate. Private-by-default, this layer doesn't care whether modules above it are storing files, sending chat messages, or processing transactions. It provides private, reliable communication as a shared foundation.",
       "cta": {
         "label": "View the docs",
-        "href": "/technology-stack/networking"
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
       }
     },
     {
@@ -61,7 +63,7 @@
         },
         {
           "title": "Capability Discovery Protocol",
-          "description": "A capability discovery protocol lets nodes advertise and find services without centralized registries.",
+          "description": "A capability discovery protocol lets nodes advertise and find services without centralised registries.",
           "image": {
             "src": "/images/networking/capability-discovery.jpg",
             "alt": "",
@@ -71,7 +73,7 @@
         },
         {
           "title": "Peering Layer",
-          "description": "Peering layer manages connections across the decentralized network.",
+          "description": "Peering layer manages connections across the decentralised network.",
           "image": {
             "src": "/images/networking/peering-layer.jpg",
             "alt": "",
@@ -90,7 +92,8 @@
           "description": "Reference for the kernel, modules, and UI packages.",
           "cta": {
             "label": "View the docs",
-            "href": "/technology-stack"
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true
           }
         },
         {

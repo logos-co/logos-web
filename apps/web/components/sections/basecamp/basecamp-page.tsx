@@ -218,7 +218,7 @@ function LocalFirstSection({ data }: { data: CtaPanelSection }) {
 function ModularSection({ data }: { data: FeaturedTextSection }) {
   return (
     <section className="mx-auto grid w-full max-w-360 gap-10 border-b border-brand-dark-green/10 px-3 py-10 md:min-h-[275px] md:grid-cols-2">
-      <h2 className="text-h3 text-brand-dark-green">
+      <h2 className="font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
         {data.title.highlight} {data.title.rest}
       </h2>
       <div className="text-mono-s max-w-[345px] text-brand-dark-green">
@@ -234,11 +234,11 @@ function CapabilityCard({ card }: { card: CardGridSection['cards'][number] }) {
   return (
     <article className="flex min-h-[250px] flex-col justify-between rounded-xl bg-gray-01 p-4">
       <div className="grid gap-3">
-        <h3 className="text-subhead-sans text-brand-dark-green">
+        <h3 className="font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
           {card.title}
         </h3>
         {card.description ? (
-          <p className="text-body-s max-w-[329px] text-brand-dark-green">
+          <p className="max-w-[329px] font-sans text-[14px] leading-[1.2] text-brand-dark-green">
             {card.description}
           </p>
         ) : null}
@@ -254,7 +254,9 @@ function CapabilitiesSection({ data }: { data: CardGridSection }) {
   return (
     <section className="mx-auto w-full max-w-360 px-3 py-6 md:py-10">
       {data.heading ? (
-        <h2 className="text-h3 mb-10 text-brand-dark-green">{data.heading}</h2>
+        <h2 className="mb-10 font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
+          {data.heading}
+        </h2>
       ) : null}
       <div className="grid gap-3 md:grid-cols-3">
         {data.cards.map((card) => (

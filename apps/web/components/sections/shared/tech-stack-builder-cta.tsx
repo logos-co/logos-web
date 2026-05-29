@@ -9,22 +9,14 @@ import type { CardGridSection } from '@repo/content/schemas'
 import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 
-import { DownloadIcon } from '../shared/builder-cta-card'
-
-const CARD_WRAPPER_CLASSNAME =
-  'flex flex-col items-center justify-center gap-6 md:gap-10'
+import { DownloadIcon } from './builder-cta-card'
 
 type Props = {
   data: CardGridSection
+  className?: string
 }
 
-/**
- * Same positional 3-card pattern as the blockchain page's builder CTA:
- *   cards[0] → Docs       (bordered, square, off-white)
- *   cards[1] → Builder Hub (rounded pill, blurred image bg, dark green)
- *   cards[2] → Logos App   (gray-01, rounded, download icon)
- */
-export default function StorageBuilderCta({ data }: Props) {
+export default function TechStackBuilderCta({ data, className }: Props) {
   const [docsCard, builderHubCard, logosAppCard] = data.cards
   const cardsInput: Array<TechBuilderCtaCard | undefined> = [
     docsCard
@@ -84,11 +76,7 @@ export default function StorageBuilderCta({ data }: Props) {
 
   return (
     <Reveal amount={0.2}>
-      <TechBuilderCtaDeck
-        cards={cards}
-        className="mt-15 mb-15 md:mt-25 md:mb-25"
-        contentWrapperClassName={CARD_WRAPPER_CLASSNAME}
-      />
+      <TechBuilderCtaDeck cards={cards} className={className} />
     </Reveal>
   )
 }

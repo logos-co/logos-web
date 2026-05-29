@@ -6,8 +6,8 @@ import { __resetGithubConfigForTests, loadGithubConfigFromEnv } from '../config'
 const originalEnv = { ...process.env }
 
 const setBaseEnv = (): void => {
-  process.env.GITHUB_OWNER = 'acid-info'
-  process.env.GITHUB_REPO = 'logos-co'
+  process.env.GITHUB_OWNER = 'logos-co'
+  process.env.GITHUB_REPO = 'logos-web'
   process.env.GITHUB_APP_ID = '12345'
   process.env.GITHUB_INSTALLATION_ID = '67890'
   delete process.env.GITHUB_TOKEN

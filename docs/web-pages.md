@@ -35,7 +35,7 @@ All nodes live in the `_Dev Handoff: All Pages` page (`2267:46449`).
 ### Sections (top → bottom)
 
 1. **ATF hero** — "Pioneering a New Era of Freedom" display headline (`text-hero`), eyebrow + 2-line body copy, `JOIN THE MOVEMENT →` + `LEARN MORE →` CTAs. Full-bleed aerial photograph background, dark overlay. The top edge of the Build card **peeks up from the bottom** of the viewport (≈ 60 px visible) as a scroll affordance.
-2. **Build / Node Program / Circles triptych** — 3 full-bleed rounded cards (desktop: side-by-side stacked vertically / mobile: stacked). Each card: `Lambda icon Title` serif + description + CTA (left); numbered label `01 BUILD / EXAMPLES` + 4-row examples table (right, desktop only). See nodes `22710` / `22453`.
+2. **Build / Node Programme / Circles triptych** — 3 full-bleed rounded cards (desktop: side-by-side stacked vertically / mobile: stacked). Each card: `Lambda icon Title` serif + description + CTA (left); numbered label `01 BUILD / EXAMPLES` + 4-row examples table (right, desktop only). See nodes `22710` / `22453`.
 3. **About teaser** — left-aligned copy block + editorial image, light section.
 4. **Tech Stack overview** — "The Logos Technology Stack" serif heading + 4 tech-pillar `<Card>` components (Storage, Messaging, Blockchain, Live Modules).
 5. **Use Cases** — horizontal card row: content scrolls or wraps on mobile.
@@ -189,7 +189,7 @@ Same template as Blockchain. Unique content:
 Same template as Blockchain. Unique content:
 
 1. **Page header** — `Lambda icon Storage` + two CTAs: `SIGN UP →` and `LEARN MORE →`.
-2. **Hero split** — "Private, Secure, Decentralized Storage." + body + `FIND OUT MORE →`; right: tall portrait photograph.
+2. **Hero split** — "Private, Secure, Decentralised Storage." + body + `FIND OUT MORE →`; right: tall portrait photograph.
 3. **Three-card row** — Dero, Logos Builder Hub (center), Logos App.
 4. **Explore / Related Articles / Footer**
 
@@ -208,7 +208,7 @@ Same template as Blockchain. Unique content:
 1. **Page header** — "Logos Builders Hub" large serif title.
 2. **Numbered RFP list** — `<Table>` + `<TableRow>` with title, description, reward (`USDC + XP`), and `VIEW` / date links.
 3. **App Install banner** — `<GiantSwitch>` (`accent="grey"`).
-4. **RFPs** — section heading + `FILTER BY →` + `SEE ALL →`; 4-column `<Card>` grid (Attack Resistant Public Registries, Decentralized Archives, Private Financial Networks, Community Governance Processes, + "See all ideas" card). Desktop: 4 cols; mobile: 2 cols.
+4. **RFPs** — section heading + `FILTER BY →` + `SEE ALL →`; 4-column `<Card>` grid (Attack Resistant Public Registries, Decentralised Archives, Private Financial Networks, Community Governance Processes, + "See all ideas" card). Desktop: 4 cols; mobile: 2 cols.
 5. **Ideas** — `<Table>` + `<TableRow>` for 5 ideas with `VIEW` actions.
 6. **CTA module** — "Get started faster with Logos: Logos App" dark rounded banner with QR code on the right. Desktop only.
 7. **Additional Resources** — `<Table>` with 4 resource links.
@@ -345,7 +345,7 @@ Same shell as Ideas. Unique content:
 **Mobile frame:** `40009046:27110` — 393 × 6332
 **Current status:** Not needed for the current release. Keep the implementation and assets, but do not surface it in navigation, sitemap, or homepage CTAs while `ROUTE_AVAILABILITY.about` is disabled.
 
-1. **Hero** — "Logos is on a mission to revitalize Civil Society." very large display headline, full-bleed dark background image.
+1. **Hero** — "Logos is on a mission to revitalise Civil Society." very large display headline, full-bleed dark background image.
 2. **Community teaser** — `<WorldMap>` (shared with Circles) + "We are a community of builders…" body + `LEARN MORE →`.
 3. **Full-bleed mountain landscape** — cinematic wide image with small centered quote overlay.
 4. **"Who We Are"** — serif heading + body copy.

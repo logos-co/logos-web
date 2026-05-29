@@ -1,6 +1,5 @@
+import { LOGOS_GRAPHQL_API_URL } from './logos-data-api'
 import { logger } from './logger'
-
-const HASURA_URL = 'https://api.logos.co/v1/graphql'
 
 const CIRCLE_EVENTS_QUERY = `query CircleEvents {
   stg_external_circle_circle_event {
@@ -41,7 +40,7 @@ interface HasuraResponse {
  */
 export async function fetchCircleEvents(): Promise<CircleEvent[]> {
   try {
-    const response = await fetch(HASURA_URL, {
+    const response = await fetch(LOGOS_GRAPHQL_API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: CIRCLE_EVENTS_QUERY }),

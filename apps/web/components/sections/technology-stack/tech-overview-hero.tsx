@@ -39,8 +39,8 @@ function StatusCard({
           : 'relative w-full rounded-xl px-3 py-3'
       }
     >
-      <div className="flex flex-col items-start gap-3">
-        <span className="text-eyebrow rounded bg-[#ffd328] px-1 py-0.5 text-brand-dark-green uppercase">
+      <div className="flex flex-col items-start gap-2">
+        <span className="text-eyebrow font-semibold leading-[1.35] rounded bg-[#ffd328] px-1 py-0.5 text-brand-dark-green uppercase">
           {status.label}
         </span>
         <p className="text-mono-s w-[345px] text-brand-dark-green">
@@ -51,7 +51,7 @@ function StatusCard({
             href={status.cta.href}
             variant={status.cta.variant ?? 'secondary'}
             icon={getButtonIcon(status.cta.iconOverride)}
-            className="w-[326px] cursor-pointer justify-between"
+            className="cursor-pointer"
           >
             {status.cta.label}
           </Button>
@@ -74,7 +74,7 @@ function StatusCard({
 export default function TechOverviewHero({ data }: Props) {
   return (
     <section className="relative mb-10 h-[663px] overflow-hidden bg-brand-off-white px-3 pt-0 pb-0 md:mb-[100px] md:-mt-0.5 md:h-[486px] md:pt-[22px] md:pb-0">
-      <div className="relative mx-auto h-[500px] max-w-354 md:h-[403px]">
+      <div className="relative h-[500px] md:h-[403px]">
         <div className="absolute top-0 left-0 hidden h-[99px] w-[393px] md:block">
           {data.status ? <StatusCard status={data.status} compact /> : null}
         </div>
@@ -157,11 +157,11 @@ export default function TechOverviewHero({ data }: Props) {
           </div>
         ) : null}
       </div>
-      <div className="absolute top-[500px] left-0 h-10 w-full px-3 md:hidden">
+      <div className="absolute top-[540px] left-0 h-10 w-full px-3 md:hidden">
         <div className="h-px w-full bg-brand-dark-green/10" />
       </div>
       {data.status ? (
-        <div className="absolute top-[500px] left-0 w-full md:hidden">
+        <div className="absolute top-[540px] left-0 w-full md:hidden">
           <StatusCard status={data.status} />
         </div>
       ) : null}
