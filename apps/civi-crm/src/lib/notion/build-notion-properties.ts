@@ -6,6 +6,7 @@ import {
 import {
   CHAT_SERVICE_MAP,
   COUNTRY_MAP,
+  BU_MOVEMENT,
   MVMT_STATUS_NEW_LEAD,
   PROFILE_BY_FORM,
   SKILLS_MAP,
@@ -100,6 +101,7 @@ export function buildNotionProperties(
 
   const properties: NotionPageProperties = {
     Name: { title: [{ type: 'text', text: { content: name } }] },
+    BU: { multi_select: [{ name: BU_MOVEMENT }] },
     'Mvmt Status': { select: { name: MVMT_STATUS_NEW_LEAD } },
     'Wants Events': { checkbox: wantsEvents },
     'Wants Newsletter': { checkbox: wantsNewsletter },

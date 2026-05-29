@@ -39,6 +39,8 @@ export const PROFILE_BY_FORM: Record<AfformIntakeFormName, string> = {
 
 export const MVMT_STATUS_NEW_LEAD = 'New Lead'
 
+export const BU_MOVEMENT = 'Movement'
+
 export const COUNTRY_MAP: Record<string, string> = {
   '1001': 'Afghanistan',
   '1002': 'Albania',

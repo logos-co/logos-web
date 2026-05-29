@@ -58,6 +58,7 @@ describe('buildNotionProperties', () => {
     expect(properties.Profile).toEqual({
       select: { name: 'Coalition Partner' },
     })
+    expect(properties.BU).toEqual({ multi_select: [{ name: 'Movement' }] })
     expect(properties['Mvmt Status']).toEqual({ select: { name: 'New Lead' } })
     expect(properties.Website).toEqual({
       url: 'https://example.com | https://logos.co',
@@ -91,6 +92,7 @@ describe('buildNotionProperties', () => {
       'Logos'
     )
 
+    expect(properties.BU).toEqual({ multi_select: [{ name: 'Movement' }] })
     expect(properties.Profile).toEqual({
       select: { name: 'Activist Builder' },
     })
@@ -113,6 +115,7 @@ describe('buildNotionProperties', () => {
       'Logos'
     )
 
+    expect(properties.BU).toEqual({ multi_select: [{ name: 'Movement' }] })
     expect(properties.Profile).toEqual({
       select: { name: 'Activist Leader / Steward' },
     })
