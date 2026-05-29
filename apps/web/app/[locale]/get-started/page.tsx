@@ -27,7 +27,7 @@ const communityLinks = [
 ] as const
 
 const buildItems = [
-  { key: 'node', ctaKey: 'nodeCta', href: ROUTES.nodeProgram, hasBody: true },
+  { key: 'node', ctaKey: 'nodeCta', href: ROUTES.nodeProgramme, hasBody: true },
   {
     key: 'messaging',
     ctaKey: 'messagingCta',

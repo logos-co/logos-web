@@ -44,8 +44,8 @@ export const ROUTES = {
   activistLeaderSteward: '/activist-leader-steward',
   coalitionPartner: '/coalition-partner',
 
-  // Node Program
-  nodeProgram: '/node-program',
+  // Node Programme
+  nodeProgramme: '/node-programme',
 
   // Movement / Top-level nav
   movement: '/movement',

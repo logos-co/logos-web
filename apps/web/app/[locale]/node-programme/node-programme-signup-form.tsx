@@ -36,7 +36,7 @@ function getErrorMessage(data: SignupResponse): string | null {
 }
 
 export function NodeProgrammeSignupForm() {
-  const t = useTranslations('pages.nodeProgram.signup')
+  const t = useTranslations('pages.nodeProgramme.signup')
   const emailId = useId()
   const roleId = useId()
   const [email, setEmail] = useState('')

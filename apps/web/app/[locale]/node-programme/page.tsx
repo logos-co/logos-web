@@ -10,11 +10,11 @@ import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
 
 import { NodeProgrammeSignupForm } from './node-programme-signup-form'
 
-const NAMESPACE = 'pages.nodeProgram'
+const NAMESPACE = 'pages.nodeProgramme'
 
 export const generateMetadata = createTranslatedPageMetadata({
   namespace: NAMESPACE,
-  path: ROUTES.nodeProgram,
+  path: ROUTES.nodeProgramme,
 })
 
 interface StackItem {

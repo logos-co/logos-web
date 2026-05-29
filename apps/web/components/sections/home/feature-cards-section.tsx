@@ -79,7 +79,7 @@ export default function FeatureCardsSection() {
       title: t('operate.title'),
       body: t('operate.body'),
       cta: t('operate.cta'),
-      href: ROUTES.nodeProgram,
+      href: ROUTES.nodeProgramme,
       image: '/images/home/figma-refresh/path-operate.webp',
       overlay: 'bg-black/45',
       imageClassName: 'object-[45%_50%]',
