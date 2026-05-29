@@ -548,7 +548,7 @@ DEV_USER_EMAIL_MOCK=
 # Notion integration — intake funnel (POST /api/public/afform-submit)
 # Required in preview/staging/production when Notion intake is enabled.
 NOTION_API_TOKEN=
-NOTION_COALITION_PARTNER_DB_ID=
+NOTION_DB_ID=
 
 # Intake funnel (POST /api/public/afform-submit) — optional opt-out per destination
 # FUNNEL_INTAKE_NOTION_DISABLED=1

@@ -63,7 +63,7 @@ The Notion and CiviCRM libs have **no cross-imports**. Removing one means deleti
 | Variable | Purpose |
 | --- | --- |
 | `NOTION_API_TOKEN` | Notion integration secret |
-| `NOTION_COALITION_PARTNER_DB_ID` | ID of the IFT BD CRM database |
+| `NOTION_DB_ID` | ID of the Notion database |
 
 ### Required for live submissions (unchanged from pre-funnel)
 
@@ -86,7 +86,7 @@ Default (no flags set): Notion required, CiviCRM best-effort.
 
 ## `submitToNotion` runtime behaviour
 
-1. Read `NOTION_API_TOKEN` and `NOTION_COALITION_PARTNER_DB_ID`; return `{ ok: false }` if either is missing.
+1. Read `NOTION_API_TOKEN` and `NOTION_DB_ID`; return `{ ok: false }` if either is missing.
 2. `GET /v1/databases/{id}` to read current `Organization` select options.
 3. `resolveOrganizationSelect(affiliatedOrgs, options)` -- lowercase compare; use canonical option name if matched, else use the submitted value (Notion auto-creates the option).
 4. `buildNotionProperties(formData, formName, organizationSelect)` -- see field mapping below.
@@ -168,7 +168,7 @@ ADD COLUMN "Wants Newsletter" CHECKBOX
 - **One `Background` column** -- All `background*` textarea variants collapse into a single rich-text property.
 - **Joined multi-values** -- `website[]` -> pipe-separated string in `Website` (url); `chat[]` -> `handle (Service)` entries in `Phone or Social Handle`.
 - **`Organization` grows over time** -- Unmatched submitted values are written as-is and Notion creates a new select option.
-- **Env name kept** -- `NOTION_COALITION_PARTNER_DB_ID` retained (not renamed) to avoid deploy churn.
+- **Env var name** -- `NOTION_DB_ID`.
 
 ---
 
