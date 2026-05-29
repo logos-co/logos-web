@@ -154,6 +154,11 @@ pnpm --filter cms migrate          # apply pending migrations (run against the t
 
 The generated file under `src/migrations/` and the updated `src/migrations/index.ts` **must be committed** — production applies exactly what's in that directory.
 
+**Caveats:**
+
+- **A failed migration blocks the deploy.** The entrypoint runs under `set -e`, so if `payload migrate` exits non-zero the container stops before serving traffic. Test migrations against a staging database first.
+- **Single-instance assumption.** The entrypoint migrates on every container start. If you scale the CMS to more than one replica, run migrations as a separate one-shot step (or gate them behind a leader) so replicas don't migrate the same database concurrently — the bundled `docker-compose.prod.yml` runs a single `cms` service, so this is safe as-is.
+
 ### Health check
 
 The image exposes a health endpoint used by Docker's `HEALTHCHECK`:

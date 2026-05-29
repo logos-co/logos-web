@@ -54,6 +54,9 @@ services:
       PAYLOAD_DB_SCHEMA: ${PAYLOAD_DB_SCHEMA:-payload}
       PAYLOAD_DB_PUSH: ${PAYLOAD_DB_PUSH:-true}
       PAYLOAD_DB_POOL_MAX: ${PAYLOAD_DB_POOL_MAX:-10}
+      # Seed/refresh DB from git content/ on every boot. Set false to stop git
+      # content from overwriting Admin-managed data.
+      CMS_SYNC_ON_BOOT: ${CMS_SYNC_ON_BOOT:-true}
       # GitHub "Create PR" workflow (optional — admin feature).
       GITHUB_OWNER: ${GITHUB_OWNER:-}
       GITHUB_REPO: ${GITHUB_REPO:-}

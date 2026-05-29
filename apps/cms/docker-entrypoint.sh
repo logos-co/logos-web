@@ -13,5 +13,20 @@ set -e
 echo "[entrypoint] Applying Payload migrations..."
 PAYLOAD_CONFIG_PATH=payload.config.ts node_modules/.bin/payload migrate
 
-echo "[entrypoint] Migrations done. Starting server..."
+# Seed/refresh the CMS database from the repo's content/ fixtures. The repo's
+# model is "git content/ is the runtime source of truth" — this upserts that
+# content into Payload (created/updated/skipped). Disable with
+# CMS_SYNC_ON_BOOT=false (e.g. once editors manage content directly in Admin
+# and you don't want git content overwriting their changes on every boot).
+# Sync failure is non-fatal: the server still starts with whatever data exists.
+if [ "${CMS_SYNC_ON_BOOT:-true}" != "false" ]; then
+  echo "[entrypoint] Syncing content from content/ ..."
+  if PAYLOAD_CONFIG_PATH=payload.config.ts node --import tsx scripts/sync-from-content.ts; then
+    echo "[entrypoint] Content sync complete."
+  else
+    echo "[entrypoint] WARNING: content sync failed; starting with existing data. See logs above." >&2
+  fi
+fi
+
+echo "[entrypoint] Starting server..."
 exec "$@"
