@@ -107,23 +107,14 @@ Do **not** change visibility on reused properties unless you want that separatel
 
 ## Implementation roadmap
 
-Code work not covered by schema/visibility setup; track here until done.
+Full step goals and code references: [implementation.md](./implementation.md).
 
 | Step | Description | Status |
 | --- | --- | --- |
 | Schema DDL | Nine new columns on data source | Done |
 | Hide when empty | Manual UI checklist above | Pending (operator) |
-| `src/lib/notion/` | Maps, `buildNotionProperties`, `submitToNotion` | Pending |
-| `src/lib/civicrm/submit-afform.ts` | Extract CiviCRM submit (no Notion imports) | Pending |
+| `src/lib/notion/` | Maps, `buildNotionProperties`, `submitToNotion` | Done |
+| `src/lib/civicrm/submit-afform.ts` | Extract CiviCRM submit (no Notion imports) | Partial (`build-afform-values` exists; fetch still in route) |
 | Orchestrator route | `afform-submit`: captcha → Notion (required) → CiviCRM (best-effort) | Pending |
-| Wire web pages | All three intake pages → `/api/public/afform-submit` | Pending |
-| Cleanup | Remove `notion-coalition-partner` route; update `docs/civi-crm/architecture.md` and `apps/civi-crm/AGENTS.md` | Pending |
-
-### Orchestrator behaviour (planned)
-
-1. Validate body and `formName`.
-2. Verify hCaptcha once.
-3. `submitToNotion` — failure → error response to the user.
-4. `submitToCiviCrm` — failure → non-fatal; include detail in response (no `console.log`).
-
-Notion module reads `NOTION_API_TOKEN` and `NOTION_COALITION_PARTNER_DB_ID`; on submit it fetches existing `Organization` options once for case-insensitive matching, then `POST https://api.notion.com/v1/pages`.
+| Wire web pages | All three intake pages → `/api/public/afform-submit` | Partial (activist yes; coalition on `notion-coalition-partner`) |
+| Cleanup | Remove `notion-coalition-partner` route; update civi-crm architecture docs | Pending |
