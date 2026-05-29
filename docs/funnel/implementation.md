@@ -1,6 +1,10 @@
 # Funnel intake — implementation steps
 
-Phased work to send all three connect intake forms to the Notion funnel database (primary) and CiviCRM (backup). Database setup: [notion-database.md](./notion-database.md). Overview: [README.md](./README.md).
+Phased work to send all three connect intake forms to the **IFT BD CRM -- funnel test** Notion database (primary) and CiviCRM (backup). Database setup: [notion-database.md](./notion-database.md). Overview and design decisions: [README.md](./README.md).
+
+## Overall goal
+
+Movement BD should see every intake submission as one row in a single Notion database, with CiviCRM retaining a parallel Afform record for existing CRM workflows. The web app must not verify hCaptcha twice: one `POST` to `civi-crm`, one token, two backend writes in sequence.
 
 ## Step summary
 
@@ -38,9 +42,27 @@ Details and DDL: [notion-database.md § Schema change](./notion-database.md#sche
 
 ## 3. Notion lib (`apps/civi-crm/src/lib/notion/`)
 
-**Goal:** Self-contained Notion integration with no imports from CiviCRM code (and vice versa). Callers pass raw form JSON plus the Afform `formName`; the module returns success or an error message.
+**Goal:** Self-contained Notion integration with **no imports from CiviCRM** (and no Notion imports in CiviCRM lib code). A thin route orchestrator will call `submitToNotion(formData, formName)` after captcha verification. Removing Notion later means deleting this folder and one call site.
 
-**Status:** Done.
+**Status:** Done (committed; not wired to a route yet).
+
+### What changed
+
+The coalition-partner proof-of-concept lived inline in `src/app/api/public/notion-coalition-partner/route.ts` (maps + property builder + HTTP). That route targeted **placeholder property names** from an early schema (`Email`, `Affiliated Organisations`, `Websites`, `Chat Handles`, `About Organisation`, `Submitted At`). The funnel database uses the reuse-first schema in [notion-database.md](./notion-database.md).
+
+| Concern | Legacy `notion-coalition-partner` route | `src/lib/notion/` |
+| --- | --- | --- |
+| Scope | Coalition Partner only | All three forms via `formName` |
+| Property names | Ad-hoc / wrong for funnel DB | Matches funnel DB (`Email/Website`, `Organization`, `Website`, …) |
+| `affiliatedOrgs` | Rich text | `Organization` select + case-insensitive option match |
+| Profile / movement status | Not set | `Profile` from form; `Mvmt Status` = `New Lead` |
+| Submission time | `Submitted At` date written | Omitted — Notion `Added` (created_time) is read-only |
+| Background fields | `backgroundPartner` only | Any `background*` → single `Background` column |
+| Activist-only fields | N/A | `Tech Vision`, `Activities Vision` when present |
+| API version | Was `2022-06-28` in route | `2026-03-11` in `submit.ts` |
+| CiviCRM coupling | Route-only | None — only imports `afform-case-defaults` for `PROFILE_BY_FORM` keys |
+
+Empty optional rich-text, url, email, and select properties are **omitted** from the POST body so Notion rows stay sparse until “Hide when empty” is applied in the UI.
 
 ### Layout
 
@@ -48,34 +70,57 @@ Details and DDL: [notion-database.md § Schema change](./notion-database.md#sche
 | --- | --- |
 | `maps.ts` | `SKILLS_MAP`, `CHAT_SERVICE_MAP`, `COUNTRY_MAP`, `PROFILE_BY_FORM`, `MVMT_STATUS_NEW_LEAD` |
 | `build-notion-properties.ts` | `buildNotionProperties`, `resolveOrganizationSelect` |
-| `submit.ts` | `submitToNotion(formData, formName)` |
+| `submit.ts` | `submitToNotion(formData, formName)` → `{ ok: true }` \| `{ ok: false, message }` |
 | `__tests__/build-notion-properties.test.ts` | Property mapping and org resolution |
 
-### Behaviour
+### Public API
 
-1. Read `NOTION_API_TOKEN` and `NOTION_COALITION_PARTNER_DB_ID`; return `{ ok: false }` if missing.
-2. `GET /v1/databases/{id}` — load `Organization` select options.
-3. `resolveOrganizationSelect` — case-insensitive match on `affiliatedOrgs`; otherwise use submitted string (Notion may create a new option).
-4. `buildNotionProperties` — map fields per [notion-database.md](./notion-database.md#property-mapping-reuse-first); set `Mvmt Status` to `New Lead`; set `Profile` from `PROFILE_BY_FORM[formName]`.
-5. `POST /v1/pages` — create row; Notion API version header `2026-03-11`.
+```ts
+// submit.ts
+submitToNotion(formData: Record<string, unknown>, formName: string): Promise<NotionSubmitResult>
+
+// build-notion-properties.ts (for tests / future reuse)
+buildNotionProperties(data, formName, organizationSelect): NotionPageProperties
+resolveOrganizationSelect(submitted, existingOptions): string
+```
+
+### Runtime behaviour
+
+1. Read `NOTION_API_TOKEN` and `NOTION_COALITION_PARTNER_DB_ID`; return `{ ok: false, message: 'Notion is not configured' }` if either is missing.
+2. `GET https://api.notion.com/v1/databases/{id}` — read `Organization` select option names (one request per submission today).
+3. `resolveOrganizationSelect(affiliatedOrgs, options)` — lowercase compare; use canonical option name or submitted value for a new option.
+4. `buildNotionProperties` — map fields per [notion-database.md](./notion-database.md#property-mapping-reuse-first); join websites and chat with ` | `; map Civi country/skill/chat IDs via `maps.ts`.
+5. `POST https://api.notion.com/v1/pages` — `parent.database_id`, `properties`; header `Notion-Version: 2026-03-11`.
 
 ### Afform `formName` → Profile
 
-| `formName` (API / web) | Notion `Profile` |
+| `formName` (API / web `extraPayload`) | Notion `Profile` |
 | --- | --- |
 | `afformCoalitionPartner` | Coalition Partner |
 | `afformActivistBuilder` | Activist Builder |
 | `afformActivistLeaderSteward` | Activist Leader / Steward |
 
+### Background field routing
+
+| Form | Form keys | Notion column |
+| --- | --- | --- |
+| Coalition Partner | `backgroundPartner` | `Background` |
+| Activist Builder | `backgroundBuilder` | `Background` |
+| Activist Builder | `techVision` | `Tech Vision` |
+| Activist Leader / Steward | `backgroundLeader` | `Background` |
+| Activist Leader / Steward | `activitiesVision` | `Activities Vision |
+
+`getBackground` uses the first non-empty `backgroundPartner` \| `backgroundBuilder` \| `backgroundLeader`.
+
 ### Not wired yet
 
-`submitToNotion` is not called from any route. Coalition Partner still posts to `/api/public/notion-coalition-partner` (inline logic in that route file). Steps 5–6 will switch all forms to the orchestrator.
+`submitToNotion` is not imported by any route. Coalition Partner still posts to `/api/public/notion-coalition-partner`. Steps 5–7 will call the lib from `afform-submit`, point all web pages at that route, and delete the legacy route.
 
 ---
 
 ## 4. CiviCRM submit module
 
-**Goal:** Extract `buildAfformValues` + `Afform.submit` HTTP call into `src/lib/civicrm/submit-afform.ts` (or equivalent) with **no** Notion imports, so the orchestrator can call CiviCRM backup writes in one line.
+**Goal:** Mirror the Notion split — extract `buildAfformValues` + `Afform.submit` HTTP into `src/lib/civicrm/submit-afform.ts` with **no** Notion imports. The orchestrator calls `submitToCiviCrm(formData, fieldDefs, formName)` after Notion succeeds.
 
 **Status:** Partial.
 
@@ -91,7 +136,7 @@ Details and DDL: [notion-database.md § Schema change](./notion-database.md#sche
 
 ## 5. Orchestrator (`afform-submit`)
 
-**Goal:** Single public endpoint so the web app sends one hCaptcha token once; both backends write after a single verification.
+**Goal:** Replace split behaviour (activist → Civi only, coalition → Notion only) with one handler: validate, captcha once, Notion required, CiviCRM best-effort.
 
 **Target flow** (`POST /api/public/afform-submit`):
 

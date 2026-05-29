@@ -31,6 +31,12 @@ Setup for data source `5919873c-d7b1-42ff-acdf-380b62a4176c` (**IFT BD CRM -- fu
 | `wantsEvents` | Wants Events | checkbox |
 | `wantsNewsletter` | Wants Newsletter | checkbox |
 
+### Code implementation
+
+Property names and write rules above are implemented in `apps/civi-crm/src/lib/notion/` (`build-notion-properties.ts`, `submit.ts`). Step goals and legacy-route differences: [implementation.md § 3](./implementation.md#3-notion-lib-appscivi-crmsrclibnotion).
+
+---
+
 ### Skills multi_select options
 
 `Developer`, `Web3 builder`, `Privacy domain expert`, `Website developer`, `Product designer`, `Researcher`, `Activist`, `Project manager`, `Community builder`, `Thought leader / Influencer`, `Creative`, `Marketer`, `Fundraiser`, `Educator`, `Policy advocate`, `Translator`
@@ -107,14 +113,4 @@ Do **not** change visibility on reused properties unless you want that separatel
 
 ## Implementation roadmap
 
-Full step goals and code references: [implementation.md](./implementation.md).
-
-| Step | Description | Status |
-| --- | --- | --- |
-| Schema DDL | Nine new columns on data source | Done |
-| Hide when empty | Manual UI checklist above | Pending (operator) |
-| `src/lib/notion/` | Maps, `buildNotionProperties`, `submitToNotion` | Done |
-| `src/lib/civicrm/submit-afform.ts` | Extract CiviCRM submit (no Notion imports) | Partial (`build-afform-values` exists; fetch still in route) |
-| Orchestrator route | `afform-submit`: captcha → Notion (required) → CiviCRM (best-effort) | Pending |
-| Wire web pages | All three intake pages → `/api/public/afform-submit` | Partial (activist yes; coalition on `notion-coalition-partner`) |
-| Cleanup | Remove `notion-coalition-partner` route; update civi-crm architecture docs | Pending |
+Phased goals, status, and file-level notes: [implementation.md](./implementation.md).

@@ -11,14 +11,17 @@ Operational and design notes for routing the three public connect intake forms i
 
 ## Implementation status
 
-| Area | Status |
-| --- | --- |
-| Notion DB schema (9 new columns) | Done |
-| Hide when empty (Notion UI) | Manual — [checklist](./notion-database.md#manual-checklist-required) |
-| `src/lib/notion/` | Done — not wired to a route yet |
-| Orchestrator + CiviCRM extract + coalition page + route cleanup | Pending |
+| Step | Goal (short) | Status |
+| --- | --- | --- |
+| 1. Schema | Nine intake columns on funnel data source | Done |
+| 2. Visibility | Hide when empty on new columns (Notion UI) | Manual — [checklist](./notion-database.md#manual-checklist-required) |
+| 3. Notion lib | Map payloads → funnel properties; `submitToNotion` | Done — [details](./implementation.md#3-notion-lib-appscivi-crmsrclibnotion) |
+| 4. CiviCRM lib | `submitToCiviCrm` without Notion imports | Partial |
+| 5. Orchestrator | One captcha; Notion required; Civi backup | Pending |
+| 6. Web pages | All three → `afform-submit` | Partial |
+| 7. Cleanup | Remove `notion-coalition-partner`; update civi-crm docs | Pending |
 
-Step-by-step goals and file references: [implementation.md](./implementation.md).
+Full goals, what changed, and acceptance criteria: [implementation.md](./implementation.md).
 
 ## Web pages and API
 
