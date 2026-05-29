@@ -2,9 +2,12 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 import { type AfformFieldDef } from '@/lib/civicrm/build-afform-values'
 import { submitToCiviCrm } from '@/lib/civicrm/submit-afform'
+import {
+  isCiviCrmIntakeSubmitEnabled,
+  isNotionIntakeSubmitEnabled,
+} from '@/lib/intake-submit-flags'
+import { submitToNotion } from '@/lib/notion/submit'
 
-const CIVICRM_BASE_URL = process.env.CIVICRM_BASE_URL ?? ''
-const CIVICRM_API_KEY = process.env.CIVICRM_API_KEY ?? ''
 const HCAPTCHA_SECRET = process.env.HCAPTCHA_SECRET ?? ''
 
 const ALLOWED_FORMS = new Set([
@@ -13,7 +16,16 @@ const ALLOWED_FORMS = new Set([
   'afformCoalitionPartner',
 ])
 
-async function verifyHCaptcha(token: string, remoteip: string): Promise<boolean> {
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+}
+
+async function verifyHCaptcha(
+  token: string,
+  remoteip: string
+): Promise<boolean> {
   const res = await fetch('https://api.hcaptcha.com/siteverify', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -35,25 +47,31 @@ function getClientIp(req: NextRequest): string {
   )
 }
 
-export async function POST(req: NextRequest) {
-  if (!CIVICRM_BASE_URL || !CIVICRM_API_KEY) {
-    return NextResponse.json(
-      { error: 'Server configuration error' },
-      { status: 500 }
-    )
-  }
+function jsonResponse(
+  body: Record<string, unknown>,
+  status: number
+): NextResponse {
+  return NextResponse.json(body, { status, headers: CORS_HEADERS })
+}
 
+export function OPTIONS() {
+  return new NextResponse(null, { status: 204, headers: CORS_HEADERS })
+}
+
+export async function POST(req: NextRequest) {
   let body: Record<string, unknown>
   try {
     body = await req.json()
   } catch {
-    return NextResponse.json(
-      { error: 'Invalid request body' },
-      { status: 400 }
-    )
+    return jsonResponse({ error: 'Invalid request body' }, 400)
   }
 
-  const { formName, captchaToken, fields: fieldDefs, ...formData } = body as {
+  const {
+    formName,
+    captchaToken,
+    fields: fieldDefs,
+    ...formData
+  } = body as {
     formName?: string
     captchaToken?: string
     fields?: AfformFieldDef[]
@@ -61,43 +79,58 @@ export async function POST(req: NextRequest) {
   }
 
   if (!formName || !ALLOWED_FORMS.has(formName)) {
-    return NextResponse.json({ error: 'Invalid form name' }, { status: 400 })
+    return jsonResponse({ error: 'Invalid form name' }, 400)
   }
 
   if (!fieldDefs || !Array.isArray(fieldDefs)) {
-    return NextResponse.json(
-      { error: 'Missing field definitions' },
-      { status: 400 }
-    )
+    return jsonResponse({ error: 'Missing field definitions' }, 400)
   }
 
   if (HCAPTCHA_SECRET) {
     if (!captchaToken || typeof captchaToken !== 'string') {
-      return NextResponse.json(
-        { error: 'Captcha token missing' },
-        { status: 400 }
-      )
+      return jsonResponse({ error: 'Captcha token missing' }, 400)
     }
     const valid = await verifyHCaptcha(captchaToken, getClientIp(req))
     if (!valid) {
-      return NextResponse.json(
-        { error: 'Captcha verification failed' },
-        { status: 403 }
+      return jsonResponse({ error: 'Captcha verification failed' }, 403)
+    }
+  }
+
+  const notionEnabled = isNotionIntakeSubmitEnabled()
+  const civiEnabled = isCiviCrmIntakeSubmitEnabled()
+
+  if (!notionEnabled && !civiEnabled) {
+    return jsonResponse({ success: true }, 201)
+  }
+
+  if (notionEnabled) {
+    const notionResult = await submitToNotion(formData, formName)
+    if (!notionResult.ok) {
+      return jsonResponse(
+        {
+          error: 'Failed to submit form. Please try again.',
+          detail: notionResult.message,
+        },
+        502
       )
     }
   }
 
-  const result = await submitToCiviCrm(formData, fieldDefs, formName)
-
-  if (!result.ok) {
-    return NextResponse.json(
-      {
-        error: 'Failed to submit form. Please try again.',
-        detail: result.message,
-      },
-      { status: 502 }
-    )
+  if (civiEnabled) {
+    const civiResult = await submitToCiviCrm(formData, fieldDefs, formName)
+    if (!civiResult.ok) {
+      if (!notionEnabled) {
+        return jsonResponse(
+          {
+            error: 'Failed to submit form. Please try again.',
+            detail: civiResult.message,
+          },
+          502
+        )
+      }
+      return jsonResponse({ success: true, detail: civiResult.message }, 201)
+    }
   }
 
-  return NextResponse.json({ success: true }, { status: 201 })
+  return jsonResponse({ success: true }, 201)
 }
