@@ -70,7 +70,7 @@ type Props = {
 
 export default function MessagingCaseStudies({ data }: Props) {
   return (
-    <section className="mt-15 bg-brand-off-white md:mt-10">
+    <section className="mt-15 bg-brand-off-white md:mt-25">
       <div className="mx-auto max-w-360 px-3 pt-25 md:px-0 md:pt-25">
         <Reveal
           stagger
@@ -99,7 +99,7 @@ export default function MessagingCaseStudies({ data }: Props) {
         >
           {data.cards.map((card, index) =>
             card.image ? (
-              <RevealItem key={card.title}>
+              <RevealItem key={card.title} className="md:flex-1">
                 <CaseStudyCard
                   title={card.title}
                   body={card.description ?? ''}

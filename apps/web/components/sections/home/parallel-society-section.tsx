@@ -1,12 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-import { motion } from 'motion/react'
 
 import type { FeaturedTextSection, GallerySection } from '@repo/content/schemas'
 
+import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
-import { EASE, VIEWPORT_ONCE } from '@/lib/motion'
 
 /**
  * Per-image desktop dimensions are positional — Figma's gallery has four
@@ -57,7 +56,6 @@ function DesktopGalleryCard({
   h,
   caption,
   date,
-  index,
 }: {
   src: string
   alt: string
@@ -65,18 +63,9 @@ function DesktopGalleryCard({
   h: number
   caption: string
   date: string
-  index: number
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 34 }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.62, delay: index * 0.08, ease: EASE.out },
-      }}
-      whileHover={{ y: -10 }}
-      viewport={VIEWPORT_ONCE}
+    <div
       className="shrink-0"
       style={{ width: `${w}px` }}
     >
@@ -96,7 +85,7 @@ function DesktopGalleryCard({
         <span className="text-eyebrow text-brand-dark-green/60">{caption}</span>
         <span className="text-eyebrow text-brand-dark-green/60">{date}</span>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
@@ -118,15 +107,11 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
 
   return (
     <section className="relative h-[1368px] overflow-hidden bg-brand-off-white shadow-[inset_0_1px_0_rgba(21,37,33,0.1)]">
-      <motion.div
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.7, ease: EASE.out },
-        }}
-        viewport={VIEWPORT_ONCE}
-        className="absolute top-[132px] right-3 left-3 mx-auto max-w-354"
+      <Reveal
+        amount={0.4}
+        delay={0.18}
+        viewportMargin="0px 0px -20% 0px"
+        className="absolute top-[132px] right-3 left-3"
       >
         <h2 className="text-h1 text-brand-dark-green text-center">
           <span className="text-brand-dark-green">
@@ -134,7 +119,7 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
           </span>
           <span className="text-gray-04">{headline.title.rest}</span>
         </h2>
-      </motion.div>
+      </Reveal>
 
       {headline.cta ? (
         <div className="absolute top-[508px] right-3 left-3 flex justify-center md:top-[450px]">
@@ -170,7 +155,7 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
         className="absolute top-[578px] hidden items-start gap-3 md:flex"
         style={{ marginLeft: '-141px', width: 'calc(100% + 282px)' }}
       >
-        {items.map((item, index) => (
+        {items.map((item) => (
           <DesktopGalleryCard
             key={item.src}
             src={item.src}
@@ -179,7 +164,6 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
             h={item.desktop.h}
             caption={item.caption}
             date={item.date}
-            index={index}
           />
         ))}
       </div>

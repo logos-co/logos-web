@@ -4,7 +4,6 @@ import { GiantSwitch, GiantSwitchTag } from '@acid-info/logos-ui'
 import type { GiantSwitchSection } from '@repo/content/schemas'
 
 import { IconMask } from '@/components/icons/icon-mask'
-import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 
 /**
@@ -56,76 +55,74 @@ export default function TechOverviewLogosApp({ data }: Props) {
       id="logos-app"
       className="mt-10 mb-10 h-[828px] overflow-hidden bg-brand-off-white py-4 md:mt-[100px] md:mb-[100px] md:h-auto md:py-0"
     >
-      <Reveal amount={0.2}>
-        <GiantSwitch
-          accent={data.accent}
-          imagePosition={data.imagePosition}
-          installHoverShift
-          image={
-            <Image
-              src={data.image.src}
-              alt={data.image.alt}
-              fill
-              priority
-              sizes="(max-width: 767px) 345px, 566px"
-            />
-          }
-          title={
+      <GiantSwitch
+        accent={data.accent}
+        imagePosition={data.imagePosition}
+        installHoverShift
+        image={
+          <Image
+            src={data.image.src}
+            alt={data.image.alt}
+            fill
+            priority
+            sizes="(max-width: 767px) 345px, 566px"
+          />
+        }
+        title={
+          <>
+            <span className="md:hidden">
+              {mobileTitleHead}
+              {mobileTitleTail ? (
+                <>
+                  <br />
+                  {mobileTitleTail}
+                </>
+              ) : null}
+            </span>
+            <span className="hidden md:inline">{data.title}</span>
+          </>
+        }
+        description={data.description}
+        tags={
+          data.tags && data.tags.length > 0 ? (
             <>
-              <span className="md:hidden">
-                {mobileTitleHead}
-                {mobileTitleTail ? (
-                  <>
-                    <br />
-                    {mobileTitleTail}
-                  </>
-                ) : null}
-              </span>
-              <span className="hidden md:inline">{data.title}</span>
-            </>
-          }
-          description={data.description}
-          tags={
-            data.tags && data.tags.length > 0 ? (
-              <>
-                {data.tags.map((tag) => {
-                  const iconSrc = tag.icon ? TAG_ICON_PATH[tag.icon] : undefined
-                  return (
-                    <GiantSwitchTag
-                      key={tag.label}
-                      icon={
-                        iconSrc ? <TagIcon src={iconSrc} alt="" /> : undefined
-                      }
-                    >
-                      {tag.label}
-                    </GiantSwitchTag>
-                  )
-                })}
-              </>
-            ) : undefined
-          }
-          actions={
-            <>
-              {data.primaryCta ? (
-                <span className="inline-flex" data-giant-switch-install-trigger>
-                  <Button
-                    href={data.primaryCta.href}
-                    variant="secondary"
-                    icon={<ExternalLinkIcon />}
+              {data.tags.map((tag) => {
+                const iconSrc = tag.icon ? TAG_ICON_PATH[tag.icon] : undefined
+                return (
+                  <GiantSwitchTag
+                    key={tag.label}
+                    icon={
+                      iconSrc ? <TagIcon src={iconSrc} alt="" /> : undefined
+                    }
                   >
-                    {data.primaryCta.label}
-                  </Button>
-                </span>
-              ) : null}
-              {data.secondaryCta ? (
-                <Button href={data.secondaryCta.href} variant="tertiary">
-                  {data.secondaryCta.label}
-                </Button>
-              ) : null}
+                    {tag.label}
+                  </GiantSwitchTag>
+                )
+              })}
             </>
-          }
-        />
-      </Reveal>
+          ) : undefined
+        }
+        actions={
+          <>
+            {data.primaryCta ? (
+              <span className="inline-flex" data-giant-switch-install-trigger>
+                <Button
+                  href={data.primaryCta.href}
+                  variant="secondary"
+                  icon={<ExternalLinkIcon />}
+                >
+                  {data.primaryCta.label}
+                </Button>
+              </span>
+            ) : null}
+            {data.secondaryCta ? (
+              <Button href={data.secondaryCta.href} variant="tertiary">
+                {data.secondaryCta.label}
+              </Button>
+            ) : null}
+          </>
+        }
+      />
     </section>
   )
 }

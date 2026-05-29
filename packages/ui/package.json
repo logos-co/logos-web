@@ -1,6 +1,6 @@
 {
   "name": "@acid-info/logos-ui",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Shared Logos React primitives and SVG icons.",
   "type": "module",
   "sideEffects": [
@@ -31,6 +31,7 @@
   },
   "scripts": {
     "build": "tsup src/index.ts src/client.ts --format esm --dts --external react --external react/jsx-runtime --external tailwind-merge --clean --tsconfig tsconfig.build.json",
+    "dev": "tsup src/index.ts src/client.ts --format esm --dts --external react --external react/jsx-runtime --external tailwind-merge --tsconfig tsconfig.build.json --watch",
     "lint": "eslint . --config ../../packages/config/eslint/base.mjs --max-warnings 0",
     "lint:fix": "eslint . --config ../../packages/config/eslint/base.mjs --fix",
     "check-types": "tsc --noEmit",

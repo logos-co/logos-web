@@ -169,6 +169,7 @@ export const relatedArticlesSectionSchema = z.object({
         imagePosition: z.string().min(1).optional(),
         date: z.string().min(1),
         author: z.string().min(1),
+        readingTime: z.number().int().positive(),
         href: linkHrefSchema,
       })
     )
@@ -184,9 +185,12 @@ export const ctaPanelSectionSchema = z.object({
   key: sectionKeySchema,
   /** Optional small eyebrow label rendered above the title. */
   eyebrow: z.string().min(1).optional(),
+  mobileEyebrow: z.string().min(1).optional(),
   footerLabel: z.string().min(1).optional(),
   title: z.string().min(1),
+  mobileTitle: z.string().min(1).optional(),
   description: z.string().min(1).optional(),
+  mobileDescription: z.string().min(1).optional(),
   image: mediaRefSchema.optional(),
   /**
    * Optional. Some "annotated text + image" sections render without a CTA

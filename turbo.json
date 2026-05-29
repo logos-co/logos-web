@@ -53,6 +53,12 @@
       "outputs": ["packages/types/src/payload.ts"]
     },
     "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "@acid-info/logos-ui#dev": {
+      "dependsOn": ["build"],
       "cache": false,
       "persistent": true
     }

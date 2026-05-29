@@ -7,12 +7,12 @@ import type {
   RelatedArticlesSection,
 } from '@repo/content/schemas'
 
-import MessagingBuilderCta from '@/components/sections/messaging/messaging-builder-cta'
 import MessagingCaseStudies from '@/components/sections/messaging/messaging-case-studies'
 import MessagingHero from '@/components/sections/messaging/messaging-hero'
 import MessagingIntro from '@/components/sections/messaging/messaging-intro'
-import MessagingRelatedArticles from '@/components/sections/messaging/messaging-related-articles'
 import MessagingTechStack from '@/components/sections/messaging/messaging-tech-stack'
+import TechStackBuilderCta from '@/components/sections/shared/tech-stack-builder-cta'
+import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
@@ -30,13 +30,11 @@ const findSection = createSectionFinder('messaging')
  *   - messaging.privacy + lmn + censorship
  *                              → MessagingIntro
  *   - messaging.caseStudies     → MessagingCaseStudies
- *   - messaging.builderCta      → MessagingBuilderCta
- *   - messaging.relatedArticles → MessagingRelatedArticles
+ *   - messaging.builderCta      → TechStackBuilderCta
+ *   - messaging.relatedArticles → TechStackRelatedArticles
  *
- * `MessagingTechStack` is deferred (same rationale as `StorageTechStack`):
- * it composes the global techStackOverview with messaging-specific intro
- * copy. Migration awaits either a cross-page shared partial or extra fields
- * on `techStackOverview`.
+ * `MessagingTechStack` composes the shared tech stack explorer so the card
+ * grid stays aligned with `/technology-stack`.
  */
 export default async function MessagingPage({
   params,
@@ -90,9 +88,16 @@ export default async function MessagingPage({
       <MessagingHero data={hero} backHref={ROUTES.technologyStack} />
       <MessagingIntro privacy={privacy} lmn={lmn} censorship={censorship} />
       <MessagingCaseStudies data={caseStudies} />
-      <MessagingBuilderCta data={builderCta} />
+      <TechStackBuilderCta
+        data={builderCta}
+        className="mt-15 md:mt-[100px] md:mb-[100px]"
+      />
       <MessagingTechStack locale={locale} />
-      <MessagingRelatedArticles data={relatedArticles} articles={articles} />
+      <TechStackRelatedArticles
+        data={relatedArticles}
+        articles={articles}
+        sectionClassName="mt-0 md:mt-0"
+      />
     </>
   )
 }

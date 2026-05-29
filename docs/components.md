@@ -45,9 +45,9 @@ Full-screen overlay, dark green background (`#0D1F17` approx).
 
 **JOIN OUR COMMUNITY cards (3 cards, image background, dark overlay):**
 
-- Lambda icon Build — "Everything you need to start building privacy-first decentralized applications. Explore ideas, find bounties, and connect with others."
-- Lambda icon Node Program — "The Node Program is for anyone who wants to join our movement to revitalize civil society using decentralized technologies."
-- Lambda icon Circles — "Local chapters are at the heart of our movement. Learn civil organizing, share skills, and forge new connections."
+- Lambda icon Build — "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others."
+- Lambda icon Node Programme — "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies."
+- Lambda icon Circles — "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections."
 
 **PRESS section:** label + `SEE ALL →` link + 4 press image thumbnails (date + headline below each).
 
@@ -220,7 +220,7 @@ Row columns: `flex-[714]` number + title · `flex-[464]` description · `w-[107p
 >
   <TableRow
     number="01"
-    title="Secure and Decentralized Frontends"
+    title="Secure and Decentralised Frontends"
     description={
       <>
         <p>Quadratic voting platform for DAO members</p>

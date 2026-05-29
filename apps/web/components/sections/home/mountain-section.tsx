@@ -15,7 +15,7 @@ type Props = {
 export default function MountainSection({ data }: Props) {
   return (
     <section className="bg-brand-off-white px-3">
-      <div className="mx-auto max-w-354">
+      <div>
         <div className="relative">
           <div
             className="relative z-10 overflow-hidden rounded-[900px] bg-brand-off-white"

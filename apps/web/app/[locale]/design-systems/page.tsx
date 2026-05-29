@@ -7,6 +7,8 @@
  *   - components.tsx    → Cards / Buttons / Tables / GiantSwitches /
  *                         ViewToggles / Paginations / Footers
  */
+import { isActiveLocale } from '@repo/content/locales'
+
 import { createDefaultMetadata } from '@/lib/metadata'
 
 import { ColorPalette } from './_sections/color-palette'
@@ -37,12 +39,21 @@ export async function generateMetadata({
   })
 }
 
-export default function DesignSystemsPage() {
+export default async function DesignSystemsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!isActiveLocale(locale)) {
+    throw new Error(`DesignSystemsPage received non-active locale "${locale}"`)
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-[40px] py-10">
       <ColorPalette />
       <TypeStyles />
-      <Cards />
+      <Cards locale={locale} />
       <Buttons />
       <Tables />
       <GiantSwitches />

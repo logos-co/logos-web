@@ -57,6 +57,7 @@ pnpm generate-types   # cms only — regenerates packages/types/src/payload.ts
 ## Code conventions
 
 - **Repo files are English only.** Committed code, comments, docs, copy. Chat replies can be in any language; files cannot.
+- **Use British English for public paths and all user-facing copy.** This includes route segments, slugs, content JSON values, `next-intl` messages, metadata, docs that quote public copy, and CMS seed fixtures. Prefer spellings such as `decentralised`, `centralised`, `programme`, `organise`, `organisation`, `neighbourhood`, and `licence` for copy. Keep third-party API literals, official external URLs, schema.org types, package names, generated types, and internal field names unchanged when they require American spelling.
 - **Icons are React SVG components** exported from `@repo/ui` (`packages/ui/src/icons`). If a designed icon is missing, stop and ask for a Figma export — don't substitute Unicode/text.
 - **The λ brand mark is `<LogosMark />`** from `@repo/ui`. Size via `size`, color via parent `text-*` (the SVG uses `currentColor`). Never `<img src=".svg" />` or `<span>λ</span>`.
 - **Every clickable element gets `cursor-pointer`** in its Tailwind className: buttons, `onClick` handlers, anchors, clickable cards.

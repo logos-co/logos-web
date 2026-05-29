@@ -41,8 +41,8 @@ import {
 export const Rfps: CollectionConfig = {
   slug: 'rfps',
   labels: {
-    plural: 'RFSs',
-    singular: 'RFS',
+    plural: 'RFPs',
+    singular: 'RFP',
   },
   admin: {
     components: recentPrAdminComponents,

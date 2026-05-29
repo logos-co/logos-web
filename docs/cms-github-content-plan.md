@@ -126,7 +126,7 @@ content/
       circles.json
       about.json
       take-action.json
-      node-program.json
+      node-programme.json
       book.json
       links.json
       faq.json
@@ -141,7 +141,7 @@ content/
     settings/
       <locale>.json
     rfps/
-      secure-decentralized-frontends/
+      secure-decentralised-frontends/
         index.json            # locale-agnostic fields (slug, reward, applyUrl, dates)
         <locale>.json         # title, summary, description per locale
     ideas/
@@ -1224,7 +1224,7 @@ Direct commits to `develop` and `master` are blocked through GitHub branch prote
 ```txt
 content(nav): update main navigation labels
 content(footer): update infrastructure links
-content(builders-hub): add RFP secure-decentralized-frontends
+content(builders-hub): add RFP secure-decentralised-frontends
 content(circles): add Los Angeles Circle event
 schema(builders-hub): add reward closesAt field
 ```
@@ -1245,7 +1245,7 @@ Two separate enforcement points:
 ```txt
 content/nav-main-20260427-1530
 content/footer-links-20260427-1530
-content/builders-hub-rfp-secure-decentralized-frontends
+content/builders-hub-rfp-secure-decentralised-frontends
 content/circles-event-los-angeles-circle-4
 schema/builders-hub-reward-closes-at
 ```
@@ -1491,7 +1491,7 @@ content/pages/en/technology-stack-blockchain.json   # smoke-test for typed-secti
 
 # Builders Hub
 content/builders-hub/settings/en.json
-content/builders-hub/rfps/secure-decentralized-frontends/{index.json, en.json}
+content/builders-hub/rfps/secure-decentralised-frontends/{index.json, en.json}
 content/builders-hub/rfps/build-a-dex/{index.json, en.json}
 content/builders-hub/rfps/integrate-fileverse/{index.json, en.json}
 content/builders-hub/ideas/quadratic-voting/{index.json, en.json}
@@ -1627,18 +1627,18 @@ Paste-ready material for the work the plan calls for. None of this is final — 
 
 ### 15.2 Sample Seed Fixture — RFP
 
-`content/builders-hub/rfps/secure-decentralized-frontends/index.json`:
+`content/builders-hub/rfps/secure-decentralised-frontends/index.json`:
 
 ```json
 {
   "schemaVersion": 1,
-  "slug": "secure-decentralized-frontends",
+  "slug": "secure-decentralised-frontends",
   "status": "published",
   "reward": { "amount": 2500, "currency": "USDC", "xp": 1000 },
-  "applyUrl": "https://logos.co/apply/secure-decentralized-frontends",
+  "applyUrl": "https://logos.co/apply/secure-decentralised-frontends",
   "tags": ["frontend", "privacy", "infra"],
   "image": {
-    "src": "/cms/builders-hub/rfps/secure-decentralized-frontends/cover.webp",
+    "src": "/cms/builders-hub/rfps/secure-decentralised-frontends/cover.webp",
     "alt": "",
     "width": 96,
     "height": 120
@@ -1650,7 +1650,7 @@ Paste-ready material for the work the plan calls for. None of this is final — 
 }
 ```
 
-`content/builders-hub/rfps/secure-decentralized-frontends/en.json`:
+`content/builders-hub/rfps/secure-decentralised-frontends/en.json`:
 
 ```json
 {
@@ -1748,7 +1748,7 @@ Paste-ready material for the work the plan calls for. None of this is final — 
     },
     "displayCount": 8,
     "pinnedSlugs": [
-      "secure-decentralized-frontends",
+      "secure-decentralised-frontends",
       "build-a-dex",
       "integrate-fileverse"
     ],
@@ -1759,7 +1759,7 @@ Paste-ready material for the work the plan calls for. None of this is final — 
         "quadratic-voting",
         "community-bank",
         "permissionless-dns",
-        "secure-decentralized-frontends"
+        "secure-decentralised-frontends"
       ],
       "href": "/builders-hub/ideas"
     }

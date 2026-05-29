@@ -1,9 +1,8 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
-import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 interface SupportCard {
   title: string
@@ -39,16 +38,13 @@ export default async function StartBuildingSection({
     { title: t('lambdaPrize'), href: ROUTES.lambdaPrize, cta: t('cardCta') },
     { title: t('rfps'), href: ROUTES.rfps, cta: t('cardCta') },
     { title: t('ideas'), href: ROUTES.ideas, cta: t('cardCta') },
-    { title: t('docs'), href: ROUTES.technologyStack, cta: t('cardCta') },
+    { title: t('docs'), href: EXTERNAL_URLS.docs, cta: t('cardCta') },
   ]
 
   return (
     <section className="h-[1236px] overflow-hidden bg-brand-off-white pt-[100px] md:h-[820px] md:pt-3 md:pb-28">
-      <div className="mx-auto grid max-w-354 gap-3 px-3 md:grid-cols-2 md:px-0">
-        <Reveal
-          amount={0.2}
-          className="relative h-[319px] w-[365px] overflow-hidden rounded-[100px] bg-brand-dark-green/10 md:h-[696px] md:w-auto"
-        >
+      <div className="grid gap-3 px-3 md:grid-cols-2">
+        <div className="relative h-[319px] w-[365px] overflow-hidden rounded-[100px] bg-brand-dark-green/10 md:h-[696px] md:w-auto">
           <Image
             src="/images/home/figma-refresh/start-building.webp"
             alt=""
@@ -56,20 +52,16 @@ export default async function StartBuildingSection({
             sizes="(max-width: 768px) 369px, 702px"
             className="object-cover object-center"
           />
-        </Reveal>
+        </div>
 
-        <Reveal
-          amount={0.2}
-          className="flex min-h-[705px] flex-col justify-between rounded-xl bg-[#dbddd7] p-3 text-brand-dark-green md:min-h-[696px] md:p-6"
-        >
+        <div className="flex min-h-[705px] flex-col justify-between rounded-xl bg-[#dbddd7] p-3 text-brand-dark-green md:min-h-[696px] md:p-6">
           <div className="mx-auto mt-7 flex max-w-[320px] flex-col items-center gap-10 text-center md:mt-[113px]">
             <div className="flex flex-col items-center gap-6 md:w-[320px]">
               <h2 className="font-display text-[30px] leading-none tracking-[-0.03em] md:text-[36px]">
                 {t('title')}
               </h2>
               <p className="h-[28px] overflow-hidden font-sans text-[12px] leading-[1.2] md:h-auto md:w-[254px]">
-                <span className="md:hidden">{t('mobileBody')}</span>
-                <span className="hidden md:inline">{t('body')}</span>
+                {t('body')}
               </p>
             </div>
             <Button
@@ -80,14 +72,12 @@ export default async function StartBuildingSection({
             </Button>
           </div>
 
-          <Reveal stagger amount={0.25} className="grid gap-3 md:grid-cols-2">
+          <div className="grid gap-3 md:grid-cols-2">
             {cards.map((card) => (
-              <RevealItem key={card.title}>
-                <SupportCardView card={card} />
-              </RevealItem>
+              <SupportCardView key={card.title} card={card} />
             ))}
-          </Reveal>
-        </Reveal>
+          </div>
+        </div>
       </div>
     </section>
   )

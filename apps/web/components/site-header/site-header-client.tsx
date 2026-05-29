@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 
 import {
   LogosMark,
+  LogosWordmark,
   type NavOverlayCommunityCard,
   type NavOverlayLink,
   type NavOverlayMenuPanel,
@@ -36,28 +37,9 @@ function HamburgerIcon() {
 }
 
 function LambdaGlyph({ className }: { className?: string }) {
-  return <LogosMark size={14} className={clsx('shrink-0', className)} />
+  return <LogosMark size={11} className={clsx('shrink-0', className)} />
 }
 
-function BrandLockup({
-  label,
-  className,
-}: {
-  label: string
-  className?: string
-}) {
-  const formattedLabel =
-    label.length > 0
-      ? `${label.charAt(0)}${label.slice(1).toLowerCase()}`
-      : label
-
-  return (
-    <span className={clsx('inline-flex items-center gap-1.5', className)}>
-      <LambdaGlyph />
-      <span>{formattedLabel}</span>
-    </span>
-  )
-}
 
 export default function SiteHeaderClient({
   closedBar,
@@ -81,6 +63,9 @@ export default function SiteHeaderClient({
     normalizedPathname.endsWith(ROUTES.lambdaPrize)
   const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.press)
   const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
+  const usesAccentTanHeaderTone =
+    normalizedPathname.endsWith(ROUTES.logosBroadcastNetwork) ||
+    normalizedPathname.endsWith(ROUTES.podcast)
   const open = () => {
     setInitialPanelLabel(null)
     setIsOpen(true)
@@ -135,95 +120,72 @@ export default function SiteHeaderClient({
       <header
         className={clsx(
           'left-0 right-0 top-0 z-50',
-          usesOverlayHeader ? 'fixed' : 'sticky'
+          usesOverlayHeader ? 'fixed' : 'sticky',
+          usesAccentTanHeaderTone && 'bg-accent-tan'
         )}
       >
         <div
           className={clsx(
-            'grid h-10 grid-cols-3 items-center px-3 transition-colors duration-300 min-[640px]:hidden',
+            'relative h-10 transition-colors duration-300 min-[640px]:hidden',
             headerToneClass
           )}
         >
           <a
             href={ROUTES.home}
-            className="-mx-3 inline-flex min-h-10 w-fit cursor-pointer items-center px-3 font-serif text-[18px] leading-none tracking-normal normal-case transition-opacity hover:opacity-70"
+            className="absolute top-1/2 left-3 -translate-y-1/2 inline-flex cursor-pointer items-center gap-1 transition-opacity hover:opacity-70"
           >
-            <BrandLockup label={closedBar.brandLabel} />
+            <span className="sr-only">{closedBar.brandLabel}</span>
+            <LambdaGlyph />
+            <LogosWordmark className="translate-y-[1px]" />
+          </a>
+
+          <button
+            type="button"
+            onClick={open}
+            aria-expanded={isOpen}
+            aria-label={closedBar.openAriaLabel}
+            className="text-eyebrow absolute top-1/2 left-[62.5%] -translate-x-1/2 -translate-y-1/2 font-semibold inline-flex cursor-pointer items-center gap-1.5 transition-opacity hover:opacity-70"
+          >
+            {closedBar.menuLabel} <HamburgerIcon />
+          </button>
+        </div>
+
+        <div
+          className={clsx(
+            'relative hidden h-[42px] transition-colors duration-300 min-[640px]:block',
+            headerToneClass
+          )}
+        >
+          <a
+            href={ROUTES.home}
+            className="absolute top-1/2 left-3 -translate-y-1/2 inline-flex cursor-pointer items-center gap-1 transition-opacity hover:opacity-70"
+          >
+            <span className="sr-only">{closedBar.brandLabel}</span>
+            <LambdaGlyph />
+            <LogosWordmark className="translate-y-[1px]" />
           </a>
 
           <nav
             aria-label="Primary"
-            className="hidden items-center justify-center gap-10 min-[640px]:flex"
+            className="absolute top-1/2 left-[calc(50%+6px)] -translate-y-1/2 flex items-center gap-6"
           >
             {menuPanels.map((panel) => (
               <button
                 key={panel.label}
                 type="button"
                 onClick={() => openPanel(panel.label)}
-                className="text-eyebrow cursor-pointer tracking-[0.08em] whitespace-nowrap uppercase transition-opacity hover:opacity-70"
+                className="text-eyebrow font-semibold cursor-pointer whitespace-nowrap uppercase transition-opacity hover:opacity-70"
               >
                 {panel.label}
               </button>
             ))}
           </nav>
 
-          <div className="flex justify-center min-[640px]:hidden">
-            <button
-              type="button"
-              onClick={open}
-              aria-expanded={isOpen}
-              aria-label={closedBar.openAriaLabel}
-              className="text-eyebrow -mx-3 inline-flex min-h-10 cursor-pointer items-center gap-1.5 px-3 tracking-[0.08em] transition-opacity hover:opacity-70"
-            >
-              {closedBar.menuLabel} <HamburgerIcon />
-            </button>
-          </div>
-
-          <div className="flex justify-end">
-            {primaryCta ? (
-              <Link
-                href={primaryCta.href}
-                className="text-eyebrow hidden min-h-7 cursor-pointer items-center rounded-2xl bg-brand-dark-green px-4 uppercase text-brand-off-white transition-opacity hover:opacity-85 min-[640px]:inline-flex"
-              >
-                {primaryCta.label}
-              </Link>
-            ) : null}
-          </div>
-        </div>
-
-        <div
-          className={clsx(
-            'hidden h-[42px] items-baseline justify-between px-3 py-1.5 transition-colors duration-300 min-[640px]:flex',
-            headerToneClass
-          )}
-        >
-          <div className="flex items-baseline gap-3">
-            <a
-              href={ROUTES.home}
-              className="text-eyebrow inline-flex h-[15px] w-[calc(50vw-18px)] cursor-pointer items-baseline tracking-[0.08em] transition-opacity hover:opacity-70"
-            >
-              <BrandLockup label={closedBar.brandLabel} />
-            </a>
-
-            <nav aria-label="Primary" className="flex items-start gap-6">
-              {menuPanels.map((panel) => (
-                <button
-                  key={panel.label}
-                  type="button"
-                  onClick={() => openPanel(panel.label)}
-                  className="text-eyebrow cursor-pointer tracking-[0.08em] whitespace-nowrap uppercase transition-opacity hover:opacity-70"
-                >
-                  {panel.label}
-                </button>
-              ))}
-            </nav>
-          </div>
-
           {primaryCta ? (
             <Link
               href={primaryCta.href}
               className={clsx(
-                'text-eyebrow inline-flex min-h-7 cursor-pointer items-center rounded-xl px-3 uppercase transition-opacity hover:opacity-85',
+                'absolute top-1/2 right-3 -translate-y-1/2 text-eyebrow font-semibold inline-flex cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
                 usesHeroHeaderTone && !hasPassedHero
                   ? 'bg-brand-off-white text-brand-dark-green'
                   : 'bg-brand-dark-green text-brand-off-white'

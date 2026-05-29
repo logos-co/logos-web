@@ -242,7 +242,8 @@ function ActionCardsSection({ t }: { t: Translate }) {
             <Cta
               href={card.href}
               label={t(`actions.${card.key}.cta`)}
-              className="mx-1.5 mt-3 w-[calc(100%-12px)]"
+              tone="light"
+              className="mx-1.5 mt-auto w-[calc(100%-12px)]"
             />
           </article>
         ))}

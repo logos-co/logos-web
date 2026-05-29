@@ -8,16 +8,20 @@ import { Reveal } from '@/components/motion/reveal'
 
 import { SectionMarker } from './messaging-shared'
 
+function paragraphs(text?: string) {
+  return text?.split('\n\n') ?? []
+}
+
 function LmnImage() {
   return (
-    <div className="relative h-72 w-full overflow-hidden rounded-3xl bg-gray-02 md:h-144 md:w-175.5">
+    <div className="relative h-72 w-full overflow-hidden rounded-3xl bg-gray-02 md:h-[335px] md:w-[702px]">
       <Image
         src="/images/messaging/lmn.webp"
         alt=""
         width={746}
         height={933}
         sizes="(min-width: 768px) 702px, 369px"
-        className="absolute top-[-93px] left-[-28px] h-[497px] w-[397px] max-w-none object-cover md:top-[-167px] md:h-[933px] md:w-[746px]"
+        className="absolute top-[-93px] left-[-28px] h-[497px] w-[397px] max-w-none object-cover md:top-[-130.5px] md:left-[21px] md:h-[620px] md:w-[775px]"
       />
     </div>
   )
@@ -25,14 +29,14 @@ function LmnImage() {
 
 function PrivacyImage() {
   return (
-    <div className="relative h-72 w-full overflow-hidden rounded-3xl bg-gray-02 md:h-144 md:w-175.5">
+    <div className="relative h-72 w-full overflow-hidden rounded-3xl bg-gray-02 md:h-[335px] md:w-[702px]">
       <Image
         src="/images/messaging/privacy.webp"
         alt=""
         width={746}
         height={933}
         sizes="(min-width: 768px) 702px, 369px"
-        className="absolute top-[-25px] left-[-38px] h-[461px] w-[461px] max-w-none object-cover md:top-[-47px] md:left-[-77px] md:h-[838px] md:w-[838px]"
+        className="absolute top-[-25px] left-[-38px] h-[461px] w-[461px] max-w-none object-cover md:top-[-289.5px] md:left-0 md:h-[778px] md:w-[743px]"
       />
     </div>
   )
@@ -47,20 +51,37 @@ function MessagingFeaturePanel({
   image: ReactNode
   reverse?: boolean
 }) {
+  const mobileEyebrow = data.mobileEyebrow ?? data.eyebrow
+  const mobileTitle = data.mobileTitle ?? data.title
+  const mobileDescription = data.mobileDescription ?? data.description
+
   return (
     <section className="bg-gray-01">
       <div
-        className={`relative mx-auto h-150 max-w-360 p-3 md:flex md:items-start md:justify-between ${
+        className={`relative mx-auto h-150 max-w-360 p-3 md:h-[359px] md:flex md:items-start md:justify-between ${
           reverse ? 'md:flex-row-reverse' : 'md:flex-row'
         }`}
       >
-        <Reveal className="flex h-72 flex-col md:h-144 md:w-175.5">
-          {data.eyebrow ? <SectionMarker label={data.eyebrow} /> : null}
+        <Reveal className="flex h-72 flex-col md:h-[335px] md:w-[702px]">
+          {mobileEyebrow ? (
+            <SectionMarker label={mobileEyebrow} className="md:hidden" />
+          ) : null}
+          {data.eyebrow ? (
+            <SectionMarker label={data.eyebrow} className="hidden md:flex" />
+          ) : null}
 
-          <div className="mt-11.5 flex flex-col gap-3 text-brand-dark-green md:mt-auto">
-            <h2 className="text-h4-sans md:w-84">{data.title}</h2>
+          <div className="mt-11.5 flex flex-col gap-3 text-brand-dark-green md:mt-[108.5px]">
+            <h2 className="text-h4-sans md:w-84">
+              <span className="md:hidden">{mobileTitle}</span>
+              <span className="hidden md:inline">{data.title}</span>
+            </h2>
+            {mobileDescription ? (
+              <p className="text-mono-s md:hidden">{mobileDescription}</p>
+            ) : null}
             {data.description ? (
-              <p className="text-mono-s md:w-121.25">{data.description}</p>
+              <p className="text-mono-s hidden md:block md:w-121.25">
+                {data.description}
+              </p>
             ) : null}
           </div>
         </Reveal>
@@ -85,14 +106,25 @@ export default function MessagingIntro({ privacy, lmn, censorship }: Props) {
     <>
       <Reveal amount={0.2}>
         <TechTextSplitSection
-          className="mb-15 md:mb-0"
+          className="mb-15 md:mb-[100px] md:h-[235px]"
           title={privacy.title}
           body={
-            privacy.description
-              ? privacy.description
-                  .split('\n\n')
-                  .map((paragraph) => <p key={paragraph}>{paragraph}</p>)
-              : null
+            <>
+              {privacy.mobileDescription ? (
+                <div className="flex flex-col gap-5 md:hidden">
+                  {paragraphs(privacy.mobileDescription).map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              ) : null}
+              {privacy.description ? (
+                <div className="hidden flex-col gap-5 md:flex">
+                  {paragraphs(privacy.description).map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              ) : null}
+            </>
           }
         />
       </Reveal>

@@ -19,7 +19,7 @@
     {
       "componentType": "hero",
       "key": "techStack.hero",
-      "eyebrow": "Open by design, open in spirit. Build truly decentralized applications with the modular Logos Technology Stack.",
+      "eyebrow": "Open by design, open in spirit. Build truly decentralised applications with the modular Logos Technology Stack.",
       "headline": "The Logos Technology Stack",
       "body": "The Logos Technology Stack is a unified ecosystem of distinct modules. The entire stack is modular so developers can assemble their own Logos-based platform with a different selection of modules.",
       "background": {
@@ -42,7 +42,8 @@
         },
         {
           "label": "Documentation",
-          "href": "/technology-stack#open-source",
+          "href": "https://github.com/logos-co/logos-docs",
+          "external": true,
           "variant": "secondary"
         }
       ],
@@ -70,7 +71,8 @@
       "eyebrow": "Disclaimer: Abstract representation of the stack.",
       "cta": {
         "label": "Docs",
-        "href": "/technology-stack#open-source"
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
       },
       "architecture": {
         "eyebrow": "Technology",
@@ -81,7 +83,8 @@
         ],
         "cta": {
           "label": "View the docs",
-          "href": "/technology-stack#stack"
+          "href": "https://github.com/logos-co/logos-docs",
+          "external": true
         },
         "image": {
           "src": "/images/technology-stack/architecture-overview.jpg",
@@ -103,7 +106,7 @@
         {
           "id": "storage",
           "title": "Storage",
-          "body": "Decentralized file storage and retrieval, using content-addressed (CID-based) data",
+          "body": "Decentralised file storage and retrieval, using content-addressed (CID-based) data",
           "href": "/technology-stack/storage"
         },
         {
@@ -115,7 +118,7 @@
         {
           "id": "blockchain",
           "title": "Blockchain",
-          "body": "Decentralized compute and consensus.",
+          "body": "Decentralised compute and consensus.",
           "href": "/technology-stack/blockchain"
         },
         {
@@ -128,7 +131,7 @@
       "networkingTitle": "The Networking Stack:\nDiscovery, Peering, and Mix-Net",
       "networkingDescription": "This layer handles how Logos nodes find each other, establish connections, and communicate.",
       "foundationTitle": "The Foundation: Logos Kernel",
-      "foundationDescription": "A microkernel that handles the essential primitives every decentralized application needs."
+      "foundationDescription": "A microkernel that handles the essential primitives every decentralised application needs."
     },
     {
       "componentType": "giantSwitch",
@@ -196,7 +199,7 @@
       "componentType": "table",
       "key": "techStack.openSource",
       "title": "Open Source",
-      "subtitle": "All Logos code is open source, licensed under permissive licenses. The primary development happens across several GitHub organisations.",
+      "subtitle": "All Logos code is open source, licensed under permissive licences. The primary development happens across several GitHub organisations.",
       "rows": [
         {
           "number": "01",
@@ -209,7 +212,7 @@
           },
           "secondaryCta": {
             "label": "Docs",
-            "href": "https://docs.logos.co",
+            "href": "https://github.com/logos-co/logos-docs",
             "external": true
           }
         },
@@ -224,7 +227,7 @@
           },
           "secondaryCta": {
             "label": "Docs",
-            "href": "https://docs.waku.org",
+            "href": "https://github.com/logos-co/logos-docs",
             "external": true
           }
         },
@@ -239,7 +242,7 @@
           },
           "secondaryCta": {
             "label": "Docs",
-            "href": "https://docs.codex.storage",
+            "href": "https://github.com/logos-co/logos-docs",
             "external": true
           }
         },
@@ -254,7 +257,7 @@
           },
           "secondaryCta": {
             "label": "Docs",
-            "href": "https://vac.dev",
+            "href": "https://github.com/logos-co/logos-docs",
             "external": true
           }
         }
@@ -268,7 +271,8 @@
       "subheadingExtra": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
       "cta": {
         "label": "View the Docs",
-        "href": "/technology-stack"
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
       },
       "cards": [
         {
@@ -286,7 +290,7 @@
           }
         },
         {
-          "title": "Decentralized Archives",
+          "title": "Decentralised Archives",
           "description": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
           "image": {
             "src": "/images/technology-stack/usecase-2.jpg",

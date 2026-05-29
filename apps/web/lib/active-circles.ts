@@ -1,10 +1,10 @@
 import { getLatestEventsByCity } from './circle-events'
+import {
+  BI_GRAPHQL_API_URL,
+  CIRCLES_GRAPHQL_RESPONSE_KEY,
+  LOGOS_GRAPHQL_API_URL,
+} from './logos-data-api'
 import { logger } from './logger'
-
-const LOGOS_GRAPHQL_API_URL = 'https://api.logos.co/v1/graphql'
-const BI_GRAPHQL_API_URL = 'https://hasura.bi.status.im/v1/graphql'
-const CIRCLES_GRAPHQL_RESPONSE_KEY =
-  'stg_external_circle_circle_event_aggregate'
 
 export const ACTIVE_CIRCLES_DAYS = 120
 

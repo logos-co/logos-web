@@ -1,10 +1,11 @@
 import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
+import type { TechStackOverviewSection } from '@repo/content/schemas'
 
+import TechStackSection from '@/components/sections/home/tech-stack-section'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
-import { DownloadIcon } from '@/components/sections/shared/builder-cta-card'
 
 interface RowCopy {
   label: string
@@ -16,17 +17,6 @@ interface PrizeCopy {
   title: string
   body: string
   status: string
-}
-
-interface TechCardCopy {
-  title: string
-  body: string
-  badges?: string[]
-}
-
-interface TechWideCopy {
-  title: string
-  body: string
 }
 
 interface SupportRowCopy extends RowCopy {
@@ -62,22 +52,6 @@ interface LambdaPrizePageCopy {
     secondaryCta: string
     rows: RowCopy[]
   }
-  techStack: {
-    disclaimer: string
-    heading: string
-    body: string
-    cta: string
-    basecamp: {
-      title: string
-      body: string
-      cta: string
-    }
-    cards: TechCardCopy[]
-    networking: TechWideCopy
-    foundation: TechWideCopy
-    primaryCta: string
-    secondaryCta: string
-  }
   support: {
     heading: string
     body: string
@@ -88,6 +62,7 @@ interface LambdaPrizePageCopy {
 
 interface LambdaPrizePageProps {
   copy: LambdaPrizePageCopy
+  techStack: TechStackOverviewSection
 }
 
 const prizeImages = [
@@ -152,7 +127,7 @@ function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
         priority
       />
       <div className="absolute inset-0 bg-brand-dark-green/35" />
-      <div className="relative z-10 mx-auto flex h-full max-w-[1416px] items-center justify-center">
+      <div className="relative z-10 flex h-full items-center justify-center">
         <div className="flex w-full -translate-y-[6px] flex-col items-center text-center">
           <div className="text-h4-serif mb-[60px] inline-flex items-center gap-3">
             <LogosMark size={20} />
@@ -327,113 +302,6 @@ function AboutProgramme({ copy }: { copy: LambdaPrizePageCopy['about'] }) {
   )
 }
 
-function TechCard({ card }: { card: TechCardCopy }) {
-  return (
-    <div className="flex h-[258px] items-center justify-center rounded-3xl border border-brand-dark-green p-3 text-center md:h-[366px]">
-      <div className="flex w-full flex-col items-center gap-3">
-        <LogosMark size={18} className="hidden md:block" />
-        <h3 className="text-subhead-sans">{card.title}</h3>
-        <p className="text-mono-s max-w-[208px] text-center">{card.body}</p>
-        {card.badges ? (
-          <div className="mt-2 flex w-full max-w-[164px] flex-col gap-1.5">
-            {card.badges.map((badge) => (
-              <div
-                key={badge}
-                className="rounded-[18px] border border-brand-dark-green/50 px-2 py-2 text-center font-mono text-[10px] font-medium uppercase leading-[1.3]"
-              >
-                {badge}
-              </div>
-            ))}
-          </div>
-        ) : null}
-      </div>
-    </div>
-  )
-}
-
-function WideTechCard({
-  title,
-  body,
-  className = '',
-}: TechWideCopy & { className?: string }) {
-  return (
-    <div
-      className={`flex h-[196px] items-center justify-center rounded-3xl border border-brand-dark-green p-3 text-center ${className}`}
-    >
-      <div className="flex flex-col items-center gap-3">
-        <h3 className="text-subhead-sans max-w-[320px] whitespace-pre-line">
-          {title}
-        </h3>
-        <p className="text-mono-s max-w-[208px] text-center">{body}</p>
-      </div>
-    </div>
-  )
-}
-
-function TechStack({ copy }: { copy: LambdaPrizePageCopy['techStack'] }) {
-  const headingLines = copy.heading.split('\n')
-
-  return (
-    <section className="mt-[100px] h-[1548px] bg-brand-off-white px-3 pt-3 text-brand-dark-green md:mt-0 md:h-[1507px]">
-      <div className="flex items-start justify-between">
-        <p className="text-mono-s w-[226px]">{copy.disclaimer}</p>
-        <div className="flex flex-col gap-1 md:flex-row">
-          <Button href={ROUTES.technologyStack} className="cursor-pointer">
-            {copy.primaryCta}
-          </Button>
-          <Button
-            href={ROUTES.buildersHub}
-            variant="secondary"
-            className="cursor-pointer"
-          >
-            {copy.secondaryCta}
-          </Button>
-        </div>
-      </div>
-      <div className="mx-auto mt-[70px] flex w-full max-w-[464px] flex-col items-center text-center md:mt-[52px]">
-        <h2 className="font-display text-[40px] leading-none tracking-[-0.03em] md:text-[56px] md:leading-[0.88]">
-          {headingLines.map((line) => (
-            <span key={line} className="block">
-              {line}
-            </span>
-          ))}
-        </h2>
-        <p className="text-mono-s mt-10 w-[359px] max-w-full">{copy.body}</p>
-        <div className="mt-6">
-          <TertiaryCta href={ROUTES.technologyStack}>{copy.cta}</TertiaryCta>
-        </div>
-      </div>
-      <div className="mt-[100px] flex flex-col gap-3">
-        <div className="flex h-[124px] items-center justify-between rounded-3xl border border-brand-dark-green p-3 md:h-[196px]">
-          <div className="flex flex-col gap-3 md:mx-auto md:items-center">
-            <div className="flex items-center gap-2">
-              <LogosMark size={14} />
-              <h3 className="text-subhead-sans">{copy.basecamp.title}</h3>
-            </div>
-            <p className="text-mono-s w-[208px] md:hidden">
-              {copy.basecamp.body}
-            </p>
-          </div>
-          <Button
-            href={ROUTES.basecamp}
-            icon={<DownloadIcon />}
-            className="cursor-pointer"
-          >
-            {copy.basecamp.cta}
-          </Button>
-        </div>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {copy.cards.map((card) => (
-            <TechCard key={card.title} card={card} />
-          ))}
-        </div>
-        <WideTechCard {...copy.networking} />
-        <WideTechCard {...copy.foundation} />
-      </div>
-    </section>
-  )
-}
-
 function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
   return (
     <section className="h-[406px] border-t border-brand-dark-green/10 bg-brand-off-white pt-10 text-brand-dark-green md:h-[421px]">
@@ -469,14 +337,18 @@ function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
   )
 }
 
-export function LambdaPrizePage({ copy }: LambdaPrizePageProps) {
+export function LambdaPrizePage({ copy, techStack }: LambdaPrizePageProps) {
   return (
     <main className="overflow-hidden bg-brand-off-white">
       <Hero copy={copy.hero} />
       <HowItWorks copy={copy.howItWorks} evaluation={copy.evaluation} />
       <FeaturedPrizes copy={copy.featured} />
       <AboutProgramme copy={copy.about} />
-      <TechStack copy={copy.techStack} />
+      <TechStackSection
+        data={techStack}
+        networkingHref={ROUTES.networking}
+        foundationHref={ROUTES.technologyStack}
+      />
       <Support copy={copy.support} />
     </main>
   )

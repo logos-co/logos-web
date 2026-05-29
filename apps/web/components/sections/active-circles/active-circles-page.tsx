@@ -85,7 +85,7 @@ function ActiveCirclesHero({ activeSinceDate }: { activeSinceDate: string }) {
       <div className="absolute left-3 top-6 flex size-[48px] items-center justify-center rounded-full border border-brand-off-white/30 md:left-1/2 md:-translate-x-1/2">
         <LogosMark size={17} />
       </div>
-      <div className="mx-auto grid min-h-[430px] max-w-354 grid-cols-2 gap-3 pb-12 md:min-h-[520px] md:grid-cols-12 md:pb-16">
+      <div className="grid min-h-[430px] grid-cols-2 gap-3 pb-12 md:min-h-[520px] md:grid-cols-12 md:pb-16">
         <p className="text-mono-s col-span-1 mt-28 max-w-[178px] text-brand-off-white/70 md:col-span-2 md:mt-16">
           Active in the last {ACTIVE_CIRCLES_DAYS} days, measured from{' '}
           {activeSinceDate}.

@@ -88,12 +88,12 @@ Living checklist for all SEO work on logos.co. Status keys: ✅ done · ⏳ in p
 
 | Page          | Primary keyword                      | Working title                                                      |
 | ------------- | ------------------------------------ | ------------------------------------------------------------------ |
-| Homepage      | Logos / decentralized infrastructure | "Logos — Pioneering a New Era of Freedom"                          |
+| Homepage      | Logos / decentralised infrastructure | "Logos — Pioneering a New Era of Freedom"                          |
 | Tech Overview | logos technology stack               | "The Logos Technology Stack — Privacy-First Infrastructure"        |
 | Blockchain    | privacy blockchain                   | "Blockchain — Privacy as Infrastructure \| Logos"                  |
-| Networking    | decentralized networking             | "Networking Stack — Privacy-First Networking \| Logos"             |
-| Messaging     | decentralized messaging              | "Logos Messaging — Secure, Private Messaging"                      |
-| Storage       | decentralized storage                | "Storage — Private, Secure, Decentralized Storage \| Logos"        |
+| Networking    | decentralised networking             | "Networking Stack — Privacy-First Networking \| Logos"             |
+| Messaging     | decentralised messaging              | "Logos Messaging — Secure, Private Messaging"                      |
+| Storage       | decentralised storage                | "Storage — Private, Secure, Decentralised Storage \| Logos"        |
 | Builders Hub  | web3 builders / bounties             | "Builders Hub — Build on Logos"                                    |
 | Ideas         | community ideas                      | "Ideas — Logos Community Submissions"                              |
 | RFPs          | web3 bounties                        | "RFPs — Fund Your Build on Logos"                                  |

@@ -15,7 +15,11 @@
         "href": "https://discord.gg/logosnetwork",
         "external": true
       },
-      { "label": "View the Docs", "href": "/technology-stack" }
+      {
+        "label": "View the Docs",
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true
+      }
     ]
   },
   "journey": {
@@ -27,7 +31,10 @@
         "href": "/builders-hub#prepare"
       },
       { "label": "Start Building", "href": "/builders-hub#start-building" },
-      { "label": "Builder Programs", "href": "/builders-hub#builder-programs" },
+      {
+        "label": "Builder Programmes",
+        "href": "/builders-hub#builder-programs"
+      },
       { "label": "Get Support", "href": "/builders-hub#get-support" }
     ]
   },
@@ -122,7 +129,7 @@
     ]
   },
   "programs": {
-    "title": "Builder Programs",
+    "title": "Builder Programmes",
     "prizeTitle": "Prize",
     "prizeHeading": "The frontier is open. Build what’s next.",
     "prizeDescription": "Lambda Prizes is a competitive prize framework for the Logos ecosystem. λPrize targets contributions where Logos cares about the outcome but not the path.",
@@ -175,7 +182,8 @@
         "title": "Schedule a call and speak with a contributor",
         "cta": {
           "label": "Learn more",
-          "href": "/work-with-us"
+          "href": "https://cal.com/team/logos-onboarding/intro",
+          "external": true
         }
       },
       {
@@ -232,7 +240,11 @@
       "key": "contribute",
       "title": "Contribute",
       "description": "Pathways for joining the build — from one-off issues to long-term contributions.",
-      "primaryCta": { "label": "Get started", "href": "/work-with-us" }
+      "primaryCta": {
+        "label": "Get started",
+        "href": "https://free.technology/jobs",
+        "external": true
+      }
     }
   ],
   "rfpsSection": {
@@ -250,7 +262,7 @@
     },
     "displayCount": 8,
     "pinnedSlugs": [
-      "secure-decentralized-frontends",
+      "secure-decentralised-frontends",
       "build-a-dex",
       "integrate-fileverse"
     ],

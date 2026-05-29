@@ -4,6 +4,7 @@ import {
   getBroadcastEvents,
   getLatestPressArticles,
   getLatestPressPodcasts,
+  getPressPageData,
 } from '../press-engine'
 
 const articlePageHtml = (readingTime: number) => `
@@ -110,6 +111,7 @@ describe('getLatestPressArticles', () => {
         })
       )
       .mockResolvedValueOnce(htmlResponse(articlePageHtml(13)))
+      .mockResolvedValueOnce(htmlResponse(articlePageHtml(5)))
 
     const articles = await getLatestPressArticles(2)
 
@@ -123,16 +125,99 @@ describe('getLatestPressArticles', () => {
       'https://blog.logos.co/article/article-one',
       FETCH_INIT_HTML
     )
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      3,
+      'https://blog.logos.co/article/article-two',
+      FETCH_INIT_HTML
+    )
     expect(articles).toMatchObject([
       {
         title: 'Article one',
         href: 'https://blog.logos.co/article/article-one',
+        image: 'https://cms-press.logos.co/uploads/large_article-one.jpg',
+        thumbnailImage:
+          'https://cms-press.logos.co/uploads/thumbnail_article-one.jpg',
+        galleryImage: 'https://cms-press.logos.co/uploads/small_article-one.jpg',
+        cardImage: 'https://cms-press.logos.co/uploads/large_article-one.jpg',
+        featuredImage: 'https://cms-press.logos.co/uploads/article-one.jpg',
         readingTime: 13,
       },
       {
         title: 'Article two',
         href: 'https://blog.logos.co/article/article-two',
         readingTime: 5,
+      },
+    ])
+  })
+})
+
+describe('getPressPageData', () => {
+  test('uses canonical article page reading times instead of stale search values', async () => {
+    const fetchMock = vi
+      .spyOn(globalThis, 'fetch')
+      .mockImplementation(async (input) => {
+        const url = String(input)
+
+        if (url === 'https://blog.logos.co/api/search?type=article&limit=100') {
+          return jsonResponse({
+            data: {
+              posts: [
+                {
+                  type: 'article',
+                  data: {
+                    title: 'Logos Dev Update: April 2026',
+                    slug: 'developer-update-apr-2026',
+                    publishedAt: '2026-05-06',
+                    coverImage: {
+                      url: 'https://cms-press.logos.co/uploads/dev-update.jpg',
+                    },
+                    readingTime: 1,
+                  },
+                },
+              ],
+            },
+          })
+        }
+
+        if (url === 'https://blog.logos.co/api/search?type=podcast&limit=20') {
+          return jsonResponse({
+            data: {
+              posts: [
+                {
+                  type: 'podcast',
+                  data: {
+                    title: 'Logos State',
+                    slug: 'logos-state',
+                    publishedAt: '2026-05-01',
+                    coverImage: {
+                      url: 'https://cms-press.logos.co/uploads/podcast.jpg',
+                    },
+                  },
+                },
+              ],
+            },
+          })
+        }
+
+        if (
+          url === 'https://blog.logos.co/article/developer-update-apr-2026'
+        ) {
+          return htmlResponse(articlePageHtml(12))
+        }
+
+        throw new Error(`Unexpected fetch URL: ${url}`)
+      })
+
+    const data = await getPressPageData()
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://blog.logos.co/article/developer-update-apr-2026',
+      FETCH_INIT_HTML
+    )
+    expect(data.articles).toMatchObject([
+      {
+        title: 'Logos Dev Update: April 2026',
+        readingTime: 12,
       },
     ])
   })

@@ -38,8 +38,8 @@ export const ROUTES = {
   /** Dynamic route — `/circles/[slug]`. */
   circle: (slug: string) => `/circles/${slug}`,
 
-  // Node Program
-  nodeProgram: '/node-program',
+  // Node Programme
+  nodeProgram: '/node-programme',
 
   // Movement / Top-level nav
   movement: '/movement',
@@ -84,13 +84,13 @@ export const ROUTES = {
 export const EXTERNAL_URLS = {
   // Social
   twitter: 'https://twitter.com/logos_network',
-  discord: 'https://discord.gg/logos',
+  discord: 'https://discord.gg/logosnetwork',
   youtube: 'https://youtube.com/@logos_network',
   github: 'https://github.com/logos-co',
 
   // Forum
   forum: 'https://forum.logos.co/',
-  docs: 'https://docs.logos.co',
+  docs: 'https://github.com/logos-co/logos-docs',
 
   // Research
   vacp2p: 'https://vac.dev',
@@ -109,6 +109,7 @@ export const EXTERNAL_URLS = {
 
   // Attribution
   ift: 'https://free.technology',
+  iftJobs: 'https://free.technology/jobs',
 } as const
 
 export type RouteKey = keyof typeof ROUTES
