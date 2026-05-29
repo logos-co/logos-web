@@ -19,9 +19,21 @@ Operational and design notes for routing the three public connect intake forms i
 | 4. CiviCRM lib | `submitToCiviCrm` without Notion imports | Done — [details](./implementation.md#4-civicrm-submit-module) |
 | 5. Orchestrator | One captcha; Notion required; Civi backup | Done — [details](./implementation.md#5-orchestrator-afform-submit) |
 | 6. Web pages | All three → `afform-submit` | Done — [details](./implementation.md#6-wire-web-pages) |
-| 7. Cleanup | Remove `notion-coalition-partner`; sync docs | Pending |
+| 7. Cleanup | Remove `notion-coalition-partner`; sync civi-crm docs | Done — [details](./implementation.md#7-cleanup) |
 
 Full goals, what changed, and acceptance criteria: [implementation.md](./implementation.md).
+
+## What shipped (cleanup)
+
+The intake funnel is now a **single public API** with **one Notion code path**:
+
+| Change | Goal |
+| --- | --- |
+| Deleted `POST /api/public/notion-coalition-partner` | Avoid a second handler that duplicated mapping logic and used the wrong Notion property names for the funnel database |
+| Documented `POST /api/public/afform-submit` in civi-crm docs | Operators and agents have one canonical route and env-var list for preview/staging/production |
+| All three web forms → `afform-submit` | One hCaptcha verification; Notion primary, CiviCRM backup (see [implementation.md §5](./implementation.md#5-orchestrator-afform-submit)) |
+
+Notion writes live only in `apps/civi-crm/src/lib/notion/`; the orchestrator is `apps/civi-crm/src/app/api/public/afform-submit/route.ts`.
 
 ## Web pages and API
 
@@ -37,7 +49,7 @@ Full goals, what changed, and acceptance criteria: [implementation.md](./impleme
 | Submission flow | Notion **primary** (required by default), CiviCRM **backup** (best-effort by default) |
 | Notion database (UI) | [IFT BD CRM -- funnel test](https://www.notion.so/ede0c08525554244b940f681318a0891) |
 | Notion data source ID | `5919873c-d7b1-42ff-acdf-380b62a4176c` (`collection://5919873c-d7b1-42ff-acdf-380b62a4176c`) |
-| Env vars | `NOTION_API_TOKEN`, `NOTION_COALITION_PARTNER_DB_ID` (+ optional `FUNNEL_INTAKE_*_DISABLED`, see `apps/civi-crm/.env.example`) |
+| Env vars | `NOTION_API_TOKEN`, `NOTION_COALITION_PARTNER_DB_ID` (required when Notion intake is enabled); optional `FUNNEL_INTAKE_NOTION_DISABLED` / `FUNNEL_INTAKE_CIVICRM_DISABLED` — see [Deploy checklist](./implementation.md#deploy-checklist-non-local) |
 
 ## Documentation in this folder
 
@@ -70,5 +82,6 @@ Form-specific textareas:
 
 ## Related repo docs
 
-- [docs/civi-crm/architecture.md](../civi-crm/architecture.md) — `civi-crm` app structure (update when orchestrator lands)
+- [docs/civi-crm/architecture.md](../civi-crm/architecture.md) — route table includes `POST /api/public/afform-submit`; §13 lists funnel env vars
+- [apps/civi-crm/AGENTS.md](../../apps/civi-crm/AGENTS.md) — intake funnel env guidance for non-local deployments
 - [docs/deployment.md](../deployment.md) — env vars and deploy targets for `apps/civi-crm`

@@ -16,7 +16,7 @@ Movement BD should see every intake submission as one row in a single Notion dat
 | 4. [CiviCRM lib](#4-civicrm-submit-module) | Isolate Afform.submit behind a reusable function | Done |
 | 5. [Orchestrator route](#5-orchestrator-afform-submit) | One captcha, Notion required, CiviCRM best-effort | Done |
 | 6. [Wire web pages](#6-wire-web-pages) | All three forms → single API endpoint | Done |
-| 7. [Cleanup](#7-cleanup) | Remove duplicate route; sync civi-crm docs | Pending |
+| 7. [Cleanup](#7-cleanup) | Remove duplicate route; sync civi-crm docs | Done |
 
 ---
 
@@ -44,11 +44,11 @@ Details and DDL: [notion-database.md § Schema change](./notion-database.md#sche
 
 **Goal:** Self-contained Notion integration with **no imports from CiviCRM** (and no Notion imports in CiviCRM lib code). A thin route orchestrator will call `submitToNotion(formData, formName)` after captcha verification. Removing Notion later means deleting this folder and one call site.
 
-**Status:** Done (committed; not wired to a route yet).
+**Status:** Done — wired through `POST /api/public/afform-submit` (see §5).
 
 ### What changed
 
-The coalition-partner proof-of-concept lived inline in `src/app/api/public/notion-coalition-partner/route.ts` (maps + property builder + HTTP). That route targeted **placeholder property names** from an early schema (`Email`, `Affiliated Organisations`, `Websites`, `Chat Handles`, `About Organisation`, `Submitted At`). The funnel database uses the reuse-first schema in [notion-database.md](./notion-database.md).
+The coalition-partner proof-of-concept originally lived inline in `src/app/api/public/notion-coalition-partner/route.ts` (maps + property builder + HTTP). That route targeted **placeholder property names** from an early schema (`Email`, `Affiliated Organisations`, `Websites`, `Chat Handles`, `About Organisation`, `Submitted At`). The funnel database uses the reuse-first schema in [notion-database.md](./notion-database.md). The legacy route was **removed** once the orchestrator shipped (§7).
 
 | Concern | Legacy `notion-coalition-partner` route | `src/lib/notion/` |
 | --- | --- | --- |
@@ -179,13 +179,50 @@ The route orchestrator should treat CiviCRM as a backup destination by default (
 
 ## 7. Cleanup
 
-**Goal:** One code path for Notion writes; civi-crm docs list the public intake routes accurately.
+**Goal:** One code path for Notion writes; no dead public routes; civi-crm docs match production behaviour so operators know which env vars to set.
+
+### What changed
+
+| Change | Why |
+| --- | --- |
+| **Deleted** `apps/civi-crm/src/app/api/public/notion-coalition-partner/route.ts` | Coalition Partner had temporarily posted here while activist forms used `afform-submit`. The legacy route duplicated ~470 lines of mapping/HTTP logic, used wrong Notion property names for the funnel DB, and could not serve all three forms or the CiviCRM backup write without a second hCaptcha verification. |
+| **Updated** [docs/civi-crm/architecture.md](../civi-crm/architecture.md) | Route table documents `POST /api/public/afform-submit`; §13 lists `NOTION_API_TOKEN`, `NOTION_COALITION_PARTNER_DB_ID`, and `FUNNEL_INTAKE_*_DISABLED` opt-outs. |
+| **Updated** [apps/civi-crm/AGENTS.md](../../apps/civi-crm/AGENTS.md) | Agents deploying or debugging intake are directed to the single endpoint and non-local Notion env requirements. |
+
+### Task status
 
 | Task | Status |
 | --- | --- |
-| Delete `src/app/api/public/notion-coalition-partner/route.ts` after orchestrator ships | Pending |
-| Update `docs/civi-crm/architecture.md` and `apps/civi-crm/AGENTS.md` | Pending |
-| Confirm `NOTION_API_TOKEN` and `NOTION_COALITION_PARTNER_DB_ID` in non-local deploy envs | Operator |
+| Delete `notion-coalition-partner` route | Done |
+| Sync `docs/civi-crm/architecture.md` and `apps/civi-crm/AGENTS.md` | Done |
+| Confirm Notion env vars in preview/staging/production | Operator — [deploy checklist](#deploy-checklist-non-local) |
+
+### Deploy checklist (non-local)
+
+When Notion intake is **enabled** (default: `FUNNEL_INTAKE_NOTION_DISABLED` unset), each `civi-crm` deployment that serves public intake must have:
+
+| Variable | Purpose |
+| --- | --- |
+| `NOTION_API_TOKEN` | Notion integration secret for `POST /v1/pages` |
+| `NOTION_COALITION_PARTNER_DB_ID` | Database ID for **IFT BD CRM -- funnel test** (`ede0c085…`; data source `5919873c-d7b1-42ff-acdf-380b62a4176c`) |
+
+Also required for live submissions (unchanged from pre-funnel):
+
+| Variable | Purpose |
+| --- | --- |
+| `HCAPTCHA_SECRET` | Verify single-use captcha tokens from `apps/web` |
+| `CIVICRM_BASE_URL`, `CIVICRM_API_KEY` | Backup Afform write when CiviCRM intake is enabled |
+
+**Optional opt-outs** (see `apps/civi-crm/src/lib/intake-submit-flags.ts`):
+
+| Variable | Effect when truthy (`1`, `true`, `yes`, `on`) |
+| --- | --- |
+| `FUNNEL_INTAKE_NOTION_DISABLED` | Skip Notion; CiviCRM becomes required |
+| `FUNNEL_INTAKE_CIVICRM_DISABLED` | Skip CiviCRM; Notion only |
+
+**Verification:** Submit a test row from each form in the target environment and confirm a new Notion row (Profile, `Mvmt Status = New Lead`, `BU = Movement`) and, unless CiviCRM is disabled, a Civi case. Missing `NOTION_*` vars return a configuration error from `submitToNotion` before any page is created.
+
+Local reference: `apps/civi-crm/.env.example`.
 
 ---
 
@@ -199,4 +236,4 @@ Notion property mapping: `apps/civi-crm/src/lib/notion/__tests__/build-notion-pr
 
 CiviCRM value building: `apps/civi-crm/src/lib/civicrm/__tests__/build-afform-values.test.ts`.
 
-End-to-end intake (Notion row + Civi case) requires the orchestrator and env vars on a running `civi-crm` instance.
+End-to-end intake (Notion row + optional Civi case): run `civi-crm` with Notion and CiviCRM env vars set, POST to `/api/public/afform-submit` from a connect form or curl (include `captchaToken`, `formName`, `fields`, and form field keys).
