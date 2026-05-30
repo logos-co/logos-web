@@ -87,7 +87,7 @@ export default async function StoragePage({
       <StorageUseCases data={useCases} />
       <TechStackBuilderCta
         data={builderCta}
-        className="mt-15 mb-15 md:mt-25 md:mb-25"
+        className="mt-15 mb-15 md:mt-25 md:mb-28"
       />
       <StorageTechStack locale={locale} />
       <TechStackRelatedArticles data={relatedArticles} articles={articles} />

@@ -73,7 +73,18 @@
       "title": "Delivery",
       "mobileTitle": "Logos Messaging Nim (LMN)",
       "description": "The transport layer. A peer-to-peer messaging network with DoS protection via RLN (Rate Limiting Nullifiers). Any application can use it to send and receive messages over an open, censorship-resistant network.",
-      "mobileDescription": "Built around the Logos Messaging Nim (LMN) node, it provides publish-subscribe messaging, reliable delivery, and is evolving toward a ChatSDK that simplifies building encrypted communication into applications."
+      "mobileDescription": "Built around the Logos Messaging Nim (LMN) node, it provides publish-subscribe messaging, reliable delivery, and is evolving toward a ChatSDK that simplifies building encrypted communication into applications.",
+      "cta": {
+        "label": "Repo",
+        "href": "https://github.com/waku-org/nwaku",
+        "external": true
+      },
+      "secondaryCta": {
+        "label": "Docs",
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true,
+        "variant": "secondary"
+      }
     },
     {
       "componentType": "ctaPanel",
@@ -83,7 +94,18 @@
       "title": "Chat",
       "mobileTitle": "Censorship Resistance",
       "description": "The chat layer. A protocol and library that provides 1:1 and group conversations with end-to-end encryption using de-MLS - everything an application needs to add private chat without rolling its own protocol.",
-      "mobileDescription": "The relay network is designed to function even in hostile network environments. There is no single point of failure, no central server to block, and no metadata that reveals communication patterns to observers."
+      "mobileDescription": "The relay network is designed to function even in hostile network environments. There is no single point of failure, no central server to block, and no metadata that reveals communication patterns to observers.",
+      "cta": {
+        "label": "Repo",
+        "href": "https://github.com/logos-co/logos-chat-module",
+        "external": true
+      },
+      "secondaryCta": {
+        "label": "Docs",
+        "href": "https://github.com/logos-co/logos-docs",
+        "external": true,
+        "variant": "secondary"
+      }
     },
     {
       "componentType": "cardGrid",

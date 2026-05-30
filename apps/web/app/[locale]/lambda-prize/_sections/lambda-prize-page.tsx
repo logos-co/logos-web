@@ -274,36 +274,54 @@ function FeaturedPrizes({ copy }: { copy: LambdaPrizePageCopy['featured'] }) {
 
 function AboutProgramme({ copy }: { copy: LambdaPrizePageCopy['about'] }) {
   return (
-    <section className="bg-brand-off-white text-brand-dark-green">
-      <ContentWidth className="flex h-[960px] flex-col gap-4 p-3 md:grid md:h-[600px] md:grid-cols-2 md:gap-6 md:px-3 md:py-10">
-      <div className="relative h-[405px] overflow-hidden rounded-xl md:h-auto">
-        <Image
-          src="/images/lambda-prize/about.webp"
-          alt=""
-          fill
-          sizes="50vw"
-          className="object-cover"
-        />
-      </div>
-      <div className="flex min-h-[519px] flex-col justify-between md:min-h-0">
-        <div className="flex flex-col items-start justify-between gap-3 md:flex-row md:gap-0">
-          <h2 className="text-h3-serif">{copy.heading}</h2>
-          <div className="flex gap-1">
-            <Button href={ROUTES.rfps} className="cursor-pointer">
-              {copy.primaryCta}
-            </Button>
-            <Button
-              href={ROUTES.buildersHub}
-              variant="secondary"
-              className="cursor-pointer"
-            >
-              {copy.secondaryCta}
-            </Button>
+    <section className="bg-gray-01 text-brand-dark-green">
+      <ContentWidth className="flex min-h-[960px] flex-col gap-3 p-3 md:h-[600px] md:min-h-0 md:flex-row">
+        <div className="relative h-[405px] overflow-hidden rounded-3xl md:h-full md:w-[702px] md:shrink-0">
+          <Image
+            src="/images/lambda-prize/about.webp"
+            alt=""
+            fill
+            sizes="(min-width: 768px) 702px, 100vw"
+            className="object-cover object-center"
+          />
+        </div>
+        <div className="flex min-h-[519px] min-w-0 flex-1 flex-col justify-between md:h-full md:min-h-0">
+          <div className="flex flex-col items-start justify-between gap-3 md:h-9 md:flex-row md:gap-0">
+            <h2 className="text-h3-sans whitespace-nowrap">
+              {copy.heading}
+            </h2>
+            <div className="flex gap-1">
+              <Button href={ROUTES.rfps} className="cursor-pointer">
+                {copy.primaryCta}
+              </Button>
+              <Button
+                href={ROUTES.buildersHub}
+                variant="secondary"
+                className="cursor-pointer"
+              >
+                {copy.secondaryCta}
+              </Button>
+            </div>
+          </div>
+          <p className="mx-auto w-full max-w-[345px] text-center font-sans text-[12px] leading-[1.2] font-medium text-brand-dark-green">
+            {copy.body}
+          </p>
+          <div className="flex flex-col gap-3 text-brand-dark-green">
+            {copy.rows.map((row, index) => (
+              <div
+                key={`${row.label}-${index}`}
+                className="flex min-w-0 flex-col gap-1.5 border-t border-brand-dark-green/50 pt-1.5 md:flex-row md:gap-3"
+              >
+                <p className="text-eyebrow min-w-0 uppercase md:w-[345px] md:shrink-0">
+                  {row.label}
+                </p>
+                <p className="text-mono-s min-w-0 break-words [overflow-wrap:anywhere]">
+                  {row.body}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
-        <p className="text-mono-s mx-auto w-[345px] text-center">{copy.body}</p>
-        <DataRows rows={copy.rows} />
-      </div>
       </ContentWidth>
     </section>
   )

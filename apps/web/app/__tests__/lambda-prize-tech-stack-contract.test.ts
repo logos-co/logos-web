@@ -10,6 +10,27 @@ function readAppFile(path: string) {
 }
 
 describe('lambda prize technology stack contract', () => {
+  test('keeps the about programme section aligned to the Figma reference', () => {
+    const page = readAppFile(
+      '../app/[locale]/lambda-prize/_sections/lambda-prize-page.tsx'
+    )
+
+    expect(page).toContain('<section className="bg-gray-01 text-brand-dark-green">')
+    expect(page).toContain(
+      'flex min-h-[960px] flex-col gap-3 p-3 md:h-[600px] md:min-h-0 md:flex-row'
+    )
+    expect(page).toContain(
+      'relative h-[405px] overflow-hidden rounded-3xl md:h-full md:w-[702px] md:shrink-0'
+    )
+    expect(page).toContain('className="text-h3-sans whitespace-nowrap"')
+    expect(page).toContain(
+      'mx-auto w-full max-w-[345px] text-center font-sans text-[12px] leading-[1.2] font-medium text-brand-dark-green'
+    )
+    expect(page).toContain(
+      'border-t border-brand-dark-green/50 pt-1.5 md:flex-row md:gap-3'
+    )
+  })
+
   test('reuses the home technology stack section instead of local cards', () => {
     const page = readAppFile(
       '../app/[locale]/lambda-prize/_sections/lambda-prize-page.tsx'
