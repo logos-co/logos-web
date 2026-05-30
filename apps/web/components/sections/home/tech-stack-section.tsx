@@ -143,7 +143,7 @@ export default function TechStackSection({
             ) : null}
 
             {data.title ? (
-              <h2 className="text-h2 w-full whitespace-pre-line text-center text-brand-dark-green">
+              <h2 className="text-h2 w-[464px] whitespace-pre-line text-center text-brand-dark-green">
                 {data.title}
               </h2>
             ) : null}
