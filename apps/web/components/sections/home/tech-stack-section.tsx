@@ -9,8 +9,9 @@ function formatEyebrow(eyebrow: string) {
   return eyebrow.replaceAll('. ', '.\n')
 }
 
-function formatMobileTitle(title: string) {
-  return title.replace(' Technology Stack', '\nTechnology Stack')
+function splitTechStackTitle(title: string): [string, string] {
+  const parts = title.split(' Technology Stack')
+  return [parts[0], 'Technology Stack']
 }
 
 type Props = {
@@ -70,8 +71,17 @@ export default function TechStackSection({
           ) : null}
 
           {data.title ? (
-            <h2 className="text-h2 w-full whitespace-pre-line text-center text-brand-dark-green">
-              {formatMobileTitle(data.title)}
+            <h2 className="text-h2 w-full text-center text-brand-dark-green">
+              {(() => {
+                const [first, second] = splitTechStackTitle(data.title)
+                return (
+                  <>
+                    {first}
+                    <br />
+                    {second}
+                  </>
+                )
+              })()}
             </h2>
           ) : null}
 
