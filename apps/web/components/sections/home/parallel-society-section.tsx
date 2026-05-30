@@ -117,8 +117,9 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
         >
           <h2 className="text-h1 text-brand-dark-green text-center">
             <span className="text-brand-dark-green">
-              {headline.title.highlight}{' '}
+              {headline.title.highlight}
             </span>
+            <br />
             <span className="text-gray-04">{headline.title.rest}</span>
           </h2>
         </Reveal>
@@ -134,29 +135,32 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
             </Button>
           </div>
         ) : null}
+      </ContentWidth>
 
-        <div
-          className="overflow-x-auto pb-2 md:hidden"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          <div className="flex w-max snap-x snap-mandatory items-start gap-3 pr-3">
-            {items.map((item) => (
-              <MobileGalleryCard
-                key={item.src}
-                src={item.src}
-                alt={item.alt}
-                caption={item.caption}
-                date={item.date}
-              />
-            ))}
-          </div>
+      {/* Mobile Gallery — full width with internal scroll */}
+      <div
+        className="overflow-x-auto pb-2 md:hidden px-3"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        <div className="flex w-max snap-x snap-mandatory items-start gap-3">
+          {items.map((item) => (
+            <MobileGalleryCard
+              key={item.src}
+              src={item.src}
+              alt={item.alt}
+              caption={item.caption}
+              date={item.date}
+            />
+          ))}
         </div>
+      </div>
 
-        {/* Gallery — bleed outside container on desktop */}
-        <div
-          className="hidden items-start gap-3 md:flex"
-          style={{ marginLeft: '-141px', width: 'calc(100% + 282px)' }}
-        >
+      {/* Desktop Gallery — full width with centered content and internal scroll */}
+      <div
+        className="hidden md:block overflow-x-auto"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        <div className="flex items-start gap-3 px-3 mx-auto w-fit">
           {items.map((item) => (
             <DesktopGalleryCard
               key={item.src}
@@ -169,7 +173,7 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
             />
           ))}
         </div>
-      </ContentWidth>
+      </div>
     </section>
   )
 }
