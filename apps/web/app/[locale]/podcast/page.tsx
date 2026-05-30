@@ -16,7 +16,7 @@ interface PodcastIntroCopy {
 
 function PodcastIntro({ copy }: { copy: PodcastIntroCopy }) {
   return (
-    <section className="h-[246px] bg-accent-tan px-3 pt-10 text-brand-dark-green md:h-[282px] md:pt-[60px]">
+    <section className="h-[246px] bg-accent-tan px-3 pt-20 text-brand-dark-green md:h-[282px] md:pt-20">
       <div className="grid w-full gap-6 md:grid-cols-12">
         <div className="flex items-center gap-3 md:col-span-5">
           <LogosMark size={20} className="shrink-0" />
@@ -71,7 +71,7 @@ export default async function LogosPodcastPage({
   }
 
   return (
-    <div className="overflow-hidden bg-accent-tan pt-10 pb-10">
+    <div className="overflow-hidden bg-accent-tan pb-10">
       <PodcastIntro
         copy={{
           title: t('heading'),
