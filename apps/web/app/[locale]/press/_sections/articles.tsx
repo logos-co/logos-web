@@ -60,7 +60,7 @@ export function PressHero({
   >
 }) {
   return (
-    <section className="relative h-[473px] bg-accent-tan px-3 pt-6 md:h-[359px] md:pt-6">
+    <section className="relative h-[473px] bg-accent-tan px-3 pt-10 md:h-[359px] md:pt-10">
       <div className="flex w-full flex-col gap-[100px] md:gap-10">
         <div className="relative h-[81px] w-full md:w-[1186px]">
           <div className="absolute left-0 top-0 aspect-video w-[107px] overflow-hidden">
