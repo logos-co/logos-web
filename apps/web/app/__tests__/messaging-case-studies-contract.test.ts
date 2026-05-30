@@ -58,9 +58,10 @@ describe('messaging page Figma layout contract', () => {
     expect(source).toContain('max-w-[1440px]')
     expect(source).toContain('md:h-[335px] md:grid-cols-2')
     expect(source).toContain('tone="gray-02"')
-    expect(source).toContain('/images/messaging/delivery.webp')
+    expect(source).toContain('/images/messaging/delivery-landscape.webp')
+    expect(source).not.toContain('md:rotate-90')
+    expect(source).not.toContain('md:h-[702px] md:w-[620px]')
     expect(source).toContain('/images/messaging/chat.webp')
-    expect(source).toContain('md:top-[calc(50%+12px)]')
     expect(source).toContain('md:top-[calc(50%-68px)]')
   })
 

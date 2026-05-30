@@ -51,18 +51,14 @@ function MessagingFeatureActions({ data }: { data: CtaPanelSection }) {
 function DeliveryImage() {
   return (
     <div className="relative h-72 w-full overflow-hidden rounded-3xl bg-gray-02 md:h-full">
-      <div className="absolute top-[-82px] left-[-20px] h-[497px] w-[397px] max-w-none md:top-[calc(50%+12px)] md:left-0 md:h-[620px] md:w-full md:-translate-y-1/2">
-        <div className="relative h-full w-full md:h-[702px] md:w-[620px] md:rotate-90">
-          <Image
-            src="/images/messaging/delivery.webp"
-            alt=""
-            fill
-            sizes="(min-width: 768px) 702px, 397px"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-black/20" />
-        </div>
-      </div>
+      <Image
+        src="/images/messaging/delivery-landscape.webp"
+        alt=""
+        fill
+        sizes="(min-width: 768px) 50vw, 100vw"
+        className="object-cover"
+      />
+      <div className="absolute inset-0 bg-black/20" />
     </div>
   )
 }
