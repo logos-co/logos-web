@@ -10,12 +10,22 @@ function readAppFile(path: string) {
 }
 
 describe('storage page spacing contract', () => {
-  test('keeps the Figma desktop gap from builder CTA into tech-stack explorer', () => {
+  test('uses the shared detail section spacing instead of page-local margins', () => {
     const source = readAppFile(
       '../app/[locale]/technology-stack/storage/page.tsx'
     )
 
-    expect(source).toContain('className="mt-15 mb-15 md:mt-25 md:mb-28"')
-    expect(source).not.toContain('className="mt-15 mb-15 md:mt-25 md:mb-25"')
+    expect(source).toContain('TechStackDetailPage')
+    expect(source).toContain('TechStackDetailSection')
+    expect(source).not.toContain('md:mb-28')
+    expect(source).not.toContain('md:mb-25')
+  })
+
+  test('defines the desktop technology-stack detail gap in one shared primitive', () => {
+    const source = readAppFile(
+      '../components/sections/shared/tech-stack-detail-layout.tsx'
+    )
+
+    expect(source).toContain('md:mt-[100px]')
   })
 })

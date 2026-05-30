@@ -24,7 +24,7 @@ describe('messaging case studies layout contract', () => {
       '../components/sections/messaging/messaging-case-studies.tsx'
     )
 
-    expect(source).toContain('md:mt-25')
+    expect(source).not.toContain('md:mt-25')
     expect(source).toContain(
       '<RevealItem key={card.title} className="md:flex-1">'
     )
@@ -69,8 +69,8 @@ describe('messaging page Figma layout contract', () => {
       '../app/[locale]/technology-stack/messaging/page.tsx'
     )
 
-    expect(source).toContain('md:mt-[100px]')
-    expect(source).toContain('md:mb-[100px]')
+    expect(source).toContain('TechStackDetailSection')
+    expect(source).not.toContain('md:mb-[100px]')
   })
 
   test('keeps the desktop Figma gap before related articles', () => {

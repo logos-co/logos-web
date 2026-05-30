@@ -61,7 +61,7 @@ export function PressHero({
   >
 }) {
   return (
-    <section className="relative h-[473px] bg-accent-tan px-3 pt-10 md:h-[359px] md:pt-10">
+    <section className="relative h-[473px] bg-accent-tan pt-10 md:h-[359px] md:pt-2.5">
       <ContentWidth className="flex w-full flex-col gap-[100px] md:gap-10">
         <div className="relative h-[81px] w-full">
           <div className="absolute left-0 top-0 aspect-video w-[107px] overflow-hidden">
@@ -101,13 +101,13 @@ export function PressHero({
             </a>
           )
         })}
-        <Link
+        <a
           href={copy.navBroadcastHref}
           className="inline-flex cursor-pointer items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35] transition-opacity hover:opacity-70"
         >
           <ArrowIcon direction="down" />
           {copy.navBroadcast}
-        </Link>
+        </a>
       </nav>
     </section>
   )
@@ -221,40 +221,40 @@ export function FeaturedArticle({
   return (
     <section className="relative h-[994px] overflow-hidden bg-accent-tan md:flex md:h-[1044px] md:justify-center md:gap-3 md:overflow-visible md:pr-3">
       <ContentWidth className="relative h-full w-full md:flex md:h-full md:justify-center md:gap-3 md:overflow-visible">
-      <div className="absolute left-0 top-0 z-10 h-[313px] w-full px-3 pt-10 md:sticky md:top-10 md:h-[495px] md:flex-1 md:pl-[129px] md:pt-[100px]">
-        <div className="flex max-w-[573px] flex-col gap-6 md:gap-[30px]">
-          <div className="text-mono-s flex items-center gap-2.5 text-brand-off-white md:text-brand-dark-green">
-            <span>{article.author}</span>
-            <Dot className="bg-brand-off-white md:bg-brand-dark-green" />
-            <span>{article.date}</span>
-          </div>
-          <h2 className="font-display max-w-[370px] text-[40px] leading-none tracking-[-0.03em] text-brand-off-white md:max-w-[464px] md:text-[56px] md:tracking-normal md:text-brand-dark-green">
-            {article.title}
-          </h2>
-          <div className="flex flex-col gap-5">
-            <p className="text-mono-s max-w-[370px] text-brand-off-white md:max-w-[456px] md:text-brand-dark-green">
-              {article.description}
-            </p>
-            <TextLink
-              href={article.href}
-              label={`${readArticleLabel}: ${article.title}`}
-              tone="light"
-              className="md:text-brand-dark-green md:decoration-brand-dark-green/50"
-            >
-              {readArticleLabel}
-            </TextLink>
+        <div className="absolute left-0 top-0 z-10 h-[313px] w-full px-3 pt-10 md:sticky md:top-10 md:h-[495px] md:flex-1 md:pl-[129px] md:pt-[100px]">
+          <div className="flex max-w-[573px] flex-col gap-6 md:gap-[30px]">
+            <div className="text-mono-s flex items-center gap-2.5 text-brand-off-white md:text-brand-dark-green">
+              <span>{article.author}</span>
+              <Dot className="bg-brand-off-white md:bg-brand-dark-green" />
+              <span>{article.date}</span>
+            </div>
+            <h2 className="font-display max-w-[370px] text-[40px] leading-none tracking-[-0.03em] text-brand-off-white md:max-w-[464px] md:text-[56px] md:tracking-normal md:text-brand-dark-green">
+              {article.title}
+            </h2>
+            <div className="flex flex-col gap-5">
+              <p className="text-mono-s max-w-[370px] text-brand-off-white md:max-w-[456px] md:text-brand-dark-green">
+                {article.description}
+              </p>
+              <TextLink
+                href={article.href}
+                label={`${readArticleLabel}: ${article.title}`}
+                tone="light"
+                className="md:text-brand-dark-green md:decoration-brand-dark-green/50"
+              >
+                {readArticleLabel}
+              </TextLink>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="absolute inset-0 h-[994px] overflow-hidden md:relative md:inset-auto md:h-[994px] md:w-[714px] md:shrink-0">
-        <Image
-          src={article.featuredImage}
-          alt=""
-          width={1242}
-          height={994}
-          className="absolute left-[-303px] top-0 h-[1040px] w-[1300px] max-w-none object-cover md:left-[-104px] md:h-full md:w-[1242px]"
-        />
-      </div>
+        <div className="absolute inset-0 h-[994px] overflow-hidden md:relative md:inset-auto md:h-[994px] md:w-[714px] md:shrink-0">
+          <Image
+            src={article.featuredImage}
+            alt=""
+            width={1242}
+            height={994}
+            className="absolute left-[-303px] top-0 h-[1040px] w-[1300px] max-w-none object-cover md:left-[-104px] md:h-full md:w-[1242px]"
+          />
+        </div>
       </ContentWidth>
     </section>
   )

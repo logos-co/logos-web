@@ -70,7 +70,7 @@ type Props = {
 
 export default function MessagingCaseStudies({ data }: Props) {
   return (
-    <section className="mt-15 bg-brand-off-white md:mt-25">
+    <section className="bg-brand-off-white">
       <div className="mx-auto max-w-360 px-3 pt-25 md:px-0 md:pt-25">
         <Reveal
           stagger

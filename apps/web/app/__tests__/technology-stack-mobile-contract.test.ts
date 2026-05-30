@@ -10,6 +10,15 @@ function readAppFile(path: string) {
 }
 
 describe('technology stack mobile hero contract', () => {
+  test('keeps the desktop overview hero aligned below the site header', () => {
+    const source = readAppFile(
+      '../components/sections/technology-stack/tech-overview-hero.tsx'
+    )
+
+    expect(source).toContain('md:pt-8')
+    expect(source).not.toContain('md:-mt-0.5')
+  })
+
   test('places the divider below the CTA stack and status after the divider', () => {
     const source = readAppFile(
       '../components/sections/technology-stack/tech-overview-hero.tsx'

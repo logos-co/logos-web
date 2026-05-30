@@ -51,13 +51,13 @@ function MessagingFeatureActions({ data }: { data: CtaPanelSection }) {
 function DeliveryImage() {
   return (
     <div className="relative h-72 w-full overflow-hidden rounded-3xl bg-gray-02 md:h-full">
-      <div className="absolute top-[-82px] left-[-20px] h-[497px] w-[397px] max-w-none md:top-[calc(50%+12px)] md:left-[-28px] md:h-[620px] md:w-[775px] md:-translate-y-1/2">
-        <div className="relative h-full w-full md:h-[775px] md:w-[620px] md:rotate-90">
+      <div className="absolute top-[-82px] left-[-20px] h-[497px] w-[397px] max-w-none md:top-[calc(50%+12px)] md:left-0 md:h-[620px] md:w-full md:-translate-y-1/2">
+        <div className="relative h-full w-full md:h-[702px] md:w-[620px] md:rotate-90">
           <Image
             src="/images/messaging/delivery.webp"
             alt=""
             fill
-            sizes="(min-width: 768px) 775px, 397px"
+            sizes="(min-width: 768px) 702px, 397px"
             className="object-cover"
           />
           <div className="absolute inset-0 bg-black/20" />
@@ -124,13 +124,13 @@ function MessagingFeaturePanel({
               />
             ) : null}
 
-            <div className="flex w-full min-w-0 flex-col gap-3 break-words">
+            <div className="flex w-[345px] max-w-full min-w-0 flex-col gap-3 break-words md:w-full">
               <h2 className="font-sans text-[24px] leading-[1.1] font-normal tracking-[-0.24px] md:w-[336px]">
                 <span className="md:hidden">{mobileTitle}</span>
                 <span className="hidden md:inline">{data.title}</span>
               </h2>
               {mobileDescription ? (
-                <p className="w-full max-w-full font-sans text-[12px] leading-[1.2] font-medium break-words md:hidden">
+                <p className="w-[345px] max-w-full font-sans text-[12px] leading-[1.2] font-medium break-words md:hidden">
                   {mobileDescription}
                 </p>
               ) : null}

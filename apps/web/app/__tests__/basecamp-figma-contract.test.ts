@@ -10,6 +10,16 @@ function readComponent(path: string) {
 }
 
 describe('Basecamp Figma typography contracts', () => {
+  test('uses the shared technology-stack spacing rhythm below the header', () => {
+    const source = readComponent(
+      '../components/sections/basecamp/basecamp-page.tsx'
+    )
+
+    expect(source).toContain('TechStackDetailPage')
+    expect(source).toContain('TechStackDetailSection')
+    expect(source).toContain('<ContentWidth className="!p-0">')
+  })
+
   test('capability cards use the Figma sans title and body sizes', () => {
     const source = readComponent(
       '../components/sections/basecamp/basecamp-page.tsx'

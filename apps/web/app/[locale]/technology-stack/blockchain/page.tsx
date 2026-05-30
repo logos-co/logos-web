@@ -11,6 +11,10 @@ import BlockchainCryptarchia from '@/components/sections/blockchain/blockchain-c
 import BlockchainHero from '@/components/sections/blockchain/blockchain-hero'
 import BlockchainPrivacy from '@/components/sections/blockchain/blockchain-privacy'
 import TechStackBuilderCta from '@/components/sections/shared/tech-stack-builder-cta'
+import {
+  TechStackDetailPage,
+  TechStackDetailSection,
+} from '@/components/sections/shared/tech-stack-detail-layout'
 import TechStackExplorer from '@/components/sections/shared/tech-stack-explorer'
 import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 import { ROUTES } from '@/constants/routes'
@@ -66,17 +70,27 @@ export default async function BlockchainPage({
   )
 
   return (
-    <>
+    <TechStackDetailPage>
       <BlockchainHero data={hero} backHref={ROUTES.technologyStack} />
-      <BlockchainPrivacy data={privacy} />
-      <BlockchainCryptarchia data={cryptarchia} />
-      <TechStackBuilderCta data={builderCta} />
-      <TechStackRelatedArticles
-        data={relatedArticles}
-        articles={articles}
-        sectionClassName="mt-0 pt-15 pb-15 md:mt-0 md:pt-[87px] md:pb-[93px]"
-      />
-      <TechStackExplorer locale={locale} />
-    </>
+      <TechStackDetailSection>
+        <BlockchainPrivacy data={privacy} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <BlockchainCryptarchia data={cryptarchia} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <TechStackBuilderCta data={builderCta} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <TechStackExplorer locale={locale} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <TechStackRelatedArticles
+          data={relatedArticles}
+          articles={articles}
+          sectionClassName="mt-0 md:mt-0"
+        />
+      </TechStackDetailSection>
+    </TechStackDetailPage>
   )
 }

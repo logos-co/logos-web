@@ -11,8 +11,12 @@ import type {
 import { LogosMark } from '@acid-info/logos-ui'
 
 import { IconMask } from '@/components/icons/icon-mask'
-import { Button } from '@/components/ui'
 import ContentWidth from '@/components/layout/content-width'
+import {
+  TechStackDetailPage,
+  TechStackDetailSection,
+} from '@/components/sections/shared/tech-stack-detail-layout'
+import { Button } from '@/components/ui'
 
 interface BasecampPageProps {
   hero: HeroSection
@@ -358,13 +362,25 @@ export default function BasecampPage({
   resources,
 }: BasecampPageProps) {
   return (
-    <ContentWidth className="px-0">
-      <HeroSectionView data={hero} />
-      <HowItWorksSection data={howItWorks} />
-      <LocalFirstSection data={localFirst} />
-      <ModularSection data={modular} />
-      <CapabilitiesSection data={capabilities} />
-      <ResourcesSection data={resources} />
-    </ContentWidth>
+    <TechStackDetailPage>
+      <ContentWidth className="!p-0">
+        <HeroSectionView data={hero} />
+        <TechStackDetailSection>
+          <HowItWorksSection data={howItWorks} />
+        </TechStackDetailSection>
+        <TechStackDetailSection>
+          <LocalFirstSection data={localFirst} />
+        </TechStackDetailSection>
+        <TechStackDetailSection>
+          <ModularSection data={modular} />
+        </TechStackDetailSection>
+        <TechStackDetailSection>
+          <CapabilitiesSection data={capabilities} />
+        </TechStackDetailSection>
+        <TechStackDetailSection>
+          <ResourcesSection data={resources} />
+        </TechStackDetailSection>
+      </ContentWidth>
+    </TechStackDetailPage>
   )
 }

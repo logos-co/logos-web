@@ -157,7 +157,7 @@ export function SectionCta({ href, label }: { href: string; label: string }) {
   )
 
   return (
-    <div className="flex h-24 items-center justify-center px-3 pb-3">
+    <div className="mx-auto mt-3 flex h-24 max-w-[1440px] items-center justify-center px-3 pb-3">
       {href.startsWith('http') ? (
         <ExternalLink href={href} className={className}>
           {content}

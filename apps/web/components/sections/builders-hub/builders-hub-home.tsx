@@ -263,7 +263,11 @@ function PrepareSection({
                   alt={card.image.alt}
                   fill
                   sizes="(min-width: 768px) 50vw, 100vw"
-                  className="object-cover"
+                  className={
+                    card.imageFit === 'contain'
+                      ? 'object-contain'
+                      : 'object-cover'
+                  }
                 />
               </div>
             ) : null}
