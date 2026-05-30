@@ -224,7 +224,6 @@ const appInstallSchema = z.object({
   accent: z.enum(['grey', 'yellow']),
   imagePosition: z.enum(['left', 'right']),
   title: z.string().min(1),
-  mobileTitle: z.string().min(1).optional(),
   description: z.string().min(1),
   tags: z.array(builderHubTagSchema).default([]),
   installCta: ctaSchema,

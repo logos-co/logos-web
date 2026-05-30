@@ -189,7 +189,7 @@ function InspirationSection({
             {featuredIdeas.map((idea) => (
               <div
                 key={idea.slug}
-                className="flex h-[108px] w-[270px] shrink-0 flex-col gap-3 rounded-xl bg-brand-yellow p-3"
+                className="flex h-[108px] w-[270px] shrink-0 flex-col gap-3 rounded-xl bg-gray-01 p-3"
               >
                 <div className="flex justify-between gap-4">
                   <p className="w-[163px] font-display text-[14px] leading-[1.2]">
@@ -443,12 +443,7 @@ function AppInstallSection({
         </div>
         <div className="flex flex-col items-center gap-10 pt-20 text-center md:absolute md:top-1/2 md:left-[714px] md:w-[464px] md:-translate-y-1/2 md:items-start md:pt-0 md:text-left">
           <div>
-            <h2 className="text-h3-serif">
-              <span className="md:hidden">
-                {data.mobileTitle ?? data.title}
-              </span>
-              <span className="hidden md:inline">{data.title}</span>
-            </h2>
+            <h2 className="text-h3-serif">{data.title}</h2>
             <p className="mt-6 text-body-sans">{data.description}</p>
             <div className="mx-auto mt-5 flex max-w-[260px] flex-wrap justify-center gap-[6px] md:mx-0 md:max-w-none md:justify-start">
               {data.tags.map((tag) => (
