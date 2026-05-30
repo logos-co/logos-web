@@ -101,7 +101,7 @@ function DataRows({ rows }: { rows: RowCopy[] }) {
       {rows.map((row, index) => (
         <div
           key={`${row.label}-${index}`}
-          className="flex min-h-[36px] min-w-0 flex-col border-t border-brand-dark-green/10 py-1.5 last:border-b md:grid md:min-h-[31px] md:grid-cols-2"
+          className="flex min-h-[36px] min-w-0 flex-col border-t border-brand-dark-green/10 py-3 last:border-b md:grid md:min-h-[31px] md:grid-cols-2"
         >
           <p className="text-mono-s">{row.label}</p>
           <p className="text-mono-s min-w-0 pr-2 break-words [overflow-wrap:anywhere]">
@@ -129,7 +129,7 @@ function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
       <div className="absolute inset-0 bg-brand-dark-green/35" />
       <div className="relative z-10 flex h-full items-center justify-center">
         <div className="flex w-full -translate-y-[6px] flex-col items-center text-center">
-          <div className="text-h4-serif mb-[60px] inline-flex items-center gap-3">
+          <div className="text-h4-serif mb-12 inline-flex items-center gap-3">
             <LogosMark size={20} />
             <span>{copy.label}</span>
           </div>
@@ -140,7 +140,7 @@ function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
               </span>
             ))}
           </h1>
-          <p className="text-mono-s mt-[60px] w-full max-w-[345px] md:w-[462px] md:max-w-full">
+          <p className="text-mono-s mt-12 w-full max-w-[345px] md:w-[462px] md:max-w-full">
             <span className="inline-flex items-baseline gap-1">
               <LogosMark size={7} className="shrink-0" />
               <span>{copy.body}</span>
@@ -252,7 +252,7 @@ function PrizeCard({ prize, image }: { prize: PrizeCopy; image: string }) {
 
 function FeaturedPrizes({ copy }: { copy: LambdaPrizePageCopy['featured'] }) {
   return (
-    <section className="h-[1931px] bg-brand-off-white px-3 pt-[100px] text-brand-dark-green md:h-[1011px] md:px-3 md:pt-[200px]">
+    <section className="h-[1931px] bg-brand-off-white px-3 pt-10 text-brand-dark-green md:h-[1011px] md:px-3 md:pt-12">
       <h2 className="text-h3-serif">{copy.heading}</h2>
       <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3 md:mt-12">
         {copy.prizes.map((prize, index) => (
@@ -314,7 +314,7 @@ function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
           <TertiaryCta href={ROUTES.faq}>{copy.cta}</TertiaryCta>
         </div>
       </div>
-      <div className="mt-[35px] md:mt-[91px]">
+      <div className="mt-6 md:mt-8">
         {copy.rows.map((row, index) => (
           <div
             key={row.label}
