@@ -493,35 +493,38 @@ function EpisodeRow({
     <ExternalLink
       href={podcast.href}
       className={cn(
-        'group block cursor-pointer text-brand-dark-green transition-colors hover:bg-brand-yellow',
+        'group block h-[107px] cursor-pointer text-brand-dark-green transition-colors hover:bg-brand-yellow',
         background
       )}
     >
-      <ContentWidth className="flex min-h-[131px] items-center gap-3">
-        <div className="relative size-[107px] shrink-0 overflow-hidden">
+      <ContentWidth className="grid h-full grid-cols-[190px_524px_573px] items-center gap-0">
+        <div className="relative aspect-video h-auto w-[174px] shrink-0 justify-self-center overflow-hidden">
           <Image
             src={podcast.image}
             alt=""
             fill
-            sizes="107px"
+            sizes="174px"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
         </div>
-        <div className="flex min-w-0 flex-1 flex-col justify-between py-3">
+        <div className="flex h-full min-w-0 flex-col justify-center gap-1.5 py-3 pl-3">
           <div className="text-mono-s flex items-center gap-2.5">
             <span>{podcast.date}</span>
             <Dot />
             <span>{episodeLabel(podcast)}</span>
           </div>
-          <div className="flex items-center gap-2.5">
+          <div className="flex w-[333px] max-w-full items-center gap-2.5">
             <PlayIcon />
-            <h3 className="truncate font-sans text-[18px] leading-[1.15] tracking-[-0.01em]">
+            <h3 className="line-clamp-2 font-sans text-[18px] leading-[1.15] tracking-[-0.01em]">
               {podcast.title}
             </h3>
           </div>
         </div>
-        <div className="hidden py-3 md:block">
-          <UnderlineLabel>{listenOnApp}</UnderlineLabel>
+        <div className="hidden items-start gap-[132px] md:flex">
+          <div className="w-[345px] py-3" />
+          <div className="shrink-0 py-3">
+            <UnderlineLabel>{listenOnApp}</UnderlineLabel>
+          </div>
         </div>
       </ContentWidth>
     </ExternalLink>

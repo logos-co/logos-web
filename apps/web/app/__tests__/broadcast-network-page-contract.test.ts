@@ -16,7 +16,8 @@ describe('broadcast network page contract', () => {
     )
 
     expect(source).not.toContain('{podcast.description}')
-    expect(source).toContain('h-[107px] w-[190px]')
+    expect(source).toContain('grid-cols-[190px_524px_573px]')
+    expect(source).toContain('aspect-video h-auto w-[174px]')
     expect(source).not.toContain('size-[107px]')
   })
 

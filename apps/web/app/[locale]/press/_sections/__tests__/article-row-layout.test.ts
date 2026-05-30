@@ -3,10 +3,7 @@ import path from 'node:path'
 
 import { describe, expect, test } from 'vitest'
 
-const sectionDir = path.resolve(
-  process.cwd(),
-  'app/[locale]/press/_sections'
-)
+const sectionDir = path.resolve(process.cwd(), 'app/[locale]/press/_sections')
 const pressRouteDir = path.resolve(process.cwd(), 'app/[locale]/press')
 
 const readSectionFile = (fileName: string) =>
@@ -18,13 +15,21 @@ describe('press article row layout', () => {
   test('keeps list rows aligned to the Figma article-entry metrics', () => {
     const articlesSource = readSectionFile('articles.tsx')
     const atomsSource = readSectionFile('press-atoms.tsx')
+    const podcastsSource = readSectionFile('podcasts.tsx')
 
     expect(articlesSource).toContain('className="h-[107px]"')
+    expect(articlesSource).toContain('className="h-[77px] w-[107px]')
+    expect(podcastsSource).toContain('className="aspect-video h-auto w-[174px]')
     expect(atomsSource).toContain('width={107}')
     expect(atomsSource).toContain('height={77}')
+    expect(articlesSource).not.toContain('size-[107px]')
+    expect(podcastsSource).not.toContain('size-[107px]')
+    expect(atomsSource).not.toContain("'absolute h-[77px]")
     expect(atomsSource).not.toContain('absolute aspect-video overflow-hidden')
-    expect(articlesSource).toContain('md:grid-cols-[595px_543px]')
+    expect(articlesSource).toContain('md:grid-cols-[107px_607px_543px]')
+    expect(podcastsSource).toContain('md:grid-cols-[190px_524px_573px]')
     expect(articlesSource).toContain('md:gap-[132px]')
+    expect(podcastsSource).toContain('md:gap-[132px]')
   })
 
   test('renders the broadcast network panel as the Figma-linked route card', () => {
@@ -43,6 +48,13 @@ describe('press article row layout', () => {
     const atomsSource = readSectionFile('press-atoms.tsx')
 
     expect(atomsSource).toContain('mx-auto mt-3 flex h-24 max-w-[1440px]')
+  })
+
+  test('links the podcast hero card to the latest episode', () => {
+    const podcastsSource = readSectionFile('podcasts.tsx')
+
+    expect(podcastsSource).toContain('href={latestPodcast.href}')
+    expect(podcastsSource).toContain('className="group block cursor-pointer"')
   })
 
   test('scrolls the broadcast nav item to the in-page broadcast section', () => {

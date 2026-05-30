@@ -134,7 +134,7 @@ export function RowThumbnail({
   className?: string
 }) {
   return (
-    <div className={cn('absolute h-[77px] overflow-hidden', className)}>
+    <div className={cn('h-[77px] overflow-hidden', className)}>
       <Image
         src={src}
         alt=""
