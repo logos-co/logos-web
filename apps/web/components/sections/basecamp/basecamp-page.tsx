@@ -56,7 +56,7 @@ function HeroSectionView({ data }: { data: HeroSection }) {
   const bodyDetails = paragraphs(data.bodySecondary)
 
   return (
-    <section className="mx-auto grid w-full max-w-360 grid-cols-1 gap-12 px-3 pt-[90px] pb-10 md:min-h-[453px] md:grid-cols-2 md:gap-6">
+    <section className="mx-auto grid w-full max-w-360 grid-cols-1 gap-12 px-3 pt-[90px] pb-12 md:min-h-[453px] md:grid-cols-2 md:gap-6 md:pb-10">
       <div className="flex flex-col items-start gap-10">
         {data.eyebrow ? (
           <Button
@@ -122,7 +122,7 @@ function HowItWorksSection({ data }: { data: TableSection }) {
     <section className="mx-auto grid w-full max-w-360 gap-6 px-3 py-10 md:grid-cols-2 md:py-10">
       <div className="flex min-h-[626px] flex-col justify-between gap-8">
         <div>
-          <h2 className="text-h3 mb-6 text-brand-dark-green">{data.title}</h2>
+          <h2 className="text-h3 mb-8 text-brand-dark-green">{data.title}</h2>
           <div className="divide-y divide-brand-dark-green/20 border-y border-brand-dark-green/20">
             {data.rows.map((row) => (
               <article
@@ -217,7 +217,7 @@ function LocalFirstSection({ data }: { data: CtaPanelSection }) {
 
 function ModularSection({ data }: { data: FeaturedTextSection }) {
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-10 border-b border-brand-dark-green/10 px-3 py-12 md:min-h-[275px] md:grid-cols-2 md:py-10">
+    <section className="mx-auto grid w-full max-w-360 gap-10 border-b border-brand-dark-green/10 px-3 py-10 md:min-h-[275px] md:grid-cols-2">
       <h2 className="font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
         {data.title.highlight} {data.title.rest}
       </h2>
@@ -254,7 +254,7 @@ function CapabilitiesSection({ data }: { data: CardGridSection }) {
   return (
     <section className="mx-auto w-full max-w-360 px-3 py-10 md:py-10">
       {data.heading ? (
-        <h2 className="mb-10 font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
+        <h2 className="mb-12 font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
           {data.heading}
         </h2>
       ) : null}
@@ -338,7 +338,7 @@ function ResourceCard({
 
 function ResourcesSection({ data }: { data: CardGridSection }) {
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-4 px-3 py-12 md:grid-cols-3 md:py-10">
+    <section className="mx-auto grid w-full max-w-360 gap-4 px-3 py-10 md:grid-cols-3">
       {data.cards.map((card, index) => (
         <ResourceCard key={card.title} card={card} featured={index === 1} />
       ))}
