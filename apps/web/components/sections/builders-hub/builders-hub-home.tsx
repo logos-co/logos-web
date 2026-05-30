@@ -7,6 +7,7 @@ import type {
 import type { BuilderHubSettings } from '@repo/content/schemas'
 import { LogosMark } from '@acid-info/logos-ui'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
@@ -60,6 +61,7 @@ function BuildersHubHero({ hero }: { hero: BuilderHubSettings['hero'] }) {
 
   return (
     <section className="relative h-[483px] px-3 pt-6 md:h-[487px]">
+      <ContentWidth className="relative h-full">
       <div className="absolute top-6 left-3 h-[75px] w-[107px] overflow-hidden">
         <Image
           src="/images/builders-hub/hero.webp"
@@ -100,6 +102,7 @@ function BuildersHubHero({ hero }: { hero: BuilderHubSettings['hero'] }) {
           {hero.description}
         </p>
       ) : null}
+      </ContentWidth>
     </section>
   )
 }
@@ -111,6 +114,7 @@ function JourneySection({
 }) {
   return (
     <section className="px-3 pb-[100px] md:pb-[100px]">
+      <ContentWidth>
       <h2 className="text-[30px] leading-none tracking-[-0.02em] md:text-h3-sans">
         {data.title}
       </h2>
@@ -133,6 +137,7 @@ function JourneySection({
           </Link>
         ))}
       </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -153,6 +158,7 @@ function SectionFrame({
       id={id}
       className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px]"
     >
+      <ContentWidth>
       <div className="flex items-baseline gap-3 whitespace-nowrap">
         <span className="font-display text-[30px] leading-none tracking-[-0.03em] text-brand-dark-green/50 md:text-[36px]">
           {index}
@@ -162,6 +168,7 @@ function SectionFrame({
         </h2>
       </div>
       <div className="mt-10">{children}</div>
+      </ContentWidth>
     </section>
   )
 }
@@ -256,7 +263,11 @@ function PrepareSection({
                   alt={card.image.alt}
                   fill
                   sizes="(min-width: 768px) 50vw, 100vw"
-                  className="object-cover"
+                  className={
+                    card.imageFit === 'contain'
+                      ? 'object-contain'
+                      : 'object-cover'
+                  }
                 />
               </div>
             ) : null}
@@ -431,7 +442,7 @@ function AppInstallSection({
 }) {
   return (
     <section id="app-install" className="px-3 pb-10">
-      <div className="relative flex min-h-[828px] flex-col overflow-hidden rounded-[100px] bg-gray-01 p-3 pb-14 md:block md:h-[590px] md:min-h-0 md:rounded-[200px] md:p-0">
+      <ContentWidth className="relative flex min-h-[828px] flex-col overflow-hidden rounded-[100px] bg-gray-01 p-3 pb-14 md:block md:h-[590px] md:min-h-0 md:rounded-[200px] md:p-0">
         <div className="relative aspect-square w-full overflow-hidden rounded-[88px] md:absolute md:top-3 md:left-3 md:h-[566px] md:w-[566px] md:rounded-[188px]">
           <Image
             src={data.image.src}
@@ -465,7 +476,7 @@ function AppInstallSection({
             </Button>
           </div>
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -480,6 +491,7 @@ function DocumentationSection({
       id="resources"
       className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 pt-[39px] pb-[100px] text-brand-dark-green"
     >
+      <ContentWidth>
       <div className="md:grid md:grid-cols-[1fr_1fr] md:gap-3">
         <h2 className="text-h3-serif whitespace-nowrap">
           {data.title}
@@ -524,6 +536,7 @@ function DocumentationSection({
           </div>
         ))}
       </div>
+      </ContentWidth>
     </section>
   )
 }

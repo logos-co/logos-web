@@ -64,7 +64,7 @@ type Props = {
 
 export default function NetworkingFeatures({ data }: Props) {
   return (
-    <section className="bg-brand-off-white md:mt-25">
+    <section className="bg-brand-off-white">
       <div className="mx-auto max-w-360 px-3">
         <Reveal
           stagger

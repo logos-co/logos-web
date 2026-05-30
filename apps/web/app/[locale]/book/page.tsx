@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 
 import { IconMask } from '@/components/icons/icon-mask'
+import ContentWidth from '@/components/layout/content-width'
 import { BOOK_DOWNLOADS } from '@/constants/book-assets'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/lib/metadata'
@@ -132,7 +133,8 @@ export default async function BookPage() {
         </div>
       </section>
 
-      <section className="grid gap-3 border-t border-brand-dark-green/10 px-3 py-16 md:grid-cols-12 md:py-24">
+      <section className="border-t border-brand-dark-green/10 px-3 py-16 md:py-24">
+        <ContentWidth className="grid gap-3 md:grid-cols-12">
         <div className="md:col-span-7">
           <div className="relative aspect-[1588/1436] overflow-hidden rounded">
             <Image
@@ -165,14 +167,16 @@ export default async function BookPage() {
             </p>
           </div>
         </div>
+        </ContentWidth>
       </section>
 
       <section className="border-t border-brand-dark-green/10">
         {authors.map((author, index) => (
           <div
             key={author.name}
-            className="grid gap-3 border-b border-brand-dark-green/10 px-3 py-16 md:grid-cols-12 md:py-24"
+            className="border-b border-brand-dark-green/10 px-3 py-16 md:py-24"
           >
+            <ContentWidth className="grid gap-3 md:grid-cols-12">
             <div
               className={
                 index % 2 === 0
@@ -206,6 +210,7 @@ export default async function BookPage() {
                 ))}
               </div>
             </div>
+            </ContentWidth>
           </div>
         ))}
       </section>

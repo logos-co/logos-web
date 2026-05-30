@@ -10,6 +10,7 @@ import {
   BuildersHubBottomCta,
   BuildersHubListingHeader,
 } from '@/components/sections/builders-hub'
+import ContentWidth from '@/components/layout/content-width'
 import { IdeaCard } from '@/components/sections/builders-hub/idea-card'
 import { IdeaRow } from '@/components/sections/builders-hub/idea-row'
 import { RfpCard } from '@/components/sections/builders-hub/rfp-card'
@@ -121,7 +122,7 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
             className={
               kind === 'ideas'
                 ? 'mx-auto mt-[60px] max-w-360 px-3'
-                : 'mx-auto mt-[90px] max-w-360 px-3 md:mt-[160px]'
+                : 'mx-auto mt-[90px] max-w-360 px-3 md:mt-[138px]'
             }
           >
             <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
@@ -135,15 +136,17 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
             </div>
           </div>
         ) : (
-          <ul className="mt-0 w-full md:mt-[60px]">
-            {kind === 'ideas'
-              ? (pageItems as Idea[]).map((idea, i) => (
-                  <IdeaRow key={idea.slug} index={start + i + 1} idea={idea} />
-                ))
-              : (pageItems as Rfp[]).map((rfp, i) => (
-                  <RfpListRow key={rfp.slug} index={start + i + 1} rfp={rfp} />
-                ))}
-          </ul>
+          <ContentWidth>
+            <ul className="mt-0 w-full md:mt-[60px]">
+              {kind === 'ideas'
+                ? (pageItems as Idea[]).map((idea, i) => (
+                    <IdeaRow key={idea.slug} index={start + i + 1} idea={idea} />
+                  ))
+                : (pageItems as Rfp[]).map((rfp, i) => (
+                    <RfpListRow key={rfp.slug} index={start + i + 1} rfp={rfp} />
+                  ))}
+            </ul>
+          </ContentWidth>
         )}
 
         <div className="mt-12 flex justify-center pb-[100px]">

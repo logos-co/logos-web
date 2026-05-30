@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { getTranslations } from 'next-intl/server'
 import { LogosMark } from '@acid-info/logos-ui'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Button, ButtonArrowIcon } from '@/components/ui/button'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
@@ -125,6 +126,7 @@ export default async function GetStartedPage({
   return (
     <div className="bg-brand-off-white text-brand-dark-green">
       <section className="relative mb-[60px] h-[200px] w-full px-3 md:mb-[100px] md:h-[258px]">
+        <ContentWidth className="relative h-full">
         <div className="absolute top-[60px] left-3 flex items-center gap-3 md:top-[90px]">
           <LogosMark size={26} className="w-5 shrink-0" />
           <h1 className="font-display text-[30px] leading-none tracking-[-0.9px] md:text-[36px] md:tracking-[-1.08px]">
@@ -134,18 +136,19 @@ export default async function GetStartedPage({
         <p className="absolute top-[126px] left-3 max-w-[342px] whitespace-pre-line font-mono text-[10px] leading-[1.3] md:top-[90px] md:left-[calc(50%+6px)] md:max-w-[345px]">
           {t('intro')}
         </p>
+        </ContentWidth>
       </section>
 
       <section
         id="install"
-        className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px] md:pt-10"
+        className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px]"
       >
-        <div className="flex w-full flex-col gap-10">
+        <ContentWidth className="flex w-full flex-col gap-10">
           <SectionHeading
             number={t('sections.install.number')}
             heading={t('sections.install.heading')}
           />
-          <div className="grid overflow-hidden rounded-xl bg-gray-01 p-1.5 md:min-h-[325px] md:grid-cols-2">
+          <div className="grid gap-1.5 overflow-hidden rounded-xl bg-gray-01 p-1.5 md:min-h-[325px] md:grid-cols-2">
             <div className="relative min-h-[314px] overflow-hidden rounded-md md:min-h-full">
               <Image
                 src="/images/builders-hub/basecamp-card.png"
@@ -170,11 +173,11 @@ export default async function GetStartedPage({
               </ActionLink>
             </div>
           </div>
-        </div>
+        </ContentWidth>
       </section>
 
-      <section className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px]">
-        <div className="flex w-full flex-col gap-10">
+      <section className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px] md:pt-10">
+        <ContentWidth className="flex w-full flex-col gap-10">
           <div className="grid gap-6 md:grid-cols-12 md:items-start">
             <div className="md:col-span-5">
               <SectionHeading
@@ -212,11 +215,11 @@ export default async function GetStartedPage({
               </article>
             ))}
           </div>
-        </div>
+        </ContentWidth>
       </section>
 
       <section className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px]">
-        <div className="flex w-full flex-col gap-10">
+        <ContentWidth className="flex w-full flex-col gap-10">
           <SectionHeading
             number={t('sections.community.number')}
             heading={t('sections.community.heading')}
@@ -229,25 +232,29 @@ export default async function GetStartedPage({
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`flex h-[62px] cursor-pointer items-center justify-between px-3 transition-colors hover:bg-accent-light-blue md:h-[50px] md:px-4 ${
-                  index % 2 === 0 ? 'bg-brand-dark-green/5' : 'bg-gray-01'
+                  index % 2 === 0 ? 'bg-gray-01' : 'bg-brand-dark-green/5'
                 }`}
               >
-                <span className="font-mono text-[10px] leading-[1.3]">
-                  {String(index + 1).padStart(2, '0')}{' '}
-                  {t(`sections.community.items.${item.key}`)}
+                <span className="flex items-baseline gap-3 text-[14px] leading-[1.2]">
+                  <span className="font-sans font-medium">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span className="font-display">
+                    {t(`sections.community.items.${item.key}`)}
+                  </span>
                 </span>
-                <span className="inline-flex items-center gap-1 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
+                <span className="inline-flex items-center gap-1 border-b border-brand-dark-green/50 pb-0.5 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
                   {t('sections.community.cta')}
                   <ButtonArrowIcon />
                 </span>
               </a>
             ))}
           </div>
-        </div>
+        </ContentWidth>
       </section>
 
       <section className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px]">
-        <div className="flex w-full flex-col gap-10">
+        <ContentWidth className="flex w-full flex-col gap-10">
           <SectionHeading
             number={t('sections.build.number')}
             heading={t('sections.build.heading')}
@@ -264,7 +271,7 @@ export default async function GetStartedPage({
                       {t(`sections.build.items.${item.key}.title`)}
                     </h3>
                     {'hasBody' in item && item.hasBody ? (
-                      <p className="max-w-[360px] font-mono text-[10px] leading-[1.3]">
+                      <p className="max-w-[329px] font-sans text-[14px] leading-[1.2]">
                         {t(`sections.build.items.${item.key}.body`)}
                       </p>
                     ) : null}
@@ -280,7 +287,7 @@ export default async function GetStartedPage({
               )
             })}
           </div>
-        </div>
+        </ContentWidth>
       </section>
     </div>
   )

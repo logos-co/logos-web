@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
 import type { TechStackOverviewSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import { TechStackDiagram } from '@/components/sections/shared/tech-stack-diagram'
 import { Button } from '@/components/ui'
 
@@ -47,11 +48,9 @@ export default function TechOverviewStack({
   foundationHref,
 }: Props) {
   return (
-    <section
-      id="stack"
-      className="bg-brand-off-white px-3 pb-[27px] md:pb-[100px]"
-    >
-      <div>
+    <section id="stack">
+      <div className="bg-brand-off-white px-3 pb-[27px] md:pb-[100px]">
+        <ContentWidth>
         {data.architecture ? (
           <div className="-mx-3 mb-10 h-[658px] bg-gray-01 px-3 py-3 md:mb-[100px] md:h-[381px]">
             <div className="grid md:grid-cols-2 md:gap-3">
@@ -93,8 +92,8 @@ export default function TechOverviewStack({
                 </div>
               </div>
 
-              <div className="relative h-[317px] overflow-hidden rounded-[24px] md:h-[357px] md:rounded-[24px]">
-                <div className="absolute top-[-53px] left-0 h-[936px] w-[702px] md:top-[-33px]">
+              <div className="relative w-full h-[317px] overflow-hidden rounded-[24px] md:h-[357px] md:rounded-[24px]">
+                <div className="absolute top-[-53px] left-0 h-[936px] w-full md:top-[-33px]">
                   <Image
                     src={data.architecture.image.src}
                     alt={data.architecture.image.alt}
@@ -128,6 +127,7 @@ export default function TechOverviewStack({
             foundationHref={foundationHref}
           />
         </div>
+        </ContentWidth>
       </div>
     </section>
   )

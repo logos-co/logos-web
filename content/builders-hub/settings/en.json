@@ -72,7 +72,8 @@
           "alt": "",
           "width": 850,
           "height": 326
-        }
+        },
+        "imageFit": "contain"
       }
     ]
   },

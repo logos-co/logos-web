@@ -30,14 +30,14 @@ export function RfpListRow({ index, rfp }: Props) {
       >
         {/* Mobile */}
         <div className="relative h-[116px] md:hidden">
-          <p className="absolute top-3 left-3 w-[191px] font-sans text-[14px] leading-[1.2] text-brand-dark-green">
+          <p className="absolute top-3 left-3 w-[179px] font-sans text-[14px] leading-[1.2] text-brand-dark-green">
             <span className="font-medium">{indexLabel}</span>
             <span className="ml-3 font-display">{rfp.title}</span>
           </p>
           <p className="absolute top-[75px] left-3 w-[179px] font-mono text-[10px] leading-[1.3] text-brand-dark-green">
             {blurb}
           </p>
-          <span className="absolute top-3 right-7 inline-flex items-center justify-center rounded-[4px] border border-brand-dark-green/50 px-3 py-2 text-brand-dark-green">
+          <span className="absolute top-3 right-[22px] inline-flex items-center justify-center border border-brand-dark-green/50 px-3 py-2 text-brand-dark-green">
             <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap">
               Learn More
             </span>
@@ -56,7 +56,7 @@ export function RfpListRow({ index, rfp }: Props) {
         {/* Desktop */}
         <div className="relative hidden h-[50px] md:block">
           <div className="absolute top-3 left-3 flex items-baseline gap-3">
-            <span className="font-sans text-[14px] font-medium leading-[1.2] text-brand-dark-green w-[18px]">
+            <span className="font-sans text-[14px] font-normal leading-[1.2] text-brand-dark-green w-[18px]">
               {indexLabel}
             </span>
             <span className="font-display text-[14px] leading-[1.2] text-brand-dark-green whitespace-nowrap">

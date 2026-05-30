@@ -3,6 +3,7 @@ import Image from 'next/image'
 import type { HeroSection } from '@repo/content/schemas'
 
 import { IconMask } from '@/components/icons/icon-mask'
+import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 
@@ -73,8 +74,8 @@ function StatusCard({
 
 export default function TechOverviewHero({ data }: Props) {
   return (
-    <section className="relative mb-10 h-[663px] overflow-hidden bg-brand-off-white px-3 pt-0 pb-0 md:mb-[100px] md:-mt-0.5 md:h-[486px] md:pt-[22px] md:pb-0">
-      <div className="relative h-[500px] md:h-[403px]">
+    <section className="relative mb-10 h-[663px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-0 md:mb-25 md:h-[486px] md:pt-8 md:pb-0">
+      <ContentWidth className="relative h-[500px] md:h-[403px]">
         <div className="absolute top-0 left-0 hidden h-[99px] w-[393px] md:block">
           {data.status ? <StatusCard status={data.status} compact /> : null}
         </div>
@@ -156,7 +157,7 @@ export default function TechOverviewHero({ data }: Props) {
             ))}
           </div>
         ) : null}
-      </div>
+      </ContentWidth>
       <div className="absolute top-[540px] left-0 h-10 w-full px-3 md:hidden">
         <div className="h-px w-full bg-brand-dark-green/10" />
       </div>

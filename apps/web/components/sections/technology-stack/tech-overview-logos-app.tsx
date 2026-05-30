@@ -4,6 +4,7 @@ import { GiantSwitch, GiantSwitchTag } from '@acid-info/logos-ui'
 import type { GiantSwitchSection } from '@repo/content/schemas'
 
 import { IconMask } from '@/components/icons/icon-mask'
+import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
 
 /**
@@ -51,11 +52,9 @@ export default function TechOverviewLogosApp({ data }: Props) {
     : ''
 
   return (
-    <section
-      id="logos-app"
-      className="mt-10 mb-10 h-[828px] overflow-hidden bg-brand-off-white py-4 md:mt-[100px] md:mb-[100px] md:h-auto md:py-0"
-    >
-      <GiantSwitch
+    <section id="logos-app" className="mt-10 mb-10 md:mt-[100px] md:mb-[100px]">
+      <ContentWidth className="h-[828px] overflow-hidden bg-brand-off-white py-4 md:h-auto md:py-0">
+        <GiantSwitch
         accent={data.accent}
         imagePosition={data.imagePosition}
         installHoverShift
@@ -123,6 +122,7 @@ export default function TechOverviewLogosApp({ data }: Props) {
           </>
         }
       />
+      </ContentWidth>
     </section>
   )
 }

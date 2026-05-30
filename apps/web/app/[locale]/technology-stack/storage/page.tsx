@@ -13,6 +13,10 @@ import StorageMain from '@/components/sections/storage/storage-main'
 import StorageTechStack from '@/components/sections/storage/storage-tech-stack'
 import StorageUseCases from '@/components/sections/storage/storage-use-cases'
 import TechStackBuilderCta from '@/components/sections/shared/tech-stack-builder-cta'
+import {
+  TechStackDetailPage,
+  TechStackDetailSection,
+} from '@/components/sections/shared/tech-stack-detail-layout'
 import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 
 import { ROUTES } from '@/constants/routes'
@@ -80,17 +84,30 @@ export default async function StoragePage({
   )
 
   return (
-    <>
+    <TechStackDetailPage>
       <StorageHero data={hero} backHref={ROUTES.technologyStack} />
-      <StorageMain data={main} />
-      <StorageAccess data={access} />
-      <StorageUseCases data={useCases} />
-      <TechStackBuilderCta
-        data={builderCta}
-        className="mt-15 mb-15 md:mt-25 md:mb-25"
-      />
-      <StorageTechStack locale={locale} />
-      <TechStackRelatedArticles data={relatedArticles} articles={articles} />
-    </>
+      <TechStackDetailSection>
+        <StorageMain data={main} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <StorageAccess data={access} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <StorageUseCases data={useCases} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <TechStackBuilderCta data={builderCta} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <StorageTechStack locale={locale} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <TechStackRelatedArticles
+          data={relatedArticles}
+          articles={articles}
+          sectionClassName="mt-0 md:mt-0"
+        />
+      </TechStackDetailSection>
+    </TechStackDetailPage>
   )
 }

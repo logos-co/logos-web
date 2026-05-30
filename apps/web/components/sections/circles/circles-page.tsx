@@ -10,6 +10,7 @@ import {
 import type { CirclesSettings, Language } from '@repo/content/schemas'
 import { LogosMark } from '@acid-info/logos-ui'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
@@ -40,7 +41,7 @@ function SectionIntro({
   cta?: { label: string; href: string; external?: boolean }
 }) {
   return (
-    <div className="grid grid-cols-2 gap-3 px-3 py-10 md:grid-cols-12 md:py-10">
+    <ContentWidth className="grid grid-cols-2 gap-3 px-3 py-10 md:grid-cols-12 md:py-10">
       <h2 className="font-display text-[30px] leading-none text-brand-dark-green md:col-span-4 md:text-[36px]">
         {title}
       </h2>
@@ -61,7 +62,7 @@ function SectionIntro({
           {cta.label}
         </Button>
       ) : null}
-    </div>
+    </ContentWidth>
   )
 }
 
@@ -269,7 +270,7 @@ function EventsSection({
         cta={settings.eventsSection.calendarCta}
       />
 
-      <div className="flex flex-col gap-6 pb-12">
+      <ContentWidth className="flex flex-col gap-6 pb-12">
         {groups.map((group) => (
           <div
             key={group.groupKey}
@@ -286,7 +287,7 @@ function EventsSection({
             </div>
           </div>
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -351,11 +352,11 @@ function InitiativesSection({
         title={settings.initiativesSection.title}
         cta={settings.initiativesSection.cta}
       />
-      <div className="grid gap-3 px-3 pb-12 md:grid-cols-3">
+      <ContentWidth className="grid gap-3 px-3 pb-12 md:grid-cols-3">
         {initiatives.map((initiative) => (
           <InitiativeCard key={initiative.slug} initiative={initiative} />
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -378,8 +379,9 @@ function ResourcesSection({
         cta={settings.resourcesSection.helpCenterCta}
       />
 
-      <ul className="w-full">
-        {resources.map((resource, index) => (
+      <ContentWidth>
+        <ul className="w-full">
+          {resources.map((resource, index) => (
           <li key={resource.slug}>
             <SmartLink
               href={resource.href}
@@ -410,7 +412,8 @@ function ResourcesSection({
             </SmartLink>
           </li>
         ))}
-      </ul>
+        </ul>
+      </ContentWidth>
     </section>
   )
 }

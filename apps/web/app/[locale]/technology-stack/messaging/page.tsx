@@ -12,6 +12,10 @@ import MessagingHero from '@/components/sections/messaging/messaging-hero'
 import MessagingIntro from '@/components/sections/messaging/messaging-intro'
 import MessagingTechStack from '@/components/sections/messaging/messaging-tech-stack'
 import TechStackBuilderCta from '@/components/sections/shared/tech-stack-builder-cta'
+import {
+  TechStackDetailPage,
+  TechStackDetailSection,
+} from '@/components/sections/shared/tech-stack-detail-layout'
 import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
@@ -84,20 +88,27 @@ export default async function MessagingPage({
   )
 
   return (
-    <>
+    <TechStackDetailPage>
       <MessagingHero data={hero} backHref={ROUTES.technologyStack} />
-      <MessagingIntro privacy={privacy} lmn={lmn} censorship={censorship} />
-      <MessagingCaseStudies data={caseStudies} />
-      <TechStackBuilderCta
-        data={builderCta}
-        className="mt-15 md:mt-[100px] md:mb-[100px]"
-      />
-      <MessagingTechStack locale={locale} />
-      <TechStackRelatedArticles
-        data={relatedArticles}
-        articles={articles}
-        sectionClassName="mt-0 md:mt-0"
-      />
-    </>
+      <TechStackDetailSection>
+        <MessagingIntro privacy={privacy} lmn={lmn} censorship={censorship} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <MessagingCaseStudies data={caseStudies} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <TechStackBuilderCta data={builderCta} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <MessagingTechStack locale={locale} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <TechStackRelatedArticles
+          data={relatedArticles}
+          articles={articles}
+          sectionClassName="mt-0 md:mt-0"
+        />
+      </TechStackDetailSection>
+    </TechStackDetailPage>
   )
 }

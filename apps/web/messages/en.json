@@ -100,10 +100,10 @@
       "quote": "The system is no longer working for us, so we are charting a new course.",
       "headline": "Logos exists at the intersection of human exploration and technological revolution.",
       "body": "We are a movement for builders, explorers, and dreamers who refuse to accept the world as it is. We're part of a generation fed up with corruption, surveillance, and stagnation often associated with incumbent institutions.",
-      "intro": "The world's systems of money, law, and governance are increasingly coerced by interests that do not serve the people inside them. The institutions, the corporations, the platforms, have been captured.",
-      "closing1": "They surveil us, extract from us, and make decisions on our behalf without our consent. Why are we placing our trust in ancient nation-state technology?",
-      "closing2": "We are not asking them to change.",
-      "closing3": "We are building the alternative.",
+      "intro": "Civil society is in decline. Our institutions are failing. Our money is debased. People are atomised, indebted, and increasingly unable to provide for themselves or their families. Reform from within cannot reverse this because the system selects for compliance, and centralisation leads inevitably to corruption.",
+      "closing1": "Logos exist to build the decentralised infrastructure and living ecosystem that makes a parallel society possible for anyone ready to reclaim their agency in the digital and physical world.",
+      "closing2": "Built for exit when the existing order can no longer hold.",
+      "closing3": "Build the parallel. Prove it in practice. Keep it human.",
       "cta": "About us",
       "problems": {
         "debt": {
@@ -137,8 +137,8 @@
       }
     },
     "builderPortal": {
-      "title": "Basecamp is our\nExit Guide.",
-      "description": "Basecamp is a ready-to-run distribution that you deploy on your own hardware, under your control. Full stack privacy is the only option for a parallel society – coercion resistant coordfination, transactions free of surveillance, money you control.\n\nThe Logos Runtime runs running locally, core modules are loaded, and essential applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one.",
+      "title": "Basecamp.\nThe local launcher\nfor the Logos stack",
+      "description": "Basecamp is a ready-to-run distribution that you deploy on your own hardware, under your control. From the moment it’s installed, you’re standing on your own ground, not connecting to someone else’s infrastructure.\n\nThe Logos Runtime runs running locally, core modules are loaded, and essential applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one.",
       "feature1": "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others.",
       "feature2": "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
       "feature3": "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections.",
@@ -254,7 +254,7 @@
         },
         "build": {
           "number": "04",
-          "heading": "What can you build today",
+          "heading": "What you can build today",
           "cta": "Run app",
           "nodeCta": "Run a node",
           "messagingCta": "Messaging SDK",

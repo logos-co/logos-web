@@ -27,7 +27,7 @@ export function RfpCard({ rfp }: Props) {
     >
       {/* Title */}
       <div className="absolute left-4 top-4 w-[249px]">
-        <h3 className="font-sans text-[24px] font-normal leading-[1.1] tracking-tight text-brand-dark-green">
+        <h3 className="font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.01em] text-brand-dark-green">
           {rfp.title}
         </h3>
       </div>
