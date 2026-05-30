@@ -25,8 +25,8 @@ function PodcastIntro({ copy }: { copy: PodcastIntroCopy }) {
             {copy.title}
           </h1>
         </div>
-        <div className="text-mono-s flex h-[122px] min-w-0 max-w-[369px] flex-col justify-between overflow-hidden text-black md:col-start-7 md:col-end-10 md:h-auto md:gap-6 md:overflow-visible">
-          <p className="break-words line-clamp-6 md:line-clamp-none">
+        <div className="text-mono-s flex min-w-0 flex-col justify-between text-black md:col-start-7 md:col-end-10 md:h-auto md:gap-6">
+          <p className="line-clamp-6 break-words md:line-clamp-none">
             {copy.description}
           </p>
           <p>{copy.hostedBy}</p>

@@ -12,6 +12,7 @@ import { LogosMark } from '@acid-info/logos-ui'
 
 import { IconMask } from '@/components/icons/icon-mask'
 import { Button } from '@/components/ui'
+import ContentWidth from '@/components/layout/content-width'
 
 interface BasecampPageProps {
   hero: HeroSection
@@ -56,7 +57,7 @@ function HeroSectionView({ data }: { data: HeroSection }) {
   const bodyDetails = paragraphs(data.bodySecondary)
 
   return (
-    <section className="mx-auto grid w-full max-w-360 grid-cols-1 gap-12 px-3 pt-8 pb-12 md:min-h-[453px] md:grid-cols-2 md:gap-6 md:pb-10">
+    <section className="grid w-full grid-cols-1 gap-12 px-3 pt-8 pb-12 md:min-h-[453px] md:grid-cols-2 md:gap-6 md:pb-10">
       <div className="flex flex-col items-start gap-10">
         {data.eyebrow ? (
           <Button
@@ -119,7 +120,7 @@ function HowItWorksSection({ data }: { data: TableSection }) {
   ].filter((cta): cta is CTA => Boolean(cta))
 
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-6 px-3 py-10 md:grid-cols-2 md:py-10">
+    <section className="grid w-full gap-6 px-3 py-10 md:grid-cols-2 md:py-10">
       <div className="flex min-h-[626px] flex-col justify-between gap-8">
         <div>
           <h2 className="text-h3 mb-8 text-brand-dark-green">{data.title}</h2>
@@ -171,7 +172,7 @@ function HowItWorksSection({ data }: { data: TableSection }) {
 
 function LocalFirstSection({ data }: { data: CtaPanelSection }) {
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-6 bg-gray-01 px-3 py-10 md:grid-cols-2">
+    <section className="grid w-full gap-6 bg-gray-01 p-3 md:grid-cols-2">
       <div className="relative min-h-[357px] overflow-hidden rounded-xl">
         {data.image ? (
           <Image
@@ -217,7 +218,7 @@ function LocalFirstSection({ data }: { data: CtaPanelSection }) {
 
 function ModularSection({ data }: { data: FeaturedTextSection }) {
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-10 border-b border-brand-dark-green/10 px-3 py-10 md:min-h-[275px] md:grid-cols-2">
+    <section className="grid w-full gap-10 border-b border-brand-dark-green/10 px-3 py-10 md:min-h-[275px] md:grid-cols-2">
       <h2 className="font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
         <span>{data.title.highlight}</span>
         <br />
@@ -254,7 +255,7 @@ function CapabilityCard({ card }: { card: CardGridSection['cards'][number] }) {
 
 function CapabilitiesSection({ data }: { data: CardGridSection }) {
   return (
-    <section className="mx-auto w-full max-w-360 px-3 py-10 md:py-10">
+    <section className="w-full px-3 py-10 md:py-10">
       {data.heading ? (
         <h2 className="mb-12 font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
           {data.heading}
@@ -340,7 +341,7 @@ function ResourceCard({
 
 function ResourcesSection({ data }: { data: CardGridSection }) {
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-4 px-3 py-10 md:grid-cols-3">
+    <section className="w-full gap-4 px-3 py-10 grid md:grid-cols-3">
       {data.cards.map((card, index) => (
         <ResourceCard key={card.title} card={card} featured={index === 1} />
       ))}
@@ -357,13 +358,13 @@ export default function BasecampPage({
   resources,
 }: BasecampPageProps) {
   return (
-    <>
+    <ContentWidth className="px-0">
       <HeroSectionView data={hero} />
       <HowItWorksSection data={howItWorks} />
       <LocalFirstSection data={localFirst} />
       <ModularSection data={modular} />
       <CapabilitiesSection data={capabilities} />
       <ResourcesSection data={resources} />
-    </>
+    </ContentWidth>
   )
 }

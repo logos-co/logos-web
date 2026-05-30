@@ -1,6 +1,7 @@
 import { LogosMark } from '@acid-info/logos-ui'
 import type { HeroSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
@@ -15,7 +16,7 @@ export default function NetworkingHero({ data, backHref }: Props) {
 
   return (
     <section className="mt-10 mb-15 h-[257px] bg-brand-off-white md:mt-[38px] md:mb-25 md:h-[189px]">
-      <div className="relative mx-auto h-full max-w-360 px-3 text-brand-dark-green">
+      <ContentWidth className="relative h-full text-brand-dark-green px-0">
         <Reveal className="absolute top-[-20px] left-3">
           <Link
             href={backHref}
@@ -70,7 +71,7 @@ export default function NetworkingHero({ data, backHref }: Props) {
             ) : null}
           </RevealItem>
         </Reveal>
-      </div>
+      </ContentWidth>
     </section>
   )
 }

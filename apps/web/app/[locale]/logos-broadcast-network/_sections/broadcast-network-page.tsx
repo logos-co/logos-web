@@ -493,22 +493,21 @@ function EpisodeRow({
     <ExternalLink
       href={podcast.href}
       className={cn(
-        'group relative block h-[131px] cursor-pointer overflow-hidden text-brand-dark-green transition-colors hover:bg-brand-yellow',
+        'group block cursor-pointer text-brand-dark-green transition-colors hover:bg-brand-yellow',
         background
       )}
     >
-      <ContentWidth className="relative h-full">
-      <div className="absolute left-3 top-3 h-[107px] w-[190px] overflow-hidden">
-        <Image
-          src={podcast.image}
-          alt=""
-          fill
-          sizes="190px"
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-      </div>
-      <div className="absolute left-[202px] top-0 grid h-full w-[1150px] grid-cols-[595px_345px_1fr] gap-x-3">
-        <div className="flex h-full flex-col justify-between py-3 pl-3">
+      <ContentWidth className="flex min-h-[131px] items-center gap-3">
+        <div className="relative size-[107px] shrink-0 overflow-hidden">
+          <Image
+            src={podcast.image}
+            alt=""
+            fill
+            sizes="107px"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        </div>
+        <div className="flex min-w-0 flex-1 flex-col justify-between py-3">
           <div className="text-mono-s flex items-center gap-2.5">
             <span>{podcast.date}</span>
             <Dot />
@@ -516,16 +515,14 @@ function EpisodeRow({
           </div>
           <div className="flex items-center gap-2.5">
             <PlayIcon />
-            <h3 className="font-sans text-[18px] leading-[1.15] tracking-[-0.01em]">
+            <h3 className="truncate font-sans text-[18px] leading-[1.15] tracking-[-0.01em]">
               {podcast.title}
             </h3>
           </div>
         </div>
-        <div aria-hidden="true" />
-        <div className="py-3">
+        <div className="hidden py-3 md:block">
           <UnderlineLabel>{listenOnApp}</UnderlineLabel>
         </div>
-      </div>
       </ContentWidth>
     </ExternalLink>
   )
@@ -540,11 +537,11 @@ function PastEpisodes({
 }) {
   return (
     <section className="bg-accent-tan text-brand-dark-green">
-      <div className="px-3 pb-3">
+      <ContentWidth className="pb-3">
         <h2 className="font-sans text-[36px] leading-none tracking-[-0.02em]">
           {copy.pastEpisodes}
         </h2>
-      </div>
+      </ContentWidth>
       {podcasts.slice(0, 4).map((podcast, index) => (
         <EpisodeRow
           key={podcast.href}

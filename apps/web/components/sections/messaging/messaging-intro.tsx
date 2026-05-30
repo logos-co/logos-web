@@ -58,13 +58,12 @@ function MessagingFeaturePanel({
 
   return (
     <section>
-      <div className="bg-gray-01">
-        <ContentWidth>
-          <div
-            className={`relative h-150 p-3 md:h-[359px] md:flex md:items-start md:justify-between ${
-              reverse ? 'md:flex-row-reverse' : 'md:flex-row'
-            }`}
-          >
+      <ContentWidth className="bg-gray-01">
+        <div
+          className={`relative h-150 p-3 md:h-[359px] md:flex md:items-start md:justify-between md:gap-6 ${
+            reverse ? 'md:flex-row-reverse' : 'md:flex-row'
+          }`}
+        >
             <Reveal className="flex h-72 flex-col md:h-[335px] md:w-[702px]">
               {mobileEyebrow ? (
                 <SectionMarker label={mobileEyebrow} className="md:hidden" />
@@ -90,9 +89,8 @@ function MessagingFeaturePanel({
             </Reveal>
 
             <Reveal amount={0.2}>{image}</Reveal>
-          </div>
-        </ContentWidth>
-      </div>
+        </div>
+      </ContentWidth>
     </section>
   )
 }

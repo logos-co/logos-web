@@ -54,7 +54,7 @@ function PodcastHero({
           sizes="100vw"
           className="scale-110 object-cover object-center blur-[20px]"
         />
-        <div className="absolute left-3 top-3 flex h-[268px] w-[345px] max-w-[calc(100%-24px)] min-w-0 flex-col justify-between overflow-hidden text-brand-off-white md:h-[380px] md:w-[453px]">
+        <div className="absolute left-3 top-3 flex min-h-[268px] min-w-0 flex-col justify-between text-brand-off-white md:min-h-[380px]">
           <div className="flex items-center gap-[102px]">
             <LogosMark size={6} className="shrink-0" />
             <span className="font-mono text-[10px] font-medium uppercase leading-[1.3]">
@@ -116,27 +116,12 @@ function PodcastEntry({
       index={index}
       className="h-[174px] md:h-[131px]"
     >
-      <ContentWidth className="relative h-full">
-      <RowThumbnail
-        src={podcast.image}
-        className="right-[11px] top-3 z-10 h-[60px] w-[107px] md:left-3 md:right-auto"
-      />
-      <div className="absolute left-3 top-[13px] flex w-[238px] flex-col gap-2.5 md:hidden">
-        <PlayIcon />
-        <p className="font-sans text-[18px] leading-[1.15] tracking-[-0.01em]">
-          {podcast.title}
-        </p>
-      </div>
-      <div className="text-mono-s absolute bottom-[15px] left-3 flex items-center gap-2.5 text-brand-dark-green md:hidden">
-        <span>{podcast.date}</span>
-        <Dot />
-        <span>{episodeLabel}</span>
-      </div>
-      <div className="absolute bottom-[13px] right-[11px] md:hidden">
-        <UnderlineLabel>{listenOnAppLabel}</UnderlineLabel>
-      </div>
-      <div className="hidden min-h-[131px] flex-col justify-between pb-3 pl-[131px] pr-3 pt-3 md:absolute md:left-[119px] md:top-0 md:grid md:h-[119px] md:w-[1150px] md:grid-cols-[595px_345px_1fr] md:gap-x-3 md:p-0">
-        <div className="flex flex-col justify-between md:h-[131px] md:py-3 md:pl-3">
+      <ContentWidth className="relative flex h-full items-center gap-3 md:min-h-[131px]">
+        <RowThumbnail
+          src={podcast.image}
+          className="size-[107px] shrink-0"
+        />
+        <div className="flex min-w-0 flex-1 flex-col justify-center gap-2.5 md:justify-between">
           <div className="text-mono-s flex items-center gap-2.5 text-brand-dark-green">
             <span>{podcast.date}</span>
             <Dot />
@@ -144,16 +129,14 @@ function PodcastEntry({
           </div>
           <div className="flex items-center gap-2.5">
             <PlayIcon />
-            <p className="font-sans text-[18px] leading-[1.15] tracking-normal">
+            <p className="truncate font-sans text-[18px] leading-[1.15] tracking-normal">
               {podcast.title}
             </p>
           </div>
         </div>
-        <div />
-        <div className="md:py-3">
+        <div className="hidden py-3 md:block">
           <UnderlineLabel>{listenOnAppLabel}</UnderlineLabel>
         </div>
-      </div>
       </ContentWidth>
     </PressRowLink>
   )

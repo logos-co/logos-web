@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server'
 import { getPageCopy } from '@repo/content/loaders'
 import type { Language, TechStackOverviewSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { ROUTES } from '@/constants/routes'
 import { createSectionFinder } from '@/lib/page-sections'
@@ -29,7 +30,7 @@ export default async function TechStackExplorer({
 
   return (
     <section className="border-brand-dark-green/10 bg-brand-off-white border-t">
-      <div className="px-3 pt-25 pb-[118px] md:pb-6">
+      <ContentWidth className="pt-25 pb-29.5 md:pb-6">
         <Reveal
           stagger
           className="flex flex-col gap-3 text-brand-dark-green md:flex-row md:gap-0"
@@ -52,7 +53,7 @@ export default async function TechStackExplorer({
           foundationHref={ROUTES.technologyStack}
           className="mt-15 md:mt-25"
         />
-      </div>
+      </ContentWidth>
     </section>
   )
 }

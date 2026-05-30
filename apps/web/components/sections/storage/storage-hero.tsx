@@ -1,6 +1,7 @@
 import { TechDetailHero } from '@acid-info/logos-ui'
 import type { HeroSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
@@ -17,7 +18,8 @@ export default function StorageHero({ data, backHref }: Props) {
 
   return (
     <Reveal amount={0.2}>
-      <TechDetailHero
+      <ContentWidth>
+        <TechDetailHero
         title={data.headline}
         body={data.body}
         bodySecondary={data.bodySecondary}
@@ -83,6 +85,7 @@ export default function StorageHero({ data, backHref }: Props) {
           </>
         }
       />
+      </ContentWidth>
     </Reveal>
   )
 }

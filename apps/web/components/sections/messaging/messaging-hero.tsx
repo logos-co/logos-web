@@ -1,6 +1,7 @@
 import { TechDetailHero } from '@acid-info/logos-ui'
 import type { HeroSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
@@ -17,7 +18,8 @@ export default function MessagingHero({ data, backHref }: Props) {
 
   return (
     <Reveal amount={0.2}>
-      <TechDetailHero
+      <ContentWidth>
+        <TechDetailHero
         className="md:h-[453px]"
         title={data.headline}
         body={data.body}
@@ -84,6 +86,7 @@ export default function MessagingHero({ data, backHref }: Props) {
           </>
         }
       />
+      </ContentWidth>
     </Reveal>
   )
 }

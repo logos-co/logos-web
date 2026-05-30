@@ -63,7 +63,7 @@ export function PressHero({
   return (
     <section className="relative h-[473px] bg-accent-tan px-3 pt-10 md:h-[359px] md:pt-10">
       <ContentWidth className="flex w-full flex-col gap-[100px] md:gap-10">
-        <div className="relative h-[81px] w-full md:w-[1186px]">
+        <div className="relative h-[81px] w-full">
           <div className="absolute left-0 top-0 aspect-video w-[107px] overflow-hidden">
             <Image
               src={PRESS_HERO_IMAGE}
@@ -126,19 +126,18 @@ export function ArticleEntry({
 
   return (
     <PressRowLink href={article.href} index={index} className="h-[107px]">
-      <ContentWidth className="relative h-full">
-      <RowThumbnail
-        src={article.thumbnailImage}
-        className="left-3 top-[15px] w-[107px] md:block"
-      />
-      <div className="absolute left-[119px] top-0 flex h-full w-[274px] flex-col justify-center gap-1.5 py-3 pl-3 md:left-[119px] md:grid md:w-[1150px] md:grid-cols-[595px_543px] md:gap-x-3 md:p-0">
-        <div className="flex flex-col justify-center gap-1.5 md:py-3 md:pl-3">
+      <ContentWidth className="relative flex h-full items-center gap-3">
+        <RowThumbnail
+          src={article.thumbnailImage}
+          className="size-[107px] shrink-0 md:block"
+        />
+        <div className="flex min-w-0 flex-1 flex-col justify-center gap-1.5">
           <div className="text-mono-s flex items-center gap-2.5 text-brand-dark-green">
             <span>{article.date}</span>
             <Dot />
             <span>{article.author}</span>
           </div>
-          <div className="w-[250px] text-[18px] leading-[1.15] tracking-[-0.01em] text-brand-dark-green md:w-full md:max-w-[333px]">
+          <div className="w-full text-[18px] leading-[1.15] tracking-[-0.01em] text-brand-dark-green">
             {article.titleSerif ? (
               <>
                 <span className="font-display block leading-[1.1]">
@@ -151,15 +150,14 @@ export function ArticleEntry({
             )}
           </div>
         </div>
-        <div className="hidden md:flex md:items-start md:gap-[132px]">
-          <p className="text-mono-s w-[345px] py-3 text-brand-dark-green">
+        <div className="hidden flex-col items-start gap-3 py-3 md:flex">
+          <p className="text-mono-s line-clamp-2 max-w-xs text-brand-dark-green">
             {article.description}
           </p>
-          <div className="shrink-0 py-3">
+          <div className="shrink-0">
             <UnderlineLabel>{article.readingTime} min read</UnderlineLabel>
           </div>
         </div>
-      </div>
       </ContentWidth>
     </PressRowLink>
   )
