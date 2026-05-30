@@ -8,12 +8,12 @@ import { Button } from '@/components/ui'
 
 const CARD_IMAGES = [
   {
-    src: '/images/storage/use-case-1.webp',
-    className: 'object-[50%_44%]',
+    src: '/images/storage/use-case-figma-1.webp',
+    className: 'rotate-90 scale-[1.78] object-cover blur-[20px]',
   },
   {
-    src: '/images/storage/use-case-2.webp',
-    className: 'object-[50%_62%]',
+    src: '/images/storage/use-case-figma-2.webp',
+    className: 'scale-[1.55] object-cover blur-[20px]',
   },
 ] as const
 
@@ -30,7 +30,11 @@ export default function StorageUseCases({ data }: Props) {
       title: card.title,
       body: card.description,
       cta: card.cta ? (
-        <Button href={card.cta.href} variant="primary">
+        <Button
+          href={card.cta.href}
+          variant="primary"
+          className="cursor-pointer bg-brand-off-white text-brand-dark-green hover:bg-brand-off-white/90"
+        >
           {card.cta.label}
         </Button>
       ) : null,
@@ -48,7 +52,7 @@ export default function StorageUseCases({ data }: Props) {
 
   return (
     <Reveal amount={0.2}>
-      <TechUseCaseGrid cards={cards} />
+      <TechUseCaseGrid cards={cards} cardClassName="rounded-xl" />
     </Reveal>
   )
 }
