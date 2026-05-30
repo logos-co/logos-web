@@ -50,13 +50,17 @@ describe('messaging page Figma layout contract', () => {
     expect(source).toContain('privacy.mobileDescription')
   })
 
-  test('uses desktop Figma row and image dimensions for feature panels', () => {
+  test('lets feature panels scale to the wide desktop Figma screenshot', () => {
     const source = readAppFile(
       '../components/sections/messaging/messaging-intro.tsx'
     )
 
-    expect(source).toContain('md:h-[359px]')
-    expect(source).toContain('md:h-[335px] md:w-[702px]')
+    expect(source).toContain('max-w-[1920px]')
+    expect(source).toContain('md:h-auto md:grid-cols-2')
+    expect(source).toContain('md:aspect-[702/335]')
+    expect(source).toContain('sizes="(min-width: 1920px) 927px')
+    expect(source).toContain('md:top-[-38.96%]')
+    expect(source).toContain('md:top-[-86.42%]')
   })
 
   test('keeps the builder CTA aligned to the desktop Figma spacing', () => {

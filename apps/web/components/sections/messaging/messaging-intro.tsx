@@ -4,7 +4,6 @@ import type { ReactNode } from 'react'
 import { TechTextSplitSection } from '@acid-info/logos-ui'
 import type { CtaPanelSection } from '@repo/content/schemas'
 
-import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 
 import { SectionMarker } from './messaging-shared'
@@ -15,14 +14,14 @@ function paragraphs(text?: string) {
 
 function LmnImage() {
   return (
-    <div className="relative h-72 w-full overflow-hidden rounded-3xl bg-gray-02 md:h-[335px] md:w-[702px]">
+    <div className="relative h-72 w-full overflow-hidden rounded-3xl bg-gray-02 md:aspect-[702/335] md:h-auto md:w-full">
       <Image
         src="/images/messaging/lmn.webp"
         alt=""
         width={746}
         height={933}
-        sizes="(min-width: 768px) 702px, 369px"
-        className="absolute top-[-93px] left-[-28px] h-[497px] w-[397px] max-w-none object-cover md:top-[-130.5px] md:left-[21px] md:h-[620px] md:w-[775px]"
+        sizes="(min-width: 1920px) 927px, (min-width: 768px) 702px, 369px"
+        className="absolute top-[-93px] left-[-28px] h-[497px] w-[397px] max-w-none object-cover md:top-[-38.96%] md:left-[2.99%] md:h-[185.08%] md:w-[110.4%]"
       />
     </div>
   )
@@ -30,14 +29,14 @@ function LmnImage() {
 
 function PrivacyImage() {
   return (
-    <div className="relative h-72 w-full overflow-hidden rounded-3xl bg-gray-02 md:h-[335px] md:w-[702px]">
+    <div className="relative h-72 w-full overflow-hidden rounded-3xl bg-gray-02 md:aspect-[702/335] md:h-auto md:w-full">
       <Image
         src="/images/messaging/privacy.webp"
         alt=""
         width={746}
         height={933}
-        sizes="(min-width: 768px) 702px, 369px"
-        className="absolute top-[-25px] left-[-38px] h-[461px] w-[461px] max-w-none object-cover md:top-[-289.5px] md:left-0 md:h-[778px] md:w-[743px]"
+        sizes="(min-width: 1920px) 927px, (min-width: 768px) 702px, 369px"
+        className="absolute top-[-25px] left-[-38px] h-[461px] w-[461px] max-w-none object-cover md:top-[-86.42%] md:left-0 md:h-[232.24%] md:w-[105.84%]"
       />
     </div>
   )
@@ -58,39 +57,44 @@ function MessagingFeaturePanel({
 
   return (
     <section>
-      <ContentWidth className="bg-gray-01">
+      <div className="mx-auto max-w-[1920px] bg-gray-01 p-3">
         <div
-          className={`relative h-150 p-3 md:h-[359px] md:flex md:items-start md:justify-between md:gap-6 ${
-            reverse ? 'md:flex-row-reverse' : 'md:flex-row'
+          className={`relative h-150 md:grid md:h-auto md:grid-cols-2 md:items-start md:gap-3 ${
+            reverse ? 'md:[&>*:first-child]:col-start-2' : ''
           }`}
         >
-            <Reveal className="flex h-72 flex-col md:h-[335px] md:w-[702px]">
-              {mobileEyebrow ? (
-                <SectionMarker label={mobileEyebrow} className="md:hidden" />
-              ) : null}
-              {data.eyebrow ? (
-                <SectionMarker label={data.eyebrow} className="hidden md:flex" />
-              ) : null}
+          <Reveal className="flex h-72 flex-col md:aspect-[702/335] md:h-auto md:w-full">
+            {mobileEyebrow ? (
+              <SectionMarker label={mobileEyebrow} className="md:hidden" />
+            ) : null}
+            {data.eyebrow ? (
+              <SectionMarker label={data.eyebrow} className="hidden md:flex" />
+            ) : null}
 
-              <div className="mt-11.5 flex flex-col gap-3 text-brand-dark-green md:mt-[108.5px]">
-                <h2 className="text-h4-sans md:w-84">
-                  <span className="md:hidden">{mobileTitle}</span>
-                  <span className="hidden md:inline">{data.title}</span>
-                </h2>
-                {mobileDescription ? (
-                  <p className="text-mono-s md:hidden">{mobileDescription}</p>
-                ) : null}
-                {data.description ? (
-                  <p className="text-mono-s hidden md:block md:w-121.25">
-                    {data.description}
-                  </p>
-                ) : null}
-              </div>
-            </Reveal>
+            <div className="mt-11.5 flex flex-col gap-3 text-brand-dark-green md:mt-[108.5px]">
+              <h2 className="text-h4-sans md:w-84">
+                <span className="md:hidden">{mobileTitle}</span>
+                <span className="hidden md:inline">{data.title}</span>
+              </h2>
+              {mobileDescription ? (
+                <p className="text-mono-s md:hidden">{mobileDescription}</p>
+              ) : null}
+              {data.description ? (
+                <p className="text-mono-s hidden md:block md:w-121.25">
+                  {data.description}
+                </p>
+              ) : null}
+            </div>
+          </Reveal>
 
-            <Reveal amount={0.2}>{image}</Reveal>
+          <Reveal
+            amount={0.2}
+            className={reverse ? 'md:col-start-1 md:row-start-1' : ''}
+          >
+            {image}
+          </Reveal>
         </div>
-      </ContentWidth>
+      </div>
     </section>
   )
 }
