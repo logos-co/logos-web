@@ -121,7 +121,7 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
             className={
               kind === 'ideas'
                 ? 'mx-auto mt-[60px] max-w-360 px-3'
-                : 'mx-auto mt-[90px] max-w-360 px-3 md:mt-[160px]'
+                : 'mx-auto mt-[90px] max-w-360 px-3 md:mt-[138px]'
             }
           >
             <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
