@@ -86,7 +86,7 @@ function HeroSectionView({ data }: { data: HeroSection }) {
           </p>
         ) : null}
         {bodyDetails.length > 0 ? (
-          <div className="text-mono-s flex max-w-[342px] flex-col gap-3 text-brand-dark-green">
+          <div className="text-mono-s flex max-w-[342px] flex-col gap-4 text-brand-dark-green">
             {bodyDetails.map((item) => (
               <p key={item} className="whitespace-pre-line">
                 {item}
@@ -119,7 +119,7 @@ function HowItWorksSection({ data }: { data: TableSection }) {
   ].filter((cta): cta is CTA => Boolean(cta))
 
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-6 px-3 py-10 md:grid-cols-2 md:py-3">
+    <section className="mx-auto grid w-full max-w-360 gap-6 px-3 py-10 md:grid-cols-2 md:py-10">
       <div className="flex min-h-[626px] flex-col justify-between gap-8">
         <div>
           <h2 className="text-h3 mb-6 text-brand-dark-green">{data.title}</h2>
@@ -127,7 +127,7 @@ function HowItWorksSection({ data }: { data: TableSection }) {
             {data.rows.map((row) => (
               <article
                 key={row.number}
-                className="grid gap-4 py-3 md:grid-cols-2 md:gap-3"
+                className="grid gap-4 py-4 md:grid-cols-2 md:gap-3"
               >
                 <span className="text-mono-s text-brand-dark-green">
                   {row.number}
@@ -171,7 +171,7 @@ function HowItWorksSection({ data }: { data: TableSection }) {
 
 function LocalFirstSection({ data }: { data: CtaPanelSection }) {
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-6 bg-gray-01 px-3 py-3 md:grid-cols-2">
+    <section className="mx-auto grid w-full max-w-360 gap-6 bg-gray-01 px-3 py-10 md:grid-cols-2">
       <div className="relative min-h-[357px] overflow-hidden rounded-xl">
         {data.image ? (
           <Image
@@ -183,16 +183,16 @@ function LocalFirstSection({ data }: { data: CtaPanelSection }) {
           />
         ) : null}
       </div>
-      <div className="flex min-h-[357px] flex-col justify-between gap-10 py-1">
+      <div className="flex min-h-[357px] flex-col justify-between gap-10 py-0">
         {data.eyebrow ? (
           <div className="text-mono-s flex items-center gap-[102px] text-brand-dark-green">
             <LogosMark size={9} />
-            <span>{data.eyebrow}</span>
+            <span className="uppercase">{data.eyebrow}</span>
           </div>
         ) : null}
         <div className="max-w-[485px]">
-          <h2 className="text-h3 mb-3 text-brand-dark-green">{data.title}</h2>
-          <div className="text-body-s flex flex-col gap-3 text-brand-dark-green">
+          <h2 className="text-h3 mb-4 text-brand-dark-green">{data.title}</h2>
+          <div className="text-body-s flex flex-col gap-4 text-brand-dark-green">
             {paragraphs(data.description).map((item) => (
               <p key={item}>{item}</p>
             ))}
@@ -205,7 +205,7 @@ function LocalFirstSection({ data }: { data: CtaPanelSection }) {
           ) : null}
         </div>
         {data.footerLabel ? (
-          <div className="text-mono-s flex items-center gap-[102px] text-brand-dark-green">
+          <div className="text-mono-s flex items-center gap-[102px] text-brand-dark-green opacity-0">
             <LogosMark size={9} />
             <span>{data.footerLabel}</span>
           </div>
@@ -217,11 +217,11 @@ function LocalFirstSection({ data }: { data: CtaPanelSection }) {
 
 function ModularSection({ data }: { data: FeaturedTextSection }) {
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-10 border-b border-brand-dark-green/10 px-3 py-10 md:min-h-[275px] md:grid-cols-2">
+    <section className="mx-auto grid w-full max-w-360 gap-10 border-b border-brand-dark-green/10 px-3 py-12 md:min-h-[275px] md:grid-cols-2 md:py-10">
       <h2 className="font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
         {data.title.highlight} {data.title.rest}
       </h2>
-      <div className="text-mono-s max-w-[345px] text-brand-dark-green">
+      <div className="text-mono-s flex flex-col gap-4 max-w-[345px] text-brand-dark-green">
         {data.body?.map((item) => (
           <p key={item}>{item}</p>
         ))}
@@ -233,7 +233,7 @@ function ModularSection({ data }: { data: FeaturedTextSection }) {
 function CapabilityCard({ card }: { card: CardGridSection['cards'][number] }) {
   return (
     <article className="flex min-h-[250px] flex-col justify-between rounded-xl bg-gray-01 p-4">
-      <div className="grid gap-3">
+      <div className="grid gap-4">
         <h3 className="font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
           {card.title}
         </h3>
@@ -252,13 +252,13 @@ function CapabilityCard({ card }: { card: CardGridSection['cards'][number] }) {
 
 function CapabilitiesSection({ data }: { data: CardGridSection }) {
   return (
-    <section className="mx-auto w-full max-w-360 px-3 py-6 md:py-10">
+    <section className="mx-auto w-full max-w-360 px-3 py-10 md:py-10">
       {data.heading ? (
         <h2 className="mb-10 font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
           {data.heading}
         </h2>
       ) : null}
-      <div className="grid gap-3 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3">
         {data.cards.map((card) => (
           <CapabilityCard key={card.title} card={card} />
         ))}
@@ -275,7 +275,7 @@ function ResourceCard({
   featured?: boolean
 }) {
   const content = (
-    <div className="relative z-10 flex h-full flex-col items-center justify-center gap-3 px-8 text-center">
+    <div className="relative z-10 flex h-full flex-col items-center justify-center gap-4 px-8 text-center">
       <h3
         className={
           featured
@@ -301,8 +301,8 @@ function ResourceCard({
           cta={card.cta}
           className={
             featured
-              ? 'mt-3 cursor-pointer bg-brand-off-white text-brand-dark-green'
-              : 'mt-3 cursor-pointer'
+              ? 'mt-4 cursor-pointer bg-brand-off-white text-brand-dark-green'
+              : 'mt-4 cursor-pointer'
           }
         />
       ) : null}
@@ -338,7 +338,7 @@ function ResourceCard({
 
 function ResourcesSection({ data }: { data: CardGridSection }) {
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-3 px-3 py-10 md:grid-cols-3">
+    <section className="mx-auto grid w-full max-w-360 gap-4 px-3 py-12 md:grid-cols-3 md:py-10">
       {data.cards.map((card, index) => (
         <ResourceCard key={card.title} card={card} featured={index === 1} />
       ))}
