@@ -73,7 +73,7 @@ function StatusCard({
 
 export default function TechOverviewHero({ data }: Props) {
   return (
-    <section className="relative mb-10 h-[663px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-0 md:mb-25 md:-mt-0.5 md:h-[486px] md:pt-6 md:pb-0">
+    <section className="relative mb-10 h-[663px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-0 md:mb-25 md:-mt-0.5 md:h-[486px] md:pt-6 md:pb-0 md:mx-auto md:max-w-[1440px]">
       <div className="relative h-[500px] md:h-[403px]">
         <div className="absolute top-0 left-0 hidden h-[99px] w-[393px] md:block">
           {data.status ? <StatusCard status={data.status} compact /> : null}
