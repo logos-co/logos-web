@@ -138,14 +138,14 @@ export default async function GetStartedPage({
 
       <section
         id="install"
-        className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px] md:pt-10"
+        className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px]"
       >
         <div className="flex w-full flex-col gap-10">
           <SectionHeading
             number={t('sections.install.number')}
             heading={t('sections.install.heading')}
           />
-          <div className="grid overflow-hidden rounded-xl bg-gray-01 p-1.5 md:min-h-[325px] md:grid-cols-2">
+          <div className="grid gap-1.5 overflow-hidden rounded-xl bg-gray-01 p-1.5 md:min-h-[325px] md:grid-cols-2">
             <div className="relative min-h-[314px] overflow-hidden rounded-md md:min-h-full">
               <Image
                 src="/images/builders-hub/basecamp-card.png"
@@ -173,7 +173,7 @@ export default async function GetStartedPage({
         </div>
       </section>
 
-      <section className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px]">
+      <section className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px] md:pt-10">
         <div className="flex w-full flex-col gap-10">
           <div className="grid gap-6 md:grid-cols-12 md:items-start">
             <div className="md:col-span-5">
@@ -229,14 +229,18 @@ export default async function GetStartedPage({
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`flex h-[62px] cursor-pointer items-center justify-between px-3 transition-colors hover:bg-accent-light-blue md:h-[50px] md:px-4 ${
-                  index % 2 === 0 ? 'bg-brand-dark-green/5' : 'bg-gray-01'
+                  index % 2 === 0 ? 'bg-gray-01' : 'bg-brand-dark-green/5'
                 }`}
               >
-                <span className="font-mono text-[10px] leading-[1.3]">
-                  {String(index + 1).padStart(2, '0')}{' '}
-                  {t(`sections.community.items.${item.key}`)}
+                <span className="flex items-baseline gap-3 text-[14px] leading-[1.2]">
+                  <span className="font-sans font-medium">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span className="font-display">
+                    {t(`sections.community.items.${item.key}`)}
+                  </span>
                 </span>
-                <span className="inline-flex items-center gap-1 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
+                <span className="inline-flex items-center gap-1 border-b border-brand-dark-green/50 pb-0.5 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
                   {t('sections.community.cta')}
                   <ButtonArrowIcon />
                 </span>
@@ -264,7 +268,7 @@ export default async function GetStartedPage({
                       {t(`sections.build.items.${item.key}.title`)}
                     </h3>
                     {'hasBody' in item && item.hasBody ? (
-                      <p className="max-w-[360px] font-mono text-[10px] leading-[1.3]">
+                      <p className="max-w-[329px] font-sans text-[14px] leading-[1.2]">
                         {t(`sections.build.items.${item.key}.body`)}
                       </p>
                     ) : null}
