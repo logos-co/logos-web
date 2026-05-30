@@ -73,8 +73,7 @@
       "key": "storage.access",
       "cards": [
         {
-          "label": "Messaging",
-          "footerLabel": "Messaging",
+          "label": "Storage",
           "title": "Storage Module API",
           "description": "The module API gives applications a clean interface for storing and retrieving content: initialise the module, start the node, upload a file to receive a CID, and download by CID. Streaming upload is available where you need finer control.",
           "image": {
@@ -82,11 +81,23 @@
             "alt": "",
             "width": 2880,
             "height": 3839
+          },
+          "cta": {
+            "label": "Repo",
+            "href": "https://github.com/codex-storage",
+            "external": true,
+            "variant": "primary",
+            "iconOverride": "external"
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true,
+            "variant": "secondary"
           }
         },
         {
-          "label": "Messaging",
-          "footerLabel": "Storage",
+          "label": "Storage",
           "title": "libstorage",
           "description": "For lower-level access or to build bindings for another language, libstorage exposes the underlying storage primitives directly.",
           "image": {
@@ -94,6 +105,19 @@
             "alt": "",
             "width": 2560,
             "height": 2048
+          },
+          "cta": {
+            "label": "Repo",
+            "href": "https://github.com/codex-storage",
+            "external": true,
+            "variant": "primary",
+            "iconOverride": "external"
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true,
+            "variant": "secondary"
           }
         }
       ]
