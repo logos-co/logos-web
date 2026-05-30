@@ -6,6 +6,7 @@ import type { CirclesSettings } from '@repo/content/schemas'
 import { LogosMark } from '@acid-info/logos-ui'
 
 import { IconMask } from '@/components/icons/icon-mask'
+import ContentWidth from '@/components/layout/content-width'
 import CirclesMap from '@/components/sections/circles/circles-map'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
@@ -117,7 +118,7 @@ function SectionHeader({
   descriptionClassName?: string
 }) {
   return (
-    <div
+    <ContentWidth
       className={`grid grid-cols-1 gap-4 px-3 pt-10 text-brand-dark-green md:grid-cols-12 md:gap-3 ${className ?? ''}`}
     >
       <h2 className={`text-h3-serif md:col-span-5 ${titleClassName ?? ''}`}>
@@ -129,13 +130,14 @@ function SectionHeader({
         {description}
       </p>
       {cta ? <div className="md:col-span-2 md:col-start-11">{cta}</div> : null}
-    </div>
+    </ContentWidth>
   )
 }
 
 function HeroSection({ t }: { t: Translate }) {
   return (
     <section className="relative h-[494px] overflow-hidden bg-brand-off-white px-3 pt-6 text-brand-dark-green md:h-[579px]">
+      <ContentWidth className="relative h-full">
       <div className="relative h-[75px] w-[107px] overflow-hidden bg-gray-01">
         <Image
           src={movementImages.heroThumb}
@@ -174,6 +176,7 @@ function HeroSection({ t }: { t: Translate }) {
           className="mt-10 ml-[191px] md:ml-0"
         />
       </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -211,7 +214,7 @@ function ActionCardsSection({ t }: { t: Translate }) {
         className="pb-10 md:pt-6 md:pb-[60px]"
         titleClassName="max-w-[244px]"
       />
-      <div className="grid gap-3 px-3 md:grid-cols-3">
+      <ContentWidth className="grid gap-3 px-3 md:grid-cols-3">
         {cards.map((card) => (
           <article
             key={card.key}
@@ -247,7 +250,7 @@ function ActionCardsSection({ t }: { t: Translate }) {
             />
           </article>
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -255,7 +258,7 @@ function ActionCardsSection({ t }: { t: Translate }) {
 function CampaignSection({ t }: { t: Translate }) {
   return (
     <section className="bg-brand-off-white px-3 py-10 md:py-0">
-      <div className="grid overflow-hidden rounded-xl bg-gray-01 p-3 text-brand-dark-green md:grid-cols-2 md:gap-3">
+      <ContentWidth className="grid overflow-hidden rounded-xl bg-gray-01 p-3 text-brand-dark-green md:grid-cols-2 md:gap-3">
         <div className="flex min-h-[462px] flex-col justify-between p-3 md:min-h-[462px]">
           <div className="flex gap-[88px]">
             <LogosMark size={7} />
@@ -298,7 +301,7 @@ function CampaignSection({ t }: { t: Translate }) {
             className="object-cover"
           />
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -401,7 +404,7 @@ function ActivismSection({ t }: { t: Translate }) {
         cta={<Cta href={ROUTES.circles} label={t('activism.cta')} />}
         className="pb-10 md:pb-[78px]"
       />
-      <div className="overflow-hidden">
+      <ContentWidth className="overflow-hidden">
         <div className="grid gap-3 px-3 md:flex md:w-max">
           {issues.map((issue, index) => (
             <IssueCard
@@ -413,7 +416,7 @@ function ActivismSection({ t }: { t: Translate }) {
             />
           ))}
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -471,7 +474,7 @@ function EventsSection({ t }: { t: Translate }) {
         className="pb-10 md:pb-[73px]"
         descriptionClassName="max-w-[178px]"
       />
-      <div className="flex flex-col gap-10">
+      <ContentWidth className="flex flex-col gap-10">
         {rows.map((row) => (
           <div key={row.key} className="flex flex-col gap-3">
             <div className="flex gap-1.5 px-3 text-eyebrow">
@@ -488,14 +491,15 @@ function EventsSection({ t }: { t: Translate }) {
             </div>
           </div>
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }
 
 function GetInvolvedSection({ t }: { t: Translate }) {
   return (
-    <section className="grid gap-3 bg-brand-off-white px-3 py-10 text-brand-dark-green md:grid-cols-2">
+    <section className="bg-brand-off-white px-3 py-10 text-brand-dark-green">
+      <ContentWidth className="grid gap-3 md:grid-cols-2">
       <div className="flex h-[270px] flex-col items-center justify-center gap-8 border border-brand-dark-green p-4 text-center md:h-[500px] md:gap-10">
         <div className="flex max-w-[337px] flex-col items-center gap-3 md:max-w-[380px]">
           <h2 className="text-subhead-sans">{t('involved.title')}</h2>
@@ -533,6 +537,7 @@ function GetInvolvedSection({ t }: { t: Translate }) {
           />
         </div>
       </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -557,7 +562,7 @@ function BuilderSection({ t }: { t: Translate }) {
         }
         className="md:py-[100px]"
       />
-      <div className="px-3">
+      <ContentWidth className="px-3">
         <article className="relative min-h-[506px] overflow-hidden rounded-xl text-brand-off-white md:min-h-[282px]">
           <Image
             src={movementImages.issueLosAngeles}
@@ -610,7 +615,7 @@ function BuilderSection({ t }: { t: Translate }) {
             </div>
           </div>
         </article>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -635,7 +640,7 @@ function ResourcesSection({ t }: { t: Translate }) {
         className="pb-10 md:pb-[54px]"
         descriptionClassName="max-w-[178px]"
       />
-      <div>
+      <ContentWidth>
         {rows.map((row, index) => (
           <div
             key={row}
@@ -669,7 +674,7 @@ function ResourcesSection({ t }: { t: Translate }) {
             </div>
           </div>
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }

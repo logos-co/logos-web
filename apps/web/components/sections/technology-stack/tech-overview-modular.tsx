@@ -2,6 +2,8 @@ import Image from 'next/image'
 
 import type { FeaturedTextSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
+
 type Props = {
   data: FeaturedTextSection
 }
@@ -10,7 +12,7 @@ export default function TechOverviewModular({ data }: Props) {
   return (
     <section className="my-10 md:my-[102px]">
       <div className="bg-brand-off-white p-3">
-        <div>
+        <ContentWidth>
         <div className="grid gap-3 md:grid-cols-2">
           <div className="relative h-[248px] overflow-hidden rounded-[100px] md:h-[518px] md:rounded-[100px]">
             <Image
@@ -52,7 +54,7 @@ export default function TechOverviewModular({ data }: Props) {
             </div>
           </div>
         </div>
-        </div>
+        </ContentWidth>
       </div>
     </section>
   )

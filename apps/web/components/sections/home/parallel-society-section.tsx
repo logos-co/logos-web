@@ -113,19 +113,18 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
           amount={0.4}
           delay={0.18}
           viewportMargin="0px 0px -20% 0px"
-          className="mb-[376px] md:mb-[318px]"
+          className="mb-[376px] md:mb-[60px]"
         >
           <h2 className="text-h1 text-brand-dark-green text-center">
             <span className="text-brand-dark-green">
               {headline.title.highlight}
-            </span>
-            <br />
+            </span>{' '}
             <span className="text-gray-04">{headline.title.rest}</span>
           </h2>
         </Reveal>
 
         {headline.cta ? (
-          <div className="mb-[70px] flex justify-center md:mb-[62px]">
+          <div className="mb-[70px] flex justify-center md:mb-[111px]">
             <Button
               href={headline.cta.href}
               variant="link"
@@ -156,8 +155,9 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
       </div>
 
       {/* Desktop Gallery — full width with centered content and internal scroll */}
+      {/* pb-[88px] + Press section py-3 (12px) = 100px gallery→Press gap per Figma */}
       <div
-        className="hidden md:block overflow-x-auto"
+        className="hidden overflow-x-auto md:block md:pb-[88px]"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         <div className="flex items-start gap-3 px-3 mx-auto w-fit">

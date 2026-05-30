@@ -139,10 +139,12 @@ export default async function AboutSection({ locale }: { locale: string }) {
 
       <AboutScrollStack intro={t('intro')} cards={cards} />
 
-      <ContentWidth className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] -translate-x-1/2 flex-col items-center gap-[60px] text-center md:relative md:top-auto md:flex md:w-full md:pt-[120px] md:pb-[360px]">
-        <p className="text-h3-serif max-w-[369px] md:max-w-none">
-          {t('closing1')} {t('closing2')} {t('closing3')}
-        </p>
+      <ContentWidth className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] -translate-x-1/2 flex-col items-center gap-[60px] text-center md:relative md:top-auto md:left-auto md:flex md:w-full md:translate-x-0 md:pt-[120px] md:pb-[360px]">
+        <div className="text-h3-serif flex max-w-[369px] flex-col gap-[1em] md:max-w-none">
+          <p>{t('closing1')}</p>
+          <p>{t('closing2')}</p>
+          <p>{t('closing3')}</p>
+        </div>
 
         {ROUTE_AVAILABILITY.about ? (
           <Button

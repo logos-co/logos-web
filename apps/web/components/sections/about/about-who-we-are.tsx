@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import type { ReactNode } from 'react'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
 import { EXTERNAL_URLS } from '@/constants/routes'
 
@@ -124,19 +125,24 @@ function Panel({
 }: PanelProps) {
   return (
     <div className="sticky top-0 h-[800px]">
-      {/* Title — sticks up above the colored bar's top edge */}
-      <h3
-        className="text-h3-serif absolute left-3 -translate-y-full text-brand-dark-green md:left-[726px]"
-        style={{ top: `${topOffset + 12}px` }}
-      >
-        {title}
-      </h3>
+      {/* Centered 1440 frame for the title (colored bar stays full-bleed) */}
+      <ContentWidth className="relative">
+        {/* Title — sticks up above the colored bar's top edge */}
+        <h3
+          className="text-h3-serif absolute left-3 -translate-y-full text-brand-dark-green md:left-[726px]"
+          style={{ top: `${topOffset + 12}px` }}
+        >
+          {title}
+        </h3>
+      </ContentWidth>
 
       {/* Colored bar */}
       <div
         className={`${bg} absolute inset-x-0 h-[598px]`}
         style={{ top: `${topOffset}px` }}
       >
+        {/* Centered 1440 frame for the bar's content */}
+        <ContentWidth className="relative h-full">
         {/* Portrait image — right on mobile, left on desktop */}
         <div className="absolute top-3 right-3 h-[151px] w-[122px] overflow-hidden rounded-[900px] md:right-auto md:left-3 md:h-[574px] md:w-[464px]">
           <Image
@@ -188,6 +194,7 @@ function Panel({
             ))}
           </ul>
         </div>
+        </ContentWidth>
       </div>
     </div>
   )

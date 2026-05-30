@@ -56,7 +56,7 @@ function HeroSectionView({ data }: { data: HeroSection }) {
   const bodyDetails = paragraphs(data.bodySecondary)
 
   return (
-    <section className="mx-auto grid w-full max-w-360 grid-cols-1 gap-12 px-3 pt-[90px] pb-12 md:min-h-[453px] md:grid-cols-2 md:gap-6 md:pb-10">
+    <section className="mx-auto grid w-full max-w-360 grid-cols-1 gap-12 px-3 pt-8 pb-12 md:min-h-[453px] md:grid-cols-2 md:gap-6 md:pb-10">
       <div className="flex flex-col items-start gap-10">
         {data.eyebrow ? (
           <Button

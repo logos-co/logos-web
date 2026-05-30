@@ -5,6 +5,7 @@
 import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
 
+import ContentWidth from '@/components/layout/content-width'
 import { repeatToLength, type PressPodcastRow } from '@/lib/press-engine'
 
 import {
@@ -45,7 +46,7 @@ function PodcastHero({
 }) {
   return (
     <div className="h-[723px] bg-accent-tan p-3 md:h-[430px]">
-      <div className="relative h-[699px] overflow-hidden rounded-xl md:h-[406px]">
+      <ContentWidth className="relative h-[699px] overflow-hidden rounded-xl md:h-[406px]">
         <Image
           src="/images/press-engine/podcast-hero-bg.jpg"
           alt=""
@@ -87,7 +88,7 @@ function PodcastHero({
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
         </div>
-      </div>
+      </ContentWidth>
     </div>
   )
 }
@@ -115,6 +116,7 @@ function PodcastEntry({
       index={index}
       className="h-[174px] md:h-[131px]"
     >
+      <ContentWidth className="relative h-full">
       <RowThumbnail
         src={podcast.image}
         className="right-[11px] top-3 z-10 h-[60px] w-[107px] md:left-3 md:right-auto"
@@ -152,6 +154,7 @@ function PodcastEntry({
           <UnderlineLabel>{listenOnAppLabel}</UnderlineLabel>
         </div>
       </div>
+      </ContentWidth>
     </PressRowLink>
   )
 }
@@ -172,11 +175,11 @@ export function PodcastsSection({
       id="podcasts"
       className="h-[2249px] bg-accent-tan pt-[100px] md:h-auto"
     >
-      <div className="flex h-[22px] items-center pl-3 md:h-[26px]">
+      <ContentWidth className="flex h-[22px] items-center pl-3 md:h-[26px]">
         <h2 className="font-sans text-[36px] leading-none tracking-[-0.02em] text-brand-dark-green">
           {copy.heading}
         </h2>
-      </div>
+      </ContentWidth>
       <div className="mt-3 bg-accent-tan">
         <PodcastHero latestPodcast={podcasts[0]} copy={copy} />
         {repeatedPodcasts.map((podcast, index) => (

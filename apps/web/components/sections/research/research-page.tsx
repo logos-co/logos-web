@@ -2,6 +2,7 @@ import Image from 'next/image'
 import type { ReactNode } from 'react'
 import { getTranslations } from 'next-intl/server'
 
+import ContentWidth from '@/components/layout/content-width'
 import { ButtonArrowIcon } from '@/components/ui'
 import { EXTERNAL_URLS } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
@@ -133,6 +134,7 @@ function HeroSection({
 }) {
   return (
     <section className="relative min-h-[447px] overflow-hidden bg-brand-off-white px-3 pt-6 text-brand-dark-green">
+      <ContentWidth className="relative">
       <Image
         src="/images/research/hero-thumb.webp"
         alt=""
@@ -155,6 +157,7 @@ function HeroSection({
       <p className="text-mono-s absolute left-3 top-[318px] max-w-[345px] md:left-[calc(50%+6px)] md:top-[307px] md:w-[226px]">
         {description}
       </p>
+      </ContentWidth>
     </section>
   )
 }
@@ -170,7 +173,7 @@ function OverviewSection({
 }) {
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 py-10 text-brand-dark-green md:min-h-[670px]">
-      <div className="grid gap-10 md:grid-cols-12 md:gap-3">
+      <ContentWidth className="grid gap-10 md:grid-cols-12 md:gap-3">
         <h2 className="text-[24px] leading-[1.1] tracking-[-0.24px] md:col-span-3">
           {title}
         </h2>
@@ -182,7 +185,7 @@ function OverviewSection({
         <div className="md:col-span-2 md:col-start-11 md:justify-self-start">
           <LinkButton {...cta} />
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -198,12 +201,12 @@ function ResourcesSection({
 }) {
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white text-brand-dark-green">
-      <div className="grid px-3 py-10 md:grid-cols-12">
+      <ContentWidth className="grid px-3 py-10 md:grid-cols-12">
         <h2 className="text-[24px] leading-[1.1] tracking-[-0.24px] md:col-span-3">
           {title}
         </h2>
-      </div>
-      <div>
+      </ContentWidth>
+      <ContentWidth>
         {items.map((item, index) => (
           <div
             key={item.number}
@@ -228,7 +231,7 @@ function ResourcesSection({
             </div>
           </div>
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -246,7 +249,7 @@ function ContributeSection({
 }) {
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 py-10 text-brand-dark-green md:min-h-[262px]">
-      <div className="grid gap-10 md:grid-cols-12 md:gap-3">
+      <ContentWidth className="grid gap-10 md:grid-cols-12 md:gap-3">
         <h2 className="text-[24px] leading-[1.1] tracking-[-0.24px] md:col-span-3">
           {title}
         </h2>
@@ -267,7 +270,7 @@ function ContributeSection({
             ))}
           </ul>
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }

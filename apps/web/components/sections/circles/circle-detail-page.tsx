@@ -64,6 +64,7 @@ function DetailHero({
 
   return (
     <section className="relative h-auto min-h-[291px] bg-brand-off-white px-3 pt-10 md:h-[334px] md:pb-0">
+      <ContentWidth className="relative h-full">
       <SmartLink
         href={circle.detailBackLink.href}
         className="absolute left-3 top-[-20px] inline-flex items-center gap-1 px-0 py-2 text-brand-dark-green"
@@ -124,6 +125,7 @@ function DetailHero({
       >
         {settings.detailJoinCtaLabel}
       </Button>
+      </ContentWidth>
     </section>
   )
 }

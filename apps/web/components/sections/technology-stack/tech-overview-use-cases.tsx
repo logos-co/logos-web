@@ -6,6 +6,7 @@ import Image from 'next/image'
 import type { CardGridSection } from '@repo/content/schemas'
 
 import { IconMask } from '@/components/icons/icon-mask'
+import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
 
 type UseCaseCardData = {
@@ -191,7 +192,7 @@ export default function TechOverviewUseCases({ data }: Props) {
           </p>
         </div>
 
-        <div className="relative hidden md:block md:h-[309px]">
+        <ContentWidth className="relative hidden md:block md:h-[309px]">
           <div className="absolute left-0 top-6 h-[81px] w-[107px] overflow-hidden">
             <Image
               src="/images/technology-stack/use-cases-top.jpg"
@@ -233,7 +234,7 @@ export default function TechOverviewUseCases({ data }: Props) {
               {data.cta.label}
             </Button>
           ) : null}
-        </div>
+        </ContentWidth>
 
         {data.heading ? (
           <div className="relative left-1/2 mt-16 w-[464px] max-w-none -translate-x-1/2 md:hidden">

@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
 import type { TechStackOverviewSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import TechStackSection from '@/components/sections/home/tech-stack-section'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
@@ -127,7 +128,7 @@ function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
         priority
       />
       <div className="absolute inset-0 bg-brand-dark-green/35" />
-      <div className="relative z-10 flex h-full items-center justify-center">
+      <ContentWidth className="relative z-10 flex h-full items-center justify-center">
         <div className="flex w-full -translate-y-[6px] flex-col items-center text-center">
           <div className="text-h4-serif mb-12 inline-flex items-center gap-3">
             <LogosMark size={20} />
@@ -162,7 +163,7 @@ function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
             </Button>
           </div>
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -175,7 +176,8 @@ function HowItWorks({
   evaluation: LambdaPrizePageCopy['evaluation']
 }) {
   return (
-    <section className="flex flex-col gap-4 bg-brand-off-white p-3 text-brand-dark-green md:grid md:h-[650px] md:grid-cols-2 md:gap-6 md:px-3 md:py-10">
+    <section className="bg-brand-off-white text-brand-dark-green">
+      <ContentWidth className="flex flex-col gap-4 p-3 md:grid md:h-[650px] md:grid-cols-2 md:gap-6 md:px-3 md:py-10">
       <div className="order-2 flex min-h-[687px] flex-col justify-between md:order-1 md:min-h-0">
         <div className="flex flex-col gap-10 md:gap-20">
           <div>
@@ -209,6 +211,7 @@ function HowItWorks({
           className="rounded-xl object-cover object-left md:object-center"
         />
       </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -253,6 +256,7 @@ function PrizeCard({ prize, image }: { prize: PrizeCopy; image: string }) {
 function FeaturedPrizes({ copy }: { copy: LambdaPrizePageCopy['featured'] }) {
   return (
     <section className="h-[1931px] bg-brand-off-white px-3 pt-10 text-brand-dark-green md:h-[1011px] md:px-3 md:pt-12">
+      <ContentWidth>
       <h2 className="text-h3-serif">{copy.heading}</h2>
       <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3 md:mt-12">
         {copy.prizes.map((prize, index) => (
@@ -263,13 +267,15 @@ function FeaturedPrizes({ copy }: { copy: LambdaPrizePageCopy['featured'] }) {
           />
         ))}
       </div>
+      </ContentWidth>
     </section>
   )
 }
 
 function AboutProgramme({ copy }: { copy: LambdaPrizePageCopy['about'] }) {
   return (
-    <section className="flex h-[960px] flex-col gap-4 bg-brand-off-white p-3 text-brand-dark-green md:grid md:h-[600px] md:grid-cols-2 md:gap-6 md:px-3 md:py-10">
+    <section className="bg-brand-off-white text-brand-dark-green">
+      <ContentWidth className="flex h-[960px] flex-col gap-4 p-3 md:grid md:h-[600px] md:grid-cols-2 md:gap-6 md:px-3 md:py-10">
       <div className="relative h-[405px] overflow-hidden rounded-xl md:h-auto">
         <Image
           src="/images/lambda-prize/about.webp"
@@ -298,6 +304,7 @@ function AboutProgramme({ copy }: { copy: LambdaPrizePageCopy['about'] }) {
         <p className="text-mono-s mx-auto w-[345px] text-center">{copy.body}</p>
         <DataRows rows={copy.rows} />
       </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -305,6 +312,7 @@ function AboutProgramme({ copy }: { copy: LambdaPrizePageCopy['about'] }) {
 function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
   return (
     <section className="h-[406px] border-t border-brand-dark-green/10 bg-brand-off-white px-3 py-10 text-brand-dark-green md:h-[421px] md:py-12">
+      <ContentWidth>
       <div className="grid grid-cols-[1fr_auto] gap-y-6 md:grid-cols-3">
         <h2 className="text-h3-serif">{copy.heading}</h2>
         <p className="text-mono-s col-start-1 row-start-2 w-[178px] md:col-start-auto md:row-start-auto md:w-[226px]">
@@ -333,6 +341,7 @@ function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
           </div>
         ))}
       </div>
+      </ContentWidth>
     </section>
   )
 }

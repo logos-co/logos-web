@@ -44,7 +44,7 @@ export default async function StartBuildingSection({
 
   return (
     <section className="bg-brand-off-white">
-      <ContentWidth className="grid gap-3 pt-[100px] md:grid-cols-2 md:pt-3 md:pb-28">
+      <ContentWidth className="grid gap-3 pt-[100px] md:grid-cols-2 md:pt-[58px] md:pb-28">
         <div className="relative h-[319px] w-[365px] overflow-hidden rounded-[100px] bg-brand-dark-green/10 md:h-[696px] md:w-auto">
           <Image
             src="/images/home/figma-refresh/start-building.webp"

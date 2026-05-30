@@ -68,7 +68,7 @@ export default async function BuilderPortalSection({
               </Button>
             </div>
 
-            <p className="text-mono-s whitespace-pre-line text-brand-dark-green md:w-[345px] md:font-sans md:text-[14px] md:leading-[1.2] md:font-medium">
+            <p className="text-mono-s whitespace-pre-line text-brand-dark-green md:w-[345px]">
               {t('description')}
             </p>
           </div>

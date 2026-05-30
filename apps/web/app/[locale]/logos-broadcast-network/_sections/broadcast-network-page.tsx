@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useMemo, useState } from 'react'
 
+import ContentWidth from '@/components/layout/content-width'
 import { ExternalLink } from '@/components/ui'
 import { cn } from '@/lib/cn'
 import type { BroadcastEventRow, PressPodcastRow } from '@/lib/press-engine'
@@ -207,7 +208,7 @@ function UnderlineLabel({ children }: { children: string }) {
 function BroadcastHero({ copy }: { copy: BroadcastNetworkCopy }) {
   return (
     <section className="bg-accent-tan px-3 pb-25 pt-6 text-brand-dark-green md:pt-6">
-      <div className="flex w-full flex-col gap-10">
+      <ContentWidth className="flex w-full flex-col gap-10">
         <div className="flex w-full max-w-[1186px] items-start justify-between gap-6">
           <div className="relative h-[86px] w-[107px] shrink-0 overflow-hidden">
             <Image
@@ -229,7 +230,7 @@ function BroadcastHero({ copy }: { copy: BroadcastNetworkCopy }) {
         <div className="flex w-full max-w-[1186px] justify-end">
           <p className="text-mono-s w-[226px]">{copy.introSecondary}</p>
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -294,7 +295,7 @@ function EventCards({
 
   return (
     <section className="bg-accent-tan px-3 pb-10">
-      <div className="grid grid-cols-3 gap-3">
+      <ContentWidth className="grid grid-cols-3 gap-3">
         {displayEvents.map((event, index) => (
           <EventCard
             key={event.id}
@@ -303,7 +304,7 @@ function EventCards({
             image={FEATURE_IMAGES[index % FEATURE_IMAGES.length]}
           />
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -381,7 +382,7 @@ function EventsCalendar({
 
   return (
     <section className="overflow-x-auto bg-accent-tan pt-25 pb-25 text-brand-dark-green">
-      <div className="mx-auto w-[1440px]">
+      <ContentWidth>
         <div className="relative h-[160px] px-3">
           <h2 className="absolute bottom-6 left-3 font-sans text-[36px] leading-none tracking-[-0.02em]">
             {copy.upcomingEvents}
@@ -472,7 +473,7 @@ function EventsCalendar({
             <CalendarCell key={day.key} day={day} />
           ))}
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -496,6 +497,7 @@ function EpisodeRow({
         background
       )}
     >
+      <ContentWidth className="relative h-full">
       <div className="absolute left-3 top-3 h-[107px] w-[190px] overflow-hidden">
         <Image
           src={podcast.image}
@@ -524,6 +526,7 @@ function EpisodeRow({
           <UnderlineLabel>{listenOnApp}</UnderlineLabel>
         </div>
       </div>
+      </ContentWidth>
     </ExternalLink>
   )
 }

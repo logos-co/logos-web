@@ -34,9 +34,9 @@ export default function TechStackSection({
   return (
     <section
       id="tech-stack"
-      className="relative h-[1516px] overflow-hidden border-t border-brand-dark-green/10 bg-brand-off-white md:h-[1653px]"
+      className="relative min-h-[1516px] overflow-hidden border-t border-brand-dark-green/10 bg-brand-off-white md:min-h-[1653px]"
     >
-      <ContentWidth className="relative h-full flex-col pt-3 pb-[100px] md:hidden">
+      <ContentWidth className="relative min-h-full flex-col pt-3 pb-[100px] md:hidden">
         <div className="flex items-start justify-between">
           <p className="text-mono-s w-[226px] text-brand-dark-green">
             Disclaimer: This diagram oversimplifies the stack.
@@ -100,7 +100,7 @@ export default function TechStackSection({
         </div>
       </ContentWidth>
 
-      <ContentWidth className="relative hidden h-full flex-col pt-[11px] pb-[100px] md:flex">
+      <ContentWidth className="relative hidden min-h-full flex-col pt-[11px] pb-[100px] md:flex">
           <div className="flex items-start justify-between">
             <p className="text-mono-s w-[226px] text-brand-dark-green">
               Disclaimer: Abstract representation of the stack.

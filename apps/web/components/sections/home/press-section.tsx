@@ -133,7 +133,7 @@ export default function PressSection({ data, articles }: Props) {
   return (
     <section id="press" className="bg-brand-off-white py-3">
       <ContentWidth className="rounded-xl bg-accent-tan px-3 py-[102px] md:p-6">
-        <div className="flex flex-col gap-[127px]">
+        <div className="flex flex-col gap-[112px]">
           {(data.label || data.eyebrow || data.cta) && (
             <div className="flex items-center justify-between">
               {data.label ? (

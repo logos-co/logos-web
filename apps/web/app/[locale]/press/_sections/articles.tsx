@@ -5,6 +5,7 @@
 import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
 
+import ContentWidth from '@/components/layout/content-width'
 import { ExternalLink } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
 import type { PressArticleRow } from '@/lib/press-engine'
@@ -61,7 +62,7 @@ export function PressHero({
 }) {
   return (
     <section className="relative h-[473px] bg-accent-tan px-3 pt-10 md:h-[359px] md:pt-10">
-      <div className="flex w-full flex-col gap-[100px] md:gap-10">
+      <ContentWidth className="flex w-full flex-col gap-[100px] md:gap-10">
         <div className="relative h-[81px] w-full md:w-[1186px]">
           <div className="absolute left-0 top-0 aspect-video w-[107px] overflow-hidden">
             <Image
@@ -81,7 +82,7 @@ export function PressHero({
           <span className="block">{copy.heroHeadingLine1}</span>
           <span className="block">{copy.heroHeadingLine2}</span>
         </h1>
-      </div>
+      </ContentWidth>
       <nav
         aria-label={copy.navLabel}
         className="absolute left-[calc(50%+6px)] top-[334px] flex flex-col items-start gap-2 text-brand-dark-green md:top-[342px] md:flex-row md:items-center md:gap-6"
@@ -125,6 +126,7 @@ export function ArticleEntry({
 
   return (
     <PressRowLink href={article.href} index={index} className="h-[107px]">
+      <ContentWidth className="relative h-full">
       <RowThumbnail
         src={article.thumbnailImage}
         className="left-3 top-[15px] w-[107px] md:block"
@@ -158,27 +160,28 @@ export function ArticleEntry({
           </div>
         </div>
       </div>
+      </ContentWidth>
     </PressRowLink>
   )
 }
 
 export function ArticlesHeading({ label }: { label: string }) {
   return (
-    <div
+    <ContentWidth
       id="articles"
       className="flex h-12 items-start px-3 text-brand-dark-green md:h-[88px] md:pt-10"
     >
       <h2 className="font-sans text-[36px] leading-none tracking-[-0.02em]">
         {label}
       </h2>
-    </div>
+    </ContentWidth>
   )
 }
 
 export function GallerySection({ articles }: { articles: PressArticleRow[] }) {
   return (
     <section className="h-[319px] overflow-x-auto overflow-y-hidden bg-accent-tan md:h-auto md:overflow-visible md:px-3 md:py-10">
-      <div className="flex w-max gap-3 py-10 pl-3 pr-3 md:grid md:w-auto md:grid-cols-4 md:p-0">
+      <ContentWidth className="flex w-max gap-3 py-10 pl-3 pr-3 md:grid md:w-auto md:grid-cols-4 md:p-0">
         {articles.map((article) => (
           <ExternalLink
             key={article.title}
@@ -205,7 +208,7 @@ export function GallerySection({ articles }: { articles: PressArticleRow[] }) {
             </div>
           </ExternalLink>
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -219,6 +222,7 @@ export function FeaturedArticle({
 }) {
   return (
     <section className="relative h-[994px] overflow-hidden bg-accent-tan md:flex md:h-[1044px] md:justify-center md:gap-3 md:overflow-visible md:pr-3">
+      <ContentWidth className="relative h-full w-full md:flex md:h-full md:justify-center md:gap-3 md:overflow-visible">
       <div className="absolute left-0 top-0 z-10 h-[313px] w-full px-3 pt-10 md:sticky md:top-10 md:h-[495px] md:flex-1 md:pl-[129px] md:pt-[100px]">
         <div className="flex max-w-[573px] flex-col gap-6 md:gap-[30px]">
           <div className="text-mono-s flex items-center gap-2.5 text-brand-off-white md:text-brand-dark-green">
@@ -253,6 +257,7 @@ export function FeaturedArticle({
           className="absolute left-[-303px] top-0 h-[1040px] w-[1300px] max-w-none object-cover md:left-[-104px] md:h-full md:w-[1242px]"
         />
       </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -282,7 +287,7 @@ export function BroadcastSection({
       id="broadcast"
       className="bg-accent-tan pt-[100px] text-brand-dark-green"
     >
-      <div className="px-3 pb-3">
+      <ContentWidth className="px-3 pb-3">
         <Link
           href={href}
           className="group relative block h-[560px] cursor-pointer overflow-hidden rounded-xl bg-brand-dark-green text-brand-off-white md:h-[406px]"
@@ -333,7 +338,7 @@ export function BroadcastSection({
             </span>
           </div>
         </Link>
-      </div>
+      </ContentWidth>
     </section>
   )
 }

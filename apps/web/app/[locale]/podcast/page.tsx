@@ -4,6 +4,7 @@ import { LogosMark } from '@acid-info/logos-ui'
 
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/lib/metadata'
+import ContentWidth from '@/components/layout/content-width'
 import { PRESS_ORIGIN, getLatestPressPodcasts } from '@/lib/press-engine'
 
 import { PodcastsSection } from '../press/_sections/podcasts'
@@ -17,7 +18,7 @@ interface PodcastIntroCopy {
 function PodcastIntro({ copy }: { copy: PodcastIntroCopy }) {
   return (
     <section className="h-[246px] bg-accent-tan px-3 pt-20 text-brand-dark-green md:h-[282px] md:pt-20">
-      <div className="grid w-full gap-6 md:grid-cols-12">
+      <ContentWidth className="grid w-full gap-6 md:grid-cols-12">
         <div className="flex items-center gap-3 md:col-span-5">
           <LogosMark size={20} className="shrink-0" />
           <h1 className="font-display text-[30px] leading-none tracking-[-0.03em] md:text-[36px]">
@@ -30,7 +31,7 @@ function PodcastIntro({ copy }: { copy: PodcastIntroCopy }) {
           </p>
           <p>{copy.hostedBy}</p>
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }

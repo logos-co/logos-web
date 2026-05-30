@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
 import type { TechStackOverviewSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import { TechStackDiagram } from '@/components/sections/shared/tech-stack-diagram'
 import { Button } from '@/components/ui'
 
@@ -49,7 +50,7 @@ export default function TechOverviewStack({
   return (
     <section id="stack">
       <div className="bg-brand-off-white px-3 pb-[27px] md:pb-[100px]">
-        <div>
+        <ContentWidth>
         {data.architecture ? (
           <div className="-mx-3 mb-10 h-[658px] bg-gray-01 px-3 py-3 md:mb-[100px] md:h-[381px]">
             <div className="grid md:grid-cols-2 md:gap-3">
@@ -126,7 +127,7 @@ export default function TechOverviewStack({
             foundationHref={foundationHref}
           />
         </div>
-        </div>
+        </ContentWidth>
       </div>
     </section>
   )

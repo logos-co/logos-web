@@ -1,6 +1,7 @@
 import type { TableSection } from '@repo/content/schemas'
 
 import { IconMask } from '@/components/icons/icon-mask'
+import ContentWidth from '@/components/layout/content-width'
 
 function ExternalLinkIcon() {
   return <IconMask src="/icons/external-link.svg" className="size-[15px]" />
@@ -27,7 +28,7 @@ type Props = {
 export default function TechOverviewOpenSource({ data }: Props) {
   return (
     <section id="open-source" className="relative border-t border-brand-dark-green/10">
-      <div className="h-[460px] bg-brand-off-white md:h-[421px]">
+      <ContentWidth className="relative h-[460px] bg-brand-off-white md:h-[421px]">
       <div className="absolute top-[39px] left-3">
         <h2 className="text-h4-sans whitespace-nowrap text-brand-dark-green">
           {data.title}
@@ -105,7 +106,7 @@ export default function TechOverviewOpenSource({ data }: Props) {
           </div>
         ))}
       </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }

@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 
 import { LogosMark } from '@acid-info/logos-ui'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
@@ -77,6 +78,7 @@ export default async function NodeProgramPage({
   return (
     <main className="bg-brand-off-white">
       <section className="relative h-[483px] px-3 pt-6 text-brand-dark-green md:h-[487px]">
+        <ContentWidth className="relative h-full">
         <div className="absolute top-6 left-3 h-[75px] w-[107px] overflow-hidden">
           <Image
             src="/images/node-programme/builders.jpg"
@@ -113,6 +115,7 @@ export default async function NodeProgramPage({
         <p className="text-mono-s absolute top-[279px] left-[203px] w-[178px] md:top-[307px] md:left-1/2 md:w-[226px] md:translate-x-[6px]">
           {t('hero.body')}
         </p>
+        </ContentWidth>
       </section>
 
       <SectionShell className="grid gap-8 border-b border-brand-dark-green/10 py-10 md:grid-cols-12 md:gap-3 md:py-20">
