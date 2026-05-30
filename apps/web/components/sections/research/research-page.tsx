@@ -132,7 +132,7 @@ function HeroSection({
   ctas: LinkItem[]
 }) {
   return (
-    <section className="relative h-[447px] overflow-hidden bg-brand-off-white px-3 pt-6 text-brand-dark-green">
+    <section className="relative min-h-[447px] overflow-hidden bg-brand-off-white px-3 pt-6 text-brand-dark-green">
       <Image
         src="/images/research/hero-thumb.webp"
         alt=""
@@ -169,7 +169,7 @@ function OverviewSection({
   cta: LinkItem
 }) {
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 py-10 text-brand-dark-green md:h-[670px]">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 py-10 text-brand-dark-green md:min-h-[670px]">
       <div className="grid gap-10 md:grid-cols-12 md:gap-3">
         <h2 className="text-[24px] leading-[1.1] tracking-[-0.24px] md:col-span-3">
           {title}
@@ -213,7 +213,7 @@ function ResourcesSection({
                 : 'bg-[var(--color-gray-01)]'
             }
           >
-            <div className="grid h-[50px] items-start gap-4 px-3 py-3 md:grid-cols-12 md:gap-3">
+            <div className="grid min-h-[50px] items-start gap-4 px-3 py-3 md:grid-cols-12 md:gap-3">
               <div className="flex items-baseline gap-3 md:col-span-6">
                 <span className="w-[18px] shrink-0 text-[14px] font-medium leading-[1.2]">
                   {item.number}
@@ -245,7 +245,7 @@ function ContributeSection({
   jobs: ReactNode
 }) {
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 py-10 text-brand-dark-green md:h-[262px]">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 py-10 text-brand-dark-green md:min-h-[262px]">
       <div className="grid gap-10 md:grid-cols-12 md:gap-3">
         <h2 className="text-[24px] leading-[1.1] tracking-[-0.24px] md:col-span-3">
           {title}
