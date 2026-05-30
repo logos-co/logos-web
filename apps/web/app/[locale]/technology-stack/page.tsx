@@ -66,7 +66,7 @@ export default async function TechnologyStackPage({
   )
 
   return (
-    <div className="mx-auto max-w-[1440px]">
+    <>
       <TechOverviewHero data={hero} />
       <TechOverviewStack
         data={overview}
@@ -77,6 +77,6 @@ export default async function TechnologyStackPage({
       <TechOverviewModular data={modular} />
       <TechOverviewOpenSource data={openSource} />
       <TechOverviewLogosApp data={appInstall} />
-    </div>
+    </>
   )
 }

@@ -67,7 +67,7 @@ export default async function NetworkingPage({
   )
 
   return (
-    <div className="mx-auto max-w-[1440px]">
+    <>
       <NetworkingHero data={hero} backHref={ROUTES.technologyStack} />
       <NetworkingIntro data={intro} />
       <NetworkingFeatures data={features} />
@@ -77,6 +77,6 @@ export default async function NetworkingPage({
       />
       <TechStackExplorer locale={locale} />
       <TechStackRelatedArticles data={relatedArticles} articles={articles} />
-    </div>
+    </>
   )
 }

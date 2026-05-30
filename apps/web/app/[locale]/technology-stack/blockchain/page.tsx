@@ -66,7 +66,7 @@ export default async function BlockchainPage({
   )
 
   return (
-    <div className="mx-auto max-w-[1440px]">
+    <>
       <BlockchainHero data={hero} backHref={ROUTES.technologyStack} />
       <BlockchainPrivacy data={privacy} />
       <BlockchainCryptarchia data={cryptarchia} />
@@ -77,6 +77,6 @@ export default async function BlockchainPage({
         sectionClassName="mt-0 pt-15 pb-15 md:mt-0 md:pt-[87px] md:pb-[93px]"
       />
       <TechStackExplorer locale={locale} />
-    </div>
+    </>
   )
 }
