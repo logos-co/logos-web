@@ -25,6 +25,14 @@ export const generateMetadata = createPageMetadata(ROUTE)
 
 const findSection = createSectionFinder('technology-stack')
 
+function SectionLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="mx-auto max-w-[1440px]">
+      {children}
+    </div>
+  )
+}
+
 export default async function TechnologyStackPage({
   params,
 }: {
@@ -66,7 +74,7 @@ export default async function TechnologyStackPage({
   )
 
   return (
-    <>
+    <SectionLayout>
       <TechOverviewHero data={hero} />
       <TechOverviewStack
         data={overview}
@@ -77,6 +85,6 @@ export default async function TechnologyStackPage({
       <TechOverviewModular data={modular} />
       <TechOverviewOpenSource data={openSource} />
       <TechOverviewLogosApp data={appInstall} />
-    </>
+    </SectionLayout>
   )
 }

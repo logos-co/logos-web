@@ -49,7 +49,7 @@ export default function TechOverviewStack({
   return (
     <section
       id="stack"
-      className="bg-brand-off-white px-3 pb-[27px] md:mx-auto md:max-w-[1440px] md:pb-[100px]"
+      className="bg-brand-off-white px-3 pb-[27px] md:pb-[100px]"
     >
       <div>
         {data.architecture ? (

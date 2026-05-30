@@ -42,7 +42,7 @@ export default function TechStackRelatedArticles({
         sectionClassName
       )}
     >
-      <div className="mx-auto h-220 max-w-360 px-3 py-3">
+      <div className="h-220 px-3 py-3">
         <Reveal
           amount={0.15}
           className="relative h-full overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:px-0 md:pt-0 md:pb-0"

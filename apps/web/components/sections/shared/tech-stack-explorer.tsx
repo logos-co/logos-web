@@ -29,7 +29,7 @@ export default async function TechStackExplorer({
 
   return (
     <section className="border-brand-dark-green/10 bg-brand-off-white border-t">
-      <div className="mx-auto max-w-360 px-3 pt-25 pb-[118px] md:pb-6">
+      <div className="px-3 pt-25 pb-[118px] md:pb-6">
         <Reveal
           stagger
           className="flex flex-col gap-3 text-brand-dark-green md:flex-row md:gap-0"

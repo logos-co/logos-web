@@ -25,6 +25,14 @@ export const generateMetadata = createPageMetadata(ROUTE)
 
 const findSection = createSectionFinder('networking')
 
+function SectionLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="mx-auto max-w-[1440px]">
+      {children}
+    </div>
+  )
+}
+
 export default async function NetworkingPage({
   params,
 }: {
@@ -67,7 +75,7 @@ export default async function NetworkingPage({
   )
 
   return (
-    <>
+    <SectionLayout>
       <NetworkingHero data={hero} backHref={ROUTES.technologyStack} />
       <NetworkingIntro data={intro} />
       <NetworkingFeatures data={features} />
@@ -77,6 +85,6 @@ export default async function NetworkingPage({
       />
       <TechStackExplorer locale={locale} />
       <TechStackRelatedArticles data={relatedArticles} articles={articles} />
-    </>
+    </SectionLayout>
   )
 }
