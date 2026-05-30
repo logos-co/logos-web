@@ -84,7 +84,7 @@ export default async function MessagingPage({
   )
 
   return (
-    <SectionLayout>
+    <div className="mx-auto max-w-[1440px]">
       <MessagingHero data={hero} backHref={ROUTES.technologyStack} />
       <MessagingIntro privacy={privacy} lmn={lmn} censorship={censorship} />
       <MessagingCaseStudies data={caseStudies} />
@@ -98,6 +98,6 @@ export default async function MessagingPage({
         articles={articles}
         sectionClassName="mt-0 md:mt-0"
       />
-    </SectionLayout>
+    </div>
   )
 }

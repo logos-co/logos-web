@@ -80,7 +80,7 @@ export default async function StoragePage({
   )
 
   return (
-    <SectionLayout>
+    <div className="mx-auto max-w-[1440px]">
       <StorageHero data={hero} backHref={ROUTES.technologyStack} />
       <StorageMain data={main} />
       <StorageAccess data={access} />
@@ -91,6 +91,6 @@ export default async function StoragePage({
       />
       <StorageTechStack locale={locale} />
       <TechStackRelatedArticles data={relatedArticles} articles={articles} />
-    </SectionLayout>
+    </div>
   )
 }
