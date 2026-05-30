@@ -71,7 +71,7 @@ export default async function LogosPodcastPage({
   }
 
   return (
-    <div className="overflow-hidden bg-accent-tan">
+    <div className="overflow-hidden bg-accent-tan pt-10 pb-10">
       <PodcastIntro
         copy={{
           title: t('heading'),
