@@ -444,7 +444,7 @@ function AppInstallSection({
         <div className="flex flex-col items-center gap-10 pt-20 text-center md:absolute md:top-1/2 md:left-[714px] md:w-[464px] md:-translate-y-1/2 md:items-start md:pt-0 md:text-left">
           <div>
             <h2 className="text-h3-serif">{data.title}</h2>
-            <p className="mt-6 w-[260px] text-body-sans md:w-[464px]">{data.description}</p>
+            <p className="mt-6 text-body-sans">{data.description}</p>
             <div className="mx-auto mt-5 flex max-w-[260px] flex-wrap justify-center gap-[6px] md:mx-0 md:max-w-none md:justify-start">
               {data.tags.map((tag) => (
                 <span
