@@ -8,8 +8,9 @@ type Props = {
 
 export default function TechOverviewModular({ data }: Props) {
   return (
-    <section className="my-10 bg-brand-off-white p-3 md:my-[102px]">
-      <div>
+    <section className="my-10 md:my-[102px]">
+      <div className="bg-brand-off-white p-3">
+        <div>
         <div className="grid gap-3 md:grid-cols-2">
           <div className="relative h-[248px] overflow-hidden rounded-[100px] md:h-[518px] md:rounded-[100px]">
             <Image
@@ -50,6 +51,7 @@ export default function TechOverviewModular({ data }: Props) {
               ) : null}
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

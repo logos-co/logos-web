@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server'
 
 import { LogosMark } from '@acid-info/logos-ui'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
@@ -18,53 +19,53 @@ export async function AboutOurWork() {
 
   return (
     <section className="bg-brand-off-white pt-6 pb-24 md:pt-6 md:pb-[100px]">
-      <div className="flex flex-col items-center gap-10 px-3 md:gap-[100px]">
-        <div className="flex w-full max-w-[1416px] flex-col gap-10">
-          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between md:gap-[131px]">
-            <div className="relative h-[81px] w-[107px] shrink-0 overflow-hidden">
-              <Image
-                src="/images/about/work-mark.webp"
-                alt=""
-                fill
-                sizes="107px"
-                className="object-cover"
-              />
+      <ContentWidth className="flex flex-col items-center gap-10 px-3 md:gap-[100px]">
+          <div className="flex w-full flex-col gap-10">
+            <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between md:gap-[131px]">
+              <div className="relative h-[81px] w-[107px] shrink-0 overflow-hidden">
+                <Image
+                  src="/images/about/work-mark.webp"
+                  alt=""
+                  fill
+                  sizes="107px"
+                  className="object-cover"
+                />
+              </div>
+
+              <div className="flex flex-col gap-6 md:flex-row md:items-start md:gap-[131px]">
+                <p className="text-mono-s text-brand-dark-green md:max-w-[226px]">
+                  {t('body')}
+                </p>
+                <Button href={ROUTES.press} variant="link" className="self-start">
+                  {t('ctaAll')}
+                </Button>
+              </div>
             </div>
 
-            <div className="flex flex-col gap-6 md:flex-row md:items-start md:gap-[131px]">
-              <p className="text-mono-s text-brand-dark-green md:max-w-[226px]">
-                {t('body')}
-              </p>
-              <Button href={ROUTES.press} variant="link" className="self-start">
-                {t('ctaAll')}
-              </Button>
-            </div>
+            <h2 className="text-h2 text-brand-dark-green text-center">
+              {t('title')}
+            </h2>
           </div>
 
-          <h2 className="text-h2 text-brand-dark-green text-center">
-            {t('title')}
-          </h2>
-        </div>
-
-        <div className="grid w-full max-w-[1440px] grid-cols-1 gap-3 md:grid-cols-2">
-          <Card
-            eyebrow={t('cardEyebrow')}
-            title={t('card1Title')}
-            body={t('cardBody')}
-            cta={t('cardCta')}
-            image="/images/about/case-1.webp"
-            imageRatio="aspect-[4/5]"
-          />
-          <Card
-            eyebrow={t('cardEyebrow')}
-            title={t('card2Title')}
-            body={t('cardBody')}
-            cta={t('cardCta')}
-            image="/images/about/case-2.webp"
-            imageRatio="aspect-[5/4]"
-          />
-        </div>
-      </div>
+          <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+            <Card
+              eyebrow={t('cardEyebrow')}
+              title={t('card1Title')}
+              body={t('cardBody')}
+              cta={t('cardCta')}
+              image="/images/about/case-1.webp"
+              imageRatio="aspect-[4/5]"
+            />
+            <Card
+              eyebrow={t('cardEyebrow')}
+              title={t('card2Title')}
+              body={t('cardBody')}
+              cta={t('cardCta')}
+              image="/images/about/case-2.webp"
+              imageRatio="aspect-[5/4]"
+            />
+          </div>
+      </ContentWidth>
     </section>
   )
 }

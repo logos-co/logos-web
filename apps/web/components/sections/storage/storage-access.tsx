@@ -2,6 +2,7 @@ import Image from 'next/image'
 
 import type { CardGridSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Reveal, RevealItem } from '@/components/motion/reveal'
 
 type Props = {
@@ -14,14 +15,16 @@ export default function StorageAccess({ data }: Props) {
   const [moduleCard, libraryCard] = data.cards
 
   return (
-    <section className="bg-brand-off-white">
-      <div className="mx-auto max-w-360">
-        {moduleCard ? (
-          <FeatureRow card={moduleCard} imagePosition="right" index={0} />
-        ) : null}
-        {libraryCard ? (
-          <FeatureRow card={libraryCard} imagePosition="left" index={1} />
-        ) : null}
+    <section>
+      <div className="bg-brand-off-white">
+        <ContentWidth>
+          {moduleCard ? (
+            <FeatureRow card={moduleCard} imagePosition="right" index={0} />
+          ) : null}
+          {libraryCard ? (
+            <FeatureRow card={libraryCard} imagePosition="left" index={1} />
+          ) : null}
+        </ContentWidth>
       </div>
     </section>
   )

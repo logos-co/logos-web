@@ -173,8 +173,8 @@ export default function TechOverviewUseCases({ data }: Props) {
   }
 
   return (
-    <section className="h-[820px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-10 md:pb-16">
-      <div>
+    <section>
+      <div className="h-[820px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-10 md:h-auto md:overflow-visible md:pb-16">
         <div className="flex items-start justify-between gap-4 md:hidden">
           <div className="relative h-[81px] w-[107px] shrink-0 overflow-hidden">
             <Image

@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
@@ -138,8 +139,8 @@ export default async function AboutSection({ locale }: { locale: string }) {
 
       <AboutScrollStack intro={t('intro')} cards={cards} />
 
-      <div className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] max-w-[369px] -translate-x-1/2 flex-col items-center gap-[60px] text-center md:relative md:top-auto md:w-[940px] md:max-w-none md:pt-[120px] md:pb-[360px]">
-        <p className="text-h3-serif">
+      <ContentWidth className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] -translate-x-1/2 flex-col items-center gap-[60px] text-center md:relative md:top-auto md:flex md:w-full md:pt-[120px] md:pb-[360px]">
+        <p className="text-h3-serif max-w-[369px] md:max-w-none">
           {t('closing1')} {t('closing2')} {t('closing3')}
         </p>
 
@@ -151,7 +152,7 @@ export default async function AboutSection({ locale }: { locale: string }) {
             {t('cta')}
           </Button>
         ) : null}
-      </div>
+      </ContentWidth>
     </section>
   )
 }

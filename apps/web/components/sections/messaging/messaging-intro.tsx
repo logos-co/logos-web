@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import { TechTextSplitSection } from '@acid-info/logos-ui'
 import type { CtaPanelSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 
 import { SectionMarker } from './messaging-shared'
@@ -56,37 +57,41 @@ function MessagingFeaturePanel({
   const mobileDescription = data.mobileDescription ?? data.description
 
   return (
-    <section className="bg-gray-01">
-      <div
-        className={`relative mx-auto h-150 max-w-360 p-3 md:h-[359px] md:flex md:items-start md:justify-between ${
-          reverse ? 'md:flex-row-reverse' : 'md:flex-row'
-        }`}
-      >
-        <Reveal className="flex h-72 flex-col md:h-[335px] md:w-[702px]">
-          {mobileEyebrow ? (
-            <SectionMarker label={mobileEyebrow} className="md:hidden" />
-          ) : null}
-          {data.eyebrow ? (
-            <SectionMarker label={data.eyebrow} className="hidden md:flex" />
-          ) : null}
+    <section>
+      <div className="bg-gray-01">
+        <ContentWidth>
+          <div
+            className={`relative h-150 p-3 md:h-[359px] md:flex md:items-start md:justify-between ${
+              reverse ? 'md:flex-row-reverse' : 'md:flex-row'
+            }`}
+          >
+            <Reveal className="flex h-72 flex-col md:h-[335px] md:w-[702px]">
+              {mobileEyebrow ? (
+                <SectionMarker label={mobileEyebrow} className="md:hidden" />
+              ) : null}
+              {data.eyebrow ? (
+                <SectionMarker label={data.eyebrow} className="hidden md:flex" />
+              ) : null}
 
-          <div className="mt-11.5 flex flex-col gap-3 text-brand-dark-green md:mt-[108.5px]">
-            <h2 className="text-h4-sans md:w-84">
-              <span className="md:hidden">{mobileTitle}</span>
-              <span className="hidden md:inline">{data.title}</span>
-            </h2>
-            {mobileDescription ? (
-              <p className="text-mono-s md:hidden">{mobileDescription}</p>
-            ) : null}
-            {data.description ? (
-              <p className="text-mono-s hidden md:block md:w-121.25">
-                {data.description}
-              </p>
-            ) : null}
+              <div className="mt-11.5 flex flex-col gap-3 text-brand-dark-green md:mt-[108.5px]">
+                <h2 className="text-h4-sans md:w-84">
+                  <span className="md:hidden">{mobileTitle}</span>
+                  <span className="hidden md:inline">{data.title}</span>
+                </h2>
+                {mobileDescription ? (
+                  <p className="text-mono-s md:hidden">{mobileDescription}</p>
+                ) : null}
+                {data.description ? (
+                  <p className="text-mono-s hidden md:block md:w-121.25">
+                    {data.description}
+                  </p>
+                ) : null}
+              </div>
+            </Reveal>
+
+            <Reveal amount={0.2}>{image}</Reveal>
           </div>
-        </Reveal>
-
-        <Reveal amount={0.2}>{image}</Reveal>
+        </ContentWidth>
       </div>
     </section>
   )

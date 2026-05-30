@@ -47,11 +47,9 @@ export default function TechOverviewStack({
   foundationHref,
 }: Props) {
   return (
-    <section
-      id="stack"
-      className="bg-brand-off-white px-3 pb-[27px] md:pb-[100px]"
-    >
-      <div>
+    <section id="stack">
+      <div className="bg-brand-off-white px-3 pb-[27px] md:pb-[100px]">
+        <div>
         {data.architecture ? (
           <div className="-mx-3 mb-10 h-[658px] bg-gray-01 px-3 py-3 md:mb-[100px] md:h-[381px]">
             <div className="grid md:grid-cols-2 md:gap-3">
@@ -127,6 +125,7 @@ export default function TechOverviewStack({
             networkingHref={networkingHref}
             foundationHref={foundationHref}
           />
+        </div>
         </div>
       </div>
     </section>

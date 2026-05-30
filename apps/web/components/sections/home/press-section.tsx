@@ -2,6 +2,7 @@ import Image from 'next/image'
 
 import type { RelatedArticlesSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
 import type { PressArticleRow } from '@/lib/press-engine'
@@ -130,40 +131,40 @@ export default function PressSection({ data, articles }: Props) {
   }))
 
   return (
-    <section id="press" className="h-[880px] bg-brand-off-white py-3">
-      <div className="px-3">
-        <div className="relative h-[856px] overflow-hidden rounded-xl bg-accent-tan">
-          {data.label ? (
-            <p className="text-mono-s absolute top-6 left-3 w-56.5 text-brand-dark-green">
-              {data.label}
-            </p>
-          ) : null}
-          {data.eyebrow ? (
-            <p className="text-mono-s absolute top-6 left-[714px] hidden w-56.5 text-brand-dark-green md:block">
-              {data.eyebrow}
-            </p>
-          ) : null}
-          {data.cta ? (
-            <div className="absolute top-[22px] left-[191px] md:left-[1190px]">
-              <Button
-                href={data.cta.href}
-                variant="link"
-                icon={<ButtonArrowIcon />}
-                className="cursor-pointer transition-opacity hover:opacity-70"
-              >
-                {data.cta.label}
-              </Button>
+    <section id="press" className="bg-brand-off-white py-3">
+      <ContentWidth className="rounded-xl bg-accent-tan px-3 py-[102px] md:p-6">
+        <div className="flex flex-col gap-[127px]">
+          {(data.label || data.eyebrow || data.cta) && (
+            <div className="flex items-center justify-between">
+              {data.label ? (
+                <p className="text-mono-s text-brand-dark-green">
+                  {data.label}
+                </p>
+              ) : null}
+              {data.eyebrow ? (
+                <p className="text-mono-s hidden text-brand-dark-green md:block">
+                  {data.eyebrow}
+                </p>
+              ) : null}
+              {data.cta ? (
+                <Button
+                  href={data.cta.href}
+                  variant="link"
+                  icon={<ButtonArrowIcon />}
+                  className="cursor-pointer transition-opacity hover:opacity-70"
+                >
+                  {data.cta.label}
+                </Button>
+              ) : null}
             </div>
-          ) : null}
+          )}
 
-          <div className="absolute top-[102px] left-1/2 w-[464px] -translate-x-1/2">
-            <h2 className="text-h2 text-center text-brand-dark-green">
-              {data.title}
-            </h2>
-          </div>
+          <h2 className="text-h2 text-center text-brand-dark-green">
+            {data.title}
+          </h2>
 
           <div
-            className="absolute top-[229px] right-0 left-3 flex gap-3 overflow-x-auto pr-3 md:right-3 md:grid md:grid-cols-4 md:overflow-visible md:pr-0"
+            className="flex gap-3 overflow-x-auto pr-3 md:grid md:grid-cols-4 md:overflow-visible md:pr-0"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {cards.map((card) => (
@@ -171,7 +172,7 @@ export default function PressSection({ data, articles }: Props) {
             ))}
           </div>
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }

@@ -26,10 +26,8 @@ type Props = {
 
 export default function TechOverviewOpenSource({ data }: Props) {
   return (
-    <section
-      id="open-source"
-      className="relative h-[460px] border-t border-brand-dark-green/10 bg-brand-off-white md:h-[421px]"
-    >
+    <section id="open-source" className="relative border-t border-brand-dark-green/10">
+      <div className="h-[460px] bg-brand-off-white md:h-[421px]">
       <div className="absolute top-[39px] left-3">
         <h2 className="text-h4-sans whitespace-nowrap text-brand-dark-green">
           {data.title}
@@ -106,6 +104,7 @@ export default function TechOverviewOpenSource({ data }: Props) {
             </div>
           </div>
         ))}
+      </div>
       </div>
     </section>
   )

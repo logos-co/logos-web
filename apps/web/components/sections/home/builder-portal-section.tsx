@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
@@ -43,9 +44,9 @@ export default async function BuilderPortalSection({
   const t = await getTranslations({ locale, namespace: 'home.builderPortal' })
 
   return (
-    <section className="relative border-t border-brand-dark-green/10 bg-brand-off-white py-[100px] md:h-[1045px] md:py-0">
-      <div className="px-3 md:absolute md:inset-x-0 md:top-[212px] md:px-3">
-        <div className="grid gap-3 md:grid-cols-[464px_minmax(0,940px)]">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
+      <ContentWidth className="py-[100px] md:py-[212px]">
+        <div className="grid gap-3 md:grid-cols-2">
           <div className="flex flex-col gap-[40px] md:min-h-[532px] md:justify-between md:gap-0">
             <div className="flex flex-col gap-[30px]">
               <Reveal
@@ -102,7 +103,7 @@ export default async function BuilderPortalSection({
             imageClassName="scale-125"
           />
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }

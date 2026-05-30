@@ -10,6 +10,7 @@ import {
 import type { CirclesSettings, Language } from '@repo/content/schemas'
 import { LogosMark } from '@acid-info/logos-ui'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
 
 import { IconMask } from '@/components/icons/icon-mask'
@@ -223,14 +224,18 @@ function SectionShell({
   children: ReactNode
 }) {
   return (
-    <section className="mx-auto flex w-full max-w-[1440px] flex-col gap-3 px-3">
-      <div className="flex justify-start md:justify-end">
-        <h2 className="font-mono text-[10px] font-medium uppercase leading-[1.3] text-brand-dark-green">
-          {title}
-        </h2>
-      </div>
-      <div className="h-px w-full bg-brand-dark-green/10" />
-      {children}
+    <section>
+      <ContentWidth>
+        <div className="flex flex-col gap-3 px-3">
+          <div className="flex justify-start md:justify-end">
+            <h2 className="font-mono text-[10px] font-medium uppercase leading-[1.3] text-brand-dark-green">
+              {title}
+            </h2>
+          </div>
+          <div className="h-px w-full bg-brand-dark-green/10" />
+          {children}
+        </div>
+      </ContentWidth>
     </section>
   )
 }

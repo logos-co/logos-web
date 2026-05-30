@@ -2,6 +2,7 @@ import { twMerge } from 'tailwind-merge'
 
 import type { RelatedArticlesSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import type { PressArticleRow } from '@/lib/press-engine'
@@ -36,17 +37,13 @@ export default function TechStackRelatedArticles({
     })) ?? articlesToCards(articles)
 
   return (
-    <section
-      className={twMerge(
-        'mt-15 bg-brand-off-white md:mt-25',
-        sectionClassName
-      )}
-    >
-      <div className="h-220 px-3 py-3">
-        <Reveal
-          amount={0.15}
-          className="relative h-full overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:px-0 md:pt-0 md:pb-0"
-        >
+    <section className={twMerge('mt-15 md:mt-25', sectionClassName)}>
+      <div className="bg-brand-off-white">
+        <ContentWidth className="h-220 px-3 py-3">
+          <Reveal
+              amount={0.15}
+              className="relative h-full overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:px-0 md:pt-0 md:pb-0"
+            >
           <div className="flex items-start justify-between md:block">
             {data.label ? (
               <p className="text-mono-s w-56.5 max-w-[50%] text-brand-dark-green md:absolute md:top-6 md:left-3 md:max-w-none">
@@ -88,6 +85,7 @@ export default function TechStackRelatedArticles({
             ))}
           </Reveal>
         </Reveal>
+        </ContentWidth>
       </div>
     </section>
   )
