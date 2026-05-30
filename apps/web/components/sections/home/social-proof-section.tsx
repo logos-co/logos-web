@@ -3,7 +3,6 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
-import ContentWidth from '@/components/layout/content-width'
 import type { SocialProofStats } from '@/lib/social-proof-stats'
 
 interface SocialProofCard {
@@ -100,13 +99,13 @@ export default function SocialProofSection({ stats }: SocialProofSectionProps) {
 
   return (
     <section className="relative z-[2] -mt-10 overflow-hidden rounded-t-[36px] bg-brand-off-white">
-      <ContentWidth className="pt-3 pb-[100px]">
+      <div className="pt-3 pb-25 px-3">
         <div className="grid gap-3 md:grid-cols-4">
           {cards.map((card) => (
             <SocialProofCardView key={card.key} card={card} />
           ))}
         </div>
-      </ContentWidth>
+      </div>
     </section>
   )
 }
