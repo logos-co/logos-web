@@ -93,8 +93,8 @@ export default function TechOverviewStack({
                 </div>
               </div>
 
-              <div className="relative h-[317px] overflow-hidden rounded-[24px] md:h-[357px] md:rounded-[24px]">
-                <div className="absolute top-[-53px] left-0 h-[936px] w-[702px] md:top-[-33px]">
+              <div className="relative w-full h-[317px] overflow-hidden rounded-[24px] md:h-[357px] md:rounded-[24px]">
+                <div className="absolute top-[-53px] left-0 h-[936px] w-full md:top-[-33px]">
                   <Image
                     src={data.architecture.image.src}
                     alt={data.architecture.image.alt}
