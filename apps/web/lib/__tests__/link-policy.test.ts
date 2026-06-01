@@ -4,6 +4,7 @@ import { join, relative } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
+import { resolveBasecampInstallCtaHref } from '@/lib/basecamp-release-links'
 
 import buildersHubResources from '../../../../content/builders-hub/resources/en.json' with { type: 'json' }
 import buildersHubSettings from '../../../../content/builders-hub/settings/en.json' with { type: 'json' }
@@ -35,6 +36,12 @@ const repoPressArticlePaths = [
 const jobsHref = 'https://free.technology/jobs'
 const onboardingCalendarHref = 'https://cal.com/team/logos-onboarding/intro'
 const logosDocsHref = 'https://github.com/logos-co/logos-docs'
+const basecampReleaseHref =
+  'https://github.com/logos-co/logos-basecamp/releases/tag/0.1.2'
+const basecampLinuxDownloadHref =
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.1.2/LogosBasecamp-Desktop-v0.1.2-2576ef-aarch64.AppImage'
+const basecampMacDownloadHref =
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.1.2/LogosBasecamp-Desktop-v0.1.2-2576ef-aarch64.dmg'
 const docsLabels = new Set(['docs', 'documentation', 'view the docs'])
 const routeUsageAllowlist = new Set([
   'apps/web/app/[locale]/work-with-us/page.tsx',
@@ -104,6 +111,10 @@ describe('link policy', () => {
         }),
       ])
     )
+  })
+
+  it('routes the Builders Hub RFP programme panel to the RFP listing', () => {
+    expect(buildersHubSettings.programs?.rfpsHref).toBe(ROUTES.rfps)
   })
 
   it('routes the Logos Press Engine navigation card to Press', () => {
@@ -199,6 +210,43 @@ describe('link policy', () => {
     expect(contentDocsLinks).toEqual(
       contentDocsLinks.map((link) => ({ ...link, href: logosDocsHref }))
     )
+  })
+
+  it('routes Basecamp install CTAs through the shared release URLs', () => {
+    expect(EXTERNAL_URLS.basecampRelease).toBe(basecampReleaseHref)
+    expect(EXTERNAL_URLS.basecampLinuxDownload).toBe(
+      basecampLinuxDownloadHref
+    )
+    expect(EXTERNAL_URLS.basecampMacDownload).toBe(basecampMacDownloadHref)
+
+    expect(
+      resolveBasecampInstallCtaHref({
+        label: 'Install',
+        href: ROUTES.basecamp,
+        iconOverride: 'download',
+      })
+    ).toBe(basecampReleaseHref)
+    expect(
+      resolveBasecampInstallCtaHref({
+        label: 'Install testnet v0.1',
+        href: ROUTES.buildersHub,
+        iconOverride: 'download',
+      })
+    ).toBe(basecampReleaseHref)
+    expect(
+      resolveBasecampInstallCtaHref({
+        label: 'Install Linux',
+        href: ROUTES.getStarted,
+        iconOverride: 'download',
+      })
+    ).toBe(basecampLinuxDownloadHref)
+    expect(
+      resolveBasecampInstallCtaHref({
+        label: 'Install Mac',
+        href: ROUTES.getStarted,
+        iconOverride: 'download',
+      })
+    ).toBe(basecampMacDownloadHref)
   })
 
   it('does not resolve stale repo press fixtures in public web surfaces', () => {

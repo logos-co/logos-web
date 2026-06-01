@@ -54,7 +54,7 @@ export async function AboutOurWork() {
               body={t('cardBody')}
               cta={t('cardCta')}
               image="/images/about/case-1.webp"
-              imageRatio="aspect-[4/5]"
+              imageRatio="4/5"
             />
             <Card
               eyebrow={t('cardEyebrow')}
@@ -62,7 +62,7 @@ export async function AboutOurWork() {
               body={t('cardBody')}
               cta={t('cardCta')}
               image="/images/about/case-2.webp"
-              imageRatio="aspect-[5/4]"
+              imageRatio="5/4"
             />
           </div>
       </ContentWidth>
@@ -76,7 +76,17 @@ type CardProps = {
   body: string
   cta: string
   image: string
-  imageRatio: string
+  imageRatio: '4/5' | '5/4'
+}
+
+/*
+ * Literal class strings so Tailwind's compiler can see them in source — a
+ * runtime-built `md:${imageRatio}` is never emitted by the JIT, which silently
+ * dropped the desktop aspect ratio.
+ */
+const DESKTOP_IMAGE_RATIO: Record<CardProps['imageRatio'], string> = {
+  '4/5': 'md:aspect-[4/5]',
+  '5/4': 'md:aspect-[5/4]',
 }
 
 function Card({ eyebrow, title, body, cta, image, imageRatio }: CardProps) {
@@ -97,7 +107,7 @@ function Card({ eyebrow, title, body, cta, image, imageRatio }: CardProps) {
       </div>
 
       <div
-        className={`absolute top-[11px] right-[11px] h-[120px] w-[96px] overflow-hidden md:top-auto md:bottom-[11px] md:h-auto md:${imageRatio}`}
+        className={`absolute top-[11px] right-[11px] h-[120px] w-[96px] overflow-hidden md:top-auto md:bottom-[11px] md:h-auto ${DESKTOP_IMAGE_RATIO[imageRatio]}`}
       >
         <Image src={image} alt="" fill sizes="96px" className="object-cover" />
       </div>

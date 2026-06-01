@@ -364,6 +364,7 @@ export const builderHubSettingsSchema = z.object({
       prizeHref: linkHrefSchema,
       rfpsTitle: z.string().min(1),
       rfpsDescription: z.string().min(1),
+      rfpsHref: linkHrefSchema,
     })
     .optional(),
   support: z

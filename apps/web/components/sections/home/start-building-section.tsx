@@ -39,7 +39,7 @@ export default async function StartBuildingSection({
   const cards: SupportCard[] = [
     { title: t('lambdaPrize'), href: ROUTES.lambdaPrize, cta: t('cardCta') },
     { title: t('rfps'), href: ROUTES.rfps, cta: t('cardCta') },
-    { title: t('ideas'), href: ROUTES.ideas, cta: t('cardCta') },
+    { title: t('ideas'), href: EXTERNAL_URLS.communityIdeas, cta: t('cardCta') },
     { title: t('docs'), href: EXTERNAL_URLS.docs, cta: t('cardCta') },
   ]
 

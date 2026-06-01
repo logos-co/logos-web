@@ -142,7 +142,8 @@
     },
     "prizeHref": "/lambda-prize",
     "rfpsTitle": "Explore RFPs",
-    "rfpsDescription": "The Logos RFP Program supports developers to build applications on the Logos Stack. Browse all open requests for proposals below."
+    "rfpsDescription": "The Logos RFP Program supports developers to build applications on the Logos Stack. Browse all open requests for proposals below.",
+    "rfpsHref": "/builders-hub/rfps"
   },
   "support": {
     "title": "Get Support",

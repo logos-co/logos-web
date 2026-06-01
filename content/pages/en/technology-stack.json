@@ -218,7 +218,7 @@
         },
         {
           "number": "02",
-          "title": "logos-messaging",
+          "title": "Logos Messaging",
           "description": "Logos Messaging (formerly Waku) protocol implementations",
           "cta": {
             "label": "Repo",
@@ -233,7 +233,7 @@
         },
         {
           "number": "03",
-          "title": "logos-storage",
+          "title": "Logos Storage",
           "description": "Logos Storage (formerly Codex) protocol implementations",
           "cta": {
             "label": "Repo",
@@ -248,7 +248,22 @@
         },
         {
           "number": "04",
-          "title": "vacp2p",
+          "title": "Logos Blockchain",
+          "description": "Logos Blockchain protocol implementations",
+          "cta": {
+            "label": "Repo",
+            "href": "https://github.com/logos-blockchain",
+            "external": true
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true
+          }
+        },
+        {
+          "number": "05",
+          "title": "Vacp2p",
           "description": "Foundational peer-to-peer and cryptographic research",
           "cta": {
             "label": "Repo",

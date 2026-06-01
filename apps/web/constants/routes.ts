@@ -94,6 +94,7 @@ export const EXTERNAL_URLS = {
   // Forum
   forum: 'https://forum.logos.co/',
   docs: 'https://github.com/logos-co/logos-docs',
+  communityIdeas: 'https://github.com/logos-co/ideas',
 
   // Research
   vacp2p: 'https://vac.dev',

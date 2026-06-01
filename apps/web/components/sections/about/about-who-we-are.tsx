@@ -9,10 +9,16 @@ import { EXTERNAL_URLS } from '@/constants/routes'
 /**
  * About — "Who We Are" sticky-scroll section. Top eyebrow row, then a sticky
  * title that gets pushed away by three colored panels stacking via
- * `position: sticky` (active on both mobile and desktop). Each panel pairs a
- * tall rounded portrait photo with a heading + body + four-row use-cases
- * table; the colored bar inside each panel is offset progressively
- * (40 / 121 / 202 px) so each previous bar peeks above the next as you scroll.
+ * `position: sticky`. Each panel pairs a tall rounded portrait photo with a
+ * heading + body + four-row use-cases table; the colored bar inside each panel
+ * is offset progressively (40 / 121 / 202 px) so each previous bar peeks above
+ * the next as you scroll.
+ *
+ * Layout is split into a mobile subtree (`md:hidden`, absolute positioning) and
+ * a desktop subtree (`hidden md:grid`, a fluid 12-column grid). The Figma 1440
+ * desktop frame maps cleanly to a 12-col grid (col ≈ 107px, gap 12px), so the
+ * grid reproduces the 1440 design while scaling fluidly across 768–1440px+
+ * instead of overflowing at every width below 1440px.
  *
  * Figma desktop 40009046:27278 (h 2131); mobile 40009046:27138 (h 2061).
  */
@@ -31,7 +37,7 @@ export async function AboutWhoWeAre() {
       {/* Top eyebrow row — cropped photo fragment top-left, eyebrow + tagline */}
       <div className="relative h-[80px] md:h-[86px]">
         {/* Cropped photo fragment (re-uses the builders-hub hero asset). */}
-        <div className="absolute top-[11px] left-3 h-[59px] w-[84px] overflow-hidden md:h-[75px] md:w-[107px]">
+        <div className="absolute top-[11px] left-3 z-10 h-[59px] w-[84px] overflow-hidden md:h-[75px] md:w-[107px]">
           <div className="absolute -top-[28.75px] -left-[48px] h-[207.9px] w-[166.32px] md:-top-[29px] md:-left-[7px] md:h-[157px] md:w-[125px]">
             <Image
               src="/images/builders-hub/hero.webp"
@@ -43,16 +49,19 @@ export async function AboutWhoWeAre() {
             <div className="absolute inset-0 bg-black/30" />
           </div>
         </div>
-        <p className="text-eyebrow absolute top-[11px] left-[calc(50%+6.5px)] max-w-[226px] text-brand-dark-green md:left-[calc(50%+6px)]">
-          {t('eyebrow')}
-        </p>
-        <div className="text-mono-s absolute top-[11px] right-3 hidden max-w-[303px] text-brand-dark-green md:block md:left-[calc(83.33%+2px)] md:right-auto">
-          <p>{t('taglineLine1')}</p>
-          <p>{t('taglineLine2')}</p>
-        </div>
+
+        <ContentWidth className="grid h-full grid-cols-12 gap-3">
+          <p className="text-eyebrow col-span-6 col-start-7 pt-[11px] text-brand-dark-green md:col-span-3">
+            {t('eyebrow')}
+          </p>
+          <div className="text-mono-s col-span-3 col-start-10 hidden pt-[11px] text-brand-dark-green md:block">
+            <p>{t('taglineLine1')}</p>
+            <p>{t('taglineLine2')}</p>
+          </div>
+        </ContentWidth>
       </div>
 
-      {/* Sticky title — h-167 mobile, h-474 desktop, top-68 in both */}
+      {/* Sticky title — h-167 mobile, h-252 desktop, top-68 in both */}
       <div className="sticky top-0 z-0 h-[167px] bg-brand-off-white md:h-[252px]">
         <h2 className="text-h2 absolute top-[68px] right-0 left-0 text-center text-brand-dark-green">
           {t('title')}
@@ -102,12 +111,14 @@ export async function AboutWhoWeAre() {
   )
 }
 
+type UseCase = { label: string; body: string }
+
 type PanelProps = {
   bg: string
   image: string
   title: string
   body: ReactNode
-  useCases: { label: string; body: string }[]
+  useCases: UseCase[]
   useCasesLabel: string
   cta?: { label: string; href: string; external?: boolean }
   topOffset: number
@@ -123,6 +134,10 @@ function Panel({
   cta,
   topOffset,
 }: PanelProps) {
+  const ctaProps = cta?.external
+    ? { target: '_blank', rel: 'noopener noreferrer' }
+    : {}
+
   return (
     <div className="sticky top-0 h-[800px]">
       {/* Colored bar */}
@@ -132,60 +147,116 @@ function Panel({
       >
         {/* Centered 1440 frame for the bar's content */}
         <ContentWidth className="relative h-full">
-          {/* Title — inside the bar, top-left, cap-bottom aligned to 52px (Figma) */}
-          <h3 className="text-h3-serif absolute top-[52px] left-3 -translate-y-full text-brand-dark-green md:left-[726px]">
-            {title}
-          </h3>
-          {/* Portrait image — right on mobile, left on desktop */}
-          <div className="absolute top-3 right-3 h-[151px] w-[122px] overflow-hidden rounded-[900px] md:right-auto md:left-3 md:h-[574px] md:w-[464px]">
-            <Image
-              src={image}
-              alt=""
-              fill
-              sizes="(min-width: 768px) 464px, 122px"
-              className="object-cover"
-            />
+          {/* ---- Mobile layout (absolute, < md) ---- */}
+          <div className="md:hidden">
+            <h3 className="text-h3-serif absolute top-[52px] left-3 -translate-y-full text-brand-dark-green">
+              {title}
+            </h3>
+
+            <div className="absolute top-3 right-3 h-[151px] w-[122px] overflow-hidden rounded-[900px]">
+              <Image
+                src={image}
+                alt=""
+                fill
+                sizes="122px"
+                className="object-cover"
+              />
+            </div>
+
+            <p className="text-mono-s absolute top-[229px] left-3 w-[calc(100%-24px)] max-w-[345px] text-brand-dark-green">
+              {body}
+            </p>
+
+            {cta ? (
+              <Button
+                href={cta.href}
+                variant="link"
+                className="absolute top-[484px] left-3"
+                {...ctaProps}
+              >
+                {cta.label}
+              </Button>
+            ) : null}
+
+            <div className="absolute bottom-3 left-3 w-[calc(100%-24px)] max-w-[368px]">
+              <p className="text-eyebrow text-brand-dark-green">
+                {useCasesLabel}
+              </p>
+              <ul className="mt-7 flex flex-col gap-3">
+                {useCases.map((row) => (
+                  <li
+                    key={row.label}
+                    className="grid grid-cols-2 gap-3 border-t border-brand-dark-green/50 pt-1.5"
+                  >
+                    <span className="text-eyebrow min-w-0 text-brand-dark-green">
+                      {row.label}
+                    </span>
+                    <span className="text-mono-s min-w-0 text-brand-dark-green">
+                      {row.body}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          {/* Body */}
-          <p className="text-mono-s absolute top-[229px] left-3 w-[calc(100%-24px)] max-w-[345px] text-brand-dark-green md:top-[26px] md:left-[1083px] md:w-[345px] md:max-w-none">
-            {body}
-          </p>
+          {/* ---- Desktop layout (fluid 12-col grid, ≥ md) ---- */}
+          <div className="hidden h-full grid-cols-12 gap-3 md:grid">
+            {/* Portrait — cols 1-4, full bar height */}
+            <div className="relative col-span-4 overflow-hidden rounded-[900px]">
+              <Image
+                src={image}
+                alt=""
+                fill
+                sizes="(min-width: 1440px) 464px, 33vw"
+                className="object-cover"
+              />
+            </div>
 
-          {/* Optional CTA (under body) */}
-          {cta ? (
-            <Button
-              href={cta.href}
-              variant="link"
-              className="absolute top-[484px] left-3 md:top-[78px] md:left-[1083px]"
-              {...(cta.external
-                ? { target: '_blank', rel: 'noopener noreferrer' }
-                : {})}
-            >
-              {cta.label}
-            </Button>
-          ) : null}
+            {/* Right region — cols 7-12: title + body/cta on top, use cases bottom */}
+            <div className="col-span-6 col-start-7 flex h-full flex-col">
+              <div className="grid grid-cols-6 gap-3">
+                <h3 className="text-h3-serif col-span-3 pt-4 text-brand-dark-green">
+                  {title}
+                </h3>
+                <div className="col-span-3 col-start-4 flex flex-col gap-3 pt-[26px]">
+                  <p className="text-mono-s text-brand-dark-green">{body}</p>
+                  {cta ? (
+                    <Button
+                      href={cta.href}
+                      variant="link"
+                      className="self-start"
+                      {...ctaProps}
+                    >
+                      {cta.label}
+                    </Button>
+                  ) : null}
+                </div>
+              </div>
 
-          {/* Use Cases — bottom area, "Use Cases" label centered above */}
-          <div className="absolute bottom-3 left-3 w-[calc(100%-24px)] max-w-[368px] md:bottom-0 md:left-[726px] md:w-[702px] md:max-w-none">
-            <p className="text-eyebrow text-brand-dark-green md:pl-[357px]">
-              {useCasesLabel}
-            </p>
-            <ul className="mt-7 flex flex-col gap-3">
-              {useCases.map((row) => (
-                <li
-                  key={row.label}
-                  className="grid grid-cols-2 gap-3 border-t border-brand-dark-green/50 pt-1.5 md:flex"
-                >
-                  <span className="text-eyebrow min-w-0 text-brand-dark-green md:w-[345px]">
-                    {row.label}
-                  </span>
-                  <span className="text-mono-s min-w-0 text-brand-dark-green md:flex-1">
-                    {row.body}
-                  </span>
-                </li>
-              ))}
-            </ul>
+              <div className="mt-auto pb-3">
+                <div className="grid grid-cols-6 gap-3">
+                  <p className="text-eyebrow col-span-3 col-start-4 text-brand-dark-green">
+                    {useCasesLabel}
+                  </p>
+                </div>
+                <ul className="mt-7 flex flex-col gap-3">
+                  {useCases.map((row) => (
+                    <li
+                      key={row.label}
+                      className="grid grid-cols-6 gap-3 border-t border-brand-dark-green/50 pt-1.5"
+                    >
+                      <span className="text-eyebrow col-span-3 min-w-0 text-brand-dark-green">
+                        {row.label}
+                      </span>
+                      <span className="text-mono-s col-span-3 min-w-0 text-brand-dark-green">
+                        {row.body}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </ContentWidth>
       </div>

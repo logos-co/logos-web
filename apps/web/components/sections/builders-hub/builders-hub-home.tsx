@@ -9,7 +9,6 @@ import { LogosMark } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
 import { Button, ButtonArrowIcon } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
 import { BuildersHubAppInstall } from './builders-hub-app-install'
 
@@ -355,7 +354,11 @@ function ProgramsSection({
           </div>
         </Link>
 
-        <div className="flex h-[370px] flex-col items-center justify-center overflow-hidden rounded-xl border border-brand-dark-green px-4 py-10">
+        <Link
+          href={data.rfpsHref}
+          aria-label={data.rfpsTitle}
+          className="flex h-[370px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border border-brand-dark-green px-4 py-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green"
+        >
           <div className="flex flex-col items-center gap-3 text-center">
             <h3 className="text-subhead-sans">{data.rfpsTitle}</h3>
             <p className="w-full max-w-[338px] text-mono-s">
@@ -364,10 +367,9 @@ function ProgramsSection({
           </div>
           <div className="mt-[60px] flex w-full justify-center gap-3 md:w-[1416px] md:-translate-x-[176px] md:justify-start">
             {previewRfps.map((rfp, index) => (
-              <Link
+              <div
                 key={rfp.slug}
-                href={`${ROUTES.rfps}/${rfp.slug}`}
-                className={`relative hidden h-[166px] w-full max-w-[345px] shrink-0 cursor-pointer overflow-hidden rounded-xl border border-brand-dark-green/50 p-4 first:block md:block md:w-[345px] ${
+                className={`relative hidden h-[166px] w-full max-w-[345px] shrink-0 overflow-hidden rounded-xl border border-brand-dark-green/50 p-4 first:block md:block md:w-[345px] ${
                   index % 2 === 1 ? 'opacity-50' : ''
                 }`}
               >
@@ -387,10 +389,10 @@ function ProgramsSection({
                     className="absolute right-[10px] bottom-[11px] h-[120px] w-[96px] object-cover"
                   />
                 ) : null}
-              </Link>
+              </div>
             ))}
           </div>
-        </div>
+        </Link>
       </div>
     </SectionFrame>
   )
