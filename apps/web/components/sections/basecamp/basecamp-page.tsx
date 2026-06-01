@@ -18,6 +18,7 @@ import {
   TechStackDetailSection,
 } from '@/components/sections/shared/tech-stack-detail-layout'
 import { Button } from '@/components/ui'
+import { resolveBasecampInstallCtaLinkProps } from '@/lib/basecamp-release-links'
 
 interface BasecampPageProps {
   hero: HeroSection
@@ -46,12 +47,10 @@ function paragraphs(value?: string) {
 function BasecampCta({ cta, className }: { cta: CTA; className?: string }) {
   return (
     <Button
-      href={cta.href}
+      {...resolveBasecampInstallCtaLinkProps(cta)}
       variant={cta.variant ?? 'secondary'}
       icon={getButtonIcon(cta.iconOverride)}
       className={className}
-      target={cta.external ? '_blank' : undefined}
-      rel={cta.external ? 'noopener noreferrer' : undefined}
     >
       {cta.label}
     </Button>

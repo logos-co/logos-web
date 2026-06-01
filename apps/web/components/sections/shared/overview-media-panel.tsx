@@ -5,6 +5,7 @@ import type { CTA } from '@repo/content/schemas'
 
 import { IconMask } from '@/components/icons/icon-mask'
 import { Button, type ButtonVariant } from '@/components/ui'
+import { resolveBasecampInstallCtaLinkProps } from '@/lib/basecamp-release-links'
 
 type PanelTone = 'gray-01' | 'gray-02'
 type PanelSize = 'large' | 'compact'
@@ -63,7 +64,7 @@ function OverviewMediaPanelActions({
     <div className="flex items-baseline gap-1.5">
       {cta ? (
         <Button
-          href={cta.href}
+          {...resolveBasecampInstallCtaLinkProps(cta)}
           variant={cta.variant ?? primaryCtaDefaultVariant}
           icon={getButtonIcon(cta.iconOverride)}
           className="cursor-pointer"
@@ -74,7 +75,7 @@ function OverviewMediaPanelActions({
       ) : null}
       {secondaryCta ? (
         <Button
-          href={secondaryCta.href}
+          {...resolveBasecampInstallCtaLinkProps(secondaryCta)}
           variant={secondaryCta.variant ?? 'secondary'}
           icon={getButtonIcon(secondaryCta.iconOverride)}
           className="cursor-pointer"

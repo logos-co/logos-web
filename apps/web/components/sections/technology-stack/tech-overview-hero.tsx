@@ -6,6 +6,7 @@ import { IconMask } from '@/components/icons/icon-mask'
 import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
+import { resolveBasecampInstallCtaLinkProps } from '@/lib/basecamp-release-links'
 
 type Props = {
   data: HeroSection
@@ -66,12 +67,12 @@ function StatusCard({
         </p>
         {status.cta ? (
           <Button
-            href={status.cta.href}
+            {...resolveBasecampInstallCtaLinkProps(status.cta)}
             variant={status.cta.variant ?? 'secondary'}
             icon={getButtonIcon(status.cta.iconOverride)}
             className="cursor-pointer"
           >
-          {status.cta.label}
+            {status.cta.label}
           </Button>
         ) : null}
       </div>
@@ -99,7 +100,7 @@ export default function TechOverviewHero({ data }: Props) {
               {data.ctas.map((cta) => (
                 <Button
                   key={cta.label}
-                  href={cta.href}
+                  {...resolveBasecampInstallCtaLinkProps(cta)}
                   variant={cta.variant ?? 'secondary'}
                   icon={getButtonIcon(cta.iconOverride)}
                   className="cursor-pointer"
@@ -154,7 +155,7 @@ export default function TechOverviewHero({ data }: Props) {
             {data.ctas.map((cta) => (
               <Button
                 key={cta.label}
-                href={cta.href}
+                {...resolveBasecampInstallCtaLinkProps(cta)}
                 variant={cta.variant ?? 'secondary'}
                 icon={getButtonIcon(cta.iconOverride)}
                 className="cursor-pointer"

@@ -7,6 +7,7 @@ import {
   type ButtonVariant,
 } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
+import { resolveBasecampInstallCtaLinkProps } from '@/lib/basecamp-release-links'
 
 import { DownloadIcon } from './builder-cta-card'
 
@@ -52,7 +53,10 @@ export default function TechStackDetailHero({
               body: data.status.body,
               cta: data.status.cta ? (
                 <Button
-                  href={data.status.cta.href}
+                  {...resolveBasecampInstallCtaLinkProps({
+                    ...data.status.cta,
+                    iconOverride: 'download',
+                  })}
                   variant={data.status.cta.variant ?? 'secondary'}
                   icon={<DownloadIcon />}
                   className="w-fit cursor-pointer rounded-none"

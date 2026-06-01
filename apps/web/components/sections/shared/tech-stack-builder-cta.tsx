@@ -8,6 +8,7 @@ import type { CardGridSection } from '@repo/content/schemas'
 
 import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
+import { resolveBasecampInstallCtaLinkProps } from '@/lib/basecamp-release-links'
 
 import { DownloadIcon } from './builder-cta-card'
 
@@ -60,7 +61,10 @@ export default function TechStackBuilderCta({ data, className }: Props) {
           description: logosAppCard.description,
           cta: logosAppCard.cta ? (
             <Button
-              href={logosAppCard.cta.href}
+              {...resolveBasecampInstallCtaLinkProps({
+                ...logosAppCard.cta,
+                iconOverride: 'download',
+              })}
               variant="primary"
               icon={<DownloadIcon />}
             >

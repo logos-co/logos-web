@@ -4,7 +4,7 @@ import Image from 'next/image'
 import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS } from '@/constants/routes'
 
 import { DownloadIcon } from '../shared/builder-cta-card'
 
@@ -59,10 +59,12 @@ export default async function BuilderPortalSection({
                 </h2>
               </Reveal>
               <Button
-                href={ROUTES.basecamp}
+                href={EXTERNAL_URLS.basecampRelease}
                 variant="secondary"
                 icon={<DownloadIcon />}
                 className="w-fit cursor-pointer transition-opacity hover:opacity-80"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 {t('cta')}
               </Button>

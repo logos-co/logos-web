@@ -6,6 +6,7 @@ import type { TechStackOverviewSection } from '@repo/content/schemas'
 
 import { ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
+import { resolveBasecampInstallCtaLinkProps } from '@/lib/basecamp-release-links'
 
 import { DownloadIcon } from './builder-cta-card'
 
@@ -43,6 +44,8 @@ function HoverStackItem({
   title,
   description,
   href,
+  target,
+  rel,
   ctaLabel = 'Learn More',
   className,
   labelClassName,
@@ -55,6 +58,8 @@ function HoverStackItem({
   title: string
   description?: string
   href: string
+  target?: '_blank'
+  rel?: 'noopener noreferrer'
   ctaLabel?: string
   className: string
   labelClassName?: string
@@ -115,6 +120,8 @@ function HoverStackItem({
   return (
     <Link
       href={href}
+      target={target}
+      rel={rel}
       className={`group/stack-item relative flex flex-col cursor-pointer overflow-hidden rounded-3xl border border-brand-dark-green text-center text-brand-dark-green transition-[border-color] duration-200 ease-out hover:border-brand-dark-green/30 focus-visible:border-brand-dark-green/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green ${stackItemLayoutClass} ${className}`}
     >
       <span className="pointer-events-none absolute inset-0 rounded-3xl bg-accent-light-blue opacity-0 transition-opacity duration-200 ease-out group-hover/stack-item:opacity-100" />
@@ -240,7 +247,11 @@ export function TechStackDiagram({
         <HoverStackItem
           title={data.basecamp.title}
           description={data.basecamp.body}
-          href={data.basecamp.cta?.href ?? data.basecamp.href}
+          {...resolveBasecampInstallCtaLinkProps({
+            label: data.basecamp.cta?.label ?? 'Install',
+            href: data.basecamp.cta?.href ?? data.basecamp.href,
+            iconOverride: 'download',
+          })}
           ctaLabel={data.basecamp.cta?.label ?? 'Install'}
           ctaIcon={<DownloadIcon />}
           ctaVisibleByDefault

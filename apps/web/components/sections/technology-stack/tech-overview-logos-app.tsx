@@ -6,6 +6,7 @@ import type { GiantSwitchSection } from '@repo/content/schemas'
 import { IconMask } from '@/components/icons/icon-mask'
 import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
+import { resolveBasecampInstallCtaLinkProps } from '@/lib/basecamp-release-links'
 
 /**
  * Map the icon enum on a giantSwitch tag to the actual SVG asset shipped in
@@ -111,7 +112,10 @@ export default function TechOverviewLogosApp({ data }: Props) {
                   data-giant-switch-install-trigger
                 >
                   <Button
-                    href={data.primaryCta.href}
+                    {...resolveBasecampInstallCtaLinkProps({
+                      ...data.primaryCta,
+                      iconOverride: 'download',
+                    })}
                     variant="secondary"
                     icon={<DownloadIcon />}
                   >

@@ -4,7 +4,10 @@ import { join, relative } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
-import { resolveBasecampInstallCtaHref } from '@/lib/basecamp-release-links'
+import {
+  resolveBasecampInstallCtaHref,
+  resolveBasecampInstallCtaLinkProps,
+} from '@/lib/basecamp-release-links'
 
 import buildersHubResources from '../../../../content/builders-hub/resources/en.json' with { type: 'json' }
 import buildersHubSettings from '../../../../content/builders-hub/settings/en.json' with { type: 'json' }
@@ -36,6 +39,7 @@ const repoPressArticlePaths = [
 const jobsHref = 'https://free.technology/jobs'
 const onboardingCalendarHref = 'https://cal.com/team/logos-onboarding/intro'
 const logosDocsHref = 'https://github.com/logos-co/logos-docs'
+const communityIdeasHref = 'https://github.com/logos-co/ideas'
 const basecampReleaseHref =
   'https://github.com/logos-co/logos-basecamp/releases/tag/0.1.2'
 const basecampLinuxDownloadHref =
@@ -115,6 +119,21 @@ describe('link policy', () => {
 
   it('routes the Builders Hub RFP programme panel to the RFP listing', () => {
     expect(buildersHubSettings.programs?.rfpsHref).toBe(ROUTES.rfps)
+  })
+
+  it('routes homepage builder support cards to their external repositories', () => {
+    const startBuildingSection = readFileSync(
+      join(webRoot, 'components/sections/home/start-building-section.tsx'),
+      'utf8'
+    )
+
+    expect(EXTERNAL_URLS.communityIdeas).toBe(communityIdeasHref)
+    expect(EXTERNAL_URLS.docs).toBe(logosDocsHref)
+    expect(startBuildingSection).toContain('EXTERNAL_URLS.communityIdeas')
+    expect(startBuildingSection).toContain('EXTERNAL_URLS.docs')
+    expect(startBuildingSection).not.toContain(
+      "{ title: t('ideas'), href: ROUTES.ideas"
+    )
   })
 
   it('routes the Logos Press Engine navigation card to Press', () => {
@@ -247,6 +266,17 @@ describe('link policy', () => {
         iconOverride: 'download',
       })
     ).toBe(basecampMacDownloadHref)
+    expect(
+      resolveBasecampInstallCtaLinkProps({
+        label: 'Install',
+        href: ROUTES.basecamp,
+        iconOverride: 'download',
+      })
+    ).toEqual({
+      href: basecampReleaseHref,
+      target: '_blank',
+      rel: 'noopener noreferrer',
+    })
   })
 
   it('does not resolve stale repo press fixtures in public web surfaces', () => {
