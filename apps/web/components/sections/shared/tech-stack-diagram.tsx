@@ -6,7 +6,6 @@ import type { TechStackOverviewSection } from '@repo/content/schemas'
 
 import { ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
-import { resolveBasecampInstallCtaLinkProps } from '@/lib/basecamp-release-links'
 
 import { DownloadIcon } from './builder-cta-card'
 
@@ -231,12 +230,15 @@ export function TechStackDiagram({
   const basecampClass = desktopAt1025
     ? 'h-[111px] w-full border-brand-dark-green min-[1025px]:h-[196px]'
     : 'h-[111px] w-full border-brand-dark-green md:h-[196px]'
+
   const pillarsGridClass = desktopAt1025
     ? 'mt-3 grid grid-cols-2 gap-3 min-[1025px]:grid-cols-4'
     : 'mt-3 grid grid-cols-2 gap-3 md:grid-cols-4'
+
   const pillarClass = desktopAt1025
     ? 'h-[258px] w-full min-[1025px]:h-[366px]'
     : 'h-[258px] w-full md:h-[366px]'
+
   const rowClass = desktopAt1025
     ? 'h-[196px] w-full min-[1025px]:h-[196px]'
     : 'h-[196px] w-full md:h-[196px]'
@@ -247,11 +249,7 @@ export function TechStackDiagram({
         <HoverStackItem
           title={data.basecamp.title}
           description={data.basecamp.body}
-          {...resolveBasecampInstallCtaLinkProps({
-            label: data.basecamp.cta?.label ?? 'Install',
-            href: data.basecamp.cta?.href ?? data.basecamp.href,
-            iconOverride: 'download',
-          })}
+          href={data.basecamp.cta?.href ?? data.basecamp.href}
           ctaLabel={data.basecamp.cta?.label ?? 'Install'}
           ctaIcon={<DownloadIcon />}
           ctaVisibleByDefault
