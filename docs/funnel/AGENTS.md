@@ -4,7 +4,7 @@ Target audience: AI agents reading this codebase.
 
 ## What this is
 
-Three public connect forms (Coalition Partner, Activist Builder, Activist Leader / Steward) post to a single API endpoint on `apps/civi-crm`. Every submission creates a row in the **IFT BD CRM** Notion database (primary, required) and an Afform record in CiviCRM (backup, best-effort).
+Four public connect forms (`/connect`, Coalition Partner, Activist Builder, Activist Leader / Steward) post to a single API endpoint on `apps/civi-crm`. `/connect` is CiviCRM-only; the other three forms write to Notion (required) and CiviCRM (backup, best-effort).
 
 ---
 
@@ -17,11 +17,11 @@ apps/web (static)
         ▼
 apps/civi-crm
   POST /api/public/afform-submit
-  ├── 1. validate body, formName (must be one of three allowed values), fields[]
+  ├── 1. validate body, formName (must be one of four allowed values), fields[]
   ├── 2. verify hCaptcha (once, single-use token -- cannot verify twice)
   ├── 3. read env flags (FUNNEL_INTAKE_NOTION_DISABLED / FUNNEL_INTAKE_CIVICRM_DISABLED)
-  ├── 4. submitToNotion(formData, formName)   -- REQUIRED; failure → 502 to client
-  └── 5. submitToCiviCrm(formData, fields, formName)  -- best-effort; failure → 201 + detail
+  ├── 4. submitToNotion(formData, formName)   -- only for Coalition/Builder/Leader; required there (failure → 502)
+  └── 5. submitToCiviCrm(formData, fields, formName)  -- required for `/connect`; best-effort when Notion is enabled
 ```
 
 The reason both writes are in one handler: hCaptcha tokens are single-use. One POST, one token, two backend writes in sequence.
@@ -50,6 +50,7 @@ The Notion and CiviCRM libs have **no cross-imports**. Removing one means deleti
 
 | Web page | `formName` in POST body | Notion `Profile` value |
 | --- | --- | --- |
+| `/connect` | `afformCircleContactForm` | _(none -- Notion skipped)_ |
 | `/coalition-partner` | `afformCoalitionPartner` | `Coalition Partner` |
 | `/activist-builder` | `afformActivistBuilder` | `Activist Builder` |
 | `/activist-leader-steward` | `afformActivistLeaderSteward` | `Activist Leader / Steward` |
@@ -80,7 +81,7 @@ The Notion and CiviCRM libs have **no cross-imports**. Removing one means deleti
 | `FUNNEL_INTAKE_NOTION_DISABLED` | Skip Notion; CiviCRM becomes required |
 | `FUNNEL_INTAKE_CIVICRM_DISABLED` | Skip CiviCRM; Notion only |
 
-Default (no flags set): Notion required, CiviCRM best-effort.
+Default (no flags set): `/connect` is CiviCRM-only (Notion skipped). The other three forms keep Notion required and CiviCRM best-effort.
 
 ---
 
@@ -105,7 +106,7 @@ The table below lists every property in the database as of 2026-05-29. The **Fun
 | --- | --- | --- | --- |
 | `Name` | title | **yes -- reused** | From form `name`; fallback `"Unknown"` |
 | `Email/Website` | email | **yes -- reused** | From `email`; omitted if empty |
-| `Profile` | select | **yes -- reused** | Derived from `formName` via `PROFILE_BY_FORM`; options: `Coalition Partner`, `Activist Builder`, `Activist Leader / Steward` |
+| `Profile` | select | **yes -- reused** | Derived from `formName` via `PROFILE_BY_FORM`; options: `Coalition Partner`, `Activist Builder`, `Activist Leader / Steward` (`/connect` has no Notion profile because Notion is skipped) |
 | `Organization` | select | **yes -- reused** | From `affiliatedOrgs`; case-insensitive match against existing options; unmatched values create a new option |
 | `Website` | url | **yes -- reused** | `website[]` joined with ` \| ` into a single url field |
 | `Phone or Social Handle` | phone_number | **yes -- reused** | `chat[]` + `chatService[]` joined as `handle (Service) \| ...` |
@@ -163,8 +164,8 @@ ADD COLUMN "Wants Newsletter" CHECKBOX
 
 ## Key design decisions
 
-- **One endpoint for all three forms** -- hCaptcha tokens are single-use; all three forms point at `POST /api/public/afform-submit`.
-- **Notion required, CiviCRM best-effort** -- Notion failure returns 502; CiviCRM failure returns 201 with a `detail` field.
+- **One endpoint for all four forms** -- hCaptcha tokens are single-use; `/connect`, `/coalition-partner`, `/activist-builder`, and `/activist-leader-steward` all point at `POST /api/public/afform-submit`.
+- **Per-form destination rules** -- `/connect` skips Notion and requires CiviCRM (`502` on CiviCRM failure). The other three forms keep Notion required and CiviCRM best-effort.
 - **One `Background` column** -- All `background*` textarea variants collapse into a single rich-text property.
 - **Joined multi-values** -- `website[]` -> pipe-separated string in `Website` (url); `chat[]` -> `handle (Service)` entries in `Phone or Social Handle`.
 - **`Organization` grows over time** -- Unmatched submitted values are written as-is and Notion creates a new select option.
