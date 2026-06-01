@@ -86,6 +86,41 @@ describe('buildAfformValues', () => {
     ])
   })
 
+  it('injects connect defaults and keeps Note joined on Individual1', () => {
+    const values = buildAfformValues(
+      { name: 'Ada', openText: 'Helping with local events' },
+      [
+        individualField,
+        {
+          entity: 'Individual1',
+          formKey: 'openText',
+          fieldName: 'note',
+          join: 'Note',
+          inputType: 'textarea',
+        },
+      ],
+      'afformCircleContactForm'
+    )
+
+    expect(values.Case1).toEqual([
+      {
+        fields: {
+          'Circle_Case.Profile': ['5'],
+          'Circle_Case.Lead_Source': ['7'],
+        },
+        joins: {},
+      },
+    ])
+    expect(values.Individual1).toEqual([
+      {
+        fields: { first_name: 'Ada' },
+        joins: {
+          Note: [{ note: 'Helping with local events' }],
+        },
+      },
+    ])
+  })
+
   it('overrides client-provided case fields with server defaults', () => {
     const values = buildAfformValues(
       {
