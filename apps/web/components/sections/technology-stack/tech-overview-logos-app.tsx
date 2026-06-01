@@ -64,7 +64,7 @@ export default function TechOverviewLogosApp({ data }: Props) {
             alt={data.image.alt}
             fill
             priority
-            sizes="(max-width: 767px) 345px, 566px"
+            sizes="(max-width: 1279px) 345px, 566px"
           />
         }
         title={

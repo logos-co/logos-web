@@ -4,48 +4,12 @@ import type { ReactNode } from 'react'
 import { TechTextSplitSection } from '@acid-info/logos-ui'
 import type { CtaPanelSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
-import { Button } from '@/components/ui'
-
-import { SectionMarker } from './messaging-shared'
+import { OverviewMediaPanel } from '@/components/sections/shared/overview-media-panel'
 
 function paragraphs(text?: string) {
   return text?.split('\n\n') ?? []
-}
-
-function ctaAttrs(external?: boolean) {
-  return external ? { target: '_blank', rel: 'noopener noreferrer' } : {}
-}
-
-function MessagingFeatureActions({ data }: { data: CtaPanelSection }) {
-  if (!data.cta && !data.secondaryCta) {
-    return null
-  }
-
-  return (
-    <div className="flex items-baseline gap-1.5">
-      {data.cta ? (
-        <Button
-          href={data.cta.href}
-          variant={data.cta.variant ?? 'primary'}
-          className="cursor-pointer"
-          {...ctaAttrs(data.cta.external)}
-        >
-          {data.cta.label}
-        </Button>
-      ) : null}
-      {data.secondaryCta ? (
-        <Button
-          href={data.secondaryCta.href}
-          variant={data.secondaryCta.variant ?? 'secondary'}
-          className="cursor-pointer"
-          {...ctaAttrs(data.secondaryCta.external)}
-        >
-          {data.secondaryCta.label}
-        </Button>
-      ) : null}
-    </div>
-  )
 }
 
 function DeliveryImage() {
@@ -90,66 +54,28 @@ function MessagingFeaturePanel({
   tone?: 'gray-01' | 'gray-02'
   reverse?: boolean
 }) {
-  const mobileEyebrow = data.mobileEyebrow ?? data.eyebrow
-  const mobileTitle = data.mobileTitle ?? data.title
-  const mobileDescription = data.mobileDescription ?? data.description
-
   return (
     <section className="bg-brand-off-white">
-      <div
-        className={`mx-auto max-w-[1440px] p-3 ${
-          tone === 'gray-02' ? 'bg-gray-02' : 'bg-gray-01'
-        }`}
-      >
-        <div
-          className={`relative grid gap-3 md:h-[335px] md:grid-cols-2 ${
-            reverse ? 'md:[&>*:first-child]:col-start-2' : ''
-          }`}
-        >
-          <Reveal className="flex min-h-72 flex-col justify-between text-brand-dark-green md:h-full md:w-full md:pb-3">
-            {mobileEyebrow ? (
-              <SectionMarker
-                label={mobileEyebrow}
-                className="h-[98px] md:hidden"
-              />
-            ) : null}
-            {data.eyebrow ? (
-              <SectionMarker
-                label={data.eyebrow}
-                className="hidden h-[98px] md:flex"
-              />
-            ) : null}
-
-            <div className="flex w-[345px] max-w-full min-w-0 flex-col gap-3 break-words md:w-full">
-              <h2 className="font-sans text-[24px] leading-[1.1] font-normal tracking-[-0.24px] md:w-[336px]">
-                <span className="md:hidden">{mobileTitle}</span>
-                <span className="hidden md:inline">{data.title}</span>
-              </h2>
-              {mobileDescription ? (
-                <p className="w-[345px] max-w-full font-sans text-[12px] leading-[1.2] font-medium break-words md:hidden">
-                  {mobileDescription}
-                </p>
-              ) : null}
-              {data.description ? (
-                <p className="hidden font-sans text-[12px] leading-[1.2] font-medium md:block md:w-[485px]">
-                  {data.description}
-                </p>
-              ) : null}
-            </div>
-
-            <MessagingFeatureActions data={data} />
-          </Reveal>
-
-          <Reveal
-            amount={0.2}
-            className={`h-72 md:h-full ${
-              reverse ? 'md:col-start-1 md:row-start-1' : ''
-            }`}
-          >
-            {image}
-          </Reveal>
-        </div>
-      </div>
+      <ContentWidth className="!p-0">
+        <Reveal amount={0.2}>
+          <OverviewMediaPanel
+            eyebrow={data.eyebrow}
+            mobileEyebrow={data.mobileEyebrow}
+            title={data.title}
+            mobileTitle={data.mobileTitle}
+            body={data.description ? [data.description] : undefined}
+            mobileBody={
+              data.mobileDescription ? [data.mobileDescription] : undefined
+            }
+            cta={data.cta}
+            secondaryCta={data.secondaryCta}
+            image={image}
+            imagePosition={reverse ? 'left' : 'right'}
+            tone={tone}
+            size="compact"
+          />
+        </Reveal>
+      </ContentWidth>
     </section>
   )
 }

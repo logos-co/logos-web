@@ -198,7 +198,7 @@
     {
       "componentType": "table",
       "key": "techStack.openSource",
-      "title": "Open Source Repos",
+      "title": "Open Source",
       "subtitle": "All Logos code is open source, licensed under permissive licences. The primary development happens across several GitHub organisations.",
       "rows": [
         {

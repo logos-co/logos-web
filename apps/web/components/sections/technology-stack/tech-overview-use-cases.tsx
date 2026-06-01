@@ -174,8 +174,8 @@ export default function TechOverviewUseCases({ data }: Props) {
   }
 
   return (
-    <section>
-      <div className="h-[820px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-10 md:h-auto md:overflow-visible md:pb-16">
+    <section className="h-[820px] overflow-hidden bg-brand-off-white md:h-auto md:overflow-visible md:bg-transparent">
+      <div className="h-[290px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-0 md:h-auto md:overflow-visible md:pb-16">
         <div className="flex items-start justify-between gap-4 md:hidden">
           <div className="relative h-[81px] w-[107px] shrink-0 overflow-hidden">
             <Image
@@ -204,18 +204,18 @@ export default function TechOverviewUseCases({ data }: Props) {
           </div>
 
           {data.subheading ? (
-            <p className="text-mono-s absolute left-[714px] top-6 w-[226px] text-brand-dark-green">
+            <p className="text-mono-s absolute top-6 left-[calc(50%+6px)] w-[calc(25%-18px)] min-w-[178px] max-w-[226px] text-brand-dark-green xl:left-[714px] xl:w-[226px] xl:max-w-none">
               {data.subheading}
             </p>
           ) : null}
           {data.subheadingExtra ? (
-            <p className="text-mono-s absolute left-[1071px] top-6 w-[226px] text-brand-dark-green">
+            <p className="text-mono-s absolute top-6 left-[calc(75%+3px)] w-[calc(25%-15px)] min-w-[178px] max-w-[226px] text-brand-dark-green xl:left-[1071px] xl:w-[226px] xl:max-w-none">
               {data.subheadingExtra}
             </p>
           ) : null}
 
           {data.heading ? (
-            <h2 className="text-h2 absolute left-[476px] top-[140px] w-[464px] text-center text-brand-dark-green">
+            <h2 className="text-h2 absolute top-[140px] left-1/2 w-[464px] -translate-x-1/2 text-center text-brand-dark-green xl:left-[476px] xl:translate-x-0">
               {data.heading}
             </h2>
           ) : null}
@@ -229,7 +229,7 @@ export default function TechOverviewUseCases({ data }: Props) {
             <Button
               href={data.cta.href}
               variant="link"
-              className="absolute left-[714px] top-[272px] transition-opacity hover:opacity-70"
+              className="absolute top-[272px] left-[calc(50%+6px)] cursor-pointer transition-opacity hover:opacity-70 xl:left-[714px]"
             >
               {data.cta.label}
             </Button>

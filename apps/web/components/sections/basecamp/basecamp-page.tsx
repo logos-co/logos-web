@@ -12,6 +12,7 @@ import { LogosMark } from '@acid-info/logos-ui'
 
 import { IconMask } from '@/components/icons/icon-mask'
 import ContentWidth from '@/components/layout/content-width'
+import { OverviewMediaPanel } from '@/components/sections/shared/overview-media-panel'
 import {
   TechStackDetailPage,
   TechStackDetailSection,
@@ -176,46 +177,28 @@ function HowItWorksSection({ data }: { data: TableSection }) {
 
 function LocalFirstSection({ data }: { data: CtaPanelSection }) {
   return (
-    <section className="grid w-full gap-6 bg-gray-01 p-3 md:grid-cols-2">
-      <div className="relative min-h-[357px] overflow-hidden rounded-xl">
-        {data.image ? (
-          <Image
-            src={data.image.src}
-            alt={data.image.alt}
-            fill
-            sizes="(max-width: 768px) 100vw, 702px"
-            className="object-cover"
-          />
-        ) : null}
-      </div>
-      <div className="flex min-h-[357px] flex-col justify-between gap-10 py-0">
-        {data.eyebrow ? (
-          <div className="text-mono-s flex items-center gap-[102px] text-brand-dark-green">
-            <LogosMark size={9} />
-            <span className="uppercase">{data.eyebrow}</span>
+    <section>
+      <OverviewMediaPanel
+        eyebrow={data.eyebrow}
+        footerLabel={data.footerLabel}
+        title={data.title}
+        body={paragraphs(data.description)}
+        cta={data.cta}
+        imagePosition="left"
+        image={
+          <div className="relative h-[317px] w-full overflow-hidden rounded-[24px] md:h-full">
+            {data.image ? (
+              <Image
+                src={data.image.src}
+                alt={data.image.alt}
+                fill
+                sizes="(max-width: 768px) 100vw, 702px"
+                className="object-cover"
+              />
+            ) : null}
           </div>
-        ) : null}
-        <div className="max-w-[485px]">
-          <h2 className="text-h3 mb-4 text-brand-dark-green">{data.title}</h2>
-          <div className="text-body-s flex flex-col gap-4 text-brand-dark-green">
-            {paragraphs(data.description).map((item) => (
-              <p key={item}>{item}</p>
-            ))}
-          </div>
-          {data.cta ? (
-            <BasecampCta
-              cta={data.cta}
-              className="mt-6 cursor-pointer bg-transparent"
-            />
-          ) : null}
-        </div>
-        {data.footerLabel ? (
-          <div className="text-mono-s flex items-center gap-[102px] text-brand-dark-green opacity-0">
-            <LogosMark size={9} />
-            <span>{data.footerLabel}</span>
-          </div>
-        ) : null}
-      </div>
+        }
+      />
     </section>
   )
 }
