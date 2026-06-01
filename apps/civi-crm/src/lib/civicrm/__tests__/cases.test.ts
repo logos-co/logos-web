@@ -6,6 +6,21 @@ function okResponse<T>(values: T[], count = values.length) {
   return new Response(JSON.stringify({ values, count }), { status: 200 })
 }
 
+function getRequestedParams(url: string): {
+  where?: unknown[]
+  values?: Record<string, unknown>
+  [key: string]: unknown
+} {
+  const parsedUrl = new URL(url, 'https://example.test')
+  const rawParams = parsedUrl.searchParams.get('params')
+  if (!rawParams) return {}
+  return JSON.parse(rawParams) as {
+    where?: unknown[]
+    values?: Record<string, unknown>
+    [key: string]: unknown
+  }
+}
+
 const view = getActiveView()
 
 describe('buildCaseSelect', () => {
@@ -74,7 +89,7 @@ describe('listCases', () => {
       .mocked(fetch)
       .mock.calls.find(([url]) => String(url).includes('/Case/get'))
     expect(caseCall).toBeDefined()
-    const body = JSON.parse(caseCall![1]!.body as string)
+    const body = getRequestedParams(String(caseCall![0]))
     expect(body.where).toContainEqual([
       'case_type_id:name',
       '=',
@@ -90,7 +105,7 @@ describe('listCases', () => {
     const caseCall = vi
       .mocked(fetch)
       .mock.calls.find(([url]) => String(url).includes('/Case/get'))
-    const body = JSON.parse(caseCall![1]!.body as string)
+    const body = getRequestedParams(String(caseCall![0]))
     const statusFilter = body.where?.find(
       ([f]: [string]) => f === 'status_id:name'
     )
@@ -105,7 +120,7 @@ describe('listCases', () => {
     const caseCall = vi
       .mocked(fetch)
       .mock.calls.find(([url]) => String(url).includes('/Case/get'))
-    const body = JSON.parse(caseCall![1]!.body as string)
+    const body = getRequestedParams(String(caseCall![0]))
     expect(body.where).toContainEqual(['status_id:name', '=', 'open'])
   })
 
@@ -142,7 +157,7 @@ describe('listCases', () => {
       .mocked(fetch)
       .mock.calls.find(([url]) => String(url).includes('/Case/get'))
     expect(caseCall).toBeDefined()
-    const body = JSON.parse(caseCall![1]!.body as string)
+    const body = getRequestedParams(String(caseCall![0]))
     expect(body.where).toContainEqual(['id', 'IN', [42]])
   })
 
@@ -408,7 +423,7 @@ describe('updateCase', () => {
 
     const call = vi.mocked(fetch).mock.calls[0]
     expect(String(call[0])).toContain('/Case/update')
-    const body = JSON.parse(call[1]!.body as string)
+    const body = getRequestedParams(String(call[0]))
     expect(body.where).toContainEqual(['id', '=', 42])
   })
 
@@ -418,7 +433,7 @@ describe('updateCase', () => {
     )
     await updateCase('1', { subject: 'X', 'Circle_Case.Scorecard': 3.5 })
 
-    const body = JSON.parse(vi.mocked(fetch).mock.calls[0][1]!.body as string)
+    const body = getRequestedParams(String(vi.mocked(fetch).mock.calls[0][0]))
     expect(
       Object.prototype.hasOwnProperty.call(body.values, 'Circle_Case.Scorecard')
     ).toBe(false)

@@ -22,7 +22,7 @@
 
 ### Endpoint
 
-Every action is a `POST` to:
+Every action targets:
 
 ```
 {CIVICRM_BASE_URL}/civicrm/ajax/api4/{Entity}/{Action}
@@ -31,9 +31,9 @@ Every action is a `POST` to:
 Examples:
 
 ```
-POST /civicrm/ajax/api4/Case/get
-POST /civicrm/ajax/api4/Activity/create
-POST /civicrm/ajax/api4/Relationship/delete
+GET /civicrm/ajax/api4/Case/get?params=...
+POST /civicrm/ajax/api4/Activity/create?params=...
+POST /civicrm/ajax/api4/Relationship/delete?params=...
 ```
 
 ### Authentication
@@ -42,24 +42,33 @@ The `X-Civi-Auth: Bearer <key>` header must be present on every request. This re
 
 ```
 X-Civi-Auth: Bearer <CIVICRM_API_KEY>
-Content-Type: application/json
+X-Requested-With: XMLHttpRequest
 ```
 
-### Request body
+### Query params
 
-The body is **raw JSON** -- not form-encoded. The `Content-Type: application/json` header is required.
+All actions in this app pass APIv4 options via a URL-encoded JSON payload in the `params` query string key.
+No action sends a JSON request body (`Content-Type: application/json` is not used by this app's CiviCRM client).
+
+```text
+/civicrm/ajax/api4/Case/get?params=%7B%22where%22%3A%5B%5B%22case_type_id%3Aname%22%2C%22%3D%22%2C%22movement_view%22%5D%5D%7D
+```
+
+Decoded `params` value:
 
 ```json
 {
-  "select": ["id", "subject", "status_id:label"],
-  "where": [["case_type_id:name", "=", "movement_view"]],
-  "orderBy": [["subject", "ASC"]],
-  "limit": 20,
-  "offset": 0
+  "where": [["case_type_id:name", "=", "movement_view"]]
 }
 ```
 
-Do **not** wrap the params in a `params=` key or URL-encode them. That is the APIv3 / AJAX REST pattern and does not apply to APIv4.
+The decoded `params` object varies by action, for example:
+
+```json
+{
+  "values": { "subject": "New case" }
+}
+```
 
 ### Response format
 
@@ -79,7 +88,7 @@ On error, CiviCRM returns a non-2xx status with a plain-text or JSON body. The c
 
 ### Actions used
 
-| Action | Body fields | Returns |
+| Action | `params` fields | Returns |
 |---|---|---|
 | `get` | `select`, `where`, `orderBy`, `limit`, `offset` | Matching records |
 | `create` | `values` | The created record |
@@ -95,7 +104,11 @@ On error, CiviCRM returns a non-2xx status with a plain-text or JSON body. The c
 ```typescript
 class CiviCRMClient {
   get<T>(entity: string, params: CiviParams): Promise<T[]>
-  create<T>(entity: string, values: Record<string, unknown>): Promise<T>
+  create<T>(
+    entity: string,
+    values: Record<string, unknown>,
+    options?: { chain?: Record<string, unknown> }
+  ): Promise<T>
   update<T>(entity: string, where: CiviWhere[], values: Record<string, unknown>): Promise<T[]>
   delete(entity: string, where: CiviWhere[]): Promise<void>
   count(entity: string, params: Pick<CiviParams, 'where'>): Promise<number>
@@ -103,7 +116,7 @@ class CiviCRMClient {
 ```
 
 All outbound requests go through this class. It:
-- Injects the `X-Civi-Auth` and `Content-Type` headers automatically.
+- Injects the `X-Civi-Auth` and `X-Requested-With` headers automatically.
 - Throws `CiviCRMError(status, message)` on any non-2xx response.
 - Unwraps `data.values` so callers receive plain arrays.
 
@@ -119,7 +132,8 @@ type CiviWhere = [string, string, CiviWhereValue | CiviWhereValue[]]
 type CiviParams = {
   select?: string[]
   where?: CiviWhere[]
-  orderBy?: [string, 'ASC' | 'DESC'][]
+  orderBy?: Record<string, 'ASC' | 'DESC'>
+  values?: Record<string, unknown>
   limit?: number
   offset?: number
 }
@@ -196,11 +210,11 @@ Use `:name` paths in `where`, not `:label` paths:
 
 ### `orderBy`
 
-Array of `[field, direction]` pairs:
+Object map of `{ fieldPath: direction }`:
 
 ```typescript
-orderBy: [['subject', 'ASC']]
-orderBy: [['Circle_Case.Scorecard', 'DESC']]
+orderBy: { subject: 'ASC' }
+orderBy: { 'Circle_Case.Scorecard': 'DESC' }
 ```
 
 ### `limit` and `offset`
@@ -302,7 +316,7 @@ Table: `civicrm_contact`
 | `display_name` | `string` | Full formatted name |
 | `first_name` | `string` | |
 | `last_name` | `string` | |
-| `email_primary` | `string` | Calculated shortcut to the primary email address. Supported as a **read field** (select/where), **write shortcut** in `create` (creates an Email record), and **filter** in `where`. Requires a recent CiviCRM 5.x version. |
+| `email_primary` | `string` | Calculated shortcut to the primary email address. Supported as a **read field** (`select`/`where`) and as a **filter** in `where`. |
 | `contact_type` | `string` | `'Individual'`, `'Organization'`, or `'Household'` -- required on `create` |
 
 **`email_primary` in `where`:** filtering on this field works via an implicit join. Use it to look up a contact by email address:
@@ -311,10 +325,28 @@ Table: `civicrm_contact`
 where: [['email_primary', '=', 'user@example.com']]
 ```
 
-**`email_primary` in `create` values:** creates a primary Email record atomically:
+**Creating Contact + Email in one request:** `Contact` and `Email` are separate entities. In this app, create the Contact, then chain an `Email.create` operation using `$id` as a back-reference to the newly created contact:
 
 ```typescript
-civiClient.create('Contact', { contact_type: 'Individual', email_primary: 'user@example.com' })
+civiClient.create(
+  'Contact',
+  { contact_type: 'Individual' },
+  {
+    chain: {
+      create_email: [
+        'Email',
+        'create',
+        {
+          values: {
+            email: 'user@example.com',
+            contact_id: '$id',
+            is_primary: true,
+          },
+        },
+      ],
+    },
+  }
+)
 ```
 
 ---
@@ -456,6 +488,35 @@ const total = await civiClient.count(...)
 ```
 
 When a second round of queries depends on IDs from the first (e.g., fetching CaseContacts after getting case IDs), use `Promise.all` within each round but keep the rounds sequential.
+
+### APIv4 chaining for dependent creates
+
+Use APIv4 `chain` when you must create related entities in one request and the second write depends on the first write's generated ID.
+
+In this codebase, the canonical example is Contact + Email creation. `Contact` and `Email` are separate entities, so create the Contact first, then chain `Email.create` and pass `contact_id: '$id'` (back-reference to the outer Contact create result):
+
+```typescript
+await civiClient.create('Contact', { contact_type: 'Individual' }, {
+  chain: {
+    create_email: [
+      'Email',
+      'create',
+      {
+        values: {
+          email: userEmail,
+          contact_id: '$id',
+          is_primary: true,
+        },
+      },
+    ],
+  },
+})
+```
+
+Rules:
+- Use chaining only for true dependencies (inner call needs outer call output).
+- Keep the outer `values` payload valid by itself (e.g., `contact_type` is required for Contact create).
+- Prefer normal `Promise.all` parallel writes when operations are independent.
 
 ### `IN` filter over per-row fetches
 
