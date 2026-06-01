@@ -302,10 +302,10 @@
     {
       "componentType": "relatedArticles",
       "key": "home.press",
-      "eyebrow": "Logos in the News",
-      "title": "Press",
-      "label": "Lorem ipsum dolor si amet",
-      "cta": { "label": "Explore all articles", "href": "/press" },
+      "eyebrow": "Logos in the news.",
+      "title": "Media",
+      "label": "Articles, podcasts, and media.",
+      "cta": { "label": "Explore all media", "href": "/press" },
       "visibleCount": 4
     },
     {
