@@ -78,17 +78,3 @@ Current `home.circlesCta.secondaryCta.href` = `/circles`.
 The WHY section closing CTA points to `/about`, which the copy doc notes "won't be used yet".
 It is already gated by `ROUTE_AVAILABILITY.about`, so it does not render until the route is enabled.
 No action needed now; listed for completeness.
-
----
-
-## Already applied (for reference)
-
-- Meta title/description, Hero kicker + mobileBody typo fix.
-- WHY: intro ("adherence"), Debt / Corruption / Stagnation bodies, closing1/2/3 (3-paragraph closing).
-- Basecamp (builderPortal): description fixes, title period removed, feature labels
-  (Load a basic chat app / Run a node / Execute private transactions).
-- Choose your path: Build body + CTA "Start Building", Operate body, Activism CTA "Join the Movement".
-- Start Building: title/body/mobileBody.
-- Tech Stack module bodies (Basecamp, Storage, Messaging, Blockchain, User Modules),
-  Networking "Mixnet", Foundation "Logos Runtime" + description.
-- Parallel Society CTA → external `https://ps.logos.co/`.
