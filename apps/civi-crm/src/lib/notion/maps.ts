@@ -31,7 +31,7 @@ export const CHAT_SERVICE_MAP: Record<string, string> = {
   '9': 'Other',
 }
 
-export const PROFILE_BY_FORM: Record<AfformIntakeFormName, string> = {
+export const PROFILE_BY_FORM: Partial<Record<AfformIntakeFormName, string>> = {
   afformCoalitionPartner: 'Coalition Partner',
   afformActivistBuilder: 'Activist Builder',
   afformActivistLeaderSteward: 'Activist Leader / Steward',

@@ -17,6 +17,12 @@ const ALLOWED_FORMS = new Set([
   'afformCoalitionPartner',
 ])
 
+const NOTION_FORMS = new Set([
+  'afformActivistBuilder',
+  'afformActivistLeaderSteward',
+  'afformCoalitionPartner',
+])
+
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -97,7 +103,8 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const notionEnabled = isNotionIntakeSubmitEnabled()
+  const notionEnabled =
+    isNotionIntakeSubmitEnabled() && NOTION_FORMS.has(formName)
   const civiEnabled = isCiviCrmIntakeSubmitEnabled()
 
   if (!notionEnabled && !civiEnabled) {

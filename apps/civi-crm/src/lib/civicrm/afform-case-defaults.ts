@@ -13,6 +13,10 @@ export const FORM_CASE_DEFAULTS = {
     'Circle_Case.Profile': ['1'], // Circle Steward
     'Circle_Case.Lead_Source': ['1'], // Activist Steward Form (CiviCRM label)
   },
+  afformCircleContactForm: {
+    'Circle_Case.Profile': ['5'], // Interested Person
+    'Circle_Case.Lead_Source': ['7'], // Contact Form
+  },
   afformCoalitionPartner: {
     'Circle_Case.Profile': ['3'], // Coalition Partner
     'Circle_Case.Lead_Source': ['3'], // Coalition Partner Form
