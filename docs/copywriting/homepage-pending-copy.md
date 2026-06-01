@@ -70,11 +70,3 @@ In the "Take Action / Join a Circle" section, the copy doc leaves START A CIRCLE
 Current `home.circlesCta.secondaryCta.href` = `/circles`.
 
 **Decision needed:** confirm `/circles` or provide a dedicated route.
-
----
-
-## 6. About Us CTA → /about (deferred)
-
-The WHY section closing CTA points to `/about`, which the copy doc notes "won't be used yet".
-It is already gated by `ROUTE_AVAILABILITY.about`, so it does not render until the route is enabled.
-No action needed now; listed for completeness.

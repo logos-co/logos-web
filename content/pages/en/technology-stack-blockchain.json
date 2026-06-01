@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "language": "en",
   "route": "/technology-stack/blockchain",
-  "title": "Blockchain | Logos",
-  "description": "Privacy-first consensus for decentralised applications and social institutions. Formerly known as Nomos.",
+  "title": "Logos Blockchain: Private Proof-of-Stake",
+  "description": "A proof-of-stake layer-1 with privacy built into consensus. Anonymous block proposers, private transactions by default, and the Logos Execution Zone.",
   "heading": "Blockchain",
   "seo": {
     "keywords": [
@@ -21,27 +21,27 @@
       "key": "blockchain.hero",
       "eyebrow": "Technology stack",
       "headline": "Blockchain",
-      "body": "Privacy-first consensus for decentralised applications and social institutions. Formerly known as Nomos.",
+      "body": "Privacy-first consensus for decentralised applications and social institutions.",
       "bodySecondary": "Key Repositories:",
       "items": [
         {
-          "title": "NOMOS-NODE",
-          "description": "Full node implementation (Rust)"
+          "title": "LOGOS-BLOCKCHAIN",
+          "description": "Logos Blockchain main repository"
         },
         {
-          "title": "NOMOS-SPECS",
-          "description": "Protocol specifications"
+          "title": "LOGOS-EXECUTION-ZONE",
+          "description": "Programmable blockchain with parallel private state"
         },
         {
-          "title": "NOMOS-RESEARCH",
-          "description": "Cryptographic research and proofs"
+          "title": "LEZ-PROGRAMS",
+          "description": "Essential programs for the Logos Execution Zone"
         }
       ],
       "status": {
         "label": "Current Status",
-        "body": "Logos Blockchain is live on Testnet v0.1. The testnet includes the LEZ sequencer, a block explorer, and demo applications for atomic swaps and ZK-multisig. It is designed for backend validation and developer experimentation.",
+        "body": "The Logos testnet is currently live. The testnet includes the LEZ sequencer, a block explorer, and demo applications for atomic swaps and ZK-multisig. It is designed for backend validation and developer experimentation.",
         "cta": {
-          "label": "Install Testnet v0.1",
+          "label": "Install Testnet",
           "href": "/technology-stack/blockchain",
           "variant": "secondary",
           "iconOverride": "download"
@@ -66,7 +66,7 @@
       "key": "blockchain.privacy",
       "eyebrow": "Overview",
       "title": "Overview",
-      "description": "Logos Blockchain is a proof-of-stake layer-1 with privacy built into the consensus mechanism itself — not bolted on at the application layer. Block proposers are anonymous. Transactions are private by default. The chain supports the deployment of application-specific execution environments called Sovereign Zones, connected through Mantle Channels for interoperability.",
+      "description": "Logos Blockchain is a proof-of-stake layer-1 with privacy built into the consensus mechanism itself, rather than added at the application layer. Block proposers are anonymous and transactions are private by default. The chain supports application-specific execution environments called Sovereign Zones, which will be connected for interoperability.",
       "cta": {
         "label": "View the docs",
         "href": "https://github.com/logos-co/logos-docs",
@@ -87,7 +87,7 @@
       "cards": [
         {
           "title": "Cryptarchia:\nPrivate Proof-of-Stake",
-          "description": "Most proof-of-stake systems reveal who proposed each block, creating a target for censorship, bribery, and coercion. Logos solves this with Cryptarchia, a Private Proof-of-Stake mechanism where block proposers are selected through a private lottery and anonymised through Blend, a mixnet-based protocol.\n\nThe result: validators participate in consensus without revealing their identity during block proposal. This is a fundamental privacy guarantee that most blockchains cannot offer.",
+          "description": "Most proof-of-stake systems reveal who proposed each block, creating a target for censorship, bribery, and coercion. Logos solves this with Cryptarchia, a private proof-of-stake mechanism in which block proposers are selected through a private lottery and anonymised through Blend, a mixnet-based protocol.\n\nValidators take part in consensus without revealing their identity during block proposal — a privacy guarantee most blockchains cannot offer.",
           "image": {
             "src": "/images/blockchain/overview/mantle.webp",
             "alt": "",
@@ -108,7 +108,7 @@
         },
         {
           "title": "Logos Execution Zone (LEZ)",
-          "description": "LEZ is the first Sovereign Zone, serving as the primary execution environment for the Logos stack. It provides a sequencer, block explorer, and core application infrastructure including atomic swaps and multisig with zero-knowledge proofs.",
+          "description": "The LEZ is the first Sovereign Zone, serving as the primary execution environment for applications on the Logos blockchain.\n\nSeparate but interoperable public and private state allows applications to operate across both transparent and privacy-preserving accounts without changing their logic. Privacy is enforced by the protocol itself through zero-knowledge proofs (ZKPs).",
           "image": {
             "src": "/images/blockchain/overview/cryptarchia.webp",
             "alt": "",
@@ -128,8 +128,8 @@
           }
         },
         {
-          "title": "Mantle Channels",
-          "description": "Mantle Channels enable interoperability between Sovereign Zones. They provide a cross-Zone messaging protocol that allows applications in different Zones to communicate and transact without sacrificing sovereignty or privacy.",
+          "title": "Blend Network",
+          "description": "The Blend Network provides network-level anonymity for block propagation, keeping validator selection private and the movement of blocks across the network unlinkable to their source.",
           "image": {
             "src": "/images/blockchain/overview/lez.webp",
             "alt": "",
