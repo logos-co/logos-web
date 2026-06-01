@@ -73,8 +73,8 @@ export const ROUTES = {
   // Design system reference (internal)
   designSystems: '/design-systems',
 
-  // Placeholder / test
-  test: '/test',
+  // Campaigns
+  ukDebt: '/ukdebt',
 } as const
 
 // ---------------------------------------------------------------------------
