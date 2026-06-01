@@ -11,6 +11,7 @@ import {
 
 import buildersHubResources from '../../../../content/builders-hub/resources/en.json' with { type: 'json' }
 import buildersHubSettings from '../../../../content/builders-hub/settings/en.json' with { type: 'json' }
+import homePage from '../../../../content/pages/en/home.json' with { type: 'json' }
 import footer from '../../../../content/site/en/footer.json' with { type: 'json' }
 import navigation from '../../../../content/site/en/navigation.json' with { type: 'json' }
 
@@ -40,6 +41,7 @@ const jobsHref = 'https://free.technology/jobs'
 const onboardingCalendarHref = 'https://cal.com/team/logos-onboarding/intro'
 const logosDocsHref = 'https://github.com/logos-co/logos-docs'
 const communityIdeasHref = 'https://github.com/logos-co/ideas'
+const parallelSocietyHref = 'https://ps.logos.co/'
 const basecampReleaseHref =
   'https://github.com/logos-co/logos-basecamp/releases/tag/0.1.2'
 const basecampLinuxDownloadHref =
@@ -205,6 +207,22 @@ describe('link policy', () => {
       expect.objectContaining({
         href: onboardingCalendarHref,
         external: true,
+      })
+    )
+  })
+
+  it('routes the homepage Parallel Society CTA to the event site', () => {
+    const parallelSocietyHeadline = homePage.sections.find(
+      (section) => section.key === 'home.parallelSocietyHeadline'
+    )
+
+    expect(parallelSocietyHeadline).toEqual(
+      expect.objectContaining({
+        cta: {
+          label: 'Learn More',
+          href: parallelSocietyHref,
+          external: true,
+        },
       })
     )
   })

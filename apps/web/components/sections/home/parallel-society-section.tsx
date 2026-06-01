@@ -126,6 +126,8 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
               href={headline.cta.href}
               variant="link"
               className="cursor-pointer transition-opacity hover:opacity-70"
+              target={headline.cta.external ? '_blank' : undefined}
+              rel={headline.cta.external ? 'noopener noreferrer' : undefined}
             >
               {headline.cta.label}
             </Button>
