@@ -99,20 +99,20 @@ export default function FeatureCardsSection() {
 
   return (
     <section className="hidden border-t border-brand-dark-green/10 bg-brand-off-white md:block">
-      <ContentWidth className="flex flex-col items-center gap-[118px] pt-6 pb-[100px]">
-        <p className="text-mono-s w-[226px] text-center text-brand-dark-green">
+      <ContentWidth className="relative h-[848px]">
+        <p className="text-mono-s absolute top-[23px] left-1/2 w-[226px] translate-x-[6px] text-left text-brand-dark-green">
           {t('kicker')}
         </p>
 
-        <h2 className="text-h2 w-full text-center text-brand-dark-green">
+        <h2 className="text-h2 absolute top-[123px] left-1/2 w-full -translate-x-1/2 text-center text-brand-dark-green">
           {t('title')}
         </h2>
 
-        <p className="text-mono-s w-[230px] text-center text-brand-dark-green">
+        <p className="text-mono-s absolute top-[229px] left-1/2 w-[230px] translate-x-[6px] text-left text-brand-dark-green">
           {t('body')}
         </p>
 
-        <div className="grid w-full grid-cols-3 gap-3">
+        <div className="absolute inset-x-3 top-[371px] grid grid-cols-3 gap-3">
           {cards.map((card) => (
             <PathCardView key={card.key} card={card} />
           ))}

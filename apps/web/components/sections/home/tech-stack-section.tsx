@@ -14,6 +14,9 @@ function splitTechStackTitle(title: string): [string, string] {
   return [parts[0], 'Technology Stack']
 }
 
+const TECH_STACK_BODY =
+  'Private-by-default infrastructure for people who need secure coordination and do not trust existing platforms to provide it.'
+
 type Props = {
   data: TechStackOverviewSection
   /**
@@ -86,8 +89,7 @@ export default function TechStackSection({
           ) : null}
 
           <p className="text-mono-s w-[178px] text-center text-brand-dark-green">
-            Private-by-default infrastructure is a requirement to make parallel
-            societies possible.
+            {TECH_STACK_BODY}
           </p>
 
           <div className="w-full">
@@ -135,23 +137,24 @@ export default function TechStackSection({
             </div>
           </div>
 
-          <div className="mt-[86px] flex flex-col items-center gap-[149px]">
+          <div className="mt-[73px] flex flex-col items-center gap-[73px]">
             {data.eyebrow ? (
-              <p className="text-mono-s w-[226px] whitespace-pre-line text-center text-brand-dark-green">
-                {formatEyebrow(data.eyebrow)}
-              </p>
-            ) : null}
+              <div className="relative h-[301px] w-[464px]">
+                <p className="text-mono-s absolute top-[-3px] left-[238px] w-[226px] whitespace-pre-line text-left text-brand-dark-green">
+                  {formatEyebrow(data.eyebrow)}
+                </p>
 
-            {data.title ? (
-              <h2 className="text-h2 w-[464px] whitespace-pre-line text-center text-brand-dark-green">
-                {data.title}
-              </h2>
-            ) : null}
+                {data.title ? (
+                  <h2 className="text-h2 absolute top-[84px] left-1/2 w-[464px] -translate-x-1/2 whitespace-pre-line text-center text-brand-dark-green">
+                    {data.title}
+                  </h2>
+                ) : null}
 
-            <p className="text-mono-s w-[226px] text-center text-brand-dark-green">
-              Private-by-default infrastructure is a requirement to make parallel
-              societies possible.
-            </p>
+                <p className="text-mono-s absolute top-[233px] left-[238px] w-[226px] text-left text-brand-dark-green">
+                  {TECH_STACK_BODY}
+                </p>
+              </div>
+            ) : null}
 
             <div className="w-full">
               <TechStackDiagram

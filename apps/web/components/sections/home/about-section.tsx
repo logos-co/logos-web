@@ -111,6 +111,9 @@ export default async function AboutSection({ locale }: { locale: string }) {
     'top-[calc(100vh+1840px)]',
     'top-[calc(100vh+2760px)]',
   ]
+  const closingParagraphs = [t('closing1'), t('closing2'), t('closing3')].filter(
+    (paragraph) => paragraph.trim().length > 0,
+  )
 
   return (
     <section
@@ -140,10 +143,10 @@ export default async function AboutSection({ locale }: { locale: string }) {
       <AboutScrollStack intro={t('intro')} cards={cards} />
 
       <ContentWidth className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] -translate-x-1/2 flex-col items-center gap-[60px] text-center md:relative md:top-auto md:left-auto md:flex md:w-full md:translate-x-0 md:pt-[120px] md:pb-[360px]">
-        <div className="text-h3-serif flex max-w-[369px] flex-col gap-[1em] md:max-w-none">
-          <p>{t('closing1')}</p>
-          <p>{t('closing2')}</p>
-          <p>{t('closing3')}</p>
+        <div className="text-h3-serif flex max-w-[369px] flex-col gap-[1em] md:max-w-[860px]">
+          {closingParagraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
         </div>
 
         {ROUTE_AVAILABILITY.about ? (

@@ -45,8 +45,8 @@
       "cards": [
         {
           "title": "Build",
-          "description": "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others.",
-          "cta": { "label": "Start building", "href": "/builders-hub" }
+          "description": "Explore programmes and resources to help you build your cyberstate.",
+          "cta": { "label": "Builder Hub", "href": "/builders-hub" }
         },
         {
           "title": "Node Programme",
