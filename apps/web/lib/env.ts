@@ -43,6 +43,15 @@ export type Env = {
    */
   NEXT_PUBLIC_ADMIN_ACID_API_URL: string | undefined
   /**
+   * Public CiviCRM API origin (e.g. `https://civi.logos.co` or `http://localhost:3002`).
+   * Used by connect/intake forms to submit data.
+   */
+  NEXT_PUBLIC_CIVI_CRM_URL: string | undefined
+  /**
+   * hCaptcha public sitekey for connect forms.
+   */
+  NEXT_PUBLIC_HCAPTCHA_SITEKEY: string | undefined
+  /**
    * Optional override for static forms that post directly to the take-action
    * service.
    */
@@ -98,6 +107,12 @@ export const env: Env = {
   NEXT_PUBLIC_CMS_URL: readOptionalString(process.env.NEXT_PUBLIC_CMS_URL),
   NEXT_PUBLIC_ADMIN_ACID_API_URL: readOptionalString(
     process.env.NEXT_PUBLIC_ADMIN_ACID_API_URL
+  ),
+  NEXT_PUBLIC_CIVI_CRM_URL: readOptionalString(
+    process.env.NEXT_PUBLIC_CIVI_CRM_URL
+  ),
+  NEXT_PUBLIC_HCAPTCHA_SITEKEY: readOptionalString(
+    process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY
   ),
   NEXT_PUBLIC_TAKE_ACTION_API_URL: readOptionalString(
     process.env.NEXT_PUBLIC_TAKE_ACTION_API_URL
