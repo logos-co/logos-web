@@ -21,7 +21,7 @@
       "key": "techStack.hero",
       "eyebrow": "Open by design, open in spirit. Build truly decentralised applications with the modular Logos Technology Stack.",
       "headline": "The Logos Technology Stack",
-      "body": "The Logos Technology Stack is a unified ecosystem of distinct modules. The entire stack is modular so developers can assemble their own Logos-based platform with a different selection of modules.",
+      "body": "The Logos technology stack is a unified ecosystem of distinct modules. The whole stack is modular, allowing developers to assemble their own Logos-based platform from their own selection of modules.",
       "background": {
         "src": "/images/technology-stack/header-status.jpg",
         "alt": "",
@@ -67,7 +67,7 @@
     {
       "componentType": "techStackOverview",
       "key": "techStack.overview",
-      "title": "The Stack",
+      "title": "The Technology Stack",
       "eyebrow": "Disclaimer: Abstract representation of the stack.",
       "cta": {
         "label": "Docs",
@@ -78,11 +78,11 @@
         "eyebrow": "Technology",
         "title": "Architecture Overview",
         "body": [
-          "Logos provides developers with a modular, plugin-based runtime for building decentralised applications.",
-          "This architecture allows nodes to dynamically discover and load modules while preserving privacy. This approach allows the network to evolve and provides a foundation for decentralised applications and social institutions that remain resistant to capture and corruption – whether deployed by local communities or nation‑state operators."
+          "Logos gives developers a modular, plugin-based runtime for building decentralised, privacy-preserving applications.",
+          "Nodes discover and load modules dynamically while preserving privacy at every layer. The network’s architecture lets it evolve over time, providing a foundation for decentralised applications and institutions that remain resistant to capture and corruption – whether they are run by local communities or nation states."
         ],
         "cta": {
-          "label": "View the docs",
+          "label": "Documentation",
           "href": "https://github.com/logos-co/logos-docs",
           "external": true
         },
@@ -130,7 +130,7 @@
       ],
       "networkingTitle": "The Networking Stack:\nDiscovery, Peering, and Mix-Net",
       "networkingDescription": "This layer handles how Logos nodes find each other, establish connections, and communicate.",
-      "foundationTitle": "The Foundation: Logos Kernel",
+      "foundationTitle": "The Foundation: Logos Runtime",
       "foundationDescription": "A microkernel that handles the essential primitives every decentralised application needs."
     },
     {
@@ -139,7 +139,7 @@
       "accent": "grey",
       "imagePosition": "left",
       "title": "Logos Basecamp",
-      "description": "Basecamp is a a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting “Simple Apps” that let users interact with the various modules",
+      "description": "Basecamp is the launcher and unified surface of the Logos stack. It is an executable that wraps the Logos runtime, initialises the Logos Core environment, and discovers and loads plugins from installed modules.",
       "image": {
         "src": "/images/technology-stack/logos-basecamp.jpg",
         "alt": "",
@@ -185,7 +185,7 @@
       },
       "body": [
         "Most blockchain platforms provide consensus only — you bring your own messaging and storage, or rely on centralised fallbacks. Logos ships all three as a unified stack with privacy at every layer.",
-        "Bitcoin proved that decentralised value transactions are possible. Ethereum generalised this for arbitrary computation. Logos extends it further: a platform for deploying arbitrary social institutions — governance systems, communication networks, data archives — with network-level and transaction-level privacy.",
+        "Bitcoin proved that decentralised value transactions are possible. Ethereum generalised this for arbitrary computation. Logos extends it further: a platform for deploying parallel institutions — governance systems, communication networks, data archives — with network-level and transaction-level privacy.",
         "Where Zcash focuses on private transactions, Logos provides a full application platform. Where Polkadot focuses on chain interoperability, Logos focuses on privacy and self-governance. Where Cosmos provides a framework for sovereign chains, Logos provides a complete integrated stack."
       ],
       "image": {
@@ -198,13 +198,13 @@
     {
       "componentType": "table",
       "key": "techStack.openSource",
-      "title": "Open Source",
+      "title": "Open Source Repos",
       "subtitle": "All Logos code is open source, licensed under permissive licences. The primary development happens across several GitHub organisations.",
       "rows": [
         {
           "number": "01",
           "title": "logos-co",
-          "description": "132 repositories: Basecamp, module system, protocol modules, LEZ, SDKs, dev tooling",
+          "description": "Basecamp, module system, protocol modules, LEZ, SDKs, dev tooling",
           "cta": {
             "label": "Repo",
             "href": "https://github.com/logos-co",
@@ -218,11 +218,11 @@
         },
         {
           "number": "02",
-          "title": "waku-org",
+          "title": "logos-messaging",
           "description": "Logos Messaging (formerly Waku) protocol implementations",
           "cta": {
             "label": "Repo",
-            "href": "https://github.com/waku-org",
+            "href": "https://github.com/logos-messaging",
             "external": true
           },
           "secondaryCta": {
@@ -233,11 +233,11 @@
         },
         {
           "number": "03",
-          "title": "codex-storage",
+          "title": "logos-storage",
           "description": "Logos Storage (formerly Codex) protocol implementations",
           "cta": {
             "label": "Repo",
-            "href": "https://github.com/codex-storage",
+            "href": "https://github.com/logos-storage",
             "external": true
           },
           "secondaryCta": {
@@ -267,10 +267,10 @@
       "componentType": "cardGrid",
       "key": "techStack.useCases",
       "heading": "Use Cases",
-      "subheading": "We know today’s systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
-      "subheadingExtra": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
+      "subheading": "We know today’s systems are captured and brittle. We build alternatives to give people a choice.",
+      "subheadingExtra": "Build on Logos and serve your community.",
       "cta": {
-        "label": "View the Docs",
+        "label": "Documentation",
         "href": "https://github.com/logos-co/logos-docs",
         "external": true
       },
