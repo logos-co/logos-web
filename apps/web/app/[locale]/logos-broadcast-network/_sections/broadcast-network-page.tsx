@@ -295,7 +295,7 @@ function EventCards({
 
   return (
     <section className="bg-accent-tan px-3 pb-10">
-      <ContentWidth className="grid grid-cols-3 gap-3">
+      <ContentWidth className="grid grid-cols-1 gap-3 md:grid-cols-3">
         {displayEvents.map((event, index) => (
           <EventCard
             key={event.id}
@@ -381,14 +381,14 @@ function EventsCalendar({
   }
 
   return (
-    <section className="overflow-x-auto bg-accent-tan pt-25 pb-25 text-brand-dark-green">
+    <section className="bg-accent-tan pt-25 pb-25 text-brand-dark-green">
       <ContentWidth>
         <div className="relative h-[160px] px-3">
           <h2 className="absolute bottom-6 left-3 font-sans text-[36px] leading-none tracking-[-0.02em]">
             {copy.upcomingEvents}
           </h2>
           <div
-            className="absolute bottom-6 left-[726px] flex h-[31px] items-center gap-2"
+            className="absolute top-6 left-3 flex h-[31px] items-center gap-2 md:bottom-6 md:left-[726px] md:top-auto"
             aria-label={`${copy.calendarMonthLabel} and ${copy.calendarYearLabel}`}
           >
             <label className="relative block h-[31px] w-[141px]">
@@ -458,20 +458,27 @@ function EventsCalendar({
             </button>
           </div>
         </div>
-        <div className="grid h-[29px] grid-cols-[repeat(7,192px)] gap-3 px-3">
-          {WEEKDAYS.map((day) => (
-            <span
-              key={day}
-              className="flex items-center justify-center font-mono text-[10px] font-semibold uppercase leading-[1.35]"
-            >
-              {day}
-            </span>
-          ))}
-        </div>
-        <div className="grid grid-cols-[repeat(7,192px)] gap-3 px-3 pt-3">
-          {days.map((day) => (
-            <CalendarCell key={day.key} day={day} />
-          ))}
+        <div
+          className="-mx-3 overflow-x-auto px-3"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          <div className="w-[1416px]">
+            <div className="grid h-[29px] grid-cols-[repeat(7,192px)] gap-3">
+              {WEEKDAYS.map((day) => (
+                <span
+                  key={day}
+                  className="flex items-center justify-center font-mono text-[10px] font-semibold uppercase leading-[1.35]"
+                >
+                  {day}
+                </span>
+              ))}
+            </div>
+            <div className="grid grid-cols-[repeat(7,192px)] gap-3 pt-3">
+              {days.map((day) => (
+                <CalendarCell key={day.key} day={day} />
+              ))}
+            </div>
+          </div>
         </div>
       </ContentWidth>
     </section>
@@ -497,8 +504,8 @@ function EpisodeRow({
         background
       )}
     >
-      <ContentWidth className="grid h-full grid-cols-[190px_524px_573px] items-center gap-0">
-        <div className="relative aspect-video h-auto w-[174px] shrink-0 justify-self-center overflow-hidden">
+      <ContentWidth className="grid h-full grid-cols-[107px_1fr] items-center gap-3 md:grid-cols-[190px_524px_573px] md:gap-0">
+        <div className="relative aspect-video h-auto w-[107px] shrink-0 justify-self-center overflow-hidden md:w-[174px]">
           <Image
             src={podcast.image}
             alt=""

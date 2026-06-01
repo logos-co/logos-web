@@ -62,46 +62,46 @@ function BuildersHubHero({ hero }: { hero: BuilderHubSettings['hero'] }) {
   return (
     <section className="relative h-[483px] px-3 pt-6 md:h-[487px]">
       <ContentWidth className="relative h-full">
-      <div className="absolute top-6 left-3 h-[75px] w-[107px] overflow-hidden">
-        <Image
-          src="/images/builders-hub/hero.webp"
-          alt=""
-          width={125}
-          height={157}
-          className="absolute -top-[29px] -left-[7px] h-[157px] w-[125px] object-cover"
-          priority
-        />
-      </div>
+        <div className="absolute top-6 left-3 h-[75px] w-[107px] overflow-hidden">
+          <Image
+            src="/images/builders-hub/hero.webp"
+            alt=""
+            width={125}
+            height={157}
+            className="absolute -top-[29px] -left-[7px] h-[157px] w-[125px] object-cover"
+            priority
+          />
+        </div>
 
-      {hero.eyebrow ? (
-        <p className="absolute top-6 left-[203px] w-[178px] text-mono-s md:left-1/2 md:w-[226px] md:translate-x-[6px]">
-          {hero.eyebrow}
-        </p>
-      ) : null}
+        {hero.eyebrow ? (
+          <p className="absolute top-6 left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[178px] text-mono-s md:left-1/2 md:w-[226px] md:max-w-none md:translate-x-[6px]">
+            {hero.eyebrow}
+          </p>
+        ) : null}
 
-      <div className="absolute top-[279px] left-3 flex flex-col items-start gap-3 md:top-[11px] md:left-[83.33%] md:translate-x-[2px] md:gap-[6px]">
-        {ctas.map((cta) => (
-          <Button
-            key={cta.label}
-            href={cta.href}
-            variant="link"
-            {...externalProps(cta)}
-          >
-            {cta.label}
-          </Button>
-        ))}
-      </div>
+        <div className="absolute top-[279px] left-3 flex flex-col items-start gap-3 md:top-[11px] md:left-[83.33%] md:translate-x-[2px] md:gap-[6px]">
+          {ctas.map((cta) => (
+            <Button
+              key={cta.label}
+              href={cta.href}
+              variant="link"
+              {...externalProps(cta)}
+            >
+              {cta.label}
+            </Button>
+          ))}
+        </div>
 
-      <h1 className="absolute top-[140px] left-[-35px] w-[464px] text-center font-display text-[40px] leading-[0.86] tracking-[-0.03em] text-brand-dark-green md:left-1/2 md:-translate-x-1/2 md:text-[56px]">
-        <span className="block">Logos</span>
-        <span className="block">Builders Hub</span>
-      </h1>
+        <h1 className="absolute top-[140px] left-1/2 w-[min(464px,calc(100vw-24px))] -translate-x-1/2 text-center font-display text-[40px] leading-[0.86] tracking-[-0.03em] text-brand-dark-green md:w-[464px] md:text-[56px]">
+          <span className="block">Logos</span>
+          <span className="block">Builders Hub</span>
+        </h1>
 
-      {hero.description ? (
-        <p className="absolute top-[279px] left-[203px] w-[178px] text-mono-s md:top-[307px] md:left-1/2 md:w-[226px] md:translate-x-[6px]">
-          {hero.description}
-        </p>
-      ) : null}
+        {hero.description ? (
+          <p className="absolute top-[279px] left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[178px] text-mono-s md:top-[307px] md:left-1/2 md:w-[226px] md:max-w-none md:translate-x-[6px]">
+            {hero.description}
+          </p>
+        ) : null}
       </ContentWidth>
     </section>
   )
@@ -115,28 +115,28 @@ function JourneySection({
   return (
     <section className="px-3 pb-[100px] md:pb-[100px]">
       <ContentWidth>
-      <h2 className="text-[30px] leading-none tracking-[-0.02em] md:text-h3-sans">
-        {data.title}
-      </h2>
-      <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-5">
-        {data.links.map((link, index) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="flex h-[71px] cursor-pointer flex-col items-start justify-between rounded-xl bg-brand-dark-green p-3 text-brand-off-white md:h-[83px]"
-          >
-            <span className="font-mono text-[10px] font-semibold leading-[1.35]">
-              {(index + 1).toString().padStart(2, '0')}
-            </span>
-            <span className="inline-flex items-center gap-1 text-subhead-sans">
-              {link.label}
-              <span className="rotate-90 [&>span]:size-[12px] md:[&>span]:size-[15px]">
-                <ButtonArrowIcon />
+        <h2 className="text-[30px] leading-none tracking-[-0.02em] md:text-h3-sans">
+          {data.title}
+        </h2>
+        <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-5">
+          {data.links.map((link, index) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="flex h-[71px] cursor-pointer flex-col items-start justify-between rounded-xl bg-brand-dark-green p-3 text-brand-off-white md:h-[83px]"
+            >
+              <span className="font-mono text-[10px] font-semibold leading-[1.35]">
+                {(index + 1).toString().padStart(2, '0')}
               </span>
-            </span>
-          </Link>
-        ))}
-      </div>
+              <span className="inline-flex items-center gap-1 text-subhead-sans">
+                {link.label}
+                <span className="rotate-90 [&>span]:size-[12px] md:[&>span]:size-[15px]">
+                  <ButtonArrowIcon />
+                </span>
+              </span>
+            </Link>
+          ))}
+        </div>
       </ContentWidth>
     </section>
   )
@@ -159,15 +159,15 @@ function SectionFrame({
       className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px]"
     >
       <ContentWidth>
-      <div className="flex items-baseline gap-3 whitespace-nowrap">
-        <span className="font-display text-[30px] leading-none tracking-[-0.03em] text-brand-dark-green/50 md:text-[36px]">
-          {index}
-        </span>
-        <h2 className="text-[30px] leading-none tracking-[-0.02em] md:text-h3-sans">
-          {title}
-        </h2>
-      </div>
-      <div className="mt-10">{children}</div>
+        <div className="flex items-baseline gap-3 whitespace-nowrap">
+          <span className="font-display text-[30px] leading-none tracking-[-0.03em] text-brand-dark-green/50 md:text-[36px]">
+            {index}
+          </span>
+          <h2 className="text-[30px] leading-none tracking-[-0.02em] md:text-h3-sans">
+            {title}
+          </h2>
+        </div>
+        <div className="mt-10">{children}</div>
       </ContentWidth>
     </section>
   )
@@ -185,18 +185,18 @@ function InspirationSection({
   return (
     <SectionFrame id="get-inspired" index="01" title={data.title}>
       <div className="grid gap-3 md:grid-cols-2">
-        <div className="flex h-[370px] flex-col items-center justify-center gap-[60px] overflow-hidden rounded-[200px] border border-brand-dark-green px-4 py-10">
+        <div className="flex h-[370px] flex-col items-center justify-center gap-[60px] overflow-hidden rounded-[200px] border border-brand-dark-green px-4 py-10 [clip-path:inset(0)] [contain:paint]">
           <div className="text-center">
             <h3 className="text-subhead-sans">{data.ideasTitle}</h3>
             <p className="mx-auto mt-3 w-[222px] text-mono-s">
               {data.ideasDescription}
             </p>
           </div>
-          <div className="flex -translate-x-[232px] gap-3 md:translate-x-0">
+          <div className="flex gap-3">
             {featuredIdeas.map((idea) => (
               <div
                 key={idea.slug}
-                className="flex h-[108px] w-[270px] shrink-0 flex-col gap-3 rounded-xl bg-gray-01 p-3"
+                className="hidden h-[108px] w-[270px] shrink-0 flex-col gap-3 rounded-xl bg-gray-01 p-3 first:flex md:flex"
               >
                 <div className="flex justify-between gap-4">
                   <p className="w-[163px] font-display text-[14px] leading-[1.2]">
@@ -235,7 +235,7 @@ function InspirationSection({
             alt={data.issuesImage.alt}
             width={data.issuesImage.width}
             height={data.issuesImage.height}
-            className="absolute top-[185px] left-[31px] h-[218px] w-[644px] object-cover mix-blend-darken md:top-[179px] md:left-[15px] md:h-[227px] md:w-[670px]"
+            className="absolute top-[185px] left-0 h-[218px] w-full object-cover mix-blend-darken md:top-[179px] md:left-[15px] md:h-[227px] md:w-[670px]"
           />
         </div>
       </div>
@@ -344,21 +344,25 @@ function ProgramsSection({
           </div>
           <div className="relative flex flex-col items-center gap-3">
             <h3 className="text-subhead-sans">{data.prizeHeading}</h3>
-            <p className="w-[338px] text-mono-s">{data.prizeDescription}</p>
+            <p className="w-full max-w-[338px] text-mono-s">
+              {data.prizeDescription}
+            </p>
           </div>
         </Link>
 
         <div className="flex h-[370px] flex-col items-center justify-center overflow-hidden rounded-xl border border-brand-dark-green px-4 py-10">
           <div className="flex flex-col items-center gap-3 text-center">
             <h3 className="text-subhead-sans">{data.rfpsTitle}</h3>
-            <p className="w-[338px] text-mono-s">{data.rfpsDescription}</p>
+            <p className="w-full max-w-[338px] text-mono-s">
+              {data.rfpsDescription}
+            </p>
           </div>
-          <div className="mt-[60px] flex w-[1416px] -translate-x-[176px] gap-3">
+          <div className="mt-[60px] flex w-full justify-center gap-3 md:w-[1416px] md:-translate-x-[176px] md:justify-start">
             {previewRfps.map((rfp, index) => (
               <Link
                 key={rfp.slug}
                 href={`${ROUTES.rfps}/${rfp.slug}`}
-                className={`relative h-[166px] w-[345px] shrink-0 cursor-pointer overflow-hidden rounded-xl border border-brand-dark-green/50 p-4 ${
+                className={`relative hidden h-[166px] w-full max-w-[345px] shrink-0 cursor-pointer overflow-hidden rounded-xl border border-brand-dark-green/50 p-4 first:block md:block md:w-[345px] ${
                   index % 2 === 1 ? 'opacity-50' : ''
                 }`}
               >
@@ -492,50 +496,48 @@ function DocumentationSection({
       className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 pt-[39px] pb-[100px] text-brand-dark-green"
     >
       <ContentWidth>
-      <div className="md:grid md:grid-cols-[1fr_1fr] md:gap-3">
-        <h2 className="text-h3-serif whitespace-nowrap">
-          {data.title}
-        </h2>
-        <p className="mt-5 w-[226px] text-mono-s md:mt-0">
-          {data.description}
-        </p>
-      </div>
+        <div className="md:grid md:grid-cols-[1fr_1fr] md:gap-3">
+          <h2 className="text-h3-serif whitespace-nowrap">{data.title}</h2>
+          <p className="mt-5 w-[226px] text-mono-s md:mt-0">
+            {data.description}
+          </p>
+        </div>
 
-      <div className="mt-[31px] grid gap-3 md:mt-[78px] md:grid-cols-3">
-        {data.categories.map((category) => (
-          <div key={category.title} className="w-full">
-            <h3 className="flex h-[45px] items-start px-3 py-3 text-subhead-sans">
-              {category.title}
-            </h3>
-            <ul className="overflow-hidden rounded-xl">
-              {category.links.map((link, index) => (
-                <li key={`${category.title}-${link.title}-${index}`}>
-                  <Link
-                    href={link.cta.href}
-                    aria-label={`${link.title}: ${link.cta.label}`}
-                    className={`flex h-[60px] cursor-pointer items-start gap-3 py-3 pr-3 pl-3 transition-colors hover:bg-accent-light-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-yellow ${
-                      index % 2 === 0 ? 'bg-gray-01' : 'bg-brand-dark-green/5'
-                    }`}
-                    {...externalProps(link.cta)}
-                  >
-                    <span className="w-[18px] shrink-0 pt-1 text-body-sans font-medium">
-                      {(index + 1).toString().padStart(2, '0')}
-                    </span>
-                    <span className="flex min-w-0 flex-col gap-[6px]">
-                      <span className="text-body-serif whitespace-nowrap">
-                        {link.title}
+        <div className="mt-[31px] grid gap-3 md:mt-[78px] md:grid-cols-3">
+          {data.categories.map((category) => (
+            <div key={category.title} className="min-w-0 w-full">
+              <h3 className="flex h-[45px] items-start px-3 py-3 text-subhead-sans">
+                {category.title}
+              </h3>
+              <ul className="overflow-hidden rounded-xl">
+                {category.links.map((link, index) => (
+                  <li key={`${category.title}-${link.title}-${index}`}>
+                    <Link
+                      href={link.cta.href}
+                      aria-label={`${link.title}: ${link.cta.label}`}
+                      className={`flex h-[60px] min-w-0 cursor-pointer items-start gap-3 py-3 pr-3 pl-3 transition-colors hover:bg-accent-light-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-yellow ${
+                        index % 2 === 0 ? 'bg-gray-01' : 'bg-brand-dark-green/5'
+                      }`}
+                      {...externalProps(link.cta)}
+                    >
+                      <span className="w-[18px] shrink-0 pt-1 text-body-sans font-medium">
+                        {(index + 1).toString().padStart(2, '0')}
                       </span>
-                      <span className="w-[312px] max-w-full text-mono-s">
-                        {link.description}
+                      <span className="flex min-w-0 flex-1 flex-col gap-[6px]">
+                        <span className="truncate text-body-serif">
+                          {link.title}
+                        </span>
+                        <span className="w-full text-mono-s md:w-[312px]">
+                          {link.description}
+                        </span>
                       </span>
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </ContentWidth>
     </section>
   )

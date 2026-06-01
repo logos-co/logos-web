@@ -26,10 +26,14 @@ function ColorSwatch({
       style={{ aspectRatio: aspect }}
     >
       <div
-        className={`absolute bottom-[9px] left-[9px] ${textColor === 'white' ? 'text-white' : 'text-black'}`}
+        className={`absolute right-[9px] bottom-[9px] left-[9px] overflow-hidden ${textColor === 'white' ? 'text-white' : 'text-black'}`}
       >
-        <p className="text-[16px] leading-[1.2]">{name}</p>
-        <p className="text-[16px] leading-[1.2]">{hex}</p>
+        <p className="truncate text-[10px] leading-[1.2] md:text-[16px]">
+          {name}
+        </p>
+        <p className="truncate text-[10px] leading-[1.2] md:text-[16px]">
+          {hex}
+        </p>
       </div>
     </div>
   )

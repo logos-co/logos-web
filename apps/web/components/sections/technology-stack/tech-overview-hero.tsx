@@ -127,7 +127,7 @@ export default function TechOverviewHero({ data }: Props) {
               <div className="absolute inset-0 bg-black/30" />
             </div>
           </div>
-          <p className="text-mono-s absolute top-2.5 left-[calc(50%+6px)] w-[178px] text-brand-dark-green">
+          <p className="text-mono-s absolute top-2.5 left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[178px] text-brand-dark-green">
             {data.eyebrow}
           </p>
         </div>
@@ -145,12 +145,12 @@ export default function TechOverviewHero({ data }: Props) {
           </h1>
         </Reveal>
 
-        <p className="text-mono-s absolute top-[259px] left-[calc(50%+6px)] w-[178px] text-brand-dark-green md:hidden">
+        <p className="text-mono-s absolute top-[259px] left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[178px] text-brand-dark-green md:hidden">
           {data.body}
         </p>
 
         {data.ctas && data.ctas.length > 0 ? (
-          <div className="absolute top-[387px] left-[calc(50%+6px)] flex w-[178px] flex-col items-start gap-2.5 md:hidden">
+          <div className="absolute top-[387px] left-[calc(50%+6px)] flex w-[calc(50%-18px)] max-w-[178px] flex-col items-start gap-2.5 md:hidden">
             {data.ctas.map((cta) => (
               <Button
                 key={cta.label}

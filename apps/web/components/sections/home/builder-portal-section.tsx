@@ -46,7 +46,7 @@ export default async function BuilderPortalSection({
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
       <ContentWidth className="py-[100px] md:py-[212px]">
-        <div className="grid gap-3 md:grid-cols-2">
+        <div className="grid gap-9 md:grid-cols-2 md:gap-3">
           <div className="flex flex-col gap-[40px] md:min-h-[532px] md:justify-between md:gap-0">
             <div className="flex flex-col gap-[30px]">
               <Reveal
@@ -54,7 +54,7 @@ export default async function BuilderPortalSection({
                 delay={0.18}
                 viewportMargin="0px 0px -20% 0px"
               >
-                <h2 className="text-h1 max-w-[702px] whitespace-pre-line text-brand-dark-green md:text-h2">
+                <h2 className="text-h2 max-w-[702px] whitespace-pre-line text-brand-dark-green">
                   {t('title')}
                 </h2>
               </Reveal>

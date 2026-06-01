@@ -32,8 +32,8 @@ function MobileGalleryCard({
   date: string
 }) {
   return (
-    <div className="w-[357px] shrink-0 snap-start">
-      <div className="h-[440px] w-[356px] overflow-hidden rounded-[70px] bg-brand-dark-green/10">
+    <div className="w-[calc(100vw-24px)] max-w-[357px] shrink-0 snap-start">
+      <div className="h-[440px] w-full overflow-hidden rounded-[70px] bg-brand-dark-green/10">
         <Image
           src={src}
           alt={alt}
@@ -66,10 +66,7 @@ function DesktopGalleryCard({
   date: string
 }) {
   return (
-    <div
-      className="shrink-0"
-      style={{ width: `${w}px` }}
-    >
+    <div className="shrink-0" style={{ width: `${w}px` }}>
       <div
         className="overflow-hidden rounded-[100px] bg-brand-dark-green/10"
         style={{ height: `${h}px` }}
@@ -113,7 +110,7 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
           amount={0.4}
           delay={0.18}
           viewportMargin="0px 0px -20% 0px"
-          className="mb-[376px] md:mb-[60px]"
+          className="mb-15"
         >
           <h2 className="text-h1 text-brand-dark-green text-center">
             <span className="text-brand-dark-green">
@@ -138,7 +135,7 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
 
       {/* Mobile Gallery — full width with internal scroll */}
       <div
-        className="overflow-x-auto pb-2 md:hidden px-3"
+        className="overflow-x-auto px-3 pb-[100px] md:hidden"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         <div className="flex w-max snap-x snap-mandatory items-start gap-3">

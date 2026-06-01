@@ -139,7 +139,7 @@ export function Footer({
 }: FooterProps) {
   return (
     <footer
-      className={`relative mb-[126px] h-[709px] overflow-hidden bg-brand-dark-green text-brand-off-white md:mb-0 md:h-[688px] ${className ?? ''}`}
+      className={`relative h-[847px] overflow-hidden bg-brand-dark-green text-brand-off-white md:h-[688px] ${className ?? ''}`}
     >
       <div className="absolute top-6 left-3 flex w-[370px] max-w-[calc(100%-24px)] flex-col gap-3 md:w-[345px]">
         <p className="w-[314px] font-sans text-[18px] leading-[1.15] tracking-[-0.18px] text-brand-off-white">

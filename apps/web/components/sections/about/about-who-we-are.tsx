@@ -132,61 +132,61 @@ function Panel({
       >
         {/* Centered 1440 frame for the bar's content */}
         <ContentWidth className="relative h-full">
-        {/* Title — inside the bar, top-left, cap-bottom aligned to 52px (Figma) */}
-        <h3 className="text-h3-serif absolute top-[52px] left-3 -translate-y-full text-brand-dark-green md:left-[726px]">
-          {title}
-        </h3>
-        {/* Portrait image — right on mobile, left on desktop */}
-        <div className="absolute top-3 right-3 h-[151px] w-[122px] overflow-hidden rounded-[900px] md:right-auto md:left-3 md:h-[574px] md:w-[464px]">
-          <Image
-            src={image}
-            alt=""
-            fill
-            sizes="(min-width: 768px) 464px, 122px"
-            className="object-cover"
-          />
-        </div>
+          {/* Title — inside the bar, top-left, cap-bottom aligned to 52px (Figma) */}
+          <h3 className="text-h3-serif absolute top-[52px] left-3 -translate-y-full text-brand-dark-green md:left-[726px]">
+            {title}
+          </h3>
+          {/* Portrait image — right on mobile, left on desktop */}
+          <div className="absolute top-3 right-3 h-[151px] w-[122px] overflow-hidden rounded-[900px] md:right-auto md:left-3 md:h-[574px] md:w-[464px]">
+            <Image
+              src={image}
+              alt=""
+              fill
+              sizes="(min-width: 768px) 464px, 122px"
+              className="object-cover"
+            />
+          </div>
 
-        {/* Body */}
-        <p className="text-mono-s absolute top-[229px] left-3 w-[345px] text-brand-dark-green md:top-[26px] md:left-[1083px] md:w-[345px]">
-          {body}
-        </p>
-
-        {/* Optional CTA (under body) */}
-        {cta ? (
-          <Button
-            href={cta.href}
-            variant="link"
-            className="absolute top-[484px] left-3 md:top-[78px] md:left-[1083px]"
-            {...(cta.external
-              ? { target: '_blank', rel: 'noopener noreferrer' }
-              : {})}
-          >
-            {cta.label}
-          </Button>
-        ) : null}
-
-        {/* Use Cases — bottom area, "Use Cases" label centered above */}
-        <div className="absolute bottom-3 left-3 w-[368px] md:bottom-0 md:left-[726px] md:w-[702px]">
-          <p className="text-eyebrow text-brand-dark-green md:pl-[357px]">
-            {useCasesLabel}
+          {/* Body */}
+          <p className="text-mono-s absolute top-[229px] left-3 w-[calc(100%-24px)] max-w-[345px] text-brand-dark-green md:top-[26px] md:left-[1083px] md:w-[345px] md:max-w-none">
+            {body}
           </p>
-          <ul className="mt-7 flex flex-col gap-3">
-            {useCases.map((row) => (
-              <li
-                key={row.label}
-                className="flex gap-3 border-t border-brand-dark-green/50 pt-1.5"
-              >
-                <span className="text-eyebrow w-[178px] text-brand-dark-green md:w-[345px]">
-                  {row.label}
-                </span>
-                <span className="text-mono-s w-[178px] text-brand-dark-green md:flex-1">
-                  {row.body}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+
+          {/* Optional CTA (under body) */}
+          {cta ? (
+            <Button
+              href={cta.href}
+              variant="link"
+              className="absolute top-[484px] left-3 md:top-[78px] md:left-[1083px]"
+              {...(cta.external
+                ? { target: '_blank', rel: 'noopener noreferrer' }
+                : {})}
+            >
+              {cta.label}
+            </Button>
+          ) : null}
+
+          {/* Use Cases — bottom area, "Use Cases" label centered above */}
+          <div className="absolute bottom-3 left-3 w-[calc(100%-24px)] max-w-[368px] md:bottom-0 md:left-[726px] md:w-[702px] md:max-w-none">
+            <p className="text-eyebrow text-brand-dark-green md:pl-[357px]">
+              {useCasesLabel}
+            </p>
+            <ul className="mt-7 flex flex-col gap-3">
+              {useCases.map((row) => (
+                <li
+                  key={row.label}
+                  className="grid grid-cols-2 gap-3 border-t border-brand-dark-green/50 pt-1.5 md:flex"
+                >
+                  <span className="text-eyebrow min-w-0 text-brand-dark-green md:w-[345px]">
+                    {row.label}
+                  </span>
+                  <span className="text-mono-s min-w-0 text-brand-dark-green md:flex-1">
+                    {row.body}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </ContentWidth>
       </div>
     </div>

@@ -74,7 +74,7 @@ export function PressHero({
               priority
             />
           </div>
-          <p className="text-mono-s absolute left-[191px] top-0 w-[179px] text-brand-dark-green md:left-[714px] md:w-[226px]">
+          <p className="text-mono-s absolute left-[calc(50%+6px)] top-0 w-[calc(50%-18px)] max-w-[179px] text-brand-dark-green md:left-[714px] md:w-[226px] md:max-w-none">
             {lead.description || lead.title}
           </p>
         </div>
@@ -178,35 +178,37 @@ export function ArticlesHeading({ label }: { label: string }) {
 
 export function GallerySection({ articles }: { articles: PressArticleRow[] }) {
   return (
-    <section className="h-[319px] overflow-x-auto overflow-y-hidden bg-accent-tan md:h-auto md:overflow-visible md:px-3 md:py-10">
-      <ContentWidth className="flex w-max gap-3 py-10 pl-3 pr-3 md:grid md:w-auto md:grid-cols-4 md:p-0">
-        {articles.map((article) => (
-          <ExternalLink
-            key={article.title}
-            href={article.href}
-            className="group flex w-[339px] shrink-0 cursor-pointer flex-col gap-1.5 text-brand-dark-green md:w-auto"
-          >
-            <div className="relative aspect-video w-full overflow-hidden bg-brand-dark-green/10">
-              <Image
-                src={article.galleryImage}
-                alt=""
-                fill
-                sizes="(max-width: 768px) 100vw, 345px"
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-            </div>
-            <div className="flex items-baseline justify-between gap-6">
-              <p className="max-w-[170px] font-sans text-[12px] font-medium leading-[1.2] tracking-normal md:text-[14px]">
-                {article.title}
-              </p>
-              <div className="text-mono-s shrink-0 text-brand-dark-green md:text-right">
-                <p>{article.galleryDate}</p>
-                <p>{article.author}</p>
+    <section className="h-[319px] overflow-hidden bg-accent-tan md:h-auto md:overflow-visible md:px-3 md:py-10">
+      <div className="overflow-x-auto md:overflow-visible">
+        <ContentWidth className="flex w-max gap-3 py-10 pl-3 pr-3 md:grid md:w-auto md:grid-cols-4 md:p-0">
+          {articles.map((article) => (
+            <ExternalLink
+              key={article.title}
+              href={article.href}
+              className="group flex w-[calc(100vw-24px)] max-w-[339px] shrink-0 cursor-pointer flex-col gap-1.5 text-brand-dark-green md:w-auto md:max-w-none"
+            >
+              <div className="relative aspect-video w-full overflow-hidden bg-brand-dark-green/10">
+                <Image
+                  src={article.galleryImage}
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 100vw, 345px"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
               </div>
-            </div>
-          </ExternalLink>
-        ))}
-      </ContentWidth>
+              <div className="flex items-baseline justify-between gap-6">
+                <p className="max-w-[170px] font-sans text-[12px] font-medium leading-[1.2] tracking-normal md:text-[14px]">
+                  {article.title}
+                </p>
+                <div className="text-mono-s shrink-0 text-brand-dark-green md:text-right">
+                  <p>{article.galleryDate}</p>
+                  <p>{article.author}</p>
+                </div>
+              </div>
+            </ExternalLink>
+          ))}
+        </ContentWidth>
+      </div>
     </section>
   )
 }
