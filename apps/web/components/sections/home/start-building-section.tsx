@@ -13,7 +13,7 @@ interface SupportCard {
 
 function SupportCardView({ card }: { card: SupportCard }) {
   return (
-    <article className="flex h-[106px] flex-col justify-between rounded-xl border border-brand-dark-green/50 p-4 text-brand-dark-green md:h-[132px]">
+    <article className="flex h-[106px] flex-col justify-between rounded-xl border border-brand-dark-green/50 p-4 text-brand-dark-green min-[1025px]:h-[132px]">
       <h3 className="font-sans text-[18px] leading-[1.15] tracking-[-0.01em]">
         {card.title}
       </h3>
@@ -45,8 +45,8 @@ export default async function StartBuildingSection({
 
   return (
     <section className="bg-brand-off-white">
-      <ContentWidth className="grid gap-3 pt-[100px] md:grid-cols-2 md:pt-[58px] md:pb-28">
-        <div className="relative h-[319px] w-full overflow-hidden rounded-[100px] bg-brand-dark-green/10 md:h-[696px] md:w-auto">
+      <ContentWidth className="grid gap-3 pt-[100px] min-[1025px]:grid-cols-2 min-[1025px]:pt-[58px] min-[1025px]:pb-28">
+        <div className="relative h-[319px] w-full overflow-hidden rounded-[100px] bg-brand-dark-green/10 min-[1025px]:h-[696px] min-[1025px]:w-auto">
           <Image
             src="/images/home/figma-refresh/start-building.webp"
             alt=""
@@ -56,13 +56,13 @@ export default async function StartBuildingSection({
           />
         </div>
 
-        <div className="flex min-h-[705px] flex-col justify-between rounded-xl bg-[#dbddd7] p-3 text-brand-dark-green md:min-h-[696px] md:p-6">
-          <div className="mx-auto mt-7 flex max-w-[320px] flex-col items-center gap-10 text-center md:mt-[113px]">
-            <div className="flex flex-col items-center gap-6 md:w-[320px]">
-              <h2 className="font-display text-[30px] leading-none tracking-[-0.03em] md:text-[36px]">
+        <div className="flex min-h-[705px] flex-col justify-between rounded-xl bg-[#dbddd7] p-3 text-brand-dark-green min-[1025px]:min-h-[696px] min-[1025px]:p-6">
+          <div className="mx-auto mt-7 flex max-w-[320px] flex-col items-center gap-10 text-center min-[1025px]:mt-[113px]">
+            <div className="flex flex-col items-center gap-6 min-[1025px]:w-[320px]">
+              <h2 className="font-display text-[30px] leading-none tracking-[-0.03em] min-[1025px]:text-[36px]">
                 {t('title')}
               </h2>
-              <p className="h-[28px] overflow-hidden font-sans text-[12px] leading-[1.2] md:h-auto md:w-[254px]">
+              <p className="h-[28px] overflow-hidden font-sans text-[12px] leading-[1.2] min-[1025px]:h-auto min-[1025px]:w-[254px]">
                 {t('body')}
               </p>
             </div>
@@ -74,7 +74,7 @@ export default async function StartBuildingSection({
             </Button>
           </div>
 
-          <div className="grid gap-3 md:grid-cols-2">
+          <div className="grid gap-3 min-[1025px]:grid-cols-2">
             {cards.map((card) => (
               <SupportCardView key={card.title} card={card} />
             ))}

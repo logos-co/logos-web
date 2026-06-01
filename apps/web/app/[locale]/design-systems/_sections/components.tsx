@@ -336,7 +336,7 @@ export function Footers() {
     { label: 'Twitter', href: EXTERNAL_URLS.twitter },
     { label: 'Discord', href: EXTERNAL_URLS.discord },
     { label: 'YouTube', href: EXTERNAL_URLS.youtube },
-    { label: 'Blog', href: ROUTES.blog },
+    { label: 'Blog', href: ROUTES.press },
     { label: 'Github', href: EXTERNAL_URLS.github },
   ]
   const researchLinks = [{ label: 'VacP2P', href: EXTERNAL_URLS.vacp2p }]

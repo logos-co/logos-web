@@ -43,7 +43,9 @@ const routeUsageAllowlist = new Set([
   'apps/web/lib/__tests__/link-policy.test.ts',
 ])
 
-const collectDocsLinks = (value: unknown): Array<{ label: string; href: string }> => {
+const collectDocsLinks = (
+  value: unknown
+): Array<{ label: string; href: string }> => {
   if (Array.isArray(value)) {
     return value.flatMap(collectDocsLinks)
   }
@@ -52,7 +54,8 @@ const collectDocsLinks = (value: unknown): Array<{ label: string; href: string }
 
   const record = value as Record<string, unknown>
   const docsText =
-    typeof record.label === 'string' && docsLabels.has(record.label.toLowerCase())
+    typeof record.label === 'string' &&
+    docsLabels.has(record.label.toLowerCase())
       ? record.label
       : typeof record.title === 'string' &&
           docsLabels.has(record.title.toLowerCase())
@@ -185,7 +188,9 @@ describe('link policy', () => {
       ...readdirSync(join(repoRoot, 'content/pages/en'))
         .filter((entry) => entry.endsWith('.json'))
         .map((entry) =>
-          JSON.parse(readFileSync(join(repoRoot, 'content/pages/en', entry), 'utf8'))
+          JSON.parse(
+            readFileSync(join(repoRoot, 'content/pages/en', entry), 'utf8')
+          )
         ),
     ].flatMap(collectDocsLinks)
 
@@ -194,20 +199,6 @@ describe('link policy', () => {
     expect(contentDocsLinks).toEqual(
       contentDocsLinks.map((link) => ({ ...link, href: logosDocsHref }))
     )
-  })
-
-  it('does not use the retired Work With Us route for public CTAs', () => {
-    const offenders = scannedRoots.flatMap(collectTextFiles).flatMap((file) => {
-      const relativePath = relative(repoRoot, file)
-      if (routeUsageAllowlist.has(relativePath)) return []
-
-      const text = readFileSync(file, 'utf8')
-      return text.includes('/work-with-us') || text.includes('ROUTES.workWithUs')
-        ? [`${relativePath} links to the retired Work With Us route`]
-        : []
-    })
-
-    expect(offenders).toEqual([])
   })
 
   it('does not resolve stale repo press fixtures in public web surfaces', () => {

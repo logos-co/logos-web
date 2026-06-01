@@ -11,6 +11,7 @@ import ContentWidth from '@/components/layout/content-width'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
+import { BuildersHubAppInstall } from './builders-hub-app-install'
 
 type BuildersHubHomeProps = {
   settings: BuilderHubSettings
@@ -46,7 +47,7 @@ export function BuildersHubHome({
         <ProgramsSection data={settings.programs} rfps={rfpResolution.rfps} />
       ) : null}
       {settings.support ? <SupportSection data={settings.support} /> : null}
-      <AppInstallSection data={settings.appInstall} />
+      <BuildersHubAppInstall data={settings.appInstall} />
       {settings.documentation ? (
         <DocumentationSection data={settings.documentation} />
       ) : null}
@@ -295,11 +296,15 @@ function BuildSection({
         {data.cards.map((card) => (
           <div
             key={card.title}
-            className="flex h-[300px] flex-col items-center justify-between rounded-xl bg-accent-light-blue px-4 pt-[60px] pb-3 text-center md:h-[370px]"
+            className="flex h-[300px] min-w-0 flex-col items-center justify-between rounded-xl bg-accent-light-blue px-4 pt-[60px] pb-3 text-center md:h-[370px]"
           >
-            <div className="flex flex-col items-center gap-3">
-              <h3 className="text-subhead-sans">{card.title}</h3>
-              <p className="w-[222px] text-mono-s">{card.description}</p>
+            <div className="flex w-full min-w-0 flex-col items-center gap-3">
+              <h3 className="text-subhead-sans max-w-full break-words">
+                {card.title}
+              </h3>
+              <p className="w-full max-w-[222px] break-words text-mono-s [overflow-wrap:anywhere]">
+                {card.description}
+              </p>
             </div>
             <div className="flex w-full flex-col gap-3">
               {card.ctas.map((cta) => (
@@ -439,52 +444,6 @@ function SupportSection({
   )
 }
 
-function AppInstallSection({
-  data,
-}: {
-  data: BuilderHubSettings['appInstall']
-}) {
-  return (
-    <section id="app-install" className="px-3 pb-10">
-      <ContentWidth className="relative flex min-h-[828px] flex-col overflow-hidden rounded-[100px] bg-gray-01 p-3 pb-14 md:block md:h-[590px] md:min-h-0 md:rounded-[200px] md:p-0">
-        <div className="relative aspect-square w-full overflow-hidden rounded-[88px] md:absolute md:top-3 md:left-3 md:h-[566px] md:w-[566px] md:rounded-[188px]">
-          <Image
-            src={data.image.src}
-            alt={data.image.alt}
-            fill
-            sizes="566px"
-            className="object-cover"
-          />
-        </div>
-        <div className="flex flex-col items-center gap-10 pt-20 text-center md:absolute md:top-1/2 md:left-[714px] md:w-[464px] md:-translate-y-1/2 md:items-start md:pt-0 md:text-left">
-          <div>
-            <h2 className="text-h3-serif">{data.title}</h2>
-            <p className="mt-6 text-body-sans">{data.description}</p>
-            <div className="mx-auto mt-5 flex max-w-[260px] flex-wrap justify-center gap-[6px] md:mx-0 md:max-w-none md:justify-start">
-              {data.tags.map((tag) => (
-                <span
-                  key={tag.label}
-                  className="rounded-xl bg-brand-off-white/50 px-2 py-1.5 text-[10px] leading-[1.2] md:px-2.5 md:py-2 md:text-body-sans"
-                >
-                  {tag.label}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div className="flex gap-2.5">
-            <Button href={data.installCta.href} variant="secondary">
-              {data.installCta.label}
-            </Button>
-            <Button href={data.learnMoreCta.href} variant="tertiary">
-              {data.learnMoreCta.label}
-            </Button>
-          </div>
-        </div>
-      </ContentWidth>
-    </section>
-  )
-}
-
 function DocumentationSection({
   data,
 }: {
@@ -515,7 +474,7 @@ function DocumentationSection({
                     <Link
                       href={link.cta.href}
                       aria-label={`${link.title}: ${link.cta.label}`}
-                      className={`flex h-[60px] min-w-0 cursor-pointer items-start gap-3 py-3 pr-3 pl-3 transition-colors hover:bg-accent-light-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-yellow ${
+                      className={`flex min-h-[60px] min-w-0 cursor-pointer items-start gap-3 py-3 pr-3 pl-3 transition-colors hover:bg-accent-light-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-yellow ${
                         index % 2 === 0 ? 'bg-gray-01' : 'bg-brand-dark-green/5'
                       }`}
                       {...externalProps(link.cta)}
@@ -524,10 +483,10 @@ function DocumentationSection({
                         {(index + 1).toString().padStart(2, '0')}
                       </span>
                       <span className="flex min-w-0 flex-1 flex-col gap-[6px]">
-                        <span className="truncate text-body-serif">
+                        <span className="break-words text-body-serif">
                           {link.title}
                         </span>
-                        <span className="w-full text-mono-s md:w-[312px]">
+                        <span className="w-full break-words text-mono-s [overflow-wrap:anywhere]">
                           {link.description}
                         </span>
                       </span>

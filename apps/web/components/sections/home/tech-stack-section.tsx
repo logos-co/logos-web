@@ -27,19 +27,32 @@ type Props = {
   networkingHref: string
   /** Where the foundation row links to. */
   foundationHref: string
+  /** Keep the compact layout through tablet widths on pages that need it. */
+  desktopAt1025?: boolean
 }
 
 export default function TechStackSection({
   data,
   networkingHref,
   foundationHref,
+  desktopAt1025 = false,
 }: Props) {
+  const desktopMinHeightClass = desktopAt1025
+    ? 'min-[1025px]:min-h-[1653px]'
+    : 'md:min-h-[1653px]'
+  const compactContentClass = desktopAt1025
+    ? 'min-[1025px]:hidden'
+    : 'md:hidden'
+  const desktopContentClass = desktopAt1025 ? 'min-[1025px]:flex' : 'md:flex'
+
   return (
     <section
       id="tech-stack"
-      className="relative min-h-[1516px] overflow-hidden border-t border-brand-dark-green/10 bg-brand-off-white md:min-h-[1653px]"
+      className={`relative min-h-[1516px] overflow-hidden border-t border-brand-dark-green/10 bg-brand-off-white ${desktopMinHeightClass}`}
     >
-      <ContentWidth className="relative min-h-full flex-col pt-3 pb-[100px] md:hidden">
+      <ContentWidth
+        className={`relative min-h-full flex-col pt-3 pb-[100px] ${compactContentClass}`}
+      >
         <div className="flex items-start justify-between">
           <p className="text-mono-s w-[226px] text-brand-dark-green">
             Disclaimer: This diagram oversimplifies the stack.
@@ -97,74 +110,77 @@ export default function TechStackSection({
               data={data}
               networkingHref={networkingHref}
               foundationHref={foundationHref}
+              desktopAt1025={desktopAt1025}
             />
           </div>
         </div>
       </ContentWidth>
 
-      <ContentWidth className="relative hidden min-h-full flex-col pt-[11px] pb-[100px] md:flex">
-          <div className="flex items-start justify-between">
-            <p className="text-mono-s w-[226px] text-brand-dark-green">
-              Disclaimer: Abstract representation of the stack.
-            </p>
+      <ContentWidth
+        className={`relative hidden min-h-full flex-col pt-[11px] pb-[100px] ${desktopContentClass}`}
+      >
+        <div className="flex items-start justify-between">
+          <p className="text-mono-s w-[226px] text-brand-dark-green">
+            Disclaimer: Abstract representation of the stack.
+          </p>
 
-            <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5">
+            <Button
+              href={ROUTES.buildersHub}
+              icon={<ButtonArrowIcon />}
+              className="cursor-pointer transition-opacity hover:opacity-70"
+            >
+              Builder Hub
+            </Button>
+            {data.cta ? (
               <Button
-                href={ROUTES.buildersHub}
-                icon={<ButtonArrowIcon />}
-                className="cursor-pointer transition-opacity hover:opacity-70"
-              >
-                Builder Hub
-              </Button>
-              {data.cta ? (
-                <Button
-                  href={data.cta.href}
-                  variant="secondary"
-                  icon={<ButtonArrowIcon />}
-                  className="cursor-pointer transition-opacity hover:opacity-70"
-                >
-                  Documentation
-                </Button>
-              ) : null}
-              <Button
-                href={ROUTES.technologyStack}
+                href={data.cta.href}
                 variant="secondary"
                 icon={<ButtonArrowIcon />}
                 className="cursor-pointer transition-opacity hover:opacity-70"
               >
-                Specs
+                Documentation
               </Button>
-            </div>
-          </div>
-
-          <div className="mt-[73px] flex flex-col items-center gap-[73px]">
-            {data.eyebrow ? (
-              <div className="relative h-[301px] w-[464px]">
-                <p className="text-mono-s absolute top-[-3px] left-[238px] w-[226px] whitespace-pre-line text-left text-brand-dark-green">
-                  {formatEyebrow(data.eyebrow)}
-                </p>
-
-                {data.title ? (
-                  <h2 className="text-h2 absolute top-[84px] left-1/2 w-[464px] -translate-x-1/2 whitespace-pre-line text-center text-brand-dark-green">
-                    {data.title}
-                  </h2>
-                ) : null}
-
-                <p className="text-mono-s absolute top-[233px] left-[238px] w-[226px] text-left text-brand-dark-green">
-                  {TECH_STACK_BODY}
-                </p>
-              </div>
             ) : null}
-
-            <div className="w-full">
-              <TechStackDiagram
-                data={data}
-                networkingHref={networkingHref}
-                foundationHref={foundationHref}
-              />
-            </div>
+            <Button
+              href={ROUTES.technologyStack}
+              variant="secondary"
+              icon={<ButtonArrowIcon />}
+              className="cursor-pointer transition-opacity hover:opacity-70"
+            >
+              Specs
+            </Button>
           </div>
-        </ContentWidth>
+        </div>
+
+        <div className="mt-[73px] flex flex-col items-center gap-[73px]">
+          {data.eyebrow ? (
+            <div className="relative h-[301px] w-[464px]">
+              <p className="text-mono-s absolute top-[-3px] left-[238px] w-[226px] whitespace-pre-line text-left text-brand-dark-green">
+                {formatEyebrow(data.eyebrow)}
+              </p>
+
+              {data.title ? (
+                <h2 className="text-h2 absolute top-[84px] left-1/2 w-[464px] -translate-x-1/2 whitespace-pre-line text-center text-brand-dark-green">
+                  {data.title}
+                </h2>
+              ) : null}
+
+              <p className="text-mono-s absolute top-[233px] left-[238px] w-[226px] text-left text-brand-dark-green">
+                {TECH_STACK_BODY}
+              </p>
+            </div>
+          ) : null}
+
+          <div className="w-full">
+            <TechStackDiagram
+              data={data}
+              networkingHref={networkingHref}
+              foundationHref={foundationHref}
+            />
+          </div>
+        </div>
+      </ContentWidth>
     </section>
   )
 }

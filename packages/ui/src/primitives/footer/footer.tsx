@@ -139,9 +139,9 @@ export function Footer({
 }: FooterProps) {
   return (
     <footer
-      className={`relative h-[847px] overflow-hidden bg-brand-dark-green text-brand-off-white md:h-[688px] ${className ?? ''}`}
+      className={`relative h-[847px] overflow-hidden bg-brand-dark-green text-brand-off-white min-[1025px]:h-[688px] ${className ?? ''}`}
     >
-      <div className="absolute top-6 left-3 flex w-[370px] max-w-[calc(100%-24px)] flex-col gap-3 md:w-[345px]">
+      <div className="absolute top-6 left-3 flex w-[370px] max-w-[calc(100%-24px)] flex-col gap-3 min-[1025px]:w-[345px]">
         <p className="w-[314px] font-sans text-[18px] leading-[1.15] tracking-[-0.18px] text-brand-off-white">
           {newsletter.title}
         </p>
@@ -166,37 +166,37 @@ export function Footer({
         </div>
       </div>
 
-      <div className="absolute top-[244px] left-3 h-[47px] w-[83px] overflow-hidden md:top-[549px] md:h-[127px] md:w-[226px] *:size-full *:object-cover">
+      <div className="absolute top-[244px] left-3 h-[47px] w-[83px] overflow-hidden min-[1025px]:top-[549px] min-[1025px]:h-[127px] min-[1025px]:w-[226px] *:size-full *:object-cover">
         {image}
       </div>
 
-      <div className="absolute top-[244px] left-[calc(50%+6px)] md:top-6">
+      <div className="absolute top-[244px] left-[calc(50%+6px)] min-[1025px]:top-6">
         {logo}
       </div>
 
       {tagline && (
-        <p className="text-body-serif absolute top-[295px] left-[calc(50%+6px)] w-[175px] text-brand-off-white md:top-[22px] md:left-[calc(83.33%+2px)] md:w-[226px]">
+        <p className="text-body-serif absolute top-[295px] left-[calc(50%+6px)] w-[175px] text-brand-off-white min-[1025px]:top-[22px] min-[1025px]:left-[calc(83.33%+2px)] min-[1025px]:w-[226px]">
           {tagline}
         </p>
       )}
 
-      <div className="absolute top-[433px] left-3 md:top-[133px] md:left-[calc(50%+6px)]">
+      <div className="absolute top-[433px] left-3 min-[1025px]:top-[133px] min-[1025px]:left-[calc(50%+6px)]">
         <LinkList links={mainLinks} />
       </div>
 
-      <div className="absolute top-[433px] left-[calc(50%+6px)] md:top-[133px] md:left-[calc(83.33%+3px)]">
+      <div className="absolute top-[433px] left-[calc(50%+6px)] min-[1025px]:top-[133px] min-[1025px]:left-[calc(83.33%+3px)]">
         <LinkList links={socialLinks} />
       </div>
 
-      <div className="absolute top-[608px] left-3 md:top-[322px] md:left-[calc(50%+8px)]">
+      <div className="absolute top-[608px] left-3 min-[1025px]:top-[322px] min-[1025px]:left-[calc(50%+8px)]">
         <LinkList label="Research" links={researchLinks} />
       </div>
 
-      <div className="absolute top-[608px] left-[calc(50%+6px)] md:top-[322px] md:left-[calc(83.33%+3px)]">
+      <div className="absolute top-[608px] left-[calc(50%+6px)] min-[1025px]:top-[322px] min-[1025px]:left-[calc(83.33%+3px)]">
         <LinkList label="Infrastructure" links={infrastructureLinks} />
       </div>
 
-      <div className="absolute top-[788px] left-3 md:top-[617px] md:left-[calc(50%+6px)]">
+      <div className="absolute top-[788px] left-3 min-[1025px]:top-[617px] min-[1025px]:left-[calc(50%+6px)]">
         <LinkList links={legalLinks} />
       </div>
     </footer>

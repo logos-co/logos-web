@@ -125,23 +125,23 @@ export default async function GetStartedPage({
 
   return (
     <div className="bg-brand-off-white text-brand-dark-green">
-      <section className="relative mb-[60px] h-[200px] w-full px-3 md:mb-[100px] md:h-[258px]">
+      <section className="relative mb-[60px] h-[200px] w-full md:mb-[100px] md:h-[258px]">
         <ContentWidth className="relative h-full">
-        <div className="absolute top-[60px] left-3 flex items-center gap-3 md:top-[90px]">
-          <LogosMark size={26} className="w-5 shrink-0" />
-          <h1 className="font-display text-[30px] leading-none tracking-[-0.9px] md:text-[36px] md:tracking-[-1.08px]">
-            {t('heading')}
-          </h1>
-        </div>
-        <p className="absolute top-[126px] left-3 max-w-[342px] whitespace-pre-line font-mono text-[10px] leading-[1.3] md:top-[90px] md:left-[calc(50%+6px)] md:max-w-[345px]">
-          {t('intro')}
-        </p>
+          <div className="absolute top-[60px] left-3 flex items-center gap-3 md:top-[90px]">
+            <LogosMark size={26} className="w-5 shrink-0" />
+            <h1 className="font-display text-[30px] leading-none tracking-[-0.9px] md:text-[36px] md:tracking-[-1.08px]">
+              {t('heading')}
+            </h1>
+          </div>
+          <p className="absolute top-[126px] left-3 max-w-[342px] whitespace-pre-line font-mono text-[10px] leading-[1.3] md:top-[90px] md:left-[calc(50%+6px)] md:max-w-[345px]">
+            {t('intro')}
+          </p>
         </ContentWidth>
       </section>
 
       <section
         id="install"
-        className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px]"
+        className="border-t border-brand-dark-green/10 pt-6 pb-[100px]"
       >
         <ContentWidth className="flex w-full flex-col gap-10">
           <SectionHeading
@@ -168,7 +168,7 @@ export default async function GetStartedPage({
                   {t('sections.install.body')}
                 </p>
               </div>
-              <ActionLink href={ROUTES.links}>
+              <ActionLink href={ROUTES.basecamp}>
                 {t('sections.install.cta')}
               </ActionLink>
             </div>
@@ -176,7 +176,7 @@ export default async function GetStartedPage({
         </ContentWidth>
       </section>
 
-      <section className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px] md:pt-10">
+      <section className="border-t border-brand-dark-green/10 pt-6 pb-[100px] md:pt-10">
         <ContentWidth className="flex w-full flex-col gap-10">
           <div className="grid gap-6 md:grid-cols-12 md:items-start">
             <div className="md:col-span-5">
@@ -218,7 +218,7 @@ export default async function GetStartedPage({
         </ContentWidth>
       </section>
 
-      <section className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px]">
+      <section className="border-t border-brand-dark-green/10 pt-6 pb-[100px]">
         <ContentWidth className="flex w-full flex-col gap-10">
           <SectionHeading
             number={t('sections.community.number')}
@@ -253,7 +253,7 @@ export default async function GetStartedPage({
         </ContentWidth>
       </section>
 
-      <section className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px]">
+      <section className="border-t border-brand-dark-green/10 pt-6 pb-[100px]">
         <ContentWidth className="flex w-full flex-col gap-10">
           <SectionHeading
             number={t('sections.build.number')}

@@ -11,7 +11,6 @@ export const dynamic = 'force-static'
 const staticIndexableRoutes = [
   ROUTES.home,
   ROUTES.activeCircles,
-  ROUTES.blog,
   ROUTES.book,
   ROUTES.brandKit,
   ROUTES.buildersHub,
@@ -21,7 +20,6 @@ const staticIndexableRoutes = [
   ROUTES.faq,
   ROUTES.getStarted,
   ROUTES.lambdaPrize,
-  ROUTES.links,
   ROUTES.logosBroadcastNetwork,
   ROUTES.movement,
   ROUTES.nodeProgramme,
@@ -37,7 +35,6 @@ const staticIndexableRoutes = [
   ROUTES.networking,
   ROUTES.storage,
   ROUTES.terms,
-  ROUTES.workWithUs,
   ROUTES.connect,
   ROUTES.activistBuilder,
   ROUTES.activistLeaderSteward,

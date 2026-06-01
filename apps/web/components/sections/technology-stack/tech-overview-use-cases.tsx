@@ -121,7 +121,7 @@ export default function TechOverviewUseCases({ data }: Props) {
   useEffect(() => {
     if (!scrollRef.current) return
 
-    const initialOffset = window.innerWidth >= 768 ? 120 : 333
+    const initialOffset = window.innerWidth >= 768 ? 120 : 0
     scrollRef.current.scrollLeft = initialOffset
   }, [])
 

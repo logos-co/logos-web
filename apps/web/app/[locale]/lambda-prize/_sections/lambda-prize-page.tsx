@@ -102,7 +102,7 @@ function DataRows({ rows }: { rows: RowCopy[] }) {
       {rows.map((row, index) => (
         <div
           key={`${row.label}-${index}`}
-          className="flex min-h-[36px] min-w-0 flex-col border-t border-brand-dark-green/10 py-3 last:border-b md:grid md:min-h-[31px] md:grid-cols-2"
+          className="flex min-h-[36px] min-w-0 flex-col border-t border-brand-dark-green/10 py-3 last:border-b min-[1025px]:grid min-[1025px]:min-h-[31px] min-[1025px]:grid-cols-2"
         >
           <p className="text-mono-s">{row.label}</p>
           <p className="text-mono-s min-w-0 pr-2 break-words [overflow-wrap:anywhere]">
@@ -134,14 +134,14 @@ function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
             <LogosMark size={20} />
             <span>{copy.label}</span>
           </div>
-          <h1 className="w-full max-w-[369px] font-display text-[40px] leading-none tracking-[-0.03em] md:max-w-none md:text-[56px] md:leading-[0.88]">
+          <h1 className="w-full max-w-[369px] font-display text-[40px] leading-none tracking-[-0.03em] min-[1025px]:max-w-none min-[1025px]:text-[56px] min-[1025px]:leading-[0.88]">
             {headingLines.map((line) => (
               <span key={line} className="block">
                 {line}
               </span>
             ))}
           </h1>
-          <p className="text-mono-s mt-12 w-full max-w-[345px] md:w-[462px] md:max-w-full">
+          <p className="text-mono-s mt-12 w-full max-w-[345px] min-[1025px]:w-[462px] min-[1025px]:max-w-full">
             <span className="inline-flex items-baseline gap-1">
               <LogosMark size={7} className="shrink-0" />
               <span>{copy.body}</span>
@@ -177,40 +177,40 @@ function HowItWorks({
 }) {
   return (
     <section className="bg-brand-off-white text-brand-dark-green">
-      <ContentWidth className="flex flex-col gap-4 p-3 md:grid md:h-[650px] md:grid-cols-2 md:gap-6 md:px-3 md:py-10">
-      <div className="order-2 flex min-h-[687px] flex-col justify-between md:order-1 md:min-h-0">
-        <div className="flex flex-col gap-10 md:gap-20">
-          <div>
-            <h2 className="text-h4-serif mb-8">{copy.heading}</h2>
-            <DataRows rows={copy.rows} />
+      <ContentWidth className="flex flex-col gap-4 p-3 min-[1025px]:grid min-[1025px]:h-[650px] min-[1025px]:grid-cols-2 min-[1025px]:gap-6 min-[1025px]:px-3 min-[1025px]:py-10">
+        <div className="order-2 flex min-h-[687px] flex-col justify-between min-[1025px]:order-1 min-[1025px]:min-h-0">
+          <div className="flex flex-col gap-10 min-[1025px]:gap-20">
+            <div>
+              <h2 className="text-h4-serif mb-8">{copy.heading}</h2>
+              <DataRows rows={copy.rows} />
+            </div>
+            <div>
+              <h2 className="text-h4-serif mb-8">{evaluation.heading}</h2>
+              <DataRows rows={evaluation.rows} />
+            </div>
           </div>
-          <div>
-            <h2 className="text-h4-serif mb-8">{evaluation.heading}</h2>
-            <DataRows rows={evaluation.rows} />
+          <div className="flex gap-1">
+            <Button href={ROUTES.rfps} className="cursor-pointer">
+              {evaluation.primaryCta}
+            </Button>
+            <Button
+              href={ROUTES.buildersHub}
+              variant="secondary"
+              className="cursor-pointer"
+            >
+              {evaluation.secondaryCta}
+            </Button>
           </div>
         </div>
-        <div className="flex gap-1">
-          <Button href={ROUTES.rfps} className="cursor-pointer">
-            {evaluation.primaryCta}
-          </Button>
-          <Button
-            href={ROUTES.buildersHub}
-            variant="secondary"
-            className="cursor-pointer"
-          >
-            {evaluation.secondaryCta}
-          </Button>
+        <div className="relative order-1 h-[626px] overflow-hidden min-[1025px]:order-2 min-[1025px]:h-auto">
+          <Image
+            src="/images/lambda-prize/how-it-works.webp"
+            alt=""
+            fill
+            sizes="50vw"
+            className="rounded-xl object-cover object-left min-[1025px]:object-center"
+          />
         </div>
-      </div>
-      <div className="relative order-1 h-[626px] overflow-hidden md:order-2 md:h-auto">
-        <Image
-          src="/images/lambda-prize/how-it-works.webp"
-          alt=""
-          fill
-          sizes="50vw"
-          className="rounded-xl object-cover object-left md:object-center"
-        />
-      </div>
       </ContentWidth>
     </section>
   )
@@ -255,18 +255,18 @@ function PrizeCard({ prize, image }: { prize: PrizeCopy; image: string }) {
 
 function FeaturedPrizes({ copy }: { copy: LambdaPrizePageCopy['featured'] }) {
   return (
-    <section className="h-[1931px] bg-brand-off-white px-3 pt-10 text-brand-dark-green md:h-[1011px] md:px-3 md:pt-12">
+    <section className="h-[1931px] bg-brand-off-white px-3 pt-10 text-brand-dark-green min-[1025px]:h-[1011px] min-[1025px]:px-3 min-[1025px]:pt-12">
       <ContentWidth>
-      <h2 className="text-h3-serif">{copy.heading}</h2>
-      <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3 md:mt-12">
-        {copy.prizes.map((prize, index) => (
-          <PrizeCard
-            key={`${prize.title}-${index}`}
-            prize={prize}
-            image={prizeImages[index % prizeImages.length]}
-          />
-        ))}
-      </div>
+        <h2 className="text-h3-serif">{copy.heading}</h2>
+        <div className="mt-10 grid grid-cols-1 gap-4 min-[1025px]:grid-cols-3 min-[1025px]:mt-12">
+          {copy.prizes.map((prize, index) => (
+            <PrizeCard
+              key={`${prize.title}-${index}`}
+              prize={prize}
+              image={prizeImages[index % prizeImages.length]}
+            />
+          ))}
+        </div>
       </ContentWidth>
     </section>
   )
@@ -275,8 +275,8 @@ function FeaturedPrizes({ copy }: { copy: LambdaPrizePageCopy['featured'] }) {
 function AboutProgramme({ copy }: { copy: LambdaPrizePageCopy['about'] }) {
   return (
     <section className="bg-gray-01 text-brand-dark-green">
-      <ContentWidth className="flex min-h-[960px] flex-col gap-3 p-3 md:h-[600px] md:min-h-0 md:flex-row">
-        <div className="relative h-[405px] overflow-hidden rounded-3xl md:h-full md:w-[702px] md:shrink-0">
+      <ContentWidth className="flex min-h-[960px] flex-col gap-3 p-3 min-[1025px]:h-[600px] min-[1025px]:min-h-0 min-[1025px]:flex-row">
+        <div className="relative h-[405px] overflow-hidden rounded-3xl min-[1025px]:h-full min-[1025px]:w-[702px] min-[1025px]:shrink-0">
           <Image
             src="/images/lambda-prize/about.webp"
             alt=""
@@ -285,11 +285,9 @@ function AboutProgramme({ copy }: { copy: LambdaPrizePageCopy['about'] }) {
             className="object-cover object-center"
           />
         </div>
-        <div className="flex min-h-[519px] min-w-0 flex-1 flex-col justify-between md:h-full md:min-h-0">
-          <div className="flex flex-col items-start justify-between gap-3 md:h-9 md:flex-row md:gap-0">
-            <h2 className="text-h3-sans whitespace-nowrap">
-              {copy.heading}
-            </h2>
+        <div className="flex min-h-[519px] min-w-0 flex-1 flex-col justify-between min-[1025px]:h-full min-[1025px]:min-h-0">
+          <div className="flex flex-col items-start justify-between gap-3 min-[1025px]:h-9 min-[1025px]:flex-row min-[1025px]:gap-0">
+            <h2 className="text-h3-sans whitespace-nowrap">{copy.heading}</h2>
             <div className="flex gap-1">
               <Button href={ROUTES.rfps} className="cursor-pointer">
                 {copy.primaryCta}
@@ -310,9 +308,9 @@ function AboutProgramme({ copy }: { copy: LambdaPrizePageCopy['about'] }) {
             {copy.rows.map((row, index) => (
               <div
                 key={`${row.label}-${index}`}
-                className="flex min-w-0 flex-col gap-1.5 border-t border-brand-dark-green/50 pt-1.5 md:flex-row md:gap-3"
+                className="flex min-w-0 flex-col gap-1.5 border-t border-brand-dark-green/50 pt-1.5 min-[1025px]:flex-row min-[1025px]:gap-3"
               >
-                <p className="text-eyebrow min-w-0 uppercase md:w-[345px] md:shrink-0">
+                <p className="text-eyebrow min-w-0 uppercase min-[1025px]:w-[345px] min-[1025px]:shrink-0">
                   {row.label}
                 </p>
                 <p className="text-mono-s min-w-0 break-words [overflow-wrap:anywhere]">
@@ -329,36 +327,38 @@ function AboutProgramme({ copy }: { copy: LambdaPrizePageCopy['about'] }) {
 
 function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
   return (
-    <section className="h-[406px] border-t border-brand-dark-green/10 bg-brand-off-white px-3 py-10 text-brand-dark-green md:h-[421px] md:py-12">
+    <section className="h-[406px] border-t border-brand-dark-green/10 bg-brand-off-white px-3 py-10 text-brand-dark-green min-[1025px]:h-[421px] min-[1025px]:py-12">
       <ContentWidth>
-      <div className="grid grid-cols-[1fr_auto] gap-y-6 md:grid-cols-3">
-        <h2 className="text-h3-serif">{copy.heading}</h2>
-        <p className="text-mono-s col-start-1 row-start-2 w-[178px] md:col-start-auto md:row-start-auto md:w-[226px]">
-          {copy.body}
-        </p>
-        <div className="col-start-2 row-start-1 md:col-start-auto md:row-start-auto">
-          <TertiaryCta href={ROUTES.faq}>{copy.cta}</TertiaryCta>
-        </div>
-      </div>
-      <div className="mt-6 md:mt-8">
-        {copy.rows.map((row, index) => (
-          <div
-            key={row.label}
-            className={`grid h-[58px] grid-cols-[1fr_83px] items-start px-3 py-3 md:h-[50px] md:grid-cols-[714px_464px_1fr] ${
-              index % 2 === 0 ? 'bg-gray-01' : 'bg-brand-dark-green/5'
-            }`}
-          >
-            <div className="flex gap-3">
-              <p className="text-body-sans w-[18px] font-medium">
-                {String(index + 1).padStart(2, '0')}
-              </p>
-              <h3 className="text-body-serif">{row.label}</h3>
-            </div>
-            <p className="text-mono-s hidden w-[312px] md:block">{row.body}</p>
-            <TertiaryCta href={ROUTES.faq}>{row.action}</TertiaryCta>
+        <div className="grid grid-cols-[1fr_auto] gap-y-6 min-[1025px]:grid-cols-3">
+          <h2 className="text-h3-serif">{copy.heading}</h2>
+          <p className="text-mono-s col-start-1 row-start-2 w-[178px] min-[1025px]:col-start-auto min-[1025px]:row-start-auto min-[1025px]:w-[226px]">
+            {copy.body}
+          </p>
+          <div className="col-start-2 row-start-1 min-[1025px]:col-start-auto min-[1025px]:row-start-auto">
+            <TertiaryCta href={ROUTES.faq}>{copy.cta}</TertiaryCta>
           </div>
-        ))}
-      </div>
+        </div>
+        <div className="mt-6 min-[1025px]:mt-8">
+          {copy.rows.map((row, index) => (
+            <div
+              key={row.label}
+              className={`grid h-[58px] grid-cols-[1fr_83px] items-start px-3 py-3 min-[1025px]:h-[50px] min-[1025px]:grid-cols-[714px_464px_1fr] ${
+                index % 2 === 0 ? 'bg-gray-01' : 'bg-brand-dark-green/5'
+              }`}
+            >
+              <div className="flex gap-3">
+                <p className="text-body-sans w-[18px] font-medium">
+                  {String(index + 1).padStart(2, '0')}
+                </p>
+                <h3 className="text-body-serif">{row.label}</h3>
+              </div>
+              <p className="text-mono-s hidden w-[312px] min-[1025px]:block">
+                {row.body}
+              </p>
+              <TertiaryCta href={ROUTES.faq}>{row.action}</TertiaryCta>
+            </div>
+          ))}
+        </div>
       </ContentWidth>
     </section>
   )
@@ -375,6 +375,7 @@ export function LambdaPrizePage({ copy, techStack }: LambdaPrizePageProps) {
         data={techStack}
         networkingHref={ROUTES.networking}
         foundationHref={ROUTES.technologyStack}
+        desktopAt1025
       />
       <Support copy={copy.support} />
     </main>

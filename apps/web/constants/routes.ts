@@ -50,7 +50,6 @@ export const ROUTES = {
   // Movement / Top-level nav
   movement: '/movement',
   book: '/book',
-  links: '/links',
 
   // Press
   press: '/press',
@@ -72,9 +71,7 @@ export const ROUTES = {
   security: '/security',
 
   // Footer misc
-  workWithUs: '/work-with-us',
   brandKit: '/brand-kit',
-  blog: '/blog',
 
   // Design system reference (internal)
   designSystems: '/design-systems',

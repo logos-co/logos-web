@@ -108,7 +108,7 @@ export default function UseCasesSection({ data }: Props) {
 
   useEffect(() => {
     if (!scrollRef.current) return
-    scrollRef.current.scrollLeft = window.innerWidth >= BREAKPOINTS.md ? 120 : 0
+    scrollRef.current.scrollLeft = window.innerWidth > BREAKPOINTS.lg ? 120 : 0
   }, [])
 
   const scroll = (direction: 'left' | 'right') => {
@@ -135,9 +135,9 @@ export default function UseCasesSection({ data }: Props) {
   return (
     <section
       id="use-cases"
-      className="relative w-full overflow-hidden bg-brand-off-white md:h-[816px]"
+      className="relative w-full overflow-hidden bg-brand-off-white min-[1025px]:h-[816px]"
     >
-      <div className="px-3 py-16 md:hidden">
+      <div className="px-3 py-16 min-[1025px]:hidden">
         <div className="flex items-start justify-between gap-4">
           <div className="relative h-[81px] w-[107px] shrink-0 overflow-hidden">
             <Image
@@ -185,7 +185,7 @@ export default function UseCasesSection({ data }: Props) {
         </div>
       </div>
 
-      <div className="hidden md:block">
+      <div className="hidden min-[1025px]:block">
         <div className="absolute top-6 left-3 h-[81px] w-[107px] overflow-hidden">
           <Image
             src="/images/technology-stack/use-cases-top.jpg"
@@ -233,7 +233,7 @@ export default function UseCasesSection({ data }: Props) {
 
       <div
         ref={scrollRef}
-        className="flex w-full gap-3 overflow-x-auto px-3 pb-4 md:absolute md:top-[403px] md:left-0 md:px-0"
+        className="flex w-full gap-3 overflow-x-auto px-3 pb-4 min-[1025px]:absolute min-[1025px]:top-[403px] min-[1025px]:left-0 min-[1025px]:px-0"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {cards.map((card) => (
