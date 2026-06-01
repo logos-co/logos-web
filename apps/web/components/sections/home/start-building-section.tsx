@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
 import ContentWidth from '@/components/layout/content-width'
-import { Button } from '@/components/ui'
+import { Button, ButtonArrowIcon } from '@/components/ui'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 interface SupportCard {
@@ -20,6 +20,7 @@ function SupportCardView({ card }: { card: SupportCard }) {
       <Button
         href={card.href}
         variant="link"
+        icon={<ButtonArrowIcon />}
         className="w-fit cursor-pointer transition-opacity hover:opacity-70"
       >
         {card.cta}

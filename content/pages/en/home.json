@@ -45,8 +45,8 @@
       "cards": [
         {
           "title": "Build",
-          "description": "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others.",
-          "cta": { "label": "Start building", "href": "/builders-hub" }
+          "description": "Explore programmes and resources to help you build your cyberstate.",
+          "cta": { "label": "Builder Hub", "href": "/builders-hub" }
         },
         {
           "title": "Node Programme",
@@ -302,10 +302,10 @@
     {
       "componentType": "relatedArticles",
       "key": "home.press",
-      "eyebrow": "Logos in the News",
-      "title": "Press",
-      "label": "Lorem ipsum dolor si amet",
-      "cta": { "label": "Explore all articles", "href": "/press" },
+      "eyebrow": "Logos in the news.",
+      "title": "Media",
+      "label": "Articles, podcasts, and media.",
+      "cta": { "label": "Explore all media", "href": "/press" },
       "visibleCount": 4
     },
     {

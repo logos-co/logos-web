@@ -57,8 +57,8 @@
     "build": {
       "eyebrow": "Build",
       "number": "01",
-      "description": "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others.",
-      "cta": "Start Building",
+      "description": "Explore programmes and resources to help you build your cyberstate.",
+      "cta": "Builder Hub",
       "examples": "examples",
       "row1Title": "Your own bank",
       "row1Desc": "Build a bank powered by logic you've programmed",
@@ -101,9 +101,9 @@
       "headline": "Logos exists at the intersection of human exploration and technological revolution.",
       "body": "We are a movement for builders, explorers, and dreamers who refuse to accept the world as it is. We're part of a generation fed up with corruption, surveillance, and stagnation often associated with incumbent institutions.",
       "intro": "Civil society is in decline. Our institutions are failing. Our money is debased. People are atomised, indebted, and increasingly unable to provide for themselves or their families. Reform from within cannot reverse this because the system selects for compliance, and centralisation leads inevitably to corruption.",
-      "closing1": "Logos exist to build the decentralised infrastructure and living ecosystem that makes a parallel society possible for anyone ready to reclaim their agency in the digital and physical world.",
-      "closing2": "Built for exit when the existing order can no longer hold.",
-      "closing3": "Build the parallel. Prove it in practice. Keep it human.",
+      "closing1": "Logos is built for those who believe the window for reform has closed. Circles are essential for anyone taking actions with us. If there isn’t a Logos Circle listed in your area, please get in touch with the team.",
+      "closing2": "",
+      "closing3": "",
       "cta": "About us",
       "problems": {
         "debt": {
@@ -139,7 +139,7 @@
     "builderPortal": {
       "title": "Basecamp.\nThe local launcher\nfor the Logos stack",
       "description": "Basecamp is a ready-to-run distribution that you deploy on your own hardware, under your control. From the moment it’s installed, you’re standing on your own ground, not connecting to someone else’s infrastructure.\n\nThe Logos Runtime runs running locally, core modules are loaded, and essential applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one.",
-      "feature1": "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others.",
+      "feature1": "Explore programmes and resources to help you build your cyberstate.",
       "feature2": "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
       "feature3": "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections.",
       "example1Title": "Your own bank",
@@ -161,11 +161,11 @@
     "paths": {
       "kicker": "The right response to broken systems is not to reform them but to build alongside them, and eventually, beyond them.",
       "title": "Choose your path.",
-      "body": "We call these alternatives parallel societies: communities, institutions, and economies that operate with genuine autonomy, governed by the people inside them. Pick your path on our journey to self reliance.",
+      "body": "Parallel societies are communities, institutions, and economies that operate outside the legacy system and answer to the people inside them. Logos provides the infrastructure. The rest is participation.",
       "build": {
         "title": "Build",
-        "body": "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others.",
-        "cta": "Start Building"
+        "body": "Explore programmes and resources to help you build your cyberstate.",
+        "cta": "Builder Hub"
       },
       "operate": {
         "title": "Operate",
