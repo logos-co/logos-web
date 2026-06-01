@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "language": "en",
   "route": "/",
-  "title": "Logos — We are charting a new path",
-  "description": "Logos is private-by-default infrastructure for parallel societies.",
+  "title": "Logos: Charting a New Path",
+  "description": "Private-by default technology to reclaim civil society. Logos is the decentralised infrastructure for building parallel systems.",
   "heading": "We are charting a new path.",
   "seo": {
     "keywords": [
@@ -80,7 +80,7 @@
       },
       "basecamp": {
         "title": "Basecamp",
-        "body": "Lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur lorem.",
+        "body": "The fully local launcher for the Logos stack, running all modules on your device from a unified interface.",
         "href": "/basecamp",
         "cta": {
           "label": "Install",
@@ -91,19 +91,19 @@
         {
           "id": "storage",
           "title": "Storage",
-          "body": "Codex storage with reproducible attestation and graceful client-side fallback.",
+          "body": "Privacy-preserving file sharing and retrieval using content-addressed (CID-based) data. In future, this module will support decentralised file storage.",
           "href": "/technology-stack/storage"
         },
         {
           "id": "messaging",
           "title": "Messaging",
-          "body": "Waku-based peer-to-peer messaging that survives hostile networks.",
+          "body": "Private, censorship-resistant communication between parties.",
           "href": "/technology-stack/messaging"
         },
         {
           "id": "blockchain",
           "title": "Blockchain",
-          "body": "Decentralised compute and consensus.",
+          "body": "Privacy-preserving, decentralised computing and consensus.",
           "href": "/technology-stack/blockchain",
           "details": [
             {
@@ -119,14 +119,14 @@
         {
           "id": "userModules",
           "title": "User Modules",
-          "body": "Wallet, chat, files, and explorer modules composing into the Logos App.",
+          "body": "Anyone can build modules that plug into the same IPC infrastructure.",
           "href": "/basecamp"
         }
       ],
-      "networkingTitle": "The Networking Stack: Discovery, Peering, and Mix-Net",
+      "networkingTitle": "The Networking Stack: Discovery, Peering, and Mixnet",
       "networkingDescription": "This layer handles how Logos nodes find each other, establish connections, and communicate.",
-      "foundationTitle": "The Foundation: Logos Kernel",
-      "foundationDescription": "A microkernel that handles the essential primitives every decentralised application needs."
+      "foundationTitle": "The Foundation: Logos Runtime",
+      "foundationDescription": "A runtime that handles the essential primitives every decentralized application needs."
     },
     {
       "componentType": "cardGrid",
@@ -238,7 +238,11 @@
         "highlight": "Parallel Society",
         "rest": "is a two-day event in Lisbon where music, art, and technology converge."
       },
-      "cta": { "label": "Learn More", "href": "/press" }
+      "cta": {
+        "label": "Learn More",
+        "href": "https://ps.logos.co/",
+        "external": true
+      }
     },
     {
       "componentType": "gallery",

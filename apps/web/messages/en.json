@@ -33,8 +33,8 @@
   "home": {
     "hero": {
       "mobileHeadline": "We are charting\na new path.",
-      "kicker": "Basecamp is the private-by-default exit tool.",
-      "mobileBody": "Logos is the private-by-defualt infrastructure for parallel societies. Built for a world where existing systems have stopped working. Built for a world where we are in control."
+      "kicker": "Basecamp is the tool for living outside existing systems.",
+      "mobileBody": "Logos is the private-by-default infrastructure for parallel societies. Built for a world where existing systems have stopped working. Built for a world where we are in control."
     },
     "socialProof": {
       "contributions": {
@@ -100,15 +100,15 @@
       "quote": "The system is no longer working for us, so we are charting a new course.",
       "headline": "Logos exists at the intersection of human exploration and technological revolution.",
       "body": "We are a movement for builders, explorers, and dreamers who refuse to accept the world as it is. We're part of a generation fed up with corruption, surveillance, and stagnation often associated with incumbent institutions.",
-      "intro": "Civil society is in decline. Our institutions are failing. Our money is debased. People are atomised, indebted, and increasingly unable to provide for themselves or their families. Reform from within cannot reverse this because the system selects for compliance, and centralisation leads inevitably to corruption.",
-      "closing1": "Logos is built for those who believe the window for reform has closed. Circles are essential for anyone taking actions with us. If there isn’t a Logos Circle listed in your area, please get in touch with the team.",
-      "closing2": "",
-      "closing3": "",
+      "intro": "Civil society is in decline. Our institutions are failing. Our money is debased. People are atomised, indebted, and increasingly unable to provide for themselves or their families. Reform from within cannot reverse this because the system selects for adherence, and centralisation leads inevitably to corruption.",
+      "closing1": "Logos exist to build the decentralised infrastructure and living ecosystem that makes a parallel society possible for anyone ready to reclaim their agency in the digital and physical world.",
+      "closing2": "Sovereign, sound, and civic.",
+      "closing3": "Built for exit when the existing order can no longer hold.",
       "cta": "About us",
       "problems": {
         "debt": {
           "title": "Debt",
-          "body": "We've inherited insurmountable debt handed down by older generations. Debt we did not choose, debt we did not benefit from, and debt we are now expected to pay back with interest.",
+          "body": "We were born into a debt we did not take on, for spending we did not approve, on terms we cannot refuse. Bills compound and interest accrues. The generation that took out this loan will not be the one to pay it.",
           "fact1": "Global government debt has climbed to a record $111 trillion in 2025, rising by $8.3 trillion in a single year.",
           "fact2": "The average millennial in the US has 30% less wealth than the average Boomer by age 35.",
           "fact3": "3.4 billion people now live in countries that spend more on interest payments than on either health or education.",
@@ -123,22 +123,22 @@
         },
         "corruption": {
           "title": "Corruption",
-          "body": "The game is rigged, and they're not even hiding it anymore. Policy is no longer written for the people — it's written for whoever can afford the most lobbyists, the biggest donations, and the closest seats at the inauguration.",
+          "body": "Policy is no longer written for the public. It is written for whoever can afford the lobbyists, the donations, and the seat at the table. This is not a conspiracy. It is the operating model.",
           "fact1": "Billionaires are now estimated to be 4,000 times more likely to hold political office than ordinary citizens.",
           "fact2": "In the US alone, federal lobbying smashed records in 2025, with corporations and interest groups spending $5.08 billion in a single year to influence Washington.",
           "fact3": "Two-thirds of Americans (67%) now believe their federal government is \"corrupt\", and trust in government has crashed to just 17%."
         },
         "stagnation": {
           "title": "Stagnation",
-          "body": "We work harder, we're better educated, and we earn less. The economy is producing record wealth at record speed — it's just not flowing to us. And those in power intend to keep it that way.",
+          "body": "Productivity is up. Education is up. Wages are flat. The wealth is being created but it is being captured upstream, by asset holders, financial intermediaries, and the institutions closest to the money printer. The distribution is not an accident. It is the design.",
           "fact1": "The 12 richest billionaires now own more wealth than the poorest half of humanity — 4 billion people.",
           "fact2": "Millennials work in an economy 70% more productive than when boomers were the same age — yet their median compensation has barely moved."
         }
       }
     },
     "builderPortal": {
-      "title": "Basecamp.\nThe local launcher\nfor the Logos stack",
-      "description": "Basecamp is a ready-to-run distribution that you deploy on your own hardware, under your control. From the moment it’s installed, you’re standing on your own ground, not connecting to someone else’s infrastructure.\n\nThe Logos Runtime runs running locally, core modules are loaded, and essential applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one.",
+      "title": "Basecamp\nThe local launcher\nfor the Logos stack",
+      "description": "Basecamp is a ready-to-run Logos distribution that you deploy on your own hardware, under your control. From the moment it’s installed, you’re standing on your own ground, not connecting to someone else’s infrastructure.\n\nThe Logos runtime runs locally, core modules are loaded, and essential applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one.",
       "feature1": "Explore programmes and resources to help you build your cyberstate.",
       "feature2": "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
       "feature3": "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections.",
@@ -154,9 +154,9 @@
       "buildLabel": "BUILD",
       "buildDesc": "Operate early. Help harden a private-by-default network that protects civil liberties and strengthens trust in our communities.",
       "cta": "Install",
-      "featureChat": "Basic Chat App",
-      "featureNode": "Run a Node",
-      "featureTransactions": "Private Transactions"
+      "featureChat": "Load a basic chat app",
+      "featureNode": "Run a node",
+      "featureTransactions": "Execute private transactions"
     },
     "paths": {
       "kicker": "The right response to broken systems is not to reform them but to build alongside them, and eventually, beyond them.",
@@ -164,24 +164,24 @@
       "body": "Parallel societies are communities, institutions, and economies that operate outside the legacy system and answer to the people inside them. Logos provides the infrastructure. The rest is participation.",
       "build": {
         "title": "Build",
-        "body": "Explore programmes and resources to help you build your cyberstate.",
-        "cta": "Builder Hub"
+        "body": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code.",
+        "cta": "Start Building"
       },
       "operate": {
         "title": "Operate",
-        "body": "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies. Whether you are a builder or a node operator, there is a role for you.",
+        "body": "Run a node. Decentralise the network. Secure Logos. Setup takes minutes.",
         "cta": "Run a Node"
       },
       "activism": {
         "title": "Activism",
         "body": "Humanity evolved to organise. Some of our biggest problems lie in the breakdown of social trust, culture, and meaning. Join the Logos Movement to rebuild civil society together.",
-        "cta": "Community Activism"
+        "cta": "Join the Movement"
       }
     },
     "startBuilding": {
-      "title": "Start building.",
-      "body": "Explore programmes and resources to help you build your cyberstate.",
-      "mobileBody": "Lorem ipsum dolor sit amet consectetur. Morbi vel eget posuere pretium adipiscing feugiat donec sit vitae. Ante quisque sed in duis at. Velit felis libero maecenas faucibus sollicitudin odio interdum nulla viverra.",
+      "title": "Start Building",
+      "body": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code, explore builder programs.",
+      "mobileBody": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code, explore builder programs.",
       "cta": "Builder Hub",
       "cardCta": "Learn more",
       "lambdaPrize": "Lambda Prize",
