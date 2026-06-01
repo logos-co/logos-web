@@ -13,6 +13,7 @@ const HCAPTCHA_SECRET = process.env.HCAPTCHA_SECRET ?? ''
 const ALLOWED_FORMS = new Set([
   'afformActivistBuilder',
   'afformActivistLeaderSteward',
+  'afformCircleContactForm',
   'afformCoalitionPartner',
 ])
 

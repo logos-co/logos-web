@@ -5,6 +5,7 @@ import {
 import { ROUTES } from '@/constants/routes'
 import { env } from '@/lib/env'
 import {
+  AFFORM_NAME,
   AFFORM,
   AFFORM_OPTIONS,
   AFFORM_PAGE_HEADING,
@@ -21,9 +22,9 @@ export const generateMetadata = createTranslatedPageMetadata({
   path: ROUTES.connect,
 })
 
-function getContactApiUrl() {
+function getAfformSubmitApiUrl() {
   const base = env.NEXT_PUBLIC_CIVI_CRM_URL
-  return base ? `${base.replace(/\/+$/, '')}/api/public/contact` : ''
+  return base ? `${base.replace(/\/+$/, '')}/api/public/afform-submit` : ''
 }
 
 export default function ConnectPage() {
@@ -35,7 +36,8 @@ export default function ConnectPage() {
       <ConnectFormSection
         afform={AFFORM}
         afformOptions={AFFORM_OPTIONS}
-        apiEndpoint={getContactApiUrl()}
+        apiEndpoint={getAfformSubmitApiUrl()}
+        extraPayload={{ formName: AFFORM_NAME }}
         pagePrivacy={AFFORM_PAGE_PRIVACY}
         pagePrivacyLink={AFFORM_PAGE_PRIVACY_LINK}
       />
