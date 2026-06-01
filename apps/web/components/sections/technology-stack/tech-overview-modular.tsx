@@ -28,13 +28,6 @@ export default function TechOverviewModular({ data }: Props) {
           </div>
 
           <div className="relative h-[572px] overflow-hidden rounded-xl bg-gray-01 p-6 md:h-[518px]">
-            {data.eyebrow ? (
-              <div className="text-mono-s absolute top-[-7px] left-1/2 flex -translate-x-1/2 items-center gap-[88px] text-brand-dark-green uppercase opacity-0 md:top-6 md:left-6 md:translate-x-0 md:gap-[88px] md:opacity-100">
-                <span className="size-[7px] rotate-45 bg-brand-dark-green" />
-                <span>{data.eyebrow}</span>
-              </div>
-            ) : null}
-
             <div className="mx-auto mt-[82px] flex max-w-[464px] flex-col items-center text-center md:mt-[113px]">
               <h2 className="text-h3-serif w-[320px] text-brand-dark-green md:w-full">
                 <span className="block md:inline">{data.title.highlight}</span>

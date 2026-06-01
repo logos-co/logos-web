@@ -33,8 +33,8 @@ function TagIcon({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-function ExternalLinkIcon() {
-  return <IconMask src="/icons/external-link.svg" className="size-[15px]" />
+function DownloadIcon() {
+  return <IconMask src="/icons/download.svg" className="size-[15px]" />
 }
 
 type Props = {
@@ -108,7 +108,7 @@ export default function TechOverviewLogosApp({ data }: Props) {
                 <Button
                   href={data.primaryCta.href}
                   variant="secondary"
-                  icon={<ExternalLinkIcon />}
+                  icon={<DownloadIcon />}
                 >
                   {data.primaryCta.label}
                 </Button>

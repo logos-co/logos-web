@@ -30,7 +30,7 @@ export default function TechOverviewOpenSource({ data }: Props) {
     <section id="open-source" className="relative border-t border-brand-dark-green/10">
       <ContentWidth className="relative h-[460px] bg-brand-off-white md:h-[421px]">
       <div className="absolute top-[39px] left-3">
-        <h2 className="text-h4-sans whitespace-nowrap text-brand-dark-green">
+        <h2 className="text-h3-serif whitespace-nowrap text-brand-dark-green">
           {data.title}
         </h2>
       </div>
