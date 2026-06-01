@@ -1,5 +1,6 @@
 import type { CtaPanelSection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 
@@ -10,7 +11,7 @@ type Props = {
 export default function NetworkingIntro({ data }: Props) {
   return (
     <section className="h-[235px] border-t border-brand-dark-green/10 bg-brand-off-white md:h-[158px]">
-      <div className="relative mx-auto h-full max-w-360 px-3 text-brand-dark-green">
+      <ContentWidth className="relative h-full text-brand-dark-green px-0">
         <Reveal className="absolute top-10 left-3">
           <h2 className="text-h4-sans">{data.title}</h2>
         </Reveal>
@@ -32,7 +33,7 @@ export default function NetworkingIntro({ data }: Props) {
             </Button>
           </div>
         ) : null}
-      </div>
+      </ContentWidth>
     </section>
   )
 }

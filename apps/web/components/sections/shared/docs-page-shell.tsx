@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
 
+import ContentWidth from '@/components/layout/content-width'
+
 import { DocsToc, type DocsTocKey } from './docs-toc'
 
 /**
@@ -22,11 +24,13 @@ interface DocsPageShellProps {
 
 export function DocsPageShell({ activeKey, children }: DocsPageShellProps) {
   return (
-    <section className="flex min-h-190 flex-col items-start gap-3 px-3 xl:flex-row xl:gap-122">
-      <DocsToc activeKey={activeKey} />
-      <div className="flex w-full flex-col items-start gap-6 pb-20 xl:w-116 xl:py-20">
-        {children}
-      </div>
-    </section>
+    <ContentWidth>
+      <section className="flex min-h-190 flex-col items-start gap-3 px-3 xl:flex-row xl:gap-122">
+        <DocsToc activeKey={activeKey} />
+        <div className="flex w-full flex-col items-start gap-6 pb-20 xl:w-116 xl:py-20">
+          {children}
+        </div>
+      </section>
+    </ContentWidth>
   )
 }

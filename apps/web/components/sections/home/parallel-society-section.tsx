@@ -4,6 +4,7 @@ import Image from 'next/image'
 
 import type { FeaturedTextSection, GallerySection } from '@repo/content/schemas'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 
@@ -106,38 +107,41 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
   }))
 
   return (
-    <section className="relative h-[1368px] overflow-hidden bg-brand-off-white shadow-[inset_0_1px_0_rgba(21,37,33,0.1)]">
-      <Reveal
-        amount={0.4}
-        delay={0.18}
-        viewportMargin="0px 0px -20% 0px"
-        className="absolute top-[132px] right-3 left-3"
-      >
-        <h2 className="text-h1 text-brand-dark-green text-center">
-          <span className="text-brand-dark-green">
-            {headline.title.highlight}{' '}
-          </span>
-          <span className="text-gray-04">{headline.title.rest}</span>
-        </h2>
-      </Reveal>
+    <section className="bg-brand-off-white shadow-[inset_0_1px_0_rgba(21,37,33,0.1)]">
+      <ContentWidth className="relative px-3 pt-[132px] pb-[100px] md:pt-[132px] md:pb-0">
+        <Reveal
+          amount={0.4}
+          delay={0.18}
+          viewportMargin="0px 0px -20% 0px"
+          className="mb-[376px] md:mb-[60px]"
+        >
+          <h2 className="text-h1 text-brand-dark-green text-center">
+            <span className="text-brand-dark-green">
+              {headline.title.highlight}
+            </span>{' '}
+            <span className="text-gray-04">{headline.title.rest}</span>
+          </h2>
+        </Reveal>
 
-      {headline.cta ? (
-        <div className="absolute top-[508px] right-3 left-3 flex justify-center md:top-[450px]">
-          <Button
-            href={headline.cta.href}
-            variant="link"
-            className="cursor-pointer transition-opacity hover:opacity-70"
-          >
-            {headline.cta.label}
-          </Button>
-        </div>
-      ) : null}
+        {headline.cta ? (
+          <div className="mb-[70px] flex justify-center md:mb-[111px]">
+            <Button
+              href={headline.cta.href}
+              variant="link"
+              className="cursor-pointer transition-opacity hover:opacity-70"
+            >
+              {headline.cta.label}
+            </Button>
+          </div>
+        ) : null}
+      </ContentWidth>
 
+      {/* Mobile Gallery — full width with internal scroll */}
       <div
-        className="absolute top-[578px] right-0 left-0 overflow-x-auto px-3 pb-2 md:hidden"
+        className="overflow-x-auto pb-2 md:hidden px-3"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        <div className="flex w-max snap-x snap-mandatory items-start gap-3 pr-3">
+        <div className="flex w-max snap-x snap-mandatory items-start gap-3">
           {items.map((item) => (
             <MobileGalleryCard
               key={item.src}
@@ -150,22 +154,25 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
         </div>
       </div>
 
-      {/* Gallery — bleed outside container on desktop */}
+      {/* Desktop Gallery — full width with centered content and internal scroll */}
+      {/* pb-[88px] + Press section py-3 (12px) = 100px gallery→Press gap per Figma */}
       <div
-        className="absolute top-[578px] hidden items-start gap-3 md:flex"
-        style={{ marginLeft: '-141px', width: 'calc(100% + 282px)' }}
+        className="hidden overflow-x-auto md:block md:pb-[88px]"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {items.map((item) => (
-          <DesktopGalleryCard
-            key={item.src}
-            src={item.src}
-            alt={item.alt}
-            w={item.desktop.w}
-            h={item.desktop.h}
-            caption={item.caption}
-            date={item.date}
-          />
-        ))}
+        <div className="flex items-start gap-3 px-3 mx-auto w-fit">
+          {items.map((item) => (
+            <DesktopGalleryCard
+              key={item.src}
+              src={item.src}
+              alt={item.alt}
+              w={item.desktop.w}
+              h={item.desktop.h}
+              caption={item.caption}
+              date={item.date}
+            />
+          ))}
+        </div>
       </div>
     </section>
   )

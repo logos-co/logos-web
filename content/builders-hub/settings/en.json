@@ -27,7 +27,7 @@
     "links": [
       { "label": "Get Inspired", "href": "/builders-hub#get-inspired" },
       {
-        "label": "Prepare for the Expedition",
+        "label": "Install Basecamp",
         "href": "/builders-hub#prepare"
       },
       { "label": "Start Building", "href": "/builders-hub#start-building" },
@@ -52,7 +52,7 @@
     }
   },
   "prepare": {
-    "title": "Prepare for the Expedition",
+    "title": "Install Basecamp",
     "cards": [
       {
         "title": "Install Basecamp",
@@ -72,7 +72,8 @@
           "alt": "",
           "width": 850,
           "height": 326
-        }
+        },
+        "imageFit": "contain"
       }
     ]
   },
@@ -293,7 +294,6 @@
     "accent": "grey",
     "imagePosition": "left",
     "title": "Install Basecamp.",
-    "mobileTitle": "Install the Logos app.",
     "description": "The Logos App is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting \"Simple Apps\" that let users interact with the various modules:",
     "tags": [
       { "label": "Wallet", "icon": "wallet" },

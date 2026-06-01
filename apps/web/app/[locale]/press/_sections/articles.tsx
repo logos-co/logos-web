@@ -5,6 +5,7 @@
 import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
 
+import ContentWidth from '@/components/layout/content-width'
 import { ExternalLink } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
 import type { PressArticleRow } from '@/lib/press-engine'
@@ -60,9 +61,9 @@ export function PressHero({
   >
 }) {
   return (
-    <section className="relative h-[473px] bg-accent-tan px-3 pt-6 md:h-[359px] md:pt-6">
-      <div className="flex w-full flex-col gap-[100px] md:gap-10">
-        <div className="relative h-[81px] w-full md:w-[1186px]">
+    <section className="relative h-[473px] bg-accent-tan pt-10 md:h-[359px] md:pt-2.5">
+      <ContentWidth className="flex w-full flex-col gap-[100px] md:gap-10">
+        <div className="relative h-[81px] w-full">
           <div className="absolute left-0 top-0 aspect-video w-[107px] overflow-hidden">
             <Image
               src={PRESS_HERO_IMAGE}
@@ -81,7 +82,7 @@ export function PressHero({
           <span className="block">{copy.heroHeadingLine1}</span>
           <span className="block">{copy.heroHeadingLine2}</span>
         </h1>
-      </div>
+      </ContentWidth>
       <nav
         aria-label={copy.navLabel}
         className="absolute left-[calc(50%+6px)] top-[334px] flex flex-col items-start gap-2 text-brand-dark-green md:top-[342px] md:flex-row md:items-center md:gap-6"
@@ -100,13 +101,13 @@ export function PressHero({
             </a>
           )
         })}
-        <Link
+        <a
           href={copy.navBroadcastHref}
           className="inline-flex cursor-pointer items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35] transition-opacity hover:opacity-70"
         >
           <ArrowIcon direction="down" />
           {copy.navBroadcast}
-        </Link>
+        </a>
       </nav>
     </section>
   )
@@ -125,18 +126,18 @@ export function ArticleEntry({
 
   return (
     <PressRowLink href={article.href} index={index} className="h-[107px]">
-      <RowThumbnail
-        src={article.thumbnailImage}
-        className="left-3 top-[15px] w-[107px] md:block"
-      />
-      <div className="absolute left-[119px] top-0 flex h-full w-[274px] flex-col justify-center gap-1.5 py-3 pl-3 md:left-[119px] md:grid md:w-[1150px] md:grid-cols-[595px_543px] md:gap-x-3 md:p-0">
-        <div className="flex flex-col justify-center gap-1.5 md:py-3 md:pl-3">
+      <ContentWidth className="relative flex h-full items-center gap-3 md:grid md:grid-cols-[107px_607px_543px] md:gap-0">
+        <RowThumbnail
+          src={article.thumbnailImage}
+          className="h-[77px] w-[107px] shrink-0 md:block"
+        />
+        <div className="flex min-w-0 flex-1 flex-col justify-center gap-1.5 md:h-full md:w-[595px] md:gap-1.5 md:py-3 md:pl-3">
           <div className="text-mono-s flex items-center gap-2.5 text-brand-dark-green">
             <span>{article.date}</span>
             <Dot />
             <span>{article.author}</span>
           </div>
-          <div className="w-[250px] text-[18px] leading-[1.15] tracking-[-0.01em] text-brand-dark-green md:w-full md:max-w-[333px]">
+          <div className="w-full text-[18px] leading-[1.15] tracking-[-0.01em] text-brand-dark-green md:w-[333px]">
             {article.titleSerif ? (
               <>
                 <span className="font-display block leading-[1.1]">
@@ -149,36 +150,36 @@ export function ArticleEntry({
             )}
           </div>
         </div>
-        <div className="hidden md:flex md:items-start md:gap-[132px]">
-          <p className="text-mono-s w-[345px] py-3 text-brand-dark-green">
+        <div className="hidden items-start md:flex md:gap-[132px]">
+          <p className="text-mono-s line-clamp-3 w-[345px] py-3 text-brand-dark-green">
             {article.description}
           </p>
           <div className="shrink-0 py-3">
             <UnderlineLabel>{article.readingTime} min read</UnderlineLabel>
           </div>
         </div>
-      </div>
+      </ContentWidth>
     </PressRowLink>
   )
 }
 
 export function ArticlesHeading({ label }: { label: string }) {
   return (
-    <div
+    <ContentWidth
       id="articles"
       className="flex h-12 items-start px-3 text-brand-dark-green md:h-[88px] md:pt-10"
     >
       <h2 className="font-sans text-[36px] leading-none tracking-[-0.02em]">
         {label}
       </h2>
-    </div>
+    </ContentWidth>
   )
 }
 
 export function GallerySection({ articles }: { articles: PressArticleRow[] }) {
   return (
     <section className="h-[319px] overflow-x-auto overflow-y-hidden bg-accent-tan md:h-auto md:overflow-visible md:px-3 md:py-10">
-      <div className="flex w-max gap-3 py-10 pl-3 pr-3 md:grid md:w-auto md:grid-cols-4 md:p-0">
+      <ContentWidth className="flex w-max gap-3 py-10 pl-3 pr-3 md:grid md:w-auto md:grid-cols-4 md:p-0">
         {articles.map((article) => (
           <ExternalLink
             key={article.title}
@@ -205,7 +206,7 @@ export function GallerySection({ articles }: { articles: PressArticleRow[] }) {
             </div>
           </ExternalLink>
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -218,41 +219,43 @@ export function FeaturedArticle({
   readArticleLabel: string
 }) {
   return (
-    <section className="relative h-[994px] overflow-hidden bg-accent-tan md:flex md:h-[1044px] md:justify-center md:gap-3 md:overflow-visible md:pr-3">
-      <div className="absolute left-0 top-0 z-10 h-[313px] w-full px-3 pt-10 md:sticky md:top-10 md:h-[495px] md:flex-1 md:pl-[129px] md:pt-[100px]">
-        <div className="flex max-w-[573px] flex-col gap-6 md:gap-[30px]">
-          <div className="text-mono-s flex items-center gap-2.5 text-brand-off-white md:text-brand-dark-green">
-            <span>{article.author}</span>
-            <Dot className="bg-brand-off-white md:bg-brand-dark-green" />
-            <span>{article.date}</span>
-          </div>
-          <h2 className="font-display max-w-[370px] text-[40px] leading-none tracking-[-0.03em] text-brand-off-white md:max-w-[464px] md:text-[56px] md:tracking-normal md:text-brand-dark-green">
-            {article.title}
-          </h2>
-          <div className="flex flex-col gap-5">
-            <p className="text-mono-s max-w-[370px] text-brand-off-white md:max-w-[456px] md:text-brand-dark-green">
-              {article.description}
-            </p>
-            <TextLink
-              href={article.href}
-              label={`${readArticleLabel}: ${article.title}`}
-              tone="light"
-              className="md:text-brand-dark-green md:decoration-brand-dark-green/50"
-            >
-              {readArticleLabel}
-            </TextLink>
+    <section className="relative h-[994px] overflow-hidden bg-accent-tan min-[1440px]:flex min-[1440px]:h-[1044px] min-[1440px]:justify-center min-[1440px]:gap-3 min-[1440px]:overflow-visible min-[1440px]:pr-3">
+      <ContentWidth className="relative h-full w-full min-[1440px]:flex min-[1440px]:h-full min-[1440px]:justify-center min-[1440px]:gap-3 min-[1440px]:overflow-visible">
+        <div className="absolute left-0 top-0 z-10 h-[313px] w-full px-3 pt-10 min-[1440px]:sticky min-[1440px]:top-10 min-[1440px]:h-[495px] min-[1440px]:flex-1 min-[1440px]:pl-[129px] min-[1440px]:pt-[100px]">
+          <div className="flex max-w-[573px] flex-col gap-6 min-[1440px]:gap-[30px]">
+            <div className="text-mono-s flex items-center gap-2.5 text-brand-off-white min-[1440px]:text-brand-dark-green">
+              <span>{article.author}</span>
+              <Dot className="bg-brand-off-white min-[1440px]:bg-brand-dark-green" />
+              <span>{article.date}</span>
+            </div>
+            <h2 className="font-display max-w-[370px] text-[40px] leading-none tracking-[-0.03em] text-brand-off-white min-[1440px]:max-w-[464px] min-[1440px]:text-[56px] min-[1440px]:tracking-normal min-[1440px]:text-brand-dark-green">
+              {article.title}
+            </h2>
+            <div className="flex flex-col gap-5">
+              <p className="text-mono-s max-w-[370px] text-brand-off-white min-[1440px]:max-w-[456px] min-[1440px]:text-brand-dark-green">
+                {article.description}
+              </p>
+              <TextLink
+                href={article.href}
+                label={`${readArticleLabel}: ${article.title}`}
+                tone="light"
+                className="min-[1440px]:text-brand-dark-green min-[1440px]:decoration-brand-dark-green/50"
+              >
+                {readArticleLabel}
+              </TextLink>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="absolute inset-0 h-[994px] overflow-hidden md:relative md:inset-auto md:h-[994px] md:w-[714px] md:shrink-0">
-        <Image
-          src={article.featuredImage}
-          alt=""
-          width={1242}
-          height={994}
-          className="absolute left-[-303px] top-0 h-[1040px] w-[1300px] max-w-none object-cover md:left-[-104px] md:h-full md:w-[1242px]"
-        />
-      </div>
+        <div className="absolute inset-0 h-[994px] overflow-hidden min-[1440px]:relative min-[1440px]:inset-auto min-[1440px]:h-[994px] min-[1440px]:w-[714px] min-[1440px]:shrink-0">
+          <Image
+            src={article.featuredImage}
+            alt=""
+            width={1242}
+            height={994}
+            className="absolute left-[-303px] top-0 h-[1040px] w-[1300px] max-w-none object-cover min-[1440px]:left-[-104px] min-[1440px]:h-full min-[1440px]:w-[1242px]"
+          />
+        </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -280,14 +283,14 @@ export function BroadcastSection({
   return (
     <section
       id="broadcast"
-      className="bg-accent-tan pt-[100px] text-brand-dark-green"
+      className="bg-accent-tan pt-3 text-brand-dark-green min-[1440px]:pt-[100px]"
     >
-      <div className="px-3 pb-3">
+      <ContentWidth className="px-3 pb-3">
         <Link
           href={href}
-          className="group relative block h-[560px] cursor-pointer overflow-hidden rounded-xl bg-brand-dark-green text-brand-off-white md:h-[406px]"
+          className="group relative block h-[560px] cursor-pointer overflow-hidden rounded-xl bg-brand-dark-green text-brand-off-white min-[1440px]:h-[406px]"
         >
-          <div className="absolute inset-0 blur-[30px] md:inset-auto md:left-[-39px] md:top-1/2 md:h-[1897px] md:w-[1518px] md:-translate-y-1/2">
+          <div className="absolute inset-0 blur-[30px] min-[1440px]:inset-auto min-[1440px]:left-[-39px] min-[1440px]:top-1/2 min-[1440px]:h-[1897px] min-[1440px]:w-[1518px] min-[1440px]:-translate-y-1/2">
             <Image
               src={BROADCAST_BACKGROUND_IMAGE}
               alt=""
@@ -298,7 +301,7 @@ export function BroadcastSection({
           </div>
           <div className="absolute inset-0 bg-black/40" />
 
-          <div className="absolute left-3 top-3 flex h-[calc(100%-24px)] w-[calc(100%-24px)] flex-col justify-between md:h-[380px] md:w-[453px]">
+          <div className="absolute left-3 top-3 flex h-[calc(100%-24px)] w-[calc(100%-24px)] flex-col justify-between min-[1440px]:h-[380px] min-[1440px]:w-[453px]">
             <div className="flex items-center gap-[102px]">
               <LogosMark size={6} className="shrink-0 text-brand-off-white" />
               <p className="font-mono text-[10px] font-medium uppercase leading-[1.3] text-brand-off-white">
@@ -306,11 +309,11 @@ export function BroadcastSection({
               </p>
             </div>
 
-            <div className="mb-[226px] flex w-full flex-col gap-3 md:mb-0">
+            <div className="mb-[226px] flex w-full flex-col gap-3 min-[1440px]:mb-0">
               <h2 className="w-[185px] font-sans text-[24px] leading-[1.1] tracking-[-0.01em] text-brand-off-white">
                 {copy.broadcastHeading}
               </h2>
-              <p className="font-mono text-[10px] leading-[1.3] text-brand-off-white md:w-full">
+              <p className="font-mono text-[10px] leading-[1.3] text-brand-off-white min-[1440px]:w-full">
                 {copy.broadcastDescription}
               </p>
             </div>
@@ -326,14 +329,14 @@ export function BroadcastSection({
             </div>
           </div>
 
-          <div className="absolute left-3 right-3 top-[292px] h-[158px] overflow-hidden rounded-[72px] bg-accent-tan text-brand-dark-green transition-colors group-hover:bg-brand-yellow md:left-auto md:right-3 md:top-3 md:h-[382px] md:w-[702px] md:rounded-[100px]">
+          <div className="absolute left-3 right-3 top-[292px] h-[158px] overflow-hidden rounded-[72px] bg-accent-tan text-brand-dark-green transition-colors group-hover:bg-brand-yellow min-[1440px]:left-auto min-[1440px]:right-3 min-[1440px]:top-3 min-[1440px]:h-[382px] min-[1440px]:w-[702px] min-[1440px]:rounded-[100px]">
             <span className="absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35]">
               {copy.broadcastCta}
               <ArrowIcon />
             </span>
           </div>
         </Link>
-      </div>
+      </ContentWidth>
     </section>
   )
 }

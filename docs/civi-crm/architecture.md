@@ -297,7 +297,8 @@ type CiviWhere = [string, string, CiviWhereValue | CiviWhereValue[]]
 type CiviParams = {
   select?: string[]
   where?: CiviWhere[]
-  orderBy?: [string, 'ASC' | 'DESC'][]
+  orderBy?: Record<string, 'ASC' | 'DESC'>
+  values?: Record<string, unknown>
   limit?: number
   offset?: number
 }
@@ -313,7 +314,7 @@ class CiviCRMClient {
 
 The client throws a typed `CiviCRMError` on non-2xx responses, carrying status code and CiviCRM's error object. Route handlers catch this and translate to appropriate HTTP responses.
 
-Authentication uses the `X-Civi-Auth: Bearer <key>` header on every request.
+Authentication uses the `X-Civi-Auth: Bearer <key>` and `X-Requested-With: XMLHttpRequest` headers on every request.
 
 For query patterns, valid entities and fields, operators, and anti-patterns see [`docs/civi-crm/api.md`](api.md).
 
@@ -345,8 +346,8 @@ All routes are Next.js Route Handlers in `src/app/api/`. They act as a thin back
 
 | Method | Route | CiviCRM calls | Notes |
 |---|---|---|---|
-| `GET` | `/api/cases?page=&assignee=&status=&sort=&order=` | 3 parallel: `/Case` + `/CaseContact` + `/Relationship` | Filtered by active view's `caseTypeName`; merged server-side by `case_id`; paginated (page size 20); `assignee` defaults to logged-in coordinator |
-| `GET` | `/api/cases/[id]` | Round 1 (4 parallel): `/Case` + `/CaseContact` (deep join) + `/Relationship`; Round 2 (2 parallel, after `contact_id` resolves): `/CaseContact` (other cases) + `/GroupContact` | Activity log excluded from this route — fetched separately |
+| `GET` | `/api/cases?page=&assignee=&status=&sort=&order=` | Round 1 (2 parallel): `/Case` + `/Case` aggregate count; Round 2 (2 parallel): `/CaseContact` + `/Relationship`; optional pre-step `/Relationship` when `assignee` is present | Filtered by active view's `caseTypeName`; merged server-side by `case_id`; paginated (page size 20); `assignee` defaults to logged-in coordinator |
+| `GET` | `/api/cases/[id]` | Round 1 (3 parallel): `/Case` + `/CaseContact` (deep join) + `/Relationship`; Round 2 (2 parallel, after `contact_id` resolves): `/CaseContact` (other cases) + `/GroupContact` | Activity log excluded from this route — fetched separately |
 | `GET` | `/api/cases/[id]/activities?page=` | `/Activity` paginated (page size 20) | Separate route keeps detail page fast on cases with many activities |
 | `PATCH` | `/api/cases/[id]` | Fan-out per update target; scorecard computed and included in same `/Case` write | Write fan-out described in §7.3 |
 | `PATCH` | `/api/cases/[id]/coordinator` | Delete old `/Relationship` + create new `/Relationship` | Non-atomic; failure mode described in §9.3 |
@@ -357,14 +358,15 @@ All routes are Next.js Route Handlers in `src/app/api/`. They act as a thin back
 
 Rather than fetching supplementary data per-case:
 
-1. Fetch one page of `/Case` records for the active view's `caseTypeName`, using `limit: 20` and `offset: (page - 1) * 20`. The CiviCRM response includes a `count` field for total results, which is forwarded to the client for pagination controls.
-2. Extract the list of `case_id`s from that page.
-3. In parallel: fetch `/CaseContact` with `case_id IN [...]` (lead names) and `/Relationship` with `case_id IN [...] AND relationship_type_id:name = "Case Coordinator is"` (assigned-to).
-4. Merge three result sets server-side into `CaseListItem[]`.
+1. Fetch one page of `/Case` records for the active view's `caseTypeName`, using `limit: 20` and `offset: (page - 1) * 20`.
+2. In parallel, fetch the total via a separate aggregate `/Case/get` call with `select: ['row_count']`.
+3. Extract the list of `case_id`s from that page.
+4. In parallel: fetch `/CaseContact` with `case_id IN [...]` (lead names) and `/Relationship` with `case_id IN [...] AND relationship_type_id:name = "Case Coordinator is"` (assigned-to).
+5. Merge three result sets server-side into `CaseListItem[]`.
 
-This is 3 total CiviCRM calls per page regardless of total case count.
+This is 4 total CiviCRM calls per page when a page has rows (plus 1 optional pre-step call when `assignee` is provided). If the requested page is empty, Round 2 is skipped.
 
-**Default assignee filter:** On first load the Server Component reads the logged-in user's email via `getCurrentUserEmail()`, resolves their CiviCRM coordinator `contact_id` (via `/Relationship`), and passes it as the default `?assignee=` search param. The user can clear the filter in `CasesFilters` to see all cases. The resolved `contact_id` is passed as the `assignee` query parameter to this route, which applies it as an additional `where` clause on the `/Relationship` call.
+**Default assignee filter:** On first load the Server Component reads the logged-in user's email from request headers (`KEYCLOAK_USER_EMAIL_HEADER` / `x-auth-request-email` fallback), resolves their CiviCRM `contact_id` via `resolveOrCreateContactByEmail()`, and passes it as the default `?assignee=` search param. The user can clear the filter in `CasesFilters` to see all cases. The resolved `contact_id` is passed as the `assignee` query parameter to this route, which applies it as an additional `where` clause on the pre-step `/Relationship` call.
 
 **`select[]` arrays are derived server-side from the active view's `listColumns` field definitions**, ensuring only needed fields are fetched.
 
@@ -489,7 +491,7 @@ Filter, sort, and pagination state lives in URL search params. This makes list v
 | `order` | `/cases` | `asc` | `asc` or `desc` |
 | `activitiesPage` | `/cases/[id]` | `1` | Activity log pagination |
 
-The `assignee` default is resolved once in the Server Component (`app/cases/page.tsx`) by calling `getCurrentUserEmail()`, looking up the coordinator's `contact_id`, and injecting it as a default into the rendered `CasesFilters` component. Subsequent filter changes are fully client-side via URL params.
+The `assignee` default is resolved once in the Server Component (`app/cases/page.tsx`) by reading the authenticated user email from request headers, looking up the coordinator's `contact_id`, and injecting it as a default into the rendered `CasesFilters` component. Subsequent filter changes are fully client-side via URL params.
 
 ### 10.3 Component field rendering
 

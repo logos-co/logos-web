@@ -16,6 +16,19 @@ function errorResponse(status: number, body = 'Bad request') {
   return new Response(body, { status })
 }
 
+function getRequestedParams(callIndex = 0) {
+  const [url] = vi.mocked(fetch).mock.calls[callIndex] ?? []
+  if (typeof url !== 'string') {
+    return null
+  }
+  const parsedUrl = new URL(url)
+  const rawParams = parsedUrl.searchParams.get('params')
+  if (!rawParams) {
+    return null
+  }
+  return JSON.parse(rawParams)
+}
+
 describe('CiviCRMClient', () => {
   beforeEach(() => {
     vi.stubGlobal('fetch', vi.fn())
@@ -41,7 +54,7 @@ describe('CiviCRMClient', () => {
   })
 
   describe('get', () => {
-    it('POSTs to the correct URL and returns values', async () => {
+    it('GETs with URL-encoded params and returns values', async () => {
       const values = [{ id: 1, subject: 'Test' }]
       vi.mocked(fetch).mockResolvedValue(okResponse(values))
 
@@ -51,8 +64,10 @@ describe('CiviCRMClient', () => {
       })
 
       expect(vi.mocked(fetch)).toHaveBeenCalledWith(
-        `${BASE_URL}/civicrm/ajax/api4/Case/get`,
-        expect.objectContaining({ method: 'POST' })
+        `${BASE_URL}/civicrm/ajax/api4/Case/get?params=${encodeURIComponent(
+          JSON.stringify({ select: ['id', 'subject'], limit: 10 })
+        )}`,
+        expect.objectContaining({ method: 'GET' })
       )
       expect(result).toEqual(values)
     })
@@ -69,22 +84,36 @@ describe('CiviCRMClient', () => {
       }
       expect(err.status).toBe(403)
     })
+
+    it('keeps object orderBy in params', async () => {
+      vi.mocked(fetch).mockResolvedValue(okResponse([]))
+
+      await makeClient().get('Case', {
+        select: ['id'],
+        orderBy: { subject: 'ASC' },
+      })
+
+      const params = getRequestedParams()
+      expect(params?.orderBy).toEqual({ subject: 'ASC' })
+    })
   })
 
   describe('create', () => {
-    it('POSTs to the correct URL with serialized values and returns the first value', async () => {
+    it('POSTs with URL-encoded params and returns the first value', async () => {
       const record = { id: 42, subject: 'New' }
       vi.mocked(fetch).mockResolvedValue(okResponse([record]))
 
       const result = await makeClient().create('Case', { subject: 'New' })
 
       expect(vi.mocked(fetch)).toHaveBeenCalledWith(
-        `${BASE_URL}/civicrm/ajax/api4/Case/create`,
+        `${BASE_URL}/civicrm/ajax/api4/Case/create?params=${encodeURIComponent(
+          JSON.stringify({ values: { subject: 'New' } })
+        )}`,
         expect.objectContaining({
           method: 'POST',
-          body: JSON.stringify({ values: { subject: 'New' } }),
         })
       )
+      expect(vi.mocked(fetch).mock.calls[0]?.[1]).not.toHaveProperty('body')
       expect(result).toEqual(record)
     })
 
@@ -114,7 +143,7 @@ describe('CiviCRMClient', () => {
   })
 
   describe('update', () => {
-    it('POSTs to the correct URL with serialized where and values, and returns values', async () => {
+    it('POSTs with URL-encoded where and values, and returns values', async () => {
       const updated = [{ id: 1, subject: 'Updated' }]
       vi.mocked(fetch).mockResolvedValue(okResponse(updated))
 
@@ -124,12 +153,14 @@ describe('CiviCRMClient', () => {
       })
 
       expect(vi.mocked(fetch)).toHaveBeenCalledWith(
-        `${BASE_URL}/civicrm/ajax/api4/Case/update`,
+        `${BASE_URL}/civicrm/ajax/api4/Case/update?params=${encodeURIComponent(
+          JSON.stringify({ where, values: { subject: 'Updated' } })
+        )}`,
         expect.objectContaining({
           method: 'POST',
-          body: JSON.stringify({ where, values: { subject: 'Updated' } }),
         })
       )
+      expect(vi.mocked(fetch).mock.calls[0]?.[1]).not.toHaveProperty('body')
       expect(result).toEqual(updated)
     })
 
@@ -148,14 +179,16 @@ describe('CiviCRMClient', () => {
   })
 
   describe('count', () => {
-    it('POSTs to the /get endpoint', async () => {
+    it('GETs the /get endpoint with encoded params', async () => {
       vi.mocked(fetch).mockResolvedValue(okResponse([]))
 
       await makeClient().count('Case', {})
 
       expect(vi.mocked(fetch)).toHaveBeenCalledWith(
-        `${BASE_URL}/civicrm/ajax/api4/Case/get`,
-        expect.objectContaining({ method: 'POST' })
+        `${BASE_URL}/civicrm/ajax/api4/Case/get?params=${encodeURIComponent(
+          JSON.stringify({ select: ['row_count'] })
+        )}`,
+        expect.objectContaining({ method: 'GET' })
       )
     })
 
@@ -167,12 +200,10 @@ describe('CiviCRMClient', () => {
 
       await makeClient().count('Case', { where })
 
-      const body = JSON.parse(
-        (vi.mocked(fetch).mock.calls[0][1]!.body as string) ?? '{}'
-      )
-      expect(body.select).toEqual(['row_count'])
-      expect(body.limit).toBeUndefined()
-      expect(body.where).toEqual(where)
+      const params = getRequestedParams()
+      expect(params?.select).toEqual(['row_count'])
+      expect(params?.limit).toBeUndefined()
+      expect(params?.where).toEqual(where)
     })
 
     it('returns row_count from the first value', async () => {
@@ -204,15 +235,19 @@ describe('CiviCRMClient', () => {
   })
 
   describe('delete', () => {
-    it('POSTs to the correct URL', async () => {
+    it('POSTs with URL-encoded where params', async () => {
       vi.mocked(fetch).mockResolvedValue(okResponse([]))
+      const where: [string, string, string][] = [['id', '=', '1']]
 
-      await makeClient().delete('Case', [['id', '=', '1']])
+      await makeClient().delete('Case', where)
 
       expect(vi.mocked(fetch)).toHaveBeenCalledWith(
-        `${BASE_URL}/civicrm/ajax/api4/Case/delete`,
+        `${BASE_URL}/civicrm/ajax/api4/Case/delete?params=${encodeURIComponent(
+          JSON.stringify({ where })
+        )}`,
         expect.objectContaining({ method: 'POST' })
       )
+      expect(vi.mocked(fetch).mock.calls[0]?.[1]).not.toHaveProperty('body')
     })
 
     it('throws CiviCRMError on non-2xx', async () => {
@@ -226,6 +261,85 @@ describe('CiviCRMClient', () => {
         throw new Error('Expected CiviCRMError')
       }
       expect(err.status).toBe(401)
+    })
+  })
+
+  describe('debug logging', () => {
+    let debugSpy: ReturnType<typeof vi.spyOn>
+
+    beforeEach(() => {
+      debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    })
+
+    afterEach(() => {
+      vi.restoreAllMocks()
+      vi.unstubAllEnvs()
+    })
+
+    it('logs request and response when LOG_LEVEL=DEBUG', async () => {
+      vi.stubEnv('LOG_LEVEL', 'DEBUG')
+      vi.mocked(fetch).mockResolvedValue(okResponse([{ id: 1 }]))
+
+      await makeClient().get('Case', { select: ['id'] })
+
+      expect(debugSpy).toHaveBeenCalledTimes(2)
+      expect(debugSpy.mock.calls[0][0]).toContain('[CiviCRM] → GET')
+      expect(debugSpy.mock.calls[0][0]).toContain('/civicrm/ajax/api4/Case/get')
+      expect(debugSpy.mock.calls[1][0]).toContain('[CiviCRM] ← 200')
+      expect(debugSpy.mock.calls[1][0]).toContain('"id":1')
+    })
+
+    it('is case-insensitive -- logs when LOG_LEVEL=debug', async () => {
+      vi.stubEnv('LOG_LEVEL', 'debug')
+      vi.mocked(fetch).mockResolvedValue(okResponse([]))
+
+      await makeClient().get('Case', {})
+
+      expect(debugSpy).toHaveBeenCalledTimes(2)
+    })
+
+    it('does not log when LOG_LEVEL is absent', async () => {
+      vi.stubEnv('LOG_LEVEL', '')
+      vi.mocked(fetch).mockResolvedValue(okResponse([]))
+
+      await makeClient().get('Case', {})
+
+      expect(debugSpy).not.toHaveBeenCalled()
+    })
+
+    it('does not log when LOG_LEVEL=INFO', async () => {
+      vi.stubEnv('LOG_LEVEL', 'INFO')
+      vi.mocked(fetch).mockResolvedValue(okResponse([]))
+
+      await makeClient().get('Case', {})
+
+      expect(debugSpy).not.toHaveBeenCalled()
+    })
+
+    it('includes encoded params in the request log', async () => {
+      vi.stubEnv('LOG_LEVEL', 'DEBUG')
+      vi.mocked(fetch).mockResolvedValue(okResponse([]))
+      const params = { select: ['id', 'subject'], limit: 5 }
+
+      await makeClient().get('Case', params)
+
+      expect(debugSpy.mock.calls[0][0]).toContain(
+        `params=${encodeURIComponent(JSON.stringify(params))}`
+      )
+    })
+
+    it('trims logged response body to 1000 characters', async () => {
+      vi.stubEnv('LOG_LEVEL', 'DEBUG')
+      const values = [{ body: 'x'.repeat(1500) }]
+      const serialized = JSON.stringify({ values, count: values.length })
+      vi.mocked(fetch).mockResolvedValue(okResponse(values))
+
+      await makeClient().get('Case', {})
+
+      const responseLog = debugSpy.mock.calls[1]?.[0]
+      const [, loggedBody = ''] = responseLog.split('\n            ')
+      expect(loggedBody).toHaveLength(1000)
+      expect(loggedBody).toBe(serialized.slice(0, 1000))
     })
   })
 })

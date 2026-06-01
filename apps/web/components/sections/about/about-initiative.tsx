@@ -2,6 +2,8 @@ import { getTranslations } from 'next-intl/server'
 
 import { LogosMark } from '@acid-info/logos-ui'
 
+import ContentWidth from '@/components/layout/content-width'
+
 /**
  * About — initiative banner. Full-bleed photo card with centered λ mark and
  * caption rendered in serif H3 over the image.
@@ -14,7 +16,7 @@ export async function AboutInitiative() {
 
   return (
     <section className="bg-brand-off-white px-3 py-3">
-      <div className="relative h-[675px] w-full overflow-hidden rounded-[24px] md:h-[800px]">
+      <ContentWidth className="relative h-[675px] w-full overflow-hidden rounded-[24px] md:h-[800px]">
         <video
           aria-hidden="true"
           autoPlay
@@ -33,7 +35,7 @@ export async function AboutInitiative() {
         <p className="text-h3-serif absolute top-[441px] left-3 max-w-[345px] text-brand-off-white md:left-[calc(50%+6px)] md:max-w-[464px]">
           {t('caption')}
         </p>
-      </div>
+      </ContentWidth>
     </section>
   )
 }

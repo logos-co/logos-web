@@ -113,9 +113,28 @@ export async function resolveOrCreateContactByEmail(
     limit: 1,
   })
   if (contacts[0]) return String(contacts[0].id)
-  const created = await civiClient.create<CiviContact>('Contact', {
-    contact_type: 'Individual',
-    email_primary: email,
-  })
+
+  const created = await civiClient.create<CiviContact>(
+    'Contact',
+    {
+      contact_type: 'Individual',
+    },
+    {
+      chain: {
+        create_email: [
+          'Email',
+          'create',
+          {
+            values: {
+              email,
+              contact_id: '$id',
+              is_primary: true,
+            },
+          },
+        ],
+      },
+    }
+  )
+
   return String(created.id)
 }

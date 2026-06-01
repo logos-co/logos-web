@@ -4,6 +4,7 @@ import { LogosMark } from '@acid-info/logos-ui'
 
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/lib/metadata'
+import ContentWidth from '@/components/layout/content-width'
 import { PRESS_ORIGIN, getLatestPressPodcasts } from '@/lib/press-engine'
 
 import { PodcastsSection } from '../press/_sections/podcasts'
@@ -16,21 +17,21 @@ interface PodcastIntroCopy {
 
 function PodcastIntro({ copy }: { copy: PodcastIntroCopy }) {
   return (
-    <section className="h-[246px] bg-accent-tan px-3 pt-10 text-brand-dark-green md:h-[282px] md:pt-[60px]">
-      <div className="grid w-full gap-6 md:grid-cols-12">
+    <section className="h-[246px] bg-accent-tan px-3 pt-20 text-brand-dark-green md:h-[282px] md:pt-20">
+      <ContentWidth className="grid w-full gap-6 md:grid-cols-12">
         <div className="flex items-center gap-3 md:col-span-5">
           <LogosMark size={20} className="shrink-0" />
           <h1 className="font-display text-[30px] leading-none tracking-[-0.03em] md:text-[36px]">
             {copy.title}
           </h1>
         </div>
-        <div className="text-mono-s flex h-[122px] min-w-0 max-w-[369px] flex-col justify-between overflow-hidden text-black md:col-start-7 md:col-end-10 md:h-auto md:gap-6 md:overflow-visible">
-          <p className="break-words line-clamp-6 md:line-clamp-none">
+        <div className="text-mono-s flex min-w-0 flex-col justify-between text-black md:col-start-7 md:col-end-10 md:h-auto md:gap-6">
+          <p className="line-clamp-6 break-words md:line-clamp-none">
             {copy.description}
           </p>
           <p>{copy.hostedBy}</p>
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -71,7 +72,7 @@ export default async function LogosPodcastPage({
   }
 
   return (
-    <div className="overflow-hidden bg-accent-tan">
+    <div className="overflow-hidden bg-accent-tan pb-10">
       <PodcastIntro
         copy={{
           title: t('heading'),

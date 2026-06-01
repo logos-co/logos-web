@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useMemo, useState } from 'react'
 
+import ContentWidth from '@/components/layout/content-width'
 import { ExternalLink } from '@/components/ui'
 import { cn } from '@/lib/cn'
 import type { BroadcastEventRow, PressPodcastRow } from '@/lib/press-engine'
@@ -206,8 +207,8 @@ function UnderlineLabel({ children }: { children: string }) {
 
 function BroadcastHero({ copy }: { copy: BroadcastNetworkCopy }) {
   return (
-    <section className="bg-accent-tan px-3 pb-[100px] pt-16 text-brand-dark-green md:pt-6">
-      <div className="flex w-full flex-col gap-10">
+    <section className="bg-accent-tan px-3 pb-25 pt-6 text-brand-dark-green md:pt-6">
+      <ContentWidth className="flex w-full flex-col gap-10">
         <div className="flex w-full max-w-[1186px] items-start justify-between gap-6">
           <div className="relative h-[86px] w-[107px] shrink-0 overflow-hidden">
             <Image
@@ -229,7 +230,7 @@ function BroadcastHero({ copy }: { copy: BroadcastNetworkCopy }) {
         <div className="flex w-full max-w-[1186px] justify-end">
           <p className="text-mono-s w-[226px]">{copy.introSecondary}</p>
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -294,7 +295,7 @@ function EventCards({
 
   return (
     <section className="bg-accent-tan px-3 pb-10">
-      <div className="grid grid-cols-3 gap-3">
+      <ContentWidth className="grid grid-cols-3 gap-3">
         {displayEvents.map((event, index) => (
           <EventCard
             key={event.id}
@@ -303,7 +304,7 @@ function EventCards({
             image={FEATURE_IMAGES[index % FEATURE_IMAGES.length]}
           />
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -380,8 +381,8 @@ function EventsCalendar({
   }
 
   return (
-    <section className="overflow-x-auto bg-accent-tan pb-[100px] text-brand-dark-green">
-      <div className="mx-auto w-[1440px]">
+    <section className="overflow-x-auto bg-accent-tan pt-25 pb-25 text-brand-dark-green">
+      <ContentWidth>
         <div className="relative h-[160px] px-3">
           <h2 className="absolute bottom-6 left-3 font-sans text-[36px] leading-none tracking-[-0.02em]">
             {copy.upcomingEvents}
@@ -472,7 +473,7 @@ function EventsCalendar({
             <CalendarCell key={day.key} day={day} />
           ))}
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -492,38 +493,40 @@ function EpisodeRow({
     <ExternalLink
       href={podcast.href}
       className={cn(
-        'group relative block h-[131px] cursor-pointer overflow-hidden text-brand-dark-green transition-colors hover:bg-brand-yellow',
+        'group block h-[107px] cursor-pointer text-brand-dark-green transition-colors hover:bg-brand-yellow',
         background
       )}
     >
-      <div className="absolute left-3 top-3 h-[107px] w-[190px] overflow-hidden">
-        <Image
-          src={podcast.image}
-          alt=""
-          fill
-          sizes="190px"
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-      </div>
-      <div className="absolute left-[202px] top-0 grid h-full w-[1150px] grid-cols-[595px_345px_1fr] gap-x-3">
-        <div className="flex h-full flex-col justify-between py-3 pl-3">
+      <ContentWidth className="grid h-full grid-cols-[190px_524px_573px] items-center gap-0">
+        <div className="relative aspect-video h-auto w-[174px] shrink-0 justify-self-center overflow-hidden">
+          <Image
+            src={podcast.image}
+            alt=""
+            fill
+            sizes="174px"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        </div>
+        <div className="flex h-full min-w-0 flex-col justify-center gap-1.5 py-3 pl-3">
           <div className="text-mono-s flex items-center gap-2.5">
             <span>{podcast.date}</span>
             <Dot />
             <span>{episodeLabel(podcast)}</span>
           </div>
-          <div className="flex items-center gap-2.5">
+          <div className="flex w-[333px] max-w-full items-center gap-2.5">
             <PlayIcon />
-            <h3 className="font-sans text-[18px] leading-[1.15] tracking-[-0.01em]">
+            <h3 className="line-clamp-2 font-sans text-[18px] leading-[1.15] tracking-[-0.01em]">
               {podcast.title}
             </h3>
           </div>
         </div>
-        <div aria-hidden="true" />
-        <div className="py-3">
-          <UnderlineLabel>{listenOnApp}</UnderlineLabel>
+        <div className="hidden items-start gap-[132px] md:flex">
+          <div className="w-[345px] py-3" />
+          <div className="shrink-0 py-3">
+            <UnderlineLabel>{listenOnApp}</UnderlineLabel>
+          </div>
         </div>
-      </div>
+      </ContentWidth>
     </ExternalLink>
   )
 }
@@ -537,11 +540,11 @@ function PastEpisodes({
 }) {
   return (
     <section className="bg-accent-tan text-brand-dark-green">
-      <div className="px-3 pb-3">
+      <ContentWidth className="pb-3">
         <h2 className="font-sans text-[36px] leading-none tracking-[-0.02em]">
           {copy.pastEpisodes}
         </h2>
-      </div>
+      </ContentWidth>
       {podcasts.slice(0, 4).map((podcast, index) => (
         <EpisodeRow
           key={podcast.href}

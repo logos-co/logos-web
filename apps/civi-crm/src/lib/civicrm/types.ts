@@ -36,7 +36,7 @@ export type CiviRelationship = {
   id: number
   contact_id_a: number
   contact_id_b: number
-  case_id: number
+  case_id: number | null
   'relationship_type_id:name': string
   'contact_id_b.display_name': string
 }
