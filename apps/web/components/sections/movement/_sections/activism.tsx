@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { type CircleInitiative } from '@repo/content/loaders'
 
 import ContentWidth from '@/components/layout/content-width'
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS } from '@/constants/routes'
 
 import { Cta, LambdaBadge, SectionHeader } from './atoms'
 import type { Translate } from './types'
@@ -72,7 +72,7 @@ export function ActivismSection({
           </>
         }
         description={t('activism.body')}
-        cta={<Cta href={ROUTES.circles} label={t('activism.cta')} />}
+        cta={<Cta href={EXTERNAL_URLS.forumMeetups} label={t('activism.cta')} />}
         className="pb-10 md:pb-19.5"
       />
       <ContentWidth className="overflow-hidden">
