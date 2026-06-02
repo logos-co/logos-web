@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "language": "en",
   "route": "/technology-stack/storage",
-  "title": "Storage | Logos",
-  "description": "Private, Secure, Decentralised Storage. Content-addressed file storage and retrieval with built-in privacy guarantees, built around the Logos Messaging Nim (LMN) node.",
+  "title": "Logos Storage: Decentralised File Storage",
+  "description": "Content-addressed file sharing and retrieval. Store a file for a content identifier, others can retrieve it via its CID from the network.",
   "heading": "Storage",
   "seo": {
     "keywords": [
@@ -20,12 +20,12 @@
       "key": "storage.hero",
       "eyebrow": "Technology stack",
       "headline": "Storage",
-      "body": "Decentralised file storage and retrieval using content identifiers.",
+      "body": "Privacy-preserving file sharing using content identifiers.",
       "bodySecondary": "Key Repositories:",
       "items": [
         {
           "title": "LOGOS-STORAGE-MODULE",
-          "description": "Logos module for decentralised file storage and retrieval."
+          "description": "Logos module for decentralised file sharing and retrieval."
         },
         {
           "title": "LOGOS-STORAGE-NIM",
@@ -36,7 +36,7 @@
         "label": "Current Status",
         "body": "Logos Storage is integrated into the stack with a module API and a libstorage library for lower-level access and language bindings. The Logos Storage module is available within Logos Basecamp.",
         "cta": {
-          "label": "Install testnet v0.1",
+          "label": "Install testnet",
           "href": "/technology-stack/storage",
           "variant": "secondary",
           "iconOverride": "download"
@@ -61,7 +61,7 @@
       "key": "storage.main",
       "eyebrow": "Overview",
       "title": "Overview",
-      "description": "Files are addressed by content rather than by location. When you store a file, the network returns a CID — a content identifier derived from the file itself — and anyone with that CID can retrieve the file from whichever nodes hold it. There is no central server to depend on and no single host to fail. The usage is straightforward: store a file and get back a content identifier; provide a content identifier and get back the file. Storage works both inside the Logos App and from your own applications, through either the high-level module API or the lower-level libstorage library.",
+      "description": "Files are addressed by content rather than by location. When you store a file on a node, the protocol returns a CID — a content identifier derived from the file itself — and anyone with that CID can retrieve the file from whichever nodes hold it.\n\nThe usage is straightforward: provide a file through the network and get back a content identifier; anyone who provides the content identifier can retrieve the file.\n\nStorage works both inside the Logos App and from your own applications, through either the high-level module API or the lower-level libstorage library. In future, the module will support private file storage with files hosted across a decentralised network of nodes.",
       "cta": {
         "label": "View the docs",
         "href": "https://github.com/logos-co/logos-docs",
@@ -73,8 +73,7 @@
       "key": "storage.access",
       "cards": [
         {
-          "label": "Messaging",
-          "footerLabel": "Messaging",
+          "label": "Storage",
           "title": "Storage Module API",
           "description": "The module API gives applications a clean interface for storing and retrieving content: initialise the module, start the node, upload a file to receive a CID, and download by CID. Streaming upload is available where you need finer control.",
           "image": {
@@ -82,11 +81,23 @@
             "alt": "",
             "width": 2880,
             "height": 3839
+          },
+          "cta": {
+            "label": "Repo",
+            "href": "https://github.com/logos-co/logos-storage-module",
+            "external": true,
+            "variant": "primary",
+            "iconOverride": "external"
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true,
+            "variant": "secondary"
           }
         },
         {
-          "label": "Messaging",
-          "footerLabel": "Storage",
+          "label": "Storage",
           "title": "libstorage",
           "description": "For lower-level access or to build bindings for another language, libstorage exposes the underlying storage primitives directly.",
           "image": {
@@ -94,6 +105,19 @@
             "alt": "",
             "width": 2560,
             "height": 2048
+          },
+          "cta": {
+            "label": "Repo",
+            "href": "https://github.com/logos-storage/logos-storage-nim",
+            "external": true,
+            "variant": "primary",
+            "iconOverride": "external"
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true,
+            "variant": "secondary"
           }
         }
       ]

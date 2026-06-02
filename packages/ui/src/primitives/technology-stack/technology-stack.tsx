@@ -3,6 +3,8 @@ import { twMerge } from 'tailwind-merge'
 
 import { LogosMark } from '../../icons/logos-mark'
 
+export { DownloadIcon } from '../../icons/download-icon'
+
 type Tone = 'dark' | 'light'
 
 export type SectionMarkerProps = {
@@ -16,24 +18,6 @@ export function SectionMarker({ label, className }: SectionMarkerProps) {
       <LogosMark size={9} className="mt-0 shrink-0 text-brand-dark-green" />
       <p className="text-eyebrow w-46.25 text-brand-dark-green">{label}</p>
     </div>
-  )
-}
-
-export function DownloadIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      className="size-3.75 shrink-0 stroke-current"
-      fill="none"
-      viewBox="0 0 15 15"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M7.5 2.75V10.5M7.5 10.5L4.25 7.25M7.5 10.5L10.75 7.25M3 12.25H12"
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-      />
-    </svg>
   )
 }
 

@@ -43,6 +43,8 @@ function HoverStackItem({
   title,
   description,
   href,
+  target,
+  rel,
   ctaLabel = 'Learn More',
   className,
   labelClassName,
@@ -50,10 +52,13 @@ function HoverStackItem({
   ctaVisibleByDefault = false,
   details,
   mobileFeatured = false,
+  desktopAt1025 = false,
 }: {
   title: string
   description?: string
   href: string
+  target?: '_blank'
+  rel?: 'noopener noreferrer'
   ctaLabel?: string
   className: string
   labelClassName?: string
@@ -64,23 +69,46 @@ function HoverStackItem({
     body: string
   }>
   mobileFeatured?: boolean
+  desktopAt1025?: boolean
 }) {
   const hasDetails = details !== undefined && details.length > 0
+  const desktopHoverLarge = desktopAt1025
+    ? 'min-[1025px]:group-hover/stack-item:-translate-y-24'
+    : 'md:group-hover/stack-item:-translate-y-24'
+  const desktopHoverSmall = desktopAt1025
+    ? 'min-[1025px]:group-hover/stack-item:-translate-y-8'
+    : 'md:group-hover/stack-item:-translate-y-8'
+  const desktopBlock = desktopAt1025 ? 'min-[1025px]:block' : 'md:block'
+  const desktopHidden = desktopAt1025 ? 'min-[1025px]:hidden' : 'md:hidden'
+  const desktopFlex = desktopAt1025 ? 'min-[1025px]:flex' : 'md:flex'
+  const desktopCtaPosition = desktopAt1025
+    ? 'min-[1025px]:top-3 min-[1025px]:right-3'
+    : 'md:top-3 md:right-3'
   const contentHoverOffset =
     details !== undefined && details.length > 1
-      ? 'md:group-hover/stack-item:-translate-y-24'
+      ? desktopHoverLarge
       : hasDetails
-        ? 'md:group-hover/stack-item:-translate-y-8'
+        ? desktopHoverSmall
         : ''
   const stackItemLayoutClass = mobileFeatured
-    ? 'items-start justify-start p-3 md:items-center md:justify-center md:px-6 md:py-0'
+    ? desktopAt1025
+      ? 'items-start justify-start p-3 min-[1025px]:items-center min-[1025px]:justify-center min-[1025px]:px-6 min-[1025px]:py-0'
+      : 'items-start justify-start p-3 md:items-center md:justify-center md:px-6 md:py-0'
     : hasDetails
-      ? 'items-end justify-between p-1.5 md:items-center md:justify-center md:px-6 md:py-0'
-      : 'items-center justify-center px-3 md:px-6'
+      ? desktopAt1025
+        ? 'items-end justify-between p-1.5 min-[1025px]:items-center min-[1025px]:justify-center min-[1025px]:px-6 min-[1025px]:py-0'
+        : 'items-end justify-between p-1.5 md:items-center md:justify-center md:px-6 md:py-0'
+      : desktopAt1025
+        ? 'items-center justify-center px-3 min-[1025px]:px-6'
+        : 'items-center justify-center px-3 md:px-6'
   const contentLayoutClass = mobileFeatured
-    ? 'items-start text-left md:items-center md:text-center'
+    ? desktopAt1025
+      ? 'items-start text-left min-[1025px]:items-center min-[1025px]:text-center'
+      : 'items-start text-left md:items-center md:text-center'
     : hasDetails
-      ? 'h-[134px] w-full items-center justify-center px-3 py-[34px] text-center md:h-auto md:w-auto md:px-0 md:py-0'
+      ? desktopAt1025
+        ? 'h-[134px] w-full items-center justify-center px-3 py-[34px] text-center min-[1025px]:h-auto min-[1025px]:w-auto min-[1025px]:px-0 min-[1025px]:py-0'
+        : 'h-[134px] w-full items-center justify-center px-3 py-[34px] text-center md:h-auto md:w-auto md:px-0 md:py-0'
       : 'items-center'
   const mobileDescriptionClass = mobileFeatured
     ? 'text-left'
@@ -91,11 +119,15 @@ function HoverStackItem({
   return (
     <Link
       href={href}
+      target={target}
+      rel={rel}
       className={`group/stack-item relative flex flex-col cursor-pointer overflow-hidden rounded-3xl border border-brand-dark-green text-center text-brand-dark-green transition-[border-color] duration-200 ease-out hover:border-brand-dark-green/30 focus-visible:border-brand-dark-green/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green ${stackItemLayoutClass} ${className}`}
     >
       <span className="pointer-events-none absolute inset-0 rounded-3xl bg-accent-light-blue opacity-0 transition-opacity duration-200 ease-out group-hover/stack-item:opacity-100" />
 
-      <span className="pointer-events-none absolute top-3 left-3 z-[1] hidden h-[57px] w-[46px] overflow-hidden opacity-0 transition-opacity duration-200 ease-out group-hover/stack-item:opacity-100 md:block">
+      <span
+        className={`pointer-events-none absolute top-3 left-3 z-[1] hidden h-[57px] w-[46px] overflow-hidden opacity-0 transition-opacity duration-200 ease-out group-hover/stack-item:opacity-100 ${desktopBlock}`}
+      >
         <Image
           src={hoverThumbnail}
           alt=""
@@ -107,7 +139,7 @@ function HoverStackItem({
 
       <StackItemCta
         icon={ctaIcon ?? <ButtonArrowIcon />}
-        className={`absolute top-2.5 right-2.5 z-10 cursor-pointer transition-opacity duration-200 ease-out md:top-3 md:right-3 ${
+        className={`absolute top-2.5 right-2.5 z-10 cursor-pointer transition-opacity duration-200 ease-out ${desktopCtaPosition} ${
           ctaVisibleByDefault
             ? ''
             : 'pointer-events-none opacity-0 group-hover/stack-item:opacity-100 group-focus-visible/stack-item:opacity-100'
@@ -122,7 +154,7 @@ function HoverStackItem({
         <span
           className={`text-subhead-sans flex items-center gap-2.5 ${labelClassName ?? ''}`}
         >
-          <span className="hidden shrink-0 md:block">
+          <span className={`hidden shrink-0 ${desktopBlock}`}>
             <LogosMark size={14} className="text-gray-03" />
           </span>
           {title}
@@ -130,11 +162,13 @@ function HoverStackItem({
         {description ? (
           <>
             <p
-              className={`text-mono-s md:hidden ${mobileDescriptionClass}`}
+              className={`text-mono-s ${desktopHidden} ${mobileDescriptionClass}`}
             >
               {description}
             </p>
-            <p className="text-mono-s hidden text-center opacity-0 transition-opacity duration-200 ease-out group-hover/stack-item:opacity-100 md:block">
+            <p
+              className={`text-mono-s hidden text-center opacity-0 transition-opacity duration-200 ease-out group-hover/stack-item:opacity-100 ${desktopBlock}`}
+            >
               {description}
             </p>
           </>
@@ -143,7 +177,9 @@ function HoverStackItem({
 
       {hasDetails ? (
         <>
-          <div className="relative z-[1] flex w-full shrink-0 flex-col gap-1.5 md:hidden">
+          <div
+            className={`relative z-[1] flex w-full shrink-0 flex-col gap-1.5 ${desktopHidden}`}
+          >
             {details.map((detail) => (
               <div
                 key={detail.title}
@@ -155,7 +191,9 @@ function HoverStackItem({
               </div>
             ))}
           </div>
-          <div className="absolute right-3 bottom-3 left-3 z-[1] hidden flex-col gap-3 opacity-0 transition-opacity duration-200 ease-out group-hover/stack-item:flex group-hover/stack-item:opacity-100 md:flex">
+          <div
+            className={`absolute right-3 bottom-3 left-3 z-[1] hidden flex-col gap-3 opacity-0 transition-opacity duration-200 ease-out group-hover/stack-item:flex group-hover/stack-item:opacity-100 ${desktopFlex}`}
+          >
             {details.map((detail) => (
               <div
                 key={detail.title}
@@ -181,12 +219,30 @@ export function TechStackDiagram({
   networkingHref,
   foundationHref,
   className,
+  desktopAt1025 = false,
 }: {
   data: TechStackOverviewSection
   networkingHref: string
   foundationHref: string
   className?: string
+  desktopAt1025?: boolean
 }) {
+  const basecampClass = desktopAt1025
+    ? 'h-[111px] w-full border-brand-dark-green min-[1025px]:h-[196px]'
+    : 'h-[111px] w-full border-brand-dark-green md:h-[196px]'
+
+  const pillarsGridClass = desktopAt1025
+    ? 'mt-3 grid grid-cols-2 gap-3 min-[1025px]:grid-cols-4'
+    : 'mt-3 grid grid-cols-2 gap-3 md:grid-cols-4'
+
+  const pillarClass = desktopAt1025
+    ? 'h-[258px] w-full min-[1025px]:h-[366px]'
+    : 'h-[258px] w-full md:h-[366px]'
+
+  const rowClass = desktopAt1025
+    ? 'h-[196px] w-full min-[1025px]:h-[196px]'
+    : 'h-[196px] w-full md:h-[196px]'
+
   return (
     <div className={className}>
       {data.basecamp ? (
@@ -198,19 +254,21 @@ export function TechStackDiagram({
           ctaIcon={<DownloadIcon />}
           ctaVisibleByDefault
           mobileFeatured
-          className="h-[111px] w-full border-brand-dark-green md:h-[196px]"
+          desktopAt1025={desktopAt1025}
+          className={basecampClass}
         />
       ) : null}
 
-      <div className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className={pillarsGridClass}>
         {data.pillars.map((pillar) => (
           <HoverStackItem
             key={pillar.id}
             title={pillar.title}
             description={pillar.body}
             href={pillar.href}
-            className="h-[258px] w-full md:h-[366px]"
+            className={pillarClass}
             details={pillar.details}
+            desktopAt1025={desktopAt1025}
           />
         ))}
       </div>
@@ -220,14 +278,16 @@ export function TechStackDiagram({
           title={formatNetworkingTitle(data.networkingTitle)}
           description={data.networkingDescription}
           href={networkingHref}
-          className="h-[196px] w-full md:h-[196px]"
+          className={rowClass}
           labelClassName="whitespace-pre-line"
+          desktopAt1025={desktopAt1025}
         />
         <HoverStackItem
           title={data.foundationTitle}
           description={data.foundationDescription}
           href={foundationHref}
-          className="h-[196px] w-full md:h-[196px]"
+          className={rowClass}
+          desktopAt1025={desktopAt1025}
         />
       </div>
     </div>

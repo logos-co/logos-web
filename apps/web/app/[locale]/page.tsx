@@ -90,6 +90,7 @@ export default async function HomePage({
         data={techStack}
         networkingHref={ROUTES.networking}
         foundationHref={ROUTES.technologyStack}
+        desktopAt1025
       />
       <StartBuildingSection locale={locale} />
       <CirclesCtaSection data={circlesCta} />

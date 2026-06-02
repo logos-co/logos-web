@@ -11,6 +11,10 @@ import NetworkingFeatures from '@/components/sections/networking/networking-feat
 import NetworkingHero from '@/components/sections/networking/networking-hero'
 import NetworkingIntro from '@/components/sections/networking/networking-intro'
 import TechStackBuilderCta from '@/components/sections/shared/tech-stack-builder-cta'
+import {
+  TechStackDetailPage,
+  TechStackDetailSection,
+} from '@/components/sections/shared/tech-stack-detail-layout'
 import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 import TechStackExplorer from '@/components/sections/shared/tech-stack-explorer'
 
@@ -67,16 +71,27 @@ export default async function NetworkingPage({
   )
 
   return (
-    <>
+    <TechStackDetailPage>
       <NetworkingHero data={hero} backHref={ROUTES.technologyStack} />
-      <NetworkingIntro data={intro} />
-      <NetworkingFeatures data={features} />
-      <TechStackBuilderCta
-        data={builderCta}
-        className="mt-15 mb-15 md:mt-25 md:mb-25"
-      />
-      <TechStackExplorer locale={locale} />
-      <TechStackRelatedArticles data={relatedArticles} articles={articles} />
-    </>
+      <TechStackDetailSection>
+        <NetworkingIntro data={intro} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <NetworkingFeatures data={features} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <TechStackBuilderCta data={builderCta} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <TechStackExplorer locale={locale} />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <TechStackRelatedArticles
+          data={relatedArticles}
+          articles={articles}
+          sectionClassName="mt-0 md:mt-0"
+        />
+      </TechStackDetailSection>
+    </TechStackDetailPage>
   )
 }

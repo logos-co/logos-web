@@ -219,108 +219,110 @@ function SameAsDesktopTag() {
 
 export function TypeStyles() {
   return (
-    <div className="w-full overflow-x-auto">
-      <div className="font-sans w-full min-w-[640px] border border-[rgba(0,0,0,0.5)] bg-white md:min-w-0">
-        {/* Header row */}
-        <div className="flex flex-col gap-[12px] p-[19px] md:flex-row md:items-start md:gap-[20px]">
-          <p className="text-[18px] leading-[1.2] text-black md:w-[15.5%] md:shrink-0">
-            Logos Design System
-          </p>
-          <p className="text-[18px] leading-[1.2] text-black">
-            Web Type Styles
-          </p>
-        </div>
+    <div className="w-full overflow-hidden">
+      <div className="overflow-x-auto">
+        <div className="font-sans w-full border border-[rgba(0,0,0,0.5)] bg-white">
+          {/* Header row */}
+          <div className="flex flex-col gap-[12px] p-[19px] md:flex-row md:items-start md:gap-[20px]">
+            <p className="text-[18px] leading-[1.2] text-black md:w-[15.5%] md:shrink-0">
+              Logos Design System
+            </p>
+            <p className="text-[18px] leading-[1.2] text-black">
+              Web Type Styles
+            </p>
+          </div>
 
-        {/* Column labels + breakpoint scale — desktop only */}
-        <div className="hidden items-start gap-[20px] px-[19px] md:flex">
-          <div className="w-[15.5%] shrink-0" />
-          <div className="flex-1">
-            <div className="flex items-start gap-[20px] text-[16px] leading-[1.2] text-black">
-              <div className="w-1/2">
-                <p>Desktop</p>
-                <p>∞-800 px Wide</p>
+          {/* Column labels + breakpoint scale — desktop only */}
+          <div className="hidden items-start gap-[20px] px-[19px] md:flex">
+            <div className="w-[15.5%] shrink-0" />
+            <div className="flex-1">
+              <div className="flex items-start gap-[20px] text-[16px] leading-[1.2] text-black">
+                <div className="w-1/2">
+                  <p>Desktop</p>
+                  <p>∞-800 px Wide</p>
+                </div>
+                <div className="w-1/2">
+                  <p>Mobile</p>
+                  <p>800-0 px Wide</p>
+                </div>
               </div>
-              <div className="w-1/2">
-                <p>Mobile</p>
-                <p>800-0 px Wide</p>
+              <div className="relative mt-[8px] h-[9px]">
+                <span className="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black" />
+                <span className="absolute top-0 left-0 block size-[9px] rounded-full border border-black bg-black" />
+                <span className="absolute top-0 left-1/2 block size-[9px] -translate-x-1/2 rounded-full border border-black bg-black" />
+                <span className="absolute top-0 right-0 block size-[9px] rounded-full border border-black bg-white" />
               </div>
-            </div>
-            <div className="relative mt-[8px] h-[9px]">
-              <span className="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black" />
-              <span className="absolute top-0 left-0 block size-[9px] rounded-full border border-black bg-black" />
-              <span className="absolute top-0 left-1/2 block size-[9px] -translate-x-1/2 rounded-full border border-black bg-black" />
-              <span className="absolute top-0 right-0 block size-[9px] rounded-full border border-black bg-white" />
             </div>
           </div>
-        </div>
 
-        {/* Style Name label */}
-        <p className="px-[19px] pt-[32px] text-[18px] leading-[1.2] text-black md:pt-[64px]">
-          Style Name
-        </p>
+          {/* Style Name label */}
+          <p className="px-[19px] pt-[32px] text-[18px] leading-[1.2] text-black md:pt-[64px]">
+            Style Name
+          </p>
 
-        {/* Rows */}
-        <div className="flex flex-col px-[19px] pt-[16px]">
-          {typeRows.map((row, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-start gap-[16px] border-t border-black pt-[16px] pb-[40px] md:flex-row md:justify-between md:gap-[20px] md:pb-[80px]"
-            >
-              <p className="w-full shrink-0 text-[24px] leading-[1.2] text-black md:w-[15.5%] md:text-[30px]">
-                {row.label}
-              </p>
+          {/* Rows */}
+          <div className="flex flex-col px-[19px] pt-[16px]">
+            {typeRows.map((row, i) => (
+              <div
+                key={i}
+                className="flex flex-col items-start gap-[16px] border-t border-black pt-[16px] pb-[40px] md:flex-row md:justify-between md:gap-[20px] md:pb-[80px]"
+              >
+                <p className="w-full shrink-0 text-[24px] leading-[1.2] text-black md:w-[15.5%] md:text-[30px]">
+                  {row.label}
+                </p>
 
-              <div className="flex w-full flex-1 flex-col gap-[24px]">
-                {/* Specimens */}
-                <div
-                  className={`flex flex-col gap-[20px] md:flex-row md:items-baseline ${row.specimenLeading}`}
-                >
-                  <div className="flex w-full flex-col gap-[8px] md:w-1/2">
-                    <p className="text-[14px] leading-[1.2] text-black md:hidden">
-                      Desktop
-                    </p>
-                    <p
-                      className={`min-w-0 overflow-hidden ${row.desktopClass}`}
-                      style={row.desktopStyle}
-                    >
-                      {row.sample}
-                    </p>
-                  </div>
-                  <div className="flex w-full flex-col gap-[8px] md:w-1/2">
-                    <p className="flex items-center gap-[10px] text-[14px] leading-[1.2] text-black md:hidden">
-                      Mobile
-                      {row.sameAsDesktop && <SameAsDesktopTag />}
-                    </p>
-                    <p
-                      className={`min-w-0 overflow-hidden ${row.mobileClass}`}
-                      style={row.mobileStyle}
-                    >
-                      {row.sample}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Metadata */}
-                <div className="flex flex-col gap-[20px] text-[16px] text-black md:flex-row md:items-start">
-                  <div className="flex w-full flex-col gap-[5px] md:w-1/2">
-                    <p className="leading-[1.2]">Desktop</p>
-                    <MetaBlock lines={row.desktopMeta} />
-                  </div>
-                  <div className="flex w-full flex-col gap-[5px] md:w-1/2">
-                    <div className="flex items-center gap-[10px]">
-                      <p className="leading-[1.2]">Mobile</p>
-                      {row.sameAsDesktop && (
-                        <span className="hidden md:inline-flex">
-                          <SameAsDesktopTag />
-                        </span>
-                      )}
+                <div className="flex w-full flex-1 flex-col gap-[24px]">
+                  {/* Specimens */}
+                  <div
+                    className={`flex flex-col gap-[20px] md:flex-row md:items-baseline ${row.specimenLeading}`}
+                  >
+                    <div className="flex w-full flex-col gap-[8px] md:w-1/2">
+                      <p className="text-[14px] leading-[1.2] text-black md:hidden">
+                        Desktop
+                      </p>
+                      <p
+                        className={`min-w-0 overflow-hidden ${row.desktopClass}`}
+                        style={row.desktopStyle}
+                      >
+                        {row.sample}
+                      </p>
                     </div>
-                    <MetaBlock lines={row.mobileMeta} />
+                    <div className="flex w-full flex-col gap-[8px] md:w-1/2">
+                      <p className="flex items-center gap-[10px] text-[14px] leading-[1.2] text-black md:hidden">
+                        Mobile
+                        {row.sameAsDesktop && <SameAsDesktopTag />}
+                      </p>
+                      <p
+                        className={`min-w-0 overflow-hidden ${row.mobileClass}`}
+                        style={row.mobileStyle}
+                      >
+                        {row.sample}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Metadata */}
+                  <div className="flex flex-col gap-[20px] text-[16px] text-black md:flex-row md:items-start">
+                    <div className="flex w-full flex-col gap-[5px] md:w-1/2">
+                      <p className="leading-[1.2]">Desktop</p>
+                      <MetaBlock lines={row.desktopMeta} />
+                    </div>
+                    <div className="flex w-full flex-col gap-[5px] md:w-1/2">
+                      <div className="flex items-center gap-[10px]">
+                        <p className="leading-[1.2]">Mobile</p>
+                        {row.sameAsDesktop && (
+                          <span className="hidden md:inline-flex">
+                            <SameAsDesktopTag />
+                          </span>
+                        )}
+                      </div>
+                      <MetaBlock lines={row.mobileMeta} />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -90,32 +90,32 @@ export function TableRow({
 }: TableRowProps) {
   return (
     <div
-      className={`group/row flex h-[50px] w-full items-start gap-3 bg-gray-01 px-3 py-3 transition-colors duration-150 odd:bg-brand-dark-green/5 hover:cursor-pointer hover:bg-accent-light-blue ${className ?? ''}`}
+      className={`group/row flex h-[50px] w-full min-w-0 items-start gap-3 bg-gray-01 px-3 py-3 transition-colors duration-150 odd:bg-brand-dark-green/5 hover:cursor-pointer hover:bg-accent-light-blue ${className ?? ''}`}
     >
       {/* Number + Title — takes roughly 714/1440 of row width */}
-      <div className="flex flex-[714] items-baseline gap-3 text-[14px] text-brand-dark-green">
+      <div className="flex min-w-0 flex-1 items-baseline gap-3 text-[14px] text-brand-dark-green md:flex-[714]">
         {number !== undefined && (
           <span className="w-[18px] shrink-0 font-sans leading-[1.2]">
             {number}
           </span>
         )}
-        <span className="font-display leading-[1.2] whitespace-nowrap">
+        <span className="truncate font-display leading-[1.2] md:whitespace-nowrap">
           {title}
         </span>
       </div>
 
       {/* Description — 464/1440 */}
-      <div className="flex-[464] font-mono text-[10px] leading-[1.3] text-brand-dark-green [&>p]:leading-[1.3]">
+      <div className="hidden flex-[464] font-mono text-[10px] leading-[1.3] text-brand-dark-green md:block [&>p]:leading-[1.3]">
         {description}
       </div>
 
       {/* Reward — fixed 107px */}
-      <div className="w-[107px] shrink-0 font-mono text-[10px] leading-[1.3] text-brand-dark-green [&>p]:leading-[1.3]">
+      <div className="hidden w-[107px] shrink-0 font-mono text-[10px] leading-[1.3] text-brand-dark-green md:block [&>p]:leading-[1.3]">
         {reward}
       </div>
 
       {/* Action */}
-      {action && <div className="shrink-0">{action}</div>}
+      {action && <div className="hidden shrink-0 md:block">{action}</div>}
     </div>
   )
 }

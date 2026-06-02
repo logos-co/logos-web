@@ -13,6 +13,7 @@ export default function BlockchainPrivacy({ data }: Props) {
       <TechTextSplitSection
         title={data.eyebrow ?? data.title}
         body={data.description ? <p>{data.description}</p> : null}
+        className="h-auto md:h-[183px]"
       />
     </Reveal>
   )

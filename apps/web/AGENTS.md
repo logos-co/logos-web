@@ -42,5 +42,6 @@ pnpm --filter web test
 
 For UI changes, read the relevant docs in `docs/web-pages.md` or `docs/components.md`, run the dev server, and verify the result in a browser before reporting done.
 
-After static builds, keep the default-locale stripping step intact: `scripts/strip-default-locale-prefix.sh`.
+Do not add UI implementation contract tests for Tailwind class strings, Figma measurements, layout spacing, motion details, hover treatment, or component source structure. These tests churn during active UI iteration and should be replaced with browser verification or durable behavioural tests only.
 
+After static builds, keep the default-locale stripping step intact: `scripts/strip-default-locale-prefix.sh`.

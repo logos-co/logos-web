@@ -23,12 +23,6 @@ const NOTION_FORMS = new Set([
   'afformCoalitionPartner',
 ])
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-}
-
 async function verifyHCaptcha(
   token: string,
   remoteip: string
@@ -58,11 +52,7 @@ function jsonResponse(
   body: Record<string, unknown>,
   status: number
 ): NextResponse {
-  return NextResponse.json(body, { status, headers: CORS_HEADERS })
-}
-
-export function OPTIONS() {
-  return new NextResponse(null, { status: 204, headers: CORS_HEADERS })
+  return NextResponse.json(body, { status })
 }
 
 export async function POST(req: NextRequest) {

@@ -72,7 +72,7 @@ export default async function PressPage({
           navArticles: t('nav.articles'),
           navPodcasts: t('nav.podcasts'),
           navBroadcast: t('nav.broadcast'),
-          navBroadcastHref: ROUTES.logosBroadcastNetwork,
+          navBroadcastHref: '#broadcast',
         }}
       />
       <section className="bg-accent-tan">

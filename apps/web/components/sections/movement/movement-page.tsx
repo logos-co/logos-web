@@ -6,6 +6,7 @@ import type { CirclesSettings } from '@repo/content/schemas'
 import { LogosMark } from '@acid-info/logos-ui'
 
 import { IconMask } from '@/components/icons/icon-mask'
+import ContentWidth from '@/components/layout/content-width'
 import CirclesMap from '@/components/sections/circles/circles-map'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
@@ -117,25 +118,26 @@ function SectionHeader({
   descriptionClassName?: string
 }) {
   return (
-    <div
-      className={`grid grid-cols-1 gap-4 px-3 pt-10 text-brand-dark-green md:grid-cols-12 md:gap-3 ${className ?? ''}`}
+    <ContentWidth
+      className={`grid grid-cols-1 gap-4 px-3 pt-10 text-brand-dark-green min-[769px]:grid-cols-12 min-[769px]:gap-3 ${className ?? ''}`}
     >
-      <h2 className={`text-h3-serif md:col-span-5 ${titleClassName ?? ''}`}>
+      <h2 className={`text-h3-serif min-[769px]:col-span-5 ${titleClassName ?? ''}`}>
         {title}
       </h2>
       <p
-        className={`text-mono-s max-w-[456px] md:col-span-3 md:col-start-7 ${descriptionClassName ?? ''}`}
+        className={`text-mono-s max-w-[456px] min-[769px]:col-span-3 min-[769px]:col-start-7 ${descriptionClassName ?? ''}`}
       >
         {description}
       </p>
-      {cta ? <div className="md:col-span-2 md:col-start-11">{cta}</div> : null}
-    </div>
+      {cta ? <div className="min-[769px]:col-span-2 min-[769px]:col-start-11">{cta}</div> : null}
+    </ContentWidth>
   )
 }
 
 function HeroSection({ t }: { t: Translate }) {
   return (
-    <section className="relative h-[494px] overflow-hidden bg-brand-off-white px-3 pt-6 text-brand-dark-green md:h-[579px]">
+    <section className="relative h-[494px] overflow-hidden bg-brand-off-white px-3 pt-6 text-brand-dark-green min-[769px]:h-[579px]">
+      <ContentWidth className="relative h-full">
       <div className="relative h-[75px] w-[107px] overflow-hidden bg-gray-01">
         <Image
           src={movementImages.heroThumb}
@@ -152,28 +154,29 @@ function HeroSection({ t }: { t: Translate }) {
         href={ROUTES.circles}
         label={t('hero.primaryCta')}
         tone="tertiary"
-        className="absolute top-6 left-[203px] md:left-1/2 md:translate-x-[6px]"
+        className="absolute top-6 left-1/2 translate-x-[8px] min-[769px]:translate-x-[6px]"
       />
-      <p className="text-mono-s absolute top-6 left-[calc(83.333%+2px)] hidden w-[226px] md:block">
+      <p className="text-mono-s absolute top-6 left-[calc(83.333%+2px)] hidden w-[226px] min-[769px]:block">
         {t('hero.kicker')}
       </p>
 
-      <div className="absolute top-[130px] left-[23px] flex w-[348px] items-center justify-center gap-2.5 md:left-1/2 md:w-auto md:-translate-x-1/2">
+      <div className="absolute top-[130px] left-1/2 flex w-[348px] -translate-x-1/2 items-center justify-center gap-2.5 min-[769px]:w-auto">
         <LambdaBadge size={41} />
-        <h1 className="font-display text-[36px] leading-none tracking-[-0.03em] whitespace-nowrap md:text-[56px]">
+        <h1 className="font-display text-[36px] leading-none tracking-[-0.03em] whitespace-nowrap min-[769px]:text-[56px]">
           {t('hero.title')}
         </h1>
       </div>
 
-      <div className="absolute top-[274px] left-3 w-[369px] max-w-[calc(100%-24px)] md:top-[337px] md:left-1/2 md:w-[422px] md:max-w-none md:translate-x-[6px]">
+      <div className="absolute top-[274px] left-1/2 w-[369px] max-w-[calc(100%-24px)] -translate-x-1/2 min-[769px]:top-[337px] min-[769px]:w-[min(422px,calc(50vw-18px))] min-[769px]:max-w-none min-[769px]:translate-x-[6px] min-[900px]:w-[422px]">
         <p className="text-mono-s">{t('hero.body')}</p>
         <Cta
           href={ROUTES.circles}
           label={t('hero.secondaryCta')}
           tone="tertiary"
-          className="mt-10 ml-[191px] md:ml-0"
+          className="mt-10 ml-[191px] min-[769px]:ml-0"
         />
       </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -198,7 +201,7 @@ function ActionCardsSection({ t }: { t: Translate }) {
   ]
 
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pt-10 pb-10 md:pt-0 md:pb-[70px]">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pt-10 pb-10 min-[769px]:pt-0 min-[769px]:pb-[70px]">
       <SectionHeader
         title={
           <>
@@ -208,14 +211,14 @@ function ActionCardsSection({ t }: { t: Translate }) {
           </>
         }
         description={t('intro.body')}
-        className="pb-10 md:pt-6 md:pb-[60px]"
+        className="pb-10 min-[769px]:pt-6 min-[769px]:pb-[60px]"
         titleClassName="max-w-[244px]"
       />
-      <div className="grid gap-3 px-3 md:grid-cols-3">
+      <ContentWidth className="grid gap-3 px-3 min-[769px]:grid-cols-3">
         {cards.map((card) => (
           <article
             key={card.key}
-            className="flex flex-col gap-3 rounded-3xl bg-gray-01 p-1.5 pb-3 text-brand-dark-green md:min-h-[412px]"
+            className="flex flex-col gap-3 rounded-3xl bg-gray-01 p-1.5 pb-3 text-brand-dark-green min-[769px]:min-h-[412px]"
           >
             <div className="relative h-[273px] overflow-hidden rounded-[18px]">
               <Image
@@ -247,16 +250,16 @@ function ActionCardsSection({ t }: { t: Translate }) {
             />
           </article>
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }
 
 function CampaignSection({ t }: { t: Translate }) {
   return (
-    <section className="bg-brand-off-white px-3 py-10 md:py-0">
-      <div className="grid overflow-hidden rounded-xl bg-gray-01 p-3 text-brand-dark-green md:grid-cols-2 md:gap-3">
-        <div className="flex min-h-[462px] flex-col justify-between p-3 md:min-h-[462px]">
+    <section className="bg-brand-off-white px-3 py-10 min-[769px]:py-0">
+      <ContentWidth className="grid overflow-hidden rounded-xl bg-gray-01 p-3 text-brand-dark-green min-[769px]:grid-cols-2 min-[769px]:gap-3">
+        <div className="flex min-h-[462px] flex-col justify-between p-3 min-[769px]:min-h-[462px]">
           <div className="flex gap-[88px]">
             <LogosMark size={7} />
             <p className="text-eyebrow w-[185px]">{t('campaign.eyebrow')}</p>
@@ -289,7 +292,7 @@ function CampaignSection({ t }: { t: Translate }) {
             <LogosMark size={7} />
           </div>
         </div>
-        <div className="relative min-h-[270px] overflow-hidden rounded-[40px] md:min-h-[462px]">
+        <div className="relative min-h-[270px] overflow-hidden rounded-[40px] min-[769px]:min-h-[462px]">
           <Image
             src={movementImages.campaign}
             alt=""
@@ -298,7 +301,7 @@ function CampaignSection({ t }: { t: Translate }) {
             className="object-cover"
           />
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -341,7 +344,7 @@ function IssueCard({
   body: string
 }) {
   return (
-    <article className="relative h-[282px] w-full shrink-0 overflow-hidden rounded-xl text-brand-off-white md:w-[440px]">
+    <article className="relative h-[282px] w-full shrink-0 overflow-hidden rounded-xl text-brand-off-white min-[769px]:w-[440px]">
       <Image
         src={image}
         alt=""
@@ -389,20 +392,20 @@ function ActivismSection({ t }: { t: Translate }) {
   ]
 
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-10 text-brand-dark-green md:pb-[100px]">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-10 text-brand-dark-green min-[769px]:pb-[100px]">
       <SectionHeader
         title={
           <>
-            <span className="md:hidden">{t('activism.mobileTitle')}</span>
-            <span className="hidden md:inline">{t('activism.title')}</span>
+            <span className="min-[769px]:hidden">{t('activism.mobileTitle')}</span>
+            <span className="hidden min-[769px]:inline">{t('activism.title')}</span>
           </>
         }
         description={t('activism.body')}
         cta={<Cta href={ROUTES.circles} label={t('activism.cta')} />}
-        className="pb-10 md:pb-[78px]"
+        className="pb-10 min-[769px]:pb-[78px]"
       />
-      <div className="overflow-hidden">
-        <div className="grid gap-3 px-3 md:flex md:w-max">
+      <ContentWidth className="overflow-hidden">
+        <div className="grid gap-3 px-3 min-[769px]:flex min-[769px]:w-max">
           {issues.map((issue, index) => (
             <IssueCard
               key={`${issue.city}-${index}`}
@@ -413,14 +416,14 @@ function ActivismSection({ t }: { t: Translate }) {
             />
           ))}
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
 
 function EventCard({ t }: { t: Translate }) {
   return (
-    <article className="flex w-full shrink-0 items-center gap-3 rounded-3xl bg-gray-01 py-1.5 pr-3 pl-1.5 text-brand-dark-green md:w-[463px] md:pr-6">
+    <article className="flex w-full shrink-0 items-center gap-3 rounded-3xl bg-gray-01 py-1.5 pr-3 pl-1.5 text-brand-dark-green min-[769px]:w-[463px] min-[769px]:pr-6">
       <div className="relative size-[123px] shrink-0 overflow-hidden rounded-[18px]">
         <Image
           src={movementImages.event}
@@ -431,7 +434,7 @@ function EventCard({ t }: { t: Translate }) {
         />
       </div>
       <div className="flex h-[123px] min-w-0 flex-col justify-between py-1">
-        <h3 className="text-subhead-sans max-w-[193px] md:max-w-none md:whitespace-nowrap">
+        <h3 className="text-subhead-sans max-w-[193px] min-[769px]:max-w-none min-[769px]:whitespace-nowrap">
           {t('events.card.title')}
         </h3>
         <div className="flex flex-col gap-0.5">
@@ -461,17 +464,17 @@ function EventsSection({ t }: { t: Translate }) {
   ]
 
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-10 text-brand-dark-green md:pb-[100px]">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-10 text-brand-dark-green min-[769px]:pb-[100px]">
       <SectionHeader
         title={t('events.title')}
         description={t('events.body')}
         cta={
           <Cta href={ROUTES.circles} label={t('events.cta')} tone="tertiary" />
         }
-        className="pb-10 md:pb-[73px]"
+        className="pb-10 min-[769px]:pb-[73px]"
         descriptionClassName="max-w-[178px]"
       />
-      <div className="flex flex-col gap-10">
+      <ContentWidth className="flex flex-col gap-10">
         {rows.map((row) => (
           <div key={row.key} className="flex flex-col gap-3">
             <div className="flex gap-1.5 px-3 text-eyebrow">
@@ -481,27 +484,28 @@ function EventsSection({ t }: { t: Translate }) {
               </p>
             </div>
             <div className="mx-3 h-px bg-brand-dark-green/10" />
-            <div className="flex flex-col gap-3 overflow-hidden px-3 md:flex-row">
+            <div className="flex flex-col gap-3 overflow-hidden px-3 min-[769px]:flex-row">
               {Array.from({ length: row.cards }).map((_, index) => (
                 <EventCard key={`${row.key}-${index}`} t={t} />
               ))}
             </div>
           </div>
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }
 
 function GetInvolvedSection({ t }: { t: Translate }) {
   return (
-    <section className="grid gap-3 bg-brand-off-white px-3 py-10 text-brand-dark-green md:grid-cols-2">
-      <div className="flex h-[270px] flex-col items-center justify-center gap-8 border border-brand-dark-green p-4 text-center md:h-[500px] md:gap-10">
-        <div className="flex max-w-[337px] flex-col items-center gap-3 md:max-w-[380px]">
+    <section className="bg-brand-off-white px-3 py-10 text-brand-dark-green">
+      <ContentWidth className="grid gap-3 min-[769px]:grid-cols-2">
+      <div className="flex h-[270px] flex-col items-center justify-center gap-8 border border-brand-dark-green p-4 text-center min-[769px]:h-[500px] min-[769px]:gap-10">
+        <div className="flex max-w-[337px] flex-col items-center gap-3 min-[769px]:max-w-[380px]">
           <h2 className="text-subhead-sans">{t('involved.title')}</h2>
           <p className="text-mono-s">{t('involved.body')}</p>
         </div>
-        <div className="flex flex-col items-center gap-1 md:flex-row">
+        <div className="flex flex-col items-center gap-1 min-[769px]:flex-row">
           <Cta href={EXTERNAL_URLS.twitter} label={t('involved.primaryCta')} />
           <Cta
             href={EXTERNAL_URLS.discord}
@@ -510,7 +514,7 @@ function GetInvolvedSection({ t }: { t: Translate }) {
           />
         </div>
       </div>
-      <div className="relative flex h-[270px] items-center justify-center overflow-hidden rounded-[160px] text-center text-brand-off-white md:h-[500px] md:rounded-[200px]">
+      <div className="relative flex h-[270px] items-center justify-center overflow-hidden rounded-[160px] text-center text-brand-off-white min-[769px]:h-[500px] min-[769px]:rounded-[200px]">
         <Image
           src={movementImages.coalitionBg}
           alt=""
@@ -522,7 +526,7 @@ function GetInvolvedSection({ t }: { t: Translate }) {
         <div className="relative flex max-w-[432px] flex-col items-center gap-5">
           <div className="flex flex-col items-center gap-3">
             <h2 className="text-subhead-sans">{t('coalition.title')}</h2>
-            <p className="text-mono-s max-w-[236px] md:max-w-[380px]">
+            <p className="text-mono-s max-w-[236px] min-[769px]:max-w-[380px]">
               {t('coalition.body')}
             </p>
           </div>
@@ -533,6 +537,7 @@ function GetInvolvedSection({ t }: { t: Translate }) {
           />
         </div>
       </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -541,7 +546,7 @@ function BuilderSection({ t }: { t: Translate }) {
   const details = ['problem', 'solution', 'stack']
 
   return (
-    <section className="bg-brand-off-white pt-[260px] pb-10 text-brand-dark-green md:pt-0 md:pb-[100px]">
+    <section className="bg-brand-off-white pt-0 pb-10 text-brand-dark-green min-[769px]:pb-[100px]">
       <CenterCtaSection
         title={t('builder.title')}
         body={t('builder.body')}
@@ -555,10 +560,10 @@ function BuilderSection({ t }: { t: Translate }) {
             />
           </div>
         }
-        className="md:py-[100px]"
+        className="min-[769px]:py-[100px]"
       />
-      <div className="px-3">
-        <article className="relative min-h-[506px] overflow-hidden rounded-xl text-brand-off-white md:min-h-[282px]">
+      <ContentWidth className="px-3">
+        <article className="relative min-h-[506px] overflow-hidden rounded-xl text-brand-off-white min-[769px]:min-h-[282px]">
           <Image
             src={movementImages.issueLosAngeles}
             alt=""
@@ -567,8 +572,8 @@ function BuilderSection({ t }: { t: Translate }) {
             className="scale-125 object-cover blur-[20px]"
           />
           <div className="absolute inset-0 bg-black/20" />
-          <div className="relative grid min-h-[506px] gap-8 p-3 md:min-h-[282px] md:grid-cols-2">
-            <div className="flex min-h-[157px] flex-col justify-between md:min-h-[252px]">
+          <div className="relative grid min-h-[506px] gap-8 p-3 min-[769px]:min-h-[282px] min-[769px]:grid-cols-2">
+            <div className="flex min-h-[157px] flex-col justify-between min-[769px]:min-h-[252px]">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-1.5">
                   <LambdaBadge size={15} tone="light" />
@@ -580,24 +585,24 @@ function BuilderSection({ t }: { t: Translate }) {
                   href={ROUTES.buildersHub}
                   label={t('builder.feature.cta')}
                   tone="light"
-                  className="md:hidden"
+                  className="min-[769px]:hidden"
                 />
               </div>
-              <h3 className="text-subhead-sans mx-auto max-w-[220px] text-center md:mx-0 md:text-left">
+              <h3 className="text-subhead-sans mx-auto max-w-[220px] text-center min-[769px]:mx-0 min-[769px]:text-left">
                 {t('builder.feature.title')}
               </h3>
               <Cta
                 href={ROUTES.buildersHub}
                 label={t('builder.feature.cta')}
                 tone="light"
-                className="hidden w-fit md:inline-flex"
+                className="hidden w-fit min-[769px]:inline-flex"
               />
             </div>
             <div className="flex flex-col justify-end gap-3">
               {details.map((detail) => (
                 <div
                   key={detail}
-                  className="grid gap-3 border-t border-brand-off-white/50 pt-1.5 md:grid-cols-2"
+                  className="grid gap-3 border-t border-brand-off-white/50 pt-1.5 min-[769px]:grid-cols-2"
                 >
                   <p className="text-eyebrow">
                     {t(`builder.details.${detail}.label`)}
@@ -610,7 +615,7 @@ function BuilderSection({ t }: { t: Translate }) {
             </div>
           </div>
         </article>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -619,7 +624,7 @@ function ResourcesSection({ t }: { t: Translate }) {
   const rows = ['start', 'forum', 'discord']
 
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-[180px] text-brand-dark-green md:pb-[114px]">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-[180px] text-brand-dark-green min-[769px]:pb-[114px]">
       <SectionHeader
         title={
           <>
@@ -632,18 +637,18 @@ function ResourcesSection({ t }: { t: Translate }) {
         cta={
           <Cta href={ROUTES.faq} label={t('resources.cta')} tone="tertiary" />
         }
-        className="pb-10 md:pb-[54px]"
+        className="pb-10 min-[769px]:pb-[54px]"
         descriptionClassName="max-w-[178px]"
       />
-      <div>
+      <ContentWidth>
         {rows.map((row, index) => (
           <div
             key={row}
-            className={`grid min-h-[58px] grid-cols-[1fr_auto] items-start gap-3 px-3 py-3 md:min-h-[50px] md:grid-cols-12 ${
+            className={`grid min-h-[58px] grid-cols-[1fr_auto] items-start gap-3 px-3 py-3 min-[769px]:min-h-[50px] min-[769px]:grid-cols-12 ${
               index % 2 === 0 ? 'bg-gray-01' : 'bg-brand-dark-green/5'
             }`}
           >
-            <div className="flex gap-3 text-[14px] leading-[1.2] md:col-span-6">
+            <div className="flex gap-3 text-[14px] leading-[1.2] min-[769px]:col-span-6">
               <span className="font-sans font-medium">
                 {t(`resources.rows.${row}.number`)}
               </span>
@@ -651,10 +656,10 @@ function ResourcesSection({ t }: { t: Translate }) {
                 {t(`resources.rows.${row}.title`)}
               </span>
             </div>
-            <p className="text-mono-s hidden md:col-span-3 md:block">
+            <p className="text-mono-s hidden min-[769px]:col-span-3 min-[769px]:block">
               {t(`resources.rows.${row}.body`)}
             </p>
-            <div className="md:col-span-2 md:col-start-11">
+            <div className="min-[769px]:col-span-2 min-[769px]:col-start-11">
               <Cta
                 href={
                   row === 'discord'
@@ -669,7 +674,7 @@ function ResourcesSection({ t }: { t: Translate }) {
             </div>
           </div>
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -696,14 +701,14 @@ export function MovementPageView({
       <HeroSection t={t} />
       <ActionCardsSection t={t} />
       <CampaignSection t={t} />
-      <div className="md:hidden">
+      <div className="min-[769px]:hidden">
         <CirclesMap settings={circlesSettings} circles={circles} />
       </div>
-      <div className="hidden md:block">{findCta}</div>
-      <div className="hidden md:block">
+      <div className="hidden min-[769px]:block">{findCta}</div>
+      <div className="hidden min-[769px]:block">
         <CirclesMap settings={circlesSettings} circles={circles} />
       </div>
-      <div className="md:hidden">{findCta}</div>
+      <div className="min-[769px]:hidden">{findCta}</div>
       <ActivismSection t={t} />
       <EventsSection t={t} />
       <GetInvolvedSection t={t} />

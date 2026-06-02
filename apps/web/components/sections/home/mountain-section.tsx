@@ -40,8 +40,8 @@ export default function MountainSection({ data }: Props) {
           >
             <div className="absolute inset-x-0 bottom-[-100svh] top-[-100svh]">
               <div className="sticky top-0 h-svh">
-                <div className="flex h-full flex-col items-center justify-center gap-10 px-4 text-center md:gap-[60px] md:px-0">
-                  <h2 className="text-h1 w-full max-w-88 text-brand-off-white md:max-w-full">
+                <div className="flex h-full flex-col items-center justify-center gap-10 px-4 text-center min-[1025px]:gap-[60px] min-[1025px]:px-0">
+                  <h2 className="text-h1 w-full max-w-88 text-brand-off-white min-[1025px]:max-w-full">
                     <span className="text-accent-light-blue">
                       {data.title.highlight}
                     </span>

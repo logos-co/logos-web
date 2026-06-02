@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 
+import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
@@ -35,7 +36,7 @@ export async function AboutCommunity() {
         </Button>
       </div>
 
-      <div className="mx-auto hidden h-[661px] max-w-[1440px] grid-cols-12 gap-3 px-3 py-[100px] md:grid">
+      <ContentWidth className="hidden h-[661px] grid-cols-12 gap-3 px-3 py-[100px] md:grid">
         <div className="relative col-span-8 h-[461px] overflow-hidden rounded-[100px] bg-gray-01">
           <Image
             src="/images/about/map.webp"
@@ -57,7 +58,7 @@ export async function AboutCommunity() {
             {t('cta')}
           </Button>
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }

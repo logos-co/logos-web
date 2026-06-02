@@ -120,7 +120,7 @@ export function Pagination(props: PaginationProps) {
   return (
     <nav
       aria-label="Pagination"
-      className={`flex items-center justify-center gap-2 ${className ?? ''}`}
+      className={`flex flex-wrap items-center justify-center gap-2 ${className ?? ''}`}
     >
       {currentPage > 1 ? (
         renderControl(

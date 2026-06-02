@@ -45,7 +45,7 @@ function DesktopProblemCard({ card }: { card: AboutProblemCard }) {
       </div>
 
       <div className="flex min-h-0 flex-col justify-between gap-8">
-        <div className="grid gap-3 px-1.5 py-3 md:grid-cols-2">
+        <div className="grid gap-3 px-1.5 py-3 min-[1025px]:grid-cols-2">
           <h3 className="text-h3-serif">{card.title}</h3>
           <p className="font-sans text-[14px] leading-[1.2]">{card.body}</p>
         </div>
@@ -109,7 +109,7 @@ export default function AboutScrollStack({
   }, [])
 
   return (
-    <div ref={sectionRef} className="hidden h-[4600px] md:block">
+    <div ref={sectionRef} className="hidden h-[4600px] min-[1025px]:block">
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center">
           <p className="text-h3-serif w-[940px] text-center">{intro}</p>

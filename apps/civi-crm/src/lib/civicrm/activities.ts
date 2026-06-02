@@ -24,7 +24,7 @@ export async function listActivities(
         'status_id:label',
       ],
       where,
-      orderBy: [['activity_date_time', 'DESC']],
+      orderBy: { activity_date_time: 'DESC' },
       limit: PAGE_SIZE,
       offset,
     }),
