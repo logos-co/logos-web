@@ -72,7 +72,7 @@ export default async function BlockchainPage({
   return (
     <TechStackDetailPage>
       <BlockchainHero data={hero} backHref={ROUTES.technologyStack} />
-      <TechStackDetailSection>
+      <TechStackDetailSection className="mt-0 border-t border-brand-dark-green/10 md:border-t-0">
         <BlockchainPrivacy data={privacy} />
       </TechStackDetailSection>
       <TechStackDetailSection>
