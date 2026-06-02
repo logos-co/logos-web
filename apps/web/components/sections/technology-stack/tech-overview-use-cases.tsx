@@ -31,6 +31,9 @@ const CARD_IMAGE_CLASSNAMES = [
   'h-[127px] w-24',
 ]
 
+const DOC_LINK_CLASSNAME =
+  'transition-opacity hover:opacity-70 [&>span>span]:border-b-0 [&>span>span]:underline [&>span>span]:decoration-brand-dark-green/50 [&>span>span]:underline-offset-[2px]'
+
 function ArrowIcon({ direction }: { direction: 'left' | 'right' }) {
   return (
     <IconMask
@@ -229,7 +232,7 @@ export default function TechOverviewUseCases({ data }: Props) {
             <Button
               href={data.cta.href}
               variant="link"
-              className="absolute top-[272px] left-[calc(50%+6px)] cursor-pointer transition-opacity hover:opacity-70 xl:left-[714px]"
+              className={`absolute top-[272px] left-[calc(50%+6px)] cursor-pointer xl:left-[714px] ${DOC_LINK_CLASSNAME}`}
             >
               {data.cta.label}
             </Button>
@@ -249,7 +252,7 @@ export default function TechOverviewUseCases({ data }: Props) {
             <Button
               href={data.cta.href}
               variant="link"
-              className="transition-opacity hover:opacity-70"
+              className={DOC_LINK_CLASSNAME}
             >
               {data.cta.label}
             </Button>
