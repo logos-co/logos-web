@@ -18,8 +18,6 @@ export const movementImages = {
   building: '/images/movement/action-building.webp',
   campaign: '/images/movement/campaign-sunset.webp',
   issueLosAngeles: '/images/movement/issue-los-angeles.webp',
-  issueLondon: '/images/movement/issue-london.webp',
-  issuePorto: '/images/movement/issue-porto.webp',
   coalitionBg: '/images/movement/coalition-bg.webp',
 } as const
 

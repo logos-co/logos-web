@@ -1,3 +1,4 @@
+import { type CircleInitiative } from '@repo/content/loaders'
 import type { CirclesSettings, Language } from '@repo/content/schemas'
 
 import CirclesMap from '@/components/sections/circles/circles-map'
@@ -23,12 +24,14 @@ export function MovementPageView({
   circlesSettings,
   mapMarkers,
   upcomingEvents,
+  initiatives,
   locale,
 }: {
   t: Translate
   circlesSettings: CirclesSettings
   mapMarkers: ActiveCircleMarker[]
   upcomingEvents: ActiveCircleUpcomingEvent[]
+  initiatives: CircleInitiative[]
   locale: Language
 }) {
   const findCta = (
@@ -50,7 +53,7 @@ export function MovementPageView({
           <CirclesMap settings={circlesSettings} markers={mapMarkers} />
         </div>
       </div>
-      <ActivismSection t={t} />
+      <ActivismSection t={t} initiatives={initiatives} />
       <EventsSection
         settings={circlesSettings}
         events={upcomingEvents}

@@ -1,69 +1,66 @@
 import Image from 'next/image'
+import { type CircleInitiative } from '@repo/content/loaders'
 
 import ContentWidth from '@/components/layout/content-width'
 import { ROUTES } from '@/constants/routes'
 
-import { Cta, LambdaBadge, SectionHeader, movementImages } from './atoms'
+import { Cta, LambdaBadge, SectionHeader } from './atoms'
 import type { Translate } from './types'
 
-function IssueCard({
-  image,
-  city,
-  title,
-  body,
-}: {
-  image: string
-  city: string
-  title: string
-  body: string
-}) {
-  return (
-    <article className="relative h-[282px] w-full shrink-0 overflow-hidden rounded-xl text-brand-off-white md:w-[440px]">
+function IssueCard({ initiative }: { initiative: CircleInitiative }) {
+  const city = initiative.locationLabel.split(',')[0]
+  const className =
+    'relative h-[282px] w-full shrink-0 overflow-hidden rounded-xl text-brand-off-white md:w-[440px]'
+
+  const content = (
+    <>
       <Image
-        src={image}
+        src={initiative.image.src}
         alt=""
         fill
         sizes="440px"
         className="scale-125 object-cover blur-[20px]"
       />
       <div className="absolute inset-0 bg-black/20" />
-      <div className="absolute inset-3 flex flex-col justify-between">
+      <div className="absolute inset-3 flex flex-col justify-between gap-3">
         <div className="flex items-center gap-1.5">
           <LambdaBadge size={15} tone="light" />
           <p className="text-subhead-serif">{city}</p>
         </div>
         <h3 className="text-subhead-sans mx-auto max-w-[220px] text-center">
-          {title}
+          {initiative.title}
         </h3>
-        <p className="text-mono-s w-[220px]">{body}</p>
+        <p className="text-mono-s line-clamp-4 w-[220px]">
+          {initiative.description}
+        </p>
       </div>
-    </article>
+    </>
   )
+
+  if (initiative.href) {
+    return (
+      <a
+        href={initiative.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`block transition-opacity hover:opacity-90 ${className}`}
+      >
+        {content}
+      </a>
+    )
+  }
+
+  return <article className={className}>{content}</article>
 }
 
-export function ActivismSection({ t }: { t: Translate }) {
-  const issues = [
-    {
-      image: movementImages.issueLosAngeles,
-      city: t('activism.cards.losAngeles.city'),
-      title: t('activism.cards.losAngeles.title'),
-    },
-    {
-      image: movementImages.issueLondon,
-      city: t('activism.cards.london.city'),
-      title: t('activism.cards.london.title'),
-    },
-    {
-      image: movementImages.issuePorto,
-      city: t('activism.cards.porto.city'),
-      title: t('activism.cards.porto.title'),
-    },
-    {
-      image: movementImages.issueLosAngeles,
-      city: t('activism.cards.losAngeles.city'),
-      title: t('activism.cards.losAngeles.title'),
-    },
-  ]
+export function ActivismSection({
+  t,
+  initiatives,
+}: {
+  t: Translate
+  initiatives: CircleInitiative[]
+}) {
+  const cards = initiatives.slice(0, 3)
 
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-10 text-brand-dark-green md:pb-25">
@@ -80,14 +77,8 @@ export function ActivismSection({ t }: { t: Translate }) {
       />
       <ContentWidth className="overflow-hidden">
         <div className="grid gap-3 px-3 md:flex md:w-max">
-          {issues.map((issue, index) => (
-            <IssueCard
-              key={`${issue.city}-${index}`}
-              image={issue.image}
-              city={issue.city}
-              title={issue.title}
-              body={t('activism.cardBody')}
-            />
+          {cards.map((initiative) => (
+            <IssueCard key={initiative.slug} initiative={initiative} />
           ))}
         </div>
       </ContentWidth>

@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import { getCirclesSettings } from '@repo/content/loaders'
+import { getCircleInitiatives, getCirclesSettings } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 
 import { MovementPageView } from '@/components/sections/movement/movement-page'
@@ -28,11 +28,13 @@ export default async function MovementPage({
   }
 
   const t = await getTranslations({ locale, namespace: NAMESPACE })
-  const [circlesSettings, mapMarkers, upcomingEvents] = await Promise.all([
-    getCirclesSettings(locale),
-    getActiveCircleMarkers(),
-    getUpcomingCircleEvents(),
-  ])
+  const [circlesSettings, mapMarkers, upcomingEvents, initiatives] =
+    await Promise.all([
+      getCirclesSettings(locale),
+      getActiveCircleMarkers(),
+      getUpcomingCircleEvents(),
+      getCircleInitiatives({ locale, status: 'published' }),
+    ])
 
   return (
     <MovementPageView
@@ -40,6 +42,7 @@ export default async function MovementPage({
       circlesSettings={circlesSettings}
       mapMarkers={mapMarkers}
       upcomingEvents={upcomingEvents}
+      initiatives={initiatives}
       locale={locale}
     />
   )
