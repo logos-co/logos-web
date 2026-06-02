@@ -5,25 +5,33 @@ import type { FormEvent } from 'react'
 
 import { FooterArrowIcon, FooterChevronIcon } from './footer-icons'
 
-/** Logos newsletter signup endpoint (mirrors the ukdebt landing page). */
-const DEFAULT_ENDPOINT = 'https://logos.co/api/email-signup'
-
 /** Role choices offered in the custom dropdown. */
 const DEFAULT_ROLE_OPTIONS = ['Node operator', 'Builder'] as const
 
 type SignupStatus = 'idle' | 'loading' | 'success' | 'error'
+
+export type FooterNewsletterValues = {
+  email: string
+  role: string
+  city: string
+}
 
 export type FooterNewsletterProps = {
   emailLabel: string
   roleLabel: string
   cityLabel: string
   submitLabel: string
+  /**
+   * Submit handler. Receives the collected field values and should resolve on
+   * success or reject with an `Error` whose message is shown to the user. The
+   * component owns its own loading/success/error UI around this promise, so
+   * the transport (fetch, react-query, etc.) stays outside this primitive.
+   */
+  onSubmit: (values: FooterNewsletterValues) => Promise<void>
   /** Override the role choices. Defaults to Node operator / Builder. */
   roleOptions?: readonly string[]
-  /** Override the signup endpoint. Defaults to logos.co. */
-  endpoint?: string
-  /** Optional newsletter id forwarded to the signup endpoint. */
-  newsletterId?: string
+  /** Message shown after a successful submit. */
+  successMessage?: string
 }
 
 const fieldClassName =
@@ -35,26 +43,14 @@ const triggerClassName =
 const submitClassName =
   'text-eyebrow flex h-[32px] shrink-0 cursor-pointer items-center justify-center gap-1 rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green uppercase backdrop-blur-[5px] transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-60'
 
-/** Build the freeform `note` sent to the signup endpoint from role + city. */
-function buildNote(role: string, city: string): string {
-  const parts: string[] = []
-  if (role) {
-    parts.push(`Role: ${role}`)
-  }
-  if (city.trim()) {
-    parts.push(`City: ${city.trim()}`)
-  }
-  return parts.join('\n')
-}
-
 export function FooterNewsletter({
   emailLabel,
   roleLabel,
   cityLabel,
   submitLabel,
+  onSubmit,
   roleOptions = DEFAULT_ROLE_OPTIONS,
-  endpoint = DEFAULT_ENDPOINT,
-  newsletterId,
+  successMessage = 'Thanks — you’re on the list.',
 }: FooterNewsletterProps) {
   const [email, setEmail] = useState('')
   const [role, setRole] = useState('')
@@ -103,32 +99,14 @@ export function FooterNewsletter({
     setStatus('loading')
     setMessage('')
 
-    const note = buildNote(role, city)
-
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          ...(note && { note }),
-          ...(newsletterId && { newsletter: newsletterId }),
-        }),
-      })
-
-      const data = (await response.json().catch(() => ({}))) as {
-        error?: string
-      }
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to subscribe.')
-      }
+      await onSubmit({ email, role, city })
 
       setEmail('')
       setRole('')
       setCity('')
       setStatus('success')
-      setMessage('Thanks — you’re on the list.')
+      setMessage(successMessage)
     } catch (error) {
       setStatus('error')
       setMessage(

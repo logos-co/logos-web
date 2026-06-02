@@ -95,13 +95,22 @@ export default function AboutScrollStack({
       })
     }
 
+    // Re-run after a bfcache restore (browser back/forward): the component is
+    // not remounted, so the effect's initial update() never fires again and no
+    // scroll event is dispatched, leaving cards stuck at their initial offset.
+    const handlePageShow = () => {
+      requestAnimationFrame(update)
+    }
+
     update()
     window.addEventListener('scroll', update, { passive: true })
     window.addEventListener('resize', update)
+    window.addEventListener('pageshow', handlePageShow)
 
     return () => {
       window.removeEventListener('scroll', update)
       window.removeEventListener('resize', update)
+      window.removeEventListener('pageshow', handlePageShow)
     }
   }, [])
 

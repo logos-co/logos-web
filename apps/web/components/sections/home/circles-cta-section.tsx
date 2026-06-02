@@ -49,6 +49,9 @@ export default async function CirclesCtaSection({ data }: Props) {
             <Button
               href={data.secondaryCta.href}
               variant="link"
+              {...(data.secondaryCta.href.startsWith('http')
+                ? { target: '_blank', rel: 'noopener noreferrer' }
+                : {})}
               className="cursor-pointer transition-opacity hover:opacity-70"
             >
               {data.secondaryCta.label}

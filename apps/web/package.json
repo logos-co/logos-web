@@ -27,10 +27,11 @@
     "fetch:afform-all": "pnpm fetch:afform-contact && pnpm fetch:afform-activist-builder && pnpm fetch:afform-activist-leader && pnpm fetch:afform-coalition-partner"
   },
   "dependencies": {
-    "@hcaptcha/react-hcaptcha": "^1.12.0",
-    "@repo/content": "workspace:*",
     "@acid-info/logos-tokens": "workspace:*",
     "@acid-info/logos-ui": "workspace:*",
+    "@hcaptcha/react-hcaptcha": "^1.12.0",
+    "@repo/content": "workspace:*",
+    "@tanstack/react-query": "^5.100.14",
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.11.0",

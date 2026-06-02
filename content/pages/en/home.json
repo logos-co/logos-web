@@ -332,7 +332,10 @@
         "Logos is built for those who believe the window for reform has closed. Circles are essential for anyone taking actions with us. If there isn’t a Logos Circle listed in your area, please get in touch with the team."
       ],
       "cta": { "label": "Find a Circle Near You", "href": "/circles" },
-      "secondaryCta": { "label": "Start a Circle", "href": "/circles" }
+      "secondaryCta": {
+        "label": "Start a Circle",
+        "href": "https://forum.logos.co/c/meetups/6"
+      }
     }
   ]
 }
