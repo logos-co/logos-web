@@ -120,10 +120,10 @@
     {
       "componentType": "relatedArticles",
       "key": "networking.relatedArticles",
-      "label": "Logos Press Engine",
+      "label": "The Logos Blog",
       "eyebrow": "Logos in the News",
       "title": "Related Articles",
-      "cta": { "label": "Explore all articles", "href": "/press" },
+      "cta": { "label": "Explore all articles", "href": "/blog" },
       "visibleCount": 4
     }
   ]

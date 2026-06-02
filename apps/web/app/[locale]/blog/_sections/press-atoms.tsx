@@ -1,6 +1,6 @@
 /**
- * Shared presentational atoms for the press page sections (articles + podcasts).
- * All exports are private to the `/press` route.
+ * Shared presentational atoms for the blog page sections (articles + podcasts).
+ * All exports are private to the `/blog` route.
  */
 import Image from 'next/image'
 import type { ReactNode } from 'react'

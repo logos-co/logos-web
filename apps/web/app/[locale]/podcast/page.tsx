@@ -7,7 +7,7 @@ import { createDefaultMetadata } from '@/lib/metadata'
 import ContentWidth from '@/components/layout/content-width'
 import { PRESS_ORIGIN, getLatestPressPodcasts } from '@/lib/press-engine'
 
-import { PodcastsSection } from '../press/_sections/podcasts'
+import { PodcastsSection } from '../blog/_sections/podcasts'
 
 interface PodcastIntroCopy {
   title: string

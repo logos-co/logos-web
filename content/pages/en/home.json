@@ -309,7 +309,7 @@
       "eyebrow": "Logos in the news.",
       "title": "Media",
       "label": "Articles, podcasts, and media.",
-      "cta": { "label": "Explore all media", "href": "/press" },
+      "cta": { "label": "Explore all media", "href": "/blog" },
       "visibleCount": 4
     },
     {
@@ -319,7 +319,7 @@
         "highlight": "Parallel Society",
         "rest": "is a two-day event in Lisbon where music, art, and technology converge."
       },
-      "cta": { "label": "Learn More", "href": "/press" }
+      "cta": { "label": "Learn More", "href": "/blog" }
     },
     {
       "componentType": "featuredText",

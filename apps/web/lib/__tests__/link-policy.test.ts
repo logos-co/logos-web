@@ -138,7 +138,7 @@ describe('link policy', () => {
     )
   })
 
-  it('routes the Logos Press Engine navigation card to Press', () => {
+  it('routes the The Logos Blog navigation card to Blog', () => {
     const aboutSection = navigation.menuPanels
       .flatMap((panel) => panel.cardSections ?? [])
       .find((section) => section.label === 'About')
@@ -147,7 +147,7 @@ describe('link policy', () => {
     expect(aboutCards).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          label: 'Logos Press Engine',
+          label: 'The Logos Blog',
           href: ROUTES.press,
         }),
       ])

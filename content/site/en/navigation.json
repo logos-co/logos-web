@@ -130,8 +130,8 @@
           "label": "About",
           "cards": [
             {
-              "label": "Logos Press Engine",
-              "href": "/press",
+              "label": "The Logos Blog",
+              "href": "/blog",
               "description": "Media throughout the Logos ecosystem",
               "image": {
                 "src": "/nav-overlay/figma/explore-thumb.webp",
@@ -290,9 +290,9 @@
     }
   ],
   "press": {
-    "label": "Press",
+    "label": "Blog",
     "seeAllLabel": "SEE ALL",
-    "seeAllHref": "/press",
+    "seeAllHref": "/blog",
     "visibleCount": 4
   }
 }

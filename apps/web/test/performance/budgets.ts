@@ -15,5 +15,5 @@ export const criticalRoutes = [
   '/circles',
   '/technology-stack',
   '/brand-kit',
-  '/press',
+  '/blog',
 ] as const

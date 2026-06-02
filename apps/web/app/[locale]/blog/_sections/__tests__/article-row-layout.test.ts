@@ -3,8 +3,8 @@ import path from 'node:path'
 
 import { describe, expect, test } from 'vitest'
 
-const sectionDir = path.resolve(process.cwd(), 'app/[locale]/press/_sections')
-const pressRouteDir = path.resolve(process.cwd(), 'app/[locale]/press')
+const sectionDir = path.resolve(process.cwd(), 'app/[locale]/blog/_sections')
+const pressRouteDir = path.resolve(process.cwd(), 'app/[locale]/blog')
 
 const readSectionFile = (fileName: string) =>
   fs.readFileSync(path.join(sectionDir, fileName), 'utf8')

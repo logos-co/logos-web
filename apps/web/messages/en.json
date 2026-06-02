@@ -709,15 +709,15 @@
       "heading": "Links"
     },
     "press": {
-      "title": "Press | Logos",
-      "description": "The Logos Press Engine — essays, news, and podcasts from the Logos movement.",
-      "heading": "The Logos Press Engine",
+      "title": "Blog | Logos",
+      "description": "The Logos Blog — essays, news, and podcasts from the Logos movement.",
+      "heading": "The Logos Blog",
       "hero": {
         "line1": "The Logos",
-        "line2": "Press Engine"
+        "line2": "Blog"
       },
       "nav": {
-        "label": "Press sections",
+        "label": "Blog sections",
         "articles": "Articles",
         "podcasts": "Podcasts",
         "broadcast": "Logos Broadcast Network"

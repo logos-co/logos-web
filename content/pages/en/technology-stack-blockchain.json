@@ -191,7 +191,7 @@
       "mobileLabel": "Lorem ipsum dolor sit amet.",
       "eyebrow": "Logos in the News",
       "title": "Related Articles",
-      "cta": { "label": "Explore all articles", "href": "/press" },
+      "cta": { "label": "Explore all articles", "href": "/blog" },
       "items": [
         {
           "title": "State of the Logos Network: November 2025",
@@ -205,7 +205,7 @@
           "date": "02.14.26",
           "author": "Sterlin Lujan",
           "readingTime": 6,
-          "href": "/press"
+          "href": "/blog"
         },
         {
           "title": "Story of the Network: From CyberNetics to Blockchain Communities",
@@ -220,7 +220,7 @@
           "date": "02.14.26",
           "author": "Sterlin Lujan",
           "readingTime": 6,
-          "href": "/press"
+          "href": "/blog"
         },
         {
           "title": "State of the Logos Network: October 2025",
@@ -234,7 +234,7 @@
           "date": "02.14.26",
           "author": "Sterlin Lujan",
           "readingTime": 6,
-          "href": "/press"
+          "href": "/blog"
         },
         {
           "title": "Hacking for Real World Impact with Funding the Commons & Tor",
@@ -248,7 +248,7 @@
           "date": "02.14.26",
           "author": "Sterlin Lujan",
           "readingTime": 6,
-          "href": "/press"
+          "href": "/blog"
         }
       ],
       "visibleCount": 4

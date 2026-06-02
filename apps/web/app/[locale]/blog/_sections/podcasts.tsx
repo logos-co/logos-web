@@ -1,5 +1,5 @@
 /**
- * Podcast sections used by the `/press` page: hero card, list rows,
+ * Podcast sections used by the `/blog` page: hero card, list rows,
  * and the wrapping section that repeats the list to fill the Figma frame.
  */
 import Image from 'next/image'

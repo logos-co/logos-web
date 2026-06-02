@@ -1,5 +1,5 @@
 /**
- * Article sections used by the `/press` page: hero, list rows, gallery,
+ * Article sections used by the `/blog` page: hero, list rows, gallery,
  * and the full-bleed featured spread.
  */
 import Image from 'next/image'
