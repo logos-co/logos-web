@@ -45,7 +45,7 @@ Full-screen overlay, dark green background (`#0D1F17` approx).
 
 **JOIN OUR COMMUNITY cards (3 cards, image background, dark overlay):**
 
-- Lambda icon Build — "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others."
+- Lambda icon Build — "Explore programmes and resources to help you build your cyberstate."
 - Lambda icon Node Programme — "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies."
 - Lambda icon Circles — "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections."
 

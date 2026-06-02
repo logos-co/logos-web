@@ -2,6 +2,7 @@ import { ExternalLink } from 'lucide-react'
 
 import { LogosMark } from '@acid-info/logos-ui'
 
+import ContentWidth from '@/components/layout/content-width'
 import type {
   ActiveCircleLocation,
   ActiveCircleStat,
@@ -37,7 +38,7 @@ function SectionHeader({
   eyebrow?: string
 }) {
   return (
-    <div className="grid gap-3 px-3 py-10 md:grid-cols-12">
+    <ContentWidth className="grid gap-3 px-3 py-10 md:grid-cols-12">
       <h2 className="text-h3-serif text-brand-dark-green md:col-span-4">
         {title}
       </h2>
@@ -46,7 +47,7 @@ function SectionHeader({
           {eyebrow}
         </p>
       ) : null}
-    </div>
+    </ContentWidth>
   )
 }
 
@@ -85,7 +86,7 @@ function ActiveCirclesHero({ activeSinceDate }: { activeSinceDate: string }) {
       <div className="absolute left-3 top-6 flex size-[48px] items-center justify-center rounded-full border border-brand-off-white/30 md:left-1/2 md:-translate-x-1/2">
         <LogosMark size={17} />
       </div>
-      <div className="grid min-h-[430px] grid-cols-2 gap-3 pb-12 md:min-h-[520px] md:grid-cols-12 md:pb-16">
+      <ContentWidth className="grid min-h-[430px] grid-cols-2 gap-3 pb-12 md:min-h-[520px] md:grid-cols-12 md:pb-16">
         <p className="text-mono-s col-span-1 mt-28 max-w-[178px] text-brand-off-white/70 md:col-span-2 md:mt-16">
           Active in the last {ACTIVE_CIRCLES_DAYS} days, measured from{' '}
           {activeSinceDate}.
@@ -101,7 +102,7 @@ function ActiveCirclesHero({ activeSinceDate }: { activeSinceDate: string }) {
         <p className="text-mono-s col-start-2 row-start-1 mt-28 max-w-[178px] text-brand-off-white/70 md:col-span-2 md:col-start-11 md:mt-16">
           Live event data from Logos Circle sources.
         </p>
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -113,11 +114,11 @@ function StatsSection({ stats }: { stats: ActiveCircleStat[] }) {
         title="Overview"
         eyebrow="A compact snapshot of circle activity and geographic reach."
       />
-      <div className="grid gap-3 px-3 pb-12 sm:grid-cols-2 lg:grid-cols-4">
+      <ContentWidth className="grid gap-3 px-3 pb-12 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <StatCard key={stat.label} stat={stat} />
         ))}
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -138,11 +139,11 @@ function LocationsSection({
           No active circles found.
         </p>
       ) : (
-        <div className="grid gap-3 px-3 sm:grid-cols-2 lg:grid-cols-4">
+        <ContentWidth className="grid gap-3 px-3 sm:grid-cols-2 lg:grid-cols-4">
           {locations.map((location) => (
             <LocationLink key={location.label} location={location} />
           ))}
-        </div>
+        </ContentWidth>
       )}
     </section>
   )

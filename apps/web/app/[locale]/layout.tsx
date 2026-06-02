@@ -7,6 +7,7 @@ import { fontVariables } from '@/app/fonts'
 import PageTransition from '@/components/page-transition'
 import ScrollToTop from '@/components/scroll-to-top'
 import SiteHeader from '@/components/site-header'
+import SiteHeaderGate from '@/components/site-header/site-header-gate'
 import SiteFooter from '@/components/site-footer'
 import { routing } from '@/i18n/routing'
 
@@ -58,7 +59,9 @@ export default async function RootLayout({
         </head>
         <body>
           <ScrollToTop />
-          <SiteHeader locale={locale} />
+          <SiteHeaderGate>
+            <SiteHeader locale={locale} />
+          </SiteHeaderGate>
           <main className="relative">
             <PageTransition>{children}</PageTransition>
           </main>

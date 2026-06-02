@@ -85,6 +85,7 @@ Payload collections: `Pages`, `Circles`, `Ideas`, `Rfps`, `ContentChangeRequests
 ## Testing
 
 - Vitest lives in `apps/web` (`pnpm test` from root or app). Add tests beside the code in `__tests__/` folders.
+- Do not add UI implementation contract tests that assert Tailwind class strings, Figma measurements, layout spacing, motion details, hover treatment, or component source structure. UI changes are reviewed through browser verification, not brittle source-string tests.
 - Playwright is the standard for E2E if/when added.
 - For UI/frontend changes, **start the dev server and verify in a browser** before reporting done. Type-check passing ≠ feature working.
 

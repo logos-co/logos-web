@@ -11,7 +11,14 @@ import type {
 import { LogosMark } from '@acid-info/logos-ui'
 
 import { IconMask } from '@/components/icons/icon-mask'
+import ContentWidth from '@/components/layout/content-width'
+import { OverviewMediaPanel } from '@/components/sections/shared/overview-media-panel'
+import {
+  TechStackDetailPage,
+  TechStackDetailSection,
+} from '@/components/sections/shared/tech-stack-detail-layout'
 import { Button } from '@/components/ui'
+import { resolveBasecampInstallCtaLinkProps } from '@/lib/basecamp-release-links'
 
 interface BasecampPageProps {
   hero: HeroSection
@@ -40,12 +47,10 @@ function paragraphs(value?: string) {
 function BasecampCta({ cta, className }: { cta: CTA; className?: string }) {
   return (
     <Button
-      href={cta.href}
+      {...resolveBasecampInstallCtaLinkProps(cta)}
       variant={cta.variant ?? 'secondary'}
       icon={getButtonIcon(cta.iconOverride)}
       className={className}
-      target={cta.external ? '_blank' : undefined}
-      rel={cta.external ? 'noopener noreferrer' : undefined}
     >
       {cta.label}
     </Button>
@@ -56,7 +61,7 @@ function HeroSectionView({ data }: { data: HeroSection }) {
   const bodyDetails = paragraphs(data.bodySecondary)
 
   return (
-    <section className="mx-auto grid w-full max-w-360 grid-cols-1 gap-12 px-3 pt-[90px] pb-10 md:min-h-[453px] md:grid-cols-2 md:gap-6">
+    <section className="grid w-full grid-cols-1 gap-12 px-3 pt-8 pb-12 md:min-h-[453px] md:grid-cols-2 md:gap-6 md:pb-10">
       <div className="flex flex-col items-start gap-10">
         {data.eyebrow ? (
           <Button
@@ -86,7 +91,7 @@ function HeroSectionView({ data }: { data: HeroSection }) {
           </p>
         ) : null}
         {bodyDetails.length > 0 ? (
-          <div className="text-mono-s flex max-w-[342px] flex-col gap-3 text-brand-dark-green">
+          <div className="text-mono-s flex max-w-[342px] flex-col gap-4 text-brand-dark-green">
             {bodyDetails.map((item) => (
               <p key={item} className="whitespace-pre-line">
                 {item}
@@ -119,15 +124,15 @@ function HowItWorksSection({ data }: { data: TableSection }) {
   ].filter((cta): cta is CTA => Boolean(cta))
 
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-6 px-3 py-10 md:grid-cols-2 md:py-3">
+    <section className="grid w-full gap-6 px-3 py-10 md:grid-cols-2 md:py-10">
       <div className="flex min-h-[626px] flex-col justify-between gap-8">
         <div>
-          <h2 className="text-h3 mb-6 text-brand-dark-green">{data.title}</h2>
+          <h2 className="text-h3 mb-8 text-brand-dark-green">{data.title}</h2>
           <div className="divide-y divide-brand-dark-green/20 border-y border-brand-dark-green/20">
             {data.rows.map((row) => (
               <article
                 key={row.number}
-                className="grid gap-4 py-3 md:grid-cols-2 md:gap-3"
+                className="grid gap-4 py-4 md:grid-cols-2 md:gap-3"
               >
                 <span className="text-mono-s text-brand-dark-green">
                   {row.number}
@@ -171,57 +176,41 @@ function HowItWorksSection({ data }: { data: TableSection }) {
 
 function LocalFirstSection({ data }: { data: CtaPanelSection }) {
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-6 bg-gray-01 px-3 py-3 md:grid-cols-2">
-      <div className="relative min-h-[357px] overflow-hidden rounded-xl">
-        {data.image ? (
-          <Image
-            src={data.image.src}
-            alt={data.image.alt}
-            fill
-            sizes="(max-width: 768px) 100vw, 702px"
-            className="object-cover"
-          />
-        ) : null}
-      </div>
-      <div className="flex min-h-[357px] flex-col justify-between gap-10 py-1">
-        {data.eyebrow ? (
-          <div className="text-mono-s flex items-center gap-[102px] text-brand-dark-green">
-            <LogosMark size={9} />
-            <span>{data.eyebrow}</span>
+    <section>
+      <OverviewMediaPanel
+        eyebrow={data.eyebrow}
+        footerLabel={data.footerLabel}
+        title={data.title}
+        body={paragraphs(data.description)}
+        cta={data.cta}
+        imagePosition="left"
+        image={
+          <div className="relative h-[317px] w-full overflow-hidden rounded-[24px] md:h-full">
+            {data.image ? (
+              <Image
+                src={data.image.src}
+                alt={data.image.alt}
+                fill
+                sizes="(max-width: 768px) 100vw, 702px"
+                className="object-cover"
+              />
+            ) : null}
           </div>
-        ) : null}
-        <div className="max-w-[485px]">
-          <h2 className="text-h3 mb-3 text-brand-dark-green">{data.title}</h2>
-          <div className="text-body-s flex flex-col gap-3 text-brand-dark-green">
-            {paragraphs(data.description).map((item) => (
-              <p key={item}>{item}</p>
-            ))}
-          </div>
-          {data.cta ? (
-            <BasecampCta
-              cta={data.cta}
-              className="mt-6 cursor-pointer bg-transparent"
-            />
-          ) : null}
-        </div>
-        {data.footerLabel ? (
-          <div className="text-mono-s flex items-center gap-[102px] text-brand-dark-green">
-            <LogosMark size={9} />
-            <span>{data.footerLabel}</span>
-          </div>
-        ) : null}
-      </div>
+        }
+      />
     </section>
   )
 }
 
 function ModularSection({ data }: { data: FeaturedTextSection }) {
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-10 border-b border-brand-dark-green/10 px-3 py-10 md:min-h-[275px] md:grid-cols-2">
+    <section className="grid w-full gap-10 border-b border-brand-dark-green/10 px-3 py-10 md:min-h-[275px] md:grid-cols-2">
       <h2 className="font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
-        {data.title.highlight} {data.title.rest}
+        <span>{data.title.highlight}</span>
+        <br />
+        <span>{data.title.rest}</span>
       </h2>
-      <div className="text-mono-s max-w-[345px] text-brand-dark-green">
+      <div className="text-mono-s flex flex-col gap-4 max-w-[345px] text-brand-dark-green">
         {data.body?.map((item) => (
           <p key={item}>{item}</p>
         ))}
@@ -233,7 +222,7 @@ function ModularSection({ data }: { data: FeaturedTextSection }) {
 function CapabilityCard({ card }: { card: CardGridSection['cards'][number] }) {
   return (
     <article className="flex min-h-[250px] flex-col justify-between rounded-xl bg-gray-01 p-4">
-      <div className="grid gap-3">
+      <div className="grid gap-4">
         <h3 className="font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
           {card.title}
         </h3>
@@ -252,13 +241,13 @@ function CapabilityCard({ card }: { card: CardGridSection['cards'][number] }) {
 
 function CapabilitiesSection({ data }: { data: CardGridSection }) {
   return (
-    <section className="mx-auto w-full max-w-360 px-3 py-6 md:py-10">
+    <section className="w-full px-3 py-10 md:py-10">
       {data.heading ? (
-        <h2 className="mb-10 font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
+        <h2 className="mb-12 font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
           {data.heading}
         </h2>
       ) : null}
-      <div className="grid gap-3 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3">
         {data.cards.map((card) => (
           <CapabilityCard key={card.title} card={card} />
         ))}
@@ -275,7 +264,7 @@ function ResourceCard({
   featured?: boolean
 }) {
   const content = (
-    <div className="relative z-10 flex h-full flex-col items-center justify-center gap-3 px-8 text-center">
+    <div className="relative z-10 flex h-full flex-col items-center justify-center gap-4 px-8 text-center">
       <h3
         className={
           featured
@@ -301,8 +290,8 @@ function ResourceCard({
           cta={card.cta}
           className={
             featured
-              ? 'mt-3 cursor-pointer bg-brand-off-white text-brand-dark-green'
-              : 'mt-3 cursor-pointer'
+              ? 'mt-4 cursor-pointer bg-brand-off-white text-brand-dark-green'
+              : 'mt-4 cursor-pointer'
           }
         />
       ) : null}
@@ -338,7 +327,7 @@ function ResourceCard({
 
 function ResourcesSection({ data }: { data: CardGridSection }) {
   return (
-    <section className="mx-auto grid w-full max-w-360 gap-3 px-3 py-10 md:grid-cols-3">
+    <section className="w-full gap-4 px-3 py-10 grid md:grid-cols-3">
       {data.cards.map((card, index) => (
         <ResourceCard key={card.title} card={card} featured={index === 1} />
       ))}
@@ -355,13 +344,25 @@ export default function BasecampPage({
   resources,
 }: BasecampPageProps) {
   return (
-    <>
-      <HeroSectionView data={hero} />
-      <HowItWorksSection data={howItWorks} />
-      <LocalFirstSection data={localFirst} />
-      <ModularSection data={modular} />
-      <CapabilitiesSection data={capabilities} />
-      <ResourcesSection data={resources} />
-    </>
+    <TechStackDetailPage>
+      <ContentWidth className="!p-0">
+        <HeroSectionView data={hero} />
+        <TechStackDetailSection>
+          <HowItWorksSection data={howItWorks} />
+        </TechStackDetailSection>
+        <TechStackDetailSection>
+          <LocalFirstSection data={localFirst} />
+        </TechStackDetailSection>
+        <TechStackDetailSection>
+          <ModularSection data={modular} />
+        </TechStackDetailSection>
+        <TechStackDetailSection>
+          <CapabilitiesSection data={capabilities} />
+        </TechStackDetailSection>
+        <TechStackDetailSection>
+          <ResourcesSection data={resources} />
+        </TechStackDetailSection>
+      </ContentWidth>
+    </TechStackDetailPage>
   )
 }

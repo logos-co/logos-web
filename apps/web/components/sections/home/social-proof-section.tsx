@@ -15,35 +15,31 @@ interface SocialProofCard {
   imageClassName?: string
 }
 
-function SocialProofCardView({
-  card,
-}: {
-  card: SocialProofCard
-}) {
+function SocialProofCardView({ card }: { card: SocialProofCard }) {
   return (
     <article
-      className={`relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl p-1.5 md:h-[432px] ${card.mobileClassName ?? 'h-[411px]'}`}
+      className={`relative flex w-full flex-col overflow-hidden rounded-3xl p-1.5 min-[1025px]:h-[432px] ${card.mobileClassName ?? 'h-[411px]'}`}
     >
       <Image
         src={card.image}
         alt=""
         fill
-        sizes="(max-width: 768px) 369px, 25vw"
+        sizes="(max-width: 1024px) calc(100vw - 24px), 25vw"
         className={`object-cover ${card.imageClassName ?? ''}`}
       />
       <div className="absolute inset-0 bg-black/20" />
 
       <div className="relative flex h-[333px] flex-col items-center justify-center gap-9 rounded-[18px] px-[18px] text-center text-brand-off-white">
-        <p className="font-display text-[112px] leading-none tracking-[-0.04em] md:text-[140px]">
+        <p className="font-display text-[112px] leading-none tracking-[-0.04em] min-[1025px]:text-[clamp(78px,9vw,140px)] min-[1440px]:text-[140px]">
           {card.value}
         </p>
-        <p className="font-sans text-[24px] leading-[1.1] tracking-[-0.01em]">
+        <p className="font-sans text-[24px] leading-[1.1] tracking-[-0.01em] min-[1025px]:text-[clamp(18px,1.75vw,24px)] min-[1440px]:text-[24px]">
           {card.label}
         </p>
       </div>
 
       <div className="relative mt-auto rounded-[18px] bg-brand-off-white p-3 text-brand-dark-green">
-        <p className="font-sans text-[18px] leading-[1.15] tracking-[-0.01em]">
+        <p className="font-sans text-[18px] leading-[1.15] tracking-[-0.01em] min-[1025px]:text-[clamp(14px,1.25vw,18px)] min-[1440px]:text-[18px]">
           {card.body}
         </p>
       </div>
@@ -98,11 +94,13 @@ export default function SocialProofSection({ stats }: SocialProofSectionProps) {
   ]
 
   return (
-    <section className="relative z-[2] -mt-10 overflow-hidden rounded-t-[36px] bg-brand-off-white px-3 pt-3 pb-[100px]">
-      <div className="grid gap-3 md:grid-cols-4">
-        {cards.map((card) => (
-          <SocialProofCardView key={card.key} card={card} />
-        ))}
+    <section className="relative z-[2] -mt-10 overflow-hidden rounded-t-[36px] bg-brand-off-white">
+      <div className="px-3 pt-3 pb-25">
+        <div className="flex flex-col gap-3 min-[1025px]:grid min-[1025px]:grid-cols-4">
+          {cards.map((card) => (
+            <SocialProofCardView key={card.key} card={card} />
+          ))}
+        </div>
       </div>
     </section>
   )

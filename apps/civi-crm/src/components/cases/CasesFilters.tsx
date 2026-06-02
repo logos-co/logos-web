@@ -1,7 +1,12 @@
 'use client'
 
-// TODO: filter bar — status, assignee (pre-populated from Keycloak identity), search
-// Controls filter/sort state via URL search params
-export default function CasesFilters() {
+// TODO(phase-5): implement filter bar -- status, assignee, sort controls, URL param sync
+
+type Props = {
+  coordinators: { id: string; displayName: string }[]
+  defaultAssigneeId?: string
+}
+
+export default function CasesFilters(_props: Props) {
   return null
 }

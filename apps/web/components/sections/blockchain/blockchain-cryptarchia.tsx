@@ -76,18 +76,20 @@ type Props = {
 
 export default function BlockchainCryptarchia({ data }: Props) {
   return (
-    <section className="bg-brand-off-white">
-      <Reveal
-        stagger
-        amount={0.15}
-        className="mx-auto grid max-w-360 gap-3 px-3 pt-7.5 pb-15 md:grid-cols-3 md:pt-0 md:pb-25"
-      >
-        {data.cards.map((card, index) => (
-          <RevealItem key={card.title}>
-            <OverviewCard card={card} index={index} />
-          </RevealItem>
-        ))}
-      </Reveal>
+    <section>
+      <div className="bg-brand-off-white">
+        <Reveal
+          stagger
+          amount={0.15}
+          className="mx-auto grid max-w-360 gap-3 px-3 pt-0 pb-0 md:grid-cols-3 md:pt-0 md:pb-25"
+        >
+          {data.cards.map((card, index) => (
+            <RevealItem key={card.title}>
+              <OverviewCard card={card} index={index} />
+            </RevealItem>
+          ))}
+        </Reveal>
+      </div>
     </section>
   )
 }

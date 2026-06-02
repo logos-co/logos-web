@@ -5,9 +5,12 @@
 import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
 
+import ContentWidth from '@/components/layout/content-width'
+import { ExternalLink } from '@/components/ui'
 import { repeatToLength, type PressPodcastRow } from '@/lib/press-engine'
 
 import {
+  ArrowIcon,
   Dot,
   PlayIcon,
   PressRowLink,
@@ -44,50 +47,61 @@ function PodcastHero({
   >
 }) {
   return (
-    <div className="h-[723px] bg-accent-tan p-3 md:h-[430px]">
-      <div className="relative h-[699px] overflow-hidden rounded-xl md:h-[406px]">
-        <Image
-          src="/images/press-engine/podcast-hero-bg.jpg"
-          alt=""
-          fill
-          sizes="100vw"
-          className="scale-110 object-cover object-center blur-[20px]"
-        />
-        <div className="absolute left-3 top-3 flex h-[268px] w-[345px] max-w-[calc(100%-24px)] min-w-0 flex-col justify-between overflow-hidden text-brand-off-white md:h-[380px] md:w-[453px]">
-          <div className="flex items-center gap-[102px]">
-            <LogosMark size={6} className="shrink-0" />
-            <span className="font-mono text-[10px] font-medium uppercase leading-[1.3]">
-              {copy.media}
-            </span>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h3 className="font-sans text-[24px] leading-[1.1] tracking-normal">
-              {copy.heroTitle}
-            </h3>
-            <p className="text-mono-s line-clamp-5 max-w-[453px] text-brand-off-white md:line-clamp-7">
-              {copy.heroDescription}
-            </p>
-          </div>
-          <div className="flex min-w-0 items-center gap-2.5">
-            <PlayIcon inverted />
-            <span className="shrink-0 font-sans text-[14px] font-medium leading-[1.2]">
-              {copy.latestEpisode}
-            </span>
-            <span className="min-w-0 truncate font-display text-[14px] leading-[1.2] text-gray-02">
-              {latestPodcast.title}
-            </span>
-          </div>
-        </div>
-        <div className="absolute left-3 top-[342px] aspect-video w-[calc(100%-24px)] overflow-hidden rounded md:left-auto md:right-3 md:top-3 md:h-[382px] md:w-[702px] md:max-w-[calc(100%-24px)]">
+    <div className="h-[723px] bg-accent-tan p-3 min-[1440px]:h-[430px]">
+      <ExternalLink
+        href={latestPodcast.href}
+        className="group block cursor-pointer"
+      >
+        <ContentWidth className="relative h-[699px] overflow-hidden rounded-xl min-[1440px]:h-[406px]">
           <Image
-            src={latestPodcast.image}
+            src="/images/press-engine/podcast-hero-bg.jpg"
             alt=""
             fill
-            sizes="(max-width: 768px) 369px, 702px"
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            sizes="100vw"
+            className="scale-110 object-cover object-center blur-[20px]"
           />
-        </div>
-      </div>
+          <div className="absolute left-3 top-3 flex h-[268px] w-[calc(100%-24px)] max-w-[345px] min-w-0 flex-col justify-between text-brand-off-white min-[1440px]:h-[380px] min-[1440px]:w-[453px] min-[1440px]:max-w-[453px]">
+            <div className="flex items-center gap-[102px]">
+              <LogosMark size={6} className="shrink-0" />
+              <span className="font-mono text-[10px] font-medium uppercase leading-[1.3]">
+                {copy.media}
+              </span>
+            </div>
+            <div className="flex flex-col gap-3">
+              <h3 className="w-[185px] font-sans text-[24px] leading-[1.1] tracking-normal min-[1440px]:w-auto">
+                {copy.heroTitle}
+              </h3>
+              <p className="text-mono-s line-clamp-8 max-w-full text-brand-off-white min-[1440px]:line-clamp-7 min-[1440px]:max-w-[453px]">
+                {copy.heroDescription}
+              </p>
+            </div>
+            <div className="flex w-[302px] max-w-full min-w-0 items-center gap-2.5">
+              <PlayIcon inverted />
+              <span className="shrink-0 font-sans text-[14px] font-medium leading-[1.2]">
+                {copy.latestEpisode}
+              </span>
+              <span className="min-w-0 truncate font-display text-[14px] leading-[1.2] text-gray-02">
+                {latestPodcast.title}
+              </span>
+            </div>
+          </div>
+          <div className="absolute left-3 top-[397px] flex h-[290px] w-[calc(100%-24px)] items-center justify-center rounded-[100px] bg-accent-tan text-brand-dark-green min-[1440px]:hidden">
+            <span className="inline-flex items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35]">
+              {copy.seeAllEpisodes}
+              <ArrowIcon />
+            </span>
+          </div>
+          <div className="absolute hidden overflow-hidden rounded min-[1440px]:bottom-auto min-[1440px]:left-auto min-[1440px]:right-3 min-[1440px]:top-3 min-[1440px]:block min-[1440px]:h-[382px] min-[1440px]:w-[702px] min-[1440px]:max-w-[calc(100%-24px)]">
+            <Image
+              src={latestPodcast.image}
+              alt=""
+              fill
+              sizes="702px"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+          </div>
+        </ContentWidth>
+      </ExternalLink>
     </div>
   )
 }
@@ -110,48 +124,32 @@ function PodcastEntry({
     : fallbackEpisode
 
   return (
-    <PressRowLink
-      href={podcast.href}
-      index={index}
-      className="h-[174px] md:h-[131px]"
-    >
-      <RowThumbnail
-        src={podcast.image}
-        className="right-[11px] top-3 z-10 h-[60px] w-[107px] md:left-3 md:right-auto"
-      />
-      <div className="absolute left-3 top-[13px] flex w-[238px] flex-col gap-2.5 md:hidden">
-        <PlayIcon />
-        <p className="font-sans text-[18px] leading-[1.15] tracking-[-0.01em]">
-          {podcast.title}
-        </p>
-      </div>
-      <div className="text-mono-s absolute bottom-[15px] left-3 flex items-center gap-2.5 text-brand-dark-green md:hidden">
-        <span>{podcast.date}</span>
-        <Dot />
-        <span>{episodeLabel}</span>
-      </div>
-      <div className="absolute bottom-[13px] right-[11px] md:hidden">
-        <UnderlineLabel>{listenOnAppLabel}</UnderlineLabel>
-      </div>
-      <div className="hidden min-h-[131px] flex-col justify-between pb-3 pl-[131px] pr-3 pt-3 md:absolute md:left-[119px] md:top-0 md:grid md:h-[119px] md:w-[1150px] md:grid-cols-[595px_345px_1fr] md:gap-x-3 md:p-0">
-        <div className="flex flex-col justify-between md:h-[131px] md:py-3 md:pl-3">
+    <PressRowLink href={podcast.href} index={index} className="h-[107px]">
+      <ContentWidth className="relative flex h-full items-center gap-3 md:grid md:grid-cols-[190px_524px_573px] md:gap-0">
+        <RowThumbnail
+          src={podcast.image}
+          className="aspect-video h-auto w-[174px] shrink-0 justify-self-center"
+        />
+        <div className="flex min-w-0 flex-1 flex-col justify-center gap-2.5 md:h-full md:w-[595px] md:gap-1.5 md:py-3 md:pl-3">
           <div className="text-mono-s flex items-center gap-2.5 text-brand-dark-green">
             <span>{podcast.date}</span>
             <Dot />
             <span>{episodeLabel}</span>
           </div>
-          <div className="flex items-center gap-2.5">
+          <div className="flex w-full items-center gap-2.5 md:w-[333px]">
             <PlayIcon />
-            <p className="font-sans text-[18px] leading-[1.15] tracking-normal">
+            <p className="line-clamp-2 font-sans text-[18px] leading-[1.15] tracking-normal">
               {podcast.title}
             </p>
           </div>
         </div>
-        <div />
-        <div className="md:py-3">
-          <UnderlineLabel>{listenOnAppLabel}</UnderlineLabel>
+        <div className="hidden items-start md:flex md:gap-[132px]">
+          <div className="w-[345px] py-3" />
+          <div className="shrink-0 py-3">
+            <UnderlineLabel>{listenOnAppLabel}</UnderlineLabel>
+          </div>
         </div>
-      </div>
+      </ContentWidth>
     </PressRowLink>
   )
 }
@@ -165,20 +163,20 @@ export function PodcastsSection({
   copy: PodcastsCopy
   ctaHref: string
 }) {
-  const repeatedPodcasts = repeatToLength(podcasts, 8)
+  const latestPodcast = podcasts[0]
+  const listPodcasts = podcasts.slice(1)
+  const repeatedPodcasts =
+    listPodcasts.length > 0 ? repeatToLength(listPodcasts, 8) : []
 
   return (
-    <section
-      id="podcasts"
-      className="h-[2249px] bg-accent-tan pt-[100px] md:h-auto"
-    >
-      <div className="flex h-[22px] items-center pl-3 md:h-[26px]">
+    <section id="podcasts" className="bg-accent-tan pt-[100px]">
+      <ContentWidth className="flex h-[22px] items-center pl-3 md:h-[26px]">
         <h2 className="font-sans text-[36px] leading-none tracking-[-0.02em] text-brand-dark-green">
           {copy.heading}
         </h2>
-      </div>
+      </ContentWidth>
       <div className="mt-3 bg-accent-tan">
-        <PodcastHero latestPodcast={podcasts[0]} copy={copy} />
+        <PodcastHero latestPodcast={latestPodcast} copy={copy} />
         {repeatedPodcasts.map((podcast, index) => (
           <PodcastEntry
             key={`${podcast.title}-${index}`}

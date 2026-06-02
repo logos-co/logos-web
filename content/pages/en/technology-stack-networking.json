@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "language": "en",
   "route": "/technology-stack/networking",
-  "title": "Networking Stack | Logos",
-  "description": "Privacy built from the ground up. The Logos networking layer handles how nodes discover each other, peer, and route messages through a mix-net without exposing identities or metadata.",
-  "heading": "Networking Stack",
+  "title": "Networking: Discovery, Peering & Mixnet",
+  "description": "The private transport layer for the Logos stack. Anonymity by design, with a mixnet, capability discovery, and RLN spam protection built into the foundation.",
+  "heading": "Networking",
   "seo": {
     "keywords": [
       "logos",
@@ -20,8 +20,8 @@
       "componentType": "hero",
       "key": "networking.hero",
       "eyebrow": "Technology stack",
-      "headline": "Networking Stack",
-      "body": "Built with privacy from the ground up, this layer handles how Logos nodes find each other, establish connections, and communicate. Discovery, Peering, and Mix-Net.",
+      "headline": "Networking",
+      "body": "The transport and coordination layer for the Logos stack. Private and designed for anonymity with built-in metadata protection.",
       "ctas": [
         {
           "label": "Use Basecamp",
@@ -40,7 +40,7 @@
       "componentType": "ctaPanel",
       "key": "networking.intro",
       "title": "Overview",
-      "description": "The networking layer handles how Logos nodes find each other, establish connections, and communicate. Private-by-default, this layer doesn't care whether modules above it are storing files, sending chat messages, or processing transactions. It provides private, reliable communication as a shared foundation.",
+      "description": "The networking layer treats all traffic alike, whether the modules above it are storing files, sending messages, or processing transactions. Messages route through multiple relay nodes that mix and delay traffic, so timing and volume reveal little to an outside observer. Nodes advertise and find one another through a capability discovery protocol with no central registry, and the peering layer maintains connections across the network.\n\nBecause privacy is implemented at the foundation, every module built on the networking layer inherits it without having to implement anonymity itself.",
       "cta": {
         "label": "View the docs",
         "href": "https://github.com/logos-co/logos-docs",

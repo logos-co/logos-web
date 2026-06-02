@@ -40,7 +40,6 @@ function LambdaGlyph({ className }: { className?: string }) {
   return <LogosMark size={11} className={clsx('shrink-0', className)} />
 }
 
-
 export default function SiteHeaderClient({
   closedBar,
   sitemap,
@@ -126,7 +125,7 @@ export default function SiteHeaderClient({
       >
         <div
           className={clsx(
-            'relative h-10 transition-colors duration-300 min-[640px]:hidden',
+            'relative h-10 transition-colors duration-300 xl:hidden',
             headerToneClass
           )}
         >
@@ -144,7 +143,7 @@ export default function SiteHeaderClient({
             onClick={open}
             aria-expanded={isOpen}
             aria-label={closedBar.openAriaLabel}
-            className="text-eyebrow absolute top-1/2 left-[62.5%] -translate-x-1/2 -translate-y-1/2 font-semibold inline-flex cursor-pointer items-center gap-1.5 transition-opacity hover:opacity-70"
+            className="text-eyebrow absolute top-1/2 left-[calc(50%+6px)] -translate-y-1/2 font-semibold inline-flex cursor-pointer items-center gap-1.5 transition-opacity hover:opacity-70"
           >
             {closedBar.menuLabel} <HamburgerIcon />
           </button>
@@ -152,7 +151,7 @@ export default function SiteHeaderClient({
 
         <div
           className={clsx(
-            'relative hidden h-[42px] transition-colors duration-300 min-[640px]:block',
+            'relative hidden h-[42px] transition-colors duration-300 xl:block',
             headerToneClass
           )}
         >

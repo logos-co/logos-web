@@ -6,9 +6,9 @@
  *
  * Oversized banner primitive — ONE rounded panel with an image disc + content.
  *
- * Desktop (md+): side-by-side — image disc absolutely positioned on one side,
+ * Desktop (xl+): side-by-side — image disc absolutely positioned on one side,
  *   content block absolutely positioned on the other. panel h=590, rounded-200.
- * Mobile (< md): stacked — image on top, centered content below.
+ * Mobile/tablet (< xl): stacked — image on top, centered content below.
  *   panel h=828, rounded-100, w≈393.
  *
  *   <GiantSwitch
@@ -59,7 +59,7 @@ export function GiantSwitch({
   const hoverShiftDistance = imagePosition === 'left' ? '12px' : '-12px'
   const hoverShiftStyles = installHoverShift
     ? `
-      @media (min-width: 48rem) {
+      @media (min-width: 80rem) {
         .giant-switch--install-hover .giant-switch__image {
           transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
         }
@@ -78,18 +78,18 @@ export function GiantSwitch({
     // Mobile — fills panel width, square, clipped to rounded-88.
     'giant-switch__image aspect-square w-full overflow-hidden rounded-[88px]',
     // Desktop — 566×566 disc inset 12 px, rounded-188, positioned by prop.
-    'md:absolute md:top-3 md:aspect-auto md:h-[566px] md:w-[566px] md:rounded-[188px]',
-    imagePosition === 'left' ? 'md:left-3' : 'md:right-3',
+    'xl:absolute xl:top-3 xl:aspect-auto xl:h-[566px] xl:w-[566px] xl:rounded-[188px]',
+    imagePosition === 'left' ? 'xl:left-3' : 'xl:right-3',
   ].join(' ')
 
   const contentClass = [
     // Mobile — in the flex column below the image, centered.
-    'giant-switch__content flex flex-col items-center gap-10 pt-20 md:pt-0',
+    'giant-switch__content flex flex-col items-center gap-10 pt-20 xl:pt-0',
     // Desktop — absolutely positioned beside the image.
-    'md:absolute md:top-1/2 md:-translate-y-1/2 md:items-start',
+    'xl:absolute xl:top-1/2 xl:-translate-y-1/2 xl:items-start',
     imagePosition === 'left'
-      ? 'md:left-[714px] md:w-[583px]'
-      : 'md:left-[238px] md:w-[464px]',
+      ? 'xl:left-[714px] xl:w-[583px]'
+      : 'xl:left-[238px] xl:w-[464px]',
   ].join(' ')
 
   return (
@@ -98,7 +98,7 @@ export function GiantSwitch({
     >
       {hoverShiftStyles ? <style>{hoverShiftStyles}</style> : null}
       <div
-        className={`relative flex w-full flex-col overflow-hidden rounded-[100px] p-3 pb-14 md:block md:h-[590px] md:rounded-[200px] md:p-0 ${accentBg[accent]}`}
+        className={`relative flex w-full flex-col overflow-hidden rounded-[100px] p-3 pb-14 xl:block xl:h-[590px] xl:rounded-[200px] xl:p-0 ${accentBg[accent]}`}
       >
         {/* Image */}
         <div className={imageClass}>
@@ -109,17 +109,17 @@ export function GiantSwitch({
 
         {/* Content */}
         <div className={contentClass}>
-          <div className="flex w-full flex-col items-center gap-6 md:items-start">
-            <p className="w-full text-center font-display text-[30px] leading-none tracking-[-0.03em] text-brand-dark-green md:text-left md:text-[36px]">
+          <div className="flex w-full flex-col items-center gap-6 xl:items-start">
+            <p className="w-full text-center font-display text-[30px] leading-none tracking-[-0.03em] text-brand-dark-green xl:text-left xl:text-[36px]">
               {title}
             </p>
             {description && (
-              <div className="flex w-full flex-col items-center gap-5 md:items-start">
-                <p className="w-full text-center font-sans text-[14px] leading-[1.2] text-brand-dark-green md:max-w-[464px] md:text-left">
+              <div className="flex w-full flex-col items-center gap-5 xl:items-start">
+                <p className="w-full text-center font-sans text-[14px] leading-[1.2] text-brand-dark-green xl:max-w-[464px] xl:text-left">
                   {description}
                 </p>
                 {tags && (
-                  <div className="flex w-full flex-wrap items-center justify-center gap-[6px] md:justify-start">
+                  <div className="flex w-full flex-wrap items-center justify-center gap-[6px] xl:justify-start">
                     {tags}
                   </div>
                 )}
@@ -127,7 +127,7 @@ export function GiantSwitch({
             )}
           </div>
           {actions && (
-            <div className="flex w-full items-center justify-center gap-2.5 md:w-auto md:items-baseline md:justify-start">
+            <div className="flex w-full items-center justify-center gap-2.5 xl:w-auto xl:items-baseline xl:justify-start">
               {actions}
             </div>
           )}

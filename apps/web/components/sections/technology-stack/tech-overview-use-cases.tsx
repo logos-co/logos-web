@@ -6,6 +6,7 @@ import Image from 'next/image'
 import type { CardGridSection } from '@repo/content/schemas'
 
 import { IconMask } from '@/components/icons/icon-mask'
+import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
 
 type UseCaseCardData = {
@@ -120,7 +121,7 @@ export default function TechOverviewUseCases({ data }: Props) {
   useEffect(() => {
     if (!scrollRef.current) return
 
-    const initialOffset = window.innerWidth >= 768 ? 120 : 333
+    const initialOffset = window.innerWidth >= 768 ? 120 : 0
     scrollRef.current.scrollLeft = initialOffset
   }, [])
 
@@ -173,8 +174,8 @@ export default function TechOverviewUseCases({ data }: Props) {
   }
 
   return (
-    <section className="h-[820px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-10 md:pb-16">
-      <div>
+    <section className="h-[820px] overflow-hidden bg-brand-off-white md:h-auto md:overflow-visible md:bg-transparent">
+      <div className="h-[290px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-0 md:h-auto md:overflow-visible md:pb-16">
         <div className="flex items-start justify-between gap-4 md:hidden">
           <div className="relative h-[81px] w-[107px] shrink-0 overflow-hidden">
             <Image
@@ -191,7 +192,7 @@ export default function TechOverviewUseCases({ data }: Props) {
           </p>
         </div>
 
-        <div className="relative hidden md:block md:h-[309px]">
+        <ContentWidth className="relative hidden md:block md:h-[309px]">
           <div className="absolute left-0 top-6 h-[81px] w-[107px] overflow-hidden">
             <Image
               src="/images/technology-stack/use-cases-top.jpg"
@@ -203,18 +204,18 @@ export default function TechOverviewUseCases({ data }: Props) {
           </div>
 
           {data.subheading ? (
-            <p className="text-mono-s absolute left-[714px] top-6 w-[226px] text-brand-dark-green">
+            <p className="text-mono-s absolute top-6 left-[calc(50%+6px)] w-[calc(25%-18px)] min-w-[178px] max-w-[226px] text-brand-dark-green xl:left-[714px] xl:w-[226px] xl:max-w-none">
               {data.subheading}
             </p>
           ) : null}
           {data.subheadingExtra ? (
-            <p className="text-mono-s absolute left-[1071px] top-6 w-[226px] text-brand-dark-green">
+            <p className="text-mono-s absolute top-6 left-[calc(75%+3px)] w-[calc(25%-15px)] min-w-[178px] max-w-[226px] text-brand-dark-green xl:left-[1071px] xl:w-[226px] xl:max-w-none">
               {data.subheadingExtra}
             </p>
           ) : null}
 
           {data.heading ? (
-            <h2 className="text-h2 absolute left-[476px] top-[140px] w-[464px] text-center text-brand-dark-green">
+            <h2 className="text-h2 absolute top-[140px] left-1/2 w-[464px] -translate-x-1/2 text-center text-brand-dark-green xl:left-[476px] xl:translate-x-0">
               {data.heading}
             </h2>
           ) : null}
@@ -228,12 +229,12 @@ export default function TechOverviewUseCases({ data }: Props) {
             <Button
               href={data.cta.href}
               variant="link"
-              className="absolute left-[714px] top-[272px] transition-opacity hover:opacity-70"
+              className="absolute top-[272px] left-[calc(50%+6px)] cursor-pointer transition-opacity hover:opacity-70 xl:left-[714px]"
             >
               {data.cta.label}
             </Button>
           ) : null}
-        </div>
+        </ContentWidth>
 
         {data.heading ? (
           <div className="relative left-1/2 mt-16 w-[464px] max-w-none -translate-x-1/2 md:hidden">

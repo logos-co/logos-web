@@ -50,7 +50,6 @@ export const ROUTES = {
   // Movement / Top-level nav
   movement: '/movement',
   book: '/book',
-  links: '/links',
 
   // Press
   press: '/press',
@@ -72,15 +71,13 @@ export const ROUTES = {
   security: '/security',
 
   // Footer misc
-  workWithUs: '/work-with-us',
   brandKit: '/brand-kit',
-  blog: '/blog',
 
   // Design system reference (internal)
   designSystems: '/design-systems',
 
-  // Placeholder / test
-  test: '/test',
+  // Campaigns
+  ukDebt: '/ukdebt',
 } as const
 
 // ---------------------------------------------------------------------------
@@ -97,10 +94,17 @@ export const EXTERNAL_URLS = {
   // Forum
   forum: 'https://forum.logos.co/',
   docs: 'https://github.com/logos-co/logos-docs',
+  communityIdeas: 'https://github.com/logos-co/ideas',
+  basecampRelease:
+    'https://github.com/logos-co/logos-basecamp/releases/tag/0.1.2',
+  basecampLinuxDownload:
+    'https://github.com/logos-co/logos-basecamp/releases/download/0.1.2/LogosBasecamp-Desktop-v0.1.2-2576ef-aarch64.AppImage',
+  basecampMacDownload:
+    'https://github.com/logos-co/logos-basecamp/releases/download/0.1.2/LogosBasecamp-Desktop-v0.1.2-2576ef-aarch64.dmg',
 
   // Research
   vacp2p: 'https://vac.dev',
-  researchSpecs: 'https://dev-rfc.vac.dev/index.html',
+  researchSpecs: 'https://research.logos.co',
   researchForum: 'https://forum.research.logos.co/',
   researchDiscord: 'https://discord.gg/PQFdubGt6d',
   researchX: 'https://twitter.com/LogosRnD',

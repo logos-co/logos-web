@@ -224,7 +224,6 @@ const appInstallSchema = z.object({
   accent: z.enum(['grey', 'yellow']),
   imagePosition: z.enum(['left', 'right']),
   title: z.string().min(1),
-  mobileTitle: z.string().min(1).optional(),
   description: z.string().min(1),
   tags: z.array(builderHubTagSchema).default([]),
   installCta: ctaSchema,
@@ -274,6 +273,13 @@ const builderHubInfoCardSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
   image: mediaRefSchema.optional(),
+  /**
+   * How the card image fills its frame. `cover` (default) crops to fill —
+   * correct for full-bleed graphics. `contain` shows the whole image without
+   * cropping — needed for images with built-in padding (e.g. the terminal
+   * mockup) that would otherwise be clipped.
+   */
+  imageFit: z.enum(['cover', 'contain']).default('cover'),
   ctas: z.array(ctaSchema).default([]),
 })
 
@@ -358,6 +364,7 @@ export const builderHubSettingsSchema = z.object({
       prizeHref: linkHrefSchema,
       rfpsTitle: z.string().min(1),
       rfpsDescription: z.string().min(1),
+      rfpsHref: linkHrefSchema,
     })
     .optional(),
   support: z
