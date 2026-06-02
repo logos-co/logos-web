@@ -312,6 +312,7 @@ export function TechStackDiagram({
           href={foundationHref}
           className={rowClass}
           desktopAt1025={desktopAt1025}
+          comingSoon
         />
       </div>
     </div>
