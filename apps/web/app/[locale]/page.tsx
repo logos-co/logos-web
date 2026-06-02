@@ -14,7 +14,7 @@ import CirclesCtaSection from '@/components/sections/home/circles-cta-section'
 import FeatureCardsSection from '@/components/sections/home/feature-cards-section'
 import HeroSectionView from '@/components/sections/home/hero-section'
 import ParallelSocietySection from '@/components/sections/home/parallel-society-section'
-import PressSection from '@/components/sections/home/press-section'
+import BlogSection from '@/components/sections/home/blog-section'
 import SocialProofSection from '@/components/sections/home/social-proof-section'
 import StartBuildingSection from '@/components/sections/home/start-building-section'
 import TechStackSection from '@/components/sections/home/tech-stack-section'
@@ -22,7 +22,7 @@ import TechStackSection from '@/components/sections/home/tech-stack-section'
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
-import { getLatestPressArticles } from '@/lib/press-engine'
+import { getLatestBlogArticles } from '@/lib/blog-engine'
 import { getSocialProofStats } from '@/lib/social-proof-stats'
 
 const findSection = createSectionFinder('home')
@@ -62,10 +62,10 @@ export default async function HomePage({
     'home.parallelSociety'
   )
 
-  const press = findSection<RelatedArticlesSection>(
+  const blog = findSection<RelatedArticlesSection>(
     page.sections,
     'relatedArticles',
-    'home.press'
+    'home.blog'
   )
 
   const circlesCta = findSection<FeaturedTextSection>(
@@ -75,7 +75,7 @@ export default async function HomePage({
   )
 
   const [articles, socialProofStats] = await Promise.all([
-    getLatestPressArticles(press.visibleCount ?? 4),
+    getLatestBlogArticles(blog.visibleCount ?? 4),
     getSocialProofStats(),
   ])
 
@@ -98,7 +98,7 @@ export default async function HomePage({
         headline={parallelSocietyHeadline}
         gallery={parallelSocietyGallery}
       />
-      <PressSection data={press} articles={articles} />
+      <BlogSection data={blog} articles={articles} />
     </>
   )
 }

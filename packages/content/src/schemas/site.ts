@@ -87,7 +87,7 @@ export const navigationSchema = z.object({
   exploreSections: z.array(navCardSectionSchema).default([]),
   menuPanels: z.array(navMenuPanelSchema).default([]),
   communityCards: z.array(navCommunityCardSchema).default([]),
-  press: z.object({
+  blog: z.object({
     label: z.string().min(1),
     seeAllLabel: z.string().min(1),
     seeAllHref: linkHrefSchema,

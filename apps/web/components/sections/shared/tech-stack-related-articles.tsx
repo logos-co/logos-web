@@ -5,7 +5,7 @@ import type { RelatedArticlesSection } from '@repo/content/schemas'
 import ContentWidth from '@/components/layout/content-width'
 import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
-import type { PressArticleRow } from '@/lib/press-engine'
+import type { BlogArticleRow } from '@/lib/blog-engine'
 
 import { ArticleCard, articlesToCards } from './related-articles-card'
 
@@ -14,7 +14,7 @@ const TITLE_CLASSNAME =
 
 type Props = {
   data: RelatedArticlesSection
-  articles: PressArticleRow[]
+  articles: BlogArticleRow[]
   sectionClassName?: string
 }
 

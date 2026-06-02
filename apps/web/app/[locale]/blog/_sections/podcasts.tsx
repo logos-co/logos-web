@@ -7,17 +7,17 @@ import { LogosMark } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
 import { ExternalLink } from '@/components/ui'
-import { repeatToLength, type PressPodcastRow } from '@/lib/press-engine'
+import { repeatToLength, type BlogPodcastRow } from '@/lib/blog-engine'
 
 import {
   ArrowIcon,
   Dot,
   PlayIcon,
-  PressRowLink,
+  BlogRowLink,
   RowThumbnail,
   SectionCta,
   UnderlineLabel,
-} from './press-atoms'
+} from './blog-atoms'
 
 interface PodcastsCopy {
   heading: string
@@ -36,7 +36,7 @@ function PodcastHero({
   latestPodcast,
   copy,
 }: {
-  latestPodcast: PressPodcastRow
+  latestPodcast: BlogPodcastRow
   copy: Pick<
     PodcastsCopy,
     | 'media'
@@ -54,7 +54,7 @@ function PodcastHero({
       >
         <ContentWidth className="relative h-[699px] overflow-hidden rounded-xl desktop:h-[406px]">
           <Image
-            src="/images/press-engine/podcast-hero-bg.jpg"
+            src="/images/blog-engine/podcast-hero-bg.jpg"
             alt=""
             fill
             sizes="100vw"
@@ -113,7 +113,7 @@ function PodcastEntry({
   episodePrefix,
   fallbackEpisode,
 }: {
-  podcast: PressPodcastRow
+  podcast: BlogPodcastRow
   index: number
   listenOnAppLabel: string
   episodePrefix: string
@@ -124,7 +124,7 @@ function PodcastEntry({
     : fallbackEpisode
 
   return (
-    <PressRowLink href={podcast.href} index={index} className="h-[107px]">
+    <BlogRowLink href={podcast.href} index={index} className="h-[107px]">
       <ContentWidth className="relative flex h-full items-center gap-3 md:grid md:grid-cols-[190px_524px_573px] md:gap-0">
         <RowThumbnail
           src={podcast.image}
@@ -150,7 +150,7 @@ function PodcastEntry({
           </div>
         </div>
       </ContentWidth>
-    </PressRowLink>
+    </BlogRowLink>
   )
 }
 
@@ -159,7 +159,7 @@ export function PodcastsSection({
   copy,
   ctaHref,
 }: {
-  podcasts: PressPodcastRow[]
+  podcasts: BlogPodcastRow[]
   copy: PodcastsCopy
   ctaHref: string
 }) {

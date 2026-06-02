@@ -11,7 +11,7 @@ export type {
   NavOverlayProps,
   NavOverlayLink,
   NavOverlayCommunityCard,
-  NavOverlayPressItem,
+  NavOverlayBlogItem,
   NavOverlayLabels,
   NavOverlaySection,
   NavOverlayCardSection,

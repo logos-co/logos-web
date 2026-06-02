@@ -5,9 +5,9 @@ import type { RelatedArticlesSection } from '@repo/content/schemas'
 import ContentWidth from '@/components/layout/content-width'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
-import type { PressArticleRow } from '@/lib/press-engine'
+import type { BlogArticleRow } from '@/lib/blog-engine'
 
-interface PressCardProps {
+interface BlogCardProps {
   title: string
   imageSrc: string
   imageAlt: string
@@ -18,7 +18,7 @@ interface PressCardProps {
   external: boolean
 }
 
-function PressCard({
+function BlogCard({
   title,
   imageSrc,
   imageAlt,
@@ -27,8 +27,8 @@ function PressCard({
   readingTime,
   href,
   external,
-}: PressCardProps) {
-  // External press articles open in a new tab; internal links use the
+}: BlogCardProps) {
+  // External blog articles open in a new tab; internal links use the
   // i18n-aware Link to keep route prefixes stable.
   if (external) {
     return (
@@ -115,10 +115,10 @@ function CardBody({
 
 type Props = {
   data: RelatedArticlesSection
-  articles: PressArticleRow[]
+  articles: BlogArticleRow[]
 }
 
-export default function PressSection({ data, articles }: Props) {
+export default function BlogSection({ data, articles }: Props) {
   const cards = articles.map((article) => ({
     title: article.title,
     imageSrc: article.cardImage,
@@ -131,7 +131,7 @@ export default function PressSection({ data, articles }: Props) {
   }))
 
   return (
-    <section id="press" className="bg-brand-off-white px-3 py-3 lg:px-0">
+    <section id="blog" className="bg-brand-off-white px-3 py-3 lg:px-0">
       <ContentWidth className="rounded-xl bg-accent-tan px-3 py-25.5 lg:p-6">
         <div className="flex flex-col gap-28">
           {(data.label || data.eyebrow || data.cta) && (
@@ -168,7 +168,7 @@ export default function PressSection({ data, articles }: Props) {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {cards.map((card) => (
-              <PressCard key={card.href} {...card} />
+              <BlogCard key={card.href} {...card} />
             ))}
           </div>
         </div>

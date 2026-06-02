@@ -14,7 +14,7 @@ const UTC_LOCALE = 'en-US'
 const UTC = 'UTC'
 
 /**
- * `MM.DD.YY` (UTC, `en-US` 2-digit). Used by press articles and
+ * `MM.DD.YY` (UTC, `en-US` 2-digit). Used by blog articles and
  * tech-domain related-articles cards.
  */
 export function formatDateMdy2(iso: string): string {

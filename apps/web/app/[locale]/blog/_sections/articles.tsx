@@ -8,24 +8,24 @@ import { LogosMark } from '@acid-info/logos-ui'
 import ContentWidth from '@/components/layout/content-width'
 import { ExternalLink } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
-import type { PressArticleRow } from '@/lib/press-engine'
+import type { BlogArticleRow } from '@/lib/blog-engine'
 
 import {
   ArrowIcon,
   Dot,
   PlayIcon,
-  PressRowLink,
+  BlogRowLink,
   RowThumbnail,
   SectionCta,
   TextLink,
   UnderlineLabel,
-} from './press-atoms'
+} from './blog-atoms'
 
-const PRESS_HERO_IMAGE = '/images/press-engine/press-hero.jpg'
+const BLOG_HERO_IMAGE = '/images/blog-engine/press-hero.jpg'
 const BROADCAST_BACKGROUND_IMAGE =
-  '/images/press-engine/broadcast-network-bg.webp'
+  '/images/blog-engine/broadcast-network-bg.webp'
 
-export interface PressCopy {
+export interface BlogCopy {
   heroHeading: string
   heroHeadingLine1: string
   heroHeadingLine2: string
@@ -44,13 +44,13 @@ export interface PressCopy {
   broadcastCta: string
 }
 
-export function PressHero({
+export function BlogHero({
   lead,
   copy,
 }: {
-  lead: PressArticleRow
+  lead: BlogArticleRow
   copy: Pick<
-    PressCopy,
+    BlogCopy,
     | 'heroHeadingLine1'
     | 'heroHeadingLine2'
     | 'navLabel'
@@ -66,7 +66,7 @@ export function PressHero({
         <div className="relative h-[81px] w-full">
           <div className="absolute left-0 top-0 aspect-video w-[107px] overflow-hidden">
             <Image
-              src={PRESS_HERO_IMAGE}
+              src={BLOG_HERO_IMAGE}
               alt=""
               width={107}
               height={60}
@@ -117,7 +117,7 @@ export function ArticleEntry({
   article,
   index,
 }: {
-  article: PressArticleRow
+  article: BlogArticleRow
   index: number
 }) {
   const titleRest = article.titleSerif
@@ -125,7 +125,7 @@ export function ArticleEntry({
     : article.title
 
   return (
-    <PressRowLink href={article.href} index={index} className="h-[107px]">
+    <BlogRowLink href={article.href} index={index} className="h-[107px]">
       <ContentWidth className="relative flex h-full items-center gap-3 md:grid md:grid-cols-[107px_607px_543px] md:gap-0">
         <RowThumbnail
           src={article.thumbnailImage}
@@ -159,7 +159,7 @@ export function ArticleEntry({
           </div>
         </div>
       </ContentWidth>
-    </PressRowLink>
+    </BlogRowLink>
   )
 }
 
@@ -176,7 +176,7 @@ export function ArticlesHeading({ label }: { label: string }) {
   )
 }
 
-export function GallerySection({ articles }: { articles: PressArticleRow[] }) {
+export function GallerySection({ articles }: { articles: BlogArticleRow[] }) {
   return (
     <section className="h-[319px] overflow-hidden bg-accent-tan md:h-auto md:overflow-visible md:px-3 md:py-10">
       <div className="overflow-x-auto md:overflow-visible">
@@ -217,7 +217,7 @@ export function FeaturedArticle({
   article,
   readArticleLabel,
 }: {
-  article: PressArticleRow
+  article: BlogArticleRow
   readArticleLabel: string
 }) {
   return (
@@ -274,7 +274,7 @@ export function BroadcastSection({
   href: string
   latestEpisodeTitle: string
   copy: Pick<
-    PressCopy,
+    BlogCopy,
     | 'broadcastHeading'
     | 'broadcastDescription'
     | 'media'

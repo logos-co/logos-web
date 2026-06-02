@@ -4,17 +4,17 @@ import path from 'node:path'
 import { describe, expect, test } from 'vitest'
 
 const sectionDir = path.resolve(process.cwd(), 'app/[locale]/blog/_sections')
-const pressRouteDir = path.resolve(process.cwd(), 'app/[locale]/blog')
+const blogRouteDir = path.resolve(process.cwd(), 'app/[locale]/blog')
 
 const readSectionFile = (fileName: string) =>
   fs.readFileSync(path.join(sectionDir, fileName), 'utf8')
-const readPressRouteFile = (fileName: string) =>
-  fs.readFileSync(path.join(pressRouteDir, fileName), 'utf8')
+const readBlogRouteFile = (fileName: string) =>
+  fs.readFileSync(path.join(blogRouteDir, fileName), 'utf8')
 
-describe('press article row layout', () => {
+describe('blog article row layout', () => {
   test('keeps list rows aligned to the Figma article-entry metrics', () => {
     const articlesSource = readSectionFile('articles.tsx')
-    const atomsSource = readSectionFile('press-atoms.tsx')
+    const atomsSource = readSectionFile('blog-atoms.tsx')
     const podcastsSource = readSectionFile('podcasts.tsx')
 
     expect(articlesSource).toContain('className="h-[107px]"')
@@ -52,7 +52,7 @@ describe('press article row layout', () => {
   })
 
   test('keeps section CTAs inside the page content width with the requested offset', () => {
-    const atomsSource = readSectionFile('press-atoms.tsx')
+    const atomsSource = readSectionFile('blog-atoms.tsx')
 
     expect(atomsSource).toContain('mx-auto mt-3 flex h-24 max-w-[1440px]')
   })
@@ -81,7 +81,7 @@ describe('press article row layout', () => {
   })
 
   test('scrolls the broadcast nav item to the in-page broadcast section', () => {
-    const pageSource = readPressRouteFile('page.tsx')
+    const pageSource = readBlogRouteFile('page.tsx')
     const articlesSource = readSectionFile('articles.tsx')
 
     expect(pageSource).toContain("navBroadcastHref: '#broadcast'")

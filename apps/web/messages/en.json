@@ -708,7 +708,7 @@
       "description": "Curated links to Logos ecosystem projects and resources.",
       "heading": "Links"
     },
-    "press": {
+    "blog": {
       "title": "Blog | Logos",
       "description": "The Logos Blog — essays, news, and podcasts from the Logos movement.",
       "heading": "The Logos Blog",
@@ -1003,11 +1003,6 @@
         "guidelinesLabel": "Download Brand Guidelines",
         "guidelinesHref": "/brand-kit/logos-brand-guidelines.pdf"
       }
-    },
-    "blog": {
-      "title": "Blog | Logos",
-      "description": "Essays, updates, and technical writing from the Logos team.",
-      "heading": "Blog"
     },
     "connect": {
       "title": "Let's Connect | Logos",

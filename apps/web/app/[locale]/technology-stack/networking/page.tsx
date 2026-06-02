@@ -21,7 +21,7 @@ import TechStackExplorer from '@/components/sections/shared/tech-stack-explorer'
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
-import { getLatestPressArticles } from '@/lib/press-engine'
+import { getLatestBlogArticles } from '@/lib/blog-engine'
 
 const ROUTE = ROUTES.networking
 
@@ -66,7 +66,7 @@ export default async function NetworkingPage({
     'networking.relatedArticles'
   )
 
-  const articles = await getLatestPressArticles(
+  const articles = await getLatestBlogArticles(
     relatedArticles.visibleCount ?? 4
   )
 

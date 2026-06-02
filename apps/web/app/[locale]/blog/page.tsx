@@ -3,10 +3,10 @@ import { isActiveLocale } from '@repo/content/locales'
 
 import { ROUTES } from '@/constants/routes'
 import {
-  PRESS_ORIGIN,
-  getPressPageData,
+  BLOG_ORIGIN,
+  getBlogPageData,
   repeatToLength,
-} from '@/lib/press-engine'
+} from '@/lib/blog-engine'
 import { createDefaultMetadata } from '@/lib/metadata'
 
 import {
@@ -16,7 +16,7 @@ import {
   BroadcastSection,
   FeaturedArticle,
   GallerySection,
-  PressHero,
+  BlogHero,
 } from './_sections/articles'
 import { PodcastsSection } from './_sections/podcasts'
 
@@ -26,31 +26,31 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.press' })
+  const t = await getTranslations({ locale, namespace: 'pages.blog' })
   return createDefaultMetadata({
     title: t('title'),
     description: t('description'),
     locale,
-    path: ROUTES.press,
+    path: ROUTES.blog,
   })
 }
 
-export default async function PressPage({
+export default async function BlogPage({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
   if (!isActiveLocale(locale)) {
-    throw new Error(`PressPage received non-active locale "${locale}"`)
+    throw new Error(`BlogPage received non-active locale "${locale}"`)
   }
 
-  const { articles, podcasts } = await getPressPageData()
+  const { articles, podcasts } = await getBlogPageData()
   if (articles.length === 0) {
-    throw new Error('Press page requires at least one article from press API')
+    throw new Error('Blog page requires at least one article from blog API')
   }
   if (podcasts.length === 0) {
-    throw new Error('Press page requires at least one podcast from press API')
+    throw new Error('Blog page requires at least one podcast from blog API')
   }
 
   const repeatedArticles = repeatToLength(articles, 12)
@@ -59,11 +59,11 @@ export default async function PressPage({
   const featuredArticle =
     articles.find((article) => article.href.endsWith('/article/realfi-hack')) ??
     articles[0]
-  const t = await getTranslations({ locale, namespace: 'pages.press' })
+  const t = await getTranslations({ locale, namespace: 'pages.blog' })
 
   return (
     <div className="bg-accent-tan pt-10">
-      <PressHero
+      <BlogHero
         lead={articles[0]}
         copy={{
           heroHeadingLine1: t('hero.line1'),
@@ -96,7 +96,7 @@ export default async function PressPage({
           />
         ))}
         <ArticlesCta
-          href={`${PRESS_ORIGIN}/search?type=article`}
+          href={`${BLOG_ORIGIN}/search?type=article`}
           label={t('articles.seeMore')}
         />
       </section>

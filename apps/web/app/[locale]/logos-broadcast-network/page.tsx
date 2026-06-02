@@ -3,7 +3,7 @@ import { isActiveLocale } from '@repo/content/locales'
 
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/lib/metadata'
-import { getBroadcastEvents, getLatestPressPodcasts } from '@/lib/press-engine'
+import { getBroadcastEvents, getLatestBlogPodcasts } from '@/lib/blog-engine'
 
 import { BroadcastNetworkPage } from './_sections/broadcast-network-page'
 
@@ -42,13 +42,13 @@ export default async function LogosBroadcastNetworkPage({
       locale,
       namespace: 'pages.logosBroadcastNetwork',
     }),
-    getLatestPressPodcasts(20),
+    getLatestBlogPodcasts(20),
     getBroadcastEvents(),
   ])
 
   if (podcasts.length === 0) {
     throw new Error(
-      'Broadcast page requires at least one podcast from press API'
+      'Broadcast page requires at least one podcast from blog API'
     )
   }
 

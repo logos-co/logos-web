@@ -22,7 +22,7 @@ export type NavOverlayCommunityCard = {
   image?: ReactNode
 }
 
-export type NavOverlayPressItem = {
+export type NavOverlayBlogItem = {
   date: string
   headline: string
   href: string
@@ -34,7 +34,7 @@ export type NavOverlayLabels = {
   closeMenu?: string
   sitemap?: string
   community?: string
-  press?: string
+  blog?: string
   seeAll?: string
 }
 
@@ -68,8 +68,8 @@ export type NavOverlayProps = {
   community?: NavOverlayCommunityCard[]
   exploreSections?: NavOverlayCardSection[]
   menuPanels?: NavOverlayMenuPanel[]
-  press?: NavOverlayPressItem[]
-  pressSeeAllHref?: string
+  blog?: NavOverlayBlogItem[]
+  blogSeeAllHref?: string
   labels?: NavOverlayLabels
   linkAs?: LinkLikeComponent
   className?: string

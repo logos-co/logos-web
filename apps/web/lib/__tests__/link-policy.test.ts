@@ -148,7 +148,7 @@ describe('link policy', () => {
       expect.arrayContaining([
         expect.objectContaining({
           label: 'The Logos Blog',
-          href: ROUTES.press,
+          href: ROUTES.blog,
         }),
       ])
     )

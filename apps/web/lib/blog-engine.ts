@@ -1,14 +1,14 @@
 import { env } from '@/lib/env'
 
-export const PRESS_ORIGIN = 'https://blog.logos.co'
+export const BLOG_ORIGIN = 'https://blog.logos.co'
 
-const PRESS_SEARCH_API = `${PRESS_ORIGIN}/api/search`
+const PRESS_SEARCH_API = `${BLOG_ORIGIN}/api/search`
 const ADMIN_ACID_API_ORIGIN =
   env.NEXT_PUBLIC_ADMIN_ACID_API_URL ?? 'https://admin-acid.logos.co/api'
 const CALENDAR_PUBLIC_PATH = '/calendar/public'
 const PRESS_ARTICLE_IMAGE_OVERFETCH_MULTIPLIER = 3
 
-export type PressArticleRow = {
+export type BlogArticleRow = {
   title: string
   titleSerif?: string
   date: string
@@ -25,7 +25,7 @@ export type PressArticleRow = {
   readingTime: number
 }
 
-export type PressPodcastRow = {
+export type BlogPodcastRow = {
   title: string
   image: string
   description: string
@@ -50,7 +50,7 @@ export type BroadcastEventRow = {
   link?: string
 }
 
-type PressSearchPost = {
+type BlogSearchPost = {
   data: {
     title: string
     subtitle?: string | null
@@ -69,7 +69,7 @@ type PressSearchPost = {
   type: 'article' | 'podcast'
 }
 
-type PressArticlePageResponse = {
+type BlogArticlePageResponse = {
   props?: {
     pageProps?: {
       data?: {
@@ -81,9 +81,9 @@ type PressArticlePageResponse = {
   }
 }
 
-type PressSearchResponse = {
+type BlogSearchResponse = {
   data?: {
-    posts?: PressSearchPost[]
+    posts?: BlogSearchPost[]
   }
 }
 
@@ -299,7 +299,7 @@ const inferSerifPrefix = (title: string) => {
 const hasImage = <T extends { image: string }>(item: T) =>
   item.image.trim().length > 0
 
-type PressImageVariant = 'thumbnail' | 'small' | 'large' | 'original'
+type BlogImageVariant = 'thumbnail' | 'small' | 'large' | 'original'
 
 const PRESS_IMAGE_VARIANT_PREFIXES = [
   'thumbnail_',
@@ -308,12 +308,12 @@ const PRESS_IMAGE_VARIANT_PREFIXES = [
   'large_',
 ] as const
 
-const pressImageVariantPrefix = (variant: PressImageVariant) =>
+const blogImageVariantPrefix = (variant: BlogImageVariant) =>
   variant === 'original' ? '' : `${variant}_`
 
-const getPressImageVariantUrl = (
+const getBlogImageVariantUrl = (
   imageUrl: string,
-  variant: PressImageVariant
+  variant: BlogImageVariant
 ) => {
   if (!imageUrl) return ''
 
@@ -334,7 +334,7 @@ const getPressImageVariantUrl = (
           )
         : fileName
 
-    url.pathname = `${directory}${pressImageVariantPrefix(variant)}${baseFileName}`
+    url.pathname = `${directory}${blogImageVariantPrefix(variant)}${baseFileName}`
     return url.toString()
   } catch {
     return imageUrl
@@ -344,14 +344,14 @@ const getPressImageVariantUrl = (
 export const repeatToLength = <T>(items: T[], length: number): T[] =>
   Array.from({ length }, (_, index) => items[index % items.length])
 
-const getPressSearchItems = async (
+const getBlogSearchItems = async (
   type: 'article' | 'podcast',
   limit: number
-): Promise<PressSearchPost[]> => {
+): Promise<BlogSearchPost[]> => {
   const url = `${PRESS_SEARCH_API}?type=${type}&limit=${limit}`
-  const json = await fetchJsonResilient<PressSearchResponse>(
+  const json = await fetchJsonResilient<BlogSearchResponse>(
     url,
-    'Press search'
+    'Blog search'
   )
   return json.data?.posts?.filter((post) => post.type === type) ?? []
 }
@@ -367,22 +367,22 @@ const extractArticlePageReadingTime = (html: string) => {
   )
   if (!match) return undefined
 
-  const pageData = JSON.parse(match[1]) as PressArticlePageResponse
+  const pageData = JSON.parse(match[1]) as BlogArticlePageResponse
   return getPositiveReadingTime(
     pageData.props?.pageProps?.data?.data?.readingTime
   )
 }
 
 const getArticlePageReadingTime = async (slug: string) => {
-  const url = `${PRESS_ORIGIN}/article/${slug}`
-  const html = await fetchTextResilient(url, 'Press article page')
+  const url = `${BLOG_ORIGIN}/article/${slug}`
+  const html = await fetchTextResilient(url, 'Blog article page')
   return extractArticlePageReadingTime(html)
 }
 
 const withArticlePageReadingTime = async (
-  post: PressSearchPost,
-  row: PressArticleRow
-): Promise<PressArticleRow> => {
+  post: BlogSearchPost,
+  row: BlogArticleRow
+): Promise<BlogArticleRow> => {
   const pageReadingTime = await getArticlePageReadingTime(post.data.slug)
   return {
     ...row,
@@ -390,16 +390,16 @@ const withArticlePageReadingTime = async (
   }
 }
 
-const toArticleRow = (post: PressSearchPost): PressArticleRow => {
+const toArticleRow = (post: BlogSearchPost): BlogArticleRow => {
   const data = post.data
   const author = data.authors?.map((item) => item.name).join(', ') || 'Logos'
   const description = stripHtml(data.subtitle || data.summary || '')
   const readingTime = getPositiveReadingTime(data.readingTime) ?? 1
   const coverImage = data.coverImage?.url || ''
-  const thumbnailImage = getPressImageVariantUrl(coverImage, 'thumbnail')
-  const galleryImage = getPressImageVariantUrl(coverImage, 'small')
-  const cardImage = getPressImageVariantUrl(coverImage, 'large')
-  const featuredImage = getPressImageVariantUrl(coverImage, 'original')
+  const thumbnailImage = getBlogImageVariantUrl(coverImage, 'thumbnail')
+  const galleryImage = getBlogImageVariantUrl(coverImage, 'small')
+  const cardImage = getBlogImageVariantUrl(coverImage, 'large')
+  const featuredImage = getBlogImageVariantUrl(coverImage, 'original')
 
   return {
     title: data.title,
@@ -413,12 +413,12 @@ const toArticleRow = (post: PressSearchPost): PressArticleRow => {
     galleryImage,
     cardImage,
     featuredImage,
-    href: `${PRESS_ORIGIN}/article/${data.slug}`,
+    href: `${BLOG_ORIGIN}/article/${data.slug}`,
     readingTime,
   }
 }
 
-const toPodcastRow = (post: PressSearchPost): PressPodcastRow => {
+const toPodcastRow = (post: BlogSearchPost): BlogPodcastRow => {
   const data = post.data
 
   return {
@@ -427,7 +427,7 @@ const toPodcastRow = (post: PressSearchPost): PressPodcastRow => {
     description: stripHtml(data.description || data.summary || ''),
     date: formatLongDate(data.publishedAt),
     episodeNumber: data.episodeNumber ?? undefined,
-    href: `${PRESS_ORIGIN}/podcasts/logos-state/${data.slug}`,
+    href: `${BLOG_ORIGIN}/podcasts/logos-state/${data.slug}`,
   }
 }
 
@@ -473,12 +473,12 @@ const toBroadcastEventRow = (event: CalendarEvent): BroadcastEventRow => {
   }
 }
 
-export const getLatestPressArticles = async (limit = 4) => {
+export const getLatestBlogArticles = async (limit = 4) => {
   const searchLimit = Math.max(
     limit,
     limit * PRESS_ARTICLE_IMAGE_OVERFETCH_MULTIPLIER
   )
-  const articlePosts = await getPressSearchItems('article', searchLimit)
+  const articlePosts = await getBlogSearchItems('article', searchLimit)
   const visiblePosts = articlePosts
     .map((post) => ({ post, row: toArticleRow(post) }))
     .filter(({ row }) => hasImage(row))
@@ -491,10 +491,10 @@ export const getLatestPressArticles = async (limit = 4) => {
   )
 }
 
-export const getPressPageData = async () => {
+export const getBlogPageData = async () => {
   const [articlePosts, podcastPosts] = await Promise.all([
-    getPressSearchItems('article', 100),
-    getPressSearchItems('podcast', 20),
+    getBlogSearchItems('article', 100),
+    getBlogSearchItems('podcast', 20),
   ])
 
   return {
@@ -508,8 +508,8 @@ export const getPressPageData = async () => {
   }
 }
 
-export const getLatestPressPodcasts = async (limit = 20) => {
-  const podcastPosts = await getPressSearchItems('podcast', limit)
+export const getLatestBlogPodcasts = async (limit = 20) => {
+  const podcastPosts = await getBlogSearchItems('podcast', limit)
   return podcastPosts.map(toPodcastRow).filter(hasImage)
 }
 

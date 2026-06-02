@@ -23,12 +23,12 @@ export type LocaleSlugParams = {
  * Replaces:
  *   const { locale } = await params
  *   if (!isActiveLocale(locale)) {
- *     throw new Error(`PressPage received non-active locale "${locale}"`)
+ *     throw new Error(`BlogPage received non-active locale "${locale}"`)
  *   }
  *
  * @param params    The `params` Promise from a Next.js App Router page.
  * @param pageName  Identifier surfaced in the error message — keep it the same
- *                  string the page used before (e.g. `"PressPage"`) so existing
+ *                  string the page used before (e.g. `"BlogPage"`) so existing
  *                  log alerts continue to match.
  */
 export async function resolveLocale(

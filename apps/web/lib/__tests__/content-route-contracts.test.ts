@@ -29,7 +29,7 @@ const contracts: PageContract[] = [
       { componentType: 'featuredText', key: 'home.parallelSocietyHeadline' },
       { componentType: 'gallery', key: 'home.parallelSociety' },
       { componentType: 'featuredText', key: 'home.mountain' },
-      { componentType: 'relatedArticles', key: 'home.press' },
+      { componentType: 'relatedArticles', key: 'home.blog' },
       { componentType: 'featuredText', key: 'home.circlesCta' },
     ],
   },

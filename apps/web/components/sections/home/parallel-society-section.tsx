@@ -154,7 +154,7 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
       </div>
 
       {/* Desktop Gallery — full width with centered content and internal scroll */}
-      {/* pb-22 + Press section py-3 (12px) = 100px gallery→Press gap per Figma */}
+      {/* pb-22 + Blog section py-3 (12px) = 100px gallery→Blog gap per Figma */}
       <div
         className="hidden overflow-x-auto lg:block lg:pb-22"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}

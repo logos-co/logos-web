@@ -2,7 +2,7 @@
 
 /**
  * Default error boundary for every page under `/[locale]`.
- * Catches runtime + data-fetch failures (e.g. press API down, Hasura
+ * Catches runtime + data-fetch failures (e.g. blog API down, Hasura
  * unreachable). Renders a user-facing message and a `reset` retry.
  *
  * Add deeper `error.tsx` files (e.g. inside `/blog`) when a route needs

@@ -2,10 +2,10 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import {
   getBroadcastEvents,
-  getLatestPressArticles,
-  getLatestPressPodcasts,
-  getPressPageData,
-} from '../press-engine'
+  getLatestBlogArticles,
+  getLatestBlogPodcasts,
+  getBlogPageData,
+} from '../blog-engine'
 
 const articlePageHtml = (readingTime: number) => `
   <html>
@@ -54,7 +54,7 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-describe('getLatestPressArticles', () => {
+describe('getLatestBlogArticles', () => {
   test('overfetches before image filtering and enriches stale reading times', async () => {
     const fetchMock = vi
       .spyOn(globalThis, 'fetch')
@@ -113,7 +113,7 @@ describe('getLatestPressArticles', () => {
       .mockResolvedValueOnce(htmlResponse(articlePageHtml(13)))
       .mockResolvedValueOnce(htmlResponse(articlePageHtml(5)))
 
-    const articles = await getLatestPressArticles(2)
+    const articles = await getLatestBlogArticles(2)
 
     expect(fetchMock).toHaveBeenNthCalledWith(
       1,
@@ -151,7 +151,7 @@ describe('getLatestPressArticles', () => {
   })
 })
 
-describe('getPressPageData', () => {
+describe('getBlogPageData', () => {
   test('uses canonical article page reading times instead of stale search values', async () => {
     const fetchMock = vi
       .spyOn(globalThis, 'fetch')
@@ -208,7 +208,7 @@ describe('getPressPageData', () => {
         throw new Error(`Unexpected fetch URL: ${url}`)
       })
 
-    const data = await getPressPageData()
+    const data = await getBlogPageData()
 
     expect(fetchMock).toHaveBeenCalledWith(
       'https://blog.logos.co/article/developer-update-apr-2026',
@@ -223,7 +223,7 @@ describe('getPressPageData', () => {
   })
 })
 
-describe('getLatestPressPodcasts', () => {
+describe('getLatestBlogPodcasts', () => {
   test('maps podcast search results without inventing missing fields', async () => {
     const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
       jsonResponse({
@@ -247,7 +247,7 @@ describe('getLatestPressPodcasts', () => {
       })
     )
 
-    const podcasts = await getLatestPressPodcasts(1)
+    const podcasts = await getLatestBlogPodcasts(1)
 
     expect(fetchMock).toHaveBeenCalledWith(
       'https://blog.logos.co/api/search?type=podcast&limit=1',

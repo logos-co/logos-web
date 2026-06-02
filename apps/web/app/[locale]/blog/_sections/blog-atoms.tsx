@@ -101,7 +101,7 @@ function getAlternatingRowBackground(index: number) {
   return index % 2 === 1 ? 'bg-brand-off-white/10' : 'bg-brand-dark-green/10'
 }
 
-export function PressRowLink({
+export function BlogRowLink({
   href,
   index,
   className,

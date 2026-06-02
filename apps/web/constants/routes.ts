@@ -51,8 +51,8 @@ export const ROUTES = {
   movement: '/movement',
   book: '/book',
 
-  // Blog (formerly "Logos Press Engine"; internal key kept as `press`)
-  press: '/blog',
+  // Blog (formerly "Logos Press Engine")
+  blog: '/blog',
   podcast: '/podcast',
   logosBroadcastNetwork: '/logos-broadcast-network',
 

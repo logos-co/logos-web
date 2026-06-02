@@ -5,7 +5,7 @@
 import Image from 'next/image'
 
 import { ExternalLink } from '@/components/ui'
-import type { PressArticleRow } from '@/lib/press-engine'
+import type { BlogArticleRow } from '@/lib/blog-engine'
 
 export type ArticleCardProps = {
   title: string
@@ -28,9 +28,9 @@ export type ArticleCardProps = {
 const DEFAULT_TITLE_CLASSNAME =
   'text-body-sans flex-1 font-medium text-brand-dark-green'
 
-/** Reshape Press Engine article rows into props for `<ArticleCard />`. */
+/** Reshape blog article rows into props for `<ArticleCard />`. */
 export function articlesToCards(
-  articles: ReadonlyArray<PressArticleRow>
+  articles: ReadonlyArray<BlogArticleRow>
 ): Omit<ArticleCardProps, 'titleClassName'>[] {
   return articles.map((article) => ({
     title: article.title,

@@ -5,7 +5,7 @@ import { LogosMark } from '@acid-info/logos-ui'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/lib/metadata'
 import ContentWidth from '@/components/layout/content-width'
-import { PRESS_ORIGIN, getLatestPressPodcasts } from '@/lib/press-engine'
+import { BLOG_ORIGIN, getLatestBlogPodcasts } from '@/lib/blog-engine'
 
 import { PodcastsSection } from '../blog/_sections/podcasts'
 
@@ -61,14 +61,14 @@ export default async function LogosPodcastPage({
     throw new Error(`LogosPodcastPage received non-active locale "${locale}"`)
   }
 
-  const [t, pressT, podcasts] = await Promise.all([
+  const [t, blogT, podcasts] = await Promise.all([
     getTranslations({ locale, namespace: 'pages.podcast' }),
-    getTranslations({ locale, namespace: 'pages.press.podcasts' }),
-    getLatestPressPodcasts(20),
+    getTranslations({ locale, namespace: 'pages.blog.podcasts' }),
+    getLatestBlogPodcasts(20),
   ])
 
   if (podcasts.length === 0) {
-    throw new Error('Podcast page requires at least one podcast from press API')
+    throw new Error('Podcast page requires at least one podcast from blog API')
   }
 
   return (
@@ -82,7 +82,7 @@ export default async function LogosPodcastPage({
       />
       <PodcastsSection
         podcasts={podcasts}
-        ctaHref={`${PRESS_ORIGIN}/podcasts`}
+        ctaHref={`${BLOG_ORIGIN}/podcasts`}
         copy={{
           heading: t('latestHeading'),
           media: t('eyebrow'),
@@ -91,7 +91,7 @@ export default async function LogosPodcastPage({
           latestEpisode: t('latestEpisode'),
           seeAllEpisodes: t('seeAllEpisodes'),
           listenOnApp: t('listenOnApp'),
-          cta: pressT('cta'),
+          cta: blogT('cta'),
           episodePrefix: t('episodePrefix'),
           fallbackEpisode: t('fallbackEpisode'),
         }}

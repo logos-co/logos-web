@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react'
 import ContentWidth from '@/components/layout/content-width'
 import { ExternalLink } from '@/components/ui'
 import { cn } from '@/lib/cn'
-import type { BroadcastEventRow, PressPodcastRow } from '@/lib/press-engine'
+import type { BroadcastEventRow, BlogPodcastRow } from '@/lib/blog-engine'
 
 interface BroadcastNetworkCopy {
   title: string
@@ -24,7 +24,7 @@ interface BroadcastNetworkCopy {
 }
 
 interface BroadcastNetworkPageProps {
-  podcasts: PressPodcastRow[]
+  podcasts: BlogPodcastRow[]
   events: BroadcastEventRow[]
   copy: BroadcastNetworkCopy
 }
@@ -41,8 +41,8 @@ const FEATURE_IMAGES = [
   '/images/home/event-2.jpg',
   '/images/home/event-3.jpg',
   '/images/home/event-4.jpg',
-  '/images/press-engine/hero-thumb.png',
-  '/images/press-engine/list-1.png',
+  '/images/blog-engine/hero-thumb.png',
+  '/images/blog-engine/list-1.png',
 ]
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
@@ -73,7 +73,7 @@ function SelectChevron() {
   )
 }
 
-function episodeLabel(podcast: PressPodcastRow) {
+function episodeLabel(podcast: BlogPodcastRow) {
   return podcast.episodeNumber
     ? `Episode ${podcast.episodeNumber}`
     : 'Logos Podcast'
@@ -212,7 +212,7 @@ function BroadcastHero({ copy }: { copy: BroadcastNetworkCopy }) {
         <div className="flex w-full max-w-[1186px] items-start justify-between gap-6">
           <div className="relative h-[86px] w-[107px] shrink-0 overflow-hidden">
             <Image
-              src="/images/press-engine/press-hero.jpg"
+              src="/images/blog-engine/press-hero.jpg"
               alt=""
               fill
               sizes="107px"
@@ -490,7 +490,7 @@ function EpisodeRow({
   index,
   listenOnApp,
 }: {
-  podcast: PressPodcastRow
+  podcast: BlogPodcastRow
   index: number
   listenOnApp: string
 }) {
@@ -542,7 +542,7 @@ function PastEpisodes({
   podcasts,
   copy,
 }: {
-  podcasts: PressPodcastRow[]
+  podcasts: BlogPodcastRow[]
   copy: BroadcastNetworkCopy
 }) {
   return (
