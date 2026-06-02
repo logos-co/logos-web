@@ -38,7 +38,7 @@ function StatusCard({
       className={
         compact
           ? 'relative w-[393px] rounded-xl'
-          : 'relative w-full rounded-xl px-3 py-3'
+          : 'relative w-full rounded-xl py-3'
       }
     >
       <div className="flex flex-col items-start gap-2">
@@ -82,7 +82,7 @@ function StatusCard({
 
 export default function TechOverviewHero({ data }: Props) {
   return (
-    <section className="relative mb-10 h-[890px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-0 md:mb-25 md:h-[660px] md:pt-8 md:pb-0 xl:h-[560px]">
+    <section className="relative mb-10 h-[760px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-0 md:mb-25 md:h-[660px] md:pt-8 md:pb-0 xl:h-[560px]">
       <ContentWidth className="relative h-[500px] md:h-[600px] xl:h-[403px]">
         <div className="absolute top-0 left-0 hidden h-[99px] w-[393px] md:block">
           {data.status ? <StatusCard status={data.status} compact /> : null}
@@ -168,9 +168,9 @@ export default function TechOverviewHero({ data }: Props) {
               </div>
             ) : null}
           </div>
-          <div className="mt-6 h-px w-full bg-brand-dark-green/10" />
+          <div className="mt-10 h-px w-full bg-brand-dark-green/10" />
           {data.status ? (
-            <div className="mt-6">
+            <div>
               <StatusCard status={data.status} />
             </div>
           ) : null}

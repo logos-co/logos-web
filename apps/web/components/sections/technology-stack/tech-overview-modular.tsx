@@ -10,7 +10,7 @@ type Props = {
 
 export default function TechOverviewModular({ data }: Props) {
   return (
-    <section className="my-10 xl:my-[102px]">
+    <section className="mt-0 mb-7 xl:my-[102px]">
       <div className="bg-brand-off-white p-3">
         <ContentWidth>
           <div className="-mx-3 grid gap-3 xl:mx-0 xl:grid-cols-2">

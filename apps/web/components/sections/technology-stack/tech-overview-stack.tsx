@@ -2,7 +2,6 @@ import Image from 'next/image'
 
 import type { TechStackOverviewSection } from '@repo/content/schemas'
 
-import ContentWidth from '@/components/layout/content-width'
 import { OverviewMediaPanel } from '@/components/sections/shared/overview-media-panel'
 import { TechStackDiagram } from '@/components/sections/shared/tech-stack-diagram'
 
@@ -25,11 +24,11 @@ export default function TechOverviewStack({
 }: Props) {
   return (
     <section id="stack">
-      <div className="bg-brand-off-white px-3 pb-[27px] md:pb-[100px]">
-        <ContentWidth>
+      <div className="bg-brand-off-white px-0 pb-6 md:px-3 md:pb-[100px]">
+        <div className="mx-auto max-w-[1440px] px-3 md:p-3">
           {data.architecture ? (
             <OverviewMediaPanel
-              className="-mx-3 mb-10 md:mb-[100px]"
+              className="relative left-1/2 mb-10 w-screen -translate-x-1/2 md:static md:left-auto md:mb-[100px] md:w-auto md:-translate-x-0 md:-mx-3"
               eyebrow={data.architecture.eyebrow}
               footerLabel={data.pillars[0].title}
               title={data.architecture.title}
@@ -72,7 +71,7 @@ export default function TechOverviewStack({
               foundationHref={foundationHref}
             />
           </div>
-        </ContentWidth>
+        </div>
       </div>
     </section>
   )
