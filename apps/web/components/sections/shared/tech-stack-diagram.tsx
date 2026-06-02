@@ -21,7 +21,7 @@ function StackItemCta({
   className,
 }: {
   children: string
-  icon: ReactNode
+  icon?: ReactNode
   className: string
 }) {
   return (
@@ -53,6 +53,7 @@ function HoverStackItem({
   details,
   mobileFeatured = false,
   desktopAt1025 = false,
+  comingSoon = false,
 }: {
   title: string
   description?: string
@@ -70,6 +71,12 @@ function HoverStackItem({
   }>
   mobileFeatured?: boolean
   desktopAt1025?: boolean
+  /**
+   * When true the item is rendered as a non-interactive card (no link) and its
+   * CTA shows "Soon" instead of "Learn More". Used for pillars whose
+   * destination is not yet available.
+   */
+  comingSoon?: boolean
 }) {
   const hasDetails = details !== undefined && details.length > 0
   const desktopHoverLarge = desktopAt1025
@@ -116,13 +123,12 @@ function HoverStackItem({
       ? 'w-full text-center'
       : 'text-center'
 
-  return (
-    <Link
-      href={href}
-      target={target}
-      rel={rel}
-      className={`group/stack-item relative flex flex-col cursor-pointer overflow-hidden rounded-3xl border border-brand-dark-green text-center text-brand-dark-green transition-[border-color] duration-200 ease-out hover:border-brand-dark-green/30 focus-visible:border-brand-dark-green/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green ${stackItemLayoutClass} ${className}`}
-    >
+  const containerClassName = `group/stack-item relative flex flex-col ${
+    comingSoon ? '' : 'cursor-pointer '
+  }overflow-hidden rounded-3xl border border-brand-dark-green text-center text-brand-dark-green transition-[border-color] duration-200 ease-out hover:border-brand-dark-green/30 focus-visible:border-brand-dark-green/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green ${stackItemLayoutClass} ${className}`
+
+  const content = (
+    <>
       <span className="pointer-events-none absolute inset-0 rounded-3xl bg-accent-light-blue opacity-0 transition-opacity duration-200 ease-out group-hover/stack-item:opacity-100" />
 
       <span
@@ -138,14 +144,16 @@ function HoverStackItem({
       </span>
 
       <StackItemCta
-        icon={ctaIcon ?? <ButtonArrowIcon />}
-        className={`absolute top-2.5 right-2.5 z-10 cursor-pointer transition-opacity duration-200 ease-out ${desktopCtaPosition} ${
+        icon={comingSoon ? undefined : (ctaIcon ?? <ButtonArrowIcon />)}
+        className={`absolute top-2.5 right-2.5 z-10 transition-opacity duration-200 ease-out ${
+          comingSoon ? '' : 'cursor-pointer '
+        }${desktopCtaPosition} ${
           ctaVisibleByDefault
             ? ''
             : 'pointer-events-none opacity-0 group-hover/stack-item:opacity-100 group-focus-visible/stack-item:opacity-100'
         }`}
       >
-        {ctaLabel}
+        {comingSoon ? 'Soon' : ctaLabel}
       </StackItemCta>
 
       <div
@@ -210,6 +218,21 @@ function HoverStackItem({
           </div>
         </>
       ) : null}
+    </>
+  )
+
+  if (comingSoon) {
+    return <div className={containerClassName}>{content}</div>
+  }
+
+  return (
+    <Link
+      href={href}
+      target={target}
+      rel={rel}
+      className={containerClassName}
+    >
+      {content}
     </Link>
   )
 }
@@ -269,6 +292,7 @@ export function TechStackDiagram({
             className={pillarClass}
             details={pillar.details}
             desktopAt1025={desktopAt1025}
+            comingSoon={pillar.id === 'userModules'}
           />
         ))}
       </div>
