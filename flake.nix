@@ -28,6 +28,7 @@
             pnpm       # 11.4.0
             nodejs_24  # 24.15.0
             ghp-import # 2.1.0
+            perl       # v5.42.0
           ];
         };
       });
