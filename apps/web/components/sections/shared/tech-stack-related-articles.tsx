@@ -4,13 +4,13 @@ import type { RelatedArticlesSection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 import { Reveal, RevealItem } from '@/components/motion/reveal'
-import { Button, ButtonArrowIcon } from '@/components/ui'
+import { Button } from '@/components/ui'
 import type { PressArticleRow } from '@/lib/press-engine'
 
 import { ArticleCard, articlesToCards } from './related-articles-card'
 
 const TITLE_CLASSNAME =
-  'text-caption-sans flex-1 font-medium text-brand-dark-green md:text-[14px] md:leading-[1.2]'
+  'text-caption-sans w-[169.5px] shrink-0 font-medium text-brand-dark-green md:text-[14px] md:leading-[1.2]'
 
 type Props = {
   data: RelatedArticlesSection
@@ -59,9 +59,8 @@ export default function TechStackRelatedArticles({
               <div className="flex w-56.5 max-w-[50%] justify-end md:absolute md:top-5.5 md:right-[87px] md:block md:w-auto md:max-w-none">
                 <Button
                   href={data.cta.href}
-                  variant="link"
-                  icon={<ButtonArrowIcon />}
-                  className="cursor-pointer transition-opacity hover:opacity-70"
+                  variant="tertiary"
+                  className="cursor-pointer"
                 >
                   {data.cta.label}
                 </Button>
