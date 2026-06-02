@@ -15,6 +15,7 @@ type Props = {
   data: HeroSection
   backHref: string
   actionVariant?: ButtonVariant
+  stackActions?: boolean
   className?: string
 }
 
@@ -22,6 +23,7 @@ export default function TechStackDetailHero({
   data,
   backHref,
   actionVariant,
+  stackActions = false,
   className,
 }: Props) {
   const [primaryCta, secondaryCta] = data.ctas ?? []
@@ -77,7 +79,13 @@ export default function TechStackDetailHero({
           : undefined
       }
       actions={
-        <>
+        <div
+          className={
+            stackActions
+              ? 'flex items-center gap-2.5 md:flex-col md:items-start'
+              : 'flex flex-wrap items-center gap-2.5'
+          }
+        >
           {primaryCta ? (
             <Button
               href={primaryCta.href}
@@ -96,7 +104,7 @@ export default function TechStackDetailHero({
               {secondaryCta.label}
             </Button>
           ) : null}
-        </>
+        </div>
       }
     />
   )

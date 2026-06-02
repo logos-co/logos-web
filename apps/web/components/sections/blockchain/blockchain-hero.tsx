@@ -8,5 +8,12 @@ type Props = {
 }
 
 export default function BlockchainHero(props: Props) {
-  return <TechStackDetailHero {...props} actionVariant="tertiary" />
+  return (
+    <TechStackDetailHero
+      {...props}
+      actionVariant="tertiary"
+      stackActions
+      className="h-[517px]"
+    />
+  )
 }
