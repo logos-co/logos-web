@@ -36,18 +36,10 @@ export default function PageTransition({ children }: Props) {
     })
   }, [pathname])
 
-  // Browser back/forward into this page needs care: internal links navigate
-  // with a full document load (window.location.assign) while the cover overlay
-  // is showing, so the page is frequently snapshotted mid-transition
-  // (isCovered === true).
-  //
-  // - popstate (same-document history, e.g. in-page hash links): just clear the
-  //   cover so the overlay does not stay stuck.
-  // - pageshow with persisted === true (bfcache restore): React effects do NOT
-  //   re-run, so client state across the whole page (this cover, the nav
-  //   overlay, the home scroll-stack animation) stays frozen and the page can
-  //   appear dead/non-interactive. Forcing a full reload puts the page back on
-  //   the normal fresh-load path, which restores all interactivity reliably.
+  // Reset cover state on browser back/forward and on bfcache restore.
+  // Without this, a page snapshotted mid-transition (isCovered === true)
+  // restores with the off-white overlay stuck because effects don't re-run
+  // on bfcache restore.
   useEffect(() => {
     const reset = () => {
       if (timeoutRef.current) {
@@ -59,9 +51,7 @@ export default function PageTransition({ children }: Props) {
     }
 
     const handlePageShow = (event: PageTransitionEvent) => {
-      if (event.persisted) {
-        window.location.reload()
-      }
+      if (event.persisted) reset()
     }
 
     window.addEventListener('popstate', reset)
