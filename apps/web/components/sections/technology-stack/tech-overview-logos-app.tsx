@@ -53,9 +53,10 @@ export default function TechOverviewLogosApp({ data }: Props) {
     : ''
 
   return (
-    <section id="logos-app" className="mt-10 mb-10 md:mt-[100px] md:mb-[100px]">
-      <ContentWidth className="bg-brand-off-white py-4 md:py-0">
+    <section id="logos-app" className="mt-8 mb-10 md:mt-[100px] md:mb-[100px]">
+      <ContentWidth className="bg-brand-off-white px-0 pt-0 pb-4 md:px-3 md:py-0">
         <GiantSwitch
+          className="px-0 md:px-3 [&>div]:pb-[110px] md:[&>div]:pb-14"
           accent={data.accent}
           imagePosition={data.imagePosition}
           installHoverShift
