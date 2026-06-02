@@ -79,8 +79,7 @@ export function BlogHero({
           </p>
         </div>
         <h1 className="font-display text-center text-[40px] leading-none tracking-[-0.03em] text-brand-dark-green md:text-[56px]">
-          <span className="block">{copy.heroHeadingLine1}</span>
-          <span className="block">{copy.heroHeadingLine2}</span>
+          {copy.heroHeadingLine1} {copy.heroHeadingLine2}
         </h1>
       </ContentWidth>
       <nav
