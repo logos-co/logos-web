@@ -14,6 +14,7 @@ import { routing } from '@/i18n/routing'
 
 import { NextIntlClientProvider } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
+import Script from 'next/script'
 
 export const dynamicParams = false
 
@@ -56,6 +57,12 @@ export default async function RootLayout({
             dangerouslySetInnerHTML={{
               __html: themeInitScript,
             }}
+          />
+          <Script
+            strategy="afterInteractive"
+            src="https://umami.bi.status.im/script.js"
+            data-website-id="5cb3259d-25c5-4e33-a7c1-d89a76dac29c"
+            data-domains="logos.co"
           />
         </head>
         <body>
