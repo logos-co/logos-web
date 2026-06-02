@@ -39,10 +39,10 @@ describe('press article row layout', () => {
     expect(articlesSource).toContain('href={href}')
     expect(articlesSource).toContain('rounded-[100px]')
     expect(articlesSource).toContain(
-      'className="bg-accent-tan pt-3 text-brand-dark-green min-[1440px]:pt-[100px]"'
+      'className="bg-accent-tan pt-3 text-brand-dark-green desktop:pt-[100px]"'
     )
-    expect(articlesSource).toContain('min-[1440px]:h-[406px]')
-    expect(articlesSource).toContain('min-[1440px]:w-[702px]')
+    expect(articlesSource).toContain('desktop:h-[406px]')
+    expect(articlesSource).toContain('desktop:w-[702px]')
     expect(articlesSource).not.toContain('md:h-[406px]')
     expect(articlesSource).not.toContain('md:w-[702px]')
     expect(articlesSource).toContain('copy.latestEpisode')
@@ -63,15 +63,15 @@ describe('press article row layout', () => {
     expect(podcastsSource).toContain('href={latestPodcast.href}')
     expect(podcastsSource).toContain('className="group block cursor-pointer"')
     expect(podcastsSource).toContain(
-      'min-[1440px]:h-[380px] min-[1440px]:w-[453px] min-[1440px]:max-w-[453px]'
+      'desktop:h-[380px] desktop:w-[453px] desktop:max-w-[453px]'
     )
     expect(podcastsSource).toContain(
       'top-[397px] flex h-[290px] w-[calc(100%-24px)]'
     )
     expect(podcastsSource).toContain(
-      'min-[1440px]:right-3 min-[1440px]:top-3 min-[1440px]:block'
+      'desktop:right-3 desktop:top-3 desktop:block'
     )
-    expect(podcastsSource).toContain('min-[1440px]:hidden')
+    expect(podcastsSource).toContain('desktop:hidden')
     expect(podcastsSource).not.toContain('md:left-[356px]')
     expect(podcastsSource).toContain('const latestPodcast = podcasts[0]')
     expect(podcastsSource).toContain('const listPodcasts = podcasts.slice(1)')
@@ -94,13 +94,13 @@ describe('press article row layout', () => {
     const podcastsSource = readSectionFile('podcasts.tsx')
 
     expect(articlesSource).toContain(
-      'min-[1440px]:flex min-[1440px]:h-[1044px]'
+      'desktop:flex desktop:h-[1044px]'
     )
-    expect(articlesSource).toContain('min-[1440px]:sticky min-[1440px]:top-10')
+    expect(articlesSource).toContain('desktop:sticky desktop:top-10')
     expect(articlesSource).not.toContain('md:flex md:h-[1044px]')
     expect(articlesSource).not.toContain('md:sticky md:top-10')
-    expect(podcastsSource).toContain('min-[1440px]:h-[430px]')
-    expect(podcastsSource).toContain('min-[1440px]:h-[406px]')
+    expect(podcastsSource).toContain('desktop:h-[430px]')
+    expect(podcastsSource).toContain('desktop:h-[406px]')
     expect(podcastsSource).not.toContain('md:h-[430px]')
     expect(podcastsSource).not.toContain('md:h-[406px]')
   })

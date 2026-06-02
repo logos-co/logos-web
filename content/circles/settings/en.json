@@ -6,11 +6,11 @@
     "description": "Local chapters at the heart of the Logos movement. Learn civil organising, share skills, and forge new connections with people building parallel society where you live.",
     "findCta": {
       "label": "Find a circle near you",
-      "href": "/circles#map"
+      "href": "#map"
     },
     "joinCta": {
       "label": "Start a circle",
-      "href": "/circles#resources"
+      "href": "#resources"
     }
   },
   "map": {
@@ -30,7 +30,7 @@
     "description": "These meetups are essential for anyone taking action with us. Show up once, and you'll see why people keep coming back.",
     "cta": {
       "label": "Find a circle near you",
-      "href": "/circles#map"
+      "href": "#map"
     }
   },
   "eventsSection": {
@@ -38,7 +38,7 @@
     "description": "Drop in at any of these gatherings — most are open to newcomers.",
     "calendarCta": {
       "label": "Add to calendar",
-      "href": "https://logos.co/circles/calendar.ics",
+      "href": "https://luma.com/logosevents",
       "external": true
     }
   },
@@ -46,13 +46,14 @@
     "title": "Winnable Issues",
     "cta": {
       "label": "Submit an initiative",
-      "href": "/circles#resources"
+      "href": "https://forum.logos.co/c/meetups/6",
+      "external": true
     }
   },
   "detailJoinCtaLabel": "Join this circle",
   "resourcesSection": {
     "title": "Circles Resources",
     "description": "Everything you need to start, run, and connect a circle.",
-    "helpCenterCta": { "label": "Get help", "href": "/faq" }
+    "helpCenterCta": { "label": "Get help", "href": "https://forum.logos.co/c/meetups/6", "external": true }
   }
 }

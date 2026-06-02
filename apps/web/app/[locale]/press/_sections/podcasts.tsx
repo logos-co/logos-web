@@ -47,12 +47,12 @@ function PodcastHero({
   >
 }) {
   return (
-    <div className="h-[723px] bg-accent-tan p-3 min-[1440px]:h-[430px]">
+    <div className="h-[723px] bg-accent-tan p-3 desktop:h-[430px]">
       <ExternalLink
         href={latestPodcast.href}
         className="group block cursor-pointer"
       >
-        <ContentWidth className="relative h-[699px] overflow-hidden rounded-xl min-[1440px]:h-[406px]">
+        <ContentWidth className="relative h-[699px] overflow-hidden rounded-xl desktop:h-[406px]">
           <Image
             src="/images/press-engine/podcast-hero-bg.jpg"
             alt=""
@@ -60,7 +60,7 @@ function PodcastHero({
             sizes="100vw"
             className="scale-110 object-cover object-center blur-[20px]"
           />
-          <div className="absolute left-3 top-3 flex h-[268px] w-[calc(100%-24px)] max-w-[345px] min-w-0 flex-col justify-between text-brand-off-white min-[1440px]:h-[380px] min-[1440px]:w-[453px] min-[1440px]:max-w-[453px]">
+          <div className="absolute left-3 top-3 flex h-[268px] w-[calc(100%-24px)] max-w-[345px] min-w-0 flex-col justify-between text-brand-off-white desktop:h-[380px] desktop:w-[453px] desktop:max-w-[453px]">
             <div className="flex items-center gap-[102px]">
               <LogosMark size={6} className="shrink-0" />
               <span className="font-mono text-[10px] font-medium uppercase leading-[1.3]">
@@ -68,10 +68,10 @@ function PodcastHero({
               </span>
             </div>
             <div className="flex flex-col gap-3">
-              <h3 className="w-[185px] font-sans text-[24px] leading-[1.1] tracking-normal min-[1440px]:w-auto">
+              <h3 className="w-[185px] font-sans text-[24px] leading-[1.1] tracking-normal desktop:w-auto">
                 {copy.heroTitle}
               </h3>
-              <p className="text-mono-s line-clamp-8 max-w-full text-brand-off-white min-[1440px]:line-clamp-7 min-[1440px]:max-w-[453px]">
+              <p className="text-mono-s line-clamp-8 max-w-full text-brand-off-white desktop:line-clamp-7 desktop:max-w-[453px]">
                 {copy.heroDescription}
               </p>
             </div>
@@ -85,13 +85,13 @@ function PodcastHero({
               </span>
             </div>
           </div>
-          <div className="absolute left-3 top-[397px] flex h-[290px] w-[calc(100%-24px)] items-center justify-center rounded-[100px] bg-accent-tan text-brand-dark-green min-[1440px]:hidden">
+          <div className="absolute left-3 top-[397px] flex h-[290px] w-[calc(100%-24px)] items-center justify-center rounded-[100px] bg-accent-tan text-brand-dark-green desktop:hidden">
             <span className="inline-flex items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35]">
               {copy.seeAllEpisodes}
               <ArrowIcon />
             </span>
           </div>
-          <div className="absolute hidden overflow-hidden rounded min-[1440px]:bottom-auto min-[1440px]:left-auto min-[1440px]:right-3 min-[1440px]:top-3 min-[1440px]:block min-[1440px]:h-[382px] min-[1440px]:w-[702px] min-[1440px]:max-w-[calc(100%-24px)]">
+          <div className="absolute hidden overflow-hidden rounded desktop:bottom-auto desktop:left-auto desktop:right-3 desktop:top-3 desktop:block desktop:h-[382px] desktop:w-[702px] desktop:max-w-[calc(100%-24px)]">
             <Image
               src={latestPodcast.image}
               alt=""

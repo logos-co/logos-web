@@ -7,7 +7,7 @@ import UkDebtContent from './UkDebtContent'
 const OG_IMAGE = '/campaigns/ukdebt/og-image.png'
 const TITLE = 'UK Debt Crisis: Act Now | Logos'
 const DESCRIPTION =
-  "The UK's £2.8 trillion debt costs tens of billions in annual interest. That's money that could fund public services, affordable housing, and robust community infrastructure. It's time to do something about it."
+  "The UK's debt is costing £114 billion in annual interest producing nothing. That's money that could fund public services, affordable housing, and robust community infrastructure. It's time to do something about it."
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url.replace(/\/+$/, '')),

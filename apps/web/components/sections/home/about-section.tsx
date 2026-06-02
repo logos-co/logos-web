@@ -16,9 +16,9 @@ function ProblemCardView({
 }) {
   return (
     <article
-      className={`grid min-h-[760px] gap-3 rounded-[18px] p-1.5 min-[1025px]:h-[434px] min-[1025px]:min-h-0 min-[1025px]:grid-cols-2 ${card.tone} ${card.textTone} ${className ?? ''}`}
+      className={`grid min-h-[760px] gap-3 rounded-[18px] p-1.5 lg:h-[434px] lg:min-h-0 lg:grid-cols-2 ${card.tone} ${card.textTone} ${className ?? ''}`}
     >
-      <div className="relative min-h-[333px] overflow-hidden rounded-xl min-[1025px]:min-h-[422px]">
+      <div className="relative min-h-[333px] overflow-hidden rounded-xl lg:min-h-[422px]">
         <Image
           src={card.image}
           alt=""
@@ -29,7 +29,7 @@ function ProblemCardView({
       </div>
 
       <div className="flex min-h-0 flex-col justify-between gap-8">
-        <div className="grid gap-3 px-1.5 py-3 min-[1025px]:grid-cols-2">
+        <div className="grid gap-3 px-1.5 py-3 lg:grid-cols-2">
           <h3 className="text-h3-serif">{card.title}</h3>
           <p className="font-sans text-[14px] leading-[1.2]">{card.body}</p>
         </div>
@@ -118,9 +118,9 @@ export default async function AboutSection({ locale }: { locale: string }) {
   return (
     <section
       id="about"
-      className="relative h-[calc(100vh+4266px)] overflow-hidden rounded-[48px] bg-brand-dark-green text-brand-off-white min-[1025px]:h-auto min-[1025px]:overflow-visible min-[1025px]:rounded-[100px]"
+      className="relative h-[calc(100vh+4266px)] overflow-hidden rounded-[48px] bg-brand-dark-green text-brand-off-white lg:h-auto lg:overflow-visible lg:rounded-[100px]"
     >
-      <div className="min-[1025px]:hidden">
+      <div className="lg:hidden">
         <div className="absolute top-0 left-0 flex h-screen w-full items-center justify-center px-3">
           <p className="text-h3-serif w-full max-w-[369px] text-center">
             {t('intro')}
@@ -142,8 +142,8 @@ export default async function AboutSection({ locale }: { locale: string }) {
 
       <AboutScrollStack intro={t('intro')} cards={cards} />
 
-      <ContentWidth className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] -translate-x-1/2 flex-col items-center gap-[60px] text-center min-[1025px]:relative min-[1025px]:top-auto min-[1025px]:left-auto min-[1025px]:flex min-[1025px]:w-full min-[1025px]:translate-x-0 min-[1025px]:pt-[120px] min-[1025px]:pb-[360px]">
-        <div className="text-h3-serif flex max-w-[369px] flex-col gap-[1em] min-[1025px]:max-w-[860px]">
+      <ContentWidth className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] -translate-x-1/2 flex-col items-center gap-[60px] text-center lg:relative lg:top-auto lg:left-auto lg:flex lg:w-full lg:translate-x-0 lg:pt-[120px] lg:pb-[360px]">
+        <div className="text-h3-serif flex max-w-[369px] flex-col gap-[1em] md:max-w-[680px] lg:max-w-[860px]">
           {closingParagraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}

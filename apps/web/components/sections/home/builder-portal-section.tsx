@@ -20,16 +20,16 @@ function BasecampFeature({
   imageClassName,
 }: BasecampFeatureProps) {
   return (
-    <div className="relative flex h-[55px] items-center justify-center overflow-hidden rounded-xl border border-brand-dark-green/50 font-sans text-[18px] leading-[1.15] tracking-[-0.01em] text-brand-dark-green min-[1025px]:h-[189px]">
+    <div className="relative flex h-[55px] items-center justify-center overflow-hidden rounded-xl border border-brand-dark-green/50 font-sans text-[18px] leading-[1.15] tracking-[-0.01em] text-brand-dark-green lg:h-[189px]">
       <Image
         src={image}
         alt=""
         fill
         sizes="(max-width: 768px) 369px, 464px"
-        className={`object-cover blur-[20px] min-[1025px]:hidden ${imageClassName ?? ''}`}
+        className={`object-cover blur-[20px] lg:hidden ${imageClassName ?? ''}`}
       />
-      <div className="absolute inset-0 bg-black/20 min-[1025px]:hidden" />
-      <span className="relative z-[1] text-brand-off-white min-[1025px]:text-brand-dark-green">
+      <div className="absolute inset-0 bg-black/20 lg:hidden" />
+      <span className="relative z-[1] text-brand-off-white lg:text-brand-dark-green">
         {label}
       </span>
     </div>
@@ -45,9 +45,9 @@ export default async function BuilderPortalSection({
 
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
-      <ContentWidth className="py-[100px] min-[1025px]:py-[212px]">
-        <div className="grid gap-9 min-[1025px]:grid-cols-2 min-[1025px]:gap-3">
-          <div className="flex flex-col gap-[40px] min-[1025px]:min-h-[532px] min-[1025px]:justify-between min-[1025px]:gap-0">
+      <ContentWidth className="py-[100px] lg:pt-[200px] lg:pb-[100px]">
+        <div className="grid gap-9 lg:grid-cols-3 lg:gap-3">
+          <div className="flex flex-col gap-[40px] lg:min-h-[532px] lg:justify-between lg:gap-0">
             <div className="flex flex-col gap-[30px]">
               <Reveal
                 amount={0.4}
@@ -70,25 +70,25 @@ export default async function BuilderPortalSection({
               </Button>
             </div>
 
-            <p className="text-mono-s whitespace-pre-line text-brand-dark-green min-[1025px]:w-[345px]">
+            <p className="text-mono-s whitespace-pre-line text-brand-dark-green lg:w-[345px]">
               {t('description')}
             </p>
           </div>
 
-          <div className="relative h-[532px] overflow-hidden rounded-3xl bg-[#1c1c1c]">
-            <div className="absolute top-[76px] left-[-84px] h-[379px] w-[836px] overflow-hidden rounded-md min-[1025px]:top-[88px] min-[1025px]:left-[33px] min-[1025px]:h-[356px] min-[1025px]:w-[785px]">
+          <div className="relative h-[532px] overflow-hidden rounded-3xl bg-[#1c1c1c] lg:col-span-2">
+            <div className="absolute top-[76px] left-[-84px] h-[379px] w-[836px] overflow-hidden rounded-md lg:top-[78px] lg:left-[-30px] lg:h-[454px] lg:w-[1000px]">
               <Image
                 src="/images/home/figma-refresh/basecamp.webp"
                 alt=""
                 fill
-                sizes="(max-width: 768px) 321px, 785px"
+                sizes="(max-width: 768px) 321px, 1000px"
                 className="object-cover object-center"
               />
             </div>
           </div>
         </div>
 
-        <div className="mt-3 grid gap-3 min-[1025px]:grid-cols-3">
+        <div className="mt-3 grid gap-3 lg:grid-cols-3">
           <BasecampFeature
             label={t('featureChat')}
             image="/images/home/figma-refresh/basecamp-chat.webp"

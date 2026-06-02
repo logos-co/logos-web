@@ -73,16 +73,16 @@ function HoverStackItem({
 }) {
   const hasDetails = details !== undefined && details.length > 0
   const desktopHoverLarge = desktopAt1025
-    ? 'min-[1025px]:group-hover/stack-item:-translate-y-24'
+    ? 'lg:group-hover/stack-item:-translate-y-24'
     : 'md:group-hover/stack-item:-translate-y-24'
   const desktopHoverSmall = desktopAt1025
-    ? 'min-[1025px]:group-hover/stack-item:-translate-y-8'
+    ? 'lg:group-hover/stack-item:-translate-y-8'
     : 'md:group-hover/stack-item:-translate-y-8'
-  const desktopBlock = desktopAt1025 ? 'min-[1025px]:block' : 'md:block'
-  const desktopHidden = desktopAt1025 ? 'min-[1025px]:hidden' : 'md:hidden'
-  const desktopFlex = desktopAt1025 ? 'min-[1025px]:flex' : 'md:flex'
+  const desktopBlock = desktopAt1025 ? 'lg:block' : 'md:block'
+  const desktopHidden = desktopAt1025 ? 'lg:hidden' : 'md:hidden'
+  const desktopFlex = desktopAt1025 ? 'lg:flex' : 'md:flex'
   const desktopCtaPosition = desktopAt1025
-    ? 'min-[1025px]:top-3 min-[1025px]:right-3'
+    ? 'lg:top-3 lg:right-3'
     : 'md:top-3 md:right-3'
   const contentHoverOffset =
     details !== undefined && details.length > 1
@@ -92,22 +92,22 @@ function HoverStackItem({
         : ''
   const stackItemLayoutClass = mobileFeatured
     ? desktopAt1025
-      ? 'items-start justify-start p-3 min-[1025px]:items-center min-[1025px]:justify-center min-[1025px]:px-6 min-[1025px]:py-0'
+      ? 'items-start justify-start p-3 lg:items-center lg:justify-center lg:px-6 lg:py-0'
       : 'items-start justify-start p-3 md:items-center md:justify-center md:px-6 md:py-0'
     : hasDetails
       ? desktopAt1025
-        ? 'items-end justify-between p-1.5 min-[1025px]:items-center min-[1025px]:justify-center min-[1025px]:px-6 min-[1025px]:py-0'
+        ? 'items-end justify-between p-1.5 lg:items-center lg:justify-center lg:px-6 lg:py-0'
         : 'items-end justify-between p-1.5 md:items-center md:justify-center md:px-6 md:py-0'
       : desktopAt1025
-        ? 'items-center justify-center px-3 min-[1025px]:px-6'
+        ? 'items-center justify-center px-3 lg:px-6'
         : 'items-center justify-center px-3 md:px-6'
   const contentLayoutClass = mobileFeatured
     ? desktopAt1025
-      ? 'items-start text-left min-[1025px]:items-center min-[1025px]:text-center'
+      ? 'items-start text-left lg:items-center lg:text-center'
       : 'items-start text-left md:items-center md:text-center'
     : hasDetails
       ? desktopAt1025
-        ? 'h-[134px] w-full items-center justify-center px-3 py-[34px] text-center min-[1025px]:h-auto min-[1025px]:w-auto min-[1025px]:px-0 min-[1025px]:py-0'
+        ? 'h-[134px] w-full items-center justify-center px-3 py-[34px] text-center lg:h-auto lg:w-auto lg:px-0 lg:py-0'
         : 'h-[134px] w-full items-center justify-center px-3 py-[34px] text-center md:h-auto md:w-auto md:px-0 md:py-0'
       : 'items-center'
   const mobileDescriptionClass = mobileFeatured
@@ -228,19 +228,19 @@ export function TechStackDiagram({
   desktopAt1025?: boolean
 }) {
   const basecampClass = desktopAt1025
-    ? 'h-[111px] w-full border-brand-dark-green min-[1025px]:h-[196px]'
+    ? 'h-[111px] w-full border-brand-dark-green lg:h-[196px]'
     : 'h-[111px] w-full border-brand-dark-green md:h-[196px]'
 
   const pillarsGridClass = desktopAt1025
-    ? 'mt-3 grid grid-cols-2 gap-3 min-[1025px]:grid-cols-4'
+    ? 'mt-3 grid grid-cols-2 gap-3 lg:grid-cols-4'
     : 'mt-3 grid grid-cols-2 gap-3 md:grid-cols-4'
 
   const pillarClass = desktopAt1025
-    ? 'h-[258px] w-full min-[1025px]:h-[366px]'
+    ? 'h-[258px] w-full lg:h-[366px]'
     : 'h-[258px] w-full md:h-[366px]'
 
   const rowClass = desktopAt1025
-    ? 'h-[196px] w-full min-[1025px]:h-[196px]'
+    ? 'h-[196px] w-full lg:h-[196px]'
     : 'h-[196px] w-full md:h-[196px]'
 
   return (

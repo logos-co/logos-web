@@ -89,13 +89,53 @@ export default function PageTransition({ children }: Props) {
       return false
     }
 
+    // Same-page hash links (e.g. "#map") drive their own smooth scroll instead
+    // of relying on native hash navigation. Native behavior is unreliable here:
+    // re-clicking the hash already in the URL is a no-op, so once one in-page
+    // CTA has set "#map", the others appear to "jump" or do nothing. Scrolling
+    // the target into view ourselves makes every in-page CTA behave identically.
+    const handleSamePageHash = (
+      event: MouseEvent,
+      anchor: HTMLAnchorElement
+    ) => {
+      if (event.button !== 0) return
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return
+      }
+      if (anchor.target && anchor.target !== '_self') return
+
+      const nextUrl = new URL(anchor.href, window.location.href)
+      const currentUrl = new URL(window.location.href)
+      const isSamePage =
+        nextUrl.origin === currentUrl.origin &&
+        nextUrl.pathname === currentUrl.pathname &&
+        nextUrl.search === currentUrl.search
+      if (!isSamePage || !nextUrl.hash) return
+
+      const targetEl = document.getElementById(
+        decodeURIComponent(nextUrl.hash.slice(1))
+      )
+      if (!targetEl) return
+
+      event.preventDefault()
+      targetEl.scrollIntoView({
+        behavior: shouldReduceMotion ? 'auto' : 'smooth',
+      })
+      if (nextUrl.hash !== currentUrl.hash) {
+        window.history.pushState(null, '', nextUrl.hash)
+      }
+    }
+
     const handleDocumentClick = (event: MouseEvent) => {
       const target = event.target
       if (!(target instanceof Element)) return
 
       const anchor = target.closest('a[href]')
       if (!(anchor instanceof HTMLAnchorElement)) return
-      if (shouldIgnoreClick(event, anchor)) return
+      if (shouldIgnoreClick(event, anchor)) {
+        handleSamePageHash(event, anchor)
+        return
+      }
 
       event.preventDefault()
       const nextUrl = new URL(anchor.href, window.location.href)

@@ -4,6 +4,12 @@
 /* Scan workspace UI package so its Tailwind classes are emitted. */
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
 
+/* Custom breakpoint for the 1440px desktop design canvas.
+   Sits between xl (1280px) and 2xl (1536px). */
+@theme {
+  --breakpoint-desktop: 1440px;
+}
+
 @layer base {
   *,
   ::after,

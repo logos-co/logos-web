@@ -36,7 +36,7 @@ function PressCard({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex w-[calc(100vw-24px)] max-w-[339px] shrink-0 cursor-pointer flex-col gap-1.5 min-[1440px]:w-auto min-[1440px]:max-w-none"
+        className="group flex w-[calc(100vw-24px)] max-w-[339px] shrink-0 cursor-pointer flex-col gap-1.5 desktop:w-auto desktop:max-w-none"
       >
         <CardBody
           title={title}
@@ -52,7 +52,7 @@ function PressCard({
   return (
     <Link
       href={href}
-      className="group flex w-[calc(100vw-24px)] max-w-[339px] shrink-0 cursor-pointer flex-col gap-1.5 min-[1440px]:w-auto min-[1440px]:max-w-none"
+      className="group flex w-[calc(100vw-24px)] max-w-[339px] shrink-0 cursor-pointer flex-col gap-1.5 desktop:w-auto desktop:max-w-none"
     >
       <CardBody
         title={title}
@@ -131,8 +131,8 @@ export default function PressSection({ data, articles }: Props) {
   }))
 
   return (
-    <section id="press" className="bg-brand-off-white px-3 py-3 min-[1025px]:px-0">
-      <ContentWidth className="rounded-xl bg-accent-tan px-3 py-[102px] min-[1025px]:p-6">
+    <section id="press" className="bg-brand-off-white px-3 py-3 lg:px-0">
+      <ContentWidth className="rounded-xl bg-accent-tan px-3 py-[102px] lg:p-6">
         <div className="flex flex-col gap-[112px]">
           {(data.label || data.eyebrow || data.cta) && (
             <div className="flex items-center justify-between">
@@ -142,7 +142,7 @@ export default function PressSection({ data, articles }: Props) {
                 </p>
               ) : null}
               {data.eyebrow ? (
-                <p className="text-mono-s hidden text-brand-dark-green min-[1025px]:block">
+                <p className="text-mono-s hidden text-brand-dark-green lg:block">
                   {data.eyebrow}
                 </p>
               ) : null}
@@ -164,7 +164,7 @@ export default function PressSection({ data, articles }: Props) {
           </h2>
 
           <div
-            className="flex gap-3 overflow-x-auto pr-3 min-[1440px]:grid min-[1440px]:grid-cols-4 min-[1440px]:overflow-visible min-[1440px]:pr-0"
+            className="flex gap-3 overflow-x-auto pr-3 desktop:grid desktop:grid-cols-4 desktop:overflow-visible desktop:pr-0"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {cards.map((card) => (

@@ -12,7 +12,12 @@ export type { ButtonProps, ButtonVariant } from '@acid-info/logos-ui'
 
 export function Button(props: ButtonProps) {
   if ('href' in props && props.href !== undefined) {
-    return <UIButton linkAs={Link} {...props} />
+    // Same-page hash anchors (e.g. "#map") render a native <a>; everything else
+    // gets next-intl's locale-aware Link. Routing a hash through Link makes the
+    // App Router re-append it on repeat navigations, producing "#map#map" — a
+    // native anchor just sets location.hash and never doubles it.
+    const linkAs = props.href.startsWith('#') ? ('a' as const) : Link
+    return <UIButton linkAs={linkAs} {...props} />
   }
   return <UIButton {...props} />
 }

@@ -24,15 +24,19 @@ export const slugSchema = z
   .regex(SLUG_PATTERN, 'slug must be lowercase kebab-case')
 
 /**
- * Internal links start with `/`, external links start with `https://`.
+ * Internal links start with `/`, external links start with `https://`, and
+ * same-page anchors start with `#` (e.g. `#map` scrolls to `id="map"`).
  * Other protocols (mailto:, tel:, etc.) can be added when a real use case appears.
  */
 export const linkHrefSchema = z
   .string()
   .min(1)
   .refine(
-    (value) => value.startsWith('/') || value.startsWith('https://'),
-    'href must start with "/" (internal) or "https://" (external)'
+    (value) =>
+      value.startsWith('/') ||
+      value.startsWith('https://') ||
+      value.startsWith('#'),
+    'href must start with "/" (internal), "https://" (external), or "#" (anchor)'
   )
 
 export const httpsUrlSchema = z

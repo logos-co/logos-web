@@ -7,7 +7,7 @@
       "title": "Start your own Circle",
       "description": "A step-by-step guide to launching a circle in your city.",
       "ctaLabel": "Read",
-      "href": "/circles#resources",
+      "href": "https://circles.logos.co/readme/about-logos-circles/how-to-join-a-logos-circle",
       "status": "published"
     },
     {
@@ -15,7 +15,7 @@
       "title": "Forum",
       "description": "Cross-circle conversation, post-mortems, and proposals.",
       "ctaLabel": "Visit",
-      "href": "https://forum.logos.co/",
+      "href": "https://forum.logos.co/c/meetups/6",
       "status": "published"
     },
     {
@@ -23,7 +23,7 @@
       "title": "Discord",
       "description": "Real-time coordination across every active circle.",
       "ctaLabel": "Join",
-      "href": "https://discord.gg/logosnetwork",
+      "href": "https://discord.gg/V6Em7dehAX",
       "status": "published"
     }
   ]

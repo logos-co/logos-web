@@ -7,6 +7,7 @@
  */
 import Image from 'next/image'
 import { Footer, LogosMark } from '@acid-info/logos-ui'
+import { FooterNewsletter } from '@acid-info/logos-ui/client'
 import { getFooter } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 
@@ -39,6 +40,14 @@ export default async function SiteFooter({ locale }: { locale: string }) {
       }
       logo={<LogosLockup />}
       newsletter={footer.newsletter}
+      newsletterForm={
+        <FooterNewsletter
+          emailLabel={footer.newsletter.emailLabel}
+          roleLabel={footer.newsletter.roleLabel}
+          cityLabel={footer.newsletter.cityLabel}
+          submitLabel={footer.newsletter.submitLabel}
+        />
+      }
       tagline={footer.tagline}
       mainLinks={footer.mainLinks}
       socialLinks={footer.socialLinks}

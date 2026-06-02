@@ -221,40 +221,40 @@ export function FeaturedArticle({
   readArticleLabel: string
 }) {
   return (
-    <section className="relative h-[994px] overflow-hidden bg-accent-tan min-[1440px]:flex min-[1440px]:h-[1044px] min-[1440px]:justify-center min-[1440px]:gap-3 min-[1440px]:overflow-visible min-[1440px]:pr-3">
-      <ContentWidth className="relative h-full w-full min-[1440px]:flex min-[1440px]:h-full min-[1440px]:justify-center min-[1440px]:gap-3 min-[1440px]:overflow-visible">
-        <div className="absolute left-0 top-0 z-10 h-[313px] w-full px-3 pt-10 min-[1440px]:sticky min-[1440px]:top-10 min-[1440px]:h-[495px] min-[1440px]:flex-1 min-[1440px]:pl-[129px] min-[1440px]:pt-[100px]">
-          <div className="flex max-w-[573px] flex-col gap-6 min-[1440px]:gap-[30px]">
-            <div className="text-mono-s flex items-center gap-2.5 text-brand-off-white min-[1440px]:text-brand-dark-green">
+    <section className="relative h-[994px] overflow-hidden bg-accent-tan desktop:flex desktop:h-[1044px] desktop:justify-center desktop:gap-3 desktop:overflow-visible desktop:pr-3">
+      <ContentWidth className="relative h-full w-full desktop:flex desktop:h-full desktop:justify-center desktop:gap-3 desktop:overflow-visible">
+        <div className="absolute left-0 top-0 z-10 h-[313px] w-full px-3 pt-10 desktop:sticky desktop:top-10 desktop:h-[495px] desktop:flex-1 desktop:pl-[129px] desktop:pt-[100px]">
+          <div className="flex max-w-[573px] flex-col gap-6 desktop:gap-[30px]">
+            <div className="text-mono-s flex items-center gap-2.5 text-brand-off-white desktop:text-brand-dark-green">
               <span>{article.author}</span>
-              <Dot className="bg-brand-off-white min-[1440px]:bg-brand-dark-green" />
+              <Dot className="bg-brand-off-white desktop:bg-brand-dark-green" />
               <span>{article.date}</span>
             </div>
-            <h2 className="font-display max-w-[370px] text-[40px] leading-none tracking-[-0.03em] text-brand-off-white min-[1440px]:max-w-[464px] min-[1440px]:text-[56px] min-[1440px]:tracking-normal min-[1440px]:text-brand-dark-green">
+            <h2 className="font-display max-w-[370px] text-[40px] leading-none tracking-[-0.03em] text-brand-off-white desktop:max-w-[464px] desktop:text-[56px] desktop:tracking-normal desktop:text-brand-dark-green">
               {article.title}
             </h2>
             <div className="flex flex-col gap-5">
-              <p className="text-mono-s max-w-[370px] text-brand-off-white min-[1440px]:max-w-[456px] min-[1440px]:text-brand-dark-green">
+              <p className="text-mono-s max-w-[370px] text-brand-off-white desktop:max-w-[456px] desktop:text-brand-dark-green">
                 {article.description}
               </p>
               <TextLink
                 href={article.href}
                 label={`${readArticleLabel}: ${article.title}`}
                 tone="light"
-                className="min-[1440px]:text-brand-dark-green min-[1440px]:decoration-brand-dark-green/50"
+                className="desktop:text-brand-dark-green desktop:decoration-brand-dark-green/50"
               >
                 {readArticleLabel}
               </TextLink>
             </div>
           </div>
         </div>
-        <div className="absolute inset-0 h-[994px] overflow-hidden min-[1440px]:relative min-[1440px]:inset-auto min-[1440px]:h-[994px] min-[1440px]:w-[714px] min-[1440px]:shrink-0">
+        <div className="absolute inset-0 h-[994px] overflow-hidden desktop:relative desktop:inset-auto desktop:h-[994px] desktop:w-[714px] desktop:shrink-0">
           <Image
             src={article.featuredImage}
             alt=""
             width={1242}
             height={994}
-            className="absolute left-[-303px] top-0 h-[1040px] w-[1300px] max-w-none object-cover min-[1440px]:left-[-104px] min-[1440px]:h-full min-[1440px]:w-[1242px]"
+            className="absolute left-[-303px] top-0 h-[1040px] w-[1300px] max-w-none object-cover desktop:left-[-104px] desktop:h-full desktop:w-[1242px]"
           />
         </div>
       </ContentWidth>
@@ -285,14 +285,14 @@ export function BroadcastSection({
   return (
     <section
       id="broadcast"
-      className="bg-accent-tan pt-3 text-brand-dark-green min-[1440px]:pt-[100px]"
+      className="bg-accent-tan pt-3 text-brand-dark-green desktop:pt-[100px]"
     >
       <ContentWidth className="px-3 pb-3">
         <Link
           href={href}
-          className="group relative block h-[560px] cursor-pointer overflow-hidden rounded-xl bg-brand-dark-green text-brand-off-white min-[1440px]:h-[406px]"
+          className="group relative block h-[560px] cursor-pointer overflow-hidden rounded-xl bg-brand-dark-green text-brand-off-white desktop:h-[406px]"
         >
-          <div className="absolute inset-0 blur-[30px] min-[1440px]:inset-auto min-[1440px]:left-[-39px] min-[1440px]:top-1/2 min-[1440px]:h-[1897px] min-[1440px]:w-[1518px] min-[1440px]:-translate-y-1/2">
+          <div className="absolute inset-0 blur-[30px] desktop:inset-auto desktop:left-[-39px] desktop:top-1/2 desktop:h-[1897px] desktop:w-[1518px] desktop:-translate-y-1/2">
             <Image
               src={BROADCAST_BACKGROUND_IMAGE}
               alt=""
@@ -303,7 +303,7 @@ export function BroadcastSection({
           </div>
           <div className="absolute inset-0 bg-black/40" />
 
-          <div className="absolute left-3 top-3 flex h-[calc(100%-24px)] w-[calc(100%-24px)] flex-col justify-between min-[1440px]:h-[380px] min-[1440px]:w-[453px]">
+          <div className="absolute left-3 top-3 flex h-[calc(100%-24px)] w-[calc(100%-24px)] flex-col justify-between desktop:h-[380px] desktop:w-[453px]">
             <div className="flex items-center gap-[102px]">
               <LogosMark size={6} className="shrink-0 text-brand-off-white" />
               <p className="font-mono text-[10px] font-medium uppercase leading-[1.3] text-brand-off-white">
@@ -311,11 +311,11 @@ export function BroadcastSection({
               </p>
             </div>
 
-            <div className="mb-[226px] flex w-full flex-col gap-3 min-[1440px]:mb-0">
+            <div className="mb-[226px] flex w-full flex-col gap-3 desktop:mb-0">
               <h2 className="w-[185px] font-sans text-[24px] leading-[1.1] tracking-[-0.01em] text-brand-off-white">
                 {copy.broadcastHeading}
               </h2>
-              <p className="font-mono text-[10px] leading-[1.3] text-brand-off-white min-[1440px]:w-full">
+              <p className="font-mono text-[10px] leading-[1.3] text-brand-off-white desktop:w-full">
                 {copy.broadcastDescription}
               </p>
             </div>
@@ -331,7 +331,7 @@ export function BroadcastSection({
             </div>
           </div>
 
-          <div className="absolute left-3 right-3 top-[292px] h-[158px] overflow-hidden rounded-[72px] bg-accent-tan text-brand-dark-green transition-colors group-hover:bg-brand-yellow min-[1440px]:left-auto min-[1440px]:right-3 min-[1440px]:top-3 min-[1440px]:h-[382px] min-[1440px]:w-[702px] min-[1440px]:rounded-[100px]">
+          <div className="absolute left-3 right-3 top-[292px] h-[158px] overflow-hidden rounded-[72px] bg-accent-tan text-brand-dark-green transition-colors group-hover:bg-brand-yellow desktop:left-auto desktop:right-3 desktop:top-3 desktop:h-[382px] desktop:w-[702px] desktop:rounded-[100px]">
             <span className="absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35]">
               {copy.broadcastCta}
               <ArrowIcon />

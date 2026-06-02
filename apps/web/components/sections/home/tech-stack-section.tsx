@@ -37,18 +37,16 @@ export default function TechStackSection({
   foundationHref,
   desktopAt1025 = false,
 }: Props) {
-  const desktopMinHeightClass = desktopAt1025
-    ? 'min-[1025px]:min-h-[1653px]'
-    : 'md:min-h-[1653px]'
   const compactContentClass = desktopAt1025
-    ? 'min-[1025px]:hidden'
+    ? 'lg:hidden'
     : 'md:hidden'
-  const desktopContentClass = desktopAt1025 ? 'min-[1025px]:flex' : 'md:flex'
+
+  const desktopContentClass = desktopAt1025 ? 'lg:flex' : 'md:flex'
 
   return (
     <section
       id="tech-stack"
-      className={`relative min-h-[1516px] overflow-hidden border-t border-brand-dark-green/10 bg-brand-off-white ${desktopMinHeightClass}`}
+      className="relative overflow-hidden border-t border-brand-dark-green/10 bg-brand-off-white"
     >
       <ContentWidth
         className={`relative min-h-full flex-col pt-3 pb-[100px] ${compactContentClass}`}

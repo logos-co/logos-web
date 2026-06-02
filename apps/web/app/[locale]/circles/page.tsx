@@ -1,5 +1,4 @@
 import {
-  getCircleEventsGroupedByDate,
   getCircleInitiatives,
   getCircleResources,
   getCircles,
@@ -9,7 +8,10 @@ import { isActiveLocale } from '@repo/content/locales'
 
 import { CirclesPageView } from '@/components/sections/circles'
 import { ROUTES } from '@/constants/routes'
-import { getActiveCircleMarkers } from '@/lib/active-circles'
+import {
+  getActiveCircleMarkers,
+  getUpcomingCircleEvents,
+} from '@/lib/active-circles'
 import { createPageMetadata } from '@/lib/page-metadata'
 
 const ROUTE = ROUTES.circles
@@ -26,22 +28,28 @@ export default async function CirclesPage({
     throw new Error(`CirclesPage received non-active locale "${locale}"`)
   }
 
-  const [settings, circles, mapMarkers, eventGroups, initiatives, resources] =
-    await Promise.all([
-      getCirclesSettings(locale),
-      getCircles({ locale, status: 'published' }),
-      getActiveCircleMarkers(),
-      getCircleEventsGroupedByDate({ locale, status: 'published' }),
-      getCircleInitiatives({ locale, status: 'published' }),
-      getCircleResources({ locale, status: 'published' }),
-    ])
+  const [
+    settings,
+    circles,
+    mapMarkers,
+    upcomingEvents,
+    initiatives,
+    resources,
+  ] = await Promise.all([
+    getCirclesSettings(locale),
+    getCircles({ locale, status: 'published' }),
+    getActiveCircleMarkers(),
+    getUpcomingCircleEvents(),
+    getCircleInitiatives({ locale, status: 'published' }),
+    getCircleResources({ locale, status: 'published' }),
+  ])
 
   return (
     <CirclesPageView
       settings={settings}
       circles={circles}
       mapMarkers={mapMarkers}
-      eventGroups={eventGroups}
+      upcomingEvents={upcomingEvents}
       initiatives={initiatives}
       resources={resources}
       locale={locale}
