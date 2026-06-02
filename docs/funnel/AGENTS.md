@@ -4,7 +4,9 @@ Target audience: AI agents reading this codebase.
 
 ## What this is
 
-Four public connect forms (`/connect`, Coalition Partner, Activist Builder, Activist Leader / Steward) post to a single API endpoint on `apps/civi-crm`. `/connect` is CiviCRM-only; the other three forms write to Notion (required) and CiviCRM (backup, best-effort).
+Three public funnel forms (Coalition Partner, Activist Builder, Activist Leader / Steward) post to a single API endpoint on `apps/civi-crm`. They write to Notion (required) and CiviCRM (backup, best-effort).
+
+**`/connect` is now `/contact`, and its form content was removed because it is no longer used.** The route at `apps/web/app/[locale]/contact/page.tsx` now redirects to the home page. The `afformCircleContactForm` `formName` is still accepted by the endpoint (CiviCRM-only path, see below), but nothing in `apps/web` posts it anymore.
 
 ---
 
@@ -21,7 +23,7 @@ apps/civi-crm
   ├── 2. verify hCaptcha (once, single-use token -- cannot verify twice)
   ├── 3. read env flags (FUNNEL_INTAKE_NOTION_DISABLED / FUNNEL_INTAKE_CIVICRM_DISABLED)
   ├── 4. submitToNotion(formData, formName)   -- only for Coalition/Builder/Leader; required there (failure → 502)
-  └── 5. submitToCiviCrm(formData, fields, formName)  -- required for `/connect`; best-effort when Notion is enabled
+  └── 5. submitToCiviCrm(formData, fields, formName)  -- required for `afformCircleContactForm` (legacy /connect, now /contact); best-effort when Notion is enabled
 ```
 
 The reason both writes are in one handler: hCaptcha tokens are single-use. One POST, one token, two backend writes in sequence.
@@ -50,7 +52,7 @@ The Notion and CiviCRM libs have **no cross-imports**. Removing one means deleti
 
 | Web page | `formName` in POST body | Notion `Profile` value |
 | --- | --- | --- |
-| `/connect` | `afformCircleContactForm` | _(none -- Notion skipped)_ |
+| `/contact` (was `/connect`) | `afformCircleContactForm` | _(none -- form content removed; route redirects to home, no longer submitted)_ |
 | `/coalition-partner` | `afformCoalitionPartner` | `Coalition Partner` |
 | `/activist-builder` | `afformActivistBuilder` | `Activist Builder` |
 | `/activist-leader-steward` | `afformActivistLeaderSteward` | `Activist Leader / Steward` |
@@ -81,7 +83,7 @@ The Notion and CiviCRM libs have **no cross-imports**. Removing one means deleti
 | `FUNNEL_INTAKE_NOTION_DISABLED` | Skip Notion; CiviCRM becomes required |
 | `FUNNEL_INTAKE_CIVICRM_DISABLED` | Skip CiviCRM; Notion only |
 
-Default (no flags set): `/connect` is CiviCRM-only (Notion skipped). The other three forms keep Notion required and CiviCRM best-effort.
+Default (no flags set): the `afformCircleContactForm` formName is CiviCRM-only (Notion skipped) -- a legacy path kept for the now-removed `/connect` (now `/contact`) form. The three active forms keep Notion required and CiviCRM best-effort.
 
 ---
 
@@ -106,7 +108,7 @@ The table below lists every property in the database as of 2026-05-29. The **Fun
 | --- | --- | --- | --- |
 | `Name` | title | **yes -- reused** | From form `name`; fallback `"Unknown"` |
 | `Email/Website` | email | **yes -- reused** | From `email`; omitted if empty |
-| `Profile` | select | **yes -- reused** | Derived from `formName` via `PROFILE_BY_FORM`; options: `Coalition Partner`, `Activist Builder`, `Activist Leader / Steward` (`/connect` has no Notion profile because Notion is skipped) |
+| `Profile` | select | **yes -- reused** | Derived from `formName` via `PROFILE_BY_FORM`; options: `Coalition Partner`, `Activist Builder`, `Activist Leader / Steward` (the legacy `afformCircleContactForm` has no Notion profile because Notion is skipped) |
 | `Organization` | select | **yes -- reused** | From `affiliatedOrgs`; case-insensitive match against existing options; unmatched values create a new option |
 | `Website` | url | **yes -- reused** | `website[]` joined with ` \| ` into a single url field |
 | `Phone or Social Handle` | phone_number | **yes -- reused** | `chat[]` + `chatService[]` joined as `handle (Service) \| ...` |
@@ -164,8 +166,8 @@ ADD COLUMN "Wants Newsletter" CHECKBOX
 
 ## Key design decisions
 
-- **One endpoint for all four forms** -- hCaptcha tokens are single-use; `/connect`, `/coalition-partner`, `/activist-builder`, and `/activist-leader-steward` all point at `POST /api/public/afform-submit`.
-- **Per-form destination rules** -- `/connect` skips Notion and requires CiviCRM (`502` on CiviCRM failure). The other three forms keep Notion required and CiviCRM best-effort.
+- **One endpoint for all forms** -- hCaptcha tokens are single-use; `/coalition-partner`, `/activist-builder`, and `/activist-leader-steward` all point at `POST /api/public/afform-submit`. The endpoint still accepts the legacy `afformCircleContactForm` formName even though `/connect` (now `/contact`) no longer renders a form.
+- **Per-form destination rules** -- the `afformCircleContactForm` path skips Notion and requires CiviCRM (`502` on CiviCRM failure). The three active forms keep Notion required and CiviCRM best-effort.
 - **One `Background` column** -- All `background*` textarea variants collapse into a single rich-text property.
 - **Joined multi-values** -- `website[]` -> pipe-separated string in `Website` (url); `chat[]` -> `handle (Service)` entries in `Phone or Social Handle`.
 - **`Organization` grows over time** -- Unmatched submitted values are written as-is and Notion creates a new select option.
