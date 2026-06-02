@@ -353,6 +353,7 @@ All routes are Next.js Route Handlers in `src/app/api/`. They act as a thin back
 | `PATCH` | `/api/cases/[id]/coordinator` | Delete old `/Relationship` + create new `/Relationship` | Non-atomic; failure mode described in §9.3 |
 | `PATCH` | `/api/contacts/[contactId]` | Fan-out per update target; `/Contact` for `Skills_Socials` fields + parallel `/Email` for `email_primary` | |
 | `GET` | `/api/coordinators` | `/Relationship` (all with `case_id IS NOT NULL` + `Case Coordinator is`) → deduplicated | Used for filter dropdown |
+| `POST` | `/api/public/afform-submit` | Best-effort (optional): `/Afform.submit` | Public intake funnel endpoint used by the three connect forms on `apps/web`. Verifies hCaptcha once (single-use token), submits to Notion (primary) and then to CiviCRM as a backup. Use `FUNNEL_INTAKE_NOTION_DISABLED` / `FUNNEL_INTAKE_CIVICRM_DISABLED` to opt out per destination without code changes. |
 
 ### 7.2 `GET /api/cases` — optimised fetch
 
@@ -545,6 +546,15 @@ KEYCLOAK_USER_EMAIL_HEADER=
 # the Keycloak header. Use in .env.local during local development.
 # Remove or leave unset in staging/production.
 DEV_USER_EMAIL_MOCK=
+
+# Notion integration — intake funnel (POST /api/public/afform-submit)
+# Required in preview/staging/production when Notion intake is enabled.
+NOTION_API_TOKEN=
+NOTION_DB_ID=
+
+# Intake funnel (POST /api/public/afform-submit) — optional opt-out per destination
+# FUNNEL_INTAKE_NOTION_DISABLED=1
+# FUNNEL_INTAKE_CIVICRM_DISABLED=1
 ```
 
 No `NEXT_PUBLIC_` prefixed env vars are needed — all CiviCRM communication is server-side.

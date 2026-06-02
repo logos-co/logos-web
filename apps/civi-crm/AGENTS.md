@@ -52,4 +52,7 @@ pnpm --filter civi-crm test
 
 ## Environment
 
-See `.env.local.example` for all required variables. Set `DEV_USER_EMAIL_MOCK` in `.env.local` during local development to mock Keycloak identity. This variable must not be set in staging or production.
+See `.env.local.example` for all required variables.
+
+- **Local development**: set `DEV_USER_EMAIL_MOCK` in `.env.local` to mock Keycloak identity. This variable must not be set in staging or production.
+- **Intake funnel (public endpoint)**: `POST /api/public/afform-submit` is used by the three connect forms on `apps/web`. If Notion intake is enabled in a non-local environment, ensure `NOTION_API_TOKEN` and `NOTION_DB_ID` are set in that deployment. You can opt out per destination without code changes via `FUNNEL_INTAKE_NOTION_DISABLED` and `FUNNEL_INTAKE_CIVICRM_DISABLED`.

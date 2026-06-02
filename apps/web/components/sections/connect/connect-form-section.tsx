@@ -16,7 +16,11 @@ import {
 
 import { Button } from '@/components/ui/button'
 import { buildFormSchema } from '@/lib/civicrm/contactFormSchema'
-import type { AfformConfig, AfformField, AfformOptions } from '@/lib/civicrm/types'
+import type {
+  AfformConfig,
+  AfformField,
+  AfformOptions,
+} from '@/lib/civicrm/types'
 import { cn } from '@/lib/cn'
 
 import { getOptionsForField } from './get-field-options'
@@ -55,7 +59,7 @@ function buildInitialData(fields: AfformField[]): FormValues {
     } else if (field.repeatable) {
       data[field.formKey] = ['']
     } else {
-      data[field.formKey] = field.inputType === 'checkbox' ? true : ''
+      data[field.formKey] = field.inputType === 'checkbox' ? false : ''
     }
   }
   return data
@@ -128,7 +132,8 @@ export function ConnectFormSection({
   }, [validate])
 
   const handleChange =
-    (field: string) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => {
+    (field: string) =>
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => {
       const value = typeof event === 'string' ? event : event.target.value
       setFormData((prev) => ({ ...prev, [field]: value }))
     }
@@ -145,8 +150,7 @@ export function ConnectFormSection({
           arr = [...current.map(String)]
         } else {
           const single = String(current ?? '')
-          arr =
-            single.trim() !== '' ? [single, ''] : [single]
+          arr = single.trim() !== '' ? [single, ''] : [single]
         }
         arr[index] = value
         return { ...prev, [fieldKey]: arr }
@@ -177,7 +181,9 @@ export function ConnectFormSection({
     setFormData((prev) => ({
       ...prev,
       chat: [
-        ...(Array.isArray(prev.chat) ? prev.chat.map(String) : [String(prev.chat ?? '')]),
+        ...(Array.isArray(prev.chat)
+          ? prev.chat.map(String)
+          : [String(prev.chat ?? '')]),
         '',
       ],
       chatService: [
@@ -211,20 +217,21 @@ export function ConnectFormSection({
       setFormData((prev) => ({ ...prev, [field]: event.target.checked }))
     }
 
-  const handleMultiselectToggle = (fieldKey: string, optionValue: string) => () => {
-    setFormData((prev) => {
-      const current = prev[fieldKey]
-      const arr = Array.isArray(current)
-        ? [...current.map(String)]
-        : current
-          ? [String(current)]
-          : []
-      const idx = arr.indexOf(optionValue)
-      const next =
-        idx === -1 ? [...arr, optionValue] : arr.filter((_, i) => i !== idx)
-      return { ...prev, [fieldKey]: next }
-    })
-  }
+  const handleMultiselectToggle =
+    (fieldKey: string, optionValue: string) => () => {
+      setFormData((prev) => {
+        const current = prev[fieldKey]
+        const arr = Array.isArray(current)
+          ? [...current.map(String)]
+          : current
+            ? [String(current)]
+            : []
+        const idx = arr.indexOf(optionValue)
+        const next =
+          idx === -1 ? [...arr, optionValue] : arr.filter((_, i) => i !== idx)
+        return { ...prev, [fieldKey]: next }
+      })
+    }
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -489,9 +496,7 @@ export function ConnectFormSection({
                     <Check
                       className={cn(
                         'size-3',
-                        isChecked
-                          ? 'text-brand-dark-green'
-                          : 'text-transparent'
+                        isChecked ? 'text-brand-dark-green' : 'text-transparent'
                       )}
                       aria-hidden
                     />
@@ -535,10 +540,7 @@ export function ConnectFormSection({
             let values = Array.isArray(value)
               ? value.map(String)
               : [String(value ?? '')]
-            if (
-              values.length === 1 &&
-              values[0].trim() !== ''
-            ) {
+            if (values.length === 1 && values[0].trim() !== '') {
               values = [values[0], '']
             }
             return (
