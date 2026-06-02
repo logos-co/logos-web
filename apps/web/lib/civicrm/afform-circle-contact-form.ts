@@ -118,13 +118,13 @@ export const AFFORM = {
     },
     {
       "entity": "Individual1",
-      "join": "Note",
-      "fieldName": "note",
-      "label": "What else would you like us to know?",
+      "join": null,
+      "fieldName": "Skills_Socials.What_else_would_you_like_us_to_know_What_questions_do_you_have_f",
+      "label": "What else would you like us to know? What questions do you have for us?",
       "required": false,
       "options": null,
       "inputAttrs": [],
-      "formKey": "openText",
+      "formKey": "questions",
       "inputType": "textarea"
     },
     {
@@ -262,13 +262,13 @@ export const AFFORM_FIELDS = [
   },
   {
     "entity": "Individual1",
-    "join": "Note",
-    "fieldName": "note",
-    "label": "What else would you like us to know?",
+    "join": null,
+    "fieldName": "Skills_Socials.What_else_would_you_like_us_to_know_What_questions_do_you_have_f",
+    "label": "What else would you like us to know? What questions do you have for us?",
     "required": false,
     "options": null,
     "inputAttrs": [],
-    "formKey": "openText",
+    "formKey": "questions",
     "inputType": "textarea"
   },
   {

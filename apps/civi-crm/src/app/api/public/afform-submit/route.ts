@@ -13,6 +13,13 @@ const HCAPTCHA_SECRET = process.env.HCAPTCHA_SECRET ?? ''
 const ALLOWED_FORMS = new Set([
   'afformActivistBuilder',
   'afformActivistLeaderSteward',
+  'afformCircleContactForm',
+  'afformCoalitionPartner',
+])
+
+const NOTION_FORMS = new Set([
+  'afformActivistBuilder',
+  'afformActivistLeaderSteward',
   'afformCoalitionPartner',
 ])
 
@@ -86,7 +93,8 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const notionEnabled = isNotionIntakeSubmitEnabled()
+  const notionEnabled =
+    isNotionIntakeSubmitEnabled() && NOTION_FORMS.has(formName)
   const civiEnabled = isCiviCrmIntakeSubmitEnabled()
 
   if (!notionEnabled && !civiEnabled) {
