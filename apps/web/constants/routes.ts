@@ -39,7 +39,7 @@ export const ROUTES = {
   circle: (slug: string) => `/circles/${slug}`,
 
   // Connect forms (CiviCRM intake)
-  connect: '/connect',
+  contact: '/contact',
   activistBuilder: '/activist-builder',
   activistLeaderSteward: '/activist-leader-steward',
   coalitionPartner: '/coalition-partner',
