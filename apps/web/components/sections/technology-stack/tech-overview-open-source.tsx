@@ -45,11 +45,11 @@ export default function TechOverviewOpenSource({ data }: Props) {
           </div>
         ) : null}
 
-        <div className="mt-9 flex w-full flex-col xl:absolute xl:top-[156px] xl:left-0 xl:mt-0">
+        <div className="mt-[18px] -mx-3 flex w-[calc(100%+24px)] flex-col xl:absolute xl:top-[156px] xl:left-0 xl:mx-0 xl:mt-0 xl:w-full">
           {data.rows.map((row, index) => (
             <div
               key={`${row.number}-${row.title}`}
-              className={`relative min-h-[138px] w-full shrink-0 text-brand-dark-green md:min-h-[154px] xl:h-[50px] xl:min-h-0 ${
+              className={`relative h-[82px] w-full shrink-0 text-brand-dark-green md:min-h-[154px] md:h-auto xl:h-[50px] xl:min-h-0 ${
                 index % 2 === 0 ? 'bg-[#dbddd7]' : 'bg-brand-dark-green/[0.05]'
               }`}
             >
@@ -84,7 +84,7 @@ export default function TechOverviewOpenSource({ data }: Props) {
                 </div>
               </div>
 
-              <div className="flex min-h-[inherit] w-full items-start justify-between gap-3 px-3 py-6 md:gap-6 md:px-6 xl:hidden">
+              <div className="flex min-h-[inherit] w-full items-start justify-between gap-3 px-3 py-3 md:gap-6 md:px-6 md:py-6 xl:hidden">
                 <div className="min-w-0 max-w-[calc(100%-132px)] md:max-w-[calc(100%-160px)]">
                   <h3 className="text-body-serif whitespace-pre-wrap">
                     {row.number ? (
@@ -96,11 +96,13 @@ export default function TechOverviewOpenSource({ data }: Props) {
                     {row.title}
                   </h3>
                   {row.description ? (
-                    <p className="text-mono-s mt-3">{row.description}</p>
+                    <p className="text-mono-s mt-1 line-clamp-2 md:mt-3 md:line-clamp-none">
+                      {row.description}
+                    </p>
                   ) : null}
                 </div>
 
-                <div className="flex shrink-0 items-start gap-5 pt-1 md:gap-6">
+                <div className="flex shrink-0 items-start gap-5 md:gap-6">
                   {row.cta ? (
                     <RowAction href={row.cta.href} label={row.cta.label} />
                   ) : null}
