@@ -1,8 +1,11 @@
-import type { CirclesSettings } from '@repo/content/schemas'
+import type { CirclesSettings, Language } from '@repo/content/schemas'
 
 import CirclesMap from '@/components/sections/circles/circles-map'
 import { ROUTES } from '@/constants/routes'
-import type { ActiveCircleMarker } from '@/lib/active-circles'
+import type {
+  ActiveCircleMarker,
+  ActiveCircleUpcomingEvent,
+} from '@/lib/active-circles'
 
 import { ActionCardsSection } from './_sections/action-cards'
 import { ActivismSection } from './_sections/activism'
@@ -19,10 +22,14 @@ export function MovementPageView({
   t,
   circlesSettings,
   mapMarkers,
+  upcomingEvents,
+  locale,
 }: {
   t: Translate
   circlesSettings: CirclesSettings
   mapMarkers: ActiveCircleMarker[]
+  upcomingEvents: ActiveCircleUpcomingEvent[]
+  locale: Language
 }) {
   const findCta = (
     <CenterCtaSection
@@ -46,7 +53,11 @@ export function MovementPageView({
       </div>
       <div className="md:hidden">{findCta}</div>
       <ActivismSection t={t} />
-      <EventsSection t={t} />
+      <EventsSection
+        settings={circlesSettings}
+        events={upcomingEvents}
+        locale={locale}
+      />
       <GetInvolvedSection t={t} />
       <BuilderSection t={t} />
       <ResourcesSection t={t} />

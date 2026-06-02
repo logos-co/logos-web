@@ -4,7 +4,10 @@ import { isActiveLocale } from '@repo/content/locales'
 
 import { MovementPageView } from '@/components/sections/movement/movement-page'
 import { ROUTES } from '@/constants/routes'
-import { getActiveCircleMarkers } from '@/lib/active-circles'
+import {
+  getActiveCircleMarkers,
+  getUpcomingCircleEvents,
+} from '@/lib/active-circles'
 import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
 
 const NAMESPACE = 'pages.movement'
@@ -25,9 +28,10 @@ export default async function MovementPage({
   }
 
   const t = await getTranslations({ locale, namespace: NAMESPACE })
-  const [circlesSettings, mapMarkers] = await Promise.all([
+  const [circlesSettings, mapMarkers, upcomingEvents] = await Promise.all([
     getCirclesSettings(locale),
     getActiveCircleMarkers(),
+    getUpcomingCircleEvents(),
   ])
 
   return (
@@ -35,6 +39,8 @@ export default async function MovementPage({
       t={t}
       circlesSettings={circlesSettings}
       mapMarkers={mapMarkers}
+      upcomingEvents={upcomingEvents}
+      locale={locale}
     />
   )
 }
