@@ -3,7 +3,7 @@ import { LogosMark } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 import type { LambdaPrizePageCopy } from './types'
 
@@ -42,7 +42,7 @@ export function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
           </p>
           <div className="mt-15 flex gap-1">
             <Button
-              href={ROUTES.rfps}
+              href={EXTERNAL_URLS.lambdaPrizes}
               className="cursor-pointer bg-brand-off-white text-brand-dark-green"
             >
               {copy.primaryCta}

@@ -95,6 +95,7 @@ export const EXTERNAL_URLS = {
   forum: 'https://forum.logos.co/',
   docs: 'https://github.com/logos-co/logos-docs',
   communityIdeas: 'https://github.com/logos-co/ideas',
+  lambdaPrizes: 'https://github.com/logos-co/lambda-prize/tree/master/prizes',
   basecampRelease:
     'https://github.com/logos-co/logos-basecamp/releases/tag/0.1.2',
   basecampLinuxDownload:

@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 import { DataRows } from './atoms'
 import type { LambdaPrizePageCopy } from './types'
@@ -29,7 +29,10 @@ export function HowItWorks({
             </div>
           </div>
           <div className="flex gap-1">
-            <Button href={ROUTES.rfps} className="cursor-pointer">
+            <Button
+              href={EXTERNAL_URLS.lambdaPrizes}
+              className="cursor-pointer"
+            >
               {evaluation.primaryCta}
             </Button>
             <Button

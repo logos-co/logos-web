@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 import type { LambdaPrizePageCopy } from './types'
 
@@ -27,7 +27,10 @@ export function AboutProgramme({
           <div className="flex flex-col items-start justify-between gap-3 lg:h-9 lg:flex-row lg:gap-0">
             <h2 className="text-h3-sans whitespace-nowrap">{copy.heading}</h2>
             <div className="flex gap-1">
-              <Button href={ROUTES.rfps} className="cursor-pointer">
+              <Button
+                href={EXTERNAL_URLS.lambdaPrizes}
+                className="cursor-pointer"
+              >
                 {copy.primaryCta}
               </Button>
               <Button
