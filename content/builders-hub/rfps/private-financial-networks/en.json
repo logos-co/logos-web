@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Private Financial Networks",
-  "tagline": "Money that moves securely and freely, without surveillance or control.",
-  "summary": "A reference settlement layer for Circles and other Logos communities that lets members pay and receive without exposing balances or counterparties.",
-  "description": "Most stablecoin rails leak the entire transaction graph by default. We are funding a privacy-preserving payment network for Logos communities: stealth addresses, private balances, and selective disclosure for compliance-sensitive deployments. Deliverables: protocol spec, reference wallet integration, threat model + audit, and a tested deployment in at least one Circle.",
-  "ctaLabel": "Apply"
-}

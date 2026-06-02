@@ -1,5 +1,0 @@
-export * from './schemas/index'
-export * from './loaders/index'
-export * from './github/index'
-export * from './media/index'
-export * from './locales/index'

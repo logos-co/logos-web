@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Community Governance Processes",
-  "tagline": "Self-organising groups can establish and enforce their own rules, with members engaging voluntarily.",
-  "summary": "Reference governance tools for Logos Circles — proposal workflow, weighted voting, treasury actions — that any community can install and adapt.",
-  "description": "Healthy communities need lightweight, legible governance. We are funding a governance toolkit for Logos Circles: a proposal lifecycle (draft → discussion → vote → execution), pluggable voting strategies (1p1v, weighted, quadratic), and treasury action hooks. The toolkit must work over Waku for proposal propagation and integrate with Codex for proposal storage. Deliverables: a working governance app, three example configurations, and migration tooling for an existing on-chain DAO.",
-  "ctaLabel": "Apply"
-}

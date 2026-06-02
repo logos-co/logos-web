@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Codex Pinning Cooperative",
-  "tagline": "A community-run pinning service for Codex storage.",
-  "summary": "A cooperative that lets contributors pool storage commitments and serve Codex pins for public-good content under a shared SLA.",
-  "description": "Pinning services are the centralisation seam in every IPFS-style storage stack. A Codex pinning cooperative would let independent operators stake spare disk and bandwidth, agree on a baseline SLA, and split fee revenue, with the membership and accounting transparent on-chain. Reference precedents: Filebase but co-operatively owned; community archives like Distributed Press treated as a first-class user.",
-  "ctaLabel": "Discuss"
-}

@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Build a Logos-powered DEX",
-  "tagline": "A privacy-first DEX on Waku, Codex, and Logos rails.",
-  "summary": "Ship a decentralised exchange experience that runs on Logos infrastructure with privacy as a first-class concern.",
-  "description": "Most DEX frontends today rely on the same handful of RPC providers, CDNs, and analytics scripts that erode the privacy guarantees of the chains they sit on. We are funding a reference DEX implementation that uses Waku for order propagation, Codex for asset metadata storage, and Logos privacy primitives for trader anonymity. Deliverables: a working swap interface, a published threat model, and benchmarks comparing the privacy and latency profile to mainstream DEX frontends.",
-  "ctaLabel": "Apply"
-}

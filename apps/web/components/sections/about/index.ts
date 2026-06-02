@@ -1,5 +1,0 @@
-export { AboutHero } from './about-hero'
-export { AboutCommunity } from './about-community'
-export { AboutInitiative } from './about-initiative'
-export { AboutWhoWeAre } from './about-who-we-are'
-export { AboutOurWork } from './about-our-work'

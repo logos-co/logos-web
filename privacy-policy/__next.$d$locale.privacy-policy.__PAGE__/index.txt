@@ -1,0 +1,78 @@
+1:"$Sreact.fragment"
+2:I[50712,["/_next/static/chunks/0i7w7xns2vogq.js","/_next/static/chunks/029-sa8qol10u.js","/_next/static/chunks/17fe8zvnince..js","/_next/static/chunks/04_wrlra_.td_.js"],"default"]
+5:I[56105,["/_next/static/chunks/0b3bn8maucg2w.js","/_next/static/chunks/0dctuy.2qfcf4.js"],"OutletBoundary"]
+6:"$Sreact.suspense"
+3:T20b9,Last updated: 2 March 2026
+
+This Privacy Policy is intended to inform users of our approach to privacy in respect of this website ("Website"). In this regard, if you are visiting our Website, this Privacy Policy applies to you.
+
+1) Who we are
+
+For the purposes of this Privacy Policy and the collection and processing of personal data as a controller, the relevant entity is the Logos Collective Association, which has its registered office in Zug and its legal domicile address at
+
+Logos Collective Association
+c/o PST Consulting GmbH
+Baarerstrasse 10
+6300 Zug
+Switzerland
+
+Whenever we refer to "Logos", "we" or other similar references, we are referring to the Logos Collective Association.
+
+2.) We limit the collection and processing of personal data from your use of the Website
+
+We aim to limit the collection and processing of personal data from users of the Website. We only collect and process certain personal data for specific purposes and where we have the legal basis to do so under applicable privacy legislation. We will not collect or process any personal data that we don't need and where we do store any personal data, we will only store it for the least amount of time needed for the indicated purpose.
+
+In this regard, we collect and process the following personal data from your use of the Website:
+
+Profile and contact details: Through the Website's "Let's Connect" page, you can choose to provide certain personal data as follows: Name; City; Skills/Experience (optional), email (optional); affiliated organisations (optional); associated website or socials (optional); chat name (optional) and chat service (optional). We process this personal data for the following purposes including: being informed of Logos related developments, events, and opportunities to contribute to Logos. By providing your personal data through this page and clicking submit, you provide your consent to our processing of your personal data solely for the aforementioned purposes. You can withdraw consent at any time by contacting us, using the unsubscribe link in emails, or otherwise exercising your rights under our Privacy Policy.
+
+IP address: As part of such use of the Website and from our use of Umami Analytics, we briefly process your IP address but we have no way of identifying you. We however have a legitimate interest in processing such IP addresses to ensure the technical functionality and enhance the security measures of the Website. This IP address is not stored by us over time.
+
+Collection of email addresses: We collect your email address and first name (or if preferred, your pseudonym), on our website for the purpose of sending you information in relation to the project(s) on this website concerning technical and non-technical content and updates, as well as potentially invitations to project related events. Your email address is securely stored on our self-hosted servers, and we have implemented measures to protect such personal data by securing it with appropriate technical and organisational measures. We will not share such personal data to third parties without your consent, except as required by law. We will only collect and process your email address, first name and if applicable, your pseudonym on the basis of you providing your consent for us to do so. If you wish to stop receiving our email communications, you can do so by clicking the "unsubscribe" link in the emails you receive from us.
+
+Umami Analytics: We note that we make use of Umami Analytics, which you can read more about here: https://umami.is/. In short, Umami Analytics is an alternative to Google Analytics, that doesn't compromise visitor privacy for data. Umami Analytics collects trends and insights, not personal details about specific website visitors. Umami Analytics offers simple traffic insights such as top pages, top referrers, bounce rate, and average time people spend on a site.
+
+3.) Third party processing of personal data
+
+In addition to our limited and collection of personal data, third parties may collect or process personal data as a result of the Website making use of certain features or to provide certain content. To the extent you interact with such third party content or features, their respective privacy policies will apply.
+
+We would however like to draw your attention to the following:
+
+Calendly: The Website provides the option to schedule through Calendly, a service provided by Calendly LLC. When you choose to schedule a call, you will be redirected to Calendly's interface where personal data you provide (such as your name, email address, and selected meeting time) will be collected and processed directly by Calendly. Such personal data will be processed in accordance with Calendly's own privacy policy. Logos does not store, access, or control this personal data. If you do not wish for such personal data to be collected or processed by Calendly, please do not use the scheduling feature.
+
+Youtube: The Website may embed videos from Youtube, a service provided by Google LLC, using Youtube's privacy-enhanced mode. When you interact with such videos, Youtube may place cookies on your personal device. The cookies do not directly identify individual users and YouTube will not store information to personalise your experience unless you are logged in to a Google account. We do not have any control over these cookies set by Youtube and it is recommended that you review YouTube's embedding videos information page.
+
+4.) Security measures we take in respect of the Website
+
+As a general approach, we take data security seriously and we have implemented a variety of security measures on the Website and in our organisation to maintain the safety of your personal data when you submit such information to us.
+
+5.) Exporting data outside the European Union and Switzerland
+
+We are obliged to protect the privacy of personal data that you may have submitted in the unlikely event that we export your personal data to places outside the European Union or Switzerland. This means that personal data will only be processed in countries or by parties that provide an adequate level of protection as deemed by Switzerland or the European Commission. Otherwise, we will use other forms of protections, such as specific forms of contractual clauses to ensure such personal data is provided the same protection as required in Switzerland or Europe. In any event, the transmission of personal data outside the European Union and Switzerland will always occur in conformity with applicable privacy legislation.
+
+6.) Your choices and rights
+
+As explained in this Privacy Policy, we limit our collection and processing of your personal data wherever possible. Nonetheless, you still have certain choices and rights in respect of the personal data which we do collect and process. As laid out in relevant privacy legislation, you have the right to:
+
+– Ask us to correct or update your personal data (where reasonably possible);
+– Ask us to remove your personal data from our systems;
+– Ask us for a copy of your personal data, which may also be transferred to another data controller at your request;
+– Withdraw your consent to process your personal data (only if consent was asked for a processing activity), which only affects processing activities that are based on your consent and doesn't affect the validity of such processing activities before you have withdrawn your consent;
+– Object to the processing of your personal data; and
+– File a complaint with the Federal Data Protection and Information Commissioner (FDPIC), if you believe that your personal data has been processed unlawfully.
+
+7.) Third party links
+
+On this Website, you may come across links to third party websites. These third party sites have separate and independent privacy policies. We therefore have no responsibility or liability for the content and activities of these third party websites.
+
+8.) This Privacy Policy might change
+
+We may modify or replace any part of this Privacy Policy at any time and without notice. Please check the Website periodically for any changes. The new Privacy Policy will be effective immediately upon its posting on our Website.
+
+9.) Contact information
+
+To the extent that you have any questions about the Privacy Policy, please contact us at legal@free.technology.
+
+This document is licensed under CC-BY-SA.0:{"rsc":["$","$1","c",{"children":[["$","div",null,{"className":"mx-auto p-3 max-w-[1440px] ","children":["$","section",null,{"className":"flex min-h-190 flex-col items-start gap-3 px-3 xl:flex-row xl:gap-122","children":[["$","nav",null,{"aria-label":"Docs navigation","className":"flex w-56.5 shrink-0 flex-col items-start gap-1 self-start py-20 xl:sticky xl:top-0","children":[["$","$L2","guides",{"href":"/builders-hub","localeCookie":{"name":"NEXT_LOCALE","sameSite":"lax"},"className":"text-mono-s cursor-pointer text-brand-dark-green transition-opacity hover:opacity-60","children":"Guides","prefetch":false}],["$","a","logosForum",{"href":"https://forum.logos.co/","target":"_blank","rel":"noopener noreferrer","className":"text-mono-s cursor-pointer text-brand-dark-green transition-opacity hover:opacity-60","children":"Logos Forum"}],["$","a","researchForum",{"href":"https://forum.logos.co/","target":"_blank","rel":"noopener noreferrer","className":"text-mono-s cursor-pointer text-brand-dark-green transition-opacity hover:opacity-60","children":"Research Forum"}],["$","$L2","brandKit",{"href":"/brand-kit","localeCookie":"$0:rsc:props:children:0:props:children:props:children:0:props:children:0:props:localeCookie","className":"text-mono-s cursor-pointer text-brand-dark-green transition-opacity hover:opacity-60","children":"Brand Kit","prefetch":false}],["$","$L2","terms",{"href":"/terms-and-conditions","localeCookie":"$0:rsc:props:children:0:props:children:props:children:0:props:children:0:props:localeCookie","className":"text-mono-s cursor-pointer text-brand-dark-green transition-opacity hover:opacity-60","children":"Terms & Conditions","prefetch":false}],["$","span","privacy",{"aria-current":"page","className":"flex items-center gap-1","children":[["$","span",null,{"aria-hidden":"true","className":"h-2 w-3 shrink-0 rounded-full bg-brand-dark-green"}],["$","span",null,{"className":"text-eyebrow text-brand-dark-green","children":"Privacy Policy"}]]}],["$","$L2","security",{"href":"/security","localeCookie":"$0:rsc:props:children:0:props:children:props:children:0:props:children:0:props:localeCookie","className":"text-mono-s cursor-pointer text-brand-dark-green transition-opacity hover:opacity-60","children":"Security","prefetch":false}],["$","$L2","faq",{"href":"/faq","localeCookie":"$0:rsc:props:children:0:props:children:props:children:0:props:children:0:props:localeCookie","className":"text-mono-s cursor-pointer text-brand-dark-green transition-opacity hover:opacity-60","children":"FAQ","prefetch":false}]]}],["$","div",null,{"className":"flex w-full flex-col items-start gap-6 pb-20 xl:w-116 xl:py-20","children":[["$","h1",null,{"className":"text-eyebrow w-full text-brand-dark-green","children":"Privacy Policy"}],["$","div",null,{"className":"text-mono-s w-full whitespace-pre-line text-brand-dark-green","children":"$3"}]]}]]}]}],null,"$L4"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"AyZvld07OCxHRxWlHkzBk"}
+4:["$","$L5",null,{"children":["$","$6",null,{"name":"Next.MetadataOutlet","children":"$@7"}]}]
+7:null

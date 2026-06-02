@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Bridge Attestation Monitor",
-  "tagline": "Public, real-time attestations for cross-chain bridges.",
-  "summary": "A Logos-hosted observer that watches bridge contracts across chains and publishes signed attestations the moment a divergence appears.",
-  "description": "Cross-chain bridges keep being the single largest source of stolen funds in the ecosystem, and the standard mitigation — multi-sig watchtowers — fails silently. A Logos-native monitor would track bridge state on every chain it touches, sign attestations to the live state, propagate them over Waku, and surface divergences in a public feed. Deliverables: monitor agents for the three most-used bridges, an attestation feed schema, and a dashboard.",
-  "ctaLabel": "Discuss"
-}

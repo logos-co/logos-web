@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Attack Resistant Public Registries",
-  "tagline": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
-  "summary": "Reference designs and an open implementation for public-good registries (names, identities, content) that resist coercion and capture.",
-  "description": "Public registries — DNS, package indexes, software bills of materials — are repeatedly captured by the entities that operate them. We are funding work on registry primitives that any Logos community can stand up: a Codex-backed key/value store, signed updates, multi-witness attestation, and clear capture-resistance guarantees with a published threat model. Deliverables: spec, reference implementation, integration guide for at least one of {DNS, package index, software attestations}.",
-  "ctaLabel": "Apply"
-}

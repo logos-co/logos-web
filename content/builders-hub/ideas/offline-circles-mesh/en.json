@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Offline Circles Mesh",
-  "tagline": "Mesh-relay Circles chat that survives network blackouts.",
-  "summary": "Make Circles conversations work over Bluetooth and Wi-Fi mesh when the public internet is unavailable, syncing state when peers reconnect.",
-  "description": "When network access drops — protests, blackouts, censored regions — Circles members lose the ability to coordinate. An offline mesh transport would relay Waku messages over short-range radios between nearby members, queue and dedupe state, and reconcile with the public network on reconnect. Reference: Bridgefy and Briar layered onto the Logos Circles model with end-to-end encryption preserved.",
-  "ctaLabel": "Discuss"
-}
