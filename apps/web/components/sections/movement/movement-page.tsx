@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import type { CSSProperties, ReactNode } from 'react'
 
-import type { Circle } from '@repo/content/loaders'
 import type { CirclesSettings } from '@repo/content/schemas'
 import { LogosMark } from '@acid-info/logos-ui'
 
@@ -9,6 +8,7 @@ import { IconMask } from '@/components/icons/icon-mask'
 import ContentWidth from '@/components/layout/content-width'
 import CirclesMap from '@/components/sections/circles/circles-map'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
+import type { ActiveCircleMarker } from '@/lib/active-circles'
 import { Link } from '@/i18n/navigation'
 
 type Translate = (key: string) => string
@@ -682,11 +682,11 @@ function ResourcesSection({ t }: { t: Translate }) {
 export function MovementPageView({
   t,
   circlesSettings,
-  circles,
+  mapMarkers,
 }: {
   t: Translate
   circlesSettings: CirclesSettings
-  circles: Circle[]
+  mapMarkers: ActiveCircleMarker[]
 }) {
   const findCta = (
     <CenterCtaSection
@@ -702,11 +702,11 @@ export function MovementPageView({
       <ActionCardsSection t={t} />
       <CampaignSection t={t} />
       <div className="min-[769px]:hidden">
-        <CirclesMap settings={circlesSettings} circles={circles} />
+        <CirclesMap settings={circlesSettings} markers={mapMarkers} />
       </div>
       <div className="hidden min-[769px]:block">{findCta}</div>
       <div className="hidden min-[769px]:block">
-        <CirclesMap settings={circlesSettings} circles={circles} />
+        <CirclesMap settings={circlesSettings} markers={mapMarkers} />
       </div>
       <div className="min-[769px]:hidden">{findCta}</div>
       <ActivismSection t={t} />

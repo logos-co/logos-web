@@ -1,18 +1,17 @@
 import type { FeaturedTextSection } from '@repo/content/schemas'
 
+import { CirclesWorldMap } from '@/components/circles-map'
 import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
-import { fetchCircleEvents } from '@/lib/circle-events'
-
-import CirclesMapLoader from './circles-map-loader'
+import { getActiveCircleMarkers } from '@/lib/active-circles'
 
 type Props = {
   data: FeaturedTextSection
 }
 
 export default async function CirclesCtaSection({ data }: Props) {
-  const events = await fetchCircleEvents()
+  const markers = await getActiveCircleMarkers()
 
   return (
     <section className="bg-brand-off-white">
@@ -59,7 +58,7 @@ export default async function CirclesCtaSection({ data }: Props) {
 
         <div className="mt-[30px] h-[720px] w-full overflow-hidden rounded-[100px] bg-gray-01 min-[1025px]:mt-0">
           <div className="h-[710px] w-full">
-            <CirclesMapLoader events={events} />
+            <CirclesWorldMap markers={markers} />
           </div>
         </div>
       </ContentWidth>

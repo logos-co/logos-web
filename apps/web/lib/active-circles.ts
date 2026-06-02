@@ -29,6 +29,16 @@ export type ActiveCircleLocation = {
   href: string | null
 }
 
+export type ActiveCircleMarker = {
+  id: string
+  name: string
+  city: string
+  country: string
+  lat: number
+  lng: number
+  eventUrl: string | null
+}
+
 export type ActiveCircleStat = {
   label: string
   value: number | null
@@ -156,6 +166,47 @@ function getActiveLocations(
       }
     })
     .sort((a, b) => a.label.localeCompare(b.label))
+}
+
+function toActiveCircleMarker(
+  event: ActiveCircleEvent
+): ActiveCircleMarker | null {
+  const city = event.location_city?.trim()
+  const country = event.location_country?.trim()
+  if (!city || !country) return null
+
+  const lat = Number(event.geo_latitude)
+  const lng = Number(event.geo_longitude)
+  if (Number.isNaN(lat) || Number.isNaN(lng)) return null
+
+  return {
+    id: event.event_id,
+    name: event.event_name,
+    city,
+    country,
+    lat,
+    lng,
+    eventUrl: event.event_url?.trim() || null,
+  }
+}
+
+/**
+ * Map markers for the active circles, drawn from the same live source and the
+ * same filter/dedup pipeline as the `/active-circles` location list, so the
+ * `/circles` map always mirrors that page (one marker per distinct active city,
+ * within the last {@link ACTIVE_CIRCLES_DAYS} days).
+ */
+export async function getActiveCircleMarkers(): Promise<ActiveCircleMarker[]> {
+  const activeSinceDate = getTodayISODateDaysAgo(ACTIVE_CIRCLES_DAYS)
+  const events = await fetchCircleEvents()
+  const activeEvents = getEventsSince(events, activeSinceDate)
+
+  return getLatestEventsByCity(activeEvents)
+    .map(toActiveCircleMarker)
+    .filter((marker): marker is ActiveCircleMarker => marker !== null)
+    .sort((a, b) =>
+      `${a.city}, ${a.country}`.localeCompare(`${b.city}, ${b.country}`)
+    )
 }
 
 function getUpcomingEventsCount(events: ActiveCircleEvent[]): number {

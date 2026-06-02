@@ -1,25 +1,26 @@
-'use client'
-
-import dynamic from 'next/dynamic'
-
-import type { Circle } from '@repo/content/loaders'
 import type { CirclesSettings } from '@repo/content/schemas'
 
-const CirclesLeafletMap = dynamic(() => import('./circles-leaflet-map'), {
-  ssr: false,
-  loading: () => (
-    <section id="map" className="bg-brand-off-white px-3 pb-3 md:pb-12">
-      <div className="relative h-[720px] overflow-hidden rounded-[100px] bg-gray-01 md:h-[675px] md:rounded-[64px]" />
-    </section>
-  ),
-})
+import { CirclesWorldMap } from '@/components/circles-map'
+import type { ActiveCircleMarker } from '@/lib/active-circles'
 
 export default function CirclesMap({
   settings,
-  circles,
+  markers,
 }: {
   settings: CirclesSettings
-  circles: Circle[]
+  markers: ActiveCircleMarker[]
 }) {
-  return <CirclesLeafletMap settings={settings} circles={circles} />
+  return (
+    <section id="map" className="bg-brand-off-white px-3 pb-3 md:pb-12">
+      <div className="relative z-0 isolate h-[720px] overflow-hidden rounded-[100px] bg-gray-01 md:h-[675px] md:rounded-[64px]">
+        <CirclesWorldMap
+          markers={markers}
+          center={[settings.map.defaultCenter.lat, settings.map.defaultCenter.lng]}
+          zoom={settings.map.defaultZoom}
+          zoomInAriaLabel={settings.map.zoomInAriaLabel}
+          zoomOutAriaLabel={settings.map.zoomOutAriaLabel}
+        />
+      </div>
+    </section>
+  )
 }

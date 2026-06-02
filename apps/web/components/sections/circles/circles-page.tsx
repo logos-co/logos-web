@@ -14,6 +14,7 @@ import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
+import type { ActiveCircleMarker } from '@/lib/active-circles'
 import { formatTzOffsetLabel } from '@/lib/dates'
 
 import { ArrowIcon, isExternalHref, SmartLink } from './_helpers'
@@ -22,6 +23,7 @@ import CirclesMap from './circles-map'
 type CirclesPageProps = {
   settings: CirclesSettings
   circles: Circle[]
+  mapMarkers: ActiveCircleMarker[]
   eventGroups: CircleEventDateGroup[]
   initiatives: CircleInitiative[]
   resources: CircleResource[]
@@ -421,6 +423,7 @@ function ResourcesSection({
 export default function CirclesPageView({
   settings,
   circles,
+  mapMarkers,
   eventGroups,
   initiatives,
   resources,
@@ -429,7 +432,7 @@ export default function CirclesPageView({
   return (
     <main className="bg-brand-off-white">
       <CirclesHero settings={settings} circles={circles} />
-      <CirclesMap settings={settings} circles={circles} />
+      <CirclesMap settings={settings} markers={mapMarkers} />
       <NearbyCta settings={settings} />
       <EventsSection settings={settings} groups={eventGroups} locale={locale} />
       <InitiativesSection settings={settings} initiatives={initiatives} />
