@@ -210,7 +210,7 @@
       "componentType": "table",
       "key": "techStack.openSource",
       "title": "Open Source Repos",
-      "subtitle": "All Logos code is open source under permissive licenses. Primary development happens across several GitHub organisations.",
+      "subtitle": "All Logos code is open source under permissive licences. Primary development happens across several GitHub organisations.",
       "rows": [
         {
           "number": "01",
@@ -303,7 +303,7 @@
       "cards": [
         {
           "title": "Corruption-resistant public registries",
-          "description": "Tamper-proof records for votes, land, licenses, and trade agreements.",
+          "description": "Tamper-proof records for votes, land, licences, and trade agreements.",
           "image": {
             "src": "/images/technology-stack/usecase-1.jpg",
             "alt": "",

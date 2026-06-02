@@ -180,8 +180,8 @@
     },
     "startBuilding": {
       "title": "Start Building",
-      "body": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code, explore builder programs.",
-      "mobileBody": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code, explore builder programs.",
+      "body": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code, explore builder programmes.",
+      "mobileBody": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code, explore builder programmes.",
       "cta": "Builder Hub",
       "cardCta": "Learn more",
       "lambdaPrize": "Lambda Prize",

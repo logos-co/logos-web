@@ -126,7 +126,7 @@
       "networkingTitle": "The Networking Stack: Discovery, Peering, and Mixnet",
       "networkingDescription": "This layer handles how Logos nodes find each other, establish connections, and communicate.",
       "foundationTitle": "The Foundation: Logos Runtime",
-      "foundationDescription": "A runtime that handles the essential primitives every decentralized application needs."
+      "foundationDescription": "A runtime that handles the essential primitives every decentralised application needs."
     },
     {
       "componentType": "cardGrid",
