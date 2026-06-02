@@ -93,6 +93,7 @@ export const EXTERNAL_URLS = {
 
   // Forum
   forum: 'https://forum.logos.co/',
+  forumMeetups: 'https://forum.logos.co/c/meetups/6',
   docs: 'https://github.com/logos-co/logos-docs',
   communityIdeas: 'https://github.com/logos-co/ideas',
   lambdaPrizes: 'https://github.com/logos-co/lambda-prize/tree/master/prizes',

@@ -44,14 +44,12 @@ export function MovementPageView({
       <HeroSection t={t} />
       <ActionCardsSection t={t} />
       <CampaignSection t={t} />
-      <div className="md:hidden">
-        <CirclesMap settings={circlesSettings} markers={mapMarkers} />
+      <div className="flex flex-col">
+        <div className="order-2 md:order-1">{findCta}</div>
+        <div className="order-1 md:order-2">
+          <CirclesMap settings={circlesSettings} markers={mapMarkers} />
+        </div>
       </div>
-      <div className="hidden md:block">{findCta}</div>
-      <div className="hidden md:block">
-        <CirclesMap settings={circlesSettings} markers={mapMarkers} />
-      </div>
-      <div className="md:hidden">{findCta}</div>
       <ActivismSection t={t} />
       <EventsSection
         settings={circlesSettings}
