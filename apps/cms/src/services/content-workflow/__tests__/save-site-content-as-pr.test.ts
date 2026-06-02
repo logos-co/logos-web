@@ -41,10 +41,10 @@ describe('site content fixture builders', () => {
         },
         sitemap: [{ label: 'Home', href: '/' }],
         communityCards: [],
-        press: {
-          label: 'Press',
+        blog: {
+          label: 'Blog',
           seeAllLabel: 'SEE ALL',
-          seeAllHref: '/press',
+          seeAllHref: '/blog',
         },
       },
     })
