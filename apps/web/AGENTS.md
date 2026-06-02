@@ -31,6 +31,25 @@ pnpm --filter web test
 - Use `lib/env.ts` for environment access; do not read `process.env` directly from feature code.
 - Keep Vitest tests beside the code in `__tests__/` folders.
 
+### One section per file (required)
+
+Never put multiple page sections in a single file. Each top-level page
+section (hero, a feature band, a CTA strip, etc. — typically one `<section>`)
+gets its own file.
+
+- For a route, put sections in `app/[locale]/<route>/_sections/<section>.tsx`
+  (kebab-case, one exported section component per file).
+- The page/route composes them in a thin orchestrator that only imports the
+  sections and arranges them — it should contain no section markup itself.
+- Put shared copy/prop types in `_sections/types.ts` and shared presentational
+  helpers in `_sections/atoms.tsx`; import them into each section.
+- Rule of thumb: if a section file approaches ~200 lines or defines a second
+  `<section>`, split it. Section files over ~400 lines are a smell.
+
+Example: `app/[locale]/lambda-prize/_sections/` — `hero.tsx`,
+`how-it-works.tsx`, `featured-prizes.tsx`, `about-programme.tsx`, `support.tsx`,
+`types.ts`, `atoms.tsx`, with `lambda-prize-page.tsx` as the orchestrator.
+
 ## i18n and Content
 
 - UI chrome belongs in `messages/<locale>.json` and must be accessed with `next-intl`.
