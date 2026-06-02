@@ -41,7 +41,7 @@ function ColorSwatch({
 
 export function ColorPalette() {
   return (
-    <div className="font-sans flex w-full flex-col gap-[24px] bg-white p-[20px]">
+    <div className="font-sans flex w-full flex-col gap-6 bg-white p-5">
       {/* Header */}
       <div className="flex w-full max-w-[343px] items-center justify-between text-[18px] leading-[1.2] text-black">
         <p>Logos Design System</p>
@@ -58,7 +58,7 @@ export function ColorPalette() {
       />
 
       {/* Dark Green 50% / 10% / 5% */}
-      <div className="flex w-full items-start gap-[24px]">
+      <div className="flex w-full items-start gap-6">
         <div className="flex-1">
           <ColorSwatch
             name="Dark Green 50%"
@@ -101,7 +101,7 @@ export function ColorPalette() {
       />
 
       {/* Off-White 50% / 10% */}
-      <div className="flex w-full items-start gap-[24px]">
+      <div className="flex w-full items-start gap-6">
         <div className="flex-1">
           <ColorSwatch
             name="Off-White 50%"
@@ -169,7 +169,7 @@ export function ColorPalette() {
       />
 
       {/* Grey ramp */}
-      <div className="flex w-full items-start gap-[24px]">
+      <div className="flex w-full items-start gap-6">
         <div className="flex-1">
           <ColorSwatch
             name="Grey 01"

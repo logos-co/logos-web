@@ -248,7 +248,7 @@ export default function TechOverviewUseCases({ data }: Props) {
         ) : null}
 
         {data.cta ? (
-          <div className="mt-[52px] flex items-center justify-center md:hidden">
+          <div className="mt-13 flex items-center justify-center md:hidden">
             <Button
               href={data.cta.href}
               variant="link"
@@ -262,7 +262,7 @@ export default function TechOverviewUseCases({ data }: Props) {
 
       <div
         ref={scrollRef}
-        className={`mt-[76px] flex gap-3 overflow-x-auto px-3 pb-4 select-none md:mt-[94px] ${
+        className={`mt-19 flex gap-3 overflow-x-auto px-3 pb-4 select-none md:mt-23.5 ${
           isDragging ? 'cursor-grabbing' : 'cursor-grab'
         }`}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}

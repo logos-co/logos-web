@@ -18,7 +18,7 @@ export function TechStackDetailPage({ children, className }: Props) {
 
 export function TechStackDetailSection({ children, className }: Props) {
   return (
-    <div className={twMerge('mt-15 md:mt-[100px]', className)}>
+    <div className={twMerge('mt-15 md:mt-25', className)}>
       {children}
     </div>
   )

@@ -147,7 +147,7 @@ function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
               <span>{copy.body}</span>
             </span>
           </p>
-          <div className="mt-[60px] flex gap-1">
+          <div className="mt-15 flex gap-1">
             <Button
               href={ROUTES.rfps}
               className="cursor-pointer bg-brand-off-white text-brand-dark-green"

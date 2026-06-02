@@ -101,7 +101,7 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
       <section
         className={
           kind === 'ideas'
-            ? 'bg-brand-off-white md:mb-[100px] md:min-h-[971px]'
+            ? 'bg-brand-off-white md:mb-25 md:min-h-[971px]'
             : 'bg-brand-off-white md:mb-3 md:min-h-[1638px]'
         }
       >
@@ -121,8 +121,8 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
           <div
             className={
               kind === 'ideas'
-                ? 'mx-auto mt-[60px] max-w-360 px-3'
-                : 'mx-auto mt-[90px] max-w-360 px-3 md:mt-[138px]'
+                ? 'mx-auto mt-15 max-w-360 px-3'
+                : 'mx-auto mt-22.5 max-w-360 px-3 md:mt-34.5'
             }
           >
             <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
@@ -137,7 +137,7 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
           </div>
         ) : (
           <ContentWidth>
-            <ul className="mt-0 w-full md:mt-[60px]">
+            <ul className="mt-0 w-full md:mt-15">
               {kind === 'ideas'
                 ? (pageItems as Idea[]).map((idea, i) => (
                     <IdeaRow key={idea.slug} index={start + i + 1} idea={idea} />
@@ -149,7 +149,7 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
           </ContentWidth>
         )}
 
-        <div className="mt-12 flex justify-center pb-[100px]">
+        <div className="mt-12 flex justify-center pb-25">
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

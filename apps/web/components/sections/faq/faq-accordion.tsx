@@ -43,22 +43,35 @@ export function FaqAccordion({ items, defaultOpen = 0 }: FaqAccordionProps) {
               aria-expanded={isOpen}
               aria-controls={panelId}
               onClick={() => setOpenIndex(isOpen ? -1 : index)}
-              className="flex w-full cursor-pointer flex-col items-start gap-3 rounded-xl bg-gray-01 p-3 text-left text-brand-dark-green"
+              className="flex w-full cursor-pointer flex-col items-start rounded-xl bg-gray-01 p-3 text-left text-brand-dark-green"
             >
               <span className="text-eyebrow flex w-full items-center justify-between">
                 <span>{item.question}</span>
-                <span aria-hidden="true">{isOpen ? '-' : '+'}</span>
-              </span>
-              {isOpen ? (
-                <p
-                  id={panelId}
-                  role="region"
-                  aria-labelledby={triggerId}
-                  className="text-mono-s w-full normal-case"
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 ease-out"
+                  style={{ transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)' }}
                 >
-                  {item.answer}
-                </p>
-              ) : null}
+                  +
+                </span>
+              </span>
+              <div
+                id={panelId}
+                role="region"
+                aria-labelledby={triggerId}
+                className="grid w-full transition-[grid-template-rows] duration-300 ease-out"
+                style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
+              >
+                <div className="overflow-hidden">
+                  <p
+                    className={`text-mono-s w-full pt-3 normal-case transition-opacity duration-300 ease-out ${
+                      isOpen ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {item.answer}
+                  </p>
+                </div>
+              </div>
             </button>
           </li>
         )

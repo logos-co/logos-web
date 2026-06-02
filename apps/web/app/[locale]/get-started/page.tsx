@@ -125,7 +125,7 @@ export default async function GetStartedPage({
 
   return (
     <div className="bg-brand-off-white text-brand-dark-green">
-      <section className="relative mb-[60px] h-[200px] w-full md:mb-[100px] md:h-[258px]">
+      <section className="relative mb-15 h-[200px] w-full md:mb-25 md:h-[258px]">
         <ContentWidth className="relative h-full">
           <div className="absolute top-[60px] left-3 flex items-center gap-3 md:top-[90px]">
             <LogosMark size={26} className="w-5 shrink-0" />
@@ -141,7 +141,7 @@ export default async function GetStartedPage({
 
       <section
         id="install"
-        className="border-t border-brand-dark-green/10 pt-6 pb-[100px]"
+        className="border-t border-brand-dark-green/10 pt-6 pb-25"
       >
         <ContentWidth className="flex w-full flex-col gap-10">
           <SectionHeading
@@ -176,7 +176,7 @@ export default async function GetStartedPage({
         </ContentWidth>
       </section>
 
-      <section className="border-t border-brand-dark-green/10 pt-6 pb-[100px] md:pt-10">
+      <section className="border-t border-brand-dark-green/10 pt-6 pb-25 md:pt-10">
         <ContentWidth className="flex w-full flex-col gap-10">
           <div className="grid gap-6 md:grid-cols-12 md:items-start">
             <div className="md:col-span-5">
@@ -199,7 +199,7 @@ export default async function GetStartedPage({
             {docs.map((doc) => (
               <article
                 key={doc.key}
-                className="flex min-h-[200px] flex-col items-center justify-between rounded-xl bg-accent-light-blue px-4 pt-[60px] pb-3 text-center md:min-h-[237px]"
+                className="flex min-h-[200px] flex-col items-center justify-between rounded-xl bg-accent-light-blue px-4 pt-15 pb-3 text-center md:min-h-[237px]"
               >
                 <div className="flex flex-col items-center gap-3">
                   <h3 className="font-sans text-[18px] leading-[1.15] tracking-[-0.18px]">
@@ -218,7 +218,7 @@ export default async function GetStartedPage({
         </ContentWidth>
       </section>
 
-      <section className="border-t border-brand-dark-green/10 pt-6 pb-[100px]">
+      <section className="border-t border-brand-dark-green/10 pt-6 pb-25">
         <ContentWidth className="flex w-full flex-col gap-10">
           <SectionHeading
             number={t('sections.community.number')}
@@ -253,7 +253,7 @@ export default async function GetStartedPage({
         </ContentWidth>
       </section>
 
-      <section className="border-t border-brand-dark-green/10 pt-6 pb-[100px]">
+      <section className="border-t border-brand-dark-green/10 pt-6 pb-25">
         <ContentWidth className="flex w-full flex-col gap-10">
           <SectionHeading
             number={t('sections.build.number')}

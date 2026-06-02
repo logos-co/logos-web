@@ -257,9 +257,9 @@ function ContributeSection({
           <p className="font-bold">{copy.howTitle}</p>
           <p>{contact}</p>
           <p className="mt-[13px]">{jobs}</p>
-          <p className="mt-[26px] font-bold">{copy.whatTitle}</p>
+          <p className="mt-6.5 font-bold">{copy.whatTitle}</p>
           <p>{copy.whatBody}</p>
-          <p className="mt-[26px]">{copy.codeIntro}</p>
+          <p className="mt-6.5">{copy.codeIntro}</p>
           <ul className="list-disc pl-5">
             {copy.codeLinks.map((link) => (
               <li key={link.href}>

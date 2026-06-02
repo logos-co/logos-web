@@ -50,7 +50,7 @@ function Cta({ href, label, tone = 'primary', className }: CtaProps) {
   const content = (
     <>
       <span
-        className={tone === 'link' ? 'border-b border-current/50 pb-[2px]' : ''}
+        className={tone === 'link' ? 'border-b border-current/50 pb-0.5' : ''}
       >
         {label}
       </span>
@@ -201,7 +201,7 @@ function ActionCardsSection({ t }: { t: Translate }) {
   ]
 
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pt-10 pb-10 md:pt-0 md:pb-[70px]">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pt-10 pb-10 md:pt-0 md:pb-17.5">
       <SectionHeader
         title={
           <>
@@ -211,7 +211,7 @@ function ActionCardsSection({ t }: { t: Translate }) {
           </>
         }
         description={t('intro.body')}
-        className="pb-10 md:pt-6 md:pb-[60px]"
+        className="pb-10 md:pt-6 md:pb-15"
         titleClassName="max-w-[244px]"
       />
       <ContentWidth className="grid gap-3 px-3 md:grid-cols-3">
@@ -260,7 +260,7 @@ function CampaignSection({ t }: { t: Translate }) {
     <section className="bg-brand-off-white px-3 py-10 md:py-0">
       <ContentWidth className="grid overflow-hidden rounded-xl bg-gray-01 p-3 text-brand-dark-green md:grid-cols-2 md:gap-3">
         <div className="flex min-h-[462px] flex-col justify-between p-3 md:min-h-[462px]">
-          <div className="flex gap-[88px]">
+          <div className="flex gap-22">
             <LogosMark size={7} />
             <p className="text-eyebrow w-[185px]">{t('campaign.eyebrow')}</p>
           </div>
@@ -319,7 +319,7 @@ function CenterCtaSection({
 }) {
   return (
     <section
-      className={`bg-brand-off-white px-3 py-[100px] text-center text-brand-dark-green ${className ?? ''}`}
+      className={`bg-brand-off-white px-3 py-25 text-center text-brand-dark-green ${className ?? ''}`}
     >
       <div className="mx-auto flex max-w-[456px] flex-col items-center gap-10">
         <div className="flex flex-col items-center gap-6">
@@ -392,7 +392,7 @@ function ActivismSection({ t }: { t: Translate }) {
   ]
 
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-10 text-brand-dark-green md:pb-[100px]">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-10 text-brand-dark-green md:pb-25">
       <SectionHeader
         title={
           <>
@@ -402,7 +402,7 @@ function ActivismSection({ t }: { t: Translate }) {
         }
         description={t('activism.body')}
         cta={<Cta href={ROUTES.circles} label={t('activism.cta')} />}
-        className="pb-10 md:pb-[78px]"
+        className="pb-10 md:pb-19.5"
       />
       <ContentWidth className="overflow-hidden">
         <div className="grid gap-3 px-3 md:flex md:w-max">
@@ -464,7 +464,7 @@ function EventsSection({ t }: { t: Translate }) {
   ]
 
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-10 text-brand-dark-green md:pb-[100px]">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-10 text-brand-dark-green md:pb-25">
       <SectionHeader
         title={t('events.title')}
         description={t('events.body')}
@@ -546,7 +546,7 @@ function BuilderSection({ t }: { t: Translate }) {
   const details = ['problem', 'solution', 'stack']
 
   return (
-    <section className="bg-brand-off-white pt-0 pb-10 text-brand-dark-green md:pb-[100px]">
+    <section className="bg-brand-off-white pt-0 pb-10 text-brand-dark-green md:pb-25">
       <CenterCtaSection
         title={t('builder.title')}
         body={t('builder.body')}
@@ -560,7 +560,7 @@ function BuilderSection({ t }: { t: Translate }) {
             />
           </div>
         }
-        className="md:py-[100px]"
+        className="md:py-25"
       />
       <ContentWidth className="px-3">
         <article className="relative min-h-[506px] overflow-hidden rounded-xl text-brand-off-white md:min-h-[282px]">
@@ -624,7 +624,7 @@ function ResourcesSection({ t }: { t: Translate }) {
   const rows = ['start', 'forum', 'discord']
 
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-[180px] text-brand-dark-green md:pb-[114px]">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-45 text-brand-dark-green md:pb-28.5">
       <SectionHeader
         title={
           <>
@@ -637,7 +637,7 @@ function ResourcesSection({ t }: { t: Translate }) {
         cta={
           <Cta href={ROUTES.faq} label={t('resources.cta')} tone="tertiary" />
         }
-        className="pb-10 md:pb-[54px]"
+        className="pb-10 md:pb-13.5"
         descriptionClassName="max-w-[178px]"
       />
       <ContentWidth>

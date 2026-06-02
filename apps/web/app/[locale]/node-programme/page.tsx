@@ -62,7 +62,7 @@ function HeroAnchorLink({
       className="inline-flex cursor-pointer items-center justify-center text-brand-dark-green"
     >
       <span className="inline-flex items-center gap-1">
-        <span className="border-b border-brand-dark-green/50 pb-[2px] font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
+        <span className="border-b border-brand-dark-green/50 pb-0.5 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
           {children}
         </span>
         <ButtonArrowIcon />
@@ -101,7 +101,7 @@ export default async function NodeProgramPage({
             {t('hero.eyebrow')}
           </p>
 
-          <div className="absolute top-[279px] left-3 flex flex-col items-start gap-3 md:top-[11px] md:left-[83.33%] md:translate-x-[2px] md:gap-[6px]">
+          <div className="absolute top-[279px] left-3 flex flex-col items-start gap-3 md:top-[11px] md:left-[83.33%] md:translate-x-[2px] md:gap-1.5">
             <HeroAnchorLink href="#node-programme-signup">
               {t('hero.cta')}
             </HeroAnchorLink>

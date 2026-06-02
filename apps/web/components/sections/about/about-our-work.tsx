@@ -18,8 +18,8 @@ export async function AboutOurWork() {
   const t = await getTranslations('pages.about.ourWork')
 
   return (
-    <section className="bg-brand-off-white pt-6 pb-24 md:pt-6 md:pb-[100px]">
-      <ContentWidth className="flex flex-col items-center gap-10 px-3 md:gap-[100px]">
+    <section className="bg-brand-off-white pt-6 pb-24 md:pt-6 md:pb-25">
+      <ContentWidth className="flex flex-col items-center gap-10 px-3 md:gap-25">
           <div className="flex w-full flex-col gap-10">
             <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between md:gap-[131px]">
               <div className="relative h-[81px] w-[107px] shrink-0 overflow-hidden">

@@ -48,7 +48,7 @@ function OverviewRow({ index, link }: { index: number; link: OverviewLink }) {
           : {})}
       >
         {/* Mobile: stacked layout */}
-        <div className="flex flex-col gap-[12px] py-3 px-3 md:hidden">
+        <div className="flex flex-col gap-3 py-3 px-3 md:hidden">
           <div className="flex items-baseline justify-between gap-3">
             <span className="font-sans text-[14px] leading-[1.2] text-brand-dark-green">
               <span className="font-medium">{indexLabel}</span>
@@ -99,7 +99,7 @@ function OverviewRow({ index, link }: { index: number; link: OverviewLink }) {
 function OverviewCtaLabel({ children }: { children: string }) {
   return (
     <span className="inline-flex items-center justify-center text-brand-dark-green">
-      <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-[2px]">
+      <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
         {children}
       </span>
     </span>

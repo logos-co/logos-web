@@ -334,7 +334,7 @@ export default function CircleDetailPageView({
   locale,
 }: CircleDetailPageViewProps) {
   return (
-    <main className="flex flex-col gap-[100px] bg-brand-off-white pb-[100px] pt-20">
+    <main className="flex flex-col gap-25 bg-brand-off-white pb-25 pt-20">
       <DetailHero circle={circle} settings={settings} />
       <EventsSection events={events} locale={locale} />
       <InitiativesSection initiatives={initiatives} />

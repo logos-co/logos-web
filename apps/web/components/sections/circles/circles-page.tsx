@@ -202,7 +202,7 @@ function CirclesHero({
           </h1>
         </div>
 
-        <div className="absolute left-3 top-[274px] grid w-[calc(100%-24px)] gap-6 md:static md:mt-[156px] md:w-auto md:grid-cols-12 md:gap-3">
+        <div className="absolute left-3 top-[274px] grid w-[calc(100%-24px)] gap-6 md:static md:mt-39 md:w-auto md:grid-cols-12 md:gap-3">
           <p className="text-mono-s hidden text-brand-dark-green md:col-span-2 md:block">
             {hero.eyebrow ?? 'Local chapters at the heart of Logos.'}
           </p>
@@ -238,7 +238,7 @@ function CirclesHero({
 
 function NearbyCta({ settings }: { settings: CirclesSettings }) {
   return (
-    <section className="bg-brand-off-white px-3 pb-[100px] pt-10 text-center md:pb-20 md:pt-1">
+    <section className="bg-brand-off-white px-3 pb-25 pt-10 text-center md:pb-20 md:pt-1">
       <div className="mx-auto flex max-w-[464px] flex-col items-center gap-4 text-brand-dark-green md:gap-4">
         <h2 className="font-display text-[30px] leading-none md:text-[36px]">
           {settings.nearbyCta.title}

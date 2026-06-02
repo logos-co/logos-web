@@ -89,7 +89,7 @@ export function PlayIcon({ inverted = false }: { inverted?: boolean }) {
     >
       <span
         className={cn(
-          'ml-[2px] h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent',
+          'ml-0.5 h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent',
           inverted ? 'border-l-brand-off-white' : 'border-l-brand-dark-green'
         )}
       />

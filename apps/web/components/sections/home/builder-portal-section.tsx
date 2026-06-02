@@ -45,10 +45,10 @@ export default async function BuilderPortalSection({
 
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
-      <ContentWidth className="py-[100px] lg:pt-[200px] lg:pb-[100px]">
+      <ContentWidth className="py-25 lg:pt-50 lg:pb-25">
         <div className="grid gap-9 lg:grid-cols-3 lg:gap-3">
-          <div className="flex flex-col gap-[40px] lg:min-h-[532px] lg:justify-between lg:gap-0">
-            <div className="flex flex-col gap-[30px]">
+          <div className="flex flex-col gap-10 lg:min-h-[532px] lg:justify-between lg:gap-0">
+            <div className="flex flex-col gap-7.5">
               <Reveal
                 amount={0.4}
                 delay={0.18}

@@ -24,11 +24,11 @@ export default function TechOverviewStack({
 }: Props) {
   return (
     <section id="stack">
-      <div className="bg-brand-off-white px-0 pb-6 md:px-3 md:pb-[100px]">
+      <div className="bg-brand-off-white px-0 pb-6 md:px-3 md:pb-25">
         <div className="mx-auto max-w-[1440px] px-3 md:p-3">
           {data.architecture ? (
             <OverviewMediaPanel
-              className="relative left-1/2 mb-10 w-screen -translate-x-1/2 md:static md:left-auto md:mb-[100px] md:w-auto md:-translate-x-0 md:-mx-3"
+              className="relative left-1/2 mb-10 w-screen -translate-x-1/2 md:static md:left-auto md:mb-25 md:w-auto md:-translate-x-0 md:-mx-3"
               eyebrow={data.architecture.eyebrow}
               footerLabel={data.pillars[0].title}
               title={data.architecture.title}
@@ -51,8 +51,8 @@ export default function TechOverviewStack({
             />
           ) : null}
 
-          <div className="flex flex-col gap-[60px] md:gap-[100px]">
-            <div className="grid gap-3 pt-[100px] md:grid-cols-2">
+          <div className="flex flex-col gap-15 md:gap-25">
+            <div className="grid gap-3 pt-25 md:grid-cols-2">
               {data.title ? (
                 <h2 className="text-h4-sans md:text-h3-sans text-brand-dark-green">
                   {data.title}

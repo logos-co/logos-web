@@ -119,7 +119,7 @@ export function GiantSwitch({
                   {description}
                 </p>
                 {tags && (
-                  <div className="flex w-full flex-wrap items-center justify-center gap-[6px] xl:justify-start">
+                  <div className="flex w-full flex-wrap items-center justify-center gap-1.5 xl:justify-start">
                     {tags}
                   </div>
                 )}

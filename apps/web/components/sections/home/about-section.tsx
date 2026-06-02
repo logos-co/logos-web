@@ -142,7 +142,7 @@ export default async function AboutSection({ locale }: { locale: string }) {
 
       <AboutScrollStack intro={t('intro')} cards={cards} />
 
-      <ContentWidth className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] -translate-x-1/2 flex-col items-center gap-[60px] text-center lg:relative lg:top-auto lg:left-auto lg:flex lg:w-full lg:translate-x-0 lg:pt-[120px] lg:pb-[360px]">
+      <ContentWidth className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] -translate-x-1/2 flex-col items-center gap-15 text-center lg:relative lg:top-auto lg:left-auto lg:flex lg:w-full lg:translate-x-0 lg:pt-30 lg:pb-90">
         <div className="text-h3-serif flex max-w-[369px] flex-col gap-[1em] md:max-w-[680px] lg:max-w-[860px]">
           {closingParagraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>

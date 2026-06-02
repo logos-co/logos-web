@@ -14,7 +14,7 @@ type Props = {
 export function BuildersHubBottomCta({ title, cta }: Props) {
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
-      <div className="mx-auto flex max-w-360 flex-col items-center gap-6 px-3 py-[100px] text-center">
+      <div className="mx-auto flex max-w-360 flex-col items-center gap-6 px-3 py-25 text-center">
         <h2 className="text-h3-serif text-brand-dark-green text-balance max-w-[20ch] md:max-w-[24ch]">
           {title}
         </h2>

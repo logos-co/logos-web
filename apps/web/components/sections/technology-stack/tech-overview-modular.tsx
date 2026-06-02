@@ -10,7 +10,7 @@ type Props = {
 
 export default function TechOverviewModular({ data }: Props) {
   return (
-    <section className="mt-0 mb-7 xl:my-[102px]">
+    <section className="mt-0 mb-7 xl:my-25.5">
       <div className="bg-brand-off-white p-3">
         <ContentWidth>
           <div className="-mx-3 grid gap-3 xl:mx-0 xl:grid-cols-2">
@@ -40,7 +40,7 @@ export default function TechOverviewModular({ data }: Props) {
                 </h2>
 
                 {data.body && data.body.length > 0 ? (
-                  <div className="mt-[60px] flex w-full flex-col gap-3 text-left text-[12px] leading-[1.2] font-medium text-brand-dark-green xl:mt-10">
+                  <div className="mt-15 flex w-full flex-col gap-3 text-left text-[12px] leading-[1.2] font-medium text-brand-dark-green xl:mt-10">
                     {data.body.map((paragraph) => (
                       <p key={paragraph}>{paragraph}</p>
                     ))}

@@ -107,8 +107,8 @@ function HoverStackItem({
       : 'items-start text-left md:items-center md:text-center'
     : hasDetails
       ? desktopAt1025
-        ? 'h-[134px] w-full items-center justify-center px-3 py-[34px] text-center lg:h-auto lg:w-auto lg:px-0 lg:py-0'
-        : 'h-[134px] w-full items-center justify-center px-3 py-[34px] text-center md:h-auto md:w-auto md:px-0 md:py-0'
+        ? 'h-[134px] w-full items-center justify-center px-3 py-8.5 text-center lg:h-auto lg:w-auto lg:px-0 lg:py-0'
+        : 'h-[134px] w-full items-center justify-center px-3 py-8.5 text-center md:h-auto md:w-auto md:px-0 md:py-0'
       : 'items-center'
   const mobileDescriptionClass = mobileFeatured
     ? 'text-left'

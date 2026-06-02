@@ -15,14 +15,14 @@ export default async function CirclesCtaSection({ data }: Props) {
 
   return (
     <section className="bg-brand-off-white">
-      <ContentWidth className="flex flex-col items-center gap-[40px] pt-[100px] pb-3 lg:gap-[45px] lg:pt-[100px] lg:pb-[100px]">
+      <ContentWidth className="flex flex-col items-center gap-10 pt-25 pb-3 lg:gap-[45px] lg:pt-25 lg:pb-25">
         <Reveal
           amount={0.4}
           delay={0.18}
           viewportMargin="0px 0px -20% 0px"
           className="w-full"
         >
-          <h2 className="text-h2 flex flex-col items-center gap-[6px] text-center text-brand-dark-green lg:gap-0">
+          <h2 className="text-h2 flex flex-col items-center gap-1.5 text-center text-brand-dark-green lg:gap-0">
             <span>{data.title.highlight}</span>
             <span className="lg:-mt-1">{data.title.rest}</span>
           </h2>
@@ -56,7 +56,7 @@ export default async function CirclesCtaSection({ data }: Props) {
           ) : null}
         </div>
 
-        <div className="mt-[30px] h-[720px] w-full overflow-hidden rounded-[100px] bg-gray-01 lg:mt-0">
+        <div className="mt-7.5 h-[720px] w-full overflow-hidden rounded-[100px] bg-gray-01 lg:mt-0">
           <div className="h-[710px] w-full">
             <CirclesWorldMap markers={markers} />
           </div>

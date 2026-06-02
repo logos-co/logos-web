@@ -29,7 +29,7 @@ function SocialProofCardView({ card }: { card: SocialProofCard }) {
       />
       <div className="absolute inset-0 bg-black/20" />
 
-      <div className="relative flex h-[333px] flex-col items-center justify-center gap-9 rounded-[18px] px-[18px] text-center text-brand-off-white">
+      <div className="relative flex h-[333px] flex-col items-center justify-center gap-9 rounded-[18px] px-4.5 text-center text-brand-off-white">
         <p className="font-display text-[112px] leading-none tracking-[-0.04em] lg:text-[clamp(78px,9vw,140px)] desktop:text-[140px]">
           {card.value}
         </p>

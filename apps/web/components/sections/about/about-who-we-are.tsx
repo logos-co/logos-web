@@ -219,7 +219,7 @@ function Panel({
                 <h3 className="text-h3-serif col-span-3 pt-4 text-brand-dark-green">
                   {title}
                 </h3>
-                <div className="col-span-3 col-start-4 flex flex-col gap-3 pt-[26px]">
+                <div className="col-span-3 col-start-4 flex flex-col gap-3 pt-6.5">
                   <p className="text-mono-s text-brand-dark-green">{body}</p>
                   {cta ? (
                     <Button

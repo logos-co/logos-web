@@ -29,7 +29,7 @@ export async function Cards({ locale }: { locale: Language }) {
   const techStack = await getHomeTechStackOverview(locale)
 
   return (
-    <div className="flex w-full flex-col gap-[32px] bg-white p-[20px]">
+    <div className="flex w-full flex-col gap-8 bg-white p-5">
       <h2 className="font-display text-[64px] leading-[1] tracking-[-0.03em] text-brand-dark-green">
         Cards
       </h2>
@@ -46,12 +46,12 @@ export async function Cards({ locale }: { locale: Language }) {
 
 export function Buttons() {
   return (
-    <div className="flex w-full flex-col gap-[32px] bg-white p-[20px]">
+    <div className="flex w-full flex-col gap-8 bg-white p-5">
       <h2 className="font-display text-[64px] leading-[1] tracking-[-0.03em] text-brand-dark-green">
         Buttons
       </h2>
-      <div className="grid grid-cols-1 items-start gap-[32px] sm:grid-cols-2 lg:grid-cols-4">
-        <div className="flex flex-col items-start gap-[12px]">
+      <div className="grid grid-cols-1 items-start gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="flex flex-col items-start gap-3">
           <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Primary
           </p>
@@ -59,7 +59,7 @@ export function Buttons() {
             View The Docs
           </Button>
         </div>
-        <div className="flex flex-col items-start gap-[12px]">
+        <div className="flex flex-col items-start gap-3">
           <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Secondary
           </p>
@@ -67,7 +67,7 @@ export function Buttons() {
             View The Docs
           </Button>
         </div>
-        <div className="flex flex-col items-start gap-[12px]">
+        <div className="flex flex-col items-start gap-3">
           <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Tertiary
           </p>
@@ -75,7 +75,7 @@ export function Buttons() {
             View The Docs
           </Button>
         </div>
-        <div className="flex flex-col items-start gap-[12px]">
+        <div className="flex flex-col items-start gap-3">
           <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Link
           </p>
@@ -118,7 +118,7 @@ export async function Tables() {
   )
 
   return (
-    <div className="flex w-full flex-col gap-[32px] bg-white p-[20px]">
+    <div className="flex w-full flex-col gap-8 bg-white p-5">
       <h2 className="font-display text-[64px] leading-[1] tracking-[-0.03em] text-brand-dark-green">
         Table
       </h2>
@@ -188,8 +188,8 @@ export async function GiantSwitches() {
   )
 
   return (
-    <div className="flex w-full flex-col gap-[32px] bg-white py-[20px]">
-      <h2 className="px-[20px] font-display text-[64px] leading-[1] tracking-[-0.03em] text-brand-dark-green">
+    <div className="flex w-full flex-col gap-8 bg-white py-5">
+      <h2 className="px-5 font-display text-[64px] leading-[1] tracking-[-0.03em] text-brand-dark-green">
         Giant Switch
       </h2>
 

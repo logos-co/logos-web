@@ -68,7 +68,7 @@ function ResourceRow({
             <span className="ml-3 font-display">{resource.title}</span>
           </p>
           <span className="absolute top-3 right-3 inline-flex items-center justify-center text-brand-dark-green">
-            <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-[2px]">
+            <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
               {resource.ctaLabel}
             </span>
           </span>
@@ -88,7 +88,7 @@ function ResourceRow({
             {resource.description}
           </p>
           <span className="absolute top-3 left-[83.33%] translate-x-[2px] inline-flex items-center justify-center text-brand-dark-green">
-            <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-[2px]">
+            <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
               {resource.ctaLabel}
             </span>
           </span>

@@ -74,7 +74,7 @@ function UseCaseCard({
 
       <div className="absolute top-[82px] left-[15px]">
         <span className="inline-flex items-center justify-center text-brand-dark-green">
-          <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-[2px]">
+          <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
             {ctaLabel}
           </span>
         </span>

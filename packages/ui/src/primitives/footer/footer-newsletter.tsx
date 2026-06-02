@@ -27,10 +27,10 @@ export type FooterNewsletterProps = {
 }
 
 const fieldClassName =
-  'text-eyebrow h-[32px] border border-brand-off-white/50 px-3 py-2 text-center text-brand-off-white uppercase backdrop-blur-[5px] bg-transparent outline-none placeholder:text-brand-off-white/70'
+  'text-eyebrow h-[32px] border border-brand-off-white/50 px-3 py-2 text-center text-brand-off-white normal-case backdrop-blur-[5px] bg-transparent outline-none placeholder:text-brand-off-white placeholder:uppercase'
 
 const triggerClassName =
-  'text-eyebrow flex h-[32px] min-w-0 flex-1 cursor-pointer items-center justify-center gap-1 border border-brand-off-white/50 px-3 py-2 text-brand-off-white uppercase backdrop-blur-[5px]'
+  'text-eyebrow flex h-[32px] w-full cursor-pointer items-center justify-center gap-1 border border-brand-off-white/50 px-3 py-2 text-brand-off-white backdrop-blur-[5px]'
 
 const submitClassName =
   'text-eyebrow flex h-[32px] shrink-0 cursor-pointer items-center justify-center gap-1 rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green uppercase backdrop-blur-[5px] transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-60'

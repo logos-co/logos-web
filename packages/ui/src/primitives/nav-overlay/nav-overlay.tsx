@@ -219,7 +219,7 @@ function ActionCard({
     <LinkAs
       href={href}
       onClick={onClose}
-      className="group relative flex h-[132px] w-full cursor-pointer overflow-hidden rounded-3xl bg-brand-off-white/10 p-[18px] text-brand-off-white transition-opacity hover:opacity-85 md:h-auto md:flex-1"
+      className="group relative flex h-[132px] w-full cursor-pointer overflow-hidden rounded-3xl bg-brand-off-white/10 p-4.5 text-brand-off-white transition-opacity hover:opacity-85 md:h-auto md:flex-1"
       {...externalLinkProps(href)}
     >
       {imageNodes.length > 0 && (

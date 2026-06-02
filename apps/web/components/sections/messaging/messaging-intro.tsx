@@ -94,7 +94,7 @@ export default function MessagingIntro({ privacy, lmn, censorship }: Props) {
     <>
       <Reveal amount={0.2}>
         <TechTextSplitSection
-          className="mb-15 md:mb-[100px] md:h-[235px]"
+          className="mb-15 md:mb-25 md:h-[235px]"
           title={privacy.title}
           body={
             <>

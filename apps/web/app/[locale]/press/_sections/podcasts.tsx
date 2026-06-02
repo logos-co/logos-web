@@ -61,7 +61,7 @@ function PodcastHero({
             className="scale-110 object-cover object-center blur-[20px]"
           />
           <div className="absolute left-3 top-3 flex h-[268px] w-[calc(100%-24px)] max-w-[345px] min-w-0 flex-col justify-between text-brand-off-white desktop:h-[380px] desktop:w-[453px] desktop:max-w-[453px]">
-            <div className="flex items-center gap-[102px]">
+            <div className="flex items-center gap-25.5">
               <LogosMark size={6} className="shrink-0" />
               <span className="font-mono text-[10px] font-medium uppercase leading-[1.3]">
                 {copy.media}
@@ -143,7 +143,7 @@ function PodcastEntry({
             </p>
           </div>
         </div>
-        <div className="hidden items-start md:flex md:gap-[132px]">
+        <div className="hidden items-start md:flex md:gap-33">
           <div className="w-[345px] py-3" />
           <div className="shrink-0 py-3">
             <UnderlineLabel>{listenOnAppLabel}</UnderlineLabel>
@@ -169,7 +169,7 @@ export function PodcastsSection({
     listPodcasts.length > 0 ? repeatToLength(listPodcasts, 8) : []
 
   return (
-    <section id="podcasts" className="bg-accent-tan pt-[100px]">
+    <section id="podcasts" className="bg-accent-tan pt-25">
       <ContentWidth className="flex h-[22px] items-center pl-3 md:h-[26px]">
         <h2 className="font-sans text-[36px] leading-none tracking-[-0.02em] text-brand-dark-green">
           {copy.heading}

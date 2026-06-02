@@ -28,7 +28,7 @@ export async function AboutCommunity() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center gap-6 px-3 pt-10 pb-[100px] text-center md:hidden">
+      <div className="flex flex-col items-center gap-6 px-3 pt-10 pb-25 text-center md:hidden">
         <p className="text-eyebrow text-brand-dark-green">{t('eyebrow')}</p>
         <p className="text-h3-serif text-brand-dark-green">{t('body')}</p>
         <Button href={ROUTES.circles} variant="primary">
@@ -36,7 +36,7 @@ export async function AboutCommunity() {
         </Button>
       </div>
 
-      <ContentWidth className="hidden h-[661px] grid-cols-12 gap-3 px-3 py-[100px] md:grid">
+      <ContentWidth className="hidden h-[661px] grid-cols-12 gap-3 px-3 py-25 md:grid">
         <div className="relative col-span-8 h-[461px] overflow-hidden rounded-[100px] bg-gray-01">
           <Image
             src="/images/about/map.webp"

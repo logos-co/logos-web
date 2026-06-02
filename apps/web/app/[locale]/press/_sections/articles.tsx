@@ -62,7 +62,7 @@ export function PressHero({
 }) {
   return (
     <section className="relative h-[473px] bg-accent-tan pt-10 md:h-[359px] md:pt-2.5">
-      <ContentWidth className="flex w-full flex-col gap-[100px] md:gap-10">
+      <ContentWidth className="flex w-full flex-col gap-25 md:gap-10">
         <div className="relative h-[81px] w-full">
           <div className="absolute left-0 top-0 aspect-video w-[107px] overflow-hidden">
             <Image
@@ -150,7 +150,7 @@ export function ArticleEntry({
             )}
           </div>
         </div>
-        <div className="hidden items-start md:flex md:gap-[132px]">
+        <div className="hidden items-start md:flex md:gap-33">
           <p className="text-mono-s line-clamp-3 w-[345px] py-3 text-brand-dark-green">
             {article.description}
           </p>
@@ -223,8 +223,8 @@ export function FeaturedArticle({
   return (
     <section className="relative h-[994px] overflow-hidden bg-accent-tan desktop:flex desktop:h-[1044px] desktop:justify-center desktop:gap-3 desktop:overflow-visible desktop:pr-3">
       <ContentWidth className="relative h-full w-full desktop:flex desktop:h-full desktop:justify-center desktop:gap-3 desktop:overflow-visible">
-        <div className="absolute left-0 top-0 z-10 h-[313px] w-full px-3 pt-10 desktop:sticky desktop:top-10 desktop:h-[495px] desktop:flex-1 desktop:pl-[129px] desktop:pt-[100px]">
-          <div className="flex max-w-[573px] flex-col gap-6 desktop:gap-[30px]">
+        <div className="absolute left-0 top-0 z-10 h-[313px] w-full px-3 pt-10 desktop:sticky desktop:top-10 desktop:h-[495px] desktop:flex-1 desktop:pl-[129px] desktop:pt-25">
+          <div className="flex max-w-[573px] flex-col gap-6 desktop:gap-7.5">
             <div className="text-mono-s flex items-center gap-2.5 text-brand-off-white desktop:text-brand-dark-green">
               <span>{article.author}</span>
               <Dot className="bg-brand-off-white desktop:bg-brand-dark-green" />
@@ -285,7 +285,7 @@ export function BroadcastSection({
   return (
     <section
       id="broadcast"
-      className="bg-accent-tan pt-3 text-brand-dark-green desktop:pt-[100px]"
+      className="bg-accent-tan pt-3 text-brand-dark-green desktop:pt-25"
     >
       <ContentWidth className="px-3 pb-3">
         <Link
@@ -304,14 +304,14 @@ export function BroadcastSection({
           <div className="absolute inset-0 bg-black/40" />
 
           <div className="absolute left-3 top-3 flex h-[calc(100%-24px)] w-[calc(100%-24px)] flex-col justify-between desktop:h-[380px] desktop:w-[453px]">
-            <div className="flex items-center gap-[102px]">
+            <div className="flex items-center gap-25.5">
               <LogosMark size={6} className="shrink-0 text-brand-off-white" />
               <p className="font-mono text-[10px] font-medium uppercase leading-[1.3] text-brand-off-white">
                 {copy.media}
               </p>
             </div>
 
-            <div className="mb-[226px] flex w-full flex-col gap-3 desktop:mb-0">
+            <div className="mb-56.5 flex w-full flex-col gap-3 desktop:mb-0">
               <h2 className="w-[185px] font-sans text-[24px] leading-[1.1] tracking-[-0.01em] text-brand-off-white">
                 {copy.broadcastHeading}
               </h2>

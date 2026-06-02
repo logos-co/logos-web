@@ -76,12 +76,9 @@ export default function AboutScrollStack({
     const update = () => {
       const section = sectionRef.current
       if (!section) return
-      const reducedMotion = window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
-      ).matches
 
       const progress = clamp(-section.getBoundingClientRect().top, 0, 4400)
-      const startY = reducedMotion ? 140 : window.innerHeight + 64
+      const startY = window.innerHeight + 64
 
       cardRefs.current.forEach((card, index) => {
         if (!card) return
@@ -90,7 +87,7 @@ export default function AboutScrollStack({
         const start = -360 + index * 760
         const end = start + 2200
         const amount = easeInOutCubic(
-          reducedMotion ? 1 : clamp((progress - start) / (end - start), 0, 1)
+          clamp((progress - start) / (end - start), 0, 1)
         )
         const y = startY + (targetY - startY) * amount
 

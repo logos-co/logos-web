@@ -45,7 +45,7 @@ export default function TechOverviewOpenSource({ data }: Props) {
           </div>
         ) : null}
 
-        <div className="mt-[18px] -mx-3 flex w-[calc(100%+24px)] flex-col xl:absolute xl:top-[156px] xl:left-0 xl:mx-0 xl:mt-0 xl:w-full">
+        <div className="mt-4.5 -mx-3 flex w-[calc(100%+24px)] flex-col xl:absolute xl:top-[156px] xl:left-0 xl:mx-0 xl:mt-0 xl:w-full">
           {data.rows.map((row, index) => (
             <div
               key={`${row.number}-${row.title}`}

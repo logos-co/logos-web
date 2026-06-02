@@ -50,7 +50,7 @@ export default async function DesignSystemsPage({
   }
 
   return (
-    <div className="flex w-full flex-col gap-[40px] py-10">
+    <div className="flex w-full flex-col gap-10 py-10">
       <ColorPalette />
       <TypeStyles />
       <Cards locale={locale} />

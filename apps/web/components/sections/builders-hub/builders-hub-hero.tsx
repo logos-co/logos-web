@@ -56,7 +56,7 @@ export function BuildersHubHero({ hero }: Props) {
       ) : null}
 
       {/* Title — wraps "Logos / Builders Hub" into two lines, centered. */}
-      <h1 className="text-h2 text-brand-dark-green leading-none tracking-tight pt-[140px] px-3 text-center md:px-0">
+      <h1 className="text-h2 text-brand-dark-green leading-none tracking-tight pt-35 px-3 text-center md:px-0">
         {hero.title.split(' ').length > 1
           ? renderTitleLines(hero.title)
           : hero.title}

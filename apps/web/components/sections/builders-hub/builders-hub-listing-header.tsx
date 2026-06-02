@@ -51,7 +51,7 @@ export function BuildersHubListingHeader({
 }: Props) {
   const mobileCopy = mobileDescription ?? description
   const mobileTopClass = mobileSpacious ? 'pt-10' : 'pt-0'
-  const mobileDescriptionMarginClass = mobileSpacious ? 'mt-[42px]' : 'mt-6'
+  const mobileDescriptionMarginClass = mobileSpacious ? 'mt-10.5' : 'mt-6'
   const mobileToggleMarginClass = mobileSpacious ? 'mt-10' : 'mt-6'
 
   return (
@@ -112,7 +112,7 @@ export function BuildersHubListingHeader({
       ) : null}
 
       <div
-        className={`${mobileToggleMarginClass} grid md:mt-[34px] md:grid-cols-12 md:gap-3`}
+        className={`${mobileToggleMarginClass} grid md:mt-8.5 md:grid-cols-12 md:gap-3`}
       >
         {onViewChange ? (
           <ViewToggle

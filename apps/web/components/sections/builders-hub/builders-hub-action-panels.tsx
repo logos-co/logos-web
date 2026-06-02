@@ -39,7 +39,7 @@ function ImageOverlayPanel({ panel }: { panel: ActionPanel }) {
   return (
     <div className="relative h-[270px] w-full overflow-hidden rounded-[200px] md:h-[500px] md:flex-1">
       {panel.image ? (
-        <div className="absolute inset-0 -m-[30px]">
+        <div className="absolute inset-0 -m-7.5">
           <Image
             src={panel.image.src}
             alt={panel.image.alt}

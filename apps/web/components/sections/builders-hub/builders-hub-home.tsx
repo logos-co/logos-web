@@ -79,7 +79,7 @@ function BuildersHubHero({ hero }: { hero: BuilderHubSettings['hero'] }) {
           </p>
         ) : null}
 
-        <div className="absolute top-[279px] left-3 flex flex-col items-start gap-3 md:top-[11px] md:left-[83.33%] md:translate-x-[2px] md:gap-[6px]">
+        <div className="absolute top-[279px] left-3 flex flex-col items-start gap-3 md:top-[11px] md:left-[83.33%] md:translate-x-[2px] md:gap-1.5">
           {ctas.map((cta) => (
             <Button
               key={cta.label}
@@ -113,7 +113,7 @@ function JourneySection({
   data: NonNullable<BuilderHubSettings['journey']>
 }) {
   return (
-    <section className="px-3 pb-[100px] md:pb-[100px]">
+    <section className="px-3 pb-25 md:pb-25">
       <ContentWidth>
         <h2 className="text-[30px] leading-none tracking-[-0.02em] md:text-h3-sans">
           {data.title}
@@ -156,7 +156,7 @@ function SectionFrame({
   return (
     <section
       id={id}
-      className="border-t border-brand-dark-green/10 px-3 pt-6 pb-[100px]"
+      className="border-t border-brand-dark-green/10 px-3 pt-6 pb-25"
     >
       <ContentWidth>
         <div className="flex items-baseline gap-3 whitespace-nowrap">
@@ -185,7 +185,7 @@ function InspirationSection({
   return (
     <SectionFrame id="get-inspired" index="01" title={data.title}>
       <div className="grid gap-3 md:grid-cols-2">
-        <div className="flex h-[370px] flex-col items-center justify-center gap-[60px] overflow-hidden rounded-[200px] border border-brand-dark-green px-4 py-10 [clip-path:inset(0)] [contain:paint]">
+        <div className="flex h-[370px] flex-col items-center justify-center gap-15 overflow-hidden rounded-[200px] border border-brand-dark-green px-4 py-10 [clip-path:inset(0)] [contain:paint]">
           <div className="text-center">
             <h3 className="text-subhead-sans">{data.ideasTitle}</h3>
             <p className="mx-auto mt-3 w-[222px] text-mono-s">
@@ -254,7 +254,7 @@ function PrepareSection({
         {data.cards.map((card) => (
           <div
             key={card.title}
-            className="flex h-[458px] flex-col gap-[6px] overflow-hidden rounded-xl bg-gray-01 p-[6px] md:h-[589px]"
+            className="flex h-[458px] flex-col gap-1.5 overflow-hidden rounded-xl bg-gray-01 p-1.5 md:h-[589px]"
           >
             {card.image ? (
               <div className="relative h-[314px] overflow-hidden rounded-md md:h-[313px]">
@@ -295,7 +295,7 @@ function BuildSection({
         {data.cards.map((card) => (
           <div
             key={card.title}
-            className="flex h-[300px] min-w-0 flex-col items-center justify-between rounded-xl bg-accent-light-blue px-4 pt-[60px] pb-3 text-center md:h-[370px]"
+            className="flex h-[300px] min-w-0 flex-col items-center justify-between rounded-xl bg-accent-light-blue px-4 pt-15 pb-3 text-center md:h-[370px]"
           >
             <div className="flex w-full min-w-0 flex-col items-center gap-3">
               <h3 className="text-subhead-sans max-w-full break-words">
@@ -365,7 +365,7 @@ function ProgramsSection({
               {data.rfpsDescription}
             </p>
           </div>
-          <div className="mt-[60px] flex w-full justify-center gap-3 md:w-[1416px] md:-translate-x-[176px] md:justify-start">
+          <div className="mt-15 flex w-full justify-center gap-3 md:w-[1416px] md:-translate-x-[176px] md:justify-start">
             {previewRfps.map((rfp, index) => (
               <div
                 key={rfp.slug}
@@ -426,7 +426,7 @@ function SupportSection({
                 {card.metrics.map((metric) => (
                   <div key={metric.label} className="w-[42px]">
                     <p className="text-h4-serif">{metric.value}</p>
-                    <p className="mt-[6px] text-eyebrow">{metric.label}</p>
+                    <p className="mt-1.5 text-eyebrow">{metric.label}</p>
                   </div>
                 ))}
               </div>
@@ -454,7 +454,7 @@ function DocumentationSection({
   return (
     <section
       id="resources"
-      className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 pt-[39px] pb-[100px] text-brand-dark-green"
+      className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 pt-[39px] pb-25 text-brand-dark-green"
     >
       <ContentWidth>
         <div className="md:grid md:grid-cols-[1fr_1fr] md:gap-3">
@@ -464,7 +464,7 @@ function DocumentationSection({
           </p>
         </div>
 
-        <div className="mt-[31px] grid gap-3 md:mt-[78px] md:grid-cols-3">
+        <div className="mt-[31px] grid gap-3 md:mt-19.5 md:grid-cols-3">
           {data.categories.map((category) => (
             <div key={category.title} className="min-w-0 w-full">
               <h3 className="flex h-[45px] items-start px-3 py-3 text-subhead-sans">
@@ -484,7 +484,7 @@ function DocumentationSection({
                       <span className="w-[18px] shrink-0 pt-1 text-body-sans font-medium">
                         {(index + 1).toString().padStart(2, '0')}
                       </span>
-                      <span className="flex min-w-0 flex-1 flex-col gap-[6px]">
+                      <span className="flex min-w-0 flex-1 flex-col gap-1.5">
                         <span className="break-words text-body-serif">
                           {link.title}
                         </span>

@@ -211,7 +211,7 @@ function MetaBlock({
 
 function SameAsDesktopTag() {
   return (
-    <span className="inline-flex h-[24px] items-center justify-center rounded-full bg-brand-yellow px-[10px] text-[10px] font-medium leading-[1.3] text-black uppercase">
+    <span className="inline-flex h-[24px] items-center justify-center rounded-full bg-brand-yellow px-2.5 text-[10px] font-medium leading-[1.3] text-black uppercase">
       Same as desktop
     </span>
   )
@@ -223,7 +223,7 @@ export function TypeStyles() {
       <div className="overflow-x-auto">
         <div className="font-sans w-full border border-[rgba(0,0,0,0.5)] bg-white">
           {/* Header row */}
-          <div className="flex flex-col gap-[12px] p-[19px] md:flex-row md:items-start md:gap-[20px]">
+          <div className="flex flex-col gap-3 p-[19px] md:flex-row md:items-start md:gap-5">
             <p className="text-[18px] leading-[1.2] text-black md:w-[15.5%] md:shrink-0">
               Logos Design System
             </p>
@@ -233,10 +233,10 @@ export function TypeStyles() {
           </div>
 
           {/* Column labels + breakpoint scale — desktop only */}
-          <div className="hidden items-start gap-[20px] px-[19px] md:flex">
+          <div className="hidden items-start gap-5 px-[19px] md:flex">
             <div className="w-[15.5%] shrink-0" />
             <div className="flex-1">
-              <div className="flex items-start gap-[20px] text-[16px] leading-[1.2] text-black">
+              <div className="flex items-start gap-5 text-[16px] leading-[1.2] text-black">
                 <div className="w-1/2">
                   <p>Desktop</p>
                   <p>∞-800 px Wide</p>
@@ -246,7 +246,7 @@ export function TypeStyles() {
                   <p>800-0 px Wide</p>
                 </div>
               </div>
-              <div className="relative mt-[8px] h-[9px]">
+              <div className="relative mt-2 h-[9px]">
                 <span className="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black" />
                 <span className="absolute top-0 left-0 block size-[9px] rounded-full border border-black bg-black" />
                 <span className="absolute top-0 left-1/2 block size-[9px] -translate-x-1/2 rounded-full border border-black bg-black" />
@@ -256,27 +256,27 @@ export function TypeStyles() {
           </div>
 
           {/* Style Name label */}
-          <p className="px-[19px] pt-[32px] text-[18px] leading-[1.2] text-black md:pt-[64px]">
+          <p className="px-[19px] pt-8 text-[18px] leading-[1.2] text-black md:pt-16">
             Style Name
           </p>
 
           {/* Rows */}
-          <div className="flex flex-col px-[19px] pt-[16px]">
+          <div className="flex flex-col px-[19px] pt-4">
             {typeRows.map((row, i) => (
               <div
                 key={i}
-                className="flex flex-col items-start gap-[16px] border-t border-black pt-[16px] pb-[40px] md:flex-row md:justify-between md:gap-[20px] md:pb-[80px]"
+                className="flex flex-col items-start gap-4 border-t border-black pt-4 pb-10 md:flex-row md:justify-between md:gap-5 md:pb-20"
               >
                 <p className="w-full shrink-0 text-[24px] leading-[1.2] text-black md:w-[15.5%] md:text-[30px]">
                   {row.label}
                 </p>
 
-                <div className="flex w-full flex-1 flex-col gap-[24px]">
+                <div className="flex w-full flex-1 flex-col gap-6">
                   {/* Specimens */}
                   <div
-                    className={`flex flex-col gap-[20px] md:flex-row md:items-baseline ${row.specimenLeading}`}
+                    className={`flex flex-col gap-5 md:flex-row md:items-baseline ${row.specimenLeading}`}
                   >
-                    <div className="flex w-full flex-col gap-[8px] md:w-1/2">
+                    <div className="flex w-full flex-col gap-2 md:w-1/2">
                       <p className="text-[14px] leading-[1.2] text-black md:hidden">
                         Desktop
                       </p>
@@ -287,8 +287,8 @@ export function TypeStyles() {
                         {row.sample}
                       </p>
                     </div>
-                    <div className="flex w-full flex-col gap-[8px] md:w-1/2">
-                      <p className="flex items-center gap-[10px] text-[14px] leading-[1.2] text-black md:hidden">
+                    <div className="flex w-full flex-col gap-2 md:w-1/2">
+                      <p className="flex items-center gap-2.5 text-[14px] leading-[1.2] text-black md:hidden">
                         Mobile
                         {row.sameAsDesktop && <SameAsDesktopTag />}
                       </p>
@@ -302,13 +302,13 @@ export function TypeStyles() {
                   </div>
 
                   {/* Metadata */}
-                  <div className="flex flex-col gap-[20px] text-[16px] text-black md:flex-row md:items-start">
+                  <div className="flex flex-col gap-5 text-[16px] text-black md:flex-row md:items-start">
                     <div className="flex w-full flex-col gap-[5px] md:w-1/2">
                       <p className="leading-[1.2]">Desktop</p>
                       <MetaBlock lines={row.desktopMeta} />
                     </div>
                     <div className="flex w-full flex-col gap-[5px] md:w-1/2">
-                      <div className="flex items-center gap-[10px]">
+                      <div className="flex items-center gap-2.5">
                         <p className="leading-[1.2]">Mobile</p>
                         {row.sameAsDesktop && (
                           <span className="hidden md:inline-flex">

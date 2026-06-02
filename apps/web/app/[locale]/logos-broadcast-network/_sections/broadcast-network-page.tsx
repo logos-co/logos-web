@@ -183,7 +183,7 @@ function PlayIcon() {
       aria-hidden="true"
       className="relative inline-flex size-[30px] shrink-0 items-center justify-center rounded-full border border-brand-dark-green"
     >
-      <span className="ml-[2px] h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-brand-dark-green" />
+      <span className="ml-0.5 h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-brand-dark-green" />
     </span>
   )
 }
@@ -527,7 +527,7 @@ function EpisodeRow({
             </h3>
           </div>
         </div>
-        <div className="hidden items-start gap-[132px] md:flex">
+        <div className="hidden items-start gap-33 md:flex">
           <div className="w-[345px] py-3" />
           <div className="shrink-0 py-3">
             <UnderlineLabel>{listenOnApp}</UnderlineLabel>

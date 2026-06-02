@@ -99,7 +99,7 @@ export function IdeaRow({ index, idea }: Props) {
               <span className="w-[107px]" />
             )}
             <span className="inline-flex items-center justify-center text-brand-dark-green">
-              <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-[2px]">
+              <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
                 Apply
               </span>
             </span>
