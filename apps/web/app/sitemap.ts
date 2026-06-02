@@ -38,7 +38,7 @@ const staticIndexableRoutes = [
   ROUTES.storage,
   ROUTES.terms,
   ROUTES.workWithUs,
-  ROUTES.connect,
+  // /contact is excluded -- it redirects to the homepage and should not be indexed
   ROUTES.activistBuilder,
   ROUTES.activistLeaderSteward,
   ROUTES.coalitionPartner,
