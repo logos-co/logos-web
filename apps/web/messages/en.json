@@ -375,29 +375,32 @@
           "1": {
             "meta": {
               "id": "LP-0017",
-              "effort": "Effort: MEDIUM",
+              "effort": "Effort: Medium",
               "prize": "Prize: $400"
             },
-            "title": "Whistleblower: Censorship-resistant document upload and indexing mini-app",
-            "body": "This prize funds Whistleblower, a Logos mini-app that lets anyone upload a document and make it permanently discoverable without relying on any centralised server, without requiring the publisher to hold tokens, and without a single point of censorship. A user selects a file, adds optional met"
+            "title": "Whistleblower — censorship-resistant document upload and indexing Basecamp app",
+            "body": "This prize funds \"Whistleblower\", a Logos Basecamp app that lets anyone upload a document and make it permanently discoverable — without relying on any centralised server, without requiring the publisher to hold tokens, and without a single point of censorship.",
+            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0017.md"
           },
           "2": {
             "meta": {
-              "id": "LP-0017",
-              "effort": "Effort: MEDIUM",
-              "prize": "Prize: $400"
+              "id": "LP-0008",
+              "effort": "Effort: Large",
+              "prize": "Prize: $1,200"
             },
-            "title": "Whistleblower: Censorship-resistant document upload and indexing mini-app",
-            "body": "This prize funds Whistleblower, a Logos mini-app that lets anyone upload a document and make it permanently discoverable without relying on any centralised server, without requiring the publisher to hold tokens, and without a single point of censorship. A user selects a file, adds optional met"
+            "title": "Autonomous AI Module with Wallet, Storage, and Messaging",
+            "body": "This prize is for a Logos Core module that runs an autonomous AI agent with native access to the full Logos stack: a LEZ wallet, Logos Storage, and Logos Messaging. The agent has its own identity and funds, can communicate with its owner via chat, and can communicate with other agents.",
+            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0008.md"
           },
           "3": {
             "meta": {
-              "id": "LP-0017",
-              "effort": "Effort: MEDIUM",
-              "prize": "Prize: $400"
+              "id": "LP-0016",
+              "effort": "Effort: Large",
+              "prize": "Prize: $1,200"
             },
-            "title": "Whistleblower: Censorship-resistant document upload and indexing mini-app",
-            "body": "This prize funds Whistleblower, a Logos mini-app that lets anyone upload a document and make it permanently discoverable without relying on any centralised server, without requiring the publisher to hold tokens, and without a single point of censorship. A user selects a file, adds optional met"
+            "title": "Anonymous Forum with Threshold Moderation and Membership Revocation",
+            "body": "This prize is for a protocol for anonymous, moderated forums. Members post without revealing their identity and their posts are unlinkable to one another — yet a coordinated group of moderators can act on individual pieces of content, and a member who accumulates too many moderation strikes loses their membership.",
+            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0016.md"
           }
         }
       },

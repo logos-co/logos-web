@@ -18,6 +18,7 @@ interface PrizeCopy {
   title: string
   body: string
   status: string
+  href: string
 }
 
 interface SupportRowCopy extends RowCopy {
@@ -241,7 +242,7 @@ function PrizeCard({ prize, image }: { prize: PrizeCopy; image: string }) {
         <div className="mx-auto flex w-[220px] flex-col items-center gap-6 text-center">
           <h3 className="text-h4-serif">{prize.title}</h3>
           <Button
-            href={ROUTES.rfps}
+            href={prize.href}
             className="cursor-pointer bg-brand-off-white text-brand-dark-green"
           >
             Learn More
@@ -255,7 +256,7 @@ function PrizeCard({ prize, image }: { prize: PrizeCopy; image: string }) {
 
 function FeaturedPrizes({ copy }: { copy: LambdaPrizePageCopy['featured'] }) {
   return (
-    <section className="h-[1931px] bg-brand-off-white px-3 pt-10 text-brand-dark-green lg:h-[1011px] lg:px-3 lg:pt-12">
+    <section className="bg-brand-off-white px-3 mt-25 lg:mt-50 text-brand-dark-green lg:px-3">
       <ContentWidth>
         <h2 className="text-h3-serif">{copy.heading}</h2>
         <div className="mt-10 grid grid-cols-1 gap-4 lg:grid-cols-3 lg:mt-12">

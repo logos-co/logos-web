@@ -94,6 +94,7 @@ export default async function Page({
               title: t('featured.prizes.1.title'),
               body: t('featured.prizes.1.body'),
               status: t('featured.status'),
+              href: t('featured.prizes.1.url'),
             },
             {
               meta: [
@@ -104,6 +105,7 @@ export default async function Page({
               title: t('featured.prizes.2.title'),
               body: t('featured.prizes.2.body'),
               status: t('featured.status'),
+              href: t('featured.prizes.2.url'),
             },
             {
               meta: [
@@ -114,6 +116,7 @@ export default async function Page({
               title: t('featured.prizes.3.title'),
               body: t('featured.prizes.3.body'),
               status: t('featured.status'),
+              href: t('featured.prizes.3.url'),
             },
           ],
         },
