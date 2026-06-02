@@ -82,13 +82,16 @@ export default async function BlockchainPage({
         <TechStackBuilderCta data={builderCta} />
       </TechStackDetailSection>
       <TechStackDetailSection>
-        <TechStackExplorer locale={locale} />
-      </TechStackDetailSection>
-      <TechStackDetailSection>
         <TechStackRelatedArticles
           data={relatedArticles}
           articles={articles}
           sectionClassName="mt-0 md:mt-0"
+        />
+      </TechStackDetailSection>
+      <TechStackDetailSection>
+        <TechStackExplorer
+          locale={locale}
+          contentClassName="pb-15 md:pb-[93px]"
         />
       </TechStackDetailSection>
     </TechStackDetailPage>

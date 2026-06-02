@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server'
+import { twMerge } from 'tailwind-merge'
 
 import { getPageCopy } from '@repo/content/loaders'
 import type { Language, TechStackOverviewSection } from '@repo/content/schemas'
@@ -14,8 +15,10 @@ const findTechnologyStackSection = createSectionFinder('technology-stack')
 
 export default async function TechStackExplorer({
   locale,
+  contentClassName,
 }: {
   locale: Language
+  contentClassName?: string
 }) {
   const t = await getTranslations({
     locale,
@@ -30,7 +33,9 @@ export default async function TechStackExplorer({
 
   return (
     <section className="border-brand-dark-green/10 bg-brand-off-white border-t">
-      <ContentWidth className="pt-25 pb-29.5 md:pb-6">
+      <ContentWidth
+        className={twMerge('pt-25 pb-29.5 md:pb-6', contentClassName)}
+      >
         <Reveal
           stagger
           className="flex flex-col gap-3 text-brand-dark-green md:flex-row md:gap-0"
