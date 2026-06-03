@@ -49,20 +49,21 @@ function ItemText({ title, description }: TechDetailHeroItem) {
   if (description) {
     return (
       <>
-        <span className="font-mono font-semibold">{title}</span>
+        <span className="font-mono font-semibold uppercase">{title}</span>
         {` — ${description}`}
       </>
     )
   }
   const dashIdx = title.indexOf('—')
   if (dashIdx < 0) {
-    return <span className="font-mono font-semibold">{title}</span>
+    return <span className="font-mono font-semibold uppercase">{title}</span>
   }
   const boldPart = title.slice(0, dashIdx).replace(/\s+$/, '')
   const restPart = title.slice(dashIdx)
   return (
     <>
-      <span className="font-mono font-semibold">{boldPart}</span>
+      <span className="font-mono font-semibold uppercase">{boldPart}</span>
+      {' '}
       {restPart}
     </>
   )
