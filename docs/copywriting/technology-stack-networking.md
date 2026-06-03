@@ -7,7 +7,7 @@ because they need a decision, a new field, or a component/schema change. Straigh
 before/after text swaps and hero structural additions that are already in the JSON are
 documented under **Applied** below.
 
-Last updated: 2026-06-03
+Last updated: 2026-06-04
 
 ---
 
@@ -41,67 +41,30 @@ for clarity in content review.
 
 ---
 
-## 1. Feature sections (`networking.features`)
+## 1. Feature sections (`networking.features`) -- Applied (partial)
 
-This is the largest open decision. The current JSON renders **three image cards**
-(`cardGrid`, title + description + image only, no per-card links):
+The per-card `REPO →` and `DOCS →` links have been added to the existing image-card
+layout (keeping `cardGrid`). Cards now render Repo + Docs buttons below the description
+text, matching the button style from the messaging ctaPanel sections. Card heights
+changed from fixed to `min-h` to accommodate the added buttons.
 
-1. `The Mix-Net`
-2. `Capability Discovery Protocol`
-3. `Peering Layer`
+### Links applied
 
-The new copy replaces these with **three detailed feature sections**, each with a
-longer body and its own `REPO →` / `DOCS →` links — matching the `ctaPanel`
-pattern the messaging page uses (`messaging.lmn`, `messaging.censorship`). This is
-a component/structure change (cardGrid → multiple ctaPanels), not a text swap, so
-it is held. The "Peering Layer" card is also repurposed into an RLN / spam-resistance
-section.
+| Card | Repo | Docs |
+|---|---|---|
+| The Mix-Net | `https://github.com/logos-co/nim-libp2p-mix` | `https://github.com/logos-co/logos-docs` (fallback) |
+| Capability Discovery Protocol | `https://github.com/vacp2p/nim-libp2p` | `https://github.com/logos-co/logos-docs` (fallback) |
+| Peering Layer | `https://github.com/vacp2p/zerokit` | `https://github.com/logos-co/logos-docs` (fallback) |
 
-### 1a. Service Discovery (was "Capability Discovery Protocol")
+### Still pending
 
-> How does a node find other nodes offering the services it needs without a
-> central directory? Service Discovery answers this with a new protocol built on
-> libp2p's Kad-DHT. Each node publishes a signed record describing its address and
-> capabilities; others search for matching records through a general API, and light
-> clients can look peers up without joining the full distributed hash table. This
-> enables a heterogeneous peer-to-peer network where many kinds of node coordinate
-> without intermediaries.
-
-- `REPO →` `https://github.com/vacp2p/nim-libp2p`
-- `DOCS →` **undefined in source**
-
-### 1b. Mixnet (was "The Mix-Net")
-
-> The mixnet is a privacy-preserving transport mechanism drawn from the same family
-> of designs behind anonymity networks such as Tor and Nym.
->
-> Messages pass through several relay nodes that shuffle and delay them, so that no
-> observer can pair senders with receivers even by watching timing and volume
-> closely. It carries both fire-and-forget messages and request-response
-> interactions, and it supports cover traffic to keep the set of plausible senders
-> large enough to preserve privacy.
-
-- `REPO →` `https://github.com/logos-co/nim-libp2p-mix`
-- `DOCS →` **undefined in source**
-
-### 1c. Spam Resistance: RLN and Zerokit (replaces "Peering Layer")
-
-> An anonymous network needs a way to stop abuse without identifying its users.
->
-> A Rate Limiting Nullifier (RLN) does exactly that, using zero-knowledge proofs:
-> each member can send up to a set rate while staying anonymous, and exceeding that
-> rate makes their identity recoverable so the network can remove them.
->
-> The cryptography lives in Zerokit, a Rust library containing cryptographic modules
-> designed for performance, security, and usability.
-
-- `REPO →` `https://github.com/vacp2p/zerokit`
-- `DOCS →` **undefined in source**
-
-**Decision needed:** convert the `cardGrid` to three `ctaPanel` feature sections
-(matching messaging) vs. keep the image-card layout? Existing feature images
-(`mix-net.jpg`, `capability-discovery.jpg`, `peering-layer.jpg`) — reuse, replace,
-or drop? Destinations for the three blank `DOCS →` links.
+- **Longer body copy** for each card (sections 1a/1b/1c descriptions from the copy doc)
+  and the card title renames (Service Discovery, Spam Resistance: RLN and Zerokit) --
+  these are copy/text swaps that can be applied directly in the JSON.
+- **Per-card DOCS URLs** -- fallback `logos-docs` used for all three; replace when
+  specific documentation pages exist.
+- **Layout conversion** (cardGrid → ctaPanel) is still an open option if the full
+  redesign is wanted; the current approach keeps the image-card layout.
 
 ---
 

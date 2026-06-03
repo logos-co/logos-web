@@ -80,6 +80,16 @@
         {
           "title": "The Mix-Net",
           "description": "The mix-net routes messages through multiple relay nodes, mixing traffic patterns so that observers can't determine who is talking to whom.",
+          "cta": {
+            "label": "Repo",
+            "href": "https://github.com/logos-co/nim-libp2p-mix",
+            "external": true
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true
+          },
           "image": {
             "src": "/images/networking/mix-net.jpg",
             "alt": "",
@@ -90,6 +100,16 @@
         {
           "title": "Capability Discovery Protocol",
           "description": "A capability discovery protocol lets nodes advertise and find services without centralised registries.",
+          "cta": {
+            "label": "Repo",
+            "href": "https://github.com/vacp2p/nim-libp2p",
+            "external": true
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true
+          },
           "image": {
             "src": "/images/networking/capability-discovery.jpg",
             "alt": "",
@@ -100,6 +120,16 @@
         {
           "title": "Peering Layer",
           "description": "Peering layer manages connections across the decentralised network.",
+          "cta": {
+            "label": "Repo",
+            "href": "https://github.com/vacp2p/zerokit",
+            "external": true
+          },
+          "secondaryCta": {
+            "label": "Docs",
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true
+          },
           "image": {
             "src": "/images/networking/peering-layer.jpg",
             "alt": "",

@@ -1,8 +1,9 @@
 import Image from 'next/image'
 
-import type { CardGridSection } from '@repo/content/schemas'
+import type { CardGridSection, CTA } from '@repo/content/schemas'
 
 import { Reveal, RevealItem } from '@/components/motion/reveal'
+import { Button } from '@/components/ui'
 
 /**
  * Dot accent colors are positional — Figma has three fixed accent dots in
@@ -22,6 +23,8 @@ type FeatureCardProps = {
   dotClassName: string
   imageSrc: string
   imageAlt: string
+  cta?: CTA
+  secondaryCta?: CTA
 }
 
 function FeatureCard({
@@ -30,9 +33,11 @@ function FeatureCard({
   dotClassName,
   imageSrc,
   imageAlt,
+  cta,
+  secondaryCta,
 }: FeatureCardProps) {
   return (
-    <article className="flex h-[358px] w-full shrink-0 flex-col items-start justify-between rounded-3xl bg-gray-01 p-1.5 md:h-[396px]">
+    <article className="flex min-h-[358px] w-full shrink-0 flex-col items-start justify-between rounded-3xl bg-gray-01 p-1.5 md:min-h-[396px]">
       <div className="flex w-full flex-col gap-3 p-3">
         <div className="flex items-center gap-3">
           <span
@@ -45,14 +50,38 @@ function FeatureCard({
         </div>
         <p className="text-mono-s text-brand-dark-green">{body}</p>
       </div>
-      <div className="relative h-[202px] w-full overflow-hidden rounded-[18px] md:h-62">
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          fill
-          sizes="(min-width: 768px) 33vw, 100vw"
-          className="object-cover"
-        />
+      <div className="flex w-full flex-col">
+        {(cta || secondaryCta) ? (
+          <div className="flex items-baseline gap-1.5 px-3 pb-1.5">
+            {cta ? (
+              <Button
+                href={cta.href}
+                variant={cta.variant ?? 'primary'}
+                className="cursor-pointer"
+              >
+                {cta.label}
+              </Button>
+            ) : null}
+            {secondaryCta ? (
+              <Button
+                href={secondaryCta.href}
+                variant={secondaryCta.variant ?? 'secondary'}
+                className="cursor-pointer"
+              >
+                {secondaryCta.label}
+              </Button>
+            ) : null}
+          </div>
+        ) : null}
+        <div className="relative h-[202px] w-full overflow-hidden rounded-[18px] md:h-62">
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            fill
+            sizes="(min-width: 768px) 33vw, 100vw"
+            className="object-cover"
+          />
+        </div>
       </div>
     </article>
   )
@@ -80,6 +109,8 @@ export default function NetworkingFeatures({ data }: Props) {
                   dotClassName={DOT_CLASSNAMES[index] ?? DOT_CLASSNAMES[0]}
                   imageSrc={card.image.src}
                   imageAlt={card.image.alt}
+                  cta={card.cta}
+                  secondaryCta={card.secondaryCta}
                 />
               </RevealItem>
             ) : null
