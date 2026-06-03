@@ -101,7 +101,7 @@ export default async function StoragePage({
       <TechStackDetailSection>
         <StorageTechStack locale={locale} />
       </TechStackDetailSection>
-      <TechStackDetailSection>
+      <TechStackDetailSection className="mt-0 md:mt-25">
         <TechStackRelatedArticles
           data={relatedArticles}
           articles={articles}
