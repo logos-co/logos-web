@@ -7,9 +7,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui'
 import {
   ABOUT_CAROUSEL_CARD_WIDTH,
-  ABOUT_CAROUSEL_SCROLL_DISTANCE,
   ABOUT_CAROUSEL_TOTAL_SCROLL_DISTANCE,
-  getAboutCarouselProgressForIndex,
+  ABOUT_CAROUSEL_VISUAL_TRANSITION_MS,
   getAboutCarouselState,
 } from './about-carousel-motion'
 
@@ -124,6 +123,7 @@ export default function AboutScrollStack({
 
   useEffect(() => {
     let frame = 0
+    const visualTransition = `opacity ${ABOUT_CAROUSEL_VISUAL_TRANSITION_MS}ms ease-out, filter ${ABOUT_CAROUSEL_VISUAL_TRANSITION_MS}ms ease-out, transform ${ABOUT_CAROUSEL_VISUAL_TRANSITION_MS}ms ease-out`
 
     const update = () => {
       frame = 0
@@ -147,22 +147,28 @@ export default function AboutScrollStack({
         introTranslateY,
         offset,
       } = getAboutCarouselState({
+        activeIndex,
         sectionTop: section.getBoundingClientRect().top,
         cardCount: cards.length,
       })
 
+      intro.style.transition = visualTransition
       intro.style.opacity = String(introOpacity)
       intro.style.filter = `blur(${introBlur}px)`
       intro.style.transform = `translate3d(-50%, calc(-50% + ${introTranslateY}px), 0)`
+      carousel.style.transition = visualTransition
       carousel.style.opacity = String(carouselOpacity)
       carousel.style.filter = `blur(${carouselBlur}px)`
       carousel.style.pointerEvents = carouselOpacity > 0.5 ? 'auto' : 'none'
       carousel.style.transform = `translate3d(0, ${carouselTranslateY}px, 0)`
+      closing.style.transition = visualTransition
       closing.style.opacity = String(closingOpacity)
       closing.style.pointerEvents = closingOpacity > 0.75 ? 'auto' : 'none'
       closing.style.transform = `translate3d(-50%, calc(-50% + ${closingTranslateY}px), 0)`
       track.style.transform = `translate3d(${-offset}px, 0, 0)`
-      setActiveIndex(nextIndex)
+      if (nextIndex !== activeIndex) {
+        setActiveIndex(nextIndex)
+      }
     }
 
     const requestUpdate = () => {
@@ -181,7 +187,7 @@ export default function AboutScrollStack({
       window.removeEventListener('scroll', requestUpdate)
       window.removeEventListener('resize', requestUpdate)
     }
-  }, [cards.length])
+  }, [activeIndex, cards.length])
 
   const getSectionPageTop = () => {
     const section = sectionRef.current
@@ -191,18 +197,7 @@ export default function AboutScrollStack({
   }
 
   const scrollToCard = (index: number) => {
-    const top = getSectionPageTop()
-    if (top === null) return
-
-    const progress = getAboutCarouselProgressForIndex({
-      cardCount: cards.length,
-      index,
-    })
-
-    window.scrollTo({
-      top: top + progress * ABOUT_CAROUSEL_SCROLL_DISTANCE,
-      behavior: 'smooth',
-    })
+    setActiveIndex(Math.min(Math.max(index, 0), cards.length - 1))
   }
 
   const scrollPastCarousel = () => {
@@ -272,7 +267,7 @@ export default function AboutScrollStack({
           >
             <div
               ref={trackRef}
-              className="flex gap-3 will-change-transform"
+              className="flex gap-3 transition-transform duration-500 ease-out will-change-transform"
               style={{
                 paddingLeft: `calc((100vw - ${ABOUT_CAROUSEL_CARD_WIDTH}px) / 2)`,
                 paddingRight: `calc((100vw - ${ABOUT_CAROUSEL_CARD_WIDTH}px) / 2)`,
