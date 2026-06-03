@@ -99,14 +99,14 @@ export default async function MessagingPage({
       <TechStackDetailSection>
         <TechStackBuilderCta data={builderCta} />
       </TechStackDetailSection>
-      <TechStackDetailSection>
+      <TechStackDetailSection className="mt-5 md:mt-25">
         <MessagingTechStack locale={locale} />
       </TechStackDetailSection>
-      <TechStackDetailSection>
+      <TechStackDetailSection className="mt-0 md:mt-25">
         <TechStackRelatedArticles
           data={relatedArticles}
           articles={articles}
-          sectionClassName="mt-0 md:mt-0"
+          sectionClassName="mt-0 mb-15 md:mt-0 md:mb-0"
         />
       </TechStackDetailSection>
     </TechStackDetailPage>
