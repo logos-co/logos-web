@@ -1,13 +1,27 @@
 'use client'
 
+import { CircleArrowIcon } from '@acid-info/logos-ui'
 import Image from 'next/image'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+import {
+  ABOUT_CAROUSEL_CARD_WIDTH,
+  ABOUT_CAROUSEL_SCROLL_DISTANCE,
+  getAboutCarouselProgressForIndex,
+  getAboutCarouselState,
+} from './about-carousel-motion'
+
+export interface AboutProblemFactLink {
+  label: string
+  href: string
+}
 
 export interface AboutProblemCard {
   key: 'debt' | 'surveillance' | 'corruption' | 'stagnation'
   title: string
   body: string
   facts: string[]
+  factLinks: Partial<Record<number, AboutProblemFactLink>>
   image: string
   tone: string
   textTone: string
@@ -19,44 +33,67 @@ interface AboutScrollStackProps {
   cards: AboutProblemCard[]
 }
 
-function easeInOutCubic(value: number): number {
-  return value < 0.5
-    ? 4 * value * value * value
-    : 1 - Math.pow(-2 * value + 2, 3) / 2
-}
+function FactText({
+  fact,
+  link,
+}: {
+  fact: string
+  link?: AboutProblemFactLink
+}) {
+  if (!link || !fact.includes(link.label)) {
+    return <>{fact}</>
+  }
 
-function clamp(value: number, min: number, max: number): number {
-  return Math.min(Math.max(value, min), max)
+  const [before, after] = fact.split(link.label)
+
+  return (
+    <>
+      {before}
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="cursor-pointer underline decoration-current underline-offset-2"
+      >
+        {link.label}
+      </a>
+      {after}
+    </>
+  )
 }
 
 function DesktopProblemCard({ card }: { card: AboutProblemCard }) {
   return (
     <article
-      className={`grid h-[434px] w-full grid-cols-2 gap-3 rounded-[18px] p-1.5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] ${card.tone} ${card.textTone}`}
+      className={`flex h-[434px] w-[932px] shrink-0 gap-[6px] rounded-[18px] p-[6px] [@media(max-height:760px)]:h-[390px] ${card.tone} ${card.textTone}`}
     >
-      <div className="relative min-h-[422px] overflow-hidden rounded-xl">
+      <div className="relative h-[422px] w-[454px] shrink-0 overflow-hidden rounded-xl [@media(max-height:760px)]:h-[378px]">
         <Image
           src={card.image}
           alt=""
           fill
-          sizes="50vw"
+          sizes="454px"
           className={`object-cover ${card.imageClassName ?? ''}`}
         />
       </div>
 
-      <div className="flex min-h-0 flex-col justify-between gap-8">
-        <div className="grid gap-3 px-1.5 py-3 lg:grid-cols-2">
-          <h3 className="text-h3-serif">{card.title}</h3>
-          <p className="font-sans text-[14px] leading-[1.2]">{card.body}</p>
+      <div className="flex min-w-0 flex-1 flex-col justify-between">
+        <div className="flex flex-col gap-10 px-1.5 py-3 [@media(max-height:760px)]:gap-6">
+          <h3 className="text-h3-serif [@media(max-height:760px)]:text-[30px]">
+            {card.title}
+          </h3>
+          <p className="font-sans text-[14px] leading-[1.2] [@media(max-height:760px)]:text-[12px]">
+            {card.body}
+          </p>
         </div>
 
-        <div className="flex flex-col gap-3 px-1.5 py-3">
-          {card.facts.map((fact) => (
+        <div className="flex flex-col gap-3 px-1.5 py-3 [@media(max-height:760px)]:gap-2">
+          {card.facts.map((fact, index) => (
             <p
               key={fact}
-              className="border-t border-current/50 pt-1.5 font-mono text-[10px] leading-[1.3]"
+              className="border-t border-current/50 pt-1.5 font-mono text-[10px] leading-[1.3] [@media(max-height:760px)]:text-[9px]"
             >
-              {fact}
+              <FactText fact={fact} link={card.factLinks[index]} />
             </p>
           ))}
         </div>
@@ -70,63 +107,159 @@ export default function AboutScrollStack({
   cards,
 }: AboutScrollStackProps) {
   const sectionRef = useRef<HTMLDivElement>(null)
-  const cardRefs = useRef<Array<HTMLDivElement | null>>([])
+  const introRef = useRef<HTMLParagraphElement>(null)
+  const carouselRef = useRef<HTMLDivElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
 
   useEffect(() => {
+    let frame = 0
+
     const update = () => {
+      frame = 0
+
       const section = sectionRef.current
-      if (!section) return
+      const intro = introRef.current
+      const carousel = carouselRef.current
+      const track = trackRef.current
+      if (!section || !intro || !carousel || !track) return
 
-      const progress = clamp(-section.getBoundingClientRect().top, 0, 4400)
-      const startY = window.innerHeight + 64
-
-      cardRefs.current.forEach((card, index) => {
-        if (!card) return
-
-        const targetY = 132 + index * 12
-        const start = -360 + index * 760
-        const end = start + 2200
-        const amount = easeInOutCubic(
-          clamp((progress - start) / (end - start), 0, 1)
-        )
-        const y = startY + (targetY - startY) * amount
-
-        card.style.transform = `translate3d(0, ${y}px, 0)`
+      const {
+        activeIndex: nextIndex,
+        carouselOpacity,
+        introOpacity,
+        offset,
+      } = getAboutCarouselState({
+        sectionTop: section.getBoundingClientRect().top,
+        cardCount: cards.length,
       })
+
+      intro.style.opacity = String(introOpacity)
+      intro.style.transform = `translate3d(0, ${-24 * (1 - introOpacity)}px, 0)`
+      carousel.style.opacity = String(carouselOpacity)
+      carousel.style.pointerEvents = carouselOpacity > 0.5 ? 'auto' : 'none'
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`
+      setActiveIndex(nextIndex)
+    }
+
+    const requestUpdate = () => {
+      if (frame) return
+      frame = window.requestAnimationFrame(update)
     }
 
     update()
-    window.addEventListener('scroll', update, { passive: true })
-    window.addEventListener('resize', update)
+    window.addEventListener('scroll', requestUpdate, { passive: true })
+    window.addEventListener('resize', requestUpdate)
 
     return () => {
-      window.removeEventListener('scroll', update)
-      window.removeEventListener('resize', update)
+      if (frame) {
+        window.cancelAnimationFrame(frame)
+      }
+      window.removeEventListener('scroll', requestUpdate)
+      window.removeEventListener('resize', requestUpdate)
     }
-  }, [])
+  }, [cards.length])
+
+  const getSectionPageTop = () => {
+    const section = sectionRef.current
+    if (!section) return null
+
+    return window.scrollY + section.getBoundingClientRect().top
+  }
+
+  const scrollToCard = (index: number) => {
+    const top = getSectionPageTop()
+    if (top === null) return
+
+    const progress = getAboutCarouselProgressForIndex({
+      cardCount: cards.length,
+      index,
+    })
+
+    window.scrollTo({
+      top: top + progress * ABOUT_CAROUSEL_SCROLL_DISTANCE,
+      behavior: 'smooth',
+    })
+  }
+
+  const scrollPastCarousel = () => {
+    const top = getSectionPageTop()
+    if (top === null) return
+
+    window.scrollTo({
+      top: top + ABOUT_CAROUSEL_SCROLL_DISTANCE + window.innerHeight,
+      behavior: 'smooth',
+    })
+  }
 
   return (
-    <div ref={sectionRef} className="hidden h-[4600px] lg:block">
-      <div className="sticky top-0 h-screen overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-h3-serif w-[940px] text-center">{intro}</p>
-        </div>
+    <div
+      ref={sectionRef}
+      className="hidden h-[calc(100vh+2400px)] lg:block"
+    >
+      <div className="sticky top-0 h-screen overflow-hidden bg-brand-dark-green">
+        <p
+          ref={introRef}
+          className="text-h3-serif absolute top-1/2 left-1/2 w-[940px] -translate-x-1/2 -translate-y-1/2 text-center will-change-[opacity,transform] [@media(max-height:760px)]:w-[820px] [@media(max-height:760px)]:text-[30px]"
+        >
+          {intro}
+        </p>
 
-        {cards.map((card, index) => (
+        <div
+          ref={carouselRef}
+          className="absolute inset-0 opacity-0 will-change-opacity"
+        >
           <div
-            key={card.key}
-            ref={(node) => {
-              cardRefs.current[index] = node
-            }}
-            className="absolute inset-x-0 top-0 px-3 will-change-transform"
-            style={{
-              zIndex: index + 1,
-              transform: 'translate3d(0, calc(100vh + 64px), 0)',
-            }}
+            className="absolute top-[calc(50%-279px)] left-1/2 flex h-[30px] -translate-x-1/2 items-center justify-center gap-10 [@media(max-height:760px)]:top-[calc(50%-257px)]"
+            aria-label="Problem card controls"
           >
-            <DesktopProblemCard card={card} />
+            <button
+              type="button"
+              aria-label="Previous problem"
+              className="cursor-pointer text-brand-off-white transition-opacity hover:opacity-70 disabled:cursor-not-allowed disabled:opacity-30"
+              disabled={activeIndex === 0}
+              onClick={() => scrollToCard(activeIndex - 1)}
+            >
+              <CircleArrowIcon size={30} />
+            </button>
+            <button
+              type="button"
+              aria-label={
+                activeIndex === cards.length - 1
+                  ? 'Continue to next section'
+                  : 'Next problem'
+              }
+              className="cursor-pointer text-brand-off-white transition-opacity hover:opacity-70 disabled:cursor-not-allowed disabled:opacity-30"
+              onClick={() => {
+                if (activeIndex === cards.length - 1) {
+                  scrollPastCarousel()
+                  return
+                }
+
+                scrollToCard(activeIndex + 1)
+              }}
+            >
+              <CircleArrowIcon size={30} direction="right" />
+            </button>
           </div>
-        ))}
+
+          <div
+            className="absolute top-1/2 left-1/2 w-screen -translate-x-1/2 -translate-y-1/2 overflow-hidden"
+          >
+            <div
+              ref={trackRef}
+              className="flex gap-3 will-change-transform"
+              style={{
+                paddingLeft: `calc((100vw - ${ABOUT_CAROUSEL_CARD_WIDTH}px) / 2)`,
+                paddingRight: `calc((100vw - ${ABOUT_CAROUSEL_CARD_WIDTH}px) / 2)`,
+              }}
+            >
+              {cards.map((card) => (
+                <DesktopProblemCard key={card.key} card={card} />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

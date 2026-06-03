@@ -7,6 +7,35 @@ import { ROUTES } from '@/constants/routes'
 import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
 import AboutScrollStack, { type AboutProblemCard } from './about-scroll-stack'
 
+function FactText({
+  fact,
+  link,
+}: {
+  fact: string
+  link?: AboutProblemCard['factLinks'][number]
+}) {
+  if (!link || !fact.includes(link.label)) {
+    return <>{fact}</>
+  }
+
+  const [before, after] = fact.split(link.label)
+
+  return (
+    <>
+      {before}
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="cursor-pointer underline decoration-current underline-offset-2"
+      >
+        {link.label}
+      </a>
+      {after}
+    </>
+  )
+}
+
 function ProblemCardView({
   card,
   className,
@@ -16,31 +45,31 @@ function ProblemCardView({
 }) {
   return (
     <article
-      className={`grid min-h-[760px] gap-3 rounded-[18px] p-1.5 lg:h-[434px] lg:min-h-0 lg:grid-cols-2 ${card.tone} ${card.textTone} ${className ?? ''}`}
+      className={`flex min-h-[760px] flex-col gap-[6px] rounded-[18px] p-[6px] lg:h-[434px] lg:min-h-0 lg:w-[932px] lg:flex-row ${card.tone} ${card.textTone} ${className ?? ''}`}
     >
-      <div className="relative min-h-[333px] overflow-hidden rounded-xl lg:min-h-[422px]">
+      <div className="relative min-h-[333px] overflow-hidden rounded-xl lg:h-[422px] lg:min-h-0 lg:w-[454px] lg:shrink-0">
         <Image
           src={card.image}
           alt=""
           fill
-          sizes="(max-width: 768px) 333px, 50vw"
+          sizes="(max-width: 768px) 333px, 454px"
           className={`object-cover ${card.imageClassName ?? ''}`}
         />
       </div>
 
       <div className="flex min-h-0 flex-col justify-between gap-8">
-        <div className="grid gap-3 px-1.5 py-3 lg:grid-cols-2">
+        <div className="flex flex-col gap-10 px-1.5 py-3">
           <h3 className="text-h3-serif">{card.title}</h3>
           <p className="font-sans text-[14px] leading-[1.2]">{card.body}</p>
         </div>
 
         <div className="flex flex-col gap-3 px-1.5 py-3">
-          {card.facts.map((fact) => (
+          {card.facts.map((fact, index) => (
             <p
               key={fact}
               className="border-t border-current/50 pt-1.5 font-mono text-[10px] leading-[1.3]"
             >
-              {fact}
+              <FactText fact={fact} link={card.factLinks[index]} />
             </p>
           ))}
         </div>
@@ -63,9 +92,15 @@ export default async function AboutSection({ locale }: { locale: string }) {
         t('problems.debt.fact3'),
         t('problems.debt.fact4'),
       ],
+      factLinks: {
+        1: {
+          label: '30% less wealth',
+          href: 'https://www.cam.ac.uk/research/news/boom-and-bust-millennials-arent-all-worse-off-than-baby-boomers-but-the-rich-poor-gap-is-widening',
+        },
+      },
       image: '/images/home/figma-refresh/problem-debt.webp',
-      tone: 'bg-[#475651]',
-      textTone: 'text-brand-off-white',
+      tone: 'bg-gray-01',
+      textTone: 'text-brand-dark-green',
     },
     {
       key: 'surveillance',
@@ -77,8 +112,9 @@ export default async function AboutSection({ locale }: { locale: string }) {
         t('problems.surveillance.fact3'),
       ],
       image: '/images/home/figma-refresh/problem-surveillance.webp',
-      tone: 'bg-[#616e69]',
-      textTone: 'text-brand-off-white',
+      tone: 'bg-gray-02',
+      textTone: 'text-brand-dark-green',
+      factLinks: {},
       imageClassName: 'object-[50%_42%]',
     },
     {
@@ -91,8 +127,9 @@ export default async function AboutSection({ locale }: { locale: string }) {
         t('problems.corruption.fact3'),
       ],
       image: '/images/home/figma-refresh/problem-corruption.webp',
-      tone: 'bg-[#848e88]',
-      textTone: 'text-brand-off-white',
+      tone: 'bg-gray-03',
+      textTone: 'text-brand-dark-green',
+      factLinks: {},
     },
     {
       key: 'stagnation',
@@ -100,8 +137,9 @@ export default async function AboutSection({ locale }: { locale: string }) {
       body: t('problems.stagnation.body'),
       facts: [t('problems.stagnation.fact1'), t('problems.stagnation.fact2')],
       image: '/images/home/figma-refresh/problem-stagnation.webp',
-      tone: 'bg-[#9ea5a0]',
-      textTone: 'text-brand-dark-green',
+      tone: 'bg-gray-04',
+      textTone: 'text-brand-off-white',
+      factLinks: {},
       imageClassName: 'object-[50%_45%]',
     },
   ]
@@ -142,7 +180,7 @@ export default async function AboutSection({ locale }: { locale: string }) {
 
       <AboutScrollStack intro={t('intro')} cards={cards} />
 
-      <ContentWidth className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] -translate-x-1/2 flex-col items-center gap-15 text-center lg:relative lg:top-auto lg:left-auto lg:flex lg:w-full lg:translate-x-0 lg:pt-30 lg:pb-90">
+      <ContentWidth className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] -translate-x-1/2 flex-col items-center gap-15 text-center lg:relative lg:top-auto lg:left-auto lg:flex lg:w-full lg:translate-x-0 lg:pt-30 lg:pb-[325px]">
         <div className="text-h3-serif flex max-w-[369px] flex-col gap-[1em] md:max-w-[680px] lg:max-w-[860px]">
           {closingParagraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
