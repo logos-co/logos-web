@@ -31,6 +31,11 @@ pipeline {
       defaultValue: 'https://project-gzx4s.vercel.app',
       description: 'CiviCRM base URL inlined into the web build',
     )
+    string(
+      name: 'NEXT_PUBLIC_HCAPTCHA_SITEKEY',
+      defaultValue: '2ec82f0e-5f3c-45d2-ba38-223ceb5eee42',
+      description: 'Public hCaptcha site key for the apps/web hCaptcha widget.',
+    )
   }
 
   stages {
@@ -41,9 +46,15 @@ pipeline {
           withEnv([
             "NEXT_PUBLIC_SITE_URL=https://${deployDomain()}",
             "NEXT_PUBLIC_CIVI_CRM_URL=${params.NEXT_PUBLIC_CIVI_CRM_URL}",
+            "NEXT_PUBLIC_HCAPTCHA_SITEKEY=${params.NEXT_PUBLIC_CIVI_CRM_URL}",
           ]) {
             nix.develop('pnpm --filter ./apps/web build',
-              keepEnv: ['NEXT_PUBLIC_SITE_URL', 'NEXT_PUBLIC_CIVI_CRM_URL'])
+              keepEnv: [
+                'NEXT_PUBLIC_SITE_URL',
+                'NEXT_PUBLIC_CIVI_CRM_URL',
+                'NEXT_PUBLIC_HCAPTCHA_SITEKEY'
+              ]
+            )
           }
         }
       }
