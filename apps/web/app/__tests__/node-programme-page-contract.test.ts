@@ -12,9 +12,10 @@ describe('node programme page contract', () => {
     expect(messages.pages.nodeProgramme.hero.title).toBe(
       'Be the first to join the node programme'
     )
-    expect(messages.pages.nodeProgramme.signup.endpointPath).toBe(
-      '/api/forms/logos-co/take-action'
-    )
+    expect(messages.pages.nodeProgramme.signup.roles).toEqual([
+      'Node operator',
+      'Builder',
+    ])
     expect(messages.pages.nodeProgramme.stack.items).toHaveLength(3)
     expect(messages.pages.nodeProgramme.useCases.items).toHaveLength(5)
   })

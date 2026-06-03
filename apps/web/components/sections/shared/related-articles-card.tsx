@@ -6,6 +6,7 @@ import Image from 'next/image'
 
 import { ExternalLink } from '@/components/ui'
 import type { BlogArticleRow } from '@/lib/blog-engine'
+import { blogArticlesToTechStackRelatedCards } from '@/lib/tech-stack-related-articles'
 
 export type ArticleCardProps = {
   title: string
@@ -32,15 +33,7 @@ const DEFAULT_TITLE_CLASSNAME =
 export function articlesToCards(
   articles: ReadonlyArray<BlogArticleRow>
 ): Omit<ArticleCardProps, 'titleClassName'>[] {
-  return articles.map((article) => ({
-    title: article.title,
-    imageSrc: article.cardImage,
-    imageAlt: article.title,
-    date: article.galleryDate,
-    author: article.author,
-    readingTime: article.readingTime,
-    href: article.href,
-  }))
+  return blogArticlesToTechStackRelatedCards(articles)
 }
 
 /** Article card used inside related-articles section frames on tech pages. */

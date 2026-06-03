@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-02T17:20:06.209Z",
-  "activeSinceDate": "2026-02-02",
+  "generatedAt": "2026-06-03T17:43:28.915Z",
+  "activeSinceDate": "2026-02-03",
   "circles": [
     {
       "id": "evt-Aj8aH4CUwRMedaw",
@@ -311,6 +311,15 @@
   ],
   "upcomingEvents": [
     {
+      "id": "evt-GlqtoA7xehpvfuf",
+      "name": "Logos Circle Ilorin May Edition",
+      "city": "",
+      "country": "",
+      "startAt": "2026-06-04T14:00:00",
+      "endAt": "2026-06-04T17:00:00",
+      "eventUrl": "https://luma.com/svjyqwu9"
+    },
+    {
       "id": "evt-9vPP1zPZctbLphi",
       "name": "Logos Circle Awka",
       "city": "Awka",
@@ -332,7 +341,7 @@
   "stats": [
     {
       "label": "Total Circle Events",
-      "value": 148
+      "value": 149
     },
     {
       "label": "Distinct Cities",
@@ -344,7 +353,7 @@
     },
     {
       "label": "Upcoming Events",
-      "value": 2
+      "value": 3
     }
   ]
 }

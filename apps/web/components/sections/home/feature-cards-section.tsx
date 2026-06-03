@@ -100,22 +100,22 @@ export default function FeatureCardsSection() {
   ]
 
   return (
-    <section className="hidden border-t border-brand-dark-green/10 bg-brand-off-white lg:block">
-      <ContentWidth className="relative h-[848px]">
-        <p className="text-mono-s absolute top-[23px] left-1/2 w-[226px] translate-x-[6px] text-left text-brand-dark-green">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
+      <ContentWidth className="relative pt-3 pb-25 lg:h-[848px] lg:py-0">
+        <p className="text-mono-s mx-auto w-[226px] text-center text-brand-dark-green lg:absolute lg:top-[23px] lg:left-1/2 lg:mx-0 lg:translate-x-[6px] lg:text-left">
           {t('kicker')}
         </p>
 
-        <h2 className="text-h2 absolute top-[123px] left-1/2 w-full -translate-x-1/2 text-center text-brand-dark-green">
+        <h2 className="text-h2 mt-20 w-full text-center text-brand-dark-green lg:absolute lg:top-[123px] lg:left-1/2 lg:mt-0 lg:-translate-x-1/2">
           {t('title')}
         </h2>
 
-        <p className="text-mono-s absolute top-[229px] left-1/2 w-[230px] translate-x-[6px] text-left text-brand-dark-green">
+        <p className="text-mono-s mx-auto mt-16 w-[230px] text-center text-brand-dark-green lg:absolute lg:top-[229px] lg:left-1/2 lg:mx-0 lg:mt-0 lg:translate-x-[6px] lg:text-left">
           {t('body')}
         </p>
 
         <div
-          className="absolute inset-x-3 top-[371px] flex gap-3 overflow-x-auto pr-3 lg:grid lg:grid-cols-3 lg:overflow-visible lg:pr-0"
+          className="mt-32 flex flex-col gap-6 lg:absolute lg:inset-x-3 lg:top-[371px] lg:mt-0 lg:grid lg:grid-cols-3 lg:gap-3"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {cards.map((card) => (

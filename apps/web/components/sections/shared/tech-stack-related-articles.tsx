@@ -6,8 +6,9 @@ import ContentWidth from '@/components/layout/content-width'
 import { Reveal, RevealItem } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
 import type { BlogArticleRow } from '@/lib/blog-engine'
+import { getTechStackRelatedArticleCards } from '@/lib/tech-stack-related-articles'
 
-import { ArticleCard, articlesToCards } from './related-articles-card'
+import { ArticleCard } from './related-articles-card'
 
 const TITLE_CLASSNAME =
   'text-caption-sans w-[169.5px] shrink-0 font-medium text-brand-dark-green md:text-[14px] md:leading-[1.2]'
@@ -26,18 +27,7 @@ export default function TechStackRelatedArticles({
   sectionClassName,
   contentClassName,
 }: Props) {
-  const cards =
-    data.items?.map((item) => ({
-      title: item.title,
-      mobileTitle: item.mobileTitle,
-      imageSrc: item.image.src,
-      imageAlt: item.image.alt,
-      imagePosition: item.imagePosition,
-      date: item.date,
-      author: item.author,
-      readingTime: item.readingTime,
-      href: item.href,
-    })) ?? articlesToCards(articles)
+  const cards = getTechStackRelatedArticleCards(data, articles)
 
   return (
     <section className={twMerge('mt-15 md:mt-25', sectionClassName)}>

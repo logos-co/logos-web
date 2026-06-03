@@ -134,11 +134,11 @@ describe('getLatestBlogArticles', () => {
       {
         title: 'Article one',
         href: 'https://blog.logos.co/article/article-one',
-        image: 'https://cms-press.logos.co/uploads/large_article-one.jpg',
+        image: 'https://cms-press.logos.co/uploads/article-one.jpg',
         thumbnailImage:
           'https://cms-press.logos.co/uploads/thumbnail_article-one.jpg',
         galleryImage: 'https://cms-press.logos.co/uploads/small_article-one.jpg',
-        cardImage: 'https://cms-press.logos.co/uploads/large_article-one.jpg',
+        cardImage: 'https://cms-press.logos.co/uploads/article-one.jpg',
         featuredImage: 'https://cms-press.logos.co/uploads/article-one.jpg',
         readingTime: 13,
       },
@@ -148,6 +148,74 @@ describe('getLatestBlogArticles', () => {
         readingTime: 5,
       },
     ])
+  })
+
+  test('passes the selected tag to blog search', async () => {
+    const fetchMock = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(
+        jsonResponse({
+          data: {
+            posts: [
+              {
+                type: 'article',
+                data: {
+                  title: 'Blockchain article',
+                  slug: 'blockchain-article',
+                  publishedAt: '2026-06-04',
+                  coverImage: {
+                    url: 'https://cms-press.logos.co/uploads/blockchain.jpg',
+                  },
+                  readingTime: 3,
+                },
+              },
+            ],
+          },
+        })
+      )
+      .mockResolvedValueOnce(htmlResponse(articlePageHtml(3)))
+
+    await getLatestBlogArticles(1, 'Blockchain')
+
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      1,
+      'https://blog.logos.co/api/search?type=article&limit=3&tags=Blockchain',
+      FETCH_INIT_JSON
+    )
+  })
+
+  test('uses the original cover image for article cards', async () => {
+    vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(
+        jsonResponse({
+          data: {
+            posts: [
+              {
+                type: 'article',
+                data: {
+                  title: 'Decentralise the Log, Not the Server',
+                  slug: 'decentralise-log-not-server',
+                  publishedAt: '2026-03-30',
+                  coverImage: {
+                    url: 'https://cms-press.logos.co/uploads/logos_blockchain_decentralise_log_featured_db49a4cae3.png',
+                  },
+                  readingTime: 1,
+                },
+              },
+            ],
+          },
+        })
+      )
+      .mockResolvedValueOnce(htmlResponse(articlePageHtml(11)))
+
+    const articles = await getLatestBlogArticles(1, 'Blockchain')
+
+    expect(articles[0]?.cardImage).toBe(
+      'https://cms-press.logos.co/uploads/logos_blockchain_decentralise_log_featured_db49a4cae3.png'
+    )
+    expect(articles[0]?.image).toBe(
+      'https://cms-press.logos.co/uploads/logos_blockchain_decentralise_log_featured_db49a4cae3.png'
+    )
   })
 })
 

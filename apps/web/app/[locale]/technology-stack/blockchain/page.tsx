@@ -21,6 +21,7 @@ import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 import { getLatestBlogArticles } from '@/lib/blog-engine'
+import { TECH_STACK_RELATED_ARTICLE_TAGS } from '@/lib/tech-stack-related-articles'
 
 const ROUTE = ROUTES.blockchain
 
@@ -66,7 +67,8 @@ export default async function BlockchainPage({
   )
 
   const articles = await getLatestBlogArticles(
-    relatedArticles.visibleCount ?? 4
+    relatedArticles.visibleCount ?? 4,
+    TECH_STACK_RELATED_ARTICLE_TAGS.blockchain
   )
 
   return (
