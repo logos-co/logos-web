@@ -2,59 +2,46 @@
 
 Source of truth for the page content: `content/pages/en/technology-stack-networking.json`.
 
-Backup of networking copy items from the latest copy doc that were **not yet applied**
-because they require a decision, a new field, or a component/schema change.
-Everything that was a straight before/after text swap on an existing field has already
-been applied to the JSON.
+Backup of networking copy items from the latest copy doc that are **still not applied**
+because they need a decision, a new field, or a component/schema change. Straight
+before/after text swaps and hero structural additions that are already in the JSON are
+documented under **Applied** below.
 
-Last updated: 2026-06-02
-
----
-
-## 1. Hero `bodySecondary` + `items` (Key Repositories)
-
-The new copy adds a "Key Repositories" list to the hero. The messaging page
-(networking's sibling) supports `bodySecondary` + `items[]` on the hero, so the
-schema can carry this — but it is a structural addition, not a before/after, and
-the trailing `DOCS →` link is left blank in the source copy.
-
-Proposed `bodySecondary`: `Key Repositories:`
-
-Proposed `items[]`:
-
-- `VACP2P — Communication and privacy research.`
-- `NIM-LIBP2P — Nim implementation of the libp2p networking stack.`
-- `LIBLOGOS — Core library for the Logos runtime.`
-- `MIX-RLN-SPAM-PROTECTION-PLUGIN — RLN-based spam protection for libp2p mixnets.`
-- `ZEROKIT — Zero-knowledge modules for RLN implementation.`
-- `DE-MLS — Secure group membership coordinated through off-chain consensus.`
-
-**Decision needed:** add the repo list? Per-repo links (none supplied)? Destination
-for the trailing `DOCS →` (blank in source; default would be
-`https://github.com/logos-co/logos-docs`).
+Last updated: 2026-06-03
 
 ---
 
-## 2. Hero `status` block (Current Status + Install Testnet)
+## Applied
 
-The new copy adds a "Current Status" block with an "INSTALL TESTNET ↓" CTA. The
-messaging hero supports a `status` block (`label` / `body` / `cta` / `secondaryCta`),
-so the schema can carry it.
+### Hero `bodySecondary`, `items[]`, and `status`
 
-Proposed `status.label`: `Current Status`
+Implemented in `technology-stack-networking.json` (commit `b0b1199`) and rendered via
+`NetworkingHero` → `TechStackDetailHero` (taller mobile hero for six repo lines).
 
-Proposed `status.body`:
-> The networking layer is in active development toward testnet, with capability
-> discovery and the libp2p mixnet as leading priorities. In the future, Service
-> Discovery will replace the legacy discovery mechanism inside Logos Messaging.
+| Field | Current value |
+|---|---|
+| `bodySecondary` | `Key Repositories:` |
+| `items[]` | Six repo lines as proposed in the copy doc (titles only, no per-card links) |
+| `status.label` | `Current Status` |
+| `status.body` | Active development / testnet copy from the doc |
+| `status.cta` | `Install testnet`, `variant: secondary`, `iconOverride: download` |
 
-Proposed `status.cta`: `INSTALL TESTNET` → **link undefined in source**.
+Hero actions:
 
-**Decision needed:** add the status block? Destination for the Install Testnet CTA.
+- `networking.hero.ctas` — Docs only (`https://github.com/logos-co/logos-docs`); redundant
+  primary "Use Basecamp" removed (`884f938`). The copy doc’s standalone trailing `DOCS →` in
+  the repo list area is covered by this CTA, not a second link under `items[]`.
+- `status.cta.href` in JSON is `/technology-stack/networking` (placeholder). At runtime,
+  `resolveBasecampInstallCtaLinkProps` in `tech-stack-detail-hero.tsx` resolves install-style
+  CTAs with `iconOverride: download` to the Basecamp releases URL.
+
+**Still optional (not blocking publish):** add `href` on each `items[]` entry if repo URLs are
+confirmed; replace the placeholder `status.cta.href` in JSON with the resolved external URL
+for clarity in content review.
 
 ---
 
-## 3. Feature sections (`networking.features`)
+## 1. Feature sections (`networking.features`)
 
 This is the largest open decision. The current JSON renders **three image cards**
 (`cardGrid`, title + description + image only, no per-card links):
@@ -70,7 +57,7 @@ a component/structure change (cardGrid → multiple ctaPanels), not a text swap,
 it is held. The "Peering Layer" card is also repurposed into an RLN / spam-resistance
 section.
 
-### 3a. Service Discovery (was "Capability Discovery Protocol")
+### 1a. Service Discovery (was "Capability Discovery Protocol")
 
 > How does a node find other nodes offering the services it needs without a
 > central directory? Service Discovery answers this with a new protocol built on
@@ -83,7 +70,7 @@ section.
 - `REPO →` `https://github.com/vacp2p/nim-libp2p`
 - `DOCS →` **undefined in source**
 
-### 3b. Mixnet (was "The Mix-Net")
+### 1b. Mixnet (was "The Mix-Net")
 
 > The mixnet is a privacy-preserving transport mechanism drawn from the same family
 > of designs behind anonymity networks such as Tor and Nym.
@@ -97,7 +84,7 @@ section.
 - `REPO →` `https://github.com/logos-co/nim-libp2p-mix`
 - `DOCS →` **undefined in source**
 
-### 3c. Spam Resistance: RLN and Zerokit (replaces "Peering Layer")
+### 1c. Spam Resistance: RLN and Zerokit (replaces "Peering Layer")
 
 > An anonymous network needs a way to stop abuse without identifying its users.
 >
@@ -118,7 +105,7 @@ or drop? Destinations for the three blank `DOCS →` links.
 
 ---
 
-## 4. Bottom builder CTAs (`networking.builderCta`)
+## 2. Bottom builder CTAs (`networking.builderCta`)
 
 Current three cards: `Docs` / `Logos Builder Hub` / `Logos App`.
 
@@ -130,6 +117,7 @@ New copy:
   (current card is `Logos App` / `Download` / `/builders-hub#app-install`)
 
 **Decision needed:** rename "Logos App" → "Install Basecamp"? Change the Builder Hub
-link to the external `build.logos.co`? Basecamp link likely interacts with the
-`resolveBasecampInstallCtaLinkProps` resolver (see recent commit 822c9ed) — confirm
+link to the external `build.logos.co`? The third card’s install CTA may use
+`resolveBasecampInstallCtaLinkProps` in `tech-stack-builder-cta.tsx` once labels/hrefs
+match the install pattern — confirm intended destination (GitHub repo vs releases)
 before changing hrefs.
