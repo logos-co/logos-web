@@ -1,5 +1,5 @@
 User-Agent: *
 Allow: /
 
-Host: https://logos.co
-Sitemap: https://logos.co/sitemap.xml
+Host: https://dev.logos.co
+Sitemap: https://dev.logos.co/sitemap.xml
