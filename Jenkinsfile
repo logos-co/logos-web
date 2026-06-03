@@ -1,6 +1,8 @@
 #!/usr/bin/env groovy
 library 'status-jenkins-lib@v1.9.24'
+
 pipeline {
+
   agent {
     docker {
       label 'linuxcontainer'
@@ -9,6 +11,7 @@ pipeline {
            '--volume=/etc/nix:/etc/nix '
     }
   }
+
   options {
     disableConcurrentBuilds()
     buildDiscarder(logRotator(
@@ -16,18 +19,36 @@ pipeline {
       daysToKeepStr: '30',
     ))
   }
+
   environment {
     GIT_COMMITTER_NAME = 'status-im-auto'
     GIT_COMMITTER_EMAIL = 'auto@status.im'
   }
+
+  parameters {
+    string(
+      name: 'NEXT_PUBLIC_CIVI_CRM_URL',
+      defaultValue: 'https://project-gzx4s.vercel.app',
+      description: 'CiviCRM base URL inlined into the web build',
+    )
+  }
+
   stages {
+
     stage('Build the web app') {
       steps {
         script {
-          nix.develop('pnpm --filter ./apps/web build')
+          withEnv([
+            "NEXT_PUBLIC_SITE_URL=https://${deployDomain()}",
+            "NEXT_PUBLIC_CIVI_CRM_URL=${params.NEXT_PUBLIC_CIVI_CRM_URL}",
+          ]) {
+            nix.develop('pnpm --filter ./apps/web build',
+              keepEnv: ['NEXT_PUBLIC_SITE_URL', 'NEXT_PUBLIC_CIVI_CRM_URL'])
+          }
         }
       }
     }
+
     stage('Publish') {
       steps {
         sshagent(credentials: ['status-im-auto-ssh']) {
