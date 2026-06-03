@@ -41,11 +41,6 @@
       },
       "ctas": [
         {
-          "label": "use messaging sdk",
-          "href": "/technology-stack/messaging",
-          "variant": "primary"
-        },
-        {
           "label": "DOCS",
           "href": "https://github.com/logos-co/logos-docs",
           "external": true,

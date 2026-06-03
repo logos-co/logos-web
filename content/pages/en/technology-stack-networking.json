@@ -24,11 +24,6 @@
       "body": "The transport and coordination layer for the Logos stack. Private and designed for anonymity with built-in metadata protection.",
       "ctas": [
         {
-          "label": "Use Basecamp",
-          "href": "/basecamp",
-          "variant": "primary"
-        },
-        {
           "label": "Docs",
           "href": "https://github.com/logos-co/logos-docs",
           "external": true,

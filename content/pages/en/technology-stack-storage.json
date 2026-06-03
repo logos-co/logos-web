@@ -44,11 +44,6 @@
       },
       "ctas": [
         {
-          "label": "Try Logos Storage",
-          "href": "/technology-stack/storage",
-          "variant": "primary"
-        },
-        {
           "label": "DOCS",
           "href": "https://github.com/logos-co/logos-docs",
           "external": true,
