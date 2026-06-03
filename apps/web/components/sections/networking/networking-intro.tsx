@@ -1,8 +1,11 @@
+import { TechTextSplitSection } from '@acid-info/logos-ui'
 import type { CtaPanelSection } from '@repo/content/schemas'
 
-import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
-import { Button } from '@/components/ui'
+
+function paragraphs(text?: string) {
+  return text?.split('\n\n') ?? []
+}
 
 type Props = {
   data: CtaPanelSection
@@ -10,30 +13,23 @@ type Props = {
 
 export default function NetworkingIntro({ data }: Props) {
   return (
-    <section className="h-[235px] border-t border-brand-dark-green/10 bg-brand-off-white md:h-[158px]">
-      <ContentWidth className="relative h-full text-brand-dark-green px-0">
-        <Reveal className="absolute top-10 left-3">
-          <h2 className="text-h4-sans">{data.title}</h2>
-        </Reveal>
-
-        {data.description ? (
-          <Reveal className="absolute top-[78px] left-3 w-[calc(100%-48px)] md:top-10 md:left-181.5 md:w-86.25">
-            <p className="text-mono-s">{data.description}</p>
-          </Reveal>
-        ) : null}
-
-        {data.cta ? (
-          <div className="absolute top-[180px] left-3 md:top-10 md:left-[1202px]">
-            <Button
-              href={data.cta.href}
-              variant="tertiary"
-              className="cursor-pointer transition-opacity hover:opacity-70"
-            >
-              {data.cta.label}
-            </Button>
-          </div>
-        ) : null}
-      </ContentWidth>
-    </section>
+    <>
+      <div className="md:hidden h-px w-full bg-brand-dark-green/10" />
+      <Reveal amount={0.2}>
+        <TechTextSplitSection
+          className="mb-15 md:mb-25 md:h-[235px]"
+          title={data.title}
+          body={
+            data.description ? (
+              <>
+                {paragraphs(data.description).map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </>
+            ) : null
+          }
+        />
+      </Reveal>
+    </>
   )
 }

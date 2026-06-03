@@ -16,7 +16,7 @@ import {
   TechStackDetailSection,
 } from '@/components/sections/shared/tech-stack-detail-layout'
 import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
-import TechStackExplorer from '@/components/sections/shared/tech-stack-explorer'
+import NetworkingTechStack from '@/components/sections/networking/networking-tech-stack'
 
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
@@ -83,13 +83,13 @@ export default async function NetworkingPage({
         <TechStackBuilderCta data={builderCta} />
       </TechStackDetailSection>
       <TechStackDetailSection>
-        <TechStackExplorer locale={locale} />
+        <NetworkingTechStack locale={locale} />
       </TechStackDetailSection>
-      <TechStackDetailSection>
+      <TechStackDetailSection className="mt-0 md:mt-25">
         <TechStackRelatedArticles
           data={relatedArticles}
           articles={articles}
-          sectionClassName="mt-0 md:mt-0"
+          sectionClassName="mt-0 mb-0 md:mt-0 md:mb-0"
         />
       </TechStackDetailSection>
     </TechStackDetailPage>
