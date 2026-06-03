@@ -12,17 +12,19 @@ export function HowItWorksSection({ data }: { data: TableSection }) {
   ].filter((cta): cta is CTA => Boolean(cta))
 
   return (
-    <section className="grid w-full gap-6 px-3 py-10 md:grid-cols-2 md:py-10">
-      <div className="flex min-h-[626px] flex-col justify-between gap-8">
+    <section className="grid w-full gap-6 px-3 py-10 md:grid-cols-2 md:pt-0 md:pb-10">
+      <div className="flex flex-col gap-6 md:min-h-[626px] md:justify-between md:gap-8">
         <div>
-          <h2 className="text-h3 mb-8 text-brand-dark-green">{data.title}</h2>
-          <div className="divide-y divide-brand-dark-green/20 border-y border-brand-dark-green/20">
+          <h2 className="text-h3-sans mb-[14px] text-brand-dark-green">
+            {data.title}
+          </h2>
+          <div className="divide-y divide-brand-dark-green/50 border-t border-brand-dark-green/50">
             {data.rows.map((row) => (
               <article
                 key={row.number}
-                className="grid gap-4 py-4 md:grid-cols-2 md:gap-3"
+                className="grid gap-4 pt-[6px] pb-3 md:grid-cols-2 md:gap-3"
               >
-                <span className="text-mono-s text-brand-dark-green">
+                <span className="text-eyebrow text-brand-dark-green">
                   {row.number}
                 </span>
                 <div className="grid gap-2">
