@@ -15,9 +15,14 @@ import { DownloadIcon } from './builder-cta-card'
 type Props = {
   data: CardGridSection
   className?: string
+  deckClassName?: string
 }
 
-export default function TechStackBuilderCta({ data, className }: Props) {
+export default function TechStackBuilderCta({
+  data,
+  className,
+  deckClassName,
+}: Props) {
   const [docsCard, builderHubCard, logosAppCard] = data.cards
   const cardsInput: Array<TechBuilderCtaCard | undefined> = [
     docsCard
@@ -80,7 +85,11 @@ export default function TechStackBuilderCta({ data, className }: Props) {
 
   return (
     <Reveal amount={0.2}>
-      <TechBuilderCtaDeck cards={cards} className={className} />
+      <TechBuilderCtaDeck
+        cards={cards}
+        className={className}
+        deckClassName={deckClassName}
+      />
     </Reveal>
   )
 }
