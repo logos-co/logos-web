@@ -45,6 +45,29 @@ export type TechDetailHeroProps = {
   className?: string
 }
 
+function ItemText({ title, description }: TechDetailHeroItem) {
+  if (description) {
+    return (
+      <>
+        <span className="font-mono font-semibold">{title}</span>
+        {` — ${description}`}
+      </>
+    )
+  }
+  const dashIdx = title.indexOf('—')
+  if (dashIdx < 0) {
+    return <span className="font-mono font-semibold">{title}</span>
+  }
+  const boldPart = title.slice(0, dashIdx).replace(/\s+$/, '')
+  const restPart = title.slice(dashIdx)
+  return (
+    <>
+      <span className="font-mono font-semibold">{boldPart}</span>
+      {restPart}
+    </>
+  )
+}
+
 export function TechDetailHero({
   backLink,
   title,
@@ -85,8 +108,7 @@ export function TechDetailHero({
               <p>{bodySecondary}</p>
               {items?.map((item) => (
                 <p key={item.title}>
-                  <span className="font-mono font-semibold">{item.title}</span>
-                  {item.description ? ` — ${item.description}` : null}
+                  <ItemText {...item} />
                 </p>
               ))}
             </div>
@@ -100,7 +122,6 @@ export function TechDetailHero({
               <p className="text-mono-s max-w-86 text-black">{status.body}</p>
               <div className="flex flex-wrap items-center gap-3">
                 {status.cta}
-                {status.secondaryCta}
               </div>
             </div>
           ) : null}
