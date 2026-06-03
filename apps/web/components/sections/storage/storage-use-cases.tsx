@@ -52,7 +52,12 @@ export default function StorageUseCases({ data }: Props) {
 
   return (
     <Reveal amount={0.2}>
-      <TechUseCaseGrid cards={cards} cardClassName="rounded-xl" />
+      <TechUseCaseGrid
+        cards={cards}
+        className="h-auto md:h-[362px]"
+        gridClassName="pt-10 md:pt-0"
+        cardClassName="rounded-xl"
+      />
     </Reveal>
   )
 }

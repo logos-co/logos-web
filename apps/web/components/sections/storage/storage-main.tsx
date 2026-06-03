@@ -11,6 +11,7 @@ export default function StorageMain({ data }: Props) {
   return (
     <Reveal amount={0.2}>
       <TechTextSplitSection
+        className="h-auto border-t border-brand-dark-green/10 md:h-[183px]"
         title={data.title}
         body={
           data.description
