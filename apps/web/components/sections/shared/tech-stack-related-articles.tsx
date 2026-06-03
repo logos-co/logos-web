@@ -16,12 +16,15 @@ type Props = {
   data: RelatedArticlesSection
   articles: BlogArticleRow[]
   sectionClassName?: string
+  /** No top padding — gap to the section above comes from the explorer `pb-18` (72px). */
+  contentClassName?: string
 }
 
 export default function TechStackRelatedArticles({
   data,
   articles,
   sectionClassName,
+  contentClassName,
 }: Props) {
   const cards =
     data.items?.map((item) => ({
@@ -39,7 +42,9 @@ export default function TechStackRelatedArticles({
   return (
     <section className={twMerge('mt-15 md:mt-25', sectionClassName)}>
       <div className="bg-brand-off-white">
-        <ContentWidth className="h-220 px-3 py-3">
+        <ContentWidth
+          className={twMerge('h-220 px-3 pb-3 pt-0', contentClassName)}
+        >
           <Reveal
               amount={0.15}
               className="relative h-full overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:px-0 md:pt-0 md:pb-0"
@@ -68,14 +73,14 @@ export default function TechStackRelatedArticles({
             ) : null}
           </div>
 
-          <h2 className="text-h3-serif mt-16.25 text-center whitespace-nowrap text-brand-dark-green md:absolute md:top-25.5 md:left-1/2 md:mt-0 md:w-116 md:-translate-x-1/2">
+          <h2 className="mt-16.25 text-center font-display text-[40px] leading-none tracking-[-0.03em] whitespace-nowrap text-brand-dark-green md:absolute md:top-25.5 md:left-1/2 md:mt-0 md:w-116 md:-translate-x-1/2 md:text-h3-serif">
             {data.title}
           </h2>
 
           <Reveal
             stagger
             amount={0.2}
-            className="mt-27.75 flex gap-3 overflow-x-auto md:absolute md:top-60.25 md:right-3 md:left-3 md:mt-0 md:grid md:grid-cols-4 md:overflow-visible"
+            className="mt-25 flex gap-3 overflow-x-auto md:absolute md:top-60.25 md:right-3 md:left-3 md:mt-0 md:grid md:grid-cols-4 md:overflow-visible"
           >
             {cards.map((card) => (
               <RevealItem key={`${card.href}:${card.title}`}>
