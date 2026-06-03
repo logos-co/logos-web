@@ -28,6 +28,8 @@ interface OverviewMediaPanelProps {
   primaryCtaDefaultVariant?: ButtonVariant
   className?: string
   copyClassName?: string
+  copyBodyClassName?: string
+  actionsClassName?: string
 }
 
 function getButtonIcon(iconOverride?: string) {
@@ -51,17 +53,19 @@ function OverviewMediaPanelActions({
   cta,
   secondaryCta,
   primaryCtaDefaultVariant,
+  className,
 }: {
   cta?: CTA
   secondaryCta?: CTA
   primaryCtaDefaultVariant: ButtonVariant
+  className?: string
 }) {
   if (!cta && !secondaryCta) {
     return null
   }
 
   return (
-    <div className="flex items-baseline gap-1.5">
+    <div className={`flex items-baseline gap-1.5${className ? ` ${className}` : ''}`}>
       {cta ? (
         <Button
           {...resolveBasecampInstallCtaLinkProps(cta)}
@@ -105,20 +109,22 @@ export function OverviewMediaPanel({
   primaryCtaDefaultVariant = 'primary',
   className,
   copyClassName,
+  copyBodyClassName,
+  actionsClassName,
 }: OverviewMediaPanelProps) {
   const isCompact = size === 'compact'
   const backgroundClass = tone === 'gray-02' ? 'bg-gray-02' : 'bg-gray-01'
   const heightClass = isCompact
     ? 'md:h-[335px]'
     : 'md:h-[357px] md:min-h-[357px]'
-  const markerClass = isCompact ? 'h-[98px]' : undefined
+  const markerClass = isCompact ? 'md:h-[98px]' : undefined
   const resolvedMobileEyebrow = mobileEyebrow ?? eyebrow
   const hasMobileTitle = mobileTitle !== undefined
   const hasMobileBody = mobileBody !== undefined
   const footerMarker = footerLabel ?? (isCompact ? eyebrow : undefined)
 
   const copyBody = (
-    <div className="flex w-full min-w-0 flex-col gap-3 break-words">
+    <div className={`flex w-full min-w-0 flex-col gap-3 break-words${copyBodyClassName ? ` ${copyBodyClassName}` : ''}`}>
       <h2 className="text-h4-sans md:w-[377px]">
         {hasMobileTitle ? (
           <>
@@ -176,6 +182,7 @@ export function OverviewMediaPanel({
             cta={cta}
             secondaryCta={secondaryCta}
             primaryCtaDefaultVariant={primaryCtaDefaultVariant}
+            className={actionsClassName}
           />
         </div>
       ) : (
@@ -194,6 +201,7 @@ export function OverviewMediaPanel({
           cta={cta}
           secondaryCta={secondaryCta}
           primaryCtaDefaultVariant={primaryCtaDefaultVariant}
+          className={actionsClassName}
         />
       ) : null}
     </div>
@@ -204,8 +212,17 @@ export function OverviewMediaPanel({
       <div
         className={`grid gap-3 md:grid-cols-2 md:items-stretch ${heightClass}`}
       >
-        {imagePosition === 'left' ? image : copyPanel}
-        {imagePosition === 'left' ? copyPanel : image}
+        {imagePosition === 'left' ? (
+          <>
+            <div className="order-2 md:contents">{image}</div>
+            <div className="order-1 md:contents">{copyPanel}</div>
+          </>
+        ) : (
+          <>
+            {copyPanel}
+            {image}
+          </>
+        )}
       </div>
     </div>
   )
