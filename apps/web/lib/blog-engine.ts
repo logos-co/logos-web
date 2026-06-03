@@ -15,7 +15,7 @@ export type BlogArticleRow = {
   galleryDate: string
   author: string
   description: string
-  /** Default large card image for backwards-compatible consumers. */
+  /** Default card image for backwards-compatible consumers. */
   image: string
   thumbnailImage: string
   galleryImage: string
@@ -346,9 +346,17 @@ export const repeatToLength = <T>(items: T[], length: number): T[] =>
 
 const getBlogSearchItems = async (
   type: 'article' | 'podcast',
-  limit: number
+  limit: number,
+  tag?: string
 ): Promise<BlogSearchPost[]> => {
-  const url = `${PRESS_SEARCH_API}?type=${type}&limit=${limit}`
+  const params = new URLSearchParams({
+    type,
+    limit: String(limit),
+  })
+  if (tag) {
+    params.set('tags', tag)
+  }
+  const url = `${PRESS_SEARCH_API}?${params.toString()}`
   const json = await fetchJsonResilient<BlogSearchResponse>(
     url,
     'Blog search'
@@ -398,8 +406,8 @@ const toArticleRow = (post: BlogSearchPost): BlogArticleRow => {
   const coverImage = data.coverImage?.url || ''
   const thumbnailImage = getBlogImageVariantUrl(coverImage, 'thumbnail')
   const galleryImage = getBlogImageVariantUrl(coverImage, 'small')
-  const cardImage = getBlogImageVariantUrl(coverImage, 'large')
   const featuredImage = getBlogImageVariantUrl(coverImage, 'original')
+  const cardImage = featuredImage
 
   return {
     title: data.title,
@@ -473,12 +481,12 @@ const toBroadcastEventRow = (event: CalendarEvent): BroadcastEventRow => {
   }
 }
 
-export const getLatestBlogArticles = async (limit = 4) => {
+export const getLatestBlogArticles = async (limit = 4, tag?: string) => {
   const searchLimit = Math.max(
     limit,
     limit * PRESS_ARTICLE_IMAGE_OVERFETCH_MULTIPLIER
   )
-  const articlePosts = await getBlogSearchItems('article', searchLimit)
+  const articlePosts = await getBlogSearchItems('article', searchLimit, tag)
   const visiblePosts = articlePosts
     .map((post) => ({ post, row: toArticleRow(post) }))
     .filter(({ row }) => hasImage(row))
