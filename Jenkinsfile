@@ -46,7 +46,7 @@ pipeline {
           withEnv([
             "NEXT_PUBLIC_SITE_URL=https://${deployDomain()}",
             "NEXT_PUBLIC_CIVI_CRM_URL=${params.NEXT_PUBLIC_CIVI_CRM_URL}",
-            "NEXT_PUBLIC_HCAPTCHA_SITEKEY=${params.NEXT_PUBLIC_CIVI_CRM_URL}",
+            "NEXT_PUBLIC_HCAPTCHA_SITEKEY=${params.NEXT_PUBLIC_HCAPTCHA_SITEKEY}",
           ]) {
             nix.develop('pnpm --filter ./apps/web build',
               keepEnv: [
