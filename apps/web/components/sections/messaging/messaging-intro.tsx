@@ -73,6 +73,8 @@ function MessagingFeaturePanel({
             imagePosition={reverse ? 'left' : 'right'}
             tone={tone}
             size="compact"
+            copyBodyClassName="mt-9 md:mt-0"
+            actionsClassName="mt-15 md:mt-0"
           />
         </Reveal>
       </ContentWidth>
@@ -92,6 +94,7 @@ type Props = {
 export default function MessagingIntro({ privacy, lmn, censorship }: Props) {
   return (
     <>
+      <div className="md:hidden h-px w-full bg-brand-dark-green/10" />
       <Reveal amount={0.2}>
         <TechTextSplitSection
           className="mb-15 md:mb-25 md:h-[235px]"

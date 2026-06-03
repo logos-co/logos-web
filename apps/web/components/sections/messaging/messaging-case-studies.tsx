@@ -95,7 +95,7 @@ export default function MessagingCaseStudies({ data }: Props) {
         <Reveal
           stagger
           amount={0.2}
-          className="mt-[71px] flex flex-col gap-3 md:mt-10 md:flex-row md:px-3"
+          className="mt-[60px] flex flex-col gap-3 md:mt-10 md:flex-row md:px-3"
         >
           {data.cards.map((card, index) =>
             card.image ? (
