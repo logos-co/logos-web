@@ -178,9 +178,16 @@ export default async function AboutSection({ locale }: { locale: string }) {
         })}
       </div>
 
-      <AboutScrollStack intro={t('intro')} cards={cards} />
+      <AboutScrollStack
+        intro={t('intro')}
+        cards={cards}
+        closingParagraphs={closingParagraphs}
+        cta={
+          ROUTE_AVAILABILITY.about ? { href: ROUTES.about, label: t('cta') } : undefined
+        }
+      />
 
-      <ContentWidth className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] -translate-x-1/2 flex-col items-center gap-15 text-center lg:relative lg:top-auto lg:left-auto lg:flex lg:w-full lg:translate-x-0 lg:pt-30 lg:pb-[325px]">
+      <ContentWidth className="absolute top-[calc(100vh+3713px)] left-1/2 flex w-[calc(100%-24px)] -translate-x-1/2 flex-col items-center gap-15 text-center lg:hidden">
         <div className="text-h3-serif flex max-w-[369px] flex-col gap-[1em] md:max-w-[680px] lg:max-w-[860px]">
           {closingParagraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>

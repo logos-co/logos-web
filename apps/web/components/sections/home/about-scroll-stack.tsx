@@ -4,9 +4,11 @@ import { CircleArrowIcon } from '@acid-info/logos-ui'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
+import { Button } from '@/components/ui'
 import {
   ABOUT_CAROUSEL_CARD_WIDTH,
   ABOUT_CAROUSEL_SCROLL_DISTANCE,
+  ABOUT_CAROUSEL_TOTAL_SCROLL_DISTANCE,
   getAboutCarouselProgressForIndex,
   getAboutCarouselState,
 } from './about-carousel-motion'
@@ -31,6 +33,11 @@ export interface AboutProblemCard {
 interface AboutScrollStackProps {
   intro: string
   cards: AboutProblemCard[]
+  closingParagraphs: string[]
+  cta?: {
+    href: string
+    label: string
+  }
 }
 
 function FactText({
@@ -105,10 +112,13 @@ function DesktopProblemCard({ card }: { card: AboutProblemCard }) {
 export default function AboutScrollStack({
   intro,
   cards,
+  closingParagraphs,
+  cta,
 }: AboutScrollStackProps) {
   const sectionRef = useRef<HTMLDivElement>(null)
   const introRef = useRef<HTMLParagraphElement>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
+  const closingRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
 
@@ -121,13 +131,20 @@ export default function AboutScrollStack({
       const section = sectionRef.current
       const intro = introRef.current
       const carousel = carouselRef.current
+      const closing = closingRef.current
       const track = trackRef.current
-      if (!section || !intro || !carousel || !track) return
+      if (!section || !intro || !carousel || !closing || !track) return
 
       const {
         activeIndex: nextIndex,
+        carouselBlur,
         carouselOpacity,
+        carouselTranslateY,
+        closingOpacity,
+        closingTranslateY,
+        introBlur,
         introOpacity,
+        introTranslateY,
         offset,
       } = getAboutCarouselState({
         sectionTop: section.getBoundingClientRect().top,
@@ -135,9 +152,15 @@ export default function AboutScrollStack({
       })
 
       intro.style.opacity = String(introOpacity)
-      intro.style.transform = `translate3d(0, ${-24 * (1 - introOpacity)}px, 0)`
+      intro.style.filter = `blur(${introBlur}px)`
+      intro.style.transform = `translate3d(-50%, calc(-50% + ${introTranslateY}px), 0)`
       carousel.style.opacity = String(carouselOpacity)
+      carousel.style.filter = `blur(${carouselBlur}px)`
       carousel.style.pointerEvents = carouselOpacity > 0.5 ? 'auto' : 'none'
+      carousel.style.transform = `translate3d(0, ${carouselTranslateY}px, 0)`
+      closing.style.opacity = String(closingOpacity)
+      closing.style.pointerEvents = closingOpacity > 0.75 ? 'auto' : 'none'
+      closing.style.transform = `translate3d(-50%, calc(-50% + ${closingTranslateY}px), 0)`
       track.style.transform = `translate3d(${-offset}px, 0, 0)`
       setActiveIndex(nextIndex)
     }
@@ -187,7 +210,7 @@ export default function AboutScrollStack({
     if (top === null) return
 
     window.scrollTo({
-      top: top + ABOUT_CAROUSEL_SCROLL_DISTANCE + window.innerHeight,
+      top: top + ABOUT_CAROUSEL_TOTAL_SCROLL_DISTANCE,
       behavior: 'smooth',
     })
   }
@@ -195,19 +218,20 @@ export default function AboutScrollStack({
   return (
     <div
       ref={sectionRef}
-      className="hidden h-[calc(100vh+2400px)] lg:block"
+      className="hidden lg:block"
+      style={{ height: `calc(100vh + ${ABOUT_CAROUSEL_TOTAL_SCROLL_DISTANCE}px)` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden bg-brand-dark-green">
         <p
           ref={introRef}
-          className="text-h3-serif absolute top-1/2 left-1/2 w-[940px] -translate-x-1/2 -translate-y-1/2 text-center will-change-[opacity,transform] [@media(max-height:760px)]:w-[820px] [@media(max-height:760px)]:text-[30px]"
+          className="text-h3-serif absolute top-1/2 left-1/2 w-[940px] text-center will-change-[filter,opacity,transform] [@media(max-height:760px)]:w-[820px] [@media(max-height:760px)]:text-[30px]"
         >
           {intro}
         </p>
 
         <div
           ref={carouselRef}
-          className="absolute inset-0 opacity-0 will-change-opacity"
+          className="absolute inset-0 opacity-0 will-change-[filter,opacity,transform]"
         >
           <div
             className="absolute top-[calc(50%-279px)] left-1/2 flex h-[30px] -translate-x-1/2 items-center justify-center gap-10 [@media(max-height:760px)]:top-[calc(50%-257px)]"
@@ -259,6 +283,26 @@ export default function AboutScrollStack({
               ))}
             </div>
           </div>
+        </div>
+
+        <div
+          ref={closingRef}
+          className="absolute top-1/2 left-1/2 flex w-full max-w-[860px] flex-col items-center gap-15 px-6 text-center opacity-0 will-change-[opacity,transform]"
+        >
+          <div className="text-h3-serif flex flex-col gap-[1em]">
+            {closingParagraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+
+          {cta ? (
+            <Button
+              href={cta.href}
+              className="cursor-pointer bg-brand-off-white text-brand-dark-green transition-opacity hover:opacity-80"
+            >
+              {cta.label}
+            </Button>
+          ) : null}
         </div>
       </div>
     </div>
