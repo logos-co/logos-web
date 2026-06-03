@@ -22,6 +22,37 @@
       "eyebrow": "Technology stack",
       "headline": "Networking",
       "body": "The transport and coordination layer for the Logos stack. Private and designed for anonymity with built-in metadata protection.",
+      "bodySecondary": "Key Repositories:",
+      "items": [
+        {
+          "title": "VACP2P — Communication and privacy research."
+        },
+        {
+          "title": "NIM-LIBP2P — Nim implementation of the libp2p networking stack."
+        },
+        {
+          "title": "LIBLOGOS — Core library for the Logos runtime."
+        },
+        {
+          "title": "MIX-RLN-SPAM-PROTECTION-PLUGIN — RLN-based spam protection for libp2p mixnets."
+        },
+        {
+          "title": "ZEROKIT — Zero-knowledge modules for RLN implementation."
+        },
+        {
+          "title": "DE-MLS — Secure group membership coordinated through off-chain consensus."
+        }
+      ],
+      "status": {
+        "label": "Current Status",
+        "body": "The networking layer is in active development toward testnet, with capability discovery and the libp2p mixnet as leading priorities. In the future, Service Discovery will replace the legacy discovery mechanism inside Logos Messaging.",
+        "cta": {
+          "label": "Install testnet",
+          "href": "/technology-stack/networking",
+          "variant": "secondary",
+          "iconOverride": "download"
+        }
+      },
       "ctas": [
         {
           "label": "Docs",
