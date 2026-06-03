@@ -538,8 +538,7 @@
         "genericError": "Failed to submit. Please try again.",
         "success": "Thanks for stepping in early.",
         "successLink": "Join our server",
-        "imageAlt": "Forest landscape for the Logos node programme",
-        "endpointPath": "/api/forms/logos-co/take-action"
+        "imageAlt": "Forest landscape for the Logos node programme"
       }
     },
     "movement": {

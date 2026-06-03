@@ -5,35 +5,12 @@ import { useId, useState, type FormEvent } from 'react'
 
 import { Button } from '@/components/ui'
 import { EXTERNAL_URLS } from '@/constants/routes'
-import { env } from '@/lib/env'
 
-const TAKE_ACTION_ENDPOINTS = {
-  development: 'http://localhost:3000/api/forms/logos-co/take-action',
-  staging: 'https://dev-admin-acid.logos.co/api/forms/logos-co/take-action',
-  production: 'https://admin-acid.logos.co/api/forms/logos-co/take-action',
-} as const
+import { submitNodeProgrammeSignup } from './node-programme-signup'
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 type SignupStatus = 'idle' | 'loading' | 'success' | 'error'
-
-type SignupResponse = {
-  error?: unknown
-  message?: unknown
-}
-
-function getTakeActionEndpoint() {
-  if (env.NEXT_PUBLIC_TAKE_ACTION_API_URL) {
-    return env.NEXT_PUBLIC_TAKE_ACTION_API_URL
-  }
-
-  const mode = env.NEXT_PUBLIC_API_MODE ?? 'production'
-  return TAKE_ACTION_ENDPOINTS[mode]
-}
-
-function getErrorMessage(data: SignupResponse): string | null {
-  return typeof data.error === 'string' ? data.error : null
-}
 
 export function NodeProgrammeSignupForm() {
   const t = useTranslations('pages.nodeProgramme.signup')
@@ -65,24 +42,7 @@ export function NodeProgrammeSignupForm() {
     setError('')
 
     try {
-      const response = await fetch(getTakeActionEndpoint(), {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          type: 'logos',
-          note: `Role: ${role}`,
-        }),
-      })
-      const data = (await response.json().catch(() => ({}))) as SignupResponse
-
-      if (!response.ok) {
-        throw new Error(getErrorMessage(data) ?? t('genericError'))
-      }
-
+      await submitNodeProgrammeSignup({ email, role })
       setEmail('')
       setRole('')
       setStatus('success')

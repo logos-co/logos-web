@@ -27,7 +27,6 @@ describe('env', () => {
       NEXT_PUBLIC_API_MODE: '',
       NEXT_PUBLIC_CMS_URL: '',
       NEXT_PUBLIC_SITE_URL: '',
-      NEXT_PUBLIC_TAKE_ACTION_API_URL: '',
       NODE_ENV: '',
     })
 
@@ -37,7 +36,6 @@ describe('env', () => {
       NEXT_PUBLIC_API_MODE: undefined,
       NEXT_PUBLIC_CMS_URL: undefined,
       NEXT_PUBLIC_SITE_URL: undefined,
-      NEXT_PUBLIC_TAKE_ACTION_API_URL: undefined,
     })
   })
 
