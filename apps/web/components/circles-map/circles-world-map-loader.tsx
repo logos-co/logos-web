@@ -23,6 +23,7 @@ type CirclesWorldMapLoaderProps = {
   zoom?: number
   zoomInAriaLabel?: string
   zoomOutAriaLabel?: string
+  gestureHintLabel?: string
 }
 
 export default function CirclesWorldMapLoader(

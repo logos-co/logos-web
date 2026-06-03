@@ -238,6 +238,8 @@ const mapSettingsSchema = z.object({
   image: mediaRefSchema.optional(),
   zoomInAriaLabel: z.string().min(1),
   zoomOutAriaLabel: z.string().min(1),
+  /** Shown on touch devices when the user tries to pan with a single finger. */
+  gestureHintLabel: z.string().min(1).optional(),
 })
 
 const nearbyCtaSchema = z.object({

@@ -95,12 +95,80 @@ function ZoomControls({
   )
 }
 
+// On touch devices a single-finger drag is reserved for scrolling the page, so
+// the map only pans/zooms with two fingers (like Google Maps). When a one-finger
+// drag is detected over the map, a short-lived hint tells the user how to move it.
+function TouchGestureHandling({ hint }: { hint: string }) {
+  const map = useMap()
+  const [showHint, setShowHint] = useState(false)
+
+  useEffect(() => {
+    const isTouch =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(pointer: coarse)').matches
+    if (!isTouch) return
+
+    const container = map.getContainer()
+    // Start with dragging off so a single finger falls through to page scroll.
+    map.dragging.disable()
+
+    let hintTimeout: ReturnType<typeof setTimeout> | undefined
+    const revealHint = () => {
+      setShowHint(true)
+      if (hintTimeout) clearTimeout(hintTimeout)
+      hintTimeout = setTimeout(() => setShowHint(false), 1600)
+    }
+
+    const handleTouchStart = (event: TouchEvent) => {
+      if (event.touches.length >= 2) {
+        map.dragging.enable()
+        setShowHint(false)
+        if (hintTimeout) clearTimeout(hintTimeout)
+      } else {
+        map.dragging.disable()
+      }
+    }
+
+    const handleTouchMove = (event: TouchEvent) => {
+      if (event.touches.length === 1) revealHint()
+    }
+
+    const handleTouchEnd = (event: TouchEvent) => {
+      if (event.touches.length < 2) map.dragging.disable()
+    }
+
+    container.addEventListener('touchstart', handleTouchStart, { passive: true })
+    container.addEventListener('touchmove', handleTouchMove, { passive: true })
+    container.addEventListener('touchend', handleTouchEnd, { passive: true })
+    container.addEventListener('touchcancel', handleTouchEnd, { passive: true })
+
+    return () => {
+      container.removeEventListener('touchstart', handleTouchStart)
+      container.removeEventListener('touchmove', handleTouchMove)
+      container.removeEventListener('touchend', handleTouchEnd)
+      container.removeEventListener('touchcancel', handleTouchEnd)
+      if (hintTimeout) clearTimeout(hintTimeout)
+    }
+  }, [map])
+
+  if (!showHint) return null
+
+  return (
+    <div className="pointer-events-none absolute inset-0 z-[450] flex items-center justify-center">
+      <div className="text-mono-s bg-brand-dark-green/85 text-brand-off-white rounded-full px-5 py-3 backdrop-blur-[5px]">
+        {hint}
+      </div>
+    </div>
+  )
+}
+
 type CirclesWorldMapProps = {
   markers: ActiveCircleMarker[]
   center?: [number, number]
   zoom?: number
   zoomInAriaLabel?: string
   zoomOutAriaLabel?: string
+  gestureHintLabel?: string
 }
 
 export default function CirclesWorldMap({
@@ -109,6 +177,7 @@ export default function CirclesWorldMap({
   zoom = DEFAULT_ZOOM,
   zoomInAriaLabel = 'Zoom in',
   zoomOutAriaLabel = 'Zoom out',
+  gestureHintLabel = 'Use two fingers to move the map',
 }: CirclesWorldMapProps) {
   // `L.divIcon(...)` is evaluated at module load, so this component must only
   // render in the browser. The loader wrapper enforces that with
@@ -181,6 +250,7 @@ export default function CirclesWorldMap({
           zoomInAriaLabel={zoomInAriaLabel}
           zoomOutAriaLabel={zoomOutAriaLabel}
         />
+        <TouchGestureHandling hint={gestureHintLabel} />
       </MapContainer>
     </div>
   )

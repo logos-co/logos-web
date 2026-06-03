@@ -23,7 +23,8 @@
       "height": 926
     },
     "zoomInAriaLabel": "Zoom in",
-    "zoomOutAriaLabel": "Zoom out"
+    "zoomOutAriaLabel": "Zoom out",
+    "gestureHintLabel": "Use two fingers to move the map"
   },
   "nearbyCta": {
     "title": "Circles and counting.",

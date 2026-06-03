@@ -21,6 +21,7 @@ export default function CirclesMap({
             zoom={settings.map.defaultZoom}
             zoomInAriaLabel={settings.map.zoomInAriaLabel}
             zoomOutAriaLabel={settings.map.zoomOutAriaLabel}
+            gestureHintLabel={settings.map.gestureHintLabel}
           />
         </div>
       </ContentWidth>
