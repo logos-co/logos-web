@@ -24,7 +24,7 @@ function CapabilityCard({ card }: { card: CardGridSection['cards'][number] }) {
 
 export function CapabilitiesSection({ data }: { data: CardGridSection }) {
   return (
-    <section className="w-full px-3 py-10 md:py-10">
+    <section className="w-full px-3 pt-0 pb-[60px] md:pt-0 md:pb-[180px]">
       {data.heading ? (
         <h2 className="mb-12 font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
           {data.heading}
