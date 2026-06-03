@@ -187,8 +187,8 @@
     {
       "componentType": "relatedArticles",
       "key": "blockchain.relatedArticles",
-      "label": "Lorem ipsum dolor si amet",
-      "mobileLabel": "Lorem ipsum dolor sit amet.",
+      "label": "The Logos Blog",
+      "mobileLabel": "The Logos Blog",
       "eyebrow": "Logos in the News",
       "title": "Related Articles",
       "cta": { "label": "Explore all articles", "href": "/blog" },
