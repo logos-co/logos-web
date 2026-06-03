@@ -106,7 +106,7 @@ export default async function MessagingPage({
         <TechStackRelatedArticles
           data={relatedArticles}
           articles={articles}
-          sectionClassName="mt-0 mb-15 md:mt-0 md:mb-0"
+          sectionClassName="mt-0 mb-0 md:mt-0 md:mb-0"
         />
       </TechStackDetailSection>
     </TechStackDetailPage>
