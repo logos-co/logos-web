@@ -59,7 +59,7 @@ export default async function CirclesCtaSection({ data }: Props) {
           ) : null}
         </div>
 
-        <div className="mt-7.5 h-[720px] w-full overflow-hidden rounded-[100px] bg-gray-01 lg:mt-0">
+        <div className="relative z-0 isolate mt-7.5 h-[720px] w-full overflow-hidden rounded-[100px] bg-gray-01 lg:mt-0">
           <div className="h-[710px] w-full">
             <CirclesWorldMap markers={markers} />
           </div>
