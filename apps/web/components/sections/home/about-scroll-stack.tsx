@@ -2,10 +2,11 @@
 
 import { CircleArrowIcon } from '@acid-info/logos-ui'
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { type PointerEvent, useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui'
 import {
+  ABOUT_CAROUSEL_CARD_GAP,
   ABOUT_CAROUSEL_CARD_WIDTH,
   ABOUT_CAROUSEL_TOTAL_SCROLL_DISTANCE,
   ABOUT_CAROUSEL_VISUAL_TRANSITION_MS,
@@ -68,36 +69,36 @@ function FactText({
   )
 }
 
-function DesktopProblemCard({ card }: { card: AboutProblemCard }) {
+function ProblemCard({ card }: { card: AboutProblemCard }) {
   return (
     <article
-      className={`flex h-[434px] w-[932px] shrink-0 gap-[6px] rounded-[18px] p-[6px] [@media(max-height:760px)]:h-[390px] ${card.tone} ${card.textTone}`}
+      className={`flex h-[min(540px,calc(100svh-176px))] w-[calc(100vw-48px)] max-w-[345px] shrink-0 flex-col gap-[6px] rounded-[18px] p-[6px] lg:h-[434px] lg:w-[932px] lg:max-w-none lg:flex-row [@media(max-height:760px)]:lg:h-[390px] ${card.tone} ${card.textTone}`}
     >
-      <div className="relative h-[422px] w-[454px] shrink-0 overflow-hidden rounded-xl [@media(max-height:760px)]:h-[378px]">
+      <div className="relative h-[42%] min-h-[170px] shrink-0 overflow-hidden rounded-xl lg:h-[422px] lg:w-[454px] [@media(max-height:760px)]:lg:h-[378px]">
         <Image
           src={card.image}
           alt=""
           fill
-          sizes="454px"
+          sizes="(max-width: 1023px) calc(100vw - 48px), 454px"
           className={`object-cover ${card.imageClassName ?? ''}`}
         />
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col justify-between">
-        <div className="flex flex-col gap-10 px-1.5 py-3 [@media(max-height:760px)]:gap-6">
-          <h3 className="text-h3-serif [@media(max-height:760px)]:text-[30px]">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-between">
+        <div className="flex flex-col gap-3 px-1.5 py-2 lg:gap-10 lg:py-3 [@media(max-height:760px)]:lg:gap-6">
+          <h3 className="text-h3-serif text-[38px] lg:text-[48px] [@media(max-height:760px)]:lg:text-[30px]">
             {card.title}
           </h3>
-          <p className="font-sans text-[14px] leading-[1.2] [@media(max-height:760px)]:text-[12px]">
+          <p className="font-sans text-[12px] leading-[1.2] lg:text-[14px] [@media(max-height:760px)]:lg:text-[12px]">
             {card.body}
           </p>
         </div>
 
-        <div className="flex flex-col gap-3 px-1.5 py-3 [@media(max-height:760px)]:gap-2">
+        <div className="flex flex-col gap-2 px-1.5 py-2 lg:gap-3 lg:py-3 [@media(max-height:760px)]:gap-2">
           {card.facts.map((fact, index) => (
             <p
               key={fact}
-              className="border-t border-current/50 pt-1.5 font-mono text-[10px] leading-[1.3] [@media(max-height:760px)]:text-[9px]"
+              className="border-t border-current/50 pt-1.5 font-mono text-[8px] leading-[1.25] lg:text-[10px] lg:leading-[1.3] [@media(max-height:760px)]:text-[9px]"
             >
               <FactText fact={fact} link={card.factLinks[index]} />
             </p>
@@ -114,6 +115,12 @@ export default function AboutScrollStack({
   closingParagraphs,
   cta,
 }: AboutScrollStackProps) {
+  const dragRef = useRef({
+    active: false,
+    pointerId: 0,
+    startX: 0,
+    startY: 0,
+  })
   const sectionRef = useRef<HTMLDivElement>(null)
   const introRef = useRef<HTMLParagraphElement>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
@@ -151,6 +158,11 @@ export default function AboutScrollStack({
         sectionTop: section.getBoundingClientRect().top,
         cardCount: cards.length,
       })
+      const firstCard = track.querySelector('article')
+      const measuredStep = firstCard
+        ? firstCard.getBoundingClientRect().width + ABOUT_CAROUSEL_CARD_GAP
+        : null
+      const trackOffset = measuredStep ? activeIndex * measuredStep : offset
 
       intro.style.transition = visualTransition
       intro.style.opacity = String(introOpacity)
@@ -165,7 +177,7 @@ export default function AboutScrollStack({
       closing.style.opacity = String(closingOpacity)
       closing.style.pointerEvents = closingOpacity > 0.75 ? 'auto' : 'none'
       closing.style.transform = `translate3d(-50%, calc(-50% + ${closingTranslateY}px), 0)`
-      track.style.transform = `translate3d(${-offset}px, 0, 0)`
+      track.style.transform = `translate3d(${-trackOffset}px, 0, 0)`
       if (nextIndex !== activeIndex) {
         setActiveIndex(nextIndex)
       }
@@ -200,6 +212,48 @@ export default function AboutScrollStack({
     setActiveIndex(Math.min(Math.max(index, 0), cards.length - 1))
   }
 
+  const handleCarouselPointerDown = (
+    event: PointerEvent<HTMLDivElement>
+  ) => {
+    if (event.pointerType === 'mouse') return
+
+    dragRef.current = {
+      active: true,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+    }
+  }
+
+  const handleCarouselPointerUp = (
+    event: PointerEvent<HTMLDivElement>
+  ) => {
+    const drag = dragRef.current
+    if (!drag.active || drag.pointerId !== event.pointerId) return
+
+    dragRef.current.active = false
+
+    const deltaX = event.clientX - drag.startX
+    const deltaY = event.clientY - drag.startY
+    const isHorizontalSwipe = Math.abs(deltaX) > 48 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4
+    if (!isHorizontalSwipe) return
+
+    if (deltaX < 0) {
+      scrollToCard(activeIndex + 1)
+      return
+    }
+
+    scrollToCard(activeIndex - 1)
+  }
+
+  const handleCarouselPointerCancel = (
+    event: PointerEvent<HTMLDivElement>
+  ) => {
+    if (dragRef.current.pointerId === event.pointerId) {
+      dragRef.current.active = false
+    }
+  }
+
   const scrollPastCarousel = () => {
     const top = getSectionPageTop()
     if (top === null) return
@@ -213,13 +267,13 @@ export default function AboutScrollStack({
   return (
     <div
       ref={sectionRef}
-      className="hidden lg:block"
+      className="block"
       style={{ height: `calc(100vh + ${ABOUT_CAROUSEL_TOTAL_SCROLL_DISTANCE}px)` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden bg-brand-dark-green">
         <p
           ref={introRef}
-          className="text-h3-serif absolute top-1/2 left-1/2 w-[940px] text-center will-change-[filter,opacity,transform] [@media(max-height:760px)]:w-[820px] [@media(max-height:760px)]:text-[30px]"
+          className="text-h3-serif absolute top-1/2 left-1/2 w-[calc(100%-24px)] max-w-[369px] text-center will-change-[filter,opacity,transform] lg:w-[940px] lg:max-w-none [@media(max-height:760px)]:lg:w-[820px] [@media(max-height:760px)]:lg:text-[30px]"
         >
           {intro}
         </p>
@@ -229,7 +283,7 @@ export default function AboutScrollStack({
           className="absolute inset-0 opacity-0 will-change-[filter,opacity,transform]"
         >
           <div
-            className="absolute top-[calc(50%-279px)] left-1/2 flex h-[30px] -translate-x-1/2 items-center justify-center gap-10 [@media(max-height:760px)]:top-[calc(50%-257px)]"
+            className="absolute top-[calc(50%-332px)] left-1/2 flex h-[30px] -translate-x-1/2 items-center justify-center gap-10 lg:top-[calc(50%-279px)] [@media(max-height:760px)]:lg:top-[calc(50%-257px)]"
             aria-label="Problem card controls"
           >
             <button
@@ -263,18 +317,21 @@ export default function AboutScrollStack({
           </div>
 
           <div
-            className="absolute top-1/2 left-1/2 w-screen -translate-x-1/2 -translate-y-1/2 overflow-hidden"
+            className="absolute top-1/2 left-1/2 w-screen -translate-x-1/2 -translate-y-1/2 touch-pan-y overflow-hidden"
+            onPointerCancel={handleCarouselPointerCancel}
+            onPointerDown={handleCarouselPointerDown}
+            onPointerUp={handleCarouselPointerUp}
           >
             <div
               ref={trackRef}
               className="flex gap-3 transition-transform duration-500 ease-out will-change-transform"
               style={{
-                paddingLeft: `calc((100vw - ${ABOUT_CAROUSEL_CARD_WIDTH}px) / 2)`,
-                paddingRight: `calc((100vw - ${ABOUT_CAROUSEL_CARD_WIDTH}px) / 2)`,
+                paddingLeft: `max(24px, calc((100vw - ${ABOUT_CAROUSEL_CARD_WIDTH}px) / 2))`,
+                paddingRight: `max(24px, calc((100vw - ${ABOUT_CAROUSEL_CARD_WIDTH}px) / 2))`,
               }}
             >
               {cards.map((card) => (
-                <DesktopProblemCard key={card.key} card={card} />
+                <ProblemCard key={card.key} card={card} />
               ))}
             </div>
           </div>
@@ -282,7 +339,7 @@ export default function AboutScrollStack({
 
         <div
           ref={closingRef}
-          className="absolute top-1/2 left-1/2 flex w-full max-w-[860px] flex-col items-center gap-15 px-6 text-center opacity-0 will-change-[opacity,transform]"
+          className="absolute top-1/2 left-1/2 flex w-full max-w-[369px] flex-col items-center gap-15 px-6 text-center opacity-0 will-change-[opacity,transform] lg:max-w-[860px]"
         >
           <div className="text-h3-serif flex flex-col gap-[1em]">
             {closingParagraphs.map((paragraph) => (
