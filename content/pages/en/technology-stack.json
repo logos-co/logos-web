@@ -36,8 +36,8 @@
           "iconOverride": "download"
         },
         {
-          "label": "Builder hub",
-          "href": "/builders-hub",
+          "label": "Start Building",
+          "href": "/get-started",
           "variant": "secondary"
         },
         {
