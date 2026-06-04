@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server'
 
 import { ROUTES } from '@/constants/routes'
 import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
-import AboutScrollStack, { type AboutProblemCard } from './about-scroll-stack'
+import AboutCarousel, { type AboutProblemCard } from './about-carousel'
 
 export default async function AboutSection({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home.about' })
@@ -78,7 +78,7 @@ export default async function AboutSection({ locale }: { locale: string }) {
       id="about"
       className="relative bg-brand-dark-green text-brand-off-white"
     >
-      <AboutScrollStack
+      <AboutCarousel
         intro={t('intro')}
         cards={cards}
         closingParagraphs={closingParagraphs}
