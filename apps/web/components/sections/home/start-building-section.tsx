@@ -71,7 +71,7 @@ export default async function StartBuildingSection({
               </p>
             </div>
             <Button
-              href={ROUTES.buildersHub}
+              href={ROUTES.getStarted}
               className="cursor-pointer transition-opacity hover:opacity-80"
             >
               {t('cta')}

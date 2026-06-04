@@ -130,16 +130,14 @@ export default function TechStackSection({
             >
               Builder Hub
             </Button>
-            {data.cta ? (
-              <Button
-                href={data.cta.href}
-                variant="secondary"
-                icon={<ButtonArrowIcon />}
-                className="cursor-pointer transition-opacity hover:opacity-70"
-              >
-                Documentation
-              </Button>
-            ) : null}
+            <Button
+              href={ROUTES.getStarted}
+              variant="secondary"
+              icon={<ButtonArrowIcon />}
+              className="cursor-pointer transition-opacity hover:opacity-70"
+            >
+              Start Building
+            </Button>
             <Button
               href={ROUTES.technologyStack}
               variant="secondary"
