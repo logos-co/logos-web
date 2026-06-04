@@ -4,12 +4,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { Pagination } from '@acid-info/logos-ui'
 
 import type { BuilderHubListingPageSettings } from '@repo/content/schemas'
-import type { Idea, Rfp } from '@repo/content/loaders'
+import type { Idea } from '@repo/content/loaders'
 
 import {
   BuildersHubBottomCta,
   BuildersHubListingHeader,
 } from '@/components/sections/builders-hub'
+import type { RfpListItem } from '@/lib/rfp-types'
 import ContentWidth from '@/components/layout/content-width'
 import { IdeaCard } from '@/components/sections/builders-hub/idea-card'
 import { IdeaRow } from '@/components/sections/builders-hub/idea-row'
@@ -28,7 +29,7 @@ type IdeasListingClientProps = {
 type RfpsListingClientProps = {
   kind: 'rfps'
   settings: BuilderHubListingPageSettings
-  items: Rfp[]
+  items: RfpListItem[]
 }
 
 type Props = IdeasListingClientProps | RfpsListingClientProps
@@ -130,7 +131,7 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
                 ? (pageItems as Idea[]).map((idea) => (
                     <IdeaCard key={idea.slug} idea={idea} />
                   ))
-                : (pageItems as Rfp[]).map((rfp) => (
+                : (pageItems as RfpListItem[]).map((rfp) => (
                     <RfpCard key={rfp.slug} rfp={rfp} />
                   ))}
             </div>
@@ -142,7 +143,7 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
                 ? (pageItems as Idea[]).map((idea, i) => (
                     <IdeaRow key={idea.slug} index={start + i + 1} idea={idea} />
                   ))
-                : (pageItems as Rfp[]).map((rfp, i) => (
+                : (pageItems as RfpListItem[]).map((rfp, i) => (
                     <RfpListRow key={rfp.slug} index={start + i + 1} rfp={rfp} />
                   ))}
             </ul>

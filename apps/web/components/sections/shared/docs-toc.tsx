@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 
-import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
+import { ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
 
 /**
@@ -18,30 +18,26 @@ import { Link } from '@/i18n/navigation'
  */
 
 export type DocsTocKey =
-  | 'guides'
-  | 'logosForum'
-  | 'researchForum'
   | 'brandKit'
   | 'terms'
   | 'privacy'
   | 'security'
   | 'faq'
+  | 'testnetFaqs'
+  | 'testnetTerms'
 
 interface DocsTocItem {
   key: DocsTocKey
   href: string
-  external?: boolean
 }
 
 const ITEMS: ReadonlyArray<DocsTocItem> = [
-  { key: 'guides', href: ROUTES.buildersHub },
-  { key: 'logosForum', href: EXTERNAL_URLS.forum, external: true },
-  { key: 'researchForum', href: EXTERNAL_URLS.forum, external: true },
   { key: 'brandKit', href: ROUTES.brandKit },
   { key: 'terms', href: ROUTES.terms },
   { key: 'privacy', href: ROUTES.privacy },
   { key: 'security', href: ROUTES.security },
-  { key: 'faq', href: ROUTES.faq },
+  { key: 'testnetFaqs', href: ROUTES.testnetV01Faqs },
+  { key: 'testnetTerms', href: ROUTES.testnetTermsAndConditions },
 ]
 
 interface DocsTocProps {
@@ -79,20 +75,6 @@ export async function DocsToc({ activeKey }: DocsTocProps) {
 
         const className =
           'text-mono-s cursor-pointer text-brand-dark-green transition-opacity hover:opacity-60'
-
-        if (item.external) {
-          return (
-            <a
-              key={item.key}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={className}
-            >
-              {t(item.key)}
-            </a>
-          )
-        }
 
         return (
           <Link key={item.key} href={item.href} className={className}>

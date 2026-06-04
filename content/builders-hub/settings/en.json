@@ -58,10 +58,10 @@
         "title": "Install Basecamp",
         "description": "Logos Basecamp is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable interface. It allows you to easily interact with simple apps built on the various modules.",
         "image": {
-          "src": "/images/builders-hub/basecamp-card.png",
+          "src": "/images/builders-hub/basecamp-package-manager.png",
           "alt": "",
-          "width": 690,
-          "height": 313
+          "width": 2820,
+          "height": 1596
         }
       },
       {
@@ -72,8 +72,7 @@
           "alt": "",
           "width": 850,
           "height": 326
-        },
-        "imageFit": "contain"
+        }
       }
     ]
   },
@@ -84,9 +83,11 @@
         "title": "Read the docs",
         "description": "Deep dive into the Logos stack architecture, modules, APIs and integration guides.",
         "ctas": [
-          { "label": "Blockchain", "href": "/technology-stack/blockchain" },
-          { "label": "Storage", "href": "/technology-stack/storage" },
-          { "label": "Messaging", "href": "/technology-stack/messaging" }
+          {
+            "label": "View the docs",
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true
+          }
         ]
       },
       {

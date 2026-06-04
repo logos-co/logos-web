@@ -12,7 +12,7 @@ export function JourneySection({
   return (
     <section className="px-3 pb-25 md:pb-25">
       <ContentWidth>
-        <h2 className="text-[30px] leading-none tracking-[-0.02em] md:text-h3-sans">
+        <h2 className="font-sans text-[24px] leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
           {data.title}
         </h2>
         <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-5">

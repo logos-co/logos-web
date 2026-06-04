@@ -6,7 +6,8 @@ import type { BuilderHubSettings } from '@repo/content/schemas'
 
 import { BuildersHubAppInstall } from './builders-hub-app-install'
 import { BuildSection } from './_sections/build'
-import { DocumentationSection } from './_sections/documentation'
+// Temporarily hidden — keep for future reuse.
+// import { DocumentationSection } from './_sections/documentation'
 import { BuildersHubHero } from './_sections/hero'
 import { InspirationSection } from './_sections/inspiration'
 import { JourneySection } from './_sections/journey'
@@ -42,9 +43,11 @@ export function BuildersHubHome({
       ) : null}
       {settings.support ? <SupportSection data={settings.support} /> : null}
       <BuildersHubAppInstall data={settings.appInstall} />
+      {/* Temporarily hidden — keep for future reuse.
       {settings.documentation ? (
         <DocumentationSection data={settings.documentation} />
       ) : null}
+      */}
     </div>
   )
 }

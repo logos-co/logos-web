@@ -1,12 +1,11 @@
 import Image from 'next/image'
 
-import type { Rfp } from '@repo/content/loaders'
-
 import { Link } from '@/i18n/navigation'
 import { ROUTES } from '@/constants/routes'
+import type { RfpListItem } from '@/lib/rfp-types'
 
 type Props = {
-  rfp: Rfp
+  rfp: RfpListItem
 }
 
 /**

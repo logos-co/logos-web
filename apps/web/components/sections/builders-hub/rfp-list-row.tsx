@@ -1,12 +1,11 @@
-import type { Rfp } from '@repo/content/loaders'
-
 import { Link } from '@/i18n/navigation'
 import { ROUTES } from '@/constants/routes'
+import type { RfpListItem } from '@/lib/rfp-types'
 import { formatRewardLines } from '@/lib/reward'
 
 type Props = {
   index: number
-  rfp: Rfp
+  rfp: RfpListItem
 }
 
 /**
