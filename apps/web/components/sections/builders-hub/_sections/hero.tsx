@@ -13,7 +13,7 @@ export function BuildersHubHero({ hero }: { hero: BuilderHubSettings['hero'] }) 
   )
 
   return (
-    <section className="relative h-[483px] px-3 pt-6 md:h-[487px]">
+    <section className="relative h-[483px] pt-6 md:h-[487px]">
       <ContentWidth className="relative h-full">
         <div className="absolute top-6 left-3 h-[75px] w-[107px] overflow-hidden">
           <Image

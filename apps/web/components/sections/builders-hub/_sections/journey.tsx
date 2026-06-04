@@ -10,7 +10,7 @@ export function JourneySection({
   data: NonNullable<BuilderHubSettings['journey']>
 }) {
   return (
-    <section className="px-3 pb-25 md:pb-25">
+    <section className="pb-25 md:pb-25">
       <ContentWidth>
         <h2 className="font-sans text-[24px] leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
           {data.title}

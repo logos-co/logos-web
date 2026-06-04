@@ -13,7 +13,7 @@ export function DocumentationSection({
   return (
     <section
       id="resources"
-      className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 pt-[39px] pb-25 text-brand-dark-green"
+      className="border-t border-brand-dark-green/10 bg-brand-off-white pt-[39px] pb-25 text-brand-dark-green"
     >
       <ContentWidth>
         <div className="md:grid md:grid-cols-[1fr_1fr] md:gap-3">
