@@ -27,8 +27,8 @@ export default function TechOverviewModular({ data }: Props) {
               />
             </div>
 
-            <div className="relative flex h-[572px] flex-col items-center justify-center overflow-hidden rounded-xl bg-gray-01 p-6 xl:block xl:h-[518px]">
-              <div className="flex w-full max-w-[321px] flex-col items-center text-center xl:mx-auto xl:mt-[113px] xl:max-w-[464px]">
+            <div className="relative flex h-[572px] flex-col items-center justify-center overflow-hidden rounded-xl bg-gray-01 p-6 xl:h-[518px]">
+              <div className="flex w-full max-w-[321px] flex-col items-center text-center xl:mx-auto xl:max-w-[464px]">
                 <h2 className="text-h3-serif w-[320px] text-brand-dark-green xl:w-full">
                   <span className="block xl:inline">
                     {data.title.highlight}

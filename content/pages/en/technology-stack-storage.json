@@ -20,7 +20,7 @@
       "key": "storage.hero",
       "eyebrow": "Technology stack",
       "headline": "Storage",
-      "body": "Privacy-preserving file sharing using content identifiers.",
+      "body": "Privacy-preserving file sharing using content identifiers, enabling distributed storage.",
       "bodySecondary": "Key Repositories:",
       "items": [
         {

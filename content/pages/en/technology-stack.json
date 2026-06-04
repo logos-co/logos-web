@@ -188,9 +188,10 @@
         "rest": "Compares"
       },
       "body": [
-        "Most blockchain platforms provide consensus only — you bring your own messaging and storage, or fall back on centralised services. Logos combines all three in a unified stack, with privacy at every layer.",
-        "Bitcoin proved decentralised value transfer was possible. Ethereum generalised this for arbitrary computation. Logos extends this further, into a platform for deploying parallel institutions — governance systems, communication networks, data archives — with privacy at both the network and the transaction level.",
-        "Where Zcash focuses on private transactions, Logos provides a full application platform. Where Polkadot focuses on chain interoperability, Logos focuses on privacy and self-governance. Where Cosmos provides a framework for sovereign chains, Logos provides a complete integrated stack."
+        "Most blockchains coordinate over centralised services and storage, but the Logos blockchain is just one part of a unified, peer-to-peer stack that preserves privacy at every layer.",
+        "Bitcoin proved decentralised value transfer was possible, and Ethereum generalised this principle for arbitrary computation. Logos extends this further, into a platform for deploying parallel institutions — governance systems, communication networks, data archives — with privacy at both the network and the transaction level.",
+        "Networks such as Zcash might focus on private transactions, but they fall short of the full privacy-preserving platform needed to create sovereign applications.",
+        "Logos is a complete, integrated stack that does not stop at just making transactions private – it safeguards communications and storage through peer-to-peer infrastructure that underpin applications far beyond blockchain."
       ],
       "image": {
         "src": "/images/technology-stack/how-logos-compares.webp",
