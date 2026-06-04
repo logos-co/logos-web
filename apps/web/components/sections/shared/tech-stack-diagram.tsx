@@ -9,7 +9,15 @@ import { Link } from '@/i18n/navigation'
 
 import { DownloadIcon } from './builder-cta-card'
 
-const hoverThumbnail = '/images/technology-stack/logos-basecamp.jpg'
+const STACK_THUMBNAILS: Record<string, string> = {
+  basecamp: '/images/technology-stack/thumb-networking.webp',
+  storage: '/images/technology-stack/thumb-storage.webp',
+  messaging: '/images/technology-stack/thumb-messaging.webp',
+  blockchain: '/images/technology-stack/thumb-blockchain.webp',
+  userModules: '/images/technology-stack/thumb-user-modules.webp',
+  networking: '/images/technology-stack/thumb-networking.webp',
+  foundation: '/images/technology-stack/thumb-foundation.webp',
+}
 
 function formatNetworkingTitle(title: string) {
   return title.replace(': ', ':\n')
@@ -55,6 +63,7 @@ function HoverStackItem({
   desktopAt1025 = false,
   comingSoon = false,
   hideCta = false,
+  thumbnailSrc,
 }: {
   title: string
   description?: string
@@ -83,6 +92,7 @@ function HoverStackItem({
    * CTA button at all. Used for pillars that have no destination to link to.
    */
   hideCta?: boolean
+  thumbnailSrc: string
 }) {
   const hasDetails = details !== undefined && details.length > 0
   const desktopHoverLarge = desktopAt1025
@@ -141,7 +151,7 @@ function HoverStackItem({
         className={`pointer-events-none absolute top-3 left-3 z-[1] hidden h-[57px] w-[46px] overflow-hidden opacity-0 transition-opacity duration-200 ease-out group-hover/stack-item:opacity-100 ${desktopBlock}`}
       >
         <Image
-          src={hoverThumbnail}
+          src={thumbnailSrc}
           alt=""
           fill
           sizes="46px"
@@ -287,6 +297,7 @@ export function TechStackDiagram({
           mobileFeatured
           desktopAt1025={desktopAt1025}
           className={basecampClass}
+          thumbnailSrc={STACK_THUMBNAILS.basecamp}
         />
       ) : null}
 
@@ -301,6 +312,7 @@ export function TechStackDiagram({
             details={pillar.details}
             desktopAt1025={desktopAt1025}
             hideCta={pillar.id === 'userModules'}
+            thumbnailSrc={STACK_THUMBNAILS[pillar.id]}
           />
         ))}
       </div>
@@ -313,6 +325,7 @@ export function TechStackDiagram({
           className={rowClass}
           labelClassName="whitespace-pre-line"
           desktopAt1025={desktopAt1025}
+          thumbnailSrc={STACK_THUMBNAILS.networking}
         />
         <HoverStackItem
           title={data.foundationTitle}
@@ -321,6 +334,7 @@ export function TechStackDiagram({
           className={rowClass}
           desktopAt1025={desktopAt1025}
           hideCta
+          thumbnailSrc={STACK_THUMBNAILS.foundation}
         />
       </div>
     </div>
