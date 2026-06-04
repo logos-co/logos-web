@@ -36,8 +36,8 @@
       }
     },
     {
-      "label": "Movement",
-      "href": "/circles",
+      "label": "Organise",
+      "href": "/movement",
       "ctaLabel": "Join a circle",
       "description": "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections.",
       "image": {
@@ -88,7 +88,7 @@
           }
         },
         {
-          "label": "Movement",
+          "label": "Organise",
           "href": "/movement",
           "ctaLabel": "Join a circle",
           "description": "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections.",
