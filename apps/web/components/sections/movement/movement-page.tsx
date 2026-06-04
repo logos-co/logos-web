@@ -54,7 +54,7 @@ export function MovementPageView({
       <CampaignSection t={t} />
       <div className="flex flex-col">
         <div className="order-2 md:order-1">{findCta}</div>
-        <div className="order-1 md:order-2">
+        <div id="circles-map" className="order-1 md:order-2">
           <CirclesMap settings={circlesSettings} markers={mapMarkers} />
         </div>
       </div>

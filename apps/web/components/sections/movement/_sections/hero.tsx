@@ -1,7 +1,6 @@
 import Image from 'next/image'
 
 import ContentWidth from '@/components/layout/content-width'
-import { ROUTES } from '@/constants/routes'
 
 import { Cta, LambdaBadge, movementImages } from './atoms'
 import type { Translate } from './types'
@@ -23,7 +22,7 @@ export function HeroSection({ t }: { t: Translate }) {
       </div>
 
       <Cta
-        href={ROUTES.circles}
+        href="#circles-map"
         label={t('hero.primaryCta')}
         tone="tertiary"
         className="absolute top-6 left-1/2 translate-x-[8px] md:translate-x-[6px]"
@@ -42,7 +41,7 @@ export function HeroSection({ t }: { t: Translate }) {
       <div className="absolute top-[274px] left-1/2 w-[369px] max-w-[calc(100%-24px)] -translate-x-1/2 md:top-[337px] md:w-[min(422px,calc(50vw-18px))] md:max-w-none md:translate-x-[6px] lg:w-[422px]">
         <p className="text-mono-s">{t('hero.body')}</p>
         <Cta
-          href={ROUTES.circles}
+          href="#activist-circle"
           label={t('hero.secondaryCta')}
           tone="tertiary"
           className="mt-10 ml-[191px] md:ml-0"
