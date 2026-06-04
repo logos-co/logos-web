@@ -236,7 +236,7 @@
       "key": "home.parallelSocietyHeadline",
       "title": {
         "highlight": "Parallel Society",
-        "rest": "is a two-day event in Lisbon where music, art, and technology converge."
+        "rest": "was a two-day event in Lisbon where music, art, and technology converge."
       },
       "cta": {
         "label": "Learn More",
@@ -309,7 +309,7 @@
       "key": "home.mountain",
       "title": {
         "highlight": "Parallel Society",
-        "rest": "is a two-day event in Lisbon where music, art, and technology converge."
+        "rest": "was a two-day event in Lisbon where music, art, and technology converge."
       },
       "cta": { "label": "Learn More", "href": "/blog" }
     },
@@ -323,11 +323,7 @@
       "body": [
         "Logos is built for those who believe the window for reform has closed. Circles are essential for anyone taking actions with us. If there isn’t a Logos Circle listed in your area, please get in touch with the team."
       ],
-      "cta": { "label": "Find a Circle Near You", "href": "/movement" },
-      "secondaryCta": {
-        "label": "Start a Circle",
-        "href": "https://forum.logos.co/c/meetups/6"
-      }
+      "cta": { "label": "Find a Circle Near You", "href": "/movement" }
     }
   ]
 }
