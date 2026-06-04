@@ -33,7 +33,6 @@ export const ROUTES = {
   lambdaPrize: '/lambda-prize',
 
   // Circles
-  circles: '/circles',
   activeCircles: '/active-circles',
   /** Dynamic route — `/circles/[slug]`. */
   circle: (slug: string) => `/circles/${slug}`,
