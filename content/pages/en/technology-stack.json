@@ -193,10 +193,10 @@
         "Where Zcash focuses on private transactions, Logos provides a full application platform. Where Polkadot focuses on chain interoperability, Logos focuses on privacy and self-governance. Where Cosmos provides a framework for sovereign chains, Logos provides a complete integrated stack."
       ],
       "image": {
-        "src": "/images/technology-stack/how-logos-compares.jpg",
+        "src": "/images/technology-stack/how-logos-compares.webp",
         "alt": "",
-        "width": 1404,
-        "height": 1036
+        "width": 702,
+        "height": 518
       }
     },
     {

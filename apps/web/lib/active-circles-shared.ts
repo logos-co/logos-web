@@ -45,8 +45,9 @@ export type ActiveCircleStat = {
 
 /**
  * An upcoming circle event (start date is today or later), sourced live. The
- * API exposes no host, image, region, or timezone — only the fields below — so
- * the UI renders a leaner card and shows times in UTC.
+ * warehouse API exposes no host, image, region, or timezone, so the UI renders a
+ * leaner card and shows times in UTC. The cover image is enriched separately at
+ * sync time by scraping the event's Luma page (see `active-circles-source.ts`).
  */
 export type ActiveCircleUpcomingEvent = {
   id: string
@@ -58,6 +59,8 @@ export type ActiveCircleUpcomingEvent = {
   /** ISO-8601 UTC end timestamp, when known. */
   endAt: string | null
   eventUrl: string | null
+  /** Resized Luma cover image URL, when resolvable; null falls back to a default. */
+  coverUrl: string | null
 }
 
 export type ActiveCirclesOverview = {

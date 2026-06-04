@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T13:14:18.083Z",
+  "generatedAt": "2026-06-04T15:18:46.939Z",
   "activeSinceDate": "2026-02-04",
   "circles": [
     {
@@ -326,7 +326,8 @@
       "country": "",
       "startAt": "2026-06-04T14:00:00",
       "endAt": "2026-06-04T17:00:00",
-      "eventUrl": "https://luma.com/svjyqwu9"
+      "eventUrl": "https://luma.com/svjyqwu9",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/event-covers/zb/8bcd36d4-d687-4ad6-aa33-af5cc28fd7d8.png"
     },
     {
       "id": "evt-9vPP1zPZctbLphi",
@@ -335,7 +336,8 @@
       "country": "Nigeria",
       "startAt": "2026-06-06T11:00:00",
       "endAt": "2026-06-06T14:00:00",
-      "eventUrl": "https://luma.com/qjsesfxg"
+      "eventUrl": "https://luma.com/qjsesfxg",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/zh/f9ec8936-df09-4d96-8d71-60b812108cf8.jpg"
     },
     {
       "id": "evt-KAn6JHs2xQs3i3R",
@@ -344,7 +346,8 @@
       "country": "India",
       "startAt": "2026-06-06T11:30:00",
       "endAt": "2026-06-06T14:00:00",
-      "eventUrl": "https://luma.com/4110a7t8"
+      "eventUrl": "https://luma.com/4110a7t8",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/wr/889dbec8-6a28-4435-b1aa-8dc38db2d145.png"
     },
     {
       "id": "evt-ykXTzbT2FvYPM1W",
@@ -353,7 +356,8 @@
       "country": "Portugal",
       "startAt": "2026-06-10T18:00:00",
       "endAt": "2026-06-10T20:00:00",
-      "eventUrl": "https://luma.com/wqfifgw0"
+      "eventUrl": "https://luma.com/wqfifgw0",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/5e/b8f113a0-068a-4aa4-b45d-76a6453e583d.png"
     },
     {
       "id": "evt-VJSGI1ZtyelVfjA",
@@ -362,7 +366,8 @@
       "country": "Germany",
       "startAt": "2026-06-18T11:00:00",
       "endAt": "2026-06-18T18:30:00",
-      "eventUrl": "https://luma.com/logos-c1yv"
+      "eventUrl": "https://luma.com/logos-c1yv",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/v7/9a7ea0cd-e577-40ae-8856-64a94b9809a9.png"
     },
     {
       "id": "evt-NiRwm2bcyCo9gBM",
@@ -371,7 +376,8 @@
       "country": "Nigeria",
       "startAt": "2026-06-27T09:30:00",
       "endAt": "2026-06-27T13:00:00",
-      "eventUrl": "https://luma.com/u78zww8f"
+      "eventUrl": "https://luma.com/u78zww8f",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/bv/3eb10268-c8aa-464d-8bc8-a0a04e5fce33.png"
     }
   ],
   "stats": [

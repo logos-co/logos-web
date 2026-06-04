@@ -177,7 +177,79 @@ function toUpcomingEvent(event: ActiveCircleEvent): ActiveCircleUpcomingEvent {
     startAt: event.start_at,
     endAt: event.end_at ?? null,
     eventUrl: event.event_url?.trim() || null,
+    coverUrl: null,
   }
+}
+
+const LUMA_CDN_HOST = 'images.lumacdn.com'
+const LUMA_COVER_WIDTH = 246
+const LUMA_FETCH_TIMEOUT_MS = 10_000
+
+/**
+ * Builds a resized Luma CDN URL from a raw cover URL so cards load a small
+ * square image instead of the full-resolution original. Falls back to the raw
+ * URL for anything not served from the known Luma CDN host.
+ */
+function toResizedLumaCover(rawCoverUrl: string): string {
+  try {
+    const url = new URL(rawCoverUrl)
+    if (url.hostname !== LUMA_CDN_HOST) return rawCoverUrl
+
+    const path = url.pathname.replace(/^\/+/, '')
+    const transform = `format=auto,fit=cover,quality=80,width=${LUMA_COVER_WIDTH},height=${LUMA_COVER_WIDTH}`
+    return `https://${LUMA_CDN_HOST}/cdn-cgi/image/${transform}/${path}`
+  } catch {
+    return rawCoverUrl
+  }
+}
+
+/**
+ * Scrapes the cover image from a public Luma event page. Luma embeds the event
+ * payload (including `cover_url`) in the server-rendered HTML, so no API key is
+ * required. Returns null on any failure so the UI falls back to a default image.
+ */
+async function fetchLumaCoverUrl(eventUrl: string): Promise<string | null> {
+  try {
+    const url = new URL(eventUrl)
+    if (!/(^|\.)luma\.com$/.test(url.hostname)) return null
+
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), LUMA_FETCH_TIMEOUT_MS)
+
+    try {
+      const response = await fetch(eventUrl, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (logos-web active-circles sync)' },
+        cache: 'no-store',
+        signal: controller.signal,
+      })
+      if (!response.ok) {
+        throw new Error(`Luma page request failed: ${response.status}`)
+      }
+
+      const html = await response.text()
+      const match = html.match(/"cover_url":"(https:\/\/[^"\\]+)"/)
+      const rawCoverUrl = match?.[1]
+      return rawCoverUrl ? toResizedLumaCover(rawCoverUrl) : null
+    } finally {
+      clearTimeout(timeout)
+    }
+  } catch (error) {
+    logger.error('Failed to fetch Luma cover image', { eventUrl, error })
+    return null
+  }
+}
+
+/** Enriches upcoming events with their Luma cover image, in parallel. */
+async function withCoverImages(
+  events: ActiveCircleUpcomingEvent[]
+): Promise<ActiveCircleUpcomingEvent[]> {
+  return Promise.all(
+    events.map(async (event) => {
+      if (!event.eventUrl) return event
+      const coverUrl = await fetchLumaCoverUrl(event.eventUrl)
+      return coverUrl ? { ...event, coverUrl } : event
+    })
+  )
 }
 
 /** Events whose start date is today (UTC) or later, sorted soonest-first. */
@@ -216,7 +288,7 @@ export async function buildActiveCirclesSnapshot(
     .filter((marker): marker is ActiveCircleMarker => marker !== null)
     .sort(byCityCountry)
 
-  const upcomingEvents = getUpcomingEvents(events, now)
+  const upcomingEvents = await withCoverImages(getUpcomingEvents(events, now))
 
   const distinctCountries = new Set(
     events.map((event) => event.location_country?.trim()).filter(Boolean)

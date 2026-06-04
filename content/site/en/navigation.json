@@ -130,7 +130,7 @@
               "href": "/blog",
               "description": "Media throughout the Logos ecosystem",
               "image": {
-                "src": "/nav-overlay/figma/explore-thumb.webp",
+                "src": "/nav-overlay/figma/blog-thumb.webp",
                 "alt": ""
               }
             }
@@ -144,7 +144,7 @@
               "href": "/lambda-prize",
               "description": "A mission to revitalise civil society through privacy",
               "image": {
-                "src": "/nav-overlay/figma/explore-thumb.webp",
+                "src": "/nav-overlay/figma/lambda-prize-thumb.webp",
                 "alt": ""
               }
             },
@@ -153,7 +153,7 @@
               "href": "/builders-hub/rfps",
               "description": "Media throughout the Logos ecosystem",
               "image": {
-                "src": "/nav-overlay/figma/explore-thumb.webp",
+                "src": "/nav-overlay/figma/rfps-thumb.webp",
                 "alt": ""
               }
             }
@@ -185,7 +185,7 @@
               "href": "/technology-stack",
               "description": "Private by default, modular infra for parallel societies",
               "image": {
-                "src": "/nav-overlay/figma/technology-thumb.webp",
+                "src": "/nav-overlay/figma/tech-overview-thumb.webp",
                 "alt": ""
               }
             },
@@ -194,7 +194,7 @@
               "href": "/technology-stack/blockchain",
               "description": "Advanced privacy for decentralised applications and social institutions.",
               "image": {
-                "src": "/nav-overlay/figma/technology-thumb.webp",
+                "src": "/nav-overlay/figma/tech-blockchain-thumb.webp",
                 "alt": ""
               }
             },
@@ -203,7 +203,7 @@
               "href": "/technology-stack/messaging",
               "description": "Private peer-to-peer communication",
               "image": {
-                "src": "/nav-overlay/figma/technology-thumb.webp",
+                "src": "/nav-overlay/figma/tech-messaging-thumb.webp",
                 "alt": ""
               }
             },
@@ -212,7 +212,7 @@
               "href": "/technology-stack/networking",
               "description": "Discovery, Peering, and Mix-net",
               "image": {
-                "src": "/nav-overlay/figma/technology-thumb.webp",
+                "src": "/nav-overlay/figma/tech-networking-thumb.webp",
                 "alt": ""
               }
             },
@@ -221,7 +221,7 @@
               "href": "/technology-stack/storage",
               "description": "Secure decentralised storage for decentralised apps and file sharing.",
               "image": {
-                "src": "/nav-overlay/figma/technology-thumb.webp",
+                "src": "/nav-overlay/figma/tech-storage-thumb.webp",
                 "alt": ""
               }
             },
@@ -230,7 +230,7 @@
               "href": "/basecamp",
               "description": "Complete distribution that bundles the runtime,  default modules, and UI.",
               "image": {
-                "src": "/nav-overlay/figma/technology-thumb.webp",
+                "src": "/nav-overlay/figma/tech-basecamp-thumb.webp",
                 "alt": ""
               }
             }

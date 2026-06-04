@@ -95,7 +95,7 @@ function EventCard({
     <>
       <div className="relative size-[123px] overflow-hidden rounded-[18px]">
         <Image
-          src={DEFAULT_EVENT_IMAGE}
+          src={event.coverUrl ?? DEFAULT_EVENT_IMAGE}
           alt=""
           fill
           sizes="123px"
