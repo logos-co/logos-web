@@ -6,7 +6,7 @@ import type { FormEvent } from 'react'
 import { FooterArrowIcon, FooterChevronIcon } from './footer-icons'
 
 /** Role choices offered in the custom dropdown. */
-const DEFAULT_ROLE_OPTIONS = ['Node operator', 'Builder'] as const
+const DEFAULT_ROLE_OPTIONS = ['Node operator', 'Builder', 'Activist'] as const
 
 type SignupStatus = 'idle' | 'loading' | 'success' | 'error'
 
