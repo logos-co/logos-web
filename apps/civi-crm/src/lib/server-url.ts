@@ -10,7 +10,7 @@ import { headers } from 'next/headers'
  */
 export async function getBaseUrl(): Promise<string> {
   const hdrs = await headers()
-  const host = hdrs.get('host') ?? 'localhost:3002'
+  const host = hdrs.get('host') ?? 'localhost:3012'
   const proto = hdrs.get('x-forwarded-proto') ?? 'http'
   return `${proto}://${host}`
 }

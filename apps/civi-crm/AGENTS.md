@@ -4,7 +4,7 @@ Guidance for agents working inside `apps/civi-crm`. The root `AGENTS.md` still a
 
 ## App Role
 
-This is the Logos CiviCRM web layer — a Next.js 16 internal tool for managing Circle Case onboarding through a cleaner, custom interface on top of CiviCRM. It uses Tailwind v4, `@acid-info/logos-ui`, and `@acid-info/logos-tokens`. No database — CiviCRM is the sole data store. Authentication is handled by a Keycloak reverse proxy. Dev server runs on port **3002**.
+This is the Logos CiviCRM web layer — a Next.js 16 internal tool for managing Circle Case onboarding through a cleaner, custom interface on top of CiviCRM. It uses Tailwind v4, `@acid-info/logos-ui`, and `@acid-info/logos-tokens`. No database — CiviCRM is the sole data store. Authentication is handled by a Keycloak reverse proxy. Dev server runs on port **3012**.
 
 **Architecture document:** [`docs/civi-crm/architecture.md`](../../docs/civi-crm/architecture.md)
 Read it before designing any feature. It defines the view config system, API layer, auth seam, activity logging, caching, and all key architectural decisions.

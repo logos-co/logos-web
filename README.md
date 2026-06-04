@@ -21,10 +21,10 @@ Node `24`, pnpm `11.1.0`.
 
 ```bash
 pnpm install
-pnpm dev            # web → http://localhost:3000, cms → http://localhost:3001
+pnpm dev            # web → http://localhost:3010, cms → http://localhost:3011
 ```
 
-Payload Admin: <http://localhost:3001/admin>.
+Payload Admin: <http://localhost:3011/admin>.
 
 `apps/cms` requires `PAYLOAD_SECRET` and `DATABASE_URL` (Postgres). Copy `apps/cms/.env.example` to `apps/cms/.env` and fill it in. See [docs/deployment.md](./docs/deployment.md) for the full env matrix.
 

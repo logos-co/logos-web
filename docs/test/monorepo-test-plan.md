@@ -643,8 +643,8 @@ jobs:
         env:
           PAYLOAD_SECRET: test-secret-at-least-32-characters
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/logos_test
-          NEXT_PUBLIC_SERVER_URL: http://localhost:3001
-          NEXT_PUBLIC_WEB_URL: http://localhost:3000
+          NEXT_PUBLIC_SERVER_URL: http://localhost:3011
+          NEXT_PUBLIC_WEB_URL: http://localhost:3010
 ```
 
 - [ ] **Step 2: Add Postgres service only if CMS build needs DB connectivity**

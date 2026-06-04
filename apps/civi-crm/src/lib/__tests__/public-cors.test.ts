@@ -25,7 +25,7 @@ describe('public-cors', () => {
       setEnvVar('NODE_ENV', 'production')
 
       expect(isPublicCorsOriginAllowed('https://logos.co')).toBe(true)
-      expect(isPublicCorsOriginAllowed('http://localhost:3000')).toBe(false)
+      expect(isPublicCorsOriginAllowed('http://localhost:3010')).toBe(false)
       expect(isPublicCorsOriginAllowed(PREVIEW_WEB_ORIGIN)).toBe(false)
     })
 
@@ -34,14 +34,14 @@ describe('public-cors', () => {
       setEnvVar('NODE_ENV', 'production')
 
       expect(isPublicCorsOriginAllowed('https://logos.co')).toBe(true)
-      expect(isPublicCorsOriginAllowed('http://localhost:3000')).toBe(true)
+      expect(isPublicCorsOriginAllowed('http://localhost:3010')).toBe(true)
       expect(isPublicCorsOriginAllowed(PREVIEW_WEB_ORIGIN)).toBe(true)
     })
 
     it('allows localhost in local development', () => {
       setEnvVar('NODE_ENV', 'development')
 
-      expect(isPublicCorsOriginAllowed('http://localhost:3000')).toBe(true)
+      expect(isPublicCorsOriginAllowed('http://localhost:3010')).toBe(true)
       expect(isPublicCorsOriginAllowed(PREVIEW_WEB_ORIGIN)).toBe(true)
     })
 
@@ -58,10 +58,10 @@ describe('public-cors', () => {
       setEnvVar('VERCEL_ENV', 'production')
       setEnvVar(
         'CORS_ALLOWED_ORIGINS',
-        'http://localhost:3000,https://staging.example'
+        'http://localhost:3010,https://staging.example'
       )
 
-      expect(isPublicCorsOriginAllowed('http://localhost:3000')).toBe(true)
+      expect(isPublicCorsOriginAllowed('http://localhost:3010')).toBe(true)
       expect(isPublicCorsOriginAllowed('https://staging.example')).toBe(true)
     })
   })

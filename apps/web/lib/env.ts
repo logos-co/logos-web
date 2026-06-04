@@ -32,7 +32,7 @@ export type Env = {
    */
   NEXT_PUBLIC_SITE_URL: string | undefined
   /**
-   * Public CMS origin (e.g. `https://cms.logos.co` or `http://localhost:3001`).
+   * Public CMS origin (e.g. `https://cms.logos.co` or `http://localhost:3011`).
    * Optional — only required by features that read directly from the Payload
    * REST/GraphQL API at runtime (preview tokens, draft fetches). The default
    * content pipeline reads from local files, not this URL.
@@ -43,7 +43,7 @@ export type Env = {
    */
   NEXT_PUBLIC_ADMIN_ACID_API_URL: string | undefined
   /**
-   * Public CiviCRM API origin (e.g. `https://civi.logos.co` or `http://localhost:3002`).
+   * Public CiviCRM API origin (e.g. `https://civi.logos.co` or `http://localhost:3012`).
    * Used by connect/intake forms to submit data.
    */
   NEXT_PUBLIC_CIVI_CRM_URL: string | undefined

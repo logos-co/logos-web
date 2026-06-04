@@ -16,7 +16,7 @@ if (!isLocalSchemaPushAutomationAllowed(process.env)) {
   process.exit(1)
 }
 
-const child = spawn('next', ['dev', '--port', '3001'], {
+const child = spawn('next', ['dev', '--port', '3011'], {
   env: process.env,
   stdio: ['pipe', 'pipe', 'pipe'],
 })

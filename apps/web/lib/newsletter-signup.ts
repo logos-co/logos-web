@@ -14,7 +14,7 @@
 import { env } from '@/lib/env'
 
 const SUBSCRIBE_ENDPOINTS = {
-  development: 'http://localhost:3000/api/admin/newsletters/subscribe',
+  development: 'http://localhost:3010/api/admin/newsletters/subscribe',
   staging: 'https://dev-admin-acid.logos.co/api/admin/newsletters/subscribe',
   production: 'https://admin-acid.logos.co/api/admin/newsletters/subscribe',
 } as const

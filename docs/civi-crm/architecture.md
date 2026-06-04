@@ -567,7 +567,7 @@ No `NEXT_PUBLIC_` prefixed env vars are needed — all CiviCRM communication is 
 ```json
 {
   "scripts": {
-    "dev": "next dev --port 3002",
+    "dev": "next dev --port 3012",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings 0",

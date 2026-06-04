@@ -53,14 +53,14 @@ if (isProduction && !isVercel) {
 
 // Server URL — explicit env wins; on Vercel fall back to the auto-injected
 // `VERCEL_URL` (preview URLs change per deploy). Local dev defaults to
-// localhost:3001.
+// localhost:3011.
 const serverURL =
   process.env.NEXT_PUBLIC_SERVER_URL ||
   (process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
-    : 'http://localhost:3001')
+    : 'http://localhost:3011')
 
-const frontendURL = process.env.NEXT_PUBLIC_WEB_URL || 'http://localhost:3000'
+const frontendURL = process.env.NEXT_PUBLIC_WEB_URL || 'http://localhost:3010'
 
 // Database — Postgres (Supabase / Neon / Vercel Postgres). The schema name
 // scopes Payload tables under a dedicated namespace, so coexisting with other
