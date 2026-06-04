@@ -38,7 +38,7 @@
     "title": "Upcoming Events",
     "description": "Drop in at any of these gatherings — most are open to newcomers.",
     "calendarCta": {
-      "label": "Add to calendar",
+      "label": "See full calendar",
       "href": "https://luma.com/logosevents",
       "external": true
     }
