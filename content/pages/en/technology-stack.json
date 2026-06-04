@@ -19,9 +19,9 @@
     {
       "componentType": "hero",
       "key": "techStack.hero",
-      "eyebrow": "Open by design, open in spirit. Build truly private and decentralised applications with the modular Logos technology stack.",
+      "eyebrow": "A unified ecosystem.\nPrivate-by-default.\nBuilt for real life.",
       "headline": "The Logos Stack",
-      "body": "The Logos technology stack is a unified ecosystem of distinct modules. The whole stack is modular, allowing developers to assemble their own Logos-based platform from their own selection of modules. Users run Basecamp, the simple, unified interface for applications built on the Logos stack.",
+      "body": "Private-by-default infrastructure for decentralised applications, private communication, and secure storage.",
       "background": {
         "src": "/images/technology-stack/header-status.jpg",
         "alt": "",
@@ -196,7 +196,7 @@
         "src": "/images/technology-stack/how-logos-compares.jpg",
         "alt": "",
         "width": 1404,
-        "height": 1755
+        "height": 1036
       }
     },
     {

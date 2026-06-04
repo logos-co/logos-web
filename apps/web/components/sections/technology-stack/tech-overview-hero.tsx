@@ -89,7 +89,7 @@ export default function TechOverviewHero({ data }: Props) {
         </div>
 
         <div className="hidden md:block">
-          <p className="text-mono-s absolute top-0 left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[226px] text-brand-dark-green xl:w-[226px] xl:max-w-none">
+          <p className="text-mono-s absolute top-0 left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[226px] whitespace-pre-line text-brand-dark-green xl:w-[226px] xl:max-w-none">
             {data.eyebrow}
           </p>
           <div className="absolute top-[310px] left-[calc(50%+6px)] flex max-w-[calc(50%-18px)] flex-col items-start gap-6 xl:max-w-none">
@@ -131,7 +131,7 @@ export default function TechOverviewHero({ data }: Props) {
               <div className="absolute inset-0 bg-black/30" />
             </div>
           </div>
-          <p className="text-mono-s absolute top-2.5 left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[178px] text-brand-dark-green">
+          <p className="text-mono-s absolute top-2.5 left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[178px] whitespace-pre-line text-brand-dark-green">
             {data.eyebrow}
           </p>
         </div>

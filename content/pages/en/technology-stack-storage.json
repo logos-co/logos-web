@@ -76,8 +76,8 @@
           "image": {
             "src": "/images/storage/use-case-1.webp",
             "alt": "",
-            "width": 2880,
-            "height": 3839
+            "width": 702,
+            "height": 335
           },
           "cta": {
             "label": "Repo",
@@ -94,8 +94,8 @@
           "image": {
             "src": "/images/storage/use-case-2.webp",
             "alt": "",
-            "width": 2560,
-            "height": 2048
+            "width": 702,
+            "height": 335
           },
           "cta": {
             "label": "Repo",

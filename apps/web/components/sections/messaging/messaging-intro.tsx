@@ -33,12 +33,10 @@ function ChatImage() {
       <Image
         src="/images/messaging/chat.webp"
         alt=""
-        width={1044}
-        height={1094}
+        fill
         sizes="(min-width: 768px) 743px, 461px"
-        className="absolute top-[-25px] left-[-38px] h-[461px] w-[461px] max-w-none object-cover md:top-[calc(50%-68px)] md:left-0 md:h-[778px] md:w-[743px] md:-translate-y-1/2"
+        className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 from-[25.835%] to-transparent to-1/2" />
     </div>
   )
 }

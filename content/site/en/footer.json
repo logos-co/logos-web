@@ -8,7 +8,7 @@
     "cityLabel": "city",
     "submitLabel": "Submit"
   },
-  "tagline": "Pioneering a new era of freedom.",
+  "tagline": "Build the parallel",
   "image": {
     "src": "/images/home/footer-image.webp",
     "alt": ""
@@ -45,9 +45,24 @@
     }
   ],
   "researchLinks": [
-    { "label": "VacP2P", "href": "https://vac.dev", "external": true }
+    { "label": "Research Hub", "href": "/research" },
+    {
+      "label": "Specs / RFC",
+      "href": "https://research.logos.co/",
+      "external": true
+    },
+    {
+      "label": "Research Forum",
+      "href": "https://forum.research.logos.co/",
+      "external": true
+    }
   ],
-  "infrastructureLinks": [],
+  "infrastructureLinks": [
+    { "label": "Messaging", "href": "/technology-stack/messaging" },
+    { "label": "Storage", "href": "/technology-stack/storage" },
+    { "label": "Blockchain", "href": "/technology-stack/blockchain" },
+    { "label": "Networking", "href": "/technology-stack/networking" }
+  ],
   "legalLinks": [
     { "label": "Terms & Conditions", "href": "/terms-and-conditions" },
     { "label": "Privacy Policy", "href": "/privacy-policy" },

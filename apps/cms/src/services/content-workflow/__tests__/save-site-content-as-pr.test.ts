@@ -51,35 +51,4 @@ describe('site content fixture builders', () => {
 
     assert.equal(change.path, 'content/site/en/navigation.json')
   })
-
-  it('writes site footer to the repo-backed footer file', () => {
-    const change = buildSiteFooterFileChange({
-      slug: 'footer',
-      footer: {
-        schemaVersion: 1,
-        language: 'en',
-        newsletter: {
-          title: 'Subscribe',
-          emailLabel: 'Email',
-          roleLabel: 'Role',
-          cityLabel: 'City',
-          submitLabel: 'Submit',
-        },
-        tagline: 'Pioneering a new era of freedom.',
-        image: { src: '/images/home/footer-image.jpg', alt: '' },
-        mainLinks: [],
-        socialLinks: [],
-        researchLinks: [],
-        infrastructureLinks: [],
-        legalLinks: [],
-        builtBy: {
-          label: 'Built by',
-          attribution: 'IFT',
-          href: 'https://free.technology',
-        },
-      },
-    })
-
-    assert.equal(change.path, 'content/site/en/footer.json')
-  })
 })

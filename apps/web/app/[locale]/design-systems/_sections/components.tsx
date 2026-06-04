@@ -374,7 +374,7 @@ export function Footers() {
           cityLabel: 'city',
           submitLabel: 'Submit',
         }}
-        tagline="Pioneering a new era of freedom."
+        tagline="Build the parallel"
         mainLinks={mainLinks}
         socialLinks={socialLinks}
         researchLinks={researchLinks}

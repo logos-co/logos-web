@@ -245,7 +245,10 @@
           "label": "Resources",
           "links": [
             { "label": "Specs / RFC", "href": "https://research.logos.co/" },
-            { "label": "Research Forum", "href": "https://forum.logos.co/" }
+            {
+              "label": "Research Forum",
+              "href": "https://forum.research.logos.co/"
+            }
           ]
         }
       ],
