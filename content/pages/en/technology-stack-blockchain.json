@@ -159,7 +159,7 @@
       "cards": [
         {
           "title": "Docs",
-          "description": "Lorem ipsum dolor sit amet consectetur",
+          "description": "Learn more about the Logos technology stack",
           "cta": {
             "label": "View the docs",
             "href": "https://github.com/logos-co/logos-docs",
@@ -167,8 +167,8 @@
           }
         },
         {
-          "title": "Logos Builder Hub",
-          "description": "Lorem ipsum dolor sit amet consectetur. Augue feugiat dictum aliquet feugiat.",
+          "title": "Start Building",
+          "description": "Build privacy-preserving tools and applications",
           "image": {
             "src": "/images/blockchain/builder-hub.jpg",
             "alt": "",
@@ -179,7 +179,7 @@
         },
         {
           "title": "Install Basecamp",
-          "description": "Download the app to start building.",
+          "description": "Download the local launcher for apps built on Logos",
           "cta": {
             "label": "Install",
             "href": "https://github.com/logos-co/logos-basecamp"

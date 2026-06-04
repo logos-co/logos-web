@@ -136,7 +136,7 @@
       "cards": [
         {
           "title": "Docs",
-          "description": "Reference for the kernel, modules, and UI packages.",
+          "description": "Learn more about the Logos technology stack",
           "cta": {
             "label": "View the docs",
             "href": "https://github.com/logos-co/logos-docs",
@@ -144,8 +144,8 @@
           }
         },
         {
-          "title": "Logos Builder Hub",
-          "description": "Everything you need to start building privacy-first decentralised applications. Explore RFPs, find ideas, and connect with other builders.",
+          "title": "Start Building",
+          "description": "Build privacy-preserving tools and applications",
           "image": {
             "src": "/images/networking/builder-hub.jpg",
             "alt": "",
@@ -156,7 +156,7 @@
         },
         {
           "title": "Install Basecamp",
-          "description": "Download the app to start building.",
+          "description": "Download the local launcher for apps built on Logos",
           "cta": {
             "label": "Install",
             "href": "https://github.com/logos-co/logos-basecamp"

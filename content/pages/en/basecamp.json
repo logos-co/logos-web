@@ -182,8 +182,8 @@
           }
         },
         {
-          "title": "Logos Builder Hub",
-          "description": "Lorem ipsum dolor sit amet consectetur. Augue feugiat dictum aliquet feugiat.",
+          "title": "Start Building",
+          "description": "Build privacy-preserving tools and applications",
           "image": {
             "src": "/images/basecamp/builder-hub.webp",
             "alt": "",
@@ -198,7 +198,7 @@
         },
         {
           "title": "Install Basecamp",
-          "description": "Download the app to start building.",
+          "description": "Download the local launcher for apps built on Logos",
           "cta": {
             "label": "Install",
             "href": "/get-started#install",
