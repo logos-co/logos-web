@@ -1,7 +1,6 @@
 import Image from 'next/image'
 
 import ContentWidth from '@/components/layout/content-width'
-import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 import { Cta, LambdaBadge, SectionHeader, movementImages } from './atoms'
 import type { Translate } from './types'
@@ -11,17 +10,17 @@ export function ActionCardsSection({ t }: { t: Translate }) {
     {
       key: 'activism',
       image: movementImages.activism,
-      href: ROUTES.circles,
+      href: '#activist-circle',
     },
     {
       key: 'coalition',
       image: movementImages.coalition,
-      href: EXTERNAL_URLS.forum,
+      href: '#join-the-coalition',
     },
     {
       key: 'building',
       image: movementImages.building,
-      href: ROUTES.buildersHub,
+      href: '#activist-builder',
     },
   ]
 

@@ -15,7 +15,7 @@ export function BuilderSection({ t }: { t: Translate }) {
   const details = ['problem', 'solution', 'stack']
 
   return (
-    <section className="bg-brand-off-white pt-0 pb-10 text-brand-dark-green md:pb-25">
+    <section id="activist-builder" className="bg-brand-off-white pt-0 pb-10 text-brand-dark-green md:pb-25">
       <CenterCtaSection
         title={t('builder.title')}
         body={t('builder.body')}

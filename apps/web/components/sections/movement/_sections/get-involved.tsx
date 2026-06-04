@@ -24,7 +24,7 @@ export function GetInvolvedSection({ t }: { t: Translate }) {
           />
         </div>
       </div>
-      <div className="relative flex h-[270px] items-center justify-center overflow-hidden rounded-[160px] text-center text-brand-off-white md:h-[500px] md:rounded-[200px]">
+      <div id="join-the-coalition" className="relative flex h-[270px] items-center justify-center overflow-hidden rounded-[160px] text-center text-brand-off-white md:h-[500px] md:rounded-[200px]">
         <Image
           src={movementImages.coalitionBg}
           alt=""
