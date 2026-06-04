@@ -128,7 +128,7 @@ export function CenterCtaSection({
 }: {
   title: string
   body: string
-  cta: ReactNode
+  cta?: ReactNode
   className?: string
 }) {
   return (
