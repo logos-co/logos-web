@@ -83,9 +83,11 @@
         "title": "Read the docs",
         "description": "Deep dive into the Logos stack architecture, modules, APIs and integration guides.",
         "ctas": [
-          { "label": "Blockchain", "href": "/technology-stack/blockchain" },
-          { "label": "Storage", "href": "/technology-stack/storage" },
-          { "label": "Messaging", "href": "/technology-stack/messaging" }
+          {
+            "label": "View the docs",
+            "href": "https://github.com/logos-co/logos-docs",
+            "external": true
+          }
         ]
       },
       {

@@ -1,4 +1,7 @@
-import { getBuilderHubSettings } from '@repo/content/loaders'
+import {
+  getBuilderHubSettings,
+  resolveBuilderHubHomeRfps,
+} from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import { getTranslations } from 'next-intl/server'
 
@@ -24,14 +27,25 @@ export default async function Page({
     throw new Error(`GetStartedPage received non-active locale "${locale}"`)
   }
 
-  const [t, builderHubSettings] = await Promise.all([
+  const [t, builderHubSettings, rfpResolution] = await Promise.all([
     getTranslations({ locale, namespace: NAMESPACE }),
     getBuilderHubSettings(locale),
+    resolveBuilderHubHomeRfps(locale),
   ])
 
   if (!builderHubSettings.prepare) {
     throw new Error('GetStartedPage requires Builders Hub prepare settings')
   }
+  if (!builderHubSettings.programs) {
+    throw new Error('GetStartedPage requires Builders Hub programs settings')
+  }
 
-  return <GetStartedPage t={t} basecampInstall={builderHubSettings.prepare} />
+  return (
+    <GetStartedPage
+      t={t}
+      basecampInstall={builderHubSettings.prepare}
+      developerPrograms={builderHubSettings.programs}
+      rfps={rfpResolution.rfps}
+    />
+  )
 }

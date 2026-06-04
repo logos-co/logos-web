@@ -22,14 +22,10 @@ export function SectionFrame({
       className="border-t border-brand-dark-green/10 px-3 pt-6 pb-25"
     >
       <ContentWidth>
-        <div className="flex items-baseline gap-3 whitespace-nowrap">
-          <span className="font-display text-[30px] leading-none tracking-[-0.03em] text-brand-dark-green/50 md:text-[36px]">
-            {index}
-          </span>
-          <h2 className="text-[30px] leading-none tracking-[-0.02em] md:text-h3-sans">
-            {title}
-          </h2>
-        </div>
+        <h2 className="flex items-baseline gap-3 text-[24px] leading-[1.1] tracking-[-0.24px] whitespace-nowrap">
+          <span className="font-display text-brand-dark-green/50">{index}</span>
+          <span className="font-sans text-brand-dark-green">{title}</span>
+        </h2>
         <div className="mt-10">{children}</div>
       </ContentWidth>
     </section>

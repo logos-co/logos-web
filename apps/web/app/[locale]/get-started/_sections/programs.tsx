@@ -3,7 +3,7 @@ import type { BuilderHubSettings } from '@repo/content/schemas'
 
 import { DeveloperProgramsSection } from '@/components/sections/shared/developer-programs-section'
 
-export function ProgramsSection({
+export function Programs({
   data,
   rfps,
 }: {
@@ -12,8 +12,8 @@ export function ProgramsSection({
 }) {
   return (
     <DeveloperProgramsSection
-      id="builder-programs"
-      index="04"
+      id="developer-programs"
+      index="03"
       title={data.title}
       data={data}
       rfps={rfps}
