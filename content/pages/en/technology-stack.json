@@ -49,7 +49,7 @@
       ],
       "status": {
         "label": "Current Status",
-        "body": "Testnet v0.1 launched in March 2026. This is the first release where all modules are packaged together.",
+        "body": "Testnet v0.1 launched in March 2026. It is focused on backend validation and module integration.",
         "cta": {
           "label": "Install testnet v0.1.2",
           "href": "/builders-hub#app-install",

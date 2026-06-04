@@ -72,7 +72,7 @@ export default function FeatureCardsSection() {
       title: t('build.title'),
       body: t('build.body'),
       cta: t('build.cta'),
-      href: ROUTES.buildersHub,
+      href: ROUTES.getStarted,
       image: '/images/home/figma-refresh/path-build.webp',
       overlay: 'bg-black/20',
       imageClassName: 'object-[50%_60%]',

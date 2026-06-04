@@ -54,6 +54,7 @@ function HoverStackItem({
   mobileFeatured = false,
   desktopAt1025 = false,
   comingSoon = false,
+  hideCta = false,
 }: {
   title: string
   description?: string
@@ -77,6 +78,11 @@ function HoverStackItem({
    * destination is not yet available.
    */
   comingSoon?: boolean
+  /**
+   * When true the item is rendered as a non-interactive card (no link) with no
+   * CTA button at all. Used for pillars that have no destination to link to.
+   */
+  hideCta?: boolean
 }) {
   const hasDetails = details !== undefined && details.length > 0
   const desktopHoverLarge = desktopAt1025
@@ -124,7 +130,7 @@ function HoverStackItem({
       : 'text-center'
 
   const containerClassName = `group/stack-item relative flex flex-col ${
-    comingSoon ? '' : 'cursor-pointer '
+    comingSoon || hideCta ? '' : 'cursor-pointer '
   }overflow-hidden rounded-3xl border border-brand-dark-green text-center text-brand-dark-green transition-[border-color] duration-200 ease-out hover:border-brand-dark-green/30 focus-visible:border-brand-dark-green/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green ${stackItemLayoutClass} ${className}`
 
   const content = (
@@ -143,18 +149,20 @@ function HoverStackItem({
         />
       </span>
 
-      <StackItemCta
-        icon={comingSoon ? undefined : (ctaIcon ?? <ButtonArrowIcon />)}
-        className={`absolute top-2.5 right-2.5 z-10 transition-opacity duration-200 ease-out ${
-          comingSoon ? '' : 'cursor-pointer '
-        }${desktopCtaPosition} ${
-          ctaVisibleByDefault
-            ? ''
-            : 'pointer-events-none opacity-0 group-hover/stack-item:opacity-100 group-focus-visible/stack-item:opacity-100'
-        }`}
-      >
-        {comingSoon ? 'Soon' : ctaLabel}
-      </StackItemCta>
+      {hideCta ? null : (
+        <StackItemCta
+          icon={comingSoon ? undefined : (ctaIcon ?? <ButtonArrowIcon />)}
+          className={`absolute top-2.5 right-2.5 z-10 transition-opacity duration-200 ease-out ${
+            comingSoon ? '' : 'cursor-pointer '
+          }${desktopCtaPosition} ${
+            ctaVisibleByDefault
+              ? ''
+              : 'pointer-events-none opacity-0 group-hover/stack-item:opacity-100 group-focus-visible/stack-item:opacity-100'
+          }`}
+        >
+          {comingSoon ? 'Soon' : ctaLabel}
+        </StackItemCta>
+      )}
 
       <div
         className={`relative z-[1] flex max-w-[222px] flex-col gap-3 transition-transform duration-200 ease-out ${contentLayoutClass} ${contentHoverOffset}`}
@@ -221,7 +229,7 @@ function HoverStackItem({
     </>
   )
 
-  if (comingSoon) {
+  if (comingSoon || hideCta) {
     return <div className={containerClassName}>{content}</div>
   }
 
@@ -292,7 +300,7 @@ export function TechStackDiagram({
             className={pillarClass}
             details={pillar.details}
             desktopAt1025={desktopAt1025}
-            comingSoon={pillar.id === 'userModules'}
+            hideCta={pillar.id === 'userModules'}
           />
         ))}
       </div>
@@ -312,7 +320,7 @@ export function TechStackDiagram({
           href={foundationHref}
           className={rowClass}
           desktopAt1025={desktopAt1025}
-          comingSoon
+          hideCta
         />
       </div>
     </div>
