@@ -78,16 +78,11 @@
       "key": "networking.features",
       "cards": [
         {
-          "title": "The Mix-Net",
-          "description": "The mix-net routes messages through multiple relay nodes, mixing traffic patterns so that observers can't determine who is talking to whom.",
+          "title": "Service Discovery",
+          "description": "How does a node find other nodes offering the services it needs without a central directory? Service Discovery answers this with a new protocol built on libp2p's Kad-DHT. Each node publishes a signed record describing its address and capabilities; others search for matching records through a general API, and light clients can look peers up without joining the full distributed hash table. This enables a heterogeneous peer-to-peer network where many kinds of node coordinate without intermediaries.",
           "cta": {
             "label": "Repo",
-            "href": "https://github.com/logos-co/nim-libp2p-mix",
-            "external": true
-          },
-          "secondaryCta": {
-            "label": "Docs",
-            "href": "https://github.com/logos-co/logos-docs",
+            "href": "https://github.com/vacp2p/nim-libp2p",
             "external": true
           },
           "image": {
@@ -98,16 +93,11 @@
           }
         },
         {
-          "title": "Capability Discovery Protocol",
-          "description": "A capability discovery protocol lets nodes advertise and find services without centralised registries.",
+          "title": "Mixnet",
+          "description": "The mixnet is a privacy-preserving transport mechanism drawn from the same family of designs behind anonymity networks such as Tor and Nym. Messages pass through several relay nodes that shuffle and delay them, so that no observer can pair senders with receivers even by watching timing and volume closely. It carries both fire-and-forget messages and request-response interactions, and it supports cover traffic to keep the set of plausible senders large enough to preserve privacy.",
           "cta": {
             "label": "Repo",
-            "href": "https://github.com/vacp2p/nim-libp2p",
-            "external": true
-          },
-          "secondaryCta": {
-            "label": "Docs",
-            "href": "https://github.com/logos-co/logos-docs",
+            "href": "https://github.com/logos-co/nim-libp2p-mix",
             "external": true
           },
           "image": {
@@ -118,16 +108,11 @@
           }
         },
         {
-          "title": "Peering Layer",
-          "description": "Peering layer manages connections across the decentralised network.",
+          "title": "Spam Resistance: RLN and Zerokit",
+          "description": "An anonymous network needs a way to stop abuse without identifying its users. A Rate Limiting Nullifier (RLN) does exactly that, using zero-knowledge proofs: each member can send up to a set rate while staying anonymous, and exceeding that rate makes their identity recoverable so the network can remove them. The cryptography lives in Zerokit, a Rust library containing cryptographic modules designed for performance, security, and usability.",
           "cta": {
             "label": "Repo",
             "href": "https://github.com/vacp2p/zerokit",
-            "external": true
-          },
-          "secondaryCta": {
-            "label": "Docs",
-            "href": "https://github.com/logos-co/logos-docs",
             "external": true
           },
           "image": {
