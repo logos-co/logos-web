@@ -5,7 +5,7 @@ import type {
 import type { BuilderHubSettings } from '@repo/content/schemas'
 
 import { BuildersHubAppInstall } from './builders-hub-app-install'
-import { BuildSection } from './_sections/build'
+// import { BuildSection } from './_sections/build' // section hidden — kept for future use
 import { DocumentationSection } from './_sections/documentation'
 import { BuildersHubHero } from './_sections/hero'
 import { InspirationSection } from './_sections/inspiration'
@@ -36,7 +36,8 @@ export function BuildersHubHome({
         />
       ) : null}
       {settings.prepare ? <PrepareSection data={settings.prepare} /> : null}
-      {settings.build ? <BuildSection data={settings.build} /> : null}
+      {/* "What you can build today" section hidden — component kept for future use */}
+      {/* {settings.build ? <BuildSection data={settings.build} /> : null} */}
       {settings.programs ? (
         <ProgramsSection data={settings.programs} rfps={rfpResolution.rfps} />
       ) : null}

@@ -1,4 +1,4 @@
-import { Build } from './build'
+// import { Build } from './build' // "What you can build today" section hidden — kept for future use
 import { Community } from './community'
 import { Docs } from './docs'
 import { Hero } from './hero'
@@ -12,7 +12,8 @@ export function GetStartedPage({ t }: { t: GetStartedTranslator }) {
       <Install t={t} />
       <Docs t={t} />
       <Community t={t} />
-      <Build t={t} />
+      {/* "What you can build today" section hidden — component kept for future use */}
+      {/* <Build t={t} /> */}
     </div>
   )
 }
