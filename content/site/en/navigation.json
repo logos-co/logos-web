@@ -113,13 +113,11 @@
           "label": "Socials",
           "links": [
             { "label": "Discord", "href": "https://discord.gg/logosnetwork" },
-            { "label": "Status", "href": "https://forum.logos.co/" },
-            { "label": "Basecamp", "href": "/basecamp" },
+            { "label": "X", "href": "https://twitter.com/logos_network" },
             {
               "label": "YouTube",
               "href": "https://youtube.com/@logos_network"
-            },
-            { "label": "X", "href": "https://twitter.com/logos_network" }
+            }
           ]
         }
       ],
