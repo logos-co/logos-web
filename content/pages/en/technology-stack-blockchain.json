@@ -26,15 +26,18 @@
       "items": [
         {
           "title": "LOGOS-BLOCKCHAIN",
-          "description": "Logos Blockchain main repository"
+          "description": "Logos Blockchain main repository",
+          "href": "https://github.com/logos-blockchain/logos-blockchain"
         },
         {
           "title": "LOGOS-EXECUTION-ZONE",
-          "description": "Programmable blockchain with parallel private state"
+          "description": "Programmable blockchain with parallel private state",
+          "href": "https://github.com/logos-blockchain/logos-execution-zone"
         },
         {
           "title": "LEZ-PROGRAMS",
-          "description": "Essential programs for the Logos Execution Zone"
+          "description": "Essential programs for the Logos Execution Zone",
+          "href": "https://github.com/logos-blockchain/lez-programs"
         }
       ],
       "status": {
