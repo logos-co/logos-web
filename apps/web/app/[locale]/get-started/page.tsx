@@ -1,3 +1,5 @@
+import { getBuilderHubSettings } from '@repo/content/loaders'
+import { isActiveLocale } from '@repo/content/locales'
 import { getTranslations } from 'next-intl/server'
 
 import { ROUTES } from '@/constants/routes'
@@ -18,7 +20,18 @@ export default async function Page({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: NAMESPACE })
+  if (!isActiveLocale(locale)) {
+    throw new Error(`GetStartedPage received non-active locale "${locale}"`)
+  }
 
-  return <GetStartedPage t={t} />
+  const [t, builderHubSettings] = await Promise.all([
+    getTranslations({ locale, namespace: NAMESPACE }),
+    getBuilderHubSettings(locale),
+  ])
+
+  if (!builderHubSettings.prepare) {
+    throw new Error('GetStartedPage requires Builders Hub prepare settings')
+  }
+
+  return <GetStartedPage t={t} basecampInstall={builderHubSettings.prepare} />
 }

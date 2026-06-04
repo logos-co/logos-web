@@ -213,32 +213,29 @@
         },
         "docs": {
           "number": "02",
-          "heading": "Read the Docs",
-          "body": "Docs, open RFPs (requests for proposals), architecture guides, and project proposals.",
-          "cta": "View all docs",
+          "heading": "Start Building",
           "items": {
-            "architecture": {
-              "title": "Architecture Overview",
-              "body": "How the modules fit together."
+            "docs": {
+              "title": "Read the docs",
+              "body": "Deep dive into the Logos stack architecture, modules, APIs and integration guides."
             },
-            "blockchain": {
-              "title": "Logos Blockchain Docs",
-              "body": "Cryptarchia consensus, Sovereign Zones"
+            "scaffold": {
+              "title": "Start with the Scaffold Boilerplate",
+              "body": "A Rust CLI for bootstrapping LSSA program_deployment projects in standalone mode."
             },
-            "messaging": {
-              "title": "Logos Messaging SDK",
-              "body": "Integration guides for JS, Nim, and Go"
+            "sampleApps": {
+              "title": "Sample Apps",
+              "body": "Run real sample apps to learn from."
             },
-            "storage": {
-              "title": "Logos Storage API",
-              "body": "File storage and retrieval"
-            },
-            "api": {
-              "title": "API Reference",
-              "body": "Full API documentation for all modules"
+            "workshops": {
+              "title": "Workshops and Tutorials",
+              "body": "Live coding sessions and step by step guides."
             }
           },
-          "cardCta": "Learn more"
+          "viewDocsCta": "View the docs",
+          "learnMoreCta": "Learn more",
+          "atomicSwapsCta": "Atomic swaps",
+          "multisigCta": "Multisig"
         },
         "community": {
           "number": "03",
