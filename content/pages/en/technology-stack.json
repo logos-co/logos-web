@@ -72,9 +72,8 @@
         "eyebrow": "Architecture overview",
         "title": "Architecture Overview",
         "body": [
-          "Applications built on Logos can be accessed through Basecamp, a local-first launcher and interface that wraps around the Logos runtime and core environment.",
-          "The modular, plugin-based Logos runtime allows developers to easily build decentralised, privacy-preserving applications that dynamically discover and load the modules they need while preserving privacy at every layer.",
-          "The network’s architecture lets it evolve over time, providing a foundation for decentralised applications and institutions that remain resistant to capture and corruption – whether they are run by local communities or nation states."
+          "Logos gives developers a modular, plugin-based runtime for building decentralised, privacy-preserving applications.",
+          "Nodes discover and load modules dynamically while preserving privacy at every layer. The network’s architecture lets it evolve over time, providing a foundation for decentralised applications and institutions that remain resistant to capture and corruption – whether they are run by local communities or nation states."
         ],
         "cta": {
           "label": "Documentation",

@@ -84,7 +84,7 @@
       "subheading": "A private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
       "cta": {
         "label": "View the docs",
-        "href": "https://github.com/logos-co/logos-docs",
+        "href": "https://github.com/logos-blockchain/logos-blockchain/tree/master/consensus",
         "external": true
       },
       "cards": [
@@ -99,14 +99,8 @@
           },
           "cta": {
             "label": "Repo",
-            "href": "/technology-stack/blockchain",
+            "href": "https://github.com/logos-blockchain/logos-blockchain/tree/master/consensus",
             "variant": "primary"
-          },
-          "secondaryCta": {
-            "label": "Docs",
-            "href": "https://github.com/logos-co/logos-docs",
-            "external": true,
-            "variant": "secondary"
           }
         },
         {
@@ -120,14 +114,8 @@
           },
           "cta": {
             "label": "Repo",
-            "href": "/technology-stack/blockchain",
+            "href": "https://github.com/logos-blockchain/logos-execution-zone",
             "variant": "primary"
-          },
-          "secondaryCta": {
-            "label": "Docs",
-            "href": "https://github.com/logos-co/logos-docs",
-            "external": true,
-            "variant": "secondary"
           }
         },
         {
@@ -141,14 +129,8 @@
           },
           "cta": {
             "label": "Repo",
-            "href": "/technology-stack/blockchain",
+            "href": "https://github.com/logos-blockchain/logos-blockchain/tree/master/blend ",
             "variant": "primary"
-          },
-          "secondaryCta": {
-            "label": "Docs",
-            "href": "https://github.com/logos-co/logos-docs",
-            "external": true,
-            "variant": "secondary"
           }
         }
       ]
