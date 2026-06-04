@@ -20,7 +20,6 @@ const staticRoutes = [
   ROUTES.buildersHub,
   ROUTES.ideas,
   ROUTES.rfps,
-  ROUTES.circles,
 ] as const
 
 const toRoutePath = (route: string): string => {
