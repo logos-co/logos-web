@@ -1,9 +1,10 @@
-import { getAllRfps, getBuilderHubListingSettings } from '@repo/content/loaders'
+import { getBuilderHubListingSettings } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 
 import { BuildersHubListingClient } from '@/components/sections/builders-hub/builders-hub-listing-client'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/lib/metadata'
+import { fetchGithubRfps } from '@/lib/rfps-github'
 
 const ROUTE = ROUTES.rfps
 
@@ -37,7 +38,7 @@ export default async function RfpsPage({
 
   const [settings, allRfps] = await Promise.all([
     getBuilderHubListingSettings({ page: 'rfps', locale }),
-    getAllRfps({ locale, status: 'published' }),
+    fetchGithubRfps(),
   ])
 
   return (

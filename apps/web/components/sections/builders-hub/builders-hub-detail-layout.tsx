@@ -25,8 +25,16 @@ type Props = {
   eyebrow?: string
   title: string
   tagline?: string
-  /** The full long-form description, rendered as paragraphs. */
-  description: string
+  /**
+   * Long-form description rendered as paragraphs. Used when the body is plain
+   * text (e.g. Ideas). Ignored when `body` is provided.
+   */
+  description?: string
+  /**
+   * Pre-rendered body node (e.g. markdown) that replaces the paragraph-split
+   * `description`. Used by the RFP detail page to render GitHub markdown.
+   */
+  body?: ReactNode
   /** Primary CTA button — "Apply" / "Discuss" / etc. */
   primaryCta?: Cta
   /** Optional secondary metadata rendered as label/value pairs. */
@@ -51,6 +59,7 @@ export function BuildersHubDetailLayout({
   title,
   tagline,
   description,
+  body,
   primaryCta,
   meta,
   footer,
@@ -100,12 +109,12 @@ export function BuildersHubDetailLayout({
               About
             </h2>
             <div className="font-sans text-[16px] leading-[1.5] text-brand-dark-green space-y-4 max-w-[60ch]">
-              {description
-                .split(/\n\s*\n/)
-                .filter(Boolean)
-                .map((para, i) => (
-                  <p key={i}>{para.trim()}</p>
-                ))}
+              {body
+                ? body
+                : (description ?? '')
+                    .split(/\n\s*\n/)
+                    .filter(Boolean)
+                    .map((para, i) => <p key={i}>{para.trim()}</p>)}
             </div>
 
             {primaryCta ? (
