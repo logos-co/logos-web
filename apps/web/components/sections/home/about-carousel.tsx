@@ -163,7 +163,7 @@ export default function AboutCarousel({
         initial="hidden"
         whileInView="visible"
         viewport={VIEWPORT_ONCE}
-        className="text-h3-serif w-full max-w-[369px] px-6 text-center lg:w-[940px] lg:max-w-none lg:px-0"
+        className="text-h3-serif w-full max-w-[369px] px-6 text-center [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] [word-break:break-word] lg:max-w-[880px] lg:px-0"
       >
         {intro}
       </motion.p>
@@ -218,14 +218,16 @@ export default function AboutCarousel({
         initial="hidden"
         whileInView="visible"
         viewport={VIEWPORT_ONCE}
-        className="flex w-full max-w-[369px] flex-col items-center gap-15 px-6 text-center lg:max-w-[860px]"
+        className="flex w-full max-w-[369px] flex-col items-center gap-15 px-6 text-center lg:max-w-[940px] lg:px-0"
       >
         <motion.div
           variants={slowReveal}
           className="text-h3-serif flex flex-col gap-[1em]"
         >
           {closingParagraphs.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
+            <p key={paragraph} className="whitespace-normal lg:whitespace-pre-line">
+              {paragraph}
+            </p>
           ))}
         </motion.div>
 

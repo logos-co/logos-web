@@ -98,21 +98,13 @@ const collectTextFiles = (dir: string): string[] => {
 
 describe('link policy', () => {
   it('routes Research navigation cards to the Research page', () => {
-    const researchPanel = navigation.menuPanels.find(
-      (panel) => panel.label === 'Research'
+    // Labels are copy and can change; assert on the route the card links to.
+    const allCards = navigation.menuPanels.flatMap(
+      (panel) => panel.cardSections?.flatMap((section) => section.cards) ?? []
     )
-    const researchCards =
-      researchPanel?.cardSections.flatMap((section) => section.cards) ?? []
 
     expect(ROUTES.research).toBe('/research')
-    expect(researchCards).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          label: 'Research Hub',
-          href: ROUTES.research,
-        }),
-      ])
-    )
+    expect(allCards.some((card) => card.href === ROUTES.research)).toBe(true)
   })
 
   it('routes the Builders Hub RFP programme panel to the RFP listing', () => {
@@ -135,19 +127,12 @@ describe('link policy', () => {
   })
 
   it('routes the The Logos Blog navigation card to Blog', () => {
-    const aboutSection = navigation.menuPanels
-      .flatMap((panel) => panel.cardSections ?? [])
-      .find((section) => section.label === 'About')
-    const aboutCards = aboutSection?.cards ?? []
-
-    expect(aboutCards).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          label: 'The Logos Blog',
-          href: ROUTES.blog,
-        }),
-      ])
+    // Section and card labels are copy; assert a navigation card links to Blog.
+    const allCards = navigation.menuPanels.flatMap(
+      (panel) => panel.cardSections?.flatMap((section) => section.cards) ?? []
     )
+
+    expect(allCards.some((card) => card.href === ROUTES.blog)).toBe(true)
   })
 
   it('does not ship placeholder or known-broken links', () => {
@@ -162,25 +147,19 @@ describe('link policy', () => {
   })
 
   it('routes jobs CTAs to the IFT jobs board as external links', () => {
+    // Labels are copy; assert each surface links to the jobs board by href.
     expect(footer.mainLinks).toContainEqual(
       expect.objectContaining({
-        label: 'Work With Us',
         href: jobsHref,
         external: true,
       })
     )
 
-    const exploreLinks =
-      navigation.menuPanels
-        .find((panel) => panel.label === 'Explore')
-        ?.textSections.flatMap((section) => section.links) ?? []
-
-    expect(exploreLinks).toContainEqual(
-      expect.objectContaining({
-        label: 'Contact Us',
-        href: jobsHref,
-      })
+    const allNavLinks = navigation.menuPanels.flatMap(
+      (panel) => panel.textSections?.flatMap((section) => section.links) ?? []
     )
+
+    expect(allNavLinks.some((link) => link.href === jobsHref)).toBe(true)
 
     const overviewCtas = buildersHubSettings.overviewLinks.map(
       (link) => link.primaryCta
@@ -195,11 +174,12 @@ describe('link policy', () => {
   })
 
   it('routes the Builders Hub onboarding support CTA to the calendar', () => {
-    const supportCard = buildersHubSettings.support.cards.find(
-      (card) => card.title === 'Schedule a call and speak with a contributor'
+    // Card title is copy; assert a support CTA links to the calendar by href.
+    const supportCtas = buildersHubSettings.support.cards.map(
+      (card) => card.cta
     )
 
-    expect(supportCard?.cta).toEqual(
+    expect(supportCtas).toContainEqual(
       expect.objectContaining({
         href: onboardingCalendarHref,
         external: true,
@@ -212,13 +192,13 @@ describe('link policy', () => {
       (section) => section.key === 'home.parallelSocietyHeadline'
     )
 
+    // The CTA label is copy; assert the route and external flag only.
     expect(parallelSocietyHeadline).toEqual(
       expect.objectContaining({
-        cta: {
-          label: 'Learn More',
+        cta: expect.objectContaining({
           href: parallelSocietyHref,
           external: true,
-        },
+        }),
       })
     )
   })
