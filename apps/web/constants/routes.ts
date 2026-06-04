@@ -91,6 +91,10 @@ export const EXTERNAL_URLS = {
   youtube: 'https://youtube.com/@logos_network',
   github: 'https://github.com/logos-co',
 
+  // Circles
+  circlesWinnableIssuePorto:
+    'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles#porto',
+
   // Forum
   forum: 'https://forum.logos.co/',
   forumMeetups: 'https://forum.logos.co/c/meetups/6',

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 import ContentWidth from '@/components/layout/content-width'
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 import {
   CenterCtaSection,
@@ -21,9 +21,9 @@ export function BuilderSection({ t }: { t: Translate }) {
         body={t('builder.body')}
         cta={
           <div className="flex flex-wrap justify-center gap-1">
-            <Cta href={ROUTES.buildersHub} label={t('builder.primaryCta')} />
+            <Cta href={ROUTES.activistBuilder} label={t('builder.primaryCta')} />
             <Cta
-              href={ROUTES.technologyStack}
+              href={ROUTES.buildersHub}
               label={t('builder.secondaryCta')}
               tone="secondary"
             />
@@ -51,7 +51,7 @@ export function BuilderSection({ t }: { t: Translate }) {
                   </p>
                 </div>
                 <Cta
-                  href={ROUTES.buildersHub}
+                  href={EXTERNAL_URLS.circlesWinnableIssuePorto}
                   label={t('builder.feature.cta')}
                   tone="light"
                   className="md:hidden"
@@ -60,12 +60,13 @@ export function BuilderSection({ t }: { t: Translate }) {
               <h3 className="text-subhead-sans mx-auto max-w-[220px] text-center md:mx-0 md:text-left">
                 {t('builder.feature.title')}
               </h3>
-              <Cta
-                href={ROUTES.buildersHub}
-                label={t('builder.feature.cta')}
-                tone="light"
-                className="hidden w-fit md:inline-flex"
-              />
+              <div className="hidden w-fit md:block">
+                <Cta
+                  href={EXTERNAL_URLS.circlesWinnableIssuePorto}
+                  label={t('builder.feature.cta')}
+                  tone="light"
+                />
+              </div>
             </div>
             <div className="flex flex-col justify-end gap-3">
               {details.map((detail) => (

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 import ContentWidth from '@/components/layout/content-width'
-import { EXTERNAL_URLS } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 import { Cta, movementImages } from './atoms'
 import type { Translate } from './types'
@@ -41,7 +41,7 @@ export function GetInvolvedSection({ t }: { t: Translate }) {
             </p>
           </div>
           <Cta
-            href={EXTERNAL_URLS.forum}
+            href={ROUTES.coalitionPartner}
             label={t('coalition.cta')}
             tone="light"
           />
