@@ -27,9 +27,9 @@ export function CampaignSection({ t }: { t: Translate }) {
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-1">
-              <Cta href={ROUTES.circles} label={t('campaign.primaryCta')} />
+              <Cta href="#circles-map" label={t('campaign.primaryCta')} />
               <Cta
-                href={EXTERNAL_URLS.forumMeetups}
+                href={ROUTES.activistLeaderSteward}
                 label={t('campaign.secondaryCta')}
                 tone="secondary"
               />
