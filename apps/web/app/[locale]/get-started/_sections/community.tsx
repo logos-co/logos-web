@@ -10,7 +10,7 @@ const communityLinks: readonly CommunityLink[] = [
   { key: 'research', href: EXTERNAL_URLS.forum },
   { key: 'discord', href: EXTERNAL_URLS.discord },
   { key: 'xLogosNetwork', href: EXTERNAL_URLS.twitter },
-  { key: 'xLogosDevs', href: EXTERNAL_URLS.twitter },
+  { key: 'xLogosDevs', href: EXTERNAL_URLS.twitterDevs },
   { key: 'youtubeTutorials', href: EXTERNAL_URLS.youtube },
 ] as const
 

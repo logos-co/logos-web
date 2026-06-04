@@ -88,6 +88,7 @@ export const ROUTES = {
 export const EXTERNAL_URLS = {
   // Social
   twitter: 'https://twitter.com/logos_network',
+  twitterDevs: 'https://x.com/logos_devs',
   discord: 'https://discord.gg/logosnetwork',
   youtube: 'https://youtube.com/@logos_network',
   github: 'https://github.com/logos-co',
