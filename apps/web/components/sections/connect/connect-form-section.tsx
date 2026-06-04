@@ -59,7 +59,7 @@ function buildInitialData(fields: AfformField[]): FormValues {
     } else if (field.repeatable) {
       data[field.formKey] = ['']
     } else {
-      data[field.formKey] = field.inputType === 'checkbox' ? false : ''
+      data[field.formKey] = field.inputType === 'checkbox' ? true : ''
     }
   }
   return data
