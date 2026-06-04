@@ -42,10 +42,12 @@ function MobileGalleryCard({
           className="h-full w-full object-cover object-center"
         />
       </div>
-      <div className="text-eyebrow mt-2.5 flex items-center justify-between px-1 text-brand-dark-green/60">
-        <span>{caption}</span>
-        <span>{date}</span>
-      </div>
+      {(caption || date) && (
+        <div className="text-eyebrow mt-2.5 flex items-center justify-between px-1 text-brand-dark-green/60">
+          <span>{caption}</span>
+          <span>{date}</span>
+        </div>
+      )}
     </div>
   )
 }
@@ -79,10 +81,12 @@ function DesktopGalleryCard({
           className="h-full w-full object-cover object-top"
         />
       </div>
-      <div className="mt-2 flex gap-6 px-1">
-        <span className="text-eyebrow text-brand-dark-green/60">{caption}</span>
-        <span className="text-eyebrow text-brand-dark-green/60">{date}</span>
-      </div>
+      {(caption || date) && (
+        <div className="mt-2 flex gap-6 px-1">
+          <span className="text-eyebrow text-brand-dark-green/60">{caption}</span>
+          <span className="text-eyebrow text-brand-dark-green/60">{date}</span>
+        </div>
+      )}
     </div>
   )
 }

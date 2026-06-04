@@ -254,9 +254,7 @@
             "alt": "",
             "width": 720,
             "height": 480
-          },
-          "caption": "Lorem ipsum",
-          "date": "02.14.26"
+          }
         },
         {
           "image": {
@@ -264,9 +262,7 @@
             "alt": "",
             "width": 720,
             "height": 480
-          },
-          "caption": "Lorem ipsum",
-          "date": "02.14.26"
+          }
         },
         {
           "image": {
@@ -274,9 +270,7 @@
             "alt": "",
             "width": 720,
             "height": 480
-          },
-          "caption": "Lorem ipsum",
-          "date": "02.14.26"
+          }
         },
         {
           "image": {
@@ -284,9 +278,7 @@
             "alt": "",
             "width": 720,
             "height": 480
-          },
-          "caption": "Lorem ipsum",
-          "date": "02.14.26"
+          }
         }
       ]
     },

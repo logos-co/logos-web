@@ -56,7 +56,7 @@ function FooterLinkItem({
 }: FooterLink & { linkAs?: LinkLikeComponent }) {
   const external_ = external || href.startsWith('http')
   const className =
-    'text-mono-s cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70'
+    'text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70'
   if (external_) {
     return (
       <a
