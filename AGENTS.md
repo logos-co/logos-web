@@ -8,9 +8,9 @@ pnpm + Turborepo monorepo. Node `24`, pnpm `11.1`.
 
 | Path | Role |
 | --- | --- |
-| `apps/web` | Public Next.js 16 site. Tailwind v4, `next-intl`, static export. Port `3010`. |
-| `apps/cms` | Payload CMS 3.x admin app (Next.js 16 + Postgres). Port `3011`, admin at `/admin`. |
-| `apps/civi-crm` | CiviCRM internal web layer (Next.js 16). Keycloak-protected. Port `3012`. See [`docs/civi-crm/architecture.md`](docs/civi-crm/architecture.md). |
+| `apps/web` | Public Next.js 16 site. Tailwind v4, `next-intl`, static export. Port `3000`. |
+| `apps/cms` | Payload CMS 3.x admin app (Next.js 16 + Postgres). Port `3001`, admin at `/admin`. |
+| `apps/civi-crm` | CiviCRM internal web layer (Next.js 16). Keycloak-protected. Port `3002`. See [`docs/civi-crm/architecture.md`](docs/civi-crm/architecture.md). |
 | `packages/content` | Content schemas, loaders for `content/**`, GitHub mutation helpers, locale registry. |
 | `packages/ui` | Shared React primitives + SVG icon components. |
 | `packages/tokens` | Design tokens. |
@@ -21,15 +21,13 @@ pnpm + Turborepo monorepo. Node `24`, pnpm `11.1`.
 
 Apps are entrypoints only. New shared logic goes in a package, not duplicated across apps.
 
-Local dev ports use the **301x** range (`3010` web, `3011` cms, `3012` civi-crm) so they do not collide with `status-web` on `3000`–`3002` when both repos run locally.
-
 ## Commands
 
 Run from repo root unless noted.
 
 ```bash
 pnpm install
-pnpm dev              # turbo: web on :3010, cms on :3011, civi-crm on :3012
+pnpm dev              # turbo: web on :3000, cms on :3001, civi-crm on :3002
 pnpm build            # web static export + cms next build
 pnpm test             # vitest in apps/web
 pnpm lint             # eslint --max-warnings 0 across workspaces

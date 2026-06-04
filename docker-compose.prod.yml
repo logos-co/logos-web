@@ -65,7 +65,7 @@ services:
       GITHUB_INSTALLATION_ID: ${GITHUB_INSTALLATION_ID:-}
       GITHUB_PR_BASE_BRANCH: ${GITHUB_PR_BASE_BRANCH:-develop}
     ports:
-      - "${CMS_PORT:-3011}:3000"
+      - "${CMS_PORT:-3001}:3000"
     volumes:
       # Persist uploaded media (Payload writes to apps/web/public/cms/uploads).
       - cms_uploads:/app/apps/web/public/cms/uploads

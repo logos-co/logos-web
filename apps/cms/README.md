@@ -1,6 +1,6 @@
 # Logos CMS
 
-Payload CMS 3.83 admin app on Next.js 16. Admin UI lives at `/admin`, the app runs on port **3011**.
+Payload CMS 3.83 admin app on Next.js 16. Admin UI lives at `/admin`, the app runs on port **3001**.
 
 Postgres is **not** the production source of truth for content — it stores users, sessions, drafts, and PR cache. Published content changes flow through the GitHub "Create PR" workflow targeting `develop`. See [`AGENTS.md`](./AGENTS.md) for the content-workflow rules.
 
@@ -33,8 +33,8 @@ Fill in at minimum:
 | --- | --- |
 | `PAYLOAD_SECRET` | Required to boot. Generate with `openssl rand -hex 32`. |
 | `DATABASE_URL` | Postgres connection string. |
-| `NEXT_PUBLIC_SERVER_URL` | CMS origin — defaults to `http://localhost:3011`. |
-| `NEXT_PUBLIC_WEB_URL` | Web frontend origin — defaults to `http://localhost:3010`. |
+| `NEXT_PUBLIC_SERVER_URL` | CMS origin — defaults to `http://localhost:3001`. |
+| `NEXT_PUBLIC_WEB_URL` | Web frontend origin — defaults to `http://localhost:3000`. |
 
 The `GITHUB_*` variables are only required to exercise the Admin "Create PR" action. See [`.env.example`](./.env.example) for every option and its default.
 
@@ -48,7 +48,7 @@ pnpm --filter cms dev          # from the repo root
 pnpm dev:cms                   # turbo wrapper (also builds workspace deps)
 ```
 
-The dev wrapper (`scripts/dev.ts`) starts Next on port 3011 and auto-accepts Payload's interactive schema-push prompt. It **refuses to run in deployment environments** — production/staging must use the build/start path with reviewed migrations, never local dev schema sync.
+The dev wrapper (`scripts/dev.ts`) starts Next on port 3001 and auto-accepts Payload's interactive schema-push prompt. It **refuses to run in deployment environments** — production/staging must use the build/start path with reviewed migrations, never local dev schema sync.
 
 ### Common tasks
 
@@ -88,7 +88,7 @@ Required values in `.env.docker`:
 | `PAYLOAD_SECRET` | `openssl rand -hex 32`. |
 | `NEXT_PUBLIC_SERVER_URL` | **Baked into the client bundle at build time** — must be the real public CMS origin. Changing it requires a rebuild. |
 | `NEXT_PUBLIC_WEB_URL` | **Build-time** public web origin (same caveat). |
-| `CMS_PORT` | Host port mapped to the container's `:3000` (default `3011`). |
+| `CMS_PORT` | Host port mapped to the container's `:3000` (default `3001`). |
 
 The compose file constructs `DATABASE_URL` automatically from the Postgres vars and connects over the internal network — Postgres is **not** published to the host by default.
 
@@ -115,7 +115,7 @@ docker build -f apps/cms/Dockerfile \
 Run, injecting runtime secrets:
 
 ```bash
-docker run -d --name logos-cms -p 3011:3000 \
+docker run -d --name logos-cms -p 3001:3000 \
   -e DATABASE_URL='postgresql://user:password@host:5432/db' \
   -e PAYLOAD_SECRET='<openssl rand -hex 32>' \
   -e NEXT_PUBLIC_SERVER_URL='https://cms.logos.co' \

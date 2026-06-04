@@ -65,7 +65,7 @@ For local dev copy apps/cms/.env.example to apps/cms/.env and fill it in.
 | `GITHUB_CONTENT_BRANCH_PREFIX` | optional | Defaults to `content/`. Mutation primitives reject branches outside this prefix unless `CONTENT_DIRECT_COMMIT_ENABLED=true`. |
 | `CONTENT_DIRECT_COMMIT_ENABLED` | optional | `true` allows commits to staging/production directly. Off by default — branch protection enforces this on the GitHub side too. |
 | `NEXT_PUBLIC_SERVER_URL` | recommended | Public CMS URL for CORS + CSRF. Falls back to `https://$VERCEL_URL` (different per preview deploy). |
-| `NEXT_PUBLIC_WEB_URL` | recommended | Public web URL for CORS + CSRF. Falls back to `http://localhost:3010` if unset — set explicitly on every non-local deploy. |
+| `NEXT_PUBLIC_WEB_URL` | recommended | Public web URL for CORS + CSRF. Falls back to `http://localhost:3000` if unset — set explicitly on every non-local deploy. |
 
 Set the required App-auth variables for both **Production** and **Preview** environments in the Vercel dashboard (Settings → Environment Variables). Preview deploys without `DATABASE_URL` will throw at build time.
 
@@ -166,7 +166,7 @@ To create the `payload` schema and tables once, point a local `apps/cms` dev ser
 # In apps/cms/.env, set DATABASE_URL to the same value Vercel uses.
 pnpm --filter cms dev
 # Wait for "✓ Pulling schema from database..." then hit any admin URL once:
-curl -sS -o /dev/null -w '%{http_code}\n' http://localhost:3011/admin
+curl -sS -o /dev/null -w '%{http_code}\n' http://localhost:3001/admin
 ```
 
 After the first request the `payload` schema appears in Postgres with all required tables (`users`, `users_sessions`, `pages`, `payload_preferences`, etc.). Subsequent prod deploys read those tables happily.
@@ -193,8 +193,8 @@ Any Postgres works — swap `DATABASE_URL` and the rest of this guide stays the 
 cp apps/cms/.env.example apps/cms/.env
 # edit apps/cms/.env: paste real DATABASE_URL + a dev PAYLOAD_SECRET
 pnpm install
-pnpm --filter cms dev          # → http://localhost:3011/admin
-pnpm --filter web dev          # → http://localhost:3010
+pnpm --filter cms dev          # → http://localhost:3001/admin
+pnpm --filter web dev          # → http://localhost:3000
 ```
 
 `apps/cms/.env` is gitignored. Do not paste real credentials into `apps/cms/.env.example` — it is committed.
@@ -290,7 +290,7 @@ ENV NODE_ENV=production
 COPY --from=build /app/apps/cms/.next/standalone ./
 COPY --from=build /app/apps/cms/.next/static ./apps/cms/.next/static
 COPY --from=build /app/apps/cms/public ./apps/cms/public
-EXPOSE 3011
+EXPOSE 3001
 CMD ["node", "apps/cms/server.js"]
 ```
 
@@ -298,7 +298,7 @@ Build and run:
 
 ```bash
 docker build -t logos-cms:latest -f Dockerfile .
-docker run --rm -p 3011:3011 \
+docker run --rm -p 3001:3001 \
   -e NODE_ENV=production \
   -e PAYLOAD_SECRET="$(openssl rand -hex 32)" \
   -e DATABASE_URL="postgresql://..." \
@@ -310,9 +310,9 @@ docker run --rm -p 3011:3011 \
 
 ### 9.4 Reverse proxy + TLS
 
-The Node server only speaks HTTP on `:3011`. Terminate TLS upstream (nginx, Caddy, Cloudflare, Traefik) and forward:
+The Node server only speaks HTTP on `:3001`. Terminate TLS upstream (nginx, Caddy, Cloudflare, Traefik) and forward:
 
-- `https://cms.example.com` → `http://logos-cms:3011`
+- `https://cms.example.com` → `http://logos-cms:3001`
 - Forward standard headers: `Host`, `X-Forwarded-For`, `X-Forwarded-Proto`.
 - WebSocket upgrade is not required for Payload v3 today, but is harmless to enable.
 
@@ -323,7 +323,7 @@ Make sure `NEXT_PUBLIC_SERVER_URL` matches the externally-reachable URL (with `h
 Pick one. All three keep the standalone server alive across crashes / reboots:
 
 - **systemd unit** — simplest on a single VM. `Type=simple`, `Restart=on-failure`, `EnvironmentFile=/etc/logos-cms.env`.
-- **Docker Compose** — `restart: unless-stopped` plus `healthcheck: curl -f http://localhost:3011/admin || exit 1`.
+- **Docker Compose** — `restart: unless-stopped` plus `healthcheck: curl -f http://localhost:3001/admin || exit 1`.
 - **Kubernetes** — readiness probe on `/admin/login` (not `/api/pages` — that 403s). Use `RollingUpdate` so admin sessions survive deploys.
 
 ### 9.6 Database — migrations, not push

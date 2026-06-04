@@ -4,7 +4,7 @@ Guidance for agents working inside `apps/web`. The root `AGENTS.md` still applie
 
 ## App Role
 
-This is the public Next.js 16 site. It uses Tailwind v4, `next-intl`, and static export. The dev server runs on port `3010`.
+This is the public Next.js 16 site. It uses Tailwind v4, `next-intl`, and static export. The dev server runs on port `3000`.
 
 The app reads `content/**` at build time. Do not add request-time GitHub API calls or runtime CMS dependencies to the public site.
 

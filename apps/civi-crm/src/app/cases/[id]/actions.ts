@@ -5,7 +5,7 @@ import { headers } from 'next/headers'
 
 async function patchRoute(path: string, body: unknown): Promise<void> {
   const hdrs = await headers()
-  const host = hdrs.get('host') ?? 'localhost:3012'
+  const host = hdrs.get('host') ?? 'localhost:3002'
   const proto = hdrs.get('x-forwarded-proto') ?? 'http'
   const authHeaderName =
     process.env.KEYCLOAK_USER_EMAIL_HEADER ?? 'x-auth-request-email'
