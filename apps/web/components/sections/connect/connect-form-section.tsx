@@ -104,7 +104,6 @@ export function ConnectFormSection({
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const captchaRef = useRef<HCaptcha>(null)
-  const sectionRef = useRef<HTMLDivElement>(null)
 
   const hcaptchaSitekey = process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY
   const hcaptchaEnabled = !!hcaptchaSitekey
@@ -133,8 +132,8 @@ export function ConnectFormSection({
   }, [validate])
 
   useEffect(() => {
-    if (!successState || !sectionRef.current) return
-    sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    if (!successState) return
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [successState])
 
   const handleChange =
@@ -304,7 +303,7 @@ export function ConnectFormSection({
     const confirmationMessage =
       afform.confirmationMessage || t('defaultConfirmation')
     return (
-      <div ref={sectionRef} className={className}>
+      <div className={className}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -326,7 +325,7 @@ export function ConnectFormSection({
   }
 
   return (
-    <div ref={sectionRef} className={className}>
+    <div className={className}>
       <div aria-live="polite" aria-atomic="true" className="sr-only">
         {getAnnouncementMessage()}
       </div>
