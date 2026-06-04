@@ -4,37 +4,39 @@ import Image from 'next/image'
 import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
-import { EXTERNAL_URLS } from '@/constants/routes'
+import { ROUTES } from '@/constants/routes'
 
 import { DownloadIcon } from '../shared/builder-cta-card'
 
-interface BasecampFeatureProps {
-  label: string
-  image: string
-  imageClassName?: string
-}
-
-function BasecampFeature({
-  label,
-  image,
-  imageClassName,
-}: BasecampFeatureProps) {
-  return (
-    <div className="relative flex h-[55px] items-center justify-center overflow-hidden rounded-xl border border-brand-dark-green/50 font-sans text-[18px] leading-[1.15] tracking-[-0.01em] text-brand-dark-green lg:h-[189px]">
-      <Image
-        src={image}
-        alt=""
-        fill
-        sizes="(max-width: 768px) 369px, 464px"
-        className={`object-cover blur-[20px] lg:hidden ${imageClassName ?? ''}`}
-      />
-      <div className="absolute inset-0 bg-black/20 lg:hidden" />
-      <span className="relative z-[1] text-brand-off-white lg:text-brand-dark-green">
-        {label}
-      </span>
-    </div>
-  )
-}
+// Temporarily hidden — Basecamp feature boxes (chat / node / transactions).
+// Keep this so we can re-enable the feature row below later.
+// interface BasecampFeatureProps {
+//   label: string
+//   image: string
+//   imageClassName?: string
+// }
+//
+// function BasecampFeature({
+//   label,
+//   image,
+//   imageClassName,
+// }: BasecampFeatureProps) {
+//   return (
+//     <div className="relative flex h-[55px] items-center justify-center overflow-hidden rounded-xl border border-brand-dark-green/50 font-sans text-[18px] leading-[1.15] tracking-[-0.01em] text-brand-dark-green lg:h-[189px]">
+//       <Image
+//         src={image}
+//         alt=""
+//         fill
+//         sizes="(max-width: 768px) 369px, 464px"
+//         className={`object-cover blur-[20px] lg:hidden ${imageClassName ?? ''}`}
+//       />
+//       <div className="absolute inset-0 bg-black/20 lg:hidden" />
+//       <span className="relative z-[1] text-brand-off-white lg:text-brand-dark-green">
+//         {label}
+//       </span>
+//     </div>
+//   )
+// }
 
 export default async function BuilderPortalSection({
   locale,
@@ -59,12 +61,10 @@ export default async function BuilderPortalSection({
                 </h2>
               </Reveal>
               <Button
-                href={EXTERNAL_URLS.basecampRelease}
+                href={ROUTES.basecamp}
                 variant="secondary"
                 icon={<DownloadIcon />}
                 className="w-fit cursor-pointer transition-opacity hover:opacity-80"
-                target="_blank"
-                rel="noopener noreferrer"
               >
                 {t('cta')}
               </Button>
@@ -88,6 +88,7 @@ export default async function BuilderPortalSection({
           </div>
         </div>
 
+        {/* Temporarily hidden — re-enable to show the Basecamp feature boxes.
         <div className="mt-3 grid gap-3 lg:grid-cols-3">
           <BasecampFeature
             label={t('featureChat')}
@@ -105,6 +106,7 @@ export default async function BuilderPortalSection({
             imageClassName="scale-125"
           />
         </div>
+        */}
       </ContentWidth>
     </section>
   )

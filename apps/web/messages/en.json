@@ -137,7 +137,7 @@
       }
     },
     "builderPortal": {
-      "title": "Basecamp\nThe local launcher\nfor the Logos stack",
+      "title": "Basecamp.\nThe local launcher\nfor the Logos stack",
       "description": "Basecamp is a ready-to-run Logos distribution that you deploy on your own hardware, under your control. From the moment it’s installed, you’re standing on your own ground, not connecting to someone else’s infrastructure.\n\nThe Logos runtime runs locally, core modules are loaded, and essential applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one.",
       "feature1": "Explore programmes and resources to help you build your cyberstate.",
       "feature2": "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
@@ -153,7 +153,7 @@
       "useCasesLabel": "Use Cases",
       "buildLabel": "BUILD",
       "buildDesc": "Operate early. Help harden a private-by-default network that protects civil liberties and strengthens trust in our communities.",
-      "cta": "Install",
+      "cta": "Learn more",
       "featureChat": "Load a basic chat app",
       "featureNode": "Run a node",
       "featureTransactions": "Execute private transactions"
