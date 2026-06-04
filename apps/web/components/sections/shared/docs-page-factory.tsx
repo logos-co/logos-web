@@ -17,6 +17,8 @@
  *   export { generateMetadata }
  *   export default Page
  */
+import { setRequestLocale } from 'next-intl/server'
+
 import { getLegalDoc } from '@/lib/legal-content'
 import { createDefaultMetadata } from '@/lib/metadata'
 
@@ -38,11 +40,14 @@ type DocsPageConfig = {
 export function createDocsPage({ slug, path, activeKey }: DocsPageConfig) {
   async function generateMetadata({ params }: RouteParams) {
     const { locale } = await params
+    setRequestLocale(locale)
     const { title, description } = getLegalDoc(slug)
     return createDefaultMetadata({ title, description, locale, path })
   }
 
-  function Page() {
+  async function Page({ params }: RouteParams) {
+    const { locale } = await params
+    setRequestLocale(locale)
     const { heading, body } = getLegalDoc(slug)
 
     return (

@@ -109,6 +109,27 @@ const str = (value: unknown): string | undefined =>
   typeof value === 'string' && value.trim() ? value.trim() : undefined
 
 /**
+ * Frontmatter parse that never throws. Upstream RFP files occasionally carry
+ * invalid YAML (e.g. an unquoted colon in `title:`), which `gray-matter` would
+ * throw on. Rather than dropping the whole RFP, we strip the frontmatter block
+ * and parse the body only, so the markdown-heuristic path (`# heading`,
+ * `**Field**` lines) still populates the listing — matching the documented
+ * predates-frontmatter fallback.
+ */
+const safeMatter = (
+  raw: string,
+  filename: string
+): { data: Record<string, unknown>; content: string } => {
+  try {
+    return matter(raw)
+  } catch (error) {
+    console.error(`Invalid frontmatter in ${filename}, parsing body only:`, error)
+    const body = raw.replace(/^\uFEFF?\s*---\r?\n[\s\S]*?\r?\n---\r?\n?/, '')
+    return { data: {}, content: body }
+  }
+}
+
+/**
  * Parses one RFP markdown file. RFP files carry YAML frontmatter
  * (`id`, `title`, `tier`, `funding`, `status`, `category`) followed by the
  * body. `gray-matter` strips the frontmatter so it never renders as text, and
@@ -123,7 +144,7 @@ const parseRfpMarkdown = (
   const number = filename.match(/^(RFP-\d+)/)?.[1]
   if (!number || number === 'RFP-000') return null
 
-  const { data, content } = matter(raw)
+  const { data, content } = safeMatter(raw, filename)
 
   const headingTitle = content
     .match(/^#\s+(.+)/m)?.[1]
