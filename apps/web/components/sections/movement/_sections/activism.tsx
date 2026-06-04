@@ -2,9 +2,7 @@ import Image from 'next/image'
 import { type CircleInitiative } from '@repo/content/loaders'
 
 import ContentWidth from '@/components/layout/content-width'
-import { EXTERNAL_URLS } from '@/constants/routes'
-
-import { Cta, LambdaBadge, SectionHeader } from './atoms'
+import { LambdaBadge, SectionHeader } from './atoms'
 import type { Translate } from './types'
 
 function IssueCard({ initiative }: { initiative: CircleInitiative }) {
@@ -72,7 +70,6 @@ export function ActivismSection({
           </>
         }
         description={t('activism.body')}
-        cta={<Cta href={EXTERNAL_URLS.forumMeetups} label={t('activism.cta')} />}
         className="pb-10 md:pb-19.5"
       />
       <ContentWidth className="overflow-hidden">

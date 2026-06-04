@@ -5,7 +5,6 @@ import {
 import type { CirclesSettings, Language } from '@repo/content/schemas'
 
 import CirclesMap from '@/components/sections/circles/circles-map'
-import { ROUTES } from '@/constants/routes'
 import type {
   ActiveCircleMarker,
   ActiveCircleUpcomingEvent,
@@ -13,7 +12,7 @@ import type {
 
 import { ActionCardsSection } from './_sections/action-cards'
 import { ActivismSection } from './_sections/activism'
-import { CenterCtaSection, Cta } from './_sections/atoms'
+import { CenterCtaSection } from './_sections/atoms'
 import { BuilderSection } from './_sections/builder'
 import { CampaignSection } from './_sections/campaign'
 import { EventsSection } from './_sections/events'
@@ -43,7 +42,7 @@ export function MovementPageView({
     <CenterCtaSection
       title={t('find.title')}
       body={t('find.body')}
-      cta={<Cta href={ROUTES.circles} label={t('find.cta')} />}
+      className="pb-19"
     />
   )
 
