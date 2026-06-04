@@ -4,7 +4,7 @@
   "route": "/",
   "title": "Logos: Charting a New Path",
   "description": "Private-by default technology to reclaim civil society. Logos is the decentralised infrastructure for building parallel systems.",
-  "heading": "We are charting a new path.",
+  "heading": "Build the Parallel",
   "seo": {
     "keywords": [
       "logos",
@@ -18,7 +18,7 @@
     {
       "componentType": "hero",
       "key": "home.atf",
-      "headline": "We are charting a new path.",
+      "headline": "Build the Parallel",
       "body": "Logos is the private-by-default infrastructure for parallel societies. Built for a world where existing systems have stopped working. Built for a world where we are in control.",
       "background": {
         "src": "/cms/pages/home/atf-background.jpg",
