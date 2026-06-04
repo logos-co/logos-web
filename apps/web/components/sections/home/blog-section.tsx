@@ -132,7 +132,7 @@ export default function BlogSection({ data, articles }: Props) {
 
   return (
     <section id="blog" className="bg-brand-off-white px-3 py-3 lg:px-0">
-      <ContentWidth className="rounded-xl bg-accent-tan px-3 py-25.5 lg:p-6">
+      <ContentWidth className="rounded-xl bg-accent-tan px-3 py-25.5 lg:p-6 lg:pb-[146px]">
         <div className="flex flex-col gap-28">
           {(data.label || data.eyebrow || data.cta) && (
             <div className="flex items-center justify-between">
