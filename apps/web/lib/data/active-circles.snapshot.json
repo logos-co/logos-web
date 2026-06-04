@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-03T17:43:28.915Z",
-  "activeSinceDate": "2026-02-03",
+  "generatedAt": "2026-06-04T13:14:18.083Z",
+  "activeSinceDate": "2026-02-04",
   "circles": [
     {
       "id": "evt-Aj8aH4CUwRMedaw",
@@ -58,7 +58,7 @@
     },
     {
       "id": "evt-VJSGI1ZtyelVfjA",
-      "name": "Logos Circle Berlin: Action Day",
+      "name": "Logos Circle Berlin / Action Not Permission",
       "city": "Berlin",
       "country": "Germany",
       "lat": 52.4937094,
@@ -82,15 +82,6 @@
       "lat": 42.3492855,
       "lng": -71.078283,
       "eventUrl": "https://luma.com/7h4we06s"
-    },
-    {
-      "id": "evt-RBbkleoOqRzLq69",
-      "name": "Logos Circle Brussels",
-      "city": "Bruxelles",
-      "country": "Belgium",
-      "lat": 50.8449612,
-      "lng": 4.355044299999999,
-      "eventUrl": "https://luma.com/wqfitr95"
     },
     {
       "id": "evt-Oo5KrW1ZqmpYrTe",
@@ -165,6 +156,24 @@
       "eventUrl": "https://luma.com/ogpuxp1q"
     },
     {
+      "id": "evt-NiRwm2bcyCo9gBM",
+      "name": "Logos Circle Ibadan: The Beginning",
+      "city": "Ibadan",
+      "country": "Nigeria",
+      "lat": 7.4217122,
+      "lng": 3.9102413000000005,
+      "eventUrl": "https://luma.com/u78zww8f"
+    },
+    {
+      "id": "evt-KAn6JHs2xQs3i3R",
+      "name": "Logos Circle : Vizag",
+      "city": "Jct",
+      "country": "India",
+      "lat": 17.714859999999998,
+      "lng": 83.30102409999999,
+      "eventUrl": "https://luma.com/4110a7t8"
+    },
+    {
       "id": "evt-EsXUIkDrq77zxsV",
       "name": "Logos Circle Kampala",
       "city": "Kampala",
@@ -210,13 +219,13 @@
       "eventUrl": "https://luma.com/ukr8vrht"
     },
     {
-      "id": "evt-mKDxgSZkMIR1A11",
-      "name": "Logos Circle: Lisbon",
+      "id": "evt-ykXTzbT2FvYPM1W",
+      "name": "Logos Circle Lisbon: Node Running Workshop",
       "city": "Lisboa",
       "country": "Portugal",
-      "lat": 38.71642430000001,
-      "lng": -9.1384666,
-      "eventUrl": "https://luma.com/q3c2ek98"
+      "lat": 38.7215065,
+      "lng": -9.1251438,
+      "eventUrl": "https://luma.com/wqfifgw0"
     },
     {
       "id": "evt-wiTTEz0y41loPCl",
@@ -329,23 +338,50 @@
       "eventUrl": "https://luma.com/qjsesfxg"
     },
     {
+      "id": "evt-KAn6JHs2xQs3i3R",
+      "name": "Logos Circle : Vizag",
+      "city": "Jct",
+      "country": "India",
+      "startAt": "2026-06-06T11:30:00",
+      "endAt": "2026-06-06T14:00:00",
+      "eventUrl": "https://luma.com/4110a7t8"
+    },
+    {
+      "id": "evt-ykXTzbT2FvYPM1W",
+      "name": "Logos Circle Lisbon: Node Running Workshop",
+      "city": "Lisboa",
+      "country": "Portugal",
+      "startAt": "2026-06-10T18:00:00",
+      "endAt": "2026-06-10T20:00:00",
+      "eventUrl": "https://luma.com/wqfifgw0"
+    },
+    {
       "id": "evt-VJSGI1ZtyelVfjA",
-      "name": "Logos Circle Berlin: Action Day",
+      "name": "Logos Circle Berlin / Action Not Permission",
       "city": "Berlin",
       "country": "Germany",
       "startAt": "2026-06-18T11:00:00",
       "endAt": "2026-06-18T18:30:00",
       "eventUrl": "https://luma.com/logos-c1yv"
+    },
+    {
+      "id": "evt-NiRwm2bcyCo9gBM",
+      "name": "Logos Circle Ibadan: The Beginning",
+      "city": "Ibadan",
+      "country": "Nigeria",
+      "startAt": "2026-06-27T09:30:00",
+      "endAt": "2026-06-27T13:00:00",
+      "eventUrl": "https://luma.com/u78zww8f"
     }
   ],
   "stats": [
     {
       "label": "Total Circle Events",
-      "value": 149
+      "value": 152
     },
     {
       "label": "Distinct Cities",
-      "value": 34
+      "value": 35
     },
     {
       "label": "Distinct Countries",
@@ -353,7 +389,7 @@
     },
     {
       "label": "Upcoming Events",
-      "value": 3
+      "value": 6
     }
   ]
 }

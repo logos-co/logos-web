@@ -109,7 +109,7 @@
       "problems": {
         "debt": {
           "title": "Debt",
-          "body": "We were born into a debt we did not take on, for spending we did not approve, on terms we cannot refuse. Bills compound and interest accrues. The generation that took out this loan will not be the one to pay it.",
+          "body": "We were born into a debt we never authorised and have inherited consequences of decisions we did not make. As interest compounds, the total grows. The bill lands on us.",
           "fact1": "Global government debt has climbed to a record $111 trillion in 2025, rising by $8.3 trillion in a single year.",
           "fact2": "The average millennial in the US has 30% less wealth than the average Boomer by age 35.",
           "fact3": "3.4 billion people now live in countries that spend more on interest payments than on either health or education.",
@@ -117,21 +117,21 @@
         },
         "surveillance": {
           "title": "Surveillance",
-          "body": "We are the most watched generation in human history. Every click, every step, every conversation is harvested, stored, and sold without our consent. Privacy is no longer the default. It's a privilege you have to fight for.",
+          "body": "We are the most watched generation in human history. Online activity, location, and communications are routinely collected, stored, and sold, often without meaningful consent. Privacy is no longer a default condition.",
           "fact1": "There are now ~1 billion surveillance cameras installed worldwide. More than 1 for every 8 people on Earth.",
           "fact2": "75% of police forces globally now have access to facial recognition technology.",
           "fact3": "Governments now legally purchase massive quantities of citizens' personal data from commercial brokers."
         },
         "corruption": {
           "title": "Corruption",
-          "body": "Policy is no longer written for the public. It is written for whoever can afford the lobbyists, the donations, and the seat at the table. This is not a conspiracy. It is the operating model.",
+          "body": "Policy is increasingly shaped by those who can pay to influence it. Lobbying, campaign donations, and direct access give organised money a structural advantage over the public interest.",
           "fact1": "Billionaires are now estimated to be 4,000 times more likely to hold political office than ordinary citizens.",
           "fact2": "In the US alone, federal lobbying smashed records in 2025, with corporations and interest groups spending $5.08 billion in a single year to influence Washington.",
           "fact3": "Two-thirds of Americans (67%) now believe their federal government is \"corrupt\", and trust in government has crashed to just 17%."
         },
         "stagnation": {
           "title": "Stagnation",
-          "body": "Productivity is up. Education is up. Wages are flat. The wealth is being created but it is being captured upstream, by asset holders, financial intermediaries, and the institutions closest to the money printer. The distribution is not an accident. It is the design.",
+          "body": "Since 1979, productivity has grown while wages stay flat. The output is real, but the gains are captured upstream by top earners and capital owners, not wages. This has been done systematically over decades.",
           "fact1": "The 12 richest billionaires now own more wealth than the poorest half of humanity — 4 billion people.",
           "fact2": "Millennials work in an economy 70% more productive than when boomers were the same age — yet their median compensation has barely moved."
         }
