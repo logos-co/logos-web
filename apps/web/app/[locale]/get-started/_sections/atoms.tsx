@@ -3,7 +3,7 @@
  */
 import type { ReactNode } from 'react'
 
-import { Button, ButtonArrowIcon } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 
 interface SectionHeadingProps {
   number: string
@@ -32,38 +32,13 @@ export function ActionLink({
   variant = 'secondary',
   className,
 }: ActionLinkProps) {
-  const isExternal = href.startsWith('http')
-
-  if (!isExternal) {
-    return (
-      <Button
-        href={href}
-        variant={variant}
-        className={`cursor-pointer ${className ?? 'w-fit'}`}
-      >
-        {children}
-      </Button>
-    )
-  }
-
-  const classes =
-    variant === 'primary'
-      ? 'inline-flex cursor-pointer items-center justify-center rounded-xl bg-brand-dark-green px-3 py-2 text-brand-off-white backdrop-blur-[5px]'
-      : 'inline-flex cursor-pointer items-center justify-center rounded-[4px] border border-brand-dark-green/50 px-3 py-2 text-brand-dark-green backdrop-blur-[5px]'
-
   return (
-    <a
-      className={`${classes} ${className ?? 'w-fit'}`}
+    <Button
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
+      variant={variant}
+      className={`cursor-pointer ${className ?? 'w-fit'}`}
     >
-      <span className="inline-flex items-center gap-1">
-        <span className="font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
-          {children}
-        </span>
-        <ButtonArrowIcon />
-      </span>
-    </a>
+      {children}
+    </Button>
   )
 }
