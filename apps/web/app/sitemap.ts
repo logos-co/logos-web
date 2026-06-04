@@ -16,7 +16,6 @@ const staticIndexableRoutes = [
   ROUTES.buildersHub,
   ROUTES.ideas,
   ROUTES.rfps,
-  ROUTES.faq,
   ROUTES.getStarted,
   ROUTES.lambdaPrize,
   ROUTES.logosBroadcastNetwork,
