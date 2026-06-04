@@ -104,7 +104,6 @@
         {
           "label": "Resources",
           "links": [
-            { "label": "White Paper", "href": "/book" },
             { "label": "Community Forum", "href": "https://forum.logos.co/" },
             { "label": "Brand Kit", "href": "/brand-kit" },
             { "label": "Contact Us", "href": "https://free.technology/jobs" }
