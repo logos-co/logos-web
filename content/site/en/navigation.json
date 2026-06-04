@@ -20,8 +20,8 @@
     {
       "label": "Build",
       "href": "/builders-hub",
-      "ctaLabel": "Builder Hub",
-      "description": "Explore programmes and resources to help you build your cyberstate.",
+      "ctaLabel": "Start Building",
+      "description": "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others.",
       "image": { "src": "/nav-overlay/figma/take-action-build.webp", "alt": "" }
     },
     {
@@ -69,8 +69,8 @@
         {
           "label": "Build",
           "href": "/builders-hub",
-          "ctaLabel": "Builder Hub",
-          "description": "Explore programmes and resources to help you build your cyberstate.",
+          "ctaLabel": "Start Building",
+          "description": "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others.",
           "image": {
             "src": "/nav-overlay/figma/take-action-build.webp",
             "alt": ""
