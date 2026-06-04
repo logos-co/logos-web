@@ -32,10 +32,10 @@ function PathCardView({ card }: { card: PathCard }) {
         alt=""
         fill
         sizes="(max-width: 768px) 369px, 464px"
-        className={`object-cover transition-transform duration-700 ease-out group-hover/path-card:scale-[1.01] ${card.imageClassName ?? ''}`}
+        className={`object-cover transition-transform duration-700 ease-out group-hover/path-card:scale-[1.08] ${card.imageClassName ?? ''}`}
       />
       <div
-        className={`absolute inset-0 transition-opacity duration-300 ease-out group-hover/path-card:opacity-80 ${card.overlay}`}
+        className={`absolute inset-0 transition-opacity duration-300 ease-out group-hover/path-card:opacity-40 ${card.overlay}`}
       />
 
       <div className="absolute top-6 left-6 flex max-w-[calc(100%-170px)] items-start gap-2.5 lg:left-[clamp(16px,1.7vw,24px)] lg:max-w-[calc(100%-150px)] desktop:left-6 desktop:max-w-[calc(100%-170px)]">
