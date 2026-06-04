@@ -19,7 +19,7 @@
   "communityCards": [
     {
       "label": "Build",
-      "href": "/builders-hub",
+      "href": "/get-started",
       "ctaLabel": "Start Building",
       "description": "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others.",
       "image": { "src": "/nav-overlay/figma/take-action-build.webp", "alt": "" }
@@ -68,7 +68,7 @@
       "actionCards": [
         {
           "label": "Build",
-          "href": "/builders-hub",
+          "href": "/get-started",
           "ctaLabel": "Start Building",
           "description": "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others.",
           "image": {

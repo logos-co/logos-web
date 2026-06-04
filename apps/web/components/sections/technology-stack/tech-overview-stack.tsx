@@ -4,6 +4,7 @@ import type { TechStackOverviewSection } from '@repo/content/schemas'
 
 import { OverviewMediaPanel } from '@/components/sections/shared/overview-media-panel'
 import { TechStackDiagram } from '@/components/sections/shared/tech-stack-diagram'
+import ContentWidth from '@/components/layout/content-width'
 
 type Props = {
   data: TechStackOverviewSection
@@ -25,7 +26,7 @@ export default function TechOverviewStack({
   return (
     <section id="stack">
       <div className="bg-brand-off-white px-0 pb-6 md:px-3 md:pb-25">
-        <div className="mx-auto max-w-[1440px] px-3 md:p-3">
+        <ContentWidth>
           {data.architecture ? (
             <OverviewMediaPanel
               className="relative left-1/2 mb-10 w-screen -translate-x-1/2 md:static md:left-auto md:mb-25 md:w-auto md:-translate-x-0 md:-mx-3"
@@ -71,7 +72,7 @@ export default function TechOverviewStack({
               foundationHref={foundationHref}
             />
           </div>
-        </div>
+        </ContentWidth>
       </div>
     </section>
   )

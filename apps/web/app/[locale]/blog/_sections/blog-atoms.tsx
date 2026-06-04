@@ -8,6 +8,7 @@ import type { ReactNode } from 'react'
 import { ExternalLink } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
 import { cn } from '@/lib/cn'
+import ContentWidth from '@/components/layout/content-width'
 
 export function ArrowIcon({
   direction = 'right',
@@ -157,7 +158,7 @@ export function SectionCta({ href, label }: { href: string; label: string }) {
   )
 
   return (
-    <div className="mx-auto mt-3 flex h-24 max-w-[1440px] items-center justify-center px-3 pb-3">
+    <ContentWidth className="mt-3 flex h-24 items-center justify-center pb-3">
       {href.startsWith('http') ? (
         <ExternalLink href={href} className={className}>
           {content}
@@ -167,6 +168,6 @@ export function SectionCta({ href, label }: { href: string; label: string }) {
           {content}
         </Link>
       )}
-    </div>
+    </ContentWidth>
   )
 }

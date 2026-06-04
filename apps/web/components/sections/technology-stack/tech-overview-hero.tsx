@@ -89,10 +89,10 @@ export default function TechOverviewHero({ data }: Props) {
         </div>
 
         <div className="hidden md:block">
-          <p className="text-mono-s absolute top-0 left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[226px] text-brand-dark-green xl:left-[714px] xl:w-[226px] xl:max-w-none">
+          <p className="text-mono-s absolute top-0 left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[226px] text-brand-dark-green xl:w-[226px] xl:max-w-none">
             {data.eyebrow}
           </p>
-          <div className="absolute top-[310px] left-[calc(50%+6px)] flex max-w-[calc(50%-18px)] flex-col items-start gap-6 xl:left-[714px] xl:max-w-none">
+          <div className="absolute top-[310px] left-[calc(50%+6px)] flex max-w-[calc(50%-18px)] flex-col items-start gap-6 xl:max-w-none">
             <p className="text-mono-s w-full max-w-[226px] text-brand-dark-green xl:w-[226px] xl:max-w-none">
               {data.body}
             </p>
