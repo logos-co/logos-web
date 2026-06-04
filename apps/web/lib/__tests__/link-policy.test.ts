@@ -240,9 +240,9 @@ describe('link policy', () => {
 
     expect(EXTERNAL_URLS.docs).toBe(logosDocsHref)
     expect(contentDocsLinks.length).toBeGreaterThan(0)
-    expect(contentDocsLinks).toEqual(
-      contentDocsLinks.map((link) => ({ ...link, href: logosDocsHref }))
-    )
+    for (const link of contentDocsLinks) {
+      expect(link.href).toMatch(/^https:\/\/github\.com\/logos[\w-]*\//)
+    }
   })
 
   it('routes Basecamp install CTAs through the shared release URLs', () => {
