@@ -105,10 +105,6 @@
 <lastmod>2026-06-04</lastmod>
 </url>
 <url>
-<loc>https://dev.logos.co/faq</loc>
-<lastmod>2026-06-04</lastmod>
-</url>
-<url>
 <loc>https://dev.logos.co/get-started</loc>
 <lastmod>2026-06-04</lastmod>
 </url>
@@ -166,6 +162,14 @@
 </url>
 <url>
 <loc>https://dev.logos.co/terms-and-conditions</loc>
+<lastmod>2026-06-04</lastmod>
+</url>
+<url>
+<loc>https://dev.logos.co/testnet-terms-and-conditions</loc>
+<lastmod>2026-06-04</lastmod>
+</url>
+<url>
+<loc>https://dev.logos.co/testnet-v01-faqs</loc>
 <lastmod>2026-06-04</lastmod>
 </url>
 </urlset>
