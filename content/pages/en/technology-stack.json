@@ -49,18 +49,12 @@
       ],
       "status": {
         "label": "Current Status",
-        "body": "Testnet v0.1 launched in March 2026. This is the first release where all modules are packaged tog...",
+        "body": "Testnet v0.1 launched in March 2026. This is the first release where all modules are packaged together.",
         "cta": {
-          "label": "Install testnet v0.1",
+          "label": "Install testnet v0.1.2",
           "href": "/builders-hub#app-install",
           "variant": "secondary",
           "iconOverride": "download"
-        },
-        "secondaryCta": {
-          "label": "READ MORE",
-          "href": "/blog",
-          "variant": "link",
-          "iconOverride": "none"
         }
       }
     },

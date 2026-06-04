@@ -201,7 +201,7 @@
       "title": "Get Started | Logos",
       "description": "Install Basecamp, read the Logos docs, join the community, and start building with the Logos testnet.",
       "heading": "Get Started",
-      "intro": "Logos Testnet v0.1 is live. It packages consensus, execution, networking, storage, and messaging into a unified stack that you can install, run, and build against.\n\nStart here.",
+      "intro": "Logos Testnet v0.1.2 is live. It packages consensus, execution, networking, storage, and messaging into a unified stack that you can install, run, and build against.\n\nStart here.",
       "sections": {
         "install": {
           "number": "01",
