@@ -85,12 +85,6 @@
             "external": true,
             "variant": "primary",
             "iconOverride": "external"
-          },
-          "secondaryCta": {
-            "label": "Docs",
-            "href": "https://github.com/logos-storage/logos-storage-nim ",
-            "external": true,
-            "variant": "secondary"
           }
         },
         {
@@ -109,12 +103,6 @@
             "external": true,
             "variant": "primary",
             "iconOverride": "external"
-          },
-          "secondaryCta": {
-            "label": "Docs",
-            "href": "https://github.com/logos-co/logos-docs",
-            "external": true,
-            "variant": "secondary"
           }
         }
       ]

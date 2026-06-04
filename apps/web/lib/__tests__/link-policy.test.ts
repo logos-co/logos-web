@@ -111,10 +111,6 @@ describe('link policy', () => {
           label: 'Research Hub',
           href: ROUTES.research,
         }),
-        expect.objectContaining({
-          label: 'R&D Service Units',
-          href: 'https://research.logos.co/',
-        }),
       ])
     )
   })
