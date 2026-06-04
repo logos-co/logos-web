@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 import type { SocialProofStats } from '@/lib/social-proof-stats'
 
 interface SocialProofCard {
-  key: 'contributions' | 'contributors' | 'repositories' | 'circles'
+  key: 'contributions' | 'nodeOperators' | 'winnableIssues' | 'circles'
   value: string
   label: string
   body: string
@@ -65,22 +65,13 @@ export default function SocialProofSection({ stats }: SocialProofSectionProps) {
       imageClassName: 'object-[47%_52%]',
     },
     {
-      key: 'contributors',
-      value: stats.contributors,
-      label: t('contributors.label'),
-      body: t('contributors.body'),
+      key: 'nodeOperators',
+      value: '226',
+      label: t('nodeOperators.label'),
+      body: t('nodeOperators.body'),
       image: '/images/home/figma-refresh/social-node.webp',
       mobileClassName: 'h-[432px]',
       imageClassName: 'object-[50%_52%]',
-    },
-    {
-      key: 'repositories',
-      value: stats.repositories,
-      label: t('repositories.label'),
-      body: t('repositories.body'),
-      image: '/images/home/figma-refresh/social-issues.webp',
-      mobileClassName: 'h-[411px]',
-      imageClassName: 'object-[47%_51%]',
     },
     {
       key: 'circles',
@@ -90,6 +81,15 @@ export default function SocialProofSection({ stats }: SocialProofSectionProps) {
       image: '/images/home/figma-refresh/social-circles.webp',
       mobileClassName: 'h-[432px]',
       imageClassName: 'object-[50%_50%]',
+    },
+    {
+      key: 'winnableIssues',
+      value: '26',
+      label: t('winnableIssues.label'),
+      body: t('winnableIssues.body'),
+      image: '/images/home/figma-refresh/social-issues.webp',
+      mobileClassName: 'h-[411px]',
+      imageClassName: 'object-[47%_51%]',
     },
   ]
 

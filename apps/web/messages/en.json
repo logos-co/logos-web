@@ -41,13 +41,13 @@
         "label": "Total contributions",
         "body": "An open source community of builders, researchers, and technologists."
       },
-      "contributors": {
-        "label": "Active contributors",
-        "body": "An open source community of builders, researchers, and technologists."
+      "nodeOperators": {
+        "label": "Node Operators",
+        "body": "A decentralized network of independent Node operators ensuring Logos is secure."
       },
-      "repositories": {
-        "label": "Repositories",
-        "body": "Open source tools, libraries, and infrastructure to inspect, fork, and build on."
+      "winnableIssues": {
+        "label": "Winnable Issues",
+        "body": "Local issues that Circles identify and solve – from privacy tech to community funding."
       },
       "circles": {
         "label": "Circles",
