@@ -104,6 +104,7 @@ export function ConnectFormSection({
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const captchaRef = useRef<HCaptcha>(null)
+  const sectionRef = useRef<HTMLDivElement>(null)
 
   const hcaptchaSitekey = process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY
   const hcaptchaEnabled = !!hcaptchaSitekey
@@ -130,6 +131,11 @@ export function ConnectFormSection({
   useEffect(() => {
     validate()
   }, [validate])
+
+  useEffect(() => {
+    if (!successState || !sectionRef.current) return
+    sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [successState])
 
   const handleChange =
     (field: string) =>
@@ -298,7 +304,7 @@ export function ConnectFormSection({
     const confirmationMessage =
       afform.confirmationMessage || t('defaultConfirmation')
     return (
-      <div className={className}>
+      <div ref={sectionRef} className={className}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -320,7 +326,7 @@ export function ConnectFormSection({
   }
 
   return (
-    <div className={className}>
+    <div ref={sectionRef} className={className}>
       <div aria-live="polite" aria-atomic="true" className="sr-only">
         {getAnnouncementMessage()}
       </div>
@@ -397,6 +403,7 @@ export function ConnectFormSection({
                         onChange={handleChangeRepeatable('chat', index)}
                         value={chatVal}
                         disabled={loadingState}
+                        error={hasError('chat')}
                       />
                     </div>
                     <div className="min-w-[140px] flex-1">
@@ -406,7 +413,14 @@ export function ConnectFormSection({
                         options={chatServiceOptions}
                         value={chatServiceValues[index] ?? ''}
                         onChange={handleChangeRepeatable('chatService', index)}
+                        placeholder={t('chatServicePlaceholder')}
                         disabled={loadingState}
+                        error={hasError('chatService')}
+                        errorMessage={
+                          hasError('chatService')
+                            ? t('chatServiceRequired')
+                            : null
+                        }
                         isOpen={openDropdown === `chatService-${index}`}
                         onToggle={() =>
                           setOpenDropdown((k) =>
@@ -431,6 +445,11 @@ export function ConnectFormSection({
                     ) : null}
                   </div>
                 ))}
+                {hasError('chat') ? (
+                  <p className="font-mono text-[10px] font-semibold text-red-600">
+                    {t('chatNameRequired')}
+                  </p>
+                ) : null}
                 <button
                   type="button"
                   onClick={handleAddChatRow}

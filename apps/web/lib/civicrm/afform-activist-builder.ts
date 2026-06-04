@@ -12,7 +12,7 @@ export const AFFORM = {
   "submitEnabled": true,
   "createSubmission": true,
   "pageHeading": "Activist Builder",
-  "pageIntro": "If you like building tools, systems, research, media, or infrastructure that can help communities coordinate and become more self-sufficient, we'd love to hear from you. We're looking for people who care about solving real problems and turning ideas into practical systems with visible impact. If you're mainly interested in building apps directly on the Logos stack, you can apply through the dedicated builder track here: [link]. Let us know how we can reach you, tell us a bit about your background and skills, and share the kinds of projects or problems you'd be most interested in working on. Not every field is required, but more context helps us understand the fit and where you could have the most impact. We'll review your submission and be in touch.",
+  "pageIntro": "If you enjoy building tools, systems, research, media, or infrastructure that help communities solve real problems, we'd love to hear from you.\n\nTell us a bit about your background, skills, and the kinds of projects you'd like to contribute to. Not every field is required, but additional context helps us understand where you could have the most impact.\n\nIf your primary interest is building apps directly on the Logos stack, the [Builders Hub](http://build.logos.co) is likely a better fit.\n\nWe'll review your submission and be in touch.",
   "pagePrivacy": "We respect your privacy. By clicking 'Submit', you consent to our processing of your personal data as described above and in our Privacy Policy .",
   "pagePrivacyLink": "https://logos.co/privacy-policy",
   "fields": [
@@ -345,7 +345,7 @@ export const AFFORM_FIELDS = [
 ];
 
 export const AFFORM_PAGE_HEADING = "Activist Builder";
-export const AFFORM_PAGE_INTRO = "If you like building tools, systems, research, media, or infrastructure that can help communities coordinate and become more self-sufficient, we'd love to hear from you. We're looking for people who care about solving real problems and turning ideas into practical systems with visible impact. If you're mainly interested in building apps directly on the Logos stack, you can apply through the dedicated builder track here: [link]. Let us know how we can reach you, tell us a bit about your background and skills, and share the kinds of projects or problems you'd be most interested in working on. Not every field is required, but more context helps us understand the fit and where you could have the most impact. We'll review your submission and be in touch.";
+export const AFFORM_PAGE_INTRO = "If you enjoy building tools, systems, research, media, or infrastructure that help communities solve real problems, we'd love to hear from you.\n\nTell us a bit about your background, skills, and the kinds of projects you'd like to contribute to. Not every field is required, but additional context helps us understand where you could have the most impact.\n\nIf your primary interest is building apps directly on the Logos stack, the [Builders Hub](http://build.logos.co) is likely a better fit.\n\nWe'll review your submission and be in touch.";
 export const AFFORM_PAGE_PRIVACY = "We respect your privacy. By clicking 'Submit', you consent to our processing of your personal data as described above and in our Privacy Policy .";
 export const AFFORM_PAGE_PRIVACY_LINK = "https://logos.co/privacy-policy";
 

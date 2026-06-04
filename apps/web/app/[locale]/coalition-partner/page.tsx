@@ -1,4 +1,5 @@
 import {
+  AfformPageIntro,
   ConnectFormSection,
   ConnectPageLayout,
 } from '@/components/sections/connect'
@@ -28,7 +29,13 @@ function getAfformSubmitApiUrl() {
 
 export default function CoalitionPartnerPage() {
   return (
-    <ConnectPageLayout intro={AFFORM_PAGE_INTRO || undefined}>
+    <ConnectPageLayout
+      intro={
+        AFFORM_PAGE_INTRO ? (
+          <AfformPageIntro text={AFFORM_PAGE_INTRO} />
+        ) : undefined
+      }
+    >
       <ConnectFormSection
         afform={AFFORM}
         afformOptions={AFFORM_OPTIONS}
