@@ -133,15 +133,6 @@
                 "src": "/nav-overlay/figma/explore-thumb.webp",
                 "alt": ""
               }
-            },
-            {
-              "label": "Roadmap",
-              "href": "/movement",
-              "description": "View the path to Parallel Societies",
-              "image": {
-                "src": "/nav-overlay/figma/explore-thumb.webp",
-                "alt": ""
-              }
             }
           ]
         },
