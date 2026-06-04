@@ -1047,6 +1047,8 @@
     "chatLabel": "Chat name / chat service",
     "chatHandlePlaceholder": "Chat handle",
     "chatServicePlaceholder": "Service",
+    "chatServiceRequired": "Please select a chat service",
+    "chatNameRequired": "Please enter a chat name",
     "remove": "Remove",
     "addAnother": "+ Add another",
     "addChatRow": "Add another chat",

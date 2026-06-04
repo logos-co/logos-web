@@ -59,7 +59,7 @@ function buildInitialData(fields: AfformField[]): FormValues {
     } else if (field.repeatable) {
       data[field.formKey] = ['']
     } else {
-      data[field.formKey] = field.inputType === 'checkbox' ? false : ''
+      data[field.formKey] = field.inputType === 'checkbox' ? true : ''
     }
   }
   return data
@@ -130,6 +130,11 @@ export function ConnectFormSection({
   useEffect(() => {
     validate()
   }, [validate])
+
+  useEffect(() => {
+    if (!successState) return
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [successState])
 
   const handleChange =
     (field: string) =>
@@ -397,6 +402,7 @@ export function ConnectFormSection({
                         onChange={handleChangeRepeatable('chat', index)}
                         value={chatVal}
                         disabled={loadingState}
+                        error={hasError('chat')}
                       />
                     </div>
                     <div className="min-w-[140px] flex-1">
@@ -406,7 +412,14 @@ export function ConnectFormSection({
                         options={chatServiceOptions}
                         value={chatServiceValues[index] ?? ''}
                         onChange={handleChangeRepeatable('chatService', index)}
+                        placeholder={t('chatServicePlaceholder')}
                         disabled={loadingState}
+                        error={hasError('chatService')}
+                        errorMessage={
+                          hasError('chatService')
+                            ? t('chatServiceRequired')
+                            : null
+                        }
                         isOpen={openDropdown === `chatService-${index}`}
                         onToggle={() =>
                           setOpenDropdown((k) =>
@@ -431,6 +444,11 @@ export function ConnectFormSection({
                     ) : null}
                   </div>
                 ))}
+                {hasError('chat') ? (
+                  <p className="font-mono text-[10px] font-semibold text-red-600">
+                    {t('chatNameRequired')}
+                  </p>
+                ) : null}
                 <button
                   type="button"
                   onClick={handleAddChatRow}

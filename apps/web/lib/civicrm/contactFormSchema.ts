@@ -8,6 +8,12 @@ const stringOrArray = z.union([z.string(), z.array(z.string())])
 
 const MULTI_RECORD_JOINS = new Set(['Website', 'IM'])
 
+function normalizeStringArray(value: unknown): string[] {
+  if (Array.isArray(value)) return value.map((item) => String(item))
+  if (value == null || value === '') return ['']
+  return [String(value)]
+}
+
 function isMultiSelect(field: AfformField) {
   return field.inputType === 'select' && !field.join
 }
@@ -89,8 +95,42 @@ export function buildFormSchema(
   }
   schemaShape.socials = z.string().optional().default('')
 
+  const hasChatFields =
+    'chat' in schemaShape && 'chatService' in schemaShape
+
+  const baseSchema = z.object(schemaShape)
+
+  const schema = hasChatFields
+    ? baseSchema.superRefine((data, ctx) => {
+        const chatValues = normalizeStringArray(data.chat)
+        const chatServiceValues = normalizeStringArray(data.chatService)
+        const rowCount = Math.max(chatValues.length, chatServiceValues.length)
+
+        for (let index = 0; index < rowCount; index += 1) {
+          const chatName = chatValues[index]?.trim() ?? ''
+          const chatService = chatServiceValues[index]?.trim() ?? ''
+
+          if (chatName && !chatService) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              path: ['chatService'],
+              message: 'Chat service is required',
+            })
+          }
+
+          if (chatService && !chatName) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              path: ['chat'],
+              message: 'Chat name is required',
+            })
+          }
+        }
+      })
+    : baseSchema
+
   return {
-    schema: z.object(schemaShape),
+    schema,
     requiredFields,
   }
 }

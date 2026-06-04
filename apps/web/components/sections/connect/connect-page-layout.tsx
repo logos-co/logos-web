@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 
 type Props = {
   heading?: string
-  intro?: string
+  intro?: ReactNode
   children: ReactNode
 }
 
@@ -21,11 +21,7 @@ export function ConnectPageLayout({ heading, intro, children }: Props) {
                 </h1>
               </div>
             ) : null}
-            {intro ? (
-              <p className="mx-auto max-w-[40em] text-balance font-mono text-[10px] leading-[1.3]">
-                {intro}
-              </p>
-            ) : null}
+            {intro}
           </div>
         )}
         {children}
