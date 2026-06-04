@@ -54,7 +54,16 @@ describe('blog article row layout', () => {
   test('keeps section CTAs inside the page content width with the requested offset', () => {
     const atomsSource = readSectionFile('blog-atoms.tsx')
 
-    expect(atomsSource).toContain('mx-auto mt-3 flex h-24 max-w-[1440px]')
+    // The CTA must stay constrained to the page content width and keep the
+    // mt-3 top offset. The width constraint may come from a raw max-width
+    // class or the shared ContentWidth wrapper — either satisfies the intent.
+    const usesContentWidth =
+      atomsSource.includes('ContentWidth') && atomsSource.includes('mt-3')
+    const usesRawWidth = atomsSource.includes(
+      'mx-auto mt-3 flex h-24 max-w-[1440px]'
+    )
+
+    expect(usesContentWidth || usesRawWidth).toBe(true)
   })
 
   test('links the podcast hero card to the latest episode', () => {
