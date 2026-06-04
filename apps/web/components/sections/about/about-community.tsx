@@ -31,7 +31,7 @@ export async function AboutCommunity() {
       <div className="flex flex-col items-center gap-6 px-3 pt-10 pb-25 text-center md:hidden">
         <p className="text-eyebrow text-brand-dark-green">{t('eyebrow')}</p>
         <p className="text-h3-serif text-brand-dark-green">{t('body')}</p>
-        <Button href={ROUTES.circles} variant="primary">
+        <Button href={ROUTES.movement} variant="primary">
           {t('cta')}
         </Button>
       </div>
@@ -51,7 +51,7 @@ export async function AboutCommunity() {
           <p className="text-eyebrow text-brand-dark-green">{t('eyebrow')}</p>
           <p className="text-h3-serif text-brand-dark-green">{t('body')}</p>
           <Button
-            href={ROUTES.circles}
+            href={ROUTES.movement}
             variant="primary"
             className="self-start"
           >
