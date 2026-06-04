@@ -11,7 +11,8 @@ import StorageHero from '@/components/sections/storage/storage-hero'
 import StorageAccess from '@/components/sections/storage/storage-access'
 import StorageMain from '@/components/sections/storage/storage-main'
 import StorageTechStack from '@/components/sections/storage/storage-tech-stack'
-import StorageUseCases from '@/components/sections/storage/storage-use-cases'
+// Temporarily hidden — may be reused later. Do not delete.
+// import StorageUseCases from '@/components/sections/storage/storage-use-cases'
 import TechStackBuilderCta from '@/components/sections/shared/tech-stack-builder-cta'
 import {
   TechStackDetailPage,
@@ -59,11 +60,12 @@ export default async function StoragePage({
     'ctaPanel',
     'storage.main'
   )
-  const useCases = findSection<CardGridSection>(
-    page.sections,
-    'cardGrid',
-    'storage.useCases'
-  )
+  // Temporarily hidden — may be reused later. Do not delete.
+  // const useCases = findSection<CardGridSection>(
+  //   page.sections,
+  //   'cardGrid',
+  //   'storage.useCases'
+  // )
   const access = findSection<CardGridSection>(
     page.sections,
     'cardGrid',
@@ -94,9 +96,11 @@ export default async function StoragePage({
       <TechStackDetailSection>
         <StorageAccess data={access} />
       </TechStackDetailSection>
+      {/* Temporarily hidden — may be reused later. Do not delete.
       <TechStackDetailSection>
         <StorageUseCases data={useCases} />
       </TechStackDetailSection>
+      */}
       <TechStackDetailSection>
         <TechStackBuilderCta data={builderCta} />
       </TechStackDetailSection>

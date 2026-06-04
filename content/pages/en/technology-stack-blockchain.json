@@ -179,7 +179,7 @@
           "description": "Download the app to start building.",
           "cta": {
             "label": "Install",
-            "href": "/basecamp"
+            "href": "https://github.com/logos-co/logos-basecamp"
           }
         }
       ]

@@ -18,10 +18,12 @@
       "bodySecondary": "Key Repositories:",
       "items": [
         {
-          "title": "Logos-delivery — Peer-to-peer transport layer with spam protection."
+          "title": "Logos-delivery — Peer-to-peer transport layer with spam protection.",
+          "href": "https://github.com/logos-messaging/logos-delivery"
         },
         {
-          "title": "logos-chat — Library for private, end-to-end encrypted p2p chat."
+          "title": "logos-chat — Library for private, end-to-end encrypted p2p chat.",
+          "href": "https://github.com/logos-messaging/logos-chat"
         }
       ],
       "status": {
@@ -71,14 +73,8 @@
       "mobileDescription": "Built around the Logos Messaging Nim (LMN) node, it provides publish-subscribe messaging, reliable delivery, and is evolving toward a ChatSDK that simplifies building encrypted communication into applications.",
       "cta": {
         "label": "Repo",
-        "href": "https://github.com/waku-org/nwaku",
+        "href": "https://github.com/logos-messaging/logos-delivery",
         "external": true
-      },
-      "secondaryCta": {
-        "label": "Docs",
-        "href": "https://github.com/logos-co/logos-docs",
-        "external": true,
-        "variant": "secondary"
       }
     },
     {
@@ -92,14 +88,8 @@
       "mobileDescription": "The relay network is designed to function even in hostile network environments. There is no single point of failure, no central server to block, and no metadata that reveals communication patterns to observers.",
       "cta": {
         "label": "Repo",
-        "href": "https://github.com/logos-co/logos-chat-module",
+        "href": "https://github.com/logos-messaging/logos-chat",
         "external": true
-      },
-      "secondaryCta": {
-        "label": "Docs",
-        "href": "https://github.com/logos-co/logos-docs",
-        "external": true,
-        "variant": "secondary"
       }
     },
     {
@@ -135,7 +125,7 @@
           },
           "cta": {
             "label": "learn more",
-            "href": "https://railgun.org",
+            "href": "https://www.railgun.org",
             "external": true
           }
         }
@@ -170,7 +160,7 @@
           "description": "Download the app to start building.",
           "cta": {
             "label": "Install",
-            "href": "/basecamp"
+            "href": "https://github.com/logos-co/logos-basecamp"
           }
         }
       ]

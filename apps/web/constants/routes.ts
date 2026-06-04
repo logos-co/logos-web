@@ -102,6 +102,11 @@ export const EXTERNAL_URLS = {
   forumMeetups: 'https://forum.logos.co/c/meetups/6',
   docs: 'https://github.com/logos-co/logos-docs',
   communityIdeas: 'https://github.com/logos-co/ideas',
+  scaffold: 'https://github.com/logos-co/scaffold',
+  atomicSwaps: 'https://github.com/logos-co/eth-lez-atomic-swaps',
+  multisig: 'https://github.com/logos-co/lez-multisig',
+  workshopsPlaylist:
+    'https://www.youtube.com/playlist?list=PLZe53tXAogqMdZSKhY316YKn3_tJ0RWZ7',
   lambdaPrizes: 'https://github.com/logos-co/lambda-prize/tree/master/prizes',
   basecampRelease:
     'https://github.com/logos-co/logos-basecamp/releases/tag/0.1.2',

@@ -25,11 +25,13 @@
       "items": [
         {
           "title": "LOGOS-STORAGE-MODULE",
-          "description": "Logos module for decentralised file sharing and retrieval."
+          "description": "Logos module for decentralised file sharing and retrieval.",
+          "href": "https://github.com/logos-co/logos-storage-module"
         },
         {
           "title": "LOGOS-STORAGE-NIM",
-          "description": "Logos Storage file-sharing client."
+          "description": "Logos Storage file-sharing client.",
+          "href": "https://github.com/logos-storage/logos-storage-nim"
         }
       ],
       "status": {
@@ -86,7 +88,7 @@
           },
           "secondaryCta": {
             "label": "Docs",
-            "href": "https://github.com/logos-co/logos-docs",
+            "href": "https://github.com/logos-storage/logos-storage-nim ",
             "external": true,
             "variant": "secondary"
           }
@@ -181,7 +183,7 @@
           "description": "Download the app to start building.",
           "cta": {
             "label": "Install",
-            "href": "/basecamp"
+            "href": "https://github.com/logos-co/logos-basecamp"
           }
         }
       ]

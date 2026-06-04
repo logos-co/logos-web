@@ -96,7 +96,7 @@
         "ctas": [
           {
             "label": "Learn more",
-            "href": "https://github.com/logos-co",
+            "href": "https://github.com/logos-co/scaffold",
             "external": true
           }
         ]
@@ -107,12 +107,12 @@
         "ctas": [
           {
             "label": "Atomic swaps",
-            "href": "https://github.com/logos-co",
+            "href": "https://github.com/logos-co/eth-lez-atomic-swaps",
             "external": true
           },
           {
             "label": "Multisig",
-            "href": "https://github.com/logos-co",
+            "href": "https://github.com/logos-co/lez-multisig",
             "external": true
           }
         ]
@@ -123,7 +123,7 @@
         "ctas": [
           {
             "label": "Learn more",
-            "href": "https://youtube.com/@logos_network",
+            "href": "https://www.youtube.com/playlist?list=PLZe53tXAogqMdZSKhY316YKn3_tJ0RWZ7",
             "external": true
           }
         ]

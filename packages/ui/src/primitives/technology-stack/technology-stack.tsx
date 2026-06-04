@@ -24,6 +24,7 @@ export function SectionMarker({ label, className }: SectionMarkerProps) {
 export type TechDetailHeroItem = {
   title: string
   description?: string
+  href?: string
 }
 
 export type TechDetailHeroStatus = {
@@ -45,24 +46,41 @@ export type TechDetailHeroProps = {
   className?: string
 }
 
-function ItemText({ title, description }: TechDetailHeroItem) {
+function BoldPart({ text, href }: { text: string; href?: string }) {
+  const className = 'font-mono font-semibold uppercase'
+  if (!href) {
+    return <span className={className}>{text}</span>
+  }
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`${className} underline transition-opacity hover:opacity-70`}
+    >
+      {text}
+    </a>
+  )
+}
+
+function ItemText({ title, description, href }: TechDetailHeroItem) {
   if (description) {
     return (
       <>
-        <span className="font-mono font-semibold uppercase">{title}</span>
+        <BoldPart text={title} href={href} />
         {` — ${description}`}
       </>
     )
   }
   const dashIdx = title.indexOf('—')
   if (dashIdx < 0) {
-    return <span className="font-mono font-semibold uppercase">{title}</span>
+    return <BoldPart text={title} href={href} />
   }
   const boldPart = title.slice(0, dashIdx).replace(/\s+$/, '')
   const restPart = title.slice(dashIdx)
   return (
     <>
-      <span className="font-mono font-semibold uppercase">{boldPart}</span>
+      <BoldPart text={boldPart} href={href} />
       {' '}
       {restPart}
     </>
@@ -365,6 +383,8 @@ export type TechCaseStudyCardProps = {
   body: ReactNode
   image: ReactNode
   cta?: ReactNode
+  /** When set, the whole card becomes a link opening in a new tab. */
+  href?: string
   markerLabel: string
   className?: string
   contentClassName?: string
@@ -376,6 +396,7 @@ export function TechCaseStudyCard({
   body,
   image,
   cta,
+  href,
   markerLabel,
   className,
   contentClassName,
@@ -385,6 +406,7 @@ export function TechCaseStudyCard({
     <article
       className={twMerge(
         'relative h-[299px] overflow-hidden rounded-xl border border-brand-dark-green/50 md:h-[406px] md:flex-1',
+        href && 'cursor-pointer',
         className
       )}
     >
@@ -405,8 +427,20 @@ export function TechCaseStudyCard({
         </div>
       </div>
 
+      {/* Stretched overlay link makes the entire card clickable. Kept below the
+          visible CTA button (z-20) so the button stays independently focusable. */}
+      {href ? (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={title}
+          className="absolute inset-0 z-10"
+        />
+      ) : null}
+
       {cta ? (
-        <div className="absolute top-3 right-3 hidden md:block">{cta}</div>
+        <div className="absolute top-3 right-3 z-20 hidden md:block">{cta}</div>
       ) : null}
 
       <div className={imageClassName}>{image}</div>

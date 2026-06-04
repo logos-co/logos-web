@@ -61,6 +61,7 @@ export const heroSectionSchema = z.object({
         label: z.string().min(1).optional(),
         title: z.string().min(1),
         description: z.string().min(1).optional(),
+        href: linkHrefSchema.optional(),
       })
     )
     .optional(),

@@ -43,6 +43,7 @@ function CaseStudyCard({
       title={title}
       body={body}
       markerLabel={markerLabel}
+      href={ctaHref}
       imageClassName={imageClassName}
       cta={
         ctaLabel && ctaHref ? (

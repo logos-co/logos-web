@@ -63,7 +63,6 @@ function FeatureRow({
             title={card.title}
             body={card.description ? [card.description] : undefined}
             cta={card.cta}
-            secondaryCta={card.secondaryCta}
             image={imagePanel}
             imagePosition={imagePosition}
             tone={ROW_TONES[index] ?? ROW_TONES[0]}

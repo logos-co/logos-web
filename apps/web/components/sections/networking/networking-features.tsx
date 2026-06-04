@@ -51,8 +51,8 @@ function FeatureCard({
         <p className="text-mono-s text-brand-dark-green">{body}</p>
       </div>
       <div className="flex w-full flex-col">
-        {(cta || secondaryCta) ? (
-          <div className="flex items-baseline gap-1.5 px-3 pb-1.5">
+        {cta || secondaryCta ? (
+          <div className="flex items-baseline gap-1.5 px-3 pb-10">
             {cta ? (
               <Button
                 href={cta.href}

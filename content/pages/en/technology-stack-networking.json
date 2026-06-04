@@ -25,22 +25,28 @@
       "bodySecondary": "Key Repositories:",
       "items": [
         {
-          "title": "VACP2P — Communication and privacy research."
+          "title": "VACP2P — Communication and privacy research.",
+          "href": "https://github.com/vacp2p"
         },
         {
-          "title": "NIM-LIBP2P — Nim implementation of the libp2p networking stack."
+          "title": "NIM-LIBP2P — Nim implementation of the libp2p networking stack.",
+          "href": "https://github.com/vacp2p/nim-libp2p"
         },
         {
-          "title": "LIBLOGOS — Core library for the Logos runtime."
+          "title": "LIBLOGOS — Core library for the Logos runtime.",
+          "href": "https://github.com/logos-co/liblogos"
         },
         {
-          "title": "MIX-RLN-SPAM-PROTECTION-PLUGIN — RLN-based spam protection for libp2p mixnets."
+          "title": "MIX-RLN-SPAM-PROTECTION-PLUGIN — RLN-based spam protection for libp2p mixnets.",
+          "href": "https://github.com/logos-co/mix-rln-spam-protection-plugin"
         },
         {
-          "title": "ZEROKIT — Zero-knowledge modules for RLN implementation."
+          "title": "ZEROKIT — Zero-knowledge modules for RLN implementation.",
+          "href": "https://github.com/vacp2p/zerokit"
         },
         {
-          "title": "DE-MLS — Secure group membership coordinated through off-chain consensus."
+          "title": "DE-MLS — Secure group membership coordinated through off-chain consensus.",
+          "href": "https://github.com/vacp2p/de-mls"
         }
       ],
       "status": {
@@ -149,11 +155,11 @@
           "cta": { "label": "Build", "href": "/builders-hub" }
         },
         {
-          "title": "Logos App",
-          "description": "Download the app to start building with the kernel + modules + UI packages bundled.",
+          "title": "Install Basecamp",
+          "description": "Download the app to start building.",
           "cta": {
-            "label": "Download",
-            "href": "/builders-hub#app-install"
+            "label": "Install",
+            "href": "https://github.com/logos-co/logos-basecamp"
           }
         }
       ]

@@ -15,18 +15,18 @@ const cards = [
   },
   {
     key: 'scaffold',
-    ctas: [{ labelKey: 'learnMoreCta', href: EXTERNAL_URLS.github }],
+    ctas: [{ labelKey: 'learnMoreCta', href: EXTERNAL_URLS.scaffold }],
   },
   {
     key: 'sampleApps',
     ctas: [
-      { labelKey: 'atomicSwapsCta', href: EXTERNAL_URLS.github },
-      { labelKey: 'multisigCta', href: EXTERNAL_URLS.github },
+      { labelKey: 'atomicSwapsCta', href: EXTERNAL_URLS.atomicSwaps },
+      { labelKey: 'multisigCta', href: EXTERNAL_URLS.multisig },
     ],
   },
   {
     key: 'workshops',
-    ctas: [{ labelKey: 'learnMoreCta', href: EXTERNAL_URLS.youtube }],
+    ctas: [{ labelKey: 'learnMoreCta', href: EXTERNAL_URLS.workshopsPlaylist }],
   },
 ] as const
 
