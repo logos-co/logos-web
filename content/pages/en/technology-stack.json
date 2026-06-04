@@ -214,11 +214,6 @@
             "label": "Repo",
             "href": "https://github.com/logos-co",
             "external": true
-          },
-          "secondaryCta": {
-            "label": "Docs",
-            "href": "https://github.com/logos-co/logos-docs",
-            "external": true
           }
         },
         {
@@ -228,11 +223,6 @@
           "cta": {
             "label": "Repo",
             "href": "https://github.com/logos-messaging",
-            "external": true
-          },
-          "secondaryCta": {
-            "label": "Docs",
-            "href": "https://github.com/logos-co/logos-docs",
             "external": true
           }
         },
@@ -244,11 +234,6 @@
             "label": "Repo",
             "href": "https://github.com/logos-storage",
             "external": true
-          },
-          "secondaryCta": {
-            "label": "Docs",
-            "href": "https://github.com/logos-co/logos-docs",
-            "external": true
           }
         },
         {
@@ -259,11 +244,6 @@
             "label": "Repo",
             "href": "https://github.com/logos-blockchain",
             "external": true
-          },
-          "secondaryCta": {
-            "label": "Docs",
-            "href": "https://github.com/logos-co/logos-docs",
-            "external": true
           }
         },
         {
@@ -273,11 +253,6 @@
           "cta": {
             "label": "Repo",
             "href": "https://github.com/vacp2p",
-            "external": true
-          },
-          "secondaryCta": {
-            "label": "Docs",
-            "href": "https://github.com/logos-co/logos-docs",
             "external": true
           }
         }
