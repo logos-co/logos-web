@@ -25,7 +25,7 @@ interface DocsPageShellProps {
 export function DocsPageShell({ activeKey, children }: DocsPageShellProps) {
   return (
     <ContentWidth>
-      <section className="flex min-h-190 flex-col items-start gap-3 px-3 xl:flex-row xl:gap-122">
+      <section className="flex min-h-190 flex-col items-start gap-3 xl:flex-row xl:gap-122">
         <DocsToc activeKey={activeKey} />
         <div className="flex w-full flex-col items-start gap-6 pb-20 xl:w-116 xl:py-20">
           {children}

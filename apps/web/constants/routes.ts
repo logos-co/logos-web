@@ -63,6 +63,8 @@ export const ROUTES = {
 
   // Info / Help
   faq: '/faq',
+  testnetV01Faqs: '/testnet-v01-faqs',
+  testnetTermsAndConditions: '/testnet-terms-and-conditions',
 
   // Legal
   terms: '/terms-and-conditions',
