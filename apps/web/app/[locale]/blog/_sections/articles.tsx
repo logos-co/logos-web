@@ -27,6 +27,7 @@ const BROADCAST_BACKGROUND_IMAGE =
 
 export interface BlogCopy {
   heroHeading: string
+  heroTagline: string
   heroHeadingLine1: string
   heroHeadingLine2: string
   navLabel: string
@@ -45,12 +46,11 @@ export interface BlogCopy {
 }
 
 export function BlogHero({
-  lead,
   copy,
 }: {
-  lead: BlogArticleRow
   copy: Pick<
     BlogCopy,
+    | 'heroTagline'
     | 'heroHeadingLine1'
     | 'heroHeadingLine2'
     | 'navLabel'
@@ -75,7 +75,7 @@ export function BlogHero({
             />
           </div>
           <p className="text-mono-s absolute left-[calc(50%+6px)] top-0 w-[calc(50%-18px)] max-w-[179px] text-brand-dark-green md:left-[714px] md:w-[226px] md:max-w-none">
-            {lead.description || lead.title}
+            {copy.heroTagline}
           </p>
         </div>
         <h1 className="font-display text-center text-[40px] leading-none tracking-[-0.03em] text-brand-dark-green md:text-[56px]">

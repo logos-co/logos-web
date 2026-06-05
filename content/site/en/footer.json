@@ -45,10 +45,10 @@
     }
   ],
   "researchLinks": [
-    { "label": "Research Hub", "href": "/research" },
+    { "label": "Research Overview", "href": "/research" },
     {
       "label": "Specs / RFC",
-      "href": "https://research.logos.co/",
+      "href": "https://lip.logos.co/",
       "external": true
     },
     {

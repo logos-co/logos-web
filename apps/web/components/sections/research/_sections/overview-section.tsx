@@ -1,15 +1,17 @@
+import type { ReactNode } from 'react'
+
 import ContentWidth from '@/components/layout/content-width'
 
 import { LinkButton } from './atoms'
-import type { LinkItem, OverviewCopy } from './types'
+import type { LinkItem } from './types'
 
 export function OverviewSection({
   title,
-  body,
+  paragraphs,
   cta,
 }: {
   title: string
-  body: OverviewCopy
+  paragraphs: ReactNode[]
   cta: LinkItem
 }) {
   return (
@@ -19,8 +21,8 @@ export function OverviewSection({
           {title}
         </h2>
         <div className="text-mono-s space-y-[13px] md:col-span-3 md:col-start-7 md:w-[345px]">
-          {body.paragraphs.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
+          {paragraphs.map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
           ))}
         </div>
         <div className="md:col-span-2 md:col-start-11 md:justify-self-start">

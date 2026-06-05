@@ -64,8 +64,8 @@ export default async function BlogPage({
   return (
     <div className="bg-accent-tan pt-10">
       <BlogHero
-        lead={articles[0]}
         copy={{
+          heroTagline: t('hero.tagline'),
           heroHeadingLine1: t('hero.line1'),
           heroHeadingLine2: t('hero.line2'),
           navLabel: t('nav.label'),

@@ -39,7 +39,7 @@ export function ResourcesSection({
                 </span>
               </div>
               <div className="md:col-span-2 md:col-start-11">
-                <LinkButton label={learnMoreLabel} href={item.href} />
+                <LinkButton label={item.cta ?? learnMoreLabel} href={item.href} />
               </div>
             </div>
           </div>

@@ -121,8 +121,14 @@ export const EXTERNAL_URLS = {
   researchForum: 'https://forum.research.logos.co/',
   researchDiscord: 'https://discord.gg/PQFdubGt6d',
   researchX: 'https://twitter.com/LogosRnD',
+  researchServiceUnits: 'https://research.logos.co/vsus',
+  researchIncubatorProjects: 'https://research.logos.co/vips',
+  researchApplied: 'https://research.logos.co/research',
+  researchPrinciples: 'https://research.logos.co/principles',
+  vacRfc: 'https://rfc.vac.dev/',
+  logosHome: 'https://logos.co/',
   vacGithub: 'https://github.com/vacp2p',
-  vacJobs: 'https://jobs.status.im/?search=Vac',
+  iftJobs: 'https://free.technology/jobs',
 
   // Infrastructure projects
   waku: 'https://waku.org',

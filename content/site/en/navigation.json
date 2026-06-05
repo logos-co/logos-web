@@ -257,7 +257,7 @@
           "label": "Research",
           "cards": [
             {
-              "label": "Research Hub",
+              "label": "Research Overview",
               "href": "/research",
               "description": "Learn about the research efforts led by Logos.",
               "image": {
