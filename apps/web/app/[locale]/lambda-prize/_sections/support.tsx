@@ -34,7 +34,7 @@ export function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
               <p className="text-mono-s hidden w-[312px] lg:block">
                 {row.body}
               </p>
-              <TertiaryCta href={ROUTES.faq}>{row.action}</TertiaryCta>
+              <div><TertiaryCta href={ROUTES.faq}>{row.action}</TertiaryCta></div>
             </div>
           ))}
         </div>
