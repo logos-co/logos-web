@@ -104,6 +104,7 @@ Payload collections: `Pages`, `Circles`, `Ideas`, `Rfps`, `ContentChangeRequests
 - `docs/components.md` — shared component specs (Nav, Footer, etc.) with Figma node IDs.
 - `docs/code-quality-followups.md` — known gaps awaiting design/infra decisions.
 - `docs/seo.md` — SEO/metadata expectations.
+- `docs/responsive-image-frame-fitting.md` — techniques for making images fill a card or frame perfectly at every viewport (aspect-ratio, derived heights, object-fit, sizes). Read before implementing any full-bleed or frame-fitted image section.
 
 ## Don't
 
