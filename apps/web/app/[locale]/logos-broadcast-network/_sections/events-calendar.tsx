@@ -164,12 +164,18 @@ function getCalendarYears(events: BroadcastEventRow[]) {
   return [...years].sort((a, b) => a - b)
 }
 
-function EventPill({ event }: { event: BroadcastEventRow }) {
+function EventPill({
+  event,
+  interactive = true,
+}: {
+  event: BroadcastEventRow
+  interactive?: boolean
+}) {
   const baseClassName =
     'block rounded-lg border border-brand-dark-green/50 p-2 font-mono text-[10px] font-medium uppercase leading-[1.3]'
   const content = <span className="line-clamp-2">{event.calendarTitle}</span>
 
-  return event.link ? (
+  return interactive && event.link ? (
     <ExternalLink
       href={event.link}
       className={cn(
@@ -368,13 +374,20 @@ function MobileDayCarousel({
             key={day.key}
             type="button"
             onClick={() => onSelect(day.key)}
-            className="flex h-[301px] w-[192px] shrink-0 snap-center flex-col items-start rounded-xl border border-brand-dark-green/50 p-2 text-left text-brand-dark-green transition-colors hover:bg-[#c7f3ff]"
+            className="flex h-[301px] w-[192px] shrink-0 snap-center flex-col justify-between rounded-xl border border-brand-dark-green/50 p-2 text-left text-brand-dark-green transition-colors hover:bg-[#c7f3ff]"
           >
             <div className="flex w-full items-center justify-center p-1">
               <span className="flex-1 font-sans text-[14px] leading-[1.2]">
                 {day.dayNumber}
               </span>
             </div>
+            {day.events.length > 0 ? (
+              <div className="flex w-full flex-col gap-1">
+                {day.events.map((event) => (
+                  <EventPill key={event.id} event={event} interactive={false} />
+                ))}
+              </div>
+            ) : null}
           </button>
         )
       })}
@@ -434,7 +447,7 @@ export function EventsCalendar({
             selectedKey={selectedKey}
             onSelect={setSelectedKey}
           />
-          <div className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-3 px-3">
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-x-2 gap-y-3 px-3">
             <div className="flex shrink-0 items-center gap-2">
               <MonthSelect
                 value={calendarDate.month}
@@ -455,40 +468,41 @@ export function EventsCalendar({
               onToday={goToToday}
               onNext={() => goToMonth(1)}
               todayLabel={copy.calendarTodayLabel}
-              className="ml-auto shrink-0"
+              className="shrink-0"
             />
           </div>
         </div>
 
         {/* Desktop: full month grid. */}
         <div className="hidden md:block">
-          <div className="relative h-[160px] px-3">
-            <h2 className="absolute bottom-6 left-3 font-sans text-[36px] leading-none tracking-[-0.02em]">
+          <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4 px-3 pb-6 pt-25">
+            <h2 className="font-sans text-[36px] leading-none tracking-[-0.02em]">
               {copy.upcomingEvents}
             </h2>
-            <div
-              className="absolute bottom-6 left-[726px] flex h-[31px] items-center gap-2"
-              aria-label={`${copy.calendarMonthLabel} and ${copy.calendarYearLabel}`}
-            >
-              <MonthSelect
-                value={calendarDate.month}
-                label={copy.calendarMonthLabel}
-                onChange={(month) => applyMonth(calendarDate.year, month)}
-              />
-              <YearSelect
-                value={calendarDate.year}
-                years={years}
-                label={copy.calendarYearLabel}
-                onChange={(year) => applyMonth(year, calendarDate.month)}
+            <div className="flex shrink-0 items-center gap-3">
+              <div
+                className="flex items-center gap-2"
+                aria-label={`${copy.calendarMonthLabel} and ${copy.calendarYearLabel}`}
+              >
+                <MonthSelect
+                  value={calendarDate.month}
+                  label={copy.calendarMonthLabel}
+                  onChange={(month) => applyMonth(calendarDate.year, month)}
+                />
+                <YearSelect
+                  value={calendarDate.year}
+                  years={years}
+                  label={copy.calendarYearLabel}
+                  onChange={(year) => applyMonth(year, calendarDate.month)}
+                />
+              </div>
+              <NavButtons
+                onPrevious={() => goToMonth(-1)}
+                onToday={goToToday}
+                onNext={() => goToMonth(1)}
+                todayLabel={copy.calendarTodayLabel}
               />
             </div>
-            <NavButtons
-              onPrevious={() => goToMonth(-1)}
-              onToday={goToToday}
-              onNext={() => goToMonth(1)}
-              todayLabel={copy.calendarTodayLabel}
-              className="absolute bottom-6 right-3"
-            />
           </div>
           <div
             className="-mx-3 overflow-x-auto px-3"
