@@ -528,7 +528,7 @@
         "emailPlaceholder": "Enter email",
         "roleLabel": "Role",
         "rolePlaceholder": "Select role",
-        "roles": ["Node operator", "Builder"],
+        "roles": ["Node operator", "Builder", "Activist"],
         "submit": "Submit",
         "submitting": "Submitting",
         "invalidEmail": "Please enter a valid email address.",
