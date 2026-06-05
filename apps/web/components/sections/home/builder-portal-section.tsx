@@ -49,7 +49,7 @@ export default async function BuilderPortalSection({
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
       <ContentWidth className="py-25 lg:pt-50 lg:pb-25">
         <div className="grid gap-9 lg:grid-cols-3 lg:gap-3">
-          <div className="flex flex-col gap-10 lg:min-h-[532px] lg:justify-between lg:gap-0">
+          <div className="flex flex-col gap-10 lg:min-h-[374px] xl:min-h-[471px] desktop:min-h-[532px] lg:justify-between lg:gap-0">
             <div className="flex flex-col gap-7.5">
               <Reveal
                 amount={0.4}
@@ -75,16 +75,14 @@ export default async function BuilderPortalSection({
             </p>
           </div>
 
-          <div className="relative h-[532px] overflow-hidden rounded-3xl bg-[#1c1c1c] lg:col-span-2">
-            <div className="absolute top-[76px] left-[-84px] h-[379px] w-[836px] overflow-hidden rounded-md lg:top-[78px] lg:left-[-30px] lg:h-[454px] lg:w-[1000px]">
-              <Image
-                src="/images/home/figma-refresh/basecamp.webp"
-                alt=""
-                fill
-                sizes="(max-width: 768px) 321px, 1000px"
-                className="object-cover object-center"
-              />
-            </div>
+          <div className="relative aspect-[2820/1596] lg:aspect-auto lg:h-[374px] xl:h-[471px] desktop:h-[532px] overflow-hidden rounded-3xl bg-[#1c1c1c] lg:col-span-2">
+            <Image
+              src="/images/home/figma-refresh/basecamp.webp"
+              alt=""
+              fill
+              sizes="(max-width: 1024px) calc(100vw - 24px), (max-width: 1440px) calc(66.67vw - 20px), 940px"
+              className="object-cover object-top"
+            />
           </div>
         </div>
 
