@@ -248,7 +248,8 @@
             {
               "label": "Research Forum",
               "href": "https://forum.research.logos.co/"
-            }
+            },
+            { "label": "Book", "href": "/book" }
           ]
         }
       ],

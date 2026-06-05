@@ -107,6 +107,24 @@ describe('link policy', () => {
     expect(allCards.some((card) => card.href === ROUTES.research)).toBe(true)
   })
 
+  it('shows Book after Research Forum in the Research panel resources links', () => {
+    const researchPanel = navigation.menuPanels.find(
+      (panel) => panel.label === 'Research'
+    )
+    const resourcesSection = researchPanel?.textSections?.find(
+      (section) => section.label === 'Resources'
+    )
+
+    expect(resourcesSection?.links).toEqual([
+      { label: 'Specs / RFC', href: 'https://lip.logos.co/' },
+      {
+        label: 'Research Forum',
+        href: 'https://forum.research.logos.co/',
+      },
+      { label: 'Book', href: ROUTES.book },
+    ])
+  })
+
   it('routes the Builders Hub RFP programme panel to the RFP listing', () => {
     expect(buildersHubSettings.programs?.rfpsHref).toBe(ROUTES.rfps)
   })
