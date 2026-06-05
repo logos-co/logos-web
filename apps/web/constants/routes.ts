@@ -128,7 +128,6 @@ export const EXTERNAL_URLS = {
   vacRfc: 'https://rfc.vac.dev/',
   logosHome: 'https://logos.co/',
   vacGithub: 'https://github.com/vacp2p',
-  iftJobs: 'https://free.technology/jobs',
 
   // Infrastructure projects
   waku: 'https://waku.org',
