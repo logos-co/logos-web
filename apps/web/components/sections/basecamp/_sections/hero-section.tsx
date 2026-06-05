@@ -79,7 +79,7 @@ export function HeroSectionView({ data }: { data: HeroSection }) {
     <section className="w-full min-h-[437px] md:min-h-[500px] md:pt-[27px]">
       <div className="relative px-3 pb-[53px] md:hidden">
         {data.eyebrow ? (
-          <div className="absolute top-[23px] left-3 z-51">
+          <div className="absolute top-[23px] left-3 z-30">
             <HeroBackLink eyebrow={data.eyebrow} />
           </div>
         ) : null}
@@ -96,7 +96,7 @@ export function HeroSectionView({ data }: { data: HeroSection }) {
       </div>
 
       {data.eyebrow ? (
-        <div className="relative z-51 hidden px-3 md:block">
+        <div className="relative z-30 hidden px-3 md:block">
           <HeroBackLink eyebrow={data.eyebrow} />
         </div>
       ) : null}

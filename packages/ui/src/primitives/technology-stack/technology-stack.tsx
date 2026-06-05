@@ -106,7 +106,7 @@ export function TechDetailHero({
       )}
     >
       <div className="relative mx-auto h-full max-w-360 px-3 pt-10 text-brand-dark-green md:hidden">
-        <div className="absolute top-[21px] left-3 z-51">{backLink}</div>
+        <div className="absolute top-[21px] left-3 z-30">{backLink}</div>
 
         <h1 className="text-h3-serif absolute top-[60px] left-3 flex items-center gap-3">
           {titleIcon ?? (
@@ -147,7 +147,7 @@ export function TechDetailHero({
         </div>
       </div>
 
-      <div className="relative z-51 mx-auto hidden max-w-360 px-3 md:block">
+      <div className="relative z-30 mx-auto hidden max-w-360 px-3 md:block">
         {backLink}
       </div>
 
