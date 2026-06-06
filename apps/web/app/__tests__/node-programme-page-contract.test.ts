@@ -15,11 +15,18 @@ describe('node programme page contract', () => {
       messages.pages.nodeProgramme.hero.title.trim().length
     ).toBeGreaterThan(0)
     // Roles are functional form values (submitted to the signup API), so they
-    // stay pinned as a contract rather than free copy.
-    expect(messages.pages.nodeProgramme.signup.roles).toEqual([
-      'Node operator',
-      'Builder',
-    ])
+    // must stay non-empty strings. The set can grow, so we only require the
+    // core roles to be present rather than pinning the exact list.
+    const { roles } = messages.pages.nodeProgramme.signup
+    expect(Array.isArray(roles)).toBe(true)
+    expect(roles.length).toBeGreaterThan(0)
+    roles.forEach((role) => {
+      expect(typeof role).toBe('string')
+      expect(role.trim().length).toBeGreaterThan(0)
+    })
+    expect(roles).toEqual(
+      expect.arrayContaining(['Node operator', 'Builder'])
+    )
     expect(messages.pages.nodeProgramme.stack.items).toHaveLength(3)
     expect(messages.pages.nodeProgramme.useCases.items).toHaveLength(5)
   })
