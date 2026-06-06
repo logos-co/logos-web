@@ -10,7 +10,7 @@ import type { Translate } from './types'
 function IssueCard({ initiative }: { initiative: CircleInitiative }) {
   const city = initiative.locationLabel.split(',')[0]
   const className =
-    'relative h-[282px] w-full shrink-0 overflow-hidden rounded-xl text-brand-off-white md:w-[440px]'
+    'relative h-[282px] w-full shrink-0 overflow-hidden rounded-xl text-brand-off-white md:w-[440px] md:snap-start'
 
   const content = (
     <>
@@ -83,8 +83,8 @@ export function ActivismSection({
         description={t('activism.body')}
         className="pb-10 md:pb-19.5"
       />
-      <ContentWidth className="overflow-hidden">
-        <div className="grid gap-3 px-3 md:flex md:w-max">
+      <ContentWidth className="overflow-x-auto">
+        <div className="grid gap-3 px-3 md:flex md:w-max md:snap-x">
           {cards.map((initiative) => (
             <IssueCard key={initiative.slug} initiative={initiative} />
           ))}
