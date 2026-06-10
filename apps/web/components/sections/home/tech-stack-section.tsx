@@ -28,20 +28,20 @@ type Props = {
   /** Where the foundation row links to. */
   foundationHref: string
   /** Keep the compact layout through tablet widths on pages that need it. */
-  desktopAt1025?: boolean
+  desktopAt1367?: boolean
 }
 
 export default function TechStackSection({
   data,
   networkingHref,
   foundationHref,
-  desktopAt1025 = false,
+  desktopAt1367 = false,
 }: Props) {
-  const compactContentClass = desktopAt1025
-    ? 'lg:hidden'
+  const compactContentClass = desktopAt1367
+    ? 'min-[1367px]:hidden'
     : 'md:hidden'
 
-  const desktopContentClass = desktopAt1025 ? 'lg:flex' : 'md:flex'
+  const desktopContentClass = desktopAt1367 ? 'min-[1367px]:flex' : 'md:flex'
 
   return (
     <section
@@ -108,7 +108,7 @@ export default function TechStackSection({
               data={data}
               networkingHref={networkingHref}
               foundationHref={foundationHref}
-              desktopAt1025={desktopAt1025}
+              desktopAt1367={desktopAt1367}
             />
           </div>
         </div>

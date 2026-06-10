@@ -38,16 +38,16 @@ export default async function TechStackExplorer({
       >
         <Reveal
           stagger
-          className="flex flex-col gap-3 text-brand-dark-green md:flex-row md:gap-0"
+          className="flex flex-col gap-3 text-brand-dark-green min-[1367px]:flex-row min-[1367px]:gap-0"
         >
-          <RevealItem className="md:w-178.5">
+          <RevealItem className="min-[1367px]:w-178.5">
             <h2 className="text-h4-sans">
               {t('titleLine1')}
               <br />
               {t('titleLine2')}
             </h2>
           </RevealItem>
-          <RevealItem className="md:w-83.5">
+          <RevealItem className="min-[1367px]:w-83.5">
             <p className="text-mono-s">{t('body')}</p>
           </RevealItem>
         </Reveal>
@@ -56,7 +56,8 @@ export default async function TechStackExplorer({
           data={overview}
           networkingHref={ROUTES.networking}
           foundationHref={ROUTES.technologyStack}
-          className="mt-15 md:mt-25"
+          desktopAt1367
+          className="mt-15 min-[1367px]:mt-25"
         />
       </ContentWidth>
     </section>

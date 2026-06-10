@@ -26,7 +26,7 @@ export function LambdaPrizePage({ copy, techStack }: LambdaPrizePageProps) {
         data={techStack}
         networkingHref={ROUTES.networking}
         foundationHref={ROUTES.technologyStack}
-        desktopAt1025
+        desktopAt1367
       />
       <Support copy={copy.support} />
     </main>

@@ -52,10 +52,10 @@ export default function TechOverviewStack({
             />
           ) : null}
 
-          <div className="flex flex-col gap-15 md:gap-25">
-            <div className="grid gap-3 pt-25 md:grid-cols-2">
+          <div className="flex flex-col gap-15 min-[1367px]:gap-25">
+            <div className="grid gap-3 pt-25 min-[1367px]:grid-cols-2">
               {data.title ? (
-                <h2 className="text-h4-sans md:text-h3-sans text-brand-dark-green">
+                <h2 className="text-h4-sans min-[1367px]:text-h3-sans text-brand-dark-green">
                   {data.title}
                 </h2>
               ) : null}
@@ -70,6 +70,7 @@ export default function TechOverviewStack({
               data={data}
               networkingHref={networkingHref}
               foundationHref={foundationHref}
+              desktopAt1367
             />
           </div>
         </ContentWidth>

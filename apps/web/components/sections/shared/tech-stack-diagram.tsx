@@ -60,7 +60,7 @@ function HoverStackItem({
   ctaVisibleByDefault = false,
   details,
   mobileFeatured = false,
-  desktopAt1025 = false,
+  desktopAt1367 = false,
   comingSoon = false,
   hideCta = false,
   thumbnailSrc,
@@ -80,7 +80,7 @@ function HoverStackItem({
     body: string
   }>
   mobileFeatured?: boolean
-  desktopAt1025?: boolean
+  desktopAt1367?: boolean
   /**
    * When true the item is rendered as a non-interactive card (no link) and its
    * CTA shows "Soon" instead of "Learn More". Used for pillars whose
@@ -95,17 +95,23 @@ function HoverStackItem({
   thumbnailSrc: string
 }) {
   const hasDetails = details !== undefined && details.length > 0
-  const desktopHoverLarge = desktopAt1025
-    ? 'lg:group-hover/stack-item:-translate-y-24'
+  const desktopHoverLarge = desktopAt1367
+    ? 'min-[1367px]:group-hover/stack-item:-translate-y-24'
     : 'md:group-hover/stack-item:-translate-y-24'
-  const desktopHoverSmall = desktopAt1025
-    ? 'lg:group-hover/stack-item:-translate-y-8'
+  const desktopHoverSmall = desktopAt1367
+    ? 'min-[1367px]:group-hover/stack-item:-translate-y-8'
     : 'md:group-hover/stack-item:-translate-y-8'
-  const desktopBlock = desktopAt1025 ? 'lg:block' : 'md:block'
-  const desktopHidden = desktopAt1025 ? 'lg:hidden' : 'md:hidden'
-  const desktopFlex = desktopAt1025 ? 'lg:flex' : 'md:flex'
-  const desktopCtaPosition = desktopAt1025
-    ? 'lg:top-3 lg:right-3'
+  const desktopBlock = desktopAt1367 ? 'min-[1367px]:block' : 'md:block'
+  const desktopHidden = desktopAt1367 ? 'min-[1367px]:hidden' : 'md:hidden'
+  const desktopFlex = desktopAt1367 ? 'min-[1367px]:flex' : 'md:flex'
+  // Hover reveals are desktop-only: in the mobile/tablet layout the details
+  // are already rendered inline, so an unscoped group-hover would paint the
+  // desktop overlay on top of them when a desktop user resizes and hovers.
+  const desktopHoverReveal = desktopAt1367
+    ? 'min-[1367px]:group-hover/stack-item:opacity-100'
+    : 'md:group-hover/stack-item:opacity-100'
+  const desktopCtaPosition = desktopAt1367
+    ? 'min-[1367px]:top-3 min-[1367px]:right-3'
     : 'md:top-3 md:right-3'
   const contentHoverOffset =
     details !== undefined && details.length > 1
@@ -114,23 +120,23 @@ function HoverStackItem({
         ? desktopHoverSmall
         : ''
   const stackItemLayoutClass = mobileFeatured
-    ? desktopAt1025
-      ? 'items-start justify-start p-3 lg:items-center lg:justify-center lg:px-6 lg:py-0'
+    ? desktopAt1367
+      ? 'items-start justify-start p-3 min-[1367px]:items-center min-[1367px]:justify-center min-[1367px]:px-6 min-[1367px]:py-0'
       : 'items-start justify-start p-3 md:items-center md:justify-center md:px-6 md:py-0'
     : hasDetails
-      ? desktopAt1025
-        ? 'items-end justify-between p-1.5 lg:items-center lg:justify-center lg:px-6 lg:py-0'
-        : 'items-end justify-between p-1.5 md:items-center md:justify-center md:px-6 md:py-0'
-      : desktopAt1025
-        ? 'items-center justify-center px-3 lg:px-6'
+      ? desktopAt1367
+        ? 'items-center justify-between p-1.5 min-[1367px]:justify-center min-[1367px]:px-6 min-[1367px]:py-0'
+        : 'items-center justify-between p-1.5 md:justify-center md:px-6 md:py-0'
+      : desktopAt1367
+        ? 'items-center justify-center px-3 min-[1367px]:px-6'
         : 'items-center justify-center px-3 md:px-6'
   const contentLayoutClass = mobileFeatured
-    ? desktopAt1025
-      ? 'items-start text-left lg:items-center lg:text-center'
+    ? desktopAt1367
+      ? 'items-start text-left min-[1367px]:items-center min-[1367px]:text-center'
       : 'items-start text-left md:items-center md:text-center'
     : hasDetails
-      ? desktopAt1025
-        ? 'h-[134px] w-full items-center justify-center px-3 py-8.5 text-center lg:h-auto lg:w-auto lg:px-0 lg:py-0'
+      ? desktopAt1367
+        ? 'h-[134px] w-full items-center justify-center px-3 py-8.5 text-center min-[1367px]:h-auto min-[1367px]:w-auto min-[1367px]:px-0 min-[1367px]:py-0'
         : 'h-[134px] w-full items-center justify-center px-3 py-8.5 text-center md:h-auto md:w-auto md:px-0 md:py-0'
       : 'items-center'
   const mobileDescriptionClass = mobileFeatured
@@ -167,7 +173,7 @@ function HoverStackItem({
           }${desktopCtaPosition} ${
             ctaVisibleByDefault
               ? ''
-              : 'pointer-events-none opacity-0 group-hover/stack-item:opacity-100 group-focus-visible/stack-item:opacity-100'
+              : `pointer-events-none opacity-0 ${desktopHoverReveal} group-focus-visible/stack-item:opacity-100`
           }`}
         >
           {comingSoon ? 'Soon' : ctaLabel}
@@ -218,7 +224,7 @@ function HoverStackItem({
             ))}
           </div>
           <div
-            className={`absolute right-3 bottom-3 left-3 z-[1] hidden flex-col gap-3 opacity-0 transition-opacity duration-200 ease-out group-hover/stack-item:flex group-hover/stack-item:opacity-100 ${desktopFlex}`}
+            className={`absolute right-3 bottom-3 left-3 z-[1] hidden flex-col gap-3 opacity-0 transition-opacity duration-200 ease-out ${desktopHoverReveal} ${desktopFlex}`}
           >
             {details.map((detail) => (
               <div
@@ -260,28 +266,28 @@ export function TechStackDiagram({
   networkingHref,
   foundationHref,
   className,
-  desktopAt1025 = false,
+  desktopAt1367 = false,
 }: {
   data: TechStackOverviewSection
   networkingHref: string
   foundationHref: string
   className?: string
-  desktopAt1025?: boolean
+  desktopAt1367?: boolean
 }) {
-  const basecampClass = desktopAt1025
-    ? 'h-[111px] w-full border-brand-dark-green lg:h-[196px]'
+  const basecampClass = desktopAt1367
+    ? 'h-[111px] w-full border-brand-dark-green min-[1367px]:h-[196px]'
     : 'h-[111px] w-full border-brand-dark-green md:h-[196px]'
 
-  const pillarsGridClass = desktopAt1025
-    ? 'mt-3 grid grid-cols-2 gap-3 lg:grid-cols-4'
+  const pillarsGridClass = desktopAt1367
+    ? 'mt-3 grid grid-cols-2 gap-3 min-[1367px]:grid-cols-4'
     : 'mt-3 grid grid-cols-2 gap-3 md:grid-cols-4'
 
-  const pillarClass = desktopAt1025
-    ? 'h-[258px] w-full lg:h-[366px]'
+  const pillarClass = desktopAt1367
+    ? 'h-[258px] w-full min-[1367px]:h-[366px]'
     : 'h-[258px] w-full md:h-[366px]'
 
-  const rowClass = desktopAt1025
-    ? 'h-[196px] w-full lg:h-[196px]'
+  const rowClass = desktopAt1367
+    ? 'h-[196px] w-full min-[1367px]:h-[196px]'
     : 'h-[196px] w-full md:h-[196px]'
 
   return (
@@ -295,7 +301,7 @@ export function TechStackDiagram({
           ctaIcon={<DownloadIcon />}
           ctaVisibleByDefault
           mobileFeatured
-          desktopAt1025={desktopAt1025}
+          desktopAt1367={desktopAt1367}
           className={basecampClass}
           thumbnailSrc={STACK_THUMBNAILS.basecamp}
         />
@@ -310,7 +316,7 @@ export function TechStackDiagram({
             href={pillar.href}
             className={pillarClass}
             details={pillar.details}
-            desktopAt1025={desktopAt1025}
+            desktopAt1367={desktopAt1367}
             hideCta={pillar.id === 'userModules'}
             thumbnailSrc={STACK_THUMBNAILS[pillar.id]}
           />
@@ -324,7 +330,7 @@ export function TechStackDiagram({
           href={networkingHref}
           className={rowClass}
           labelClassName="whitespace-pre-line"
-          desktopAt1025={desktopAt1025}
+          desktopAt1367={desktopAt1367}
           thumbnailSrc={STACK_THUMBNAILS.networking}
         />
         <HoverStackItem
@@ -332,7 +338,7 @@ export function TechStackDiagram({
           description={data.foundationDescription}
           href={foundationHref}
           className={rowClass}
-          desktopAt1025={desktopAt1025}
+          desktopAt1367={desktopAt1367}
           hideCta
           thumbnailSrc={STACK_THUMBNAILS.foundation}
         />
