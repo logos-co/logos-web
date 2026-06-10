@@ -602,12 +602,12 @@
             "title": "Logos-Powered Nextdoor App Clone"
           },
           "london": {
-            "city": "London",
-            "title": "Digital ID replacement with Logos"
+            "city": "Benin",
+            "title": "Social-DeFi Fundraising"
           },
           "porto": {
-            "city": "Porto",
-            "title": "Digital Escape Egress"
+            "city": "London",
+            "title": "Digital IDs Knowledge Hub"
           }
         }
       },
@@ -652,22 +652,22 @@
         "primaryCta": "Build for impact",
         "secondaryCta": "Build on Logos stack",
         "feature": {
-          "city": "Porto",
-          "title": "Private app for domestic violence survivors",
+          "city": "Benin",
+          "title": "Regenerative Social DeFi Fundraising Platform",
           "cta": "View issue"
         },
         "details": {
           "problem": {
             "label": "Problem",
-            "body": "Survivors need private, reliable ways to ask for help without exposing sensitive information or location."
+            "body": "Grassroots projects in Benin struggle to access funding due to low trust in traditional charity platforms, limited transparency, and a focus on short-term donations."
           },
           "solution": {
             "label": "Solution",
-            "body": "Build a privacy-preserving mobile app that coordinates trusted contacts, resources, and emergency workflows."
+            "body": "Build a regenerative fundraising platform where users support local causes through yield-generating staking, transparent governance, and community-driven funding allocation."
           },
           "stack": {
             "label": "Stack",
-            "body": "JavaScript, Node.js, Logos Storage, Waku messaging, and local-first application patterns."
+            "body": "React, Node.js, Aave/Morpho, Logos Messaging, Status, tokenised RWAs, DAO governance, and privacy-preserving identity."
           }
         }
       },

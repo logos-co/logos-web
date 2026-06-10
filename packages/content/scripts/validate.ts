@@ -357,8 +357,7 @@ const buildCirclesChecks = (locale: Language): Check[] => [
       // Per-circle filter: each circleSlug should narrow the result set.
       const expectations: Record<string, string[]> = {
         'los-angeles': ['logos-powered-nextdoor-app'],
-        london: ['digital-id-replacement'],
-        florianopolis: ['digital-escape-egress'],
+        london: ['digital-escape-egress', 'digital-id-replacement'],
       }
       for (const [circleSlug, expectedSlugs] of Object.entries(expectations)) {
         const filtered = await getCircleInitiatives({

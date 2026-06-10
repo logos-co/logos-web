@@ -51,7 +51,7 @@ export function BuilderSection({ t }: { t: Translate }) {
                   </p>
                 </div>
                 <Cta
-                  href={EXTERNAL_URLS.circlesWinnableIssuePorto}
+                  href={EXTERNAL_URLS.circlesWinnableIssueBenin}
                   label={t('builder.feature.cta')}
                   tone="light"
                   className="md:hidden"
@@ -62,7 +62,7 @@ export function BuilderSection({ t }: { t: Translate }) {
               </h3>
               <div className="hidden w-fit md:block">
                 <Cta
-                  href={EXTERNAL_URLS.circlesWinnableIssuePorto}
+                  href={EXTERNAL_URLS.circlesWinnableIssueBenin}
                   label={t('builder.feature.cta')}
                   tone="light"
                 />

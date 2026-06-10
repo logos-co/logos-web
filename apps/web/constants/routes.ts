@@ -94,8 +94,8 @@ export const EXTERNAL_URLS = {
   github: 'https://github.com/logos-co',
 
   // Circles
-  circlesWinnableIssuePorto:
-    'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles#porto',
+  circlesWinnableIssueBenin:
+    'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles#benin',
 
   // Forum
   forum: 'https://forum.logos.co/',
