@@ -159,7 +159,7 @@ function OverlayHeader({
         type="button"
         onClick={onClose}
         aria-label="Close navigation menu"
-        className="text-eyebrow absolute top-1/2 left-[62.5%] inline-flex -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center gap-1 font-semibold text-brand-off-white uppercase transition-opacity hover:opacity-70 md:left-[calc(41.67%+7px)] md:translate-x-0"
+        className="text-eyebrow absolute top-1/2 left-[calc(50%+6px)] inline-flex -translate-y-1/2 cursor-pointer items-center gap-1 font-semibold text-brand-off-white uppercase transition-opacity hover:opacity-70 md:left-[min(calc(41.67%-11px),calc(100%-608px))]"
       >
         {closeMenu}
         <XIcon size={15} />
@@ -648,7 +648,7 @@ export function NavOverlay({
           linkAs={LinkAs}
         />
 
-        <div className="absolute top-[22.5px] left-[calc(50%+6px)] z-30 hidden -translate-y-1/2 items-center gap-6 md:flex">
+        <div className="absolute top-[22.5px] left-[min(calc(50%+6px),calc(100%-506px))] z-30 hidden -translate-y-1/2 items-center gap-6 md:flex">
           {panels.map((panel) => {
             const isActive = selectedPanel?.label === panel.label
             return (
