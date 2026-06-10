@@ -1,9 +1,11 @@
-import { getPageCopy } from '@repo/content/loaders'
+import { getCircleInitiatives, getPageCopy } from '@repo/content/loaders'
 import { describe, expect, test } from 'vitest'
 
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
+
+import messages from '../../messages/en.json' with { type: 'json' }
 
 const locale = 'en'
 
@@ -91,6 +93,71 @@ const contracts: PageContract[] = [
 ]
 
 describe('content-backed web route contracts', () => {
+  test('movement page initiative cards use the current winnable issues', async () => {
+    const initiatives = await getCircleInitiatives({
+      locale,
+      status: 'published',
+    })
+
+    expect(
+      initiatives.slice(0, 3).map((initiative) => ({
+        locationLabel: initiative.locationLabel,
+        title: initiative.title,
+        description: initiative.description,
+        href: initiative.href,
+      }))
+    ).toEqual([
+      {
+        locationLabel: 'Los Angeles, California',
+        title: 'Logos-powered Nextdoor App',
+        description:
+          "Build a neighbourhood-scale messaging surface that doesn't sell its members to advertisers. The LA Circle is prototyping a Nextdoor-style app on top of Waku and Codex with strict membership scoping per block.",
+        href: 'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles#los-angeles',
+      },
+      {
+        locationLabel: 'Benin',
+        title: 'Social-DeFi Fundraising',
+        description:
+          'Build a "Social DeFi" platform that combines the engagement of social media with a regenerative financial engine. FundBrave replaces traditional donations with a high-yield fundraising model for community action.',
+        href: 'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles#benin',
+      },
+      {
+        locationLabel: 'London',
+        title: 'Digital IDs Knowledge Hub',
+        description:
+          'Build a clear, accessible information hub to help UK citizens understand digital IDs, the risks, benefits, and alternatives, without government or media spin. The hub will include articles, explainers, videos, and translatable content for local organisers.',
+        href: 'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles#london',
+      },
+    ])
+  })
+
+  test('movement page builder highlight uses the Benin fundraising issue', () => {
+    const builder = messages.pages.movement.builder
+
+    expect(builder.feature).toEqual({
+      city: 'Benin',
+      title: 'Regenerative Social DeFi Fundraising Platform',
+      cta: 'View issue',
+    })
+    expect(builder.details).toEqual({
+      problem: {
+        label: 'Problem',
+        body: 'Grassroots projects in Benin struggle to access funding due to low trust in traditional charity platforms, limited transparency, and a focus on short-term donations.',
+      },
+      solution: {
+        label: 'Solution',
+        body: 'Build a regenerative fundraising platform where users support local causes through yield-generating staking, transparent governance, and community-driven funding allocation.',
+      },
+      stack: {
+        label: 'Stack',
+        body: 'React, Node.js, Aave/Morpho, Logos Messaging, Status, tokenised RWAs, DAO governance, and privacy-preserving identity.',
+      },
+    })
+    expect(EXTERNAL_URLS.circlesWinnableIssueBenin).toBe(
+      'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles#benin'
+    )
+  })
+
   test.each(contracts)(
     '$name route has every section its page imports',
     async (contract) => {

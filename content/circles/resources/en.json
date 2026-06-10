@@ -13,7 +13,7 @@
     {
       "slug": "forum",
       "title": "Forum",
-      "description": "Cross-circle conversation, post-mortems, and proposals.",
+      "description": "Meeting reports, post-mortems, and proposals.",
       "ctaLabel": "Visit",
       "href": "https://forum.logos.co/c/meetups/6",
       "status": "published"

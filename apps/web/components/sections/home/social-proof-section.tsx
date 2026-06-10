@@ -75,7 +75,8 @@ export default function SocialProofSection({ stats }: SocialProofSectionProps) {
     },
     {
       key: 'circles',
-      value: stats.circles,
+      // value: stats.circles,
+      value: '47',
       label: t('circles.label'),
       body: t('circles.body'),
       image: '/images/home/figma-refresh/social-circles.webp',
@@ -84,7 +85,7 @@ export default function SocialProofSection({ stats }: SocialProofSectionProps) {
     },
     {
       key: 'winnableIssues',
-      value: '26',
+      value: '13',
       label: t('winnableIssues.label'),
       body: t('winnableIssues.body'),
       image: '/images/home/figma-refresh/social-issues.webp',
