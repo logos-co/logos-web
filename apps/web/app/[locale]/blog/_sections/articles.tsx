@@ -253,7 +253,7 @@ export function FeaturedArticle({
             alt=""
             width={1242}
             height={994}
-            className="absolute left-[-303px] top-0 h-[1040px] w-[1300px] max-w-none object-cover desktop:left-[-104px] desktop:h-full desktop:w-[1242px]"
+            className="absolute left-[-303px] top-0 h-[1040px] w-[1300px] max-w-none object-cover md:left-0 md:w-full desktop:left-[-104px] desktop:h-full desktop:w-[1242px]"
           />
         </div>
       </ContentWidth>
