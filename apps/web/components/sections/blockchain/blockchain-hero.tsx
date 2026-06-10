@@ -13,6 +13,7 @@ export default function BlockchainHero(props: Props) {
       {...props}
       actionVariant="tertiary"
       stackActions
+      desktopAt1025
       className="h-[517px]"
     />
   )

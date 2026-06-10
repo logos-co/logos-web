@@ -16,6 +16,8 @@ type Props = {
   backHref: string
   actionVariant?: ButtonVariant
   stackActions?: boolean
+  /** Keep the mobile layout through tablet widths — flip to desktop at lg (1024px) instead of md. */
+  desktopAt1025?: boolean
   className?: string
 }
 
@@ -24,13 +26,21 @@ export default function TechStackDetailHero({
   backHref,
   actionVariant,
   stackActions = false,
+  desktopAt1025 = false,
   className,
 }: Props) {
   const [primaryCta, secondaryCta] = data.ctas ?? []
+  const baseClassName = desktopAt1025
+    ? 'mb-0 lg:mb-0 lg:pt-[27px]'
+    : 'mb-0 md:mb-0 md:pt-[27px]'
+  const stackedActionsClassName = desktopAt1025
+    ? 'flex items-center gap-2.5 lg:flex-col lg:items-start'
+    : 'flex items-center gap-2.5 md:flex-col md:items-start'
 
   return (
     <TechDetailHero
-      className={`mb-0 md:mb-0 md:pt-[27px] ${className ?? ''}`}
+      desktopAt1025={desktopAt1025}
+      className={`${baseClassName} ${className ?? ''}`}
       title={data.headline}
       body={data.body}
       bodySecondary={data.bodySecondary}
@@ -82,7 +92,7 @@ export default function TechStackDetailHero({
         <div
           className={
             stackActions
-              ? 'flex items-center gap-2.5 md:flex-col md:items-start'
+              ? stackedActionsClassName
               : 'flex flex-wrap items-center gap-2.5'
           }
         >

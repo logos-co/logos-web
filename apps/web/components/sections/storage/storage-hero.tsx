@@ -8,5 +8,5 @@ type Props = {
 }
 
 export default function StorageHero(props: Props) {
-  return <TechStackDetailHero {...props} />
+  return <TechStackDetailHero {...props} desktopAt1025 />
 }

@@ -43,6 +43,8 @@ export type TechDetailHeroProps = {
   status?: TechDetailHeroStatus
   actions?: ReactNode
   titleIcon?: ReactNode
+  /** Keep the mobile layout through tablet widths — flip to desktop at lg (1024px) instead of md. */
+  desktopAt1025?: boolean
   className?: string
 }
 
@@ -96,16 +98,41 @@ export function TechDetailHero({
   status,
   actions,
   titleIcon,
+  desktopAt1025 = false,
   className,
 }: TechDetailHeroProps) {
+  const sectionDesktopClass = desktopAt1025
+    ? 'lg:mb-25 lg:h-[414px] lg:pt-7.5'
+    : 'md:mb-25 md:h-[414px] md:pt-7.5'
+  const mobileHidden = desktopAt1025 ? 'lg:hidden' : 'md:hidden'
+  const desktopBlock = desktopAt1025 ? 'lg:block' : 'md:block'
+  const desktopGridClass = desktopAt1025
+    ? 'lg:grid lg:grid-cols-4 lg:gap-3 lg:pt-7.5 lg:pb-23'
+    : 'md:grid md:grid-cols-4 md:gap-3 md:pt-7.5 md:pb-23'
+  const desktopTitleSpan = desktopAt1025 ? 'lg:col-span-2' : 'md:col-span-2'
+  const desktopContentGrid = desktopAt1025
+    ? 'lg:col-span-2 lg:grid lg:grid-cols-2 lg:gap-3'
+    : 'md:col-span-2 md:grid md:grid-cols-2 md:gap-3'
+  // On pages that keep the mobile layout through tablet widths, let the
+  // content column and copy use the full screen width instead of the phone cap.
+  const mobileContentMaxW = desktopAt1025
+    ? 'max-w-92.25 md:max-w-none'
+    : 'max-w-92.25'
+  const mobileBodyMaxW = desktopAt1025 ? 'max-w-85.5 md:max-w-none' : 'max-w-85.5'
+  const mobileStatusBodyMaxW = desktopAt1025
+    ? 'max-w-86 md:max-w-none'
+    : 'max-w-86'
+
   return (
     <section
       className={twMerge(
-        'mb-15 h-135 bg-brand-off-white md:mb-25 md:h-[414px] md:pt-7.5',
+        `mb-15 h-135 bg-brand-off-white ${sectionDesktopClass}`,
         className
       )}
     >
-      <div className="relative mx-auto h-full max-w-360 px-3 pt-10 text-brand-dark-green md:hidden">
+      <div
+        className={`relative mx-auto h-full max-w-360 px-3 pt-10 text-brand-dark-green ${mobileHidden}`}
+      >
         <div className="absolute top-[21px] left-3 z-30">{backLink}</div>
 
         <h1 className="text-h3-serif absolute top-[60px] left-3 flex items-center gap-3">
@@ -115,12 +142,16 @@ export function TechDetailHero({
           {title}
         </h1>
 
-        <div className="absolute top-[122px] left-3 flex w-[calc(100%-24px)] max-w-92.25 flex-col text-black">
+        <div
+          className={`absolute top-[122px] left-3 flex w-[calc(100%-24px)] flex-col text-black ${mobileContentMaxW}`}
+        >
           {actions ? (
             <div className="flex flex-wrap items-start gap-1.5">{actions}</div>
           ) : null}
 
-          {body ? <p className="text-mono-s mt-6 max-w-85.5">{body}</p> : null}
+          {body ? (
+            <p className={`text-mono-s mt-6 ${mobileBodyMaxW}`}>{body}</p>
+          ) : null}
 
           {bodySecondary ? (
             <div className="text-mono-s mt-5 flex flex-col gap-2">
@@ -138,7 +169,9 @@ export function TechDetailHero({
               <span className="text-eyebrow w-fit rounded bg-brand-yellow px-1 py-0.5 text-brand-dark-green">
                 {status.label}
               </span>
-              <p className="text-mono-s max-w-86 text-black">{status.body}</p>
+              <p className={`text-mono-s text-black ${mobileStatusBodyMaxW}`}>
+                {status.body}
+              </p>
               <div className="flex flex-wrap items-center gap-3">
                 {status.cta}
               </div>
@@ -147,19 +180,25 @@ export function TechDetailHero({
         </div>
       </div>
 
-      <div className="relative z-30 mx-auto hidden max-w-360 px-3 md:block">
+      <div
+        className={`relative z-30 mx-auto hidden max-w-360 px-3 ${desktopBlock}`}
+      >
         {backLink}
       </div>
 
-      <div className="mx-auto hidden max-w-360 gap-5 px-3 pt-4 pb-2 text-brand-dark-green md:grid md:grid-cols-4 md:gap-3 md:pt-7.5 md:pb-23">
-        <h1 className="text-h3-serif flex self-start items-center gap-3 md:col-span-2">
+      <div
+        className={`mx-auto hidden max-w-360 gap-5 px-3 pt-4 pb-2 text-brand-dark-green ${desktopGridClass}`}
+      >
+        <h1
+          className={`text-h3-serif flex self-start items-center gap-3 ${desktopTitleSpan}`}
+        >
           {titleIcon ?? (
             <LogosMark size={42} className="shrink-0 text-gray-03" />
           )}
           {title}
         </h1>
 
-        <div className="md:col-span-2 md:grid md:grid-cols-2 md:gap-3">
+        <div className={desktopContentGrid}>
           <div className="flex flex-col gap-6">
             {body ? (
               <p className="text-mono-s max-w-86 text-black">{body}</p>
