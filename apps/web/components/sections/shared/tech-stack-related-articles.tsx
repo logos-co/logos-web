@@ -11,7 +11,7 @@ import { getTechStackRelatedArticleCards } from '@/lib/tech-stack-related-articl
 import { ArticleCard } from './related-articles-card'
 
 const TITLE_CLASSNAME =
-  'text-caption-sans w-[169.5px] shrink-0 font-medium text-brand-dark-green md:text-[14px] md:leading-[1.2]'
+  'text-caption-sans w-[169.5px] shrink-0 font-medium text-brand-dark-green min-[1025px]:text-[14px] min-[1025px]:leading-[1.2]'
 
 type Props = {
   data: RelatedArticlesSection
@@ -37,21 +37,23 @@ export default function TechStackRelatedArticles({
         >
           <Reveal
               amount={0.15}
-              className="relative h-full overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:px-0 md:pt-0 md:pb-0"
+              className="relative h-full overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 min-[1025px]:px-0 min-[1025px]:pt-0 min-[1025px]:pb-0"
             >
-          <div className="flex items-start justify-between md:block">
+          <div className="flex items-start justify-between min-[1025px]:block">
             {data.label ? (
-              <p className="text-mono-s w-56.5 max-w-[50%] text-brand-dark-green md:absolute md:top-6 md:left-3 md:max-w-none">
+              <p className="text-mono-s w-56.5 max-w-[50%] text-brand-dark-green min-[1025px]:absolute min-[1025px]:top-6 min-[1025px]:left-3 min-[1025px]:max-w-none">
                 {data.mobileLabel ?? data.label}
               </p>
             ) : null}
             {data.eyebrow ? (
-              <p className="text-mono-s absolute top-6 left-178.5 hidden w-56.5 text-brand-dark-green md:block">
+              // xl, not min-[1025px]: the fixed left-178.5 offset collides with the
+              // right-anchored CTA on viewports narrower than ~1190px.
+              <p className="text-mono-s absolute top-6 left-178.5 hidden w-56.5 text-brand-dark-green xl:block">
                 {data.eyebrow}
               </p>
             ) : null}
             {data.cta ? (
-              <div className="flex w-56.5 max-w-[50%] justify-end md:absolute md:top-5.5 md:right-[87px] md:block md:w-auto md:max-w-none">
+              <div className="flex w-56.5 max-w-[50%] justify-end min-[1025px]:absolute min-[1025px]:top-5.5 min-[1025px]:right-[87px] min-[1025px]:block min-[1025px]:w-auto min-[1025px]:max-w-none">
                 <Button
                   href={data.cta.href}
                   variant="tertiary"
@@ -63,14 +65,14 @@ export default function TechStackRelatedArticles({
             ) : null}
           </div>
 
-          <h2 className="mt-16.25 text-center font-display text-[40px] leading-none tracking-[-0.03em] whitespace-nowrap text-brand-dark-green md:absolute md:top-25.5 md:left-1/2 md:mt-0 md:w-116 md:-translate-x-1/2 md:text-h3-serif">
+          <h2 className="mt-16.25 text-center font-display text-[40px] leading-none tracking-[-0.03em] whitespace-nowrap text-brand-dark-green min-[1025px]:absolute min-[1025px]:top-25.5 min-[1025px]:left-1/2 min-[1025px]:mt-0 min-[1025px]:w-116 min-[1025px]:-translate-x-1/2 min-[1025px]:text-h3-serif">
             {data.title}
           </h2>
 
           <Reveal
             stagger
             amount={0.2}
-            className="mt-25 flex gap-3 overflow-x-auto md:absolute md:top-60.25 md:right-3 md:left-3 md:mt-0 md:grid md:grid-cols-4 md:overflow-visible"
+            className="mt-25 flex gap-3 overflow-x-auto min-[1025px]:absolute min-[1025px]:top-60.25 min-[1025px]:right-3 min-[1025px]:left-3 min-[1025px]:mt-0 min-[1025px]:grid min-[1025px]:grid-cols-4 min-[1025px]:overflow-visible"
           >
             {cards.map((card) => (
               <RevealItem key={`${card.href}:${card.title}`}>
