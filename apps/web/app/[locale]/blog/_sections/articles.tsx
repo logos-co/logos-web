@@ -74,7 +74,7 @@ export function BlogHero({
               priority
             />
           </div>
-          <p className="text-mono-s absolute left-[calc(50%+6px)] top-0 w-[calc(50%-18px)] max-w-[179px] text-brand-dark-green md:left-[714px] md:w-[226px] md:max-w-none">
+          <p className="text-mono-s absolute left-[calc(50%+6px)] top-0 w-[calc(50%-18px)] max-w-[179px] text-brand-dark-green md:w-[226px] md:max-w-none">
             {copy.heroTagline}
           </p>
         </div>
