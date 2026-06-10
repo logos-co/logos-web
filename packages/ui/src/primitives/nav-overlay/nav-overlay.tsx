@@ -275,7 +275,9 @@ function MenuCard({
       className="relative flex h-[117px] w-full cursor-pointer flex-col justify-between overflow-hidden rounded-xl bg-brand-off-white/10 p-3 text-brand-off-white transition-opacity hover:opacity-80 md:h-[170px] md:min-w-0 md:flex-1"
       {...externalLinkProps(href)}
     >
-      <p className="w-[148px] font-sans text-[14px] leading-[1.2]">{label}</p>
+      <p className="mr-[54px] max-w-[148px] font-sans text-[14px] leading-[1.2]">
+        {label}
+      </p>
       <p className="font-sans text-[12px] font-medium leading-[1.2] text-brand-off-white/50">
         {description}
       </p>
@@ -310,7 +312,7 @@ function CardSection({
         {section.label}
       </p>
       <div className="h-px w-full bg-brand-off-white/10" />
-      <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-3">
+      <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
         {section.cards.map((card) => (
           <MenuCard
             key={card.href + card.label}
