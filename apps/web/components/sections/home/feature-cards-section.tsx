@@ -25,7 +25,7 @@ function PathCardView({ card }: { card: PathCard }) {
   return (
     <Link
       href={card.href}
-      className="group/path-card relative block h-[422px] w-[calc(100vw-24px)] max-w-[369px] shrink-0 cursor-pointer overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green lg:w-auto lg:max-w-none"
+      className="group/path-card relative block h-[422px] w-full shrink-0 cursor-pointer overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green lg:w-auto"
     >
       <Image
         src={card.image}
