@@ -451,7 +451,7 @@ export function TechCaseStudyCard({
     >
       <div
         className={twMerge(
-          'absolute top-3 left-3 flex h-[263px] w-[348px] flex-col justify-between md:h-[380px] md:w-[453px]',
+          'absolute top-3 right-3 left-3 flex h-[263px] max-w-[453px] flex-col justify-between md:h-[380px]',
           contentClassName
         )}
       >
@@ -462,7 +462,9 @@ export function TechCaseStudyCard({
 
         <div className="flex flex-col gap-6 text-brand-dark-green">
           <h3 className="text-subhead-sans w-[195px] md:w-57">{title}</h3>
-          <div className="text-mono-s w-[344px] md:w-[453px]">{body}</div>
+          {/* Reserve room for the bottom-right illustration on tablet widths so
+              long copy wraps instead of running underneath it. */}
+          <div className="text-mono-s w-full md:pr-27 xl:pr-0">{body}</div>
         </div>
       </div>
 
