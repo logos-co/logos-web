@@ -125,18 +125,18 @@ export function ArticleEntry({
 
   return (
     <BlogRowLink href={article.href} index={index} className="h-[107px]">
-      <ContentWidth className="relative flex h-full items-center gap-3 md:grid md:grid-cols-[107px_607px_543px] md:gap-0">
+      <ContentWidth className="relative flex h-full items-center gap-3 md:grid md:grid-cols-[107px_minmax(0,607px)_minmax(0,543px)] md:gap-0">
         <RowThumbnail
           src={article.thumbnailImage}
           className="h-[77px] w-[107px] shrink-0 md:block"
         />
-        <div className="flex min-w-0 flex-1 flex-col justify-center gap-1.5 md:h-full md:w-[595px] md:gap-1.5 md:py-3 md:pl-3">
+        <div className="flex min-w-0 flex-1 flex-col justify-center gap-1.5 md:h-full md:gap-1.5 md:py-3 md:pl-3">
           <div className="text-mono-s flex items-center gap-2.5 text-brand-dark-green">
             <span>{article.date}</span>
             <Dot />
             <span>{article.author}</span>
           </div>
-          <div className="w-full text-[18px] leading-[1.15] tracking-[-0.01em] text-brand-dark-green md:w-[333px]">
+          <div className="w-full text-[18px] leading-[1.15] tracking-[-0.01em] text-brand-dark-green md:max-w-[333px]">
             {article.titleSerif ? (
               <>
                 <span className="font-display block leading-[1.1]">
@@ -149,8 +149,8 @@ export function ArticleEntry({
             )}
           </div>
         </div>
-        <div className="hidden items-start md:flex md:gap-33">
-          <p className="text-mono-s line-clamp-3 w-[345px] py-3 text-brand-dark-green">
+        <div className="hidden items-start md:flex md:gap-8 desktop:gap-33">
+          <p className="text-mono-s line-clamp-3 min-w-0 flex-1 max-w-[345px] py-3 text-brand-dark-green">
             {article.description}
           </p>
           <div className="shrink-0 py-3">

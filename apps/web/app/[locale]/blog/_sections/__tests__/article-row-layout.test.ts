@@ -26,10 +26,14 @@ describe('blog article row layout', () => {
     expect(podcastsSource).not.toContain('size-[107px]')
     expect(atomsSource).not.toContain("'absolute h-[77px]")
     expect(atomsSource).not.toContain('absolute aspect-video overflow-hidden')
-    expect(articlesSource).toContain('md:grid-cols-[107px_607px_543px]')
-    expect(podcastsSource).toContain('md:grid-cols-[190px_524px_573px]')
-    expect(articlesSource).toContain('md:gap-33')
-    expect(podcastsSource).toContain('md:gap-33')
+    expect(articlesSource).toContain(
+      'md:grid-cols-[107px_minmax(0,607px)_minmax(0,543px)]'
+    )
+    expect(podcastsSource).toContain(
+      'md:grid-cols-[190px_minmax(0,524px)_minmax(0,573px)]'
+    )
+    expect(articlesSource).toContain('md:gap-8 desktop:gap-33')
+    expect(podcastsSource).toContain('md:gap-8 desktop:gap-33')
   })
 
   test('renders the broadcast network panel as the Figma-linked route card', () => {
