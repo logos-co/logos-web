@@ -60,7 +60,7 @@ function EpisodeRow({
         background
       )}
     >
-      <ContentWidth className="grid h-full grid-cols-[107px_1fr] items-center gap-3 md:grid-cols-[190px_524px_573px] md:gap-0">
+      <ContentWidth className="grid h-full grid-cols-[107px_1fr] items-center gap-3 md:grid-cols-[190px_minmax(0,524px)_minmax(0,573px)] md:gap-0">
         <div className="relative aspect-video h-auto w-[107px] shrink-0 justify-self-center overflow-hidden md:w-[174px]">
           <Image
             src={podcast.image}
@@ -83,8 +83,8 @@ function EpisodeRow({
             </h3>
           </div>
         </div>
-        <div className="hidden items-start gap-33 md:flex">
-          <div className="w-[345px] py-3" />
+        <div className="hidden items-start gap-8 md:flex desktop:gap-33">
+          <div className="min-w-0 flex-1 max-w-[345px] py-3" />
           <div className="shrink-0 py-3">
             <UnderlineLabel>{listenOnApp}</UnderlineLabel>
           </div>

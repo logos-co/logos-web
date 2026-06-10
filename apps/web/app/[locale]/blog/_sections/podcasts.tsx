@@ -125,26 +125,26 @@ function PodcastEntry({
 
   return (
     <BlogRowLink href={podcast.href} index={index} className="h-[107px]">
-      <ContentWidth className="relative flex h-full items-center gap-3 md:grid md:grid-cols-[190px_524px_573px] md:gap-0">
+      <ContentWidth className="relative flex h-full items-center gap-3 md:grid md:grid-cols-[190px_minmax(0,524px)_minmax(0,573px)] md:gap-0">
         <RowThumbnail
           src={podcast.image}
           className="aspect-video h-auto w-[174px] shrink-0 justify-self-center"
         />
-        <div className="flex min-w-0 flex-1 flex-col justify-center gap-2.5 md:h-full md:w-[595px] md:gap-1.5 md:py-3 md:pl-3">
+        <div className="flex min-w-0 flex-1 flex-col justify-center gap-2.5 md:h-full md:gap-1.5 md:py-3 md:pl-3">
           <div className="text-mono-s flex items-center gap-2.5 text-brand-dark-green">
             <span>{podcast.date}</span>
             <Dot />
             <span>{episodeLabel}</span>
           </div>
-          <div className="flex w-full items-center gap-2.5 md:w-[333px]">
+          <div className="flex w-full items-center gap-2.5 md:max-w-[333px]">
             <PlayIcon />
             <p className="line-clamp-2 font-sans text-[18px] leading-[1.15] tracking-normal">
               {podcast.title}
             </p>
           </div>
         </div>
-        <div className="hidden items-start md:flex md:gap-33">
-          <div className="w-[345px] py-3" />
+        <div className="hidden items-start md:flex md:gap-8 desktop:gap-33">
+          <div className="min-w-0 flex-1 max-w-[345px] py-3" />
           <div className="shrink-0 py-3">
             <UnderlineLabel>{listenOnAppLabel}</UnderlineLabel>
           </div>

@@ -185,7 +185,7 @@ export default async function NodeProgramPage({
             {t('useCases.titleMuted')}
           </span>
         </h2>
-        <div className="mt-10 grid gap-3 md:grid-cols-5">
+        <div className="mt-10 grid gap-3 md:grid-cols-3 lg:grid-cols-5">
           {useCases.map((item, index) => (
             <article
               key={item.title}
