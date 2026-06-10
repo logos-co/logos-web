@@ -75,8 +75,10 @@ export function GiantSwitch({
 
   // Mobile: stacked flex-col. Desktop: absolute image disc + content block.
   const imageClass = [
-    // Mobile — fills panel width, square, clipped to rounded-88.
-    'giant-switch__image aspect-square w-full overflow-hidden rounded-[88px]',
+    // Mobile — fills panel width, square, clipped to rounded-88. On tablet the
+    // width stays full-bleed but the height is capped so a ~1000px-wide panel
+    // doesn't produce a square image filling the whole screen.
+    'giant-switch__image aspect-square w-full overflow-hidden rounded-[88px] md:aspect-auto md:h-[400px]',
     // Desktop — 566×566 disc inset 12 px, rounded-188, positioned by prop.
     'xl:absolute xl:top-3 xl:aspect-auto xl:h-[566px] xl:w-[566px] xl:rounded-[188px]',
     imagePosition === 'left' ? 'xl:left-3' : 'xl:right-3',
