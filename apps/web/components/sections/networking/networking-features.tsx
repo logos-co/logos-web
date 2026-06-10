@@ -37,7 +37,7 @@ function FeatureCard({
   secondaryCta,
 }: FeatureCardProps) {
   return (
-    <article className="flex min-h-[358px] w-full shrink-0 flex-col items-start justify-between rounded-3xl bg-gray-01 p-1.5 md:min-h-[396px]">
+    <article className="flex min-h-[358px] w-full shrink-0 flex-col items-start justify-between rounded-3xl bg-gray-01 p-1.5 md:h-full md:min-h-[396px]">
       <div className="flex w-full flex-col gap-3 p-3">
         <div className="flex items-center gap-3">
           <span
@@ -52,7 +52,7 @@ function FeatureCard({
       </div>
       <div className="flex w-full flex-col">
         {cta || secondaryCta ? (
-          <div className="flex items-baseline gap-1.5 px-3 pb-10">
+          <div className="flex items-baseline gap-1.5 px-3 pb-3">
             {cta ? (
               <Button
                 href={cta.href}
