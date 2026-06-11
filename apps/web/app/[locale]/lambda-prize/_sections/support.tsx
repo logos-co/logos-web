@@ -9,7 +9,7 @@ export function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
     <section className="h-[406px] bg-brand-off-white px-3 py-10 text-brand-dark-green min-[1025px]:h-[421px] min-[1025px]:py-12">
       <ContentWidth>
         <div className="grid grid-cols-[1fr_auto] gap-y-6 min-[1025px]:grid-cols-3">
-          <h2 className="text-h3-serif w-fit border-b border-brand-dark-green/10 pb-1">{copy.heading}</h2>
+          <h2 className="text-h3-serif">{copy.heading}</h2>
           <p className="text-mono-s col-start-1 row-start-2 w-[178px] min-[1025px]:col-start-auto min-[1025px]:row-start-auto min-[1025px]:w-[226px]">
             {copy.body}
           </p>
