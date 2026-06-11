@@ -56,7 +56,7 @@ export function ActionCardsSection({ t }: { t: Translate }) {
             <div className="flex gap-3 px-1.5 pt-1">
               <div className="flex-1">
                 <div className="flex items-center gap-1.5">
-                  <LambdaBadge size={23} />
+                  <LambdaBadge size={23} circle />
                   <h3 className="text-subhead-sans">
                     {t(`actions.${card.key}.title`)}
                   </h3>

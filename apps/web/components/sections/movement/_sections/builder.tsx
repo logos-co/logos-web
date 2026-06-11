@@ -45,7 +45,7 @@ export function BuilderSection({ t }: { t: Translate }) {
             <div className="flex min-h-[157px] flex-col justify-between md:min-h-[252px]">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-1.5">
-                  <LambdaBadge size={15} tone="light" />
+                  <LambdaBadge size={15} tone="light" circle />
                   <p className="text-subhead-serif">
                     {t('builder.feature.city')}
                   </p>

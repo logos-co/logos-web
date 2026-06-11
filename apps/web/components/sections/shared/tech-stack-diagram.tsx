@@ -104,6 +104,7 @@ function HoverStackItem({
   const desktopBlock = desktopAt1367 ? 'min-[1367px]:block' : 'md:block'
   const desktopHidden = desktopAt1367 ? 'min-[1367px]:hidden' : 'md:hidden'
   const desktopFlex = desktopAt1367 ? 'min-[1367px]:flex' : 'md:flex'
+  const desktopGrid = desktopAt1367 ? 'min-[1367px]:grid' : 'md:grid'
   // Hover reveals are desktop-only: in the mobile/tablet layout the details
   // are already rendered inline, so an unscoped group-hover would paint the
   // desktop overlay on top of them when a desktop user resizes and hovers.
@@ -184,10 +185,17 @@ function HoverStackItem({
         className={`relative z-[1] flex max-w-[222px] flex-col gap-3 transition-transform duration-200 ease-out ${contentLayoutClass} ${contentHoverOffset}`}
       >
         <span
-          className={`text-subhead-sans flex items-center gap-2.5 ${labelClassName ?? ''}`}
+          className={`text-subhead-sans flex items-start gap-2.5 ${labelClassName ?? ''}`}
         >
-          <span className={`hidden shrink-0 ${desktopBlock}`}>
-            <LogosMark size={14} className="text-gray-03" />
+          {/* h-[1.15em] = one line of text-subhead-sans, so the mark centers
+              on the FIRST line (looks centered for single-line titles, and
+              top-aligned when the title wraps to multiple lines). */}
+          <span
+            className={`hidden h-[1.15em] shrink-0 items-center ${desktopFlex}`}
+          >
+            {/* -translate-y-px seats the mark on the text baseline; centering
+                in the line box alone leaves it dipping slightly below. */}
+            <LogosMark size={14} className="-translate-y-px text-gray-03" />
           </span>
           {title}
         </span>
@@ -198,11 +206,20 @@ function HoverStackItem({
             >
               {description}
             </p>
-            <p
-              className={`text-mono-s hidden text-center opacity-0 transition-opacity duration-200 ease-out group-hover/stack-item:opacity-100 ${desktopBlock}`}
+            {/* Collapse the hover description to 0 height until hover so the
+                title sits dead-center in the card (identically across every
+                pillar, incl. the details card). On hover the grid row expands
+                (0fr -> 1fr); because the content block is centered, growing it
+                pushes the title upward and reveals the copy below. The -mt-3
+                cancels the parent gap-3 while collapsed so the title is truly
+                centered (gap restored on hover via mt-0). */}
+            <span
+              className={`-mt-3 hidden grid-rows-[0fr] opacity-0 transition-all duration-200 ease-out group-hover/stack-item:mt-0 group-hover/stack-item:grid-rows-[1fr] group-hover/stack-item:opacity-100 ${desktopGrid}`}
             >
-              {description}
-            </p>
+              <span className="text-mono-s overflow-hidden text-center">
+                {description}
+              </span>
+            </span>
           </>
         ) : null}
       </div>

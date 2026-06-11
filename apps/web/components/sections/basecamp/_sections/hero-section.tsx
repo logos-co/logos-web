@@ -10,11 +10,11 @@ import { BasecampCta, BodyDetailBlock, paragraphs } from './atoms'
 function HeroTitle({ headline }: { headline: string }) {
   return (
     <h1 className="text-h3-serif flex items-center gap-3 self-start text-brand-dark-green">
-      <span className="shrink-0 text-gray-03 md:hidden">
+      <span className="flex shrink-0 items-center text-gray-03 md:hidden">
         <LogosMark size={22} />
       </span>
-      <span className="hidden shrink-0 text-gray-03 md:block">
-        <LogosMark size={42} />
+      <span className="hidden shrink-0 text-gray-03 md:flex">
+        <LogosMark size={28} />
       </span>
       {headline}
     </h1>

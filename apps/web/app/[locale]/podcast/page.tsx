@@ -7,7 +7,7 @@ import { createDefaultMetadata } from '@/lib/metadata'
 import ContentWidth from '@/components/layout/content-width'
 import { BLOG_ORIGIN, getLatestBlogPodcasts } from '@/lib/blog-engine'
 
-import { PodcastsSection } from '../blog/_sections/podcasts'
+import { PodcastsSection } from '../media/_sections/podcasts'
 
 interface PodcastIntroCopy {
   title: string

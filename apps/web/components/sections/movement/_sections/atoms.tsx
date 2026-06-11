@@ -62,14 +62,35 @@ export function Cta({ href, label, tone = 'primary', className }: CtaProps) {
 export function LambdaBadge({
   size = 23,
   tone = 'dark',
+  circle = false,
   className,
   style,
 }: {
+  /** Lambda height in px (no circle) or circle diameter in px (circle). */
   size?: number
   tone?: 'dark' | 'light' | 'yellow'
+  /** Wrap the lambda mark in a bordered circle. Defaults to false. */
+  circle?: boolean
   className?: string
   style?: CSSProperties
 }) {
+  const textClass =
+    tone === 'yellow'
+      ? 'text-brand-yellow'
+      : tone === 'light'
+        ? 'text-brand-off-white'
+        : 'text-brand-dark-green'
+
+  if (!circle) {
+    return (
+      <LogosMark
+        size={size}
+        className={`${textClass} ${className ?? ''}`}
+        style={style}
+      />
+    )
+  }
+
   const toneClass =
     tone === 'yellow'
       ? 'border-brand-yellow bg-brand-yellow text-brand-dark-green'

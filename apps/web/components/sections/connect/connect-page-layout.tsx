@@ -15,7 +15,7 @@ export function ConnectPageLayout({ heading, intro, children }: Props) {
           <div className={`text-center${intro ? ' mb-12' : ' mb-6'}`}>
             {heading ? (
               <div className="mb-6 flex items-center justify-center gap-3">
-                <LogosMark size={26} className="w-5 shrink-0" />
+                <LogosMark size={28} className="w-5 shrink-0" />
                 <h1 className="font-display text-[30px] leading-none tracking-[-0.9px] md:text-[36px] md:tracking-[-1.08px]">
                   {heading}
                 </h1>
