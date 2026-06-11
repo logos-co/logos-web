@@ -96,8 +96,8 @@ function HoverStackItem({
 }) {
   const hasDetails = details !== undefined && details.length > 0
   const desktopHoverLarge = desktopAt1367
-    ? 'min-[1367px]:group-hover/stack-item:-translate-y-24'
-    : 'md:group-hover/stack-item:-translate-y-24'
+    ? 'min-[1367px]:group-hover/stack-item:-translate-y-20'
+    : 'md:group-hover/stack-item:-translate-y-20'
   const desktopHoverSmall = desktopAt1367
     ? 'min-[1367px]:group-hover/stack-item:-translate-y-8'
     : 'md:group-hover/stack-item:-translate-y-8'
