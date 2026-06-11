@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 
+import { AnimatedHeading } from '@/components/motion/animated-heading'
+
 /**
  * About ATF — full-bleed mountain photo with hero display title overlaid.
  *
@@ -26,12 +28,12 @@ export async function AboutHero() {
        * linearly across that band (70px ≤768px, 140px ≥1440px). Inline style
        * beats the token's media query, so this stays scoped to /about.
        */}
-      <h1
+      <AnimatedHeading
         className="text-hero absolute inset-x-0 top-[283px] mx-auto max-w-[369px] px-3 text-center text-brand-off-white md:max-w-none"
         style={{ fontSize: 'clamp(70px, calc(10.42vw - 10px), 140px)' }}
       >
         {t('title')}
-      </h1>
+      </AnimatedHeading>
     </section>
   )
 }

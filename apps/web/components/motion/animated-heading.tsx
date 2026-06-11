@@ -9,13 +9,14 @@
 'use client'
 
 import { motion } from 'motion/react'
-import type { ElementType } from 'react'
+import type { CSSProperties, ElementType } from 'react'
 
 import { heroFadeUp, wordStagger } from '@/lib/motion'
 
 type Props = {
   children: string
   className?: string
+  style?: CSSProperties
   /** HTML tag to render. Defaults to h1. */
   as?: ElementType
   /** Delay before the stagger begins (seconds). */
@@ -25,6 +26,7 @@ type Props = {
 export function AnimatedHeading({
   children,
   className,
+  style,
   as = 'h1',
   delay = 0,
 }: Props) {
@@ -34,6 +36,7 @@ export function AnimatedHeading({
   return (
     <MotionTag
       className={className}
+      style={style}
       variants={wordStagger}
       initial="hidden"
       animate="visible"
