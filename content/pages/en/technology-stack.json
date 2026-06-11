@@ -145,10 +145,10 @@
       "title": "Logos Basecamp",
       "description": "Basecamp is the launcher and unified surface of the Logos stack. It is an executable that wraps the Logos runtime, initialises the Logos Core environment, and discovers and loads plugins from installed modules. It is the primary, unified interface for users to interact with applications built on Logos.",
       "image": {
-        "src": "/images/technology-stack/logos-basecamp.jpg",
+        "src": "/images/home/figma-refresh/basecamp.webp",
         "alt": "",
-        "width": 1132,
-        "height": 1246
+        "width": 2820,
+        "height": 1596
       },
       "tags": [
         {
