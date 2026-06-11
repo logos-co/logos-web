@@ -28,7 +28,7 @@ export function CircleResourcesSection({
           {title}
         </h2>
         {description ? (
-          <p className="text-mono-s col-start-2 text-brand-dark-green md:col-span-3 md:col-start-7 md:w-[226px]">
+          <p className="text-mono-s col-start-2 text-brand-dark-green md:col-span-3 md:col-start-7 md:max-w-[226px]">
             {description}
           </p>
         ) : null}
@@ -62,7 +62,7 @@ export function CircleResourcesSection({
                     {resource.title}
                   </span>
                 </div>
-                <p className="text-mono-s hidden md:col-span-4 md:col-start-7 md:block md:w-[312px]">
+                <p className="text-mono-s hidden md:col-span-4 md:col-start-7 md:block md:max-w-[312px]">
                   {resource.description}
                 </p>
                 <span className="text-eyebrow w-fit justify-self-end border-b border-brand-dark-green/50 md:col-span-2 md:col-start-11 md:justify-self-start">
