@@ -107,7 +107,7 @@ describe('link policy', () => {
     expect(allCards.some((card) => card.href === ROUTES.research)).toBe(true)
   })
 
-  it('shows Book after Research Forum in the Research panel resources links', () => {
+  it('lists Specs/RFC and Research Forum in the Research panel resources links', () => {
     const researchPanel = navigation.menuPanels.find(
       (panel) => panel.label === 'Research'
     )
@@ -121,7 +121,6 @@ describe('link policy', () => {
         label: 'Research Forum',
         href: 'https://forum.research.logos.co/',
       },
-      { label: 'Book', href: ROUTES.book },
     ])
   })
 
