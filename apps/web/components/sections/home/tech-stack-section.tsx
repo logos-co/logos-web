@@ -29,6 +29,8 @@ type Props = {
   foundationHref: string
   /** Keep the compact layout through tablet widths on pages that need it. */
   desktopAt1367?: boolean
+  /** Hide the hairline above the section on pages that don't want it. */
+  borderTop?: boolean
 }
 
 export default function TechStackSection({
@@ -36,6 +38,7 @@ export default function TechStackSection({
   networkingHref,
   foundationHref,
   desktopAt1367 = false,
+  borderTop = true,
 }: Props) {
   const compactContentClass = desktopAt1367
     ? 'min-[1367px]:hidden'
@@ -46,7 +49,9 @@ export default function TechStackSection({
   return (
     <section
       id="tech-stack"
-      className="relative overflow-hidden border-t border-brand-dark-green/10 bg-brand-off-white"
+      className={`relative overflow-hidden bg-brand-off-white ${
+        borderTop ? 'border-t border-brand-dark-green/10' : ''
+      }`}
     >
       <ContentWidth
         className={`relative min-h-full flex-col pt-3 pb-25 ${compactContentClass}`}
