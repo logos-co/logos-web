@@ -366,7 +366,24 @@ Same shell as Ideas. Unique content:
 
 ---
 
-## 14. FAQs
+## 14. Manifesto
+
+**Route:** `/manifesto`
+**Figma file:** `MALNxrjLTCy0TA9vaWEwBs`
+**Desktop frame:** `1441:20572` — 1440 × 5399
+
+1. **Hero** — "Logos: A Declaration of Independence in Cyberspace" display title with the Figma desktop line break preserved.
+2. **Abstract / Keywords** — dark-green rounded block with centred headings and justified article text.
+3. **Manifesto body** — long-form article column matching the Figma desktop 853 px text measure and paragraph top positions.
+4. **More from Jarrad Hope** — small mono text list.
+5. **Footer**
+
+- Desktop implementation should match the Figma frame exactly at 1440 px, including title line breaks, text column width, paragraph spacing, and rounded section geometry.
+- Mobile is responsive rather than a separate Figma frame: keep the same reading order, reduce type sizes, and prioritise legibility.
+
+---
+
+## 15. FAQs
 
 **Route:** `/faq`
 **Figma section:** `40009046:22275`
@@ -386,7 +403,7 @@ Same shell as Ideas. Unique content:
 
 ---
 
-## 15. Terms & Conditions
+## 16. Terms & Conditions
 
 **Route:** `/terms-and-conditions`
 **Figma section:** `40009046:22241`
@@ -442,5 +459,6 @@ Same shell as Ideas. Unique content:
 | Circle Detail        | `40009046:25921` | `40009046:26015` | `40009046:25922` |
 | Press Engine         | `40009046:26291` | `40009046:26490` | `40009046:26292` |
 | About                | `40009046:27109` | `40009046:27248` | `40009046:27110` |
+| Manifesto            | `1441:20572`     | `1441:20572`     | N/A              |
 | FAQs                 | `40009046:22275` | `40009046:22317` | `40009046:22276` |
 | Terms & Conditions   | `40009046:22241` | `40009046:22250` | `40009046:22242` |

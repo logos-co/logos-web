@@ -48,6 +48,7 @@ export const ROUTES = {
 
   // Movement / Top-level nav
   movement: '/movement',
+  manifesto: '/manifesto',
   book: '/book',
 
   // Blog (formerly "Logos Press Engine")
