@@ -58,7 +58,7 @@
         "title": "Install Basecamp",
         "description": "Logos Basecamp is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable interface. It allows you to easily interact with simple apps built on the various modules.",
         "image": {
-          "src": "/images/builders-hub/basecamp-package-manager.png",
+          "src": "/images/builders-hub/basecamp-package-manager.webp",
           "alt": "",
           "width": 2820,
           "height": 1596
@@ -136,7 +136,7 @@
     "prizeHeading": "The frontier is open. Build what’s next.",
     "prizeDescription": "Lambda Prizes is a competitive prize framework for the Logos ecosystem. λPrize targets contributions where Logos cares about the outcome but not the path.",
     "prizeImage": {
-      "src": "/images/builders-hub/lambda-prize-bg.png",
+      "src": "/images/builders-hub/lambda-prize-bg.webp",
       "alt": "",
       "width": 702,
       "height": 877

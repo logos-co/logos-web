@@ -87,7 +87,7 @@ export default async function NodeProgramPage({
         <ContentWidth className="relative h-full">
           <div className="absolute top-6 left-3 h-[75px] w-[107px] overflow-hidden">
             <Image
-              src="/images/node-programme/builders.jpg"
+              src="/images/node-programme/builders.webp"
               alt=""
               width={133}
               height={75}
@@ -127,7 +127,7 @@ export default async function NodeProgramPage({
       <SectionShell className="grid gap-8 border-b border-brand-dark-green/10 py-10 md:grid-cols-12 md:gap-3 md:py-20">
         <div className="relative min-h-[280px] overflow-hidden rounded-xl md:col-span-6 md:min-h-[470px]">
           <Image
-            src="/images/node-programme/builders.jpg"
+            src="/images/node-programme/builders.webp"
             alt={t('builders.imageAlt')}
             fill
             priority
@@ -206,7 +206,7 @@ export default async function NodeProgramPage({
       <SectionShell id="node-programme-signup" className="py-3 pb-10">
         <div className="relative flex min-h-[560px] items-center justify-center overflow-hidden rounded-xl px-3 py-16 text-brand-dark-green md:min-h-[680px]">
           <Image
-            src="/images/node-programme/woods.jpg"
+            src="/images/node-programme/woods.webp"
             alt={t('signup.imageAlt')}
             fill
             sizes="(max-width: 768px) 100vw, 1416px"

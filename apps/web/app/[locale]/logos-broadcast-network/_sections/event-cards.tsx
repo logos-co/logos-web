@@ -11,10 +11,10 @@ import type { BroadcastNetworkCopy } from './types'
 const FEATURE_IMAGES = [
   '/images/home/event-1.jpg',
   '/images/home/event-2.jpg',
-  '/images/home/event-3.jpg',
+  '/images/home/event-3.webp',
   '/images/home/event-4.jpg',
   '/images/blog-engine/hero-thumb.png',
-  '/images/blog-engine/list-1.png',
+  '/images/blog-engine/list-1.webp',
 ]
 
 function getUpcomingEvents(events: BroadcastEventRow[]) {

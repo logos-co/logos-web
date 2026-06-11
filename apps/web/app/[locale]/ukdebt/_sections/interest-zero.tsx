@@ -17,7 +17,7 @@ export function InterestZero() {
       </div>
       <img
         className={styles.zeroFigure}
-        src="/campaigns/ukdebt/zero-figure.png"
+        src="/campaigns/ukdebt/zero-figure.webp"
         alt=""
         aria-hidden="true"
       />

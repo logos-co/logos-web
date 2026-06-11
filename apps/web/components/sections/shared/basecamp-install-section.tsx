@@ -31,7 +31,7 @@ function CardImage({
   imageFit?: 'cover' | 'contain'
 }) {
   const isPackageManager =
-    image.src === '/images/builders-hub/basecamp-package-manager.png'
+    image.src === '/images/builders-hub/basecamp-package-manager.webp'
   const isNodeCli = image.src === '/images/builders-hub/node-cli-card.png'
 
   return (

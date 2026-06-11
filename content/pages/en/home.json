@@ -144,7 +144,7 @@
           "title": "Attack-Resistant Public Registries",
           "description": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
           "image": {
-            "src": "/images/home/usecase-1.jpg",
+            "src": "/images/home/usecase-1.webp",
             "alt": "",
             "width": 96,
             "height": 120
@@ -158,7 +158,7 @@
           "title": "Decentralised Archives",
           "description": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
           "image": {
-            "src": "/images/home/usecase-2.jpg",
+            "src": "/images/home/usecase-2.webp",
             "alt": "",
             "width": 96,
             "height": 120
@@ -194,7 +194,7 @@
           "title": "Autonomous Local Markets",
           "description": "Community-run markets coordinate exchange without relying on captured intermediaries.",
           "image": {
-            "src": "/images/home/usecase-1.jpg",
+            "src": "/images/home/usecase-1.webp",
             "alt": "",
             "width": 96,
             "height": 120
@@ -208,7 +208,7 @@
           "title": "Resilient Knowledge Commons",
           "description": "Archives, media, and public records remain available even when platforms disappear.",
           "image": {
-            "src": "/images/home/usecase-2.jpg",
+            "src": "/images/home/usecase-2.webp",
             "alt": "",
             "width": 96,
             "height": 120

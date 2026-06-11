@@ -39,7 +39,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: url("/campaigns/ukdebt/paper.png") center / cover no-repeat;
+  background: url("/campaigns/ukdebt/paper.webp") center / cover no-repeat;
   mix-blend-mode: multiply;
   opacity: 0.2;
   pointer-events: none;
@@ -73,7 +73,7 @@
   inset: 0;
   z-index: 1;
   border-radius: inherit;
-  background: url("/campaigns/ukdebt/paper.png") center / cover no-repeat;
+  background: url("/campaigns/ukdebt/paper.webp") center / cover no-repeat;
   mix-blend-mode: multiply;
   opacity: 0.42;
   pointer-events: none;
@@ -109,7 +109,7 @@
   left: 50%;
   z-index: 1;
   width: 100vw;
-  background: url("/campaigns/ukdebt/paper-wrinkles.png") center / cover
+  background: url("/campaigns/ukdebt/paper-wrinkles.webp") center / cover
     no-repeat;
   opacity: 0.38;
   pointer-events: none;
@@ -613,7 +613,7 @@
   padding: 0;
   background:
     linear-gradient(180deg, rgba(15, 17, 16, 0.55), rgba(15, 17, 16, 0.7)),
-    url("/campaigns/ukdebt/spend-bg.png") center / cover no-repeat;
+    url("/campaigns/ukdebt/spend-bg.webp") center / cover no-repeat;
 }
 
 .spendPanel .panelBackdrop {
@@ -942,7 +942,7 @@
   left: 50%;
   z-index: -1;
   width: 100vw;
-  background-image: url("/campaigns/ukdebt/paper.png");
+  background-image: url("/campaigns/ukdebt/paper.webp");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -2287,7 +2287,7 @@
     border-top: 1px solid rgba(255, 255, 255, 0.9);
     background:
       linear-gradient(180deg, rgba(15, 17, 16, 0.55), rgba(15, 17, 16, 0.7)),
-      url("/campaigns/ukdebt/spend-bg.png") center / cover no-repeat;
+      url("/campaigns/ukdebt/spend-bg.webp") center / cover no-repeat;
   }
 
   .spendPanel .panelBackdrop {

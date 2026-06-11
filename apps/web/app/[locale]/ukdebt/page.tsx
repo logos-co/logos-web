@@ -4,7 +4,7 @@ import siteConfig from '@/constants/site-config'
 
 import UkDebtContent from './UkDebtContent'
 
-const OG_IMAGE = '/campaigns/ukdebt/og-image.png'
+const OG_IMAGE = '/campaigns/ukdebt/og-image.jpg'
 const TITLE = 'UK Debt Crisis: Act Now | Logos'
 const DESCRIPTION =
   "The UK's debt is costing £114 billion in annual interest producing nothing. That's money that could fund public services, affordable housing, and robust community infrastructure. It's time to do something about it."

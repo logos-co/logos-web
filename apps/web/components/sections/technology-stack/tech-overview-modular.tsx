@@ -18,7 +18,7 @@ export default function TechOverviewModular({ data }: Props) {
               <Image
                 src={
                   data.image?.src ??
-                  '/images/technology-stack/modular-landscape.jpg'
+                  '/images/technology-stack/modular-landscape.webp'
                 }
                 alt={data.image?.alt ?? ''}
                 fill

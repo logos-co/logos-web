@@ -54,7 +54,7 @@ function PodcastHero({
       >
         <ContentWidth className="relative h-[699px] overflow-hidden rounded-xl desktop:h-[406px]">
           <Image
-            src="/images/blog-engine/podcast-hero-bg.jpg"
+            src="/images/blog-engine/podcast-hero-bg.webp"
             alt=""
             fill
             sizes="100vw"

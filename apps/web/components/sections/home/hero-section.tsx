@@ -37,7 +37,7 @@ export default function HeroSectionView({ data }: Props) {
           muted
           loop
           playsInline
-          poster="/images/home/hero-bg.jpg"
+          poster="/images/home/hero-bg.webp"
           className="h-full w-full object-cover opacity-70"
         >
           <source src="/videos/home/logos-bg-vid.mp4" type="video/mp4" />

@@ -23,7 +23,7 @@ export default function MountainSection({ data }: Props) {
           >
             <div className="absolute inset-x-0 top-px bottom-0 overflow-hidden rounded-[900px]">
               <Image
-                src="/images/home/mountain-landscape.jpg"
+                src="/images/home/mountain-landscape.webp"
                 alt=""
                 width={1850}
                 height={2313}
