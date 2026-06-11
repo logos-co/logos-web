@@ -130,7 +130,7 @@
             {
               "label": "About Us",
               "href": "/about",
-              "description": "A mission to revitalize civil society through privacy",
+              "description": "A mission to revitalise civil society through privacy",
               "image": {
                 "src": "/nav-overlay/figma/about-thumb.jpg",
                 "alt": ""
