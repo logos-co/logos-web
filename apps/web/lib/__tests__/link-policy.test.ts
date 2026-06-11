@@ -144,7 +144,7 @@ describe('link policy', () => {
     )
   })
 
-  it('routes the The Logos Blog navigation card to Blog', () => {
+  it('routes the Logos Media navigation card to Blog', () => {
     // Section and card labels are copy; assert a navigation card links to Blog.
     const allCards = navigation.menuPanels.flatMap(
       (panel) => panel.cardSections?.flatMap((section) => section.cards) ?? []
@@ -245,9 +245,7 @@ describe('link policy', () => {
 
   it('routes Basecamp install CTAs through the shared release URLs', () => {
     expect(EXTERNAL_URLS.basecampRelease).toBe(basecampReleaseHref)
-    expect(EXTERNAL_URLS.basecampLinuxDownload).toBe(
-      basecampLinuxDownloadHref
-    )
+    expect(EXTERNAL_URLS.basecampLinuxDownload).toBe(basecampLinuxDownloadHref)
     expect(EXTERNAL_URLS.basecampMacDownload).toBe(basecampMacDownloadHref)
 
     expect(
