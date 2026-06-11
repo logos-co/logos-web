@@ -23,7 +23,7 @@ const staticIndexableRoutes = [
   ROUTES.movement,
   ROUTES.nodeProgramme,
   ROUTES.podcast,
-  ROUTES.blog,
+  ROUTES.media,
   ROUTES.privacy,
   ROUTES.research,
   ROUTES.security,

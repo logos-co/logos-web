@@ -150,7 +150,7 @@ describe('link policy', () => {
       (panel) => panel.cardSections?.flatMap((section) => section.cards) ?? []
     )
 
-    expect(allCards.some((card) => card.href === ROUTES.blog)).toBe(true)
+    expect(allCards.some((card) => card.href === ROUTES.media)).toBe(true)
   })
 
   it('does not ship placeholder or known-broken links', () => {

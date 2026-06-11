@@ -52,7 +52,7 @@ export const ROUTES = {
   book: '/book',
 
   // Blog (formerly "Logos Press Engine")
-  blog: '/blog',
+  media: '/media',
   podcast: '/podcast',
   logosBroadcastNetwork: '/logos-broadcast-network',
 

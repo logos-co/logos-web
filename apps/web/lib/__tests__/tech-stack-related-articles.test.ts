@@ -24,7 +24,7 @@ const section: RelatedArticlesSection = {
       date: '02.14.26',
       author: 'Sterlin Lujan',
       readingTime: 6,
-      href: '/blog',
+      href: '/media',
     },
   ],
   visibleCount: 1,

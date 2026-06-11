@@ -60,7 +60,7 @@ export default function SiteHeaderClient({
     normalizedPathname.endsWith(ROUTES.book) ||
     normalizedPathname.endsWith(ROUTES.about) ||
     normalizedPathname.endsWith(ROUTES.lambdaPrize)
-  const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.blog)
+  const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.media)
   const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
   const usesAccentTanHeaderTone =
     normalizedPathname.endsWith(ROUTES.logosBroadcastNetwork) ||
