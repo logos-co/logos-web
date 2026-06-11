@@ -13,7 +13,7 @@ export function AboutProgramme({
 }) {
   return (
     <section className=" text-brand-dark-green">
-      <ContentWidth className="bg-gray-01 mt-25 xl:mt-50 flex min-h-[960px] flex-col gap-3 p-3 xl:h-[600px] xl:min-h-0 xl:flex-row">
+      <ContentWidth className="bg-gray-01 mt-25 xl:mt-50 mb-25 xl:mb-0 flex min-h-[960px] flex-col gap-3 p-3 xl:h-[600px] xl:min-h-0 xl:flex-row">
         <div className="relative h-[405px] overflow-hidden rounded-3xl xl:h-full xl:w-[min(702px,50%)] xl:shrink-0">
           <Image
             src="/images/lambda-prize/about.webp"
