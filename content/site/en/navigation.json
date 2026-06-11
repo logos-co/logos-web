@@ -20,15 +20,15 @@
     {
       "label": "Build",
       "href": "/get-started",
-      "ctaLabel": "Start Building",
-      "description": "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others.",
+      "ctaLabel": "START BUILDING",
+      "description": "Building privacy-first, decentralised applications. Read the docs, learn the stack, write code.",
       "image": { "src": "/nav-overlay/figma/take-action-build.webp", "alt": "" }
     },
     {
       "label": "Operate",
       "href": "/node-programme",
-      "ctaLabel": "apply",
-      "description": "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
+      "ctaLabel": "NODE PROGRAMME",
+      "description": "Run a node. Decentralise the network. Secure Logos. Setup takes minutes.",
       "image": {
         "src": "/nav-overlay/figma/take-action-operate.webp",
         "alt": ""
@@ -37,8 +37,8 @@
     {
       "label": "Organise",
       "href": "/movement",
-      "ctaLabel": "Join a circle",
-      "description": "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections.",
+      "ctaLabel": "TAKE ACTION",
+      "description": "Join the Logos Movement to re-build civil society. Find a Circle and solve local issues.",
       "image": {
         "src": "/nav-overlay/figma/take-action-movement.webp",
         "alt": ""
@@ -61,7 +61,8 @@
               "label": "Join Community",
               "href": "https://discord.gg/logosnetwork"
             },
-            { "label": "Install Basecamp", "href": "/basecamp" }
+            { "label": "Install Basecamp", "href": "/basecamp" },
+            { "label": "Work with us", "href": "https://free.technology/jobs" }
           ]
         }
       ],
@@ -104,9 +105,10 @@
         {
           "label": "Resources",
           "links": [
+            { "label": "Manifesto", "href": "/manifesto" },
             { "label": "Community Forum", "href": "https://forum.logos.co/" },
             { "label": "Brand Kit", "href": "/brand-kit" },
-            { "label": "Contact Us", "href": "https://free.technology/jobs" }
+            { "label": "Book", "href": "/book" }
           ]
         },
         {
@@ -126,9 +128,18 @@
           "label": "About",
           "cards": [
             {
-              "label": "The Logos Blog",
+              "label": "About Us",
+              "href": "/about",
+              "description": "A mission to revitalize civil society through privacy",
+              "image": {
+                "src": "/nav-overlay/figma/about-thumb.jpg",
+                "alt": ""
+              }
+            },
+            {
+              "label": "Logos Media",
               "href": "/blog",
-              "description": "Media throughout the Logos ecosystem",
+              "description": "Articles, news, podcasts, and media throughout the Logos Network.",
               "image": {
                 "src": "/nav-overlay/figma/blog-thumb.webp",
                 "alt": ""
@@ -137,12 +148,12 @@
           ]
         },
         {
-          "label": "Programs",
+          "label": "PROGRAMMES",
           "cards": [
             {
               "label": "Lambda Prize",
               "href": "/lambda-prize",
-              "description": "A mission to revitalise civil society through privacy",
+              "description": "A competitive prize framework powering the Logos network.",
               "image": {
                 "src": "/nav-overlay/figma/lambda-prize-thumb.webp",
                 "alt": ""
@@ -151,7 +162,7 @@
             {
               "label": "RFPs",
               "href": "/builders-hub/rfps",
-              "description": "Media throughout the Logos ecosystem",
+              "description": "A grants programme to support independent developers and teams.",
               "image": {
                 "src": "/nav-overlay/figma/rfps-thumb.webp",
                 "alt": ""
@@ -248,8 +259,7 @@
             {
               "label": "Research Forum",
               "href": "https://forum.research.logos.co/"
-            },
-            { "label": "Book", "href": "/book" }
+            }
           ]
         }
       ],

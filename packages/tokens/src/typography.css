@@ -21,6 +21,9 @@
   --font-mono-body:
     var(--next-font-mono-body), 'Fira Mono', ui-monospace, SFMono-Regular,
     Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --font-article:
+    var(--next-font-article), 'Open Sans', ui-sans-serif, system-ui,
+    -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 /*

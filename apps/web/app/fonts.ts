@@ -19,7 +19,7 @@
  * falls back to 'Times New Roman' → ui-serif.
  */
 
-import { Fira_Code, Fira_Mono, Public_Sans } from 'next/font/google'
+import { Fira_Code, Fira_Mono, Open_Sans, Public_Sans } from 'next/font/google'
 import localFont from 'next/font/local'
 
 export const publicSans = Public_Sans({
@@ -38,9 +38,16 @@ export const firaCode = Fira_Code({
 
 export const firaMono = Fira_Mono({
   subsets: ['latin'],
-  weight: ['400'],
+  weight: ['400', '700'],
   display: 'swap',
   variable: '--next-font-mono-body',
+})
+
+export const openSans = Open_Sans({
+  subsets: ['latin'],
+  weight: ['400'],
+  display: 'swap',
+  variable: '--next-font-article',
 })
 
 export const rhymesDisplay = localFont({
@@ -59,6 +66,7 @@ export const rhymesDisplay = localFont({
 export const fontVariables = [
   rhymesDisplay.variable,
   publicSans.variable,
+  openSans.variable,
   firaCode.variable,
   firaMono.variable,
 ].join(' ')
