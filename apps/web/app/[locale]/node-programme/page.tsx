@@ -147,31 +147,31 @@ export default async function NodeProgramPage({
         </div>
       </SectionShell>
 
-      <SectionShell className="grid gap-10 py-10 md:grid-cols-12 md:gap-3 md:py-20">
-        <h2 className="text-h3 md:col-span-7">
+      <SectionShell className="grid gap-10 py-10 lg:grid-cols-12 lg:gap-3 lg:py-20">
+        <h2 className="text-h3 lg:col-span-7">
           {t('stack.title')}{' '}
           <span className="text-brand-dark-green/45">
             {t('stack.titleMuted')}
           </span>
         </h2>
-        <div className="divide-y divide-brand-dark-green/15 border-y border-brand-dark-green/15 md:col-span-6 md:col-start-7">
+        <div className="divide-y divide-brand-dark-green/15 border-y border-brand-dark-green/15 lg:col-span-6 lg:col-start-7">
           {stackItems.map((item) => (
             <article
               key={item.title}
-              className="grid gap-5 py-6 md:grid-cols-6"
+              className="grid gap-5 py-6 lg:grid-cols-6"
             >
               <Image
                 src={item.icon}
                 alt={item.alt}
                 width={60}
                 height={60}
-                className="size-[50px] md:size-[60px]"
+                className="size-[50px] lg:size-[60px]"
               />
-              <div className="grid gap-2 md:col-span-5 md:grid-cols-5">
-                <h3 className="text-subhead-sans md:col-span-2">
+              <div className="grid gap-2 lg:col-span-5 lg:grid-cols-5">
+                <h3 className="text-subhead-sans lg:col-span-2">
                   {item.title}
                 </h3>
-                <p className="text-body-s md:col-span-3">{item.body}</p>
+                <p className="text-body-s lg:col-span-3">{item.body}</p>
               </div>
             </article>
           ))}
