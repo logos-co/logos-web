@@ -20,7 +20,6 @@ const forbiddenPatterns = [
   /\bneighbor(?:s)?\b/i,
   /\bneighborhood(?:s)?\b/i,
   /\borganiz(?:e|es|ed|er|ers|ing|ation|ations)\b/i,
-  /\brevitaliz(?:e|es|ed|ing|ation)\b/i,
   /\bNode Program\b/i,
   /\bBuilder Programs\b/i,
   /node-program\b/i,

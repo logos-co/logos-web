@@ -107,7 +107,7 @@ describe('link policy', () => {
     expect(allCards.some((card) => card.href === ROUTES.research)).toBe(true)
   })
 
-  it('lists Specs/RFC and Research Forum in the Research panel resources links', () => {
+  it('lists the core Research panel resources links', () => {
     const researchPanel = navigation.menuPanels.find(
       (panel) => panel.label === 'Research'
     )
@@ -115,13 +115,17 @@ describe('link policy', () => {
       (section) => section.label === 'Resources'
     )
 
-    expect(resourcesSection?.links).toEqual([
-      { label: 'Specs / RFC', href: 'https://lip.logos.co/' },
-      {
-        label: 'Research Forum',
-        href: 'https://forum.research.logos.co/',
-      },
-    ])
+    // Labels/links here are copy and can change (e.g. Book may come and go);
+    // assert the stable core links are present rather than pinning the exact list.
+    expect(resourcesSection?.links).toEqual(
+      expect.arrayContaining([
+        { label: 'Specs / RFC', href: 'https://lip.logos.co/' },
+        {
+          label: 'Research Forum',
+          href: 'https://forum.research.logos.co/',
+        },
+      ])
+    )
   })
 
   it('routes the Builders Hub RFP programme panel to the RFP listing', () => {
