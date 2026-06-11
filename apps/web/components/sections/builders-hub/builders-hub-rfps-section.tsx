@@ -37,7 +37,7 @@ export function BuildersHubRfpsSection({ settings, resolution }: Props) {
         />
 
         {/* Card grid — desktop wraps to 4 cols, mobile scrolls horizontally */}
-        <div className="mt-[77px] flex gap-3 overflow-x-auto md:grid md:grid-cols-4 md:overflow-visible">
+        <div className="mt-[77px] flex gap-3 overflow-x-auto md:grid md:overflow-visible min-[768px]:grid-cols-2 min-[1366px]:grid-cols-4">
           {cards.map((entry, index) =>
             entry.kind === 'rfp' ? (
               <RfpCard key={entry.rfp.slug} rfp={entry.rfp} />

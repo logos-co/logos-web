@@ -25,7 +25,7 @@ export function TerminatorCard({ terminator }: Props) {
   return (
     <Link
       href={terminator.href}
-      className="relative block w-[345px] h-[317px] rounded-[12px] border border-brand-dark-green/50 overflow-hidden bg-brand-off-white shrink-0 cursor-pointer"
+      className="relative block w-[345px] h-[317px] rounded-[12px] border border-brand-dark-green/50 overflow-hidden bg-brand-off-white shrink-0 cursor-pointer md:w-full"
     >
       {/* Title */}
       <h3 className="absolute left-4 top-4 w-[249px] font-sans text-[24px] font-normal leading-[1.1] tracking-tight text-brand-dark-green">

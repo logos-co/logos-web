@@ -22,26 +22,26 @@ export function IdeaCard({ idea }: Props) {
   const blurb = idea.tagline ?? idea.summary
 
   return (
-    <article className="relative w-full md:w-[345px] h-[317px] rounded-[12px] border border-brand-dark-green/50 overflow-hidden bg-brand-off-white shrink-0">
-      <Link
-        href={detailHref}
-        className="absolute left-4 top-4 w-[249px] cursor-pointer"
-      >
-        <h3 className="font-sans text-[24px] font-normal leading-[1.1] tracking-tight text-brand-dark-green">
-          {idea.title}
-        </h3>
-      </Link>
-
-      <div className="absolute left-4 top-[83px]">
-        <Button
-          href={ctaHref}
-          variant="link"
-          {...(ctaExternal
-            ? { target: '_blank', rel: 'noopener noreferrer' }
-            : {})}
-        >
-          {idea.ctaLabel ?? 'Discuss'}
-        </Button>
+    <article className="relative w-full h-[317px] rounded-[12px] border border-brand-dark-green/50 overflow-hidden bg-brand-off-white shrink-0">
+      {/* Title + CTA — flow column so long titles push the CTA down instead
+          of overlapping it; min-h reserves the 2-line slot from the design. */}
+      <div className="absolute left-4 top-4 w-[249px]">
+        <Link href={detailHref} className="block cursor-pointer">
+          <h3 className="min-h-[2.2em] font-sans text-[24px] font-normal leading-[1.1] tracking-tight text-brand-dark-green">
+            {idea.title}
+          </h3>
+        </Link>
+        <div className="mt-[14.2px]">
+          <Button
+            href={ctaHref}
+            variant="link"
+            {...(ctaExternal
+              ? { target: '_blank', rel: 'noopener noreferrer' }
+              : {})}
+          >
+            {idea.ctaLabel ?? 'Discuss'}
+          </Button>
+        </div>
       </div>
 
       {idea.image ? (

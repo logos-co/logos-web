@@ -126,7 +126,7 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
                 : 'mx-auto mt-22.5 max-w-360 px-3 md:mt-34.5'
             }
           >
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
+            <div className="grid grid-cols-1 gap-3 min-[768px]:grid-cols-2 min-[1366px]:grid-cols-4">
               {kind === 'ideas'
                 ? (pageItems as Idea[]).map((idea) => (
                     <IdeaCard key={idea.slug} idea={idea} />

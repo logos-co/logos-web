@@ -22,21 +22,20 @@ export function RfpCard({ rfp }: Props) {
   return (
     <Link
       href={detailHref}
-      className="group relative block h-[317px] w-full overflow-hidden rounded-[12px] border border-brand-dark-green/50 bg-brand-off-white transition-colors hover:bg-gray-01 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green md:w-[345px] md:shrink-0"
+      className="group relative block h-[317px] w-full overflow-hidden rounded-[12px] border border-brand-dark-green/50 bg-brand-off-white transition-colors hover:bg-gray-01 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green"
     >
-      {/* Title */}
+      {/* Title + CTA — flow column so long titles push the CTA down instead
+          of overlapping it; min-h reserves the 2-line slot from the design. */}
       <div className="absolute left-4 top-4 w-[249px]">
-        <h3 className="font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.01em] text-brand-dark-green">
+        <h3 className="min-h-[2.2em] font-sans text-[24px] font-normal leading-[1.1] tracking-[-0.01em] text-brand-dark-green">
           {rfp.title}
         </h3>
-      </div>
-
-      {/* CTA */}
-      <span className="absolute left-4 top-[83px] inline-flex items-center justify-center text-brand-dark-green">
-        <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
-          Learn More
+        <span className="mt-[14.2px] inline-flex items-center justify-center text-brand-dark-green">
+          <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
+            Learn More
+          </span>
         </span>
-      </span>
+      </div>
 
       {/* Image */}
       {rfp.image ? (
