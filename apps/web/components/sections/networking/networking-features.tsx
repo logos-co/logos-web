@@ -17,10 +17,23 @@ const DOT_CLASSNAMES = [
   'bg-accent-steel-teal',
 ]
 
+/**
+ * Focal points are positional too — the shipped photos are portrait (4:5)
+ * while the card frame is landscape, so the default 50% crop pushes each
+ * photo's subject (setting sun / desk worker / hummingbird) off-center.
+ * These vertical object-positions keep the subject centered in the crop.
+ */
+const IMAGE_POSITION_CLASSNAMES = [
+  'object-[50%_62%]',
+  'object-[50%_40%]',
+  'object-[50%_72%]',
+]
+
 type FeatureCardProps = {
   title: string
   body: string
   dotClassName: string
+  imagePositionClassName: string
   imageSrc: string
   imageAlt: string
   cta?: CTA
@@ -31,6 +44,7 @@ function FeatureCard({
   title,
   body,
   dotClassName,
+  imagePositionClassName,
   imageSrc,
   imageAlt,
   cta,
@@ -79,7 +93,7 @@ function FeatureCard({
             alt={imageAlt}
             fill
             sizes="(min-width: 768px) 33vw, 100vw"
-            className="object-cover"
+            className={`object-cover ${imagePositionClassName}`}
           />
         </div>
       </div>
@@ -107,6 +121,9 @@ export default function NetworkingFeatures({ data }: Props) {
                   title={card.title}
                   body={card.description ?? ''}
                   dotClassName={DOT_CLASSNAMES[index] ?? DOT_CLASSNAMES[0]}
+                  imagePositionClassName={
+                    IMAGE_POSITION_CLASSNAMES[index] ?? 'object-center'
+                  }
                   imageSrc={card.image.src}
                   imageAlt={card.image.alt}
                   cta={card.cta}
