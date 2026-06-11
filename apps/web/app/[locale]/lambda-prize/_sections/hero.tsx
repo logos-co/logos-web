@@ -24,7 +24,7 @@ export function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
       <ContentWidth className="relative z-10 flex h-full items-center justify-center">
         <div className="flex w-full -translate-y-[6px] flex-col items-center text-center">
           <div className="text-h4-serif mb-12 inline-flex items-center gap-3">
-            <LogosMark size={20} />
+            <LogosMark size={18} />
             <span>{copy.label}</span>
           </div>
           <h1 className="w-full max-w-[369px] font-display text-[40px] leading-none tracking-[-0.03em] lg:max-w-none lg:text-[56px] lg:leading-[0.88]">

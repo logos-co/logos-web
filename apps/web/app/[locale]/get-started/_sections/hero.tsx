@@ -12,7 +12,7 @@ export function Hero({ heading, intro }: HeroProps) {
     <section className="relative mb-15 h-[200px] w-full md:mb-25 md:h-[258px]">
       <ContentWidth className="relative h-full">
         <div className="absolute top-[60px] left-3 flex items-center gap-3 md:top-[90px]">
-          <LogosMark size={26} className="w-5 shrink-0" />
+          <LogosMark size={28} className="w-5 shrink-0 text-gray-03" />
           <h1 className="font-display text-[30px] leading-none tracking-[-0.9px] md:text-[36px] md:tracking-[-1.08px]">
             {heading}
           </h1>

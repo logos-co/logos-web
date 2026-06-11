@@ -58,7 +58,7 @@
       "key": "storage.main",
       "eyebrow": "Overview",
       "title": "Overview",
-      "description": "Files are addressed by content rather than by location. When you store a file on a node, the protocol returns a CID — a content identifier derived from the file itself — and anyone with that CID can retrieve the file from whichever nodes hold it.\n\nThe usage is straightforward: provide a file through the network and get back a content identifier; anyone who provides the content identifier can retrieve the file.\n\nStorage works both inside the Logos App and from your own applications, through either the high-level module API or the lower-level libstorage library. In future, the module will support private file storage with files hosted across a decentralised network of nodes.",
+      "description": "Files are addressed by content rather than by location. When you store a file on a node, the protocol returns a CID — a content identifier derived from the file itself — and anyone with that CID can retrieve the file from whichever nodes hold it.\n\nThe usage is straightforward: provide a file through the network and get back a content identifier; any one who provides the content identifier can retrieve the file.\n\nStorage works both inside the Logos App and from your own applications, through either the high-level module API or the lower-level libstorage library. The module will support private file storage with files hosted across a decentralised network of nodes.",
       "cta": {
         "label": "View the docs",
         "href": "https://github.com/logos-co/logos-docs",
@@ -179,10 +179,10 @@
     {
       "componentType": "relatedArticles",
       "key": "storage.relatedArticles",
-      "label": "The Logos Blog",
+      "label": "Logos Media",
       "eyebrow": "Logos in the News",
       "title": "Related Articles",
-      "cta": { "label": "Explore all articles", "href": "/blog" },
+      "cta": { "label": "Explore all articles", "href": "/media" },
       "items": [
         {
           "title": "State of the Logos Network: November 2025",
@@ -195,7 +195,7 @@
           "date": "02.14.26",
           "author": "Sterlin Lujan",
           "readingTime": 6,
-          "href": "/blog"
+          "href": "/media"
         },
         {
           "title": "Story of the Network: From CyberNetics to Blockchain Communities",
@@ -208,7 +208,7 @@
           "date": "02.14.26",
           "author": "Sterlin Lujan",
           "readingTime": 6,
-          "href": "/blog"
+          "href": "/media"
         },
         {
           "title": "State of the Logos Network: October 2025",
@@ -221,7 +221,7 @@
           "date": "02.14.26",
           "author": "Sterlin Lujan",
           "readingTime": 6,
-          "href": "/blog"
+          "href": "/media"
         },
         {
           "title": "Hacking for Real World Impact with Funding the Commons & Tor",
@@ -234,7 +234,7 @@
           "date": "02.14.26",
           "author": "Sterlin Lujan",
           "readingTime": 6,
-          "href": "/blog"
+          "href": "/media"
         }
       ],
       "visibleCount": 4

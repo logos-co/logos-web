@@ -709,12 +709,12 @@
       "heading": "Links"
     },
     "blog": {
-      "title": "Blog | Logos",
-      "description": "The Logos Blog — essays, news, and podcasts from the Logos movement.",
-      "heading": "The Logos Blog",
+      "title": "Media | Logos",
+      "description": "Logos Media — essays, news, and podcasts from the Logos movement.",
+      "heading": "Logos Media",
       "hero": {
-        "line1": "The Logos",
-        "line2": "Blog",
+        "line1": "Logos",
+        "line2": "Media",
         "tagline": "Articles, news, podcasts, and media throughout the Logos Network."
       },
       "nav": {

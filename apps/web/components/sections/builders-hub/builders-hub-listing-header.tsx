@@ -75,7 +75,7 @@ export function BuildersHubListingHeader({
 
       <div className="flex items-center justify-between gap-4 md:grid md:grid-cols-12 md:items-start md:gap-3">
         <div className="flex items-center gap-3 md:col-span-4">
-          <LogosMark size={26} className="shrink-0 text-gray-03" />
+          <LogosMark size={28} className="shrink-0 text-gray-03" />
           <h1 className="font-display text-[36px] leading-none tracking-[-0.03em] text-brand-dark-green">
             {title}
           </h1>

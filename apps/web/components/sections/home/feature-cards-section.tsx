@@ -39,15 +39,13 @@ function PathCardView({ card }: { card: PathCard }) {
       />
 
       <div className="absolute top-6 left-6 flex max-w-[calc(100%-170px)] items-start gap-2.5 lg:left-[clamp(16px,1.7vw,24px)] lg:max-w-[calc(100%-150px)] desktop:left-6 desktop:max-w-[calc(100%-170px)]">
-        <LogosMark size={26} className="mt-0.5 shrink-0" />
+        <LogosMark size={28} className="mt-0.5 shrink-0" />
         <h3 className="text-h3-serif lg:text-[clamp(28px,2.5vw,36px)] desktop:text-[36px]">
           {card.title}
         </h3>
       </div>
 
-      <span
-        className="absolute top-3 right-3 inline-flex items-center justify-center rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green backdrop-blur-[5px] transition-colors duration-300 ease-out group-hover/path-card:bg-accent-steel-teal group-focus-visible/path-card:bg-accent-steel-teal lg:px-[clamp(8px,0.8vw,12px)] desktop:px-3"
-      >
+      <span className="absolute top-3 right-3 inline-flex items-center justify-center rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green backdrop-blur-[5px] transition-colors duration-300 ease-out group-hover/path-card:bg-accent-steel-teal group-focus-visible/path-card:bg-accent-steel-teal lg:px-[clamp(8px,0.8vw,12px)] desktop:px-3">
         <span className="inline-flex items-center gap-1">
           <span className="font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase lg:text-[clamp(8px,0.7vw,10px)] desktop:text-[10px]">
             {card.cta}

@@ -31,7 +31,7 @@ export async function generateMetadata({
     title: t('title'),
     description: t('description'),
     locale,
-    path: ROUTES.blog,
+    path: ROUTES.media,
   })
 }
 

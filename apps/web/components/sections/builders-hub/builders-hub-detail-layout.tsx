@@ -84,7 +84,7 @@ export function BuildersHubDetailLayout({
       {/* Header: eyebrow + title + tagline */}
       <header className="mx-auto max-w-360 px-3 pt-10 pb-8">
         <div className="flex items-center gap-3">
-          <LogosMark size={26} className="text-brand-dark-green shrink-0" />
+          <LogosMark size={28} className="text-brand-dark-green shrink-0" />
           {eyebrow ? (
             <span className="font-mono text-[10px] font-medium leading-[1.3] text-brand-dark-green/70 uppercase">
               {eyebrow}

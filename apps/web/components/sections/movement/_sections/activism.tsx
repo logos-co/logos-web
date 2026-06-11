@@ -33,7 +33,7 @@ function IssueCard({ initiative }: { initiative: CircleInitiative }) {
       </span>
       <div className="absolute inset-3 flex flex-col justify-between gap-3">
         <div className="flex items-center gap-1.5">
-          <LambdaBadge size={15} tone="light" />
+          <LambdaBadge size={15} tone="light" circle />
           <p className="text-subhead-serif">{city}</p>
         </div>
         <h3 className="text-subhead-sans mx-auto max-w-[220px] text-center">

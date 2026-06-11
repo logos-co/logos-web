@@ -167,10 +167,10 @@
     {
       "componentType": "relatedArticles",
       "key": "networking.relatedArticles",
-      "label": "The Logos Blog",
+      "label": "Logos Media",
       "eyebrow": "Logos in the News",
       "title": "Related Articles",
-      "cta": { "label": "Explore all articles", "href": "/blog" },
+      "cta": { "label": "Explore all articles", "href": "/media" },
       "visibleCount": 4
     }
   ]
