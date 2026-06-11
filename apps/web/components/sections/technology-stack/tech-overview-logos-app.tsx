@@ -67,6 +67,7 @@ export default function TechOverviewLogosApp({ data }: Props) {
               fill
               priority
               sizes="(max-width: 1279px) 345px, 566px"
+              className="object-top-left"
             />
           }
           title={
