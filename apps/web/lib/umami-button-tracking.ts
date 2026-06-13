@@ -1,5 +1,5 @@
 export const TRACKABLE_BUTTON_SELECTOR =
-  'button, [role="button"], a, .button, a[class*="button"], a[class*="Button"]'
+  'button, [role="button"], a, .button'
 
 export interface ButtonClickEventData {
   readonly source: string
