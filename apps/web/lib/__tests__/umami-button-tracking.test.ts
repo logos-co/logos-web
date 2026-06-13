@@ -110,7 +110,7 @@ describe('getButtonTrackingLabel', () => {
 })
 
 describe('buildButtonClickEventName', () => {
-  it('returns the label without pathname suffixes', () => {
+  it('returns the extracted label', () => {
     expect(buildButtonClickEventName(createButton({ textContent: 'Subscribe' }))).toBe(
       'Subscribe'
     )
