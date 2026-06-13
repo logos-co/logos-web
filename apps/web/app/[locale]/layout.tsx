@@ -51,8 +51,8 @@ export default async function RootLayout({
           <Script
             strategy="afterInteractive"
             src="https://umami.bi.status.im/script.js"
-            data-website-id="5cb3259d-25c5-4e33-a7c1-d89a76dac29c"
-            data-domains="logos.co"
+            data-website-id="144fa9a5-fe44-4bf3-a585-45742cfa89cc"
+            data-domains="dev.logos.co"
           />
         </head>
         <body>
