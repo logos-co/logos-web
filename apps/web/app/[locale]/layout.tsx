@@ -10,6 +10,7 @@ import ScrollToTop from '@/components/scroll-to-top'
 import SiteHeader from '@/components/site-header'
 import SiteHeaderGate from '@/components/site-header/site-header-gate'
 import SiteFooter from '@/components/site-footer'
+import UmamiButtonTracker from '@/components/umami-button-tracker'
 import { routing } from '@/i18n/routing'
 
 import { NextIntlClientProvider } from 'next-intl'
@@ -56,6 +57,7 @@ export default async function RootLayout({
         </head>
         <body>
           <Providers>
+            <UmamiButtonTracker />
             <ScrollToTop />
             <SiteHeaderGate>
               <SiteHeader locale={locale} />
