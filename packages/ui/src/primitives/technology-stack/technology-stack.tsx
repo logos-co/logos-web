@@ -293,6 +293,15 @@ export type TechBuilderCtaDeckProps = {
   contentWrapperClassName?: string
 }
 
+/**
+ * Makes the whole card a click target (paired with a stretched-link CTA, so the
+ * card's anchor hit area spans the box). `relative` anchors the CTA's stretched
+ * `::after` to the card; the visible hover feedback (a background-colour shift
+ * on the light cards, a brightness lift on the image-covered dark card) is added
+ * per card below, since one effect can't read clearly across both tones.
+ */
+const INTERACTIVE_CARD = 'relative cursor-pointer transition duration-200'
+
 export function TechBuilderCtaCardContent({
   title,
   body,
@@ -354,6 +363,8 @@ export function TechBuilderCtaDeck({
           <div
             className={twMerge(
               'flex h-75 w-full flex-col items-center justify-center overflow-hidden border border-brand-dark-green p-4 md:h-125 md:flex-1',
+              INTERACTIVE_CARD,
+              'hover:bg-gray-01',
               cardClassName
             )}
           >
@@ -371,6 +382,8 @@ export function TechBuilderCtaDeck({
           <div
             className={twMerge(
               'relative h-75 w-full overflow-hidden rounded-[200px] bg-brand-dark-green md:h-125 md:flex-1',
+              INTERACTIVE_CARD,
+              'hover:brightness-125',
               builderHubClassName
             )}
           >
@@ -400,6 +413,8 @@ export function TechBuilderCtaDeck({
           <div
             className={twMerge(
               'flex h-75 w-full flex-col items-center justify-center overflow-hidden rounded-[60px] bg-gray-01 p-4 md:h-125 md:flex-1',
+              INTERACTIVE_CARD,
+              'hover:bg-gray-02',
               logosAppClassName
             )}
           >

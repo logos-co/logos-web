@@ -17,6 +17,12 @@ type Props = {
   deckClassName?: string
 }
 
+/**
+ * Stretches the CTA anchor's hit area over the whole card (the card is
+ * `position: relative`), so clicking anywhere in the box follows the link.
+ */
+const STRETCHED_LINK = "after:absolute after:inset-0 after:content-['']"
+
 export default function TechStackBuilderCta({
   data,
   className,
@@ -29,7 +35,11 @@ export default function TechStackBuilderCta({
           title: docsCard.title,
           description: docsCard.description,
           cta: docsCard.cta ? (
-            <Button href={docsCard.cta.href} variant="primary">
+            <Button
+              href={docsCard.cta.href}
+              variant="primary"
+              className={STRETCHED_LINK}
+            >
               {docsCard.cta.label}
             </Button>
           ) : null,
@@ -52,7 +62,7 @@ export default function TechStackBuilderCta({
             <Button
               href={builderHubCard.cta.href}
               variant="primary"
-              className="bg-brand-off-white text-brand-dark-green"
+              className={`bg-brand-off-white text-brand-dark-green ${STRETCHED_LINK}`}
             >
               {builderHubCard.cta.label}
             </Button>
@@ -68,6 +78,7 @@ export default function TechStackBuilderCta({
               href={logosAppCard.cta.href}
               variant="primary"
               icon={<DownloadIcon />}
+              className={STRETCHED_LINK}
             >
               {logosAppCard.cta.label}
             </Button>
