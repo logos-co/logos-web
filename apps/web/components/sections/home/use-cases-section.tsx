@@ -35,7 +35,7 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
               {t('headline')}
             </SectionHeadingReveal>
           </div>
-          <SectionHeadingReveal className="mt-[106px] w-[464px] max-w-none text-center font-display text-[56px] leading-none tracking-[-1.68px] lg:mt-0 lg:hidden">
+          <SectionHeadingReveal className="mt-[106px] w-full max-w-[464px] text-center font-display text-[56px] leading-none tracking-[-1.68px] lg:mt-0 lg:hidden">
             {t('eyebrow')}
           </SectionHeadingReveal>
           <p className="text-mono-s hidden w-full lg:block">{t('lambda')}</p>
