@@ -99,13 +99,17 @@ function CardBody({
         </div>
       </div>
       <div className="flex w-full max-w-[339px] items-baseline gap-10">
-        <p className="text-body-sans min-h-[51px] w-[169.5px] shrink-0 font-normal break-words text-brand-dark-green">
+        <p className="min-h-[51px] w-[169.5px] shrink-0 break-words font-sans text-[12px] leading-[1.2] font-medium text-brand-dark-green desktop:text-body-sans desktop:font-normal">
           {title}
         </p>
         <div className="shrink-0">
-          <p className="text-eyebrow text-brand-dark-green">{date}</p>
+          <p className="font-mono-body text-[10px] leading-[1.3] font-normal text-brand-dark-green desktop:text-eyebrow">
+            {date}
+          </p>
           {author ? (
-            <p className="text-eyebrow text-brand-dark-green">{author}</p>
+            <p className="font-mono-body text-[10px] leading-[1.3] font-normal text-brand-dark-green desktop:text-eyebrow">
+              {author}
+            </p>
           ) : null}
         </div>
       </div>
@@ -133,14 +137,14 @@ export default function BlogSection({ data, articles }: Props) {
   return (
     <section
       id="blog"
-      className="bg-brand-off-white px-3 py-3 lg:mt-[112px] lg:px-0"
+      className="bg-brand-off-white px-3 pt-[140px] pb-3 lg:mt-[112px] lg:px-0 lg:py-3"
     >
-      <ContentWidth className="rounded-xl bg-accent-tan px-3 py-25.5 lg:p-6 lg:pb-[141px]">
-        <div className="flex flex-col gap-28 lg:gap-0">
+      <ContentWidth className="relative h-[856px] overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-3 lg:h-auto lg:overflow-visible lg:p-6 lg:pb-[141px]">
+        <div className="flex flex-col lg:gap-0">
           {(data.label || data.eyebrow || data.cta) && (
-            <div className="flex items-center justify-between">
+            <div className="contents lg:flex lg:items-center lg:justify-between">
               {data.label ? (
-                <p className="text-mono-s text-brand-dark-green">
+                <p className="font-mono-body absolute top-6 left-3 w-[226px] text-[10px] leading-[1.3] font-normal text-brand-dark-green lg:static lg:w-auto lg:text-mono-s">
                   {data.label}
                 </p>
               ) : null}
@@ -154,7 +158,7 @@ export default function BlogSection({ data, articles }: Props) {
                   href={data.cta.href}
                   variant="link"
                   icon={<ButtonArrowIcon />}
-                  className="cursor-pointer transition-opacity hover:opacity-70"
+                  className="absolute top-[23px] right-[41px] cursor-pointer transition-opacity hover:opacity-70 lg:static [&>span]:gap-1 lg:[&>span]:gap-1.5"
                 >
                   {data.cta.label}
                 </Button>
@@ -162,12 +166,12 @@ export default function BlogSection({ data, articles }: Props) {
             </div>
           )}
 
-          <h2 className="text-h2 text-center text-brand-dark-green lg:mx-auto lg:mt-[47px] lg:w-[464px]">
+          <h2 className="absolute top-[102px] left-1/2 w-[464px] max-w-none -translate-x-1/2 text-center font-display text-[56px] leading-none tracking-[-1.68px] text-brand-dark-green lg:static lg:mx-auto lg:mt-[47px] lg:w-[464px] lg:translate-x-0 lg:text-h2">
             {data.title}
           </h2>
 
           <div
-            className="flex gap-3 overflow-x-auto pr-3 lg:mt-[83px] desktop:grid desktop:grid-cols-4 desktop:overflow-visible desktop:pr-0"
+            className="absolute top-[229px] left-0 flex w-full gap-3 overflow-x-auto pl-3 lg:static lg:mt-[83px] lg:w-auto desktop:grid desktop:grid-cols-4 desktop:overflow-visible desktop:pl-0"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {cards.map((card) => (
