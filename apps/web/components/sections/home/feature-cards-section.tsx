@@ -99,14 +99,14 @@ export default function FeatureCardsSection() {
   ]
 
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
+    <section className="bg-brand-off-white">
       <ContentWidth className="relative pt-3 pb-25 lg:h-[848px] lg:py-0">
-        <div className="mt-16 flex flex-col gap-8 text-center lg:absolute lg:top-[112px] lg:left-1/2 lg:mt-0 lg:w-[940px] lg:max-w-[calc(100%-24px)] lg:-translate-x-1/2 lg:flex-row lg:items-start lg:justify-between lg:text-left">
-          <SectionHeadingReveal className="text-h2 text-brand-dark-green">
+        <div className="mt-16 flex flex-col items-center gap-6 text-center lg:absolute lg:top-[112px] lg:left-1/2 lg:mt-0 lg:w-[940px] lg:max-w-[calc(100%-24px)] lg:-translate-x-1/2 lg:flex-row lg:items-start lg:justify-between lg:gap-8 lg:text-left">
+          <SectionHeadingReveal className="w-[351.5px] max-w-[calc(100vw-24px)] text-center font-display text-[24px] leading-none tracking-[-0.72px] text-brand-dark-green lg:w-auto lg:max-w-none lg:text-left lg:text-h2">
             {t('title')}
           </SectionHeadingReveal>
 
-          <div className="text-mono-s mx-auto flex w-[230px] flex-col gap-4 text-brand-dark-green lg:mx-0 lg:w-[226px]">
+          <div className="font-mono-body mx-auto flex w-[351.5px] max-w-[calc(100vw-24px)] flex-col gap-6 text-[10px] leading-[1.3] text-brand-dark-green lg:mx-0 lg:w-[226px] lg:gap-4 lg:text-mono-s">
             <p>{t('kicker')}</p>
             <p>{t('body')}</p>
           </div>
