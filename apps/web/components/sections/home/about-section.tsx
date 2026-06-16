@@ -72,7 +72,7 @@ export default async function AboutSection({ locale }: { locale: string }) {
       id="about"
       className="relative z-[2] mt-[96px] rounded-t-[40px] bg-brand-dark-green text-brand-off-white lg:mt-[168px] lg:rounded-t-[100px]"
     >
-      <div className="mx-auto max-w-[1440px] px-6 pt-[88px] pb-[160px] lg:px-[130px] lg:pt-[112px] lg:pb-[224px]">
+      <div className="mx-auto max-w-[1440px] px-6 pt-[88px] pb-[200px] lg:px-[130px] lg:pt-[112px] lg:pb-[262px]">
         <h2 className="text-h2 mx-auto max-w-[853px] text-center">
           {t('heading')}
         </h2>

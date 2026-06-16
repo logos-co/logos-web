@@ -2,7 +2,6 @@ import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
   FeaturedTextSection,
-  GallerySection,
   HeroSection,
   RelatedArticlesSection,
   TechStackOverviewSection,
@@ -14,7 +13,6 @@ import CirclesCtaSection from '@/components/sections/home/circles-cta-section'
 import DecideSection from '@/components/sections/home/decide-section'
 import FeatureCardsSection from '@/components/sections/home/feature-cards-section'
 import HeroSectionView from '@/components/sections/home/hero-section'
-import ParallelSocietySection from '@/components/sections/home/parallel-society-section'
 import BlogSection from '@/components/sections/home/blog-section'
 import SocialProofSection from '@/components/sections/home/social-proof-section'
 import StartBuildingSection from '@/components/sections/home/start-building-section'
@@ -52,18 +50,6 @@ export default async function HomePage({
     'home.techStack'
   )
 
-  const parallelSocietyHeadline = findSection<FeaturedTextSection>(
-    page.sections,
-    'featuredText',
-    'home.parallelSocietyHeadline'
-  )
-
-  const parallelSocietyGallery = findSection<GallerySection>(
-    page.sections,
-    'gallery',
-    'home.parallelSociety'
-  )
-
   const blog = findSection<RelatedArticlesSection>(
     page.sections,
     'relatedArticles',
@@ -98,10 +84,6 @@ export default async function HomePage({
       />
       <StartBuildingSection locale={locale} />
       <CirclesCtaSection data={circlesCta} />
-      <ParallelSocietySection
-        headline={parallelSocietyHeadline}
-        gallery={parallelSocietyGallery}
-      />
       <BlogSection data={blog} articles={articles} />
     </>
   )
