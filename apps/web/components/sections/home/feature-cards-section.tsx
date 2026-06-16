@@ -106,7 +106,7 @@ export default function FeatureCardsSection() {
             {t('title')}
           </SectionHeadingReveal>
 
-          <div className="font-mono-body mx-auto flex w-[351.5px] max-w-[calc(100vw-24px)] flex-col gap-6 text-[10px] leading-[1.3] text-brand-dark-green lg:mx-0 lg:w-[226px] lg:gap-4 lg:text-mono-s">
+          <div className="font-mono-body mx-auto flex w-[351.5px] max-w-[calc(100vw-24px)] flex-col gap-[13px] text-[10px] leading-[1.3] text-brand-dark-green lg:mx-0 lg:w-[226px] lg:gap-4 lg:text-mono-s">
             <p>{t('kicker')}</p>
             <p>{t('body')}</p>
           </div>
