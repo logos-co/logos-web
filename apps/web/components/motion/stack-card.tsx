@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'motion/react'
 import type { CSSProperties, ReactNode } from 'react'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface StackCardProps {
   children: ReactNode
@@ -17,6 +17,8 @@ interface StackCardProps {
    * the same downward-to-resting-position reveal. `0` makes a static card.
    */
   rise?: number
+  /** Mobile-specific rise value. Defaults to `rise`. */
+  mobileRise?: number
 }
 
 /**
@@ -31,21 +33,38 @@ export function StackCard({
   style,
   id,
   rise = 0,
+  mobileRise,
 }: StackCardProps) {
   const ref = useRef<HTMLElement>(null)
+  const [isDesktop, setIsDesktop] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(min-width: 1024px)').matches
+  )
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'start center'],
   })
+  const activeRise = isDesktop ? rise : (mobileRise ?? rise)
   // Start lower on the page, then settle at the authored layout position.
-  const y = useTransform(scrollYProgress, [0, 1], [rise, 0])
+  const y = useTransform(scrollYProgress, [0, 1], [activeRise, 0])
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 1024px)')
+    const updateIsDesktop = () => setIsDesktop(mediaQuery.matches)
+
+    updateIsDesktop()
+    mediaQuery.addEventListener('change', updateIsDesktop)
+
+    return () => mediaQuery.removeEventListener('change', updateIsDesktop)
+  }, [])
 
   return (
     <motion.section
       ref={ref}
       id={id}
       className={className}
-      style={rise ? { ...style, y } : style}
+      style={activeRise ? { ...style, y } : style}
     >
       {children}
     </motion.section>
