@@ -244,6 +244,7 @@ export type TechBuilderCtaCard = {
   description?: string
   cta?: ReactNode
   image?: ReactNode
+  linkOverlay?: ReactNode
 }
 
 export type TechTextSplitSectionProps = {
@@ -368,6 +369,7 @@ export function TechBuilderCtaDeck({
               cardClassName
             )}
           >
+            {docsCard.linkOverlay}
             <TechBuilderCtaCardContent
               title={docsCard.title}
               body={docsCard.description}
@@ -387,6 +389,7 @@ export function TechBuilderCtaDeck({
               builderHubClassName
             )}
           >
+            {builderHubCard.linkOverlay}
             {builderHubCard.image ? (
               <div
                 className={twMerge(
@@ -418,6 +421,7 @@ export function TechBuilderCtaDeck({
               logosAppClassName
             )}
           >
+            {logosAppCard.linkOverlay}
             <TechBuilderCtaCardContent
               title={logosAppCard.title}
               body={logosAppCard.description}
