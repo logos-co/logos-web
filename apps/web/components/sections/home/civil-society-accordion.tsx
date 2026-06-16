@@ -74,7 +74,7 @@ export default function CivilSocietyAccordion({
   items: AccordionItem[]
 }) {
   const [openKey, setOpenKey] = useState<AccordionItem['key'] | null>(
-    () => items[0]?.key ?? null,
+    () => items[0]?.key ?? null
   )
 
   return (
@@ -95,7 +95,9 @@ export default function CivilSocietyAccordion({
               onClick={() => setOpenKey(isOpen ? null : item.key)}
               className="flex w-full cursor-pointer items-center justify-between gap-6 py-6 text-left transition-opacity hover:opacity-80 lg:py-[30px]"
             >
-              <span className="text-h2">{item.title}</span>
+              <span className="font-display text-[36px] leading-none tracking-[-1.08px] [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] md:text-[56px] md:tracking-[-0.03em]">
+                {item.title}
+              </span>
               <span className="flex items-center gap-3 lg:gap-[42px]">
                 <span className="hidden font-mono text-[14px] tracking-[-0.03em] text-brand-off-white/90 sm:inline lg:text-[20px]">
                   {item.subtitle}
@@ -123,7 +125,10 @@ export default function CivilSocietyAccordion({
                       <div className="flex flex-col gap-4 font-mono text-[10px] leading-[1.3] lg:gap-[20px]">
                         {item.facts.map((fact, index) => (
                           <p key={fact}>
-                            <FactText fact={fact} link={item.factLinks[index]} />
+                            <FactText
+                              fact={fact}
+                              link={item.factLinks[index]}
+                            />
                           </p>
                         ))}
                       </div>
