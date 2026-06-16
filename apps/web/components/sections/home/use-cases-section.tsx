@@ -14,7 +14,7 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
       className="relative z-[4] -mt-[180px] rounded-t-[40px] bg-gray-01 text-brand-dark-green lg:rounded-t-[100px]"
     >
       <div className="mx-auto max-w-[1440px] py-[82px] lg:px-3 lg:pt-[112px] lg:pb-[112px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center pb-[107px] text-center lg:gap-12 lg:pb-[14px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center pb-[45px] text-center lg:gap-12 lg:pb-[14px]">
           <div className="relative h-[130px] w-full lg:flex lg:h-auto lg:flex-col lg:items-center lg:gap-12 lg:px-0">
             <div className="absolute top-0 left-3 h-[130px] w-[107px] overflow-hidden lg:hidden">
               <Image
@@ -35,7 +35,7 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
               {t('headline')}
             </SectionHeadingReveal>
           </div>
-          <SectionHeadingReveal className="font-mono-body mt-[106px] text-center text-[10px] leading-[1.3] tracking-normal whitespace-nowrap lg:mt-0 lg:hidden">
+          <SectionHeadingReveal className="font-mono-body mt-[80px] text-center text-[10px] leading-[1.3] tracking-normal whitespace-nowrap lg:mt-0 lg:hidden">
             {t('eyebrow')}
           </SectionHeadingReveal>
           <p className="text-mono-s hidden w-full lg:block">{t('lambda')}</p>
