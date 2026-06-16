@@ -6,7 +6,7 @@ import type { LambdaPrizePageCopy } from './types'
 
 export function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
   return (
-    <section className="h-[406px] bg-brand-off-white px-3 py-10 text-brand-dark-green min-[1025px]:h-[421px] min-[1025px]:py-12">
+    <section className="h-[406px] bg-brand-off-white px-0 py-10 text-brand-dark-green min-[1025px]:h-[421px] min-[1025px]:px-3 min-[1025px]:py-12">
       <ContentWidth>
         <div className="grid grid-cols-[1fr_auto] gap-y-6 min-[1025px]:grid-cols-3">
           <h2 className="text-h3-serif">{copy.heading}</h2>
@@ -34,7 +34,9 @@ export function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
               <p className="text-mono-s hidden max-w-[312px] min-[1025px]:block">
                 {row.body}
               </p>
-              <div><TertiaryCta href={ROUTES.faq}>{row.action}</TertiaryCta></div>
+              <div>
+                <TertiaryCta href={ROUTES.faq}>{row.action}</TertiaryCta>
+              </div>
             </div>
           ))}
         </div>

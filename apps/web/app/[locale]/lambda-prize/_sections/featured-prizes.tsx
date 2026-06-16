@@ -54,7 +54,7 @@ export function FeaturedPrizes({
   copy: LambdaPrizePageCopy['featured']
 }) {
   return (
-    <section className="bg-brand-off-white px-3 mt-25 lg:mt-50 text-brand-dark-green lg:px-3">
+    <section className="mt-25 bg-brand-off-white px-0 text-brand-dark-green lg:mt-50 lg:px-3">
       <ContentWidth>
         <h2 className="text-h3-serif">{copy.heading}</h2>
         <div className="mt-10 grid grid-cols-1 gap-4 lg:grid-cols-3 lg:mt-12">
