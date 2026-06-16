@@ -1,23 +1,3 @@
-/**
- * @figma-path   Table / Ideas
- * @figma-node   2213:29938 (default) · 2213:30073 (hover)
- * @figma-source internal-copy
- *
- * Compositional table primitive:
- *
- *   <Table title="Ideas" subtitle="..." action={<Button variant="link">...} >
- *     <TableRow
- *       number="01"
- *       title="Secure and Decentralized Frontends"
- *       description={<><p>Quadratic voting…</p><p>Idea by @jonny</p></>}
- *       reward={<><p>2500 USDC</p><p>+ 1000 XP</p></>}
- *       action={<Button variant="link">Apply</Button>}
- *     />
- *   </Table>
- *
- * Rows alternate bg (grey-01 / dark-green 5 %) via nth-child, and switch to
- * accent-light-blue on hover. All sizes are flexible via props / className.
- */
 import type { ReactNode } from 'react'
 
 type TableProps = {

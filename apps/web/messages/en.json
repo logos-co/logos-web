@@ -165,7 +165,7 @@
       },
       "archives": {
         "title": "Permanent, decentralised archives.",
-        "body": "Decentralized network for storing knowledge, culture, and history beyond the reach of any single authority."
+        "body": "Decentralised network for storing knowledge, culture, and history beyond the reach of any single authority."
       },
       "donations": {
         "title": "Anonymous donations and mutual aid.",
@@ -216,8 +216,8 @@
     },
     "startBuilding": {
       "title": "Start building.",
-      "body": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code, explore builder programs.",
-      "mobileBody": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code, explore builder programs.",
+      "body": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code, explore builder programmes.",
+      "mobileBody": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code, explore builder programmes.",
       "cta": "Get Started",
       "cardCta": "Learn more",
       "lambdaPrize": "Lambda Prize",
