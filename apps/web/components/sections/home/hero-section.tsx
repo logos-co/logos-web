@@ -72,7 +72,7 @@ export default function HeroSectionView({ data }: Props) {
           <p className="text-mono-s w-56.5 text-brand-off-white lg:w-full">
             {t('kicker')}
           </p>
-          <div className="flex flex-col items-center gap-1.5 lg:flex-row">
+          <div className="flex flex-col items-center gap-2 lg:flex-row">
             {primaryCta ? (
               <Button
                 href={primaryCta.href}
