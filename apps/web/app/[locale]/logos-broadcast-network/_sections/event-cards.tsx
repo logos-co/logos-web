@@ -89,7 +89,7 @@ export function EventCards({
   const displayEvents = getUpcomingEvents(events)
 
   return (
-    <section className="bg-accent-tan px-3 pb-10">
+    <section className="bg-accent-tan pb-10">
       <ContentWidth className="grid grid-cols-1 gap-3 md:grid-cols-3">
         {displayEvents.map((event, index) => (
           <EventCard
