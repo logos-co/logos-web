@@ -54,7 +54,7 @@ export default async function ManifestoPage({
   return (
     <div className="overflow-x-hidden bg-brand-off-white text-brand-dark-green desktop:h-[4669px] desktop:overflow-hidden">
       <section className="relative flex flex-col items-center justify-center px-3 pt-28 pb-28 desktop:block desktop:h-[697px] desktop:p-0">
-        <h1 className="font-display mx-auto w-full max-w-[352px] text-center text-[24px] leading-none tracking-[-0.03em] desktop:absolute desktop:top-[175px] desktop:left-1/2 desktop:w-[1178px] desktop:max-w-none desktop:-translate-x-1/2 desktop:text-[96px] desktop:leading-[0.98] desktop:tracking-[-0.04em]">
+        <h1 className="font-display mx-auto w-full max-w-[352px] text-center text-[24px] leading-none tracking-[-0.03em] min-[768px]:max-[1439px]:max-w-[620px] min-[768px]:max-[1439px]:text-[44px] min-[768px]:max-[1439px]:leading-[0.95] desktop:absolute desktop:top-[175px] desktop:left-1/2 desktop:w-[1178px] desktop:max-w-none desktop:-translate-x-1/2 desktop:text-[96px] desktop:leading-[0.98] desktop:tracking-[-0.04em]">
           <span className="desktop:hidden">{t('heading')}</span>
           <span className="hidden desktop:block">
             <span className="block">{t('headingLine1')}</span>
@@ -77,18 +77,18 @@ export default async function ManifestoPage({
         >
           <div className="mx-auto max-w-[698px] desktop:absolute desktop:top-[94px] desktop:left-1/2 desktop:h-[464px] desktop:w-[698px] desktop:-translate-x-1/2">
             <section className="desktop:contents">
-              <h2 className="font-display text-center text-[24px] leading-none tracking-[-0.03em] desktop:absolute desktop:top-0 desktop:left-[73px] desktop:w-[552px] desktop:text-[36px]">
+              <h2 className="font-display text-center text-[24px] leading-none tracking-[-0.03em] min-[768px]:max-[1439px]:text-[36px] desktop:absolute desktop:top-0 desktop:left-[73px] desktop:w-[552px] desktop:text-[36px]">
                 {t('abstractHeading')}
               </h2>
-              <p className="font-display mt-6 text-center text-[14px] leading-[1.2] tracking-[0px] [overflow-wrap:anywhere] desktop:absolute desktop:top-[50px] desktop:left-0 desktop:mt-0 desktop:w-[698px] desktop:text-justify desktop:text-[20px] desktop:leading-[24px] desktop:tracking-[-0.03em] desktop:[overflow-wrap:normal]">
+              <p className="font-display mt-6 text-center text-[14px] leading-[1.2] tracking-[0px] [overflow-wrap:anywhere] min-[768px]:max-[1439px]:text-[20px] min-[768px]:max-[1439px]:leading-[24px] min-[768px]:max-[1439px]:[overflow-wrap:normal] desktop:absolute desktop:top-[50px] desktop:left-0 desktop:mt-0 desktop:w-[698px] desktop:text-justify desktop:text-[20px] desktop:leading-[24px] desktop:tracking-[-0.03em] desktop:[overflow-wrap:normal]">
                 {t('abstractBody')}
               </p>
             </section>
             <section className="hidden desktop:contents">
-              <h2 className="font-display text-center text-[24px] leading-none tracking-[-0.03em] desktop:absolute desktop:top-[376px] desktop:left-[73px] desktop:w-[552px] desktop:text-[36px]">
+              <h2 className="font-display text-center text-[24px] leading-none tracking-[-0.03em] min-[768px]:max-[1439px]:text-[36px] desktop:absolute desktop:top-[376px] desktop:left-[73px] desktop:w-[552px] desktop:text-[36px]">
                 {t('keywordsHeading')}
               </h2>
-              <p className="font-display mt-6 text-center text-[14px] leading-[1.2] tracking-[0px] [overflow-wrap:anywhere] desktop:absolute desktop:top-[426px] desktop:left-0 desktop:mt-0 desktop:w-[698px] desktop:text-justify desktop:text-[20px] desktop:leading-[24px] desktop:tracking-[-0.03em] desktop:[overflow-wrap:normal]">
+              <p className="font-display mt-6 text-center text-[14px] leading-[1.2] tracking-[0px] [overflow-wrap:anywhere] min-[768px]:max-[1439px]:text-[20px] min-[768px]:max-[1439px]:leading-[24px] min-[768px]:max-[1439px]:[overflow-wrap:normal] desktop:absolute desktop:top-[426px] desktop:left-0 desktop:mt-0 desktop:w-[698px] desktop:text-justify desktop:text-[20px] desktop:leading-[24px] desktop:tracking-[-0.03em] desktop:[overflow-wrap:normal]">
                 {t('keywords')}
               </p>
             </section>
@@ -99,7 +99,7 @@ export default async function ManifestoPage({
           data-manifesto-paper
           className="bg-brand-off-white px-3 pt-28 pb-28 desktop:absolute desktop:top-[670px] desktop:left-0 desktop:h-[3190px] desktop:w-full desktop:rounded-[100px] desktop:p-0"
         >
-          <article className="font-sans mx-auto max-w-[366px] text-center text-[14px] leading-[1.2] tracking-[0px] desktop:absolute desktop:top-[107px] desktop:left-1/2 desktop:h-[3078px] desktop:w-[853px] desktop:max-w-none desktop:-translate-x-1/2 desktop:font-article desktop:text-[20px] desktop:leading-[24px] desktop:tracking-[-0.03em]">
+          <article className="font-sans mx-auto max-w-[366px] text-center text-[14px] leading-[1.2] tracking-[0px] min-[768px]:max-[1439px]:max-w-[640px] min-[768px]:max-[1439px]:text-[18px] min-[768px]:max-[1439px]:leading-[21.6px] desktop:absolute desktop:top-[107px] desktop:left-1/2 desktop:h-[3078px] desktop:w-[853px] desktop:max-w-none desktop:-translate-x-1/2 desktop:font-article desktop:text-[20px] desktop:leading-[24px] desktop:tracking-[-0.03em]">
             <div className="desktop:relative desktop:h-[2918px]">
               {copy.body.map((paragraph, index) => (
                 <p
