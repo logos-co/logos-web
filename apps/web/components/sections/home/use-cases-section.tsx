@@ -19,7 +19,10 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home.useCases' })
 
   return (
-    <StackCard className="relative z-[4] -mt-[64px] rounded-t-[40px] bg-gray-01 text-brand-dark-green lg:-mt-[112px] lg:rounded-t-[100px]">
+    <StackCard
+      rise={150}
+      className="relative z-[4] -mt-[150px] rounded-t-[40px] bg-gray-01 text-brand-dark-green lg:rounded-t-[100px]"
+    >
       <div className="mx-auto max-w-[1440px] px-3 py-[72px] lg:py-[112px]">
         <div className="mx-auto flex max-w-[1180px] flex-col items-center gap-10 pb-12 text-center lg:gap-12 lg:pb-[48px]">
           <div className="flex w-full flex-col items-center gap-8 lg:gap-12">

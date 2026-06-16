@@ -85,7 +85,7 @@ export default function HeroSectionView({ data }: Props) {
               <Button
                 href={secondaryCta.href}
                 variant="secondary"
-                className="cursor-pointer rounded-xl border-brand-off-white/50 text-brand-off-white backdrop-blur-sm transition-all hover:bg-brand-off-white hover:text-brand-dark-green"
+                className="cursor-pointer border-brand-off-white/50 text-brand-off-white backdrop-blur-sm transition-all hover:bg-brand-off-white hover:text-brand-dark-green"
               >
                 {secondaryCta.label}
               </Button>

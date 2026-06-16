@@ -100,17 +100,14 @@ export default function FeatureCardsSection() {
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
       <ContentWidth className="relative pt-3 pb-25 lg:h-[848px] lg:py-0">
-        <p className="text-mono-s mx-auto w-[226px] text-center text-brand-dark-green lg:absolute lg:top-[23px] lg:left-1/2 lg:mx-0 lg:translate-x-[6px] lg:text-left">
-          {t('kicker')}
-        </p>
+        <div className="mt-16 flex flex-col gap-8 text-center lg:absolute lg:top-[112px] lg:left-1/2 lg:mt-0 lg:w-[940px] lg:max-w-[calc(100%-24px)] lg:-translate-x-1/2 lg:flex-row lg:items-start lg:justify-between lg:text-left">
+          <h2 className="text-h2 text-brand-dark-green">{t('title')}</h2>
 
-        <h2 className="text-h2 mt-20 w-full text-center text-brand-dark-green lg:absolute lg:top-[123px] lg:left-1/2 lg:mt-0 lg:-translate-x-1/2">
-          {t('title')}
-        </h2>
-
-        <p className="text-mono-s mx-auto mt-16 w-[230px] text-center text-brand-dark-green lg:absolute lg:top-[229px] lg:left-1/2 lg:mx-0 lg:mt-0 lg:translate-x-[6px] lg:text-left">
-          {t('body')}
-        </p>
+          <div className="text-mono-s mx-auto flex w-[230px] flex-col gap-4 text-brand-dark-green lg:mx-0 lg:w-[226px]">
+            <p>{t('kicker')}</p>
+            <p>{t('body')}</p>
+          </div>
+        </div>
 
         <div
           className="mt-32 flex flex-col gap-6 lg:absolute lg:inset-x-3 lg:top-[371px] lg:mt-0 lg:grid lg:grid-cols-3 lg:gap-3"

@@ -7,8 +7,11 @@ export default async function DecideSection({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home.decide' })
 
   return (
-    <StackCard className="relative z-[3] -mt-[64px] rounded-t-[36px] bg-gray-03 text-brand-dark-green lg:-mt-[112px]">
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-10 px-6 pt-[88px] pb-[120px] lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:px-[131px] lg:pt-[112px] lg:pb-[224px]">
+    <StackCard
+      rise={150}
+      className="relative z-[3] -mt-[150px] rounded-t-[36px] bg-gray-03 text-brand-dark-green"
+    >
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-10 px-6 pt-[88px] pb-[200px] lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:px-[131px] lg:pt-[112px] lg:pb-[262px]">
         <div className="flex flex-col gap-8 lg:max-w-[510px] lg:gap-12">
           <h2 className="text-h2">
             {t('headline')}
