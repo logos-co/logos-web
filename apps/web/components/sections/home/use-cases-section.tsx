@@ -13,28 +13,45 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
       rise={180}
       className="relative z-[4] -mt-[180px] rounded-t-[40px] bg-gray-01 text-brand-dark-green lg:rounded-t-[100px]"
     >
-      <div className="mx-auto max-w-[1440px] px-3 py-[72px] lg:pt-[112px] lg:pb-[112px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-10 pb-12 text-center lg:gap-12 lg:pb-[14px]">
-          <div className="flex w-full flex-col items-center gap-8 lg:gap-12">
-            <p className="text-mono-s w-full">{t('eyebrow')}</p>
-            <SectionHeadingReveal className="text-h3-serif w-full whitespace-normal desktop:whitespace-pre-line">
+      <div className="mx-auto max-w-[1440px] py-[82px] lg:px-3 lg:pt-[112px] lg:pb-[112px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center pb-[107px] text-center lg:gap-12 lg:pb-[14px]">
+          <div className="relative h-[130px] w-full lg:flex lg:h-auto lg:flex-col lg:items-center lg:gap-12 lg:px-0">
+            <div className="absolute top-0 left-3 h-[130px] w-[107px] overflow-hidden lg:hidden">
+              <Image
+                src="/images/home/usecase-1.webp"
+                alt=""
+                fill
+                sizes="107px"
+                className="object-cover"
+              />
+            </div>
+            <p className="font-mono-body absolute top-0 left-[207px] w-[178px] text-left text-[10px] leading-[1.3] whitespace-pre-wrap lg:hidden">
+              {t('headline')}
+              {'\n\n'}
+              {t('lambda')}
+            </p>
+            <p className="text-mono-s hidden w-full lg:block">{t('eyebrow')}</p>
+            <SectionHeadingReveal className="text-h3-serif hidden w-full whitespace-normal lg:block desktop:whitespace-pre-line">
               {t('headline')}
             </SectionHeadingReveal>
           </div>
-          <p className="text-mono-s w-full">{t('lambda')}</p>
+          <SectionHeadingReveal className="mt-[106px] w-[464px] max-w-none text-center font-display text-[56px] leading-none tracking-[-1.68px] lg:mt-0 lg:hidden">
+            {t('eyebrow')}
+          </SectionHeadingReveal>
+          <p className="text-mono-s hidden w-full lg:block">{t('lambda')}</p>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="flex w-full snap-x snap-mandatory scroll-ps-6 gap-3 overflow-x-auto px-6 [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden">
           {HOME_USE_CASE_CARDS.map((card) => (
             <article
               key={card.key}
-              className="flex h-[300px] flex-col justify-between rounded-[12px] border border-brand-dark-green p-3 lg:h-[317px]"
+              className="relative h-[317px] w-[345px] shrink-0 snap-start overflow-hidden rounded-[12px] border border-brand-dark-green lg:flex lg:h-[317px] lg:w-auto lg:flex-col lg:justify-between lg:p-3"
             >
-              <h3 className="text-h4-sans max-w-[249px]">
+              <h3 className="absolute top-[15px] left-[15px] w-[249px] font-sans text-[24px] leading-[1.1] font-normal tracking-[-0.24px] lg:static lg:max-w-[249px] lg:w-auto">
                 {t(`${card.key}.title`)}
               </h3>
-              <div className="flex items-end justify-between gap-3">
-                <p className="text-mono-s max-w-[186px]">
+              <div className="absolute right-[10px] bottom-[11px] left-[15px] flex items-end justify-between gap-3 lg:static">
+                <p className="font-mono-body w-[186px] text-[10px] leading-[1.3] lg:max-w-[186px]">
                   {t(`${card.key}.body`)}
                 </p>
                 <div className="relative h-[118px] w-[96px] shrink-0 overflow-hidden">
