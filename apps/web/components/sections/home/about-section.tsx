@@ -1,16 +1,18 @@
 import { getTranslations } from 'next-intl/server'
 
-import { ROUTES } from '@/constants/routes'
-import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
-import AboutCarousel, { type AboutProblemCard } from './about-carousel'
+import { StackCard } from '@/components/motion/stack-card'
+import CivilSocietyAccordion, {
+  type AccordionItem,
+} from './civil-society-accordion'
 
 export default async function AboutSection({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home.about' })
 
-  const cards: AboutProblemCard[] = [
+  const items: AccordionItem[] = [
     {
       key: 'debt',
       title: t('problems.debt.title'),
+      subtitle: t('problems.debt.subtitle'),
       body: t('problems.debt.body'),
       facts: [
         t('problems.debt.fact1'),
@@ -25,67 +27,59 @@ export default async function AboutSection({ locale }: { locale: string }) {
         },
       },
       image: '/images/home/figma-refresh/problem-debt.webp',
-      tone: 'bg-gray-01',
-      textTone: 'text-brand-dark-green',
     },
     {
       key: 'surveillance',
       title: t('problems.surveillance.title'),
+      subtitle: t('problems.surveillance.subtitle'),
       body: t('problems.surveillance.body'),
       facts: [
         t('problems.surveillance.fact1'),
         t('problems.surveillance.fact2'),
         t('problems.surveillance.fact3'),
       ],
-      image: '/images/home/figma-refresh/problem-surveillance.webp',
-      tone: 'bg-gray-02',
-      textTone: 'text-brand-dark-green',
       factLinks: {},
+      image: '/images/home/figma-refresh/problem-surveillance.webp',
       imageClassName: 'object-[50%_42%]',
     },
     {
       key: 'corruption',
       title: t('problems.corruption.title'),
+      subtitle: t('problems.corruption.subtitle'),
       body: t('problems.corruption.body'),
       facts: [
         t('problems.corruption.fact1'),
         t('problems.corruption.fact2'),
         t('problems.corruption.fact3'),
       ],
-      image: '/images/home/figma-refresh/problem-corruption.webp',
-      tone: 'bg-gray-03',
-      textTone: 'text-brand-dark-green',
       factLinks: {},
+      image: '/images/home/figma-refresh/problem-corruption.webp',
     },
     {
       key: 'stagnation',
       title: t('problems.stagnation.title'),
+      subtitle: t('problems.stagnation.subtitle'),
       body: t('problems.stagnation.body'),
       facts: [t('problems.stagnation.fact1'), t('problems.stagnation.fact2')],
-      image: '/images/home/figma-refresh/problem-stagnation.webp',
-      tone: 'bg-gray-04',
-      textTone: 'text-brand-off-white',
       factLinks: {},
+      image: '/images/home/figma-refresh/problem-stagnation.webp',
       imageClassName: 'object-[50%_45%]',
     },
   ]
-  const closingParagraphs = [t('closing1'), t('closing2'), t('closing3')].filter(
-    (paragraph) => paragraph.trim().length > 0,
-  )
 
   return (
-    <section
+    <StackCard
       id="about"
-      className="relative bg-brand-dark-green text-brand-off-white"
+      className="relative z-[2] mt-[96px] rounded-t-[40px] bg-brand-dark-green text-brand-off-white lg:mt-[168px] lg:rounded-t-[100px]"
     >
-      <AboutCarousel
-        intro={t('intro')}
-        cards={cards}
-        closingParagraphs={closingParagraphs}
-        cta={
-          ROUTE_AVAILABILITY.about ? { href: ROUTES.about, label: t('cta') } : undefined
-        }
-      />
-    </section>
+      <div className="mx-auto max-w-[1440px] px-6 pt-[88px] pb-[160px] lg:px-[130px] lg:pt-[112px] lg:pb-[224px]">
+        <h2 className="text-h2 mx-auto max-w-[853px] text-center">
+          {t('heading')}
+        </h2>
+        <div className="mt-14 lg:mt-[74px]">
+          <CivilSocietyAccordion items={items} />
+        </div>
+      </div>
+    </StackCard>
   )
 }

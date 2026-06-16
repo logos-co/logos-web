@@ -11,6 +11,7 @@ import type {
 import AboutSection from '@/components/sections/home/about-section'
 import BuilderPortalSection from '@/components/sections/home/builder-portal-section'
 import CirclesCtaSection from '@/components/sections/home/circles-cta-section'
+import DecideSection from '@/components/sections/home/decide-section'
 import FeatureCardsSection from '@/components/sections/home/feature-cards-section'
 import HeroSectionView from '@/components/sections/home/hero-section'
 import ParallelSocietySection from '@/components/sections/home/parallel-society-section'
@@ -18,6 +19,7 @@ import BlogSection from '@/components/sections/home/blog-section'
 import SocialProofSection from '@/components/sections/home/social-proof-section'
 import StartBuildingSection from '@/components/sections/home/start-building-section'
 import TechStackSection from '@/components/sections/home/tech-stack-section'
+import UseCasesSection from '@/components/sections/home/use-cases-section'
 
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
@@ -83,9 +85,11 @@ export default async function HomePage({
     <>
       <HeroSectionView data={hero} />
       <SocialProofSection stats={socialProofStats} />
-      <AboutSection locale={locale} />
-      <BuilderPortalSection locale={locale} />
       <FeatureCardsSection />
+      <AboutSection locale={locale} />
+      <DecideSection locale={locale} />
+      <UseCasesSection locale={locale} />
+      <BuilderPortalSection locale={locale} />
       <TechStackSection
         data={techStack}
         networkingHref={ROUTES.networking}

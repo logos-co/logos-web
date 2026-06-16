@@ -38,8 +38,10 @@
       "mobileBody": "Logos is the private-by-default infrastructure for parallel societies. Built for a world where existing systems have stopped working. Built for a world where we are in control."
     },
     "socialProof": {
+      "headline": "Logos is not for everyone. Logos is for people who are done waiting for permission.",
+      "manifestoCta": "Read the manifesto",
       "contributions": {
-        "label": "Total contributions",
+        "label": "Contributors",
         "body": "An open source community of builders, researchers, and technologists."
       },
       "nodeOperators": {
@@ -102,6 +104,7 @@
       "headline": "Logos exists at the intersection of human exploration and technological revolution.",
       "body": "We are a movement for builders, explorers, and dreamers who refuse to accept the world as it is. We're part of a generation fed up with corruption, surveillance, and stagnation often associated with incumbent institutions.",
       "intro": "Civil society is in decline. Our institutions are failing. Our money is debased. People are atomised, indebted, and increasingly unable to provide for themselves or their families. Reform from within cannot reverse this because the system selects for compliance, and centralisation leads inevitably to corruption.",
+      "heading": "Civil society is in decline. Our institutions are failing. Reform from within cannot reverse this.",
       "closing1": "Logos exist to build the decentralised infrastructure and living ecosystem that makes a parallel society possible for anyone \nready to reclaim their agency in the digital and physical world.",
       "closing2": "Built for exit when the existing order can no longer hold.",
       "closing3": "Build the parallel. Prove it in practice. Keep it human.",
@@ -109,6 +112,7 @@
       "problems": {
         "debt": {
           "title": "Debt",
+          "subtitle": "The bill lands on us",
           "body": "We were born into a debt we never authorised and have inherited consequences of decisions we did not make. As interest compounds, the total grows. The bill lands on us.",
           "fact1": "Global government debt has climbed to a record $111 trillion in 2025, rising by $8.3 trillion in a single year.",
           "fact2": "The average millennial in the US has 30% less wealth than the average Boomer by age 35.",
@@ -117,6 +121,7 @@
         },
         "surveillance": {
           "title": "Surveillance",
+          "subtitle": "Privacy is no longer the default",
           "body": "We are the most watched generation in human history. Online activity, location, and communications are routinely collected, stored, and sold, often without meaningful consent. Privacy is no longer a default condition.",
           "fact1": "There are now ~1 billion surveillance cameras installed worldwide. More than 1 for every 8 people on Earth.",
           "fact2": "75% of police forces globally now have access to facial recognition technology.",
@@ -124,6 +129,7 @@
         },
         "corruption": {
           "title": "Corruption",
+          "subtitle": "It is the operating model",
           "body": "Policy is increasingly shaped by those who can pay to influence it. Lobbying, campaign donations, and direct access give organised money a structural advantage over the public interest.",
           "fact1": "Billionaires are now estimated to be 4,000 times more likely to hold political office than ordinary citizens.",
           "fact2": "In the US alone, federal lobbying smashed records in 2025, with corporations and interest groups spending $5.08 billion in a single year to influence Washington.",
@@ -131,10 +137,37 @@
         },
         "stagnation": {
           "title": "Stagnation",
+          "subtitle": "The distribution is not an accident",
           "body": "Since 1979, productivity has grown while wages stay flat. The output is real, but the gains are captured upstream by top earners and capital owners, not wages. This has been done systematically over decades.",
           "fact1": "The 12 richest billionaires now own more wealth than the poorest half of humanity — 4 billion people.",
           "fact2": "Millennials work in an economy 70% more productive than when boomers were the same age — yet their median compensation has barely moved."
         }
+      }
+    },
+    "decide": {
+      "headline": "We get to decide what comes next. Remain in the decline.",
+      "headline2": "Exit and build the alternative",
+      "body": "Logos is the private-by-default technology stack for parallel societies – communities, institutions, and economies that operate outside the legacy system."
+    },
+    "useCases": {
+      "eyebrow": "Use Cases",
+      "headline": "Privacy is the condition that makes free association possible. Logos is the technology stack that makes it the default.",
+      "lambda": "Explore the applications Logos is funding through the Lambda Prize. LAMBDA PRIZE >>",
+      "secure": {
+        "title": "Secure communications free from surveillance.",
+        "body": "Resilient, private messaging for coordination in hostile environments."
+      },
+      "money": {
+        "title": "Private, censorship-resistant money.",
+        "body": "Private financial networks for storing and moving value without surveillance."
+      },
+      "archives": {
+        "title": "Permanent, decentralised archives.",
+        "body": "Decentralized network for storing knowledge, culture, and history beyond the reach of any single authority."
+      },
+      "donations": {
+        "title": "Anonymous donations and mutual aid.",
+        "body": "Private payment network for funding people and causes without putting parties at risk"
       }
     },
     "builderPortal": {

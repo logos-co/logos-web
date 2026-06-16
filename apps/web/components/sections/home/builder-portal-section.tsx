@@ -3,10 +3,8 @@ import Image from 'next/image'
 
 import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
-import { Button } from '@/components/ui'
+import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
-
-import { DownloadIcon } from '../shared/builder-cta-card'
 
 // Temporarily hidden — Basecamp feature boxes (chat / node / transactions).
 // Keep this so we can re-enable the feature row below later.
@@ -47,7 +45,7 @@ export default async function BuilderPortalSection({
 
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
-      <ContentWidth className="py-25 lg:pt-50 lg:pb-25">
+      <ContentWidth className="py-25 lg:pt-28 lg:pb-25">
         <div className="grid gap-9 lg:grid-cols-3 lg:gap-3">
           <div className="flex flex-col gap-10 lg:min-h-[374px] xl:min-h-[471px] desktop:min-h-[532px] lg:justify-between lg:gap-0">
             <div className="flex flex-col gap-7.5">
@@ -63,7 +61,7 @@ export default async function BuilderPortalSection({
               <Button
                 href={ROUTES.basecamp}
                 variant="secondary"
-                icon={<DownloadIcon />}
+                icon={<ButtonArrowIcon />}
                 className="w-fit cursor-pointer transition-opacity hover:opacity-80"
               >
                 {t('cta')}
