@@ -70,10 +70,10 @@ export default async function AboutSection({ locale }: { locale: string }) {
   return (
     <StackCard
       id="about"
-      className="relative z-[2] mt-[96px] rounded-t-[40px] bg-brand-dark-green text-brand-off-white lg:mt-[168px] lg:rounded-t-[100px]"
+      className="relative z-[2] mt-[96px] rounded-t-[40px] bg-brand-dark-green text-brand-off-white lg:mt-[48px] lg:rounded-t-[100px]"
     >
-      <div className="mx-auto max-w-[1440px] px-6 pt-[88px] pb-[200px] lg:px-[130px] lg:pt-[112px] lg:pb-[262px]">
-        <h2 className="text-h2 mx-auto max-w-[853px] text-center">
+      <div className="mx-auto max-w-[1440px] px-6 pt-[88px] pb-[200px] lg:px-[130px] lg:pt-[112px] lg:pb-[291px]">
+        <h2 className="mx-auto max-w-[853px] whitespace-pre-line text-center font-display text-[36px] leading-none tracking-[-0.03em]">
           {t('heading')}
         </h2>
         <div className="mt-14 lg:mt-[74px]">

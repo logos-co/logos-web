@@ -8,14 +8,13 @@ export default async function DecideSection({ locale }: { locale: string }) {
 
   return (
     <StackCard
-      rise={150}
-      className="relative z-[3] -mt-[150px] rounded-t-[36px] bg-gray-03 text-brand-dark-green"
+      className="relative z-[3] -mt-[112px] rounded-t-[36px] bg-gray-03 text-brand-dark-green"
     >
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-10 px-6 pt-[88px] pb-[200px] lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:px-[131px] lg:pt-[112px] lg:pb-[262px]">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-10 px-6 pt-[88px] pb-[200px] lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:px-[131px] lg:pt-[112px] lg:pb-[224px]">
         <div className="flex flex-col gap-8 lg:max-w-[510px] lg:gap-12">
           <h2 className="text-h2">
             {t('headline')}
-            <span className="mt-[0.6em] block">{t('headline2')}</span>
+            <span className="mt-[1em] block">{t('headline2')}</span>
           </h2>
           <p className="text-h4-serif max-w-[510px]">{t('body')}</p>
         </div>

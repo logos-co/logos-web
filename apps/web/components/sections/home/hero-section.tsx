@@ -28,7 +28,7 @@ export default function HeroSectionView({ data }: Props) {
   return (
     <section
       ref={sectionRef}
-      className="relative z-[1] h-[800px] overflow-hidden bg-brand-dark-green"
+      className="relative z-[1] h-[760px] overflow-hidden bg-brand-dark-green"
     >
       {/* Background image */}
       <motion.div className="absolute inset-0" style={{ scale: bgScale }}>

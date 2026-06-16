@@ -131,9 +131,12 @@ export default function BlogSection({ data, articles }: Props) {
   }))
 
   return (
-    <section id="blog" className="bg-brand-off-white px-3 py-3 lg:px-0">
-      <ContentWidth className="rounded-xl bg-accent-tan px-3 py-25.5 lg:p-6 lg:pb-[146px]">
-        <div className="flex flex-col gap-28">
+    <section
+      id="blog"
+      className="bg-brand-off-white px-3 py-3 lg:mt-[112px] lg:px-0"
+    >
+      <ContentWidth className="rounded-xl bg-accent-tan px-3 py-25.5 lg:p-6 lg:pb-[141px]">
+        <div className="flex flex-col gap-28 lg:gap-0">
           {(data.label || data.eyebrow || data.cta) && (
             <div className="flex items-center justify-between">
               {data.label ? (
@@ -159,12 +162,12 @@ export default function BlogSection({ data, articles }: Props) {
             </div>
           )}
 
-          <h2 className="text-h2 text-center text-brand-dark-green">
+          <h2 className="text-h2 text-center text-brand-dark-green lg:mx-auto lg:mt-[47px] lg:w-[464px]">
             {data.title}
           </h2>
 
           <div
-            className="flex gap-3 overflow-x-auto pr-3 desktop:grid desktop:grid-cols-4 desktop:overflow-visible desktop:pr-0"
+            className="flex gap-3 overflow-x-auto pr-3 lg:mt-[83px] desktop:grid desktop:grid-cols-4 desktop:overflow-visible desktop:pr-0"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {cards.map((card) => (

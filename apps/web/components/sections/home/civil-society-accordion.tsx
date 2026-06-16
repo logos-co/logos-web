@@ -73,9 +73,7 @@ export default function CivilSocietyAccordion({
 }: {
   items: AccordionItem[]
 }) {
-  const [openKey, setOpenKey] = useState<AccordionItem['key'] | null>(
-    items[0]?.key ?? null
-  )
+  const [openKey, setOpenKey] = useState<AccordionItem['key'] | null>(null)
 
   return (
     <div className="flex w-full flex-col">

@@ -45,16 +45,16 @@ export default async function BuilderPortalSection({
 
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
-      <ContentWidth className="py-25 lg:pt-28 lg:pb-25">
+      <ContentWidth className="py-25 lg:pt-28 lg:pb-0">
         <div className="grid gap-9 lg:grid-cols-3 lg:gap-3">
-          <div className="flex flex-col gap-10 lg:min-h-[374px] xl:min-h-[471px] desktop:min-h-[532px] lg:justify-between lg:gap-0">
+          <div className="flex flex-col gap-10 lg:min-h-[532px] lg:justify-between lg:gap-0">
             <div className="flex flex-col gap-7.5">
               <Reveal
                 amount={0.4}
                 delay={0.18}
                 viewportMargin="0px 0px -20% 0px"
               >
-                <h2 className="text-h2 max-w-[702px] whitespace-pre-line text-brand-dark-green">
+                <h2 className="text-h2 relative z-[1] max-w-[702px] whitespace-pre-line text-brand-dark-green lg:w-[702px]">
                   {t('title')}
                 </h2>
               </Reveal>
@@ -73,7 +73,7 @@ export default async function BuilderPortalSection({
             </p>
           </div>
 
-          <div className="relative aspect-[2820/1596] lg:aspect-auto lg:h-[374px] xl:h-[471px] desktop:h-[532px] overflow-hidden rounded-3xl bg-[#1c1c1c] lg:col-span-2">
+          <div className="relative aspect-[2820/1596] overflow-hidden rounded-3xl bg-[#1c1c1c] lg:col-span-2 lg:aspect-auto lg:h-[532px]">
             <Image
               src="/images/home/figma-refresh/basecamp.webp"
               alt=""
