@@ -77,7 +77,7 @@ export default function SocialProofSection({ stats }: SocialProofSectionProps) {
           </Button>
         </div>
 
-        <div className="relative left-1/2 mb-[112px] grid w-screen max-w-none min-w-0 -translate-x-1/2 grid-cols-1 gap-6 pb-0 md:static md:left-auto md:mx-auto md:mb-0 md:w-full md:max-w-[1180px] md:translate-x-0 md:grid-cols-2 md:gap-3 md:pb-[112px] xl:grid-cols-4 xl:gap-4">
+        <div className="relative left-1/2 mb-[36px] grid w-screen max-w-none min-w-0 -translate-x-1/2 grid-cols-1 gap-6 pb-0 md:static md:left-auto md:mx-auto md:mb-0 md:w-full md:max-w-[1180px] md:translate-x-0 md:grid-cols-2 md:gap-3 md:pb-[112px] xl:grid-cols-4 xl:gap-4">
           {cards.map((card, index) => (
             <MobileStatRowView
               key={`${card.key}-mobile`}
