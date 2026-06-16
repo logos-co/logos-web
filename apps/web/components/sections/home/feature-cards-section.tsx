@@ -113,7 +113,7 @@ export default function FeatureCardsSection() {
         </div>
 
         <div
-          className="mt-32 flex flex-col gap-6 lg:absolute lg:inset-x-3 lg:top-[371px] lg:mt-0 lg:grid lg:grid-cols-3 lg:gap-3"
+          className="mt-[40px] flex flex-col gap-6 lg:absolute lg:inset-x-3 lg:top-[371px] lg:mt-0 lg:grid lg:grid-cols-3 lg:gap-3"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {cards.map((card) => (
