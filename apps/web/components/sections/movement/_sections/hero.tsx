@@ -7,7 +7,7 @@ import type { Translate } from './types'
 
 export function HeroSection({ t }: { t: Translate }) {
   return (
-    <section className="relative h-[494px] overflow-hidden bg-brand-off-white px-3 pt-6 text-brand-dark-green md:h-[579px]">
+    <section className="relative h-[494px] overflow-hidden bg-brand-off-white pt-6 text-brand-dark-green md:h-[579px]">
       <ContentWidth className="relative h-full">
         <div className="relative h-[75px] w-[107px] overflow-hidden bg-gray-01">
           <Image
