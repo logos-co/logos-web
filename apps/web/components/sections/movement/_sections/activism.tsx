@@ -84,7 +84,7 @@ export function ActivismSection({
         className="pb-10 md:pb-19.5"
       />
       <ContentWidth className="overflow-x-auto">
-        <div className="grid gap-3 px-3 md:flex md:w-max md:snap-x">
+        <div className="grid gap-3 md:flex md:w-max md:snap-x">
           {cards.map((initiative) => (
             <IssueCard key={initiative.slug} initiative={initiative} />
           ))}

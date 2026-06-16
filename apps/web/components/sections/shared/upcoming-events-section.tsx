@@ -186,7 +186,7 @@ export function UpcomingEventsSection({
           {groups.map((group) => (
             <div
               key={group.key}
-              className="grid gap-3 border-t border-brand-dark-green/10 px-3 pt-3 md:grid-cols-12"
+              className="grid gap-3 border-t border-brand-dark-green/10 pt-3 md:grid-cols-12"
             >
               <p className="text-eyebrow text-brand-dark-green md:col-span-2">
                 {group.date}{' '}
