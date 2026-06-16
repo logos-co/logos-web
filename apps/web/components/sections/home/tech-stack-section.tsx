@@ -82,7 +82,7 @@ export default function TechStackSection({
           </div>
         </div>
 
-        <div className="mt-[127px] flex flex-col items-center gap-[109px]">
+        <div className="mt-[70px] flex flex-col items-center gap-10">
           {data.eyebrow ? (
             <p className="text-mono-s w-[120px] whitespace-pre-line text-center text-brand-dark-green">
               {formatEyebrow(data.eyebrow)}
@@ -108,7 +108,7 @@ export default function TechStackSection({
             {TECH_STACK_BODY}
           </p>
 
-          <div className="w-full">
+          <div className="mt-[60px] w-full">
             <TechStackDiagram
               data={data}
               networkingHref={networkingHref}
