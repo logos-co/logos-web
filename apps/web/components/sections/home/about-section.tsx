@@ -74,11 +74,12 @@ export default async function AboutSection({ locale }: { locale: string }) {
       rise={180}
       className="relative z-[2] mt-[96px] rounded-t-[40px] bg-brand-dark-green text-brand-off-white lg:mt-[48px] lg:rounded-t-[100px]"
     >
-      <div className="mx-auto max-w-[1440px] px-6 pt-[88px] pb-[200px] lg:px-[130px] lg:pt-[112px] lg:pb-[291px]">
-        <SectionHeadingReveal className="mx-auto max-w-[853px] whitespace-normal text-center font-display text-[36px] leading-none tracking-[-0.03em] desktop:whitespace-pre-line">
-          {t('heading')}
+      <div className="mx-auto max-w-[1440px] px-6 pt-[112px] pb-[200px] lg:px-[130px] lg:pt-[112px] lg:pb-[291px]">
+        <SectionHeadingReveal className="mx-auto max-w-[853px] whitespace-pre-line text-center font-display text-[24px] leading-none tracking-[-0.72px] desktop:text-[36px] desktop:tracking-[-0.03em]">
+          <span className="desktop:hidden">{t('headingMobile')}</span>
+          <span className="hidden desktop:inline">{t('heading')}</span>
         </SectionHeadingReveal>
-        <div className="mt-14 lg:mt-[74px]">
+        <div className="mt-[112px] lg:mt-[74px]">
           <CivilSocietyAccordion items={items} />
         </div>
       </div>
