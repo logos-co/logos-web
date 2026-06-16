@@ -49,7 +49,7 @@ export default function TechStackSection({
   return (
     <section
       id="tech-stack"
-      className={`relative overflow-hidden bg-brand-off-white ${
+      className={`relative overflow-hidden bg-brand-off-white lg:mt-[224px] ${
         borderTop ? 'border-t border-brand-dark-green/10' : ''
       }`}
     >
@@ -120,7 +120,7 @@ export default function TechStackSection({
       </ContentWidth>
 
       <ContentWidth
-        className={`relative hidden min-h-full flex-col pt-[11px] pb-25 ${desktopContentClass}`}
+        className={`relative hidden min-h-full flex-col pt-[11px] pb-[34px] ${desktopContentClass}`}
       >
         <div className="flex items-start justify-between">
           <p className="text-mono-s w-[226px] text-brand-dark-green">

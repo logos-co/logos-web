@@ -15,7 +15,7 @@ interface StatCard {
 
 function StatCardView({ card }: { card: StatCard }) {
   return (
-    <article className="flex min-h-[250px] w-full flex-col gap-[23px] rounded-[20px] border border-brand-dark-green bg-brand-off-white p-5 text-brand-dark-green">
+    <article className="flex h-[250px] w-full flex-col gap-[23px] rounded-[20px] border border-brand-dark-green bg-brand-off-white p-5 text-brand-dark-green">
       <span className="inline-flex w-fit items-center rounded-[4px] border border-brand-dark-green px-[11px] py-1.5">
         <span className="font-sans text-[12px] leading-[1.15] tracking-[-0.01em]">
           {card.label}
@@ -70,11 +70,12 @@ export default function SocialProofSection({ stats }: SocialProofSectionProps) {
   ]
 
   return (
-    <section className="relative z-[2] -mt-10 overflow-hidden rounded-t-[36px] bg-brand-off-white">
+    <section className="relative z-[2] -mt-[60px] overflow-hidden rounded-t-[36px] bg-brand-off-white">
       <div className="mx-auto max-w-[1440px] px-3">
-        <div className="flex flex-col items-center gap-9 pt-[72px] pb-[64px] text-center lg:pt-[112px] lg:pb-[96px]">
+        <div className="flex flex-col items-center gap-9 pt-[72px] pb-[64px] text-center lg:pt-[112px] lg:pb-[102px]">
           <h2 className="text-h2 max-w-[853px] text-brand-dark-green">
-            {t('headline')}
+            <span className="block">{t('headline1')}</span>
+            <span className="block text-[#848e88]">{t('headline2')}</span>
           </h2>
           <Button
             href={ROUTES.manifesto}
@@ -84,7 +85,7 @@ export default function SocialProofSection({ stats }: SocialProofSectionProps) {
           </Button>
         </div>
 
-        <div className="flex flex-col gap-3 pb-[100px] lg:grid lg:grid-cols-4">
+        <div className="mx-auto flex max-w-[1180px] flex-col gap-3 pb-[112px] lg:grid lg:grid-cols-4 lg:gap-4">
           {cards.map((card) => (
             <StatCardView key={card.key} card={card} />
           ))}

@@ -48,9 +48,9 @@ export default async function StartBuildingSection({
   ]
 
   return (
-    <section className="bg-brand-off-white">
-      <ContentWidth className="grid gap-3 lg:grid-cols-2 lg:pt-14.5">
-        <div className="relative h-[319px] w-full overflow-hidden rounded-[100px] bg-brand-dark-green/10 lg:h-[696px] lg:w-auto">
+    <section className="bg-brand-off-white lg:mt-[112px]">
+      <ContentWidth className="grid gap-3 lg:grid-cols-2 lg:py-3">
+        <div className="relative h-[319px] w-full overflow-hidden rounded-[100px] bg-brand-dark-green/10 lg:h-[724px] lg:w-auto">
           <Image
             src="/images/home/figma-refresh/start-building.webp"
             alt=""
@@ -60,13 +60,13 @@ export default async function StartBuildingSection({
           />
         </div>
 
-        <div className="flex min-h-[705px] flex-col justify-between rounded-xl bg-[#dbddd7] p-3 text-brand-dark-green lg:min-h-[696px] lg:p-6">
+        <div className="flex min-h-[705px] flex-col justify-between rounded-xl bg-[#dbddd7] p-3 text-brand-dark-green lg:min-h-[724px] lg:p-6">
           <div className="mx-auto mt-7 flex max-w-[320px] flex-col items-center gap-10 text-center lg:mt-[113px]">
             <div className="flex flex-col items-center gap-6 lg:w-[320px]">
               <h2 className="font-display text-[30px] leading-none tracking-[-0.03em] lg:text-[36px]">
                 {t('title')}
               </h2>
-              <p className="h-[28px] overflow-hidden font-sans text-[12px] leading-[1.2] lg:h-auto lg:w-[254px]">
+              <p className="font-sans text-[12px] leading-[1.2] lg:w-[254px]">
                 {t('body')}
               </p>
             </div>

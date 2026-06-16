@@ -1,7 +1,6 @@
 import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
-  FeaturedTextSection,
   HeroSection,
   RelatedArticlesSection,
   TechStackOverviewSection,
@@ -9,7 +8,6 @@ import type {
 
 import AboutSection from '@/components/sections/home/about-section'
 import BuilderPortalSection from '@/components/sections/home/builder-portal-section'
-import CirclesCtaSection from '@/components/sections/home/circles-cta-section'
 import DecideSection from '@/components/sections/home/decide-section'
 import FeatureCardsSection from '@/components/sections/home/feature-cards-section'
 import HeroSectionView from '@/components/sections/home/hero-section'
@@ -56,12 +54,6 @@ export default async function HomePage({
     'home.blog'
   )
 
-  const circlesCta = findSection<FeaturedTextSection>(
-    page.sections,
-    'featuredText',
-    'home.circlesCta'
-  )
-
   const [articles, socialProofStats] = await Promise.all([
     getLatestBlogArticles(blog.visibleCount ?? 4),
     getSocialProofStats(),
@@ -83,7 +75,6 @@ export default async function HomePage({
         desktopAt1367
       />
       <StartBuildingSection locale={locale} />
-      <CirclesCtaSection data={circlesCta} />
       <BlogSection data={blog} articles={articles} />
     </>
   )
