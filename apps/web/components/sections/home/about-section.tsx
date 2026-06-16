@@ -71,6 +71,7 @@ export default async function AboutSection({ locale }: { locale: string }) {
   return (
     <StackCard
       id="about"
+      rise={180}
       className="relative z-[2] mt-[96px] rounded-t-[40px] bg-brand-dark-green text-brand-off-white lg:mt-[48px] lg:rounded-t-[100px]"
     >
       <div className="mx-auto max-w-[1440px] px-6 pt-[88px] pb-[200px] lg:px-[130px] lg:pt-[112px] lg:pb-[291px]">
