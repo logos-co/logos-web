@@ -4,16 +4,13 @@ import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
+import {
+  getSocialProofCards,
+  type HomeStatCard,
+} from '@/lib/homepage-section-data'
 import type { SocialProofStats } from '@/lib/social-proof-stats'
 
-interface StatCard {
-  key: 'contributions' | 'nodeOperators' | 'circles' | 'winnableIssues'
-  value: string
-  label: string
-  body: string
-}
-
-function StatCardView({ card }: { card: StatCard }) {
+function StatCardView({ card }: { card: HomeStatCard }) {
   return (
     <article className="flex min-h-[250px] w-full min-w-0 flex-col gap-[23px] rounded-[20px] border border-brand-dark-green bg-brand-off-white p-5 text-brand-dark-green">
       <span className="inline-flex w-fit items-center rounded-[4px] border border-brand-dark-green px-[11px] py-1.5">
@@ -39,33 +36,7 @@ interface SocialProofSectionProps {
 
 export default function SocialProofSection({ stats }: SocialProofSectionProps) {
   const t = useTranslations('home.socialProof')
-
-  const cards: StatCard[] = [
-    {
-      key: 'contributions',
-      value: stats.contributions,
-      label: t('contributions.label'),
-      body: t('contributions.body'),
-    },
-    {
-      key: 'nodeOperators',
-      value: '226',
-      label: t('nodeOperators.label'),
-      body: t('nodeOperators.body'),
-    },
-    {
-      key: 'circles',
-      value: '47',
-      label: t('circles.label'),
-      body: t('circles.body'),
-    },
-    {
-      key: 'winnableIssues',
-      value: '13',
-      label: t('winnableIssues.label'),
-      body: t('winnableIssues.body'),
-    },
-  ]
+  const cards = getSocialProofCards(stats, t)
 
   return (
     <section className="relative z-[2] -mt-[60px] overflow-hidden rounded-t-[36px] bg-brand-off-white">

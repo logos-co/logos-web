@@ -11,20 +11,19 @@ interface StackCardProps {
   /** Element id for in-page anchors. */
   id?: string
   /**
-   * Pixels this card visibly rises onto the card above it as it scrolls into
-   * view. The card's className must pull it up with a matching `-mt-[Npx]`
-   * overlap so the rise lands inside the upper card's empty bottom padding —
-   * never over its content. `0` (default) makes a static base card.
+   * Pixels this card rises as it scrolls into view. Stacked follow-up cards
+   * usually pair this with a matching negative top margin so they settle into
+   * an overlap; the first animated card can use normal spacing and still keep
+   * the same downward-to-resting-position reveal. `0` makes a static card.
    */
   rise?: number
 }
 
 /**
  * Wrapper for the three "stacking" homepage sections (Civil Society → Decide →
- * Use Cases). Civil Society is the static base; Decide and Use Cases each rise
- * onto the card above as you scroll, scroll-linked so the upward stacking
- * motion is clearly visible. The rise only ever laps onto the upper card's
- * empty bottom padding, so content is never covered.
+ * Use Cases). Each animated card starts translated downward and rises to its
+ * authored layout position as it scrolls into view. Later cards can combine the
+ * motion with negative top margin to create the stacked overlap.
  */
 export function StackCard({
   children,
@@ -38,8 +37,7 @@ export function StackCard({
     target: ref,
     offset: ['start end', 'start center'],
   })
-  // Start flush (y = +rise cancels the negative overlap margin), then rise to
-  // its resting overlap (y = 0) as the card scrolls toward the viewport centre.
+  // Start lower on the page, then settle at the authored layout position.
   const y = useTransform(scrollYProgress, [0, 1], [rise, 0])
 
   return (

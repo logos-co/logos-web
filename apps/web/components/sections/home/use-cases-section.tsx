@@ -3,18 +3,7 @@ import Image from 'next/image'
 
 import { SectionHeadingReveal } from '@/components/motion/section-heading-reveal'
 import { StackCard } from '@/components/motion/stack-card'
-
-interface UseCaseCard {
-  key: 'secure' | 'money' | 'archives' | 'donations'
-  image: string
-}
-
-const CARDS: UseCaseCard[] = [
-  { key: 'secure', image: '/images/home/use-cases/secure.png' },
-  { key: 'money', image: '/images/home/use-cases/money.png' },
-  { key: 'archives', image: '/images/home/use-cases/archives.png' },
-  { key: 'donations', image: '/images/home/use-cases/archives.png' },
-]
+import { HOME_USE_CASE_CARDS } from '@/lib/homepage-section-data'
 
 export default async function UseCasesSection({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home.useCases' })
@@ -36,7 +25,7 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
         </div>
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {CARDS.map((card) => (
+          {HOME_USE_CASE_CARDS.map((card) => (
             <article
               key={card.key}
               className="flex h-[300px] flex-col justify-between rounded-[12px] border border-brand-dark-green p-3 lg:h-[317px]"
