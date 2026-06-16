@@ -93,9 +93,9 @@ export default function CivilSocietyAccordion({
               aria-expanded={isOpen}
               aria-controls={panelId}
               onClick={() => setOpenKey(isOpen ? null : item.key)}
-              className="flex w-full cursor-pointer items-center justify-between gap-6 py-6 text-left transition-opacity hover:opacity-80 lg:py-[30px]"
+              className="flex w-full cursor-pointer items-center justify-between gap-6 py-[30px] text-left transition-opacity hover:opacity-80"
             >
-              <span className="font-display text-[36px] leading-none tracking-[-1.08px] [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] md:text-[56px] md:tracking-[-0.03em]">
+              <span className="font-display text-[30px] leading-none tracking-[-0.9px] [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] lg:text-[56px] lg:tracking-[-0.03em]">
                 {item.title}
               </span>
               <span className="flex items-center gap-3 lg:gap-[42px]">
