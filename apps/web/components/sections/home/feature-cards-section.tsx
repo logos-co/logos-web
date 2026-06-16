@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl'
 import ContentWidth from '@/components/layout/content-width'
 import { LogosMark } from '@acid-info/logos-ui'
 
+import { SectionHeadingReveal } from '@/components/motion/section-heading-reveal'
 import { ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
@@ -101,7 +102,9 @@ export default function FeatureCardsSection() {
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
       <ContentWidth className="relative pt-3 pb-25 lg:h-[848px] lg:py-0">
         <div className="mt-16 flex flex-col gap-8 text-center lg:absolute lg:top-[112px] lg:left-1/2 lg:mt-0 lg:w-[940px] lg:max-w-[calc(100%-24px)] lg:-translate-x-1/2 lg:flex-row lg:items-start lg:justify-between lg:text-left">
-          <h2 className="text-h2 text-brand-dark-green">{t('title')}</h2>
+          <SectionHeadingReveal className="text-h2 text-brand-dark-green">
+            {t('title')}
+          </SectionHeadingReveal>
 
           <div className="text-mono-s mx-auto flex w-[230px] flex-col gap-4 text-brand-dark-green lg:mx-0 lg:w-[226px]">
             <p>{t('kicker')}</p>

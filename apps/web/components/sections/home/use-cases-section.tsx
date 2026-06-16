@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
+import { SectionHeadingReveal } from '@/components/motion/section-heading-reveal'
 import { StackCard } from '@/components/motion/stack-card'
 
 interface UseCaseCard {
@@ -20,15 +21,16 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
 
   return (
     <StackCard
-      className="relative z-[4] -mt-[112px] rounded-t-[40px] bg-gray-01 text-brand-dark-green lg:rounded-t-[100px]"
+      rise={180}
+      className="relative z-[4] -mt-[180px] rounded-t-[40px] bg-gray-01 text-brand-dark-green lg:rounded-t-[100px]"
     >
       <div className="mx-auto max-w-[1440px] px-3 py-[72px] lg:pt-[112px] lg:pb-[112px]">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-10 pb-12 text-center lg:gap-12 lg:pb-[14px]">
           <div className="flex w-full flex-col items-center gap-8 lg:gap-12">
             <p className="text-mono-s w-full">{t('eyebrow')}</p>
-            <h2 className="text-h3-serif w-full whitespace-pre-line">
+            <SectionHeadingReveal className="text-h3-serif w-full whitespace-normal desktop:whitespace-pre-line">
               {t('headline')}
-            </h2>
+            </SectionHeadingReveal>
           </div>
           <p className="text-mono-s w-full">{t('lambda')}</p>
         </div>

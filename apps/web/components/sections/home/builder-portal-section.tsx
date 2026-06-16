@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
 import ContentWidth from '@/components/layout/content-width'
-import { Reveal } from '@/components/motion/reveal'
+import { SectionHeadingReveal } from '@/components/motion/section-heading-reveal'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
@@ -45,19 +45,16 @@ export default async function BuilderPortalSection({
 
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
-      <ContentWidth className="py-25 lg:pt-28 lg:pb-0">
-        <div className="grid gap-9 lg:grid-cols-3 lg:gap-3">
-          <div className="flex flex-col gap-10 lg:min-h-[532px] lg:justify-between lg:gap-0">
+      <ContentWidth className="desktop:pt-28 desktop:pb-0 py-25">
+        <div className="desktop:grid-cols-3 desktop:gap-3 grid gap-9">
+          <div className="desktop:min-h-[532px] desktop:justify-between desktop:gap-0 flex flex-col gap-10">
             <div className="flex flex-col gap-7.5">
-              <Reveal
-                amount={0.4}
-                delay={0.18}
-                viewportMargin="0px 0px -20% 0px"
+              <SectionHeadingReveal
+                className="text-h2 desktop:w-[702px] relative z-[1] max-w-[702px] whitespace-pre-line text-brand-dark-green"
+                delay={0.08}
               >
-                <h2 className="text-h2 relative z-[1] max-w-[702px] whitespace-pre-line text-brand-dark-green lg:w-[702px]">
-                  {t('title')}
-                </h2>
-              </Reveal>
+                {t('title')}
+              </SectionHeadingReveal>
               <Button
                 href={ROUTES.basecamp}
                 variant="secondary"
@@ -68,12 +65,12 @@ export default async function BuilderPortalSection({
               </Button>
             </div>
 
-            <p className="text-mono-s whitespace-pre-line text-brand-dark-green lg:w-[345px]">
+            <p className="text-mono-s desktop:w-[345px] whitespace-pre-line text-brand-dark-green">
               {t('description')}
             </p>
           </div>
 
-          <div className="relative aspect-[2820/1596] overflow-hidden rounded-3xl bg-[#1c1c1c] lg:col-span-2 lg:aspect-auto lg:h-[532px]">
+          <div className="desktop:col-span-2 desktop:aspect-auto desktop:h-[532px] relative aspect-[2820/1596] overflow-hidden rounded-3xl bg-[#1c1c1c]">
             <Image
               src="/images/home/figma-refresh/basecamp.webp"
               alt=""
