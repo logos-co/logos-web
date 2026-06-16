@@ -72,7 +72,8 @@ export default async function AboutSection({ locale }: { locale: string }) {
     <StackCard
       id="about"
       rise={180}
-      className="relative z-[2] mt-[96px] rounded-t-[40px] bg-brand-dark-green text-brand-off-white lg:mt-[48px] lg:rounded-t-[100px]"
+      mobileRise={0}
+      className="relative z-[2] mt-3 rounded-t-[40px] bg-brand-dark-green text-brand-off-white lg:mt-[48px] lg:rounded-t-[100px]"
     >
       <div className="mx-auto max-w-[1440px] px-6 pt-[112px] pb-[200px] lg:px-[130px] lg:pt-[112px] lg:pb-[291px]">
         <SectionHeadingReveal className="mx-auto max-w-[853px] whitespace-pre-line text-center font-display text-[24px] leading-none tracking-[-0.72px] desktop:text-[36px] desktop:tracking-[-0.03em]">
