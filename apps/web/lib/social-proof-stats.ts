@@ -1,18 +1,13 @@
 import {
-  BI_GRAPHQL_API_URL,
-  CIRCLES_GRAPHQL_RESPONSE_KEY,
   CONTRIBUTIONS_API_RESPONSE_KEY,
   CONTRIBUTIONS_API_URL,
 } from './logos-data-api'
 import { logger } from './logger'
 
-const ACTIVE_CIRCLES_DAYS = 120
-
 const FALLBACK_SOCIAL_PROOF_STATS = {
   contributions: 3441,
   contributors: 218,
   repositories: 341,
-  circles: 34,
 } as const
 
 type ContributionsApiData = {
@@ -25,21 +20,10 @@ type ContributionsApiResponse = {
   [CONTRIBUTIONS_API_RESPONSE_KEY]?: ContributionsApiData[]
 }
 
-type CirclesApiResponse = {
-  data?: {
-    [CIRCLES_GRAPHQL_RESPONSE_KEY]?: {
-      aggregate?: {
-        count?: number | null
-      }
-    }
-  }
-}
-
 export interface SocialProofStats {
   contributions: string
   contributors: string
   repositories: string
-  circles: string
 }
 
 function formatStat(
@@ -47,22 +31,6 @@ function formatStat(
   fallback: number
 ): string {
   return (value ?? fallback).toLocaleString('en-US')
-}
-
-function getTodayISODateDaysAgo(days: number): string {
-  const date = new Date()
-  date.setDate(date.getDate() - days)
-  return date.toISOString().split('T')[0] ?? ''
-}
-
-function getCirclesGraphqlQuery(dateString: string): string {
-  return `query CountDistinctCities {
-  ${CIRCLES_GRAPHQL_RESPONSE_KEY}(where: { end_at: { _gte: "${dateString}" } }) {
-    aggregate {
-      count(distinct: true, columns: location_city)
-    }
-  }
-}`
 }
 
 async function fetchContributionsData(): Promise<ContributionsApiData | null> {
@@ -83,35 +51,8 @@ async function fetchContributionsData(): Promise<ContributionsApiData | null> {
   }
 }
 
-async function fetchTotalCircles(): Promise<number | null> {
-  try {
-    const activeSinceDate = getTodayISODateDaysAgo(ACTIVE_CIRCLES_DAYS)
-    const response = await fetch(BI_GRAPHQL_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query: getCirclesGraphqlQuery(activeSinceDate),
-      }),
-      cache: 'force-cache',
-    })
-
-    if (!response.ok) {
-      throw new Error(`Circles request failed: ${response.status}`)
-    }
-
-    const data = (await response.json()) as CirclesApiResponse
-    return data.data?.[CIRCLES_GRAPHQL_RESPONSE_KEY]?.aggregate?.count ?? null
-  } catch (error) {
-    logger.error('Failed to fetch social proof circle stats', { error })
-    return null
-  }
-}
-
 export async function getSocialProofStats(): Promise<SocialProofStats> {
-  const [contributionsData, totalCircles] = await Promise.all([
-    fetchContributionsData(),
-    fetchTotalCircles(),
-  ])
+  const contributionsData = await fetchContributionsData()
 
   return {
     contributions: formatStat(
@@ -126,6 +67,5 @@ export async function getSocialProofStats(): Promise<SocialProofStats> {
       contributionsData?.total_repositories,
       FALLBACK_SOCIAL_PROOF_STATS.repositories
     ),
-    circles: formatStat(totalCircles, FALLBACK_SOCIAL_PROOF_STATS.circles),
   }
 }
