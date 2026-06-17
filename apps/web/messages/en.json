@@ -35,7 +35,7 @@
     "hero": {
       "mobileHeadline": "We are charting\na new path.",
       "kicker": "Basecamp is the tool for living outside existing systems.",
-      "mobileBody": "Logos is the private-by-default infrastructure for parallel societies. Built for a world where existing systems have stopped working. Built for a world where we are in control."
+      "mobileBody": "Logos is the private-by-default technology stack for parallel societies. Built for a world where existing systems have stopped working. Built for a world where we are in control."
     },
     "socialProof": {
       "headline": "Logos is not for everyone. Logos is for people who are done waiting for permission.",
@@ -132,7 +132,7 @@
         },
         "corruption": {
           "title": "Corruption",
-          "subtitle": "It is the operating model",
+          "subtitle": "The rules are for sale",
           "body": "Policy is increasingly shaped by those who can pay to influence it. Lobbying, campaign donations, and direct access give organised money a structural advantage over the public interest.",
           "fact1": "Billionaires are now estimated to be 4,000 times more likely to hold political office than ordinary citizens.",
           "fact2": "In the US alone, federal lobbying smashed records in 2025, with corporations and interest groups spending $5.08 billion in a single year to influence Washington.",
@@ -140,7 +140,7 @@
         },
         "stagnation": {
           "title": "Stagnation",
-          "subtitle": "The distribution is not an accident",
+          "subtitle": "The system protects itself",
           "body": "Since 1979, productivity has grown while wages stay flat. The output is real, but the gains are captured upstream by top earners and capital owners, not wages. This has been done systematically over decades.",
           "fact1": "The 12 richest billionaires now own more wealth than the poorest half of humanity — 4 billion people.",
           "fact2": "Millennials work in an economy 70% more productive than when boomers were the same age — yet their median compensation has barely moved."
@@ -170,7 +170,7 @@
       },
       "donations": {
         "title": "Anonymous donations and mutual aid.",
-        "body": "Private payment network for funding people and causes without putting parties at risk"
+        "body": "Private payment network for funding people and causes without putting parties at risk."
       }
     },
     "builderPortal": {
@@ -201,7 +201,7 @@
       "body": "Take action to reclaim agency and find your purpose.",
       "build": {
         "title": "Build",
-        "body": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code.",
+        "body": "Build privacy-first, decentralised applications. Read the docs, learn the stack, write code.",
         "cta": "Start Building"
       },
       "operate": {

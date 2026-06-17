@@ -1,5 +1,4 @@
 import { getTranslations } from 'next-intl/server'
-import Image from 'next/image'
 
 import { StackCard } from '@/components/motion/stack-card'
 
@@ -21,13 +20,16 @@ export default async function DecideSection({ locale }: { locale: string }) {
         </div>
 
         <div className="desktop:aspect-auto desktop:h-[695px] desktop:w-[583px] desktop:rounded-[50px] relative aspect-[583/520] w-full shrink-0 overflow-hidden rounded-[40px]">
-          <Image
-            src="/images/home/figma-refresh/path-activism.webp"
-            alt=""
-            fill
-            sizes="(max-width: 1439px) calc(100vw - 48px), 583px"
-            className="object-cover"
-          />
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="/images/home/figma-refresh/path-activism.webp"
+            className="absolute inset-0 h-full w-full object-cover"
+          >
+            <source src="/videos/home/mountain.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
     </StackCard>
