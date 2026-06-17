@@ -113,15 +113,6 @@ export function TechDetailHero({
   const desktopContentGrid = desktopAt1025
     ? 'lg:col-span-2 lg:grid lg:grid-cols-2 lg:gap-3'
     : 'md:col-span-2 md:grid md:grid-cols-2 md:gap-3'
-  // On pages that keep the mobile layout through tablet widths, let the
-  // content column and copy use the full screen width instead of the phone cap.
-  const mobileContentMaxW = desktopAt1025
-    ? 'max-w-92.25 md:max-w-none'
-    : 'max-w-92.25'
-  const mobileBodyMaxW = desktopAt1025 ? 'max-w-85.5 md:max-w-none' : 'max-w-85.5'
-  const mobileStatusBodyMaxW = desktopAt1025
-    ? 'max-w-86 md:max-w-none'
-    : 'max-w-86'
 
   return (
     <section
@@ -143,14 +134,14 @@ export function TechDetailHero({
         </h1>
 
         <div
-          className={`absolute top-[122px] left-3 flex w-[calc(100%-24px)] flex-col text-black ${mobileContentMaxW}`}
+          className="absolute top-[122px] left-3 flex w-[calc(100%-24px)] flex-col text-black"
         >
           {actions ? (
             <div className="flex flex-wrap items-start gap-1.5">{actions}</div>
           ) : null}
 
           {body ? (
-            <p className={`text-mono-s mt-6 ${mobileBodyMaxW}`}>{body}</p>
+            <p className="text-mono-s mt-6">{body}</p>
           ) : null}
 
           {bodySecondary ? (
@@ -169,9 +160,7 @@ export function TechDetailHero({
               <span className="text-eyebrow w-fit rounded bg-brand-yellow px-1 py-0.5 text-brand-dark-green">
                 {status.label}
               </span>
-              <p className={`text-mono-s text-black ${mobileStatusBodyMaxW}`}>
-                {status.body}
-              </p>
+              <p className="text-mono-s text-black">{status.body}</p>
               <div className="flex flex-wrap items-center gap-3">
                 {status.cta}
               </div>
