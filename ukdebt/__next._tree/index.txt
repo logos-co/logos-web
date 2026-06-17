@@ -7,4 +7,4 @@
 :HL["/_next/static/media/fa0520225c6f3d07-s.p.0_88erakuzr64.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/rhymes_display_regular-s.p.14b85k4~uv6qn.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/chunks/0eb-7_31v1mt3.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":0,"slots":{"children":{"name":"locale","param":{"type":"d","key":"en","siblings":null},"prefetchHints":16,"slots":{"children":{"name":"ukdebt","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"gCJCxjnRIhTZSTlp1mDsF"}
+0:{"tree":{"name":"","param":null,"prefetchHints":0,"slots":{"children":{"name":"locale","param":{"type":"d","key":"en","siblings":null},"prefetchHints":16,"slots":{"children":{"name":"ukdebt","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"uoOf0JKDsGGRKRgP1-WSk"}
