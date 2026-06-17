@@ -128,15 +128,6 @@
           "label": "About",
           "cards": [
             {
-              "label": "About Us",
-              "href": "/about",
-              "description": "A mission to revitalise civil society through privacy",
-              "image": {
-                "src": "/nav-overlay/figma/about-thumb.jpg",
-                "alt": ""
-              }
-            },
-            {
               "label": "Logos Media",
               "href": "/media",
               "description": "Articles, news, podcasts, and media throughout the Logos Network.",
