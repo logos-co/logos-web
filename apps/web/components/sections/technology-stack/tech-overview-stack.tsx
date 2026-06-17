@@ -25,7 +25,7 @@ export default function TechOverviewStack({
 }: Props) {
   return (
     <section id="stack">
-      <div className="bg-brand-off-white px-0 pb-6 md:px-3 md:pb-25">
+      <div className="bg-brand-off-white px-0 pb-6 md:pb-25">
         <ContentWidth>
           {data.architecture ? (
             <OverviewMediaPanel

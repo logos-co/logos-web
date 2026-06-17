@@ -96,7 +96,7 @@ export function GiantSwitch({
 
   return (
     <div
-      className={`w-full px-3 ${installHoverShift ? 'giant-switch--install-hover' : ''} ${className ?? ''}`}
+      className={`w-full ${installHoverShift ? 'giant-switch--install-hover' : ''} ${className ?? ''}`}
     >
       {hoverShiftStyles ? <style>{hoverShiftStyles}</style> : null}
       <div
