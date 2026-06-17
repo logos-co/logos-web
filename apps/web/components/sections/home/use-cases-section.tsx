@@ -29,7 +29,7 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
       className="relative z-[4] -mt-[180px] rounded-t-[40px] bg-gray-01 text-brand-dark-green lg:rounded-t-[100px]"
     >
       <div className="mx-auto max-w-[1440px] py-[82px] lg:px-3 lg:pt-[112px] lg:pb-[112px]">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center pb-[45px] text-center lg:gap-12 lg:pb-[14px]">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center pb-[45px] text-center lg:gap-12 lg:pb-12">
           <div className="grid w-full grid-cols-[107px_minmax(0,1fr)] gap-[clamp(20px,8vw,48px)] px-3 lg:flex lg:h-auto lg:flex-col lg:items-center lg:gap-12 lg:px-0">
             <div className="relative h-[130px] w-[107px] overflow-hidden lg:hidden">
               <Image

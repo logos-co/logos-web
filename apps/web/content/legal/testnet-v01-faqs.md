@@ -51,7 +51,7 @@ No. It's under active development, likely contains bugs or vulnerabilities, and 
 
 ## Can I build on the testnet?
 
-Yes, the testnet is designed to be built upon by developers interested in experimenting with the Logos modular stack. Refer to the official documentation for guides on getting started: https://github.com/logos-co/logos-docs
+Yes, the testnet is designed to be built upon by developers interested in experimenting with the Logos modular stack. Refer to the official documentation for guides on getting started: https://docs.logos.co/
 
 ## What about entitlements, expectations, rights or benefits for participating?
 

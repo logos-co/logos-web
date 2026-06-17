@@ -54,7 +54,7 @@
           "links": [
             {
               "label": "Docs",
-              "href": "https://github.com/logos-co/logos-docs"
+              "href": "https://docs.logos.co/"
             },
             { "label": "Events", "href": "https://luma.com/logosevents" },
             {
@@ -171,7 +171,7 @@
           "links": [
             {
               "label": "Docs",
-              "href": "https://github.com/logos-co/logos-docs"
+              "href": "https://docs.logos.co/"
             },
             { "label": "GitHub", "href": "https://github.com/logos-co" },
             { "label": "Start Building", "href": "/get-started" }

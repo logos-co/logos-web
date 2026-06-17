@@ -58,7 +58,7 @@
         },
         {
           "label": "Docs",
-          "href": "https://github.com/logos-co/logos-docs",
+          "href": "https://docs.logos.co/",
           "external": true,
           "variant": "tertiary"
         }
@@ -72,7 +72,7 @@
       "description": "Logos Blockchain is a proof-of-stake layer-1 with privacy built into the consensus mechanism itself, rather than added at the application layer. Block proposers are anonymous and transactions are private by default. The chain supports application-specific execution environments called Sovereign Zones, which will be connected for interoperability.",
       "cta": {
         "label": "View the docs",
-        "href": "https://github.com/logos-co/logos-docs",
+        "href": "https://docs.logos.co/",
         "external": true
       }
     },
@@ -84,7 +84,7 @@
       "subheading": "A private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
       "cta": {
         "label": "View the docs",
-        "href": "https://github.com/logos-blockchain/logos-blockchain/tree/master/consensus",
+        "href": "https://docs.logos.co/",
         "external": true
       },
       "cards": [
@@ -99,7 +99,7 @@
           },
           "cta": {
             "label": "Repo",
-            "href": "https://github.com/logos-blockchain/logos-blockchain/tree/master/consensus",
+            "href": "https://docs.logos.co/",
             "variant": "primary"
           }
         },
@@ -144,7 +144,7 @@
           "description": "Learn more about the Logos technology stack",
           "cta": {
             "label": "View the docs",
-            "href": "https://github.com/logos-co/logos-docs",
+            "href": "https://docs.logos.co/",
             "external": true
           }
         },

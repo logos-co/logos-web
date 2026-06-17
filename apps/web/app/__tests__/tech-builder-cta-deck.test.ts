@@ -13,12 +13,12 @@ describe('TechBuilderCtaDeck', () => {
             title: 'Basecamp Documentation',
             description: 'Read the docs',
             linkOverlay: createElement('a', {
-              href: 'https://github.com/logos-co/logos-docs',
+              href: 'https://docs.logos.co/',
               'aria-hidden': true,
               tabIndex: -1,
             }),
             cta: createElement('a', {
-              href: 'https://github.com/logos-co/logos-docs',
+              href: 'https://docs.logos.co/',
             }),
           },
         ],
@@ -26,7 +26,7 @@ describe('TechBuilderCtaDeck', () => {
     )
 
     expect(html).toContain(
-      '<a href="https://github.com/logos-co/logos-docs" aria-hidden="true" tabindex="-1"></a>'
+      '<a href="https://docs.logos.co/" aria-hidden="true" tabindex="-1"></a>'
     )
   })
 })

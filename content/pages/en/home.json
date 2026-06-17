@@ -76,7 +76,7 @@
       "title": "The Logos Technology Stack",
       "cta": {
         "label": "See the Stack",
-        "href": "https://github.com/logos-co/logos-docs",
+        "href": "https://docs.logos.co/",
         "external": true
       },
       "basecamp": {
@@ -137,7 +137,7 @@
       "subheadingExtra": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
       "cta": {
         "label": "View the Docs",
-        "href": "https://github.com/logos-co/logos-docs",
+        "href": "https://docs.logos.co/",
         "external": true
       },
       "cards": [

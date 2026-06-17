@@ -42,7 +42,7 @@
         },
         {
           "label": "Documentation",
-          "href": "https://github.com/logos-co/logos-docs",
+          "href": "https://docs.logos.co/",
           "external": true,
           "variant": "secondary"
         }
@@ -65,7 +65,7 @@
       "eyebrow": "Disclaimer: Abstract representation of the stack.",
       "cta": {
         "label": "Docs",
-        "href": "https://github.com/logos-co/logos-docs",
+        "href": "https://docs.logos.co/",
         "external": true
       },
       "architecture": {
@@ -77,7 +77,7 @@
         ],
         "cta": {
           "label": "Documentation",
-          "href": "https://github.com/logos-co/logos-docs",
+          "href": "https://docs.logos.co/",
           "external": true
         },
         "image": {
@@ -266,7 +266,7 @@
       "subheadingExtra": "Build on Logos and serve your community.",
       "cta": {
         "label": "Documentation",
-        "href": "https://github.com/logos-co/logos-docs",
+        "href": "https://docs.logos.co/",
         "external": true
       },
       "cards": [

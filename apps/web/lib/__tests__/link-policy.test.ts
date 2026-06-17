@@ -40,7 +40,7 @@ const repoPressArticlePaths = [
 ].map((path) => join(repoRoot, path))
 const jobsHref = 'https://free.technology/jobs'
 const onboardingCalendarHref = 'https://cal.com/team/logos-onboarding/intro'
-const logosDocsHref = 'https://github.com/logos-co/logos-docs'
+const logosDocsHref = 'https://docs.logos.co/'
 const communityIdeasHref = 'https://github.com/logos-co/ideas'
 const parallelSocietyHref = 'https://ps.logos.co/'
 const livingWithinTruthHref = 'https://www.youtube.com/watch?v=xy4uK20lFBQ'
@@ -52,7 +52,7 @@ const basecampLinuxDownloadHref =
 const basecampMacDownloadHref =
   'https://github.com/logos-co/logos-basecamp/releases/download/0.1.2/LogosBasecamp-Desktop-v0.1.2-2576ef-aarch64.dmg'
 const runNodeCliDocsHref =
-  'https://github.com/logos-co/logos-docs/blob/main/docs/blockchain/get-started/run-a-logos-blockchain-node-from-cli.md'
+  'https://docs.logos.co/'
 const docsLabels = new Set(['docs', 'documentation', 'view the docs'])
 const routeUsageAllowlist = new Set([
   'apps/web/app/[locale]/work-with-us/page.tsx',
@@ -287,7 +287,7 @@ describe('link policy', () => {
     )
   })
 
-  it('routes Docs and Documentation links to the Logos docs repository', () => {
+  it('routes Docs and Documentation links to the Logos docs site', () => {
     const contentDocsLinks = [
       footer,
       navigation,
@@ -305,7 +305,7 @@ describe('link policy', () => {
     expect(EXTERNAL_URLS.docs).toBe(logosDocsHref)
     expect(contentDocsLinks.length).toBeGreaterThan(0)
     for (const link of contentDocsLinks) {
-      expect(link.href).toMatch(/^https:\/\/github\.com\/logos[\w-]*\//)
+      expect(link.href).toMatch(/^https:\/\/docs\.logos\.co(\/|$)/)
     }
   })
 
