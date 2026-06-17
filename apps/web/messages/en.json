@@ -32,11 +32,6 @@
     }
   },
   "home": {
-    "hero": {
-      "mobileHeadline": "We are charting\na new path.",
-      "kicker": "Basecamp is the tool for living outside existing systems.",
-      "mobileBody": "Logos is the private-by-default technology stack for parallel societies. Built for a world where existing systems have stopped working. Built for a world where we are in control."
-    },
     "socialProof": {
       "headline": "Logos is not for everyone. Logos is for people who are done waiting for permission.",
       "headline1": "Logos is not for everyone.",
@@ -228,11 +223,6 @@
     }
   },
   "pages": {
-    "home": {
-      "title": "Logos — We are charting a new path",
-      "description": "Logos is private-by-default infrastructure for parallel societies.",
-      "heading": "We are charting a new path."
-    },
     "getStarted": {
       "title": "Get Started | Logos",
       "description": "Install Basecamp, read the Logos docs, join the community, and start building with the Logos testnet.",

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "language": "en",
   "route": "/",
-  "title": "Logos: Charting a New Path",
+  "title": "Logos: Build the Parallel",
   "description": "Private-by default technology to reclaim civil society. Logos is the decentralised infrastructure for building parallel systems.",
   "heading": "Build the Parallel",
   "seo": {
@@ -20,6 +20,7 @@
       "key": "home.atf",
       "headline": "Build the Parallel",
       "body": "Logos is the private-by-default technology stack for parallel societies. Built for a world where existing systems have stopped working. Built for a world where we are in control.",
+      "bodySecondary": "Basecamp is the tool for living outside existing systems.",
       "background": {
         "src": "/cms/pages/home/atf-background.jpg",
         "alt": "",

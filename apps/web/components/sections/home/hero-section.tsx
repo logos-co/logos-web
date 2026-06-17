@@ -2,7 +2,6 @@
 
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
-import { useTranslations } from 'next-intl'
 
 import type { HeroSection } from '@repo/content/schemas'
 
@@ -13,7 +12,6 @@ type Props = {
 }
 
 export default function HeroSectionView({ data }: Props) {
-  const t = useTranslations('home.hero')
   const sectionRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -55,7 +53,7 @@ export default function HeroSectionView({ data }: Props) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.18 }}
         >
-          <span className="lg:hidden">{t('mobileHeadline')}</span>
+          <span className="lg:hidden">{data.headline}</span>
           <span className="hidden lg:inline">{data.headline}</span>
         </motion.h1>
 
@@ -69,9 +67,11 @@ export default function HeroSectionView({ data }: Props) {
             delay: 0.55,
           }}
         >
-          <p className="text-mono-s w-56.5 text-brand-off-white lg:w-full">
-            {t('kicker')}
-          </p>
+          {data.bodySecondary ? (
+            <p className="text-mono-s w-56.5 text-brand-off-white lg:w-full">
+              {data.bodySecondary}
+            </p>
+          ) : null}
           <div className="flex flex-col items-center gap-2 lg:flex-row">
             {primaryCta ? (
               <Button
@@ -105,7 +105,7 @@ export default function HeroSectionView({ data }: Props) {
             delay: 0.38,
           }}
         >
-          <span className="lg:hidden">{t('mobileBody')}</span>
+          <span className="lg:hidden">{data.body}</span>
           <span className="hidden lg:inline">{data.body}</span>
         </motion.p>
       ) : null}
