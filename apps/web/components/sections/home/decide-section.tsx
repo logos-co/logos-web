@@ -18,7 +18,7 @@ export default async function DecideSection({ locale }: { locale: string }) {
       rise={180}
       className="relative z-[3] -mt-[180px] rounded-t-[36px] bg-gray-03 text-brand-dark-green"
     >
-      <div className="desktop:flex-row desktop:items-center desktop:justify-between desktop:gap-16 desktop:px-[131px] desktop:pt-[112px] desktop:pb-[224px] mx-auto flex max-w-[1440px] flex-col gap-10 px-6 pt-[88px] pb-[200px]">
+      <div className="desktop:flex-row desktop:items-center desktop:justify-between desktop:gap-16 desktop:px-[131px] desktop:pt-[112px] desktop:pb-[224px] mx-auto flex max-w-[1440px] flex-col gap-10 px-3 pt-[88px] pb-[200px]">
         <div className="flex flex-col items-start gap-8 min-[768px]:max-[1439px]:items-center min-[768px]:max-[1439px]:text-center min-[1440px]:max-w-[510px] min-[1440px]:gap-12">
           <h2 className="w-full max-w-[510px] whitespace-pre-wrap font-display text-[40px] leading-none tracking-[-0.03em] [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] [word-break:break-word] min-[768px]:max-[1439px]:text-[48px] min-[1440px]:text-[56px]">
             <span className="block">{t('headline')}</span>
