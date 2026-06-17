@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-06-04T15:18:46.939Z",
-  "activeSinceDate": "2026-02-04",
+  "generatedAt": "2026-06-17T16:40:24.240Z",
+  "activeSinceDate": "2026-02-17",
   "circles": [
     {
-      "id": "evt-Aj8aH4CUwRMedaw",
-      "name": "LOGOS EBONYI CIRCLE : SOLUTIONS TO DIGITAL ILLETERACY",
+      "id": "evt-gglRA3rvBwzxmfY",
+      "name": "LOGOS Ebonyi Circle: Digital Inclusion Initiative",
       "city": "Abakaliki",
       "country": "Nigeria",
       "lat": 6.337937999999999,
       "lng": 8.096192199999999,
-      "eventUrl": "https://luma.com/nciejezz"
+      "eventUrl": "https://luma.com/9ngfu4xy"
     },
     {
       "id": "evt-dUqI7hTFOFXv6fm",
@@ -21,6 +21,15 @@
       "eventUrl": "https://luma.com/6efn6ggc"
     },
     {
+      "id": "evt-g01laOxoY7nm8cK",
+      "name": "LOGOS KHARTOUM CIRCLE : LOGOS & CORGI",
+      "city": "Al Khurtum",
+      "country": "Sudan",
+      "lat": 15.5793684,
+      "lng": 32.5678209,
+      "eventUrl": "https://luma.com/bf745gkx"
+    },
+    {
       "id": "evt-f1GFSkPT0qhVqoH",
       "name": "Círculo Logos CdMx",
       "city": "Álvaro Obregón",
@@ -30,13 +39,13 @@
       "eventUrl": "https://luma.com/sz3tao1f"
     },
     {
-      "id": "evt-9vPP1zPZctbLphi",
-      "name": "Logos Circle Awka",
+      "id": "evt-AFO54ArShYJhRym",
+      "name": "LOGOS IFITE CIRCLE: LOGOS 101",
       "city": "Awka",
       "country": "Nigeria",
-      "lat": 6.2254789,
-      "lng": 7.0656642,
-      "eventUrl": "https://luma.com/qjsesfxg"
+      "lat": 6.227901900000001,
+      "lng": 7.0771608,
+      "eventUrl": "https://luma.com/s9m8aa0s"
     },
     {
       "id": "evt-VnRzp8nl9YkLJ2e",
@@ -48,13 +57,13 @@
       "eventUrl": "https://luma.com/wqlrhskv"
     },
     {
-      "id": "evt-purFU2uRYrib635",
-      "name": "Logos Circle Benin City May 2026",
+      "id": "evt-BiZewAhEovVwACg",
+      "name": "Logos Circle Benin City June 2026!",
       "city": "Benin City",
       "country": "Nigeria",
       "lat": 6.399878999999999,
       "lng": 5.608990599999999,
-      "eventUrl": "https://luma.com/wpkup0kf"
+      "eventUrl": "https://luma.com/6oboctxr"
     },
     {
       "id": "evt-VJSGI1ZtyelVfjA",
@@ -91,6 +100,15 @@
       "lat": -34.546455099999996,
       "lng": -58.4895881,
       "eventUrl": "https://luma.com/wpndjxtb"
+    },
+    {
+      "id": "evt-GEEZsdvAK9uCUf2",
+      "name": "Logos Circle Los Angeles",
+      "city": "Burbank",
+      "country": "USA",
+      "lat": 34.1838751,
+      "lng": -118.30961909999999,
+      "eventUrl": "https://luma.com/yybbt8bd"
     },
     {
       "id": "evt-L0DcTqHhtjDF4o9",
@@ -201,22 +219,13 @@
       "eventUrl": "https://luma.com/g2jcz31h"
     },
     {
-      "id": "evt-mdwrIPypF1TRIXN",
-      "name": "LOGOS ABEOKUTA CIRCLE: WINNABLE ISSUE",
+      "id": "evt-1DL5ndM6yscUGHp",
+      "name": "LOGOS ABEOKUTA CIRCLE:Tech Her Forward 2",
       "city": "Kobape",
       "country": "Nigeria",
       "lat": 7.0943011,
       "lng": 3.3963628999999997,
-      "eventUrl": "https://luma.com/v1zikazd"
-    },
-    {
-      "id": "evt-uykzcQGU5sPscJF",
-      "name": "Logos Circle Lagos",
-      "city": "Lagos",
-      "country": "Nigeria",
-      "lat": 6.4301765,
-      "lng": 3.4196096,
-      "eventUrl": "https://luma.com/ukr8vrht"
+      "eventUrl": "https://luma.com/zggs7e5h"
     },
     {
       "id": "evt-ykXTzbT2FvYPM1W",
@@ -228,13 +237,13 @@
       "eventUrl": "https://luma.com/wqfifgw0"
     },
     {
-      "id": "evt-wiTTEz0y41loPCl",
+      "id": "evt-mnCHvdkiXjmYAxK",
       "name": "Logos Circle London",
       "city": "London",
       "country": "UK",
       "lat": 51.511534,
       "lng": -0.08853319999999999,
-      "eventUrl": "https://luma.com/logos-london"
+      "eventUrl": "https://luma.com/qz43jrz4"
     },
     {
       "id": "evt-zx2lYVnbGc5ZLMr",
@@ -244,6 +253,15 @@
       "lat": 34.044711299999996,
       "lng": -118.2352851,
       "eventUrl": "https://luma.com/fvtjixui"
+    },
+    {
+      "id": "evt-PAlFN69eXg94WXi",
+      "name": "Impact Circle x Logos Circle Zanzibar",
+      "city": "Magharibi",
+      "country": "Tanzania",
+      "lat": -6.2294393999999995,
+      "lng": 39.2146609,
+      "eventUrl": "https://luma.com/fddq09mc"
     },
     {
       "id": "evt-1hHpRP5vVe7fLC7",
@@ -264,22 +282,22 @@
       "eventUrl": "https://luma.com/qt0wqz6x"
     },
     {
-      "id": "evt-Ba7TSps3yD4tpaQ",
-      "name": "Logos Circle: Port Harcourt",
+      "id": "evt-jONlHzixXGkEqCR",
+      "name": "Logos Circle Port Harcourt",
       "city": "Port Harcourt",
       "country": "Nigeria",
       "lat": 4.8205773999999995,
       "lng": 7.0020701999999995,
-      "eventUrl": "https://luma.com/c805ajvr"
+      "eventUrl": "https://luma.com/2cgbb0f1"
     },
     {
-      "id": "evt-d8CHxCRMmgo1zpj",
+      "id": "evt-ze4hnZe4eugfnbE",
       "name": "Logos Circle: Porto",
       "city": "Porto",
       "country": "Portugal",
       "lat": 41.1563608,
       "lng": -8.6299837,
-      "eventUrl": "https://luma.com/23dzukhi"
+      "eventUrl": "https://luma.com/ukf8c19f"
     },
     {
       "id": "evt-g5NbHTnwEhEGGI2",
@@ -291,13 +309,13 @@
       "eventUrl": "https://luma.com/x208rk8x"
     },
     {
-      "id": "evt-7vfZrbrShy50cog",
-      "name": "Logos Circle: UYO",
+      "id": "evt-SAuBdr2GGoZfFkY",
+      "name": "Logos Circle Uyo",
       "city": "Uyo",
       "country": "Nigeria",
       "lat": 5.0077222,
       "lng": 7.9578369,
-      "eventUrl": "https://luma.com/keag0kha"
+      "eventUrl": "https://luma.com/bm8z3y7d"
     },
     {
       "id": "evt-rTfyujpXv8kjpfG",
@@ -320,46 +338,6 @@
   ],
   "upcomingEvents": [
     {
-      "id": "evt-GlqtoA7xehpvfuf",
-      "name": "Logos Circle Ilorin May Edition",
-      "city": "",
-      "country": "",
-      "startAt": "2026-06-04T14:00:00",
-      "endAt": "2026-06-04T17:00:00",
-      "eventUrl": "https://luma.com/svjyqwu9",
-      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/event-covers/zb/8bcd36d4-d687-4ad6-aa33-af5cc28fd7d8.png"
-    },
-    {
-      "id": "evt-9vPP1zPZctbLphi",
-      "name": "Logos Circle Awka",
-      "city": "Awka",
-      "country": "Nigeria",
-      "startAt": "2026-06-06T11:00:00",
-      "endAt": "2026-06-06T14:00:00",
-      "eventUrl": "https://luma.com/qjsesfxg",
-      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/zh/f9ec8936-df09-4d96-8d71-60b812108cf8.jpg"
-    },
-    {
-      "id": "evt-KAn6JHs2xQs3i3R",
-      "name": "Logos Circle : Vizag",
-      "city": "Jct",
-      "country": "India",
-      "startAt": "2026-06-06T11:30:00",
-      "endAt": "2026-06-06T14:00:00",
-      "eventUrl": "https://luma.com/4110a7t8",
-      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/wr/889dbec8-6a28-4435-b1aa-8dc38db2d145.png"
-    },
-    {
-      "id": "evt-ykXTzbT2FvYPM1W",
-      "name": "Logos Circle Lisbon: Node Running Workshop",
-      "city": "Lisboa",
-      "country": "Portugal",
-      "startAt": "2026-06-10T18:00:00",
-      "endAt": "2026-06-10T20:00:00",
-      "eventUrl": "https://luma.com/wqfifgw0",
-      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/5e/b8f113a0-068a-4aa4-b45d-76a6453e583d.png"
-    },
-    {
       "id": "evt-VJSGI1ZtyelVfjA",
       "name": "Logos Circle Berlin / Action Not Permission",
       "city": "Berlin",
@@ -370,6 +348,66 @@
       "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/v7/9a7ea0cd-e577-40ae-8856-64a94b9809a9.png"
     },
     {
+      "id": "evt-AFO54ArShYJhRym",
+      "name": "LOGOS IFITE CIRCLE: LOGOS 101",
+      "city": "Awka",
+      "country": "Nigeria",
+      "startAt": "2026-06-19T12:00:00",
+      "endAt": "2026-06-19T15:00:00",
+      "eventUrl": "https://luma.com/s9m8aa0s",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/pg/79f8e954-6d30-458f-842b-97f389c095e6.jpg"
+    },
+    {
+      "id": "evt-gglRA3rvBwzxmfY",
+      "name": "LOGOS Ebonyi Circle: Digital Inclusion Initiative",
+      "city": "Abakaliki",
+      "country": "Nigeria",
+      "startAt": "2026-06-20T11:00:00",
+      "endAt": "2026-06-20T14:30:00",
+      "eventUrl": "https://luma.com/9ngfu4xy",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/j1/53a2c6d5-8844-4614-a55d-6d3c68a883bf.jpg"
+    },
+    {
+      "id": "evt-1DL5ndM6yscUGHp",
+      "name": "LOGOS ABEOKUTA CIRCLE:Tech Her Forward 2",
+      "city": "Kobape",
+      "country": "Nigeria",
+      "startAt": "2026-06-20T13:00:00",
+      "endAt": "2026-06-20T17:00:00",
+      "eventUrl": "https://luma.com/zggs7e5h",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/aa/4aab741b-2158-4158-a421-25b392c837b0.jpg"
+    },
+    {
+      "id": "evt-g01laOxoY7nm8cK",
+      "name": "LOGOS KHARTOUM CIRCLE : LOGOS & CORGI",
+      "city": "Al Khurtum",
+      "country": "Sudan",
+      "startAt": "2026-06-20T14:00:00",
+      "endAt": "2026-06-20T17:00:00",
+      "eventUrl": "https://luma.com/bf745gkx",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/9w/779d1333-7f5d-462b-9ba5-aca9c82221dd.jpg"
+    },
+    {
+      "id": "evt-GEEZsdvAK9uCUf2",
+      "name": "Logos Circle Los Angeles",
+      "city": "Burbank",
+      "country": "USA",
+      "startAt": "2026-06-24T01:30:00",
+      "endAt": "2026-06-24T03:30:00",
+      "eventUrl": "https://luma.com/yybbt8bd",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/uh/e39234fc-8134-414c-acd9-af9a3a6e53c6.png"
+    },
+    {
+      "id": "evt-SAuBdr2GGoZfFkY",
+      "name": "Logos Circle Uyo",
+      "city": "Uyo",
+      "country": "Nigeria",
+      "startAt": "2026-06-25T10:30:00",
+      "endAt": "2026-06-25T14:30:00",
+      "eventUrl": "https://luma.com/bm8z3y7d",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/ba/f593d01f-4680-4087-a635-ce83d77a0bf6.jpg"
+    },
+    {
       "id": "evt-NiRwm2bcyCo9gBM",
       "name": "Logos Circle Ibadan: The Beginning",
       "city": "Ibadan",
@@ -378,24 +416,44 @@
       "endAt": "2026-06-27T13:00:00",
       "eventUrl": "https://luma.com/u78zww8f",
       "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/bv/3eb10268-c8aa-464d-8bc8-a0a04e5fce33.png"
+    },
+    {
+      "id": "evt-jONlHzixXGkEqCR",
+      "name": "Logos Circle Port Harcourt",
+      "city": "Port Harcourt",
+      "country": "Nigeria",
+      "startAt": "2026-06-27T10:30:00",
+      "endAt": "2026-06-27T14:00:00",
+      "eventUrl": "https://luma.com/2cgbb0f1",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/dl/af4944ed-f548-47c0-93f7-c542b7226f7a.png"
+    },
+    {
+      "id": "evt-mnCHvdkiXjmYAxK",
+      "name": "Logos Circle London",
+      "city": "London",
+      "country": "UK",
+      "startAt": "2026-06-29T17:00:00",
+      "endAt": "2026-06-29T20:00:00",
+      "eventUrl": "https://luma.com/qz43jrz4",
+      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/6l/3cdc51f2-1061-40c8-aa55-ba748a43ec02.png"
     }
   ],
   "stats": [
     {
       "label": "Total Circle Events",
-      "value": 152
+      "value": 163
     },
     {
       "label": "Distinct Cities",
-      "value": 35
+      "value": 37
     },
     {
       "label": "Distinct Countries",
-      "value": 27
+      "value": 28
     },
     {
       "label": "Upcoming Events",
-      "value": 6
+      "value": 10
     }
   ]
 }
