@@ -1,6 +1,7 @@
 import '@/css/tailwind.css'
 
 import type { ReactNode } from 'react'
+import type { Viewport } from 'next'
 
 import { themeInitScript } from '@/lib/theme'
 import { fontVariables } from '@/app/fonts'
@@ -18,6 +19,11 @@ import { setRequestLocale } from 'next-intl/server'
 import Script from 'next/script'
 
 export const dynamicParams = false
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))

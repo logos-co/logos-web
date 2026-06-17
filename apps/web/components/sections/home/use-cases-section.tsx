@@ -30,8 +30,8 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
     >
       <div className="mx-auto max-w-[1440px] py-[82px] lg:px-3 lg:pt-[112px] lg:pb-[112px]">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center pb-[45px] text-center lg:gap-12 lg:pb-[14px]">
-          <div className="relative h-[130px] w-full lg:flex lg:h-auto lg:flex-col lg:items-center lg:gap-12 lg:px-0">
-            <div className="absolute top-0 left-3 h-[130px] w-[107px] overflow-hidden lg:hidden">
+          <div className="grid w-full grid-cols-[107px_minmax(0,1fr)] gap-[clamp(20px,8vw,48px)] px-3 lg:flex lg:h-auto lg:flex-col lg:items-center lg:gap-12 lg:px-0">
+            <div className="relative h-[130px] w-[107px] overflow-hidden lg:hidden">
               <Image
                 src="/images/home/usecase-1.webp"
                 alt=""
@@ -40,7 +40,7 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
                 className="object-cover"
               />
             </div>
-            <p className="font-mono-body absolute top-0 left-[207px] w-[178px] text-left text-[10px] leading-[1.3] whitespace-pre-wrap lg:hidden">
+            <p className="font-mono-body min-w-0 text-left text-[10px] leading-[1.3] whitespace-pre-wrap lg:hidden">
               {t('headline')}
               {'\n\n'}
               {renderLambdaPrizeText()}
@@ -58,11 +58,11 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
           </p>
         </div>
 
-        <div className="flex w-full snap-x snap-mandatory scroll-ps-6 gap-3 overflow-x-auto px-6 [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden">
+        <div className="flex w-full snap-x snap-mandatory scroll-ps-3 gap-3 overflow-x-auto px-3 [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden">
           {HOME_USE_CASE_CARDS.map((card) => (
             <article
               key={card.key}
-              className="relative h-[317px] w-[345px] shrink-0 snap-start overflow-hidden rounded-[12px] border border-brand-dark-green lg:flex lg:h-[317px] lg:w-auto lg:flex-col lg:justify-between lg:p-3"
+              className="relative h-[317px] w-[calc(100vw-24px)] max-w-[345px] shrink-0 snap-start overflow-hidden rounded-[12px] border border-brand-dark-green lg:flex lg:h-[317px] lg:w-auto lg:max-w-none lg:flex-col lg:justify-between lg:p-3"
             >
               <h3 className="absolute top-[15px] left-[15px] w-[249px] font-sans text-[24px] leading-[1.1] font-normal tracking-[-0.24px] lg:static lg:max-w-[249px] lg:w-auto">
                 {t(`${card.key}.title`)}

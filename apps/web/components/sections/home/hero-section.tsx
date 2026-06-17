@@ -48,7 +48,7 @@ export default function HeroSectionView({ data }: Props) {
         style={{ opacity: contentOpacity }}
       >
         <motion.h1
-          className="absolute top-[268px] left-1/2 w-[calc(100vw-24px)] max-w-[369px] -translate-x-1/2 text-center font-display text-[56px] leading-[0.98] tracking-[-0.04em] whitespace-pre-line lg:top-[314px] lg:w-max lg:max-w-[calc(100vw-24px)] lg:text-[min(96px,7.8vw)] min-[1440px]:!top-[306px]"
+          className="absolute top-[268px] left-1/2 w-[280px] -translate-x-1/2 text-center font-display text-[56px] leading-[0.98] tracking-normal whitespace-pre-line lg:top-[314px] lg:w-max lg:max-w-[calc(100vw-24px)] lg:text-[min(96px,7.8vw)] lg:tracking-[-0.04em] min-[1440px]:!top-[306px]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.18 }}
