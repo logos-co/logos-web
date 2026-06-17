@@ -29,7 +29,7 @@ export default function TechOverviewStack({
         <ContentWidth>
           {data.architecture ? (
             <OverviewMediaPanel
-              className="relative left-1/2 mb-10 w-screen -translate-x-1/2 md:static md:left-auto md:mb-25 md:w-auto md:-translate-x-0 md:-mx-3"
+              className="relative left-1/2 mb-10 w-screen -translate-x-1/2 md:static md:left-auto md:mb-35 md:w-auto md:-translate-x-0 md:-mx-3 min-[1367px]:mb-50!"
               eyebrow={data.architecture.eyebrow}
               footerLabel={data.pillars[0].title}
               title={data.architecture.title}
@@ -53,7 +53,7 @@ export default function TechOverviewStack({
           ) : null}
 
           <div className="flex flex-col gap-15 min-[1367px]:gap-25">
-            <div className="grid gap-3 pt-25 min-[1367px]:grid-cols-2">
+            <div className="grid gap-3 pt-25 md:pt-0 min-[1367px]:grid-cols-2">
               {data.title ? (
                 <h2 className="text-h4-sans min-[1367px]:text-h3-sans text-brand-dark-green">
                   {data.title}

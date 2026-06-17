@@ -12,8 +12,7 @@ export default function NetworkingHero(props: Props) {
   return (
     <TechStackDetailHero
       {...props}
-      desktopAt1025
-      className="h-[680px] lg:h-[580px]"
+      className="h-170 md:h-auto lg:h-145"
     />
   )
 }

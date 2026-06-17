@@ -262,7 +262,7 @@ export default function TechOverviewUseCases({ data }: Props) {
 
       <div
         ref={scrollRef}
-        className={`mt-19 flex gap-3 overflow-x-auto px-3 pb-4 select-none md:mt-23.5 ${
+        className={`mt-19 flex gap-3 overflow-x-auto px-3 pb-4 select-none md:mt-12.5 ${
           isDragging ? 'cursor-grabbing' : 'cursor-grab'
         }`}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}

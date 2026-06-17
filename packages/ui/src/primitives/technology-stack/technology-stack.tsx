@@ -82,9 +82,7 @@ function ItemText({ title, description, href }: TechDetailHeroItem) {
   const restPart = title.slice(dashIdx)
   return (
     <>
-      <BoldPart text={boldPart} href={href} />
-      {' '}
-      {restPart}
+      <BoldPart text={boldPart} href={href} /> {restPart}
     </>
   )
 }
@@ -133,16 +131,12 @@ export function TechDetailHero({
           {title}
         </h1>
 
-        <div
-          className="absolute top-[122px] left-3 flex w-[calc(100%-24px)] flex-col text-black"
-        >
+        <div className="absolute top-[122px] left-3 flex w-[calc(100%-24px)] flex-col text-black">
           {actions ? (
             <div className="flex flex-wrap items-start gap-1.5">{actions}</div>
           ) : null}
 
-          {body ? (
-            <p className="text-mono-s mt-6">{body}</p>
-          ) : null}
+          {body ? <p className="text-mono-s mt-6">{body}</p> : null}
 
           {bodySecondary ? (
             <div className="text-mono-s mt-5 flex flex-col gap-2">

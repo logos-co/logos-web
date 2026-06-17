@@ -82,7 +82,7 @@ function StatusCard({
 
 export default function TechOverviewHero({ data }: Props) {
   return (
-    <section className="relative mb-10 h-[760px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-0 md:mb-25 md:h-[660px] md:pt-8 md:pb-0 xl:h-[560px]">
+    <section className="relative mb-13 h-[760px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-0 md:mb-25 md:h-119.25 md:pt-8 md:pb-0 xl:h-98.75">
       <ContentWidth className="relative h-[500px] md:h-[600px] xl:h-[403px]">
         <div className="absolute top-0 left-0 hidden h-[99px] w-[393px] md:block">
           {data.status ? <StatusCard status={data.status} compact /> : null}
@@ -92,7 +92,7 @@ export default function TechOverviewHero({ data }: Props) {
           <p className="text-mono-s absolute top-0 left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[226px] whitespace-pre-line text-brand-dark-green xl:w-[226px] xl:max-w-none">
             {data.eyebrow}
           </p>
-          <div className="absolute top-[310px] left-[calc(50%+6px)] flex max-w-[calc(50%-18px)] flex-col items-start gap-6 xl:max-w-none">
+          <div className="absolute top-67 left-[calc(50%+6px)] flex max-w-[calc(50%-18px)] flex-col items-start gap-6 xl:max-w-none">
             <p className="text-mono-s w-full max-w-[226px] text-brand-dark-green xl:w-[226px] xl:max-w-none">
               {data.body}
             </p>
@@ -111,7 +111,7 @@ export default function TechOverviewHero({ data }: Props) {
                 ))}
               </div>
             ) : null}
-            <div className="mt-4 hidden h-px w-[calc(100vw-24px)] -translate-x-[calc(50vw-6px)] bg-brand-dark-green/10 md:block xl:hidden" />
+            <div className="mt-4 hidden h-px w-[calc(100vw-24px)] -translate-x-[calc(50vw-6px)] bg-brand-dark-green/10 lg:block xl:hidden" />
           </div>
         </div>
 
