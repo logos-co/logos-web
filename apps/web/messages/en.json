@@ -155,9 +155,9 @@
     "useCases": {
       "eyebrow": "Use Cases",
       "headline": "Privacy is the condition that makes free association possible.\nLogos is the technology stack that makes it the default.",
-      "lambda": "Explore the applications Logos is funding through the Lambda Prize. LAMBDA PRIZE >>",
+      "lambda": "Explore the applications Logos is funding through the <lambdaPrize>Lambda Prize</lambdaPrize>.",
       "secure": {
-        "title": "Secure communications free from surveillance.",
+        "title": "Secure, private communications.",
         "body": "Resilient, private messaging for coordination in hostile environments."
       },
       "money": {
@@ -166,7 +166,7 @@
       },
       "archives": {
         "title": "Permanent, decentralised archives.",
-        "body": "Decentralised network for storing knowledge, culture, and history beyond the reach of any single authority."
+        "body": "Decentralised network for storing knowledge, culture, and history beyond the reach of any single centralised actor."
       },
       "donations": {
         "title": "Anonymous donations and mutual aid.",

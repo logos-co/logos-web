@@ -1,12 +1,27 @@
+import type { ReactNode } from 'react'
+
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { SectionHeadingReveal } from '@/components/motion/section-heading-reveal'
 import { StackCard } from '@/components/motion/stack-card'
+import { ROUTES } from '@/constants/routes'
 import { HOME_USE_CASE_CARDS } from '@/lib/homepage-section-data'
 
 export default async function UseCasesSection({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home.useCases' })
+  const renderLambdaPrizeText = () =>
+    t.rich('lambda', {
+      lambdaPrize: (chunks: ReactNode) => (
+        <Link
+          href={ROUTES.lambdaPrize}
+          className="cursor-pointer underline decoration-[1px] underline-offset-[3px] transition-opacity hover:opacity-70"
+        >
+          {chunks}
+        </Link>
+      ),
+    })
 
   return (
     <StackCard
@@ -28,7 +43,7 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
             <p className="font-mono-body absolute top-0 left-[207px] w-[178px] text-left text-[10px] leading-[1.3] whitespace-pre-wrap lg:hidden">
               {t('headline')}
               {'\n\n'}
-              {t('lambda')}
+              {renderLambdaPrizeText()}
             </p>
             <p className="text-mono-s hidden w-full lg:block">{t('eyebrow')}</p>
             <SectionHeadingReveal className="text-h3-serif hidden w-full whitespace-normal lg:block desktop:whitespace-pre-line">
@@ -38,7 +53,9 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
           <SectionHeadingReveal className="font-mono-body mt-[80px] text-center text-[10px] leading-[1.3] tracking-normal whitespace-nowrap lg:mt-0 lg:hidden">
             {t('eyebrow')}
           </SectionHeadingReveal>
-          <p className="text-mono-s hidden w-full lg:block">{t('lambda')}</p>
+          <p className="text-mono-s hidden w-full lg:block">
+            {renderLambdaPrizeText()}
+          </p>
         </div>
 
         <div className="flex w-full snap-x snap-mandatory scroll-ps-6 gap-3 overflow-x-auto px-6 [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden">

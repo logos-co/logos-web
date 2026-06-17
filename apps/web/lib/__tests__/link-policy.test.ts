@@ -12,6 +12,7 @@ import {
 import buildersHubResources from '../../../../content/builders-hub/resources/en.json' with { type: 'json' }
 import buildersHubSettings from '../../../../content/builders-hub/settings/en.json' with { type: 'json' }
 import homePage from '../../../../content/pages/en/home.json' with { type: 'json' }
+import messages from '../../messages/en.json' with { type: 'json' }
 import footer from '../../../../content/site/en/footer.json' with { type: 'json' }
 import navigation from '../../../../content/site/en/navigation.json' with { type: 'json' }
 
@@ -165,6 +166,25 @@ describe('link policy', () => {
     expect(startBuildingSection).not.toContain(
       "{ title: t('ideas'), href: ROUTES.ideas"
     )
+  })
+
+  it('routes the homepage Lambda Prize text CTA to the Lambda Prize page', () => {
+    const useCasesSection = readFileSync(
+      join(webRoot, 'components/sections/home/use-cases-section.tsx'),
+      'utf8'
+    )
+
+    expect(ROUTES.lambdaPrize).toBe('/lambda-prize')
+    expect(
+      messages.home.useCases.lambda.replace(/<\/?lambdaPrize>/g, '')
+    ).toBe(
+      'Explore the applications Logos is funding through the Lambda Prize.'
+    )
+    expect(messages.home.useCases.lambda).toContain(
+      '<lambdaPrize>Lambda Prize</lambdaPrize>'
+    )
+    expect(messages.home.useCases.lambda).not.toContain('LAMBDA PRIZE >>')
+    expect(useCasesSection).toContain('href={ROUTES.lambdaPrize}')
   })
 
   it('routes the Logos Media navigation card to Blog', () => {
