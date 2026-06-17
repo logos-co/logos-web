@@ -62,7 +62,14 @@
           "alt": "",
           "width": 2820,
           "height": 1596
-        }
+        },
+        "ctas": [
+          {
+            "label": "Install Basecamp",
+            "href": "https://github.com/logos-co/logos-basecamp/releases/tag/0.1.2",
+            "external": true
+          }
+        ]
       },
       {
         "title": "Run a Node in less than 10 minutes Using CLI",
@@ -72,7 +79,14 @@
           "alt": "",
           "width": 850,
           "height": 326
-        }
+        },
+        "ctas": [
+          {
+            "label": "Run a Node in less than 10 minutes Using CLI",
+            "href": "https://github.com/logos-co/logos-docs/blob/main/docs/blockchain/get-started/run-a-logos-blockchain-node-from-cli.md",
+            "external": true
+          }
+        ]
       }
     ]
   },

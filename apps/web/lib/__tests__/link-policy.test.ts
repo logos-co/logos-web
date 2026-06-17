@@ -48,6 +48,8 @@ const basecampLinuxDownloadHref =
   'https://github.com/logos-co/logos-basecamp/releases/download/0.1.2/LogosBasecamp-Desktop-v0.1.2-2576ef-aarch64.AppImage'
 const basecampMacDownloadHref =
   'https://github.com/logos-co/logos-basecamp/releases/download/0.1.2/LogosBasecamp-Desktop-v0.1.2-2576ef-aarch64.dmg'
+const runNodeCliDocsHref =
+  'https://github.com/logos-co/logos-docs/blob/main/docs/blockchain/get-started/run-a-logos-blockchain-node-from-cli.md'
 const docsLabels = new Set(['docs', 'documentation', 'view the docs'])
 const routeUsageAllowlist = new Set([
   'apps/web/app/[locale]/work-with-us/page.tsx',
@@ -130,6 +132,24 @@ describe('link policy', () => {
 
   it('routes the Builders Hub RFP programme panel to the RFP listing', () => {
     expect(buildersHubSettings.programs?.rfpsHref).toBe(ROUTES.rfps)
+  })
+
+  it('routes the Basecamp prepare cards to their external resources', () => {
+    const prepareCtas =
+      buildersHubSettings.prepare?.cards.flatMap((card) => card.ctas) ?? []
+
+    expect(prepareCtas).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          href: basecampReleaseHref,
+          external: true,
+        }),
+        expect.objectContaining({
+          href: runNodeCliDocsHref,
+          external: true,
+        }),
+      ])
+    )
   })
 
   it('routes homepage builder support cards to their external repositories', () => {

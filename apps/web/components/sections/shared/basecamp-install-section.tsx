@@ -14,6 +14,11 @@ export interface BasecampInstallCardData {
   description: string
   image?: BasecampInstallCardImage
   imageFit?: 'cover' | 'contain'
+  ctas?: readonly {
+    label: string
+    href: string
+    external?: boolean
+  }[]
 }
 
 interface BasecampInstallSectionProps {
@@ -63,8 +68,12 @@ function CardImage({
 }
 
 function BasecampInstallCard({ card }: { card: BasecampInstallCardData }) {
-  return (
-    <article className="flex h-[458px] flex-col gap-1.5 overflow-hidden rounded-xl bg-gray-01 p-1.5 md:h-[589px]">
+  const primaryCta = card.ctas?.[0]
+  const isExternal =
+    primaryCta?.external || primaryCta?.href.startsWith('https://')
+
+  const cardContent = (
+    <>
       {card.image ? (
         <div className="md:h-[313px]">
           <CardImage image={card.image} imageFit={card.imageFit} />
@@ -74,6 +83,27 @@ function BasecampInstallCard({ card }: { card: BasecampInstallCardData }) {
         <h3 className="text-subhead-sans">{card.title}</h3>
         <p className="w-[338px] max-w-full text-mono-s">{card.description}</p>
       </div>
+    </>
+  )
+
+  if (primaryCta) {
+    return (
+      <a
+        href={primaryCta.href}
+        className="flex h-[458px] cursor-pointer flex-col gap-1.5 overflow-hidden rounded-xl bg-gray-01 p-1.5 transition-[background-color,box-shadow] duration-200 ease-out hover:bg-brand-dark-green/5 hover:ring-1 hover:ring-inset hover:ring-brand-dark-green/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green md:h-[589px]"
+        aria-label={primaryCta.label}
+        {...(isExternal
+          ? { target: '_blank', rel: 'noopener noreferrer' }
+          : {})}
+      >
+        {cardContent}
+      </a>
+    )
+  }
+
+  return (
+    <article className="flex h-[458px] flex-col gap-1.5 overflow-hidden rounded-xl bg-gray-01 p-1.5 md:h-[589px]">
+      {cardContent}
     </article>
   )
 }
