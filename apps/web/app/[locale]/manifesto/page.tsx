@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 
 import { getTranslations } from 'next-intl/server'
 
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/lib/metadata'
 
 const PARAGRAPH_TOPS = [
@@ -21,6 +21,11 @@ type ManifestoCopy = {
 const DESKTOP_PARAGRAPH_STYLE = (index: number): CSSProperties => ({
   top: PARAGRAPH_TOPS[index],
 })
+const MORE_HREFS = [
+  ROUTES.book,
+  EXTERNAL_URLS.livingWithinTruth,
+  EXTERNAL_URLS.logosGenealogyArticle,
+] as const
 
 export async function generateMetadata({
   params,
@@ -50,6 +55,10 @@ export default async function ManifestoPage({
     body: t.raw('body') as string[],
     more: t.raw('more') as string[],
   }
+  const moreLinks = copy.more.map((label, index) => ({
+    label,
+    href: MORE_HREFS[index],
+  }))
 
   return (
     <div className="overflow-x-hidden bg-brand-off-white text-brand-dark-green desktop:h-[4669px] desktop:overflow-hidden">
@@ -119,8 +128,15 @@ export default async function ManifestoPage({
             <aside className="font-mono-body mt-12 text-[10px] leading-[1.3] tracking-[0px] desktop:absolute desktop:top-[2995px] desktop:left-0 desktop:mt-0 desktop:h-[88px] desktop:w-[306px] desktop:text-left">
               <h2 className="font-bold">{t('moreHeading')}</h2>
               <div className="mt-3 space-y-3 desktop:mt-[12px] desktop:space-y-[12px]">
-                {copy.more.map((item) => (
-                  <p key={item}>{item}</p>
+                {moreLinks.map((item) => (
+                  <p key={item.label}>
+                    <a
+                      href={item.href}
+                      className="cursor-pointer underline decoration-[1px] underline-offset-[3px] transition-opacity hover:opacity-70"
+                    >
+                      {item.label}
+                    </a>
+                  </p>
                 ))}
               </div>
             </aside>

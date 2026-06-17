@@ -43,6 +43,8 @@ const onboardingCalendarHref = 'https://cal.com/team/logos-onboarding/intro'
 const logosDocsHref = 'https://github.com/logos-co/logos-docs'
 const communityIdeasHref = 'https://github.com/logos-co/ideas'
 const parallelSocietyHref = 'https://ps.logos.co/'
+const livingWithinTruthHref = 'https://www.youtube.com/watch?v=xy4uK20lFBQ'
+const logosGenealogyHref = 'https://blog.logos.co/article/a-genealogy-of-logos'
 const basecampReleaseHref =
   'https://github.com/logos-co/logos-basecamp/releases/tag/0.1.2'
 const basecampLinuxDownloadHref =
@@ -185,6 +187,27 @@ describe('link policy', () => {
     )
     expect(messages.home.useCases.lambda).not.toContain('LAMBDA PRIZE >>')
     expect(useCasesSection).toContain('href={ROUTES.lambdaPrize}')
+  })
+
+  it('routes manifesto related reading links to their target pages', () => {
+    const manifestoPage = readFileSync(
+      join(webRoot, 'app/[locale]/manifesto/page.tsx'),
+      'utf8'
+    )
+
+    expect(ROUTES.book).toBe('/book')
+    expect(EXTERNAL_URLS.livingWithinTruth).toBe(livingWithinTruthHref)
+    expect(EXTERNAL_URLS.logosGenealogyArticle).toBe(logosGenealogyHref)
+    expect(messages.pages.manifesto.more).toEqual([
+      'Farewell to Westphalia',
+      'Living Within the Truth | Parallel Society',
+      'From Offline to Online Piracy: A Genealogy of Logos',
+    ])
+    expect(manifestoPage).toContain('ROUTES.book')
+    expect(manifestoPage).toContain('EXTERNAL_URLS.livingWithinTruth')
+    expect(manifestoPage).toContain('EXTERNAL_URLS.logosGenealogyArticle')
+    expect(manifestoPage).toContain('href={item.href}')
+    expect(manifestoPage).toContain('underline')
   })
 
   it('routes the Logos Media navigation card to Blog', () => {
