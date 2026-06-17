@@ -143,9 +143,14 @@
       }
     },
     "decide": {
-      "headline": "We get to decide what comes next. Remain in the decline.",
-      "headline2": "Exit and build the alternative",
-      "body": "Logos is the private-by-default technology stack for parallel societies – communities, institutions, and economies that operate outside the legacy system."
+      "headline": "We get to decide what comes next.",
+      "headline2": "Remain in the decline.",
+      "headline3": "Or exit and build the alternative.",
+      "body": "Logos is the private-by-default technology stack for parallel societies – communities, institutions, and economies that operate outside the legacy system.",
+      "bodyPart1": "Logos is the private-by-default technology stack",
+      "bodyPart2": "for parallel societies – communities,",
+      "bodyPart3": "institutions, and economies that operate",
+      "bodyPart4": "outside the legacy system."
     },
     "useCases": {
       "eyebrow": "Use Cases",
