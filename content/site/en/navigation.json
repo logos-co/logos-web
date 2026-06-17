@@ -70,8 +70,8 @@
         {
           "label": "Build",
           "href": "/get-started",
-          "ctaLabel": "Start Building",
-          "description": "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others.",
+          "ctaLabel": "Start building",
+          "description": "Build privacy-first, decentralised applications. Read the docs, learn the stack, write code.",
           "image": {
             "src": "/nav-overlay/figma/take-action-build.webp",
             "alt": ""
@@ -80,8 +80,8 @@
         {
           "label": "Operate",
           "href": "/node-programme",
-          "ctaLabel": "apply",
-          "description": "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
+          "ctaLabel": "Run a node",
+          "description": "Run a node. Decentralise the network. Secure Logos. Setup takes minutes.",
           "image": {
             "src": "/nav-overlay/figma/take-action-operate.webp",
             "alt": ""
@@ -90,8 +90,8 @@
         {
           "label": "Organise",
           "href": "/movement",
-          "ctaLabel": "Join a circle",
-          "description": "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections.",
+          "ctaLabel": "Join the movement",
+          "description": "Join the Logos Movement to rebuild civil society. Find a Circle and solve local issues.",
           "image": {
             "src": "/nav-overlay/figma/take-action-movement.webp",
             "alt": ""
@@ -185,7 +185,7 @@
             {
               "label": "Overview",
               "href": "/technology-stack",
-              "description": "Private by default, modular infra for parallel societies",
+              "description": "Private-by-default, modular infrastructure for parallel societies.",
               "image": {
                 "src": "/nav-overlay/figma/tech-overview-thumb.webp",
                 "alt": ""
@@ -194,7 +194,7 @@
             {
               "label": "Blockchain",
               "href": "/technology-stack/blockchain",
-              "description": "Advanced privacy for decentralised applications and social institutions.",
+              "description": "Privacy-first consensus for decentralised applications.",
               "image": {
                 "src": "/nav-overlay/figma/tech-blockchain-thumb.webp",
                 "alt": ""
@@ -203,7 +203,7 @@
             {
               "label": "Messaging",
               "href": "/technology-stack/messaging",
-              "description": "Private peer-to-peer communication",
+              "description": "Decentralised peer-to-peer communication.",
               "image": {
                 "src": "/nav-overlay/figma/tech-messaging-thumb.webp",
                 "alt": ""
