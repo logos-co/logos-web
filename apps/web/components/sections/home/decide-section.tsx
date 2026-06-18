@@ -44,7 +44,7 @@ export default async function DecideSection({ locale }: { locale: string }) {
           </p>
         </div>
 
-        <div className="desktop:aspect-auto desktop:h-[695px] desktop:w-[583px] desktop:rounded-[50px] relative aspect-[583/520] w-full shrink-0 overflow-hidden rounded-[40px] min-[768px]:max-[1439px]:aspect-[583/347]">
+        <div className="desktop:aspect-auto desktop:h-[695px] desktop:w-[583px] desktop:rounded-[50px] relative aspect-[583/520] w-full shrink-0 overflow-hidden rounded-[40px] min-[450px]:max-[599.98px]:aspect-[583/304] min-[600px]:max-[767.98px]:aspect-[583/260] min-[768px]:max-desktop:aspect-[583/231]">
           <video
             autoPlay
             muted
