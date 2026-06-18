@@ -173,14 +173,12 @@
       "componentType": "relatedArticles",
       "key": "blockchain.relatedArticles",
       "label": "Logos Media",
-      "mobileLabel": "Logos Media",
       "eyebrow": "Logos in the News",
       "title": "Related Articles",
       "cta": { "label": "Explore all articles", "href": "/media" },
       "items": [
         {
           "title": "State of the Logos Network: November 2025",
-          "mobileTitle": "Story of the Network: From CyberNetics to Blockchain Communities",
           "image": {
             "src": "/images/blockchain/related/state-november.webp",
             "alt": "",
@@ -194,7 +192,6 @@
         },
         {
           "title": "Story of the Network: From CyberNetics to Blockchain Communities",
-          "mobileTitle": "Story of the Network: From CyberNetics to Blockchain Communities",
           "image": {
             "src": "/images/blockchain/related/story-network.webp",
             "alt": "",
@@ -209,7 +206,6 @@
         },
         {
           "title": "State of the Logos Network: October 2025",
-          "mobileTitle": "Story of the Network: From CyberNetics to Blockchain Communities",
           "image": {
             "src": "/images/blockchain/related/state-october.webp",
             "alt": "",
@@ -223,7 +219,6 @@
         },
         {
           "title": "Hacking for Real World Impact with Funding the Commons & Tor",
-          "mobileTitle": "Story of the Network: From CyberNetics to Blockchain Communities",
           "image": {
             "src": "/images/blockchain/related/hacking-impact.webp",
             "alt": "",

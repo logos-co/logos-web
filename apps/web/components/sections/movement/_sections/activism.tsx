@@ -74,12 +74,7 @@ export function ActivismSection({
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-10 text-brand-dark-green md:pb-25">
       <SectionHeader
-        title={
-          <>
-            <span className="md:hidden">{t('activism.mobileTitle')}</span>
-            <span className="hidden md:inline">{t('activism.title')}</span>
-          </>
-        }
+        title={t('activism.title')}
         description={t('activism.body')}
         className="pb-10 md:pb-19.5"
       />

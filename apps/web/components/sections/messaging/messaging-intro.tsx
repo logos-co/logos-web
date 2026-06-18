@@ -107,7 +107,11 @@ export default function MessagingIntro({ privacy, lmn, censorship }: Props) {
                 </div>
               ) : null}
               {privacy.description ? (
-                <div className="hidden flex-col gap-5 md:flex">
+                <div
+                  className={`flex-col gap-5 md:flex ${
+                    privacy.mobileDescription ? 'hidden' : 'flex'
+                  }`}
+                >
                   {paragraphs(privacy.description).map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}

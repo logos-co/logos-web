@@ -10,8 +10,12 @@ import { getTechStackRelatedArticleCards } from '@/lib/tech-stack-related-articl
 
 import { ArticleCard } from './related-articles-card'
 
+// Mobile keeps the fixed 169.5px title column. In the desktop grid the column
+// can narrow to ~235px (near the 1025px breakpoint), so the title must be able
+// to shrink — otherwise it and the shrink-0 date/author block overflow into the
+// next card. `flex-1 min-w-0` lets it shrink, `max-w` preserves the 169.5px cap.
 const TITLE_CLASSNAME =
-  'text-caption-sans w-[169.5px] shrink-0 font-medium text-brand-dark-green lg:text-[14px] lg:leading-[1.2]'
+  'text-caption-sans w-[169.5px] shrink-0 font-medium text-brand-dark-green lg:w-auto lg:max-w-[169.5px] lg:min-w-0 lg:flex-1 lg:text-[14px] lg:leading-[1.2]'
 
 type Props = {
   data: RelatedArticlesSection
