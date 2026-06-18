@@ -1778,7 +1778,7 @@ Paste-ready material for the work the plan calls for. None of this is final — 
     "accent": "grey",
     "imagePosition": "left",
     "title": "Install the Logos app.",
-    "description": "The Logos App is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting \"Simple Apps\" that let users interact with the various modules:",
+    "description": "The Logos App is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary unified surface, hosting \"Simple Apps\" that let users interact with the various modules:",
     "tags": [
       { "label": "Wallet", "icon": "wallet" },
       { "label": "Chat Interface", "icon": "chat" },
