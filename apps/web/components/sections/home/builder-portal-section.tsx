@@ -45,7 +45,7 @@ export default async function BuilderPortalSection({
 
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
-      <ContentWidth className="desktop:pt-28 desktop:pb-0 py-25">
+      <ContentWidth className="desktop:pt-28 py-25 lg:pb-0">
         <div className="desktop:grid-cols-3 desktop:gap-3 grid gap-9">
           <div className="desktop:min-h-[532px] desktop:justify-between desktop:gap-0 flex flex-col gap-10">
             <div className="flex flex-col gap-7.5">
@@ -70,7 +70,7 @@ export default async function BuilderPortalSection({
             </p>
           </div>
 
-          <div className="desktop:col-span-2 desktop:aspect-auto desktop:h-[532px] relative aspect-[2820/1596] overflow-hidden rounded-3xl bg-[#1c1c1c] min-[768px]:max-[1439px]:aspect-[2820/1064]">
+          <div className="desktop:col-span-2 desktop:aspect-auto desktop:h-[532px] relative aspect-[2820/1596] overflow-hidden rounded-3xl bg-[#1c1c1c] min-[768px]:max-desktop:aspect-[2820/1064]">
             <Image
               src="/images/home/figma-refresh/basecamp.webp"
               alt=""
