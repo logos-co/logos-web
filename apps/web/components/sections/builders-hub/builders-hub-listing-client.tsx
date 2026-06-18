@@ -97,15 +97,20 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
     [items, settings.pageSize, start]
   )
 
+  // The tall fixed min-height keeps the grid view stable, but in list view the
+  // content is much shorter — so applying it there leaves a large empty gap
+  // below the pagination. Only reserve that height for the grid view.
+  const sectionClassName = (() => {
+    const base = 'bg-brand-off-white'
+    const bottomMargin = kind === 'ideas' ? 'md:mb-25' : 'md:mb-3'
+    if (view === 'list') return `${base} ${bottomMargin}`
+    const minHeight = kind === 'ideas' ? 'md:min-h-[971px]' : 'md:min-h-[1638px]'
+    return `${base} ${bottomMargin} ${minHeight}`
+  })()
+
   return (
     <main className="bg-brand-off-white">
-      <section
-        className={
-          kind === 'ideas'
-            ? 'bg-brand-off-white md:mb-25 md:min-h-[971px]'
-            : 'bg-brand-off-white md:mb-3 md:min-h-[1638px]'
-        }
-      >
+      <section className={sectionClassName}>
         <div className="mx-auto max-w-360 px-3 pt-10">
           <BuildersHubListingHeader
             title={settings.title}

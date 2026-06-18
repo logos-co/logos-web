@@ -22,11 +22,11 @@ export function BroadcastHero({ copy }: { copy: BroadcastNetworkCopy }) {
           </div>
           <p className="text-mono-s w-[226px]">{copy.introPrimary}</p>
         </div>
-        <h1 className="font-display text-center text-[56px] leading-none tracking-[-0.03em]">
+        <h1 className="text-h2 text-center">
           <span className="block">Logos Broadcast</span>
           <span className="block">Network</span>
         </h1>
-        <div className="flex w-full max-w-[1186px] justify-end">
+        <div className="flex w-full max-w-[1186px] mt-10 justify-end">
           <p className="text-mono-s w-[226px]">{copy.introSecondary}</p>
         </div>
       </ContentWidth>

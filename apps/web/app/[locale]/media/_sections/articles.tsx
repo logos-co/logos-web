@@ -63,7 +63,7 @@ export function BlogHero({
   return (
     <section className="relative h-[473px] bg-accent-tan pt-10 md:h-[359px] md:pt-2.5">
       <ContentWidth className="flex w-full flex-col gap-25 md:gap-10">
-        <div className="relative h-[81px] w-full">
+        <div className="relative h-[60px] lg:h-[80px] w-full">
           <div className="absolute left-0 top-0 aspect-video w-[107px] overflow-hidden">
             <Image
               src={BLOG_HERO_IMAGE}
@@ -84,7 +84,7 @@ export function BlogHero({
       </ContentWidth>
       <nav
         aria-label={copy.navLabel}
-        className="absolute left-[calc(50%+6px)] top-[334px] flex flex-col items-start gap-2 text-brand-dark-green md:top-[342px] md:flex-row md:items-center md:gap-6"
+        className="absolute left-[calc(50%+6px)] top-[361px] flex flex-col items-start gap-2 text-brand-dark-green md:top-[342px] md:flex-row md:items-center md:gap-6"
       >
         {[
           { href: '#articles', label: copy.navArticles },

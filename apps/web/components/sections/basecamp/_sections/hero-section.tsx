@@ -47,8 +47,8 @@ function HeroBodyColumn({
   ctas?: HeroSection['ctas']
 }) {
   return (
-    <div className="flex max-w-[393px] flex-col gap-6 md:max-w-none">
-      <div className="flex w-full max-w-[342px] flex-col gap-6 md:max-w-86">
+    <div className="flex w-full flex-col gap-6 md:max-w-none">
+      <div className="flex w-full flex-col gap-6 md:max-w-86">
         {body ? (
           <p className="text-mono-s text-brand-dark-green">{body}</p>
         ) : null}
@@ -62,7 +62,7 @@ function HeroBodyColumn({
         <div className="h-px w-full bg-brand-dark-green/10" />
       </div>
       {ctas ? (
-        <div className="flex flex-wrap items-start gap-1 md:flex-col md:gap-6">
+        <div className="flex flex-col items-start gap-6">
           {ctas.map((cta) => (
             <BasecampCta key={cta.label} cta={cta} className="cursor-pointer" />
           ))}
