@@ -56,7 +56,7 @@
     "cards": [
       {
         "title": "Install Basecamp",
-        "description": "Logos Basecamp is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable interface. It allows you to easily interact with simple apps built on the various modules.",
+        "description": "Logos Basecamp is a complete distribution that bundles the kernel, the default modules, and UI packages into a unified surface. It allows you to easily interact with simple apps built on the various modules.",
         "image": {
           "src": "/images/builders-hub/basecamp-package-manager.webp",
           "alt": "",
