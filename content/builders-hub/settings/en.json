@@ -310,7 +310,7 @@
     "accent": "grey",
     "imagePosition": "left",
     "title": "Install Basecamp.",
-    "description": "The Logos App is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting \"Simple Apps\" that let users interact with the various modules:",
+    "description": "The Logos App is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary unified surface, hosting \"Simple Apps\" that let users interact with the various modules:",
     "tags": [
       { "label": "Wallet", "icon": "wallet" },
       { "label": "Chat Interface", "icon": "chat" },

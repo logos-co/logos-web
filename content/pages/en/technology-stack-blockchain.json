@@ -120,7 +120,7 @@
         },
         {
           "title": "Blend Network",
-          "description": "The Blend Network provides network-level anonymity for block propagation, keeping validator selection private and the movement of blocks across the network unlinkable to their source.",
+          "description": "The Blend Network provides network-level anonymity for block propagation, keeping validator selection private and linking the movement of blocks across the network to their source difficult.",
           "image": {
             "src": "/images/blockchain/overview/lez.webp",
             "alt": "",

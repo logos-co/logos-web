@@ -198,7 +198,7 @@ export async function GiantSwitches() {
         imagePosition="left"
         image={heroImage}
         title="Install the Logos app."
-        description="The Logos App is a a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting “Simple Apps” that let users interact with the various modules:"
+        description="The Logos App is a a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary unified surface, hosting “Simple Apps” that let users interact with the various modules:"
         tags={installTags}
         actions={
           <>
