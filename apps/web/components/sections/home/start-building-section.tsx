@@ -56,7 +56,7 @@ export default async function StartBuildingSection({
             alt=""
             fill
             sizes="(max-width: 768px) calc(100vw - 24px), 702px"
-            className="object-cover object-center"
+            className="object-cover object-center min-[360px]:max-[1023px]:object-top"
           />
         </div>
 

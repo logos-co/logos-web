@@ -139,12 +139,12 @@ export default function BlogSection({ data, articles }: Props) {
       id="blog"
       className="bg-brand-off-white px-3 pt-[140px] pb-3 lg:mt-[112px] lg:px-0 lg:py-3"
     >
-      <ContentWidth className="relative h-[856px] overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-3 lg:h-auto lg:overflow-visible lg:p-6 lg:pb-[141px]">
+      <ContentWidth className="relative h-[856px] overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-3 lg:h-auto lg:overflow-visible lg:pt-6 lg:pb-[141px]">
         <div className="flex flex-col lg:gap-0">
           {(data.label || data.eyebrow || data.cta) && (
             <div className="contents lg:flex lg:items-center lg:justify-between">
               {data.label ? (
-                <p className="font-mono-body absolute top-6 left-3 w-[226px] text-[10px] leading-[1.3] font-normal text-brand-dark-green lg:static lg:w-auto lg:text-mono-s">
+                <p className="font-mono-body absolute top-6 right-[169px] left-3 text-[10px] leading-[1.3] font-normal text-brand-dark-green lg:static lg:right-auto lg:w-auto lg:text-mono-s">
                   {data.label}
                 </p>
               ) : null}
@@ -171,7 +171,7 @@ export default function BlogSection({ data, articles }: Props) {
           </h2>
 
           <div
-            className="absolute top-[229px] left-0 flex w-full gap-3 overflow-x-auto pl-3 lg:static lg:mt-[83px] lg:w-auto desktop:grid desktop:grid-cols-4 desktop:overflow-visible desktop:pl-0"
+            className="absolute top-[229px] left-0 flex w-full gap-3 overflow-x-auto pr-3 pl-3 lg:static lg:mt-[83px] lg:w-auto desktop:grid desktop:grid-cols-4 desktop:overflow-visible desktop:pr-0 desktop:pl-0"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {cards.map((card) => (

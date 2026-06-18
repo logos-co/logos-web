@@ -70,7 +70,7 @@ export default async function BuilderPortalSection({
             </p>
           </div>
 
-          <div className="desktop:col-span-2 desktop:aspect-auto desktop:h-[532px] relative aspect-[2820/1596] overflow-hidden rounded-3xl bg-[#1c1c1c]">
+          <div className="desktop:col-span-2 desktop:aspect-auto desktop:h-[532px] relative aspect-[2820/1596] overflow-hidden rounded-3xl bg-[#1c1c1c] min-[768px]:max-[1439px]:aspect-[2820/1064]">
             <Image
               src="/images/home/figma-refresh/basecamp.webp"
               alt=""
