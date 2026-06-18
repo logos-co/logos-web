@@ -171,7 +171,7 @@ export default function BlogSection({ data, articles }: Props) {
           </h2>
 
           <div
-            className="absolute top-[229px] left-0 flex w-full gap-3 overflow-x-auto pr-3 pl-3 lg:static lg:mt-[83px] lg:w-auto desktop:grid desktop:grid-cols-4 desktop:overflow-visible desktop:pr-0 desktop:pl-0"
+            className="absolute top-[229px] left-0 flex w-full gap-3 overflow-x-auto pr-3 pl-3 lg:static lg:mt-[83px] lg:w-auto lg:max-desktop:-mx-3 desktop:grid desktop:grid-cols-4 desktop:overflow-visible desktop:pr-0 desktop:pl-0"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {cards.map((card) => (
