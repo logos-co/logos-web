@@ -6,7 +6,7 @@
 a:I[56105,["/_next/static/chunks/0b3bn8maucg2w.js","/_next/static/chunks/0dctuy.2qfcf4.js"],"ViewportBoundary"]
 c:I[56105,["/_next/static/chunks/0b3bn8maucg2w.js","/_next/static/chunks/0dctuy.2qfcf4.js"],"MetadataBoundary"]
 e:I[46454,[],"default",1]
-:HL["/_next/static/chunks/05wie_srd6hcq.css","style"]
+:HL["/_next/static/chunks/17~h8evoklpbz.css","style"]
 :HL["/_next/static/chunks/04cm.w0twky0p.css","style"]
 :HL["/_next/static/media/788ad271f9d0b1c8-s.p.0ozfxe_l0spp4.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/8f50c616ff21aafd-s.p.04xpi8-p5fibe.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
@@ -14,7 +14,7 @@ e:I[46454,[],"default",1]
 :HL["/_next/static/media/b8b552e8609c5636-s.p.0vinx1niofu4y.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/fa0520225c6f3d07-s.p.0_88erakuzr64.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/rhymes_display_regular-s.p.14b85k4~uv6qn.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"P":null,"c":["","en","builders-hub","rfps"],"q":"","i":false,"f":[[["",{"children":[["locale","en","d",null],{"children":["builders-hub",{"children":["rfps",{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",16]}],[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/05wie_srd6hcq.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/04cm.w0twky0p.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/0qpk75z2o58d2.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0i7w7xns2vogq.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/0nqqbtg7zdh.5.js","async":true,"nonce":"$undefined"}],["$","script","script-3",{"src":"/_next/static/chunks/04_wrlra_.td_.js","async":true,"nonce":"$undefined"}],["$","script","script-4",{"src":"/_next/static/chunks/09vh1nqf~bb5w.js","async":true,"nonce":"$undefined"}]],"$L4"]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":["$L5",[["$","script","script-0",{"src":"/_next/static/chunks/02z6znqtck86d.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/11dz-z8fy2a4~.js","async":true,"nonce":"$undefined"}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],{},null,false,null]},null,false,"$@9"]},null,false,"$@9"]},null,false,null]},null,false,"$@9"],["$","$1","h",{"children":[null,["$","$La",null,{"children":"$Lb"}],["$","div",null,{"hidden":true,"children":["$","$Lc",null,{"children":["$","$7",null,{"name":"Next.Metadata","children":"$Ld"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],false]],"m":"$undefined","G":["$e",[]],"S":true,"h":null,"s":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"9TEcESml5iobxocQxPs3i"}
+0:{"P":null,"c":["","en","builders-hub","rfps"],"q":"","i":false,"f":[[["",{"children":[["locale","en","d",null],{"children":["builders-hub",{"children":["rfps",{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",16]}],[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/17~h8evoklpbz.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/04cm.w0twky0p.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/0qpk75z2o58d2.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0i7w7xns2vogq.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/0nqqbtg7zdh.5.js","async":true,"nonce":"$undefined"}],["$","script","script-3",{"src":"/_next/static/chunks/04_wrlra_.td_.js","async":true,"nonce":"$undefined"}],["$","script","script-4",{"src":"/_next/static/chunks/09vh1nqf~bb5w.js","async":true,"nonce":"$undefined"}]],"$L4"]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":["$L5",[["$","script","script-0",{"src":"/_next/static/chunks/02z6znqtck86d.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0ogfq_-6c390~.js","async":true,"nonce":"$undefined"}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],{},null,false,null]},null,false,"$@9"]},null,false,"$@9"]},null,false,null]},null,false,"$@9"],["$","$1","h",{"children":[null,["$","$La",null,{"children":"$Lb"}],["$","div",null,{"hidden":true,"children":["$","$Lc",null,{"children":["$","$7",null,{"name":"Next.Metadata","children":"$Ld"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],false]],"m":"$undefined","G":["$e",[]],"S":true,"h":null,"s":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"HEqsE1RrLU-gvHDyP6U_h"}
 f:[]
 9:"$Wf"
 10:I[55405,["/_next/static/chunks/0qpk75z2o58d2.js","/_next/static/chunks/0i7w7xns2vogq.js","/_next/static/chunks/0nqqbtg7zdh.5.js","/_next/static/chunks/04_wrlra_.td_.js","/_next/static/chunks/09vh1nqf~bb5w.js"],"default"]
@@ -28,11 +28,10 @@ f:[]
 19:I[52316,["/_next/static/chunks/0qpk75z2o58d2.js","/_next/static/chunks/0i7w7xns2vogq.js","/_next/static/chunks/0nqqbtg7zdh.5.js","/_next/static/chunks/04_wrlra_.td_.js","/_next/static/chunks/09vh1nqf~bb5w.js","/_next/static/chunks/04.xrx8ral8.0.js"],"default"]
 11:["$","html",null,{"lang":"en","className":"scroll-smooth rhymesdisplay_b8087fb8-module__8EKiAG__variable public_sans_d4e4ef0f-module__-oWnya__variable open_sans_a7d9b752-module___eEi8W__variable fira_code_57d878b-module__TfNSkG__variable fira_mono_37c6529c-module__5lrg9q__variable","suppressHydrationWarning":true,"children":[["$","head",null,{"children":[["$","link",null,{"rel":"apple-touch-icon","sizes":"76x76","href":"/favicon.ico"}],["$","link",null,{"rel":"icon","href":"/favicon.ico","type":"image/x-icon"}],["$","script",null,{"dangerouslySetInnerHTML":{"__html":"\n  (function() {\n    try {\n      var theme = localStorage.getItem('theme');\n      var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';\n      var initialTheme = theme || systemTheme;\n      document.documentElement.setAttribute('data-theme', initialTheme);\n    } catch (e) {}\n  })();\n"}}],["$","$L12",null,{"strategy":"afterInteractive","src":"https://umami.bi.status.im/script.js","data-website-id":"144fa9a5-fe44-4bf3-a585-45742cfa89cc","data-domains":"dev.logos.co"}]]}],["$","body",null,{"children":["$","$L13",null,{"children":[["$","$L14",null,{}],["$","$L15",null,{}],["$","$L16",null,{"children":"$L17"}],["$","main",null,{"className":"relative","children":["$","$L18",null,{"children":["$","$L2",null,{"parallelRouterKey":"children","error":"$19","errorStyles":[],"errorScripts":[["$","script","script-0",{"src":"/_next/static/chunks/04.xrx8ral8.0.js","async":true}]],"template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","div",null,{"className":"flex items-center justify-center py-20","children":["$","h1",null,{"className":"text-4xl font-light text-gray-500","children":"404 | Not Found"}]}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}]}],"$L1a"]}]}]]}]
 b:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
-1b:I[73279,["/_next/static/chunks/0qpk75z2o58d2.js","/_next/static/chunks/0i7w7xns2vogq.js","/_next/static/chunks/0nqqbtg7zdh.5.js","/_next/static/chunks/04_wrlra_.td_.js","/_next/static/chunks/09vh1nqf~bb5w.js","/_next/static/chunks/02z6znqtck86d.js","/_next/static/chunks/11dz-z8fy2a4~.js"],"BuildersHubListingClient"]
+1b:I[73279,["/_next/static/chunks/0qpk75z2o58d2.js","/_next/static/chunks/0i7w7xns2vogq.js","/_next/static/chunks/0nqqbtg7zdh.5.js","/_next/static/chunks/04_wrlra_.td_.js","/_next/static/chunks/09vh1nqf~bb5w.js","/_next/static/chunks/02z6znqtck86d.js","/_next/static/chunks/0ogfq_-6c390~.js"],"BuildersHubListingClient"]
 29:I[86469,["/_next/static/chunks/0qpk75z2o58d2.js","/_next/static/chunks/0i7w7xns2vogq.js","/_next/static/chunks/0nqqbtg7zdh.5.js","/_next/static/chunks/04_wrlra_.td_.js","/_next/static/chunks/09vh1nqf~bb5w.js"],"default"]
 2a:I[56011,["/_next/static/chunks/0qpk75z2o58d2.js","/_next/static/chunks/0i7w7xns2vogq.js","/_next/static/chunks/0nqqbtg7zdh.5.js","/_next/static/chunks/04_wrlra_.td_.js","/_next/static/chunks/09vh1nqf~bb5w.js"],"Image"]
 32:I[58167,["/_next/static/chunks/0qpk75z2o58d2.js","/_next/static/chunks/0i7w7xns2vogq.js","/_next/static/chunks/0nqqbtg7zdh.5.js","/_next/static/chunks/04_wrlra_.td_.js","/_next/static/chunks/09vh1nqf~bb5w.js"],"SiteFooterNewsletter"]
-3a:I[55470,["/_next/static/chunks/0b3bn8maucg2w.js","/_next/static/chunks/0dctuy.2qfcf4.js"],"IconMark"]
 1c:Tdb0,# RFP-001 — Admin Authority Library
 
 ## 🧭 Overview
@@ -243,7 +242,7 @@ All code must be released under the **MIT+Apache2.0 License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.1e:T4dc7,# RFP-003 — Atomic Swaps with LEZ
+**Discussions**.1e:T4f38,# RFP-003 — Atomic Swaps with LEZ
 
 > **Status:** Open for proposal submission and ready to start. The LEZ-side
 > primitives required for adaptor-signature-based swaps (BIP-340 Schnorr over
@@ -269,7 +268,7 @@ wrapping, which requires no swap counterparty and is a much simpler
 construction. Zcash shielded-pool (Sapling / Orchard) swaps are explicitly out
 of scope: the cryptographic state of the art does not yet provide a drop-in
 design (see
-[Appendix: Zcash Atomic Swap Primitives](../appendix/zcash-atomic-swap-primitives.md)).
+[Appendix: Zcash Atomic Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/zcash-atomic-swap-primitives.md)).
 
 The application uses a **maker/taker model**: the maker acts as a liquidity
 provider, advertising offers over **Logos Delivery** and coordinating swaps over
@@ -294,9 +293,9 @@ inherits Bitcoin script unchanged and supports HTLC-based swaps via
 [BIP-199](https://github.com/bitcoin/bips/blob/master/bip-0199.mediawiki);
 adaptor-signature variants are a stretch goal for cross-chain unlinkability. The
 Bitcoin and Monero constructions are surveyed with sources in
-[Appendix: Bitcoin and Monero Adaptor-Signature Swap Primitives](../appendix/btc-xmr-adaptor-swap-primitives.md);
+[Appendix: Bitcoin and Monero Adaptor-Signature Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/btc-xmr-adaptor-swap-primitives.md);
 the Zcash analysis is in
-[Appendix: Zcash Atomic Swap Primitives](../appendix/zcash-atomic-swap-primitives.md).
+[Appendix: Zcash Atomic Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/zcash-atomic-swap-primitives.md).
 
 Delivering this application, with its fully decentralised coordination via Logos
 Delivery and Logos Chat, shows that the Logos stack can support multi-chain
@@ -321,7 +320,7 @@ application to build on.
    Taproot script-path tapleaf (`OP_CHECKSEQUENCEVERIFY`, refund spend
    identifiable but enforced by consensus); both are acceptable. The two
    constructions and their trade-offs are described in
-   [Appendix: Bitcoin and Monero Adaptor-Signature Swap Primitives](../appendix/btc-xmr-adaptor-swap-primitives.md).
+   [Appendix: Bitcoin and Monero Adaptor-Signature Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/btc-xmr-adaptor-swap-primitives.md).
    Absent a measured reason to prefer otherwise (see Reliability), the simpler
    script-path refund is the recommended default.
 3. Trustless swaps between LEZ and **Monero** are supported using Ed25519
@@ -337,7 +336,7 @@ application to build on.
    acceptable alternative to HTLCs and are encouraged for cross-chain
    unlinkability. Zcash shielded-pool (Sapling / Orchard) swaps are **out of
    scope** for this RFP; see
-   [Appendix: Zcash Atomic Swap Primitives](../appendix/zcash-atomic-swap-primitives.md)
+   [Appendix: Zcash Atomic Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/zcash-atomic-swap-primitives.md)
    for the rationale.
 5. The LEZ escrow program (Rust, Risc0) locks funds contingent on the
    appropriate cryptographic proof for each chain (adaptor secret, DLEQ proof,
@@ -504,7 +503,7 @@ application to build on.
 
 - An **adaptor-signature variant of the LEZ–ZEC pair** (replacing BIP-199 HTLCs)
   for cross-chain unlinkability, as described in
-  [Appendix: Zcash Atomic Swap Primitives](../appendix/zcash-atomic-swap-primitives.md).
+  [Appendix: Zcash Atomic Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/zcash-atomic-swap-primitives.md).
 
 ## 👤 Recommended Team Profile
 
@@ -539,7 +538,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 
 ### Bitcoin
 
-- [Appendix: Bitcoin and Monero Adaptor-Signature Swap Primitives](../appendix/btc-xmr-adaptor-swap-primitives.md):
+- [Appendix: Bitcoin and Monero Adaptor-Signature Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/btc-xmr-adaptor-swap-primitives.md):
   sourced survey of the constructions required by this RFP
 - [BIP-340: Schnorr signatures for secp256k1](https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki)
 - [BIP-341: Taproot](https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki)
@@ -560,7 +559,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 
 ### Monero
 
-- [Appendix: Bitcoin and Monero Adaptor-Signature Swap Primitives](../appendix/btc-xmr-adaptor-swap-primitives.md):
+- [Appendix: Bitcoin and Monero Adaptor-Signature Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/btc-xmr-adaptor-swap-primitives.md):
   sourced survey of the constructions required by this RFP
 - [Bitcoin–Monero Cross-chain Atomic Swap — h4sh3d paper](https://eprint.iacr.org/2020/1126.pdf)
 - [comit-network/xmr-btc-swap](https://github.com/comit-network/xmr-btc-swap):
@@ -572,7 +571,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 
 ### Zcash
 
-- [Appendix: Zcash Atomic Swap Primitives](../appendix/zcash-atomic-swap-primitives.md):
+- [Appendix: Zcash Atomic Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/zcash-atomic-swap-primitives.md):
   feasibility matrix, why shielded is out of scope, prior-art comparison
 - [BIP-199: Hashed Time-Locked Contract transactions](https://github.com/bitcoin/bips/blob/master/bip-0199.mediawiki):
   canonical HTLC layout used for transparent ZEC swaps
@@ -594,7 +593,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.1f:T48ac,# RFP-004 — Privacy-Preserving Decentralized Exchange (DEX)
+**Discussions**.1f:T4916,# RFP-004 — Privacy-Preserving Decentralized Exchange (DEX)
 
 ## 🧭 Overview
 
@@ -680,10 +679,10 @@ inherently fairer for all participants.
 09. Implement a permissionless `sync()` function that updates a pool's cached
     reserves to match the actual vault token balances, absorbing any surplus
     from unsolicited transfers into the pool for the benefit of LPs. See
-    [Appendix: DEX Ecosystem Behaviour, section 10](../appendix/dex-ecosystem-behaviour.md#10-reserve-reconciliation-sync-and-skim)
+    [Appendix: DEX Ecosystem Behaviour, section 10](https://github.com/logos-co/rfp/blob/master/appendix/dex-ecosystem-behaviour.md#10-reserve-reconciliation-sync-and-skim)
     for rationale and ecosystem precedent.
 10. Integrate the TWAP accumulator component delivered by
-    [RFP-019](./RFP-019-twap-oracle.md): every state-changing pool operation
+    [RFP-019](/builders-hub/rfps/twap-oracle): every state-changing pool operation
     (swap, add liquidity, remove liquidity) invokes the component so the pool's
     price accumulators are maintained. If the component is not yet available
     when the DEX is delivered, the program must expose the integration point so
@@ -797,7 +796,7 @@ The following are explicitly excluded from this RFP:
   surveyed protocols, only Uniswap V2 exposes a `skim()`-style instruction;
   Uniswap V4, Balancer V3, Curve StableSwapNG, Raydium, and Orca Whirlpools do
   not. See
-  [Appendix: DEX Ecosystem Behaviour, section 10](../appendix/dex-ecosystem-behaviour.md#10-reserve-reconciliation-sync-and-skim).
+  [Appendix: DEX Ecosystem Behaviour, section 10](https://github.com/logos-co/rfp/blob/master/appendix/dex-ecosystem-behaviour.md#10-reserve-reconciliation-sync-and-skim).
 
 ### Privacy Architecture
 
@@ -866,10 +865,10 @@ currently **open**.
 
 The TWAP accumulator component integrated per Functionality requirement F.10
 carries admin-governed parameters defined by
-[RFP-019](./RFP-019-twap-oracle.md): the per-pool tick-delta clamp
+[RFP-019](/builders-hub/rfps/twap-oracle): the per-pool tick-delta clamp
 (`MAX_TICK_DELTA`) and observation cardinality registration are owner-gated.
 Managing them uses the standardised admin authority library from
-[RFP-001](./RFP-001-admin-authority-lib.md). The RFP is closed (candidate
+[RFP-001](/builders-hub/rfps/admin-authority-lib). The RFP is closed (candidate
 picked) and the library is in development.
 
 ### Resolved dependencies
@@ -908,7 +907,7 @@ is **closed**.
 #### Oracle TWAP component (RFP-019)
 
 The DEX is expected to hook the TWAP accumulator component delivered by
-[RFP-019](./RFP-019-twap-oracle.md) into its pools so that every state-changing
+[RFP-019](/builders-hub/rfps/twap-oracle) into its pools so that every state-changing
 pool operation maintains the price accumulators (Functionality requirement
 F.10). The DEX can ship before the component is available by exposing the
 integration point, so this is a soft dependency rather than a frontmatter entry.
@@ -970,7 +969,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.20:T804e,# RFP-008 — Lending & Borrowing Protocol
+**Discussions**.20:T80be,# RFP-008 — Lending & Borrowing Protocol
 
 ## 🧭 Overview
 
@@ -1002,7 +1001,7 @@ admin authority on mainnet, and any related governance are explicitly out of
 scope and will be handled through a separate process. The curation layer
 (single-asset deposit vaults that allocate across multiple markets, vault share
 tokens, supply and borrow caps) is addressed in
-[RFP-012](./RFP-012-curated-lending-vaults.md). The applying team should have
+[RFP-012](/builders-hub/rfps/curated-lending-vaults). The applying team should have
 experience building or contributing to on-chain lending protocols and be
 comfortable with interest rate modelling, liquidation mechanics, and oracle
 integration.
@@ -1278,7 +1277,7 @@ products are built on.
    that mechanism or an equivalent, but the resistance property is mandatory and
    must be covered by a test. This is non-negotiable for an immutable core: the
    ecosystem has lost over $130M to share-inflation exploits (see
-   [Appendix: Security Record](../appendix/lending-ecosystem.md#security-record-2020-2026)),
+   [Appendix: Security Record](https://github.com/logos-co/rfp/blob/master/appendix/lending-ecosystem.md#security-record-2020-2026)),
    and an immutable program cannot be patched after deployment.
 
 #### Performance
@@ -1391,7 +1390,7 @@ therefore out of scope:
 - Any governance design (token, DAO, multisig) around the admin authority.
 
 Curation layer features, deferred to
-[RFP-012](./RFP-012-curated-lending-vaults.md):
+[RFP-012](/builders-hub/rfps/curated-lending-vaults):
 
 - Curated vault abstraction: single-asset deposit vaults allocating across
   multiple markets with a curator-managed strategy
@@ -1454,8 +1453,8 @@ These must be available on LEZ before this RFP can open.
 
 No oracle provider is available on LEZ. The lending protocol requires external
 price feeds for collateral valuation and liquidation triggers.
-[RFP-020](./RFP-020-redstone-oracle-adaptor.md) (RedStone off-chain oracle
-adaptor) delivers external price feeds; [RFP-019](./RFP-019-twap-oracle.md)
+[RFP-020](/builders-hub/rfps/redstone-oracle-adaptor) (RedStone off-chain oracle
+adaptor) delivers external price feeds; [RFP-019](/builders-hub/rfps/twap-oracle)
 (on-chain TWAP oracle) is an alternative once a DEX is live.
 
 #### Token authorities (LP-0013)
@@ -1538,12 +1537,12 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 
 ## Resources
 
-- [RFP-001 — Admin Authority Library](./RFP-001-admin-authority-lib.md):
+- [RFP-001 — Admin Authority Library](/builders-hub/rfps/admin-authority-lib):
   reference pattern for the bounded admin authority (F11 admin scope, F12
   protocol fee, F14 flash-loan fee). Soft dependency: the bounded admin
   functions should reuse this library once delivered, but the protocol can be
   built without it.
-- [Appendix: Lending and Borrowing Ecosystem](../appendix/lending-ecosystem.md):
+- [Appendix: Lending and Borrowing Ecosystem](https://github.com/logos-co/rfp/blob/master/appendix/lending-ecosystem.md):
   ecosystem survey across Ethereum, Solana, BTCFi, and long-tail chains; Morpho
   Blue deep dive
 
@@ -1554,12 +1553,12 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.21:T4144,# RFP-012 — Curated Lending Vaults
+**Discussions**.21:T414a,# RFP-012 — Curated Lending Vaults
 
 ## 🧭 Overview
 
 Build a curated vault layer on top of the isolated-market lending protocol
-delivered by [RFP-008](./RFP-008-lending-borrowing-protocol.md). Each vault
+delivered by [RFP-008](/builders-hub/rfps/lending-borrowing-protocol). Each vault
 accepts deposits of a single loan token, issues transferable vault share tokens
 (LEZ fungible tokens), and allocates deposits across multiple Morpho-style
 lending markets according to a curator-defined strategy. This is the Morpho
@@ -1751,7 +1750,7 @@ concentrating risk decisions in a single governance body.
    enforced by the on-chain program and which depend on correct client
    behaviour; and what happens if a user bypasses the expected interaction path.
    See
-   [RFP-008 — Privacy Architecture](./RFP-008-lending-borrowing-protocol.md#privacy-architecture)
+   [RFP-008 — Privacy Architecture](/builders-hub/rfps/lending-borrowing-protocol)
    for the baseline this document must align with.
 9. **Audit programme.** The proposal must include a planned audit programme
    covering the vault program and the role-permission surface (curator,
@@ -1810,7 +1809,7 @@ If possible.
 This RFP inherits the privacy model defined for the core lending protocol. The
 same deshield, interact, reshield pattern applies to every vault operation
 (deposit, withdraw, vault share transfer). See
-[RFP-008 — Privacy Architecture](./RFP-008-lending-borrowing-protocol.md#privacy-architecture)
+[RFP-008 — Privacy Architecture](/builders-hub/rfps/lending-borrowing-protocol)
 for the full interaction flow, the gas constraint, and the public/ private
 observability split.
 
@@ -1826,7 +1825,7 @@ All other platform primitives required by this RFP (including LP-0013 token
 transfer authorities and an oracle provider) are hard blockers for RFP-008 and
 will therefore be resolved before this RFP opens. LP-0015 (general cross-program
 calls), once a blocker, is delivered. See
-[RFP-008 — Platform Dependencies](./RFP-008-lending-borrowing-protocol.md#-platform-dependencies)
+[RFP-008 — Platform Dependencies](/builders-hub/rfps/lending-borrowing-protocol)
 for details.
 
 ## 👤 Recommended Team Profile
@@ -1853,8 +1852,8 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 
 ## Resources
 
-- [RFP-008 — Lending & Borrowing Protocol](./RFP-008-lending-borrowing-protocol.md)
-- [Appendix: Lending and Borrowing Ecosystem](../appendix/lending-ecosystem.md)
+- [RFP-008 — Lending & Borrowing Protocol](/builders-hub/rfps/lending-borrowing-protocol)
+- [Appendix: Lending and Borrowing Ecosystem](https://github.com/logos-co/rfp/blob/master/appendix/lending-ecosystem.md)
   — MetaMorpho curated-vault deep dive, curator landscape, Vault V2 design
 - TODO: Oracle integration guide for LEZ
 - TODO: SPEL framework documentation
@@ -1866,7 +1865,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.22:T3648,# RFP-013 — Reflexive Stablecoin Protocol
+**Discussions**.22:T36dc,# RFP-013 — Reflexive Stablecoin Protocol
 
 ## Overview
 
@@ -1881,7 +1880,7 @@ produces a stablecoin that trades governance for mathematics: the system
 self-corrects via economic incentives rather than policy decisions. For a survey
 of the stablecoin ecosystem and the design rationale behind this approach, see
 the
-[companion appendix](../appendix/appendix-reflexive-stablecoin-ecosystem.md).
+[companion appendix](https://github.com/logos-co/rfp/blob/master/appendix/appendix-reflexive-stablecoin-ecosystem.md).
 Users lock collateral and mint stablecoins against it. The protocol continuously
 adjusts a redemption rate based on the deviation between market price and
 redemption price. When market price exceeds redemption price, the rate goes
@@ -2051,9 +2050,9 @@ If possible.
 The following are explicitly excluded from this RFP.
 
 - Liquidation mechanism — addressed by
-  [RFP-014](./RFP-014-liquidation-auction-engine.md)
+  [RFP-014](/builders-hub/rfps/liquidation-auction-engine)
 - Surplus/debt management auctions — addressed by
-  [RFP-014](./RFP-014-liquidation-auction-engine.md)
+  [RFP-014](/builders-hub/rfps/liquidation-auction-engine)
 - Multi-collateral positions
 - Private state positions (privacy via UX layer only)
 - Governance token design
@@ -2107,8 +2106,8 @@ These must be available on LEZ before this RFP can open.
 The protocol requires external price feeds for market price and redemption rate
 computation. Every hard requirement related to rate adjustment (F2) and
 reliability (R3) depends on this.
-[RFP-020](./RFP-020-redstone-oracle-adaptor.md) (RedStone off-chain oracle
-adaptor) delivers external price feeds; [RFP-019](./RFP-019-twap-oracle.md)
+[RFP-020](/builders-hub/rfps/redstone-oracle-adaptor) (RedStone off-chain oracle
+adaptor) delivers external price feeds; [RFP-019](/builders-hub/rfps/twap-oracle)
 (on-chain TWAP oracle) is an alternative once a DEX is live.
 
 #### Token authorities (LP-0013)
@@ -2123,8 +2122,8 @@ currently **open**.
 
 Parameter updates are gated through an admin authority (R4) and the emergency
 circuit breaker uses a freeze authority (R5). These come from the standardised
-libraries in [RFP-001](./RFP-001-admin-authority-lib.md) and
-[RFP-002](./RFP-002-freeze-authority-lib.md). Both RFPs are closed (candidate
+libraries in [RFP-001](/builders-hub/rfps/admin-authority-lib) and
+[RFP-002](/builders-hub/rfps/freeze-authority-lib). Both RFPs are closed (candidate
 picked) and the libraries are in development.
 
 ### Resolved dependencies
@@ -2162,7 +2161,7 @@ Desirable but the RFP can open without them.
 #### Liquidation engine (RFP-014)
 
 A full liquidation and auction engine is delivered by
-[RFP-014](./RFP-014-liquidation-auction-engine.md), which liquidates the
+[RFP-014](/builders-hub/rfps/liquidation-auction-engine), which liquidates the
 positions this protocol creates. The stablecoin is more robust once RFP-014 is
 live, but it can ship with a placeholder liquidation path that satisfies its
 functionality requirements and integrate RFP-014 once available. It is therefore
@@ -2192,11 +2191,11 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 ## Resources
 
 - [RAI Whitepaper](https://github.com/reflexer-labs/whitepapers/blob/master/English/rai-english.pdf)
-- [RFP-001 — Admin Authority](./RFP-001-admin-authority-lib.md)
-- [RFP-002 — Freeze Authority](./RFP-002-freeze-authority-lib.md)
-- [RFP-008 — Lending & Borrowing](./RFP-008-lending-borrowing-protocol.md)
-- [RFP-014 — Liquidation & Auction Engine](./RFP-014-liquidation-auction-engine.md)
-- [Appendix: Reflexive Stablecoin Ecosystem](../appendix/appendix-reflexive-stablecoin-ecosystem.md)
+- [RFP-001 — Admin Authority](/builders-hub/rfps/admin-authority-lib)
+- [RFP-002 — Freeze Authority](/builders-hub/rfps/freeze-authority-lib)
+- [RFP-008 — Lending & Borrowing](/builders-hub/rfps/lending-borrowing-protocol)
+- [RFP-014 — Liquidation & Auction Engine](/builders-hub/rfps/liquidation-auction-engine)
+- [Appendix: Reflexive Stablecoin Ecosystem](https://github.com/logos-co/rfp/blob/master/appendix/appendix-reflexive-stablecoin-ecosystem.md)
 
 ## How to Apply
 
@@ -2205,7 +2204,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.23:T34cb,# RFP-014 — Liquidation & Auction Engine
+**Discussions**.23:T3558,# RFP-014 — Liquidation & Auction Engine
 
 ## Overview
 
@@ -2222,7 +2221,7 @@ for seized collateral that incentivizes quick liquidation while minimizing
 protocol losses, plus surplus and debt auction houses for system-level balance
 management. For a survey of liquidation mechanisms and the design rationale
 behind this approach, see the
-[companion appendix](../appendix/appendix-liquidation-auction-ecosystem.md).
+[companion appendix](https://github.com/logos-co/rfp/blob/master/appendix/appendix-liquidation-auction-ecosystem.md).
 When a position becomes undercollateralized, the system seizes its collateral
 and begins an auction where the discount to market price increases over time
 until the target amount is raised. Surplus from liquidation penalties and
@@ -2241,7 +2240,7 @@ discovery, and handles system imbalances via surplus and debt auctions.
 Building this as a reusable program has ecosystem-wide benefits. Each CDP
 product can deploy its own instance of the same battle-tested liquidation code
 rather than rebuilding from scratch. This includes the reflexive stablecoin
-([RFP-013](./RFP-013-reflexive-stablecoin-protocol.md)), future lending
+([RFP-013](/builders-hub/rfps/reflexive-stablecoin-protocol)), future lending
 protocols, or Maker-style multi-collateral systems. Reusing the same codebase
 means shared security audits, shared liquidator bot logic, and faster
 time-to-market for new CDP products. Each instance is configured for its
@@ -2270,11 +2269,11 @@ guarantees.
    fully implemented and tested (using a mock token), but parameterized by a
    configurable token address so the deployer can point it at whatever protocol
    token they choose. The protocol token itself is out of scope (see
-   [RFP-013 Out of Scope](./RFP-013-reflexive-stablecoin-protocol.md#out-of-scope)).
+   [RFP-013 Out of Scope](/builders-hub/rfps/reflexive-stablecoin-protocol)).
    Until a protocol token is configured, the surplus buffer absorbs shortfalls
    up to its capacity; if bad debt exceeds the buffer, the system pauses new
    debt generation via freeze authority
-   ([RFP-002](./RFP-002-freeze-authority-lib.md)).
+   ([RFP-002](/builders-hub/rfps/freeze-authority-lib)).
 
 5. When the protocol accumulates excess stablecoin above a threshold, surplus
    auctions sell it for a protocol token (which is burned). As with F4, the
@@ -2445,15 +2444,15 @@ These must be available on LEZ before this RFP can open.
 The system requires external price feeds for collateral valuation and
 liquidation triggers. Every hard requirement related to liquidation (F1) and
 reliability (R2) depends on this.
-[RFP-020](./RFP-020-redstone-oracle-adaptor.md) (RedStone off-chain oracle
-adaptor) delivers external price feeds; [RFP-019](./RFP-019-twap-oracle.md)
+[RFP-020](/builders-hub/rfps/redstone-oracle-adaptor) (RedStone off-chain oracle
+adaptor) delivers external price feeds; [RFP-019](/builders-hub/rfps/twap-oracle)
 (on-chain TWAP oracle) is an alternative once a DEX is live.
 
 #### CDP Protocol
 
 This liquidation system is designed to integrate with a host CDP protocol that
 provides positions to liquidate. It is typically deployed alongside
-[RFP-013](./RFP-013-reflexive-stablecoin-protocol.md) or equivalent.
+[RFP-013](/builders-hub/rfps/reflexive-stablecoin-protocol) or equivalent.
 
 #### Token authorities (LP-0013)
 
@@ -2468,8 +2467,8 @@ currently **open**.
 Auction parameters are managed through an admin authority, and bad debt
 exceeding the surplus buffer pauses new debt generation via a freeze authority
 (F4). These come from the standardised libraries in
-[RFP-001](./RFP-001-admin-authority-lib.md) and
-[RFP-002](./RFP-002-freeze-authority-lib.md). Both RFPs are closed (candidate
+[RFP-001](/builders-hub/rfps/admin-authority-lib) and
+[RFP-002](/builders-hub/rfps/freeze-authority-lib). Both RFPs are closed (candidate
 picked) and the libraries are in development.
 
 ### Resolved dependencies
@@ -2523,11 +2522,11 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 ## Resources
 
 - [RAI / GEB Code](https://github.com/reflexer-labs/geb)
-- [RFP-001 — Admin Authority](./RFP-001-admin-authority-lib.md)
-- [RFP-002 — Freeze Authority](./RFP-002-freeze-authority-lib.md)
-- [RFP-008 — Lending & Borrowing](./RFP-008-lending-borrowing-protocol.md)
-- [RFP-013 — Reflexive Stablecoin Protocol](./RFP-013-reflexive-stablecoin-protocol.md)
-- [Appendix: Liquidation & Auction Ecosystem](../appendix/appendix-liquidation-auction-ecosystem.md)
+- [RFP-001 — Admin Authority](/builders-hub/rfps/admin-authority-lib)
+- [RFP-002 — Freeze Authority](/builders-hub/rfps/freeze-authority-lib)
+- [RFP-008 — Lending & Borrowing](/builders-hub/rfps/lending-borrowing-protocol)
+- [RFP-013 — Reflexive Stablecoin Protocol](/builders-hub/rfps/reflexive-stablecoin-protocol)
+- [Appendix: Liquidation & Auction Ecosystem](https://github.com/logos-co/rfp/blob/master/appendix/appendix-liquidation-auction-ecosystem.md)
 
 ## How to Apply
 
@@ -2536,22 +2535,22 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.24:T7791,# RFP-015: Privacy-Preserving Token Launchpad: Bonding Curve
+**Discussions**.24:T7883,# RFP-015: Privacy-Preserving Token Launchpad: Bonding Curve
 
 ## 🧭 Overview
 
 Build a bonding curve token launchpad on LEZ, using a supply-driven pricing
 mechanism where token price increases deterministically as a function of tokens
 remaining in the curve. Unlike the time-driven LBP mechanism in
-[RFP-016](./RFP-016-lbp-launchpad.md), a bonding curve's price progression is
+[RFP-016](/builders-hub/rfps/lbp-launchpad), a bonding curve's price progression is
 supply-driven: price advances with each purchase. Participants can buy tokens
 directly from a public account or, for privacy, via a deshield→buy→re-shield
-pattern (see [RFP-008](./RFP-008-lending-borrowing-protocol.md), which defines
+pattern (see [RFP-008](/builders-hub/rfps/lending-borrowing-protocol), which defines
 this interaction model for LEZ applications): when a private account is used,
 each purchase is routed through a fresh, single-use public account, hiding the
 link between the buyer's private identity and their participation in the sale.
 
-The bonding curve launchpad complements [RFP-016](./RFP-016-lbp-launchpad.md):
+The bonding curve launchpad complements [RFP-016](/builders-hub/rfps/lbp-launchpad):
 where LBPs reward patient buyers (price falls over time unless buying pressure
 counteracts it), bonding curves reward early believers (price rises with each
 purchase). The two mechanisms suit different project profiles, and together they
@@ -2595,7 +2594,7 @@ A time-based close creates a weaker invariant: if buying stops early, the sale
 ends with unsold supply and no clear clearing price. Supply-based close avoids
 this. No bonding curve platform in the ecosystem implements time-based close;
 all use supply or price targets exclusively (see the
-[Sale Lifecycle](../appendix/token-launchpad-ecosystem.md#sale-lifecycle-and-close-mechanics)
+[Sale Lifecycle](https://github.com/logos-co/rfp/blob/master/appendix/token-launchpad-ecosystem.md#sale-lifecycle-and-close-mechanics)
 section of the appendix). An optional end timestamp is available as a soft
 requirement for projects that need a hard deadline.
 
@@ -2618,7 +2617,7 @@ sale window.
 
 All bonding curve state is public on-chain: virtual reserve values, invariant
 `k`, real reserve balances, current spot price, open/closed status. As with
-[RFP-016](./RFP-016-lbp-launchpad.md), this is a deliberate architectural
+[RFP-016](/builders-hub/rfps/lbp-launchpad), this is a deliberate architectural
 choice. Public state enables permissionless price verification (any participant
 can verify `tokens_out` against the formula independently), composability with
 other LEZ programs, and verifiable sale analytics without cryptographic
@@ -2645,19 +2644,19 @@ creation is free (no creation fee).
 
 Per-swap collection is critical for bonding curves. The graduation rate across
 the ecosystem is approximately 0.7% to 1.4% (see the
-[Sale Lifecycle](../appendix/token-launchpad-ecosystem.md#sale-lifecycle-and-close-mechanics)
+[Sale Lifecycle](https://github.com/logos-co/rfp/blob/master/appendix/token-launchpad-ecosystem.md#sale-lifecycle-and-close-mechanics)
 section of the appendix): over 98% of bonding curves never reach their supply
 target. An at-close fee model would capture revenue on fewer than 2% of
 launches. Pump.fun, the largest bonding curve platform by volume, uses a
 buyer-side per-swap fee (dynamic, 0.05–0.95% since September 2025) and has
 generated over $818M in cumulative protocol fees (see the
-[Fee Structures](../appendix/token-launchpad-ecosystem.md#fee-structures)
+[Fee Structures](https://github.com/logos-co/rfp/blob/master/appendix/token-launchpad-ecosystem.md#fee-structures)
 section of the appendix for a cross-platform comparison).
 
 ### Bonding curves and LBPs as complementary mechanisms
 
 The Logos ecosystem provides both a bonding curve launchpad (this RFP) and an
-LBP launchpad ([RFP-016](./RFP-016-lbp-launchpad.md)). The two mechanisms are
+LBP launchpad ([RFP-016](/builders-hub/rfps/lbp-launchpad)). The two mechanisms are
 not redundant: they suit different project profiles and together provide a
 complete token launch toolkit.
 
@@ -2738,7 +2737,7 @@ instead.
 
 3. Participants buy and sell project tokens on the curve using either a public
    account directly, or via the deshield→trade→re-shield pattern for private
-   account interaction (see [RFP-008](./RFP-008-lending-borrowing-protocol.md),
+   account interaction (see [RFP-008](/builders-hub/rfps/lending-borrowing-protocol),
    which defines this interaction model for LEZ applications). Both paths must
    be supported by the program and SDK.
 
@@ -2761,7 +2760,7 @@ instead.
 7. Use Associated Token Accounts (ATAs) for all token interactions, consistent
    with
    [LP-0014](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0014.md)
-   and [RFP-008](./RFP-008-lending-borrowing-protocol.md).
+   and [RFP-008](/builders-hub/rfps/lending-borrowing-protocol).
 
 #### Usability
 
@@ -2945,7 +2944,7 @@ lowest price (`p₀ = Vc / Vt`). Bots that execute at the first block of the sal
 acquire tokens at the cheapest possible price, before the community can
 participate. No bonding curve platform in the ecosystem implements access
 restrictions or bot mitigation at the protocol level. Projects requiring
-stronger bot deterrence should use [RFP-016](./RFP-016-lbp-launchpad.md)
+stronger bot deterrence should use [RFP-016](/builders-hub/rfps/lbp-launchpad)
 instead.
 
 ### Reference Implementation
@@ -2998,7 +2997,7 @@ production deployments or audits.
 - **Auto-graduation to DEX**: when the supply target is reached and the sale
   auto-closes, the program can automatically deploy the accumulated real
   collateral reserve and the DEX seed reserve `R` tokens as liquidity into a LEZ
-  DEX pool (requires [RFP-004](./RFP-004-privacy-preserving-dex.md) and LP-0015
+  DEX pool (requires [RFP-004](/builders-hub/rfps/privacy-preserving-dex) and LP-0015
   to be available). This eliminates manual post-sale liquidity seeding and
   provides immediate post-graduation tradability.
 - **Optional end timestamp**: the sale creator can configure an end timestamp at
@@ -3035,7 +3034,7 @@ currently **open**.
 
 The protocol fee rate and treasury address are configured by the program's admin
 authority, using the standardised library from
-[RFP-001](./RFP-001-admin-authority-lib.md). The RFP is closed (candidate
+[RFP-001](/builders-hub/rfps/admin-authority-lib). The RFP is closed (candidate
 picked) and the library is in development.
 
 ### Resolved dependencies
@@ -3085,17 +3084,17 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 
 - [Logos Documentation](https://github.com/logos-co/logos-docs)
 
-- [RFP-016: Privacy-Preserving Token Launchpad (LBP)](./RFP-016-lbp-launchpad.md)
+- [RFP-016: Privacy-Preserving Token Launchpad (LBP)](/builders-hub/rfps/lbp-launchpad)
   (companion launchpad RFP using the LBP mechanism)
 
-- [RFP-008: Lending & Borrowing Protocol](./RFP-008-lending-borrowing-protocol.md)
+- [RFP-008: Lending & Borrowing Protocol](/builders-hub/rfps/lending-borrowing-protocol)
   (reference for the public/private account interaction pattern used across LEZ
   applications)
 
-- [RFP-004: Privacy-Preserving DEX](./RFP-004-privacy-preserving-dex.md) (soft
+- [RFP-004: Privacy-Preserving DEX](/builders-hub/rfps/privacy-preserving-dex) (soft
   requirement: auto-graduation target)
 
-- [Appendix: Token Launchpad Ecosystem](../appendix/token-launchpad-ecosystem.md)
+- [Appendix: Token Launchpad Ecosystem](https://github.com/logos-co/rfp/blob/master/appendix/token-launchpad-ecosystem.md)
   (survey of existing launchpad protocols, scale data, and refund mechanisms)
 
 - [LP-0013: Token program improvements: mint authorities](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0013.md)
@@ -3121,7 +3120,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.25:T7556,# RFP-016: Privacy-Preserving Token Launchpad: LBP
+**Discussions**.25:T7636,# RFP-016: Privacy-Preserving Token Launchpad: LBP
 
 Note that ecosystem research is available in the
 [appendix](appendix/token-launchpad-ecosystem).
@@ -3132,7 +3131,7 @@ Build a token launchpad on LEZ using a Liquidity Bootstrapping Pool (LBP)
 mechanism, a time-limited, weight-shifting AMM that enables fair, bot-resistant
 price discovery for new token launches. Participants can buy tokens directly
 from a public account or, for privacy, via a deshield→buy→re-shield pattern (see
-[RFP-008](./RFP-008-lending-borrowing-protocol.md), which defines this
+[RFP-008](/builders-hub/rfps/lending-borrowing-protocol), which defines this
 interaction model for LEZ applications): when a private account is used, each
 purchase is routed through a fresh, single-use public account, hiding the link
 between the buyer's private identity and their participation in the sale. An
@@ -3190,7 +3189,7 @@ one moment rather than over days, making it unsuitable for broad community
 distribution.
 
 The Logos ecosystem also provides a bonding curve launchpad
-([RFP-015](./RFP-015-bonding-curve-launchpad.md)) for projects where early-entry
+([RFP-015](/builders-hub/rfps/bonding-curve-launchpad)) for projects where early-entry
 incentives are intentional: price rises deterministically with each purchase,
 rewarding early believers with a lower entry price. The two mechanisms suit
 different project profiles and together provide a complete token launch toolkit.
@@ -3230,7 +3229,7 @@ shielded by construction: an observer cannot determine which private account
 interacted with the sale, regardless of whether an allowlist is active. This
 means an allowlist does not degrade privacy in the way it would on a transparent
 chain, where the anonymity set shrinks to the allowlist size (see the
-[Allowlist Privacy in Shielded Execution Environments](../appendix/token-launchpad-ecosystem.md#allowlist-privacy-in-shielded-execution-environments)
+[Allowlist Privacy in Shielded Execution Environments](https://github.com/logos-co/rfp/blob/master/appendix/token-launchpad-ecosystem.md#allowlist-privacy-in-shielded-execution-environments)
 section of the token launchpad ecosystem appendix).
 
 The recommended approach is ZK set membership proofs (a Merkle tree commitment
@@ -3243,7 +3242,7 @@ properties and any reduction in anonymity set relative to a non-gated sale.
 ### Sale pause capability
 
 The pause function is an emergency stop for security incidents, analogous to the
-freeze authority in [RFP-002](./RFP-002-freeze-authority-lib.md). Crucially,
+freeze authority in [RFP-002](/builders-hub/rfps/freeze-authority-lib). Crucially,
 pausing does not halt weight progression: the weight schedule continues to
 advance during a pause. This prevents a creator from gaming the mechanism by
 pausing at a weight that is artificially favourable and resuming once they
@@ -3253,7 +3252,7 @@ detect large buy orders.
 
 The LBP program collects a protocol fee at sale close, matching the model used
 by Fjord Foundry on Balancer (see the
-[Onchain Fee Enforcement](../appendix/token-launchpad-ecosystem.md#onchain-fee-enforcement)
+[Onchain Fee Enforcement](https://github.com/logos-co/rfp/blob/master/appendix/token-launchpad-ecosystem.md#onchain-fee-enforcement)
 section of the appendix). When the creator withdraws collateral after the sale
 end timestamp, the program deducts `fee = collateral_balance × fee_rate`
 (rounded up) and transfers it to a protocol treasury account. The creator
@@ -3270,7 +3269,7 @@ rate; the admin authority sets it at deployment and may update it. Sale creation
 is free (no creation fee).
 
 See the
-[Fee Structures](../appendix/token-launchpad-ecosystem.md#fee-structures)
+[Fee Structures](https://github.com/logos-co/rfp/blob/master/appendix/token-launchpad-ecosystem.md#fee-structures)
 section of the appendix for a cross-platform comparison.
 
 ## ✅ Scope of Work
@@ -3298,7 +3297,7 @@ section of the appendix for a cross-platform comparison.
    6. Optional: private allowlist gate (see item 7 below).
 3. Participants buy project tokens from the pool using either a public account
    directly, or via the deshield→buy→re-shield pattern for private account
-   interaction (see [RFP-008](./RFP-008-lending-borrowing-protocol.md)). Both
+   interaction (see [RFP-008](/builders-hub/rfps/lending-borrowing-protocol)). Both
    paths must be supported by the program and SDK.
 4. Pool weights shift deterministically according to the configured schedule.
    Any account can submit a weight-update ("poke") transaction to advance the
@@ -3327,7 +3326,7 @@ section of the appendix for a cross-platform comparison.
 9. Use Associated Token Accounts (ATAs) for all token interactions, consistent
    with
    [LP-0014](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0014.md)
-   and [RFP-008](./RFP-008-lending-borrowing-protocol.md).
+   and [RFP-008](/builders-hub/rfps/lending-borrowing-protocol).
 
 #### Usability
 
@@ -3622,8 +3621,8 @@ currently **open**.
 The protocol fee rate and treasury address are configured by the program's admin
 authority, and the sale pause capability (F6) builds on a freeze authority.
 These come from the standardised libraries in
-[RFP-001](./RFP-001-admin-authority-lib.md) and
-[RFP-002](./RFP-002-freeze-authority-lib.md). Both RFPs are closed (candidate
+[RFP-001](/builders-hub/rfps/admin-authority-lib) and
+[RFP-002](/builders-hub/rfps/freeze-authority-lib). Both RFPs are closed (candidate
 picked) and the libraries are in development.
 
 ### Resolved dependencies
@@ -3679,20 +3678,20 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 
 - [Logos Documentation](https://github.com/logos-co/logos-docs)
 
-- [RFP-008: Lending & Borrowing Protocol](./RFP-008-lending-borrowing-protocol.md)
+- [RFP-008: Lending & Borrowing Protocol](/builders-hub/rfps/lending-borrowing-protocol)
   (reference for the optional public/private account interaction pattern)
 
-- [RFP-017: Privacy-Preserving Token Vesting](./RFP-017-token-vesting.md) (soft
+- [RFP-017: Privacy-Preserving Token Vesting](/builders-hub/rfps/token-vesting) (soft
   requirement: post-sale vesting integration)
 
-- [Appendix: Token Launchpad Ecosystem](../appendix/token-launchpad-ecosystem.md)
+- [Appendix: Token Launchpad Ecosystem](https://github.com/logos-co/rfp/blob/master/appendix/token-launchpad-ecosystem.md)
   (survey of existing launchpad protocols, scale data, and refund mechanisms)
 
 - [LP-0013: Token program improvements: mint authorities](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0013.md)
 
 - [LP-0014: Token program improvements: ATAs + wallet tooling](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0014.md)
 
-- [RFP-015: Token Launchpad: Bonding Curve](./RFP-015-bonding-curve-launchpad.md)
+- [RFP-015: Token Launchpad: Bonding Curve](/builders-hub/rfps/bonding-curve-launchpad)
   (companion launchpad RFP using the bonding curve mechanism)
 
 - [Balancer LBP documentation](https://balancer.gitbook.io/balancer/smart-contracts/smart-pools/liquidity-bootstrapping-faq)
@@ -3708,7 +3707,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.26:T4ee7,# RFP-017: Privacy-Preserving Token Vesting
+**Discussions**.26:T4fa9,# RFP-017: Privacy-Preserving Token Vesting
 
 ## 🧭 Overview
 
@@ -3726,7 +3725,7 @@ documented $97.43B in token vesting unlocks during 2025 alone, and Magna (the
 largest vesting platform) reached $60B peak TVL before being acquired by Kraken.
 Despite this scale, leading protocols (Sablier, Hedgey, Jupiter Lock) charge
 zero fees, and no existing protocol offers any privacy features for vesting (see
-[Appendix: Token Vesting Ecosystem](../appendix/token-vesting-ecosystem.md)).
+[Appendix: Token Vesting Ecosystem](https://github.com/logos-co/rfp/blob/master/appendix/token-vesting-ecosystem.md)).
 
 ## 🔥 Why This Matters
 
@@ -3748,7 +3747,7 @@ environment where teams can vest tokens without creating a public unlock
 calendar for adversarial front-running.
 
 Vesting is also a composition primitive. A launchpad (see
-[RFP-016](./RFP-016-lbp-launchpad.md)) or investor round on LEZ needs vesting to
+[RFP-016](/builders-hub/rfps/lbp-launchpad)) or investor round on LEZ needs vesting to
 be in place before tokens can be distributed to contributors and early backers.
 This RFP is a direct prerequisite for a credible token economy on LEZ.
 
@@ -3786,7 +3785,7 @@ reverse is not permitted. This one-way conversion serves as a credible
 commitment mechanism: a project can issue vesting to investors and later make it
 irrevocable as a trust signal, following the pattern established by Sablier and
 Hedgey (see
-[Appendix: Cancellation and Revocation](../appendix/token-vesting-ecosystem.md#cancellation-and-revocation)).
+[Appendix: Cancellation and Revocation](https://github.com/logos-co/rfp/blob/master/appendix/token-vesting-ecosystem.md#cancellation-and-revocation)).
 
 When a cancelable schedule is cancelled, unvested tokens return to the creator;
 already-vested but unclaimed tokens remain claimable by the beneficiary. This
@@ -3822,7 +3821,7 @@ document.
 This RFP does not mandate a specific fee rate. The ecosystem trend is decisively
 toward zero protocol fees: 7 of 10 vesting protocols surveyed charge nothing
 beyond gas (see
-[Appendix: Fee Structures](../appendix/token-vesting-ecosystem.md#fee-structures)).
+[Appendix: Fee Structures](https://github.com/logos-co/rfp/blob/master/appendix/token-vesting-ecosystem.md#fee-structures)).
 Proposals must specify:
 
 1. **Who pays:** whether fees (if any) are charged to the schedule creator, the
@@ -4014,8 +4013,8 @@ future RFP.
   creator wallet. Creator-controlled milestone authority is appropriate for team
   vesting, but creates a conflict of interest when vesting is used for buyer
   protection (e.g., creator collateral vesting from a token launch per
-  [RFP-015](./RFP-015-bonding-curve-launchpad.md) or
-  [RFP-016](./RFP-016-lbp-launchpad.md)): the creator could approve milestones
+  [RFP-015](/builders-hub/rfps/bonding-curve-launchpad) or
+  [RFP-016](/builders-hub/rfps/lbp-launchpad)): the creator could approve milestones
   and drain funds immediately. Delegating milestone authority to a governance
   body or multisig that excludes the creator prevents this.
 
@@ -4074,7 +4073,7 @@ Desirable but not required to begin development.
 
 If a proposal includes a protocol fee with a governance-activatable fee switch
 (see Fee structure), the fee configuration should reuse the standardised admin
-authority library from [RFP-001](./RFP-001-admin-authority-lib.md). Since the
+authority library from [RFP-001](/builders-hub/rfps/admin-authority-lib). Since the
 fee switch is optional, this is a soft dependency rather than a frontmatter
 entry.
 
@@ -4100,12 +4099,12 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 ## Resources
 
 - [Logos Documentation](https://github.com/logos-co/logos-docs)
-- [RFP-008: Lending & Borrowing Protocol](./RFP-008-lending-borrowing-protocol.md)
+- [RFP-008: Lending & Borrowing Protocol](/builders-hub/rfps/lending-borrowing-protocol)
   (reference for the optional public/private account interaction pattern)
 - [LP-0012: Event/Log mechanism for LEZ](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0012.md)
 - [LP-0013: Token program improvements: mint authorities](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0013.md)
 - [Streamflow Finance (vesting reference)](https://streamflow.finance/)
-- [Appendix: Token Vesting Ecosystem](../appendix/token-vesting-ecosystem.md)
+- [Appendix: Token Vesting Ecosystem](https://github.com/logos-co/rfp/blob/master/appendix/token-vesting-ecosystem.md)
   (survey of existing vesting protocols, scale data, and fee structures)
 
 ## ✏️ How to Apply
@@ -4115,7 +4114,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.27:T6c29,# RFP-019 — On-Chain TWAP Oracle
+**Discussions**.27:T6ce6,# RFP-019 — On-Chain TWAP Oracle
 
 ## 🧭 Overview
 
@@ -4151,7 +4150,7 @@ only honest source is the LEZ DEX itself, read through an on-chain TWAP. This is
 not a defence-in-depth nicety; it is the only pricing path available for
 LEZ-native assets.
 
-The reflexive stablecoin ([RFP-013](./RFP-013-reflexive-stablecoin-protocol.md))
+The reflexive stablecoin ([RFP-013](/builders-hub/rfps/reflexive-stablecoin-protocol))
 makes this concrete. Its feedback controller computes a redemption rate from the
 deviation between *market price* and *redemption price*, both denominated in the
 reference collateral (following the RAI design, which uses ETH-denominated
@@ -4162,9 +4161,9 @@ tier, RFP-013 has no price feed to read.
 
 **Wrapped assets need manipulation-resistant pricing.** Wrapped external assets
 (wXMR, wZEC, wBTC, wETH, potentially wSOL) used as collateral by the lending
-protocol ([RFP-008](./RFP-008-lending-borrowing-protocol.md)) and others are
+protocol ([RFP-008](/builders-hub/rfps/lending-borrowing-protocol)) and others are
 priced primarily by external oracles (RedStone in
-[RFP-020](./RFP-020-redstone-oracle-adaptor.md), Pyth in a future RFP). These
+[RFP-020](/builders-hub/rfps/redstone-oracle-adaptor), Pyth in a future RFP). These
 also benefit from an on-chain TWAP cross-check where a LEZ DEX pair exists with
 sufficient liquidity, since 36 documented flash-loan oracle attacks have caused
 over $418M in cumulative losses [5] and a single off-chain source remains the
@@ -4220,8 +4219,8 @@ delta written to the accumulator to a fixed maximum (the v4 reference value is
 inject more than `MAX_TICK_DELTA * blockTime` of distortion per block regardless
 of how far they push the pool, and must sustain manipulation across many blocks
 while arbitrage erodes their position. See the appendix
-([Uniswap v4 truncated oracle hook](../appendix/oracle-ecosystem.md#uniswap-v4-truncated-oracle-hook),
-[Mitigation: tick-delta truncation](../appendix/oracle-ecosystem.md#mitigation-tick-delta-truncation-uniswap-v4))
+([Uniswap v4 truncated oracle hook](https://github.com/logos-co/rfp/blob/master/appendix/oracle-ecosystem.md#uniswap-v4-truncated-oracle-hook),
+[Mitigation: tick-delta truncation](https://github.com/logos-co/rfp/blob/master/appendix/oracle-ecosystem.md#mitigation-tick-delta-truncation-uniswap-v4))
 for the full mechanism. LEZ's TWAP oracle adopts this truncation as a hard
 requirement: the cost is one tick-delta comparison and clamp per accumulator
 update, and it materially raises the manipulation floor on the thin pools that
@@ -4503,7 +4502,7 @@ reaches moderate TVL.
 The following are explicitly excluded from this RFP and addressed elsewhere:
 
 - External oracle adaptors. RedStone is delivered in
-  [RFP-020](./RFP-020-redstone-oracle-adaptor.md). A Pyth adaptor (which depends
+  [RFP-020](/builders-hub/rfps/redstone-oracle-adaptor). A Pyth adaptor (which depends
   on Wormhole on LEZ) is deferred to a future RFP.
 - Confidential or shielded oracle execution. Oracle programs run as public LEZ
   executions (see Design Rationale, "Public oracle execution").
@@ -4519,7 +4518,7 @@ The following are explicitly excluded from this RFP and addressed elsewhere:
   *checkable*, but does not specify or implement the composition itself.
   Composition becomes relevant only once token wrapping is defined on LEZ. A
   future RFP, likely an evolution of
-  [RFP-020](./RFP-020-redstone-oracle-adaptor.md) (or a dedicated token-wrapping
+  [RFP-020](/builders-hub/rfps/redstone-oracle-adaptor) (or a dedicated token-wrapping
   RFP), is expected to specify a canonical composition pattern including
   confidence-interval and staleness rules across legs. Until then, consumer
   protocols that need a price in a denomination not directly published are
@@ -4537,7 +4536,7 @@ developed.
 The oracle program owner registers new TWAP price feed sources and governs
 per-pool parameters such as `MAX_TICK_DELTA`. These owner-gated functions
 require the standardised admin authority library from
-[RFP-001](./RFP-001-admin-authority-lib.md), currently in development.
+[RFP-001](/builders-hub/rfps/admin-authority-lib), currently in development.
 
 ### Soft blockers
 
@@ -4578,19 +4577,19 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 
 ## Resources
 
-- [RFP-004 — Privacy-Preserving DEX](./RFP-004-privacy-preserving-dex.md) (pool
+- [RFP-004 — Privacy-Preserving DEX](/builders-hub/rfps/privacy-preserving-dex) (pool
   price observations, TWAP data source)
-- [RFP-008 — Lending & Borrowing Protocol](./RFP-008-lending-borrowing-protocol.md)
+- [RFP-008 — Lending & Borrowing Protocol](/builders-hub/rfps/lending-borrowing-protocol)
   (primary consumer of oracle price feeds)
-- [RFP-012 — Curated Lending Vaults](./RFP-012-curated-lending-vaults.md)
+- [RFP-012 — Curated Lending Vaults](/builders-hub/rfps/curated-lending-vaults)
   (allocates across lending markets that require reliable oracles)
-- [RFP-013 — Reflexive Stablecoin Protocol](./RFP-013-reflexive-stablecoin-protocol.md)
+- [RFP-013 — Reflexive Stablecoin Protocol](/builders-hub/rfps/reflexive-stablecoin-protocol)
   (consumer of price feeds; the RAI-style controller reads the reflexive
   stablecoin priced in its reference collateral, a LEZ-native pair only the
   on-chain TWAP can price)
-- [RFP-020 — RedStone Off-Chain Oracle Adaptor](./RFP-020-redstone-oracle-adaptor.md)
+- [RFP-020 — RedStone Off-Chain Oracle Adaptor](/builders-hub/rfps/redstone-oracle-adaptor)
   (first external adaptor to the canonical price account standard)
-- [Appendix: Oracle Ecosystem](../appendix/oracle-ecosystem.md)
+- [Appendix: Oracle Ecosystem](https://github.com/logos-co/rfp/blob/master/appendix/oracle-ecosystem.md)
 - [Uniswap v3 Oracle Documentation](https://docs.uniswap.org/concepts/protocol/oracle)
 - [Uniswap v3 TWAP Oracles in PoS](https://blog.uniswap.org/uniswap-v3-oracles)
 
@@ -4601,14 +4600,14 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.28:Taf7a,# RFP-020 — RedStone Off-Chain Oracle Adaptor for LEZ
+**Discussions**.28:Tb0a7,# RFP-020 — RedStone Off-Chain Oracle Adaptor for LEZ
 
 ## 🧭 Overview
 
 Build a RedStone off-chain oracle adaptor for LEZ: a public-mode LEZ program
 that verifies RedStone-signed data packages, exposes the resulting prices
 through the canonical oracle price account standard defined in
-[RFP-019](./RFP-019-twap-oracle.md), and supports day-one delivery of BTC/USD,
+[RFP-019](/builders-hub/rfps/twap-oracle), and supports day-one delivery of BTC/USD,
 ETH/USD, SOL/USD, XMR/USD, and ZEC/USD feeds. RedStone's data packages are
 signed with secp256k1 + keccak256 by its data nodes; verification on LEZ runs as
 in-program code inside the RISC-V zkVM (no cross-chain bridge, no Wormhole
@@ -4657,7 +4656,7 @@ In scope:
 Out of scope at the Overview level (full list under Out of Scope below):
 
 - The on-chain TWAP tier and the canonical oracle price account standard, owned
-  by [RFP-019](./RFP-019-twap-oracle.md).
+  by [RFP-019](/builders-hub/rfps/twap-oracle).
 - Pull-mode reads from inside *private* execution (public-mode pull is in scope
   above): blocked on either a RISC0 zkVM circuit-level accelerator (e.g. a
   future `risc0-ecdsa` extension that lowers in-circuit verification cost) or a
@@ -4669,16 +4668,16 @@ Out of scope at the Overview level (full list under Out of Scope below):
 Private DeFi is what LEZ is positioned to support, and reliable USD reference
 prices for privacy collateral, in particular Monero (XMR) and Zcash (ZEC), are a
 necessary step. The reflexive stablecoin
-([RFP-013](./RFP-013-reflexive-stablecoin-protocol.md)), the privacy-preserving
-DEX ([RFP-004](./RFP-004-privacy-preserving-dex.md)), wrapped privacy assets,
+([RFP-013](/builders-hub/rfps/reflexive-stablecoin-protocol)), the privacy-preserving
+DEX ([RFP-004](/builders-hub/rfps/privacy-preserving-dex)), wrapped privacy assets,
 and other cross-chain primitives all need those reference prices to function.
 
-The on-chain TWAP tier in [RFP-019](./RFP-019-twap-oracle.md) is not sufficient
+The on-chain TWAP tier in [RFP-019](/builders-hub/rfps/twap-oracle) is not sufficient
 on its own for the day-one asset list. TWAP security scales linearly with pool
 depth: on a new chain where liquidity is thin, a validator controlling two
 consecutive blocks can manipulate the accumulator at a cost roughly equal to the
 round-trip swap fees and price impact, which on a $1M pool is cheap (see
-[Appendix: TWAP Manipulation Vectors](../appendix/oracle-ecosystem.md)). This
+[Appendix: TWAP Manipulation Vectors](https://github.com/logos-co/rfp/blob/master/appendix/oracle-ecosystem.md)). This
 applies to every pair on a new chain, not just to privacy assets. More
 structurally, TWAP only produces a price for pairs that exist as pools on LEZ.
 An off-chain feed is the only way to get an XMR/USD or ZEC/USD reference on
@@ -4695,7 +4694,7 @@ confidence intervals, but is gated on Wormhole integration on LEZ; it should
 land as a fast-follow in a future RFP. Chainlink is permissioned and not
 self-serve. DIA Lumina is permissionless but requires bespoke per-chain
 deployment. See
-[Appendix: Oracle Ecosystem, Privacy-Asset Feed Availability](../appendix/oracle-ecosystem.md)
+[Appendix: Oracle Ecosystem, Privacy-Asset Feed Availability](https://github.com/logos-co/rfp/blob/master/appendix/oracle-ecosystem.md)
 for the full coverage matrix.
 
 The combination of "private DeFi needs XMR and ZEC" and "RedStone is the only
@@ -4708,11 +4707,11 @@ Neither an off-chain feed nor an on-chain TWAP is a complete oracle on its own;
 both have known failure modes and the production norm in DeFi is to layer them.
 This RFP delivers the off-chain adaptor as a swappable building block in that
 layered stack: production-grade code on its own terms, paired with the TWAP tier
-from [RFP-019](./RFP-019-twap-oracle.md) on the consumer side. Consuming
+from [RFP-019](/builders-hub/rfps/twap-oracle) on the consumer side. Consuming
 protocols (the reflexive stablecoin in
-[RFP-013](./RFP-013-reflexive-stablecoin-protocol.md), the lending market in
-[RFP-008](./RFP-008-lending-borrowing-protocol.md), the DEX in
-[RFP-004](./RFP-004-privacy-preserving-dex.md)) compose these pieces according
+[RFP-013](/builders-hub/rfps/reflexive-stablecoin-protocol), the lending market in
+[RFP-008](/builders-hub/rfps/lending-borrowing-protocol), the DEX in
+[RFP-004](/builders-hub/rfps/privacy-preserving-dex)) compose these pieces according
 to their own production-security choices, with the canonical price account
 standard from RFP-019 keeping swap-out cheap if those choices change later.
 
@@ -4770,7 +4769,7 @@ Shipping both lets each consumer protocol choose the trade-off, and the cost
 numbers from the measurement deliverable give that choice a quantitative basis.
 
 See
-[Appendix: Oracle Ecosystem, Implications for LEZ](../appendix/oracle-ecosystem.md#implications-for-lez)
+[Appendix: Oracle Ecosystem, Implications for LEZ](https://github.com/logos-co/rfp/blob/master/appendix/oracle-ecosystem.md#implications-for-lez)
 for the full four-shape analysis (trusted re-signer, FROST-BIP340 federation,
 DLC-oracle extension, and the cost-conditional precompile path) that this
 section condenses.
@@ -4872,7 +4871,7 @@ a follow-on is worth pursuing depends on whether any consumer protocol actually
 needs private-execution pull, which is not yet confirmed: consumer protocols may
 already have design reasons to keep specific actions in public transactions,
 with the reflexive stablecoin in
-[RFP-013](./RFP-013-reflexive-stablecoin-protocol.md) as one concrete example.
+[RFP-013](/builders-hub/rfps/reflexive-stablecoin-protocol) as one concrete example.
 
 ### Why RedStone first
 
@@ -4908,7 +4907,7 @@ Three reasons specific to LEZ's constraints:
    roster) and confidence intervals that RedStone does not natively expose.
 
 See
-[Appendix: Oracle Ecosystem, Signature Verification Schemes](../appendix/oracle-ecosystem.md)
+[Appendix: Oracle Ecosystem, Signature Verification Schemes](https://github.com/logos-co/rfp/blob/master/appendix/oracle-ecosystem.md)
 for the full per-scheme analysis and citations.
 
 ### Conformance to the canonical price account standard
@@ -5239,7 +5238,7 @@ not bake in policy that forecloses these choices.
 The following are explicitly excluded from this RFP and addressed elsewhere:
 
 - The on-chain TWAP tier and the canonical oracle price account standard are
-  owned by [RFP-019](./RFP-019-twap-oracle.md). This RFP populates the standard,
+  owned by [RFP-019](/builders-hub/rfps/twap-oracle). This RFP populates the standard,
   it does not define it.
 - Adaptors for other off-chain oracles (Pyth, Chainlink, DIA, Chronicle,
   Switchboard, Supra). Future RFPs may add them.
@@ -5279,7 +5278,7 @@ The Functionality requirements specify that an admin authority (per RFP-001,
 integrated via the SPEL framework) registers feeds, deregisters them, and
 updates each feed's authorised signer set. These admin-gated functions require
 the standardised admin authority library from
-[RFP-001](./RFP-001-admin-authority-lib.md), currently in development.
+[RFP-001](/builders-hub/rfps/admin-authority-lib), currently in development.
 
 ### Soft blockers
 
@@ -5324,18 +5323,18 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 
 ## Resources
 
-- [RFP-004 — Privacy-Preserving DEX](./RFP-004-privacy-preserving-dex.md)
+- [RFP-004 — Privacy-Preserving DEX](/builders-hub/rfps/privacy-preserving-dex)
   (consumer of price feeds; private swaps consume the RedStone-published prices)
-- [RFP-008 — Lending & Borrowing Protocol](./RFP-008-lending-borrowing-protocol.md)
+- [RFP-008 — Lending & Borrowing Protocol](/builders-hub/rfps/lending-borrowing-protocol)
   (primary consumer of price feeds)
-- [RFP-013 — Reflexive Stablecoin Protocol](./RFP-013-reflexive-stablecoin-protocol.md)
+- [RFP-013 — Reflexive Stablecoin Protocol](/builders-hub/rfps/reflexive-stablecoin-protocol)
   (reflexive stablecoin; consumer of external-price feeds for any wrapped-asset
   collateral path)
-- [RFP-019 — On-Chain TWAP Oracle](./RFP-019-twap-oracle.md) (defines the
+- [RFP-019 — On-Chain TWAP Oracle](/builders-hub/rfps/twap-oracle) (defines the
   canonical oracle price account standard)
 - [LEZ programs](https://github.com/logos-blockchain/lez-programs): on-chain
   TWAP program reference implementation
-- [Appendix: Oracle Ecosystem](../appendix/oracle-ecosystem.md)
+- [Appendix: Oracle Ecosystem](https://github.com/logos-co/rfp/blob/master/appendix/oracle-ecosystem.md)
 - [RedStone Documentation](https://docs.redstone.finance/)
 - [RedStone token registry](https://github.com/redstone-finance/redstone-api/blob/main/docs/ALL_SUPPORTED_TOKENS.md)
 
@@ -5349,8 +5348,7 @@ We typically respond within **14 days**. For clarification questions, please use
 **Discussions**.5:["$","$L1b",null,{"kind":"rfps","settings":{"schemaVersion":1,"language":"en","page":"rfps","title":"RFPs","description":"Funded calls for builders to ship Logos-powered applications and infrastructure.","breadcrumbLabel":"RFPs","submitCta":{"label":"Submit an RFP","href":"https://discord.gg/logosnetwork","external":true},"defaultView":"grid","pageSize":12,"pagination":{"previousLabel":"Previous","nextLabel":"Next"},"bottomCta":{"title":"Have a build idea worth funding?","cta":{"label":"Submit an RFP","href":"https://discord.gg/logosnetwork","external":true}}},"items":[{"number":"RFP-001","slug":"admin-authority-lib","title":"Admin Authority Library","category":"Developer Tooling & Infrastructure","summary":"Build a reusable library that provides standardised access control for LEE programs, where privileged functions, including the ability to transfer or renounce authority, can only be called by an admin","status":"closed","tier":"XS","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-001-admin-authority-lib.md","rawMarkdown":"$1c"},{"number":"RFP-002","slug":"freeze-authority-lib","title":"Freeze Authority Library","category":"Developer Tooling & Infrastructure","summary":"Build a reusable library that provides a standardised freeze mechanism for LEE programs, allowing an authorised account to disable all (or selected) interactions as a circuit breaker when an issue is ","status":"closed","tier":"XS","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-002-freeze-authority-lib.md","rawMarkdown":"$1d"},{"number":"RFP-003","slug":"atomic-swaps","title":"Atomic Swaps with LEZ","category":"Applications & Integrations","summary":"Build a unified atomic swap application that enables trustless, non-custodial exchanges between LEZ and three external chains: **Bitcoin**, **Monero**, and **Zcash** (transparent pool). The LEZ side i","status":"open","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-003-atomic-swaps.md","rawMarkdown":"$1e"},{"number":"RFP-004","slug":"privacy-preserving-dex","title":"Privacy-Preserving Decentralized Exchange (DEX)","category":"Applications & Integrations","summary":"Build a decentralized exchange on LEZ with public AMM liquidity pools. Users with public accounts interact with the DEX directly. Users with private accounts interact via the deshield→swap→re-shield p","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-004-privacy-preserving-dex.md","rawMarkdown":"$1f"},{"number":"RFP-008","slug":"lending-borrowing-protocol","title":"Lending & Borrowing Protocol","category":"Applications & Integrations","summary":"Build a permissionless, isolated-market lending protocol on LEZ, following the Morpho Blue design: each market is an independent lending pair defined by five immutable parameters (loan token, collater","status":"open","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-008-lending-borrowing-protocol.md","rawMarkdown":"$20"},{"number":"RFP-012","slug":"curated-lending-vaults","title":"Curated Lending Vaults","category":"Applications & Integrations","summary":"Build a curated vault layer on top of the isolated-market lending protocol delivered by [RFP-008](./RFP-008-lending-borrowing-protocol.md). Each vault accepts deposits of a single loan token, issues t","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-012-curated-lending-vaults.md","rawMarkdown":"$21"},{"number":"RFP-013","slug":"reflexive-stablecoin-protocol","title":"Reflexive Stablecoin Protocol","category":"Applications & Integrations","summary":"Build a non-pegged, reflexive stablecoin protocol for the Logos Execution Zone (LEZ). The stablecoin is backed by a reference token collateral and uses an autonomous feedback controller to adjust a fl","status":"open","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-013-reflexive-stablecoin-protocol.md","rawMarkdown":"$22"},{"number":"RFP-014","slug":"liquidation-auction-engine","title":"Liquidation & Auction Engine","category":"Applications & Integrations","summary":"Build a permissionless liquidation and auction system for collateralized debt position (CDP) protocols on the Logos Execution Zone (LEZ). This system is designed as a reusable program that each CDP pr","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-014-liquidation-auction-engine.md","rawMarkdown":"$23"},{"number":"RFP-015","slug":"bonding-curve-launchpad","title":"Privacy-Preserving Token Launchpad: Bonding Curve","category":"Applications & Integrations","summary":"Build a bonding curve token launchpad on LEZ, using a supply-driven pricing mechanism where token price increases deterministically as a function of tokens remaining in the curve. Unlike the time-driv","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-015-bonding-curve-launchpad.md","rawMarkdown":"$24"},{"number":"RFP-016","slug":"lbp-launchpad","title":"Privacy-Preserving Token Launchpad: LBP","category":"Applications & Integrations","summary":"Build a token launchpad on LEZ using a Liquidity Bootstrapping Pool (LBP) mechanism, a time-limited, weight-shifting AMM that enables fair, bot-resistant price discovery for new token launches. Partic","status":"open","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-016-lbp-launchpad.md","rawMarkdown":"$25"},{"number":"RFP-017","slug":"token-vesting","title":"Privacy-Preserving Token Vesting","category":"Applications & Integrations","summary":"Build a token vesting program on LEZ that locks project, team, or investor tokens against configurable time-based schedules (cliff, linear, or milestone-based). Recipients can claim vested tokens dire","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-017-token-vesting.md","rawMarkdown":"$26"},{"number":"RFP-019","slug":"twap-oracle","title":"On-Chain TWAP Oracle","category":"Developer Tooling & Infrastructure","summary":"Build an on-chain TWAP (time-weighted average price) oracle program for LEZ that records price observations from LEZ DEX pools (RFP-004) and exposes geometric-mean prices through a canonical oracle pr","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-019-twap-oracle.md","rawMarkdown":"$27"},{"number":"RFP-020","slug":"redstone-oracle-adaptor","title":"RedStone Off-Chain Oracle Adaptor for LEZ","category":"Developer Tooling & Infrastructure","summary":"Build a RedStone off-chain oracle adaptor for LEZ: a public-mode LEZ program that verifies RedStone-signed data packages, exposes the resulting prices through the canonical oracle price account standa","status":"open","tier":"M","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-020-redstone-oracle-adaptor.md","rawMarkdown":"$28"}]}]
 17:["$","$L29",null,{"closedBar":{"brandLabel":"LOGOS","menuLabel":"MENU","closeLabel":"CLOSE MENU","openAriaLabel":"Open navigation menu","closeAriaLabel":"Close navigation menu"},"sitemap":[{"label":"Technology Stack","href":"/technology-stack"},{"label":"Movement","href":"/movement"},{"label":"Builders Hub","href":"/builders-hub"},{"label":"Book","href":"/book"},{"label":"λ Prize","href":"/lambda-prize"}],"community":[{"label":"Build","href":"/get-started","description":"Building privacy-first, decentralised applications. Read the docs, learn the stack, write code.","ctaLabel":"START BUILDING","image":["$","$L2a",null,{"src":"/nav-overlay/figma/take-action-build.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]},{"label":"Operate","href":"/node-programme","description":"Run a node. Decentralise the network. Secure Logos. Setup takes minutes.","ctaLabel":"NODE PROGRAMME","image":["$","$L2a",null,{"src":"/nav-overlay/figma/take-action-operate.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]},{"label":"Organise","href":"/movement","description":"Join the Logos Movement to re-build civil society. Find a Circle and solve local issues.","ctaLabel":"TAKE ACTION","image":["$","$L2a",null,{"src":"/nav-overlay/figma/take-action-movement.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]}],"menuPanels":[{"label":"Take Action","textSections":[{"label":"Resources","links":[{"label":"Docs","href":"https://docs.logos.co/"},{"label":"Events","href":"https://luma.com/logosevents"},{"label":"Join Community","href":"https://discord.gg/logosnetwork"},{"label":"Install Basecamp","href":"/basecamp"},{"label":"Work with us","href":"https://free.technology/jobs"}]}],"actionCards":[{"label":"Build","href":"/get-started","description":"Build privacy-first, decentralised applications. Read the docs, learn the stack, write code.","ctaLabel":"Start building","image":["$","$L2a",null,{"src":"/nav-overlay/figma/take-action-build.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]},{"label":"Operate","href":"/node-programme","description":"Run a node. Decentralise the network. Secure Logos. Setup takes minutes.","ctaLabel":"Run a node","image":["$","$L2a",null,{"src":"/nav-overlay/figma/take-action-operate.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]},{"label":"Organise","href":"/movement","description":"Join the Logos Movement to rebuild civil society. Find a Circle and solve local issues.","ctaLabel":"Join the movement","image":["$","$L2a",null,{"src":"/nav-overlay/figma/take-action-movement.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]}],"cardSections":[]},{"label":"Explore","textSections":[{"label":"Resources","links":[{"label":"Manifesto","href":"/manifesto"},{"label":"Community Forum","href":"https://forum.logos.co/"},{"label":"Brand Kit","href":"/brand-kit"},{"label":"Book","href":"/book"}]},{"label":"Socials","links":[{"label":"Discord","href":"https://discord.gg/logosnetwork"},{"label":"X","href":"https://twitter.com/logos_network"},{"label":"YouTube","href":"https://youtube.com/@logos_network"}]}],"actionCards":[],"cardSections":[{"label":"About","cards":[{"label":"Logos Media","href":"/media","description":"Articles, news, podcasts, and media throughout the Logos Network.","ctaLabel":"$undefined","image":["$","$L2a",null,{"src":"/nav-overlay/figma/blog-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]}]},{"label":"PROGRAMMES","cards":[{"label":"Lambda Prize","href":"/lambda-prize","description":"A competitive prize framework powering the Logos network.","ctaLabel":"$undefined","image":["$","$L2a",null,{"src":"/nav-overlay/figma/lambda-prize-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]},{"label":"RFPs","href":"/builders-hub/rfps","description":"A grants programme to support independent developers and teams.","ctaLabel":"$undefined","image":["$","$L2a",null,{"src":"/nav-overlay/figma/rfps-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]}]}]},{"label":"Technology","textSections":[{"label":"Resources","links":[{"label":"Docs","href":"https://docs.logos.co/"},{"label":"GitHub","href":"https://github.com/logos-co"},{"label":"Start Building","href":"/get-started"}]}],"actionCards":[],"cardSections":[{"label":"Tech Stack","cards":[{"label":"Overview","href":"/technology-stack","description":"Private-by-default, modular infrastructure for parallel societies.","ctaLabel":"$undefined","image":"$L2b"},{"label":"Blockchain","href":"/technology-stack/blockchain","description":"Privacy-first consensus for decentralised applications.","ctaLabel":"$undefined","image":"$L2c"},{"label":"Messaging","href":"/technology-stack/messaging","description":"Decentralised peer-to-peer communication.","ctaLabel":"$undefined","image":"$L2d"},{"label":"Networking","href":"/technology-stack/networking","description":"Discovery, Peering, and Mix-net","ctaLabel":"$undefined","image":"$L2e"},{"label":"Storage","href":"/technology-stack/storage","description":"Secure decentralised storage for decentralised apps and file sharing.","ctaLabel":"$undefined","image":"$L2f"},{"label":"Basecamp","href":"/basecamp","description":"Complete distribution that bundles the runtime,  default modules, and UI.","ctaLabel":"$undefined","image":"$L30"}]}]},{"label":"Research","textSections":[{"label":"Resources","links":[{"label":"Specs / RFC","href":"https://lip.logos.co/"},{"label":"Research Forum","href":"https://forum.research.logos.co/"}]}],"actionCards":[],"cardSections":[{"label":"Research","cards":[{"label":"Research Overview","href":"/research","description":"Learn about the research efforts led by Logos.","ctaLabel":"$undefined","image":"$L31"}]}]}],"primaryCta":{"label":"Install Basecamp","href":"/basecamp"}}]
 33:T88a,M14.6386 26C13.728 26 12.945 25.7854 12.2881 25.3549C11.6312 24.9244 11.1344 24.2467 10.7962 23.3233C10.5841 22.7003 10.4359 21.9368 10.3513 21.0328C10.2668 20.1302 10.2134 19.1833 10.1926 18.1948C10.1718 17.1842 10.1497 16.2061 10.1289 15.2592C10.1289 15.0017 10.0651 14.8716 9.93897 14.8716C9.83361 14.8716 9.72695 14.9575 9.62159 15.1292C9.21967 15.8822 8.74359 16.742 8.19208 17.7097C7.66268 18.6773 7.13328 19.645 6.60388 20.6127C6.07447 21.5804 5.5984 22.4518 5.17436 23.2257C4.77243 23.9788 4.48627 24.5264 4.31717 24.871C4.10515 25.3445 3.76696 25.6449 3.3013 25.7737C2.85644 25.9246 2.29582 25.9571 1.61814 25.8699C0.940452 25.7841 0.464381 25.5149 0.188624 25.0635C-0.107945 24.5901 -0.0546142 24.0958 0.347315 23.5795C0.623072 23.2348 1.01459 22.7198 1.52188 22.0317C2.03047 21.3216 2.6015 20.5269 3.23626 19.645C3.87102 18.7424 4.51749 17.8176 5.17306 16.8707C5.85075 15.9031 6.48551 14.9783 7.07865 14.0964C7.67178 13.1938 8.16867 12.4082 8.5706 11.7423C8.99464 11.0542 9.26909 10.5483 9.39657 10.2257C9.52404 9.92526 9.66062 9.591 9.8089 9.22551C9.95719 8.86003 10.0313 8.48414 10.0313 8.09655C10.0313 6.67754 9.89345 5.61231 9.61899 4.90345C9.36535 4.17249 9.01545 3.68864 8.5706 3.45193C8.14655 3.1944 7.68089 3.06433 7.1736 3.06433C6.79248 3.06433 6.38015 3.13977 5.9353 3.29065C5.51125 3.44152 5.2368 3.58069 5.10933 3.70945C4.87649 3.94617 4.65407 3.98909 4.44205 3.83822C4.23002 3.68734 4.16629 3.44022 4.25214 3.09685C4.48497 2.30085 4.90901 1.592 5.52296 0.967684C6.13951 0.322561 6.9967 0 8.09713 0C9.26129 0 10.1822 0.332967 10.8599 1.0002C11.5376 1.66743 12.0241 2.73137 12.3206 4.1933C12.6172 5.65523 12.7655 7.5906 12.7655 9.9994C12.7655 12.8374 12.8084 15.1071 12.893 16.8057C12.9775 18.5044 13.1154 19.7842 13.3053 20.6439C13.4952 21.4828 13.7606 22.0421 14.0987 22.3218C14.459 22.6014 14.9026 22.7406 15.432 22.7406C15.9614 22.7406 16.4167 22.6326 16.8615 22.418C17.3272 22.2034 17.7291 21.9238 18.0686 21.5791C18.2169 21.4074 18.386 21.3424 18.5772 21.3853C18.7671 21.4282 18.9154 21.5466 19.022 21.7404C19.1495 21.9121 19.1495 22.1384 19.022 22.418C18.5772 23.4078 17.9841 24.2571 17.2439 24.966C16.5246 25.654 15.6557 25.9987 14.6399 25.9987L14.6386 26Z1a:["$","footer",null,{"className":"relative h-[612px] overflow-hidden bg-brand-dark-green text-brand-off-white lg:h-[688px] ","children":[["$","div",null,{"className":"absolute top-6 left-3 flex w-[370px] max-w-[calc(100%-24px)] flex-col gap-3 lg:w-[345px]","children":[["$","p",null,{"className":"w-[314px] font-sans text-[18px] leading-[1.15] tracking-[-0.18px] text-brand-off-white","children":"Stay ahead with the latest updates."}],["$","$L32",null,{"emailLabel":"Enter email","roleLabel":"Role","cityLabel":"city","submitLabel":"Submit"}]]}],["$","div",null,{"className":"absolute top-[200px] left-3 h-[47px] w-[83px] overflow-hidden lg:top-[549px] lg:h-[127px] lg:w-[226px] *:size-full *:object-cover","children":["$","$L2a",null,{"src":"/images/home/footer-image.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 83px, 226px"}]}],["$","div",null,{"className":"absolute top-[200px] left-[calc(50%+6px)] lg:top-6","children":["$","span",null,{"className":"inline-flex items-center gap-2 text-brand-off-white","children":[["$","svg",null,{"aria-hidden":"true","className":"inline-block fill-current shrink-0","fill":"none","style":{"width":11.538461538461538,"height":15},"viewBox":"0 0 20 26","xmlns":"http://www.w3.org/2000/svg","children":["$","path",null,{"d":"$33"}]}],["$","span",null,{"className":"font-display text-[18px] leading-none","children":"Logos"}]]}]}],"$L34","$L35","$L36","$L37","$L38","$L39"]}]
-8:null
-d:[["$","title","0",{"children":"RFPs"}],["$","meta","1",{"name":"description","content":"Funded calls for builders to ship Logos-powered applications and infrastructure."}],["$","meta","2",{"name":"keywords","content":"logos,decentralised,privacy,civil society,blockchain"}],["$","meta","3",{"name":"creator","content":"Logos"}],["$","meta","4",{"name":"robots","content":"noindex, follow"}],["$","link","5",{"rel":"canonical","href":"https://dev.logos.co/builders-hub/rfps"}],["$","link","6",{"rel":"alternate","hrefLang":"en","href":"https://dev.logos.co/builders-hub/rfps"}],["$","link","7",{"rel":"alternate","hrefLang":"x-default","href":"https://dev.logos.co/builders-hub/rfps"}],["$","meta","8",{"property":"og:title","content":"RFPs"}],["$","meta","9",{"property":"og:description","content":"Funded calls for builders to ship Logos-powered applications and infrastructure."}],["$","meta","10",{"property":"og:url","content":"https://dev.logos.co/builders-hub/rfps"}],["$","meta","11",{"property":"og:site_name","content":"Logos"}],["$","meta","12",{"property":"og:locale","content":"en"}],["$","meta","13",{"property":"og:image","content":"https://dev.logos.co/og.jpeg"}],["$","meta","14",{"property":"og:image:width","content":"1200"}],["$","meta","15",{"property":"og:image:height","content":"630"}],["$","meta","16",{"property":"og:image:alt","content":"RFPs"}],["$","meta","17",{"property":"og:type","content":"website"}],["$","meta","18",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","19",{"name":"twitter:title","content":"RFPs"}],["$","meta","20",{"name":"twitter:description","content":"Funded calls for builders to ship Logos-powered applications and infrastructure."}],["$","meta","21",{"name":"twitter:image","content":"https://dev.logos.co/og.jpeg"}],["$","link","22",{"rel":"icon","href":"/favicon.ico"}],["$","$L3a","23",{}]]
+3a:I[55470,["/_next/static/chunks/0b3bn8maucg2w.js","/_next/static/chunks/0dctuy.2qfcf4.js"],"IconMark"]
 2b:["$","$L2a",null,{"src":"/nav-overlay/figma/tech-overview-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]
 2c:["$","$L2a",null,{"src":"/nav-overlay/figma/tech-blockchain-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]
 2d:["$","$L2a",null,{"src":"/nav-overlay/figma/tech-messaging-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]
@@ -5364,3 +5362,5 @@ d:[["$","title","0",{"children":"RFPs"}],["$","meta","1",{"name":"description","
 37:["$","div",null,{"className":"absolute top-[460px] left-3 lg:top-[322px] lg:left-[calc(50%+8px)]","children":["$","div",null,{"className":"flex flex-col gap-1","children":[["$","p",null,{"className":"text-eyebrow mb-1 text-brand-off-white","children":"Research"}],[["$","a","/research",{"href":"/research","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Research Overview"}],["$","a","https://lip.logos.co/",{"href":"https://lip.logos.co/","target":"_blank","rel":"noopener noreferrer","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Specs / RFC"}],["$","a","https://forum.research.logos.co/",{"href":"https://forum.research.logos.co/","target":"_blank","rel":"noopener noreferrer","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Research Forum"}]]]}]}]
 38:["$","div",null,{"className":"absolute top-[460px] left-[calc(50%+6px)] lg:top-[322px] lg:left-[calc(83.33%+3px)]","children":["$","div",null,{"className":"flex flex-col gap-1","children":[["$","p",null,{"className":"text-eyebrow mb-1 text-brand-off-white","children":"Infrastructure"}],[["$","a","/technology-stack/messaging",{"href":"/technology-stack/messaging","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Messaging"}],["$","a","/technology-stack/storage",{"href":"/technology-stack/storage","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Storage"}],["$","a","/technology-stack/blockchain",{"href":"/technology-stack/blockchain","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Blockchain"}],["$","a","/technology-stack/networking",{"href":"/technology-stack/networking","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Networking"}]]]}]}]
 39:["$","div",null,{"className":"absolute top-[540px] left-3 lg:top-[617px] lg:left-[calc(50%+6px)]","children":["$","div",null,{"className":"flex flex-col gap-1","children":["$undefined",[["$","a","/terms-and-conditions",{"href":"/terms-and-conditions","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Terms & Conditions"}],["$","a","/privacy-policy",{"href":"/privacy-policy","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Privacy Policy"}],["$","a","/security",{"href":"/security","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Security"}]]]}]}]
+8:null
+d:[["$","title","0",{"children":"RFPs"}],["$","meta","1",{"name":"description","content":"Funded calls for builders to ship Logos-powered applications and infrastructure."}],["$","meta","2",{"name":"keywords","content":"logos,decentralised,privacy,civil society,blockchain"}],["$","meta","3",{"name":"creator","content":"Logos"}],["$","meta","4",{"name":"robots","content":"noindex, follow"}],["$","link","5",{"rel":"canonical","href":"https://dev.logos.co/builders-hub/rfps"}],["$","link","6",{"rel":"alternate","hrefLang":"en","href":"https://dev.logos.co/builders-hub/rfps"}],["$","link","7",{"rel":"alternate","hrefLang":"x-default","href":"https://dev.logos.co/builders-hub/rfps"}],["$","meta","8",{"property":"og:title","content":"RFPs"}],["$","meta","9",{"property":"og:description","content":"Funded calls for builders to ship Logos-powered applications and infrastructure."}],["$","meta","10",{"property":"og:url","content":"https://dev.logos.co/builders-hub/rfps"}],["$","meta","11",{"property":"og:site_name","content":"Logos"}],["$","meta","12",{"property":"og:locale","content":"en"}],["$","meta","13",{"property":"og:image","content":"https://dev.logos.co/og.jpeg"}],["$","meta","14",{"property":"og:image:width","content":"1200"}],["$","meta","15",{"property":"og:image:height","content":"630"}],["$","meta","16",{"property":"og:image:alt","content":"RFPs"}],["$","meta","17",{"property":"og:type","content":"website"}],["$","meta","18",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","19",{"name":"twitter:title","content":"RFPs"}],["$","meta","20",{"name":"twitter:description","content":"Funded calls for builders to ship Logos-powered applications and infrastructure."}],["$","meta","21",{"name":"twitter:image","content":"https://dev.logos.co/og.jpeg"}],["$","link","22",{"rel":"icon","href":"/favicon.ico"}],["$","$L3a","23",{}]]
