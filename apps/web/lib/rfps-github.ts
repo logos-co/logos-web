@@ -1,6 +1,7 @@
 import matter from 'gray-matter'
 import { cache } from 'react'
 
+import { ROUTES } from '@/constants/routes'
 import type { RfpListItem } from '@/lib/rfp-types'
 
 /**
@@ -72,6 +73,50 @@ const toSlug = (filename: string, fallback: string): string => {
     .replace(/^-+|-+$/g, '')
   return slug || fallback.toLowerCase()
 }
+
+/** Matches the URL target of a markdown inline link/image: `](target)`. */
+const MARKDOWN_LINK_TARGET = /\]\(\s*(<[^>]+>|[^)\s]+)\s*\)/g
+
+const isAbsoluteOrAnchor = (href: string): boolean =>
+  /^(https?:\/\/|\/|#|mailto:)/i.test(href)
+
+/**
+ * Rewrites repo-relative markdown links so RFP detail pages don't 404. Upstream
+ * RFP files cross-reference each other with paths relative to the repo's
+ * `RFPs/` directory (e.g. `./RFP-008-lending-borrowing-protocol.md`), which the
+ * browser would otherwise resolve against the page URL and 404.
+ *
+ * - `RFP-NNN-*.md` references become the internal detail route
+ *   (`/builders-hub/rfps/<slug>`), using the same slug the pages are built with.
+ * - Other repo-relative `.md` links (e.g. `../appendix/…`) have no site page, so
+ *   they resolve to their absolute GitHub URL (anchors preserved).
+ * - Absolute, external, and anchor links are left untouched.
+ *
+ * `fileHtmlUrl` is the GitHub `blob` URL of the file being parsed; it anchors
+ * the resolution of the remaining relative links.
+ */
+export const rewriteRfpMarkdownLinks = (
+  markdown: string,
+  fileHtmlUrl: string
+): string =>
+  markdown.replace(MARKDOWN_LINK_TARGET, (match, rawTarget: string) => {
+    const href = rawTarget.replace(/^<|>$/g, '')
+    if (isAbsoluteOrAnchor(href)) return match
+
+    const [path] = href.split('#')
+    if (!/\.md$/i.test(path)) return match
+
+    const filename = path.split('/').pop() ?? ''
+    if (/^RFP-\d+/i.test(filename)) {
+      return `](${ROUTES.rfps}/${toSlug(filename, filename)})`
+    }
+
+    try {
+      return `](${new URL(href, fileHtmlUrl).href})`
+    } catch {
+      return match
+    }
+  })
 
 const firstMatch = (raw: string, patterns: RegExp[]): string | undefined => {
   for (const pattern of patterns) {
@@ -169,7 +214,7 @@ const parseRfpMarkdown = (
     status,
     tier: tier ?? '',
     githubUrl: htmlUrl,
-    rawMarkdown: content.trim(),
+    rawMarkdown: rewriteRfpMarkdownLinks(content.trim(), htmlUrl),
   }
 }
 

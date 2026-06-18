@@ -17,7 +17,7 @@ export function ContributeSection({
   jobs: ReactNode
 }) {
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 py-10 text-brand-dark-green md:min-h-[262px]">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white py-10 text-brand-dark-green md:min-h-[262px]">
       <ContentWidth className="grid gap-10 md:grid-cols-12 md:gap-3">
         <h2 className="text-[24px] leading-[1.1] tracking-[-0.24px] md:col-span-3">
           {title}

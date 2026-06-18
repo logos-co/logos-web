@@ -60,3 +60,7 @@ apps/*/public/fonts/**/*.otf
 
 mcp.json
 .env*.local
+
+# Playwright / browser-MCP artifacts (never commit)
+.playwright-mcp/
+**/.playwright-mcp/

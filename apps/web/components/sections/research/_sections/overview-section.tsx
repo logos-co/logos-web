@@ -15,17 +15,17 @@ export function OverviewSection({
   cta: LinkItem
 }) {
   return (
-    <section className="border-t border-brand-dark-green/10 bg-brand-off-white px-3 py-10 text-brand-dark-green min-[1025px]:min-h-[670px]">
-      <ContentWidth className="grid gap-10 min-[1025px]:grid-cols-12 min-[1025px]:gap-3">
-        <h2 className="text-[24px] leading-[1.1] tracking-[-0.24px] min-[1025px]:col-span-3">
+    <section className="border-t border-brand-dark-green/10 bg-brand-off-white py-10 text-brand-dark-green lg:min-h-[670px]">
+      <ContentWidth className="grid gap-10 lg:grid-cols-12 lg:gap-3">
+        <h2 className="text-[24px] leading-[1.1] tracking-[-0.24px] lg:col-span-3">
           {title}
         </h2>
-        <div className="text-mono-s space-y-[13px] min-[1025px]:col-span-3 min-[1025px]:col-start-7 min-[1025px]:max-w-[345px]">
+        <div className="text-mono-s space-y-[13px] lg:col-span-3 lg:col-start-7 lg:max-w-[345px]">
           {paragraphs.map((paragraph, index) => (
             <p key={index}>{paragraph}</p>
           ))}
         </div>
-        <div className="min-[1025px]:col-span-2 min-[1025px]:col-start-11 min-[1025px]:justify-self-start">
+        <div className="lg:col-span-2 lg:col-start-11 lg:justify-self-start">
           <LinkButton {...cta} />
         </div>
       </ContentWidth>

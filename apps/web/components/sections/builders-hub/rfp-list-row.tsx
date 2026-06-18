@@ -29,7 +29,7 @@ export function RfpListRow({ index, rfp }: Props) {
       >
         {/* Mobile / tablet (below 1025px): 2-column flow grid so a long title
             pushes the description down instead of overlapping it. */}
-        <div className="grid min-h-[116px] grid-cols-[1fr_auto] items-start gap-x-3 gap-y-3 p-3 min-[1025px]:hidden">
+        <div className="grid min-h-[116px] grid-cols-[1fr_auto] items-start gap-x-3 gap-y-3 p-3 lg:hidden">
           <p className="font-sans text-[14px] leading-[1.2] text-brand-dark-green">
             <span className="font-medium">{indexLabel}</span>
             <span className="ml-3 font-display">{rfp.title}</span>
@@ -56,7 +56,7 @@ export function RfpListRow({ index, rfp }: Props) {
         {/* Desktop (1025px+): single flex row. The reward + CTA block is
             shrink-0 so it always stays inside the table; title and description
             truncate as the window narrows. */}
-        <div className="hidden h-[50px] items-start gap-3 px-3 pt-3 min-[1025px]:flex">
+        <div className="hidden h-[50px] items-start gap-3 px-3 pt-3 lg:flex">
           <div className="flex w-1/2 min-w-0 items-baseline gap-3">
             <span className="w-[18px] shrink-0 font-sans text-[14px] font-normal leading-[1.2] text-brand-dark-green">
               {indexLabel}

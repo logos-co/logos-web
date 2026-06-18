@@ -52,7 +52,7 @@ export function ArticleCard({
   return (
     <ExternalLink
       href={href}
-      className="group flex w-84.75 shrink-0 cursor-pointer flex-col gap-1.5 min-[1025px]:w-auto"
+      className="group flex w-84.75 shrink-0 cursor-pointer flex-col gap-1.5 lg:w-auto"
     >
       <div className="relative aspect-339/431 w-full overflow-hidden">
         <Image
@@ -76,8 +76,8 @@ export function ArticleCard({
         <p className={titleClassName}>
           {mobileTitle ? (
             <>
-              <span className="min-[1025px]:hidden">{mobileTitle}</span>
-              <span className="hidden min-[1025px]:inline">{title}</span>
+              <span className="lg:hidden">{mobileTitle}</span>
+              <span className="hidden lg:inline">{title}</span>
             </>
           ) : (
             title

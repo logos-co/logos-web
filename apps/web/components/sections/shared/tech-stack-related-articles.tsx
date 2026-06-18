@@ -11,7 +11,7 @@ import { getTechStackRelatedArticleCards } from '@/lib/tech-stack-related-articl
 import { ArticleCard } from './related-articles-card'
 
 const TITLE_CLASSNAME =
-  'text-caption-sans w-[169.5px] shrink-0 font-medium text-brand-dark-green min-[1025px]:text-[14px] min-[1025px]:leading-[1.2]'
+  'text-caption-sans w-[169.5px] shrink-0 font-medium text-brand-dark-green lg:text-[14px] lg:leading-[1.2]'
 
 type Props = {
   data: RelatedArticlesSection
@@ -36,51 +36,51 @@ export default function TechStackRelatedArticles({
           className={twMerge('h-220 px-3 pb-3 pt-0', contentClassName)}
         >
           <Reveal
-              amount={0.15}
-              className="relative h-full overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 min-[1025px]:px-0 min-[1025px]:pt-0 min-[1025px]:pb-0"
-            >
-          <div className="flex items-start justify-between min-[1025px]:block">
-            {data.label ? (
-              <p className="text-mono-s w-56.5 max-w-[50%] text-brand-dark-green min-[1025px]:absolute min-[1025px]:top-6 min-[1025px]:left-3 min-[1025px]:max-w-none">
-                {data.mobileLabel ?? data.label}
-              </p>
-            ) : null}
-            {data.eyebrow ? (
-              // xl, not min-[1025px]: the fixed left-178.5 offset collides with the
-              // right-anchored CTA on viewports narrower than ~1190px.
-              <p className="text-mono-s absolute top-6 left-178.5 hidden w-56.5 text-brand-dark-green xl:block">
-                {data.eyebrow}
-              </p>
-            ) : null}
-            {data.cta ? (
-              <div className="flex w-56.5 max-w-[50%] justify-end min-[1025px]:absolute min-[1025px]:top-5.5 min-[1025px]:right-[87px] min-[1025px]:block min-[1025px]:w-auto min-[1025px]:max-w-none">
-                <Button
-                  href={data.cta.href}
-                  variant="tertiary"
-                  className="cursor-pointer"
-                >
-                  {data.cta.label}
-                </Button>
-              </div>
-            ) : null}
-          </div>
-
-          <h2 className="mt-16.25 text-center font-display text-[40px] leading-none tracking-[-0.03em] whitespace-nowrap text-brand-dark-green min-[1025px]:absolute min-[1025px]:top-25.5 min-[1025px]:left-1/2 min-[1025px]:mt-0 min-[1025px]:w-116 min-[1025px]:-translate-x-1/2 min-[1025px]:text-h3-serif">
-            {data.title}
-          </h2>
-
-          <Reveal
-            stagger
-            amount={0.2}
-            className="mt-25 flex gap-3 overflow-x-auto min-[1025px]:absolute min-[1025px]:top-60.25 min-[1025px]:right-3 min-[1025px]:left-3 min-[1025px]:mt-0 min-[1025px]:grid min-[1025px]:grid-cols-4 min-[1025px]:overflow-visible"
+            amount={0.15}
+            className="relative h-full overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 lg:px-0 lg:pt-0 lg:pb-0"
           >
-            {cards.map((card) => (
-              <RevealItem key={`${card.href}:${card.title}`}>
-                <ArticleCard {...card} titleClassName={TITLE_CLASSNAME} />
-              </RevealItem>
-            ))}
+            <div className="flex items-start justify-between lg:block">
+              {data.label ? (
+                <p className="text-mono-s w-56.5 max-w-[50%] text-brand-dark-green lg:absolute lg:top-6 lg:left-3 lg:max-w-none">
+                  {data.mobileLabel ?? data.label}
+                </p>
+              ) : null}
+              {data.eyebrow ? (
+                // xl, not lg: the fixed left-178.5 offset collides with the
+                // right-anchored CTA on viewports narrower than ~1190px.
+                <p className="text-mono-s absolute top-6 left-178.5 hidden w-56.5 text-brand-dark-green xl:block">
+                  {data.eyebrow}
+                </p>
+              ) : null}
+              {data.cta ? (
+                <div className="flex w-56.5 max-w-[50%] justify-end lg:absolute lg:top-5.5 lg:right-[87px] lg:block lg:w-auto lg:max-w-none">
+                  <Button
+                    href={data.cta.href}
+                    variant="tertiary"
+                    className="cursor-pointer"
+                  >
+                    {data.cta.label}
+                  </Button>
+                </div>
+              ) : null}
+            </div>
+
+            <h2 className="mt-16.25 text-center font-display text-[40px] leading-none tracking-[-0.03em] whitespace-nowrap text-brand-dark-green lg:absolute lg:top-25.5 lg:left-1/2 lg:mt-0 lg:w-116 lg:-translate-x-1/2 lg:text-h3-serif">
+              {data.title}
+            </h2>
+
+            <Reveal
+              stagger
+              amount={0.2}
+              className="mt-25 flex gap-3 overflow-x-auto lg:absolute lg:top-60.25 lg:right-3 lg:left-3 lg:mt-0 lg:grid lg:grid-cols-4 lg:overflow-visible"
+            >
+              {cards.map((card) => (
+                <RevealItem key={`${card.href}:${card.title}`}>
+                  <ArticleCard {...card} titleClassName={TITLE_CLASSNAME} />
+                </RevealItem>
+              ))}
+            </Reveal>
           </Reveal>
-        </Reveal>
         </ContentWidth>
       </div>
     </section>
