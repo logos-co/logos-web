@@ -16,8 +16,8 @@ export function HowItWorks({
 }) {
   return (
     <section className="bg-brand-off-white text-brand-dark-green">
-      <ContentWidth className="flex flex-col gap-4 p-3 lg:grid lg:h-[650px] lg:grid-cols-2 lg:gap-6 lg:px-3 lg:py-10">
-        <div className="order-2 flex min-h-[687px] flex-col justify-between lg:order-1 lg:min-h-0">
+      <ContentWidth className="flex flex-col gap-4 p-3 lg:grid lg:grid-cols-2 lg:gap-6 lg:px-3 lg:py-10">
+        <div className="order-2 flex flex-col lg:order-1">
           <div className="flex flex-col gap-10 lg:gap-20">
             <div>
               <h2 className="text-h4-serif mb-8">{copy.heading}</h2>
@@ -25,10 +25,10 @@ export function HowItWorks({
             </div>
             <div>
               <h2 className="text-h4-serif mb-8">{evaluation.heading}</h2>
-              <DataRows rows={evaluation.rows} />
+              <DataRows rows={evaluation.rows} lastBorder={false} />
             </div>
           </div>
-          <div className="flex gap-1 pt-4">
+          <div className="flex gap-1 mt-10 lg:mt-[83.5px]">
             <Button
               href={EXTERNAL_URLS.lambdaPrizes}
               className="cursor-pointer"

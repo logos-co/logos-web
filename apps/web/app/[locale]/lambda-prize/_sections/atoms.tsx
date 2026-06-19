@@ -30,15 +30,23 @@ export function TertiaryCta({
   )
 }
 
-export function DataRows({ rows }: { rows: RowCopy[] }) {
+export function DataRows({
+  rows,
+  lastBorder = true,
+}: {
+  rows: RowCopy[]
+  lastBorder?: boolean
+}) {
   return (
     <div className="flex flex-col">
       {rows.map((row, index) => (
         <div
           key={`${row.label}-${index}`}
-          className="flex min-h-[36px] min-w-0 flex-col border-t border-brand-dark-green/10 py-3 last:border-b lg:grid lg:min-h-[31px] lg:grid-cols-2"
+          className={`flex min-h-[36px] min-w-0 flex-col border-t border-brand-dark-green/50 py-3 lg:grid lg:min-h-[31px] lg:grid-cols-2 ${
+            lastBorder ? 'last:border-b' : ''
+          }`}
         >
-          <p className="text-mono-s">{row.label}</p>
+          <p className="text-eyebrow min-w-0 uppercase">{row.label}</p>
           <p className="text-mono-s min-w-0 pr-2 break-words [overflow-wrap:anywhere]">
             {row.body}
           </p>
