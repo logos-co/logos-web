@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-17T16:40:24.240Z",
-  "activeSinceDate": "2026-02-17",
+  "generatedAt": "2026-06-19T09:33:59.520Z",
+  "activeSinceDate": "2026-02-19",
   "circles": [
     {
       "id": "evt-gglRA3rvBwzxmfY",
@@ -163,15 +163,6 @@
       "lat": -27.599451199999997,
       "lng": -48.5487593,
       "eventUrl": "https://luma.com/ptpymrws"
-    },
-    {
-      "id": "evt-uW8caaCBmilfUzR",
-      "name": "Logos Circle Prague #4",
-      "city": "Hlavní město Praha",
-      "country": "Czechia",
-      "lat": 50.103352699999995,
-      "lng": 14.450541099999997,
-      "eventUrl": "https://luma.com/ogpuxp1q"
     },
     {
       "id": "evt-NiRwm2bcyCo9gBM",
@@ -338,16 +329,6 @@
   ],
   "upcomingEvents": [
     {
-      "id": "evt-VJSGI1ZtyelVfjA",
-      "name": "Logos Circle Berlin / Action Not Permission",
-      "city": "Berlin",
-      "country": "Germany",
-      "startAt": "2026-06-18T11:00:00",
-      "endAt": "2026-06-18T18:30:00",
-      "eventUrl": "https://luma.com/logos-c1yv",
-      "coverUrl": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=80,width=246,height=246/uploads/v7/9a7ea0cd-e577-40ae-8856-64a94b9809a9.png"
-    },
-    {
       "id": "evt-AFO54ArShYJhRym",
       "name": "LOGOS IFITE CIRCLE: LOGOS 101",
       "city": "Awka",
@@ -445,7 +426,7 @@
     },
     {
       "label": "Distinct Cities",
-      "value": 37
+      "value": 36
     },
     {
       "label": "Distinct Countries",
@@ -453,7 +434,7 @@
     },
     {
       "label": "Upcoming Events",
-      "value": 10
+      "value": 9
     }
   ]
 }
