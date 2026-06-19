@@ -48,6 +48,10 @@ export interface LambdaPrizePageCopy {
     secondaryCta: string
     rows: RowCopy[]
   }
+  techStack: {
+    startBuildingCta: string
+    docsCta: string
+  }
   support: {
     heading: string
     body: string

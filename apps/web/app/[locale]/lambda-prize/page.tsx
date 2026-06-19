@@ -140,6 +140,10 @@ export default async function Page({
             },
           ],
         },
+        techStack: {
+          startBuildingCta: t('techStack.startBuildingCta'),
+          docsCta: t('techStack.docsCta'),
+        },
         support: {
           heading: t('support.heading'),
           body: t('support.body'),

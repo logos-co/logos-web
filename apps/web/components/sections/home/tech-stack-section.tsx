@@ -2,7 +2,7 @@ import type { TechStackOverviewSection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 import { TechStackDiagram } from '@/components/sections/shared/tech-stack-diagram'
-import { Button, ButtonArrowIcon } from '@/components/ui'
+import { Button, ButtonArrowIcon, type ButtonVariant } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
 function formatEyebrow(eyebrow: string) {
@@ -31,6 +31,13 @@ type Props = {
   desktopAt1367?: boolean
   /** Hide the hairline above the section on pages that don't want it. */
   borderTop?: boolean
+  /** Override the top margin when the section is attached to the previous band. */
+  flushTop?: boolean
+  ctas?: readonly {
+    label: string
+    href: string
+    variant?: ButtonVariant
+  }[]
 }
 
 export default function TechStackSection({
@@ -39,17 +46,33 @@ export default function TechStackSection({
   foundationHref,
   desktopAt1367 = false,
   borderTop = true,
+  flushTop = false,
+  ctas,
 }: Props) {
   const compactContentClass = desktopAt1367
     ? 'min-[1367px]:hidden'
     : 'md:hidden'
 
   const desktopContentClass = desktopAt1367 ? 'min-[1367px]:flex' : 'md:flex'
+  const renderCustomCtas = () =>
+    ctas?.map((cta) => (
+      <Button
+        key={`${cta.href}-${cta.label}`}
+        href={cta.href}
+        variant={cta.variant}
+        icon={<ButtonArrowIcon />}
+        className="cursor-pointer transition-opacity hover:opacity-70"
+      >
+        {cta.label}
+      </Button>
+    ))
 
   return (
     <section
       id="tech-stack"
-      className={`relative overflow-hidden bg-brand-off-white lg:mt-[224px] ${
+      className={`relative overflow-hidden bg-brand-off-white ${
+        flushTop ? '' : 'lg:mt-[224px]'
+      } ${
         borderTop ? 'border-t border-brand-dark-green/10' : ''
       }`}
     >
@@ -61,25 +84,31 @@ export default function TechStackSection({
             Disclaimer: This diagram oversimplifies the stack.
           </p>
 
-          <div className="flex flex-col items-end gap-1.5">
-            {data.cta ? (
+          {ctas ? (
+            <div className="flex flex-col items-end gap-1.5">
+              {renderCustomCtas()}
+            </div>
+          ) : (
+            <div className="flex flex-col items-end gap-1.5">
+              {data.cta ? (
+                <Button
+                  href={data.cta.href}
+                  variant="secondary"
+                  icon={<ButtonArrowIcon />}
+                  className="cursor-pointer transition-opacity hover:opacity-70"
+                >
+                  Documentation
+                </Button>
+              ) : null}
               <Button
-                href={data.cta.href}
-                variant="secondary"
+                href={ROUTES.buildersHub}
                 icon={<ButtonArrowIcon />}
                 className="cursor-pointer transition-opacity hover:opacity-70"
               >
-                Documentation
+                Builder Hub
               </Button>
-            ) : null}
-            <Button
-              href={ROUTES.buildersHub}
-              icon={<ButtonArrowIcon />}
-              className="cursor-pointer transition-opacity hover:opacity-70"
-            >
-              Builder Hub
-            </Button>
-          </div>
+            </div>
+          )}
         </div>
 
         <div className="mt-[70px] flex flex-col items-center gap-10">
@@ -127,31 +156,37 @@ export default function TechStackSection({
             Disclaimer: Abstract representation of the stack.
           </p>
 
-          <div className="flex items-center gap-1.5">
-            <Button
-              href={ROUTES.buildersHub}
-              icon={<ButtonArrowIcon />}
-              className="cursor-pointer transition-opacity hover:opacity-70"
-            >
-              Builder Hub
-            </Button>
-            <Button
-              href={ROUTES.getStarted}
-              variant="secondary"
-              icon={<ButtonArrowIcon />}
-              className="cursor-pointer transition-opacity hover:opacity-70"
-            >
-              Start Building
-            </Button>
-            <Button
-              href={ROUTES.technologyStack}
-              variant="secondary"
-              icon={<ButtonArrowIcon />}
-              className="cursor-pointer transition-opacity hover:opacity-70"
-            >
-              Specs
-            </Button>
-          </div>
+          {ctas ? (
+            <div className="flex items-center gap-1.5">
+              {renderCustomCtas()}
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5">
+              <Button
+                href={ROUTES.buildersHub}
+                icon={<ButtonArrowIcon />}
+                className="cursor-pointer transition-opacity hover:opacity-70"
+              >
+                Builder Hub
+              </Button>
+              <Button
+                href={ROUTES.getStarted}
+                variant="secondary"
+                icon={<ButtonArrowIcon />}
+                className="cursor-pointer transition-opacity hover:opacity-70"
+              >
+                Start Building
+              </Button>
+              <Button
+                href={ROUTES.technologyStack}
+                variant="secondary"
+                icon={<ButtonArrowIcon />}
+                className="cursor-pointer transition-opacity hover:opacity-70"
+              >
+                Specs
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="mt-[73px] flex flex-col items-center gap-[73px]">

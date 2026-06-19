@@ -90,8 +90,8 @@
         "height": 831
       },
       "cta": {
-        "label": "Read more",
-        "href": "/technology-stack",
+        "label": "Documentation",
+        "href": "https://docs.logos.co/basecamp",
         "variant": "secondary"
       }
     },
@@ -113,57 +113,27 @@
       "cards": [
         {
           "title": "Wallet",
-          "description": "Create and manage accounts on the Logos Execution Zone. Send and receive tokens, including privacy-preserving transfers backed by zero-knowledge proofs where the network verifies correctness without ever seeing your private data.",
-          "cta": {
-            "label": "Run a Node",
-            "href": "/get-started#install",
-            "variant": "primary"
-          }
+          "description": "Create and manage accounts on the Logos Execution Zone. Send and receive tokens, including privacy-preserving transfers backed by zero-knowledge proofs where the network verifies correctness without ever seeing your private data."
         },
         {
           "title": "Private Messaging",
-          "description": "Send encrypted messages over the Logos communications layer. Messages flow peer-to-peer through a mix-routed network with no central relay or metadata logging.",
-          "cta": {
-            "label": "Messaging SDK",
-            "href": "/get-started#install",
-            "variant": "primary"
-          }
+          "description": "Send encrypted messages over the Logos communications layer. Messages flow peer-to-peer through a mix-routed network with no central relay or metadata logging."
         },
         {
           "title": "Blockchain Explorer",
-          "description": "Inspect the chain, browse transactions, and explore activity on the Logos Execution Zone.",
-          "cta": {
-            "label": "deploy",
-            "href": "/get-started#install",
-            "variant": "primary"
-          }
+          "description": "Inspect the chain, browse transactions, and explore activity on the Logos Execution Zone."
         },
         {
           "title": "File Sharing",
-          "description": "Store and share files using decentralised storage. Your file index stays on your device; data moves directly between peers.",
-          "cta": {
-            "label": "try it out",
-            "href": "/get-started#install",
-            "variant": "primary"
-          }
+          "description": "Store and share files using decentralised storage. Your file index stays on your device; data moves directly between peers."
         },
         {
           "title": "Node Dashboard",
-          "description": "Run a full blockchain node directly from Basecamp. Participate in the testnet, validate module integration, and contribute to the health of the network.",
-          "cta": {
-            "label": "Run app",
-            "href": "/get-started#install",
-            "variant": "primary"
-          }
+          "description": "Run a full blockchain node directly from Basecamp. Participate in the testnet, validate module integration, and contribute to the health of the network."
         },
         {
           "title": "Package Manager",
-          "description": "Browse, install, and manage modules. As new tools are built on the Logos stack, Basecamp discovers them automatically.",
-          "cta": {
-            "label": "Run app",
-            "href": "/get-started#install",
-            "variant": "primary"
-          }
+          "description": "Browse, install, and manage modules. As new tools are built on the Logos stack, Basecamp discovers them automatically."
         }
       ]
     },
@@ -201,7 +171,7 @@
           "description": "Download the local launcher for apps built on Logos",
           "cta": {
             "label": "Install",
-            "href": "/get-started#install",
+            "href": "https://github.com/logos-co/logos-basecamp/releases/tag/0.1.2",
             "variant": "primary",
             "iconOverride": "download"
           }

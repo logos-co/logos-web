@@ -34,7 +34,7 @@ export function AboutProgramme({
                 {copy.primaryCta}
               </Button>
               <Button
-                href={ROUTES.buildersHub}
+                href={ROUTES.getStarted}
                 variant="secondary"
                 className="cursor-pointer"
               >

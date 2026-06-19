@@ -1,7 +1,7 @@
 import type { TechStackOverviewSection } from '@repo/content/schemas'
 
 import TechStackSection from '@/components/sections/home/tech-stack-section'
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 import { AboutProgramme } from './about-programme'
 import { FeaturedPrizes } from './featured-prizes'
@@ -28,6 +28,18 @@ export function LambdaPrizePage({ copy, techStack }: LambdaPrizePageProps) {
         foundationHref={ROUTES.technologyStack}
         desktopAt1367
         borderTop={false}
+        flushTop
+        ctas={[
+          {
+            label: copy.techStack.startBuildingCta,
+            href: ROUTES.getStarted,
+          },
+          {
+            label: copy.techStack.docsCta,
+            href: EXTERNAL_URLS.docs,
+            variant: 'secondary',
+          },
+        ]}
       />
       <Support copy={copy.support} />
     </main>
