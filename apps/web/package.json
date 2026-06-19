@@ -2,6 +2,13 @@
   "name": "web",
   "type": "module",
   "private": true,
+  "browserslist": [
+    "chrome 111",
+    "edge 111",
+    "firefox 111",
+    "safari 14",
+    "ios_saf 14"
+  ],
   "scripts": {
     "dev": "next dev --port 3000",
     "build": "pnpm build:deps && pnpm build:app",
