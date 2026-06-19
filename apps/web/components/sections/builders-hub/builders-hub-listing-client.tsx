@@ -123,14 +123,8 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
           />
         </div>
 
-        {view === 'grid' ? (
-          <div
-            className={
-              kind === 'ideas'
-                ? 'mx-auto mt-15 max-w-360 px-3'
-                : 'mx-auto mt-22.5 max-w-360 px-3 md:mt-34.5'
-            }
-          >
+        <ContentWidth className="mt-10 md:mt-39.5">
+          {view === 'grid' ? (
             <div className="grid grid-cols-1 gap-3 min-[768px]:grid-cols-2 min-[1366px]:grid-cols-4">
               {kind === 'ideas'
                 ? (pageItems as Idea[]).map((idea) => (
@@ -140,10 +134,8 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
                     <RfpCard key={rfp.slug} rfp={rfp} />
                   ))}
             </div>
-          </div>
-        ) : (
-          <ContentWidth>
-            <ul className="mt-0 w-full md:mt-15">
+          ) : (
+            <ul className="w-full">
               {kind === 'ideas'
                 ? (pageItems as Idea[]).map((idea, i) => (
                     <IdeaRow key={idea.slug} index={start + i + 1} idea={idea} />
@@ -152,8 +144,8 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
                     <RfpListRow key={rfp.slug} index={start + i + 1} rfp={rfp} />
                   ))}
             </ul>
-          </ContentWidth>
-        )}
+          )}
+        </ContentWidth>
 
         <div className="mt-12 flex justify-center pb-25">
           <Pagination
