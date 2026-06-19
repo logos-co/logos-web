@@ -51,7 +51,7 @@ export default async function DecideSection({ locale }: { locale: string }) {
             loop
             playsInline
             poster="/images/home/figma-refresh/path-activism.webp"
-            className="absolute inset-0 h-full w-full object-cover"
+            className="desktop:rounded-[50px] absolute inset-0 h-full w-full rounded-[40px] object-cover"
           >
             <source src="/videos/home/mountain.mp4" type="video/mp4" />
           </video>
