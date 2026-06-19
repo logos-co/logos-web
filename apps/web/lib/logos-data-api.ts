@@ -10,3 +10,6 @@ export const CONTRIBUTIONS_API_RESPONSE_KEY =
 
 export const CIRCLES_GRAPHQL_RESPONSE_KEY =
   'stg_external_circle_circle_event_aggregate'
+
+export const WINNABLE_ISSUES_PAGE_URL =
+  'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles'

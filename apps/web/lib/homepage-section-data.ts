@@ -23,6 +23,7 @@ export const HOME_USE_CASE_CARDS: HomeUseCaseCard[] = [
 
 export function getSocialProofCards(
   stats: SocialProofStats,
+  winnableIssuesCount: string,
   t: Translate
 ): HomeStatCard[] {
   return [
@@ -46,7 +47,7 @@ export function getSocialProofCards(
     },
     {
       key: 'winnableIssues',
-      value: '13',
+      value: winnableIssuesCount,
       label: t('winnableIssues.label'),
       body: t('winnableIssues.body'),
     },

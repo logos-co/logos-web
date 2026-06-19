@@ -24,6 +24,7 @@ import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 import { getLatestBlogArticles } from '@/lib/blog-engine'
 import { getSocialProofStats } from '@/lib/social-proof-stats'
+import { getWinnableIssuesCount } from '@/lib/winnable-issues'
 
 const findSection = createSectionFinder('home')
 
@@ -59,15 +60,19 @@ export default async function HomePage({
     'home.blog'
   )
 
-  const [articles, socialProofStats] = await Promise.all([
+  const [articles, socialProofStats, winnableIssuesCount] = await Promise.all([
     getLatestBlogArticles(blog.visibleCount ?? 4),
     getSocialProofStats(),
+    getWinnableIssuesCount(),
   ])
 
   return (
     <>
       <HeroSectionView data={hero} />
-      <SocialProofSection stats={socialProofStats} />
+      <SocialProofSection
+        stats={socialProofStats}
+        winnableIssuesCount={winnableIssuesCount}
+      />
       <FeatureCardsSection />
       <AboutSection locale={locale} />
       <DecideSection locale={locale} />

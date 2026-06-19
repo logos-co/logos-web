@@ -18,6 +18,7 @@ describe('homepage review contracts', () => {
         contributors: '218',
         repositories: '341',
       },
+      '19',
       (key) => key
     )
 
@@ -33,6 +34,13 @@ describe('homepage review contracts', () => {
         key: 'circles',
         value: '47',
         label: 'circles.label',
+      })
+    )
+    expect(cards).toContainEqual(
+      expect.objectContaining({
+        key: 'winnableIssues',
+        value: '19',
+        label: 'winnableIssues.label',
       })
     )
   })
