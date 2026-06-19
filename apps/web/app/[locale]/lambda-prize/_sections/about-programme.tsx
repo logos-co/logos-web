@@ -24,7 +24,7 @@ export function AboutProgramme({
           />
         </div>
         <div className="flex min-h-[519px] min-w-0 flex-1 flex-col justify-between xl:h-full xl:min-h-0">
-          <div className="flex flex-col items-start justify-between gap-3 xl:h-9 xl:flex-row xl:gap-0">
+          <div className="flex flex-col items-start justify-between gap-3 md:h-9 md:flex-row md:gap-0">
             <h2 className="text-h3-sans whitespace-nowrap">{copy.heading}</h2>
             <div className="flex gap-1">
               <Button
