@@ -33,6 +33,8 @@ type Props = {
   borderTop?: boolean
   /** Override the top margin when the section is attached to the previous band. */
   flushTop?: boolean
+  /** Override the content blocks' bottom padding (the gap to the next section). */
+  bottomSpacingClassName?: string
   ctas?: readonly {
     label: string
     href: string
@@ -47,6 +49,7 @@ export default function TechStackSection({
   desktopAt1367 = false,
   borderTop = true,
   flushTop = false,
+  bottomSpacingClassName,
   ctas,
 }: Props) {
   const compactContentClass = desktopAt1367
@@ -54,6 +57,8 @@ export default function TechStackSection({
     : 'md:hidden'
 
   const desktopContentClass = desktopAt1367 ? 'min-[1367px]:flex' : 'md:flex'
+  const compactBottomClass = bottomSpacingClassName ?? 'pb-25'
+  const desktopBottomClass = bottomSpacingClassName ?? 'pb-[34px]'
   const sectionCtas: NonNullable<Props['ctas']> = ctas ?? [
     {
       label: 'Start Building',
@@ -88,7 +93,7 @@ export default function TechStackSection({
       }`}
     >
       <ContentWidth
-        className={`relative min-h-full flex-col pt-3 pb-25 ${compactContentClass}`}
+        className={`relative min-h-full flex-col pt-3 ${compactBottomClass} ${compactContentClass}`}
       >
         <div className="flex items-start justify-between">
           <p className="text-mono-s w-[226px] text-brand-dark-green">
@@ -136,7 +141,7 @@ export default function TechStackSection({
       </ContentWidth>
 
       <ContentWidth
-        className={`relative hidden min-h-full flex-col pt-[11px] pb-[34px] ${desktopContentClass}`}
+        className={`relative hidden min-h-full flex-col pt-[11px] ${desktopBottomClass} ${desktopContentClass}`}
       >
         <div className="flex items-start justify-between">
           <p className="text-mono-s w-[226px] text-brand-dark-green">

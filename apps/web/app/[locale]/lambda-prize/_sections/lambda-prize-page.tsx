@@ -29,6 +29,7 @@ export function LambdaPrizePage({ copy, techStack }: LambdaPrizePageProps) {
         desktopAt1367
         borderTop={false}
         flushTop
+        bottomSpacingClassName="pb-3 lg:pb-25"
         ctas={[
           {
             label: copy.techStack.startBuildingCta,
