@@ -227,6 +227,11 @@
       "rfps": "RFPs",
       "ideas": "Starter Issues and Community Ideas Repo",
       "docs": "View the Documentation"
+    },
+    "techStack": {
+      "exploreStackCta": "Explore the Stack",
+      "startBuildingCta": "Start Building",
+      "docsCta": "Documentation"
     }
   },
   "pages": {

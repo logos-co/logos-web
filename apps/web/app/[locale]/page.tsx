@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server'
+
 import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
@@ -17,7 +19,7 @@ import StartBuildingSection from '@/components/sections/home/start-building-sect
 import TechStackSection from '@/components/sections/home/tech-stack-section'
 import UseCasesSection from '@/components/sections/home/use-cases-section'
 
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 import { getLatestBlogArticles } from '@/lib/blog-engine'
@@ -38,7 +40,10 @@ export default async function HomePage({
   if (!isActiveLocale(locale)) {
     throw new Error(`HomePage received non-active locale "${locale}"`)
   }
-  const page = await getPageCopy(ROUTE, locale)
+  const [page, t] = await Promise.all([
+    getPageCopy(ROUTE, locale),
+    getTranslations({ locale, namespace: 'home.techStack' }),
+  ])
 
   const hero = findSection<HeroSection>(page.sections, 'hero', 'home.atf')
 
@@ -73,6 +78,22 @@ export default async function HomePage({
         networkingHref={ROUTES.networking}
         foundationHref={ROUTES.technologyStack}
         desktopAt1367
+        ctas={[
+          {
+            label: t('exploreStackCta'),
+            href: ROUTES.technologyStack,
+          },
+          {
+            label: t('startBuildingCta'),
+            href: ROUTES.getStarted,
+            variant: 'secondary',
+          },
+          {
+            label: t('docsCta'),
+            href: EXTERNAL_URLS.docs,
+            variant: 'secondary',
+          },
+        ]}
       />
       <StartBuildingSection locale={locale} />
       <BlogSection data={blog} articles={articles} />
