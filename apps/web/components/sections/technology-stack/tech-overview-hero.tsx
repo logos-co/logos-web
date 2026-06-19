@@ -82,95 +82,68 @@ function StatusCard({
 
 export default function TechOverviewHero({ data }: Props) {
   return (
-    <section className="relative mb-13 h-[760px] overflow-hidden bg-brand-off-white px-3 pt-10 pb-0 md:mb-25 md:h-119.25 md:pt-8 md:pb-0 xl:h-98.75">
-      <ContentWidth className="relative h-[500px] md:h-[600px] xl:h-[403px]">
+    <section className="relative mb-13 bg-brand-off-white px-3 pt-10 pb-13 md:mb-25 md:pt-8 md:pb-20">
+      <ContentWidth className="relative flex flex-col gap-10 md:gap-[70px]">
+        {/* Status card — desktop, anchored top-left over the spine */}
         <div className="absolute top-0 left-0 hidden h-[99px] w-[393px] md:block">
           {data.status ? <StatusCard status={data.status} compact /> : null}
         </div>
 
-        <div className="hidden md:block">
-          <p className="text-mono-s absolute top-0 left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[226px] whitespace-pre-line text-brand-dark-green xl:w-[226px] xl:max-w-none">
-            {data.eyebrow}
-          </p>
-          <div className="absolute top-67 left-[calc(50%+6px)] flex max-w-[calc(50%-18px)] flex-col items-start gap-6 xl:max-w-none">
-            <p className="text-mono-s w-full max-w-[226px] text-brand-dark-green xl:w-[226px] xl:max-w-none">
-              {data.body}
-            </p>
-            {data.ctas && data.ctas.length > 0 ? (
-              <div className="flex flex-col items-start gap-2.5 xl:flex-row">
-                {data.ctas.map((cta) => (
-                  <Button
-                    key={cta.label}
-                    {...resolveBasecampInstallCtaLinkProps(cta)}
-                    variant={cta.variant ?? 'secondary'}
-                    icon={getButtonIcon(cta.iconOverride)}
-                    className="cursor-pointer"
-                  >
-                    {cta.label}
-                  </Button>
-                ))}
-              </div>
-            ) : null}
-            <div className="mt-4 hidden h-px w-[calc(100vw-24px)] -translate-x-[calc(50vw-6px)] bg-brand-dark-green/10 lg:block xl:hidden" />
+        {/* Header image — mobile, anchored top-left over the spine */}
+        <div className="absolute top-2.5 left-0 h-[75px] w-[107px] overflow-hidden md:hidden">
+          <div className="absolute top-[-29px] left-[-48px] h-[208px] w-[166px]">
+            <Image
+              src={
+                data.background?.src ??
+                '/images/technology-stack/header-top.jpg'
+              }
+              alt={data.background?.alt ?? ''}
+              fill
+              sizes="166px"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-black/30" />
           </div>
         </div>
 
-        <div className="md:hidden">
-          <div className="absolute top-2.5 left-0 h-[75px] w-[107px] overflow-hidden">
-            <div className="absolute top-[-29px] left-[-48px] h-[208px] w-[166px]">
-              <Image
-                src={
-                  data.background?.src ??
-                  '/images/technology-stack/header-top.jpg'
-                }
-                alt={data.background?.alt ?? ''}
-                fill
-                sizes="166px"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-black/30" />
-            </div>
-          </div>
-          <p className="text-mono-s absolute top-2.5 left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[178px] whitespace-pre-line text-brand-dark-green">
-            {data.eyebrow}
-          </p>
-        </div>
+        {/* Eyebrow — right column */}
+        <p className="text-mono-s ml-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[178px] whitespace-pre-line text-brand-dark-green md:max-w-[226px] xl:w-[226px] xl:max-w-none">
+          {data.eyebrow}
+        </p>
 
-        <Reveal className="absolute top-[126px] left-1/2 w-[464px] max-w-none -translate-x-1/2 md:top-[115px] xl:left-[476px] xl:translate-x-0">
-          <h1 className="text-h2 text-center text-brand-dark-green">
-            {data.headline === 'The Logos Technology Stack' ? (
-              <>
-                <span className="block">The Logos</span>
-                <span className="block">Technology Stack</span>
-              </>
-            ) : (
-              data.headline
-            )}
+        {/* Headline */}
+        <Reveal className="w-full md:w-[464px] md:self-center xl:ml-[464px] xl:self-start">
+          <h1 className="text-h2 text-center whitespace-pre-line text-brand-dark-green">
+            {data.headline}
           </h1>
         </Reveal>
 
-        <div className="absolute top-[259px] left-0 w-full md:hidden">
-          <div className="ml-[calc(50%+6px)] flex w-[calc(50%-18px)] max-w-[178px] flex-col items-start gap-6">
-            <p className="text-mono-s text-brand-dark-green">{data.body}</p>
-            {data.ctas && data.ctas.length > 0 ? (
-              <div className="flex flex-col items-start gap-2.5">
-                {data.ctas.map((cta) => (
-                  <Button
-                    key={cta.label}
-                    {...resolveBasecampInstallCtaLinkProps(cta)}
-                    variant={cta.variant ?? 'secondary'}
-                    icon={getButtonIcon(cta.iconOverride)}
-                    className="cursor-pointer"
-                  >
-                    {cta.label}
-                  </Button>
-                ))}
-              </div>
-            ) : null}
-          </div>
-          <div className="mt-10 h-px w-full bg-brand-dark-green/10" />
+        {/* Body + CTAs — right column */}
+        <div className="ml-[calc(50%+6px)] flex w-[calc(50%-18px)] max-w-[178px] flex-col items-start gap-6 md:max-w-[226px] xl:w-[226px] xl:max-w-none">
+          <p className="text-mono-s text-brand-dark-green">{data.body}</p>
+          {data.ctas && data.ctas.length > 0 ? (
+            <div className="flex flex-col items-start gap-2.5 xl:flex-row">
+              {data.ctas.map((cta) => (
+                <Button
+                  key={cta.label}
+                  {...resolveBasecampInstallCtaLinkProps(cta)}
+                  variant={cta.variant ?? 'secondary'}
+                  icon={getButtonIcon(cta.iconOverride)}
+                  className="cursor-pointer"
+                >
+                  {cta.label}
+                </Button>
+              ))}
+            </div>
+          ) : null}
+          <div className="mt-4 hidden h-px w-[calc(100vw-24px)] -translate-x-[calc(50vw-6px)] bg-brand-dark-green/10 lg:block xl:hidden" />
+        </div>
+
+        {/* Divider + status — mobile only */}
+        <div className="md:hidden">
+          <div className="h-px w-full bg-brand-dark-green/10" />
           {data.status ? (
-            <div>
+            <div className="mt-6">
               <StatusCard status={data.status} />
             </div>
           ) : null}

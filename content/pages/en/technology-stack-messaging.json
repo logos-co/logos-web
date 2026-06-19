@@ -146,7 +146,7 @@
             "width": 1280,
             "height": 720
           },
-          "cta": { "label": "Build", "href": "/builders-hub" }
+          "cta": { "label": "Build", "href": "/get-started" }
         },
         {
           "title": "Install Basecamp",

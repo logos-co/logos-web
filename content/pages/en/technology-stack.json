@@ -19,9 +19,9 @@
     {
       "componentType": "hero",
       "key": "techStack.hero",
-      "eyebrow": "A unified ecosystem.\nPrivate-by-default.\nBuilt for real life.",
-      "headline": "The Logos Stack",
-      "body": "Private-by-default infrastructure for decentralised applications, private communication, and secure storage.",
+      "eyebrow": "Open by design, open in spirit. Build \ntruly decentralized applications with \nthe modular Logos Technology Stack.",
+      "headline": "The Logos \nTechnology Stack",
+      "body": "The Logos technology stack is a unified ecosystem of distinct modules. The whole stack is modular, allowing developers to assemble their own desired stack from their selection of modules.",
       "background": {
         "src": "/images/technology-stack/header-status.jpg",
         "alt": "",
@@ -143,7 +143,7 @@
       "accent": "grey",
       "imagePosition": "left",
       "title": "Logos Basecamp",
-      "description": "Basecamp is the launcher and unified surface of the Logos stack. It is an executable that wraps the Logos runtime, initialises the Logos Core environment, and discovers and loads plugins from installed modules. It is the primary, unified interface for users to interact with applications built on Logos.",
+      "description": "Basecamp is the launcher and unified surface of the Logos stack. It is an executable that wraps the Logos runtime, initialises the Logos Core environment, and discovers and loads plugins from installed modules.",
       "image": {
         "src": "/images/home/figma-refresh/basecamp.webp",
         "alt": "",

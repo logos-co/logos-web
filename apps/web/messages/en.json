@@ -155,7 +155,9 @@
     "useCases": {
       "eyebrow": "Use Cases",
       "headline": "Privacy is the condition that makes free association possible.\nLogos is the technology stack that makes it the default.",
+      "headlineMobile": "Privacy is the\ncondition that makes\nfree association possible.\n\nLogos is the\ntechnology stack that\nmakes it the default.",
       "lambda": "Explore the applications Logos is funding through the <lambdaPrize>Lambda Prize</lambdaPrize>.",
+      "lambdaMobile": "Explore the applications\nLogos is funding through\nthe <lambdaPrize>Lambda Prize</lambdaPrize>.",
       "secure": {
         "title": "Secure, private communications.",
         "body": "Resilient, private messaging for coordination in hostile environments."
@@ -174,7 +176,7 @@
       }
     },
     "builderPortal": {
-      "title": "Basecamp.\nThe local launcher\nfor the Logos stack",
+      "title": "Basecamp.\nThe local launcher\nfor the Logos stack.",
       "description": "Basecamp is a ready-to-run Logos distribution that you deploy on your own hardware, under your control. From the moment it’s installed, you’re standing on your own ground, not connecting to someone else’s infrastructure.\n\nThe Logos runtime runs locally, core modules are loaded, and essential applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one.",
       "feature1": "Explore programmes and resources to help you build your cyberstate.",
       "feature2": "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
@@ -252,7 +254,7 @@
             },
             "scaffold": {
               "title": "Start with the Scaffold Boilerplate",
-              "body": "A Rust CLI for bootstrapping LSSA program_deployment projects in standalone mode."
+              "body": "A Rust CLI for bootstrapping LEZ (Logos Execution Zone) program_deployment projects in standalone mode."
             },
             "sampleApps": {
               "title": "Sample Apps",

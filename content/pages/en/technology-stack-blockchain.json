@@ -90,7 +90,7 @@
       "cards": [
         {
           "title": "Cryptarchia:\nPrivate Proof-of-Stake",
-          "description": "Most proof-of-stake systems reveal who proposed each block, creating a target for censorship, bribery, and coercion. Logos solves this with Cryptarchia, a private proof-of-stake mechanism in which block proposers are selected through a private lottery and anonymised through Blend, a mixnet-based protocol.\n\nValidators take part in consensus without revealing their identity during block proposal — a privacy guarantee most blockchains cannot offer.",
+          "description": "Many proof-of-stake systems reveal who proposed each block, creating a target for censorship, bribery, and coercion. Logos solves this with Cryptarchia, a private proof-of-stake mechanism in which block proposers are selected through a private lottery and anonymised through Blend, a mixnet-based protocol that makes it hard to link a proposal to its proposer through network analysis.\n\nValidators take part in consensus without revealing their identity during block proposal — a level of proposer privacy that few proof-of-stake networks provide.",
           "image": {
             "src": "/images/blockchain/overview/mantle.webp",
             "alt": "",
@@ -157,7 +157,7 @@
             "width": 1280,
             "height": 720
           },
-          "cta": { "label": "Build", "href": "/builders-hub" }
+          "cta": { "label": "Build", "href": "/get-started" }
         },
         {
           "title": "Install Basecamp",

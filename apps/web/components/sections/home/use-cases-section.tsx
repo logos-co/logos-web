@@ -11,8 +11,8 @@ import { HOME_USE_CASE_CARDS } from '@/lib/homepage-section-data'
 
 export default async function UseCasesSection({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home.useCases' })
-  const renderLambdaPrizeText = () =>
-    t.rich('lambda', {
+  const renderLambdaPrizeText = (key: 'lambda' | 'lambdaMobile' = 'lambda') =>
+    t.rich(key, {
       lambdaPrize: (chunks: ReactNode) => (
         <Link
           href={ROUTES.lambdaPrize}
@@ -40,11 +40,14 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
                 className="object-cover"
               />
             </div>
-            <p className="font-mono-body min-w-0 text-left text-[10px] leading-[1.3] whitespace-pre-wrap lg:hidden">
-              {t('headline')}
-              {'\n\n'}
-              {renderLambdaPrizeText()}
-            </p>
+            <div className="flex min-w-0 flex-col gap-[17px] text-left lg:hidden">
+              <p className="text-body-sans whitespace-pre-line">
+                {t('headlineMobile')}
+              </p>
+              <p className="text-mono-s whitespace-pre-line">
+                {renderLambdaPrizeText('lambdaMobile')}
+              </p>
+            </div>
             <p className="text-mono-s hidden w-full lg:block">{t('eyebrow')}</p>
             <SectionHeadingReveal className="text-h3-serif hidden w-full whitespace-normal lg:block desktop:whitespace-pre-line">
               {t('headline')}

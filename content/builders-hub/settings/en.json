@@ -106,7 +106,7 @@
       },
       {
         "title": "Start with the Scaffold Boilerplate",
-        "description": "A Rust CLI for bootstrapping LSSA program_deployment projects in standalone mode.",
+        "description": "A Rust CLI for bootstrapping LEZ (Logos Execution Zone) program_deployment projects in standalone mode.",
         "ctas": [
           {
             "label": "Learn more",
