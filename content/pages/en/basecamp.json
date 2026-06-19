@@ -54,7 +54,7 @@
           "description": "Basecamp is built around a modular architecture. At its core is a lightweight runtime that manages self-contained modules, each providing a distinct capability such as private peer-to-peer messaging or distributed storage.",
           "cta": {
             "label": "Documentation",
-            "href": "https://docs.logos.co/",
+            "href": "https://docs.logos.co/basecamp",
             "external": true,
             "variant": "primary"
           },
