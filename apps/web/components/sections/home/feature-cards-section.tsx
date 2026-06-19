@@ -46,7 +46,7 @@ function PathCardView({ card }: { card: PathCard }) {
         </h3>
       </div>
 
-      <span className="absolute top-3 right-3 inline-flex items-center justify-center rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green backdrop-blur-[5px] transition-colors duration-300 ease-out group-hover/path-card:bg-accent-steel-teal group-focus-visible/path-card:bg-accent-steel-teal min-[600px]:max-[1023.98px]:top-[76px] lg:px-[clamp(8px,0.8vw,12px)] desktop:px-3">
+      <span className="absolute top-3 right-3 inline-flex items-center justify-center rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green backdrop-blur-[5px] transition-colors duration-300 ease-out group-hover/path-card:bg-accent-steel-teal group-focus-visible/path-card:bg-accent-steel-teal min-[600px]:max-[1023.98px]:top-[76px] min-[600px]:max-[1023.98px]:right-auto min-[600px]:max-[1023.98px]:left-6 lg:px-[clamp(8px,0.8vw,12px)] desktop:px-3">
         <span className="inline-flex items-center gap-1">
           <span className="font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase lg:text-[clamp(8px,0.7vw,10px)] desktop:text-[10px]">
             {card.cta}
