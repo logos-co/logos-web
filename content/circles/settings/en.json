@@ -22,6 +22,11 @@
       "width": 1432,
       "height": 926
     },
+    "attribution": {
+      "label": "Map tiles by Esri and",
+      "linkLabel": "OpenStreetMap contributors",
+      "href": "https://www.openstreetmap.org/copyright"
+    },
     "zoomInAriaLabel": "Zoom in",
     "zoomOutAriaLabel": "Zoom out",
     "gestureHintLabel": "Use two fingers to move the map"

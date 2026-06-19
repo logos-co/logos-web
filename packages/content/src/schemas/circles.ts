@@ -236,6 +236,11 @@ const mapSettingsSchema = z.object({
   defaultCenter: coordinatesSchema,
   /** Static-image fallback rendered behind the markers in Phase 1. */
   image: mediaRefSchema.optional(),
+  attribution: z.object({
+    label: z.string().min(1),
+    linkLabel: z.string().min(1),
+    href: linkHrefSchema,
+  }),
   zoomInAriaLabel: z.string().min(1),
   zoomOutAriaLabel: z.string().min(1),
   /** Shown on touch devices when the user tries to pan with a single finger. */

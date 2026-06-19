@@ -2,7 +2,6 @@
 
 import { useEffect, useState, type ReactNode } from 'react'
 import {
-  AttributionControl,
   MapContainer,
   Marker,
   Popup,
@@ -245,7 +244,6 @@ export default function CirclesWorldMap({
             </Marker>
           ))}
         </MarkerClusterGroup>
-        <AttributionControl position="bottomright" prefix={false} />
         <ZoomControls
           zoomInAriaLabel={zoomInAriaLabel}
           zoomOutAriaLabel={zoomOutAriaLabel}

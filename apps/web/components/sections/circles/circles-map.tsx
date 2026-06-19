@@ -1,5 +1,6 @@
 import type { CirclesSettings } from '@repo/content/schemas'
 
+import { CirclesMapAttribution } from '@/components/circles-map/circles-map-attribution'
 import ContentWidth from '@/components/layout/content-width'
 import { CirclesWorldMap } from '@/components/circles-map'
 import type { ActiveCircleMarker } from '@/lib/active-circles'
@@ -24,6 +25,7 @@ export default function CirclesMap({
             gestureHintLabel={settings.map.gestureHintLabel}
           />
         </div>
+        <CirclesMapAttribution attribution={settings.map.attribution} />
       </ContentWidth>
     </section>
   )
