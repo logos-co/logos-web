@@ -6,7 +6,7 @@ import type { LambdaPrizePageCopy } from './types'
 
 export function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
   return (
-    <section className="h-[406px] bg-brand-off-white px-0 py-10 text-brand-dark-green lg:h-[421px] lg:px-3 lg:py-12">
+    <section className="h-[406px] border-t border-brand-dark-green/10 bg-brand-off-white px-0 pt-10 pb-10 text-brand-dark-green lg:h-[421px] lg:px-3 lg:pb-12">
       <ContentWidth>
         <div className="grid grid-cols-[1fr_auto] gap-y-6 lg:grid-cols-3">
           <h2 className="text-h3-serif">{copy.heading}</h2>
