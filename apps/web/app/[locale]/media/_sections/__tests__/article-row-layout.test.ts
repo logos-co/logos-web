@@ -43,8 +43,10 @@ describe('blog article row layout', () => {
     expect(articlesSource).toContain('href={href}')
     expect(articlesSource).toContain('rounded-[100px]')
     expect(articlesSource).toContain(
-      'className="bg-accent-tan pt-3 text-brand-dark-green desktop:pt-25"'
+      'className="bg-accent-tan pt-25 text-brand-dark-green"'
     )
+    expect(articlesSource).toContain('bottom-3 top-[292px]')
+    expect(articlesSource).toContain('desktop:justify-between')
     expect(articlesSource).toContain('desktop:h-[406px]')
     expect(articlesSource).toContain('desktop:w-[702px]')
     expect(articlesSource).not.toContain('md:h-[406px]')
