@@ -6,7 +6,7 @@ import type { FeaturedTextSection, GallerySection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
-import { Button } from '@/components/ui'
+import { Button, DragScroll } from '@/components/ui'
 
 /**
  * Per-image desktop dimensions are positional — Figma's gallery has four
@@ -140,8 +140,8 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
       </ContentWidth>
 
       {/* Mobile Gallery — full width with internal scroll */}
-      <div
-        className="overflow-x-auto px-3 pb-25 lg:hidden"
+      <DragScroll
+        className="cursor-pointer overflow-x-auto px-3 pb-25 lg:hidden"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         <div className="flex w-max snap-x snap-mandatory items-start gap-3">
@@ -155,12 +155,12 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
             />
           ))}
         </div>
-      </div>
+      </DragScroll>
 
       {/* Desktop Gallery — full width with centered content and internal scroll */}
       {/* pb-22 + Blog section py-3 (12px) = 100px gallery→Blog gap per Figma */}
-      <div
-        className="hidden overflow-x-auto lg:block lg:pb-22"
+      <DragScroll
+        className="hidden overflow-x-auto lg:block lg:cursor-pointer lg:pb-22"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         <div className="flex items-start gap-3 px-3 mx-auto w-fit">
@@ -176,7 +176,7 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
             />
           ))}
         </div>
-      </div>
+      </DragScroll>
     </section>
   )
 }

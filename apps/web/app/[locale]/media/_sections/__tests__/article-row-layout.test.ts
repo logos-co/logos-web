@@ -108,9 +108,7 @@ describe('blog article row layout', () => {
     const articlesSource = readSectionFile('articles.tsx')
     const podcastsSource = readSectionFile('podcasts.tsx')
 
-    expect(articlesSource).toContain(
-      'desktop:flex desktop:h-[1044px]'
-    )
+    expect(articlesSource).toContain('desktop:flex-row')
     expect(articlesSource).toContain('desktop:sticky desktop:top-10')
     expect(articlesSource).not.toContain('md:flex md:h-[1044px]')
     expect(articlesSource).not.toContain('md:sticky md:top-10')

@@ -3,7 +3,7 @@ import Image from 'next/image'
 import type { RelatedArticlesSection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
-import { Button, ButtonArrowIcon } from '@/components/ui'
+import { Button, ButtonArrowIcon, DragScroll } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
 import type { BlogArticleRow } from '@/lib/blog-engine'
 
@@ -170,14 +170,14 @@ export default function BlogSection({ data, articles }: Props) {
             {data.title}
           </h2>
 
-          <div
-            className="absolute top-[229px] left-0 flex w-full gap-3 overflow-x-auto pr-3 pl-3 lg:static lg:mt-[83px] lg:w-auto lg:max-desktop:-mx-3 desktop:grid desktop:grid-cols-4 desktop:overflow-visible desktop:pr-0 desktop:pl-0"
+          <DragScroll
+            className="absolute top-[229px] left-0 flex w-full cursor-pointer gap-3 overflow-x-auto pr-3 pl-3 lg:static lg:mt-[83px] lg:w-auto lg:max-desktop:-mx-3 desktop:grid desktop:grid-cols-4 desktop:cursor-auto desktop:overflow-visible desktop:pr-0 desktop:pl-0"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {cards.map((card) => (
               <BlogCard key={card.href} {...card} />
             ))}
-          </div>
+          </DragScroll>
         </div>
       </ContentWidth>
     </section>

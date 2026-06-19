@@ -1,13 +1,13 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 
 import type { CardGridSection } from '@repo/content/schemas'
 
 import { IconMask } from '@/components/icons/icon-mask'
 import ContentWidth from '@/components/layout/content-width'
-import { Button } from '@/components/ui'
+import { Button, useDragScroll } from '@/components/ui'
 
 type UseCaseCardData = {
   title: string
@@ -116,10 +116,7 @@ type Props = {
 
 export default function TechOverviewUseCases({ data }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null)
-  const dragStartXRef = useRef(0)
-  const dragStartScrollLeftRef = useRef(0)
-  const isDraggingRef = useRef(false)
-  const [isDragging, setIsDragging] = useState(false)
+  const dragHandlers = useDragScroll()
 
   useEffect(() => {
     if (!scrollRef.current) return
@@ -154,27 +151,6 @@ export default function TechOverviewUseCases({ data }: Props) {
   // Carousel duplicates cards for infinite-feel scrolling; matches existing
   // behaviour.
   const cards = [...baseCards, ...baseCards]
-
-  const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!scrollRef.current) return
-
-    isDraggingRef.current = true
-    setIsDragging(true)
-    dragStartXRef.current = event.clientX
-    dragStartScrollLeftRef.current = scrollRef.current.scrollLeft
-  }
-
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!scrollRef.current || !isDraggingRef.current) return
-
-    const deltaX = event.clientX - dragStartXRef.current
-    scrollRef.current.scrollLeft = dragStartScrollLeftRef.current - deltaX
-  }
-
-  const stopDragging = () => {
-    isDraggingRef.current = false
-    setIsDragging(false)
-  }
 
   return (
     <section className="h-[820px] overflow-hidden bg-brand-off-white md:h-auto md:overflow-visible md:bg-transparent">
@@ -262,14 +238,9 @@ export default function TechOverviewUseCases({ data }: Props) {
 
       <div
         ref={scrollRef}
-        className={`mt-19 flex gap-3 overflow-x-auto px-3 pb-4 select-none md:mt-12.5 ${
-          isDragging ? 'cursor-grabbing' : 'cursor-grab'
-        }`}
+        className="mt-19 flex cursor-pointer gap-3 overflow-x-auto px-3 pb-4 select-none md:mt-12.5"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={stopDragging}
-        onMouseLeave={stopDragging}
+        {...dragHandlers}
       >
         {cards.map((card, index) => (
           <UseCaseCard key={`${card.title}-${index}`} {...card} />

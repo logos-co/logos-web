@@ -6,6 +6,7 @@ import Link from 'next/link'
 
 import { SectionHeadingReveal } from '@/components/motion/section-heading-reveal'
 import { StackCard } from '@/components/motion/stack-card'
+import { DragScroll } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import { HOME_USE_CASE_CARDS } from '@/lib/homepage-section-data'
 
@@ -61,7 +62,7 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
           </p>
         </div>
 
-        <div className="flex w-full snap-x snap-mandatory scroll-ps-3 gap-3 overflow-x-auto px-3 [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden">
+        <DragScroll className="flex w-full cursor-pointer snap-x snap-mandatory scroll-ps-3 gap-3 overflow-x-auto px-3 [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-4 lg:cursor-auto lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden">
           {HOME_USE_CASE_CARDS.map((card) => (
             <article
               key={card.key}
@@ -86,7 +87,7 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
               </div>
             </article>
           ))}
-        </div>
+        </DragScroll>
       </div>
     </StackCard>
   )

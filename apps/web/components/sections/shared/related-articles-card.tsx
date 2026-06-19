@@ -52,7 +52,7 @@ export function ArticleCard({
   return (
     <ExternalLink
       href={href}
-      className="group flex w-84.75 shrink-0 cursor-pointer flex-col gap-1.5 lg:w-auto"
+      className="group flex w-[calc(100vw-24px)] max-w-84.75 shrink-0 cursor-pointer flex-col gap-1.5 desktop:w-auto desktop:max-w-none"
     >
       <div className="relative aspect-339/431 w-full overflow-hidden">
         <Image
@@ -60,6 +60,7 @@ export function ArticleCard({
           alt={imageAlt}
           width={339}
           height={431}
+          draggable={false}
           className="h-full w-full object-cover transition-[filter,transform] duration-700 ease-out group-hover:scale-[1.01] group-hover:blur-[4px] group-focus-visible:scale-[1.01] group-focus-visible:blur-[4px]"
           style={imagePosition ? { objectPosition: imagePosition } : undefined}
         />

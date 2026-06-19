@@ -1,4 +1,6 @@
 export { Button, ButtonArrowIcon } from './button'
 export type { ButtonProps, ButtonVariant } from './button'
 export { Card } from './card'
+export { DragScroll, useDragScroll } from './drag-scroll'
+export type { DragScrollHandlers } from './drag-scroll'
 export { ExternalLink } from './external-link'

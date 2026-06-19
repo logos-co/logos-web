@@ -1,10 +1,12 @@
+'use client'
+
 import { twMerge } from 'tailwind-merge'
 
 import type { RelatedArticlesSection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 import { Reveal, RevealItem } from '@/components/motion/reveal'
-import { Button } from '@/components/ui'
+import { Button, useDragScroll } from '@/components/ui'
 import type { BlogArticleRow } from '@/lib/blog-engine'
 import { getTechStackRelatedArticleCards } from '@/lib/tech-stack-related-articles'
 
@@ -32,6 +34,7 @@ export default function TechStackRelatedArticles({
   contentClassName,
 }: Props) {
   const cards = getTechStackRelatedArticleCards(data, articles)
+  const dragHandlers = useDragScroll()
 
   return (
     <section className={twMerge('mt-15 md:mt-25', sectionClassName)}>
@@ -76,7 +79,12 @@ export default function TechStackRelatedArticles({
             <Reveal
               stagger
               amount={0.2}
-              className="mt-25 flex gap-3 overflow-x-auto lg:absolute lg:top-60.25 lg:right-3 lg:left-3 lg:mt-0 lg:grid lg:grid-cols-4 lg:overflow-visible"
+              className="mt-25 -mx-3 flex cursor-pointer gap-3 overflow-x-auto px-3 lg:absolute lg:top-60.25 lg:right-0 lg:left-0 lg:mx-0 lg:mt-0 desktop:grid desktop:grid-cols-4 desktop:cursor-auto desktop:overflow-visible"
+              onPointerDown={dragHandlers.onPointerDown}
+              onPointerMove={dragHandlers.onPointerMove}
+              onPointerUp={dragHandlers.onPointerUp}
+              onPointerCancel={dragHandlers.onPointerCancel}
+              onClickCapture={dragHandlers.onClickCapture}
             >
               {cards.map((card) => (
                 <RevealItem key={`${card.href}:${card.title}`}>

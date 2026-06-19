@@ -220,40 +220,34 @@ export function FeaturedArticle({
   readArticleLabel: string
 }) {
   return (
-    <section className="relative h-[994px] overflow-hidden bg-accent-tan desktop:flex desktop:h-[1044px] desktop:justify-center desktop:gap-3 desktop:overflow-visible desktop:pr-3">
-      <ContentWidth className="relative h-full w-full desktop:flex desktop:h-full desktop:justify-center desktop:gap-3 desktop:overflow-visible">
-        <div className="absolute left-0 top-0 z-10 h-[313px] w-full px-3 pt-10 desktop:sticky desktop:top-10 desktop:h-[495px] desktop:flex-1 desktop:pl-[129px] desktop:pt-25">
-          <div className="flex max-w-[573px] flex-col gap-6 desktop:gap-7.5">
-            <div className="text-mono-s flex items-center gap-2.5 text-brand-off-white desktop:text-brand-dark-green">
-              <span>{article.author}</span>
-              <Dot className="bg-brand-off-white desktop:bg-brand-dark-green" />
-              <span>{article.date}</span>
-            </div>
-            <h2 className="font-display max-w-[370px] text-[40px] leading-none tracking-[-0.03em] text-brand-off-white desktop:max-w-[464px] desktop:text-[56px] desktop:tracking-normal desktop:text-brand-dark-green">
-              {article.title}
-            </h2>
-            <div className="flex flex-col gap-5">
-              <p className="text-mono-s max-w-[370px] text-brand-off-white desktop:max-w-[456px] desktop:text-brand-dark-green">
-                {article.description}
-              </p>
-              <TextLink
-                href={article.href}
-                label={`${readArticleLabel}: ${article.title}`}
-                tone="light"
-                className="desktop:text-brand-dark-green desktop:decoration-brand-dark-green/50"
-              >
-                {readArticleLabel}
-              </TextLink>
-            </div>
+    <section className="bg-accent-tan py-10 desktop:py-25">
+      <ContentWidth className="flex flex-col gap-6 desktop:flex-row desktop:items-start desktop:gap-12">
+        <div className="order-2 flex flex-col gap-6 text-brand-dark-green desktop:order-1 desktop:sticky desktop:top-10 desktop:w-[464px] desktop:shrink-0 desktop:gap-7.5">
+          <div className="text-mono-s flex items-center gap-2.5">
+            <span>{article.author}</span>
+            <Dot />
+            <span>{article.date}</span>
+          </div>
+          <h2 className="font-display text-[40px] leading-none tracking-[-0.03em] desktop:max-w-[464px] desktop:text-[56px] desktop:tracking-normal">
+            {article.title}
+          </h2>
+          <div className="flex flex-col gap-5">
+            <p className="text-mono-s max-w-[456px]">{article.description}</p>
+            <TextLink
+              href={article.href}
+              label={`${readArticleLabel}: ${article.title}`}
+            >
+              {readArticleLabel}
+            </TextLink>
           </div>
         </div>
-        <div className="absolute inset-0 h-[994px] overflow-hidden desktop:relative desktop:inset-auto desktop:h-[994px] desktop:w-[714px] desktop:shrink-0">
+        <div className="relative order-1 aspect-video w-full overflow-hidden desktop:order-2 desktop:min-w-0 desktop:flex-1">
           <Image
             src={article.featuredImage}
             alt=""
-            width={1242}
-            height={994}
-            className="absolute left-[-303px] top-0 h-[1040px] w-[1300px] max-w-none object-cover md:left-0 md:w-full desktop:left-[-104px] desktop:h-full desktop:w-[1242px]"
+            fill
+            sizes="(max-width: 1440px) calc(100vw - 24px), 940px"
+            className="object-cover object-center"
           />
         </div>
       </ContentWidth>
