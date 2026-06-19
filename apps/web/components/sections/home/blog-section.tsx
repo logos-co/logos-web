@@ -137,7 +137,7 @@ export default function BlogSection({ data, articles }: Props) {
   return (
     <section
       id="blog"
-      className="bg-brand-off-white px-3 pt-[140px] pb-3 lg:mt-[112px] lg:px-0 lg:py-3"
+      className="bg-brand-off-white mt-[112px] px-3 pb-3 lg:px-0"
     >
       <ContentWidth className="relative h-[856px] overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-3 lg:h-auto lg:overflow-visible lg:pt-6 lg:pb-[141px]">
         <div className="flex flex-col lg:gap-0">

@@ -78,6 +78,7 @@ export default async function HomePage({
         networkingHref={ROUTES.networking}
         foundationHref={ROUTES.technologyStack}
         desktopAt1367
+        bottomSpacingClassName="pb-[112px]"
         ctas={[
           {
             label: t('exploreStackCta'),
