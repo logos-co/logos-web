@@ -55,11 +55,15 @@ function MobileStatRowView({
 
 interface SocialProofSectionProps {
   stats: SocialProofStats
+  winnableIssuesCount: string
 }
 
-export default function SocialProofSection({ stats }: SocialProofSectionProps) {
+export default function SocialProofSection({
+  stats,
+  winnableIssuesCount,
+}: SocialProofSectionProps) {
   const t = useTranslations('home.socialProof')
-  const cards = getSocialProofCards(stats, t)
+  const cards = getSocialProofCards(stats, winnableIssuesCount, t)
 
   return (
     <section className="relative z-[2] -mt-[60px] overflow-hidden rounded-t-[36px] bg-brand-off-white">
