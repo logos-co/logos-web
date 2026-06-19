@@ -1,4 +1,8 @@
-import { getCircleInitiatives, getPageCopy } from '@repo/content/loaders'
+import {
+  getCircleInitiatives,
+  getCirclesSettings,
+  getPageCopy,
+} from '@repo/content/loaders'
 import { describe, expect, test } from 'vitest'
 
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
@@ -93,6 +97,16 @@ const contracts: PageContract[] = [
 ]
 
 describe('content-backed web route contracts', () => {
+  test('circles map exposes external attribution copy outside the map frame', async () => {
+    const settings = await getCirclesSettings(locale)
+
+    expect(settings.map.attribution).toEqual({
+      label: 'Map tiles by Esri and',
+      linkLabel: 'OpenStreetMap contributors',
+      href: 'https://www.openstreetmap.org/copyright',
+    })
+  })
+
   test('movement page initiative cards use the current winnable issues', async () => {
     const initiatives = await getCircleInitiatives({
       locale,
