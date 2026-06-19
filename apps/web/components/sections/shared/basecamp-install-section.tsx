@@ -42,13 +42,16 @@ function CardImage({
   return (
     <div className="relative h-[314px] overflow-hidden rounded-md md:h-full">
       {isPackageManager ? (
+        // Anchored top-left so the image never scales up to recrop: the left
+        // edge and the top border always stay visible, and a too-narrow frame
+        // simply clips the image from the right (and any excess from the
+        // bottom) rather than zooming in.
         <Image
           src={image.src}
           alt={image.alt}
-          width={image.width ?? 1}
-          height={image.height ?? 1}
+          fill
           sizes="(min-width: 768px) 50vw, 100vw"
-          className="absolute left-0 top-0 h-full w-auto max-w-none object-cover md:top-[-4.29%] md:h-[124.76%] md:w-full"
+          className="object-cover object-left-top"
         />
       ) : (
         <Image
