@@ -27,7 +27,15 @@ interface DragState {
   lastX: number
   velocity: number
   raf: number
+  /** Whether the scroll container uses CSS scroll-snap (captured on first move). */
+  usesSnap: boolean
+  /** Pending timer that restores scroll-snap after a smooth settle. */
+  snapTimer: ReturnType<typeof setTimeout> | null
 }
+
+// How long the smooth snap-to-nearest animation is given before scroll-snap is
+// re-enabled (browser smooth-scroll is typically ~300-500ms).
+const SNAP_SETTLE_MS = 500
 
 export interface DragScrollHandlers {
   onPointerDown: (event: React.PointerEvent<HTMLElement>) => void
@@ -48,6 +56,8 @@ export function useDragScroll(): DragScrollHandlers {
     lastX: 0,
     velocity: 0,
     raf: 0,
+    usesSnap: false,
+    snapTimer: null,
   })
 
   const stopMomentum = useCallback(() => {
@@ -64,8 +74,42 @@ export function useDragScroll(): DragScrollHandlers {
     if (state.current.el) state.current.el.style.scrollSnapType = ''
   }, [])
 
-  // Cancel any in-flight animation frame if the component unmounts mid-glide.
-  useEffect(() => stopMomentum, [stopMomentum])
+  // On a snap carousel, glide smoothly to the nearest card instead of letting
+  // the browser hard-snap the moment scroll-snap is re-enabled. Snap stays
+  // suspended until the smooth scroll settles, then is restored for native
+  // (trackpad) scrolling.
+  const snapToNearest = useCallback(() => {
+    const s = state.current
+    const el = s.el
+    if (!el) return
+    const elRect = el.getBoundingClientRect()
+    const padLeft = parseFloat(getComputedStyle(el).scrollPaddingLeft) || 0
+    let target = el.scrollLeft
+    let bestDist = Infinity
+    for (const child of Array.from(el.children)) {
+      const childRect = child.getBoundingClientRect()
+      const childTarget = el.scrollLeft + (childRect.left - elRect.left) - padLeft
+      const dist = Math.abs(childTarget - el.scrollLeft)
+      if (dist < bestDist) {
+        bestDist = dist
+        target = childTarget
+      }
+    }
+    const maxLeft = el.scrollWidth - el.clientWidth
+    el.scrollTo({ left: Math.max(0, Math.min(target, maxLeft)), behavior: 'smooth' })
+    if (s.snapTimer) clearTimeout(s.snapTimer)
+    s.snapTimer = setTimeout(restoreSnap, SNAP_SETTLE_MS)
+  }, [restoreSnap])
+
+  // Cancel any in-flight animation frame / pending timer when the component
+  // unmounts mid-glide.
+  useEffect(() => {
+    const s = state.current
+    return () => {
+      if (s.raf) cancelAnimationFrame(s.raf)
+      if (s.snapTimer) clearTimeout(s.snapTimer)
+    }
+  }, [])
 
   const startMomentum = useCallback(() => {
     const s = state.current
@@ -99,6 +143,10 @@ export function useDragScroll(): DragScrollHandlers {
       event.preventDefault()
       stopMomentum()
       const s = state.current
+      if (s.snapTimer) {
+        clearTimeout(s.snapTimer)
+        s.snapTimer = null
+      }
       s.el = el
       s.isDown = true
       s.moved = false
@@ -117,6 +165,7 @@ export function useDragScroll(): DragScrollHandlers {
     if (!s.moved && Math.abs(dx) < DRAG_THRESHOLD_PX) return
     if (!s.moved) {
       s.moved = true
+      s.usesSnap = getComputedStyle(s.el).scrollSnapType !== 'none'
       s.el.setPointerCapture(event.pointerId)
       s.el.style.cursor = 'pointer'
       s.el.style.userSelect = 'none'
@@ -135,12 +184,16 @@ export function useDragScroll(): DragScrollHandlers {
       s.el.style.cursor = ''
       s.el.style.userSelect = ''
     }
-    if (s.moved && Math.abs(s.velocity) >= MIN_VELOCITY_PX) {
+    if (!s.moved) return
+    // Snap carousels glide to the nearest card; free carousels keep momentum.
+    if (s.usesSnap) {
+      snapToNearest()
+    } else if (Math.abs(s.velocity) >= MIN_VELOCITY_PX) {
       startMomentum()
     } else {
       restoreSnap()
     }
-  }, [restoreSnap, startMomentum])
+  }, [restoreSnap, snapToNearest, startMomentum])
 
   // Suppress the click that fires after a drag so cards/links don't activate.
   const onClickCapture = useCallback((event: React.MouseEvent<HTMLElement>) => {
