@@ -125,7 +125,7 @@ export default function SiteHeaderClient({
       >
         <div
           className={clsx(
-            'relative h-10 transition-colors duration-300 xl:hidden',
+            'relative h-10 transition-colors duration-300 md:hidden',
             headerToneClass
           )}
         >
@@ -151,7 +151,7 @@ export default function SiteHeaderClient({
 
         <div
           className={clsx(
-            'relative hidden h-[42px] transition-colors duration-300 xl:block',
+            'relative hidden h-[42px] transition-colors duration-300 md:block',
             headerToneClass
           )}
         >
@@ -184,7 +184,8 @@ export default function SiteHeaderClient({
             <Link
               href={primaryCta.href}
               className={clsx(
-                'absolute top-1/2 right-3 -translate-y-1/2 text-eyebrow font-semibold inline-flex cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
+                'absolute top-1/2 right-3 -translate-y-1/2 text-eyebrow font-semibold cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
+                'hidden lg:inline-flex',
                 usesHeroHeaderTone && !hasPassedHero
                   ? 'bg-brand-off-white text-brand-dark-green'
                   : 'bg-brand-dark-green text-brand-off-white'
