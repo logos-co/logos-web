@@ -88,7 +88,7 @@ export function DeveloperProgramsSection({
                       alt={rfp.image.alt}
                       width={96}
                       height={120}
-                      className="absolute right-[10px] bottom-[11px] h-[120px] w-[96px] object-cover"
+                      className="absolute right-[10px] bottom-[11px] h-[120px] w-[96px] object-cover max-[400px]:hidden"
                     />
                   ) : null}
                 </div>
