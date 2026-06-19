@@ -13,12 +13,10 @@ type Props = {
 /**
  * Grid-view card for the Ideas listing page. Mirrors the RFP card geometry
  * (345 × 317, rounded-12, 1 px border) but renders the idea's submitter line
- * and discussion CTA instead of the RFP apply CTA.
+ * and a Discuss CTA that links to the idea detail page.
  */
 export function IdeaCard({ idea }: Props) {
   const detailHref = `${ROUTES.ideas}/${idea.slug}`
-  const ctaHref = idea.discussionUrl ?? detailHref
-  const ctaExternal = Boolean(idea.discussionUrl)
   const blurb = idea.tagline ?? idea.summary
 
   return (
@@ -32,13 +30,7 @@ export function IdeaCard({ idea }: Props) {
           </h3>
         </Link>
         <div className="mt-[14.2px]">
-          <Button
-            href={ctaHref}
-            variant="link"
-            {...(ctaExternal
-              ? { target: '_blank', rel: 'noopener noreferrer' }
-              : {})}
-          >
+          <Button href={detailHref} variant="link">
             {idea.ctaLabel ?? 'Discuss'}
           </Button>
         </div>
