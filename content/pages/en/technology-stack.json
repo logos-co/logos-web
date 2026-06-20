@@ -325,20 +325,6 @@
             "label": "Learn more",
             "href": "/movement"
           }
-        },
-        {
-          "title": "Attack Resistant Public Registries",
-          "description": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
-          "image": {
-            "src": "/images/technology-stack/usecase-1.jpg",
-            "alt": "",
-            "width": 96,
-            "height": 120
-          },
-          "cta": {
-            "label": "Learn more",
-            "href": "/technology-stack/blockchain"
-          }
         }
       ]
     }

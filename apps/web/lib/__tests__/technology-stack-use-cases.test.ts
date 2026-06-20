@@ -95,7 +95,7 @@ describe('getTechOverviewUseCaseCards', () => {
     expect(getTechOverviewUseCasesInitialScrollLeft()).toBe(0)
   })
 
-  it('uses the requested five-card technology-stack content sequence', async () => {
+  it('uses the requested four-card technology-stack content sequence', async () => {
     const page = await getPageCopy('/technology-stack', 'en')
     const useCases = findTechnologyStackSection<CardGridSection>(
       page.sections,
@@ -125,11 +125,6 @@ describe('getTechOverviewUseCaseCards', () => {
         title: 'Community Governance Processes',
         description:
           'Self-organising groups can establish and enforce their own rules, with members engaging voluntarily.',
-      },
-      {
-        title: 'Attack Resistant Public Registries',
-        description:
-          'Privacy-preserving blockchain for sovereign order and decentralised governance.',
       },
     ])
   })

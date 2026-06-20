@@ -61,19 +61,18 @@ function UseCaseCard({
   imageClassName,
 }: TechOverviewUseCaseCard) {
   return (
-    <article className="border-brand-dark-green/50 relative h-[317px] w-[345px] shrink-0 overflow-hidden rounded-xl border bg-brand-off-white">
+    <a
+      href={href}
+      className="border-brand-dark-green/50 relative block h-[317px] w-[345px] shrink-0 cursor-pointer overflow-hidden rounded-xl border bg-brand-off-white text-brand-dark-green transition-opacity hover:opacity-90"
+    >
       <h3 className="text-h4-sans absolute left-4 top-4 w-[249px] text-brand-dark-green">
         {title}
       </h3>
 
       <div className="absolute left-4 top-[83px]">
-        <Button
-          href={href}
-          variant="link"
-          className="cursor-pointer transition-opacity hover:opacity-70"
-        >
+        <span className="font-mono text-[13px] leading-[1.1] font-bold tracking-normal uppercase underline decoration-brand-dark-green/50 underline-offset-[4px]">
           {ctaLabel}
-        </Button>
+        </span>
       </div>
 
       <p className="text-mono-s absolute bottom-4 left-4 w-[186px] text-brand-dark-green">
@@ -91,7 +90,7 @@ function UseCaseCard({
           className="object-cover"
         />
       </div>
-    </article>
+    </a>
   )
 }
 
