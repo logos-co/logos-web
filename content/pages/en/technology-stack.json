@@ -271,8 +271,8 @@
       },
       "cards": [
         {
-          "title": "Corruption-resistant public registries",
-          "description": "Tamper-proof records for votes, land, licences, and trade agreements.",
+          "title": "Attack Resistant Public Registries",
+          "description": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
           "image": {
             "src": "/images/technology-stack/usecase-1.jpg",
             "alt": "",
@@ -285,8 +285,8 @@
           }
         },
         {
-          "title": "Decentralised archives",
-          "description": "Durable, censorship-resistant preservation of knowledge, culture, and history.",
+          "title": "Decentralised Archives",
+          "description": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
           "image": {
             "src": "/images/technology-stack/usecase-2.jpg",
             "alt": "",
@@ -299,8 +299,8 @@
           }
         },
         {
-          "title": "Private financial networks",
-          "description": "Money that moves securely and freely, without borders.",
+          "title": "Private Financial Networks",
+          "description": "Money that moves securely and freely, without surveillance or control.",
           "image": {
             "src": "/images/technology-stack/usecase-3.jpg",
             "alt": "",
@@ -313,8 +313,8 @@
           }
         },
         {
-          "title": "Community governance processes",
-          "description": "Self-organising groups that define and enforce their own rules, voluntarily and transparently.",
+          "title": "Community Governance Processes",
+          "description": "Self-organising groups can establish and enforce their own rules, with members engaging voluntarily.",
           "image": {
             "src": "/images/technology-stack/usecase-4.jpg",
             "alt": "",
@@ -324,6 +324,20 @@
           "cta": {
             "label": "Learn more",
             "href": "/movement"
+          }
+        },
+        {
+          "title": "Attack Resistant Public Registries",
+          "description": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
+          "image": {
+            "src": "/images/technology-stack/usecase-1.jpg",
+            "alt": "",
+            "width": 96,
+            "height": 120
+          },
+          "cta": {
+            "label": "Learn more",
+            "href": "/technology-stack/blockchain"
           }
         }
       ]

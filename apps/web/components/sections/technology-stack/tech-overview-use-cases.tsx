@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 
 import type { CardGridSection } from '@repo/content/schemas'
@@ -8,28 +8,13 @@ import type { CardGridSection } from '@repo/content/schemas'
 import { IconMask } from '@/components/icons/icon-mask'
 import ContentWidth from '@/components/layout/content-width'
 import { Button, useDragScroll } from '@/components/ui'
-
-type UseCaseCardData = {
-  title: string
-  description: string
-  href: string
-  ctaLabel: string
-  imageSrc: string
-  imageAlt: string
-  imageClassName: string
-}
-
-/**
- * Per-card image className is positional — Figma renders the four use-case
- * cards with different image aspect crops. Editors keep the slot order
- * stable; reordering would shuffle the aspects.
- */
-const CARD_IMAGE_CLASSNAMES = [
-  'h-[120px] w-24',
-  'h-[77px] w-24',
-  'h-[119px] w-24',
-  'h-[127px] w-24',
-]
+import {
+  getTechOverviewUseCasesInitialScrollLeft,
+  getTechOverviewUseCaseCards,
+  isTechOverviewUseCasesScrollable,
+  type TechOverviewUseCaseCard,
+} from '@/lib/technology-stack-use-cases'
+import { cn } from '@/lib/cn'
 
 const DOC_LINK_CLASSNAME =
   'transition-opacity hover:opacity-70 [&>span>span]:border-b-0 [&>span>span]:underline [&>span>span]:decoration-brand-dark-green/50 [&>span>span]:underline-offset-[2px]'
@@ -74,7 +59,7 @@ function UseCaseCard({
   imageSrc,
   imageAlt,
   imageClassName,
-}: UseCaseCardData) {
+}: TechOverviewUseCaseCard) {
   return (
     <article className="border-brand-dark-green/50 relative h-[317px] w-[345px] shrink-0 overflow-hidden rounded-xl border bg-brand-off-white">
       <h3 className="text-h4-sans absolute left-4 top-4 w-[249px] text-brand-dark-green">
@@ -117,13 +102,40 @@ type Props = {
 export default function TechOverviewUseCases({ data }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const dragHandlers = useDragScroll()
+  const [canScroll, setCanScroll] = useState(true)
+
+  const updateCanScroll = useCallback(() => {
+    const scrollElement = scrollRef.current
+    if (!scrollElement) return false
+
+    const nextCanScroll = isTechOverviewUseCasesScrollable({
+      scrollWidth: scrollElement.scrollWidth,
+      clientWidth: scrollElement.clientWidth,
+    })
+
+    setCanScroll(nextCanScroll)
+    if (!nextCanScroll) scrollElement.scrollLeft = 0
+
+    return nextCanScroll
+  }, [])
 
   useEffect(() => {
-    if (!scrollRef.current) return
+    const scrollElement = scrollRef.current
+    if (!scrollElement) return
 
-    const initialOffset = window.innerWidth >= 768 ? 120 : 0
-    scrollRef.current.scrollLeft = initialOffset
-  }, [])
+    if (updateCanScroll()) {
+      scrollElement.scrollLeft = getTechOverviewUseCasesInitialScrollLeft()
+    }
+
+    const resizeObserver = new ResizeObserver(updateCanScroll)
+    resizeObserver.observe(scrollElement)
+    window.addEventListener('resize', updateCanScroll)
+
+    return () => {
+      resizeObserver.disconnect()
+      window.removeEventListener('resize', updateCanScroll)
+    }
+  }, [updateCanScroll])
 
   const scroll = (direction: 'left' | 'right') => {
     if (!scrollRef.current) return
@@ -132,25 +144,7 @@ export default function TechOverviewUseCases({ data }: Props) {
     scrollRef.current.scrollBy({ left: amount, behavior: 'smooth' })
   }
 
-  const baseCards: UseCaseCardData[] = data.cards.flatMap((card, index) =>
-    card.image && card.cta
-      ? [
-          {
-            title: card.title,
-            description: card.description ?? '',
-            href: card.cta.href,
-            ctaLabel: card.cta.label,
-            imageSrc: card.image.src,
-            imageAlt: card.image.alt || card.title,
-            imageClassName:
-              CARD_IMAGE_CLASSNAMES[index] ?? CARD_IMAGE_CLASSNAMES[0],
-          },
-        ]
-      : []
-  )
-  // Carousel duplicates cards for infinite-feel scrolling; matches existing
-  // behaviour.
-  const cards = [...baseCards, ...baseCards]
+  const cards = getTechOverviewUseCaseCards(data.cards)
 
   return (
     <section className="h-[820px] overflow-hidden bg-brand-off-white md:h-auto md:overflow-visible md:bg-transparent">
@@ -199,10 +193,12 @@ export default function TechOverviewUseCases({ data }: Props) {
             </h2>
           ) : null}
 
-          <div className="absolute left-0 top-[269px] flex gap-2.5">
-            <ScrollControl direction="left" onClick={() => scroll('left')} />
-            <ScrollControl direction="right" onClick={() => scroll('right')} />
-          </div>
+          {canScroll ? (
+            <div className="absolute left-0 top-[269px] flex gap-2.5">
+              <ScrollControl direction="left" onClick={() => scroll('left')} />
+              <ScrollControl direction="right" onClick={() => scroll('right')} />
+            </div>
+          ) : null}
 
           {data.cta ? (
             <Button
@@ -238,7 +234,10 @@ export default function TechOverviewUseCases({ data }: Props) {
 
       <div
         ref={scrollRef}
-        className="mt-19 flex cursor-pointer gap-3 overflow-x-auto px-3 pb-4 select-none md:mt-12.5"
+        className={cn(
+          'mt-19 flex cursor-pointer gap-3 overflow-x-auto px-3 pb-4 select-none md:mt-12.5',
+          canScroll ? 'justify-start' : 'justify-center'
+        )}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         {...dragHandlers}
       >
