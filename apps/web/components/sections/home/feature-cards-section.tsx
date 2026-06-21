@@ -26,7 +26,7 @@ function PathCardView({ card }: { card: PathCard }) {
   return (
     <Link
       href={card.href}
-      className="group/path-card relative block h-[422px] w-full shrink-0 cursor-pointer overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green lg:w-auto"
+      className="group/path-card relative flex aspect-square w-full shrink-0 cursor-pointer flex-col overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green min-[600px]:aspect-auto min-[800px]:aspect-square lg:w-auto"
     >
       <Image
         src={card.image}
@@ -39,23 +39,25 @@ function PathCardView({ card }: { card: PathCard }) {
         className={`absolute inset-0 transition-opacity duration-300 ease-out group-hover/path-card:opacity-40 ${card.overlay}`}
       />
 
-      <div className="absolute top-6 left-6 flex max-w-[calc(100%-170px)] items-start gap-2.5 min-[600px]:max-[1023.98px]:max-w-[calc(100%-48px)] lg:left-[clamp(16px,1.7vw,24px)] lg:max-w-[calc(100%-150px)] desktop:left-6 desktop:max-w-[calc(100%-170px)]">
-        <LogosMark size={28} className="mt-0.5 shrink-0" />
-        <h3 className="text-h3-serif lg:text-[clamp(28px,2.5vw,36px)] desktop:text-[36px]">
-          {card.title}
-        </h3>
+      <div className="relative z-[1] flex items-start justify-between gap-2.5 p-3 min-[600px]:max-lg:flex-col min-[600px]:max-lg:gap-3">
+        <div className="flex min-w-0 items-start gap-2.5 pt-3 pl-3">
+          <LogosMark size={28} className="mt-0.5 shrink-0" />
+          <h3 className="text-h3-serif lg:text-[clamp(28px,2.5vw,36px)] desktop:text-[36px]">
+            {card.title}
+          </h3>
+        </div>
+
+        <span className="inline-flex shrink-0 items-center justify-center rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green backdrop-blur-[5px] transition-colors duration-300 ease-out group-hover/path-card:bg-accent-steel-teal group-focus-visible/path-card:bg-accent-steel-teal lg:px-[clamp(8px,0.8vw,12px)] desktop:px-3">
+          <span className="inline-flex items-center gap-1">
+            <span className="font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase lg:text-[clamp(8px,0.7vw,10px)] desktop:text-[10px]">
+              {card.cta}
+            </span>
+            <ButtonArrowIcon />
+          </span>
+        </span>
       </div>
 
-      <span className="absolute top-3 right-3 inline-flex items-center justify-center rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green backdrop-blur-[5px] transition-colors duration-300 ease-out group-hover/path-card:bg-accent-steel-teal group-focus-visible/path-card:bg-accent-steel-teal min-[600px]:max-[1023.98px]:top-[76px] min-[600px]:max-[1023.98px]:right-auto min-[600px]:max-[1023.98px]:left-6 lg:px-[clamp(8px,0.8vw,12px)] desktop:px-3">
-        <span className="inline-flex items-center gap-1">
-          <span className="font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase lg:text-[clamp(8px,0.7vw,10px)] desktop:text-[10px]">
-            {card.cta}
-          </span>
-          <ButtonArrowIcon />
-        </span>
-      </span>
-
-      <p className="absolute right-6 bottom-6 left-6 font-sans text-[14px] leading-[1.2] font-medium lg:right-[clamp(16px,1.7vw,24px)] lg:left-[clamp(16px,1.7vw,24px)] lg:text-[clamp(12px,1vw,14px)] desktop:right-6 desktop:left-6 desktop:text-[14px]">
+      <p className="relative z-[1] mt-auto px-6 pt-3 pb-6 font-sans text-[14px] leading-[1.2] font-medium lg:px-[clamp(16px,1.7vw,24px)] lg:pt-0 lg:text-[clamp(12px,1vw,14px)] desktop:px-6 desktop:text-[14px]">
         {card.body}
       </p>
     </Link>
@@ -100,7 +102,7 @@ export default function FeatureCardsSection() {
 
   return (
     <section className="bg-brand-off-white">
-      <ContentWidth className="relative pt-3 pb-25 lg:h-[848px] lg:py-0">
+      <ContentWidth className="relative pt-3 pb-25 lg:pt-0 lg:pb-14">
         <div className="mt-16 flex flex-col items-center gap-6 text-center lg:absolute lg:top-[112px] lg:left-1/2 lg:mt-0 lg:w-[940px] lg:max-w-[calc(100%-24px)] lg:-translate-x-1/2 lg:flex-row lg:items-start lg:justify-between lg:gap-8 lg:text-left">
           <SectionHeadingReveal className="w-[351.5px] max-w-[calc(100vw-24px)] text-center font-display text-[24px] leading-none tracking-[-0.72px] text-brand-dark-green lg:w-auto lg:max-w-none lg:text-left lg:text-h2">
             {t('title')}
@@ -113,7 +115,7 @@ export default function FeatureCardsSection() {
         </div>
 
         <div
-          className="mt-[40px] flex flex-col gap-6 min-[600px]:grid min-[600px]:grid-cols-3 min-[600px]:gap-3 lg:absolute lg:inset-x-3 lg:top-[371px] lg:mt-0 lg:grid lg:grid-cols-3 lg:gap-3"
+          className="mt-[40px] flex flex-col gap-6 min-[600px]:grid min-[600px]:grid-cols-3 min-[600px]:gap-3 lg:mt-0 lg:grid lg:grid-cols-3 lg:gap-3 lg:pt-[371px]"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {cards.map((card) => (
