@@ -12,20 +12,23 @@ import type { SocialProofStats } from '@/lib/social-proof-stats'
 
 function StatCardView({ card }: { card: HomeStatCard }) {
   return (
-    <article className="hidden min-h-[250px] w-full min-w-0 flex-col gap-[23px] rounded-[20px] border border-brand-dark-green bg-brand-off-white p-5 text-brand-dark-green md:flex">
-      <span className="inline-flex w-fit items-center rounded-[4px] border border-brand-dark-green px-[11px] py-1.5">
-        <span className="font-sans text-[12px] leading-[1.15] tracking-[-0.01em]">
-          {card.label}
+    <article className="hidden h-full w-full min-w-0 rounded-[20px] border border-brand-dark-green bg-brand-off-white text-brand-dark-green md:grid md:grid-cols-1">
+      <div aria-hidden className="col-start-1 row-start-1 aspect-square w-full" />
+      <div className="col-start-1 row-start-1 flex min-w-0 flex-col gap-4 p-4 xl:gap-[23px] xl:p-5">
+        <span className="inline-flex w-fit items-center rounded-[4px] border border-brand-dark-green px-[11px] py-1.5">
+          <span className="font-sans text-[12px] leading-[1.15] tracking-[-0.01em]">
+            {card.label}
+          </span>
         </span>
-      </span>
 
-      <p className="font-display text-[80px] leading-[1.15] tracking-[-0.01em]">
-        {card.value}
-      </p>
+        <p className="font-display text-[44px] leading-[1.15] tracking-[-0.01em] lg:text-[80px]">
+          {card.value}
+        </p>
 
-      <p className="mt-auto max-w-full min-w-0 font-sans text-[15px] leading-[1.15] tracking-[-0.01em] [overflow-wrap:anywhere]">
-        {card.body}
-      </p>
+        <p className="mt-auto max-w-full min-w-0 font-sans text-[13px] leading-[1.15] tracking-[-0.01em] [overflow-wrap:anywhere] xl:text-[15px]">
+          {card.body}
+        </p>
+      </div>
     </article>
   )
 }
@@ -81,7 +84,7 @@ export default function SocialProofSection({
           </Button>
         </div>
 
-        <div className="relative left-1/2 mb-[36px] grid w-screen max-w-none min-w-0 -translate-x-1/2 grid-cols-1 gap-6 pb-0 md:static md:left-auto md:mx-auto md:mb-0 md:w-full md:max-w-[1180px] md:translate-x-0 md:grid-cols-2 md:gap-3 md:pb-[112px] xl:grid-cols-4 xl:gap-4">
+        <div className="relative left-1/2 mb-[36px] grid w-screen max-w-none min-w-0 -translate-x-1/2 grid-cols-1 gap-6 pb-0 md:static md:left-auto md:mx-auto md:mb-0 md:w-full md:max-w-[1180px] md:translate-x-0 md:grid-cols-4 md:gap-3 md:pb-[112px] xl:gap-4">
           {cards.map((card, index) => (
             <MobileStatRowView
               key={`${card.key}-mobile`}
