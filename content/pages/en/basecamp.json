@@ -67,12 +67,12 @@
         {
           "number": "02",
           "title": "Step 02",
-          "description": "When you run an app on Basecamp, the platform automatically loads in and configures the modules you need. Modules are loaded, updated, and managed through a built-in package manager, and new modules can be added as the stack grows."
+          "description": "When you run an app on Basecamp, Basecamp automatically loads in and configures the modules you need. Modules are loaded, updated, and managed through a built-in package manager, and new modules can be added as the stack grows. "
         },
         {
           "number": "03",
           "title": "Step 03",
-          "description": "Basecamp is a dynamic platform for applications built on the private, decentralised internet. The more tools are built on the Logos stack, the more its capabilities grow without requiring you to reinstall or reconfigure anything."
+          "description": "Basecamp is a dynamic interface for applications built on the private, decentralised internet. The more tools are built on the Logos stack, the more its capabilities grow without requiring you to reinstall or reconfigure anything."
         }
       ]
     },
