@@ -155,9 +155,9 @@
     "useCases": {
       "eyebrow": "Use Cases",
       "headline": "Privacy is the condition that makes free association possible.\nLogos is the technology stack that makes it the default.",
-      "headlineMobile": "Privacy is the\ncondition that makes\nfree association possible.\n\nLogos is the\ntechnology stack that\nmakes it the default.",
+      "headlineMobile": "Privacy is the condition\nthat makes free association\npossible.\n\nLogos is the technology stack\nthat makes it the default.",
       "lambda": "Explore the applications Logos is funding through the <lambdaPrize>Lambda Prize</lambdaPrize>.",
-      "lambdaMobile": "Explore the applications\nLogos is funding through\nthe <lambdaPrize>Lambda Prize</lambdaPrize>.",
+      "lambdaMobile": "Explore the applications Logos is\nfunding through the <lambdaPrize>Lambda Prize</lambdaPrize>.",
       "secure": {
         "title": "Secure, private communications.",
         "body": "Resilient, private messaging for coordination in hostile environments."

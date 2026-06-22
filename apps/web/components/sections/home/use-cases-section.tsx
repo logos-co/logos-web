@@ -31,18 +31,9 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
     >
       <div className="mx-auto max-w-[1440px] py-[82px] lg:px-3 lg:pt-[112px] lg:pb-[112px]">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center pb-[45px] text-center lg:gap-12 lg:pb-12">
-          <div className="grid w-full grid-cols-[107px_minmax(0,1fr)] gap-[clamp(20px,8vw,48px)] px-3 lg:flex lg:h-auto lg:flex-col lg:items-center lg:gap-12 lg:px-0">
-            <div className="relative h-[130px] w-[107px] overflow-hidden lg:hidden">
-              <Image
-                src="/images/home/usecase-1.webp"
-                alt=""
-                fill
-                sizes="107px"
-                className="object-cover"
-              />
-            </div>
-            <div className="flex min-w-0 flex-col gap-4.25 text-left justify-self-center lg:hidden">
-              <p className="text-body-sans whitespace-pre-line">
+          <div className="flex w-full flex-col items-center px-3 lg:gap-12 lg:px-0">
+            <div className="flex max-w-[357px] flex-col items-center gap-8 text-center lg:hidden">
+              <p className="text-h4-sans whitespace-pre-line">
                 {t('headlineMobile')}
               </p>
               <p className="text-mono-s whitespace-pre-line">
