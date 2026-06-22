@@ -47,12 +47,14 @@ pipeline {
             "NEXT_PUBLIC_SITE_URL=https://${deployDomain()}",
             "NEXT_PUBLIC_CIVI_CRM_URL=${params.NEXT_PUBLIC_CIVI_CRM_URL}",
             "NEXT_PUBLIC_HCAPTCHA_SITEKEY=${params.NEXT_PUBLIC_HCAPTCHA_SITEKEY}",
+            "NEXT_PUBLIC_API_MODE=${apiMode()}",
           ]) {
             nix.develop('pnpm --filter ./apps/web build',
               keepEnv: [
                 'NEXT_PUBLIC_SITE_URL',
                 'NEXT_PUBLIC_CIVI_CRM_URL',
-                'NEXT_PUBLIC_HCAPTCHA_SITEKEY'
+                'NEXT_PUBLIC_HCAPTCHA_SITEKEY',
+                'NEXT_PUBLIC_API_MODE'
               ]
             )
           }
@@ -83,3 +85,4 @@ pipeline {
 def isMasterBranch() { GIT_BRANCH ==~ /.*master/ }
 def deployBranch() { isMasterBranch() ? 'deploy-master' : 'deploy-develop' }
 def deployDomain() { isMasterBranch() ? 'logos.co' : 'dev.logos.co' }
+def apiMode() { isMasterBranch() ? 'production' : 'staging' }
