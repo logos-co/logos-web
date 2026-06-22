@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Permissionless DNS",
-  "tagline": "Decentralised name resolution for Logos services.",
-  "summary": "A naming layer for Logos apps that does not depend on ICANN, registrars, or any single authority you can subpoena.",
-  "description": "Domain names are still the bottleneck where governments and registrars exert pressure on otherwise decentralised projects. Permissionless DNS is a long-running idea — ENS, Handshake, etc. — but no implementation has yet wired cleanly into the Logos App. This idea proposes a Logos-native resolution layer with cache attestation, multi-root trust, and graceful fallback to traditional DNS for compatibility, so users can reach Logos services even when their resolver is hostile.",
-  "ctaLabel": "Discuss"
-}

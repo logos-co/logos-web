@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Quadratic Voting Platform",
-  "tagline": "Quadratic voting platform for DAO members.",
-  "summary": "A reusable quadratic-voting module DAOs can drop into any Logos-powered app to weight preference intensity.",
-  "description": "Plurality vote tallies systematically over-reward narrow majorities. Quadratic voting weights preference intensity instead, but ships of it today are bespoke per DAO. We want a portable QV module — vote storage on Codex, propagation over Waku, identity scoped per Circle — that any Logos App can adopt without rewriting the cryptography. The first integration target is the Circles governance flow.",
-  "ctaLabel": "Discuss"
-}

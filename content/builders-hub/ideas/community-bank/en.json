@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Community Bank",
-  "tagline": "Pooled savings and small loans for Circle members.",
-  "summary": "Pooled-savings and small-loan primitives for Circle members, run on transparent on-chain rails with private membership.",
-  "description": "Mutual aid is the oldest financial primitive there is, and the one most poorly served by mainstream DeFi. A Community Bank module would let a Circle pool stable-currency contributions, vote on loan disbursements, and settle repayments — all without exposing individual members' balances. Reference: ROSCAs and credit unions translated into Logos primitives (Codex for ledgers, Waku for proposals, Logos privacy primitives for member balances).",
-  "ctaLabel": "Discuss"
-}

@@ -1,9 +1,0 @@
-{
-  "extends": "../config/typescript/react-library.json",
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "strictNullChecks": true
-  },
-  "include": ["src"],
-  "exclude": ["node_modules"]
-}

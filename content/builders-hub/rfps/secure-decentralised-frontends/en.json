@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Secure Decentralised Frontends",
-  "tagline": "Censorship-resistant frontends for Logos applications.",
-  "summary": "Build the patterns that let Logos applications ship censorship-resistant, tamper-evident frontends to end users.",
-  "description": "Centralised hosting is the soft underbelly of every \"decentralised\" app. We are looking for builders to design and document a reference frontend distribution flow that pairs IPFS / Codex storage with deterministic build attestation, signed releases, and graceful client-side fallback so end users always reach an unmodified UI. Deliverables include a reusable distribution toolkit, an integration guide for Logos App developers, and a security review of at least one existing project applying the pattern.",
-  "ctaLabel": "Apply"
-}

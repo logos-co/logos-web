@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://logos.co
+Sitemap: https://logos.co/sitemap.xml

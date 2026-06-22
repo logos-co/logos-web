@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Private Event Tickets",
-  "tagline": "Transferable, privacy-preserving event tickets on Logos.",
-  "summary": "Tickets that prove right-of-entry without revealing who bought them, and can be transferred peer-to-peer without a marketplace operator.",
-  "description": "Live events still rely on centralised ticketing platforms that collect identity, lock transfers behind takeover-prone marketplaces, and leak attendance data. A Logos-native ticketing primitive would issue zero-knowledge tickets bound to a Circle, allow anonymous gate-checking via Waku, and let holders transfer or resell without a custodian. Targets: club-night door checks, conference badges, members-only meetups.",
-  "ctaLabel": "Discuss"
-}

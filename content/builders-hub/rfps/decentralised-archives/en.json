@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Decentralised Archives",
-  "tagline": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
-  "summary": "An archival pipeline that takes web content, articles, and primary-source media and preserves them on Codex with verifiable provenance.",
-  "description": "Web archives are routinely lost — domains lapse, hosts comply with takedown orders, link rot eats away at the historical record. We are funding an archival pipeline that ingests submissions (URLs, PDFs, video files), normalises them, generates signed attestations, and stores them on Codex with redundancy guarantees. The deliverable is a working archival agent, a public submission UI, and a documented retrieval API that other Logos apps can integrate.",
-  "ctaLabel": "Apply"
-}

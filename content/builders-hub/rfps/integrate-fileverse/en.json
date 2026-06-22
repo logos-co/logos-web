@@ -1,8 +1,0 @@
-{
-  "language": "en",
-  "title": "Integrate Fileverse",
-  "tagline": "Native Fileverse collaboration inside the Logos App.",
-  "summary": "Wire the Fileverse collaboration suite into the Logos App so users can edit and share documents end-to-end encrypted.",
-  "description": "Fileverse provides an open-source, privacy-respecting collaboration suite. We are funding the integration work that makes Fileverse a first-class citizen inside the Logos App: account linking, document sharing flows, and cross-app deep links. Deliverables: a Logos App module that bundles the Fileverse client, documentation for integrators, and at least two demo workflows (collaborative editing + private folder sharing).",
-  "ctaLabel": "Apply"
-}
