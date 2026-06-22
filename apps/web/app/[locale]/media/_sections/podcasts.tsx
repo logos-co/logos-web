@@ -47,12 +47,12 @@ function PodcastHero({
   >
 }) {
   return (
-    <div className="h-[723px] bg-accent-tan p-3 desktop:h-[430px]">
+    <div className="h-[723px] bg-accent-tan p-3 xl:h-[430px]">
       <ExternalLink
         href={latestPodcast.href}
         className="group block cursor-pointer"
       >
-        <ContentWidth className="relative h-[699px] overflow-hidden rounded-xl desktop:h-[406px]">
+        <ContentWidth className="relative h-[699px] overflow-hidden rounded-xl xl:h-[406px]">
           <Image
             src="/images/blog-engine/podcast-hero-bg.webp"
             alt=""
@@ -60,18 +60,18 @@ function PodcastHero({
             sizes="100vw"
             className="scale-110 object-cover object-center blur-[20px]"
           />
-          <div className="absolute left-3 top-3 flex h-[268px] w-[calc(100%-24px)] max-w-[345px] min-w-0 flex-col justify-between text-brand-off-white desktop:h-[380px] desktop:w-[453px] desktop:max-w-[453px]">
+          <div className="absolute left-3 top-3 flex h-[268px] w-[calc(100%-24px)] max-w-[345px] min-w-0 flex-col justify-between text-brand-off-white xl:h-[380px] xl:w-[453px] xl:max-w-[453px]">
             <div className="flex items-center gap-25.5">
               <LogosMark size={6} className="shrink-0" />
               <span className="font-mono text-[10px] font-medium uppercase leading-[1.3]">
                 {copy.media}
               </span>
             </div>
-            <div className="flex flex-col gap-3">
-              <h3 className="w-[185px] font-sans text-[24px] leading-[1.1] tracking-normal desktop:w-auto">
+            <div className="pt-10 xl:pt-0 flex flex-col gap-3">
+              <h3 className="w-[185px] font-sans text-[24px] leading-[1.1] tracking-normal xl:w-auto">
                 {copy.heroTitle}
               </h3>
-              <p className="text-mono-s line-clamp-8 max-w-full text-brand-off-white desktop:line-clamp-7 desktop:max-w-[453px]">
+              <p className="text-mono-s line-clamp-8 max-w-full text-brand-off-white xl:line-clamp-7 xl:max-w-[453px]">
                 {copy.heroDescription}
               </p>
             </div>
@@ -85,13 +85,13 @@ function PodcastHero({
               </span>
             </div>
           </div>
-          <div className="absolute left-3 top-[397px] flex h-[290px] w-[calc(100%-24px)] items-center justify-center rounded-[100px] bg-accent-tan text-brand-dark-green desktop:hidden">
+          <div className="absolute left-3 top-[397px] flex h-[290px] w-[calc(100%-24px)] items-center justify-center rounded-[100px] bg-accent-tan text-brand-dark-green xl:hidden">
             <span className="inline-flex items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35]">
               {copy.seeAllEpisodes}
               <ArrowIcon />
             </span>
           </div>
-          <div className="absolute hidden overflow-hidden rounded desktop:bottom-auto desktop:left-auto desktop:right-3 desktop:top-3 desktop:block desktop:h-[382px] desktop:w-[702px] desktop:max-w-[calc(100%-24px)]">
+          <div className="absolute hidden overflow-hidden rounded xl:bottom-auto xl:left-auto xl:right-3 xl:top-3 xl:block xl:h-[382px] xl:w-[702px] xl:max-w-[calc(100%-24px)]">
             <Image
               src={latestPodcast.image}
               alt=""
@@ -143,7 +143,7 @@ function PodcastEntry({
             </p>
           </div>
         </div>
-        <div className="hidden items-start md:flex md:gap-8 desktop:gap-33">
+        <div className="hidden items-start md:flex md:gap-8 xl:gap-33">
           <div className="min-w-0 flex-1 max-w-[345px] py-3" />
           <div className="shrink-0 py-3">
             <UnderlineLabel>{listenOnAppLabel}</UnderlineLabel>
@@ -169,7 +169,7 @@ export function PodcastsSection({
     listPodcasts.length > 0 ? repeatToLength(listPodcasts, 8) : []
 
   return (
-    <section id="podcasts" className="bg-accent-tan pt-25">
+    <section id="podcasts" className="bg-accent-tan pt-20">
       <ContentWidth className="flex h-[22px] items-center pl-3 md:h-[26px]">
         <h2 className="font-sans text-[36px] leading-none tracking-[-0.02em] text-brand-dark-green">
           {copy.heading}
