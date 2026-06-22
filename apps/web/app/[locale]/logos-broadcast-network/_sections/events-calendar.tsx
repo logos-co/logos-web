@@ -435,7 +435,7 @@ export function EventsCalendar({
   }
 
   return (
-    <section className="bg-accent-tan pt-25 pb-25 text-brand-dark-green">
+    <section className="bg-accent-tan pt-16 pb-25 text-brand-dark-green">
       <ContentWidth>
         {/* Mobile: horizontal day carousel centered on the nearest event. */}
         <div className="md:hidden">
@@ -447,7 +447,7 @@ export function EventsCalendar({
             selectedKey={selectedKey}
             onSelect={setSelectedKey}
           />
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-x-2 gap-y-3 px-3">
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-x-2 gap-y-3">
             <div className="flex shrink-0 items-center gap-2">
               <MonthSelect
                 value={calendarDate.month}

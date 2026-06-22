@@ -72,7 +72,7 @@ type Props = {
 export default function MessagingCaseStudies({ data }: Props) {
   return (
     <section className="bg-brand-off-white">
-      <div className="mx-auto max-w-360 px-3 pt-25 md:px-0 md:pt-25">
+      <div className="mx-auto max-w-360 px-3 pt-20 md:px-0 md:pt-25">
         <Reveal
           stagger
           className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-3 md:px-3"
@@ -96,7 +96,7 @@ export default function MessagingCaseStudies({ data }: Props) {
         <Reveal
           stagger
           amount={0.2}
-          className="mt-[60px] flex flex-col gap-3 md:mt-10 md:flex-row md:px-3"
+          className="mt-3 flex flex-col gap-3 md:mt-10 md:flex-row md:px-3"
         >
           {data.cards.map((card, index) =>
             card.image ? (

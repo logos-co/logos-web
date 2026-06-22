@@ -9,7 +9,10 @@ import type { Translate } from './types'
 
 export function CampaignSection({ t }: { t: Translate }) {
   return (
-    <section id="activist-circle" className="bg-brand-off-white px-3 py-10 md:py-0">
+    <section
+      id="activist-circle"
+      className="bg-brand-off-white px-3 py-10 md:py-0"
+    >
       <ContentWidth className="grid overflow-hidden rounded-xl bg-gray-01 p-3 text-brand-dark-green md:grid-cols-2 md:gap-3">
         <div className="flex min-h-[462px] flex-col justify-between p-3 md:min-h-[462px]">
           <div className="flex gap-22">
@@ -26,7 +29,7 @@ export function CampaignSection({ t }: { t: Translate }) {
                 {t('campaign.body')}
               </p>
             </div>
-            <div className="flex flex-wrap justify-center gap-1">
+            <div className="flex flex-wrap justify-center gap-2">
               <Cta href="#circles-map" label={t('campaign.primaryCta')} />
               <Cta
                 href={ROUTES.activistLeaderSteward}

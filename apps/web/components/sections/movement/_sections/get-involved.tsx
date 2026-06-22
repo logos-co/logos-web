@@ -15,7 +15,7 @@ export function GetInvolvedSection({ t }: { t: Translate }) {
             <h2 className="text-subhead-sans">{t('involved.title')}</h2>
             <p className="text-mono-s">{t('involved.body')}</p>
           </div>
-          <div className="flex flex-col items-center gap-1 md:flex-row">
+          <div className="flex flex-col items-center gap-2 md:flex-row">
             <Cta
               href={EXTERNAL_URLS.twitter}
               label={t('involved.primaryCta')}

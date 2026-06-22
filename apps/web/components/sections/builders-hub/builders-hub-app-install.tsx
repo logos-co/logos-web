@@ -37,7 +37,7 @@ function TagIcon({ icon }: { icon?: BuilderHubTagIcon }) {
 export function BuildersHubAppInstall({ data }: Props) {
   return (
     <section id="app-install" className="py-10">
-      <ContentWidth className="!px-0">
+      <ContentWidth className="lg:!px-0">
         <GiantSwitch
           accent={data.accent}
           imagePosition={data.imagePosition}

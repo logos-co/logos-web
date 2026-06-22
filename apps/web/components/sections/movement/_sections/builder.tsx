@@ -3,25 +3,26 @@ import Image from 'next/image'
 import ContentWidth from '@/components/layout/content-width'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
-import {
-  CenterCtaSection,
-  Cta,
-  LambdaBadge,
-  movementImages,
-} from './atoms'
+import { CenterCtaSection, Cta, LambdaBadge, movementImages } from './atoms'
 import type { Translate } from './types'
 
 export function BuilderSection({ t }: { t: Translate }) {
   const details = ['problem', 'solution', 'stack']
 
   return (
-    <section id="activist-builder" className="bg-brand-off-white pt-0 pb-10 text-brand-dark-green md:pb-25">
+    <section
+      id="activist-builder"
+      className="bg-brand-off-white pt-0 pb-10 text-brand-dark-green md:pb-25"
+    >
       <CenterCtaSection
         title={t('builder.title')}
         body={t('builder.body')}
         cta={
-          <div className="flex flex-wrap justify-center gap-1">
-            <Cta href={ROUTES.activistBuilder} label={t('builder.primaryCta')} />
+          <div className="flex flex-wrap justify-center gap-2">
+            <Cta
+              href={ROUTES.activistBuilder}
+              label={t('builder.primaryCta')}
+            />
             <Cta
               href={ROUTES.buildersHub}
               label={t('builder.secondaryCta')}

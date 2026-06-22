@@ -20,7 +20,7 @@ interface PodcastIntroCopy {
 
 function PodcastIntro({ copy }: { copy: PodcastIntroCopy }) {
   return (
-    <section className="bg-accent-tan px-3 pb-12 pt-8 text-brand-dark-green md:pb-16">
+    <section className="bg-accent-tan pb-12 pt-8 text-brand-dark-green md:pb-16">
       <ContentWidth className="flex w-full flex-col gap-10 md:gap-11.5">
         <Link
           href={ROUTES.media}
