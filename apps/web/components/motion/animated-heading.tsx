@@ -1,11 +1,3 @@
-/**
- * Word-by-word fade-up heading. Used for hero headlines where each word
- * should animate in individually.
- *
- *   <AnimatedHeading className="text-hero">
- *     Pioneering a New Era of Freedom
- *   </AnimatedHeading>
- */
 'use client'
 
 import { motion } from 'motion/react'
