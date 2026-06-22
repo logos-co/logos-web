@@ -83,7 +83,7 @@ export default async function NodeProgramPage({
 
   return (
     <main className="bg-brand-off-white">
-      <section className="relative h-[483px] px-3 pt-6 text-brand-dark-green md:h-[487px]">
+      <section className="relative h-[483px] pt-6 text-brand-dark-green md:h-[487px]">
         <ContentWidth className="relative h-full">
           <div className="absolute top-6 left-3 h-[75px] w-[107px] overflow-hidden">
             <Image
@@ -178,7 +178,7 @@ export default async function NodeProgramPage({
         </div>
       </SectionShell>
 
-      <SectionShell className="border-t border-brand-dark-green/10 py-10 md:py-20">
+      <SectionShell className="lg:border-t border-brand-dark-green/10 py-10 md:py-20">
         <h2 className="text-h3 max-w-[1040px]">
           {t('useCases.title')}{' '}
           <span className="text-brand-dark-green/45">

@@ -108,7 +108,7 @@ export default async function ManifestoPage({
           data-manifesto-paper
           className="bg-brand-off-white px-3 pt-28 pb-28 desktop:absolute desktop:top-[670px] desktop:left-0 desktop:h-[3190px] desktop:w-full desktop:rounded-[100px] desktop:p-0"
         >
-          <article className="font-sans mx-auto max-w-[366px] text-center text-[14px] leading-[1.2] tracking-[0px] min-[768px]:max-[1439px]:max-w-[640px] min-[768px]:max-[1439px]:text-[18px] min-[768px]:max-[1439px]:leading-[21.6px] desktop:absolute desktop:top-[107px] desktop:left-1/2 desktop:h-[3078px] desktop:w-[853px] desktop:max-w-none desktop:-translate-x-1/2 desktop:font-article desktop:text-[20px] desktop:leading-[24px] desktop:tracking-[-0.03em]">
+          <article className="font-sans mx-auto text-center text-[14px] leading-[1.2] tracking-[0px] min-[768px]:max-[1439px]:max-w-[640px] min-[768px]:max-[1439px]:text-[18px] min-[768px]:max-[1439px]:leading-[21.6px] desktop:absolute desktop:top-[107px] desktop:left-1/2 desktop:h-[3078px] desktop:w-[853px] desktop:max-w-none desktop:-translate-x-1/2 desktop:font-article desktop:text-[20px] desktop:leading-[24px] desktop:tracking-[-0.03em]">
             <div className="desktop:relative desktop:h-[2918px]">
               {copy.body.map((paragraph, index) => (
                 <p

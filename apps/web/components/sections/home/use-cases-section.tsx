@@ -41,7 +41,7 @@ export default async function UseCasesSection({ locale }: { locale: string }) {
                 className="object-cover"
               />
             </div>
-            <div className="flex min-w-0 flex-col justify-self-end gap-4.25 text-left lg:hidden">
+            <div className="flex min-w-0 flex-col gap-4.25 text-left justify-self-center lg:hidden">
               <p className="text-body-sans whitespace-pre-line">
                 {t('headlineMobile')}
               </p>
