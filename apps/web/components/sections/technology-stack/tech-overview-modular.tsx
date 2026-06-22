@@ -14,7 +14,7 @@ export default function TechOverviewModular({ data }: Props) {
       <div className="bg-brand-off-white px-3 sm:px-0">
         <ContentWidth>
           <div className="-mx-3 grid gap-3 lg:mx-0 lg:grid-cols-2">
-            <div className="mx-3 lg:mx-0 relative h-[248px] overflow-hidden rounded-[100px] lg:h-129.5 lg:rounded-[100px]">
+            <div className="sm:mx-3 lg:mx-0 relative h-[248px] overflow-hidden rounded-[100px] lg:h-129.5 lg:rounded-[100px]">
               <Image
                 src={
                   data.image?.src ??
