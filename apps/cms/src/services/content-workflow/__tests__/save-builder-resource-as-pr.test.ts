@@ -28,7 +28,7 @@ describe('buildBuilderResourcesFileChange', () => {
             slug: 'video-tutorials',
             title: 'Video Tutorials',
             ctaLabel: 'Watch',
-            href: 'https://youtube.com/@logos_network',
+            href: 'https://youtube.com/@Logos_network',
           }),
         ],
       }),
