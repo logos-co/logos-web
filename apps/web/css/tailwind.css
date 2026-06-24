@@ -32,6 +32,23 @@
   }
 }
 
+/* Strip Leaflet's default popup frame so circle-map cards own their appearance */
+.logos-circle-popup .leaflet-popup-content-wrapper {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.logos-circle-popup .leaflet-popup-content {
+  margin: 0;
+}
+
+.logos-circle-popup .leaflet-popup-tip-container {
+  display: none;
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
