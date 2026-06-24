@@ -83,15 +83,13 @@ function EventPopupContent({
   const time = fmtTime(event.startAt, locale)
   const location = [event.city, event.country].filter(Boolean).join(', ')
 
-  // No width on the card: Leaflet sizes the popup to the content's natural width
-  // (it measures with white-space:nowrap) and clamps it between the Popup's
-  // min/maxWidth. The text track is `auto` (NOT minmax(0,1fr)) — a flexible/zero-
-  // min track collapses to nothing during Leaflet's intrinsic measurement, which
-  // squashed the box to minWidth and truncated the title. `auto` keeps a
-  // min-content floor, so the box grows to fit the title and only truncates once
-  // it hits maxWidth.
+  // Fixed 463px width — identical to the Upcoming Events card. Auto-sizing the
+  // popup to the title proved unreliable: CSS-grid intrinsic sizing collapses
+  // unpredictably inside Leaflet's white-space:nowrap measurement pass. With a
+  // definite width the 1fr text column fills the remaining ~300px, so the title
+  // shows in full and only truncates when it genuinely overflows.
   const cardClass =
-    'grid grid-cols-[123px_auto] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
+    'grid w-[463px] grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
 
   // Non-<p> elements on purpose: Leaflet's stylesheet adds margin:1.3em to any
   // <p> inside .leaflet-popup-content, which would spread these lines apart.
@@ -390,8 +388,8 @@ export default function CirclesWorldMap({
               >
                 <Popup
                   className="logos-circle-popup"
-                  minWidth={260}
-                  maxWidth={463}
+                  minWidth={463}
+                  maxWidth={480}
                   closeButton
                   autoPan>
                   {upcomingEvent ? (
