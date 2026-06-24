@@ -88,7 +88,7 @@ function EventPopupContent({
   // track) was tried repeatedly but Leaflet's popup engine collapses the text
   // column, so this definite width is the reliable choice.
   const cardClass =
-    'grid w-[calc(100vw-2rem)] max-w-[463px] grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
+    'grid w-[calc(100vw-2rem)] max-w-[400px] grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
 
   // Non-<p> elements on purpose: Leaflet's stylesheet adds margin:1.3em to any
   // <p> inside .leaflet-popup-content, which would spread these lines apart.
