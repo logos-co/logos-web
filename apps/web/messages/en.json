@@ -1141,5 +1141,15 @@
     "removeChatRow": "Remove chat row {index}",
     "addFieldRow": "Add another {field}",
     "removeFieldRow": "Remove {field} {index}"
+  },
+  "circlesMap": {
+    "subscribeHeading": "Stay Tuned for Future Events",
+    "subscribeBody": "No events in {city} right now — check back soon!",
+    "emailPlaceholder": "Enter email",
+    "subscribeCta": "Subscribe →",
+    "subscribingLabel": "Subscribing…",
+    "subscribedHeading": "Subscribed!",
+    "subscribedBody": "We'll keep you updated on upcoming events.",
+    "subscribeError": "Something went wrong."
   }
 }

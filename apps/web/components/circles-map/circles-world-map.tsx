@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import {
   MapContainer,
   Marker,
@@ -131,6 +132,7 @@ function EventPopupContent({
 }
 
 function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
+  const t = useTranslations('circlesMap')
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
@@ -148,17 +150,17 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
       setStatus('success')
     } catch (err) {
       setStatus('error')
-      setErrorMsg(err instanceof Error ? err.message : 'Something went wrong.')
+      setErrorMsg(err instanceof Error ? err.message : t('subscribeError'))
     }
   }
 
   if (status === 'success') {
     return (
       <div className="w-[calc(100vw-2rem)] max-w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
-        <div className="pr-6 font-sans text-[18px] leading-[1.15]">Subscribed!</div>
-        <div className="text-mono-s mt-1 text-gray-05">
-          We&apos;ll let you know when events are scheduled for {marker.city}.
+        <div className="pr-6 font-sans text-[18px] leading-[1.15]">
+          {t('subscribedHeading')}
         </div>
+        <div className="text-mono-s mt-1 text-gray-05">{t('subscribedBody')}</div>
       </div>
     )
   }
@@ -166,17 +168,17 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
   return (
     <div className="w-[calc(100vw-2rem)] max-w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
       <div className="pr-6 font-sans text-[18px] leading-[1.15]">
-        Stay Tuned for Future Events
+        {t('subscribeHeading')}
       </div>
       <div className="text-mono-s mt-1 mb-4 text-gray-05">
-        No events in {marker.city} right now — check back soon!
+        {t('subscribeBody', { city: marker.city })}
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter email"
+          placeholder={t('emailPlaceholder')}
           required
           disabled={status === 'loading'}
           className="text-brand-dark-green placeholder:text-gray-05 text-mono-s w-full rounded-full border border-brand-dark-green/20 bg-transparent px-4 py-2 outline-none focus:border-brand-dark-green/60 disabled:opacity-50"
@@ -189,7 +191,7 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
           disabled={status === 'loading'}
           className="text-mono-s bg-brand-dark-green text-brand-off-white w-full rounded-full px-4 py-2 transition-opacity hover:opacity-80 disabled:opacity-50"
         >
-          {status === 'loading' ? 'Subscribing…' : 'Subscribe →'}
+          {status === 'loading' ? t('subscribingLabel') : t('subscribeCta')}
         </button>
       </form>
     </div>
