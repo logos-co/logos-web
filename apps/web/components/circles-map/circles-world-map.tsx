@@ -83,12 +83,18 @@ function EventPopupContent({
   const time = fmtTime(event.startAt, locale)
   const location = [event.city, event.country].filter(Boolean).join(', ')
 
+  // No width on the card: Leaflet sizes the popup to the content's natural width
+  // (it measures with white-space:nowrap) and clamps it between the Popup's
+  // min/maxWidth. So a short title yields a short box; a long one grows to the
+  // cap, where the 1fr text column shrinks and the title truncates.
   const cardClass =
-    'grid w-[463px] grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
+    'grid grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
 
+  // Non-<p> elements on purpose: Leaflet's stylesheet adds margin:1.3em to any
+  // <p> inside .leaflet-popup-content, which would spread these lines apart.
   const content = (
     <>
-      <div className="relative size-[123px] overflow-hidden rounded-[18px]">
+      <div className="relative size-[123px] shrink-0 overflow-hidden rounded-[18px]">
         <Image
           src={event.coverUrl ?? DEFAULT_EVENT_IMAGE}
           alt=""
@@ -102,9 +108,11 @@ function EventPopupContent({
           {event.name}
         </h3>
         <div className="flex flex-col gap-0.5">
-          <p className="text-mono-s text-brand-dark-green">{time}</p>
+          <span className="text-mono-s block text-brand-dark-green">{time}</span>
           {location ? (
-            <p className="text-mono-s truncate text-gray-05">{location}</p>
+            <span className="text-mono-s block truncate text-gray-05">
+              {location}
+            </span>
           ) : null}
         </div>
       </div>
@@ -147,20 +155,22 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
   if (status === 'success') {
     return (
       <div className="w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
-        <p className="pr-6 font-sans text-[18px] leading-[1.15]">Subscribed!</p>
-        <p className="text-mono-s mt-1 text-gray-05">
+        <div className="pr-6 font-sans text-[18px] leading-[1.15]">Subscribed!</div>
+        <div className="text-mono-s mt-1 text-gray-05">
           We&apos;ll let you know when events are scheduled for {marker.city}.
-        </p>
+        </div>
       </div>
     )
   }
 
   return (
     <div className="w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
-      <p className="pr-6 font-sans text-[18px] leading-[1.15]">Stay Tuned for Future Events</p>
-      <p className="text-mono-s mt-1 mb-4 text-gray-05">
+      <div className="pr-6 font-sans text-[18px] leading-[1.15]">
+        Stay Tuned for Future Events
+      </div>
+      <div className="text-mono-s mt-1 mb-4 text-gray-05">
         No events in {marker.city} right now — check back soon!
-      </p>
+      </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <input
           type="email"
@@ -172,7 +182,7 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
           className="text-brand-dark-green placeholder:text-gray-05 text-mono-s w-full rounded-full border border-brand-dark-green/20 bg-transparent px-4 py-2 outline-none focus:border-brand-dark-green/60 disabled:opacity-50"
         />
         {status === 'error' && (
-          <p className="text-mono-s text-red-500">{errorMsg}</p>
+          <div className="text-mono-s text-red-500">{errorMsg}</div>
         )}
         <button
           type="submit"
@@ -377,8 +387,8 @@ export default function CirclesWorldMap({
               >
                 <Popup
                   className="logos-circle-popup"
-                  maxWidth={480}
-                  minWidth={340}
+                  minWidth={260}
+                  maxWidth={463}
                   closeButton
                   autoPan>
                   {upcomingEvent ? (
