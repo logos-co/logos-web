@@ -98,7 +98,7 @@ function EventPopupContent({
         />
       </div>
       <div className="flex min-w-0 flex-col justify-between py-1">
-        <h3 className="truncate font-sans text-[18px] leading-[1.15] tracking-normal">
+        <h3 className="font-sans text-[18px] leading-[1.15] tracking-normal text-brand-dark-green">
           {event.name}
         </h3>
         <div className="flex flex-col gap-0.5">
