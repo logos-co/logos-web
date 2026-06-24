@@ -83,13 +83,12 @@ function EventPopupContent({
   const time = fmtTime(event.startAt, locale)
   const location = [event.city, event.country].filter(Boolean).join(', ')
 
-  // Fixed 463px width — identical to the Upcoming Events card. Auto-sizing the
-  // popup to the title proved unreliable: CSS-grid intrinsic sizing collapses
-  // unpredictably inside Leaflet's white-space:nowrap measurement pass. With a
-  // definite width the 1fr text column fills the remaining ~300px, so the title
-  // shows in full and only truncates when it genuinely overflows.
+  // 463px on desktop (identical to the Upcoming Events card), but capped to the
+  // viewport on mobile so the popup never overflows a narrow screen. A definite
+  // calc() width — not intrinsic grid sizing — so it stays stable inside
+  // Leaflet's white-space:nowrap measurement (auto/fr tracks collapsed there).
   const cardClass =
-    'grid w-[463px] grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
+    'grid w-[calc(100vw-2rem)] max-w-[463px] grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
 
   // Non-<p> elements on purpose: Leaflet's stylesheet adds margin:1.3em to any
   // <p> inside .leaflet-popup-content, which would spread these lines apart.
@@ -155,7 +154,7 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
 
   if (status === 'success') {
     return (
-      <div className="w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
+      <div className="w-[calc(100vw-2rem)] max-w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
         <div className="pr-6 font-sans text-[18px] leading-[1.15]">Subscribed!</div>
         <div className="text-mono-s mt-1 text-gray-05">
           We&apos;ll let you know when events are scheduled for {marker.city}.
@@ -165,7 +164,7 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
   }
 
   return (
-    <div className="w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
+    <div className="w-[calc(100vw-2rem)] max-w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
       <div className="pr-6 font-sans text-[18px] leading-[1.15]">
         Stay Tuned for Future Events
       </div>
@@ -388,7 +387,7 @@ export default function CirclesWorldMap({
               >
                 <Popup
                   className="logos-circle-popup"
-                  minWidth={463}
+                  minWidth={0}
                   maxWidth={480}
                   closeButton
                   autoPan>
