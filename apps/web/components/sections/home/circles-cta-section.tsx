@@ -1,17 +1,26 @@
+import { getLocale } from 'next-intl/server'
 import type { FeaturedTextSection } from '@repo/content/schemas'
 
 import { CirclesWorldMap } from '@/components/circles-map'
 import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
-import { getActiveCircleMarkers } from '@/lib/active-circles'
+import {
+  getActiveCircleMarkers,
+  getUpcomingCircleEvents,
+} from '@/lib/active-circles'
 
 type Props = {
   data: FeaturedTextSection
 }
 
 export default async function CirclesCtaSection({ data }: Props) {
-  const markers = await getActiveCircleMarkers()
+  // Same data the Movement map uses, so marker popups behave identically here.
+  const [markers, upcomingEvents, locale] = await Promise.all([
+    getActiveCircleMarkers(),
+    getUpcomingCircleEvents(Infinity),
+    getLocale(),
+  ])
 
   return (
     <section className="bg-brand-off-white">
@@ -61,7 +70,11 @@ export default async function CirclesCtaSection({ data }: Props) {
 
         <div className="relative z-0 isolate mt-7.5 h-[720px] w-full overflow-hidden rounded-[100px] bg-gray-01 lg:mt-0">
           <div className="h-[710px] w-full">
-            <CirclesWorldMap markers={markers} />
+            <CirclesWorldMap
+              markers={markers}
+              upcomingEvents={upcomingEvents}
+              locale={locale}
+            />
           </div>
         </div>
       </ContentWidth>
