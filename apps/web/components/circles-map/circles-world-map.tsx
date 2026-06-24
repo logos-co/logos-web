@@ -373,7 +373,7 @@ export default function CirclesWorldMap({
         maxZoom={MAX_ZOOM}
         zoomControl={false}
         attributionControl={false}
-        scrollWheelZoom={false}
+        scrollWheelZoom
         worldCopyJump
         className="h-full w-full"
       >
@@ -384,6 +384,7 @@ export default function CirclesWorldMap({
         <MarkerClusterGroup
           maxClusterRadius={fiftyKmClusterRadius}
           spiderfyOnMaxZoom
+          zoomToBoundsOnClick
           showCoverageOnHover={false}
           iconCreateFunction={clusterIconCreator}
         >
