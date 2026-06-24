@@ -85,10 +85,13 @@ function EventPopupContent({
 
   // No width on the card: Leaflet sizes the popup to the content's natural width
   // (it measures with white-space:nowrap) and clamps it between the Popup's
-  // min/maxWidth. So a short title yields a short box; a long one grows to the
-  // cap, where the 1fr text column shrinks and the title truncates.
+  // min/maxWidth. The text track is `auto` (NOT minmax(0,1fr)) — a flexible/zero-
+  // min track collapses to nothing during Leaflet's intrinsic measurement, which
+  // squashed the box to minWidth and truncated the title. `auto` keeps a
+  // min-content floor, so the box grows to fit the title and only truncates once
+  // it hits maxWidth.
   const cardClass =
-    'grid grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
+    'grid grid-cols-[123px_auto] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
 
   // Non-<p> elements on purpose: Leaflet's stylesheet adds margin:1.3em to any
   // <p> inside .leaflet-popup-content, which would spread these lines apart.
