@@ -46,11 +46,8 @@
 
 /* Neutralise Leaflet's content box: it injects margins, a font-size bump
    (1.08333em) and per-paragraph vertical margins (1.3em) that would otherwise
-   spread the card's text apart and shift it off the design grid. width:auto
-   releases the px width Leaflet pins inline, so the card can shrink-to-fit its
-   content (and the close button stays glued to the card's real right edge). */
+   spread the card's text apart and shift it off the design grid. */
 .logos-circle-popup .leaflet-popup-content {
-  width: auto !important;
   margin: 0 !important;
   font: inherit !important;
   line-height: inherit !important;

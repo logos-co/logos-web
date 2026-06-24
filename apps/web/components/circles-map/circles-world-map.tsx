@@ -83,13 +83,12 @@ function EventPopupContent({
   const time = fmtTime(event.startAt, locale)
   const location = [event.city, event.country].filter(Boolean).join(', ')
 
-  // Shrink-to-fit: the card hugs its content (no empty gutter beside short
-  // titles) and is capped at 463px on desktop / the viewport on mobile. This
-  // only works because the CSS above releases the px width Leaflet pins on
-  // .leaflet-popup-content; the `auto` text track then sizes to the title and
-  // truncates only once the card hits its max width.
+  // Fixed-but-responsive width: 463px on desktop (identical to the Upcoming
+  // Events card), capped to the viewport on mobile. Shrink-to-fit (w-fit / auto
+  // track) was tried repeatedly but Leaflet's popup engine collapses the text
+  // column, so this definite width is the reliable choice.
   const cardClass =
-    'grid w-fit max-w-[min(463px,calc(100vw-2rem))] grid-cols-[123px_auto] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
+    'grid w-[calc(100vw-2rem)] max-w-[463px] grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
 
   // Non-<p> elements on purpose: Leaflet's stylesheet adds margin:1.3em to any
   // <p> inside .leaflet-popup-content, which would spread these lines apart.
