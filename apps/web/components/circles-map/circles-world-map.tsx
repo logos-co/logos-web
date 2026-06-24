@@ -80,48 +80,46 @@ function EventPopupContent({
   event: ActiveCircleUpcomingEvent
   locale: string
 }) {
-  const date = fmtDate(event.startAt, locale)
-  const start = fmtTime(event.startAt, locale)
-  const end = event.endAt ? fmtTime(event.endAt, locale) : null
-  const timeLabel = end ? `${start} – ${end}` : start
+  const time = fmtTime(event.startAt, locale)
   const location = [event.city, event.country].filter(Boolean).join(', ')
 
+  const cardClass =
+    'grid w-85 grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-3xl bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
+
   const content = (
-    <div className="grid min-w-66 grid-cols-[80px_minmax(0,1fr)] gap-3 p-1">
-      <div className="relative size-20 shrink-0 overflow-hidden rounded-[14px]">
+    <>
+      <div className="relative size-[123px] overflow-hidden rounded-[18px]">
         <Image
           src={event.coverUrl ?? DEFAULT_EVENT_IMAGE}
           alt=""
           fill
-          sizes="80px"
+          sizes="123px"
           className="object-cover"
         />
       </div>
-      <div className="flex min-w-0 flex-col justify-between py-0.5">
-        <p className="text-brand-dark-green line-clamp-2 text-sm font-medium leading-snug">
+      <div className="flex min-w-0 flex-col justify-between py-1">
+        <h3 className="truncate font-sans text-[18px] leading-[1.15] tracking-normal">
           {event.name}
-        </p>
-        <div className="mt-1 flex flex-col gap-0.5">
-          <p className="text-brand-dark-green/80 text-xs">
-            {date} · {timeLabel}
-          </p>
+        </h3>
+        <div className="flex flex-col gap-0.5">
+          <p className="text-mono-s text-brand-dark-green">{time}</p>
           {location ? (
-            <p className="text-brand-dark-green/60 truncate text-xs">{location}</p>
+            <p className="text-mono-s truncate text-gray-05">{location}</p>
           ) : null}
         </div>
       </div>
-    </div>
+    </>
   )
 
   if (event.eventUrl) {
     return (
-      <a href={event.eventUrl} target="_blank" rel="noopener noreferrer">
+      <a href={event.eventUrl} target="_blank" rel="noopener noreferrer" className={cardClass}>
         {content}
       </a>
     )
   }
 
-  return <div>{content}</div>
+  return <div className={cardClass}>{content}</div>
 }
 
 function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
@@ -148,9 +146,9 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
 
   if (status === 'success') {
     return (
-      <div className="min-w-50 p-1">
-        <p className="text-brand-dark-green text-sm font-medium">Subscribed!</p>
-        <p className="text-brand-dark-green/60 mt-1 text-xs">
+      <div className="w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
+        <p className="font-sans text-[18px] leading-[1.15]">Subscribed!</p>
+        <p className="text-mono-s mt-1 text-gray-05">
           We&apos;ll let you know when events are scheduled for {marker.city}.
         </p>
       </div>
@@ -158,12 +156,10 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
   }
 
   return (
-    <div className="min-w-50 p-1">
-      <p className="text-brand-dark-green mb-0.5 text-sm font-medium">
-        Stay Tuned for Future Events
-      </p>
-      <p className="text-brand-dark-green/60 mb-3 text-xs">
-        No events scheduled for {marker.city} right now — but that can change soon!
+    <div className="w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
+      <p className="font-sans text-[18px] leading-[1.15]">Stay Tuned for Future Events</p>
+      <p className="text-mono-s mt-1 mb-4 text-gray-05">
+        No events in {marker.city} right now — check back soon!
       </p>
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <input
@@ -173,15 +169,15 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
           placeholder="Enter email"
           required
           disabled={status === 'loading'}
-          className="text-brand-dark-green placeholder:text-brand-dark-green/40 w-full rounded-full border border-brand-dark-green/20 bg-transparent px-3 py-1.5 text-xs outline-none focus:border-brand-dark-green/60 disabled:opacity-50"
+          className="text-brand-dark-green placeholder:text-gray-05 text-mono-s w-full rounded-full border border-brand-dark-green/20 bg-transparent px-4 py-2 outline-none focus:border-brand-dark-green/60 disabled:opacity-50"
         />
         {status === 'error' && (
-          <p className="text-xs text-red-500">{errorMsg}</p>
+          <p className="text-mono-s text-red-500">{errorMsg}</p>
         )}
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="bg-brand-dark-green text-brand-off-white w-full rounded-full px-4 py-1.5 text-xs font-medium transition-opacity hover:opacity-80 disabled:opacity-50"
+          className="text-mono-s bg-brand-dark-green text-brand-off-white w-full rounded-full px-4 py-2 transition-opacity hover:opacity-80 disabled:opacity-50"
         >
           {status === 'loading' ? 'Subscribing…' : 'Subscribe →'}
         </button>
@@ -379,7 +375,7 @@ export default function CirclesWorldMap({
                 position={[marker.lat, marker.lng]}
                 icon={yellowMarkerIcon}
               >
-                <Popup maxWidth={320}>
+                <Popup className="logos-circle-popup" maxWidth={360}>
                   {upcomingEvent ? (
                     <EventPopupContent event={upcomingEvent} locale={locale} />
                   ) : (
