@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 
-import type { ActiveCircleMarker } from '@/lib/active-circles'
+import type { ActiveCircleMarker, ActiveCircleUpcomingEvent } from '@/lib/active-circles'
 
 // Leaflet relies on `window`/`document` at module evaluation, so the heavy map
 // module must be excluded from server-side rendering. With `output: 'export'`,
@@ -19,6 +19,8 @@ const CirclesWorldMap = dynamic(() => import('./circles-world-map'), {
 
 type CirclesWorldMapLoaderProps = {
   markers: ActiveCircleMarker[]
+  upcomingEvents?: ActiveCircleUpcomingEvent[]
+  locale?: string
   center?: [number, number]
   zoom?: number
   zoomInAriaLabel?: string

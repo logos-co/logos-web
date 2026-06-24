@@ -36,7 +36,7 @@ export default async function MovementPage({
     await Promise.all([
       getCirclesSettings(locale),
       getActiveCircleMarkers(),
-      getUpcomingCircleEvents(),
+      getUpcomingCircleEvents(Infinity),
       getCircleInitiatives({ locale, status: 'published' }),
       getCircleResources({ locale, status: 'published' }),
     ])

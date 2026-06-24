@@ -4,7 +4,10 @@ import type { Language } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
-import type { ActiveCircleUpcomingEvent } from '@/lib/active-circles'
+import {
+  type ActiveCircleUpcomingEvent,
+  UPCOMING_CIRCLE_EVENTS_LIMIT,
+} from '@/lib/active-circles'
 
 // The live events API returns timezone-naive timestamps and no timezone field.
 // Pin naive timestamps to UTC so the wall-clock is interpreted and displayed
@@ -145,7 +148,7 @@ export function UpcomingEventsSection({
   events: ActiveCircleUpcomingEvent[]
   locale: Language
 }) {
-  const groups = groupUpcomingEvents(events, locale)
+  const groups = groupUpcomingEvents(events.slice(0, UPCOMING_CIRCLE_EVENTS_LIMIT), locale)
 
   return (
     <section
