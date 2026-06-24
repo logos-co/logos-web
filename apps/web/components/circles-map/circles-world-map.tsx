@@ -67,13 +67,6 @@ const fmtTime = (iso: string, locale: string) =>
     minute: '2-digit',
   }).format(toUtcInstant(iso))
 
-const fmtDate = (iso: string, locale: string) =>
-  new Intl.DateTimeFormat(locale, {
-    timeZone: 'UTC',
-    month: 'short',
-    day: 'numeric',
-  }).format(toUtcInstant(iso))
-
 function EventPopupContent({
   event,
   locale,
@@ -84,10 +77,10 @@ function EventPopupContent({
   const time = fmtTime(event.startAt, locale)
   const location = [event.city, event.country].filter(Boolean).join(', ')
 
-  // Fixed-but-responsive width: 463px on desktop (identical to the Upcoming
-  // Events card), capped to the viewport on mobile. Shrink-to-fit (w-fit / auto
-  // track) was tried repeatedly but Leaflet's popup engine collapses the text
-  // column, so this definite width is the reliable choice.
+  // Fixed-but-responsive width: capped at 400px on desktop, capped to the
+  // viewport on mobile. Shrink-to-fit (w-fit / auto track) was tried repeatedly
+  // but Leaflet's popup engine collapses the text column, so this definite
+  // width is the reliable choice.
   const cardClass =
     'grid w-[calc(100vw-2rem)] max-w-[400px] grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
 
@@ -156,7 +149,7 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
 
   if (status === 'success') {
     return (
-      <div className="w-[calc(100vw-2rem)] max-w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
+      <div className="w-[calc(100vw-2rem)] max-w-[340px] rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
         <div className="pr-6 font-sans text-[18px] leading-[1.15]">
           {t('subscribedHeading')}
         </div>
@@ -166,7 +159,7 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
   }
 
   return (
-    <div className="w-[calc(100vw-2rem)] max-w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
+    <div className="w-[calc(100vw-2rem)] max-w-[340px] rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
       <div className="pr-6 font-sans text-[18px] leading-[1.15]">
         {t('subscribeHeading')}
       </div>
@@ -176,6 +169,10 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <input
           type="email"
+          name="email"
+          autoComplete="email"
+          inputMode="email"
+          aria-label={t('emailPlaceholder')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder={t('emailPlaceholder')}
@@ -184,7 +181,9 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
           className="text-brand-dark-green placeholder:text-gray-05 text-mono-s w-full rounded-full border border-brand-dark-green/20 bg-transparent px-4 py-2 outline-none focus:border-brand-dark-green/60 disabled:opacity-50"
         />
         {status === 'error' && (
-          <div className="text-mono-s text-red-500">{errorMsg}</div>
+          <div role="alert" className="text-mono-s text-red-500">
+            {errorMsg}
+          </div>
         )}
         <button
           type="submit"
