@@ -1,6 +1,13 @@
 'use client'
 
-import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from 'react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import {
@@ -227,6 +234,7 @@ function ZoomControls({
   zoomOutAriaLabel: string
 }) {
   const map = useMap()
+  const containerRef = useRef<HTMLDivElement>(null)
   // The full-width popup overlaps these buttons on mobile, so hide them while a
   // popup is open (desktop popups are narrow and don't overlap, so keep them).
   const [popupOpen, setPopupOpen] = useState(false)
@@ -234,8 +242,19 @@ function ZoomControls({
     popupopen: () => setPopupOpen(true),
     popupclose: () => setPopupOpen(false),
   })
+
+  // Without this, a click/scroll on the buttons bubbles to the Leaflet map
+  // underneath and registers as a map click/zoom at the buttons' location.
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    L.DomEvent.disableClickPropagation(el)
+    L.DomEvent.disableScrollPropagation(el)
+  }, [])
+
   return (
     <div
+      ref={containerRef}
       className={`pointer-events-auto absolute top-[47px] right-[33px] z-[400] flex flex-col gap-3 md:top-6 md:right-6 md:flex-row md:gap-[9px] ${popupOpen ? 'max-md:hidden' : ''}`}
     >
       <ZoomButton ariaLabel={zoomOutAriaLabel} onClick={() => map.zoomOut()}>
