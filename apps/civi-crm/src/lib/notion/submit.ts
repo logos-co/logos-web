@@ -3,6 +3,7 @@ import {
   resolveOrganizationSelect,
 } from './build-notion-properties'
 import { NOTION_API_BASE_URL, NOTION_API_VERSION } from './constants'
+import { EVALUATION_TEMPLATE_CHILDREN } from './evaluation-template'
 
 type NotionSelectProperty = {
   type: 'select'
@@ -132,66 +133,7 @@ export async function submitToNotion(
       body: JSON.stringify({
         parent: { type: 'data_source_id', data_source_id: dataSourceId },
         properties,
-        children: [
-          {
-            object: 'block',
-            type: 'heading_2',
-            heading_2: {
-              rich_text: [{ type: 'text', text: { content: 'Scorecard' } }],
-            },
-          },
-          {
-            object: 'block',
-            type: 'bulleted_list_item',
-            bulleted_list_item: {
-              rich_text: [
-                { type: 'text', text: { content: 'Commitment & Reliability:' } },
-              ],
-            },
-          },
-          {
-            object: 'block',
-            type: 'bulleted_list_item',
-            bulleted_list_item: {
-              rich_text: [
-                {
-                  type: 'text',
-                  text: { content: 'Facilitation & Distributed Leadership:' },
-                },
-              ],
-            },
-          },
-          {
-            object: 'block',
-            type: 'bulleted_list_item',
-            bulleted_list_item: {
-              rich_text: [
-                { type: 'text', text: { content: 'Execution Ability:' } },
-              ],
-            },
-          },
-          {
-            object: 'block',
-            type: 'bulleted_list_item',
-            bulleted_list_item: {
-              rich_text: [
-                {
-                  type: 'text',
-                  text: { content: 'Relevant Skills/Experience:' },
-                },
-              ],
-            },
-          },
-          {
-            object: 'block',
-            type: 'paragraph',
-            paragraph: {
-              rich_text: [
-                { type: 'text', text: { content: '⇒ Overall Fit:' } },
-              ],
-            },
-          },
-        ],
+        children: EVALUATION_TEMPLATE_CHILDREN,
       }),
     })
 

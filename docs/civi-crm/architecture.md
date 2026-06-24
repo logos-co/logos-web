@@ -124,6 +124,12 @@ apps/civi-crm/
     │   │   ├── scorecard.ts             # Pure function: compute scorecard average from scoring fields
     │   │   └── types.ts                 # Raw CiviCRM API response types
     │   │
+    │   ├── notion/                      # Public intake funnel mapping and Notion page template helpers
+    │   │   ├── build-notion-properties.ts # Maps submitted form fields to Notion database properties
+    │   │   ├── evaluation-template.ts   # Notion block template for created evaluation pages
+    │   │   ├── maps.ts                  # Select/status mapping constants for Notion properties
+    │   │   └── submit.ts                # Creates Notion pages for public Afform submissions
+    │   │
     │   ├── activity-logger.ts           # Orchestrates CiviCRM Activity creation on mutations
     │   └── views.ts                     # View config registry + active-view resolution
     │
