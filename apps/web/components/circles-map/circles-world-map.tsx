@@ -84,7 +84,7 @@ function EventPopupContent({
   const location = [event.city, event.country].filter(Boolean).join(', ')
 
   const cardClass =
-    'grid w-85 grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-3xl bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
+    'grid w-[463px] grid-cols-[123px_minmax(0,1fr)] gap-3 rounded-[24px] bg-gray-01 p-1.5 pr-6 text-brand-dark-green transition-colors hover:bg-gray-02'
 
   const content = (
     <>
@@ -98,7 +98,7 @@ function EventPopupContent({
         />
       </div>
       <div className="flex min-w-0 flex-col justify-between py-1">
-        <h3 className="font-sans text-[18px] leading-[1.15] tracking-normal text-brand-dark-green">
+        <h3 className="truncate pr-5 font-sans text-[18px] leading-[1.15] tracking-normal text-brand-dark-green">
           {event.name}
         </h3>
         <div className="flex flex-col gap-0.5">
@@ -147,7 +147,7 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
   if (status === 'success') {
     return (
       <div className="w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
-        <p className="font-sans text-[18px] leading-[1.15]">Subscribed!</p>
+        <p className="pr-6 font-sans text-[18px] leading-[1.15]">Subscribed!</p>
         <p className="text-mono-s mt-1 text-gray-05">
           We&apos;ll let you know when events are scheduled for {marker.city}.
         </p>
@@ -157,7 +157,7 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
 
   return (
     <div className="w-85 rounded-3xl bg-gray-01 p-5 text-brand-dark-green">
-      <p className="font-sans text-[18px] leading-[1.15]">Stay Tuned for Future Events</p>
+      <p className="pr-6 font-sans text-[18px] leading-[1.15]">Stay Tuned for Future Events</p>
       <p className="text-mono-s mt-1 mb-4 text-gray-05">
         No events in {marker.city} right now — check back soon!
       </p>
@@ -375,7 +375,12 @@ export default function CirclesWorldMap({
                 position={[marker.lat, marker.lng]}
                 icon={yellowMarkerIcon}
               >
-                <Popup className="logos-circle-popup" maxWidth={360}>
+                <Popup
+                  className="logos-circle-popup"
+                  maxWidth={480}
+                  minWidth={340}
+                  closeButton
+                  autoPan>
                   {upcomingEvent ? (
                     <EventPopupContent event={upcomingEvent} locale={locale} />
                   ) : (
