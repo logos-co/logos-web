@@ -9,6 +9,7 @@ import {
   Popup,
   TileLayer,
   useMap,
+  useMapEvents,
 } from 'react-leaflet'
 import L from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
@@ -226,8 +227,17 @@ function ZoomControls({
   zoomOutAriaLabel: string
 }) {
   const map = useMap()
+  // The full-width popup overlaps these buttons on mobile, so hide them while a
+  // popup is open (desktop popups are narrow and don't overlap, so keep them).
+  const [popupOpen, setPopupOpen] = useState(false)
+  useMapEvents({
+    popupopen: () => setPopupOpen(true),
+    popupclose: () => setPopupOpen(false),
+  })
   return (
-    <div className="pointer-events-auto absolute top-[47px] right-[33px] z-[400] flex flex-col gap-3 md:top-6 md:right-6 md:flex-row md:gap-[9px]">
+    <div
+      className={`pointer-events-auto absolute top-[47px] right-[33px] z-[400] flex flex-col gap-3 md:top-6 md:right-6 md:flex-row md:gap-[9px] ${popupOpen ? 'max-md:hidden' : ''}`}
+    >
       <ZoomButton ariaLabel={zoomOutAriaLabel} onClick={() => map.zoomOut()}>
         <span className="block h-[2px] w-[11px] bg-current" />
       </ZoomButton>
