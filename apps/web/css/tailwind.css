@@ -32,21 +32,40 @@
   }
 }
 
-/* Strip Leaflet's default popup frame so circle-map cards own their appearance */
+/* Strip Leaflet's default popup frame so circle-map cards own their appearance.
+   !important is required because leaflet.css is imported at the component level
+   and loads after this global stylesheet, giving it higher cascade priority. */
 .logos-circle-popup .leaflet-popup-content-wrapper {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  border-radius: 0;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
 }
 
 .logos-circle-popup .leaflet-popup-content {
-  margin: 0;
+  margin: 0 !important;
 }
 
 .logos-circle-popup .leaflet-popup-tip-container {
-  display: none;
+  display: none !important;
+}
+
+.logos-circle-popup .leaflet-popup-close-button {
+  top: 12px !important;
+  right: 12px !important;
+  width: 20px !important;
+  height: 20px !important;
+  padding: 0 !important;
+  font-size: 16px !important;
+  line-height: 20px !important;
+  text-align: center !important;
+  color: var(--color-brand-dark-green) !important;
+  opacity: 0.35;
+}
+
+.logos-circle-popup .leaflet-popup-close-button:hover {
+  opacity: 0.7;
 }
 
 html {
