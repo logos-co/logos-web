@@ -54,7 +54,12 @@ export function MovementPageView({
       <div className="flex flex-col">
         <div>{findCta}</div>
         <div id="circles-map">
-          <CirclesMap settings={circlesSettings} markers={mapMarkers} />
+          <CirclesMap
+            settings={circlesSettings}
+            markers={mapMarkers}
+            upcomingEvents={upcomingEvents}
+            locale={locale}
+          />
         </div>
       </div>
       <ActivismSection t={t} initiatives={initiatives} />

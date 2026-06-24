@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import Image from 'next/image'
 import {
   MapContainer,
   Marker,
@@ -12,7 +13,7 @@ import L from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import 'leaflet/dist/leaflet.css'
 
-import type { ActiveCircleMarker } from '@/lib/active-circles'
+import type { ActiveCircleMarker, ActiveCircleUpcomingEvent } from '@/lib/active-circles'
 
 const DEFAULT_CENTER: [number, number] = [20, 0]
 const DEFAULT_ZOOM = 2
@@ -23,6 +24,7 @@ const ARCGIS_LIGHT_GRAY_TILES =
 
 const FIFTY_KM_METERS = 50_000
 const EARTH_METERS_PER_PIXEL_AT_ZOOM_0 = 156_543.03392
+const DEFAULT_EVENT_IMAGE = '/images/home/circles-card-bg.webp'
 
 function fiftyKmClusterRadius(zoom: number) {
   const metersPerPixel = EARTH_METERS_PER_PIXEL_AT_ZOOM_0 / Math.pow(2, zoom)
@@ -48,6 +50,90 @@ function clusterIconCreator(cluster: { getChildCount: () => number }) {
     className: 'logos-circle-cluster',
     iconSize: L.point(32, 32, true),
   })
+}
+
+// Pin naive timestamps to UTC so times display deterministically across machines.
+const toUtcInstant = (iso: string): Date => {
+  const hasZone = /([zZ])|([+-]\d{2}:?\d{2})$/.test(iso)
+  return new Date(hasZone ? iso : `${iso}Z`)
+}
+
+const fmtTime = (iso: string, locale: string) =>
+  new Intl.DateTimeFormat(locale, {
+    timeZone: 'UTC',
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(toUtcInstant(iso))
+
+const fmtDate = (iso: string, locale: string) =>
+  new Intl.DateTimeFormat(locale, {
+    timeZone: 'UTC',
+    month: 'short',
+    day: 'numeric',
+  }).format(toUtcInstant(iso))
+
+function EventPopupContent({
+  event,
+  locale,
+}: {
+  event: ActiveCircleUpcomingEvent
+  locale: string
+}) {
+  const date = fmtDate(event.startAt, locale)
+  const start = fmtTime(event.startAt, locale)
+  const end = event.endAt ? fmtTime(event.endAt, locale) : null
+  const timeLabel = end ? `${start} – ${end}` : start
+  const location = [event.city, event.country].filter(Boolean).join(', ')
+
+  const content = (
+    <div className="grid min-w-66 grid-cols-[80px_minmax(0,1fr)] gap-3 p-1">
+      <div className="relative size-20 shrink-0 overflow-hidden rounded-[14px]">
+        <Image
+          src={event.coverUrl ?? DEFAULT_EVENT_IMAGE}
+          alt=""
+          fill
+          sizes="80px"
+          className="object-cover"
+        />
+      </div>
+      <div className="flex min-w-0 flex-col justify-between py-0.5">
+        <p className="text-brand-dark-green line-clamp-2 text-sm font-medium leading-snug">
+          {event.name}
+        </p>
+        <div className="mt-1 flex flex-col gap-0.5">
+          <p className="text-brand-dark-green/80 text-xs">
+            {date} · {timeLabel}
+          </p>
+          {location ? (
+            <p className="text-brand-dark-green/60 truncate text-xs">{location}</p>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  )
+
+  if (event.eventUrl) {
+    return (
+      <a href={event.eventUrl} target="_blank" rel="noopener noreferrer">
+        {content}
+      </a>
+    )
+  }
+
+  return <div>{content}</div>
+}
+
+function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
+  return (
+    <div className="min-w-50 p-1">
+      <p className="text-brand-dark-green text-sm font-medium">
+        {marker.city}, {marker.country}
+      </p>
+      <p className="text-brand-dark-green/60 mt-1 text-xs">
+        No upcoming events scheduled.
+      </p>
+    </div>
+  )
 }
 
 function ZoomButton({
@@ -163,6 +249,8 @@ function TouchGestureHandling({ hint }: { hint: string }) {
 
 type CirclesWorldMapProps = {
   markers: ActiveCircleMarker[]
+  upcomingEvents?: ActiveCircleUpcomingEvent[]
+  locale?: string
   center?: [number, number]
   zoom?: number
   zoomInAriaLabel?: string
@@ -172,6 +260,8 @@ type CirclesWorldMapProps = {
 
 export default function CirclesWorldMap({
   markers,
+  upcomingEvents = [],
+  locale = 'en',
   center = DEFAULT_CENTER,
   zoom = DEFAULT_ZOOM,
   zoomInAriaLabel = 'Zoom in',
@@ -183,6 +273,17 @@ export default function CirclesWorldMap({
   // `next/dynamic({ ssr: false })`; the mounted guard is a second safety net.
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
+
+  // Build a city+country lookup so marker clicks show the soonest upcoming event.
+  // Events are sorted soonest-first in the snapshot, so the first match wins.
+  const eventsByCity = useMemo(() => {
+    const lookup = new Map<string, ActiveCircleUpcomingEvent>()
+    for (const event of upcomingEvents) {
+      const key = `${event.city}|${event.country}`
+      if (!lookup.has(key)) lookup.set(key, event)
+    }
+    return lookup
+  }, [upcomingEvents])
 
   if (!mounted) {
     return (
@@ -215,34 +316,25 @@ export default function CirclesWorldMap({
           showCoverageOnHover={false}
           iconCreateFunction={clusterIconCreator}
         >
-          {markers.map((marker) => (
-            <Marker
-              key={marker.id}
-              position={[marker.lat, marker.lng]}
-              icon={yellowMarkerIcon}
-            >
-              <Popup>
-                <div className="min-w-[180px]">
-                  <p className="font-display text-brand-dark-green mb-1 text-base">
-                    {marker.city}
-                  </p>
-                  <p className="text-mono-s text-brand-dark-green/70 mb-3">
-                    {[marker.city, marker.country].filter(Boolean).join(', ')}
-                  </p>
-                  {marker.eventUrl ? (
-                    <a
-                      href={marker.eventUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-eyebrow text-brand-dark-green cursor-pointer border-b border-current/50"
-                    >
-                      View event
-                    </a>
-                  ) : null}
-                </div>
-              </Popup>
-            </Marker>
-          ))}
+          {markers.map((marker) => {
+            const upcomingEvent =
+              eventsByCity.get(`${marker.city}|${marker.country}`) ?? null
+            return (
+              <Marker
+                key={marker.id}
+                position={[marker.lat, marker.lng]}
+                icon={yellowMarkerIcon}
+              >
+                <Popup maxWidth={320}>
+                  {upcomingEvent ? (
+                    <EventPopupContent event={upcomingEvent} locale={locale} />
+                  ) : (
+                    <NoEventPopupContent marker={marker} />
+                  )}
+                </Popup>
+              </Marker>
+            )
+          })}
         </MarkerClusterGroup>
         <ZoomControls
           zoomInAriaLabel={zoomInAriaLabel}
