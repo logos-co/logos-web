@@ -4,6 +4,13 @@ import type { AfformField } from './types'
 
 const ALWAYS_REQUIRED = ['email']
 
+/**
+ * Maximum length for free-text funnel form fields. Matches the Notion API's
+ * 2000-character per-element limit for `rich_text`/`title` properties, which
+ * these fields map to downstream in `apps/civi-crm`.
+ */
+export const MAX_TEXT_LENGTH = 2000
+
 const stringOrArray = z.union([z.string(), z.array(z.string())])
 
 const MULTI_RECORD_JOINS = new Set(['Website', 'IM'])
@@ -74,9 +81,10 @@ function buildFieldSchema(
   }
 
   const msg = `${field.label || formKey} is required`
+  const tooLong = `${field.label || formKey} must be ${MAX_TEXT_LENGTH} characters or fewer`
   return isReq
-    ? z.string().trim().min(1, msg)
-    : z.string().trim().optional().default('')
+    ? z.string().trim().min(1, msg).max(MAX_TEXT_LENGTH, tooLong)
+    : z.string().trim().max(MAX_TEXT_LENGTH, tooLong).optional().default('')
 }
 
 export function buildFormSchema(

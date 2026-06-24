@@ -1,5 +1,6 @@
 import type { InputHTMLAttributes } from 'react'
 
+import { MAX_TEXT_LENGTH } from '@/lib/civicrm/contactFormSchema'
 import { cn } from '@/lib/cn'
 
 import { FieldLabel } from './field-label'
@@ -18,6 +19,7 @@ export function TextInput({
   error,
   id,
   wrapperClassName,
+  maxLength = MAX_TEXT_LENGTH,
   ...props
 }: Props) {
   return (
@@ -27,6 +29,7 @@ export function TextInput({
       ) : null}
       <input
         id={id}
+        maxLength={maxLength}
         className={cn(inputClassName, error && 'border-red-600')}
         {...props}
       />
