@@ -25,7 +25,8 @@
         "ACTIVE_VIEW",
         "KEYCLOAK_USER_EMAIL_HEADER",
         "DEV_USER_EMAIL_MOCK"
-      ]
+      ],
+      "passThroughEnv": ["GITHUB_TOKEN"]
     },
     "lint": {
       "dependsOn": ["^lint"]
