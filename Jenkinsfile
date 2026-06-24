@@ -28,7 +28,7 @@ pipeline {
   parameters {
     string(
       name: 'NEXT_PUBLIC_CIVI_CRM_URL',
-      defaultValue: 'https://project-gzx4s.vercel.app',
+      defaultValue: 'https://logos-web-civi.vercel.app',
       description: 'CiviCRM base URL inlined into the web build',
     )
     string(
