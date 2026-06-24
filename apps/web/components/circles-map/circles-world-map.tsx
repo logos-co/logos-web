@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import Image from 'next/image'
 import {
   MapContainer,
@@ -14,6 +14,7 @@ import MarkerClusterGroup from 'react-leaflet-cluster'
 import 'leaflet/dist/leaflet.css'
 
 import type { ActiveCircleMarker, ActiveCircleUpcomingEvent } from '@/lib/active-circles'
+import { submitNewsletterSignup } from '@/lib/newsletter-signup'
 
 const DEFAULT_CENTER: [number, number] = [20, 0]
 const DEFAULT_ZOOM = 2
@@ -124,14 +125,67 @@ function EventPopupContent({
 }
 
 function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+    setErrorMsg('')
+    try {
+      await submitNewsletterSignup({
+        email,
+        role: 'activist',
+        city: [marker.city, marker.country].filter(Boolean).join(', '),
+      })
+      setStatus('success')
+    } catch (err) {
+      setStatus('error')
+      setErrorMsg(err instanceof Error ? err.message : 'Something went wrong.')
+    }
+  }
+
+  if (status === 'success') {
+    return (
+      <div className="min-w-50 p-1">
+        <p className="text-brand-dark-green text-sm font-medium">Subscribed!</p>
+        <p className="text-brand-dark-green/60 mt-1 text-xs">
+          We&apos;ll let you know when events are scheduled for {marker.city}.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <div className="min-w-50 p-1">
-      <p className="text-brand-dark-green text-sm font-medium">
-        {marker.city}, {marker.country}
+      <p className="text-brand-dark-green mb-0.5 text-sm font-medium">
+        Stay Tuned for Future Events
       </p>
-      <p className="text-brand-dark-green/60 mt-1 text-xs">
-        No upcoming events scheduled.
+      <p className="text-brand-dark-green/60 mb-3 text-xs">
+        No events scheduled for {marker.city} right now — but that can change soon!
       </p>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter email"
+          required
+          disabled={status === 'loading'}
+          className="text-brand-dark-green placeholder:text-brand-dark-green/40 w-full rounded-full border border-brand-dark-green/20 bg-transparent px-3 py-1.5 text-xs outline-none focus:border-brand-dark-green/60 disabled:opacity-50"
+        />
+        {status === 'error' && (
+          <p className="text-xs text-red-500">{errorMsg}</p>
+        )}
+        <button
+          type="submit"
+          disabled={status === 'loading'}
+          className="bg-brand-dark-green text-brand-off-white w-full rounded-full px-4 py-1.5 text-xs font-medium transition-opacity hover:opacity-80 disabled:opacity-50"
+        >
+          {status === 'loading' ? 'Subscribing…' : 'Subscribe →'}
+        </button>
+      </form>
     </div>
   )
 }
