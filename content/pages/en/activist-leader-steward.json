@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/activist-leader-steward",
+  "title": "Activist Leader / Steward | Logos",
+  "description": "Start or steward a Circle in your area and build durable local community with structure and impact.",
+  "sections": [
+    {
+      "componentType": "activistLeaderStewardCopy",
+      "key": "activistLeaderSteward.copy",
+      "heading": "Activist Leader / Steward"
+    }
+  ]
+}

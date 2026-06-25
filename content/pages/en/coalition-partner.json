@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/coalition-partner",
+  "title": "Coalition Partner | Logos",
+  "description": "Partner with Logos if you're building aligned organisations, networks, or community infrastructure.",
+  "sections": [
+    {
+      "componentType": "coalitionPartnerCopy",
+      "key": "coalitionPartner.copy",
+      "heading": "Coalition Partner"
+    }
+  ]
+}

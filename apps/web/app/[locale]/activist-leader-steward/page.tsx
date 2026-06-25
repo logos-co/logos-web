@@ -13,14 +13,11 @@ import {
   AFFORM_PAGE_PRIVACY,
   AFFORM_PAGE_PRIVACY_LINK,
 } from '@/lib/civicrm/afform-activist-leader-steward'
-import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
+import { createPageMetadata } from '@/lib/page-metadata'
 
-const NAMESPACE = 'pages.activistLeaderSteward'
+const ROUTE = ROUTES.activistLeaderSteward
 
-export const generateMetadata = createTranslatedPageMetadata({
-  namespace: NAMESPACE,
-  path: ROUTES.activistLeaderSteward,
-})
+export const generateMetadata = createPageMetadata(ROUTE)
 
 function getAfformSubmitApiUrl() {
   const base = env.NEXT_PUBLIC_CIVI_CRM_URL

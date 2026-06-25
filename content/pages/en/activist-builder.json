@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/activist-builder",
+  "title": "Activist Builder | Logos",
+  "description": "Join as an Activist Builder and help communities coordinate and become more self-sufficient.",
+  "sections": [
+    {
+      "componentType": "activistBuilderCopy",
+      "key": "activistBuilder.copy",
+      "heading": "Activist Builder"
+    }
+  ]
+}

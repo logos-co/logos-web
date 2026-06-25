@@ -13,14 +13,11 @@ import {
   AFFORM_PAGE_PRIVACY,
   AFFORM_PAGE_PRIVACY_LINK,
 } from '@/lib/civicrm/afform-coalition-partner'
-import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
+import { createPageMetadata } from '@/lib/page-metadata'
 
-const NAMESPACE = 'pages.coalitionPartner'
+const ROUTE = ROUTES.coalitionPartner
 
-export const generateMetadata = createTranslatedPageMetadata({
-  namespace: NAMESPACE,
-  path: ROUTES.coalitionPartner,
-})
+export const generateMetadata = createPageMetadata(ROUTE)
 
 function getAfformSubmitApiUrl() {
   const base = env.NEXT_PUBLIC_CIVI_CRM_URL

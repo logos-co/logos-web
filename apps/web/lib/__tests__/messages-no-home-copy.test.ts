@@ -37,4 +37,16 @@ describe('messages ownership contract', () => {
       expect(Object.keys(pages)).not.toContain(ns)
     }
   })
+
+  it('contains no activist/coalition page copy in messages.pages (content owns these)', () => {
+    const pages = (messages as { pages: Record<string, unknown> }).pages
+    const migratedNamespaces = [
+      'activistBuilder',
+      'activistLeaderSteward',
+      'coalitionPartner',
+    ]
+    for (const ns of migratedNamespaces) {
+      expect(Object.keys(pages)).not.toContain(ns)
+    }
+  })
 })

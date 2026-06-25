@@ -9,7 +9,6 @@ import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 
-
 const locale = 'en'
 
 type SectionContract = {
@@ -116,14 +115,11 @@ const contracts: PageContract[] = [
     sections: [{ componentType: 'bookCopy', key: 'book.copy' }],
   },
   {
-    route: ROUTES.brandKit,
-    name: 'brand-kit',
-    sections: [{ componentType: 'brandKitCopy', key: 'brandKit.copy' }],
-  },
-  {
     route: ROUTES.nodeProgramme,
     name: 'node-programme',
-    sections: [{ componentType: 'nodeProgrammeCopy', key: 'nodeProgramme.copy' }],
+    sections: [
+      { componentType: 'nodeProgrammeCopy', key: 'nodeProgramme.copy' },
+    ],
   },
   {
     route: ROUTES.lambdaPrize,
@@ -148,7 +144,38 @@ const contracts: PageContract[] = [
   {
     route: ROUTES.logosBroadcastNetwork,
     name: 'logos-broadcast-network',
-    sections: [{ componentType: 'broadcastCopy', key: 'logosBroadcastNetwork.copy' }],
+    sections: [
+      { componentType: 'broadcastCopy', key: 'logosBroadcastNetwork.copy' },
+    ],
+  },
+  {
+    route: ROUTES.activistBuilder,
+    name: 'activist-builder',
+    sections: [
+      { componentType: 'activistBuilderCopy', key: 'activistBuilder.copy' },
+    ],
+  },
+  {
+    route: ROUTES.activistLeaderSteward,
+    name: 'activist-leader-steward',
+    sections: [
+      {
+        componentType: 'activistLeaderStewardCopy',
+        key: 'activistLeaderSteward.copy',
+      },
+    ],
+  },
+  {
+    route: ROUTES.coalitionPartner,
+    name: 'coalition-partner',
+    sections: [
+      { componentType: 'coalitionPartnerCopy', key: 'coalitionPartner.copy' },
+    ],
+  },
+  {
+    route: ROUTES.designGuide,
+    name: 'design-guide',
+    sections: [{ componentType: 'designGuideCopy', key: 'designGuide.copy' }],
   },
 ]
 
@@ -204,11 +231,11 @@ describe('content-backed web route contracts', () => {
   test('movement page builder highlight uses the Benin fundraising issue', async () => {
     const page = await getPageCopy(ROUTES.movement, locale)
     const findSection = createSectionFinder('movement')
-    const section = findSection<{ componentType: string; key: string; builder: { feature: unknown; details: unknown } }>(
-      page.sections,
-      'movementCopy',
-      'movement.copy'
-    )
+    const section = findSection<{
+      componentType: string
+      key: string
+      builder: { feature: unknown; details: unknown }
+    }>(page.sections, 'movementCopy', 'movement.copy')
     const { builder } = section
 
     expect(builder.feature).toEqual({
@@ -235,16 +262,32 @@ describe('content-backed web route contracts', () => {
     )
   })
 
-  test('design guide page uses the current asset download copy', () => {
-    expect(messages.pages.designGuide).toMatchObject({
+  test('design guide page uses the current asset download copy', async () => {
+    const page = await getPageCopy(ROUTES.designGuide, locale)
+    const findSection = createSectionFinder('design-guide')
+    const section = findSection(
+      page.sections,
+      'designGuideCopy',
+      'designGuide.copy'
+    )
+
+    expect(page).toMatchObject({
       description:
         'Design assets, guidelines, and resources for using the Logos visual identity. Logos is open by design, open in spirit. Here are some assets to guide you as you chart your own path.',
+    })
+    expect(section).toMatchObject({
       intro:
         'Design assets, guidelines, and resources for using the Logos visual identity. Logos is open by design, open in spirit. Here are some assets to guide you as you chart your own path.',
       downloads: {
-        brandMarksLabel: 'Download Marks',
+        brandMarks: {
+          label: 'Download Marks',
+          href: '/brand-kit/brand-marks.zip',
+        },
         guidelinesSection: 'Design Guide',
-        guidelinesLabel: 'Download Design Guide',
+        guidelines: {
+          label: 'Download Design Guide',
+          href: '/brand-kit/logos-brand-guidelines.pdf',
+        },
       },
     })
   })
