@@ -60,9 +60,9 @@ describe('buildNotionProperties', () => {
     })
     expect(properties.BU).toEqual({ multi_select: [{ name: 'Movement' }] })
     expect(properties['Mvmt Status']).toEqual({ select: { name: 'New Lead' } })
-    expect(properties.Website).toEqual({
-      url: 'https://example.com | https://logos.co',
-    })
+    expect(properties.Website).toEqual({ url: 'https://example.com' })
+    expect(properties['Website 2']).toEqual({ url: 'https://logos.co' })
+    expect(properties['Website 3']).toBeUndefined()
     expect(properties['Phone or Social Handle']).toEqual({
       phone_number: 'adal (X) | ada_logos (Telegram)',
     })
@@ -127,6 +127,53 @@ describe('buildNotionProperties', () => {
         { type: 'text', text: { content: 'Community workshops' } },
       ],
     })
+  })
+
+  it('spreads websites across Website .. Website 5 and caps at five', () => {
+    const properties = buildNotionProperties(
+      {
+        ...baseData,
+        website: [
+          'https://one.com',
+          'https://two.com',
+          'https://three.com',
+          'https://four.com',
+          'https://five.com',
+          'https://six.com',
+        ],
+      },
+      'afformCoalitionPartner',
+      'Logos'
+    )
+
+    expect(properties.Website).toEqual({ url: 'https://one.com' })
+    expect(properties['Website 2']).toEqual({ url: 'https://two.com' })
+    expect(properties['Website 3']).toEqual({ url: 'https://three.com' })
+    expect(properties['Website 4']).toEqual({ url: 'https://four.com' })
+    expect(properties['Website 5']).toEqual({ url: 'https://five.com' })
+    expect(properties['Website 6']).toBeUndefined()
+  })
+
+  it('fills website columns contiguously, skipping blank rows', () => {
+    const properties = buildNotionProperties(
+      { ...baseData, website: ['', 'https://only.com', ''] },
+      'afformCoalitionPartner',
+      'Logos'
+    )
+
+    expect(properties.Website).toEqual({ url: 'https://only.com' })
+    expect(properties['Website 2']).toBeUndefined()
+  })
+
+  it('omits all website columns when none submitted', () => {
+    const properties = buildNotionProperties(
+      { ...baseData, website: [] },
+      'afformCoalitionPartner',
+      'Logos'
+    )
+
+    expect(properties.Website).toBeUndefined()
+    expect(properties['Website 2']).toBeUndefined()
   })
 
   it('omits Organization when resolved value is empty', () => {
