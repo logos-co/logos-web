@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/brand-kit",
+  "title": "Brand Kit | Logos",
+  "description": "Official brand assets, guidelines, and resources for using the Logos visual identity.",
+  "sections": [
+    {
+      "componentType": "brandKitCopy",
+      "key": "brandKit.copy",
+      "heading": "Brand Kit",
+      "intro": "Official brand assets, guidelines, and resources for using the Logos visual identity. Logos is open by design, open in spirit. Here are some assets to guide you as you chart your own path.",
+      "downloads": {
+        "brandMarksLabel": "Download Brand Marks",
+        "brandMarksHref": "/brand-kit/brand-marks.zip",
+        "guidelinesSection": "Brand Guidelines",
+        "guidelinesLabel": "Download Brand Guidelines",
+        "guidelinesHref": "/brand-kit/logos-brand-guidelines.pdf"
+      }
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/lambda-prize",
+  "title": "Lambda Prize | Logos",
+  "description": "Lambda Prize is a competitive prize framework for developers shipping privacy-preserving software on the Logos stack.",
+  "sections": [
+    {
+      "componentType": "lambdaPrizeCopy",
+      "key": "lambdaPrize.copy",
+      "hero": {
+        "label": "Prize",
+        "heading": "The frontier is open.\nBuild what's next.",
+        "body": "Prize is the competitive prize framework powering the Logos network. A programme to accelerate real, shipped applications built on the Logos stack.",
+        "primaryCta": "View Prizes",
+        "secondaryCta": "Builder Hub"
+      },
+      "howItWorks": {
+        "heading": "How It Works",
+        "rows": [
+          {
+            "label": "01",
+            "body": "Prizes are broken into three categories - small, medium, and large."
+          },
+          {
+            "label": "02",
+            "body": "All prizes are listed in the GitHub repository."
+          },
+          {
+            "label": "03",
+            "body": "Submissions are made as pull requests to the repository."
+          },
+          {
+            "label": "04",
+            "body": "Prizes will remain open until they are claimed or explicitly closed."
+          },
+          {
+            "label": "05",
+            "body": "Proposals are evaluated based on specific criteria outlined for each prize."
+          },
+          {
+            "label": "06",
+            "body": "Winners will be notified directly, after which rewards will be issued."
+          }
+        ]
+      },
+      "evaluation": {
+        "heading": "Evaluation Criteria",
+        "primaryCta": "View Prizes",
+        "secondaryCta": "Connect with the team on Discord",
+        "rows": [
+          {
+            "label": "Step 1",
+            "body": "Pre-Screen Checklist: Submissions are reviewed by Logos core contributors to ensure baseline criteria are met."
+          },
+          {
+            "label": "Step 2",
+            "body": "Technical Evaluation: Logos core contributors will clone submission repositories to a clean environment and run a demo script without modification to verify success criteria and spot-check code quality and architecture."
+          }
+        ]
+      },
+      "featured": {
+        "heading": "Featured Prizes",
+        "status": "Open",
+        "prizes": [
+          {
+            "meta": {
+              "id": "LP-0017",
+              "effort": "Effort: Medium",
+              "prize": "Prize: $400"
+            },
+            "title": "Whistleblower — censorship-resistant document upload and indexing Basecamp app",
+            "body": "This prize funds \"Whistleblower\", a Logos Basecamp app that lets anyone upload a document and make it permanently discoverable — without relying on any centralised server, without requiring the publisher to hold tokens, and without a single point of censorship.",
+            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0017.md"
+          },
+          {
+            "meta": {
+              "id": "LP-0008",
+              "effort": "Effort: Large",
+              "prize": "Prize: $1,200"
+            },
+            "title": "Autonomous AI Module with Wallet, Storage, and Messaging",
+            "body": "This prize is for a Logos Core module that runs an autonomous AI agent with native access to the full Logos stack: a LEZ wallet, Logos Storage, and Logos Messaging. The agent has its own identity and funds, can communicate with its owner via chat, and can communicate with other agents.",
+            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0008.md"
+          },
+          {
+            "meta": {
+              "id": "LP-0016",
+              "effort": "Effort: Large",
+              "prize": "Prize: $1,200"
+            },
+            "title": "Anonymous Forum with Threshold Moderation and Membership Revocation",
+            "body": "This prize is for a protocol for anonymous, moderated forums. Members post without revealing their identity and their posts are unlinkable to one another — yet a coordinated group of moderators can act on individual pieces of content, and a member who accumulates too many moderation strikes loses their membership.",
+            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0016.md"
+          }
+        ]
+      },
+      "about": {
+        "heading": "About the Programme",
+        "body": "The systems that were supposed to protect us, the institutions, the corporations, the platforms, have been captured. They surveil us, extract from us, and make decisions on our behalf without our consent. We are not asking them to change. Lambda Prize is for the builders who want to create the alternative.",
+        "primaryCta": "View Prizes",
+        "secondaryCta": "Start Building",
+        "rows": [
+          {
+            "label": "Real outcomes, not proposals",
+            "body": "Prizes go to shipped code that meets defined criteria."
+          },
+          {
+            "label": "A stack that is private by default",
+            "body": "Privacy is a requirement for sovereignty. Build applications that simply can't exist elsewhere."
+          },
+          {
+            "label": "Builders get support on their journey",
+            "body": "Regular office hours, livestreams, and direct access to the ecosystem development engineering team to support you."
+          }
+        ]
+      },
+      "techStack": {
+        "startBuildingCta": "Start Building",
+        "docsCta": "View the docs"
+      },
+      "support": {
+        "heading": "Get Support",
+        "body": "Find examples, tutorials, and community channels for building on Logos.",
+        "cta": "Help Center",
+        "rows": [
+          {
+            "label": "Sample Apps",
+            "body": "Explore reference applications that demonstrate common Logos workflows.",
+            "action": "View"
+          },
+          {
+            "label": "Demos and Tutorials",
+            "body": "Follow practical walkthroughs for core stack concepts and integrations.",
+            "action": "View"
+          },
+          {
+            "label": "Install Basecamp",
+            "body": "Set up Basecamp and start experimenting with bundled modules.",
+            "action": "Install"
+          },
+          {
+            "label": "Connect with Logos",
+            "body": "Join the community channels for implementation support and feedback.",
+            "action": "Connect"
+          }
+        ]
+      }
+    }
+  ]
+}
