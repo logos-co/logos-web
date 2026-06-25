@@ -59,9 +59,8 @@ async function resolveDataSourceId(
     throw new Error('Notion database has no data sources')
   }
 
-  const summary = sources.map((s) => `${s.name} (${s.id})`).join(', ')
   throw new Error(
-    `Notion database has multiple data sources; set NOTION_DATA_SOURCE_ID to pin one: ${summary}`
+    'Notion database has multiple data sources; set NOTION_DATA_SOURCE_ID to pin one'
   )
 }
 
