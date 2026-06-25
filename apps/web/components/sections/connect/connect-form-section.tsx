@@ -245,12 +245,39 @@ export function ConnectFormSection({
       })
     }
 
+  // Resolve the DOM node for an errored field key. Each input renders
+  // `id={formKey}`; selects/multiselects and the repeatable chat rows use
+  // known id/name variants, so try those in turn.
+  const findFieldElement = (key: string) =>
+    document.getElementById(key) ??
+    document.getElementById(`${key}-trigger`) ??
+    document.getElementById(`${key}-0`) ??
+    document.querySelector<HTMLElement>(`[name="${key}"]`) ??
+    document.querySelector<HTMLElement>(`[name^="${key}["]`)
+
+  const scrollToFirstError = (errorKeys: string[]) => {
+    // Pick the first error in visual (field) order, not zod-issue order.
+    const firstKey =
+      formFieldsWithKeys
+        .map((field) => field.formKey)
+        .find((key) => errorKeys.includes(key)) ?? errorKeys[0]
+    if (!firstKey) return
+    const el = findFieldElement(firstKey)
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const top =
+      window.scrollY + rect.top - Math.max(0, (window.innerHeight - rect.height) / 2)
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' })
+    el.focus({ preventScroll: true })
+  }
+
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setServerError('')
 
     if (!submitable) {
       setFormErrors(errors)
+      scrollToFirstError(errors)
       return
     }
 
