@@ -347,6 +347,83 @@ function TouchGestureHandling({ hint }: { hint: string }) {
   )
 }
 
+// On desktop, scrolling the wheel over the map scrolls the page by default
+// (matching the live site). Holding Ctrl/Cmd switches to Leaflet's native wheel
+// zoom, so the map only zooms on an explicit gesture instead of hijacking scroll.
+// A short-lived hint nudges the user toward the modifier when they scroll plain.
+function DesktopScrollZoomGate() {
+  const map = useMap()
+  const t = useTranslations('circlesMap')
+  const [showHint, setShowHint] = useState(false)
+
+  const modifierKeyLabel = useMemo(() => {
+    if (typeof navigator === 'undefined') return 'Ctrl'
+    return /Mac|iPhone|iPad|iPod/.test(navigator.userAgent) ? '⌘' : 'Ctrl'
+  }, [])
+
+  useEffect(() => {
+    const isCoarsePointer =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(pointer: coarse)').matches
+    // Touch devices use the two-finger drag/pinch path instead of wheel zoom.
+    if (isCoarsePointer) return
+
+    // Start disabled so a plain wheel scroll falls through to page scroll.
+    map.scrollWheelZoom.disable()
+
+    const enableZoom = () => map.scrollWheelZoom.enable()
+    const disableZoom = () => map.scrollWheelZoom.disable()
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Control' || event.key === 'Meta') enableZoom()
+    }
+    const handleKeyUp = (event: KeyboardEvent) => {
+      if (event.key === 'Control' || event.key === 'Meta') disableZoom()
+    }
+
+    const container = map.getContainer()
+    let hintTimeout: ReturnType<typeof setTimeout> | undefined
+    const handleWheel = (event: WheelEvent) => {
+      // Modifier held → the map is zooming, so no hint is needed.
+      if (event.ctrlKey || event.metaKey) {
+        setShowHint(false)
+        if (hintTimeout) clearTimeout(hintTimeout)
+        return
+      }
+      // Plain scroll falls through to the page; surface the modifier hint so
+      // users can discover how to zoom the map.
+      setShowHint(true)
+      if (hintTimeout) clearTimeout(hintTimeout)
+      hintTimeout = setTimeout(() => setShowHint(false), 1600)
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('keyup', handleKeyUp)
+    // A modifier released while the window is unfocused can drop the keyup, so
+    // reset to the page-scroll default whenever focus leaves the page.
+    window.addEventListener('blur', disableZoom)
+    container.addEventListener('wheel', handleWheel, { passive: true })
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('keyup', handleKeyUp)
+      window.removeEventListener('blur', disableZoom)
+      container.removeEventListener('wheel', handleWheel)
+      if (hintTimeout) clearTimeout(hintTimeout)
+    }
+  }, [map])
+
+  if (!showHint) return null
+
+  return (
+    <div className="pointer-events-none absolute inset-0 z-[450] flex items-center justify-center">
+      <div className="text-mono-s bg-brand-dark-green/85 text-brand-off-white rounded-full px-5 py-3 backdrop-blur-[5px]">
+        {t('scrollZoomHint', { key: modifierKeyLabel })}
+      </div>
+    </div>
+  )
+}
+
 type CirclesWorldMapProps = {
   markers: ActiveCircleMarker[]
   upcomingEvents?: ActiveCircleUpcomingEvent[]
@@ -402,7 +479,7 @@ export default function CirclesWorldMap({
         maxZoom={MAX_ZOOM}
         zoomControl={false}
         attributionControl={false}
-        scrollWheelZoom
+        scrollWheelZoom={false}
         worldCopyJump
         className="h-full w-full"
       >
@@ -447,6 +524,7 @@ export default function CirclesWorldMap({
           zoomOutAriaLabel={zoomOutAriaLabel}
         />
         <TouchGestureHandling hint={gestureHintLabel} />
+        <DesktopScrollZoomGate />
       </MapContainer>
     </div>
   )
