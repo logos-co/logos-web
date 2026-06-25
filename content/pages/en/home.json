@@ -65,9 +65,98 @@
       ]
     },
     {
-      "componentType": "richText",
+      "componentType": "homeSocialProof",
+      "key": "home.socialProof",
+      "headline1": "Logos is not for everyone.",
+      "headline2": "Logos is for people who are done waiting for permission.",
+      "manifestoCta": "Read the manifesto",
+      "contributions": { "label": "Contributors", "body": "An open source community of builders, researchers, and technologists." },
+      "nodeOperators": { "label": "Node Operators", "body": "A decentralised network of independent Node operators ensuring Logos is secure." },
+      "winnableIssues": { "label": "Winnable Issues", "body": "Local issues that Circles identify and solve – from privacy tech to community funding." },
+      "circles": { "label": "Circles", "body": "Local chapters of activists and change seekers solving real world issues." }
+    },
+    {
+      "componentType": "homeChoosePath",
+      "key": "home.paths",
+      "title": "Choose your path",
+      "kicker": "The right response to broken systems is not to reform them but to build alongside them, and eventually, beyond them.",
+      "body": "Take action to reclaim agency and find your purpose.",
+      "build": {
+        "title": "Build",
+        "body": "Build privacy-first, decentralised applications. Read the docs, learn the stack, write code.",
+        "cta": "Start Building"
+      },
+      "operate": {
+        "title": "Operate",
+        "body": "Run a node. Decentralise the network. Secure Logos. Setup takes minutes.",
+        "cta": "Run a Node"
+      },
+      "activism": {
+        "title": "Organise",
+        "body": "Humanity evolved to organise. Some of our biggest problems lie in the breakdown of social trust, culture, and meaning. Join the Logos Movement to rebuild civil society together.",
+        "cta": "Join the Movement"
+      }
+    },
+    {
+      "componentType": "homeDecide",
+      "key": "home.decide",
+      "headline": "We get to decide what comes next.",
+      "headline2": "Remain in the decline.",
+      "headline3": "Or exit and build the alternative.",
+      "bodyParts": [
+        "Logos is the private-by-default technology stack",
+        "for parallel societies – communities,",
+        "institutions, and economies that operate",
+        "outside the legacy system."
+      ]
+    },
+    {
+      "componentType": "homeAbout",
       "key": "home.about",
-      "body": "The system is no longer working for us, so we are charting a new course. Logos exists at the intersection of human exploration and technological revolution. We are a movement for builders, explorers, and dreamers who refuse to accept the world as it is — part of a generation fed up with corruption, surveillance, and stagnation often associated with incumbent institutions."
+      "heading": "Civil society is in decline. Our institutions are failing.\nReform from within cannot reverse this.",
+      "headingMobile": "Civil society is in decline.\nOur institutions are failing.\nReform from within\ncannot reverse this.",
+      "problems": {
+        "debt": {
+          "title": "Debt",
+          "subtitle": "The bill lands on us",
+          "body": "We were born into a debt we never authorised and have inherited consequences of decisions we did not make. As interest compounds, the total grows. The bill lands on us.",
+          "facts": [
+            "Global government debt has climbed to a record $111 trillion in 2025, rising by $8.3 trillion in a single year.",
+            "The average millennial in the US has 30% less wealth than the average Boomer by age 35.",
+            "3.4 billion people now live in countries that spend more on interest payments than on either health or education.",
+            "Just 27% of Gen Z and 55% of millennials own a home, compared to 80% of Baby Boomers."
+          ]
+        },
+        "surveillance": {
+          "title": "Surveillance",
+          "subtitle": "Privacy is no longer the default",
+          "body": "We are the most watched generation in human history. Online activity, location, and communications are routinely collected, stored, and sold, often without meaningful consent. Privacy is no longer a default condition.",
+          "facts": [
+            "There are now ~1 billion surveillance cameras installed worldwide. More than 1 for every 8 people on Earth.",
+            "75% of police forces globally now have access to facial recognition technology.",
+            "Governments now legally purchase massive quantities of citizens' personal data from commercial brokers."
+          ]
+        },
+        "corruption": {
+          "title": "Corruption",
+          "subtitle": "The rules are for sale",
+          "body": "Policy is increasingly shaped by those who can pay to influence it. Lobbying, campaign donations, and direct access give organised money a structural advantage over the public interest.",
+          "facts": [
+            "Billionaires are now estimated to be 4,000 times more likely to hold political office than ordinary citizens.",
+            "In the US alone, federal lobbying smashed records in 2025, with corporations and interest groups spending $5.08 billion in a single year to influence Washington.",
+            "Two-thirds of Americans (67%) now believe their federal government is \"corrupt\", and trust in government has crashed to just 17%."
+          ]
+        },
+        "stagnation": {
+          "title": "Stagnation",
+          "subtitle": "The system protects itself",
+          "body": "Since 1979, productivity has grown while wages stay flat. The output is real, but the gains are captured upstream by top earners and capital owners, not wages. This has been done systematically over decades.",
+          "facts": [
+            "The 12 richest billionaires now own more wealth than the poorest half of humanity — 4 billion people.",
+            "Millennials work in an economy 70% more productive than when boomers were the same age — yet their median compensation has barely moved."
+          ]
+        }
+      }
     },
     {
       "componentType": "techStackOverview",
@@ -79,6 +168,11 @@
         "href": "https://docs.logos.co/",
         "external": true
       },
+      "ctas": [
+        { "label": "Explore the Stack", "href": "/technology-stack" },
+        { "label": "Start Building", "href": "/get-started", "variant": "secondary" },
+        { "label": "Documentation", "href": "https://docs.logos.co/", "variant": "secondary" }
+      ],
       "basecamp": {
         "title": "Basecamp",
         "body": "The fully local launcher for the Logos stack, running all modules on your device from a unified interface.",
@@ -130,107 +224,41 @@
       "foundationDescription": "A runtime that handles the essential primitives every decentralised application needs."
     },
     {
-      "componentType": "cardGrid",
+      "componentType": "homeStartBuilding",
+      "key": "home.startBuilding",
+      "title": "Start building.",
+      "body": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code, explore builder programmes.",
+      "cta": "Get Started",
+      "cardCta": "Learn more",
+      "lambdaPrize": "Lambda Prize",
+      "rfps": "RFPs",
+      "ideas": "Starter Issues and Community Ideas Repo",
+      "docs": "View the Documentation"
+    },
+    {
+      "componentType": "homeUseCases",
       "key": "home.useCases",
-      "heading": "Use Cases",
-      "subheading": "We know today's systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
-      "subheadingExtra": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
-      "cta": {
-        "label": "View the Docs",
-        "href": "https://docs.logos.co/",
-        "external": true
+      "eyebrow": "Use Cases",
+      "headline": "Privacy is the condition that makes free association possible.\nLogos is the technology stack that makes it the default.",
+      "headlineMobile": "Privacy is the condition\nthat makes free association\npossible.\n\nLogos is the technology stack\nthat makes it the default.",
+      "lambda": "Explore the applications Logos is funding through the <lambdaPrize>Lambda Prize</lambdaPrize>.",
+      "lambdaMobile": "Explore the applications Logos is\nfunding through the <lambdaPrize>Lambda Prize</lambdaPrize>.",
+      "secure": {
+        "title": "Secure, private communications.",
+        "body": "Resilient, private messaging for coordination in hostile environments."
       },
-      "cards": [
-        {
-          "title": "Attack-Resistant Public Registries",
-          "description": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
-          "image": {
-            "src": "/images/home/usecase-1.webp",
-            "alt": "",
-            "width": 96,
-            "height": 120
-          },
-          "cta": {
-            "label": "Learn more",
-            "href": "/technology-stack/blockchain"
-          }
-        },
-        {
-          "title": "Decentralised Archives",
-          "description": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
-          "image": {
-            "src": "/images/home/usecase-2.webp",
-            "alt": "",
-            "width": 96,
-            "height": 120
-          },
-          "cta": { "label": "Learn more", "href": "/technology-stack/storage" }
-        },
-        {
-          "title": "Private Financial Networks",
-          "description": "Money that moves securely and freely, without surveillance or control.",
-          "image": {
-            "src": "/images/home/usecase-3.jpg",
-            "alt": "",
-            "width": 96,
-            "height": 120
-          },
-          "cta": {
-            "label": "Learn more",
-            "href": "/technology-stack/blockchain"
-          }
-        },
-        {
-          "title": "Community Governance Processes",
-          "description": "Self-organising groups can establish and enforce their own rules, with members engaging voluntarily.",
-          "image": {
-            "src": "/images/home/usecase-4.jpg",
-            "alt": "",
-            "width": 96,
-            "height": 120
-          },
-          "cta": { "label": "Learn more", "href": "/movement" }
-        },
-        {
-          "title": "Autonomous Local Markets",
-          "description": "Community-run markets coordinate exchange without relying on captured intermediaries.",
-          "image": {
-            "src": "/images/home/usecase-1.webp",
-            "alt": "",
-            "width": 96,
-            "height": 120
-          },
-          "cta": {
-            "label": "Learn more",
-            "href": "/technology-stack/blockchain"
-          }
-        },
-        {
-          "title": "Resilient Knowledge Commons",
-          "description": "Archives, media, and public records remain available even when platforms disappear.",
-          "image": {
-            "src": "/images/home/usecase-2.webp",
-            "alt": "",
-            "width": 96,
-            "height": 120
-          },
-          "cta": { "label": "Learn more", "href": "/technology-stack/storage" }
-        },
-        {
-          "title": "Private Civic Infrastructure",
-          "description": "Groups can coordinate, fund, and govern shared resources with privacy by default.",
-          "image": {
-            "src": "/images/home/usecase-3.jpg",
-            "alt": "",
-            "width": 96,
-            "height": 120
-          },
-          "cta": {
-            "label": "Learn more",
-            "href": "/technology-stack/networking"
-          }
-        }
-      ]
+      "money": {
+        "title": "Private, censorship-resistant money.",
+        "body": "Private financial networks for storing and moving value without surveillance."
+      },
+      "archives": {
+        "title": "Permanent, decentralised archives.",
+        "body": "Decentralised network for storing knowledge, culture, and history beyond the reach of any single centralised actor."
+      },
+      "donations": {
+        "title": "Anonymous donations and mutual aid.",
+        "body": "Private payment network for funding people and causes without putting parties at risk."
+      }
     },
     {
       "componentType": "featuredText",
@@ -284,17 +312,14 @@
       ]
     },
     {
-      "componentType": "ctaPanel",
+      "componentType": "homeBuilderPortal",
       "key": "home.builderPortal",
-      "title": "The Logos Builder Portal",
-      "description": "Operate early. Help harden a private-by-default network that protects civil liberties and strengthens trust in our communities.",
-      "image": {
-        "src": "/cms/pages/home/builder-portal.jpg",
-        "alt": "",
-        "width": 1280,
-        "height": 720
-      },
-      "cta": { "label": "Get involved", "href": "/builders-hub" }
+      "title": "Basecamp.\nThe local launcher\nfor the Logos stack.",
+      "description": "Basecamp is a ready-to-run Logos distribution that you deploy on your own hardware, under your control. From the moment it’s installed, you’re standing on your own ground, not connecting to someone else’s infrastructure.\n\nThe Logos runtime runs locally, core modules are loaded, and essential applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one.",
+      "cta": "Learn more",
+      "featureChat": "Load a basic chat app",
+      "featureNode": "Run a node",
+      "featureTransactions": "Execute private transactions"
     },
     {
       "componentType": "relatedArticles",
