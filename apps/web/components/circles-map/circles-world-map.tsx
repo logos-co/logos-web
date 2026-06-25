@@ -347,10 +347,13 @@ function TouchGestureHandling({ hint }: { hint: string }) {
   )
 }
 
+// How long the zoom hint stays on screen the first time the map appears.
+const SCROLL_ZOOM_HINT_DURATION_MS = 2800
+
 // On desktop, scrolling the wheel over the map scrolls the page by default
 // (matching the live site). Holding Ctrl/Cmd switches to Leaflet's native wheel
 // zoom, so the map only zooms on an explicit gesture instead of hijacking scroll.
-// A short-lived hint nudges the user toward the modifier when they scroll plain.
+// The hint shows once, briefly, the first time the map scrolls into view.
 function DesktopScrollZoomGate() {
   const map = useMap()
   const t = useTranslations('circlesMap')
@@ -381,34 +384,31 @@ function DesktopScrollZoomGate() {
       if (event.key === 'Control' || event.key === 'Meta') disableZoom()
     }
 
-    const container = map.getContainer()
-    let hintTimeout: ReturnType<typeof setTimeout> | undefined
-    const handleWheel = (event: WheelEvent) => {
-      // Modifier held → the map is zooming, so no hint is needed.
-      if (event.ctrlKey || event.metaKey) {
-        setShowHint(false)
-        if (hintTimeout) clearTimeout(hintTimeout)
-        return
-      }
-      // Plain scroll falls through to the page; surface the modifier hint so
-      // users can discover how to zoom the map.
-      setShowHint(true)
-      if (hintTimeout) clearTimeout(hintTimeout)
-      hintTimeout = setTimeout(() => setShowHint(false), 1600)
-    }
-
     window.addEventListener('keydown', handleKeyDown)
     window.addEventListener('keyup', handleKeyUp)
     // A modifier released while the window is unfocused can drop the keyup, so
     // reset to the page-scroll default whenever focus leaves the page.
     window.addEventListener('blur', disableZoom)
-    container.addEventListener('wheel', handleWheel, { passive: true })
+
+    // Reveal the hint once, the first time the map scrolls into view, then stop
+    // observing so it never reappears on later scrolls.
+    let hintTimeout: ReturnType<typeof setTimeout> | undefined
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return
+        setShowHint(true)
+        hintTimeout = setTimeout(() => setShowHint(false), SCROLL_ZOOM_HINT_DURATION_MS)
+        observer.disconnect()
+      },
+      { threshold: 0.35 },
+    )
+    observer.observe(map.getContainer())
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
       window.removeEventListener('keyup', handleKeyUp)
       window.removeEventListener('blur', disableZoom)
-      container.removeEventListener('wheel', handleWheel)
+      observer.disconnect()
       if (hintTimeout) clearTimeout(hintTimeout)
     }
   }, [map])
