@@ -12,6 +12,7 @@ import {
 import buildersHubResources from '../../../../content/builders-hub/resources/en.json' with { type: 'json' }
 import buildersHubSettings from '../../../../content/builders-hub/settings/en.json' with { type: 'json' }
 import homePage from '../../../../content/pages/en/home.json' with { type: 'json' }
+import manifestoContentPage from '../../../../content/pages/en/manifesto.json' with { type: 'json' }
 import messages from '../../messages/en.json' with { type: 'json' }
 import footer from '../../../../content/site/en/footer.json' with { type: 'json' }
 import navigation from '../../../../content/site/en/navigation.json' with { type: 'json' }
@@ -208,7 +209,8 @@ describe('link policy', () => {
     expect(ROUTES.book).toBe('/book')
     expect(EXTERNAL_URLS.livingWithinTruth).toBe(livingWithinTruthHref)
     expect(EXTERNAL_URLS.logosGenealogyArticle).toBe(logosGenealogyHref)
-    expect(messages.pages.manifesto.more).toEqual([
+    const manifestoSection = manifestoContentPage.sections[0] as { more?: string[] }
+    expect(manifestoSection.more).toEqual([
       'Farewell to Westphalia',
       'Living Within the Truth | Parallel Society',
       'From Offline to Online Piracy: A Genealogy of Logos',

@@ -18,4 +18,23 @@ describe('messages ownership contract', () => {
     expect(Object.keys(pages)).not.toContain('getStarted')
     expect(Object.keys(pages)).not.toContain('movement')
   })
+
+  it('contains no migrated navbar page copy in messages.pages (content owns these)', () => {
+    const pages = (messages as { pages: Record<string, unknown> }).pages
+    const migratedNamespaces = [
+      'book',
+      'brandKit',
+      'research',
+      'nodeProgramme',
+      'lambdaPrize',
+      'manifesto',
+      'blog',
+      'podcast',
+      'logosBroadcastNetwork',
+      'technologyStack',
+    ]
+    for (const ns of migratedNamespaces) {
+      expect(Object.keys(pages)).not.toContain(ns)
+    }
+  })
 })

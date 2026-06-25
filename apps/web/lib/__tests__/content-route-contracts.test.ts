@@ -105,6 +105,51 @@ const contracts: PageContract[] = [
     name: 'movement',
     sections: [{ componentType: 'movementCopy', key: 'movement.copy' }],
   },
+  {
+    route: ROUTES.research,
+    name: 'research',
+    sections: [{ componentType: 'researchCopy', key: 'research.copy' }],
+  },
+  {
+    route: ROUTES.book,
+    name: 'book',
+    sections: [{ componentType: 'bookCopy', key: 'book.copy' }],
+  },
+  {
+    route: ROUTES.brandKit,
+    name: 'brand-kit',
+    sections: [{ componentType: 'brandKitCopy', key: 'brandKit.copy' }],
+  },
+  {
+    route: ROUTES.nodeProgramme,
+    name: 'node-programme',
+    sections: [{ componentType: 'nodeProgrammeCopy', key: 'nodeProgramme.copy' }],
+  },
+  {
+    route: ROUTES.lambdaPrize,
+    name: 'lambda-prize',
+    sections: [{ componentType: 'lambdaPrizeCopy', key: 'lambdaPrize.copy' }],
+  },
+  {
+    route: ROUTES.manifesto,
+    name: 'manifesto',
+    sections: [{ componentType: 'manifestoCopy', key: 'manifesto.copy' }],
+  },
+  {
+    route: ROUTES.media,
+    name: 'media',
+    sections: [{ componentType: 'mediaCopy', key: 'media.copy' }],
+  },
+  {
+    route: ROUTES.podcast,
+    name: 'podcast',
+    sections: [{ componentType: 'podcastCopy', key: 'podcast.copy' }],
+  },
+  {
+    route: ROUTES.logosBroadcastNetwork,
+    name: 'logos-broadcast-network',
+    sections: [{ componentType: 'broadcastCopy', key: 'logosBroadcastNetwork.copy' }],
+  },
 ]
 
 describe('content-backed web route contracts', () => {

@@ -1,4 +1,3 @@
-import { getTranslations } from 'next-intl/server'
 import { twMerge } from 'tailwind-merge'
 
 import { getPageCopy } from '@repo/content/loaders'
@@ -20,16 +19,18 @@ export default async function TechStackExplorer({
   locale: Language
   contentClassName?: string
 }) {
-  const t = await getTranslations({
-    locale,
-    namespace: 'pages.technologyStack.stack',
-  })
   const page = await getPageCopy(ROUTES.technologyStack, locale)
   const overview = findTechnologyStackSection<TechStackOverviewSection>(
     page.sections,
     'techStackOverview',
     'techStack.overview'
   )
+
+  const { titleLine1, titleLine2, body } = overview.explorer ?? {
+    titleLine1: '',
+    titleLine2: '',
+    body: '',
+  }
 
   return (
     <section className="border-brand-dark-green/10 bg-brand-off-white border-t">
@@ -42,13 +43,13 @@ export default async function TechStackExplorer({
         >
           <RevealItem className="min-[1367px]:w-178.5">
             <h2 className="text-h4-sans">
-              {t('titleLine1')}
+              {titleLine1}
               <br />
-              {t('titleLine2')}
+              {titleLine2}
             </h2>
           </RevealItem>
           <RevealItem className="min-[1367px]:w-83.5">
-            <p className="text-mono-s">{t('body')}</p>
+            <p className="text-mono-s">{body}</p>
           </RevealItem>
         </Reveal>
 

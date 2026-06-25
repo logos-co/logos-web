@@ -1,25 +1,36 @@
-import { getTranslations } from 'next-intl/server'
+import { getPageCopy } from '@repo/content/loaders'
+import { isActiveLocale } from '@repo/content/locales'
+import type { BookCopySection } from '@repo/content/schemas'
 
 import { ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/lib/metadata'
+import { createPageMetadata } from '@/lib/page-metadata'
+import { createSectionFinder } from '@/lib/page-sections'
 
 import { BookPage } from './_sections/book-page'
 
-export async function generateMetadata({
+const ROUTE = ROUTES.book
+
+const findSection = createSectionFinder('book')
+
+export const generateMetadata = createPageMetadata(ROUTE)
+
+export default async function Page({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.book' })
-  return createDefaultMetadata({
-    title: t('title'),
-    description: t('description'),
-    locale,
-    path: ROUTES.book,
-  })
-}
+  if (!isActiveLocale(locale)) {
+    throw new Error(`BookPage received non-active locale "${locale}"`)
+  }
 
-export default async function Page() {
-  return <BookPage />
+  const page = await getPageCopy(ROUTE, locale)
+
+  const bookCopy = findSection<BookCopySection>(
+    page.sections,
+    'bookCopy',
+    'book.copy',
+  )
+
+  return <BookPage data={bookCopy} />
 }

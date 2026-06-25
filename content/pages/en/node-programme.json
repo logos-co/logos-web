@@ -13,7 +13,8 @@
         "title": "Be the first to join the node programme",
         "body": "Sign up for early access to the upcoming node programme and help decentralise the network.",
         "cta": "Sign up",
-        "secondaryCta": "View the stack"
+        "secondaryCta": "View the stack",
+        "guideCta": "Node operator guide"
       },
       "builders": {
         "eyebrow": "Operate",

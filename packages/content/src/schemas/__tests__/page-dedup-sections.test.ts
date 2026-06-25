@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 
-import { bookCopySectionSchema, brandKitCopySectionSchema, getStartedCopySectionSchema, lambdaPrizeCopySectionSchema, movementCopySectionSchema, nodeProgrammeCopySectionSchema, pageSectionSchema, researchCopySectionSchema } from '../pages'
+import { activistBuilderCopySectionSchema, activistLeaderStewardCopySectionSchema, bookCopySectionSchema, coalitionPartnerCopySectionSchema, getStartedCopySectionSchema, lambdaPrizeCopySectionSchema, movementCopySectionSchema, nodeProgrammeCopySectionSchema, pageSectionSchema, researchCopySectionSchema } from '../pages'
 
 test('getStartedCopy parses a minimal valid value and routes through the union', () => {
   const value = {
@@ -51,24 +51,6 @@ test('bookCopy parses a minimal valid value and routes through the union', () =>
   assert.equal(pageSectionSchema.parse(value).componentType, 'bookCopy')
 })
 
-test('brandKitCopy parses a minimal valid value and routes through the union', () => {
-  const value = {
-    componentType: 'brandKitCopy',
-    key: 'brandKit.copy',
-    heading: 'Brand Kit',
-    intro: 'Some intro text.',
-    downloads: {
-      brandMarksLabel: 'Download Brand Marks',
-      brandMarksHref: '/brand-kit/brand-marks.zip',
-      guidelinesSection: 'Brand Guidelines',
-      guidelinesLabel: 'Download Brand Guidelines',
-      guidelinesHref: '/brand-kit/logos-brand-guidelines.pdf',
-    },
-  }
-  assert.equal(brandKitCopySectionSchema.parse(value).componentType, 'brandKitCopy')
-  assert.equal(pageSectionSchema.parse(value).componentType, 'brandKitCopy')
-})
-
 test('researchCopy parses a minimal valid value and routes through the union', () => {
   const value = {
     componentType: 'researchCopy',
@@ -111,7 +93,7 @@ test('nodeProgrammeCopy parses a minimal valid value and routes through the unio
   const value = {
     componentType: 'nodeProgrammeCopy',
     key: 'nodeProgramme.copy',
-    hero: { eyebrow: 'Node Programme', title: 'Be the first', body: 'Sign up for early access.', cta: 'Sign up', secondaryCta: 'View the stack' },
+    hero: { eyebrow: 'Node Programme', title: 'Be the first', body: 'Sign up for early access.', cta: 'Sign up', secondaryCta: 'View the stack', guideCta: 'Node operator guide' },
     builders: { eyebrow: 'Operate', title: 'Calling builders', body: 'The node programme is for anyone.', imageAlt: 'Builders image' },
     stack: {
       title: 'The Logos technology stack.',
@@ -163,4 +145,34 @@ test('lambdaPrizeCopy parses a minimal valid value and routes through the union'
   }
   assert.equal(lambdaPrizeCopySectionSchema.parse(value).componentType, 'lambdaPrizeCopy')
   assert.equal(pageSectionSchema.parse(value).componentType, 'lambdaPrizeCopy')
+})
+
+test('activistBuilderCopy parses a minimal valid value and routes through the union', () => {
+  const value = {
+    componentType: 'activistBuilderCopy',
+    key: 'activistBuilder.copy',
+    heading: 'Activist Builder',
+  }
+  assert.equal(activistBuilderCopySectionSchema.parse(value).componentType, 'activistBuilderCopy')
+  assert.equal(pageSectionSchema.parse(value).componentType, 'activistBuilderCopy')
+})
+
+test('activistLeaderStewardCopy parses a minimal valid value and routes through the union', () => {
+  const value = {
+    componentType: 'activistLeaderStewardCopy',
+    key: 'activistLeaderSteward.copy',
+    heading: 'Activist Leader / Steward',
+  }
+  assert.equal(activistLeaderStewardCopySectionSchema.parse(value).componentType, 'activistLeaderStewardCopy')
+  assert.equal(pageSectionSchema.parse(value).componentType, 'activistLeaderStewardCopy')
+})
+
+test('coalitionPartnerCopy parses a minimal valid value and routes through the union', () => {
+  const value = {
+    componentType: 'coalitionPartnerCopy',
+    key: 'coalitionPartner.copy',
+    heading: 'Coalition Partner',
+  }
+  assert.equal(coalitionPartnerCopySectionSchema.parse(value).componentType, 'coalitionPartnerCopy')
+  assert.equal(pageSectionSchema.parse(value).componentType, 'coalitionPartnerCopy')
 })

@@ -1,34 +1,24 @@
 import Image from 'next/image'
-import { getTranslations } from 'next-intl/server'
 import type { ReactNode } from 'react'
 
+import { getPageCopy } from '@repo/content/loaders'
+import { isActiveLocale } from '@repo/content/locales'
+import type { NodeProgrammeCopySection } from '@repo/content/schemas'
 import { LogosMark } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
-import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
+import { createPageMetadata } from '@/lib/page-metadata'
+import { createSectionFinder } from '@/lib/page-sections'
 
 import { NodeProgrammeSignupForm } from './node-programme-signup-form'
 
-const NAMESPACE = 'pages.nodeProgramme'
+const ROUTE = ROUTES.nodeProgramme
 
-export const generateMetadata = createTranslatedPageMetadata({
-  namespace: NAMESPACE,
-  path: ROUTES.nodeProgramme,
-})
+const findSection = createSectionFinder('node-programme')
 
-interface StackItem {
-  title: string
-  body: string
-  icon: string
-  alt: string
-}
-
-interface UseCaseItem {
-  title: string
-  body: string
-}
+export const generateMetadata = createPageMetadata(ROUTE)
 
 function SectionShell({
   children,
@@ -77,9 +67,17 @@ export default async function NodeProgramPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: NAMESPACE })
-  const stackItems = t.raw('stack.items') as StackItem[]
-  const useCases = t.raw('useCases.items') as UseCaseItem[]
+  if (!isActiveLocale(locale)) {
+    throw new Error(`NodeProgramPage received non-active locale "${locale}"`)
+  }
+
+  const page = await getPageCopy(ROUTE, locale)
+
+  const data = findSection<NodeProgrammeCopySection>(
+    page.sections,
+    'nodeProgrammeCopy',
+    'nodeProgramme.copy',
+  )
 
   return (
     <main className="bg-brand-off-white">
@@ -98,35 +96,35 @@ export default async function NodeProgramPage({
 
           <p className="text-mono-s absolute top-6 left-[calc(50%+6px)] flex w-[calc(50%-18px)] max-w-[178px] items-center gap-3 md:left-1/2 md:w-[226px] md:max-w-none md:translate-x-[6px]">
             <LogosMark size={10} />
-            {t('hero.eyebrow')}
+            {data.hero.eyebrow}
           </p>
 
           <div className="absolute top-[279px] left-3 flex flex-col items-start gap-3 md:top-[11px] md:left-[83.33%] md:translate-x-[2px] md:gap-1.5">
             <HeroAnchorLink href="#node-programme-signup">
-              {t('hero.cta')}
+              {data.hero.cta}
             </HeroAnchorLink>
             <Button
               href={ROUTES.technologyStack}
               variant="link"
               className="cursor-pointer"
             >
-              {t('hero.secondaryCta')}
+              {data.hero.secondaryCta}
             </Button>
             <Button
               href={EXTERNAL_URLS.nodeOperatorGuide}
               variant="link"
               className="cursor-pointer"
             >
-              {t('hero.guideCta')}
+              {data.hero.guideCta}
             </Button>
           </div>
 
           <h1 className="absolute top-[140px] left-1/2 w-[min(464px,calc(100vw-24px))] -translate-x-1/2 text-center font-display text-[40px] leading-[0.86] tracking-[-0.03em] text-brand-dark-green md:w-[640px] md:text-[56px]">
-            {t('hero.title')}
+            {data.hero.title}
           </h1>
 
           <p className="text-mono-s absolute top-[279px] left-[calc(50%+6px)] w-[calc(50%-18px)] max-w-[178px] md:top-[307px] md:left-1/2 md:w-[226px] md:max-w-none md:translate-x-[6px]">
-            {t('hero.body')}
+            {data.hero.body}
           </p>
         </ContentWidth>
       </section>
@@ -135,7 +133,7 @@ export default async function NodeProgramPage({
         <div className="relative min-h-[280px] overflow-hidden rounded-xl md:col-span-6 md:min-h-[470px]">
           <Image
             src="/images/node-programme/builders.webp"
-            alt={t('builders.imageAlt')}
+            alt={data.builders.imageAlt}
             fill
             priority
             sizes="(max-width: 768px) 100vw, 702px"
@@ -146,23 +144,23 @@ export default async function NodeProgramPage({
           <div>
             <p className="text-mono-s mb-5 flex items-center gap-3">
               <LogosMark size={10} />
-              {t('builders.eyebrow')}
+              {data.builders.eyebrow}
             </p>
-            <h2 className="text-h3 max-w-[560px]">{t('builders.title')}</h2>
+            <h2 className="text-h3 max-w-[560px]">{data.builders.title}</h2>
           </div>
-          <p className="text-mono-s max-w-[486px]">{t('builders.body')}</p>
+          <p className="text-mono-s max-w-[486px]">{data.builders.body}</p>
         </div>
       </SectionShell>
 
       <SectionShell className="grid gap-10 py-10 lg:grid-cols-12 lg:gap-3 lg:py-20">
         <h2 className="text-h3 lg:col-span-7">
-          {t('stack.title')}{' '}
+          {data.stack.title}{' '}
           <span className="text-brand-dark-green/45">
-            {t('stack.titleMuted')}
+            {data.stack.titleMuted}
           </span>
         </h2>
         <div className="divide-y divide-brand-dark-green/15 border-y border-brand-dark-green/15 lg:col-span-6 lg:col-start-7">
-          {stackItems.map((item) => (
+          {data.stack.items.map((item) => (
             <article
               key={item.title}
               className="grid gap-5 py-6 lg:grid-cols-6"
@@ -187,13 +185,13 @@ export default async function NodeProgramPage({
 
       <SectionShell className="lg:border-t border-brand-dark-green/10 py-10 md:py-20">
         <h2 className="text-h3 max-w-[1040px]">
-          {t('useCases.title')}{' '}
+          {data.useCases.title}{' '}
           <span className="text-brand-dark-green/45">
-            {t('useCases.titleMuted')}
+            {data.useCases.titleMuted}
           </span>
         </h2>
         <div className="mt-10 grid gap-3 md:grid-cols-3 lg:grid-cols-5">
-          {useCases.map((item, index) => (
+          {data.useCases.items.map((item, index) => (
             <article
               key={item.title}
               className="flex min-h-[220px] flex-col justify-between rounded-xl bg-gray-01 p-4"
@@ -214,7 +212,7 @@ export default async function NodeProgramPage({
         <div className="relative flex min-h-[560px] items-center justify-center overflow-hidden rounded-xl px-3 py-16 text-brand-dark-green md:min-h-[680px]">
           <Image
             src="/images/node-programme/woods.webp"
-            alt={t('signup.imageAlt')}
+            alt={data.signup.imageAlt}
             fill
             sizes="(max-width: 768px) 100vw, 1416px"
             className="object-cover"
@@ -222,9 +220,9 @@ export default async function NodeProgramPage({
           <div className="absolute inset-0 bg-brand-off-white/15" />
           <div className="relative z-10 mx-auto flex w-full max-w-[720px] flex-col items-center gap-6 text-center">
             <h2 className="text-h2 text-brand-dark-green">
-              {t('signup.title')}
+              {data.signup.title}
             </h2>
-            <NodeProgrammeSignupForm />
+            <NodeProgrammeSignupForm copy={data.signup} />
           </div>
         </div>
       </SectionShell>
