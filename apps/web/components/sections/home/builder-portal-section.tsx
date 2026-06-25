@@ -1,5 +1,6 @@
-import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
+
+import type { HomeBuilderPortalSection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 import { SectionHeadingReveal } from '@/components/motion/section-heading-reveal'
@@ -36,13 +37,11 @@ import { ROUTES } from '@/constants/routes'
 //   )
 // }
 
-export default async function BuilderPortalSection({
-  locale,
+export default function BuilderPortalSection({
+  data,
 }: {
-  locale: string
+  data: HomeBuilderPortalSection
 }) {
-  const t = await getTranslations({ locale, namespace: 'home.builderPortal' })
-
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
       <ContentWidth className="desktop:pt-28 py-25 lg:pb-0">
@@ -53,7 +52,7 @@ export default async function BuilderPortalSection({
                 className="text-h2 desktop:w-[702px] relative z-[1] max-w-[702px] whitespace-pre-line text-brand-dark-green"
                 delay={0.08}
               >
-                {t('title')}
+                {data.title}
               </SectionHeadingReveal>
               <Button
                 href={ROUTES.basecamp}
@@ -61,12 +60,12 @@ export default async function BuilderPortalSection({
                 icon={<ButtonArrowIcon />}
                 className="w-fit cursor-pointer transition-opacity hover:opacity-80"
               >
-                {t('cta')}
+                {data.cta}
               </Button>
             </div>
 
             <p className="text-mono-s desktop:w-[345px] whitespace-pre-line text-brand-dark-green">
-              {t('description')}
+              {data.description}
             </p>
           </div>
 
@@ -84,17 +83,17 @@ export default async function BuilderPortalSection({
         {/* Temporarily hidden — re-enable to show the Basecamp feature boxes.
         <div className="mt-3 grid gap-3 lg:grid-cols-3">
           <BasecampFeature
-            label={t('featureChat')}
+            label={data.featureChat}
             image="/images/home/figma-refresh/basecamp-chat.webp"
             imageClassName="rotate-90 scale-125"
           />
           <BasecampFeature
-            label={t('featureNode')}
+            label={data.featureNode}
             image="/images/home/figma-refresh/basecamp-node.webp"
             imageClassName="scale-125"
           />
           <BasecampFeature
-            label={t('featureTransactions')}
+            label={data.featureTransactions}
             image="/images/home/figma-refresh/basecamp-transactions.webp"
             imageClassName="scale-125"
           />

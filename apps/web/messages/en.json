@@ -31,209 +31,6 @@
       }
     }
   },
-  "home": {
-    "socialProof": {
-      "headline": "Logos is not for everyone. Logos is for people who are done waiting for permission.",
-      "headline1": "Logos is not for everyone.",
-      "headline2": "Logos is for people who are done waiting for permission.",
-      "manifestoCta": "Read the manifesto",
-      "contributions": {
-        "label": "Contributors",
-        "body": "An open source community of builders, researchers, and technologists."
-      },
-      "nodeOperators": {
-        "label": "Node Operators",
-        "body": "A decentralised network of independent Node operators ensuring Logos is secure."
-      },
-      "winnableIssues": {
-        "label": "Winnable Issues",
-        "body": "Local issues that Circles identify and solve – from privacy tech to community funding."
-      },
-      "circles": {
-        "label": "Circles",
-        "body": "Local chapters of activists and change seekers solving real world issues."
-      }
-    },
-    "build": {
-      "eyebrow": "Build",
-      "number": "01",
-      "description": "Explore programmes and resources to help you build your cyberstate.",
-      "cta": "Builder Hub",
-      "examples": "examples",
-      "row1Title": "Your own bank",
-      "row1Desc": "Build a bank powered by logic you've programmed",
-      "row2Title": "Your own currency",
-      "row2Desc": "Create tokens that you can transfer and use across applications",
-      "row3Title": "A JavaScript Logos wallet",
-      "row3Desc": "Use familiar tooling to interact with Logos modules and applications",
-      "row4Title": "An open, permissionless DNS",
-      "row4Desc": "Re-imagine existing services as decentralised, open applications"
-    },
-    "node": {
-      "eyebrow": "Node Programme",
-      "number": "02",
-      "description": "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
-      "cta": "Apply",
-      "examples": "examples",
-      "row1Title": "Run infrastructure",
-      "row1Desc": "Operate network services that help keep Logos resilient.",
-      "row2Title": "Support the network",
-      "row2Desc": "Contribute uptime, feedback, and operational experience.",
-      "row3Title": "Join a cohort",
-      "row3Desc": "Work with other operators as the stack matures.",
-      "row4Title": "Learn operations",
-      "row4Desc": "Build the habits needed to run sovereign infrastructure."
-    },
-    "circles": {
-      "eyebrow": "Circles",
-      "number": "03",
-      "description": "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections.",
-      "cta": "Join a Circle",
-      "winnableIssues": "winnable issues",
-      "issue1Desc": "Local organisers coordinate practical work around shared community needs.",
-      "issue2Desc": "Scelerisque erat convallis non cursus sagittis turpis. Consectetur in mollis in mattis. Mi imperdiet eget in nunc blandit tristique scelerisque nec.",
-      "issue3Desc": "Circles turn local problems into focused actions with clear ownership.",
-      "issue4Desc": "Scelerisque erat convallis non cursus sagittis turpis. Consectetur in mollis in mattis. Mi imperdiet eget in nunc blandit tristique scelerisque nec.",
-      "issue5Desc": "Members share skills, run workshops, and support each other as projects move from idea to action."
-    },
-    "about": {
-      "quote": "The system is no longer working for us, so we are charting a new course.",
-      "headline": "Logos exists at the intersection of human exploration and technological revolution.",
-      "body": "We are a movement for builders, explorers, and dreamers who refuse to accept the world as it is. We're part of a generation fed up with corruption, surveillance, and stagnation often associated with incumbent institutions.",
-      "intro": "Civil society is in decline. Our institutions are failing. Our money is debased. People are atomised, indebted, and increasingly unable to provide for themselves or their families. Reform from within cannot reverse this because the system selects for compliance, and centralisation leads inevitably to corruption.",
-      "heading": "Civil society is in decline. Our institutions are failing.\nReform from within cannot reverse this.",
-      "headingMobile": "Civil society is in decline.\nOur institutions are failing.\nReform from within\ncannot reverse this.",
-      "closing1": "Logos exist to build the decentralised infrastructure and living ecosystem that makes a parallel society possible for anyone \nready to reclaim their agency in the digital and physical world.",
-      "closing2": "Built for exit when the existing order can no longer hold.",
-      "closing3": "Build the parallel. Prove it in practice. Keep it human.",
-      "cta": "About us",
-      "problems": {
-        "debt": {
-          "title": "Debt",
-          "subtitle": "The bill lands on us",
-          "body": "We were born into a debt we never authorised and have inherited consequences of decisions we did not make. As interest compounds, the total grows. The bill lands on us.",
-          "fact1": "Global government debt has climbed to a record $111 trillion in 2025, rising by $8.3 trillion in a single year.",
-          "fact2": "The average millennial in the US has 30% less wealth than the average Boomer by age 35.",
-          "fact3": "3.4 billion people now live in countries that spend more on interest payments than on either health or education.",
-          "fact4": "Just 27% of Gen Z and 55% of millennials own a home, compared to 80% of Baby Boomers."
-        },
-        "surveillance": {
-          "title": "Surveillance",
-          "subtitle": "Privacy is no longer the default",
-          "body": "We are the most watched generation in human history. Online activity, location, and communications are routinely collected, stored, and sold, often without meaningful consent. Privacy is no longer a default condition.",
-          "fact1": "There are now ~1 billion surveillance cameras installed worldwide. More than 1 for every 8 people on Earth.",
-          "fact2": "75% of police forces globally now have access to facial recognition technology.",
-          "fact3": "Governments now legally purchase massive quantities of citizens' personal data from commercial brokers."
-        },
-        "corruption": {
-          "title": "Corruption",
-          "subtitle": "The rules are for sale",
-          "body": "Policy is increasingly shaped by those who can pay to influence it. Lobbying, campaign donations, and direct access give organised money a structural advantage over the public interest.",
-          "fact1": "Billionaires are now estimated to be 4,000 times more likely to hold political office than ordinary citizens.",
-          "fact2": "In the US alone, federal lobbying smashed records in 2025, with corporations and interest groups spending $5.08 billion in a single year to influence Washington.",
-          "fact3": "Two-thirds of Americans (67%) now believe their federal government is \"corrupt\", and trust in government has crashed to just 17%."
-        },
-        "stagnation": {
-          "title": "Stagnation",
-          "subtitle": "The system protects itself",
-          "body": "Since 1979, productivity has grown while wages stay flat. The output is real, but the gains are captured upstream by top earners and capital owners, not wages. This has been done systematically over decades.",
-          "fact1": "The 12 richest billionaires now own more wealth than the poorest half of humanity — 4 billion people.",
-          "fact2": "Millennials work in an economy 70% more productive than when boomers were the same age — yet their median compensation has barely moved."
-        }
-      }
-    },
-    "decide": {
-      "headline": "We get to decide what comes next.",
-      "headline2": "Remain in the decline.",
-      "headline3": "Or exit and build the alternative.",
-      "body": "Logos is the private-by-default technology stack for parallel societies – communities, institutions, and economies that operate outside the legacy system.",
-      "bodyPart1": "Logos is the private-by-default technology stack",
-      "bodyPart2": "for parallel societies – communities,",
-      "bodyPart3": "institutions, and economies that operate",
-      "bodyPart4": "outside the legacy system."
-    },
-    "useCases": {
-      "eyebrow": "Use Cases",
-      "headline": "Privacy is the condition that makes free association possible.\nLogos is the technology stack that makes it the default.",
-      "headlineMobile": "Privacy is the condition\nthat makes free association\npossible.\n\nLogos is the technology stack\nthat makes it the default.",
-      "lambda": "Explore the applications Logos is funding through the <lambdaPrize>Lambda Prize</lambdaPrize>.",
-      "lambdaMobile": "Explore the applications Logos is\nfunding through the <lambdaPrize>Lambda Prize</lambdaPrize>.",
-      "secure": {
-        "title": "Secure, private communications.",
-        "body": "Resilient, private messaging for coordination in hostile environments."
-      },
-      "money": {
-        "title": "Private, censorship-resistant money.",
-        "body": "Private financial networks for storing and moving value without surveillance."
-      },
-      "archives": {
-        "title": "Permanent, decentralised archives.",
-        "body": "Decentralised network for storing knowledge, culture, and history beyond the reach of any single centralised actor."
-      },
-      "donations": {
-        "title": "Anonymous donations and mutual aid.",
-        "body": "Private payment network for funding people and causes without putting parties at risk."
-      }
-    },
-    "builderPortal": {
-      "title": "Basecamp.\nThe local launcher\nfor the Logos stack.",
-      "description": "Basecamp is a ready-to-run Logos distribution that you deploy on your own hardware, under your control. From the moment it’s installed, you’re standing on your own ground, not connecting to someone else’s infrastructure.\n\nThe Logos runtime runs locally, core modules are loaded, and essential applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one.",
-      "feature1": "Explore programmes and resources to help you build your cyberstate.",
-      "feature2": "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
-      "feature3": "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections.",
-      "example1Title": "Your own bank",
-      "example1Desc": "Build a bank powered by logic you've programmed",
-      "example2Title": "Your own currency",
-      "example2Desc": "Create tokens that you can transfer and use across applications",
-      "example3Title": "A JavaScript Logos wallet",
-      "example3Desc": "Use familiar tooling to interact with Logos modules and applications",
-      "example4Title": "An open, permissionless DNS",
-      "example4Desc": "Re-imagine existing services as decentralised, open applications",
-      "useCasesLabel": "Use Cases",
-      "buildLabel": "BUILD",
-      "buildDesc": "Operate early. Help harden a private-by-default network that protects civil liberties and strengthens trust in our communities.",
-      "cta": "Learn more",
-      "featureChat": "Load a basic chat app",
-      "featureNode": "Run a node",
-      "featureTransactions": "Execute private transactions"
-    },
-    "paths": {
-      "kicker": "The right response to broken systems is not to reform them but to build alongside them, and eventually, beyond them.",
-      "title": "Choose your path",
-      "body": "Take action to reclaim agency and find your purpose.",
-      "build": {
-        "title": "Build",
-        "body": "Build privacy-first, decentralised applications. Read the docs, learn the stack, write code.",
-        "cta": "Start Building"
-      },
-      "operate": {
-        "title": "Operate",
-        "body": "Run a node. Decentralise the network. Secure Logos. Setup takes minutes.",
-        "cta": "Run a Node"
-      },
-      "activism": {
-        "title": "Organise",
-        "body": "Humanity evolved to organise. Some of our biggest problems lie in the breakdown of social trust, culture, and meaning. Join the Logos Movement to rebuild civil society together.",
-        "cta": "Join the Movement"
-      }
-    },
-    "startBuilding": {
-      "title": "Start building.",
-      "body": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code, explore builder programmes.",
-      "mobileBody": "Everything you need to start building privacy-first, decentralised applications. Read the docs, study the stack, write code, explore builder programmes.",
-      "cta": "Get Started",
-      "cardCta": "Learn more",
-      "lambdaPrize": "Lambda Prize",
-      "rfps": "RFPs",
-      "ideas": "Starter Issues and Community Ideas Repo",
-      "docs": "View the Documentation"
-    },
-    "techStack": {
-      "exploreStackCta": "Explore the Stack",
-      "startBuildingCta": "Start Building",
-      "docsCta": "Documentation"
-    }
-  },
   "pages": {
     "getStarted": {
       "title": "Get Started | Logos",
@@ -571,7 +368,11 @@
         "emailPlaceholder": "Enter email",
         "roleLabel": "Role",
         "rolePlaceholder": "Select role",
-        "roles": ["Node operator", "Builder", "Activist"],
+        "roles": [
+          "Node operator",
+          "Builder",
+          "Activist"
+        ],
         "submit": "Submit",
         "submitting": "Submitting",
         "invalidEmail": "Please enter a valid email address.",
@@ -1065,7 +866,7 @@
         "Jarrad Hope",
         "jarrad@logos.co",
         "logos.co",
-        "PGP :\u00a0openpgp.org"
+        "PGP : openpgp.org"
       ],
       "abstractHeading": "Abstract.",
       "abstractBody": "A fully decentralised, privacy-preserving, and politically neutral tech stack would provide the necessary support for self-sovereign virtual territories. Recent breakthroughs in distributed systems, leaderless consensus algorithms, and ZK encryption provide the technical foundation that makes such a base layer possible. By using these technologies to build solutions for communications, storage, and smart contracts, we can incentivise the formation of borderless public institutions based on voluntary consent. This opens the possibility for a culture of resilient parallel societies that maximise the costs of surveillance and coercion, while minimising the costs of exit, voice, and loyalty. Doing this requires a resilient grassroots movement to govern and sustain the network, thereby providing trust-minimised, corruption-resistant governing services and social institutions to underserved citizens.",

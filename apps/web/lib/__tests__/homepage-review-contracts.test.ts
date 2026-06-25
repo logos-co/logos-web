@@ -12,6 +12,12 @@ const repoRoot = path.resolve(import.meta.dirname, '../../../..')
 
 describe('homepage review contracts', () => {
   test('maps social proof cards to the stats that match their labels', () => {
+    const copy = {
+      contributions: { label: 'Contributors', body: 'Contributors body' },
+      nodeOperators: { label: 'Node Operators', body: 'Node Operators body' },
+      circles: { label: 'Circles', body: 'Circles body' },
+      winnableIssues: { label: 'Winnable Issues', body: 'Winnable Issues body' },
+    }
     const cards = getSocialProofCards(
       {
         contributions: '3,441',
@@ -19,28 +25,28 @@ describe('homepage review contracts', () => {
         repositories: '341',
       },
       '19',
-      (key) => key
+      copy
     )
 
     expect(cards).toContainEqual(
       expect.objectContaining({
         key: 'contributions',
         value: '218',
-        label: 'contributions.label',
+        label: 'Contributors',
       })
     )
     expect(cards).toContainEqual(
       expect.objectContaining({
         key: 'circles',
         value: '47',
-        label: 'circles.label',
+        label: 'Circles',
       })
     )
     expect(cards).toContainEqual(
       expect.objectContaining({
         key: 'winnableIssues',
         value: '19',
-        label: 'winnableIssues.label',
+        label: 'Winnable Issues',
       })
     )
   })

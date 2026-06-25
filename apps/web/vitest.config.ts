@@ -8,12 +8,16 @@ import { defineConfig } from 'vitest/config'
 import { fileURLToPath } from 'node:url'
 
 export default defineConfig({
+  oxc: {
+    jsx: { runtime: 'automatic' },
+  },
   test: {
     environment: 'node',
     include: [
       'lib/**/*.test.ts',
       'lib/**/__tests__/**/*.test.ts',
       'app/**/__tests__/**/*.test.ts',
+      'components/**/__tests__/**/*.test.tsx',
     ],
     coverage: {
       provider: 'v8',

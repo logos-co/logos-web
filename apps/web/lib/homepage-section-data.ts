@@ -12,7 +12,12 @@ export interface HomeStatCard {
   body: string
 }
 
-type Translate = (key: string) => string
+interface SocialProofCopy {
+  contributions: { label: string; body: string }
+  nodeOperators: { label: string; body: string }
+  circles: { label: string; body: string }
+  winnableIssues: { label: string; body: string }
+}
 
 export const HOME_USE_CASE_CARDS: HomeUseCaseCard[] = [
   { key: 'secure', image: '/images/home/use-cases/secure.png' },
@@ -24,32 +29,32 @@ export const HOME_USE_CASE_CARDS: HomeUseCaseCard[] = [
 export function getSocialProofCards(
   stats: SocialProofStats,
   winnableIssuesCount: string,
-  t: Translate
+  copy: SocialProofCopy
 ): HomeStatCard[] {
   return [
     {
       key: 'contributions',
       value: stats.contributors,
-      label: t('contributions.label'),
-      body: t('contributions.body'),
+      label: copy.contributions.label,
+      body: copy.contributions.body,
     },
     {
       key: 'nodeOperators',
       value: '226',
-      label: t('nodeOperators.label'),
-      body: t('nodeOperators.body'),
+      label: copy.nodeOperators.label,
+      body: copy.nodeOperators.body,
     },
     {
       key: 'circles',
       value: '47',
-      label: t('circles.label'),
-      body: t('circles.body'),
+      label: copy.circles.label,
+      body: copy.circles.body,
     },
     {
       key: 'winnableIssues',
       value: winnableIssuesCount,
-      label: t('winnableIssues.label'),
-      body: t('winnableIssues.body'),
+      label: copy.winnableIssues.label,
+      body: copy.winnableIssues.body,
     },
   ]
 }

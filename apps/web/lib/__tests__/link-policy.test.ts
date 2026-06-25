@@ -184,17 +184,19 @@ describe('link policy', () => {
       'utf8'
     )
 
+    const useCasesContentSection = homePage.sections.find(
+      (section) => section.key === 'home.useCases'
+    ) as { lambda: string } | undefined
+    expect(useCasesContentSection).toBeDefined()
+    const lambdaCopy = useCasesContentSection?.lambda ?? ''
+
     expect(ROUTES.lambdaPrize).toBe('/lambda-prize')
-    expect(
-      messages.home.useCases.lambda.replace(/<\/?lambdaPrize>/g, '')
-    ).toBe(
+    expect(lambdaCopy.replace(/<\/?lambdaPrize>/g, '')).toBe(
       'Explore the applications Logos is funding through the Lambda Prize.'
     )
-    expect(messages.home.useCases.lambda).toContain(
-      '<lambdaPrize>Lambda Prize</lambdaPrize>'
-    )
-    expect(messages.home.useCases.lambda).not.toContain('LAMBDA PRIZE >>')
-    expect(useCasesSection).toContain('href={ROUTES.lambdaPrize}')
+    expect(lambdaCopy).toContain('<lambdaPrize>Lambda Prize</lambdaPrize>')
+    expect(lambdaCopy).not.toContain('LAMBDA PRIZE >>')
+    expect(useCasesSection).toMatch(/renderLambdaPrizeText\([^)]*ROUTES\.lambdaPrize/)
   })
 
   it('routes manifesto related reading links to their target pages', () => {
