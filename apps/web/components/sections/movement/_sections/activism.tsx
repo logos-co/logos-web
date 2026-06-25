@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import { type CircleInitiative } from '@repo/content/loaders'
+import type { MovementCopySection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 import { ArrowIcon } from '@/components/sections/circles/_helpers'
 
 import { LambdaBadge, SectionHeader } from './atoms'
-import type { Translate } from './types'
 
 function IssueCard({ initiative }: { initiative: CircleInitiative }) {
   const city = initiative.locationLabel.split(',')[0]
@@ -63,10 +63,10 @@ function IssueCard({ initiative }: { initiative: CircleInitiative }) {
 }
 
 export function ActivismSection({
-  t,
+  data,
   initiatives,
 }: {
-  t: Translate
+  data: MovementCopySection
   initiatives: CircleInitiative[]
 }) {
   const cards = initiatives.slice(0, 3)
@@ -74,8 +74,8 @@ export function ActivismSection({
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white pb-10 text-brand-dark-green md:pb-25">
       <SectionHeader
-        title={t('activism.title')}
-        description={t('activism.body')}
+        title={data.activismSection.title}
+        description={data.activismSection.body}
         className="pb-10 md:pb-19.5"
       />
       <ContentWidth className="overflow-x-auto">

@@ -12,4 +12,10 @@ describe('messages ownership contract', () => {
       expect(messages).toHaveProperty(key)
     }
   })
+
+  it('contains no get-started or movement page copy in messages.pages', () => {
+    const pages = (messages as { pages: Record<string, unknown> }).pages
+    expect(Object.keys(pages)).not.toContain('getStarted')
+    expect(Object.keys(pages)).not.toContain('movement')
+  })
 })

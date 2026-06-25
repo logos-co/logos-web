@@ -9,7 +9,6 @@ import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 
-import messages from '../../messages/en.json' with { type: 'json' }
 
 const locale = 'en'
 
@@ -96,6 +95,16 @@ const contracts: PageContract[] = [
       { componentType: 'relatedArticles', key: 'storage.relatedArticles' },
     ],
   },
+  {
+    route: ROUTES.getStarted,
+    name: 'get-started',
+    sections: [{ componentType: 'getStartedCopy', key: 'getStarted.copy' }],
+  },
+  {
+    route: ROUTES.movement,
+    name: 'movement',
+    sections: [{ componentType: 'movementCopy', key: 'movement.copy' }],
+  },
 ]
 
 describe('content-backed web route contracts', () => {
@@ -147,8 +156,15 @@ describe('content-backed web route contracts', () => {
     ])
   })
 
-  test('movement page builder highlight uses the Benin fundraising issue', () => {
-    const builder = messages.pages.movement.builder
+  test('movement page builder highlight uses the Benin fundraising issue', async () => {
+    const page = await getPageCopy(ROUTES.movement, locale)
+    const findSection = createSectionFinder('movement')
+    const section = findSection<{ componentType: string; key: string; builder: { feature: unknown; details: unknown } }>(
+      page.sections,
+      'movementCopy',
+      'movement.copy'
+    )
+    const { builder } = section
 
     expect(builder.feature).toEqual({
       city: 'Benin',

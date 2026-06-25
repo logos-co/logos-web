@@ -2,7 +2,11 @@ import {
   type CircleInitiative,
   type CircleResource,
 } from '@repo/content/loaders'
-import type { CirclesSettings, Language } from '@repo/content/schemas'
+import type {
+  CirclesSettings,
+  Language,
+  MovementCopySection,
+} from '@repo/content/schemas'
 
 import CirclesMap from '@/components/sections/circles/circles-map'
 import type {
@@ -19,10 +23,9 @@ import { EventsSection } from './_sections/events'
 import { GetInvolvedSection } from './_sections/get-involved'
 import { HeroSection } from './_sections/hero'
 import { ResourcesSection } from './_sections/resources'
-import type { Translate } from './_sections/types'
 
 export function MovementPageView({
-  t,
+  data,
   circlesSettings,
   mapMarkers,
   upcomingEvents,
@@ -30,7 +33,7 @@ export function MovementPageView({
   resources,
   locale,
 }: {
-  t: Translate
+  data: MovementCopySection
   circlesSettings: CirclesSettings
   mapMarkers: ActiveCircleMarker[]
   upcomingEvents: ActiveCircleUpcomingEvent[]
@@ -40,17 +43,17 @@ export function MovementPageView({
 }) {
   const findCta = (
     <CenterCtaSection
-      title={t('find.title')}
-      body={t('find.body')}
+      title={data.find.title}
+      body={data.find.body}
       className="pb-19"
     />
   )
 
   return (
     <>
-      <HeroSection t={t} />
-      <ActionCardsSection t={t} />
-      <CampaignSection t={t} />
+      <HeroSection data={data} />
+      <ActionCardsSection data={data} />
+      <CampaignSection data={data} />
       <div className="flex flex-col">
         <div>{findCta}</div>
         <div id="circles-map">
@@ -62,14 +65,14 @@ export function MovementPageView({
           />
         </div>
       </div>
-      <ActivismSection t={t} initiatives={initiatives} />
+      <ActivismSection data={data} initiatives={initiatives} />
       <EventsSection
         settings={circlesSettings}
         events={upcomingEvents}
         locale={locale}
       />
-      <GetInvolvedSection t={t} />
-      <BuilderSection t={t} />
+      <GetInvolvedSection data={data} />
+      <BuilderSection data={data} />
       <ResourcesSection settings={circlesSettings} resources={resources} />
     </>
   )

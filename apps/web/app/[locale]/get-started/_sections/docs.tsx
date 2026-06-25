@@ -1,3 +1,5 @@
+import type { GetStartedCopySection } from '@repo/content/schemas'
+
 import ContentWidth from '@/components/layout/content-width'
 import {
   StartBuildingCardGrid,
@@ -6,37 +8,36 @@ import {
 import { EXTERNAL_URLS } from '@/constants/routes'
 
 import { SectionHeading } from './atoms'
-import type { GetStartedTranslator } from './types'
 
 const cards = [
   {
-    key: 'docs',
-    ctas: [{ labelKey: 'viewDocsCta', href: EXTERNAL_URLS.docs }],
+    key: 'docs' as const,
+    ctas: [{ labelKey: 'viewDocsCta' as const, href: EXTERNAL_URLS.docs }],
   },
   {
-    key: 'scaffold',
-    ctas: [{ labelKey: 'learnMoreCta', href: EXTERNAL_URLS.scaffold }],
+    key: 'scaffold' as const,
+    ctas: [{ labelKey: 'learnMoreCta' as const, href: EXTERNAL_URLS.scaffold }],
   },
   {
-    key: 'sampleApps',
+    key: 'sampleApps' as const,
     ctas: [
-      { labelKey: 'atomicSwapsCta', href: EXTERNAL_URLS.atomicSwaps },
-      { labelKey: 'multisigCta', href: EXTERNAL_URLS.multisig },
+      { labelKey: 'atomicSwapsCta' as const, href: EXTERNAL_URLS.atomicSwaps },
+      { labelKey: 'multisigCta' as const, href: EXTERNAL_URLS.multisig },
     ],
   },
   {
-    key: 'workshops',
-    ctas: [{ labelKey: 'learnMoreCta', href: EXTERNAL_URLS.workshopsPlaylist }],
+    key: 'workshops' as const,
+    ctas: [{ labelKey: 'learnMoreCta' as const, href: EXTERNAL_URLS.workshopsPlaylist }],
   },
-] as const
+]
 
-export function Docs({ t }: { t: GetStartedTranslator }) {
+export function Docs({ data }: { data: GetStartedCopySection['sections']['docs'] }) {
   const startBuildingCards: readonly StartBuildingCard[] = cards.map(
     (card) => ({
-      title: t(`sections.docs.items.${card.key}.title`),
-      description: t(`sections.docs.items.${card.key}.body`),
+      title: data.items[card.key].title,
+      description: data.items[card.key].body ?? '',
       ctas: card.ctas.map((cta) => ({
-        label: t(`sections.docs.${cta.labelKey}`),
+        label: data[cta.labelKey],
         href: cta.href,
         external: true,
       })),
@@ -47,8 +48,8 @@ export function Docs({ t }: { t: GetStartedTranslator }) {
     <section className="border-t border-brand-dark-green/10 pt-6 pb-25 md:pt-10">
       <ContentWidth className="flex w-full flex-col gap-10">
         <SectionHeading
-          number={t('sections.docs.number')}
-          heading={t('sections.docs.heading')}
+          number={data.number}
+          heading={data.heading}
         />
 
         <StartBuildingCardGrid cards={startBuildingCards} />
