@@ -2,8 +2,7 @@ import {
   buildNotionProperties,
   resolveOrganizationSelect,
 } from './build-notion-properties'
-
-const NOTION_API_VERSION = '2026-03-11'
+import { NOTION_API_BASE_URL, NOTION_API_VERSION } from './constants'
 
 type NotionSelectProperty = {
   type: 'select'
@@ -26,7 +25,7 @@ async function fetchOrganizationOptions(
   databaseId: string,
   token: string
 ): Promise<string[]> {
-  const res = await fetch(`https://api.notion.com/v1/databases/${databaseId}`, {
+  const res = await fetch(`${NOTION_API_BASE_URL}/databases/${databaseId}`, {
     headers: notionHeaders(token),
   })
 
@@ -80,7 +79,7 @@ export async function submitToNotion(
       organizationSelect
     )
 
-    const res = await fetch('https://api.notion.com/v1/pages', {
+    const res = await fetch(`${NOTION_API_BASE_URL}/pages`, {
       method: 'POST',
       headers: notionHeaders(token),
       body: JSON.stringify({
