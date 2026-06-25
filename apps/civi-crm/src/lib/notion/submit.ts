@@ -9,8 +9,12 @@ type NotionSelectProperty = {
   select: { options: { name: string }[] }
 }
 
-type NotionDatabaseResponse = {
+type NotionDataSourceResponse = {
   properties?: Record<string, NotionSelectProperty | { type: string }>
+}
+
+type NotionDatabaseResponse = {
+  data_sources?: { id: string; name: string }[]
 }
 
 function notionHeaders(token: string): HeadersInit {
@@ -21,10 +25,20 @@ function notionHeaders(token: string): HeadersInit {
   }
 }
 
-async function fetchOrganizationOptions(
+// Since Notion API 2025-09-03 a database is a container that can hold multiple
+// data sources, and pages must be addressed by data source rather than by
+// database. We pin writes to a single data source: NOTION_DATA_SOURCE_ID takes
+// precedence; otherwise we fall back to the database's sole data source. A
+// database with multiple sources and no pin is ambiguous and errors out.
+async function resolveDataSourceId(
   databaseId: string,
   token: string
-): Promise<string[]> {
+): Promise<string> {
+  const pinned = process.env.NOTION_DATA_SOURCE_ID?.trim()
+  if (pinned) {
+    return pinned
+  }
+
   const res = await fetch(`${NOTION_API_BASE_URL}/databases/${databaseId}`, {
     headers: notionHeaders(token),
   })
@@ -37,6 +51,39 @@ async function fetchOrganizationOptions(
   }
 
   const json = (await res.json()) as NotionDatabaseResponse
+  const sources = json.data_sources ?? []
+  if (sources.length === 1) {
+    return sources[0].id
+  }
+  if (sources.length === 0) {
+    throw new Error('Notion database has no data sources')
+  }
+
+  const summary = sources.map((s) => `${s.name} (${s.id})`).join(', ')
+  throw new Error(
+    `Notion database has multiple data sources; set NOTION_DATA_SOURCE_ID to pin one: ${summary}`
+  )
+}
+
+async function fetchOrganizationOptions(
+  dataSourceId: string,
+  token: string
+): Promise<string[]> {
+  const res = await fetch(
+    `${NOTION_API_BASE_URL}/data_sources/${dataSourceId}`,
+    {
+      headers: notionHeaders(token),
+    }
+  )
+
+  if (!res.ok) {
+    const text = await res.text()
+    throw new Error(
+      `Notion data source GET (${res.status}): ${text.slice(0, 200)}`
+    )
+  }
+
+  const json = (await res.json()) as NotionDataSourceResponse
   const organization = json.properties?.Organization
   if (!organization || organization.type !== 'select') {
     return []
@@ -62,8 +109,9 @@ export async function submitToNotion(
   }
 
   try {
+    const dataSourceId = await resolveDataSourceId(databaseId, token)
     const organizationOptions = await fetchOrganizationOptions(
-      databaseId,
+      dataSourceId,
       token
     )
     const organizationSelect = resolveOrganizationSelect(
@@ -83,7 +131,7 @@ export async function submitToNotion(
       method: 'POST',
       headers: notionHeaders(token),
       body: JSON.stringify({
-        parent: { database_id: databaseId },
+        parent: { type: 'data_source_id', data_source_id: dataSourceId },
         properties,
         children: [
           {
