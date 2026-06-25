@@ -110,7 +110,11 @@ The table below lists every property in the database as of 2026-05-29. The **Fun
 | `Email/Website` | email | **yes -- reused** | From `email`; omitted if empty |
 | `Profile` | select | **yes -- reused** | Derived from `formName` via `PROFILE_BY_FORM`; options: `Coalition Partner`, `Activist Builder`, `Activist Leader / Steward` (the legacy `afformCircleContactForm` has no Notion profile because Notion is skipped) |
 | `Organization` | select | **yes -- reused** | From `affiliatedOrgs`; case-insensitive match against existing options; unmatched values create a new option |
-| `Website` | url | **yes -- reused** | `website[]` joined with ` \| ` into a single url field |
+| `Website` | url | **yes -- reused** | First entry of `website[]` |
+| `Website 2` | url | **yes -- added** | Second entry of `website[]`; omitted if absent |
+| `Website 3` | url | **yes -- added** | Third entry of `website[]`; omitted if absent |
+| `Website 4` | url | **yes -- added** | Fourth entry of `website[]`; omitted if absent |
+| `Website 5` | url | **yes -- added** | Fifth entry of `website[]`; omitted if absent. The form caps the website field at 5 rows (`MAX_WEBSITE_ROWS`), so entries 1-5 map to these columns and the array never overflows |
 | `Phone or Social Handle` | phone_number | **yes -- reused** | `chat[]` + `chatService[]` joined as `handle (Service) \| ...` |
 | `Mvmt Status` | select | **yes -- reused** | Always written as `New Lead` on intake; other options: `Active`, `Onboarding`, `Approved`, `Redirected - Post Call`, `No Show`, `Call Scheduled`, `Redirected`, `Eligible` |
 | `BU` | multi_select | **yes -- reused** | Always written as `Movement`; other options: `IR`, `Comms`, `Ecodev` |
@@ -146,7 +150,7 @@ The table below lists every property in the database as of 2026-05-29. The **Fun
 
 ### How the DB was extended for funnel intake
 
-Nine columns were added via `notion-update-data-source` DDL. The pre-existing properties were not modified.
+Thirteen columns were added via `notion-update-data-source` DDL. The pre-existing properties were not modified (the pre-existing `Website` url column is now populated with the first submitted website instead of the old pipe-joined string).
 
 ```sql
 ADD COLUMN "City" RICH_TEXT;
@@ -157,10 +161,16 @@ ADD COLUMN "Tech Vision" RICH_TEXT;
 ADD COLUMN "Activities Vision" RICH_TEXT;
 ADD COLUMN "Questions" RICH_TEXT;
 ADD COLUMN "Wants Events" CHECKBOX;
-ADD COLUMN "Wants Newsletter" CHECKBOX
+ADD COLUMN "Wants Newsletter" CHECKBOX;
+ADD COLUMN "Website 2" URL;
+ADD COLUMN "Website 3" URL;
+ADD COLUMN "Website 4" URL;
+ADD COLUMN "Website 5" URL
 ```
 
-**Known limitation:** "Hide when empty" per property cannot be set via the Notion API or MCP. It must be toggled manually in the Notion UI for each of the nine new properties (Database -> ... -> Properties -> each property -> Visibility -> Hide when empty).
+**Known limitation:** "Hide when empty" per property cannot be set via the Notion API or MCP. It must be toggled manually in the Notion UI for each of the added properties -- including `Website 2`..`Website 5` (Database -> ... -> Properties -> each property -> Visibility -> Hide when empty).
+
+**Production note:** the four `Website 2`..`Website 5` columns above were added to the **test** database (`ede0c08525554244b940f681318a0891`). The production database referenced by `NOTION_DB_ID` must receive the same four `URL` columns before this ships -- a page POST referencing an unknown property is rejected by the Notion API, which would break live submissions.
 
 ---
 
@@ -169,7 +179,8 @@ ADD COLUMN "Wants Newsletter" CHECKBOX
 - **One endpoint for all forms** -- hCaptcha tokens are single-use; `/coalition-partner`, `/activist-builder`, and `/activist-leader-steward` all point at `POST /api/public/afform-submit`. The endpoint still accepts the legacy `afformCircleContactForm` formName even though `/connect` (now `/contact`) no longer renders a form.
 - **Per-form destination rules** -- the `afformCircleContactForm` path skips Notion and requires CiviCRM (`502` on CiviCRM failure). The three active forms keep Notion required and CiviCRM best-effort.
 - **One `Background` column** -- All `background*` textarea variants collapse into a single rich-text property.
-- **Joined multi-values** -- `website[]` -> pipe-separated string in `Website` (url); `chat[]` -> `handle (Service)` entries in `Phone or Social Handle`.
+- **One column per website** -- `website[]` is spread across discrete url columns: entry 1 -> `Website`, entries 2-5 -> `Website 2`..`Website 5`. Blank rows are dropped first, so the columns fill contiguously. The funnel form caps the website field at 5 rows (`MAX_WEBSITE_ROWS` in `connect-form-section.tsx`), so the array never overflows the available columns. (Previously all entries were pipe-joined into the single `Website` url field.)
+- **Joined multi-values** -- `chat[]` -> `handle (Service)` entries in `Phone or Social Handle`.
 - **`Organization` grows over time** -- Unmatched submitted values are written as-is and Notion creates a new select option.
 - **Env var name** -- `NOTION_DB_ID`.
 
