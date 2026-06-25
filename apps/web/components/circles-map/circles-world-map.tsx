@@ -75,6 +75,14 @@ const fmtTime = (iso: string, locale: string) =>
     minute: '2-digit',
   }).format(toUtcInstant(iso))
 
+const fmtDate = (iso: string, locale: string) =>
+  new Intl.DateTimeFormat(locale, {
+    timeZone: 'UTC',
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  }).format(toUtcInstant(iso))
+
 function EventPopupContent({
   event,
   locale,
@@ -82,6 +90,7 @@ function EventPopupContent({
   event: ActiveCircleUpcomingEvent
   locale: string
 }) {
+  const date = fmtDate(event.startAt, locale)
   const time = fmtTime(event.startAt, locale)
   const location = [event.city, event.country].filter(Boolean).join(', ')
 
@@ -110,6 +119,7 @@ function EventPopupContent({
           {event.name}
         </h3>
         <div className="flex flex-col gap-0.5">
+          <span className="text-mono-s block text-brand-dark-green">{date}</span>
           <span className="text-mono-s block text-brand-dark-green">{time}</span>
           {location ? (
             <span className="text-mono-s block truncate text-gray-05">
