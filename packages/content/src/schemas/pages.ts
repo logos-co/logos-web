@@ -441,6 +441,82 @@ export const homeBuilderPortalSectionSchema = z.object({
 })
 export type HomeBuilderPortalSection = z.infer<typeof homeBuilderPortalSectionSchema>
 
+// ---------------------------------------------------------------------------
+// Page-copy sections for get-started and movement (one blob section per page;
+// shape mirrors the former messages.pages.<route> tree minus title/description)
+// ---------------------------------------------------------------------------
+
+const gsItemSchema = z.object({ title: z.string().min(1), body: z.string().min(1).optional() })
+
+export const getStartedCopySectionSchema = z.object({
+  componentType: z.literal('getStartedCopy'),
+  key: sectionKeySchema,
+  heading: z.string().min(1),
+  intro: z.string().min(1),
+  sections: z.object({
+    install: z.object({
+      number: z.string().min(1), heading: z.string().min(1), cardTitle: z.string().min(1),
+      body: z.string().min(1), cta: z.string().min(1), imageAlt: z.string().min(1),
+    }),
+    docs: z.object({
+      number: z.string().min(1), heading: z.string().min(1),
+      items: z.record(gsItemSchema),
+      viewDocsCta: z.string().min(1), learnMoreCta: z.string().min(1),
+      atomicSwapsCta: z.string().min(1), multisigCta: z.string().min(1),
+    }),
+    community: z.object({
+      number: z.string().min(1), heading: z.string().min(1), cta: z.string().min(1),
+      items: z.record(z.string().min(1)),
+    }),
+    build: z.object({
+      number: z.string().min(1), heading: z.string().min(1), cta: z.string().min(1),
+      nodeCta: z.string().min(1), messagingCta: z.string().min(1), deployCta: z.string().min(1),
+      tryItOutCta: z.string().min(1), scaffoldCta: z.string().min(1),
+      items: z.record(gsItemSchema),
+    }),
+  }),
+})
+export type GetStartedCopySection = z.infer<typeof getStartedCopySectionSchema>
+
+const mvCtaGroup = z.object({ title: z.string().min(1), body: z.string().min(1), cta: z.string().min(1) })
+
+export const movementCopySectionSchema = z.object({
+  componentType: z.literal('movementCopy'),
+  key: sectionKeySchema,
+  heading: z.string().min(1),
+  hero: z.object({ title: z.string().min(1), kicker: z.string().min(1), body: z.string().min(1), primaryCta: z.string().min(1), secondaryCta: z.string().min(1) }),
+  intro: z.object({ titleLine1: z.string().min(1), titleLine2: z.string().min(1), body: z.string().min(1) }),
+  actions: z.object({ activism: mvCtaGroup, coalition: mvCtaGroup, building: mvCtaGroup }),
+  campaign: z.object({ eyebrow: z.string().min(1), kicker: z.string().min(1), title: z.string().min(1), body: z.string().min(1), primaryCta: z.string().min(1), secondaryCta: z.string().min(1), tertiaryCta: z.string().min(1) }),
+  find: z.object({ title: z.string().min(1), body: z.string().min(1), cta: z.string().min(1) }),
+  activismSection: z.object({
+    title: z.string().min(1), body: z.string().min(1), cta: z.string().min(1),
+  }),
+  events: z.object({
+    title: z.string().min(1), body: z.string().min(1), cta: z.string().min(1),
+    day1: z.object({ date: z.string().min(1), weekday: z.string().min(1) }),
+    day2: z.object({ date: z.string().min(1), weekday: z.string().min(1) }),
+    day3: z.object({ date: z.string().min(1), weekday: z.string().min(1) }),
+    card: z.object({ title: z.string().min(1), time: z.string().min(1), timezone: z.string().min(1), location: z.string().min(1), hosts: z.string().min(1) }),
+  }),
+  involved: z.object({ title: z.string().min(1), body: z.string().min(1), primaryCta: z.string().min(1), secondaryCta: z.string().min(1) }),
+  coalition: z.object({ title: z.string().min(1), body: z.string().min(1), cta: z.string().min(1) }),
+  builder: z.object({
+    title: z.string().min(1), body: z.string().min(1), primaryCta: z.string().min(1), secondaryCta: z.string().min(1),
+    feature: z.object({ city: z.string().min(1), title: z.string().min(1), cta: z.string().min(1) }),
+    details: z.object({
+      problem: z.object({ label: z.string().min(1), body: z.string().min(1) }),
+      solution: z.object({ label: z.string().min(1), body: z.string().min(1) }),
+      stack: z.object({ label: z.string().min(1), body: z.string().min(1) }),
+    }),
+  }),
+  resources: z.object({
+    titleLine1: z.string().min(1), titleLine2: z.string().min(1), body: z.string().min(1), cta: z.string().min(1),
+    rows: z.record(z.object({ number: z.string().min(1), title: z.string().min(1), body: z.string().min(1), cta: z.string().min(1) })),
+  }),
+})
+export type MovementCopySection = z.infer<typeof movementCopySectionSchema>
+
 /**
  * Escape hatch for one-off sections. The `payload` is validated against the
  * Zod schema registered for `customSchemaId` at load time (see
@@ -476,6 +552,8 @@ export const pageSectionSchema = z.discriminatedUnion('componentType', [
   homeAboutSectionSchema,
   homeUseCasesSectionSchema,
   homeBuilderPortalSectionSchema,
+  getStartedCopySectionSchema,
+  movementCopySectionSchema,
   customSectionSchema,
 ])
 export type PageSection = z.infer<typeof pageSectionSchema>

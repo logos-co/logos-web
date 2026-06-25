@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/get-started",
+  "title": "Get Started | Logos",
+  "description": "Install Basecamp, read the Logos docs, join the community, and start building with the Logos testnet.",
+  "sections": [
+    {
+      "componentType": "getStartedCopy",
+      "key": "getStarted.copy",
+      "heading": "Get Started",
+      "intro": "Everything you need to start building privacy-first, decentralised applications. Install Basecamp, read the docs, learn the stack, write code.",
+      "sections": {
+        "install": {
+          "number": "01",
+          "heading": "Install Basecamp",
+          "cardTitle": "Install Logos Basecamp",
+          "body": "Basecamp is the development environment for Logos. It sets up a local node, connects you to the testnet, and provides CLI tools for interacting with all three protocol modules.",
+          "cta": "Install Basecamp",
+          "imageAlt": "Logos Basecamp application interface"
+        },
+        "docs": {
+          "number": "02",
+          "heading": "Start Building",
+          "items": {
+            "docs": {
+              "title": "Read the docs",
+              "body": "Deep dive into the Logos stack architecture, modules, APIs and integration guides."
+            },
+            "scaffold": {
+              "title": "Start with the Scaffold Boilerplate",
+              "body": "A Rust CLI for bootstrapping LEZ (Logos Execution Zone) program_deployment projects in standalone mode."
+            },
+            "sampleApps": {
+              "title": "Sample Apps",
+              "body": "Run real sample apps to learn from."
+            },
+            "workshops": {
+              "title": "Workshops and Tutorials",
+              "body": "Live coding sessions and step by step guides."
+            }
+          },
+          "viewDocsCta": "View the docs",
+          "learnMoreCta": "Learn more",
+          "atomicSwapsCta": "Atomic swaps",
+          "multisigCta": "Multisig"
+        },
+        "community": {
+          "number": "04",
+          "heading": "Join the community",
+          "cta": "Learn more",
+          "items": {
+            "forum": "Community Forum",
+            "research": "Research Forum",
+            "discord": "Discord",
+            "xLogosNetwork": "X Logos_network",
+            "xLogosDevs": "X Logos_devs",
+            "youtubeTutorials": "YouTube Tutorials"
+          }
+        },
+        "build": {
+          "number": "04",
+          "heading": "What you can build today",
+          "cta": "Run app",
+          "nodeCta": "Run a node",
+          "messagingCta": "Messaging SDK",
+          "deployCta": "Deploy",
+          "tryItOutCta": "Try it out",
+          "scaffoldCta": "Run scaffold",
+          "items": {
+            "node": {
+              "title": "Run a node",
+              "body": "Participate in the testnet by running a full node. Help validate module integration and stress-test the infrastructure."
+            },
+            "messaging": {
+              "title": "Build with Logos Messaging SDK",
+              "body": "Add private, censorship-resistant messaging to any application using the JavaScript, Nim, or Go SDKs."
+            },
+            "lez": {
+              "title": "Deploy to the LEZ",
+              "body": "The Logos Execution Zone is the first Sovereign Zone. Deploy applications using the sequencer, block explorer, and core APIs."
+            },
+            "storage": {
+              "title": "Store files on Logos Storage",
+              "body": "Use decentralised storage for application data, documents, or media."
+            },
+            "atomicSwaps": {
+              "title": "Run Atomic Swaps Demo App"
+            },
+            "zkMultiSig": {
+              "title": "Run ZK Multi-Sig Demo App"
+            },
+            "scaffold": {
+              "title": "Logos Scaffold"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

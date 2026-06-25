@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/movement",
+  "title": "Movement | Logos",
+  "description": "Ways to contribute to the Logos movement.",
+  "sections": [
+    {
+      "componentType": "movementCopy",
+      "key": "movement.copy",
+      "heading": "Movement",
+      "hero": {
+        "title": "Logos Movement",
+        "kicker": "Local action",
+        "body": "Logos is a movement of builders, activists, and community organisers rebuilding civil society with tools that help people coordinate, communicate, and solve problems where they live.",
+        "primaryCta": "Join a circle",
+        "secondaryCta": "Start a new circle"
+      },
+      "intro": {
+        "titleLine1": "The Movement",
+        "titleLine2": "to Rebuild Society",
+        "body": "Technology alone won't save us. Join 2000+ activists and organisations working to rebuild civil society, together."
+      },
+      "actions": {
+        "activism": {
+          "title": "Activism",
+          "body": "Join a Circle to meet fellow activists and solve issues that affect your local community.",
+          "cta": "Take action"
+        },
+        "coalition": {
+          "title": "Coalition",
+          "body": "Collaborate with organisations innovating at the intersection of tech and civil society.",
+          "cta": "Join the coalition"
+        },
+        "building": {
+          "title": "Impact Building",
+          "body": "Build tech that creates real impact by solving local problems around the world.",
+          "cta": "Build for impact"
+        }
+      },
+      "campaign": {
+        "eyebrow": "Movement",
+        "kicker": "Activism starts local",
+        "title": "Join an Activist Circle",
+        "body": "Logos Circles are self-organised groups that take action to solve winnable issues that matter locally, from community cleanups and food drives to issue advocacy and more.",
+        "primaryCta": "Join an upcoming circle",
+        "secondaryCta": "Propose a new circle",
+        "tertiaryCta": "Join the community"
+      },
+      "find": {
+        "title": "Find a Circle near you.",
+        "body": "Activist leaders are organising around the world to solve winnable issues that impact them.",
+        "cta": "Find a circle near you"
+      },
+      "activismSection": {
+        "title": "Activism in Action",
+        "body": "Local Circles are solving winnable issues every week. Get inspired by recent successes from around the world.",
+        "cta": "Submit an issue"
+      },
+      "events": {
+        "title": "Upcoming Events",
+        "body": "Ideas from our community driving sovereignty forward.",
+        "cta": "See full calendar",
+        "day1": {
+          "date": "January 21",
+          "weekday": "Wednesday"
+        },
+        "day2": {
+          "date": "January 22",
+          "weekday": "Thursday"
+        },
+        "day3": {
+          "date": "January 23",
+          "weekday": "Friday"
+        },
+        "card": {
+          "title": "Logos Circle Florianopolis #2",
+          "time": "12:00 PM - 6:00 PM",
+          "timezone": "GMT+1",
+          "location": "Florianopolis, Santa Catarina",
+          "hosts": "By InfinityBase, Logos, JB and Fabio Seva"
+        }
+      },
+      "involved": {
+        "title": "Get involved.",
+        "body": "Chat with fellow activists every week on X Spaces, or join the community to get connected with your local Circle.",
+        "primaryCta": "Join the conversation on X",
+        "secondaryCta": "Join the community"
+      },
+      "coalition": {
+        "title": "Join the Coalition.",
+        "body": "It takes a village. From network states to homeschooling collectives, organisations from around the world are uniting to rebuild civil society, together.",
+        "cta": "Join the coalition"
+      },
+      "builder": {
+        "title": "Become an Activist Builder",
+        "body": "Every movement needs its tools. Build applications alongside activists to solve community problems with impact.",
+        "primaryCta": "Build for impact",
+        "secondaryCta": "Build on Logos stack",
+        "feature": {
+          "city": "Benin",
+          "title": "Regenerative Social DeFi Fundraising Platform",
+          "cta": "View issue"
+        },
+        "details": {
+          "problem": {
+            "label": "Problem",
+            "body": "Grassroots projects in Benin struggle to access funding due to low trust in traditional charity platforms, limited transparency, and a focus on short-term donations."
+          },
+          "solution": {
+            "label": "Solution",
+            "body": "Build a regenerative fundraising platform where users support local causes through yield-generating staking, transparent governance, and community-driven funding allocation."
+          },
+          "stack": {
+            "label": "Stack",
+            "body": "React, Node.js, Aave/Morpho, Logos Messaging, Status, tokenised RWAs, DAO governance, and privacy-preserving identity."
+          }
+        }
+      },
+      "resources": {
+        "titleLine1": "Circles",
+        "titleLine2": "Resources",
+        "body": "Ideas from our community driving sovereignty forward.",
+        "cta": "Help Center",
+        "rows": {
+          "start": {
+            "number": "01",
+            "title": "Start your own Circle",
+            "body": "Advanced privacy for a new era of decentralised applications and social institutions.",
+            "cta": "Learn More"
+          },
+          "forum": {
+            "number": "02",
+            "title": "Forum",
+            "body": "Advanced privacy for a new era of decentralised applications and social institutions.",
+            "cta": "Learn More"
+          },
+          "discord": {
+            "number": "03",
+            "title": "Discord",
+            "body": "Advanced privacy for a new era of decentralised applications and social institutions.",
+            "cta": "Learn More"
+          }
+        }
+      }
+    }
+  ]
+}
