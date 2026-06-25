@@ -1150,6 +1150,7 @@
     "subscribingLabel": "Subscribing…",
     "subscribedHeading": "Subscribed!",
     "subscribedBody": "We'll keep you updated on upcoming events.",
-    "subscribeError": "Something went wrong."
+    "subscribeError": "Something went wrong.",
+    "scrollZoomHint": "Use {key} + scroll to zoom"
   }
 }
