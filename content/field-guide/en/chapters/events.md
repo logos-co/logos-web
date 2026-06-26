@@ -20,7 +20,7 @@ Each event type sets three things: its name format, the zones it builds from by 
 
 Seven zones make up the physical layer for each event, each holding a set of items. A smaller event might use three zones and a couple of items, while a large one uses all of them. How many zones you use scales with the event, while the operating principles stay the same.
 
-Example layout, full size. [Download](assets/img/event-zone-system.png).
+Example layout, full size. [Download](/field-guide/img/event-zone-system.png).
 
 | Zone | Purpose | Items |
 | --- | --- | --- |
@@ -115,7 +115,7 @@ All events use the event-industry grid. In most cases, that means one cell = app
 
 Every event states our privacy posture before it begins. Print it, post it, say it out loud.
 
-Template: [Event Privacy Protocol](/field-guide/event-privacy-protocol)
+Template: Event Privacy Protocol
 
 ## Rules
 
