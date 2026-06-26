@@ -330,7 +330,7 @@ function LogosLockup() {
 export function Footers() {
   const mainLinks = [
     { label: 'Work With Us', href: EXTERNAL_URLS.iftJobs, external: true },
-    { label: 'Brand Guidelines', href: ROUTES.brandKit },
+    { label: 'Design Guide', href: ROUTES.designGuide },
   ]
   const socialLinks = [
     { label: 'Twitter', href: EXTERNAL_URLS.twitter },

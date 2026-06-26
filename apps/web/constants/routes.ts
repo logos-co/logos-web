@@ -73,7 +73,7 @@ export const ROUTES = {
   security: '/security',
 
   // Footer misc
-  brandKit: '/brand-kit',
+  designGuide: '/design-guide',
   fieldGuide: '/field-guide',
   /** Dynamic route — `/field-guide/[slug]`. */
   fieldGuideChapter: (slug: string) => `/field-guide/${slug}`,

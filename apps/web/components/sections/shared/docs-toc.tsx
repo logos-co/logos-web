@@ -18,7 +18,7 @@ import { Link } from '@/i18n/navigation'
  */
 
 export type DocsTocKey =
-  | 'brandKit'
+  | 'designGuide'
   | 'terms'
   | 'privacy'
   | 'security'
@@ -32,7 +32,7 @@ interface DocsTocItem {
 }
 
 const ITEMS: ReadonlyArray<DocsTocItem> = [
-  { key: 'brandKit', href: ROUTES.brandKit },
+  { key: 'designGuide', href: ROUTES.designGuide },
   { key: 'terms', href: ROUTES.terms },
   { key: 'privacy', href: ROUTES.privacy },
   { key: 'security', href: ROUTES.security },

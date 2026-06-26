@@ -14,6 +14,6 @@ export const criticalRoutes = [
   '/builders-hub/ideas',
   '/circles',
   '/technology-stack',
-  '/brand-kit',
+  '/design-guide',
   '/media',
 ] as const

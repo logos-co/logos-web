@@ -18,7 +18,7 @@ const staticIndexableRoutes = [
   ROUTES.home,
   ROUTES.activeCircles,
   ROUTES.book,
-  ROUTES.brandKit,
+  ROUTES.designGuide,
   ROUTES.buildersHub,
   ROUTES.ideas,
   ROUTES.rfps,
