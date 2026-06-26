@@ -14,6 +14,17 @@ import {
 
 export type NotionPageProperties = Record<string, unknown>
 
+// Each submitted website goes into its own URL column. The first reuses the
+// pre-existing `Website` property; the rest fill `Website 2` .. `Website 5`.
+// The funnel form caps submissions at five websites (MAX_WEBSITE_ROWS).
+export const WEBSITE_PROPERTY_NAMES = [
+  'Website',
+  'Website 2',
+  'Website 3',
+  'Website 4',
+  'Website 5',
+] as const
+
 function toArray(v: unknown): string[] {
   return Array.isArray(v) ? (v as string[]) : v ? [String(v)] : []
 }
@@ -83,7 +94,6 @@ export function buildNotionProperties(
     .map((skillName) => ({ name: skillName }))
 
   const websiteArr = toArray(data.website).map(trim).filter(Boolean)
-  const websitesStr = websiteArr.join(' | ')
 
   const chatArr = toArray(data.chat).map(trim)
   const chatServiceArr = toArray(data.chatService).map(trim)
@@ -123,9 +133,11 @@ export function buildNotionProperties(
   if (profileName) {
     properties.Profile = { select: { name: profileName } }
   }
-  if (websitesStr) {
-    properties.Website = { url: websitesStr }
-  }
+  websiteArr
+    .slice(0, WEBSITE_PROPERTY_NAMES.length)
+    .forEach((url, index) => {
+      properties[WEBSITE_PROPERTY_NAMES[index]] = { url }
+    })
   if (chatStr) {
     properties['Phone or Social Handle'] = { phone_number: chatStr }
   }

@@ -34,6 +34,10 @@ import {
 
 type FormValues = Record<string, string | string[] | boolean>
 
+// Notion stores websites in discrete columns (Website, Website 2 ... Website 5),
+// so the funnel caps the repeatable website field at five rows.
+const MAX_WEBSITE_ROWS = 5
+
 type Props = {
   afform: AfformConfig
   afformOptions?: AfformOptions
@@ -168,6 +172,9 @@ export function ConnectFormSection({
       const arr = Array.isArray(current)
         ? [...current.map(String)]
         : [String(current ?? '')]
+      if (fieldKey === 'website' && arr.length >= MAX_WEBSITE_ROWS) {
+        return prev
+      }
       return { ...prev, [fieldKey]: [...arr, ''] }
     })
   }
@@ -561,6 +568,9 @@ export function ConnectFormSection({
             if (values.length === 1 && values[0].trim() !== '') {
               values = [values[0], '']
             }
+            const canAddRow =
+              field.formKey !== 'website' ||
+              values.length < MAX_WEBSITE_ROWS
             return (
               <div key={field.formKey} className="w-full space-y-3">
                 <FieldLabel>{label}</FieldLabel>
@@ -591,15 +601,17 @@ export function ConnectFormSection({
                     ) : null}
                   </div>
                 ))}
-                <button
-                  type="button"
-                  onClick={handleAddRepeatable(field.formKey)}
-                  disabled={loadingState}
-                  className="text-left font-mono text-[10px] leading-[1.3] text-brand-dark-green/70 hover:text-brand-dark-green"
-                  aria-label={t('addFieldRow', { field: label })}
-                >
-                  {t('addAnother')}
-                </button>
+                {canAddRow ? (
+                  <button
+                    type="button"
+                    onClick={handleAddRepeatable(field.formKey)}
+                    disabled={loadingState}
+                    className="text-left font-mono text-[10px] leading-[1.3] text-brand-dark-green/70 hover:text-brand-dark-green"
+                    aria-label={t('addFieldRow', { field: label })}
+                  >
+                    {t('addAnother')}
+                  </button>
+                ) : null}
               </div>
             )
           }
