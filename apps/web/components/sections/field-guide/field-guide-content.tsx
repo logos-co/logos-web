@@ -13,19 +13,33 @@ import { Link } from '@/i18n/navigation'
  * links are remapped to the i18n `Link` for client-side navigation.
  */
 
-const isInternalHref = (href: string | undefined): href is string =>
-  typeof href === 'string' && href.startsWith('/')
+// Internal app route: absolute path with no file extension (e.g.
+// `/field-guide/why-logos`). Static assets such as `/field-guide/img/x.png`
+// are intentionally excluded so they render as plain anchors, not router links.
+const isInternalRoute = (href: string | undefined): href is string =>
+  typeof href === 'string' &&
+  href.startsWith('/') &&
+  !/\.[a-z0-9]+(?:[?#]|$)/i.test(href)
+
+const isExternalHref = (href: string | undefined): href is string =>
+  typeof href === 'string' && /^https?:\/\//.test(href)
 
 const components: Components = {
   a: ({ href, children }) => {
-    if (isInternalHref(href)) {
+    // Internal app routes use the i18n Link for client-side navigation.
+    if (isInternalRoute(href)) {
       return <Link href={href}>{children}</Link>
     }
-    return (
-      <a href={href} target="_blank" rel="noopener noreferrer">
-        {children}
-      </a>
-    )
+    // Only genuine http(s) URLs open in a new tab; asset/hash/relative/mailto
+    // links render as plain anchors (matching legal-markdown.tsx behaviour).
+    if (isExternalHref(href)) {
+      return (
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          {children}
+        </a>
+      )
+    }
+    return <a href={href}>{children}</a>
   },
 }
 
