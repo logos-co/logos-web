@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 
+import { ROUTES } from '@/constants/routes'
 import { usePathname } from '@/i18n/navigation'
 
 type Props = {
@@ -137,8 +138,18 @@ export default function PageTransition({ children }: Props) {
         return
       }
 
-      event.preventDefault()
       const nextUrl = new URL(anchor.href, window.location.href)
+
+      // Navigation that stays within the Field Guide uses Next.js client-side
+      // routing (no fade cover) so chapter changes are instant. Entering or
+      // leaving the guide keeps the normal site transition.
+      const isStayingInFieldGuide =
+        nextUrl.origin === window.location.origin &&
+        window.location.pathname.includes(ROUTES.fieldGuide) &&
+        nextUrl.pathname.includes(ROUTES.fieldGuide)
+      if (isStayingInFieldGuide) return
+
+      event.preventDefault()
       const navigate = () => {
         window.location.assign(
           `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`
