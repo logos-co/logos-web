@@ -27,11 +27,6 @@ pipeline {
 
   parameters {
     string(
-      name: 'NEXT_PUBLIC_CIVI_CRM_URL',
-      defaultValue: 'https://logos-web-civi.vercel.app',
-      description: 'CiviCRM base URL inlined into the web build',
-    )
-    string(
       name: 'NEXT_PUBLIC_HCAPTCHA_SITEKEY',
       defaultValue: '2ec82f0e-5f3c-45d2-ba38-223ceb5eee42',
       description: 'Public hCaptcha site key for the apps/web hCaptcha widget.',
@@ -45,7 +40,7 @@ pipeline {
         script {
           withEnv([
             "NEXT_PUBLIC_SITE_URL=https://${deployDomain()}",
-            "NEXT_PUBLIC_CIVI_CRM_URL=${params.NEXT_PUBLIC_CIVI_CRM_URL}",
+            "NEXT_PUBLIC_CIVI_CRM_URL=${civiCrmUrl()}",
             "NEXT_PUBLIC_HCAPTCHA_SITEKEY=${params.NEXT_PUBLIC_HCAPTCHA_SITEKEY}",
             "NEXT_PUBLIC_API_MODE=${apiMode()}",
           ]) {
@@ -86,3 +81,4 @@ def isMasterBranch() { GIT_BRANCH ==~ /.*master/ }
 def deployBranch() { isMasterBranch() ? 'deploy-master' : 'deploy-develop' }
 def deployDomain() { isMasterBranch() ? 'logos.co' : 'dev.logos.co' }
 def apiMode() { isMasterBranch() ? 'production' : 'staging' }
+def civiCrmUrl() { isMasterBranch() ? 'https://logos-web-civi.vercel.app' : 'https://logos-web-civi-git-develop-status-im-web.vercel.app/' }
