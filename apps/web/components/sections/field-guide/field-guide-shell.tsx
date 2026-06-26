@@ -132,14 +132,14 @@ export function FieldGuideShell({
           </button>
           <Link
             href={ROUTES.home}
-            className="fg-top__home"
+            className="fg-top__logo"
             aria-label="Logos home"
           >
             <span className="fg-top__lambda" aria-hidden="true">
               λ
             </span>
-            <span className="fg-top__title">{guideTitle}</span>
           </Link>
+          <span className="fg-top__title">{guideTitle}</span>
         </div>
         <div className="fg-top__bar">
           <span className="fg-top__pageref">{pageRef}</span>
