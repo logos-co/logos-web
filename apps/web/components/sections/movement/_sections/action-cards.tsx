@@ -37,6 +37,7 @@ export function ActionCardsSection({ t }: { t: Translate }) {
         description={t('intro.body')}
         className="pb-10 md:pt-6 md:pb-15"
         titleClassName="max-w-[244px]"
+        descriptionClassName="md:col-span-4"
       />
       <ContentWidth className="grid gap-3 px-3 md:grid-cols-3">
         {cards.map((card) => (
