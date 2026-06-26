@@ -58,8 +58,8 @@ pnpm generate-types  # regenerate packages/types/src/payload.ts from Payload sch
 
 ## Branch model
 
-- `develop` — default branch + staging. CMS-generated content PRs target this.
-- `master` — production (created when production deploys spin up).
+- `develop` — default branch + staging. CMS-generated content PRs target this
+- `master` — production (created when production deploys spin up)
 
 Direct pushes to either are blocked by branch protection.
 
