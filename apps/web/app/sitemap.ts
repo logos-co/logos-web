@@ -1,6 +1,12 @@
 import type { MetadataRoute } from 'next'
 
-import { getAllIdeas, getAllRfps, getCircles } from '@repo/content/loaders'
+import {
+  flattenFieldGuideItems,
+  getAllIdeas,
+  getAllRfps,
+  getCircles,
+  getFieldGuideManifest,
+} from '@repo/content/loaders'
 
 import siteConfig from '@/constants/site-config'
 import { ROUTES } from '@/constants/routes'
@@ -41,6 +47,7 @@ const staticIndexableRoutes = [
   ROUTES.activistLeaderSteward,
   ROUTES.coalitionPartner,
   ...(ROUTE_AVAILABILITY.about ? [ROUTES.about] : []),
+  ROUTES.fieldGuide,
 ] as const
 
 const buildSitemapEntry = (
@@ -57,11 +64,17 @@ const buildSitemapEntry = (
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date().toISOString().split('T')[0]!
-  const [rfps, ideas, circles] = await Promise.all([
+  const [rfps, ideas, circles, fieldGuide] = await Promise.all([
     getAllRfps({ locale: 'en', status: 'published' }),
     getAllIdeas({ locale: 'en', status: 'published' }),
     getCircles({ locale: 'en', status: 'published' }),
+    getFieldGuideManifest('en'),
   ])
+
+  // Index chapter is served by ROUTES.fieldGuide (already in the static list).
+  const fieldGuideChapters = flattenFieldGuideItems(fieldGuide)
+    .filter((item) => item.slug !== 'index')
+    .map((item) => ROUTES.fieldGuideChapter(item.slug))
 
   const routes = [
     ...staticIndexableRoutes,
@@ -70,6 +83,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...(ROUTE_AVAILABILITY.circleDetailLinks
       ? circles.map((circle) => ROUTES.circle(circle.slug))
       : []),
+    ...fieldGuideChapters,
   ]
 
   return [...new Set(routes)]

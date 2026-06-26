@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "title": "Logos Field Guide",
+  "version": "v0.1",
+  "sections": [
+    {
+      "section": "Start",
+      "items": [{ "slug": "index", "num": "00", "title": "Logos Field Guide" }]
+    },
+    {
+      "section": "Foundations",
+      "items": [
+        { "slug": "how-logos-works", "num": "01", "title": "How Logos Works" },
+        { "slug": "why-logos", "num": "02", "title": "Why Logos?" },
+        { "slug": "what-logos-is-not", "num": "03", "title": "What Logos Is Not" },
+        { "slug": "who-logos-is-for", "num": "04", "title": "Who Logos Is For" },
+        { "slug": "eight-truths", "num": "05", "title": "Eight Truths" },
+        { "slug": "credo", "num": "06", "title": "Credo" },
+        { "slug": "four-checks", "num": "07", "title": "The Four Checks" },
+        { "slug": "cultural-lanes", "num": "08", "title": "Cultural Lanes" }
+      ]
+    },
+    {
+      "section": "Expression",
+      "items": [
+        { "slug": "expression", "num": "09", "title": "Expression" },
+        { "slug": "the-full-system", "num": "10", "title": "The Full System" },
+        { "slug": "visual", "num": "11", "title": "Visual" },
+        { "slug": "language", "num": "12", "title": "Language" },
+        { "slug": "events", "num": "13", "title": "Events" }
+      ]
+    },
+    {
+      "section": "Appendix",
+      "items": [
+        { "slug": "glossary", "num": "14", "title": "Glossary" },
+        { "slug": "templates", "num": "15", "title": "Templates" }
+      ]
+    }
+  ]
+}

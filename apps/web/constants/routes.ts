@@ -74,6 +74,9 @@ export const ROUTES = {
 
   // Footer misc
   brandKit: '/brand-kit',
+  fieldGuide: '/field-guide',
+  /** Dynamic route — `/field-guide/[slug]`. */
+  fieldGuideChapter: (slug: string) => `/field-guide/${slug}`,
 
   // Design system reference (internal)
   designSystems: '/design-systems',
