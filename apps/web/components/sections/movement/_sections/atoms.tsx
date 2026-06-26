@@ -7,6 +7,7 @@ import { LogosMark } from '@acid-info/logos-ui'
 
 import { IconMask } from '@/components/icons/icon-mask'
 import ContentWidth from '@/components/layout/content-width'
+import { cn } from '@/lib/cn'
 import { Link } from '@/i18n/navigation'
 
 import type { CtaProps, CtaTone } from './types'
@@ -132,7 +133,10 @@ export function SectionHeader({
         {title}
       </h2>
       <p
-        className={`text-mono-s max-w-[456px] md:col-span-3 md:col-start-7 ${descriptionClassName ?? ''}`}
+        className={cn(
+          'text-mono-s max-w-[456px] md:col-span-3 md:col-start-7',
+          descriptionClassName,
+        )}
       >
         {description}
       </p>
