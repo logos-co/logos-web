@@ -45,9 +45,12 @@ export async function generateMetadata({
   const chapterTitle = item
     ? `${item.title} — ${manifest.title}`
     : manifest.title
+  const description = manifest.seo.chapterDescriptionTemplate
+    .replace('{title}', item?.title ?? manifest.title)
+    .replace('{guide}', manifest.title)
   return createDefaultMetadata({
     title: chapterTitle,
-    description: `${item?.title ?? manifest.title} — part of the ${manifest.title}.`,
+    description,
     locale,
     path: ROUTES.fieldGuideChapter(slug),
   })

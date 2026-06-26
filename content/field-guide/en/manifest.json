@@ -3,6 +3,26 @@
   "language": "en",
   "title": "Logos Field Guide",
   "version": "v0.1",
+  "ui": {
+    "previous": "← Previous",
+    "next": "Next →",
+    "startOfGuide": "Start of guide",
+    "endOfGuide": "End of guide",
+    "chaptersNavLabel": "Chapters",
+    "chapterNavLabel": "Chapter navigation",
+    "openChapterList": "Open chapter list",
+    "closeChapterList": "Close chapter list",
+    "homeLabel": "Logos home",
+    "themeToLight": "Switch to Paper",
+    "themeToDark": "Switch to Ink",
+    "githubLabel": "GitHub",
+    "printLabel": "Print"
+  },
+  "seo": {
+    "title": "Field Guide | Logos",
+    "description": "The Logos Field Guide: how to build, communicate, and participate in the Logos movement — beliefs, practices, and expression.",
+    "chapterDescriptionTemplate": "{title} — part of the {guide}."
+  },
   "sections": [
     {
       "section": "Start",
