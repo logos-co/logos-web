@@ -15,7 +15,7 @@ import {
 } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { buildFormSchema } from '@/lib/civicrm/contactFormSchema'
+import { buildFormSchema, MAX_TEXT_LENGTH } from '@/lib/civicrm/contactFormSchema'
 import type {
   AfformConfig,
   AfformField,
@@ -245,12 +245,39 @@ export function ConnectFormSection({
       })
     }
 
+  // Resolve the DOM node for an errored field key. Each input renders
+  // `id={formKey}`; selects/multiselects and the repeatable chat rows use
+  // known id/name variants, so try those in turn.
+  const findFieldElement = (key: string) =>
+    document.getElementById(key) ??
+    document.getElementById(`${key}-trigger`) ??
+    document.getElementById(`${key}-0`) ??
+    document.querySelector<HTMLElement>(`[name="${key}"]`) ??
+    document.querySelector<HTMLElement>(`[name^="${key}["]`)
+
+  const scrollToFirstError = (errorKeys: string[]) => {
+    // Pick the first error in visual (field) order, not zod-issue order.
+    const firstKey =
+      formFieldsWithKeys
+        .map((field) => field.formKey)
+        .find((key) => errorKeys.includes(key)) ?? errorKeys[0]
+    if (!firstKey) return
+    const el = findFieldElement(firstKey)
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const top =
+      window.scrollY + rect.top - Math.max(0, (window.innerHeight - rect.height) / 2)
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' })
+    el.focus({ preventScroll: true })
+  }
+
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setServerError('')
 
     if (!submitable) {
       setFormErrors(errors)
+      scrollToFirstError(errors)
       return
     }
 
@@ -341,6 +368,8 @@ export function ConnectFormSection({
         {formFieldsWithKeys.map((field) => {
           const value = formData[field.formKey]
           const hasFieldError = hasError(field.formKey)
+          const isOverLimit =
+            typeof value === 'string' && value.length > MAX_TEXT_LENGTH
           const label = capitalizeLabel(field.label)
           const placeholder =
             field.inputType === 'select' ? t('selectPlaceholder') : ''
@@ -551,8 +580,11 @@ export function ConnectFormSection({
                   value={String(value ?? '')}
                   disabled={loadingState}
                   error={hasFieldError}
+                  overLimitMessage={t('tooLong', { max: MAX_TEXT_LENGTH })}
                 />
-                {hasFieldError && REQUIRED_FIELDS.has(field.formKey) ? (
+                {!isOverLimit &&
+                hasFieldError &&
+                REQUIRED_FIELDS.has(field.formKey) ? (
                   <p className="mt-2 font-mono text-[10px] font-semibold text-red-600">
                     {t('fieldRequired', { field: label.toLowerCase() })}
                   </p>
@@ -635,8 +667,11 @@ export function ConnectFormSection({
                 value={String(value ?? '')}
                 error={hasFieldError}
                 disabled={loadingState}
+                overLimitMessage={t('tooLong', { max: MAX_TEXT_LENGTH })}
               />
-              {hasFieldError && REQUIRED_FIELDS.has(field.formKey) ? (
+              {!isOverLimit &&
+              hasFieldError &&
+              REQUIRED_FIELDS.has(field.formKey) ? (
                 <p className="mt-2 font-mono text-[10px] font-semibold text-red-600">
                   {field.formKey === 'email'
                     ? t('emailInvalid')

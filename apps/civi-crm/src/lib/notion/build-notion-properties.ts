@@ -3,6 +3,7 @@ import {
   type AfformIntakeFormName,
 } from '@/lib/civicrm/afform-case-defaults'
 
+import { NOTION_TEXT_MAX_LENGTH } from './constants'
 import {
   CHAT_SERVICE_MAP,
   COUNTRY_MAP,
@@ -33,9 +34,13 @@ function trim(s: unknown): string {
   return s && typeof s === 'string' ? s.trim() : ''
 }
 
+function clampText(content: string): string {
+  return content.slice(0, NOTION_TEXT_MAX_LENGTH)
+}
+
 function richText(content: string): NotionPageProperties {
   return {
-    rich_text: [{ type: 'text', text: { content: content.slice(0, 2000) } }],
+    rich_text: [{ type: 'text', text: { content: clampText(content) } }],
   }
 }
 
@@ -110,7 +115,7 @@ export function buildNotionProperties(
   const profileName = getProfileName(formName)
 
   const properties: NotionPageProperties = {
-    Name: { title: [{ type: 'text', text: { content: name } }] },
+    Name: { title: [{ type: 'text', text: { content: clampText(name) } }] },
     BU: { multi_select: [{ name: BU_MOVEMENT }] },
     'Mvmt Status': { select: { name: MVMT_STATUS_NEW_LEAD } },
     'Wants Events': { checkbox: wantsEvents },

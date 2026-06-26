@@ -185,4 +185,23 @@ describe('buildNotionProperties', () => {
 
     expect(properties.Organization).toBeUndefined()
   })
+
+  it('truncates rich text and the name to the Notion 2000-character limit', () => {
+    const properties = buildNotionProperties(
+      {
+        ...baseData,
+        name: 'n'.repeat(2500),
+        backgroundPartner: 'b'.repeat(2500),
+      },
+      'afformCoalitionPartner',
+      'Logos'
+    )
+
+    expect(properties.Name).toEqual({
+      title: [{ type: 'text', text: { content: 'n'.repeat(2000) } }],
+    })
+    expect(properties.Background).toEqual({
+      rich_text: [{ type: 'text', text: { content: 'b'.repeat(2000) } }],
+    })
+  })
 })

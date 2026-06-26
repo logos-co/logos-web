@@ -1119,6 +1119,7 @@
     "selectAtLeastOne": "Please select at least one",
     "selectFieldRequired": "Please select {field}",
     "fieldRequired": "Please enter {field}",
+    "tooLong": "Must be {max} characters or fewer",
     "emailInvalid": "Please enter a valid email address",
     "captchaRequired": "Please complete the captcha.",
     "captchaFailed": "Captcha verification failed. Please try again.",
