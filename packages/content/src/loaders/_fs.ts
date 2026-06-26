@@ -112,6 +112,23 @@ export const readJson = async <S extends ZodTypeAny>(
   return result.data
 }
 
+/**
+ * Reads a raw UTF-8 text file (e.g. Markdown chapter bodies). Mirrors
+ * `readJson`'s not-found handling so callers can `instanceof
+ * ContentNotFoundError` to decide between `notFound()` and re-throwing.
+ */
+export const readText = async (filePath: string): Promise<string> => {
+  try {
+    return await readFile(filePath, 'utf-8')
+  } catch (err) {
+    if (isFsNotFound(err)) {
+      throw new ContentNotFoundError(filePath)
+    }
+    const reason = err instanceof Error ? err.message : String(err)
+    throw new Error(`failed to read ${filePath}: ${reason}`, { cause: err })
+  }
+}
+
 export const listDirectories = async (parent: string): Promise<string[]> => {
   if (!existsSync(parent)) return []
   const entries = await readdir(parent, { withFileTypes: true })

@@ -19,7 +19,8 @@
       "href": "https://free.technology/jobs",
       "external": true
     },
-    { "label": "Brand Guidelines", "href": "/brand-kit" }
+    { "label": "Brand Guidelines", "href": "/brand-kit" },
+    { "label": "Field Guide", "href": "/field-guide" }
   ],
   "socialLinks": [
     {
