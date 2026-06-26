@@ -8,7 +8,7 @@
       "guides": "Guides",
       "logosForum": "Logos Forum",
       "researchForum": "Research Forum",
-      "brandKit": "Brand Kit",
+      "designGuide": "Design Guide",
       "terms": "Terms & Conditions",
       "privacy": "Privacy Policy",
       "security": "Security",
@@ -1017,10 +1017,10 @@
       "description": "Open roles and ways to collaborate with the Logos team.",
       "heading": "Work With Us"
     },
-    "brandKit": {
-      "title": "Brand Kit | Logos",
+    "designGuide": {
+      "title": "Design Guide | Logos",
       "description": "Official brand assets, guidelines, and resources for using the Logos visual identity.",
-      "heading": "Brand Kit",
+      "heading": "Design Guide",
       "intro": "Official brand assets, guidelines, and resources for using the Logos visual identity. Logos is open by design, open in spirit. Here are some assets to guide you as you chart your own path.",
       "downloads": {
         "brandMarksLabel": "Download Brand Marks",

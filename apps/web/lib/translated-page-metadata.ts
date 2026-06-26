@@ -7,10 +7,10 @@
  *
  * Usage:
  *   import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
- *   const NAMESPACE = 'pages.brandKit'
+ *   const NAMESPACE = 'pages.designGuide'
  *   export const generateMetadata = createTranslatedPageMetadata({
  *     namespace: NAMESPACE,
- *     path: ROUTES.brandKit,
+ *     path: ROUTES.designGuide,
  *   })
  */
 import { getTranslations } from 'next-intl/server'

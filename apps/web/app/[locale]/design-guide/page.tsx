@@ -4,14 +4,14 @@ import { DocsPageShell } from '@/components/sections/shared/docs-page-shell'
 import { ROUTES } from '@/constants/routes'
 import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
 
-const NAMESPACE = 'pages.brandKit'
+const NAMESPACE = 'pages.designGuide'
 
 export const generateMetadata = createTranslatedPageMetadata({
   namespace: NAMESPACE,
-  path: ROUTES.brandKit,
+  path: ROUTES.designGuide,
 })
 
-export default async function BrandKitPage({
+export default async function DesignGuidePage({
   params,
 }: {
   params: Promise<{ locale: string }>
@@ -20,7 +20,7 @@ export default async function BrandKitPage({
   const t = await getTranslations({ locale, namespace: NAMESPACE })
 
   return (
-    <DocsPageShell activeKey="brandKit">
+    <DocsPageShell activeKey="designGuide">
       <h1 className="text-eyebrow w-full text-brand-dark-green">
         {t('heading')}
       </h1>
