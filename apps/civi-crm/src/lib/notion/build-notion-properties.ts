@@ -3,6 +3,7 @@ import {
   type AfformIntakeFormName,
 } from '@/lib/civicrm/afform-case-defaults'
 
+import { NOTION_TEXT_MAX_LENGTH } from './constants'
 import {
   CHAT_SERVICE_MAP,
   COUNTRY_MAP,
@@ -24,11 +25,6 @@ export const WEBSITE_PROPERTY_NAMES = [
   'Website 4',
   'Website 5',
 ] as const
-/**
- * Notion caps the `content` of a single `rich_text`/`title` text element at
- * 2000 characters; submissions are truncated to this limit before being sent.
- */
-export const NOTION_TEXT_MAX_LENGTH = 2000
 
 function toArray(v: unknown): string[] {
   return Array.isArray(v) ? (v as string[]) : v ? [String(v)] : []
