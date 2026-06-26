@@ -8,6 +8,8 @@ import type { FieldGuideSection } from '@repo/content/schemas'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { Link, useRouter } from '@/i18n/navigation'
 
+import { useFieldGuideTheme } from './field-guide-theme'
+
 interface PagerLink {
   href: string
   title: string
@@ -26,9 +28,6 @@ interface FieldGuideShellProps {
   eyebrow: string
   children: ReactNode
 }
-
-const THEME_STORAGE_KEY = 'fg-theme'
-type Theme = 'light' | 'dark'
 
 const slugToHref = (slug: string): string =>
   slug === 'index' ? ROUTES.fieldGuide : ROUTES.fieldGuideChapter(slug)
@@ -90,30 +89,8 @@ export function FieldGuideShell({
   children,
 }: FieldGuideShellProps) {
   const router = useRouter()
-  const [theme, setTheme] = useState<Theme>('light')
+  const { theme, toggle: toggleTheme } = useFieldGuideTheme()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-
-  // Restore the stored theme on mount (SSR renders light to avoid mismatch).
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(THEME_STORAGE_KEY)
-      if (stored === 'dark' || stored === 'light') setTheme(stored)
-    } catch {
-      // localStorage unavailable — keep the light default.
-    }
-  }, [])
-
-  const toggleTheme = () => {
-    setTheme((current) => {
-      const nextTheme: Theme = current === 'dark' ? 'light' : 'dark'
-      try {
-        localStorage.setItem(THEME_STORAGE_KEY, nextTheme)
-      } catch {
-        // Ignore persistence failures.
-      }
-      return nextTheme
-    })
-  }
 
   // Close the mobile sidebar whenever the chapter changes.
   useEffect(() => {
@@ -153,12 +130,16 @@ export function FieldGuideShell({
               <span />
             </span>
           </button>
-          <Link href={ROUTES.fieldGuide} className="fg-top__brand-link">
+          <Link
+            href={ROUTES.home}
+            className="fg-top__home"
+            aria-label="Logos home"
+          >
             <span className="fg-top__lambda" aria-hidden="true">
               λ
             </span>
+            <span className="fg-top__title">{guideTitle}</span>
           </Link>
-          <span className="fg-top__title">{guideTitle}</span>
         </div>
         <div className="fg-top__bar">
           <span className="fg-top__pageref">{pageRef}</span>

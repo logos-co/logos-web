@@ -111,6 +111,12 @@
   border-right: 1px solid var(--rule);
   height: 100%;
 }
+.fg-top__home {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+}
 .fg-top__lambda {
   display: inline-block;
   width: 16px;

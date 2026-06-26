@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
 
+import { FieldGuideThemeProvider } from '@/components/sections/field-guide'
+
 import './field-guide.css'
 
 /**
@@ -8,11 +10,14 @@ import './field-guide.css'
  * site header/footer are hidden for these paths (see SiteHeaderGate /
  * SiteFooterGate) so the guide renders as its own self-contained reading
  * experience, matching the reference site.
+ *
+ * The theme provider lives here (not in the page) so the Paper/Ink choice
+ * survives client-side chapter navigation without remounting/flashing.
  */
 export default function FieldGuideLayout({
   children,
 }: {
   children: ReactNode
 }) {
-  return children
+  return <FieldGuideThemeProvider>{children}</FieldGuideThemeProvider>
 }
