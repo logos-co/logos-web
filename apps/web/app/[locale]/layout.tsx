@@ -11,6 +11,7 @@ import ScrollToTop from '@/components/scroll-to-top'
 import SiteHeader from '@/components/site-header'
 import SiteHeaderGate from '@/components/site-header/site-header-gate'
 import SiteFooter from '@/components/site-footer'
+import SiteFooterGate from '@/components/site-footer-gate'
 import UmamiButtonTracker from '@/components/umami-button-tracker'
 import { routing } from '@/i18n/routing'
 
@@ -71,7 +72,9 @@ export default async function RootLayout({
             <main className="relative">
               <PageTransition>{children}</PageTransition>
             </main>
-            <SiteFooter locale={locale} />
+            <SiteFooterGate>
+              <SiteFooter locale={locale} />
+            </SiteFooterGate>
           </Providers>
         </body>
       </html>

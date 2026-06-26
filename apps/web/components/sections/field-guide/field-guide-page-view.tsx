@@ -16,8 +16,8 @@ interface FieldGuidePageViewProps {
 
 /**
  * Server view shared by the `/field-guide` index route and the
- * `/field-guide/[slug]` chapter route. Resolves the current chapter's
- * page-reference and prev/next links from the manifest order, then renders the
+ * `/field-guide/[slug]` chapter route. Resolves the current chapter's section,
+ * page reference, and prev/next links from the manifest order, then renders the
  * client reading shell around the Markdown content.
  */
 export function FieldGuidePageView({
@@ -25,7 +25,9 @@ export function FieldGuidePageView({
   slug,
   body,
 }: FieldGuidePageViewProps) {
-  const flat = manifest.sections.flatMap((section) => section.items)
+  const flat = manifest.sections.flatMap((section) =>
+    section.items.map((item) => ({ ...item, section: section.section }))
+  )
   const index = flat.findIndex((item) => item.slug === slug)
   const current = flat[index]
   if (!current) {
@@ -37,9 +39,12 @@ export function FieldGuidePageView({
 
   return (
     <FieldGuideShell
+      guideTitle={manifest.title}
+      version={manifest.version}
       sections={manifest.sections}
       currentSlug={slug}
-      pageRef={{ num: current.num, title: current.title }}
+      pageRef={`${current.num} · ${current.title}`}
+      eyebrow={`${current.section} · ${current.num}`}
       prev={
         prevItem
           ? { href: slugToHref(prevItem.slug), title: prevItem.title }
