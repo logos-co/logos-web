@@ -111,10 +111,9 @@
   border-right: 1px solid var(--rule);
   height: 100%;
 }
-.fg-top__home {
+.fg-top__logo {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
   height: 100%;
 }
 .fg-top__lambda {
