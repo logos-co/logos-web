@@ -3,7 +3,7 @@
 import clsx from 'clsx'
 import { type ReactNode, useEffect, useState } from 'react'
 
-import type { FieldGuideSection } from '@repo/content/schemas'
+import type { FieldGuideSection, FieldGuideUi } from '@repo/content/schemas'
 
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { Link, useRouter } from '@/i18n/navigation'
@@ -18,6 +18,8 @@ interface PagerLink {
 interface FieldGuideShellProps {
   guideTitle: string
   version: string
+  /** UI chrome labels, sourced from the manifest. */
+  ui: FieldGuideUi
   sections: FieldGuideSection[]
   currentSlug: string
   /** Header reference label, e.g. `07 · The Four Checks`. */
@@ -80,6 +82,7 @@ function PrintIcon() {
 export function FieldGuideShell({
   guideTitle,
   version,
+  ui,
   sections,
   currentSlug,
   pageRef,
@@ -121,7 +124,7 @@ export function FieldGuideShell({
           <button
             type="button"
             className="fg-top__menu fg-icon-btn"
-            aria-label="Open chapter list"
+            aria-label={ui.openChapterList}
             onClick={() => setIsSidebarOpen((open) => !open)}
           >
             <span className="bars" aria-hidden="true">
@@ -133,7 +136,7 @@ export function FieldGuideShell({
           <Link
             href={ROUTES.home}
             className="fg-top__logo"
-            aria-label="Logos home"
+            aria-label={ui.homeLabel}
           >
             <span className="fg-top__lambda" aria-hidden="true">
               λ
@@ -147,7 +150,7 @@ export function FieldGuideShell({
           <button
             type="button"
             className="fg-icon-btn"
-            aria-label={theme === 'dark' ? 'Switch to Paper' : 'Switch to Ink'}
+            aria-label={theme === 'dark' ? ui.themeToLight : ui.themeToDark}
             onClick={toggleTheme}
           >
             <SunIcon />
@@ -157,14 +160,14 @@ export function FieldGuideShell({
             href={EXTERNAL_URLS.github}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="GitHub"
+            aria-label={ui.githubLabel}
           >
             <GithubIcon />
           </a>
           <button
             type="button"
             className="fg-icon-btn"
-            aria-label="Print"
+            aria-label={ui.printLabel}
             onClick={() => window.print()}
           >
             <PrintIcon />
@@ -174,7 +177,7 @@ export function FieldGuideShell({
 
       <nav
         className={clsx('fg-sidebar', isSidebarOpen && 'is-open')}
-        aria-label="Chapters"
+        aria-label={ui.chaptersNavLabel}
       >
         {sections.map((section) => (
           <div key={section.section} className="fg-sidebar__section">
@@ -201,7 +204,7 @@ export function FieldGuideShell({
 
       <button
         type="button"
-        aria-label="Close chapter list"
+        aria-label={ui.closeChapterList}
         className={clsx(
           'fg-sidebar-backdrop',
           isSidebarOpen && 'is-visible'
@@ -215,27 +218,27 @@ export function FieldGuideShell({
 
           {children}
 
-          <nav className="fg-pager" aria-label="Chapter navigation">
+          <nav className="fg-pager" aria-label={ui.chapterNavLabel}>
             {prev ? (
               <Link className="fg-pager__link is-prev" href={prev.href} rel="prev">
-                <span className="fg-pager__label">← Previous</span>
+                <span className="fg-pager__label">{ui.previous}</span>
                 <span className="fg-pager__title">{prev.title}</span>
               </Link>
             ) : (
               <span className="fg-pager__link is-prev" aria-disabled="true">
                 <span className="fg-pager__label">←</span>
-                <span className="fg-pager__title">Start of guide</span>
+                <span className="fg-pager__title">{ui.startOfGuide}</span>
               </span>
             )}
             {next ? (
               <Link className="fg-pager__link is-next" href={next.href} rel="next">
-                <span className="fg-pager__label">Next →</span>
+                <span className="fg-pager__label">{ui.next}</span>
                 <span className="fg-pager__title">{next.title}</span>
               </Link>
             ) : (
               <span className="fg-pager__link is-next" aria-disabled="true">
                 <span className="fg-pager__label">→</span>
-                <span className="fg-pager__title">End of guide</span>
+                <span className="fg-pager__title">{ui.endOfGuide}</span>
               </span>
             )}
           </nav>

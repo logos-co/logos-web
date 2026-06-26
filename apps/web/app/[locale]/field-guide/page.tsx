@@ -1,5 +1,3 @@
-import { getTranslations } from 'next-intl/server'
-
 import {
   getFieldGuideChapter,
   getFieldGuideManifest,
@@ -18,10 +16,13 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.fieldGuide' })
+  if (!isActiveLocale(locale)) {
+    throw new Error(`generateMetadata received non-active locale "${locale}"`)
+  }
+  const manifest = await getFieldGuideManifest(locale)
   return createDefaultMetadata({
-    title: t('title'),
-    description: t('description'),
+    title: manifest.seo.title,
+    description: manifest.seo.description,
     locale,
     path: ROUTES.fieldGuide,
   })

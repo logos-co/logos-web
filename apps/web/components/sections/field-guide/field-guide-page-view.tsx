@@ -41,6 +41,7 @@ export function FieldGuidePageView({
     <FieldGuideShell
       guideTitle={manifest.title}
       version={manifest.version}
+      ui={manifest.ui}
       sections={manifest.sections}
       currentSlug={slug}
       pageRef={`${current.num} · ${current.title}`}
