@@ -1,5 +1,7 @@
 # Who Logos Is For
 
+*Foundations · 04*
+
 Logos is not for everyone.
 
 It is not for spectators who are waiting for the system to fix itself from within.
@@ -30,7 +32,7 @@ For those who believe free people need sovereign infrastructure and understand t
 
 Logos is for the cypherpunks, cryptoanarchists, and libertarians who have had enough of empty rhetoric and want working solutions.
 
-For everyone ready to live with intention – online and offline – in pursuit of real agency, real community, and real optimism about what's possible.
+For everyone ready to live with intention – online and offline – in pursuit of real agency, real community, and real optimism about what’s possible.
 
 For those who organise their lives around purpose, service, and virtue rather than greed and status.
 
@@ -39,3 +41,5 @@ For those who want to live the alternative, not just argue for it.
 The door is open.
 
 The posture is not negotiable.
+
+---

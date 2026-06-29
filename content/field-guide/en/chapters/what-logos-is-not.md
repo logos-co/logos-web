@@ -1,5 +1,7 @@
 # What Logos Is Not
 
+*Foundations · 03*
+
 If you catch yourself drifting towards any of these, stop and re-read this field guide.
 
 ## Not a reform movement
@@ -24,12 +26,14 @@ Logos is a way of life, a practice and not a costume. It does not sell a vibe or
 
 ## Not a web3 ecosystem
 
-Logos does not compete for "ecosystem" status. It builds tools with people who need them. If they work, people will use them. If they do not, no amount of branding will fix it.
+Logos does not compete for “ecosystem” status. It builds tools with people who need them. If they work, people will use them. If they do not, no amount of branding will fix it.
 
 ## Not a community-building campaign
 
 Community is a result, not a strategy. Logos enables community through useful tools, real-world impact, and a strong culture. It does not manufacture it through campaigns, influencers, or engagement farming.
 
-## _The quick test_
+## *The quick test*
 
-_Logos outputs should be recognisable by their substance, not their branding. To assess this, mentally replace the lambda (λ) in the output with another organisation's logo. If the new output could align with the other organisation, it needs reworking._
+*Logos outputs should be recognisable by their substance, not their branding. To assess this, mentally replace the lambda (λ) in the output with another organisation’s logo. If the new output could align with the other organisation, it needs reworking.*
+
+---

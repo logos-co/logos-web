@@ -1,5 +1,7 @@
 # Glossary
 
+*Appendix · 14*
+
 Terms used across the field guide. Use these consistently.
 
 ### Artefact
@@ -16,7 +18,7 @@ Every public surface must point toward work. A page without a contribution path 
 
 ### Contributor bridges
 
-Phrases that move people from passive support into active contribution: "Tools not permission." / "Action not permission."
+Phrases that move people from passive support into active contribution: “Tools not permission." / "Action not permission.”
 
 ### Credo
 
@@ -93,3 +95,5 @@ A real, solvable local problem a Circle takes on to create agency and build legi
 ### Zones
 
 The seven functional areas an event space is built from: Threshold, Table, Wall, Circle, Stage, Kitchen, and Quiet. How many you use scales with the event, the principles stay the same.
+
+---

@@ -1,5 +1,7 @@
 # Visual
 
+*Expression · 11*
+
 When we build an Artefact (a website, a tool, a dashboard, a hub) in the "As Logos" register, it should look like it belongs to the same family as [logos.co](https://logos.co/). Not identical but unmistakably the same system. One system covers everything: Artefacts, Comms (social cards, decks, printed matter), and print.
 
 ## The source
@@ -12,9 +14,9 @@ logos-design/assets/tokens.css
 
 Tokens are never hard coded: to change one, update Figma first, then regenerate tokens.css.
 
--   **Figma file**: `4Rsufbuu6KjR1cab3eq063`
--   **Guidelines file**: `logos-guidelines-figma` repo, components, frames, screenshots
--   **Design reference**: `logos-design` repo, colour, typography, marks, art direction, playground
+- **Figma file**: `4Rsufbuu6KjR1cab3eq063`
+- **Guidelines file**: `logos-guidelines-figma` repo, components, frames, screenshots
+- **Design reference**: `logos-design` repo, colour, typography, marks, art direction, playground
 
 It contains:
 
@@ -52,11 +54,11 @@ Use the `--font-*` tokens. Do not hard code font names.
 
 ### Grid
 
--   12 columns, 1440px frame
-    -   Column: 102.67px
-    -   Gutter: 16px
-    -   Margin: 16px
--   Magazine editorial variant: 6 columns, 20px gap
+- 12 columns, 1440px frame
+    - Column: 102.67px
+    - Gutter: 16px
+    - Margin: 16px
+- Magazine editorial variant: 6 columns, 20px gap
 
 ### Spacing
 
@@ -66,15 +68,17 @@ Use the `--font-*` tokens. Do not hard code font names.
 
 Hold your product next to [logos.co](https://logos.co/). Then ask:
 
-1.  **Same palette?** Only the tokens above, no colours outside them.
-2.  **Same typeface?** Rhymes for editorial, Public Sans for UI, Fira for code.
-3.  **Same density?** Tight tracking, generous white space, no cramped layouts.
-4.  **Same feel?** Infrastructure, not consumer app. Tools, not toys. Manual, not glossy.
-5.  **Lambda used correctly?** Way-finding mark, not decorative wallpaper. It has a purpose or it is not there.
+1. **Same palette?** Only the tokens above, no colours outside them.
+2. **Same typeface?** Rhymes for editorial, Public Sans for UI, Fira for code.
+3. **Same density?** Tight tracking, generous white space, no cramped layouts.
+4. **Same feel?** Infrastructure, not consumer app. Tools, not toys. Manual, not glossy.
+5. **Lambda used correctly?** Way-finding mark, not decorative wallpaper. It has a purpose or it is not there.
 
 If any answer is no, fix it and run the test again before shipping.
 
 ## What not to do
 
--   Do not diverge and plan to "align later". Always start off aligned.
--   Do not use the lambda as a loading spinner, background pattern, or favicon.
+- Do not diverge and plan to “align later”. Always start off aligned.
+- Do not use the lambda as a loading spinner, background pattern, or favicon.
+
+---

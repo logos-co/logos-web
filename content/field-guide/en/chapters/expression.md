@@ -1,6 +1,8 @@
 # Expression
 
-The Credo, the Four Checks, and everything above live in the work, not in this guide. Expression is where Logos becomes tangible.
+*Expression · 09*
+
+The Credo, the Four Checks, and everything above live in the work, not in this guide. Expression is where Logos becomes tangible. 
 
 Every output we make is in one of two registers. The register is a property of the work, not of the person who makes it. This means registers are not ranks; the same contributor can produce outputs in both registers simultaneously.
 
@@ -9,11 +11,11 @@ Every output we make is in one of two registers. The register is a property of t
 | **As Logos** | The work ships on a Logos-owned channel, or is funded or commissioned by Logos. | The full system: visual tokens, voice, language rules, name formats, event kit |
 | **For Logos** | Everything else made in or around the movement, by anyone. | The Four Checks |
 
-When speaking as Logos, use the full system. When speaking for Logos, align with the [Four Checks](/field-guide/four-checks).
+When speaking as Logos, use the full system. When speaking for Logos, align with the [Four Checks](four-checks.html).
 
 ## The lambda
 
-The lambda belongs to the movement. Draw it, print it, wear it, remix it. You do not need permission to use it. However, always remember that Logos outputs should be recognised by their substance, which is ensured by holding them up to the Four Checks.
+The lambda belongs to the movement. Draw it, print it, wear it, remix it. You do not need permission to use it. However, always remember that Logos outputs should be recognised by their substance, which is ensured by holding them up to the Four Checks. 
 
 ## Making it ours without a rule book
 
@@ -23,13 +25,13 @@ When producing outputs in the "For Logos" register, there are no strict visual r
 
 If in doubt, consider the following:
 
--   Manual, not glossy.
--   Infrastructure, not consumer app.
--   Tools, not toys.
--   Field documentation, not marketing collateral.
--   Way-finding, not decoration.
+- Manual, not glossy.
+- Infrastructure, not consumer app.
+- Tools, not toys.
+- Field documentation, not marketing collateral.
+- Way-finding, not decoration.
 
-The tokens, type, and palette in the [Visual System](/field-guide/visual) are available if you find them useful. Using them can help to align your outputs with Logos' visual identity but is not strictly necessary.
+The tokens, type, and palette in the [Visual System](visual.html) are available if you find them useful. Using them can help to align your outputs with Logos' visual identity but is not strictly necessary.
 
 ## The contexts
 
@@ -40,3 +42,5 @@ Whatever the register, expressions fall into three potentially overlapping conte
 | **Comms** | Language, design assets, campaigns | Social posts, blog posts, web copy, field notes, agency briefs, this guide |
 | **Artefacts** | Software, tools, platforms, interfaces | Logos Basecamp, stack modules, EcoDev outputs, logos.co, repos |
 | **IRL** | Events, spaces, printed matter, signage | Workshops, Circles, privacy rules, zines, brochures |
+
+---
