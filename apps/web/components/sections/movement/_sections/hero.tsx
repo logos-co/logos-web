@@ -21,15 +21,19 @@ export function HeroSection({ data }: { data: MovementCopySection }) {
           <div className="absolute inset-0 bg-black/30" />
         </div>
 
-        <Cta
-          href="#circles-map"
-          label={data.hero.primaryCta}
-          tone="tertiary"
-          className="absolute top-6 left-1/2 translate-x-[8px] md:translate-x-[6px]"
-        />
-        <p className="text-mono-s absolute top-6 left-[calc(83.333%+2px)] hidden w-[226px] md:block">
-          {data.hero.kicker}
-        </p>
+        {data.hero.primaryCta ? (
+          <Cta
+            href="#circles-map"
+            label={data.hero.primaryCta}
+            tone="tertiary"
+            className="absolute top-6 left-1/2 translate-x-[8px] md:translate-x-[6px]"
+          />
+        ) : null}
+        {data.hero.kicker ? (
+          <p className="text-mono-s absolute top-6 left-[calc(83.333%+2px)] hidden w-[226px] md:block">
+            {data.hero.kicker}
+          </p>
+        ) : null}
 
         <div className="absolute top-[130px] left-1/2 flex w-[348px] -translate-x-1/2 items-center justify-center gap-2.5 md:w-auto">
           <LambdaBadge size={42.503} />
@@ -40,12 +44,14 @@ export function HeroSection({ data }: { data: MovementCopySection }) {
 
         <div className="absolute top-[274px] left-1/2 w-[369px] max-w-[calc(100%-24px)] -translate-x-1/2 md:top-[337px] md:w-[min(422px,calc(50vw-18px))] md:max-w-none md:translate-x-[6px] lg:w-[422px]">
           <p className="text-mono-s">{data.hero.body}</p>
-          <Cta
-            href="#activist-circle"
-            label={data.hero.secondaryCta}
-            tone="tertiary"
-            className="mt-10 ml-[191px] md:ml-0"
-          />
+          {data.hero.secondaryCta ? (
+            <Cta
+              href="#activist-circle"
+              label={data.hero.secondaryCta}
+              tone="tertiary"
+              className="mt-10 ml-[191px] md:ml-0"
+            />
+          ) : null}
         </div>
       </ContentWidth>
     </section>
