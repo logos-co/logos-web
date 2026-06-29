@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { execFile } from 'node:child_process'
+import { readFile } from 'node:fs/promises'
 import { describe, it } from 'node:test'
 import { promisify } from 'node:util'
 
@@ -195,6 +196,26 @@ describe('Payload production env guard', () => {
     })
 
     assert.equal(runtimeURLs.serverURL, 'https://cms.logos.co')
+  })
+})
+
+describe('Payload Vercel env propagation', () => {
+  it('exposes Payload runtime tuning env vars to the Turborepo build task', async () => {
+    const turboConfig = JSON.parse(
+      await readFile(new URL('../../../../../turbo.json', import.meta.url), 'utf8')
+    ) as { tasks?: { build?: { env?: string[] } } }
+
+    const buildEnv = new Set(turboConfig.tasks?.build?.env ?? [])
+
+    for (const name of [
+      'PAYLOAD_DB_POOL_MAX',
+      'PAYLOAD_DB_CONNECTION_TIMEOUT_MS',
+      'PAYLOAD_DB_QUERY_TIMEOUT_MS',
+      'PAYLOAD_DB_IDLE_TIMEOUT_MS',
+      'PAYLOAD_HEALTH_TIMEOUT_MS',
+    ]) {
+      assert.equal(buildEnv.has(name), true, `${name} must be listed in turbo.json build.env`)
+    }
   })
 })
 
