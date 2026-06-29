@@ -172,6 +172,20 @@ describe('content-backed web route contracts', () => {
     )
   })
 
+  test('design guide page uses the current asset download copy', () => {
+    expect(messages.pages.designGuide).toMatchObject({
+      description:
+        'Design assets, guidelines, and resources for using the Logos visual identity. Logos is open by design, open in spirit. Here are some assets to guide you as you chart your own path.',
+      intro:
+        'Design assets, guidelines, and resources for using the Logos visual identity. Logos is open by design, open in spirit. Here are some assets to guide you as you chart your own path.',
+      downloads: {
+        brandMarksLabel: 'Download Marks',
+        guidelinesSection: 'Design Guide',
+        guidelinesLabel: 'Download Design Guide',
+      },
+    })
+  })
+
   test.each(contracts)(
     '$name route has every section its page imports',
     async (contract) => {
