@@ -380,15 +380,35 @@
 }
 
 .fg-article blockquote {
+  position: relative;
+  display: flex;
+  align-items: center;
   margin: 24px 0;
-  padding: 12px 0 12px 18px;
-  border-left: 3px solid var(--fg-accent);
+  min-height: 80px;
+  padding: 8px 0 8px 32px;
   font-family: var(--font-sans);
   font-style: italic;
   font-size: 16px;
   line-height: 1.5;
   color: var(--c-ink);
   max-width: 56ch;
+}
+.fg-article blockquote::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 3px;
+  height: 64px;
+  max-height: calc(100% - 16px);
+  background: var(--fg-accent);
+  transform: translateY(-50%);
+}
+.fg-article blockquote > :first-child {
+  margin-top: 0;
+}
+.fg-article blockquote > :last-child {
+  margin-bottom: 0;
 }
 
 .fg-article code {
