@@ -55,7 +55,22 @@
       "section": "Appendix",
       "items": [
         { "slug": "glossary", "num": "14", "title": "Glossary" },
-        { "slug": "templates", "num": "15", "title": "Templates" }
+        { "slug": "templates", "num": "15", "title": "Templates" },
+        {
+          "slug": "field-note-logos-lan-dev-workshop",
+          "num": "16",
+          "title": "Field Note — Logos LAN (Dev Workshop)"
+        },
+        {
+          "slug": "field-note-logos-circle",
+          "num": "17",
+          "title": "Field Note — Logos Circle"
+        },
+        {
+          "slug": "event-privacy-protocol",
+          "num": "18",
+          "title": "Event Privacy Protocol"
+        }
       ]
     }
   ]

@@ -1,6 +1,9 @@
 # Credo
 
+*Foundations · 06*
+
 > Build the parallel. Prove it in practice. Keep it human.
+> 
 
 ## What the Credo means
 
@@ -18,10 +21,10 @@ Stories are how we communicate the Credo. They are told by everyone through Circ
 
 Codes are actions we take to reinforce the Credo. For example:
 
--   The lambda (λ) in handles, commits, terminals, and signatures signals belonging.
--   Repetition of the Credo or the call to action signals alignment.
--   A ring of chairs in a Circle with no head signals peers, not rank.
--   Gathering in person rather than online signals that human relationships are the priority.
+- The lambda (λ) in handles, commits, terminals, and signatures signals belonging.
+- Repetition of the Credo or the call to action signals alignment.
+- A ring of chairs in a Circle with no head signals peers, not rank.
+- Gathering in person rather than online signals that human relationships are the priority.
 
 ## Call to action
 
@@ -31,14 +34,15 @@ The CTA gives the movement a clear, memorable signal.
 
 ## Contributor bridges
 
-Contributor bridges are phrases that move people from passive support into active contribution.
+Contributor bridges are phrases that move people from passive support into active contribution. 
 
 > Tools not permission.
-> 
 > Action not permission.
 
 ## The Four Checks
 
-The Four Checks are a quick way to assess whether the work you are doing supports Logos.
+The Four Checks are a quick way to assess whether the work you are doing supports Logos. 
 
 > Build. Protect. Share. Belong.
+
+---

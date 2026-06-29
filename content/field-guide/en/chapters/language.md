@@ -1,74 +1,76 @@
 # Language
 
+*Expression · 12*
+
 ## Voice
 
 How Logos sounds in writing when communicating in the "As Logos" register.
 
--   **Declarative:** We make statements, not suggestions. No hedging.
--   **Sparse:** Every word earns its place. No filler, no repetition.
--   **Precise:** We name things concisely and carefully. Vague language is a failure of thinking.
--   **Dry:** Wit exists but is understated. We never wink at the camera.
+- **Declarative:** We make statements, not suggestions. No hedging.
+- **Sparse:** Every word earns its place. No filler, no repetition.
+- **Precise:** We name things concisely and carefully. Vague language is a failure of thinking.
+- **Dry:** Wit exists but is understated. We never wink at the camera.
 
 ## House phrases
 
 Public slogans. Use regularly:
 
--   Build the parallel.
--   The parallel is built, not announced.
--   Start where you live.
--   Privacy is a civic primitive.
--   Private by default. Built for real life.
--   Run what you depend on.
--   Prove it in code.
--   Global protocols. Local action.
--   Coordination without surveillance.
--   Civil society needs private infrastructure.
--   Free association needs private communication.
--   Tools not permission.
--   Freedom, not costume.
--   Proof, not hype.
--   Contribution, not status.
--   No label required.
+- Build the parallel.
+- The parallel is built, not announced.
+- Start where you live.
+- Privacy is a civic primitive.
+- Private by default. Built for real life.
+- Run what you depend on.
+- Prove it in code.
+- Global protocols. Local action.
+- Coordination without surveillance.
+- Civil society needs private infrastructure.
+- Free association needs private communication.
+- Tools not permission.
+- Freedom, not costume.
+- Proof, not hype.
+- Contribution, not status.
+- No label required.
 
 ## Operating verbs
 
 The work loop, in plain imperatives:
 
--   Run the tools.
--   Verify the claim.
--   Publish the field note.
--   Close with commits.
--   Make peers more capable.
+- Run the tools.
+- Verify the claim.
+- Publish the field note.
+- Close with commits.
+- Make peers more capable.
 
 ## Avoid
 
 ### Marketing hype
 
--   Next generation of human freedom
--   Unlock the future / limitless anything
--   Empower communities
--   Revolutionary / groundbreaking / world-class / best-in-class (without proof)
--   Privacy revolution (unless explaining the mechanism)
--   Join the revolution
--   Seamless experience
--   Unstoppable future
--   Redefine web3 (web3 as an identity marker)
--   Vibrant ecosystem
--   Community (as a decorative noun)
--   Trustless community
--   Onboarding the masses
+- Next generation of human freedom
+- Unlock the future / limitless anything
+- Empower communities
+- Revolutionary / groundbreaking / world-class / best-in-class (without proof)
+- Privacy revolution (unless explaining the mechanism)
+- Join the revolution
+- Seamless experience
+- Unstoppable future
+- Redefine web3 (web3 as an identity marker)
+- Vibrant ecosystem
+- Community (as a decorative noun)
+- Trustless community
+- Onboarding the masses
 
 ### Tribalism and cosplay
 
--   Cheerful outlaw
--   Privacy lifestyle as costume
--   Cyberpunk vibes
--   Only for libertarians
--   True believers only
--   Join the tribe
--   Follow the leader
--   Crush the enemy
--   The chosen few
+- Cheerful outlaw
+- Privacy lifestyle as costume
+- Cyberpunk vibes
+- Only for libertarians
+- True believers only
+- Join the tribe
+- Follow the leader
+- Crush the enemy
+- The chosen few
 
 ## Rewrite examples
 
@@ -93,6 +95,8 @@ Use current Logos module names in public-facing work.
 
 ### Do not write
 
--   Waku/Codex/Nomos stack
--   Logos Network State, unless quoting older material
--   Codex, Waku, or Nomos as default public names
+- Waku/Codex/Nomos stack
+- Logos Network State, unless quoting older material
+- Codex, Waku, or Nomos as default public names
+
+---
