@@ -170,6 +170,10 @@ describe('LambdaPrizePage – support section driven from data', () => {
   it('does not force support links when href copy is omitted', () => {
     const html = renderToStaticMarkup(createElement(Support, { copy: sectionData.support }))
     expect(html).toContain('Get Support')
+    expect(html).toContain('Help Center')
+    expect(html).toContain('View')
+    expect(html).toContain('Install')
+    expect(html).toContain('Connect')
     expect(html).not.toContain('<a ')
     expect(html).not.toContain('href=')
   })
