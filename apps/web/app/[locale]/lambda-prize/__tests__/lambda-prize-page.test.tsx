@@ -1,7 +1,22 @@
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import type { LambdaPrizeCopySection } from '@repo/content/schemas'
+
+vi.mock('@/components/layout/content-width', () => ({
+  default: ({ children }: { children: React.ReactNode }) => createElement('div', null, children),
+}))
+
+vi.mock('@/components/ui', () => ({
+  ButtonArrowIcon: () => createElement('span', null, 'arrow'),
+}))
+
+vi.mock('@/i18n/navigation', () => ({
+  Link: ({ children, href, className }: { children: React.ReactNode; href: string; className?: string }) =>
+    createElement('a', { href, className }, children),
+}))
+
+import { Support } from '../_sections/support'
 
 const sectionData: LambdaPrizeCopySection = {
   componentType: 'lambdaPrizeCopy',
@@ -150,5 +165,12 @@ describe('LambdaPrizePage – support section driven from data', () => {
   it('renders support.body from data', () => {
     const html = renderToStaticMarkup(createElement(SupportContent, { data: sectionData }))
     expect(html).toContain('Find examples, tutorials, and community channels for building on Logos.')
+  })
+
+  it('does not force support links when href copy is omitted', () => {
+    const html = renderToStaticMarkup(createElement(Support, { copy: sectionData.support }))
+    expect(html).toContain('Get Support')
+    expect(html).not.toContain('<a ')
+    expect(html).not.toContain('href=')
   })
 })

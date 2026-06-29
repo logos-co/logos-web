@@ -276,6 +276,21 @@ describe('link policy', () => {
     ).toContain('[The Full System](/field-guide/the-full-system)')
   })
 
+  it('does not link to the removed general FAQ route', () => {
+    const offenders = scannedRoots.flatMap(collectTextFiles).flatMap((file) => {
+      const text = readFileSync(file, 'utf8')
+      const relativePath = relative(repoRoot, file)
+      const matches = [
+        ...text.matchAll(/\bROUTES\.faq\b/g),
+        ...text.matchAll(/["']\/faq["']/g),
+      ]
+
+      return matches.map((match) => `${relativePath}:${match.index}`)
+    })
+
+    expect(offenders).toEqual([])
+  })
+
   it('routes jobs CTAs to the IFT jobs board as external links', () => {
     // Labels are copy; assert each surface links to the jobs board by href.
     expect(footer.mainLinks).toContainEqual(
