@@ -26,11 +26,13 @@ export default async function TechStackExplorer({
     'techStack.overview'
   )
 
-  const { titleLine1, titleLine2, body } = overview.explorer ?? {
-    titleLine1: '',
-    titleLine2: '',
-    body: '',
+  if (!overview.explorer) {
+    throw new Error(
+      'technology-stack techStackOverview.explorer copy is required'
+    )
   }
+
+  const { titleLine1, titleLine2, body } = overview.explorer
 
   return (
     <section className="border-brand-dark-green/10 bg-brand-off-white border-t">
