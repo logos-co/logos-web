@@ -1,7 +1,7 @@
 import '@/css/tailwind.css'
 
 import type { ReactNode } from 'react'
-import type { Viewport } from 'next'
+import type { Metadata, Viewport } from 'next'
 
 import { themeInitScript } from '@/lib/theme'
 import { fontVariables } from '@/app/fonts'
@@ -13,12 +13,17 @@ import SiteHeaderGate from '@/components/site-header/site-header-gate'
 import SiteFooter from '@/components/site-footer'
 import UmamiButtonTracker from '@/components/umami-button-tracker'
 import { routing } from '@/i18n/routing'
+import { faviconIcons } from '@/lib/favicon'
 
 import { NextIntlClientProvider } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
 import Script from 'next/script'
 
 export const dynamicParams = false
+
+export const metadata: Metadata = {
+  icons: faviconIcons,
+}
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -47,8 +52,6 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <head>
-          <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico" />
-          <link rel="icon" href="/favicon.ico" type="image/x-icon" />
           <script
             dangerouslySetInnerHTML={{
               __html: themeInitScript,
