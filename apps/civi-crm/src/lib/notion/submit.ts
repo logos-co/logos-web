@@ -1,18 +1,6 @@
-import {
-  buildNotionProperties,
-  resolveOrganizationSelect,
-} from './build-notion-properties'
+import { buildNotionProperties } from './build-notion-properties'
 import { NOTION_API_BASE_URL, NOTION_API_VERSION } from './constants'
 import { EVALUATION_TEMPLATE_CHILDREN } from './evaluation-template'
-
-type NotionSelectProperty = {
-  type: 'select'
-  select: { options: { name: string }[] }
-}
-
-type NotionDataSourceResponse = {
-  properties?: Record<string, NotionSelectProperty | { type: string }>
-}
 
 type NotionDatabaseResponse = {
   data_sources?: { id: string; name: string }[]
@@ -65,34 +53,6 @@ async function resolveDataSourceId(
   )
 }
 
-async function fetchOrganizationOptions(
-  dataSourceId: string,
-  token: string
-): Promise<string[]> {
-  const res = await fetch(
-    `${NOTION_API_BASE_URL}/data_sources/${dataSourceId}`,
-    {
-      headers: notionHeaders(token),
-    }
-  )
-
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(
-      `Notion data source GET (${res.status}): ${text.slice(0, 200)}`
-    )
-  }
-
-  const json = (await res.json()) as NotionDataSourceResponse
-  const organization = json.properties?.Organization
-  if (!organization || organization.type !== 'select') {
-    return []
-  }
-
-  const selectProp = organization as NotionSelectProperty
-  return selectProp.select.options.map((option) => option.name)
-}
-
 export type NotionSubmitResult =
   | { ok: true }
   | { ok: false; message: string }
@@ -110,22 +70,7 @@ export async function submitToNotion(
 
   try {
     const dataSourceId = await resolveDataSourceId(databaseId, token)
-    const organizationOptions = await fetchOrganizationOptions(
-      dataSourceId,
-      token
-    )
-    const organizationSelect = resolveOrganizationSelect(
-      typeof formData.affiliatedOrgs === 'string'
-        ? formData.affiliatedOrgs
-        : String(formData.affiliatedOrgs ?? ''),
-      organizationOptions
-    )
-
-    const properties = buildNotionProperties(
-      formData,
-      formName,
-      organizationSelect
-    )
+    const properties = buildNotionProperties(formData, formName)
 
     const res = await fetch(`${NOTION_API_BASE_URL}/pages`, {
       method: 'POST',

@@ -15,17 +15,6 @@ function jsonResponse(body: unknown, ok = true, status = 200) {
   } as Response
 }
 
-function dataSourceWithOrganization(options: string[]) {
-  return jsonResponse({
-    properties: {
-      Organization: {
-        type: 'select',
-        select: { options: options.map((name) => ({ name })) },
-      },
-    },
-  })
-}
-
 describe('submitToNotion', () => {
   beforeEach(() => {
     process.env.NOTION_API_TOKEN = TOKEN
@@ -43,9 +32,7 @@ describe('submitToNotion', () => {
   it('writes to the pinned data source without a databases lookup', async () => {
     process.env.NOTION_DATA_SOURCE_ID = 'ds-pinned'
     const fetchMock = vi.mocked(fetch)
-    fetchMock
-      .mockResolvedValueOnce(dataSourceWithOrganization(['Acme']))
-      .mockResolvedValueOnce(jsonResponse({ id: 'page-1' }, true, 200))
+    fetchMock.mockResolvedValueOnce(jsonResponse({ id: 'page-1' }, true, 200))
 
     const result = await submitToNotion({}, 'afformActivistBuilder')
 
@@ -54,9 +41,9 @@ describe('submitToNotion', () => {
     // No GET /v1/databases — the data source is pinned via env.
     const urls = fetchMock.mock.calls.map((c) => c[0])
     expect(urls.some((u) => String(u).includes('/v1/databases/'))).toBe(false)
-    expect(urls[0]).toBe(`${NOTION_API_BASE_URL}/data_sources/ds-pinned`)
+    expect(urls[0]).toBe(`${NOTION_API_BASE_URL}/pages`)
 
-    const pageBody = JSON.parse(String(fetchMock.mock.calls[1][1]?.body))
+    const pageBody = JSON.parse(String(fetchMock.mock.calls[0][1]?.body))
     expect(pageBody.parent).toEqual({
       type: 'data_source_id',
       data_source_id: 'ds-pinned',
@@ -69,13 +56,12 @@ describe('submitToNotion', () => {
       .mockResolvedValueOnce(
         jsonResponse({ data_sources: [{ id: 'ds-only', name: 'IFT BD CRM' }] })
       )
-      .mockResolvedValueOnce(dataSourceWithOrganization([]))
       .mockResolvedValueOnce(jsonResponse({ id: 'page-1' }))
 
     const result = await submitToNotion({}, 'afformActivistBuilder')
 
     expect(result).toEqual({ ok: true })
-    const pageBody = JSON.parse(String(fetchMock.mock.calls[2][1]?.body))
+    const pageBody = JSON.parse(String(fetchMock.mock.calls[1][1]?.body))
     expect(pageBody.parent).toEqual({
       type: 'data_source_id',
       data_source_id: 'ds-only',
