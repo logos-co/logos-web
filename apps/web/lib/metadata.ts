@@ -1,5 +1,6 @@
 import siteConfig from '@/constants/site-config'
 import { env } from '@/lib/env'
+import { faviconIcons } from '@/lib/favicon'
 import type { Metadata } from 'next'
 
 type DefaultMetadataProps = {
@@ -66,7 +67,7 @@ export async function createDefaultMetadata({
       description,
       images: [absoluteUrl('/og.jpeg')],
     },
-    icons: '/favicon.ico',
+    icons: faviconIcons,
     creator: siteConfig.name,
     keywords: siteConfig.keywords,
     robots: {
