@@ -37,8 +37,8 @@ The reason both writes are in one handler: hCaptcha tokens are single-use. One P
 | `apps/civi-crm/src/app/api/public/afform-submit/route.ts` | Orchestrator: validation, captcha, calls both libs |
 | `apps/civi-crm/src/lib/intake-submit-flags.ts` | Reads `FUNNEL_INTAKE_*_DISABLED` env flags |
 | `apps/civi-crm/src/lib/notion/maps.ts` | `SKILLS_MAP`, `CHAT_SERVICE_MAP`, `COUNTRY_MAP`, `PROFILE_BY_FORM`, `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT` |
-| `apps/civi-crm/src/lib/notion/build-notion-properties.ts` | `buildNotionProperties` + `resolveOrganizationSelect` |
-| `apps/civi-crm/src/lib/notion/submit.ts` | `submitToNotion` -- GETs DB for org options, builds properties, POSTs page |
+| `apps/civi-crm/src/lib/notion/build-notion-properties.ts` | `buildNotionProperties` |
+| `apps/civi-crm/src/lib/notion/submit.ts` | `submitToNotion` -- resolves the data source, builds properties, POSTs page |
 | `apps/civi-crm/src/lib/civicrm/submit-afform.ts` | `submitToCiviCrm` -- builds Afform values, POSTs to CiviCRM API |
 | `apps/civi-crm/src/lib/civicrm/build-afform-values.ts` | `buildAfformValues` (shared) |
 | `apps/civi-crm/src/lib/civicrm/afform-case-defaults.ts` | `AfformIntakeFormName` type + case defaults |
@@ -90,11 +90,10 @@ Default (no flags set): the `afformCircleContactForm` formName is CiviCRM-only (
 ## `submitToNotion` runtime behaviour
 
 1. Read `NOTION_API_TOKEN` and `NOTION_DB_ID`; return `{ ok: false }` if either is missing.
-2. `GET /v1/databases/{id}` to read current `Organization` select options.
-3. `resolveOrganizationSelect(affiliatedOrgs, options)` -- lowercase compare; use canonical option name if matched, else use the submitted value (Notion auto-creates the option).
-4. `buildNotionProperties(formData, formName, organizationSelect)` -- see field mapping below.
-5. `POST /v1/pages` with `parent.database_id` and `properties`. Notion API version: `2026-03-11`.
-6. Return `{ ok: true }` or `{ ok: false, message }`.
+2. `resolveDataSourceId(databaseId)` -- use `NOTION_DATA_SOURCE_ID` if pinned, else `GET /v1/databases/{id}` and fall back to the sole data source (errors if multiple and none pinned).
+3. `buildNotionProperties(formData, formName)` -- see field mapping below.
+4. `POST /v1/pages` with `parent.data_source_id` and `properties`. Notion API version: `2026-03-11`.
+5. Return `{ ok: true }` or `{ ok: false, message }`.
 
 Empty optional properties (rich text, url, email, select) are omitted from the POST body so rows stay sparse.
 
@@ -109,7 +108,7 @@ The table below lists every property in the database as of 2026-05-29. The **Fun
 | `Name` | title | **yes -- reused** | From form `name`; fallback `"Unknown"` |
 | `Email/Website` | email | **yes -- reused** | From `email`; omitted if empty |
 | `Profile` | select | **yes -- reused** | Derived from `formName` via `PROFILE_BY_FORM`; options: `Coalition Partner`, `Activist Builder`, `Activist Leader / Steward` (the legacy `afformCircleContactForm` has no Notion profile because Notion is skipped) |
-| `Organization` | select | **yes -- reused** | From `affiliatedOrgs`; case-insensitive match against existing options; unmatched values create a new option |
+| `Mvmt Organization` | text | **yes -- added** | From `affiliatedOrgs`; written as-is (rich text, clamped to 2000 chars); omitted if empty |
 | `Website` | url | **yes -- reused** | First entry of `website[]` |
 | `Website 2` | url | **yes -- added** | Second entry of `website[]`; omitted if absent |
 | `Website 3` | url | **yes -- added** | Third entry of `website[]`; omitted if absent |
@@ -181,7 +180,7 @@ ADD COLUMN "Website 5" URL
 - **One `Background` column** -- All `background*` textarea variants collapse into a single rich-text property.
 - **One column per website** -- `website[]` is spread across discrete url columns: entry 1 -> `Website`, entries 2-5 -> `Website 2`..`Website 5`. Blank rows are dropped first, so the columns fill contiguously. The funnel form caps the website field at 5 rows (`MAX_WEBSITE_ROWS` in `connect-form-section.tsx`), so the array never overflows the available columns. (Previously all entries were pipe-joined into the single `Website` url field.)
 - **Joined multi-values** -- `chat[]` -> `handle (Service)` entries in `Phone or Social Handle`.
-- **`Organization` grows over time** -- Unmatched submitted values are written as-is and Notion creates a new select option.
+- **`Mvmt Organization` is free text** -- `affiliatedOrgs` is written verbatim to the `Mvmt Organization` rich-text column (clamped to 2000 chars), keeping the curated `Organization` select free of intake noise. (Intake no longer writes to `Organization`.)
 - **Env var name** -- `NOTION_DB_ID`.
 
 ---
