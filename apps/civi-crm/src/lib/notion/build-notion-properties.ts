@@ -49,17 +49,6 @@ function optionalRichText(content: string): NotionPageProperties | undefined {
   return richText(content)
 }
 
-export function resolveOrganizationSelect(
-  submitted: string,
-  existingOptions: readonly string[]
-): string {
-  const value = submitted.trim()
-  if (!value) return ''
-  const lower = value.toLowerCase()
-  const match = existingOptions.find((option) => option.toLowerCase() === lower)
-  return match ?? value
-}
-
 function getBackground(data: Record<string, unknown>): string {
   return (
     trim(data.backgroundPartner) ||
@@ -76,14 +65,14 @@ function getProfileName(formName: string): string | undefined {
 
 export function buildNotionProperties(
   data: Record<string, unknown>,
-  formName: string,
-  organizationSelect: string
+  formName: string
 ): NotionPageProperties {
   const name = trim(data.name) || 'Unknown'
   const email = trim(data.email)
   const city = trim(data.city)
   const countryId = trim(data.country)
   const country = COUNTRY_MAP[countryId] ?? countryId
+  const affiliatedOrgs = trim(data.affiliatedOrgs)
 
   const background = getBackground(data)
   const techVision = trim(data.techVision)
@@ -132,9 +121,8 @@ export function buildNotionProperties(
   if (country) {
     properties.Country = richText(country)
   }
-  if (organizationSelect) {
-    properties.Organization = { select: { name: organizationSelect } }
-  }
+  const affiliatedOrgsProp = optionalRichText(affiliatedOrgs)
+  if (affiliatedOrgsProp) properties['Mvmt Organization'] = affiliatedOrgsProp
   if (profileName) {
     properties.Profile = { select: { name: profileName } }
   }

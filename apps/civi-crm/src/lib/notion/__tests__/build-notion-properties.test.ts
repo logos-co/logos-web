@@ -1,25 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import {
-  buildNotionProperties,
-  resolveOrganizationSelect,
-} from '../build-notion-properties'
-
-describe('resolveOrganizationSelect', () => {
-  it('returns canonical option name on case-insensitive match', () => {
-    expect(
-      resolveOrganizationSelect('logos', ['Logos', 'Status'])
-    ).toBe('Logos')
-  })
-
-  it('returns submitted value when no option matches', () => {
-    expect(resolveOrganizationSelect('New Org', ['Logos'])).toBe('New Org')
-  })
-
-  it('returns empty string for blank input', () => {
-    expect(resolveOrganizationSelect('  ', ['Logos'])).toBe('')
-  })
-})
+import { buildNotionProperties } from '../build-notion-properties'
 
 describe('buildNotionProperties', () => {
   const baseData = {
@@ -40,8 +21,7 @@ describe('buildNotionProperties', () => {
   it('maps coalition partner fields to funnel properties', () => {
     const properties = buildNotionProperties(
       { ...baseData, backgroundPartner: 'We build networks.' },
-      'afformCoalitionPartner',
-      'Logos'
+      'afformCoalitionPartner'
     )
 
     expect(properties.Name).toEqual({
@@ -54,7 +34,9 @@ describe('buildNotionProperties', () => {
     expect(properties.Country).toEqual({
       rich_text: [{ type: 'text', text: { content: 'United Kingdom' } }],
     })
-    expect(properties.Organization).toEqual({ select: { name: 'Logos' } })
+    expect(properties['Mvmt Organization']).toEqual({
+      rich_text: [{ type: 'text', text: { content: 'Logos' } }],
+    })
     expect(properties.Profile).toEqual({
       select: { name: 'Coalition Partner' },
     })
@@ -88,8 +70,7 @@ describe('buildNotionProperties', () => {
         backgroundBuilder: 'Builder bio',
         techVision: 'Local mesh tools',
       },
-      'afformActivistBuilder',
-      'Logos'
+      'afformActivistBuilder'
     )
 
     expect(properties.BU).toEqual({ multi_select: [{ name: 'Movement' }] })
@@ -111,8 +92,7 @@ describe('buildNotionProperties', () => {
         backgroundLeader: 'Leader bio',
         activitiesVision: 'Community workshops',
       },
-      'afformActivistLeaderSteward',
-      'Logos'
+      'afformActivistLeaderSteward'
     )
 
     expect(properties.BU).toEqual({ multi_select: [{ name: 'Movement' }] })
@@ -142,8 +122,7 @@ describe('buildNotionProperties', () => {
           'https://six.com',
         ],
       },
-      'afformCoalitionPartner',
-      'Logos'
+      'afformCoalitionPartner'
     )
 
     expect(properties.Website).toEqual({ url: 'https://one.com' })
@@ -157,8 +136,7 @@ describe('buildNotionProperties', () => {
   it('fills website columns contiguously, skipping blank rows', () => {
     const properties = buildNotionProperties(
       { ...baseData, website: ['', 'https://only.com', ''] },
-      'afformCoalitionPartner',
-      'Logos'
+      'afformCoalitionPartner'
     )
 
     expect(properties.Website).toEqual({ url: 'https://only.com' })
@@ -168,22 +146,20 @@ describe('buildNotionProperties', () => {
   it('omits all website columns when none submitted', () => {
     const properties = buildNotionProperties(
       { ...baseData, website: [] },
-      'afformCoalitionPartner',
-      'Logos'
+      'afformCoalitionPartner'
     )
 
     expect(properties.Website).toBeUndefined()
     expect(properties['Website 2']).toBeUndefined()
   })
 
-  it('omits Organization when resolved value is empty', () => {
+  it('omits Mvmt Organization when affiliatedOrgs is empty', () => {
     const properties = buildNotionProperties(
-      baseData,
-      'afformCoalitionPartner',
-      ''
+      { ...baseData, affiliatedOrgs: '' },
+      'afformCoalitionPartner'
     )
 
-    expect(properties.Organization).toBeUndefined()
+    expect(properties['Mvmt Organization']).toBeUndefined()
   })
 
   it('truncates rich text and the name to the Notion 2000-character limit', () => {
@@ -193,8 +169,7 @@ describe('buildNotionProperties', () => {
         name: 'n'.repeat(2500),
         backgroundPartner: 'b'.repeat(2500),
       },
-      'afformCoalitionPartner',
-      'Logos'
+      'afformCoalitionPartner'
     )
 
     expect(properties.Name).toEqual({
