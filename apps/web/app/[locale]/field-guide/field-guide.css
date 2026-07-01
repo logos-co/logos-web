@@ -382,9 +382,7 @@
 .fg-article blockquote {
   position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   margin: 24px 0;
   min-height: 60px;
   padding: 8px 0 8px 24px;
@@ -394,12 +392,6 @@
   line-height: 1.5;
   color: var(--c-ink);
   max-width: 56ch;
-}
-.fg-article blockquote:has(> h1),
-.fg-article blockquote:has(> h2),
-.fg-article blockquote:has(> ul) {
-  font-style: normal;
-  max-width: 64ch;
 }
 .fg-article blockquote::before {
   content: '';
