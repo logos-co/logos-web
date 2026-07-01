@@ -111,6 +111,10 @@ describe('home section schemas', () => {
     )
 
     const problem = { title: 't', subtitle: 's', body: 'b', facts: ['f'] }
+    const linkedProblem = {
+      ...problem,
+      factLinks: [{ index: 0, label: 'f', href: 'https://example.com/fact' }],
+    }
     assert.strictEqual(
       homeAboutSectionSchema.parse({
         componentType: 'homeAbout',
@@ -118,7 +122,7 @@ describe('home section schemas', () => {
         heading: 'h',
         headingMobile: 'hm',
         problems: {
-          debt: problem,
+          debt: linkedProblem,
           surveillance: problem,
           corruption: problem,
           stagnation: problem,

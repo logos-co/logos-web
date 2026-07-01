@@ -139,6 +139,8 @@ const fetchRfpMarkdownEntry = async (
   return null
 }
 
+export const fetchRfpMarkdownEntryForTest = fetchRfpMarkdownEntry
+
 /** `RFP-001-admin-authority-lib.md` → `admin-authority-lib`. */
 const toSlug = (filename: string, fallback: string): string => {
   const base = filename

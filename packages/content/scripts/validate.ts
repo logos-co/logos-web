@@ -422,7 +422,6 @@ const buildPagesChecks = (locale: Language): Check[] => [
       }
       const expected: readonly string[] = [
         'hero',
-        'cardGrid',
         'homeSocialProof',
         'homeChoosePath',
         'homeDecide',
@@ -430,7 +429,6 @@ const buildPagesChecks = (locale: Language): Check[] => [
         'techStackOverview',
         'homeStartBuilding',
         'homeUseCases',
-        'gallery',
         'homeBuilderPortal',
         'relatedArticles',
       ]
