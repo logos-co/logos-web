@@ -36,7 +36,7 @@ Remember, this is a cultural guide for alignment, not a compliance manual. It is
 | I want to understand Logos' values | [Eight Truths](/field-guide/eight-truths) |
 | I want to know what we stand for | [Credo](/field-guide/credo) |
 | I need the high-level rules | [The Four Checks](/field-guide/four-checks) |
-| I need guidance for my my place in the movement | [Cultural Lanes](/field-guide/cultural-lanes) |
+| I need guidance for my place in the movement | [Cultural Lanes](/field-guide/cultural-lanes) |
 | I am making something | [Expression](/field-guide/expression) |
 | I am communicating as Logos | [The Full System](/field-guide/the-full-system) |
 
