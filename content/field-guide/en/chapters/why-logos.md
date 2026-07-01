@@ -8,7 +8,7 @@ People are atomised, indebted, and increasingly unable to provide for themselves
 
 Logos exists to build the decentralised infrastructure and living ecosystem that makes a better society possible for anyone willing to reclaim their agency, online and IRL. In this way, Logos is built for exit when the existing order no longer holds.
 
-Our code and [Credo](credo.html) stem from our name's origins. To the ancient Greeks, Logos meant “word”, “reason”, or “rational principle”, and often referred to the underlying order that makes the world intelligible. Our use of the lambda (λ) represents that lineage.
+Our code and [Credo](/field-guide/credo) stem from our name's origins. To the ancient Greeks, Logos meant “word”, “reason”, or “rational principle”, and often referred to the underlying order that makes the world intelligible. Our use of the lambda (λ) represents that lineage.
 
 ### What this means for you
 

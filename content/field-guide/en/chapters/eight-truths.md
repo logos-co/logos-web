@@ -2,7 +2,7 @@
 
 *Foundations · 05*
 
-These are strategic truths that govern the direction of Logos. They are distinct from the [Four Checks](four-checks.html) (which govern daily output). The Eight Truths govern the long view.
+These are strategic truths that govern the direction of Logos. They are distinct from the [Four Checks](/field-guide/four-checks) (which govern daily output). The Eight Truths govern the long view.
 
 ## 1. Logos builds sovereign infrastructure
 

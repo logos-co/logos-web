@@ -132,7 +132,7 @@ All events use the event-industry grid. In most cases, that means one cell = app
 
 Every event states our privacy posture before it begins. Print it, post it, say it out loud.
 
-Template: [Event Privacy Protocol](event-privacy-protocol.html)
+Template: [Event Privacy Protocol](/field-guide/event-privacy-protocol)
 
 ## Rules
 

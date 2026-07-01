@@ -11,7 +11,7 @@ Every output we make is in one of two registers. The register is a property of t
 | **As Logos** | The work ships on a Logos-owned channel, or is funded or commissioned by Logos. | The full system: visual tokens, voice, language rules, name formats, event kit |
 | **For Logos** | Everything else made in or around the movement, by anyone. | The Four Checks |
 
-When speaking as Logos, use the full system. When speaking for Logos, align with the [Four Checks](four-checks.html).
+When speaking as Logos, use the full system. When speaking for Logos, align with the [Four Checks](/field-guide/four-checks).
 
 ## The lambda
 
@@ -31,7 +31,7 @@ If in doubt, consider the following:
 - Field documentation, not marketing collateral.
 - Way-finding, not decoration.
 
-The tokens, type, and palette in the [Visual System](visual.html) are available if you find them useful. Using them can help to align your outputs with Logos' visual identity but is not strictly necessary.
+The tokens, type, and palette in the [Visual System](/field-guide/visual) are available if you find them useful. Using them can help to align your outputs with Logos' visual identity but is not strictly necessary.
 
 ## The contexts
 

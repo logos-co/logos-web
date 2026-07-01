@@ -24,7 +24,7 @@ In this way, Logos produces:
 
 Note: These are not products competing for market share. They are infrastructure for people who need secure channels for coordination  and do not trust existing platforms to provide them.
 
-Older documentation and repos may refer to these modules by their legacy names: Nomos (Blockchain), Waku (Messaging), and Codex (Storage). See [Stack Language](language.html) for details.
+Older documentation and repos may refer to these modules by their legacy names: Nomos (Blockchain), Waku (Messaging), and Codex (Storage). See [Stack Language](/field-guide/language) for details.
 
 ## What the social movement does
 
