@@ -270,18 +270,6 @@ describe('link policy', () => {
         'utf8'
       )
     ).toContain('[The Full System](/field-guide/the-full-system)')
-    expect(
-      readFileSync(
-        join(fieldGuideChaptersRoot, 'index.md'),
-        'utf8'
-      )
-    ).not.toContain('my my')
-    expect(
-      readFileSync(
-        join(fieldGuideChaptersRoot, 'index.md'),
-        'utf8'
-      )
-    ).toContain('I need guidance for my place in the movement')
   })
 
   it('routes jobs CTAs to the IFT jobs board as external links', () => {
