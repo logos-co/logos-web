@@ -29,16 +29,16 @@ Remember, this is a cultural guide for alignment, not a compliance manual. It is
 
 | Need | Go to |
 | --- | --- |
-| I am new to Logos | [How Logos Works](how-logos-works.html) |
-| I want to know why Logos exists | [Why Logos?](why-logos.html) |
-| I want to know what Logos is not | [What Logos Is Not](what-logos-is-not.html) |
-| I want to know who Logos is for | [Who Logos Is For](who-logos-is-for.html) |
-| I want to understand Logos' values | [Eight Truths](eight-truths.html) |
-| I want to know what we stand for | [Credo](credo.html) |
-| I need the high-level rules | [The Four Checks](four-checks.html) |
-| I need guidance for my my place in the movement | [Cultural Lanes](cultural-lanes.html) |
-| I am making something | [Expression](expression.html) |
-| I am communicating as Logos | The Full System |
+| I am new to Logos | [How Logos Works](/field-guide/how-logos-works) |
+| I want to know why Logos exists | [Why Logos?](/field-guide/why-logos) |
+| I want to know what Logos is not | [What Logos Is Not](/field-guide/what-logos-is-not) |
+| I want to know who Logos is for | [Who Logos Is For](/field-guide/who-logos-is-for) |
+| I want to understand Logos' values | [Eight Truths](/field-guide/eight-truths) |
+| I want to know what we stand for | [Credo](/field-guide/credo) |
+| I need the high-level rules | [The Four Checks](/field-guide/four-checks) |
+| I need guidance for my my place in the movement | [Cultural Lanes](/field-guide/cultural-lanes) |
+| I am making something | [Expression](/field-guide/expression) |
+| I am communicating as Logos | [The Full System](/field-guide/the-full-system) |
 
 ## Keyboard shortcuts
 

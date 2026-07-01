@@ -15,9 +15,14 @@ import homePage from '../../../../content/pages/en/home.json' with { type: 'json
 import messages from '../../messages/en.json' with { type: 'json' }
 import footer from '../../../../content/site/en/footer.json' with { type: 'json' }
 import navigation from '../../../../content/site/en/navigation.json' with { type: 'json' }
+import fieldGuideManifest from '../../../../content/field-guide/en/manifest.json' with { type: 'json' }
 
 const repoRoot = join(__dirname, '../../../..')
 const webRoot = join(repoRoot, 'apps/web')
+const fieldGuideChaptersRoot = join(
+  repoRoot,
+  'content/field-guide/en/chapters'
+)
 const scannedRoots = ['apps/web', 'content', 'packages/content'].map((root) =>
   join(repoRoot, root)
 )
@@ -100,6 +105,9 @@ const collectTextFiles = (dir: string): string[] => {
     return [path]
   })
 }
+
+const collectMarkdownLinks = (text: string): string[] =>
+  Array.from(text.matchAll(/\[[^\]]+\]\(([^)]+)\)/g), (match) => match[1])
 
 describe('link policy', () => {
   it('routes Research navigation cards to the Research page', () => {
@@ -228,6 +236,40 @@ describe('link policy', () => {
     })
 
     expect(offenders).toEqual([])
+  })
+
+  it('routes Field Guide chapter links through served routes', () => {
+    const chapterSlugs = new Set(
+      fieldGuideManifest.sections.flatMap((section) =>
+        section.items.map((item) => item.slug)
+      )
+    )
+    const offenders = readdirSync(fieldGuideChaptersRoot)
+      .filter((entry) => entry.endsWith('.md'))
+      .flatMap((entry) => {
+        const path = join(fieldGuideChaptersRoot, entry)
+        const text = readFileSync(path, 'utf8')
+        return collectMarkdownLinks(text).flatMap((href) => {
+          if (/\.html(?:[?#]|$)/i.test(href)) {
+            return [`${relative(repoRoot, path)} uses stale href ${href}`]
+          }
+
+          if (!href.startsWith(ROUTES.fieldGuide)) return []
+
+          const slug = href.replace(`${ROUTES.fieldGuide}/`, '')
+          return chapterSlugs.has(slug)
+            ? []
+            : [`${relative(repoRoot, path)} links to unknown chapter ${href}`]
+        })
+      })
+
+    expect(offenders).toEqual([])
+    expect(
+      readFileSync(
+        join(fieldGuideChaptersRoot, 'index.md'),
+        'utf8'
+      )
+    ).toContain('[The Full System](/field-guide/the-full-system)')
   })
 
   it('routes jobs CTAs to the IFT jobs board as external links', () => {
