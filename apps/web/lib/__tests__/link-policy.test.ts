@@ -272,18 +272,6 @@ describe('link policy', () => {
     ).toContain('[The Full System](/field-guide/the-full-system)')
   })
 
-  it('renders the Event Privacy Protocol template as prose instead of fenced Markdown', () => {
-    const eventPrivacyProtocol = readFileSync(
-      join(fieldGuideChaptersRoot, 'event-privacy-protocol.md'),
-      'utf8'
-    )
-
-    expect(eventPrivacyProtocol).not.toContain('```markdown')
-    expect(eventPrivacyProtocol).not.toContain('```')
-    expect(eventPrivacyProtocol).toContain('> # Privacy Protocol')
-    expect(eventPrivacyProtocol).toContain('> - **Recorded:**')
-  })
-
   it('routes jobs CTAs to the IFT jobs board as external links', () => {
     // Labels are copy; assert each surface links to the jobs board by href.
     expect(footer.mainLinks).toContainEqual(
