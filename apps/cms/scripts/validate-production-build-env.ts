@@ -1,6 +1,11 @@
-import nextEnv from '@next/env'
+import { createRequire } from 'node:module'
 
-const { loadEnvConfig } = nextEnv
+interface NextEnv {
+  loadEnvConfig: (dir: string) => unknown
+}
+
+const require = createRequire(import.meta.url)
+const { loadEnvConfig } = require('@next/env') as NextEnv
 
 loadEnvConfig(process.cwd())
 
