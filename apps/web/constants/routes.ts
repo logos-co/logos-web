@@ -105,6 +105,7 @@ export const EXTERNAL_URLS = {
   forum: 'https://forum.logos.co/',
   forumMeetups: 'https://forum.logos.co/c/meetups/6',
   docs: 'https://docs.logos.co/',
+  nodeOperatorGuide: 'https://docs.logos.co/run-a-node',
   communityIdeas: 'https://github.com/logos-co/ideas',
   scaffold: 'https://github.com/logos-co/scaffold',
   atomicSwaps: 'https://github.com/logos-co/eth-lez-atomic-swaps',
