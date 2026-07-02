@@ -1,10 +1,18 @@
 import assert from 'node:assert/strict'
 import { execFile } from 'node:child_process'
-import { readFile } from 'node:fs/promises'
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { describe, it } from 'node:test'
 import { promisify } from 'node:util'
 
 const execFileAsync = promisify(execFile)
+const cmsRoot = process.cwd()
+const buildEnvValidationScript = join(
+  cmsRoot,
+  'scripts/validate-production-build-env.ts'
+)
+const tsxLoader = join(cmsRoot, 'node_modules/tsx/dist/esm/index.mjs')
 
 const importNextConfig = async (
   overrides: Record<string, string | undefined>
@@ -52,7 +60,8 @@ const importNextConfig = async (
 }
 
 const runBuildEnvValidation = async (
-  overrides: Record<string, string | undefined>
+  overrides: Record<string, string | undefined>,
+  cwd = cmsRoot
 ): Promise<{ stderr: string; stdout: string }> => {
   const env = { ...process.env }
   for (const [key, value] of Object.entries(overrides)) {
@@ -66,9 +75,9 @@ const runBuildEnvValidation = async (
   try {
     const { stderr, stdout } = await execFileAsync(
       process.execPath,
-      ['--import', 'tsx', 'scripts/validate-production-build-env.ts'],
+      ['--import', tsxLoader, buildEnvValidationScript],
       {
-        cwd: process.cwd(),
+        cwd,
         env,
       }
     )
@@ -111,6 +120,28 @@ describe('Next deployment configuration', () => {
     })
 
     assert.equal(result.stderr, '')
+  })
+
+  it('loads the stable Server Actions key from local env files', async () => {
+    const fixtureDir = await mkdtemp(join(tmpdir(), 'logos-cms-env-'))
+
+    try {
+      await writeFile(
+        join(fixtureDir, '.env'),
+        'NEXT_SERVER_ACTIONS_ENCRYPTION_KEY="n7o/dx+local-test-key="\n'
+      )
+
+      const result = await runBuildEnvValidation(
+        {
+          NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: undefined,
+        },
+        fixtureDir
+      )
+
+      assert.equal(result.stderr, '')
+    } finally {
+      await rm(fixtureDir, { force: true, recursive: true })
+    }
   })
 
   it('does not configure a deployment id from environment variables', async () => {

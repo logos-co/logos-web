@@ -1,3 +1,9 @@
+import nextEnv from '@next/env'
+
+const { loadEnvConfig } = nextEnv
+
+loadEnvConfig(process.cwd())
+
 const missing: string[] = []
 
 if (!process.env.NEXT_SERVER_ACTIONS_ENCRYPTION_KEY) {
