@@ -37,7 +37,7 @@ services:
       dockerfile: apps/cms/Dockerfile
       args:
         # Baked into the production build — changing these requires a rebuild.
-        DEPLOYMENT_VERSION: ${DEPLOYMENT_VERSION:-self-host}
+        DEPLOYMENT_VERSION: ${DEPLOYMENT_VERSION}
         NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: ${NEXT_SERVER_ACTIONS_ENCRYPTION_KEY}
         NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL}
         NEXT_PUBLIC_WEB_URL: ${NEXT_PUBLIC_WEB_URL}

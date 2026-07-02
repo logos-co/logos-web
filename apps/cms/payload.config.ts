@@ -51,10 +51,15 @@ if (isProduction && !isVercel) {
   }
 }
 
-// Server URL — explicit env wins; on Vercel fall back to the auto-injected
-// `VERCEL_URL` (preview URLs change per deploy). Local dev defaults to
-// localhost:3001.
+const vercelPreviewHost =
+  isVercel && process.env.VERCEL_ENV === 'preview'
+    ? process.env.VERCEL_BRANCH_URL || process.env.VERCEL_URL
+    : undefined
+
+// Server URL — Vercel previews must use their generated preview host so the
+// admin client does not call Server Actions on a stale deployment URL.
 const serverURL =
+  (vercelPreviewHost ? `https://${vercelPreviewHost}` : undefined) ||
   process.env.NEXT_PUBLIC_SERVER_URL ||
   (process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`

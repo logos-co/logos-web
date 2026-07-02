@@ -102,6 +102,31 @@ describe('Next deployment configuration', () => {
     )
   })
 
+  it('requires a deployment identifier for production builds', async () => {
+    const result = await runBuildEnvValidation({
+      DEPLOYMENT_VERSION: undefined,
+      NEXT_DEPLOYMENT_ID: undefined,
+      NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: 'test-key',
+      VERCEL_GIT_COMMIT_SHA: undefined,
+    })
+
+    assert.match(
+      result.stderr,
+      /CMS production builds require DEPLOYMENT_VERSION, NEXT_DEPLOYMENT_ID, or VERCEL_GIT_COMMIT_SHA/
+    )
+  })
+
+  it('accepts Vercel deployment ids as production build identifiers', async () => {
+    const result = await runBuildEnvValidation({
+      DEPLOYMENT_VERSION: undefined,
+      NEXT_DEPLOYMENT_ID: 'dpl_C8QVLeEbYXbaNhbJjNG1Zw2J3Y33',
+      NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: 'test-key',
+      VERCEL_GIT_COMMIT_SHA: undefined,
+    })
+
+    assert.equal(result.stderr, '')
+  })
+
   it('uses the Vercel commit SHA as the deployment id', async () => {
     const result = await importNextConfig({
       NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: 'test-key',
@@ -172,6 +197,7 @@ describe('self-host deployment environment wiring', () => {
     assert.deepEqual(
       [
         'DEPLOYMENT_VERSION',
+        'VERCEL_BRANCH_URL',
         'NEXT_DEPLOYMENT_ID',
         'NEXT_SERVER_ACTIONS_ENCRYPTION_KEY',
         'PAYLOAD_DB_CONNECTION_TIMEOUT_MS',
@@ -179,6 +205,7 @@ describe('self-host deployment environment wiring', () => {
         'PAYLOAD_DB_POOL_MAX',
         'PAYLOAD_DB_QUERY_TIMEOUT_MS',
         'PAYLOAD_HEALTH_TIMEOUT_MS',
+        'VERCEL_ENV',
         'VERCEL_GIT_COMMIT_SHA',
       ].filter((name) => !turboConfig.tasks.build.env.includes(name)),
       []

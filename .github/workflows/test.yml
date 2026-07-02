@@ -36,7 +36,6 @@ jobs:
       NEXT_PUBLIC_API_MODE: production
       NEXT_PUBLIC_SERVER_URL: http://localhost:3001
       NEXT_PUBLIC_WEB_URL: http://localhost:3000
-      NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
       PAYLOAD_SECRET: test-secret-at-least-32-characters
     steps:
       - uses: actions/checkout@v5
@@ -45,5 +44,6 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
+      - run: echo "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=$(openssl rand -base64 32)" >> "$GITHUB_ENV"
       - run: CI=true pnpm install --frozen-lockfile
       - run: pnpm test:release
