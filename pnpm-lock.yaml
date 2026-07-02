@@ -72,6 +72,9 @@ importers:
 
   apps/cms:
     dependencies:
+      '@next/env':
+        specifier: 16.2.4
+        version: 16.2.4
       '@payloadcms/db-postgres':
         specifier: 3.83.0
         version: 3.83.0(payload@3.83.0(graphql@16.14.0)(typescript@6.0.3))
@@ -106,9 +109,6 @@ importers:
         specifier: ^0.34.5
         version: 0.34.5
     devDependencies:
-      '@next/env':
-        specifier: 16.2.4
-        version: 16.2.4
       '@types/node':
         specifier: ^24.12.4
         version: 24.12.4
