@@ -106,15 +106,30 @@ describe('Next deployment configuration', () => {
     const result = await importNextConfig({
       NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: 'test-key',
       NODE_ENV: 'production',
+      NEXT_DEPLOYMENT_ID: undefined,
       VERCEL_GIT_COMMIT_SHA: 'abc123',
     })
 
     assert.deepEqual(JSON.parse(result.stdout), { deploymentId: 'abc123' })
   })
 
+  it('uses the Vercel deployment id when Vercel provides one', async () => {
+    const result = await importNextConfig({
+      NEXT_DEPLOYMENT_ID: 'dpl_4qcQ6gQnY9YpyAFSWnXy9jVJsUy1',
+      NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: 'test-key',
+      NODE_ENV: 'production',
+      VERCEL_GIT_COMMIT_SHA: '5789cddea9cce53b639a79dfd5ccbc0eb19be56e',
+    })
+
+    assert.deepEqual(JSON.parse(result.stdout), {
+      deploymentId: 'dpl_4qcQ6gQnY9YpyAFSWnXy9jVJsUy1',
+    })
+  })
+
   it('uses the self-host deployment version as the deployment id', async () => {
     const result = await importNextConfig({
       DEPLOYMENT_VERSION: 'self-host-20260702',
+      NEXT_DEPLOYMENT_ID: undefined,
       NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: 'test-key',
       NODE_ENV: 'production',
       VERCEL_GIT_COMMIT_SHA: undefined,
@@ -147,5 +162,26 @@ describe('self-host deployment environment wiring', () => {
     )
     assert.match(envExample, /NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=/)
     assert.match(envExample, /DEPLOYMENT_VERSION=/)
+  })
+
+  it('declares CMS deployment env vars for Turbo build tasks', async () => {
+    const turboConfig = JSON.parse(
+      await readFile('../../turbo.json', 'utf8')
+    ) as { tasks: { build: { env: string[] } } }
+
+    assert.deepEqual(
+      [
+        'DEPLOYMENT_VERSION',
+        'NEXT_DEPLOYMENT_ID',
+        'NEXT_SERVER_ACTIONS_ENCRYPTION_KEY',
+        'PAYLOAD_DB_CONNECTION_TIMEOUT_MS',
+        'PAYLOAD_DB_IDLE_TIMEOUT_MS',
+        'PAYLOAD_DB_POOL_MAX',
+        'PAYLOAD_DB_QUERY_TIMEOUT_MS',
+        'PAYLOAD_HEALTH_TIMEOUT_MS',
+        'VERCEL_GIT_COMMIT_SHA',
+      ].filter((name) => !turboConfig.tasks.build.env.includes(name)),
+      []
+    )
   })
 })
