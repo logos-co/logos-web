@@ -36,7 +36,7 @@ const ITEMS: ReadonlyArray<DocsTocItem> = [
   { key: 'terms', href: ROUTES.terms },
   { key: 'privacy', href: ROUTES.privacy },
   { key: 'security', href: ROUTES.security },
-  { key: 'testnetFaqs', href: ROUTES.testnetV01Faqs },
+  { key: 'testnetFaqs', href: ROUTES.testnetFaqs },
   { key: 'testnetTerms', href: ROUTES.testnetTermsAndConditions },
 ]
 

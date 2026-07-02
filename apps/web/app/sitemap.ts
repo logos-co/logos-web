@@ -33,7 +33,7 @@ const staticIndexableRoutes = [
   ROUTES.privacy,
   ROUTES.research,
   ROUTES.security,
-  ROUTES.testnetV01Faqs,
+  ROUTES.testnetFaqs,
   ROUTES.testnetTermsAndConditions,
   ROUTES.technologyStack,
   ROUTES.basecamp,
