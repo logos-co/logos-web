@@ -98,12 +98,16 @@ pipeline {
     stage('Build CMS docker image') {
       steps {
         script {
-          image = docker.build(
-            "${params.IMAGE_NAME}:${params.IMAGE_TAG}",
-            "--build-arg NEXT_PUBLIC_SERVER_URL=https://${cmsDomain()} " +
-            "--build-arg NEXT_PUBLIC_WEB_URL=https://${deployDomain()} " +
-            "-f ./apps/cms/Dockerfile ."
-          )
+          withCredentials([string(credentialsId: 'logos-cms-actions-encryption-key', variable: 'NEXT_SERVER_ACTIONS_ENCRYPTION_KEY')]) {
+            image = docker.build(
+              "${params.IMAGE_NAME}:${params.IMAGE_TAG}",
+              "--build-arg NEXT_PUBLIC_SERVER_URL=https://${cmsDomain()} " +
+              "--build-arg NEXT_PUBLIC_WEB_URL=https://${deployDomain()} " +
+              "--build-arg NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=${NEXT_SERVER_ACTIONS_ENCRYPTION_KEY} " +
+              "--build-arg DEPLOYMENT_VERSION=${env.GIT_COMMIT} " +
+              "-f ./apps/cms/Dockerfile ."
+            )
+          }
         }
       }
     }
