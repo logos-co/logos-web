@@ -10,7 +10,7 @@ Last updated: 30 June 2026
 
 By accessing or participating in the Logos Blockchain Testnet Programme, including by running a node, interacting with the testnet infrastructure, or otherwise testing the Logos Blockchain Testnet, you agree that these terms and conditions ("Testnet Terms and Conditions") apply to you (also referred to as the "Participant"). These Testnet Terms and Conditions therefore constitute a binding obligation between you and IFT. If you do not agree to these Testnet Terms and Conditions, you must not participate in the Logos Blockchain Testnet Programme.
 
-If you have specific questions about these Testnet Terms and Conditions please contact us at [legal@free.technology](mailto:legal@free.technology).
+If you have specific questions about these Testnet Terms and Conditions, please contact us at [legal@free.technology](mailto:legal@free.technology).
 
 In these Testnet Terms and Conditions, whenever we refer to "we", "our", "us" (or variations thereof) or IFT, we are referring to IFT Studio Pte. Limited, a company incorporated under the laws of Singapore with registered number 201625575Z, and registered office at 160 Robinson Road, #24-09 Singapore 068914.
 
