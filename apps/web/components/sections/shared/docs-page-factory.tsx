@@ -1,6 +1,6 @@
 /**
  * Builds the `generateMetadata` + default page export for a docs-style legal
- * page (security, privacy-policy, terms-and-conditions, testnet-v01-faqs).
+ * page (security, privacy-policy, terms-and-conditions, testnet-faqs).
  * Each of those pages is identical apart from its markdown source file, route
  * path, and TOC key, so this factory eliminates the boilerplate per page.
  *
