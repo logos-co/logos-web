@@ -100,15 +100,24 @@ const runBuildEnvValidation = async (
 
 describe('Next deployment configuration', () => {
   it('requires a stable Server Actions key for production builds', async () => {
-    const result = await runBuildEnvValidation({
-      DEPLOYMENT_VERSION: 'ci',
-      NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: undefined,
-    })
+    const fixtureDir = await mkdtemp(join(tmpdir(), 'logos-cms-env-missing-'))
 
-    assert.match(
-      result.stderr,
-      /CMS production builds require NEXT_SERVER_ACTIONS_ENCRYPTION_KEY/
-    )
+    try {
+      const result = await runBuildEnvValidation(
+        {
+          DEPLOYMENT_VERSION: 'ci',
+          NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: undefined,
+        },
+        fixtureDir
+      )
+
+      assert.match(
+        result.stderr,
+        /CMS production builds require NEXT_SERVER_ACTIONS_ENCRYPTION_KEY/
+      )
+    } finally {
+      await rm(fixtureDir, { force: true, recursive: true })
+    }
   })
 
   it('accepts a stable Server Actions key without a deployment identifier', async () => {
