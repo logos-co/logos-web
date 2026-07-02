@@ -41,30 +41,6 @@
       ]
     },
     {
-      "componentType": "cardGrid",
-      "key": "home.triptych",
-      "cards": [
-        {
-          "title": "Build",
-          "description": "Explore programmes and resources to help you build your cyberstate.",
-          "cta": { "label": "Builder Hub", "href": "/builders-hub" }
-        },
-        {
-          "title": "Node Programme",
-          "description": "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
-          "cta": {
-            "label": "Apply",
-            "href": "/node-programme"
-          }
-        },
-        {
-          "title": "Circles",
-          "description": "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections.",
-          "cta": { "label": "Join a circle", "href": "/movement" }
-        }
-      ]
-    },
-    {
       "componentType": "homeSocialProof",
       "key": "home.socialProof",
       "headline1": "Logos is not for everyone.",
@@ -125,6 +101,13 @@
             "The average millennial in the US has 30% less wealth than the average Boomer by age 35.",
             "3.4 billion people now live in countries that spend more on interest payments than on either health or education.",
             "Just 27% of Gen Z and 55% of millennials own a home, compared to 80% of Baby Boomers."
+          ],
+          "factLinks": [
+            {
+              "index": 1,
+              "label": "30% less wealth",
+              "href": "https://www.cam.ac.uk/research/news/boom-and-bust-millennials-arent-all-worse-off-than-baby-boomers-but-the-rich-poor-gap-is-widening"
+            }
           ]
         },
         "surveillance": {
@@ -261,57 +244,6 @@
       }
     },
     {
-      "componentType": "featuredText",
-      "key": "home.parallelSocietyHeadline",
-      "title": {
-        "highlight": "Parallel Society",
-        "rest": "was a two-day event in Lisbon where music, art, and technology converge."
-      },
-      "cta": {
-        "label": "Learn More",
-        "href": "https://ps.logos.co/",
-        "external": true
-      }
-    },
-    {
-      "componentType": "gallery",
-      "key": "home.parallelSociety",
-      "items": [
-        {
-          "image": {
-            "src": "/images/home/figma-refresh/parallel-1.webp",
-            "alt": "",
-            "width": 720,
-            "height": 480
-          }
-        },
-        {
-          "image": {
-            "src": "/images/home/figma-refresh/parallel-2.webp",
-            "alt": "",
-            "width": 720,
-            "height": 480
-          }
-        },
-        {
-          "image": {
-            "src": "/images/home/figma-refresh/parallel-3.webp",
-            "alt": "",
-            "width": 720,
-            "height": 480
-          }
-        },
-        {
-          "image": {
-            "src": "/images/home/figma-refresh/parallel-4.webp",
-            "alt": "",
-            "width": 720,
-            "height": 480
-          }
-        }
-      ]
-    },
-    {
       "componentType": "homeBuilderPortal",
       "key": "home.builderPortal",
       "title": "Basecamp.\nThe local launcher\nfor the Logos stack.",
@@ -329,15 +261,6 @@
       "label": "Articles, podcasts, and media.",
       "cta": { "label": "Explore all media", "href": "/media" },
       "visibleCount": 4
-    },
-    {
-      "componentType": "featuredText",
-      "key": "home.mountain",
-      "title": {
-        "highlight": "Parallel Society",
-        "rest": "was a two-day event in Lisbon where music, art, and technology converged."
-      },
-      "cta": { "label": "Learn More", "href": "/media" }
     },
     {
       "componentType": "featuredText",

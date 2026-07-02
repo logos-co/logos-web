@@ -6,6 +6,14 @@ import CivilSocietyAccordion, {
   type AccordionItem,
 } from './civil-society-accordion'
 
+function createFactLinks(
+  factLinks: HomeAboutSection['problems']['debt']['factLinks']
+): AccordionItem['factLinks'] {
+  return Object.fromEntries(
+    (factLinks ?? []).map(({ index, label, href }) => [index, { label, href }])
+  )
+}
+
 export default function AboutSection({ data }: { data: HomeAboutSection }) {
   const items: AccordionItem[] = [
     {
@@ -14,12 +22,7 @@ export default function AboutSection({ data }: { data: HomeAboutSection }) {
       subtitle: data.problems.debt.subtitle,
       body: data.problems.debt.body,
       facts: data.problems.debt.facts,
-      factLinks: {
-        1: {
-          label: '30% less wealth',
-          href: 'https://www.cam.ac.uk/research/news/boom-and-bust-millennials-arent-all-worse-off-than-baby-boomers-but-the-rich-poor-gap-is-widening',
-        },
-      },
+      factLinks: createFactLinks(data.problems.debt.factLinks),
       image: '/images/home/figma-refresh/problem-debt.webp',
     },
     {
@@ -28,7 +31,7 @@ export default function AboutSection({ data }: { data: HomeAboutSection }) {
       subtitle: data.problems.surveillance.subtitle,
       body: data.problems.surveillance.body,
       facts: data.problems.surveillance.facts,
-      factLinks: {},
+      factLinks: createFactLinks(data.problems.surveillance.factLinks),
       image: '/images/home/figma-refresh/problem-surveillance.webp',
       imageClassName: 'object-[50%_42%]',
     },
@@ -38,7 +41,7 @@ export default function AboutSection({ data }: { data: HomeAboutSection }) {
       subtitle: data.problems.corruption.subtitle,
       body: data.problems.corruption.body,
       facts: data.problems.corruption.facts,
-      factLinks: {},
+      factLinks: createFactLinks(data.problems.corruption.factLinks),
       image: '/images/home/figma-refresh/problem-corruption.webp',
     },
     {
@@ -47,7 +50,7 @@ export default function AboutSection({ data }: { data: HomeAboutSection }) {
       subtitle: data.problems.stagnation.subtitle,
       body: data.problems.stagnation.body,
       facts: data.problems.stagnation.facts,
-      factLinks: {},
+      factLinks: createFactLinks(data.problems.stagnation.factLinks),
       image: '/images/home/figma-refresh/problem-stagnation.webp',
       imageClassName: 'object-[50%_45%]',
     },

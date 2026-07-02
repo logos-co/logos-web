@@ -48,7 +48,6 @@ const jobsHref = 'https://free.technology/jobs'
 const onboardingCalendarHref = 'https://cal.com/team/logos-onboarding/intro'
 const logosDocsHref = 'https://docs.logos.co/'
 const communityIdeasHref = 'https://github.com/logos-co/ideas'
-const parallelSocietyHref = 'https://ps.logos.co/'
 const livingWithinTruthHref = 'https://www.youtube.com/watch?v=xy4uK20lFBQ'
 const logosGenealogyHref = 'https://blog.logos.co/article/a-genealogy-of-logos'
 const basecampReleaseHref =
@@ -328,22 +327,6 @@ describe('link policy', () => {
       expect.objectContaining({
         href: onboardingCalendarHref,
         external: true,
-      })
-    )
-  })
-
-  it('routes the homepage Parallel Society CTA to the event site', () => {
-    const parallelSocietyHeadline = homePage.sections.find(
-      (section) => section.key === 'home.parallelSocietyHeadline'
-    )
-
-    // The CTA label is copy; assert the route and external flag only.
-    expect(parallelSocietyHeadline).toEqual(
-      expect.objectContaining({
-        cta: expect.objectContaining({
-          href: parallelSocietyHref,
-          external: true,
-        }),
       })
     )
   })

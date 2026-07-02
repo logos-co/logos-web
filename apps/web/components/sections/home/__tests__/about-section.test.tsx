@@ -56,12 +56,21 @@ const data = {
   heading: 'Civil society is in decline.',
   headingMobile: 'Civil society is in decline on mobile.',
   problems: {
-    debt: problem('Debt', [
-      'debt fact alpha',
-      'debt fact beta',
-      'debt fact gamma',
-      'debt fact delta',
-    ]),
+    debt: {
+      ...problem('Debt', [
+        'debt fact alpha',
+        'debt fact beta',
+        'debt fact gamma',
+        'debt fact delta',
+      ]),
+      factLinks: [
+        {
+          index: 1,
+          label: 'debt fact beta',
+          href: 'https://example.com/debt-fact',
+        },
+      ],
+    },
     surveillance: problem('Surveillance', [
       'surveillance fact alpha',
       'surveillance fact beta',
@@ -112,5 +121,11 @@ describe('AboutSection', () => {
     expect(html.indexOf('debt fact gamma')).toBeLessThan(
       html.indexOf('debt fact delta')
     )
+  })
+
+  it('renders fact links from data props', () => {
+    const html = renderToStaticMarkup(createElement(AboutSection, { data }))
+    expect(html).toContain('href="https://example.com/debt-fact"')
+    expect(html).toContain('debt fact beta')
   })
 })
