@@ -1,7 +1,18 @@
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+
 import messages from '../../messages/en.json'
 import { describe, expect, test } from 'vitest'
 
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
+
+const readNodeProgrammePageSource = () =>
+  readFileSync(
+    fileURLToPath(
+      new URL('../[locale]/node-programme/page.tsx', import.meta.url)
+    ),
+    'utf8'
+  )
 
 describe('node programme page contract', () => {
   test('uses the British English public route', () => {
@@ -29,5 +40,18 @@ describe('node programme page contract', () => {
     )
     expect(messages.pages.nodeProgramme.stack.items).toHaveLength(3)
     expect(messages.pages.nodeProgramme.useCases.items).toHaveLength(5)
+  })
+
+  test('links the hero CTA group to the node operator guide', () => {
+    const pageSource = readNodeProgrammePageSource()
+
+    expect(messages.pages.nodeProgramme.hero.guideCta).toBe(
+      'Node operator guide'
+    )
+    expect(EXTERNAL_URLS.nodeOperatorGuide).toBe(
+      'https://docs.logos.co/run-a-node'
+    )
+    expect(pageSource).toContain('href={EXTERNAL_URLS.nodeOperatorGuide}')
+    expect(pageSource).toContain("t('hero.guideCta')")
   })
 })
