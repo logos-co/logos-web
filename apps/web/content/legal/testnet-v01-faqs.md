@@ -1,7 +1,7 @@
 ---
-title: 'Testnet v0.2 FAQs | Logos'
-description: 'Frequently asked questions about the Logos Testnet v0.2 — what it is, its purpose, and how to take part.'
-heading: 'Logos Testnet v0.2 FAQs'
+title: 'Testnet FAQs | Logos'
+description: 'Frequently asked questions about the Logos Testnet — what it is, its purpose, and how to take part.'
+heading: 'Logos Testnet FAQs'
 ---
 
 ## What is Logos Testnet?
@@ -59,7 +59,7 @@ Yes, the testnet is designed to be built upon by developers interested in experi
 
 ## Where can I report issues or bugs?
 
-Issue reporting channels will be shared alongside the developer documentation. This will likely include the relevant GitHub repositories and community channels (e.g. Discord) where developers can report bugs, submit issues, and discuss technical questions.
+Issue reporting channels will be shared alongside the developer documentation. This will likely include the relevant GitHub repositories and community channels (e.g., Discord) where developers can report bugs, submit issues, and discuss technical questions.
 
 ## What about entitlements, expectations, rights or benefits for participating?
 
