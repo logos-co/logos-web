@@ -64,7 +64,7 @@ export const ROUTES = {
 
   // Info / Help
   faq: '/faq',
-  testnetV01Faqs: '/testnet-v01-faqs',
+  testnetFaqs: '/testnet-faqs',
   testnetTermsAndConditions: '/testnet-terms-and-conditions',
 
   // Legal
