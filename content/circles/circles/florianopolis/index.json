@@ -5,7 +5,10 @@
   "city": "Florianópolis",
   "country": "Brazil",
   "region": "Santa Catarina",
-  "coordinates": { "lat": -27.5954, "lng": -48.548 },
+  "coordinates": {
+    "lat": -27.5954,
+    "lng": -48.548
+  },
   "timezone": "America/Sao_Paulo",
   "memberCount": 38,
   "discordChannel": "circle-florianopolis",
@@ -19,12 +22,14 @@
     "height": 480
   },
   "organizers": [
-    { "name": "Lucas Ferreira", "handle": "lucasf" },
-    { "name": "Camila Rocha", "handle": "camila" }
+    {
+      "name": "Lucas Ferreira",
+      "handle": "lucasf"
+    },
+    {
+      "name": "Camila Rocha",
+      "handle": "camila"
+    }
   ],
-  "order": 4,
-  "detailBackLink": {
-    "label": "Back to all circles",
-    "href": "/circles"
-  }
+  "order": 4
 }
