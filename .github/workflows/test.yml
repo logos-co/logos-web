@@ -32,9 +32,11 @@ jobs:
       # 60 req/hr-per-IP limit across runners and intermittently 403, which fails
       # the static export. The Actions-provided token lifts this to 1,000/hr.
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DEPLOYMENT_VERSION: ci
       NEXT_PUBLIC_API_MODE: production
       NEXT_PUBLIC_SERVER_URL: http://localhost:3001
       NEXT_PUBLIC_WEB_URL: http://localhost:3000
+      NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
       PAYLOAD_SECRET: test-secret-at-least-32-characters
     steps:
       - uses: actions/checkout@v5
