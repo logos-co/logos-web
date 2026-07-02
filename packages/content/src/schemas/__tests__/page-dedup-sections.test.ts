@@ -152,6 +152,9 @@ test('activistBuilderCopy parses a minimal valid value and routes through the un
     componentType: 'activistBuilderCopy',
     key: 'activistBuilder.copy',
     heading: 'Activist Builder',
+    intro: 'Intro copy.',
+    privacy: 'Privacy copy.',
+    privacyLink: 'https://logos.co/privacy-policy',
   }
   assert.equal(activistBuilderCopySectionSchema.parse(value).componentType, 'activistBuilderCopy')
   assert.equal(pageSectionSchema.parse(value).componentType, 'activistBuilderCopy')
@@ -162,6 +165,9 @@ test('activistLeaderStewardCopy parses a minimal valid value and routes through 
     componentType: 'activistLeaderStewardCopy',
     key: 'activistLeaderSteward.copy',
     heading: 'Activist Leader / Steward',
+    intro: 'Intro copy.',
+    privacy: 'Privacy copy.',
+    privacyLink: 'https://logos.co/privacy-policy',
   }
   assert.equal(activistLeaderStewardCopySectionSchema.parse(value).componentType, 'activistLeaderStewardCopy')
   assert.equal(pageSectionSchema.parse(value).componentType, 'activistLeaderStewardCopy')
@@ -172,6 +178,9 @@ test('coalitionPartnerCopy parses a minimal valid value and routes through the u
     componentType: 'coalitionPartnerCopy',
     key: 'coalitionPartner.copy',
     heading: 'Coalition Partner',
+    intro: 'Intro copy.',
+    privacy: 'Privacy copy.',
+    privacyLink: 'https://logos.co/privacy-policy',
   }
   assert.equal(coalitionPartnerCopySectionSchema.parse(value).componentType, 'coalitionPartnerCopy')
   assert.equal(pageSectionSchema.parse(value).componentType, 'coalitionPartnerCopy')

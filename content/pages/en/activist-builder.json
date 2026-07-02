@@ -8,7 +8,10 @@
     {
       "componentType": "activistBuilderCopy",
       "key": "activistBuilder.copy",
-      "heading": "Activist Builder"
+      "heading": "Activist Builder",
+      "intro": "If you enjoy building tools, systems, research, media, or infrastructure that help communities solve real problems, we'd love to hear from you.\n\nTell us a bit about your background, skills, and the kinds of projects you'd like to contribute to. Not every field is required, but additional context helps us understand where you could have the most impact.\n\nIf your primary interest is building apps directly on the Logos stack, the [Builders Hub](http://build.logos.co) is likely a better fit.\n\nWe'll review your submission and be in touch.",
+      "privacy": "We respect your privacy. By clicking 'Submit', you consent to our processing of your personal data as described above and in our Privacy Policy .",
+      "privacyLink": "https://logos.co/privacy-policy"
     }
   ]
 }

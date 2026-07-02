@@ -7,6 +7,9 @@ const sectionData: CoalitionPartnerCopySection = {
   componentType: 'coalitionPartnerCopy',
   key: 'coalitionPartner.copy',
   heading: 'Coalition Partner',
+  intro: 'Coalition Partner intro.',
+  privacy: 'Coalition Partner privacy.',
+  privacyLink: 'https://logos.co/privacy-policy',
 }
 
 describe('CoalitionPartnerPage – content-driven metadata', () => {
@@ -24,5 +27,11 @@ describe('CoalitionPartnerPage – content-driven metadata', () => {
     )
     expect(html).toContain('Coalition Partner')
     expect(html).toContain('<h1')
+  })
+
+  it('has CMS-backed form page copy', () => {
+    expect(sectionData.intro).toBe('Coalition Partner intro.')
+    expect(sectionData.privacy).toBe('Coalition Partner privacy.')
+    expect(sectionData.privacyLink).toBe('https://logos.co/privacy-policy')
   })
 })

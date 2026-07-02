@@ -193,6 +193,9 @@ export const activistBuilderCopySectionSchema = z.object({
   componentType: z.literal('activistBuilderCopy'),
   key: sectionKeySchema,
   heading: z.string().min(1),
+  intro: z.string().min(1),
+  privacy: z.string().min(1),
+  privacyLink: z.string().url(),
 })
 export type ActivistBuilderCopySection = z.infer<
   typeof activistBuilderCopySectionSchema
@@ -202,6 +205,9 @@ export const activistLeaderStewardCopySectionSchema = z.object({
   componentType: z.literal('activistLeaderStewardCopy'),
   key: sectionKeySchema,
   heading: z.string().min(1),
+  intro: z.string().min(1),
+  privacy: z.string().min(1),
+  privacyLink: z.string().url(),
 })
 export type ActivistLeaderStewardCopySection = z.infer<
   typeof activistLeaderStewardCopySectionSchema
@@ -211,6 +217,9 @@ export const coalitionPartnerCopySectionSchema = z.object({
   componentType: z.literal('coalitionPartnerCopy'),
   key: sectionKeySchema,
   heading: z.string().min(1),
+  intro: z.string().min(1),
+  privacy: z.string().min(1),
+  privacyLink: z.string().url(),
 })
 export type CoalitionPartnerCopySection = z.infer<
   typeof coalitionPartnerCopySectionSchema

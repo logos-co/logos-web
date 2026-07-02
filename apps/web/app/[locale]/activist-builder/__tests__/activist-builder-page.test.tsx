@@ -7,6 +7,9 @@ const sectionData: ActivistBuilderCopySection = {
   componentType: 'activistBuilderCopy',
   key: 'activistBuilder.copy',
   heading: 'Activist Builder',
+  intro: 'Activist Builder intro.',
+  privacy: 'Activist Builder privacy.',
+  privacyLink: 'https://logos.co/privacy-policy',
 }
 
 describe('ActivistBuilderPage – content-driven metadata', () => {
@@ -24,5 +27,11 @@ describe('ActivistBuilderPage – content-driven metadata', () => {
     )
     expect(html).toContain('Activist Builder')
     expect(html).toContain('<h1')
+  })
+
+  it('has CMS-backed form page copy', () => {
+    expect(sectionData.intro).toBe('Activist Builder intro.')
+    expect(sectionData.privacy).toBe('Activist Builder privacy.')
+    expect(sectionData.privacyLink).toBe('https://logos.co/privacy-policy')
   })
 })

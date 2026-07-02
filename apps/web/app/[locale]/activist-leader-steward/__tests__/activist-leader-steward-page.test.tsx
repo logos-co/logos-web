@@ -7,6 +7,9 @@ const sectionData: ActivistLeaderStewardCopySection = {
   componentType: 'activistLeaderStewardCopy',
   key: 'activistLeaderSteward.copy',
   heading: 'Activist Leader / Steward',
+  intro: 'Activist Leader / Steward intro.',
+  privacy: 'Activist Leader / Steward privacy.',
+  privacyLink: 'https://logos.co/privacy-policy',
 }
 
 describe('ActivistLeaderStewardPage – content-driven metadata', () => {
@@ -24,5 +27,11 @@ describe('ActivistLeaderStewardPage – content-driven metadata', () => {
     )
     expect(html).toContain('Activist Leader / Steward')
     expect(html).toContain('<h1')
+  })
+
+  it('has CMS-backed form page copy', () => {
+    expect(sectionData.intro).toBe('Activist Leader / Steward intro.')
+    expect(sectionData.privacy).toBe('Activist Leader / Steward privacy.')
+    expect(sectionData.privacyLink).toBe('https://logos.co/privacy-policy')
   })
 })
