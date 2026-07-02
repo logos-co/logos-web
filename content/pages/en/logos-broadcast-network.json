@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/logos-broadcast-network",
+  "title": "Logos Broadcast Network | Logos",
+  "description": "Live streams, updates, and regular programming across the entire Logos network.",
+  "sections": [
+    {
+      "componentType": "broadcastCopy",
+      "key": "logosBroadcastNetwork.copy",
+      "heading": "Logos Broadcast Network",
+      "intro": {
+        "primary": "Live calls, technical sessions, and community programming from across the Logos network.",
+        "secondary": "Live streams, updates, and regular programming across the entire Logos network."
+      },
+      "events": {
+        "heading": "Upcoming Events",
+        "fallbackDescription": "Live streams, updates, and regular programming from the Logos network.",
+        "host": "Host",
+        "nextShow": "Next Show",
+        "yearLabel": "Year",
+        "monthLabel": "Month",
+        "todayLabel": "Today"
+      },
+      "pastEpisodes": {
+        "heading": "Past Episodes"
+      },
+      "listenOnApp": "Listen on an app"
+    }
+  ]
+}

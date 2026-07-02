@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/design-guide",
+  "title": "Design Guide | Logos",
+  "description": "Design assets, guidelines, and resources for using the Logos visual identity. Logos is open by design, open in spirit. Here are some assets to guide you as you chart your own path.",
+  "sections": [
+    {
+      "componentType": "designGuideCopy",
+      "key": "designGuide.copy",
+      "heading": "Design Guide",
+      "intro": "Design assets, guidelines, and resources for using the Logos visual identity. Logos is open by design, open in spirit. Here are some assets to guide you as you chart your own path.",
+      "downloads": {
+        "brandMarks": {
+          "label": "Download Marks",
+          "href": "/brand-kit/brand-marks.zip"
+        },
+        "guidelinesSection": "Design Guide",
+        "guidelines": {
+          "label": "Download Design Guide",
+          "href": "/brand-kit/logos-brand-guidelines.pdf"
+        }
+      }
+    }
+  ]
+}

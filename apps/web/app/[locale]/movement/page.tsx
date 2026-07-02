@@ -1,10 +1,11 @@
-import { getTranslations } from 'next-intl/server'
 import {
   getCircleInitiatives,
   getCircleResources,
   getCirclesSettings,
+  getPageCopy,
 } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
+import type { MovementCopySection } from '@repo/content/schemas'
 
 import { MovementPageView } from '@/components/sections/movement/movement-page'
 import { ROUTES } from '@/constants/routes'
@@ -12,14 +13,14 @@ import {
   getActiveCircleMarkers,
   getUpcomingCircleEvents,
 } from '@/lib/active-circles'
-import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
+import { createPageMetadata } from '@/lib/page-metadata'
+import { createSectionFinder } from '@/lib/page-sections'
 
-const NAMESPACE = 'pages.movement'
+const ROUTE = ROUTES.movement
 
-export const generateMetadata = createTranslatedPageMetadata({
-  namespace: NAMESPACE,
-  path: ROUTES.movement,
-})
+const findSection = createSectionFinder('movement')
+
+export const generateMetadata = createPageMetadata(ROUTE)
 
 export default async function MovementPage({
   params,
@@ -31,9 +32,9 @@ export default async function MovementPage({
     throw new Error(`MovementPage received non-active locale "${locale}"`)
   }
 
-  const t = await getTranslations({ locale, namespace: NAMESPACE })
-  const [circlesSettings, mapMarkers, upcomingEvents, initiatives, resources] =
+  const [page, circlesSettings, mapMarkers, upcomingEvents, initiatives, resources] =
     await Promise.all([
+      getPageCopy(ROUTE, locale),
       getCirclesSettings(locale),
       getActiveCircleMarkers(),
       getUpcomingCircleEvents(Infinity),
@@ -41,9 +42,15 @@ export default async function MovementPage({
       getCircleResources({ locale, status: 'published' }),
     ])
 
+  const movementCopy = findSection<MovementCopySection>(
+    page.sections,
+    'movementCopy',
+    'movement.copy',
+  )
+
   return (
     <MovementPageView
-      t={t}
+      data={movementCopy}
       circlesSettings={circlesSettings}
       mapMarkers={mapMarkers}
       upcomingEvents={upcomingEvents}

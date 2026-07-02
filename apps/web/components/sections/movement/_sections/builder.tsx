@@ -1,13 +1,15 @@
 import Image from 'next/image'
+import type { MovementCopySection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 import { CenterCtaSection, Cta, LambdaBadge, movementImages } from './atoms'
-import type { Translate } from './types'
 
-export function BuilderSection({ t }: { t: Translate }) {
-  const details = ['problem', 'solution', 'stack']
+type DetailKey = keyof MovementCopySection['builder']['details']
+
+export function BuilderSection({ data }: { data: MovementCopySection }) {
+  const details: DetailKey[] = ['problem', 'solution', 'stack']
 
   return (
     <section
@@ -15,17 +17,17 @@ export function BuilderSection({ t }: { t: Translate }) {
       className="bg-brand-off-white pt-0 pb-10 text-brand-dark-green md:pb-25"
     >
       <CenterCtaSection
-        title={t('builder.title')}
-        body={t('builder.body')}
+        title={data.builder.title}
+        body={data.builder.body}
         cta={
           <div className="flex flex-wrap justify-center gap-2">
             <Cta
               href={ROUTES.activistBuilder}
-              label={t('builder.primaryCta')}
+              label={data.builder.primaryCta}
             />
             <Cta
               href={ROUTES.buildersHub}
-              label={t('builder.secondaryCta')}
+              label={data.builder.secondaryCta}
               tone="secondary"
             />
           </div>
@@ -48,23 +50,23 @@ export function BuilderSection({ t }: { t: Translate }) {
                 <div className="flex items-center gap-1.5">
                   <LambdaBadge size={15} tone="light" circle />
                   <p className="text-subhead-serif">
-                    {t('builder.feature.city')}
+                    {data.builder.feature.city}
                   </p>
                 </div>
                 <Cta
                   href={EXTERNAL_URLS.circlesWinnableIssueBenin}
-                  label={t('builder.feature.cta')}
+                  label={data.builder.feature.cta}
                   tone="light"
                   className="md:hidden"
                 />
               </div>
               <h3 className="text-subhead-sans mx-auto max-w-[220px] text-center md:mx-0 md:text-left">
-                {t('builder.feature.title')}
+                {data.builder.feature.title}
               </h3>
               <div className="hidden w-fit md:block">
                 <Cta
                   href={EXTERNAL_URLS.circlesWinnableIssueBenin}
-                  label={t('builder.feature.cta')}
+                  label={data.builder.feature.cta}
                   tone="light"
                 />
               </div>
@@ -76,10 +78,10 @@ export function BuilderSection({ t }: { t: Translate }) {
                   className="grid gap-3 border-t border-brand-off-white/50 pt-1.5 md:grid-cols-2"
                 >
                   <p className="text-eyebrow">
-                    {t(`builder.details.${detail}.label`)}
+                    {data.builder.details[detail].label}
                   </p>
                   <p className="text-mono-s">
-                    {t(`builder.details.${detail}.body`)}
+                    {data.builder.details[detail].body}
                   </p>
                 </div>
               ))}

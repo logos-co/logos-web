@@ -12,6 +12,7 @@ import {
 import buildersHubResources from '../../../../content/builders-hub/resources/en.json' with { type: 'json' }
 import buildersHubSettings from '../../../../content/builders-hub/settings/en.json' with { type: 'json' }
 import homePage from '../../../../content/pages/en/home.json' with { type: 'json' }
+import manifestoContentPage from '../../../../content/pages/en/manifesto.json' with { type: 'json' }
 import messages from '../../messages/en.json' with { type: 'json' }
 import footer from '../../../../content/site/en/footer.json' with { type: 'json' }
 import navigation from '../../../../content/site/en/navigation.json' with { type: 'json' }
@@ -47,7 +48,6 @@ const jobsHref = 'https://free.technology/jobs'
 const onboardingCalendarHref = 'https://cal.com/team/logos-onboarding/intro'
 const logosDocsHref = 'https://docs.logos.co/'
 const communityIdeasHref = 'https://github.com/logos-co/ideas'
-const parallelSocietyHref = 'https://ps.logos.co/'
 const livingWithinTruthHref = 'https://www.youtube.com/watch?v=xy4uK20lFBQ'
 const logosGenealogyHref = 'https://blog.logos.co/article/a-genealogy-of-logos'
 const basecampReleaseHref =
@@ -184,17 +184,19 @@ describe('link policy', () => {
       'utf8'
     )
 
+    const useCasesContentSection = homePage.sections.find(
+      (section) => section.key === 'home.useCases'
+    ) as { lambda: string } | undefined
+    expect(useCasesContentSection).toBeDefined()
+    const lambdaCopy = useCasesContentSection?.lambda ?? ''
+
     expect(ROUTES.lambdaPrize).toBe('/lambda-prize')
-    expect(
-      messages.home.useCases.lambda.replace(/<\/?lambdaPrize>/g, '')
-    ).toBe(
+    expect(lambdaCopy.replace(/<\/?lambdaPrize>/g, '')).toBe(
       'Explore the applications Logos is funding through the Lambda Prize.'
     )
-    expect(messages.home.useCases.lambda).toContain(
-      '<lambdaPrize>Lambda Prize</lambdaPrize>'
-    )
-    expect(messages.home.useCases.lambda).not.toContain('LAMBDA PRIZE >>')
-    expect(useCasesSection).toContain('href={ROUTES.lambdaPrize}')
+    expect(lambdaCopy).toContain('<lambdaPrize>Lambda Prize</lambdaPrize>')
+    expect(lambdaCopy).not.toContain('LAMBDA PRIZE >>')
+    expect(useCasesSection).toMatch(/renderLambdaPrizeText\([^)]*ROUTES\.lambdaPrize/)
   })
 
   it('routes manifesto related reading links to their target pages', () => {
@@ -206,7 +208,8 @@ describe('link policy', () => {
     expect(ROUTES.book).toBe('/book')
     expect(EXTERNAL_URLS.livingWithinTruth).toBe(livingWithinTruthHref)
     expect(EXTERNAL_URLS.logosGenealogyArticle).toBe(logosGenealogyHref)
-    expect(messages.pages.manifesto.more).toEqual([
+    const manifestoSection = manifestoContentPage.sections[0] as { more?: string[] }
+    expect(manifestoSection.more).toEqual([
       'Farewell to Westphalia',
       'Living Within the Truth | Parallel Society',
       'From Offline to Online Piracy: A Genealogy of Logos',
@@ -233,6 +236,21 @@ describe('link policy', () => {
       return blockedPatterns
         .filter((pattern) => pattern.test(text))
         .map((pattern) => `${relative(repoRoot, file)} matched ${pattern}`)
+    })
+
+    expect(offenders).toEqual([])
+  })
+
+  it('does not link to the removed general FAQ route', () => {
+    const offenders = scannedRoots.flatMap(collectTextFiles).flatMap((file) => {
+      const text = readFileSync(file, 'utf8')
+      const relativePath = relative(repoRoot, file)
+      const matches = [
+        ...text.matchAll(/\bROUTES\.faq\b/g),
+        ...text.matchAll(/["']\/faq["']/g),
+      ]
+
+      return matches.map((match) => `${relativePath}:${match.index}`)
     })
 
     expect(offenders).toEqual([])
@@ -309,22 +327,6 @@ describe('link policy', () => {
       expect.objectContaining({
         href: onboardingCalendarHref,
         external: true,
-      })
-    )
-  })
-
-  it('routes the homepage Parallel Society CTA to the event site', () => {
-    const parallelSocietyHeadline = homePage.sections.find(
-      (section) => section.key === 'home.parallelSocietyHeadline'
-    )
-
-    // The CTA label is copy; assert the route and external flag only.
-    expect(parallelSocietyHeadline).toEqual(
-      expect.objectContaining({
-        cta: expect.objectContaining({
-          href: parallelSocietyHref,
-          external: true,
-        }),
       })
     )
   })

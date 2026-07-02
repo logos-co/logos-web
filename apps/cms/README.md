@@ -87,7 +87,6 @@ Required values in `.env.docker`:
 | `POSTGRES_USER` / `POSTGRES_PASSWORD` / `POSTGRES_DB` | Credentials for the bundled Postgres. |
 | `PAYLOAD_SECRET` | `openssl rand -hex 32`. |
 | `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` | **Build time** stable Server Actions key. Generate with `openssl rand -base64 32`. Use the same value across CMS deployments. |
-| `DEPLOYMENT_VERSION` | **Build time** deployment id, ideally the git SHA or release id. |
 | `NEXT_PUBLIC_SERVER_URL` | **Baked into the client bundle at build time** — must be the real public CMS origin. Changing it requires a rebuild. |
 | `NEXT_PUBLIC_WEB_URL` | **Build-time** public web origin (same caveat). |
 | `CMS_PORT` | Host port mapped to the container's `:3000` (default `3001`). |
@@ -112,7 +111,6 @@ export NEXT_SERVER_ACTIONS_ENCRYPTION_KEY='<stable openssl rand -base64 32 value
 
 docker build -f apps/cms/Dockerfile \
   --build-arg NEXT_SERVER_ACTIONS_ENCRYPTION_KEY="$NEXT_SERVER_ACTIONS_ENCRYPTION_KEY" \
-  --build-arg DEPLOYMENT_VERSION="$(git rev-parse HEAD)" \
   --build-arg NEXT_PUBLIC_SERVER_URL=https://cms.logos.co \
   --build-arg NEXT_PUBLIC_WEB_URL=https://logos.co \
   -t logos-cms .
@@ -137,7 +135,6 @@ docker run -d --name logos-cms -p 3001:3000 \
 | Variable | When it's read | Notes |
 | --- | --- | --- |
 | `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` | **Build time** | Stable key required by Next Server Actions across CMS deployments. |
-| `DEPLOYMENT_VERSION` | **Build time** | Used as Next's deployment id to detect old/new deployment skew. |
 | `NEXT_PUBLIC_SERVER_URL`, `NEXT_PUBLIC_WEB_URL` | **Build time** (inlined into client bundle) | Must be real public origins; changing requires a rebuild. |
 | `DATABASE_URL`, `PAYLOAD_SECRET` | **Runtime** | Never baked into the image. |
 | `PAYLOAD_DB_SCHEMA`, `PAYLOAD_DB_POOL_MAX` | Runtime | Defaults: `payload`, `10`. |
@@ -145,8 +142,7 @@ docker run -d --name logos-cms -p 3001:3000 \
 | `GITHUB_*` | Runtime | Optional — only for the Admin "Create PR" action. |
 
 For Vercel CMS deployments, set `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` as a
-project environment variable for production and preview builds. Vercel provides
-`VERCEL_GIT_COMMIT_SHA`, which the CMS uses as the deployment id.
+project environment variable for production and preview builds.
 
 ### Database migrations
 

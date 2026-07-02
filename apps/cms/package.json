@@ -20,6 +20,7 @@
     "sync-from-content": "tsx scripts/sync-from-content.ts"
   },
   "dependencies": {
+    "@next/env": "16.2.4",
     "@payloadcms/db-postgres": "3.83.0",
     "@payloadcms/next": "3.83.0",
     "@payloadcms/richtext-lexical": "3.83.0",

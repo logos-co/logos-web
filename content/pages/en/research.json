@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/research",
+  "title": "Research | Logos",
+  "description": "Logos Research conducts practical research across protocols, privacy, peer-to-peer systems, and civil society infrastructure.",
+  "sections": [
+    {
+      "componentType": "researchCopy",
+      "key": "research.copy",
+      "hero": {
+        "kicker": "Research and development across the Logos Network and IFT.",
+        "title": "Logos\nResearch",
+        "description": "Logos Research conducts innovative exploration within the Logos ecosystem and wider IFT. Embedded within R&D service units, we ensure the work remains practical and relevant to Logos and the IFT.",
+        "ctas": [
+          {
+            "label": "Specs/RFCs",
+            "href": "https://lip.logos.co/"
+          },
+          {
+            "label": "Research Forum",
+            "href": "https://forum.research.logos.co/"
+          }
+        ]
+      },
+      "overview": {
+        "title": "Overview",
+        "body": {
+          "paragraphs": {
+            "p1": "Logos Research, formerly Vac, is a principle-driven R&D team that provides comprehensive technical support to <logos>Logos</logos> and other <ift>IFT</ift> projects. Logos Research consists of specialised <units>R&D service units</units> and innovative <incubator>incubator projects</incubator>. We focus on developing foundational components and unopinionated protocols that both IFT projects and the broader community can utilise.",
+            "p2": "Part of our work is conducting applied <research>research</research> that drives the development of cutting-edge protocols, libraries, <specs>specifications</specs>, and publications. Our dual approach combines hands-on development with in-depth research, allowing us to create robust solutions tailored to the needs of the Logos ecosystem, IFT projects, and decentralised technologies in general.",
+            "p3": "Logos Research maintains an active <forum>forum</forum> and research platform, fostering collaboration and knowledge exchange within the broader community.",
+            "p4": "As custodians of the components and protocols we develop, we adhere <principles>a set of principles</principles> that guide our work, ensuring alignment with our values and objectives in advancing free and open technologies.",
+            "p5": "Logos Research conducts innovative exploration within the Logos ecosystem and wider IFT. Embedded within R&D service units, we ensure the work remains practical and relevant to Logos and the IFT. Rather than focusing on academic publications, we aim to actively bridge theory and practice. Logos Research collaborates with IFT projects to implement our research findings, and identifies and initiates new incubator projects, translating our research into real-world applications.",
+            "p6": "Logos Research spans multiple R&D service units, primarily ACZ and P2P. Key focus areas of Logos Research include zero-knowledge proofs (ZKP) and their applications, libp2p gossipsub improvements, and anonymisation networks. By maintaining close ties with various Logos and IFT teams, we drive innovation and practical advancements across the projects we work with. In the realm of ZKP, Logos Research has made contributions that have given rise to the <incubator>incubator project</incubator> Logos Execution Environment."
+          }
+        },
+        "cta": {
+          "label": "Join the Research Forum",
+          "href": "https://forum.research.logos.co/"
+        }
+      },
+      "resources": {
+        "title": "Resources",
+        "learnMore": "Learn more",
+        "items": [
+          {
+            "number": "01",
+            "label": "Specs/RFCs",
+            "href": "https://lip.logos.co/"
+          },
+          {
+            "number": "02",
+            "label": "Research Forum",
+            "href": "https://forum.research.logos.co/"
+          },
+          {
+            "number": "03",
+            "label": "Discord",
+            "href": "https://discord.gg/PQFdubGt6d",
+            "cta": "Join server"
+          },
+          {
+            "number": "04",
+            "label": "X LogosRnD",
+            "href": "https://twitter.com/LogosRnD",
+            "cta": "Follow"
+          }
+        ]
+      },
+      "contribute": {
+        "title": "Contribute",
+        "copy": {
+          "howTitle": "How to contribute",
+          "contact": "Get in touch with us by <discord></discord>, <forum></forum>, or <github></github>.",
+          "jobs": "Also, see <jobs></jobs>.",
+          "links": {
+            "discord": "joining our Discord",
+            "forum": "opening a thread in our forum",
+            "github": "opening issues / PRs on GitHub",
+            "jobs": "IFT current job openings"
+          },
+          "whatTitle": "What to contribute",
+          "whatBody": "We are interested in both research and code contributions.",
+          "codeIntro": "For code contributions, see our \"good first issue\" lists for various Vac-related code bases:",
+          "codeLinks": [
+            {
+              "label": "nim-libp2p",
+              "href": "https://github.com/vacp2p/nim-libp2p"
+            },
+            {
+              "label": "zerokit",
+              "href": "https://github.com/vacp2p/zerokit/labels/good%20first%20issue"
+            },
+            {
+              "label": "stealth-address-kit",
+              "href": "https://github.com/vacp2p/stealth-address-kit"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -832,11 +832,6 @@ export const AFFORM_NAME = ${JSON.stringify(form.name)};
 
 export const AFFORM_FIELDS = ${JSON.stringify(allFields, null, 2)};
 
-export const AFFORM_PAGE_HEADING = ${JSON.stringify(out.pageHeading)};
-export const AFFORM_PAGE_INTRO = ${JSON.stringify(out.pageIntro)};
-export const AFFORM_PAGE_PRIVACY = ${JSON.stringify(out.pagePrivacy)};
-export const AFFORM_PAGE_PRIVACY_LINK = ${JSON.stringify(out.pagePrivacyLink)};
-
 export const AFFORM_OPTIONS = ${JSON.stringify(afformOptions, null, 2)};
 `
 

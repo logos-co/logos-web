@@ -1,7 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { useTranslations } from 'next-intl'
+
+import type { HomeChoosePathSection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 import { LogosMark } from '@acid-info/logos-ui'
@@ -64,15 +65,17 @@ function PathCardView({ card }: { card: PathCard }) {
   )
 }
 
-export default function FeatureCardsSection() {
-  const t = useTranslations('home.paths')
+interface FeatureCardsSectionProps {
+  data: HomeChoosePathSection
+}
 
+export default function FeatureCardsSection({ data }: FeatureCardsSectionProps) {
   const cards: PathCard[] = [
     {
       key: 'build',
-      title: t('build.title'),
-      body: t('build.body'),
-      cta: t('build.cta'),
+      title: data.build.title,
+      body: data.build.body,
+      cta: data.build.cta,
       href: ROUTES.getStarted,
       image: '/images/home/figma-refresh/path-build.webp',
       overlay: 'bg-black/20',
@@ -80,9 +83,9 @@ export default function FeatureCardsSection() {
     },
     {
       key: 'operate',
-      title: t('operate.title'),
-      body: t('operate.body'),
-      cta: t('operate.cta'),
+      title: data.operate.title,
+      body: data.operate.body,
+      cta: data.operate.cta,
       href: ROUTES.nodeProgramme,
       image: '/images/home/figma-refresh/path-operate.webp',
       overlay: 'bg-black/45',
@@ -90,9 +93,9 @@ export default function FeatureCardsSection() {
     },
     {
       key: 'activism',
-      title: t('activism.title'),
-      body: t('activism.body'),
-      cta: t('activism.cta'),
+      title: data.activism.title,
+      body: data.activism.body,
+      cta: data.activism.cta,
       href: ROUTES.movement,
       image: '/images/home/figma-refresh/path-activism.webp',
       overlay: 'bg-black/45',
@@ -105,12 +108,12 @@ export default function FeatureCardsSection() {
       <ContentWidth className="relative pt-3 pb-25 lg:pt-0 lg:pb-14">
         <div className="mt-16 flex flex-col items-center gap-6 text-center lg:absolute lg:top-[112px] lg:left-1/2 lg:mt-0 lg:w-[940px] lg:max-w-[calc(100%-24px)] lg:-translate-x-1/2 lg:flex-row lg:items-start lg:justify-between lg:gap-8 lg:text-left">
           <SectionHeadingReveal className="w-[351.5px] max-w-[calc(100vw-24px)] text-center font-display text-[24px] leading-none tracking-[-0.72px] text-brand-dark-green lg:w-auto lg:max-w-none lg:text-left lg:text-h2">
-            {t('title')}
+            {data.title}
           </SectionHeadingReveal>
 
           <div className="font-mono-body mx-auto flex w-[351.5px] max-w-[calc(100vw-24px)] flex-col gap-[13px] text-[10px] leading-[1.3] text-brand-dark-green lg:mx-0 lg:w-[226px] lg:gap-4 lg:text-mono-s">
-            <p>{t('kicker')}</p>
-            <p>{t('body')}</p>
+            <p>{data.kicker}</p>
+            <p>{data.body}</p>
           </div>
         </div>
 
