@@ -94,6 +94,39 @@ const readPayloadCollections = async (): Promise<
   }>
 }
 
+const readPayloadRuntimeURLs = async (
+  overrides: Record<string, string | undefined>
+): Promise<{ csrf: string[]; serverURL: string }> => {
+  const env = { ...process.env }
+  for (const [key, value] of Object.entries(overrides)) {
+    if (value === undefined) {
+      delete env[key]
+    } else {
+      env[key] = value
+    }
+  }
+
+  const { stdout } = await execFileAsync(
+    process.execPath,
+    [
+      '--import',
+      'tsx',
+      '-e',
+      [
+        "const { default: configPromise } = await import('./payload.config.ts')",
+        'const config = await configPromise',
+        'console.log(JSON.stringify({ csrf: config.csrf, serverURL: config.serverURL }))',
+      ].join('; '),
+    ],
+    {
+      cwd: process.cwd(),
+      env,
+    }
+  )
+
+  return JSON.parse(stdout) as { csrf: string[]; serverURL: string }
+}
+
 describe('Payload production env guard', () => {
   it('refuses self-hosted production without an explicit CMS origin', async () => {
     const result = await importPayloadConfig({
@@ -121,6 +154,47 @@ describe('Payload production env guard', () => {
     })
 
     assert.match(result.stderr, /NEXT_PUBLIC_WEB_URL is required/)
+  })
+
+  it('uses the Vercel branch URL for preview deployments', async () => {
+    const runtimeURLs = await readPayloadRuntimeURLs({
+      DATABASE_URL: 'postgresql://user:pass@localhost:5432/logos',
+      NEXT_PUBLIC_SERVER_URL: 'https://stale-preview.vercel.app',
+      NEXT_PUBLIC_WEB_URL: 'https://logos.co',
+      NODE_ENV: 'production',
+      PAYLOAD_SECRET: 'test-secret',
+      VERCEL: '1',
+      VERCEL_BRANCH_URL:
+        'logos-co-cms-git-codex-fix-cms-server-actions-status-im-web.vercel.app',
+      VERCEL_ENV: 'preview',
+      VERCEL_URL: 'logos-co-cms-unique-hash-status-im-web.vercel.app',
+    })
+
+    assert.equal(
+      runtimeURLs.serverURL,
+      'https://logos-co-cms-git-codex-fix-cms-server-actions-status-im-web.vercel.app'
+    )
+    assert.equal(runtimeURLs.csrf.includes(runtimeURLs.serverURL), true)
+    assert.equal(
+      runtimeURLs.csrf.includes('https://stale-preview.vercel.app'),
+      false
+    )
+  })
+
+  it('keeps the explicit CMS origin for Vercel production deployments', async () => {
+    const runtimeURLs = await readPayloadRuntimeURLs({
+      DATABASE_URL: 'postgresql://user:pass@localhost:5432/logos',
+      NEXT_PUBLIC_SERVER_URL: 'https://cms.logos.co',
+      NEXT_PUBLIC_WEB_URL: 'https://logos.co',
+      NODE_ENV: 'production',
+      PAYLOAD_SECRET: 'test-secret',
+      VERCEL: '1',
+      VERCEL_BRANCH_URL: 'logos-co-cms-git-main-status-im-web.vercel.app',
+      VERCEL_ENV: 'production',
+      VERCEL_URL: 'logos-co-cms-unique-hash-status-im-web.vercel.app',
+    })
+
+    assert.equal(runtimeURLs.serverURL, 'https://cms.logos.co')
   })
 })
 
