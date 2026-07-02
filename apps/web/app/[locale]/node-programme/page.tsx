@@ -6,7 +6,7 @@ import { LogosMark } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
 import { Button, ButtonArrowIcon } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
 
 import { NodeProgrammeSignupForm } from './node-programme-signup-form'
@@ -111,6 +111,13 @@ export default async function NodeProgramPage({
               className="cursor-pointer"
             >
               {t('hero.secondaryCta')}
+            </Button>
+            <Button
+              href={EXTERNAL_URLS.nodeOperatorGuide}
+              variant="link"
+              className="cursor-pointer"
+            >
+              {t('hero.guideCta')}
             </Button>
           </div>
 
