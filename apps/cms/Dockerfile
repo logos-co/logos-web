@@ -5,6 +5,8 @@
 # packages (@repo/content). From the repo root:
 #
 #   docker build -f apps/cms/Dockerfile \
+#     --build-arg NEXT_SERVER_ACTIONS_ENCRYPTION_KEY="$NEXT_SERVER_ACTIONS_ENCRYPTION_KEY" \
+#     --build-arg DEPLOYMENT_VERSION="$(git rev-parse HEAD)" \
 #     --build-arg NEXT_PUBLIC_SERVER_URL=https://cms.example.com \
 #     --build-arg NEXT_PUBLIC_WEB_URL=https://www.example.com \
 #     -t logos-cms .
@@ -39,12 +41,16 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
 # builder — copy sources and build the Next.js production output.
 # -----------------------------------------------------------------------------
 FROM base AS builder
+ARG DEPLOYMENT_VERSION
+ARG NEXT_SERVER_ACTIONS_ENCRYPTION_KEY
 ARG NEXT_PUBLIC_SERVER_URL
 ARG NEXT_PUBLIC_WEB_URL
 # Build-time placeholders: payload.config.ts validates these env vars at module
 # load (during `next build`). DATABASE_URL/PAYLOAD_SECRET are NOT inlined and
 # are overridden with real values at runtime; the build never connects to the DB.
 ENV NODE_ENV=production \
+    DEPLOYMENT_VERSION=${DEPLOYMENT_VERSION} \
+    NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=${NEXT_SERVER_ACTIONS_ENCRYPTION_KEY} \
     NEXT_TELEMETRY_DISABLED=1 \
     NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL} \
     NEXT_PUBLIC_WEB_URL=${NEXT_PUBLIC_WEB_URL} \

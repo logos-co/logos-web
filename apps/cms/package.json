@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx scripts/dev.ts",
-    "build": "pnpm generate-import-map && next build",
+    "build": "pnpm validate-production-build-env && pnpm generate-import-map && next build",
     "start": "next start",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
@@ -12,6 +12,7 @@
     "check-types": "next typegen && tsc --noEmit",
     "generate-types": "PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:types",
     "generate-import-map": "PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:importmap",
+    "validate-production-build-env": "tsx scripts/validate-production-build-env.ts",
     "migrate": "PAYLOAD_CONFIG_PATH=payload.config.ts payload migrate",
     "migrate:create": "PAYLOAD_CONFIG_PATH=payload.config.ts payload migrate:create",
     "migrate:status": "PAYLOAD_CONFIG_PATH=payload.config.ts payload migrate:status",
