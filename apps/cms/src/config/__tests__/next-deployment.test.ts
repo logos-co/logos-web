@@ -102,24 +102,10 @@ describe('Next deployment configuration', () => {
     )
   })
 
-  it('requires a deployment identifier for production builds', async () => {
+  it('accepts a stable Server Actions key without a deployment identifier', async () => {
     const result = await runBuildEnvValidation({
       DEPLOYMENT_VERSION: undefined,
       NEXT_DEPLOYMENT_ID: undefined,
-      NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: 'test-key',
-      VERCEL_GIT_COMMIT_SHA: undefined,
-    })
-
-    assert.match(
-      result.stderr,
-      /CMS production builds require DEPLOYMENT_VERSION, NEXT_DEPLOYMENT_ID, or VERCEL_GIT_COMMIT_SHA/
-    )
-  })
-
-  it('accepts Vercel deployment ids as production build identifiers', async () => {
-    const result = await runBuildEnvValidation({
-      DEPLOYMENT_VERSION: undefined,
-      NEXT_DEPLOYMENT_ID: 'dpl_C8QVLeEbYXbaNhbJjNG1Zw2J3Y33',
       NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: 'test-key',
       VERCEL_GIT_COMMIT_SHA: undefined,
     })
@@ -127,87 +113,58 @@ describe('Next deployment configuration', () => {
     assert.equal(result.stderr, '')
   })
 
-  it('uses the Vercel commit SHA as the deployment id', async () => {
+  it('does not configure a deployment id from environment variables', async () => {
     const result = await importNextConfig({
+      DEPLOYMENT_VERSION: 'self-host-20260702',
       NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: 'test-key',
       NODE_ENV: 'production',
-      NEXT_DEPLOYMENT_ID: undefined,
-      VERCEL_GIT_COMMIT_SHA: 'abc123',
-    })
-
-    assert.deepEqual(JSON.parse(result.stdout), { deploymentId: 'abc123' })
-  })
-
-  it('uses the Vercel deployment id when Vercel provides one', async () => {
-    const result = await importNextConfig({
       NEXT_DEPLOYMENT_ID: 'dpl_4qcQ6gQnY9YpyAFSWnXy9jVJsUy1',
-      NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: 'test-key',
-      NODE_ENV: 'production',
       VERCEL_GIT_COMMIT_SHA: '5789cddea9cce53b639a79dfd5ccbc0eb19be56e',
     })
 
-    assert.deepEqual(JSON.parse(result.stdout), {
-      deploymentId: 'dpl_4qcQ6gQnY9YpyAFSWnXy9jVJsUy1',
-    })
-  })
-
-  it('uses the self-host deployment version as the deployment id', async () => {
-    const result = await importNextConfig({
-      DEPLOYMENT_VERSION: 'self-host-20260702',
-      NEXT_DEPLOYMENT_ID: undefined,
-      NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: 'test-key',
-      NODE_ENV: 'production',
-      VERCEL_GIT_COMMIT_SHA: undefined,
-    })
-
-    assert.deepEqual(JSON.parse(result.stdout), {
-      deploymentId: 'self-host-20260702',
-    })
+    assert.deepEqual(JSON.parse(result.stdout), { deploymentId: null })
   })
 })
 
 describe('self-host deployment environment wiring', () => {
-  it('passes Server Actions and deployment identifiers into the Docker build', async () => {
-    const [composeFile, dockerfile, envExample] = await Promise.all([
+  it('passes only the Server Actions key into the Docker build', async () => {
+    const [composeFile, dockerfile, envExample, jenkinsfile] = await Promise.all([
       readFile('../../docker-compose.prod.yml', 'utf8'),
       readFile('Dockerfile', 'utf8'),
       readFile('.env.docker.example', 'utf8'),
+      readFile('../../Jenkinsfile', 'utf8'),
     ])
 
     assert.match(
       composeFile,
       /NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: \$\{NEXT_SERVER_ACTIONS_ENCRYPTION_KEY\}/
     )
-    assert.match(composeFile, /DEPLOYMENT_VERSION: \$\{DEPLOYMENT_VERSION/)
+    assert.doesNotMatch(composeFile, /DEPLOYMENT_VERSION/)
     assert.match(dockerfile, /ARG NEXT_SERVER_ACTIONS_ENCRYPTION_KEY/)
-    assert.match(dockerfile, /ARG DEPLOYMENT_VERSION/)
+    assert.doesNotMatch(dockerfile, /ARG DEPLOYMENT_VERSION/)
     assert.match(
       dockerfile,
       /NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=\$\{NEXT_SERVER_ACTIONS_ENCRYPTION_KEY\}/
     )
+    assert.doesNotMatch(jenkinsfile, /DEPLOYMENT_VERSION/)
     assert.match(envExample, /NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=/)
-    assert.match(envExample, /DEPLOYMENT_VERSION=/)
+    assert.doesNotMatch(envExample, /DEPLOYMENT_VERSION/)
   })
 
-  it('declares CMS deployment env vars for Turbo build tasks', async () => {
+  it('declares only the CMS Server Actions key for Turbo build tasks', async () => {
     const turboConfig = JSON.parse(
       await readFile('../../turbo.json', 'utf8')
     ) as { tasks: { build: { env: string[] } } }
 
+    assert.ok(
+      turboConfig.tasks.build.env.includes('NEXT_SERVER_ACTIONS_ENCRYPTION_KEY')
+    )
     assert.deepEqual(
       [
         'DEPLOYMENT_VERSION',
-        'VERCEL_BRANCH_URL',
         'NEXT_DEPLOYMENT_ID',
-        'NEXT_SERVER_ACTIONS_ENCRYPTION_KEY',
-        'PAYLOAD_DB_CONNECTION_TIMEOUT_MS',
-        'PAYLOAD_DB_IDLE_TIMEOUT_MS',
-        'PAYLOAD_DB_POOL_MAX',
-        'PAYLOAD_DB_QUERY_TIMEOUT_MS',
-        'PAYLOAD_HEALTH_TIMEOUT_MS',
-        'VERCEL_ENV',
         'VERCEL_GIT_COMMIT_SHA',
-      ].filter((name) => !turboConfig.tasks.build.env.includes(name)),
+      ].filter((name) => turboConfig.tasks.build.env.includes(name)),
       []
     )
   })
