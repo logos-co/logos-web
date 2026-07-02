@@ -6,14 +6,15 @@ import { describe, expect, test } from 'vitest'
 
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
-describe('node programme page contract', () => {
-  const pageSource = readFileSync(
+const readNodeProgrammePageSource = () =>
+  readFileSync(
     fileURLToPath(
       new URL('../[locale]/node-programme/page.tsx', import.meta.url)
     ),
     'utf8'
   )
 
+describe('node programme page contract', () => {
   test('uses the British English public route', () => {
     expect(ROUTES.nodeProgramme).toBe('/node-programme')
   })
@@ -42,6 +43,8 @@ describe('node programme page contract', () => {
   })
 
   test('links the hero CTA group to the node operator guide', () => {
+    const pageSource = readNodeProgrammePageSource()
+
     expect(messages.pages.nodeProgramme.hero.guideCta).toBe(
       'Node operator guide'
     )
