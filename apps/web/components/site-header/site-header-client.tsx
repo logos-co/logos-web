@@ -80,7 +80,7 @@ function HomepageHighlightCard({ data }: { data: HomepageHighlight }) {
       className={clsx(
         'group absolute z-10 flex cursor-pointer rounded-[6px] transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
         'top-2 left-3 w-[calc(100vw-24px)] max-w-[369px] items-center gap-3 bg-gray-01 py-0.5 pr-1 pl-0.5 text-brand-dark-green focus-visible:outline-brand-dark-green',
-        'md:top-2 md:left-[119px] md:w-[345px] md:items-start md:gap-2 md:bg-gray-06 md:p-1 md:text-brand-off-white md:focus-visible:outline-brand-off-white'
+        'md:top-2 md:left-[119px] md:w-[calc(50vw-137px)] md:max-w-[345px] md:items-start md:gap-2 md:bg-gray-06 md:p-1 md:text-brand-off-white md:focus-visible:outline-brand-off-white'
       )}
     >
       <span className="relative h-[65px] w-[65px] shrink-0 overflow-hidden rounded-[4px] md:h-11 md:w-[37px]">
