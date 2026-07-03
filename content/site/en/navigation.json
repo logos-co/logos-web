@@ -18,7 +18,7 @@
   "primaryCta": { "label": "Install Basecamp", "href": "/basecamp" },
   "homepageHighlight": {
     "enabled": true,
-    "body": "Testnet v0.2 is live for experimentation. Introducing improvements to entire stack.",
+    "body": "Testnet v0.2 is live for experimentation. Introducing improvements to the entire stack.",
     "cta": {
       "label": "Learn More",
       "href": "https://blog.logos.co/article/testnet-v02-live"
