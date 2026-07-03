@@ -75,6 +75,7 @@ export default async function SiteHeader({ locale }: { locale: string }) {
       community={community}
       menuPanels={menuPanels}
       primaryCta={navigation.primaryCta}
+      homepageHighlight={navigation.homepageHighlight}
     />
   )
 }
