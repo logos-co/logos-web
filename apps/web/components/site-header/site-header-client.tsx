@@ -1,8 +1,11 @@
 'use client'
 
 import clsx from 'clsx'
+import Image from 'next/image'
+import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 
+import type { HomepageHighlight } from '@repo/content/schemas'
 import {
   LogosMark,
   LogosWordmark,
@@ -14,6 +17,7 @@ import { NavOverlay } from '@acid-info/logos-ui/client'
 
 import { IconMask } from '@/components/icons/icon-mask'
 import { ROUTES } from '@/constants/routes'
+import { ExternalLink } from '@/components/ui/external-link'
 import { Link, usePathname } from '@/i18n/navigation'
 
 type ClosedBarLabels = {
@@ -30,6 +34,7 @@ type Props = {
   community: NavOverlayCommunityCard[]
   menuPanels: NavOverlayMenuPanel[]
   primaryCta?: NavOverlayLink
+  homepageHighlight?: HomepageHighlight
 }
 
 function HamburgerIcon() {
@@ -40,12 +45,73 @@ function LambdaGlyph({ className }: { className?: string }) {
   return <LogosMark size={11} className={clsx('shrink-0', className)} />
 }
 
+function ArrowIcon() {
+  return <IconMask src="/icons/right-arrow.svg" className="size-[15px]" />
+}
+
+function HighlightLink({
+  href,
+  className,
+  children,
+}: {
+  href: string
+  className: string
+  children: ReactNode
+}) {
+  if (href.startsWith('http')) {
+    return (
+      <ExternalLink href={href} className={className}>
+        {children}
+      </ExternalLink>
+    )
+  }
+
+  return (
+    <Link href={href} className={className}>
+      {children}
+    </Link>
+  )
+}
+
+function HomepageHighlightCard({ data }: { data: HomepageHighlight }) {
+  return (
+    <HighlightLink
+      href={data.cta.href}
+      className={clsx(
+        'group absolute z-10 flex cursor-pointer rounded-[6px] transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
+        'top-2 left-3 w-[calc(100vw-24px)] max-w-[369px] items-center gap-3 bg-gray-01 py-0.5 pr-1 pl-0.5 text-brand-dark-green focus-visible:outline-brand-dark-green',
+        'md:top-[-6px] md:left-[119px] md:w-[345px] md:items-start md:gap-2 md:bg-gray-06 md:p-1 md:text-brand-off-white md:focus-visible:outline-brand-off-white'
+      )}
+    >
+      <span className="relative h-[65px] w-[65px] shrink-0 overflow-hidden rounded-[4px] md:h-11 md:w-[37px]">
+        <Image
+          src={data.image.src}
+          alt={data.image.alt}
+          fill
+          sizes="(max-width: 767px) 65px, 37px"
+          className="object-cover"
+        />
+      </span>
+      <span className="flex min-w-0 flex-col items-start justify-center gap-[3px] py-1 md:flex-1 md:justify-start md:py-0">
+        <span className="text-mono-s w-[262px] text-brand-dark-green md:w-full md:text-brand-off-white">
+          {data.body}
+        </span>
+        <span className="flex items-center gap-1 font-mono text-[10px] leading-[1.35] font-semibold text-brand-dark-green uppercase md:text-brand-off-white">
+          {data.cta.label}
+          <ArrowIcon />
+        </span>
+      </span>
+    </HighlightLink>
+  )
+}
+
 export default function SiteHeaderClient({
   closedBar,
   sitemap,
   community,
   menuPanels,
   primaryCta,
+  homepageHighlight,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false)
   const [initialPanelLabel, setInitialPanelLabel] = useState<string | null>(
@@ -54,6 +120,8 @@ export default function SiteHeaderClient({
   const [hasPassedHero, setHasPassedHero] = useState(false)
   const pathname = usePathname()
   const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
+  const showHomepageHighlight =
+    normalizedPathname === ROUTES.home && homepageHighlight?.enabled === true
 
   const usesHeroHeaderTone =
     normalizedPathname === ROUTES.home ||
@@ -125,17 +193,33 @@ export default function SiteHeaderClient({
       >
         <div
           className={clsx(
-            'relative h-10 transition-colors duration-300 md:hidden',
+            'relative transition-colors duration-300 md:hidden',
+            showHomepageHighlight ? 'h-[119px]' : 'h-10',
             headerToneClass
           )}
         >
+          {showHomepageHighlight ? (
+            <HomepageHighlightCard data={homepageHighlight} />
+          ) : null}
+
           <a
             href={ROUTES.home}
-            className="absolute top-1/2 left-3 -translate-y-1/2 inline-flex cursor-pointer items-center gap-1 transition-opacity hover:opacity-70"
+            className={clsx(
+              'absolute left-3 inline-flex cursor-pointer items-center transition-opacity hover:opacity-70',
+              showHomepageHighlight
+                ? 'text-eyebrow top-[99px] -translate-y-1/2 border-b border-current/50 pb-0.5 font-semibold uppercase'
+                : 'top-1/2 -translate-y-1/2 gap-1'
+            )}
           >
-            <span className="sr-only">{closedBar.brandLabel}</span>
-            <LambdaGlyph />
-            <LogosWordmark className="translate-y-[1px]" />
+            {showHomepageHighlight ? (
+              closedBar.brandLabel
+            ) : (
+              <>
+                <span className="sr-only">{closedBar.brandLabel}</span>
+                <LambdaGlyph />
+                <LogosWordmark className="translate-y-[1px]" />
+              </>
+            )}
           </a>
 
           <button
@@ -143,10 +227,19 @@ export default function SiteHeaderClient({
             onClick={open}
             aria-expanded={isOpen}
             aria-label={closedBar.openAriaLabel}
-            className="text-eyebrow absolute top-1/2 left-[calc(50%+6px)] -translate-y-1/2 font-semibold inline-flex cursor-pointer items-center gap-1.5 transition-opacity hover:opacity-70"
+            className={clsx(
+              'text-eyebrow absolute left-[calc(50%+6px)] inline-flex cursor-pointer items-center gap-1.5 font-semibold transition-opacity hover:opacity-70',
+              showHomepageHighlight
+                ? 'top-[99px] -translate-y-1/2'
+                : 'top-1/2 -translate-y-1/2'
+            )}
           >
             {closedBar.menuLabel} <HamburgerIcon />
           </button>
+
+          {showHomepageHighlight ? (
+            <LambdaGlyph className="absolute top-[99px] right-3 -translate-y-1/2" />
+          ) : null}
         </div>
 
         <div
@@ -155,6 +248,10 @@ export default function SiteHeaderClient({
             headerToneClass
           )}
         >
+          {showHomepageHighlight ? (
+            <HomepageHighlightCard data={homepageHighlight} />
+          ) : null}
+
           <a
             href={ROUTES.home}
             className="absolute top-1/2 left-3 -translate-y-1/2 inline-flex cursor-pointer items-center gap-1 transition-opacity hover:opacity-70"

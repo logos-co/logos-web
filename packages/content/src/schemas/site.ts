@@ -14,6 +14,14 @@ export const navLinkSchema = z.object({
 })
 export type NavLink = z.infer<typeof navLinkSchema>
 
+export const homepageHighlightSchema = z.object({
+  enabled: z.boolean(),
+  body: z.string().min(1),
+  cta: navLinkSchema,
+  image: mediaRefSchema,
+})
+export type HomepageHighlight = z.infer<typeof homepageHighlightSchema>
+
 export const footerLinkSchema = z.object({
   label: z.string().min(1),
   href: linkHrefSchema,
@@ -83,6 +91,7 @@ export const navigationSchema = z.object({
   sitemap: z.array(navLinkSchema).min(1),
   topLinks: z.array(navLinkSchema).default([]),
   primaryCta: navLinkSchema.optional(),
+  homepageHighlight: homepageHighlightSchema.optional(),
   resources: navSectionSchema.optional(),
   exploreSections: z.array(navCardSectionSchema).default([]),
   menuPanels: z.array(navMenuPanelSchema).default([]),
