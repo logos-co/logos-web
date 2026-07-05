@@ -4,7 +4,7 @@ import { getLegalDoc } from './legal-content'
 
 describe('getLegalDoc', () => {
   it('loads the testnet FAQ document with frontmatter and body', () => {
-    const doc = getLegalDoc('testnet-v01-faqs')
+    const doc = getLegalDoc('testnet-faqs')
 
     // Wording can change; only guard the structure: a "| Logos" title,
     // a non-empty heading/description, and a markdown body with headings.
