@@ -14,10 +14,10 @@ This Privacy Policy is intended to inform users of our approach to privacy in re
 
 For the purposes of this Privacy Policy and the collection and processing of personal data as a controller, the relevant entity is the Logos Collective Association, which has its registered office in Zug and its legal domicile address at
 
-Logos Collective Association<br />
-c/o PST Consulting GmbH<br />
-Baarerstrasse 10<br />
-6300 Zug<br />
+Logos Collective Association\
+c/o PST Consulting GmbH\
+Baarerstrasse 10\
+6300 Zug\
 Switzerland
 
 Whenever we refer to “Logos”, “we” or other similar references, we are referring to the Logos Collective Association.
