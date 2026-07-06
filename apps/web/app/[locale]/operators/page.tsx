@@ -34,7 +34,7 @@ export default async function OperatorsPage({ params }: OperatorsPageProps) {
 
   return (
     <main className="bg-brand-off-white text-brand-dark-green">
-      <section className="border-y border-brand-dark-green/15 bg-brand-yellow py-24 md:py-32">
+      <section className="border-y border-brand-dark-green/15 bg-gray-01 py-24 md:py-32">
         <ContentWidth>
           <div className="mx-auto grid max-w-[1020px] gap-12 md:grid-cols-12 md:gap-3">
             <div className="flex items-start gap-3 md:col-span-3">
