@@ -51,11 +51,11 @@ const communityIdeasHref = 'https://github.com/logos-co/ideas'
 const livingWithinTruthHref = 'https://www.youtube.com/watch?v=xy4uK20lFBQ'
 const logosGenealogyHref = 'https://blog.logos.co/article/a-genealogy-of-logos'
 const basecampReleaseHref =
-  'https://github.com/logos-co/logos-basecamp/releases/tag/0.1.2'
+  'https://github.com/logos-co/logos-basecamp/releases/tag/0.2.1'
 const basecampLinuxDownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.1.2/LogosBasecamp-Desktop-v0.1.2-2576ef-aarch64.AppImage'
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.2.1/LogosBasecamp-Desktop-v0.2.1-8a36a8-aarch64.AppImage'
 const basecampMacDownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.1.2/LogosBasecamp-Desktop-v0.1.2-2576ef-aarch64.dmg'
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.2.1/LogosBasecamp-Desktop-v0.2.1-8a36a8-aarch64.dmg'
 const runNodeCliDocsHref =
   'https://docs.logos.co/'
 const docsLabels = new Set(['docs', 'documentation', 'view the docs'])
@@ -367,7 +367,7 @@ describe('link policy', () => {
     ).toBe(basecampReleaseHref)
     expect(
       resolveBasecampInstallCtaHref({
-        label: 'Install testnet v0.1',
+        label: 'Install Testnet v0.2',
         href: ROUTES.buildersHub,
         iconOverride: 'download',
       })

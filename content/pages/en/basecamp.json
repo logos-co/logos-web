@@ -171,7 +171,7 @@
           "description": "Download the local launcher for apps built on Logos",
           "cta": {
             "label": "Install",
-            "href": "https://github.com/logos-co/logos-basecamp/releases/tag/0.1.2",
+            "href": "https://github.com/logos-co/logos-basecamp/releases/tag/0.2.1",
             "variant": "primary",
             "iconOverride": "download"
           }
