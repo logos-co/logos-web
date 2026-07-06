@@ -65,7 +65,7 @@ const DEFAULTS = {
     '**/__snapshots__/**',
     '**/*.generated.*',
   ],
-  guidelines_files: ['REVIEW.md', 'CLAUDE.md', 'CONTRIBUTING.md'],
+  guidelines_files: ['AGENTS.md', 'REVIEW.md', 'CONTRIBUTING.md'],
 }
 
 function loadConfig() {
@@ -196,12 +196,47 @@ async function getDiff() {
     budget -= cost
     chunks.push(chunk)
   }
-  return { diff: chunks.join('\n'), fileCount: kept.length, skipped, truncated }
+  return {
+    diff: chunks.join('\n'),
+    files: kept.map((f) => f.filename),
+    fileCount: kept.length,
+    skipped,
+    truncated,
+  }
 }
 
-function loadGuidelines() {
-  for (const f of cfg.guidelines_files) {
-    if (existsSync(f)) return readFileSync(f, 'utf8').slice(0, 20_000)
+// Collect the repo-root AGENTS.md plus any AGENTS.md sitting in a directory the
+// diff touches — in a monorepo each app/package can carry its own instructions.
+function collectAgentsFiles(changedFiles) {
+  const found = new Set()
+  if (existsSync('AGENTS.md')) found.add('AGENTS.md')
+  for (const file of changedFiles) {
+    const segs = file.split('/')
+    for (let i = 1; i < segs.length; i++) {
+      const candidate = `${segs.slice(0, i).join('/')}/AGENTS.md`
+      if (existsSync(candidate)) found.add(candidate)
+    }
+  }
+  // Root first, then deeper paths — deterministic ordering.
+  return [...found].sort(
+    (a, b) => a.split('/').length - b.split('/').length || a.localeCompare(b)
+  )
+}
+
+function loadGuidelines(changedFiles = []) {
+  // Honour the configured priority list: the first entry that yields content wins.
+  // AGENTS.md is special-cased to gather every relevant file, not just the root one.
+  for (const name of cfg.guidelines_files) {
+    if (name === 'AGENTS.md') {
+      const files = collectAgentsFiles(changedFiles)
+      if (files.length)
+        return files
+          .map((f) => `--- ${f} ---\n${readFileSync(f, 'utf8')}`)
+          .join('\n\n')
+          .slice(0, 20_000)
+    } else if (existsSync(name)) {
+      return readFileSync(name, 'utf8').slice(0, 20_000)
+    }
   }
   return ''
 }
@@ -479,7 +514,7 @@ async function postReview(merged, meta) {
 
 // ------------------------------------------------------------------ main ---
 
-const { diff, fileCount, skipped, truncated } = await getDiff()
+const { diff, files, fileCount, skipped, truncated } = await getDiff()
 if (!diff.trim()) {
   await gh(`/repos/${OWNER}/${NAME}/issues/${PR_NUMBER}/comments`, {
     method: 'POST',
@@ -494,7 +529,7 @@ console.log(
   `Reviewing ${fileCount} files (~${approxTokens(diff)} tokens, ${skipped} skipped, truncated=${truncated})`
 )
 
-const guidelines = loadGuidelines()
+const guidelines = loadGuidelines(files)
 
 // Both reviewers in parallel; if ONE provider is down, degrade to a single-model review
 const [a, b] = await Promise.allSettled([
