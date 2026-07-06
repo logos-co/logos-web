@@ -58,7 +58,7 @@ export function OperatorsLegalTabs({
                 role="tab"
                 aria-controls={tab.panelId}
                 aria-selected={isActive}
-                className={`text-eyebrow cursor-pointer border-b px-0 py-3 transition-opacity hover:opacity-70 ${
+                className={`cursor-pointer border-b px-0 py-3 font-mono text-[14px] leading-[1.7] uppercase transition-opacity hover:opacity-70 md:text-[15px] ${
                   isActive
                     ? 'border-brand-dark-green text-brand-dark-green'
                     : 'border-transparent text-brand-dark-green/55'
