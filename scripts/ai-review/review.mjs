@@ -135,14 +135,33 @@ const isIgnored = (f) => ignoreRes.some((re) => re.test(f))
 const approxTokens = (s) => Math.ceil(s.length / 4)
 
 // --- cost telemetry (pilot): prices in $/MTok, printed to the Actions log ---
+// Keep this in sync with the models referenced in .github/ai-review.yml and the
+// DEFAULTS above (anthropic_model / openai_model / synth_model).
 const PRICES = {
+  'claude-opus-4-8': { in: 5, out: 25 },
   'claude-sonnet-5': { in: 3, out: 15 },
   'claude-haiku-4-5-20251001': { in: 1, out: 5 },
   'gpt-5.3-codex': { in: 1.75, out: 14 },
+  'gpt-5.4-2026-03-05': { in: 2.5, out: 15 },
 }
 let totalCost = 0
+const unpricedModels = new Set()
 function logUsage(label, model, inTok, outTok) {
-  const p = PRICES[model] ?? { in: 0, out: 0 }
+  const p = PRICES[model]
+  if (!p) {
+    // No price configured — the cost estimate below excludes this model.
+    if (!unpricedModels.has(model)) {
+      unpricedModels.add(model)
+      console.warn(
+        `[cost] ⚠️  No price configured for model "${model}". Its usage is excluded ` +
+          `from the total estimate — add it to PRICES in scripts/ai-review/review.mjs.`
+      )
+    }
+    console.log(
+      `[cost] ${label} (${model}): ${inTok} in / ${outTok} out ≈ $? (price unknown)`
+    )
+    return
+  }
   const cost = (inTok * p.in + outTok * p.out) / 1e6
   totalCost += cost
   console.log(
@@ -493,4 +512,9 @@ if (GITHUB_OUTPUT)
 console.log(
   `Done: ${merged.issues.length} merged issues, ${criticals.length} critical.`
 )
-console.log(`[cost] TOTAL for this review ≈ $${totalCost.toFixed(4)}`)
+console.log(
+  `[cost] TOTAL for this review ≈ $${totalCost.toFixed(4)}` +
+    (unpricedModels.size
+      ? ` (excludes unpriced model(s): ${[...unpricedModels].join(', ')})`
+      : '')
+)
