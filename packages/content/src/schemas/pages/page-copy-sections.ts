@@ -346,6 +346,16 @@ export const operatorsCopySectionSchema = z.object({
     title: z.string().min(1),
     body: z.string().min(1),
   }),
+  documents: z.object({
+    terms: z.object({
+      label: z.string().min(1),
+      slug: z.string().min(1),
+    }),
+    privacy: z.object({
+      label: z.string().min(1),
+      slug: z.string().min(1),
+    }),
+  }),
 })
 export type OperatorsCopySection = z.infer<typeof operatorsCopySectionSchema>
 
