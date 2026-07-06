@@ -14,6 +14,7 @@ import {
   AFFORM_NAME,
   AFFORM_OPTIONS,
 } from '@/lib/civicrm/afform-activist-builder'
+import { withHearAboutField } from '@/lib/civicrm/hear-about-field'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 
@@ -53,7 +54,7 @@ export default async function ActivistBuilderPage({
       }
     >
       <ConnectFormSection
-        afform={AFFORM}
+        afform={withHearAboutField(AFFORM)}
         afformOptions={AFFORM_OPTIONS}
         apiEndpoint={getAfformSubmitApiUrl()}
         pagePrivacy={copy.privacy}
