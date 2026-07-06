@@ -331,28 +331,25 @@ async function claudeReview(diff, guidelines) {
 }
 
 async function codexReview(diff, guidelines) {
-  const res = await fetch(
-    `${API.openai.baseUrl}${API.openai.responsesPath}`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: cfg.openai_model,
-        max_output_tokens: 4000,
-        input: [
-          {
-            role: 'system',
-            content:
-              'You are a rigorous senior code reviewer. You output only valid JSON.',
-          },
-          { role: 'user', content: reviewPrompt(diff, guidelines) },
-        ],
-      }),
-    }
-  )
+  const res = await fetch(`${API.openai.baseUrl}${API.openai.responsesPath}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: cfg.openai_model,
+      max_output_tokens: 4000,
+      input: [
+        {
+          role: 'system',
+          content:
+            'You are a rigorous senior code reviewer. You output only valid JSON.',
+        },
+        { role: 'user', content: reviewPrompt(diff, guidelines) },
+      ],
+    }),
+  })
   if (!res.ok) throw new Error(`OpenAI ${res.status}: ${await res.text()}`)
   const data = await res.json()
   logUsage(
