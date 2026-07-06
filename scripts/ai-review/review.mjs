@@ -20,7 +20,11 @@ const {
   REPO,
   PR_NUMBER,
   GITHUB_OUTPUT,
+  SKIP_GUIDELINES,
 } = process.env
+
+// When truthy ("1", "true", "yes"), reviewers run without any guideline files.
+const skipGuidelines = /^(1|true|yes)$/i.test(SKIP_GUIDELINES ?? '')
 
 const [OWNER, NAME] = REPO.split('/')
 
@@ -224,6 +228,7 @@ function collectAgentsFiles(changedFiles) {
 }
 
 function loadGuidelines(changedFiles = []) {
+  if (skipGuidelines) return ''
   // Honour the configured priority list: the first entry that yields content wins.
   // AGENTS.md is special-cased to gather every relevant file, not just the root one.
   for (const name of cfg.guidelines_files) {
@@ -529,6 +534,8 @@ console.log(
   `Reviewing ${fileCount} files (~${approxTokens(diff)} tokens, ${skipped} skipped, truncated=${truncated})`
 )
 
+if (skipGuidelines)
+  console.log('Guideline files disabled via SKIP_GUIDELINES.')
 const guidelines = loadGuidelines(files)
 
 // Both reviewers in parallel; if ONE provider is down, degrade to a single-model review
