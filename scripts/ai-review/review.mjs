@@ -231,6 +231,15 @@ function reviewPrompt(diff, guidelines) {
   return `Review this pull request diff. Focus on problems INTRODUCED by the change:
 bugs, security issues, broken edge cases, races, incorrect logic, dangerous migrations.
 Do not comment on pre-existing code style. Do not restate the diff.
+
+Dependency versions: your training data has a knowledge cutoff and may be behind
+the latest releases. Do NOT flag a dependency version as wrong, invalid, or
+"does not exist", and do NOT suggest downgrading, just because the version in the
+diff is newer than the latest you are aware of — assume a version greater than
+what you know is a legitimate newer release. Only raise version issues you can
+justify from the diff itself: incoherence between package.json files in the same
+repo (e.g. the same dependency pinned to different versions across workspaces, or
+a version that contradicts a range/constraint declared elsewhere in the change).
 ${guidelines ? `\nTeam guidelines to respect:\n<guidelines>\n${guidelines}\n</guidelines>\n` : ''}
 <diff>
 ${diff}
