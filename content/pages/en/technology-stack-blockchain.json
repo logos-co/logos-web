@@ -69,7 +69,7 @@
       "key": "blockchain.privacy",
       "eyebrow": "Overview",
       "title": "Overview",
-      "description": "Logos Blockchain is a proof-of-stake layer-1 with privacy built into the consensus mechanism itself, rather than added at the application layer. Block proposers are anonymous and transactions are private by default. The chain supports application-specific execution environments called Sovereign Zones, which will be connected for interoperability.",
+      "description": "Logos Blockchain is a proof-of-stake layer-1 with privacy built into the consensus mechanism itself, rather than added at the application layer. Block proposers are anonymous and transactions can be made private. The chain supports application-specific execution environments called Sovereign Zones, which will be connected for interoperability.",
       "cta": {
         "label": "View the docs",
         "href": "https://docs.logos.co/",

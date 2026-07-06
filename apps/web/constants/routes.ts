@@ -116,11 +116,11 @@ export const EXTERNAL_URLS = {
     'https://blog.logos.co/article/a-genealogy-of-logos',
   lambdaPrizes: 'https://github.com/logos-co/lambda-prize/tree/master/prizes',
   basecampRelease:
-    'https://github.com/logos-co/logos-basecamp/releases/tag/0.1.2',
+    'https://github.com/logos-co/logos-basecamp/releases/tag/0.2.1',
   basecampLinuxDownload:
-    'https://github.com/logos-co/logos-basecamp/releases/download/0.1.2/LogosBasecamp-Desktop-v0.1.2-2576ef-aarch64.AppImage',
+    'https://github.com/logos-co/logos-basecamp/releases/download/0.2.1/LogosBasecamp-Desktop-v0.2.1-8a36a8-aarch64.AppImage',
   basecampMacDownload:
-    'https://github.com/logos-co/logos-basecamp/releases/download/0.1.2/LogosBasecamp-Desktop-v0.1.2-2576ef-aarch64.dmg',
+    'https://github.com/logos-co/logos-basecamp/releases/download/0.2.1/LogosBasecamp-Desktop-v0.2.1-8a36a8-aarch64.dmg',
 
   // Research
   vacp2p: 'https://vac.dev',
