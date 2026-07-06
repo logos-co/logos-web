@@ -79,7 +79,7 @@ export function OperatorsLegalTabs({
         >
           <LegalMarkdown
             body={activeDocument.body}
-            className="gap-5 font-mono text-[16px] leading-[1.75] md:text-[18px]"
+            className="gap-5 font-mono text-[14px] leading-[1.7] md:text-[15px] [&_h1]:text-[24px] [&_h1]:leading-[1.1] [&_h1]:md:text-[30px]"
           />
         </div>
       </div>

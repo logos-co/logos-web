@@ -18,10 +18,10 @@ If you do not agree with these Website Terms of Use, you must not access or use 
 
 For the purposes of these Website Terms of Use, the relevant entity is the Logos Collective Association, which has its registered office in Zug and its legal domicile address at:
 
-Logos Collective Association<br />
-c/o PST Consulting GmbH<br />
-Baarerstrasse 10<br />
-6300 Zug<br />
+Logos Collective Association\
+c/o PST Consulting GmbH\
+Baarerstrasse 10\
+6300 Zug\
 Switzerland
 
 Whenever we refer to “Logos”, “we”, “us” or any other similar references, we are referring to the Logos Collective Association.

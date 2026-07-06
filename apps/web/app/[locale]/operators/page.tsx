@@ -48,7 +48,7 @@ export default async function OperatorsPage({ params }: OperatorsPageProps) {
                 {data.banner.title}
               </p>
             </div>
-            <h1 className="font-display text-[30px] leading-none tracking-normal md:col-span-8 md:col-start-5 md:text-[36px]">
+            <h1 className="text-body-sans leading-[1.5] md:col-span-8 md:col-start-5 md:text-[16px]">
               {data.banner.body}
             </h1>
           </div>
