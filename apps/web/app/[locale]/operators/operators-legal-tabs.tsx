@@ -75,9 +75,12 @@ export function OperatorsLegalTabs({
           id={activePanelId}
           role="tabpanel"
           aria-labelledby={`${activeTab}-tab`}
-          className="max-w-[720px]"
+          className="max-w-[960px]"
         >
-          <LegalMarkdown body={activeDocument.body} />
+          <LegalMarkdown
+            body={activeDocument.body}
+            className="gap-5 font-mono text-[16px] leading-[1.75] md:text-[18px]"
+          />
         </div>
       </div>
     </section>

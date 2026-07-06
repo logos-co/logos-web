@@ -37,6 +37,27 @@ describe('getLegalDoc', () => {
     }
   })
 
+  it('keeps operator legal documents in renderable markdown structure', () => {
+    const terms = getLegalDoc('operators-terms-of-use')
+    const privacy = getLegalDoc('operators-privacy-policy')
+
+    expect(terms.body).toContain(
+      '# Logos Operators Dashboard - Website Terms of Use'
+    )
+    expect(terms.body).toContain('## 1. Who we are')
+    expect(terms.body).toContain('1. engage in, promote')
+    expect(terms.body).not.toContain('1) **Who we are**')
+
+    expect(privacy.body).toContain(
+      '# Logos Operators Dashboard - Website Privacy Policy'
+    )
+    expect(privacy.body).toContain('## 1. Who we are')
+    expect(privacy.body).toContain(
+      '1. Providing you with access to certain functionalities'
+    )
+    expect(privacy.body).not.toContain('1) ### **Who we are**')
+  })
+
   it('throws a descriptive error when the document is missing', () => {
     expect(() => getLegalDoc('does-not-exist')).toThrow(
       /failed to read legal document "does-not-exist"/

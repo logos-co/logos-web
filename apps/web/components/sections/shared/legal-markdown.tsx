@@ -1,6 +1,8 @@
 import Markdown, { type Components } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
+import { cn } from '@/lib/cn'
+
 /**
  * Renders markdown-managed legal / info documents (terms, privacy, security,
  * testnet FAQs) with the Logos docs typography. Each HTML element produced by
@@ -16,6 +18,11 @@ const isExternalHref = (href: string | undefined): boolean =>
   typeof href === 'string' && /^https?:\/\//.test(href)
 
 const components: Components = {
+  h1: ({ children }) => (
+    <h1 className="mb-2 w-full font-display text-[30px] leading-none tracking-normal text-brand-dark-green first:mt-0 md:text-[36px]">
+      {children}
+    </h1>
+  ),
   h2: ({ children }) => (
     <h2 className="text-h4-serif mt-6 w-full text-brand-dark-green first:mt-0">
       {children}
@@ -51,11 +58,17 @@ const components: Components = {
 interface LegalMarkdownProps {
   /** Raw markdown body (frontmatter already stripped by the loader). */
   body: string
+  className?: string
 }
 
-export function LegalMarkdown({ body }: LegalMarkdownProps) {
+export function LegalMarkdown({ body, className }: LegalMarkdownProps) {
   return (
-    <div className="text-mono-s flex w-full flex-col gap-4 text-brand-dark-green">
+    <div
+      className={cn(
+        'text-mono-s flex w-full flex-col gap-4 text-brand-dark-green',
+        className
+      )}
+    >
       <Markdown remarkPlugins={[remarkGfm]} components={components}>
         {body}
       </Markdown>
