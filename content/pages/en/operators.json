@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/operators",
+  "title": "Logos Operator programme | Logos",
+  "description": "An update on the closure of the Logos Operator programme after Epoch 3.",
+  "sections": [
+    {
+      "componentType": "operatorsCopy",
+      "key": "operators.copy",
+      "banner": {
+        "title": "Logos Operator programme",
+        "body": "Hey everyone. We're closing the Logos Operator programme as Epoch 3 has now ended. It started as an experiment and didn't work out the way we hoped, so rather than let it linger, we're winding it down and recognising the people who showed up and contributed. Thank you for your participation and enthusiasm."
+      }
+    }
+  ]
+}

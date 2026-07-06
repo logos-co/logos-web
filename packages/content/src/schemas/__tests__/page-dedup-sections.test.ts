@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 
-import { activistBuilderCopySectionSchema, activistLeaderStewardCopySectionSchema, bookCopySectionSchema, coalitionPartnerCopySectionSchema, getStartedCopySectionSchema, lambdaPrizeCopySectionSchema, movementCopySectionSchema, nodeProgrammeCopySectionSchema, pageSectionSchema, researchCopySectionSchema } from '../pages'
+import { activistBuilderCopySectionSchema, activistLeaderStewardCopySectionSchema, bookCopySectionSchema, coalitionPartnerCopySectionSchema, getStartedCopySectionSchema, lambdaPrizeCopySectionSchema, movementCopySectionSchema, nodeProgrammeCopySectionSchema, operatorsCopySectionSchema, pageSectionSchema, researchCopySectionSchema } from '../pages'
 
 test('getStartedCopy parses a minimal valid value and routes through the union', () => {
   const value = {
@@ -124,6 +124,19 @@ test('nodeProgrammeCopy parses a minimal valid value and routes through the unio
   }
   assert.equal(nodeProgrammeCopySectionSchema.parse(value).componentType, 'nodeProgrammeCopy')
   assert.equal(pageSectionSchema.parse(value).componentType, 'nodeProgrammeCopy')
+})
+
+test('operatorsCopy parses a minimal valid value and routes through the union', () => {
+  const value = {
+    componentType: 'operatorsCopy',
+    key: 'operators.copy',
+    banner: {
+      title: 'Logos Operator programme',
+      body: 'The operator programme is closing.',
+    },
+  }
+  assert.equal(operatorsCopySectionSchema.parse(value).componentType, 'operatorsCopy')
+  assert.equal(pageSectionSchema.parse(value).componentType, 'operatorsCopy')
 })
 
 test('lambdaPrizeCopy parses a minimal valid value and routes through the union', () => {
