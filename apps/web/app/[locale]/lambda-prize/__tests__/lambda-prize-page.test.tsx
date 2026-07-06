@@ -2,6 +2,7 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it, vi } from 'vitest'
 import type { LambdaPrizeCopySection } from '@repo/content/schemas'
+import lambdaPrizePage from '../../../../../../content/pages/en/lambda-prize.json' with { type: 'json' }
 
 vi.mock('@/components/layout/content-width', () => ({
   default: ({ children }: { children: React.ReactNode }) => createElement('div', null, children),
@@ -176,5 +177,30 @@ describe('LambdaPrizePage – support section driven from data', () => {
     expect(html).toContain('Connect')
     expect(html).not.toContain('<a ')
     expect(html).not.toContain('href=')
+  })
+
+  it('keeps production support actions linked to their intended destinations', () => {
+    const section = lambdaPrizePage.sections.find(
+      (candidate) => candidate.componentType === 'lambdaPrizeCopy'
+    )
+
+    expect(section?.support.rows).toEqual([
+      expect.objectContaining({
+        label: 'Sample Apps',
+        href: 'https://github.com/logos-co/eth-lez-atomic-swaps',
+      }),
+      expect.objectContaining({
+        label: 'Demos and Tutorials',
+        href: 'https://www.youtube.com/playlist?list=PLZe53tXAogqMdZSKhY316YKn3_tJ0RWZ7',
+      }),
+      expect.objectContaining({
+        label: 'Install Basecamp',
+        href: '/basecamp',
+      }),
+      expect.objectContaining({
+        label: 'Connect with Logos',
+        href: 'https://discord.gg/logosnetwork',
+      }),
+    ])
   })
 })

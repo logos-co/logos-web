@@ -127,22 +127,26 @@
           {
             "label": "Sample Apps",
             "body": "Explore reference applications that demonstrate common Logos workflows.",
-            "action": "View"
+            "action": "View",
+            "href": "https://github.com/logos-co/eth-lez-atomic-swaps"
           },
           {
             "label": "Demos and Tutorials",
             "body": "Follow practical walkthroughs for core stack concepts and integrations.",
-            "action": "View"
+            "action": "View",
+            "href": "https://www.youtube.com/playlist?list=PLZe53tXAogqMdZSKhY316YKn3_tJ0RWZ7"
           },
           {
             "label": "Install Basecamp",
             "body": "Set up Basecamp and start experimenting with bundled modules.",
-            "action": "Install"
+            "action": "Install",
+            "href": "/basecamp"
           },
           {
             "label": "Connect with Logos",
             "body": "Join the community channels for implementation support and feedback.",
-            "action": "Connect"
+            "action": "Connect",
+            "href": "https://discord.gg/logosnetwork"
           }
         ]
       }
