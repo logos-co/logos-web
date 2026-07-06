@@ -339,6 +339,16 @@ export type NodeProgrammeCopySection = z.infer<
   typeof nodeProgrammeCopySectionSchema
 >
 
+export const operatorsCopySectionSchema = z.object({
+  componentType: z.literal('operatorsCopy'),
+  key: sectionKeySchema,
+  banner: z.object({
+    title: z.string().min(1),
+    body: z.string().min(1),
+  }),
+})
+export type OperatorsCopySection = z.infer<typeof operatorsCopySectionSchema>
+
 const lambdaPrizeRowSchema = z.object({
   label: z.string().min(1),
   body: z.string().min(1),

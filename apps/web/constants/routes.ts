@@ -45,6 +45,7 @@ export const ROUTES = {
 
   // Node Programme
   nodeProgramme: '/node-programme',
+  operators: '/operators',
 
   // Movement / Top-level nav
   movement: '/movement',
