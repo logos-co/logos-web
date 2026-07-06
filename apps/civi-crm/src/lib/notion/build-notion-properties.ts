@@ -8,6 +8,8 @@ import {
   CHAT_SERVICE_MAP,
   COUNTRY_MAP,
   BU_MOVEMENT,
+  HEAR_ABOUT_MAP,
+  HEAR_ABOUT_QUESTION,
   MVMT_STATUS_NEW_LEAD,
   PROFILE_BY_FORM,
   SKILLS_MAP,
@@ -101,6 +103,11 @@ export function buildNotionProperties(
     .filter((v): v is string => v !== null)
   const chatStr = chatPairs.join(' | ')
 
+  // Only known option ids become a select value; anything else is dropped so
+  // tampered submissions cannot create new options on the Notion property.
+  const hearAboutId = toArray(data.hearAbout).map(trim).filter(Boolean)[0] ?? ''
+  const hearAbout = HEAR_ABOUT_MAP[hearAboutId]
+
   const profileName = getProfileName(formName)
 
   const properties: NotionPageProperties = {
@@ -133,6 +140,11 @@ export function buildNotionProperties(
     })
   if (chatStr) {
     properties['Phone or Social Handle'] = { phone_number: chatStr }
+  }
+  if (hearAbout) {
+    properties[HEAR_ABOUT_QUESTION] = {
+      select: { name: hearAbout },
+    }
   }
 
   const backgroundProp = optionalRichText(background)

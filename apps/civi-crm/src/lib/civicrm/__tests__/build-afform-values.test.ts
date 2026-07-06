@@ -32,6 +32,23 @@ describe('buildAfformValues', () => {
     expect(values.Case1).toBeUndefined()
   })
 
+  it('skips web-only field defs without a CiviCRM fieldName', () => {
+    const values = buildAfformValues({ name: 'Ada', hearAbout: '2' }, [
+      individualField,
+      {
+        entity: 'Individual1',
+        formKey: 'hearAbout',
+        fieldName: '',
+        join: null,
+        inputType: 'select',
+      },
+    ])
+
+    expect(values.Individual1).toEqual([
+      { fields: { first_name: 'Ada' }, joins: {} },
+    ])
+  })
+
   it('injects Case1 profile and lead source for activist builder', () => {
     const values = buildAfformValues(
       { name: 'Ada' },

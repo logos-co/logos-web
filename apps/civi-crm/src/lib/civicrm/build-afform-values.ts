@@ -56,7 +56,9 @@ export function buildAfformValues(
   const entities: Record<string, EntityBucket> = {}
 
   for (const fieldDef of fieldDefs) {
-    if (!fieldDef.formKey) continue
+    // Defs without a CiviCRM fieldName are web/Notion-only fields (e.g. the
+    // "How did you first hear about Logos?" select) and must not reach Afform.
+    if (!fieldDef.formKey || !fieldDef.fieldName) continue
     const entityKey = fieldDef.entity ?? DEFAULT_ENTITY
     const bucket = getEntityBucket(entities, entityKey)
     const { formKey, fieldName, join, inputType } = fieldDef

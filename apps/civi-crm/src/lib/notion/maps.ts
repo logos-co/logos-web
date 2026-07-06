@@ -31,6 +31,11 @@ export const CHAT_SERVICE_MAP: Record<string, string> = {
   '9': 'Other',
 }
 
+// Option ids of the web-only "How did you first hear about Logos?" field.
+// Shared with apps/web via @repo/funnel; the labels double as the select
+// options of the Notion property of the same name.
+export { HEAR_ABOUT_MAP, HEAR_ABOUT_QUESTION } from '@repo/funnel'
+
 export const PROFILE_BY_FORM: Partial<Record<AfformIntakeFormName, string>> = {
   afformCoalitionPartner: 'Coalition Partner',
   afformActivistBuilder: 'Activist Builder',
