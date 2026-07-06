@@ -58,7 +58,7 @@ export function OperatorsLegalTabs({
                 role="tab"
                 aria-controls={tab.panelId}
                 aria-selected={isActive}
-                className={`cursor-pointer border-b px-0 py-3 font-mono text-[14px] leading-[1.7] uppercase transition-opacity hover:opacity-70 md:text-[15px] ${
+                className={`cursor-pointer border-b px-0 py-3 font-mono text-[13px] leading-[1.7] uppercase transition-opacity hover:opacity-70 md:text-[14px] ${
                   isActive
                     ? 'border-brand-dark-green text-brand-dark-green'
                     : 'border-transparent text-brand-dark-green/55'
@@ -79,7 +79,7 @@ export function OperatorsLegalTabs({
         >
           <LegalMarkdown
             body={activeDocument.body}
-            className="gap-5 font-mono text-[14px] leading-[1.7] md:text-[15px] [&_h1]:text-[24px] [&_h1]:leading-[1.1] [&_h1]:md:text-[30px]"
+            className="gap-5 font-mono text-[13px] leading-[1.7] md:text-[14px] [&_h1]:text-[22px] [&_h1]:leading-[1.1] [&_h1]:md:text-[26px] [&_h2]:text-[20px] [&_h2]:leading-[1.15] [&_h2]:md:text-[22px]"
           />
         </div>
       </div>
