@@ -32,7 +32,7 @@ export default async function OperatorsPage({ params }: OperatorsPageProps) {
   const data = findSection<OperatorsCopySection>(
     page.sections,
     'operatorsCopy',
-    'operators.copy',
+    'operators.copy'
   )
   const terms = getLegalDoc(data.documents.terms.slug)
   const privacy = getLegalDoc(data.documents.privacy.slug)
@@ -43,10 +43,12 @@ export default async function OperatorsPage({ params }: OperatorsPageProps) {
         <ContentWidth>
           <div className="mx-auto grid max-w-[1020px] gap-12 md:grid-cols-12 md:gap-3">
             <div className="flex items-start gap-3 md:col-span-3">
-              <LogosMark size={12} />
-              <p className="text-mono-s">{data.banner.title}</p>
+              <LogosMark size={24} className="mt-0.5 shrink-0" />
+              <p className="font-mono text-[18px] leading-[1.35] md:text-[22px]">
+                {data.banner.title}
+              </p>
             </div>
-            <h1 className="text-h3 md:col-span-8 md:col-start-5">
+            <h1 className="font-display text-[30px] leading-none tracking-normal md:col-span-8 md:col-start-5 md:text-[36px]">
               {data.banner.body}
             </h1>
           </div>
