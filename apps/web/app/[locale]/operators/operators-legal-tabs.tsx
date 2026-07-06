@@ -44,7 +44,7 @@ export function OperatorsLegalTabs({
         <div
           role="tablist"
           aria-label="Operators legal documents"
-          className="flex flex-wrap gap-2 border-b border-brand-dark-green/15"
+          className="flex flex-wrap gap-6 border-b border-brand-dark-green/15 md:gap-8"
         >
           {tabs.map((tab) => {
             const isActive = activeTab === tab.key
