@@ -6,6 +6,7 @@ import {
   isCiviCrmIntakeSubmitEnabled,
   isNotionIntakeSubmitEnabled,
 } from '@/lib/intake-submit-flags'
+import { resolveHearAboutLabel } from '@/lib/notion/build-notion-properties'
 import { submitToNotion } from '@/lib/notion/submit'
 
 const HCAPTCHA_SECRET = process.env.HCAPTCHA_SECRET ?? ''
@@ -18,6 +19,19 @@ const ALLOWED_FORMS = new Set([
 ])
 
 const NOTION_FORMS = new Set([
+  'afformActivistBuilder',
+  'afformActivistLeaderSteward',
+  'afformCoalitionPartner',
+])
+
+// The three funnel forms render the required "How did you first hear about
+// Logos?" select (apps/web `withHearAboutField`). It is a web/Notion-only field
+// with no CiviCRM fieldName, so it never appears in `fields[]` and can't be
+// derived from the request -- the required forms must be hardcoded. Kept
+// separate from NOTION_FORMS so "requires the field" stays decoupled from
+// "sends to Notion", and enforced regardless of the Notion enable flag so the
+// requirement can't silently lapse when Notion submission is toggled off.
+const HEAR_ABOUT_FORMS = new Set([
   'afformActivistBuilder',
   'afformActivistLeaderSteward',
   'afformCoalitionPartner',
@@ -81,6 +95,15 @@ export async function POST(req: NextRequest) {
 
   if (!fieldDefs || !Array.isArray(fieldDefs)) {
     return jsonResponse({ error: 'Missing field definitions' }, 400)
+  }
+
+  // The "hear about" select is required on the funnel forms. Enforce it here
+  // rather than trusting the client: reject unless the submitted value resolves
+  // to a known option id (the same predicate the Notion builder uses to write
+  // it), so a scripted or tampered submission cannot skip the field or slip an
+  // unknown value that the builder would silently drop.
+  if (HEAR_ABOUT_FORMS.has(formName) && !resolveHearAboutLabel(formData)) {
+    return jsonResponse({ error: 'Invalid or missing hear-about answer' }, 400)
   }
 
   if (HCAPTCHA_SECRET) {
