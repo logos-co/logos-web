@@ -55,12 +55,91 @@ type GithubContentEntry = {
   name: string
   download_url: string | null
   html_url: string | null
+  git_url?: string | null
 }
 
 const isContentEntry = (value: unknown): value is GithubContentEntry =>
   typeof value === 'object' &&
   value !== null &&
   typeof (value as GithubContentEntry).name === 'string'
+
+type GithubBlobResponse = {
+  content?: string
+  encoding?: string
+}
+
+const fetchTextWithRetry = async (
+  url: string,
+  headers: Readonly<Record<string, string>>,
+  attempts = 3
+): Promise<string | null> => {
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const res = await fetch(url, { headers })
+      if (res.ok) return await res.text()
+      if (attempt === attempts) return null
+    } catch {
+      if (attempt === attempts) return null
+    }
+  }
+  return null
+}
+
+const fetchGithubBlob = async (
+  url: string,
+  headers: Readonly<Record<string, string>>
+): Promise<string | null> => {
+  try {
+    const res = await fetch(url, { headers })
+    if (!res.ok) return null
+    const body = (await res.json()) as GithubBlobResponse
+    if (body.encoding !== 'base64' || typeof body.content !== 'string') {
+      return null
+    }
+    return Buffer.from(body.content.replace(/\s/g, ''), 'base64').toString(
+      'utf8'
+    )
+  } catch {
+    return null
+  }
+}
+
+const rawUrlFromHtmlUrl = (htmlUrl: string | null): string | null => {
+  if (!htmlUrl) return null
+  try {
+    const url = new URL(htmlUrl)
+    if (url.hostname !== 'github.com') return null
+    url.hostname = 'raw.githubusercontent.com'
+    url.pathname = url.pathname.replace('/blob/', '/')
+    return url.href
+  } catch {
+    return null
+  }
+}
+
+const fetchRfpMarkdownEntry = async (
+  entry: GithubContentEntry
+): Promise<string | null> => {
+  const headers = githubHeaders()
+  if (entry.download_url) {
+    const raw = await fetchTextWithRetry(entry.download_url, headers)
+    if (raw) return raw
+  }
+
+  const rawUrl = rawUrlFromHtmlUrl(entry.html_url)
+  if (rawUrl && rawUrl !== entry.download_url) {
+    const raw = await fetchTextWithRetry(rawUrl, headers)
+    if (raw) return raw
+  }
+
+  if (entry.git_url) {
+    return fetchGithubBlob(entry.git_url, headers)
+  }
+
+  return null
+}
+
+export const fetchRfpMarkdownEntryForTest = fetchRfpMarkdownEntry
 
 /** `RFP-001-admin-authority-lib.md` → `admin-authority-lib`. */
 const toSlug = (filename: string, fallback: string): string => {
@@ -262,14 +341,11 @@ export const fetchGithubRfps = cache(async (): Promise<GithubRfp[]> => {
   const parsed = await Promise.all(
     mdFiles.map(async (entry): Promise<GithubRfp | null> => {
       try {
-        const res = await fetch(entry.download_url as string, {
-          headers: githubHeaders(),
-        })
-        if (!res.ok) {
-          console.error(`Failed to fetch ${entry.name}: ${res.status}`)
+        const raw = await fetchRfpMarkdownEntry(entry)
+        if (!raw) {
+          console.error(`Failed to fetch ${entry.name}`)
           return null
         }
-        const raw = await res.text()
         return parseRfpMarkdown(raw, entry.name, entry.html_url ?? RFP_REPO_URL)
       } catch (error) {
         console.error(`Failed to fetch ${entry.name}:`, error)

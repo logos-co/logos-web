@@ -135,7 +135,12 @@
       "networkingTitle": "Networking: Discovery, peering, and mixnet",
       "networkingDescription": "This layer handles how Logos nodes find each other, establish connections, and communicate while preserving user privacy.",
       "foundationTitle": "Logos runtime",
-      "foundationDescription": "A runtime that handles the essential primitives every application needs: loading modules, managing their lifecycles, and letting them talk directly to each other in a secure way."
+      "foundationDescription": "A runtime that handles the essential primitives every application needs: loading modules, managing their lifecycles, and letting them talk directly to each other in a secure way.",
+      "explorer": {
+        "titleLine1": "Explore the Logos",
+        "titleLine2": "Technology Stack.",
+        "body": "The Logos technology stack is a unified ecosystem of distinct modules. The entire stack is modular so developers can assemble their own desired stack with a different selection of modules."
+      }
     },
     {
       "componentType": "giantSwitch",

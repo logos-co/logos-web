@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/coalition-partner",
+  "title": "Coalition Partner | Logos",
+  "description": "Partner with Logos if you're building aligned organisations, networks, or community infrastructure.",
+  "sections": [
+    {
+      "componentType": "coalitionPartnerCopy",
+      "key": "coalitionPartner.copy",
+      "heading": "Coalition Partner",
+      "intro": "If you're already building something in your community, ecosystem, or area of focus, we'd love to hear from you. We're looking for aligned organisations, networks, and projects creating practical alternatives around civic life, education, governance, local resilience, technology, media, mutual aid, or community infrastructure.\n\nLet us know how we can reach you, what you're building, and where you see potential to collaborate. Not every field is required, but more context helps us understand the fit. We'll review your submission and be in touch.",
+      "privacy": "We respect your privacy. By clicking 'Submit', you consent to our processing of your personal data as described above and in our Privacy Policy .",
+      "privacyLink": "https://logos.co/privacy-policy"
+    }
+  ]
+}

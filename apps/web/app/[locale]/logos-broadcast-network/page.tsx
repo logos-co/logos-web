@@ -1,29 +1,19 @@
-import { getTranslations } from 'next-intl/server'
+import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
+import type { BroadcastCopySection } from '@repo/content/schemas'
 
 import { ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/lib/metadata'
+import { createPageMetadata } from '@/lib/page-metadata'
+import { createSectionFinder } from '@/lib/page-sections'
 import { getBroadcastEvents, getLatestBlogPodcasts } from '@/lib/blog-engine'
 
 import { BroadcastNetworkPage } from './_sections/broadcast-network-page'
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-  const t = await getTranslations({
-    locale,
-    namespace: 'pages.logosBroadcastNetwork',
-  })
-  return createDefaultMetadata({
-    title: t('title'),
-    description: t('description'),
-    locale,
-    path: ROUTES.logosBroadcastNetwork,
-  })
-}
+const ROUTE = ROUTES.logosBroadcastNetwork
+
+const findSection = createSectionFinder('logos-broadcast-network')
+
+export const generateMetadata = createPageMetadata(ROUTE)
 
 export default async function LogosBroadcastNetworkPage({
   params,
@@ -37,11 +27,8 @@ export default async function LogosBroadcastNetworkPage({
     )
   }
 
-  const [t, podcasts, events] = await Promise.all([
-    getTranslations({
-      locale,
-      namespace: 'pages.logosBroadcastNetwork',
-    }),
+  const [page, podcasts, events] = await Promise.all([
+    getPageCopy(ROUTE, locale),
     getLatestBlogPodcasts(20),
     getBroadcastEvents(),
   ])
@@ -52,23 +39,29 @@ export default async function LogosBroadcastNetworkPage({
     )
   }
 
+  const data = findSection<BroadcastCopySection>(
+    page.sections,
+    'broadcastCopy',
+    'logosBroadcastNetwork.copy',
+  )
+
   return (
     <BroadcastNetworkPage
       podcasts={podcasts}
       events={events}
       copy={{
-        title: t('heading'),
-        introPrimary: t('intro.primary'),
-        introSecondary: t('intro.secondary'),
-        eventFallbackDescription: t('events.fallbackDescription'),
-        eventHost: t('events.host'),
-        eventNextShow: t('events.nextShow'),
-        upcomingEvents: t('events.heading'),
-        calendarYearLabel: t('events.yearLabel'),
-        calendarMonthLabel: t('events.monthLabel'),
-        calendarTodayLabel: t('events.todayLabel'),
-        pastEpisodes: t('pastEpisodes.heading'),
-        listenOnApp: t('listenOnApp'),
+        title: data.heading,
+        introPrimary: data.intro.primary,
+        introSecondary: data.intro.secondary,
+        eventFallbackDescription: data.events.fallbackDescription,
+        eventHost: data.events.host,
+        eventNextShow: data.events.nextShow,
+        upcomingEvents: data.events.heading,
+        calendarYearLabel: data.events.yearLabel,
+        calendarMonthLabel: data.events.monthLabel,
+        calendarTodayLabel: data.events.todayLabel,
+        pastEpisodes: data.pastEpisodes.heading,
+        listenOnApp: data.listenOnApp,
       }}
     />
   )

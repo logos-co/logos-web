@@ -17,6 +17,7 @@ export interface PrizeCopy {
 
 export interface SupportRowCopy extends RowCopy {
   action: string
+  href?: string
 }
 
 export interface LambdaPrizePageCopy {
@@ -56,6 +57,7 @@ export interface LambdaPrizePageCopy {
     heading: string
     body: string
     cta: string
+    ctaHref?: string
     rows: SupportRowCopy[]
   }
 }

@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server'
+import type { HomeDecideSection } from '@repo/content/schemas'
 
 import { StackCard } from '@/components/motion/stack-card'
 
@@ -10,9 +10,7 @@ function TabletLineBreak() {
   return <br className="hidden min-[768px]:block" />
 }
 
-export default async function DecideSection({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: 'home.decide' })
-
+export default function DecideSection({ data }: { data: HomeDecideSection }) {
   return (
     <StackCard
       rise={180}
@@ -21,26 +19,26 @@ export default async function DecideSection({ locale }: { locale: string }) {
       <div className="desktop:flex-row desktop:items-center desktop:justify-between desktop:gap-16 desktop:px-[131px] desktop:pt-[112px] desktop:pb-[224px] mx-auto flex max-w-[1440px] flex-col gap-10 px-3 pt-[88px] pb-[200px]">
         <div className="flex flex-col items-start gap-8 min-[768px]:max-[1439px]:items-center min-[768px]:max-[1439px]:text-center min-[1440px]:max-w-[510px] min-[1440px]:gap-12">
           <h2 className="w-full max-w-[510px] whitespace-pre-wrap font-display text-[40px] leading-none tracking-[-0.03em] [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] [word-break:break-word] min-[768px]:max-[1439px]:text-[48px] min-[1440px]:text-[56px]">
-            <span className="block">{t('headline')}</span>
+            <span className="block">{data.headline}</span>
             <span aria-hidden="true" className="block h-[1em]" />
             <span>
-              {t('headline2')}
+              {data.headline2}
               <TabletLineBreak />
               <span className="min-[768px]:hidden"> </span>
-              <span className="text-[#F5F5EF]">{t('headline3')}</span>
+              <span className="text-[#F5F5EF]">{data.headline3}</span>
             </span>
           </h2>
           <p className="w-full max-w-[510px] font-display text-[24px] leading-[1.1] tracking-[-0.24px] [word-break:normal] md:w-[510px]">
-            {t('bodyPart1')}
+            {data.bodyParts[0]}
             <DesktopLineBreak />
             <span className="min-[1440px]:hidden"> </span>
-            {t('bodyPart2')}
+            {data.bodyParts[1]}
             <DesktopLineBreak />
             <span className="min-[1440px]:hidden"> </span>
-            {t('bodyPart3')}
+            {data.bodyParts[2]}
             <DesktopLineBreak />
             <span className="min-[1440px]:hidden"> </span>
-            {t('bodyPart4')}
+            {data.bodyParts[3]}
           </p>
         </div>
 

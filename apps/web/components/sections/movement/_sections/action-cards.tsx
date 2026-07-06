@@ -1,12 +1,14 @@
 import Image from 'next/image'
+import type { MovementCopySection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 
 import { Cta, LambdaBadge, SectionHeader, movementImages } from './atoms'
-import type { Translate } from './types'
 
-export function ActionCardsSection({ t }: { t: Translate }) {
-  const cards = [
+type ActionKey = keyof MovementCopySection['actions']
+
+export function ActionCardsSection({ data }: { data: MovementCopySection }) {
+  const cards: { key: ActionKey; image: string; href: string }[] = [
     {
       key: 'activism',
       image: movementImages.activism,
@@ -29,12 +31,12 @@ export function ActionCardsSection({ t }: { t: Translate }) {
       <SectionHeader
         title={
           <>
-            {t('intro.titleLine1')}
+            {data.intro.titleLine1}
             <br />
-            {t('intro.titleLine2')}
+            {data.intro.titleLine2}
           </>
         }
-        description={t('intro.body')}
+        description={data.intro.body}
         className="pb-10 md:pt-6 md:pb-15"
         titleClassName="max-w-[244px]"
         descriptionClassName="md:col-span-4"
@@ -59,17 +61,17 @@ export function ActionCardsSection({ t }: { t: Translate }) {
                 <div className="flex items-center gap-1.5">
                   <LambdaBadge size={23} circle />
                   <h3 className="text-subhead-sans">
-                    {t(`actions.${card.key}.title`)}
+                    {data.actions[card.key].title}
                   </h3>
                 </div>
               </div>
               <p className="text-mono-s flex-1">
-                {t(`actions.${card.key}.body`)}
+                {data.actions[card.key].body}
               </p>
             </div>
             <Cta
               href={card.href}
-              label={t(`actions.${card.key}.cta`)}
+              label={data.actions[card.key].cta}
               tone="light"
               className="mx-1.5 mt-auto w-[calc(100%-12px)]"
             />

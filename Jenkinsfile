@@ -104,7 +104,6 @@ pipeline {
               "--build-arg NEXT_PUBLIC_SERVER_URL=https://${cmsDomain()} " +
               "--build-arg NEXT_PUBLIC_WEB_URL=https://${deployDomain()} " +
               "--build-arg NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=${NEXT_SERVER_ACTIONS_ENCRYPTION_KEY} " +
-              "--build-arg DEPLOYMENT_VERSION=${env.GIT_COMMIT} " +
               "-f ./apps/cms/Dockerfile ."
             )
           }

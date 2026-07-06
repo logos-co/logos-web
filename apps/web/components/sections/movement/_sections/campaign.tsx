@@ -1,13 +1,13 @@
 import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
+import type { MovementCopySection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 import { Cta, movementImages } from './atoms'
-import type { Translate } from './types'
 
-export function CampaignSection({ t }: { t: Translate }) {
+export function CampaignSection({ data }: { data: MovementCopySection }) {
   return (
     <section
       id="activist-circle"
@@ -17,28 +17,28 @@ export function CampaignSection({ t }: { t: Translate }) {
         <div className="flex min-h-[462px] flex-col justify-between p-3 md:min-h-[462px]">
           <div className="flex gap-22">
             <LogosMark size={7} />
-            <p className="text-eyebrow w-[185px]">{t('campaign.eyebrow')}</p>
+            <p className="text-eyebrow w-[185px]">{data.campaign.eyebrow}</p>
           </div>
           <div className="mx-auto flex max-w-[678px] flex-col items-center gap-10 text-center">
             <div className="flex max-w-[320px] flex-col items-center gap-6">
               <div className="flex flex-col items-center gap-3">
-                <p className="text-eyebrow">{t('campaign.kicker')}</p>
-                <h2 className="text-h3-sans">{t('campaign.title')}</h2>
+                <p className="text-eyebrow">{data.campaign.kicker}</p>
+                <h2 className="text-h3-sans">{data.campaign.title}</h2>
               </div>
               <p className="text-caption-sans font-medium">
-                {t('campaign.body')}
+                {data.campaign.body}
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-2">
-              <Cta href="#circles-map" label={t('campaign.primaryCta')} />
+              <Cta href="#circles-map" label={data.campaign.primaryCta} />
               <Cta
                 href={ROUTES.activistLeaderSteward}
-                label={t('campaign.secondaryCta')}
+                label={data.campaign.secondaryCta}
                 tone="secondary"
               />
               <Cta
                 href={EXTERNAL_URLS.discord}
-                label={t('campaign.tertiaryCta')}
+                label={data.campaign.tertiaryCta}
                 tone="tertiary"
               />
             </div>

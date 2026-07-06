@@ -15,9 +15,12 @@ export function TertiaryCta({
   children: string
   tone?: 'dark' | 'light'
 }) {
+  const isExternal = /^https?:\/\//.test(href)
+
   return (
     <Link
       href={href}
+      {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       className={`inline-flex cursor-pointer items-center gap-1 border-b pb-0.5 font-mono text-[10px] font-semibold uppercase leading-[1.35] ${
         tone === 'light'
           ? 'border-brand-off-white/50 text-brand-off-white'

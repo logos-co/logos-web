@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server'
+import type { HomeAboutSection } from '@repo/content/schemas'
 
 import { SectionHeadingReveal } from '@/components/motion/section-heading-reveal'
 import { StackCard } from '@/components/motion/stack-card'
@@ -6,63 +6,51 @@ import CivilSocietyAccordion, {
   type AccordionItem,
 } from './civil-society-accordion'
 
-export default async function AboutSection({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: 'home.about' })
+function createFactLinks(
+  factLinks: HomeAboutSection['problems']['debt']['factLinks']
+): AccordionItem['factLinks'] {
+  return Object.fromEntries(
+    (factLinks ?? []).map(({ index, label, href }) => [index, { label, href }])
+  )
+}
 
+export default function AboutSection({ data }: { data: HomeAboutSection }) {
   const items: AccordionItem[] = [
     {
       key: 'debt',
-      title: t('problems.debt.title'),
-      subtitle: t('problems.debt.subtitle'),
-      body: t('problems.debt.body'),
-      facts: [
-        t('problems.debt.fact1'),
-        t('problems.debt.fact2'),
-        t('problems.debt.fact3'),
-        t('problems.debt.fact4'),
-      ],
-      factLinks: {
-        1: {
-          label: '30% less wealth',
-          href: 'https://www.cam.ac.uk/research/news/boom-and-bust-millennials-arent-all-worse-off-than-baby-boomers-but-the-rich-poor-gap-is-widening',
-        },
-      },
+      title: data.problems.debt.title,
+      subtitle: data.problems.debt.subtitle,
+      body: data.problems.debt.body,
+      facts: data.problems.debt.facts,
+      factLinks: createFactLinks(data.problems.debt.factLinks),
       image: '/images/home/figma-refresh/problem-debt.webp',
     },
     {
       key: 'surveillance',
-      title: t('problems.surveillance.title'),
-      subtitle: t('problems.surveillance.subtitle'),
-      body: t('problems.surveillance.body'),
-      facts: [
-        t('problems.surveillance.fact1'),
-        t('problems.surveillance.fact2'),
-        t('problems.surveillance.fact3'),
-      ],
-      factLinks: {},
+      title: data.problems.surveillance.title,
+      subtitle: data.problems.surveillance.subtitle,
+      body: data.problems.surveillance.body,
+      facts: data.problems.surveillance.facts,
+      factLinks: createFactLinks(data.problems.surveillance.factLinks),
       image: '/images/home/figma-refresh/problem-surveillance.webp',
       imageClassName: 'object-[50%_42%]',
     },
     {
       key: 'corruption',
-      title: t('problems.corruption.title'),
-      subtitle: t('problems.corruption.subtitle'),
-      body: t('problems.corruption.body'),
-      facts: [
-        t('problems.corruption.fact1'),
-        t('problems.corruption.fact2'),
-        t('problems.corruption.fact3'),
-      ],
-      factLinks: {},
+      title: data.problems.corruption.title,
+      subtitle: data.problems.corruption.subtitle,
+      body: data.problems.corruption.body,
+      facts: data.problems.corruption.facts,
+      factLinks: createFactLinks(data.problems.corruption.factLinks),
       image: '/images/home/figma-refresh/problem-corruption.webp',
     },
     {
       key: 'stagnation',
-      title: t('problems.stagnation.title'),
-      subtitle: t('problems.stagnation.subtitle'),
-      body: t('problems.stagnation.body'),
-      facts: [t('problems.stagnation.fact1'), t('problems.stagnation.fact2')],
-      factLinks: {},
+      title: data.problems.stagnation.title,
+      subtitle: data.problems.stagnation.subtitle,
+      body: data.problems.stagnation.body,
+      facts: data.problems.stagnation.facts,
+      factLinks: createFactLinks(data.problems.stagnation.factLinks),
       image: '/images/home/figma-refresh/problem-stagnation.webp',
       imageClassName: 'object-[50%_45%]',
     },
@@ -77,8 +65,8 @@ export default async function AboutSection({ locale }: { locale: string }) {
     >
       <div className="mx-auto max-w-[1440px] px-3 pt-[112px] pb-[200px] lg:px-[130px] lg:pt-[112px] lg:pb-[291px]">
         <SectionHeadingReveal className="mx-auto max-w-[853px] whitespace-pre-line text-center font-display text-[24px] leading-none tracking-[-0.72px] desktop:text-[36px] desktop:tracking-[-0.03em]">
-          <span className="desktop:hidden">{t('headingMobile')}</span>
-          <span className="hidden desktop:inline">{t('heading')}</span>
+          <span className="desktop:hidden">{data.headingMobile}</span>
+          <span className="hidden desktop:inline">{data.heading}</span>
         </SectionHeadingReveal>
         <div className="mt-[112px] lg:mt-[74px]">
           <CivilSocietyAccordion items={items} />

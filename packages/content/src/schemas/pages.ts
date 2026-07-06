@@ -10,6 +10,82 @@ import {
   mediaRefSchema,
   schemaVersion,
 } from './common'
+import {
+  homeAboutSectionSchema,
+  homeBuilderPortalSectionSchema,
+  homeChoosePathSectionSchema,
+  homeDecideSectionSchema,
+  homeSocialProofSectionSchema,
+  homeStartBuildingSectionSchema,
+  homeUseCasesSectionSchema,
+} from './pages/home-sections'
+import {
+  activistBuilderCopySectionSchema,
+  activistLeaderStewardCopySectionSchema,
+  bookCopySectionSchema,
+  broadcastCopySectionSchema,
+  coalitionPartnerCopySectionSchema,
+  designGuideCopySectionSchema,
+  getStartedCopySectionSchema,
+  lambdaPrizeCopySectionSchema,
+  manifestoCopySectionSchema,
+  mediaCopySectionSchema,
+  movementCopySectionSchema,
+  nodeProgrammeCopySectionSchema,
+  podcastCopySectionSchema,
+  researchCopySectionSchema,
+} from './pages/page-copy-sections'
+import { sectionKeySchema } from './pages/shared'
+export type {
+  HomeAboutSection,
+  HomeBuilderPortalSection,
+  HomeChoosePathSection,
+  HomeDecideSection,
+  HomeSocialProofSection,
+  HomeStartBuildingSection,
+  HomeUseCasesSection,
+} from './pages/home-sections'
+export {
+  homeAboutSectionSchema,
+  homeBuilderPortalSectionSchema,
+  homeChoosePathSectionSchema,
+  homeDecideSectionSchema,
+  homeSocialProofSectionSchema,
+  homeStartBuildingSectionSchema,
+  homeUseCasesSectionSchema,
+} from './pages/home-sections'
+export type {
+  ActivistBuilderCopySection,
+  ActivistLeaderStewardCopySection,
+  BookCopySection,
+  BroadcastCopySection,
+  CoalitionPartnerCopySection,
+  DesignGuideCopySection,
+  GetStartedCopySection,
+  LambdaPrizeCopySection,
+  ManifestoCopySection,
+  MediaCopySection,
+  MovementCopySection,
+  NodeProgrammeCopySection,
+  PodcastCopySection,
+  ResearchCopySection,
+} from './pages/page-copy-sections'
+export {
+  activistBuilderCopySectionSchema,
+  activistLeaderStewardCopySectionSchema,
+  bookCopySectionSchema,
+  broadcastCopySectionSchema,
+  coalitionPartnerCopySectionSchema,
+  designGuideCopySectionSchema,
+  getStartedCopySectionSchema,
+  lambdaPrizeCopySectionSchema,
+  manifestoCopySectionSchema,
+  mediaCopySectionSchema,
+  movementCopySectionSchema,
+  nodeProgrammeCopySectionSchema,
+  podcastCopySectionSchema,
+  researchCopySectionSchema,
+} from './pages/page-copy-sections'
 
 /**
  * Internal-only route path. Pages are statically rendered under `/[locale]`,
@@ -20,13 +96,6 @@ const routePathSchema = z
   .string()
   .min(1)
   .refine((value) => value.startsWith('/'), 'route must start with "/"')
-
-/**
- * Section keys mirror Figma section keys (e.g. "home.atf", "home.techStack",
- * "buildersHub.heroSection"). The shape is intentionally permissive — design
- * naming evolves and a regex would just rot.
- */
-const sectionKeySchema = z.string().min(1)
 
 // ---------------------------------------------------------------------------
 // PageSeo
@@ -240,6 +309,12 @@ const techStackPillarSchema = z.object({
     .optional(),
 })
 
+const homeCtaLinkSchema = z.object({
+  label: z.string().min(1),
+  href: linkHrefSchema,
+  variant: z.enum(['primary', 'secondary']).optional(),
+})
+
 const techStackArchitectureSchema = z.object({
   eyebrow: z.string().min(1).optional(),
   title: z.string().min(1),
@@ -268,6 +343,8 @@ export const techStackOverviewSectionSchema = z.object({
   title: z.string().min(1).optional(),
   /** Optional section-level CTA (e.g. "See the Stack"). */
   cta: ctaSchema.optional(),
+  /** Optional explicit CTA list rendered by the home overview component. */
+  ctas: z.array(homeCtaLinkSchema).optional(),
   architecture: techStackArchitectureSchema.optional(),
   basecamp: techStackBasecampSchema.optional(),
   pillars: z.array(techStackPillarSchema).length(4),
@@ -275,6 +352,18 @@ export const techStackOverviewSectionSchema = z.object({
   networkingDescription: z.string().min(1).optional(),
   foundationTitle: z.string().min(1),
   foundationDescription: z.string().min(1).optional(),
+  /**
+   * Labels for the TechStackExplorer heading + body copy.
+   * Optional so existing techStackOverview consumers (home, basecamp,
+   * tech-stack detail pages) are unaffected.
+   */
+  explorer: z
+    .object({
+      titleLine1: z.string().min(1),
+      titleLine2: z.string().min(1),
+      body: z.string().min(1),
+    })
+    .optional(),
 })
 export type TechStackOverviewSection = z.infer<
   typeof techStackOverviewSectionSchema
@@ -283,9 +372,8 @@ export type TechStackOverviewSection = z.infer<
 /**
  * Marketing slogan / annotated-text section: a title with a highlighted
  * leading word (accent color), followed by an optional multi-paragraph body
- * and optional CTA. Common Logos design pattern that appears on the home
- * page (Mountain, Parallel Society headline) and the technology-stack page
- * (Modular by design.).
+ * and optional CTA. Common Logos design pattern that appears on pages such as
+ * the home Circles CTA and the technology-stack page (Modular by design.).
  *
  * The split between `highlight` and `rest` is data-driven rather than
  * derived by string matching so editors can change either independently
@@ -338,6 +426,27 @@ export const pageSectionSchema = z.discriminatedUnion('componentType', [
   gallerySectionSchema,
   techStackOverviewSectionSchema,
   featuredTextSectionSchema,
+  homeSocialProofSectionSchema,
+  homeChoosePathSectionSchema,
+  homeDecideSectionSchema,
+  homeStartBuildingSectionSchema,
+  homeAboutSectionSchema,
+  homeUseCasesSectionSchema,
+  homeBuilderPortalSectionSchema,
+  getStartedCopySectionSchema,
+  movementCopySectionSchema,
+  bookCopySectionSchema,
+  designGuideCopySectionSchema,
+  researchCopySectionSchema,
+  nodeProgrammeCopySectionSchema,
+  lambdaPrizeCopySectionSchema,
+  manifestoCopySectionSchema,
+  mediaCopySectionSchema,
+  podcastCopySectionSchema,
+  broadcastCopySectionSchema,
+  activistBuilderCopySectionSchema,
+  activistLeaderStewardCopySectionSchema,
+  coalitionPartnerCopySectionSchema,
   customSectionSchema,
 ])
 export type PageSection = z.infer<typeof pageSectionSchema>

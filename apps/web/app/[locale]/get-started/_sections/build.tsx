@@ -1,8 +1,10 @@
+import type { GetStartedCopySection } from '@repo/content/schemas'
+
 import ContentWidth from '@/components/layout/content-width'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 import { ActionLink, SectionHeading } from './atoms'
-import type { BuildItem, GetStartedTranslator } from './types'
+import type { BuildItem } from './types'
 
 const buildItems: readonly BuildItem[] = [
   { key: 'node', ctaKey: 'nodeCta', href: ROUTES.nodeProgramme, hasBody: true },
@@ -24,13 +26,13 @@ const buildItems: readonly BuildItem[] = [
   { key: 'scaffold', ctaKey: 'scaffoldCta', href: EXTERNAL_URLS.github },
 ] as const
 
-export function Build({ t }: { t: GetStartedTranslator }) {
+export function Build({ data }: { data: GetStartedCopySection['sections']['build'] }) {
   return (
     <section className="border-t border-brand-dark-green/10 pt-6 pb-25">
       <ContentWidth className="flex w-full flex-col gap-10">
         <SectionHeading
-          number={t('sections.build.number')}
-          heading={t('sections.build.heading')}
+          number={data.number}
+          heading={data.heading}
         />
         <div className="grid gap-3 md:grid-cols-3">
           {buildItems.map((item) => {
@@ -41,11 +43,11 @@ export function Build({ t }: { t: GetStartedTranslator }) {
               >
                 <div className="flex flex-col gap-3">
                   <h3 className="font-sans text-[24px] leading-[1.1] tracking-[-0.24px]">
-                    {t(`sections.build.items.${item.key}.title`)}
+                    {data.items[item.key].title}
                   </h3>
                   {'hasBody' in item && item.hasBody ? (
                     <p className="max-w-[329px] font-sans text-[14px] leading-[1.2]">
-                      {t(`sections.build.items.${item.key}.body`)}
+                      {data.items[item.key].body ?? ''}
                     </p>
                   ) : null}
                 </div>
@@ -54,7 +56,7 @@ export function Build({ t }: { t: GetStartedTranslator }) {
                   variant="primary"
                   className="w-fit self-start"
                 >
-                  {t(`sections.build.${item.ctaKey}`)}
+                  {data[item.ctaKey]}
                 </ActionLink>
               </article>
             )

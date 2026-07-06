@@ -322,11 +322,6 @@ export const AFFORM_FIELDS = [
   }
 ];
 
-export const AFFORM_PAGE_HEADING = "Coalition Partner";
-export const AFFORM_PAGE_INTRO = "If you're already building something in your community, ecosystem, or area of focus, we'd love to hear from you. We're looking for aligned organisations, networks, and projects creating practical alternatives around civic life, education, governance, local resilience, technology, media, mutual aid, or community infrastructure.\n\nLet us know how we can reach you, what you're building, and where you see potential to collaborate. Not every field is required, but more context helps us understand the fit. We'll review your submission and be in touch.";
-export const AFFORM_PAGE_PRIVACY = "We respect your privacy. By clicking 'Submit', you consent to our processing of your personal data as described above and in our Privacy Policy .";
-export const AFFORM_PAGE_PRIVACY_LINK = "https://logos.co/privacy-policy";
-
 export const AFFORM_OPTIONS = {
   "role": [
     {

@@ -1,6 +1,9 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { rewriteRfpMarkdownLinks } from '@/lib/rfps-github'
+import {
+  fetchRfpMarkdownEntryForTest,
+  rewriteRfpMarkdownLinks,
+} from '@/lib/rfps-github'
 
 const FILE_URL =
   'https://github.com/logos-co/rfp/blob/master/RFPs/RFP-016-lbp-launchpad.md'
@@ -45,5 +48,58 @@ describe('rewriteRfpMarkdownLinks', () => {
     const md = '![diagram](./images/flow.png)'
 
     expect(rewriteRfpMarkdownLinks(md, FILE_URL)).toBe(md)
+  })
+})
+
+describe('fetchRfpMarkdownEntryForTest', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('falls back from download_url to raw GitHub URL when the first fetch fails', async () => {
+    const fetchMock = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
+      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
+      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
+      .mockResolvedValueOnce(new Response('# RFP raw markdown', { status: 200 }))
+
+    const result = await fetchRfpMarkdownEntryForTest({
+      name: 'RFP-001-example.md',
+      download_url: 'https://objects.githubusercontent.com/RFP-001-example.md',
+      html_url:
+        'https://github.com/logos-co/rfp/blob/master/RFPs/RFP-001-example.md',
+      git_url: 'https://api.github.com/repos/logos-co/rfp/git/blobs/example',
+    })
+
+    expect(result).toBe('# RFP raw markdown')
+    expect(fetchMock).toHaveBeenCalledTimes(4)
+    expect(fetchMock.mock.calls[3]?.[0]).toBe(
+      'https://raw.githubusercontent.com/logos-co/rfp/master/RFPs/RFP-001-example.md'
+    )
+  })
+
+  it('decodes GitHub blob content when raw URL fetches fail', async () => {
+    const encoded = Buffer.from('# RFP blob markdown', 'utf8').toString('base64')
+    vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
+      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
+      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
+      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
+      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
+      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
+      .mockResolvedValueOnce(
+        Response.json({ content: encoded, encoding: 'base64' })
+      )
+
+    const result = await fetchRfpMarkdownEntryForTest({
+      name: 'RFP-002-example.md',
+      download_url: 'https://objects.githubusercontent.com/RFP-002-example.md',
+      html_url:
+        'https://github.com/logos-co/rfp/blob/master/RFPs/RFP-002-example.md',
+      git_url: 'https://api.github.com/repos/logos-co/rfp/git/blobs/example',
+    })
+
+    expect(result).toBe('# RFP blob markdown')
   })
 })

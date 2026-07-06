@@ -9,8 +9,6 @@ import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 
-import messages from '../../messages/en.json' with { type: 'json' }
-
 const locale = 'en'
 
 type SectionContract = {
@@ -30,13 +28,15 @@ const contracts: PageContract[] = [
     name: 'home',
     sections: [
       { componentType: 'hero', key: 'home.atf' },
+      { componentType: 'homeSocialProof', key: 'home.socialProof' },
+      { componentType: 'homeChoosePath', key: 'home.paths' },
+      { componentType: 'homeAbout', key: 'home.about' },
+      { componentType: 'homeDecide', key: 'home.decide' },
+      { componentType: 'homeUseCases', key: 'home.useCases' },
+      { componentType: 'homeBuilderPortal', key: 'home.builderPortal' },
       { componentType: 'techStackOverview', key: 'home.techStack' },
-      { componentType: 'cardGrid', key: 'home.useCases' },
-      { componentType: 'featuredText', key: 'home.parallelSocietyHeadline' },
-      { componentType: 'gallery', key: 'home.parallelSociety' },
-      { componentType: 'featuredText', key: 'home.mountain' },
+      { componentType: 'homeStartBuilding', key: 'home.startBuilding' },
       { componentType: 'relatedArticles', key: 'home.blog' },
-      { componentType: 'featuredText', key: 'home.circlesCta' },
     ],
   },
   {
@@ -94,6 +94,89 @@ const contracts: PageContract[] = [
       { componentType: 'relatedArticles', key: 'storage.relatedArticles' },
     ],
   },
+  {
+    route: ROUTES.getStarted,
+    name: 'get-started',
+    sections: [{ componentType: 'getStartedCopy', key: 'getStarted.copy' }],
+  },
+  {
+    route: ROUTES.movement,
+    name: 'movement',
+    sections: [{ componentType: 'movementCopy', key: 'movement.copy' }],
+  },
+  {
+    route: ROUTES.research,
+    name: 'research',
+    sections: [{ componentType: 'researchCopy', key: 'research.copy' }],
+  },
+  {
+    route: ROUTES.book,
+    name: 'book',
+    sections: [{ componentType: 'bookCopy', key: 'book.copy' }],
+  },
+  {
+    route: ROUTES.nodeProgramme,
+    name: 'node-programme',
+    sections: [
+      { componentType: 'nodeProgrammeCopy', key: 'nodeProgramme.copy' },
+    ],
+  },
+  {
+    route: ROUTES.lambdaPrize,
+    name: 'lambda-prize',
+    sections: [{ componentType: 'lambdaPrizeCopy', key: 'lambdaPrize.copy' }],
+  },
+  {
+    route: ROUTES.manifesto,
+    name: 'manifesto',
+    sections: [{ componentType: 'manifestoCopy', key: 'manifesto.copy' }],
+  },
+  {
+    route: ROUTES.media,
+    name: 'media',
+    sections: [{ componentType: 'mediaCopy', key: 'media.copy' }],
+  },
+  {
+    route: ROUTES.podcast,
+    name: 'podcast',
+    sections: [{ componentType: 'podcastCopy', key: 'podcast.copy' }],
+  },
+  {
+    route: ROUTES.logosBroadcastNetwork,
+    name: 'logos-broadcast-network',
+    sections: [
+      { componentType: 'broadcastCopy', key: 'logosBroadcastNetwork.copy' },
+    ],
+  },
+  {
+    route: ROUTES.activistBuilder,
+    name: 'activist-builder',
+    sections: [
+      { componentType: 'activistBuilderCopy', key: 'activistBuilder.copy' },
+    ],
+  },
+  {
+    route: ROUTES.activistLeaderSteward,
+    name: 'activist-leader-steward',
+    sections: [
+      {
+        componentType: 'activistLeaderStewardCopy',
+        key: 'activistLeaderSteward.copy',
+      },
+    ],
+  },
+  {
+    route: ROUTES.coalitionPartner,
+    name: 'coalition-partner',
+    sections: [
+      { componentType: 'coalitionPartnerCopy', key: 'coalitionPartner.copy' },
+    ],
+  },
+  {
+    route: ROUTES.designGuide,
+    name: 'design-guide',
+    sections: [{ componentType: 'designGuideCopy', key: 'designGuide.copy' }],
+  },
 ]
 
 describe('content-backed web route contracts', () => {
@@ -145,8 +228,15 @@ describe('content-backed web route contracts', () => {
     ])
   })
 
-  test('movement page builder highlight uses the Benin fundraising issue', () => {
-    const builder = messages.pages.movement.builder
+  test('movement page builder highlight uses the Benin fundraising issue', async () => {
+    const page = await getPageCopy(ROUTES.movement, locale)
+    const findSection = createSectionFinder('movement')
+    const section = findSection<{
+      componentType: string
+      key: string
+      builder: { feature: unknown; details: unknown }
+    }>(page.sections, 'movementCopy', 'movement.copy')
+    const { builder } = section
 
     expect(builder.feature).toEqual({
       city: 'Benin',
@@ -172,16 +262,32 @@ describe('content-backed web route contracts', () => {
     )
   })
 
-  test('design guide page uses the current asset download copy', () => {
-    expect(messages.pages.designGuide).toMatchObject({
+  test('design guide page uses the current asset download copy', async () => {
+    const page = await getPageCopy(ROUTES.designGuide, locale)
+    const findSection = createSectionFinder('design-guide')
+    const section = findSection(
+      page.sections,
+      'designGuideCopy',
+      'designGuide.copy'
+    )
+
+    expect(page).toMatchObject({
       description:
         'Design assets, guidelines, and resources for using the Logos visual identity. Logos is open by design, open in spirit. Here are some assets to guide you as you chart your own path.',
+    })
+    expect(section).toMatchObject({
       intro:
         'Design assets, guidelines, and resources for using the Logos visual identity. Logos is open by design, open in spirit. Here are some assets to guide you as you chart your own path.',
       downloads: {
-        brandMarksLabel: 'Download Marks',
+        brandMarks: {
+          label: 'Download Marks',
+          href: '/brand-kit/brand-marks.zip',
+        },
         guidelinesSection: 'Design Guide',
-        guidelinesLabel: 'Download Design Guide',
+        guidelines: {
+          label: 'Download Design Guide',
+          href: '/brand-kit/logos-brand-guidelines.pdf',
+        },
       },
     })
   })

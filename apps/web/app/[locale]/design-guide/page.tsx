@@ -1,15 +1,16 @@
-import { getTranslations } from 'next-intl/server'
+import { getPageCopy } from '@repo/content/loaders'
+import { isActiveLocale } from '@repo/content/locales'
+import type { DesignGuideCopySection } from '@repo/content/schemas'
 
 import { DocsPageShell } from '@/components/sections/shared/docs-page-shell'
 import { ROUTES } from '@/constants/routes'
-import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
+import { createPageMetadata } from '@/lib/page-metadata'
+import { createSectionFinder } from '@/lib/page-sections'
 
-const NAMESPACE = 'pages.designGuide'
+const ROUTE = ROUTES.designGuide
+const findSection = createSectionFinder('design-guide')
 
-export const generateMetadata = createTranslatedPageMetadata({
-  namespace: NAMESPACE,
-  path: ROUTES.designGuide,
-})
+export const generateMetadata = createPageMetadata(ROUTE)
 
 export default async function DesignGuidePage({
   params,
@@ -17,34 +18,43 @@ export default async function DesignGuidePage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: NAMESPACE })
+  if (!isActiveLocale(locale)) {
+    throw new Error(`DesignGuidePage received non-active locale "${locale}"`)
+  }
+
+  const page = await getPageCopy(ROUTE, locale)
+  const copy = findSection<DesignGuideCopySection>(
+    page.sections,
+    'designGuideCopy',
+    'designGuide.copy'
+  )
 
   return (
     <DocsPageShell activeKey="designGuide">
       <h1 className="text-eyebrow w-full text-brand-dark-green">
-        {t('heading')}
+        {copy.heading}
       </h1>
 
-      <p className="text-mono-s w-full text-brand-dark-green">{t('intro')}</p>
+      <p className="text-mono-s w-full text-brand-dark-green">{copy.intro}</p>
 
       <a
-        href={t('downloads.brandMarksHref')}
+        href={copy.downloads.brandMarks.href}
         download
         className="text-eyebrow inline-flex w-fit cursor-pointer items-center gap-1 rounded-xl bg-gray-01 px-3 py-3 text-brand-dark-green"
       >
-        {t('downloads.brandMarksLabel')}
+        {copy.downloads.brandMarks.label}
       </a>
 
       <p className="text-eyebrow w-full pt-3 text-brand-dark-green">
-        {t('downloads.guidelinesSection')}
+        {copy.downloads.guidelinesSection}
       </p>
 
       <a
-        href={t('downloads.guidelinesHref')}
+        href={copy.downloads.guidelines.href}
         download
         className="text-eyebrow inline-flex w-fit cursor-pointer items-center gap-1 rounded-xl bg-gray-01 px-3 py-3 text-brand-dark-green"
       >
-        {t('downloads.guidelinesLabel')}
+        {copy.downloads.guidelines.label}
       </a>
     </DocsPageShell>
   )

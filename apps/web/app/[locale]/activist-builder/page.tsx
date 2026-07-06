@@ -1,3 +1,7 @@
+import { getPageCopy } from '@repo/content/loaders'
+import { isActiveLocale } from '@repo/content/locales'
+import type { ActivistBuilderCopySection } from '@repo/content/schemas'
+
 import {
   AfformPageIntro,
   ConnectFormSection,
@@ -9,30 +13,42 @@ import {
   AFFORM,
   AFFORM_NAME,
   AFFORM_OPTIONS,
-  AFFORM_PAGE_INTRO,
-  AFFORM_PAGE_PRIVACY,
-  AFFORM_PAGE_PRIVACY_LINK,
 } from '@/lib/civicrm/afform-activist-builder'
-import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
+import { createPageMetadata } from '@/lib/page-metadata'
+import { createSectionFinder } from '@/lib/page-sections'
 
-const NAMESPACE = 'pages.activistBuilder'
+const ROUTE = ROUTES.activistBuilder
+const findSection = createSectionFinder('activist-builder')
 
-export const generateMetadata = createTranslatedPageMetadata({
-  namespace: NAMESPACE,
-  path: ROUTES.activistBuilder,
-})
+export const generateMetadata = createPageMetadata(ROUTE)
 
 function getAfformSubmitApiUrl() {
   const base = env.NEXT_PUBLIC_CIVI_CRM_URL
   return base ? `${base.replace(/\/+$/, '')}/api/public/afform-submit` : ''
 }
 
-export default function ActivistBuilderPage() {
+export default async function ActivistBuilderPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!isActiveLocale(locale)) {
+    throw new Error(`ActivistBuilderPage received non-active locale "${locale}"`)
+  }
+
+  const page = await getPageCopy(ROUTE, locale)
+  const copy = findSection<ActivistBuilderCopySection>(
+    page.sections,
+    'activistBuilderCopy',
+    'activistBuilder.copy'
+  )
+
   return (
     <ConnectPageLayout
       intro={
-        AFFORM_PAGE_INTRO ? (
-          <AfformPageIntro text={AFFORM_PAGE_INTRO} />
+        copy.intro ? (
+          <AfformPageIntro text={copy.intro} />
         ) : undefined
       }
     >
@@ -40,8 +56,8 @@ export default function ActivistBuilderPage() {
         afform={AFFORM}
         afformOptions={AFFORM_OPTIONS}
         apiEndpoint={getAfformSubmitApiUrl()}
-        pagePrivacy={AFFORM_PAGE_PRIVACY}
-        pagePrivacyLink={AFFORM_PAGE_PRIVACY_LINK}
+        pagePrivacy={copy.privacy}
+        pagePrivacyLink={copy.privacyLink}
         extraPayload={{ formName: AFFORM_NAME }}
       />
     </ConnectPageLayout>

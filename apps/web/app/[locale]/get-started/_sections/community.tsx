@@ -1,9 +1,11 @@
+import type { GetStartedCopySection } from '@repo/content/schemas'
+
 import ContentWidth from '@/components/layout/content-width'
 import { ButtonArrowIcon } from '@/components/ui/button'
 import { EXTERNAL_URLS } from '@/constants/routes'
 
 import { SectionHeading } from './atoms'
-import type { CommunityLink, GetStartedTranslator } from './types'
+import type { CommunityLink } from './types'
 
 const communityLinks: readonly CommunityLink[] = [
   { key: 'forum', href: EXTERNAL_URLS.forum },
@@ -14,13 +16,17 @@ const communityLinks: readonly CommunityLink[] = [
   { key: 'youtubeTutorials', href: EXTERNAL_URLS.youtube },
 ] as const
 
-export function Community({ t }: { t: GetStartedTranslator }) {
+export function Community({
+  data,
+}: {
+  data: GetStartedCopySection['sections']['community']
+}) {
   return (
     <section className="border-t border-brand-dark-green/10 pt-6 pb-25">
       <ContentWidth className="flex w-full flex-col gap-10">
         <SectionHeading
-          number={t('sections.community.number')}
-          heading={t('sections.community.heading')}
+          number={data.number}
+          heading={data.heading}
         />
         <div className="flex flex-col">
           {communityLinks.map((item, index) => (
@@ -38,11 +44,11 @@ export function Community({ t }: { t: GetStartedTranslator }) {
                   {String(index + 1).padStart(2, '0')}
                 </span>
                 <span className="font-display">
-                  {t(`sections.community.items.${item.key}`)}
+                  {data.items[item.key]}
                 </span>
               </span>
               <span className="inline-flex items-center gap-1 border-b border-brand-dark-green/50 pb-0.5 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
-                {t('sections.community.cta')}
+                {data.cta}
                 <ButtonArrowIcon />
               </span>
             </a>

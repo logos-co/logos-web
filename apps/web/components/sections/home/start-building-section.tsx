@@ -1,5 +1,6 @@
-import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
+
+import type { HomeStartBuildingSection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 import { Button, ButtonArrowIcon } from '@/components/ui'
@@ -29,22 +30,20 @@ function SupportCardView({ card }: { card: SupportCard }) {
   )
 }
 
-export default async function StartBuildingSection({
-  locale,
+export default function StartBuildingSection({
+  data,
 }: {
-  locale: string
+  data: HomeStartBuildingSection
 }) {
-  const t = await getTranslations({ locale, namespace: 'home.startBuilding' })
-
   const cards: SupportCard[] = [
-    { title: t('lambdaPrize'), href: ROUTES.lambdaPrize, cta: t('cardCta') },
-    { title: t('rfps'), href: ROUTES.rfps, cta: t('cardCta') },
+    { title: data.lambdaPrize, href: ROUTES.lambdaPrize, cta: data.cardCta },
+    { title: data.rfps, href: ROUTES.rfps, cta: data.cardCta },
     {
-      title: t('ideas'),
+      title: data.ideas,
       href: EXTERNAL_URLS.communityIdeas,
-      cta: t('cardCta'),
+      cta: data.cardCta,
     },
-    { title: t('docs'), href: EXTERNAL_URLS.docs, cta: t('cardCta') },
+    { title: data.docs, href: EXTERNAL_URLS.docs, cta: data.cardCta },
   ]
 
   return (
@@ -64,17 +63,17 @@ export default async function StartBuildingSection({
           <div className="mx-auto mt-7 flex max-w-[320px] flex-col items-center gap-10 text-center lg:mt-[113px]">
             <div className="flex flex-col items-center gap-6 lg:w-[320px]">
               <h2 className="font-display text-[30px] leading-none tracking-[-0.03em] lg:text-[36px]">
-                {t('title')}
+                {data.title}
               </h2>
               <p className="font-sans text-[12px] leading-[1.2] lg:w-[254px]">
-                {t('body')}
+                {data.body}
               </p>
             </div>
             <Button
               href={ROUTES.getStarted}
               className="cursor-pointer transition-opacity hover:opacity-80"
             >
-              {t('cta')}
+              {data.cta}
             </Button>
           </div>
 

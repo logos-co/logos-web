@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/media",
+  "title": "Media | Logos",
+  "description": "Logos Media — essays, news, and podcasts from the Logos movement.",
+  "sections": [
+    {
+      "componentType": "mediaCopy",
+      "key": "media.copy",
+      "hero": {
+        "line1": "Logos",
+        "line2": "Media",
+        "tagline": "Articles, news, podcasts, and media throughout the Logos Network."
+      },
+      "nav": {
+        "label": "Blog sections",
+        "articles": "Articles",
+        "podcasts": "Podcasts",
+        "broadcast": "Logos Broadcast Network"
+      },
+      "articles": {
+        "heading": "Articles",
+        "readArticle": "Read Article",
+        "seeMore": "See more articles"
+      },
+      "podcasts": {
+        "heading": "Podcasts",
+        "media": "Media",
+        "heroTitle": "Logos Podcast",
+        "heroDescription": "Logos Podcast is a bi-weekly interview show about building sovereign communities: the people, philosophies, challenges, and solutions. We invite the world's foremost experts and radical thinkers to discuss how to emancipate from repressive systems through new social, political, and economic institutions.",
+        "latestEpisode": "Latest episode",
+        "seeAllEpisodes": "See all episodes",
+        "listenOnApp": "Listen on an app",
+        "cta": "Logos podcast",
+        "episodePrefix": "Episode",
+        "fallbackEpisode": "Logos Podcast"
+      },
+      "broadcast": {
+        "heading": "Logos Broadcast Network",
+        "description": "Regular programming, live sessions, and office hours for your viewing pleasure",
+        "media": "Media",
+        "latestEpisode": "Latest episode",
+        "cta": "Learn more"
+      }
+    }
+  ]
+}

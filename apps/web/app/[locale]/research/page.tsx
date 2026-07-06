@@ -1,23 +1,17 @@
-import { getTranslations } from 'next-intl/server'
+import { getPageCopy } from '@repo/content/loaders'
+import { isActiveLocale } from '@repo/content/locales'
+import type { ResearchCopySection } from '@repo/content/schemas'
 
 import ResearchPageView from '@/components/sections/research/research-page'
 import { ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/lib/metadata'
+import { createPageMetadata } from '@/lib/page-metadata'
+import { createSectionFinder } from '@/lib/page-sections'
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.research' })
-  return createDefaultMetadata({
-    title: t('title'),
-    description: t('description'),
-    locale,
-    path: ROUTES.research,
-  })
-}
+const ROUTE = ROUTES.research
+
+const findSection = createSectionFinder('research')
+
+export const generateMetadata = createPageMetadata(ROUTE)
 
 export default async function ResearchPage({
   params,
@@ -25,5 +19,17 @@ export default async function ResearchPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  return <ResearchPageView locale={locale} />
+  if (!isActiveLocale(locale)) {
+    throw new Error(`ResearchPage received non-active locale "${locale}"`)
+  }
+
+  const page = await getPageCopy(ROUTE, locale)
+
+  const data = findSection<ResearchCopySection>(
+    page.sections,
+    'researchCopy',
+    'research.copy',
+  )
+
+  return <ResearchPageView data={data} locale={locale} />
 }

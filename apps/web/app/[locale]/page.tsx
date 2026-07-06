@@ -1,9 +1,14 @@
-import { getTranslations } from 'next-intl/server'
-
 import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
   HeroSection,
+  HomeAboutSection,
+  HomeBuilderPortalSection,
+  HomeChoosePathSection,
+  HomeDecideSection,
+  HomeSocialProofSection,
+  HomeStartBuildingSection,
+  HomeUseCasesSection,
   RelatedArticlesSection,
   TechStackOverviewSection,
 } from '@repo/content/schemas'
@@ -41,12 +46,15 @@ export default async function HomePage({
   if (!isActiveLocale(locale)) {
     throw new Error(`HomePage received non-active locale "${locale}"`)
   }
-  const [page, t] = await Promise.all([
-    getPageCopy(ROUTE, locale),
-    getTranslations({ locale, namespace: 'home.techStack' }),
-  ])
+  const page = await getPageCopy(ROUTE, locale)
 
   const hero = findSection<HeroSection>(page.sections, 'hero', 'home.atf')
+
+  const socialProof = findSection<HomeSocialProofSection>(
+    page.sections,
+    'homeSocialProof',
+    'home.socialProof'
+  )
 
   const techStack = findSection<TechStackOverviewSection>(
     page.sections,
@@ -54,10 +62,46 @@ export default async function HomePage({
     'home.techStack'
   )
 
+  const paths = findSection<HomeChoosePathSection>(
+    page.sections,
+    'homeChoosePath',
+    'home.paths'
+  )
+
   const blog = findSection<RelatedArticlesSection>(
     page.sections,
     'relatedArticles',
     'home.blog'
+  )
+
+  const about = findSection<HomeAboutSection>(
+    page.sections,
+    'homeAbout',
+    'home.about'
+  )
+
+  const decide = findSection<HomeDecideSection>(
+    page.sections,
+    'homeDecide',
+    'home.decide'
+  )
+
+  const startBuilding = findSection<HomeStartBuildingSection>(
+    page.sections,
+    'homeStartBuilding',
+    'home.startBuilding'
+  )
+
+  const useCases = findSection<HomeUseCasesSection>(
+    page.sections,
+    'homeUseCases',
+    'home.useCases'
+  )
+
+  const builderPortal = findSection<HomeBuilderPortalSection>(
+    page.sections,
+    'homeBuilderPortal',
+    'home.builderPortal'
   )
 
   const [articles, socialProofStats, winnableIssuesCount] = await Promise.all([
@@ -70,38 +114,24 @@ export default async function HomePage({
     <>
       <HeroSectionView data={hero} />
       <SocialProofSection
+        data={socialProof}
         stats={socialProofStats}
         winnableIssuesCount={winnableIssuesCount}
       />
-      <FeatureCardsSection />
-      <AboutSection locale={locale} />
-      <DecideSection locale={locale} />
-      <UseCasesSection locale={locale} />
-      <BuilderPortalSection locale={locale} />
+      <FeatureCardsSection data={paths} />
+      <AboutSection data={about} />
+      <DecideSection data={decide} />
+      <UseCasesSection data={useCases} />
+      <BuilderPortalSection data={builderPortal} />
       <TechStackSection
         data={techStack}
         networkingHref={ROUTES.networking}
         foundationHref={ROUTES.technologyStack}
         desktopAt1367
         bottomSpacingClassName="pb-[112px]"
-        ctas={[
-          {
-            label: t('exploreStackCta'),
-            href: ROUTES.technologyStack,
-          },
-          {
-            label: t('startBuildingCta'),
-            href: ROUTES.getStarted,
-            variant: 'secondary',
-          },
-          {
-            label: t('docsCta'),
-            href: EXTERNAL_URLS.docs,
-            variant: 'secondary',
-          },
-        ]}
+        ctas={techStack.ctas}
       />
-      <StartBuildingSection locale={locale} />
+      <StartBuildingSection data={startBuilding} />
       <BlogSection data={blog} articles={articles} />
     </>
   )

@@ -364,7 +364,7 @@
   "resourcesSection": {
     "title": "Additional Resources",
     "description": "Reference material to help you ship faster.",
-    "helpCenterCta": { "label": "Get help", "href": "/faq" }
+    "helpCenterCta": { "label": "Get help", "href": "https://docs.logos.co/", "external": true }
   },
   "documentation": {
     "title": "Useful documentation links",

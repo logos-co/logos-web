@@ -63,7 +63,6 @@ export const ROUTES = {
   research: '/research',
 
   // Info / Help
-  faq: '/faq',
   testnetFaqs: '/testnet-faqs',
   testnetTermsAndConditions: '/testnet-terms-and-conditions',
 

@@ -1,8 +1,15 @@
 import ContentWidth from '@/components/layout/content-width'
-import { ROUTES } from '@/constants/routes'
 
 import { TertiaryCta } from './atoms'
 import type { LambdaPrizePageCopy } from './types'
+
+function SupportLabel({ children }: { children: string }) {
+  return (
+    <span className="inline-flex items-center border-b border-brand-dark-green/20 pb-0.5 font-mono text-[10px] leading-[1.35] font-semibold text-brand-dark-green/70 uppercase">
+      {children}
+    </span>
+  )
+}
 
 export function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
   return (
@@ -13,9 +20,15 @@ export function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
           <p className="text-mono-s col-start-1 row-start-2 w-[178px] lg:col-start-auto lg:row-start-auto lg:w-[226px]">
             {copy.body}
           </p>
-          <div className="col-start-2 row-start-1 lg:col-start-auto lg:row-start-auto">
-            <TertiaryCta href={ROUTES.faq}>{copy.cta}</TertiaryCta>
-          </div>
+          {copy.ctaHref ? (
+            <div className="col-start-2 row-start-1 lg:col-start-auto lg:row-start-auto">
+              <TertiaryCta href={copy.ctaHref}>{copy.cta}</TertiaryCta>
+            </div>
+          ) : (
+            <div className="col-start-2 row-start-1 lg:col-start-auto lg:row-start-auto">
+              <SupportLabel>{copy.cta}</SupportLabel>
+            </div>
+          )}
         </div>
         <div className="mt-6 lg:mt-8">
           {copy.rows.map((row, index) => (
@@ -35,7 +48,11 @@ export function Support({ copy }: { copy: LambdaPrizePageCopy['support'] }) {
                 {row.body}
               </p>
               <div>
-                <TertiaryCta href={ROUTES.faq}>{row.action}</TertiaryCta>
+                {row.href ? (
+                  <TertiaryCta href={row.href}>{row.action}</TertiaryCta>
+                ) : (
+                  <SupportLabel>{row.action}</SupportLabel>
+                )}
               </div>
             </div>
           ))}

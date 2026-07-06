@@ -8,13 +8,7 @@ import { withPayload } from '@payloadcms/next/withPayload'
 // build time.
 const workspaceRoot = fileURLToPath(new URL('../..', import.meta.url))
 
-const deploymentId =
-  process.env.NEXT_DEPLOYMENT_ID ||
-  process.env.VERCEL_GIT_COMMIT_SHA ||
-  process.env.DEPLOYMENT_VERSION
-
 const nextConfig = {
-  ...(deploymentId ? { deploymentId } : {}),
   reactStrictMode: true,
   outputFileTracingRoot: workspaceRoot,
   turbopack: {

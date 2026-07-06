@@ -1,9 +1,11 @@
-import { getTranslations } from 'next-intl/server'
+import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
+import type { PodcastCopySection } from '@repo/content/schemas'
 import { LogosMark } from '@acid-info/logos-ui'
 
 import { ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/lib/metadata'
+import { createPageMetadata } from '@/lib/page-metadata'
+import { createSectionFinder } from '@/lib/page-sections'
 import ContentWidth from '@/components/layout/content-width'
 import { ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
@@ -50,20 +52,11 @@ function PodcastIntro({ copy }: { copy: PodcastIntroCopy }) {
   )
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.podcast' })
-  return createDefaultMetadata({
-    title: t('title'),
-    description: t('description'),
-    locale,
-    path: ROUTES.podcast,
-  })
-}
+const ROUTE = ROUTES.podcast
+
+const findSection = createSectionFinder('podcast')
+
+export const generateMetadata = createPageMetadata(ROUTE)
 
 export default async function LogosPodcastPage({
   params,
@@ -75,9 +68,8 @@ export default async function LogosPodcastPage({
     throw new Error(`LogosPodcastPage received non-active locale "${locale}"`)
   }
 
-  const [t, blogT, podcasts] = await Promise.all([
-    getTranslations({ locale, namespace: 'pages.podcast' }),
-    getTranslations({ locale, namespace: 'pages.blog.podcasts' }),
+  const [page, podcasts] = await Promise.all([
+    getPageCopy(ROUTE, locale),
     getLatestBlogPodcasts(20),
   ])
 
@@ -85,30 +77,36 @@ export default async function LogosPodcastPage({
     throw new Error('Podcast page requires at least one podcast from blog API')
   }
 
+  const data = findSection<PodcastCopySection>(
+    page.sections,
+    'podcastCopy',
+    'podcast.copy',
+  )
+
   return (
     <div className="overflow-hidden bg-accent-tan pb-10">
       <PodcastIntro
         copy={{
-          title: t('heading'),
-          description: t('intro.description'),
-          hostedBy: t('intro.hostedBy'),
-          backToMedia: t('backToMedia'),
+          title: data.heading,
+          description: data.intro.description,
+          hostedBy: data.intro.hostedBy,
+          backToMedia: data.backToMedia,
         }}
       />
       <PodcastsSection
         podcasts={podcasts}
         ctaHref={`${BLOG_ORIGIN}/podcasts`}
         copy={{
-          heading: t('latestHeading'),
-          media: t('eyebrow'),
+          heading: data.latestHeading,
+          media: data.eyebrow,
           heroTitle: podcasts[0].title,
           heroDescription: podcasts[0].description,
-          latestEpisode: t('latestEpisode'),
-          seeAllEpisodes: t('seeAllEpisodes'),
-          listenOnApp: t('listenOnApp'),
-          cta: blogT('cta'),
-          episodePrefix: t('episodePrefix'),
-          fallbackEpisode: t('fallbackEpisode'),
+          latestEpisode: data.latestEpisode,
+          seeAllEpisodes: data.seeAllEpisodes,
+          listenOnApp: data.listenOnApp,
+          cta: data.podcastCta,
+          episodePrefix: data.episodePrefix,
+          fallbackEpisode: data.fallbackEpisode,
         }}
       />
     </div>

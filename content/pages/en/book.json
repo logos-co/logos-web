@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/book",
+  "title": "Farewell to Westphalia | Logos",
+  "description": "Farewell to Westphalia is a book co-authored by Logos co-founder Jarrad Hope and Peter Ludlow.",
+  "sections": [
+    {
+      "componentType": "bookCopy",
+      "key": "book.copy",
+      "heading": "Farewell to Westphalia"
+    }
+  ]
+}

@@ -300,11 +300,6 @@ export const AFFORM_FIELDS = [
   }
 ];
 
-export const AFFORM_PAGE_HEADING = "Let's Connect.";
-export const AFFORM_PAGE_INTRO = "Be part of what’s unfolding. Receive updates on progress, gatherings and opportunities to contribute.";
-export const AFFORM_PAGE_PRIVACY = "We respect your privacy. By clicking 'Submit', you consent to our processing of your personal data as described above and in our Privacy Policy .";
-export const AFFORM_PAGE_PRIVACY_LINK = "https://logos.co/privacy-policy";
-
 export const AFFORM_OPTIONS = {
   "role": [
     {

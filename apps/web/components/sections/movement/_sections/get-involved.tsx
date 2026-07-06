@@ -1,28 +1,28 @@
 import Image from 'next/image'
+import type { MovementCopySection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 import { Cta, movementImages } from './atoms'
-import type { Translate } from './types'
 
-export function GetInvolvedSection({ t }: { t: Translate }) {
+export function GetInvolvedSection({ data }: { data: MovementCopySection }) {
   return (
     <section className="bg-brand-off-white py-10 text-brand-dark-green">
       <ContentWidth className="grid gap-3 md:grid-cols-2">
         <div className="flex h-[270px] flex-col items-center justify-center gap-8 border border-brand-dark-green p-4 text-center md:h-[500px] md:gap-10">
           <div className="flex max-w-[337px] flex-col items-center gap-3 md:max-w-[380px]">
-            <h2 className="text-subhead-sans">{t('involved.title')}</h2>
-            <p className="text-mono-s">{t('involved.body')}</p>
+            <h2 className="text-subhead-sans">{data.involved.title}</h2>
+            <p className="text-mono-s">{data.involved.body}</p>
           </div>
           <div className="flex flex-col items-center gap-2 md:flex-row">
             <Cta
               href={EXTERNAL_URLS.twitter}
-              label={t('involved.primaryCta')}
+              label={data.involved.primaryCta}
             />
             <Cta
               href={EXTERNAL_URLS.discord}
-              label={t('involved.secondaryCta')}
+              label={data.involved.secondaryCta}
               tone="secondary"
             />
           </div>
@@ -41,14 +41,14 @@ export function GetInvolvedSection({ t }: { t: Translate }) {
           <div className="absolute inset-0 bg-black/20" />
           <div className="relative flex max-w-[432px] flex-col items-center gap-5">
             <div className="flex flex-col items-center gap-3">
-              <h2 className="text-subhead-sans">{t('coalition.title')}</h2>
+              <h2 className="text-subhead-sans">{data.coalition.title}</h2>
               <p className="text-mono-s max-w-[236px] md:max-w-[380px]">
-                {t('coalition.body')}
+                {data.coalition.body}
               </p>
             </div>
             <Cta
               href={ROUTES.coalitionPartner}
-              label={t('coalition.cta')}
+              label={data.coalition.cta}
               tone="light"
             />
           </div>

@@ -1,9 +1,12 @@
 import type { CSSProperties } from 'react'
 
-import { getTranslations } from 'next-intl/server'
+import { getPageCopy } from '@repo/content/loaders'
+import { isActiveLocale } from '@repo/content/locales'
+import type { ManifestoCopySection } from '@repo/content/schemas'
 
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/lib/metadata'
+import { createPageMetadata } from '@/lib/page-metadata'
+import { createSectionFinder } from '@/lib/page-sections'
 
 const PARAGRAPH_TOPS = [
   0, 174, 324, 474, 648, 798, 924, 1074, 1176, 1302, 1428, 1506, 1608, 1710,
@@ -11,12 +14,6 @@ const PARAGRAPH_TOPS = [
   2826, 2904,
 ] as const
 const DESKTOP_WORD_SPACING_PARAGRAPH_INDEXES = new Set([11])
-
-type ManifestoCopy = {
-  author: string[]
-  body: string[]
-  more: string[]
-}
 
 const DESKTOP_PARAGRAPH_STYLE = (index: number): CSSProperties => ({
   top: PARAGRAPH_TOPS[index],
@@ -27,21 +24,11 @@ const MORE_HREFS = [
   EXTERNAL_URLS.logosGenealogyArticle,
 ] as const
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.manifesto' })
+const ROUTE = ROUTES.manifesto
 
-  return createDefaultMetadata({
-    title: t('title'),
-    description: t('description'),
-    locale,
-    path: ROUTES.manifesto,
-  })
-}
+const findSection = createSectionFinder('manifesto')
+
+export const generateMetadata = createPageMetadata(ROUTE)
 
 export default async function ManifestoPage({
   params,
@@ -49,13 +36,19 @@ export default async function ManifestoPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.manifesto' })
-  const copy: ManifestoCopy = {
-    author: t.raw('author') as string[],
-    body: t.raw('body') as string[],
-    more: t.raw('more') as string[],
+  if (!isActiveLocale(locale)) {
+    throw new Error(`ManifestoPage received non-active locale "${locale}"`)
   }
-  const moreLinks = copy.more.map((label, index) => ({
+
+  const page = await getPageCopy(ROUTE, locale)
+
+  const data = findSection<ManifestoCopySection>(
+    page.sections,
+    'manifestoCopy',
+    'manifesto.copy',
+  )
+
+  const moreLinks = data.more.map((label, index) => ({
     label,
     href: MORE_HREFS[index],
   }))
@@ -64,14 +57,14 @@ export default async function ManifestoPage({
     <div className="overflow-x-hidden bg-brand-off-white text-brand-dark-green desktop:h-[4669px] desktop:overflow-hidden">
       <section className="relative flex flex-col items-center justify-center px-3 pt-28 pb-28 desktop:block desktop:h-[697px] desktop:p-0">
         <h1 className="font-display mx-auto w-full max-w-[352px] text-center text-[24px] leading-none tracking-[-0.03em] min-[768px]:max-[1439px]:max-w-[620px] min-[768px]:max-[1439px]:text-[44px] min-[768px]:max-[1439px]:leading-[0.95] desktop:absolute desktop:top-[175px] desktop:left-1/2 desktop:w-[1178px] desktop:max-w-none desktop:-translate-x-1/2 desktop:text-[96px] desktop:leading-[0.98] desktop:tracking-[-0.04em]">
-          <span className="desktop:hidden">{t('heading')}</span>
+          <span className="desktop:hidden">{data.heading}</span>
           <span className="hidden desktop:block">
-            <span className="block">{t('headingLine1')}</span>
-            <span className="block">{t('headingLine2')}</span>
+            <span className="block">{data.headingLine1}</span>
+            <span className="block">{data.headingLine2}</span>
           </span>
         </h1>
         <p className="font-mono-body mx-auto mt-6 w-[102px] text-center text-[10px] leading-[1.3] tracking-[0px] desktop:absolute desktop:top-[426px] desktop:left-1/2 desktop:mt-0 desktop:-translate-x-1/2">
-          {copy.author.map((line) => (
+          {data.author.map((line) => (
             <span key={line} className="block">
               {line}
             </span>
@@ -87,18 +80,18 @@ export default async function ManifestoPage({
           <div className="mx-auto max-w-[698px] desktop:absolute desktop:top-[94px] desktop:left-1/2 desktop:h-[464px] desktop:w-[698px] desktop:-translate-x-1/2">
             <section className="desktop:contents">
               <h2 className="font-display text-center text-[24px] leading-none tracking-[-0.03em] min-[768px]:max-[1439px]:text-[36px] desktop:absolute desktop:top-0 desktop:left-[73px] desktop:w-[552px] desktop:text-[36px]">
-                {t('abstractHeading')}
+                {data.abstractHeading}
               </h2>
               <p className="font-display mt-6 text-center text-[14px] leading-[1.2] tracking-[0px] [overflow-wrap:anywhere] min-[768px]:max-[1439px]:text-[20px] min-[768px]:max-[1439px]:leading-[24px] min-[768px]:max-[1439px]:[overflow-wrap:normal] desktop:absolute desktop:top-[50px] desktop:left-0 desktop:mt-0 desktop:w-[698px] desktop:text-justify desktop:text-[20px] desktop:leading-[24px] desktop:tracking-[-0.03em] desktop:[overflow-wrap:normal]">
-                {t('abstractBody')}
+                {data.abstractBody}
               </p>
             </section>
             <section className="hidden desktop:contents">
               <h2 className="font-display text-center text-[24px] leading-none tracking-[-0.03em] min-[768px]:max-[1439px]:text-[36px] desktop:absolute desktop:top-[376px] desktop:left-[73px] desktop:w-[552px] desktop:text-[36px]">
-                {t('keywordsHeading')}
+                {data.keywordsHeading}
               </h2>
               <p className="font-display mt-6 text-center text-[14px] leading-[1.2] tracking-[0px] [overflow-wrap:anywhere] min-[768px]:max-[1439px]:text-[20px] min-[768px]:max-[1439px]:leading-[24px] min-[768px]:max-[1439px]:[overflow-wrap:normal] desktop:absolute desktop:top-[426px] desktop:left-0 desktop:mt-0 desktop:w-[698px] desktop:text-justify desktop:text-[20px] desktop:leading-[24px] desktop:tracking-[-0.03em] desktop:[overflow-wrap:normal]">
-                {t('keywords')}
+                {data.keywords}
               </p>
             </section>
           </div>
@@ -110,7 +103,7 @@ export default async function ManifestoPage({
         >
           <article className="font-sans mx-auto text-center text-[14px] leading-[1.2] tracking-[0px] min-[768px]:max-[1439px]:max-w-[640px] min-[768px]:max-[1439px]:text-[18px] min-[768px]:max-[1439px]:leading-[21.6px] desktop:absolute desktop:top-[107px] desktop:left-1/2 desktop:h-[3078px] desktop:w-[853px] desktop:max-w-none desktop:-translate-x-1/2 desktop:font-article desktop:text-[20px] desktop:leading-[24px] desktop:tracking-[-0.03em]">
             <div className="desktop:relative desktop:h-[2918px]">
-              {copy.body.map((paragraph, index) => (
+              {data.body.map((paragraph, index) => (
                 <p
                   key={paragraph}
                   style={DESKTOP_PARAGRAPH_STYLE(index)}
@@ -126,7 +119,7 @@ export default async function ManifestoPage({
             </div>
 
             <aside className="font-mono-body mt-12 text-[10px] leading-[1.3] tracking-[0px] desktop:absolute desktop:top-[2995px] desktop:left-0 desktop:mt-0 desktop:h-[88px] desktop:w-[306px] desktop:text-left">
-              <h2 className="font-bold">{t('moreHeading')}</h2>
+              <h2 className="font-bold">{data.moreHeading}</h2>
               <div className="mt-3 space-y-3 desktop:mt-[12px] desktop:space-y-[12px]">
                 {moreLinks.map((item) => (
                   <p key={item.label}>

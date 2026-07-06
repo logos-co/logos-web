@@ -422,11 +422,14 @@ const buildPagesChecks = (locale: Language): Check[] => [
       }
       const expected: readonly string[] = [
         'hero',
-        'cardGrid',
-        'richText',
+        'homeSocialProof',
+        'homeChoosePath',
+        'homeDecide',
+        'homeAbout',
         'techStackOverview',
-        'gallery',
-        'ctaPanel',
+        'homeStartBuilding',
+        'homeUseCases',
+        'homeBuilderPortal',
         'relatedArticles',
       ]
       const seen: Set<string> = new Set(
