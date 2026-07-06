@@ -24,7 +24,13 @@ describe('getLegalDoc', () => {
   })
 
   it('loads each migrated legal document', () => {
-    for (const slug of ['terms-and-conditions', 'privacy-policy', 'security']) {
+    for (const slug of [
+      'terms-and-conditions',
+      'privacy-policy',
+      'security',
+      'operators-terms-of-use',
+      'operators-privacy-policy',
+    ]) {
       const doc = getLegalDoc(slug)
       expect(doc.title).toContain('| Logos')
       expect(doc.body.length).toBeGreaterThan(0)

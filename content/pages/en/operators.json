@@ -11,6 +11,16 @@
       "banner": {
         "title": "Logos Operator programme",
         "body": "Hey everyone. We're closing the Logos Operator programme as Epoch 3 has now ended. It started as an experiment and didn't work out the way we hoped, so rather than let it linger, we're winding it down and recognising the people who showed up and contributed. Thank you for your participation and enthusiasm."
+      },
+      "documents": {
+        "terms": {
+          "label": "Terms of Use",
+          "slug": "operators-terms-of-use"
+        },
+        "privacy": {
+          "label": "Privacy Policy",
+          "slug": "operators-privacy-policy"
+        }
       }
     }
   ]

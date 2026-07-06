@@ -5,8 +5,11 @@ import { LogosMark } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
 import { ROUTES } from '@/constants/routes'
+import { getLegalDoc } from '@/lib/legal-content'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
+
+import { OperatorsLegalTabs } from './operators-legal-tabs'
 
 const ROUTE = ROUTES.operators
 
@@ -31,6 +34,8 @@ export default async function OperatorsPage({ params }: OperatorsPageProps) {
     'operatorsCopy',
     'operators.copy',
   )
+  const terms = getLegalDoc(data.documents.terms.slug)
+  const privacy = getLegalDoc(data.documents.privacy.slug)
 
   return (
     <main className="bg-brand-off-white text-brand-dark-green">
@@ -47,6 +52,10 @@ export default async function OperatorsPage({ params }: OperatorsPageProps) {
           </div>
         </ContentWidth>
       </section>
+      <OperatorsLegalTabs
+        terms={{ label: data.documents.terms.label, body: terms.body }}
+        privacy={{ label: data.documents.privacy.label, body: privacy.body }}
+      />
     </main>
   )
 }

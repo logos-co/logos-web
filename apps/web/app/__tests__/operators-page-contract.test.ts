@@ -11,6 +11,16 @@ type OperatorsCopySection = {
     title: string
     body: string
   }
+  documents: {
+    terms: {
+      label: string
+      slug: string
+    }
+    privacy: {
+      label: string
+      slug: string
+    }
+  }
 }
 
 describe('operators page contract', () => {
@@ -30,5 +40,18 @@ describe('operators page contract', () => {
     expect(section.banner.body).toContain(
       'Thank you for your participation and enthusiasm.'
     )
+  })
+
+  test('defines the operators legal document tabs', () => {
+    const section = operatorsContent.sections[0] as OperatorsCopySection
+
+    expect(section.documents.terms).toEqual({
+      label: 'Terms of Use',
+      slug: 'operators-terms-of-use',
+    })
+    expect(section.documents.privacy).toEqual({
+      label: 'Privacy Policy',
+      slug: 'operators-privacy-policy',
+    })
   })
 })

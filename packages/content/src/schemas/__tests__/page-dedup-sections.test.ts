@@ -134,6 +134,10 @@ test('operatorsCopy parses a minimal valid value and routes through the union', 
       title: 'Logos Operator programme',
       body: 'The operator programme is closing.',
     },
+    documents: {
+      terms: { label: 'Terms of Use', slug: 'operators-terms-of-use' },
+      privacy: { label: 'Privacy Policy', slug: 'operators-privacy-policy' },
+    },
   }
   assert.equal(operatorsCopySectionSchema.parse(value).componentType, 'operatorsCopy')
   assert.equal(pageSectionSchema.parse(value).componentType, 'operatorsCopy')
