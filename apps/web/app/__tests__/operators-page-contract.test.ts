@@ -42,7 +42,7 @@ describe('operators page contract', () => {
     )
   })
 
-  test('defines the operators legal document tabs', () => {
+  test('defines the operators legal document buttons', () => {
     const section = operatorsContent.sections[0] as OperatorsCopySection
 
     expect(section.documents.terms).toEqual({
