@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { LegalMarkdown } from '@/components/sections/shared/legal-markdown'
 
@@ -20,10 +20,23 @@ interface OperatorsLegalTabsProps {
 const documentButtons: ReadonlyArray<{
   key: OperatorsLegalDocumentKey
   panelId: string
+  hashId: string
 }> = [
-  { key: 'terms', panelId: 'operators-terms-panel' },
-  { key: 'privacy', panelId: 'operators-privacy-panel' },
-  { key: 'disclaimer', panelId: 'operators-disclaimer-panel' },
+  {
+    key: 'terms',
+    panelId: 'operators-terms-panel',
+    hashId: 'terms-of-use',
+  },
+  {
+    key: 'privacy',
+    panelId: 'operators-privacy-panel',
+    hashId: 'privacy-policy',
+  },
+  {
+    key: 'disclaimer',
+    panelId: 'operators-disclaimer-panel',
+    hashId: 'disclaimer',
+  },
 ]
 
 export function OperatorsLegalTabs({
@@ -33,6 +46,26 @@ export function OperatorsLegalTabs({
 }: OperatorsLegalTabsProps) {
   const [activeDocumentKey, setActiveDocumentKey] =
     useState<OperatorsLegalDocumentKey | null>(null)
+
+  useEffect(() => {
+    const syncDocumentFromHash = () => {
+      const hashId = window.location.hash.replace(/^#/, '')
+      const documentButton = documentButtons.find(
+        (button) => button.hashId === hashId
+      )
+
+      setActiveDocumentKey(documentButton?.key ?? null)
+    }
+
+    syncDocumentFromHash()
+    window.addEventListener('hashchange', syncDocumentFromHash)
+    window.addEventListener('popstate', syncDocumentFromHash)
+
+    return () => {
+      window.removeEventListener('hashchange', syncDocumentFromHash)
+      window.removeEventListener('popstate', syncDocumentFromHash)
+    }
+  }, [])
 
   const documents: Record<OperatorsLegalDocumentKey, OperatorsLegalDocument> = {
     terms,
@@ -59,6 +92,7 @@ export function OperatorsLegalTabs({
             return (
               <button
                 key={button.key}
+                id={button.hashId}
                 type="button"
                 aria-controls={button.panelId}
                 aria-expanded={isActive}
@@ -67,7 +101,10 @@ export function OperatorsLegalTabs({
                     ? 'border-brand-dark-green text-brand-dark-green'
                     : 'border-transparent text-brand-dark-green/55'
                 }`}
-                onClick={() => setActiveDocumentKey(button.key)}
+                onClick={() => {
+                  setActiveDocumentKey(button.key)
+                  window.history.pushState(null, '', `#${button.hashId}`)
+                }}
               >
                 {document.label}
               </button>
