@@ -12,6 +12,7 @@ import {
 import buildersHubResources from '../../../../content/builders-hub/resources/en.json' with { type: 'json' }
 import buildersHubSettings from '../../../../content/builders-hub/settings/en.json' with { type: 'json' }
 import homePage from '../../../../content/pages/en/home.json' with { type: 'json' }
+import lambdaPrizeContentPage from '../../../../content/pages/en/lambda-prize.json' with { type: 'json' }
 import manifestoContentPage from '../../../../content/pages/en/manifesto.json' with { type: 'json' }
 import technologyStackPage from '../../../../content/pages/en/technology-stack.json' with { type: 'json' }
 import messages from '../../messages/en.json' with { type: 'json' }
@@ -47,6 +48,7 @@ const repoPressArticlePaths = [
   'packages/content/src/schemas/press.ts',
 ].map((path) => join(repoRoot, path))
 const jobsHref = 'https://free.technology/jobs'
+const discordHref = 'https://discord.gg/logosnetwork'
 const onboardingCalendarHref = 'https://cal.com/team/logos-onboarding/intro'
 const logosDocsHref = 'https://docs.logos.co/'
 const communityIdeasHref = 'https://github.com/logos-co/ideas'
@@ -231,6 +233,31 @@ describe('link policy', () => {
     })
 
     expect(offenders).toEqual([])
+  })
+
+  it('routes the Lambda Prize Discord CTA to the shared Discord link', () => {
+    const lambdaPrizePage = readFileSync(
+      join(webRoot, 'app/[locale]/lambda-prize/_sections/how-it-works.tsx'),
+      'utf8'
+    )
+    const lambdaPrizeSection = lambdaPrizeContentPage.sections[0] as {
+      evaluation: { secondaryCta: string }
+    }
+    const footerDiscordLink = footer.socialLinks.find(
+      (link) => link.label === 'Discord'
+    )
+
+    expect(EXTERNAL_URLS.discord).toBe(discordHref)
+    expect(footerDiscordLink).toEqual(
+      expect.objectContaining({
+        href: discordHref,
+        external: true,
+      })
+    )
+    expect(lambdaPrizeSection.evaluation.secondaryCta).toBe(
+      'Connect with the team on Discord'
+    )
+    expect(lambdaPrizePage).toContain('href={EXTERNAL_URLS.discord}')
   })
 
   it('routes homepage builder support cards to their external repositories', () => {
