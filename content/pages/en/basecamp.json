@@ -162,7 +162,7 @@
           },
           "cta": {
             "label": "Build",
-            "href": "/builders-hub",
+            "href": "/get-started",
             "variant": "secondary"
           }
         },

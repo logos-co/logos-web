@@ -53,7 +53,7 @@
       "ctas": [
         {
           "label": "Install & Run A Node",
-          "href": "/builders-hub#app-install",
+          "href": "/get-started",
           "variant": "tertiary"
         },
         {

@@ -202,7 +202,7 @@ export async function GiantSwitches() {
         tags={installTags}
         actions={
           <>
-            <Button variant="secondary" href={ROUTES.buildersHub}>
+            <Button variant="secondary" href={ROUTES.getStarted}>
               Install
             </Button>
             <Button variant="tertiary" href={ROUTES.technologyStack}>
@@ -220,7 +220,7 @@ export async function GiantSwitches() {
         description={t('giantSwitch.downloadDescription')}
         actions={
           <>
-            <Button variant="secondary" href={ROUTES.buildersHub}>
+            <Button variant="secondary" href={ROUTES.getStarted}>
               Download again
             </Button>
             <Button variant="tertiary" href={ROUTES.technologyStack}>

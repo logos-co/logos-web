@@ -13,6 +13,7 @@ import buildersHubResources from '../../../../content/builders-hub/resources/en.
 import buildersHubSettings from '../../../../content/builders-hub/settings/en.json' with { type: 'json' }
 import homePage from '../../../../content/pages/en/home.json' with { type: 'json' }
 import manifestoContentPage from '../../../../content/pages/en/manifesto.json' with { type: 'json' }
+import technologyStackPage from '../../../../content/pages/en/technology-stack.json' with { type: 'json' }
 import messages from '../../messages/en.json' with { type: 'json' }
 import footer from '../../../../content/site/en/footer.json' with { type: 'json' }
 import navigation from '../../../../content/site/en/navigation.json' with { type: 'json' }
@@ -24,6 +25,7 @@ const fieldGuideChaptersRoot = join(
   repoRoot,
   'content/field-guide/en/chapters'
 )
+const pagesContentRoot = join(repoRoot, 'content/pages/en')
 const scannedRoots = ['apps/web', 'content', 'packages/content'].map((root) =>
   join(repoRoot, root)
 )
@@ -109,6 +111,33 @@ const collectTextFiles = (dir: string): string[] => {
 const collectMarkdownLinks = (text: string): string[] =>
   Array.from(text.matchAll(/\[[^\]]+\]\(([^)]+)\)/g), (match) => match[1])
 
+const collectBuilderHubHrefOffenders = (
+  value: unknown,
+  path: string
+): string[] => {
+  if (Array.isArray(value)) {
+    return value.flatMap((child, index) =>
+      collectBuilderHubHrefOffenders(child, `${path}[${index}]`)
+    )
+  }
+
+  if (!value || typeof value !== 'object') return []
+
+  const record = value as Record<string, unknown>
+  const href = typeof record.href === 'string' ? record.href : null
+  const ownOffender =
+    href !== null &&
+    (href === ROUTES.buildersHub || href.startsWith(`${ROUTES.buildersHub}#`))
+      ? [`${path} links to ${href}`]
+      : []
+
+  return ownOffender.concat(
+    Object.entries(record).flatMap(([key, child]) =>
+      collectBuilderHubHrefOffenders(child, `${path}.${key}`)
+    )
+  )
+}
+
 describe('link policy', () => {
   it('routes Research navigation cards to the Research page', () => {
     // Labels are copy and can change; assert on the route the card links to.
@@ -161,6 +190,47 @@ describe('link policy', () => {
         }),
       ])
     )
+  })
+
+  it('routes public page CTAs to Get Started instead of Builders Hub', () => {
+    const offenders = readdirSync(pagesContentRoot)
+      .filter((entry) => entry.endsWith('.json'))
+      .flatMap((entry) => {
+        const path = join(pagesContentRoot, entry)
+        const content = JSON.parse(readFileSync(path, 'utf8')) as unknown
+
+        return collectBuilderHubHrefOffenders(
+          content,
+          relative(repoRoot, path)
+        )
+      })
+
+    expect(offenders).toEqual([])
+  })
+
+  it('does not route public app CTAs to Builders Hub', () => {
+    const allowedRouteOwners = [
+      'app/[locale]/builders-hub/',
+      'components/sections/builders-hub/',
+      'app/sitemap.ts',
+      'constants/routes.ts',
+      'lib/__tests__/',
+      'scripts/static-export-smoke.ts',
+      'test/',
+    ]
+    const offenders = collectTextFiles(webRoot).flatMap((file) => {
+      const relativePath = relative(webRoot, file)
+      if (allowedRouteOwners.some((owner) => relativePath.includes(owner))) {
+        return []
+      }
+
+      const text = readFileSync(file, 'utf8')
+      return text.includes('ROUTES.buildersHub')
+        ? [`${relative(repoRoot, file)} uses ROUTES.buildersHub`]
+        : []
+    })
+
+    expect(offenders).toEqual([])
   })
 
   it('routes homepage builder support cards to their external repositories', () => {
@@ -354,9 +424,28 @@ describe('link policy', () => {
   })
 
   it('routes Basecamp install CTAs through the shared release URLs', () => {
+    const technologyStackHero = technologyStackPage.sections.find(
+      (section) => section.key === 'techStack.hero'
+    ) as { status?: { cta?: { href: string; external?: boolean } } } | undefined
+    const technologyStackAppInstall = technologyStackPage.sections.find(
+      (section) => section.key === 'techStack.appInstall'
+    ) as { primaryCta?: { href: string; external?: boolean } } | undefined
+
     expect(EXTERNAL_URLS.basecampRelease).toBe(basecampReleaseHref)
     expect(EXTERNAL_URLS.basecampLinuxDownload).toBe(basecampLinuxDownloadHref)
     expect(EXTERNAL_URLS.basecampMacDownload).toBe(basecampMacDownloadHref)
+    expect(technologyStackHero?.status?.cta).toEqual(
+      expect.objectContaining({
+        href: basecampReleaseHref,
+        external: true,
+      })
+    )
+    expect(technologyStackAppInstall?.primaryCta).toEqual(
+      expect.objectContaining({
+        href: basecampReleaseHref,
+        external: true,
+      })
+    )
 
     expect(
       resolveBasecampInstallCtaHref({
@@ -368,7 +457,7 @@ describe('link policy', () => {
     expect(
       resolveBasecampInstallCtaHref({
         label: 'Install Testnet v0.2',
-        href: ROUTES.buildersHub,
+        href: ROUTES.getStarted,
         iconOverride: 'download',
       })
     ).toBe(basecampReleaseHref)
