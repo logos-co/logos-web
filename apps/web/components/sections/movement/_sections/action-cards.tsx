@@ -15,14 +15,14 @@ export function ActionCardsSection({ data }: { data: MovementCopySection }) {
       href: '#activist-circle',
     },
     {
-      key: 'coalition',
-      image: movementImages.coalition,
-      href: '#join-the-coalition',
-    },
-    {
       key: 'building',
       image: movementImages.building,
       href: '#activist-builder',
+    },
+    {
+      key: 'coalition',
+      image: movementImages.coalition,
+      href: '#join-the-coalition',
     },
   ]
 
