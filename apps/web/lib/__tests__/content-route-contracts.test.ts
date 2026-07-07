@@ -240,7 +240,7 @@ describe('content-backed web route contracts', () => {
 
     expect(builder.feature).toEqual({
       city: 'Benin',
-      title: 'Regenerative Social DeFi Fundraising Platform',
+      title: 'Regenerative social DeFi fundraising platform',
       cta: 'View issue',
     })
     expect(builder.details).toEqual({
