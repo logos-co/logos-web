@@ -36,7 +36,7 @@ export function HowItWorks({
               {evaluation.primaryCta}
             </Button>
             <Button
-              href={ROUTES.buildersHub}
+              href={ROUTES.getStarted}
               variant="secondary"
               className="cursor-pointer"
             >

@@ -48,7 +48,7 @@ export function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
               {copy.primaryCta}
             </Button>
             <Button
-              href={ROUTES.buildersHub}
+              href={ROUTES.getStarted}
               variant="secondary"
               className="cursor-pointer border-brand-off-white/50 text-brand-off-white"
             >

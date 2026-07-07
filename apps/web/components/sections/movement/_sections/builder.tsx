@@ -26,7 +26,7 @@ export function BuilderSection({ data }: { data: MovementCopySection }) {
               label={data.builder.primaryCta}
             />
             <Cta
-              href={ROUTES.buildersHub}
+              href={ROUTES.getStarted}
               label={data.builder.secondaryCta}
               tone="secondary"
             />

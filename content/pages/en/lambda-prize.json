@@ -13,7 +13,7 @@
         "heading": "The frontier is open.\nBuild what's next.",
         "body": "Prize is the competitive prize framework powering the Logos network. A programme to accelerate real, shipped applications built on the Logos stack.",
         "primaryCta": "View Prizes",
-        "secondaryCta": "Builder Hub"
+        "secondaryCta": "Start Building"
       },
       "howItWorks": {
         "heading": "How It Works",
@@ -47,7 +47,7 @@
       "evaluation": {
         "heading": "Evaluation Criteria",
         "primaryCta": "View Prizes",
-        "secondaryCta": "Connect with the team on Discord",
+        "secondaryCta": "Start Building",
         "rows": [
           {
             "label": "Step 1",
