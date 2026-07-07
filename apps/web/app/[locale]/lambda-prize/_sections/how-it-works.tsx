@@ -36,7 +36,7 @@ export function HowItWorks({
               {evaluation.primaryCta}
             </Button>
             <Button
-              href={ROUTES.getStarted}
+              href={EXTERNAL_URLS.discord}
               variant="secondary"
               className="cursor-pointer"
             >
