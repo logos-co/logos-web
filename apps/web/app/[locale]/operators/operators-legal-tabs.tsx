@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 import { LegalMarkdown } from '@/components/sections/shared/legal-markdown'
 
-type OperatorsLegalDocumentKey = 'terms' | 'privacy'
+type OperatorsLegalDocumentKey = 'terms' | 'privacy' | 'disclaimer'
 
 interface OperatorsLegalDocument {
   label: string
@@ -14,6 +14,7 @@ interface OperatorsLegalDocument {
 interface OperatorsLegalTabsProps {
   terms: OperatorsLegalDocument
   privacy: OperatorsLegalDocument
+  disclaimer: OperatorsLegalDocument
 }
 
 const documentButtons: ReadonlyArray<{
@@ -22,9 +23,11 @@ const documentButtons: ReadonlyArray<{
 }> = [
   { key: 'terms', panelId: 'operators-terms-panel' },
   { key: 'privacy', panelId: 'operators-privacy-panel' },
+  { key: 'disclaimer', panelId: 'operators-disclaimer-panel' },
 ]
 
 export function OperatorsLegalTabs({
+  disclaimer,
   privacy,
   terms,
 }: OperatorsLegalTabsProps) {
@@ -34,6 +37,7 @@ export function OperatorsLegalTabs({
   const documents: Record<OperatorsLegalDocumentKey, OperatorsLegalDocument> = {
     terms,
     privacy,
+    disclaimer,
   }
   const activeDocument =
     activeDocumentKey === null ? null : documents[activeDocumentKey]

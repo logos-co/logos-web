@@ -20,6 +20,10 @@ type OperatorsCopySection = {
       label: string
       slug: string
     }
+    disclaimer: {
+      label: string
+      slug: string
+    }
   }
 }
 
@@ -52,6 +56,10 @@ describe('operators page contract', () => {
     expect(section.documents.privacy).toEqual({
       label: 'Privacy Policy',
       slug: 'operators-privacy-policy',
+    })
+    expect(section.documents.disclaimer).toEqual({
+      label: 'Disclaimer',
+      slug: 'operators-disclaimer',
     })
   })
 })

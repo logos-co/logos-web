@@ -355,6 +355,10 @@ export const operatorsCopySectionSchema = z.object({
       label: z.string().min(1),
       slug: z.string().min(1),
     }),
+    disclaimer: z.object({
+      label: z.string().min(1),
+      slug: z.string().min(1),
+    }),
   }),
 })
 export type OperatorsCopySection = z.infer<typeof operatorsCopySectionSchema>

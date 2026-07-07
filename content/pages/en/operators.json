@@ -20,6 +20,10 @@
         "privacy": {
           "label": "Privacy Policy",
           "slug": "operators-privacy-policy"
+        },
+        "disclaimer": {
+          "label": "Disclaimer",
+          "slug": "operators-disclaimer"
         }
       }
     }

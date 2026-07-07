@@ -137,6 +137,7 @@ test('operatorsCopy parses a minimal valid value and routes through the union', 
     documents: {
       terms: { label: 'Terms of Use', slug: 'operators-terms-of-use' },
       privacy: { label: 'Privacy Policy', slug: 'operators-privacy-policy' },
+      disclaimer: { label: 'Disclaimer', slug: 'operators-disclaimer' },
     },
   }
   assert.equal(operatorsCopySectionSchema.parse(value).componentType, 'operatorsCopy')
