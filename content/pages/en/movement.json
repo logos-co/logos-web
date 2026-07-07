@@ -11,12 +11,12 @@
       "heading": "Movement",
       "hero": {
         "title": "Logos Movement",
-        "body": "Logos is a movement of builders, activists, and community organisers rebuilding civil society with tools that help people coordinate, communicate, and solve problems where they live."
+        "body": "Logos is a movement building a parallel society. Find a community that supports you, learn skills that make you self-reliant, and keep your money and speech yours. It starts where you live."
       },
       "intro": {
-        "titleLine1": "The Movement",
-        "titleLine2": "to Rebuild Society",
-        "body": "Technology alone won't save us. Join 2000+ activists and organisations working to rebuild civil society, together."
+        "titleLine1": "Action,",
+        "titleLine2": "not permission",
+        "body": "Technology alone won't save us. 2,000+ activists and organisations are building institutions that work when the old ones fail, alongside the economy to sustain them."
       },
       "actions": {
         "activism": {
@@ -26,11 +26,11 @@
         },
         "coalition": {
           "title": "Coalition",
-          "body": "Collaborate with organisations innovating at the intersection of tech and civil society.",
+          "body": "Partner with aligned organisations to share resources, knowledge, and reach.",
           "cta": "Join the coalition"
         },
         "building": {
-          "title": "Impact Building",
+          "title": "Impact building",
           "body": "Build tech that creates real impact by solving local problems around the world.",
           "cta": "Build for impact"
         }
@@ -38,19 +38,19 @@
       "campaign": {
         "eyebrow": "Movement",
         "kicker": "Activism starts local",
-        "title": "Join an Activist Circle",
-        "body": "Logos Circles are self-organised groups that take action to solve winnable issues that matter locally, from community cleanups and food drives to issue advocacy and more.",
+        "title": "Join a Circle",
+        "body": "Logos Circles are self-organised groups solving winnable issues that matter locally, from cleanups and issue advocacy to community fundraising and beyond.",
         "primaryCta": "Join an upcoming circle",
         "secondaryCta": "Propose a new circle",
         "tertiaryCta": "Join the community"
       },
       "find": {
         "title": "Find a Circle near you.",
-        "body": "Activist leaders are organising around the world to solve winnable issues that impact them.",
+        "body": "Activists are organising around the world, solving real problems – one win at a time.",
         "cta": "Find a circle near you"
       },
       "activismSection": {
-        "title": "Activism in Action",
+        "title": "Activism in action",
         "body": "Local Circles are solving winnable issues every week. Get inspired by recent successes from around the world.",
         "cta": "Submit an issue"
       },
@@ -85,18 +85,18 @@
         "secondaryCta": "Join the community"
       },
       "coalition": {
-        "title": "Join the Coalition.",
-        "body": "It takes a village. From network states to homeschooling collectives, organisations from around the world are uniting to rebuild civil society, together.",
+        "title": "Join the coalition.",
+        "body": "It takes a village. From privacy networks to homeschooling collectives, organisations around the world are building better institutions, together.",
         "cta": "Join the coalition"
       },
       "builder": {
-        "title": "Become an Activist Builder",
-        "body": "Every movement needs its tools. Build applications alongside activists to solve community problems with impact.",
+        "title": "Become an activist builder",
+        "body": "Every movement needs its tools. Activist builders turn community needs into working systems, research, media, and infrastructure. Build alongside activists and ship into real hands.",
         "primaryCta": "Build for impact",
         "secondaryCta": "Build on Logos stack",
         "feature": {
           "city": "Benin",
-          "title": "Regenerative Social DeFi Fundraising Platform",
+          "title": "Regenerative social DeFi fundraising platform",
           "cta": "View issue"
         },
         "details": {
