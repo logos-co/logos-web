@@ -30,6 +30,7 @@ describe('getLegalDoc', () => {
       'security',
       'operators-terms-of-use',
       'operators-privacy-policy',
+      'operators-disclaimer',
     ]) {
       const doc = getLegalDoc(slug)
       expect(doc.title).toContain('| Logos')
@@ -56,6 +57,17 @@ describe('getLegalDoc', () => {
       '1. Providing you with access to certain functionalities'
     )
     expect(privacy.body).not.toContain('1) ### **Who we are**')
+  })
+
+  it('loads the operator sunset disclaimer as markdown', () => {
+    const disclaimer = getLegalDoc('operators-disclaimer')
+
+    expect(disclaimer.body).toContain(
+      '# Disclaimer - Sunset of Logos Operators'
+    )
+    expect(disclaimer.body).toContain('## Privacy policy addendum')
+    expect(disclaimer.body).toContain('1. Name;')
+    expect(disclaimer.body).toContain('https://logos.co/privacy-policy')
   })
 
   it('throws a descriptive error when the document is missing', () => {

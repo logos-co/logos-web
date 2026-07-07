@@ -36,6 +36,7 @@ export default async function OperatorsPage({ params }: OperatorsPageProps) {
   )
   const terms = getLegalDoc(data.documents.terms.slug)
   const privacy = getLegalDoc(data.documents.privacy.slug)
+  const disclaimer = getLegalDoc(data.documents.disclaimer.slug)
 
   return (
     <main className="bg-brand-off-white text-brand-dark-green">
@@ -57,6 +58,10 @@ export default async function OperatorsPage({ params }: OperatorsPageProps) {
       <OperatorsLegalTabs
         terms={{ label: data.documents.terms.label, body: terms.body }}
         privacy={{ label: data.documents.privacy.label, body: privacy.body }}
+        disclaimer={{
+          label: data.documents.disclaimer.label,
+          body: disclaimer.body,
+        }}
       />
     </main>
   )
