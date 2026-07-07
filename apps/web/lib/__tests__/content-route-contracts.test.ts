@@ -206,21 +206,21 @@ describe('content-backed web route contracts', () => {
     ).toEqual([
       {
         locationLabel: 'Los Angeles, California',
-        title: 'Logos-powered Nextdoor App',
+        title: 'Logos-powered Nextdoor app',
         description:
           "Build a neighbourhood-scale messaging surface that doesn't sell its members to advertisers. The LA Circle is prototyping a Nextdoor-style app on top of Waku and Codex with strict membership scoping per block.",
         href: 'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles#los-angeles',
       },
       {
         locationLabel: 'Benin',
-        title: 'Social-DeFi Fundraising',
+        title: 'Social-DeFi fundraising',
         description:
           'Build a "Social DeFi" platform that combines the engagement of social media with a regenerative financial engine. FundBrave replaces traditional donations with a high-yield fundraising model for community action.',
         href: 'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles#benin',
       },
       {
         locationLabel: 'London',
-        title: 'Digital IDs Knowledge Hub',
+        title: 'Digital IDs knowledge hub',
         description:
           'Build a clear, accessible information hub to help UK citizens understand digital IDs, the risks, benefits, and alternatives, without government or media spin. The hub will include articles, explainers, videos, and translatable content for local organisers.',
         href: 'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles#london',

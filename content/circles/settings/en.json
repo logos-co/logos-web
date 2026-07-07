@@ -58,8 +58,8 @@
   },
   "detailJoinCtaLabel": "Join this circle",
   "resourcesSection": {
-    "title": "Circles Resources",
-    "description": "Everything you need to start, run, and connect a circle.",
+    "title": "Circles resources",
+    "description": "Everything you need to start, run, and connect with a Circle.",
     "helpCenterCta": { "label": "Get help", "href": "https://forum.logos.co/c/meetups/6", "external": true }
   }
 }
