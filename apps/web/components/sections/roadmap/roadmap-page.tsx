@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { type KeyboardEvent, useRef, useState } from 'react'
 
 import type { RoadmapCopySection } from '@repo/content/schemas'
 
@@ -101,10 +101,64 @@ function RoadmapHero({ data }: { data: RoadmapCopySection['hero'] }) {
   )
 }
 
+function getReleaseTabId(index: number) {
+  return `roadmap-release-tab-${index}`
+}
+
+function getReleasePanelId(index: number) {
+  return `roadmap-release-panel-${index}`
+}
+
 function RoadmapRelease({ data }: { data: RoadmapCopySection['release'] }) {
   const [activeTab, setActiveTab] = useState(data.activeTab)
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
   const activeRelease =
     data.items.find((item) => item.tab === activeTab) ?? data.items[0]!
+  const activeReleaseIndex = Math.max(
+    0,
+    data.items.findIndex((item) => item.tab === activeRelease.tab)
+  )
+
+  const activateTabAtIndex = (index: number) => {
+    const item = data.items[index]
+
+    if (!item) {
+      return
+    }
+
+    setActiveTab(item.tab)
+    tabRefs.current[index]?.focus()
+  }
+
+  const handleTabKeyDown = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    index: number
+  ) => {
+    const lastIndex = data.items.length - 1
+
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      event.preventDefault()
+      activateTabAtIndex(index === lastIndex ? 0 : index + 1)
+      return
+    }
+
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      event.preventDefault()
+      activateTabAtIndex(index === 0 ? lastIndex : index - 1)
+      return
+    }
+
+    if (event.key === 'Home') {
+      event.preventDefault()
+      activateTabAtIndex(0)
+      return
+    }
+
+    if (event.key === 'End') {
+      event.preventDefault()
+      activateTabAtIndex(lastIndex)
+    }
+  }
 
   return (
     <section className="mt-10 bg-brand-off-white pb-20 ring-1 ring-inset ring-brand-dark-green/10 md:pb-28">
@@ -114,20 +168,30 @@ function RoadmapRelease({ data }: { data: RoadmapCopySection['release'] }) {
           role="tablist"
           className="flex max-w-full overflow-x-auto"
         >
-          {data.items.map((item) => {
+          {data.items.map((item, index) => {
             const isActive = item.tab === activeRelease.tab
+            const tabId = getReleaseTabId(index)
+            const panelId = getReleasePanelId(index)
+
             return (
               <button
                 key={item.tab}
+                id={tabId}
+                ref={(node) => {
+                  tabRefs.current[index] = node
+                }}
                 type="button"
                 role="tab"
                 aria-selected={isActive}
+                aria-controls={panelId}
+                tabIndex={isActive ? 0 : -1}
                 className={`flex h-[34px] cursor-pointer items-center justify-center px-2.5 py-0 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase ring-1 ring-inset ring-brand-dark-green ${
                   isActive
                     ? 'bg-brand-dark-green text-brand-off-white'
                     : 'text-brand-dark-green'
                 }`}
                 onClick={() => setActiveTab(item.tab)}
+                onKeyDown={(event) => handleTabKeyDown(event, index)}
               >
                 {item.tab}
               </button>
@@ -135,7 +199,13 @@ function RoadmapRelease({ data }: { data: RoadmapCopySection['release'] }) {
           })}
         </div>
 
-        <div className="mt-16 flex flex-col gap-14 md:mt-[81px] desktop:flex-row desktop:items-center desktop:justify-between">
+        <div
+          id={getReleasePanelId(activeReleaseIndex)}
+          role="tabpanel"
+          aria-labelledby={getReleaseTabId(activeReleaseIndex)}
+          tabIndex={0}
+          className="mt-16 flex flex-col gap-14 md:mt-[81px] desktop:flex-row desktop:items-center desktop:justify-between"
+        >
           <div className="w-full max-w-[345px] font-mono text-[10px] leading-[1.35] font-semibold whitespace-pre-line text-brand-dark-green uppercase">
             {activeRelease.status ? <p>{activeRelease.status}</p> : null}
             <p>

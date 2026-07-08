@@ -63,4 +63,24 @@ test('roadmapCopy parses a minimal valid value and routes through the union', ()
     'roadmapCopy'
   )
   assert.equal(pageSectionSchema.parse(value).componentType, 'roadmapCopy')
+
+  assert.throws(() =>
+    roadmapCopySectionSchema.parse({
+      ...value,
+      overview: {
+        ...value.overview,
+        cards: [{ id: 'announcement', image }],
+      },
+    })
+  )
+
+  assert.throws(() =>
+    roadmapCopySectionSchema.parse({
+      ...value,
+      overview: {
+        ...value.overview,
+        cards: [{ id: 'announcement', body: [], image }],
+      },
+    })
+  )
 })
