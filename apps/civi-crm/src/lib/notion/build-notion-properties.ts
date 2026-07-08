@@ -8,6 +8,8 @@ import {
   CHAT_SERVICE_MAP,
   COUNTRY_MAP,
   BU_MOVEMENT,
+  HEAR_ABOUT_MAP,
+  HEAR_ABOUT_QUESTION,
   MVMT_STATUS_NEW_LEAD,
   PROFILE_BY_FORM,
   SKILLS_MAP,
@@ -63,6 +65,18 @@ function getProfileName(formName: string): string | undefined {
   return PROFILE_BY_FORM[formName as AfformIntakeFormName]
 }
 
+// Resolves the submitted "How did you first hear about Logos?" answer to its
+// Notion select label, or undefined when the value is missing or is not a known
+// option id. Only known ids resolve, so tampered submissions cannot create new
+// options on the Notion property. Shared with the afform-submit route so its
+// required-field check accepts exactly the values the builder will write.
+export function resolveHearAboutLabel(
+  data: Record<string, unknown>
+): string | undefined {
+  const hearAboutId = toArray(data.hearAbout).map(trim).filter(Boolean)[0] ?? ''
+  return HEAR_ABOUT_MAP[hearAboutId]
+}
+
 export function buildNotionProperties(
   data: Record<string, unknown>,
   formName: string
@@ -101,6 +115,8 @@ export function buildNotionProperties(
     .filter((v): v is string => v !== null)
   const chatStr = chatPairs.join(' | ')
 
+  const hearAbout = resolveHearAboutLabel(data)
+
   const profileName = getProfileName(formName)
 
   const properties: NotionPageProperties = {
@@ -133,6 +149,11 @@ export function buildNotionProperties(
     })
   if (chatStr) {
     properties['Phone or Social Handle'] = { phone_number: chatStr }
+  }
+  if (hearAbout) {
+    properties[HEAR_ABOUT_QUESTION] = {
+      select: { name: hearAbout },
+    }
   }
 
   const backgroundProp = optionalRichText(background)

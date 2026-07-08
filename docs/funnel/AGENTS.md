@@ -36,7 +36,9 @@ The reason both writes are in one handler: hCaptcha tokens are single-use. One P
 | --- | --- |
 | `apps/civi-crm/src/app/api/public/afform-submit/route.ts` | Orchestrator: validation, captcha, calls both libs |
 | `apps/civi-crm/src/lib/intake-submit-flags.ts` | Reads `FUNNEL_INTAKE_*_DISABLED` env flags |
-| `apps/civi-crm/src/lib/notion/maps.ts` | `SKILLS_MAP`, `CHAT_SERVICE_MAP`, `COUNTRY_MAP`, `PROFILE_BY_FORM`, `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT` |
+| `apps/civi-crm/src/lib/notion/maps.ts` | `SKILLS_MAP`, `CHAT_SERVICE_MAP`, `COUNTRY_MAP`, `PROFILE_BY_FORM`, `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT`; re-exports `HEAR_ABOUT_MAP` / `HEAR_ABOUT_QUESTION` from `@repo/funnel` |
+| `packages/funnel/src/index.ts` | `@repo/funnel` -- single source of truth for the "How did you first hear about Logos?" question, options, and id → label map |
+| `apps/web/lib/civicrm/hear-about-field.ts` | Web-only "How did you first hear about Logos?" field def + `withHearAboutField` injector used by the three form pages |
 | `apps/civi-crm/src/lib/notion/build-notion-properties.ts` | `buildNotionProperties` |
 | `apps/civi-crm/src/lib/notion/submit.ts` | `submitToNotion` -- resolves the data source, builds properties, POSTs page |
 | `apps/civi-crm/src/lib/civicrm/submit-afform.ts` | `submitToCiviCrm` -- builds Afform values, POSTs to CiviCRM API |
@@ -127,6 +129,7 @@ The table below lists every property in the database as of 2026-05-29. The **Fun
 | `Questions` | rich_text | **yes -- added** | From `questions`; omitted if empty |
 | `Wants Events` | checkbox | **yes -- added** | From `wantsEvents` boolean |
 | `Wants Newsletter` | checkbox | **yes -- added** | From `wantsNewsletter` boolean |
+| `How did you first hear about Logos?` | select | **yes -- added** | From `hearAbout` (numeric option id mapped via `HEAR_ABOUT_MAP`); unknown ids are dropped (property omitted) so tampering can't create new select options; options: `Friend or colleague`, `Social media`, `Search engine`, `Event or conference`, `Another community or organization`, `Podcast`, `News/article/blog`, `Other` |
 | `Account Owner` | person | no | BD team member assigned to the row |
 | `Contacts` | rich_text | no | Free-form contact notes; manually populated |
 | `Event Touchpoints` | multi_select | no | Events where the contact was met; options: `EthCC 2025`, `Protocolberg 2025`, `EthDenver 2025`, `EthDam`, `ETHCC`, `Inbound`, `Devcon 2024`, `Decentralized Data Summit`, `Devconnect 2025` |
@@ -167,6 +170,12 @@ ADD COLUMN "Website 4" URL;
 ADD COLUMN "Website 5" URL
 ```
 
+On 2026-07-06 one more column was added (to the **production** database, `5b951a531bd94db9b0078e11640e1051` / data source `9fe0dc96-98dc-493b-8e09-37c17f020872`) for issue [logos-web#90](https://github.com/logos-co/logos-web/issues/90):
+
+```sql
+ADD COLUMN "How did you first hear about Logos?" SELECT('Friend or colleague','Social media','Search engine','Event or conference','Another community or organization','Podcast','News/article/blog','Other')
+```
+
 **Known limitation:** "Hide when empty" per property cannot be set via the Notion API or MCP. It must be toggled manually in the Notion UI for each of the added properties -- including `Website 2`..`Website 5` (Database -> ... -> Properties -> each property -> Visibility -> Hide when empty).
 
 **Production note:** the four `Website 2`..`Website 5` columns above were added to the **test** database (`ede0c08525554244b940f681318a0891`). The production database referenced by `NOTION_DB_ID` must receive the same four `URL` columns before this ships -- a page POST referencing an unknown property is rejected by the Notion API, which would break live submissions.
@@ -181,6 +190,7 @@ ADD COLUMN "Website 5" URL
 - **One column per website** -- `website[]` is spread across discrete url columns: entry 1 -> `Website`, entries 2-5 -> `Website 2`..`Website 5`. Blank rows are dropped first, so the columns fill contiguously. The funnel form caps the website field at 5 rows (`MAX_WEBSITE_ROWS` in `connect-form-section.tsx`), so the array never overflows the available columns. (Previously all entries were pipe-joined into the single `Website` url field.)
 - **Joined multi-values** -- `chat[]` -> `handle (Service)` entries in `Phone or Social Handle`.
 - **`Mvmt Organization` is free text** -- `affiliatedOrgs` is written verbatim to the `Mvmt Organization` rich-text column (clamped to 2000 chars), keeping the curated `Organization` select free of intake noise. (Intake no longer writes to `Organization`.)
+- **`hearAbout` is web/Notion-only** -- "How did you first hear about Logos?" has no CiviCRM custom field. Its Afform def (`apps/web/lib/civicrm/hear-about-field.ts`) carries an empty `fieldName`; `connect-form-section.tsx` filters such defs out of the `fields[]` POST payload and `buildAfformValues` skips them, so the CiviCRM submission is unchanged. `withHearAboutField` splices the field after `chatService` at page level and no-ops if a future regenerated Afform ever defines `hearAbout` itself. The question, option list, and id → label map live once in `@repo/funnel` (`packages/funnel`); the question string doubles as the Notion property name, so rewording it means renaming the property in Notion first.
 - **Env var name** -- `NOTION_DB_ID`.
 
 ---

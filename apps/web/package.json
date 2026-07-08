@@ -38,6 +38,7 @@
     "@acid-info/logos-ui": "workspace:*",
     "@hcaptcha/react-hcaptcha": "^1.12.0",
     "@repo/content": "workspace:*",
+    "@repo/funnel": "workspace:*",
     "@tanstack/react-query": "^5.100.14",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",

@@ -16,6 +16,7 @@ import {
 
 import { Button } from '@/components/ui/button'
 import { buildFormSchema, MAX_TEXT_LENGTH } from '@/lib/civicrm/contactFormSchema'
+import { HEAR_ABOUT_FORM_KEY } from '@/lib/civicrm/hear-about-field'
 import type {
   AfformConfig,
   AfformField,
@@ -296,7 +297,9 @@ export function ConnectFormSection({
         body: JSON.stringify({
           ...formData,
           captchaToken,
-          fields: afform.fields,
+          // Fields without a CiviCRM fieldName are web/Notion-only (e.g.
+          // hearAbout) and must stay out of the Afform submission.
+          fields: (afform.fields ?? []).filter((f) => f.fieldName),
           ...extraPayload,
         }),
       })
@@ -514,7 +517,9 @@ export function ConnectFormSection({
                 error={hasFieldError}
                 errorMessage={
                   REQUIRED_FIELDS.has(field.formKey)
-                    ? t('selectFieldRequired', { field: label.toLowerCase() })
+                    ? field.formKey === HEAR_ABOUT_FORM_KEY
+                      ? t('selectOptionRequired')
+                      : t('selectFieldRequired', { field: label.toLowerCase() })
                     : null
                 }
                 isOpen={openDropdown === field.formKey}

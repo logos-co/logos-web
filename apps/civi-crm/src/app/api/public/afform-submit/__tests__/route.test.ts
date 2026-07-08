@@ -74,6 +74,70 @@ describe('POST /api/public/afform-submit', () => {
     )
   })
 
+  it('accepts a funnel submission with a valid hear-about answer', async () => {
+    const res = await POST(
+      makeRequest({
+        formName: 'afformActivistBuilder',
+        fields: formFields,
+        name: 'Ada',
+        hearAbout: '2',
+      })
+    )
+    const body = await res.json()
+
+    expect(res.status).toBe(201)
+    expect(body.success).toBe(true)
+    expect(vi.mocked(submitToNotion)).toHaveBeenCalledWith(
+      { name: 'Ada', hearAbout: '2' },
+      'afformActivistBuilder'
+    )
+  })
+
+  it('rejects a funnel submission missing the hear-about answer', async () => {
+    const res = await POST(
+      makeRequest({
+        formName: 'afformActivistBuilder',
+        fields: formFields,
+        name: 'Ada',
+      })
+    )
+    const body = await res.json()
+
+    expect(res.status).toBe(400)
+    expect(body.error).toBe('Invalid or missing hear-about answer')
+    expect(vi.mocked(submitToNotion)).toHaveBeenCalledTimes(0)
+    expect(vi.mocked(submitToCiviCrm)).toHaveBeenCalledTimes(0)
+  })
+
+  it('rejects a funnel submission with an unknown hear-about id', async () => {
+    const res = await POST(
+      makeRequest({
+        formName: 'afformActivistBuilder',
+        fields: formFields,
+        name: 'Ada',
+        hearAbout: '999',
+      })
+    )
+    const body = await res.json()
+
+    expect(res.status).toBe(400)
+    expect(body.error).toBe('Invalid or missing hear-about answer')
+    expect(vi.mocked(submitToNotion)).toHaveBeenCalledTimes(0)
+  })
+
+  it('does not require hear-about on the connect form', async () => {
+    const res = await POST(
+      makeRequest({
+        formName: 'afformCircleContactForm',
+        fields: formFields,
+        name: 'Ada',
+      })
+    )
+
+    expect(res.status).toBe(201)
+    expect(vi.mocked(submitToCiviCrm)).toHaveBeenCalledTimes(1)
+  })
+
   it('returns 502 when connect CiviCRM submission fails', async () => {
     vi.mocked(submitToCiviCrm).mockResolvedValue({
       ok: false,

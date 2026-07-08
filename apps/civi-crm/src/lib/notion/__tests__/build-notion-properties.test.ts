@@ -153,6 +153,43 @@ describe('buildNotionProperties', () => {
     expect(properties['Website 2']).toBeUndefined()
   })
 
+  it('maps hearAbout option ids to the hear-about select property', () => {
+    const properties = buildNotionProperties(
+      { ...baseData, hearAbout: '2' },
+      'afformCoalitionPartner'
+    )
+
+    expect(properties['How did you first hear about Logos?']).toEqual({
+      select: { name: 'Social media' },
+    })
+  })
+
+  it('accepts hearAbout submitted as an array', () => {
+    const properties = buildNotionProperties(
+      { ...baseData, hearAbout: ['7'] },
+      'afformCoalitionPartner'
+    )
+
+    expect(properties['How did you first hear about Logos?']).toEqual({
+      select: { name: 'News/article/blog' },
+    })
+  })
+
+  it('drops unknown hearAbout values instead of creating new options', () => {
+    const properties = buildNotionProperties(
+      { ...baseData, hearAbout: 'made-up-option' },
+      'afformCoalitionPartner'
+    )
+
+    expect(properties['How did you first hear about Logos?']).toBeUndefined()
+  })
+
+  it('omits the hear-about property when hearAbout is missing', () => {
+    const properties = buildNotionProperties(baseData, 'afformCoalitionPartner')
+
+    expect(properties['How did you first hear about Logos?']).toBeUndefined()
+  })
+
   it('omits Mvmt Organization when affiliatedOrgs is empty', () => {
     const properties = buildNotionProperties(
       { ...baseData, affiliatedOrgs: '' },
