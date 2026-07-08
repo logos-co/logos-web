@@ -19,6 +19,7 @@ export const ROUTES = {
 
   // Technology Stack
   technologyStack: '/technology-stack',
+  roadmap: '/roadmap',
   basecamp: '/basecamp',
   blockchain: '/technology-stack/blockchain',
   networking: '/technology-stack/networking',

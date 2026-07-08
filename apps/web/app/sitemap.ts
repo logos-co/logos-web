@@ -38,6 +38,7 @@ const staticIndexableRoutes = [
   ROUTES.testnetFaqs,
   ROUTES.testnetTermsAndConditions,
   ROUTES.technologyStack,
+  ROUTES.roadmap,
   ROUTES.basecamp,
   ROUTES.blockchain,
   ROUTES.messaging,

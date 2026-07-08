@@ -8,6 +8,7 @@ type DefaultMetadataProps = {
   noindex?: boolean
   title?: string
   description?: string
+  keywords?: string[]
   path?: string
 }
 
@@ -25,6 +26,7 @@ export function absoluteUrl(
 export async function createDefaultMetadata({
   title = '',
   description = '',
+  keywords,
   locale,
   noindex = false,
   path = '',
@@ -69,7 +71,7 @@ export async function createDefaultMetadata({
     },
     icons: faviconIcons,
     creator: siteConfig.name,
-    keywords: siteConfig.keywords,
+    keywords: keywords ?? siteConfig.keywords,
     robots: {
       index: !noindex && env.NEXT_PUBLIC_API_MODE === 'production',
       follow: !noindex,

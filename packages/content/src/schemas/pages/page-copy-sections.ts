@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { linkHrefSchema } from '../common'
+import { linkHrefSchema, mediaRefSchema } from '../common'
 import { sectionKeySchema } from './shared'
 
 const gsItemSchema = z.object({
@@ -50,9 +50,7 @@ export const getStartedCopySectionSchema = z.object({
     }),
   }),
 })
-export type GetStartedCopySection = z.infer<
-  typeof getStartedCopySectionSchema
->
+export type GetStartedCopySection = z.infer<typeof getStartedCopySectionSchema>
 
 const mvCtaGroup = z.object({
   title: z.string().min(1),
@@ -435,6 +433,67 @@ export const lambdaPrizeCopySectionSchema = z.object({
 export type LambdaPrizeCopySection = z.infer<
   typeof lambdaPrizeCopySectionSchema
 >
+
+const roadmapActionSchema = z.object({
+  label: z.string().min(1),
+  href: linkHrefSchema.optional(),
+  variant: z.enum(['primary', 'secondary', 'light']).optional(),
+})
+
+const roadmapReleaseModuleSchema = z.object({
+  label: z.string().min(1),
+  body: z.string().min(1),
+  actions: z.array(roadmapActionSchema).default([]),
+})
+
+const roadmapReleaseItemSchema = z.object({
+  tab: z.string().min(1),
+  status: z.string().min(1).optional(),
+  dateLabel: z.string().min(1),
+  date: z.string().min(1),
+  objectiveLabel: z.string().min(1),
+  objective: z.string().min(1),
+  body: z.array(z.string().min(1)).min(1),
+  modules: z.array(roadmapReleaseModuleSchema).min(1),
+})
+
+const roadmapOverviewCardSchema = z.object({
+  id: z.string().min(1),
+  title: z.string().min(1).optional(),
+  body: z.array(z.string().min(1)).default([]),
+  image: mediaRefSchema,
+  cta: roadmapActionSchema.optional(),
+})
+
+const roadmapFaqItemSchema = z.object({
+  question: z.string().min(1),
+  answer: z.array(z.string().min(1)).min(1),
+})
+
+export const roadmapCopySectionSchema = z.object({
+  componentType: z.literal('roadmapCopy'),
+  key: sectionKeySchema,
+  hero: z.object({
+    eyebrow: z.string().min(1),
+    heading: z.string().min(1),
+    disclaimer: z.string().min(1),
+    image: mediaRefSchema,
+  }),
+  release: z.object({
+    tabsAriaLabel: z.string().min(1),
+    activeTab: z.string().min(1),
+    items: z.array(roadmapReleaseItemSchema).min(1),
+  }),
+  overview: z.object({
+    heading: z.string().min(1),
+    cards: z.array(roadmapOverviewCardSchema).min(1),
+  }),
+  faqs: z.object({
+    heading: z.string().min(1),
+    items: z.array(roadmapFaqItemSchema).min(1),
+  }),
+})
+export type RoadmapCopySection = z.infer<typeof roadmapCopySectionSchema>
 
 export const mediaCopySectionSchema = z.object({
   componentType: z.literal('mediaCopy'),

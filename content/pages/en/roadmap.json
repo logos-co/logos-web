@@ -1,0 +1,368 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/roadmap",
+  "title": "Logos Roadmap | Logos",
+  "description": "The path to private-by-default infrastructure for parallel societies.",
+  "heading": "Logos Roadmap",
+  "seo": {
+    "keywords": ["roadmap"]
+  },
+  "sections": [
+    {
+      "componentType": "roadmapCopy",
+      "key": "roadmap.copy",
+      "hero": {
+        "eyebrow": "The path to private-by-default infrastructure for parallel societies.",
+        "heading": "Logos\nRoadmap",
+        "disclaimer": "Roadmap timelines and technical objectives may be subject to change.",
+        "image": {
+          "src": "/images/roadmap/hero-thumb.webp",
+          "alt": "",
+          "width": 1080,
+          "height": 1350
+        }
+      },
+      "release": {
+        "tabsAriaLabel": "Roadmap testnet releases",
+        "activeTab": "Testnet v0.1",
+        "items": [
+          {
+            "tab": "Testnet v0.1",
+            "dateLabel": "Date Released",
+            "date": "March 7, 2026",
+            "objectiveLabel": "Key Objectives",
+            "objective": "Architectural Validation",
+            "body": [
+              "The goal of the first Logos testnet is to test backend architecture. User and developer experience are not the primary focus, but will be improved for the next testnet version.",
+              "We aim to expose as much functionality as possible and focus on module integration.",
+              "Developers are welcome and able to test applications on Logos Core, and Basecamp provides a unified, user-friendly interface for interacting with apps and modules built on Logos."
+            ],
+            "modules": [
+              {
+                "label": "Logos Core",
+                "body": "Runtime loads modules, Basecamp supports simple apps and UI interface, and Logos node can load with Blockchain, Storage, and Messaging modules.",
+                "actions": [
+                  {
+                    "label": "Track Progress",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/logoscore/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/core/"
+                  }
+                ]
+              },
+              {
+                "label": "Networking",
+                "body": "Proof-of-concept for Mix module and demo application, and the first implementation of the Capability Discovery Protocol.",
+                "actions": [
+                  {
+                    "label": "Track Progress",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/anonymous/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/mixnet"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/anonymous/index.html"
+                  }
+                ]
+              },
+              {
+                "label": "Blockchain",
+                "body": "Private Proof-of-Stake consensus with Cryptarchia and Blend. Users are able to run a node, set up a wallet, and transact on testnet.",
+                "actions": []
+              },
+              {
+                "label": "Messaging",
+                "body": "Demo chat application available through Basecamp. Delivery module exposed to developers building privacy-preserving applications.",
+                "actions": []
+              },
+              {
+                "label": "Storage",
+                "body": "Demo filesharing application available on Basecamp powered by Storage module.",
+                "actions": []
+              }
+            ]
+          },
+          {
+            "tab": "Testnet v0.2",
+            "status": "In production",
+            "dateLabel": "Date Released",
+            "date": "June 30, 2026",
+            "objectiveLabel": "Key Objectives",
+            "objective": "Usability",
+            "body": [
+              "This version of the Logos testnet aims to improve the developer experience and demonstrate the usability of the stack in practice.",
+              "External validators will be onboarded and work will be done to improve cross-module coordination.",
+              "Module functionality will be expanded and more features will be made available through Basecamp."
+            ],
+            "modules": [
+              {
+                "label": "Logos Core",
+                "body": "Improved documentation and better coordination between Logos modules.",
+                "actions": []
+              },
+              {
+                "label": "Networking",
+                "body": "Decentralised group chat through De-MLS, and RLN membership allocation for Mix.",
+                "actions": []
+              },
+              {
+                "label": "Blockchain",
+                "body": "Sovereign Zone SDK, channels, bridging support, and decentralised sequencing.",
+                "actions": []
+              },
+              {
+                "label": "Messaging",
+                "body": "New delivery module with Mix integrated. Integration of Mix and De-MLS into chat module.",
+                "actions": []
+              },
+              {
+                "label": "Storage",
+                "body": "Faster and more stable decentralised file-sharing, and a proof-of-concept for DHT over Mix.",
+                "actions": []
+              },
+              {
+                "label": "Applications",
+                "body": "Improved LEZ wallet, AMM, LEZ explorer, and blockchain dashboard.",
+                "actions": []
+              }
+            ]
+          },
+          {
+            "tab": "Testnet v0.3",
+            "dateLabel": "Target",
+            "date": "November 2026",
+            "objectiveLabel": "Key Objectives",
+            "objective": "Ecosystem dynamics",
+            "body": [
+              "This version of the Logos testnet will test the ability for the network to sustain itself.",
+              "Meaningful apps will become available to users and the developer experience will be improved. Liquidity primitives will be implemented and the network will be stress-tested to validate its architecture."
+            ],
+            "modules": [
+              {
+                "label": "Logos Core",
+                "body": "[one liner]",
+                "actions": []
+              },
+              {
+                "label": "Networking",
+                "body": "[one liner]",
+                "actions": []
+              },
+              {
+                "label": "Blockchain",
+                "body": "[one liner]",
+                "actions": []
+              },
+              {
+                "label": "Messaging",
+                "body": "[one liner]",
+                "actions": []
+              },
+              {
+                "label": "Storage",
+                "body": "[one liner]",
+                "actions": []
+              },
+              {
+                "label": "Applications",
+                "body": "[one liner]",
+                "actions": []
+              }
+            ]
+          },
+          {
+            "tab": "Mainnet",
+            "dateLabel": "Target",
+            "date": "H1 2027",
+            "objectiveLabel": "Key Objectives",
+            "objective": "System viability",
+            "body": [
+              "The \"batteries-included\" launch of the Logos network. The stack will be audited, liquidity will be available and distributed, and there will be validator diversity.",
+              "Launch-day applications will be available to users, promoting adoption and driving a self-sustaining ecosystem of private-by-default applications."
+            ],
+            "modules": [
+              {
+                "label": "Logos Core",
+                "body": "[one liner]",
+                "actions": []
+              },
+              {
+                "label": "Networking",
+                "body": "[one liner]",
+                "actions": []
+              },
+              {
+                "label": "Blockchain",
+                "body": "[one liner]",
+                "actions": []
+              },
+              {
+                "label": "Messaging",
+                "body": "[one liner]",
+                "actions": []
+              },
+              {
+                "label": "Storage",
+                "body": "[one liner]",
+                "actions": []
+              },
+              {
+                "label": "Applications",
+                "body": "[one liner]",
+                "actions": []
+              }
+            ]
+          }
+        ]
+      },
+      "overview": {
+        "heading": "Road Map Overview",
+        "cards": [
+          {
+            "id": "logosCoreRuntime",
+            "title": "Logos Core",
+            "body": [
+              "Logos Core development focuses on the research and development of the Logos modular runtime, the Logos Core library, Basecamp, SDKs, and various modules."
+            ],
+            "image": {
+              "src": "/images/roadmap/card-logos-core-a.webp",
+              "alt": "",
+              "width": 720,
+              "height": 709
+            },
+            "cta": {
+              "label": "Full roadmap",
+              "variant": "light",
+              "href": "https://roadmap.logos.co/logoscore/roadmap/"
+            }
+          },
+          {
+            "id": "networking",
+            "title": "Networking",
+            "body": [
+              "Networking development includes p2p group messaging and Decentralised Oracle Network for the Logos Execution Zone.",
+              "A capability discovery module, libp2p mixnet, and RLN membership allocation will be delivered for Logos Core."
+            ],
+            "image": {
+              "src": "/images/roadmap/card-networking.webp",
+              "alt": "",
+              "width": 2000,
+              "height": 1050
+            },
+            "cta": {
+              "label": "Full roadmap",
+              "variant": "light",
+              "href": "https://roadmap.logos.co/anonymous/roadmap/"
+            }
+          },
+          {
+            "id": "blockchain",
+            "title": "Blockchain",
+            "body": [
+              "Private consensus is delivered by Cryptarchia and Blend.",
+              "Logos Execution Zone (LEZ) is being developed as the primary execution environment and first Sovereign Zone, and will later be linked to other public or private zones for interoperability."
+            ],
+            "image": {
+              "src": "/images/roadmap/card-logos-core-b.webp",
+              "alt": "",
+              "width": 700,
+              "height": 875
+            },
+            "cta": {
+              "label": "Full roadmap",
+              "variant": "light",
+              "href": "https://roadmap.logos.co/blockchain/roadmap/"
+            }
+          },
+          {
+            "id": "messaging",
+            "title": "Messaging",
+            "body": [
+              "The Delivery module allows developers to build privacy-preserving applications and will integrate Mix. The Chat module provides private communication and will be expanded with De-MLS for group messaging."
+            ],
+            "image": {
+              "src": "/images/roadmap/card-messaging.webp",
+              "alt": "",
+              "width": 1200,
+              "height": 1600
+            },
+            "cta": {
+              "label": "Full roadmap",
+              "variant": "light",
+              "href": "https://roadmap.logos.co/messaging/roadmap/"
+            }
+          },
+          {
+            "id": "storage",
+            "title": "Storage",
+            "body": [
+              "Development is ongoing on a private file-sharing application and expanding the Storage module with the capability for distributed, censorship-resistant file storage."
+            ],
+            "image": {
+              "src": "/images/roadmap/card-storage.webp",
+              "alt": "",
+              "width": 1200,
+              "height": 1600
+            },
+            "cta": {
+              "label": "Full roadmap",
+              "variant": "light",
+              "href": "https://roadmap.logos.co/storage/roadmap/"
+            }
+          },
+          {
+            "id": "more",
+            "body": ["More to be announced"],
+            "image": {
+              "src": "/images/roadmap/card-more.webp",
+              "alt": "",
+              "width": 2560,
+              "height": 3200
+            }
+          }
+        ]
+      },
+      "faqs": {
+        "heading": "Roadmap FAQs",
+        "items": [
+          {
+            "question": "Will the Logos roadmap change?",
+            "answer": [
+              "Yes, almost definitely. The roadmap is broad and the scope of our goal is ambitious. As an open-source, community-driven initiative, objectives and timelines may change as contributors explore new technologies or better solutions are found to the challenges we are solving."
+            ]
+          },
+          {
+            "question": "Do I have to do anything?",
+            "answer": [
+              "If you are running a node, you will need to update your node to the latest version when a new release is published. Node operators will be informed when they need to update their software.",
+              "Normally, if you are running Basecamp or using a Logos-based application, you should not need to do anything when new releases are published. If there is a breaking change, we will announce when a manual update is required."
+            ]
+          },
+          {
+            "question": "Can I run a node on the Logos blockchain?",
+            "answer": [
+              "Yes. Prior to mainnet, users are able to run a node on the Logos testnet and play a crucial role in building the security and resilience of the blockchain. Read more on how to run a node at docs.logos.co."
+            ]
+          },
+          {
+            "question": "How can I contribute to Logos?",
+            "answer": [
+              "If you are a developer, head over to docs.logos.co and get started building applications on Basecamp, the user-facing interface for the Logos stack. You can also join our community and help with the development of the stack and modules."
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
