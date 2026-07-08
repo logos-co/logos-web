@@ -34,6 +34,7 @@ import {
   nodeProgrammeCopySectionSchema,
   podcastCopySectionSchema,
   researchCopySectionSchema,
+  roadmapCopySectionSchema,
 } from './pages/page-copy-sections'
 import { sectionKeySchema } from './pages/shared'
 export type {
@@ -69,6 +70,7 @@ export type {
   NodeProgrammeCopySection,
   PodcastCopySection,
   ResearchCopySection,
+  RoadmapCopySection,
 } from './pages/page-copy-sections'
 export {
   activistBuilderCopySectionSchema,
@@ -85,6 +87,7 @@ export {
   nodeProgrammeCopySectionSchema,
   podcastCopySectionSchema,
   researchCopySectionSchema,
+  roadmapCopySectionSchema,
 } from './pages/page-copy-sections'
 
 /**
@@ -438,6 +441,7 @@ export const pageSectionSchema = z.discriminatedUnion('componentType', [
   bookCopySectionSchema,
   designGuideCopySectionSchema,
   researchCopySectionSchema,
+  roadmapCopySectionSchema,
   nodeProgrammeCopySectionSchema,
   lambdaPrizeCopySectionSchema,
   manifestoCopySectionSchema,

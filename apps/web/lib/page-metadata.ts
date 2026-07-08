@@ -35,6 +35,7 @@ export function createPageMetadata(route: string) {
     return createDefaultMetadata({
       title: page.seo?.metaTitle ?? page.title,
       description: page.seo?.metaDescription ?? page.description,
+      keywords: page.seo?.keywords,
       locale,
       path: route,
     })

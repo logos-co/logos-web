@@ -51,6 +51,11 @@ const contracts: PageContract[] = [
     ],
   },
   {
+    route: ROUTES.roadmap,
+    name: 'roadmap',
+    sections: [{ componentType: 'roadmapCopy', key: 'roadmap.copy' }],
+  },
+  {
     route: ROUTES.blockchain,
     name: 'blockchain',
     sections: [
@@ -318,6 +323,9 @@ describe('content-backed web route contracts', () => {
       expect(metadata.description).toBe(
         page.seo?.metaDescription ?? page.description
       )
+      if (page.seo?.keywords !== undefined) {
+        expect(metadata.keywords).toEqual(page.seo.keywords)
+      }
       expect(metadata.alternates?.canonical).toContain(contract.route)
     }
   )
