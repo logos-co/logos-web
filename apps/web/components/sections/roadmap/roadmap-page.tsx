@@ -204,7 +204,7 @@ function RoadmapRelease({ data }: { data: RoadmapCopySection['release'] }) {
           role="tabpanel"
           aria-labelledby={getReleaseTabId(activeReleaseIndex)}
           tabIndex={0}
-          className="mt-16 flex flex-col gap-14 md:mt-[81px] desktop:flex-row desktop:items-center desktop:justify-between"
+          className="mt-16 flex flex-col gap-14 md:mt-[81px] desktop:flex-row desktop:items-start desktop:justify-between"
         >
           <div className="w-full max-w-[345px] font-mono text-[10px] leading-[1.35] font-semibold whitespace-pre-line text-brand-dark-green uppercase">
             {activeRelease.status ? <p>{activeRelease.status}</p> : null}
