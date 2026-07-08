@@ -460,7 +460,7 @@ const roadmapReleaseItemSchema = z.object({
 const roadmapOverviewCardSchema = z.object({
   id: z.string().min(1),
   title: z.string().min(1).optional(),
-  body: z.array(z.string().min(1)).default([]),
+  body: z.array(z.string().min(1)).min(1),
   image: mediaRefSchema,
   cta: roadmapActionSchema.optional(),
 })
