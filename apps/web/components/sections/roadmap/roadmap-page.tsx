@@ -267,7 +267,7 @@ function RoadmapOverview({ data }: { data: RoadmapCopySection['overview'] }) {
       <ContentWidth>
         <h2 className="text-h3-sans text-brand-dark-green">{data.heading}</h2>
 
-        <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-[460px_460px_460px]">
+        <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3 desktop:grid-cols-[460px_460px_460px]">
           {data.cards.map((card) => (
             <RoadmapOverviewCard key={card.id} card={card} />
           ))}
