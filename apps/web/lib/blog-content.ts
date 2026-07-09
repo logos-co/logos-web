@@ -534,7 +534,7 @@ function hasStrapiConfig() {
 }
 
 function shouldAllowLegacyFallback() {
-  return env.NEXT_PUBLIC_API_MODE !== 'production'
+  return env.CI || env.NEXT_PUBLIC_API_MODE !== 'production'
 }
 
 async function fetchPressGraphql<T>(
