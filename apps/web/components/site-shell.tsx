@@ -7,6 +7,7 @@ import SiteFooter from '@/components/site-footer'
 import SiteHeader from '@/components/site-header'
 import SiteHeaderGate from '@/components/site-header/site-header-gate'
 import UmamiButtonTracker from '@/components/umami-button-tracker'
+import { PodcastPlayerProvider } from '@/app/[locale]/media/_components/podcast-player-context'
 
 interface SiteShellProps {
   children: ReactNode
@@ -16,15 +17,17 @@ interface SiteShellProps {
 export default function SiteShell({ children, locale }: SiteShellProps) {
   return (
     <Providers>
-      <UmamiButtonTracker />
-      <ScrollToTop />
-      <SiteHeaderGate>
-        <SiteHeader locale={locale} />
-      </SiteHeaderGate>
-      <main className="relative">
-        <PageTransition>{children}</PageTransition>
-      </main>
-      <SiteFooter locale={locale} />
+      <PodcastPlayerProvider>
+        <UmamiButtonTracker />
+        <ScrollToTop />
+        <SiteHeaderGate>
+          <SiteHeader locale={locale} />
+        </SiteHeaderGate>
+        <main className="relative">
+          <PageTransition>{children}</PageTransition>
+        </main>
+        <SiteFooter locale={locale} />
+      </PodcastPlayerProvider>
     </Providers>
   )
 }

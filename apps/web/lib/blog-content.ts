@@ -184,6 +184,7 @@ export interface BlogPodcastDetail extends BlogPostMeta {
   markdownBody?: string
   blocks?: BlogDynamicBlock[]
   relatedEpisodes: BlogPodcastDetail[]
+  footnotes: BlogFootnote[]
 }
 
 type FetchResult<T> = { ok: true; data: T } | { ok: false; error: Error }
@@ -932,6 +933,7 @@ function mapGraphqlPodcast(
     markdownBody: attrs.markdown_body ?? undefined,
     blocks: mapGraphqlDynamicBlocks(attrs.blocks),
     relatedEpisodes,
+    footnotes: articleHtml?.footnotes ?? [],
   }
 }
 
@@ -1099,6 +1101,7 @@ function mapLegacyPodcast(value: unknown): BlogPodcastDetail {
         hosts: mapLegacyAuthors(post.show.hosts),
       }
     : undefined
+  const content = mapLegacyContentBlocks(post.content)
 
   return {
     ...mapLegacyPostMeta(post),
@@ -1129,9 +1132,10 @@ function mapLegacyPodcast(value: unknown): BlogPodcastDetail {
     transcription: Array.isArray(post.transcription)
       ? (post.transcription as BlogPodcastDetail['transcription'])
       : [],
-    content: mapLegacyContentBlocks(post.content),
+    content,
     blocks: mapLegacyDynamicBlocks(post.blocks),
     relatedEpisodes: [],
+    footnotes: content.flatMap((block) => block.footnotes ?? []),
   }
 }
 
