@@ -85,18 +85,22 @@ export default async function PodcastPage({
 
   const copy: PodcastDetailCopy = {
     channels: t('channels'),
+    close: t('close'),
     copied: t('copied'),
     credits: t('credits'),
     episode: t('episode', { count: podcast.episodeNumber ?? 0 }),
-    forward: t('forward'),
     listen: t('listen'),
+    mute: t('mute'),
     pause: t('pause'),
     play: t('play'),
     relatedEpisodes: t('relatedEpisodes'),
-    rewind: t('rewind'),
+    references: t('references'),
     seek: t('seek'),
     share: t('share'),
+    showLess: t('showLess'),
+    showMore: t('showMore'),
     showNotes: t('showNotes'),
+    unmute: t('unmute'),
   }
   const canonicalUrl = absoluteUrl(
     ROUTES.mediaPodcast(podcast.showSlug, podcast.slug),
