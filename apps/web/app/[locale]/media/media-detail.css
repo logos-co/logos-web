@@ -221,8 +221,52 @@
   padding-left: 20px;
 }
 
+.media-player-range {
+  --media-player-track: var(--color-brand-dark-green);
+  appearance: none;
+  height: 8px;
+  background: transparent;
+}
+
+.media-player-range-light {
+  --media-player-track: white;
+}
+
+.media-player-range::-webkit-slider-runnable-track {
+  height: 1px;
+  background: var(--media-player-track);
+}
+
+.media-player-range::-webkit-slider-thumb {
+  width: 8px;
+  height: 8px;
+  margin-top: -3.5px;
+  appearance: none;
+  border: 0;
+  border-radius: 50%;
+  background: var(--media-player-track);
+}
+
+.media-player-range::-moz-range-track,
+.media-player-range::-moz-range-progress {
+  height: 1px;
+  background: var(--media-player-track);
+}
+
+.media-player-range::-moz-range-thumb {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--media-player-track);
+}
+
 @media (max-width: 767px) {
-  .media-detail-content :where(h1, h2, h3, h4, h5, h6) {
+  .media-detail-content h2,
+  .media-detail-content h3,
+  .media-detail-content h4,
+  .media-detail-content h5,
+  .media-detail-content h6 {
     font-size: 20px;
     line-height: 30px;
   }

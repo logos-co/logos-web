@@ -36,7 +36,7 @@ export function ArticleHero({ article, copy, canonicalUrl }: ArticleHeroProps) {
           {article.title}
         </h1>
         {article.subtitle ? (
-          <p className="mt-4 max-w-full whitespace-pre-wrap font-sans text-[16px] leading-6 tracking-normal">
+          <p className="mt-4 max-w-full whitespace-pre-wrap font-sans text-[18px] leading-6 tracking-normal">
             {article.subtitle}
           </p>
         ) : null}
