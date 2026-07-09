@@ -21,32 +21,65 @@ export function ArticleHero({ article, copy, canonicalUrl }: ArticleHeroProps) {
   const date = formatDate(article.publishedAt)
 
   return (
-    <section className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-center gap-12 font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-dark-green">
-        <span>{copy.minRead}</span>
+    <header className="mb-6 flex flex-col text-brand-dark-green">
+      <div className="mb-3 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4">
+        <span className="uppercase">{copy.minRead}</span>
+        <span aria-hidden="true">•</span>
         {date ? <span>{date}</span> : null}
       </div>
 
-      <div className="flex flex-col gap-4 text-brand-dark-green">
-        <h1 className="font-display text-[40px] leading-none tracking-normal md:text-[56px]">
+      <div>
+        <h1
+          id="title-anchor"
+          className="scroll-mt-[95px] font-display text-[44px] leading-[54px] tracking-normal"
+        >
           {article.title}
         </h1>
         {article.subtitle ? (
-          <p className="max-w-full font-sans text-[12px] font-medium leading-[1.2] tracking-normal">
+          <p className="mt-4 max-w-full whitespace-pre-wrap font-sans text-[16px] leading-6 tracking-normal">
             {article.subtitle}
           </p>
         ) : null}
       </div>
 
-      <div className="flex flex-wrap items-stretch gap-3">
-        {article.tags.map((tag) => (
-          <span
-            key={tag.id || tag.name}
-            className="border border-brand-dark-green px-[10px] py-[6px] font-mono text-[10px] font-semibold leading-[1.35] text-brand-dark-green"
-          >
-            {tag.name}
-          </span>
-        ))}
+      {article.authors.length > 0 ? (
+        <div className="mb-8 mt-4 flex flex-wrap items-center gap-3">
+          {article.authors.map((author, index) => (
+            <div
+              key={author.id || author.name}
+              className="flex items-center gap-3"
+            >
+              <span className="flex items-center gap-2">
+                <span className="flex size-4 items-center justify-center rounded-full border border-brand-dark-green font-sans text-[11px] leading-4">
+                  {author.name.slice(0, 1)}
+                </span>
+                <span className="font-sans text-[12px] leading-4">
+                  {author.name}
+                </span>
+              </span>
+              {index < article.authors.length - 1 ? (
+                <span aria-hidden="true">•</span>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      ) : null}
+
+      <div className="flex w-fit max-w-full items-start gap-4">
+        <div className="flex flex-wrap gap-2">
+          {article.tags.map((tag) => (
+            <span
+              key={tag.id || tag.name}
+              className="border border-brand-dark-green px-2 py-1 font-sans text-[12px] leading-4 text-brand-dark-green"
+            >
+              {tag.name}
+            </span>
+          ))}
+        </div>
+        <span
+          aria-hidden="true"
+          className="mt-1.5 h-3 border-l border-brand-dark-green"
+        />
         <ShareButton
           label={copy.share}
           copiedLabel={copy.copied}
@@ -56,7 +89,7 @@ export function ArticleHero({ article, copy, canonicalUrl }: ArticleHeroProps) {
       </div>
 
       {article.coverImage ? (
-        <div className="relative aspect-[1200/630] w-full overflow-hidden bg-brand-dark-green/10">
+        <figure className="relative my-10 aspect-[1200/630] w-full overflow-hidden bg-brand-dark-green/10 max-md:my-6">
           <Image
             src={article.coverImage.url}
             alt={article.coverImage.alt}
@@ -64,18 +97,18 @@ export function ArticleHero({ article, copy, canonicalUrl }: ArticleHeroProps) {
             height={article.coverImage.height || 630}
             priority
             className="h-full w-full object-cover"
-            sizes="(max-width: 1024px) calc(100vw - 24px), 940px"
+            sizes="(max-width: 767px) calc(100vw - 32px), 700px"
           />
-        </div>
+        </figure>
       ) : null}
 
       {article.summary ? (
-        <div className="border-y border-brand-dark-green/50 py-6 md:py-12">
-          <p className="font-sans text-[24px] leading-none tracking-normal text-brand-dark-green md:text-[36px]">
+        <div className="border-y border-brand-dark-green py-6 max-sm:py-4">
+          <p className="whitespace-pre-wrap font-display text-[20px] leading-[30px] tracking-normal text-brand-dark-green max-sm:font-sans max-sm:text-[18px] max-sm:leading-6">
             {article.summary}
           </p>
         </div>
       ) : null}
-    </section>
+    </header>
   )
 }
