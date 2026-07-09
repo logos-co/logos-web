@@ -37,7 +37,7 @@ export function ShareButton({
       onClick={() => {
         void share()
       }}
-      className="cursor-pointer bg-brand-dark-green px-[10px] py-[6px] font-mono text-[10px] font-semibold leading-[1.35] text-brand-off-white transition-opacity hover:opacity-80"
+      className="shrink-0 cursor-pointer border border-brand-dark-green px-2 py-1 font-sans text-[14px] leading-5 text-brand-dark-green transition-colors hover:bg-brand-dark-green hover:text-brand-off-white"
     >
       {copied ? copiedLabel : label}
     </button>

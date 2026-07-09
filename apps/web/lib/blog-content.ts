@@ -1,10 +1,12 @@
 import { env } from '@/lib/env'
 import { BLOG_ORIGIN } from '@/lib/blog-engine'
+import { EXTERNAL_URLS } from '@/constants/routes'
 
 export const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
 
 const BLOG_SEARCH_LIMIT = 100
 const CMS_PRESS_ORIGIN = 'https://cms-press.logos.co'
+const FORUM_ORIGIN = EXTERNAL_URLS.forum.replace(/\/$/, '')
 const BODY_SNIPPET_LIMIT = 200
 
 export interface BlogTag {
@@ -41,6 +43,23 @@ export interface BlogFootnote {
   refValue: string
   valueHTML: string
   valueText: string
+}
+
+export interface BlogDiscussionPost {
+  id: string
+  avatarUrl: string
+  createdAt: string
+  displayName: string
+  html: string
+}
+
+export interface BlogDiscussion {
+  id: number
+  posts: BlogDiscussionPost[]
+  postsCount: number
+  slug: string
+  title: string
+  url: string
 }
 
 export interface BlogTextBlock {
@@ -123,6 +142,7 @@ export interface BlogArticleDetail extends BlogPostMeta {
   blocks?: BlogDynamicBlock[]
   relatedArticles: BlogPostMeta[]
   articlesFromSameAuthors: BlogPostMeta[]
+  discussion?: BlogDiscussion
 }
 
 export interface BlogPodcastShow {
@@ -216,6 +236,13 @@ type GraphqlPostAttributes = {
   body?: string | null
   markdown_body?: string | null
   credits?: string | null
+  html_file?: {
+    data?: {
+      attributes?: {
+        url?: string | null
+      }
+    } | null
+  }
   cover_image?: GraphqlImageRelation
   og_image?: GraphqlImageRelation
   tags?: {
@@ -383,6 +410,69 @@ function addTargetBlank(html: string) {
     /<a\b(?![^>]*\btarget=)([^>]*?)>/gi,
     '<a target="_blank" rel="noopener noreferrer"$1>'
   )
+}
+
+async function fetchDiscussion(
+  topicId: number | undefined
+): Promise<BlogDiscussion | undefined> {
+  if (!topicId) return undefined
+
+  try {
+    const response = await fetch(`${FORUM_ORIGIN}/t/${topicId}.json`, {
+      cache: 'force-cache',
+    })
+    if (!response.ok) return undefined
+
+    const topic = (await response.json()) as unknown
+    if (!isRecord(topic)) return undefined
+
+    const slug = stringValue(topic.slug)
+    const title = stringValue(topic.title)
+    const stream = isRecord(topic.post_stream) ? topic.post_stream : {}
+    const rawPosts = Array.isArray(stream.posts) ? stream.posts : []
+    const posts = rawPosts
+      .slice(1, 4)
+      .filter(isRecord)
+      .map((post): BlogDiscussionPost | null => {
+        const id = post.id
+        const username = stringValue(post.username)
+        const avatarTemplate = stringValue(post.avatar_template)
+        const createdAt = stringValue(post.created_at)
+        const html = stringValue(post.cooked)
+        if (!id || !username || !avatarTemplate || !createdAt || !html) {
+          return null
+        }
+
+        const avatarPath = avatarTemplate.replace('{size}', '40')
+        const avatarUrl = avatarPath.startsWith('http')
+          ? avatarPath
+          : `${FORUM_ORIGIN}${avatarPath}`
+        const linkedHtml = addTargetBlank(
+          html.replace(/href="\/u\//g, `href="${FORUM_ORIGIN}/u/`)
+        )
+
+        return {
+          id: String(id),
+          avatarUrl,
+          createdAt,
+          displayName: stringValue(post.display_username) || username,
+          html: linkedHtml,
+        }
+      })
+      .filter((post): post is BlogDiscussionPost => post !== null)
+    const rawPostsCount = optionalNumberValue(topic.posts_count) ?? 1
+
+    return {
+      id: topicId,
+      posts,
+      postsCount: Math.max(0, rawPostsCount - 1),
+      slug,
+      title,
+      url: `${FORUM_ORIGIN}/t/${slug}/${topicId}`,
+    }
+  } catch {
+    return undefined
+  }
 }
 
 function normaliseArticleHtml(rawHtml: string): {
@@ -776,6 +866,7 @@ function mapGraphqlArticle(
     blocks: mapGraphqlDynamicBlocks(attrs.blocks),
     relatedArticles,
     articlesFromSameAuthors,
+    discussion: undefined,
   }
 }
 
@@ -991,6 +1082,7 @@ function mapLegacyArticle(value: unknown): BlogArticleDetail {
     blocks: mapLegacyDynamicBlocks(post.blocks),
     relatedArticles: [],
     articlesFromSameAuthors: [],
+    discussion: undefined,
   }
 }
 
@@ -1249,6 +1341,13 @@ const ARTICLE_DETAIL_QUERY = `
               height
             }
           }
+          html_file {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
           related_posts(publicationState: LIVE, filters: { type: { eq: "Article" } }) {
             data {
               id
@@ -1386,7 +1485,33 @@ async function getStrapiArticle(slug: string): Promise<BlogArticleDetail> {
   const articlesFromSameAuthors =
     sameAuthorData?.sameAuthorPosts?.data?.map(mapGraphqlPostMeta) ?? []
 
-  return mapGraphqlArticle(post, relatedArticles, articlesFromSameAuthors)
+  const article = mapGraphqlArticle(
+    post,
+    relatedArticles,
+    articlesFromSameAuthors
+  )
+  const htmlFileUrl = post.attributes?.html_file?.data?.attributes?.url
+  if (htmlFileUrl) {
+    const result = await tryFetchText(
+      resolveAssetUrl(htmlFileUrl),
+      { cache: 'force-cache' },
+      `Article ${slug} HTML document`
+    )
+    if (!result.ok) throw result.error
+
+    article.bodyHtml = undefined
+    article.blocks = [
+      {
+        type: 'interactive-embed',
+        title: article.title,
+        fullHtml: result.data,
+        html: '',
+      },
+    ]
+    article.readingTime = estimateReadingTime(result.data)
+  }
+  article.discussion = await fetchDiscussion(article.discourseTopicId)
+  return article
 }
 
 const PODCAST_DETAIL_QUERY = `
@@ -1612,6 +1737,7 @@ async function getLegacyArticle(slug: string): Promise<BlogArticleDetail> {
     pageProps.data?.relatedArticles?.map(mapLegacyPostMeta) ?? []
   article.articlesFromSameAuthors =
     pageProps.data?.articlesFromSameAuthors?.map(mapLegacyPostMeta) ?? []
+  article.discussion = await fetchDiscussion(article.discourseTopicId)
   return article
 }
 

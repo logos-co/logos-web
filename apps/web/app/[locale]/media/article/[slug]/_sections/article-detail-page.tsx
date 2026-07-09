@@ -14,10 +14,14 @@ export function ArticleDetailPage({
   canonicalUrl,
 }: ArticleDetailPageProps) {
   return (
-    <div className="bg-accent-tan pt-28 text-brand-dark-green">
-      <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-12 px-3 pb-24 lg:grid-cols-[250px_minmax(0,940px)_1fr] lg:gap-[119px]">
-        <ArticleSidebar contentsLabel={copy.contents} toc={article.toc} />
-        <article className="flex min-w-0 flex-col gap-12">
+    <div className="bg-accent-tan pt-[100px] text-brand-dark-green">
+      <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 lg:grid-cols-12 lg:gap-4">
+        <ArticleSidebar
+          contentsLabel={copy.contents}
+          title={article.title}
+          toc={article.toc}
+        />
+        <article className="flex min-w-0 max-w-[700px] flex-col gap-4 lg:col-span-8 lg:col-start-5">
           <ArticleHero
             article={article}
             copy={copy}
@@ -29,9 +33,10 @@ export function ArticleDetailPage({
             footnotes={article.footnotes}
             relatedArticles={article.relatedArticles}
             articlesFromSameAuthors={article.articlesFromSameAuthors}
+            article={article}
+            canonicalUrl={canonicalUrl}
           />
         </article>
-        <div aria-hidden="true" className="hidden lg:block" />
       </div>
     </div>
   )

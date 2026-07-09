@@ -167,7 +167,14 @@
       "relatedArticles": "Related Articles",
       "fromSameAuthors": "From The Same Authors",
       "footnotes": "Footnotes",
-      "minRead": "{count} min"
+      "minRead": "{count} min",
+      "discussion": "Discussion",
+      "comments": "{count, plural, one {# comment} other {# comments}}",
+      "joinDiscussion": "Join Discussion",
+      "noDiscussion": "No discussion yet.",
+      "readFullArticle": "Read the full article",
+      "startDiscussion": "Start Discussion",
+      "viewFullDiscussion": "View full discussion"
     },
     "podcast": {
       "channels": "Channels",

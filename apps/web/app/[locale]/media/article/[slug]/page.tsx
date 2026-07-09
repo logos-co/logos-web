@@ -87,6 +87,15 @@ export default async function ArticlePage({
     fromSameAuthors: t('fromSameAuthors'),
     footnotes: t('footnotes'),
     minRead: t('minRead', { count: article.readingTime }),
+    discussion: t('discussion'),
+    discussionComments: t('comments', {
+      count: article.discussion?.postsCount ?? 0,
+    }),
+    joinDiscussion: t('joinDiscussion'),
+    noDiscussion: t('noDiscussion'),
+    readFullArticle: t('readFullArticle'),
+    startDiscussion: t('startDiscussion'),
+    viewFullDiscussion: t('viewFullDiscussion'),
   }
   const canonicalUrl = absoluteUrl(ROUTES.mediaArticle(article.slug), locale)
 
