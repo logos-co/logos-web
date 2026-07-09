@@ -10,6 +10,32 @@ import { Link } from '@/i18n/navigation'
 import { cn } from '@/lib/cn'
 import ContentWidth from '@/components/layout/content-width'
 
+export function MediaLink({
+  children,
+  href,
+  className,
+  label,
+}: {
+  children: ReactNode
+  href: string
+  className?: string
+  label?: string
+}) {
+  if (href.startsWith('http')) {
+    return (
+      <ExternalLink href={href} aria-label={label} className={className}>
+        {children}
+      </ExternalLink>
+    )
+  }
+
+  return (
+    <Link href={href} aria-label={label} className={className}>
+      {children}
+    </Link>
+  )
+}
+
 export function ArrowIcon({
   direction = 'right',
 }: {
@@ -55,9 +81,9 @@ export function TextLink({
   className?: string
 }) {
   return (
-    <ExternalLink
+    <MediaLink
       href={href}
-      aria-label={label}
+      label={label}
       className={cn(
         'cursor-pointer font-mono text-xs font-semibold leading-[1.35] uppercase underline underline-offset-[3px] transition-opacity hover:opacity-70',
         tone === 'light'
@@ -67,7 +93,7 @@ export function TextLink({
       )}
     >
       {children}
-    </ExternalLink>
+    </MediaLink>
   )
 }
 
@@ -114,7 +140,7 @@ export function BlogRowLink({
   children: ReactNode
 }) {
   return (
-    <ExternalLink
+    <MediaLink
       href={href}
       className={cn(
         'group relative block cursor-pointer overflow-hidden text-brand-dark-green transition-colors duration-200 hover:bg-brand-yellow focus-visible:bg-brand-yellow',
@@ -123,7 +149,7 @@ export function BlogRowLink({
       )}
     >
       {children}
-    </ExternalLink>
+    </MediaLink>
   )
 }
 

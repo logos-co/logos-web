@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import { ShareButton } from './share-button'
+import { ShareButton } from '../../../_components/share-button'
 import type { ArticleDetailSectionProps } from './types'
 
 interface ArticleHeroProps extends ArticleDetailSectionProps {

@@ -41,7 +41,7 @@ const latestArticle: BlogArticleRow = {
   galleryImage: 'https://cms-press.logos.co/uploads/small-latest.jpg',
   cardImage: 'https://cms-press.logos.co/uploads/large-latest.jpg',
   featuredImage: 'https://cms-press.logos.co/uploads/latest.jpg',
-  href: 'https://blog.logos.co/article/latest-logos-network-update',
+  href: '/media/article/latest-logos-network-update',
   readingTime: 4,
 }
 
@@ -64,7 +64,7 @@ describe('tech-stack related articles', () => {
         date: '06.04.26',
         author: 'Logos',
         readingTime: 4,
-        href: 'https://blog.logos.co/article/latest-logos-network-update',
+        href: '/media/article/latest-logos-network-update',
       },
     ])
   })
