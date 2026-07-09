@@ -158,5 +158,16 @@
     "subscribedBody": "We'll keep you updated on upcoming events.",
     "subscribeError": "Something went wrong.",
     "scrollZoomHint": "Use {key} + scroll to zoom"
+  },
+  "mediaDetail": {
+    "article": {
+      "contents": "Contents",
+      "share": "Share",
+      "copied": "Copied",
+      "relatedArticles": "Related Articles",
+      "fromSameAuthors": "From The Same Authors",
+      "footnotes": "Footnotes",
+      "minRead": "{count} min"
+    }
   }
 }
