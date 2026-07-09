@@ -1,0 +1,1466 @@
+import { env } from '@/lib/env'
+import { BLOG_ORIGIN } from '@/lib/blog-engine'
+
+export const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
+
+const BLOG_SEARCH_LIMIT = 100
+const CMS_PRESS_ORIGIN = 'https://cms-press.logos.co'
+const BODY_SNIPPET_LIMIT = 200
+
+export interface BlogTag {
+  id: string
+  name: string
+}
+
+export interface BlogAuthor {
+  id: string
+  name: string
+  emailAddress?: string
+}
+
+export interface BlogImage {
+  url: string
+  alt: string
+  width: number
+  height: number
+  caption?: string
+}
+
+export interface BlogTocItem {
+  level: number
+  tag: string
+  href: string
+  title: string
+  blockIndex: number
+}
+
+export interface BlogFootnote {
+  id: string
+  index: number
+  refId: string
+  refValue: string
+  valueHTML: string
+  valueText: string
+}
+
+export interface BlogTextBlock {
+  type: 'text'
+  id?: string
+  order: number
+  tagName: string
+  html: string
+  text: string
+  labels: string[]
+  classNames?: string[]
+  footnotes?: BlogFootnote[]
+  embed?: {
+    src: string
+    html: string
+  }
+}
+
+export interface BlogImageBlock extends BlogImage {
+  type: 'image'
+  order: number
+  labels: string[]
+  footnotes?: BlogFootnote[]
+}
+
+export type BlogContentBlock = BlogTextBlock | BlogImageBlock
+
+export interface BlogDynamicRichTextBlock {
+  type: 'rich-text'
+  body: string
+}
+
+export interface BlogDynamicCodeBlock {
+  type: 'code-block'
+  language?: string
+  code: string
+}
+
+export interface BlogDynamicInteractiveEmbedBlock {
+  type: 'interactive-embed'
+  title?: string
+  fullHtml?: string
+  html: string
+  css?: string
+  js?: string
+  height?: number
+}
+
+export type BlogDynamicBlock =
+  | BlogDynamicRichTextBlock
+  | BlogDynamicCodeBlock
+  | BlogDynamicInteractiveEmbedBlock
+
+export interface BlogPostMeta {
+  id: string
+  uuid?: string
+  slug: string
+  title: string
+  subtitle?: string
+  summary: string
+  publishedAt: string | null
+  modifiedAt: string | null
+  createdAt: string | null
+  tags: BlogTag[]
+  authors: BlogAuthor[]
+  coverImage: BlogImage | null
+  ogImage?: BlogImage | null
+  isDraft?: boolean
+  discourseTopicId?: number
+}
+
+export interface BlogArticleDetail extends BlogPostMeta {
+  type: 'article'
+  readingTime: number
+  toc: BlogTocItem[]
+  footnotes: BlogFootnote[]
+  bodyHtml?: string
+  markdownBody?: string
+  content?: BlogContentBlock[]
+  blocks?: BlogDynamicBlock[]
+  relatedArticles: BlogPostMeta[]
+  articlesFromSameAuthors: BlogPostMeta[]
+}
+
+export interface BlogPodcastShow {
+  id: string
+  slug: string
+  title: string
+  description: string
+  descriptionText?: string
+  logo: BlogImage | null
+  hosts: BlogAuthor[]
+}
+
+export interface BlogPodcastChannel {
+  name: string
+  url: string
+}
+
+export interface BlogPodcastDetail extends BlogPostMeta {
+  type: 'podcast'
+  description: string
+  episodeNumber?: number
+  showSlug: string
+  show?: BlogPodcastShow
+  channels: BlogPodcastChannel[]
+  credits: BlogContentBlock[]
+  transcription: Array<{
+    html: string
+    start?: number
+    end?: number
+    speaker?: string
+  }>
+  content?: BlogContentBlock[]
+  bodyHtml?: string
+  markdownBody?: string
+  blocks?: BlogDynamicBlock[]
+  relatedEpisodes: BlogPodcastDetail[]
+}
+
+type FetchResult<T> = { ok: true; data: T } | { ok: false; error: Error }
+
+type BlogSearchResponse = {
+  data?: {
+    posts?: Array<{
+      type?: 'article' | 'podcast'
+      data?: {
+        slug?: string
+      }
+    }>
+  }
+}
+
+type LegacyArticlePageProps = {
+  data?: {
+    data?: unknown
+    relatedArticles?: unknown[]
+    articlesFromSameAuthors?: unknown[]
+  }
+}
+
+type LegacyPodcastPageProps = {
+  episode?: unknown
+  relatedEpisodes?: unknown[]
+}
+
+type GraphqlResponse<T> = {
+  data?: T
+  errors?: Array<{ message?: string }>
+}
+
+type GraphqlPostEntity = {
+  id?: string
+  attributes?: GraphqlPostAttributes
+}
+
+type GraphqlPostAttributes = {
+  type?: string
+  title?: string
+  subtitle?: string | null
+  summary?: string | null
+  slug?: string
+  featured?: boolean | null
+  episode_number?: number | null
+  discourse_topic_id?: number | null
+  publish_date?: string | null
+  publishedAt?: string | null
+  body?: string | null
+  markdown_body?: string | null
+  credits?: string | null
+  cover_image?: GraphqlImageRelation
+  og_image?: GraphqlImageRelation
+  tags?: {
+    data?: Array<{
+      id?: string
+      attributes?: { name?: string | null }
+    }>
+  }
+  authors?: {
+    data?: Array<{
+      id?: string
+      attributes?: { name?: string | null; email_address?: string | null }
+    }>
+  }
+  podcast_show?: {
+    data?: {
+      id?: string
+      attributes?: GraphqlPodcastShowAttributes
+    } | null
+  }
+  channel?: Array<{ channel?: string | null; link?: string | null }> | null
+  blocks?: GraphqlDynamicBlock[] | null
+  related_posts?: {
+    data?: GraphqlPostEntity[]
+  }
+}
+
+type GraphqlDynamicBlock = {
+  __typename?: string
+  body?: string | null
+  code?: string | null
+  language?: string | null
+  title?: string | null
+  full_html?: string | null
+  html?: string | null
+  css?: string | null
+  js?: string | null
+  height?: number | null
+}
+
+type GraphqlPodcastShowAttributes = {
+  name?: string | null
+  slug?: string | null
+  description?: string | null
+  logo?: GraphqlImageRelation
+  hosts?: {
+    data?: Array<{
+      id?: string
+      attributes?: { name?: string | null; email_address?: string | null }
+    }>
+  }
+}
+
+type GraphqlImageRelation = {
+  data?: {
+    attributes?: {
+      url?: string | null
+      width?: number | null
+      height?: number | null
+      caption?: string | null
+      alternativeText?: string | null
+    }
+  } | null
+}
+
+const truncate = (value: string, limit = BODY_SNIPPET_LIMIT) =>
+  value.length > limit
+    ? `${value.slice(0, limit)}...(${value.length} chars)`
+    : value
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null
+
+const stringValue = (value: unknown): string =>
+  typeof value === 'string' ? value : ''
+
+const optionalStringValue = (value: unknown): string | undefined => {
+  const str = stringValue(value).trim()
+  return str.length > 0 ? str : undefined
+}
+
+const optionalNumberValue = (value: unknown): number | undefined =>
+  typeof value === 'number' && Number.isFinite(value) ? value : undefined
+
+export const stripBlogHtml = (value: string): string =>
+  decodeHtml(
+    value
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+  )
+
+function decodeHtml(value: string): string {
+  const named: Record<string, string> = {
+    amp: '&',
+    apos: "'",
+    gt: '>',
+    lt: '<',
+    nbsp: ' ',
+    quot: '"',
+  }
+
+  return value.replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (match, entity) => {
+    const key = entity.toLowerCase()
+    if (key.startsWith('#x')) {
+      const codePoint = Number.parseInt(key.slice(2), 16)
+      return Number.isFinite(codePoint) ? String.fromCodePoint(codePoint) : match
+    }
+    if (key.startsWith('#')) {
+      const codePoint = Number.parseInt(key.slice(1), 10)
+      return Number.isFinite(codePoint) ? String.fromCodePoint(codePoint) : match
+    }
+    return named[key] ?? match
+  })
+}
+
+function slugifyText(value: string): string {
+  const slug = value
+    .normalize('NFKD')
+    .toLowerCase()
+    .replace(/&[a-z0-9#]+;/gi, ' ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+
+  return slug || 'section'
+}
+
+function uniqueSlug(base: string, used: Set<string>): string {
+  if (!used.has(base)) {
+    used.add(base)
+    return base
+  }
+
+  let index = 2
+  while (used.has(`${base}-${index}`)) {
+    index += 1
+  }
+  const slug = `${base}-${index}`
+  used.add(slug)
+  return slug
+}
+
+function addTargetBlank(html: string) {
+  return html.replace(
+    /<a\b(?![^>]*\btarget=)([^>]*?)>/gi,
+    '<a target="_blank" rel="noopener noreferrer"$1>'
+  )
+}
+
+function normaliseArticleHtml(rawHtml: string): {
+  html: string
+  toc: BlogTocItem[]
+  footnotes: BlogFootnote[]
+} {
+  const usedIds = new Set<string>()
+  const footnotes: BlogFootnote[] = []
+  const withoutFootnoteContainer = rawHtml.replace(
+    /<section\b[^>]*class=["'][^"']*\bfootnotes-container\b[^"']*["'][\s\S]*?<\/section>/gi,
+    ''
+  )
+
+  const withFootnoteRefs = withoutFootnoteContainer.replace(
+    /<sup\b([^>]*)class=["'][^"']*\bfootnote\b[^"']*["']([^>]*)><\/sup>/gi,
+    (match, beforeAttrs, afterAttrs) => {
+      const attrs = `${beforeAttrs} ${afterAttrs}`
+      const id = /data-id=["']([^"']+)["']/.exec(attrs)?.[1]
+      const rawIndex = /data-index=["']([^"']+)["']/.exec(attrs)?.[1]
+      const encodedContent = /data-content=["']([^"']*)["']/.exec(attrs)?.[1]
+      if (!id || !rawIndex || !encodedContent) return match
+
+      const index = Number.parseInt(rawIndex, 10)
+      if (!Number.isFinite(index)) return match
+
+      const valueHTML = decodeHtml(encodedContent)
+      const refId = `fntref-${id}`
+      const footnoteId = `fnt-${id}`
+      footnotes.push({
+        id,
+        index,
+        refId,
+        refValue: `[${index}]`,
+        valueHTML,
+        valueText: stripBlogHtml(valueHTML),
+      })
+
+      return `<a class="footnote" href="#${footnoteId}"><sup><span class="anchor" id="${refId}"></span><span>[${index}]</span></sup></a>`
+    }
+  )
+
+  const toc: BlogTocItem[] = []
+  let blockIndex = 0
+  const html = addTargetBlank(withFootnoteRefs).replace(
+    /<h([1-6])([^>]*)>([\s\S]*?)<\/h\1>/gi,
+    (match, level, rawAttrs, innerHtml) => {
+      const title = stripBlogHtml(innerHtml)
+      if (!title) return match
+
+      const idMatch = /\sid=["']([^"']+)["']/.exec(rawAttrs)
+      const id = idMatch?.[1] ?? uniqueSlug(slugifyText(title), usedIds)
+      if (idMatch) usedIds.add(id)
+      const tag = `h${level}`
+      toc.push({
+        level: Number.parseInt(level, 10),
+        tag,
+        href: `#${id}`,
+        title,
+        blockIndex,
+      })
+      blockIndex += 1
+
+      const attrs = idMatch ? rawAttrs : `${rawAttrs} id="${id}"`
+      return `<${tag}${attrs}>${innerHtml}</${tag}>`
+    }
+  )
+
+  return { html, toc, footnotes }
+}
+
+async function tryFetchText(
+  url: string,
+  init: RequestInit,
+  label: string
+): Promise<FetchResult<string>> {
+  try {
+    const response = await fetch(url, init)
+    const text = await response.text()
+    if (!response.ok) {
+      return {
+        ok: false,
+        error: new Error(
+          `${label} failed: status=${response.status} url=${url} body=${truncate(text)}`
+        ),
+      }
+    }
+    return { ok: true, data: text }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    return { ok: false, error: new Error(`${label} fetch threw: ${message}`) }
+  }
+}
+
+async function fetchJson<T>(url: string, label: string): Promise<T> {
+  const result = await tryFetchText(
+    url,
+    {
+      cache: 'force-cache',
+      headers: { Accept: 'application/json' },
+    },
+    label
+  )
+  if (!result.ok) throw result.error
+
+  try {
+    return JSON.parse(result.data) as T
+  } catch {
+    throw new Error(
+      `${label} returned non-JSON: url=${url} body=${truncate(result.data)}`
+    )
+  }
+}
+
+async function fetchLegacyPageProps<T>(
+  path: string,
+  label: string
+): Promise<T> {
+  const url = `${BLOG_ORIGIN}${path}`
+  const result = await tryFetchText(
+    url,
+    {
+      cache: 'force-cache',
+    },
+    label
+  )
+  if (!result.ok) throw result.error
+
+  const match = result.data.match(
+    /<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/
+  )
+  if (!match) {
+    throw new Error(`${label} missing __NEXT_DATA__: url=${url}`)
+  }
+
+  const page = JSON.parse(match[1]) as {
+    props?: {
+      pageProps?: T
+    }
+  }
+  if (!page.props?.pageProps) {
+    throw new Error(`${label} missing pageProps: url=${url}`)
+  }
+  return page.props.pageProps
+}
+
+function hasStrapiConfig() {
+  return Boolean(env.STRAPI_GRAPHQL_URL && env.STRAPI_API_KEY)
+}
+
+function shouldAllowLegacyFallback() {
+  return env.NEXT_PUBLIC_API_MODE !== 'production'
+}
+
+async function fetchPressGraphql<T>(
+  query: string,
+  variables: Record<string, unknown>,
+  label: string
+): Promise<T> {
+  if (!env.STRAPI_GRAPHQL_URL || !env.STRAPI_API_KEY) {
+    throw new Error(
+      `${label} requires STRAPI_GRAPHQL_URL and STRAPI_API_KEY to be set`
+    )
+  }
+
+  const response = await fetch(env.STRAPI_GRAPHQL_URL, {
+    method: 'POST',
+    cache: 'force-cache',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${env.STRAPI_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query, variables }),
+  })
+  const text = await response.text()
+  if (!response.ok) {
+    throw new Error(
+      `${label} GraphQL failed: status=${response.status} body=${truncate(text)}`
+    )
+  }
+
+  const json = JSON.parse(text) as GraphqlResponse<T>
+  if (json.errors && json.errors.length > 0) {
+    throw new Error(
+      `${label} GraphQL returned errors: ${json.errors.map((error) => error.message).join('; ')}`
+    )
+  }
+  if (!json.data) {
+    throw new Error(`${label} GraphQL returned no data`)
+  }
+  return json.data
+}
+
+function resolveAssetUrl(rawUrl?: string | null): string {
+  if (!rawUrl) return ''
+  if (/^https?:\/\//i.test(rawUrl)) return rawUrl
+
+  const base =
+    env.NEXT_PUBLIC_ASSETS_BASE_URL ??
+    env.STRAPI_API_URL?.replace(/\/api\/?$/, '') ??
+    CMS_PRESS_ORIGIN
+  return `${base.replace(/\/+$/, '')}${rawUrl.startsWith('/') ? rawUrl : `/${rawUrl}`}`
+}
+
+function mapGraphqlImage(image?: GraphqlImageRelation): BlogImage | null {
+  const attrs = image?.data?.attributes
+  const url = resolveAssetUrl(attrs?.url)
+  if (!url) return null
+
+  return {
+    url,
+    width: attrs?.width ?? 0,
+    height: attrs?.height ?? 0,
+    caption: attrs?.caption ?? '',
+    alt: attrs?.caption ?? attrs?.alternativeText ?? '',
+  }
+}
+
+function mapGraphqlTags(attrs: GraphqlPostAttributes): BlogTag[] {
+  return (
+    attrs.tags?.data
+      ?.map((tag) => ({
+        id: tag.id ?? '',
+        name: tag.attributes?.name ?? '',
+      }))
+      .filter((tag) => tag.name.length > 0) ?? []
+  )
+}
+
+function mapGraphqlAuthors(attrs: GraphqlPostAttributes): BlogAuthor[] {
+  return (
+    attrs.authors?.data
+      ?.map((author) => ({
+        id: author.id ?? '',
+        name: author.attributes?.name ?? '',
+        emailAddress: author.attributes?.email_address ?? undefined,
+      }))
+      .filter((author) => author.name.length > 0) ?? []
+  )
+}
+
+function mapGraphqlDynamicBlocks(
+  blocks?: GraphqlDynamicBlock[] | null
+): BlogDynamicBlock[] | undefined {
+  const mapped =
+    blocks
+      ?.map((block): BlogDynamicBlock | null => {
+        if (block.__typename === 'ComponentBlocksRichText') {
+          return { type: 'rich-text', body: block.body ?? '' }
+        }
+        if (block.__typename === 'ComponentBlocksCodeBlock') {
+          return {
+            type: 'code-block',
+            code: block.code ?? '',
+            language: block.language ?? undefined,
+          }
+        }
+        if (block.__typename === 'ComponentBlocksInteractiveEmbed') {
+          return {
+            type: 'interactive-embed',
+            title: block.title ?? undefined,
+            fullHtml: block.full_html ?? undefined,
+            html: block.html ?? '',
+            css: block.css ?? undefined,
+            js: block.js ?? undefined,
+            height: block.height ?? undefined,
+          }
+        }
+        return null
+      })
+      .filter((block): block is BlogDynamicBlock => block !== null) ?? []
+
+  return mapped.length > 0 ? mapped : undefined
+}
+
+function mapGraphqlPostMeta(entity: GraphqlPostEntity): BlogPostMeta {
+  const attrs = entity.attributes ?? {}
+  const summary = stripBlogHtml(attrs.summary ?? '')
+  return {
+    id: entity.id ?? '',
+    slug: attrs.slug ?? '',
+    title: attrs.title ?? '',
+    subtitle: attrs.subtitle ?? undefined,
+    summary,
+    publishedAt: attrs.publish_date ?? attrs.publishedAt ?? null,
+    modifiedAt: attrs.publish_date ?? attrs.publishedAt ?? null,
+    createdAt: attrs.publish_date ?? attrs.publishedAt ?? null,
+    tags: mapGraphqlTags(attrs),
+    authors: mapGraphqlAuthors(attrs),
+    coverImage: mapGraphqlImage(attrs.cover_image),
+    ogImage: mapGraphqlImage(attrs.og_image),
+    isDraft: !attrs.publishedAt,
+    discourseTopicId: attrs.discourse_topic_id ?? undefined,
+  }
+}
+
+function estimateReadingTime(value: string): number {
+  const words = stripBlogHtml(value).split(/\s+/).filter(Boolean).length
+  if (words === 0) return 0
+  return Math.max(1, Math.ceil(words / 200))
+}
+
+function mapGraphqlArticle(
+  entity: GraphqlPostEntity,
+  relatedArticles: BlogPostMeta[],
+  articlesFromSameAuthors: BlogPostMeta[]
+): BlogArticleDetail {
+  const attrs = entity.attributes ?? {}
+  const rawBody = attrs.body ?? ''
+  const articleHtml = rawBody ? normaliseArticleHtml(rawBody) : undefined
+
+  return {
+    ...mapGraphqlPostMeta(entity),
+    type: 'article',
+    readingTime: estimateReadingTime(rawBody || attrs.markdown_body || ''),
+    toc: articleHtml?.toc ?? [],
+    footnotes: articleHtml?.footnotes ?? [],
+    bodyHtml: articleHtml?.html,
+    markdownBody: attrs.markdown_body ?? undefined,
+    blocks: mapGraphqlDynamicBlocks(attrs.blocks),
+    relatedArticles,
+    articlesFromSameAuthors,
+  }
+}
+
+function mapGraphqlShow(
+  show?: GraphqlPostAttributes['podcast_show']
+): BlogPodcastShow | undefined {
+  const data = show?.data
+  if (!data) return undefined
+  const attrs = data.attributes ?? {}
+  const description = attrs.description ?? ''
+  return {
+    id: data.id ?? '',
+    slug: attrs.slug ?? DEFAULT_PODCAST_SHOW_SLUG,
+    title: attrs.name ?? 'Logos Podcast',
+    description,
+    descriptionText: stripBlogHtml(description),
+    logo: mapGraphqlImage(attrs.logo),
+    hosts:
+      attrs.hosts?.data
+        ?.map((host) => ({
+          id: host.id ?? '',
+          name: host.attributes?.name ?? '',
+          emailAddress: host.attributes?.email_address ?? undefined,
+        }))
+        .filter((host) => host.name.length > 0) ?? [],
+  }
+}
+
+function mapGraphqlPodcast(
+  entity: GraphqlPostEntity,
+  relatedEpisodes: BlogPodcastDetail[] = []
+): BlogPodcastDetail {
+  const attrs = entity.attributes ?? {}
+  const meta = mapGraphqlPostMeta(entity)
+  const show = mapGraphqlShow(attrs.podcast_show)
+  const rawBody = attrs.body ?? ''
+  const articleHtml = rawBody ? normaliseArticleHtml(rawBody) : undefined
+  const description = stripBlogHtml(attrs.summary ?? '')
+
+  return {
+    ...meta,
+    type: 'podcast',
+    description,
+    episodeNumber: attrs.episode_number ?? undefined,
+    showSlug: show?.slug ?? DEFAULT_PODCAST_SHOW_SLUG,
+    show,
+    channels:
+      attrs.channel
+        ?.map((channel) => ({
+          name: channel.channel ?? '',
+          url: channel.link ?? '',
+        }))
+        .filter((channel) => channel.name.length > 0 && channel.url.length > 0) ??
+      [],
+    credits: [],
+    transcription: [],
+    content: undefined,
+    bodyHtml: articleHtml?.html,
+    markdownBody: attrs.markdown_body ?? undefined,
+    blocks: mapGraphqlDynamicBlocks(attrs.blocks),
+    relatedEpisodes,
+  }
+}
+
+function mapLegacyImage(value: unknown): BlogImage | null {
+  if (!isRecord(value)) return null
+  const url = optionalStringValue(value.url)
+  if (!url) return null
+  return {
+    url,
+    alt: stringValue(value.alt),
+    width: optionalNumberValue(value.width) ?? 0,
+    height: optionalNumberValue(value.height) ?? 0,
+    caption: optionalStringValue(value.caption),
+  }
+}
+
+function mapLegacyTags(value: unknown): BlogTag[] {
+  if (!Array.isArray(value)) return []
+  return value
+    .map((tag): BlogTag | null => {
+      if (!isRecord(tag)) return null
+      const name = stringValue(tag.name)
+      if (!name) return null
+      return {
+        id: stringValue(tag.id),
+        name,
+      }
+    })
+    .filter((tag): tag is BlogTag => tag !== null)
+}
+
+function mapLegacyAuthors(value: unknown): BlogAuthor[] {
+  if (!Array.isArray(value)) return []
+  return value
+    .map((author): BlogAuthor | null => {
+      if (!isRecord(author)) return null
+      const name = stringValue(author.name)
+      if (!name) return null
+      return {
+        id: stringValue(author.id),
+        name,
+        emailAddress: optionalStringValue(author.emailAddress),
+      }
+    })
+    .filter((author): author is BlogAuthor => author !== null)
+}
+
+function mapLegacyContentBlocks(value: unknown): BlogContentBlock[] {
+  if (!Array.isArray(value)) return []
+  return value
+    .map((block): BlogContentBlock | null => {
+      if (!isRecord(block)) return null
+      if (block.type === 'image') {
+        const image = mapLegacyImage(block)
+        if (!image) return null
+        return {
+          ...image,
+          type: 'image',
+          order: optionalNumberValue(block.order) ?? 0,
+          labels: Array.isArray(block.labels) ? block.labels.map(String) : [],
+        }
+      }
+      if (block.type === 'text') {
+        return {
+          type: 'text',
+          id: optionalStringValue(block.id),
+          order: optionalNumberValue(block.order) ?? 0,
+          tagName: stringValue(block.tagName) || 'p',
+          html: stringValue(block.html),
+          text: stringValue(block.text),
+          labels: Array.isArray(block.labels) ? block.labels.map(String) : [],
+          classNames: Array.isArray(block.classNames)
+            ? block.classNames.map(String)
+            : [],
+          footnotes: Array.isArray(block.footnotes)
+            ? (block.footnotes as BlogFootnote[])
+            : [],
+          embed: isRecord(block.embed)
+            ? {
+                src: stringValue(block.embed.src),
+                html: stringValue(block.embed.html),
+              }
+            : undefined,
+        }
+      }
+      return null
+    })
+    .filter((block): block is BlogContentBlock => block !== null)
+}
+
+function mapLegacyDynamicBlocks(value: unknown): BlogDynamicBlock[] | undefined {
+  if (!Array.isArray(value)) return undefined
+  const blocks = value
+    .filter(isRecord)
+    .map((block) => block as unknown as BlogDynamicBlock)
+  return blocks.length > 0 ? blocks : undefined
+}
+
+function mapLegacyToc(value: unknown): BlogTocItem[] {
+  if (!Array.isArray(value)) return []
+  return value
+    .map((item) => {
+      if (!isRecord(item)) return null
+      return {
+        level: optionalNumberValue(item.level) ?? 0,
+        tag: stringValue(item.tag),
+        href: stringValue(item.href),
+        title: stringValue(item.title),
+        blockIndex: optionalNumberValue(item.blockIndex) ?? 0,
+      }
+    })
+    .filter((item): item is BlogTocItem => Boolean(item?.title && item.href))
+}
+
+function mapLegacyPostMeta(value: unknown): BlogPostMeta {
+  const post = isRecord(value) ? value : {}
+  return {
+    id: stringValue(post.id),
+    uuid: optionalStringValue(post.uuid),
+    slug: stringValue(post.slug),
+    title: stringValue(post.title),
+    subtitle: optionalStringValue(post.subtitle),
+    summary: stripBlogHtml(stringValue(post.summary)),
+    publishedAt: optionalStringValue(post.publishedAt) ?? null,
+    modifiedAt: optionalStringValue(post.modifiedAt) ?? null,
+    createdAt: optionalStringValue(post.createdAt) ?? null,
+    tags: mapLegacyTags(post.tags),
+    authors: mapLegacyAuthors(post.authors),
+    coverImage: mapLegacyImage(post.coverImage),
+    ogImage: mapLegacyImage(post.ogImage),
+    isDraft: Boolean(post.isDraft),
+    discourseTopicId: optionalNumberValue(post.discourse_topic_id),
+  }
+}
+
+function mapLegacyArticle(value: unknown): BlogArticleDetail {
+  const post = isRecord(value) ? value : {}
+  const content = mapLegacyContentBlocks(post.content)
+  return {
+    ...mapLegacyPostMeta(post),
+    type: 'article',
+    readingTime: optionalNumberValue(post.readingTime) ?? 1,
+    toc: mapLegacyToc(post.toc),
+    footnotes: content.flatMap((block) => block.footnotes ?? []),
+    content,
+    blocks: mapLegacyDynamicBlocks(post.blocks),
+    relatedArticles: [],
+    articlesFromSameAuthors: [],
+  }
+}
+
+function mapLegacyPodcast(value: unknown): BlogPodcastDetail {
+  const post = isRecord(value) ? value : {}
+  const show = isRecord(post.show)
+    ? {
+        id: stringValue(post.show.id),
+        slug: stringValue(post.show.slug) || DEFAULT_PODCAST_SHOW_SLUG,
+        title: stringValue(post.show.title) || 'Logos Podcast',
+        description: stringValue(post.show.description),
+        descriptionText: optionalStringValue(post.show.descriptionText),
+        logo: mapLegacyImage(post.show.logo),
+        hosts: mapLegacyAuthors(post.show.hosts),
+      }
+    : undefined
+
+  return {
+    ...mapLegacyPostMeta(post),
+    type: 'podcast',
+    description: stripBlogHtml(
+      stringValue(post.description) || stringValue(post.summary)
+    ),
+    episodeNumber: optionalNumberValue(post.episodeNumber),
+    showSlug: show?.slug ?? DEFAULT_PODCAST_SHOW_SLUG,
+    show,
+    channels: Array.isArray(post.channels)
+      ? post.channels
+          .filter(isRecord)
+          .map((channel) => ({
+            name: stringValue(channel.name),
+            url: stringValue(channel.url),
+          }))
+          .filter((channel) => channel.name && channel.url)
+      : [],
+    credits: mapLegacyContentBlocks(post.credits),
+    transcription: Array.isArray(post.transcription)
+      ? (post.transcription as BlogPodcastDetail['transcription'])
+      : [],
+    content: mapLegacyContentBlocks(post.content),
+    blocks: mapLegacyDynamicBlocks(post.blocks),
+    relatedEpisodes: [],
+  }
+}
+
+export async function getBlogArticleSlugs(): Promise<string[]> {
+  const params = new URLSearchParams({
+    type: 'article',
+    limit: String(BLOG_SEARCH_LIMIT),
+  })
+  const json = await fetchJson<BlogSearchResponse>(
+    `${BLOG_ORIGIN}/api/search?${params.toString()}`,
+    'Blog article search'
+  )
+  return (
+    json.data?.posts
+      ?.filter((post) => post.type === 'article')
+      .map((post) => post.data?.slug ?? '')
+      .filter(Boolean) ?? []
+  )
+}
+
+export async function getBlogPodcastPaths(): Promise<
+  Array<{ showSlug: string; slug: string }>
+> {
+  const params = new URLSearchParams({
+    type: 'podcast',
+    limit: String(BLOG_SEARCH_LIMIT),
+  })
+  const json = await fetchJson<BlogSearchResponse>(
+    `${BLOG_ORIGIN}/api/search?${params.toString()}`,
+    'Blog podcast search'
+  )
+  return (
+    json.data?.posts
+      ?.filter((post) => post.type === 'podcast')
+      .map((post) => ({
+        showSlug: DEFAULT_PODCAST_SHOW_SLUG,
+        slug: post.data?.slug ?? '',
+      }))
+      .filter((path) => path.slug.length > 0) ?? []
+  )
+}
+
+const ARTICLE_DETAIL_QUERY = `
+  query ArticleDetail($slug: String!) {
+    posts(
+      filters: { and: [{ slug: { eq: $slug } }, { type: { eq: "Article" } }] }
+      pagination: { limit: 1 }
+      publicationState: LIVE
+    ) {
+      data {
+        id
+        attributes {
+          type
+          title
+          subtitle
+          summary
+          slug
+          featured
+          discourse_topic_id
+          publish_date
+          publishedAt
+          body
+          markdown_body
+          cover_image {
+            data {
+              attributes {
+                url
+                width
+                height
+                caption
+                alternativeText
+              }
+            }
+          }
+          og_image {
+            data {
+              attributes {
+                url
+                width
+                height
+                caption
+                alternativeText
+              }
+            }
+          }
+          tags {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          authors {
+            data {
+              id
+              attributes {
+                name
+                email_address
+              }
+            }
+          }
+          blocks {
+            __typename
+            ... on ComponentBlocksRichText {
+              body
+            }
+            ... on ComponentBlocksCodeBlock {
+              language
+              code
+            }
+            ... on ComponentBlocksInteractiveEmbed {
+              title
+              full_html
+              html
+              css
+              js
+              height
+            }
+          }
+          related_posts(publicationState: LIVE, filters: { type: { eq: "Article" } }) {
+            data {
+              id
+              attributes {
+                type
+                title
+                subtitle
+                summary
+                slug
+                publish_date
+                publishedAt
+                cover_image {
+                  data {
+                    attributes {
+                      url
+                      width
+                      height
+                      caption
+                      alternativeText
+                    }
+                  }
+                }
+                tags {
+                  data {
+                    id
+                    attributes {
+                      name
+                    }
+                  }
+                }
+                authors {
+                  data {
+                    id
+                    attributes {
+                      name
+                      email_address
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+const SAME_AUTHOR_ARTICLES_QUERY = `
+  query SameAuthorArticles($authorIds: [ID], $postId: ID) {
+    sameAuthorPosts: posts(
+      filters: {
+        and: [
+          { authors: { id: { in: $authorIds } } }
+          { type: { eq: "Article" } }
+          { id: { ne: $postId } }
+        ]
+      }
+      pagination: { limit: 10 }
+      sort: ["publish_date:desc"]
+      publicationState: LIVE
+    ) {
+      data {
+        id
+        attributes {
+          type
+          title
+          subtitle
+          summary
+          slug
+          publish_date
+          publishedAt
+          cover_image {
+            data {
+              attributes {
+                url
+                width
+                height
+                caption
+                alternativeText
+              }
+            }
+          }
+          tags {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          authors {
+            data {
+              id
+              attributes {
+                name
+                email_address
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+async function getStrapiArticle(slug: string): Promise<BlogArticleDetail> {
+  type Data = {
+    posts?: { data?: GraphqlPostEntity[] }
+  }
+  type SameAuthorData = {
+    sameAuthorPosts?: { data?: GraphqlPostEntity[] }
+  }
+
+  const data = await fetchPressGraphql<Data>(
+    ARTICLE_DETAIL_QUERY,
+    { slug },
+    'Article detail'
+  )
+  const post = data.posts?.data?.[0]
+  if (!post) throw new Error(`Article not found: ${slug}`)
+
+  const authorIds =
+    post.attributes?.authors?.data?.map((author) => author.id ?? '') ?? []
+  const sameAuthorData =
+    authorIds.length > 0
+      ? await fetchPressGraphql<SameAuthorData>(
+          SAME_AUTHOR_ARTICLES_QUERY,
+          { authorIds, postId: post.id ?? '' },
+          'Same-author articles'
+        )
+      : undefined
+  const relatedArticles =
+    post.attributes?.related_posts?.data?.map(mapGraphqlPostMeta) ?? []
+  const articlesFromSameAuthors =
+    sameAuthorData?.sameAuthorPosts?.data?.map(mapGraphqlPostMeta) ?? []
+
+  return mapGraphqlArticle(post, relatedArticles, articlesFromSameAuthors)
+}
+
+const PODCAST_DETAIL_QUERY = `
+  query PodcastDetail($slug: String!, $showSlug: String!) {
+    posts(
+      filters: {
+        and: [
+          { slug: { eq: $slug } }
+          { type: { eq: "Episode" } }
+          { podcast_show: { slug: { eq: $showSlug } } }
+        ]
+      }
+      pagination: { limit: 1 }
+      publicationState: LIVE
+    ) {
+      data {
+        id
+        attributes {
+          type
+          title
+          subtitle
+          summary
+          slug
+          featured
+          episode_number
+          discourse_topic_id
+          publish_date
+          publishedAt
+          body
+          markdown_body
+          credits
+          channel {
+            channel
+            link
+          }
+          podcast_show {
+            data {
+              id
+              attributes {
+                name
+                slug
+                description
+                hosts {
+                  data {
+                    id
+                    attributes {
+                      name
+                      email_address
+                    }
+                  }
+                }
+                logo {
+                  data {
+                    attributes {
+                      url
+                      width
+                      height
+                      caption
+                      alternativeText
+                    }
+                  }
+                }
+              }
+            }
+          }
+          cover_image {
+            data {
+              attributes {
+                url
+                width
+                height
+                caption
+                alternativeText
+              }
+            }
+          }
+          og_image {
+            data {
+              attributes {
+                url
+                width
+                height
+                caption
+                alternativeText
+              }
+            }
+          }
+          tags {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          authors {
+            data {
+              id
+              attributes {
+                name
+                email_address
+              }
+            }
+          }
+          blocks {
+            __typename
+            ... on ComponentBlocksRichText {
+              body
+            }
+            ... on ComponentBlocksCodeBlock {
+              language
+              code
+            }
+            ... on ComponentBlocksInteractiveEmbed {
+              title
+              full_html
+              html
+              css
+              js
+              height
+            }
+          }
+          related_posts(publicationState: LIVE, filters: { type: { eq: "Episode" } }) {
+            data {
+              id
+              attributes {
+                type
+                title
+                subtitle
+                summary
+                slug
+                episode_number
+                publish_date
+                publishedAt
+                podcast_show {
+                  data {
+                    id
+                    attributes {
+                      name
+                      slug
+                      description
+                      logo {
+                        data {
+                          attributes {
+                            url
+                            width
+                            height
+                            caption
+                            alternativeText
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                cover_image {
+                  data {
+                    attributes {
+                      url
+                      width
+                      height
+                      caption
+                      alternativeText
+                    }
+                  }
+                }
+                tags {
+                  data {
+                    id
+                    attributes {
+                      name
+                    }
+                  }
+                }
+                authors {
+                  data {
+                    id
+                    attributes {
+                      name
+                      email_address
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+async function getStrapiPodcast(
+  showSlug: string,
+  slug: string
+): Promise<BlogPodcastDetail> {
+  type Data = {
+    posts?: { data?: GraphqlPostEntity[] }
+  }
+  const data = await fetchPressGraphql<Data>(
+    PODCAST_DETAIL_QUERY,
+    { slug, showSlug },
+    'Podcast detail'
+  )
+  const post = data.posts?.data?.[0]
+  if (!post) throw new Error(`Podcast not found: ${showSlug}/${slug}`)
+
+  const relatedEpisodes =
+    post.attributes?.related_posts?.data?.map((entity) =>
+      mapGraphqlPodcast(entity)
+    ) ?? []
+
+  return mapGraphqlPodcast(post, relatedEpisodes)
+}
+
+async function getLegacyArticle(slug: string): Promise<BlogArticleDetail> {
+  const pageProps = await fetchLegacyPageProps<LegacyArticlePageProps>(
+    `/article/${slug}`,
+    'Legacy article page'
+  )
+  const article = mapLegacyArticle(pageProps.data?.data)
+  article.relatedArticles =
+    pageProps.data?.relatedArticles?.map(mapLegacyPostMeta) ?? []
+  article.articlesFromSameAuthors =
+    pageProps.data?.articlesFromSameAuthors?.map(mapLegacyPostMeta) ?? []
+  return article
+}
+
+async function getLegacyPodcast(
+  showSlug: string,
+  slug: string
+): Promise<BlogPodcastDetail> {
+  const pageProps = await fetchLegacyPageProps<LegacyPodcastPageProps>(
+    `/podcasts/${showSlug}/${slug}`,
+    'Legacy podcast page'
+  )
+  const podcast = mapLegacyPodcast(pageProps.episode)
+  podcast.relatedEpisodes =
+    pageProps.relatedEpisodes?.map(mapLegacyPodcast) ?? []
+  return podcast
+}
+
+export async function getBlogArticleDetail(
+  slug: string
+): Promise<BlogArticleDetail> {
+  if (hasStrapiConfig()) {
+    try {
+      return await getStrapiArticle(slug)
+    } catch (error) {
+      if (!shouldAllowLegacyFallback()) throw error
+    }
+  }
+  if (!shouldAllowLegacyFallback() && !hasStrapiConfig()) {
+    throw new Error('Blog article detail requires Strapi env in production')
+  }
+  return getLegacyArticle(slug)
+}
+
+export async function getBlogPodcastDetail(
+  showSlug: string,
+  slug: string
+): Promise<BlogPodcastDetail> {
+  if (hasStrapiConfig()) {
+    try {
+      return await getStrapiPodcast(showSlug, slug)
+    } catch (error) {
+      if (!shouldAllowLegacyFallback()) throw error
+    }
+  }
+  if (!shouldAllowLegacyFallback() && !hasStrapiConfig()) {
+    throw new Error('Blog podcast detail requires Strapi env in production')
+  }
+  return getLegacyPodcast(showSlug, slug)
+}
