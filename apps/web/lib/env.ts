@@ -43,6 +43,22 @@ export type Env = {
    */
   NEXT_PUBLIC_ADMIN_ACID_API_URL: string | undefined
   /**
+   * Public asset origin for legacy Logos Press Engine media served by Strapi.
+   */
+  NEXT_PUBLIC_ASSETS_BASE_URL: string | undefined
+  /**
+   * Legacy Logos Press Engine Strapi REST API origin.
+   */
+  STRAPI_API_URL: string | undefined
+  /**
+   * Legacy Logos Press Engine Strapi GraphQL endpoint.
+   */
+  STRAPI_GRAPHQL_URL: string | undefined
+  /**
+   * Server-side Strapi API token for legacy Logos Press Engine content.
+   */
+  STRAPI_API_KEY: string | undefined
+  /**
    * Public origin of the intake app `apps/civi-crm` (e.g. `https://civi.logos.co`
    * or `http://localhost:3002`), which hosts the endpoint the funnel forms post to.
    */
@@ -103,6 +119,12 @@ export const env: Env = {
   NEXT_PUBLIC_ADMIN_ACID_API_URL: readOptionalString(
     process.env.NEXT_PUBLIC_ADMIN_ACID_API_URL
   ),
+  NEXT_PUBLIC_ASSETS_BASE_URL: readOptionalString(
+    process.env.NEXT_PUBLIC_ASSETS_BASE_URL
+  ),
+  STRAPI_API_URL: readOptionalString(process.env.STRAPI_API_URL),
+  STRAPI_GRAPHQL_URL: readOptionalString(process.env.STRAPI_GRAPHQL_URL),
+  STRAPI_API_KEY: readOptionalString(process.env.STRAPI_API_KEY),
   NEXT_PUBLIC_CIVI_CRM_URL: readOptionalString(
     process.env.NEXT_PUBLIC_CIVI_CRM_URL
   ),
