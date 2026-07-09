@@ -178,18 +178,22 @@
     },
     "podcast": {
       "channels": "Channels",
+      "close": "Close player",
       "copied": "Copied",
       "credits": "Credits",
       "episode": "Episode {count}",
-      "forward": "Forward 15 seconds",
       "listen": "Listen",
+      "mute": "Mute",
       "pause": "Pause",
       "play": "Play",
-      "relatedEpisodes": "Related Episodes",
-      "rewind": "Back 15 seconds",
+      "relatedEpisodes": "More posts",
+      "references": "References",
       "seek": "Seek episode",
       "share": "Share",
-      "showNotes": "Show notes"
+      "showLess": "Show less",
+      "showMore": "Show more",
+      "showNotes": "Show notes",
+      "unmute": "Unmute"
     }
   }
 }

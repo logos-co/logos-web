@@ -1,12 +1,5 @@
 import type { BlogPodcastDetail } from '@/lib/blog-content'
-
-export interface PodcastPlayerCopy {
-  play: string
-  pause: string
-  rewind: string
-  forward: string
-  seek: string
-}
+import type { PodcastPlayerCopy } from '../../../../_components/podcast-player-context'
 
 export interface PodcastDetailCopy extends PodcastPlayerCopy {
   channels: string
@@ -15,7 +8,10 @@ export interface PodcastDetailCopy extends PodcastPlayerCopy {
   episode: string
   listen: string
   relatedEpisodes: string
+  references: string
   share: string
+  showLess: string
+  showMore: string
   showNotes: string
 }
 

@@ -13,26 +13,17 @@ export function PodcastDetailPage({
   podcast,
 }: PodcastDetailPageProps) {
   return (
-    <div className="bg-accent-tan pb-40 pt-28 text-brand-dark-green">
-      <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-12 px-3 pb-24 lg:grid-cols-[250px_minmax(0,940px)_1fr] lg:gap-[119px]">
-        <div aria-hidden="true" className="hidden lg:block" />
-        <article className="flex min-w-0 flex-col gap-12">
+    <div className="bg-accent-tan pb-20 pt-[94px] text-brand-dark-green">
+      <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 lg:grid-cols-[repeat(16,minmax(0,1fr))] lg:gap-4">
+        <article className="flex min-w-0 max-w-[696px] flex-col lg:col-span-8 lg:col-start-5">
           <PodcastHero
             canonicalUrl={canonicalUrl}
             copy={copy}
             podcast={podcast}
           />
-          <PodcastBody
-            creditsLabel={copy.credits}
-            podcast={podcast}
-            showNotesLabel={copy.showNotes}
-          />
-          <PodcastFooter
-            label={copy.relatedEpisodes}
-            relatedEpisodes={podcast.relatedEpisodes}
-          />
+          <PodcastBody podcast={podcast} />
+          <PodcastFooter copy={copy} podcast={podcast} />
         </article>
-        <div aria-hidden="true" className="hidden lg:block" />
       </div>
     </div>
   )
