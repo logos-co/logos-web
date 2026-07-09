@@ -201,7 +201,7 @@ describe('getLatestBlogArticles', () => {
     expect(articles).toMatchObject([
       {
         title: 'Article one',
-        href: 'https://blog.logos.co/article/article-one',
+        href: '/media/article/article-one',
         image: 'https://cms-press.logos.co/uploads/article-one.jpg',
         thumbnailImage:
           'https://cms-press.logos.co/uploads/thumbnail_article-one.jpg',
@@ -213,7 +213,7 @@ describe('getLatestBlogArticles', () => {
       },
       {
         title: 'Article two',
-        href: 'https://blog.logos.co/article/article-two',
+        href: '/media/article/article-two',
         readingTime: 5,
       },
     ])
@@ -395,7 +395,7 @@ describe('getLatestBlogPodcasts', () => {
         description: 'Actual podcast description',
         date: '18 Sept 2024',
         episodeNumber: 14,
-        href: 'https://blog.logos.co/podcasts/logos-state/federico-ast-kleros',
+        href: '/media/podcasts/logos-state/federico-ast-kleros',
       },
     ])
     expect('duration' in podcasts[0]).toBe(false)

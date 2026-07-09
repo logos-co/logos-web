@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
-import { ExternalLink } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
 import type { BlogArticleRow } from '@/lib/blog-engine'
 
@@ -15,6 +14,7 @@ import {
   Dot,
   PlayIcon,
   BlogRowLink,
+  MediaLink,
   RowThumbnail,
   SectionCta,
   TextLink,
@@ -181,7 +181,7 @@ export function GallerySection({ articles }: { articles: BlogArticleRow[] }) {
       <div className="overflow-x-auto md:overflow-visible">
         <ContentWidth className="flex w-max gap-3 py-10 pl-3 pr-3 md:grid md:w-auto md:grid-cols-4 md:p-0">
           {articles.map((article) => (
-            <ExternalLink
+            <MediaLink
               key={article.title}
               href={article.href}
               className="group flex w-[calc(100vw-24px)] max-w-[339px] shrink-0 cursor-pointer flex-col gap-1.5 text-brand-dark-green md:w-auto md:max-w-none"
@@ -204,7 +204,7 @@ export function GallerySection({ articles }: { articles: BlogArticleRow[] }) {
                   <p>{article.author}</p>
                 </div>
               </div>
-            </ExternalLink>
+            </MediaLink>
           ))}
         </ContentWidth>
       </div>

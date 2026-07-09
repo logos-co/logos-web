@@ -138,6 +138,10 @@ export interface BlogPodcastShow {
 export interface BlogPodcastChannel {
   name: string
   url: string
+  data?: {
+    duration?: number
+    audioFileUrl?: string
+  }
 }
 
 export interface BlogPodcastDetail extends BlogPostMeta {
@@ -148,6 +152,7 @@ export interface BlogPodcastDetail extends BlogPostMeta {
   show?: BlogPodcastShow
   channels: BlogPodcastChannel[]
   credits: BlogContentBlock[]
+  creditsHtml?: string
   transcription: Array<{
     html: string
     start?: number
@@ -276,6 +281,22 @@ type GraphqlImageRelation = {
   } | null
 }
 
+type GraphqlPostSlugData = {
+  posts?: {
+    data?: Array<{
+      attributes?: Pick<GraphqlPostAttributes, 'slug' | 'podcast_show'>
+    }>
+  }
+}
+
+type SimplecastEpisodeResponse = {
+  duration?: number | null
+  ad_free_audio_file_url?: string | null
+  audio_file?: {
+    url?: string | null
+  } | null
+}
+
 const truncate = (value: string, limit = BODY_SNIPPET_LIMIT) =>
   value.length > limit
     ? `${value.slice(0, limit)}...(${value.length} chars)`
@@ -317,11 +338,15 @@ function decodeHtml(value: string): string {
     const key = entity.toLowerCase()
     if (key.startsWith('#x')) {
       const codePoint = Number.parseInt(key.slice(2), 16)
-      return Number.isFinite(codePoint) ? String.fromCodePoint(codePoint) : match
+      return Number.isFinite(codePoint)
+        ? String.fromCodePoint(codePoint)
+        : match
     }
     if (key.startsWith('#')) {
       const codePoint = Number.parseInt(key.slice(1), 10)
-      return Number.isFinite(codePoint) ? String.fromCodePoint(codePoint) : match
+      return Number.isFinite(codePoint)
+        ? String.fromCodePoint(codePoint)
+        : match
     }
     return named[key] ?? match
   })
@@ -552,6 +577,76 @@ async function fetchPressGraphql<T>(
   return json.data
 }
 
+function extractSimplecastEpisodeId(url: string): string | undefined {
+  return /^https:\/\/player\.simplecast\.com\/([^/?]+)(?:[/?]|$)/i.exec(
+    url
+  )?.[1]
+}
+
+async function fetchSimplecastEpisodeData(
+  episodeId: string,
+  label: string
+): Promise<BlogPodcastChannel['data'] | undefined> {
+  if (!env.SIMPLECAST_ACCESS_TOKEN) return undefined
+
+  const response = await fetch(
+    `https://api.simplecast.com/episodes/${episodeId}`,
+    {
+      cache: 'force-cache',
+      headers: {
+        Accept: 'application/json',
+        Authorization: env.SIMPLECAST_ACCESS_TOKEN,
+      },
+    }
+  )
+  const text = await response.text()
+  if (!response.ok) {
+    throw new Error(
+      `${label} Simplecast fetch failed: status=${response.status} body=${truncate(text)}`
+    )
+  }
+
+  const episode = JSON.parse(text) as SimplecastEpisodeResponse
+  const audioFileUrl =
+    episode.ad_free_audio_file_url ?? episode.audio_file?.url ?? undefined
+  if (!audioFileUrl && !episode.duration) return undefined
+
+  return {
+    audioFileUrl,
+    duration: episode.duration ?? undefined,
+  }
+}
+
+async function enrichSimplecastChannels(
+  podcast: BlogPodcastDetail
+): Promise<BlogPodcastDetail> {
+  const channels = await Promise.all(
+    podcast.channels.map(async (channel) => {
+      if (channel.name !== 'Simplecast') return channel
+
+      const episodeId = extractSimplecastEpisodeId(channel.url)
+      if (!episodeId) return channel
+
+      if (!env.SIMPLECAST_ACCESS_TOKEN) {
+        if (env.NEXT_PUBLIC_API_MODE === 'production') {
+          throw new Error(
+            `Podcast ${podcast.slug} Simplecast channel requires SIMPLECAST_ACCESS_TOKEN`
+          )
+        }
+        return channel
+      }
+
+      const data = await fetchSimplecastEpisodeData(
+        episodeId,
+        `Podcast ${podcast.slug}`
+      )
+      return data ? { ...channel, data } : channel
+    })
+  )
+
+  return { ...podcast, channels }
+}
+
 function resolveAssetUrl(rawUrl?: string | null): string {
   if (!rawUrl) return ''
   if (/^https?:\/\//i.test(rawUrl)) return rawUrl
@@ -733,9 +828,13 @@ function mapGraphqlPodcast(
           name: channel.channel ?? '',
           url: channel.link ?? '',
         }))
-        .filter((channel) => channel.name.length > 0 && channel.url.length > 0) ??
-      [],
+        .filter(
+          (channel) => channel.name.length > 0 && channel.url.length > 0
+        ) ?? [],
     credits: [],
+    creditsHtml: attrs.credits
+      ? normaliseArticleHtml(attrs.credits).html
+      : undefined,
     transcription: [],
     content: undefined,
     bodyHtml: articleHtml?.html,
@@ -832,7 +931,9 @@ function mapLegacyContentBlocks(value: unknown): BlogContentBlock[] {
     .filter((block): block is BlogContentBlock => block !== null)
 }
 
-function mapLegacyDynamicBlocks(value: unknown): BlogDynamicBlock[] | undefined {
+function mapLegacyDynamicBlocks(
+  value: unknown
+): BlogDynamicBlock[] | undefined {
   if (!Array.isArray(value)) return undefined
   const blocks = value
     .filter(isRecord)
@@ -922,10 +1023,17 @@ function mapLegacyPodcast(value: unknown): BlogPodcastDetail {
           .map((channel) => ({
             name: stringValue(channel.name),
             url: stringValue(channel.url),
+            data: isRecord(channel.data)
+              ? {
+                  duration: optionalNumberValue(channel.data.duration),
+                  audioFileUrl: optionalStringValue(channel.data.audioFileUrl),
+                }
+              : undefined,
           }))
           .filter((channel) => channel.name && channel.url)
       : [],
     credits: mapLegacyContentBlocks(post.credits),
+    creditsHtml: undefined,
     transcription: Array.isArray(post.transcription)
       ? (post.transcription as BlogPodcastDetail['transcription'])
       : [],
@@ -935,7 +1043,45 @@ function mapLegacyPodcast(value: unknown): BlogPodcastDetail {
   }
 }
 
-export async function getBlogArticleSlugs(): Promise<string[]> {
+const POST_SLUGS_QUERY = `
+  query PostSlugs($type: String!) {
+    posts(
+      filters: { type: { eq: $type } }
+      pagination: { limit: 100 }
+      sort: ["publish_date:desc"]
+      publicationState: LIVE
+    ) {
+      data {
+        attributes {
+          slug
+          podcast_show {
+            data {
+              attributes {
+                slug
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+async function getStrapiArticleSlugs(): Promise<string[]> {
+  const data = await fetchPressGraphql<GraphqlPostSlugData>(
+    POST_SLUGS_QUERY,
+    { type: 'Article' },
+    'Article slugs'
+  )
+
+  return (
+    data.posts?.data
+      ?.map((post) => post.attributes?.slug ?? '')
+      .filter(Boolean) ?? []
+  )
+}
+
+async function getLegacyArticleSlugs(): Promise<string[]> {
   const params = new URLSearchParams({
     type: 'article',
     limit: String(BLOG_SEARCH_LIMIT),
@@ -952,7 +1098,42 @@ export async function getBlogArticleSlugs(): Promise<string[]> {
   )
 }
 
-export async function getBlogPodcastPaths(): Promise<
+async function getStrapiPodcastPaths(): Promise<
+  Array<{ showSlug: string; slug: string }>
+> {
+  const data = await fetchPressGraphql<GraphqlPostSlugData>(
+    POST_SLUGS_QUERY,
+    { type: 'Episode' },
+    'Podcast slugs'
+  )
+
+  return (
+    data.posts?.data
+      ?.map((post) => ({
+        showSlug:
+          post.attributes?.podcast_show?.data?.attributes?.slug ??
+          DEFAULT_PODCAST_SHOW_SLUG,
+        slug: post.attributes?.slug ?? '',
+      }))
+      .filter((path) => path.slug.length > 0) ?? []
+  )
+}
+
+export async function getBlogArticleSlugs(): Promise<string[]> {
+  if (hasStrapiConfig()) {
+    try {
+      return await getStrapiArticleSlugs()
+    } catch (error) {
+      if (!shouldAllowLegacyFallback()) throw error
+    }
+  }
+  if (!shouldAllowLegacyFallback() && !hasStrapiConfig()) {
+    throw new Error('Blog article slugs require Strapi env in production')
+  }
+  return getLegacyArticleSlugs()
+}
+
+async function getLegacyPodcastPaths(): Promise<
   Array<{ showSlug: string; slug: string }>
 > {
   const params = new URLSearchParams({
@@ -972,6 +1153,22 @@ export async function getBlogPodcastPaths(): Promise<
       }))
       .filter((path) => path.slug.length > 0) ?? []
   )
+}
+
+export async function getBlogPodcastPaths(): Promise<
+  Array<{ showSlug: string; slug: string }>
+> {
+  if (hasStrapiConfig()) {
+    try {
+      return await getStrapiPodcastPaths()
+    } catch (error) {
+      if (!shouldAllowLegacyFallback()) throw error
+    }
+  }
+  if (!shouldAllowLegacyFallback() && !hasStrapiConfig()) {
+    throw new Error('Blog podcast slugs require Strapi env in production')
+  }
+  return getLegacyPodcastPaths()
 }
 
 const ARTICLE_DETAIL_QUERY = `
@@ -1402,7 +1599,7 @@ async function getStrapiPodcast(
       mapGraphqlPodcast(entity)
     ) ?? []
 
-  return mapGraphqlPodcast(post, relatedEpisodes)
+  return enrichSimplecastChannels(mapGraphqlPodcast(post, relatedEpisodes))
 }
 
 async function getLegacyArticle(slug: string): Promise<BlogArticleDetail> {
