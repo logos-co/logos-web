@@ -8,6 +8,13 @@ export interface ArticleDetailCopy {
   fromSameAuthors: string
   footnotes: string
   minRead: string
+  discussion: string
+  discussionComments: string
+  joinDiscussion: string
+  noDiscussion: string
+  readFullArticle: string
+  startDiscussion: string
+  viewFullDiscussion: string
 }
 
 export interface ArticleDetailSectionProps {
