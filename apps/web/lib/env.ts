@@ -59,6 +59,11 @@ export type Env = {
    */
   STRAPI_API_KEY: string | undefined
   /**
+   * Server-side Simplecast API token for legacy Logos Press Engine podcast
+   * audio metadata.
+   */
+  SIMPLECAST_ACCESS_TOKEN: string | undefined
+  /**
    * Public origin of the intake app `apps/civi-crm` (e.g. `https://civi.logos.co`
    * or `http://localhost:3002`), which hosts the endpoint the funnel forms post to.
    */
@@ -125,6 +130,9 @@ export const env: Env = {
   STRAPI_API_URL: readOptionalString(process.env.STRAPI_API_URL),
   STRAPI_GRAPHQL_URL: readOptionalString(process.env.STRAPI_GRAPHQL_URL),
   STRAPI_API_KEY: readOptionalString(process.env.STRAPI_API_KEY),
+  SIMPLECAST_ACCESS_TOKEN: readOptionalString(
+    process.env.SIMPLECAST_ACCESS_TOKEN
+  ),
   NEXT_PUBLIC_CIVI_CRM_URL: readOptionalString(
     process.env.NEXT_PUBLIC_CIVI_CRM_URL
   ),

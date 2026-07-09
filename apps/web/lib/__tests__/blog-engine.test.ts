@@ -133,18 +133,19 @@ describe('getLatestBlogArticles', () => {
     expect(articles).toMatchObject([
       {
         title: 'Article one',
-        href: 'https://blog.logos.co/article/article-one',
+        href: '/media/article/article-one',
         image: 'https://cms-press.logos.co/uploads/article-one.jpg',
         thumbnailImage:
           'https://cms-press.logos.co/uploads/thumbnail_article-one.jpg',
-        galleryImage: 'https://cms-press.logos.co/uploads/small_article-one.jpg',
+        galleryImage:
+          'https://cms-press.logos.co/uploads/small_article-one.jpg',
         cardImage: 'https://cms-press.logos.co/uploads/article-one.jpg',
         featuredImage: 'https://cms-press.logos.co/uploads/article-one.jpg',
         readingTime: 13,
       },
       {
         title: 'Article two',
-        href: 'https://blog.logos.co/article/article-two',
+        href: '/media/article/article-two',
         readingTime: 5,
       },
     ])
@@ -267,9 +268,7 @@ describe('getBlogPageData', () => {
           })
         }
 
-        if (
-          url === 'https://blog.logos.co/article/developer-update-apr-2026'
-        ) {
+        if (url === 'https://blog.logos.co/article/developer-update-apr-2026') {
           return htmlResponse(articlePageHtml(12))
         }
 
@@ -328,7 +327,7 @@ describe('getLatestBlogPodcasts', () => {
         description: 'Actual podcast description',
         date: '18 Sept 2024',
         episodeNumber: 14,
-        href: 'https://blog.logos.co/podcasts/logos-state/federico-ast-kleros',
+        href: '/media/podcasts/logos-state/federico-ast-kleros',
       },
     ])
     expect('duration' in podcasts[0]).toBe(false)

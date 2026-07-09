@@ -3,11 +3,7 @@ import { isActiveLocale } from '@repo/content/locales'
 import type { MediaCopySection } from '@repo/content/schemas'
 
 import { ROUTES } from '@/constants/routes'
-import {
-  BLOG_ORIGIN,
-  getBlogPageData,
-  repeatToLength,
-} from '@/lib/blog-engine'
+import { getBlogPageData, repeatToLength } from '@/lib/blog-engine'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 
@@ -53,7 +49,7 @@ export default async function BlogPage({
   const data = findSection<MediaCopySection>(
     page.sections,
     'mediaCopy',
-    'media.copy',
+    'media.copy'
   )
 
   const repeatedArticles = repeatToLength(articles, 12)
@@ -97,10 +93,7 @@ export default async function BlogPage({
             index={index}
           />
         ))}
-        <ArticlesCta
-          href={`${BLOG_ORIGIN}/search?type=article`}
-          label={data.articles.seeMore}
-        />
+        <ArticlesCta href="#articles" label={data.articles.seeMore} />
       </section>
       <PodcastsSection
         podcasts={podcasts}

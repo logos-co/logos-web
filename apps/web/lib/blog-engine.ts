@@ -1,8 +1,10 @@
 import { env } from '@/lib/env'
+import { ROUTES } from '@/constants/routes'
 
 export const BLOG_ORIGIN = 'https://blog.logos.co'
 
 const PRESS_SEARCH_API = `${BLOG_ORIGIN}/api/search`
+const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
 const ADMIN_ACID_API_ORIGIN =
   env.NEXT_PUBLIC_ADMIN_ACID_API_URL ?? 'https://admin-acid.logos.co/api'
 const CALENDAR_PUBLIC_PATH = '/calendar/public'
@@ -328,10 +330,7 @@ const getBlogImageVariantUrl = (
       PRESS_IMAGE_VARIANT_PREFIXES.find((prefix) =>
         fileName.startsWith(prefix)
       ) !== undefined
-        ? fileName.replace(
-            /^(thumbnail_|small_|medium_|large_)/,
-            ''
-          )
+        ? fileName.replace(/^(thumbnail_|small_|medium_|large_)/, '')
         : fileName
 
     url.pathname = `${directory}${blogImageVariantPrefix(variant)}${baseFileName}`
@@ -357,10 +356,7 @@ const getBlogSearchItems = async (
     params.set('tags', tag)
   }
   const url = `${PRESS_SEARCH_API}?${params.toString()}`
-  const json = await fetchJsonResilient<BlogSearchResponse>(
-    url,
-    'Blog search'
-  )
+  const json = await fetchJsonResilient<BlogSearchResponse>(url, 'Blog search')
   return json.data?.posts?.filter((post) => post.type === type) ?? []
 }
 
@@ -421,7 +417,7 @@ const toArticleRow = (post: BlogSearchPost): BlogArticleRow => {
     galleryImage,
     cardImage,
     featuredImage,
-    href: `${BLOG_ORIGIN}/article/${data.slug}`,
+    href: ROUTES.mediaArticle(data.slug),
     readingTime,
   }
 }
@@ -435,7 +431,7 @@ const toPodcastRow = (post: BlogSearchPost): BlogPodcastRow => {
     description: stripHtml(data.description || data.summary || ''),
     date: formatLongDate(data.publishedAt),
     episodeNumber: data.episodeNumber ?? undefined,
-    href: `${BLOG_ORIGIN}/podcasts/logos-state/${data.slug}`,
+    href: ROUTES.mediaPodcast(DEFAULT_PODCAST_SHOW_SLUG, data.slug),
   }
 }
 

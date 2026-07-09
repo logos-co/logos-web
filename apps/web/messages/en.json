@@ -168,6 +168,21 @@
       "fromSameAuthors": "From The Same Authors",
       "footnotes": "Footnotes",
       "minRead": "{count} min"
+    },
+    "podcast": {
+      "channels": "Channels",
+      "copied": "Copied",
+      "credits": "Credits",
+      "episode": "Episode {count}",
+      "forward": "Forward 15 seconds",
+      "listen": "Listen",
+      "pause": "Pause",
+      "play": "Play",
+      "relatedEpisodes": "Related Episodes",
+      "rewind": "Back 15 seconds",
+      "seek": "Seek episode",
+      "share": "Share",
+      "showNotes": "Show notes"
     }
   }
 }

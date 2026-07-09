@@ -11,6 +11,7 @@ import {
 import siteConfig from '@/constants/site-config'
 import { ROUTES } from '@/constants/routes'
 import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
+import { getBlogArticleSlugs, getBlogPodcastPaths } from '@/lib/blog-content'
 
 export const dynamic = 'force-static'
 
@@ -67,12 +68,15 @@ const buildSitemapEntry = (
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date().toISOString().split('T')[0]!
-  const [rfps, ideas, circles, fieldGuide] = await Promise.all([
-    getAllRfps({ locale: 'en', status: 'published' }),
-    getAllIdeas({ locale: 'en', status: 'published' }),
-    getCircles({ locale: 'en', status: 'published' }),
-    getFieldGuideManifest('en'),
-  ])
+  const [rfps, ideas, circles, fieldGuide, articleSlugs, podcastPaths] =
+    await Promise.all([
+      getAllRfps({ locale: 'en', status: 'published' }),
+      getAllIdeas({ locale: 'en', status: 'published' }),
+      getCircles({ locale: 'en', status: 'published' }),
+      getFieldGuideManifest('en'),
+      getBlogArticleSlugs(),
+      getBlogPodcastPaths(),
+    ])
 
   // Index chapter is served by ROUTES.fieldGuide (already in the static list).
   const fieldGuideChapters = flattenFieldGuideItems(fieldGuide)
@@ -87,6 +91,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ? circles.map((circle) => ROUTES.circle(circle.slug))
       : []),
     ...fieldGuideChapters,
+    ...articleSlugs.map((slug) => ROUTES.mediaArticle(slug)),
+    ...podcastPaths.map((path) =>
+      ROUTES.mediaPodcast(path.showSlug, path.slug)
+    ),
   ]
 
   return [...new Set(routes)]
