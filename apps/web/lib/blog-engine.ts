@@ -1,8 +1,10 @@
 import { env } from '@/lib/env'
+import { ROUTES } from '@/constants/routes'
 
 export const BLOG_ORIGIN = 'https://blog.logos.co'
 
 const PRESS_SEARCH_API = `${BLOG_ORIGIN}/api/search`
+const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
 const ADMIN_ACID_API_ORIGIN =
   env.NEXT_PUBLIC_ADMIN_ACID_API_URL ?? 'https://admin-acid.logos.co/api'
 const CALENDAR_PUBLIC_PATH = '/calendar/public'
@@ -444,7 +446,7 @@ const toArticleRow = (post: BlogSearchPost): BlogArticleRow => {
     galleryImage,
     cardImage,
     featuredImage,
-    href: `${BLOG_ORIGIN}/article/${data.slug}`,
+    href: ROUTES.mediaArticle(data.slug),
     readingTime,
   }
 }
@@ -458,7 +460,7 @@ const toPodcastRow = (post: BlogSearchPost): BlogPodcastRow => {
     description: stripHtml(data.description || data.summary || ''),
     date: formatLongDate(data.publishedAt),
     episodeNumber: data.episodeNumber ?? undefined,
-    href: `${BLOG_ORIGIN}/podcasts/logos-state/${data.slug}`,
+    href: ROUTES.mediaPodcast(DEFAULT_PODCAST_SHOW_SLUG, data.slug),
   }
 }
 

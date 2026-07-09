@@ -18,13 +18,17 @@ export function ShareButton({
   const [copied, setCopied] = useState(false)
 
   const share = async () => {
-    if (navigator.share) {
-      await navigator.share({ title, url })
-      return
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, url })
+        return
+      }
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1800)
+    } catch {
+      setCopied(false)
     }
-    await navigator.clipboard.writeText(url)
-    setCopied(true)
-    window.setTimeout(() => setCopied(false), 1800)
   }
 
   return (
