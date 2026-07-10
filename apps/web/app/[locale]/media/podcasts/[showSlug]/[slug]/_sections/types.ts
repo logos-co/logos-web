@@ -5,8 +5,8 @@ export interface PodcastDetailCopy extends PodcastPlayerCopy {
   channels: string
   copied: string
   credits: string
-  episode: string
   listen: string
+  minutes: string
   relatedEpisodes: string
   references: string
   share: string

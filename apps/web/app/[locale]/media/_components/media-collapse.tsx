@@ -23,19 +23,19 @@ export function MediaCollapse({
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        className="flex h-10 w-full cursor-pointer items-center justify-between border border-brand-dark-green bg-transparent px-[17px] text-brand-dark-green"
+        className="relative flex h-10 w-full cursor-pointer items-center justify-end border border-brand-dark-green bg-transparent px-[17px] text-brand-dark-green"
       >
-        <span className="mx-auto font-sans text-[14px] leading-5">{label}</span>
+        <span className="absolute left-1/2 -translate-x-1/2 font-sans text-[14px] leading-5">
+          {label}
+        </span>
         {open ? (
-          <ChevronUp aria-hidden="true" size={16} />
+          <ChevronUp aria-hidden="true" size={14} />
         ) : (
-          <ChevronDown aria-hidden="true" size={16} />
+          <ChevronDown aria-hidden="true" size={14} />
         )}
       </button>
       {open ? (
-        <div className="border border-t-0 border-brand-dark-green">
-          {children}
-        </div>
+        <div className="border border-brand-dark-green">{children}</div>
       ) : null}
     </section>
   )

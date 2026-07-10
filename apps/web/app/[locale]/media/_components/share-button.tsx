@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 
+import { MediaShareIcon } from '@acid-info/logos-ui'
+
 interface ShareButtonProps {
   label: string
   copiedLabel: string
@@ -37,8 +39,9 @@ export function ShareButton({
       onClick={() => {
         void share()
       }}
-      className="shrink-0 cursor-pointer border border-brand-dark-green px-2 py-1 font-sans text-[14px] leading-5 text-brand-dark-green transition-colors hover:bg-brand-dark-green hover:text-brand-off-white"
+      className="flex h-6 shrink-0 cursor-pointer items-center gap-2 border border-brand-dark-green py-1 pr-2 pl-[6px] font-sans text-[12px] leading-4 text-brand-dark-green transition-colors hover:bg-brand-dark-green hover:text-brand-off-white"
     >
+      <MediaShareIcon />
       {copied ? copiedLabel : label}
     </button>
   )

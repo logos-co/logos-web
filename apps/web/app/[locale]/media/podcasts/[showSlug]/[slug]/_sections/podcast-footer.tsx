@@ -33,13 +33,13 @@ export function PodcastFooter({ copy, podcast }: PodcastFooterProps) {
     : podcast.relatedEpisodes.slice(0, 4)
 
   return (
-    <footer className="mt-14 pb-20 max-sm:mt-[72px]">
+    <footer className="mt-14 pb-8 max-sm:mt-[72px]">
       <div className="[&>section+section]:-mt-px">
         {podcast.creditsHtml || podcast.credits.length > 0 ? (
           <MediaCollapse label={copy.credits}>
             <MediaRichContent
               bodyHtml={podcast.creditsHtml}
-              className="px-[14px] py-3"
+              className="media-podcast-footer-content px-[14px] py-3"
               content={podcast.credits}
             />
           </MediaCollapse>
@@ -47,23 +47,25 @@ export function PodcastFooter({ copy, podcast }: PodcastFooterProps) {
 
         {podcast.footnotes.length > 0 ? (
           <MediaCollapse label={copy.references}>
-            {podcast.footnotes.map((footnote) => (
-              <div
-                key={footnote.id}
-                id={`fnt-${footnote.id}`}
-                className="flex gap-1 px-[14px] py-2 font-sans text-[14px] leading-5"
-              >
-                <a
-                  href={`#${footnote.refId}`}
-                  className="shrink-0 cursor-pointer no-underline hover:underline"
+            <div className="flex flex-col gap-4 px-[14px] py-3">
+              {podcast.footnotes.map((footnote) => (
+                <div
+                  key={footnote.id}
+                  id={`fnt-${footnote.id}`}
+                  className="flex items-start gap-[3px] font-sans text-[14px] leading-5"
                 >
-                  {footnote.refValue.replace('[', '').replace(']', '')}.
-                </a>
-                <span
-                  dangerouslySetInnerHTML={{ __html: footnote.valueHTML }}
-                />
-              </div>
-            ))}
+                  <a
+                    href={`#${footnote.refId}`}
+                    className="shrink-0 cursor-pointer no-underline hover:underline"
+                  >
+                    {footnote.refValue.replace('[', '').replace(']', '')}.
+                  </a>
+                  <span
+                    dangerouslySetInnerHTML={{ __html: footnote.valueHTML }}
+                  />
+                </div>
+              ))}
+            </div>
           </MediaCollapse>
         ) : null}
       </div>
