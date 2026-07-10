@@ -65,6 +65,7 @@ export function PodcastPlayer({ copy, podcast }: PodcastPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const youtubeContainerRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
+  const playerVisibleRef = useRef(false)
 
   useEffect(() => {
     if (!episode || !containerRef.current) return
@@ -72,13 +73,16 @@ export function PodcastPlayer({ copy, podcast }: PodcastPlayerProps) {
     const target = containerRef.current
     const observer = new IntersectionObserver(
       (entries) => {
-        setEpisodeVisible(episode.id, entries[0]?.isIntersecting ?? false)
+        const visible = entries[0]?.isIntersecting ?? false
+        playerVisibleRef.current = visible
+        setEpisodeVisible(episode.id, visible)
       },
       { threshold: 0.05 }
     )
     observer.observe(target)
 
     return () => {
+      playerVisibleRef.current = false
       setEpisodeVisible(episode.id, false)
       observer.disconnect()
     }
@@ -145,8 +149,12 @@ export function PodcastPlayer({ copy, podcast }: PodcastPlayerProps) {
             }, 500)
           },
           onStateChange: (event) => {
-            playing = event.data === api.PlayerState.PLAYING
-            if (playing) activateEpisode(episode.id)
+            playing =
+              event.data === api.PlayerState.PLAYING ||
+              event.data === api.PlayerState.BUFFERING
+            if (playing && playerVisibleRef.current) {
+              activateEpisode(episode.id)
+            }
             reportEpisode(episode.id, {
               currentTime: event.target.getCurrentTime(),
               duration: event.target.getDuration(),
@@ -201,7 +209,9 @@ export function PodcastPlayer({ copy, podcast }: PodcastPlayerProps) {
         isPlaying: controller.getPlaying(),
         isReady: audio.readyState > 0,
       })
-    const activate = () => activateEpisode(episode.id)
+    const activate = () => {
+      if (playerVisibleRef.current) activateEpisode(episode.id)
+    }
 
     registerEpisode(episode, controller)
     audio.addEventListener('loadedmetadata', sync)

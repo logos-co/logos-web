@@ -29,6 +29,7 @@ export interface YoutubeApi {
     }
   ) => YoutubePlayer
   PlayerState: {
+    BUFFERING: number
     ENDED: number
     PAUSED: number
     PLAYING: number

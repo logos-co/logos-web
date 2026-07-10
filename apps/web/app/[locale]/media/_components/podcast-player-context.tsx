@@ -113,6 +113,19 @@ function clampTime(value: number, duration: number): number {
   return Math.max(0, Math.min(value, duration || value))
 }
 
+function playbackPatch(
+  controller: PodcastPlaybackController
+): Required<
+  Pick<PlaybackPatch, 'currentTime' | 'duration' | 'isMuted' | 'isPlaying'>
+> {
+  return {
+    currentTime: controller.getCurrentTime(),
+    duration: controller.getDuration(),
+    isMuted: controller.getMuted(),
+    isPlaying: controller.getPlaying(),
+  }
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null
 }
@@ -260,7 +273,9 @@ function GlobalYoutubeEngine({
             }
           },
           onStateChange: (event) => {
-            playingRef.current = event.data === api.PlayerState.PLAYING
+            playingRef.current =
+              event.data === api.PlayerState.PLAYING ||
+              event.data === api.PlayerState.BUFFERING
             report({
               currentTime: event.target.getCurrentTime(),
               duration: event.target.getDuration(),
@@ -430,6 +445,7 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
   const [activeVisible, setActiveVisible] = useState(false)
   const stateRef = useRef(state)
   const localEpisodeIdRef = useRef(localEpisodeId)
+  const activeVisibleRef = useRef(activeVisible)
   const registrationsRef = useRef(new Map<string, Registration>())
   const visibleRef = useRef(new Map<string, boolean>())
   const globalControllerRef = useRef<PodcastPlaybackController | null>(null)
@@ -474,10 +490,15 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
     setLocalEpisodeId(episodeId)
   }, [])
 
+  const updateActiveVisible = useCallback((visible: boolean) => {
+    activeVisibleRef.current = visible
+    setActiveVisible(visible)
+  }, [])
+
   const activeController = useCallback(() => {
     const episodeId = stateRef.current.episode?.id
     if (!episodeId) return null
-    if (localEpisodeIdRef.current === episodeId) {
+    if (localEpisodeIdRef.current === episodeId && activeVisibleRef.current) {
       return registrationsRef.current.get(episodeId)?.controller ?? null
     }
     return globalControllerRef.current
@@ -512,17 +533,18 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
         isReady: true,
       })
       updateLocalEpisodeId(episodeId)
-      setActiveVisible(visibleRef.current.get(episodeId) ?? false)
+      const isVisible = visibleRef.current.get(episodeId) ?? false
+      updateActiveVisible(isVisible)
 
       if (previousController && previousController !== controller) {
         previousController.pause()
       }
       globalControllerRef.current?.pause()
       controller.seekTo(nextTime)
-      controller.setMuted(nextMuted)
+      controller.setMuted(isVisible ? nextMuted : true)
       if (nextPlaying && !controller.getPlaying()) controller.play()
     },
-    [activeController, updateLocalEpisodeId, updateState]
+    [activeController, updateActiveVisible, updateLocalEpisodeId, updateState]
   )
 
   const registerEpisode = useCallback(
@@ -550,13 +572,12 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
         stateRef.current.episode?.id === episodeId &&
         localEpisodeIdRef.current === episodeId
       ) {
-        const snapshot = {
-          currentTime: controller.getCurrentTime(),
-          duration: controller.getDuration(),
-          isMuted: controller.getMuted(),
-          isPlaying: stateRef.current.isPlaying || controller.getPlaying(),
-        }
+        const active = activeVisibleRef.current
+          ? controller
+          : (globalControllerRef.current ?? controller)
+        const snapshot = playbackPatch(active)
         updateLocalEpisodeId(null)
+        updateActiveVisible(false)
         updateState((current) => ({
           ...current,
           ...snapshot,
@@ -566,12 +587,18 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
         controller.pause()
       }
     },
-    [updateLocalEpisodeId, updateState]
+    [updateActiveVisible, updateLocalEpisodeId, updateState]
   )
 
   const reportEpisode = useCallback(
     (episodeId: string, patch: PlaybackPatch) => {
-      if (stateRef.current.episode?.id !== episodeId) return
+      if (
+        stateRef.current.episode?.id !== episodeId ||
+        localEpisodeIdRef.current !== episodeId ||
+        !activeVisibleRef.current
+      ) {
+        return
+      }
       updateState((current) => ({ ...current, ...patch }))
     },
     [updateState]
@@ -580,11 +607,48 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
   const setEpisodeVisible = useCallback(
     (episodeId: string, visible: boolean) => {
       visibleRef.current.set(episodeId, visible)
-      if (stateRef.current.episode?.id === episodeId) {
-        setActiveVisible(visible)
+      if (
+        stateRef.current.episode?.id !== episodeId ||
+        activeVisibleRef.current === visible
+      ) {
+        return
       }
+
+      const local = registrationsRef.current.get(episodeId)?.controller
+      const global = globalControllerRef.current
+      const active = visible ? global : local
+      const snapshot = active ? playbackPatch(active) : null
+
+      updateActiveVisible(visible)
+      if (!local) return
+
+      if (visible) {
+        if (snapshot) {
+          local.seekTo(snapshot.currentTime)
+          if (snapshot.isPlaying) {
+            local.setMuted(true)
+            if (!local.getPlaying()) local.play()
+          }
+          local.setMuted(snapshot.isMuted)
+          updateState((current) => ({
+            ...current,
+            ...snapshot,
+            isReady: true,
+          }))
+        } else {
+          local.setMuted(stateRef.current.isMuted)
+        }
+        return
+      }
+
+      local.setMuted(true)
+      updateState((current) => ({
+        ...current,
+        ...(snapshot ?? {}),
+        isReady: global !== null,
+      }))
     },
-    []
+    [updateActiveVisible, updateState]
   )
 
   const toggleEpisode = useCallback(
@@ -599,8 +663,18 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
 
       const controller = activeController()
       if (!controller) return
-      if (stateRef.current.isPlaying) controller.pause()
-      else controller.play()
+      const local = registrationsRef.current.get(episodeId)?.controller
+      if (stateRef.current.isPlaying) {
+        controller.pause()
+        if (local && local !== controller) local.pause()
+      } else {
+        if (local && local !== controller) {
+          local.seekTo(stateRef.current.currentTime)
+          local.setMuted(true)
+          local.play()
+        }
+        controller.play()
+      }
       updateState((current) => ({
         ...current,
         isPlaying: !current.isPlaying,
@@ -615,7 +689,10 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
         activateEpisode(episodeId)
       }
       const nextTime = clampTime(seconds, stateRef.current.duration)
-      activeController()?.seekTo(nextTime)
+      const controller = activeController()
+      controller?.seekTo(nextTime)
+      const local = registrationsRef.current.get(episodeId)?.controller
+      if (local && local !== controller) local.seekTo(nextTime)
       updateState((current) => ({ ...current, currentTime: nextTime }))
     },
     [activateEpisode, activeController, updateState]
@@ -631,19 +708,23 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
     activeController()?.pause()
     globalControllerRef.current?.pause()
     updateLocalEpisodeId(null)
-    setActiveVisible(false)
+    updateActiveVisible(false)
     updateState(EMPTY_STATE)
     try {
       window.sessionStorage.removeItem(PLAYER_STORAGE_KEY)
     } catch {
       return
     }
-  }, [activeController, updateLocalEpisodeId, updateState])
+  }, [activeController, updateActiveVisible, updateLocalEpisodeId, updateState])
 
   const setGlobalController = useCallback(
     (controller: PodcastPlaybackController | null) => {
       globalControllerRef.current = controller
-      if (localEpisodeIdRef.current === null) {
+      const episodeId = stateRef.current.episode?.id
+      if (
+        episodeId &&
+        (localEpisodeIdRef.current !== episodeId || !activeVisibleRef.current)
+      ) {
         updateState((current) => ({
           ...current,
           isReady: controller !== null,
@@ -655,7 +736,13 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
 
   const reportGlobal = useCallback(
     (patch: PlaybackPatch) => {
-      if (localEpisodeIdRef.current !== null) return
+      const episodeId = stateRef.current.episode?.id
+      if (
+        !episodeId ||
+        (localEpisodeIdRef.current === episodeId && activeVisibleRef.current)
+      ) {
+        return
+      }
       updateState((current) => ({ ...current, ...patch }))
     },
     [updateState]
@@ -689,7 +776,9 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
   )
 
   const episode = state.episode
-  const globalEnabled = Boolean(episode && localEpisodeId !== episode.id)
+  const globalEnabled = Boolean(
+    episode && (!activeVisible || localEpisodeId !== episode.id)
+  )
   const showStickyPlayer = Boolean(
     episode && (!activeVisible || localEpisodeId !== episode.id)
   )
