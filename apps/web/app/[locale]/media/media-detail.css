@@ -84,7 +84,8 @@
 .media-detail-content :where(ul, ol) {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
+  margin: 16px 0;
   padding-left: 1.5rem;
 }
 
@@ -131,6 +132,14 @@
   content: '';
 }
 
+.media-detail-content figure.media {
+  margin: 16px 0;
+}
+
+.media-detail-content figure.media:not(:has(img)):not(:has(figcaption))::after {
+  display: none;
+}
+
 .media-detail-content p:has(> img:only-child) {
   width: 100%;
   margin: 40px 0;
@@ -147,6 +156,34 @@
   :where(h1, h2, h3, h4, h5, h6)
   + :where(h1, h2, h3, h4, h5, h6) {
   margin-top: 0;
+}
+
+.media-detail-content.media-detail-content
+  > .contents:has(> :where(h1, h2, h3, h4, h5, h6))
+  + .contents:has(> :where(h1, h2, h3, h4, h5, h6))
+  > :where(h1, h2, h3, h4, h5, h6) {
+  margin-top: 0;
+}
+
+.media-detail-summary :where(p, span, a, em, i, strong, b) {
+  color: inherit;
+  font: inherit;
+  letter-spacing: 0;
+}
+
+.media-detail-summary :where(em, i) {
+  font-style: italic;
+}
+
+.media-detail-summary :where(strong, b) {
+  font-weight: 700;
+}
+
+.media-detail-summary a {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 .media-podcast-transcript {
@@ -238,9 +275,25 @@
   font-weight: 600;
 }
 
-.media-detail-content .media-detail-video {
+.media-detail-content .media-detail-video-frame {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  padding-top: 30px;
+  padding-bottom: 60%;
+}
+
+.media-detail-content .media-detail-video-aspect {
+  position: absolute;
+  top: 30px;
+  left: 0;
   width: 100%;
   aspect-ratio: 16 / 9;
+}
+
+.media-detail-content .media-detail-video {
+  width: 100%;
+  height: 100%;
   border: 0;
 }
 

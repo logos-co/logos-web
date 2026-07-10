@@ -81,7 +81,7 @@ export function ArticleSidebar({
   if (items.length === 0) return null
 
   return (
-    <aside className="hidden lg:col-span-3 lg:block">
+    <aside className="hidden md:col-span-4 md:block lg:col-span-3">
       <div className="sticky top-[95px] flex max-h-[calc(100vh-134px)] flex-col pb-[72px] text-brand-dark-green">
         <p className="mb-6 font-sans text-[12px] leading-4">{contentsLabel}</p>
         <nav
