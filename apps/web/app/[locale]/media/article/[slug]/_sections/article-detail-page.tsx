@@ -14,8 +14,8 @@ export function ArticleDetailPage({
   canonicalUrl,
 }: ArticleDetailPageProps) {
   return (
-    <div className="bg-accent-tan pt-[100px] text-brand-dark-green">
-      <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 lg:grid-cols-12 lg:gap-4">
+    <div className="media-detail-page bg-accent-tan pt-6 text-brand-dark-green lg:pt-[52px]">
+      <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 lg:grid-cols-[repeat(16,minmax(0,1fr))] lg:gap-4 lg:px-0">
         <ArticleSidebar
           contentsLabel={copy.contents}
           title={article.title}

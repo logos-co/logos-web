@@ -10,6 +10,7 @@ import { ExternalLink } from '@/components/ui'
 
 import { ShareButton } from '../../../../_components/share-button'
 import { PodcastPlayer } from './podcast-player'
+import { PodcastStats } from './podcast-stats'
 import type { PodcastDetailSectionProps } from './types'
 
 interface PodcastHeroProps extends PodcastDetailSectionProps {
@@ -27,7 +28,9 @@ function formatDate(iso: string | null) {
 }
 
 function formatChannelName(value: string) {
-  return value.replace(/_/g, ' ')
+  return value
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, (character) => character.toUpperCase())
 }
 
 function channelIcon(value: string) {
@@ -40,9 +43,7 @@ function channelIcon(value: string) {
 
 export function PodcastHero({ canonicalUrl, copy, podcast }: PodcastHeroProps) {
   const date = formatDate(podcast.publishedAt)
-  const episodeLabel = podcast.episodeNumber
-    ? copy.episode.replace('{count}', String(podcast.episodeNumber))
-    : ''
+  const episodeId = podcast.id || `${podcast.showSlug}/${podcast.slug}`
   const listeningChannels = podcast.channels.filter(
     (channel) => !['youtube', 'simplecast'].includes(channel.name.toLowerCase())
   )
@@ -51,11 +52,11 @@ export function PodcastHero({ canonicalUrl, copy, podcast }: PodcastHeroProps) {
     <section className="flex flex-col">
       <PodcastPlayer copy={copy} podcast={podcast} />
 
-      <div className="mt-8 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4 text-brand-dark-green max-sm:mt-6">
-        {episodeLabel ? <span>{episodeLabel}</span> : null}
-        {episodeLabel && date ? <span aria-hidden="true">•</span> : null}
-        {date ? <span>{date}</span> : null}
-      </div>
+      <PodcastStats
+        date={date}
+        episodeId={episodeId}
+        minutesLabel={copy.minutes}
+      />
 
       <div className="mt-3 flex flex-col text-brand-dark-green">
         <h1 className="font-display text-[36px] leading-[48px] tracking-normal max-sm:text-[20px] max-sm:leading-[30px]">
@@ -84,9 +85,9 @@ export function PodcastHero({ canonicalUrl, copy, podcast }: PodcastHeroProps) {
           {podcast.tags.map((tag) => (
             <span
               key={tag.id || tag.name}
-              className="border border-brand-dark-green px-2 py-1 font-sans text-[12px] leading-4 text-brand-dark-green"
+              className="flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize"
             >
-              {tag.name}
+              {tag.name.replace(/_/g, ' ')}
             </span>
           ))}
         </div>
@@ -105,7 +106,7 @@ export function PodcastHero({ canonicalUrl, copy, podcast }: PodcastHeroProps) {
       {listeningChannels.length > 0 ? (
         <div className="my-8 flex flex-col gap-4 max-sm:my-6">
           <p className="sr-only">{copy.listen}</p>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-6">
             {listeningChannels.map((channel) => (
               <ExternalLink
                 key={`${channel.name}-${channel.url}`}
@@ -122,7 +123,7 @@ export function PodcastHero({ canonicalUrl, copy, podcast }: PodcastHeroProps) {
 
       {podcast.description ? (
         <div className="border-y border-brand-dark-green py-6 max-sm:py-4">
-          <p className="whitespace-pre-wrap font-display text-[20px] leading-[30px] tracking-normal text-brand-dark-green max-sm:font-sans max-sm:text-[18px] max-sm:leading-6">
+          <p className="whitespace-pre-wrap font-sans text-[20px] leading-[30px] tracking-normal text-brand-dark-green max-sm:text-[18px] max-sm:leading-6">
             {podcast.description}
           </p>
         </div>
