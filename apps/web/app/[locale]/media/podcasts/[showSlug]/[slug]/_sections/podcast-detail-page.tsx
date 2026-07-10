@@ -14,8 +14,8 @@ export function PodcastDetailPage({
 }: PodcastDetailPageProps) {
   return (
     <div className="media-detail-page bg-accent-tan pb-20 pt-10 text-brand-dark-green lg:pt-[52px]">
-      <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 lg:grid-cols-[repeat(16,minmax(0,1fr))] lg:gap-4 lg:px-0">
-        <article className="flex min-w-0 max-w-[696px] flex-col lg:col-span-8 lg:col-start-5">
+      <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 md:grid-cols-[repeat(12,minmax(0,1fr))] md:gap-4 lg:grid-cols-[repeat(16,minmax(0,1fr))] lg:px-0">
+        <article className="flex min-w-0 max-w-[696px] flex-col md:col-span-8 md:col-start-3 lg:col-start-5">
           <PodcastHero
             canonicalUrl={canonicalUrl}
             copy={copy}
