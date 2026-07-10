@@ -439,7 +439,7 @@ function RoadmapFaqs({ data }: { data: RoadmapCopySection['faqs'] }) {
           {data.items.map((item, index) => (
             <div
               key={item.question}
-              className={`grid gap-6 px-3 py-3 desktop:grid-cols-[704px_712px] desktop:gap-0 desktop:px-0 ${
+              className={`grid gap-6 px-3 py-3 desktop:grid-cols-[704px_712px] desktop:gap-0 desktop:pr-0 ${
                 index % 2 === 0 ? 'bg-black/10' : 'bg-black/5'
               }`}
             >
