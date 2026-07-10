@@ -194,7 +194,7 @@ function RoadmapRelease({ data }: { data: RoadmapCopySection['release'] }) {
         <div
           aria-label={data.tabsAriaLabel}
           role="tablist"
-          className="flex max-w-full divide-x divide-brand-dark-green overflow-x-auto border border-brand-dark-green"
+          className="flex w-fit max-w-full divide-x divide-brand-dark-green overflow-x-auto border border-brand-dark-green"
         >
           {data.items.map((item, index) => {
             const isActive = item.tab === activeRelease.tab
