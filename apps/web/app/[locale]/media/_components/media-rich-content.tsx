@@ -119,7 +119,6 @@ function InteractiveEmbed({
     if (block.height != null) return
 
     const handleMessage = (event: MessageEvent) => {
-      if (event.source !== iframeRef.current?.contentWindow) return
       if (
         typeof event.data !== 'object' ||
         event.data === null ||
