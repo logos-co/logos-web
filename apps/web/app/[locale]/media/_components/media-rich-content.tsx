@@ -139,7 +139,16 @@ function InteractiveEmbed({
 
     window.addEventListener('message', handleMessage)
     requestHeight()
-    return () => window.removeEventListener('message', handleMessage)
+    const requestTimer = window.setInterval(requestHeight, 500)
+    const stopRequestTimer = window.setTimeout(
+      () => window.clearInterval(requestTimer),
+      10000
+    )
+    return () => {
+      window.removeEventListener('message', handleMessage)
+      window.clearInterval(requestTimer)
+      window.clearTimeout(stopRequestTimer)
+    }
   }, [block.height, frameId, requestHeight])
 
   return (
