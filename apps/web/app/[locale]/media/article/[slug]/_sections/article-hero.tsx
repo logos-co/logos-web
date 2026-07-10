@@ -12,9 +12,11 @@ function formatDate(iso: string | null) {
   return new Intl.DateTimeFormat('en-GB', {
     timeZone: 'UTC',
     day: 'numeric',
-    month: 'long',
+    month: 'short',
     year: 'numeric',
-  }).format(new Date(iso))
+  })
+    .format(new Date(iso))
+    .toUpperCase()
 }
 
 export function ArticleHero({ article, copy, canonicalUrl }: ArticleHeroProps) {
@@ -23,8 +25,11 @@ export function ArticleHero({ article, copy, canonicalUrl }: ArticleHeroProps) {
   return (
     <header className="mb-6 flex flex-col text-brand-dark-green">
       <div className="mb-3 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4">
-        <span className="uppercase">{copy.minRead}</span>
-        <span aria-hidden="true">•</span>
+        <span>{copy.minRead.toUpperCase()}</span>
+        <span
+          aria-hidden="true"
+          className="size-[3px] rounded-full bg-current"
+        />
         {date ? <span>{date}</span> : null}
       </div>
 
@@ -36,7 +41,7 @@ export function ArticleHero({ article, copy, canonicalUrl }: ArticleHeroProps) {
           {article.title}
         </h1>
         {article.subtitle ? (
-          <p className="mt-4 max-w-full whitespace-pre-wrap font-sans text-[18px] leading-6 tracking-normal">
+          <p className="mt-4 max-w-full whitespace-pre-wrap font-sans text-[18px] leading-6 tracking-normal md:text-[16px]">
             {article.subtitle}
           </p>
         ) : null}
@@ -70,9 +75,9 @@ export function ArticleHero({ article, copy, canonicalUrl }: ArticleHeroProps) {
           {article.tags.map((tag) => (
             <span
               key={tag.id || tag.name}
-              className="border border-brand-dark-green px-2 py-1 font-sans text-[12px] leading-4 text-brand-dark-green"
+              className="flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize"
             >
-              {tag.name}
+              {tag.name.replace(/_/g, ' ')}
             </span>
           ))}
         </div>
@@ -89,22 +94,26 @@ export function ArticleHero({ article, copy, canonicalUrl }: ArticleHeroProps) {
       </div>
 
       {article.coverImage ? (
-        <figure className="relative my-10 aspect-[1200/630] w-full overflow-hidden bg-brand-dark-green/10 max-md:my-6">
-          <Image
-            src={article.coverImage.url}
-            alt={article.coverImage.alt}
-            width={article.coverImage.width || 1200}
-            height={article.coverImage.height || 630}
-            priority
-            className="h-full w-full object-cover"
-            sizes="(max-width: 767px) calc(100vw - 32px), 700px"
-          />
+        <figure className="my-10 w-full max-md:my-6">
+          <div className="relative aspect-[1200/630] w-full overflow-hidden bg-brand-dark-green/10">
+            <Image
+              src={article.coverImage.url}
+              alt={article.coverImage.alt}
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 767px) calc(100vw - 32px), 700px"
+            />
+          </div>
+          <figcaption className="min-h-2 pt-2 font-sans text-[12px] leading-4">
+            {article.coverImage.caption ?? ''}
+          </figcaption>
         </figure>
       ) : null}
 
       {article.summary ? (
         <div className="border-y border-brand-dark-green py-6 max-sm:py-4">
-          <p className="whitespace-pre-wrap font-display text-[20px] leading-[30px] tracking-normal text-brand-dark-green max-sm:font-sans max-sm:text-[18px] max-sm:leading-6">
+          <p className="whitespace-pre-wrap font-sans text-[20px] leading-[30px] tracking-normal text-brand-dark-green max-sm:text-[18px] max-sm:leading-6">
             {article.summary}
           </p>
         </div>

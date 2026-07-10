@@ -489,7 +489,7 @@ function normaliseArticleHtml(rawHtml: string): {
   )
 
   const withFootnoteRefs = withoutFootnoteContainer.replace(
-    /<sup\b([^>]*)class=["'][^"']*\bfootnote\b[^"']*["']([^>]*)><\/sup>/gi,
+    /<sup\b([^>]*)class=["'][^"']*\bfootnote\b[^"']*["']([^>]*)>[\s\S]*?<\/sup>/gi,
     (match, beforeAttrs, afterAttrs) => {
       const attrs = `${beforeAttrs} ${afterAttrs}`
       const id = /data-id=["']([^"']+)["']/.exec(attrs)?.[1]
@@ -842,7 +842,15 @@ function mapGraphqlPostMeta(entity: GraphqlPostEntity): BlogPostMeta {
 }
 
 function estimateReadingTime(value: string): number {
-  const words = stripBlogHtml(value).split(/\s+/).filter(Boolean).length
+  const text = decodeHtml(
+    value
+      .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
+      .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '')
+      .replace(/<[^>]*>/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+  )
+  const words = text.split(/\s+/).filter(Boolean).length
   if (words === 0) return 0
   return Math.max(1, Math.ceil(words / 200))
 }
@@ -859,7 +867,9 @@ function mapGraphqlArticle(
   return {
     ...mapGraphqlPostMeta(entity),
     type: 'article',
-    readingTime: estimateReadingTime(rawBody || attrs.markdown_body || ''),
+    readingTime: estimateReadingTime(
+      articleHtml?.html || attrs.markdown_body || ''
+    ),
     toc: articleHtml?.toc ?? [],
     footnotes: articleHtml?.footnotes ?? [],
     bodyHtml: articleHtml?.html,

@@ -1,15 +1,24 @@
+.media-detail-page,
+.media-detail-page .font-sans {
+  font-family: sans-serif;
+}
+
+.media-detail-page .font-display {
+  font-family: serif;
+}
+
 .media-detail-content {
   display: flex;
   flex-direction: column;
   gap: 16px;
   color: var(--color-brand-dark-green);
-  font-family: var(--font-sans);
+  font-family: sans-serif;
 }
 
 .media-detail-content :where(h1, h2, h3, h4, h5, h6) {
   scroll-margin-top: 95px;
   color: var(--color-brand-dark-green);
-  font-family: var(--font-display);
+  font-family: serif;
   font-weight: 400;
   letter-spacing: 0;
   overflow-wrap: anywhere;
@@ -54,7 +63,7 @@
 
 .media-detail-content :where(p, li) {
   color: var(--color-brand-dark-green);
-  font-family: var(--font-sans);
+  font-family: sans-serif;
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 0;
@@ -67,7 +76,7 @@
 }
 
 .media-detail-content > span {
-  font-family: var(--font-sans);
+  font-family: sans-serif;
   font-size: 16px;
   line-height: 24px;
 }
@@ -114,6 +123,49 @@
   width: 100%;
   margin: 40px 0;
   padding: 0;
+}
+
+.media-detail-content figure:not(:has(figcaption))::after {
+  display: block;
+  height: 8px;
+  content: '';
+}
+
+.media-detail-content p:has(> img:only-child) {
+  width: 100%;
+  margin: 40px 0;
+  padding-bottom: 8px;
+}
+
+.media-detail-content p:has(> img:only-child) img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.media-detail-content.media-detail-content
+  :where(h1, h2, h3, h4, h5, h6)
+  + :where(h1, h2, h3, h4, h5, h6) {
+  margin-top: 0;
+}
+
+.media-podcast-transcript {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.media-podcast-content {
+  display: contents;
+}
+
+.media-podcast-content--collapsed > :nth-child(n + 7) {
+  display: none;
+}
+
+.media-detail-content.media-podcast-footer-content :where(p, li) {
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .media-detail-content figure.image img,
@@ -206,11 +258,29 @@
   border: 0;
 }
 
-.media-detail-content .footnote {
+.media-detail-content a.footnote {
+  display: inline-block;
   font-family: inherit;
-  font-size: 0.75em;
-  line-height: 1;
+  font-size: inherit;
+  line-height: inherit;
+  text-decoration: none;
+  vertical-align: baseline;
+}
+
+.media-detail-content a.footnote sup {
+  font-size: smaller;
+  line-height: inherit;
+  position: static;
   vertical-align: super;
+}
+
+.media-detail-content a.footnote .anchor {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 90px;
+  margin-top: -90px;
+  margin-bottom: -16px;
 }
 
 .media-discussion-post :where(p, ul, ol) + :where(p, ul, ol) {
@@ -262,6 +332,10 @@
 }
 
 @media (max-width: 767px) {
+  .media-detail-page .max-sm\:font-sans {
+    font-family: sans-serif;
+  }
+
   .media-detail-content h2,
   .media-detail-content h3,
   .media-detail-content h4,
@@ -273,6 +347,10 @@
 
   .media-detail-content figure,
   .media-detail-content .media-detail-block-image {
+    margin: 24px 0;
+  }
+
+  .media-detail-content p:has(> img:only-child) {
     margin: 24px 0;
   }
 }
