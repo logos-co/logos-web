@@ -429,6 +429,7 @@ const roadmapReleaseItemSchema = z.object({
   date: z.string().min(1),
   objectiveLabel: z.string().min(1),
   objective: z.string().min(1),
+  releaseNotes: roadmapActionSchema.optional(),
   body: z.array(z.string().min(1)).min(1),
   modules: z.array(roadmapReleaseModuleSchema).min(1),
 })

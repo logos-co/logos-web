@@ -28,6 +28,34 @@ function ArrowIcon() {
   return <IconMask src="/icons/arrow-right.svg" className="size-[15px]" />
 }
 
+function ExternalTextLink({ action }: { action: RoadmapAction }) {
+  if (!action.href) {
+    return <span>{action.label}</span>
+  }
+
+  if (isExternalHref(action.href)) {
+    return (
+      <a
+        href={action.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="cursor-pointer underline underline-offset-2"
+      >
+        {action.label}
+      </a>
+    )
+  }
+
+  return (
+    <Link
+      href={action.href}
+      className="cursor-pointer underline underline-offset-2"
+    >
+      {action.label}
+    </Link>
+  )
+}
+
 function ActionPill({ action }: { action: RoadmapAction }) {
   const variant = action.variant ?? 'secondary'
   const className =
@@ -204,30 +232,47 @@ function RoadmapRelease({ data }: { data: RoadmapCopySection['release'] }) {
           role="tabpanel"
           aria-labelledby={getReleaseTabId(activeReleaseIndex)}
           tabIndex={0}
-          className="mt-16 flex flex-col gap-14 md:mt-[81px] desktop:flex-row desktop:items-start desktop:justify-between"
+          className="mt-12"
         >
-          <div className="w-full max-w-[345px] font-mono text-[10px] leading-[1.35] font-semibold whitespace-pre-line text-brand-dark-green uppercase">
-            {activeRelease.status ? <p>{activeRelease.status}</p> : null}
-            <p>
-              {activeRelease.dateLabel}: {activeRelease.date}
-            </p>
-            <p className="mt-[14px]">
-              {activeRelease.objectiveLabel}: {activeRelease.objective}
-            </p>
-            {activeRelease.body.map((paragraph) => (
-              <p key={paragraph} className="mt-[14px]">
-                {paragraph}
+          {activeRelease.status ? (
+            <div className="flex w-full max-w-[345px] flex-col items-start gap-3">
+              <span className="rounded-md bg-brand-yellow px-1 py-0.5 font-mono text-[10px] leading-[1.35] font-semibold text-brand-dark-green uppercase">
+                Current Status
+              </span>
+              <p className="font-mono-body text-[10px] leading-[1.3] text-brand-dark-green uppercase">
+                {activeRelease.status}
               </p>
-            ))}
-          </div>
+            </div>
+          ) : null}
 
-          <div className="grid gap-y-10 md:grid-cols-2 md:gap-x-5 desktop:w-[620px]">
-            {activeRelease.modules.map((module, index) => (
-              <ReleaseModuleCard
-                key={`${module.label}-${index}`}
-                module={module}
-              />
-            ))}
+          <div className="mt-12 flex flex-col gap-10 desktop:mt-[72px] desktop:flex-row desktop:items-start desktop:justify-between">
+            <div className="w-full max-w-[345px] font-mono-body text-[10px] leading-[1.3] whitespace-pre-line text-brand-dark-green">
+              <p>
+                {activeRelease.dateLabel}: {activeRelease.date}
+              </p>
+              <p>
+                {activeRelease.objectiveLabel}: {activeRelease.objective}
+              </p>
+              {activeRelease.releaseNotes ? (
+                <p>
+                  <ExternalTextLink action={activeRelease.releaseNotes} />
+                </p>
+              ) : null}
+              {activeRelease.body.map((paragraph) => (
+                <p key={paragraph} className="mt-[26px] first:mt-[26px]">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-2 gap-x-5 gap-y-10 max-md:grid-cols-1 min-[1440px]:grid-cols-3 desktop:w-[926px]">
+              {activeRelease.modules.map((module, index) => (
+                <ReleaseModuleCard
+                  key={`${module.label}-${index}`}
+                  module={module}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </ContentWidth>
@@ -242,7 +287,7 @@ function ReleaseModuleCard({ module }: { module: ReleaseModule }) {
         <span className="flex h-[22px] items-center px-2.5 py-0 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap text-brand-dark-green uppercase outline outline-1 outline-dashed outline-brand-dark-green">
           {module.label}
         </span>
-        <p className="h-[42px] font-mono text-[10px] leading-[1.35] font-semibold text-brand-dark-green uppercase">
+        <p className="min-h-[42px] font-mono-body text-[10px] leading-[1.3] text-brand-dark-green">
           {module.body}
         </p>
       </div>
