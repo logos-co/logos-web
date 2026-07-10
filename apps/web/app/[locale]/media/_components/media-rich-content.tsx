@@ -104,6 +104,55 @@ function buildSrcDoc(
     : `${withCsp}${linkScript}${heightScript}`
 }
 
+function HtmlDocumentEmbed({
+  block,
+}: {
+  block: Extract<BlogDynamicBlock, { type: 'interactive-embed' }>
+}) {
+  const rootRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root || !block.fullHtml) return
+
+    const parsed = new DOMParser().parseFromString(block.fullHtml, 'text/html')
+    const styles = [...parsed.querySelectorAll('style')]
+    const links = [...parsed.querySelectorAll('link')]
+    const scripts = [...parsed.querySelectorAll('script')]
+
+    scripts.forEach((script) => script.remove())
+    parsed.querySelectorAll('style').forEach((style) => style.remove())
+    root.className = ['media-detail-html-document', parsed.body.className]
+      .filter(Boolean)
+      .join(' ')
+    root.innerHTML = addTargetBlank(parsed.body.innerHTML)
+
+    const insertedElements: HTMLElement[] = []
+    for (const source of [...styles, ...links]) {
+      const clone = source.cloneNode(true) as HTMLElement
+      document.head.appendChild(clone)
+      insertedElements.push(clone)
+    }
+
+    for (const source of scripts) {
+      const script = document.createElement('script')
+      for (const attribute of source.attributes) {
+        script.setAttribute(attribute.name, attribute.value)
+      }
+      script.textContent = source.textContent
+      root.appendChild(script)
+      insertedElements.push(script)
+    }
+
+    return () => {
+      insertedElements.forEach((element) => element.remove())
+      root.replaceChildren()
+    }
+  }, [block.fullHtml])
+
+  return <div ref={rootRef} className="media-detail-html-document" />
+}
+
 function InteractiveEmbed({
   block,
   index,
@@ -111,6 +160,10 @@ function InteractiveEmbed({
   block: Extract<BlogDynamicBlock, { type: 'interactive-embed' }>
   index: number
 }) {
+  if (block.fullHtml?.trim()) {
+    return <HtmlDocumentEmbed block={block} />
+  }
+
   const frameId = useMemo(() => `logos-media-embed-${index}`, [index])
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const [height, setHeight] = useState(block.height ?? 480)
