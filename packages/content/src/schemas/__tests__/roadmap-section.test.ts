@@ -29,6 +29,10 @@ test('roadmapCopy parses a minimal valid value and routes through the union', ()
           date: 'March 7, 2026',
           objectiveLabel: 'Key Objectives',
           objective: 'Architectural Validation',
+          releaseNotes: {
+            label: 'Release Notes',
+            href: 'https://roadmap.logos.co/testnets/v01',
+          },
           body: ['Release body.'],
           modules: [
             {

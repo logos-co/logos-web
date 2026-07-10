@@ -2,10 +2,12 @@
   "schemaVersion": 1,
   "language": "en",
   "route": "/roadmap",
-  "title": "Logos Roadmap | Logos",
-  "description": "The path to private-by-default infrastructure for parallel societies.",
+  "title": "Roadmap | Logos",
+  "description": "Roadmap timelines and technical objectives for the Logos technology stack.",
   "heading": "Logos Roadmap",
   "seo": {
+    "metaTitle": "Roadmap | Logos",
+    "metaDescription": "Roadmap timelines and technical objectives for the Logos technology stack.",
     "keywords": ["roadmap"]
   },
   "sections": [
@@ -25,18 +27,23 @@
       },
       "release": {
         "tabsAriaLabel": "Roadmap testnet releases",
-        "activeTab": "Testnet v0.1",
+        "activeTab": "TESTNET V0.1",
         "items": [
           {
-            "tab": "Testnet v0.1",
+          "tab": "TESTNET V0.1",
+            "status": "IN PRODUCTION",
             "dateLabel": "Date Released",
             "date": "March 7, 2026",
             "objectiveLabel": "Key Objectives",
             "objective": "Architectural Validation",
+            "releaseNotes": {
+              "label": "Release Notes:",
+              "href": "https://roadmap.logos.co/testnets/v01"
+            },
             "body": [
-              "The goal of the first Logos testnet is to test backend architecture. User and developer experience are not the primary focus, but will be improved for the next testnet version.",
-              "We aim to expose as much functionality as possible and focus on module integration.",
-              "Developers are welcome and able to test applications on Logos Core, and Basecamp provides a unified, user-friendly interface for interacting with apps and modules built on Logos."
+              "The goal of the first Logos testnet was to test backend architecture. User and developer experience are not the primary focus, but will be improved for the next testnet version.",
+              "The aim was to expose as much functionality as possible and focus on module integration.",
+              "Developers were able to test applications on Logos Core, and Basecamp provided a unified, user-friendly interface for interacting with apps and modules built on Logos."
             ],
             "modules": [
               {
@@ -44,14 +51,14 @@
                 "body": "Runtime loads modules, Basecamp supports simple apps and UI interface, and Logos node can load with Blockchain, Storage, and Messaging modules.",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/logoscore/"
                   },
                   {
                     "label": "Docs",
                     "variant": "secondary",
-                    "href": "https://docs.logos.co/core/"
+                    "href": "https://docs.logos.co/core"
                   }
                 ]
               },
@@ -60,9 +67,9 @@
                 "body": "Proof-of-concept for Mix module and demo application, and the first implementation of the Capability Discovery Protocol.",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
-                    "href": "https://roadmap.logos.co/anonymous/"
+                    "href": "https://roadmap.logos.co/anoncomms/"
                   },
                   {
                     "label": "Docs",
@@ -72,155 +79,419 @@
                   {
                     "label": "Spec",
                     "variant": "secondary",
-                    "href": "https://lip.logos.co/anonymous/index.html"
+                    "href": "https://lip.logos.co/anoncomms/index.html"
                   }
                 ]
               },
               {
                 "label": "Blockchain",
                 "body": "Private Proof-of-Stake consensus with Cryptarchia and Blend. Users are able to run a node, set up a wallet, and transact on testnet.",
-                "actions": []
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/blockchain/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/blockchain"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/blockchain/index.html"
+                  }
+                ]
               },
               {
                 "label": "Messaging",
                 "body": "Demo chat application available through Basecamp. Delivery module exposed to developers building privacy-preserving applications.",
-                "actions": []
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/messaging/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/messaging"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/messaging/index.html"
+                  }
+                ]
               },
               {
                 "label": "Storage",
                 "body": "Demo filesharing application available on Basecamp powered by Storage module.",
-                "actions": []
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/storage/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/storage"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/storage/index.html"
+                  }
+                ]
               }
             ]
           },
           {
-            "tab": "Testnet v0.2",
-            "status": "In production",
+          "tab": "TESTNET V0.2",
+            "status": "IN PRODUCTION",
             "dateLabel": "Date Released",
             "date": "June 30, 2026",
             "objectiveLabel": "Key Objectives",
-            "objective": "Usability",
+            "objective": "Architectural Completeness",
+            "releaseNotes": {
+              "label": "Release Notes:",
+              "href": "https://roadmap.logos.co/testnets/v02-release"
+            },
             "body": [
-              "This version of the Logos testnet aims to improve the developer experience and demonstrate the usability of the stack in practice.",
-              "External validators will be onboarded and work will be done to improve cross-module coordination.",
-              "Module functionality will be expanded and more features will be made available through Basecamp."
+              "Testnet v0.2 allows nodes to run all core capabilities: blockchain, messaging, and storage.",
+              "It brings a host of improvements to the developer experience and the usability of the stack as a whole.",
+              "Testnet v0.2 is also focused on unifying the node operator experience, as well as making more modules accessible to developers and improving the capabilities they expose through Basecamp."
             ],
             "modules": [
               {
                 "label": "Logos Core",
                 "body": "Improved documentation and better coordination between Logos modules.",
-                "actions": []
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/logoscore/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/core"
+                  }
+                ]
               },
               {
                 "label": "Networking",
                 "body": "Decentralised group chat through De-MLS, and RLN membership allocation for Mix.",
-                "actions": []
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/anoncomms/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/mixnet"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/anoncomms/index.html"
+                  }
+                ]
               },
               {
                 "label": "Blockchain",
                 "body": "Sovereign Zone SDK, channels, bridging support, and decentralised sequencing.",
-                "actions": []
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/blockchain/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/blockchain"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/blockchain/index.html"
+                  }
+                ]
               },
               {
                 "label": "Messaging",
-                "body": "New delivery module with Mix integrated. Integration of Mix and De-MLS into chat module.",
-                "actions": []
+                "body": "New delivery module with MIx integrated. Integration of Mix and De-MLS into Chat module.",
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/messaging/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/messaging"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/messaging/index.html"
+                  }
+                ]
               },
               {
                 "label": "Storage",
                 "body": "Faster and more stable decentralised file-sharing, and a proof-of-concept for DHT over Mix.",
-                "actions": []
-              },
-              {
-                "label": "Applications",
-                "body": "Improved LEZ wallet, AMM, LEZ explorer, and blockchain dashboard.",
-                "actions": []
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/storage/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/storage"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/storage/index.html"
+                  }
+                ]
               }
             ]
           },
           {
-            "tab": "Testnet v0.3",
-            "dateLabel": "Target",
-            "date": "November 2026",
+          "tab": "TESTNET V0.3",
+            "status": "IN DEVELOPMENT",
+            "dateLabel": "Expected Release",
+            "date": "H2 2026",
             "objectiveLabel": "Key Objectives",
-            "objective": "Ecosystem dynamics",
+            "objective": "Ecosystem Dynamics",
             "body": [
               "This version of the Logos testnet will test the ability for the network to sustain itself.",
-              "Meaningful apps will become available to users and the developer experience will be improved. Liquidity primitives will be implemented and the network will be stress-tested to validate its architecture."
+              "Meaningful apps will become available to suers and the developer experience will be improved. Liquidity primitives will be implemented and the network will be stress-tested to validate its architecture."
             ],
             "modules": [
               {
                 "label": "Logos Core",
-                "body": "[one liner]",
-                "actions": []
+                "body": "TBD",
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/logoscore/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/core"
+                  }
+                ]
               },
               {
                 "label": "Networking",
-                "body": "[one liner]",
-                "actions": []
+                "body": "TBD",
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/anoncomms/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/mixnet"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/anoncomms/index.html"
+                  }
+                ]
               },
               {
                 "label": "Blockchain",
-                "body": "[one liner]",
-                "actions": []
+                "body": "TBD",
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/blockchain/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/blockchain"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/blockchain/index.html"
+                  }
+                ]
               },
               {
                 "label": "Messaging",
-                "body": "[one liner]",
-                "actions": []
+                "body": "TBD",
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/messaging/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/messaging"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/messaging/index.html"
+                  }
+                ]
               },
               {
                 "label": "Storage",
-                "body": "[one liner]",
-                "actions": []
-              },
-              {
-                "label": "Applications",
-                "body": "[one liner]",
-                "actions": []
+                "body": "TBD",
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/storage/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/storage"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/storage/index.html"
+                  }
+                ]
               }
             ]
           },
           {
-            "tab": "Mainnet",
-            "dateLabel": "Target",
+          "tab": "MAINNET",
+            "status": "IN DEVELOPMENT",
+            "dateLabel": "Expected Release",
             "date": "H1 2027",
             "objectiveLabel": "Key Objectives",
-            "objective": "System viability",
+            "objective": "System Viability",
             "body": [
-              "The \"batteries-included\" launch of the Logos network. The stack will be audited, liquidity will be available and distributed, and there will be validator diversity.",
+              "The ‘batteries-included’ launch of the Logos network. The stack will be audited, liquidity will be available and distributed, and there will be validator diversity.",
               "Launch-day applications will be available to users, promoting adoption and driving a self-sustaining ecosystem of private-by-default applications."
             ],
             "modules": [
               {
                 "label": "Logos Core",
-                "body": "[one liner]",
-                "actions": []
+                "body": "TBD",
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/logoscore/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/core"
+                  }
+                ]
               },
               {
                 "label": "Networking",
-                "body": "[one liner]",
-                "actions": []
+                "body": "TBD",
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/anoncomms/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/mixnet"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/anoncomms/index.html"
+                  }
+                ]
               },
               {
                 "label": "Blockchain",
-                "body": "[one liner]",
-                "actions": []
+                "body": "TBD",
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/blockchain/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/blockchain"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/blockchain/index.html"
+                  }
+                ]
               },
               {
                 "label": "Messaging",
-                "body": "[one liner]",
-                "actions": []
+                "body": "TBD",
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/messaging/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/messaging"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/messaging/index.html"
+                  }
+                ]
               },
               {
                 "label": "Storage",
-                "body": "[one liner]",
-                "actions": []
-              },
-              {
-                "label": "Applications",
-                "body": "[one liner]",
-                "actions": []
+                "body": "TBD",
+                "actions": [
+                  {
+                    "label": "Overview",
+                    "variant": "primary",
+                    "href": "https://roadmap.logos.co/storage/"
+                  },
+                  {
+                    "label": "Docs",
+                    "variant": "secondary",
+                    "href": "https://docs.logos.co/storage"
+                  },
+                  {
+                    "label": "Spec",
+                    "variant": "secondary",
+                    "href": "https://lip.logos.co/storage/index.html"
+                  }
+                ]
               }
             ]
           }
@@ -244,7 +515,7 @@
             "cta": {
               "label": "Full roadmap",
               "variant": "light",
-              "href": "https://roadmap.logos.co/logoscore/roadmap/"
+              "href": "https://roadmap.logos.co/logoscore/"
             }
           },
           {
@@ -263,7 +534,7 @@
             "cta": {
               "label": "Full roadmap",
               "variant": "light",
-              "href": "https://roadmap.logos.co/anonymous/roadmap/"
+              "href": "https://roadmap.logos.co/anoncomms/"
             }
           },
           {
@@ -282,7 +553,7 @@
             "cta": {
               "label": "Full roadmap",
               "variant": "light",
-              "href": "https://roadmap.logos.co/blockchain/roadmap/"
+              "href": "https://roadmap.logos.co/blockchain/"
             }
           },
           {
@@ -300,7 +571,7 @@
             "cta": {
               "label": "Full roadmap",
               "variant": "light",
-              "href": "https://roadmap.logos.co/messaging/roadmap/"
+              "href": "https://roadmap.logos.co/messaging/"
             }
           },
           {
@@ -318,7 +589,7 @@
             "cta": {
               "label": "Full roadmap",
               "variant": "light",
-              "href": "https://roadmap.logos.co/storage/roadmap/"
+              "href": "https://roadmap.logos.co/storage/"
             }
           },
           {
