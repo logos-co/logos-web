@@ -76,7 +76,9 @@ export default function SiteHeaderClient({
   const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
   const usesAccentTanHeaderTone =
     normalizedPathname.endsWith(ROUTES.logosBroadcastNetwork) ||
-    normalizedPathname.endsWith(ROUTES.podcast)
+    normalizedPathname.endsWith(ROUTES.podcast) ||
+    normalizedPathname.startsWith(`${ROUTES.mediaArticles}/`) ||
+    normalizedPathname.startsWith(`${ROUTES.mediaPodcasts}/`)
   const open = () => {
     setInitialPanelLabel(null)
     setIsOpen(true)
