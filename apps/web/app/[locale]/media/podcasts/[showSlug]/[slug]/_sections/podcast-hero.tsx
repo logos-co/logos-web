@@ -7,7 +7,10 @@ import {
 } from '@acid-info/logos-ui'
 
 import { ExternalLink } from '@/components/ui'
+import { ROUTES } from '@/constants/routes'
+import { Link } from '@/i18n/navigation'
 
+import { MediaSummary } from '../../../../_components/media-summary'
 import { ShareButton } from '../../../../_components/share-button'
 import { PodcastPlayer } from './podcast-player'
 import { PodcastStats } from './podcast-stats'
@@ -73,9 +76,12 @@ export function PodcastHero({ canonicalUrl, copy, podcast }: PodcastHeroProps) {
                 className="size-6 object-contain"
               />
             ) : null}
-            <p className="font-sans text-[14px] leading-5 tracking-normal">
+            <Link
+              href={ROUTES.mediaPodcastsSection}
+              className="cursor-pointer font-sans text-[14px] leading-5 tracking-normal no-underline"
+            >
               {podcast.show.title}
-            </p>
+            </Link>
           </div>
         ) : null}
       </div>
@@ -121,13 +127,7 @@ export function PodcastHero({ canonicalUrl, copy, podcast }: PodcastHeroProps) {
         </div>
       ) : null}
 
-      {podcast.description ? (
-        <div className="border-y border-brand-dark-green py-6 max-sm:py-4">
-          <p className="whitespace-pre-wrap font-sans text-[20px] leading-[30px] tracking-normal text-brand-dark-green max-sm:text-[18px] max-sm:leading-6">
-            {podcast.description}
-          </p>
-        </div>
-      ) : null}
+      <MediaSummary html={podcast.summaryHtml} text={podcast.description} />
     </section>
   )
 }

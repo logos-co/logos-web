@@ -44,11 +44,11 @@ export function ArticleDiscussion({
     newDiscussionUrl(article, canonicalUrl, copy.readFullArticle)
 
   return (
-    <section className="my-8">
+    <section className="mb-8">
       <div className="mb-4 flex items-center justify-between gap-4">
-        <h2 className="font-sans text-[20px] font-semibold leading-[30px]">
+        <h3 className="font-sans text-[20px] font-semibold leading-[42px]">
           {copy.discussion}
-        </h2>
+        </h3>
         <a
           href={actionUrl}
           target="_blank"
@@ -119,13 +119,13 @@ export function ArticleDiscussion({
               ))}
             </div>
           ) : (
-            <p className="py-4 text-center font-sans text-[14px] italic leading-5">
+            <p className="py-4 text-center font-sans text-[14px] italic leading-6">
               {copy.noDiscussion}
             </p>
           )}
         </div>
       ) : (
-        <p className="py-4 text-center font-sans text-[14px] italic leading-5">
+        <p className="py-4 text-center font-sans text-[14px] italic leading-6">
           {copy.noDiscussion}
         </p>
       )}
