@@ -1075,6 +1075,79 @@ function mapLegacyDynamicBlocks(
   return blocks.length > 0 ? blocks : undefined
 }
 
+function htmlAttribute(name: string, value: unknown): string {
+  const text = stringValue(value)
+  if (!text) return ''
+  return ` ${name}="${escapeHtmlAttribute(text)}"`
+}
+
+function serialiseLegacyHtmlDocument(value: unknown): string | undefined {
+  if (!isRecord(value)) return undefined
+
+  const bodyHtml = stringValue(value.bodyHtml)
+  if (!bodyHtml.trim()) return undefined
+
+  const metas = Array.isArray(value.metas)
+    ? value.metas
+        .filter(isRecord)
+        .map((meta) => {
+          if (stringValue(meta.charset)) {
+            return `<meta charset="${escapeHtmlAttribute(stringValue(meta.charset))}">`
+          }
+
+          const attrs = [
+            htmlAttribute('name', meta.name),
+            htmlAttribute('content', meta.content),
+            htmlAttribute('property', meta.property),
+            htmlAttribute('http-equiv', meta.httpEquiv),
+          ].join('')
+          return attrs ? `<meta${attrs}>` : ''
+        })
+        .filter(Boolean)
+        .join('')
+    : ''
+  const links = Array.isArray(value.links)
+    ? value.links
+        .filter(isRecord)
+        .map((link) => {
+          const attrs = [
+            htmlAttribute('rel', link.rel),
+            htmlAttribute('href', link.href),
+            htmlAttribute('as', link.as),
+            htmlAttribute('type', link.type),
+            htmlAttribute('crossorigin', link.crossOrigin),
+          ].join('')
+          return attrs ? `<link${attrs}>` : ''
+        })
+        .filter(Boolean)
+        .join('')
+    : ''
+  const styles = Array.isArray(value.styles)
+    ? value.styles
+        .map((style) => `<style>${stringValue(style)}</style>`)
+        .join('')
+    : ''
+  const scripts = Array.isArray(value.scripts)
+    ? value.scripts
+        .filter(isRecord)
+        .map((script) => {
+          const attrs = [
+            htmlAttribute('src', script.src),
+            htmlAttribute('type', script.type),
+            script.async ? ' async' : '',
+            script.defer ? ' defer' : '',
+            script.noModule ? ' nomodule' : '',
+          ].join('')
+          return `<script${attrs}>${stringValue(script.content)}</script>`
+        })
+        .join('')
+    : ''
+  const title = stringValue(value.title)
+  const bodyClass = htmlAttribute('class', value.bodyClass)
+
+  return `<!doctype html><html><head>${title ? `<title>${title}</title>` : ''}${metas}${links}${styles}</head><body${bodyClass}>${bodyHtml}${scripts}</body></html>`
+}
+
 function mapLegacyToc(value: unknown): BlogTocItem[] {
   if (!Array.isArray(value)) return []
   return value
@@ -1117,6 +1190,7 @@ function mapLegacyPostMeta(value: unknown): BlogPostMeta {
 function mapLegacyArticle(value: unknown): BlogArticleDetail {
   const post = isRecord(value) ? value : {}
   const content = mapLegacyContentBlocks(post.content)
+  const htmlDocument = serialiseLegacyHtmlDocument(post.htmlDocument)
   return {
     ...mapLegacyPostMeta(post),
     type: 'article',
@@ -1124,7 +1198,16 @@ function mapLegacyArticle(value: unknown): BlogArticleDetail {
     toc: mapLegacyToc(post.toc),
     footnotes: content.flatMap((block) => block.footnotes ?? []),
     content,
-    blocks: mapLegacyDynamicBlocks(post.blocks),
+    blocks: htmlDocument
+      ? [
+          {
+            type: 'interactive-embed',
+            title: stringValue(post.title),
+            fullHtml: htmlDocument,
+            html: '',
+          },
+        ]
+      : mapLegacyDynamicBlocks(post.blocks),
     relatedArticles: [],
     articlesFromSameAuthors: [],
     discussion: undefined,
