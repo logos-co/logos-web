@@ -194,7 +194,7 @@ function RoadmapRelease({ data }: { data: RoadmapCopySection['release'] }) {
         <div
           aria-label={data.tabsAriaLabel}
           role="tablist"
-          className="flex max-w-full overflow-x-auto"
+          className="flex max-w-full divide-x divide-brand-dark-green overflow-x-auto border border-brand-dark-green"
         >
           {data.items.map((item, index) => {
             const isActive = item.tab === activeRelease.tab
@@ -213,7 +213,7 @@ function RoadmapRelease({ data }: { data: RoadmapCopySection['release'] }) {
                 aria-selected={isActive}
                 aria-controls={panelId}
                 tabIndex={isActive ? 0 : -1}
-                className={`flex h-[34px] cursor-pointer items-center justify-center px-2.5 py-0 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase ring-1 ring-inset ring-brand-dark-green ${
+                className={`flex h-[34px] cursor-pointer items-center justify-center px-2.5 py-0 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase ${
                   isActive
                     ? 'bg-brand-dark-green text-brand-off-white'
                     : 'text-brand-dark-green'
@@ -246,7 +246,7 @@ function RoadmapRelease({ data }: { data: RoadmapCopySection['release'] }) {
           ) : null}
 
           <div className="mt-12 flex flex-col gap-10 desktop:mt-[72px] desktop:flex-row desktop:items-start desktop:justify-between">
-            <div className="w-full max-w-[345px] font-mono-body text-[10px] leading-[1.3] whitespace-pre-line text-brand-dark-green">
+            <div className="w-full max-w-[345px] font-mono-body text-[10px] leading-[1.3] whitespace-pre-line text-brand-dark-green desktop:self-center">
               <p>
                 {activeRelease.dateLabel}: {activeRelease.date}
               </p>
