@@ -1,5 +1,6 @@
 import { env } from '@/lib/env'
 import { BLOG_ORIGIN } from '@/lib/blog-engine'
+import { youtubeEmbedUrl } from '@/lib/media-embed'
 import { EXTERNAL_URLS } from '@/constants/routes'
 
 export const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
@@ -120,6 +121,7 @@ export interface BlogPostMeta {
   title: string
   subtitle?: string
   summary: string
+  summaryHtml?: string
   publishedAt: string | null
   modifiedAt: string | null
   createdAt: string | null
@@ -413,6 +415,33 @@ function addTargetBlank(html: string) {
   )
 }
 
+function normaliseSummaryHtml(value: string): string | undefined {
+  const html = value.replace(/<section\b[^>]*>[\s\S]*?<\/section>/gi, '').trim()
+
+  return html ? addTargetBlank(html) : undefined
+}
+
+function escapeHtmlAttribute(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
+function replaceYoutubeOembeds(html: string): string {
+  return html.replace(
+    /<figure\b[^>]*>\s*<oembed\b[^>]*\burl=["']([^"']+)["'][^>]*>\s*<\/oembed>\s*<\/figure>/gi,
+    (match, encodedSrc: string) => {
+      const src = decodeHtml(encodedSrc)
+      const embedUrl = youtubeEmbedUrl(src)
+      if (!embedUrl) return match
+
+      return `<div class="media-detail-video-frame"><div class="media-detail-video-aspect"><iframe title="${escapeHtmlAttribute(src)}" src="${escapeHtmlAttribute(embedUrl)}" class="media-detail-video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div><figure class="media"></figure>`
+    }
+  )
+}
+
 async function fetchDiscussion(
   topicId: number | undefined
 ): Promise<BlogDiscussion | undefined> {
@@ -483,7 +512,7 @@ function normaliseArticleHtml(rawHtml: string): {
 } {
   const usedIds = new Set<string>()
   const footnotes: BlogFootnote[] = []
-  const withoutFootnoteContainer = rawHtml.replace(
+  const withoutFootnoteContainer = replaceYoutubeOembeds(rawHtml).replace(
     /<section\b[^>]*class=["'][^"']*\bfootnotes-container\b[^"']*["'][\s\S]*?<\/section>/gi,
     ''
   )
@@ -822,13 +851,15 @@ function mapGraphqlDynamicBlocks(
 
 function mapGraphqlPostMeta(entity: GraphqlPostEntity): BlogPostMeta {
   const attrs = entity.attributes ?? {}
-  const summary = stripBlogHtml(attrs.summary ?? '')
+  const rawSummary = attrs.summary ?? ''
+  const summary = stripBlogHtml(rawSummary)
   return {
     id: entity.id ?? '',
     slug: attrs.slug ?? '',
     title: attrs.title ?? '',
     subtitle: attrs.subtitle ?? undefined,
     summary,
+    summaryHtml: normaliseSummaryHtml(rawSummary),
     publishedAt: attrs.publish_date ?? attrs.publishedAt ?? null,
     modifiedAt: attrs.publish_date ?? attrs.publishedAt ?? null,
     createdAt: attrs.publish_date ?? attrs.publishedAt ?? null,
@@ -1062,13 +1093,15 @@ function mapLegacyToc(value: unknown): BlogTocItem[] {
 
 function mapLegacyPostMeta(value: unknown): BlogPostMeta {
   const post = isRecord(value) ? value : {}
+  const rawSummary = stringValue(post.summary)
   return {
     id: stringValue(post.id),
     uuid: optionalStringValue(post.uuid),
     slug: stringValue(post.slug),
     title: stringValue(post.title),
     subtitle: optionalStringValue(post.subtitle),
-    summary: stripBlogHtml(stringValue(post.summary)),
+    summary: stripBlogHtml(rawSummary),
+    summaryHtml: normaliseSummaryHtml(rawSummary),
     publishedAt: optionalStringValue(post.publishedAt) ?? null,
     modifiedAt: optionalStringValue(post.modifiedAt) ?? null,
     createdAt: optionalStringValue(post.createdAt) ?? null,
@@ -1118,6 +1151,9 @@ function mapLegacyPodcast(value: unknown): BlogPodcastDetail {
     type: 'podcast',
     description: stripBlogHtml(
       stringValue(post.description) || stringValue(post.summary)
+    ),
+    summaryHtml: normaliseSummaryHtml(
+      stringValue(post.summary) || stringValue(post.description)
     ),
     episodeNumber: optionalNumberValue(post.episodeNumber),
     showSlug: show?.slug ?? DEFAULT_PODCAST_SHOW_SLUG,

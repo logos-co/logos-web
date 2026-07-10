@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+import { MediaSummary } from '../../../_components/media-summary'
 import { ShareButton } from '../../../_components/share-button'
 import type { ArticleDetailSectionProps } from './types'
 
@@ -111,13 +112,7 @@ export function ArticleHero({ article, copy, canonicalUrl }: ArticleHeroProps) {
         </figure>
       ) : null}
 
-      {article.summary ? (
-        <div className="border-y border-brand-dark-green py-6 max-sm:py-4">
-          <p className="whitespace-pre-wrap font-sans text-[20px] leading-[30px] tracking-normal text-brand-dark-green max-sm:text-[18px] max-sm:leading-6">
-            {article.summary}
-          </p>
-        </div>
-      ) : null}
+      <MediaSummary html={article.summaryHtml} text={article.summary} />
     </header>
   )
 }

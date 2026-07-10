@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import type { BlogContentBlock, BlogDynamicBlock } from '@/lib/blog-content'
 import { cn } from '@/lib/cn'
+import { youtubeEmbedUrl } from '@/lib/media-embed'
 
 interface MediaRichContentProps {
   bodyHtml?: string
@@ -22,40 +23,22 @@ function addTargetBlank(html: string): string {
   )
 }
 
-function youtubeEmbedUrl(src: string): string {
-  try {
-    const url = new URL(src)
-    if (url.hostname === 'youtu.be') {
-      const id = url.pathname.split('/').filter(Boolean)[0]
-      return id ? `https://www.youtube.com/embed/${id}` : src
-    }
-    if (url.hostname.includes('youtube.com')) {
-      const id =
-        url.searchParams.get('v') ??
-        url.pathname.match(/\/(?:embed|shorts)\/([^/?]+)/)?.[1]
-      return id ? `https://www.youtube.com/embed/${id}` : src
-    }
-  } catch {
-    return src
-  }
-
-  return src
-}
-
 function renderEmbed(src: string, html: string) {
-  const isYoutube = /^(https?:\/\/)?((www\.)?youtube\.com|youtu\.?be)\//i.test(
-    src
-  )
+  const youtubeSrc = youtubeEmbedUrl(src)
 
-  if (isYoutube) {
+  if (youtubeSrc) {
     return (
-      <iframe
-        title={src}
-        src={youtubeEmbedUrl(src)}
-        className="media-detail-video"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
+      <div className="media-detail-video-frame">
+        <div className="media-detail-video-aspect">
+          <iframe
+            title={src}
+            src={youtubeSrc}
+            className="media-detail-video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      </div>
     )
   }
 
