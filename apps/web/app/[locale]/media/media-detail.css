@@ -15,6 +15,14 @@
   font-family: sans-serif;
 }
 
+.media-detail-html-document {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 16px;
+  overflow-x: hidden;
+}
+
 .media-detail-content :where(h1, h2, h3, h4, h5, h6) {
   scroll-margin-top: 95px;
   color: var(--color-brand-dark-green);
