@@ -15,6 +15,7 @@ export function Install({
       index={labels.number}
       title={labels.heading}
       cards={data.cards}
+      eventNames={['Install Basecamp', 'Run a Node']}
     />
   )
 }

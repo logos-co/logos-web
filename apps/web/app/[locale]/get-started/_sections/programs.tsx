@@ -17,6 +17,7 @@ export function Programs({
       title={data.title}
       data={data}
       rfps={rfps}
+      eventNames={{ prize: 'Lambda Prize', rfps: 'Explore RFPs' }}
     />
   )
 }
