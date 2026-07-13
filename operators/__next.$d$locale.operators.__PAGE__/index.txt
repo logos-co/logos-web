@@ -1,0 +1,231 @@
+1:"$Sreact.fragment"
+7:I[85891,["/_next/static/chunks/086zz.wh9.asy.js","/_next/static/chunks/0cnxl~oft49l..js","/_next/static/chunks/113cbtzy2q3sb.js","/_next/static/chunks/17jndo5b6.s31.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0ryof3~3uu6ua.js","/_next/static/chunks/034_6idshnara.js","/_next/static/chunks/175l655ztur5c.js"],"OperatorsLegalTabs"]
+b:I[56105,["/_next/static/chunks/17hkzjx44u3dy.js","/_next/static/chunks/0-cgqeykwauj~.js"],"OutletBoundary"]
+c:"$Sreact.suspense"
+2:T88a,M14.6386 26C13.728 26 12.945 25.7854 12.2881 25.3549C11.6312 24.9244 11.1344 24.2467 10.7962 23.3233C10.5841 22.7003 10.4359 21.9368 10.3513 21.0328C10.2668 20.1302 10.2134 19.1833 10.1926 18.1948C10.1718 17.1842 10.1497 16.2061 10.1289 15.2592C10.1289 15.0017 10.0651 14.8716 9.93897 14.8716C9.83361 14.8716 9.72695 14.9575 9.62159 15.1292C9.21967 15.8822 8.74359 16.742 8.19208 17.7097C7.66268 18.6773 7.13328 19.645 6.60388 20.6127C6.07447 21.5804 5.5984 22.4518 5.17436 23.2257C4.77243 23.9788 4.48627 24.5264 4.31717 24.871C4.10515 25.3445 3.76696 25.6449 3.3013 25.7737C2.85644 25.9246 2.29582 25.9571 1.61814 25.8699C0.940452 25.7841 0.464381 25.5149 0.188624 25.0635C-0.107945 24.5901 -0.0546142 24.0958 0.347315 23.5795C0.623072 23.2348 1.01459 22.7198 1.52188 22.0317C2.03047 21.3216 2.6015 20.5269 3.23626 19.645C3.87102 18.7424 4.51749 17.8176 5.17306 16.8707C5.85075 15.9031 6.48551 14.9783 7.07865 14.0964C7.67178 13.1938 8.16867 12.4082 8.5706 11.7423C8.99464 11.0542 9.26909 10.5483 9.39657 10.2257C9.52404 9.92526 9.66062 9.591 9.8089 9.22551C9.95719 8.86003 10.0313 8.48414 10.0313 8.09655C10.0313 6.67754 9.89345 5.61231 9.61899 4.90345C9.36535 4.17249 9.01545 3.68864 8.5706 3.45193C8.14655 3.1944 7.68089 3.06433 7.1736 3.06433C6.79248 3.06433 6.38015 3.13977 5.9353 3.29065C5.51125 3.44152 5.2368 3.58069 5.10933 3.70945C4.87649 3.94617 4.65407 3.98909 4.44205 3.83822C4.23002 3.68734 4.16629 3.44022 4.25214 3.09685C4.48497 2.30085 4.90901 1.592 5.52296 0.967684C6.13951 0.322561 6.9967 0 8.09713 0C9.26129 0 10.1822 0.332967 10.8599 1.0002C11.5376 1.66743 12.0241 2.73137 12.3206 4.1933C12.6172 5.65523 12.7655 7.5906 12.7655 9.9994C12.7655 12.8374 12.8084 15.1071 12.893 16.8057C12.9775 18.5044 13.1154 19.7842 13.3053 20.6439C13.4952 21.4828 13.7606 22.0421 14.0987 22.3218C14.459 22.6014 14.9026 22.7406 15.432 22.7406C15.9614 22.7406 16.4167 22.6326 16.8615 22.418C17.3272 22.2034 17.7291 21.9238 18.0686 21.5791C18.2169 21.4074 18.386 21.3424 18.5772 21.3853C18.7671 21.4282 18.9154 21.5466 19.022 21.7404C19.1495 21.9121 19.1495 22.1384 19.022 22.418C18.5772 23.4078 17.9841 24.2571 17.2439 24.966C16.5246 25.654 15.6557 25.9987 14.6399 25.9987L14.6386 26Z0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"className":"bg-brand-off-white text-brand-dark-green","children":[["$","section",null,{"className":"border-y border-brand-dark-green/15 bg-gray-01 py-24 md:py-32","children":["$","div",null,{"className":"mx-auto px-3 max-w-[1440px] ","children":["$","div",null,{"className":"mx-auto grid max-w-[1020px] gap-12 md:grid-cols-12 md:gap-3","children":[["$","div",null,{"className":"flex items-start gap-3 md:col-span-3","children":[["$","svg",null,{"aria-hidden":"true","className":"inline-block fill-current mt-0.5 shrink-0","fill":"none","style":{"width":18.46153846153846,"height":24},"viewBox":"0 0 20 26","xmlns":"http://www.w3.org/2000/svg","children":["$","path",null,{"d":"$2"}]}],["$","p",null,{"className":"font-mono text-[18px] leading-[1.35] md:text-[22px]","children":"Logos Operator programme"}]]}],["$","h1",null,{"className":"text-body-sans leading-[1.5] md:col-span-8 md:col-start-5 md:text-[16px]","children":"Hey everyone. We're closing the Logos Operator programme as Epoch 3 has now ended. It started as an experiment and didn't work out the way we hoped, so rather than let it linger, we're winding it down and recognising the people who showed up and contributed. Thank you for your participation and enthusiasm."}]]}]}]}],"$L3"]}],["$L4","$L5"],"$L6"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"AWfUbvMb0ih5hwBdgOtFv"}
+8:T3535,# Logos Operators Dashboard - Website Terms of Use
+
+Last updated: 4 November 2024
+
+These website terms of use (“**Website Terms of Use**”) are entered into by you and us, and they govern your access and use of this Website, including any content and functionality contained in the Website.
+
+It is your responsibility to read the Website Terms of Use carefully before your use of the Website and your use of the Website means you have agreed to be bound and comply with these Website Terms of Use.
+
+If you do not agree with these Website Terms of Use, you must not access or use the Website.
+
+## 1. Who we are
+
+For the purposes of these Website Terms of Use, the relevant entity is the Logos Collective Association, which has its registered office in Zug and its legal domicile address at:
+
+Logos Collective Association\
+c/o PST Consulting GmbH\
+Baarerstrasse 10\
+6300 Zug\
+Switzerland
+
+Whenever we refer to “Logos”, “we”, “us” or any other similar references, we are referring to the Logos Collective Association.
+
+## 2. The Logos Operator Dashboard
+
+The Website provides an opportunity for users of the Website to view digital tokens they hold and achieve certain reputation points for engaging in various activities or challenges described in the Website or set by Logos.
+
+You shall only use the Website for lawful purposes, in compliance with applicable legal frameworks and in accordance with these Terms of Use. In particular, you agree not to, whether in relation to the Website or any activities you engage in or through the Website:
+
+1. engage in, promote, or contribute to any activities in violation of applicable law or violation of legal rights of any other individual or third party, including the rights of Logos and its affiliates;
+2. copy, distribute, sell, licence, create derivative works from, or in any other way exploit copyrighted material, trademarks, or any intellectual property rights of others;
+3. interfere with or disrupt the integrity, safety, security, availability or performance of the Website;
+4. reverse engineer, decompile, or disassemble any software used, or introduce any harmful code (e.g., viruses, worms, or spyware) intended to infiltrate or damage the Website or any connected systems;
+5. interfere, disrupt, negatively affect, or inhibit other users from their use of the Website;
+6. use a wallet other than your own without permission; or
+7. misrepresent your relationship with Logos or its affiliates;
+
+## 3. Wallet Interactions
+
+To access certain features of the Website, you may need to connect your digital asset wallet or address (collectively referred to as your “Wallet”). By connecting your Wallet, you acknowledge that we will not have any control over it, nor will we have access to your seed phrase, private keys, or any associated digital tokens.
+
+We are not responsible for the transfer, safeguarding, or maintenance of your private keys or any digital tokens associated with your Wallet. You are solely responsible for your private keys and seed phrase, and if they are lost, mishandled, or stolen, the associated digital asset tokens might not be recoverable, and we will not be held liable for such losses.
+
+We do not operate, maintain, or have custody of your Wallet contents. Therefore, we are not responsible for any issues that may arise with your Wallet. Any concerns or issues related to your Wallet should be directed to your Wallet provider, should there be one.
+
+You acknowledge that digital tokens stored in your Wallet are at risk of loss due to various factors, including but not limited to theft, hacking (or other cyber-attacks), malware, and technical or human error.
+
+You have the option to disconnect your Wallet from the Website at any time, however, doing so might limit your ability to make use of some functionalities available through the Website.
+
+## 4. Reputation Points
+
+From time to time, users of the Website may achieve certain reputation points (“**XP**”) for engaging in various activities or challenges described in the Website or set by Logos. Such points do not constitute guarantees, or promises and do not represent any claims. Logos reserves the right to, at its sole discretion, at any time, with or without notice, modify or cancel the XP you have accrued or might accrue and the manner and criteria in which you might receive XP.
+
+## 5. Disclaimers
+
+The Website is provided by us on an ‘as is’ basis and your use of the Website is at your own sole discretion and risk.
+
+We disclaim all warranties of any kind, express or implied, including without limitation the warranties of merchantability, fitness for a particular purpose, and non-infringement of intellectual property or other violation of rights. We do not warrant or make any representations concerning the completeness, accuracy, legality, utility, reliability, suitability or availability of the use of the Website, the content on this Website or otherwise relating to the Website, or such content on any sites linked to the Website. These disclaimers will apply to the maximum extent permitted by applicable law.
+
+We make no claims that the Website or any of its content is accessible, legally compliant or appropriate in your jurisdiction. Your access or use of the Website is at your own sole discretion and you are solely responsible for complying with any applicable local laws.
+
+The content herein or as accessible through this Website is intended to be made available for informational purposes only and should not be considered as creating any expectations or forming the basis of any contract, commitment or binding obligation with us. No information herein shall be considered to contain or be relied upon as a promise, representation, warranty or guarantee, whether express or implied and whether as to the past, present or the future in relation to the projects and matters described herein.
+
+The information contained herein does not constitute financial, legal, tax, or other advice and should not be treated as such.
+
+Nothing in this Website should be construed by you as an offer to buy or sell, or soliciting any offer to buy or sell any tokens or any security.
+
+## 6. Forward looking statements
+
+The Website may also contain forward-looking statements that are based on current expectations, estimates, forecasts, assumptions and projections about the technology, industry and markets in general.
+
+The forward looking statements, which may include statements about the roadmap, project descriptions, technical details, functionalities, features, the development and use of tokens by projects, and any other statements related to such matters or as accessible through this website are subject to a high degree of risk and uncertainty. The forward looking statements are subject to change based on, among other things, market conditions, technical developments, and regulatory environment. The actual development and results, including the order and the timeline, might vary from what’s presented. The information contained herein is a summary and does not purport to be accurate, reliable or complete and we bear no responsibility for the accuracy, reliability or completeness of information contained herein. Because of the high degree of risk and uncertainty described above, you should not place undue reliance on any matters described in this website or as accessible through this website.
+
+While we aim to update our website regularly, all information, including the timeline and the specifics of each stage, is subject to change and may be amended or supplemented at any time, without notice and at our sole discretion.
+
+## 7. Intellectual property rights
+
+This Website and all contents on the Website, including, among others, text, graphics, logos, images, and software, is the property of Logos and protected by international copyright laws. You shall not use, reproduce, modify, distribute or republish any content on this Website without prior written permission from Logos.
+
+## 8. Third party website links
+
+To the extent the Website provides any links to a third party website, then their terms and conditions, including privacy policies, govern your use of those third party websites. By linking such third party websites, Logos does not represent or imply that it endorses or supports such third party websites or content therein, or that it believes such third party websites and content therein to be accurate, useful or non-harmful. We have no control over such third party websites and will not be liable for your use of or activities on any third party websites accessed through the Website. If you access such third party websites through the Website, it is at your own risk and you are solely responsible for your activities on such third party websites.
+
+## 9. Limitation of liability
+
+We will not be held liable to you under any contract, negligence, strict liability, or other legal or equitable theory for any lost profits, cost of procurement for substitute services, or any special, incidental, or consequential damages related to, arising from, or in any way connected with these Website Terms of Use, the Website, the content on the Website, or your use of the Website, even if we have been advised of the possibility of such damages. In any event, our aggregate liability for such claims is limited to EUR 100 (one hundred Euros). This limitation of liability will apply to the maximum extent permitted by applicable law.
+
+## 10. Indemnity
+
+You shall indemnify us and hold us harmless from and against any and all claims, damages and expenses, including attorneys’ fees, arising from or related to your use of the Website, the content on the Website, including without limitation your violation of these Website Terms of Use.
+
+## 11. Modifications
+
+We may modify or replace any part of this Website Terms of Use at any time and without notice. You are responsible for checking the Website periodically for any changes. The new Website Terms of Use will be effective immediately upon its posting on the Website.
+
+## 12. Governing law
+
+Swiss law governs these Website Terms of Use and any disputes between you and us, whether in court or arbitration, without regard to conflict of laws provisions.
+
+## 13. Disputes
+
+In these Website Terms of Use, “dispute” has the broadest meaning enforceable by law and includes any claim you make against or controversy you may have in relation to these Website Terms of Use, the Website, the content on the Website, or your use of the Website.
+
+We prefer arbitration over litigation as we believe it meets our principle of resolving disputes in the most effective and cost effective manner. You are bound by the following arbitration clause, which waives your right to litigation and to be heard by a judge. Please note that court review of an arbitration award is limited. You also waive all your rights to a jury trial (if any) in any and all jurisdictions.
+
+If a (potential) dispute arises, you must first use your reasonable efforts to resolve it amicably with us. If these efforts do not result in a resolution of such dispute, you shall then send us a written notice of dispute setting out (i) the nature of the dispute, and the claim you are making; and (ii) the remedy you are seeking.
+
+If we and you are unable to further resolve this dispute within sixty (60) calendar days of us receiving this notice of dispute, then any such dispute will be referred to and finally resolved by you and us through an arbitration administered by the Swiss Chambers’ Arbitration Institution in accordance with the Swiss Rules of International Arbitration for the time being in force, which rules are deemed to be incorporated herein by reference. The arbitral decision may be enforced in any court. The arbitration will be held in Zug, Switzerland, and may be conducted via video conference virtual/online methods if possible. The tribunal will consist of one arbitrator, and all proceedings as well as communications between the parties will be kept confidential. The language of the arbitration will be in English. Payment of all relevant fees in respect of the arbitration, including filing, administration and arbitrator fees will be in accordance with the Swiss Rules of International Arbitration.
+
+Regardless of any applicable statute of limitations, you must bring any claims within one year after the claim arose or the time when you should have reasonably known about the claim. You also waive the right to participate in a class action lawsuit or a classwide arbitration against us.
+
+## 14. About these Website Terms of Use
+
+These Website Terms of Use cover the entire agreement between you and us in connection with the Website and supersede all prior and contemporaneous understandings, agreements, representations and warranties, both written and oral, with respect to the Website.
+
+The captions and headings identifying sections and subsections of these Website Terms of Use are for reference only and do not define, modify, expand, limit, or affect the interpretation of any provisions of these Website Terms of Use.
+
+If any part of these Website Terms of Use is held invalid or unenforceable, that part will be severable from these Website Terms of Use, and the remaining portions will remain in full force and effect. If we fail to enforce any of these Website Terms of Use, that does not mean that we have waived our right to enforce them.
+
+If you have any specific questions about these Website Terms of Use, please contact us at [legal@free.technology](mailto:legal@free.technology).
+
+This document is licensed under CC-BY-SA.9:T1afd,# Logos Operators Dashboard - Website Privacy Policy
+
+Last updated: 4 November 2024
+
+This Privacy Policy is intended to inform users of our approach to privacy in respect of this website (“**Website**”). In this regard, if you are visiting our Website or interacting with the Website, this Privacy Policy applies to you.
+
+## 1. Who we are
+
+For the purposes of this Privacy Policy and the collection and processing of personal data as a controller, the relevant entity is the Logos Collective Association, which has its registered office in Zug and its legal domicile address at
+
+Logos Collective Association\
+c/o PST Consulting GmbH\
+Baarerstrasse 10\
+6300 Zug\
+Switzerland
+
+Whenever we refer to “Logos”, “we” or other similar references, we are referring to the Logos Collective Association.
+
+## 2. We limit the collection and processing of personal data from your use of the Website
+
+We aim to limit the collection and processing of personal data from users of the Website. We only collect and process certain personal data for specific purposes and where we have the legal basis to do so under applicable privacy legislation. We will not collect or process any personal data that we don’t need and where we do store any personal data, we will only store it for the least amount of time needed for the indicated purpose.
+
+In this regard, the information requested and received by us will be used for, but not limited to:
+
+1. Providing you with access to certain functionalities or features of the Website;
+2. The administration of XP that you might receive; and/or
+3. Any other action necessary to fulfil our obligations under the Terms of Use and Privacy Policy.
+
+Currently, we collect and process the following personal data from your use of the Website:
+
+1. The user’s wallet address (also known as a wallet address);
+2. The XP amount associated with the user’s connected wallet address, which is updated based on specific interactions with the Website;
+3. The ‘OP number’ associated with the digital token held by a user’s connected wallet address;
+4. Display name, should a user choose to set one.
+
+In respect of the administration of XP (as defined in the Terms of Use), we process various pieces of information related to your activities, some of which may constitute personal data, but could still be used to infer identifying details based on your behaviour. These activities include off-chain interactions. Currently, off-chain activities stored in our database include:
+
+1. Connecting their wallet for the first time;
+2. Details of a user’s staking actions performed within the Dashboard;
+3. A user making a referral (a short, randomly generated code);
+4. Using a referral link from another user.
+
+The aforementioned activities may generate experience points (XP), which are associated with a user’s connected wallet address along with the timestamp and session ID of each activity.
+
+Your personal data will be processed by us in our database as long as it complies with applicable privacy legislation regarding each type of information. We can only use this personal data for any of the purposes described in this privacy policy.
+
+## 3. Personal data sharing with third party service providers
+
+We may share personal data with third party service providers to support the functionality of the Website. The personal data shared might include your wallet address (such as your Bitcoin wallet address). Such third party service providers act as data processors on our behalf and are only permitted to process personal data in accordance with our instructions and for the purposes specified above.
+
+## 4. Third party processing of personal data
+
+In addition to our limited collection of personal data, third parties may collect or process personal data as a result of the Website making use of certain features or to provide certain content. To the extent you interact with such third party content or features, their respective privacy policies will apply.
+
+## 5. Security measures we take in respect of the Website
+
+As a general approach, we take data security seriously and we have implemented a variety of security measures on the Website to maintain the safety of your personal data when you submit such information to us.
+
+## 6. Exporting data outside the European Union and Switzerland
+
+We are obliged to protect the privacy of personal data that you may have submitted in the unlikely event that we export your personal data to places outside the European Union or Switzerland. This means that personal data will only be processed in countries or by parties that provide an adequate level of protection as deemed by Switzerland or the European Commission. Otherwise, we will use other forms of protections, such as specific forms of contractual clauses to ensure such personal data is provided the same protection as required in Switzerland or Europe. In any event, the transmission of personal data outside the European Union and Switzerland will always occur in conformity with applicable privacy legislation.
+
+## 7. Your choices and rights
+
+As explained in this Privacy Policy, we limit our collection and processing of your personal data wherever possible. Nonetheless, you still have certain choices and rights in respect of the personal data which we do collect and process. As laid out in relevant privacy legislation, you have the right to:
+
+- Ask us to correct or update your personal data (where reasonably possible);
+- Ask us to remove your personal data from our systems;
+- Ask us for a copy of your personal data, which may also be transferred to another data controller at your request;
+- Withdraw your consent to process your personal data (only if consent was asked for a processing activity), which only affects processing activities that are based on your consent and doesn’t affect the validity of such processing activities before you have withdrawn your consent;
+- Object to the processing of your personal data; and
+- File a complaint with the Federal Data Protection and Information Commissioner (FDPIC), if you believe that your personal data has been processed unlawfully.
+
+## 8. Third party links
+
+On this Website, you may come across links to third party websites. These third party sites have separate and independent privacy policies. We therefore have no responsibility or liability for the content and activities of these third party websites.
+
+## 9. This Privacy Policy might change
+
+We may modify or replace any part of this Privacy Policy at any time and without notice. Please check the Website periodically for any changes. The new Privacy Policy will be effective immediately upon its posting on our Website.
+
+## 10. Contact information
+
+To the extent that you have any questions about the Privacy Policy, please contact us at [legal@free.technology](mailto:legal@free.technology).
+
+This document is licensed under CC-BY-SA.a:T659,# Disclaimer - Sunset of Logos Operators
+
+## Disclaimer
+
+By claiming a reward, you acknowledge that any allocation of rewards is determined by Logos in good faith and at its sole discretion, based on its assessment of participant contributions during the Operators programme. You understand that XP did not constitute any guarantee, promise, or enforceable claim against Logos, and that Logos retained the right to determine, modify, or discontinue the manner and criteria by which XP was awarded. Any reward provided is intended as a full and final recognition of your participation in the Logos Operators programme, and no further claims or entitlements will arise in connection with it. You also confirm that you are not subject to sanctions or restrictive measures under the laws of the United Kingdom, United States, European Union, or Switzerland, and agree to provide reasonable information if required to verify this.
+
+## Privacy policy addendum
+
+As part of administering any distribution of rewards, we will need to process certain personal data including the following:
+
+1. Name;
+2. Address; and
+3. Discord handle.
+
+We have a legitimate interest in processing this data for the purposes of verifying eligibility, administering and delivering rewards, and ensuring compliance with applicable legal and regulatory obligations; such processing will be limited to what is necessary for these purposes and handled in accordance with applicable data protection laws.
+
+We will process such personal data in accordance with our privacy policy set out here: [https://logos.co/privacy-policy](https://logos.co/privacy-policy)3:["$","$L7",null,{"terms":{"label":"Terms of Use","body":"$8"},"privacy":{"label":"Privacy Policy","body":"$9"},"disclaimer":{"label":"Disclaimer","body":"$a"}}]
+4:["$","script","script-0",{"src":"/_next/static/chunks/034_6idshnara.js","async":true}]
+5:["$","script","script-1",{"src":"/_next/static/chunks/175l655ztur5c.js","async":true}]
+6:["$","$Lb",null,{"children":["$","$c",null,{"name":"Next.MetadataOutlet","children":"$@d"}]}]
+d:null
