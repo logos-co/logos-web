@@ -39,7 +39,7 @@ export function DeveloperProgramsSection({
           <Link
             href={data.prizeHref}
             aria-label={`${data.prizeTitle}: ${data.prizeHeading}`}
-            data-umami-event={eventNames?.prize}
+            data-umami-event-name={eventNames?.prize}
             className="relative flex h-[370px] cursor-pointer flex-col items-center justify-center gap-10 overflow-hidden rounded-xl px-4 py-10 text-center text-brand-off-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green"
           >
             <Image
@@ -65,7 +65,7 @@ export function DeveloperProgramsSection({
           <Link
             href={data.rfpsHref}
             aria-label={data.rfpsTitle}
-            data-umami-event={eventNames?.rfps}
+            data-umami-event-name={eventNames?.rfps}
             className="flex h-[370px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border border-brand-dark-green px-4 py-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green"
           >
             <div className="flex flex-col items-center gap-3 text-center">

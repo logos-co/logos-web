@@ -102,7 +102,7 @@ function BasecampInstallCard({
         href={primaryCta.href}
         className="flex h-[458px] cursor-pointer flex-col gap-1.5 overflow-hidden rounded-xl bg-gray-01 p-1.5 transition-[background-color,box-shadow] duration-200 ease-out hover:bg-brand-dark-green/5 hover:ring-1 hover:ring-inset hover:ring-brand-dark-green/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green md:h-[589px]"
         aria-label={primaryCta.label}
-        data-umami-event={eventName}
+        data-umami-event-name={eventName}
         {...(isExternal
           ? { target: '_blank', rel: 'noopener noreferrer' }
           : {})}
@@ -134,11 +134,11 @@ export function BasecampInstallSection({
           <span className="font-sans text-brand-dark-green">{title}</span>
         </h2>
         <div className="mt-10 grid gap-3 md:grid-cols-2">
-          {cards.map((card, index) => (
+          {cards.map((card, cardIndex) => (
             <BasecampInstallCard
               key={card.title}
               card={card}
-              eventName={eventNames?.[index]}
+              eventName={eventNames?.[cardIndex]}
             />
           ))}
         </div>
