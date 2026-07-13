@@ -30,7 +30,7 @@
         "activeTab": "TESTNET V0.1",
         "items": [
           {
-          "tab": "TESTNET V0.1",
+            "tab": "TESTNET V0.1",
             "status": "IN PRODUCTION",
             "dateLabel": "Date Released",
             "date": "March 7, 2026",
@@ -149,7 +149,7 @@
             ]
           },
           {
-          "tab": "TESTNET V0.2",
+            "tab": "TESTNET V0.2",
             "status": "IN PRODUCTION",
             "dateLabel": "Date Released",
             "date": "June 30, 2026",
@@ -268,7 +268,7 @@
             ]
           },
           {
-          "tab": "TESTNET V0.3",
+            "tab": "TESTNET V0.3",
             "status": "IN DEVELOPMENT",
             "dateLabel": "Expected Release",
             "date": "H2 2026",
@@ -276,7 +276,7 @@
             "objective": "Ecosystem Dynamics",
             "body": [
               "This version of the Logos testnet will test the ability for the network to sustain itself.",
-              "Meaningful apps will become available to suers and the developer experience will be improved. Liquidity primitives will be implemented and the network will be stress-tested to validate its architecture."
+              "Meaningful apps will become available to users and the developer experience will be improved. Liquidity primitives will be implemented and the network will be stress-tested to validate its architecture."
             ],
             "modules": [
               {
@@ -382,7 +382,7 @@
             ]
           },
           {
-          "tab": "MAINNET",
+            "tab": "MAINNET",
             "status": "IN DEVELOPMENT",
             "dateLabel": "Expected Release",
             "date": "H1 2027",
