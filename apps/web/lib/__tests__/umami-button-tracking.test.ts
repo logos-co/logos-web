@@ -11,6 +11,7 @@ import {
 
 interface FakeButtonOptions {
   readonly ariaLabel?: string
+  readonly eventName?: string
   readonly disabled?: boolean
   readonly excluded?: boolean
   readonly excludedAncestor?: boolean
@@ -23,6 +24,7 @@ interface FakeButtonOptions {
 const createButton = ({
   ariaLabel,
   disabled = false,
+  eventName,
   excluded = false,
   excludedAncestor = false,
   id = '',
@@ -33,6 +35,7 @@ const createButton = ({
   const attributes = new Map<string, string>()
 
   if (ariaLabel) attributes.set('aria-label', ariaLabel)
+  if (eventName) attributes.set('data-umami-event', eventName)
   if (excluded) attributes.set('data-umami-button-tracking', 'off')
   if (name) attributes.set('name', name)
   if (title) attributes.set('title', title)
@@ -84,6 +87,18 @@ describe('shouldTrackButtonClick', () => {
 })
 
 describe('getButtonTrackingLabel', () => {
+  it('uses an explicit Umami event name before other labels', () => {
+    expect(
+      getButtonTrackingLabel(
+        createButton({
+          eventName: 'Run a Node',
+          id: 'node-card',
+          textContent: 'Run a node in less than 10 minutes Using CLI',
+        })
+      )
+    ).toBe('Run a Node')
+  })
+
   it('uses id before visible text', () => {
     expect(
       getButtonTrackingLabel(
