@@ -20,7 +20,8 @@
       "external": true
     },
     { "label": "Design Guide", "href": "/design-guide" },
-    { "label": "Field Guide", "href": "/field-guide" }
+    { "label": "Field Guide", "href": "/field-guide" },
+    { "label": "Roadmap", "href": "/roadmap" }
   ],
   "socialLinks": [
     {
