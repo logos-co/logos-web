@@ -26,6 +26,7 @@ interface BasecampInstallSectionProps {
   index: string
   title: string
   cards: readonly BasecampInstallCardData[]
+  eventNames?: readonly string[]
 }
 
 function CardImage({
@@ -70,7 +71,13 @@ function CardImage({
   )
 }
 
-function BasecampInstallCard({ card }: { card: BasecampInstallCardData }) {
+function BasecampInstallCard({
+  card,
+  eventName,
+}: {
+  card: BasecampInstallCardData
+  eventName?: string
+}) {
   const primaryCta = card.ctas?.[0]
   const isExternal =
     primaryCta?.external || primaryCta?.href.startsWith('https://')
@@ -95,6 +102,7 @@ function BasecampInstallCard({ card }: { card: BasecampInstallCardData }) {
         href={primaryCta.href}
         className="flex h-[458px] cursor-pointer flex-col gap-1.5 overflow-hidden rounded-xl bg-gray-01 p-1.5 transition-[background-color,box-shadow] duration-200 ease-out hover:bg-brand-dark-green/5 hover:ring-1 hover:ring-inset hover:ring-brand-dark-green/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green md:h-[589px]"
         aria-label={primaryCta.label}
+        data-umami-event={eventName}
         {...(isExternal
           ? { target: '_blank', rel: 'noopener noreferrer' }
           : {})}
@@ -116,6 +124,7 @@ export function BasecampInstallSection({
   index,
   title,
   cards,
+  eventNames,
 }: BasecampInstallSectionProps) {
   return (
     <section id={id} className="border-t border-brand-dark-green/10 pt-6 pb-25">
@@ -125,8 +134,12 @@ export function BasecampInstallSection({
           <span className="font-sans text-brand-dark-green">{title}</span>
         </h2>
         <div className="mt-10 grid gap-3 md:grid-cols-2">
-          {cards.map((card) => (
-            <BasecampInstallCard key={card.title} card={card} />
+          {cards.map((card, index) => (
+            <BasecampInstallCard
+              key={card.title}
+              card={card}
+              eventName={eventNames?.[index]}
+            />
           ))}
         </div>
       </ContentWidth>

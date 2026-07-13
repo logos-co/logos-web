@@ -50,6 +50,7 @@ export function getButtonTrackingLabel(button: Element | null): string {
   }
 
   return (
+    normalizeLabel(button.getAttribute('data-umami-event')) ||
     normalizeLabel(button.id) ||
     normalizeLabel(button.textContent) ||
     normalizeLabel(button.getAttribute('aria-label')) ||
