@@ -225,7 +225,7 @@
               },
               {
                 "label": "Messaging",
-                "body": "New delivery module with MIx integrated. Integration of Mix and De-MLS into Chat module.",
+                "body": "New delivery module with Mix integrated. Integration of Mix and De-MLS into Chat module.",
                 "actions": [
                   {
                     "label": "Overview",
@@ -498,7 +498,7 @@
         ]
       },
       "overview": {
-        "heading": "Road Map Overview",
+        "heading": "Roadmap Overview",
         "cards": [
           {
             "id": "logosCoreRuntime",
