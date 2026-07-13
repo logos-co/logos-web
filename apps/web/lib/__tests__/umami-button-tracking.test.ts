@@ -35,7 +35,7 @@ const createButton = ({
   const attributes = new Map<string, string>()
 
   if (ariaLabel) attributes.set('aria-label', ariaLabel)
-  if (eventName) attributes.set('data-umami-event', eventName)
+  if (eventName) attributes.set('data-umami-event-name', eventName)
   if (excluded) attributes.set('data-umami-button-tracking', 'off')
   if (name) attributes.set('name', name)
   if (title) attributes.set('title', title)
