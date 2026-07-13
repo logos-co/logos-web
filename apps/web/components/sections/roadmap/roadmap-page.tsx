@@ -439,14 +439,14 @@ function RoadmapFaqs({ data }: { data: RoadmapCopySection['faqs'] }) {
           {data.items.map((item, index) => (
             <div
               key={item.question}
-              className={`grid gap-6 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_312px] lg:gap-10 desktop:grid-cols-[704px_712px] desktop:gap-0 desktop:pr-0 ${
+              className={`grid gap-6 px-3 py-3 desktop:grid-cols-[704px_712px] desktop:gap-0 desktop:pr-0 ${
                 index % 2 === 0 ? 'bg-black/10' : 'bg-black/5'
               }`}
             >
               <h3 className="text-body-serif text-brand-dark-green">
                 {item.question}
               </h3>
-              <div className="text-mono-s flex max-w-[312px] flex-col gap-[13px] text-brand-dark-green lg:justify-self-end desktop:ml-[200px]">
+              <div className="text-mono-s flex max-w-[312px] flex-col gap-[13px] text-brand-dark-green desktop:ml-[200px]">
                 {item.answer.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
