@@ -27,7 +27,7 @@
       },
       "release": {
         "tabsAriaLabel": "Roadmap testnet releases",
-        "activeTab": "TESTNET V0.1",
+        "activeTab": "TESTNET V0.2",
         "items": [
           {
             "tab": "TESTNET V0.1",
