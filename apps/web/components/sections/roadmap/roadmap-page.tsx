@@ -245,8 +245,8 @@ function RoadmapRelease({ data }: { data: RoadmapCopySection['release'] }) {
             </div>
           ) : null}
 
-          <div className="mt-12 flex flex-col gap-10 desktop:mt-[72px] desktop:flex-row desktop:items-start desktop:justify-between">
-            <div className="w-full max-w-[345px] font-mono-body text-[10px] leading-[1.3] whitespace-pre-line text-brand-dark-green desktop:self-center">
+          <div className="mt-12 flex flex-col gap-10 lg:mt-[72px] lg:flex-row lg:items-start lg:gap-10 desktop:justify-between">
+            <div className="w-full max-w-[345px] font-mono-body text-[10px] leading-[1.3] whitespace-pre-line text-brand-dark-green lg:shrink-0 desktop:self-center">
               <p>
                 {activeRelease.dateLabel}: {activeRelease.date}
               </p>
@@ -265,7 +265,7 @@ function RoadmapRelease({ data }: { data: RoadmapCopySection['release'] }) {
               ))}
             </div>
 
-            <div className="grid grid-cols-2 gap-x-5 gap-y-10 max-md:grid-cols-1 min-[1440px]:grid-cols-3 desktop:w-[926px]">
+            <div className="grid grid-cols-2 gap-x-5 gap-y-10 max-md:grid-cols-1 lg:min-w-0 lg:flex-1 min-[1440px]:grid-cols-3 desktop:w-[926px] desktop:flex-none">
               {activeRelease.modules.map((module, index) => (
                 <ReleaseModuleCard
                   key={`${module.label}-${index}`}
@@ -439,14 +439,14 @@ function RoadmapFaqs({ data }: { data: RoadmapCopySection['faqs'] }) {
           {data.items.map((item, index) => (
             <div
               key={item.question}
-              className={`grid gap-6 px-3 py-3 desktop:grid-cols-[704px_712px] desktop:gap-0 desktop:pr-0 ${
+              className={`grid gap-6 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_312px] lg:gap-10 desktop:grid-cols-[704px_712px] desktop:gap-0 desktop:pr-0 ${
                 index % 2 === 0 ? 'bg-black/10' : 'bg-black/5'
               }`}
             >
               <h3 className="text-body-serif text-brand-dark-green">
                 {item.question}
               </h3>
-              <div className="text-mono-s flex max-w-[312px] flex-col gap-[13px] text-brand-dark-green desktop:ml-[200px]">
+              <div className="text-mono-s flex max-w-[312px] flex-col gap-[13px] text-brand-dark-green lg:justify-self-end desktop:ml-[200px]">
                 {item.answer.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}

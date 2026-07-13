@@ -149,6 +149,15 @@
                 "src": "/nav-overlay/figma/blog-thumb.webp",
                 "alt": ""
               }
+            },
+            {
+              "label": "Roadmap",
+              "href": "/roadmap",
+              "description": "View the path to Parallel Societies.",
+              "image": {
+                "src": "/images/roadmap/hero-thumb.webp",
+                "alt": ""
+              }
             }
           ]
         },
