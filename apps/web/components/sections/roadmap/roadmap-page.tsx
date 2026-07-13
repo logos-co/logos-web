@@ -446,7 +446,7 @@ function RoadmapFaqs({ data }: { data: RoadmapCopySection['faqs'] }) {
               <h3 className="text-body-serif text-brand-dark-green">
                 {item.question}
               </h3>
-              <div className="text-mono-s flex max-w-[312px] flex-col gap-[13px] text-brand-dark-green desktop:ml-[200px]">
+              <div className="text-mono-s flex w-full max-w-[640px] flex-col gap-[13px] text-brand-dark-green desktop:w-auto desktop:max-w-[312px] desktop:ml-[200px]">
                 {item.answer.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
