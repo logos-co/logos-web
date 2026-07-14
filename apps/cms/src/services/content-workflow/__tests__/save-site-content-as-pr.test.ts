@@ -38,6 +38,7 @@ describe('site content fixture builders', () => {
           closeLabel: 'CLOSE',
           openAriaLabel: 'Open navigation menu',
           closeAriaLabel: 'Close navigation menu',
+          searchAriaLabel: 'Search Logos Media',
         },
         sitemap: [{ label: 'Home', href: '/' }],
         communityCards: [],
