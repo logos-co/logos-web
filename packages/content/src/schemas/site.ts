@@ -88,6 +88,7 @@ export const navigationSchema = z.object({
     closeLabel: z.string().min(1),
     openAriaLabel: z.string().min(1),
     closeAriaLabel: z.string().min(1),
+    searchAriaLabel: z.string().min(1),
   }),
   sitemap: z.array(navLinkSchema).min(1),
   topLinks: z.array(navLinkSchema).default([]),

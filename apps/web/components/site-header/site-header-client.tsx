@@ -7,6 +7,7 @@ import type { HomepageHighlight } from '@repo/content/schemas'
 import {
   LogosMark,
   LogosWordmark,
+  SearchIcon,
   type NavOverlayCommunityCard,
   type NavOverlayLink,
   type NavOverlayMenuPanel,
@@ -25,6 +26,7 @@ type ClosedBarLabels = {
   closeLabel: string
   openAriaLabel: string
   closeAriaLabel: string
+  searchAriaLabel: string
 }
 
 type Props = {
@@ -61,6 +63,9 @@ export default function SiteHeaderClient({
     useState(false)
   const pathname = usePathname()
   const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
+  const isMediaPath =
+    normalizedPathname === ROUTES.media ||
+    normalizedPathname.startsWith(`${ROUTES.media}/`)
   const showHomepageHighlight =
     normalizedPathname === ROUTES.home &&
     homepageHighlight?.enabled === true &&
@@ -75,6 +80,7 @@ export default function SiteHeaderClient({
   const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.media)
   const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
   const usesAccentTanHeaderTone =
+    (isMediaPath && !usesTransparentHeader) ||
     normalizedPathname.endsWith(ROUTES.logosBroadcastNetwork) ||
     normalizedPathname.endsWith(ROUTES.podcast) ||
     normalizedPathname.startsWith(`${ROUTES.mediaArticles}/`) ||
@@ -188,6 +194,14 @@ export default function SiteHeaderClient({
 
           {showHomepageHighlight ? (
             <LambdaGlyph className="absolute top-[99px] right-3 -translate-y-1/2" />
+          ) : isMediaPath ? (
+            <Link
+              href={ROUTES.mediaSearch}
+              aria-label={closedBar.searchAriaLabel}
+              className="absolute top-1/2 right-3 inline-flex size-7 -translate-y-1/2 cursor-pointer items-center justify-center border border-current transition-colors hover:bg-brand-dark-green hover:text-brand-off-white"
+            >
+              <SearchIcon />
+            </Link>
           ) : null}
         </div>
 
@@ -233,14 +247,25 @@ export default function SiteHeaderClient({
             <Link
               href={primaryCta.href}
               className={clsx(
-                'absolute top-1/2 right-3 -translate-y-1/2 text-eyebrow font-semibold cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
+                'absolute top-1/2 -translate-y-1/2 text-eyebrow font-semibold cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
                 'hidden lg:inline-flex',
+                isMediaPath ? 'right-[52px]' : 'right-3',
                 usesHeroHeaderTone && !hasPassedHero
                   ? 'bg-brand-off-white text-brand-dark-green'
                   : 'bg-brand-dark-green text-brand-off-white'
               )}
             >
               {primaryCta.label}
+            </Link>
+          ) : null}
+
+          {isMediaPath ? (
+            <Link
+              href={ROUTES.mediaSearch}
+              aria-label={closedBar.searchAriaLabel}
+              className="absolute top-1/2 right-3 inline-flex size-7 -translate-y-1/2 cursor-pointer items-center justify-center border border-current transition-colors hover:bg-brand-dark-green hover:text-brand-off-white"
+            >
+              <SearchIcon />
             </Link>
           ) : null}
         </div>

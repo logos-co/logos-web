@@ -159,6 +159,28 @@
     "subscribeError": "Something went wrong.",
     "scrollZoomHint": "Use {key} + scroll to zoom"
   },
+  "mediaSearch": {
+    "metadataTitle": "Search Logos Media | Logos",
+    "metadataDescription": "Search articles and podcasts from Logos Media.",
+    "eyebrow": "Logos Media",
+    "title": "Search",
+    "intro": "Search articles and podcasts from across the Logos Network.",
+    "searchLabel": "Search Logos Media",
+    "placeholder": "Search articles and podcasts",
+    "submit": "Search",
+    "clear": "Clear search",
+    "all": "All",
+    "articles": "Articles",
+    "podcasts": "Podcasts",
+    "results": "{count, plural, one {# result} other {# results}}",
+    "latest": "Latest articles and podcasts",
+    "noResultsTitle": "No results found",
+    "noResultsBody": "Try another word or clear the filters.",
+    "loadMore": "Load more",
+    "article": "Article",
+    "podcast": "Podcast",
+    "backToMedia": "Back to Logos Media"
+  },
   "mediaDetail": {
     "article": {
       "contents": "Contents",

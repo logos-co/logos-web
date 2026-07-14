@@ -6,7 +6,8 @@
     "menuLabel": "MENU",
     "closeLabel": "CLOSE MENU",
     "openAriaLabel": "Open navigation menu",
-    "closeAriaLabel": "Close navigation menu"
+    "closeAriaLabel": "Close navigation menu",
+    "searchAriaLabel": "Search Logos Media"
   },
   "sitemap": [
     { "label": "Technology Stack", "href": "/technology-stack" },
