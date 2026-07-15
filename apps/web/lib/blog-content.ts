@@ -1,5 +1,5 @@
 import { env } from '@/lib/env'
-import { BLOG_ORIGIN } from '@/lib/blog-engine'
+import { BLOG_DEPLOYMENT_ORIGIN, BLOG_ORIGIN } from '@/lib/blog-engine'
 import { youtubeEmbedUrl } from '@/lib/media-embed'
 import { EXTERNAL_URLS } from '@/constants/routes'
 
@@ -621,32 +621,31 @@ async function fetchLegacyPageProps<T>(
   path: string,
   label: string
 ): Promise<T> {
-  const url = `${BLOG_ORIGIN}${path}`
-  const result = await tryFetchText(
-    url,
-    {
-      cache: 'force-cache',
-    },
-    label
-  )
-  if (!result.ok) throw result.error
+  for (const origin of [BLOG_ORIGIN, BLOG_DEPLOYMENT_ORIGIN]) {
+    const url = `${origin}${path}`
+    const result = await tryFetchText(
+      url,
+      {
+        cache: 'force-cache',
+      },
+      label
+    )
+    if (!result.ok) continue
 
-  const match = result.data.match(
-    /<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/
-  )
-  if (!match) {
-    throw new Error(`${label} missing __NEXT_DATA__: url=${url}`)
-  }
+    const match = result.data.match(
+      /<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/
+    )
+    if (!match) continue
 
-  const page = JSON.parse(match[1]) as {
-    props?: {
-      pageProps?: T
+    const page = JSON.parse(match[1]) as {
+      props?: {
+        pageProps?: T
+      }
     }
+    if (page.props?.pageProps) return page.props.pageProps
   }
-  if (!page.props?.pageProps) {
-    throw new Error(`${label} missing pageProps: url=${url}`)
-  }
-  return page.props.pageProps
+
+  throw new Error(`${label} missing pageProps: path=${path}`)
 }
 
 function hasStrapiConfig() {
