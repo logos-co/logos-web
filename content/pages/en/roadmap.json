@@ -17,12 +17,12 @@
       "hero": {
         "eyebrow": "The path to private-by-default infrastructure for parallel societies.",
         "heading": "Logos\nRoadmap",
-        "disclaimer": "Roadmap timelines and technical objectives may be subject to change.",
+        "disclaimer": "This roadmap is our journey to mainnet: what we're prioritising now and where we're headed. It's a starting point for conversations, not a promise of specific features, functionality or timing. Timing might shift and the path will evolve as we build.",
         "image": {
-          "src": "/images/roadmap/hero-thumb.webp",
+          "src": "/images/roadmap/hero.webp",
           "alt": "",
-          "width": 1080,
-          "height": 1350
+          "width": 1916,
+          "height": 821
         }
       },
       "release": {
@@ -31,7 +31,7 @@
         "items": [
           {
             "tab": "TESTNET V0.1",
-            "status": "IN PRODUCTION",
+            "status": "LIVE",
             "dateLabel": "Date Released",
             "date": "March 7, 2026",
             "objectiveLabel": "Key Objectives",
@@ -51,7 +51,7 @@
                 "body": "Runtime loads modules, Basecamp supports simple apps and UI interface, and Logos node can load with Blockchain, Storage, and Messaging modules.",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/logoscore/"
                   },
@@ -67,7 +67,7 @@
                 "body": "Proof-of-concept for Mix module and demo application, and the first implementation of the Capability Discovery Protocol.",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/anoncomms/"
                   },
@@ -88,7 +88,7 @@
                 "body": "Private Proof-of-Stake consensus with Cryptarchia and Blend. Users are able to run a node, set up a wallet, and transact on testnet.",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/blockchain/"
                   },
@@ -109,7 +109,7 @@
                 "body": "Demo chat application available through Basecamp. Delivery module exposed to developers building privacy-preserving applications.",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/messaging/"
                   },
@@ -130,7 +130,7 @@
                 "body": "Demo filesharing application available on Basecamp powered by Storage module.",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/storage/"
                   },
@@ -150,7 +150,7 @@
           },
           {
             "tab": "TESTNET V0.2",
-            "status": "IN PRODUCTION",
+            "status": "LIVE",
             "dateLabel": "Date Released",
             "date": "June 30, 2026",
             "objectiveLabel": "Key Objectives",
@@ -170,7 +170,7 @@
                 "body": "Improved documentation and better coordination between Logos modules.",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/logoscore/"
                   },
@@ -186,7 +186,7 @@
                 "body": "Decentralised group chat through De-MLS, and RLN membership allocation for Mix.",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/anoncomms/"
                   },
@@ -207,7 +207,7 @@
                 "body": "Sovereign Zone SDK, channels, bridging support, and decentralised sequencing.",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/blockchain/"
                   },
@@ -228,7 +228,7 @@
                 "body": "New delivery module with Mix integrated. Integration of Mix and De-MLS into Chat module.",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/messaging/"
                   },
@@ -249,7 +249,7 @@
                 "body": "Faster and more stable decentralised file-sharing, and a proof-of-concept for DHT over Mix.",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/storage/"
                   },
@@ -284,7 +284,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/logoscore/"
                   },
@@ -300,7 +300,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/anoncomms/"
                   },
@@ -321,7 +321,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/blockchain/"
                   },
@@ -342,7 +342,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/messaging/"
                   },
@@ -363,7 +363,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/storage/"
                   },
@@ -389,7 +389,7 @@
             "objectiveLabel": "Key Objectives",
             "objective": "System Viability",
             "body": [
-              "The ‘batteries-included’ launch of the Logos network. The stack will be audited, liquidity will be available and distributed, and there will be validator diversity.",
+              "The ‘batteries-included’ launch of the Logos network. There are plans to have the stack audited and validator diversity is intended.",
               "Launch-day applications will be available to users, promoting adoption and driving a self-sustaining ecosystem of private-by-default applications."
             ],
             "modules": [
@@ -398,7 +398,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/logoscore/"
                   },
@@ -414,7 +414,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/anoncomms/"
                   },
@@ -435,7 +435,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/blockchain/"
                   },
@@ -456,7 +456,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/messaging/"
                   },
@@ -477,7 +477,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Overview",
+                    "label": "Track Progress",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/storage/"
                   },

@@ -119,7 +119,7 @@ export function Footer({
       className={`relative h-[612px] overflow-hidden bg-brand-dark-green text-brand-off-white lg:h-[688px] ${className ?? ''}`}
     >
       <div className="absolute top-6 left-3 flex w-[370px] max-w-[calc(100%-24px)] flex-col gap-3 lg:w-[345px]">
-        <p className="w-[314px] font-sans text-[18px] leading-[1.15] tracking-[-0.18px] text-brand-off-white">
+        <p className="w-full max-w-[314px] font-sans text-[18px] leading-[1.15] tracking-[-0.18px] text-brand-off-white">
           {newsletter.title}
         </p>
         {newsletterForm ?? (
