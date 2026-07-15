@@ -1,6 +1,6 @@
 export const BLOG_SEARCH_PAGE_SIZE = 15
 
-const BLOG_SEARCH_API_URL = 'https://blog.logos.co/api/search'
+const BLOG_SEARCH_API_URL = 'https://lpe-seven.vercel.app/api/search'
 const LOCAL_SEARCH_API_URL = '/api/legacy-search'
 const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
 
