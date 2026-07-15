@@ -1,3 +1,5 @@
+import { cache } from 'react'
+
 import { env } from '@/lib/env'
 import { ROUTES } from '@/constants/routes'
 
@@ -9,6 +11,9 @@ const ADMIN_ACID_API_ORIGIN =
   env.NEXT_PUBLIC_ADMIN_ACID_API_URL ?? 'https://admin-acid.logos.co/api'
 const CALENDAR_PUBLIC_PATH = '/calendar/public'
 const PRESS_ARTICLE_IMAGE_OVERFETCH_MULTIPLIER = 3
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value)
 
 export type BlogArticleRow = {
   title: string
@@ -511,6 +516,32 @@ export const getBlogPageData = async () => {
     podcasts: podcastPosts.map(toPodcastRow).filter(hasImage),
   }
 }
+
+export const getBlogSearchTopics = cache(async (): Promise<string[]> => {
+  const html = await fetchTextResilient(
+    `${BLOG_ORIGIN}/search`,
+    'Blog search page'
+  )
+  const match = html.match(
+    /<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/
+  )
+  if (!match) {
+    throw new Error('Blog search page is missing __NEXT_DATA__')
+  }
+
+  const payload: unknown = JSON.parse(match[1])
+  if (!isRecord(payload) || !isRecord(payload.props)) return []
+
+  const pageProps = isRecord(payload.props.pageProps)
+    ? payload.props.pageProps
+    : null
+  if (!pageProps || !Array.isArray(pageProps.topics)) return []
+
+  return pageProps.topics
+    .filter((topic): topic is string => typeof topic === 'string')
+    .map((topic) => topic.trim())
+    .filter(Boolean)
+})
 
 export const getLatestBlogPodcasts = async (limit = 20) => {
   const podcastPosts = await getBlogSearchItems('podcast', limit)

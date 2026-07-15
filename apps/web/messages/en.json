@@ -160,25 +160,24 @@
     "scrollZoomHint": "Use {key} + scroll to zoom"
   },
   "mediaSearch": {
-    "metadataTitle": "Search Logos Media | Logos",
-    "metadataDescription": "Search articles and podcasts from Logos Media.",
-    "eyebrow": "Logos Media",
-    "title": "Search",
-    "intro": "Search articles and podcasts from across the Logos Network.",
     "searchLabel": "Search Logos Media",
     "placeholder": "Search articles and podcasts",
     "submit": "Search",
     "clear": "Clear search",
-    "all": "All",
+    "clearFilters": "Clear filters",
+    "close": "Close search",
     "articles": "Articles",
     "podcasts": "Podcasts",
+    "topics": "Topics",
+    "selectedTopics": "{count} topics",
     "results": "{count, plural, one {# result} other {# results}}",
+    "loading": "Searching…",
+    "loadError": "Search is unavailable. Try again.",
     "noResultsTitle": "No results found",
     "noResultsBody": "Try another word or clear the filters.",
     "loadMore": "Load more",
     "article": "Article",
-    "podcast": "Podcast",
-    "backToMedia": "Back to Logos Media"
+    "podcast": "Podcast"
   },
   "mediaDetail": {
     "article": {
