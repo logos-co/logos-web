@@ -5,6 +5,7 @@ import { ROUTES } from '@/constants/routes'
 
 export const BLOG_ORIGIN = 'https://blog.logos.co'
 
+const BLOG_DEPLOYMENT_ORIGIN = 'https://lpe-seven.vercel.app'
 const PRESS_SEARCH_API = `${BLOG_ORIGIN}/api/search`
 const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
 const ADMIN_ACID_API_ORIGIN =
@@ -518,36 +519,33 @@ export const getBlogPageData = async () => {
 }
 
 export const getBlogSearchTopics = cache(async (): Promise<string[]> => {
-  if (!env.STRAPI_API_URL || !env.STRAPI_API_KEY) {
-    throw new Error(
-      'Blog search topics require STRAPI_API_URL and STRAPI_API_KEY'
+  for (const origin of [BLOG_ORIGIN, BLOG_DEPLOYMENT_ORIGIN]) {
+    let html: string
+    try {
+      html = await fetchTextResilient(`${origin}/search`, 'Blog search page')
+    } catch {
+      continue
+    }
+    const match = html.match(
+      /<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/
     )
+    if (!match) continue
+
+    const payload: unknown = JSON.parse(match[1])
+    if (!isRecord(payload) || !isRecord(payload.props)) continue
+
+    const pageProps = isRecord(payload.props.pageProps)
+      ? payload.props.pageProps
+      : null
+    if (!pageProps || !Array.isArray(pageProps.topics)) continue
+
+    return pageProps.topics
+      .filter((topic): topic is string => typeof topic === 'string')
+      .map((topic) => topic.trim())
+      .filter(Boolean)
   }
 
-  const url = `${env.STRAPI_API_URL.replace(/\/$/, '')}/tags/getAll`
-  const response = await fetch(url, {
-    cache: 'force-cache',
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${env.STRAPI_API_KEY}`,
-    },
-  })
-  const text = await response.text()
-  if (!response.ok) {
-    throw new Error(
-      `Blog search topics failed: status=${response.status} url=${url} body=${truncate(text)}`
-    )
-  }
-
-  const payload: unknown = JSON.parse(text)
-  if (!Array.isArray(payload)) {
-    throw new Error('Blog search topics returned an invalid response')
-  }
-
-  return payload
-    .filter(isRecord)
-    .map((topic) => (typeof topic.name === 'string' ? topic.name.trim() : ''))
-    .filter(Boolean)
+  throw new Error('Blog search page is missing topic data')
 })
 
 export const getLatestBlogPodcasts = async (limit = 20) => {
