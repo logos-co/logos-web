@@ -38,7 +38,7 @@ export function SearchResultList({ entries, locale }: SearchResultListProps) {
             </span>
           </div>
           <div className="flex min-w-0 flex-col gap-3 md:col-span-6">
-            <h2 className="font-display text-[28px] leading-[0.98] tracking-[-0.03em] md:text-[38px]">
+            <h2 className="font-display text-[24px] leading-[1.02] tracking-[-0.025em] md:text-[32px]">
               {entry.title}
             </h2>
             {entry.description ? (
