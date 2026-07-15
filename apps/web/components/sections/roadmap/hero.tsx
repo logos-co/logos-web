@@ -11,12 +11,12 @@ interface RoadmapHeroProps {
 export function RoadmapHero({ data }: RoadmapHeroProps) {
   return (
     <section className="relative h-[420px] overflow-hidden bg-brand-off-white md:-mt-0.5 md:h-[447px]">
-      <div className="absolute inset-0 desktop:inset-auto desktop:top-[-204px] desktop:left-[-166px] desktop:h-[688px] desktop:w-[1606px]">
+      <div className="absolute inset-0 desktop:inset-auto desktop:top-[-204px] desktop:right-0 desktop:left-[-166px] desktop:h-[688px]">
         <Image
           src={data.image.src}
           alt={data.image.alt}
           fill
-          sizes="(min-width: 1440px) 1606px, 100vw"
+          sizes="(min-width: 1440px) calc(100vw + 166px), 100vw"
           className="-scale-x-100 object-cover [object-position:35%_center] desktop:[object-position:center]"
           priority
         />
