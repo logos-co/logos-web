@@ -518,28 +518,35 @@ export const getBlogPageData = async () => {
 }
 
 export const getBlogSearchTopics = cache(async (): Promise<string[]> => {
-  const html = await fetchTextResilient(
-    `${BLOG_ORIGIN}/search`,
-    'Blog search page'
-  )
-  const match = html.match(
-    /<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/
-  )
-  if (!match) {
-    throw new Error('Blog search page is missing __NEXT_DATA__')
+  if (!env.STRAPI_API_URL || !env.STRAPI_API_KEY) {
+    throw new Error(
+      'Blog search topics require STRAPI_API_URL and STRAPI_API_KEY'
+    )
   }
 
-  const payload: unknown = JSON.parse(match[1])
-  if (!isRecord(payload) || !isRecord(payload.props)) return []
+  const url = `${env.STRAPI_API_URL.replace(/\/$/, '')}/tags/getAll`
+  const response = await fetch(url, {
+    cache: 'force-cache',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${env.STRAPI_API_KEY}`,
+    },
+  })
+  const text = await response.text()
+  if (!response.ok) {
+    throw new Error(
+      `Blog search topics failed: status=${response.status} url=${url} body=${truncate(text)}`
+    )
+  }
 
-  const pageProps = isRecord(payload.props.pageProps)
-    ? payload.props.pageProps
-    : null
-  if (!pageProps || !Array.isArray(pageProps.topics)) return []
+  const payload: unknown = JSON.parse(text)
+  if (!Array.isArray(payload)) {
+    throw new Error('Blog search topics returned an invalid response')
+  }
 
-  return pageProps.topics
-    .filter((topic): topic is string => typeof topic === 'string')
-    .map((topic) => topic.trim())
+  return payload
+    .filter(isRecord)
+    .map((topic) => (typeof topic.name === 'string' ? topic.name.trim() : ''))
     .filter(Boolean)
 })
 
