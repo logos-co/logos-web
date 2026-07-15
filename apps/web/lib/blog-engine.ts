@@ -5,7 +5,7 @@ import { ROUTES } from '@/constants/routes'
 
 export const BLOG_ORIGIN = 'https://blog.logos.co'
 
-const BLOG_DEPLOYMENT_ORIGIN = 'https://lpe-seven.vercel.app'
+export const BLOG_DEPLOYMENT_ORIGIN = 'https://lpe-seven.vercel.app'
 const PRESS_SEARCH_API = `${BLOG_ORIGIN}/api/search`
 const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
 const ADMIN_ACID_API_ORIGIN =
