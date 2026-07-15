@@ -14,6 +14,10 @@ vi.mock('@/lib/intake-submit-flags', () => ({
   isNotionIntakeSubmitEnabled: vi.fn(),
 }))
 
+vi.mock('@/lib/n8n/submit', () => ({
+  submitToN8n: vi.fn(),
+}))
+
 import { POST } from '../route'
 import { submitToCiviCrm } from '@/lib/civicrm/submit-afform'
 import { submitToNotion } from '@/lib/notion/submit'
@@ -21,6 +25,7 @@ import {
   isCiviCrmIntakeSubmitEnabled,
   isNotionIntakeSubmitEnabled,
 } from '@/lib/intake-submit-flags'
+import { submitToN8n } from '@/lib/n8n/submit'
 
 const formFields = [
   {
@@ -47,6 +52,7 @@ describe('POST /api/public/afform-submit', () => {
     vi.mocked(isCiviCrmIntakeSubmitEnabled).mockReturnValue(true)
     vi.mocked(submitToCiviCrm).mockResolvedValue({ ok: true })
     vi.mocked(submitToNotion).mockResolvedValue({ ok: true })
+    vi.mocked(submitToN8n).mockResolvedValue({ ok: true })
   })
 
   afterEach(() => {
@@ -157,5 +163,79 @@ describe('POST /api/public/afform-submit', () => {
     expect(body.error).toBe('Failed to submit form. Please try again.')
     expect(body.detail).toBe('CiviCRM unavailable')
     expect(vi.mocked(submitToNotion)).toHaveBeenCalledTimes(0)
+  })
+
+  it('forwards the steward form to n8n', async () => {
+    const res = await POST(
+      makeRequest({
+        formName: 'afformActivistLeaderSteward',
+        fields: formFields,
+        name: 'Ada',
+        hearAbout: '2',
+      })
+    )
+
+    expect(res.status).toBe(201)
+    expect(vi.mocked(submitToN8n)).toHaveBeenCalledWith(
+      { name: 'Ada', hearAbout: '2' },
+      'afformActivistLeaderSteward'
+    )
+  })
+
+  it.each([
+    'afformActivistBuilder',
+    'afformCoalitionPartner',
+    'afformCircleContactForm',
+  ])('does not forward %s to n8n', async (formName) => {
+    await POST(
+      makeRequest({
+        formName,
+        fields: formFields,
+        name: 'Ada',
+        hearAbout: '2',
+      })
+    )
+
+    expect(vi.mocked(submitToN8n)).toHaveBeenCalledTimes(0)
+  })
+
+  it('still returns 201 when the steward n8n forward fails (best-effort)', async () => {
+    vi.mocked(submitToN8n).mockResolvedValue({
+      ok: false,
+      message: 'n8n unavailable',
+    })
+
+    const res = await POST(
+      makeRequest({
+        formName: 'afformActivistLeaderSteward',
+        fields: formFields,
+        name: 'Ada',
+        hearAbout: '2',
+      })
+    )
+    const body = await res.json()
+
+    expect(res.status).toBe(201)
+    expect(body.success).toBe(true)
+    expect(body.error).toBeUndefined()
+  })
+
+  it('forwards the steward form to n8n even when Notion and CiviCRM are disabled', async () => {
+    vi.mocked(isNotionIntakeSubmitEnabled).mockReturnValue(false)
+    vi.mocked(isCiviCrmIntakeSubmitEnabled).mockReturnValue(false)
+
+    const res = await POST(
+      makeRequest({
+        formName: 'afformActivistLeaderSteward',
+        fields: formFields,
+        name: 'Ada',
+        hearAbout: '2',
+      })
+    )
+
+    expect(res.status).toBe(201)
+    expect(vi.mocked(submitToN8n)).toHaveBeenCalledTimes(1)
+    expect(vi.mocked(submitToNotion)).toHaveBeenCalledTimes(0)
+    expect(vi.mocked(submitToCiviCrm)).toHaveBeenCalledTimes(0)
   })
 })
