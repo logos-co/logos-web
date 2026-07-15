@@ -74,7 +74,7 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
   }
 
   return (
-    <section className="relative mt-10 bg-brand-off-white pt-20 pb-20 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:bg-brand-dark-green/10 after:content-[''] desktop:pt-0 desktop:pb-0">
+    <section className="relative mt-10 bg-brand-off-white pt-20 pb-20 desktop:pt-0 desktop:pb-0">
       <ContentWidth>
         <div
           aria-label={data.tabsAriaLabel}
@@ -117,9 +117,9 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
           role="tabpanel"
           aria-labelledby={getReleaseTabId(activeReleaseIndex)}
           tabIndex={0}
-          className="mt-12 desktop:flex desktop:items-start desktop:gap-[145px]"
+          className="mt-12 desktop:flex desktop:items-center desktop:gap-[145px]"
         >
-          <div className="w-full max-w-[748px] shrink-0 text-brand-dark-green desktop:mt-[94px] desktop:w-[345px]">
+          <div className="w-full max-w-[748px] shrink-0 text-brand-dark-green desktop:w-[345px]">
             {activeRelease.status ? (
               <div className="flex flex-col items-start gap-3">
                 <span className="rounded-md bg-brand-yellow px-1 py-0.5 font-mono text-[10px] leading-[1.35] font-semibold text-brand-dark-green uppercase">
