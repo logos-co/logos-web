@@ -74,12 +74,12 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
   }
 
   return (
-    <section className="relative mt-10 bg-brand-off-white pt-20 pb-20 before:absolute before:top-0 before:left-0 before:h-px before:w-full before:bg-brand-dark-green/10 before:content-[''] after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:bg-brand-dark-green/10 after:content-[''] desktop:pt-0 desktop:pb-28">
+    <section className="relative mt-10 bg-brand-off-white pt-20 pb-20 before:absolute before:top-0 before:left-0 before:h-px before:w-full before:bg-brand-dark-green/10 before:content-[''] after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:bg-brand-dark-green/10 after:content-[''] desktop:pt-0 desktop:pb-0">
       <ContentWidth>
         <div
           aria-label={data.tabsAriaLabel}
           role="tablist"
-          className="flex h-[34px] w-fit max-w-full divide-x divide-brand-dark-green overflow-x-auto outline outline-1 outline-brand-dark-green [outline-offset:-1px]"
+          className="relative flex h-[34px] w-fit max-w-full divide-x divide-brand-dark-green overflow-x-auto before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-px before:bg-brand-dark-green before:content-[''] after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:z-10 after:h-px after:bg-brand-dark-green after:content-['']"
         >
           {data.items.map((item, index) => {
             const isActive = item.tab === activeRelease.tab
@@ -117,9 +117,9 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
           role="tabpanel"
           aria-labelledby={getReleaseTabId(activeReleaseIndex)}
           tabIndex={0}
-          className="mt-12 desktop:flex desktop:items-start desktop:justify-between"
+          className="mt-12 desktop:flex desktop:items-start desktop:gap-[145px]"
         >
-          <div className="w-full max-w-[748px] shrink-0 text-brand-dark-green desktop:w-[345px]">
+          <div className="w-full max-w-[748px] shrink-0 text-brand-dark-green desktop:mt-[94px] desktop:w-[345px]">
             {activeRelease.status ? (
               <div className="flex flex-col items-start gap-3">
                 <span className="rounded-md bg-brand-yellow px-1 py-0.5 font-mono text-[10px] leading-[1.35] font-semibold text-brand-dark-green uppercase">

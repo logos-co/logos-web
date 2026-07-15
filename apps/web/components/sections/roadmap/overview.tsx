@@ -15,7 +15,7 @@ export function RoadmapOverview({ data }: RoadmapOverviewProps) {
   return (
     <section
       id="roadmap-overview"
-      className="mt-20 bg-brand-off-white pt-20 pb-20 md:max-desktop:pt-0 md:max-desktop:pb-0 desktop:mt-10 desktop:pt-28 desktop:pb-28"
+      className="mt-20 bg-brand-off-white pt-20 pb-20 md:max-desktop:pt-0 md:max-desktop:pb-0 desktop:mt-10 desktop:pt-0 desktop:pb-28"
     >
       <ContentWidth>
         <h2 className="text-h3-sans md:max-desktop:text-h3-serif text-brand-dark-green md:max-desktop:[text-box-edge:cap_alphabetic] md:max-desktop:[text-box-trim:trim-both]">
