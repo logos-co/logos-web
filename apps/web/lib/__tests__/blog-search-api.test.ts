@@ -20,7 +20,9 @@ describe('buildBlogSearchApiUrl', () => {
       })
     )
 
-    expect(url.origin + url.pathname).toBe('https://blog.logos.co/api/search')
+    expect(url.origin + url.pathname).toBe(
+      'https://lpe-seven.vercel.app/api/search'
+    )
     expect(url.searchParams.get('skip')).toBe('0')
     expect(url.searchParams.get('limit')).toBe(String(BLOG_SEARCH_PAGE_SIZE))
     expect(url.searchParams.get('q')).toBe('parallel society')
@@ -86,7 +88,7 @@ describe('buildBlogSearchApiUrl', () => {
     })
 
     expect(fetchMock).toHaveBeenCalledWith(
-      'https://blog.logos.co/api/search?skip=0&limit=15&q=parallel&tags=&type=article%2Cpodcast',
+      'https://lpe-seven.vercel.app/api/search?skip=0&limit=15&q=parallel&tags=&type=article%2Cpodcast',
       {
         headers: { Accept: 'application/json' },
         signal: undefined,
