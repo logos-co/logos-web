@@ -6,10 +6,14 @@ import {
   isCiviCrmIntakeSubmitEnabled,
   isNotionIntakeSubmitEnabled,
 } from '@/lib/intake-submit-flags'
+import { submitToN8n } from '@/lib/n8n/submit'
 import { resolveHearAboutLabel } from '@/lib/notion/build-notion-properties'
 import { submitToNotion } from '@/lib/notion/submit'
 
 const HCAPTCHA_SECRET = process.env.HCAPTCHA_SECRET ?? ''
+
+// Only the steward application funnels to the Circles n8n/Baserow CRM webhook.
+const N8N_STEWARD_FORM = 'afformActivistLeaderSteward'
 
 const ALLOWED_FORMS = new Set([
   'afformActivistBuilder',
@@ -113,6 +117,13 @@ export async function POST(req: NextRequest) {
     const valid = await verifyHCaptcha(captchaToken, getClientIp(req))
     if (!valid) {
       return jsonResponse({ error: 'Captcha verification failed' }, 403)
+    }
+  }
+
+  if (formName === N8N_STEWARD_FORM) {
+    const n8nResult = await submitToN8n(formData, formName)
+    if (!n8nResult.ok) {
+      console.error(`n8n steward webhook failed: ${n8nResult.message}`)
     }
   }
 
