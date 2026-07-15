@@ -74,12 +74,12 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
   }
 
   return (
-    <section className="relative mt-10 bg-brand-off-white pt-20 pb-20 before:absolute before:top-0 before:left-0 before:h-px before:w-full before:bg-brand-dark-green/10 before:content-[''] after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:bg-brand-dark-green/10 after:content-[''] desktop:pt-0 desktop:pb-0">
+    <section className="relative mt-10 bg-brand-off-white pt-20 pb-20 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:bg-brand-dark-green/10 after:content-[''] desktop:pt-0 desktop:pb-0">
       <ContentWidth>
         <div
           aria-label={data.tabsAriaLabel}
           role="tablist"
-          className="relative flex h-[34px] w-fit max-w-full divide-x divide-brand-dark-green overflow-x-auto before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-px before:bg-brand-dark-green before:content-[''] after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:z-10 after:h-px after:bg-brand-dark-green after:content-['']"
+          className="flex h-[34px] w-fit max-w-full divide-x divide-brand-dark-green overflow-x-auto outline outline-1 outline-brand-dark-green [outline-offset:-1px]"
         >
           {data.items.map((item, index) => {
             const isActive = item.tab === activeRelease.tab
