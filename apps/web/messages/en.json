@@ -173,7 +173,6 @@
     "articles": "Articles",
     "podcasts": "Podcasts",
     "results": "{count, plural, one {# result} other {# results}}",
-    "latest": "Latest articles and podcasts",
     "noResultsTitle": "No results found",
     "noResultsBody": "Try another word or clear the filters.",
     "loadMore": "Load more",

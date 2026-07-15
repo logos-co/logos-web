@@ -1,7 +1,7 @@
 'use client'
 
-import { FormEvent, useEffect, useMemo, useState } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { FormEvent, useMemo, useState } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 
 import { SearchIcon, XIcon } from '@acid-info/logos-ui'
@@ -34,11 +34,13 @@ export function MediaSearchSection({
 }: MediaSearchSectionProps) {
   const t = useTranslations('mediaSearch')
   const pathname = usePathname()
-  const router = useRouter()
   const searchParams = useSearchParams()
-  const query = searchParams.get('q')?.trim() ?? ''
-  const selectedType = searchTypeFromParam(searchParams.get('type'))
-  const [draft, setDraft] = useState(query)
+  const initialQuery = searchParams.get('q')?.trim() ?? ''
+  const [query, setQuery] = useState(initialQuery)
+  const [selectedType, setSelectedType] = useState<SearchTypeFilter>(() =>
+    searchTypeFromParam(searchParams.get('type'))
+  )
+  const [draft, setDraft] = useState(initialQuery)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
   const selectedTypes = useMemo<MediaSearchType[]>(
@@ -51,19 +53,20 @@ export function MediaSearchSection({
   )
   const visibleResults = results.slice(0, visibleCount)
 
-  useEffect(() => {
-    setDraft(query)
-    setVisibleCount(PAGE_SIZE)
-  }, [query, selectedType])
-
   const updateUrl = (nextQuery: string, nextType: SearchTypeFilter) => {
+    setQuery(nextQuery)
+    setSelectedType(nextType)
+    setVisibleCount(PAGE_SIZE)
+
     const params = new URLSearchParams()
     if (nextQuery) params.set('q', nextQuery)
     if (nextType !== 'all') params.set('type', nextType)
     const nextSearch = params.toString()
-    router.replace(nextSearch ? `${pathname}?${nextSearch}` : pathname, {
-      scroll: false,
-    })
+    window.history.replaceState(
+      window.history.state,
+      '',
+      nextSearch ? `${pathname}?${nextSearch}` : pathname
+    )
   }
 
   const submitSearch = (event: FormEvent<HTMLFormElement>) => {
@@ -98,7 +101,7 @@ export function MediaSearchSection({
             <span className="font-mono text-[10px] leading-[1.3] font-medium uppercase">
               {t('eyebrow')}
             </span>
-            <h1 className="font-display text-[72px] leading-[0.84] tracking-[-0.05em] md:text-[112px] lg:text-[144px]">
+            <h1 className="font-display text-[52px] leading-[0.9] tracking-[-0.04em] md:text-[80px] lg:text-[96px]">
               {t('title')}
             </h1>
             <p className="max-w-[480px] font-sans text-[16px] leading-[1.45]">
@@ -124,8 +127,14 @@ export function MediaSearchSection({
             autoFocus
             value={draft}
             onChange={(event) => setDraft(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault()
+                updateUrl(draft.trim(), selectedType)
+              }
+            }}
             placeholder={t('placeholder')}
-            className="min-w-0 flex-1 bg-transparent py-6 font-display text-[32px] leading-none tracking-[-0.03em] outline-none placeholder:text-brand-dark-green/45 md:py-8 md:text-[54px]"
+            className="min-w-0 flex-1 bg-transparent py-5 font-display text-[26px] leading-none tracking-[-0.03em] outline-none placeholder:text-brand-dark-green/45 md:py-6 md:text-[38px]"
           />
           {draft ? (
             <button
@@ -146,60 +155,69 @@ export function MediaSearchSection({
           </button>
         </form>
 
-        <div className="flex flex-col gap-5 py-6 md:flex-row md:items-center md:justify-between">
-          <div
-            className="font-mono text-[10px] leading-[1.3] font-medium uppercase"
-            aria-live="polite"
-          >
-            {query ? t('results', { count: results.length }) : t('latest')}
-          </div>
-          <div className="flex flex-wrap gap-2" aria-label={t('searchLabel')}>
-            {filters.map((filter) => {
-              const active = selectedType === filter.value
-              return (
-                <button
-                  key={filter.value}
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() => updateUrl(draft.trim(), filter.value)}
-                  className={`cursor-pointer border border-brand-dark-green px-3 py-2 font-mono text-[10px] leading-none font-medium uppercase transition-colors ${
-                    active
-                      ? 'bg-brand-dark-green text-brand-off-white'
-                      : 'hover:bg-brand-dark-green hover:text-brand-off-white'
-                  }`}
-                >
-                  {filter.label}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-
-        {results.length > 0 ? (
+        {query ? (
           <>
-            <SearchResultList entries={visibleResults} locale={locale} />
-            {visibleResults.length < results.length ? (
-              <button
-                type="button"
-                onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}
-                className="mt-8 h-12 w-full cursor-pointer border border-brand-dark-green font-mono text-[10px] font-medium uppercase transition-colors hover:bg-brand-dark-green hover:text-brand-off-white"
+            <div className="flex flex-col gap-5 py-5 md:flex-row md:items-center md:justify-between">
+              <div
+                className="font-mono text-[10px] leading-[1.3] font-medium uppercase"
+                aria-live="polite"
               >
-                {t('loadMore')}
-              </button>
-            ) : null}
-          </>
-        ) : (
-          <div className="border-t border-brand-dark-green py-16 md:grid md:grid-cols-12">
-            <div className="flex flex-col gap-3 md:col-span-6 md:col-start-4">
-              <h2 className="font-display text-[40px] leading-none tracking-[-0.03em]">
-                {t('noResultsTitle')}
-              </h2>
-              <p className="font-sans text-[16px] leading-[1.45]">
-                {t('noResultsBody')}
-              </p>
+                {t('results', { count: results.length })}
+              </div>
+              <div
+                className="flex flex-wrap gap-2"
+                aria-label={t('searchLabel')}
+              >
+                {filters.map((filter) => {
+                  const active = selectedType === filter.value
+                  return (
+                    <button
+                      key={filter.value}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => updateUrl(draft.trim(), filter.value)}
+                      className={`cursor-pointer border border-brand-dark-green px-3 py-2 font-mono text-[10px] leading-none font-medium uppercase transition-colors ${
+                        active
+                          ? 'bg-brand-dark-green text-brand-off-white'
+                          : 'hover:bg-brand-dark-green hover:text-brand-off-white'
+                      }`}
+                    >
+                      {filter.label}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-        )}
+
+            {results.length > 0 ? (
+              <>
+                <SearchResultList entries={visibleResults} locale={locale} />
+                {visibleResults.length < results.length ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setVisibleCount((count) => count + PAGE_SIZE)
+                    }
+                    className="mt-8 h-12 w-full cursor-pointer border border-brand-dark-green font-mono text-[10px] font-medium uppercase transition-colors hover:bg-brand-dark-green hover:text-brand-off-white"
+                  >
+                    {t('loadMore')}
+                  </button>
+                ) : null}
+              </>
+            ) : (
+              <div className="border-t border-brand-dark-green py-16 md:grid md:grid-cols-12">
+                <div className="flex flex-col gap-3 md:col-span-6 md:col-start-4">
+                  <h2 className="font-display text-[32px] leading-none tracking-[-0.03em]">
+                    {t('noResultsTitle')}
+                  </h2>
+                  <p className="font-sans text-[16px] leading-[1.45]">
+                    {t('noResultsBody')}
+                  </p>
+                </div>
+              </div>
+            )}
+          </>
+        ) : null}
       </div>
     </section>
   )
