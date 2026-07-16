@@ -559,6 +559,12 @@ function issueLine(i) {
   return Number.isInteger(n) && n > 0 ? n : null
 }
 
+// Model text derives from untrusted PR content — a crafted diff could steer a
+// model into emitting @mentions that ping arbitrary users/teams when posted.
+// A zero-width space after "@" keeps the text readable but kills the mention.
+const deMention = (s) =>
+  String(s ?? '').replace(/@(?=[A-Za-z\d_/-])/g, '@\u200b')
+
 async function postReview(merged, meta) {
   const minRank = RANK[cfg.min_severity_to_post] ?? 2
   const toPost = merged.issues.filter((i) => (RANK[i.severity] ?? 0) >= minRank)
@@ -607,13 +613,13 @@ async function postReview(merged, meta) {
 
   const flatItem = (i) =>
     `- ${icon[i.severity] ?? '•'} **${i.severity}** ` +
-    `\`${i.file}${issueLine(i) ? `:${issueLine(i)}` : ''}\` — ${i.issue}` +
-    (i.suggested_fix ? ` **Suggested fix:** ${i.suggested_fix}` : '')
+    `\`${i.file}${issueLine(i) ? `:${issueLine(i)}` : ''}\` — ${deMention(i.issue)}` +
+    (i.suggested_fix ? ` **Suggested fix:** ${deMention(i.suggested_fix)}` : '')
 
   const body = [
     `## 🤖 AI Review (${cfg.anthropic_model} + ${cfg.openai_model})`,
     '',
-    merged.summary ?? '',
+    deMention(merged.summary ?? ''),
     '',
     `**${criticals.length} critical**, ${others.length} other issue(s) shown ` +
       `(threshold: ${cfg.min_severity_to_post}).` +
@@ -630,8 +636,10 @@ async function postReview(merged, meta) {
     side: 'RIGHT',
     body:
       `${icon[i.severity] ?? '•'} **${i.severity.toUpperCase()}** (${i.category})` +
-      `${i.agreement ? ' — flagged by both models' : ''}\n\n${i.issue}\n\n` +
-      (i.suggested_fix ? `**Suggested fix:** ${i.suggested_fix}` : ''),
+      `${i.agreement ? ' — flagged by both models' : ''}\n\n${deMention(i.issue)}\n\n` +
+      (i.suggested_fix
+        ? `**Suggested fix:** ${deMention(i.suggested_fix)}`
+        : ''),
   }))
 
   if (process.env.DRY_RUN) {
