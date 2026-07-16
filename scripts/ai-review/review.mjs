@@ -219,6 +219,8 @@ function collectAgentsFiles(changedFiles) {
   if (existsSync('AGENTS.md')) found.add('AGENTS.md')
   for (const file of changedFiles) {
     const segs = file.split('/')
+    // Filenames come from untrusted PR data — never let them escape the checkout.
+    if (file.startsWith('/') || segs.includes('..')) continue
     for (let i = 1; i < segs.length; i++) {
       const candidate = `${segs.slice(0, i).join('/')}/AGENTS.md`
       if (existsSync(candidate)) found.add(candidate)
