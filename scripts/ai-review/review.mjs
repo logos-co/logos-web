@@ -76,6 +76,9 @@ const DEFAULTS = {
 
 function loadConfig() {
   // Minimal YAML subset parser (key: value, and "- item" lists) to stay dep-free.
+  // Any key present in .github/ai-review.yml fully REPLACES the matching
+  // DEFAULTS entry — lists are NOT merged. A config file must restate every
+  // default pattern it wants to keep.
   const cfg = { ...DEFAULTS }
   const path = '.github/ai-review.yml'
   if (!existsSync(path)) return cfg
