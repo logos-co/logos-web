@@ -266,15 +266,21 @@ function loadGuidelines(changedFiles = []) {
   for (const name of cfg.guidelines_files) {
     if (name === 'AGENTS.md') {
       const files = collectAgentsFiles(changedFiles)
-      if (files.length)
+      if (files.length) {
+        console.log(`Guidelines loaded from: ${files.join(', ')}`)
         return files
           .map((f) => `--- ${f} ---\n${readFileSync(f, 'utf8')}`)
           .join('\n\n')
           .slice(0, 20_000)
+      }
     } else if (existsSync(name)) {
+      console.log(`Guidelines loaded from: ${name}`)
       return readFileSync(name, 'utf8').slice(0, 20_000)
     }
   }
+  console.warn(
+    `[warn] none of the configured guideline files exist (${cfg.guidelines_files.join(', ')}) — reviewing without guidelines.`
+  )
   return ''
 }
 
