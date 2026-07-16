@@ -1,7 +1,7 @@
 # .github/ai-review.yml — optional tuning for the pilot repo.
 
 anthropic_model: claude-opus-4-8
-openai_model: gpt-5.4-2026-03-05
+openai_model: gpt-5.6-terra
 synth_model: claude-haiku-4-5-20251001
 max_diff_tokens: 80000
 min_severity_to_post: minor

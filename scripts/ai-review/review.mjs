@@ -149,6 +149,7 @@ const PRICES = {
   'claude-haiku-4-5-20251001': { in: 1, out: 5 },
   'gpt-5.3-codex': { in: 1.75, out: 14 },
   'gpt-5.4-2026-03-05': { in: 2.5, out: 15 },
+  'gpt-5.6-terra': { in: 2.5, out: 15 },
 }
 let totalCost = 0
 const unpricedModels = new Set()
