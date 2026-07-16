@@ -339,13 +339,10 @@ async function claudeReview(diff, guidelines) {
       body: JSON.stringify({
         model: cfg.anthropic_model,
         max_tokens: 4000,
-        system: [
-          {
-            type: 'text',
-            text: 'You are a rigorous senior code reviewer. You output only valid JSON.',
-            cache_control: { type: 'ephemeral' }, // prompt caching on the stable part
-          },
-        ],
+        // No cache_control: the prompt is one-shot and the stable prefix is far
+        // below the minimum cacheable size, so caching would never kick in.
+        system:
+          'You are a rigorous senior code reviewer. You output only valid JSON.',
         messages: [{ role: 'user', content: reviewPrompt(diff, guidelines) }],
       }),
     }
