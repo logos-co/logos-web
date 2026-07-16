@@ -32,18 +32,15 @@ jobs:
           gh api "repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions" \
             -f content=eyes || true
 
-      - name: Resolve PR head SHA
-        id: pr
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh pr view "${{ github.event.issue.number }}" --repo "${{ github.repository }}" \
-            --json headRefOid --jq '"head_sha=\(.headRefOid)"' >> "$GITHUB_OUTPUT"
-
-      - name: Checkout PR head (for config + guidelines files)
+      # Security: check out the DEFAULT branch, never the PR head. The reviewer
+      # program (scripts/ai-review/review.mjs), the config (.github/ai-review.yml)
+      # and the guideline files all run/read from trusted code here. The PR's diff
+      # is fetched separately via the GitHub API by PR number (see review.mjs), so
+      # a malicious PR cannot inject code or config into this job's token/secrets.
+      - name: Checkout default branch (trusted reviewer code + config)
         uses: actions/checkout@v4
         with:
-          ref: ${{ steps.pr.outputs.head_sha }}
+          ref: ${{ github.event.repository.default_branch }}
 
       - uses: actions/setup-node@v4
         with:

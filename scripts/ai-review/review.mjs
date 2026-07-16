@@ -2,7 +2,9 @@
 /**
  * Dual-model PR review orchestrator.
  * Env: GITHUB_TOKEN, ANTHROPIC_API_KEY, OPENAI_API_KEY, REPO ("owner/name"), PR_NUMBER
- * Runs from the PR head checkout (so local files like .github/ai-review.yml are readable).
+ * Runs from the DEFAULT-branch checkout (trusted): .github/ai-review.yml and the
+ * guideline files are read from that checkout, while the PR diff is fetched via the
+ * GitHub API by PR_NUMBER — so PR-authored code/config never executes in this job.
  * No npm dependencies — Node 20+ global fetch only.
  */
 
