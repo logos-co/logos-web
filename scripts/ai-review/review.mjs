@@ -28,6 +28,22 @@ const {
 // When truthy ("1", "true", "yes"), reviewers run without any guideline files.
 const skipGuidelines = /^(1|true|yes)$/i.test(SKIP_GUIDELINES ?? '')
 
+// Fail fast with a clear message instead of a TypeError or a confusing 404 later.
+// A single missing API key is tolerated — the run degrades to one reviewer.
+const missingEnv = [
+  ['GITHUB_TOKEN', GITHUB_TOKEN],
+  ['REPO', REPO],
+  ['PR_NUMBER', PR_NUMBER],
+]
+  .filter(([, v]) => !v)
+  .map(([k]) => k)
+if (!ANTHROPIC_API_KEY && !OPENAI_API_KEY)
+  missingEnv.push('ANTHROPIC_API_KEY or OPENAI_API_KEY')
+if (missingEnv.length) {
+  console.error(`Missing required env var(s): ${missingEnv.join(', ')}`)
+  process.exit(1)
+}
+
 const [OWNER, NAME] = REPO.split('/')
 
 // -------------------------------------------------------- API constants ---
