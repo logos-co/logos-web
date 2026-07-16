@@ -28,8 +28,6 @@ const {
 // When truthy ("1", "true", "yes"), reviewers run without any guideline files.
 const skipGuidelines = /^(1|true|yes)$/i.test(SKIP_GUIDELINES ?? '')
 
-// Fail fast with a clear message instead of a TypeError or a confusing 404 later.
-// A single missing API key is tolerated — the run degrades to one reviewer.
 const missingEnv = [
   ['GITHUB_TOKEN', GITHUB_TOKEN],
   ['REPO', REPO],
@@ -227,7 +225,10 @@ async function getDiff() {
     files.push(...batch)
     if (batch.length < 100) break
   }
-  const unlisted = Math.max(0, (pr.changed_files ?? files.length) - files.length)
+  const unlisted = Math.max(
+    0,
+    (pr.changed_files ?? files.length) - files.length
+  )
   const considered = files.filter((f) => !isIgnored(f.filename))
   const skipped = files.length - considered.length
   // GitHub omits `patch` for very large textual diffs; those files cannot be
@@ -237,7 +238,8 @@ async function getDiff() {
 
   // Pack smallest-first: deterministic and fits the most files into the budget.
   kept.sort(
-    (x, y) => x.patch.length - y.patch.length || x.filename.localeCompare(y.filename)
+    (x, y) =>
+      x.patch.length - y.patch.length || x.filename.localeCompare(y.filename)
   )
   let budget = cfg.max_diff_tokens
   const chunks = []
@@ -368,8 +370,6 @@ async function claudeReview(diff, guidelines) {
       body: JSON.stringify({
         model: cfg.anthropic_model,
         max_tokens: 4000,
-        // No cache_control: the prompt is one-shot and the stable prefix is far
-        // below the minimum cacheable size, so caching would never kick in.
         system:
           'You are a rigorous senior code reviewer. You output only valid JSON.',
         messages: [{ role: 'user', content: reviewPrompt(diff, guidelines) }],
@@ -492,7 +492,9 @@ async function synthesizeWithAnthropic(reviewA, reviewB) {
       body: JSON.stringify({
         model: cfg.synth_model,
         max_tokens: 4000,
-        messages: [{ role: 'user', content: synthesisPrompt(reviewA, reviewB) }],
+        messages: [
+          { role: 'user', content: synthesisPrompt(reviewA, reviewB) },
+        ],
       }),
     }
   )
@@ -626,7 +628,11 @@ async function postReview(merged, meta) {
       (meta.skipped ? ` ${meta.skipped} generated/lock file(s) skipped.` : ''),
     ...(warnings.length ? ['', ...warnings] : []),
     ...(unanchored.length
-      ? ['', 'Issues without a diff line to anchor to:', ...unanchored.map(flatItem)]
+      ? [
+          '',
+          'Issues without a diff line to anchor to:',
+          ...unanchored.map(flatItem),
+        ]
       : []),
   ].join('\n')
 
@@ -671,8 +677,16 @@ async function postReview(merged, meta) {
 
 // ------------------------------------------------------------------ main ---
 
-const { diff, files, fileCount, skipped, noPatch, omitted, unlisted, validLines } =
-  await getDiff()
+const {
+  diff,
+  files,
+  fileCount,
+  skipped,
+  noPatch,
+  omitted,
+  unlisted,
+  validLines,
+} = await getDiff()
 if (!diff.trim()) {
   const body = noPatch.length
     ? `🤖 AI review could NOT run: GitHub returned no reviewable diff for ${noPatch.length} ` +
@@ -691,8 +705,7 @@ console.log(
     `${noPatch.length} without patch, ${omitted} over budget)`
 )
 
-if (skipGuidelines)
-  console.log('Guideline files disabled via SKIP_GUIDELINES.')
+if (skipGuidelines) console.log('Guideline files disabled via SKIP_GUIDELINES.')
 const guidelines = loadGuidelines(files)
 
 // Both reviewers in parallel; if ONE provider is down, degrade to a single-model review
@@ -724,7 +737,9 @@ try {
     : await synthesizeWithAnthropic(reviewA, reviewB)
 } catch (e) {
   synthFailed = true
-  console.error(`[warn] synthesis failed (${e.message}); posting unmerged reviewer issues.`)
+  console.error(
+    `[warn] synthesis failed (${e.message}); posting unmerged reviewer issues.`
+  )
   merged = {
     issues: [...reviewA.issues, ...reviewB.issues]
       .filter((i) => i.severity !== 'nit')
