@@ -403,18 +403,24 @@ async function codexReview(diff, guidelines) {
 
 function parseReview(text, source) {
   const cleaned = text.replace(/```json|```/g, '').trim()
-  const start = cleaned.indexOf('{')
-  const end = cleaned.lastIndexOf('}')
+  // Direct parse first; brace-slicing is only a fallback for prose-wrapped JSON.
+  let parsed
   try {
-    const parsed = JSON.parse(cleaned.slice(start, end + 1))
-    parsed.issues = (parsed.issues ?? []).map((i) => ({ ...i, source }))
-    return parsed
+    parsed = JSON.parse(cleaned)
   } catch {
-    console.error(
-      `[warn] ${source} returned unparseable output; treating as empty review.`
-    )
-    return { issues: [], overall: `(${source} output could not be parsed)` }
+    try {
+      parsed = JSON.parse(
+        cleaned.slice(cleaned.indexOf('{'), cleaned.lastIndexOf('}') + 1)
+      )
+    } catch {
+      console.error(
+        `[warn] ${source} returned unparseable output; treating as empty review.`
+      )
+      return { issues: [], overall: `(${source} output could not be parsed)` }
+    }
   }
+  parsed.issues = (parsed.issues ?? []).map((i) => ({ ...i, source }))
+  return parsed
 }
 
 // -------------------------------------------------------------- synthesis --
