@@ -190,18 +190,23 @@ async function getDiff() {
     files.push(...batch)
     if (batch.length < 100) break
   }
-  const kept = files.filter((f) => f.patch && !isIgnored(f.filename))
-  const skipped = files.length - kept.length
+  const considered = files.filter((f) => !isIgnored(f.filename))
+  const skipped = files.length - considered.length
+  // GitHub omits `patch` for very large textual diffs; those files cannot be
+  // reviewed, so they must be surfaced as a partial review, not dropped.
+  const noPatch = considered.filter((f) => !f.patch).map((f) => f.filename)
+  const kept = considered.filter((f) => f.patch)
 
   let budget = cfg.max_diff_tokens
   const chunks = []
-  let truncated = false
+  let omitted = 0
   for (const f of kept) {
     const chunk = `--- FILE: ${f.filename} (${f.status}, +${f.additions}/-${f.deletions}) ---\n${f.patch}\n`
     const cost = approxTokens(chunk)
+    // Skip files that do not fit, but keep packing smaller ones after them.
     if (cost > budget) {
-      truncated = true
-      break
+      omitted++
+      continue
     }
     budget -= cost
     chunks.push(chunk)
@@ -209,9 +214,10 @@ async function getDiff() {
   return {
     diff: chunks.join('\n'),
     files: kept.map((f) => f.filename),
-    fileCount: kept.length,
+    fileCount: chunks.length,
     skipped,
-    truncated,
+    noPatch,
+    omitted,
   }
 }
 
@@ -463,6 +469,18 @@ async function postReview(merged, meta) {
   const criticals = merged.issues.filter((i) => i.severity === 'critical')
 
   const icon = { critical: '🔴', major: '🟠', minor: '🟡' }
+  const warnings = []
+  if (meta.omitted)
+    warnings.push(
+      `⚠️ ${meta.omitted} file(s) exceeded the diff token budget and were NOT reviewed — review is partial.`
+    )
+  if (meta.noPatch.length)
+    warnings.push(
+      `⚠️ ${meta.noPatch.length} file(s) had no reviewable diff from GitHub (too large) and were NOT reviewed — ` +
+        `review is partial: ${meta.noPatch.slice(0, 10).join(', ')}` +
+        (meta.noPatch.length > 10 ? ', …' : '')
+    )
+
   const body = [
     `## 🤖 AI Review (${cfg.anthropic_model} + ${cfg.openai_model})`,
     '',
@@ -470,10 +488,8 @@ async function postReview(merged, meta) {
     '',
     `**${criticals.length} critical**, ${toPost.length - criticals.length} other issue(s) shown ` +
       `(threshold: ${cfg.min_severity_to_post}).` +
-      (meta.truncated
-        ? ' ⚠️ Diff exceeded the token budget and was truncated — review is partial.'
-        : '') +
       (meta.skipped ? ` ${meta.skipped} generated/lock file(s) skipped.` : ''),
+    ...(warnings.length ? ['', ...warnings] : []),
   ].join('\n')
 
   const comments = toPost.map((i) => ({
@@ -520,19 +536,23 @@ async function postReview(merged, meta) {
 
 // ------------------------------------------------------------------ main ---
 
-const { diff, files, fileCount, skipped, truncated } = await getDiff()
+const { diff, files, fileCount, skipped, noPatch, omitted } = await getDiff()
 if (!diff.trim()) {
+  const body = noPatch.length
+    ? `🤖 AI review could NOT run: GitHub returned no reviewable diff for ${noPatch.length} ` +
+      `changed file(s) (diffs too large): ${noPatch.slice(0, 10).join(', ')}` +
+      `${noPatch.length > 10 ? ', …' : ''}. These changes were NOT reviewed.`
+    : '🤖 Nothing reviewable in this PR after filtering (lockfiles/generated code are skipped).'
   await gh(`/repos/${OWNER}/${NAME}/issues/${PR_NUMBER}/comments`, {
     method: 'POST',
-    body: JSON.stringify({
-      body: '🤖 Nothing reviewable in this PR after filtering (lockfiles/generated code are skipped).',
-    }),
+    body: JSON.stringify({ body }),
   })
   if (GITHUB_OUTPUT) appendFileSync(GITHUB_OUTPUT, 'criticals=0\n')
   process.exit(0)
 }
 console.log(
-  `Reviewing ${fileCount} files (~${approxTokens(diff)} tokens, ${skipped} skipped, truncated=${truncated})`
+  `Reviewing ${fileCount} files (~${approxTokens(diff)} tokens, ${skipped} skipped, ` +
+    `${noPatch.length} without patch, ${omitted} over budget)`
 )
 
 if (skipGuidelines)
@@ -556,7 +576,7 @@ const reviewB =
     : { issues: [], overall: '(Codex reviewer unavailable)' }
 
 const merged = await synthesize(reviewA, reviewB)
-const criticals = await postReview(merged, { truncated, skipped })
+const criticals = await postReview(merged, { skipped, noPatch, omitted })
 
 writeFileSync('critical-issues.json', JSON.stringify(criticals, null, 2))
 if (GITHUB_OUTPUT)
