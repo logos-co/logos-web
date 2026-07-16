@@ -1,4 +1,4 @@
-# Pilot version — everything self-contained in this repo. Review-only, no auto-fix.
+# Pilot version — everything self-contained in this repo. Review-only.
 # Trigger: comment "/ai-review" on any PR. Workflow file must be on the default branch.
 
 name: AI PR Review (pilot)

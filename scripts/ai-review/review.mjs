@@ -468,10 +468,6 @@ async function postReview(merged, meta) {
         ? ' ⚠️ Diff exceeded the token budget and was truncated — review is partial.'
         : '') +
       (meta.skipped ? ` ${meta.skipped} generated/lock file(s) skipped.` : ''),
-    '',
-    criticals.length
-      ? 'Comment `/ai-review --fix` to let the bot attempt fixes on a new commit.'
-      : '',
   ].join('\n')
 
   const comments = toPost.map((i) => ({
