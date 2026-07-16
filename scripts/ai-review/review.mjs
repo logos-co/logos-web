@@ -200,6 +200,9 @@ function logUsage(label, model, inTok, outTok) {
 // ------------------------------------------------------------- get diff ----
 
 async function getDiff() {
+  // GitHub caps the files listing (3,000 files) — compare against the PR's own
+  // changed_files count so a silently truncated listing is reported as partial.
+  const pr = await gh(`/repos/${OWNER}/${NAME}/pulls/${PR_NUMBER}`)
   const files = []
   for (let page = 1; ; page++) {
     const batch = await gh(
@@ -208,6 +211,7 @@ async function getDiff() {
     files.push(...batch)
     if (batch.length < 100) break
   }
+  const unlisted = Math.max(0, (pr.changed_files ?? files.length) - files.length)
   const considered = files.filter((f) => !isIgnored(f.filename))
   const skipped = files.length - considered.length
   // GitHub omits `patch` for very large textual diffs; those files cannot be
@@ -236,6 +240,7 @@ async function getDiff() {
     skipped,
     noPatch,
     omitted,
+    unlisted,
   }
 }
 
@@ -538,6 +543,10 @@ async function postReview(merged, meta) {
 
   const icon = { critical: '🔴', major: '🟠', minor: '🟡' }
   const warnings = []
+  if (meta.unlisted)
+    warnings.push(
+      `⚠️ GitHub's file listing is capped and left ${meta.unlisted} changed file(s) unlisted — review is partial.`
+    )
   if (meta.omitted)
     warnings.push(
       `⚠️ ${meta.omitted} file(s) exceeded the diff token budget and were NOT reviewed — review is partial.`
@@ -632,7 +641,8 @@ async function postReview(merged, meta) {
 
 // ------------------------------------------------------------------ main ---
 
-const { diff, files, fileCount, skipped, noPatch, omitted } = await getDiff()
+const { diff, files, fileCount, skipped, noPatch, omitted, unlisted } =
+  await getDiff()
 if (!diff.trim()) {
   const body = noPatch.length
     ? `🤖 AI review could NOT run: GitHub returned no reviewable diff for ${noPatch.length} ` +
@@ -697,6 +707,7 @@ const criticals = await postReview(merged, {
   skipped,
   noPatch,
   omitted,
+  unlisted,
   claudeFailed,
   codexFailed,
   synthFailed,
