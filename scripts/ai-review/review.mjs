@@ -199,6 +199,22 @@ function logUsage(label, model, inTok, outTok) {
 
 // ------------------------------------------------------------- get diff ----
 
+// New-file line numbers a review comment can anchor to (context + added lines).
+function patchRightLines(patch) {
+  const lines = new Set()
+  let n = 0
+  for (const l of patch.split('\n')) {
+    const hunk = l.match(/^@@ -\d+(?:,\d+)? \+(\d+)/)
+    if (hunk) {
+      n = Number(hunk[1])
+      continue
+    }
+    if (l.startsWith('-') || l.startsWith('\\')) continue
+    lines.add(n++)
+  }
+  return lines
+}
+
 async function getDiff() {
   // GitHub caps the files listing (3,000 files) — compare against the PR's own
   // changed_files count so a silently truncated listing is reported as partial.
@@ -226,6 +242,7 @@ async function getDiff() {
   let budget = cfg.max_diff_tokens
   const chunks = []
   const included = []
+  const validLines = new Map()
   let omitted = 0
   for (const f of kept) {
     const chunk = `--- FILE: ${f.filename} (${f.status}, +${f.additions}/-${f.deletions}) ---\n${f.patch}\n`
@@ -237,6 +254,7 @@ async function getDiff() {
     budget -= cost
     chunks.push(chunk)
     included.push(f.filename)
+    validLines.set(f.filename, patchRightLines(f.patch))
   }
   return {
     diff: chunks.join('\n'),
@@ -246,6 +264,7 @@ async function getDiff() {
     noPatch,
     omitted,
     unlisted,
+    validLines,
   }
 }
 
@@ -577,8 +596,19 @@ async function postReview(merged, meta) {
       '⚠️ The synthesis step failed — showing unmerged reviewer output (may contain duplicates).'
     )
 
-  const anchored = toPost.filter((i) => issueLine(i) !== null)
-  const unanchored = toPost.filter((i) => issueLine(i) === null)
+  // GitHub rejects the WHOLE review if any comment anchors outside the diff, so
+  // only anchor lines that exist on the RIGHT side of a reviewed hunk.
+  const anchorable = (i) => {
+    const line = issueLine(i)
+    return line !== null && (meta.validLines.get(i.file)?.has(line) ?? false)
+  }
+  const anchored = toPost.filter(anchorable)
+  const unanchored = toPost.filter((i) => !anchorable(i))
+
+  const flatItem = (i) =>
+    `- ${icon[i.severity] ?? '•'} **${i.severity}** ` +
+    `\`${i.file}${issueLine(i) ? `:${issueLine(i)}` : ''}\` — ${i.issue}` +
+    (i.suggested_fix ? ` **Suggested fix:** ${i.suggested_fix}` : '')
 
   const body = [
     `## 🤖 AI Review (${cfg.anthropic_model} + ${cfg.openai_model})`,
@@ -590,15 +620,7 @@ async function postReview(merged, meta) {
       (meta.skipped ? ` ${meta.skipped} generated/lock file(s) skipped.` : ''),
     ...(warnings.length ? ['', ...warnings] : []),
     ...(unanchored.length
-      ? [
-          '',
-          'Issues without a line anchor:',
-          ...unanchored.map(
-            (i) =>
-              `- ${icon[i.severity] ?? '•'} **${i.severity}** \`${i.file}\` — ${i.issue}` +
-              (i.suggested_fix ? ` **Suggested fix:** ${i.suggested_fix}` : '')
-          ),
-        ]
+      ? ['', 'Issues without a diff line to anchor to:', ...unanchored.map(flatItem)]
       : []),
   ].join('\n')
 
@@ -630,12 +652,7 @@ async function postReview(merged, meta) {
     console.error(
       `[warn] inline review failed (${e.message}); posting summary + list instead.`
     )
-    const flat = anchored
-      .map(
-        (i) =>
-          `- ${icon[i.severity] ?? '•'} **${i.severity}** \`${i.file}:${issueLine(i)}\` — ${i.issue}`
-      )
-      .join('\n')
+    const flat = anchored.map(flatItem).join('\n')
     await gh(`/repos/${OWNER}/${NAME}/issues/${PR_NUMBER}/comments`, {
       method: 'POST',
       body: JSON.stringify({ body: `${body}\n\n${flat}` }),
@@ -646,7 +663,7 @@ async function postReview(merged, meta) {
 
 // ------------------------------------------------------------------ main ---
 
-const { diff, files, fileCount, skipped, noPatch, omitted, unlisted } =
+const { diff, files, fileCount, skipped, noPatch, omitted, unlisted, validLines } =
   await getDiff()
 if (!diff.trim()) {
   const body = noPatch.length
@@ -713,6 +730,7 @@ const criticals = await postReview(merged, {
   noPatch,
   omitted,
   unlisted,
+  validLines,
   claudeFailed,
   codexFailed,
   synthFailed,
