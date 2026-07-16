@@ -219,24 +219,29 @@ async function getDiff() {
   const noPatch = considered.filter((f) => !f.patch).map((f) => f.filename)
   const kept = considered.filter((f) => f.patch)
 
+  // Pack smallest-first: deterministic and fits the most files into the budget.
+  kept.sort(
+    (x, y) => x.patch.length - y.patch.length || x.filename.localeCompare(y.filename)
+  )
   let budget = cfg.max_diff_tokens
   const chunks = []
+  const included = []
   let omitted = 0
   for (const f of kept) {
     const chunk = `--- FILE: ${f.filename} (${f.status}, +${f.additions}/-${f.deletions}) ---\n${f.patch}\n`
     const cost = approxTokens(chunk)
-    // Skip files that do not fit, but keep packing smaller ones after them.
     if (cost > budget) {
       omitted++
       continue
     }
     budget -= cost
     chunks.push(chunk)
+    included.push(f.filename)
   }
   return {
     diff: chunks.join('\n'),
-    files: kept.map((f) => f.filename),
-    fileCount: chunks.length,
+    files: included,
+    fileCount: included.length,
     skipped,
     noPatch,
     omitted,
