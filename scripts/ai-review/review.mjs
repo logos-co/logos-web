@@ -463,10 +463,17 @@ Respond with ONLY JSON:
 
 const RANK = { critical: 3, major: 2, minor: 1, nit: 0 }
 
+// Models sometimes return a null/missing/non-numeric line — anchor only valid ones.
+function issueLine(i) {
+  const n = Number(i.line)
+  return Number.isInteger(n) && n > 0 ? n : null
+}
+
 async function postReview(merged, meta) {
   const minRank = RANK[cfg.min_severity_to_post] ?? 2
   const toPost = merged.issues.filter((i) => (RANK[i.severity] ?? 0) >= minRank)
   const criticals = merged.issues.filter((i) => i.severity === 'critical')
+  const others = toPost.filter((i) => i.severity !== 'critical')
 
   const icon = { critical: '🔴', major: '🟠', minor: '🟡' }
   const warnings = []
@@ -481,20 +488,34 @@ async function postReview(merged, meta) {
         (meta.noPatch.length > 10 ? ', …' : '')
     )
 
+  const anchored = toPost.filter((i) => issueLine(i) !== null)
+  const unanchored = toPost.filter((i) => issueLine(i) === null)
+
   const body = [
     `## 🤖 AI Review (${cfg.anthropic_model} + ${cfg.openai_model})`,
     '',
     merged.summary ?? '',
     '',
-    `**${criticals.length} critical**, ${toPost.length - criticals.length} other issue(s) shown ` +
+    `**${criticals.length} critical**, ${others.length} other issue(s) shown ` +
       `(threshold: ${cfg.min_severity_to_post}).` +
       (meta.skipped ? ` ${meta.skipped} generated/lock file(s) skipped.` : ''),
     ...(warnings.length ? ['', ...warnings] : []),
+    ...(unanchored.length
+      ? [
+          '',
+          'Issues without a line anchor:',
+          ...unanchored.map(
+            (i) =>
+              `- ${icon[i.severity] ?? '•'} **${i.severity}** \`${i.file}\` — ${i.issue}` +
+              (i.suggested_fix ? ` **Suggested fix:** ${i.suggested_fix}` : '')
+          ),
+        ]
+      : []),
   ].join('\n')
 
-  const comments = toPost.map((i) => ({
+  const comments = anchored.map((i) => ({
     path: i.file,
-    line: i.line,
+    line: issueLine(i),
     side: 'RIGHT',
     body:
       `${icon[i.severity] ?? '•'} **${i.severity.toUpperCase()}** (${i.category})` +
@@ -520,10 +541,10 @@ async function postReview(merged, meta) {
     console.error(
       `[warn] inline review failed (${e.message}); posting summary + list instead.`
     )
-    const flat = toPost
+    const flat = anchored
       .map(
         (i) =>
-          `- ${icon[i.severity] ?? '•'} **${i.severity}** \`${i.file}:${i.line}\` — ${i.issue}`
+          `- ${icon[i.severity] ?? '•'} **${i.severity}** \`${i.file}:${issueLine(i)}\` — ${i.issue}`
       )
       .join('\n')
     await gh(`/repos/${OWNER}/${NAME}/issues/${PR_NUMBER}/comments`, {
