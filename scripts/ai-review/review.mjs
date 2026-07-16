@@ -114,7 +114,9 @@ function loadConfig() {
       cfg[key] = []
       currentList = key
     } else {
-      cfg[key] = /^\d+$/.test(val) ? Number(val) : val
+      // Strip surrounding quotes from scalars too, not just list items.
+      const scalar = val.trim().replace(/^(["'])(.*)\1$/, '$2')
+      cfg[key] = /^\d+$/.test(scalar) ? Number(scalar) : scalar
       currentList = null
     }
   }
