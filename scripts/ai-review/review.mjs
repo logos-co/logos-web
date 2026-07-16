@@ -401,23 +401,8 @@ function parseReview(text, source) {
 
 // -------------------------------------------------------------- synthesis --
 
-async function synthesize(reviewA, reviewB) {
-  const res = await fetch(
-    `${API.anthropic.baseUrl}${API.anthropic.messagesPath}`,
-    {
-      method: 'POST',
-      headers: {
-        'x-api-key': ANTHROPIC_API_KEY,
-        'anthropic-version': API.anthropic.version,
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: cfg.synth_model,
-        max_tokens: 4000,
-        messages: [
-          {
-            role: 'user',
-            content: `Two independent AI reviewers analyzed the same pull request.
+function synthesisPrompt(reviewA, reviewB) {
+  return `Two independent AI reviewers analyzed the same pull request.
 
 Reviewer A (Claude):
 ${JSON.stringify(reviewA, null, 2)}
@@ -435,9 +420,23 @@ Respond with ONLY JSON:
 {
   "issues": [{ "file", "line", "severity", "category", "issue", "suggested_fix", "agreement" }],
   "summary": "3-5 sentence synthesis for the PR author: overall assessment + the key risks"
-}`,
-          },
-        ],
+}`
+}
+
+async function synthesizeWithAnthropic(reviewA, reviewB) {
+  const res = await fetch(
+    `${API.anthropic.baseUrl}${API.anthropic.messagesPath}`,
+    {
+      method: 'POST',
+      headers: {
+        'x-api-key': ANTHROPIC_API_KEY,
+        'anthropic-version': API.anthropic.version,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: cfg.synth_model,
+        max_tokens: 4000,
+        messages: [{ role: 'user', content: synthesisPrompt(reviewA, reviewB) }],
       }),
     }
   )
@@ -457,6 +456,41 @@ Respond with ONLY JSON:
       .join(''),
     'synth'
   )
+}
+
+// Used when the Anthropic API is down: reuse the OpenAI reviewer model for
+// synthesis — it is cheap enough and known reachable, its review just succeeded.
+async function synthesizeWithOpenAI(reviewA, reviewB) {
+  const res = await fetch(`${API.openai.baseUrl}${API.openai.responsesPath}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: cfg.openai_model,
+      max_output_tokens: 4000,
+      input: [{ role: 'user', content: synthesisPrompt(reviewA, reviewB) }],
+    }),
+  })
+  if (!res.ok)
+    throw new Error(`OpenAI synth ${res.status}: ${await res.text()}`)
+  const data = await res.json()
+  logUsage(
+    'synthesizer',
+    cfg.openai_model,
+    data.usage?.input_tokens ?? 0,
+    data.usage?.output_tokens ?? 0
+  )
+  const text =
+    (data.output ?? [])
+      .flatMap((o) => o.content ?? [])
+      .filter((c) => c.type === 'output_text')
+      .map((c) => c.text)
+      .join('') ||
+    data.output_text ||
+    ''
+  return parseReview(text, 'synth')
 }
 
 // ------------------------------------------------------------ post review --
@@ -486,6 +520,20 @@ async function postReview(merged, meta) {
       `⚠️ ${meta.noPatch.length} file(s) had no reviewable diff from GitHub (too large) and were NOT reviewed — ` +
         `review is partial: ${meta.noPatch.slice(0, 10).join(', ')}` +
         (meta.noPatch.length > 10 ? ', …' : '')
+    )
+  if (meta.claudeFailed)
+    warnings.push(
+      `⚠️ The ${cfg.anthropic_model} reviewer failed — this is a single-model review ` +
+        `(${cfg.openai_model} reviewed and synthesized).`
+    )
+  if (meta.codexFailed)
+    warnings.push(
+      `⚠️ The ${cfg.openai_model} reviewer failed — this is a single-model review ` +
+        `(${cfg.anthropic_model} only).`
+    )
+  if (meta.synthFailed)
+    warnings.push(
+      '⚠️ The synthesis step failed — showing unmerged reviewer output (may contain duplicates).'
     )
 
   const anchored = toPost.filter((i) => issueLine(i) !== null)
@@ -587,17 +635,45 @@ const [a, b] = await Promise.allSettled([
 ])
 if (a.status === 'rejected' && b.status === 'rejected')
   throw new Error(`Both reviewers failed:\n${a.reason}\n${b.reason}`)
-const reviewA =
-  a.status === 'fulfilled'
-    ? a.value
-    : { issues: [], overall: '(Claude reviewer unavailable)' }
-const reviewB =
-  b.status === 'fulfilled'
-    ? b.value
-    : { issues: [], overall: '(Codex reviewer unavailable)' }
+const claudeFailed = a.status === 'rejected'
+const codexFailed = b.status === 'rejected'
+if (claudeFailed) console.error(`[warn] Claude reviewer failed: ${a.reason}`)
+if (codexFailed) console.error(`[warn] Codex reviewer failed: ${b.reason}`)
+const reviewA = claudeFailed
+  ? { issues: [], overall: '(Claude reviewer unavailable)' }
+  : a.value
+const reviewB = codexFailed
+  ? { issues: [], overall: '(Codex reviewer unavailable)' }
+  : b.value
 
-const merged = await synthesize(reviewA, reviewB)
-const criticals = await postReview(merged, { skipped, noPatch, omitted })
+// Synthesize on Anthropic normally; if the Claude reviewer failed, Anthropic is
+// presumed down, so synthesize on the surviving OpenAI provider instead. If the
+// synthesizer itself fails, degrade to a local merge rather than losing the review.
+let merged
+let synthFailed = false
+try {
+  merged = claudeFailed
+    ? await synthesizeWithOpenAI(reviewA, reviewB)
+    : await synthesizeWithAnthropic(reviewA, reviewB)
+} catch (e) {
+  synthFailed = true
+  console.error(`[warn] synthesis failed (${e.message}); posting unmerged reviewer issues.`)
+  merged = {
+    issues: [...reviewA.issues, ...reviewB.issues]
+      .filter((i) => i.severity !== 'nit')
+      .sort((x, y) => (RANK[y.severity] ?? 0) - (RANK[x.severity] ?? 0)),
+    summary: [reviewA.overall, reviewB.overall].filter(Boolean).join(' — '),
+  }
+}
+
+const criticals = await postReview(merged, {
+  skipped,
+  noPatch,
+  omitted,
+  claudeFailed,
+  codexFailed,
+  synthFailed,
+})
 
 writeFileSync('critical-issues.json', JSON.stringify(criticals, null, 2))
 if (GITHUB_OUTPUT)
