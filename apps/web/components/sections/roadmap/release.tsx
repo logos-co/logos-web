@@ -81,7 +81,7 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
   }
 
   return (
-    <section className="relative mt-10 border-t border-brand-dark-green/10 bg-brand-off-white pb-[100px]">
+    <section className="relative mt-10 bg-brand-off-white pb-[100px]">
       <ContentWidth>
         <div
           aria-label={data.tabsAriaLabel}
@@ -124,9 +124,9 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
           role="tabpanel"
           aria-labelledby={getReleaseTabId(activeReleaseIndex)}
           tabIndex={0}
-          className="mt-10 flex flex-col gap-10 desktop:mt-[18px] desktop:grid desktop:h-[696px] desktop:grid-cols-2 desktop:gap-3"
+          className="mt-10 flex flex-col gap-10 min-[1025px]:mt-[18px] min-[1025px]:grid min-[1025px]:grid-cols-2 min-[1025px]:gap-3 desktop:h-[696px]"
         >
-          <div className="contents desktop:flex desktop:flex-col desktop:gap-[34px] desktop:pt-[41px]">
+          <div className="contents min-[1025px]:flex min-[1025px]:flex-col min-[1025px]:gap-[34px] min-[1025px]:pt-[41px]">
             <ReleaseInformation release={activeRelease} />
             <ReleaseModuleTable modules={activeRelease.modules} />
           </div>
@@ -144,7 +144,7 @@ function ReleaseInformation({
   release: RoadmapCopySection['release']['items'][number]
 }) {
   return (
-    <div className="order-1 w-full text-brand-dark-green desktop:w-[548px] desktop:pl-1.5">
+    <div className="order-1 w-full text-brand-dark-green min-[1025px]:max-w-full min-[1025px]:w-[548px]">
       {release.status ? (
         <span className="inline-flex rounded-sm bg-brand-yellow px-1 py-0.5 font-mono text-[10px] leading-[1.35] font-semibold uppercase">
           {release.status}
@@ -179,7 +179,7 @@ function ReleaseInformation({
 
 function ReleaseModuleTable({ modules }: { modules: ReleaseModule[] }) {
   return (
-    <div className="order-3 overflow-hidden desktop:order-2 desktop:w-[714px] desktop:max-w-full desktop:pl-1.5">
+    <div className="order-3 overflow-hidden min-[1025px]:order-2 min-[1025px]:w-full">
       {modules.map((module, index) => (
         <ReleaseModuleRow
           key={`${module.label}-${index}`}
@@ -273,15 +273,17 @@ function ReleaseFeature({
   feature: RoadmapCopySection['release']['feature']
 }) {
   return (
-    <div className="relative order-2 aspect-[369/402] w-full overflow-hidden rounded-xl text-brand-off-white md:max-desktop:aspect-[16/9] desktop:order-none desktop:h-[626px] desktop:aspect-auto desktop:self-center">
-      <Image
-        src={feature.image.src}
-        alt={feature.image.alt}
-        fill
-        sizes="(min-width: 1440px) 702px, calc(100vw - 24px)"
-        className="object-cover object-center desktop:scale-[1.06] desktop:object-bottom"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 from-[25.835%] to-transparent to-50%" />
+    <div className="relative order-2 aspect-[369/402] w-full overflow-hidden rounded-xl text-brand-off-white [@media(min-width:768px)_and_(max-width:1024px)]:aspect-[16/9] min-[1025px]:order-none min-[1025px]:aspect-[702/626] desktop:h-[626px] desktop:aspect-auto">
+      <div className="absolute inset-0 min-[1025px]:inset-auto min-[1025px]:top-[-22.52396166%] min-[1025px]:left-0 min-[1025px]:h-[124.28115016%] min-[1025px]:w-[105.84045584%]">
+        <Image
+          src={feature.image.src}
+          alt={feature.image.alt}
+          fill
+          sizes="(min-width: 1440px) 743px, (min-width: 1025px) 53vw, calc(100vw - 24px)"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 from-[25.835%] to-transparent to-50%" />
+      </div>
 
       <div className="absolute top-3 right-3 left-3 flex items-start justify-between">
         <div className="flex w-[142px] items-center justify-between">
