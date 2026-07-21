@@ -179,7 +179,7 @@ function ReleaseInformation({
 
 function ReleaseModuleTable({ modules }: { modules: ReleaseModule[] }) {
   return (
-    <div className="order-3 overflow-hidden min-[1025px]:order-2 min-[1025px]:w-full">
+    <div className="order-3 overflow-hidden md:grid md:grid-cols-[121px_minmax(0,1fr)_auto] min-[1025px]:order-2 min-[1025px]:w-full">
       {modules.map((module, index) => (
         <ReleaseModuleRow
           key={`${module.label}-${index}`}
@@ -200,7 +200,7 @@ function ReleaseModuleRow({
 }) {
   return (
     <article
-      className={`grid min-h-[50px] grid-cols-[minmax(96px,121px)_minmax(0,1fr)] gap-x-3 px-3 py-3 text-brand-dark-green md:grid-cols-[121px_minmax(0,1fr)_auto] md:px-0 ${
+      className={`grid min-h-[50px] grid-cols-[minmax(96px,121px)_minmax(0,1fr)] gap-x-3 px-3 py-3 text-brand-dark-green md:col-span-3 md:grid-cols-subgrid md:px-0 ${
         index % 2 === 0 ? 'bg-[#dbddd7]' : 'bg-brand-dark-green/5'
       }`}
     >
