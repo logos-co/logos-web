@@ -1,5 +1,5 @@
 1:"$Sreact.fragment"
-2:I[73279,["/_next/static/chunks/086zz.wh9.asy.js","/_next/static/chunks/0cnxl~oft49l..js","/_next/static/chunks/113cbtzy2q3sb.js","/_next/static/chunks/01hct_x1880te.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0ryof3~3uu6ua.js","/_next/static/chunks/0nylouxs_61a4.js","/_next/static/chunks/0t~hrnnu2fd8u.js"],"BuildersHubListingClient"]
+2:I[73279,["/_next/static/chunks/086zz.wh9.asy.js","/_next/static/chunks/0cnxl~oft49l..js","/_next/static/chunks/113cbtzy2q3sb.js","/_next/static/chunks/0hu7sxx27n4ja.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0ryof3~3uu6ua.js","/_next/static/chunks/0nylouxs_61a4.js","/_next/static/chunks/0t~hrnnu2fd8u.js"],"BuildersHubListingClient"]
 13:I[56105,["/_next/static/chunks/17hkzjx44u3dy.js","/_next/static/chunks/0-cgqeykwauj~.js"],"OutletBoundary"]
 14:"$Sreact.suspense"
 3:Tdb0,# RFP-001 — Admin Authority Library
@@ -212,9 +212,38 @@ All code must be released under the **MIT+Apache2.0 License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.5:T4d9a,# RFP-003 — Atomic Swaps with LEZ
+**Discussions**.5:T5685,# RFP-003 — Atomic Swaps with LEZ
 
 > **Status:** Closed. This RFP is no longer accepting proposal submissions.
+
+> **Note.** This specification describes an outcome that may benefit the Logos
+> ecosystem. It is a proposal rather than an instruction. Its requirements
+> reflect the technical compatibility with the Logos technology stack and are
+> the criteria against which proposals and milestones are evaluated. Logos makes
+> no representation as to the legal or regulatory treatment of this
+> specification or any implementation of it in any jurisdiction.
+>
+> Teams implementing it are solely responsible for (i) assessing the risks and
+> implications of what they build; (ii) obtaining their own professional advice;
+> and (iii) for complying with any legal and regulatory requirements that apply
+> to them. Software developed under the Program is published and maintained by
+> its developers, not by Logos.
+>
+> Anyone who chooses to deploy, host, operate or use software developed under
+> the Program, whether or not they were awarded a grant under the Program, does
+> so at their own risk and is solely responsible for complying with any legal or
+> regulatory requirements that apply to them. See the
+> [Terms & Conditions](https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md).
+>
+> Deploying the software described in this RFP, operating any service based on
+> it, or carrying on business through it may amount to regulated activity in
+> some jurisdictions, including where it involves holding or managing users'
+> assets or providing services to others. Whoever conducts any such activity
+> does so as principal, in their own name, and is solely responsible for
+> assessing its regulatory treatment, including any licensing, registration,
+> sanctions or anti-money laundering obligations that may apply to them. Logos
+> does not make any representation, provides any advice or assumes any
+> responsibility in respect of any such determination or compliance.
 
 ## 🧭 Overview
 
@@ -249,14 +278,16 @@ out of LEZ without trusting an intermediary, which directly conflicts with the
 ecosystem's trust-minimisation principles.
 
 Each target chain presents distinct cryptographic challenges that make this
-non-trivial. Bitcoin HTLCs are identifiable on-chain and link the two swap legs;
-adaptor signatures with Taproot key-path spends solve this, making swaps
-indistinguishable from normal payments. Monero has no scripting system at all,
-requiring cross-curve DLEQ proofs to achieve atomicity. Zcash transparent
-inherits Bitcoin script unchanged and supports HTLC-based swaps via
+non-trivial. Bitcoin HTLCs use a distinctive script pattern and place the same
+hash value on both swap legs; adaptor signatures with Taproot key-path spends
+avoid both, so cooperative swap transactions take the standard form of ordinary
+Taproot spends. Monero has no scripting system at all, requiring cross-curve
+DLEQ proofs to achieve atomicity. Zcash transparent inherits Bitcoin script
+unchanged and supports HTLC-based swaps via
 [BIP-199](https://github.com/bitcoin/bips/blob/master/bip-0199.mediawiki);
-adaptor-signature variants are a stretch goal for cross-chain unlinkability. The
-Bitcoin and Monero constructions are surveyed with sources in
+adaptor-signature variants are a stretch goal for removing the shared hash
+identifier that HTLCs place on both chains. The Bitcoin and Monero constructions
+are surveyed with sources in
 [Appendix: Bitcoin and Monero Adaptor-Signature Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/btc-xmr-adaptor-swap-primitives.md);
 the Zcash analysis is in
 [Appendix: Zcash Atomic Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/zcash-atomic-swap-primitives.md).
@@ -278,12 +309,13 @@ application to build on.
    Logos Chat respectively.
 2. Trustless swaps between LEZ and **Bitcoin** are supported using Schnorr
    adaptor signatures (BIP-340) and Taproot (BIP-341). The cooperative claim
-   path must be a key-path spend, indistinguishable from a normal Taproot
-   payment. The **refund branch** may be implemented either as a pre-signed
-   timelocked transaction (key-path, refund also indistinguishable) or as a
-   Taproot script-path tapleaf (`OP_CHECKSEQUENCEVERIFY`, refund spend
-   identifiable but enforced by consensus); both are acceptable. The two
-   constructions and their trade-offs are described in
+   path must be a key-path spend, in the standard form of an ordinary Taproot
+   payment, with no protocol-specific script footprint on-chain. The **refund
+   branch** may be implemented either as a pre-signed timelocked transaction
+   (key-path, refund in the same standard form) or as a Taproot script-path
+   tapleaf (`OP_CHECKSEQUENCEVERIFY`, refund spend identifiable but enforced by
+   consensus); both are acceptable. The two constructions and their trade-offs
+   are described in
    [Appendix: Bitcoin and Monero Adaptor-Signature Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/btc-xmr-adaptor-swap-primitives.md).
    Absent a measured reason to prefer otherwise (see Reliability), the simpler
    script-path refund is the recommended default.
@@ -297,9 +329,11 @@ application to build on.
    the LEZ side). The Zcash refund deadline must strictly succeed the LEZ refund
    deadline by a margin documented to cover worst-case Zcash confirmation
    latency. ECDSA adaptor signatures (Lloyd Fournier construction) are an
-   acceptable alternative to HTLCs and are encouraged for cross-chain
-   unlinkability. Zcash shielded-pool (Sapling / Orchard) swaps are **out of
-   scope** for this RFP; see
+   acceptable alternative to HTLCs; unlike an HTLC an adaptor-signature
+   construction does not place the same hash value on both chains so the two
+   legs of a swap do not share a common on-chain identifier and are encouraged
+   for cross-chain unlinkability. Zcash shielded-pool (Sapling / Orchard) swaps
+   are **out of scope** for this RFP; see
    [Appendix: Zcash Atomic Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/zcash-atomic-swap-primitives.md)
    for the rationale.
 5. The LEZ escrow program (Rust, Risc0) locks funds contingent on the
@@ -465,8 +499,9 @@ application to build on.
 
 ### Soft Requirements
 
-- An **adaptor-signature variant of the LEZ–ZEC pair** (replacing BIP-199 HTLCs)
-  for cross-chain unlinkability, as described in
+- An **adaptor-signature variant of the LEZ–ZEC pair** (replacing BIP-199
+  HTLCs), so that the two legs of a swap do not share a common on-chain
+  identifier for cross-chain unlinkability, as described in
   [Appendix: Zcash Atomic Swap Primitives](https://github.com/logos-co/rfp/blob/master/appendix/zcash-atomic-swap-primitives.md).
 
 ## 👤 Recommended Team Profile
@@ -5378,7 +5413,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"kind":"rfps","settings":{"schemaVersion":1,"language":"en","page":"rfps","title":"RFPs","description":"Funded calls for builders to ship Logos-powered applications and infrastructure.","breadcrumbLabel":"RFPs","submitCta":{"label":"Submit an RFP","href":"https://discord.gg/logosnetwork","external":true},"defaultView":"grid","pageSize":12,"pagination":{"previousLabel":"Previous","nextLabel":"Next"},"bottomCta":{"title":"Have a build idea worth funding?","cta":{"label":"Submit an RFP","href":"https://discord.gg/logosnetwork","external":true}}},"items":[{"number":"RFP-001","slug":"admin-authority-lib","title":"Admin Authority Library","category":"Developer Tooling & Infrastructure","summary":"Build a reusable library that provides standardised access control for LEE programs, where privileged functions, including the ability to transfer or renounce authority, can only be called by an admin","status":"closed","tier":"XS","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-001-admin-authority-lib.md","rawMarkdown":"$3"},{"number":"RFP-002","slug":"freeze-authority-lib","title":"Freeze Authority Library","category":"Developer Tooling & Infrastructure","summary":"Build a reusable library that provides a standardised freeze mechanism for LEE programs, allowing an authorised account to disable all (or selected) interactions as a circuit breaker when an issue is ","status":"closed","tier":"XS","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-002-freeze-authority-lib.md","rawMarkdown":"$4"},{"number":"RFP-003","slug":"atomic-swaps","title":"Atomic Swaps with LEZ","category":"Applications & Integrations","summary":"Build a unified atomic swap application that enables trustless, non-custodial exchanges between LEZ and three external chains: **Bitcoin**, **Monero**, and **Zcash** (transparent pool). The LEZ side i","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-003-atomic-swaps.md","rawMarkdown":"$5"},{"number":"RFP-004","slug":"privacy-preserving-dex","title":"Privacy-Preserving Decentralized Exchange (DEX)","category":"Applications & Integrations","summary":"Build a decentralized exchange on LEZ with public AMM liquidity pools. Users with public accounts interact with the DEX directly. Users with private accounts interact via the deshield→swap→re-shield p","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-004-privacy-preserving-dex.md","rawMarkdown":"$6"},{"number":"RFP-008","slug":"lending-borrowing-protocol","title":"Lending & Borrowing Protocol","category":"Applications & Integrations","summary":"Build a permissionless, isolated-market lending protocol on LEZ, following the Morpho Blue design: each market is an independent lending pair defined by five immutable parameters (loan token, collater","status":"open","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-008-lending-borrowing-protocol.md","rawMarkdown":"$7"},{"number":"RFP-012","slug":"curated-lending-vaults","title":"Curated Lending Vaults","category":"Applications & Integrations","summary":"Build a curated vault layer on top of the isolated-market lending protocol delivered by [RFP-008](./RFP-008-lending-borrowing-protocol.md). Each vault accepts deposits of a single loan token, issues t","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-012-curated-lending-vaults.md","rawMarkdown":"$8"},{"number":"RFP-013","slug":"reflexive-stablecoin-protocol","title":"Reflexive Stablecoin Protocol","category":"Applications & Integrations","summary":"Build a non-pegged, reflexive stablecoin protocol for the Logos Execution Zone (LEZ). The stablecoin is backed by a reference token collateral and uses an autonomous feedback controller to adjust a fl","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-013-reflexive-stablecoin-protocol.md","rawMarkdown":"$9"},{"number":"RFP-014","slug":"liquidation-auction-engine","title":"Liquidation & Auction Engine","category":"Applications & Integrations","summary":"Build a permissionless liquidation and auction system for collateralized debt position (CDP) protocols on the Logos Execution Zone (LEZ). This system is designed as a reusable program that each CDP pr","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-014-liquidation-auction-engine.md","rawMarkdown":"$a"},{"number":"RFP-015","slug":"bonding-curve-launchpad","title":"Privacy-Preserving Token Launchpad: Bonding Curve","category":"Applications & Integrations","summary":"Build a bonding curve token launchpad on LEZ, using a supply-driven pricing mechanism where token price increases deterministically as a function of tokens remaining in the curve. Unlike the time-driv","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-015-bonding-curve-launchpad.md","rawMarkdown":"$b"},{"number":"RFP-016","slug":"lbp-launchpad","title":"Privacy-Preserving Token Launchpad: LBP","category":"Applications & Integrations","summary":"Build a token launchpad on LEZ using a Liquidity Bootstrapping Pool (LBP) mechanism, a time-limited, weight-shifting AMM that enables fair, bot-resistant price discovery for new token launches. Partic","status":"open","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-016-lbp-launchpad.md","rawMarkdown":"$c"},{"number":"RFP-017","slug":"token-vesting","title":"Privacy-Preserving Token Vesting","category":"Applications & Integrations","summary":"Build a token vesting program on LEZ that locks project, team, or investor tokens against configurable time-based schedules (cliff, linear, or milestone-based). Recipients can claim vested tokens dire","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-017-token-vesting.md","rawMarkdown":"$d"},{"number":"RFP-019","slug":"twap-oracle","title":"On-Chain TWAP Oracle","category":"Developer Tooling & Infrastructure","summary":"Build an on-chain TWAP (time-weighted average price) oracle program for LEZ that records price observations from LEZ DEX pools (RFP-004) and exposes geometric-mean prices through a canonical oracle pr","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-019-twap-oracle.md","rawMarkdown":"$e"},{"number":"RFP-020","slug":"redstone-oracle-adaptor","title":"RedStone Off-Chain Oracle Adaptor for LEZ","category":"Developer Tooling & Infrastructure","summary":"Build a RedStone off-chain oracle adaptor for LEZ: a public-mode LEZ program that verifies RedStone-signed data packages, exposes the resulting prices through the canonical oracle price account standa","status":"open","tier":"M","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-020-redstone-oracle-adaptor.md","rawMarkdown":"$f"}]}],["$L10","$L11"],"$L12"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"urMgPLgIqbqy_dfe9naoy"}
+**Discussions**.0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"kind":"rfps","settings":{"schemaVersion":1,"language":"en","page":"rfps","title":"RFPs","description":"Funded calls for builders to ship Logos-powered applications and infrastructure.","breadcrumbLabel":"RFPs","submitCta":{"label":"Submit an RFP","href":"https://discord.gg/logosnetwork","external":true},"defaultView":"grid","pageSize":12,"pagination":{"previousLabel":"Previous","nextLabel":"Next"},"bottomCta":{"title":"Have a build idea worth funding?","cta":{"label":"Submit an RFP","href":"https://discord.gg/logosnetwork","external":true}}},"items":[{"number":"RFP-001","slug":"admin-authority-lib","title":"Admin Authority Library","category":"Developer Tooling & Infrastructure","summary":"Build a reusable library that provides standardised access control for LEE programs, where privileged functions, including the ability to transfer or renounce authority, can only be called by an admin","status":"closed","tier":"XS","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-001-admin-authority-lib.md","rawMarkdown":"$3"},{"number":"RFP-002","slug":"freeze-authority-lib","title":"Freeze Authority Library","category":"Developer Tooling & Infrastructure","summary":"Build a reusable library that provides a standardised freeze mechanism for LEE programs, allowing an authorised account to disable all (or selected) interactions as a circuit breaker when an issue is ","status":"closed","tier":"XS","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-002-freeze-authority-lib.md","rawMarkdown":"$4"},{"number":"RFP-003","slug":"atomic-swaps","title":"Atomic Swaps with LEZ","category":"Applications & Integrations","summary":"Build a unified atomic swap application that enables trustless, non-custodial exchanges between LEZ and three external chains: **Bitcoin**, **Monero**, and **Zcash** (transparent pool). The LEZ side i","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-003-atomic-swaps.md","rawMarkdown":"$5"},{"number":"RFP-004","slug":"privacy-preserving-dex","title":"Privacy-Preserving Decentralized Exchange (DEX)","category":"Applications & Integrations","summary":"Build a decentralized exchange on LEZ with public AMM liquidity pools. Users with public accounts interact with the DEX directly. Users with private accounts interact via the deshield→swap→re-shield p","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-004-privacy-preserving-dex.md","rawMarkdown":"$6"},{"number":"RFP-008","slug":"lending-borrowing-protocol","title":"Lending & Borrowing Protocol","category":"Applications & Integrations","summary":"Build a permissionless, isolated-market lending protocol on LEZ, following the Morpho Blue design: each market is an independent lending pair defined by five immutable parameters (loan token, collater","status":"open","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-008-lending-borrowing-protocol.md","rawMarkdown":"$7"},{"number":"RFP-012","slug":"curated-lending-vaults","title":"Curated Lending Vaults","category":"Applications & Integrations","summary":"Build a curated vault layer on top of the isolated-market lending protocol delivered by [RFP-008](./RFP-008-lending-borrowing-protocol.md). Each vault accepts deposits of a single loan token, issues t","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-012-curated-lending-vaults.md","rawMarkdown":"$8"},{"number":"RFP-013","slug":"reflexive-stablecoin-protocol","title":"Reflexive Stablecoin Protocol","category":"Applications & Integrations","summary":"Build a non-pegged, reflexive stablecoin protocol for the Logos Execution Zone (LEZ). The stablecoin is backed by a reference token collateral and uses an autonomous feedback controller to adjust a fl","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-013-reflexive-stablecoin-protocol.md","rawMarkdown":"$9"},{"number":"RFP-014","slug":"liquidation-auction-engine","title":"Liquidation & Auction Engine","category":"Applications & Integrations","summary":"Build a permissionless liquidation and auction system for collateralized debt position (CDP) protocols on the Logos Execution Zone (LEZ). This system is designed as a reusable program that each CDP pr","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-014-liquidation-auction-engine.md","rawMarkdown":"$a"},{"number":"RFP-015","slug":"bonding-curve-launchpad","title":"Privacy-Preserving Token Launchpad: Bonding Curve","category":"Applications & Integrations","summary":"Build a bonding curve token launchpad on LEZ, using a supply-driven pricing mechanism where token price increases deterministically as a function of tokens remaining in the curve. Unlike the time-driv","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-015-bonding-curve-launchpad.md","rawMarkdown":"$b"},{"number":"RFP-016","slug":"lbp-launchpad","title":"Privacy-Preserving Token Launchpad: LBP","category":"Applications & Integrations","summary":"Build a token launchpad on LEZ using a Liquidity Bootstrapping Pool (LBP) mechanism, a time-limited, weight-shifting AMM that enables fair, bot-resistant price discovery for new token launches. Partic","status":"open","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-016-lbp-launchpad.md","rawMarkdown":"$c"},{"number":"RFP-017","slug":"token-vesting","title":"Privacy-Preserving Token Vesting","category":"Applications & Integrations","summary":"Build a token vesting program on LEZ that locks project, team, or investor tokens against configurable time-based schedules (cliff, linear, or milestone-based). Recipients can claim vested tokens dire","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-017-token-vesting.md","rawMarkdown":"$d"},{"number":"RFP-019","slug":"twap-oracle","title":"On-Chain TWAP Oracle","category":"Developer Tooling & Infrastructure","summary":"Build an on-chain TWAP (time-weighted average price) oracle program for LEZ that records price observations from LEZ DEX pools (RFP-004) and exposes geometric-mean prices through a canonical oracle pr","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-019-twap-oracle.md","rawMarkdown":"$e"},{"number":"RFP-020","slug":"redstone-oracle-adaptor","title":"RedStone Off-Chain Oracle Adaptor for LEZ","category":"Developer Tooling & Infrastructure","summary":"Build a RedStone off-chain oracle adaptor for LEZ: a public-mode LEZ program that verifies RedStone-signed data packages, exposes the resulting prices through the canonical oracle price account standa","status":"open","tier":"M","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-020-redstone-oracle-adaptor.md","rawMarkdown":"$f"}]}],["$L10","$L11"],"$L12"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"N5G6puBI1vlWuYXl91AMf"}
 10:["$","script","script-0",{"src":"/_next/static/chunks/0nylouxs_61a4.js","async":true}]
 11:["$","script","script-1",{"src":"/_next/static/chunks/0t~hrnnu2fd8u.js","async":true}]
 12:["$","$L13",null,{"children":["$","$14",null,{"name":"Next.MetadataOutlet","children":"$@15"}]}]
