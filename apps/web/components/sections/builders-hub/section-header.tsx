@@ -31,7 +31,7 @@ export function BuildersHubSectionHeader({
       {/* Desktop layout — absolute, matches Figma x-coords */}
       <div className="absolute inset-0 hidden md:block">
         {eyebrow ? (
-          <p className="font-mono text-[10px] leading-[1.3] text-black absolute top-[3px] left-[50%] translate-x-[6px] w-[226px]">
+          <p className="font-mono text-[12px] leading-[1.3] text-black absolute top-[3px] left-[50%] translate-x-[6px] w-[226px]">
             {eyebrow}
           </p>
         ) : null}
@@ -53,7 +53,7 @@ export function BuildersHubSectionHeader({
       {/* Mobile layout — eyebrow + CTA stacked on the right side */}
       <div className="absolute top-0 right-3 flex flex-col items-start gap-6 md:hidden w-[178px] text-right">
         {eyebrow ? (
-          <p className="font-mono text-[10px] leading-[1.3] text-black w-full">
+          <p className="font-mono text-[12px] leading-[1.3] text-black w-full">
             {eyebrow}
           </p>
         ) : null}

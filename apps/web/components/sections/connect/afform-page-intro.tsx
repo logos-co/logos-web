@@ -46,7 +46,7 @@ export function AfformPageIntro({ text }: Props) {
     .filter(Boolean)
 
   return (
-    <div className="mx-auto max-w-[40em] space-y-4 text-balance font-mono text-[10px] leading-[1.3]">
+    <div className="mx-auto max-w-[40em] space-y-4 text-balance font-mono text-[12px] leading-[1.3]">
       {paragraphs.map((paragraph, index) => (
         <p key={index}>{renderInlineLinks(paragraph)}</p>
       ))}

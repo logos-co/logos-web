@@ -61,7 +61,7 @@ function OverviewRow({ index, link }: { index: number; link: OverviewLink }) {
               ) : null}
             </span>
           </div>
-          <p className="font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+          <p className="font-mono text-[12px] leading-[1.3] text-brand-dark-green">
             {link.description}
           </p>
         </div>
@@ -79,7 +79,7 @@ function OverviewRow({ index, link }: { index: number; link: OverviewLink }) {
           </div>
 
           {/* Description — middle column (start col 7) */}
-          <p className="absolute top-3 left-[50%] translate-x-[6px] w-[345px] font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+          <p className="absolute top-3 left-[50%] translate-x-[6px] w-[345px] font-mono text-[12px] leading-[1.3] text-brand-dark-green">
             {link.description}
           </p>
 
@@ -99,7 +99,7 @@ function OverviewRow({ index, link }: { index: number; link: OverviewLink }) {
 function OverviewCtaLabel({ children }: { children: string }) {
   return (
     <span className="inline-flex items-center justify-center text-brand-dark-green">
-      <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
+      <span className="font-mono text-[12px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
         {children}
       </span>
     </span>

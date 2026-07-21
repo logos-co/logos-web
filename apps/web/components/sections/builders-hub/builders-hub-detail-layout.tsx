@@ -75,7 +75,7 @@ export function BuildersHubDetailLayout({
           <span className="inline-flex size-3.75 shrink-0 rotate-180 items-center justify-center">
             <ButtonArrowIcon />
           </span>
-          <span className="font-mono text-[10px] font-medium leading-[1.3] uppercase">
+          <span className="font-mono text-[12px] font-medium leading-[1.3] uppercase">
             {backLabel}
           </span>
         </Link>
@@ -86,7 +86,7 @@ export function BuildersHubDetailLayout({
         <div className="flex items-center gap-3">
           <LogosMark size={28} className="text-brand-dark-green shrink-0" />
           {eyebrow ? (
-            <span className="font-mono text-[10px] font-medium leading-[1.3] text-brand-dark-green/70 uppercase">
+            <span className="font-mono text-[12px] font-medium leading-[1.3] text-brand-dark-green/70 uppercase">
               {eyebrow}
             </span>
           ) : null}
@@ -105,7 +105,7 @@ export function BuildersHubDetailLayout({
       <section className="border-t border-brand-dark-green/10">
         <div className="mx-auto max-w-360 px-3 py-12 grid gap-12 md:grid-cols-3">
           <div className="md:col-span-2">
-            <h2 className="font-mono text-[10px] font-medium leading-[1.3] text-brand-dark-green/70 uppercase mb-4">
+            <h2 className="font-mono text-[12px] font-medium leading-[1.3] text-brand-dark-green/70 uppercase mb-4">
               About
             </h2>
             <div className="font-sans text-[16px] leading-[1.5] text-brand-dark-green space-y-4 max-w-[60ch]">
@@ -134,13 +134,13 @@ export function BuildersHubDetailLayout({
 
           {meta && meta.length > 0 ? (
             <aside className="md:col-span-1">
-              <h2 className="font-mono text-[10px] font-medium leading-[1.3] text-brand-dark-green/70 uppercase mb-4">
+              <h2 className="font-mono text-[12px] font-medium leading-[1.3] text-brand-dark-green/70 uppercase mb-4">
                 Details
               </h2>
               <dl className="space-y-4">
                 {meta.map((item, i) => (
                   <div key={i}>
-                    <dt className="font-mono text-[10px] leading-[1.3] text-brand-dark-green/60 uppercase">
+                    <dt className="font-mono text-[12px] leading-[1.3] text-brand-dark-green/60 uppercase">
                       {item.label}
                     </dt>
                     <dd className="font-sans text-[14px] leading-[1.4] text-brand-dark-green mt-1">

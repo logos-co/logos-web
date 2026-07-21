@@ -35,7 +35,7 @@ function Dot() {
 
 function UnderlineLabel({ children }: { children: string }) {
   return (
-    <span className="font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-dark-green underline decoration-brand-dark-green/50 underline-offset-[3px]">
+    <span className="font-mono text-[12px] font-semibold uppercase leading-[1.35] text-brand-dark-green underline decoration-brand-dark-green/50 underline-offset-[3px]">
       {children}
     </span>
   )

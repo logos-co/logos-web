@@ -24,10 +24,7 @@ export function Community({
   return (
     <section className="border-t border-brand-dark-green/10 pt-6 pb-25">
       <ContentWidth className="flex w-full flex-col gap-10">
-        <SectionHeading
-          number={data.number}
-          heading={data.heading}
-        />
+        <SectionHeading number={data.number} heading={data.heading} />
         <div className="flex flex-col">
           {communityLinks.map((item, index) => (
             <a
@@ -43,11 +40,9 @@ export function Community({
                 <span className="font-sans font-medium">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className="font-display">
-                  {data.items[item.key]}
-                </span>
+                <span className="font-display">{data.items[item.key]}</span>
               </span>
-              <span className="inline-flex items-center gap-1 border-b border-brand-dark-green/50 pb-0.5 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
+              <span className="inline-flex items-center gap-1 border-b border-brand-dark-green/50 pb-0.5 font-mono text-[12px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
                 {data.cta}
                 <ButtonArrowIcon />
               </span>

@@ -38,7 +38,7 @@ function StackItemCta({
       className={`inline-flex items-center justify-center rounded-xl bg-brand-dark-green px-3 py-2 text-brand-off-white backdrop-blur-[5px] ${className}`}
     >
       <span className="inline-flex items-center gap-1">
-        <span className="font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
+        <span className="font-mono text-[12px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
           {children}
         </span>
         {icon}
@@ -234,7 +234,7 @@ function HoverStackItem({
                 key={detail.title}
                 className="flex h-[50px] items-center justify-center rounded-[18px] border border-brand-dark-green/50 px-2 text-brand-dark-green"
               >
-                <p className="text-center font-mono text-[10px] leading-[1.3] font-medium uppercase">
+                <p className="text-center font-mono text-[12px] leading-[1.3] font-medium uppercase">
                   {detail.title}
                 </p>
               </div>
@@ -248,10 +248,10 @@ function HoverStackItem({
                 key={detail.title}
                 className="rounded-[18px] border border-brand-dark-green/50 px-4 py-3 text-left text-brand-dark-green"
               >
-                <p className="font-mono text-[10px] leading-[1.25] font-semibold tracking-[0.08em] uppercase">
+                <p className="font-mono text-[12px] leading-[1.25] font-semibold tracking-[0.08em] uppercase">
                   {detail.title}
                 </p>
-                <p className="mt-1.5 font-mono text-[10px] leading-[1.25]">
+                <p className="mt-1.5 font-mono text-[12px] leading-[1.25]">
                   {detail.body}
                 </p>
               </div>
@@ -267,12 +267,7 @@ function HoverStackItem({
   }
 
   return (
-    <Link
-      href={href}
-      target={target}
-      rel={rel}
-      className={containerClassName}
-    >
+    <Link href={href} target={target} rel={rel} className={containerClassName}>
       {content}
     </Link>
   )

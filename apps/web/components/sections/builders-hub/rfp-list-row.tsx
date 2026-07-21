@@ -35,15 +35,15 @@ export function RfpListRow({ index, rfp }: Props) {
             <span className="ml-3 font-display">{rfp.title}</span>
           </p>
           <span className="inline-flex items-center justify-center justify-self-end border border-brand-dark-green/50 px-3 py-2 text-brand-dark-green">
-            <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap">
+            <span className="font-mono text-[12px] leading-[1.35] font-semibold uppercase whitespace-nowrap">
               Learn More
             </span>
           </span>
-          <p className="font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+          <p className="font-mono text-[12px] leading-[1.3] text-brand-dark-green">
             {blurb}
           </p>
           {rewardLines.length > 0 ? (
-            <p className="w-[83px] justify-self-end font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+            <p className="w-[83px] justify-self-end font-mono text-[12px] leading-[1.3] text-brand-dark-green">
               {rewardLines.map((line) => (
                 <span key={line} className="block">
                   {line}
@@ -65,12 +65,12 @@ export function RfpListRow({ index, rfp }: Props) {
               {rfp.title}
             </span>
           </div>
-          <p className="min-w-0 flex-1 truncate font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+          <p className="min-w-0 flex-1 truncate font-mono text-[12px] leading-[1.3] text-brand-dark-green">
             {blurb}
           </p>
           <div className="flex shrink-0 items-start gap-3">
             {rewardLines.length > 0 ? (
-              <span className="w-[107px] font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+              <span className="w-[107px] font-mono text-[12px] leading-[1.3] text-brand-dark-green">
                 {rewardLines.map((line) => (
                   <span key={line} className="block">
                     {line}
@@ -81,7 +81,7 @@ export function RfpListRow({ index, rfp }: Props) {
               <span className="w-[107px]" />
             )}
             <span className="inline-flex items-center justify-center text-brand-dark-green">
-              <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
+              <span className="font-mono text-[12px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
                 Learn More
               </span>
             </span>

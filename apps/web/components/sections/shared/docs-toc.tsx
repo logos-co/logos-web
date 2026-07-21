@@ -12,7 +12,7 @@ import { Link } from '@/i18n/navigation'
  *
  * Layout matches Figma exactly:
  *   - w-[226px], py-20, gap-1 (4px in Figma)
- *   - text-mono-s (Fira Mono Regular 10px) for inactive items
+ *   - text-mono-s (Fira Mono Regular 12px) for inactive items
  *   - dot (h-2 w-3 rounded-full) + text-eyebrow for the active item
  *   - sticky top-0 from xl upward (matches the gap-122 desktop frame)
  */

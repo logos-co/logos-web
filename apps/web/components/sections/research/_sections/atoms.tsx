@@ -12,7 +12,10 @@ export function isExternalHref(href: string): boolean {
   return /^https?:\/\//.test(href)
 }
 
-export function TextLink({ href, children }: LinkItem & { children: ReactNode }) {
+export function TextLink({
+  href,
+  children,
+}: LinkItem & { children: ReactNode }) {
   if (isExternalHref(href)) {
     return (
       <a
@@ -35,7 +38,7 @@ export function TextLink({ href, children }: LinkItem & { children: ReactNode })
 
 export function CtaLink({ label, href }: LinkItem) {
   const className =
-    'inline-flex cursor-pointer items-center gap-1 rounded-[4px] font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-dark-green'
+    'inline-flex cursor-pointer items-center gap-1 rounded-[4px] font-mono text-[12px] font-semibold uppercase leading-[1.35] text-brand-dark-green'
   const content = (
     <>
       <span>{label}</span>
@@ -65,7 +68,7 @@ export function CtaLink({ label, href }: LinkItem) {
 
 export function LinkButton({ label, href }: LinkItem) {
   const className =
-    'inline-flex cursor-pointer items-center gap-1 border-b border-brand-dark-green/50 pb-0.5 font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-dark-green'
+    'inline-flex cursor-pointer items-center gap-1 border-b border-brand-dark-green/50 pb-0.5 font-mono text-[12px] font-semibold uppercase leading-[1.35] text-brand-dark-green'
   const content = (
     <>
       <span>{label}</span>

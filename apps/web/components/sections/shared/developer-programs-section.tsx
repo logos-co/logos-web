@@ -83,7 +83,7 @@ export function DeveloperProgramsSection({
                   }`}
                 >
                   <h4 className="w-[249px] text-h4-sans">{rfp.title}</h4>
-                  <span className="absolute top-[83px] left-4 font-mono text-[10px] font-semibold uppercase underline underline-offset-[3px]">
+                  <span className="absolute top-[83px] left-4 font-mono text-[12px] font-semibold uppercase underline underline-offset-[3px]">
                     {rfp.ctaLabel ?? data.rfpsTitle}
                   </span>
                   <p className="absolute bottom-4 left-4 w-[186px] text-mono-s">

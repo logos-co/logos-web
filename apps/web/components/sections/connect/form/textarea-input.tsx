@@ -27,9 +27,7 @@ export function TextareaInput({
   const isOverLimit = count > maxLength
   return (
     <div className="w-full">
-      {label ? (
-        <FieldLabel htmlFor={id}>{label}</FieldLabel>
-      ) : null}
+      {label ? <FieldLabel htmlFor={id}>{label}</FieldLabel> : null}
       <textarea
         id={id}
         value={value}
@@ -41,7 +39,7 @@ export function TextareaInput({
         {...props}
       />
       <div
-        className="mt-1 flex items-center gap-2 font-mono text-[10px] leading-[1.3]"
+        className="mt-1 flex items-center gap-2 font-mono text-[12px] leading-[1.3]"
         aria-live="polite"
       >
         {isOverLimit && overLimitMessage ? (

@@ -59,7 +59,7 @@ export function TextLink({
       href={href}
       aria-label={label}
       className={cn(
-        'cursor-pointer font-mono text-[10px] font-semibold leading-[1.35] uppercase underline underline-offset-[3px] transition-opacity hover:opacity-70',
+        'cursor-pointer font-mono text-[12px] font-semibold leading-[1.35] uppercase underline underline-offset-[3px] transition-opacity hover:opacity-70',
         tone === 'light'
           ? 'text-brand-off-white decoration-brand-off-white/50'
           : 'text-brand-dark-green decoration-brand-dark-green/50',
@@ -73,7 +73,7 @@ export function TextLink({
 
 export function UnderlineLabel({ children }: { children: ReactNode }) {
   return (
-    <span className="font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-dark-green underline decoration-brand-dark-green/50 underline-offset-[3px]">
+    <span className="font-mono text-[12px] font-semibold uppercase leading-[1.35] text-brand-dark-green underline decoration-brand-dark-green/50 underline-offset-[3px]">
       {children}
     </span>
   )
@@ -151,7 +151,7 @@ export function SectionCta({ href, label }: { href: string; label: string }) {
   const className =
     'flex h-[84px] w-full cursor-pointer items-center justify-center rounded-xl border border-brand-dark-green text-brand-dark-green transition-colors hover:bg-brand-yellow'
   const content = (
-    <span className="inline-flex items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35]">
+    <span className="inline-flex items-center gap-1 font-mono text-[12px] font-semibold uppercase leading-[1.35]">
       {label}
       <ArrowIcon />
     </span>

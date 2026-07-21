@@ -22,7 +22,10 @@ import L from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import 'leaflet/dist/leaflet.css'
 
-import type { ActiveCircleMarker, ActiveCircleUpcomingEvent } from '@/lib/active-circles'
+import type {
+  ActiveCircleMarker,
+  ActiveCircleUpcomingEvent,
+} from '@/lib/active-circles'
 import { submitNewsletterSignup } from '@/lib/newsletter-signup'
 
 const DEFAULT_CENTER: [number, number] = [20, 0]
@@ -56,7 +59,7 @@ const yellowMarkerIcon = L.divIcon({
 function clusterIconCreator(cluster: { getChildCount: () => number }) {
   const count = cluster.getChildCount()
   return L.divIcon({
-    html: `<div style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9999px;background-color:#ffd328;color:#152521;font-size:10px;font-weight:500;">${count}</div>`,
+    html: `<div style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9999px;background-color:#ffd328;color:#152521;font-size:12px;font-weight:500;">${count}</div>`,
     className: 'logos-circle-cluster',
     iconSize: L.point(32, 32, true),
   })
@@ -119,8 +122,12 @@ function EventPopupContent({
           {event.name}
         </h3>
         <div className="flex flex-col gap-0.5">
-          <span className="text-mono-s block text-brand-dark-green">{date}</span>
-          <span className="text-mono-s block text-brand-dark-green">{time}</span>
+          <span className="text-mono-s block text-brand-dark-green">
+            {date}
+          </span>
+          <span className="text-mono-s block text-brand-dark-green">
+            {time}
+          </span>
           {location ? (
             <span className="text-mono-s block truncate text-gray-05">
               {location}
@@ -133,7 +140,12 @@ function EventPopupContent({
 
   if (event.eventUrl) {
     return (
-      <a href={event.eventUrl} target="_blank" rel="noopener noreferrer" className={cardClass}>
+      <a
+        href={event.eventUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cardClass}
+      >
         {content}
       </a>
     )
@@ -145,7 +157,9 @@ function EventPopupContent({
 function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
   const t = useTranslations('circlesMap')
   const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [status, setStatus] = useState<
+    'idle' | 'loading' | 'success' | 'error'
+  >('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
   const handleSubmit = async (e: FormEvent) => {
@@ -171,7 +185,9 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
         <div className="pr-6 font-sans text-[18px] leading-[1.15]">
           {t('subscribedHeading')}
         </div>
-        <div className="text-mono-s mt-1 text-gray-05">{t('subscribedBody')}</div>
+        <div className="text-mono-s mt-1 text-gray-05">
+          {t('subscribedBody')}
+        </div>
       </div>
     )
   }
@@ -322,7 +338,9 @@ function TouchGestureHandling({ hint }: { hint: string }) {
       if (event.touches.length < 2) map.dragging.disable()
     }
 
-    container.addEventListener('touchstart', handleTouchStart, { passive: true })
+    container.addEventListener('touchstart', handleTouchStart, {
+      passive: true,
+    })
     container.addEventListener('touchmove', handleTouchMove, { passive: true })
     container.addEventListener('touchend', handleTouchEnd, { passive: true })
     container.addEventListener('touchcancel', handleTouchEnd, { passive: true })
@@ -397,10 +415,13 @@ function DesktopScrollZoomGate() {
       (entries) => {
         if (!entries.some((entry) => entry.isIntersecting)) return
         setShowHint(true)
-        hintTimeout = setTimeout(() => setShowHint(false), SCROLL_ZOOM_HINT_DURATION_MS)
+        hintTimeout = setTimeout(
+          () => setShowHint(false),
+          SCROLL_ZOOM_HINT_DURATION_MS
+        )
         observer.disconnect()
       },
-      { threshold: 0.35 },
+      { threshold: 0.35 }
     )
     observer.observe(map.getContainer())
 
@@ -508,7 +529,8 @@ export default function CirclesWorldMap({
                   minWidth={0}
                   maxWidth={480}
                   closeButton
-                  autoPan>
+                  autoPan
+                >
                   {upcomingEvent ? (
                     <EventPopupContent event={upcomingEvent} locale={locale} />
                   ) : (
