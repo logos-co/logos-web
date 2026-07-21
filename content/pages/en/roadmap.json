@@ -28,6 +28,16 @@
       "release": {
         "tabsAriaLabel": "Roadmap testnet releases",
         "activeTab": "TESTNET V0.2",
+        "feature": {
+          "eyebrow": "Build",
+          "body": "Operate early. Help harden a private-by-default network that protects civil liberties and strengthens trust in our communities.",
+          "image": {
+            "src": "/images/roadmap/release-build.png",
+            "alt": "",
+            "width": 1044,
+            "height": 1094
+          }
+        },
         "items": [
           {
             "tab": "TESTNET V0.1",
