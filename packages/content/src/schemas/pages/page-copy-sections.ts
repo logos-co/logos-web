@@ -459,6 +459,11 @@ export const roadmapCopySectionSchema = z.object({
   release: z.object({
     tabsAriaLabel: z.string().min(1),
     activeTab: z.string().min(1),
+    feature: z.object({
+      eyebrow: z.string().min(1),
+      body: z.string().min(1),
+      image: mediaRefSchema,
+    }),
     items: z.array(roadmapReleaseItemSchema).min(1),
   }),
   overview: z.object({
