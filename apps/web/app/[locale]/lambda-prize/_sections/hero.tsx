@@ -3,6 +3,7 @@ import { LogosMark } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
+import { LambdaLockup } from '@/components/ui/lambda-lockup'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 import type { LambdaPrizePageCopy } from './types'
@@ -23,10 +24,9 @@ export function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
       <div className="absolute inset-0 bg-brand-dark-green/35" />
       <ContentWidth className="relative z-10 flex h-full items-center justify-center">
         <div className="flex w-full -translate-y-[6px] flex-col items-center text-center">
-          <div className="text-h4-serif mb-12 inline-flex items-center gap-3">
-            <LogosMark size={18} />
+          <LambdaLockup className="text-h4-serif mb-12 [--lockup-font-size:24px]">
             <span>{copy.label}</span>
-          </div>
+          </LambdaLockup>
           <h1 className="w-full max-w-[369px] font-display text-[40px] leading-none tracking-[-0.03em] lg:max-w-none lg:text-[56px] lg:leading-[0.88]">
             {headingLines.map((line) => (
               <span key={line} className="block">
