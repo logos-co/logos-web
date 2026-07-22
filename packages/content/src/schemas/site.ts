@@ -17,6 +17,7 @@ export type NavLink = z.infer<typeof navLinkSchema>
 export const homepageHighlightSchema = z.object({
   enabled: z.boolean(),
   body: z.string().min(1),
+  dismissAriaLabel: z.string().min(1),
   cta: navLinkSchema,
   image: mediaRefSchema,
 })
