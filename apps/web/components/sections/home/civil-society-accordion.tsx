@@ -122,7 +122,7 @@ export default function CivilSocietyAccordion({
                       <p className="font-sans text-[14px] leading-[1.2]">
                         {item.body}
                       </p>
-                      <div className="flex flex-col gap-4 font-mono text-[12px] leading-[1.3] lg:gap-[20px]">
+                      <div className="flex flex-col gap-4 font-mono text-xs leading-[1.3] lg:gap-[20px]">
                         {item.facts.map((fact, index) => (
                           <p key={fact}>
                             <FactText

@@ -42,7 +42,7 @@ export function AboutProgramme({
               </Button>
             </div>
           </div>
-          <p className="mx-auto w-full max-w-[345px] text-center font-sans text-[12px] leading-[1.2] font-medium text-brand-dark-green">
+          <p className="mx-auto w-full max-w-[345px] text-center font-sans text-xs leading-[1.2] font-medium text-brand-dark-green">
             {copy.body}
           </p>
           <div className="flex flex-col gap-3 text-brand-dark-green">

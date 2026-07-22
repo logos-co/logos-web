@@ -61,14 +61,14 @@ export function BuildersHubListingHeader({
       {backHref ? (
         <Link
           href={backHref}
-          className="absolute top-[-20px] left-0 inline-flex items-center gap-2 font-mono text-[12px] leading-[1.3] text-brand-dark-green uppercase hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green"
+          className="absolute top-[-20px] left-0 inline-flex items-center gap-2 font-mono text-xs leading-[1.3] text-brand-dark-green uppercase hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green"
         >
           <span aria-hidden="true">←</span>
           <span>{backLabel}</span>
         </Link>
       ) : null}
       {!backHref && eyebrow ? (
-        <p className="absolute top-0 left-1/2 -translate-x-1/2 font-mono text-[12px] leading-[1.3] text-brand-dark-green uppercase">
+        <p className="absolute top-0 left-1/2 -translate-x-1/2 font-mono text-xs leading-[1.3] text-brand-dark-green uppercase">
           {eyebrow}
         </p>
       ) : null}
@@ -83,7 +83,7 @@ export function BuildersHubListingHeader({
 
         <div className="hidden md:col-span-3 md:col-start-7 md:block">
           {description ? (
-            <p className="max-w-[342px] font-mono text-[12px] leading-[1.3] text-brand-dark-green">
+            <p className="max-w-[342px] font-mono text-xs leading-[1.3] text-brand-dark-green">
               {description}
             </p>
           ) : null}
@@ -105,7 +105,7 @@ export function BuildersHubListingHeader({
 
       {mobileCopy ? (
         <p
-          className={`${mobileDescriptionMarginClass} font-mono text-[12px] leading-[1.3] text-brand-dark-green md:hidden`}
+          className={`${mobileDescriptionMarginClass} font-mono text-xs leading-[1.3] text-brand-dark-green md:hidden`}
         >
           {mobileCopy}
         </p>

@@ -118,7 +118,7 @@ export function Card({
         </div>
         {description && (
           <p
-            className={`max-w-[222px] text-center font-mono text-[12px] leading-[1.3] text-brand-dark-green transition-opacity duration-200 ${revealClass}`}
+            className={`max-w-[222px] text-center font-mono text-xs leading-[1.3] text-brand-dark-green transition-opacity duration-200 ${revealClass}`}
           >
             {description}
           </p>
@@ -149,7 +149,7 @@ function CardCTA({
   const className =
     'absolute top-3 right-3 z-10 inline-flex items-center rounded-xl bg-brand-dark-green px-3 py-2 backdrop-blur-[5px]'
   const content = (
-    <span className="font-mono text-[12px] leading-[1.35] font-semibold text-brand-off-white uppercase">
+    <span className="font-mono text-xs leading-[1.35] font-semibold text-brand-off-white uppercase">
       {label}
     </span>
   )
@@ -194,10 +194,10 @@ export function CardInfo({
             : 'flex flex-col gap-0.5'
         }
       >
-        <p className="font-mono text-[12px] leading-[1.3] font-medium text-brand-dark-green uppercase">
+        <p className="font-mono text-xs leading-[1.3] font-medium text-brand-dark-green uppercase">
           {label}
         </p>
-        <p className="font-mono text-[12px] leading-[1.3] text-brand-dark-green">
+        <p className="font-mono text-xs leading-[1.3] text-brand-dark-green">
           {description}
         </p>
       </div>

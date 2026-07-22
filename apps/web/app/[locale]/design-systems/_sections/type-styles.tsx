@@ -211,7 +211,7 @@ function MetaBlock({
 
 function SameAsDesktopTag() {
   return (
-    <span className="inline-flex h-[24px] items-center justify-center rounded-full bg-brand-yellow px-2.5 text-[12px] font-medium leading-[1.3] text-black uppercase">
+    <span className="inline-flex h-[24px] items-center justify-center rounded-full bg-brand-yellow px-2.5 text-xs font-medium leading-[1.3] text-black uppercase">
       Same as desktop
     </span>
   )

@@ -26,7 +26,7 @@ function IssueCard({ initiative }: { initiative: CircleInitiative }) {
         aria-hidden="true"
         className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green pointer-events-none"
       >
-        <span className="font-mono text-[12px] font-semibold uppercase leading-[1.35]">
+        <span className="font-mono text-xs font-semibold uppercase leading-[1.35]">
           {initiative.ctaLabel}
         </span>
         <ArrowIcon />

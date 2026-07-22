@@ -14,7 +14,7 @@ export function FieldLabel({ htmlFor, children, required, className }: Props) {
     <label
       htmlFor={htmlFor}
       className={cn(
-        'mb-1.5 block font-mono text-[12px] leading-[1.3] text-brand-dark-green',
+        'mb-1.5 block font-mono text-xs leading-[1.3] text-brand-dark-green',
         className
       )}
     >

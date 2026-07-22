@@ -49,7 +49,7 @@ export default function TechStackDetailHero({
           <span className="inline-flex size-3.75 shrink-0 rotate-180 items-center justify-center">
             <ButtonArrowIcon />
           </span>
-          <span className="font-mono text-[12px] leading-[1.3] font-medium uppercase">
+          <span className="font-mono text-xs leading-[1.3] font-medium uppercase">
             {data.eyebrow}
           </span>
         </Link>

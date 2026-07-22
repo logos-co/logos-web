@@ -70,7 +70,7 @@ function DetailHero({
           className="absolute left-3 top-[-20px] inline-flex items-center gap-1 px-0 py-2 text-brand-dark-green"
         >
           <ArrowIcon direction="left" />
-          <span className="font-mono text-[12px] font-semibold uppercase leading-[1.35]">
+          <span className="font-mono text-xs font-semibold uppercase leading-[1.35]">
             {circle.detailBackLink.label}
           </span>
         </SmartLink>
@@ -106,7 +106,7 @@ function DetailHero({
                 key={label}
                 className="grid grid-cols-[83px_minmax(0,1fr)] gap-3 border-t border-brand-dark-green/10 py-1.5 md:grid-cols-[107px_minmax(0,1fr)]"
               >
-                <dt className="font-mono text-[12px] font-medium uppercase leading-[1.3]">
+                <dt className="font-mono text-xs font-medium uppercase leading-[1.3]">
                   {label}
                 </dt>
                 <dd className="min-w-0 break-words">{value}</dd>
@@ -230,7 +230,7 @@ function SectionShell({
       <ContentWidth>
         <div className="flex flex-col gap-3 px-3">
           <div className="flex justify-start md:justify-end">
-            <h2 className="font-mono text-[12px] font-medium uppercase leading-[1.3] text-brand-dark-green">
+            <h2 className="font-mono text-xs font-medium uppercase leading-[1.3] text-brand-dark-green">
               {title}
             </h2>
           </div>
@@ -299,7 +299,7 @@ function InitiativeCard({ initiative }: { initiative: CircleInitiative }) {
       </div>
 
       <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green">
-        <span className="font-mono text-[12px] font-semibold uppercase leading-[1.35]">
+        <span className="font-mono text-xs font-semibold uppercase leading-[1.35]">
           {initiative.ctaLabel}
         </span>
         <ArrowIcon />

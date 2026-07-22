@@ -5,7 +5,7 @@ import type { LambdaPrizePageCopy } from './types'
 
 function SupportLabel({ children }: { children: string }) {
   return (
-    <span className="inline-flex items-center border-b border-brand-dark-green/20 pb-0.5 font-mono text-[12px] leading-[1.35] font-semibold text-brand-dark-green/70 uppercase">
+    <span className="inline-flex items-center border-b border-brand-dark-green/20 pb-0.5 font-mono text-xs leading-[1.35] font-semibold text-brand-dark-green/70 uppercase">
       {children}
     </span>
   )

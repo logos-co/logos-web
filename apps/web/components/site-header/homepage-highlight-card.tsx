@@ -61,7 +61,7 @@ export function HomepageHighlightCard({ data }: { data: HomepageHighlight }) {
         <span className="text-mono-s block w-full text-brand-dark-green md:text-brand-off-white">
           {data.body}
         </span>
-        <span className="flex items-center gap-1 font-mono text-[12px] leading-[1.35] font-semibold text-brand-dark-green uppercase md:text-brand-off-white">
+        <span className="flex items-center gap-1 font-mono text-xs leading-[1.35] font-semibold text-brand-dark-green uppercase md:text-brand-off-white">
           {data.cta.label}
           <ArrowIcon />
         </span>

@@ -38,7 +38,7 @@ export function TextLink({
 
 export function CtaLink({ label, href }: LinkItem) {
   const className =
-    'inline-flex cursor-pointer items-center gap-1 rounded-[4px] font-mono text-[12px] font-semibold uppercase leading-[1.35] text-brand-dark-green'
+    'inline-flex cursor-pointer items-center gap-1 rounded-[4px] font-mono text-xs font-semibold uppercase leading-[1.35] text-brand-dark-green'
   const content = (
     <>
       <span>{label}</span>
@@ -68,7 +68,7 @@ export function CtaLink({ label, href }: LinkItem) {
 
 export function LinkButton({ label, href }: LinkItem) {
   const className =
-    'inline-flex cursor-pointer items-center gap-1 border-b border-brand-dark-green/50 pb-0.5 font-mono text-[12px] font-semibold uppercase leading-[1.35] text-brand-dark-green'
+    'inline-flex cursor-pointer items-center gap-1 border-b border-brand-dark-green/50 pb-0.5 font-mono text-xs font-semibold uppercase leading-[1.35] text-brand-dark-green'
   const content = (
     <>
       <span>{label}</span>

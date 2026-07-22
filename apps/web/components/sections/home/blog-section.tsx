@@ -99,15 +99,15 @@ function CardBody({
         </div>
       </div>
       <div className="flex w-full max-w-[339px] items-baseline gap-10">
-        <p className="min-h-[51px] w-[169.5px] shrink-0 break-words font-sans text-[12px] leading-[1.2] font-medium text-brand-dark-green desktop:text-body-sans desktop:font-normal">
+        <p className="min-h-[51px] w-[169.5px] shrink-0 break-words font-sans text-xs leading-[1.2] font-medium text-brand-dark-green desktop:text-body-sans desktop:font-normal">
           {title}
         </p>
         <div className="shrink-0">
-          <p className="font-mono-body text-[12px] leading-[1.3] font-normal text-brand-dark-green desktop:text-eyebrow">
+          <p className="font-mono-body text-xs leading-[1.3] font-normal text-brand-dark-green desktop:text-eyebrow">
             {date}
           </p>
           {author ? (
-            <p className="font-mono-body text-[12px] leading-[1.3] font-normal text-brand-dark-green desktop:text-eyebrow">
+            <p className="font-mono-body text-xs leading-[1.3] font-normal text-brand-dark-green desktop:text-eyebrow">
               {author}
             </p>
           ) : null}
@@ -144,7 +144,7 @@ export default function BlogSection({ data, articles }: Props) {
           {(data.label || data.eyebrow || data.cta) && (
             <div className="contents lg:flex lg:items-center lg:justify-between">
               {data.label ? (
-                <p className="font-mono-body absolute top-6 right-[169px] left-3 text-[12px] leading-[1.3] font-normal text-brand-dark-green lg:static lg:right-auto lg:w-auto lg:text-mono-s">
+                <p className="font-mono-body absolute top-6 right-[169px] left-3 text-xs leading-[1.3] font-normal text-brand-dark-green lg:static lg:right-auto lg:w-auto lg:text-mono-s">
                   {data.label}
                 </p>
               ) : null}

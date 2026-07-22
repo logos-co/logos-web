@@ -51,7 +51,7 @@ export function BookAction({
       className="inline-flex min-w-[150px] items-center justify-between gap-4 rounded-xl bg-brand-off-white px-4 py-3 text-brand-dark-green transition-colors hover:bg-gray-01 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-off-white"
     >
       <span className="flex flex-col">
-        <span className="font-mono text-[12px] font-semibold uppercase leading-[1.35]">
+        <span className="font-mono text-xs font-semibold uppercase leading-[1.35]">
           {label}
         </span>
         <span className="font-mono text-[9px] leading-[1.35] opacity-60">

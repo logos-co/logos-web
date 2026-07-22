@@ -32,7 +32,7 @@ export function Table({
         </div>
         <div className="flex flex-1 items-start gap-6">
           {subtitle && (
-            <p className="max-w-[226px] font-mono text-[12px] leading-[1.3] text-brand-dark-green">
+            <p className="max-w-[226px] font-mono text-xs leading-[1.3] text-brand-dark-green">
               {subtitle}
             </p>
           )}
@@ -85,12 +85,12 @@ export function TableRow({
       </div>
 
       {/* Description — 464/1440 */}
-      <div className="hidden flex-[464] font-mono text-[12px] leading-[1.3] text-brand-dark-green md:block [&>p]:leading-[1.3]">
+      <div className="hidden flex-[464] font-mono text-xs leading-[1.3] text-brand-dark-green md:block [&>p]:leading-[1.3]">
         {description}
       </div>
 
       {/* Reward — fixed 107px */}
-      <div className="hidden w-[107px] shrink-0 font-mono text-[12px] leading-[1.3] text-brand-dark-green md:block [&>p]:leading-[1.3]">
+      <div className="hidden w-[107px] shrink-0 font-mono text-xs leading-[1.3] text-brand-dark-green md:block [&>p]:leading-[1.3]">
         {reward}
       </div>
 

@@ -50,7 +50,7 @@ function PathCardView({ card }: { card: PathCard }) {
 
         <span className="inline-flex shrink-0 items-center justify-center rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green backdrop-blur-[5px] transition-colors duration-300 ease-out group-hover/path-card:bg-accent-steel-teal group-focus-visible/path-card:bg-accent-steel-teal lg:px-[clamp(8px,0.8vw,12px)] desktop:px-3">
           <span className="inline-flex items-center gap-1">
-            <span className="font-mono text-[12px] leading-[1.35] font-semibold whitespace-nowrap uppercase lg:text-[12px] desktop:text-[12px]">
+            <span className="font-mono text-xs leading-[1.35] font-semibold whitespace-nowrap uppercase">
               {card.cta}
             </span>
             <ButtonArrowIcon />
@@ -113,7 +113,7 @@ export default function FeatureCardsSection({
             {data.title}
           </SectionHeadingReveal>
 
-          <div className="font-mono-body mx-auto flex w-[351.5px] max-w-[calc(100vw-24px)] flex-col gap-[13px] text-[12px] leading-[1.3] text-brand-dark-green lg:mx-0 lg:w-[226px] lg:gap-4 lg:text-mono-s">
+          <div className="font-mono-body mx-auto flex w-[351.5px] max-w-[calc(100vw-24px)] flex-col gap-[13px] text-xs leading-[1.3] text-brand-dark-green lg:mx-0 lg:w-[226px] lg:gap-4 lg:text-mono-s">
             <p>{data.kicker}</p>
             <p>{data.body}</p>
           </div>

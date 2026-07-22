@@ -21,7 +21,7 @@ export function TertiaryCta({
     <Link
       href={href}
       {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      className={`inline-flex cursor-pointer items-center gap-1 border-b pb-0.5 font-mono text-[12px] font-semibold uppercase leading-[1.35] ${
+      className={`inline-flex cursor-pointer items-center gap-1 border-b pb-0.5 font-mono text-xs font-semibold uppercase leading-[1.35] ${
         tone === 'light'
           ? 'border-brand-off-white/50 text-brand-off-white'
           : 'border-brand-dark-green/50 text-brand-dark-green'

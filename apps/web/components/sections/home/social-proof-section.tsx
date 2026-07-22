@@ -19,7 +19,7 @@ function StatCardView({ card }: { card: HomeStatCard }) {
       />
       <div className="col-start-1 row-start-1 flex min-w-0 flex-col gap-4 p-4 xl:gap-[23px] xl:p-5">
         <span className="inline-flex w-fit items-center rounded-[4px] border border-brand-dark-green px-[11px] py-1.5">
-          <span className="font-sans text-[12px] leading-[1.15] tracking-[-0.01em]">
+          <span className="font-sans text-xs leading-[1.15] tracking-[-0.01em]">
             {card.label}
           </span>
         </span>
@@ -50,7 +50,7 @@ function MobileStatRowView({
         <p className="w-full font-sans text-[18px] leading-[1.15] font-normal tracking-[-0.18px] [text-box-edge:cap_alphabetic] [text-box-trim:trim-both]">
           {card.value} {card.label}
         </p>
-        <p className="font-mono-body w-full text-[12px] leading-[1.3] font-normal tracking-normal [text-box-edge:cap_alphabetic] [text-box-trim:trim-both]">
+        <p className="font-mono-body w-full text-xs leading-[1.3] font-normal tracking-normal [text-box-edge:cap_alphabetic] [text-box-trim:trim-both]">
           {card.body}
         </p>
       </div>

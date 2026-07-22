@@ -55,7 +55,7 @@ function ImageOverlayPanel({ panel }: { panel: ActionPanel }) {
             {panel.title}
           </h3>
           {panel.description ? (
-            <p className="font-mono text-[12px] leading-[1.3] text-brand-off-white max-w-[219px] md:max-w-[380px]">
+            <p className="font-mono text-xs leading-[1.3] text-brand-off-white max-w-[219px] md:max-w-[380px]">
               {panel.description}
             </p>
           ) : null}
@@ -83,7 +83,7 @@ function OfficeHoursPanel({ data }: { data: OfficeHours }) {
           <h3 className="font-sans text-[18px] font-normal leading-[1.15] tracking-[-0.18px] text-brand-dark-green">
             {data.title}
           </h3>
-          <p className="font-mono text-[12px] leading-[1.3] text-brand-dark-green max-w-[380px]">
+          <p className="font-mono text-xs leading-[1.3] text-brand-dark-green max-w-[380px]">
             {data.description}
           </p>
         </div>

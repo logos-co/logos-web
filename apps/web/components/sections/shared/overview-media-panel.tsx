@@ -65,7 +65,9 @@ function OverviewMediaPanelActions({
   }
 
   return (
-    <div className={`flex items-baseline gap-1.5${className ? ` ${className}` : ''}`}>
+    <div
+      className={`flex items-baseline gap-1.5${className ? ` ${className}` : ''}`}
+    >
       {cta ? (
         <Button
           {...resolveBasecampInstallCtaLinkProps(cta)}
@@ -124,7 +126,9 @@ export function OverviewMediaPanel({
   const footerMarker = footerLabel ?? (isCompact ? eyebrow : undefined)
 
   const copyBody = (
-    <div className={`flex w-full min-w-0 flex-col gap-3 break-words${copyBodyClassName ? ` ${copyBodyClassName}` : ''}`}>
+    <div
+      className={`flex w-full min-w-0 flex-col gap-3 break-words${copyBodyClassName ? ` ${copyBodyClassName}` : ''}`}
+    >
       <h2 className="text-h4-sans md:w-[377px]">
         {hasMobileTitle ? (
           <>
@@ -136,7 +140,7 @@ export function OverviewMediaPanel({
         )}
       </h2>
       {mobileBody !== undefined && mobileBody.length > 0 ? (
-        <div className="flex max-w-full flex-col gap-3 text-[12px] leading-[1.2] font-medium text-brand-dark-green md:hidden">
+        <div className="flex max-w-full flex-col gap-3 text-xs leading-[1.2] font-medium text-brand-dark-green md:hidden">
           {mobileBody.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
@@ -144,7 +148,7 @@ export function OverviewMediaPanel({
       ) : null}
       {body.length > 0 ? (
         <div
-          className={`max-w-full flex-col gap-3 text-[12px] leading-[1.2] font-medium text-brand-dark-green md:w-[485px] ${
+          className={`max-w-full flex-col gap-3 text-xs leading-[1.2] font-medium text-brand-dark-green md:w-[485px] ${
             hasMobileBody ? 'hidden md:flex' : 'flex'
           }`}
         >

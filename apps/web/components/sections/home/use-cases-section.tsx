@@ -58,7 +58,7 @@ export default function UseCasesSection({
               {data.headline}
             </SectionHeadingReveal>
           </div>
-          <SectionHeadingReveal className="font-mono-body mt-[80px] text-center text-[12px] leading-[1.3] tracking-normal whitespace-nowrap lg:mt-0 lg:hidden">
+          <SectionHeadingReveal className="font-mono-body mt-[80px] text-center text-xs leading-[1.3] tracking-normal whitespace-nowrap lg:mt-0 lg:hidden">
             {data.eyebrow}
           </SectionHeadingReveal>
           <p className="text-mono-s hidden w-full lg:block">
@@ -80,7 +80,7 @@ export default function UseCasesSection({
                 }
               </h3>
               <div className="absolute right-[10px] bottom-[11px] left-[15px] flex items-end justify-between gap-3 lg:static">
-                <p className="font-mono-body w-[186px] text-[12px] leading-[1.3] lg:max-w-[186px]">
+                <p className="font-mono-body w-[186px] text-xs leading-[1.3] lg:max-w-[186px]">
                   {
                     data[
                       card.key as 'secure' | 'money' | 'archives' | 'donations'

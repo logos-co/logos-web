@@ -33,7 +33,7 @@ const ctaToneClass: Record<CtaTone, string> = {
 
 export function Cta({ href, label, tone = 'primary', className }: CtaProps) {
   const isExternal = href.startsWith('http')
-  const classes = `inline-flex cursor-pointer items-center justify-center gap-1 font-mono text-[12px] font-semibold leading-[1.35] uppercase backdrop-blur-[5px] transition-opacity hover:opacity-70 ${ctaToneClass[tone]} ${className ?? ''}`
+  const classes = `inline-flex cursor-pointer items-center justify-center gap-1 font-mono text-xs font-semibold leading-[1.35] uppercase backdrop-blur-[5px] transition-opacity hover:opacity-70 ${ctaToneClass[tone]} ${className ?? ''}`
   const content = (
     <>
       <span

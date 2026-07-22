@@ -45,7 +45,7 @@ export function TextInput({
       />
       {isOverLimit ? (
         <div
-          className="mt-1 flex items-center gap-2 font-mono text-[12px] leading-[1.3] font-semibold text-red-600"
+          className="mt-1 flex items-center gap-2 font-mono text-xs leading-[1.3] font-semibold text-red-600"
           aria-live="polite"
         >
           {overLimitMessage ? <p>{overLimitMessage}</p> : null}

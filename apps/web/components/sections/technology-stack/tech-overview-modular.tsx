@@ -40,7 +40,7 @@ export default function TechOverviewModular({ data }: Props) {
                 </h2>
 
                 {data.body && data.body.length > 0 ? (
-                  <div className="mt-15 flex w-full flex-col gap-3 text-left text-[12px] leading-[1.2] font-medium text-brand-dark-green lg:mt-10">
+                  <div className="mt-15 flex w-full flex-col gap-3 text-left text-xs leading-[1.2] font-medium text-brand-dark-green lg:mt-10">
                     {data.body.map((paragraph) => (
                       <p key={paragraph}>{paragraph}</p>
                     ))}

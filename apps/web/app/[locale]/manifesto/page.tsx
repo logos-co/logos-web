@@ -63,7 +63,7 @@ export default async function ManifestoPage({
             <span className="block">{data.headingLine2}</span>
           </span>
         </h1>
-        <p className="font-mono-body mx-auto mt-6 w-[102px] text-center text-[12px] leading-[1.3] tracking-[0px] desktop:absolute desktop:top-[426px] desktop:left-1/2 desktop:mt-0 desktop:-translate-x-1/2">
+        <p className="font-mono-body mx-auto mt-6 w-[102px] text-center text-xs leading-[1.3] tracking-[0px] desktop:absolute desktop:top-[426px] desktop:left-1/2 desktop:mt-0 desktop:-translate-x-1/2">
           {data.author.map((line) => (
             <span key={line} className="block">
               {line}
@@ -118,7 +118,7 @@ export default async function ManifestoPage({
               ))}
             </div>
 
-            <aside className="font-mono-body mt-12 text-[12px] leading-[1.3] tracking-[0px] desktop:absolute desktop:top-[2995px] desktop:left-0 desktop:mt-0 desktop:h-[88px] desktop:w-[306px] desktop:text-left">
+            <aside className="font-mono-body mt-12 text-xs leading-[1.3] tracking-[0px] desktop:absolute desktop:top-[2995px] desktop:left-0 desktop:mt-0 desktop:h-[88px] desktop:w-[306px] desktop:text-left">
               <h2 className="font-bold">{data.moreHeading}</h2>
               <div className="mt-3 space-y-3 desktop:mt-[12px] desktop:space-y-[12px]">
                 {moreLinks.map((item) => (
