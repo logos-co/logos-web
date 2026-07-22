@@ -1,9 +1,8 @@
 import Image from 'next/image'
 import type { BuilderHubHomeRfpResolution } from '@repo/content/loaders'
 import type { BuilderHubSettings } from '@repo/content/schemas'
-import { LogosMark } from '@acid-info/logos-ui'
-
 import ContentWidth from '@/components/layout/content-width'
+import { LambdaLockup } from '@/components/ui/lambda-lockup'
 import { Link } from '@/i18n/navigation'
 
 interface DeveloperProgramsSectionProps {
@@ -50,10 +49,9 @@ export function DeveloperProgramsSection({
               className="object-cover"
             />
             <div className="absolute inset-0 bg-black/50" />
-            <div className="relative inline-flex items-center gap-[9px]">
-              <LogosMark size={18} />
+            <LambdaLockup className="relative [--lockup-font-size:24px]">
               <span className="text-h4-serif">{data.prizeTitle}</span>
-            </div>
+            </LambdaLockup>
             <div className="relative flex flex-col items-center gap-3">
               <h3 className="text-subhead-sans">{data.prizeHeading}</h3>
               <p className="w-full max-w-[338px] text-mono-s">

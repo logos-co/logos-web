@@ -1,0 +1,32 @@
+# .github/ai-review.yml — optional tuning for the pilot repo.
+#
+# Every key set here fully REPLACES the script's built-in default (lists are
+# NOT merged): restate every default pattern you want to keep.
+
+anthropic_model: claude-opus-4-8
+openai_model: gpt-5.6-terra
+synth_model: claude-haiku-4-5-20251001
+max_diff_tokens: 80000
+min_severity_to_post: minor
+ignore:
+  - '**/package-lock.json'
+  - '**/yarn.lock'
+  - '**/pnpm-lock.yaml'
+  - '**/poetry.lock'
+  - '**/Cargo.lock'
+  - '**/go.sum'
+  - '**/*.min.js'
+  - '**/*.map'
+  - '**/dist/**'
+  - '**/vendor/**'
+  - '**/__snapshots__/**'
+  - '**/*.generated.*'
+  # repo-specific generated artifacts (logos-co)
+  - 'flake.lock'
+  - 'packages/types/src/payload.ts'
+  - 'apps/cms/src/app/(payload)/admin/importMap.js'
+  - 'apps/cms/src/migrations/*.json'
+guidelines_files:
+  - AGENTS.md
+  - REVIEW.md
+  - CLAUDE.md

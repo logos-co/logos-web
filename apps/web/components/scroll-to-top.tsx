@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { usePathname } from '@/i18n/navigation'
 
@@ -19,8 +19,24 @@ import { usePathname } from '@/i18n/navigation'
  */
 export default function ScrollToTop() {
   const pathname = usePathname()
+  const isInitialLoad = useRef(true)
 
   useEffect(() => {
+    const initial = isInitialLoad.current
+    isInitialLoad.current = false
+
+    if (initial && window.location.hash) {
+      const id = decodeURIComponent(window.location.hash.slice(1))
+
+      const scrollToTarget = () => {
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: 'instant' })
+      }
+
+      scrollToTarget()
+      return
+    }
+
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
   }, [pathname])
 
