@@ -203,10 +203,10 @@ describe('MovementPageView – content-driven copy', () => {
         initiatives: [],
         resources: [],
         locale: 'en',
-      }),
+      })
     )
     expect(html).toContain(
-      'Logos is a movement of builders, activists, and community organisers rebuilding civil society.',
+      'Logos is a movement of builders, activists, and community organisers rebuilding civil society.'
     )
   })
 
@@ -220,7 +220,7 @@ describe('MovementPageView – content-driven copy', () => {
         initiatives: [],
         resources: [],
         locale: 'en',
-      }),
+      })
     )
     expect(html).toContain('Join an Activist Circle')
   })
@@ -235,7 +235,7 @@ describe('MovementPageView – content-driven copy', () => {
         initiatives: [],
         resources: [],
         locale: 'en',
-      }),
+      })
     )
     expect(html).toContain('Become an Activist Builder')
   })
@@ -250,9 +250,45 @@ describe('MovementPageView – content-driven copy', () => {
         initiatives: [],
         resources: [],
         locale: 'en',
-      }),
+      })
     )
     expect(html).toContain('Activism in Action')
+  })
+
+  it('renders the initiative CTA label from content', () => {
+    const html = renderToStaticMarkup(
+      createElement(MovementPageView, {
+        data: fixture,
+        circlesSettings: circlesSettings as never,
+        mapMarkers: [],
+        upcomingEvents: [],
+        initiatives: [
+          {
+            schemaVersion: 1,
+            slug: 'digital-escape-egress',
+            status: 'published',
+            circleSlug: 'london',
+            href: 'https://example.com/proposal',
+            image: {
+              src: '/initiative.webp',
+              alt: '',
+              width: 720,
+              height: 480,
+            },
+            featured: false,
+            language: 'en',
+            locationLabel: 'London',
+            title: 'Digital IDs knowledge hub',
+            description: 'An initiative description.',
+            ctaLabel: 'Read the proposal',
+          },
+        ],
+        resources: [],
+        locale: 'en',
+      })
+    )
+
+    expect(html).toContain('Read the proposal')
   })
 
   it('renders find.title from data prop', () => {
@@ -265,7 +301,7 @@ describe('MovementPageView – content-driven copy', () => {
         initiatives: [],
         resources: [],
         locale: 'en',
-      }),
+      })
     )
     expect(html).toContain('Find a Circle near you.')
   })
