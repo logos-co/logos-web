@@ -14,7 +14,7 @@ e:I[46454,[],"default",1]
 :HL["/_next/static/media/b8b552e8609c5636-s.p.0vinx1niofu4y.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/fa0520225c6f3d07-s.p.0_88erakuzr64.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/rhymes_display_regular-s.p.14b85k4~uv6qn.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"P":null,"c":["","en","builders-hub","rfps"],"q":"","i":false,"f":[[["",{"children":[["locale","en","d",null],{"children":["builders-hub",{"children":["rfps",{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",16]}],[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/04vsf-yxe7flk.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/04cm.w0twky0p.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/086zz.wh9.asy.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0cnxl~oft49l..js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/113cbtzy2q3sb.js","async":true,"nonce":"$undefined"}],["$","script","script-3",{"src":"/_next/static/chunks/0hu7sxx27n4ja.js","async":true,"nonce":"$undefined"}],["$","script","script-4",{"src":"/_next/static/chunks/0kxztukdpg3gd.js","async":true,"nonce":"$undefined"}],["$","script","script-5",{"src":"/_next/static/chunks/0ryof3~3uu6ua.js","async":true,"nonce":"$undefined"}]],"$L4"]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":["$L5",[["$","script","script-0",{"src":"/_next/static/chunks/0nylouxs_61a4.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0t~hrnnu2fd8u.js","async":true,"nonce":"$undefined"}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],{},null,false,null]},null,false,"$@9"]},null,false,"$@9"]},null,false,null]},null,false,"$@9"],["$","$1","h",{"children":[null,["$","$La",null,{"children":"$Lb"}],["$","div",null,{"hidden":true,"children":["$","$Lc",null,{"children":["$","$7",null,{"name":"Next.Metadata","children":"$Ld"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],false]],"m":"$undefined","G":["$e",[]],"S":true,"h":null,"s":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"N5G6puBI1vlWuYXl91AMf"}
+0:{"P":null,"c":["","en","builders-hub","rfps"],"q":"","i":false,"f":[[["",{"children":[["locale","en","d",null],{"children":["builders-hub",{"children":["rfps",{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",16]}],[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/04vsf-yxe7flk.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/04cm.w0twky0p.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/086zz.wh9.asy.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0cnxl~oft49l..js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/113cbtzy2q3sb.js","async":true,"nonce":"$undefined"}],["$","script","script-3",{"src":"/_next/static/chunks/0hu7sxx27n4ja.js","async":true,"nonce":"$undefined"}],["$","script","script-4",{"src":"/_next/static/chunks/0kxztukdpg3gd.js","async":true,"nonce":"$undefined"}],["$","script","script-5",{"src":"/_next/static/chunks/0ryof3~3uu6ua.js","async":true,"nonce":"$undefined"}]],"$L4"]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":["$L5",[["$","script","script-0",{"src":"/_next/static/chunks/0nylouxs_61a4.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0t~hrnnu2fd8u.js","async":true,"nonce":"$undefined"}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],{},null,false,null]},null,false,"$@9"]},null,false,"$@9"]},null,false,null]},null,false,"$@9"],["$","$1","h",{"children":[null,["$","$La",null,{"children":"$Lb"}],["$","div",null,{"hidden":true,"children":["$","$Lc",null,{"children":["$","$7",null,{"name":"Next.Metadata","children":"$Ld"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],false]],"m":"$undefined","G":["$e",[]],"S":true,"h":null,"s":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"SxWDkpevRmka0QDiKPCQQ"}
 f:[]
 9:"$Wf"
 10:I[55405,["/_next/static/chunks/086zz.wh9.asy.js","/_next/static/chunks/0cnxl~oft49l..js","/_next/static/chunks/113cbtzy2q3sb.js","/_next/static/chunks/0hu7sxx27n4ja.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0ryof3~3uu6ua.js"],"default"]
@@ -50,7 +50,36 @@ d:[["$","title","0",{"children":"RFPs"}],["$","meta","1",{"name":"description","
 2a:["$","div",null,{"className":"absolute top-[460px] left-[calc(50%+6px)] lg:top-[322px] lg:left-[calc(83.33%+3px)]","children":["$","div",null,{"className":"flex flex-col gap-1","children":[["$","p",null,{"className":"text-eyebrow mb-1 text-brand-off-white","children":"Infrastructure"}],[["$","a","/technology-stack/messaging",{"href":"/technology-stack/messaging","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Messaging"}],["$","a","/technology-stack/storage",{"href":"/technology-stack/storage","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Storage"}],["$","a","/technology-stack/blockchain",{"href":"/technology-stack/blockchain","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Blockchain"}],["$","a","/technology-stack/networking",{"href":"/technology-stack/networking","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Networking"}]]]}]}]
 2b:["$","div",null,{"className":"absolute top-[540px] left-3 lg:top-[617px] lg:left-[calc(50%+6px)]","children":["$","div",null,{"className":"flex flex-col gap-1","children":["$undefined",[["$","a","/terms-and-conditions",{"href":"/terms-and-conditions","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Terms & Conditions"}],["$","a","/privacy-policy",{"href":"/privacy-policy","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Privacy Policy"}],["$","a","/security",{"href":"/security","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Security"}]]]}]}]
 2d:I[73279,["/_next/static/chunks/086zz.wh9.asy.js","/_next/static/chunks/0cnxl~oft49l..js","/_next/static/chunks/113cbtzy2q3sb.js","/_next/static/chunks/0hu7sxx27n4ja.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0ryof3~3uu6ua.js","/_next/static/chunks/0nylouxs_61a4.js","/_next/static/chunks/0t~hrnnu2fd8u.js"],"BuildersHubListingClient"]
-2e:Tdb0,# RFP-001 — Admin Authority Library
+2e:T14fd,# RFP-001 — Admin Authority Library
+
+> **Note.** This specification describes an outcome that may benefit the Logos
+> ecosystem. It is a proposal rather than an instruction. Its requirements
+> reflect the technical compatibility with the Logos technology stack and are
+> the criteria against which proposals and milestones are evaluated. Logos makes
+> no representation as to the legal or regulatory treatment of this
+> specification or any implementation of it in any jurisdiction.
+>
+> Teams implementing it are solely responsible for (i) assessing the risks and
+> implications of what they build; (ii) obtaining their own professional advice;
+> and (iii) for complying with any legal and regulatory requirements that apply
+> to them. Software developed under the Program is published and maintained by
+> its developers, not by Logos.
+>
+> Anyone who chooses to deploy, host, operate or use software developed under
+> the Program, whether or not they were awarded a grant under the Program, does
+> so at their own risk and is solely responsible for complying with any legal or
+> regulatory requirements that apply to them. See the
+> [Terms & Conditions](https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md).
+>
+> Deploying the software described in this RFP, operating any service based on
+> it, or carrying on business through it may amount to regulated activity in
+> some jurisdictions, including where it involves holding or managing users'
+> assets or providing services to others. Whoever conducts any such activity
+> does so as principal, in their own name, and is solely responsible for
+> assessing its regulatory treatment, including any licensing, registration,
+> sanctions or anti-money laundering obligations that may apply to them. Logos
+> does not make any representation, provides any advice or assumes any
+> responsibility in respect of any such determination or compliance.
 
 ## 🧭 Overview
 
@@ -151,7 +180,36 @@ All code must be released under the **MIT+Apache2.0 License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.2f:Tf69,# RFP-002 — Freeze Authority Library
+**Discussions**.2f:T16b6,# RFP-002 — Freeze Authority Library
+
+> **Note.** This specification describes an outcome that may benefit the Logos
+> ecosystem. It is a proposal rather than an instruction. Its requirements
+> reflect the technical compatibility with the Logos technology stack and are
+> the criteria against which proposals and milestones are evaluated. Logos makes
+> no representation as to the legal or regulatory treatment of this
+> specification or any implementation of it in any jurisdiction.
+>
+> Teams implementing it are solely responsible for (i) assessing the risks and
+> implications of what they build; (ii) obtaining their own professional advice;
+> and (iii) for complying with any legal and regulatory requirements that apply
+> to them. Software developed under the Program is published and maintained by
+> its developers, not by Logos.
+>
+> Anyone who chooses to deploy, host, operate or use software developed under
+> the Program, whether or not they were awarded a grant under the Program, does
+> so at their own risk and is solely responsible for complying with any legal or
+> regulatory requirements that apply to them. See the
+> [Terms & Conditions](https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md).
+>
+> Deploying the software described in this RFP, operating any service based on
+> it, or carrying on business through it may amount to regulated activity in
+> some jurisdictions, including where it involves holding or managing users'
+> assets or providing services to others. Whoever conducts any such activity
+> does so as principal, in their own name, and is solely responsible for
+> assessing its regulatory treatment, including any licensing, registration,
+> sanctions or anti-money laundering obligations that may apply to them. Logos
+> does not make any representation, provides any advice or assumes any
+> responsibility in respect of any such determination or compliance.
 
 ## 🧭 Overview
 
@@ -640,7 +698,36 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.31:T4916,# RFP-004 — Privacy-Preserving Decentralized Exchange (DEX)
+**Discussions**.31:T5063,# RFP-004 — Privacy-Preserving Decentralized Exchange (DEX)
+
+> **Note.** This specification describes an outcome that may benefit the Logos
+> ecosystem. It is a proposal rather than an instruction. Its requirements
+> reflect the technical compatibility with the Logos technology stack and are
+> the criteria against which proposals and milestones are evaluated. Logos makes
+> no representation as to the legal or regulatory treatment of this
+> specification or any implementation of it in any jurisdiction.
+>
+> Teams implementing it are solely responsible for (i) assessing the risks and
+> implications of what they build; (ii) obtaining their own professional advice;
+> and (iii) for complying with any legal and regulatory requirements that apply
+> to them. Software developed under the Program is published and maintained by
+> its developers, not by Logos.
+>
+> Anyone who chooses to deploy, host, operate or use software developed under
+> the Program, whether or not they were awarded a grant under the Program, does
+> so at their own risk and is solely responsible for complying with any legal or
+> regulatory requirements that apply to them. See the
+> [Terms & Conditions](https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md).
+>
+> Deploying the software described in this RFP, operating any service based on
+> it, or carrying on business through it may amount to regulated activity in
+> some jurisdictions, including where it involves holding or managing users'
+> assets or providing services to others. Whoever conducts any such activity
+> does so as principal, in their own name, and is solely responsible for
+> assessing its regulatory treatment, including any licensing, registration,
+> sanctions or anti-money laundering obligations that may apply to them. Logos
+> does not make any representation, provides any advice or assumes any
+> responsibility in respect of any such determination or compliance.
 
 ## 🧭 Overview
 
@@ -1016,7 +1103,36 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.32:T80be,# RFP-008 — Lending & Borrowing Protocol
+**Discussions**.32:T880b,# RFP-008 — Lending & Borrowing Protocol
+
+> **Note.** This specification describes an outcome that may benefit the Logos
+> ecosystem. It is a proposal rather than an instruction. Its requirements
+> reflect the technical compatibility with the Logos technology stack and are
+> the criteria against which proposals and milestones are evaluated. Logos makes
+> no representation as to the legal or regulatory treatment of this
+> specification or any implementation of it in any jurisdiction.
+>
+> Teams implementing it are solely responsible for (i) assessing the risks and
+> implications of what they build; (ii) obtaining their own professional advice;
+> and (iii) for complying with any legal and regulatory requirements that apply
+> to them. Software developed under the Program is published and maintained by
+> its developers, not by Logos.
+>
+> Anyone who chooses to deploy, host, operate or use software developed under
+> the Program, whether or not they were awarded a grant under the Program, does
+> so at their own risk and is solely responsible for complying with any legal or
+> regulatory requirements that apply to them. See the
+> [Terms & Conditions](https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md).
+>
+> Deploying the software described in this RFP, operating any service based on
+> it, or carrying on business through it may amount to regulated activity in
+> some jurisdictions, including where it involves holding or managing users'
+> assets or providing services to others. Whoever conducts any such activity
+> does so as principal, in their own name, and is solely responsible for
+> assessing its regulatory treatment, including any licensing, registration,
+> sanctions or anti-money laundering obligations that may apply to them. Logos
+> does not make any representation, provides any advice or assumes any
+> responsibility in respect of any such determination or compliance.
 
 ## 🧭 Overview
 
@@ -1600,7 +1716,36 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.33:T414a,# RFP-012 — Curated Lending Vaults
+**Discussions**.33:T4897,# RFP-012 — Curated Lending Vaults
+
+> **Note.** This specification describes an outcome that may benefit the Logos
+> ecosystem. It is a proposal rather than an instruction. Its requirements
+> reflect the technical compatibility with the Logos technology stack and are
+> the criteria against which proposals and milestones are evaluated. Logos makes
+> no representation as to the legal or regulatory treatment of this
+> specification or any implementation of it in any jurisdiction.
+>
+> Teams implementing it are solely responsible for (i) assessing the risks and
+> implications of what they build; (ii) obtaining their own professional advice;
+> and (iii) for complying with any legal and regulatory requirements that apply
+> to them. Software developed under the Program is published and maintained by
+> its developers, not by Logos.
+>
+> Anyone who chooses to deploy, host, operate or use software developed under
+> the Program, whether or not they were awarded a grant under the Program, does
+> so at their own risk and is solely responsible for complying with any legal or
+> regulatory requirements that apply to them. See the
+> [Terms & Conditions](https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md).
+>
+> Deploying the software described in this RFP, operating any service based on
+> it, or carrying on business through it may amount to regulated activity in
+> some jurisdictions, including where it involves holding or managing users'
+> assets or providing services to others. Whoever conducts any such activity
+> does so as principal, in their own name, and is solely responsible for
+> assessing its regulatory treatment, including any licensing, registration,
+> sanctions or anti-money laundering obligations that may apply to them. Logos
+> does not make any representation, provides any advice or assumes any
+> responsibility in respect of any such determination or compliance.
 
 ## 🧭 Overview
 
@@ -1912,7 +2057,36 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.34:T36dc,# RFP-013 — Reflexive Stablecoin Protocol
+**Discussions**.34:T3e29,# RFP-013 — Reflexive Stablecoin Protocol
+
+> **Note.** This specification describes an outcome that may benefit the Logos
+> ecosystem. It is a proposal rather than an instruction. Its requirements
+> reflect the technical compatibility with the Logos technology stack and are
+> the criteria against which proposals and milestones are evaluated. Logos makes
+> no representation as to the legal or regulatory treatment of this
+> specification or any implementation of it in any jurisdiction.
+>
+> Teams implementing it are solely responsible for (i) assessing the risks and
+> implications of what they build; (ii) obtaining their own professional advice;
+> and (iii) for complying with any legal and regulatory requirements that apply
+> to them. Software developed under the Program is published and maintained by
+> its developers, not by Logos.
+>
+> Anyone who chooses to deploy, host, operate or use software developed under
+> the Program, whether or not they were awarded a grant under the Program, does
+> so at their own risk and is solely responsible for complying with any legal or
+> regulatory requirements that apply to them. See the
+> [Terms & Conditions](https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md).
+>
+> Deploying the software described in this RFP, operating any service based on
+> it, or carrying on business through it may amount to regulated activity in
+> some jurisdictions, including where it involves holding or managing users'
+> assets or providing services to others. Whoever conducts any such activity
+> does so as principal, in their own name, and is solely responsible for
+> assessing its regulatory treatment, including any licensing, registration,
+> sanctions or anti-money laundering obligations that may apply to them. Logos
+> does not make any representation, provides any advice or assumes any
+> responsibility in respect of any such determination or compliance.
 
 ## Overview
 
@@ -2251,7 +2425,36 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.35:T3558,# RFP-014 — Liquidation & Auction Engine
+**Discussions**.35:T3ca5,# RFP-014 — Liquidation & Auction Engine
+
+> **Note.** This specification describes an outcome that may benefit the Logos
+> ecosystem. It is a proposal rather than an instruction. Its requirements
+> reflect the technical compatibility with the Logos technology stack and are
+> the criteria against which proposals and milestones are evaluated. Logos makes
+> no representation as to the legal or regulatory treatment of this
+> specification or any implementation of it in any jurisdiction.
+>
+> Teams implementing it are solely responsible for (i) assessing the risks and
+> implications of what they build; (ii) obtaining their own professional advice;
+> and (iii) for complying with any legal and regulatory requirements that apply
+> to them. Software developed under the Program is published and maintained by
+> its developers, not by Logos.
+>
+> Anyone who chooses to deploy, host, operate or use software developed under
+> the Program, whether or not they were awarded a grant under the Program, does
+> so at their own risk and is solely responsible for complying with any legal or
+> regulatory requirements that apply to them. See the
+> [Terms & Conditions](https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md).
+>
+> Deploying the software described in this RFP, operating any service based on
+> it, or carrying on business through it may amount to regulated activity in
+> some jurisdictions, including where it involves holding or managing users'
+> assets or providing services to others. Whoever conducts any such activity
+> does so as principal, in their own name, and is solely responsible for
+> assessing its regulatory treatment, including any licensing, registration,
+> sanctions or anti-money laundering obligations that may apply to them. Logos
+> does not make any representation, provides any advice or assumes any
+> responsibility in respect of any such determination or compliance.
 
 ## Overview
 
@@ -2582,7 +2785,36 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.36:T7883,# RFP-015: Privacy-Preserving Token Launchpad: Bonding Curve
+**Discussions**.36:T7fd0,# RFP-015: Privacy-Preserving Token Launchpad: Bonding Curve
+
+> **Note.** This specification describes an outcome that may benefit the Logos
+> ecosystem. It is a proposal rather than an instruction. Its requirements
+> reflect the technical compatibility with the Logos technology stack and are
+> the criteria against which proposals and milestones are evaluated. Logos makes
+> no representation as to the legal or regulatory treatment of this
+> specification or any implementation of it in any jurisdiction.
+>
+> Teams implementing it are solely responsible for (i) assessing the risks and
+> implications of what they build; (ii) obtaining their own professional advice;
+> and (iii) for complying with any legal and regulatory requirements that apply
+> to them. Software developed under the Program is published and maintained by
+> its developers, not by Logos.
+>
+> Anyone who chooses to deploy, host, operate or use software developed under
+> the Program, whether or not they were awarded a grant under the Program, does
+> so at their own risk and is solely responsible for complying with any legal or
+> regulatory requirements that apply to them. See the
+> [Terms & Conditions](https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md).
+>
+> Deploying the software described in this RFP, operating any service based on
+> it, or carrying on business through it may amount to regulated activity in
+> some jurisdictions, including where it involves holding or managing users'
+> assets or providing services to others. Whoever conducts any such activity
+> does so as principal, in their own name, and is solely responsible for
+> assessing its regulatory treatment, including any licensing, registration,
+> sanctions or anti-money laundering obligations that may apply to them. Logos
+> does not make any representation, provides any advice or assumes any
+> responsibility in respect of any such determination or compliance.
 
 ## 🧭 Overview
 
@@ -3167,7 +3399,36 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.37:T7636,# RFP-016: Privacy-Preserving Token Launchpad: LBP
+**Discussions**.37:T7d83,# RFP-016: Privacy-Preserving Token Launchpad: LBP
+
+> **Note.** This specification describes an outcome that may benefit the Logos
+> ecosystem. It is a proposal rather than an instruction. Its requirements
+> reflect the technical compatibility with the Logos technology stack and are
+> the criteria against which proposals and milestones are evaluated. Logos makes
+> no representation as to the legal or regulatory treatment of this
+> specification or any implementation of it in any jurisdiction.
+>
+> Teams implementing it are solely responsible for (i) assessing the risks and
+> implications of what they build; (ii) obtaining their own professional advice;
+> and (iii) for complying with any legal and regulatory requirements that apply
+> to them. Software developed under the Program is published and maintained by
+> its developers, not by Logos.
+>
+> Anyone who chooses to deploy, host, operate or use software developed under
+> the Program, whether or not they were awarded a grant under the Program, does
+> so at their own risk and is solely responsible for complying with any legal or
+> regulatory requirements that apply to them. See the
+> [Terms & Conditions](https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md).
+>
+> Deploying the software described in this RFP, operating any service based on
+> it, or carrying on business through it may amount to regulated activity in
+> some jurisdictions, including where it involves holding or managing users'
+> assets or providing services to others. Whoever conducts any such activity
+> does so as principal, in their own name, and is solely responsible for
+> assessing its regulatory treatment, including any licensing, registration,
+> sanctions or anti-money laundering obligations that may apply to them. Logos
+> does not make any representation, provides any advice or assumes any
+> responsibility in respect of any such determination or compliance.
 
 Note that ecosystem research is available in the
 [appendix](appendix/token-launchpad-ecosystem).
@@ -3754,7 +4015,36 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.38:T4fa9,# RFP-017: Privacy-Preserving Token Vesting
+**Discussions**.38:T56f6,# RFP-017: Privacy-Preserving Token Vesting
+
+> **Note.** This specification describes an outcome that may benefit the Logos
+> ecosystem. It is a proposal rather than an instruction. Its requirements
+> reflect the technical compatibility with the Logos technology stack and are
+> the criteria against which proposals and milestones are evaluated. Logos makes
+> no representation as to the legal or regulatory treatment of this
+> specification or any implementation of it in any jurisdiction.
+>
+> Teams implementing it are solely responsible for (i) assessing the risks and
+> implications of what they build; (ii) obtaining their own professional advice;
+> and (iii) for complying with any legal and regulatory requirements that apply
+> to them. Software developed under the Program is published and maintained by
+> its developers, not by Logos.
+>
+> Anyone who chooses to deploy, host, operate or use software developed under
+> the Program, whether or not they were awarded a grant under the Program, does
+> so at their own risk and is solely responsible for complying with any legal or
+> regulatory requirements that apply to them. See the
+> [Terms & Conditions](https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md).
+>
+> Deploying the software described in this RFP, operating any service based on
+> it, or carrying on business through it may amount to regulated activity in
+> some jurisdictions, including where it involves holding or managing users'
+> assets or providing services to others. Whoever conducts any such activity
+> does so as principal, in their own name, and is solely responsible for
+> assessing its regulatory treatment, including any licensing, registration,
+> sanctions or anti-money laundering obligations that may apply to them. Logos
+> does not make any representation, provides any advice or assumes any
+> responsibility in respect of any such determination or compliance.
 
 ## 🧭 Overview
 
@@ -4161,7 +4451,36 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.39:T6ce6,# RFP-019 — On-Chain TWAP Oracle
+**Discussions**.39:T7433,# RFP-019 — On-Chain TWAP Oracle
+
+> **Note.** This specification describes an outcome that may benefit the Logos
+> ecosystem. It is a proposal rather than an instruction. Its requirements
+> reflect the technical compatibility with the Logos technology stack and are
+> the criteria against which proposals and milestones are evaluated. Logos makes
+> no representation as to the legal or regulatory treatment of this
+> specification or any implementation of it in any jurisdiction.
+>
+> Teams implementing it are solely responsible for (i) assessing the risks and
+> implications of what they build; (ii) obtaining their own professional advice;
+> and (iii) for complying with any legal and regulatory requirements that apply
+> to them. Software developed under the Program is published and maintained by
+> its developers, not by Logos.
+>
+> Anyone who chooses to deploy, host, operate or use software developed under
+> the Program, whether or not they were awarded a grant under the Program, does
+> so at their own risk and is solely responsible for complying with any legal or
+> regulatory requirements that apply to them. See the
+> [Terms & Conditions](https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md).
+>
+> Deploying the software described in this RFP, operating any service based on
+> it, or carrying on business through it may amount to regulated activity in
+> some jurisdictions, including where it involves holding or managing users'
+> assets or providing services to others. Whoever conducts any such activity
+> does so as principal, in their own name, and is solely responsible for
+> assessing its regulatory treatment, including any licensing, registration,
+> sanctions or anti-money laundering obligations that may apply to them. Logos
+> does not make any representation, provides any advice or assumes any
+> responsibility in respect of any such determination or compliance.
 
 ## 🧭 Overview
 
@@ -4647,7 +4966,36 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.3a:Tc371,# RFP-020 — RedStone Off-Chain Oracle Adaptor for LEZ
+**Discussions**.3a:Tcabe,# RFP-020 — RedStone Off-Chain Oracle Adaptor for LEZ
+
+> **Note.** This specification describes an outcome that may benefit the Logos
+> ecosystem. It is a proposal rather than an instruction. Its requirements
+> reflect the technical compatibility with the Logos technology stack and are
+> the criteria against which proposals and milestones are evaluated. Logos makes
+> no representation as to the legal or regulatory treatment of this
+> specification or any implementation of it in any jurisdiction.
+>
+> Teams implementing it are solely responsible for (i) assessing the risks and
+> implications of what they build; (ii) obtaining their own professional advice;
+> and (iii) for complying with any legal and regulatory requirements that apply
+> to them. Software developed under the Program is published and maintained by
+> its developers, not by Logos.
+>
+> Anyone who chooses to deploy, host, operate or use software developed under
+> the Program, whether or not they were awarded a grant under the Program, does
+> so at their own risk and is solely responsible for complying with any legal or
+> regulatory requirements that apply to them. See the
+> [Terms & Conditions](https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md).
+>
+> Deploying the software described in this RFP, operating any service based on
+> it, or carrying on business through it may amount to regulated activity in
+> some jurisdictions, including where it involves holding or managing users'
+> assets or providing services to others. Whoever conducts any such activity
+> does so as principal, in their own name, and is solely responsible for
+> assessing its regulatory treatment, including any licensing, registration,
+> sanctions or anti-money laundering obligations that may apply to them. Logos
+> does not make any representation, provides any advice or assumes any
+> responsibility in respect of any such determination or compliance.
 
 ## 🧭 Overview
 
