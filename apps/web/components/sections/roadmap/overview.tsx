@@ -92,7 +92,7 @@ function RoadmapOverviewCardContent({ card }: { card: OverviewCard }) {
             <ActionPill
               action={card.cta}
               asLink={false}
-              className="transition-colors duration-300 ease-out group-hover/roadmap-card:bg-accent-steel-teal group-focus-visible/roadmap-card:bg-accent-steel-teal"
+              className="transition-colors duration-300 ease-out group-hover/roadmap-card:bg-white group-focus-visible/roadmap-card:bg-white"
             />
           ) : (
             <span />
