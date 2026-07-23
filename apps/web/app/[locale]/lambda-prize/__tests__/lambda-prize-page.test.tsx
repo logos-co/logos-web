@@ -199,7 +199,7 @@ describe('LambdaPrizePage – support section driven from data', () => {
       }),
       expect.objectContaining({
         label: 'Connect with Logos',
-        href: 'https://discord.gg/T6gDZWQCsz',
+        href: 'https://discord.gg/Ykv4eZyHUJ',
       }),
     ])
   })
