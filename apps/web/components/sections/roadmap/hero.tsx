@@ -14,7 +14,7 @@ export function RoadmapHero({ data }: RoadmapHeroProps) {
           {data.eyebrow}
         </p>
 
-        <h1 className="text-h2 absolute top-[128px] left-3 w-[min(464px,calc(100vw-24px))] whitespace-pre-line text-brand-dark-green [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] md:top-[140px]">
+        <h1 className="text-h2 absolute top-[128px] left-3 w-[min(464px,calc(100vw-24px))] whitespace-pre-line text-brand-dark-green [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] md:top-[140px] md:left-1/2 md:-translate-x-1/2">
           {data.heading}
         </h1>
 
