@@ -466,9 +466,29 @@ const roadmapOverviewCardSchema = z.object({
   cta: roadmapActionSchema.optional(),
 })
 
+const roadmapFaqAnswerParagraphSchema = z
+  .object({
+    text: z.string().min(1),
+    link: z
+      .object({
+        label: z.string().min(1),
+        href: linkHrefSchema,
+      })
+      .optional(),
+  })
+  .superRefine((paragraph, context) => {
+    if (paragraph.link && !paragraph.text.includes(paragraph.link.label)) {
+      context.addIssue({
+        code: 'custom',
+        message: 'FAQ answer link label must appear in the paragraph text',
+        path: ['link', 'label'],
+      })
+    }
+  })
+
 const roadmapFaqItemSchema = z.object({
   question: z.string().min(1),
-  answer: z.array(z.string().min(1)).min(1),
+  answer: z.array(roadmapFaqAnswerParagraphSchema).min(1),
 })
 
 export const roadmapCopySectionSchema = z.object({
