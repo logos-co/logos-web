@@ -10,7 +10,7 @@ export function RoadmapHero({ data }: RoadmapHeroProps) {
   return (
     <section className="relative h-[372px] overflow-hidden bg-brand-off-white md:-mt-0.5 md:h-[447px]">
       <ContentWidth className="relative h-full text-brand-dark-green">
-        <p className="text-mono-s absolute top-10 left-3 w-[min(342px,calc(100vw-24px))] text-left md:top-[58px] md:left-[calc(50%+6px)] md:w-[min(342px,calc(50vw-18px))]">
+        <p className="absolute top-10 left-3 w-[min(342px,calc(100vw-24px))] font-mono-body text-xs leading-[1.3] text-left md:top-[58px] md:left-[calc(50%+6px)] md:w-[min(342px,calc(50vw-18px))]">
           {data.eyebrow}
         </p>
 
@@ -18,7 +18,7 @@ export function RoadmapHero({ data }: RoadmapHeroProps) {
           {data.heading}
         </h1>
 
-        <p className="text-mono-s absolute top-[259px] right-3 left-3 md:top-[356px] md:right-auto md:left-[calc(50%+6px)] md:w-[min(702px,calc(50vw-18px))]">
+        <p className="absolute top-[259px] right-3 left-3 font-mono-body text-xs leading-[1.3] md:top-[356px] md:right-auto md:left-[calc(50%+6px)] md:w-[min(702px,calc(50vw-18px))]">
           {data.disclaimer}
         </p>
       </ContentWidth>
