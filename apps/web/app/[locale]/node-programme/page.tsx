@@ -52,7 +52,7 @@ function HeroAnchorLink({
       className="inline-flex cursor-pointer items-center justify-center text-brand-dark-green"
     >
       <span className="inline-flex items-center gap-1">
-        <span className="border-b border-brand-dark-green/50 pb-0.5 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase">
+        <span className="border-b border-brand-dark-green/50 pb-0.5 font-mono text-xs leading-[1.35] font-semibold whitespace-nowrap uppercase">
           {children}
         </span>
         <ButtonArrowIcon />
@@ -76,7 +76,7 @@ export default async function NodeProgramPage({
   const data = findSection<NodeProgrammeCopySection>(
     page.sections,
     'nodeProgrammeCopy',
-    'nodeProgramme.copy',
+    'nodeProgramme.copy'
   )
 
   return (

@@ -65,7 +65,7 @@ export default function StartBuildingSection({
               <h2 className="font-display text-[30px] leading-none tracking-[-0.03em] lg:text-[36px]">
                 {data.title}
               </h2>
-              <p className="font-sans text-[12px] leading-[1.2] lg:w-[254px]">
+              <p className="font-sans text-xs leading-[1.2] lg:w-[254px]">
                 {data.body}
               </p>
             </div>

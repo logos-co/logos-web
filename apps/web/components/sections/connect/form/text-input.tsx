@@ -32,19 +32,20 @@ export function TextInput({
   const isOverLimit = count > maxLength
   return (
     <div className={cn('w-full', wrapperClassName)}>
-      {label ? (
-        <FieldLabel htmlFor={id}>{label}</FieldLabel>
-      ) : null}
+      {label ? <FieldLabel htmlFor={id}>{label}</FieldLabel> : null}
       <input
         id={id}
         value={value}
         aria-invalid={error || isOverLimit || undefined}
-        className={cn(inputClassName, (error || isOverLimit) && 'border-red-600')}
+        className={cn(
+          inputClassName,
+          (error || isOverLimit) && 'border-red-600'
+        )}
         {...props}
       />
       {isOverLimit ? (
         <div
-          className="mt-1 flex items-center gap-2 font-mono text-[10px] leading-[1.3] font-semibold text-red-600"
+          className="mt-1 flex items-center gap-2 font-mono text-xs leading-[1.3] font-semibold text-red-600"
           aria-live="polite"
         >
           {overLimitMessage ? <p>{overLimitMessage}</p> : null}

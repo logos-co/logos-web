@@ -18,7 +18,7 @@ export function Hero({ heading, intro }: HeroProps) {
             {heading}
           </h1>
         </LambdaLockup>
-        <p className="absolute top-[126px] left-3 max-w-[342px] whitespace-pre-line font-mono text-[10px] leading-[1.3] md:top-[90px] md:left-[calc(50%+6px)] md:max-w-[345px]">
+        <p className="absolute top-[126px] left-3 max-w-[342px] whitespace-pre-line font-mono text-xs leading-[1.3] md:top-[90px] md:left-[calc(50%+6px)] md:max-w-[345px]">
           {intro}
         </p>
       </ContentWidth>

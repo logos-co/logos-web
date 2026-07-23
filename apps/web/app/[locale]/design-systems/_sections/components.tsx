@@ -52,7 +52,7 @@ export function Buttons() {
       </h2>
       <div className="grid grid-cols-1 items-start gap-8 sm:grid-cols-2 lg:grid-cols-4">
         <div className="flex flex-col items-start gap-3">
-          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+          <p className="font-mono text-xs leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Primary
           </p>
           <Button variant="primary" href={EXTERNAL_URLS.docs}>
@@ -60,7 +60,7 @@ export function Buttons() {
           </Button>
         </div>
         <div className="flex flex-col items-start gap-3">
-          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+          <p className="font-mono text-xs leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Secondary
           </p>
           <Button variant="secondary" href={EXTERNAL_URLS.docs}>
@@ -68,7 +68,7 @@ export function Buttons() {
           </Button>
         </div>
         <div className="flex flex-col items-start gap-3">
-          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+          <p className="font-mono text-xs leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Tertiary
           </p>
           <Button variant="tertiary" href={EXTERNAL_URLS.docs}>
@@ -76,7 +76,7 @@ export function Buttons() {
           </Button>
         </div>
         <div className="flex flex-col items-start gap-3">
-          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+          <p className="font-mono text-xs leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Link
           </p>
           <Button variant="link" href={EXTERNAL_URLS.docs}>
@@ -248,7 +248,7 @@ export function ViewToggles() {
       </h2>
       <div className="grid grid-cols-1 items-start gap-8 sm:grid-cols-2">
         <div className="flex flex-col items-start gap-3">
-          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+          <p className="font-mono text-xs leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             Grid active (default on /rfps)
           </p>
           <ViewToggle
@@ -258,7 +258,7 @@ export function ViewToggles() {
           />
         </div>
         <div className="flex flex-col items-start gap-3">
-          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+          <p className="font-mono text-xs leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             List active (default on /ideas)
           </p>
           <ViewToggle
@@ -282,7 +282,7 @@ export function Paginations() {
       </h2>
       <div className="flex flex-col gap-8">
         <div className="flex flex-col items-start gap-3">
-          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+          <p className="font-mono text-xs leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             3 pages · current 1
           </p>
           <Pagination
@@ -292,7 +292,7 @@ export function Paginations() {
           />
         </div>
         <div className="flex flex-col items-start gap-3">
-          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+          <p className="font-mono text-xs leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             5 pages · current 3
           </p>
           <Pagination
@@ -302,7 +302,7 @@ export function Paginations() {
           />
         </div>
         <div className="flex flex-col items-start gap-3">
-          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+          <p className="font-mono text-xs leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
             10 pages · current 5 · ellipsis collapse
           </p>
           <Pagination

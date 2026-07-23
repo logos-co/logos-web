@@ -11,7 +11,7 @@
   --display: var(--next-font-display), Georgia, serif;
   --mono: var(--next-font-mono), monospace;
   --public-sans:
-    var(--next-font-sans), "Public Sans", ui-sans-serif, system-ui, sans-serif;
+    var(--next-font-sans), 'Public Sans', ui-sans-serif, system-ui, sans-serif;
 
   position: relative;
   min-height: 100vh;
@@ -22,13 +22,13 @@
 }
 
 .page::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -767px;
   left: 50%;
   width: 2565px;
   height: 3206px;
-  background: url("/campaigns/ukdebt/page-bg.webp") center / cover no-repeat;
+  background: url('/campaigns/ukdebt/page-bg.webp') center / cover no-repeat;
   filter: blur(157px);
   transform: translateX(-50%);
   pointer-events: none;
@@ -36,10 +36,10 @@
 }
 
 .page::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
-  background: url("/campaigns/ukdebt/paper.webp") center / cover no-repeat;
+  background: url('/campaigns/ukdebt/paper.webp') center / cover no-repeat;
   mix-blend-mode: multiply;
   opacity: 0.2;
   pointer-events: none;
@@ -68,12 +68,12 @@
 .ctaSection::after,
 .sourcesStrip::after,
 .campaignFooter::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
   border-radius: inherit;
-  background: url("/campaigns/ukdebt/paper.webp") center / cover no-repeat;
+  background: url('/campaigns/ukdebt/paper.webp') center / cover no-repeat;
   mix-blend-mode: multiply;
   opacity: 0.42;
   pointer-events: none;
@@ -102,14 +102,14 @@
 }
 
 .hero::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   bottom: 0;
   left: 50%;
   z-index: 1;
   width: 100vw;
-  background: url("/campaigns/ukdebt/paper-wrinkles.webp") center / cover
+  background: url('/campaigns/ukdebt/paper-wrinkles.webp') center / cover
     no-repeat;
   opacity: 0.38;
   pointer-events: none;
@@ -154,7 +154,7 @@
 }
 
 .heroFigure::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 273px;
   left: 0;
@@ -478,7 +478,7 @@
   z-index: 0;
   background:
     linear-gradient(0deg, rgba(21, 37, 33, 0.72), rgba(21, 37, 33, 0.18)),
-    url("/campaigns/ukdebt/card-bg.webp") center / cover;
+    url('/campaigns/ukdebt/card-bg.webp') center / cover;
   filter: blur(45px);
   opacity: 0.85;
   transform: scale(1.08);
@@ -613,7 +613,7 @@
   padding: 0;
   background:
     linear-gradient(180deg, rgba(15, 17, 16, 0.55), rgba(15, 17, 16, 0.7)),
-    url("/campaigns/ukdebt/spend-bg.webp") center / cover no-repeat;
+    url('/campaigns/ukdebt/spend-bg.webp') center / cover no-repeat;
 }
 
 .spendPanel .panelBackdrop {
@@ -931,7 +931,7 @@
 
 .historyPanel::before,
 .historyPanel::after {
-  content: "";
+  content: '';
   position: absolute;
   pointer-events: none;
 }
@@ -942,7 +942,7 @@
   left: 50%;
   z-index: -1;
   width: 100vw;
-  background-image: url("/campaigns/ukdebt/paper.webp");
+  background-image: url('/campaigns/ukdebt/paper.webp');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -970,7 +970,7 @@
 
 .historyColumns::before,
 .historyColumns::after {
-  content: "";
+  content: '';
   position: absolute;
   left: -12px;
   right: -12px;
@@ -1233,21 +1233,21 @@
   z-index: 0;
   width: 2226px;
   height: 2783px;
-  background: url("/campaigns/ukdebt/page-bg.webp") center / cover no-repeat;
+  background: url('/campaigns/ukdebt/page-bg.webp') center / cover no-repeat;
   filter: blur(242.883px);
   opacity: 1;
   transform: translateX(-974px);
 }
 
 .ctaSection::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: 0;
   width: 3682px;
   height: 4602.5px;
-  background: url("/campaigns/ukdebt/cta-bg.webp") center / cover no-repeat;
+  background: url('/campaigns/ukdebt/cta-bg.webp') center / cover no-repeat;
   filter: blur(204.775px);
   transform: translate(calc(-50% + 639.5px), calc(-50% - 40.5px)) rotate(90deg);
 }
@@ -1310,7 +1310,7 @@
 }
 
 .ctaButtonSecondary::after {
-  content: "";
+  content: '';
   position: absolute;
   right: 0;
   bottom: 0;
@@ -1344,7 +1344,7 @@
   border: 1px solid rgba(255, 255, 255, 0.65);
   border-radius: 4px;
   font: inherit;
-  font-size: 10px;
+  font-size: 12px;
   text-transform: uppercase;
 }
 
@@ -1378,7 +1378,7 @@
   grid-column: 1 / -1;
   margin: 0;
   color: #fff;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.2;
   text-align: center;
   text-transform: uppercase;
@@ -1503,7 +1503,7 @@
 .footerNav strong,
 .footerBuilt {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.3;
   color: inherit;
 }
@@ -2287,7 +2287,7 @@
     border-top: 1px solid rgba(255, 255, 255, 0.9);
     background:
       linear-gradient(180deg, rgba(15, 17, 16, 0.55), rgba(15, 17, 16, 0.7)),
-      url("/campaigns/ukdebt/spend-bg.webp") center / cover no-repeat;
+      url('/campaigns/ukdebt/spend-bg.webp') center / cover no-repeat;
   }
 
   .spendPanel .panelBackdrop {
@@ -2369,7 +2369,7 @@
 
   .spendBubble span {
     margin-top: 3px;
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .zeroSection {
@@ -2741,7 +2741,7 @@
   .ctaSignup input,
   .ctaSignup button {
     height: 28px;
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .ctaSignup input {

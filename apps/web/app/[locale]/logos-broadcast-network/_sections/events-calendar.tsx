@@ -172,7 +172,7 @@ function EventPill({
   interactive?: boolean
 }) {
   const baseClassName =
-    'block rounded-lg border border-brand-dark-green/50 p-2 font-mono text-[10px] font-medium uppercase leading-[1.3]'
+    'block rounded-lg border border-brand-dark-green/50 p-2 font-mono text-xs font-medium uppercase leading-[1.3]'
   const content = <span className="line-clamp-2">{event.calendarTitle}</span>
 
   return interactive && event.link ? (
@@ -231,7 +231,7 @@ function MonthSelect({
         aria-label={label}
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
-        className="h-full w-full cursor-pointer appearance-none rounded-full border border-transparent bg-brand-off-white py-0 pl-6 pr-10 font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-dark-green"
+        className="h-full w-full cursor-pointer appearance-none rounded-full border border-transparent bg-brand-off-white py-0 pl-6 pr-10 font-mono text-xs font-semibold uppercase leading-[1.35] text-brand-dark-green"
       >
         {MONTHS.map((month, index) => (
           <option key={month} value={index}>
@@ -263,7 +263,7 @@ function YearSelect({
         aria-label={label}
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
-        className="h-full w-full cursor-pointer appearance-none rounded-full border border-transparent bg-brand-off-white py-0 pl-6 pr-10 font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-dark-green"
+        className="h-full w-full cursor-pointer appearance-none rounded-full border border-transparent bg-brand-off-white py-0 pl-6 pr-10 font-mono text-xs font-semibold uppercase leading-[1.35] text-brand-dark-green"
       >
         {years.map((year) => (
           <option key={year} value={year}>
@@ -302,7 +302,7 @@ function NavButtons({
       <button
         type="button"
         onClick={onToday}
-        className="flex h-[31px] w-[54px] cursor-pointer items-center justify-center rounded-full border border-brand-dark-green/30 bg-brand-off-white font-mono text-[10px] font-semibold uppercase leading-[1.35]"
+        className="flex h-[31px] w-[54px] cursor-pointer items-center justify-center rounded-full border border-brand-dark-green/30 bg-brand-off-white font-mono text-xs font-semibold uppercase leading-[1.35]"
       >
         {todayLabel}
       </button>
@@ -513,7 +513,7 @@ export function EventsCalendar({
                 {WEEKDAYS.map((day) => (
                   <span
                     key={day}
-                    className="flex items-center justify-center font-mono text-[10px] font-semibold uppercase leading-[1.35]"
+                    className="flex items-center justify-center font-mono text-xs font-semibold uppercase leading-[1.35]"
                   >
                     {day}
                   </span>

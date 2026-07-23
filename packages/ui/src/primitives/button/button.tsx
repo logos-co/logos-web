@@ -100,7 +100,7 @@ export function Button(props: ButtonProps) {
     )
 
   const isLink = variant === 'link'
-  const labelClass = `font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap ${
+  const labelClass = `font-mono text-xs leading-[1.35] font-semibold uppercase whitespace-nowrap ${
     isLink ? 'border-b border-brand-dark-green/50 pb-0.5' : ''
   }`
 

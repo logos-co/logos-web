@@ -91,7 +91,7 @@ export function BlogHero({
           { href: '#podcasts', label: copy.navPodcasts },
         ].map((item) => {
           const className =
-            'inline-flex cursor-pointer items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35] transition-opacity hover:opacity-70'
+            'inline-flex cursor-pointer items-center gap-1 font-mono text-xs font-semibold uppercase leading-[1.35] transition-opacity hover:opacity-70'
 
           return (
             <a key={item.href} href={item.href} className={className}>
@@ -102,7 +102,7 @@ export function BlogHero({
         })}
         <a
           href={copy.navBroadcastHref}
-          className="inline-flex cursor-pointer items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35] transition-opacity hover:opacity-70"
+          className="inline-flex cursor-pointer items-center gap-1 font-mono text-xs font-semibold uppercase leading-[1.35] transition-opacity hover:opacity-70"
         >
           <ArrowIcon direction="down" />
           {copy.navBroadcast}
@@ -196,7 +196,7 @@ export function GallerySection({ articles }: { articles: BlogArticleRow[] }) {
                 />
               </div>
               <div className="flex items-baseline justify-between gap-6">
-                <p className="max-w-[170px] font-sans text-[12px] font-medium leading-[1.2] tracking-normal md:text-[14px]">
+                <p className="max-w-[170px] font-sans text-xs font-medium leading-[1.2] tracking-normal md:text-[14px]">
                   {article.title}
                 </p>
                 <div className="text-mono-s shrink-0 text-brand-dark-green md:text-right">
@@ -299,7 +299,7 @@ export function BroadcastSection({
           <div className="absolute left-3 top-3 flex w-[calc(100%-24px)] flex-col gap-6 desktop:h-[380px] desktop:w-[453px] desktop:justify-between desktop:gap-0">
             <div className="flex items-center gap-25.5">
               <LogosMark size={6} className="shrink-0 text-brand-off-white" />
-              <p className="font-mono text-[10px] font-medium uppercase leading-[1.3] text-brand-off-white">
+              <p className="font-mono text-xs font-medium uppercase leading-[1.3] text-brand-off-white">
                 {copy.media}
               </p>
             </div>
@@ -308,7 +308,7 @@ export function BroadcastSection({
               <h2 className="w-[185px] font-sans text-[24px] leading-[1.1] tracking-[-0.01em] text-brand-off-white">
                 {copy.broadcastHeading}
               </h2>
-              <p className="font-mono text-[10px] leading-[1.3] text-brand-off-white desktop:w-full">
+              <p className="font-mono text-xs leading-[1.3] text-brand-off-white desktop:w-full">
                 {copy.broadcastDescription}
               </p>
             </div>
@@ -325,7 +325,7 @@ export function BroadcastSection({
           </div>
 
           <div className="absolute left-3 right-3 bottom-3 top-[292px] overflow-hidden rounded-[100px] bg-accent-tan text-brand-dark-green transition-colors group-hover:bg-brand-yellow desktop:left-auto desktop:right-3 desktop:bottom-auto desktop:top-3 desktop:h-[382px] desktop:w-[702px]">
-            <span className="absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35]">
+            <span className="absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 font-mono text-xs font-semibold uppercase leading-[1.35]">
               {copy.broadcastCta}
               <ArrowIcon />
             </span>

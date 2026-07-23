@@ -57,10 +57,14 @@ export default function SiteHeaderClient({
     null
   )
   const [hasPassedHero, setHasPassedHero] = useState(false)
+  const [isHomepageHighlightDismissed, setIsHomepageHighlightDismissed] =
+    useState(false)
   const pathname = usePathname()
   const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
   const showHomepageHighlight =
-    normalizedPathname === ROUTES.home && homepageHighlight?.enabled === true
+    normalizedPathname === ROUTES.home &&
+    homepageHighlight?.enabled === true &&
+    !isHomepageHighlightDismissed
 
   const usesHeroHeaderTone =
     normalizedPathname === ROUTES.home ||
@@ -138,7 +142,10 @@ export default function SiteHeaderClient({
           )}
         >
           {showHomepageHighlight ? (
-            <HomepageHighlightCard data={homepageHighlight} />
+            <HomepageHighlightCard
+              data={homepageHighlight}
+              onDismiss={() => setIsHomepageHighlightDismissed(true)}
+            />
           ) : null}
 
           <a
@@ -188,7 +195,10 @@ export default function SiteHeaderClient({
           )}
         >
           {showHomepageHighlight ? (
-            <HomepageHighlightCard data={homepageHighlight} />
+            <HomepageHighlightCard
+              data={homepageHighlight}
+              onDismiss={() => setIsHomepageHighlightDismissed(true)}
+            />
           ) : null}
 
           <a

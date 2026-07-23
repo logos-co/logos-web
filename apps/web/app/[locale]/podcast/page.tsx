@@ -31,7 +31,7 @@ function PodcastIntro({ copy }: { copy: PodcastIntroCopy }) {
           <span className="inline-flex size-3.75 shrink-0 rotate-180 items-center justify-center">
             <ButtonArrowIcon />
           </span>
-          <span className="font-mono text-[10px] leading-[1.3] font-medium uppercase">
+          <span className="font-mono text-xs leading-[1.3] font-medium uppercase">
             {copy.backToMedia}
           </span>
         </Link>
@@ -80,7 +80,7 @@ export default async function LogosPodcastPage({
   const data = findSection<PodcastCopySection>(
     page.sections,
     'podcastCopy',
-    'podcast.copy',
+    'podcast.copy'
   )
 
   return (

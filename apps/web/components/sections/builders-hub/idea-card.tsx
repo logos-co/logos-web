@@ -48,7 +48,7 @@ export function IdeaCard({ idea }: Props) {
         </div>
       ) : null}
 
-      <p className="absolute left-4 bottom-4 w-[186px] font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+      <p className="absolute left-4 bottom-4 w-[186px] font-mono text-xs leading-[1.3] text-brand-dark-green">
         {blurb}{' '}
         <span className="opacity-70">/ Idea by @{idea.submitter.handle}</span>
       </p>

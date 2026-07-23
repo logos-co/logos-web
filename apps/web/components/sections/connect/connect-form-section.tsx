@@ -15,7 +15,10 @@ import {
 } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { buildFormSchema, MAX_TEXT_LENGTH } from '@/lib/civicrm/contactFormSchema'
+import {
+  buildFormSchema,
+  MAX_TEXT_LENGTH,
+} from '@/lib/civicrm/contactFormSchema'
 import { HEAR_ABOUT_FORM_KEY } from '@/lib/civicrm/hear-about-field'
 import type {
   AfformConfig,
@@ -267,7 +270,9 @@ export function ConnectFormSection({
     if (!el) return
     const rect = el.getBoundingClientRect()
     const top =
-      window.scrollY + rect.top - Math.max(0, (window.innerHeight - rect.height) / 2)
+      window.scrollY +
+      rect.top -
+      Math.max(0, (window.innerHeight - rect.height) / 2)
     window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' })
     el.focus({ preventScroll: true })
   }
@@ -353,7 +358,7 @@ export function ConnectFormSection({
           <h3 className="mb-4 font-sans text-[24px] leading-[1.1] tracking-[-0.24px] text-brand-dark-green">
             {confirmationMessage}
           </h3>
-          <p className="mx-auto max-w-[40em] text-balance font-mono text-[10px] leading-[1.3] text-brand-dark-green/80">
+          <p className="mx-auto max-w-[40em] text-balance font-mono text-xs leading-[1.3] text-brand-dark-green/80">
             {t('successBody')}
           </p>
         </motion.div>
@@ -475,7 +480,7 @@ export function ConnectFormSection({
                         type="button"
                         onClick={handleRemoveChatRow(index)}
                         disabled={loadingState}
-                        className="shrink-0 self-center font-mono text-[10px] leading-[1.3] text-brand-dark-green/70 hover:text-brand-dark-green"
+                        className="shrink-0 self-center font-mono text-xs leading-[1.3] text-brand-dark-green/70 hover:text-brand-dark-green"
                         aria-label={t('removeChatRow', { index: index + 1 })}
                       >
                         {t('remove')}
@@ -484,7 +489,7 @@ export function ConnectFormSection({
                   </div>
                 ))}
                 {hasError('chat') ? (
-                  <p className="font-mono text-[10px] font-semibold text-red-600">
+                  <p className="font-mono text-xs font-semibold text-red-600">
                     {t('chatNameRequired')}
                   </p>
                 ) : null}
@@ -492,7 +497,7 @@ export function ConnectFormSection({
                   type="button"
                   onClick={handleAddChatRow}
                   disabled={loadingState}
-                  className="text-left font-mono text-[10px] leading-[1.3] text-brand-dark-green/70 hover:text-brand-dark-green"
+                  className="text-left font-mono text-xs leading-[1.3] text-brand-dark-green/70 hover:text-brand-dark-green"
                   aria-label={t('addChatRow')}
                 >
                   {t('addAnother')}
@@ -537,7 +542,7 @@ export function ConnectFormSection({
             const isChecked = value === true
             return (
               <div key={field.formKey} className="w-full">
-                <label className="inline-flex cursor-pointer items-start font-mono text-[10px] leading-[1.3]">
+                <label className="inline-flex cursor-pointer items-start font-mono text-xs leading-[1.3]">
                   <input
                     className="sr-only"
                     type="checkbox"
@@ -590,7 +595,7 @@ export function ConnectFormSection({
                 {!isOverLimit &&
                 hasFieldError &&
                 REQUIRED_FIELDS.has(field.formKey) ? (
-                  <p className="mt-2 font-mono text-[10px] font-semibold text-red-600">
+                  <p className="mt-2 font-mono text-xs font-semibold text-red-600">
                     {t('fieldRequired', { field: label.toLowerCase() })}
                   </p>
                 ) : null}
@@ -606,8 +611,7 @@ export function ConnectFormSection({
               values = [values[0], '']
             }
             const canAddRow =
-              field.formKey !== 'website' ||
-              values.length < MAX_WEBSITE_ROWS
+              field.formKey !== 'website' || values.length < MAX_WEBSITE_ROWS
             return (
               <div key={field.formKey} className="w-full space-y-3">
                 <FieldLabel>{label}</FieldLabel>
@@ -627,7 +631,7 @@ export function ConnectFormSection({
                         type="button"
                         onClick={handleRemoveRepeatable(field.formKey, index)}
                         disabled={loadingState}
-                        className="shrink-0 self-center font-mono text-[10px] leading-[1.3] text-brand-dark-green/70 hover:text-brand-dark-green"
+                        className="shrink-0 self-center font-mono text-xs leading-[1.3] text-brand-dark-green/70 hover:text-brand-dark-green"
                         aria-label={t('removeFieldRow', {
                           field: label,
                           index: index + 1,
@@ -643,7 +647,7 @@ export function ConnectFormSection({
                     type="button"
                     onClick={handleAddRepeatable(field.formKey)}
                     disabled={loadingState}
-                    className="text-left font-mono text-[10px] leading-[1.3] text-brand-dark-green/70 hover:text-brand-dark-green"
+                    className="text-left font-mono text-xs leading-[1.3] text-brand-dark-green/70 hover:text-brand-dark-green"
                     aria-label={t('addFieldRow', { field: label })}
                   >
                     {t('addAnother')}
@@ -677,7 +681,7 @@ export function ConnectFormSection({
               {!isOverLimit &&
               hasFieldError &&
               REQUIRED_FIELDS.has(field.formKey) ? (
-                <p className="mt-2 font-mono text-[10px] font-semibold text-red-600">
+                <p className="mt-2 font-mono text-xs font-semibold text-red-600">
                   {field.formKey === 'email'
                     ? t('emailInvalid')
                     : t('fieldRequired', { field: label.toLowerCase() })}
@@ -691,7 +695,7 @@ export function ConnectFormSection({
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="font-mono text-[10px] font-semibold text-red-600"
+            className="font-mono text-xs font-semibold text-red-600"
           >
             {serverError}
           </motion.p>
@@ -717,7 +721,7 @@ export function ConnectFormSection({
         <div className="flex flex-col gap-6 pt-4 md:flex-row md:items-end md:justify-between">
           {pagePrivacy ? (
             <div className="max-w-[50em]">
-              <p className="text-balance font-mono text-[10px] leading-[1.3] text-brand-dark-green/80">
+              <p className="text-balance font-mono text-xs leading-[1.3] text-brand-dark-green/80">
                 {pagePrivacyLink && pagePrivacy.includes('Privacy Policy') ? (
                   <>
                     {pagePrivacy.split('Privacy Policy')[0]}

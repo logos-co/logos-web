@@ -31,7 +31,7 @@ export function RfpCard({ rfp }: Props) {
           {rfp.title}
         </h3>
         <span className="mt-[14.2px] inline-flex items-center justify-center text-brand-dark-green">
-          <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
+          <span className="font-mono text-xs leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
             Learn More
           </span>
         </span>
@@ -54,7 +54,7 @@ export function RfpCard({ rfp }: Props) {
       ) : null}
 
       {/* Description */}
-      <p className="absolute left-4 bottom-4 w-[186px] font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+      <p className="absolute left-4 bottom-4 w-[186px] font-mono text-xs leading-[1.3] text-brand-dark-green">
         {blurb}
       </p>
     </Link>

@@ -22,7 +22,7 @@ export function JourneySection({
               href={link.href}
               className="flex h-[71px] cursor-pointer flex-col items-start justify-between rounded-xl bg-brand-dark-green p-3 text-brand-off-white md:h-[83px]"
             >
-              <span className="font-mono text-[10px] font-semibold leading-[1.35]">
+              <span className="font-mono text-xs font-semibold leading-[1.35]">
                 {(index + 1).toString().padStart(2, '0')}
               </span>
               <span className="inline-flex items-center gap-1 text-subhead-sans">

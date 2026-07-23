@@ -26,7 +26,7 @@ export function RelatedLinksList({
   if (items.length === 0) return null
   return (
     <>
-      <h2 className="font-mono text-[10px] font-medium leading-[1.3] text-brand-dark-green/70 uppercase mb-4">
+      <h2 className="font-mono text-xs font-medium leading-[1.3] text-brand-dark-green/70 uppercase mb-4">
         {heading}
       </h2>
       <ul className="space-y-2">

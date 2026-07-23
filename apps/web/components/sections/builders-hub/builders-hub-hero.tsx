@@ -35,7 +35,7 @@ export function BuildersHubHero({ hero }: Props) {
 
       {/* Eyebrow — desktop center / mobile right */}
       {hero.description ? (
-        <p className="font-mono text-[10px] leading-[1.3] text-black absolute top-6 left-[203px] w-[178px] md:left-[50%] md:translate-x-[6px] md:w-[226px]">
+        <p className="font-mono text-xs leading-[1.3] text-black absolute top-6 left-[203px] w-[178px] md:left-[50%] md:translate-x-[6px] md:w-[226px]">
           {hero.description}
         </p>
       ) : null}

@@ -63,7 +63,7 @@ function PodcastHero({
           <div className="absolute left-3 top-3 flex h-[268px] w-[calc(100%-24px)] max-w-[345px] min-w-0 flex-col justify-between text-brand-off-white xl:h-[380px] xl:w-[453px] xl:max-w-[453px]">
             <div className="flex items-center gap-25.5">
               <LogosMark size={6} className="shrink-0" />
-              <span className="font-mono text-[10px] font-medium uppercase leading-[1.3]">
+              <span className="font-mono text-xs font-medium uppercase leading-[1.3]">
                 {copy.media}
               </span>
             </div>
@@ -86,7 +86,7 @@ function PodcastHero({
             </div>
           </div>
           <div className="absolute left-3 top-[397px] flex h-[290px] w-[calc(100%-24px)] items-center justify-center rounded-[100px] bg-accent-tan text-brand-dark-green xl:hidden">
-            <span className="inline-flex items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35]">
+            <span className="inline-flex items-center gap-1 font-mono text-xs font-semibold uppercase leading-[1.35]">
               {copy.seeAllEpisodes}
               <ArrowIcon />
             </span>

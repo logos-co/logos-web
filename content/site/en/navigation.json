@@ -19,6 +19,7 @@
   "homepageHighlight": {
     "enabled": true,
     "body": "Testnet v0.2 is live for experimentation. Introducing improvements to the entire stack.",
+    "dismissAriaLabel": "Dismiss announcement",
     "cta": {
       "label": "Learn More",
       "href": "https://blog.logos.co/article/testnet-v02-live"
@@ -71,7 +72,7 @@
             { "label": "Events", "href": "https://luma.com/logosevents" },
             {
               "label": "Join Community",
-              "href": "https://discord.gg/logosnetwork"
+              "href": "https://discord.gg/Ykv4eZyHUJ"
             },
             { "label": "Install Basecamp", "href": "/basecamp" },
             { "label": "Work with us", "href": "https://free.technology/jobs" }
@@ -127,7 +128,7 @@
         {
           "label": "Socials",
           "links": [
-            { "label": "Discord", "href": "https://discord.gg/logosnetwork" },
+            { "label": "Discord", "href": "https://discord.gg/Ykv4eZyHUJ" },
             { "label": "X", "href": "https://twitter.com/logos_network" },
             {
               "label": "YouTube",

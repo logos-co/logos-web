@@ -45,21 +45,21 @@ export function IdeaRow({ index, idea }: Props) {
             href={detailHref}
             className="inline-flex cursor-pointer items-center justify-center justify-self-end border border-brand-dark-green/50 px-3 py-2 text-brand-dark-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-brand-dark-green"
           >
-            <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap">
+            <span className="font-mono text-xs leading-[1.35] font-semibold uppercase whitespace-nowrap">
               {ctaLabel}
             </span>
             <span
               aria-hidden="true"
-              className="ml-1 font-mono text-[10px] leading-none"
+              className="ml-1 font-mono text-xs leading-none"
             >
               →
             </span>
           </Link>
-          <p className="min-w-0 font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+          <p className="min-w-0 font-mono text-xs leading-[1.3] text-brand-dark-green">
             {mobileDescription}
           </p>
           {rewardLines.length > 0 ? (
-            <p className="w-[83px] justify-self-end font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+            <p className="w-[83px] justify-self-end font-mono text-xs leading-[1.3] text-brand-dark-green">
               {rewardLines.map((line) => (
                 <span key={line} className="block">
                   {line}
@@ -82,13 +82,13 @@ export function IdeaRow({ index, idea }: Props) {
               {idea.title}
             </Link>
           </div>
-          <p className="min-w-0 flex-1 font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+          <p className="min-w-0 flex-1 font-mono text-xs leading-[1.3] text-brand-dark-green">
             <span className="block truncate">{description}</span>
             <span className="block truncate">{submitter}</span>
           </p>
           <div className="flex shrink-0 items-start gap-3">
             {rewardLines.length > 0 ? (
-              <span className="w-[107px] font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+              <span className="w-[107px] font-mono text-xs leading-[1.3] text-brand-dark-green">
                 {rewardLines.map((line) => (
                   <span key={line} className="block">
                     {line}
@@ -102,7 +102,7 @@ export function IdeaRow({ index, idea }: Props) {
               href={detailHref}
               className="inline-flex cursor-pointer items-center justify-center text-brand-dark-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-brand-dark-green"
             >
-              <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
+              <span className="font-mono text-xs leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-0.5">
                 {ctaLabel}
               </span>
             </Link>

@@ -65,66 +65,66 @@ function DetailHero({
   return (
     <section className="relative h-auto min-h-[291px] bg-brand-off-white px-3 pt-10 md:h-[334px] md:pb-0">
       <ContentWidth className="relative h-full">
-      <SmartLink
-        href={circle.detailBackLink.href}
-        className="absolute left-3 top-[-20px] inline-flex items-center gap-1 px-0 py-2 text-brand-dark-green"
-      >
-        <ArrowIcon direction="left" />
-        <span className="font-mono text-[10px] font-semibold uppercase leading-[1.35]">
-          {circle.detailBackLink.label}
-        </span>
-      </SmartLink>
+        <SmartLink
+          href={circle.detailBackLink.href}
+          className="absolute left-3 top-[-20px] inline-flex items-center gap-1 px-0 py-2 text-brand-dark-green"
+        >
+          <ArrowIcon direction="left" />
+          <span className="font-mono text-xs font-semibold uppercase leading-[1.35]">
+            {circle.detailBackLink.label}
+          </span>
+        </SmartLink>
 
-      <div className="flex items-center gap-3 md:absolute md:left-3 md:top-10">
-        <CircleLogo size="large" />
-        <h1 className="font-display text-[30px] leading-none text-brand-dark-green md:text-[36px]">
-          {circle.name}
-        </h1>
-      </div>
-
-      <div className="mt-10 grid gap-10 md:absolute md:left-[calc(50%+6px)] md:top-10 md:mt-0 md:w-[345px] md:gap-7">
-        <div className="flex flex-col items-start gap-3">
-          <p className="text-mono-s max-w-[369px] text-brand-dark-green md:max-w-[342px]">
-            {circle.description}
-          </p>
-
-          <Button
-            href={circle.joinUrl}
-            variant="secondary"
-            className="md:hidden"
-            {...(isExternalHref(circle.joinUrl)
-              ? { target: '_blank', rel: 'noopener noreferrer' }
-              : {})}
-          >
-            {settings.detailJoinCtaLabel}
-          </Button>
+        <div className="flex items-center gap-3 md:absolute md:left-3 md:top-10">
+          <CircleLogo size="large" />
+          <h1 className="font-display text-[30px] leading-none text-brand-dark-green md:text-[36px]">
+            {circle.name}
+          </h1>
         </div>
 
-        <dl className="text-mono-s w-full text-brand-dark-green">
-          {stats.map(([label, value]) => (
-            <div
-              key={label}
-              className="grid grid-cols-[83px_minmax(0,1fr)] gap-3 border-t border-brand-dark-green/10 py-1.5 md:grid-cols-[107px_minmax(0,1fr)]"
-            >
-              <dt className="font-mono text-[10px] font-medium uppercase leading-[1.3]">
-                {label}
-              </dt>
-              <dd className="min-w-0 break-words">{value}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
+        <div className="mt-10 grid gap-10 md:absolute md:left-[calc(50%+6px)] md:top-10 md:mt-0 md:w-[345px] md:gap-7">
+          <div className="flex flex-col items-start gap-3">
+            <p className="text-mono-s max-w-[369px] text-brand-dark-green md:max-w-[342px]">
+              {circle.description}
+            </p>
 
-      <Button
-        href={circle.joinUrl}
-        variant="secondary"
-        className="hidden md:absolute md:left-[calc(83.333%+2px)] md:top-10 md:mt-0 md:inline-flex"
-        {...(isExternalHref(circle.joinUrl)
-          ? { target: '_blank', rel: 'noopener noreferrer' }
-          : {})}
-      >
-        {settings.detailJoinCtaLabel}
-      </Button>
+            <Button
+              href={circle.joinUrl}
+              variant="secondary"
+              className="md:hidden"
+              {...(isExternalHref(circle.joinUrl)
+                ? { target: '_blank', rel: 'noopener noreferrer' }
+                : {})}
+            >
+              {settings.detailJoinCtaLabel}
+            </Button>
+          </div>
+
+          <dl className="text-mono-s w-full text-brand-dark-green">
+            {stats.map(([label, value]) => (
+              <div
+                key={label}
+                className="grid grid-cols-[83px_minmax(0,1fr)] gap-3 border-t border-brand-dark-green/10 py-1.5 md:grid-cols-[107px_minmax(0,1fr)]"
+              >
+                <dt className="font-mono text-xs font-medium uppercase leading-[1.3]">
+                  {label}
+                </dt>
+                <dd className="min-w-0 break-words">{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <Button
+          href={circle.joinUrl}
+          variant="secondary"
+          className="hidden md:absolute md:left-[calc(83.333%+2px)] md:top-10 md:mt-0 md:inline-flex"
+          {...(isExternalHref(circle.joinUrl)
+            ? { target: '_blank', rel: 'noopener noreferrer' }
+            : {})}
+        >
+          {settings.detailJoinCtaLabel}
+        </Button>
       </ContentWidth>
     </section>
   )
@@ -230,7 +230,7 @@ function SectionShell({
       <ContentWidth>
         <div className="flex flex-col gap-3 px-3">
           <div className="flex justify-start md:justify-end">
-            <h2 className="font-mono text-[10px] font-medium uppercase leading-[1.3] text-brand-dark-green">
+            <h2 className="font-mono text-xs font-medium uppercase leading-[1.3] text-brand-dark-green">
               {title}
             </h2>
           </div>
@@ -299,7 +299,7 @@ function InitiativeCard({ initiative }: { initiative: CircleInitiative }) {
       </div>
 
       <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green">
-        <span className="font-mono text-[10px] font-semibold uppercase leading-[1.35]">
+        <span className="font-mono text-xs font-semibold uppercase leading-[1.35]">
           {initiative.ctaLabel}
         </span>
         <ArrowIcon />

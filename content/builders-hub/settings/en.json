@@ -12,7 +12,7 @@
     "secondaryCtas": [
       {
         "label": "Join Discord",
-        "href": "https://discord.gg/logosnetwork",
+        "href": "https://discord.gg/Ykv4eZyHUJ",
         "external": true
       },
       {
@@ -174,7 +174,7 @@
         ],
         "cta": {
           "label": "Add to calendar",
-          "href": "https://discord.gg/logosnetwork",
+          "href": "https://discord.gg/Ykv4eZyHUJ",
           "external": true
         }
       },
@@ -208,7 +208,7 @@
         "description": "Chat with us and get real time support.",
         "cta": {
           "label": "Join",
-          "href": "https://discord.gg/logosnetwork",
+          "href": "https://discord.gg/Ykv4eZyHUJ",
           "external": true
         }
       },
@@ -274,7 +274,7 @@
     "seeAllCta": { "label": "Explore RFPs", "href": "/builders-hub/rfps" },
     "submitCta": {
       "label": "Submit an RFP",
-      "href": "https://discord.gg/logosnetwork",
+      "href": "https://discord.gg/Ykv4eZyHUJ",
       "external": true
     },
     "displayCount": 8,
@@ -301,7 +301,7 @@
     "seeAllCta": { "label": "See all ideas", "href": "/builders-hub/ideas" },
     "submitCta": {
       "label": "Submit an idea",
-      "href": "https://discord.gg/logosnetwork",
+      "href": "https://discord.gg/Ykv4eZyHUJ",
       "external": true
     },
     "displayCount": 7
@@ -357,7 +357,7 @@
     "description": "Talk to Logos core contributors.",
     "cta": {
       "label": "Join",
-      "href": "https://discord.gg/logosnetwork",
+      "href": "https://discord.gg/Ykv4eZyHUJ",
       "external": true
     }
   },
