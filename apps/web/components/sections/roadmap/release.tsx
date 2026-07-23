@@ -81,7 +81,7 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
   }
 
   return (
-    <section className="relative mt-10 bg-brand-off-white pb-[100px]">
+    <section className="relative mt-10 bg-brand-off-white pb-[100px] before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-black/25 before:content-['']">
       <ContentWidth>
         <div
           aria-label={data.tabsAriaLabel}

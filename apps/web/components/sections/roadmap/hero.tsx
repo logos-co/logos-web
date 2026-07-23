@@ -18,7 +18,7 @@ export function RoadmapHero({ data }: RoadmapHeroProps) {
           {data.heading}
         </h1>
 
-        <p className="text-mono-s absolute right-3 bottom-6 left-3 md:top-[356px] md:right-auto md:bottom-auto md:left-[calc(50%+6px)] md:w-[min(702px,calc(50vw-18px))]">
+        <p className="text-mono-s absolute top-[259px] right-3 left-3 md:top-[356px] md:right-auto md:left-[calc(50%+6px)] md:w-[min(702px,calc(50vw-18px))]">
           {data.disclaimer}
         </p>
       </ContentWidth>
