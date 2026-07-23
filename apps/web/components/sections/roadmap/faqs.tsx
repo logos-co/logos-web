@@ -2,8 +2,34 @@ import type { RoadmapCopySection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 
+import { ExternalTextLink } from './atoms'
+
 interface RoadmapFaqsProps {
   data: RoadmapCopySection['faqs']
+}
+
+type RoadmapFaqAnswerParagraph =
+  RoadmapCopySection['faqs']['items'][number]['answer'][number]
+
+function RoadmapFaqParagraph({
+  paragraph,
+}: {
+  paragraph: RoadmapFaqAnswerParagraph
+}) {
+  if (!paragraph.link) {
+    return paragraph.text
+  }
+
+  const linkStart = paragraph.text.indexOf(paragraph.link.label)
+  const linkEnd = linkStart + paragraph.link.label.length
+
+  return (
+    <>
+      {paragraph.text.slice(0, linkStart)}
+      <ExternalTextLink action={paragraph.link} />
+      {paragraph.text.slice(linkEnd)}
+    </>
+  )
 }
 
 export function RoadmapFaqs({ data }: RoadmapFaqsProps) {
@@ -27,7 +53,9 @@ export function RoadmapFaqs({ data }: RoadmapFaqsProps) {
               </h3>
               <div className="text-mono-s flex w-full max-w-[640px] flex-col gap-[13px] text-brand-dark-green lg:max-w-none lg:px-[200px] lg:py-3">
                 {item.answer.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
+                  <p key={paragraph.text}>
+                    <RoadmapFaqParagraph paragraph={paragraph} />
+                  </p>
                 ))}
               </div>
             </div>

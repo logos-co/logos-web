@@ -61,7 +61,7 @@
                 "body": "Runtime loads modules, Basecamp supports simple apps and UI interface, and Logos node can load with Blockchain, Storage, and Messaging modules.",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/logoscore/"
                   },
@@ -77,7 +77,7 @@
                 "body": "Proof-of-concept for Mix module and demo application, and the first implementation of the Capability Discovery Protocol.",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/anoncomms/"
                   },
@@ -98,7 +98,7 @@
                 "body": "Private Proof-of-Stake consensus with Cryptarchia and Blend. Users are able to run a node, set up a wallet, and transact on testnet.",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/blockchain/"
                   },
@@ -119,7 +119,7 @@
                 "body": "Demo chat application available through Basecamp. Delivery module exposed to developers building privacy-preserving applications.",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/messaging/"
                   },
@@ -140,7 +140,7 @@
                 "body": "Demo filesharing application available on Basecamp powered by Storage module.",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/storage/"
                   },
@@ -180,7 +180,7 @@
                 "body": "Improved documentation and better coordination between Logos modules.",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/logoscore/"
                   },
@@ -196,7 +196,7 @@
                 "body": "Decentralised group chat through De-MLS, and RLN membership allocation for Mix.",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/anoncomms/"
                   },
@@ -217,7 +217,7 @@
                 "body": "Sovereign Zone SDK, channels, bridging support, and decentralised sequencing.",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/blockchain/"
                   },
@@ -238,7 +238,7 @@
                 "body": "New delivery module with Mix integrated. Integration of Mix and De-MLS into Chat module.",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/messaging/"
                   },
@@ -259,7 +259,7 @@
                 "body": "Faster and more stable decentralised file-sharing, and a proof-of-concept for DHT over Mix.",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/storage/"
                   },
@@ -294,7 +294,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/logoscore/"
                   },
@@ -310,7 +310,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/anoncomms/"
                   },
@@ -331,7 +331,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/blockchain/"
                   },
@@ -352,7 +352,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/messaging/"
                   },
@@ -373,7 +373,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/storage/"
                   },
@@ -408,7 +408,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/logoscore/"
                   },
@@ -424,7 +424,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/anoncomms/"
                   },
@@ -445,7 +445,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/blockchain/"
                   },
@@ -466,7 +466,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/messaging/"
                   },
@@ -487,7 +487,7 @@
                 "body": "TBD",
                 "actions": [
                   {
-                    "label": "Track Progress",
+                    "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/storage/"
                   },
@@ -620,26 +620,44 @@
           {
             "question": "Will the Logos roadmap change?",
             "answer": [
-              "Yes, almost definitely. The roadmap is broad and the scope of our goal is ambitious. As an open-source, community-driven initiative, objectives and timelines may change as contributors explore new technologies or better solutions are found to the challenges we are solving."
+              {
+                "text": "Yes, almost definitely. The roadmap is broad and the scope of our goal is ambitious. As an open-source, community-driven initiative, objectives and timelines may change as contributors explore new technologies or better solutions are found to the challenges we are solving."
+              }
             ]
           },
           {
             "question": "Do I have to do anything?",
             "answer": [
-              "If you are running a node, you will need to update your node to the latest version when a new release is published. Node operators will be informed when they need to update their software.",
-              "Normally, if you are running Basecamp or using a Logos-based application, you should not need to do anything when new releases are published. If there is a breaking change, we will announce when a manual update is required."
+              {
+                "text": "If you are running a node, you will need to update your node to the latest version when a new release is published. Node operators will be informed when they need to update their software."
+              },
+              {
+                "text": "Normally, if you are running Basecamp or using a Logos-based application, you should not need to do anything when new releases are published. If there is a breaking change, we will announce when a manual update is required."
+              }
             ]
           },
           {
             "question": "Can I run a node on the Logos blockchain?",
             "answer": [
-              "Yes. Prior to mainnet, users are able to run a node on the Logos testnet and play a crucial role in building the security and resilience of the blockchain. Read more on how to run a node at docs.logos.co."
+              {
+                "text": "Yes. Prior to mainnet, users are able to run a node on the Logos testnet and play a crucial role in building the security and resilience of the blockchain. Read more on how to run a node at docs.logos.co.",
+                "link": {
+                  "label": "docs.logos.co",
+                  "href": "https://docs.logos.co"
+                }
+              }
             ]
           },
           {
             "question": "How can I contribute to Logos?",
             "answer": [
-              "If you are a developer, head over to docs.logos.co and get started building applications on Basecamp, the user-facing interface for the Logos stack. You can also join our community and help with the development of the stack and modules."
+              {
+                "text": "If you are a developer, head over to docs.logos.co and get started building applications on Basecamp, the user-facing interface for the Logos stack. You can also join our community and help with the development of the stack and modules.",
+                "link": {
+                  "label": "docs.logos.co",
+                  "href": "https://docs.logos.co"
+                }
+              }
             ]
           }
         ]
