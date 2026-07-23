@@ -51,7 +51,7 @@ export function RoadmapFaqs({ data }: RoadmapFaqsProps) {
               <h3 className="text-body-serif text-brand-dark-green lg:p-3">
                 {item.question}
               </h3>
-              <div className="text-mono-s flex w-full max-w-[640px] flex-col gap-[13px] text-brand-dark-green lg:max-w-none lg:px-[200px] lg:py-3">
+              <div className="flex w-full max-w-[640px] flex-col gap-[13px] font-mono-body text-xs leading-[1.3] text-brand-dark-green lg:max-w-none lg:px-[200px] lg:py-3">
                 {item.answer.map((paragraph) => (
                   <p key={paragraph.text}>
                     <RoadmapFaqParagraph paragraph={paragraph} />

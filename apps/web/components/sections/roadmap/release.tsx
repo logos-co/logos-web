@@ -105,7 +105,7 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
                 aria-selected={isActive}
                 aria-controls={panelId}
                 tabIndex={isActive ? 0 : -1}
-                className={`flex h-[34px] w-[92px] shrink-0 cursor-pointer items-center justify-center px-2.5 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap uppercase ${
+                className={`flex h-[34px] w-[92px] shrink-0 cursor-pointer items-center justify-center px-2.5 font-mono text-xs leading-[1.35] font-semibold whitespace-nowrap uppercase ${
                   isActive
                     ? 'bg-brand-dark-green text-brand-off-white'
                     : 'text-brand-dark-green'
@@ -146,13 +146,13 @@ function ReleaseInformation({
   return (
     <div className="order-1 w-full text-brand-dark-green min-[1025px]:max-w-full min-[1025px]:w-[548px]">
       {release.status ? (
-        <span className="inline-flex rounded-sm bg-brand-yellow px-1 py-0.5 font-mono text-[10px] leading-[1.35] font-semibold uppercase">
+        <span className="inline-flex rounded-sm bg-brand-yellow px-1 py-0.5 font-mono text-xs leading-[1.35] font-semibold uppercase">
           {release.status}
         </span>
       ) : null}
 
       <div
-        className={`font-mono-body text-[10px] leading-[1.3] ${
+        className={`font-mono-body text-xs leading-[1.3] ${
           release.status ? 'mt-[27px]' : ''
         }`}
       >
@@ -207,7 +207,7 @@ function ReleaseModuleRow({
       <h3 className="font-display text-[14px] leading-[1.2] md:pl-3">
         {module.label}
       </h3>
-      <p className="max-w-[368px] font-mono-body text-[10px] leading-[1.3]">
+      <p className="max-w-[368px] font-mono-body text-xs leading-[1.3]">
         {module.body}
       </p>
       {module.actions.length > 0 ? (
@@ -233,7 +233,7 @@ function ModuleActionLink({
   showIcon: boolean
 }) {
   const className =
-    'inline-flex cursor-pointer items-center gap-1 border-b border-brand-dark-green/50 pb-0.5 font-mono text-[10px] leading-[1.35] font-semibold whitespace-nowrap text-brand-dark-green uppercase'
+    'inline-flex cursor-pointer items-center gap-1 border-b border-brand-dark-green/50 pb-0.5 font-mono text-xs leading-[1.35] font-semibold whitespace-nowrap text-brand-dark-green uppercase'
   const content = (
     <>
       <span>{action.label}</span>
@@ -290,11 +290,11 @@ function ReleaseFeature({
       <div className="absolute top-3 right-3 left-3 flex items-start justify-between">
         <div className="flex w-[142px] items-center justify-between">
           <LogosMark size={9} className="shrink-0" />
-          <span className="font-mono text-[10px] leading-[1.3] font-medium uppercase">
+          <span className="font-mono text-xs leading-[1.3] font-medium uppercase">
             {feature.eyebrow}
           </span>
         </div>
-        <p className="w-[min(333px,48%)] font-mono-body text-[10px] leading-[1.3]">
+        <p className="w-[min(333px,48%)] font-mono-body text-xs leading-[1.3]">
           {feature.body}
         </p>
       </div>
