@@ -3,6 +3,7 @@ import Image from 'next/image'
 import type { RoadmapCopySection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
+import { Link } from '@/i18n/navigation'
 
 import { ActionPill } from './atoms'
 import type { OverviewCard } from './types'
@@ -33,11 +34,45 @@ export function RoadmapOverview({ data }: RoadmapOverviewProps) {
 }
 
 function RoadmapOverviewCard({ card }: { card: OverviewCard }) {
+  const cardClassName =
+    'relative block h-[420px] w-full overflow-hidden rounded-xl bg-[#2f2f2f] text-brand-off-white [contain:paint] md:h-[480px] desktop:w-[460px]'
+  const content = <RoadmapOverviewCardContent card={card} />
+
+  if (!card.cta?.href) {
+    return <article className={cardClassName}>{content}</article>
+  }
+
+  const linkClassName = `${cardClassName} group/roadmap-card cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green`
+
+  if (card.cta.href.startsWith('https://')) {
+    return (
+      <a
+        href={card.cta.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={linkClassName}
+      >
+        {content}
+      </a>
+    )
+  }
+
+  return (
+    <Link href={card.cta.href} className={linkClassName}>
+      {content}
+    </Link>
+  )
+}
+
+function RoadmapOverviewCardContent({ card }: { card: OverviewCard }) {
   const isAnnouncementCard = !card.title
 
   return (
-    <article className="relative h-[420px] w-full overflow-hidden rounded-xl bg-[#2f2f2f] text-brand-off-white [contain:paint] md:h-[480px] desktop:w-[460px]">
+    <>
       <RoadmapCardBackground card={card} />
+      {card.cta?.href ? (
+        <span className="pointer-events-none absolute inset-0 bg-brand-dark-green/0 transition-colors duration-300 ease-out group-hover/roadmap-card:bg-brand-dark-green/10 group-focus-visible/roadmap-card:bg-brand-dark-green/10" />
+      ) : null}
 
       {isAnnouncementCard ? (
         <p className="absolute top-1/2 left-1/2 w-[min(336px,calc(100%-48px))] -translate-x-1/2 -translate-y-1/2 text-center font-sans text-[18px] leading-[1.15] text-brand-off-white">
@@ -53,12 +88,23 @@ function RoadmapOverviewCard({ card }: { card: OverviewCard }) {
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
-          {card.cta ? <ActionPill action={card.cta} /> : <span />}
+          {card.cta ? (
+            <ActionPill
+              action={card.cta}
+              asLink={false}
+              className="transition-colors duration-300 ease-out group-hover/roadmap-card:bg-accent-steel-teal group-focus-visible/roadmap-card:bg-accent-steel-teal"
+            />
+          ) : (
+            <span />
+          )}
         </div>
       )}
-    </article>
+    </>
   )
 }
+
+const interactiveBackgroundClassName =
+  'transition-transform duration-700 ease-out group-hover/roadmap-card:scale-[1.04] group-focus-visible/roadmap-card:scale-[1.04] motion-reduce:transform-none motion-reduce:transition-none'
 
 function RoadmapCardBackground({ card }: { card: OverviewCard }) {
   switch (card.id) {
@@ -70,7 +116,7 @@ function RoadmapCardBackground({ card }: { card: OverviewCard }) {
             alt={card.image.alt}
             fill
             sizes="720px"
-            className="object-cover"
+            className={`object-cover ${interactiveBackgroundClassName}`}
           />
         </div>
       )
@@ -82,7 +128,7 @@ function RoadmapCardBackground({ card }: { card: OverviewCard }) {
             alt={card.image.alt}
             fill
             sizes="1340px"
-            className="object-cover"
+            className={`object-cover ${interactiveBackgroundClassName}`}
           />
         </div>
       )
@@ -94,7 +140,7 @@ function RoadmapCardBackground({ card }: { card: OverviewCard }) {
             alt={card.image.alt}
             fill
             sizes="700px"
-            className="object-cover"
+            className={`object-cover ${interactiveBackgroundClassName}`}
           />
         </div>
       )
@@ -106,7 +152,7 @@ function RoadmapCardBackground({ card }: { card: OverviewCard }) {
             alt={card.image.alt}
             fill
             sizes="574px"
-            className="object-cover"
+            className={`object-cover ${interactiveBackgroundClassName}`}
           />
         </div>
       )
@@ -118,7 +164,7 @@ function RoadmapCardBackground({ card }: { card: OverviewCard }) {
             alt={card.image.alt}
             fill
             sizes="574px"
-            className="object-cover"
+            className={`object-cover ${interactiveBackgroundClassName}`}
           />
         </div>
       )
@@ -130,7 +176,7 @@ function RoadmapCardBackground({ card }: { card: OverviewCard }) {
             alt={card.image.alt}
             fill
             sizes="1494px"
-            className="object-cover"
+            className={`object-cover ${interactiveBackgroundClassName}`}
           />
         </div>
       )
