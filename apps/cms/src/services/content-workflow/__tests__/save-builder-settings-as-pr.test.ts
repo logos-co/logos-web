@@ -18,7 +18,7 @@ const createListingDoc = (
   description: 'Funded work.',
   breadcrumbLabel: 'RFPs',
   submitCtaLabel: 'Submit',
-  submitCtaHref: 'https://discord.gg/logosnetwork',
+  submitCtaHref: 'https://discord.gg/T6gDZWQCsz',
   submitCtaExternal: true,
   defaultView: 'grid',
   pageSize: 12,
@@ -26,7 +26,7 @@ const createListingDoc = (
   nextLabel: 'Next',
   bottomCtaTitle: 'Have a build idea?',
   bottomCtaLabel: 'Submit',
-  bottomCtaHref: 'https://discord.gg/logosnetwork',
+  bottomCtaHref: 'https://discord.gg/T6gDZWQCsz',
   bottomCtaExternal: true,
   ...overrides,
 })

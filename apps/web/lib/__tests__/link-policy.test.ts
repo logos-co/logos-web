@@ -48,7 +48,7 @@ const repoPressArticlePaths = [
   'packages/content/src/schemas/press.ts',
 ].map((path) => join(repoRoot, path))
 const jobsHref = 'https://free.technology/jobs'
-const discordHref = 'https://discord.gg/logosnetwork'
+const discordHref = 'https://discord.gg/T6gDZWQCsz'
 const onboardingCalendarHref = 'https://cal.com/team/logos-onboarding/intro'
 const logosDocsHref = 'https://docs.logos.co/'
 const communityIdeasHref = 'https://github.com/logos-co/ideas'

@@ -70,10 +70,10 @@ export function HomepageHighlightCard({
           />
         </span>
         <span className="flex min-w-0 flex-1 flex-col items-start justify-center gap-[3px] py-1 md:justify-start md:py-0">
-          <span className="text-mono-s block w-full text-brand-dark-green md:text-brand-off-white">
+          <span className="block w-full font-mono-body text-[10px] leading-[1.3] text-brand-dark-green md:text-brand-off-white">
             {data.body}
           </span>
-          <span className="flex items-center gap-1 font-mono text-xs leading-[1.35] font-semibold text-brand-dark-green uppercase md:text-brand-off-white">
+          <span className="flex items-center gap-1 font-mono text-[10px] leading-[1.35] font-semibold text-brand-dark-green uppercase md:text-brand-off-white">
             {data.cta.label}
             <ArrowIcon />
           </span>
