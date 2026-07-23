@@ -8,9 +8,9 @@ interface RoadmapHeroProps {
 
 export function RoadmapHero({ data }: RoadmapHeroProps) {
   return (
-    <section className="relative h-[420px] overflow-hidden bg-brand-off-white md:-mt-0.5 md:h-[447px]">
+    <section className="relative h-[372px] overflow-hidden bg-brand-off-white md:-mt-0.5 md:h-[447px]">
       <ContentWidth className="relative h-full text-brand-dark-green">
-        <p className="text-mono-s absolute top-10 left-1/2 w-[min(342px,calc(100vw-24px))] -translate-x-1/2 text-center md:top-[58px] min-[1025px]:left-[calc(50%+6px)] min-[1025px]:translate-x-0 min-[1025px]:text-left">
+        <p className="text-mono-s absolute top-10 left-3 w-[min(342px,calc(100vw-24px))] text-left md:top-[58px] md:left-1/2 md:-translate-x-1/2 md:text-center min-[1025px]:left-[calc(50%+6px)] min-[1025px]:translate-x-0 min-[1025px]:text-left">
           {data.eyebrow}
         </p>
 

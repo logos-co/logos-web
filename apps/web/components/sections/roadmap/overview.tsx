@@ -71,7 +71,7 @@ function RoadmapOverviewCardContent({ card }: { card: OverviewCard }) {
     <>
       <RoadmapCardBackground card={card} />
       {card.cta?.href ? (
-        <span className="pointer-events-none absolute inset-0 bg-brand-dark-green/0 transition-colors duration-300 ease-out group-hover/roadmap-card:bg-brand-dark-green/10 group-focus-visible/roadmap-card:bg-brand-dark-green/10" />
+        <span className="pointer-events-none absolute inset-0 bg-white/0 transition-colors duration-300 ease-out group-hover/roadmap-card:bg-white/10 group-focus-visible/roadmap-card:bg-white/10" />
       ) : null}
 
       {isAnnouncementCard ? (
