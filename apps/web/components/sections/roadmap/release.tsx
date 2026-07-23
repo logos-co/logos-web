@@ -273,14 +273,16 @@ function ReleaseFeature({
   feature: RoadmapCopySection['release']['feature']
 }) {
   return (
-    <div className="relative order-2 aspect-[369/402] w-full overflow-hidden rounded-xl text-brand-off-white [@media(min-width:768px)_and_(max-width:1024px)]:aspect-[16/9] min-[1025px]:order-none min-[1025px]:aspect-[702/626] desktop:h-[626px] desktop:aspect-auto">
-      <div className="absolute inset-0 min-[1025px]:inset-auto min-[1025px]:top-[-22.52396166%] min-[1025px]:left-0 min-[1025px]:h-[124.28115016%] min-[1025px]:w-[105.84045584%]">
+    <div className="relative order-2 aspect-[702/521] w-full overflow-hidden rounded-xl text-brand-off-white min-[1025px]:order-none desktop:h-[521px] desktop:aspect-auto">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
         <Image
           src={feature.image.src}
           alt={feature.image.alt}
-          fill
-          sizes="(min-width: 1440px) 743px, (min-width: 1025px) 53vw, calc(100vw - 24px)"
-          className="object-cover"
+          width={feature.image.width}
+          height={feature.image.height}
+          sizes="(min-width: 1440px) 1459px, (min-width: 1025px) 104vw, 208vw"
+          className="absolute top-[-18.21%] left-[-78.08%] h-[119.96%] w-[207.78%] max-w-none"
+          loading="eager"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 from-[25.835%] to-transparent to-50%" />
       </div>
