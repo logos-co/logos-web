@@ -1,6 +1,5 @@
 'use client'
 
-import { LogosMark } from '@acid-info/logos-ui'
 import Image from 'next/image'
 import { type KeyboardEvent, useRef, useState } from 'react'
 
@@ -81,12 +80,12 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
   }
 
   return (
-    <section className="relative mt-10 bg-brand-off-white pb-[100px] before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-black/25 before:content-['']">
+    <section className="relative mt-10 bg-brand-off-white pb-0 before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-black/25 before:content-[''] desktop:pb-[100px]">
       <ContentWidth>
         <div
           aria-label={data.tabsAriaLabel}
           role="tablist"
-          className="flex h-[34px] w-fit max-w-full divide-x divide-brand-dark-green overflow-x-auto outline outline-1 outline-brand-dark-green [outline-offset:-1px]"
+          className="flex h-[40px] w-fit max-w-full divide-x divide-brand-dark-green overflow-x-auto outline outline-1 outline-brand-dark-green [outline-offset:-1px] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {data.items.map((item, index) => {
             const isActive = item.tab === activeRelease.tab
@@ -105,7 +104,7 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
                 aria-selected={isActive}
                 aria-controls={panelId}
                 tabIndex={isActive ? 0 : -1}
-                className={`flex h-[34px] w-[92px] shrink-0 cursor-pointer items-center justify-center px-2.5 font-mono text-xs leading-[1.35] font-semibold whitespace-nowrap uppercase ${
+                className={`flex h-[40px] w-[120px] shrink-0 cursor-pointer items-center justify-center px-4 font-mono text-xs leading-[1.35] font-semibold whitespace-nowrap uppercase ${
                   isActive
                     ? 'bg-brand-dark-green text-brand-off-white'
                     : 'text-brand-dark-green'
@@ -124,9 +123,9 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
           role="tabpanel"
           aria-labelledby={getReleaseTabId(activeReleaseIndex)}
           tabIndex={0}
-          className="mt-10 flex flex-col gap-10 min-[1025px]:mt-[18px] min-[1025px]:grid min-[1025px]:grid-cols-2 min-[1025px]:gap-3 desktop:h-[696px]"
+          className="mt-10 flex flex-col gap-10 min-[1025px]:mt-[18px] min-[1025px]:grid min-[1025px]:grid-cols-2 min-[1025px]:items-stretch min-[1025px]:gap-3 min-[1025px]:pt-[41px]"
         >
-          <div className="contents min-[1025px]:flex min-[1025px]:flex-col min-[1025px]:gap-[34px] min-[1025px]:pt-[41px]">
+          <div className="contents min-[1025px]:flex min-[1025px]:flex-col min-[1025px]:gap-[34px]">
             <ReleaseInformation release={activeRelease} />
             <ReleaseModuleTable modules={activeRelease.modules} />
           </div>
@@ -273,31 +272,16 @@ function ReleaseFeature({
   feature: RoadmapCopySection['release']['feature']
 }) {
   return (
-    <div className="relative order-2 aspect-[702/521] w-full overflow-hidden rounded-xl text-brand-off-white min-[1025px]:order-none desktop:h-[521px] desktop:aspect-auto">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
-        <Image
-          src={feature.image.src}
-          alt={feature.image.alt}
-          width={feature.image.width}
-          height={feature.image.height}
-          sizes="(min-width: 1440px) 1459px, (min-width: 1025px) 104vw, 208vw"
-          className="absolute top-[-18.21%] left-[-78.08%] h-[119.96%] w-[207.78%] max-w-none"
-          loading="eager"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 from-[25.835%] to-transparent to-50%" />
-      </div>
-
-      <div className="absolute top-3 right-3 left-3 flex items-start justify-between">
-        <div className="flex w-[142px] items-center justify-between">
-          <LogosMark size={9} className="shrink-0" />
-          <span className="font-mono text-xs leading-[1.3] font-medium uppercase">
-            {feature.eyebrow}
-          </span>
-        </div>
-        <p className="w-[min(333px,48%)] font-mono-body text-xs leading-[1.3]">
-          {feature.body}
-        </p>
-      </div>
+    <div className="relative order-2 aspect-[702/521] w-full overflow-hidden rounded-xl min-[1025px]:order-none min-[1025px]:aspect-auto min-[1025px]:h-full">
+      <Image
+        src={feature.image.src}
+        alt={feature.image.alt}
+        width={feature.image.width}
+        height={feature.image.height}
+        sizes="(min-width: 1025px) 50vw, 100vw"
+        className="h-full w-full object-cover object-[62%_center]"
+        loading="eager"
+      />
     </div>
   )
 }
