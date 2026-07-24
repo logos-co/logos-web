@@ -37,7 +37,11 @@
           "href": "https://github.com/logos-co/liblogos"
         },
         {
-          "title": "MIX-RLN-SPAM-PROTECTION-PLUGIN — RLN-based spam protection for libp2p mixnets.",
+          "title": "NIM-LIBP2P-MIX — Sphinx-based mixnet implementation for libp2p.",
+          "href": "https://github.com/logos-co/nim-libp2p-mix"
+        },
+        {
+          "title": "MIX-RLN-SPAM-PROTECTION-PLUGIN — RLN-based DoS protection for libp2p mixnets.",
           "href": "https://github.com/logos-co/mix-rln-spam-protection-plugin"
         },
         {
