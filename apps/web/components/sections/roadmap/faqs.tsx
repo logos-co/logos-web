@@ -34,7 +34,7 @@ function RoadmapFaqParagraph({
 
 export function RoadmapFaqs({ data }: RoadmapFaqsProps) {
   return (
-    <section className="relative mt-20 mb-10 bg-brand-off-white py-28 before:absolute before:top-0 before:left-0 before:h-px before:w-full before:bg-brand-dark-green/10 before:content-[''] desktop:mt-10">
+    <section className="relative mt-[120px] mb-10 bg-brand-off-white pt-0 pb-28 before:absolute before:top-0 before:left-0 before:h-px before:w-full before:bg-brand-dark-green/10 before:content-[''] max-desktop:before:hidden desktop:mt-10 desktop:pt-28">
       <ContentWidth>
         <h2 className="text-h3-serif text-brand-dark-green [text-box-edge:cap_alphabetic] [text-box-trim:trim-both]">
           {data.heading}
