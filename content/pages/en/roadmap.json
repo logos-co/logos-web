@@ -30,17 +30,17 @@
         "activeTab": "TESTNET V0.2",
         "feature": {
           "eyebrow": "Build",
-          "body": "Operate early. Help harden a private-by-default network that protects civil liberties and strengthens trust in our communities.",
-          "image": {
-            "src": "/images/roadmap/release-roadmap.png",
-            "alt": "",
-            "width": 1916,
-            "height": 821
-          }
+          "body": "Operate early. Help harden a private-by-default network that protects civil liberties and strengthens trust in our communities."
         },
         "items": [
           {
             "tab": "TESTNET V0.1",
+            "image": {
+              "src": "/images/roadmap/releases/testnet-v0-1.png",
+              "alt": "",
+              "width": 1916,
+              "height": 821
+            },
             "status": "LIVE",
             "dateLabel": "Date Released",
             "date": "March 7, 2026",
@@ -160,6 +160,12 @@
           },
           {
             "tab": "TESTNET V0.2",
+            "image": {
+              "src": "/images/roadmap/releases/testnet-v0-2.png",
+              "alt": "",
+              "width": 1916,
+              "height": 821
+            },
             "status": "LIVE",
             "dateLabel": "Date Released",
             "date": "June 30, 2026",
@@ -279,6 +285,12 @@
           },
           {
             "tab": "TESTNET V0.3",
+            "image": {
+              "src": "/images/roadmap/releases/testnet-v0-3.png",
+              "alt": "",
+              "width": 1916,
+              "height": 821
+            },
             "status": "IN DEVELOPMENT",
             "dateLabel": "Expected Release",
             "date": "H2 2026",
@@ -393,6 +405,12 @@
           },
           {
             "tab": "MAINNET",
+            "image": {
+              "src": "/images/roadmap/releases/mainnet.png",
+              "alt": "",
+              "width": 1916,
+              "height": 821
+            },
             "status": "IN DEVELOPMENT",
             "dateLabel": "Expected Release",
             "date": "H1 2027",

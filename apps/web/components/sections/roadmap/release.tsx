@@ -130,7 +130,7 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
             <ReleaseModuleTable modules={activeRelease.modules} />
           </div>
 
-          <ReleaseFeature feature={data.feature} />
+          <ReleaseFeature image={activeRelease.image} />
         </div>
       </ContentWidth>
     </section>
@@ -267,17 +267,18 @@ function ModuleActionLink({
 }
 
 function ReleaseFeature({
-  feature,
+  image,
 }: {
-  feature: RoadmapCopySection['release']['feature']
+  image: RoadmapCopySection['release']['items'][number]['image']
 }) {
   return (
     <div className="relative order-2 aspect-[702/521] w-full overflow-hidden rounded-xl min-[1025px]:order-none min-[1025px]:aspect-auto min-[1025px]:h-full">
       <Image
-        src={feature.image.src}
-        alt={feature.image.alt}
-        width={feature.image.width}
-        height={feature.image.height}
+        key={image.src}
+        src={image.src}
+        alt={image.alt}
+        width={image.width}
+        height={image.height}
         sizes="(min-width: 1025px) 50vw, 100vw"
         className="h-full w-full object-cover object-[62%_center]"
         loading="eager"
