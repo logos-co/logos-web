@@ -448,6 +448,7 @@ const roadmapReleaseModuleSchema = z.object({
 
 const roadmapReleaseItemSchema = z.object({
   tab: z.string().min(1),
+  image: mediaRefSchema,
   status: z.string().min(1).optional(),
   dateLabel: z.string().min(1),
   date: z.string().min(1),
@@ -506,7 +507,6 @@ export const roadmapCopySectionSchema = z.object({
     feature: z.object({
       eyebrow: z.string().min(1),
       body: z.string().min(1),
-      image: mediaRefSchema,
     }),
     items: z.array(roadmapReleaseItemSchema).min(1),
   }),
