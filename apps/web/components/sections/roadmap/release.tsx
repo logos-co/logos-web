@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { type KeyboardEvent, useRef, useState } from 'react'
+import { type KeyboardEvent, useEffect, useRef, useState } from 'react'
 
 import type { RoadmapCopySection } from '@repo/content/schemas'
 
@@ -271,14 +271,41 @@ function ReleaseFeature({
 }: {
   image: RoadmapCopySection['release']['items'][number]['image']
 }) {
+  const [displayedImage, setDisplayedImage] = useState(image)
+
+  useEffect(() => {
+    if (image.src === displayedImage.src) {
+      return
+    }
+
+    let isCancelled = false
+    const nextImage = new window.Image()
+    const showNextImage = () => {
+      if (!isCancelled) {
+        setDisplayedImage(image)
+      }
+    }
+
+    nextImage.addEventListener('load', showNextImage, { once: true })
+    nextImage.src = image.src
+
+    if (nextImage.complete && nextImage.naturalWidth > 0) {
+      showNextImage()
+    }
+
+    return () => {
+      isCancelled = true
+      nextImage.removeEventListener('load', showNextImage)
+    }
+  }, [displayedImage.src, image])
+
   return (
     <div className="relative order-2 aspect-[702/521] w-full overflow-hidden rounded-xl min-[1025px]:order-none min-[1025px]:aspect-auto min-[1025px]:h-full">
       <Image
-        key={image.src}
-        src={image.src}
-        alt={image.alt}
-        width={image.width}
-        height={image.height}
+        src={displayedImage.src}
+        alt={displayedImage.alt}
+        width={displayedImage.width}
+        height={displayedImage.height}
         sizes="(min-width: 1025px) 50vw, 100vw"
         className="h-full w-full object-cover object-[62%_center]"
         loading="eager"
