@@ -8,6 +8,9 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 const nextConfig = {
   basePath: process.env.BASE_PATH || undefined,
+  experimental: {
+    globalNotFound: true,
+  },
   images: {
     unoptimized: true,
   },
