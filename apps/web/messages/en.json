@@ -52,6 +52,10 @@
       "description": "Curated links to Logos ecosystem projects and resources.",
       "heading": "Links"
     },
+    "notFound": {
+      "heading": "404 | Not Found",
+      "homeLink": "Return to homepage"
+    },
     "about": {
       "title": "About | Logos",
       "description": "Logos is on a mission to revitalise Civil Society. A community of builders, activists, and change seekers contributing in a wide variety of ways.",
