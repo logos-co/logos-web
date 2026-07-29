@@ -1,8 +1,9 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import {
-  resolveCountryLabel,
+  resolveOptionLabel,
   submitFunnelNewsletterSignups,
+  toLabelledFormFields,
 } from '../funnel-newsletter-signup'
 
 const LOGOS_NEWSLETTER = '6913441fee2f120001cec90d'
@@ -28,7 +29,7 @@ const BASE = {
   country: 'Germany',
 }
 
-describe('resolveCountryLabel', () => {
+describe('resolveOptionLabel', () => {
   // Shape of the real `AFFORM_OPTIONS.country` entries.
   const options = [
     { value: '1001', label: 'Afghanistan' },
@@ -36,31 +37,115 @@ describe('resolveCountryLabel', () => {
   ]
 
   test('maps a CiviCRM option id to its label', () => {
-    expect(resolveCountryLabel('1082', options)).toBe('Germany')
+    expect(resolveOptionLabel('1082', options)).toBe('Germany')
   })
 
   test('drops an unknown numeric id rather than leaking it into the note', () => {
-    expect(resolveCountryLabel('9999', options)).toBe('')
+    expect(resolveOptionLabel('9999', options)).toBe('')
   })
 
-  test('drops any id when the form carries no country options', () => {
-    expect(resolveCountryLabel('1082', [])).toBe('')
+  test('drops any id when the form carries no options', () => {
+    expect(resolveOptionLabel('1082', [])).toBe('')
   })
 
   test('passes a non-numeric value through as free text', () => {
-    expect(resolveCountryLabel('Germany', options)).toBe('Germany')
+    expect(resolveOptionLabel('Germany', options)).toBe('Germany')
   })
 
   test('reads the first entry of a repeatable value', () => {
-    expect(resolveCountryLabel(['1082', '1001'], options)).toBe('Germany')
+    expect(resolveOptionLabel(['1082', '1001'], options)).toBe('Germany')
   })
 
   test('returns an empty string for blank, missing and non-text values', () => {
-    expect(resolveCountryLabel('  ', options)).toBe('')
-    expect(resolveCountryLabel('', options)).toBe('')
-    expect(resolveCountryLabel([], options)).toBe('')
-    expect(resolveCountryLabel(undefined, options)).toBe('')
-    expect(resolveCountryLabel(true, options)).toBe('')
+    expect(resolveOptionLabel('  ', options)).toBe('')
+    expect(resolveOptionLabel('', options)).toBe('')
+    expect(resolveOptionLabel([], options)).toBe('')
+    expect(resolveOptionLabel(undefined, options)).toBe('')
+    expect(resolveOptionLabel(true, options)).toBe('')
+  })
+})
+
+describe('toLabelledFormFields', () => {
+  // Shape of a real activist-builder submission.
+  const fieldOptions = {
+    country: [
+      { value: '1003', label: 'Algeria' },
+      { value: '1082', label: 'Germany' },
+    ],
+    skills: [
+      { value: '4', label: 'Software Development' },
+      { value: '7', label: 'Design' },
+    ],
+    chatService: [{ value: '3', label: 'Telegram' }],
+    hearAbout: [{ value: '4', label: 'A friend or colleague' }],
+    // Checkboxes carry an option list too, and must not be relabelled.
+    wantsEvents: [{ value: '1', label: 'Yes' }],
+  }
+
+  test('replaces option ids with the labels the user picked', () => {
+    expect(
+      toLabelledFormFields(
+        {
+          name: 'Jules',
+          city: 'Lyon',
+          country: '1003',
+          skills: ['4', '7'],
+          chatService: ['3'],
+          hearAbout: '4',
+          wantsEvents: true,
+          wantsNewsletter: true,
+        },
+        fieldOptions
+      )
+    ).toEqual({
+      name: 'Jules',
+      city: 'Lyon',
+      country: 'Algeria',
+      skills: ['Software Development', 'Design'],
+      chatService: ['Telegram'],
+      hearAbout: 'A friend or colleague',
+      wantsEvents: true,
+      wantsNewsletter: true,
+    })
+  })
+
+  test('leaves fields without options untouched', () => {
+    expect(
+      toLabelledFormFields(
+        {
+          socials: '',
+          website: ['website1', 'website2'],
+          chat: ['handle1'],
+          formName: 'afformActivistBuilder',
+        },
+        fieldOptions
+      )
+    ).toEqual({
+      socials: '',
+      website: ['website1', 'website2'],
+      chat: ['handle1'],
+      formName: 'afformActivistBuilder',
+    })
+  })
+
+  test('blanks out ids that resolve to nothing', () => {
+    expect(
+      toLabelledFormFields(
+        { country: '9999', skills: ['4', '9999'] },
+        fieldOptions
+      )
+    ).toEqual({ country: '', skills: ['Software Development', ''] })
+  })
+
+  test('keeps repeatable rows aligned with their unfilled pair', () => {
+    // `chat[i]` is the handle for `chatService[i]`, so a blank service must
+    // keep its slot rather than shifting the rest of the column up.
+    expect(
+      toLabelledFormFields(
+        { chat: ['handle1', 'handle2'], chatService: ['3', ''] },
+        fieldOptions
+      )
+    ).toEqual({ chat: ['handle1', 'handle2'], chatService: ['Telegram', ''] })
   })
 })
 
@@ -205,6 +290,33 @@ describe('submitFunnelNewsletterSignups', () => {
       type: 'logos',
       newsletter: REGIONAL_NEWSLETTER,
     })
+  })
+
+  test('forwards the submitted answers on every subscription', async () => {
+    const fetchMock = stubFetch()
+
+    await submitFunnelNewsletterSignups({
+      ...BASE,
+      wantsNewsletter: true,
+      wantsEvents: true,
+      formFields: {
+        formName: 'afformCoalitionPartner',
+        affiliatedOrgs: 'Example Org',
+        skills: ['Research'],
+        wantsNewsletter: true,
+        wantsEvents: true,
+      },
+    })
+
+    for (const index of [0, 1]) {
+      expect(bodyOf(fetchMock, index)).toMatchObject({
+        formName: 'afformCoalitionPartner',
+        affiliatedOrgs: 'Example Org',
+        skills: ['Research'],
+        wantsNewsletter: true,
+        wantsEvents: true,
+      })
+    }
   })
 
   test('resolves rather than throwing when the upstream rejects', async () => {

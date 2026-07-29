@@ -8,6 +8,7 @@ describe('submitNodeProgrammeSignup', () => {
   })
 
   test('uses the footer newsletter payload without a city field', async () => {
+    // The role is sent both as its own field and folded into the note.
     const fetchMock = vi.fn(async () => Response.json({ ok: true }))
     vi.stubGlobal('fetch', fetchMock)
 
@@ -23,6 +24,7 @@ describe('submitNodeProgrammeSignup', () => {
     ]
     expect(JSON.parse(init.body)).toEqual({
       email: 'node@example.com',
+      role: 'Node operator',
       type: 'logos',
       newsletter: '6913441fee2f120001cec90d',
       note: 'Role: Node operator',

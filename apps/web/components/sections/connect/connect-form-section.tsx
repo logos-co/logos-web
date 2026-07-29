@@ -27,8 +27,9 @@ import type {
 } from '@/lib/civicrm/types'
 import { cn } from '@/lib/cn'
 import {
-  resolveCountryLabel,
   submitFunnelNewsletterSignups,
+  toLabelledFormFields,
+  type FieldOptions,
 } from '@/lib/funnel-newsletter-signup'
 
 import { getOptionsForField } from './get-field-options'
@@ -106,12 +107,16 @@ export function ConnectFormSection({
     [formFieldsWithKeys]
   )
 
-  const countryOptions = useMemo(() => {
-    const field = formFieldsWithKeys.find(
-      (candidate) => candidate.formKey === 'country'
-    )
-    return field ? getOptionsForField(field, afformOptions) : []
-  }, [formFieldsWithKeys, afformOptions])
+  const fieldOptions = useMemo<FieldOptions>(
+    () =>
+      Object.fromEntries(
+        formFieldsWithKeys.map((field) => [
+          field.formKey,
+          getOptionsForField(field, afformOptions),
+        ])
+      ),
+    [formFieldsWithKeys, afformOptions]
+  )
 
   const [formData, setFormData] = useState<FormValues>(initialData)
   const [submitable, setSubmitable] = useState(false)
@@ -333,6 +338,12 @@ export function ConnectFormSection({
       setSuccessState(true)
       setLoadingState(false)
 
+      // Answers only -- the captcha token and field defs are intake plumbing.
+      const formFields = toLabelledFormFields(
+        { ...formData, ...extraPayload },
+        fieldOptions
+      )
+
       // Outside the success/error path: the intake write already landed and
       // its captcha token is spent, so a failed subscription must not surface
       // as a submission error.
@@ -342,7 +353,9 @@ export function ConnectFormSection({
         wantsNewsletter: formData.wantsNewsletter === true,
         wantsEvents: formData.wantsEvents === true,
         city: typeof formData.city === 'string' ? formData.city : '',
-        country: resolveCountryLabel(formData.country, countryOptions),
+        country:
+          typeof formFields.country === 'string' ? formFields.country : '',
+        formFields,
       })
     } catch {
       setServerError(t('networkError'))

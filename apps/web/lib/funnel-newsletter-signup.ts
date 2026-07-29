@@ -1,7 +1,8 @@
 /**
  * Ghost newsletter subscriptions for the funnel form opt-in checkboxes:
  * `wantsNewsletter` -> Logos Newsletter, `wantsEvents` -> Regional Newsletter.
- * Each subscription carries a note that is appended to the member profile.
+ * Each subscription carries a note that is appended to the member profile, and
+ * forwards the submitted answers so the upstream can filter on them.
  */
 import { getProfileForForm } from '@repo/funnel'
 
@@ -17,15 +18,22 @@ export type FunnelNewsletterSignupInput = {
   city?: string
   /** Country label, not the CiviCRM option id. */
   country?: string
+  /** The submitted answers, forwarded to the subscribe endpoint. */
+  formFields?: Record<string, unknown>
 }
 
+type FieldOption = { value: string; label: string }
+
+/** Selectable options per form key, e.g. `{ country: [{ value, label }] }`. */
+export type FieldOptions = Record<string, readonly FieldOption[]>
+
 /**
- * Map a submitted country value to its option label. Unmatched numeric ids are
- * dropped so a bare `1001` never reaches the note; other values pass through.
+ * Map a submitted option id to its label. Unmatched numeric ids are dropped so
+ * a bare `1001` never ships; other values pass through as free text.
  */
-export function resolveCountryLabel(
-  value: string | string[] | boolean | undefined,
-  options: readonly { value: string; label: string }[]
+export function resolveOptionLabel(
+  value: unknown,
+  options: readonly FieldOption[]
 ): string {
   const first = Array.isArray(value) ? value[0] : value
   const raw = typeof first === 'string' ? first.trim() : ''
@@ -35,6 +43,32 @@ export function resolveCountryLabel(
   if (match) return match.label
 
   return /^\d+$/.test(raw) ? '' : raw
+}
+
+/**
+ * Swap option ids for the labels the user picked. The subscribe endpoint has
+ * no access to the CiviCRM option lists, so an id would reach it unreadable.
+ * Values without options (text, checkboxes) are left alone.
+ */
+export function toLabelledFormFields(
+  formData: Record<string, unknown>,
+  fieldOptions: FieldOptions
+): Record<string, unknown> {
+  return Object.fromEntries(
+    Object.entries(formData).map(([key, value]) => {
+      const options = fieldOptions[key]
+      if (!options?.length) return [key, value]
+
+      // 1:1, blanks kept: `chat` and `chatService` pair up by index.
+      if (Array.isArray(value)) {
+        return [key, value.map((item) => resolveOptionLabel(item, options))]
+      }
+
+      if (typeof value !== 'string') return [key, value]
+
+      return [key, resolveOptionLabel(value, options)]
+    })
+  )
 }
 
 /** `Label: value` line, or nothing when the value is blank. */
@@ -66,10 +100,11 @@ export function buildRegionalNewsletterNote({
 async function subscribeQuietly(
   newsletterId: string,
   email: string,
-  note: string
+  note: string,
+  formFields?: Record<string, unknown>
 ): Promise<void> {
   try {
-    await submitNewsletterSignup({ email, newsletterId, note })
+    await submitNewsletterSignup({ email, newsletterId, note, formFields })
   } catch (error) {
     logger.warn('Funnel newsletter subscription failed', {
       newsletterId,
@@ -91,6 +126,7 @@ export async function submitFunnelNewsletterSignups({
   wantsEvents,
   city,
   country,
+  formFields,
 }: FunnelNewsletterSignupInput): Promise<void> {
   if (!wantsNewsletter && !wantsEvents) return
 
@@ -101,7 +137,8 @@ export async function submitFunnelNewsletterSignups({
     await subscribeQuietly(
       NEWSLETTER_IDS.logos,
       address,
-      buildLogosNewsletterNote(profile)
+      buildLogosNewsletterNote(profile),
+      formFields
     )
   }
 
@@ -109,7 +146,8 @@ export async function submitFunnelNewsletterSignups({
     await subscribeQuietly(
       NEWSLETTER_IDS.regional,
       address,
-      buildRegionalNewsletterNote({ city, country, profile })
+      buildRegionalNewsletterNote({ city, country, profile }),
+      formFields
     )
   }
 }
