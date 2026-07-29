@@ -14,7 +14,6 @@ export function ResourcesSection({
     <CircleResourcesSection
       title={settings.resourcesSection.title}
       description={settings.resourcesSection.description}
-      cta={settings.resourcesSection.helpCenterCta}
       resources={resources}
     />
   )
