@@ -20,6 +20,7 @@ export const ROUTES = {
   // Technology Stack
   technologyStack: '/technology-stack',
   basecamp: '/basecamp',
+  basecampDownload: '/basecamp/download',
   blockchain: '/technology-stack/blockchain',
   networking: '/technology-stack/networking',
   messaging: '/technology-stack/messaging',
@@ -118,9 +119,11 @@ export const EXTERNAL_URLS = {
   lambdaPrizes: 'https://github.com/logos-co/lambda-prize/tree/master/prizes',
   basecampRelease:
     'https://github.com/logos-co/logos-basecamp/releases/tag/0.2.1',
-  basecampLinuxDownload:
+  basecampLinuxArm64Download:
     'https://github.com/logos-co/logos-basecamp/releases/download/0.2.1/LogosBasecamp-Desktop-v0.2.1-8a36a8-aarch64.AppImage',
-  basecampMacDownload:
+  basecampLinuxX64Download:
+    'https://github.com/logos-co/logos-basecamp/releases/download/0.2.1/LogosBasecamp-Desktop-v0.2.1-8a36a8-x86_64.AppImage',
+  basecampMacArm64Download:
     'https://github.com/logos-co/logos-basecamp/releases/download/0.2.1/LogosBasecamp-Desktop-v0.2.1-8a36a8-aarch64.dmg',
 
   // Research
