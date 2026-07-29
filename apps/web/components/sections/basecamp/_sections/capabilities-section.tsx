@@ -1,6 +1,6 @@
 import type { CardGridSection } from '@repo/content/schemas'
 
-import { BasecampCta } from './atoms'
+import { BasecampCta } from './basecamp-cta'
 
 function CapabilityCard({ card }: { card: CardGridSection['cards'][number] }) {
   return (

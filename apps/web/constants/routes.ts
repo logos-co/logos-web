@@ -20,7 +20,6 @@ export const ROUTES = {
   // Technology Stack
   technologyStack: '/technology-stack',
   basecamp: '/basecamp',
-  basecampDownload: '/basecamp/download',
   blockchain: '/technology-stack/blockchain',
   networking: '/technology-stack/networking',
   messaging: '/technology-stack/messaging',

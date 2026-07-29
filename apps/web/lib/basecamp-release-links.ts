@@ -1,4 +1,5 @@
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS } from '@/constants/routes'
+import type { BasecampPlatform } from '@/lib/basecamp-download-target'
 
 interface InstallCtaLike {
   label: string
@@ -17,27 +18,34 @@ const installLinuxLabel = /^install linux$/i
 const installMacLabel = /^install mac(?:os)?$/i
 const installLabel = /^install(?:\s|$)/i
 
+export function resolveBasecampInstallPreferredPlatform(
+  cta: InstallCtaLike
+): BasecampPlatform | null {
+  if (installLinuxLabel.test(cta.label)) return 'linux'
+  if (installMacLabel.test(cta.label)) return 'macos'
+  return null
+}
+
+export function isBasecampInstallCta(cta: InstallCtaLike): boolean {
+  return (
+    resolveBasecampInstallPreferredPlatform(cta) !== null ||
+    (cta.iconOverride === 'download' && installLabel.test(cta.label))
+  )
+}
+
 export function resolveBasecampInstallCtaHref(cta: InstallCtaLike): string {
-  if (installLinuxLabel.test(cta.label)) {
-    return `${ROUTES.basecampDownload}?platform=linux`
-  }
-
-  if (installMacLabel.test(cta.label)) {
-    return `${ROUTES.basecampDownload}?platform=macos`
-  }
-
-  if (cta.iconOverride === 'download' && installLabel.test(cta.label)) {
-    return ROUTES.basecampDownload
-  }
-
-  return cta.href
+  return isBasecampInstallCta(cta) ? EXTERNAL_URLS.basecampRelease : cta.href
 }
 
 export function resolveBasecampInstallCtaLinkProps(
   cta: InstallCtaLike
 ): BasecampInstallCtaLinkProps {
   const href = resolveBasecampInstallCtaHref(cta)
-  const isBasecampDownloadUrl = href.startsWith(ROUTES.basecampDownload)
+  const isBasecampDownloadUrl =
+    href === EXTERNAL_URLS.basecampRelease ||
+    href === EXTERNAL_URLS.basecampLinuxArm64Download ||
+    href === EXTERNAL_URLS.basecampLinuxX64Download ||
+    href === EXTERNAL_URLS.basecampMacArm64Download
 
   return cta.external || isBasecampDownloadUrl
     ? { href, target: '_blank', rel: 'noopener noreferrer' }

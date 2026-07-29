@@ -5,7 +5,8 @@ import { ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
 
-import { BasecampCta, BodyDetailBlock, paragraphs } from './atoms'
+import { BodyDetailBlock, paragraphs } from './atoms'
+import { BasecampCta } from './basecamp-cta'
 
 function HeroTitle({ headline }: { headline: string }) {
   return (

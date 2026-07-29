@@ -5,8 +5,10 @@ import { describe, expect, it } from 'vitest'
 
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import {
+  isBasecampInstallCta,
   resolveBasecampInstallCtaHref,
   resolveBasecampInstallCtaLinkProps,
+  resolveBasecampInstallPreferredPlatform,
 } from '@/lib/basecamp-release-links'
 
 import buildersHubResources from '../../../../content/builders-hub/resources/en.json' with { type: 'json' }
@@ -489,28 +491,47 @@ describe('link policy', () => {
         href: ROUTES.basecamp,
         iconOverride: 'download',
       })
-    ).toBe(ROUTES.basecampDownload)
+    ).toBe(basecampReleaseHref)
     expect(
       resolveBasecampInstallCtaHref({
         label: 'Install Testnet v0.2',
         href: ROUTES.getStarted,
         iconOverride: 'download',
       })
-    ).toBe(ROUTES.basecampDownload)
+    ).toBe(basecampReleaseHref)
     expect(
       resolveBasecampInstallCtaHref({
         label: 'Install Linux',
         href: ROUTES.getStarted,
         iconOverride: 'download',
       })
-    ).toBe(`${ROUTES.basecampDownload}?platform=linux`)
+    ).toBe(basecampReleaseHref)
     expect(
       resolveBasecampInstallCtaHref({
         label: 'Install Mac',
         href: ROUTES.getStarted,
         iconOverride: 'download',
       })
-    ).toBe(`${ROUTES.basecampDownload}?platform=macos`)
+    ).toBe(basecampReleaseHref)
+    expect(
+      resolveBasecampInstallPreferredPlatform({
+        label: 'Install Linux',
+        href: ROUTES.getStarted,
+      })
+    ).toBe('linux')
+    expect(
+      resolveBasecampInstallPreferredPlatform({
+        label: 'Install Macos',
+        href: ROUTES.getStarted,
+      })
+    ).toBe('macos')
+    expect(
+      isBasecampInstallCta({
+        label: 'Install',
+        href: ROUTES.basecamp,
+        iconOverride: 'download',
+      })
+    ).toBe(true)
     expect(
       resolveBasecampInstallCtaLinkProps({
         label: 'Install',
@@ -518,7 +539,7 @@ describe('link policy', () => {
         iconOverride: 'download',
       })
     ).toEqual({
-      href: ROUTES.basecampDownload,
+      href: basecampReleaseHref,
       target: '_blank',
       rel: 'noopener noreferrer',
     })
