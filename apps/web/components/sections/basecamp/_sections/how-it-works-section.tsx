@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import type { CTA, TableSection } from '@repo/content/schemas'
 
-import { BasecampCta } from './atoms'
+import { BasecampCta } from './basecamp-cta'
 
 export function HowItWorksSection({ data }: { data: TableSection }) {
   const downloadActions = [
