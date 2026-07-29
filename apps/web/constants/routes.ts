@@ -99,7 +99,7 @@ export const EXTERNAL_URLS = {
 
   // Circles
   circlesWinnableIssueBenin:
-    'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles#benin',
+    'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles#benin-nigeria',
 
   // Forum
   forum: 'https://forum.logos.co/',
