@@ -53,7 +53,11 @@
       "heading": "Links"
     },
     "notFound": {
-      "heading": "404 | Not Found",
+      "code": "404",
+      "eyebrow": "Page status",
+      "status": "Not found",
+      "heading": "We couldn’t find that page.",
+      "description": "The address may have changed, or the page may no longer exist.",
       "homeLink": "Return to homepage"
     },
     "about": {
