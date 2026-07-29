@@ -56,9 +56,11 @@ const livingWithinTruthHref = 'https://www.youtube.com/watch?v=xy4uK20lFBQ'
 const logosGenealogyHref = 'https://blog.logos.co/article/a-genealogy-of-logos'
 const basecampReleaseHref =
   'https://github.com/logos-co/logos-basecamp/releases/tag/0.2.1'
-const basecampLinuxDownloadHref =
+const basecampLinuxArm64DownloadHref =
   'https://github.com/logos-co/logos-basecamp/releases/download/0.2.1/LogosBasecamp-Desktop-v0.2.1-8a36a8-aarch64.AppImage'
-const basecampMacDownloadHref =
+const basecampLinuxX64DownloadHref =
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.2.1/LogosBasecamp-Desktop-v0.2.1-8a36a8-x86_64.AppImage'
+const basecampMacArm64DownloadHref =
   'https://github.com/logos-co/logos-basecamp/releases/download/0.2.1/LogosBasecamp-Desktop-v0.2.1-8a36a8-aarch64.dmg'
 const runNodeCliDocsHref =
   'https://docs.logos.co/'
@@ -450,7 +452,7 @@ describe('link policy', () => {
     }
   })
 
-  it('routes Basecamp install CTAs through the shared release URLs', () => {
+  it('routes Basecamp install CTAs through the platform resolver', () => {
     const technologyStackHero = technologyStackPage.sections.find(
       (section) => section.key === 'techStack.hero'
     ) as { status?: { cta?: { href: string; external?: boolean } } } | undefined
@@ -459,8 +461,15 @@ describe('link policy', () => {
     ) as { primaryCta?: { href: string; external?: boolean } } | undefined
 
     expect(EXTERNAL_URLS.basecampRelease).toBe(basecampReleaseHref)
-    expect(EXTERNAL_URLS.basecampLinuxDownload).toBe(basecampLinuxDownloadHref)
-    expect(EXTERNAL_URLS.basecampMacDownload).toBe(basecampMacDownloadHref)
+    expect(EXTERNAL_URLS.basecampLinuxArm64Download).toBe(
+      basecampLinuxArm64DownloadHref
+    )
+    expect(EXTERNAL_URLS.basecampLinuxX64Download).toBe(
+      basecampLinuxX64DownloadHref
+    )
+    expect(EXTERNAL_URLS.basecampMacArm64Download).toBe(
+      basecampMacArm64DownloadHref
+    )
     expect(technologyStackHero?.status?.cta).toEqual(
       expect.objectContaining({
         href: basecampReleaseHref,
@@ -480,28 +489,28 @@ describe('link policy', () => {
         href: ROUTES.basecamp,
         iconOverride: 'download',
       })
-    ).toBe(basecampReleaseHref)
+    ).toBe(ROUTES.basecampDownload)
     expect(
       resolveBasecampInstallCtaHref({
         label: 'Install Testnet v0.2',
         href: ROUTES.getStarted,
         iconOverride: 'download',
       })
-    ).toBe(basecampReleaseHref)
+    ).toBe(ROUTES.basecampDownload)
     expect(
       resolveBasecampInstallCtaHref({
         label: 'Install Linux',
         href: ROUTES.getStarted,
         iconOverride: 'download',
       })
-    ).toBe(basecampLinuxDownloadHref)
+    ).toBe(`${ROUTES.basecampDownload}?platform=linux`)
     expect(
       resolveBasecampInstallCtaHref({
         label: 'Install Mac',
         href: ROUTES.getStarted,
         iconOverride: 'download',
       })
-    ).toBe(basecampMacDownloadHref)
+    ).toBe(`${ROUTES.basecampDownload}?platform=macos`)
     expect(
       resolveBasecampInstallCtaLinkProps({
         label: 'Install',
@@ -509,7 +518,7 @@ describe('link policy', () => {
         iconOverride: 'download',
       })
     ).toEqual({
-      href: basecampReleaseHref,
+      href: ROUTES.basecampDownload,
       target: '_blank',
       rel: 'noopener noreferrer',
     })
