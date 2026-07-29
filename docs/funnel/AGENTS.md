@@ -55,10 +55,14 @@ Profile: <profile>
 
 `<profile>` is the same string the Notion `Profile` select gets -- `PROFILE_BY_FORM_NAME` in `@repo/funnel`, re-exported as `PROFILE_BY_FORM` by `apps/civi-crm/src/lib/notion/maps.ts`. `country` arrives as a CiviCRM numeric option id and is resolved to its label against the form's own options before it reaches the note; an unresolvable id is dropped.
 
+Alongside the note, each subscription forwards the submitted answers: the form values plus `formName`, flattened into the request body as top-level fields. The captcha token and the Afform field definitions stay out -- they are intake plumbing. The upstream hands the answers to its auto-reply filters; nothing here allowlists individual fields, so a new form field needs no change in `apps/web`.
+
+Every select value is sent as its **label**, not the CiviCRM option id (`toLabelledFormFields`): the subscribe endpoint has no access to the option lists, so `country: "1003"` would be unreadable where `country: "Algeria"` is not. Ids that resolve to nothing are dropped. Text fields and checkboxes pass through untouched, and the resolved keys (`email`, `type`, `newsletter`, `note`) are written last so a same-named form field can never overwrite them.
+
 | Path | Role |
 | --- | --- |
 | `apps/web/lib/funnel-newsletter-signup.ts` | Builds the notes, fires the subscriptions |
-| `apps/web/lib/newsletter-signup.ts` | Shared transport; `NEWSLETTER_IDS`, optional verbatim `note` |
+| `apps/web/lib/newsletter-signup.ts` | Shared transport; `NEWSLETTER_IDS`, optional verbatim `note`, `formFields` pass-through |
 
 Three constraints shape it:
 
@@ -245,3 +249,4 @@ pnpm --filter web test
 Notion property mapping: `apps/civi-crm/src/lib/notion/__tests__/build-notion-properties.test.ts`
 CiviCRM value building: `apps/civi-crm/src/lib/civicrm/__tests__/build-afform-values.test.ts`
 Newsletter opt-ins: `apps/web/lib/__tests__/funnel-newsletter-signup.test.ts`
+Subscribe payload: `apps/web/lib/__tests__/newsletter-signup.test.ts`
