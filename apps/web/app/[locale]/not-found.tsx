@@ -8,10 +8,7 @@ export default async function NotFound() {
   return (
     <NotFoundPage
       code={t('code')}
-      eyebrow={t('eyebrow')}
-      status={t('status')}
       heading={t('heading')}
-      description={t('description')}
       homeLink={t('homeLink')}
     />
   )
