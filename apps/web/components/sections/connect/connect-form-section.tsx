@@ -338,9 +338,12 @@ export function ConnectFormSection({
       setSuccessState(true)
       setLoadingState(false)
 
-      // Answers only -- the captcha token and field defs are intake plumbing.
+      // Built from the answers and the form name alone: the captcha token and
+      // the field defs are intake plumbing and must not reach the newsletter
+      // service, whatever else a caller puts in `extraPayload`.
+      const formName = extraPayload.formName
       const formFields = toLabelledFormFields(
-        { ...formData, ...extraPayload },
+        { ...formData, ...(formName && { formName }) },
         fieldOptions
       )
 
@@ -349,7 +352,7 @@ export function ConnectFormSection({
       // as a submission error.
       void submitFunnelNewsletterSignups({
         email: typeof formData.email === 'string' ? formData.email : '',
-        formName: extraPayload.formName,
+        formName,
         wantsNewsletter: formData.wantsNewsletter === true,
         wantsEvents: formData.wantsEvents === true,
         city: typeof formData.city === 'string' ? formData.city : '',
