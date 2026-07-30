@@ -163,6 +163,7 @@ const approxTokens = (s) => Math.ceil(s.length / 4)
 // Keep this in sync with the models referenced in .github/ai-review.yml and the
 // DEFAULTS above (anthropic_model / openai_model / synth_model).
 const PRICES = {
+  'claude-opus-5': { in: 5, out: 25 },
   'claude-opus-4-8': { in: 5, out: 25 },
   'claude-sonnet-5': { in: 3, out: 15 },
   'claude-haiku-4-5-20251001': { in: 1, out: 5 },
