@@ -26,6 +26,10 @@ import type {
   AfformOptions,
 } from '@/lib/civicrm/types'
 import { cn } from '@/lib/cn'
+import {
+  resolveCountryLabel,
+  submitFunnelNewsletterSignups,
+} from '@/lib/funnel-newsletter-signup'
 
 import { getOptionsForField } from './get-field-options'
 import {
@@ -101,6 +105,13 @@ export function ConnectFormSection({
     () => buildInitialData(formFieldsWithKeys),
     [formFieldsWithKeys]
   )
+
+  const countryOptions = useMemo(() => {
+    const field = formFieldsWithKeys.find(
+      (candidate) => candidate.formKey === 'country'
+    )
+    return field ? getOptionsForField(field, afformOptions) : []
+  }, [formFieldsWithKeys, afformOptions])
 
   const [formData, setFormData] = useState<FormValues>(initialData)
   const [submitable, setSubmitable] = useState(false)
@@ -321,6 +332,18 @@ export function ConnectFormSection({
 
       setSuccessState(true)
       setLoadingState(false)
+
+      // Outside the success/error path: the intake write already landed and
+      // its captcha token is spent, so a failed subscription must not surface
+      // as a submission error.
+      void submitFunnelNewsletterSignups({
+        email: typeof formData.email === 'string' ? formData.email : '',
+        formName: extraPayload.formName,
+        wantsNewsletter: formData.wantsNewsletter === true,
+        wantsEvents: formData.wantsEvents === true,
+        city: typeof formData.city === 'string' ? formData.city : '',
+        country: resolveCountryLabel(formData.country, countryOptions),
+      })
     } catch {
       setServerError(t('networkError'))
       setLoadingState(false)

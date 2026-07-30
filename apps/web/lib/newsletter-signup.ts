@@ -14,13 +14,18 @@
 import { env } from '@/lib/env'
 
 const SUBSCRIBE_ENDPOINTS = {
-  development: 'http://localhost:3000/api/admin/newsletters/subscribe',
+  development: 'http://localhost:3003/api/admin/newsletters/subscribe',
   staging: 'https://dev-admin-acid.logos.co/api/admin/newsletters/subscribe',
   production: 'https://admin-acid.logos.co/api/admin/newsletters/subscribe',
 } as const
 
-/** Default site newsletter (matches the legacy route handler). */
-const DEFAULT_NEWSLETTER_ID = '6913441fee2f120001cec90d'
+/** Ghost newsletter ids. `logos` is the default site newsletter. */
+export const NEWSLETTER_IDS = {
+  logos: '6913441fee2f120001cec90d',
+  regional: '6a672fa7d5b09400014fffa1',
+} as const
+
+const DEFAULT_NEWSLETTER_ID = NEWSLETTER_IDS.logos
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -30,6 +35,11 @@ export type NewsletterSignupInput = {
   city?: string
   /** Override the target newsletter. Defaults to the site newsletter. */
   newsletterId?: string
+  /**
+   * Sent verbatim instead of a note composed from `role` / `city`. The upstream
+   * appends it to the member's existing note, so send one entry per call.
+   */
+  note?: string
 }
 
 type SignupResponse = {
@@ -67,12 +77,13 @@ export async function submitNewsletterSignup({
   role,
   city,
   newsletterId,
+  note: noteOverride,
 }: NewsletterSignupInput): Promise<void> {
   if (!EMAIL_PATTERN.test(email)) {
     throw new Error('Please enter a valid email address.')
   }
 
-  const note = buildNote(role, city)
+  const note = noteOverride ?? buildNote(role, city)
 
   const response = await fetch(getSubscribeEndpoint(), {
     method: 'POST',

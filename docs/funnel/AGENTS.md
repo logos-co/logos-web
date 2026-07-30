@@ -28,6 +28,44 @@ apps/civi-crm
 
 The reason both writes are in one handler: hCaptcha tokens are single-use. One POST, one token, two backend writes in sequence.
 
+After that POST resolves successfully, `apps/web` fires the newsletter opt-ins on its own (see below). They are not part of the `afform-submit` request.
+
+---
+
+## Newsletter opt-ins (logos-web#116)
+
+Each ticked checkbox subscribes the submitted email to a Ghost newsletter via `admin-acid.logos.co` and attaches a note to the member profile.
+
+| Checkbox | `formKey` | Newsletter | Ghost id |
+| --- | --- | --- | --- |
+| "I want to receive the Logos Newsletter" | `wantsNewsletter` | Logos Newsletter | `6913441fee2f120001cec90d` |
+| "I want to be informed about events in my city" | `wantsEvents` | Regional Newsletter | `6a672fa7d5b09400014fffa1` |
+
+Each field is its own line; blank ones are omitted entirely.
+
+```
+Profile: <profile>
+```
+
+```
+City: <city>
+Country: <country>
+Profile: <profile>
+```
+
+`<profile>` is the same string the Notion `Profile` select gets -- `PROFILE_BY_FORM_NAME` in `@repo/funnel`, re-exported as `PROFILE_BY_FORM` by `apps/civi-crm/src/lib/notion/maps.ts`. `country` arrives as a CiviCRM numeric option id and is resolved to its label against the form's own options before it reaches the note; an unresolvable id is dropped.
+
+| Path | Role |
+| --- | --- |
+| `apps/web/lib/funnel-newsletter-signup.ts` | Builds the notes, fires the subscriptions |
+| `apps/web/lib/newsletter-signup.ts` | Shared transport; `NEWSLETTER_IDS`, optional verbatim `note` |
+
+Three constraints shape it:
+
+- **Client-side.** `apps/web` is a static export, so there is no route to proxy through -- same as the footer signup. `admin-acid.logos.co` allowlists Logos-owned origins for CORS, so these calls always fail on `localhost`; unit tests are the verification.
+- **Never throws.** It runs after the intake POST has already succeeded and its captcha token is spent, so a subscription failure is swallowed and logged rather than surfaced -- otherwise a successful submission would render as a network error (and would do so on every local submit).
+- **Sequential, Logos first.** The upstream folds the note into the member's existing note with a read-modify-write against the Ghost admin API (`mergeNote`: entries joined by a blank line, exact duplicates skipped). Firing both concurrently races that read and loses one note.
+
 ---
 
 ## Code layout
@@ -36,8 +74,9 @@ The reason both writes are in one handler: hCaptcha tokens are single-use. One P
 | --- | --- |
 | `apps/civi-crm/src/app/api/public/afform-submit/route.ts` | Orchestrator: validation, captcha, calls both libs |
 | `apps/civi-crm/src/lib/intake-submit-flags.ts` | Reads `FUNNEL_INTAKE_*_DISABLED` env flags |
-| `apps/civi-crm/src/lib/notion/maps.ts` | `SKILLS_MAP`, `CHAT_SERVICE_MAP`, `COUNTRY_MAP`, `PROFILE_BY_FORM`, `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT`; re-exports `HEAR_ABOUT_MAP` / `HEAR_ABOUT_QUESTION` from `@repo/funnel` |
-| `packages/funnel/src/index.ts` | `@repo/funnel` -- single source of truth for the "How did you first hear about Logos?" question, options, and id → label map |
+| `apps/civi-crm/src/lib/notion/maps.ts` | `SKILLS_MAP`, `CHAT_SERVICE_MAP`, `COUNTRY_MAP`, `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT`; re-exports `HEAR_ABOUT_MAP` / `HEAR_ABOUT_QUESTION` and `PROFILE_BY_FORM` (= `PROFILE_BY_FORM_NAME`) from `@repo/funnel` |
+| `packages/funnel/src/index.ts` | `@repo/funnel` -- single source of truth for the "How did you first hear about Logos?" question, options, and id → label map, and for `PROFILE_BY_FORM_NAME` / `getProfileForForm` |
+| `apps/web/lib/funnel-newsletter-signup.ts` | Post-submit Ghost newsletter opt-ins (`wantsNewsletter` / `wantsEvents`) |
 | `apps/web/lib/civicrm/hear-about-field.ts` | Web-only "How did you first hear about Logos?" field def + `withHearAboutField` injector used by the three form pages |
 | `apps/civi-crm/src/lib/notion/build-notion-properties.ts` | `buildNotionProperties` |
 | `apps/civi-crm/src/lib/notion/submit.ts` | `submitToNotion` -- resolves the data source, builds properties, POSTs page |
@@ -191,6 +230,7 @@ ADD COLUMN "How did you first hear about Logos?" SELECT('Friend or colleague','S
 - **Joined multi-values** -- `chat[]` -> `handle (Service)` entries in `Phone or Social Handle`.
 - **`Mvmt Organization` is free text** -- `affiliatedOrgs` is written verbatim to the `Mvmt Organization` rich-text column (clamped to 2000 chars), keeping the curated `Organization` select free of intake noise. (Intake no longer writes to `Organization`.)
 - **`hearAbout` is web/Notion-only** -- "How did you first hear about Logos?" has no CiviCRM custom field. Its Afform def (`apps/web/lib/civicrm/hear-about-field.ts`) carries an empty `fieldName`; `connect-form-section.tsx` filters such defs out of the `fields[]` POST payload and `buildAfformValues` skips them, so the CiviCRM submission is unchanged. `withHearAboutField` splices the field after `chatService` at page level and no-ops if a future regenerated Afform ever defines `hearAbout` itself. The question, option list, and id → label map live once in `@repo/funnel` (`packages/funnel`); the question string doubles as the Notion property name, so rewording it means renaming the property in Notion first.
+- **Newsletter opt-ins are fire-and-forget from the client** -- they run after the intake POST resolves, never block it, and never fail it. See the section above.
 - **Env var name** -- `NOTION_DB_ID`.
 
 ---
@@ -199,7 +239,9 @@ ADD COLUMN "How did you first hear about Logos?" SELECT('Friend or colleague','S
 
 ```bash
 pnpm --filter civi-crm test
+pnpm --filter web test
 ```
 
 Notion property mapping: `apps/civi-crm/src/lib/notion/__tests__/build-notion-properties.test.ts`
 CiviCRM value building: `apps/civi-crm/src/lib/civicrm/__tests__/build-afform-values.test.ts`
+Newsletter opt-ins: `apps/web/lib/__tests__/funnel-newsletter-signup.test.ts`
