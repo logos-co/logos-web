@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+3:I[56105,["/_next/static/chunks/17hkzjx44u3dy.js","/_next/static/chunks/0-cgqeykwauj~.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+2:["$","p",null,{"className":"px-3 py-12 text-brand-dark-green","children":["Redirecting to ",["$","a",null,{"href":"/technology-stack","children":"/technology-stack"}],"…"]}]
+0:{"rsc":["$","$1","c",{"children":[[["$","meta",null,{"httpEquiv":"refresh","content":"0; url=/technology-stack"}],["$","script",null,{"dangerouslySetInnerHTML":{"__html":"window.location.replace(\"/technology-stack\")"}}],["$","noscript",null,{"children":"$2"}]],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"Kyzj-FWCXs4cJWIoNDlga"}
+5:null
