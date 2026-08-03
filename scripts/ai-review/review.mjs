@@ -4,8 +4,8 @@
  * Env: GITHUB_TOKEN, ANTHROPIC_API_KEY, OPENAI_API_KEY, REPO ("owner/name"), PR_NUMBER
  * Runs from the DEFAULT-branch checkout (trusted): .github/ai-review.yml and the
  * guideline files are read from that checkout, while the PR diff is fetched via the
- * GitHub API by PR_NUMBER — so PR-authored code/config never executes in this job.
- * No npm dependencies — Node 20+ global fetch only.
+ * GitHub API by PR_NUMBER -- so PR-authored code/config never executes in this job.
+ * No npm dependencies -- Node 20+ global fetch only.
  */
 
 import {
@@ -91,7 +91,7 @@ const DEFAULTS = {
 function loadConfig() {
   // Minimal YAML subset parser (key: value, and "- item" lists) to stay dep-free.
   // Any key present in .github/ai-review.yml fully REPLACES the matching
-  // DEFAULTS entry — lists are NOT merged. A config file must restate every
+  // DEFAULTS entry -- lists are NOT merged. A config file must restate every
   // default pattern it wants to keep.
   const cfg = { ...DEFAULTS }
   const path = '.github/ai-review.yml'
@@ -176,12 +176,12 @@ const unpricedModels = new Set()
 function logUsage(label, model, inTok, outTok) {
   const p = PRICES[model]
   if (!p) {
-    // No price configured — the cost estimate below excludes this model.
+    // No price configured -- the cost estimate below excludes this model.
     if (!unpricedModels.has(model)) {
       unpricedModels.add(model)
       console.warn(
         `[cost] ⚠️  No price configured for model "${model}". Its usage is excluded ` +
-          `from the total estimate — add it to PRICES in scripts/ai-review/review.mjs.`
+          `from the total estimate -- add it to PRICES in scripts/ai-review/review.mjs.`
       )
     }
     console.log(
@@ -215,7 +215,7 @@ function patchRightLines(patch) {
 }
 
 async function getDiff() {
-  // GitHub caps the files listing (3,000 files) — compare against the PR's own
+  // GitHub caps the files listing (3,000 files) -- compare against the PR's own
   // changed_files count so a silently truncated listing is reported as partial.
   const pr = await gh(`/repos/${OWNER}/${NAME}/pulls/${PR_NUMBER}`)
   const files = []
@@ -272,20 +272,20 @@ async function getDiff() {
 }
 
 // Collect the repo-root AGENTS.md plus any AGENTS.md sitting in a directory the
-// diff touches — in a monorepo each app/package can carry its own instructions.
+// diff touches -- in a monorepo each app/package can carry its own instructions.
 function collectAgentsFiles(changedFiles) {
   const found = new Set()
   if (existsSync('AGENTS.md')) found.add('AGENTS.md')
   for (const file of changedFiles) {
     const segs = file.split('/')
-    // Filenames come from untrusted PR data — never let them escape the checkout.
+    // Filenames come from untrusted PR data -- never let them escape the checkout.
     if (file.startsWith('/') || segs.includes('..')) continue
     for (let i = 1; i < segs.length; i++) {
       const candidate = `${segs.slice(0, i).join('/')}/AGENTS.md`
       if (existsSync(candidate)) found.add(candidate)
     }
   }
-  // Root first, then deeper paths — deterministic ordering.
+  // Root first, then deeper paths -- deterministic ordering.
   return [...found].sort(
     (a, b) => a.split('/').length - b.split('/').length || a.localeCompare(b)
   )
@@ -311,7 +311,7 @@ function loadGuidelines(changedFiles = []) {
     }
   }
   console.warn(
-    `[warn] none of the configured guideline files exist (${cfg.guidelines_files.join(', ')}) — reviewing without guidelines.`
+    `[warn] none of the configured guideline files exist (${cfg.guidelines_files.join(', ')}) -- reviewing without guidelines.`
   )
   return ''
 }
@@ -334,7 +334,7 @@ const REVIEW_SCHEMA = `Respond with ONLY a JSON object, no markdown fences, matc
 }
 Severity guide: critical = will break in production, data loss, security hole.
 major = real bug or serious flaw likely to bite. minor = worth fixing, not urgent.
-nit = style/preference — use sparingly.
+nit = style/preference -- use sparingly.
 If the PR looks fine, return an empty issues array. Do NOT invent problems.`
 
 function reviewPrompt(diff, guidelines) {
@@ -345,7 +345,7 @@ Do not comment on pre-existing code style. Do not restate the diff.
 Dependency versions: your training data has a knowledge cutoff and may be behind
 the latest releases. Do NOT flag a dependency version as wrong, invalid, or
 "does not exist", and do NOT suggest downgrading, just because the version in the
-diff is newer than the latest you are aware of — assume a version greater than
+diff is newer than the latest you are aware of -- assume a version greater than
 what you know is a legitimate newer release. Only raise version issues you can
 justify from the diff itself: incoherence between package.json files in the same
 repo (e.g. the same dependency pinned to different versions across workspaces, or
@@ -468,9 +468,9 @@ Reviewer B (Codex):
 ${JSON.stringify(reviewB, null, 2)}
 
 Merge them:
-1. Deduplicate — same file+problem reported twice becomes ONE issue; keep the clearer wording.
+1. Deduplicate -- same file+problem reported twice becomes ONE issue; keep the clearer wording.
 2. Mark "agreement": true on issues both reviewers found (strong signal), false otherwise.
-3. Drop all "nit" issues entirely. Keep severities honest — do not inflate.
+3. Drop all "nit" issues entirely. Keep severities honest -- do not inflate.
 4. Sort by severity: critical, major, minor.
 
 Respond with ONLY JSON:
@@ -518,7 +518,7 @@ async function synthesizeWithAnthropic(reviewA, reviewB) {
 }
 
 // Used when the Anthropic API is down: reuse the OpenAI reviewer model for
-// synthesis — it is cheap enough and known reachable, its review just succeeded.
+// synthesis -- it is cheap enough and known reachable, its review just succeeded.
 async function synthesizeWithOpenAI(reviewA, reviewB) {
   const res = await fetch(`${API.openai.baseUrl}${API.openai.responsesPath}`, {
     method: 'POST',
@@ -556,13 +556,13 @@ async function synthesizeWithOpenAI(reviewA, reviewB) {
 
 const RANK = { critical: 3, major: 2, minor: 1, nit: 0 }
 
-// Models sometimes return a null/missing/non-numeric line — anchor only valid ones.
+// Models sometimes return a null/missing/non-numeric line -- anchor only valid ones.
 function issueLine(i) {
   const n = Number(i.line)
   return Number.isInteger(n) && n > 0 ? n : null
 }
 
-// Model text derives from untrusted PR content — a crafted diff could steer a
+// Model text derives from untrusted PR content -- a crafted diff could steer a
 // model into emitting @mentions that ping arbitrary users/teams when posted.
 // A zero-width space after "@" keeps the text readable but kills the mention.
 const deMention = (s) =>
@@ -578,31 +578,31 @@ async function postReview(merged, meta) {
   const warnings = []
   if (meta.unlisted)
     warnings.push(
-      `⚠️ GitHub's file listing is capped and left ${meta.unlisted} changed file(s) unlisted — review is partial.`
+      `⚠️ GitHub's file listing is capped and left ${meta.unlisted} changed file(s) unlisted -- review is partial.`
     )
   if (meta.omitted)
     warnings.push(
-      `⚠️ ${meta.omitted} file(s) exceeded the diff token budget and were NOT reviewed — review is partial.`
+      `⚠️ ${meta.omitted} file(s) exceeded the diff token budget and were NOT reviewed -- review is partial.`
     )
   if (meta.noPatch.length)
     warnings.push(
-      `⚠️ ${meta.noPatch.length} file(s) had no reviewable diff from GitHub (too large) and were NOT reviewed — ` +
+      `⚠️ ${meta.noPatch.length} file(s) had no reviewable diff from GitHub (too large) and were NOT reviewed -- ` +
         `review is partial: ${meta.noPatch.slice(0, 10).join(', ')}` +
         (meta.noPatch.length > 10 ? ', …' : '')
     )
   if (meta.claudeFailed)
     warnings.push(
-      `⚠️ The ${cfg.anthropic_model} reviewer failed — this is a single-model review ` +
+      `⚠️ The ${cfg.anthropic_model} reviewer failed -- this is a single-model review ` +
         `(${cfg.openai_model} reviewed and synthesized).`
     )
   if (meta.codexFailed)
     warnings.push(
-      `⚠️ The ${cfg.openai_model} reviewer failed — this is a single-model review ` +
+      `⚠️ The ${cfg.openai_model} reviewer failed -- this is a single-model review ` +
         `(${cfg.anthropic_model} only).`
     )
   if (meta.synthFailed)
     warnings.push(
-      '⚠️ The synthesis step failed — showing unmerged reviewer output (may contain duplicates).'
+      '⚠️ The synthesis step failed -- showing unmerged reviewer output (may contain duplicates).'
     )
 
   // GitHub rejects the WHOLE review if any comment anchors outside the diff, so
@@ -616,7 +616,7 @@ async function postReview(merged, meta) {
 
   const flatItem = (i) =>
     `- ${icon[i.severity] ?? '•'} **${i.severity}** ` +
-    `\`${i.file}${issueLine(i) ? `:${issueLine(i)}` : ''}\` — ${deMention(i.issue)}` +
+    `\`${i.file}${issueLine(i) ? `:${issueLine(i)}` : ''}\` -- ${deMention(i.issue)}` +
     (i.suggested_fix ? ` **Suggested fix:** ${deMention(i.suggested_fix)}` : '')
 
   const body = [
@@ -643,14 +643,14 @@ async function postReview(merged, meta) {
     side: 'RIGHT',
     body:
       `${icon[i.severity] ?? '•'} **${i.severity.toUpperCase()}** (${i.category})` +
-      `${i.agreement ? ' — flagged by both models' : ''}\n\n${deMention(i.issue)}\n\n` +
+      `${i.agreement ? ' -- flagged by both models' : ''}\n\n${deMention(i.issue)}\n\n` +
       (i.suggested_fix
         ? `**Suggested fix:** ${deMention(i.suggested_fix)}`
         : ''),
   }))
 
   if (process.env.DRY_RUN) {
-    console.log('\n===== DRY RUN — review that WOULD be posted =====\n')
+    console.log('\n===== DRY RUN -- review that WOULD be posted =====\n')
     console.log(body)
     for (const c of comments)
       console.log(`\n--- ${c.path}:${c.line} ---\n${c.body}`)
@@ -663,7 +663,7 @@ async function postReview(merged, meta) {
       body: JSON.stringify({ event: 'COMMENT', body, comments }),
     })
   } catch (e) {
-    // Inline anchors can fail if a model hallucinated a line number — fall back to summary-only
+    // Inline anchors can fail if a model hallucinated a line number -- fall back to summary-only
     console.error(
       `[warn] inline review failed (${e.message}); posting summary + list instead.`
     )
@@ -745,7 +745,7 @@ try {
     issues: [...reviewA.issues, ...reviewB.issues]
       .filter((i) => i.severity !== 'nit')
       .sort((x, y) => (RANK[y.severity] ?? 0) - (RANK[x.severity] ?? 0)),
-    summary: [reviewA.overall, reviewB.overall].filter(Boolean).join(' — '),
+    summary: [reviewA.overall, reviewB.overall].filter(Boolean).join(' -- '),
   }
 }
 
