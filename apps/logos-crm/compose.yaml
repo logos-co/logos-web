@@ -1,0 +1,52 @@
+services:
+  crm-db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: logos_crm
+      POSTGRES_USER: logos
+      POSTGRES_PASSWORD: logos
+    ports:
+      - '127.0.0.1:5434:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U logos -d logos_crm']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - logos-crm-db:/var/lib/postgresql/data
+
+  crm-setup:
+    build:
+      context: ../..
+      dockerfile: apps/logos-crm/Dockerfile
+    command:
+      - /bin/sh
+      - -c
+      - pnpm --filter logos-crm db:migrate && pnpm --filter logos-crm db:seed
+    environment:
+      DATABASE_URL: postgresql://logos:logos@crm-db:5432/logos_crm
+    depends_on:
+      crm-db:
+        condition: service_healthy
+    restart: 'no'
+
+  crm-web:
+    build:
+      context: ../..
+      dockerfile: apps/logos-crm/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://logos:logos@crm-db:5432/logos_crm
+    ports:
+      - '127.0.0.1:3004:3004'
+    depends_on:
+      crm-setup:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'wget -qO- http://localhost:3004/api/health >/dev/null']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  logos-crm-db:
