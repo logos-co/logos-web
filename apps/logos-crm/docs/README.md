@@ -11,4 +11,10 @@ Read in this order:
 
 The runtime is intentionally small: one Next.js application image used by `web` and `worker`, one PostgreSQL service, one protected file volume, and Infra-provided authentication and SMTP. There is no Redis, hosted queue, Vercel dependency, separate backend service, or separate scheduler.
 
-Implementation is reuse-first: Drizzle owns schema, validation derivation, migrations, and fixtures; Next.js Route Handlers expose REST endpoints; Zod owns boundary validation; CASL owns ability evaluation; Graphile Worker owns scheduling and retries; PapaParse and ExcelJS own file formats. CRM-specific code is limited to business rules, queries, and UI composition.
+Implementation is reuse-first: Drizzle owns schema, `drizzle-zod` owns validation derivation, Drizzle Kit owns migrations, and Drizzle Seed owns fixtures; Next.js Route Handlers expose REST endpoints; Zod owns boundary validation; CASL owns ability evaluation; Graphile Worker owns scheduling and retries; PapaParse and ExcelJS own file formats. CRM-specific code is limited to business rules, queries, and UI composition.
+
+## Demo implementation
+
+The `logos-crm` branch includes a PostgreSQL-backed vertical slice under `apps/logos-crm`: a pipeline summary, searchable case table, case detail/next-action view, case creation, and status progression through Next.js Route Handlers. It intentionally omits production authentication, CASL enforcement, Graphile Worker jobs, notifications, imports, and CiviCRM cutover.
+
+Run the complete demo with `docker compose -f apps/logos-crm/compose.yaml up --build`. Compose starts PostgreSQL, runs the Drizzle migration and idempotent demo seed, then serves the CRM at `http://localhost:3004`. The `db:migrate`, `db:seed`, and `dev` workspace scripts remain available for local development.

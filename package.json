@@ -8,6 +8,7 @@
     "dev:web": "turbo run dev --filter=web...",
     "dev:cms": "turbo run dev --filter=cms...",
     "dev:civi-crm": "turbo run dev --filter=civi-crm...",
+    "dev:logos-crm": "turbo run dev --filter=logos-crm...",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "format": "prettier --write \"**/*.{js,mjs,ts,tsx,json,md,css}\"",

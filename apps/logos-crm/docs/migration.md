@@ -11,11 +11,11 @@
 
 ## 2. Input contract
 
-The initial transport is an Infra-produced UTF-8 CSV export with optional BOM. PapaParse handles parsing and parser diagnostics; mapped records are validated with schemas derived from the Drizzle tables and refined for migration-only rules. Each entity type has a versioned header contract and source-system code. Default limits are 25 MB and 50,000 rows per file.
+The initial transport is an Infra-produced UTF-8 CSV export with optional BOM. PapaParse handles parsing and parser diagnostics; mapped records are validated with `drizzle-zod` schemas derived from the Drizzle tables and refined for migration-only rules. Each entity type has a versioned header contract and source-system code. Default limits are 25 MB and 50,000 rows per file.
 
 Preview performs:
 
-- file size and encoding checks, PapaParse header/parser diagnostics, and Drizzle/Zod row validation;
+- file size and encoding checks, PapaParse header/parser diagnostics, and `drizzle-zod` row validation;
 - SHA-256 checksum calculation;
 - controlled-value mapping;
 - create, update, unchanged, conflict, duplicate-suggestion, and error counts;
