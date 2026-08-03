@@ -63,6 +63,18 @@ const API = {
   },
 }
 
+// Opus 5 and later think by default, and `max_tokens` caps thinking + response
+// text together, so the budget has to cover both or the JSON comes back
+// truncated. Above 16k the API wants streaming; `effort` bounds thinking's share.
+const MAX_RESPONSE_TOKENS = 16_000
+const REVIEW_EFFORT = 'medium'
+
+// `output_config.effort` is rejected by Haiku 4.5, Sonnet 4.5 and older.
+const EFFORT_MODELS =
+  /^claude-(fable-5|mythos-5|opus-(5|4-[5-8])|sonnet-(5|4-6))\b/
+const effortConfig = (model) =>
+  EFFORT_MODELS.test(model) ? { output_config: { effort: REVIEW_EFFORT } } : {}
+
 // ---------------------------------------------------------------- config ---
 
 const DEFAULTS = {
@@ -370,7 +382,8 @@ async function claudeReview(diff, guidelines) {
       },
       body: JSON.stringify({
         model: cfg.anthropic_model,
-        max_tokens: 4000,
+        max_tokens: MAX_RESPONSE_TOKENS,
+        ...effortConfig(cfg.anthropic_model),
         system:
           'You are a rigorous senior code reviewer. You output only valid JSON.',
         messages: [{ role: 'user', content: reviewPrompt(diff, guidelines) }],
@@ -404,7 +417,7 @@ async function codexReview(diff, guidelines) {
     },
     body: JSON.stringify({
       model: cfg.openai_model,
-      max_output_tokens: 4000,
+      max_output_tokens: MAX_RESPONSE_TOKENS,
       input: [
         {
           role: 'system',
@@ -492,7 +505,8 @@ async function synthesizeWithAnthropic(reviewA, reviewB) {
       },
       body: JSON.stringify({
         model: cfg.synth_model,
-        max_tokens: 4000,
+        max_tokens: MAX_RESPONSE_TOKENS,
+        ...effortConfig(cfg.synth_model),
         messages: [
           { role: 'user', content: synthesisPrompt(reviewA, reviewB) },
         ],
@@ -528,7 +542,7 @@ async function synthesizeWithOpenAI(reviewA, reviewB) {
     },
     body: JSON.stringify({
       model: cfg.openai_model,
-      max_output_tokens: 4000,
+      max_output_tokens: MAX_RESPONSE_TOKENS,
       input: [{ role: 'user', content: synthesisPrompt(reviewA, reviewB) }],
     }),
   })
