@@ -404,7 +404,12 @@ async function claudeReview(diff, guidelines) {
       .filter((b) => b.type === 'text')
       .map((b) => b.text)
       .join(''),
-    'claude'
+    'claude',
+    {
+      stopReason: data.stop_reason,
+      outputTokens: data.usage?.output_tokens,
+      model: cfg.anthropic_model,
+    }
   )
 }
 
@@ -444,10 +449,15 @@ async function codexReview(diff, guidelines) {
       .join('') ||
     data.output_text ||
     ''
-  return parseReview(text, 'codex')
+  return parseReview(text, 'codex', {
+    stopReason: data.incomplete_details?.reason ?? data.status,
+    outputTokens: data.usage?.output_tokens,
+    model: cfg.openai_model,
+  })
 }
 
-function parseReview(text, source) {
+// `diag` separates a truncated answer from a refusal from malformed output.
+function parseReview(text, source, diag = {}) {
   const cleaned = text.replace(/```json|```/g, '').trim()
   // Direct parse first; brace-slicing is only a fallback for prose-wrapped JSON.
   let parsed
@@ -460,9 +470,30 @@ function parseReview(text, source) {
       )
     } catch {
       console.error(
-        `[warn] ${source} returned unparseable output; treating as empty review.`
+        `[warn] ${source} returned unparseable output; treating as empty review. ` +
+          `(model=${diag.model ?? '?'}, stop_reason=${diag.stopReason ?? '?'}, ` +
+          `output_tokens=${diag.outputTokens ?? '?'}, text_length=${text.length})`
       )
-      return { issues: [], overall: `(${source} output could not be parsed)` }
+      if (/max_tokens|max_output_tokens|length/.test(String(diag.stopReason)))
+        console.error(
+          `[warn] the answer was cut off by the token budget -- raise MAX_RESPONSE_TOKENS ` +
+            `(currently ${MAX_RESPONSE_TOKENS}) or lower REVIEW_EFFORT in scripts/ai-review/review.mjs.`
+        )
+      if (diag.stopReason === 'refusal')
+        console.error(
+          `[warn] the model declined this request; no review was produced.`
+        )
+      console.error(
+        text.trim()
+          ? `[warn] ${source} raw output (first 300 chars): ${text.slice(0, 300)}`
+          : `[warn] ${source} returned no text content at all.`
+      )
+      // Non-enumerable: the synthesis prompt JSON.stringify()s these objects.
+      return Object.defineProperty(
+        { issues: [], overall: `(${source} output could not be parsed)` },
+        'parseFailed',
+        { value: true }
+      )
     }
   }
   parsed.issues = (parsed.issues ?? []).map((i) => ({ ...i, source }))
@@ -527,7 +558,12 @@ async function synthesizeWithAnthropic(reviewA, reviewB) {
       .filter((b) => b.type === 'text')
       .map((b) => b.text)
       .join(''),
-    'synth'
+    'synth',
+    {
+      stopReason: data.stop_reason,
+      outputTokens: data.usage?.output_tokens,
+      model: cfg.synth_model,
+    }
   )
 }
 
@@ -563,7 +599,11 @@ async function synthesizeWithOpenAI(reviewA, reviewB) {
       .join('') ||
     data.output_text ||
     ''
-  return parseReview(text, 'synth')
+  return parseReview(text, 'synth', {
+    stopReason: data.incomplete_details?.reason ?? data.status,
+    outputTokens: data.usage?.output_tokens,
+    model: cfg.openai_model,
+  })
 }
 
 // ------------------------------------------------------------ post review --
@@ -613,6 +653,16 @@ async function postReview(merged, meta) {
     warnings.push(
       `⚠️ The ${cfg.openai_model} reviewer failed -- this is a single-model review ` +
         `(${cfg.anthropic_model} only).`
+    )
+  if (meta.claudeUnparsed)
+    warnings.push(
+      `⚠️ The ${cfg.anthropic_model} reviewer returned output that could not be parsed -- ` +
+        `its findings are missing. See the Actions log for the raw response.`
+    )
+  if (meta.codexUnparsed)
+    warnings.push(
+      `⚠️ The ${cfg.openai_model} reviewer returned output that could not be parsed -- ` +
+        `its findings are missing. See the Actions log for the raw response.`
     )
   if (meta.synthFailed)
     warnings.push(
@@ -741,6 +791,18 @@ const reviewB = codexFailed
   ? { issues: [], overall: '(Codex reviewer unavailable)' }
   : b.value
 
+// A reviewer that answers with unusable JSON still resolves, so `allSettled` above
+// can't see it. Separate from `claudeFailed`, which reroutes synthesis to OpenAI.
+const claudeUnparsed = reviewA.parseFailed === true
+const codexUnparsed = reviewB.parseFailed === true
+
+const localMerge = () => ({
+  issues: [...reviewA.issues, ...reviewB.issues]
+    .filter((i) => i.severity !== 'nit')
+    .sort((x, y) => (RANK[y.severity] ?? 0) - (RANK[x.severity] ?? 0)),
+  summary: [reviewA.overall, reviewB.overall].filter(Boolean).join(' -- '),
+})
+
 // Synthesize on Anthropic normally; if the Claude reviewer failed, Anthropic is
 // presumed down, so synthesize on the surviving OpenAI provider instead. If the
 // synthesizer itself fails, degrade to a local merge rather than losing the review.
@@ -750,17 +812,20 @@ try {
   merged = claudeFailed
     ? await synthesizeWithOpenAI(reviewA, reviewB)
     : await synthesizeWithAnthropic(reviewA, reviewB)
+  // An empty issue list would otherwise read as "nothing found".
+  if (merged.parseFailed === true) {
+    synthFailed = true
+    console.error(
+      '[warn] synthesis returned unparseable output; posting unmerged reviewer issues.'
+    )
+    merged = localMerge()
+  }
 } catch (e) {
   synthFailed = true
   console.error(
     `[warn] synthesis failed (${e.message}); posting unmerged reviewer issues.`
   )
-  merged = {
-    issues: [...reviewA.issues, ...reviewB.issues]
-      .filter((i) => i.severity !== 'nit')
-      .sort((x, y) => (RANK[y.severity] ?? 0) - (RANK[x.severity] ?? 0)),
-    summary: [reviewA.overall, reviewB.overall].filter(Boolean).join(' -- '),
-  }
+  merged = localMerge()
 }
 
 const criticals = await postReview(merged, {
@@ -771,6 +836,8 @@ const criticals = await postReview(merged, {
   validLines,
   claudeFailed,
   codexFailed,
+  claudeUnparsed,
+  codexUnparsed,
   synthFailed,
 })
 
