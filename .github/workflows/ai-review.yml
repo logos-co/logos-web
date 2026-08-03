@@ -23,7 +23,7 @@ jobs:
       startsWith(github.event.comment.body, '/ai-review') &&
       contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - name: Acknowledge trigger (eyes reaction)
         env:
