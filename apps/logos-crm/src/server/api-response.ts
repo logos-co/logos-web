@@ -8,6 +8,13 @@ interface ApiErrorBody {
   }
 }
 
+function getDatabaseErrorCode(error: unknown): string | null {
+  if (typeof error !== 'object' || error === null) return null
+  if ('code' in error && typeof error.code === 'string') return error.code
+  if ('cause' in error) return getDatabaseErrorCode(error.cause)
+  return null
+}
+
 export function apiError(
   code: string,
   message: string,
@@ -35,6 +42,24 @@ export function apiException(error: unknown): Response {
       'One or more fields are invalid.',
       400,
       fields
+    )
+  }
+
+  const databaseErrorCode = getDatabaseErrorCode(error)
+
+  if (databaseErrorCode === '23505') {
+    return apiError(
+      'DUPLICATE_RECORD',
+      'A record with the same unique details already exists.',
+      409
+    )
+  }
+
+  if (databaseErrorCode === '23503') {
+    return apiError(
+      'RELATED_RECORD_NOT_FOUND',
+      'A selected related record no longer exists.',
+      400
     )
   }
 
