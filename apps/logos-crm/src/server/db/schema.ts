@@ -39,6 +39,14 @@ export const contactMethodType = pgEnum(
   contactMethodTypes
 )
 
+export const activityTypes = ['note', 'call', 'email', 'meeting'] as const
+export const taskStatuses = ['open', 'completed', 'cancelled'] as const
+export const taskPriorities = ['low', 'medium', 'high'] as const
+
+export const activityType = pgEnum('activity_type', activityTypes)
+export const taskStatus = pgEnum('task_status', taskStatuses)
+export const taskPriority = pgEnum('task_priority', taskPriorities)
+
 export const organisations = pgTable(
   'crm_organisations',
   {
@@ -229,7 +237,87 @@ export const caseOrganisations = pgTable(
   ]
 )
 
+export const activities = pgTable(
+  'crm_activities',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    caseId: uuid('case_id').references(() => cases.id, {
+      onDelete: 'cascade',
+    }),
+    personId: uuid('person_id').references(() => people.id, {
+      onDelete: 'cascade',
+    }),
+    organisationId: uuid('organisation_id').references(() => organisations.id, {
+      onDelete: 'cascade',
+    }),
+    type: activityType('type').default('note').notNull(),
+    body: text('body').notNull(),
+    occurredAt: timestamp('occurred_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    createdBy: text('created_by').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    check(
+      'crm_activities_one_subject_check',
+      sql`num_nonnulls(${table.caseId}, ${table.personId}, ${table.organisationId}) = 1`
+    ),
+    index('crm_activities_case_idx').on(table.caseId, table.occurredAt),
+    index('crm_activities_person_idx').on(table.personId, table.occurredAt),
+    index('crm_activities_organisation_idx').on(
+      table.organisationId,
+      table.occurredAt
+    ),
+  ]
+)
+
+export const tasks = pgTable(
+  'crm_tasks',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    caseId: uuid('case_id').references(() => cases.id, {
+      onDelete: 'cascade',
+    }),
+    personId: uuid('person_id').references(() => people.id, {
+      onDelete: 'cascade',
+    }),
+    organisationId: uuid('organisation_id').references(() => organisations.id, {
+      onDelete: 'cascade',
+    }),
+    title: text('title').notNull(),
+    description: text('description'),
+    status: taskStatus('status').default('open').notNull(),
+    priority: taskPriority('priority').default('medium').notNull(),
+    assignee: text('assignee').notNull(),
+    dueAt: timestamp('due_at', { withTimezone: true }).notNull(),
+    completedAt: timestamp('completed_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    check(
+      'crm_tasks_one_subject_check',
+      sql`num_nonnulls(${table.caseId}, ${table.personId}, ${table.organisationId}) = 1`
+    ),
+    index('crm_tasks_case_idx').on(table.caseId, table.status, table.dueAt),
+    index('crm_tasks_person_idx').on(table.personId, table.status, table.dueAt),
+    index('crm_tasks_organisation_idx').on(
+      table.organisationId,
+      table.status,
+      table.dueAt
+    ),
+  ]
+)
+
 export const schema = {
+  activities,
   caseOrganisations,
   casePeople,
   cases,
@@ -237,4 +325,5 @@ export const schema = {
   organisations,
   people,
   personOrganisationRelationships,
+  tasks,
 }

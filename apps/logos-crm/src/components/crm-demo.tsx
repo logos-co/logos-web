@@ -16,6 +16,7 @@ import { apiClient } from '@/lib/api-client'
 
 import { DirectoryView } from './directory-view'
 import { NewCaseDialog } from './new-case-dialog'
+import { RecordWork } from './record-work'
 
 interface CasesResponse {
   items: CaseRecord[]
@@ -379,27 +380,6 @@ export function CrmDemo() {
                       <span>Due {formatDate(selectedCase.nextActionAt)}</span>
                     </div>
 
-                    <div className="activity-thread">
-                      <p className="utility-label">Activity</p>
-                      <div>
-                        <span />
-                        <p>
-                          <strong>Case reviewed</strong>
-                          <small>
-                            {selectedCase.owner} ·{' '}
-                            {formatDate(selectedCase.updatedAt)}
-                          </small>
-                        </p>
-                      </div>
-                      <div>
-                        <span />
-                        <p>
-                          <strong>Next action set</strong>
-                          <small>{selectedCase.nextAction}</small>
-                        </p>
-                      </div>
-                    </div>
-
                     <div className="related-people">
                       <p className="utility-label">Related people</p>
                       {selectedCase.relatedPeople.length > 0 ? (
@@ -413,6 +393,12 @@ export function CrmDemo() {
                         <p>No people linked to this case.</p>
                       )}
                     </div>
+
+                    <RecordWork
+                      key={selectedCase.id}
+                      subjectId={selectedCase.id}
+                      subjectType="case"
+                    />
 
                     <Button
                       className="w-full cursor-pointer"
