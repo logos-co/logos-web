@@ -15,6 +15,6 @@ Implementation is reuse-first: Drizzle owns schema, `drizzle-zod` owns validatio
 
 ## Demo implementation
 
-The `logos-crm` branch includes a PostgreSQL-backed vertical slice under `apps/logos-crm`: a pipeline summary, searchable case table, case detail/next-action view, case creation, and status progression through Next.js Route Handlers. It intentionally omits production authentication, CASL enforcement, Graphile Worker jobs, notifications, imports, and CiviCRM cutover.
+The `logos-crm` branch includes a PostgreSQL-backed vertical slice under `apps/logos-crm`: a pipeline summary, searchable case table, case detail/next-action view, case creation, status progression, people and organisation directories, contact methods, and explicit case relationships through Next.js Route Handlers. It intentionally omits production authentication, CASL enforcement, Graphile Worker jobs, notifications, imports, merges, and CiviCRM cutover.
 
 Run the complete demo with `docker compose -f apps/logos-crm/compose.yaml up --build`. Compose starts PostgreSQL, runs the Drizzle migration and idempotent demo seed, then serves the CRM at `http://localhost:3004`. The `db:migrate`, `db:seed`, and `dev` workspace scripts remain available for local development.

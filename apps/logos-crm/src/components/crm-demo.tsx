@@ -11,8 +11,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 
 import type { CaseRecord, CaseStatus, CreateCaseInput } from '@/contracts/case'
+import type { OrganisationRecord, PersonRecord } from '@/contracts/directory'
 import { apiClient } from '@/lib/api-client'
 
+import { DirectoryView } from './directory-view'
 import { NewCaseDialog } from './new-case-dialog'
 
 interface CasesResponse {
@@ -23,6 +25,12 @@ interface DashboardResponse {
   total: number
   byStatus: Record<CaseStatus, number>
 }
+
+interface DirectoryResponse<T> {
+  items: T[]
+}
+
+type WorkspaceView = 'cases' | 'people' | 'organisations'
 
 const statuses: readonly CaseStatus[] = [
   'new',
@@ -62,6 +70,7 @@ export function CrmDemo() {
   const [status, setStatus] = useState<CaseStatus | 'all'>('all')
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [isDialogOpen, setDialogOpen] = useState(false)
+  const [view, setView] = useState<WorkspaceView>('cases')
 
   const casesQuery = useQuery({
     queryKey: ['cases', search, status],
@@ -77,6 +86,17 @@ export function CrmDemo() {
   const dashboardQuery = useQuery({
     queryKey: ['dashboard'],
     queryFn: () => apiClient<DashboardResponse>('/api/v1/dashboard'),
+  })
+
+  const peopleQuery = useQuery({
+    queryKey: ['people'],
+    queryFn: () => apiClient<DirectoryResponse<PersonRecord>>('/api/v1/people'),
+  })
+
+  const organisationsQuery = useQuery({
+    queryKey: ['organisations'],
+    queryFn: () =>
+      apiClient<DirectoryResponse<OrganisationRecord>>('/api/v1/organisations'),
   })
 
   const createMutation = useMutation({
@@ -171,15 +191,28 @@ export function CrmDemo() {
         </div>
 
         <nav aria-label="Primary navigation" className="primary-nav">
-          <a className="active cursor-pointer" href="#pipeline">
-            Pipeline <span>{dashboardQuery.data?.total ?? '—'}</span>
-          </a>
-          <a className="cursor-pointer" href="#case-list">
-            Cases <span>{items.length}</span>
-          </a>
-          <a className="cursor-pointer" href="#activity">
-            Activity <span>Live</span>
-          </a>
+          <button
+            className={`${view === 'cases' ? 'active' : ''} cursor-pointer`}
+            type="button"
+            onClick={() => setView('cases')}
+          >
+            Cases <span>{dashboardQuery.data?.total ?? '—'}</span>
+          </button>
+          <button
+            className={`${view === 'people' ? 'active' : ''} cursor-pointer`}
+            type="button"
+            onClick={() => setView('people')}
+          >
+            People <span>{peopleQuery.data?.items.length ?? '—'}</span>
+          </button>
+          <button
+            className={`${view === 'organisations' ? 'active' : ''} cursor-pointer`}
+            type="button"
+            onClick={() => setView('organisations')}
+          >
+            Organisations{' '}
+            <span>{organisationsQuery.data?.items.length ?? '—'}</span>
+          </button>
         </nav>
 
         <div className="demo-note">
@@ -198,193 +231,223 @@ export function CrmDemo() {
       </aside>
 
       <main className="crm-main">
-        <header className="workspace-header">
-          <div>
-            <p className="utility-label">Tuesday · Coordination queue</p>
-            <h1>Move the next case forward.</h1>
-          </div>
-          <Button
-            className="cursor-pointer"
-            onClick={() => setDialogOpen(true)}
-          >
-            New case
-          </Button>
-        </header>
-
-        <section
-          className="pipeline-ribbon"
-          id="pipeline"
-          aria-label="Case pipeline"
-        >
-          <div className="pipeline-summary">
-            <span>Open pipeline</span>
-            <strong>{dashboardQuery.data?.total ?? '—'}</strong>
-          </div>
-          {statuses.map((item, index) => (
-            <button
-              className={`pipeline-stage cursor-pointer ${status === item ? 'selected' : ''}`}
-              key={item}
-              type="button"
-              onClick={() => setStatus(status === item ? 'all' : item)}
-            >
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <strong>{statusLabels[item]}</strong>
-              <b>{dashboardQuery.data?.byStatus[item] ?? '—'}</b>
-            </button>
-          ))}
-        </section>
-
-        <div className="workspace-grid">
-          <section className="case-workspace" id="case-list">
-            <div className="section-header">
+        {view === 'cases' ? (
+          <>
+            <header className="workspace-header">
               <div>
-                <p className="utility-label">Current queue</p>
-                <h2>{status === 'all' ? 'All cases' : statusLabels[status]}</h2>
+                <p className="utility-label">Tuesday · Coordination queue</p>
+                <h1>Move the next case forward.</h1>
               </div>
-              <label className="search-field">
-                <span>Search</span>
-                <input
-                  type="search"
-                  value={search}
-                  placeholder="Case, organisation, owner"
-                  onChange={(event) => setSearch(event.target.value)}
-                />
-              </label>
-            </div>
+              <Button
+                className="cursor-pointer"
+                onClick={() => setDialogOpen(true)}
+              >
+                New case
+              </Button>
+            </header>
 
-            <div className="table-wrap">
-              <table>
-                <thead>
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <tr key={headerGroup.id}>
-                      {headerGroup.headers.map((header) => (
-                        <th key={header.id}>
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                        </th>
-                      ))}
-                    </tr>
-                  ))}
-                </thead>
-                <tbody>
-                  {table.getRowModel().rows.map((row) => (
-                    <tr
-                      className={
-                        selectedCase?.id === row.original.id ? 'active-row' : ''
-                      }
-                      key={row.id}
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <td key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              {casesQuery.isLoading && (
-                <TableMessage>Loading the queue…</TableMessage>
-              )}
-              {casesQuery.isError && (
-                <TableMessage>Connect PostgreSQL and retry.</TableMessage>
-              )}
-              {!casesQuery.isLoading &&
-                !casesQuery.isError &&
-                items.length === 0 && (
-                  <TableMessage>No cases match these filters.</TableMessage>
-                )}
-            </div>
-          </section>
-
-          <aside className="case-detail" id="activity">
-            {selectedCase ? (
-              <>
-                <div className="detail-kicker">
-                  <StatusBadge value={selectedCase.status} />
-                  <span>{selectedCase.priority} priority</span>
-                </div>
-                <h2>{selectedCase.title}</h2>
-                <p className="detail-organisation">
-                  {selectedCase.organisation}
-                </p>
-
-                <dl className="detail-facts">
-                  <div>
-                    <dt>Owner</dt>
-                    <dd>{selectedCase.owner}</dd>
-                  </div>
-                  <div>
-                    <dt>Stage</dt>
-                    <dd>{selectedCase.stage}</dd>
-                  </div>
-                  <div>
-                    <dt>Last contact</dt>
-                    <dd>{formatDate(selectedCase.lastContactAt)}</dd>
-                  </div>
-                  <div>
-                    <dt>Updated</dt>
-                    <dd>{formatDate(selectedCase.updatedAt)}</dd>
-                  </div>
-                </dl>
-
-                <div className="next-action">
-                  <p className="utility-label">Next action</p>
-                  <strong>{selectedCase.nextAction}</strong>
-                  <span>Due {formatDate(selectedCase.nextActionAt)}</span>
-                </div>
-
-                <div className="activity-thread">
-                  <p className="utility-label">Activity</p>
-                  <div>
-                    <span />
-                    <p>
-                      <strong>Case reviewed</strong>
-                      <small>
-                        {selectedCase.owner} ·{' '}
-                        {formatDate(selectedCase.updatedAt)}
-                      </small>
-                    </p>
-                  </div>
-                  <div>
-                    <span />
-                    <p>
-                      <strong>Next action set</strong>
-                      <small>{selectedCase.nextAction}</small>
-                    </p>
-                  </div>
-                </div>
-
-                <Button
-                  className="w-full cursor-pointer"
-                  disabled={
-                    selectedCase.status === 'closed' || statusMutation.isPending
-                  }
-                  onClick={() =>
-                    statusMutation.mutate({
-                      id: selectedCase.id,
-                      value: nextStatus[selectedCase.status],
-                    })
-                  }
+            <section
+              className="pipeline-ribbon"
+              id="pipeline"
+              aria-label="Case pipeline"
+            >
+              <div className="pipeline-summary">
+                <span>Open pipeline</span>
+                <strong>{dashboardQuery.data?.total ?? '—'}</strong>
+              </div>
+              {statuses.map((item, index) => (
+                <button
+                  className={`pipeline-stage cursor-pointer ${status === item ? 'selected' : ''}`}
+                  key={item}
+                  type="button"
+                  onClick={() => setStatus(status === item ? 'all' : item)}
                 >
-                  {selectedCase.status === 'closed'
-                    ? 'Case closed'
-                    : `Move to ${statusLabels[nextStatus[selectedCase.status]]}`}
-                </Button>
-              </>
-            ) : (
-              <TableMessage>
-                Select a case to review its next action.
-              </TableMessage>
-            )}
-          </aside>
-        </div>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <strong>{statusLabels[item]}</strong>
+                  <b>{dashboardQuery.data?.byStatus[item] ?? '—'}</b>
+                </button>
+              ))}
+            </section>
+
+            <div className="workspace-grid">
+              <section className="case-workspace" id="case-list">
+                <div className="section-header">
+                  <div>
+                    <p className="utility-label">Current queue</p>
+                    <h2>
+                      {status === 'all' ? 'All cases' : statusLabels[status]}
+                    </h2>
+                  </div>
+                  <label className="search-field">
+                    <span>Search</span>
+                    <input
+                      type="search"
+                      value={search}
+                      placeholder="Case, organisation, owner"
+                      onChange={(event) => setSearch(event.target.value)}
+                    />
+                  </label>
+                </div>
+
+                <div className="table-wrap">
+                  <table>
+                    <thead>
+                      {table.getHeaderGroups().map((headerGroup) => (
+                        <tr key={headerGroup.id}>
+                          {headerGroup.headers.map((header) => (
+                            <th key={header.id}>
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                            </th>
+                          ))}
+                        </tr>
+                      ))}
+                    </thead>
+                    <tbody>
+                      {table.getRowModel().rows.map((row) => (
+                        <tr
+                          className={
+                            selectedCase?.id === row.original.id
+                              ? 'active-row'
+                              : ''
+                          }
+                          key={row.id}
+                        >
+                          {row.getVisibleCells().map((cell) => (
+                            <td key={cell.id}>
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                  {casesQuery.isLoading && (
+                    <TableMessage>Loading the queue…</TableMessage>
+                  )}
+                  {casesQuery.isError && (
+                    <TableMessage>Connect PostgreSQL and retry.</TableMessage>
+                  )}
+                  {!casesQuery.isLoading &&
+                    !casesQuery.isError &&
+                    items.length === 0 && (
+                      <TableMessage>No cases match these filters.</TableMessage>
+                    )}
+                </div>
+              </section>
+
+              <aside className="case-detail" id="activity">
+                {selectedCase ? (
+                  <>
+                    <div className="detail-kicker">
+                      <StatusBadge value={selectedCase.status} />
+                      <span>{selectedCase.priority} priority</span>
+                    </div>
+                    <h2>{selectedCase.title}</h2>
+                    <p className="detail-organisation">
+                      {selectedCase.organisation}
+                    </p>
+
+                    <dl className="detail-facts">
+                      <div>
+                        <dt>Owner</dt>
+                        <dd>{selectedCase.owner}</dd>
+                      </div>
+                      <div>
+                        <dt>Stage</dt>
+                        <dd>{selectedCase.stage}</dd>
+                      </div>
+                      <div>
+                        <dt>Last contact</dt>
+                        <dd>{formatDate(selectedCase.lastContactAt)}</dd>
+                      </div>
+                      <div>
+                        <dt>Updated</dt>
+                        <dd>{formatDate(selectedCase.updatedAt)}</dd>
+                      </div>
+                    </dl>
+
+                    <div className="next-action">
+                      <p className="utility-label">Next action</p>
+                      <strong>{selectedCase.nextAction}</strong>
+                      <span>Due {formatDate(selectedCase.nextActionAt)}</span>
+                    </div>
+
+                    <div className="activity-thread">
+                      <p className="utility-label">Activity</p>
+                      <div>
+                        <span />
+                        <p>
+                          <strong>Case reviewed</strong>
+                          <small>
+                            {selectedCase.owner} ·{' '}
+                            {formatDate(selectedCase.updatedAt)}
+                          </small>
+                        </p>
+                      </div>
+                      <div>
+                        <span />
+                        <p>
+                          <strong>Next action set</strong>
+                          <small>{selectedCase.nextAction}</small>
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="related-people">
+                      <p className="utility-label">Related people</p>
+                      {selectedCase.relatedPeople.length > 0 ? (
+                        selectedCase.relatedPeople.map((person) => (
+                          <div key={person.id}>
+                            <strong>{person.fullName}</strong>
+                            <span>{person.roleTitle ?? 'Contact'}</span>
+                          </div>
+                        ))
+                      ) : (
+                        <p>No people linked to this case.</p>
+                      )}
+                    </div>
+
+                    <Button
+                      className="w-full cursor-pointer"
+                      disabled={
+                        selectedCase.status === 'closed' ||
+                        statusMutation.isPending
+                      }
+                      onClick={() =>
+                        statusMutation.mutate({
+                          id: selectedCase.id,
+                          value: nextStatus[selectedCase.status],
+                        })
+                      }
+                    >
+                      {selectedCase.status === 'closed'
+                        ? 'Case closed'
+                        : `Move to ${statusLabels[nextStatus[selectedCase.status]]}`}
+                    </Button>
+                  </>
+                ) : (
+                  <TableMessage>
+                    Select a case to review its next action.
+                  </TableMessage>
+                )}
+              </aside>
+            </div>
+          </>
+        ) : (
+          <DirectoryView
+            isLoading={peopleQuery.isLoading || organisationsQuery.isLoading}
+            mode={view}
+            organisations={organisationsQuery.data?.items ?? []}
+            people={peopleQuery.data?.items ?? []}
+          />
+        )}
       </main>
 
       <NewCaseDialog
@@ -394,6 +457,8 @@ export function CrmDemo() {
         onCreate={async (input) => {
           await createMutation.mutateAsync(input)
         }}
+        organisations={organisationsQuery.data?.items ?? []}
+        people={peopleQuery.data?.items ?? []}
       />
     </div>
   )

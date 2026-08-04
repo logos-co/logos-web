@@ -6,10 +6,17 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod/v4'
 
 import { createCaseSchema, type CreateCaseInput } from '@/contracts/case'
+import type { OrganisationRecord, PersonRecord } from '@/contracts/directory'
 
-const formSchema = createCaseSchema.omit({ nextActionAt: true }).extend({
-  nextActionAt: z.string().min(1, 'Choose a due date.'),
-})
+import { FormField, RecordDialog } from './record-dialog'
+
+const formSchema = createCaseSchema
+  .omit({ nextActionAt: true, organisationId: true, personIds: true })
+  .extend({
+    nextActionAt: z.string().min(1, 'Choose a due date.'),
+    organisationId: z.string().uuid('Choose an organisation.'),
+    personId: z.union([z.string().uuid(), z.literal('')]),
+  })
 
 type CaseFormValues = z.infer<typeof formSchema>
 
@@ -18,6 +25,8 @@ interface NewCaseDialogProps {
   isSaving: boolean
   onClose: () => void
   onCreate: (input: CreateCaseInput) => Promise<void>
+  organisations: OrganisationRecord[]
+  people: PersonRecord[]
 }
 
 const defaultDueDate = new Date(Date.now() + 24 * 60 * 60 * 1000)
@@ -29,6 +38,8 @@ export function NewCaseDialog({
   isSaving,
   onClose,
   onCreate,
+  organisations,
+  people,
 }: NewCaseDialogProps) {
   const {
     formState: { errors },
@@ -39,7 +50,9 @@ export function NewCaseDialog({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      organisation: '',
+      organisation: 'Selected organisation',
+      organisationId: '',
+      personId: '',
       owner: 'Mara Chen',
       stage: 'Intake',
       priority: 'medium',
@@ -51,122 +64,101 @@ export function NewCaseDialog({
   if (!isOpen) return null
 
   const submit = handleSubmit(async (values) => {
+    const organisation = organisations.find(
+      (item) => item.id === values.organisationId
+    )
+    if (!organisation) return
+    const { personId, ...caseValues } = values
     await onCreate({
-      ...values,
+      ...caseValues,
+      organisation: organisation.displayName,
       nextActionAt: new Date(values.nextActionAt).toISOString(),
+      personIds: personId ? [personId] : [],
     })
     reset()
   })
 
   return (
-    <div className="dialog-backdrop" role="presentation" onMouseDown={onClose}>
-      <section
-        aria-labelledby="new-case-title"
-        aria-modal="true"
-        className="dialog-panel"
-        role="dialog"
-        onMouseDown={(event) => event.stopPropagation()}
-      >
-        <div className="dialog-header">
-          <div>
-            <p className="utility-label">New record</p>
-            <h2 id="new-case-title">Open a case</h2>
-          </div>
-          <button
-            className="text-action cursor-pointer"
-            type="button"
-            onClick={onClose}
+    <RecordDialog kicker="New record" onClose={onClose} title="Open a case">
+      <form className="case-form" onSubmit={submit}>
+        <FormField label="Case title" error={errors.title?.message}>
+          <input
+            {...register('title')}
+            autoFocus
+            placeholder="What are we coordinating?"
+          />
+        </FormField>
+
+        <div className="form-row">
+          <FormField
+            label="Organisation"
+            error={errors.organisationId?.message}
           >
-            Close
-          </button>
+            <select {...register('organisationId')}>
+              <option value="">Choose organisation</option>
+              {organisations.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.displayName}
+                </option>
+              ))}
+            </select>
+          </FormField>
+          <FormField label="Owner" error={errors.owner?.message}>
+            <select {...register('owner')}>
+              <option>Mara Chen</option>
+              <option>Jon Bell</option>
+              <option>Niko Reyes</option>
+            </select>
+          </FormField>
         </div>
 
-        <form className="case-form" onSubmit={submit}>
-          <FormField label="Case title" error={errors.title?.message}>
-            <input
-              {...register('title')}
-              autoFocus
-              placeholder="What are we coordinating?"
-            />
+        <FormField label="Primary contact" error={errors.personId?.message}>
+          <select {...register('personId')}>
+            <option value="">No primary contact</option>
+            {people.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.fullName}
+                {item.organisationName ? ` · ${item.organisationName}` : ''}
+              </option>
+            ))}
+          </select>
+        </FormField>
+
+        <div className="form-row">
+          <FormField label="Stage" error={errors.stage?.message}>
+            <select {...register('stage')}>
+              <option>Intake</option>
+              <option>Discovery</option>
+              <option>Qualification</option>
+              <option>Proposal</option>
+            </select>
           </FormField>
-
-          <div className="form-row">
-            <FormField
-              label="Organisation"
-              error={errors.organisation?.message}
-            >
-              <input
-                {...register('organisation')}
-                placeholder="Organisation name"
-              />
-            </FormField>
-            <FormField label="Owner" error={errors.owner?.message}>
-              <select {...register('owner')}>
-                <option>Mara Chen</option>
-                <option>Jon Bell</option>
-                <option>Niko Reyes</option>
-              </select>
-            </FormField>
-          </div>
-
-          <div className="form-row">
-            <FormField label="Stage" error={errors.stage?.message}>
-              <select {...register('stage')}>
-                <option>Intake</option>
-                <option>Discovery</option>
-                <option>Qualification</option>
-                <option>Proposal</option>
-              </select>
-            </FormField>
-            <FormField label="Priority" error={errors.priority?.message}>
-              <select {...register('priority')}>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-            </FormField>
-          </div>
-
-          <FormField label="Next action" error={errors.nextAction?.message}>
-            <input
-              {...register('nextAction')}
-              placeholder="Describe the next concrete step"
-            />
+          <FormField label="Priority" error={errors.priority?.message}>
+            <select {...register('priority')}>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
           </FormField>
+        </div>
 
-          <FormField label="Due" error={errors.nextActionAt?.message}>
-            <input {...register('nextActionAt')} type="datetime-local" />
-          </FormField>
+        <FormField label="Next action" error={errors.nextAction?.message}>
+          <input
+            {...register('nextAction')}
+            placeholder="Describe the next concrete step"
+          />
+        </FormField>
 
-          <div className="dialog-actions">
-            <Button
-              className="cursor-pointer"
-              type="submit"
-              disabled={isSaving}
-            >
-              {isSaving ? 'Creating case' : 'Create case'}
-            </Button>
-          </div>
-        </form>
-      </section>
-    </div>
-  )
-}
+        <FormField label="Due" error={errors.nextActionAt?.message}>
+          <input {...register('nextActionAt')} type="datetime-local" />
+        </FormField>
 
-function FormField({
-  children,
-  error,
-  label,
-}: {
-  children: React.ReactNode
-  error?: string
-  label: string
-}) {
-  return (
-    <label className="form-field">
-      <span>{label}</span>
-      {children}
-      {error && <small>{error}</small>}
-    </label>
+        <div className="dialog-actions">
+          <Button className="cursor-pointer" type="submit" disabled={isSaving}>
+            {isSaving ? 'Creating case' : 'Create case'}
+          </Button>
+        </div>
+      </form>
+    </RecordDialog>
   )
 }

@@ -23,6 +23,8 @@ export const createCaseSchema = createInsertSchema(cases, {
   })
   .extend({
     nextActionAt: z.string().datetime(),
+    organisationId: z.string().uuid().optional(),
+    personIds: z.array(z.string().uuid()).max(12).default([]),
   })
 
 export const updateCaseStatusSchema = z.object({
@@ -38,6 +40,7 @@ export const caseRecordSchema = z.object({
   id: z.string().uuid(),
   title: z.string(),
   organisation: z.string(),
+  organisationId: z.string().uuid().nullable(),
   owner: z.string(),
   status: caseStatusSchema,
   stage: z.string(),
@@ -47,6 +50,13 @@ export const caseRecordSchema = z.object({
   lastContactAt: z.string().datetime().nullable(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
+  relatedPeople: z.array(
+    z.object({
+      id: z.string().uuid(),
+      fullName: z.string(),
+      roleTitle: z.string().nullable(),
+    })
+  ),
 })
 
 export type CasePriority = z.infer<typeof casePrioritySchema>
