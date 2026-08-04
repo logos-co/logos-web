@@ -8,7 +8,15 @@ import {
   type ColumnDef,
 } from '@tanstack/react-table'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
+import Link from 'next/link'
+import {
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 import type { CaseRecord, CaseStatus, CreateCaseInput } from '@/contracts/case'
 import type { OrganisationRecord, PersonRecord } from '@/contracts/directory'
@@ -24,6 +32,7 @@ interface CasesResponse {
 
 interface DashboardResponse {
   total: number
+  openTotal: number
   byStatus: Record<CaseStatus, number>
 }
 
@@ -32,6 +41,10 @@ interface DirectoryResponse<T> {
 }
 
 type WorkspaceView = 'cases' | 'people' | 'organisations'
+
+interface CrmDemoProps {
+  view: WorkspaceView
+}
 
 const statuses: readonly CaseStatus[] = [
   'new',
@@ -65,23 +78,49 @@ function formatDate(value: string | null): string {
   }).format(new Date(value))
 }
 
-export function CrmDemo() {
+function revealDetail(element: HTMLElement | null): void {
+  if (!element || !window.matchMedia('(max-width: 760px)').matches) return
+  const behaviour = window.matchMedia('(prefers-reduced-motion: reduce)')
+    .matches
+    ? 'auto'
+    : 'smooth'
+  requestAnimationFrame(() =>
+    element.scrollIntoView({ behavior: behaviour, block: 'start' })
+  )
+}
+
+export function CrmDemo({ view }: CrmDemoProps) {
   const queryClient = useQueryClient()
+  const mainRef = useRef<HTMLElement>(null)
+  const detailRef = useRef<HTMLElement>(null)
   const [search, setSearch] = useState('')
+  const deferredSearch = useDeferredValue(search.trim())
   const [status, setStatus] = useState<CaseStatus | 'all'>('all')
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [isDialogOpen, setDialogOpen] = useState(false)
-  const [view, setView] = useState<WorkspaceView>('cases')
+  const [feedback, setFeedback] = useState<string | null>(null)
+
+  useEffect(() => {
+    window.scrollTo({ left: 0, top: 0, behavior: 'auto' })
+    mainRef.current?.focus({ preventScroll: true })
+  }, [view])
+
+  useEffect(() => {
+    if (!feedback) return
+    const timeout = window.setTimeout(() => setFeedback(null), 4_000)
+    return () => window.clearTimeout(timeout)
+  }, [feedback])
 
   const casesQuery = useQuery({
-    queryKey: ['cases', search, status],
+    queryKey: ['cases', deferredSearch, status],
     queryFn: () => {
       const params = new URLSearchParams()
-      if (search) params.set('q', search)
+      if (deferredSearch) params.set('q', deferredSearch)
       if (status !== 'all') params.set('status', status)
       const suffix = params.size > 0 ? `?${params.toString()}` : ''
       return apiClient<CasesResponse>(`/api/v1/cases${suffix}`)
     },
+    placeholderData: (previous) => previous,
   })
 
   const dashboardQuery = useQuery({
@@ -109,11 +148,13 @@ export function CrmDemo() {
     onSuccess: async ({ item }) => {
       setSelectedId(item.id)
       setDialogOpen(false)
+      setFeedback('Case created.')
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['cases'] }),
         queryClient.invalidateQueries({ queryKey: ['dashboard'] }),
       ])
     },
+    onError: () => setFeedback('The case could not be created. Retry.'),
   })
 
   const statusMutation = useMutation({
@@ -123,47 +164,45 @@ export function CrmDemo() {
         body: JSON.stringify({ status: value }),
       }),
     onSuccess: async () => {
+      setFeedback('Case status updated.')
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['cases'] }),
         queryClient.invalidateQueries({ queryKey: ['dashboard'] }),
       ])
     },
+    onError: () => setFeedback('The case status could not be updated. Retry.'),
   })
 
   const items = casesQuery.data?.items ?? []
   const selectedCase = items.find((item) => item.id === selectedId) ?? items[0]
+  const selectCase = useCallback((id: string): void => {
+    setSelectedId(id)
+    revealDetail(detailRef.current)
+  }, [])
 
-  const columns = useMemo<ColumnDef<CaseRecord>[]>(
+  const caseColumns = useMemo<ColumnDef<CaseRecord>[]>(
     () => [
       {
         accessorKey: 'title',
         header: 'Case',
         cell: ({ row }) => (
           <button
+            aria-pressed={selectedCase?.id === row.original.id}
             className="case-link cursor-pointer"
             type="button"
-            onClick={() => setSelectedId(row.original.id)}
+            onClick={() => selectCase(row.original.id)}
           >
             <span>{row.original.title}</span>
             <small>{row.original.organisation}</small>
           </button>
         ),
       },
-      {
-        accessorKey: 'stage',
-        header: 'Stage',
-      },
-      {
-        accessorKey: 'owner',
-        header: 'Owner',
-      },
+      { accessorKey: 'stage', header: 'Stage' },
+      { accessorKey: 'owner', header: 'Owner' },
       {
         accessorKey: 'status',
         header: 'Status',
-        cell: ({ getValue }) => {
-          const value = getValue<CaseStatus>()
-          return <StatusBadge value={value} />
-        },
+        cell: ({ getValue }) => <StatusBadge value={getValue<CaseStatus>()} />,
       },
       {
         accessorKey: 'updatedAt',
@@ -171,17 +210,20 @@ export function CrmDemo() {
         cell: ({ getValue }) => formatDate(getValue<string>()),
       },
     ],
-    []
+    [selectCase, selectedCase?.id]
   )
 
   const table = useReactTable({
     data: items,
-    columns,
+    columns: caseColumns,
     getCoreRowModel: getCoreRowModel(),
   })
 
   return (
     <div className="crm-shell">
+      <a className="skip-link cursor-pointer" href="#main-content">
+        Skip to workspace
+      </a>
       <aside className="crm-sidebar">
         <div className="brand-block">
           <LogosMark size={30} />
@@ -192,52 +234,38 @@ export function CrmDemo() {
         </div>
 
         <nav aria-label="Primary navigation" className="primary-nav">
-          <button
+          <Link
+            aria-current={view === 'cases' ? 'page' : undefined}
             className={`${view === 'cases' ? 'active' : ''} cursor-pointer`}
-            type="button"
-            onClick={() => setView('cases')}
+            href="/cases"
           >
             Cases <span>{dashboardQuery.data?.total ?? '—'}</span>
-          </button>
-          <button
+          </Link>
+          <Link
+            aria-current={view === 'people' ? 'page' : undefined}
             className={`${view === 'people' ? 'active' : ''} cursor-pointer`}
-            type="button"
-            onClick={() => setView('people')}
+            href="/people"
           >
             People <span>{peopleQuery.data?.items.length ?? '—'}</span>
-          </button>
-          <button
+          </Link>
+          <Link
+            aria-current={view === 'organisations' ? 'page' : undefined}
             className={`${view === 'organisations' ? 'active' : ''} cursor-pointer`}
-            type="button"
-            onClick={() => setView('organisations')}
+            href="/organisations"
           >
             Organisations{' '}
             <span>{organisationsQuery.data?.items.length ?? '—'}</span>
-          </button>
+          </Link>
         </nav>
-
-        <div className="demo-note">
-          <p>Demo workspace</p>
-          <span>
-            PostgreSQL-backed vertical slice. Authentication and migration are
-            not active.
-          </span>
-        </div>
-
-        <div className="operator-card">
-          <span>Signed in as</span>
-          <strong>Mara Chen</strong>
-          <small>Coordinator · Demo</small>
-        </div>
       </aside>
 
-      <main className="crm-main">
+      <main className="crm-main" id="main-content" ref={mainRef} tabIndex={-1}>
         {view === 'cases' ? (
           <>
             <header className="workspace-header">
               <div>
-                <p className="utility-label">Tuesday · Coordination queue</p>
-                <h1>Move the next case forward.</h1>
+                <p className="utility-label">Coordination queue</p>
+                <h1>Cases</h1>
               </div>
               <Button
                 className="cursor-pointer"
@@ -247,17 +275,14 @@ export function CrmDemo() {
               </Button>
             </header>
 
-            <section
-              className="pipeline-ribbon"
-              id="pipeline"
-              aria-label="Case pipeline"
-            >
+            <section className="pipeline-ribbon" aria-label="Case pipeline">
               <div className="pipeline-summary">
                 <span>Open pipeline</span>
-                <strong>{dashboardQuery.data?.total ?? '—'}</strong>
+                <strong>{dashboardQuery.data?.openTotal ?? '—'}</strong>
               </div>
               {statuses.map((item, index) => (
                 <button
+                  aria-pressed={status === item}
                   className={`pipeline-stage cursor-pointer ${status === item ? 'selected' : ''}`}
                   key={item}
                   type="button"
@@ -271,7 +296,7 @@ export function CrmDemo() {
             </section>
 
             <div className="workspace-grid">
-              <section className="case-workspace" id="case-list">
+              <section className="case-workspace">
                 <div className="section-header">
                   <div>
                     <p className="utility-label">Current queue</p>
@@ -317,7 +342,12 @@ export function CrmDemo() {
                           key={row.id}
                         >
                           {row.getVisibleCells().map((cell) => (
-                            <td key={cell.id}>
+                            <td
+                              data-label={String(
+                                cell.column.columnDef.header ?? ''
+                              )}
+                              key={cell.id}
+                            >
                               {flexRender(
                                 cell.column.columnDef.cell,
                                 cell.getContext()
@@ -343,7 +373,7 @@ export function CrmDemo() {
                 </div>
               </section>
 
-              <aside className="case-detail" id="activity">
+              <aside className="case-detail" ref={detailRef}>
                 {selectedCase ? (
                   <>
                     <div className="detail-kicker">
@@ -354,6 +384,30 @@ export function CrmDemo() {
                     <p className="detail-organisation">
                       {selectedCase.organisation}
                     </p>
+
+                    <div className="next-action">
+                      <p className="utility-label">Next action</p>
+                      <strong>{selectedCase.nextAction}</strong>
+                      <span>Due {formatDate(selectedCase.nextActionAt)}</span>
+                    </div>
+
+                    <Button
+                      className="case-status-action w-full cursor-pointer"
+                      disabled={
+                        selectedCase.status === 'closed' ||
+                        statusMutation.isPending
+                      }
+                      onClick={() =>
+                        statusMutation.mutate({
+                          id: selectedCase.id,
+                          value: nextStatus[selectedCase.status],
+                        })
+                      }
+                    >
+                      {selectedCase.status === 'closed'
+                        ? 'Case closed'
+                        : `Move to ${statusLabels[nextStatus[selectedCase.status]]}`}
+                    </Button>
 
                     <dl className="detail-facts">
                       <div>
@@ -374,12 +428,6 @@ export function CrmDemo() {
                       </div>
                     </dl>
 
-                    <div className="next-action">
-                      <p className="utility-label">Next action</p>
-                      <strong>{selectedCase.nextAction}</strong>
-                      <span>Due {formatDate(selectedCase.nextActionAt)}</span>
-                    </div>
-
                     <div className="related-people">
                       <p className="utility-label">Related people</p>
                       {selectedCase.relatedPeople.length > 0 ? (
@@ -399,24 +447,6 @@ export function CrmDemo() {
                       subjectId={selectedCase.id}
                       subjectType="case"
                     />
-
-                    <Button
-                      className="w-full cursor-pointer"
-                      disabled={
-                        selectedCase.status === 'closed' ||
-                        statusMutation.isPending
-                      }
-                      onClick={() =>
-                        statusMutation.mutate({
-                          id: selectedCase.id,
-                          value: nextStatus[selectedCase.status],
-                        })
-                      }
-                    >
-                      {selectedCase.status === 'closed'
-                        ? 'Case closed'
-                        : `Move to ${statusLabels[nextStatus[selectedCase.status]]}`}
-                    </Button>
                   </>
                 ) : (
                   <TableMessage>
@@ -430,11 +460,18 @@ export function CrmDemo() {
           <DirectoryView
             isLoading={peopleQuery.isLoading || organisationsQuery.isLoading}
             mode={view}
+            onFeedback={setFeedback}
             organisations={organisationsQuery.data?.items ?? []}
             people={peopleQuery.data?.items ?? []}
           />
         )}
       </main>
+
+      {feedback && (
+        <div className="feedback-toast" role="status">
+          {feedback}
+        </div>
+      )}
 
       <NewCaseDialog
         isOpen={isDialogOpen}

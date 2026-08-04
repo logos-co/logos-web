@@ -29,9 +29,11 @@ interface NewCaseDialogProps {
   people: PersonRecord[]
 }
 
-const defaultDueDate = new Date(Date.now() + 24 * 60 * 60 * 1000)
-  .toISOString()
-  .slice(0, 16)
+function defaultDueDate(): string {
+  const date = new Date(Date.now() + 24 * 60 * 60 * 1000)
+  const pad = (value: number) => String(value).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`
+}
 
 export function NewCaseDialog({
   isOpen,
@@ -57,7 +59,7 @@ export function NewCaseDialog({
       stage: 'Intake',
       priority: 'medium',
       nextAction: '',
-      nextActionAt: defaultDueDate,
+      nextActionAt: defaultDueDate(),
     },
   })
 

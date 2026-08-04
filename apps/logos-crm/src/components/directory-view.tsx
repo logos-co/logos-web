@@ -2,7 +2,7 @@
 
 import { Button } from '@acid-info/logos-ui'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useMemo, useState } from 'react'
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
 
 import type {
   CreateOrganisationInput,
@@ -25,20 +25,21 @@ interface DirectoryResponse<T> {
 interface DirectoryViewProps {
   isLoading: boolean
   mode: 'people' | 'organisations'
+  onFeedback: (message: string) => void
   organisations: OrganisationRecord[]
   people: PersonRecord[]
 }
 
 const directoryCopy = {
   people: {
-    kicker: 'Relationship directory · People',
-    title: 'Know who moves the work.',
+    kicker: 'Relationship directory',
+    title: 'People',
     button: 'Add person',
     search: 'Name, role, or organisation',
   },
   organisations: {
-    kicker: 'Relationship directory · Organisations',
-    title: 'See the network around each case.',
+    kicker: 'Relationship directory',
+    title: 'Organisations',
     button: 'Add organisation',
     search: 'Name or domain',
   },
@@ -47,11 +48,14 @@ const directoryCopy = {
 export function DirectoryView({
   isLoading,
   mode,
+  onFeedback,
   organisations,
   people,
 }: DirectoryViewProps) {
   const queryClient = useQueryClient()
+  const detailRef = useRef<HTMLElement>(null)
   const [search, setSearch] = useState('')
+  const deferredSearch = useDeferredValue(search.trim())
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [isDialogOpen, setDialogOpen] = useState(false)
   const [isEditing, setEditing] = useState(false)
@@ -65,18 +69,30 @@ export function DirectoryView({
   }, [mode])
 
   const filteredQuery = useQuery({
-    queryKey: [mode, 'search', search],
+    queryKey: [mode, 'search', deferredSearch],
     queryFn: () =>
       apiClient<DirectoryResponse<PersonRecord | OrganisationRecord>>(
-        `/api/v1/${mode}?q=${encodeURIComponent(search.trim())}`
+        `/api/v1/${mode}?q=${encodeURIComponent(deferredSearch)}`
       ),
-    enabled: search.trim().length > 0,
+    enabled: deferredSearch.length > 0,
+    placeholderData: (previous) => previous,
   })
 
   const sourceItems = mode === 'people' ? people : organisations
-  const items = search.trim() ? (filteredQuery.data?.items ?? []) : sourceItems
+  const items = deferredSearch ? (filteredQuery.data?.items ?? []) : sourceItems
   const selectedItem =
     items.find((item) => item.id === selectedId) ?? items[0] ?? null
+  const selectItem = (id: string): void => {
+    setSelectedId(id)
+    if (!window.matchMedia('(max-width: 760px)').matches) return
+    const behaviour = window.matchMedia('(prefers-reduced-motion: reduce)')
+      .matches
+      ? 'auto'
+      : 'smooth'
+    requestAnimationFrame(() =>
+      detailRef.current?.scrollIntoView({ behavior: behaviour, block: 'start' })
+    )
+  }
 
   const createOrganisationMutation = useMutation({
     mutationFn: (input: CreateOrganisationInput) =>
@@ -87,8 +103,10 @@ export function DirectoryView({
     onSuccess: async ({ item }) => {
       setSelectedId(item.id)
       setDialogOpen(false)
+      onFeedback('Organisation created.')
       await queryClient.invalidateQueries({ queryKey: ['organisations'] })
     },
+    onError: () => onFeedback('The organisation could not be created. Retry.'),
   })
 
   const createPersonMutation = useMutation({
@@ -100,11 +118,13 @@ export function DirectoryView({
     onSuccess: async ({ item }) => {
       setSelectedId(item.id)
       setDialogOpen(false)
+      onFeedback('Person created.')
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['people'] }),
         queryClient.invalidateQueries({ queryKey: ['organisations'] }),
       ])
     },
+    onError: () => onFeedback('The person could not be created. Retry.'),
   })
 
   const updateOrganisationMutation = useMutation({
@@ -121,8 +141,10 @@ export function DirectoryView({
       }),
     onSuccess: async () => {
       setDialogOpen(false)
+      onFeedback('Organisation updated.')
       await queryClient.invalidateQueries({ queryKey: ['organisations'] })
     },
+    onError: () => onFeedback('The organisation could not be updated. Retry.'),
   })
 
   const updatePersonMutation = useMutation({
@@ -133,11 +155,13 @@ export function DirectoryView({
       }),
     onSuccess: async () => {
       setDialogOpen(false)
+      onFeedback('Person updated.')
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['people'] }),
         queryClient.invalidateQueries({ queryKey: ['organisations'] }),
       ])
     },
+    onError: () => onFeedback('The person could not be updated. Retry.'),
   })
 
   const linkedCaseCount = useMemo(
@@ -200,13 +224,13 @@ export function DirectoryView({
               <PeopleTable
                 items={items as PersonRecord[]}
                 selectedId={selectedItem?.id ?? null}
-                onSelect={setSelectedId}
+                onSelect={selectItem}
               />
             ) : (
               <OrganisationsTable
                 items={items as OrganisationRecord[]}
                 selectedId={selectedItem?.id ?? null}
-                onSelect={setSelectedId}
+                onSelect={selectItem}
               />
             )}
             {(isLoading || filteredQuery.isLoading) && (
@@ -220,7 +244,7 @@ export function DirectoryView({
           </div>
         </section>
 
-        <aside className="case-detail directory-detail">
+        <aside className="case-detail directory-detail" ref={detailRef}>
           {selectedItem ? (
             mode === 'people' ? (
               <PersonDetail
@@ -329,8 +353,9 @@ function PeopleTable({
             className={item.id === selectedId ? 'active-row' : ''}
             key={item.id}
           >
-            <td>
+            <td data-label="Person">
               <button
+                aria-pressed={item.id === selectedId}
                 className="case-link cursor-pointer"
                 type="button"
                 onClick={() => onSelect(item.id)}
@@ -339,9 +364,13 @@ function PeopleTable({
                 <small>{item.roleTitle ?? 'No role recorded'}</small>
               </button>
             </td>
-            <td>{item.organisationName ?? 'Independent'}</td>
-            <td>{item.email ?? item.phone ?? 'No contact method'}</td>
-            <td>{item.linkedCaseCount}</td>
+            <td data-label="Organisation">
+              {item.organisationName ?? 'Independent'}
+            </td>
+            <td data-label="Contact">
+              {item.email ?? item.phone ?? 'No contact method'}
+            </td>
+            <td data-label="Cases">{item.linkedCaseCount}</td>
           </tr>
         ))}
       </tbody>
@@ -374,8 +403,9 @@ function OrganisationsTable({
             className={item.id === selectedId ? 'active-row' : ''}
             key={item.id}
           >
-            <td>
+            <td data-label="Organisation">
               <button
+                aria-pressed={item.id === selectedId}
                 className="case-link cursor-pointer"
                 type="button"
                 onClick={() => onSelect(item.id)}
@@ -384,9 +414,9 @@ function OrganisationsTable({
                 <small>{item.status}</small>
               </button>
             </td>
-            <td>{item.domain ?? 'No domain'}</td>
-            <td>{item.contactCount}</td>
-            <td>{item.linkedCaseCount}</td>
+            <td data-label="Domain">{item.domain ?? 'No domain'}</td>
+            <td data-label="People">{item.contactCount}</td>
+            <td data-label="Cases">{item.linkedCaseCount}</td>
           </tr>
         ))}
       </tbody>
