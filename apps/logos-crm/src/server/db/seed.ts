@@ -254,4 +254,65 @@ for (const [index, personSeed] of personSeeds.entries()) {
     .onConflictDoNothing()
 }
 
+const [activityResult] = await db
+  .select({ value: count() })
+  .from(schema.activities)
+if (activityResult?.value === 0) {
+  const activityValues = cases.flatMap((caseItem, index) => {
+    const person = personByExternalId.get(`person-${index + 1}`)
+    const organisation = organisationByName.get(caseItem.organisation)
+    return [
+      {
+        caseId: caseItem.id,
+        type: index % 2 === 0 ? ('meeting' as const) : ('email' as const),
+        body: `Reviewed the current position for ${caseItem.title.toLocaleLowerCase('en')}.`,
+        occurredAt: new Date(now - day * (index + 1)),
+        createdBy: caseItem.owner,
+      },
+      ...(person
+        ? [
+            {
+              personId: person.id,
+              type: 'note' as const,
+              body: `Primary contact for ${caseItem.title.toLocaleLowerCase('en')}.`,
+              occurredAt: new Date(now - day * (index + 2)),
+              createdBy: 'Mara Chen',
+            },
+          ]
+        : []),
+      ...(organisation
+        ? [
+            {
+              organisationId: organisation.id,
+              type: 'note' as const,
+              body: `Active relationship through ${caseItem.title.toLocaleLowerCase('en')}.`,
+              occurredAt: new Date(now - day * (index + 3)),
+              createdBy: 'Mara Chen',
+            },
+          ]
+        : []),
+    ]
+  })
+
+  if (activityValues.length > 0) {
+    await db.insert(schema.activities).values(activityValues)
+  }
+}
+
+const [taskResult] = await db.select({ value: count() }).from(schema.tasks)
+if (taskResult?.value === 0) {
+  await db.insert(schema.tasks).values(
+    cases.map((caseItem, index) => ({
+      caseId: caseItem.id,
+      title: caseItem.nextAction,
+      priority: caseItem.priority,
+      assignee: caseItem.owner,
+      dueAt: caseItem.nextActionAt,
+      status:
+        index === cases.length - 1 ? ('completed' as const) : ('open' as const),
+      completedAt: index === cases.length - 1 ? new Date(now - day) : null,
+    }))
+  )
+}
+
 await pool.end()

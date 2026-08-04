@@ -16,6 +16,7 @@ import { apiClient } from '@/lib/api-client'
 
 import { NewOrganisationDialog } from './new-organisation-dialog'
 import { NewPersonDialog } from './new-person-dialog'
+import { RecordWork } from './record-work'
 
 interface DirectoryResponse<T> {
   items: T[]
@@ -445,6 +446,7 @@ function PersonDetail({
       >
         Edit person
       </button>
+      <RecordWork key={item.id} subjectId={item.id} subjectType="person" />
     </>
   )
 }
@@ -505,6 +507,11 @@ function OrganisationDetail({
       >
         Edit organisation
       </button>
+      <RecordWork
+        key={item.id}
+        subjectId={item.id}
+        subjectType="organisation"
+      />
     </>
   )
 }

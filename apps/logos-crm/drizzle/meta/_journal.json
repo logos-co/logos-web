@@ -15,6 +15,13 @@
       "when": 1785853188381,
       "tag": "0001_redundant_ben_parker",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1785855993517,
+      "tag": "0002_old_captain_universe",
+      "breakpoints": true
     }
   ]
 }
