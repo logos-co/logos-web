@@ -1,6 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
+import { Dialog, Modal, ModalOverlay } from 'react-aria-components'
 
 interface RecordDialogProps {
   children: ReactNode
@@ -18,30 +19,37 @@ export function RecordDialog({
   const titleId = `dialog-${title.toLocaleLowerCase('en').replace(/[^a-z0-9]+/g, '-')}`
 
   return (
-    <div className="dialog-backdrop" role="presentation" onMouseDown={onClose}>
-      <section
-        aria-labelledby={titleId}
-        aria-modal="true"
-        className="dialog-panel"
-        role="dialog"
-        onMouseDown={(event) => event.stopPropagation()}
-      >
-        <div className="dialog-header">
-          <div>
-            <p className="utility-label">{kicker}</p>
-            <h2 id={titleId}>{title}</h2>
+    <ModalOverlay
+      className="dialog-backdrop"
+      isDismissable={false}
+      isOpen
+      onOpenChange={(open) => {
+        if (!open) onClose()
+      }}
+    >
+      <Modal className="dialog-modal">
+        <Dialog
+          aria-labelledby={titleId}
+          className="dialog-panel"
+          role="dialog"
+        >
+          <div className="dialog-header">
+            <div>
+              <p className="utility-label">{kicker}</p>
+              <h2 id={titleId}>{title}</h2>
+            </div>
+            <button
+              className="text-action cursor-pointer"
+              type="button"
+              onClick={onClose}
+            >
+              Close
+            </button>
           </div>
-          <button
-            className="text-action cursor-pointer"
-            type="button"
-            onClick={onClose}
-          >
-            Close
-          </button>
-        </div>
-        {children}
-      </section>
-    </div>
+          {children}
+        </Dialog>
+      </Modal>
+    </ModalOverlay>
   )
 }
 

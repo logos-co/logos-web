@@ -175,6 +175,7 @@ export async function updateCaseStatus(
 
 export async function getDashboardSummary(): Promise<{
   total: number
+  openTotal: number
   byStatus: Record<CaseStatus, number>
 }> {
   const rows = await db
@@ -194,6 +195,7 @@ export async function getDashboardSummary(): Promise<{
 
   return {
     total: Object.values(byStatus).reduce((sum, value) => sum + value, 0),
+    openTotal: byStatus.new + byStatus.in_progress + byStatus.waiting,
     byStatus,
   }
 }
