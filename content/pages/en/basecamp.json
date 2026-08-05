@@ -32,7 +32,7 @@
           "iconOverride": "download"
         },
         {
-          "label": "Install macos",
+          "label": "Install macOS",
           "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.2.3",
           "external": true,
           "variant": "secondary",
