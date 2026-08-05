@@ -548,12 +548,11 @@ a.dashboard-latest-update:hover {
   flex-direction: column;
   justify-content: space-between;
   background: var(--color-brand-yellow);
-  transition: box-shadow 150ms ease;
+  transition: filter 150ms ease;
 }
 
-.pipeline-summary:hover,
-.pipeline-summary[aria-pressed='true'] {
-  box-shadow: inset 0 0 0 3px rgb(21 37 33 / 20%);
+.pipeline-summary:hover {
+  filter: brightness(0.96);
 }
 
 .pipeline-summary span,
