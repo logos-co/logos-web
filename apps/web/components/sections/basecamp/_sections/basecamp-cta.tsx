@@ -65,17 +65,13 @@ export function BasecampCta({
   cta: CTA
   className?: string
 }) {
-  const fallbackLinkProps = cta.external
-    ? {
-        href: cta.href,
-        target: '_blank' as const,
-        rel: 'noopener noreferrer' as const,
-      }
-    : resolveBasecampInstallCtaLinkProps(cta)
+  const fallbackLinkProps = resolveBasecampInstallCtaLinkProps(cta)
   const [href, setHref] = useState(fallbackLinkProps.href)
 
   useEffect(() => {
-    if (cta.external || !isBasecampInstallCta(cta)) return
+    // Install CTAs must retain platform detection even when content marks the
+    // destination as external; the content URL is only the release fallback.
+    if (!isBasecampInstallCta(cta)) return
 
     let isCancelled = false
 

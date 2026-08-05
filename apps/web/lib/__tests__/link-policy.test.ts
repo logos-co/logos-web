@@ -57,13 +57,13 @@ const communityIdeasHref = 'https://github.com/logos-co/ideas'
 const livingWithinTruthHref = 'https://www.youtube.com/watch?v=xy4uK20lFBQ'
 const logosGenealogyHref = 'https://blog.logos.co/article/a-genealogy-of-logos'
 const basecampReleaseHref =
-  'https://github.com/logos-co/logos-basecamp/releases/tag/0.2.1'
+  'https://github.com/logos-co/logos-basecamp/releases#release-0.2.3'
 const basecampLinuxArm64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.2.1/LogosBasecamp-Desktop-v0.2.1-8a36a8-aarch64.AppImage'
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.2.3/LogosBasecamp-Desktop-v0.2.3-aa2377-aarch64.AppImage'
 const basecampLinuxX64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.2.1/LogosBasecamp-Desktop-v0.2.1-8a36a8-x86_64.AppImage'
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.2.3/LogosBasecamp-Desktop-v0.2.3-aa2377-x86_64.AppImage'
 const basecampMacArm64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.2.1/LogosBasecamp-Desktop-v0.2.1-8a36a8-aarch64.dmg'
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.2.3/LogosBasecamp-Desktop-v0.2.3-aa2377-aarch64.dmg'
 const runNodeCliDocsHref =
   'https://docs.logos.co/'
 const docsLabels = new Set(['docs', 'documentation', 'view the docs'])

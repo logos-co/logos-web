@@ -66,7 +66,7 @@
         "ctas": [
           {
             "label": "Install Basecamp",
-            "href": "https://github.com/logos-co/logos-basecamp/releases/tag/0.2.1",
+            "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.2.3",
             "external": true
           }
         ]
