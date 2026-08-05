@@ -57,7 +57,7 @@ export function HomepageHighlightCard({
         href={data.cta.href}
         className={clsx(
           'group flex cursor-pointer items-center gap-3 rounded-[6px] py-0.5 pr-7 pl-0.5 transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green',
-          'md:items-start md:gap-2 md:p-1 md:focus-visible:outline-brand-off-white'
+          'md:items-start md:gap-2 md:py-1 md:pr-7 md:pl-1 md:focus-visible:outline-brand-off-white'
         )}
       >
         <span className="relative h-[65px] w-[65px] shrink-0 overflow-hidden rounded-[4px] md:h-11 md:w-[37px]">
