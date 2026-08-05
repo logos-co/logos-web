@@ -18,11 +18,11 @@
   "primaryCta": { "label": "Install Basecamp", "href": "/basecamp" },
   "homepageHighlight": {
     "enabled": true,
-    "body": "Testnet v0.2.1 is live for experimentation. Introducing improvements to the entire stack.",
+    "body": "Testnet v0.2.1 is live for experimentation. See the full release notes.",
     "dismissAriaLabel": "Dismiss announcement",
     "cta": {
       "label": "Learn More",
-      "href": "https://blog.logos.co/article/testnet-v02-live"
+      "href": "https://roadmap.logos.co/testnets/v02-1-release"
     },
     "image": {
       "src": "/images/home/testnet-highlight.webp",
