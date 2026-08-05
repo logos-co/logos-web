@@ -51,7 +51,7 @@
         "label": "Current Status",
         "body": "Testnet v0.2 launched June 2026. It is focused on the developer experience and the usability of the stack.",
         "cta": {
-          "label": "Install Testnet v0.2",
+          "label": "Install Testnet v0.2.3",
           "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.2.3",
           "external": true,
           "variant": "secondary",
