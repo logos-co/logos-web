@@ -18,7 +18,7 @@
   "primaryCta": { "label": "Install Basecamp", "href": "/basecamp" },
   "homepageHighlight": {
     "enabled": true,
-    "body": "Testnet v0.2.3 is live for experimentation. Introducing improvements to the entire stack.",
+    "body": "Testnet v0.2.1 is live for experimentation. Introducing improvements to the entire stack.",
     "dismissAriaLabel": "Dismiss announcement",
     "cta": {
       "label": "Learn More",
