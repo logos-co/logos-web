@@ -123,9 +123,9 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
           role="tabpanel"
           aria-labelledby={getReleaseTabId(activeReleaseIndex)}
           tabIndex={0}
-          className="mt-10 flex flex-col gap-10 min-[1025px]:mt-[18px] min-[1025px]:grid min-[1025px]:grid-cols-2 min-[1025px]:items-start min-[1025px]:gap-3 min-[1025px]:pt-[41px]"
+          className="mt-10 flex flex-col gap-10 min-[1025px]:mt-[18px] min-[1025px]:grid min-[1025px]:grid-cols-2 min-[1025px]:items-stretch min-[1025px]:gap-3 min-[1025px]:pt-[41px]"
         >
-          <div className="contents min-[1025px]:flex min-[1025px]:flex-col min-[1025px]:gap-[34px]">
+          <div className="contents min-[1025px]:flex min-[1025px]:flex-col min-[1025px]:justify-between min-[1025px]:gap-[34px]">
             <ReleaseInformation release={activeRelease} />
             <ReleaseModuleTable modules={activeRelease.modules} />
           </div>
@@ -300,7 +300,7 @@ function ReleaseFeature({
   }, [displayedImage.src, image])
 
   return (
-    <div className="relative order-2 aspect-[702/521] w-full overflow-hidden rounded-xl min-[1025px]:order-none">
+    <div className="relative order-2 aspect-[702/521] w-full overflow-hidden rounded-xl min-[1025px]:order-none min-[1025px]:self-start">
       <Image
         src={displayedImage.src}
         alt={displayedImage.alt}
