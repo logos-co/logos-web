@@ -112,6 +112,12 @@ export async function listCases(
   return hydrateCaseRecords(rows)
 }
 
+export async function getCase(id: string): Promise<CaseRecord | null> {
+  const [row] = await db.select().from(cases).where(eq(cases.id, id)).limit(1)
+  if (!row) return null
+  return (await hydrateCaseRecords([row]))[0] ?? null
+}
+
 export async function createCase(
   input: Readonly<CreateCaseInput>
 ): Promise<CaseRecord> {

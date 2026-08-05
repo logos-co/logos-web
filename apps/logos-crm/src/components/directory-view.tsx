@@ -2,21 +2,21 @@
 
 import { Button } from '@acid-info/logos-ui'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useDeferredValue, useMemo, useState } from 'react'
 
 import type {
   CreateOrganisationInput,
   CreatePersonInput,
   OrganisationRecord,
   PersonRecord,
-  UpdateOrganisationInput,
-  UpdatePersonInput,
 } from '@/contracts/directory'
 import { apiClient } from '@/lib/api-client'
 
 import { NewOrganisationDialog } from './new-organisation-dialog'
 import { NewPersonDialog } from './new-person-dialog'
-import { RecordWork } from './record-work'
+import { RecordRow } from './record-row'
 
 interface DirectoryResponse<T> {
   items: T[]
@@ -32,13 +32,11 @@ interface DirectoryViewProps {
 
 const directoryCopy = {
   people: {
-    kicker: 'Relationship directory',
     title: 'People',
     button: 'Add person',
     search: 'Name, role, or organisation',
   },
   organisations: {
-    kicker: 'Relationship directory',
     title: 'Organisations',
     button: 'Add organisation',
     search: 'Name or domain',
@@ -53,20 +51,11 @@ export function DirectoryView({
   people,
 }: DirectoryViewProps) {
   const queryClient = useQueryClient()
-  const detailRef = useRef<HTMLElement>(null)
+  const router = useRouter()
   const [search, setSearch] = useState('')
   const deferredSearch = useDeferredValue(search.trim())
-  const [selectedId, setSelectedId] = useState<string | null>(null)
   const [isDialogOpen, setDialogOpen] = useState(false)
-  const [isEditing, setEditing] = useState(false)
   const copy = directoryCopy[mode]
-
-  useEffect(() => {
-    setSearch('')
-    setSelectedId(null)
-    setDialogOpen(false)
-    setEditing(false)
-  }, [mode])
 
   const filteredQuery = useQuery({
     queryKey: [mode, 'search', deferredSearch],
@@ -80,19 +69,6 @@ export function DirectoryView({
 
   const sourceItems = mode === 'people' ? people : organisations
   const items = deferredSearch ? (filteredQuery.data?.items ?? []) : sourceItems
-  const selectedItem =
-    items.find((item) => item.id === selectedId) ?? items[0] ?? null
-  const selectItem = (id: string): void => {
-    setSelectedId(id)
-    if (!window.matchMedia('(max-width: 760px)').matches) return
-    const behaviour = window.matchMedia('(prefers-reduced-motion: reduce)')
-      .matches
-      ? 'auto'
-      : 'smooth'
-    requestAnimationFrame(() =>
-      detailRef.current?.scrollIntoView({ behavior: behaviour, block: 'start' })
-    )
-  }
 
   const createOrganisationMutation = useMutation({
     mutationFn: (input: CreateOrganisationInput) =>
@@ -101,10 +77,9 @@ export function DirectoryView({
         body: JSON.stringify(input),
       }),
     onSuccess: async ({ item }) => {
-      setSelectedId(item.id)
       setDialogOpen(false)
-      onFeedback('Organisation created.')
       await queryClient.invalidateQueries({ queryKey: ['organisations'] })
+      router.push(`/organisations/${item.id}`)
     },
     onError: () => onFeedback('The organisation could not be created. Retry.'),
   })
@@ -116,52 +91,14 @@ export function DirectoryView({
         body: JSON.stringify(input),
       }),
     onSuccess: async ({ item }) => {
-      setSelectedId(item.id)
       setDialogOpen(false)
-      onFeedback('Person created.')
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['people'] }),
         queryClient.invalidateQueries({ queryKey: ['organisations'] }),
       ])
+      router.push(`/people/${item.id}`)
     },
     onError: () => onFeedback('The person could not be created. Retry.'),
-  })
-
-  const updateOrganisationMutation = useMutation({
-    mutationFn: ({
-      id,
-      input,
-    }: {
-      id: string
-      input: UpdateOrganisationInput
-    }) =>
-      apiClient<{ item: OrganisationRecord }>(`/api/v1/organisations/${id}`, {
-        method: 'PATCH',
-        body: JSON.stringify(input),
-      }),
-    onSuccess: async () => {
-      setDialogOpen(false)
-      onFeedback('Organisation updated.')
-      await queryClient.invalidateQueries({ queryKey: ['organisations'] })
-    },
-    onError: () => onFeedback('The organisation could not be updated. Retry.'),
-  })
-
-  const updatePersonMutation = useMutation({
-    mutationFn: ({ id, input }: { id: string; input: UpdatePersonInput }) =>
-      apiClient<{ item: PersonRecord }>(`/api/v1/people/${id}`, {
-        method: 'PATCH',
-        body: JSON.stringify(input),
-      }),
-    onSuccess: async () => {
-      setDialogOpen(false)
-      onFeedback('Person updated.')
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['people'] }),
-        queryClient.invalidateQueries({ queryKey: ['organisations'] }),
-      ])
-    },
-    onError: () => onFeedback('The person could not be updated. Retry.'),
   })
 
   const linkedCaseCount = useMemo(
@@ -172,17 +109,8 @@ export function DirectoryView({
   return (
     <>
       <header className="workspace-header directory-heading">
-        <div>
-          <p className="utility-label">{copy.kicker}</p>
-          <h1>{copy.title}</h1>
-        </div>
-        <Button
-          className="cursor-pointer"
-          onClick={() => {
-            setEditing(false)
-            setDialogOpen(true)
-          }}
-        >
+        <h1>{copy.title}</h1>
+        <Button className="cursor-pointer" onClick={() => setDialogOpen(true)}>
           {copy.button}
         </Button>
       </header>
@@ -201,13 +129,22 @@ export function DirectoryView({
         <DirectoryMetric label="Case links" value={linkedCaseCount} />
       </section>
 
-      <div className="workspace-grid directory-grid">
-        <section className="case-workspace">
-          <div className="section-header">
-            <div>
-              <p className="utility-label">Current index</p>
-              <h2>{mode === 'people' ? 'All people' : 'All organisations'}</h2>
-            </div>
+      <section className="case-workspace list-workspace">
+        <div className="section-header">
+          <div className="section-title-group">
+            <h2>{mode === 'people' ? 'All people' : 'All organisations'}</h2>
+            <span className="result-count" aria-live="polite">
+              {items.length}{' '}
+              {mode === 'people'
+                ? items.length === 1
+                  ? 'person'
+                  : 'people'
+                : items.length === 1
+                  ? 'organisation'
+                  : 'organisations'}
+            </span>
+          </div>
+          <div className="table-controls">
             <label className="search-field">
               <span>Search</span>
               <input
@@ -217,94 +154,82 @@ export function DirectoryView({
                 onChange={(event) => setSearch(event.target.value)}
               />
             </label>
+            {search && (
+              <button
+                className="table-text-action cursor-pointer"
+                type="button"
+                onClick={() => setSearch('')}
+              >
+                Clear search
+              </button>
+            )}
           </div>
+        </div>
 
-          <div className="table-wrap directory-table-wrap">
-            {mode === 'people' ? (
-              <PeopleTable
-                items={items as PersonRecord[]}
-                selectedId={selectedItem?.id ?? null}
-                onSelect={selectItem}
-              />
-            ) : (
-              <OrganisationsTable
-                items={items as OrganisationRecord[]}
-                selectedId={selectedItem?.id ?? null}
-                onSelect={selectItem}
-              />
-            )}
-            {(isLoading || filteredQuery.isLoading) && (
-              <div className="table-message">Loading the directory…</div>
-            )}
-            {!isLoading && !filteredQuery.isLoading && items.length === 0 && (
+        <div className="table-wrap directory-table-wrap">
+          {mode === 'people' ? (
+            <PeopleTable
+              isFetching={isLoading || filteredQuery.isFetching}
+              items={items as PersonRecord[]}
+            />
+          ) : (
+            <OrganisationsTable
+              isFetching={isLoading || filteredQuery.isFetching}
+              items={items as OrganisationRecord[]}
+            />
+          )}
+          {(isLoading || filteredQuery.isLoading) && (
+            <div className="table-message">Loading the directory…</div>
+          )}
+          {filteredQuery.isError && (
+            <div className="table-message">
+              <p>The directory search could not be completed.</p>
+              <button
+                className="table-state-action cursor-pointer"
+                type="button"
+                onClick={() => filteredQuery.refetch()}
+              >
+                Retry
+              </button>
+            </div>
+          )}
+          {!isLoading &&
+            !filteredQuery.isLoading &&
+            !filteredQuery.isError &&
+            items.length === 0 && (
               <div className="table-message">
-                No records match this search. Add a record or clear the query.
+                <p>No records match this search.</p>
+                {search && (
+                  <button
+                    className="table-state-action cursor-pointer"
+                    type="button"
+                    onClick={() => setSearch('')}
+                  >
+                    Clear search
+                  </button>
+                )}
               </div>
             )}
-          </div>
-        </section>
-
-        <aside className="case-detail directory-detail" ref={detailRef}>
-          {selectedItem ? (
-            mode === 'people' ? (
-              <PersonDetail
-                item={selectedItem as PersonRecord}
-                onEdit={() => {
-                  setEditing(true)
-                  setDialogOpen(true)
-                }}
-              />
-            ) : (
-              <OrganisationDetail
-                item={selectedItem as OrganisationRecord}
-                onEdit={() => {
-                  setEditing(true)
-                  setDialogOpen(true)
-                }}
-              />
-            )
-          ) : (
-            <div className="table-message">Select a directory record.</div>
-          )}
-        </aside>
-      </div>
+        </div>
+      </section>
 
       {isDialogOpen && mode === 'people' && (
         <NewPersonDialog
-          isSaving={
-            createPersonMutation.isPending || updatePersonMutation.isPending
-          }
+          isSaving={createPersonMutation.isPending}
           organisations={organisations}
-          item={isEditing ? (selectedItem as PersonRecord) : undefined}
           onClose={() => setDialogOpen(false)}
-          onCreate={(input) => {
-            if (isEditing && selectedItem) {
-              return updatePersonMutation
-                .mutateAsync({ id: selectedItem.id, input })
-                .then(() => undefined)
-            }
-            return createPersonMutation.mutateAsync(input).then(() => undefined)
-          }}
+          onCreate={(input) =>
+            createPersonMutation.mutateAsync(input).then(() => undefined)
+          }
         />
       )}
       {isDialogOpen && mode === 'organisations' && (
         <NewOrganisationDialog
-          isSaving={
-            createOrganisationMutation.isPending ||
-            updateOrganisationMutation.isPending
-          }
-          item={isEditing ? (selectedItem as OrganisationRecord) : undefined}
+          isSaving={createOrganisationMutation.isPending}
           onClose={() => setDialogOpen(false)}
-          onCreate={(input) => {
-            if (isEditing && selectedItem) {
-              return updateOrganisationMutation
-                .mutateAsync({ id: selectedItem.id, input })
-                .then(() => undefined)
-            }
-            return createOrganisationMutation
-              .mutateAsync(input)
-              .then(() => undefined)
-          }}
+          onCreate={(input) =>
+            createOrganisationMutation.mutateAsync(input).then(() => undefined)
+          }
         />
       )}
     </>
@@ -329,16 +254,17 @@ function DirectoryMetric({
 }
 
 function PeopleTable({
+  isFetching,
   items,
-  onSelect,
-  selectedId,
 }: {
+  isFetching: boolean
   items: PersonRecord[]
-  onSelect: (id: string) => void
-  selectedId: string | null
 }) {
   return (
-    <table>
+    <table aria-busy={isFetching}>
+      <caption className="visually-hidden">
+        People. Select any row to open its detail page.
+      </caption>
       <thead>
         <tr>
           <th>Person</th>
@@ -349,20 +275,16 @@ function PeopleTable({
       </thead>
       <tbody>
         {items.map((item) => (
-          <tr
-            className={item.id === selectedId ? 'active-row' : ''}
-            key={item.id}
-          >
+          <RecordRow href={`/people/${item.id}`} key={item.id}>
             <td data-label="Person">
-              <button
-                aria-pressed={item.id === selectedId}
+              <Link
+                aria-label={`Open person ${item.fullName}`}
                 className="case-link cursor-pointer"
-                type="button"
-                onClick={() => onSelect(item.id)}
+                href={`/people/${item.id}`}
               >
                 <span>{item.fullName}</span>
                 <small>{item.roleTitle ?? 'No role recorded'}</small>
-              </button>
+              </Link>
             </td>
             <td data-label="Organisation">
               {item.organisationName ?? 'Independent'}
@@ -371,7 +293,7 @@ function PeopleTable({
               {item.email ?? item.phone ?? 'No contact method'}
             </td>
             <td data-label="Cases">{item.linkedCaseCount}</td>
-          </tr>
+          </RecordRow>
         ))}
       </tbody>
     </table>
@@ -379,16 +301,17 @@ function PeopleTable({
 }
 
 function OrganisationsTable({
+  isFetching,
   items,
-  onSelect,
-  selectedId,
 }: {
+  isFetching: boolean
   items: OrganisationRecord[]
-  onSelect: (id: string) => void
-  selectedId: string | null
 }) {
   return (
-    <table>
+    <table aria-busy={isFetching}>
+      <caption className="visually-hidden">
+        Organisations. Select any row to open its detail page.
+      </caption>
       <thead>
         <tr>
           <th>Organisation</th>
@@ -399,149 +322,23 @@ function OrganisationsTable({
       </thead>
       <tbody>
         {items.map((item) => (
-          <tr
-            className={item.id === selectedId ? 'active-row' : ''}
-            key={item.id}
-          >
+          <RecordRow href={`/organisations/${item.id}`} key={item.id}>
             <td data-label="Organisation">
-              <button
-                aria-pressed={item.id === selectedId}
+              <Link
+                aria-label={`Open organisation ${item.displayName}`}
                 className="case-link cursor-pointer"
-                type="button"
-                onClick={() => onSelect(item.id)}
+                href={`/organisations/${item.id}`}
               >
                 <span>{item.displayName}</span>
                 <small>{item.status}</small>
-              </button>
+              </Link>
             </td>
             <td data-label="Domain">{item.domain ?? 'No domain'}</td>
             <td data-label="People">{item.contactCount}</td>
             <td data-label="Cases">{item.linkedCaseCount}</td>
-          </tr>
+          </RecordRow>
         ))}
       </tbody>
     </table>
-  )
-}
-
-function PersonDetail({
-  item,
-  onEdit,
-}: {
-  item: PersonRecord
-  onEdit: () => void
-}) {
-  return (
-    <>
-      <div className="detail-kicker">
-        <span>{item.status}</span>
-        <span>{item.linkedCaseCount} case links</span>
-      </div>
-      <h2>{item.preferredName || item.fullName}</h2>
-      <p className="detail-organisation">{item.fullName}</p>
-      <dl className="detail-facts">
-        <div>
-          <dt>Organisation</dt>
-          <dd>{item.organisationName ?? 'Independent'}</dd>
-        </div>
-        <div>
-          <dt>Role</dt>
-          <dd>{item.roleTitle ?? 'Not recorded'}</dd>
-        </div>
-        <div>
-          <dt>Email</dt>
-          <dd>{item.email ?? 'Not recorded'}</dd>
-        </div>
-        <div>
-          <dt>Telephone</dt>
-          <dd>{item.phone ?? 'Not recorded'}</dd>
-        </div>
-      </dl>
-      <div className="directory-note">
-        <p className="utility-label">Coordination note</p>
-        <p>{item.summary ?? 'Add context before the next interaction.'}</p>
-      </div>
-      {item.email && (
-        <a
-          className="directory-contact cursor-pointer"
-          href={`mailto:${item.email}`}
-        >
-          Email {item.preferredName || item.fullName}
-        </a>
-      )}
-      <button
-        className="directory-edit cursor-pointer"
-        type="button"
-        onClick={onEdit}
-      >
-        Edit person
-      </button>
-      <RecordWork key={item.id} subjectId={item.id} subjectType="person" />
-    </>
-  )
-}
-
-function OrganisationDetail({
-  item,
-  onEdit,
-}: {
-  item: OrganisationRecord
-  onEdit: () => void
-}) {
-  return (
-    <>
-      <div className="detail-kicker">
-        <span>{item.status}</span>
-        <span>{item.linkedCaseCount} case links</span>
-      </div>
-      <h2>{item.displayName}</h2>
-      <p className="detail-organisation">
-        {item.domain ?? 'No domain recorded'}
-      </p>
-      <dl className="detail-facts">
-        <div>
-          <dt>People</dt>
-          <dd>{item.contactCount}</dd>
-        </div>
-        <div>
-          <dt>Cases</dt>
-          <dd>{item.linkedCaseCount}</dd>
-        </div>
-        <div>
-          <dt>Status</dt>
-          <dd>{item.status}</dd>
-        </div>
-        <div>
-          <dt>Domain</dt>
-          <dd>{item.domain ?? 'Not recorded'}</dd>
-        </div>
-      </dl>
-      <div className="directory-note">
-        <p className="utility-label">Organisation context</p>
-        <p>{item.summary ?? 'Add a shared summary for coordinators.'}</p>
-      </div>
-      {item.website && (
-        <a
-          className="directory-contact cursor-pointer"
-          href={item.website}
-          rel="noreferrer"
-          target="_blank"
-        >
-          Visit website
-        </a>
-      )}
-      <button
-        className="directory-edit cursor-pointer"
-        type="button"
-        onClick={onEdit}
-      >
-        Edit organisation
-      </button>
-      <RecordWork
-        key={item.id}
-        subjectId={item.id}
-        subjectType="organisation"
-      />
-    </>
   )
 }
