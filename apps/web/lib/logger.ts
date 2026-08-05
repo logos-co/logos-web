@@ -25,4 +25,10 @@ export const logger = {
       console.info(...format(message, context))
     }
   },
+  /** Logs in every build but tests -- use when a deployed preview needs it. */
+  debug(message: string, context?: LoggerContext): void {
+    if (process.env.NODE_ENV !== 'test') {
+      console.debug(...format(message, context))
+    }
+  },
 }

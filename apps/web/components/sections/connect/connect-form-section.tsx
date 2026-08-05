@@ -27,8 +27,9 @@ import type {
 } from '@/lib/civicrm/types'
 import { cn } from '@/lib/cn'
 import {
-  resolveCountryLabel,
   submitFunnelNewsletterSignups,
+  toLabelledFormFields,
+  type FieldOptions,
 } from '@/lib/funnel-newsletter-signup'
 
 import { getOptionsForField } from './get-field-options'
@@ -106,12 +107,16 @@ export function ConnectFormSection({
     [formFieldsWithKeys]
   )
 
-  const countryOptions = useMemo(() => {
-    const field = formFieldsWithKeys.find(
-      (candidate) => candidate.formKey === 'country'
-    )
-    return field ? getOptionsForField(field, afformOptions) : []
-  }, [formFieldsWithKeys, afformOptions])
+  const fieldOptions = useMemo<FieldOptions>(
+    () =>
+      Object.fromEntries(
+        formFieldsWithKeys.map((field) => [
+          field.formKey,
+          getOptionsForField(field, afformOptions),
+        ])
+      ),
+    [formFieldsWithKeys, afformOptions]
+  )
 
   const [formData, setFormData] = useState<FormValues>(initialData)
   const [submitable, setSubmitable] = useState(false)
@@ -333,16 +338,27 @@ export function ConnectFormSection({
       setSuccessState(true)
       setLoadingState(false)
 
+      // Built from the answers and the form name alone: the captcha token and
+      // the field defs are intake plumbing and must not reach the newsletter
+      // service, whatever else a caller puts in `extraPayload`.
+      const formName = extraPayload.formName
+      const formFields = toLabelledFormFields(
+        { ...formData, ...(formName && { formName }) },
+        fieldOptions
+      )
+
       // Outside the success/error path: the intake write already landed and
       // its captcha token is spent, so a failed subscription must not surface
       // as a submission error.
       void submitFunnelNewsletterSignups({
         email: typeof formData.email === 'string' ? formData.email : '',
-        formName: extraPayload.formName,
+        formName,
         wantsNewsletter: formData.wantsNewsletter === true,
         wantsEvents: formData.wantsEvents === true,
         city: typeof formData.city === 'string' ? formData.city : '',
-        country: resolveCountryLabel(formData.country, countryOptions),
+        country:
+          typeof formFields.country === 'string' ? formFields.country : '',
+        formFields,
       })
     } catch {
       setServerError(t('networkError'))
