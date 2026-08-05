@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation'
+import { CrmDemo } from '@/components/crm-demo'
 
 export default function HomePage() {
-  redirect('/cases')
+  return <CrmDemo view="dashboard" />
 }
