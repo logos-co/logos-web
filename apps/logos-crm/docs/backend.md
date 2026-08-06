@@ -18,7 +18,7 @@ Role and record-scope rules are defined once as server-authored CASL abilities. 
 
 ## 2. Database model
 
-Drizzle table definitions are the only application schema source. PostgreSQL constraints and indexes are declared with Drizzle where supported; checked-in custom SQL is limited to PostgreSQL features that Drizzle Kit cannot express. `drizzle-zod` generates select, insert, and update schemas. Explicit refinements are limited to cross-field business rules and safe API projections.
+Drizzle table definitions are the persistence schema source. PostgreSQL constraints and indexes are declared with Drizzle where supported; checked-in custom SQL is limited to PostgreSQL features that Drizzle Kit cannot express. Browser-safe Zod schemas define API and form contracts without importing Drizzle tables into client bundles. Server-only migration and persistence validation may derive schemas with `drizzle-zod`; explicit refinements are limited to cross-field business rules and safe API projections.
 
 The initial PostgreSQL schema contains:
 
