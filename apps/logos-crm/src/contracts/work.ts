@@ -1,6 +1,6 @@
 import { z } from 'zod/v4'
 
-import { activityTypes, taskPriorities, taskStatuses } from '@/server/db/schema'
+import { activityTypes, taskPriorities, taskStatuses } from './values'
 
 export const workSubjectTypes = ['case', 'person', 'organisation'] as const
 

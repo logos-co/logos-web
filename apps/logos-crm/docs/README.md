@@ -11,7 +11,7 @@ Read in this order:
 
 The runtime is intentionally small: one Next.js application image used by `web` and `worker`, one PostgreSQL service, one protected file volume, and Infra-provided authentication and SMTP. There is no Redis, hosted queue, Vercel dependency, separate backend service, or separate scheduler.
 
-Implementation is reuse-first: Drizzle owns schema, `drizzle-zod` owns validation derivation, Drizzle Kit owns migrations, and Drizzle Seed owns fixtures; Next.js Route Handlers expose REST endpoints; Zod owns boundary validation; CASL owns ability evaluation; Graphile Worker owns scheduling and retries; PapaParse and ExcelJS own file formats. CRM-specific code is limited to business rules, queries, and UI composition.
+Implementation is reuse-first: Drizzle owns the persistence schema, browser-safe Zod schemas own API and form contracts, Drizzle Kit owns migrations, and Drizzle Seed owns fixtures; Next.js Route Handlers expose REST endpoints; CASL owns ability evaluation; Graphile Worker owns scheduling and retries; PapaParse and ExcelJS own file formats. CRM-specific code is limited to business rules, queries, and UI composition.
 
 ## Demo implementation
 

@@ -215,11 +215,21 @@ export async function createOrganisation(
       status: input.status ?? 'prospect',
       summary: input.summary || null,
     })
-    .returning({ id: organisations.id })
+    .returning()
 
-  const item = (await listOrganisations()).find((row) => row.id === created?.id)
-  if (!item) throw new Error('The organisation was not created.')
-  return item
+  if (!created) throw new Error('The organisation was not created.')
+  return {
+    id: created.id,
+    displayName: created.displayName,
+    domain: created.domain,
+    website: created.website,
+    status: created.status,
+    summary: created.summary,
+    contactCount: 0,
+    linkedCaseCount: 0,
+    createdAt: created.createdAt.toISOString(),
+    updatedAt: created.updatedAt.toISOString(),
+  }
 }
 
 export async function createPerson(

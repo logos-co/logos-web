@@ -1,7 +1,6 @@
-import { createInsertSchema } from 'drizzle-zod'
 import { z } from 'zod/v4'
 
-import { directoryStatuses, organisations, people } from '@/server/db/schema'
+import { directoryStatuses } from './values'
 
 export const directoryStatusSchema = z.enum(directoryStatuses)
 
@@ -9,47 +8,28 @@ export const directoryListQuerySchema = z.object({
   q: z.string().trim().max(120).optional(),
 })
 
-export const createOrganisationSchema = createInsertSchema(organisations, {
-  displayName: (schema) => schema.trim().min(2).max(140),
-  domain: (schema) => schema.trim().max(160),
-  website: (schema) => schema.trim().url().max(240),
-  summary: (schema) => schema.trim().max(600),
+export const createOrganisationSchema = z.object({
+  displayName: z.string().trim().min(2).max(140),
+  domain: z.string().trim().max(160).optional(),
+  website: z
+    .union([z.string().trim().url().max(240), z.literal('')])
+    .optional(),
+  status: directoryStatusSchema.optional(),
+  summary: z.string().trim().max(600).optional(),
 })
-  .pick({
-    displayName: true,
-    domain: true,
-    website: true,
-    status: true,
-    summary: true,
-  })
-  .extend({
-    domain: z.string().trim().max(160).optional(),
-    website: z
-      .union([z.string().trim().url().max(240), z.literal('')])
-      .optional(),
-    summary: z.string().trim().max(600).optional(),
-  })
 
-export const createPersonSchema = createInsertSchema(people, {
-  fullName: (schema) => schema.trim().min(2).max(140),
-  preferredName: (schema) => schema.trim().max(100),
-  roleTitle: (schema) => schema.trim().max(140),
-  summary: (schema) => schema.trim().max(600),
+export const createPersonSchema = z.object({
+  fullName: z.string().trim().min(2).max(140),
+  preferredName: z.string().trim().max(100).optional(),
+  roleTitle: z.string().trim().max(140).optional(),
+  status: directoryStatusSchema.optional(),
+  summary: z.string().trim().max(600).optional(),
+  email: z
+    .union([z.string().trim().email().max(240), z.literal('')])
+    .optional(),
+  phone: z.string().trim().max(80).optional(),
+  organisationId: z.string().uuid().optional(),
 })
-  .pick({
-    fullName: true,
-    preferredName: true,
-    roleTitle: true,
-    status: true,
-    summary: true,
-  })
-  .extend({
-    email: z
-      .union([z.string().trim().email().max(240), z.literal('')])
-      .optional(),
-    phone: z.string().trim().max(80).optional(),
-    organisationId: z.string().uuid().optional(),
-  })
 
 export const updateOrganisationSchema = createOrganisationSchema
   .partial()

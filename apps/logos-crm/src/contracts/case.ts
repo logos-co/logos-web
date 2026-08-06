@@ -1,31 +1,21 @@
-import { createInsertSchema } from 'drizzle-zod'
 import { z } from 'zod/v4'
 
-import { casePriorities, cases, caseStatuses } from '@/server/db/schema'
+import { casePriorities, caseStatuses } from './values'
 
 export const caseStatusSchema = z.enum(caseStatuses)
 export const casePrioritySchema = z.enum(casePriorities)
 
-export const createCaseSchema = createInsertSchema(cases, {
-  title: (schema) => schema.trim().min(3).max(160),
-  organisation: (schema) => schema.trim().min(2).max(120),
-  owner: (schema) => schema.trim().min(2).max(100),
-  stage: (schema) => schema.trim().min(2).max(80),
-  nextAction: (schema) => schema.trim().min(3).max(240),
+export const createCaseSchema = z.object({
+  title: z.string().trim().min(3).max(160),
+  organisation: z.string().trim().min(2).max(120),
+  owner: z.string().trim().min(2).max(100),
+  stage: z.string().trim().min(2).max(80),
+  priority: casePrioritySchema,
+  nextAction: z.string().trim().min(3).max(240),
+  nextActionAt: z.string().datetime(),
+  organisationId: z.string().uuid().optional(),
+  personIds: z.array(z.string().uuid()).max(12).default([]),
 })
-  .pick({
-    title: true,
-    organisation: true,
-    owner: true,
-    stage: true,
-    priority: true,
-    nextAction: true,
-  })
-  .extend({
-    nextActionAt: z.string().datetime(),
-    organisationId: z.string().uuid().optional(),
-    personIds: z.array(z.string().uuid()).max(12).default([]),
-  })
 
 export const updateCaseStatusSchema = z.object({
   status: caseStatusSchema,

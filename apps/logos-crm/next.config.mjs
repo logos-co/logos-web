@@ -1,6 +1,8 @@
 import { fileURLToPath } from 'node:url'
+import createNextIntlPlugin from 'next-intl/plugin'
 
 const workspaceRoot = fileURLToPath(new URL('../..', import.meta.url))
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -9,4 +11,4 @@ const nextConfig = {
   turbopack: { root: workspaceRoot },
 }
 
-export default nextConfig
+export default withNextIntl(nextConfig)

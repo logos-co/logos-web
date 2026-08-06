@@ -12,36 +12,34 @@ import {
 } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
 
-export const caseStatuses = [
-  'new',
-  'in_progress',
-  'waiting',
-  'resolved',
-  'closed',
-] as const
+import {
+  activityTypes,
+  casePriorities,
+  caseStatuses,
+  contactMethodTypes,
+  directoryStatuses,
+  taskPriorities,
+  taskStatuses,
+} from '@/contracts/values'
 
-export const casePriorities = ['low', 'medium', 'high'] as const
+export {
+  activityTypes,
+  casePriorities,
+  caseStatuses,
+  contactMethodTypes,
+  directoryStatuses,
+  taskPriorities,
+  taskStatuses,
+} from '@/contracts/values'
 
 export const caseStatus = pgEnum('case_status', caseStatuses)
 export const casePriority = pgEnum('case_priority', casePriorities)
-
-export const directoryStatuses = ['prospect', 'active', 'inactive'] as const
-export const contactMethodTypes = [
-  'email',
-  'phone',
-  'url',
-  'messaging',
-] as const
 
 export const directoryStatus = pgEnum('directory_status', directoryStatuses)
 export const contactMethodType = pgEnum(
   'contact_method_type',
   contactMethodTypes
 )
-
-export const activityTypes = ['note', 'call', 'email', 'meeting'] as const
-export const taskStatuses = ['open', 'completed', 'cancelled'] as const
-export const taskPriorities = ['low', 'medium', 'high'] as const
 
 export const activityType = pgEnum('activity_type', activityTypes)
 export const taskStatus = pgEnum('task_status', taskStatuses)

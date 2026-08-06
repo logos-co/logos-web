@@ -151,12 +151,12 @@ importers:
       drizzle-orm:
         specifier: ^0.45.2
         version: 0.45.2(@types/pg@8.20.3)(pg@8.22.0)
-      drizzle-zod:
-        specifier: ^0.8.3
-        version: 0.8.3(drizzle-orm@0.45.2(@types/pg@8.20.3)(pg@8.22.0))(zod@3.25.76)
       next:
         specifier: 16.2.4
         version: 16.2.4(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4)
+      next-intl:
+        specifier: ^4.12.0
+        version: 4.12.0(next@16.2.4(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4))(react@19.2.6)(typescript@6.0.3)
       pg:
         specifier: ^8.22.0
         version: 8.22.0
@@ -2976,12 +2976,6 @@ packages:
         optional: true
       sqlite3:
         optional: true
-
-  drizzle-zod@0.8.3:
-    resolution: {integrity: sha512-66yVOuvGhKJnTdiqj1/Xaaz9/qzOdRJADpDa68enqS6g3t0kpNkwNYjUuaeXgZfO/UWuIM9HIhSlJ6C5ZraMww==}
-    peerDependencies:
-      drizzle-orm: '>=0.36.0'
-      zod: ^3.25.0 || ^4.0.0
 
   end-of-stream@1.4.5:
     resolution: {integrity: sha512-ooEGc6HP26xXq/N+GCGOT0JKCLDGrq2bQUZrQ7gyrJiZANJ/8YDTxTpQBXGMn+WbIQXNVpyWymm7KYVICQnyOg==}
@@ -6949,11 +6943,6 @@ snapshots:
     optionalDependencies:
       '@types/pg': 8.20.3
       pg: 8.22.0
-
-  drizzle-zod@0.8.3(drizzle-orm@0.45.2(@types/pg@8.20.3)(pg@8.22.0))(zod@3.25.76):
-    dependencies:
-      drizzle-orm: 0.45.2(@types/pg@8.20.3)(pg@8.22.0)
-      zod: 3.25.76
 
   end-of-stream@1.4.5:
     dependencies:
