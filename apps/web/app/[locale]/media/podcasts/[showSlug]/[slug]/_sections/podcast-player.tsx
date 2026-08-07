@@ -15,11 +15,29 @@ import {
   loadYoutubeApi,
   type YoutubePlayer,
 } from '../../../../_components/podcast-player-api'
+import { spotifyEmbedUrl } from '@/lib/media-embed'
 import type { BlogPodcastDetail } from '@/lib/blog-content'
 
 interface PodcastPlayerProps {
   copy: PodcastPlayerCopy
   podcast: BlogPodcastDetail
+}
+
+/** Spotify's compact embed layout. The tall card wastes space at this width. */
+const SPOTIFY_EMBED_HEIGHT = 152
+
+/**
+ * Spotify keeps its audio inside its own iframe and reports no playback state,
+ * so it cannot drive the site player. It is the last resort, used only when
+ * the episode has neither a Youtube video nor a resolvable audio file.
+ */
+function getSpotifyEmbedUrl(podcast: BlogPodcastDetail) {
+  for (const channel of podcast.channels) {
+    const embedUrl = spotifyEmbedUrl(channel.url)
+    if (embedUrl) return embedUrl
+  }
+
+  return undefined
 }
 
 function getEpisode(
@@ -62,6 +80,10 @@ export function PodcastPlayer({ copy, podcast }: PodcastPlayerProps) {
     unregisterEpisode,
   } = usePodcastPlayer()
   const episode = useMemo(() => getEpisode(podcast, copy), [copy, podcast])
+  const spotifyUrl = useMemo(
+    () => (episode ? undefined : getSpotifyEmbedUrl(podcast)),
+    [episode, podcast]
+  )
   const containerRef = useRef<HTMLDivElement>(null)
   const youtubeContainerRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -239,6 +261,25 @@ export function PodcastPlayer({ copy, podcast }: PodcastPlayerProps) {
   ])
 
   const mode = episode?.source.kind ?? 'cover'
+
+  if (spotifyUrl) {
+    return (
+      <div
+        data-testid="podcast-episode-player"
+        className="w-full overflow-hidden"
+      >
+        <iframe
+          src={spotifyUrl}
+          title={podcast.title}
+          width="100%"
+          height={SPOTIFY_EMBED_HEIGHT}
+          loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          className="block w-full rounded-xl border-0"
+        />
+      </div>
+    )
+  }
 
   return (
     <div

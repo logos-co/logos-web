@@ -1,6 +1,7 @@
 import { env } from '@/lib/env'
 import { BLOG_DEPLOYMENT_ORIGIN, BLOG_ORIGIN } from '@/lib/blog-engine'
-import { youtubeEmbedUrl } from '@/lib/media-embed'
+import { spotifyEmbedUrl, youtubeEmbedUrl } from '@/lib/media-embed'
+import { resolveAudioFromApplePodcasts } from '@/lib/podcast-feed'
 import { EXTERNAL_URLS } from '@/constants/routes'
 
 export const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
@@ -764,6 +765,49 @@ async function enrichSimplecastChannels(
   )
 
   return { ...podcast, channels }
+}
+
+const channelKey = (name: string) => name.toLowerCase().replace(/[\s_]/g, '')
+
+/**
+ * An Apple Podcasts only episode would have no player at all: the site cannot
+ * play Apple itself, and Apple's iframe embed renders an empty placeholder.
+ * Resolve the underlying audio file so the regular audio player can take over.
+ *
+ * Only episodes with no other way to render a player are resolved, so the
+ * common Youtube, Simplecast or Spotify episode costs no lookup.
+ */
+async function enrichApplePodcastsChannel(
+  podcast: BlogPodcastDetail
+): Promise<BlogPodcastDetail> {
+  const isPlayable = podcast.channels.some(
+    (channel) =>
+      channelKey(channel.name) === 'youtube' ||
+      Boolean(channel.data?.audioFileUrl) ||
+      Boolean(spotifyEmbedUrl(channel.url))
+  )
+
+  if (isPlayable) return podcast
+
+  const applePodcasts = podcast.channels.find(
+    (channel) => channelKey(channel.name) === 'applepodcasts'
+  )
+
+  if (!applePodcasts) return podcast
+
+  const data = await resolveAudioFromApplePodcasts(
+    applePodcasts.url,
+    podcast.title
+  )
+
+  if (!data) return podcast
+
+  return {
+    ...podcast,
+    channels: podcast.channels.map((channel) =>
+      channel === applePodcasts ? { ...channel, data } : channel
+    ),
+  }
 }
 
 function resolveAssetUrl(rawUrl?: string | null): string {
@@ -1856,7 +1900,9 @@ async function getStrapiPodcast(
       mapGraphqlPodcast(entity)
     ) ?? []
 
-  return enrichSimplecastChannels(mapGraphqlPodcast(post, relatedEpisodes))
+  return enrichApplePodcastsChannel(
+    await enrichSimplecastChannels(mapGraphqlPodcast(post, relatedEpisodes))
+  )
 }
 
 async function getLegacyArticle(slug: string): Promise<BlogArticleDetail> {
