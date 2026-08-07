@@ -1930,7 +1930,9 @@ async function getLegacyPodcast(
   const podcast = mapLegacyPodcast(pageProps.episode)
   podcast.relatedEpisodes =
     pageProps.relatedEpisodes?.map(mapLegacyPodcast) ?? []
-  return podcast
+  // Which source the episode came from must not decide whether it has a
+  // player, so the legacy payload gets the same treatment as the Strapi one.
+  return enrichApplePodcastsChannel(podcast)
 }
 
 export async function getBlogArticleDetail(
