@@ -1,6 +1,6 @@
 import { env } from '@/lib/env'
 import { BLOG_DEPLOYMENT_ORIGIN, BLOG_ORIGIN } from '@/lib/blog-engine'
-import { spotifyEmbedUrl, youtubeEmbedUrl } from '@/lib/media-embed'
+import { youtubeEmbedUrl } from '@/lib/media-embed'
 import { resolveAudioFromApplePodcasts } from '@/lib/podcast-feed'
 import { EXTERNAL_URLS } from '@/constants/routes'
 
@@ -770,12 +770,13 @@ async function enrichSimplecastChannels(
 const channelKey = (name: string) => name.toLowerCase().replace(/[\s_]/g, '')
 
 /**
- * An Apple Podcasts only episode would have no player at all: the site cannot
- * play Apple itself, and Apple's iframe embed renders an empty placeholder.
- * Resolve the underlying audio file so the regular audio player can take over.
+ * Neither Apple Podcasts nor Spotify is good enough on its own: Apple's iframe
+ * embed renders an empty placeholder, and Spotify's only serves a 60 second
+ * preview to logged out listeners. Resolve the underlying audio file so the
+ * regular audio player can take over and play the whole episode.
  *
- * Only episodes with no other way to render a player are resolved, so the
- * common Youtube, Simplecast or Spotify episode costs no lookup.
+ * Only episodes that cannot already be played are resolved, so the common
+ * Youtube or Simplecast episode costs no lookup.
  */
 async function enrichApplePodcastsChannel(
   podcast: BlogPodcastDetail
@@ -783,8 +784,7 @@ async function enrichApplePodcastsChannel(
   const isPlayable = podcast.channels.some(
     (channel) =>
       channelKey(channel.name) === 'youtube' ||
-      Boolean(channel.data?.audioFileUrl) ||
-      Boolean(spotifyEmbedUrl(channel.url))
+      Boolean(channel.data?.audioFileUrl)
   )
 
   if (isPlayable) return podcast
