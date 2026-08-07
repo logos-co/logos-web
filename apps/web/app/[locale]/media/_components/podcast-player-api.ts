@@ -36,12 +36,45 @@ export interface YoutubeApi {
   }
 }
 
+export interface SpotifyController {
+  addListener: (
+    event: 'ready' | 'playback_update',
+    handler: (event: SpotifyPlaybackEvent) => void
+  ) => void
+  destroy: () => void
+  pause: () => void
+  play: () => void
+  resume: () => void
+  seek: (seconds: number) => void
+}
+
+export interface SpotifyPlaybackEvent {
+  data?: {
+    duration?: number
+    isPaused?: boolean
+    position?: number
+  }
+}
+
+export interface SpotifyApi {
+  createController: (
+    element: HTMLElement,
+    options: { height?: number | string; uri: string; width?: number | string },
+    callback: (controller: SpotifyController) => void
+  ) => void
+}
+
 declare global {
   interface Window {
+    Spotify?: SpotifyApi
     YT?: YoutubeApi
+    onSpotifyIframeApiReady?: (api: SpotifyApi) => void
     onYouTubeIframeAPIReady?: () => void
   }
 }
+
+const SPOTIFY_API_SCRIPT_ID = 'spotify-iframe-api'
+let spotifyApiPromise: Promise<SpotifyApi> | undefined
 
 const YOUTUBE_API_SCRIPT_ID = 'youtube-iframe-api'
 let youtubeApiPromise: Promise<YoutubeApi> | undefined
@@ -85,6 +118,49 @@ export function loadYoutubeApi(): Promise<YoutubeApi> {
   })
 
   return youtubeApiPromise
+}
+
+/** Spotify's controller addresses content by URI, not by share URL. */
+export function extractSpotifyUri(url: string): string | undefined {
+  try {
+    const parsed = new URL(url)
+    if (parsed.hostname.replace(/^www\./, '') !== 'open.spotify.com') {
+      return undefined
+    }
+
+    const [type, id] = parsed.pathname
+      .split('/')
+      .filter((segment) => Boolean(segment) && !segment.startsWith('intl-'))
+
+    return id && (type === 'episode' || type === 'show')
+      ? `spotify:${type}:${id}`
+      : undefined
+  } catch {
+    return undefined
+  }
+}
+
+export function loadSpotifyApi(): Promise<SpotifyApi> {
+  if (window.Spotify) return Promise.resolve(window.Spotify)
+  if (spotifyApiPromise) return spotifyApiPromise
+
+  spotifyApiPromise = new Promise((resolve) => {
+    const previousCallback = window.onSpotifyIframeApiReady
+    window.onSpotifyIframeApiReady = (api) => {
+      previousCallback?.(api)
+      window.Spotify = api
+      resolve(api)
+    }
+
+    if (document.getElementById(SPOTIFY_API_SCRIPT_ID)) return
+
+    const script = document.createElement('script')
+    script.id = SPOTIFY_API_SCRIPT_ID
+    script.src = 'https://open.spotify.com/embed/iframe-api/v1'
+    document.head.appendChild(script)
+  })
+
+  return spotifyApiPromise
 }
 
 export function formatPlaybackTime(value: number): string {
