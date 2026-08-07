@@ -16,11 +16,17 @@ import {
 import type { BlogImage } from '@/lib/blog-content'
 
 import {
+  extractSpotifyUri,
   extractYoutubeVideoId,
   formatPlaybackTime,
+  loadSpotifyApi,
   loadYoutubeApi,
+  type SpotifyController,
   type YoutubePlayer,
 } from './podcast-player-api'
+
+/** The global engine is off-screen, the embed only needs to exist. */
+const SPOTIFY_ENGINE_SIZE = 1
 
 export interface PodcastPlayerCopy {
   close: string
@@ -37,7 +43,7 @@ export interface PodcastPlayerEpisode {
   id: string
   showTitle: string
   source: {
-    kind: 'audio' | 'youtube'
+    kind: 'audio' | 'spotify' | 'youtube'
     url: string
   }
   title: string
@@ -152,7 +158,7 @@ function readStoredPlayback(): PodcastPlaybackState | null {
     if (
       !source ||
       !copy ||
-      !['audio', 'youtube'].includes(sourceKind) ||
+      !['audio', 'spotify', 'youtube'].includes(sourceKind) ||
       !storedString(source.url) ||
       !storedString(episode.id)
     ) {
@@ -187,7 +193,7 @@ function readStoredPlayback(): PodcastPlaybackState | null {
         id: storedString(episode.id),
         showTitle: storedString(episode.showTitle),
         source: {
-          kind: sourceKind as 'audio' | 'youtube',
+          kind: sourceKind as 'audio' | 'spotify' | 'youtube',
           url: storedString(source.url),
         },
         title: storedString(episode.title),
@@ -431,9 +437,128 @@ function GlobalAudioEngine({
   )
 }
 
+/**
+ * Spotify keeps the audio inside its iframe, so the off-screen embed has to
+ * stay mounted for playback to survive navigation, exactly like the Youtube
+ * engine. The IFrame API exposes no volume control, so muting is the one
+ * control that cannot be wired up.
+ */
+function GlobalSpotifyEngine({
+  enabled,
+  episode,
+  playback,
+  report,
+  setController,
+}: GlobalEngineProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const controllerRef = useRef<SpotifyController | null>(null)
+  const playbackRef = useRef(playback)
+  const enabledRef = useRef(enabled)
+  const uri = extractSpotifyUri(episode.source.url)
+
+  useEffect(() => {
+    playbackRef.current = playback
+    enabledRef.current = enabled
+  }, [enabled, playback])
+
+  useEffect(() => {
+    if (!uri || !containerRef.current) return
+
+    let cancelled = false
+    let spotifyController: SpotifyController | null = null
+    let position = 0
+    let duration = 0
+    let paused = true
+
+    void loadSpotifyApi().then((api) => {
+      if (cancelled || !containerRef.current) return
+
+      api.createController(
+        containerRef.current,
+        { height: SPOTIFY_ENGINE_SIZE, uri, width: SPOTIFY_ENGINE_SIZE },
+        (created) => {
+          if (cancelled) {
+            created.destroy()
+            return
+          }
+
+          spotifyController = created
+          controllerRef.current = created
+
+          const controller: PodcastPlaybackController = {
+            getCurrentTime: () => position,
+            getDuration: () => duration,
+            getMuted: () => false,
+            getPlaying: () => !paused,
+            pause: () => created.pause(),
+            play: () => created.resume(),
+            seekTo: (seconds) => created.seek(seconds),
+            setMuted: () => undefined,
+          }
+
+          created.addListener('playback_update', (event) => {
+            position = (event.data?.position ?? 0) / 1000
+            duration = (event.data?.duration ?? 0) / 1000
+            paused = event.data?.isPaused ?? true
+            report({
+              currentTime: position,
+              duration,
+              isPlaying: !paused,
+              isReady: duration > 0,
+            })
+          })
+
+          setController(controller)
+          if (playbackRef.current.currentTime > 0) {
+            created.seek(playbackRef.current.currentTime)
+          }
+          if (enabledRef.current && playbackRef.current.isPlaying) {
+            created.resume()
+          }
+        }
+      )
+    })
+
+    return () => {
+      cancelled = true
+      setController(null)
+      controllerRef.current = null
+      spotifyController?.destroy()
+    }
+  }, [episode.id, report, setController, uri])
+
+  useEffect(() => {
+    const controller = controllerRef.current
+    if (!controller) return
+
+    if (!enabled) {
+      controller.pause()
+      return
+    }
+
+    const current = playbackRef.current
+    if (current.currentTime > 0) controller.seek(current.currentTime)
+    if (current.isPlaying) controller.resume()
+    else controller.pause()
+  }, [enabled, episode.id])
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed -left-[10000px] top-0 size-px overflow-hidden"
+    >
+      <div ref={containerRef} />
+    </div>
+  )
+}
+
 function GlobalEngine(props: GlobalEngineProps) {
-  return props.episode.source.kind === 'youtube' ? (
-    <GlobalYoutubeEngine {...props} />
+  if (props.episode.source.kind === 'youtube') {
+    return <GlobalYoutubeEngine {...props} />
+  }
+
+  return props.episode.source.kind === 'spotify' ? (
+    <GlobalSpotifyEngine {...props} />
   ) : (
     <GlobalAudioEngine {...props} />
   )
