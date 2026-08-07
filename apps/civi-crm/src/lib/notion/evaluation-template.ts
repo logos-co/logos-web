@@ -145,7 +145,7 @@ export const EVALUATION_TEMPLATE_CHILDREN: NotionBlock[] = [
   callout([
     richText('Please update '),
     richText('Movement Status', { code: true }),
-    richText(" to 'Training Call' or 'Redirected-Final'"),
+    richText(" to 'Mvmt Review' or 'Redirected-Final'"),
   ]),
   heading1('Other Notes'),
 ]
