@@ -11,11 +11,13 @@ import {
   usePodcastPlayer,
 } from '../../../../_components/podcast-player-context'
 import {
+  extractSpotifyUri,
   extractYoutubeVideoId,
+  loadSpotifyApi,
   loadYoutubeApi,
+  type SpotifyController,
   type YoutubePlayer,
 } from '../../../../_components/podcast-player-api'
-import { spotifyEmbedUrl } from '@/lib/media-embed'
 import type { BlogPodcastDetail } from '@/lib/blog-content'
 
 interface PodcastPlayerProps {
@@ -25,20 +27,6 @@ interface PodcastPlayerProps {
 
 /** Spotify's compact embed layout. The tall card wastes space at this width. */
 const SPOTIFY_EMBED_HEIGHT = 152
-
-/**
- * Spotify keeps its audio inside its own iframe and reports no playback state,
- * so it cannot drive the site player. It is the last resort, used only when
- * the episode has neither a Youtube video nor a resolvable audio file.
- */
-function getSpotifyEmbedUrl(podcast: BlogPodcastDetail) {
-  for (const channel of podcast.channels) {
-    const embedUrl = spotifyEmbedUrl(channel.url)
-    if (embedUrl) return embedUrl
-  }
-
-  return undefined
-}
 
 function getEpisode(
   podcast: BlogPodcastDetail,
@@ -50,6 +38,9 @@ function getEpisode(
   const audioChannel = podcast.channels.find(
     (channel) => channel.data?.audioFileUrl
   )
+  const spotifyChannel = podcast.channels.find((channel) =>
+    Boolean(extractSpotifyUri(channel.url))
+  )
   const youtubeVideoId = youtubeChannel
     ? extractYoutubeVideoId(youtubeChannel.url)
     : undefined
@@ -57,7 +48,9 @@ function getEpisode(
     ? { kind: 'youtube' as const, url: youtubeChannel?.url ?? '' }
     : audioChannel?.data?.audioFileUrl
       ? { kind: 'audio' as const, url: audioChannel.data.audioFileUrl }
-      : null
+      : spotifyChannel
+        ? { kind: 'spotify' as const, url: spotifyChannel.url }
+        : null
 
   if (!source) return null
 
@@ -80,13 +73,10 @@ export function PodcastPlayer({ copy, podcast }: PodcastPlayerProps) {
     unregisterEpisode,
   } = usePodcastPlayer()
   const episode = useMemo(() => getEpisode(podcast, copy), [copy, podcast])
-  const spotifyUrl = useMemo(
-    () => (episode ? undefined : getSpotifyEmbedUrl(podcast)),
-    [episode, podcast]
-  )
   const containerRef = useRef<HTMLDivElement>(null)
   const youtubeContainerRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
+  const spotifyContainerRef = useRef<HTMLDivElement>(null)
   const playerVisibleRef = useRef(false)
 
   useEffect(() => {
@@ -260,23 +250,97 @@ export function PodcastPlayer({ copy, podcast }: PodcastPlayerProps) {
     unregisterEpisode,
   ])
 
+  useEffect(() => {
+    if (
+      !episode ||
+      episode.source.kind !== 'spotify' ||
+      !spotifyContainerRef.current
+    ) {
+      return
+    }
+
+    const uri = extractSpotifyUri(episode.source.url)
+    if (!uri) return
+
+    let cancelled = false
+    let spotifyController: SpotifyController | null = null
+    let controller: PodcastPlaybackController | null = null
+    let position = 0
+    let duration = 0
+    let paused = true
+
+    void loadSpotifyApi().then((api) => {
+      if (cancelled || !spotifyContainerRef.current) return
+
+      api.createController(
+        spotifyContainerRef.current,
+        { height: SPOTIFY_EMBED_HEIGHT, uri, width: '100%' },
+        (created) => {
+          if (cancelled) {
+            created.destroy()
+            return
+          }
+
+          spotifyController = created
+          // Spotify exposes no volume control, so muting stays a no-op.
+          controller = {
+            getCurrentTime: () => position,
+            getDuration: () => duration,
+            getMuted: () => false,
+            getPlaying: () => !paused,
+            pause: () => created.pause(),
+            play: () => created.resume(),
+            seekTo: (seconds) => created.seek(seconds),
+            setMuted: () => undefined,
+          }
+
+          created.addListener('playback_update', (event) => {
+            position = (event.data?.position ?? 0) / 1000
+            duration = (event.data?.duration ?? 0) / 1000
+            const wasPaused = paused
+            paused = event.data?.isPaused ?? true
+
+            if (wasPaused && !paused && playerVisibleRef.current) {
+              activateEpisode(episode.id)
+            }
+
+            reportEpisode(episode.id, {
+              currentTime: position,
+              duration,
+              isPlaying: !paused,
+              isReady: duration > 0,
+            })
+          })
+
+          registerEpisode(episode, controller)
+        }
+      )
+    })
+
+    return () => {
+      cancelled = true
+      if (controller) unregisterEpisode(episode.id, controller)
+      spotifyController?.destroy()
+    }
+  }, [
+    activateEpisode,
+    episode,
+    registerEpisode,
+    reportEpisode,
+    unregisterEpisode,
+  ])
+
   const mode = episode?.source.kind ?? 'cover'
 
-  if (spotifyUrl) {
+  if (mode === 'spotify') {
     return (
       <div
+        ref={containerRef}
         data-testid="podcast-episode-player"
         className="w-full overflow-hidden"
+        style={{ height: SPOTIFY_EMBED_HEIGHT }}
       >
-        <iframe
-          src={spotifyUrl}
-          title={podcast.title}
-          width="100%"
-          height={SPOTIFY_EMBED_HEIGHT}
-          loading="lazy"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          className="block w-full rounded-xl border-0"
-        />
+        <div ref={spotifyContainerRef} className="h-full w-full" />
       </div>
     )
   }
