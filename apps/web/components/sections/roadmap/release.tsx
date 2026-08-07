@@ -143,15 +143,20 @@ function ReleaseInformation({
   release: RoadmapCopySection['release']['items'][number]
 }) {
   return (
-    <div className="order-1 w-full text-brand-dark-green min-[1025px]:max-w-full min-[1025px]:w-[548px]">
+    <div className="order-1 w-full text-brand-dark-green">
       {release.status ? (
         <span className="inline-flex rounded-sm bg-brand-yellow px-1 py-0.5 font-mono text-xs leading-[1.35] font-semibold uppercase">
           {release.status}
         </span>
       ) : null}
 
+      {/* max-w-[92ch] reproduces the Figma measure exactly: the copy is monospaced,
+          so a character-based cap keeps the desktop line breaks identical whichever
+          fallback in the Fira Mono stack renders. It must sit on this element, the
+          one that owns the mono font, because `ch` resolves against the element's
+          own font. Mobile is uncapped and wraps naturally. */}
       <div
-        className={`font-mono-body text-xs leading-[1.3] ${
+        className={`font-mono-body text-xs leading-[1.3] min-[1025px]:max-w-[92ch] ${
           release.status ? 'mt-[27px]' : ''
         }`}
       >
@@ -299,8 +304,11 @@ function ReleaseFeature({
     }
   }, [displayedImage.src, image])
 
+  // On desktop the image drops its fixed aspect ratio and stretches to the grid
+  // row, so its bottom edge lands on the last module row: both columns end on the
+  // same line. Mobile keeps the 702/521 crop since it stacks.
   return (
-    <div className="relative order-2 aspect-[702/521] w-full overflow-hidden rounded-xl min-[1025px]:order-none min-[1025px]:self-start">
+    <div className="relative order-2 aspect-[702/521] w-full overflow-hidden rounded-xl min-[1025px]:order-none min-[1025px]:aspect-auto min-[1025px]:h-full">
       <Image
         src={displayedImage.src}
         alt={displayedImage.alt}
