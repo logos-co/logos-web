@@ -6,18 +6,7 @@ import type { Metadata, Viewport } from 'next'
 
 import { themeInitScript } from '@/lib/theme'
 import { fontVariables } from '@/app/fonts'
-<<<<<<< HEAD
 import SiteShell from '@/components/site-shell'
-=======
-import PageTransition from '@/components/page-transition'
-import { PodcastPlayerProvider } from '@/app/[locale]/media/_components/podcast-player-context'
-import { Providers } from '@/components/providers'
-import ScrollToTop from '@/components/scroll-to-top'
-import SiteHeader from '@/components/site-header'
-import SiteHeaderGate from '@/components/site-header/site-header-gate'
-import SiteFooter from '@/components/site-footer'
-import UmamiButtonTracker from '@/components/umami-button-tracker'
->>>>>>> 4862129a91 (feat: restore media podcast parity)
 import { routing } from '@/i18n/routing'
 import { faviconIcons } from '@/lib/favicon'
 
