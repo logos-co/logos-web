@@ -35,7 +35,9 @@ export function MediaCollapse({
         )}
       </button>
       {open ? (
-        <div className="border border-brand-dark-green">{children}</div>
+        // -mt-px collapses the panel's top border into the header's bottom one,
+        // which would otherwise read as a single doubled rule.
+        <div className="-mt-px border border-brand-dark-green">{children}</div>
       ) : null}
     </section>
   )
