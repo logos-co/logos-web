@@ -15,6 +15,12 @@ interface HeroSectionViewProps {
    * /build-the-parallel) pass their own `<Image>` instead.
    */
   background?: ReactNode
+  /**
+   * Stable Umami event names for the primary and secondary CTA, in that
+   * order. Without them the global click tracker names the event after the
+   * button's text, so a copy edit starts a new metric series.
+   */
+  ctaEventNames?: readonly [primary?: string, secondary?: string]
 }
 
 const defaultBackground = (
@@ -33,6 +39,7 @@ const defaultBackground = (
 export default function HeroSectionView({
   data,
   background = defaultBackground,
+  ctaEventNames,
 }: HeroSectionViewProps) {
   const sectionRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -44,6 +51,7 @@ export default function HeroSectionView({
   const contentOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0.35])
 
   const [primaryCta, secondaryCta] = data.ctas ?? []
+  const [primaryEventName, secondaryEventName] = ctaEventNames ?? []
 
   return (
     <section
@@ -89,6 +97,7 @@ export default function HeroSectionView({
             {primaryCta ? (
               <Button
                 href={primaryCta.href}
+                data-umami-event-name={primaryEventName}
                 className="cursor-pointer bg-brand-off-white text-brand-dark-green transition-all hover:bg-transparent hover:text-brand-off-white"
               >
                 {primaryCta.label}
@@ -98,6 +107,7 @@ export default function HeroSectionView({
               <Button
                 href={secondaryCta.href}
                 variant="secondary"
+                data-umami-event-name={secondaryEventName}
                 className="cursor-pointer border-brand-off-white/50 text-brand-off-white backdrop-blur-sm transition-all hover:bg-brand-off-white hover:text-brand-dark-green"
               >
                 {secondaryCta.label}

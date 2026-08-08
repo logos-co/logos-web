@@ -72,4 +72,35 @@ describe('build the parallel page contract', () => {
     )
     expect(source).toContain('@/components/sections/circles/circles-map')
   })
+
+  test('every CTA carries a stable Umami event name', () => {
+    const source = readPageSource()
+
+    // Without an explicit name the site-wide click tracker falls back to the
+    // element's text, which changes with copy and — for the whole-card path
+    // links — is the entire card.
+    for (const eventName of [
+      'Join an upcoming circle',
+      'Propose a new circle',
+      'Read the manifesto',
+      'Join the community',
+      'Start Building',
+      'Run a Node',
+      'Join the Movement',
+    ]) {
+      expect(source, `missing event name ${eventName}`).toContain(
+        `'${eventName}'`
+      )
+    }
+
+    // The names have to reach the markup, not just sit in a constant.
+    expect(source).toContain('ctaEventNames={CTA_EVENT_NAMES.hero}')
+    expect(source).toContain('eventNames={CTA_EVENT_NAMES.paths}')
+    expect(source).toContain(
+      'data-umami-event-name={CTA_EVENT_NAMES.manifesto}'
+    )
+    expect(source).toContain(
+      'data-umami-event-name={CTA_EVENT_NAMES.community}'
+    )
+  })
 })

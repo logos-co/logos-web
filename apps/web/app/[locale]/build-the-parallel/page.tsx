@@ -27,6 +27,24 @@ const ROUTE = ROUTES.buildTheParallel
 
 const findSection = createSectionFinder('build-the-parallel')
 
+/**
+ * Umami click tracking. The site-wide listener in `UmamiButtonTracker` already
+ * fires for every link, but it names the event after the element's text, which
+ * breaks when copy changes and — for the whole-card path links — swallows the
+ * entire card. Naming each CTA here keeps one stable series per CTA; the
+ * tracker attaches the page path as the event's `source`.
+ */
+const CTA_EVENT_NAMES = {
+  hero: ['Join an upcoming circle', 'Propose a new circle'],
+  manifesto: 'Read the manifesto',
+  community: 'Join the community',
+  paths: {
+    build: 'Start Building',
+    operate: 'Run a Node',
+    activism: 'Join the Movement',
+  },
+} as const
+
 export const generateMetadata = createPageMetadata(ROUTE)
 
 export default async function BuildTheParallelPage({
@@ -78,6 +96,7 @@ export default async function BuildTheParallelPage({
     <>
       <HeroSectionView
         data={hero}
+        ctaEventNames={CTA_EVENT_NAMES.hero}
         background={
           hero.background ? (
             <Image
@@ -103,6 +122,7 @@ export default async function BuildTheParallelPage({
               {statement.cta ? (
                 <Button
                   href={statement.cta.href}
+                  data-umami-event-name={CTA_EVENT_NAMES.manifesto}
                   className="cursor-pointer transition-opacity hover:opacity-80"
                 >
                   {statement.cta.label}
@@ -112,6 +132,7 @@ export default async function BuildTheParallelPage({
                 <Button
                   href={statement.secondaryCta.href}
                   variant="secondary"
+                  data-umami-event-name={CTA_EVENT_NAMES.community}
                   className="cursor-pointer transition-opacity hover:opacity-80"
                 >
                   {statement.secondaryCta.label}
@@ -139,7 +160,7 @@ export default async function BuildTheParallelPage({
           section contributes 56px of that on desktop and 100px below `lg`, so
           the rest is added here — scaled down on narrow viewports. */}
       <div className="bg-brand-off-white pb-15 lg:pb-[168px]">
-        <FeatureCardsSection data={paths} />
+        <FeatureCardsSection data={paths} eventNames={CTA_EVENT_NAMES.paths} />
       </div>
     </>
   )
