@@ -2,6 +2,7 @@
 
 import type { HomeSocialProofSection } from '@repo/content/schemas'
 
+import StatementHeading from '@/components/sections/shared/statement-heading'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import {
@@ -76,10 +77,10 @@ export default function SocialProofSection({
     <section className="relative z-[2] -mt-[60px] overflow-hidden rounded-t-[36px] bg-brand-off-white">
       <div className="mx-auto max-w-[1440px] px-3">
         <div className="flex flex-col items-center gap-6 pt-[112px] pb-[112px] text-center md:gap-9 md:pt-[72px] md:pb-[64px] lg:pt-[112px] lg:pb-[102px]">
-          <h2 className="w-[351.5px] max-w-[calc(100vw-50.5px)] text-center font-display text-[24px] leading-none tracking-[-0.72px] whitespace-pre-wrap text-brand-dark-green [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] [word-break:break-word] md:w-full md:max-w-[853px] md:text-[56px] md:tracking-[-0.03em]">
-            <span className="block">{data.headline1}</span>
-            <span className="block text-[#848e88]">{data.headline2}</span>
-          </h2>
+          <StatementHeading
+            headline={data.headline1}
+            headlineMuted={data.headline2}
+          />
           <Button
             href={ROUTES.manifesto}
             className="h-[31px] w-[151px] cursor-pointer rounded-[4px] px-3 py-2 transition-opacity hover:opacity-80 [&>span]:gap-1 md:h-auto md:w-auto md:rounded-xl md:[&>span]:gap-1.5"

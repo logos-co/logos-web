@@ -9,6 +9,7 @@ import type {
 } from '@repo/content/schemas'
 
 import CirclesMap from '@/components/sections/circles/circles-map'
+import { CenterCtaSection } from '@/components/sections/shared/center-cta-section'
 import type {
   ActiveCircleMarker,
   ActiveCircleUpcomingEvent,
@@ -16,7 +17,6 @@ import type {
 
 import { ActionCardsSection } from './_sections/action-cards'
 import { ActivismSection } from './_sections/activism'
-import { CenterCtaSection } from './_sections/atoms'
 import { BuilderSection } from './_sections/builder'
 import { CampaignSection } from './_sections/campaign'
 import { EventsSection } from './_sections/events'

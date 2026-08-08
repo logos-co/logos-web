@@ -2,9 +2,10 @@ import Image from 'next/image'
 import type { MovementCopySection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
+import { CenterCtaSection } from '@/components/sections/shared/center-cta-section'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
-import { CenterCtaSection, Cta, LambdaBadge, movementImages } from './atoms'
+import { Cta, LambdaBadge, movementImages } from './atoms'
 
 type DetailKey = keyof MovementCopySection['builder']['details']
 
