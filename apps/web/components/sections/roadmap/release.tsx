@@ -125,15 +125,46 @@ export function RoadmapRelease({ data }: RoadmapReleaseProps) {
           tabIndex={0}
           className="mt-10 flex flex-col gap-10 min-[1025px]:mt-[18px] min-[1025px]:grid min-[1025px]:grid-cols-2 min-[1025px]:items-stretch min-[1025px]:gap-3 min-[1025px]:pt-[41px]"
         >
-          <div className="contents min-[1025px]:flex min-[1025px]:flex-col min-[1025px]:justify-between min-[1025px]:gap-[34px]">
-            <ReleaseInformation release={activeRelease} />
-            <ReleaseModuleTable modules={activeRelease.modules} />
+          {/* Every release is stacked into the same desktop grid cell, so the cell
+              is always as tall as the tallest of them and the feature image keeps
+              one height across all tabs instead of resizing on every switch. Only
+              the active release is visible; the rest just hold the height open.
+              A fixed min-height cannot do this because the tallest release changes
+              with the column width. Mobile renders the active release alone. */}
+          <div className="contents min-[1025px]:grid min-[1025px]:grid-cols-1">
+            {data.items.map((item) => (
+              <ReleaseColumn
+                key={item.tab}
+                release={item}
+                isActive={item.tab === activeRelease.tab}
+              />
+            ))}
           </div>
 
           <ReleaseFeature image={activeRelease.image} />
         </div>
       </ContentWidth>
     </section>
+  )
+}
+
+function ReleaseColumn({
+  release,
+  isActive,
+}: {
+  release: RoadmapCopySection['release']['items'][number]
+  isActive: boolean
+}) {
+  return (
+    <div
+      aria-hidden={!isActive || undefined}
+      className={`min-[1025px]:flex min-[1025px]:flex-col min-[1025px]:justify-between min-[1025px]:gap-[34px] min-[1025px]:[grid-area:1/1] ${
+        isActive ? 'contents' : 'hidden min-[1025px]:invisible'
+      }`}
+    >
+      <ReleaseInformation release={release} />
+      <ReleaseModuleTable modules={release.modules} />
+    </div>
   )
 }
 
