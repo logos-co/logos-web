@@ -78,6 +78,7 @@ export default async function BuildTheParallelPage({
     <>
       <HeroSectionView
         data={hero}
+        contentLayout="centred"
         background={
           hero.background ? (
             <Image
