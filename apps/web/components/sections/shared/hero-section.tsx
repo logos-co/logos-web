@@ -1,17 +1,39 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, type ReactNode } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 
 import type { HeroSection } from '@repo/content/schemas'
 
 import { Button } from '@/components/ui'
 
-type Props = {
+interface HeroSectionViewProps {
   data: HeroSection
+  /**
+   * Backdrop rendered behind the hero copy. Defaults to the Logos background
+   * video used on the homepage; pages with a still backdrop (e.g.
+   * /build-the-parallel) pass their own `<Image>` instead.
+   */
+  background?: ReactNode
 }
 
-export default function HeroSectionView({ data }: Props) {
+const defaultBackground = (
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    poster="/images/home/hero-bg.webp"
+    className="h-full w-full object-cover opacity-70"
+  >
+    <source src="/videos/home/logos-bg-vid.mp4" type="video/mp4" />
+  </video>
+)
+
+export default function HeroSectionView({
+  data,
+  background = defaultBackground,
+}: HeroSectionViewProps) {
   const sectionRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -30,16 +52,7 @@ export default function HeroSectionView({ data }: Props) {
     >
       {/* Background image */}
       <motion.div className="absolute inset-0" style={{ scale: bgScale }}>
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/images/home/hero-bg.webp"
-          className="h-full w-full object-cover opacity-70"
-        >
-          <source src="/videos/home/logos-bg-vid.mp4" type="video/mp4" />
-        </video>
+        {background}
       </motion.div>
 
       {/* Content */}
