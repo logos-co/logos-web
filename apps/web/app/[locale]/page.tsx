@@ -118,7 +118,16 @@ export default async function HomePage({
         stats={socialProofStats}
         winnableIssuesCount={winnableIssuesCount}
       />
-      <FeatureCardsSection data={paths} />
+      <FeatureCardsSection
+        data={paths}
+        // The whole card is the link, so without these the Umami click
+        // tracker names the event after the card's entire text content.
+        eventNames={{
+          build: 'Start Building',
+          operate: 'Run a Node',
+          activism: 'Join the Movement',
+        }}
+      />
       <AboutSection data={about} />
       <DecideSection data={decide} />
       <UseCasesSection data={useCases} />
