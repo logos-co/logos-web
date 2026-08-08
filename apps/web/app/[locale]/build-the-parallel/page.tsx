@@ -135,7 +135,12 @@ export default async function BuildTheParallelPage({
         />
       </div>
 
-      <FeatureCardsSection data={paths} />
+      {/* Figma leaves 224px between the path cards and the footer. The shared
+          section contributes 56px of that on desktop and 100px below `lg`, so
+          the rest is added here — scaled down on narrow viewports. */}
+      <div className="bg-brand-off-white pb-15 lg:pb-[168px]">
+        <FeatureCardsSection data={paths} />
+      </div>
     </>
   )
 }

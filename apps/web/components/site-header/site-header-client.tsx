@@ -70,7 +70,8 @@ export default function SiteHeaderClient({
     normalizedPathname === ROUTES.home ||
     normalizedPathname.endsWith(ROUTES.book) ||
     normalizedPathname.endsWith(ROUTES.about) ||
-    normalizedPathname.endsWith(ROUTES.lambdaPrize)
+    normalizedPathname.endsWith(ROUTES.lambdaPrize) ||
+    normalizedPathname.endsWith(ROUTES.buildTheParallel)
   const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.media)
   const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
   const usesAccentTanHeaderTone =
