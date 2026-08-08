@@ -12,8 +12,10 @@ import { ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
 
+type PathCardKey = 'build' | 'operate' | 'activism'
+
 interface PathCard {
-  key: 'build' | 'operate' | 'activism'
+  key: PathCardKey
   title: string
   body: string
   cta: string
@@ -21,12 +23,14 @@ interface PathCard {
   image: string
   overlay: string
   imageClassName?: string
+  eventName?: string
 }
 
 function PathCardView({ card }: { card: PathCard }) {
   return (
     <Link
       href={card.href}
+      data-umami-event-name={card.eventName}
       className="group/path-card relative flex aspect-square w-full shrink-0 cursor-pointer flex-col overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green min-[600px]:aspect-auto min-[800px]:aspect-square lg:w-auto"
     >
       <Image
@@ -67,10 +71,18 @@ function PathCardView({ card }: { card: PathCard }) {
 
 interface FeatureCardsSectionProps {
   data: HomeChoosePathSection
+  /**
+   * Stable Umami event name per card. The whole card is the link, so without
+   * one the global click tracker falls back to the card's text content — the
+   * heading, CTA label and body run together. Keyed by card so the metric
+   * survives copy edits.
+   */
+  eventNames?: Partial<Record<PathCardKey, string>>
 }
 
 export default function FeatureCardsSection({
   data,
+  eventNames,
 }: FeatureCardsSectionProps) {
   const cards: PathCard[] = [
     {
@@ -82,6 +94,7 @@ export default function FeatureCardsSection({
       image: '/images/home/figma-refresh/path-build.webp',
       overlay: 'bg-black/20',
       imageClassName: 'object-[50%_60%]',
+      eventName: eventNames?.build,
     },
     {
       key: 'operate',
@@ -92,6 +105,7 @@ export default function FeatureCardsSection({
       image: '/images/home/figma-refresh/path-operate.webp',
       overlay: 'bg-black/45',
       imageClassName: 'object-[45%_50%]',
+      eventName: eventNames?.operate,
     },
     {
       key: 'activism',
@@ -102,6 +116,7 @@ export default function FeatureCardsSection({
       image: '/images/home/figma-refresh/path-activism.webp',
       overlay: 'bg-black/45',
       imageClassName: 'object-[50%_50%]',
+      eventName: eventNames?.activism,
     },
   ]
 
