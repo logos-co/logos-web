@@ -49,6 +49,7 @@ export const ROUTES = {
 
   // Movement / Top-level nav
   movement: '/movement',
+  buildTheParallel: '/build-the-parallel',
   manifesto: '/manifesto',
   book: '/book',
 
