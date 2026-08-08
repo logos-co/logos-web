@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/build-the-parallel",
+  "title": "Build the Parallel | Logos",
+  "description": "Logos is the private-by-default technology stack for parallel societies. Join an upcoming Circle, propose a new one, and build the alternative.",
+  "sections": [
+    {
+      "componentType": "hero",
+      "key": "buildTheParallel.atf",
+      "headline": "Build the Parallel",
+      "body": "Logos is the private-by-default technology stack for parallel societies. Built for a world where existing systems have stopped working. Built for a world where we are in control.",
+      "bodySecondary": "Logos Circles are self-organised groups solving winnable issues that matter locally, from cleanups and issue advocacy to community fundraising and beyond.",
+      "background": {
+        "src": "/images/build-the-parallel/hero-bg.webp",
+        "alt": "",
+        "width": 1920,
+        "height": 1280
+      },
+      "ctas": [
+        {
+          "label": "Join an upcoming circle",
+          "href": "#circles-map",
+          "variant": "primary"
+        },
+        {
+          "label": "Propose a new circle",
+          "href": "/activist-leader-steward",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "componentType": "featuredText",
+      "key": "buildTheParallel.statement",
+      "title": {
+        "highlight": "Logos is not for everyone.",
+        "rest": "Logos is for people who are done waiting for permission."
+      },
+      "cta": { "label": "Read the manifesto", "href": "/manifesto" },
+      "secondaryCta": {
+        "label": "Join the community",
+        "href": "https://discord.gg/Ykv4eZyHUJ"
+      }
+    },
+    {
+      "componentType": "ctaPanel",
+      "key": "buildTheParallel.circlesMap",
+      "title": "Find a Circle near you.",
+      "description": "Activist leaders are organising around the world to solve winnable issues that impact them."
+    },
+    {
+      "componentType": "homeChoosePath",
+      "key": "buildTheParallel.paths",
+      "title": "Choose your path.",
+      "kicker": "The right response to broken systems is not to reform them but to build alongside them, and eventually, beyond them.",
+      "body": "Take action to reclaim agency and find your purpose.",
+      "build": {
+        "title": "Build",
+        "body": "Build privacy-first, decentralised applications. Read the docs, learn the stack, write code.",
+        "cta": "Start Building"
+      },
+      "operate": {
+        "title": "Operate",
+        "body": "Run a node. Decentralise the network. Secure Logos. Setup takes minutes.",
+        "cta": "Run a Node"
+      },
+      "activism": {
+        "title": "Organise",
+        "body": "Humanity evolved to organise. Some of our biggest problems lie in the breakdown of social trust, culture, and meaning. Join the Logos Movement to rebuild civil society together.",
+        "cta": "Join the Movement"
+      }
+    }
+  ]
+}
