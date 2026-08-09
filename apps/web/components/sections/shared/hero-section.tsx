@@ -34,11 +34,13 @@ interface HeroSectionViewProps {
 }
 
 /**
- * Height the mobile content centres within: the visible viewport, never more
- * than the hero itself. `svh` so browser chrome appearing/disappearing does
- * not shift the copy.
+ * Height the mobile content centres within. `svh` so browser chrome
+ * appearing/disappearing does not shift the copy, capped well under the
+ * hero's own 760px: phones report a viewport taller than the area they
+ * actually paint, and centring in the full 760px leaves a visibly bigger gap
+ * above the copy than below it. Floored so a landscape phone cannot clip it.
  */
-const MOBILE_CENTRING_BOX = 'h-[100svh] max-h-[760px] min-h-[560px]'
+const MOBILE_CENTRING_BOX = 'h-[100svh] max-h-[700px] min-h-[560px]'
 
 const defaultBackground = (
   <video
