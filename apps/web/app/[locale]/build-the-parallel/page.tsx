@@ -97,6 +97,7 @@ export default async function BuildTheParallelPage({
       <HeroSectionView
         data={hero}
         ctaEventNames={CTA_EVENT_NAMES.hero}
+        mobileContentLayout="centred"
         background={
           hero.background ? (
             <Image
