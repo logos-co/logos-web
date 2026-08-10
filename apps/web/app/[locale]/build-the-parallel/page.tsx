@@ -151,7 +151,7 @@ export default async function BuildTheParallelPage({
         <CenterCtaSection
           title={circlesMap.title}
           body={circlesMap.description ?? ''}
-          className="[&>div]:gap-6"
+          className="[&>div]:gap-8"
           cta={
             circlesMap.cta ? (
               <Button
