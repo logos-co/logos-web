@@ -73,6 +73,10 @@ export default async function BuildTheParallelPage({
     'hero',
     'buildTheParallel.atf'
   )
+  if (!hero.background) {
+    throw new Error('Build the Parallel hero requires a background image')
+  }
+  const heroBackground = hero.background
 
   const statement = findSection<FeaturedTextSection>(
     page.sections,
@@ -99,16 +103,14 @@ export default async function BuildTheParallelPage({
         ctaEventNames={CTA_EVENT_NAMES.hero}
         mobileContentLayout="centred"
         background={
-          hero.background ? (
-            <Image
-              src={hero.background.src}
-              alt={hero.background.alt}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover opacity-70"
-            />
-          ) : undefined
+          <Image
+            src={heroBackground.src}
+            alt={heroBackground.alt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-70"
+          />
         }
       />
 
