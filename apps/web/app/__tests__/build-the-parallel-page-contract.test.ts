@@ -53,6 +53,32 @@ describe('build the parallel page contract', () => {
     expect(anchorCta?.href).toBe('#circles-map')
   })
 
+  test('hero community CTA links to Discord', () => {
+    const hero = buildTheParallelContent.sections.find(
+      (section) => section.componentType === 'hero'
+    )
+    const communityCta = hero?.ctas?.find(
+      (cta) => cta.label === 'Join the community'
+    )
+
+    expect(communityCta).toMatchObject({
+      href: 'https://discord.com/invite/Ykv4eZyHUJ',
+      external: true,
+    })
+  })
+
+  test('circles map CTA opens the activist leader form', () => {
+    const circlesMap = buildTheParallelContent.sections.find(
+      (section) => section.key === 'buildTheParallel.circlesMap'
+    )
+
+    expect(circlesMap?.cta).toMatchObject({
+      label: 'Propose a Cricle',
+      href: 'https://logos.co/activist-leader-steward',
+      external: true,
+    })
+  })
+
   test('hero supporting copy has the approved desktop line breaks', () => {
     const hero = buildTheParallelContent.sections.find(
       (section) => section.componentType === 'hero'

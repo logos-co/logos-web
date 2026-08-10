@@ -24,8 +24,9 @@
           "variant": "primary"
         },
         {
-          "label": "Propose a new circle",
-          "href": "/activist-leader-steward",
+          "label": "Join the community",
+          "href": "https://discord.com/invite/Ykv4eZyHUJ",
+          "external": true,
           "variant": "secondary"
         }
       ]
@@ -47,7 +48,12 @@
       "componentType": "ctaPanel",
       "key": "buildTheParallel.circlesMap",
       "title": "Find a Circle near you.",
-      "description": "Activist leaders are organising around the world to solve winnable issues that impact them."
+      "description": "Activist leaders are organising around the world to solve winnable issues that impact them.\n\nDon’t see a Circle near you? Propose a new one.",
+      "cta": {
+        "label": "Propose a Cricle",
+        "href": "https://logos.co/activist-leader-steward",
+        "external": true
+      }
     },
     {
       "componentType": "homeChoosePath",

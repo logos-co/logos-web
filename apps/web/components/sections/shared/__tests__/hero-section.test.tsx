@@ -47,7 +47,11 @@ const data = {
   bodySecondary: 'Supporting copy',
   ctas: [
     { label: 'Join', href: '#circles-map', variant: 'primary' as const },
-    { label: 'Propose', href: '/propose', variant: 'secondary' as const },
+    {
+      label: 'Join the community',
+      href: 'https://discord.com/invite/Ykv4eZyHUJ',
+      variant: 'secondary' as const,
+    },
   ],
 }
 
@@ -57,12 +61,15 @@ describe('HeroSectionView', () => {
       createElement(HeroSectionView, {
         data,
         background: createElement('div'),
-        ctaEventNames: ['Join an upcoming circle', 'Propose a new circle'],
+        ctaEventNames: ['Join an upcoming circle', 'Join the community'],
       })
     )
 
     expect(html).toContain('href="#circles-map"')
     expect(html).toContain('data-umami-event-name="Join an upcoming circle"')
-    expect(html).toContain('data-umami-event-name="Propose a new circle"')
+    expect(html).toContain(
+      'href="https://discord.com/invite/Ykv4eZyHUJ"'
+    )
+    expect(html).toContain('data-umami-event-name="Join the community"')
   })
 })
