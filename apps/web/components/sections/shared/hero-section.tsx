@@ -68,7 +68,11 @@ export default function HeroSectionView({
   })
 
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.025])
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0.35])
+  const contentOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.4, 1],
+    [1, 0.35, 0.35]
+  )
 
   const [primaryCta, secondaryCta] = data.ctas ?? []
   const [primaryEventName, secondaryEventName] = ctaEventNames ?? []
@@ -94,7 +98,7 @@ export default function HeroSectionView({
     <motion.div
       className={
         isMobileCentred
-          ? 'flex w-[274px] flex-col items-center gap-6 text-center lg:absolute lg:top-[454px] lg:left-[calc(50%+6px)] lg:w-[345px] lg:items-start lg:text-left'
+          ? 'flex w-[274px] flex-col items-center gap-6 text-center lg:absolute lg:top-[454px] lg:left-[calc(50%+6px)] lg:w-[480px] lg:items-start lg:text-left'
           : 'absolute top-[462px] left-1/2 flex w-[274px] -translate-x-1/2 flex-col items-center gap-6 text-center lg:top-[454px] lg:left-[calc(50%+6px)] lg:w-[345px] lg:translate-x-0 lg:items-start lg:text-left'
       }
       initial={{ opacity: 0, y: 12 }}
@@ -107,7 +111,10 @@ export default function HeroSectionView({
     >
       {data.bodySecondary ? (
         <p className="text-mono-s w-56.5 text-brand-off-white lg:w-full">
-          {data.bodySecondary}
+          <span className="lg:hidden">{data.bodySecondary}</span>
+          <span className="hidden whitespace-pre-line lg:inline">
+            {data.bodySecondary}
+          </span>
         </p>
       ) : null}
       <div className="flex flex-col items-center gap-2 lg:flex-row">

@@ -4,8 +4,8 @@ import { describe, expect, it, vi } from 'vitest'
 
 // Mock the navigation module to avoid Next.js router dependency in Node tests
 vi.mock('@/i18n/navigation', () => ({
-  Link: ({ children, href }: { children: ReactNode; href: string }) =>
-    createElement('a', { href }, children),
+  Link: ({ children, href, ...props }: { children: ReactNode; href: string }) =>
+    createElement('a', { href, ...props }, children),
 }))
 
 // Mock next/image to avoid Next.js image optimization in Node tests
@@ -61,5 +61,22 @@ describe('FeatureCardsSection', () => {
     expect(html).toContain('Choose your path')
     expect(html).toContain('Run a Node')
     expect(html).toContain('Join the Movement')
+  })
+
+  it('renders stable analytics names on the path links', () => {
+    const html = renderToStaticMarkup(
+      createElement(FeatureCardsSection, {
+        data,
+        eventNames: {
+          build: 'Start Building',
+          operate: 'Run a Node',
+          activism: 'Join the Movement',
+        },
+      })
+    )
+
+    expect(html).toContain('data-umami-event-name="Start Building"')
+    expect(html).toContain('data-umami-event-name="Run a Node"')
+    expect(html).toContain('data-umami-event-name="Join the Movement"')
   })
 })

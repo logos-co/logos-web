@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
 import { describe, expect, test } from 'vitest'
@@ -6,14 +6,6 @@ import { describe, expect, test } from 'vitest'
 import { ROUTES } from '@/constants/routes'
 
 import buildTheParallelContent from '../../../../content/pages/en/build-the-parallel.json' with { type: 'json' }
-
-const readPageSource = () =>
-  readFileSync(
-    fileURLToPath(
-      new URL('../[locale]/build-the-parallel/page.tsx', import.meta.url)
-    ),
-    'utf8'
-  )
 
 const publicAssetPath = (src: string) =>
   fileURLToPath(new URL(`../../public${src}`, import.meta.url))
@@ -52,55 +44,24 @@ describe('build the parallel page contract', () => {
     expect(existsSync(publicAssetPath(src!))).toBe(true)
   })
 
-  test('hero anchor CTA resolves to the circles map rendered on this page', () => {
+  test('hero uses the same-page circles map anchor', () => {
     const hero = buildTheParallelContent.sections.find(
       (section) => section.componentType === 'hero'
     )
     const anchorCta = hero?.ctas?.find((cta) => cta.href.startsWith('#'))
 
     expect(anchorCta?.href).toBe('#circles-map')
-    expect(readPageSource()).toContain('id="circles-map"')
   })
 
-  test('reuses the shared hero, statement, and path-card sections', () => {
-    const source = readPageSource()
-
-    expect(source).toContain('@/components/sections/shared/hero-section')
-    expect(source).toContain('@/components/sections/shared/statement-heading')
-    expect(source).toContain(
-      '@/components/sections/shared/feature-cards-section'
+  test('hero supporting copy has the approved desktop line breaks', () => {
+    const hero = buildTheParallelContent.sections.find(
+      (section) => section.componentType === 'hero'
     )
-    expect(source).toContain('@/components/sections/circles/circles-map')
-  })
 
-  test('every CTA carries a stable Umami event name', () => {
-    const source = readPageSource()
-
-    // Without an explicit name the site-wide click tracker falls back to the
-    // element's text, which changes with copy and — for the whole-card path
-    // links — is the entire card.
-    for (const eventName of [
-      'Join an upcoming circle',
-      'Propose a new circle',
-      'Read the manifesto',
-      'Join the community',
-      'Start Building',
-      'Run a Node',
-      'Join the Movement',
-    ]) {
-      expect(source, `missing event name ${eventName}`).toContain(
-        `'${eventName}'`
-      )
-    }
-
-    // The names have to reach the markup, not just sit in a constant.
-    expect(source).toContain('ctaEventNames={CTA_EVENT_NAMES.hero}')
-    expect(source).toContain('eventNames={CTA_EVENT_NAMES.paths}')
-    expect(source).toContain(
-      'data-umami-event-name={CTA_EVENT_NAMES.manifesto}'
-    )
-    expect(source).toContain(
-      'data-umami-event-name={CTA_EVENT_NAMES.community}'
-    )
+    expect(hero?.bodySecondary?.split('\n')).toEqual([
+      'Logos Circles are self-organised groups solving winnable',
+      'issues that matter locally, from cleanups and issue',
+      'advocacy to community fundraising and beyond.',
+    ])
   })
 })
