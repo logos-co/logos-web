@@ -95,9 +95,10 @@ function HoverStackItem({
   thumbnailSrc: string
 }) {
   const hasDetails = details !== undefined && details.length > 0
+  const hasMultipleDetails = details !== undefined && details.length > 1
   const desktopHoverLarge = desktopAt1367
-    ? 'min-[1367px]:group-hover/stack-item:-translate-y-20'
-    : 'md:group-hover/stack-item:-translate-y-20'
+    ? 'min-[1367px]:group-hover/stack-item:-translate-y-24'
+    : 'md:group-hover/stack-item:-translate-y-24'
   const desktopHoverSmall = desktopAt1367
     ? 'min-[1367px]:group-hover/stack-item:-translate-y-8'
     : 'md:group-hover/stack-item:-translate-y-8'
@@ -114,12 +115,16 @@ function HoverStackItem({
   const desktopCtaPosition = desktopAt1367
     ? 'min-[1367px]:top-3 min-[1367px]:right-3'
     : 'md:top-3 md:right-3'
-  const contentHoverOffset =
-    details !== undefined && details.length > 1
-      ? desktopHoverLarge
-      : hasDetails
-        ? desktopHoverSmall
-        : ''
+  const desktopContentWidth = hasMultipleDetails
+    ? desktopAt1367
+      ? 'min-[1367px]:max-w-[290px]'
+      : 'md:max-w-[290px]'
+    : ''
+  const contentHoverOffset = hasMultipleDetails
+    ? desktopHoverLarge
+    : hasDetails
+      ? desktopHoverSmall
+      : ''
   const stackItemLayoutClass = mobileFeatured
     ? desktopAt1367
       ? 'items-start justify-start p-3 min-[1367px]:items-center min-[1367px]:justify-center min-[1367px]:px-6 min-[1367px]:py-0'
@@ -182,7 +187,7 @@ function HoverStackItem({
       )}
 
       <div
-        className={`relative z-[1] flex max-w-[222px] flex-col gap-3 transition-transform duration-200 ease-out ${contentLayoutClass} ${contentHoverOffset}`}
+        className={`relative z-[1] flex max-w-[222px] flex-col gap-3 transition-transform duration-200 ease-out ${contentLayoutClass} ${desktopContentWidth} ${contentHoverOffset}`}
       >
         <span
           className={`text-subhead-sans flex items-start gap-2.5 ${labelClassName ?? ''}`}
