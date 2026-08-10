@@ -8,5 +8,5 @@ type Props = {
 }
 
 export default function MessagingHero(props: Props) {
-  return <TechStackDetailHero {...props} className="md:h-[453px]" />
+  return <TechStackDetailHero {...props} className="md:min-h-[453px]" />
 }

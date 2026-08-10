@@ -100,8 +100,8 @@ export function TechDetailHero({
   className,
 }: TechDetailHeroProps) {
   const sectionDesktopClass = desktopAt1025
-    ? 'lg:mb-25 lg:h-[414px] lg:pt-7.5'
-    : 'md:mb-25 md:h-[414px] md:pt-7.5'
+    ? 'lg:mb-25 lg:min-h-[414px] lg:pt-7.5'
+    : 'md:mb-25 md:min-h-[414px] md:pt-7.5'
   const mobileHidden = desktopAt1025 ? 'lg:hidden' : 'md:hidden'
   const desktopBlock = desktopAt1025 ? 'lg:block' : 'md:block'
   const desktopGridClass = desktopAt1025
@@ -115,23 +115,23 @@ export function TechDetailHero({
   return (
     <section
       className={twMerge(
-        `mb-15 h-135 bg-brand-off-white ${sectionDesktopClass}`,
+        `mb-15 min-h-135 bg-brand-off-white ${sectionDesktopClass}`,
         className
       )}
     >
       <div
-        className={`relative mx-auto h-full max-w-360 px-3 pt-10 text-brand-dark-green ${mobileHidden}`}
+        className={`relative mx-auto flex max-w-360 flex-col px-3 pt-[21px] pb-10 text-brand-dark-green ${mobileHidden}`}
       >
-        <div className="absolute top-[21px] left-3 z-30">{backLink}</div>
+        <div className="relative z-30">{backLink}</div>
 
-        <h1 className="text-h3-serif absolute top-[60px] left-3 flex items-center gap-3">
+        <h1 className="text-h3-serif mt-3.75 flex items-center gap-3">
           {titleIcon ?? (
             <LogosMark size={22} className="shrink-0 text-gray-03" />
           )}
           {title}
         </h1>
 
-        <div className="absolute top-[122px] left-3 flex w-[calc(100%-24px)] flex-col text-black">
+        <div className="mt-8 flex flex-col text-black">
           {actions ? (
             <div className="flex flex-wrap items-start gap-1.5">{actions}</div>
           ) : null}
@@ -246,7 +246,7 @@ export function TechTextSplitSection({
   return (
     <section
       className={twMerge(
-        'h-62 bg-brand-off-white md:h-[183px] md:border-t md:border-brand-dark-green/10',
+        'min-h-62 bg-brand-off-white md:min-h-[183px] md:border-t md:border-brand-dark-green/10',
         className
       )}
     >

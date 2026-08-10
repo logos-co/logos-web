@@ -8,5 +8,7 @@ type Props = {
 }
 
 export default function StorageHero(props: Props) {
-  return <TechStackDetailHero {...props} className="md:h-auto lg:h-103.5" />
+  return (
+    <TechStackDetailHero {...props} className="md:min-h-auto lg:min-h-103.5" />
+  )
 }
