@@ -35,7 +35,8 @@ const findSection = createSectionFinder('build-the-parallel')
  * tracker attaches the page path as the event's `source`.
  */
 const CTA_EVENT_NAMES = {
-  hero: ['Join an upcoming circle', 'Propose a new circle'],
+  hero: ['Join an upcoming circle', 'Join the community'],
+  circlesMap: 'Propose a Cricle',
   manifesto: 'Read the manifesto',
   community: 'Join the community',
   paths: {
@@ -150,6 +151,18 @@ export default async function BuildTheParallelPage({
         <CenterCtaSection
           title={circlesMap.title}
           body={circlesMap.description ?? ''}
+          className="[&>div]:gap-6"
+          cta={
+            circlesMap.cta ? (
+              <Button
+                href={circlesMap.cta.href}
+                data-umami-event-name={CTA_EVENT_NAMES.circlesMap}
+                className="cursor-pointer rounded-[4px]"
+              >
+                {circlesMap.cta.label}
+              </Button>
+            ) : null
+          }
         />
         <CirclesMap
           settings={circlesSettings}

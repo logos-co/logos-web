@@ -25,7 +25,7 @@ export function CenterCtaSection({
       <div className="mx-auto flex max-w-[456px] flex-col items-center gap-10">
         <div className="flex flex-col items-center gap-6">
           <h2 className="text-h3-serif">{title}</h2>
-          <p className="text-mono-s">{body}</p>
+          <p className="text-mono-s whitespace-pre-line">{body}</p>
         </div>
         {cta}
       </div>
