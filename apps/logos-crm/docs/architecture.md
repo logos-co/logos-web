@@ -12,9 +12,11 @@ Every production capability must be self-hostable. The application must not requ
 
 ## 1. Purpose and scope
 
-`logos-crm` is the long-term Logos CRM application. It starts as a new, independently deployable CRM with its own PostgreSQL database and gradually absorbs the workflows currently served by `apps/civi-crm`.
+`logos-crm` is the long-term Logos CRM application. It is a new, independently deployable CRM with its own PostgreSQL database, and it is the successor to the CiviCRM instances now being decommissioned.
 
-The application is not a wrapper around CiviCRM. CiviCRM remains an integration and migration source during the transition, then becomes removable once all required workflows and data have been cut over.
+The application is not a wrapper around CiviCRM. [logos-co/logos-web#134](https://github.com/logos-co/logos-web/pull/134) removes the CiviCRM integration from the monorepo and leaves `apps/civi-crm` as the host of the public funnel intake endpoint only. CiviCRM is therefore a one-time historical import source, not a live integration: the instance is dumped before shutdown, and submissions received between that shutdown and the Logos CRM intake cutover live in Notion. Both are import sources — see [`migration.md`](migration.md) and [`civicrm-export-checklist.md`](civicrm-export-checklist.md).
+
+Until that cutover, coordinators have no CRM user interface: #134 deletes the case-management screens as well. Reaching a usable operational workspace is the first milestone, not an incremental improvement over an existing tool.
 
 ### v1 scope
 
@@ -28,15 +30,15 @@ The application is not a wrapper around CiviCRM. CiviCRM remains an integration 
 - role-based access control and an audit trail;
 - REST API under `/api/v1/*`;
 - asynchronous email and Discord notifications;
-- import, reconciliation, and migration tooling for existing CiviCRM data.
+- import, reconciliation, and migration tooling for the CiviCRM dump and the Notion bridge period;
+- a public funnel intake endpoint that replaces the one in `apps/civi-crm`.
 
 ### Non-goals for v1
 
 - public CRM access;
 - replacing the public website or CMS;
-- modifying `apps/civi-crm` in place;
 - supporting multiple CRM databases;
-- exposing CiviCRM credentials to browser code.
+- writing back to CiviCRM or Notion as a synchronous second destination.
 - a full long-tail Ecodev taxonomy in v1.
 - file attachments, real-time WebSockets, and a custom role-builder UI.
 
@@ -123,11 +125,13 @@ flowchart LR
     Worker["Graphile Worker"] --> DB
     Worker --> Email["Existing Infra SMTP"]
     Worker --> Discord["Optional Discord adapter"]
+    Intake["Public funnel intake"] --> API
     Import["Migration/import jobs"] --> Services
-    Civi["CiviCRM"] --> Import
+    Civi["CiviCRM dump (one-time)"] --> Import
+    Notion["Notion bridge period"] --> Import
 ```
 
-Next.js Route Handlers validate input, resolve the authenticated identity, enforce authorisation, and call services. Services own CRM business rules and Drizzle transaction boundaries. Browser code uses the shared API client and never calls CiviCRM directly.
+Next.js Route Handlers validate input, resolve the authenticated identity, enforce authorisation, and call services. Services own CRM business rules and Drizzle transaction boundaries. Browser code uses the shared API client only. The public funnel intake endpoint is the one route that accepts unauthenticated traffic; it is idempotent on a submission ID, and any onward delivery to Notion or n8n runs as a Graphile Worker follow-up job rather than a synchronous second write.
 
 The web process and worker are separate runtime processes, even though they live in the same app package. Deployments must be able to restart or scale them independently. The only supported deployment target is Docker Compose on a Logos-controlled Linux host.
 
@@ -185,7 +189,7 @@ The initial domain model is:
 - activity visibility — `private`, `team`, or `shared`, enforced for timelines, reports, exports, and mentions;
 - notification delivery records — audit and delivery state for Graphile Worker jobs;
 - `audit_events` — append-only mutation history;
-- `external_identities` — source-system IDs such as CiviCRM contact/case IDs;
+- `external_identities` — source-system IDs, per source: CiviCRM contact/case IDs and Notion page IDs;
 - merge records — immutable mappings from duplicate records to the surviving record;
 - `import_runs` — import checkpoints, mappings, errors, and reconciliation results.
 
@@ -232,10 +236,11 @@ Before v1 is considered ready:
 5. Duplicate people and organisations can be reviewed and merged without losing links or external IDs.
 6. A notification can be transactionally queued, retried, and safely deduplicated without Redis.
 7. Leadership metrics reproduce fixed reporting fixtures and filtered exports match visible data.
-8. A representative CiviCRM export can be imported twice without duplicate records.
+8. The CiviCRM dump and a Notion bridge snapshot can each be imported twice without duplicate records, and a person present in both sources resolves to one record carrying both source IDs.
 9. Reconciliation reports every unmapped or conflicting source record.
 10. Backup restore and migration rollback have been tested.
-11. The public website and existing `apps/civi-crm` behaviour remain unchanged until cutover is approved.
+11. Public funnel submissions keep reaching their destination through the intake cutover, with no gap and no duplicates across the switch.
+12. Newsletter and event consent flags survive both imports and are enforced before any outbound contact.
 
 ## 10. Source requirement coverage
 

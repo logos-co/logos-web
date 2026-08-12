@@ -1,84 +1,162 @@
-# Logos CRM — CiviCRM Migration Plan
+# Logos CRM — Migration Plan
 
-## 1. Principles
+> Revised for the CiviCRM shutdown. The earlier version of this document assumed
+> `apps/civi-crm` would stay the authoritative write path through a long parallel-run
+> period and that data would arrive as repeated CiviCRM CSV exports. Neither holds:
+> [logos-co/logos-web#134](https://github.com/logos-co/logos-web/pull/134) removes the
+> CiviCRM integration entirely and leaves `apps/civi-crm` as nothing but the host of
+> the public funnel intake endpoint.
 
-- `apps/civi-crm` remains operational until each replacement workflow passes its cutover gate.
-- CiviCRM is a migration source, not the new application's database.
-- Every imported entity keeps source type, source ID, source timestamp, and migration-run ID.
+## 1. What actually happens now
+
+There is no long parallel run. There is a **short transition with two data sources**:
+
+1. **CiviCRM — one-time historical dump.** Taken from the running instance before it is
+   switched off, following [`civicrm-export-checklist.md`](civicrm-export-checklist.md).
+   After that, CiviCRM is not a live source, an integration, or a fallback. It is a
+   frozen archive.
+2. **Notion — the bridge period source of record.** After #134 merges, the intake
+   endpoint writes submissions to Notion (and forwards the steward form to n8n).
+   Everything a coordinator does between the CiviCRM shutdown and the Logos CRM
+   cutover exists only in Notion. It has to be imported too.
+
+Missing the second source is the main risk in this plan. A migration that imports only
+the CiviCRM dump will silently lose every applicant received during the bridge period.
+
+## 2. Principles
+
+- Every imported record keeps its source system, source ID, source timestamp, and
+  migration-run ID.
 - Preview, commit, retry, and reconciliation are idempotent.
-- No public funnel cutover occurs in the first Logos CRM UI release.
-- Redis, dual-write middleware, and a separate migration service are not introduced.
+- Email is never the sole durable identity key.
+- No dual-write. When Logos CRM takes over intake it becomes the single canonical
+  write, and Notion / n8n delivery becomes a Graphile Worker follow-up job with an
+  idempotency key — not a second synchronous destination.
+- The bridge period is kept as short as the Logos CRM milestones allow. Every week of
+  bridge is another week of data that has to be imported from Notion.
 
-## 2. Input contract
+## 3. Input contracts
 
-The initial transport is an Infra-produced UTF-8 CSV export with optional BOM. PapaParse handles parsing and parser diagnostics; mapped records are validated with `drizzle-zod` schemas derived from the Drizzle tables and refined for migration-only rules. Each entity type has a versioned header contract and source-system code. Default limits are 25 MB and 50,000 rows per file.
+### 3.1 CiviCRM dump (one-time)
 
-Preview performs:
+UTF-8 CSV per entity with APIv4 paths as headers, or a SQL-level database dump.
+PapaParse handles parsing and parser diagnostics; mapped rows are validated with
+`drizzle-zod` schemas derived from the Drizzle tables and refined for migration-only
+rules. Default limits are 25 MB and 50,000 rows per file. Source system code:
+`civicrm`.
 
-- file size and encoding checks, PapaParse header/parser diagnostics, and `drizzle-zod` row validation;
-- SHA-256 checksum calculation;
-- controlled-value mapping;
-- create, update, unchanged, conflict, duplicate-suggestion, and error counts;
-- safe row errors without echoing full personal records.
+The entity list, exact field paths, format requirements, and pre-shutdown verification
+steps are in [`civicrm-export-checklist.md`](civicrm-export-checklist.md).
 
-Commit accepts only a successful preview ID, the same checksum, and an idempotency key. Raw files are protected and deleted after the configured retention period.
+### 3.2 Notion bridge (recurring during the bridge period)
 
-## 3. Migration phases
+Read through the Notion API rather than a manual CSV export, so the import can be
+re-run and reconciled. Source system code: `notion`; source ID is the Notion page ID;
+source timestamp is the page `last_edited_time`.
+
+The property contract is what the intake endpoint writes today
+(`apps/civi-crm/src/lib/notion/build-notion-properties.ts`):
+
+| Notion property                       | Maps to                                |
+| ------------------------------------- | -------------------------------------- |
+| Title                                 | person full name                       |
+| `Email/Website`                       | contact method, type `email`           |
+| `Phone or Social Handle`              | contact method, type `phone` or `chat` |
+| `Mvmt Organization`                   | organisation link                      |
+| `Mvmt Status`                         | case status (`New Lead` on intake)     |
+| `Wants Newsletter`, `Wants Events`    | consent flags                          |
+| `How did you first hear about Logos?` | case lead source                       |
+| `Tech Vision`, `Activities Vision`    | case summary fields                    |
+| Website URL properties                | organisation website                   |
+
+Evaluation during the bridge period is free text in the page body — the
+`Submission Evaluation`, `Call Evaluation`, `One Pager Evaluation` and `Other Notes`
+sections of the evaluation template. Import these as activities on the case, not as
+structured scores. There is no numeric scorecard in the bridge period: that structure
+exists in the CiviCRM dump and, going forward, in Logos CRM.
+
+Snapshot the Notion database schema (the property list and select options) at the
+start of the bridge period. It is the import contract, and a renamed property silently
+breaks the mapping.
+
+## 4. Phases
 
 ### Inventory and mapping
 
-Inventory CiviCRM contacts, organisations, cases, relationships, activities, assignments, option values, historical statuses, and funnel integrations. Version every source-to-target field and catalogue mapping.
+Inventory both sources. For CiviCRM: contacts, organisations, cases, relationships,
+activities, assignments, option values, and status history. For Notion: the property
+list, select options, and the evaluation page template. Version every source-to-target
+field mapping and give each its own source-system code.
 
-### Representative rehearsal
+### Rehearsal
 
-Import a production-shaped but appropriately protected export into a non-production Compose environment. Validate entity counts, relationship counts, source IDs, status/stage history, ownership, timestamps, Unicode, and personal-data handling.
+Import a production-shaped but access-controlled copy of both sources into a
+non-production Compose environment. Validate entity counts, relationship counts,
+source IDs, status history, ownership, timestamps, Unicode, and personal-data handling.
 
 ### Reconciliation
 
-Run the same import twice and require stable counts. Produce machine-readable and human-readable differences for missing source IDs, mapping failures, duplicate suggestions, invalid relationships, and changed source rows.
+Run the same import twice and require stable counts. Produce machine-readable and
+human-readable differences for missing source IDs, mapping failures, duplicate
+suggestions, invalid relationships, and changed source rows.
 
-### Incremental refresh
+### Bridge refresh
 
-During the pilot, import rows changed since the previous source watermark. `source_updated_at` and file checksum prevent stale imports from overwriting newer CRM edits. A conflict is reported for manual resolution rather than silently choosing a winner.
+While the bridge period lasts, re-import Notion pages changed since the previous
+watermark. `source_updated_at` and the page ID prevent stale imports from overwriting
+newer CRM edits. Conflicts are reported for manual resolution rather than resolved by
+picking a winner.
 
-### Parallel operation
+### Intake cutover
 
-`apps/civi-crm` remains the authoritative write path for workflows not yet cut over. Logos CRM clearly labels imported read-only records and records the latest source watermark. There is no bidirectional or hidden dual write.
+This is a single switch, not a per-workflow sequence — after the CiviCRM shutdown there
+is only one workflow left to move:
 
-### Controlled cutover
+1. Implement the Logos CRM intake endpoint with an idempotent `submission_id`.
+2. Run the final Notion bridge import and reconcile counts.
+3. Point the public funnel at Logos CRM as the canonical write.
+4. Demote Notion and n8n delivery to Graphile Worker follow-up jobs.
+5. Compare submissions received immediately before and after the switch for gaps and
+   duplicates.
+6. Run authenticated smoke tests and observe the agreed error thresholds.
 
-Cut over one workflow at a time:
-
-1. announce a bounded source-write freeze;
-2. capture the final source watermark and export;
-3. import and reconcile counts, links, and history;
-4. switch the selected workflow and public integration flag;
-5. run authenticated smoke tests;
-6. observe agreed error and reconciliation thresholds.
-
-Rollback restores the previous routing flag and reopens the old write path only if no incompatible Logos CRM-only writes occurred. Otherwise, an explicit reverse-export procedure is required before rollback.
+Rollback restores the previous funnel routing. It is only safe while no Logos CRM-only
+writes have occurred that Notion cannot represent; after that, rollback requires an
+explicit reverse-export.
 
 ### Retirement
 
-After every workflow and integration passes an agreed observation period, remove active CiviCRM dependencies. Archive source data under the retention policy; application deployment never deletes the source system.
+After the observation period, stop the Notion intake writes, keep the Notion database
+read-only for the retention period, and archive the CiviCRM dump under the retention
+policy.
 
-## 4. Merge and identity rules
+## 5. Merge and identity rules
 
-Source IDs are authoritative for repeated imports. Email, telephone, normalised names, and domains produce duplicate suggestions only. Confirmed merges preserve all source IDs and relationship links on the survivor. Imported rows targeting a merged duplicate resolve to the survivor.
+Source IDs are authoritative for repeated imports, per source system: a CiviCRM contact
+ID and a Notion page ID can both point at the same person, and both are retained on the
+survivor. Email, telephone, normalised names, and domains produce duplicate suggestions
+only. Confirmed merges preserve every source ID and relationship link on the survivor.
+Imported rows targeting a merged duplicate resolve to the survivor.
 
-## 5. Cutover gates
+Cross-source duplicates are expected and are the normal case: a person who applied
+before the shutdown and again during the bridge period arrives twice, once per source.
 
-A workflow can cut over only when:
+## 6. Cutover gates
 
-- required and optional field mappings are signed off;
+Intake can move to Logos CRM only when:
+
+- required and optional field mappings are signed off for both sources;
 - create/update/unchanged/conflict/error totals reconcile;
-- status and stage history supports the agreed reports;
-- owners and teams map to active CRM users;
-- permissions and private/team/shared activity visibility are verified;
-- the final import is repeatable;
+- the CiviCRM dump has been imported and its scorecard history is queryable;
+- the Notion bridge import is repeatable with stable counts;
+- consent flags (newsletter, events) survive the import and are enforced;
+- owners map to active CRM users;
 - backup, restore, and rollback procedures have been rehearsed;
-- funnel or other inbound callers have a separately approved routing change.
+- the funnel routing change is separately approved.
 
-## 6. Current boundary
+## 7. Current boundary
 
-The public funnel continues to use its existing `apps/civi-crm` endpoint and integrations during the first Logos CRM milestone. Initial Logos CRM records come from approved imports or explicit internal creation.
+Until the intake cutover, the public funnel keeps posting to the endpoint in
+`apps/civi-crm`, which writes to Notion. Logos CRM records come from approved imports
+or explicit internal creation. Logos CRM does not write to Notion, and Notion does not
+write to Logos CRM.
