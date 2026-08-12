@@ -1,14 +1,36 @@
-import { and, count, desc, eq, ilike, inArray, or, type SQL } from 'drizzle-orm'
+import {
+  and,
+  count,
+  desc,
+  eq,
+  ilike,
+  inArray,
+  isNull,
+  or,
+  type SQL,
+} from 'drizzle-orm'
 
-import type { CaseRecord, CaseStatus, CreateCaseInput } from '@/contracts/case'
+import type {
+  CaseRecord,
+  CaseStatus,
+  CreateCaseInput,
+  UpdateCaseStatusInput,
+} from '@/contracts/case'
+import { caseStatusTransitions } from '@/contracts/values'
+import { recordAuditEvent } from '@/server/audit'
+import type { ActorContext } from '@/server/auth'
 import { db } from '@/server/db'
 import {
+  caseAssignments,
   caseOrganisations,
   casePeople,
+  caseWorkflowHistory,
   cases,
   organisations,
   people,
+  users,
 } from '@/server/db/schema'
+import { conflict, invalidTransition, notFound } from '@/server/service-errors'
 
 export interface CaseListFilters {
   q?: string
@@ -17,7 +39,13 @@ export interface CaseListFilters {
 
 interface CaseRelations {
   organisationId: string | null
+  organisationName: string | null
+  owner: CaseRecord['owner']
   relatedPeople: CaseRecord['relatedPeople']
+}
+
+export function canTransition(from: CaseStatus, to: CaseStatus): boolean {
+  return (caseStatusTransitions[from] as ReadonlyArray<CaseStatus>).includes(to)
 }
 
 function toCaseRecord(
@@ -27,7 +55,7 @@ function toCaseRecord(
   return {
     ...row,
     ...relations,
-    nextActionAt: row.nextActionAt.toISOString(),
+    nextActionAt: row.nextActionAt?.toISOString() ?? null,
     lastContactAt: row.lastContactAt?.toISOString() ?? null,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
@@ -39,14 +67,27 @@ async function hydrateCaseRecords(
 ): Promise<CaseRecord[]> {
   if (rows.length === 0) return []
   const ids = rows.map((row) => row.id)
-  const [organisationLinks, peopleLinks] = await Promise.all([
+  const ownerIds = [
+    ...new Set(
+      rows
+        .map((row) => row.ownerUserId)
+        .filter((value): value is string => value !== null)
+    ),
+  ]
+
+  const [organisationLinks, peopleLinks, ownerRows] = await Promise.all([
     db
       .select({
         caseId: caseOrganisations.caseId,
         organisationId: caseOrganisations.organisationId,
+        displayName: organisations.displayName,
         primary: caseOrganisations.isPrimary,
       })
       .from(caseOrganisations)
+      .innerJoin(
+        organisations,
+        eq(caseOrganisations.organisationId, organisations.id)
+      )
       .where(inArray(caseOrganisations.caseId, ids)),
     db
       .select({
@@ -59,11 +100,26 @@ async function hydrateCaseRecords(
       .from(casePeople)
       .innerJoin(people, eq(casePeople.personId, people.id))
       .where(inArray(casePeople.caseId, ids)),
+    ownerIds.length > 0
+      ? db
+          .select({ id: users.id, displayName: users.displayName })
+          .from(users)
+          .where(inArray(users.id, ownerIds))
+      : Promise.resolve<CaseRecord['owner'][]>([]),
   ])
-  const organisationByCase = new Map(
+
+  const organisationByCase = new Map<string, { id: string; name: string }>(
     [...organisationLinks]
       .sort((left, right) => Number(right.primary) - Number(left.primary))
-      .map((row) => [row.caseId, row.organisationId])
+      .map((row) => [
+        row.caseId,
+        { id: row.organisationId, name: row.displayName },
+      ])
+  )
+  const ownerById = new Map<string, NonNullable<CaseRecord['owner']>>(
+    ownerRows
+      .filter((row): row is NonNullable<CaseRecord['owner']> => row !== null)
+      .map((row) => [row.id, row])
   )
   const peopleByCase = new Map<string, CaseRecord['relatedPeople']>()
   for (const link of [...peopleLinks].sort(
@@ -76,12 +132,18 @@ async function hydrateCaseRecords(
     ])
   }
 
-  return rows.map((row) =>
-    toCaseRecord(row, {
-      organisationId: organisationByCase.get(row.id) ?? null,
+  return rows.map((row) => {
+    const organisation = organisationByCase.get(row.id) ?? null
+    const owner = row.ownerUserId
+      ? (ownerById.get(row.ownerUserId) ?? null)
+      : null
+    return toCaseRecord(row, {
+      organisationId: organisation?.id ?? null,
+      organisationName: organisation?.name ?? null,
+      owner,
       relatedPeople: peopleByCase.get(row.id) ?? [],
     })
-  )
+  })
 }
 
 export async function listCases(
@@ -95,10 +157,24 @@ export async function listCases(
 
   if (filters.q) {
     const query = `%${filters.q}%`
+    const matchingOwners = db
+      .select({ id: users.id })
+      .from(users)
+      .where(ilike(users.displayName, query))
+    const matchingOrganisationCases = db
+      .select({ caseId: caseOrganisations.caseId })
+      .from(caseOrganisations)
+      .innerJoin(
+        organisations,
+        eq(caseOrganisations.organisationId, organisations.id)
+      )
+      .where(ilike(organisations.displayName, query))
+
     const searchCondition = or(
       ilike(cases.title, query),
-      ilike(cases.organisation, query),
-      ilike(cases.owner, query)
+      ilike(cases.stage, query),
+      inArray(cases.ownerUserId, matchingOwners),
+      inArray(cases.id, matchingOrganisationCases)
     )
     if (searchCondition) conditions.push(searchCondition)
   }
@@ -118,29 +194,47 @@ export async function getCase(id: string): Promise<CaseRecord | null> {
   return (await hydrateCaseRecords([row]))[0] ?? null
 }
 
+/**
+ * Creates a case, opens its assignment interval, records the opening workflow
+ * row, and audits the whole thing in one transaction. All four commit together
+ * or none of them do: a case whose history starts halfway through its life is
+ * not recoverable later.
+ */
 export async function createCase(
+  actor: Readonly<ActorContext>,
   input: Readonly<CreateCaseInput>
 ): Promise<CaseRecord> {
   const created = await db.transaction(async (transaction) => {
-    const { organisationId, personIds, ...caseInput } = input
-    const [organisation] = organisationId
-      ? await transaction
-          .select({ displayName: organisations.displayName })
-          .from(organisations)
-          .where(eq(organisations.id, organisationId))
-          .limit(1)
-      : []
+    const { organisationId, personIds, nextActionAt, ...caseInput } = input
     const [row] = await transaction
       .insert(cases)
       .values({
         ...caseInput,
-        organisation: organisation?.displayName ?? caseInput.organisation,
-        nextActionAt: new Date(caseInput.nextActionAt),
+        nextActionAt: nextActionAt ? new Date(nextActionAt) : null,
         status: 'new',
       })
       .returning()
 
     if (!row) throw new Error('The case was not created.')
+
+    await transaction.insert(caseAssignments).values({
+      caseId: row.id,
+      ownerUserId: row.ownerUserId,
+      teamId: row.teamId,
+      assignedByUserId: actor.userId,
+      validFrom: row.createdAt,
+    })
+
+    await transaction.insert(caseWorkflowHistory).values({
+      caseId: row.id,
+      fromStatus: null,
+      toStatus: row.status,
+      fromStage: null,
+      toStage: row.stage,
+      effectiveAt: row.createdAt,
+      actorUserId: actor.userId,
+    })
+
     if (organisationId) {
       await transaction.insert(caseOrganisations).values({
         caseId: row.id,
@@ -157,6 +251,14 @@ export async function createCase(
         }))
       )
     }
+
+    await recordAuditEvent(transaction, actor, {
+      action: 'case.created',
+      entityType: 'case',
+      entityId: row.id,
+      summary: row.title,
+    })
+
     return row
   })
 
@@ -165,18 +267,148 @@ export async function createCase(
   return record
 }
 
+/**
+ * Applies a status transition. Rejects unlisted transitions and stale versions
+ * before writing, then commits the row, its history, and its audit event
+ * together.
+ */
 export async function updateCaseStatus(
+  actor: Readonly<ActorContext>,
   id: string,
-  status: CaseStatus
-): Promise<CaseRecord | null> {
-  const [updated] = await db
-    .update(cases)
-    .set({ status, updatedAt: new Date() })
-    .where(eq(cases.id, id))
-    .returning()
+  input: Readonly<UpdateCaseStatusInput>
+): Promise<CaseRecord> {
+  const updated = await db.transaction(async (transaction) => {
+    const [current] = await transaction
+      .select()
+      .from(cases)
+      .where(eq(cases.id, id))
+      .limit(1)
+      .for('update')
 
-  if (!updated) return null
-  return (await hydrateCaseRecords([updated]))[0] ?? null
+    if (!current) throw notFound('The case no longer exists.')
+
+    if (current.version !== input.expectedVersion) {
+      throw conflict(
+        'The case changed since it was loaded. Reload it and try again.'
+      )
+    }
+
+    if (current.status === input.status) return current
+
+    if (!canTransition(current.status, input.status)) {
+      throw invalidTransition('Unsupported status transition.', {
+        status: `A case cannot move from ${current.status} to ${input.status}.`,
+      })
+    }
+
+    const now = new Date()
+    const [row] = await transaction
+      .update(cases)
+      .set({
+        status: input.status,
+        version: current.version + 1,
+        updatedAt: now,
+      })
+      .where(eq(cases.id, id))
+      .returning()
+
+    if (!row) throw notFound('The case no longer exists.')
+
+    await transaction.insert(caseWorkflowHistory).values({
+      caseId: row.id,
+      fromStatus: current.status,
+      toStatus: row.status,
+      fromStage: current.stage,
+      toStage: row.stage,
+      effectiveAt: now,
+      actorUserId: actor.userId,
+      reason: input.reason ?? null,
+    })
+
+    await recordAuditEvent(transaction, actor, {
+      action: 'case.status_changed',
+      entityType: 'case',
+      entityId: row.id,
+      summary: input.reason ?? undefined,
+      changes: { status: { from: current.status, to: row.status } },
+    })
+
+    return row
+  })
+
+  const [record] = await hydrateCaseRecords([updated])
+  if (!record) throw notFound('The case no longer exists.')
+  return record
+}
+
+/**
+ * Reassigns a case: closes the open assignment interval and opens a new one, so
+ * "who owned this on a given date" stays answerable.
+ */
+export async function assignCase(
+  actor: Readonly<ActorContext>,
+  id: string,
+  ownerUserId: string | null,
+  options: Readonly<{ expectedVersion: number; reason?: string }>
+): Promise<CaseRecord> {
+  const updated = await db.transaction(async (transaction) => {
+    const [current] = await transaction
+      .select()
+      .from(cases)
+      .where(eq(cases.id, id))
+      .limit(1)
+      .for('update')
+
+    if (!current) throw notFound('The case no longer exists.')
+    if (current.version !== options.expectedVersion) {
+      throw conflict(
+        'The case changed since it was loaded. Reload it and try again.'
+      )
+    }
+    if (current.ownerUserId === ownerUserId) return current
+
+    const now = new Date()
+
+    await transaction
+      .update(caseAssignments)
+      .set({ validTo: now })
+      .where(
+        and(eq(caseAssignments.caseId, id), isNull(caseAssignments.validTo))
+      )
+
+    await transaction.insert(caseAssignments).values({
+      caseId: id,
+      ownerUserId,
+      teamId: current.teamId,
+      assignedByUserId: actor.userId,
+      validFrom: now,
+      reason: options.reason ?? null,
+    })
+
+    const [row] = await transaction
+      .update(cases)
+      .set({ ownerUserId, version: current.version + 1, updatedAt: now })
+      .where(eq(cases.id, id))
+      .returning()
+
+    if (!row) throw notFound('The case no longer exists.')
+
+    await recordAuditEvent(transaction, actor, {
+      action: 'case.reassigned',
+      entityType: 'case',
+      entityId: id,
+      summary: options.reason ?? undefined,
+      changes: {
+        ownerUserId: { from: current.ownerUserId, to: ownerUserId },
+      },
+    })
+
+    return row
+  })
+
+  const [record] = await hydrateCaseRecords([updated])
+  if (!record) throw notFound('The case no longer exists.')
+  return record
 }
 
 export async function getDashboardSummary(): Promise<{

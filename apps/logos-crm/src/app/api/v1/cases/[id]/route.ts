@@ -2,6 +2,7 @@ import { z } from 'zod/v4'
 
 import { updateCaseStatusSchema } from '@/contracts/case'
 import { apiError, apiException } from '@/server/api-response'
+import { resolveActor } from '@/server/auth'
 import { getCase, updateCaseStatus } from '@/server/case-repository'
 
 interface RouteContext {
@@ -31,10 +32,10 @@ export async function PATCH(
   try {
     const { id } = await context.params
     z.string().uuid().parse(id)
+    const actor = await resolveActor(request)
     const input = updateCaseStatusSchema.parse(await request.json())
-    const item = await updateCaseStatus(id, input.status)
+    const item = await updateCaseStatus(actor, id, input)
 
-    if (!item) return apiError('NOT_FOUND', 'Case not found.', 404)
     return Response.json({ item })
   } catch (error) {
     return apiException(error)

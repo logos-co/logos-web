@@ -14,6 +14,7 @@ import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 
 import type { CaseRecord, CaseStatus, CreateCaseInput } from '@/contracts/case'
 import type { OrganisationRecord, PersonRecord } from '@/contracts/directory'
+import type { UserRecord } from '@/contracts/user'
 import { apiClient } from '@/lib/api-client'
 
 import { statusLabels, StatusBadge } from './case-status'
@@ -99,6 +100,11 @@ export function CrmDemo({ view }: CrmDemoProps) {
       apiClient<DirectoryResponse<OrganisationRecord>>('/api/v1/organisations'),
   })
 
+  const usersQuery = useQuery({
+    queryKey: ['users'],
+    queryFn: () => apiClient<DirectoryResponse<UserRecord>>('/api/v1/users'),
+  })
+
   const createMutation = useMutation({
     mutationFn: (input: CreateCaseInput) =>
       apiClient<{ item: CaseRecord }>('/api/v1/cases', {
@@ -129,12 +135,16 @@ export function CrmDemo({ view }: CrmDemoProps) {
             href={`/cases/${row.original.id}`}
           >
             <span>{row.original.title}</span>
-            <small>{row.original.organisation}</small>
+            <small>{row.original.organisationName ?? 'No organisation'}</small>
           </Link>
         ),
       },
       { accessorKey: 'stage', header: 'Stage' },
-      { accessorKey: 'owner', header: 'Owner' },
+      {
+        id: 'owner',
+        header: 'Owner',
+        cell: ({ row }) => row.original.owner?.displayName ?? 'Unassigned',
+      },
       {
         accessorKey: 'status',
         header: 'Status',
@@ -364,6 +374,7 @@ export function CrmDemo({ view }: CrmDemoProps) {
         }}
         organisations={organisationsQuery.data?.items ?? []}
         people={peopleQuery.data?.items ?? []}
+        users={usersQuery.data?.items ?? []}
       />
     </>
   )

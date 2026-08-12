@@ -7,16 +7,44 @@ import { z } from 'zod/v4'
 
 import { createCaseSchema, type CreateCaseInput } from '@/contracts/case'
 import type { OrganisationRecord, PersonRecord } from '@/contracts/directory'
+import type { UserRecord } from '@/contracts/user'
 
 import { FormField, RecordDialog } from './record-dialog'
 
+/**
+ * Owner and next action are optional here for the same reason they are nullable
+ * in the schema: a case can legitimately start unassigned and untriaged, and
+ * the empty option has to mean "unassigned" rather than forcing a guess.
+ */
 const formSchema = createCaseSchema
-  .omit({ nextActionAt: true, organisationId: true, personIds: true })
+  .omit({
+    nextAction: true,
+    nextActionAt: true,
+    organisationId: true,
+    ownerUserId: true,
+    personIds: true,
+  })
   .extend({
-    nextActionAt: z.string().min(1, 'Choose a due date.'),
+    nextAction: z.string().trim().max(240),
+    nextActionAt: z.string(),
     organisationId: z.string().uuid('Choose an organisation.'),
+    ownerUserId: z.union([z.string().uuid(), z.literal('')]),
     personId: z.union([z.string().uuid(), z.literal('')]),
   })
+  .refine(
+    (value) => value.nextAction.length === 0 || value.nextAction.length >= 3,
+    {
+      message: 'Describe the next step, or leave it empty.',
+      path: ['nextAction'],
+    }
+  )
+  .refine(
+    (value) => value.nextAction.length === 0 || value.nextActionAt.length > 0,
+    {
+      message: 'A next action needs a due date.',
+      path: ['nextActionAt'],
+    }
+  )
 
 type CaseFormValues = z.infer<typeof formSchema>
 
@@ -27,6 +55,7 @@ interface NewCaseDialogProps {
   onCreate: (input: CreateCaseInput) => Promise<void>
   organisations: OrganisationRecord[]
   people: PersonRecord[]
+  users: UserRecord[]
 }
 
 function defaultDueDate(): string {
@@ -42,6 +71,7 @@ export function NewCaseDialog({
   onCreate,
   organisations,
   people,
+  users,
 }: NewCaseDialogProps) {
   const {
     formState: { errors },
@@ -52,10 +82,9 @@ export function NewCaseDialog({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      organisation: 'Selected organisation',
       organisationId: '',
       personId: '',
-      owner: 'Mara Chen',
+      ownerUserId: '',
       stage: 'Intake',
       priority: 'medium',
       nextAction: '',
@@ -66,15 +95,17 @@ export function NewCaseDialog({
   if (!isOpen) return null
 
   const submit = handleSubmit(async (values) => {
-    const organisation = organisations.find(
-      (item) => item.id === values.organisationId
-    )
-    if (!organisation) return
-    const { personId, ...caseValues } = values
+    const { personId, ownerUserId, nextAction, nextActionAt, ...caseValues } =
+      values
     await onCreate({
       ...caseValues,
-      organisation: organisation.displayName,
-      nextActionAt: new Date(values.nextActionAt).toISOString(),
+      ...(ownerUserId ? { ownerUserId } : {}),
+      ...(nextAction
+        ? {
+            nextAction,
+            nextActionAt: new Date(nextActionAt).toISOString(),
+          }
+        : {}),
       personIds: personId ? [personId] : [],
     })
     reset()
@@ -105,11 +136,14 @@ export function NewCaseDialog({
               ))}
             </select>
           </FormField>
-          <FormField label="Owner" error={errors.owner?.message}>
-            <select {...register('owner')}>
-              <option>Mara Chen</option>
-              <option>Jon Bell</option>
-              <option>Niko Reyes</option>
+          <FormField label="Owner" error={errors.ownerUserId?.message}>
+            <select {...register('ownerUserId')}>
+              <option value="">Unassigned</option>
+              {users.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.displayName}
+                </option>
+              ))}
             </select>
           </FormField>
         </div>
@@ -147,7 +181,7 @@ export function NewCaseDialog({
         <FormField label="Next action" error={errors.nextAction?.message}>
           <input
             {...register('nextAction')}
-            placeholder="Describe the next concrete step"
+            placeholder="Leave empty to triage later"
           />
         </FormField>
 

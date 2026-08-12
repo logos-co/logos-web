@@ -13,6 +13,7 @@ import type {
   TaskStatus,
   WorkSubjectType,
 } from '@/contracts/work'
+import type { UserRecord } from '@/contracts/user'
 import { apiClient } from '@/lib/api-client'
 
 interface WorkResponse<T> {
@@ -52,7 +53,7 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
   const [note, setNote] = useState('')
   const [isAddingTask, setAddingTask] = useState(false)
   const [taskTitle, setTaskTitle] = useState('')
-  const [assignee, setAssignee] = useState('Mara Chen')
+  const [assigneeUserId, setAssigneeUserId] = useState('')
   const [priority, setPriority] = useState<TaskPriority>('medium')
   const [dueDate, setDueDate] = useState(defaultDueDate)
   const [activeLedger, setActiveLedger] = useState<'tasks' | 'activity'>(
@@ -64,12 +65,18 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
     setNote('')
     setAddingTask(false)
     setTaskTitle('')
-    setAssignee('Mara Chen')
+    setAssigneeUserId('')
     setPriority('medium')
     setDueDate(defaultDueDate())
     setActiveLedger(subjectType === 'case' ? 'tasks' : 'activity')
     setFeedback(null)
   }, [subjectId, subjectType])
+
+  const usersQuery = useQuery({
+    queryKey: ['users'],
+    queryFn: () => apiClient<WorkResponse<UserRecord>>('/api/v1/users'),
+  })
+  const users = usersQuery.data?.items ?? []
 
   const activitiesQuery = useQuery({
     queryKey: ['activities', ...queryKey],
@@ -191,7 +198,7 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
                   subjectType,
                   subjectId,
                   title: taskTitle,
-                  assignee,
+                  ...(assigneeUserId ? { assigneeUserId } : {}),
                   priority,
                   dueAt: new Date(`${dueDate}T17:00:00`).toISOString(),
                 })
@@ -211,13 +218,17 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
               <div className="work-form-row">
                 <label>
                   <span>Assignee</span>
-                  <input
-                    required
-                    minLength={2}
-                    maxLength={100}
-                    value={assignee}
-                    onChange={(event) => setAssignee(event.target.value)}
-                  />
+                  <select
+                    value={assigneeUserId}
+                    onChange={(event) => setAssigneeUserId(event.target.value)}
+                  >
+                    <option value="">Unassigned</option>
+                    {users.map((user) => (
+                      <option key={user.id} value={user.id}>
+                        {user.displayName}
+                      </option>
+                    ))}
+                  </select>
                 </label>
                 <label>
                   <span>Due</span>
@@ -308,7 +319,6 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
                 subjectId,
                 type: 'note',
                 body: note,
-                createdBy: 'Mara Chen',
               })
             }}
           >
@@ -341,7 +351,7 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
                     <time>{formatWorkDate(activity.occurredAt)}</time>
                   </p>
                   <div>{activity.body}</div>
-                  <small>{activity.createdBy}</small>
+                  <small>{activity.createdBy.displayName}</small>
                 </div>
               </article>
             ))}
@@ -394,7 +404,8 @@ function TaskItem({
       <div>
         <strong>{item.title}</strong>
         <span>
-          {item.assignee} · Due {formatWorkDate(item.dueAt)}
+          {item.assignee?.displayName ?? 'Unassigned'} · Due{' '}
+          {formatWorkDate(item.dueAt)}
         </span>
       </div>
       <i className={`task-priority task-priority-${item.priority}`}>

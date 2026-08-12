@@ -14,18 +14,27 @@ export const workListQuerySchema = z.object({
   subjectId: z.string().uuid(),
 })
 
+export const workActorSchema = z.object({
+  id: z.string().uuid(),
+  displayName: z.string(),
+})
+
+/**
+ * The author is never accepted from the request: it comes from the resolved
+ * actor. A client-supplied author is an unauthenticated claim, and an audit
+ * trail built on it says only what the caller wanted it to say.
+ */
 export const createActivitySchema = workListQuerySchema.extend({
   type: activityTypeSchema.default('note'),
   body: z.string().trim().min(1).max(2_000),
   occurredAt: z.string().datetime().optional(),
-  createdBy: z.string().trim().min(2).max(100),
 })
 
 export const createTaskSchema = workListQuerySchema.extend({
   title: z.string().trim().min(2).max(180),
   description: z.string().trim().max(1_000).optional(),
   priority: taskPrioritySchema.default('medium'),
-  assignee: z.string().trim().min(2).max(100),
+  assigneeUserId: z.string().uuid().optional(),
   dueAt: z.string().datetime(),
 })
 
@@ -35,7 +44,7 @@ export const updateTaskSchema = z
     description: z.string().trim().max(1_000).nullable().optional(),
     status: taskStatusSchema.optional(),
     priority: taskPrioritySchema.optional(),
-    assignee: z.string().trim().min(2).max(100).optional(),
+    assigneeUserId: z.string().uuid().nullable().optional(),
     dueAt: z.string().datetime().optional(),
   })
   .refine((value) => Object.keys(value).length > 0, {
@@ -49,7 +58,7 @@ export const activityRecordSchema = z.object({
   type: activityTypeSchema,
   body: z.string(),
   occurredAt: z.string().datetime(),
-  createdBy: z.string(),
+  createdBy: workActorSchema,
   createdAt: z.string().datetime(),
 })
 
@@ -61,7 +70,7 @@ export const taskRecordSchema = z.object({
   description: z.string().nullable(),
   status: taskStatusSchema,
   priority: taskPrioritySchema,
-  assignee: z.string(),
+  assignee: workActorSchema.nullable(),
   dueAt: z.string().datetime(),
   completedAt: z.string().datetime().nullable(),
   createdAt: z.string().datetime(),
@@ -76,5 +85,13 @@ export type TaskPriority = z.infer<typeof taskPrioritySchema>
 export type TaskRecord = z.infer<typeof taskRecordSchema>
 export type TaskStatus = z.infer<typeof taskStatusSchema>
 export type UpdateTaskInput = z.infer<typeof updateTaskSchema>
+export type WorkActor = z.infer<typeof workActorSchema>
+
+/** Activity types that count as contact with the record for staleness. */
+export const contactActivityTypes = ['call', 'email', 'meeting'] as const
+
+export function isContactActivity(type: ActivityType): boolean {
+  return (contactActivityTypes as ReadonlyArray<ActivityType>).includes(type)
+}
 export type WorkListQuery = z.infer<typeof workListQuerySchema>
 export type WorkSubjectType = z.infer<typeof workSubjectTypeSchema>

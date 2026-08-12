@@ -1,8 +1,10 @@
 import {
+  bigserial,
   boolean,
   check,
   index,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   text,
@@ -16,24 +18,94 @@ import {
   activityTypes,
   casePriorities,
   caseStatuses,
+  changeSources,
   contactMethodTypes,
   directoryStatuses,
   taskPriorities,
   taskStatuses,
+  userStatuses,
 } from '@/contracts/values'
 
 export {
   activityTypes,
   casePriorities,
   caseStatuses,
+  changeSources,
   contactMethodTypes,
   directoryStatuses,
+  entityKinds,
+  externalSourceSystems,
   taskPriorities,
   taskStatuses,
+  userStatuses,
 } from '@/contracts/values'
 
 export const caseStatus = pgEnum('case_status', caseStatuses)
 export const casePriority = pgEnum('case_priority', casePriorities)
+export const userStatus = pgEnum('user_status', userStatuses)
+export const changeSource = pgEnum('change_source', changeSources)
+
+/**
+ * Local CRM identities. `externalSubject` is the immutable subject supplied by
+ * the Infra proxy once authentication is wired; it stays null while the app
+ * runs in its no-auth mode. Email is a lookup key, never the identity key: an
+ * address change must not create a second user.
+ */
+export const users = pgTable(
+  'crm_users',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    externalSubject: text('external_subject'),
+    email: text('email').notNull(),
+    normalisedEmail: text('normalised_email').notNull(),
+    displayName: text('display_name').notNull(),
+    status: userStatus('status').default('pending').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    uniqueIndex('crm_users_normalised_email_uidx').on(table.normalisedEmail),
+    uniqueIndex('crm_users_external_subject_uidx').on(table.externalSubject),
+    index('crm_users_status_idx').on(table.status),
+  ]
+)
+
+export const teams = pgTable(
+  'crm_teams',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    name: text('name').notNull(),
+    normalisedName: text('normalised_name').notNull(),
+    isActive: boolean('is_active').default(true).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    uniqueIndex('crm_teams_normalised_name_uidx').on(table.normalisedName),
+  ]
+)
+
+export const userTeams = pgTable(
+  'crm_user_teams',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    teamId: uuid('team_id')
+      .notNull()
+      .references(() => teams.id, { onDelete: 'cascade' }),
+  },
+  (table) => [
+    uniqueIndex('crm_user_teams_uidx').on(table.userId, table.teamId),
+    index('crm_user_teams_team_idx').on(table.teamId),
+  ]
+)
 
 export const directoryStatus = pgEnum('directory_status', directoryStatuses)
 export const contactMethodType = pgEnum(
@@ -55,8 +127,6 @@ export const organisations = pgTable(
     website: text('website'),
     status: directoryStatus('status').default('prospect').notNull(),
     summary: text('summary'),
-    sourceSystem: text('source_system'),
-    externalId: text('external_id'),
     version: integer('version').default(1).notNull(),
     createdAt: timestamp('created_at', { withTimezone: true })
       .defaultNow()
@@ -68,10 +138,6 @@ export const organisations = pgTable(
   (table) => [
     uniqueIndex('crm_organisations_normalised_name_uidx').on(
       table.normalisedName
-    ),
-    uniqueIndex('crm_organisations_external_uidx').on(
-      table.sourceSystem,
-      table.externalId
     ),
     index('crm_organisations_status_idx').on(table.status),
     index('crm_organisations_domain_idx').on(table.domain),
@@ -87,8 +153,6 @@ export const people = pgTable(
     roleTitle: text('role_title'),
     status: directoryStatus('status').default('prospect').notNull(),
     summary: text('summary'),
-    sourceSystem: text('source_system'),
-    externalId: text('external_id'),
     version: integer('version').default(1).notNull(),
     createdAt: timestamp('created_at', { withTimezone: true })
       .defaultNow()
@@ -100,26 +164,38 @@ export const people = pgTable(
   (table) => [
     index('crm_people_full_name_idx').on(table.fullName),
     index('crm_people_status_idx').on(table.status),
-    uniqueIndex('crm_people_external_uidx').on(
-      table.sourceSystem,
-      table.externalId
-    ),
   ]
 )
 
+/**
+ * `ownerUserId` is nullable on purpose: unassigned is a real, reportable state
+ * for freshly captured intake, not a data defect. `nextAction` is nullable for
+ * the same reason — an untriaged case has no meaningful next action, and
+ * forcing one produces placeholder text that diverges from the open task that
+ * actually drives the work.
+ *
+ * `lastContactAt` is a cache maintained in the same transaction as contact-type
+ * activities. It is never edited by hand: a stale-case view built on a manual
+ * field silently reports notes as contact.
+ */
 export const cases = pgTable(
   'crm_cases',
   {
     id: uuid('id').defaultRandom().primaryKey(),
     title: text('title').notNull(),
-    organisation: text('organisation').notNull(),
-    owner: text('owner').notNull(),
+    ownerUserId: uuid('owner_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    teamId: uuid('team_id').references(() => teams.id, {
+      onDelete: 'set null',
+    }),
     status: caseStatus('status').default('new').notNull(),
     stage: text('stage').notNull(),
     priority: casePriority('priority').default('medium').notNull(),
-    nextAction: text('next_action').notNull(),
-    nextActionAt: timestamp('next_action_at', { withTimezone: true }).notNull(),
+    nextAction: text('next_action'),
+    nextActionAt: timestamp('next_action_at', { withTimezone: true }),
     lastContactAt: timestamp('last_contact_at', { withTimezone: true }),
+    version: integer('version').default(1).notNull(),
     createdAt: timestamp('created_at', { withTimezone: true })
       .defaultNow()
       .notNull(),
@@ -129,8 +205,10 @@ export const cases = pgTable(
   },
   (table) => [
     index('crm_cases_status_idx').on(table.status),
-    index('crm_cases_owner_idx').on(table.owner),
+    index('crm_cases_owner_idx').on(table.ownerUserId),
+    index('crm_cases_team_idx').on(table.teamId),
     index('crm_cases_updated_at_idx').on(table.updatedAt),
+    index('crm_cases_last_contact_idx').on(table.lastContactAt),
   ]
 )
 
@@ -253,7 +331,9 @@ export const activities = pgTable(
     occurredAt: timestamp('occurred_at', { withTimezone: true })
       .defaultNow()
       .notNull(),
-    createdBy: text('created_by').notNull(),
+    createdByUserId: uuid('created_by_user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'restrict' }),
     createdAt: timestamp('created_at', { withTimezone: true })
       .defaultNow()
       .notNull(),
@@ -289,7 +369,9 @@ export const tasks = pgTable(
     description: text('description'),
     status: taskStatus('status').default('open').notNull(),
     priority: taskPriority('priority').default('medium').notNull(),
-    assignee: text('assignee').notNull(),
+    assigneeUserId: uuid('assignee_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
     dueAt: timestamp('due_at', { withTimezone: true }).notNull(),
     completedAt: timestamp('completed_at', { withTimezone: true }),
     createdAt: timestamp('created_at', { withTimezone: true })
@@ -314,14 +396,170 @@ export const tasks = pgTable(
   ]
 )
 
+/**
+ * Temporal case ownership. The current owner is denormalised onto
+ * `crm_cases.owner_user_id` for querying; this table answers "who owned this
+ * case on a given date", which `updated_at` cannot. Exactly one open row
+ * (`valid_to IS NULL`) per case is enforced by a partial unique index.
+ */
+export const caseAssignments = pgTable(
+  'crm_case_assignments',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    caseId: uuid('case_id')
+      .notNull()
+      .references(() => cases.id, { onDelete: 'cascade' }),
+    ownerUserId: uuid('owner_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    teamId: uuid('team_id').references(() => teams.id, {
+      onDelete: 'set null',
+    }),
+    validFrom: timestamp('valid_from', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    validTo: timestamp('valid_to', { withTimezone: true }),
+    assignedByUserId: uuid('assigned_by_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    reason: text('reason'),
+    source: changeSource('source').default('app').notNull(),
+  },
+  (table) => [
+    check(
+      'crm_case_assignments_interval_check',
+      sql`${table.validTo} IS NULL OR ${table.validTo} >= ${table.validFrom}`
+    ),
+    uniqueIndex('crm_case_assignments_open_uidx')
+      .on(table.caseId)
+      .where(sql`${table.validTo} IS NULL`),
+    index('crm_case_assignments_case_idx').on(table.caseId, table.validFrom),
+    index('crm_case_assignments_owner_idx').on(table.ownerUserId),
+  ]
+)
+
+/**
+ * Status and stage transitions. `effectiveAt` is when the change happened in
+ * the business sense (an imported row carries the source timestamp);
+ * `recordedAt` is when this database learned about it. Reporting uses
+ * `effectiveAt`; `source = 'import'` rows are excluded from duration metrics
+ * and counted as a coverage gap instead.
+ */
+export const caseWorkflowHistory = pgTable(
+  'crm_case_workflow_history',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    sequence: bigserial('sequence', { mode: 'number' }).notNull(),
+    caseId: uuid('case_id')
+      .notNull()
+      .references(() => cases.id, { onDelete: 'cascade' }),
+    fromStatus: caseStatus('from_status'),
+    toStatus: caseStatus('to_status').notNull(),
+    fromStage: text('from_stage'),
+    toStage: text('to_stage'),
+    effectiveAt: timestamp('effective_at', { withTimezone: true }).notNull(),
+    recordedAt: timestamp('recorded_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    actorUserId: uuid('actor_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    reason: text('reason'),
+    source: changeSource('source').default('app').notNull(),
+  },
+  (table) => [
+    index('crm_case_workflow_history_case_idx').on(
+      table.caseId,
+      table.effectiveAt
+    ),
+    index('crm_case_workflow_history_to_status_idx').on(
+      table.toStatus,
+      table.effectiveAt
+    ),
+  ]
+)
+
+/**
+ * Append-only mutation history. There is no update or delete path: corrections
+ * are new events. `changes` holds a redacted before/after projection — never
+ * note bodies, full contact details, or secrets.
+ */
+export const auditEvents = pgTable(
+  'crm_audit_events',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    occurredAt: timestamp('occurred_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    actorUserId: uuid('actor_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    action: text('action').notNull(),
+    entityType: text('entity_type').notNull(),
+    entityId: uuid('entity_id').notNull(),
+    requestId: text('request_id'),
+    summary: text('summary'),
+    changes: jsonb('changes'),
+  },
+  (table) => [
+    index('crm_audit_events_entity_idx').on(
+      table.entityType,
+      table.entityId,
+      table.occurredAt
+    ),
+    index('crm_audit_events_occurred_at_idx').on(table.occurredAt),
+    index('crm_audit_events_actor_idx').on(table.actorUserId),
+  ]
+)
+
+/**
+ * Source-system identifiers, one row per (source, entity). A record can carry
+ * several: the same person imported from the CiviCRM dump and matched again in
+ * the Notion bridge period keeps both IDs, which is what makes the second
+ * import idempotent rather than duplicating them.
+ */
+export const externalIdentities = pgTable(
+  'crm_external_identities',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    sourceSystem: text('source_system').notNull(),
+    entityType: text('entity_type').notNull(),
+    entityId: uuid('entity_id').notNull(),
+    sourceId: text('source_id').notNull(),
+    sourceUpdatedAt: timestamp('source_updated_at', { withTimezone: true }),
+    importRunId: uuid('import_run_id'),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    uniqueIndex('crm_external_identities_source_uidx').on(
+      table.sourceSystem,
+      table.entityType,
+      table.sourceId
+    ),
+    index('crm_external_identities_entity_idx').on(
+      table.entityType,
+      table.entityId
+    ),
+  ]
+)
+
 export const schema = {
   activities,
+  auditEvents,
+  caseAssignments,
   caseOrganisations,
   casePeople,
+  caseWorkflowHistory,
   cases,
   contactMethods,
+  externalIdentities,
   organisations,
   people,
   personOrganisationRelationships,
   tasks,
+  teams,
+  userTeams,
+  users,
 }

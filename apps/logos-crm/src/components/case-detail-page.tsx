@@ -33,10 +33,16 @@ export function CaseDetailPage({ id }: CaseDetailPageProps) {
     queryFn: () => apiClient<{ item: CaseRecord }>(`/api/v1/cases/${id}`),
   })
   const statusMutation = useMutation({
-    mutationFn: (status: CaseStatus) =>
+    mutationFn: ({
+      status,
+      expectedVersion,
+    }: {
+      status: CaseStatus
+      expectedVersion: number
+    }) =>
       apiClient<{ item: CaseRecord }>(`/api/v1/cases/${id}`, {
         method: 'PATCH',
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ status, expectedVersion }),
       }),
     onSuccess: async () => {
       setFeedback('Case status updated.')
@@ -46,7 +52,16 @@ export function CaseDetailPage({ id }: CaseDetailPageProps) {
         queryClient.invalidateQueries({ queryKey: ['dashboard'] }),
       ])
     },
-    onError: () => setFeedback('The case status could not be updated. Retry.'),
+    onError: async (error) => {
+      // A rejected version means somebody else moved this case. Reload rather
+      // than letting the operator retry into the same conflict.
+      if (error instanceof Error && error.message.includes('CONFLICT')) {
+        setFeedback('Somebody else updated this case. Reloading it.')
+        await queryClient.invalidateQueries({ queryKey: ['case', id] })
+        return
+      }
+      setFeedback('The case status could not be updated. Retry.')
+    },
   })
 
   useEffect(() => {
@@ -79,21 +94,26 @@ export function CaseDetailPage({ id }: CaseDetailPageProps) {
                   <span>{item.priority} priority</span>
                 </div>
                 <h1>{item.title}</h1>
-                <p>{item.organisation}</p>
+                <p>{item.organisationName ?? 'No organisation'}</p>
               </div>
             </header>
 
             <div className="record-page-grid">
               <section className="record-action-card">
                 <p className="utility-label">Next action</p>
-                <h2>{item.nextAction}</h2>
+                <h2>{item.nextAction ?? 'Not triaged yet'}</h2>
                 <time>Due {formatDate(item.nextActionAt)}</time>
                 <Button
                   className="cursor-pointer"
                   disabled={
                     item.status === 'closed' || statusMutation.isPending
                   }
-                  onClick={() => statusMutation.mutate(nextStatus[item.status])}
+                  onClick={() =>
+                    statusMutation.mutate({
+                      status: nextStatus[item.status],
+                      expectedVersion: item.version,
+                    })
+                  }
                 >
                   {item.status === 'closed'
                     ? 'Case closed'
@@ -106,7 +126,7 @@ export function CaseDetailPage({ id }: CaseDetailPageProps) {
                 <dl className="record-facts">
                   <div>
                     <dt>Owner</dt>
-                    <dd>{item.owner}</dd>
+                    <dd>{item.owner?.displayName ?? 'Unassigned'}</dd>
                   </div>
                   <div>
                     <dt>Stage</dt>

@@ -2,6 +2,7 @@ import { z } from 'zod/v4'
 
 import { updateTaskSchema } from '@/contracts/work'
 import { apiError, apiException } from '@/server/api-response'
+import { resolveActor } from '@/server/auth'
 import { updateTask } from '@/server/work-repository'
 
 interface RouteContext {
@@ -15,8 +16,9 @@ export async function PATCH(
   try {
     const { id } = await context.params
     z.string().uuid().parse(id)
+    const actor = await resolveActor(request)
     const input = updateTaskSchema.parse(await request.json())
-    const item = await updateTask(id, input)
+    const item = await updateTask(actor, id, input)
 
     return item
       ? Response.json({ item })

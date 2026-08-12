@@ -1,5 +1,6 @@
 import { createTaskSchema, workListQuerySchema } from '@/contracts/work'
 import { apiException } from '@/server/api-response'
+import { resolveActor } from '@/server/auth'
 import { createTask, listTasks } from '@/server/work-repository'
 
 export async function GET(request: Request): Promise<Response> {
@@ -18,8 +19,9 @@ export async function GET(request: Request): Promise<Response> {
 
 export async function POST(request: Request): Promise<Response> {
   try {
+    const actor = await resolveActor(request)
     const input = createTaskSchema.parse(await request.json())
-    const item = await createTask(input)
+    const item = await createTask(actor, input)
     return Response.json({ item }, { status: 201 })
   } catch (error) {
     return apiException(error)

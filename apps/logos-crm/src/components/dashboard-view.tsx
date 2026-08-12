@@ -41,7 +41,11 @@ function formatDueDate(value: string): string {
   }).format(new Date(value))
 }
 
-function getDueState(value: string): { label: string; tone: string } {
+function getDueState(value: string | null): { label: string; tone: string } {
+  // An untriaged case has no due date, and pretending it has one would hide the
+  // only thing that actually needs doing: triaging it.
+  if (!value) return { label: 'Needs triage', tone: 'overdue' }
+
   const dueDate = value.slice(0, 10)
   const today = new Date().toISOString().slice(0, 10)
 
@@ -78,6 +82,14 @@ export function DashboardView({
       const priorityDifference =
         priorityWeight[left.priority] - priorityWeight[right.priority]
       if (priorityDifference !== 0) return priorityDifference
+      // Untriaged cases sort ahead of dated ones at the same priority: they are
+      // the work that has not been looked at yet.
+      if (!left.nextActionAt || !right.nextActionAt) {
+        return (
+          Number(Boolean(left.nextActionAt)) -
+          Number(Boolean(right.nextActionAt))
+        )
+      }
       return (
         new Date(left.nextActionAt).getTime() -
         new Date(right.nextActionAt).getTime()
@@ -174,17 +186,21 @@ export function DashboardView({
                     >
                       <div className="dashboard-case-identity">
                         <strong>{item.title}</strong>
-                        <span>{item.organisation}</span>
+                        <span>
+                          {item.organisationName ?? 'No organisation'}
+                        </span>
                       </div>
                       <div className="dashboard-next-action">
                         <span>Next action</span>
-                        <strong>{item.nextAction}</strong>
+                        <strong>{item.nextAction ?? 'Not set'}</strong>
                       </div>
                       <div className="dashboard-case-meta">
                         <StatusBadge value={item.status} />
                         <time
                           className={`due-${dueState.tone}`}
-                          dateTime={item.nextActionAt}
+                          {...(item.nextActionAt
+                            ? { dateTime: item.nextActionAt }
+                            : {})}
                         >
                           {dueState.label}
                         </time>

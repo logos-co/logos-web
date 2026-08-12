@@ -1,5 +1,8 @@
 import { ZodError } from 'zod/v4'
 
+import { AuthError } from '@/server/auth'
+import { ServiceError } from '@/server/service-errors'
+
 interface ApiErrorBody {
   error: {
     code: string
@@ -33,6 +36,15 @@ export function apiError(
 }
 
 export function apiException(error: unknown): Response {
+  if (error instanceof ServiceError) {
+    return apiError(error.code, error.message, error.status, error.fields)
+  }
+
+  if (error instanceof AuthError) {
+    const status = error.code === 'UNAUTHENTICATED' ? 401 : 403
+    return apiError(error.code, error.message, status)
+  }
+
   if (error instanceof ZodError) {
     const fields = Object.fromEntries(
       error.issues.map((issue) => [issue.path.join('.'), issue.message])
