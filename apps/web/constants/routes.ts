@@ -38,7 +38,7 @@ export const ROUTES = {
   /** Dynamic route — `/circles/[slug]`. */
   circle: (slug: string) => `/circles/${slug}`,
 
-  // Connect forms (CiviCRM intake)
+  // Connect forms (funnel intake)
   contact: '/contact',
   activistBuilder: '/activist-builder',
   activistLeaderSteward: '/activist-leader-steward',

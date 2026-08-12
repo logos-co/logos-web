@@ -43,8 +43,8 @@ export type Env = {
    */
   NEXT_PUBLIC_ADMIN_ACID_API_URL: string | undefined
   /**
-   * Public CiviCRM API origin (e.g. `https://civi.logos.co` or `http://localhost:3002`).
-   * Used by connect/intake forms to submit data.
+   * Public origin of the intake app `apps/civi-crm` (e.g. `https://civi.logos.co`
+   * or `http://localhost:3002`), which hosts the endpoint the funnel forms post to.
    */
   NEXT_PUBLIC_CIVI_CRM_URL: string | undefined
   /**

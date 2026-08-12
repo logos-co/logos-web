@@ -1,4 +1,4 @@
-import type { AfformField, AfformOptions } from '@/lib/civicrm/types'
+import type { AfformField, AfformOptions } from '@/lib/funnel-forms/types'
 
 export interface FieldOption {
   value: string
@@ -10,18 +10,12 @@ export function getOptionsForField(
   afformOptions: AfformOptions
 ): FieldOption[] {
   if (field.options && field.options.length > 0) {
-    return field.options.map((o) => ({
-      value: String(o.id ?? o.value ?? ''),
-      label: o.label ?? String(o.id ?? o.value ?? ''),
-    }))
+    return field.options.map((o) => ({ value: o.value, label: o.label }))
   }
 
   const fromAfform = afformOptions[field.formKey]
-  if (fromAfform && Array.isArray(fromAfform) && fromAfform.length > 0) {
-    return fromAfform.map((o) => ({
-      value: String(o.value),
-      label: o.label ?? o.name ?? String(o.value),
-    }))
+  if (fromAfform && fromAfform.length > 0) {
+    return fromAfform.map((o) => ({ value: o.value, label: o.label }))
   }
 
   return []

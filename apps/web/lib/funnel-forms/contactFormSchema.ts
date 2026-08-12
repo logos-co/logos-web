@@ -13,23 +13,10 @@ export const MAX_TEXT_LENGTH = 2000
 
 const stringOrArray = z.union([z.string(), z.array(z.string())])
 
-const MULTI_RECORD_JOINS = new Set(['Website', 'IM'])
-
 function normalizeStringArray(value: unknown): string[] {
   if (Array.isArray(value)) return value.map((item) => String(item))
   if (value == null || value === '') return ['']
   return [String(value)]
-}
-
-function isMultiSelect(field: AfformField) {
-  return field.inputType === 'select' && !field.join
-}
-
-function isRepeatable(field: AfformField) {
-  return (
-    field.repeatable ||
-    (field.join != null && MULTI_RECORD_JOINS.has(field.join))
-  )
 }
 
 function buildFieldSchema(
@@ -40,7 +27,6 @@ function buildFieldSchema(
   const isReq = requiredFields.has(formKey)
 
   if (inputType === 'checkbox') return z.boolean().optional().default(true)
-  if (inputType === 'hidden') return z.any().optional()
 
   if (inputType === 'email') {
     if (isReq) return z.string().trim().email('A valid email is required')
@@ -54,7 +40,16 @@ function buildFieldSchema(
       .default('')
   }
 
-  if (isMultiSelect(field)) {
+  // Repeatable rows keep their blanks: `chat` and `chatService` pair up by index.
+  if (field.repeatable) {
+    return stringOrArray
+      .transform((v) =>
+        (Array.isArray(v) ? v : v ? [v] : []).map((s) => String(s).trim())
+      )
+      .pipe(z.array(z.string()).optional().default([]))
+  }
+
+  if (inputType === 'select') {
     const msg = `${field.label || formKey} is required`
     if (isReq) {
       return stringOrArray
@@ -65,18 +60,6 @@ function buildFieldSchema(
         )
         .pipe(z.array(z.string()).min(1, msg))
     }
-    return stringOrArray.optional().default([])
-  }
-
-  if (isRepeatable(field)) {
-    return stringOrArray
-      .transform((v) =>
-        (Array.isArray(v) ? v : v ? [v] : []).map((s) => String(s).trim())
-      )
-      .pipe(z.array(z.string()).optional().default([]))
-  }
-
-  if (inputType === 'select' && field.join) {
     return stringOrArray.optional().default([])
   }
 

@@ -18,13 +18,13 @@ import { Button } from '@/components/ui/button'
 import {
   buildFormSchema,
   MAX_TEXT_LENGTH,
-} from '@/lib/civicrm/contactFormSchema'
-import { HEAR_ABOUT_FORM_KEY } from '@/lib/civicrm/hear-about-field'
+} from '@/lib/funnel-forms/contactFormSchema'
+import { HEAR_ABOUT_FORM_KEY } from '@/lib/funnel-forms/hear-about-field'
 import type {
   AfformConfig,
   AfformField,
   AfformOptions,
-} from '@/lib/civicrm/types'
+} from '@/lib/funnel-forms/types'
 import { cn } from '@/lib/cn'
 import {
   submitFunnelNewsletterSignups,
@@ -65,7 +65,7 @@ function capitalizeLabel(label: string) {
 function buildInitialData(fields: AfformField[]): FormValues {
   const data: FormValues = { socials: '' }
   for (const field of fields) {
-    if (field.formKey === 'role' || field.formKey === 'skills') {
+    if (field.formKey === 'skills') {
       data[field.formKey] = []
     } else if (field.formKey === 'chat' || field.formKey === 'chatService') {
       data[field.formKey] = ['']
@@ -90,10 +90,7 @@ export function ConnectFormSection({
   const t = useTranslations('connectForm')
 
   const formFieldsWithKeys = useMemo(
-    () =>
-      (afform.fields ?? []).filter(
-        (f) => f.formKey && f.inputType && f.inputType !== 'hidden'
-      ),
+    () => (afform.fields ?? []).filter((f) => f.formKey && f.inputType),
     [afform.fields]
   )
 
@@ -318,9 +315,6 @@ export function ConnectFormSection({
         body: JSON.stringify({
           ...formData,
           captchaToken,
-          // Fields without a CiviCRM fieldName are web/Notion-only (e.g.
-          // hearAbout) and must stay out of the Afform submission.
-          fields: (afform.fields ?? []).filter((f) => f.fieldName),
           ...extraPayload,
         }),
       })
@@ -421,7 +415,7 @@ export function ConnectFormSection({
           const placeholder =
             field.inputType === 'select' ? t('selectPlaceholder') : ''
 
-          if (field.formKey === 'role' || field.formKey === 'skills') {
+          if (field.formKey === 'skills') {
             const options = getOptionsForField(field, afformOptions)
             const selected = Array.isArray(value)
               ? value.map(String)

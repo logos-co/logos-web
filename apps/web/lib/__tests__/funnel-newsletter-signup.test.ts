@@ -36,7 +36,7 @@ describe('resolveOptionLabel', () => {
     { value: '1082', label: 'Germany' },
   ]
 
-  test('maps a CiviCRM option id to its label', () => {
+  test('maps an option id to its label', () => {
     expect(resolveOptionLabel('1082', options)).toBe('Germany')
   })
 
@@ -275,7 +275,7 @@ describe('submitFunnelNewsletterSignups', () => {
 
     await submitFunnelNewsletterSignups({
       email: 'activist@example.com',
-      formName: 'afformCircleContactForm',
+      formName: 'afformUnknownForm',
       wantsNewsletter: true,
       wantsEvents: true,
     })

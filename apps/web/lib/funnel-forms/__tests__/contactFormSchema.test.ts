@@ -4,41 +4,59 @@ import { buildFormSchema, MAX_TEXT_LENGTH } from '../contactFormSchema'
 import type { AfformField } from '../types'
 
 const TEXT_FIELD: AfformField = {
-  entity: 'Individual1',
-  join: null,
-  fieldName: 'background',
-  label: 'Background',
-  required: false,
-  options: null,
-  inputAttrs: [],
   formKey: 'background',
+  label: 'Background',
   inputType: 'textarea',
+  required: false,
 }
 
 const CHAT_FIELDS: AfformField[] = [
   {
-    entity: 'Individual1',
-    join: 'IM',
-    fieldName: 'name',
-    label: 'Chat Name',
-    required: false,
-    options: null,
-    inputAttrs: [],
     formKey: 'chat',
+    label: 'Chat Name',
     inputType: 'text',
+    required: false,
+    repeatable: true,
   },
   {
-    entity: 'Individual1',
-    join: 'IM',
-    fieldName: 'provider_id',
-    label: 'Chat Service',
-    required: false,
-    options: null,
-    inputAttrs: [],
     formKey: 'chatService',
+    label: 'Chat Service',
     inputType: 'select',
+    required: false,
+    repeatable: true,
   },
 ]
+
+const COUNTRY_FIELD: AfformField = {
+  formKey: 'country',
+  label: 'Country',
+  inputType: 'select',
+  required: true,
+}
+
+describe('buildFormSchema select validation', () => {
+  it('rejects an empty required select', () => {
+    const { schema, requiredFields } = buildFormSchema([COUNTRY_FIELD], [])
+
+    expect(requiredFields.has('country')).toBe(true)
+
+    const result = schema.safeParse({ country: '', socials: '' })
+
+    expect(result.success).toBe(false)
+    if (result.success) return
+    expect(result.error.issues.some((issue) => issue.path[0] === 'country')).toBe(
+      true
+    )
+  })
+
+  it('accepts a selected option', () => {
+    const { schema } = buildFormSchema([COUNTRY_FIELD], [])
+
+    const result = schema.safeParse({ country: '1003', socials: '' })
+
+    expect(result.success).toBe(true)
+  })
+})
 
 describe('buildFormSchema chat validation', () => {
   it('requires chat service when a chat name is entered', () => {
