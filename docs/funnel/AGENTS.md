@@ -4,9 +4,9 @@ Target audience: AI agents reading this codebase.
 
 ## What this is
 
-Three public funnel forms (Coalition Partner, Activist Builder, Activist Leader / Steward) post to a single API endpoint on `apps/civi-crm`. They write to Notion (required) and CiviCRM (backup, best-effort).
+Three public funnel forms (Coalition Partner, Activist Builder, Activist Leader / Steward) post to a single API endpoint on `apps/civi-crm`. They write to Notion, plus the n8n/Baserow webhook for the steward form.
 
-**`/connect` is now `/contact`, and its form content was removed because it is no longer used.** The route at `apps/web/app/[locale]/contact/page.tsx` now redirects to the home page. The `afformCircleContactForm` `formName` is still accepted by the endpoint (CiviCRM-only path, see below), but nothing in `apps/web` posts it anymore.
+**`/connect` is now `/contact`, and its form content was removed because it is no longer used.** The route at `apps/web/app/[locale]/contact/page.tsx` now redirects to the home page. Its `afformCircleContactForm` `formName` is no longer accepted by the endpoint: it only ever wrote to CiviCRM, which is gone (logos-web#123).
 
 ---
 
@@ -15,18 +15,18 @@ Three public funnel forms (Coalition Partner, Activist Builder, Activist Leader 
 ```
 apps/web (static)
   └── connect-form-section.tsx
-        │  POST { formName, captchaToken, fields[], ...formFields }
+        │  POST { formName, captchaToken, ...formFields }
         ▼
 apps/civi-crm
   POST /api/public/afform-submit
-  ├── 1. validate body, formName (must be one of four allowed values), fields[]
-  ├── 2. verify hCaptcha (once, single-use token -- cannot verify twice)
-  ├── 3. read env flags (FUNNEL_INTAKE_NOTION_DISABLED / FUNNEL_INTAKE_CIVICRM_DISABLED)
-  ├── 4. submitToNotion(formData, formName)   -- only for Coalition/Builder/Leader; required there (failure → 502)
-  └── 5. submitToCiviCrm(formData, fields, formName)  -- required for `afformCircleContactForm` (legacy /connect, now /contact); best-effort when Notion is enabled
+  ├── 1. validate body and formName (must be one of the three allowed values)
+  ├── 2. require a known `hearAbout` option id
+  ├── 3. verify hCaptcha (once, single-use token -- cannot verify twice)
+  ├── 4. submitToN8n(formData, formName)     -- steward form only; best-effort (logged on failure)
+  └── 5. submitToNotion(formData, formName)  -- unless FUNNEL_INTAKE_NOTION_DISABLED; failure → 502
 ```
 
-The reason both writes are in one handler: hCaptcha tokens are single-use. One POST, one token, two backend writes in sequence.
+The reason the writes share one handler: hCaptcha tokens are single-use. One POST, one token, the backend writes in sequence.
 
 After that POST resolves successfully, `apps/web` fires the newsletter opt-ins on its own (see below). They are not part of the `afform-submit` request.
 
@@ -53,11 +53,11 @@ Country: <country>
 Profile: <profile>
 ```
 
-`<profile>` is the same string the Notion `Profile` select gets -- `PROFILE_BY_FORM_NAME` in `@repo/funnel`, re-exported as `PROFILE_BY_FORM` by `apps/civi-crm/src/lib/notion/maps.ts`. `country` arrives as a CiviCRM numeric option id and is resolved to its label against the form's own options before it reaches the note; an unresolvable id is dropped.
+`<profile>` is the same string the Notion `Profile` select gets -- `PROFILE_BY_FORM_NAME` in `@repo/funnel`, read through `getProfileForForm` on both sides. `country` arrives as a numeric option id and is resolved to its label against the form's own options before it reaches the note; an unresolvable id is dropped.
 
-Alongside the note, each subscription forwards the submitted answers: the form values plus `formName`, flattened into the request body as top-level fields. The captcha token and the Afform field definitions stay out -- they are intake plumbing. The upstream hands the answers to its auto-reply filters; nothing here allowlists individual fields, so a new form field needs no change in `apps/web`.
+Alongside the note, each subscription forwards the submitted answers: the form values plus `formName`, flattened into the request body as top-level fields. The captcha token stays out -- it is intake plumbing. The upstream hands the answers to its auto-reply filters; nothing here allowlists individual fields, so a new form field needs no change in `apps/web`.
 
-Every select value is sent as its **label**, not the CiviCRM option id (`toLabelledFormFields`): the subscribe endpoint has no access to the option lists, so `country: "1003"` would be unreadable where `country: "Algeria"` is not. Ids that resolve to nothing are dropped. Text fields and checkboxes pass through untouched, and the resolved keys (`email`, `type`, `newsletter`, `note`) are written last so a same-named form field can never overwrite them.
+Every select value is sent as its **label**, not the option id (`toLabelledFormFields`): the subscribe endpoint has no access to the option lists, so `country: "1003"` would be unreadable where `country: "Algeria"` is not. Ids that resolve to nothing are dropped. Text fields and checkboxes pass through untouched, and the resolved keys (`email`, `type`, `newsletter`, `note`) are written last so a same-named form field can never overwrite them.
 
 | Path | Role |
 | --- | --- |
@@ -76,20 +76,22 @@ Three constraints shape it:
 
 | Path | Role |
 | --- | --- |
-| `apps/civi-crm/src/app/api/public/afform-submit/route.ts` | Orchestrator: validation, captcha, calls both libs |
-| `apps/civi-crm/src/lib/intake-submit-flags.ts` | Reads `FUNNEL_INTAKE_*_DISABLED` env flags |
-| `apps/civi-crm/src/lib/notion/maps.ts` | `SKILLS_MAP`, `CHAT_SERVICE_MAP`, `COUNTRY_MAP`, `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT`; re-exports `HEAR_ABOUT_MAP` / `HEAR_ABOUT_QUESTION` and `PROFILE_BY_FORM` (= `PROFILE_BY_FORM_NAME`) from `@repo/funnel` |
+| `apps/civi-crm/src/app/api/public/afform-submit/route.ts` | Orchestrator: validation, captcha, calls the destination libs |
+| `apps/civi-crm/src/lib/intake-submit-flags.ts` | Reads the `FUNNEL_INTAKE_NOTION_DISABLED` env flag |
+| `apps/civi-crm/src/lib/notion/maps.ts` | `SKILLS_MAP`, `CHAT_SERVICE_MAP`, `COUNTRY_MAP`, `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT`; re-exports `HEAR_ABOUT_MAP` / `HEAR_ABOUT_QUESTION` from `@repo/funnel` |
 | `packages/funnel/src/index.ts` | `@repo/funnel` -- single source of truth for the "How did you first hear about Logos?" question, options, and id → label map, and for `PROFILE_BY_FORM_NAME` / `getProfileForForm` |
 | `apps/web/lib/funnel-newsletter-signup.ts` | Post-submit Ghost newsletter opt-ins (`wantsNewsletter` / `wantsEvents`) |
-| `apps/web/lib/civicrm/hear-about-field.ts` | Web-only "How did you first hear about Logos?" field def + `withHearAboutField` injector used by the three form pages |
+| `apps/web/lib/funnel-forms/afform-*.ts` | Hand-maintained form definitions (fields + option lists) per funnel form |
+| `apps/web/lib/funnel-forms/types.ts` | `AfformField` / `AfformConfig` / `AfformOptions` shapes those files satisfy |
+| `apps/web/lib/funnel-forms/contactFormSchema.ts` | Builds the zod schema and the required-field set from the form definition |
+| `apps/web/lib/funnel-forms/hear-about-field.ts` | "How did you first hear about Logos?" field def + `withHearAboutField` injector used by the three form pages |
 | `apps/civi-crm/src/lib/notion/build-notion-properties.ts` | `buildNotionProperties` |
 | `apps/civi-crm/src/lib/notion/submit.ts` | `submitToNotion` -- resolves the data source, builds properties, POSTs page |
-| `apps/civi-crm/src/lib/civicrm/submit-afform.ts` | `submitToCiviCrm` -- builds Afform values, POSTs to CiviCRM API |
-| `apps/civi-crm/src/lib/civicrm/build-afform-values.ts` | `buildAfformValues` (shared) |
-| `apps/civi-crm/src/lib/civicrm/afform-case-defaults.ts` | `AfformIntakeFormName` type + case defaults |
+| `apps/civi-crm/src/lib/n8n/build-payload.ts` | `buildN8nPayload` -- merges id-based answers with their labels |
+| `apps/civi-crm/src/lib/n8n/submit.ts` | `submitToN8n` -- steward webhook POST |
 | `apps/civi-crm/src/lib/notion/__tests__/build-notion-properties.test.ts` | Property mapping unit tests |
 
-The Notion and CiviCRM libs have **no cross-imports**. Removing one means deleting its folder and one call site in the orchestrator.
+The Notion and n8n libs are independent apart from the shared id → label maps. Removing one means deleting its folder and one call site in the orchestrator.
 
 ---
 
@@ -97,7 +99,6 @@ The Notion and CiviCRM libs have **no cross-imports**. Removing one means deleti
 
 | Web page | `formName` in POST body | Notion `Profile` value |
 | --- | --- | --- |
-| `/contact` (was `/connect`) | `afformCircleContactForm` | _(none -- form content removed; route redirects to home, no longer submitted)_ |
 | `/coalition-partner` | `afformCoalitionPartner` | `Coalition Partner` |
 | `/activist-builder` | `afformActivistBuilder` | `Activist Builder` |
 | `/activist-leader-steward` | `afformActivistLeaderSteward` | `Activist Leader / Steward` |
@@ -113,22 +114,20 @@ The Notion and CiviCRM libs have **no cross-imports**. Removing one means deleti
 | `NOTION_API_TOKEN` | Notion integration secret |
 | `NOTION_DB_ID` | ID of the Notion database |
 
-### Required for live submissions (unchanged from pre-funnel)
+### Required for live submissions
 
 | Variable | Purpose |
 | --- | --- |
 | `HCAPTCHA_SECRET` | Verify captcha tokens from `apps/web` |
-| `CIVICRM_BASE_URL` | CiviCRM instance base URL |
-| `CIVICRM_API_KEY` | CiviCRM API key |
+| `N8N_STEWARD_WEBHOOK_TOKEN` | `X-Webhook-Token` for the steward webhook; unset = steward forward skipped |
 
 ### Optional opt-outs
 
 | Variable | Effect when truthy (`1`, `true`, `yes`, `on`) |
 | --- | --- |
-| `FUNNEL_INTAKE_NOTION_DISABLED` | Skip Notion; CiviCRM becomes required |
-| `FUNNEL_INTAKE_CIVICRM_DISABLED` | Skip CiviCRM; Notion only |
+| `FUNNEL_INTAKE_NOTION_DISABLED` | Skip the Notion write; the endpoint still returns `201` |
 
-Default (no flags set): the `afformCircleContactForm` formName is CiviCRM-only (Notion skipped) -- a legacy path kept for the now-removed `/connect` (now `/contact`) form. The three active forms keep Notion required and CiviCRM best-effort.
+Default (no flag set): all three forms write to Notion, and a Notion failure fails the submission with `502`.
 
 ---
 
@@ -152,7 +151,7 @@ The table below lists every property in the database as of 2026-05-29. The **Fun
 | --- | --- | --- | --- |
 | `Name` | title | **yes -- reused** | From form `name`; fallback `"Unknown"` |
 | `Email/Website` | email | **yes -- reused** | From `email`; omitted if empty |
-| `Profile` | select | **yes -- reused** | Derived from `formName` via `PROFILE_BY_FORM`; options: `Coalition Partner`, `Activist Builder`, `Activist Leader / Steward` (the legacy `afformCircleContactForm` has no Notion profile because Notion is skipped) |
+| `Profile` | select | **yes -- reused** | Derived from `formName` via `getProfileForForm`; options: `Coalition Partner`, `Activist Builder`, `Activist Leader / Steward` |
 | `Mvmt Organization` | text | **yes -- added** | From `affiliatedOrgs`; written as-is (rich text, clamped to 2000 chars); omitted if empty |
 | `Website` | url | **yes -- reused** | First entry of `website[]` |
 | `Website 2` | url | **yes -- added** | Second entry of `website[]`; omitted if absent |
@@ -164,8 +163,8 @@ The table below lists every property in the database as of 2026-05-29. The **Fun
 | `BU` | multi_select | **yes -- reused** | Always written as `Movement`; other options: `IR`, `Comms`, `Ecodev` |
 | `Added` | created_time | **yes -- auto** | Read-only; set by Notion on row creation; not written by intake |
 | `City` | rich_text | **yes -- added** | From `city`; omitted if empty |
-| `Country` | rich_text | **yes -- added** | From `country` (CiviCRM numeric ID mapped to full name via `COUNTRY_MAP`) |
-| `Skills` | multi_select | **yes -- added** | From `skills[]` (CiviCRM numeric IDs mapped to labels via `SKILLS_MAP`); 16 options (see below) |
+| `Country` | rich_text | **yes -- added** | From `country` (numeric option id mapped to full name via `COUNTRY_MAP`) |
+| `Skills` | multi_select | **yes -- added** | From `skills[]` (numeric option ids mapped to labels via `SKILLS_MAP`); 16 options (see below) |
 | `Background` | rich_text | **yes -- added** | First non-empty of `backgroundPartner`, `backgroundBuilder`, `backgroundLeader` |
 | `Tech Vision` | rich_text | **yes -- added** | From `techVision`; Activist Builder only; omitted if empty |
 | `Activities Vision` | rich_text | **yes -- added** | From `activitiesVision`; Activist Leader / Steward only; omitted if empty |
@@ -227,13 +226,13 @@ ADD COLUMN "How did you first hear about Logos?" SELECT('Friend or colleague','S
 
 ## Key design decisions
 
-- **One endpoint for all forms** -- hCaptcha tokens are single-use; `/coalition-partner`, `/activist-builder`, and `/activist-leader-steward` all point at `POST /api/public/afform-submit`. The endpoint still accepts the legacy `afformCircleContactForm` formName even though `/connect` (now `/contact`) no longer renders a form.
-- **Per-form destination rules** -- the `afformCircleContactForm` path skips Notion and requires CiviCRM (`502` on CiviCRM failure). The three active forms keep Notion required and CiviCRM best-effort.
+- **One endpoint for all forms** -- hCaptcha tokens are single-use; `/coalition-partner`, `/activist-builder`, and `/activist-leader-steward` all point at `POST /api/public/afform-submit`.
+- **Per-form destination rules** -- all three forms write to Notion (`502` on failure). Only the steward form is additionally forwarded to the n8n/Baserow webhook, and that forward is best-effort: a failure is logged and the submission still returns `201`.
 - **One `Background` column** -- All `background*` textarea variants collapse into a single rich-text property.
 - **One column per website** -- `website[]` is spread across discrete url columns: entry 1 -> `Website`, entries 2-5 -> `Website 2`..`Website 5`. Blank rows are dropped first, so the columns fill contiguously. The funnel form caps the website field at 5 rows (`MAX_WEBSITE_ROWS` in `connect-form-section.tsx`), so the array never overflows the available columns. (Previously all entries were pipe-joined into the single `Website` url field.)
 - **Joined multi-values** -- `chat[]` -> `handle (Service)` entries in `Phone or Social Handle`.
 - **`Mvmt Organization` is free text** -- `affiliatedOrgs` is written verbatim to the `Mvmt Organization` rich-text column (clamped to 2000 chars), keeping the curated `Organization` select free of intake noise. (Intake no longer writes to `Organization`.)
-- **`hearAbout` is web/Notion-only** -- "How did you first hear about Logos?" has no CiviCRM custom field. Its Afform def (`apps/web/lib/civicrm/hear-about-field.ts`) carries an empty `fieldName`; `connect-form-section.tsx` filters such defs out of the `fields[]` POST payload and `buildAfformValues` skips them, so the CiviCRM submission is unchanged. `withHearAboutField` splices the field after `chatService` at page level and no-ops if a future regenerated Afform ever defines `hearAbout` itself. The question, option list, and id → label map live once in `@repo/funnel` (`packages/funnel`); the question string doubles as the Notion property name, so rewording it means renaming the property in Notion first.
+- **`hearAbout` is spliced in at page level** -- its def lives in `apps/web/lib/funnel-forms/hear-about-field.ts` rather than in the per-form definitions, and `withHearAboutField` inserts it after `chatService` (a no-op if a form ever defines the field itself). The endpoint rejects a submission whose `hearAbout` is missing or is not a known option id, so the check cannot be skipped client-side. The question, option list, and id → label map live once in `@repo/funnel` (`packages/funnel`); the question string doubles as the Notion property name, so rewording it means renaming the property in Notion first.
 - **Newsletter opt-ins are fire-and-forget from the client** -- they run after the intake POST resolves, never block it, and never fail it. See the section above.
 - **Env var name** -- `NOTION_DB_ID`.
 
@@ -247,6 +246,7 @@ pnpm --filter web test
 ```
 
 Notion property mapping: `apps/civi-crm/src/lib/notion/__tests__/build-notion-properties.test.ts`
-CiviCRM value building: `apps/civi-crm/src/lib/civicrm/__tests__/build-afform-values.test.ts`
+n8n payload building: `apps/civi-crm/src/lib/n8n/__tests__/build-payload.test.ts`
+Endpoint behaviour: `apps/civi-crm/src/app/api/public/afform-submit/__tests__/route.test.ts`
 Newsletter opt-ins: `apps/web/lib/__tests__/funnel-newsletter-signup.test.ts`
 Subscribe payload: `apps/web/lib/__tests__/newsletter-signup.test.ts`
