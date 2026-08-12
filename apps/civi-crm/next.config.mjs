@@ -6,7 +6,6 @@ const workspaceRoot = fileURLToPath(new URL('../..', import.meta.url))
 const nextConfig = {
   reactStrictMode: true,
   cacheComponents: true,
-  transpilePackages: ['@acid-info/logos-ui'],
   turbopack: { root: workspaceRoot },
   async headers() {
     return [
