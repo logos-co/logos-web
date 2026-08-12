@@ -1,7 +1,4 @@
-import {
-  isAfformIntakeFormName,
-  type AfformIntakeFormName,
-} from '@/lib/civicrm/afform-case-defaults'
+import { getProfileForForm } from '@repo/funnel'
 
 import { NOTION_TEXT_MAX_LENGTH } from './constants'
 import {
@@ -11,7 +8,6 @@ import {
   HEAR_ABOUT_MAP,
   HEAR_ABOUT_QUESTION,
   MVMT_STATUS_NEW_LEAD,
-  PROFILE_BY_FORM,
   SKILLS_MAP,
 } from './maps'
 
@@ -58,11 +54,6 @@ function getBackground(data: Record<string, unknown>): string {
     trim(data.backgroundLeader) ||
     ''
   )
-}
-
-function getProfileName(formName: string): string | undefined {
-  if (!isAfformIntakeFormName(formName)) return undefined
-  return PROFILE_BY_FORM[formName as AfformIntakeFormName]
 }
 
 // Resolves the submitted "How did you first hear about Logos?" answer to its
@@ -117,7 +108,7 @@ export function buildNotionProperties(
 
   const hearAbout = resolveHearAboutLabel(data)
 
-  const profileName = getProfileName(formName)
+  const profileName = getProfileForForm(formName)
 
   const properties: NotionPageProperties = {
     Name: { title: [{ type: 'text', text: { content: clampText(name) } }] },

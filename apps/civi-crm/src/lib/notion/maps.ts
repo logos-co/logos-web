@@ -1,7 +1,3 @@
-import { PROFILE_BY_FORM_NAME } from '@repo/funnel'
-
-import type { AfformIntakeFormName } from '@/lib/civicrm/afform-case-defaults'
-
 export const SKILLS_MAP: Record<string, string> = {
   '1': 'Developer',
   '2': 'Web3 builder',
@@ -37,11 +33,6 @@ export const CHAT_SERVICE_MAP: Record<string, string> = {
 // Shared with apps/web via @repo/funnel; the labels double as the select
 // options of the Notion property of the same name.
 export { HEAR_ABOUT_MAP, HEAR_ABOUT_QUESTION } from '@repo/funnel'
-
-// Shared with apps/web via @repo/funnel; the labels double as the options of
-// the Notion `Profile` select.
-export const PROFILE_BY_FORM: Partial<Record<AfformIntakeFormName, string>> =
-  PROFILE_BY_FORM_NAME
 
 export const MVMT_STATUS_NEW_LEAD = 'New Lead'
 

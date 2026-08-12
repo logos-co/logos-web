@@ -1,11 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server'
 
-import { type AfformFieldDef } from '@/lib/civicrm/build-afform-values'
-import { submitToCiviCrm } from '@/lib/civicrm/submit-afform'
-import {
-  isCiviCrmIntakeSubmitEnabled,
-  isNotionIntakeSubmitEnabled,
-} from '@/lib/intake-submit-flags'
+import { isNotionIntakeSubmitEnabled } from '@/lib/intake-submit-flags'
 import { submitToN8n } from '@/lib/n8n/submit'
 import { resolveHearAboutLabel } from '@/lib/notion/build-notion-properties'
 import { submitToNotion } from '@/lib/notion/submit'
@@ -15,27 +10,9 @@ const HCAPTCHA_SECRET = process.env.HCAPTCHA_SECRET ?? ''
 // Only the steward application funnels to the Circles n8n/Baserow CRM webhook.
 const N8N_STEWARD_FORM = 'afformActivistLeaderSteward'
 
+// The three funnel forms on apps/web. Each one writes to Notion and renders the
+// required "How did you first hear about Logos?" select.
 const ALLOWED_FORMS = new Set([
-  'afformActivistBuilder',
-  'afformActivistLeaderSteward',
-  'afformCircleContactForm',
-  'afformCoalitionPartner',
-])
-
-const NOTION_FORMS = new Set([
-  'afformActivistBuilder',
-  'afformActivistLeaderSteward',
-  'afformCoalitionPartner',
-])
-
-// The three funnel forms render the required "How did you first hear about
-// Logos?" select (apps/web `withHearAboutField`). It is a web/Notion-only field
-// with no CiviCRM fieldName, so it never appears in `fields[]` and can't be
-// derived from the request -- the required forms must be hardcoded. Kept
-// separate from NOTION_FORMS so "requires the field" stays decoupled from
-// "sends to Notion", and enforced regardless of the Notion enable flag so the
-// requirement can't silently lapse when Notion submission is toggled off.
-const HEAR_ABOUT_FORMS = new Set([
   'afformActivistBuilder',
   'afformActivistLeaderSteward',
   'afformCoalitionPartner',
@@ -81,15 +58,18 @@ export async function POST(req: NextRequest) {
     return jsonResponse({ error: 'Invalid request body' }, 400)
   }
 
+  // `fields` carried the CiviCRM Afform field definitions. Nothing reads them
+  // anymore, but it is dropped explicitly so a client that still sends the key
+  // does not leak it into the Notion / n8n payloads.
   const {
     formName,
     captchaToken,
-    fields: fieldDefs,
+    fields: _fields,
     ...formData
   } = body as {
     formName?: string
     captchaToken?: string
-    fields?: AfformFieldDef[]
+    fields?: unknown
     [key: string]: unknown
   }
 
@@ -97,16 +77,14 @@ export async function POST(req: NextRequest) {
     return jsonResponse({ error: 'Invalid form name' }, 400)
   }
 
-  if (!fieldDefs || !Array.isArray(fieldDefs)) {
-    return jsonResponse({ error: 'Missing field definitions' }, 400)
-  }
-
   // The "hear about" select is required on the funnel forms. Enforce it here
   // rather than trusting the client: reject unless the submitted value resolves
   // to a known option id (the same predicate the Notion builder uses to write
   // it), so a scripted or tampered submission cannot skip the field or slip an
-  // unknown value that the builder would silently drop.
-  if (HEAR_ABOUT_FORMS.has(formName) && !resolveHearAboutLabel(formData)) {
+  // unknown value that the builder would silently drop. Enforced regardless of
+  // the Notion enable flag so the requirement can't silently lapse when Notion
+  // submission is toggled off.
+  if (!resolveHearAboutLabel(formData)) {
     return jsonResponse({ error: 'Invalid or missing hear-about answer' }, 400)
   }
 
@@ -127,41 +105,19 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const notionEnabled =
-    isNotionIntakeSubmitEnabled() && NOTION_FORMS.has(formName)
-  const civiEnabled = isCiviCrmIntakeSubmitEnabled()
-
-  if (!notionEnabled && !civiEnabled) {
+  if (!isNotionIntakeSubmitEnabled()) {
     return jsonResponse({ success: true }, 201)
   }
 
-  if (notionEnabled) {
-    const notionResult = await submitToNotion(formData, formName)
-    if (!notionResult.ok) {
-      return jsonResponse(
-        {
-          error: 'Failed to submit form. Please try again.',
-          detail: notionResult.message,
-        },
-        502
-      )
-    }
-  }
-
-  if (civiEnabled) {
-    const civiResult = await submitToCiviCrm(formData, fieldDefs, formName)
-    if (!civiResult.ok) {
-      if (!notionEnabled) {
-        return jsonResponse(
-          {
-            error: 'Failed to submit form. Please try again.',
-            detail: civiResult.message,
-          },
-          502
-        )
-      }
-      return jsonResponse({ success: true, detail: civiResult.message }, 201)
-    }
+  const notionResult = await submitToNotion(formData, formName)
+  if (!notionResult.ok) {
+    return jsonResponse(
+      {
+        error: 'Failed to submit form. Please try again.',
+        detail: notionResult.message,
+      },
+      502
+    )
   }
 
   return jsonResponse({ success: true }, 201)
