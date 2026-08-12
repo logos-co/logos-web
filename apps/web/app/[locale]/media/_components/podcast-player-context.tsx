@@ -638,6 +638,22 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
       const previousController = activeController()
       const sameEpisode = previousEpisodeId === episodeId
       const controller = registration.controller
+
+      if (
+        sameEpisode &&
+        localEpisodeIdRef.current === episodeId &&
+        activeVisibleRef.current &&
+        previousController === controller
+      ) {
+        updateState((current) => ({
+          ...current,
+          ...playbackPatch(controller),
+          episode: registration.episode,
+          isReady: true,
+        }))
+        return
+      }
+
       const nextTime = sameEpisode
         ? stateRef.current.currentTime
         : controller.getCurrentTime()
