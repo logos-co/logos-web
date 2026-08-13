@@ -12,6 +12,10 @@
       return 'Enter exhibit'
     }
 
+    if (element.classList.contains('wm-back')) {
+      return 'Close exhibit'
+    }
+
     return (
       normalizeLabel(element.getAttribute('data-umami-event-name')) ||
       normalizeLabel(element.id) ||
@@ -19,13 +23,15 @@
       normalizeLabel(element.getAttribute('aria-label')) ||
       normalizeLabel(element.getAttribute('name')) ||
       normalizeLabel(element.getAttribute('title')) ||
-      'button'
+      ''
     )
   }
 
   const getHallContext = (element) => {
-    const section = element.closest('section[data-kind]')
-    const hallText = section?.querySelector('.mx-hall, .mx-title')?.textContent
+    const contextRoot = element.closest('section[data-kind], [role="dialog"]')
+    const hallText = contextRoot?.querySelector(
+      '.mx-hall, .mx-title, .wm-head'
+    )?.textContent
 
     return normalizeLabel(hallText).match(/\bHall\s+[IVX]+\b/)?.[0] || ''
   }
@@ -69,6 +75,11 @@
 
   const getEventName = (element) => {
     const name = getBaseEventName(element)
+
+    if (!name) {
+      return ''
+    }
+
     const context = getEventContext(element)
 
     return context ? `${name} - ${context}` : name
@@ -78,8 +89,8 @@
     const data = { source: window.location.pathname }
     const context = getEventContext(element)
     const exhibit = element
-      .closest('[data-kind="main"]')
-      ?.querySelector('.mx-title')
+      .closest('[data-kind="main"], [role="dialog"]')
+      ?.querySelector('.mx-title, #wm-title')
 
     return {
       ...data,
@@ -106,6 +117,12 @@
       return
     }
 
-    window.umami?.track(getEventName(element), getEventData(element))
+    const eventName = getEventName(element)
+
+    if (!eventName) {
+      return
+    }
+
+    window.umami?.track(eventName, getEventData(element))
   })
 })()
