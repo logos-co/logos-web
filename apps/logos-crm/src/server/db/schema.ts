@@ -153,6 +153,12 @@ export const people = pgTable(
     roleTitle: text('role_title'),
     status: directoryStatus('status').default('prospect').notNull(),
     summary: text('summary'),
+    // Consent is a record of what the person agreed to, not a preference the
+    // CRM may infer. Both default to false so an import or intake that omits
+    // them can never be read as permission to contact.
+    consentNewsletter: boolean('consent_newsletter').default(false).notNull(),
+    consentEvents: boolean('consent_events').default(false).notNull(),
+    consentRecordedAt: timestamp('consent_recorded_at', { withTimezone: true }),
     version: integer('version').default(1).notNull(),
     createdAt: timestamp('created_at', { withTimezone: true })
       .defaultNow()
@@ -192,6 +198,11 @@ export const cases = pgTable(
     status: caseStatus('status').default('new').notNull(),
     stage: text('stage').notNull(),
     priority: casePriority('priority').default('medium').notNull(),
+    /** Answer to "How did you first hear about Logos?" on the intake form. */
+    leadSource: text('lead_source'),
+    /** Which funnel the applicant came through, e.g. Coalition Partner. */
+    profile: text('profile'),
+    summary: text('summary'),
     nextAction: text('next_action'),
     nextActionAt: timestamp('next_action_at', { withTimezone: true }),
     lastContactAt: timestamp('last_contact_at', { withTimezone: true }),
@@ -545,8 +556,52 @@ export const externalIdentities = pgTable(
   ]
 )
 
+/**
+ * Raw funnel submissions, written and committed before any mapping runs.
+ *
+ * Mapping a submission to people, organisations, and a case can fail on data
+ * the form did not constrain. If that failure happened before anything was
+ * stored, the applicant would simply be lost — the previous endpoint returned
+ * 502 and hoped the visitor tried again. Storing the payload first makes the
+ * mapping replayable, so a bad mapping is a bug to fix rather than an applicant
+ * to apologise to.
+ *
+ * The payload contains personal data and is covered by the retention policy: it
+ * is deleted once the derived records are confirmed, not kept indefinitely.
+ */
+export const intakeSubmissions = pgTable(
+  'crm_intake_submissions',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    /** Client-supplied idempotency key; a retry must not create a second case. */
+    submissionId: text('submission_id').notNull(),
+    formName: text('form_name').notNull(),
+    payload: jsonb('payload').notNull(),
+    receivedAt: timestamp('received_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    processedAt: timestamp('processed_at', { withTimezone: true }),
+    caseId: uuid('case_id').references(() => cases.id, {
+      onDelete: 'set null',
+    }),
+    personId: uuid('person_id').references(() => people.id, {
+      onDelete: 'set null',
+    }),
+    error: text('error'),
+  },
+  (table) => [
+    uniqueIndex('crm_intake_submissions_submission_uidx').on(
+      table.submissionId
+    ),
+    index('crm_intake_submissions_unprocessed_idx')
+      .on(table.receivedAt)
+      .where(sql`${table.processedAt} is null`),
+  ]
+)
+
 export const schema = {
   activities,
+  intakeSubmissions,
   auditEvents,
   caseAssignments,
   caseOrganisations,

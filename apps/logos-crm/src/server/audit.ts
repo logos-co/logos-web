@@ -4,6 +4,24 @@ import { auditEvents } from '@/server/db/schema'
 
 type Transaction = Parameters<Parameters<typeof db.transaction>[0]>[0]
 
+/**
+ * Work that no user initiated — public funnel intake, scheduled jobs. The audit
+ * row still needs a request ID to correlate with, but attributing it to a
+ * person would be a lie.
+ */
+export interface SystemActor {
+  userId: null
+  requestId: string
+}
+
+export type AuditActor =
+  | Pick<ActorContext, 'userId' | 'requestId'>
+  | SystemActor
+
+export function systemActor(requestId: string): SystemActor {
+  return { userId: null, requestId }
+}
+
 export interface AuditEventInput {
   action: string
   entityType: 'case' | 'person' | 'organisation' | 'task' | 'activity'
@@ -24,7 +42,7 @@ export interface AuditEventInput {
  */
 export async function recordAuditEvent(
   transaction: Transaction,
-  actor: Readonly<ActorContext>,
+  actor: Readonly<AuditActor>,
   input: Readonly<AuditEventInput>
 ): Promise<void> {
   await transaction.insert(auditEvents).values({

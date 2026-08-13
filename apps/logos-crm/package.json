@@ -19,6 +19,7 @@
     "@acid-info/logos-tokens": "workspace:*",
     "@acid-info/logos-ui": "workspace:*",
     "@hookform/resolvers": "^5.7.1",
+    "@repo/funnel": "workspace:*",
     "@tanstack/react-query": "^5.100.14",
     "@tanstack/react-table": "^8.21.3",
     "drizzle-orm": "^0.45.2",
