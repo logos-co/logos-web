@@ -18,8 +18,7 @@ interface UmamiWindow extends Window {
   umami?: UmamiAnalytics
 }
 
-const getUmami = (): UmamiAnalytics | undefined =>
-  (window as UmamiWindow).umami
+const getUmami = (): UmamiAnalytics | undefined => (window as UmamiWindow).umami
 
 export default function UmamiButtonTracker() {
   useEffect(() => {
@@ -30,8 +29,14 @@ export default function UmamiButtonTracker() {
         return
       }
 
+      const eventName = buildButtonClickEventName(button)
+
+      if (!eventName) {
+        return
+      }
+
       getUmami()?.track(
-        buildButtonClickEventName(button),
+        eventName,
         buildButtonClickEventData(window.location.pathname)
       )
     }

@@ -17,6 +17,7 @@ interface FakeButtonOptions {
   readonly excludedAncestor?: boolean
   readonly id?: string
   readonly name?: string
+  readonly nestedEventName?: string
   readonly textContent?: string
   readonly title?: string
 }
@@ -29,6 +30,7 @@ const createButton = ({
   excludedAncestor = false,
   id = '',
   name,
+  nestedEventName,
   textContent = '',
   title,
 }: FakeButtonOptions = {}) => {
@@ -51,6 +53,13 @@ const createButton = ({
     disabled,
     getAttribute: (name: string) => attributes.get(name) ?? null,
     id,
+    querySelector: (selector: string) =>
+      selector === '[data-umami-event-name]' && nestedEventName
+        ? {
+            getAttribute: (name: string) =>
+              name === 'data-umami-event-name' ? nestedEventName : null,
+          }
+        : null,
     textContent,
   } as unknown as HTMLElement
 }
@@ -80,9 +89,9 @@ describe('shouldTrackButtonClick', () => {
   it('skips disabled and explicitly excluded elements', () => {
     expect(shouldTrackButtonClick(createButton({ disabled: true }))).toBe(false)
     expect(shouldTrackButtonClick(createButton({ excluded: true }))).toBe(false)
-    expect(shouldTrackButtonClick(createButton({ excludedAncestor: true }))).toBe(
-      false
-    )
+    expect(
+      shouldTrackButtonClick(createButton({ excludedAncestor: true }))
+    ).toBe(false)
   })
 })
 
@@ -107,28 +116,40 @@ describe('getButtonTrackingLabel', () => {
     ).toBe('join-cta')
   })
 
-  it('falls back through text, aria-label, name, title, and a generic label', () => {
+  it('uses a nested explicit event name for generated interactive wrappers', () => {
+    expect(
+      getButtonTrackingLabel(
+        createButton({
+          nestedEventName: 'Open map cluster - 2 circles',
+          textContent: '2',
+        })
+      )
+    ).toBe('Open map cluster - 2 circles')
+  })
+
+  it('falls back through text, aria-label, name, and title', () => {
     expect(
       getButtonTrackingLabel(createButton({ textContent: '  Learn   more  ' }))
     ).toBe('Learn more')
-    expect(getButtonTrackingLabel(createButton({ ariaLabel: 'Open menu' }))).toBe(
-      'Open menu'
-    )
+    expect(
+      getButtonTrackingLabel(createButton({ ariaLabel: 'Open menu' }))
+    ).toBe('Open menu')
     expect(getButtonTrackingLabel(createButton({ name: 'newsletter' }))).toBe(
       'newsletter'
     )
-    expect(getButtonTrackingLabel(createButton({ title: 'External link' }))).toBe(
-      'External link'
-    )
-    expect(getButtonTrackingLabel(null)).toBe('button')
+    expect(
+      getButtonTrackingLabel(createButton({ title: 'External link' }))
+    ).toBe('External link')
+    expect(getButtonTrackingLabel(null)).toBeNull()
+    expect(getButtonTrackingLabel(createButton())).toBeNull()
   })
 })
 
 describe('buildButtonClickEventName', () => {
   it('returns the extracted label', () => {
-    expect(buildButtonClickEventName(createButton({ textContent: 'Subscribe' }))).toBe(
-      'Subscribe'
-    )
+    expect(
+      buildButtonClickEventName(createButton({ textContent: 'Subscribe' }))
+    ).toBe('Subscribe')
   })
 })
 

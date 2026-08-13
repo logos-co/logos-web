@@ -1,5 +1,4 @@
-export const TRACKABLE_BUTTON_SELECTOR =
-  'button, [role="button"], a, .button'
+export const TRACKABLE_BUTTON_SELECTOR = 'button, [role="button"], a, .button'
 
 export interface ButtonClickEventData {
   readonly source: string
@@ -44,23 +43,30 @@ export function shouldTrackButtonClick(button: Element | null): boolean {
   return true
 }
 
-export function getButtonTrackingLabel(button: Element | null): string {
+export function getButtonTrackingLabel(button: Element | null): string | null {
   if (!button) {
-    return 'button'
+    return null
   }
 
   return (
     normalizeLabel(button.getAttribute('data-umami-event-name')) ||
+    normalizeLabel(
+      button
+        .querySelector('[data-umami-event-name]')
+        ?.getAttribute('data-umami-event-name')
+    ) ||
     normalizeLabel(button.id) ||
     normalizeLabel(button.textContent) ||
     normalizeLabel(button.getAttribute('aria-label')) ||
     normalizeLabel(button.getAttribute('name')) ||
     normalizeLabel(button.getAttribute('title')) ||
-    'button'
+    null
   )
 }
 
-export function buildButtonClickEventName(button: Element | null): string {
+export function buildButtonClickEventName(
+  button: Element | null
+): string | null {
   return getButtonTrackingLabel(button)
 }
 

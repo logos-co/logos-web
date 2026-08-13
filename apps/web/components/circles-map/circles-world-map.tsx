@@ -59,7 +59,7 @@ const yellowMarkerIcon = L.divIcon({
 function clusterIconCreator(cluster: { getChildCount: () => number }) {
   const count = cluster.getChildCount()
   return L.divIcon({
-    html: `<div style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9999px;background-color:#ffd328;color:#152521;font-size:12px;font-weight:500;">${count}</div>`,
+    html: `<div data-umami-event-name="Open map cluster - ${count} circles" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9999px;background-color:#ffd328;color:#152521;font-size:12px;font-weight:500;">${count}</div>`,
     className: 'logos-circle-cluster',
     iconSize: L.point(32, 32, true),
   })
@@ -523,6 +523,7 @@ export default function CirclesWorldMap({
                 key={marker.id}
                 position={[marker.lat, marker.lng]}
                 icon={yellowMarkerIcon}
+                title={[marker.city, marker.country].filter(Boolean).join(', ')}
               >
                 <Popup
                   className="logos-circle-popup"
