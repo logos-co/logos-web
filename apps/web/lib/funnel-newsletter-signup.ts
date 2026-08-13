@@ -11,12 +11,12 @@ import { NEWSLETTER_IDS, submitNewsletterSignup } from '@/lib/newsletter-signup'
 
 export type FunnelNewsletterSignupInput = {
   email: string
-  /** Afform form name, e.g. `afformCoalitionPartner`. */
+  /** Funnel form name, e.g. `afformCoalitionPartner`. */
   formName?: string
   wantsNewsletter: boolean
   wantsEvents: boolean
   city?: string
-  /** Country label, not the CiviCRM option id. */
+  /** Country label, not the option id. */
   country?: string
   /** The submitted answers, forwarded to the subscribe endpoint. */
   formFields?: Record<string, unknown>
@@ -47,7 +47,7 @@ export function resolveOptionLabel(
 
 /**
  * Swap option ids for the labels the user picked. The subscribe endpoint has
- * no access to the CiviCRM option lists, so an id would reach it unreadable.
+ * no access to the form option lists, so an id would reach it unreadable.
  * Values without options (text, checkboxes) are left alone.
  */
 export function toLabelledFormFields(

@@ -14,8 +14,6 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@acid-info/logos-tokens": "workspace:*",
-    "@acid-info/logos-ui": "workspace:*",
     "@repo/funnel": "workspace:*",
     "next": "16.2.4",
     "react": "^19.2.5",
@@ -23,14 +21,11 @@
   },
   "devDependencies": {
     "@repo/config": "workspace:*",
-    "@tailwindcss/postcss": "^4.2.2",
     "@types/node": "25.6.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitest/coverage-v8": "^4.1.5",
     "eslint": "^10.2.1",
-    "postcss": "^8.5.10",
-    "tailwindcss": "^4.2.2",
     "typescript": "^6.0.3",
     "vitest": "^4.1.5"
   }

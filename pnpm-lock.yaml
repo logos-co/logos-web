@@ -20,12 +20,6 @@ importers:
 
   apps/civi-crm:
     dependencies:
-      '@acid-info/logos-tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
-      '@acid-info/logos-ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@repo/funnel':
         specifier: workspace:*
         version: link:../../packages/funnel
@@ -42,9 +36,6 @@ importers:
       '@repo/config':
         specifier: workspace:*
         version: link:../../packages/config
-      '@tailwindcss/postcss':
-        specifier: ^4.2.2
-        version: 4.3.0
       '@types/node':
         specifier: 25.6.0
         version: 25.6.0
@@ -60,12 +51,6 @@ importers:
       eslint:
         specifier: ^10.2.1
         version: 10.4.0(jiti@2.7.0)
-      postcss:
-        specifier: ^8.5.10
-        version: 8.5.15
-      tailwindcss:
-        specifier: ^4.2.2
-        version: 4.3.0
       typescript:
         specifier: ^6.0.3
         version: 6.0.3

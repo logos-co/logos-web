@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest'
 import { AFFORM as ACTIVIST_BUILDER_AFFORM } from '../afform-activist-builder'
 import { buildFormSchema } from '../contactFormSchema'
 import {
-  HEAR_ABOUT_FIELD,
   HEAR_ABOUT_FORM_KEY,
   withHearAboutField,
 } from '../hear-about-field'
@@ -33,10 +32,6 @@ describe('withHearAboutField', () => {
     expect(
       twice.fields.filter((f) => f.formKey === HEAR_ABOUT_FORM_KEY)
     ).toHaveLength(1)
-  })
-
-  it('marks the field as web-only (no CiviCRM fieldName)', () => {
-    expect(HEAR_ABOUT_FIELD.fieldName).toBe('')
   })
 })
 

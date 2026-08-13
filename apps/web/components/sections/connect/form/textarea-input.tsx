@@ -1,6 +1,6 @@
 import type { TextareaHTMLAttributes } from 'react'
 
-import { MAX_TEXT_LENGTH } from '@/lib/civicrm/contactFormSchema'
+import { MAX_TEXT_LENGTH } from '@/lib/funnel-forms/contactFormSchema'
 import { cn } from '@/lib/cn'
 
 import { FieldLabel } from './field-label'
