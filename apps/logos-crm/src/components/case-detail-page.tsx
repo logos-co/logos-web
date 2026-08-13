@@ -101,8 +101,12 @@ export function CaseDetailPage({ id }: CaseDetailPageProps) {
             <div className="record-page-grid">
               <section className="record-action-card">
                 <p className="utility-label">Next action</p>
-                <h2>{item.nextAction ?? 'Not triaged yet'}</h2>
-                <time>Due {formatDate(item.nextActionAt)}</time>
+                <h2>{item.nextTask?.title ?? 'Not triaged yet'}</h2>
+                <time>
+                  {item.nextTask
+                    ? `Due ${formatDate(item.nextTask.dueAt)} · ${item.nextTask.assignee?.displayName ?? 'Unassigned'}`
+                    : 'No open task'}
+                </time>
                 <Button
                   className="cursor-pointer"
                   disabled={

@@ -521,6 +521,51 @@ a.dashboard-latest-update:hover {
   text-transform: uppercase;
 }
 
+.queue-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.queue-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border: 1px solid rgb(21 37 33 / 15%);
+  border-radius: 999px;
+  background: var(--color-white);
+  color: var(--color-brand-dark-green);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.queue-tab:hover {
+  border-color: rgb(21 37 33 / 35%);
+}
+
+.queue-tab.selected {
+  border-color: var(--color-brand-dark-green);
+  background: var(--color-brand-yellow);
+}
+
+.queue-tab b {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.muted-cell {
+  color: rgb(21 37 33 / 55%);
+}
+
 .pipeline-ribbon {
   display: grid;
   grid-template-columns: 148px repeat(5, minmax(108px, 1fr));

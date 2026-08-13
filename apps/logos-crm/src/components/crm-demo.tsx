@@ -12,7 +12,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 
-import type { CaseRecord, CaseStatus, CreateCaseInput } from '@/contracts/case'
+import type {
+  CaseQueue,
+  CaseRecord,
+  CaseStatus,
+  CreateCaseInput,
+} from '@/contracts/case'
 import type { OrganisationRecord, PersonRecord } from '@/contracts/directory'
 import type { UserRecord } from '@/contracts/user'
 import { apiClient } from '@/lib/api-client'
@@ -32,7 +37,22 @@ interface DashboardResponse {
   total: number
   openTotal: number
   byStatus: Record<CaseStatus, number>
+  queues: Record<CaseQueue, number>
 }
+
+/**
+ * Queues come before the status filter in the UI because they answer "what
+ * should I do next", which is the question a coordinator actually opens the app
+ * with. Status is a way to slice a queue, not a queue in itself.
+ */
+const queueTabs: ReadonlyArray<{ value: CaseQueue; label: string }> = [
+  { value: 'all', label: 'All cases' },
+  { value: 'mine', label: 'My work' },
+  { value: 'unassigned', label: 'Unassigned' },
+  { value: 'needs_triage', label: 'Needs triage' },
+  { value: 'overdue', label: 'Overdue' },
+  { value: 'stale', label: 'Stale' },
+]
 
 interface DirectoryResponse<T> {
   items: T[]
@@ -63,6 +83,7 @@ export function CrmDemo({ view }: CrmDemoProps) {
   const [search, setSearch] = useState('')
   const deferredSearch = useDeferredValue(search.trim())
   const [status, setStatus] = useState<CaseStatus | 'all'>('all')
+  const [queue, setQueue] = useState<CaseQueue>('all')
   const [isDialogOpen, setDialogOpen] = useState(false)
   const [feedback, setFeedback] = useState<string | null>(null)
 
@@ -73,11 +94,12 @@ export function CrmDemo({ view }: CrmDemoProps) {
   }, [feedback])
 
   const casesQuery = useQuery({
-    queryKey: ['cases', deferredSearch, status],
+    queryKey: ['cases', deferredSearch, status, queue],
     queryFn: () => {
       const params = new URLSearchParams()
       if (deferredSearch) params.set('q', deferredSearch)
       if (status !== 'all') params.set('status', status)
+      if (queue !== 'all') params.set('queue', queue)
       const suffix = params.size > 0 ? `?${params.toString()}` : ''
       return apiClient<CasesResponse>(`/api/v1/cases${suffix}`)
     },
@@ -151,9 +173,21 @@ export function CrmDemo({ view }: CrmDemoProps) {
         cell: ({ getValue }) => <StatusBadge value={getValue<CaseStatus>()} />,
       },
       {
-        accessorKey: 'updatedAt',
-        header: 'Updated',
-        cell: ({ getValue }) => formatDate(getValue<string>()),
+        id: 'nextTask',
+        header: 'Next action',
+        // Reads the open task rather than the case's own field: the task is
+        // what someone committed to, and showing anything else invites the two
+        // to drift apart.
+        cell: ({ row }) => {
+          const task = row.original.nextTask
+          if (!task) return <span className="muted-cell">Needs triage</span>
+          const overdue = new Date(task.dueAt).getTime() < Date.now()
+          return (
+            <span className={overdue ? 'due-overdue' : undefined}>
+              {task.title} · {formatDate(task.dueAt)}
+            </span>
+          )
+        },
       },
     ],
     []
@@ -208,6 +242,21 @@ export function CrmDemo({ view }: CrmDemoProps) {
               </Button>
             </header>
 
+            <nav className="queue-tabs" aria-label="Case queues">
+              {queueTabs.map((tab) => (
+                <button
+                  aria-pressed={queue === tab.value}
+                  className={`queue-tab cursor-pointer ${queue === tab.value ? 'selected' : ''}`}
+                  key={tab.value}
+                  type="button"
+                  onClick={() => setQueue(tab.value)}
+                >
+                  <span>{tab.label}</span>
+                  <b>{dashboardQuery.data?.queues?.[tab.value] ?? '—'}</b>
+                </button>
+              ))}
+            </nav>
+
             <section className="pipeline-ribbon" aria-label="Case pipeline">
               <button
                 aria-pressed={status === 'all'}
@@ -260,6 +309,7 @@ export function CrmDemo({ view }: CrmDemoProps) {
                       onClick={() => {
                         setSearch('')
                         setStatus('all')
+                        setQueue('all')
                       }}
                     >
                       Clear filters
@@ -338,6 +388,7 @@ export function CrmDemo({ view }: CrmDemoProps) {
                           onClick={() => {
                             setSearch('')
                             setStatus('all')
+                            setQueue('all')
                           }}
                         >
                           Clear filters

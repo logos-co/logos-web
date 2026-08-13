@@ -39,14 +39,52 @@ export const updateCaseStatusSchema = z.object({
   reason: z.string().trim().max(500).optional(),
 })
 
+/**
+ * The queues a coordinator actually works from. They are server-side
+ * predicates, not client-side filters over a fetched page: "everything overdue"
+ * has to mean everything, not everything on screen.
+ *
+ * `overdue` is derived from open tasks rather than a column on the case,
+ * because the task is what someone committed to. `stale` is derived from
+ * contact-type activity, so a case nobody has contacted surfaces even when it
+ * has notes on it.
+ */
+export const caseQueues = [
+  'all',
+  'mine',
+  'unassigned',
+  'needs_triage',
+  'overdue',
+  'stale',
+] as const
+
+export const caseQueueSchema = z.enum(caseQueues)
+
 export const caseListQuerySchema = z.object({
   q: z.string().trim().max(120).optional(),
   status: caseStatusSchema.optional(),
+  queue: caseQueueSchema.default('all'),
+  ownerUserId: z.string().uuid().optional(),
+})
+
+/**
+ * The earliest open task on a case. This is what the screens show as the next
+ * action: the case's own free-text field can drift from the task somebody is
+ * actually accountable for, and two answers to "what happens next" is one too
+ * many.
+ */
+export const caseNextTaskSchema = z.object({
+  id: z.string().uuid(),
+  title: z.string(),
+  dueAt: z.string().datetime(),
+  assignee: caseActorSchema.nullable(),
 })
 
 export const caseRecordSchema = z.object({
   id: z.string().uuid(),
   title: z.string(),
+  nextTask: caseNextTaskSchema.nullable(),
+  openTaskCount: z.number().int().nonnegative(),
   organisationId: z.string().uuid().nullable(),
   organisationName: z.string().nullable(),
   owner: caseActorSchema.nullable(),
@@ -69,7 +107,10 @@ export const caseRecordSchema = z.object({
 })
 
 export type CaseActor = z.infer<typeof caseActorSchema>
+export type CaseNextTask = z.infer<typeof caseNextTaskSchema>
 export type CasePriority = z.infer<typeof casePrioritySchema>
+export type CaseQueue = z.infer<typeof caseQueueSchema>
+export type CaseListQuery = z.infer<typeof caseListQuerySchema>
 export type CaseRecord = z.infer<typeof caseRecordSchema>
 export type CaseStatus = z.infer<typeof caseStatusSchema>
 export type CreateCaseInput = z.infer<typeof createCaseSchema>

@@ -9,8 +9,13 @@ export async function GET(request: Request): Promise<Response> {
     const query = caseListQuerySchema.parse({
       q: url.searchParams.get('q') || undefined,
       status: url.searchParams.get('status') || undefined,
+      queue: url.searchParams.get('queue') || undefined,
+      ownerUserId: url.searchParams.get('ownerUserId') || undefined,
     })
-    const items = await listCases(query)
+    // The "my work" queue needs to know who is asking, so the actor is resolved
+    // for reads as well as writes.
+    const actor = await resolveActor(request)
+    const items = await listCases(query, actor.userId)
     return Response.json({ items })
   } catch (error) {
     return apiException(error)

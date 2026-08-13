@@ -1,5 +1,6 @@
 import {
   and,
+  asc,
   count,
   desc,
   eq,
@@ -7,10 +8,12 @@ import {
   inArray,
   isNull,
   or,
+  sql,
   type SQL,
 } from 'drizzle-orm'
 
 import type {
+  CaseQueue,
   CaseRecord,
   CaseStatus,
   CreateCaseInput,
@@ -28,6 +31,7 @@ import {
   cases,
   organisations,
   people,
+  tasks,
   users,
 } from '@/server/db/schema'
 import { conflict, invalidTransition, notFound } from '@/server/service-errors'
@@ -35,14 +39,32 @@ import { conflict, invalidTransition, notFound } from '@/server/service-errors'
 export interface CaseListFilters {
   q?: string
   status?: CaseStatus
+  queue?: CaseQueue
+  ownerUserId?: string
 }
 
 interface CaseRelations {
   organisationId: string | null
   organisationName: string | null
   owner: CaseRecord['owner']
+  nextTask: CaseRecord['nextTask']
+  openTaskCount: number
   relatedPeople: CaseRecord['relatedPeople']
 }
+
+/** Statuses that still represent live work. */
+const OPEN_STATUSES: ReadonlyArray<CaseStatus> = [
+  'new',
+  'in_progress',
+  'waiting',
+]
+
+/**
+ * How long an open case may go without contact before it is considered stale.
+ * Deliberately a named constant: it is a working agreement about follow-up, and
+ * changing it changes which cases people are asked to chase.
+ */
+export const STALE_AFTER_DAYS = 14
 
 export function canTransition(from: CaseStatus, to: CaseStatus): boolean {
   return (caseStatusTransitions[from] as ReadonlyArray<CaseStatus>).includes(to)
@@ -75,38 +97,52 @@ async function hydrateCaseRecords(
     ),
   ]
 
-  const [organisationLinks, peopleLinks, ownerRows] = await Promise.all([
-    db
-      .select({
-        caseId: caseOrganisations.caseId,
-        organisationId: caseOrganisations.organisationId,
-        displayName: organisations.displayName,
-        primary: caseOrganisations.isPrimary,
-      })
-      .from(caseOrganisations)
-      .innerJoin(
-        organisations,
-        eq(caseOrganisations.organisationId, organisations.id)
-      )
-      .where(inArray(caseOrganisations.caseId, ids)),
-    db
-      .select({
-        caseId: casePeople.caseId,
-        id: people.id,
-        fullName: people.fullName,
-        roleTitle: people.roleTitle,
-        primary: casePeople.isPrimary,
-      })
-      .from(casePeople)
-      .innerJoin(people, eq(casePeople.personId, people.id))
-      .where(inArray(casePeople.caseId, ids)),
-    ownerIds.length > 0
-      ? db
-          .select({ id: users.id, displayName: users.displayName })
-          .from(users)
-          .where(inArray(users.id, ownerIds))
-      : Promise.resolve<CaseRecord['owner'][]>([]),
-  ])
+  const [organisationLinks, peopleLinks, ownerRows, openTasks] =
+    await Promise.all([
+      db
+        .select({
+          caseId: caseOrganisations.caseId,
+          organisationId: caseOrganisations.organisationId,
+          displayName: organisations.displayName,
+          primary: caseOrganisations.isPrimary,
+        })
+        .from(caseOrganisations)
+        .innerJoin(
+          organisations,
+          eq(caseOrganisations.organisationId, organisations.id)
+        )
+        .where(inArray(caseOrganisations.caseId, ids)),
+      db
+        .select({
+          caseId: casePeople.caseId,
+          id: people.id,
+          fullName: people.fullName,
+          roleTitle: people.roleTitle,
+          primary: casePeople.isPrimary,
+        })
+        .from(casePeople)
+        .innerJoin(people, eq(casePeople.personId, people.id))
+        .where(inArray(casePeople.caseId, ids)),
+      ownerIds.length > 0
+        ? db
+            .select({ id: users.id, displayName: users.displayName })
+            .from(users)
+            .where(inArray(users.id, ownerIds))
+        : Promise.resolve<CaseRecord['owner'][]>([]),
+      db
+        .select({
+          id: tasks.id,
+          caseId: tasks.caseId,
+          title: tasks.title,
+          dueAt: tasks.dueAt,
+          assigneeUserId: tasks.assigneeUserId,
+          assigneeName: users.displayName,
+        })
+        .from(tasks)
+        .leftJoin(users, eq(tasks.assigneeUserId, users.id))
+        .where(and(inArray(tasks.caseId, ids), eq(tasks.status, 'open')))
+        .orderBy(asc(tasks.dueAt)),
+    ])
 
   const organisationByCase = new Map<string, { id: string; name: string }>(
     [...organisationLinks]
@@ -121,6 +157,28 @@ async function hydrateCaseRecords(
       .filter((row): row is NonNullable<CaseRecord['owner']> => row !== null)
       .map((row) => [row.id, row])
   )
+  // Tasks arrive ordered by due date, so the first one seen per case is the
+  // next thing due on it.
+  const nextTaskByCase = new Map<string, NonNullable<CaseRecord['nextTask']>>()
+  const openTaskCountByCase = new Map<string, number>()
+  for (const task of openTasks) {
+    if (!task.caseId) continue
+    openTaskCountByCase.set(
+      task.caseId,
+      (openTaskCountByCase.get(task.caseId) ?? 0) + 1
+    )
+    if (nextTaskByCase.has(task.caseId)) continue
+    nextTaskByCase.set(task.caseId, {
+      id: task.id,
+      title: task.title,
+      dueAt: task.dueAt.toISOString(),
+      assignee:
+        task.assigneeUserId && task.assigneeName
+          ? { id: task.assigneeUserId, displayName: task.assigneeName }
+          : null,
+    })
+  }
+
   const peopleByCase = new Map<string, CaseRecord['relatedPeople']>()
   for (const link of [...peopleLinks].sort(
     (left, right) => Number(right.primary) - Number(left.primary)
@@ -141,19 +199,76 @@ async function hydrateCaseRecords(
       organisationId: organisation?.id ?? null,
       organisationName: organisation?.name ?? null,
       owner,
+      nextTask: nextTaskByCase.get(row.id) ?? null,
+      openTaskCount: openTaskCountByCase.get(row.id) ?? 0,
       relatedPeople: peopleByCase.get(row.id) ?? [],
     })
   })
 }
 
+/**
+ * Builds the predicate for a queue. Each one is a question a coordinator asks
+ * at the start of the day, answered against the whole table rather than the
+ * page currently on screen.
+ */
+function queueCondition(
+  queue: CaseQueue,
+  actorUserId: string | null
+): SQL | undefined {
+  switch (queue) {
+    case 'mine':
+      // With no resolvable actor this must match nothing rather than
+      // everything: a broken "my work" that shows the whole table is worse
+      // than one that shows none of it.
+      return actorUserId ? eq(cases.ownerUserId, actorUserId) : sql`false`
+
+    case 'unassigned':
+      return and(
+        isNull(cases.ownerUserId),
+        inArray(cases.status, [...OPEN_STATUSES])
+      )
+
+    case 'needs_triage':
+      return eq(cases.status, 'new')
+
+    case 'overdue':
+      // Derived from the open task, not from the case's own next-action date:
+      // the task is the commitment somebody made.
+      return sql`exists (
+        select 1 from ${tasks}
+        where ${tasks.caseId} = ${cases.id}
+          and ${tasks.status} = 'open'
+          and ${tasks.dueAt} < now()
+      )`
+
+    case 'stale':
+      return and(
+        inArray(cases.status, [...OPEN_STATUSES]),
+        sql`(${cases.lastContactAt} is null or ${cases.lastContactAt} < now() - make_interval(days => ${STALE_AFTER_DAYS}))`
+      )
+
+    case 'all':
+    default:
+      return undefined
+  }
+}
+
 export async function listCases(
-  filters: Readonly<CaseListFilters> = {}
+  filters: Readonly<CaseListFilters> = {},
+  actorUserId: string | null = null
 ): Promise<CaseRecord[]> {
   const conditions: SQL[] = []
 
   if (filters.status) {
     conditions.push(eq(cases.status, filters.status))
   }
+
+  if (filters.ownerUserId) {
+    conditions.push(eq(cases.ownerUserId, filters.ownerUserId))
+  }
+
+  const queue = queueCondition(filters.queue ?? 'all', actorUserId)
+  if (queue) conditions.push(queue)
 
   if (filters.q) {
     const query = `%${filters.q}%`
@@ -409,6 +524,36 @@ export async function assignCase(
   const [record] = await hydrateCaseRecords([updated])
   if (!record) throw notFound('The case no longer exists.')
   return record
+}
+
+/**
+ * Counts for the queue tabs. Each count uses the same predicate as the queue it
+ * labels, so a tab reading "3" and its list showing three rows cannot disagree.
+ */
+export async function countCasesByQueue(
+  actorUserId: string | null
+): Promise<Record<CaseQueue, number>> {
+  const queues: CaseQueue[] = [
+    'all',
+    'mine',
+    'unassigned',
+    'needs_triage',
+    'overdue',
+    'stale',
+  ]
+
+  const results = await Promise.all(
+    queues.map(async (queue) => {
+      const condition = queueCondition(queue, actorUserId)
+      const [row] = await db
+        .select({ value: count() })
+        .from(cases)
+        .where(condition)
+      return [queue, row?.value ?? 0] as const
+    })
+  )
+
+  return Object.fromEntries(results) as Record<CaseQueue, number>
 }
 
 export async function getDashboardSummary(): Promise<{

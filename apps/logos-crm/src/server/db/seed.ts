@@ -1,5 +1,3 @@
-import { count } from 'drizzle-orm'
-
 import { db, pool } from './index'
 import * as schema from './schema'
 
@@ -305,9 +303,21 @@ const caseSeeds = [
   },
 ]
 
-const [caseResult] = await db.select({ value: count() }).from(schema.cases)
-if (caseResult?.value === 0) {
+/**
+ * Seeded per title rather than behind a "the table is empty" guard. A global
+ * count check silently does nothing on a partly-populated database — which is
+ * exactly the state the integration tests leave behind — and the developer is
+ * left wondering where the demo data went.
+ */
+const existingCaseTitles = new Set(
+  (await db.select({ title: schema.cases.title }).from(schema.cases)).map(
+    (row) => row.title
+  )
+)
+
+{
   for (const seed of caseSeeds) {
+    if (existingCaseTitles.has(seed.title)) continue
     const owner = seed.ownerName ? userByName.get(seed.ownerName) : undefined
     const organisation = organisationByName.get(seed.organisationName)
     const person = personSeeds.find(
@@ -372,12 +382,20 @@ const caseRows = await db.select().from(schema.cases)
 const caseByTitle = new Map(caseRows.map((row) => [row.title, row]))
 const defaultAuthor = userByName.get('Mara Chen')
 
-const [activityResult] = await db
-  .select({ value: count() })
-  .from(schema.activities)
-if (activityResult?.value === 0 && defaultAuthor) {
+const casesWithActivity = new Set(
+  (
+    await db
+      .select({ caseId: schema.activities.caseId })
+      .from(schema.activities)
+  )
+    .map((row) => row.caseId)
+    .filter((id): id is string => id !== null)
+)
+
+if (defaultAuthor) {
   const activityValues = caseSeeds.flatMap((seed, index) => {
     const caseRow = caseByTitle.get(seed.title)
+    if (caseRow && casesWithActivity.has(caseRow.id)) return []
     const organisation = organisationByName.get(seed.organisationName)
     const person = personSeeds.find(
       ([, , organisationName]) => organisationName === seed.organisationName
@@ -429,11 +447,16 @@ if (activityResult?.value === 0 && defaultAuthor) {
   }
 }
 
-const [taskResult] = await db.select({ value: count() }).from(schema.tasks)
-if (taskResult?.value === 0) {
+const casesWithTask = new Set(
+  (await db.select({ caseId: schema.tasks.caseId }).from(schema.tasks))
+    .map((row) => row.caseId)
+    .filter((id): id is string => id !== null)
+)
+
+{
   const taskValues = caseSeeds.flatMap((seed, index) => {
     const caseRow = caseByTitle.get(seed.title)
-    if (!caseRow) return []
+    if (!caseRow || casesWithTask.has(caseRow.id)) return []
     const owner = seed.ownerName ? userByName.get(seed.ownerName) : undefined
 
     return [
