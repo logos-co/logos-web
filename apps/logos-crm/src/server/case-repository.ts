@@ -25,6 +25,7 @@ import type { ActorContext } from '@/server/auth'
 import { db } from '@/server/db'
 import {
   caseAssignments,
+  caseEvaluations,
   caseOrganisations,
   casePeople,
   caseWorkflowHistory,
@@ -79,6 +80,7 @@ function toCaseRecord(
     ...relations,
     nextActionAt: row.nextActionAt?.toISOString() ?? null,
     lastContactAt: row.lastContactAt?.toISOString() ?? null,
+    decidedAt: row.decidedAt?.toISOString() ?? null,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   }
@@ -230,6 +232,18 @@ function queueCondition(
 
     case 'needs_triage':
       return eq(cases.status, 'new')
+
+    case 'needs_review':
+      // Somebody started reviewing and nobody closed the loop. A case with no
+      // evaluation at all belongs in needs_triage, not here.
+      return and(
+        inArray(cases.status, [...OPEN_STATUSES]),
+        eq(cases.decision, 'pending'),
+        sql`exists (
+          select 1 from ${caseEvaluations}
+          where ${caseEvaluations.caseId} = ${cases.id}
+        )`
+      )
 
     case 'overdue':
       // Derived from the open task, not from the case's own next-action date:
@@ -538,6 +552,7 @@ export async function countCasesByQueue(
     'mine',
     'unassigned',
     'needs_triage',
+    'needs_review',
     'overdue',
     'stale',
   ]

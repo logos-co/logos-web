@@ -1,6 +1,6 @@
 import { z } from 'zod/v4'
 
-import { casePriorities, caseStatuses } from './values'
+import { caseDecisions, casePriorities, caseStatuses } from './values'
 
 export const caseStatusSchema = z.enum(caseStatuses)
 export const casePrioritySchema = z.enum(casePriorities)
@@ -54,6 +54,7 @@ export const caseQueues = [
   'mine',
   'unassigned',
   'needs_triage',
+  'needs_review',
   'overdue',
   'stale',
 ] as const
@@ -94,6 +95,9 @@ export const caseRecordSchema = z.object({
   nextAction: z.string().nullable(),
   nextActionAt: z.string().datetime().nullable(),
   lastContactAt: z.string().datetime().nullable(),
+  decision: z.enum(caseDecisions),
+  decisionReason: z.string().nullable(),
+  decidedAt: z.string().datetime().nullable(),
   version: z.number().int().positive(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),

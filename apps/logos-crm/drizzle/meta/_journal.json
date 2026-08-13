@@ -15,6 +15,13 @@
       "when": 1786644832776,
       "tag": "0001_useful_raza",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1786645862526,
+      "tag": "0002_daily_zaladane",
+      "breakpoints": true
     }
   ]
 }

@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import type { CaseRecord, CaseStatus } from '@/contracts/case'
 import { apiClient } from '@/lib/api-client'
 
+import { CaseEvaluation } from './case-evaluation'
 import { nextStatus, statusLabels, StatusBadge } from './case-status'
 import { CrmShell } from './crm-shell'
 import { RecordWork } from './record-work'
@@ -172,6 +173,8 @@ export function CaseDetailPage({ id }: CaseDetailPageProps) {
                   <p className="record-empty">No people linked to this case.</p>
                 )}
               </section>
+
+              <CaseEvaluation item={item} />
 
               <section className="record-work-card">
                 <div className="record-section-heading">

@@ -29,6 +29,41 @@ export const caseStatusTransitions = {
 export const userStatuses = ['pending', 'active', 'suspended'] as const
 
 /**
+ * Evaluation stages. These mirror the free-text sections of the Notion
+ * evaluation template that intake review currently runs on, so the same
+ * judgement is recorded in the same order — but as scored, attributable rows
+ * rather than prose nobody can report on.
+ */
+export const evaluationStages = [
+  'submission',
+  'call',
+  'one_pager',
+  'other',
+] as const
+
+/**
+ * `pending` is the state every case starts in and most cases sit in. It is
+ * explicit rather than null so "not decided yet" is a value the queues and
+ * reports can count.
+ */
+export const caseDecisions = [
+  'pending',
+  'approved',
+  'redirected',
+  'declined',
+] as const
+
+/** Lowest and highest score a reviewer may give a stage. */
+export const EVALUATION_SCORE_MIN = 1
+export const EVALUATION_SCORE_MAX = 5
+
+/**
+ * Which rubric produced a score. Stored on every evaluation so that changing
+ * the criteria later does not silently rewrite the meaning of past scores.
+ */
+export const CURRENT_CRITERIA_VERSION = 'intake-v1'
+
+/**
  * Where a recorded change came from. `import` rows carry a source system in
  * `crm_external_identities` and are excluded from transition-duration metrics,
  * because an imported timestamp reflects the export, not the decision.

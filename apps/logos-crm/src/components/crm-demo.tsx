@@ -50,6 +50,7 @@ const queueTabs: ReadonlyArray<{ value: CaseQueue; label: string }> = [
   { value: 'mine', label: 'My work' },
   { value: 'unassigned', label: 'Unassigned' },
   { value: 'needs_triage', label: 'Needs triage' },
+  { value: 'needs_review', label: 'Needs review' },
   { value: 'overdue', label: 'Overdue' },
   { value: 'stale', label: 'Stale' },
 ]

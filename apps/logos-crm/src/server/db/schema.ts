@@ -16,11 +16,13 @@ import { sql } from 'drizzle-orm'
 
 import {
   activityTypes,
+  caseDecisions,
   casePriorities,
   caseStatuses,
   changeSources,
   contactMethodTypes,
   directoryStatuses,
+  evaluationStages,
   taskPriorities,
   taskStatuses,
   userStatuses,
@@ -28,12 +30,14 @@ import {
 
 export {
   activityTypes,
+  caseDecisions,
   casePriorities,
   caseStatuses,
   changeSources,
   contactMethodTypes,
   directoryStatuses,
   entityKinds,
+  evaluationStages,
   externalSourceSystems,
   taskPriorities,
   taskStatuses,
@@ -44,6 +48,8 @@ export const caseStatus = pgEnum('case_status', caseStatuses)
 export const casePriority = pgEnum('case_priority', casePriorities)
 export const userStatus = pgEnum('user_status', userStatuses)
 export const changeSource = pgEnum('change_source', changeSources)
+export const evaluationStage = pgEnum('evaluation_stage', evaluationStages)
+export const caseDecision = pgEnum('case_decision', caseDecisions)
 
 /**
  * Local CRM identities. `externalSubject` is the immutable subject supplied by
@@ -203,6 +209,12 @@ export const cases = pgTable(
     /** Which funnel the applicant came through, e.g. Coalition Partner. */
     profile: text('profile'),
     summary: text('summary'),
+    decision: caseDecision('decision').default('pending').notNull(),
+    decisionReason: text('decision_reason'),
+    decidedAt: timestamp('decided_at', { withTimezone: true }),
+    decidedByUserId: uuid('decided_by_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
     nextAction: text('next_action'),
     nextActionAt: timestamp('next_action_at', { withTimezone: true }),
     lastContactAt: timestamp('last_contact_at', { withTimezone: true }),
@@ -599,8 +611,56 @@ export const intakeSubmissions = pgTable(
   ]
 )
 
+/**
+ * Structured intake evaluation, one row per case and stage.
+ *
+ * The CiviCRM scorecard died with that instance and the Notion template that
+ * replaced it is free prose, which cannot be reported on, compared, or
+ * attributed. These rows can: a score, the reviewer, and the rubric version
+ * that produced it.
+ *
+ * One reviewer per stage in this version. Multiple reviewers and recorded
+ * disagreement need quorum and re-review rules that nobody has agreed yet, and
+ * inventing them here would be guessing at a process.
+ */
+export const caseEvaluations = pgTable(
+  'crm_case_evaluations',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    caseId: uuid('case_id')
+      .notNull()
+      .references(() => cases.id, { onDelete: 'cascade' }),
+    stage: evaluationStage('stage').notNull(),
+    reviewerUserId: uuid('reviewer_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    /** Null means "reviewed, no numeric judgement" — notes without a score. */
+    score: integer('score'),
+    notes: text('notes'),
+    criteriaVersion: text('criteria_version').notNull(),
+    recordedAt: timestamp('recorded_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    check(
+      'crm_case_evaluations_score_range_check',
+      sql`${table.score} is null or (${table.score} between 1 and 5)`
+    ),
+    uniqueIndex('crm_case_evaluations_case_stage_uidx').on(
+      table.caseId,
+      table.stage
+    ),
+    index('crm_case_evaluations_reviewer_idx').on(table.reviewerUserId),
+  ]
+)
+
 export const schema = {
   activities,
+  caseEvaluations,
   intakeSubmissions,
   auditEvents,
   caseAssignments,

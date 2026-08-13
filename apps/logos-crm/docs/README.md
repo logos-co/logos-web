@@ -9,6 +9,7 @@ Read in this order:
 5. [`deployment.md`](deployment.md) — Docker Compose, Infra contracts, secrets, health, release, and recovery.
 6. [`migration.md`](migration.md) — CiviCRM dump import, the Notion bridge period, intake cutover, and rollback.
 7. [`civicrm-export-checklist.md`](civicrm-export-checklist.md) — what to export from CiviCRM before the instances are switched off.
+8. [`open-questions.md`](open-questions.md) — decisions the implementation deferred, what it assumed instead, and what each costs if it arrives late.
 
 The runtime is intentionally small: one Next.js application image used by `web` and `worker`, one PostgreSQL service, one protected file volume, and Infra-provided authentication and SMTP. There is no Redis, hosted queue, Vercel dependency, separate backend service, or separate scheduler.
 
