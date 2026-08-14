@@ -100,15 +100,23 @@ export async function POST(request: Request): Promise<Response> {
   // what this is here to prevent.
   const captcha = await verifyCaptcha(body.captchaToken, readClientIp(request))
   if (!captcha.ok) {
-    // An outage of the verifier is not a rejected human, so it gets a retryable
-    // status rather than a refusal the visitor cannot act on.
-    return captcha.reason === 'unavailable'
-      ? apiError(
-          'CAPTCHA_UNAVAILABLE',
-          'The captcha service could not be reached. Please try again.',
-          503
-        )
-      : apiError('CAPTCHA_FAILED', 'Captcha verification failed.', 403)
+    // An outage and a missing secret are both "not the visitor's fault", so
+    // both retry rather than accuse. They are distinct codes because one is
+    // waited out and the other is a deployment somebody has to fix.
+    if (
+      captcha.reason === 'unavailable' ||
+      captcha.reason === 'not_configured'
+    ) {
+      return apiError(
+        captcha.reason === 'unavailable'
+          ? 'CAPTCHA_UNAVAILABLE'
+          : 'CAPTCHA_NOT_CONFIGURED',
+        'The captcha service could not be reached. Please try again.',
+        503
+      )
+    }
+
+    return apiError('CAPTCHA_FAILED', 'Captcha verification failed.', 403)
   }
 
   // Store first, map second. The stored payload is the applicant; everything

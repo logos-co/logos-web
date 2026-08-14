@@ -27,6 +27,7 @@ describe('intake captcha', () => {
 
   afterEach(() => {
     vi.unstubAllGlobals()
+    vi.unstubAllEnvs()
     if (ORIGINAL_SECRET === undefined) delete process.env.HCAPTCHA_SECRET
     else process.env.HCAPTCHA_SECRET = ORIGINAL_SECRET
   })
@@ -39,6 +40,18 @@ describe('intake captcha', () => {
 
     expect(outcome).toEqual({ ok: true, skipped: true })
     expect(fetchMock).not.toHaveBeenCalled()
+  })
+
+  test('fails closed instead of skipping when production has no secret', async () => {
+    delete process.env.HCAPTCHA_SECRET
+    vi.stubEnv('NODE_ENV', 'production')
+
+    // Skipping here would leave the one public endpoint unprotected while
+    // looking protected, which is the failure this check exists to prevent.
+    expect(await verifyCaptcha('token', null)).toEqual({
+      ok: false,
+      reason: 'not_configured',
+    })
   })
 
   test('rejects a missing token once a secret is configured', async () => {

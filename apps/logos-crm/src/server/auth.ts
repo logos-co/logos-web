@@ -42,7 +42,17 @@ function readRequestId(request?: Request): string {
 }
 
 async function resolveDevActor(requestId: string): Promise<ActorContext> {
-  const { CRM_DEV_ACTOR_EMAIL } = getServerEnv()
+  const { CRM_DEV_ACTOR_EMAIL, NODE_ENV } = getServerEnv()
+
+  // Checked when a request is actually served, not when the module loads. An
+  // instance holding real personal data must not answer without an identity
+  // behind it, but a build machine has no secrets and serves nobody.
+  if (NODE_ENV === 'production') {
+    throw new AuthError(
+      'FORBIDDEN',
+      'AUTH_MODE=none cannot serve requests in production: wire the Infra identity seam first.'
+    )
+  }
   const email = normaliseEmail(CRM_DEV_ACTOR_EMAIL ?? DEFAULT_DEV_ACTOR_EMAIL)
 
   const [user] = await db

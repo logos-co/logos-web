@@ -7,7 +7,10 @@ const VERIFY_TIMEOUT_MS = 5_000
 
 export type CaptchaOutcome =
   | { ok: true; skipped: boolean }
-  | { ok: false; reason: 'missing_token' | 'rejected' | 'unavailable' }
+  | {
+      ok: false
+      reason: 'missing_token' | 'rejected' | 'unavailable' | 'not_configured'
+    }
 
 /**
  * Verifies an hCaptcha token for the public intake endpoint.
@@ -24,9 +27,16 @@ export async function verifyCaptcha(
   token: string | undefined,
   clientIp: string | null
 ): Promise<CaptchaOutcome> {
-  const { HCAPTCHA_SECRET } = getServerEnv()
+  const { HCAPTCHA_SECRET, NODE_ENV } = getServerEnv()
 
-  if (!HCAPTCHA_SECRET) return { ok: true, skipped: true }
+  if (!HCAPTCHA_SECRET) {
+    // Failing closed rather than open: an unprotected public endpoint that
+    // looks protected is the outcome this check exists to prevent. Checked per
+    // request so a build without secrets is unaffected.
+    if (NODE_ENV === 'production')
+      return { ok: false, reason: 'not_configured' }
+    return { ok: true, skipped: true }
+  }
   if (!token) return { ok: false, reason: 'missing_token' }
 
   const body = new URLSearchParams({

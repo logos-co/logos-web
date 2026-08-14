@@ -9,41 +9,32 @@ import { z } from 'zod/v4'
  */
 export const authModes = ['none', 'proxy'] as const
 
-const serverEnvSchema = z
-  .object({
-    DATABASE_URL: z.string().url(),
-    AUTH_MODE: z.enum(authModes).default('none'),
-    CRM_DEV_ACTOR_EMAIL: z.string().trim().min(3).optional(),
-    HCAPTCHA_SECRET: z.string().trim().min(1).optional(),
-    /** Base URL used to build deep links in notifications. */
-    CRM_PUBLIC_URL: z.string().url().optional(),
-    SMTP_SERVER: z.string().trim().min(1).optional(),
-    SMTP_PORT: z.coerce.number().int().positive().optional(),
-    SMTP_USER: z.string().trim().optional(),
-    SMTP_PASSWORD: z.string().optional(),
-    SMTP_FROM: z.string().trim().optional(),
-    SMTP_TLS_ENABLE: z.string().trim().optional(),
-    NOTION_TOKEN: z.string().trim().min(1).optional(),
-    NOTION_INTAKE_DATABASE_ID: z.string().trim().min(1).optional(),
-    NODE_ENV: z.string().default('development'),
-  })
-  .refine((env) => env.NODE_ENV !== 'production' || env.AUTH_MODE !== 'none', {
-    message:
-      'AUTH_MODE=none cannot be used in production: wire the Infra identity seam first.',
-    path: ['AUTH_MODE'],
-  })
-  // The intake route is the one endpoint the internet can reach. Without a
-  // secret the captcha check is skipped, which is fine locally and unacceptable
-  // in production, so the app refuses to start rather than serving an open
-  // endpoint that looks protected.
-  .refine(
-    (env) => env.NODE_ENV !== 'production' || Boolean(env.HCAPTCHA_SECRET),
-    {
-      message:
-        'HCAPTCHA_SECRET is required in production: the public intake endpoint would otherwise accept unverified submissions.',
-      path: ['HCAPTCHA_SECRET'],
-    }
-  )
+/**
+ * Parsing is pure: it describes what is set, never what is allowed.
+ *
+ * The production guards live where the risk is — resolving an actor, and
+ * verifying a captcha — rather than here. Enforcing them at parse time also
+ * blocked `next build`, which evaluates route modules on a machine that
+ * legitimately has no secrets, so a policy about serving requests became a
+ * policy about compiling code.
+ */
+const serverEnvSchema = z.object({
+  DATABASE_URL: z.string().url(),
+  AUTH_MODE: z.enum(authModes).default('none'),
+  CRM_DEV_ACTOR_EMAIL: z.string().trim().min(3).optional(),
+  HCAPTCHA_SECRET: z.string().trim().min(1).optional(),
+  /** Base URL used to build deep links in notifications. */
+  CRM_PUBLIC_URL: z.string().url().optional(),
+  SMTP_SERVER: z.string().trim().min(1).optional(),
+  SMTP_PORT: z.coerce.number().int().positive().optional(),
+  SMTP_USER: z.string().trim().optional(),
+  SMTP_PASSWORD: z.string().optional(),
+  SMTP_FROM: z.string().trim().optional(),
+  SMTP_TLS_ENABLE: z.string().trim().optional(),
+  NOTION_TOKEN: z.string().trim().min(1).optional(),
+  NOTION_INTAKE_DATABASE_ID: z.string().trim().min(1).optional(),
+  NODE_ENV: z.string().default('development'),
+})
 
 export type AuthMode = (typeof authModes)[number]
 
