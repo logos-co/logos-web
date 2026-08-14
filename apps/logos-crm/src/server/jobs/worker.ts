@@ -5,6 +5,7 @@ import { getServerEnv } from '@/server/env'
 import { expireIntakePayloadsTask } from './expire-intake-payloads'
 import { expireExportsTask, generateExportTask } from './generate-export'
 import { sendEmailNotification } from './send-email-notification'
+import { sendTaskRemindersTask } from './send-task-reminders'
 
 /**
  * The worker process. Runs against the same PostgreSQL instance as the app —
@@ -22,11 +23,13 @@ const runner = await run({
     expire_intake_payloads: expireIntakePayloadsTask,
     generate_export: generateExportTask,
     expire_exports: expireExportsTask,
+    send_task_reminders: sendTaskRemindersTask,
   },
   // Graphile Worker's own cron: no second scheduler and no cron container.
   crontab: [
     '0 3 * * * expire_intake_payloads',
     '30 * * * * expire_exports',
+    '0 8 * * * send_task_reminders',
   ].join('\n'),
 })
 

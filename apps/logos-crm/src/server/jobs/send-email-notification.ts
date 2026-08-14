@@ -12,6 +12,7 @@ import {
 } from '@/server/db/schema'
 import { getServerEnv } from '@/server/env'
 import { sendMail } from '@/server/mailer'
+import { TASK_REMINDER_KIND } from '@/server/reminder-repository'
 
 const payloadSchema = z.object({ deliveryId: z.string().uuid() })
 
@@ -82,21 +83,33 @@ export const sendEmailNotification: Task = async (rawPayload) => {
         .limit(1)
     : []
 
-  const subject = linkedCase
-    ? `${author?.displayName ?? 'Someone'} mentioned you on ${linkedCase.title}`
-    : `${author?.displayName ?? 'Someone'} mentioned you`
-
   const link = caseLink(delivery.caseId)
-  const lines = [
-    `${author?.displayName ?? 'Someone'} mentioned you in a note.`,
-    '',
-    // A truncated excerpt rather than the note itself: email is outside the
-    // access control this record sits behind, and the link is what carries the
-    // reader back into it.
-    activity ? buildExcerpt(activity.body) : '',
-    '',
-    link ? `Open the case: ${link}` : 'Open the CRM to read the full note.',
-  ].filter((line) => line !== undefined)
+  const isReminder = delivery.kind === TASK_REMINDER_KIND
+
+  const subject = isReminder
+    ? linkedCase
+      ? `Overdue: ${linkedCase.title}`
+      : 'You have an overdue task'
+    : linkedCase
+      ? `${author?.displayName ?? 'Someone'} mentioned you on ${linkedCase.title}`
+      : `${author?.displayName ?? 'Someone'} mentioned you`
+
+  // Both kinds carry a pointer, never the record. Email sits outside the access
+  // control these details live behind, and the link is what carries the reader
+  // back into it.
+  const lines = isReminder
+    ? [
+        'A task assigned to you is past its due date.',
+        '',
+        link ? `Open the case: ${link}` : 'Open the CRM to see it.',
+      ]
+    : [
+        `${author?.displayName ?? 'Someone'} mentioned you in a note.`,
+        '',
+        activity ? buildExcerpt(activity.body) : '',
+        '',
+        link ? `Open the case: ${link}` : 'Open the CRM to read the full note.',
+      ]
 
   try {
     await db
