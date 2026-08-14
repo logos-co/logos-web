@@ -1,5 +1,6 @@
 import { db, pool } from './index'
 import * as schema from './schema'
+import { seedScout } from './seed-scout'
 
 const day = 24 * 60 * 60 * 1000
 const now = Date.now()
@@ -481,5 +482,7 @@ const casesWithTask = new Set(
     await db.insert(schema.tasks).values(taskValues)
   }
 }
+
+await seedScout()
 
 await pool.end()

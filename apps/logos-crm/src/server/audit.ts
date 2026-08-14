@@ -24,7 +24,13 @@ export function systemActor(requestId: string): SystemActor {
 
 export interface AuditEventInput {
   action: string
-  entityType: 'case' | 'person' | 'organisation' | 'task' | 'activity'
+  entityType:
+    | 'case'
+    | 'person'
+    | 'organisation'
+    | 'task'
+    | 'activity'
+    | 'scout_candidate'
   entityId: string
   summary?: string
   /**

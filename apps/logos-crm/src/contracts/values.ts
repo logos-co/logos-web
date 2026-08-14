@@ -137,3 +137,98 @@ export const privacyRequestStatuses = [
  * it expires once that stops being plausible.
  */
 export const INTAKE_PAYLOAD_RETENTION_DAYS = 30
+
+/**
+ * Scout vocabularies.
+ *
+ * Scout discovers organisations and projects, not people. That boundary is a
+ * vocabulary rather than a rule somebody has to remember: the evidence fields
+ * below are the only things Scout can record, and none of them can hold a
+ * person. Adding a field is a schema change, a migration, and a source-policy
+ * review - which is the point.
+ */
+export const scoutEntityTypes = [
+  'organisation',
+  'project',
+  'community',
+  'unknown',
+] as const
+
+/**
+ * `quarantined` is entered by the pipeline, never by a reviewer: it means the
+ * subject looked like a natural person, so nothing was kept. `accepted` is
+ * terminal for a candidate version, and in this phase it records a decision
+ * rather than creating anything in the CRM.
+ */
+export const scoutReviewStates = [
+  'needs_review',
+  'accepted',
+  'watch',
+  'rejected',
+  'needs_evidence',
+  'quarantined',
+] as const
+
+export const scoutReviewDecisions = [
+  'accept',
+  'watch',
+  'reject',
+  'needs_evidence',
+] as const
+
+/**
+ * What Scout may record about a candidate. Every field is a property of an
+ * organisation or a published artefact. There is deliberately no field for a
+ * name, an address, a handle, or a role: a contact field here would turn the
+ * product into the contact database its plan says it is not.
+ */
+export const scoutEvidenceFields = [
+  'official_site',
+  'theme_match',
+  'public_repository',
+  'recent_release',
+  'public_documentation',
+  'contribution_path',
+  'ecosystem_relation',
+  'governance_model',
+] as const
+
+export const scoutExtractionMethods = [
+  'deterministic',
+  'manual',
+  'ai_assisted',
+  'synthetic',
+] as const
+
+/**
+ * How exact the recorded value is, replacing a numeric confidence. A number
+ * between zero and one reads as a probability, and nothing here is calibrated
+ * against anything, so the scale would be a claim the product cannot support.
+ */
+export const scoutCertainties = ['exact', 'derived', 'ambiguous'] as const
+
+/**
+ * Bands rather than points. A weighted total invites the reader to treat it as
+ * a partnership decision, and to compare two candidates whose evidence has
+ * nothing in common.
+ */
+export const scoutBands = ['strong', 'moderate', 'weak', 'unevidenced'] as const
+
+export const scoutDimensions = [
+  'technical_relevance',
+  'current_activity',
+  'open_collaboration',
+  'ecosystem_adjacency',
+] as const
+
+/**
+ * Evidence quality is a gate, not a dimension. Adding it to a total lets a
+ * well-documented irrelevant organisation outrank a sparsely documented
+ * perfect one, which is the opposite of what a review queue is for.
+ */
+export const scoutGates = ['sufficient', 'insufficient', 'conflicted'] as const
+
+export const CURRENT_SCOUT_RUBRIC_VERSION = 'scout-fit-v1'
+
+/** Distinct unexpired sources a candidate needs before it can be assessed. */
+export const SCOUT_MIN_DISTINCT_SOURCES = 2

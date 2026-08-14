@@ -19,6 +19,7 @@ export type WorkspaceView =
   | 'people'
   | 'organisations'
   | 'reports'
+  | 'scout'
   | 'search'
 
 interface DashboardResponse {
@@ -142,6 +143,13 @@ export function CrmShell({ children, view }: CrmShellProps) {
           >
             Organisations{' '}
             <span>{organisationsQuery.data?.items.length ?? '-'}</span>
+          </Link>
+          <Link
+            aria-current={view === 'scout' ? 'page' : undefined}
+            className={`${view === 'scout' ? 'active' : ''} cursor-pointer`}
+            href="/scout"
+          >
+            Scout
           </Link>
           <Link
             aria-current={view === 'reports' ? 'page' : undefined}

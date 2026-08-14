@@ -2722,3 +2722,428 @@ table[aria-busy='true'] tbody {
     transition-duration: 0.01ms !important;
   }
 }
+
+/**
+ * Scout.
+ *
+ * The review queue is a reading surface before it is a control panel: a
+ * reviewer decides by comparing evidence, so the evidence gets the space and
+ * the decision gets a plain row of buttons.
+ */
+.scout-preamble {
+  max-width: 62ch;
+  margin: 0 0 18px;
+  color: var(--ink-muted);
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+.scout-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 18px 24px 24px;
+  list-style: none;
+}
+
+.scout-list-item {
+  overflow: hidden;
+  border: 1px solid rgb(21 37 33 / 14%);
+  border-radius: 12px;
+  background: var(--color-white);
+}
+
+.scout-list-link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 20px;
+  padding: 16px 18px 14px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.scout-list-identity strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.scout-list-identity small {
+  display: block;
+  margin-top: 4px;
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.scout-list-summary {
+  grid-column: 1;
+  max-width: 70ch;
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+.scout-list-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 6px;
+  grid-row: 1 / 3;
+  grid-column: 2;
+}
+
+.scout-gate,
+.scout-state,
+.scout-evidence-count {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.scout-gate {
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* The gate describes our evidence, so its colours mean "look here", never
+   "this organisation is good". */
+.scout-gate.sufficient {
+  background: var(--color-brand-yellow);
+  color: var(--color-brand-dark-green);
+}
+
+.scout-gate.conflicted {
+  background: var(--color-accent-light-blue);
+  color: var(--color-brand-dark-green);
+}
+
+.scout-gate.insufficient,
+.scout-gate.quarantined {
+  border: 1px solid rgb(21 37 33 / 22%);
+  color: var(--ink-muted);
+}
+
+.scout-state,
+.scout-evidence-count {
+  color: var(--ink-muted);
+}
+
+.scout-band-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgb(21 37 33 / 10%);
+  list-style: none;
+}
+
+/* Label above value rather than beside it: side by side, the longer labels
+   wrapped to two lines while their value sat alone on the right. */
+.scout-band {
+  display: grid;
+  gap: 2px;
+  padding: 10px 18px;
+  border-right: 1px solid rgb(21 37 33 / 8%);
+}
+
+.scout-band:last-child {
+  border-right: 0;
+}
+
+.scout-band span {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.scout-band b {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.scout-band.unevidenced b {
+  color: var(--ink-muted);
+  font-weight: 400;
+}
+
+.scout-assessment-card {
+  background: var(--color-white);
+}
+
+.scout-gate-headline {
+  margin: 8px 0 6px;
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.scout-gate-reason {
+  margin: 0 0 16px;
+  max-width: 60ch;
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+.scout-dimensions {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scout-dimension-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.scout-dimension-head strong {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.scout-band-tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.scout-band-tag.unevidenced {
+  color: var(--ink-muted);
+}
+
+.scout-dimensions p {
+  margin: 3px 0 0;
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.scout-conflicts {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgb(21 37 33 / 12%);
+}
+
+.scout-conflicts ul {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scout-conflicts li {
+  display: grid;
+  gap: 2px;
+  font-size: var(--text-base);
+}
+
+.scout-conflicts span {
+  color: var(--ink-muted);
+}
+
+.scout-rubric-note {
+  margin: 18px 0 0;
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.scout-evidence-panel,
+.scout-review-panel {
+  margin-top: 18px;
+  padding: 22px 24px 24px;
+  border: 1px solid rgb(21 37 33 / 15%);
+  border-radius: 16px;
+  background: var(--color-white);
+}
+
+.scout-evidence-list {
+  display: grid;
+  gap: 16px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scout-evidence-list > li {
+  padding-top: 14px;
+  border-top: 1px solid rgb(21 37 33 / 10%);
+}
+
+.scout-evidence-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.scout-evidence-head strong {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.scout-evidence-head span {
+  flex: 1;
+  font-size: var(--text-base);
+  text-align: right;
+}
+
+/* The quoted source, not a summary of it: an extraction that reads like a
+   fact is the failure this product is most likely to have. */
+.scout-evidence-list blockquote {
+  margin: 8px 0 0;
+  padding-left: 12px;
+  border-left: 2px solid var(--color-brand-yellow);
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+.scout-evidence-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 8px;
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.scout-evidence-meta a {
+  color: var(--color-brand-dark-green);
+}
+
+.scout-review-note {
+  max-width: 62ch;
+  margin: 12px 0 16px;
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+.scout-reason-field {
+  display: grid;
+  gap: 6px;
+  max-width: 560px;
+}
+
+.scout-reason-field span {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.scout-reason-field textarea {
+  min-height: 84px;
+  padding: 10px 11px;
+  border: 1px solid rgb(21 37 33 / 20%);
+  border-radius: 8px;
+  background: var(--color-brand-off-white);
+  color: var(--color-brand-dark-green);
+  font-size: var(--text-base);
+  resize: vertical;
+}
+
+.scout-review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.scout-review-actions button {
+  min-height: 38px;
+  padding: 0 16px;
+  border: 1px solid var(--color-brand-dark-green);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-brand-dark-green);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  transition: background-color 150ms ease;
+}
+
+.scout-review-actions button:first-child {
+  background: var(--color-brand-dark-green);
+  color: var(--color-brand-off-white);
+}
+
+.scout-review-actions button:disabled {
+  border-color: rgb(21 37 33 / 25%);
+  background: transparent;
+  color: var(--ink-muted);
+}
+
+.scout-review-history {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0 0;
+  padding: 16px 0 0;
+  border-top: 1px solid rgb(21 37 33 / 12%);
+  list-style: none;
+}
+
+.scout-review-history div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.scout-review-history strong {
+  font-size: var(--text-base);
+}
+
+.scout-review-history span {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.scout-review-history p {
+  margin: 4px 0 0;
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+@media (max-width: 760px) {
+  .scout-list-link {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .scout-list-meta {
+    grid-row: auto;
+    grid-column: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}

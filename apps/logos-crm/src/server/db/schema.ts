@@ -27,6 +27,13 @@ import {
   notificationStatuses,
   privacyRequestStatuses,
   privacyRequestTypes,
+  scoutCertainties,
+  scoutEntityTypes,
+  scoutEvidenceFields,
+  scoutExtractionMethods,
+  scoutGates,
+  scoutReviewDecisions,
+  scoutReviewStates,
   taskPriorities,
   taskStatuses,
   userStatuses,
@@ -70,6 +77,22 @@ export const privacyRequestStatus = pgEnum(
   'privacy_request_status',
   privacyRequestStatuses
 )
+export const scoutEntityType = pgEnum('scout_entity_type', scoutEntityTypes)
+export const scoutReviewState = pgEnum('scout_review_state', scoutReviewStates)
+export const scoutReviewDecision = pgEnum(
+  'scout_review_decision',
+  scoutReviewDecisions
+)
+export const scoutEvidenceField = pgEnum(
+  'scout_evidence_field',
+  scoutEvidenceFields
+)
+export const scoutExtractionMethod = pgEnum(
+  'scout_extraction_method',
+  scoutExtractionMethods
+)
+export const scoutCertainty = pgEnum('scout_certainty', scoutCertainties)
+export const scoutGate = pgEnum('scout_gate', scoutGates)
 
 /**
  * Local CRM identities. `externalSubject` is the immutable subject supplied by
@@ -904,7 +927,180 @@ export const exportJobs = pgTable(
   ]
 )
 
+/**
+ * Scout candidates.
+ *
+ * A candidate is not a CRM organisation and does not become one in this phase:
+ * there is no foreign key to `crm_organisations` and no write path from Scout
+ * into it. That absence is the boundary. `crm_organisations` is read by
+ * `search-repository` and `directory-repository` with no status predicate at
+ * all, so a status column could never have kept unaccepted candidates out of
+ * the workspace - only a separate table with no link into it can.
+ */
+export const scoutCandidates = pgTable(
+  'scout_candidates',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    entityType: scoutEntityType('entity_type').notNull(),
+    displayName: text('display_name').notNull(),
+    normalisedName: text('normalised_name').notNull(),
+    domain: text('domain'),
+    summary: text('summary'),
+    reviewState: scoutReviewState('review_state')
+      .default('needs_review')
+      .notNull(),
+    /** Why the pipeline quarantined this candidate, when it did. */
+    quarantineReason: text('quarantine_reason'),
+    firstSeenAt: timestamp('first_seen_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    lastObservedAt: timestamp('last_observed_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    version: integer('version').default(1).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    check(
+      'scout_candidates_quarantine_reason_check',
+      sql`${table.reviewState} <> 'quarantined' or ${table.quarantineReason} is not null`
+    ),
+    uniqueIndex('scout_candidates_normalised_name_uidx').on(
+      table.normalisedName
+    ),
+    index('scout_candidates_state_idx').on(
+      table.reviewState,
+      table.lastObservedAt
+    ),
+  ]
+)
+
+/**
+ * Field-level evidence.
+ *
+ * `field` is an enum rather than free text, and the check constraints refuse
+ * anything shaped like a personal contact detail. The plan says Scout records
+ * organisations and not people; this is where that stops being a promise. A
+ * contact field cannot be added by a careless insert, only by a migration.
+ *
+ * The excerpt is kept because a content hash proves a page changed and cannot
+ * show what it said. Six months after a decision, "why did we accept this" has
+ * to survive the source being rewritten.
+ */
+export const scoutEvidence = pgTable(
+  'scout_evidence',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    candidateId: uuid('candidate_id')
+      .notNull()
+      .references(() => scoutCandidates.id, { onDelete: 'cascade' }),
+    field: scoutEvidenceField('field').notNull(),
+    value: text('value').notNull(),
+    sourceUrl: text('source_url').notNull(),
+    sourceTitle: text('source_title'),
+    contentHash: text('content_hash').notNull(),
+    excerpt: text('excerpt').notNull(),
+    extractionMethod: scoutExtractionMethod('extraction_method').notNull(),
+    extractorVersion: text('extractor_version').notNull(),
+    certainty: scoutCertainty('certainty').notNull(),
+    observedAt: timestamp('observed_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    expiresAt: timestamp('expires_at', { withTimezone: true }),
+    supersededAt: timestamp('superseded_at', { withTimezone: true }),
+  },
+  (table) => [
+    check(
+      'scout_evidence_no_contact_value_check',
+      sql`${table.value} !~* '(^|[[:space:]])[[:alnum:]._%+-]+@[[:alnum:].-]+\\.[[:alpha:]]{2,}' and ${table.value} !~ '\\+[0-9][0-9 ()-]{6,}' and ${table.value} !~ '[0-9]{9,}'`
+    ),
+    check(
+      'scout_evidence_no_contact_excerpt_check',
+      sql`${table.excerpt} !~* '(^|[[:space:]])[[:alnum:]._%+-]+@[[:alnum:].-]+\\.[[:alpha:]]{2,}'`
+    ),
+    index('scout_evidence_candidate_idx').on(table.candidateId, table.field),
+    index('scout_evidence_expiry_idx').on(table.expiresAt),
+  ]
+)
+
+/**
+ * A calculated assessment. Immutable: a later calculation supersedes this row
+ * rather than editing it, so the review below still points at what the
+ * reviewer actually saw.
+ *
+ * There is no total. `dimensions` holds a band and its supporting evidence per
+ * dimension, and `gate` says whether the evidence is good enough to assess at
+ * all - a judgement about our data, kept out of the judgement about theirs.
+ */
+export const scoutAssessments = pgTable(
+  'scout_assessments',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    candidateId: uuid('candidate_id')
+      .notNull()
+      .references(() => scoutCandidates.id, { onDelete: 'cascade' }),
+    rubricVersion: text('rubric_version').notNull(),
+    gate: scoutGate('gate').notNull(),
+    gateReason: text('gate_reason').notNull(),
+    dimensions: jsonb('dimensions').notNull(),
+    conflicts: jsonb('conflicts').notNull(),
+    distinctSources: integer('distinct_sources').notNull(),
+    calculatedAt: timestamp('calculated_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    supersededAt: timestamp('superseded_at', { withTimezone: true }),
+  },
+  (table) => [
+    uniqueIndex('scout_assessments_current_uidx')
+      .on(table.candidateId)
+      .where(sql`superseded_at is null`),
+    index('scout_assessments_candidate_idx').on(
+      table.candidateId,
+      table.calculatedAt
+    ),
+  ]
+)
+
+/**
+ * Append-only review decisions. The assessment is recorded alongside the
+ * decision, because "we accepted this" is only meaningful with the evidence
+ * that was on the screen at the time.
+ */
+export const scoutReviews = pgTable(
+  'scout_reviews',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    candidateId: uuid('candidate_id')
+      .notNull()
+      .references(() => scoutCandidates.id, { onDelete: 'cascade' }),
+    assessmentId: uuid('assessment_id').references(() => scoutAssessments.id, {
+      onDelete: 'set null',
+    }),
+    decision: scoutReviewDecision('decision').notNull(),
+    reason: text('reason').notNull(),
+    actorUserId: uuid('actor_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    requestId: text('request_id'),
+    reviewedAt: timestamp('reviewed_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    index('scout_reviews_candidate_idx').on(table.candidateId, table.reviewedAt),
+  ]
+)
+
 export const schema = {
+  scoutAssessments,
+  scoutCandidates,
+  scoutEvidence,
+  scoutReviews,
   activities,
   activityMentions,
   entityMerges,
