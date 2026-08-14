@@ -15,8 +15,8 @@ const SUGGESTION_LIMIT = 10
 /**
  * Moves the rows in `table` that point at the duplicate over to the survivor.
  *
- * Link tables carry uniqueness constraints — a case cannot list the same person
- * twice — so rows that would collide are dropped rather than moved. Moving them
+ * Link tables carry uniqueness constraints - a case cannot list the same person
+ * twice - so rows that would collide are dropped rather than moved. Moving them
  * blindly would abort the merge on a constraint violation, which is the one
  * outcome worse than a duplicate: a half-merged record.
  */
@@ -163,7 +163,7 @@ export async function findDuplicateOrganisations(
  * Merges one person into another.
  *
  * Every link the duplicate owned moves to the survivor, including its external
- * identities — which is what makes a later import of the merged record resolve
+ * identities - which is what makes a later import of the merged record resolve
  * to the survivor instead of resurrecting the duplicate. The duplicate is
  * archived, never deleted: the merge can be explained afterwards, and anything
  * still pointing at that id keeps resolving.

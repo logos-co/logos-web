@@ -14,6 +14,8 @@ import type {
 } from '@/contracts/directory'
 import { apiClient } from '@/lib/api-client'
 
+import { directoryStatusLabels } from './directory-status'
+
 import { NewOrganisationDialog } from './new-organisation-dialog'
 import { NewPersonDialog } from './new-person-dialog'
 import { RecordRow } from './record-row'
@@ -330,7 +332,7 @@ function OrganisationsTable({
                 href={`/organisations/${item.id}`}
               >
                 <span>{item.displayName}</span>
-                <small>{item.status}</small>
+                <small>{directoryStatusLabels[item.status]}</small>
               </Link>
             </td>
             <td data-label="Domain">{item.domain ?? 'No domain'}</td>

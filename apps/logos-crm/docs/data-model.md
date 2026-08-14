@@ -1,4 +1,4 @@
-# Logos CRM — Data Model
+# Logos CRM - Data Model
 
 ## 1. Modelling rules
 

@@ -128,7 +128,7 @@ export interface MappedNotionPage {
  *
  * Returns null when the page has no name. Everything else can be missing and
  * still describe a real person to follow up with, but a nameless row is not a
- * record — it is a row somebody started and abandoned.
+ * record - it is a row somebody started and abandoned.
  */
 export function mapNotionPage(page: NotionPage): MappedNotionPage | null {
   const properties = page.properties ?? {}

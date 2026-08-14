@@ -22,14 +22,14 @@ export interface ResponseTemplate {
  *
  * These are drafts to send from a normal mail client, not messages this app
  * sends. Outbound mail to applicants needs suppression and a consent-withdrawal
- * path, and neither exists yet — a send button here would be the fastest way to
+ * path, and neither exists yet - a send button here would be the fastest way to
  * mail somebody who asked not to be contacted.
  */
 const TEMPLATES: ResponseTemplate[] = [
   {
     id: 'approved',
     label: 'Approved',
-    subject: 'Your Logos application — next steps',
+    subject: 'Your Logos application - next steps',
     body: [
       'Hi {{applicantName}},',
       '',
@@ -46,7 +46,7 @@ const TEMPLATES: ResponseTemplate[] = [
   {
     id: 'redirected',
     label: 'Redirected',
-    subject: 'Your Logos application — a better fit',
+    subject: 'Your Logos application - a better fit',
     body: [
       'Hi {{applicantName}},',
       '',

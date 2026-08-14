@@ -213,7 +213,7 @@ export const people = pgTable(
 /**
  * `ownerUserId` is nullable on purpose: unassigned is a real, reportable state
  * for freshly captured intake, not a data defect. `nextAction` is nullable for
- * the same reason — an untriaged case has no meaningful next action, and
+ * the same reason - an untriaged case has no meaningful next action, and
  * forcing one produces placeholder text that diverges from the open task that
  * actually drives the work.
  *
@@ -535,7 +535,7 @@ export const caseWorkflowHistory = pgTable(
 
 /**
  * Append-only mutation history. There is no update or delete path: corrections
- * are new events. `changes` holds a redacted before/after projection — never
+ * are new events. `changes` holds a redacted before/after projection - never
  * note bodies, full contact details, or secrets.
  */
 export const auditEvents = pgTable(
@@ -604,7 +604,7 @@ export const externalIdentities = pgTable(
  *
  * Mapping a submission to people, organisations, and a case can fail on data
  * the form did not constrain. If that failure happened before anything was
- * stored, the applicant would simply be lost — the previous endpoint returned
+ * stored, the applicant would simply be lost - the previous endpoint returned
  * 502 and hoped the visitor tried again. Storing the payload first makes the
  * mapping replayable, so a bad mapping is a bug to fix rather than an applicant
  * to apologise to.
@@ -665,7 +665,7 @@ export const caseEvaluations = pgTable(
     reviewerUserId: uuid('reviewer_user_id').references(() => users.id, {
       onDelete: 'set null',
     }),
-    /** Null means "reviewed, no numeric judgement" — notes without a score. */
+    /** Null means "reviewed, no numeric judgement" - notes without a score. */
     score: integer('score'),
     notes: text('notes'),
     criteriaVersion: text('criteria_version').notNull(),
@@ -742,7 +742,7 @@ export const notificationDeliveries = pgTable(
     dedupeKey: text('dedupe_key').notNull(),
     status: notificationStatus('status').default('pending').notNull(),
     attempts: integer('attempts').default(0).notNull(),
-    /** Status or error code only — never the note body or the address. */
+    /** Status or error code only - never the note body or the address. */
     error: text('error'),
     createdAt: timestamp('created_at', { withTimezone: true })
       .defaultNow()
@@ -799,7 +799,7 @@ export const importErrors = pgTable(
       .notNull()
       .references(() => importRuns.id, { onDelete: 'cascade' }),
     sourceId: text('source_id').notNull(),
-    /** Message only — never the source row, which is personal data. */
+    /** Message only - never the source row, which is personal data. */
     message: text('message').notNull(),
     createdAt: timestamp('created_at', { withTimezone: true })
       .defaultNow()
@@ -810,7 +810,7 @@ export const importErrors = pgTable(
 
 /**
  * Merge history. The duplicate is archived rather than deleted, and this row is
- * what explains why it went quiet — without it, a record that stopped being
+ * what explains why it went quiet - without it, a record that stopped being
  * used looks indistinguishable from one that was abandoned.
  */
 export const entityMerges = pgTable(
@@ -863,7 +863,7 @@ export const privacyRequests = pgTable(
     handledByUserId: uuid('handled_by_user_id').references(() => users.id, {
       onDelete: 'set null',
     }),
-    /** What was asked and what was done — never a copy of the data itself. */
+    /** What was asked and what was done - never a copy of the data itself. */
     notes: text('notes'),
   },
   (table) => [

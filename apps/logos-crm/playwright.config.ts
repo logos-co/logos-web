@@ -10,9 +10,9 @@ const BASE_URL = `http://localhost:${PORT}`
  * Browser coverage for the flows a coordinator actually performs.
  *
  * These run against a real server and a real database, like the integration
- * tests, and for the same reason: the parts most likely to break — a form that
+ * tests, and for the same reason: the parts most likely to break - a form that
  * posts the wrong shape, a queue that filters server-side, a decision that
- * needs a version token — are invisible to a mocked request.
+ * needs a version token - are invisible to a mocked request.
  *
  * Kept out of `pnpm test` deliberately. They need a database and a build, and a
  * suite that cannot run without setup is one people learn to skip.

@@ -113,7 +113,7 @@ export function CaseEvaluation({ item }: CaseEvaluationProps) {
         <span className="evaluation-average">
           {summary?.averageScore !== null && summary?.averageScore !== undefined
             ? summary.averageScore.toFixed(2)
-            : '—'}
+            : '-'}
           <small>{summary ? `${summary.scoredCount} scored` : 'Loading'}</small>
         </span>
       </div>
@@ -127,8 +127,10 @@ export function CaseEvaluation({ item }: CaseEvaluationProps) {
             <li className="evaluation-stage" key={stage}>
               <div className="evaluation-stage-head">
                 <strong>{evaluationStageLabels[stage]}</strong>
+                {/* A stage nobody has scored says so. A dash in the score
+                    slot reads like a score, and reads like nothing at all. */}
                 <span className="evaluation-score">
-                  {recorded?.score ?? '—'}
+                  {recorded?.score ?? <small>Not scored</small>}
                 </span>
                 <button
                   className="work-text-action cursor-pointer"

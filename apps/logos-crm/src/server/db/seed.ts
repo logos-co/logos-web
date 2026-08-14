@@ -140,7 +140,7 @@ const personRows = await db.select().from(schema.people)
 const personByName = new Map(personRows.map((row) => [row.fullName, row]))
 
 /**
- * Source identifiers live in their own table so one record can carry several —
+ * Source identifiers live in their own table so one record can carry several -
  * the same person arriving from the CiviCRM dump and again from the Notion
  * bridge keeps both IDs.
  */
@@ -305,8 +305,8 @@ const caseSeeds = [
 
 /**
  * Seeded per title rather than behind a "the table is empty" guard. A global
- * count check silently does nothing on a partly-populated database — which is
- * exactly the state the integration tests leave behind — and the developer is
+ * count check silently does nothing on a partly-populated database - which is
+ * exactly the state the integration tests leave behind - and the developer is
  * left wondering where the demo data went.
  */
 const existingCaseTitles = new Set(

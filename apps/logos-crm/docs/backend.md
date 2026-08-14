@@ -1,4 +1,4 @@
-# Logos CRM — Backend Specification
+# Logos CRM - Backend Specification
 
 ## 1. Service boundaries
 

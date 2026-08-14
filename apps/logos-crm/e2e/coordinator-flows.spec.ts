@@ -32,7 +32,7 @@ async function openCases(page: import('@playwright/test').Page): Promise<void> {
   await expect(
     page.getByRole('heading', { name: 'Cases', exact: true })
   ).toBeVisible()
-  // The counts read "—" until the queries land, so waiting for a number is
+  // The counts read "-" until the queries land, so waiting for a number is
   // waiting for real data rather than for the shell.
   await expect(
     page

@@ -5,8 +5,8 @@ import { authModes } from '@/contracts/values'
 /**
  * Parsing is pure: it describes what is set, never what is allowed.
  *
- * The production guards live where the risk is — resolving an actor, and
- * verifying a captcha — rather than here. Enforcing them at parse time also
+ * The production guards live where the risk is - resolving an actor, and
+ * verifying a captcha - rather than here. Enforcing them at parse time also
  * blocked `next build`, which evaluates route modules on a machine that
  * legitimately has no secrets, so a policy about serving requests became a
  * policy about compiling code.
@@ -17,7 +17,7 @@ const serverEnvSchema = z.object({
    * `none` runs the app without a login screen: the acting user is resolved
    * server-side from `CRM_DEV_ACTOR_EMAIL` and the browser cannot influence
    * it. It exists because the Infra identity contract is not settled yet, and
-   * it is refused in production — an instance holding real personal data must
+   * it is refused in production - an instance holding real personal data must
    * not be reachable without an identity behind it.
    *
    * `demo` resolves the actor the same way but is allowed in production,

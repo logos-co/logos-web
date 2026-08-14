@@ -1,4 +1,4 @@
-# Logos CRM — Self-hosted Deployment Specification
+# Logos CRM - Self-hosted Deployment Specification
 
 ## 1. Supported deployment model
 

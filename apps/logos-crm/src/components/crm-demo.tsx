@@ -255,7 +255,7 @@ export function CrmDemo({ view }: CrmDemoProps) {
                   onClick={() => setQueue(tab.value)}
                 >
                   <span>{tab.label}</span>
-                  <b>{dashboardQuery.data?.queues?.[tab.value] ?? '—'}</b>
+                  <b>{dashboardQuery.data?.queues?.[tab.value] ?? '-'}</b>
                 </button>
               ))}
             </nav>
@@ -268,7 +268,7 @@ export function CrmDemo({ view }: CrmDemoProps) {
                 onClick={() => setStatus('all')}
               >
                 <span>All cases</span>
-                <strong>{dashboardQuery.data?.total ?? '—'}</strong>
+                <strong>{dashboardQuery.data?.total ?? '-'}</strong>
               </button>
               {statuses.map((item, index) => (
                 <button
@@ -280,7 +280,7 @@ export function CrmDemo({ view }: CrmDemoProps) {
                 >
                   <span>{String(index + 1).padStart(2, '0')}</span>
                   <strong>{statusLabels[item]}</strong>
-                  <b>{dashboardQuery.data?.byStatus[item] ?? '—'}</b>
+                  <b>{dashboardQuery.data?.byStatus[item] ?? '-'}</b>
                 </button>
               ))}
             </section>

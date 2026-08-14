@@ -207,7 +207,7 @@ export interface ProcessSubmissionOptions {
  *
  * The same rules serve the public funnel and the Notion bridge import, so an
  * imported applicant and a freshly submitted one become the same kind of record
- * — only the recorded source differs.
+ * - only the recorded source differs.
  */
 export async function processSubmission(
   submission: Readonly<typeof intakeSubmissions.$inferSelect>,
@@ -267,7 +267,7 @@ export async function processSubmission(
     const [row] = await transaction
       .insert(cases)
       .values({
-        title: `${intakeProfileByForm[input.formName]} — ${input.name}`,
+        title: `${intakeProfileByForm[input.formName]} - ${input.name}`,
         stage: 'Intake',
         priority: 'medium',
         status: 'new',

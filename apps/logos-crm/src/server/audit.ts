@@ -5,7 +5,7 @@ import { auditEvents } from '@/server/db/schema'
 type Transaction = Parameters<Parameters<typeof db.transaction>[0]>[0]
 
 /**
- * Work that no user initiated — public funnel intake, scheduled jobs. The audit
+ * Work that no user initiated - public funnel intake, scheduled jobs. The audit
  * row still needs a request ID to correlate with, but attributing it to a
  * person would be a lie.
  */
@@ -37,7 +37,7 @@ export interface AuditEventInput {
 
 /**
  * Writes an audit event. Always call this inside the same transaction as the
- * mutation it describes — an audit row that can commit without its mutation
+ * mutation it describes - an audit row that can commit without its mutation
  * (or the reverse) is worse than no audit row, because it is trusted.
  */
 export async function recordAuditEvent(

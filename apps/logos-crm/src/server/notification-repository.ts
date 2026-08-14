@@ -47,7 +47,7 @@ export async function queueMentionNotifications(
   if (handles.length === 0) return []
 
   // Handles are matched against real users; an unknown one is simply text. The
-  // alternative — failing the note — would make a typo cost the coordinator
+  // alternative - failing the note - would make a typo cost the coordinator
   // their work.
   const candidates = await transaction
     .select({ id: users.id, email: users.normalisedEmail })

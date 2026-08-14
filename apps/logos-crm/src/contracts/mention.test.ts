@@ -43,7 +43,7 @@ describe('mention parsing', () => {
   })
 
   test('ignores an email address that is not a mention', () => {
-    // Nobody was mentioned here — the address is the subject of the note.
+    // Nobody was mentioned here - the address is the subject of the note.
     expect(parseMentionHandles('Their contact is amina@example.org')).toEqual(
       []
     )

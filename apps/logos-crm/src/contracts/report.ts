@@ -19,7 +19,7 @@ function isValidTimezone(value: string): boolean {
  * Every report is a question about a cohort seen from a point in time, so all
  * four parameters are required rather than defaulted.
  *
- * `cohort_from`/`cohort_to` select which cases are counted — the ones created in
+ * `cohort_from`/`cohort_to` select which cases are counted - the ones created in
  * that window. `as_of` decides which state they are counted in: a case created
  * in March and closed in May is open when asked about April. Without an
  * explicit `as_of` a report silently means "now", and two people comparing

@@ -4,7 +4,7 @@ import { listResponseTemplates, renderResponseTemplate } from './template'
 
 const base = {
   applicantName: 'Amina Okafor',
-  caseTitle: 'Coalition Partner — Amina Okafor',
+  caseTitle: 'Coalition Partner - Amina Okafor',
   organisationName: 'Open Systems Lab',
   profile: 'Coalition Partner',
   decisionReason: 'Clear fit for the coalition track.',

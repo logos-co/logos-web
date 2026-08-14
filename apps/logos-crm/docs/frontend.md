@@ -1,4 +1,4 @@
-# Logos CRM — Frontend Specification
+# Logos CRM - Frontend Specification
 
 ## 1. Frontend goals
 

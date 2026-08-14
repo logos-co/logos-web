@@ -11,16 +11,17 @@
    * Type scale.
    *
    * This is a tool people read for hours, not a page they glance at, so the
-   * floor is 13px and nothing in the interface goes under it — including the
+   * floor is 14px and nothing in the interface goes under it - including the
    * uppercase mono labels that carry most of it. Small capitals are the hardest
    * thing here to read at a glance, which is the entire job of a label, so they
-   * get the same floor as prose rather than a smaller one.
+   * get the same floor as prose rather than a smaller one, and the body sits a
+   * step above the floor so the two are told apart by size and not only case.
    *
    * Sizes are tokens rather than literals so the scale can move as one. Display
-   * sizes stay literal — they are the brand's voice, set per context.
+   * sizes stay literal - they are the brand's voice, set per context.
    */
-  --text-sm: 0.8125rem; /* 13px — labels and secondary text, the floor */
-  --text-base: 0.875rem; /* 14px — body */
+  --text-sm: 0.875rem; /* 14px - labels and secondary text, the floor */
+  --text-base: 0.9375rem; /* 15px - body */
 
   /**
    * These names are Tailwind's, and redefining them here pulls the utility
@@ -172,7 +173,7 @@ textarea:focus-visible {
   padding: 0 12px;
   border-radius: 8px;
   color: rgb(245 245 239 / 66%);
-  font-size: 14px;
+  font-size: var(--text-base);
   text-decoration: none;
   transition:
     background-color 150ms ease,
@@ -702,7 +703,7 @@ a.dashboard-latest-update:hover {
 }
 
 .search-hit strong {
-  font-size: 14px;
+  font-size: var(--text-base);
   font-weight: 500;
 }
 
@@ -755,7 +756,7 @@ a.dashboard-latest-update:hover {
 
 .response-subject {
   margin-top: 12px;
-  font-size: 14px;
+  font-size: var(--text-base);
   font-weight: 500;
 }
 
@@ -804,7 +805,7 @@ a.dashboard-latest-update:hover {
 
 .duplicate-hit strong {
   display: block;
-  font-size: 14px;
+  font-size: var(--text-base);
   font-weight: 500;
 }
 
@@ -949,6 +950,14 @@ a.dashboard-latest-update:hover {
   font-family: var(--font-display);
   font-size: 19px;
   line-height: 1;
+}
+
+.evaluation-score small {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
 }
 
 .evaluation-recorded {
@@ -1223,7 +1232,9 @@ a.dashboard-latest-update:hover {
   border-radius: 8px;
   background: var(--color-brand-off-white);
   color: var(--color-brand-dark-green);
-  font-size: var(--text-sm);
+  /* What a person types is content, so it is set at body size like the rest
+     of the content, not at the size of the label above it. */
+  font-size: var(--text-base);
 }
 
 .form-field textarea {
@@ -1420,7 +1431,7 @@ tbody tr.active-row {
 
 .detail-facts dd {
   margin: 5px 0 0;
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
 }
 
 .next-action {
@@ -1551,12 +1562,17 @@ tbody tr.active-row {
   min-height: 38px;
   align-items: center;
   justify-content: center;
+  /* A person's name is in the label, so the label is as long as the longest
+     name: it has to be able to take two lines without touching the border. */
+  padding: 8px 14px;
   border: 1px solid var(--color-brand-dark-green);
   border-radius: 8px;
   color: var(--color-brand-dark-green);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
   text-decoration: none;
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
@@ -1704,7 +1720,7 @@ tbody tr.active-row {
   border-radius: 7px;
   background: var(--color-white);
   color: var(--color-brand-dark-green);
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
 }
 
 .work-form textarea {
@@ -1982,7 +1998,7 @@ tbody tr.active-row {
 }
 
 /* Card shell only. Placement lives with each page's grid, so a card class must
-   never carry grid-column or grid-row — reusing one that does drops the card
+   never carry grid-column or grid-row - reusing one that does drops the card
    into another page's layout slot. */
 .record-action-card,
 .record-context-card,
@@ -2072,13 +2088,21 @@ tbody tr.active-row {
   grid-row: 3;
 }
 
+/**
+ * One grid for the whole list so the label column is as wide as the longest
+ * label and no wider. A fixed width here was a number tuned to one type size,
+ * and it broke - "Last contact" wrapped - the moment the scale moved.
+ */
 .record-facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
   margin: 18px 0 0;
 }
 
 .record-facts div {
   display: grid;
-  grid-template-columns: 104px minmax(0, 1fr);
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
   gap: 14px;
   padding: 12px 0;
   border-bottom: 1px solid rgb(21 37 33 / 10%);
@@ -2099,7 +2123,7 @@ tbody tr.active-row {
 .record-facts dd {
   min-width: 0;
   margin: 0;
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   overflow-wrap: anywhere;
 }
 
@@ -2392,10 +2416,13 @@ table[aria-busy='true'] tbody {
     padding-bottom: 16px;
   }
 
+  /* Wraps rather than scrolls: a horizontal scroller put Reports off the edge
+     of the screen with nothing to say it was there. */
   .primary-nav {
     flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
     padding: 12px 0 0;
-    overflow-x: auto;
   }
 
   .primary-nav a {
@@ -2403,7 +2430,6 @@ table[aria-busy='true'] tbody {
     gap: 8px;
     min-height: 40px;
     padding-inline: 9px;
-    font-size: var(--text-sm);
   }
 
   .primary-nav a span {
@@ -2618,9 +2644,12 @@ table[aria-busy='true'] tbody {
     gap: 9px;
   }
 
+  /* Two cells side by side need room for a label and its value. Below that
+     the pair drops to one per line, because splitting "Unassigned" down the
+     middle of the word is worse than a taller card. */
   table tbody tr {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(232px, 1fr));
     overflow: hidden;
     border: 1px solid rgb(21 37 33 / 12%);
     border-radius: 10px;

@@ -1,4 +1,4 @@
-# Logos CRM — Migration Plan
+# Logos CRM - Migration Plan
 
 > Revised for the CiviCRM shutdown. The earlier version of this document assumed
 > `apps/civi-crm` would stay the authoritative write path through a long parallel-run
@@ -11,11 +11,11 @@
 
 There is no long parallel run. There is a **short transition with two data sources**:
 
-1. **CiviCRM — one-time historical dump.** Taken from the running instance before it is
+1. **CiviCRM - one-time historical dump.** Taken from the running instance before it is
    switched off, following [`civicrm-export-checklist.md`](civicrm-export-checklist.md).
    After that, CiviCRM is not a live source, an integration, or a fallback. It is a
    frozen archive.
-2. **Notion — the bridge period source of record.** After #134 merges, the intake
+2. **Notion - the bridge period source of record.** After #134 merges, the intake
    endpoint writes submissions to Notion (and forwards the steward form to n8n).
    Everything a coordinator does between the CiviCRM shutdown and the Logos CRM
    cutover exists only in Notion. It has to be imported too.
@@ -31,7 +31,7 @@ the CiviCRM dump will silently lose every applicant received during the bridge p
 - Email is never the sole durable identity key.
 - No dual-write. When Logos CRM takes over intake it becomes the single canonical
   write, and Notion / n8n delivery becomes a Graphile Worker follow-up job with an
-  idempotency key — not a second synchronous destination.
+  idempotency key - not a second synchronous destination.
 - The bridge period is kept as short as the Logos CRM milestones allow. Every week of
   bridge is another week of data that has to be imported from Notion.
 
@@ -69,7 +69,7 @@ The property contract is what the intake endpoint writes today
 | `Tech Vision`, `Activities Vision`    | case summary fields                    |
 | Website URL properties                | organisation website                   |
 
-Evaluation during the bridge period is free text in the page body — the
+Evaluation during the bridge period is free text in the page body - the
 `Submission Evaluation`, `Call Evaluation`, `One Pager Evaluation` and `Other Notes`
 sections of the evaluation template. Import these as activities on the case, not as
 structured scores. There is no numeric scorecard in the bridge period: that structure
@@ -120,7 +120,7 @@ picking a winner.
 
 ### Intake cutover
 
-This is a single switch, not a per-workflow sequence — after the CiviCRM shutdown there
+This is a single switch, not a per-workflow sequence - after the CiviCRM shutdown there
 is only one workflow left to move:
 
 1. Implement the Logos CRM intake endpoint with an idempotent `submission_id`.

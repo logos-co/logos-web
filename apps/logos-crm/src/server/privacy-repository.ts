@@ -177,7 +177,7 @@ export async function updatePrivacyRequest(
  * Applies an erasure request.
  *
  * The personal data goes; the record does not. Cases, links, and the audit
- * trail remain so the history of what was decided stays intact and provable —
+ * trail remain so the history of what was decided stays intact and provable -
  * deleting the row would take the evidence of handling the request with it.
  * The name becomes a marker rather than an empty string, so a screen showing
  * this person reads as erased instead of broken.

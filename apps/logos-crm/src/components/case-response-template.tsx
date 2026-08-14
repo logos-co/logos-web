@@ -76,8 +76,8 @@ export function CaseResponseTemplate({
       </div>
 
       <p className="report-note">
-        Send this from your own mail client. The CRM does not contact applicants
-        yet — suppression and consent withdrawal are not built.
+        Send this from your own mail client. The CRM does not contact
+        applicants yet: suppression and consent withdrawal are not built.
       </p>
 
       <p className="response-subject">{template.subject}</p>

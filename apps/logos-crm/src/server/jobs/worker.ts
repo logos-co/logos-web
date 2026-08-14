@@ -8,7 +8,7 @@ import { sendEmailNotification } from './send-email-notification'
 import { sendTaskRemindersTask } from './send-task-reminders'
 
 /**
- * The worker process. Runs against the same PostgreSQL instance as the app —
+ * The worker process. Runs against the same PostgreSQL instance as the app -
  * no Redis, no hosted queue, no separate scheduler.
  *
  * Retries, backoff, and graceful shutdown belong to Graphile Worker; tasks

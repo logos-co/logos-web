@@ -22,7 +22,7 @@ type TotalRow = Record<string, unknown> & { count: number }
  * in during March were still open at the end of April" is a question about a
  * past moment, and the only place that answer exists is
  * `crm_case_workflow_history` and `crm_case_assignments`. Reading the case row
- * instead would quietly answer a different question — the one about today — and
+ * instead would quietly answer a different question - the one about today - and
  * look plausible while doing it.
  */
 export async function getFunnelReport(

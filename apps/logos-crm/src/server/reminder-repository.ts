@@ -9,7 +9,7 @@ export const TASK_REMINDER_KIND = 'task.overdue'
  * One reminder per task per day.
  *
  * The date is part of the key so a task that stays overdue is chased again
- * tomorrow but not twice today — a reminder that arrives every time the cron
+ * tomorrow but not twice today - a reminder that arrives every time the cron
  * fires trains people to filter the sender.
  */
 function reminderDedupeKey(taskId: string, day: string): string {

@@ -1,6 +1,6 @@
 /**
- * Identity modes. The policy each one carries — which are refused in
- * production, and what `demo` claims about the data — lives with the guard in
+ * Identity modes. The policy each one carries - which are refused in
+ * production, and what `demo` claims about the data - lives with the guard in
  * `src/server/env.ts`; the list is here because the API reports the mode and
  * the browser reads it.
  */
@@ -39,7 +39,7 @@ export const userStatuses = ['pending', 'active', 'suspended'] as const
 /**
  * Evaluation stages. These mirror the free-text sections of the Notion
  * evaluation template that intake review currently runs on, so the same
- * judgement is recorded in the same order — but as scored, attributable rows
+ * judgement is recorded in the same order - but as scored, attributable rows
  * rather than prose nobody can report on.
  */
 export const evaluationStages = [

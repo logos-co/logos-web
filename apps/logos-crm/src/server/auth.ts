@@ -92,7 +92,7 @@ async function resolveDevActor(
 /**
  * Resolves the acting user for a request.
  *
- * `AUTH_MODE=proxy` is the shape the Infra deployment will use — trusted
+ * `AUTH_MODE=proxy` is the shape the Infra deployment will use - trusted
  * subject and email headers plus a shared verification header, resolved to a
  * local user by immutable subject. It is deliberately not implemented yet
  * rather than stubbed permissively: a seam that silently admits everyone is

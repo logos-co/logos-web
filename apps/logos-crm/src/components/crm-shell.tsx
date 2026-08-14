@@ -126,14 +126,14 @@ export function CrmShell({ children, view }: CrmShellProps) {
             className={`${view === 'cases' ? 'active' : ''} cursor-pointer`}
             href="/cases"
           >
-            Cases <span>{dashboardQuery.data?.total ?? '—'}</span>
+            Cases <span>{dashboardQuery.data?.total ?? '-'}</span>
           </Link>
           <Link
             aria-current={view === 'people' ? 'page' : undefined}
             className={`${view === 'people' ? 'active' : ''} cursor-pointer`}
             href="/people"
           >
-            People <span>{peopleQuery.data?.items.length ?? '—'}</span>
+            People <span>{peopleQuery.data?.items.length ?? '-'}</span>
           </Link>
           <Link
             aria-current={view === 'organisations' ? 'page' : undefined}
@@ -141,7 +141,7 @@ export function CrmShell({ children, view }: CrmShellProps) {
             href="/organisations"
           >
             Organisations{' '}
-            <span>{organisationsQuery.data?.items.length ?? '—'}</span>
+            <span>{organisationsQuery.data?.items.length ?? '-'}</span>
           </Link>
           <Link
             aria-current={view === 'reports' ? 'page' : undefined}
@@ -161,8 +161,8 @@ export function CrmShell({ children, view }: CrmShellProps) {
           seeded records read as a real caseload. */}
       {actorQuery.data?.item.authMode === 'demo' ? (
         <p className="demo-badge">
-          Demo — seeded data, no sign-in. Never enter a real person&rsquo;s
-          details.
+          Demo instance: seeded data, no sign-in. Never enter a real
+          person&rsquo;s details.
         </p>
       ) : null}
     </div>

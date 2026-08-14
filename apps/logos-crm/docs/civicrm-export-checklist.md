@@ -1,4 +1,4 @@
-# CiviCRM — Final Export Checklist
+# CiviCRM - Final Export Checklist
 
 > Status: required before the CiviCRM instances are switched off.
 >
@@ -10,7 +10,7 @@
 entire CiviCRM query layer from this monorepo. Once it merges, no code path in the
 repository can read a CiviCRM instance, and `apps/civi-crm` keeps only the public
 funnel intake endpoint. Everything below therefore has to be exported from the
-running instance itself — through the CiviCRM admin UI, APIv4, or a database dump —
+running instance itself - through the CiviCRM admin UI, APIv4, or a database dump -
 not through this repository.
 
 The evaluation data in particular has no successor. The six-criterion scorecard is a
@@ -46,7 +46,7 @@ Export all case types present in the instance, not only this one.
 | Notes              | `Circle_Case.Notes`                    |
 | Client contact     | `contact_id`                           |
 
-### 2.2 Scorecard (highest priority — no successor system)
+### 2.2 Scorecard (highest priority - no successor system)
 
 All six scoring fields are integers 1–5, plus the stored average.
 
@@ -101,14 +101,14 @@ problem, not a missing nice-to-have.
 - Case tags, groups, and group memberships.
 
 Status history is what makes stage duration and pipeline reporting possible. If the
-instance cannot produce per-change history, record that explicitly — imported cases
+instance cannot produce per-change history, record that explicitly - imported cases
 without trustworthy history are counted in current totals but excluded from
 transition-duration metrics, and the coverage gap has to be reported rather than
 silently averaged over.
 
 ### 2.6 Option lists
 
-Export the option values behind every `:name` / `:label` pair above — case status,
+Export the option values behind every `:name` / `:label` pair above - case status,
 lead source, profile, relationship types, country. Logos CRM catalogues are versioned
 by effective time, so the historical label of a code has to be importable.
 
@@ -132,7 +132,7 @@ by effective time, so the historical label of a code has to be importable.
    of cases showing an assigned coordinator in the UI.
 4. Spot-check five cases with a non-null `Circle_Case.Scorecard` against the six
    component fields.
-5. Record the export timestamp — it is the watermark that separates CiviCRM-era data
+5. Record the export timestamp - it is the watermark that separates CiviCRM-era data
    from the Notion bridge period described in [`migration.md`](migration.md).
 
 ## 5. Handling

@@ -65,7 +65,7 @@ export function ReportsView() {
 
   /**
    * Pinned when the period is chosen, not read on every render. A report whose
-   * `as_of` moves each render is a different question each time — and as the
+   * `as_of` moves each render is a different question each time - and as the
    * query key, it would refetch forever.
    */
   const window = useMemo(() => {
@@ -141,7 +141,7 @@ export function ReportsView() {
             <strong className="report-headline">{report.cohortTotal}</strong>
             <p className="report-note">
               {report.historyCoverageGap > 0
-                ? `${report.historyCoverageGap} imported without observed history — excluded from duration metrics`
+                ? `${report.historyCoverageGap} imported without observed history, so they are excluded from duration metrics`
                 : 'All cases in this cohort have observed history'}
             </p>
           </section>

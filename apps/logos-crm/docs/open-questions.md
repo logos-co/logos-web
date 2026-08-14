@@ -1,4 +1,4 @@
-# Logos CRM — Open Questions
+# Logos CRM - Open Questions
 
 Decisions the implementation has deliberately deferred. Each entry says what was
 assumed in the meantime, so nothing is silently guessed: where the code had to
@@ -11,7 +11,7 @@ Ordered by how expensive the decision gets if it arrives late.
 
 ## 1. Authentication and access control
 
-**Question.** What identity contract does Infra provide — header names, the
+**Question.** What identity contract does Infra provide - header names, the
 shared verification secret, and what an unknown-but-valid subject should mean?
 
 **Assumed.** `AUTH_MODE=none`: the acting user is resolved server-side from
@@ -23,7 +23,7 @@ seeded fixtures only, no real person's details, and a label on every screen. The
 deployed previews run on it so reviewers can see the working interface.
 
 **Cost of delay.** Low for now, high once real data lands. Everything already
-takes an `ActorContext`, so wiring identity is one file — but until it is wired,
+takes an `ActorContext`, so wiring identity is one file - but until it is wired,
 an instance holding real personal data must sit behind Infra or VPN access
 control. Running without a login screen is not the same as running without
 access control.
@@ -41,13 +41,13 @@ provisions it? Does Infra still own rate limiting for this route?
 **Built.** `POST /api/public/intake` verifies an hCaptcha token before anything
 is written, matching what the endpoint it replaces did. With no
 `HCAPTCHA_SECRET` configured the check is skipped so local development and tests
-do not need one, and production refuses to start without it — an open endpoint
+do not need one, and production refuses to start without it - an open endpoint
 that looks protected is worse than one that is visibly open. A verifier outage
 returns 503 rather than 403, because an outage is not a rejected human.
 
 **Still open.** The secret itself. Nothing else here blocks cutover, but the
 route is only actually protected once Infra provides it, and the architecture
-spec puts rate limiting on Infra's side — worth confirming that still holds for
+spec puts rate limiting on Infra's side - worth confirming that still holds for
 a route the internet can reach.
 
 ---
@@ -73,8 +73,8 @@ in 2025" has no answer.
 reviewer per stage right, or does intake review need several with recorded
 disagreement?
 
-**Assumed.** Four stages mirroring the Notion evaluation template — Submission,
-Call, One pager, Other notes — each with an optional 1–5 score and notes, one
+**Assumed.** Four stages mirroring the Notion evaluation template - Submission,
+Call, One pager, Other notes - each with an optional 1–5 score and notes, one
 reviewer per stage, rubric version `intake-v1`. The average is taken over scored
 stages only, so an unscored stage is a gap rather than a zero.
 
@@ -83,7 +83,7 @@ rubric does not rewrite the meaning of past scores. Multiple reviewers would
 need quorum, re-review, and disagreement rules, which is why they were left out
 rather than invented.
 
-**Note.** This is not equivalence with the old CiviCRM scorecard — that was six
+**Note.** This is not equivalence with the old CiviCRM scorecard - that was six
 weighted criteria and it is gone. Treat these four stages as a starting point to
 argue with, not a migration of the old rubric.
 
@@ -102,7 +102,7 @@ metrics. Each run records its counts and row-level errors, and the newest source
 timestamp becomes the next run's starting point.
 
 **Still open.** Credentials, and who runs it. A renamed Notion property still
-breaks the mapping silently — the property names live in
+breaks the mapping silently - the property names live in
 `src/contracts/notion.ts`, so snapshot the database schema and treat a rename
 there as a code change.
 
@@ -114,8 +114,8 @@ another week of applicants nobody has imported yet.
 ## 6. Decision and status semantics
 
 **Question.** Should the decision drive the case status? Today a case can be
-`approved` and still `in_progress`, which may be correct — approval starts
-onboarding — or may be two fields disagreeing.
+`approved` and still `in_progress`, which may be correct - approval starts
+onboarding - or may be two fields disagreeing.
 
 **Assumed.** Decision and status are independent. `closed` is terminal, and
 reopening is a separate audited action rather than a status edit.
@@ -128,7 +128,7 @@ mean one of the two, and the reporting work will force the answer.
 ## 7. Working thresholds
 
 Numbers currently chosen by the implementation. Each is a named constant, so
-changing them is a one-line edit — but they are team agreements, not
+changing them is a one-line edit - but they are team agreements, not
 implementation details.
 
 | Threshold                     | Value    | Where                      |
@@ -191,7 +191,7 @@ notification, task reminders, and delivery records do not exist.
 ## 11. Reporting
 
 **Question.** Is XLSX genuinely required by leadership, or is filtered CSV
-enough (status-web#1178)? Who signs off the metric definitions — cohort, `as_of`,
+enough (status-web#1178)? Who signs off the metric definitions - cohort, `as_of`,
 timezone, and how imported cases without trustworthy history are reported?
 
 **Assumed.** Not built.

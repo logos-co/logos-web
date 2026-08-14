@@ -132,7 +132,7 @@ export async function listActivities(
  * Records an activity and, when it represents actual contact with the record,
  * advances the case's `lastContactAt` cache in the same transaction. Staleness
  * views read that cache, so it must never drift from the timeline it summarises
- * — and a note is not contact.
+ * - and a note is not contact.
  */
 export async function createActivity(
   actor: Readonly<ActorContext>,

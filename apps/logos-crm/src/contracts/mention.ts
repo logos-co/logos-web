@@ -3,8 +3,8 @@
  *
  * Matches `@` followed by an email address or a dotted handle, which is what
  * people actually type when referring to a colleague. Parsing is a pure
- * function so the rule can be tested without a database, and so the server —
- * never the client — decides who was mentioned.
+ * function so the rule can be tested without a database, and so the server -
+ * never the client - decides who was mentioned.
  */
 const MENTION_PATTERN = /(^|[\s(<[])@([\w.+-]+(?:@[\w-]+(?:\.[\w-]+)+)?)/g
 

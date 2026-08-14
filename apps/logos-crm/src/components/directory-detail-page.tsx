@@ -14,6 +14,7 @@ import type {
 import { apiClient } from '@/lib/api-client'
 
 import { CrmShell } from './crm-shell'
+import { directoryStatusLabels } from './directory-status'
 import { DuplicateSuggestions } from './duplicate-suggestions'
 import { NewOrganisationDialog } from './new-organisation-dialog'
 import { NewPersonDialog } from './new-person-dialog'
@@ -307,7 +308,7 @@ function OrganisationRecordPage({
             </div>
             <div>
               <dt>Status</dt>
-              <dd>{item.status}</dd>
+              <dd>{directoryStatusLabels[item.status]}</dd>
             </div>
             <div>
               <dt>Domain</dt>

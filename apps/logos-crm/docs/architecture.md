@@ -1,4 +1,4 @@
-# Logos CRM — Technical Specification
+# Logos CRM - Technical Specification
 
 > Status: proposed v0.4
 >
@@ -14,7 +14,7 @@ Every production capability must be self-hostable. The application must not requ
 
 `logos-crm` is the long-term Logos CRM application. It is a new, independently deployable CRM with its own PostgreSQL database, and it is the successor to the CiviCRM instances now being decommissioned.
 
-The application is not a wrapper around CiviCRM. [logos-co/logos-web#134](https://github.com/logos-co/logos-web/pull/134) removes the CiviCRM integration from the monorepo and leaves `apps/civi-crm` as the host of the public funnel intake endpoint only. CiviCRM is therefore a one-time historical import source, not a live integration: the instance is dumped before shutdown, and submissions received between that shutdown and the Logos CRM intake cutover live in Notion. Both are import sources — see [`migration.md`](migration.md) and [`civicrm-export-checklist.md`](civicrm-export-checklist.md).
+The application is not a wrapper around CiviCRM. [logos-co/logos-web#134](https://github.com/logos-co/logos-web/pull/134) removes the CiviCRM integration from the monorepo and leaves `apps/civi-crm` as the host of the public funnel intake endpoint only. CiviCRM is therefore a one-time historical import source, not a live integration: the instance is dumped before shutdown, and submissions received between that shutdown and the Logos CRM intake cutover live in Notion. Both are import sources - see [`migration.md`](migration.md) and [`civicrm-export-checklist.md`](civicrm-export-checklist.md).
 
 Until that cutover, coordinators have no CRM user interface: #134 deletes the case-management screens as well. Reaching a usable operational workspace is the first milestone, not an incremental improvement over an existing tool.
 
@@ -178,20 +178,20 @@ Capabilities include `cases:read`, `cases:write`, `activities:read`, `activities
 
 The initial domain model is:
 
-- `users` and `roles` — local identity and CRM permissions;
-- `people` — individuals and contact details;
-- `organisations` — entities and organisational contact details;
+- `users` and `roles` - local identity and CRM permissions;
+- `people` - individuals and contact details;
+- `organisations` - entities and organisational contact details;
 - contact methods and typed person-to-organisation relationships;
-- `cases` — workflow records with an explicit status and owner;
-- `case_assignments` — current and historical assignments;
-- `activities` — notes, calls, meetings, and system actions;
-- `tasks` — assigned follow-ups linked to a case, person, or organisation;
-- activity visibility — `private`, `team`, or `shared`, enforced for timelines, reports, exports, and mentions;
-- notification delivery records — audit and delivery state for Graphile Worker jobs;
-- `audit_events` — append-only mutation history;
-- `external_identities` — source-system IDs, per source: CiviCRM contact/case IDs and Notion page IDs;
-- merge records — immutable mappings from duplicate records to the surviving record;
-- `import_runs` — import checkpoints, mappings, errors, and reconciliation results.
+- `cases` - workflow records with an explicit status and owner;
+- `case_assignments` - current and historical assignments;
+- `activities` - notes, calls, meetings, and system actions;
+- `tasks` - assigned follow-ups linked to a case, person, or organisation;
+- activity visibility - `private`, `team`, or `shared`, enforced for timelines, reports, exports, and mentions;
+- notification delivery records - audit and delivery state for Graphile Worker jobs;
+- `audit_events` - append-only mutation history;
+- `external_identities` - source-system IDs, per source: CiviCRM contact/case IDs and Notion page IDs;
+- merge records - immutable mappings from duplicate records to the surviving record;
+- `import_runs` - import checkpoints, mappings, errors, and reconciliation results.
 
 Every imported record must retain its source system and source identifier. Migration code must be idempotent and must not use email as the sole durable identity key.
 
