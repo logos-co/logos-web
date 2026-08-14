@@ -74,3 +74,58 @@ test('a decision is recorded against the reviewer and creates no CRM record', as
   const after = await (await request.get('/api/v1/organisations')).json()
   expect(after.items.length).toBe(before.items.length)
 })
+
+test('search narrows the queue by name, domain, and summary', async ({
+  page,
+}) => {
+  await page.goto('/scout')
+  await expect(page.locator('.scout-list-item').first()).toBeVisible()
+
+  await page.getByPlaceholder('Name, domain, or summary').fill('meshwork')
+
+  await expect(page.locator('.scout-list-item')).toHaveCount(1)
+  await expect(page.locator('.scout-list-item')).toContainText(
+    'Meshwork Commons'
+  )
+})
+
+test('find more adds candidates and says no source was contacted', async ({
+  page,
+}) => {
+  await page.goto('/scout')
+  const before = await page.locator('.scout-list-item').count()
+
+  await page.getByRole('button', { name: 'Find more' }).click()
+
+  await expect(page.getByText('No external source was contacted')).toBeVisible()
+  await expect(async () => {
+    expect(await page.locator('.scout-list-item').count()).toBeGreaterThan(
+      before
+    )
+  }).toPass()
+})
+
+test('several candidates can be decided together, but never accepted together', async ({
+  page,
+}) => {
+  await page.goto('/scout')
+  await expect(page.locator('.scout-list-item').first()).toBeVisible()
+
+  await page.locator('.scout-select input').first().check()
+
+  await page
+    .getByPlaceholder('One reason for all of them')
+    .fill('Clearing the queue after a first pass.')
+
+  // Accepting is a per-candidate judgement, so the bulk bar does not offer it.
+  await expect(
+    page.locator('.scout-bulk-actions').getByRole('button', { name: 'Accept' })
+  ).toHaveCount(0)
+
+  await page
+    .locator('.scout-bulk-actions')
+    .getByRole('button', { name: 'Reject' })
+    .click()
+
+  await expect(page.getByText('1 candidate decided.')).toBeVisible()
+})

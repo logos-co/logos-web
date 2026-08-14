@@ -1,6 +1,7 @@
-import { and, asc, count, desc, eq, isNull, type SQL } from 'drizzle-orm'
+import { and, asc, count, desc, eq, ilike, isNull, or, type SQL } from 'drizzle-orm'
 
 import type {
+  BulkScoutReviewInput,
   RecordScoutReviewInput,
   ScoutAssessment,
   ScoutCandidateDetail,
@@ -150,6 +151,17 @@ export async function listScoutCandidates(
   }
   if (filters.entityType) {
     conditions.push(eq(scoutCandidates.entityType, filters.entityType))
+  }
+  if (filters.q) {
+    // Escaped so a query containing % or _ searches for those characters
+    // rather than matching everything.
+    const pattern = `%${filters.q.replace(/[\\%_]/g, (match) => `\\${match}`)}%`
+    const match = or(
+      ilike(scoutCandidates.displayName, pattern),
+      ilike(scoutCandidates.domain, pattern),
+      ilike(scoutCandidates.summary, pattern)
+    )
+    if (match) conditions.push(match)
   }
 
   const rows = await db
@@ -329,4 +341,29 @@ export async function recordScoutReview(
   })
 
   return getScoutCandidate(candidateId)
+}
+
+/**
+ * Applies one decision to several candidates.
+ *
+ * Each candidate is decided in its own transaction rather than all of them in
+ * one: a bulk action that rolls back entirely because the reviewer happened to
+ * select an already-accepted candidate would lose the eight decisions that were
+ * fine. Undecidable candidates are named by the caller before this runs.
+ */
+export async function recordScoutReviews(
+  actor: Readonly<ActorContext>,
+  input: Readonly<BulkScoutReviewInput>
+): Promise<{ decided: number }> {
+  let decided = 0
+
+  for (const candidateId of input.candidateIds) {
+    await recordScoutReview(actor, candidateId, {
+      decision: input.decision,
+      reason: input.reason,
+    })
+    decided += 1
+  }
+
+  return { decided }
 }

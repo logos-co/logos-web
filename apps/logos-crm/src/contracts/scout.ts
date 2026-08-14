@@ -87,13 +87,17 @@ export const scoutCandidateDetailSchema = scoutCandidateSummarySchema.extend({
 })
 
 /**
- * Filters the inbox actually needs. There is no free-text query: a candidate
- * list somebody can search by arbitrary string is one step from a people
- * search, and nothing in this phase has enough rows to need it.
+ * Inbox filters.
+ *
+ * `q` matches the candidate's name, domain, and summary and nothing else. It
+ * is deliberately not a search across evidence: evidence is where a free-text
+ * query would start returning people who happen to be named in a source, and
+ * the queue is a list of organisations.
  */
 export const scoutCandidateFiltersSchema = z.object({
   state: z.enum(scoutReviewStates).optional(),
   entityType: z.enum(scoutEntityTypes).optional(),
+  q: z.string().trim().min(2).max(80).optional(),
 })
 
 /**
@@ -106,6 +110,32 @@ export const recordScoutReviewSchema = z.object({
   reason: z.string().trim().min(3).max(500),
 })
 
+/**
+ * Deciding on several candidates at once.
+ *
+ * The reason applies to all of them, which is the honest shape: a reviewer
+ * clearing eight irrelevant candidates has one reason, and asking them to type
+ * it eight times produces eight copies of "not relevant" rather than eight
+ * considered decisions. Acceptance is excluded - taking a candidate forward is
+ * a per-candidate judgement, and a bulk accept is how a queue turns into a
+ * list nobody read.
+ */
+export const bulkScoutReviewSchema = z.object({
+  candidateIds: z.array(z.string().uuid()).min(1).max(50),
+  decision: z.enum(['watch', 'reject', 'needs_evidence']),
+  reason: z.string().trim().min(3).max(500),
+})
+
+export const scoutDiscoveryRunSchema = z.object({
+  id: z.string().uuid(),
+  mode: z.string(),
+  discoveredCount: z.number().int().nonnegative(),
+  quarantinedCount: z.number().int().nonnegative(),
+  note: z.string(),
+  startedAt: z.string(),
+  finishedAt: z.string().nullable(),
+})
+
 export type ScoutEvidence = z.infer<typeof scoutEvidenceSchema>
 export type ScoutDimensionResult = z.infer<typeof scoutDimensionResultSchema>
 export type ScoutConflict = z.infer<typeof scoutConflictSchema>
@@ -115,3 +145,5 @@ export type ScoutCandidateSummary = z.infer<typeof scoutCandidateSummarySchema>
 export type ScoutCandidateDetail = z.infer<typeof scoutCandidateDetailSchema>
 export type ScoutCandidateFilters = z.infer<typeof scoutCandidateFiltersSchema>
 export type RecordScoutReviewInput = z.infer<typeof recordScoutReviewSchema>
+export type BulkScoutReviewInput = z.infer<typeof bulkScoutReviewSchema>
+export type ScoutDiscoveryRun = z.infer<typeof scoutDiscoveryRunSchema>

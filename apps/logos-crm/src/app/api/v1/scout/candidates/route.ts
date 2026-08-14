@@ -10,6 +10,7 @@ export async function GET(request: Request): Promise<Response> {
     const filters = scoutCandidateFiltersSchema.parse({
       state: url.searchParams.get('state') || undefined,
       entityType: url.searchParams.get('entity_type') || undefined,
+      q: url.searchParams.get('q') || undefined,
     })
     return Response.json({ items: await listScoutCandidates(filters) })
   } catch (error) {

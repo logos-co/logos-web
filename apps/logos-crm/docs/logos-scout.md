@@ -63,12 +63,15 @@ Phase 0 exists in `apps/logos-crm` and runs on synthetic fixtures.
 | Queue, candidate detail, and review service | `src/server/scout-repository.ts` |
 | Three routes under `/api/v1/scout/*` | `src/app/api/v1/scout/` |
 | Inbox and candidate detail screens | `src/components/scout-inbox.tsx`, `src/components/scout-candidate-page.tsx` |
-| Six synthetic candidates covering every reviewer outcome | `src/server/db/seed-scout.ts` |
+| Search, multi-select, and bulk decisions in the queue | `src/components/scout-inbox.tsx` |
+| Mock discovery: a recorded run that draws from a built-in catalogue | `src/server/scout-discovery.ts` |
+| Synthetic fixtures: six seeded, nine more a run can surface | `src/server/db/scout-fixtures.ts` |
 | Rubric unit tests, boundary integration tests, browser tests | `src/server/scout-rubric.test.ts`, `src/server/__tests__/scout.integration.test.ts`, `e2e/scout-review.spec.ts` |
 
 Deliberately absent, and absent as a safety property rather than as a backlog
 item: source adapters, credentials, outbound network calls, discovery briefs,
-discovery runs, worker tasks, and any code path that writes to a CRM table.
+worker tasks, and any code path that writes to a CRM table. Discovery exists
+only in its synthetic mode, which reads a fixture file.
 
 ## 4. Users and jobs
 
@@ -102,7 +105,11 @@ discovery runs, worker tasks, and any code path that writes to a CRM table.
   extractor version, and the quoted excerpt behind each value;
 - deterministic, explainable assessments expressed as bands;
 - human review with `accept`, `watch`, `reject`, and `needs_evidence` outcomes;
-- append-only review history with an audit event per decision.
+- append-only review history with an audit event per decision;
+- searching the queue by candidate name, domain, and summary;
+- selecting several candidates and deciding them together with one reason;
+- **mock discovery**: a recorded run that draws the next few candidates from a
+  built-in catalogue of invented organisations and contacts nothing.
 
 ### In scope later
 
@@ -112,6 +119,19 @@ discovery runs, worker tasks, and any code path that writes to a CRM table.
 - exact-domain and approved external-identifier deduplication;
 - linking an accepted candidate to an existing CRM organisation, and creating
   one in a single audited transaction.
+
+### Mock discovery, and why it is here
+
+A review queue that always holds the same rows cannot show what reviewing feels
+like, and the loop the product is asking people to fund is "work arrives, you
+decide, more arrives". `Find more` demonstrates that loop end to end without
+pretending to be a crawler: it takes the next few organisations from a fixture
+file, records a run, and says on screen that no external source was contacted.
+
+It is shaped like the real thing on purpose. A run is recorded with who asked
+for it, what it added, and how many subjects it discarded as natural persons,
+because those are the questions a reviewer will ask of a real adapter, and a
+demo that skips them teaches the wrong expectations.
 
 ### Explicit non-goals
 
@@ -324,9 +344,10 @@ Two hazards to design around before writing that code:
 ## 11. Worker and service design
 
 Phase 0 has **no worker tasks**. Assessment is calculated in the request that
-needs it, because with synthetic fixtures there is nothing to refresh and
-nothing to expire, and a scheduled job with no source to poll would only be a
-place for bugs to hide.
+needs it, and mock discovery runs inline too: reading a fixture array takes
+milliseconds, and queueing it would add a moving part that teaches nothing. The
+first real adapter is the point at which discovery has to become a job, because
+that is the point at which it can be slow, fail, and need a retry.
 
 When real sources arrive:
 
@@ -352,9 +373,11 @@ When real sources arrive:
 
 Built:
 
-- `GET /api/v1/scout/candidates`
+- `GET /api/v1/scout/candidates` (filters: `state`, `entity_type`, `q`)
 - `GET /api/v1/scout/candidates/:id`
 - `POST /api/v1/scout/candidates/:id/reviews`
+- `POST /api/v1/scout/reviews` (several candidates, one decision, one reason)
+- `GET|POST /api/v1/scout/discovery-runs` (synthetic mode only)
 
 Planned with the phases that need them: `/briefs`, `/briefs/:id/runs`,
 `/runs/:id`, `/candidates/:id/accept`, `/candidates/:id/link`.
@@ -380,6 +403,14 @@ is readable by anybody who can reach the app.
 ### Scout inbox
 
 - filters by review state;
+- a search field matching name, domain, and summary. It deliberately does not
+  search evidence: evidence text is where a free-text query would start
+  returning people named in a source;
+- checkboxes and a bulk bar for deciding several candidates with one reason.
+  Accepting is absent from it on purpose, because taking a candidate forward is
+  a per-candidate judgement and a bulk accept is how a queue becomes a list
+  nobody read;
+- `Find more`, which runs synthetic discovery and reports what it added;
 - one row per candidate with entity type, canonical domain, and summary;
 - the gate as a badge, worded as a statement about the evidence;
 - the four bands with their values;

@@ -17,6 +17,7 @@ import { organisations, users } from '@/server/db/schema'
 export const isIntegrationEnabled = Boolean(process.env.TEST_DATABASE_URL)
 
 const TABLES = [
+  'scout_discovery_runs',
   'scout_reviews',
   'scout_assessments',
   'scout_evidence',

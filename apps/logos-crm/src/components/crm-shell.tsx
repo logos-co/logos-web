@@ -1,6 +1,6 @@
 'use client'
 
-import { LogosMark } from '@acid-info/logos-ui'
+import { CircleArrowIcon, LogosMark } from '@acid-info/logos-ui'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -37,10 +37,22 @@ interface CrmShellProps {
   view: WorkspaceView
 }
 
+/**
+ * Remembered per browser rather than per session: somebody who works with the
+ * sidebar closed wants it closed tomorrow too.
+ */
+const SIDEBAR_STORAGE_KEY = 'logos-crm.sidebar-collapsed'
+
 export function CrmShell({ children, view }: CrmShellProps) {
   const mainRef = useRef<HTMLElement>(null)
   const router = useRouter()
   const [term, setTerm] = useState('')
+  /**
+   * Starts expanded on the server and on the first client render, then reads
+   * the stored preference. Reading storage during render would make the markup
+   * disagree with the server's and hydrate into a flash of the wrong layout.
+   */
+  const [isCollapsed, setIsCollapsed] = useState(false)
   const dashboardQuery = useQuery({
     queryKey: ['dashboard'],
     queryFn: () => apiClient<DashboardResponse>('/api/v1/dashboard'),
@@ -63,16 +75,41 @@ export function CrmShell({ children, view }: CrmShellProps) {
   })
 
   useEffect(() => {
+    setIsCollapsed(window.localStorage.getItem(SIDEBAR_STORAGE_KEY) === 'true')
+  }, [])
+
+  useEffect(() => {
     window.scrollTo({ left: 0, top: 0, behavior: 'auto' })
     mainRef.current?.focus({ preventScroll: true })
   }, [view])
 
+  function toggleSidebar(): void {
+    setIsCollapsed((collapsed) => {
+      const next = !collapsed
+      window.localStorage.setItem(SIDEBAR_STORAGE_KEY, String(next))
+      return next
+    })
+  }
+
   return (
-    <div className="crm-shell">
+    <div className="crm-shell" data-collapsed={isCollapsed ? 'true' : 'false'}>
       <a className="skip-link cursor-pointer" href="#main-content">
         Skip to workspace
       </a>
-      <aside className="crm-sidebar">
+      <aside className="crm-sidebar" id="crm-sidebar">
+        <button
+          aria-controls="crm-sidebar"
+          aria-expanded={!isCollapsed}
+          className="sidebar-toggle cursor-pointer"
+          type="button"
+          onClick={toggleSidebar}
+        >
+          <CircleArrowIcon direction={isCollapsed ? 'right' : 'left'} size={22} />
+          <span className="visually-hidden">
+            {isCollapsed ? 'Expand the sidebar' : 'Collapse the sidebar'}
+          </span>
+        </button>
+
         <Link
           aria-label="Logos CRM home"
           className="brand-block cursor-pointer"

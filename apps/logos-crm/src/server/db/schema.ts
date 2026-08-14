@@ -1096,8 +1096,40 @@ export const scoutReviews = pgTable(
   ]
 )
 
+/**
+ * Discovery runs.
+ *
+ * `mode` is `synthetic` and nothing else exists yet: a run draws from a
+ * built-in catalogue of invented organisations and makes no network call. The
+ * row is kept anyway, because the question a reviewer asks about a queue is
+ * "where did these come from and when", and a run nobody recorded cannot
+ * answer it. When a real adapter arrives it becomes a second mode alongside
+ * this one rather than a replacement for it.
+ */
+export const scoutDiscoveryRuns = pgTable(
+  'scout_discovery_runs',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    mode: text('mode').notNull(),
+    requestedByUserId: uuid('requested_by_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    requestId: text('request_id'),
+    discoveredCount: integer('discovered_count').default(0).notNull(),
+    quarantinedCount: integer('quarantined_count').default(0).notNull(),
+    /** What the run did, in the words the reviewer reads. */
+    note: text('note').notNull(),
+    startedAt: timestamp('started_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    finishedAt: timestamp('finished_at', { withTimezone: true }),
+  },
+  (table) => [index('scout_discovery_runs_started_idx').on(table.startedAt)]
+)
+
 export const schema = {
   scoutAssessments,
+  scoutDiscoveryRuns,
   scoutCandidates,
   scoutEvidence,
   scoutReviews,
