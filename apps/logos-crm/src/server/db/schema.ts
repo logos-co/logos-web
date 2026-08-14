@@ -787,9 +787,42 @@ export const importErrors = pgTable(
   (table) => [index('crm_import_errors_run_idx').on(table.runId)]
 )
 
+/**
+ * Merge history. The duplicate is archived rather than deleted, and this row is
+ * what explains why it went quiet — without it, a record that stopped being
+ * used looks indistinguishable from one that was abandoned.
+ */
+export const entityMerges = pgTable(
+  'crm_entity_merges',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    entityType: text('entity_type').notNull(),
+    survivorId: uuid('survivor_id').notNull(),
+    mergedId: uuid('merged_id').notNull(),
+    actorUserId: uuid('actor_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    reason: text('reason'),
+    mergedAt: timestamp('merged_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    uniqueIndex('crm_entity_merges_merged_uidx').on(
+      table.entityType,
+      table.mergedId
+    ),
+    index('crm_entity_merges_survivor_idx').on(
+      table.entityType,
+      table.survivorId
+    ),
+  ]
+)
+
 export const schema = {
   activities,
   activityMentions,
+  entityMerges,
   importErrors,
   importRuns,
   caseEvaluations,

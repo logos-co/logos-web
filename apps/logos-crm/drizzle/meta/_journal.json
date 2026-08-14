@@ -36,6 +36,13 @@
       "when": 1786697982226,
       "tag": "0004_freezing_sentinels",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1786698317451,
+      "tag": "0005_freezing_puma",
+      "breakpoints": true
     }
   ]
 }

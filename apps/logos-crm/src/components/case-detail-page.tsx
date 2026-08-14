@@ -9,6 +9,7 @@ import type { CaseRecord, CaseStatus } from '@/contracts/case'
 import { apiClient } from '@/lib/api-client'
 
 import { CaseEvaluation } from './case-evaluation'
+import { CaseResponseTemplate } from './case-response-template'
 import { nextStatus, statusLabels, StatusBadge } from './case-status'
 import { CrmShell } from './crm-shell'
 import { RecordWork } from './record-work'
@@ -175,6 +176,11 @@ export function CaseDetailPage({ id }: CaseDetailPageProps) {
               </section>
 
               <CaseEvaluation item={item} />
+
+              <CaseResponseTemplate
+                coordinatorName={item.owner?.displayName ?? 'the Logos team'}
+                item={item}
+              />
 
               <section className="record-work-card">
                 <div className="record-section-heading">

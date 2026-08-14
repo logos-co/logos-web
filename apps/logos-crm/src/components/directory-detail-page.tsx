@@ -14,6 +14,7 @@ import type {
 import { apiClient } from '@/lib/api-client'
 
 import { CrmShell } from './crm-shell'
+import { DuplicateSuggestions } from './duplicate-suggestions'
 import { NewOrganisationDialog } from './new-organisation-dialog'
 import { NewPersonDialog } from './new-person-dialog'
 import { RecordWork } from './record-work'
@@ -240,6 +241,8 @@ function PersonRecordPage({
           </div>
           <RecordWork subjectId={item.id} subjectType="person" />
         </section>
+
+        <DuplicateSuggestions id={item.id} kind="people" />
       </div>
     </article>
   )
@@ -324,6 +327,8 @@ function OrganisationRecordPage({
           </div>
           <RecordWork subjectId={item.id} subjectType="organisation" />
         </section>
+
+        <DuplicateSuggestions id={item.id} kind="organisations" />
       </div>
     </article>
   )
