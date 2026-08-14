@@ -127,10 +127,10 @@ describe.skipIf(!isIntegrationEnabled)('scout', () => {
     const candidateId = await createCandidate('Halcyon Relay Collective')
     await addEvidence(candidateId)
     await addEvidence(candidateId, {
-      field: 'official_site',
-      sourceUrl: 'https://halcyonrelay.example/',
-      contentHash: 'synthetic:official_site',
-      value: 'halcyonrelay.example',
+      field: 'ecosystem_relation',
+      sourceUrl: 'https://specs.example/routing/participants',
+      contentHash: 'synthetic:ecosystem_relation',
+      value: 'Co-authors an open routing specification',
     })
 
     const detail = await recordScoutReview(actor, candidateId, {
@@ -197,10 +197,10 @@ describe.skipIf(!isIntegrationEnabled)('scout', () => {
     const first = await refreshScoutAssessment(candidateId)
 
     await addEvidence(candidateId, {
-      field: 'official_site',
-      sourceUrl: 'https://halcyonrelay.example/',
-      contentHash: 'synthetic:official_site',
-      value: 'halcyonrelay.example',
+      field: 'ecosystem_relation',
+      sourceUrl: 'https://specs.example/routing/participants',
+      contentHash: 'synthetic:ecosystem_relation',
+      value: 'Co-authors an open routing specification',
     })
 
     const second = await refreshScoutAssessment(candidateId)
@@ -213,14 +213,30 @@ describe.skipIf(!isIntegrationEnabled)('scout', () => {
     expect(detail.assessment?.id).toBe(second.id)
   })
 
+  test('two pages of one site do not clear the two-source gate', async () => {
+    const candidateId = await createCandidate('Halcyon Relay Collective')
+    await addEvidence(candidateId)
+    await addEvidence(candidateId, {
+      field: 'public_repository',
+      sourceUrl: 'https://code.halcyonrelay.example/relay',
+      contentHash: 'synthetic:public_repository',
+      value: 'Public repository',
+    })
+
+    const assessment = await refreshScoutAssessment(candidateId)
+
+    expect(assessment.distinctSources).toBe(1)
+    expect(assessment.gate).toBe('insufficient')
+  })
+
   test('the queue puts conflicts before candidates that are ready', async () => {
     const readyId = await createCandidate('Halcyon Relay Collective')
     await addEvidence(readyId)
     await addEvidence(readyId, {
-      field: 'official_site',
-      sourceUrl: 'https://halcyonrelay.example/',
-      contentHash: 'synthetic:official_site',
-      value: 'halcyonrelay.example',
+      field: 'ecosystem_relation',
+      sourceUrl: 'https://specs.example/routing/participants',
+      contentHash: 'synthetic:ecosystem_relation',
+      value: 'Co-authors an open routing specification',
     })
     await refreshScoutAssessment(readyId)
 

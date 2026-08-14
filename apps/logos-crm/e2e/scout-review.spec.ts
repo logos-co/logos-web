@@ -81,7 +81,9 @@ test('search narrows the queue by name, domain, and summary', async ({
   await page.goto('/scout')
   await expect(page.locator('.scout-list-item').first()).toBeVisible()
 
-  await page.getByPlaceholder('Name, domain, or summary').fill('meshwork')
+  // Addressed by its label rather than its placeholder: the placeholder
+  // changes with whether the source adapters are enabled.
+  await page.getByLabel('Search candidates').fill('meshwork')
 
   await expect(page.locator('.scout-list-item')).toHaveCount(1)
   await expect(page.locator('.scout-list-item')).toContainText(

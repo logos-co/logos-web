@@ -32,7 +32,7 @@ describe('scout rubric', () => {
         evidence(),
         evidence({
           field: 'official_site',
-          sourceUrl: 'https://halcyonrelay.example/',
+          sourceUrl: 'https://registry.example/halcyon',
         }),
       ],
       now
@@ -46,15 +46,23 @@ describe('scout rubric', () => {
     expect(result.gate).toBe('sufficient')
   })
 
-  test('refuses to assess fit from a single source', () => {
+  test('counts pages of one site as one source', () => {
     const result = assessCandidate(
-      [evidence(), evidence({ field: 'public_repository' })],
+      [
+        evidence(),
+        evidence({
+          field: 'public_repository',
+          // A different page of the same organisation, which is not a second
+          // opinion however many URLs it has.
+          sourceUrl: 'https://code.halcyonrelay.example/relay',
+        }),
+      ],
       now
     )
 
     expect(result.distinctSources).toBe(1)
     expect(result.gate).toBe('insufficient')
-    expect(result.gateReason).toContain('independent sources')
+    expect(result.gateReason).toContain('one source')
   })
 
   test('reports the field two live sources disagree about', () => {
@@ -106,7 +114,7 @@ describe('scout rubric', () => {
         evidence({ observedAt: new Date(now - 300 * DAY).toISOString() }),
         evidence({
           field: 'official_site',
-          sourceUrl: 'https://halcyonrelay.example/',
+          sourceUrl: 'https://registry.example/halcyon',
         }),
       ],
       now
@@ -126,7 +134,7 @@ describe('scout rubric', () => {
         evidence({ certainty: 'derived' }),
         evidence({
           field: 'official_site',
-          sourceUrl: 'https://halcyonrelay.example/',
+          sourceUrl: 'https://registry.example/halcyon',
         }),
       ],
       now

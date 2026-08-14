@@ -7,6 +7,8 @@ import { db } from '@/server/db'
 import { scoutCandidates, scoutDiscoveryRuns } from '@/server/db/schema'
 import { discoverableCandidates } from '@/server/db/scout-fixtures'
 import { insertScoutCandidate } from '@/server/db/seed-scout'
+import { discoverFromSources } from '@/server/scout/discover-from-sources'
+import { areSourcesEnabled } from '@/server/scout/source-fetch'
 
 /** How many candidates one run surfaces, so a demo grows rather than dumps. */
 const BATCH_SIZE = 3
@@ -46,6 +48,84 @@ export interface DiscoveryResult {
 export async function runSyntheticDiscovery(
   actor: Readonly<ActorContext>
 ): Promise<DiscoveryResult> {
+  return runDiscovery(actor, { mode: 'synthetic' })
+}
+
+export interface DiscoveryRequest {
+  query?: string
+  mode?: 'synthetic' | 'sources'
+}
+
+/**
+ * Runs discovery.
+ *
+ * Which mode runs is decided here rather than by the caller: a browser asking
+ * for a real run against a deployment with no approved sources should get the
+ * synthetic catalogue and be told, not an error and not a silent nothing.
+ */
+export async function runDiscovery(
+  actor: Readonly<ActorContext>,
+  request: Readonly<DiscoveryRequest> = {}
+): Promise<DiscoveryResult> {
+  const wantsSources = request.mode !== 'synthetic' && areSourcesEnabled()
+
+  if (wantsSources && request.query) {
+    return runSourceDiscovery(actor, request.query)
+  }
+
+  return runCatalogueDiscovery(actor, wantsSources)
+}
+
+async function runSourceDiscovery(
+  actor: Readonly<ActorContext>,
+  query: string
+): Promise<DiscoveryResult> {
+  const outcome = await discoverFromSources(query)
+
+  const parts = [
+    outcome.discovered.length > 0
+      ? `Found ${outcome.discovered.length} ${outcome.discovered.length === 1 ? 'organisation' : 'organisations'} for "${query}" through ${outcome.sourcesUsed.join(' and ')}.`
+      : `No new organisations for "${query}".`,
+    outcome.quarantined === 1
+      ? 'One subject was a personal account and was quarantined with nothing stored.'
+      : outcome.quarantined > 1
+        ? `${outcome.quarantined} subjects were personal accounts and were quarantined with nothing stored.`
+        : '',
+    outcome.skipped > 0 ? `${outcome.skipped} already in the queue.` : '',
+    ...outcome.failures,
+  ].filter(Boolean)
+
+  const [row] = await db
+    .insert(scoutDiscoveryRuns)
+    .values({
+      mode: 'sources',
+      requestedByUserId: actor.userId,
+      requestId: actor.requestId,
+      discoveredCount: outcome.discovered.length,
+      quarantinedCount: outcome.quarantined,
+      note: parts.join(' '),
+      finishedAt: new Date(),
+    })
+    .returning()
+
+  if (!row) throw new Error('The discovery run was not recorded.')
+
+  await db.transaction(async (transaction) => {
+    await recordAuditEvent(transaction, actor, {
+      action: 'scout.discovery.run',
+      entityType: 'scout_candidate',
+      entityId: row.id,
+      summary: `sources: ${query}`,
+    })
+  })
+
+  return { run: toRun(row), discovered: outcome.discovered }
+}
+
+async function runCatalogueDiscovery(
+  actor: Readonly<ActorContext>,
+  sourcesWanted: boolean
+): Promise<DiscoveryResult> {
   const existing = await db
     .select({ normalisedName: scoutCandidates.normalisedName })
     .from(scoutCandidates)
@@ -66,12 +146,16 @@ export async function runSyntheticDiscovery(
     (seed) => seed.reviewState === 'quarantined'
   ).length
 
+  const missingQuery = sourcesWanted
+    ? ' Type a search term to run the approved sources instead.'
+    : ''
+
   const note =
     batch.length === 0
-      ? 'The synthetic catalogue is exhausted. A real run needs an approved source adapter, which does not exist yet.'
+      ? `The synthetic catalogue is exhausted.${missingQuery || ' Enable SCOUT_SOURCES_ENABLED to search approved sources.'}`
       : `Added ${createdIds.length} synthetic ${
           createdIds.length === 1 ? 'candidate' : 'candidates'
-        } from the built-in catalogue. No external source was contacted.`
+        } from the built-in catalogue. No external source was contacted.${missingQuery}`
 
   const [row] = await db
     .insert(scoutDiscoveryRuns)

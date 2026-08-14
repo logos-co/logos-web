@@ -3367,3 +3367,23 @@ table[aria-busy='true'] tbody {
     flex: 1 1 100%;
   }
 }
+
+.scout-search-sources {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--color-brand-dark-green);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-brand-dark-green);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.scout-search-sources:disabled {
+  border-color: rgb(21 37 33 / 25%);
+  color: var(--ink-muted);
+}

@@ -1,6 +1,6 @@
 # Logos Scout - Organisation Discovery
 
-> Status: Phase 0 built, synthetic fixtures only
+> Status: Phase 2 in progress. Three approved sources, off by default.
 >
 > Product boundary: organisation and project discovery
 >
@@ -66,12 +66,54 @@ Phase 0 exists in `apps/logos-crm` and runs on synthetic fixtures.
 | Search, multi-select, and bulk decisions in the queue | `src/components/scout-inbox.tsx` |
 | Mock discovery: a recorded run that draws from a built-in catalogue | `src/server/scout-discovery.ts` |
 | Synthetic fixtures: six seeded, nine more a run can surface | `src/server/db/scout-fixtures.ts` |
+| Source policies, the fetch wrapper, and three adapters | `src/server/scout/` |
 | Rubric unit tests, boundary integration tests, browser tests | `src/server/scout-rubric.test.ts`, `src/server/__tests__/scout.integration.test.ts`, `e2e/scout-review.spec.ts` |
 
 Deliberately absent, and absent as a safety property rather than as a backlog
-item: source adapters, credentials, outbound network calls, discovery briefs,
-worker tasks, and any code path that writes to a CRM table. Discovery exists
-only in its synthetic mode, which reads a fixture file.
+item: discovery briefs, worker tasks, and any code path that writes to a CRM
+table.
+
+Source adapters exist and are **off unless `SCOUT_SOURCES_ENABLED=true`**. With
+the flag unset the app makes no outbound request at all and discovery runs on
+the synthetic catalogue.
+
+## 3a. Approved sources
+
+| Source | What it contributes | Personal data it returns, and what happens to it |
+| --- | --- | --- |
+| GitHub public API | Stated work, published repositories, latest public change, contribution path, documentation, official site | A contact address and a social handle on the profile, and contributor logins on repositories. None is read; anything shaped like a contact detail is dropped before storage |
+| Wikipedia REST | An independent description of the organisation | Founder and staff names in prose; only the short summary is read, and it is quoted rather than parsed |
+| DuckDuckGo instant answer | A second reading of the same public record | Names appearing in an abstract; the same handling |
+
+Three rules hold across all of them, in `src/server/scout/`:
+
+- **One way out.** Every request goes through `fetchFromSource`, which takes the
+  policy as an argument and refuses any host the policy does not list. A URL
+  returned by a source cannot lead anywhere the policy did not already allow.
+- **Permitted fields only.** A policy names the fields its source may
+  contribute, and the adapter reads no others off the response.
+- **The owner type is the boundary.** A GitHub repository owned by a person is
+  quarantined with the login and the reason kept and nothing else. In practice
+  most owners of the repositories a topic search returns are individuals, so
+  this fires on most runs.
+
+A credential does not enable anything. `GITHUB_TOKEN` raises a rate limit and
+the adapter works without it.
+
+### What a real run actually looks like
+
+Two searches run against GitHub, because they fail in opposite directions: a
+topic phrase finds nothing as an account name, and an organisation's name is
+rarely in the descriptions of the repositories it publishes. Owners are then
+checked one at a time, and each organisation is looked up in a reference work
+for a second opinion.
+
+Corroboration is refused unless the entry is about the same subject. Looking up
+"Warpnet", a censorship-resistant networking project, returns an article about
+a Sheffield record label; believing it would have produced a candidate whose
+two sources "disagree" about two different organisations. A contradiction
+between two subjects is not a contradiction, and the rubric must not be handed
+one.
 
 ## 4. Users and jobs
 
@@ -272,6 +314,13 @@ programmes: things a third party publishes and anybody can check. It never
 records similarity to Logos values, and it is the dimension to watch, because
 it is where an alignment classifier would grow if one ever did.
 
+Sources are counted by registrable domain. An organisation's profile, its
+repository, and its issue tracker are three pages and one source; counting URLs
+would let a candidate clear the two-source gate on the strength of one account,
+which is the exact failure the gate exists to stop. In practice this means most
+organisations found through one API sit at "not enough evidence" until a second
+source says something about them, which is the true state of the evidence.
+
 **Evidence quality is a gate, not a dimension.** It is a judgement about our
 data, not about the organisation, so adding it to a total would let a
 well-documented irrelevant organisation outrank a sparsely documented perfect
@@ -377,7 +426,9 @@ Built:
 - `GET /api/v1/scout/candidates/:id`
 - `POST /api/v1/scout/candidates/:id/reviews`
 - `POST /api/v1/scout/reviews` (several candidates, one decision, one reason)
-- `GET|POST /api/v1/scout/discovery-runs` (synthetic mode only)
+- `GET|POST /api/v1/scout/discovery-runs` (`{ query?, mode? }`; runs the
+  approved sources when a query is given and they are enabled, and the
+  synthetic catalogue otherwise, saying which it did)
 
 Planned with the phases that need them: `/briefs`, `/briefs/:id/runs`,
 `/runs/:id`, `/candidates/:id/accept`, `/candidates/:id/link`.
@@ -410,7 +461,10 @@ is readable by anybody who can reach the app.
   Accepting is absent from it on purpose, because taking a candidate forward is
   a per-candidate judgement and a bulk accept is how a queue becomes a list
   nobody read;
-- `Find more`, which runs synthetic discovery and reports what it added;
+- `Find more`, which runs discovery and reports what it added, including how
+  many subjects were quarantined as personal accounts;
+- `Search sources for "..."`, which appears beside the search field when the
+  adapters are enabled and runs a real search for the typed term;
 - one row per candidate with entity type, canonical domain, and summary;
 - the gate as a badge, worded as a statement about the evidence;
 - the four bands with their values;

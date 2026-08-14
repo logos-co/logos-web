@@ -30,6 +30,11 @@ interface DiscoveryResponse {
   item: { run: ScoutDiscoveryRun; discovered: string[] }
 }
 
+interface DiscoveryRunsResponse {
+  items: ScoutDiscoveryRun[]
+  sourcesEnabled: boolean
+}
+
 type StateFilter = 'all' | (typeof scoutReviewStates)[number]
 
 const stateFilters: StateFilter[] = ['all', ...scoutReviewStates]
@@ -88,19 +93,22 @@ export function ScoutInbox() {
 
   const runsQuery = useQuery({
     queryKey: ['scout-runs'],
-    queryFn: () => apiClient<{ items: ScoutDiscoveryRun[] }>(
-      '/api/v1/scout/discovery-runs'
-    ),
+    queryFn: () =>
+      apiClient<DiscoveryRunsResponse>('/api/v1/scout/discovery-runs'),
   })
 
   const discover = useMutation({
-    mutationFn: () =>
+    mutationFn: (input: { query?: string }) =>
       apiClient<DiscoveryResponse>('/api/v1/scout/discovery-runs', {
         method: 'POST',
+        body: JSON.stringify(input),
       }),
-    onSuccess: async (response) => {
+    onSuccess: async (response, input) => {
       setError(null)
       setNotice(response.item.run.note)
+      // The term that found them would immediately filter them back out: a
+      // source search answers with organisations, not with a narrower queue.
+      if (input.query) setTerm('')
       await refresh()
     },
     onError: () => setError('The discovery run could not be started.'),
@@ -133,6 +141,10 @@ export function ScoutInbox() {
   })
 
   const items = candidatesQuery.data?.items ?? []
+  const sourcesEnabled = runsQuery.data?.sourcesEnabled ?? false
+  const term_ = term.trim()
+  const canSearchSources =
+    sourcesEnabled && term_.length >= SEARCH_MIN_LENGTH
   const selectable = items.filter(
     (item) =>
       item.reviewState !== 'quarantined' && item.reviewState !== 'accepted'
@@ -158,7 +170,7 @@ export function ScoutInbox() {
           className="scout-discover cursor-pointer"
           disabled={discover.isPending}
           type="button"
-          onClick={() => discover.mutate()}
+          onClick={() => discover.mutate({ query: term_ || undefined })}
         >
           {discover.isPending ? 'Looking' : 'Find more'}
         </button>
@@ -203,12 +215,29 @@ export function ScoutInbox() {
             <label className="search-field">
               <span>Search</span>
               <input
-                placeholder="Name, domain, or summary"
+                aria-label="Search candidates"
+                placeholder={
+                  sourcesEnabled
+                    ? 'Filter the queue, or search the sources'
+                    : 'Name, domain, or summary'
+                }
                 type="search"
                 value={term}
                 onChange={(event) => setTerm(event.target.value)}
               />
             </label>
+            {canSearchSources ? (
+              <button
+                className="scout-search-sources cursor-pointer"
+                disabled={discover.isPending}
+                type="button"
+                onClick={() => discover.mutate({ query: term_ })}
+              >
+                {discover.isPending
+                  ? 'Searching sources'
+                  : `Search sources for "${term_}"`}
+              </button>
+            ) : null}
           </div>
         </div>
 
@@ -272,9 +301,11 @@ export function ScoutInbox() {
           <p className="table-message">Loading candidates.</p>
         ) : items.length === 0 ? (
           <p className="table-message">
-            {term.trim().length >= SEARCH_MIN_LENGTH
-              ? 'No candidate matches that search.'
-              : 'No candidates in this state. Use "Find more" to run synthetic discovery.'}
+            {term_.length >= SEARCH_MIN_LENGTH
+              ? sourcesEnabled
+                ? 'Nothing in the queue matches. Search the sources to look further.'
+                : 'No candidate matches that search.'
+              : 'No candidates in this state. Use "Find more" to look for some.'}
           </p>
         ) : (
           <ul className="scout-list">
@@ -315,7 +346,9 @@ export function ScoutInbox() {
 
                       <p className="scout-list-summary">
                         {candidate.summary ??
-                          'Nothing was extracted about this candidate.'}
+                          (candidate.evidenceCount > 0
+                            ? 'No description published; judge it on the evidence.'
+                            : 'Nothing was extracted about this candidate.')}
                       </p>
 
                       <div className="scout-list-meta">

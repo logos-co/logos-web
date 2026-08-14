@@ -16,6 +16,23 @@ const ACTIVITY_RECENT_DAYS = 180
 const DAY = 24 * 60 * 60 * 1000
 
 /**
+ * Which source an observation came from.
+ *
+ * Counted by registrable domain rather than by URL, because an organisation's
+ * profile page, its repository, and its issue tracker are three pages and one
+ * source. Counting URLs would let a candidate clear the two-source gate on the
+ * strength of one account, which is the exact failure the gate exists to stop.
+ */
+function sourceIdentity(url: string): string {
+  try {
+    const { hostname } = new URL(url)
+    return hostname.split('.').slice(-2).join('.')
+  } catch {
+    return url
+  }
+}
+
+/**
  * Which fields answer which question.
  *
  * A field feeds exactly one dimension. Letting repository activity count for
@@ -99,7 +116,7 @@ function reasonFor(
   }
 
   const stale = evidence.filter((item) => !isRecent(item, now)).length
-  const sources = new Set(evidence.map((item) => item.sourceUrl)).size
+  const sources = new Set(evidence.map((item) => sourceIdentity(item.sourceUrl))).size
   const staleNote =
     stale > 0 ? `, ${stale} of them older than ${ACTIVITY_RECENT_DAYS} days` : ''
 
@@ -144,7 +161,9 @@ export function assessCandidate(
   now: number = Date.now()
 ): ScoutAssessmentResult {
   const live = evidence.filter((item) => isLive(item, now))
-  const distinctSources = new Set(live.map((item) => item.sourceUrl)).size
+  const distinctSources = new Set(
+    live.map((item) => sourceIdentity(item.sourceUrl))
+  ).size
   const conflicts = findConflicts(live)
 
   const dimensions = scoutDimensions.map((dimension) => {
@@ -182,9 +201,10 @@ export function assessCandidate(
     return {
       rubricVersion: CURRENT_SCOUT_RUBRIC_VERSION,
       gate: 'insufficient',
-      gateReason: `Evidence comes from ${distinctSources} source${
-        distinctSources === 1 ? '' : 's'
-      }; ${SCOUT_MIN_DISTINCT_SOURCES} independent sources are required before fit is assessed.`,
+      gateReason:
+        distinctSources === 1
+          ? `Everything recorded comes from one source. ${SCOUT_MIN_DISTINCT_SOURCES} independent sources are required before fit is assessed.`
+          : `Evidence comes from ${distinctSources} sources; ${SCOUT_MIN_DISTINCT_SOURCES} independent ones are required before fit is assessed.`,
       dimensions,
       conflicts,
       distinctSources,
@@ -205,7 +225,7 @@ export function assessCandidate(
   return {
     rubricVersion: CURRENT_SCOUT_RUBRIC_VERSION,
     gate: 'sufficient',
-    gateReason: `${evidenced} of ${scoutDimensions.length} dimensions have live evidence from ${distinctSources} sources.`,
+    gateReason: `${evidenced} of ${scoutDimensions.length} dimensions have live evidence, from ${distinctSources} independent sources.`,
     dimensions,
     conflicts,
     distinctSources,

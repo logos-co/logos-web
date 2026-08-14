@@ -38,6 +38,14 @@ const serverEnvSchema = z.object({
   SMTP_PASSWORD: z.string().optional(),
   SMTP_FROM: z.string().trim().optional(),
   SMTP_TLS_ENABLE: z.string().trim().optional(),
+  /**
+   * Turns the real Scout source adapters on. Off by default, and separate from
+   * any credential: a token raises a rate limit, it does not decide whether
+   * this instance reaches out to the internet at all.
+   */
+  SCOUT_SOURCES_ENABLED: z.string().trim().optional(),
+  /** Optional. Raises GitHub's unauthenticated rate limit for Scout runs. */
+  GITHUB_TOKEN: z.string().trim().min(1).optional(),
   NOTION_TOKEN: z.string().trim().min(1).optional(),
   NOTION_INTAKE_DATABASE_ID: z.string().trim().min(1).optional(),
   NODE_ENV: z.string().default('development'),
@@ -57,6 +65,8 @@ export interface ServerEnv {
   SMTP_PASSWORD?: string
   SMTP_FROM?: string
   SMTP_TLS_ENABLE?: string
+  SCOUT_SOURCES_ENABLED?: string
+  GITHUB_TOKEN?: string
   NOTION_TOKEN?: string
   NOTION_INTAKE_DATABASE_ID?: string
   NODE_ENV: string
@@ -75,6 +85,8 @@ export function getServerEnv(): ServerEnv {
     SMTP_PASSWORD: process.env.SMTP_PASSWORD,
     SMTP_FROM: process.env.SMTP_FROM,
     SMTP_TLS_ENABLE: process.env.SMTP_TLS_ENABLE,
+    SCOUT_SOURCES_ENABLED: process.env.SCOUT_SOURCES_ENABLED,
+    GITHUB_TOKEN: process.env.GITHUB_TOKEN,
     NOTION_TOKEN: process.env.NOTION_TOKEN,
     NOTION_INTAKE_DATABASE_ID: process.env.NOTION_INTAKE_DATABASE_ID,
     NODE_ENV: process.env.NODE_ENV,

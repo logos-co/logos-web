@@ -167,6 +167,14 @@ export const seededCandidates: ScoutCandidateSeed[] = [
         'Revision covering the new antenna guidance.',
         { certainty: 'derived', observedDaysAgo: 240 }
       ),
+      evidence(
+        'ecosystem_relation',
+        'Listed as a delivery partner on a public connectivity programme',
+        'https://grants.example/programmes/community-connectivity/partners',
+        'Community connectivity programme partners',
+        'Delivery partners for the current round.',
+        { certainty: 'derived', observedDaysAgo: 20 }
+      ),
     ],
   },
   {
@@ -264,9 +272,9 @@ export const seededCandidates: ScoutCandidateSeed[] = [
       evidence(
         'ecosystem_relation',
         'Two of its profiles are implemented by relay operators',
-        'https://beaconstandards.example/implementations',
-        'Implementations',
-        'Known implementations of profile 3 and profile 7.',
+        'https://specs.example/profiles/implementations',
+        'Independent implementation register',
+        'Known implementations of Beacon profile 3 and profile 7.',
         { certainty: 'derived', observedDaysAgo: 45 }
       ),
     ],
