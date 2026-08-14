@@ -3,7 +3,10 @@
 import { LogosMark } from '@acid-info/logos-ui'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-import { useEffect, useRef, type ReactNode } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
+
+import { SEARCH_MIN_LENGTH } from '@/contracts/search'
 
 import type { CaseStatus } from '@/contracts/case'
 import type { OrganisationRecord, PersonRecord } from '@/contracts/directory'
@@ -15,6 +18,7 @@ export type WorkspaceView =
   | 'people'
   | 'organisations'
   | 'reports'
+  | 'search'
 
 interface DashboardResponse {
   total: number
@@ -33,6 +37,8 @@ interface CrmShellProps {
 
 export function CrmShell({ children, view }: CrmShellProps) {
   const mainRef = useRef<HTMLElement>(null)
+  const router = useRouter()
+  const [term, setTerm] = useState('')
   const dashboardQuery = useQuery({
     queryKey: ['dashboard'],
     queryFn: () => apiClient<DashboardResponse>('/api/v1/dashboard'),
@@ -66,6 +72,38 @@ export function CrmShell({ children, view }: CrmShellProps) {
           <LogosMark size={30} />
           <strong>Logos CRM</strong>
         </Link>
+
+        <form
+          className="global-search"
+          role="search"
+          onSubmit={(event) => {
+            event.preventDefault()
+            const trimmed = term.trim()
+            if (trimmed.length < SEARCH_MIN_LENGTH) return
+            router.push(`/search?q=${encodeURIComponent(trimmed)}`)
+          }}
+        >
+          <label className="visually-hidden" htmlFor="global-search-input">
+            Search cases, people, and organisations
+          </label>
+          <input
+            id="global-search-input"
+            type="search"
+            placeholder="Search everything"
+            value={term}
+            onChange={(event) => setTerm(event.target.value)}
+          />
+          {/* An explicit control rather than relying on implicit submission,
+              which does not fire reliably for a lone search input. */}
+          <button
+            aria-label="Search"
+            className="global-search-submit cursor-pointer"
+            disabled={term.trim().length < SEARCH_MIN_LENGTH}
+            type="submit"
+          >
+            Go
+          </button>
+        </form>
 
         <nav aria-label="Primary navigation" className="primary-nav">
           <Link

@@ -60,8 +60,9 @@ interface DirectoryResponse<T> {
 }
 
 interface CrmDemoProps {
-  // Reports render from their own page, so this component never sees that view.
-  view: Exclude<WorkspaceView, 'reports'>
+  // Reports and search render from their own pages, so this component never
+  // sees those views.
+  view: Exclude<WorkspaceView, 'reports' | 'search'>
 }
 
 const statuses: readonly CaseStatus[] = [
