@@ -11,7 +11,7 @@ Vercel, hosted databases, Redis, Upstash, Vercel KV, hosted queues, and Kubernet
 | Service  | Responsibility                                                         |
 | -------- | ---------------------------------------------------------------------- |
 | `web`    | Next.js UI, Route Handlers, health checks, and authenticated downloads |
-| `worker` | Graphile Worker notifications, imports, exports, and task reminders    |
+| `worker` | Graphile Worker notifications, imports, and task reminders             |
 | `crm-db` | PostgreSQL application data and Graphile Worker queue                  |
 
 The web and worker services share one application image but use separate commands and health checks. `crm-db` and `worker` publish no host ports. `web` binds only to localhost or an Infra-approved private interface and must not be directly internet-accessible.
@@ -19,7 +19,7 @@ The web and worker services share one application image but use separate command
 Required named volumes:
 
 - `crm-db-data` for PostgreSQL;
-- `crm-files` mounted by `web` and `worker`, with protected `/imports` and `/exports` subdirectories.
+- `crm-files` mounted by `web` and `worker`, with a protected `/imports` subdirectory. Exports are produced on download and never written to disk.
 
 Production images are pinned by version or digest and never use `latest` tags.
 
@@ -84,7 +84,7 @@ The shared secret is a defence-in-depth control in addition to binding `web` to 
 3. Run the one-shot migration service.
 4. Verify database readiness and migration version.
 5. Recreate web and worker services.
-6. Smoke-test authentication through the Infra proxy, `/api/v1/me`, task processing, export-volume access, and worker health.
+6. Smoke-test authentication through the Infra proxy, `/api/v1/me`, task processing, a CSV export, and worker health.
 7. Confirm backup and log collection are active.
 
 Migrations follow expand-and-contract changes so the existing and next application versions can overlap safely during recreation.
@@ -93,7 +93,7 @@ Migrations follow expand-and-contract changes so the existing and next applicati
 
 Backups use a host-controlled scheduled command that runs `pg_dump` against `crm-db`; no scheduler container is required. The runbook defines frequency, retention, encryption, access control, restore to an isolated Compose project, recovery objectives, and quarterly restore verification.
 
-Catalogue, workflow history, jobs, and audit tables are included. Short-lived exports and raw import files are excluded from long-term backups.
+Catalogue, workflow history, jobs, and audit tables are included. Raw import files are excluded from long-term backups.
 
 ## 8. Operational acceptance criteria
 
@@ -104,6 +104,6 @@ A clean Linux host must be able to:
 - accept verified Infra proxy identity and reject forged/direct identity headers;
 - create a case and task, enqueue a Graphile Worker job, and send through the existing SMTP configuration;
 - restart the worker without losing or duplicating work;
-- run imports, exports, and notifications without Redis or another broker;
+- run imports and notifications without Redis or another broker;
 - perform the documented backup and restore;
 - run without any Vercel-specific build, runtime, or storage feature.

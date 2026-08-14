@@ -71,6 +71,13 @@
       "when": 1786726215622,
       "tag": "0009_nebulous_madame_masque",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1786730618646,
+      "tag": "0010_tough_santa_claus",
+      "breakpoints": true
     }
   ]
 }

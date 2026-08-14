@@ -16,9 +16,6 @@ export const exportResourceLabels: Record<
   report_funnel: 'Funnel report',
 }
 
-/** Files hold personal data, so they expire rather than accumulate. */
-export const EXPORT_RETENTION_HOURS = 24
-
 export const createExportSchema = z.discriminatedUnion('resource', [
   z.object({
     resource: z.literal('cases'),
@@ -37,11 +34,10 @@ export const createExportSchema = z.discriminatedUnion('resource', [
 export const exportJobRecordSchema = z.object({
   id: z.string().uuid(),
   resource: z.enum(exportResources),
-  status: z.enum(['pending', 'running', 'completed', 'failed', 'expired']),
+  status: z.enum(['pending', 'completed', 'failed']),
   rowCount: z.number().int().nullable(),
   requestedAt: z.string().datetime(),
   completedAt: z.string().datetime().nullable(),
-  expiresAt: z.string().datetime().nullable(),
   error: z.string().nullable(),
 })
 

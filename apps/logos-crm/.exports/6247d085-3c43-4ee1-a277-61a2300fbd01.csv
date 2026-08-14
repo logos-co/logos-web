@@ -1,0 +1,14 @@
+﻿section,key,label,count
+cohort,total,Cohort total,1
+cohort,history_coverage_gap,Imported without observed history,0
+status,new,New,1
+status,in_progress,In progress,0
+status,waiting,Waiting,0
+status,resolved,Resolved,0
+status,closed,Closed,0
+decision,pending,Not decided,1
+decision,approved,Approved,0
+decision,redirected,Redirected,0
+decision,declined,Declined,0
+owner,Unassigned,Unassigned,1
+intake,2026-08-14,2026-08-14,1

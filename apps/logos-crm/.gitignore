@@ -1,7 +1,4 @@
 
-# Generated export files
-.exports/
-
 # Playwright
 test-results/
 playwright-report/

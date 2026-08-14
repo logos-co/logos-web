@@ -1,21 +1,20 @@
-import { readFile } from 'node:fs/promises'
-
 import { z } from 'zod/v4'
 
 import { apiException } from '@/server/api-response'
 import { resolveActor } from '@/server/auth'
-import { readExportFile } from '@/server/export-repository'
+import { buildExportCsv } from '@/server/export-repository'
 
 interface RouteContext {
   params: Promise<{ id: string }>
 }
 
 /**
- * Serves the file through the app rather than from a public path.
+ * Produces and serves the extract.
  *
- * The contents are an extract of personal data, so reaching them has to go
- * through the same identity check as everything else; a static URL would be a
- * link anybody could forward.
+ * The contents are an extract of personal data, so reaching them goes through
+ * the same identity check as everything else. Nothing is stored on the way:
+ * the rows are read, encoded, and sent, which is why this works the same in a
+ * deployment with a shared volume and one without.
  */
 export async function GET(
   request: Request,
@@ -26,10 +25,9 @@ export async function GET(
     const { id } = await context.params
     z.string().uuid().parse(id)
 
-    const { filePath, resource } = await readExportFile(id)
-    const contents = await readFile(filePath, 'utf8')
+    const { csv, resource } = await buildExportCsv(id)
 
-    return new Response(contents, {
+    return new Response(csv, {
       headers: {
         'Content-Type': 'text/csv; charset=utf-8',
         'Content-Disposition': `attachment; filename="${resource}-${id}.csv"`,

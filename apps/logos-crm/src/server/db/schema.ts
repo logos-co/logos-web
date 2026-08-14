@@ -896,10 +896,11 @@ export const privacyRequests = pgTable(
 )
 
 /**
- * Requested exports and the files they produced.
+ * Requested exports.
  *
- * The row outlives the file: the file expires, and the record of who asked for
- * an extract of personal data, with which filters, does not.
+ * The extract itself is produced when it is downloaded and never stored, so
+ * there is no file path and no expiry here. What is kept is the request: who
+ * asked for an extract of personal data, with which filters, and when.
  */
 export const exportJobs = pgTable(
   'crm_export_jobs',
@@ -913,13 +914,11 @@ export const exportJobs = pgTable(
     }),
     status: text('status').default('pending').notNull(),
     rowCount: integer('row_count'),
-    filePath: text('file_path'),
     error: text('error'),
     requestedAt: timestamp('requested_at', { withTimezone: true })
       .defaultNow()
       .notNull(),
     completedAt: timestamp('completed_at', { withTimezone: true }),
-    expiresAt: timestamp('expires_at', { withTimezone: true }),
   },
   (table) => [
     index('crm_export_jobs_status_idx').on(table.status, table.requestedAt),
