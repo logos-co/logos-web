@@ -16,7 +16,11 @@ shared verification secret, and what an unknown-but-valid subject should mean?
 
 **Assumed.** `AUTH_MODE=none`: the acting user is resolved server-side from
 `CRM_DEV_ACTOR_EMAIL`, the browser cannot influence it, and the app refuses to
-start in production. `AUTH_MODE=proxy` throws rather than admitting everyone.
+serve production requests. `AUTH_MODE=proxy` throws rather than admitting
+everyone. `AUTH_MODE=demo` is the one way to serve a production build without an
+identity, and it is a claim about the data rather than a relaxation of the rule:
+seeded fixtures only, no real person's details, and a label on every screen. The
+deployed previews run on it so reviewers can see the working interface.
 
 **Cost of delay.** Low for now, high once real data lands. Everything already
 takes an `ActorContext`, so wiring identity is one file — but until it is wired,

@@ -1,13 +1,6 @@
 import { z } from 'zod/v4'
 
-/**
- * `none` runs the app without a login screen: the acting user is resolved
- * server-side from `CRM_DEV_ACTOR_EMAIL` and the browser cannot influence it.
- * It exists because the Infra identity contract is not settled yet, and it is
- * refused in production — an instance holding real personal data must not be
- * reachable without an identity behind it.
- */
-export const authModes = ['none', 'proxy'] as const
+import { authModes } from '@/contracts/values'
 
 /**
  * Parsing is pure: it describes what is set, never what is allowed.
@@ -20,6 +13,20 @@ export const authModes = ['none', 'proxy'] as const
  */
 const serverEnvSchema = z.object({
   DATABASE_URL: z.string().url(),
+  /**
+   * `none` runs the app without a login screen: the acting user is resolved
+   * server-side from `CRM_DEV_ACTOR_EMAIL` and the browser cannot influence
+   * it. It exists because the Infra identity contract is not settled yet, and
+   * it is refused in production — an instance holding real personal data must
+   * not be reachable without an identity behind it.
+   *
+   * `demo` resolves the actor the same way but is allowed in production,
+   * because setting it is a statement about the data rather than about the
+   * build: this instance carries seeded fixtures, anyone with the URL is a
+   * coordinator, and no real person's details may be entered into it. It says
+   * so on every screen so the claim cannot quietly stop being true. The
+   * deployed previews run on it.
+   */
   AUTH_MODE: z.enum(authModes).default('none'),
   CRM_DEV_ACTOR_EMAIL: z.string().trim().min(3).optional(),
   HCAPTCHA_SECRET: z.string().trim().min(1).optional(),

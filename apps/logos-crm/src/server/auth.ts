@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm'
 
 import { db } from '@/server/db'
 import { users } from '@/server/db/schema'
-import { getServerEnv } from '@/server/env'
+import { getServerEnv, type AuthMode } from '@/server/env'
 
 /**
  * The identity seam. Every service takes an `ActorContext` rather than reading
@@ -41,13 +41,19 @@ function readRequestId(request?: Request): string {
   return crypto.randomUUID()
 }
 
-async function resolveDevActor(requestId: string): Promise<ActorContext> {
+async function resolveDevActor(
+  requestId: string,
+  mode: AuthMode
+): Promise<ActorContext> {
   const { CRM_DEV_ACTOR_EMAIL, NODE_ENV } = getServerEnv()
 
   // Checked when a request is actually served, not when the module loads. An
   // instance holding real personal data must not answer without an identity
   // behind it, but a build machine has no secrets and serves nobody.
-  if (NODE_ENV === 'production') {
+  //
+  // `demo` is exempt: it is the operator saying this instance holds fixtures
+  // and nothing else, which is a claim `none` never made.
+  if (NODE_ENV === 'production' && mode !== 'demo') {
     throw new AuthError(
       'FORBIDDEN',
       'AUTH_MODE=none cannot serve requests in production: wire the Infra identity seam first.'
@@ -96,7 +102,9 @@ export async function resolveActor(request?: Request): Promise<ActorContext> {
   const requestId = readRequestId(request)
   const { AUTH_MODE } = getServerEnv()
 
-  if (AUTH_MODE === 'none') return resolveDevActor(requestId)
+  if (AUTH_MODE === 'none' || AUTH_MODE === 'demo') {
+    return resolveDevActor(requestId, AUTH_MODE)
+  }
 
   throw new AuthError(
     'UNAUTHENTICATED',

@@ -1,6 +1,6 @@
 import { z } from 'zod/v4'
 
-import { userStatuses } from './values'
+import { authModes, userStatuses } from './values'
 
 export const userStatusSchema = z.enum(userStatuses)
 
@@ -20,7 +20,7 @@ export const currentActorSchema = z.object({
   id: z.string().uuid(),
   displayName: z.string(),
   email: z.string(),
-  authMode: z.enum(['none', 'proxy']),
+  authMode: z.enum(authModes),
 })
 
 export type CurrentActor = z.infer<typeof currentActorSchema>

@@ -1,3 +1,11 @@
+/**
+ * Identity modes. The policy each one carries — which are refused in
+ * production, and what `demo` claims about the data — lives with the guard in
+ * `src/server/env.ts`; the list is here because the API reports the mode and
+ * the browser reads it.
+ */
+export const authModes = ['none', 'proxy', 'demo'] as const
+
 export const caseStatuses = [
   'new',
   'in_progress',
