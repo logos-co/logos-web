@@ -50,6 +50,13 @@
       "when": 1786712662042,
       "tag": "0006_outgoing_bug",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1786712926802,
+      "tag": "0007_lumpy_doomsday",
+      "breakpoints": true
     }
   ]
 }

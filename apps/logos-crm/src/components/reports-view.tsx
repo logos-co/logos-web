@@ -11,6 +11,7 @@ import type {
 import { apiClient } from '@/lib/api-client'
 
 import { CrmShell } from './crm-shell'
+import { ExportButton } from './export-button'
 
 const DAY = 24 * 60 * 60 * 1000
 
@@ -101,6 +102,12 @@ export function ReportsView() {
     <CrmShell view="reports">
       <header className="workspace-header">
         <h1>Reports</h1>
+        <ExportButton
+          request={{
+            resource: 'report_funnel',
+            filters: { cohortFrom, cohortTo, asOf, timezone, bucket },
+          }}
+        />
       </header>
 
       <nav className="queue-tabs" aria-label="Reporting period">

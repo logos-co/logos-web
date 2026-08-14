@@ -95,6 +95,9 @@ export const caseRecordSchema = z.object({
   nextAction: z.string().nullable(),
   nextActionAt: z.string().datetime().nullable(),
   lastContactAt: z.string().datetime().nullable(),
+  /** Where the applicant said they heard about Logos, and which funnel. */
+  leadSource: z.string().nullable(),
+  profile: z.string().nullable(),
   decision: z.enum(caseDecisions),
   decisionReason: z.string().nullable(),
   decidedAt: z.string().datetime().nullable(),

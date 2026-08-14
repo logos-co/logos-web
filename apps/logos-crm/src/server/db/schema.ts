@@ -872,10 +872,43 @@ export const privacyRequests = pgTable(
   ]
 )
 
+/**
+ * Requested exports and the files they produced.
+ *
+ * The row outlives the file: the file expires, and the record of who asked for
+ * an extract of personal data, with which filters, does not.
+ */
+export const exportJobs = pgTable(
+  'crm_export_jobs',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    resource: text('resource').notNull(),
+    /** Filters are stored so an export can be explained and reproduced. */
+    filters: jsonb('filters').notNull(),
+    requestedByUserId: uuid('requested_by_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    status: text('status').default('pending').notNull(),
+    rowCount: integer('row_count'),
+    filePath: text('file_path'),
+    error: text('error'),
+    requestedAt: timestamp('requested_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    completedAt: timestamp('completed_at', { withTimezone: true }),
+    expiresAt: timestamp('expires_at', { withTimezone: true }),
+  },
+  (table) => [
+    index('crm_export_jobs_status_idx').on(table.status, table.requestedAt),
+    index('crm_export_jobs_requester_idx').on(table.requestedByUserId),
+  ]
+)
+
 export const schema = {
   activities,
   activityMentions,
   entityMerges,
+  exportJobs,
   privacyRequests,
   importErrors,
   importRuns,

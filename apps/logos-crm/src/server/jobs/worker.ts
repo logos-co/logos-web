@@ -3,6 +3,7 @@ import { run } from 'graphile-worker'
 import { getServerEnv } from '@/server/env'
 
 import { expireIntakePayloadsTask } from './expire-intake-payloads'
+import { expireExportsTask, generateExportTask } from './generate-export'
 import { sendEmailNotification } from './send-email-notification'
 
 /**
@@ -19,9 +20,14 @@ const runner = await run({
   taskList: {
     send_email_notification: sendEmailNotification,
     expire_intake_payloads: expireIntakePayloadsTask,
+    generate_export: generateExportTask,
+    expire_exports: expireExportsTask,
   },
   // Graphile Worker's own cron: no second scheduler and no cron container.
-  crontab: ['0 3 * * * expire_intake_payloads'].join('\n'),
+  crontab: [
+    '0 3 * * * expire_intake_payloads',
+    '30 * * * * expire_exports',
+  ].join('\n'),
 })
 
 await runner.promise

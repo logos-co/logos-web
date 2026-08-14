@@ -33,6 +33,8 @@ const serverEnvSchema = z.object({
   SMTP_TLS_ENABLE: z.string().trim().optional(),
   NOTION_TOKEN: z.string().trim().min(1).optional(),
   NOTION_INTAKE_DATABASE_ID: z.string().trim().min(1).optional(),
+  /** Where generated export files are written; a protected volume in Compose. */
+  EXPORT_DIR: z.string().trim().min(1).optional(),
   NODE_ENV: z.string().default('development'),
 })
 
@@ -52,6 +54,7 @@ export interface ServerEnv {
   SMTP_TLS_ENABLE?: string
   NOTION_TOKEN?: string
   NOTION_INTAKE_DATABASE_ID?: string
+  EXPORT_DIR?: string
   NODE_ENV: string
 }
 
@@ -70,6 +73,7 @@ export function getServerEnv(): ServerEnv {
     SMTP_TLS_ENABLE: process.env.SMTP_TLS_ENABLE,
     NOTION_TOKEN: process.env.NOTION_TOKEN,
     NOTION_INTAKE_DATABASE_ID: process.env.NOTION_INTAKE_DATABASE_ID,
+    EXPORT_DIR: process.env.EXPORT_DIR,
     NODE_ENV: process.env.NODE_ENV,
   })
 }
