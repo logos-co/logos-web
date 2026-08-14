@@ -89,7 +89,7 @@ export function CrmShell({ children, view }: CrmShellProps) {
           <input
             id="global-search-input"
             type="search"
-            placeholder="Search everything"
+            placeholder="Search"
             value={term}
             onChange={(event) => setTerm(event.target.value)}
           />
