@@ -15,7 +15,8 @@
     "import:notion": "tsx src/server/jobs/import-notion.ts",
     "db:seed": "tsx src/server/db/seed.ts",
     "test": "vitest run --exclude '**/*.integration.test.ts'",
-    "test:integration": "vitest run integration"
+    "test:integration": "vitest run integration",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@acid-info/logos-tokens": "workspace:*",
@@ -38,6 +39,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@repo/config": "workspace:*",
     "@tailwindcss/postcss": "^4.2.2",
     "@types/node": "25.6.0",

@@ -40,6 +40,18 @@ TEST_DATABASE_URL=postgresql://logos:logos@localhost:5434/logos_crm \
 
 Re-run `db:seed` afterwards to restore the demo data.
 
+Browser tests cover the coordinator flows end to end — intake capture, triage,
+and evaluation through to a decision. They start their own dev server and need
+the same database:
+
+```sh
+TEST_DATABASE_URL=postgresql://logos:logos@localhost:5434/logos_crm \
+  pnpm --filter logos-crm test:e2e
+```
+
+They are deliberately outside `pnpm test`: they need a database and a build, and
+a default suite that cannot run without setup is one people learn to skip.
+
 ## Migration baseline
 
 The Drizzle migrations were squashed to a single baseline when the schema gained
