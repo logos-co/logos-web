@@ -566,6 +566,83 @@ a.dashboard-latest-update:hover {
   color: rgb(21 37 33 / 55%);
 }
 
+.report-contract {
+  margin: 4px 0 16px;
+  color: rgb(21 37 33 / 60%);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  align-items: start;
+  gap: 18px;
+}
+
+.report-wide {
+  grid-column: 1 / -1;
+}
+
+.report-headline {
+  display: block;
+  margin: 10px 0 6px;
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 0.85;
+}
+
+.report-note {
+  color: rgb(21 37 33 / 60%);
+  font-size: 12px;
+}
+
+.report-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.report-bars li {
+  display: grid;
+  grid-template-columns: minmax(90px, 130px) 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.report-bar-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.report-bar-track {
+  height: 10px;
+  border-radius: 999px;
+  background: rgb(21 37 33 / 8%);
+}
+
+.report-bar-fill {
+  display: block;
+  min-width: 0;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--color-brand-yellow);
+}
+
+.report-bars b {
+  min-width: 26px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 400;
+  text-align: right;
+}
+
 .evaluation-header {
   display: flex;
   align-items: flex-start;
@@ -1625,11 +1702,15 @@ tbody tr.active-row {
   gap: 18px;
 }
 
+/* Card shell only. Placement lives with each page's grid, so a card class must
+   never carry grid-column or grid-row — reusing one that does drops the card
+   into another page's layout slot. */
 .record-action-card,
 .record-context-card,
 .record-facts-card,
 .record-related-card,
-.record-work-card {
+.record-work-card,
+.report-card {
   overflow: hidden;
   padding: 24px;
   border: 1px solid rgb(21 37 33 / 15%);

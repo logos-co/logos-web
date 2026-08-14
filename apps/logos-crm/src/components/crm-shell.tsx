@@ -9,7 +9,12 @@ import type { CaseStatus } from '@/contracts/case'
 import type { OrganisationRecord, PersonRecord } from '@/contracts/directory'
 import { apiClient } from '@/lib/api-client'
 
-export type WorkspaceView = 'dashboard' | 'cases' | 'people' | 'organisations'
+export type WorkspaceView =
+  | 'dashboard'
+  | 'cases'
+  | 'people'
+  | 'organisations'
+  | 'reports'
 
 interface DashboardResponse {
   total: number
@@ -91,6 +96,13 @@ export function CrmShell({ children, view }: CrmShellProps) {
           >
             Organisations{' '}
             <span>{organisationsQuery.data?.items.length ?? '—'}</span>
+          </Link>
+          <Link
+            aria-current={view === 'reports' ? 'page' : undefined}
+            className={`${view === 'reports' ? 'active' : ''} cursor-pointer`}
+            href="/reports"
+          >
+            Reports
           </Link>
         </nav>
       </aside>
