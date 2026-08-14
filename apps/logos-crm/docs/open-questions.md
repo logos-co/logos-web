@@ -31,18 +31,20 @@ actor can see everything.
 
 ## 2. Public intake spam protection
 
-**Question.** Does the new `POST /api/public/intake` need hCaptcha, and with
-which secret? The endpoint it replaces verified an hCaptcha token before writing
-anything.
+**Question.** Which hCaptcha secret does this deployment use, and who
+provisions it? Does Infra still own rate limiting for this route?
 
-**Assumed.** No captcha yet. The endpoint is not wired to the live funnel, so it
-is not exposed; the payload is validated and every write is idempotent on
-`submissionId`.
+**Built.** `POST /api/public/intake` verifies an hCaptcha token before anything
+is written, matching what the endpoint it replaces did. With no
+`HCAPTCHA_SECRET` configured the check is skipped so local development and tests
+do not need one, and production refuses to start without it — an open endpoint
+that looks protected is worse than one that is visibly open. A verifier outage
+returns 503 rather than 403, because an outage is not a rejected human.
 
-**Cost of delay.** Blocking for cutover. This must be closed before the public
-funnel points at Logos CRM, or the first spam run creates cases nobody asked
-for. Rate limiting is Infra's, per the architecture spec — confirm that still
-holds for this route.
+**Still open.** The secret itself. Nothing else here blocks cutover, but the
+route is only actually protected once Infra provides it, and the architecture
+spec puts rate limiting on Infra's side — worth confirming that still holds for
+a route the internet can reach.
 
 ---
 

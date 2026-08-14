@@ -2,6 +2,7 @@ import { HEAR_ABOUT_MAP, HEAR_ABOUT_QUESTION } from '@repo/funnel'
 
 import { intakeSubmissionSchema } from '@/contracts/intake'
 import { apiError, apiException } from '@/server/api-response'
+import { readClientIp, verifyCaptcha } from '@/server/captcha'
 import {
   processSubmission,
   recordSubmission,
@@ -92,6 +93,22 @@ export async function POST(request: Request): Promise<Response> {
     input = intakeSubmissionSchema.parse(normaliseBody(body))
   } catch (error) {
     return apiException(error)
+  }
+
+  // Checked before anything is written. Verifying after storing would leave a
+  // spam run with a table full of submissions to clean up, which is most of
+  // what this is here to prevent.
+  const captcha = await verifyCaptcha(body.captchaToken, readClientIp(request))
+  if (!captcha.ok) {
+    // An outage of the verifier is not a rejected human, so it gets a retryable
+    // status rather than a refusal the visitor cannot act on.
+    return captcha.reason === 'unavailable'
+      ? apiError(
+          'CAPTCHA_UNAVAILABLE',
+          'The captcha service could not be reached. Please try again.',
+          503
+        )
+      : apiError('CAPTCHA_FAILED', 'Captcha verification failed.', 403)
   }
 
   // Store first, map second. The stored payload is the applicant; everything

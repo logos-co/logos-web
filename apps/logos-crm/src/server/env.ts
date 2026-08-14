@@ -14,6 +14,7 @@ const serverEnvSchema = z
     DATABASE_URL: z.string().url(),
     AUTH_MODE: z.enum(authModes).default('none'),
     CRM_DEV_ACTOR_EMAIL: z.string().trim().min(3).optional(),
+    HCAPTCHA_SECRET: z.string().trim().min(1).optional(),
     NODE_ENV: z.string().default('development'),
   })
   .refine((env) => env.NODE_ENV !== 'production' || env.AUTH_MODE !== 'none', {
@@ -21,6 +22,18 @@ const serverEnvSchema = z
       'AUTH_MODE=none cannot be used in production: wire the Infra identity seam first.',
     path: ['AUTH_MODE'],
   })
+  // The intake route is the one endpoint the internet can reach. Without a
+  // secret the captcha check is skipped, which is fine locally and unacceptable
+  // in production, so the app refuses to start rather than serving an open
+  // endpoint that looks protected.
+  .refine(
+    (env) => env.NODE_ENV !== 'production' || Boolean(env.HCAPTCHA_SECRET),
+    {
+      message:
+        'HCAPTCHA_SECRET is required in production: the public intake endpoint would otherwise accept unverified submissions.',
+      path: ['HCAPTCHA_SECRET'],
+    }
+  )
 
 export type AuthMode = (typeof authModes)[number]
 
@@ -28,6 +41,7 @@ export interface ServerEnv {
   DATABASE_URL: string
   AUTH_MODE: AuthMode
   CRM_DEV_ACTOR_EMAIL?: string
+  HCAPTCHA_SECRET?: string
   NODE_ENV: string
 }
 
@@ -36,6 +50,7 @@ export function getServerEnv(): ServerEnv {
     DATABASE_URL: process.env.DATABASE_URL,
     AUTH_MODE: process.env.AUTH_MODE,
     CRM_DEV_ACTOR_EMAIL: process.env.CRM_DEV_ACTOR_EMAIL,
+    HCAPTCHA_SECRET: process.env.HCAPTCHA_SECRET,
     NODE_ENV: process.env.NODE_ENV,
   })
 }
