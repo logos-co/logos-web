@@ -9,6 +9,7 @@
       "outputs": [".next/**", "!.next/cache/**", "dist/**", "out/**"],
       "env": [
         "PAYLOAD_SECRET",
+        "AUTH_MODE",
         "DATABASE_URL",
         "DATABASE_AUTH_TOKEN",
         "PAYLOAD_DB_SCHEMA",

@@ -10,6 +10,7 @@ import { SEARCH_MIN_LENGTH } from '@/contracts/search'
 
 import type { CaseStatus } from '@/contracts/case'
 import type { OrganisationRecord, PersonRecord } from '@/contracts/directory'
+import type { CurrentActor } from '@/contracts/user'
 import { apiClient } from '@/lib/api-client'
 
 export type WorkspaceView =
@@ -51,6 +52,13 @@ export function CrmShell({ children, view }: CrmShellProps) {
     queryKey: ['organisations'],
     queryFn: () =>
       apiClient<DirectoryResponse<OrganisationRecord>>('/api/v1/organisations'),
+  })
+  // Asked at request time rather than read from the build: these pages are
+  // prerendered, so a build-time answer would keep claiming whatever was true
+  // when the bundle was made.
+  const actorQuery = useQuery({
+    queryKey: ['me'],
+    queryFn: () => apiClient<{ item: CurrentActor }>('/api/v1/me'),
   })
 
   useEffect(() => {
@@ -148,6 +156,15 @@ export function CrmShell({ children, view }: CrmShellProps) {
       <main className="crm-main" id="main-content" ref={mainRef} tabIndex={-1}>
         {children}
       </main>
+
+      {/* An instance anyone can open without signing in has to say so, or the
+          seeded records read as a real caseload. */}
+      {actorQuery.data?.item.authMode === 'demo' ? (
+        <p className="demo-badge">
+          Demo — seeded data, no sign-in. Never enter a real person&rsquo;s
+          details.
+        </p>
+      ) : null}
     </div>
   )
 }
