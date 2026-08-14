@@ -22,6 +22,13 @@
       "when": 1786645862526,
       "tag": "0002_daily_zaladane",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1786697445392,
+      "tag": "0003_famous_la_nuit",
+      "breakpoints": true
     }
   ]
 }

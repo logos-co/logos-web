@@ -15,6 +15,14 @@ const serverEnvSchema = z
     AUTH_MODE: z.enum(authModes).default('none'),
     CRM_DEV_ACTOR_EMAIL: z.string().trim().min(3).optional(),
     HCAPTCHA_SECRET: z.string().trim().min(1).optional(),
+    /** Base URL used to build deep links in notifications. */
+    CRM_PUBLIC_URL: z.string().url().optional(),
+    SMTP_SERVER: z.string().trim().min(1).optional(),
+    SMTP_PORT: z.coerce.number().int().positive().optional(),
+    SMTP_USER: z.string().trim().optional(),
+    SMTP_PASSWORD: z.string().optional(),
+    SMTP_FROM: z.string().trim().optional(),
+    SMTP_TLS_ENABLE: z.string().trim().optional(),
     NODE_ENV: z.string().default('development'),
   })
   .refine((env) => env.NODE_ENV !== 'production' || env.AUTH_MODE !== 'none', {
@@ -42,6 +50,13 @@ export interface ServerEnv {
   AUTH_MODE: AuthMode
   CRM_DEV_ACTOR_EMAIL?: string
   HCAPTCHA_SECRET?: string
+  CRM_PUBLIC_URL?: string
+  SMTP_SERVER?: string
+  SMTP_PORT?: number
+  SMTP_USER?: string
+  SMTP_PASSWORD?: string
+  SMTP_FROM?: string
+  SMTP_TLS_ENABLE?: string
   NODE_ENV: string
 }
 
@@ -51,6 +66,13 @@ export function getServerEnv(): ServerEnv {
     AUTH_MODE: process.env.AUTH_MODE,
     CRM_DEV_ACTOR_EMAIL: process.env.CRM_DEV_ACTOR_EMAIL,
     HCAPTCHA_SECRET: process.env.HCAPTCHA_SECRET,
+    CRM_PUBLIC_URL: process.env.CRM_PUBLIC_URL,
+    SMTP_SERVER: process.env.SMTP_SERVER,
+    SMTP_PORT: process.env.SMTP_PORT,
+    SMTP_USER: process.env.SMTP_USER,
+    SMTP_PASSWORD: process.env.SMTP_PASSWORD,
+    SMTP_FROM: process.env.SMTP_FROM,
+    SMTP_TLS_ENABLE: process.env.SMTP_TLS_ENABLE,
     NODE_ENV: process.env.NODE_ENV,
   })
 }

@@ -23,6 +23,8 @@ import {
   contactMethodTypes,
   directoryStatuses,
   evaluationStages,
+  notificationChannels,
+  notificationStatuses,
   taskPriorities,
   taskStatuses,
   userStatuses,
@@ -50,6 +52,14 @@ export const userStatus = pgEnum('user_status', userStatuses)
 export const changeSource = pgEnum('change_source', changeSources)
 export const evaluationStage = pgEnum('evaluation_stage', evaluationStages)
 export const caseDecision = pgEnum('case_decision', caseDecisions)
+export const notificationChannel = pgEnum(
+  'notification_channel',
+  notificationChannels
+)
+export const notificationStatus = pgEnum(
+  'notification_status',
+  notificationStatuses
+)
 
 /**
  * Local CRM identities. `externalSubject` is the immutable subject supplied by
@@ -658,10 +668,82 @@ export const caseEvaluations = pgTable(
   ]
 )
 
+/**
+ * Mentions resolved by the server from the note body.
+ *
+ * The client's autocomplete is a convenience, not the source of truth: a
+ * request can claim any mention it likes, and a notification is an action taken
+ * on someone's behalf. The unique constraint makes a re-parse idempotent.
+ */
+export const activityMentions = pgTable(
+  'crm_activity_mentions',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    activityId: uuid('activity_id')
+      .notNull()
+      .references(() => activities.id, { onDelete: 'cascade' }),
+    mentionedUserId: uuid('mentioned_user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    uniqueIndex('crm_activity_mentions_uidx').on(
+      table.activityId,
+      table.mentionedUserId
+    ),
+    index('crm_activity_mentions_user_idx').on(table.mentionedUserId),
+  ]
+)
+
+/**
+ * The business-level record of what was sent, kept because a completed Graphile
+ * job is deleted from the queue. The queue answers "is there work left"; this
+ * answers "was this person told, and when".
+ *
+ * `dedupeKey` is what stops a retry or a re-parse notifying someone twice.
+ */
+export const notificationDeliveries = pgTable(
+  'crm_notification_deliveries',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    channel: notificationChannel('channel').notNull(),
+    kind: text('kind').notNull(),
+    activityId: uuid('activity_id').references(() => activities.id, {
+      onDelete: 'cascade',
+    }),
+    caseId: uuid('case_id').references(() => cases.id, { onDelete: 'cascade' }),
+    dedupeKey: text('dedupe_key').notNull(),
+    status: notificationStatus('status').default('pending').notNull(),
+    attempts: integer('attempts').default(0).notNull(),
+    /** Status or error code only — never the note body or the address. */
+    error: text('error'),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    completedAt: timestamp('completed_at', { withTimezone: true }),
+  },
+  (table) => [
+    uniqueIndex('crm_notification_deliveries_dedupe_uidx').on(table.dedupeKey),
+    index('crm_notification_deliveries_status_idx').on(
+      table.status,
+      table.createdAt
+    ),
+    index('crm_notification_deliveries_user_idx').on(table.userId),
+  ]
+)
+
 export const schema = {
   activities,
+  activityMentions,
   caseEvaluations,
   intakeSubmissions,
+  notificationDeliveries,
   auditEvents,
   caseAssignments,
   caseOrganisations,

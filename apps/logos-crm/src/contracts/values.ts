@@ -90,3 +90,16 @@ export const contactMethodTypes = [
 export const activityTypes = ['note', 'call', 'email', 'meeting'] as const
 export const taskStatuses = ['open', 'completed', 'cancelled'] as const
 export const taskPriorities = ['low', 'medium', 'high'] as const
+
+/**
+ * Delivery channels. Email only for now: the Discord bot's owner and channel
+ * policy are undecided, so the adapter is absent rather than half-built.
+ */
+export const notificationChannels = ['email'] as const
+
+export const notificationStatuses = [
+  'pending',
+  'sent',
+  'failed',
+  'skipped',
+] as const

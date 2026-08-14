@@ -15,6 +15,7 @@ import { recordAuditEvent } from '@/server/audit'
 import type { ActorContext } from '@/server/auth'
 import { db } from '@/server/db'
 import { activities, cases, tasks, users } from '@/server/db/schema'
+import { queueMentionNotifications } from '@/server/notification-repository'
 
 type ActivityRow = typeof activities.$inferSelect
 type TaskRow = typeof tasks.$inferSelect
@@ -152,6 +153,15 @@ export async function createActivity(
       .returning()
 
     if (!created) throw new Error('The activity was not created.')
+
+    // Mentions and their notifications commit with the note. A job that could
+    // outlive a rolled-back note would tell somebody about something that never
+    // happened.
+    await queueMentionNotifications(transaction, actor, {
+      activityId: created.id,
+      caseId: input.subjectType === 'case' ? input.subjectId : null,
+      body: input.body,
+    })
 
     if (input.subjectType === 'case' && isContactActivity(input.type)) {
       await transaction

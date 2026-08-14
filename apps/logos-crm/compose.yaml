@@ -48,5 +48,28 @@ services:
       timeout: 3s
       retries: 20
 
+  # Same image as the web service, different command. The queue lives in the
+  # same PostgreSQL instance, so there is no broker, scheduler, or Redis here.
+  crm-worker:
+    build:
+      context: ../..
+      dockerfile: apps/logos-crm/Dockerfile
+    command: ['pnpm', '--filter', 'logos-crm', 'worker']
+    environment:
+      DATABASE_URL: postgresql://logos:logos@crm-db:5432/logos_crm
+      CRM_PUBLIC_URL: http://localhost:3004
+      # Notifications need SMTP from Infra. Without it the worker still runs and
+      # deliveries fail visibly rather than disappearing.
+      SMTP_SERVER: ${SMTP_SERVER:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      SMTP_TLS_ENABLE: ${SMTP_TLS_ENABLE:-true}
+    depends_on:
+      crm-setup:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
 volumes:
   logos-crm-db:
