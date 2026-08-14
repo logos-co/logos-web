@@ -738,9 +738,60 @@ export const notificationDeliveries = pgTable(
   ]
 )
 
+/**
+ * One row per import execution, so "when did we last pull the bridge period"
+ * has an answer that survives the terminal window it was run from.
+ */
+export const importRuns = pgTable(
+  'crm_import_runs',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    sourceSystem: text('source_system').notNull(),
+    startedAt: timestamp('started_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    finishedAt: timestamp('finished_at', { withTimezone: true }),
+    status: text('status').default('running').notNull(),
+    createdCount: integer('created_count').default(0).notNull(),
+    duplicateCount: integer('duplicate_count').default(0).notNull(),
+    errorCount: integer('error_count').default(0).notNull(),
+    /**
+     * The newest source timestamp this run saw. The next run starts here rather
+     * than re-reading everything.
+     */
+    watermark: timestamp('watermark', { withTimezone: true }),
+  },
+  (table) => [
+    index('crm_import_runs_source_idx').on(table.sourceSystem, table.startedAt),
+  ]
+)
+
+/**
+ * Row-level failures, kept rather than logged. A run that reports "12 errors"
+ * without saying which records failed cannot be acted on.
+ */
+export const importErrors = pgTable(
+  'crm_import_errors',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    runId: uuid('run_id')
+      .notNull()
+      .references(() => importRuns.id, { onDelete: 'cascade' }),
+    sourceId: text('source_id').notNull(),
+    /** Message only — never the source row, which is personal data. */
+    message: text('message').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [index('crm_import_errors_run_idx').on(table.runId)]
+)
+
 export const schema = {
   activities,
   activityMentions,
+  importErrors,
+  importRuns,
   caseEvaluations,
   intakeSubmissions,
   notificationDeliveries,

@@ -23,6 +23,8 @@ const serverEnvSchema = z
     SMTP_PASSWORD: z.string().optional(),
     SMTP_FROM: z.string().trim().optional(),
     SMTP_TLS_ENABLE: z.string().trim().optional(),
+    NOTION_TOKEN: z.string().trim().min(1).optional(),
+    NOTION_INTAKE_DATABASE_ID: z.string().trim().min(1).optional(),
     NODE_ENV: z.string().default('development'),
   })
   .refine((env) => env.NODE_ENV !== 'production' || env.AUTH_MODE !== 'none', {
@@ -57,6 +59,8 @@ export interface ServerEnv {
   SMTP_PASSWORD?: string
   SMTP_FROM?: string
   SMTP_TLS_ENABLE?: string
+  NOTION_TOKEN?: string
+  NOTION_INTAKE_DATABASE_ID?: string
   NODE_ENV: string
 }
 
@@ -73,6 +77,8 @@ export function getServerEnv(): ServerEnv {
     SMTP_PASSWORD: process.env.SMTP_PASSWORD,
     SMTP_FROM: process.env.SMTP_FROM,
     SMTP_TLS_ENABLE: process.env.SMTP_TLS_ENABLE,
+    NOTION_TOKEN: process.env.NOTION_TOKEN,
+    NOTION_INTAKE_DATABASE_ID: process.env.NOTION_INTAKE_DATABASE_ID,
     NODE_ENV: process.env.NODE_ENV,
   })
 }

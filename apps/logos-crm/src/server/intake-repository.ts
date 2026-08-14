@@ -189,16 +189,35 @@ export async function recordSubmission(
   return row
 }
 
+export interface ProcessSubmissionOptions {
+  /** Which system the record came from, e.g. `funnel` or `notion`. */
+  sourceSystem?: string
+  /**
+   * Whether the history this writes was observed or imported. Imported history
+   * is excluded from duration metrics, because its timestamps record when the
+   * export ran rather than when anything was decided.
+   */
+  changeSource?: 'system' | 'import'
+}
+
 /**
  * Maps a stored submission into a person, an optional organisation, and an
  * unassigned case with a triage task. Everything commits together, and a
  * submission that has already been processed is returned unchanged.
+ *
+ * The same rules serve the public funnel and the Notion bridge import, so an
+ * imported applicant and a freshly submitted one become the same kind of record
+ * — only the recorded source differs.
  */
 export async function processSubmission(
   submission: Readonly<typeof intakeSubmissions.$inferSelect>,
   input: Readonly<IntakeSubmissionInput>,
-  requestId: string
+  requestId: string,
+  options: Readonly<ProcessSubmissionOptions> = {}
 ): Promise<IntakeResult> {
+  const sourceSystem = options.sourceSystem ?? SOURCE_SYSTEM
+  const changeSource = options.changeSource ?? 'system'
+
   if (submission.processedAt) {
     return {
       submissionId: submission.submissionId,
@@ -265,7 +284,7 @@ export async function processSubmission(
     await transaction.insert(caseAssignments).values({
       caseId: row.id,
       validFrom: receivedAt,
-      source: 'system',
+      source: changeSource,
     })
 
     await transaction.insert(caseWorkflowHistory).values({
@@ -274,7 +293,7 @@ export async function processSubmission(
       toStatus: row.status,
       toStage: row.stage,
       effectiveAt: receivedAt,
-      source: 'system',
+      source: changeSource,
     })
 
     await transaction
@@ -299,7 +318,7 @@ export async function processSubmission(
 
     await transaction.insert(externalIdentities).values([
       {
-        sourceSystem: SOURCE_SYSTEM,
+        sourceSystem,
         entityType: 'case',
         entityId: row.id,
         sourceId: submission.submissionId,

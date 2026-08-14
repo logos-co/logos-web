@@ -102,6 +102,17 @@ suggestions, invalid relationships, and changed source rows.
 
 ### Bridge refresh
 
+Run with:
+
+```sh
+NOTION_TOKEN=... NOTION_INTAKE_DATABASE_ID=... \
+  pnpm --filter logos-crm import:notion
+```
+
+Each run reports created, duplicate, and error counts, records row-level errors
+in `crm_import_errors`, and stores the newest source timestamp it saw. The next
+run starts from that watermark rather than re-reading the whole database.
+
 While the bridge period lasts, re-import Notion pages changed since the previous
 watermark. `source_updated_at` and the page ID prevent stale imports from overwriting
 newer CRM edits. Conflicts are reported for manual resolution rather than resolved by

@@ -87,16 +87,23 @@ argue with, not a migration of the old rubric.
 
 ## 5. Notion bridge
 
-**Question.** Who owns the Notion database schema snapshot, how often is the
-bridge import run, and who runs it?
+**Question.** Which Notion integration token and database id does this
+deployment use, who runs the import, and how often?
 
-**Assumed.** Notion is the source of record for everything received between the
-CiviCRM shutdown and the Logos CRM intake cutover, and every one of those pages
-has to be imported. The importer itself is not built yet.
+**Built.** `pnpm --filter logos-crm import:notion` imports the bridge period
+through the Notion API. Pages become records through the same pipeline the
+public funnel uses, keyed on the page id so a re-run updates nothing, and the
+history it writes is marked imported so those cases stay out of duration
+metrics. Each run records its counts and row-level errors, and the newest source
+timestamp becomes the next run's starting point.
 
-**Cost of delay.** Grows weekly. Every week of bridge is another week of
-applicants that must be imported, and a renamed Notion property silently breaks
-the mapping. Snapshot the property list now.
+**Still open.** Credentials, and who runs it. A renamed Notion property still
+breaks the mapping silently — the property names live in
+`src/contracts/notion.ts`, so snapshot the database schema and treat a rename
+there as a code change.
+
+**Cost of delay.** Lower than it was, but still growing: every week of bridge is
+another week of applicants nobody has imported yet.
 
 ---
 

@@ -29,6 +29,13 @@
       "when": 1786697445392,
       "tag": "0003_famous_la_nuit",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1786697982226,
+      "tag": "0004_freezing_sentinels",
+      "breakpoints": true
     }
   ]
 }
