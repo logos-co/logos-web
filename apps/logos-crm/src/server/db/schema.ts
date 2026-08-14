@@ -25,6 +25,8 @@ import {
   evaluationStages,
   notificationChannels,
   notificationStatuses,
+  privacyRequestStatuses,
+  privacyRequestTypes,
   taskPriorities,
   taskStatuses,
   userStatuses,
@@ -59,6 +61,14 @@ export const notificationChannel = pgEnum(
 export const notificationStatus = pgEnum(
   'notification_status',
   notificationStatuses
+)
+export const privacyRequestType = pgEnum(
+  'privacy_request_type',
+  privacyRequestTypes
+)
+export const privacyRequestStatus = pgEnum(
+  'privacy_request_status',
+  privacyRequestStatuses
 )
 
 /**
@@ -175,6 +185,17 @@ export const people = pgTable(
     consentNewsletter: boolean('consent_newsletter').default(false).notNull(),
     consentEvents: boolean('consent_events').default(false).notNull(),
     consentRecordedAt: timestamp('consent_recorded_at', { withTimezone: true }),
+    /**
+     * Suppression. Consent says what someone agreed to; this says they asked to
+     * be left alone, which overrides it. Kept as its own flag rather than by
+     * clearing consent, so a withdrawal is visible as a decision instead of
+     * looking like the consent was never given.
+     */
+    doNotContact: boolean('do_not_contact').default(false).notNull(),
+    doNotContactAt: timestamp('do_not_contact_at', { withTimezone: true }),
+    doNotContactReason: text('do_not_contact_reason'),
+    /** Set when an erasure request has been applied to this record. */
+    anonymisedAt: timestamp('anonymised_at', { withTimezone: true }),
     version: integer('version').default(1).notNull(),
     createdAt: timestamp('created_at', { withTimezone: true })
       .defaultNow()
@@ -819,10 +840,43 @@ export const entityMerges = pgTable(
   ]
 )
 
+/**
+ * Requests a person made about their own data, tracked as work.
+ *
+ * The obligation is to answer within a deadline, so "received" has to be a
+ * state somebody can see and count. Handling these in a mailbox means nobody
+ * can show what was answered or when.
+ */
+export const privacyRequests = pgTable(
+  'crm_privacy_requests',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    personId: uuid('person_id')
+      .notNull()
+      .references(() => people.id, { onDelete: 'cascade' }),
+    type: privacyRequestType('type').notNull(),
+    status: privacyRequestStatus('status').default('received').notNull(),
+    receivedAt: timestamp('received_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    completedAt: timestamp('completed_at', { withTimezone: true }),
+    handledByUserId: uuid('handled_by_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    /** What was asked and what was done — never a copy of the data itself. */
+    notes: text('notes'),
+  },
+  (table) => [
+    index('crm_privacy_requests_person_idx').on(table.personId),
+    index('crm_privacy_requests_status_idx').on(table.status, table.receivedAt),
+  ]
+)
+
 export const schema = {
   activities,
   activityMentions,
   entityMerges,
+  privacyRequests,
   importErrors,
   importRuns,
   caseEvaluations,

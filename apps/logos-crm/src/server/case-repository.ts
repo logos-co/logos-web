@@ -120,6 +120,7 @@ async function hydrateCaseRecords(
           id: people.id,
           fullName: people.fullName,
           roleTitle: people.roleTitle,
+          doNotContact: people.doNotContact,
           primary: casePeople.isPrimary,
         })
         .from(casePeople)
@@ -188,7 +189,12 @@ async function hydrateCaseRecords(
     const existing = peopleByCase.get(link.caseId) ?? []
     peopleByCase.set(link.caseId, [
       ...existing,
-      { id: link.id, fullName: link.fullName, roleTitle: link.roleTitle },
+      {
+        id: link.id,
+        fullName: link.fullName,
+        roleTitle: link.roleTitle,
+        doNotContact: link.doNotContact,
+      },
     ])
   }
 

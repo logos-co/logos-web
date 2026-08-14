@@ -103,3 +103,29 @@ export const notificationStatuses = [
   'failed',
   'skipped',
 ] as const
+
+/**
+ * The requests a person can make about their own data. Recorded as work with a
+ * status rather than handled ad hoc, because the obligation is to answer within
+ * a deadline and an untracked request is one nobody can prove was answered.
+ */
+export const privacyRequestTypes = [
+  'access',
+  'rectification',
+  'erasure',
+  'objection',
+] as const
+
+export const privacyRequestStatuses = [
+  'received',
+  'in_progress',
+  'completed',
+  'refused',
+] as const
+
+/**
+ * How long the raw funnel payload is kept after its records exist. It is a copy
+ * of personal data whose only remaining job is replaying a failed mapping, so
+ * it expires once that stops being plausible.
+ */
+export const INTAKE_PAYLOAD_RETENTION_DAYS = 30

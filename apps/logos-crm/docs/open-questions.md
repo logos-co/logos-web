@@ -140,20 +140,22 @@ asked to chase, so they should be confirmed by whoever owns follow-up.
 
 ## 8. Retention and personal data operations
 
-**Question.** How long is a raw intake payload kept? What is the audit event
-retention? What does a deletion or rectification request do to a case, its
-activities, and its audit trail?
+**Question.** Are 30 days the right retention for a raw intake payload? What is
+the audit-event retention? Who signs off an erasure before it is applied?
 
-**Assumed.** `crm_intake_submissions.payload` is kept indefinitely today. The
-intent is deletion once the derived records are confirmed, but nothing enforces
-it.
+**Built.** Do-not-contact on a person, which suppresses their contact methods
+while keeping the address so a later submission is still recognised as the same
+person. Access, rectification, erasure, and objection requests are tracked as
+work with a status, because the obligation is to answer within a deadline and an
+untracked request is one nobody can prove was answered. Erasure removes the name
+and contact details and clears the stored submission, while cases, links, and
+the audit trail stay so what was decided remains provable. A nightly job expires
+processed intake payloads after `INTAKE_PAYLOAD_RETENTION_DAYS`.
 
-**Cost of delay.** Moderate and compounding — every stored submission is
-personal data. Suppression (do-not-contact), provenance, and a request workflow
-are not built at all.
-
-**Related.** Consent withdrawal has no flow. Intake can add consent and never
-removes it, which is correct for a submission but leaves withdrawal unhandled.
+**Still open.** The retention numbers themselves, audit-event retention, and
+whether erasure needs a second approver. Response drafts already refuse to
+render for a suppressed applicant, so nothing offers to contact somebody who
+asked us not to.
 
 ---
 

@@ -8,6 +8,8 @@ import { renderResponseTemplate } from '@/contracts/template'
 interface CaseResponseTemplateProps {
   item: CaseRecord
   coordinatorName: string
+  /** Suppression on the applicant this draft would be addressed to. */
+  isSuppressed?: boolean
 }
 
 /**
@@ -20,10 +22,25 @@ interface CaseResponseTemplateProps {
 export function CaseResponseTemplate({
   item,
   coordinatorName,
+  isSuppressed = false,
 }: CaseResponseTemplateProps) {
   const [copied, setCopied] = useState(false)
 
   if (item.decision === 'pending') return null
+
+  // Handing over a ready-to-send draft for somebody who asked not to be
+  // contacted is how that request gets broken by accident.
+  if (isSuppressed) {
+    return (
+      <section className="report-card response-card">
+        <p className="utility-label">Response draft</p>
+        <p className="report-note">
+          This applicant asked not to be contacted, so no draft is offered.
+          Record the outcome on the case instead.
+        </p>
+      </section>
+    )
+  }
 
   const template = renderResponseTemplate(item.decision, {
     applicantName: item.relatedPeople[0]?.fullName ?? 'there',

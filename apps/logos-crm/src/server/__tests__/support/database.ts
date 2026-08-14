@@ -17,6 +17,7 @@ import { organisations, users } from '@/server/db/schema'
 export const isIntegrationEnabled = Boolean(process.env.TEST_DATABASE_URL)
 
 const TABLES = [
+  'crm_privacy_requests',
   'crm_entity_merges',
   'crm_import_errors',
   'crm_import_runs',

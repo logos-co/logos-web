@@ -17,6 +17,7 @@ import { CrmShell } from './crm-shell'
 import { DuplicateSuggestions } from './duplicate-suggestions'
 import { NewOrganisationDialog } from './new-organisation-dialog'
 import { NewPersonDialog } from './new-person-dialog'
+import { PersonPrivacy } from './person-privacy'
 import { RecordWork } from './record-work'
 
 interface DirectoryDetailPageProps {
@@ -243,6 +244,7 @@ function PersonRecordPage({
         </section>
 
         <DuplicateSuggestions id={item.id} kind="people" />
+        <PersonPrivacy id={item.id} />
       </div>
     </article>
   )

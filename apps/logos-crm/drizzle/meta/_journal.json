@@ -43,6 +43,13 @@
       "when": 1786698317451,
       "tag": "0005_freezing_puma",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1786712662042,
+      "tag": "0006_outgoing_bug",
+      "breakpoints": true
     }
   ]
 }

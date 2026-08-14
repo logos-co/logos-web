@@ -179,6 +179,9 @@ export function CaseDetailPage({ id }: CaseDetailPageProps) {
 
               <CaseResponseTemplate
                 coordinatorName={item.owner?.displayName ?? 'the Logos team'}
+                isSuppressed={item.relatedPeople.some(
+                  (person) => person.doNotContact
+                )}
                 item={item}
               />
 

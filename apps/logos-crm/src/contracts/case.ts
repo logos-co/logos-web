@@ -106,6 +106,9 @@ export const caseRecordSchema = z.object({
       id: z.string().uuid(),
       fullName: z.string(),
       roleTitle: z.string().nullable(),
+      // Carried here so screens that offer to contact somebody can see the
+      // instruction not to, without a second lookup they might forget.
+      doNotContact: z.boolean(),
     })
   ),
 })
