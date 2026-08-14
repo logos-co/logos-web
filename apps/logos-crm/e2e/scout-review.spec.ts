@@ -89,19 +89,34 @@ test('search narrows the queue by name, domain, and summary', async ({
   )
 })
 
-test('find more adds candidates and says no source was contacted', async ({
+test('find more runs discovery and the queue matches what the run reports', async ({
   page,
 }) => {
   await page.goto('/scout')
+  // Counted after the queue has rendered: counting straight after navigation
+  // reads zero and then compares against a list that was always going to grow.
+  await expect(page.locator('.scout-list-item').first()).toBeVisible()
   const before = await page.locator('.scout-list-item').count()
 
   await page.getByRole('button', { name: 'Find more' }).click()
 
-  await expect(page.getByText('No external source was contacted')).toBeVisible()
+  const notice = page.locator('.scout-notice')
+  await expect(notice).toBeVisible()
+
+  // The catalogue is finite, and running out is a real outcome rather than a
+  // broken test: this asserts the invariant that holds either way, which is
+  // that the queue grew by exactly the number the run claimed to add.
+  const reported = await notice.textContent()
+  const added = Number(/Added (\d+) synthetic/.exec(reported ?? '')?.[1] ?? 0)
+
+  if (added === 0) {
+    expect(reported).toContain('catalogue is exhausted')
+  } else {
+    expect(reported).toContain('No external source was contacted')
+  }
+
   await expect(async () => {
-    expect(await page.locator('.scout-list-item').count()).toBeGreaterThan(
-      before
-    )
+    expect(await page.locator('.scout-list-item').count()).toBe(before + added)
   }).toPass()
 })
 

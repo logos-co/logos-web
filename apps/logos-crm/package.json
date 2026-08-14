@@ -14,6 +14,7 @@
     "worker": "tsx src/server/jobs/worker.ts",
     "import:notion": "tsx src/server/jobs/import-notion.ts",
     "db:seed": "tsx src/server/db/seed.ts",
+    "db:reset-scout": "tsx src/server/db/reset-scout.ts",
     "test": "vitest run --exclude '**/*.integration.test.ts'",
     "test:integration": "vitest run integration",
     "test:e2e": "playwright test"

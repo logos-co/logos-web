@@ -60,6 +60,15 @@ TEST_DATABASE_URL=postgresql://logos:logos@localhost:5434/logos_crm \
 They are deliberately outside `pnpm test`: they need a database and a build, and
 a default suite that cannot run without setup is one people learn to skip.
 
+The browser suite resets the Scout fixtures before it runs, because reviewing a
+candidate changes its state and discovery consumes the catalogue. The same
+command restores a demo instance without touching CRM data:
+
+```sh
+DATABASE_URL=postgresql://logos:logos@localhost:5434/logos_crm \
+  pnpm --filter logos-crm db:reset-scout
+```
+
 ## Migration baseline
 
 The Drizzle migrations were squashed to a single baseline when the schema gained

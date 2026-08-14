@@ -195,17 +195,6 @@ textarea:focus-visible {
   color: var(--color-brand-off-white);
 }
 
-.primary-nav a[aria-current='page']::before {
-  position: absolute;
-  top: 9px;
-  bottom: 9px;
-  left: 0;
-  width: 3px;
-  border-radius: 2px;
-  background: var(--color-brand-yellow);
-  content: '';
-}
-
 .primary-nav a span,
 .primary-nav button span {
   font-family: var(--font-mono);
@@ -235,7 +224,7 @@ textarea:focus-visible {
   max-width: 720px;
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(40px, 4vw, 58px);
+  font-size: clamp(32px, 2.8vw, 42px);
   font-weight: 400;
   line-height: 0.92;
   letter-spacing: -0.04em;
@@ -420,7 +409,6 @@ textarea:focus-visible {
 .dashboard-case-row:hover,
 .dashboard-case-row:focus-visible {
   background: var(--color-accent-light-blue);
-  box-shadow: inset 4px 0 0 var(--color-brand-yellow);
 }
 
 .dashboard-case-identity,
@@ -1302,7 +1290,6 @@ tbody tr.active-row {
 .record-row:hover,
 .record-row:has(.case-link:focus-visible) {
   background: var(--color-accent-light-blue);
-  box-shadow: inset 4px 0 0 var(--color-brand-yellow);
 }
 
 .record-row:has(.case-link:focus-visible) {
@@ -1736,7 +1723,6 @@ tbody tr.active-row {
 
 .note-form {
   position: relative;
-  border-left: 3px solid var(--color-brand-yellow);
 }
 
 .note-form .work-text-action {
@@ -1865,7 +1851,7 @@ tbody tr.active-row {
 }
 
 .activity-note {
-  background: var(--color-brand-yellow);
+  background: var(--color-brand-dark-green);
 }
 
 .activity-call,
@@ -1967,7 +1953,7 @@ tbody tr.active-row {
   max-width: 880px;
   margin: 13px 0 0;
   font-family: var(--font-display);
-  font-size: clamp(46px, 6vw, 76px);
+  font-size: clamp(34px, 3.4vw, 50px);
   font-weight: 400;
   line-height: 0.92;
   letter-spacing: -0.045em;
@@ -2452,7 +2438,7 @@ table[aria-busy='true'] tbody {
   }
 
   .workspace-header h1 {
-    font-size: 40px;
+    font-size: 32px;
   }
 
   .dashboard-overview {
@@ -2513,7 +2499,7 @@ table[aria-busy='true'] tbody {
   }
 
   .record-page-header h1 {
-    font-size: 46px;
+    font-size: 34px;
   }
 
   .record-page-grid {
@@ -2740,7 +2726,7 @@ table[aria-busy='true'] tbody {
 
 .scout-list {
   display: grid;
-  gap: 10px;
+  gap: 18px;
   margin: 0;
   padding: 18px 24px 24px;
   list-style: none;
@@ -3009,11 +2995,13 @@ table[aria-busy='true'] tbody {
 }
 
 /* The quoted source, not a summary of it: an extraction that reads like a
-   fact is the failure this product is most likely to have. */
+   fact is the failure this product is most likely to have. Set on its own
+   ground so it reads as quoted material without a rule down its edge. */
 .scout-evidence-list blockquote {
   margin: 8px 0 0;
-  padding-left: 12px;
-  border-left: 2px solid var(--color-brand-yellow);
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgb(21 37 33 / 4%);
   font-size: var(--text-base);
   line-height: 1.5;
 }
