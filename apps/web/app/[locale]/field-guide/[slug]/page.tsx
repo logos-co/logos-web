@@ -9,9 +9,12 @@ import {
 import { isActiveLocale } from '@repo/content/locales'
 
 import { FieldGuidePageView } from '@/components/sections/field-guide'
+import { JsonLd } from '@/components/seo/json-ld'
 import { ROUTES } from '@/constants/routes'
+import siteConfig from '@/constants/site-config'
 import { routing } from '@/i18n/routing'
 import { createDefaultMetadata } from '@/lib/metadata'
+import { createBreadcrumbListJsonLd } from '@/lib/structured-data'
 
 const INDEX_SLUG = 'index'
 
@@ -73,7 +76,26 @@ export default async function FieldGuideChapterPage({
       getFieldGuideManifest(locale),
       getFieldGuideChapter(locale, slug),
     ])
-    return <FieldGuidePageView manifest={manifest} slug={slug} body={body} />
+    const item = flattenFieldGuideItems(manifest).find(
+      (chapter) => chapter.slug === slug
+    )
+    if (!item) notFound()
+
+    return (
+      <>
+        <JsonLd
+          data={createBreadcrumbListJsonLd(
+            [
+              { name: siteConfig.name, path: ROUTES.home },
+              { name: manifest.title, path: ROUTES.fieldGuide },
+              { name: item.title, path: ROUTES.fieldGuideChapter(slug) },
+            ],
+            locale
+          )}
+        />
+        <FieldGuidePageView manifest={manifest} slug={slug} body={body} />
+      </>
+    )
   } catch (error) {
     if (error instanceof ContentNotFoundError) notFound()
     throw error

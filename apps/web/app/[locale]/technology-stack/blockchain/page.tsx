@@ -10,6 +10,7 @@ import type {
 import BlockchainCryptarchia from '@/components/sections/blockchain/blockchain-cryptarchia'
 import BlockchainHero from '@/components/sections/blockchain/blockchain-hero'
 import BlockchainPrivacy from '@/components/sections/blockchain/blockchain-privacy'
+import { JsonLd } from '@/components/seo/json-ld'
 import TechStackBuilderCta from '@/components/sections/shared/tech-stack-builder-cta'
 import {
   TechStackDetailPage,
@@ -18,10 +19,12 @@ import {
 import TechStackExplorer from '@/components/sections/shared/tech-stack-explorer'
 import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 import { ROUTES } from '@/constants/routes'
+import siteConfig from '@/constants/site-config'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 import { getLatestBlogArticles } from '@/lib/blog-engine'
 import { TECH_STACK_RELATED_ARTICLE_TAGS } from '@/lib/tech-stack-related-articles'
+import { createBreadcrumbListJsonLd } from '@/lib/structured-data'
 
 const ROUTE = ROUTES.blockchain
 
@@ -73,6 +76,16 @@ export default async function BlockchainPage({
 
   return (
     <TechStackDetailPage>
+      <JsonLd
+        data={createBreadcrumbListJsonLd(
+          [
+            { name: siteConfig.name, path: ROUTES.home },
+            { name: hero.eyebrow ?? page.title, path: ROUTES.technologyStack },
+            { name: page.heading ?? page.title, path: ROUTE },
+          ],
+          locale
+        )}
+      />
       <BlockchainHero data={hero} backHref={ROUTES.technologyStack} />
       <TechStackDetailSection className="mt-0 border-t border-brand-dark-green/10 md:border-t-0">
         <BlockchainPrivacy data={privacy} />

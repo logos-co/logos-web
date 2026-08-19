@@ -121,6 +121,56 @@ const isLocalAssetHref = (href: string): boolean => {
   )
 }
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value)
+
+const breadcrumbTechRoutes = new Set<string>([
+  ROUTES.blockchain,
+  ROUTES.messaging,
+  ROUTES.networking,
+  ROUTES.storage,
+])
+
+const assertStructuredData = (route: string, html: string): string[] => {
+  const failures: string[] = []
+  const types = new Set<string>()
+  const scripts = html.matchAll(
+    /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi
+  )
+
+  for (const [, rawJson] of scripts) {
+    try {
+      const parsed: unknown = JSON.parse(rawJson ?? '')
+      const entries = Array.isArray(parsed) ? parsed : [parsed]
+      for (const entry of entries) {
+        if (isRecord(entry) && typeof entry['@type'] === 'string') {
+          types.add(entry['@type'])
+        }
+      }
+    } catch {
+      failures.push(`${route} contains invalid JSON-LD`)
+    }
+  }
+
+  if (route === ROUTES.home && !types.has('Organization')) {
+    failures.push(`${route} is missing Organization JSON-LD`)
+  }
+
+  const expectsBreadcrumb =
+    route === ROUTES.ideas ||
+    route === ROUTES.rfps ||
+    route.startsWith(`${ROUTES.ideas}/`) ||
+    route.startsWith(`${ROUTES.rfps}/`) ||
+    route.startsWith(`${ROUTES.fieldGuide}/`) ||
+    breadcrumbTechRoutes.has(route)
+
+  if (expectsBreadcrumb && !types.has('BreadcrumbList')) {
+    failures.push(`${route} is missing BreadcrumbList JSON-LD`)
+  }
+
+  return failures
+}
+
 const assertHtmlPage = (route: string, filePath: string): string[] => {
   const html = readFileSync(filePath, 'utf8')
   const failures: string[] = []
@@ -133,6 +183,7 @@ const assertHtmlPage = (route: string, filePath: string): string[] => {
   if (html.includes(`href="/${locale}/`) || html.includes(`src="/${locale}/`)) {
     failures.push(`${route} still contains default-locale-prefixed asset paths`)
   }
+  failures.push(...assertStructuredData(route, html))
 
   const refs = html.matchAll(/\b(?:href|src)=["']([^"']+)["']/g)
   for (const [, rawHref] of refs) {

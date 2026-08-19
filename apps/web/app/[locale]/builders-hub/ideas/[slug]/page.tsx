@@ -5,16 +5,21 @@ import {
   ContentNotFoundError,
   getAllIdeas,
   getAllRfps,
+  getBuilderHubListingSettings,
   getIdeaBySlug,
+  getPageCopy,
 } from '@repo/content/loaders'
 
 import { BuildersHubDetailLayout } from '@/components/sections/builders-hub/builders-hub-detail-layout'
 import { RelatedLinksList } from '@/components/sections/builders-hub/related-links-list'
+import { JsonLd } from '@/components/seo/json-ld'
 import { ROUTES } from '@/constants/routes'
+import siteConfig from '@/constants/site-config'
 import { formatDateLong } from '@/lib/dates'
 import { createDefaultMetadata } from '@/lib/metadata'
 import { resolveLocale, type LocaleSlugParams } from '@/lib/route-params'
 import { formatReward } from '@/lib/reward'
+import { createBreadcrumbListJsonLd } from '@/lib/structured-data'
 
 export async function generateStaticParams() {
   const params: Array<{ locale: string; slug: string }> = []
@@ -60,6 +65,11 @@ export default async function IdeaDetailPage({ params }: LocaleSlugParams) {
   }
   if (idea.status !== 'published') notFound()
 
+  const [buildersHub, listingSettings] = await Promise.all([
+    getPageCopy(ROUTES.buildersHub, locale),
+    getBuilderHubListingSettings({ page: 'ideas', locale }),
+  ])
+
   const submitter = idea.submitter.name
     ? `${idea.submitter.name} (@${idea.submitter.handle})`
     : `@${idea.submitter.handle}`
@@ -90,30 +100,46 @@ export default async function IdeaDetailPage({ params }: LocaleSlugParams) {
   }
 
   return (
-    <BuildersHubDetailLayout
-      backHref={ROUTES.ideas}
-      backLabel="All ideas"
-      eyebrow={`Idea · ${idea.status}`}
-      title={idea.title}
-      tagline={idea.tagline}
-      description={idea.description}
-      primaryCta={
-        idea.discussionUrl
-          ? {
-              label: idea.ctaLabel ?? 'Discuss',
-              href: idea.discussionUrl,
-              external: true,
-            }
-          : undefined
-      }
-      meta={meta}
-      footer={
-        <RelatedLinksList
-          heading="Related RFPs"
-          hrefBase={ROUTES.rfps}
-          items={related}
-        />
-      }
-    />
+    <>
+      <JsonLd
+        data={createBreadcrumbListJsonLd(
+          [
+            { name: siteConfig.name, path: ROUTES.home },
+            {
+              name: buildersHub.heading ?? buildersHub.title,
+              path: ROUTES.buildersHub,
+            },
+            { name: listingSettings.breadcrumbLabel, path: ROUTES.ideas },
+            { name: idea.title, path: `${ROUTES.ideas}/${slug}` },
+          ],
+          locale
+        )}
+      />
+      <BuildersHubDetailLayout
+        backHref={ROUTES.ideas}
+        backLabel="All ideas"
+        eyebrow={`Idea · ${idea.status}`}
+        title={idea.title}
+        tagline={idea.tagline}
+        description={idea.description}
+        primaryCta={
+          idea.discussionUrl
+            ? {
+                label: idea.ctaLabel ?? 'Discuss',
+                href: idea.discussionUrl,
+                external: true,
+              }
+            : undefined
+        }
+        meta={meta}
+        footer={
+          <RelatedLinksList
+            heading="Related RFPs"
+            hrefBase={ROUTES.rfps}
+            items={related}
+          />
+        }
+      />
+    </>
   )
 }
