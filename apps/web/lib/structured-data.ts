@@ -25,12 +25,16 @@ export function createOrganizationJsonLd(): JsonLdObject {
     siteSettings.social.github,
   ].filter((url): url is string => Boolean(url))
 
+  // absoluteUrl('') is the trailing-slash-normalised site origin, so the entity
+  // id matches the canonical URLs emitted everywhere else.
+  const siteUrl = absoluteUrl('')
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    '@id': `${siteConfig.url}/#organization`,
+    '@id': `${siteUrl}/#organization`,
     name: siteConfig.name,
-    url: siteConfig.url,
+    url: siteUrl,
     logo: absoluteUrl('/apple-touch-icon.png'),
     description: siteConfig.description,
     sameAs,

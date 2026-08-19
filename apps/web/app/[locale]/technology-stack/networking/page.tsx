@@ -42,7 +42,10 @@ export default async function NetworkingPage({
   if (!isActiveLocale(locale)) {
     throw new Error(`NetworkingPage received non-active locale "${locale}"`)
   }
-  const page = await getPageCopy(ROUTE, locale)
+  const [page, techStack] = await Promise.all([
+    getPageCopy(ROUTE, locale),
+    getPageCopy(ROUTES.technologyStack, locale),
+  ])
 
   const hero = findSection<HeroSection>(
     page.sections,
@@ -81,7 +84,10 @@ export default async function NetworkingPage({
         data={createBreadcrumbListJsonLd(
           [
             { name: siteConfig.name, path: ROUTES.home },
-            { name: hero.eyebrow ?? page.title, path: ROUTES.technologyStack },
+            {
+              name: techStack.heading ?? techStack.title,
+              path: ROUTES.technologyStack,
+            },
             { name: page.heading ?? page.title, path: ROUTE },
           ],
           locale

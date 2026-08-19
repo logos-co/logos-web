@@ -2,12 +2,15 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
 import { JsonLd } from '@/components/seo/json-ld'
+import siteConfig from '@/constants/site-config'
 import {
   createBreadcrumbListJsonLd,
   createOrganizationJsonLd,
 } from '@/lib/structured-data'
 
-const BASE_URL = 'https://logos.co'
+// Derived, not hardcoded: siteConfig.url comes from NEXT_PUBLIC_SITE_URL, which
+// is set in some environments. These cases assert URL shape, not the hostname.
+const BASE_URL = siteConfig.url.replace(/\/+$/, '')
 
 describe('structured data', () => {
   it('builds the canonical Logos organisation entity', () => {

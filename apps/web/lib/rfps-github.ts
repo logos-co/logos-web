@@ -247,7 +247,10 @@ const safeMatter = (
   try {
     return matter(raw)
   } catch (error) {
-    console.error(`Invalid frontmatter in ${filename}, parsing body only:`, error)
+    console.error(
+      `Invalid frontmatter in ${filename}, parsing body only:`,
+      error
+    )
     const body = raw.replace(/^\uFEFF?\s*---\r?\n[\s\S]*?\r?\n---\r?\n?/, '')
     return { data: {}, content: body }
   }
@@ -282,7 +285,8 @@ const parseRfpMarkdown = (
     'open'
   const category =
     str(data.category) ?? firstMatch(content, [/\*\*Category\*\*[:\s]*(.+)/i])
-  const tier = str(data.tier) ?? firstMatch(content, [/\*\*Tier\*\*[:\s]*(.+)/i])
+  const tier =
+    str(data.tier) ?? firstMatch(content, [/\*\*Tier\*\*[:\s]*(.+)/i])
 
   return {
     number,
@@ -297,35 +301,43 @@ const parseRfpMarkdown = (
   }
 }
 
+/** Raised when the GitHub RFP source is unreachable or only partly readable. */
+export class RfpSourceError extends Error {
+  constructor(message: string, options?: { cause?: unknown }) {
+    super(message, options)
+    this.name = 'RfpSourceError'
+  }
+}
+
 /**
  * Fetches and parses every published RFP from the GitHub repo, sorted by RFP
  * number. Drafts and the `RFP-000` template are excluded. Wrapped in React
  * `cache()` so repeated calls within a build pass dedupe; Next's fetch Data
  * Cache dedupes the underlying network requests across passes.
  *
- * On failure the build does not crash — it logs and returns `[]`, matching the
- * reference behaviour. A failed fetch yields an empty listing, never a broken
- * build.
+ * Throws `RfpSourceError` if the listing or any individual RFP file cannot be
+ * read, so callers that must not ship a partial set (the sitemap) fail the
+ * build instead of silently emitting fewer URLs.
  */
-export const fetchGithubRfps = cache(async (): Promise<GithubRfp[]> => {
+export const fetchGithubRfpsStrict = cache(async (): Promise<GithubRfp[]> => {
   let entries: unknown
   try {
     const res = await fetch(RFP_CONTENTS_URL, { headers: githubHeaders() })
     if (!res.ok) {
-      console.error(
+      throw new RfpSourceError(
         `Failed to list RFPs from GitHub: ${res.status} ${res.statusText}`
       )
-      return []
     }
     entries = await res.json()
   } catch (error) {
-    console.error('Failed to fetch RFP listing from GitHub:', error)
-    return []
+    if (error instanceof RfpSourceError) throw error
+    throw new RfpSourceError('Failed to fetch RFP listing from GitHub', {
+      cause: error,
+    })
   }
 
   if (!Array.isArray(entries)) {
-    console.error('GitHub RFP listing returned a non-array response')
-    return []
+    throw new RfpSourceError('GitHub RFP listing returned a non-array response')
   }
 
   const mdFiles = entries
@@ -340,17 +352,16 @@ export const fetchGithubRfps = cache(async (): Promise<GithubRfp[]> => {
 
   const parsed = await Promise.all(
     mdFiles.map(async (entry): Promise<GithubRfp | null> => {
+      let raw: string | null
       try {
-        const raw = await fetchRfpMarkdownEntry(entry)
-        if (!raw) {
-          console.error(`Failed to fetch ${entry.name}`)
-          return null
-        }
-        return parseRfpMarkdown(raw, entry.name, entry.html_url ?? RFP_REPO_URL)
+        raw = await fetchRfpMarkdownEntry(entry)
       } catch (error) {
-        console.error(`Failed to fetch ${entry.name}:`, error)
-        return null
+        throw new RfpSourceError(`Failed to fetch ${entry.name}`, {
+          cause: error,
+        })
       }
+      if (!raw) throw new RfpSourceError(`Failed to fetch ${entry.name}`)
+      return parseRfpMarkdown(raw, entry.name, entry.html_url ?? RFP_REPO_URL)
     })
   )
 
@@ -359,6 +370,20 @@ export const fetchGithubRfps = cache(async (): Promise<GithubRfp[]> => {
     .filter((rfp) => !rfp.status.toLowerCase().includes('draft'))
     .sort((a, b) => a.number.localeCompare(b.number))
 })
+
+/**
+ * Lenient wrapper used by the RFP pages: a GitHub outage degrades the listing
+ * to empty rather than crashing the render. The sitemap deliberately does not
+ * use this — see {@link fetchGithubRfpsStrict}.
+ */
+export const fetchGithubRfps = async (): Promise<GithubRfp[]> => {
+  try {
+    return await fetchGithubRfpsStrict()
+  } catch (error) {
+    console.error('Failed to load RFPs from GitHub:', error)
+    return []
+  }
+}
 
 /** Single-RFP lookup by slug, reusing the cached full fetch. */
 export const fetchGithubRfpBySlug = async (

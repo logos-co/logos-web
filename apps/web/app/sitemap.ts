@@ -10,7 +10,7 @@ import {
 import siteConfig from '@/constants/site-config'
 import { ROUTES } from '@/constants/routes'
 import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
-import { fetchGithubRfps } from '@/lib/rfps-github'
+import { fetchGithubRfpsStrict } from '@/lib/rfps-github'
 
 export const dynamic = 'force-static'
 
@@ -61,9 +61,11 @@ const buildSitemapEntry = (route: string): MetadataRoute.Sitemap[number] => {
   }
 }
 
+// RFPs come from the live GitHub listing. A partial or failed fetch must fail
+// the build rather than quietly ship a sitemap missing every RFP detail URL.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [rfps, ideas, circles, fieldGuide] = await Promise.all([
-    fetchGithubRfps(),
+    fetchGithubRfpsStrict(),
     getAllIdeas({ locale: 'en', status: 'published' }),
     getCircles({ locale: 'en', status: 'published' }),
     getFieldGuideManifest('en'),
