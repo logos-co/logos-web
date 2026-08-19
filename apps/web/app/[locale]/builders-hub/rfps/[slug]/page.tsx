@@ -1,11 +1,17 @@
 import { notFound } from 'next/navigation'
 
 import { getActiveLocales } from '@repo/content/locales'
+import {
+  getBuilderHubListingSettings,
+  getPageCopy,
+} from '@repo/content/loaders'
 
 import { BuildersHubDetailLayout } from '@/components/sections/builders-hub/builders-hub-detail-layout'
+import { JsonLd } from '@/components/seo/json-ld'
 import { LegalMarkdown } from '@/components/sections/shared/legal-markdown'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
+import siteConfig from '@/constants/site-config'
 import { createDefaultMetadata } from '@/lib/metadata'
 import { resolveLocale, type LocaleSlugParams } from '@/lib/route-params'
 import {
@@ -14,6 +20,7 @@ import {
   fetchGithubRfps,
   stripLeadingHeading,
 } from '@/lib/rfps-github'
+import { createBreadcrumbListJsonLd } from '@/lib/structured-data'
 
 export async function generateStaticParams() {
   const rfps = await fetchGithubRfps()
@@ -45,11 +52,16 @@ export async function generateMetadata({ params }: LocaleSlugParams) {
 }
 
 export default async function RfpDetailPage({ params }: LocaleSlugParams) {
-  await resolveLocale(params, 'RfpDetailPage')
+  const locale = await resolveLocale(params, 'RfpDetailPage')
   const { slug } = await params
 
   const rfp = await fetchGithubRfpBySlug(slug)
   if (!rfp) notFound()
+
+  const [buildersHub, listingSettings] = await Promise.all([
+    getPageCopy(ROUTES.buildersHub, locale),
+    getBuilderHubListingSettings({ page: 'rfps', locale }),
+  ])
 
   const meta = [
     { label: 'Status', value: rfp.status },
@@ -58,24 +70,40 @@ export default async function RfpDetailPage({ params }: LocaleSlugParams) {
   ].filter((x): x is { label: string; value: string } => Boolean(x))
 
   return (
-    <BuildersHubDetailLayout
-      backHref={ROUTES.rfps}
-      backLabel="All RFPs"
-      eyebrow={`${rfp.number} · ${rfp.status}`}
-      title={rfp.title}
-      tagline={rfp.summary}
-      body={<LegalMarkdown body={stripLeadingHeading(rfp.rawMarkdown)} />}
-      primaryCta={{
-        label: 'Apply',
-        href: RFP_APPLY_URL,
-        external: true,
-      }}
-      meta={meta}
-      footer={
-        <Button href={rfp.githubUrl} variant="secondary">
-          View on GitHub
-        </Button>
-      }
-    />
+    <>
+      <JsonLd
+        data={createBreadcrumbListJsonLd(
+          [
+            { name: siteConfig.name, path: ROUTES.home },
+            {
+              name: buildersHub.heading ?? buildersHub.title,
+              path: ROUTES.buildersHub,
+            },
+            { name: listingSettings.breadcrumbLabel, path: ROUTES.rfps },
+            { name: rfp.title, path: `${ROUTES.rfps}/${slug}` },
+          ],
+          locale
+        )}
+      />
+      <BuildersHubDetailLayout
+        backHref={ROUTES.rfps}
+        backLabel="All RFPs"
+        eyebrow={`${rfp.number} · ${rfp.status}`}
+        title={rfp.title}
+        tagline={rfp.summary}
+        body={<LegalMarkdown body={stripLeadingHeading(rfp.rawMarkdown)} />}
+        primaryCta={{
+          label: 'Apply',
+          href: RFP_APPLY_URL,
+          external: true,
+        }}
+        meta={meta}
+        footer={
+          <Button href={rfp.githubUrl} variant="secondary">
+            View on GitHub
+          </Button>
+        }
+      />
+    </>
   )
 }

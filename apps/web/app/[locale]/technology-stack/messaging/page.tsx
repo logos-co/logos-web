@@ -11,6 +11,7 @@ import MessagingCaseStudies from '@/components/sections/messaging/messaging-case
 import MessagingHero from '@/components/sections/messaging/messaging-hero'
 import MessagingIntro from '@/components/sections/messaging/messaging-intro'
 import MessagingTechStack from '@/components/sections/messaging/messaging-tech-stack'
+import { JsonLd } from '@/components/seo/json-ld'
 import TechStackBuilderCta from '@/components/sections/shared/tech-stack-builder-cta'
 import {
   TechStackDetailPage,
@@ -18,10 +19,12 @@ import {
 } from '@/components/sections/shared/tech-stack-detail-layout'
 import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 import { ROUTES } from '@/constants/routes'
+import siteConfig from '@/constants/site-config'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 import { getLatestBlogArticles } from '@/lib/blog-engine'
 import { TECH_STACK_RELATED_ARTICLE_TAGS } from '@/lib/tech-stack-related-articles'
+import { createBreadcrumbListJsonLd } from '@/lib/structured-data'
 
 const ROUTE = ROUTES.messaging
 
@@ -91,6 +94,16 @@ export default async function MessagingPage({
 
   return (
     <TechStackDetailPage>
+      <JsonLd
+        data={createBreadcrumbListJsonLd(
+          [
+            { name: siteConfig.name, path: ROUTES.home },
+            { name: hero.eyebrow ?? page.title, path: ROUTES.technologyStack },
+            { name: page.heading ?? page.title, path: ROUTE },
+          ],
+          locale
+        )}
+      />
       <MessagingHero data={hero} backHref={ROUTES.technologyStack} />
       <TechStackDetailSection>
         <MessagingIntro privacy={privacy} lmn={lmn} censorship={censorship} />

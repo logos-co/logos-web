@@ -11,6 +11,7 @@ import StorageHero from '@/components/sections/storage/storage-hero'
 import StorageAccess from '@/components/sections/storage/storage-access'
 import StorageMain from '@/components/sections/storage/storage-main'
 import StorageTechStack from '@/components/sections/storage/storage-tech-stack'
+import { JsonLd } from '@/components/seo/json-ld'
 // Temporarily hidden — may be reused later. Do not delete.
 // import StorageUseCases from '@/components/sections/storage/storage-use-cases'
 import TechStackBuilderCta from '@/components/sections/shared/tech-stack-builder-cta'
@@ -21,10 +22,12 @@ import {
 import TechStackRelatedArticles from '@/components/sections/shared/tech-stack-related-articles'
 
 import { ROUTES } from '@/constants/routes'
+import siteConfig from '@/constants/site-config'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 import { getLatestBlogArticles } from '@/lib/blog-engine'
 import { TECH_STACK_RELATED_ARTICLE_TAGS } from '@/lib/tech-stack-related-articles'
+import { createBreadcrumbListJsonLd } from '@/lib/structured-data'
 
 const ROUTE = ROUTES.storage
 
@@ -89,6 +92,16 @@ export default async function StoragePage({
 
   return (
     <TechStackDetailPage>
+      <JsonLd
+        data={createBreadcrumbListJsonLd(
+          [
+            { name: siteConfig.name, path: ROUTES.home },
+            { name: hero.eyebrow ?? page.title, path: ROUTES.technologyStack },
+            { name: page.heading ?? page.title, path: ROUTE },
+          ],
+          locale
+        )}
+      />
       <StorageHero data={hero} backHref={ROUTES.technologyStack} />
       <TechStackDetailSection>
         <StorageMain data={main} />

@@ -16,6 +16,7 @@ import type {
 import AboutSection from '@/components/sections/home/about-section'
 import BuilderPortalSection from '@/components/sections/home/builder-portal-section'
 import DecideSection from '@/components/sections/home/decide-section'
+import { JsonLd } from '@/components/seo/json-ld'
 import FeatureCardsSection from '@/components/sections/shared/feature-cards-section'
 import HeroSectionView from '@/components/sections/shared/hero-section'
 import BlogSection from '@/components/sections/home/blog-section'
@@ -28,6 +29,7 @@ import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 import { getLatestBlogArticles } from '@/lib/blog-engine'
+import { createOrganizationJsonLd } from '@/lib/structured-data'
 import { getSocialProofStats } from '@/lib/social-proof-stats'
 import { getWinnableIssuesCount } from '@/lib/winnable-issues'
 
@@ -112,6 +114,7 @@ export default async function HomePage({
 
   return (
     <>
+      <JsonLd data={createOrganizationJsonLd()} />
       <HeroSectionView data={hero} />
       <SocialProofSection
         data={socialProof}
