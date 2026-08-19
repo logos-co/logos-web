@@ -53,20 +53,15 @@ const staticIndexableRoutes = [
   ROUTES.fieldGuide,
 ] as const
 
-const buildSitemapEntry = (
-  route: string,
-  lastModified: string
-): MetadataRoute.Sitemap[number] => {
+const buildSitemapEntry = (route: string): MetadataRoute.Sitemap[number] => {
   const normalizedSiteUrl = siteConfig.url.replace(/\/+$/, '')
   return {
     url:
       route === '/' ? `${normalizedSiteUrl}/` : `${normalizedSiteUrl}${route}`,
-    lastModified,
   }
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const lastModified = new Date().toISOString().split('T')[0]!
   const [rfps, ideas, circles, fieldGuide] = await Promise.all([
     fetchGithubRfps(),
     getAllIdeas({ locale: 'en', status: 'published' }),
@@ -91,5 +86,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [...new Set(routes)]
     .sort((a, b) => a.localeCompare(b))
-    .map((route) => buildSitemapEntry(route, lastModified))
+    .map(buildSitemapEntry)
 }

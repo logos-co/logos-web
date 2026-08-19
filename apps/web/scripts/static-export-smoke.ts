@@ -101,6 +101,9 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
     failures.push('sitemap.xml is missing from the static export root')
   } else {
     const sitemap = readFileSync(sitemapPath, 'utf8')
+    if (sitemap.includes('<lastmod>')) {
+      failures.push('sitemap.xml contains unverified lastmod values')
+    }
     for (const route of expectedRoutes) {
       const loc = `<loc>${toCanonicalUrl(route)}</loc>`
       if (!sitemap.includes(loc)) {
