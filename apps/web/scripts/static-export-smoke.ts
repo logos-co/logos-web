@@ -167,15 +167,7 @@ const main = async (): Promise<void> => {
   const failures: string[] = []
   const checkedHtmlFiles = new Set<string>()
   const expectedRoutes = await collectExpectedRoutes()
-  // RFP detail pages are sourced from the live GitHub listing, while the sitemap
-  // is generated from the curated content package, so the two sets legitimately
-  // differ. Validate the sitemap against everything except RFP detail routes to
-  // avoid coupling the smoke test to that sourcing difference.
-  const rfpDetailPrefix = `${ROUTES.rfps}/`
-  const sitemapRoutes = expectedRoutes.filter(
-    (route) => !route.startsWith(rfpDetailPrefix)
-  )
-  failures.push(...assertSeoFiles(sitemapRoutes))
+  failures.push(...assertSeoFiles(expectedRoutes))
 
   for (const route of expectedRoutes) {
     const htmlFile = findHtmlFile(route)

@@ -3,7 +3,6 @@ import type { MetadataRoute } from 'next'
 import {
   flattenFieldGuideItems,
   getAllIdeas,
-  getAllRfps,
   getCircles,
   getFieldGuideManifest,
 } from '@repo/content/loaders'
@@ -11,6 +10,7 @@ import {
 import siteConfig from '@/constants/site-config'
 import { ROUTES } from '@/constants/routes'
 import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
+import { fetchGithubRfps } from '@/lib/rfps-github'
 
 export const dynamic = 'force-static'
 
@@ -68,7 +68,7 @@ const buildSitemapEntry = (
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date().toISOString().split('T')[0]!
   const [rfps, ideas, circles, fieldGuide] = await Promise.all([
-    getAllRfps({ locale: 'en', status: 'published' }),
+    fetchGithubRfps(),
     getAllIdeas({ locale: 'en', status: 'published' }),
     getCircles({ locale: 'en', status: 'published' }),
     getFieldGuideManifest('en'),
