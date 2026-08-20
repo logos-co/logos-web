@@ -55,7 +55,7 @@ const onboardingCalendarHref = 'https://cal.com/team/logos-onboarding/intro'
 const logosDocsHref = 'https://docs.logos.co/'
 const communityIdeasHref = 'https://github.com/logos-co/ideas'
 const livingWithinTruthHref = 'https://www.youtube.com/watch?v=xy4uK20lFBQ'
-const logosGenealogyHref = 'https://blog.logos.co/article/a-genealogy-of-logos'
+const logosGenealogyHref = '/media/article/a-genealogy-of-logos'
 const basecampReleaseHref =
   'https://github.com/logos-co/logos-basecamp/releases#release-0.2.3'
 const basecampLinuxArm64DownloadHref =

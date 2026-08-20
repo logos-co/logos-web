@@ -41,6 +41,7 @@ export async function generateMetadata({
     locale,
     path: ROUTES.mediaPodcast(podcast.showSlug, podcast.slug),
     noindex: podcast.isDraft,
+    image: podcast.ogImage ?? podcast.coverImage,
   })
 }
 
@@ -59,10 +60,40 @@ function podcastJsonLd(
       ? {
           '@type': 'PodcastSeries',
           name: podcast.show.title,
-          url: absoluteUrl(ROUTES.mediaPodcast(podcast.showSlug, podcast.slug)),
+          url: absoluteUrl(ROUTES.mediaPodcastsSection),
         }
       : undefined,
     url: absoluteUrl(ROUTES.mediaPodcast(podcast.showSlug, podcast.slug)),
+  }
+}
+
+function podcastBreadcrumbJsonLd(
+  podcast: { showSlug: string; slug: string; title: string },
+  labels: { media: string; podcasts: string }
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: labels.media,
+        item: absoluteUrl(ROUTES.media),
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: labels.podcasts,
+        item: absoluteUrl(ROUTES.mediaPodcastsSection),
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: podcast.title,
+        item: absoluteUrl(ROUTES.mediaPodcast(podcast.showSlug, podcast.slug)),
+      },
+    ],
   }
 }
 
@@ -78,29 +109,29 @@ export default async function PodcastPage({
 
   const [podcast, t] = await Promise.all([
     getBlogPodcastDetail(showSlug, slug).catch(() => null),
-    getTranslations('mediaDetail.podcast'),
+    getTranslations('mediaDetail'),
   ])
 
   if (!podcast) notFound()
 
   const copy: PodcastDetailCopy = {
-    channels: t('channels'),
-    close: t('close'),
-    copied: t('copied'),
-    credits: t('credits'),
-    listen: t('listen'),
-    minutes: t('minutes'),
-    mute: t('mute'),
-    pause: t('pause'),
-    play: t('play'),
-    relatedEpisodes: t('relatedEpisodes'),
-    references: t('references'),
-    seek: t('seek'),
-    share: t('share'),
-    showLess: t('showLess'),
-    showMore: t('showMore'),
-    showNotes: t('showNotes'),
-    unmute: t('unmute'),
+    channels: t('podcast.channels'),
+    close: t('podcast.close'),
+    copied: t('podcast.copied'),
+    credits: t('podcast.credits'),
+    listen: t('podcast.listen'),
+    minutes: t('podcast.minutes'),
+    mute: t('podcast.mute'),
+    pause: t('podcast.pause'),
+    play: t('podcast.play'),
+    relatedEpisodes: t('podcast.relatedEpisodes'),
+    references: t('podcast.references'),
+    seek: t('podcast.seek'),
+    share: t('podcast.share'),
+    showLess: t('podcast.showLess'),
+    showMore: t('podcast.showMore'),
+    showNotes: t('podcast.showNotes'),
+    unmute: t('podcast.unmute'),
   }
   const canonicalUrl = absoluteUrl(
     ROUTES.mediaPodcast(podcast.showSlug, podcast.slug),
@@ -113,6 +144,17 @@ export default async function PodcastPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(podcastJsonLd(podcast)),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            podcastBreadcrumbJsonLd(podcast, {
+              media: t('breadcrumbs.media'),
+              podcasts: t('breadcrumbs.podcasts'),
+            })
+          ),
         }}
       />
       <PodcastDetailPage

@@ -1,0 +1,7 @@
+https://blog.logos.co/article/:slug https://logos.co/media/article/:slug 301
+https://blog.logos.co/podcasts/:show/:slug https://logos.co/media/podcasts/:show/:slug 301
+https://blog.logos.co/podcasts/:show https://logos.co/media#podcasts 301
+https://blog.logos.co/podcasts https://logos.co/media#podcasts 301
+https://blog.logos.co/search https://logos.co/media 301
+https://blog.logos.co/ https://logos.co/media 301
+https://blog.logos.co/* https://logos.co/:splat 301

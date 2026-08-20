@@ -11,7 +11,12 @@ import {
 import siteConfig from '@/constants/site-config'
 import { ROUTES } from '@/constants/routes'
 import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
-import { getBlogArticleSlugs, getBlogPodcastPaths } from '@/lib/blog-content'
+import {
+  getBlogArticleDetail,
+  getBlogArticleSlugs,
+  getBlogPodcastDetail,
+  getBlogPodcastPaths,
+} from '@/lib/blog-content'
 
 export const dynamic = 'force-static'
 
@@ -56,18 +61,17 @@ const staticIndexableRoutes = [
 
 const buildSitemapEntry = (
   route: string,
-  lastModified: string
+  lastModified?: string | null
 ): MetadataRoute.Sitemap[number] => {
   const normalizedSiteUrl = siteConfig.url.replace(/\/+$/, '')
   return {
     url:
       route === '/' ? `${normalizedSiteUrl}/` : `${normalizedSiteUrl}${route}`,
-    lastModified,
+    ...(lastModified ? { lastModified } : {}),
   }
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const lastModified = new Date().toISOString().split('T')[0]!
   const [rfps, ideas, circles, fieldGuide, articleSlugs, podcastPaths] =
     await Promise.all([
       getAllRfps({ locale: 'en', status: 'published' }),
@@ -83,7 +87,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .filter((item) => item.slug !== 'index')
     .map((item) => ROUTES.fieldGuideChapter(item.slug))
 
-  const routes = [
+  const staticRoutes = [
     ...staticIndexableRoutes,
     ...rfps.map((rfp) => `${ROUTES.rfps}/${rfp.slug}`),
     ...ideas.map((idea) => `${ROUTES.ideas}/${idea.slug}`),
@@ -91,13 +95,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ? circles.map((circle) => ROUTES.circle(circle.slug))
       : []),
     ...fieldGuideChapters,
-    ...articleSlugs.map((slug) => ROUTES.mediaArticle(slug)),
-    ...podcastPaths.map((path) =>
-      ROUTES.mediaPodcast(path.showSlug, path.slug)
-    ),
   ]
 
-  return [...new Set(routes)]
-    .sort((a, b) => a.localeCompare(b))
-    .map((route) => buildSitemapEntry(route, lastModified))
+  const [articles, podcasts] = await Promise.all([
+    Promise.all(articleSlugs.map((slug) => getBlogArticleDetail(slug))),
+    Promise.all(
+      podcastPaths.map((path) => getBlogPodcastDetail(path.showSlug, path.slug))
+    ),
+  ])
+
+  const entries: MetadataRoute.Sitemap = [
+    ...staticRoutes.map((route) => buildSitemapEntry(route)),
+    ...articles
+      .filter((article) => !article.isDraft && article.publishedAt)
+      .map((article) =>
+        buildSitemapEntry(
+          ROUTES.mediaArticle(article.slug),
+          article.modifiedAt ?? article.publishedAt
+        )
+      ),
+    ...podcasts
+      .filter((podcast) => !podcast.isDraft && podcast.publishedAt)
+      .map((podcast) =>
+        buildSitemapEntry(
+          ROUTES.mediaPodcast(podcast.showSlug, podcast.slug),
+          podcast.modifiedAt ?? podcast.publishedAt
+        )
+      ),
+  ]
+
+  return [...new Map(entries.map((entry) => [entry.url, entry])).values()].sort(
+    (a, b) => a.url.localeCompare(b.url)
+  )
 }
