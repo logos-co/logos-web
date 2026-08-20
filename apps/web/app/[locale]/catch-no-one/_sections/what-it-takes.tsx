@@ -1,17 +1,18 @@
 import { ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
 
+import type { CtaCardKey } from '../_content'
 import { WHAT_IT_TAKES } from '../_content'
 
 import { Column, Panel, Prose, SectionHeading, Standfirst } from './atoms'
 
-const CARD_HREFS = [ROUTES.buildTheParallel, ROUTES.movement] as const
+/** Keyed rather than positional, so a new card cannot silently lose its href. */
+const CARD_HREFS: Record<CtaCardKey, string> = {
+  buildTheParallel: ROUTES.buildTheParallel,
+  joinACircle: ROUTES.movement,
+}
 
 export function WhatItTakes() {
-  const cards = WHAT_IT_TAKES.cards.map((card, index) => ({
-    ...card,
-    href: CARD_HREFS[index]!,
-  }))
 
   return (
     <Panel className="rounded-t-[30px] bg-accent-tan text-brand-dark-green">
@@ -35,11 +36,11 @@ export function WhatItTakes() {
         otherwise beat the 1440 one.
       */}
       <div className="grid w-full grid-cols-1 gap-6 min-[768px]:grid-cols-2 min-[768px]:gap-10 min-[1440px]:grid-cols-[460px_460px]">
-        {cards.map((card) => (
+        {WHAT_IT_TAKES.cards.map((card) => (
           <Link
-            key={card.title}
-            href={card.href}
-            className="group flex min-h-[280px] flex-col items-center justify-center gap-6 rounded-[12px] bg-[#2f2f2f] px-6 text-brand-off-white transition-opacity hover:opacity-90 md:min-h-[480px]"
+            key={card.key}
+            href={CARD_HREFS[card.key]}
+            className="group flex min-h-[280px] cursor-pointer flex-col items-center justify-center gap-6 rounded-[12px] bg-[#2f2f2f] px-6 text-brand-off-white transition-opacity hover:opacity-90 md:min-h-[480px]"
           >
             <span className="text-h2 text-center min-[768px]:max-[1023px]:text-[40px]">
               {card.title}

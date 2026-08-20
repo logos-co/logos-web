@@ -28,9 +28,17 @@ import CatchNoOnePage from '../page'
 import {
   TYPEWRITER_ARMED_CLASS,
   TypewriterArmingScript,
-  TypewriterHeading,
   TypewriterHeadline,
+  TypewriterQuote,
 } from '../_sections/typewriter'
+
+/** Pulls the text of one of a typewriter's two visual copies. */
+const copyText = (html: string, which: 'reserved' | 'typed'): string => {
+  const at = html.indexOf(`data-typewriter="${which}"`)
+  if (at === -1) throw new Error(`no ${which} copy rendered`)
+  const open = html.indexOf('>', at) + 1
+  return html.slice(open).replace(/<[^>]*>/g, '')
+}
 
 const pageHtml = () => renderToStaticMarkup(createElement(CatchNoOnePage))
 
@@ -133,64 +141,52 @@ describe('catch-no-one page render', () => {
   })
 })
 
-describe('typewriter headline', () => {
-  test('renders the headline in full on the server, before any typing', () => {
+describe('typewriter', () => {
+  const HEADLINE = {
+    line1: HERO.headlineLine1,
+    line2: HERO.headlineLine2,
+  }
+
+  test('the headline ships complete for crawlers and JS-less visitors', () => {
     const html = renderToStaticMarkup(
-      createElement(TypewriterHeadline, {
-        line1: HERO.headlineLine1,
-        line2: HERO.headlineLine2,
-      })
+      createElement(TypewriterHeadline, HEADLINE)
     )
 
-    expect(html).toContain(HERO.headlineLine1)
-    expect(html).toContain(HERO.headlineLine2)
+    expect(copyText(html, 'reserved')).toContain(HERO.headlineLine1)
+    expect(copyText(html, 'reserved')).toContain(HERO.headlineLine2)
     expect(html).toContain(
       `aria-label="${HERO.headlineLine1} ${HERO.headlineLine2}"`
     )
   })
 
-  test('the animated copy starts empty so nothing flashes before it types', () => {
+  test('the headline copy that animates starts empty, so nothing flashes', () => {
     const html = renderToStaticMarkup(
-      createElement(TypewriterHeadline, {
-        line1: HERO.headlineLine1,
-        line2: HERO.headlineLine2,
-      })
+      createElement(TypewriterHeadline, HEADLINE)
     )
-    const animated = html.slice(html.indexOf('absolute inset-0 hidden'))
 
-    expect(animated).not.toContain(HERO.headlineLine1)
-    expect(animated).not.toContain(HERO.headlineLine2)
+    expect(copyText(html, 'typed').trim()).toBe('')
+  })
+
+  test('a quote ships complete and keeps a copy for assistive tech', () => {
+    const quote = DOES_NOT_CATCH.exhibit01.quote
+    const html = renderToStaticMarkup(
+      createElement(TypewriterQuote, { children: quote })
+    )
+
+    expect(copyText(html, 'reserved')).toContain(quote)
+    expect(copyText(html, 'typed').trim()).toBe('')
+    // Both visual copies are hidden from assistive tech, so the quote has to
+    // reach it some other way.
+    expect(html).toContain('sr-only')
   })
 
   test('the arming script only opts out for reduced motion', () => {
     const html = renderToStaticMarkup(createElement(TypewriterArmingScript))
 
     expect(html).toContain('prefers-reduced-motion: reduce')
+    expect(TYPEWRITER_ARMED_CLASS).not.toBe('')
     expect(html).toContain(TYPEWRITER_ARMED_CLASS)
     // The run is not gated on storage — it replays on every page load.
     expect(html).not.toContain('sessionStorage')
-  })
-
-  test('section headings render in full on the server and reserve their height', () => {
-    const html = renderToStaticMarkup(
-      createElement(TypewriterHeading, { children: 'What the laws say they do' })
-    )
-
-    expect(html).toContain('What the laws say they do')
-    expect(html).toContain(`[.${TYPEWRITER_ARMED_CLASS}_&amp;]:invisible`)
-    expect(html).toContain('aria-label="What the laws say they do"')
-  })
-
-  test('the arming class the script sets is the one the CSS variants key off', () => {
-    const html = renderToStaticMarkup(
-      createElement(TypewriterHeadline, {
-        line1: HERO.headlineLine1,
-        line2: HERO.headlineLine2,
-      })
-    )
-    // Tailwind cannot read an interpolated class name, so the variants spell
-    // the class out; this keeps the literal and the constant from drifting.
-    expect(html).toContain(`[.${TYPEWRITER_ARMED_CLASS}_&amp;]:invisible`)
-    expect(html).toContain(`[.${TYPEWRITER_ARMED_CLASS}_&amp;]:block`)
   })
 })

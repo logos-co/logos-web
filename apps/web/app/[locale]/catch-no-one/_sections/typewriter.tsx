@@ -1,16 +1,16 @@
 /**
  * Typewriter primitives for the campaign page.
  *
- * The hero headline types itself in on every page load; each section heading
- * types itself in when it scrolls into view. Both run once — nothing loops and
- * nothing replays once finished — and both are skipped entirely for visitors
- * who prefer reduced motion.
+ * The hero headline types itself in on every page load; each quoted exhibit
+ * types itself in when its card scrolls into view. Both run once — nothing
+ * loops and nothing replays once finished — and both are skipped entirely for
+ * visitors who prefer reduced motion.
  *
  * Avoiding the flash-then-retype trap
  * -----------------------------------
  * The server sends the complete text, so crawlers and JS-less visitors get the
- * real headings. The browser paints that HTML long before React hydrates, so
- * blanking a heading from an effect would show it, wipe it, and retype.
+ * real copy. The browser paints that HTML long before React hydrates, so
+ * blanking a quote from an effect would show it, wipe it, and retype.
  *
  * Instead `TypewriterArmingScript` runs synchronously *before* any of this text
  * is parsed (see `hero.tsx`) and marks the document when the animation should
@@ -21,7 +21,7 @@
  *   - armed → the static copy stays in the flow but invisible, so it still
  *     reserves its final height, and the typed copy is laid over it
  *
- * Reserving the height that way means a heading that ends up two lines tall
+ * Reserving the height that way means a quote that ends up three lines tall
  * does not shove the rest of the page down as it types.
  */
 'use client'
@@ -31,9 +31,9 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 const CHAR_INTERVAL_MS = 26
 /**
- * A heading starts typing once its top rises above this fraction of the
+ * A quote card starts typing once its top rises above this fraction of the
  * viewport. Expressed as a margin rather than a visible-area ratio so it
- * behaves the same whether the heading is one line or three.
+ * behaves the same whether the card is one line tall or five.
  */
 const VIEW_TRIGGER_MARGIN = 0.15
 /**
@@ -50,16 +50,24 @@ declare global {
   }
 }
 
-export const TYPEWRITER_ARMED_CLASS = 'catch-no-one-typewriter-armed'
-
-// Tailwind only sees class names it can read literally in the source, so these
-// two spell `TYPEWRITER_ARMED_CLASS` out rather than interpolating it. Keep all
-// three in sync.
+// Tailwind only sees class names it can read literally in the source, so the
+// armed class has to be spelled out inside these variants rather than
+// interpolated in.
 /** Stays in the flow to reserve height, but hidden once the animation is armed. */
 const RESERVES_HEIGHT = '[.catch-no-one-typewriter-armed_&]:invisible'
 /** Laid over the reserved space; only rendered once the animation is armed. */
 const OVERLAID =
   'absolute inset-0 hidden [.catch-no-one-typewriter-armed_&]:block'
+
+/**
+ * Read back out of the variant above rather than declared a second time: that
+ * is the only way to keep the class the arming script sets and the class the
+ * CSS keys off from drifting apart. If the pattern ever stops matching the
+ * name comes back empty, the script's `classList.add` throws into its own
+ * try/catch, and the page simply renders the static text.
+ */
+export const TYPEWRITER_ARMED_CLASS =
+  RESERVES_HEIGHT.match(/^\[\.([\w-]+)_&\]/)?.[1] ?? ''
 
 /**
  * Synchronous arming script. Must be rendered *before* the first animated
@@ -120,7 +128,7 @@ function useTypewriter(total: number, startOnView: boolean) {
       return
     }
 
-    // A heading that is already on screen starts straight away, so the run does
+    // A card that is already on screen starts straight away, so the run does
     // not wait on the observer's first callback. Anything further down the page
     // waits to be scrolled to.
     if (hasEnteredView(node) || typeof IntersectionObserver === 'undefined') {
@@ -171,10 +179,14 @@ export function TypewriterHeadline({
 
   return (
     <h1 className={`relative ${className}`} aria-label={`${line1} ${line2}`}>
-      <span aria-hidden="true" className={`block ${RESERVES_HEIGHT}`}>
+      <span
+        aria-hidden="true"
+        data-typewriter="reserved"
+        className={`block ${RESERVES_HEIGHT}`}
+      >
         <HeadlineLines line1={line1} line2={line2} />
       </span>
-      <span aria-hidden="true" className={OVERLAID}>
+      <span aria-hidden="true" data-typewriter="typed" className={OVERLAID}>
         <HeadlineLines
           line1={line1.slice(0, Math.min(revealed, line1.length))}
           line2={line2.slice(0, Math.max(0, revealed - line1.length))}
@@ -198,8 +210,15 @@ function HeadlineLines({ line1, line2 }: { line1: string; line2: string }) {
   )
 }
 
-/** Section heading that types itself in when it scrolls into view. */
-export function TypewriterHeading({
+/**
+ * Quoted exhibit that types itself in when its card scrolls into view.
+ *
+ * `role="paragraph"` cannot carry an accessible name, so the full quote is
+ * exposed through a screen-reader-only copy rather than an `aria-label`. Both
+ * visual copies are hidden from assistive tech, which would otherwise read the
+ * half-typed one.
+ */
+export function TypewriterQuote({
   children,
   className = '',
 }: {
@@ -209,17 +228,21 @@ export function TypewriterHeading({
   const { anchor, revealed } = useTypewriter(children.length, true)
 
   return (
-    <h2
-      ref={anchor as RefObject<HTMLHeadingElement>}
+    <p
+      ref={anchor as RefObject<HTMLParagraphElement>}
       className={`relative ${className}`}
-      aria-label={children}
     >
-      <span aria-hidden="true" className={RESERVES_HEIGHT}>
+      <span className="sr-only">{children}</span>
+      <span
+        aria-hidden="true"
+        data-typewriter="reserved"
+        className={`block ${RESERVES_HEIGHT}`}
+      >
         {children}
       </span>
-      <span aria-hidden="true" className={OVERLAID}>
+      <span aria-hidden="true" data-typewriter="typed" className={OVERLAID}>
         {children.slice(0, revealed)}
       </span>
-    </h2>
+    </p>
   )
 }
