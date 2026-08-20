@@ -1439,6 +1439,13 @@ export async function getBlogPodcastPaths(): Promise<
   return getLegacyPodcastPaths()
 }
 
+export async function getBlogPodcastShowSlugs(): Promise<string[]> {
+  const paths = await getBlogPodcastPaths()
+  return [...new Set(paths.map((path) => path.showSlug))].sort((a, b) =>
+    a.localeCompare(b)
+  )
+}
+
 const ARTICLE_DETAIL_QUERY = `
   query ArticleDetail($slug: String!) {
     posts(

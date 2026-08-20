@@ -238,6 +238,11 @@
     "podcast": "Podcast"
   },
   "mediaDetail": {
+    "breadcrumbs": {
+      "media": "Media",
+      "articles": "Articles",
+      "podcasts": "Podcasts"
+    },
     "article": {
       "contents": "Contents",
       "share": "Share",

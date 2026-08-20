@@ -110,6 +110,20 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
   const failures: string[] = []
   const robotsPath = join(outDir, 'robots.txt')
   const sitemapPath = join(outDir, 'sitemap.xml')
+  const feedPaths = [
+    'rss/main.xml',
+    'rss/logos-state.xml',
+    'rss/hashing-it-out.xml',
+    'rss.xml',
+    'atom.xml',
+    'atom_page2.xml',
+  ]
+
+  for (const feedPath of feedPaths) {
+    if (!existsSync(join(outDir, feedPath))) {
+      failures.push(`${feedPath} is missing from the static export`)
+    }
+  }
 
   if (!existsSync(robotsPath)) {
     failures.push('robots.txt is missing from the static export root')
@@ -142,7 +156,20 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
     failures.push('sitemap.xml is missing from the static export root')
   } else {
     const sitemap = readFileSync(sitemapPath, 'utf8')
-    if (sitemap.includes('<lastmod>')) {
+    const sitemapEntries = [
+      ...sitemap.matchAll(/<url>\s*<loc>([^<]+)<\/loc>([\s\S]*?)<\/url>/g),
+    ].map(([, loc = '', body = '']) => ({
+      loc,
+      hasLastmod: body.includes('<lastmod>'),
+    }))
+    const isMediaDetailUrl = (loc: string) =>
+      /^https:\/\/logos\.co\/media\/(?:article|podcasts)\//.test(loc)
+    // Only media detail pages carry a content-derived modified date.
+    if (
+      sitemapEntries.some(
+        (entry) => entry.hasLastmod && !isMediaDetailUrl(entry.loc)
+      )
+    ) {
       failures.push('sitemap.xml contains unverified lastmod values')
     }
     for (const route of expectedRoutes) {
@@ -152,6 +179,17 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
       }
     }
     failures.push(...findSitemapUrlsWithoutPages(sitemap))
+    const mediaDetailEntries = sitemapEntries.filter((entry) =>
+      isMediaDetailUrl(entry.loc)
+    )
+    if (
+      mediaDetailEntries.length === 0 ||
+      mediaDetailEntries.some((entry) => !entry.hasLastmod)
+    ) {
+      failures.push(
+        'sitemap.xml media detail entries must use content-derived lastmod values'
+      )
+    }
   }
 
   return failures
