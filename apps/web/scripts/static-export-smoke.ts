@@ -87,6 +87,20 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
   const failures: string[] = []
   const robotsPath = join(outDir, 'robots.txt')
   const sitemapPath = join(outDir, 'sitemap.xml')
+  const feedPaths = [
+    'rss/main.xml',
+    'rss/logos-state.xml',
+    'rss/hashing-it-out.xml',
+    'rss.xml',
+    'atom.xml',
+    'atom_page2.xml',
+  ]
+
+  for (const feedPath of feedPaths) {
+    if (!existsSync(join(outDir, feedPath))) {
+      failures.push(`${feedPath} is missing from the static export`)
+    }
+  }
 
   if (!existsSync(robotsPath)) {
     failures.push('robots.txt is missing from the static export root')
@@ -106,6 +120,25 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
       if (!sitemap.includes(loc)) {
         failures.push(`sitemap.xml is missing ${toCanonicalUrl(route)}`)
       }
+    }
+    const homeEntry = sitemap.match(
+      /<url>\s*<loc>https:\/\/logos\.co\/<\/loc>([\s\S]*?)<\/url>/
+    )
+    if (homeEntry?.[1]?.includes('<lastmod>')) {
+      failures.push('sitemap.xml gives the static homepage a lastmod value')
+    }
+    const mediaDetailEntries = [
+      ...sitemap.matchAll(
+        /<url>\s*<loc>https:\/\/logos\.co\/media\/(?:article|podcasts)\/[^<]+<\/loc>([\s\S]*?)<\/url>/g
+      ),
+    ]
+    if (
+      mediaDetailEntries.length === 0 ||
+      mediaDetailEntries.some((entry) => !entry[1]?.includes('<lastmod>'))
+    ) {
+      failures.push(
+        'sitemap.xml media detail entries must use content-derived lastmod values'
+      )
     }
   }
 

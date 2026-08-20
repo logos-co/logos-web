@@ -20,6 +20,10 @@ type NodeEnv = (typeof NODE_ENV_VALUES)[number]
 type ApiMode = (typeof API_MODE_VALUES)[number]
 
 export type Env = {
+  /**
+   * Standard CI flag set by GitHub Actions and other build runners.
+   */
+  CI: boolean
   NODE_ENV: NodeEnv
   /**
    * Toggle for production-only behaviour gates (search-engine indexing,
@@ -42,6 +46,27 @@ export type Env = {
    * Public calendar API origin used at build time for Logos Broadcast Network.
    */
   NEXT_PUBLIC_ADMIN_ACID_API_URL: string | undefined
+  /**
+   * Public asset origin for legacy Logos Press Engine media served by Strapi.
+   */
+  NEXT_PUBLIC_ASSETS_BASE_URL: string | undefined
+  /**
+   * Legacy Logos Press Engine Strapi REST API origin.
+   */
+  STRAPI_API_URL: string | undefined
+  /**
+   * Legacy Logos Press Engine Strapi GraphQL endpoint.
+   */
+  STRAPI_GRAPHQL_URL: string | undefined
+  /**
+   * Server-side Strapi API token for legacy Logos Press Engine content.
+   */
+  STRAPI_API_KEY: string | undefined
+  /**
+   * Server-side Simplecast API token for legacy Logos Press Engine podcast
+   * audio metadata.
+   */
+  SIMPLECAST_ACCESS_TOKEN: string | undefined
   /**
    * Public origin of the intake app `apps/civi-crm` (e.g. `https://civi.logos.co`
    * or `http://localhost:3002`), which hosts the endpoint the funnel forms post to.
@@ -89,6 +114,7 @@ function readOptionalString(raw: string | undefined): string | undefined {
 }
 
 export const env: Env = {
+  CI: process.env.CI === 'true',
   NODE_ENV:
     assertOneOf(process.env.NODE_ENV, NODE_ENV_VALUES, 'NODE_ENV', true) ??
     'development',
@@ -102,6 +128,15 @@ export const env: Env = {
   NEXT_PUBLIC_CMS_URL: readOptionalString(process.env.NEXT_PUBLIC_CMS_URL),
   NEXT_PUBLIC_ADMIN_ACID_API_URL: readOptionalString(
     process.env.NEXT_PUBLIC_ADMIN_ACID_API_URL
+  ),
+  NEXT_PUBLIC_ASSETS_BASE_URL: readOptionalString(
+    process.env.NEXT_PUBLIC_ASSETS_BASE_URL
+  ),
+  STRAPI_API_URL: readOptionalString(process.env.STRAPI_API_URL),
+  STRAPI_GRAPHQL_URL: readOptionalString(process.env.STRAPI_GRAPHQL_URL),
+  STRAPI_API_KEY: readOptionalString(process.env.STRAPI_API_KEY),
+  SIMPLECAST_ACCESS_TOKEN: readOptionalString(
+    process.env.SIMPLECAST_ACCESS_TOKEN
   ),
   NEXT_PUBLIC_CIVI_CRM_URL: readOptionalString(
     process.env.NEXT_PUBLIC_CIVI_CRM_URL

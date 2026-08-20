@@ -1,12 +1,20 @@
+import { cache } from 'react'
+
 import { env } from '@/lib/env'
+import { ROUTES } from '@/constants/routes'
 
 export const BLOG_ORIGIN = 'https://blog.logos.co'
 
+export const BLOG_DEPLOYMENT_ORIGIN = 'https://lpe-seven.vercel.app'
 const PRESS_SEARCH_API = `${BLOG_ORIGIN}/api/search`
+const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
 const ADMIN_ACID_API_ORIGIN =
   env.NEXT_PUBLIC_ADMIN_ACID_API_URL ?? 'https://admin-acid.logos.co/api'
 const CALENDAR_PUBLIC_PATH = '/calendar/public'
 const PRESS_ARTICLE_IMAGE_OVERFETCH_MULTIPLIER = 3
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value)
 
 export type BlogArticleRow = {
   title: string
@@ -328,10 +336,7 @@ const getBlogImageVariantUrl = (
       PRESS_IMAGE_VARIANT_PREFIXES.find((prefix) =>
         fileName.startsWith(prefix)
       ) !== undefined
-        ? fileName.replace(
-            /^(thumbnail_|small_|medium_|large_)/,
-            ''
-          )
+        ? fileName.replace(/^(thumbnail_|small_|medium_|large_)/, '')
         : fileName
 
     url.pathname = `${directory}${blogImageVariantPrefix(variant)}${baseFileName}`
@@ -357,10 +362,7 @@ const getBlogSearchItems = async (
     params.set('tags', tag)
   }
   const url = `${PRESS_SEARCH_API}?${params.toString()}`
-  const json = await fetchJsonResilient<BlogSearchResponse>(
-    url,
-    'Blog search'
-  )
+  const json = await fetchJsonResilient<BlogSearchResponse>(url, 'Blog search')
   return json.data?.posts?.filter((post) => post.type === type) ?? []
 }
 
@@ -421,7 +423,7 @@ const toArticleRow = (post: BlogSearchPost): BlogArticleRow => {
     galleryImage,
     cardImage,
     featuredImage,
-    href: `${BLOG_ORIGIN}/article/${data.slug}`,
+    href: ROUTES.mediaArticle(data.slug),
     readingTime,
   }
 }
@@ -435,7 +437,7 @@ const toPodcastRow = (post: BlogSearchPost): BlogPodcastRow => {
     description: stripHtml(data.description || data.summary || ''),
     date: formatLongDate(data.publishedAt),
     episodeNumber: data.episodeNumber ?? undefined,
-    href: `${BLOG_ORIGIN}/podcasts/logos-state/${data.slug}`,
+    href: ROUTES.mediaPodcast(DEFAULT_PODCAST_SHOW_SLUG, data.slug),
   }
 }
 
@@ -515,6 +517,36 @@ export const getBlogPageData = async () => {
     podcasts: podcastPosts.map(toPodcastRow).filter(hasImage),
   }
 }
+
+export const getBlogSearchTopics = cache(async (): Promise<string[]> => {
+  for (const origin of [BLOG_ORIGIN, BLOG_DEPLOYMENT_ORIGIN]) {
+    let html: string
+    try {
+      html = await fetchTextResilient(`${origin}/search`, 'Blog search page')
+    } catch {
+      continue
+    }
+    const match = html.match(
+      /<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/
+    )
+    if (!match) continue
+
+    const payload: unknown = JSON.parse(match[1])
+    if (!isRecord(payload) || !isRecord(payload.props)) continue
+
+    const pageProps = isRecord(payload.props.pageProps)
+      ? payload.props.pageProps
+      : null
+    if (!pageProps || !Array.isArray(pageProps.topics)) continue
+
+    return pageProps.topics
+      .filter((topic): topic is string => typeof topic === 'string')
+      .map((topic) => topic.trim())
+      .filter(Boolean)
+  }
+
+  throw new Error('Blog search page is missing topic data')
+})
 
 export const getLatestBlogPodcasts = async (limit = 20) => {
   const podcastPosts = await getBlogSearchItems('podcast', limit)

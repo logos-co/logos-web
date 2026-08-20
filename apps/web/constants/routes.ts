@@ -56,6 +56,14 @@ export const ROUTES = {
 
   // Blog (formerly "Logos Press Engine")
   media: '/media',
+  mediaArticles: '/media/article',
+  /** Dynamic route — `/media/article/[slug]`. */
+  mediaArticle: (slug: string) => `/media/article/${slug}`,
+  mediaPodcasts: '/media/podcasts',
+  mediaPodcastsSection: '/media#podcasts',
+  /** Dynamic route — `/media/podcasts/[showSlug]/[slug]`. */
+  mediaPodcast: (showSlug: string, slug: string) =>
+    `/media/podcasts/${showSlug}/${slug}`,
   podcast: '/podcast',
   logosBroadcastNetwork: '/logos-broadcast-network',
 
@@ -115,8 +123,7 @@ export const EXTERNAL_URLS = {
   workshopsPlaylist:
     'https://www.youtube.com/playlist?list=PLZe53tXAogqMdZSKhY316YKn3_tJ0RWZ7',
   livingWithinTruth: 'https://www.youtube.com/watch?v=xy4uK20lFBQ',
-  logosGenealogyArticle:
-    'https://blog.logos.co/article/a-genealogy-of-logos',
+  logosGenealogyArticle: '/media/article/a-genealogy-of-logos',
   lambdaPrizes: 'https://github.com/logos-co/lambda-prize/tree/master/prizes',
   basecampRelease:
     'https://github.com/logos-co/logos-basecamp/releases#release-0.2.3',

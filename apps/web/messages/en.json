@@ -158,5 +158,67 @@
     "subscribedBody": "We'll keep you updated on upcoming events.",
     "subscribeError": "Something went wrong.",
     "scrollZoomHint": "Use {key} + scroll to zoom"
+  },
+  "mediaSearch": {
+    "searchLabel": "Search Logos Media",
+    "placeholder": "Search articles and podcasts",
+    "submit": "Search",
+    "clear": "Clear search",
+    "clearFilters": "Clear filters",
+    "close": "Close search",
+    "articles": "Articles",
+    "podcasts": "Podcasts",
+    "topics": "Topics",
+    "selectedTopics": "{count} topics",
+    "results": "{count, plural, one {# result} other {# results}}",
+    "loading": "Searching…",
+    "loadError": "Search is unavailable. Try again.",
+    "noResultsTitle": "No results found",
+    "noResultsBody": "Try another word or clear the filters.",
+    "loadMore": "Load more",
+    "article": "Article",
+    "podcast": "Podcast"
+  },
+  "mediaDetail": {
+    "breadcrumbs": {
+      "media": "Media",
+      "articles": "Articles",
+      "podcasts": "Podcasts"
+    },
+    "article": {
+      "contents": "Contents",
+      "share": "Share",
+      "copied": "Copied",
+      "relatedArticles": "Related Articles",
+      "fromSameAuthors": "From The Same Authors",
+      "footnotes": "Footnotes",
+      "minRead": "{count} min",
+      "discussion": "Discussion",
+      "comments": "{count, plural, one {# comment} other {# comments}}",
+      "joinDiscussion": "Join Discussion",
+      "noDiscussion": "No discussion yet.",
+      "readFullArticle": "Read the full article",
+      "startDiscussion": "Start Discussion",
+      "viewFullDiscussion": "View full discussion"
+    },
+    "podcast": {
+      "channels": "Channels",
+      "close": "Close player",
+      "copied": "Copied",
+      "credits": "Credits",
+      "listen": "Listen",
+      "minutes": "minutes",
+      "mute": "Mute",
+      "pause": "Pause",
+      "play": "Play",
+      "relatedEpisodes": "More posts",
+      "references": "References",
+      "seek": "Seek episode",
+      "share": "Share",
+      "showLess": "Show less",
+      "showMore": "Show more",
+      "showNotes": "Show notes",
+      "unmute": "Unmute"
+    }
   }
 }

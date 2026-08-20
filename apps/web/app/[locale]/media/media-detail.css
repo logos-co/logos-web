@@ -1,0 +1,417 @@
+.media-detail-page,
+.media-detail-page .font-sans {
+  font-family: sans-serif;
+}
+
+.media-detail-page .font-display {
+  font-family: serif;
+}
+
+.media-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: var(--color-brand-dark-green);
+  font-family: sans-serif;
+}
+
+.media-detail-html-document {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 16px;
+  overflow-x: hidden;
+}
+
+.media-detail-content :where(h1, h2, h3, h4, h5, h6) {
+  scroll-margin-top: 95px;
+  color: var(--color-brand-dark-green);
+  font-family: serif;
+  font-weight: 400;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.media-detail-content h1 {
+  margin-top: 24px;
+  font-size: 44px;
+  line-height: 54px;
+}
+
+.media-detail-content h2 {
+  margin-top: 24px;
+  font-size: 36px;
+  line-height: 48px;
+}
+
+.media-detail-content h3 {
+  margin-top: 24px;
+  font-size: 28px;
+  line-height: 42px;
+}
+
+.media-detail-content h4 {
+  margin-top: 24px;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.media-detail-content h5 {
+  margin-top: 24px;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.media-detail-content h6 {
+  margin-top: 24px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.media-detail-content :where(p, li) {
+  color: var(--color-brand-dark-green);
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.media-detail-content :where(p, li, h1, h2, h3, h4, h5, h6) span {
+  color: inherit;
+  font: inherit;
+}
+
+.media-detail-content > span {
+  font-family: sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.media-detail-content :where(ul, ol) {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 16px 0;
+  padding-left: 1.5rem;
+}
+
+.media-detail-content ul {
+  list-style: disc;
+}
+
+.media-detail-content ol {
+  list-style: decimal;
+}
+
+.media-detail-content a,
+.media-discussion-post a {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.media-detail-content a:hover,
+.media-discussion-post a:hover {
+  opacity: 0.7;
+}
+
+.media-detail-content :where(strong, b) {
+  font-weight: 700;
+}
+
+.media-detail-content :where(em, i) {
+  font-style: italic;
+}
+
+.media-detail-content figure,
+.media-detail-content .media-detail-block-image {
+  width: 100%;
+  margin: 40px 0;
+  padding: 0;
+}
+
+.media-detail-content figure:not(:has(figcaption))::after {
+  display: block;
+  height: 8px;
+  content: '';
+}
+
+.media-detail-content figure.media {
+  margin: 16px 0;
+}
+
+.media-detail-content figure.media:not(:has(img)):not(:has(figcaption))::after {
+  display: none;
+}
+
+.media-detail-content p:has(> img:only-child) {
+  width: 100%;
+  margin: 40px 0;
+  padding-bottom: 8px;
+}
+
+.media-detail-content p:has(> img:only-child) img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.media-detail-content.media-detail-content
+  :where(h1, h2, h3, h4, h5, h6)
+  + :where(h1, h2, h3, h4, h5, h6) {
+  margin-top: 0;
+}
+
+.media-detail-content.media-detail-content
+  > .contents:has(> :where(h1, h2, h3, h4, h5, h6))
+  + .contents:has(> :where(h1, h2, h3, h4, h5, h6))
+  > :where(h1, h2, h3, h4, h5, h6) {
+  margin-top: 0;
+}
+
+.media-detail-summary :where(p, span, a, em, i, strong, b) {
+  color: inherit;
+  font: inherit;
+  letter-spacing: 0;
+}
+
+.media-detail-summary :where(em, i) {
+  font-style: italic;
+}
+
+.media-detail-summary :where(strong, b) {
+  font-weight: 700;
+}
+
+.media-detail-summary a {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.media-podcast-transcript {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.media-podcast-content {
+  display: contents;
+}
+
+.media-podcast-content--collapsed > :nth-child(n + 7) {
+  display: none;
+}
+
+.media-detail-content.media-podcast-footer-content :where(p, li) {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.media-detail-content figure.image img,
+.media-detail-content figure img,
+.media-detail-content .media-detail-block-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.media-detail-content figcaption {
+  margin-top: 8px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.media-detail-content blockquote {
+  margin: 8px 0;
+  border-left: 1px solid currentColor;
+  padding-left: 16px;
+}
+
+.media-detail-content pre {
+  margin: 16px 0;
+  overflow-x: auto;
+  border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  border-radius: 4px;
+  padding: 16px;
+  background: color-mix(in srgb, currentColor 5%, transparent);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+.media-detail-content code {
+  border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  border-radius: 3px;
+  padding: 2px 6px;
+  background: color-mix(in srgb, currentColor 5%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.media-detail-content pre code {
+  border: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+}
+
+.media-detail-content :where(table) {
+  width: 100%;
+  margin: 24px 0;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.media-detail-content :where(th, td) {
+  border: 1px solid var(--color-brand-dark-green);
+  padding: 12px 16px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.media-detail-content th {
+  font-weight: 600;
+}
+
+.media-detail-content .media-detail-video-frame {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  padding-top: 30px;
+  padding-bottom: 60%;
+}
+
+.media-detail-content .media-detail-video-aspect {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.media-detail-content .media-detail-video {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.media-detail-content .media-detail-embed,
+.media-detail-content .media-detail-embed iframe {
+  width: 100%;
+  max-width: 100%;
+  border: 0;
+}
+
+.media-detail-content .media-detail-interactive {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border: 0;
+}
+
+.media-detail-content a.footnote {
+  display: inline-block;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-decoration: none;
+  vertical-align: baseline;
+}
+
+.media-detail-content a.footnote sup {
+  font-size: smaller;
+  line-height: inherit;
+  position: static;
+  vertical-align: super;
+}
+
+.media-detail-content a.footnote .anchor {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 90px;
+  margin-top: -90px;
+  margin-bottom: -16px;
+}
+
+.media-discussion-post :where(p, ul, ol) + :where(p, ul, ol) {
+  margin-top: 12px;
+}
+
+.media-discussion-post :where(ul, ol) {
+  padding-left: 20px;
+}
+
+.media-player-range {
+  --media-player-track: var(--color-brand-dark-green);
+  appearance: none;
+  height: 8px;
+  background: transparent;
+}
+
+.media-player-range-light {
+  --media-player-track: white;
+}
+
+.media-player-range::-webkit-slider-runnable-track {
+  height: 1px;
+  background: var(--media-player-track);
+}
+
+.media-player-range::-webkit-slider-thumb {
+  width: 8px;
+  height: 8px;
+  margin-top: -3.5px;
+  appearance: none;
+  border: 0;
+  border-radius: 50%;
+  background: var(--media-player-track);
+}
+
+.media-player-range::-moz-range-track,
+.media-player-range::-moz-range-progress {
+  height: 1px;
+  background: var(--media-player-track);
+}
+
+.media-player-range::-moz-range-thumb {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--media-player-track);
+}
+
+@media (max-width: 767px) {
+  .media-detail-page .max-sm\:font-sans {
+    font-family: sans-serif;
+  }
+
+  .media-detail-content h2,
+  .media-detail-content h3,
+  .media-detail-content h4,
+  .media-detail-content h5,
+  .media-detail-content h6 {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .media-detail-content figure,
+  .media-detail-content .media-detail-block-image {
+    margin: 24px 0;
+  }
+
+  .media-detail-content p:has(> img:only-child) {
+    margin: 24px 0;
+  }
+}

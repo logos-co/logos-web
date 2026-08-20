@@ -15,6 +15,16 @@ const nextConfig = {
     unoptimized: true,
   },
   ...(isProduction && { output: 'export' }),
+  ...(!isProduction && {
+    async rewrites() {
+      return [
+        {
+          source: '/api/legacy-search',
+          destination: 'https://blog.logos.co/api/search',
+        },
+      ]
+    },
+  }),
   reactStrictMode: true,
   transpilePackages: ['@acid-info/logos-ui'],
   trailingSlash: false,

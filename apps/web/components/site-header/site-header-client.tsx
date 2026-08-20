@@ -1,12 +1,13 @@
 'use client'
 
 import clsx from 'clsx'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import type { HomepageHighlight } from '@repo/content/schemas'
 import {
   LogosMark,
   LogosWordmark,
+  SearchIcon,
   type NavOverlayCommunityCard,
   type NavOverlayLink,
   type NavOverlayMenuPanel,
@@ -18,6 +19,7 @@ import { ROUTES } from '@/constants/routes'
 import { Link, usePathname } from '@/i18n/navigation'
 
 import { HomepageHighlightCard } from './homepage-highlight-card'
+import { MediaSearchDialog } from './media-search-dialog'
 
 type ClosedBarLabels = {
   brandLabel: string
@@ -25,13 +27,16 @@ type ClosedBarLabels = {
   closeLabel: string
   openAriaLabel: string
   closeAriaLabel: string
+  searchAriaLabel: string
 }
 
 type Props = {
+  locale: string
   closedBar: ClosedBarLabels
   sitemap: NavOverlayLink[]
   community: NavOverlayCommunityCard[]
   menuPanels: NavOverlayMenuPanel[]
+  searchTopics: string[]
   primaryCta?: NavOverlayLink
   homepageHighlight?: HomepageHighlight
 }
@@ -45,14 +50,17 @@ function LambdaGlyph({ className }: { className?: string }) {
 }
 
 export default function SiteHeaderClient({
+  locale,
   closedBar,
   sitemap,
   community,
   menuPanels,
+  searchTopics,
   primaryCta,
   homepageHighlight,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [initialPanelLabel, setInitialPanelLabel] = useState<string | null>(
     null
   )
@@ -61,6 +69,9 @@ export default function SiteHeaderClient({
     useState(false)
   const pathname = usePathname()
   const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
+  const isMediaPath =
+    normalizedPathname === ROUTES.media ||
+    normalizedPathname.startsWith(`${ROUTES.media}/`)
   const showHomepageHighlight =
     normalizedPathname === ROUTES.home &&
     homepageHighlight?.enabled === true &&
@@ -75,9 +86,13 @@ export default function SiteHeaderClient({
   const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.media)
   const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
   const usesAccentTanHeaderTone =
+    (isMediaPath && !usesTransparentHeader) ||
     normalizedPathname.endsWith(ROUTES.logosBroadcastNetwork) ||
-    normalizedPathname.endsWith(ROUTES.podcast)
+    normalizedPathname.endsWith(ROUTES.podcast) ||
+    normalizedPathname.startsWith(`${ROUTES.mediaArticles}/`) ||
+    normalizedPathname.startsWith(`${ROUTES.mediaPodcasts}/`)
   const open = () => {
+    setIsSearchOpen(false)
     setInitialPanelLabel(null)
     setIsOpen(true)
   }
@@ -85,13 +100,20 @@ export default function SiteHeaderClient({
     setInitialPanelLabel(null)
     setIsOpen(false)
   }
+  const closeSearch = useCallback(() => setIsSearchOpen(false), [])
+  const openSearch = () => {
+    setIsOpen(false)
+    setIsSearchOpen(true)
+  }
 
   useEffect(() => {
     window.addEventListener('logos:navigation-start', close)
+    window.addEventListener('logos:navigation-start', closeSearch)
     return () => {
       window.removeEventListener('logos:navigation-start', close)
+      window.removeEventListener('logos:navigation-start', closeSearch)
     }
-  }, [])
+  }, [closeSearch])
 
   useEffect(() => {
     if (!usesHeroHeaderTone) {
@@ -186,6 +208,17 @@ export default function SiteHeaderClient({
 
           {showHomepageHighlight ? (
             <LambdaGlyph className="absolute top-[99px] right-3 -translate-y-1/2" />
+          ) : isMediaPath ? (
+            <button
+              type="button"
+              onClick={openSearch}
+              aria-expanded={isSearchOpen}
+              aria-controls="media-search-dialog"
+              aria-label={closedBar.searchAriaLabel}
+              className="absolute top-1/2 right-3 inline-flex size-7 -translate-y-1/2 cursor-pointer items-center justify-center border border-current transition-colors hover:bg-brand-dark-green hover:text-brand-off-white"
+            >
+              <SearchIcon />
+            </button>
           ) : null}
         </div>
 
@@ -231,8 +264,9 @@ export default function SiteHeaderClient({
             <Link
               href={primaryCta.href}
               className={clsx(
-                'absolute top-1/2 right-3 -translate-y-1/2 text-eyebrow font-semibold cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
+                'absolute top-1/2 -translate-y-1/2 text-eyebrow font-semibold cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
                 'hidden lg:inline-flex',
+                isMediaPath ? 'right-[52px]' : 'right-3',
                 usesHeroHeaderTone && !hasPassedHero
                   ? 'bg-brand-off-white text-brand-dark-green'
                   : 'bg-brand-dark-green text-brand-off-white'
@@ -240,6 +274,19 @@ export default function SiteHeaderClient({
             >
               {primaryCta.label}
             </Link>
+          ) : null}
+
+          {isMediaPath ? (
+            <button
+              type="button"
+              onClick={openSearch}
+              aria-expanded={isSearchOpen}
+              aria-controls="media-search-dialog"
+              aria-label={closedBar.searchAriaLabel}
+              className="absolute top-1/2 right-3 inline-flex size-7 -translate-y-1/2 cursor-pointer items-center justify-center border border-current transition-colors hover:bg-brand-dark-green hover:text-brand-off-white"
+            >
+              <SearchIcon />
+            </button>
           ) : null}
         </div>
       </header>
@@ -255,6 +302,12 @@ export default function SiteHeaderClient({
         primaryCta={primaryCta}
         labels={{ closeMenu: closedBar.closeLabel }}
         linkAs={Link}
+      />
+      <MediaSearchDialog
+        isOpen={isSearchOpen}
+        locale={locale}
+        topics={searchTopics}
+        onClose={closeSearch}
       />
     </>
   )
