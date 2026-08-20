@@ -1,0 +1,37 @@
+import { RIGHT_QUESTION } from '../_content'
+
+import {
+  Column,
+  Exhibit,
+  Panel,
+  Prose,
+  PullQuote,
+  SectionHeading,
+  Standfirst,
+} from './atoms'
+
+export function RightQuestion() {
+  return (
+    <Panel className="bg-brand-off-white text-brand-dark-green">
+      <Column>
+        <SectionHeading eyebrow={RIGHT_QUESTION.eyebrow}>
+          {RIGHT_QUESTION.heading}
+        </SectionHeading>
+
+        <Standfirst lines={RIGHT_QUESTION.standfirstLines} />
+
+        <Prose>{RIGHT_QUESTION.intro}</Prose>
+
+        <Exhibit {...RIGHT_QUESTION.exhibit04} />
+
+        {RIGHT_QUESTION.body.map((paragraph, index) => (
+          <Prose key={`body-${index}`}>{paragraph}</Prose>
+        ))}
+
+        <PullQuote>{RIGHT_QUESTION.pullQuote}</PullQuote>
+
+        <Prose>{RIGHT_QUESTION.outro}</Prose>
+      </Column>
+    </Panel>
+  )
+}

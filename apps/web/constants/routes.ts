@@ -85,6 +85,7 @@ export const ROUTES = {
 
   // Campaigns
   ukDebt: '/ukdebt',
+  catchNoOne: '/catch-no-one',
 } as const
 
 // ---------------------------------------------------------------------------
