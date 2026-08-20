@@ -1,7 +1,10 @@
 import { scoutCandidateFiltersSchema } from '@/contracts/scout'
 import { apiException } from '@/server/api-response'
 import { resolveActor } from '@/server/auth'
-import { listScoutCandidates } from '@/server/scout-repository'
+import {
+  getScoutCandidateStateCounts,
+  listScoutCandidates,
+} from '@/server/scout-repository'
 
 export async function GET(request: Request): Promise<Response> {
   try {
@@ -12,7 +15,11 @@ export async function GET(request: Request): Promise<Response> {
       entityType: url.searchParams.get('entity_type') || undefined,
       q: url.searchParams.get('q') || undefined,
     })
-    return Response.json({ items: await listScoutCandidates(filters) })
+    const [items, stateCounts] = await Promise.all([
+      listScoutCandidates(filters),
+      getScoutCandidateStateCounts(),
+    ])
+    return Response.json({ items, stateCounts })
   } catch (error) {
     return apiException(error)
   }

@@ -11,12 +11,13 @@ import type {
 } from '@/contracts/scout'
 import { scoutReviewStates } from '@/contracts/values'
 import { ApiClientError, apiClient } from '@/lib/api-client'
+import { recordScoutUiEvent } from '@/lib/scout-events'
 
 import { CrmShell } from './crm-shell'
+import { ScoutComparePanel } from './scout-compare-panel'
+import { ScoutDiscoveryPanel } from './scout-discovery-panel'
 import {
-  bandLabels,
   decisionLabels,
-  dimensionLabels,
   entityTypeLabels,
   gateLabels,
   reviewStateLabels,
@@ -24,6 +25,7 @@ import {
 
 interface CandidateListResponse {
   items: ScoutCandidateSummary[]
+  stateCounts: Record<(typeof scoutReviewStates)[number], number>
 }
 
 interface DiscoveryResponse {
@@ -40,7 +42,7 @@ type StateFilter = 'all' | (typeof scoutReviewStates)[number]
 const stateFilters: StateFilter[] = ['all', ...scoutReviewStates]
 
 /** Accepting is a per-candidate judgement, so it is not offered in bulk. */
-const bulkDecisions = ['watch', 'reject', 'needs_evidence'] as const
+const bulkDecisions = ['watch', 'reject'] as const
 
 const SEARCH_MIN_LENGTH = 2
 
@@ -60,6 +62,14 @@ function GateBadge({ candidate }: { candidate: ScoutCandidateSummary }) {
   )
 }
 
+function reviewPrompt(candidate: ScoutCandidateSummary): string {
+  if (candidate.reviewState === 'quarantined') return 'Privacy quarantine'
+  if (!candidate.assessment) return 'Assessment unavailable'
+  if (candidate.assessment.gate === 'conflicted') return 'Resolve disagreement'
+  if (candidate.assessment.gate === 'sufficient') return 'Ready for a decision'
+  return 'Find missing evidence'
+}
+
 export function ScoutInbox() {
   const queryClient = useQueryClient()
   const [state, setState] = useState<StateFilter>('all')
@@ -68,6 +78,7 @@ export function ScoutInbox() {
   const [reason, setReason] = useState('')
   const [notice, setNotice] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [compareOpen, setCompareOpen] = useState(false)
 
   const query = useMemo(() => {
     const params = new URLSearchParams()
@@ -80,9 +91,7 @@ export function ScoutInbox() {
     queryKey: ['scout-candidates', query],
     queryFn: () =>
       apiClient<CandidateListResponse>(
-        query
-          ? `/api/v1/scout/candidates?${query}`
-          : '/api/v1/scout/candidates'
+        query ? `/api/v1/scout/candidates?${query}` : '/api/v1/scout/candidates'
       ),
   })
 
@@ -98,17 +107,14 @@ export function ScoutInbox() {
   })
 
   const discover = useMutation({
-    mutationFn: (input: { query?: string }) =>
+    mutationFn: (input: { briefId?: string; mode: 'synthetic' | 'sources' }) =>
       apiClient<DiscoveryResponse>('/api/v1/scout/discovery-runs', {
         method: 'POST',
         body: JSON.stringify(input),
       }),
-    onSuccess: async (response, input) => {
+    onSuccess: async (response) => {
       setError(null)
       setNotice(response.item.run.note)
-      // The term that found them would immediately filter them back out: a
-      // source search answers with organisations, not with a narrower queue.
-      if (input.query) setTerm('')
       await refresh()
     },
     onError: () => setError('The discovery run could not be started.'),
@@ -143,13 +149,12 @@ export function ScoutInbox() {
   const items = candidatesQuery.data?.items ?? []
   const sourcesEnabled = runsQuery.data?.sourcesEnabled ?? false
   const term_ = term.trim()
-  const canSearchSources =
-    sourcesEnabled && term_.length >= SEARCH_MIN_LENGTH
   const selectable = items.filter(
     (item) =>
       item.reviewState !== 'quarantined' && item.reviewState !== 'accepted'
   )
   const lastRun = runsQuery.data?.items[0] ?? null
+  const comparedCandidates = items.filter((item) => selected.includes(item.id))
 
   function toggle(candidateId: string): void {
     setSelected((current) =>
@@ -166,14 +171,6 @@ export function ScoutInbox() {
     <CrmShell view="scout">
       <header className="workspace-header">
         <h1>Scout</h1>
-        <button
-          className="scout-discover cursor-pointer"
-          disabled={discover.isPending}
-          type="button"
-          onClick={() => discover.mutate({ query: term_ || undefined })}
-        >
-          {discover.isPending ? 'Looking' : 'Find more'}
-        </button>
       </header>
 
       <p className="scout-preamble">
@@ -189,6 +186,13 @@ export function ScoutInbox() {
       ) : null}
       {error ? <p className="form-error">{error}</p> : null}
 
+      <ScoutDiscoveryPanel
+        isRunning={discover.isPending}
+        lastRun={lastRun}
+        sourcesEnabled={sourcesEnabled}
+        onRun={(input) => discover.mutate(input)}
+      />
+
       <nav className="queue-tabs" aria-label="Candidate states">
         {stateFilters.map((value) => (
           <button
@@ -199,6 +203,14 @@ export function ScoutInbox() {
             onClick={() => setState(value)}
           >
             <span>{value === 'all' ? 'All' : reviewStateLabels[value]}</span>
+            <strong>
+              {value === 'all'
+                ? Object.values(candidatesQuery.data?.stateCounts ?? {}).reduce(
+                    (total, count) => total + count,
+                    0
+                  )
+                : (candidatesQuery.data?.stateCounts[value] ?? 0)}
+            </strong>
           </button>
         ))}
       </nav>
@@ -216,37 +228,14 @@ export function ScoutInbox() {
               <span>Search</span>
               <input
                 aria-label="Search candidates"
-                placeholder={
-                  sourcesEnabled
-                    ? 'Filter the queue, or search the sources'
-                    : 'Name, domain, or summary'
-                }
+                placeholder="Name, domain, or summary"
                 type="search"
                 value={term}
                 onChange={(event) => setTerm(event.target.value)}
               />
             </label>
-            {canSearchSources ? (
-              <button
-                className="scout-search-sources cursor-pointer"
-                disabled={discover.isPending}
-                type="button"
-                onClick={() => discover.mutate({ query: term_ })}
-              >
-                {discover.isPending
-                  ? 'Searching sources'
-                  : `Search sources for "${term_}"`}
-              </button>
-            ) : null}
           </div>
         </div>
-
-        {lastRun ? (
-          <p className="scout-run-note">
-            Last run {new Date(lastRun.startedAt).toLocaleDateString('en-GB')}:{' '}
-            {lastRun.note}
-          </p>
-        ) : null}
 
         {selectable.length > 0 ? (
           <div className="scout-select-bar">
@@ -269,6 +258,20 @@ export function ScoutInbox() {
 
             {selected.length > 0 ? (
               <div className="scout-bulk-actions">
+                <button
+                  className="cursor-pointer"
+                  disabled={selected.length < 2 || selected.length > 3}
+                  type="button"
+                  onClick={() => {
+                    setCompareOpen(true)
+                    recordScoutUiEvent({
+                      eventType: 'comparison_opened',
+                      metadata: { candidateCount: selected.length },
+                    })
+                  }}
+                >
+                  Compare {selected.length >= 2 ? selected.length : ''}
+                </button>
                 <input
                   aria-label="Reason for these decisions"
                   placeholder="One reason for all of them"
@@ -302,86 +305,89 @@ export function ScoutInbox() {
         ) : items.length === 0 ? (
           <p className="table-message">
             {term_.length >= SEARCH_MIN_LENGTH
-              ? sourcesEnabled
-                ? 'Nothing in the queue matches. Search the sources to look further.'
-                : 'No candidate matches that search.'
-              : 'No candidates in this state. Use "Find more" to look for some.'}
+              ? 'No candidate matches that filter.'
+              : 'No candidates in this state. Run a discovery brief to find some.'}
           </p>
         ) : (
-          <ul className="scout-list">
-            {items.map((candidate) => {
-              const decidable =
-                candidate.reviewState !== 'quarantined' &&
-                candidate.reviewState !== 'accepted'
+          <>
+            <div className="scout-queue-columns" aria-hidden="true">
+              <span>Candidate</span>
+              <span>Why it is here</span>
+              <span>Evidence</span>
+              <span>Last observed</span>
+            </div>
+            <ul className="scout-list">
+              {items.map((candidate) => {
+                const decidable =
+                  candidate.reviewState !== 'quarantined' &&
+                  candidate.reviewState !== 'accepted'
 
-              return (
-                <li className="scout-list-item" key={candidate.id}>
-                  <div className="scout-list-row">
-                    {decidable ? (
-                      <label className="scout-select">
-                        <input
-                          checked={selected.includes(candidate.id)}
-                          type="checkbox"
-                          onChange={() => toggle(candidate.id)}
-                        />
-                        <span className="visually-hidden">
-                          Select {candidate.displayName}
+                return (
+                  <li className="scout-list-item" key={candidate.id}>
+                    <div className="scout-list-row">
+                      {decidable ? (
+                        <label className="scout-select">
+                          <input
+                            checked={selected.includes(candidate.id)}
+                            type="checkbox"
+                            onChange={() => toggle(candidate.id)}
+                          />
+                          <span className="visually-hidden">
+                            Select {candidate.displayName}
+                          </span>
+                        </label>
+                      ) : (
+                        <span className="scout-select-placeholder" />
+                      )}
+
+                      <Link
+                        className="scout-list-link cursor-pointer"
+                        href={`/scout/${candidate.id}`}
+                      >
+                        <div className="scout-list-identity">
+                          <strong>{candidate.displayName}</strong>
+                          <small>
+                            {entityTypeLabels[candidate.entityType]}
+                            {candidate.domain ? ` · ${candidate.domain}` : ''}
+                          </small>
+                        </div>
+
+                        <p className="scout-list-summary">
+                          {candidate.summary ??
+                            (candidate.evidenceCount > 0
+                              ? 'No description published; judge it on the evidence.'
+                              : 'Nothing was extracted about this candidate.')}
+                        </p>
+
+                        <div className="scout-list-prompt">
+                          <GateBadge candidate={candidate} />
+                          <span>{reviewPrompt(candidate)}</span>
+                        </div>
+                        <span className="scout-list-evidence">
+                          {candidate.evidenceCount} items ·{' '}
+                          {candidate.assessment?.distinctSources ?? 0} sources
                         </span>
-                      </label>
-                    ) : (
-                      <span className="scout-select-placeholder" />
-                    )}
-
-                    <Link
-                      className="scout-list-link cursor-pointer"
-                      href={`/scout/${candidate.id}`}
-                    >
-                      <div className="scout-list-identity">
-                        <strong>{candidate.displayName}</strong>
-                        <small>
-                          {entityTypeLabels[candidate.entityType]}
-                          {candidate.domain ? ` · ${candidate.domain}` : ''}
-                        </small>
-                      </div>
-
-                      <p className="scout-list-summary">
-                        {candidate.summary ??
-                          (candidate.evidenceCount > 0
-                            ? 'No description published; judge it on the evidence.'
-                            : 'Nothing was extracted about this candidate.')}
-                      </p>
-
-                      <div className="scout-list-meta">
-                        <GateBadge candidate={candidate} />
-                        <span className="scout-state">
-                          {reviewStateLabels[candidate.reviewState]}
+                        <span className="scout-list-observed">
+                          {new Date(
+                            candidate.lastObservedAt
+                          ).toLocaleDateString('en-GB')}
                         </span>
-                        <span className="scout-evidence-count">
-                          {candidate.evidenceCount} evidence
-                        </span>
-                      </div>
-                    </Link>
-                  </div>
-
-                  {candidate.assessment ? (
-                    <ul className="scout-band-row">
-                      {candidate.assessment.dimensions.map((result) => (
-                        <li
-                          className={`scout-band ${result.band}`}
-                          key={result.dimension}
-                        >
-                          <span>{dimensionLabels[result.dimension]}</span>
-                          <b>{bandLabels[result.band]}</b>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </li>
-              )
-            })}
-          </ul>
+                      </Link>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          </>
         )}
       </section>
+
+      {compareOpen && comparedCandidates.length >= 2 ? (
+        <ScoutComparePanel
+          candidates={comparedCandidates.slice(0, 3)}
+          onClose={() => setCompareOpen(false)}
+        />
+      ) : null}
     </CrmShell>
   )
 }

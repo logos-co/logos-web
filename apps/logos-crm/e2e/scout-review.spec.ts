@@ -2,8 +2,7 @@ import { expect, test } from '@playwright/test'
 
 /**
  * Scout runs on seeded synthetic candidates, so these tests read the demo
- * fixtures rather than creating their own: there is no discovery endpoint to
- * create a candidate with, which is itself the property under test.
+ * fixtures and synthetic discovery rather than contacting external sources.
  */
 test('the inbox puts disagreeing sources above candidates that are ready', async ({
   page,
@@ -91,7 +90,7 @@ test('search narrows the queue by name, domain, and summary', async ({
   )
 })
 
-test('find more runs discovery and the queue matches what the run reports', async ({
+test('a saved brief runs synthetic discovery and the queue matches its report', async ({
   page,
 }) => {
   await page.goto('/scout')
@@ -100,7 +99,13 @@ test('find more runs discovery and the queue matches what the run reports', asyn
   await expect(page.locator('.scout-list-item').first()).toBeVisible()
   const before = await page.locator('.scout-list-item').count()
 
-  await page.getByRole('button', { name: 'Find more' }).click()
+  await page.getByRole('button', { name: 'New discovery run' }).click()
+  await page.getByLabel('Brief name').fill('E2E networking brief')
+  await page
+    .getByLabel('Purpose')
+    .fill('Validate the synthetic discovery workflow.')
+  await page.getByLabel('Search query').fill('open networking')
+  await page.getByRole('button', { name: 'Save and run brief' }).click()
 
   const notice = page.locator('.scout-notice')
   await expect(notice).toBeVisible()
@@ -120,6 +125,25 @@ test('find more runs discovery and the queue matches what the run reports', asyn
   await expect(async () => {
     expect(await page.locator('.scout-list-item').count()).toBe(before + added)
   }).toPass()
+})
+
+test('two candidates can be compared without turning the comparison into a score', async ({
+  page,
+}) => {
+  await page.goto('/scout')
+  await expect(page.locator('.scout-list-item').first()).toBeVisible()
+
+  await page.getByLabel('Select Quorum Field').check()
+  await page.getByLabel('Select Halcyon Relay Collective').check()
+  await page.getByRole('button', { name: 'Compare 2' }).click()
+
+  const comparison = page.getByRole('dialog', {
+    name: 'Review the evidence side by side',
+  })
+  await expect(comparison).toContainText('Quorum Field')
+  await expect(comparison).toContainText('Halcyon Relay Collective')
+  await expect(comparison).toContainText('Evidence readiness')
+  await expect(comparison).not.toContainText('Total score')
 })
 
 test('several candidates can be decided together, but never accepted together', async ({

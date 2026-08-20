@@ -228,6 +228,26 @@ export async function listScoutCandidates(
   })
 }
 
+export async function getScoutCandidateStateCounts(): Promise<
+  Record<CandidateRow['reviewState'], number>
+> {
+  const rows = await db
+    .select({ state: scoutCandidates.reviewState, total: count() })
+    .from(scoutCandidates)
+    .groupBy(scoutCandidates.reviewState)
+
+  const counts: Record<CandidateRow['reviewState'], number> = {
+    needs_review: 0,
+    accepted: 0,
+    watch: 0,
+    rejected: 0,
+    needs_evidence: 0,
+    quarantined: 0,
+  }
+  for (const row of rows) counts[row.state] = Number(row.total)
+  return counts
+}
+
 export async function getScoutCandidate(
   candidateId: string
 ): Promise<ScoutCandidateDetail> {
