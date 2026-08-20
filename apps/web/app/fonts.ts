@@ -31,7 +31,9 @@ export const publicSans = Public_Sans({
 
 export const firaCode = Fira_Code({
   subsets: ['latin'],
-  weight: ['400', '500'],
+  // 700 is required by the "Exhibit 01" labels on /catch-no-one; without a real
+  // bold the browser synthesises one, which smears a monospace face at 12px.
+  weight: ['400', '500', '700'],
   display: 'swap',
   variable: '--next-font-mono',
 })
