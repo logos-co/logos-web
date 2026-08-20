@@ -3757,3 +3757,269 @@ table[aria-busy='true'] tbody {
     border-bottom: 1px solid rgb(21 37 33 / 12%);
   }
 }
+
+/* Candidate review keeps evidence in the reading column and the decision in a
+   stable place. The reviewer should not lose the action after reading a long
+   source excerpt. */
+.scout-record-page {
+  width: min(100%, 1380px);
+}
+
+.scout-session-nav {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.scout-session-nav .record-back {
+  margin-bottom: 28px;
+}
+
+.scout-session-nav > span {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.scout-review-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(310px, 360px);
+  align-items: start;
+  gap: 18px;
+}
+
+.scout-review-reading {
+  min-width: 0;
+}
+
+.scout-review-layout > .scout-review-panel {
+  position: sticky;
+  top: 18px;
+  max-height: calc(100vh - 36px);
+  overflow: auto;
+  margin-top: 0;
+}
+
+.scout-evidence-groups {
+  display: grid;
+  gap: 26px;
+  margin-top: 16px;
+}
+
+.scout-evidence-groups > section {
+  padding-top: 18px;
+  border-top: 1px solid rgb(21 37 33 / 12%);
+}
+
+.scout-evidence-group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.scout-evidence-group-head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.scout-evidence-group-head span {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.scout-evidence-groups .scout-evidence-list {
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.scout-evidence-list details {
+  margin-top: 8px;
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.scout-evidence-list details summary {
+  display: inline-block;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgb(21 37 33 / 30%);
+}
+
+.scout-evidence-list details p {
+  margin: 8px 0 0;
+}
+
+.scout-evidence-empty {
+  margin: 12px 0 0;
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+}
+
+.scout-reason-field + .scout-reason-field {
+  margin-top: 12px;
+}
+
+.scout-reason-field select {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid rgb(21 37 33 / 20%);
+  border-radius: 8px;
+  background: var(--color-brand-off-white);
+  color: var(--color-brand-dark-green);
+  font: inherit;
+}
+
+.scout-missing-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px 12px;
+  margin: 16px 0 0;
+  padding: 14px;
+  border: 1px solid rgb(21 37 33 / 12%);
+  border-radius: 8px;
+}
+
+.scout-missing-fields legend {
+  padding: 0 5px;
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.scout-missing-fields label,
+.scout-continue-next {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: var(--text-sm);
+  line-height: 1.35;
+}
+
+.scout-missing-fields input,
+.scout-continue-next input {
+  width: 16px;
+  height: 16px;
+  margin: 1px 0 0;
+  accent-color: var(--color-brand-dark-green);
+  cursor: pointer;
+}
+
+.scout-review-layout .scout-review-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* No decision is recommended by visual weight. Evidence readiness determines
+   availability, while the reviewer determines the action. */
+.scout-review-layout .scout-review-actions button,
+.scout-review-layout .scout-review-actions button:first-child {
+  background: transparent;
+  color: var(--color-brand-dark-green);
+}
+
+.scout-review-layout .scout-review-actions button:not(:disabled):hover {
+  background: var(--color-brand-dark-green);
+  color: var(--color-brand-off-white);
+}
+
+.scout-decision-help {
+  margin: 10px 0 0;
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+  line-height: 1.4;
+}
+
+.scout-continue-next {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgb(21 37 33 / 12%);
+}
+
+.scout-open-request {
+  margin: 12px 0 16px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--color-accent-light-blue);
+}
+
+.scout-open-request strong,
+.scout-open-request span {
+  display: block;
+}
+
+.scout-open-request p {
+  margin: 6px 0;
+  line-height: 1.4;
+}
+
+.scout-open-request span,
+.scout-review-history small {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.scout-review-history small {
+  display: block;
+  margin-top: 4px;
+}
+
+@media (max-width: 1120px) {
+  .scout-review-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .scout-review-layout > .scout-review-panel {
+    position: static;
+    max-height: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .scout-session-nav {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .scout-session-nav .record-back {
+    margin-bottom: 0;
+  }
+
+  .scout-review-reading .record-page-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .scout-review-reading .record-facts-card {
+    grid-row: auto;
+    grid-column: auto;
+  }
+
+  .scout-evidence-head,
+  .scout-evidence-group-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .scout-evidence-head span {
+    text-align: left;
+  }
+
+  .scout-missing-fields,
+  .scout-review-layout .scout-review-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

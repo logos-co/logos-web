@@ -60,8 +60,12 @@ test('a decision is recorded against the reviewer and creates no CRM record', as
   await page.goto('/scout')
   await page.getByRole('link', { name: /Meshwork Commons/ }).click()
 
+  await page.getByLabel('Reason type').selectOption('active_project')
   await page
-    .getByPlaceholder('Why this decision?')
+    .getByLabel('Continue to the next candidate after deciding')
+    .uncheck()
+  await page
+    .getByPlaceholder('What evidence supports this decision?')
     .fill('Relevant, but the handbook is the only recent thing they publish.')
   await page.getByRole('button', { name: 'Watch' }).click()
 
@@ -72,6 +76,47 @@ test('a decision is recorded against the reviewer and creates no CRM record', as
 
   const after = await (await request.get('/api/v1/organisations')).json()
   expect(after.items.length).toBe(before.items.length)
+})
+
+test('requesting evidence records the missing field as follow-up work', async ({
+  page,
+}) => {
+  await page.goto('/scout')
+  await page.getByRole('link', { name: /Vault Lattice/ }).click()
+
+  await page.getByLabel('Reason type').selectOption('insufficient_evidence')
+  await page
+    .getByPlaceholder('What evidence supports this decision?')
+    .fill('Confirm how an outside contributor can participate.')
+  await page.getByLabel('Contribution path').check()
+  await page
+    .getByLabel('Continue to the next candidate after deciding')
+    .uncheck()
+  await page.getByRole('button', { name: 'Request evidence' }).click()
+
+  await expect(page.getByText('Open evidence request')).toBeVisible()
+  const openRequest = page.locator('.scout-open-request')
+  await expect(openRequest).toContainText(
+    'Confirm how an outside contributor can participate.'
+  )
+  await expect(openRequest).toContainText('Contribution path')
+})
+
+test('review sessions continue to the next candidate after a decision', async ({
+  page,
+}) => {
+  await page.goto('/scout')
+  await page.getByRole('link', { name: /Beacon Standards Group/ }).click()
+  const previousUrl = page.url()
+
+  await page.getByLabel('Reason type').selectOption('out_of_scope')
+  await page
+    .getByPlaceholder('What evidence supports this decision?')
+    .fill('No current work matches this discovery brief.')
+  await page.getByRole('button', { name: 'Reject' }).click()
+
+  await expect(page).not.toHaveURL(previousUrl)
+  await expect(page.getByText(/Candidate \d+ of \d+/)).toBeVisible()
 })
 
 test('search narrows the queue by name, domain, and summary', async ({

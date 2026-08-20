@@ -162,7 +162,9 @@ export const recordScoutReviewSchema = z
  */
 export const bulkScoutReviewSchema = z.object({
   candidateIds: z.array(z.string().uuid()).min(1).max(50),
-  decision: z.enum(['watch', 'reject', 'needs_evidence']),
+  // Evidence requests need candidate-specific missing fields, so they cannot
+  // honestly share one bulk payload.
+  decision: z.enum(['watch', 'reject']),
   reason: z.string().trim().min(3).max(500),
 })
 
