@@ -68,22 +68,67 @@ type GithubBlobResponse = {
   encoding?: string
 }
 
-const fetchTextWithRetry = async (
-  url: string,
-  headers: Readonly<Record<string, string>>,
-  attempts = 3
-): Promise<string | null> => {
-  for (let attempt = 1; attempt <= attempts; attempt++) {
+/** Signals `withRetry` that the failure is transient and worth another round. */
+class RetryableError extends Error {
+  constructor(message: string, options?: { cause?: unknown }) {
+    super(message, options)
+    this.name = 'RetryableError'
+  }
+}
+
+const RETRY_ATTEMPTS = 3
+const RETRY_BASE_DELAY_MS = 500
+
+/**
+ * Statuses worth a second look: GitHub answers rate limits with 403/429 and
+ * transient upstream trouble with 5xx. A 404 is a definitive answer -- retrying
+ * it only delays the next fallback URL.
+ */
+const isRetryableStatus = (status: number): boolean =>
+  status === 403 || status === 429 || status >= 500
+
+const wait = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms))
+
+/**
+ * Runs `attempt` up to `RETRY_ATTEMPTS` times with exponential backoff, so a
+ * transient GitHub failure doesn't fail the build on the first try. `attempt`
+ * returns `null` to give up immediately and throws `RetryableError` to ask for
+ * another round. Resolves to `null` once every attempt is spent.
+ */
+const withRetry = async <T>(
+  attempt: () => Promise<T | null>
+): Promise<T | null> => {
+  for (let round = 1; round <= RETRY_ATTEMPTS; round++) {
     try {
-      const res = await fetch(url, { headers })
-      if (res.ok) return await res.text()
-      if (attempt === attempts) return null
-    } catch {
-      if (attempt === attempts) return null
+      return await attempt()
+    } catch (error) {
+      if (!(error instanceof RetryableError) || round === RETRY_ATTEMPTS) {
+        return null
+      }
+      await wait(RETRY_BASE_DELAY_MS * 2 ** (round - 1))
     }
   }
   return null
 }
+
+const fetchTextWithRetry = (
+  url: string,
+  headers: Readonly<Record<string, string>>
+): Promise<string | null> =>
+  withRetry(async () => {
+    let res: Response
+    try {
+      res = await fetch(url, { headers })
+    } catch (error) {
+      throw new RetryableError(`Request to ${url} failed`, { cause: error })
+    }
+    if (res.ok) return res.text()
+    if (isRetryableStatus(res.status)) {
+      throw new RetryableError(`${url} responded ${res.status}`)
+    }
+    return null
+  })
 
 const fetchGithubBlob = async (
   url: string,
@@ -143,9 +188,7 @@ export const fetchRfpMarkdownEntryForTest = fetchRfpMarkdownEntry
 
 /** `RFP-001-admin-authority-lib.md` → `admin-authority-lib`. */
 const toSlug = (filename: string, fallback: string): string => {
-  const base = filename
-    .replace(/\.md$/i, '')
-    .replace(/^RFP-\d+[-_\s]*/i, '')
+  const base = filename.replace(/\.md$/i, '').replace(/^RFP-\d+[-_\s]*/i, '')
   const slug = base
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
@@ -309,6 +352,36 @@ export class RfpSourceError extends Error {
   }
 }
 
+/** Lists the `RFPs/` directory, retrying transient GitHub failures. */
+const fetchRfpListing = async (): Promise<unknown> => {
+  let lastFailure = 'no response'
+  const entries = await withRetry<unknown>(async () => {
+    let res: Response
+    try {
+      res = await fetch(RFP_CONTENTS_URL, { headers: githubHeaders() })
+    } catch (error) {
+      lastFailure = error instanceof Error ? error.message : 'request failed'
+      throw new RetryableError(lastFailure, { cause: error })
+    }
+    if (!res.ok) {
+      lastFailure = `${res.status} ${res.statusText}`
+      if (isRetryableStatus(res.status)) throw new RetryableError(lastFailure)
+      return null
+    }
+    try {
+      return await res.json()
+    } catch (error) {
+      lastFailure = 'listing response was not valid JSON'
+      throw new RetryableError(lastFailure, { cause: error })
+    }
+  })
+
+  if (entries === null) {
+    throw new RfpSourceError(`Failed to list RFPs from GitHub: ${lastFailure}`)
+  }
+  return entries
+}
+
 /**
  * Fetches and parses every published RFP from the GitHub repo, sorted by RFP
  * number. Drafts and the `RFP-000` template are excluded. Wrapped in React
@@ -316,25 +389,13 @@ export class RfpSourceError extends Error {
  * Cache dedupes the underlying network requests across passes.
  *
  * Throws `RfpSourceError` if the listing or any individual RFP file cannot be
- * read, so callers that must not ship a partial set (the sitemap) fail the
- * build instead of silently emitting fewer URLs.
+ * read. Every caller -- sitemap, `generateStaticParams`, the listing page --
+ * uses this, so a GitHub outage fails the build loudly instead of exporting a
+ * site whose RFP detail routes silently 404 (there is no runtime fallback
+ * under `output: 'export'`).
  */
-export const fetchGithubRfpsStrict = cache(async (): Promise<GithubRfp[]> => {
-  let entries: unknown
-  try {
-    const res = await fetch(RFP_CONTENTS_URL, { headers: githubHeaders() })
-    if (!res.ok) {
-      throw new RfpSourceError(
-        `Failed to list RFPs from GitHub: ${res.status} ${res.statusText}`
-      )
-    }
-    entries = await res.json()
-  } catch (error) {
-    if (error instanceof RfpSourceError) throw error
-    throw new RfpSourceError('Failed to fetch RFP listing from GitHub', {
-      cause: error,
-    })
-  }
+export const fetchGithubRfps = cache(async (): Promise<GithubRfp[]> => {
+  const entries = await fetchRfpListing()
 
   if (!Array.isArray(entries)) {
     throw new RfpSourceError('GitHub RFP listing returned a non-array response')
@@ -370,20 +431,6 @@ export const fetchGithubRfpsStrict = cache(async (): Promise<GithubRfp[]> => {
     .filter((rfp) => !rfp.status.toLowerCase().includes('draft'))
     .sort((a, b) => a.number.localeCompare(b.number))
 })
-
-/**
- * Lenient wrapper used by the RFP pages: a GitHub outage degrades the listing
- * to empty rather than crashing the render. The sitemap deliberately does not
- * use this — see {@link fetchGithubRfpsStrict}.
- */
-export const fetchGithubRfps = async (): Promise<GithubRfp[]> => {
-  try {
-    return await fetchGithubRfpsStrict()
-  } catch (error) {
-    console.error('Failed to load RFPs from GitHub:', error)
-    return []
-  }
-}
 
 /** Single-RFP lookup by slug, reusing the cached full fetch. */
 export const fetchGithubRfpBySlug = async (

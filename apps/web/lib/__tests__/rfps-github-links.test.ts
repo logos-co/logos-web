@@ -26,8 +26,7 @@ describe('rewriteRfpMarkdownLinks', () => {
   })
 
   it('resolves other repo-relative .md links to absolute GitHub URLs, keeping anchors', () => {
-    const md =
-      '[fees](../appendix/token-launchpad-ecosystem.md#fee-structures)'
+    const md = '[fees](../appendix/token-launchpad-ecosystem.md#fee-structures)'
 
     expect(rewriteRfpMarkdownLinks(md, FILE_URL)).toBe(
       '[fees](https://github.com/logos-co/rfp/blob/master/appendix/token-launchpad-ecosystem.md#fee-structures)'
@@ -56,13 +55,13 @@ describe('fetchRfpMarkdownEntryForTest', () => {
     vi.restoreAllMocks()
   })
 
-  it('falls back from download_url to raw GitHub URL when the first fetch fails', async () => {
+  it('falls back from download_url to raw GitHub URL without retrying a 404', async () => {
     const fetchMock = vi
       .spyOn(globalThis, 'fetch')
       .mockResolvedValueOnce(new Response('not found', { status: 404 }))
-      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
-      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
-      .mockResolvedValueOnce(new Response('# RFP raw markdown', { status: 200 }))
+      .mockResolvedValueOnce(
+        new Response('# RFP raw markdown', { status: 200 })
+      )
 
     const result = await fetchRfpMarkdownEntryForTest({
       name: 'RFP-001-example.md',
@@ -73,19 +72,45 @@ describe('fetchRfpMarkdownEntryForTest', () => {
     })
 
     expect(result).toBe('# RFP raw markdown')
-    expect(fetchMock).toHaveBeenCalledTimes(4)
-    expect(fetchMock.mock.calls[3]?.[0]).toBe(
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+    expect(fetchMock.mock.calls[1]?.[0]).toBe(
       'https://raw.githubusercontent.com/logos-co/rfp/master/RFPs/RFP-001-example.md'
     )
   })
 
+  it('retries a rate-limited response before falling back to the next URL', async () => {
+    vi.useFakeTimers()
+    const fetchMock = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(new Response('rate limited', { status: 403 }))
+      .mockResolvedValueOnce(new Response('rate limited', { status: 403 }))
+      .mockResolvedValueOnce(
+        new Response('# RFP retried markdown', { status: 200 })
+      )
+
+    const pending = fetchRfpMarkdownEntryForTest({
+      name: 'RFP-003-example.md',
+      download_url: 'https://objects.githubusercontent.com/RFP-003-example.md',
+      html_url:
+        'https://github.com/logos-co/rfp/blob/master/RFPs/RFP-003-example.md',
+      git_url: null,
+    })
+    await vi.runAllTimersAsync()
+    const result = await pending
+
+    expect(result).toBe('# RFP retried markdown')
+    expect(fetchMock).toHaveBeenCalledTimes(3)
+    expect(fetchMock.mock.calls[2]?.[0]).toBe(
+      'https://objects.githubusercontent.com/RFP-003-example.md'
+    )
+    vi.useRealTimers()
+  })
+
   it('decodes GitHub blob content when raw URL fetches fail', async () => {
-    const encoded = Buffer.from('# RFP blob markdown', 'utf8').toString('base64')
+    const encoded = Buffer.from('# RFP blob markdown', 'utf8').toString(
+      'base64'
+    )
     vi.spyOn(globalThis, 'fetch')
-      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
-      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
-      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
-      .mockResolvedValueOnce(new Response('not found', { status: 404 }))
       .mockResolvedValueOnce(new Response('not found', { status: 404 }))
       .mockResolvedValueOnce(new Response('not found', { status: 404 }))
       .mockResolvedValueOnce(
