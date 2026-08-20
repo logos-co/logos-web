@@ -27,8 +27,8 @@ import {
 import CatchNoOnePage from '../page'
 import {
   TYPEWRITER_ARMED_CLASS,
+  HeroHeadline,
   TypewriterArmingScript,
-  TypewriterHeadline,
   TypewriterQuote,
 } from '../_sections/typewriter'
 
@@ -147,24 +147,29 @@ describe('typewriter', () => {
     line2: HERO.headlineLine2,
   }
 
-  test('the headline ships complete for crawlers and JS-less visitors', () => {
+  test('the hero headline renders outright when animation is off', () => {
     const html = renderToStaticMarkup(
-      createElement(TypewriterHeadline, HEADLINE)
+      createElement(HeroHeadline, { ...HEADLINE, animate: false })
+    )
+
+    expect(html).toContain(HERO.headlineLine1)
+    expect(html).toContain(HERO.headlineLine2)
+    // Nothing is hidden, overlaid or duplicated when the effect is off.
+    expect(html).not.toContain('data-typewriter')
+    expect(html).not.toContain('aria-hidden')
+  })
+
+  test('turning the hero headline on brings back the two-copy machinery', () => {
+    const html = renderToStaticMarkup(
+      createElement(HeroHeadline, { ...HEADLINE, animate: true })
     )
 
     expect(copyText(html, 'reserved')).toContain(HERO.headlineLine1)
     expect(copyText(html, 'reserved')).toContain(HERO.headlineLine2)
+    expect(copyText(html, 'typed').trim()).toBe('')
     expect(html).toContain(
       `aria-label="${HERO.headlineLine1} ${HERO.headlineLine2}"`
     )
-  })
-
-  test('the headline copy that animates starts empty, so nothing flashes', () => {
-    const html = renderToStaticMarkup(
-      createElement(TypewriterHeadline, HEADLINE)
-    )
-
-    expect(copyText(html, 'typed').trim()).toBe('')
   })
 
   test('a quote ships complete and keeps a copy for assistive tech', () => {

@@ -12,6 +12,7 @@ import {
   WeAllPay,
   WhatItTakes,
 } from './_sections'
+import { TypewriterArmingScript } from './_sections/typewriter'
 
 const ROUTE = ROUTES.catchNoOne
 
@@ -39,6 +40,12 @@ export async function generateMetadata({
 export default function CatchNoOnePage() {
   return (
     <div className="overflow-x-clip bg-brand-off-white text-brand-dark-green">
+      {/*
+        Must stay above the first animated string — it runs while the parser is
+        still here, which is what keeps the server-rendered text from flashing
+        before a quote card types itself in.
+      */}
+      <TypewriterArmingScript />
       <Hero />
       <LawsPromise />
       <DoesNotCatch />
