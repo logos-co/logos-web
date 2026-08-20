@@ -1,10 +1,7 @@
 import { HERO } from '../_content'
 
 import { Column, Panel, Prose } from './atoms'
-import {
-  TypewriterArmingScript,
-  TypewriterHeadline,
-} from './typewriter-headline'
+import { TypewriterArmingScript, TypewriterHeadline } from './typewriter'
 
 export function Hero() {
   return (
