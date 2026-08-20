@@ -404,6 +404,21 @@ export async function recordScoutReview(
   // last calculated.
   const assessment = await refreshScoutAssessment(candidateId)
 
+  if (input.decision === 'accept' && assessment.gate !== 'sufficient') {
+    throw invalidTransition(
+      'This candidate cannot be accepted until the evidence gate is sufficient.'
+    )
+  }
+
+  if (
+    input.decision === 'needs_evidence' &&
+    (!input.evidenceFields || input.evidenceFields.length === 0)
+  ) {
+    throw invalidTransition(
+      'Requesting evidence requires at least one missing field.'
+    )
+  }
+
   await db.transaction(async (transaction) => {
     await transaction.insert(scoutReviews).values({
       candidateId,

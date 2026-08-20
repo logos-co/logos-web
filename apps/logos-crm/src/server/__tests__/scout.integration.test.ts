@@ -30,6 +30,7 @@ import {
   updateScoutCandidateOperations,
 } from '@/server/scout-repository'
 import { createScoutDiscoveryBrief } from '@/server/scout-brief-repository'
+import { getScoutReport } from '@/server/scout-report-repository'
 
 import {
   createTestUser,
@@ -165,6 +166,12 @@ describe.skipIf(!isIntegrationEnabled)('scout', () => {
   test('an accepted candidate cannot be reviewed again', async () => {
     const candidateId = await createCandidate('Halcyon Relay Collective')
     await addEvidence(candidateId)
+    await addEvidence(candidateId, {
+      field: 'ecosystem_relation',
+      sourceUrl: 'https://specs.example/routing/participants',
+      contentHash: 'synthetic:ecosystem_relation',
+      value: 'Co-authors an open routing specification',
+    })
 
     await recordScoutReview(actor, candidateId, {
       decision: 'accept',
@@ -177,6 +184,30 @@ describe.skipIf(!isIntegrationEnabled)('scout', () => {
         reason: 'Changed my mind.',
       })
     ).rejects.toThrow(/new assessment/)
+  })
+
+  test('accepting is refused until the evidence gate is sufficient', async () => {
+    const candidateId = await createCandidate('Halcyon Relay Collective')
+    await addEvidence(candidateId)
+
+    await expect(
+      recordScoutReview(actor, candidateId, {
+        decision: 'accept',
+        reason: 'Promising, but not yet sufficiently evidenced.',
+      })
+    ).rejects.toThrow(/evidence gate is sufficient/)
+  })
+
+  test('an evidence request requires a missing field at the service boundary', async () => {
+    const candidateId = await createCandidate('Halcyon Relay Collective')
+    await addEvidence(candidateId)
+
+    await expect(
+      recordScoutReview(actor, candidateId, {
+        decision: 'needs_evidence',
+        reason: 'Find the missing evidence.',
+      })
+    ).rejects.toThrow(/at least one missing field/)
   })
 
   test('requesting evidence creates actionable follow-up work and a metric', async () => {
@@ -223,6 +254,36 @@ describe.skipIf(!isIntegrationEnabled)('scout', () => {
     expect(detail.internalNote).toContain('standards working group')
     expect(detail.reviewAfterAt).toBe('2026-09-01T12:00:00.000Z')
     expect(detail.crmMatch?.displayName).toBe('Halcyon Relay Collective')
+  })
+
+  test('the internal report exposes aggregates without candidate content', async () => {
+    const candidateId = await createCandidate('Halcyon Relay Collective')
+    await addEvidence(candidateId)
+    await db.insert(scoutEvents).values({
+      eventType: 'candidate_opened',
+      candidateId,
+      actorUserId: actor.userId,
+      requestId: actor.requestId,
+      metadata: {},
+      occurredAt: new Date(Date.now() - 4 * 60 * 1000),
+    })
+    await recordScoutReview(actor, candidateId, {
+      decision: 'watch',
+      reasonCategory: 'relevant_work',
+      reason: 'Keep monitoring published releases.',
+    })
+
+    const report = await getScoutReport()
+
+    expect(report.candidateStates.watch).toBe(1)
+    expect(report.decisions.watch).toBe(1)
+    expect(report.events.review_recorded).toBe(1)
+    expect(report.evidenceGates.insufficient).toBe(1)
+    expect(report.reviewTiming.measuredReviews).toBe(1)
+    expect(report.reviewTiming.medianMinutes).toBeGreaterThanOrEqual(3.9)
+    expect(report.reviewTiming.medianMinutes).toBeLessThanOrEqual(4.1)
+    expect(JSON.stringify(report)).not.toContain('Halcyon Relay Collective')
+    expect(JSON.stringify(report)).not.toContain('published releases')
   })
 
   test('a quarantined candidate cannot be reviewed at all', async () => {

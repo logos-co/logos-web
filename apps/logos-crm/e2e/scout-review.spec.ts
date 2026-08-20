@@ -158,6 +158,23 @@ test('search narrows the queue by name, domain, and summary', async ({
   )
 })
 
+test('the internal report summarises workflow without candidate notes', async ({
+  page,
+}) => {
+  await page.goto('/scout')
+  await page.getByRole('link', { name: 'Review report' }).click()
+
+  await expect(
+    page.getByRole('heading', { name: 'Scout quality and workflow' })
+  ).toBeVisible()
+  await expect(page.getByText('Discovery runs')).toBeVisible()
+  await expect(page.getByText('Review decisions')).toBeVisible()
+  await expect(page.getByText('Product signals')).toBeVisible()
+  await expect(
+    page.getByText('Check the standards working group before deciding.')
+  ).toHaveCount(0)
+})
+
 test('a saved brief runs synthetic discovery and the queue matches its report', async ({
   page,
 }) => {

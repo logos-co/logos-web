@@ -171,6 +171,12 @@ export function ScoutInbox() {
     <CrmShell view="scout">
       <header className="workspace-header">
         <h1>Scout</h1>
+        <Link
+          className="scout-secondary-action scout-report-link cursor-pointer"
+          href="/scout/report"
+        >
+          Review report
+        </Link>
       </header>
 
       <p className="scout-preamble">

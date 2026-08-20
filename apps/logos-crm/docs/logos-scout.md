@@ -54,24 +54,29 @@ actually help a reviewer decide?**
 
 ## 3. What is built
 
-Phase 0 exists in `apps/logos-crm` and runs on synthetic fixtures.
+The review product exists in `apps/logos-crm`. Synthetic discovery is the
+default; approved source adapters require an explicit run mode and server flag.
 
-| Built | Where |
-| --- | --- |
-| Four tables: candidates, evidence, assessments, reviews | `src/server/db/schema.ts` |
-| Deterministic rubric producing bands and a gate | `src/server/scout-rubric.ts` |
-| Queue, candidate detail, and review service | `src/server/scout-repository.ts` |
-| Three routes under `/api/v1/scout/*` | `src/app/api/v1/scout/` |
-| Inbox and candidate detail screens | `src/components/scout-inbox.tsx`, `src/components/scout-candidate-page.tsx` |
-| Search, multi-select, and bulk decisions in the queue | `src/components/scout-inbox.tsx` |
-| Mock discovery: a recorded run that draws from a built-in catalogue | `src/server/scout-discovery.ts` |
-| Synthetic fixtures: six seeded, nine more a run can surface | `src/server/db/scout-fixtures.ts` |
-| Source policies, the fetch wrapper, and three adapters | `src/server/scout/` |
-| Rubric unit tests, boundary integration tests, browser tests | `src/server/scout-rubric.test.ts`, `src/server/__tests__/scout.integration.test.ts`, `e2e/scout-review.spec.ts` |
+| Built                                                                                      | Where                                                                                                           |
+| ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| Candidate, evidence, assessment, review, brief, run, follow-up, and measurement tables     | `src/server/db/schema.ts`                                                                                       |
+| Deterministic rubric producing bands and a gate                                            | `src/server/scout-rubric.ts`                                                                                    |
+| Queue, candidate detail, and review service                                                | `src/server/scout-repository.ts`                                                                                |
+| Candidate, review, brief, run, and measurement routes under `/api/v1/scout/*`              | `src/app/api/v1/scout/`                                                                                         |
+| Inbox and candidate detail screens                                                         | `src/components/scout-inbox.tsx`, `src/components/scout-candidate-page.tsx`                                     |
+| Filtered review queue, candidate comparison, and bulk watch/reject                         | `src/components/scout-inbox.tsx`, `src/components/scout-compare-panel.tsx`                                      |
+| Saved discovery briefs, explicit run mode, and run/source health history                   | `src/components/scout-discovery-panel.tsx`                                                                      |
+| Review sessions, grouped evidence, assignments, notes, review dates, and evidence requests | `src/components/scout-candidate-page.tsx`                                                                       |
+| Internal aggregate quality and workflow report                                             | `src/components/scout-report-view.tsx`, `src/server/scout-report-repository.ts`                                 |
+| Mock discovery: a recorded run that draws from a built-in catalogue                        | `src/server/scout-discovery.ts`                                                                                 |
+| Synthetic fixtures: six seeded, nine more a run can surface                                | `src/server/db/scout-fixtures.ts`                                                                               |
+| Source policies, the fetch wrapper, and three adapters                                     | `src/server/scout/`                                                                                             |
+| Rubric unit tests, boundary integration tests, browser tests                               | `src/server/scout-rubric.test.ts`, `src/server/__tests__/scout.integration.test.ts`, `e2e/scout-review.spec.ts` |
 
 Deliberately absent, and absent as a safety property rather than as a backlog
-item: discovery briefs, worker tasks, and any code path that writes to a CRM
-table.
+item: worker tasks and any code path that writes a Scout candidate to a CRM
+table. The detail screen may show an exact-name or exact-domain CRM match, but
+it cannot link or create one.
 
 Source adapters exist and are **off unless `SCOUT_SOURCES_ENABLED=true`**. With
 the flag unset the app makes no outbound request at all and discovery runs on
@@ -79,11 +84,11 @@ the synthetic catalogue.
 
 ## 3a. Approved sources
 
-| Source | What it contributes | Personal data it returns, and what happens to it |
-| --- | --- | --- |
-| GitHub public API | Stated work, published repositories, latest public change, contribution path, documentation, official site | A contact address and a social handle on the profile, and contributor logins on repositories. None is read; anything shaped like a contact detail is dropped before storage |
-| Wikipedia REST | An independent description of the organisation | Founder and staff names in prose; only the short summary is read, and it is quoted rather than parsed |
-| DuckDuckGo instant answer | A second reading of the same public record | Names appearing in an abstract; the same handling |
+| Source                    | What it contributes                                                                                        | Personal data it returns, and what happens to it                                                                                                                            |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GitHub public API         | Stated work, published repositories, latest public change, contribution path, documentation, official site | A contact address and a social handle on the profile, and contributor logins on repositories. None is read; anything shaped like a contact detail is dropped before storage |
+| Wikipedia REST            | An independent description of the organisation                                                             | Founder and staff names in prose; only the short summary is read, and it is quoted rather than parsed                                                                       |
+| DuckDuckGo instant answer | A second reading of the same public record                                                                 | Names appearing in an abstract; the same handling                                                                                                                           |
 
 Three rules hold across all of them, in `src/server/scout/`:
 
@@ -150,13 +155,18 @@ one.
 - append-only review history with an audit event per decision;
 - searching the queue by candidate name, domain, and summary;
 - selecting several candidates and deciding them together with one reason;
+- saving a discovery brief before running it, with an explicit synthetic or
+  approved-source mode;
+- comparing two or three candidates without a total score;
+- assigning review work, keeping an internal note, and setting a review date;
+- turning `needs_evidence` into a field-specific follow-up record;
+- recording candidate opens, source opens, comparisons, and decisions for MVP
+  measurement;
 - **mock discovery**: a recorded run that draws the next few candidates from a
   built-in catalogue of invented organisations and contacts nothing.
 
 ### In scope later
 
-- approved source adapters, one at a time;
-- discovery briefs and runs;
 - scheduled refresh and evidence expiry through Graphile Worker;
 - exact-domain and approved external-identifier deduplication;
 - linking an accepted candidate to an existing CRM organisation, and creating
@@ -169,6 +179,8 @@ like, and the loop the product is asking people to fund is "work arrives, you
 decide, more arrives". `Find more` demonstrates that loop end to end without
 pretending to be a crawler: it takes the next few organisations from a fixture
 file, records a run, and says on screen that no external source was contacted.
+The UI calls this a synthetic run rather than `Find more`, so filtering the
+current queue can never be mistaken for starting collection.
 
 It is shaped like the real thing on purpose. A run is recorded with who asked
 for it, what it added, and how many subjects it discarded as natural persons,
@@ -292,12 +304,12 @@ it does not produce a total.
 invites comparison between candidates whose evidence has nothing in common, and
 ends up standing in for the decision it is explicitly not.
 
-| Dimension | Reads | Band from |
-| --- | --- | --- |
-| Technical relevance | What the organisation says it works on | `theme_match` |
-| Current activity | Dated public output | `recent_release` |
-| Open collaboration surface | Whether an outsider can participate | `public_repository`, `public_documentation`, `contribution_path` |
-| Ecosystem adjacency | Verifiable structural relations | `ecosystem_relation` |
+| Dimension                  | Reads                                  | Band from                                                        |
+| -------------------------- | -------------------------------------- | ---------------------------------------------------------------- |
+| Technical relevance        | What the organisation says it works on | `theme_match`                                                    |
+| Current activity           | Dated public output                    | `recent_release`                                                 |
+| Open collaboration surface | Whether an outsider can participate    | `public_repository`, `public_documentation`, `contribution_path` |
+| Ecosystem adjacency        | Verifiable structural relations        | `ecosystem_relation`                                             |
 
 A field feeds exactly one dimension. Letting repository activity count for both
 "is this current" and "is this relevant" would report one observation twice and
@@ -350,7 +362,9 @@ Prohibited inputs:
 
 ### Built
 
-`scout_candidates`, `scout_evidence`, `scout_assessments`, `scout_reviews`.
+`scout_candidates`, `scout_evidence`, `scout_assessments`, `scout_reviews`,
+`scout_discovery_briefs`, `scout_discovery_runs`, `scout_evidence_requests`,
+and `scout_events`.
 See `src/server/db/schema.ts` for the columns and the constraints that carry
 the boundary. Three properties are worth stating here because they are design
 decisions rather than schema detail:
@@ -365,10 +379,8 @@ decisions rather than schema detail:
 
 ### Planned, not built
 
-`scout_source_policies`, `scout_discovery_briefs`, `scout_discovery_runs`, and
-`scout_candidate_identities`. These belong with the first real adapter. Fixing
-their shape before the legal and source decisions land would freeze guesses
-into a migration.
+`scout_source_policies` and `scout_candidate_identities`. Source policies are
+currently code-owned, and candidate identities belong with CRM acceptance.
 
 ### Identity versus provenance
 
@@ -424,14 +436,18 @@ Built:
 
 - `GET /api/v1/scout/candidates` (filters: `state`, `entity_type`, `q`)
 - `GET /api/v1/scout/candidates/:id`
+- `PATCH /api/v1/scout/candidates/:id` (assignee, internal note, review date)
 - `POST /api/v1/scout/candidates/:id/reviews`
 - `POST /api/v1/scout/reviews` (several candidates, one decision, one reason)
 - `GET|POST /api/v1/scout/discovery-runs` (`{ query?, mode? }`; runs the
   approved sources when a query is given and they are enabled, and the
   synthetic catalogue otherwise, saying which it did)
+- `GET|POST /api/v1/scout/discovery-briefs`
+- `POST /api/v1/scout/events`
+- `GET /api/v1/scout/report` (aggregate operational metrics only)
 
-Planned with the phases that need them: `/briefs`, `/briefs/:id/runs`,
-`/runs/:id`, `/candidates/:id/accept`, `/candidates/:id/link`.
+Planned with the phases that need them: `/runs/:id`,
+`/candidates/:id/accept`, `/candidates/:id/link`.
 
 Capabilities will be `scout:read`, `scout:run`, `scout:review`, `scout:accept`,
 and `scout:admin_sources`, with source administration, run approval, review,
@@ -441,8 +457,8 @@ and CRM acceptance deliberately separate.
 `architecture.md` describe server-authored CASL abilities; there is no ability
 code in `src/`, and every resolved actor can currently do everything
 (`open-questions.md` section 1). Scout endpoints therefore carry no capability
-checks today, which is safe only because the only things they can reach are
-synthetic fixtures and a decision column. Real source runs and CRM acceptance
+checks today. Approved-source runs consequently remain disabled by default and
+must only be enabled inside an access-controlled deployment. CRM acceptance
 must not be built before abilities exist.
 
 Record scope is also unresolved: `architecture.md` scopes CRM records by team,
@@ -454,6 +470,7 @@ is readable by anybody who can reach the app.
 ### Scout inbox
 
 - filters by review state;
+- shows a count per state and aligns repeated facts in a compact queue;
 - a search field matching name, domain, and summary. It deliberately does not
   search evidence: evidence text is where a free-text query would start
   returning people named in a source;
@@ -461,13 +478,13 @@ is readable by anybody who can reach the app.
   Accepting is absent from it on purpose, because taking a candidate forward is
   a per-candidate judgement and a bulk accept is how a queue becomes a list
   nobody read;
-- `Find more`, which runs discovery and reports what it added, including how
-  many subjects were quarantined as personal accounts;
-- `Search sources for "..."`, which appears beside the search field when the
-  adapters are enabled and runs a real search for the typed term;
+- a separate discovery panel for saving a brief and choosing synthetic or
+  approved-source mode before starting a run;
+- recent run cards showing sources, additions, quarantines, duplicates, and
+  failures;
+- a side-by-side comparison for two or three selected candidates;
 - one row per candidate with entity type, canonical domain, and summary;
 - the gate as a badge, worded as a statement about the evidence;
-- the four bands with their values;
 - ordered by what can be acted on, never by a score.
 
 ### Candidate detail
@@ -480,6 +497,10 @@ is readable by anybody who can reach the app.
 - provenance summary: first seen, last observed, evidence count, distinct
   sources;
 - append-only review history with the reviewer and reason.
+- evidence grouped by the four questions a reviewer is answering, with
+  extractor details collapsed until requested;
+- a read-only warning when an exact CRM name or domain already exists;
+- assignment, an internal note, and a review-again date.
 
 ### Review action
 
@@ -487,6 +508,13 @@ is readable by anybody who can reach the app.
 - a reason is required for every decision, not only acceptance: a rejection
   without one is the candidate that gets rediscovered and rejected again by
   somebody who cannot see why;
+- reason categories support later quality analysis, while free text remains
+  required;
+- `needs_evidence` requires at least one missing field and creates an open
+  follow-up record;
+- accepting is unavailable until the evidence gate is sufficient;
+- a review session can continue to the next candidate, with optional keyboard
+  shortcuts;
 - the panel states plainly that a decision creates no CRM record;
 - no person search, contact button, message draft, or sequence action.
 
@@ -501,8 +529,8 @@ fixtures. No external calls, no CRM writes.
 
 Phase 0 currently runs in the same deployment and the same database as the CRM
 demo, which is reachable without a login in `AUTH_MODE=demo`. That is
-acceptable only while Scout writes nothing and holds nothing real. Before any
-adapter work:
+acceptable only while Scout writes nothing and holds nothing real. Before
+enabling any approved-source adapter in a deployment:
 
 - decide whether Scout gets a separate database or a separate Postgres schema;
 - decide whether Scout routes mount at all when `AUTH_MODE=demo`.
@@ -516,12 +544,12 @@ adapter work:
   detected, and confirm the quarantine happens before extraction;
 - implement production identity and `scout:*` server-side abilities.
 
-### Phase 2 - one real source adapter
+### Phase 2 - approved source adapters (in progress)
 
-- enable a single low-risk, organisation-controlled source, run manually like
-  the Notion bridge import rather than on a schedule;
-- add the fetch wrapper, permitted-field filter, quarantine path, and per-source
-  rate limit;
+- GitHub, Wikipedia, and DuckDuckGo adapters exist behind the fetch wrapper,
+  permitted-field filter, quarantine path, per-source rate limits, and the
+  `SCOUT_SOURCES_ENABLED` flag;
+- runs remain manual and require the reviewer to choose approved-source mode;
 - add `scout_source_policies` and `scout_candidate_identities`;
 - measure precision, duplicate rate, reviewer time, and source failures.
 
@@ -581,18 +609,27 @@ when it maximises the number of scraped candidates.
 - source failure and evidence-expiry rates;
 - zero people, personal contact methods, or CRM records created by Scout.
 
-## 17. Acceptance criteria for Phase 0
+`scout_events` records candidate opens, source opens, comparisons, and
+decisions. Discovery runs record source yield, duplicates, quarantines, and
+failures. `/scout/report` reports safe aggregates for review outcomes, evidence
+gates, source yield, and reviewer time without exposing notes, excerpts, or
+person-level data.
+
+## 17. Acceptance criteria and safety boundary
 
 All of these hold today and are covered by tests:
 
-- only synthetic organisation and project fixtures exist, on `.example` domains
-  that cannot be registered;
+- synthetic organisation and project fixtures use `.example` domains that
+  cannot be registered, and remain the default discovery mode;
 - every displayed value carries its source, excerpt, extraction method,
   extractor version, and certainty, and no numeric confidence pretends to
   represent real-world truth;
 - a deterministic rubric produces bands and a gate with a stated reason, and no
   total;
 - a reviewer can accept, watch, reject, or request evidence, with a reason;
+- evidence requests name the missing fields and remain visible as open work;
+- discovery briefs and runs preserve the intended query and report source
+  yield, duplicates, quarantines, and failures;
 - accepting creates nothing in the CRM, proved by asserting that
   `crm_organisations`, `crm_people`, `crm_cases`, and `crm_tasks` are still
   empty after an acceptance;
@@ -602,12 +639,15 @@ All of these hold today and are covered by tests:
 - a quarantined candidate cannot be reviewed and has no evidence;
 - the UI contains no person-search, contact-enrichment, send, sequence, or
   outreach action;
-- source adapters, external credentials, and external network calls are absent.
+- source adapters make no request unless `SCOUT_SOURCES_ENABLED=true`, the run
+  explicitly chooses approved sources, and the host is permitted by the
+  adapter's policy.
 
-## 18. Decisions required before real discovery
+## 18. Decisions required before enabling real discovery
 
 Section 12 of [`open-questions.md`](open-questions.md) still owns the
-enrichment question. Before Phase 2, owners must decide:
+enrichment question. Before approved sources are enabled in a non-demo
+deployment, owners must decide:
 
 1. the exact partnership purpose and lawful basis, recorded as a
    legitimate-interest assessment attached to the source-policy version;
@@ -634,5 +674,6 @@ enrichment question. Before Phase 2, owners must decide:
     for one. If they do, the answer is more evidence dimensions, not a weighted
     sum.
 
-Until these are recorded, Logos Scout remains a synthetic product prototype
-rather than a real organisation-discovery pipeline.
+Until these are recorded, approved-source discovery must remain disabled. The
+synthetic workflow can continue to validate the review experience without
+turning Scout into a production organisation-discovery pipeline.
