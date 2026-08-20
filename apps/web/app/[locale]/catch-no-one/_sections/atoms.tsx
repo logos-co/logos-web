@@ -15,6 +15,8 @@
  */
 import type { ReactNode } from 'react'
 
+import { TypewriterHeading } from './typewriter'
+
 /**
  * Figma measures this page's 18 / 60 / 112px gaps cap-to-cap: every text node
  * carries `text-box-trim: trim-both` with `text-box-edge: cap alphabetic`, so
@@ -26,7 +28,7 @@ import type { ReactNode } from 'react'
  * numbers. `text-box` is Chrome 133+/Safari 18.2+; older engines ignore it and
  * fall back to the untrimmed rhythm, so this is a pure enhancement.
  */
-const TRIM = '[text-box:trim-both_cap_alphabetic]'
+export const TRIM = '[text-box:trim-both_cap_alphabetic]'
 
 /**
  * Eyebrow ink, dimmed to Figma's 50% against its panel.
@@ -129,7 +131,8 @@ export function SectionHeading({
   eyebrow?: string
   /** Dark panels pass `EYEBROW_DIM_ON_DARK`; Figma dims white, not off-white. */
   eyebrowClassName?: string
-  children: ReactNode
+  /** Typed out character by character, so it has to be a plain string. */
+  children: string
 }) {
   return (
     <div className="flex flex-col gap-[18px]">
@@ -140,7 +143,9 @@ export function SectionHeading({
           {eyebrow}
         </p>
       ) : null}
-      <h2 className={`text-h2 ${TRIM}`}>{children}</h2>
+      <TypewriterHeading className={`text-h2 ${TRIM}`}>
+        {children}
+      </TypewriterHeading>
     </div>
   )
 }
