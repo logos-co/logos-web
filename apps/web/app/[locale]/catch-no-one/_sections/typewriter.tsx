@@ -1,10 +1,11 @@
 /**
  * Typewriter primitives for the campaign page.
  *
- * The hero headline types itself in on every page load; each quoted exhibit
- * types itself in when its card scrolls into view. Both run once — nothing
- * loops and nothing replays once finished — and both are skipped entirely for
- * visitors who prefer reduced motion.
+ * Each quoted exhibit types itself in when its card scrolls into view. The hero
+ * headline can do the same on load, but is currently set to render statically
+ * — see `HeroHeadline`'s `animate` prop. A run happens once: nothing loops,
+ * nothing replays once finished, and it is skipped entirely for visitors who
+ * prefer reduced motion.
  *
  * Avoiding the flash-then-retype trap
  * -----------------------------------
@@ -102,9 +103,13 @@ const hasEnteredView = (node: Element): boolean => {
  * Reveals `total` characters one at a time.
  *
  * Returns the ref to attach to the element whose visibility starts the run
- * (only used when `startOnView`) and how many characters to show.
+ * (only used when `startOnView`) and how many characters to show. With
+ * `enabled: false` nothing is ever hidden and no timers run.
  */
-function useTypewriter(total: number, startOnView: boolean) {
+function useTypewriter(
+  total: number,
+  { startOnView, enabled }: { startOnView: boolean; enabled: boolean }
+) {
   const anchor = useRef<HTMLHeadingElement | null>(null)
   // Starts empty on both server and client so hydration matches; the arming
   // script has already decided whether the typed copy is the visible one.
@@ -115,7 +120,7 @@ function useTypewriter(total: number, startOnView: boolean) {
     // The bundle is running, so the arming script's failsafe is not needed.
     window.__catchNoOneTypewriterHydrated?.()
 
-    if (!isArmed()) {
+    if (!enabled || !isArmed()) {
       // Not animating: fill the overlaid copy in so it never lags behind the
       // static one if the class is toggled later (e.g. by a live preview).
       setRevealed(total)
@@ -146,7 +151,7 @@ function useTypewriter(total: number, startOnView: boolean) {
     )
     observer.observe(node)
     return () => observer.disconnect()
-  }, [startOnView, total])
+  }, [enabled, startOnView, total])
 
   useEffect(() => {
     if (!isTyping) return
@@ -165,17 +170,37 @@ function useTypewriter(total: number, startOnView: boolean) {
   return { anchor, revealed }
 }
 
-/** Hero headline: two lines, the second sitting on a yellow highlight. */
-export function TypewriterHeadline({
+/**
+ * Hero headline: two lines, the second sitting on a yellow highlight.
+ *
+ * `animate` types the headline in on load. It is off today — the effect is
+ * reserved for the quote cards — but the machinery is kept behind the prop so
+ * turning it back on is a one-word change at the call site.
+ */
+export function HeroHeadline({
   line1,
   line2,
+  animate,
   className = '',
 }: {
   line1: string
   line2: string
+  /** Type the headline in on page load instead of rendering it outright. */
+  animate: boolean
   className?: string
 }) {
-  const { revealed } = useTypewriter(line1.length + line2.length, false)
+  const { revealed } = useTypewriter(line1.length + line2.length, {
+    startOnView: false,
+    enabled: animate,
+  })
+
+  if (!animate) {
+    return (
+      <h1 className={className}>
+        <HeadlineLines line1={line1} line2={line2} />
+      </h1>
+    )
+  }
 
   return (
     <h1 className={`relative ${className}`} aria-label={`${line1} ${line2}`}>
@@ -225,7 +250,10 @@ export function TypewriterQuote({
   children: string
   className?: string
 }) {
-  const { anchor, revealed } = useTypewriter(children.length, true)
+  const { anchor, revealed } = useTypewriter(children.length, {
+    startOnView: true,
+    enabled: true,
+  })
 
   return (
     <p
