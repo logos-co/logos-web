@@ -7,6 +7,9 @@
  * verbatim from the Figma source so design review can diff copy in one place.
  */
 
+/** Identifies which route a CTA card points at. */
+export type CtaCardKey = 'buildTheParallel' | 'joinACircle'
+
 export type Exhibit = {
   quote: string
   label: string
@@ -192,8 +195,8 @@ export const WHAT_IT_TAKES = {
     "Logos Circles. Technology alone won't save us. Logos Circles are self-organised local groups that translate the tools and values of Logos into collective action. By tackling winnable issues that matter locally, from cleanups and community fundraising to advocacy against measures that threaten our freedoms, Circles build the trust, solidarity, and parallel civic capacity that a resilient, people-powered network requires.",
   ],
   cards: [
-    { title: 'Build the Parallel', cta: 'Get Started' },
-    { title: 'Join a Circle', cta: 'Join the movement' },
+    { key: 'buildTheParallel', title: 'Build the Parallel', cta: 'Get Started' },
+    { key: 'joinACircle', title: 'Join a Circle', cta: 'Join the movement' },
   ],
 } as const
 

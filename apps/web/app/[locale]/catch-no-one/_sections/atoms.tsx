@@ -15,7 +15,7 @@
  */
 import type { ReactNode } from 'react'
 
-import { TypewriterHeading } from './typewriter'
+import { TypewriterQuote } from './typewriter'
 
 /**
  * Figma measures this page's 18 / 60 / 112px gaps cap-to-cap: every text node
@@ -35,9 +35,13 @@ export const TRIM = '[text-box:trim-both_cap_alphabetic]'
  *
  * Light panels dim the inherited dark-green ink; dark panels use pure white at
  * 50%, which is what Figma specifies there (not the off-white used for body
- * copy). Note this lands under WCAG AA for text this size — 3.11:1 on
- * off-white, 2.97:1 on tan, 2.25:1 on steel teal — and is kept because Figma
- * is the source of truth for the design.
+ * copy).
+ *
+ * This lands under WCAG AA for text at this size — measured 3.11:1 on
+ * off-white, 2.97:1 on tan and 2.25:1 on steel teal. That was raised with the
+ * design owner and signed off: Figma is the source of truth for this page, and
+ * the eyebrow repeats the section number and name already carried by the
+ * heading beside it. Raising the value is a one-line change here.
  */
 const EYEBROW_DIM_ON_LIGHT = 'opacity-50'
 export const EYEBROW_DIM_ON_DARK = 'text-white/50'
@@ -143,9 +147,7 @@ export function SectionHeading({
           {eyebrow}
         </p>
       ) : null}
-      <TypewriterHeading className={`text-h2 ${TRIM}`}>
-        {children}
-      </TypewriterHeading>
+      <h2 className={`text-h2 ${TRIM}`}>{children}</h2>
     </div>
   )
 }
@@ -226,7 +228,9 @@ export function Exhibit({
   return (
     <figure className="flex w-full flex-col gap-5">
       <blockquote className="border border-brand-dark-green bg-accent-light-blue p-6 text-brand-dark-green md:p-10">
-        <PullQuote>{quote}</PullQuote>
+        <TypewriterQuote className={`${QUOTE_TYPE} ${TRIM}`}>
+          {quote}
+        </TypewriterQuote>
       </blockquote>
       <figcaption
         className={`font-mono ${TRIM} text-[11px] leading-[1.15] tracking-[-0.01em] md:text-[12px]`}
