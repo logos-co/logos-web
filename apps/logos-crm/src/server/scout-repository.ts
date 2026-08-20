@@ -23,6 +23,7 @@ import type {
   ScoutEvidenceRequest,
   ScoutEventInput,
   ScoutReview,
+  UpdateScoutCandidateOperationsInput,
 } from '@/contracts/scout'
 import { recordAuditEvent } from '@/server/audit'
 import type { ActorContext } from '@/server/auth'
@@ -34,6 +35,7 @@ import {
   scoutEvidenceRequests,
   scoutEvents,
   scoutReviews,
+  organisations,
   users,
 } from '@/server/db/schema'
 import { assessCandidate, reviewOrder } from '@/server/scout-rubric'
@@ -259,42 +261,71 @@ export async function getScoutCandidate(
 
   if (!candidate) throw notFound('That candidate no longer exists.')
 
-  const [evidenceRows, assessmentRows, reviewRows, evidenceRequestRows] =
-    await Promise.all([
-      db
-        .select()
-        .from(scoutEvidence)
-        .where(eq(scoutEvidence.candidateId, candidateId))
-        .orderBy(asc(scoutEvidence.field), desc(scoutEvidence.observedAt)),
-      db
-        .select()
-        .from(scoutAssessments)
-        .where(
-          and(
-            eq(scoutAssessments.candidateId, candidateId),
-            isNull(scoutAssessments.supersededAt)
-          )
+  const matchConditions: SQL[] = [
+    eq(organisations.normalisedName, candidate.normalisedName),
+  ]
+  if (candidate.domain) {
+    matchConditions.push(eq(organisations.domain, candidate.domain))
+  }
+
+  const [
+    evidenceRows,
+    assessmentRows,
+    reviewRows,
+    evidenceRequestRows,
+    assigneeRows,
+    crmMatchRows,
+  ] = await Promise.all([
+    db
+      .select()
+      .from(scoutEvidence)
+      .where(eq(scoutEvidence.candidateId, candidateId))
+      .orderBy(asc(scoutEvidence.field), desc(scoutEvidence.observedAt)),
+    db
+      .select()
+      .from(scoutAssessments)
+      .where(
+        and(
+          eq(scoutAssessments.candidateId, candidateId),
+          isNull(scoutAssessments.supersededAt)
         )
-        .limit(1),
-      db
-        .select({
-          review: scoutReviews,
-          reviewerName: users.displayName,
-        })
-        .from(scoutReviews)
-        .leftJoin(users, eq(scoutReviews.actorUserId, users.id))
-        .where(eq(scoutReviews.candidateId, candidateId))
-        .orderBy(desc(scoutReviews.reviewedAt)),
-      db
-        .select({
-          request: scoutEvidenceRequests,
-          assigneeName: users.displayName,
-        })
-        .from(scoutEvidenceRequests)
-        .leftJoin(users, eq(scoutEvidenceRequests.assignedToUserId, users.id))
-        .where(eq(scoutEvidenceRequests.candidateId, candidateId))
-        .orderBy(desc(scoutEvidenceRequests.createdAt)),
-    ])
+      )
+      .limit(1),
+    db
+      .select({
+        review: scoutReviews,
+        reviewerName: users.displayName,
+      })
+      .from(scoutReviews)
+      .leftJoin(users, eq(scoutReviews.actorUserId, users.id))
+      .where(eq(scoutReviews.candidateId, candidateId))
+      .orderBy(desc(scoutReviews.reviewedAt)),
+    db
+      .select({
+        request: scoutEvidenceRequests,
+        assigneeName: users.displayName,
+      })
+      .from(scoutEvidenceRequests)
+      .leftJoin(users, eq(scoutEvidenceRequests.assignedToUserId, users.id))
+      .where(eq(scoutEvidenceRequests.candidateId, candidateId))
+      .orderBy(desc(scoutEvidenceRequests.createdAt)),
+    candidate.assignedToUserId
+      ? db
+          .select({ id: users.id, displayName: users.displayName })
+          .from(users)
+          .where(eq(users.id, candidate.assignedToUserId))
+          .limit(1)
+      : Promise.resolve([]),
+    db
+      .select({
+        id: organisations.id,
+        displayName: organisations.displayName,
+        domain: organisations.domain,
+      })
+      .from(organisations)
+      .where(or(...matchConditions))
+      .limit(1),
+  ])
 
   const assessment = assessmentRows[0] ? toAssessment(assessmentRows[0]) : null
 
@@ -331,6 +362,10 @@ export async function getScoutCandidate(
     evidence: evidenceRows.map(toEvidence),
     reviews,
     evidenceRequests,
+    assignedTo: assigneeRows[0] ?? null,
+    internalNote: candidate.internalNote,
+    reviewAfterAt: candidate.reviewAfterAt?.toISOString() ?? null,
+    crmMatch: crmMatchRows[0] ?? null,
   }
 }
 
@@ -404,6 +439,10 @@ export async function recordScoutReview(
       .update(scoutCandidates)
       .set({
         reviewState: decisionStates[input.decision],
+        reviewAfterAt:
+          input.decision === 'watch' && input.reviewAfterAt
+            ? new Date(input.reviewAfterAt)
+            : null,
         version: existing.version + 1,
         updatedAt: new Date(),
       })
@@ -430,6 +469,58 @@ export async function recordScoutReview(
       metadata: {
         decision: input.decision,
         reasonCategory: input.reasonCategory ?? null,
+      },
+    })
+  })
+
+  return getScoutCandidate(candidateId)
+}
+
+export async function updateScoutCandidateOperations(
+  actor: Readonly<ActorContext>,
+  candidateId: string,
+  input: Readonly<UpdateScoutCandidateOperationsInput>
+): Promise<ScoutCandidateDetail> {
+  const [existing] = await db
+    .select()
+    .from(scoutCandidates)
+    .where(eq(scoutCandidates.id, candidateId))
+    .limit(1)
+
+  if (!existing) throw notFound('That candidate no longer exists.')
+
+  await db.transaction(async (transaction) => {
+    await transaction
+      .update(scoutCandidates)
+      .set({
+        assignedToUserId: input.assignedToUserId,
+        internalNote: input.internalNote || null,
+        reviewAfterAt: input.reviewAfterAt
+          ? new Date(input.reviewAfterAt)
+          : null,
+        updatedAt: new Date(),
+        version: existing.version + 1,
+      })
+      .where(eq(scoutCandidates.id, candidateId))
+
+    await recordAuditEvent(transaction, actor, {
+      action: 'scout.candidate.operations_updated',
+      entityType: 'scout_candidate',
+      entityId: candidateId,
+      summary: 'Updated Scout ownership, internal note, or review date.',
+      changes: {
+        assignedToUserId: {
+          from: existing.assignedToUserId,
+          to: input.assignedToUserId,
+        },
+        reviewAfterAt: {
+          from: existing.reviewAfterAt?.toISOString() ?? null,
+          to: input.reviewAfterAt,
+        },
+        internalNotePresent: {
+          from: Boolean(existing.internalNote),
+          to: Boolean(input.internalNote),
+        },
       },
     })
   })

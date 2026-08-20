@@ -102,6 +102,29 @@ test('requesting evidence records the missing field as follow-up work', async ({
   await expect(openRequest).toContainText('Contribution path')
 })
 
+test('review coordination keeps an owner, note, and review date', async ({
+  page,
+}) => {
+  await page.goto('/scout')
+  await page.getByRole('link', { name: /Halcyon Relay Collective/ }).click()
+  await page.getByText('Review coordination', { exact: true }).click()
+
+  await page.getByLabel('Assigned reviewer').selectOption({ index: 1 })
+  await page.getByLabel('Review again').fill('2026-09-01')
+  await page
+    .getByPlaceholder('Context for the next reviewer')
+    .fill('Check the standards working group before deciding.')
+  await page.getByRole('button', { name: 'Save coordination' }).click()
+
+  await expect(page.getByText('Review coordination saved.')).toBeVisible()
+  await page.reload()
+  await page.getByText('Review coordination', { exact: true }).click()
+  await expect(page.getByLabel('Review again')).toHaveValue('2026-09-01')
+  await expect(
+    page.getByPlaceholder('Context for the next reviewer')
+  ).toHaveValue('Check the standards working group before deciding.')
+})
+
 test('review sessions continue to the next candidate after a decision', async ({
   page,
 }) => {
@@ -170,6 +193,10 @@ test('a saved brief runs synthetic discovery and the queue matches its report', 
   await expect(async () => {
     expect(await page.locator('.scout-list-item').count()).toBe(before + added)
   }).toPass()
+  await expect(page.getByRole('heading', { name: 'Recent runs' })).toBeVisible()
+  await expect(
+    page.locator('.scout-run-history').getByText('Synthetic catalogue').first()
+  ).toBeVisible()
 })
 
 test('two candidates can be compared without turning the comparison into a score', async ({

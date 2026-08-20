@@ -27,6 +27,7 @@ import {
   recordScoutReview,
   recordScoutReviews,
   refreshScoutAssessment,
+  updateScoutCandidateOperations,
 } from '@/server/scout-repository'
 import { createScoutDiscoveryBrief } from '@/server/scout-brief-repository'
 
@@ -204,6 +205,26 @@ describe.skipIf(!isIntegrationEnabled)('scout', () => {
     )
   })
 
+  test('review coordination and an exact CRM match remain reviewable', async () => {
+    const candidateId = await createCandidate('Halcyon Relay Collective')
+    await db.insert(organisations).values({
+      displayName: 'Halcyon Relay Collective',
+      normalisedName: 'halcyon relay collective',
+      domain: 'halcyonrelaycollective.example',
+    })
+
+    const detail = await updateScoutCandidateOperations(actor, candidateId, {
+      assignedToUserId: actor.userId,
+      internalNote: 'Check the standards working group before deciding.',
+      reviewAfterAt: '2026-09-01T12:00:00.000Z',
+    })
+
+    expect(detail.assignedTo?.displayName).toBe('Mara Chen')
+    expect(detail.internalNote).toContain('standards working group')
+    expect(detail.reviewAfterAt).toBe('2026-09-01T12:00:00.000Z')
+    expect(detail.crmMatch?.displayName).toBe('Halcyon Relay Collective')
+  })
+
   test('a quarantined candidate cannot be reviewed at all', async () => {
     const candidateId = await createCandidate('Sole Practitioner Consultancy', {
       entityType: 'unknown',
@@ -309,6 +330,8 @@ describe.skipIf(!isIntegrationEnabled)(
       expect(first.run.mode).toBe('synthetic')
       expect(first.run.discoveredCount).toBe(first.discovered.length)
       expect(first.run.note).toContain('No external source was contacted')
+      expect(first.run.sourcesUsed).toEqual(['Synthetic catalogue'])
+      expect(first.run.failureCount).toBe(0)
 
       const queue = await listScoutCandidates()
       expect(queue.length).toBe(first.discovered.length)

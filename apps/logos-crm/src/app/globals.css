@@ -4023,3 +4023,116 @@ table[aria-busy='true'] tbody {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+.scout-run-history {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgb(21 37 33 / 12%);
+}
+
+.scout-run-history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.scout-run-history-grid article {
+  padding: 12px;
+  border: 1px solid rgb(21 37 33 / 12%);
+  border-radius: 8px;
+  background: var(--color-brand-off-white);
+}
+
+.scout-run-history-grid article > strong,
+.scout-run-history-grid article > span {
+  display: block;
+}
+
+.scout-run-history-grid article > span {
+  margin-top: 3px;
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+}
+
+.scout-run-history-grid dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 12px 0 0;
+}
+
+.scout-run-history-grid dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgb(21 37 33 / 10%);
+}
+
+.scout-run-history-grid dt {
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+}
+
+.scout-run-history-grid dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.scout-crm-match {
+  margin: 12px 0 16px;
+  padding: 12px;
+  border: 1px solid rgb(21 37 33 / 18%);
+  border-radius: 8px;
+  background: var(--color-brand-yellow);
+}
+
+.scout-crm-match p {
+  margin: 6px 0 10px;
+  font-size: var(--text-sm);
+  line-height: 1.4;
+}
+
+.scout-crm-match a {
+  color: inherit;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.scout-coordination {
+  margin: 0 0 18px;
+  padding: 12px;
+  border: 1px solid rgb(21 37 33 / 12%);
+  border-radius: 8px;
+}
+
+.scout-coordination > summary {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.scout-coordination[open] > summary {
+  margin-bottom: 14px;
+}
+
+.scout-reason-field input[type='date'] {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid rgb(21 37 33 / 20%);
+  border-radius: 8px;
+  background: var(--color-brand-off-white);
+  color: var(--color-brand-dark-green);
+  font: inherit;
+}
+
+.scout-coordination .scout-secondary-action {
+  width: 100%;
+  margin-top: 12px;
+}

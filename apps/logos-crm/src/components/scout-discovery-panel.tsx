@@ -17,6 +17,7 @@ interface BriefsResponse {
 interface ScoutDiscoveryPanelProps {
   isRunning: boolean
   lastRun: ScoutDiscoveryRun | null
+  recentRuns: ScoutDiscoveryRun[]
   sourcesEnabled: boolean
   onRun: (input: { briefId?: string; mode: 'synthetic' | 'sources' }) => void
 }
@@ -31,6 +32,7 @@ function splitList(value: string): string[] {
 export function ScoutDiscoveryPanel({
   isRunning,
   lastRun,
+  recentRuns,
   sourcesEnabled,
   onRun,
 }: ScoutDiscoveryPanelProps) {
@@ -261,6 +263,43 @@ export function ScoutDiscoveryPanel({
               {saveBrief.isPending ? 'Saving brief' : 'Save and run brief'}
             </button>
           </div>
+
+          {recentRuns.length > 0 ? (
+            <div className="scout-run-history">
+              <div className="scout-evidence-group-head">
+                <h2>Recent runs</h2>
+                <span>Source health and yield</span>
+              </div>
+              <div className="scout-run-history-grid">
+                {recentRuns.map((run) => (
+                  <article key={run.id}>
+                    <strong>
+                      {new Date(run.startedAt).toLocaleDateString('en-GB')}
+                    </strong>
+                    <span>{run.sourcesUsed.join(', ') || run.mode}</span>
+                    <dl>
+                      <div>
+                        <dt>Added</dt>
+                        <dd>{run.discoveredCount}</dd>
+                      </div>
+                      <div>
+                        <dt>Quarantined</dt>
+                        <dd>{run.quarantinedCount}</dd>
+                      </div>
+                      <div>
+                        <dt>Duplicates</dt>
+                        <dd>{run.skippedCount}</dd>
+                      </div>
+                      <div>
+                        <dt>Failures</dt>
+                        <dd>{run.failureCount}</dd>
+                      </div>
+                    </dl>
+                  </article>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
       ) : null}
     </section>

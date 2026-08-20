@@ -945,6 +945,11 @@ export const scoutCandidates = pgTable(
     normalisedName: text('normalised_name').notNull(),
     domain: text('domain'),
     summary: text('summary'),
+    assignedToUserId: uuid('assigned_to_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    internalNote: text('internal_note'),
+    reviewAfterAt: timestamp('review_after_at', { withTimezone: true }),
     reviewState: scoutReviewState('review_state')
       .default('needs_review')
       .notNull(),
@@ -976,6 +981,8 @@ export const scoutCandidates = pgTable(
       table.reviewState,
       table.lastObservedAt
     ),
+    index('scout_candidates_assignee_idx').on(table.assignedToUserId),
+    index('scout_candidates_review_after_idx').on(table.reviewAfterAt),
   ]
 )
 
@@ -1150,6 +1157,11 @@ export const scoutDiscoveryRuns = pgTable(
     }),
     discoveredCount: integer('discovered_count').default(0).notNull(),
     quarantinedCount: integer('quarantined_count').default(0).notNull(),
+    skippedCount: integer('skipped_count').default(0).notNull(),
+    failureCount: integer('failure_count').default(0).notNull(),
+    sourcesUsed: jsonb('sources_used')
+      .default(sql`'[]'::jsonb`)
+      .notNull(),
     /** What the run did, in the words the reviewer reads. */
     note: text('note').notNull(),
     startedAt: timestamp('started_at', { withTimezone: true })

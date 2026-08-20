@@ -108,6 +108,18 @@ export const scoutCandidateDetailSchema = scoutCandidateSummarySchema.extend({
   evidence: z.array(scoutEvidenceSchema),
   reviews: z.array(scoutReviewSchema),
   evidenceRequests: z.array(scoutEvidenceRequestSchema),
+  assignedTo: z
+    .object({ id: z.string().uuid(), displayName: z.string() })
+    .nullable(),
+  internalNote: z.string().nullable(),
+  reviewAfterAt: z.string().nullable(),
+  crmMatch: z
+    .object({
+      id: z.string().uuid(),
+      displayName: z.string(),
+      domain: z.string().nullable(),
+    })
+    .nullable(),
 })
 
 /**
@@ -136,6 +148,7 @@ export const recordScoutReviewSchema = z
     reason: z.string().trim().min(3).max(500),
     evidenceFields: z.array(z.enum(scoutEvidenceFields)).max(12).optional(),
     dueAt: z.iso.datetime().optional(),
+    reviewAfterAt: z.iso.datetime().optional(),
   })
   .superRefine((value, context) => {
     if (
@@ -174,9 +187,18 @@ export const scoutDiscoveryRunSchema = z.object({
   mode: z.string(),
   discoveredCount: z.number().int().nonnegative(),
   quarantinedCount: z.number().int().nonnegative(),
+  skippedCount: z.number().int().nonnegative(),
+  failureCount: z.number().int().nonnegative(),
+  sourcesUsed: z.array(z.string()),
   note: z.string(),
   startedAt: z.string(),
   finishedAt: z.string().nullable(),
+})
+
+export const updateScoutCandidateOperationsSchema = z.object({
+  assignedToUserId: z.string().uuid().nullable(),
+  internalNote: z.string().trim().max(2000).nullable(),
+  reviewAfterAt: z.iso.datetime().nullable(),
 })
 
 const shortListSchema = z.array(z.string().trim().min(1).max(80)).max(12)
@@ -227,3 +249,6 @@ export type CreateScoutDiscoveryBriefInput = z.infer<
   typeof createScoutDiscoveryBriefSchema
 >
 export type ScoutEventInput = z.infer<typeof scoutEventSchema>
+export type UpdateScoutCandidateOperationsInput = z.infer<
+  typeof updateScoutCandidateOperationsSchema
+>

@@ -16,6 +16,7 @@ import {
 import { scoutEvidenceFields, scoutReviewDecisions } from '@/contracts/values'
 import { ApiClientError, apiClient } from '@/lib/api-client'
 import { recordScoutUiEvent } from '@/lib/scout-events'
+import type { UserRecord } from '@/contracts/user'
 
 import { CrmShell } from './crm-shell'
 import {
@@ -34,6 +35,10 @@ interface CandidateResponse {
 
 interface CandidateListResponse {
   items: ScoutCandidateSummary[]
+}
+
+interface UsersResponse {
+  items: UserRecord[]
 }
 
 const dateFormat = new Intl.DateTimeFormat('en-GB', {
@@ -98,6 +103,10 @@ export function ScoutCandidatePage({ candidateId }: { candidateId: string }) {
   const [reason, setReason] = useState('')
   const [evidenceFields, setEvidenceFields] = useState<string[]>([])
   const [continueToNext, setContinueToNext] = useState(true)
+  const [assignedToUserId, setAssignedToUserId] = useState('')
+  const [internalNote, setInternalNote] = useState('')
+  const [reviewAfter, setReviewAfter] = useState('')
+  const [operationsNotice, setOperationsNotice] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const candidateQuery = useQuery({
@@ -109,6 +118,11 @@ export function ScoutCandidatePage({ candidateId }: { candidateId: string }) {
   const queueQuery = useQuery({
     queryKey: ['scout-candidates', 'review-session'],
     queryFn: () => apiClient<CandidateListResponse>('/api/v1/scout/candidates'),
+  })
+
+  const usersQuery = useQuery({
+    queryKey: ['users'],
+    queryFn: () => apiClient<UsersResponse>('/api/v1/users'),
   })
 
   const queue = useMemo(
@@ -135,6 +149,34 @@ export function ScoutCandidatePage({ candidateId }: { candidateId: string }) {
       metadata: {},
     })
   }, [candidateId, candidateQuery.data])
+
+  useEffect(() => {
+    const candidate = candidateQuery.data?.item
+    if (!candidate) return
+    setAssignedToUserId(candidate.assignedTo?.id ?? '')
+    setInternalNote(candidate.internalNote ?? '')
+    setReviewAfter(candidate.reviewAfterAt?.slice(0, 10) ?? '')
+  }, [candidateId, candidateQuery.data?.item])
+
+  const updateOperations = useMutation({
+    mutationFn: () =>
+      apiClient<CandidateResponse>(`/api/v1/scout/candidates/${candidateId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          assignedToUserId: assignedToUserId || null,
+          internalNote: internalNote.trim() || null,
+          reviewAfterAt: reviewAfter
+            ? new Date(`${reviewAfter}T12:00:00.000Z`).toISOString()
+            : null,
+        }),
+      }),
+    onSuccess: async () => {
+      setOperationsNotice('Review coordination saved.')
+      await queryClient.invalidateQueries({ queryKey: ['scout-candidate'] })
+    },
+    onError: () =>
+      setOperationsNotice('Review coordination could not be saved.'),
+  })
 
   const review = useMutation({
     mutationFn: (input: RecordScoutReviewInput) =>
@@ -202,6 +244,10 @@ export function ScoutCandidatePage({ candidateId }: { candidateId: string }) {
       evidenceFields:
         decision === 'needs_evidence'
           ? (evidenceFields as RecordScoutReviewInput['evidenceFields'])
+          : undefined,
+      reviewAfterAt:
+        decision === 'watch' && reviewAfter
+          ? new Date(`${reviewAfter}T12:00:00.000Z`).toISOString()
           : undefined,
     })
   }
@@ -420,6 +466,69 @@ export function ScoutCandidatePage({ candidateId }: { candidateId: string }) {
 
           <aside className="record-panel scout-review-panel">
             <p className="utility-label">Decision</p>
+
+            {item.crmMatch ? (
+              <div className="scout-crm-match">
+                <strong>Possible CRM match</strong>
+                <p>
+                  An organisation with the same domain or normalised name
+                  already exists. Scout will not link it automatically.
+                </p>
+                <Link
+                  className="cursor-pointer"
+                  href={`/organisations/${item.crmMatch.id}`}
+                >
+                  Review {item.crmMatch.displayName}
+                </Link>
+              </div>
+            ) : null}
+
+            <details className="scout-coordination">
+              <summary className="cursor-pointer">Review coordination</summary>
+              <label className="scout-reason-field">
+                <span>Assigned reviewer</span>
+                <select
+                  value={assignedToUserId}
+                  onChange={(event) => setAssignedToUserId(event.target.value)}
+                >
+                  <option value="">Unassigned</option>
+                  {(usersQuery.data?.items ?? []).map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.displayName}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="scout-reason-field">
+                <span>Review again</span>
+                <input
+                  type="date"
+                  value={reviewAfter}
+                  onChange={(event) => setReviewAfter(event.target.value)}
+                />
+              </label>
+              <label className="scout-reason-field">
+                <span>Internal note</span>
+                <textarea
+                  placeholder="Context for the next reviewer"
+                  value={internalNote}
+                  onChange={(event) => setInternalNote(event.target.value)}
+                />
+              </label>
+              <button
+                className="scout-secondary-action cursor-pointer"
+                disabled={updateOperations.isPending}
+                type="button"
+                onClick={() => updateOperations.mutate()}
+              >
+                {updateOperations.isPending ? 'Saving' : 'Save coordination'}
+              </button>
+              {operationsNotice ? (
+                <p aria-live="polite" className="scout-decision-help">
+                  {operationsNotice}
+                </p>
+              ) : null}
+            </details>
 
             {item.evidenceRequests
               .filter((request) => request.status === 'open')

@@ -189,6 +189,7 @@ export function ScoutInbox() {
       <ScoutDiscoveryPanel
         isRunning={discover.isPending}
         lastRun={lastRun}
+        recentRuns={runsQuery.data?.items ?? []}
         sourcesEnabled={sourcesEnabled}
         onRun={(input) => discover.mutate(input)}
       />
