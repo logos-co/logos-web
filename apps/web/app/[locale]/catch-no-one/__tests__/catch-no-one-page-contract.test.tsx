@@ -24,7 +24,11 @@ import {
   RIGHT_QUESTION,
   WE_ALL_PAY,
 } from '../_content'
-import CatchNoOnePage from '../page'
+import CatchNoOnePage, { generateMetadata } from '../page'
+import {
+  createCampaignArticleJsonLd,
+  createCampaignBreadcrumbJsonLd,
+} from '../_structured-data'
 import {
   TYPEWRITER_ARMED_CLASS,
   HeroHeadline,
@@ -40,7 +44,16 @@ const copyText = (html: string, which: 'reserved' | 'typed'): string => {
   return html.slice(open).replace(/<[^>]*>/g, '')
 }
 
-const pageHtml = () => renderToStaticMarkup(createElement(CatchNoOnePage))
+/**
+ * The page is an async server component, which `renderToStaticMarkup` cannot
+ * drive directly — call it and render the element it resolves to.
+ */
+const pageHtml = async () => {
+  const element = await CatchNoOnePage({
+    params: Promise.resolve({ locale: 'en' }),
+  })
+  return renderToStaticMarkup(element)
+}
 
 describe('catch-no-one page contract', () => {
   test('is registered on the canonical route', () => {
@@ -93,8 +106,8 @@ describe('catch-no-one page contract', () => {
 })
 
 describe('catch-no-one page render', () => {
-  test('renders every section with its heading, in Figma order', () => {
-    const html = pageHtml()
+  test('renders every section with its heading, in Figma order', async () => {
+    const html = await pageHtml()
     const headings = [
       'What the laws say they do',
       'It doesn’t catch them',
@@ -113,8 +126,8 @@ describe('catch-no-one page render', () => {
     }
   })
 
-  test('renders every exhibit quote and case-file source', () => {
-    const html = pageHtml()
+  test('renders every exhibit quote and case-file source', async () => {
+    const html = await pageHtml()
 
     for (const exhibit of [
       DOES_NOT_CATCH.exhibit01,
@@ -129,8 +142,8 @@ describe('catch-no-one page render', () => {
     }
   })
 
-  test('case-file sources open safely in a new tab', () => {
-    const html = pageHtml()
+  test('case-file sources open safely in a new tab', async () => {
+    const html = await pageHtml()
     // Every external anchor on the page carries the hardened rel/target pair.
     const externalAnchors = html.match(/<a [^>]*href="https:\/\/[^>]*>/g) ?? []
     expect(externalAnchors.length).toBe(CASE_FILE.sources.length)
@@ -193,5 +206,62 @@ describe('typewriter', () => {
     expect(html).toContain(TYPEWRITER_ARMED_CLASS)
     // The run is not gated on storage — it replays on every page load.
     expect(html).not.toContain('sessionStorage')
+  })
+})
+
+describe('catch-no-one SEO', () => {
+  test('the description fits what search results actually show', async () => {
+    const metadata = await generateMetadata({
+      params: Promise.resolve({ locale: 'en' }),
+    })
+
+    expect(metadata.description).toBeTruthy()
+    expect(metadata.description!.length).toBeLessThanOrEqual(160)
+    expect(metadata.title).toBeTruthy()
+    expect(String(metadata.title).length).toBeLessThanOrEqual(60)
+  })
+
+  test('canonical and og url point at the campaign route', async () => {
+    const metadata = await generateMetadata({
+      params: Promise.resolve({ locale: 'en' }),
+    })
+
+    expect(String(metadata.alternates?.canonical)).toContain(ROUTES.catchNoOne)
+    expect(String(metadata.openGraph?.url)).toContain(ROUTES.catchNoOne)
+  })
+
+  test('the article cites every source the case file lists', () => {
+    const article = createCampaignArticleJsonLd('en') as Record<string, unknown>
+    const citations = article.citation as ReadonlyArray<{ url: string }>
+
+    expect(article['@type']).toBe('Article')
+    expect(citations).toHaveLength(CASE_FILE.sources.length)
+    expect(citations.map((c) => c.url)).toEqual(
+      CASE_FILE.sources.map((source) => source.href)
+    )
+  })
+
+  test('the breadcrumb runs from the site root to this page', () => {
+    const crumb = createCampaignBreadcrumbJsonLd('en') as Record<string, unknown>
+    const items = crumb.itemListElement as ReadonlyArray<{
+      position: number
+      item: string
+    }>
+
+    expect(crumb['@type']).toBe('BreadcrumbList')
+    expect(items.map((i) => i.position)).toEqual([1, 2])
+    expect(items[1]!.item).toContain(ROUTES.catchNoOne)
+  })
+
+  test('both blocks render as parseable JSON-LD on the page', async () => {
+    const html = await pageHtml()
+    const blocks = [
+      ...html.matchAll(
+        /<script type="application\/ld\+json">(.*?)<\/script>/g
+      ),
+    ].map((match) => JSON.parse(match[1]!.replace(/\\u003c/g, '<')))
+
+    expect(blocks).toHaveLength(2)
+    expect(blocks.map((b) => b['@type'])).toEqual(['Article', 'BreadcrumbList'])
   })
 })
