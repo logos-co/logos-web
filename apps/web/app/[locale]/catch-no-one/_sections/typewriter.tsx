@@ -171,7 +171,7 @@ export function TypewriterHeadline({
 
   return (
     <h1 className={`relative ${className}`} aria-label={`${line1} ${line2}`}>
-      <span aria-hidden="true" className={RESERVES_HEIGHT}>
+      <span aria-hidden="true" className={`block ${RESERVES_HEIGHT}`}>
         <HeadlineLines line1={line1} line2={line2} />
       </span>
       <span aria-hidden="true" className={OVERLAID}>
