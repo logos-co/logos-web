@@ -1,6 +1,6 @@
 import { HERO } from '../_content'
 
-import { Column, Panel, Prose } from './atoms'
+import { Column, Panel, Prose, TRIM } from './atoms'
 import { TypewriterArmingScript, TypewriterHeadline } from './typewriter'
 
 export function Hero() {
@@ -10,6 +10,7 @@ export function Hero() {
       <TypewriterArmingScript />
       <Column>
         <TypewriterHeadline
+          className={`text-h2 ${TRIM}`}
           line1={HERO.headlineLine1}
           line2={HERO.headlineLine2}
         />

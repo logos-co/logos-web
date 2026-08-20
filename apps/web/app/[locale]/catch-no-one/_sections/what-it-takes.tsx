@@ -27,7 +27,14 @@ export function WhatItTakes() {
         ))}
       </Column>
 
-      <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 md:gap-10">
+      {/*
+        Figma lays these out as two fixed 460px cards from the left gutter, so
+        the row is 960px and overhangs the right one — not a stretched pair.
+        The column chain stays on `min-[…]` throughout: named breakpoint
+        variants are emitted after arbitrary ones here, so a `md:` rule would
+        otherwise beat the 1440 one.
+      */}
+      <div className="grid w-full grid-cols-1 gap-6 min-[768px]:grid-cols-2 min-[768px]:gap-10 min-[1440px]:grid-cols-[460px_460px]">
         {cards.map((card) => (
           <Link
             key={card.title}

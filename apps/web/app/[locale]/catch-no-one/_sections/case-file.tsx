@@ -12,7 +12,7 @@ import { TypewriterHeading } from './typewriter'
 export function CaseFile() {
   return (
     <section className="bg-brand-dark-green text-brand-off-white">
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-10 px-3 pt-14 pb-12 md:gap-[60px] md:pt-20">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-10 px-3 pt-14 pb-[46px] md:gap-[60px] md:pt-20">
         <div className="flex flex-col gap-[18px]">
           <TypewriterHeading className={`text-h2 ${TRIM}`}>
             {CASE_FILE.heading}
