@@ -78,6 +78,13 @@
       "when": 1786730618646,
       "tag": "0010_tough_santa_claus",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1787213249653,
+      "tag": "0011_strange_spectrum",
+      "breakpoints": true
     }
   ]
 }

@@ -1081,6 +1081,7 @@ export const scoutReviews = pgTable(
       onDelete: 'set null',
     }),
     decision: scoutReviewDecision('decision').notNull(),
+    reasonCategory: text('reason_category'),
     reason: text('reason').notNull(),
     actorUserId: uuid('actor_user_id').references(() => users.id, {
       onDelete: 'set null',
@@ -1091,19 +1092,49 @@ export const scoutReviews = pgTable(
       .notNull(),
   },
   (table) => [
-    index('scout_reviews_candidate_idx').on(table.candidateId, table.reviewedAt),
+    index('scout_reviews_candidate_idx').on(
+      table.candidateId,
+      table.reviewedAt
+    ),
   ]
 )
 
 /**
- * Discovery runs.
+ * A reusable statement of what a discovery run should look for.
  *
- * `mode` is `synthetic` and nothing else exists yet: a run draws from a
- * built-in catalogue of invented organisations and makes no network call. The
- * row is kept anyway, because the question a reviewer asks about a queue is
- * "where did these come from and when", and a run nobody recorded cannot
- * answer it. When a real adapter arrives it becomes a second mode alongside
- * this one rather than a replacement for it.
+ * Lists stay JSON rather than database enums because they are reviewer-authored
+ * criteria, not application states. The brief records intent and scope; it
+ * never grants a source permission that its source policy does not already have.
+ */
+export const scoutDiscoveryBriefs = pgTable(
+  'scout_discovery_briefs',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    name: text('name').notNull(),
+    purpose: text('purpose').notNull(),
+    query: text('query').notNull(),
+    organisationTypes: jsonb('organisation_types').notNull(),
+    themes: jsonb('themes').notNull(),
+    exclusions: jsonb('exclusions').notNull(),
+    regions: jsonb('regions').notNull(),
+    activeWithinMonths: integer('active_within_months'),
+    sourceTypes: jsonb('source_types').notNull(),
+    createdByUserId: uuid('created_by_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [index('scout_discovery_briefs_updated_idx').on(table.updatedAt)]
+)
+
+/**
+ * Discovery runs. Every run records whether it used fixtures or approved
+ * sources and may point to the reusable brief that supplied its scope.
  */
 export const scoutDiscoveryRuns = pgTable(
   'scout_discovery_runs',
@@ -1114,6 +1145,9 @@ export const scoutDiscoveryRuns = pgTable(
       onDelete: 'set null',
     }),
     requestId: text('request_id'),
+    briefId: uuid('brief_id').references(() => scoutDiscoveryBriefs.id, {
+      onDelete: 'set null',
+    }),
     discoveredCount: integer('discovered_count').default(0).notNull(),
     quarantinedCount: integer('quarantined_count').default(0).notNull(),
     /** What the run did, in the words the reviewer reads. */
@@ -1123,12 +1157,84 @@ export const scoutDiscoveryRuns = pgTable(
       .notNull(),
     finishedAt: timestamp('finished_at', { withTimezone: true }),
   },
-  (table) => [index('scout_discovery_runs_started_idx').on(table.startedAt)]
+  (table) => [
+    index('scout_discovery_runs_started_idx').on(table.startedAt),
+    index('scout_discovery_runs_brief_idx').on(table.briefId, table.startedAt),
+  ]
+)
+
+/** Actionable work created when a reviewer cannot decide with current evidence. */
+export const scoutEvidenceRequests = pgTable(
+  'scout_evidence_requests',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    candidateId: uuid('candidate_id')
+      .notNull()
+      .references(() => scoutCandidates.id, { onDelete: 'cascade' }),
+    fields: jsonb('fields').notNull(),
+    note: text('note').notNull(),
+    status: text('status').default('open').notNull(),
+    assignedToUserId: uuid('assigned_to_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    dueAt: timestamp('due_at', { withTimezone: true }),
+    createdByUserId: uuid('created_by_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    completedAt: timestamp('completed_at', { withTimezone: true }),
+  },
+  (table) => [
+    check(
+      'scout_evidence_requests_status_check',
+      sql`${table.status} in ('open', 'completed')`
+    ),
+    index('scout_evidence_requests_candidate_idx').on(
+      table.candidateId,
+      table.status
+    ),
+  ]
+)
+
+/** Minimal product events used to evaluate review quality and research time. */
+export const scoutEvents = pgTable(
+  'scout_events',
+  {
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
+    eventType: text('event_type').notNull(),
+    candidateId: uuid('candidate_id').references(() => scoutCandidates.id, {
+      onDelete: 'cascade',
+    }),
+    runId: uuid('run_id').references(() => scoutDiscoveryRuns.id, {
+      onDelete: 'set null',
+    }),
+    actorUserId: uuid('actor_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    requestId: text('request_id'),
+    metadata: jsonb('metadata').notNull(),
+    occurredAt: timestamp('occurred_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    check(
+      'scout_events_type_check',
+      sql`${table.eventType} in ('candidate_opened', 'source_opened', 'comparison_opened', 'review_recorded')`
+    ),
+    index('scout_events_candidate_idx').on(table.candidateId, table.occurredAt),
+    index('scout_events_type_idx').on(table.eventType, table.occurredAt),
+  ]
 )
 
 export const schema = {
   scoutAssessments,
+  scoutDiscoveryBriefs,
   scoutDiscoveryRuns,
+  scoutEvents,
+  scoutEvidenceRequests,
   scoutCandidates,
   scoutEvidence,
   scoutReviews,

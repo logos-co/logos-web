@@ -58,14 +58,37 @@ export const scoutAssessmentSchema = z.object({
   calculatedAt: z.string(),
 })
 
+export const scoutReasonCategories = [
+  'relevant_work',
+  'active_project',
+  'duplicate',
+  'out_of_scope',
+  'insufficient_evidence',
+  'other',
+] as const
+
 export const scoutReviewSchema = z.object({
   id: z.string().uuid(),
   decision: z.enum(scoutReviewDecisions),
+  reasonCategory: z.enum(scoutReasonCategories).nullable(),
   reason: z.string(),
   reviewer: z
     .object({ id: z.string().uuid(), displayName: z.string() })
     .nullable(),
   reviewedAt: z.string(),
+})
+
+export const scoutEvidenceRequestSchema = z.object({
+  id: z.string().uuid(),
+  fields: z.array(z.enum(scoutEvidenceFields)),
+  note: z.string(),
+  status: z.enum(['open', 'completed']),
+  assignedTo: z
+    .object({ id: z.string().uuid(), displayName: z.string() })
+    .nullable(),
+  dueAt: z.string().nullable(),
+  createdAt: z.string(),
+  completedAt: z.string().nullable(),
 })
 
 export const scoutCandidateSummarySchema = z.object({
@@ -84,6 +107,7 @@ export const scoutCandidateSummarySchema = z.object({
 export const scoutCandidateDetailSchema = scoutCandidateSummarySchema.extend({
   evidence: z.array(scoutEvidenceSchema),
   reviews: z.array(scoutReviewSchema),
+  evidenceRequests: z.array(scoutEvidenceRequestSchema),
 })
 
 /**
@@ -105,10 +129,26 @@ export const scoutCandidateFiltersSchema = z.object({
  * without a reason is the state that later gets re-discovered, re-reviewed,
  * and rejected again by somebody who cannot see why.
  */
-export const recordScoutReviewSchema = z.object({
-  decision: z.enum(scoutReviewDecisions),
-  reason: z.string().trim().min(3).max(500),
-})
+export const recordScoutReviewSchema = z
+  .object({
+    decision: z.enum(scoutReviewDecisions),
+    reasonCategory: z.enum(scoutReasonCategories).optional(),
+    reason: z.string().trim().min(3).max(500),
+    evidenceFields: z.array(z.enum(scoutEvidenceFields)).max(12).optional(),
+    dueAt: z.iso.datetime().optional(),
+  })
+  .superRefine((value, context) => {
+    if (
+      value.decision === 'needs_evidence' &&
+      (value.evidenceFields?.length ?? 0) === 0
+    ) {
+      context.addIssue({
+        code: 'custom',
+        message: 'Select at least one missing evidence field.',
+        path: ['evidenceFields'],
+      })
+    }
+  })
 
 /**
  * Deciding on several candidates at once.
@@ -128,6 +168,7 @@ export const bulkScoutReviewSchema = z.object({
 
 export const scoutDiscoveryRunSchema = z.object({
   id: z.string().uuid(),
+  briefId: z.string().uuid().nullable(),
   mode: z.string(),
   discoveredCount: z.number().int().nonnegative(),
   quarantinedCount: z.number().int().nonnegative(),
@@ -136,14 +177,51 @@ export const scoutDiscoveryRunSchema = z.object({
   finishedAt: z.string().nullable(),
 })
 
+const shortListSchema = z.array(z.string().trim().min(1).max(80)).max(12)
+
+export const scoutDiscoveryBriefSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  purpose: z.string(),
+  query: z.string(),
+  organisationTypes: shortListSchema,
+  themes: shortListSchema,
+  exclusions: shortListSchema,
+  regions: shortListSchema,
+  activeWithinMonths: z.number().int().min(1).max(120).nullable(),
+  sourceTypes: shortListSchema,
+  createdAt: z.string(),
+  updatedAt: z.string(),
+})
+
+export const createScoutDiscoveryBriefSchema = scoutDiscoveryBriefSchema
+  .omit({ id: true, createdAt: true, updatedAt: true })
+  .extend({
+    name: z.string().trim().min(3).max(100),
+    purpose: z.string().trim().min(3).max(500),
+    query: z.string().trim().min(2).max(160),
+  })
+
+export const scoutEventSchema = z.object({
+  eventType: z.enum(['candidate_opened', 'source_opened', 'comparison_opened']),
+  candidateId: z.string().uuid().optional(),
+  metadata: z.record(z.string(), z.unknown()).default({}),
+})
+
 export type ScoutEvidence = z.infer<typeof scoutEvidenceSchema>
 export type ScoutDimensionResult = z.infer<typeof scoutDimensionResultSchema>
 export type ScoutConflict = z.infer<typeof scoutConflictSchema>
 export type ScoutAssessment = z.infer<typeof scoutAssessmentSchema>
 export type ScoutReview = z.infer<typeof scoutReviewSchema>
+export type ScoutEvidenceRequest = z.infer<typeof scoutEvidenceRequestSchema>
 export type ScoutCandidateSummary = z.infer<typeof scoutCandidateSummarySchema>
 export type ScoutCandidateDetail = z.infer<typeof scoutCandidateDetailSchema>
 export type ScoutCandidateFilters = z.infer<typeof scoutCandidateFiltersSchema>
 export type RecordScoutReviewInput = z.infer<typeof recordScoutReviewSchema>
 export type BulkScoutReviewInput = z.infer<typeof bulkScoutReviewSchema>
 export type ScoutDiscoveryRun = z.infer<typeof scoutDiscoveryRunSchema>
+export type ScoutDiscoveryBrief = z.infer<typeof scoutDiscoveryBriefSchema>
+export type CreateScoutDiscoveryBriefInput = z.infer<
+  typeof createScoutDiscoveryBriefSchema
+>
+export type ScoutEventInput = z.infer<typeof scoutEventSchema>

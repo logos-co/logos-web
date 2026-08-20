@@ -1,4 +1,14 @@
-import { and, asc, count, desc, eq, ilike, isNull, or, type SQL } from 'drizzle-orm'
+import {
+  and,
+  asc,
+  count,
+  desc,
+  eq,
+  ilike,
+  isNull,
+  or,
+  type SQL,
+} from 'drizzle-orm'
 
 import type {
   BulkScoutReviewInput,
@@ -10,6 +20,8 @@ import type {
   ScoutConflict,
   ScoutDimensionResult,
   ScoutEvidence,
+  ScoutEvidenceRequest,
+  ScoutEventInput,
   ScoutReview,
 } from '@/contracts/scout'
 import { recordAuditEvent } from '@/server/audit'
@@ -19,6 +31,8 @@ import {
   scoutAssessments,
   scoutCandidates,
   scoutEvidence,
+  scoutEvidenceRequests,
+  scoutEvents,
   scoutReviews,
   users,
 } from '@/server/db/schema'
@@ -225,38 +239,49 @@ export async function getScoutCandidate(
 
   if (!candidate) throw notFound('That candidate no longer exists.')
 
-  const [evidenceRows, assessmentRows, reviewRows] = await Promise.all([
-    db
-      .select()
-      .from(scoutEvidence)
-      .where(eq(scoutEvidence.candidateId, candidateId))
-      .orderBy(asc(scoutEvidence.field), desc(scoutEvidence.observedAt)),
-    db
-      .select()
-      .from(scoutAssessments)
-      .where(
-        and(
-          eq(scoutAssessments.candidateId, candidateId),
-          isNull(scoutAssessments.supersededAt)
+  const [evidenceRows, assessmentRows, reviewRows, evidenceRequestRows] =
+    await Promise.all([
+      db
+        .select()
+        .from(scoutEvidence)
+        .where(eq(scoutEvidence.candidateId, candidateId))
+        .orderBy(asc(scoutEvidence.field), desc(scoutEvidence.observedAt)),
+      db
+        .select()
+        .from(scoutAssessments)
+        .where(
+          and(
+            eq(scoutAssessments.candidateId, candidateId),
+            isNull(scoutAssessments.supersededAt)
+          )
         )
-      )
-      .limit(1),
-    db
-      .select({
-        review: scoutReviews,
-        reviewerName: users.displayName,
-      })
-      .from(scoutReviews)
-      .leftJoin(users, eq(scoutReviews.actorUserId, users.id))
-      .where(eq(scoutReviews.candidateId, candidateId))
-      .orderBy(desc(scoutReviews.reviewedAt)),
-  ])
+        .limit(1),
+      db
+        .select({
+          review: scoutReviews,
+          reviewerName: users.displayName,
+        })
+        .from(scoutReviews)
+        .leftJoin(users, eq(scoutReviews.actorUserId, users.id))
+        .where(eq(scoutReviews.candidateId, candidateId))
+        .orderBy(desc(scoutReviews.reviewedAt)),
+      db
+        .select({
+          request: scoutEvidenceRequests,
+          assigneeName: users.displayName,
+        })
+        .from(scoutEvidenceRequests)
+        .leftJoin(users, eq(scoutEvidenceRequests.assignedToUserId, users.id))
+        .where(eq(scoutEvidenceRequests.candidateId, candidateId))
+        .orderBy(desc(scoutEvidenceRequests.createdAt)),
+    ])
 
   const assessment = assessmentRows[0] ? toAssessment(assessmentRows[0]) : null
 
   const reviews: ScoutReview[] = reviewRows.map(({ review, reviewerName }) => ({
     id: review.id,
     decision: review.decision,
+    reasonCategory: review.reasonCategory as ScoutReview['reasonCategory'],
     reason: review.reason,
     reviewer:
       review.actorUserId && reviewerName
@@ -265,10 +290,27 @@ export async function getScoutCandidate(
     reviewedAt: review.reviewedAt.toISOString(),
   }))
 
+  const evidenceRequests: ScoutEvidenceRequest[] = evidenceRequestRows.map(
+    ({ request, assigneeName }) => ({
+      id: request.id,
+      fields: request.fields as ScoutEvidenceRequest['fields'],
+      note: request.note,
+      status: request.status as ScoutEvidenceRequest['status'],
+      assignedTo:
+        request.assignedToUserId && assigneeName
+          ? { id: request.assignedToUserId, displayName: assigneeName }
+          : null,
+      dueAt: request.dueAt?.toISOString() ?? null,
+      createdAt: request.createdAt.toISOString(),
+      completedAt: request.completedAt?.toISOString() ?? null,
+    })
+  )
+
   return {
     ...toSummary(candidate, assessment, evidenceRows.length),
     evidence: evidenceRows.map(toEvidence),
     reviews,
+    evidenceRequests,
   }
 }
 
@@ -312,10 +354,31 @@ export async function recordScoutReview(
       candidateId,
       assessmentId: assessment.id,
       decision: input.decision,
+      reasonCategory: input.reasonCategory,
       reason: input.reason,
       actorUserId: actor.userId,
       requestId: actor.requestId,
     })
+
+    await transaction
+      .update(scoutEvidenceRequests)
+      .set({ status: 'completed', completedAt: new Date() })
+      .where(
+        and(
+          eq(scoutEvidenceRequests.candidateId, candidateId),
+          eq(scoutEvidenceRequests.status, 'open')
+        )
+      )
+
+    if (input.decision === 'needs_evidence') {
+      await transaction.insert(scoutEvidenceRequests).values({
+        candidateId,
+        fields: input.evidenceFields ?? [],
+        note: input.reason,
+        dueAt: input.dueAt ? new Date(input.dueAt) : null,
+        createdByUserId: actor.userId,
+      })
+    }
 
     await transaction
       .update(scoutCandidates)
@@ -338,9 +401,33 @@ export async function recordScoutReview(
         },
       },
     })
+
+    await transaction.insert(scoutEvents).values({
+      eventType: 'review_recorded',
+      candidateId,
+      actorUserId: actor.userId,
+      requestId: actor.requestId,
+      metadata: {
+        decision: input.decision,
+        reasonCategory: input.reasonCategory ?? null,
+      },
+    })
   })
 
   return getScoutCandidate(candidateId)
+}
+
+export async function recordScoutEvent(
+  actor: Readonly<ActorContext>,
+  input: Readonly<ScoutEventInput>
+): Promise<void> {
+  await db.insert(scoutEvents).values({
+    eventType: input.eventType,
+    candidateId: input.candidateId,
+    actorUserId: actor.userId,
+    requestId: actor.requestId,
+    metadata: input.metadata,
+  })
 }
 
 /**

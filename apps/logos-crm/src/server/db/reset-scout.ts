@@ -14,7 +14,7 @@ import { seedScout } from './seed-scout'
  */
 await db.execute(
   sql.raw(
-    `truncate table scout_discovery_runs, scout_reviews, scout_assessments, scout_evidence, scout_candidates cascade`
+    `truncate table scout_events, scout_evidence_requests, scout_discovery_runs, scout_discovery_briefs, scout_reviews, scout_assessments, scout_evidence, scout_candidates cascade`
   )
 )
 

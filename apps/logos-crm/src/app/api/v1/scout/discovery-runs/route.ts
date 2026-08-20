@@ -8,6 +8,7 @@ import { areSourcesEnabled } from '@/server/scout/source-fetch'
 const requestSchema = z.object({
   query: z.string().trim().min(2).max(80).optional(),
   mode: z.enum(['synthetic', 'sources']).optional(),
+  briefId: z.string().uuid().optional(),
 })
 
 export async function GET(request: Request): Promise<Response> {

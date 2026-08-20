@@ -9,6 +9,7 @@ import { discoverableCandidates } from '@/server/db/scout-fixtures'
 import { insertScoutCandidate } from '@/server/db/seed-scout'
 import { discoverFromSources } from '@/server/scout/discover-from-sources'
 import { areSourcesEnabled } from '@/server/scout/source-fetch'
+import { getScoutDiscoveryBrief } from '@/server/scout-brief-repository'
 
 /** How many candidates one run surfaces, so a demo grows rather than dumps. */
 const BATCH_SIZE = 3
@@ -18,6 +19,7 @@ type DiscoveryRunRow = typeof scoutDiscoveryRuns.$inferSelect
 function toRun(row: DiscoveryRunRow): ScoutDiscoveryRun {
   return {
     id: row.id,
+    briefId: row.briefId,
     mode: row.mode,
     discoveredCount: row.discoveredCount,
     quarantinedCount: row.quarantinedCount,
@@ -54,6 +56,7 @@ export async function runSyntheticDiscovery(
 export interface DiscoveryRequest {
   query?: string
   mode?: 'synthetic' | 'sources'
+  briefId?: string
 }
 
 /**
@@ -68,17 +71,22 @@ export async function runDiscovery(
   request: Readonly<DiscoveryRequest> = {}
 ): Promise<DiscoveryResult> {
   const wantsSources = request.mode !== 'synthetic' && areSourcesEnabled()
+  const brief = request.briefId
+    ? await getScoutDiscoveryBrief(request.briefId)
+    : null
+  const query = request.query ?? brief?.query
 
-  if (wantsSources && request.query) {
-    return runSourceDiscovery(actor, request.query)
+  if (wantsSources && query) {
+    return runSourceDiscovery(actor, query, brief?.id ?? null)
   }
 
-  return runCatalogueDiscovery(actor, wantsSources)
+  return runCatalogueDiscovery(actor, wantsSources, brief?.id ?? null)
 }
 
 async function runSourceDiscovery(
   actor: Readonly<ActorContext>,
-  query: string
+  query: string,
+  briefId: string | null
 ): Promise<DiscoveryResult> {
   const outcome = await discoverFromSources(query)
 
@@ -101,6 +109,7 @@ async function runSourceDiscovery(
       mode: 'sources',
       requestedByUserId: actor.userId,
       requestId: actor.requestId,
+      briefId,
       discoveredCount: outcome.discovered.length,
       quarantinedCount: outcome.quarantined,
       note: parts.join(' '),
@@ -124,7 +133,8 @@ async function runSourceDiscovery(
 
 async function runCatalogueDiscovery(
   actor: Readonly<ActorContext>,
-  sourcesWanted: boolean
+  sourcesWanted: boolean,
+  briefId: string | null
 ): Promise<DiscoveryResult> {
   const existing = await db
     .select({ normalisedName: scoutCandidates.normalisedName })
@@ -163,6 +173,7 @@ async function runCatalogueDiscovery(
       mode: 'synthetic',
       requestedByUserId: actor.userId,
       requestId: actor.requestId,
+      briefId,
       discoveredCount: createdIds.length,
       quarantinedCount: quarantined,
       note,

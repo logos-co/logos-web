@@ -10,6 +10,7 @@ import {
   people,
   scoutCandidates,
   scoutEvidence,
+  scoutEvents,
   tasks,
 } from '@/server/db/schema'
 import { listCases } from '@/server/case-repository'
@@ -17,6 +18,7 @@ import { listOrganisations, listPeople } from '@/server/directory-repository'
 import { search } from '@/server/search-repository'
 import {
   findUndecidableCandidates,
+  runDiscovery,
   runSyntheticDiscovery,
 } from '@/server/scout-discovery'
 import {
@@ -26,6 +28,7 @@ import {
   recordScoutReviews,
   refreshScoutAssessment,
 } from '@/server/scout-repository'
+import { createScoutDiscoveryBrief } from '@/server/scout-brief-repository'
 
 import {
   createTestUser,
@@ -175,6 +178,32 @@ describe.skipIf(!isIntegrationEnabled)('scout', () => {
     ).rejects.toThrow(/new assessment/)
   })
 
+  test('requesting evidence creates actionable follow-up work and a metric', async () => {
+    const candidateId = await createCandidate('Halcyon Relay Collective')
+    await addEvidence(candidateId)
+
+    const detail = await recordScoutReview(actor, candidateId, {
+      decision: 'needs_evidence',
+      reasonCategory: 'insufficient_evidence',
+      reason: 'Confirm whether outsiders can contribute.',
+      evidenceFields: ['contribution_path'],
+    })
+
+    expect(detail.evidenceRequests[0]).toMatchObject({
+      fields: ['contribution_path'],
+      note: 'Confirm whether outsiders can contribute.',
+      status: 'open',
+    })
+
+    const events = await db
+      .select()
+      .from(scoutEvents)
+      .where(eq(scoutEvents.candidateId, candidateId))
+    expect(events.some((event) => event.eventType === 'review_recorded')).toBe(
+      true
+    )
+  })
+
   test('a quarantined candidate cannot be reviewed at all', async () => {
     const candidateId = await createCandidate('Sole Practitioner Consultancy', {
       entityType: 'unknown',
@@ -263,106 +292,135 @@ describe.skipIf(!isIntegrationEnabled)('scout', () => {
   })
 })
 
-describe.skipIf(!isIntegrationEnabled)('scout discovery and bulk review', () => {
-  let actor: ActorContext
+describe.skipIf(!isIntegrationEnabled)(
+  'scout discovery and bulk review',
+  () => {
+    let actor: ActorContext
 
-  beforeEach(async () => {
-    await resetDatabase()
-    actor = await createTestUser('Mara Chen', 'mara.chen@logos.co')
-  })
-
-  test('a run adds candidates from the catalogue and records what it did', async () => {
-    const first = await runSyntheticDiscovery(actor)
-
-    expect(first.discovered.length).toBeGreaterThan(0)
-    expect(first.run.mode).toBe('synthetic')
-    expect(first.run.discoveredCount).toBe(first.discovered.length)
-    expect(first.run.note).toContain('No external source was contacted')
-
-    const queue = await listScoutCandidates()
-    expect(queue.length).toBe(first.discovered.length)
-
-    // A second run continues the catalogue rather than repeating itself.
-    const second = await runSyntheticDiscovery(actor)
-    const names = new Set(
-      (await listScoutCandidates()).map((item) => item.displayName)
-    )
-    expect(names.size).toBe(first.discovered.length + second.discovered.length)
-  })
-
-  test('a run exhausts the catalogue and says so rather than inventing more', async () => {
-    let guard = 0
-    let last = await runSyntheticDiscovery(actor)
-    while (last.discovered.length > 0 && guard < 20) {
-      last = await runSyntheticDiscovery(actor)
-      guard += 1
-    }
-
-    expect(last.run.discoveredCount).toBe(0)
-    expect(last.run.note).toContain('catalogue is exhausted')
-  })
-
-  test('discovery quarantines a person-named subject without storing evidence', async () => {
-    let guard = 0
-    let found = await runSyntheticDiscovery(actor)
-    while (found.discovered.length > 0 && guard < 20) {
-      if (found.run.quarantinedCount > 0) break
-      found = await runSyntheticDiscovery(actor)
-      guard += 1
-    }
-
-    const quarantined = await listScoutCandidates({ state: 'quarantined' })
-    expect(quarantined.length).toBeGreaterThan(0)
-    expect(quarantined[0]?.evidenceCount).toBe(0)
-    expect(quarantined[0]?.assessment).toBeNull()
-  })
-
-  test('search matches the name, domain, and summary and nothing else', async () => {
-    await runSyntheticDiscovery(actor)
-
-    const all = await listScoutCandidates()
-    const target = all[0]
-    if (!target) throw new Error('The discovery run added nothing.')
-
-    const byName = await listScoutCandidates({ q: target.displayName.slice(0, 6) })
-    expect(byName.map((item) => item.id)).toContain(target.id)
-
-    // The excerpt of an evidence item is not searchable: that is where a
-    // free-text query would start returning people named in a source.
-    const byExcerpt = await listScoutCandidates({ q: 'pool hardware' })
-    expect(byExcerpt).toHaveLength(0)
-  })
-
-  test('a bulk decision applies one reason to every selected candidate', async () => {
-    await runSyntheticDiscovery(actor)
-    const decidable = (await listScoutCandidates()).filter(
-      (item) => item.reviewState === 'needs_review'
-    )
-
-    const result = await recordScoutReviews(actor, {
-      candidateIds: decidable.map((item) => item.id),
-      decision: 'watch',
-      reason: 'Relevant enough to keep an eye on, not enough to act on.',
+    beforeEach(async () => {
+      await resetDatabase()
+      actor = await createTestUser('Mara Chen', 'mara.chen@logos.co')
     })
 
-    expect(result.decided).toBe(decidable.length)
+    test('a run adds candidates from the catalogue and records what it did', async () => {
+      const first = await runSyntheticDiscovery(actor)
 
-    const watched = await listScoutCandidates({ state: 'watch' })
-    expect(watched).toHaveLength(decidable.length)
+      expect(first.discovered.length).toBeGreaterThan(0)
+      expect(first.run.mode).toBe('synthetic')
+      expect(first.run.discoveredCount).toBe(first.discovered.length)
+      expect(first.run.note).toContain('No external source was contacted')
 
-    const detail = await getScoutCandidate(decidable[0]?.id ?? '')
-    expect(detail.reviews[0]?.reason).toContain('keep an eye on')
-  })
+      const queue = await listScoutCandidates()
+      expect(queue.length).toBe(first.discovered.length)
 
-  test('undecidable candidates are named before a bulk decision runs', async () => {
-    const quarantinedId = await createCandidate('Fenwick Media Lab', {
-      entityType: 'unknown',
-      reviewState: 'quarantined',
-      quarantineReason: 'One person publishing under a studio name.',
+      // A second run continues the catalogue rather than repeating itself.
+      const second = await runSyntheticDiscovery(actor)
+      const names = new Set(
+        (await listScoutCandidates()).map((item) => item.displayName)
+      )
+      expect(names.size).toBe(
+        first.discovered.length + second.discovered.length
+      )
     })
-    const openId = await createCandidate('Halcyon Relay Collective')
 
-    const blocked = await findUndecidableCandidates([quarantinedId, openId])
-    expect(blocked).toEqual(['Fenwick Media Lab'])
-  })
-})
+    test('a saved brief supplies and remains linked to a discovery run', async () => {
+      const brief = await createScoutDiscoveryBrief(actor, {
+        name: 'Open networking organisations',
+        purpose: 'Find active organisations for a partnership review.',
+        query: 'censorship resistant networking',
+        organisationTypes: ['Open-source project'],
+        themes: ['Networking'],
+        exclusions: ['Personal repositories'],
+        regions: [],
+        activeWithinMonths: 12,
+        sourceTypes: ['GitHub'],
+      })
+
+      const result = await runDiscovery(actor, {
+        briefId: brief.id,
+        mode: 'synthetic',
+      })
+
+      expect(result.run.briefId).toBe(brief.id)
+      expect(result.run.note).toContain('synthetic')
+    })
+
+    test('a run exhausts the catalogue and says so rather than inventing more', async () => {
+      let guard = 0
+      let last = await runSyntheticDiscovery(actor)
+      while (last.discovered.length > 0 && guard < 20) {
+        last = await runSyntheticDiscovery(actor)
+        guard += 1
+      }
+
+      expect(last.run.discoveredCount).toBe(0)
+      expect(last.run.note).toContain('catalogue is exhausted')
+    })
+
+    test('discovery quarantines a person-named subject without storing evidence', async () => {
+      let guard = 0
+      let found = await runSyntheticDiscovery(actor)
+      while (found.discovered.length > 0 && guard < 20) {
+        if (found.run.quarantinedCount > 0) break
+        found = await runSyntheticDiscovery(actor)
+        guard += 1
+      }
+
+      const quarantined = await listScoutCandidates({ state: 'quarantined' })
+      expect(quarantined.length).toBeGreaterThan(0)
+      expect(quarantined[0]?.evidenceCount).toBe(0)
+      expect(quarantined[0]?.assessment).toBeNull()
+    })
+
+    test('search matches the name, domain, and summary and nothing else', async () => {
+      await runSyntheticDiscovery(actor)
+
+      const all = await listScoutCandidates()
+      const target = all[0]
+      if (!target) throw new Error('The discovery run added nothing.')
+
+      const byName = await listScoutCandidates({
+        q: target.displayName.slice(0, 6),
+      })
+      expect(byName.map((item) => item.id)).toContain(target.id)
+
+      // The excerpt of an evidence item is not searchable: that is where a
+      // free-text query would start returning people named in a source.
+      const byExcerpt = await listScoutCandidates({ q: 'pool hardware' })
+      expect(byExcerpt).toHaveLength(0)
+    })
+
+    test('a bulk decision applies one reason to every selected candidate', async () => {
+      await runSyntheticDiscovery(actor)
+      const decidable = (await listScoutCandidates()).filter(
+        (item) => item.reviewState === 'needs_review'
+      )
+
+      const result = await recordScoutReviews(actor, {
+        candidateIds: decidable.map((item) => item.id),
+        decision: 'watch',
+        reason: 'Relevant enough to keep an eye on, not enough to act on.',
+      })
+
+      expect(result.decided).toBe(decidable.length)
+
+      const watched = await listScoutCandidates({ state: 'watch' })
+      expect(watched).toHaveLength(decidable.length)
+
+      const detail = await getScoutCandidate(decidable[0]?.id ?? '')
+      expect(detail.reviews[0]?.reason).toContain('keep an eye on')
+    })
+
+    test('undecidable candidates are named before a bulk decision runs', async () => {
+      const quarantinedId = await createCandidate('Fenwick Media Lab', {
+        entityType: 'unknown',
+        reviewState: 'quarantined',
+        quarantineReason: 'One person publishing under a studio name.',
+      })
+      const openId = await createCandidate('Halcyon Relay Collective')
+
+      const blocked = await findUndecidableCandidates([quarantinedId, openId])
+      expect(blocked).toEqual(['Fenwick Media Lab'])
+    })
+  }
+)
