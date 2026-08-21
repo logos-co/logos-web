@@ -45,7 +45,8 @@ pnpm --filter civi-crm test
 - `src/app/api/public/afform-submit/route.ts` is the orchestrator: it validates, verifies the captcha once (tokens are single-use), then calls each destination lib. Destination logic belongs in the lib, not the route.
 - `src/lib/notion/` and `src/lib/n8n/` are independent apart from the shared id → label maps in `src/lib/notion/maps.ts`. Do not add cross-imports.
 - The option ids in `src/lib/notion/maps.ts` must match the option values in the form definitions under `apps/web/lib/funnel-forms/afform-*.ts`. Changing one means changing the other.
-- Values shared with `apps/web` (the "How did you first hear about Logos?" question, its options, the per-form profile label) live in `@repo/funnel`. Do not duplicate them here.
+- Values shared with `apps/web` (the "How did you first hear about Logos?" question, its options, the per-form profile label, the per-form required-field list) live in `@repo/funnel`. Do not duplicate them here.
+- `REQUIRED_FIELDS_BY_FORM` is where a funnel field is marked required. `apps/web` builds its form schema from the same list, so a field becomes required for both sides at once.
 - `src/lib/public-cors.ts` is the only place that decides which origins may call `/api/public/*`.
 
 ## Environment
