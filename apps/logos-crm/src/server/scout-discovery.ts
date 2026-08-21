@@ -121,7 +121,9 @@ async function runSourceDiscovery(
         ? `${outcome.quarantined} subjects were personal accounts and were quarantined with nothing stored.`
         : '',
     outcome.skipped > 0
-      ? `${outcome.skipped} did not meet the target or were already in the queue.`
+      ? outcome.skipped === 1
+        ? 'One organisation did not meet the target or was already in the queue.'
+        : `${outcome.skipped} organisations did not meet the target or were already in the queue.`
       : '',
     ...outcome.failures,
   ].filter(Boolean)

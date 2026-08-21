@@ -452,8 +452,12 @@ export function ScoutInbox() {
                             <span>{reviewPrompt(candidate)}</span>
                           </div>
                           <span className="scout-list-evidence">
-                            {candidate.evidenceCount} items ·{' '}
-                            {candidate.assessment?.distinctSources ?? 0} sources
+                            {candidate.evidenceCount}{' '}
+                            {candidate.evidenceCount === 1 ? 'item' : 'items'} ·{' '}
+                            {candidate.assessment?.distinctSources ?? 0}{' '}
+                            {(candidate.assessment?.distinctSources ?? 0) === 1
+                              ? 'source'
+                              : 'sources'}
                           </span>
                           <span className="scout-list-observed">
                             {new Date(

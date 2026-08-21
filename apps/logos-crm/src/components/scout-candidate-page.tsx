@@ -406,7 +406,10 @@ export function ScoutCandidatePage({ candidateId }: { candidateId: string }) {
                       <section key={group.title}>
                         <div className="scout-evidence-group-head">
                           <h2>{group.title}</h2>
-                          <span>{evidence.length} items</span>
+                          <span>
+                            {evidence.length}{' '}
+                            {evidence.length === 1 ? 'item' : 'items'}
+                          </span>
                         </div>
                         {evidence.length > 0 ? (
                           <ul className="scout-evidence-list">

@@ -82,6 +82,11 @@ test('the potential lead count matches the rendered lead list', async ({
   )
 
   await expect(page.locator('.scout-list-item')).toHaveCount(count)
+  await expect(
+    page
+      .locator('.scout-list-item', { hasText: 'Vault Lattice' })
+      .locator('.scout-list-evidence')
+  ).toContainText('1 source')
 })
 
 test('a decision is recorded against the reviewer and creates no CRM record', async ({
