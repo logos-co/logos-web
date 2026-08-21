@@ -1,4 +1,4 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "pnpm run db:migrate:schema && pnpm run build"
+  "buildCommand": "pnpm run db:migrate:schema && cd ../.. && pnpm exec turbo run build --filter=logos-crm..."
 }
