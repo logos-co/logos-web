@@ -54,8 +54,13 @@ declare global {
 // Tailwind only sees class names it can read literally in the source, so the
 // armed class has to be spelled out inside these variants rather than
 // interpolated in.
-/** Stays in the flow to reserve height, but hidden once the animation is armed. */
-const RESERVES_HEIGHT = '[.catch-no-one-typewriter-armed_&]:invisible'
+/**
+ * Hidden once the animation is armed, but still taking up its space.
+ *
+ * Used for the tail of a quote that has not been typed yet, and for the copy of
+ * the hero headline that reserves its height.
+ */
+const UNTYPED = '[.catch-no-one-typewriter-armed_&]:invisible'
 /**
  * Laid over the reserved space; only rendered once the animation is armed.
  *
@@ -74,7 +79,7 @@ const OVERLAID =
  * try/catch, and the page simply renders the static text.
  */
 export const TYPEWRITER_ARMED_CLASS =
-  RESERVES_HEIGHT.match(/^\[\.([\w-]+)_&\]/)?.[1] ?? ''
+  UNTYPED.match(/^\[\.([\w-]+)_&\]/)?.[1] ?? ''
 
 /**
  * Synchronous arming script. Must be rendered *before* the first animated
@@ -216,7 +221,7 @@ export function HeroHeadline({
       <span
         aria-hidden="true"
         data-typewriter="reserved"
-        className={`block ${RESERVES_HEIGHT}`}
+        className={`block ${UNTYPED}`}
       >
         <HeadlineLines line1={line1} line2={line2} />
       </span>
@@ -274,10 +279,15 @@ function HeadlineLines({
 /**
  * Quoted exhibit that types itself in when its card scrolls into view.
  *
- * `role="paragraph"` cannot carry an accessible name, so the full quote is
- * exposed through a screen-reader-only copy rather than an `aria-label`. Both
- * visual copies are hidden from assistive tech, which would otherwise read the
- * half-typed one.
+ * The whole quote is always in the flow — the untyped tail is merely invisible,
+ * which still occupies its space. That keeps the line breaks the finished ones
+ * from the very first frame, so a word can never start at the end of one line
+ * and jump to the next as it grows. It also means the card is its final height
+ * throughout, with no separate copy needed to reserve it.
+ *
+ * `role="paragraph"` cannot carry an accessible name, so the quote reaches
+ * assistive tech through a screen-reader-only copy; the visual one is hidden
+ * from it, since a half-typed string should never be announced.
  */
 export function TypewriterQuote({
   children,
@@ -292,25 +302,18 @@ export function TypewriterQuote({
   })
 
   return (
-    <p
-      ref={anchor as RefObject<HTMLParagraphElement>}
-      className={`relative ${className}`}
-    >
+    <p ref={anchor as RefObject<HTMLParagraphElement>} className={className}>
       {/*
         `select-none` keeps this out of a copied selection. Without it, copying
         a quote — the whole point of a page built on citations — yields the text
-        twice, once from here and once from whichever visual copy is showing.
+        twice, once from here and once from the visible copy.
       */}
       <span className="sr-only select-none">{children}</span>
-      <span
-        aria-hidden="true"
-        data-typewriter="reserved"
-        className={`block ${RESERVES_HEIGHT}`}
-      >
-        {children}
-      </span>
-      <span aria-hidden="true" data-typewriter="typed" className={OVERLAID}>
+      <span aria-hidden="true">
         {children.slice(0, revealed)}
+        <span data-typewriter="untyped" className={UNTYPED}>
+          {children.slice(revealed)}
+        </span>
       </span>
     </p>
   )
