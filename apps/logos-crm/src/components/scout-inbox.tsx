@@ -157,13 +157,23 @@ export function ScoutInbox() {
   })
 
   const items = candidatesQuery.data?.items ?? []
+  const visibleItems =
+    view === 'leads'
+      ? items.filter(
+          (item) =>
+            item.reviewState !== 'quarantined' &&
+            item.reviewState !== 'rejected'
+        )
+      : items
   const sourcesEnabled = runsQuery.data?.sourcesEnabled ?? false
   const term_ = term.trim()
-  const selectable = items.filter(
+  const selectable = visibleItems.filter(
     (item) =>
       item.reviewState !== 'quarantined' && item.reviewState !== 'accepted'
   )
-  const comparedCandidates = items.filter((item) => selected.includes(item.id))
+  const comparedCandidates = visibleItems.filter((item) =>
+    selected.includes(item.id)
+  )
   const stateCounts = candidatesQuery.data?.stateCounts
   const leadCount =
     (stateCounts?.needs_review ?? 0) +
@@ -236,7 +246,9 @@ export function ScoutInbox() {
 
       <p className="scout-preamble">
         {view === 'find'
-          ? 'Find relevant organisations from approved public evidence.'
+          ? sourcesEnabled
+            ? 'Find relevant organisations from approved public evidence or preview the workflow with demo data.'
+            : 'Preview organisation discovery with invented demo data. No external source is contacted.'
           : view === 'leads'
             ? 'Potential organisations and projects surfaced by Scout. Open one to inspect why it was found.'
             : 'Review evidence, record a qualification decision, and keep the reasoning for the next person.'}
@@ -266,7 +278,10 @@ export function ScoutInbox() {
               className={`queue-tab cursor-pointer ${state === value ? 'selected' : ''}`}
               key={value}
               type="button"
-              onClick={() => setState(value)}
+              onClick={() => {
+                setState(value)
+                setSelected([])
+              }}
             >
               <span>{value === 'all' ? 'All' : reviewStateLabels[value]}</span>
               <strong>
@@ -289,7 +304,8 @@ export function ScoutInbox() {
                 {view === 'leads' ? 'Potential leads' : 'Qualification queue'}
               </h2>
               <span className="result-count" aria-live="polite">
-                {items.length} {items.length === 1 ? 'candidate' : 'candidates'}
+                {visibleItems.length}{' '}
+                {visibleItems.length === 1 ? 'candidate' : 'candidates'}
               </span>
             </div>
             <div className="table-controls">
@@ -300,7 +316,10 @@ export function ScoutInbox() {
                   placeholder="Name, domain, or summary"
                   type="search"
                   value={term}
-                  onChange={(event) => setTerm(event.target.value)}
+                  onChange={(event) => {
+                    setTerm(event.target.value)
+                    setSelected([])
+                  }}
                 />
               </label>
             </div>
@@ -371,7 +390,7 @@ export function ScoutInbox() {
 
           {candidatesQuery.isPending ? (
             <p className="table-message">Loading candidates.</p>
-          ) : items.length === 0 ? (
+          ) : visibleItems.length === 0 ? (
             <p className="table-message">
               {term_.length >= SEARCH_MIN_LENGTH
                 ? 'No candidate matches that filter.'
@@ -386,7 +405,7 @@ export function ScoutInbox() {
                 <span>Last observed</span>
               </div>
               <ul className="scout-list">
-                {items.map((candidate) => {
+                {visibleItems.map((candidate) => {
                   const decidable =
                     candidate.reviewState !== 'quarantined' &&
                     candidate.reviewState !== 'accepted'

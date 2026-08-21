@@ -10,6 +10,7 @@
     "lint:fix": "eslint . --fix",
     "check-types": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
+    "db:migrate:schema": "drizzle-kit migrate",
     "db:migrate": "drizzle-kit migrate && tsx src/server/jobs/migrate.ts",
     "worker": "tsx src/server/jobs/worker.ts",
     "import:notion": "tsx src/server/jobs/import-notion.ts",

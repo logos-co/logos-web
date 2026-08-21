@@ -44,19 +44,44 @@ test('a candidate explains its bands with the quoted source behind them', async 
   ).toBeVisible()
 })
 
-test('a quarantined candidate keeps nothing and cannot be reviewed', async ({
+test('leads hide quarantined candidates while their audit record stays available', async ({
   page,
+  request,
 }) => {
   await openScoutView(page, 'Leads')
-  await page
-    .getByRole('link', { name: /Sole Practitioner Consultancy/ })
-    .click()
+
+  await expect(page.getByText('Quarantined', { exact: true })).toHaveCount(0)
+
+  const response = await request.get('/api/v1/scout/candidates')
+  const payload = (await response.json()) as {
+    items: Array<{ id: string; reviewState: string }>
+  }
+  const quarantined = payload.items.find(
+    (candidate) => candidate.reviewState === 'quarantined'
+  )
+  expect(quarantined).toBeDefined()
+
+  await page.goto(`/scout/${quarantined?.id}`)
 
   await expect(page.getByText('Nothing was stored about this')).toBeVisible()
   await expect(
     page.getByText('A quarantined candidate cannot be reviewed')
   ).toBeVisible()
   await expect(page.getByRole('button', { name: 'Qualify' })).toHaveCount(0)
+})
+
+test('the potential lead count matches the rendered lead list', async ({
+  page,
+}) => {
+  await openScoutView(page, 'Leads')
+  await expect(page.locator('.scout-list-item').first()).toBeVisible()
+
+  const leadStep = page.getByRole('button', { name: /Leads/ })
+  const count = Number(
+    /Leads\s+(\d+)\s+potential/.exec(await leadStep.innerText())?.[1]
+  )
+
+  await expect(page.locator('.scout-list-item')).toHaveCount(count)
 })
 
 test('a decision is recorded against the reviewer and creates no CRM record', async ({

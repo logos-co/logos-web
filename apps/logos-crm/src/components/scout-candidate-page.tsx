@@ -130,7 +130,8 @@ export function ScoutCandidatePage({ candidateId }: { candidateId: string }) {
       (queueQuery.data?.items ?? []).filter(
         (candidate) =>
           candidate.reviewState !== 'quarantined' &&
-          candidate.reviewState !== 'accepted'
+          candidate.reviewState !== 'accepted' &&
+          candidate.reviewState !== 'rejected'
       ),
     [queueQuery.data?.items]
   )
