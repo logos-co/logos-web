@@ -21,7 +21,7 @@ pnpm --filter web check-types
 pnpm --filter web test
 ```
 
-Build through turbo, not `pnpm --filter web build`: `@acid-info/logos-ui` is a build dependency and only the orchestrator builds it. This is also how the deploy builds the app.
+Build through turbo, never `pnpm --filter web build`: `@acid-info/logos-ui` is a build dependency and only the orchestrator builds it, so the app build alone fails on a clean checkout. Jenkins and Vercel (`vercel.json`) both run the turbo command.
 
 `pnpm --filter web start` serves the static `out/` directory with `python3 -m http.server`; do not use `next start` for this app.
 
