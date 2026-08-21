@@ -15,7 +15,6 @@ export interface AfformField {
   formKey: string
   label: string
   inputType: AfformInputType
-  required: boolean
   /** Inline options; when absent they are looked up in `AfformOptions` by `formKey`. */
   options?: AfformFieldOption[] | null
   /** Rendered as rows the visitor can add to, and submitted as an array. */

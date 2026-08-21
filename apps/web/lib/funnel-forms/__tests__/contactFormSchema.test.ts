@@ -7,7 +7,6 @@ const TEXT_FIELD: AfformField = {
   formKey: 'background',
   label: 'Background',
   inputType: 'textarea',
-  required: false,
 }
 
 const CHAT_FIELDS: AfformField[] = [
@@ -15,14 +14,12 @@ const CHAT_FIELDS: AfformField[] = [
     formKey: 'chat',
     label: 'Chat Name',
     inputType: 'text',
-    required: false,
     repeatable: true,
   },
   {
     formKey: 'chatService',
     label: 'Chat Service',
     inputType: 'select',
-    required: false,
     repeatable: true,
   },
 ]
@@ -31,12 +28,14 @@ const COUNTRY_FIELD: AfformField = {
   formKey: 'country',
   label: 'Country',
   inputType: 'select',
-  required: true,
 }
 
 describe('buildFormSchema select validation', () => {
   it('rejects an empty required select', () => {
-    const { schema, requiredFields } = buildFormSchema([COUNTRY_FIELD], [])
+    const { schema, requiredFields } = buildFormSchema(
+      [COUNTRY_FIELD],
+      ['country']
+    )
 
     expect(requiredFields.has('country')).toBe(true)
 
@@ -44,13 +43,13 @@ describe('buildFormSchema select validation', () => {
 
     expect(result.success).toBe(false)
     if (result.success) return
-    expect(result.error.issues.some((issue) => issue.path[0] === 'country')).toBe(
-      true
-    )
+    expect(
+      result.error.issues.some((issue) => issue.path[0] === 'country')
+    ).toBe(true)
   })
 
   it('accepts a selected option', () => {
-    const { schema } = buildFormSchema([COUNTRY_FIELD], [])
+    const { schema } = buildFormSchema([COUNTRY_FIELD], ['country'])
 
     const result = schema.safeParse({ country: '1003', socials: '' })
 
@@ -70,9 +69,9 @@ describe('buildFormSchema chat validation', () => {
 
     expect(result.success).toBe(false)
     if (result.success) return
-    expect(result.error.issues.some((issue) => issue.path[0] === 'chatService')).toBe(
-      true
-    )
+    expect(
+      result.error.issues.some((issue) => issue.path[0] === 'chatService')
+    ).toBe(true)
   })
 
   it('requires chat name when a chat service is selected', () => {
@@ -86,7 +85,9 @@ describe('buildFormSchema chat validation', () => {
 
     expect(result.success).toBe(false)
     if (result.success) return
-    expect(result.error.issues.some((issue) => issue.path[0] === 'chat')).toBe(true)
+    expect(result.error.issues.some((issue) => issue.path[0] === 'chat')).toBe(
+      true
+    )
   })
 
   it('allows empty chat rows', () => {

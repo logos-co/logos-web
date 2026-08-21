@@ -1,6 +1,7 @@
 import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type { ActivistBuilderCopySection } from '@repo/content/schemas'
+import { REQUIRED_FIELDS_BY_FORM } from '@repo/funnel'
 
 import {
   AfformPageIntro,
@@ -56,6 +57,7 @@ export default async function ActivistBuilderPage({
       <ConnectFormSection
         afform={withHearAboutField(AFFORM)}
         afformOptions={AFFORM_OPTIONS}
+        requiredFields={REQUIRED_FIELDS_BY_FORM[AFFORM_NAME]}
         apiEndpoint={getAfformSubmitApiUrl()}
         pagePrivacy={copy.privacy}
         pagePrivacyLink={copy.privacyLink}
