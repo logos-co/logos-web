@@ -4,7 +4,14 @@ import { Link } from '@/i18n/navigation'
 import type { CtaCardKey } from '../_content'
 import { WHAT_IT_TAKES } from '../_content'
 
-import { Column, Panel, Prose, SectionHeading, Standfirst } from './atoms'
+import {
+  Column,
+  Panel,
+  Prose,
+  SectionHeading,
+  Standfirst,
+  TRIM,
+} from './atoms'
 
 /** Keyed rather than positional, so a new card cannot silently lose its href. */
 const CARD_HREFS: Record<CtaCardKey, string> = {
@@ -42,7 +49,9 @@ export function WhatItTakes() {
             href={CARD_HREFS[card.key]}
             className="group flex min-h-[280px] cursor-pointer flex-col items-center justify-center gap-6 rounded-[12px] bg-[#2f2f2f] px-6 text-brand-off-white transition-opacity hover:opacity-90 md:min-h-[480px]"
           >
-            <span className="text-h2 text-center min-[768px]:max-[1023px]:text-[40px]">
+            <span
+              className={`text-h2 ${TRIM} text-center min-[768px]:max-[1023px]:text-[40px]`}
+            >
               {card.title}
             </span>
             <span className="font-mono-body rounded-[6px] bg-accent-light-blue p-1.5 text-[10px] leading-[1.3] text-brand-dark-green">
