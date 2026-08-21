@@ -1,3 +1,4 @@
+import { findInvalidRequiredFields } from '@repo/funnel'
 import { type NextRequest, NextResponse } from 'next/server'
 
 import { isNotionIntakeSubmitEnabled } from '@/lib/intake-submit-flags'
@@ -86,6 +87,16 @@ export async function POST(req: NextRequest) {
   // submission is toggled off.
   if (!resolveHearAboutLabel(formData)) {
     return jsonResponse({ error: 'Invalid or missing hear-about answer' }, 400)
+  }
+
+  // Same for the other required answers: the zod schema on apps/web is the only
+  // other gate, so a scripted POST could write a row with no name or country.
+  const invalidFields = findInvalidRequiredFields(formName, formData)
+  if (invalidFields.length > 0) {
+    return jsonResponse(
+      { error: 'Missing or invalid required fields', fields: invalidFields },
+      400
+    )
   }
 
   if (HCAPTCHA_SECRET) {
