@@ -37,7 +37,10 @@ import {
 } from '../_sections/typewriter'
 
 /** Pulls the text of one of a typewriter's two visual copies. */
-const copyText = (html: string, which: 'reserved' | 'typed'): string => {
+const copyText = (
+  html: string,
+  which: 'reserved' | 'typed' | 'untyped'
+): string => {
   const at = html.indexOf(`data-typewriter="${which}"`)
   if (at === -1) throw new Error(`no ${which} copy rendered`)
   const open = html.indexOf('>', at) + 1
@@ -194,11 +197,21 @@ describe('typewriter', () => {
       createElement(TypewriterQuote, { children: quote })
     )
 
-    expect(copyText(html, 'reserved')).toContain(quote)
-    expect(copyText(html, 'typed').trim()).toBe('')
-    // Both visual copies are hidden from assistive tech, so the quote has to
-    // reach it some other way.
+    // Once for assistive tech, once in the flow. The visual copy is hidden
+    // from assistive tech, which must never hear a half-typed string.
+    expect(html.split(quote).length - 1).toBe(2)
     expect(html).toContain('sr-only')
+  })
+
+  test('the whole quote stays in the flow, so its line breaks never move', () => {
+    const quote = DOES_NOT_CATCH.exhibit01.quote
+    const html = renderToStaticMarkup(
+      createElement(TypewriterQuote, { children: quote })
+    )
+
+    // Nothing typed yet, so the untyped tail carries the entire quote and the
+    // paragraph already lays out at its finished size.
+    expect(copyText(html, 'untyped')).toContain(quote)
   })
 
   test('the arming script only opts out for reduced motion', () => {
