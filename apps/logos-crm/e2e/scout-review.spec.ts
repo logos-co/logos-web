@@ -1,13 +1,21 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
 /**
  * Scout runs on seeded synthetic candidates, so these tests read the demo
  * fixtures and synthetic discovery rather than contacting external sources.
  */
+async function openScoutView(
+  page: Page,
+  view: 'Leads' | 'Qualification'
+): Promise<void> {
+  await page.goto('/scout')
+  await page.getByRole('button', { name: new RegExp(view) }).click()
+}
+
 test('the inbox puts disagreeing sources above candidates that are ready', async ({
   page,
 }) => {
-  await page.goto('/scout')
+  await openScoutView(page, 'Leads')
 
   await expect(page.getByRole('heading', { name: 'Scout' })).toBeVisible()
   const items = page.locator('.scout-list-item')
@@ -20,7 +28,7 @@ test('the inbox puts disagreeing sources above candidates that are ready', async
 test('a candidate explains its bands with the quoted source behind them', async ({
   page,
 }) => {
-  await page.goto('/scout')
+  await openScoutView(page, 'Leads')
   await page.getByRole('link', { name: /Halcyon Relay Collective/ }).click()
 
   await expect(
@@ -39,7 +47,7 @@ test('a candidate explains its bands with the quoted source behind them', async 
 test('a quarantined candidate keeps nothing and cannot be reviewed', async ({
   page,
 }) => {
-  await page.goto('/scout')
+  await openScoutView(page, 'Leads')
   await page
     .getByRole('link', { name: /Sole Practitioner Consultancy/ })
     .click()
@@ -48,7 +56,7 @@ test('a quarantined candidate keeps nothing and cannot be reviewed', async ({
   await expect(
     page.getByText('A quarantined candidate cannot be reviewed')
   ).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Accept' })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Qualify' })).toHaveCount(0)
 })
 
 test('a decision is recorded against the reviewer and creates no CRM record', async ({
@@ -57,19 +65,17 @@ test('a decision is recorded against the reviewer and creates no CRM record', as
 }) => {
   const before = await (await request.get('/api/v1/organisations')).json()
 
-  await page.goto('/scout')
+  await openScoutView(page, 'Qualification')
   await page.getByRole('link', { name: /Meshwork Commons/ }).click()
 
   await page.getByLabel('Reason type').selectOption('active_project')
-  await page
-    .getByLabel('Continue to the next candidate after deciding')
-    .uncheck()
+  await page.getByLabel('Continue to the next lead after qualifying').uncheck()
   await page
     .getByPlaceholder('What evidence supports this decision?')
     .fill('Relevant, but the handbook is the only recent thing they publish.')
-  await page.getByRole('button', { name: 'Watch' }).click()
+  await page.getByRole('button', { name: 'Nurture' }).click()
 
-  await expect(page.getByText('Watching').first()).toBeVisible()
+  await expect(page.getByText('Nurture').first()).toBeVisible()
   await expect(
     page.getByText('Relevant, but the handbook is the only recent thing')
   ).toBeVisible()
@@ -81,7 +87,7 @@ test('a decision is recorded against the reviewer and creates no CRM record', as
 test('requesting evidence records the missing field as follow-up work', async ({
   page,
 }) => {
-  await page.goto('/scout')
+  await openScoutView(page, 'Qualification')
   await page.getByRole('link', { name: /Vault Lattice/ }).click()
 
   await page.getByLabel('Reason type').selectOption('insufficient_evidence')
@@ -89,10 +95,8 @@ test('requesting evidence records the missing field as follow-up work', async ({
     .getByPlaceholder('What evidence supports this decision?')
     .fill('Confirm how an outside contributor can participate.')
   await page.getByLabel('Contribution path').check()
-  await page
-    .getByLabel('Continue to the next candidate after deciding')
-    .uncheck()
-  await page.getByRole('button', { name: 'Request evidence' }).click()
+  await page.getByLabel('Continue to the next lead after qualifying').uncheck()
+  await page.getByRole('button', { name: 'Research' }).click()
 
   await expect(page.getByText('Open evidence request')).toBeVisible()
   const openRequest = page.locator('.scout-open-request')
@@ -105,7 +109,7 @@ test('requesting evidence records the missing field as follow-up work', async ({
 test('review coordination keeps an owner, note, and review date', async ({
   page,
 }) => {
-  await page.goto('/scout')
+  await openScoutView(page, 'Leads')
   await page.getByRole('link', { name: /Halcyon Relay Collective/ }).click()
   await page.getByText('Review coordination', { exact: true }).click()
 
@@ -128,7 +132,7 @@ test('review coordination keeps an owner, note, and review date', async ({
 test('review sessions continue to the next candidate after a decision', async ({
   page,
 }) => {
-  await page.goto('/scout')
+  await openScoutView(page, 'Leads')
   await page.getByRole('link', { name: /Beacon Standards Group/ }).click()
   const previousUrl = page.url()
 
@@ -136,7 +140,7 @@ test('review sessions continue to the next candidate after a decision', async ({
   await page
     .getByPlaceholder('What evidence supports this decision?')
     .fill('No current work matches this discovery brief.')
-  await page.getByRole('button', { name: 'Reject' }).click()
+  await page.getByRole('button', { name: 'Disqualify' }).click()
 
   await expect(page).not.toHaveURL(previousUrl)
   await expect(page.getByText(/Candidate \d+ of \d+/)).toBeVisible()
@@ -145,7 +149,7 @@ test('review sessions continue to the next candidate after a decision', async ({
 test('search narrows the queue by name, domain, and summary', async ({
   page,
 }) => {
-  await page.goto('/scout')
+  await openScoutView(page, 'Leads')
   await expect(page.locator('.scout-list-item').first()).toBeVisible()
 
   // Addressed by its label rather than its placeholder: the placeholder
@@ -179,18 +183,15 @@ test('a saved brief runs synthetic discovery and the queue matches its report', 
   page,
 }) => {
   await page.goto('/scout')
+  await page.getByRole('button', { name: /Leads/ }).click()
   // Counted after the queue has rendered: counting straight after navigation
   // reads zero and then compares against a list that was always going to grow.
   await expect(page.locator('.scout-list-item').first()).toBeVisible()
   const before = await page.locator('.scout-list-item').count()
+  await page.getByRole('button', { name: /Find/ }).click()
 
-  await page.getByRole('button', { name: 'New discovery run' }).click()
-  await page.getByLabel('Brief name').fill('E2E networking brief')
-  await page
-    .getByLabel('Purpose')
-    .fill('Validate the synthetic discovery workflow.')
-  await page.getByLabel('Search query').fill('open networking')
-  await page.getByRole('button', { name: 'Save and run brief' }).click()
+  await page.getByLabel('Target description').fill('community infrastructure')
+  await page.getByRole('button', { name: 'Find organisations' }).click()
 
   const notice = page.locator('.scout-notice')
   await expect(notice).toBeVisible()
@@ -202,7 +203,7 @@ test('a saved brief runs synthetic discovery and the queue matches its report', 
   const added = Number(/Added (\d+) synthetic/.exec(reported ?? '')?.[1] ?? 0)
 
   if (added === 0) {
-    expect(reported).toContain('catalogue is exhausted')
+    expect(reported).toContain('No synthetic examples match')
   } else {
     expect(reported).toContain('No external source was contacted')
   }
@@ -210,16 +211,20 @@ test('a saved brief runs synthetic discovery and the queue matches its report', 
   await expect(async () => {
     expect(await page.locator('.scout-list-item').count()).toBe(before + added)
   }).toPass()
-  await expect(page.getByRole('heading', { name: 'Recent runs' })).toBeVisible()
+  await page.getByRole('button', { name: /Find/ }).click()
+  await page.getByText('Recent searches', { exact: false }).click()
   await expect(
-    page.locator('.scout-run-history').getByText('Synthetic catalogue').first()
+    page
+      .locator('.scout-run-history-grid')
+      .getByText('Synthetic catalogue')
+      .first()
   ).toBeVisible()
 })
 
 test('two candidates can be compared without turning the comparison into a score', async ({
   page,
 }) => {
-  await page.goto('/scout')
+  await openScoutView(page, 'Qualification')
   await expect(page.locator('.scout-list-item').first()).toBeVisible()
 
   await page.getByLabel('Select Quorum Field').check()
@@ -235,10 +240,10 @@ test('two candidates can be compared without turning the comparison into a score
   await expect(comparison).not.toContainText('Total score')
 })
 
-test('several candidates can be decided together, but never accepted together', async ({
+test('several candidates can be decided together, but never qualified together', async ({
   page,
 }) => {
-  await page.goto('/scout')
+  await openScoutView(page, 'Qualification')
   await expect(page.locator('.scout-list-item').first()).toBeVisible()
 
   await page.locator('.scout-select input').first().check()
@@ -247,14 +252,16 @@ test('several candidates can be decided together, but never accepted together', 
     .getByPlaceholder('One reason for all of them')
     .fill('Clearing the queue after a first pass.')
 
-  // Accepting is a per-candidate judgement, so the bulk bar does not offer it.
+  // Qualification is a per-lead judgement, so the bulk bar does not offer it.
   await expect(
-    page.locator('.scout-bulk-actions').getByRole('button', { name: 'Accept' })
+    page
+      .locator('.scout-bulk-actions')
+      .getByRole('button', { name: 'Qualify', exact: true })
   ).toHaveCount(0)
 
   await page
     .locator('.scout-bulk-actions')
-    .getByRole('button', { name: 'Reject' })
+    .getByRole('button', { name: 'Disqualify' })
     .click()
 
   await expect(page.getByText('1 candidate decided.')).toBeVisible()

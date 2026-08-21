@@ -155,8 +155,8 @@ one.
 - append-only review history with an audit event per decision;
 - searching the queue by candidate name, domain, and summary;
 - selecting several candidates and deciding them together with one reason;
-- saving a discovery brief before running it, with an explicit synthetic or
-  approved-source mode;
+- saving a target description before running it, with approved public sources
+  available only through an explicit advanced option;
 - comparing two or three candidates without a total score;
 - assigning review work, keeping an internal note, and setting a review date;
 - turning `needs_evidence` into a field-specific follow-up record;
@@ -179,8 +179,9 @@ like, and the loop the product is asking people to fund is "work arrives, you
 decide, more arrives". `Find more` demonstrates that loop end to end without
 pretending to be a crawler: it takes the next few organisations from a fixture
 file, records a run, and says on screen that no external source was contacted.
-The UI calls this a synthetic run rather than `Find more`, so filtering the
-current queue can never be mistaken for starting collection.
+The UI says when it will use invented demo organisations and makes approved
+public sources an explicit option, so filtering the current queue can never be
+mistaken for starting collection.
 
 It is shaped like the real thing on purpose. A run is recorded with who asked
 for it, what it added, and how many subjects it discarded as natural persons,
@@ -469,7 +470,10 @@ is readable by anybody who can reach the app.
 
 ### Scout inbox
 
-- filters by review state;
+- presents the workflow as `Find`, `Leads`, and `Qualification`;
+- uses one required target description, with activity and exclusions under an
+  optional refinement control;
+- filters the qualification queue by review state;
 - shows a count per state and aligns repeated facts in a compact queue;
 - a search field matching name, domain, and summary. It deliberately does not
   search evidence: evidence text is where a free-text query would start
@@ -478,8 +482,8 @@ is readable by anybody who can reach the app.
   Accepting is absent from it on purpose, because taking a candidate forward is
   a per-candidate judgement and a bulk accept is how a queue becomes a list
   nobody read;
-- a separate discovery panel for saving a brief and choosing synthetic or
-  approved-source mode before starting a run;
+- a focused discovery panel that automatically names saved targets and keeps
+  source selection out of the primary form;
 - recent run cards showing sources, additions, quarantines, duplicates, and
   failures;
 - a side-by-side comparison for two or three selected candidates;
@@ -504,7 +508,8 @@ is readable by anybody who can reach the app.
 
 ### Review action
 
-- accept, watch, reject, or request more evidence;
+- qualify, nurture, disqualify, or research, mapped to the existing append-only
+  `accept`, `watch`, `reject`, and `needs_evidence` decisions;
 - a reason is required for every decision, not only acceptance: a rejection
   without one is the candidate that gets rediscovered and rejected again by
   somebody who cannot see why;
@@ -549,7 +554,8 @@ enabling any approved-source adapter in a deployment:
 - GitHub, Wikipedia, and DuckDuckGo adapters exist behind the fetch wrapper,
   permitted-field filter, quarantine path, per-source rate limits, and the
   `SCOUT_SOURCES_ENABLED` flag;
-- runs remain manual and require the reviewer to choose approved-source mode;
+- runs remain manual and require the reviewer to enable approved public sources
+  for that search;
 - add `scout_source_policies` and `scout_candidate_identities`;
 - measure precision, duplicate rate, reviewer time, and source failures.
 

@@ -465,7 +465,7 @@ export function ScoutCandidatePage({ candidateId }: { candidateId: string }) {
           </div>
 
           <aside className="record-panel scout-review-panel">
-            <p className="utility-label">Decision</p>
+            <p className="utility-label">Qualification</p>
 
             {item.crmMatch ? (
               <div className="scout-crm-match">
@@ -547,8 +547,8 @@ export function ScoutCandidatePage({ candidateId }: { candidateId: string }) {
             {decidable ? (
               <>
                 <p className="scout-review-note">
-                  A decision records review work only. It creates no CRM
-                  organisation, person, case, or task.
+                  Qualification stays in Scout until someone deliberately
+                  creates or links a CRM organisation.
                 </p>
 
                 <label className="scout-reason-field">
@@ -613,12 +613,12 @@ export function ScoutCandidatePage({ candidateId }: { candidateId: string }) {
 
                 {!canAccept ? (
                   <p className="scout-decision-help">
-                    Accept becomes available when the evidence gate is ready.
+                    Qualify becomes available when the evidence gate is ready.
                   </p>
                 ) : null}
                 <p className="scout-decision-help">
-                  Shortcuts: Alt+A accept, Alt+W watch, Alt+R reject, Alt+E
-                  request evidence.
+                  Shortcuts: Alt+A qualify, Alt+W nurture, Alt+R disqualify,
+                  Alt+E research.
                 </p>
 
                 <label className="scout-continue-next">
@@ -629,7 +629,7 @@ export function ScoutCandidatePage({ candidateId }: { candidateId: string }) {
                       setContinueToNext(event.target.checked)
                     }
                   />
-                  <span>Continue to the next candidate after deciding</span>
+                  <span>Continue to the next lead after qualifying</span>
                 </label>
 
                 {error ? <p className="form-error">{error}</p> : null}
@@ -638,7 +638,7 @@ export function ScoutCandidatePage({ candidateId }: { candidateId: string }) {
               <p className="record-empty">
                 {item.reviewState === 'quarantined'
                   ? 'A quarantined candidate cannot be reviewed. Nothing was kept about it.'
-                  : 'This candidate has been accepted. A change of mind needs a new assessment.'}
+                  : 'This lead has been qualified. A change of mind needs a new assessment.'}
               </p>
             )}
 

@@ -3388,16 +3388,77 @@ table[aria-busy='true'] tbody {
   color: var(--ink-muted);
 }
 
-/* Discovery is a deliberate run with a saved scope, separate from filtering
-   the queue. The panel stays visually quieter than the work waiting below it. */
+/* Scout is a three-step working funnel. The rail is the one strong structural
+   gesture; the search surface below it stays quiet and task-focused. */
+.scout-workflow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 2px 0 12px;
+  overflow: hidden;
+  border: 1px solid rgb(21 37 33 / 14%);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 44%);
+}
+
+.scout-workflow button {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  grid-template-rows: auto auto;
+  gap: 1px 10px;
+  min-height: 70px;
+  padding: 13px 18px;
+  border: 0;
+  border-right: 1px solid rgb(21 37 33 / 12%);
+  background: transparent;
+  color: var(--color-brand-dark-green);
+  text-align: left;
+}
+
+.scout-workflow button:last-child {
+  border-right: 0;
+}
+
+.scout-workflow button[aria-current='step'] {
+  background: var(--color-brand-dark-green);
+  color: var(--color-brand-off-white);
+}
+
+.scout-workflow button > span {
+  display: grid;
+  grid-row: 1 / 3;
+  align-self: center;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.scout-workflow strong {
+  align-self: end;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.scout-workflow small {
+  align-self: start;
+  opacity: 0.68;
+  font-size: var(--text-sm);
+}
+
 .scout-discovery-panel {
+  overflow: hidden;
+  max-width: 1040px;
   margin-bottom: 22px;
   border: 1px solid rgb(21 37 33 / 14%);
   border-radius: 14px;
-  background: rgb(255 255 255 / 52%);
+  background: var(--color-white);
 }
 
-.scout-discovery-head,
 .scout-compare-head {
   display: flex;
   align-items: flex-start;
@@ -3406,7 +3467,6 @@ table[aria-busy='true'] tbody {
   padding: 18px 20px;
 }
 
-.scout-discovery-head h2,
 .scout-compare-head h2 {
   margin: 4px 0 2px;
   font-family: var(--font-display);
@@ -3414,11 +3474,24 @@ table[aria-busy='true'] tbody {
   font-weight: 400;
 }
 
-.scout-discovery-head p:last-child {
-  max-width: 68ch;
+.scout-target-intro {
+  padding: 28px 30px 18px;
+}
+
+.scout-target-intro h2 {
+  max-width: 720px;
+  margin: 6px 0 8px;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 400;
+  line-height: 1.02;
+}
+
+.scout-target-intro p:last-child {
+  max-width: 64ch;
   margin: 0;
   color: var(--ink-muted);
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .scout-secondary-action,
@@ -3450,34 +3523,20 @@ table[aria-busy='true'] tbody {
   opacity: 0.45;
 }
 
-.scout-discovery-panel .scout-run-note {
-  padding: 0 20px 16px;
+.scout-target-composer {
+  padding: 0 30px 28px;
 }
 
-.scout-discovery-body {
-  padding: 18px 20px 20px;
-  border-top: 1px solid rgb(21 37 33 / 10%);
-  background: var(--color-white);
-  border-radius: 0 0 14px 14px;
-}
-
-.scout-saved-briefs,
-.scout-discovery-footer {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.scout-saved-briefs label {
+.scout-target-query,
+.scout-target-advanced label,
+.scout-saved-search label {
   display: grid;
-  flex: 1;
-  gap: 5px;
-  max-width: 560px;
+  gap: 6px;
 }
 
-.scout-saved-briefs span,
-.scout-brief-form span {
+.scout-target-query > span,
+.scout-target-advanced label > span,
+.scout-saved-search label > span {
   color: var(--ink-muted);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
@@ -3485,8 +3544,46 @@ table[aria-busy='true'] tbody {
   text-transform: uppercase;
 }
 
-.scout-saved-briefs select,
-.scout-brief-form input {
+.scout-target-query textarea {
+  min-height: 126px;
+  padding: 16px 18px;
+  resize: vertical;
+  border: 1px solid rgb(21 37 33 / 28%);
+  border-radius: 10px;
+  background: var(--color-brand-off-white);
+  color: var(--color-brand-dark-green);
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.6vw, 32px);
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.scout-target-query textarea::placeholder {
+  color: rgb(21 37 33 / 42%);
+}
+
+.scout-target-advanced {
+  margin-top: 14px;
+  border-top: 1px solid rgb(21 37 33 / 10%);
+  border-bottom: 1px solid rgb(21 37 33 / 10%);
+}
+
+.scout-target-advanced summary,
+.scout-discovery-secondary summary {
+  padding: 13px 0;
+  font-weight: 600;
+}
+
+.scout-target-advanced > div {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.55fr) minmax(260px, 1.45fr);
+  gap: 16px;
+  padding: 2px 0 16px;
+}
+
+.scout-target-advanced input,
+.scout-target-advanced select,
+.scout-saved-search select {
   min-height: 40px;
   padding: 0 11px;
   border: 1px solid rgb(21 37 33 / 20%);
@@ -3496,34 +3593,94 @@ table[aria-busy='true'] tbody {
   font: inherit;
 }
 
-.scout-brief-form {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid rgb(21 37 33 / 10%);
+.scout-target-advanced small {
+  color: var(--ink-muted);
 }
 
-.scout-brief-form label {
-  display: grid;
-  gap: 5px;
-}
-
-.scout-brief-wide {
+.scout-target-advanced .scout-source-choice {
   grid-column: 1 / -1;
+  padding-top: 4px;
 }
 
-.scout-discovery-footer {
+.scout-target-advanced .scout-source-choice > span:nth-child(2) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-brand-dark-green);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.scout-source-choice input {
+  width: 18px;
+  height: 18px;
+}
+
+.scout-target-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
   margin-top: 18px;
 }
 
-.scout-discovery-footer p {
-  max-width: 70ch;
+.scout-target-action p,
+.scout-field-help {
   margin: 0;
   color: var(--ink-muted);
   font-size: var(--text-sm);
   line-height: 1.45;
+}
+
+.scout-discovery-secondary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid rgb(21 37 33 / 12%);
+  background: rgb(21 37 33 / 3%);
+}
+
+.scout-discovery-secondary > details {
+  padding: 0 20px 16px;
+  border-right: 1px solid rgb(21 37 33 / 10%);
+}
+
+.scout-discovery-secondary > details:last-child {
+  border-right: 0;
+}
+
+.scout-discovery-secondary summary {
+  display: flex;
+  justify-content: space-between;
+}
+
+.scout-discovery-secondary summary span {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.scout-saved-search {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+}
+
+.scout-saved-search label {
+  flex: 1;
+}
+
+.scout-discovery-secondary .scout-run-history-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.scout-discovery-secondary .scout-run-history-grid article p {
+  margin: 8px 0 0;
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+  line-height: 1.4;
 }
 
 .queue-tab strong {
@@ -3721,20 +3878,48 @@ table[aria-busy='true'] tbody {
 }
 
 @media (max-width: 760px) {
-  .scout-discovery-head,
-  .scout-saved-briefs,
-  .scout-discovery-footer,
   .scout-compare-head {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .scout-brief-form {
+  .scout-workflow {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .scout-brief-wide {
-    grid-column: auto;
+  .scout-workflow button {
+    border-right: 0;
+    border-bottom: 1px solid rgb(21 37 33 / 12%);
+  }
+
+  .scout-workflow button:last-child {
+    border-bottom: 0;
+  }
+
+  .scout-target-intro,
+  .scout-target-composer {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .scout-target-advanced > div,
+  .scout-discovery-secondary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .scout-target-action,
+  .scout-saved-search {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .scout-discovery-secondary > details {
+    border-right: 0;
+    border-bottom: 1px solid rgb(21 37 33 / 10%);
+  }
+
+  .scout-discovery-secondary > details:last-child {
+    border-bottom: 0;
   }
 
   .scout-list-prompt {

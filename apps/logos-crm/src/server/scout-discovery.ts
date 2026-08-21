@@ -10,6 +10,11 @@ import { insertScoutCandidate } from '@/server/db/seed-scout'
 import { discoverFromSources } from '@/server/scout/discover-from-sources'
 import { areSourcesEnabled } from '@/server/scout/source-fetch'
 import { getScoutDiscoveryBrief } from '@/server/scout-brief-repository'
+import {
+  buildSourceQuery,
+  rankSyntheticCandidates,
+  type ScoutTargetProfile,
+} from '@/server/scout-target-profile'
 
 /** How many candidates one run surfaces, so a demo grows rather than dumps. */
 const BATCH_SIZE = 3
@@ -62,6 +67,17 @@ export interface DiscoveryRequest {
   briefId?: string
 }
 
+function targetFromQuery(query = ''): ScoutTargetProfile {
+  return {
+    query,
+    organisationTypes: [],
+    themes: [],
+    exclusions: [],
+    regions: [],
+    activeWithinMonths: null,
+  }
+}
+
 /**
  * Runs discovery.
  *
@@ -78,20 +94,22 @@ export async function runDiscovery(
     ? await getScoutDiscoveryBrief(request.briefId)
     : null
   const query = request.query ?? brief?.query
+  const target = brief ?? targetFromQuery(query)
 
   if (wantsSources && query) {
-    return runSourceDiscovery(actor, query, brief?.id ?? null)
+    return runSourceDiscovery(actor, target, brief?.id ?? null)
   }
 
-  return runCatalogueDiscovery(actor, wantsSources, brief?.id ?? null)
+  return runCatalogueDiscovery(actor, target, wantsSources, brief?.id ?? null)
 }
 
 async function runSourceDiscovery(
   actor: Readonly<ActorContext>,
-  query: string,
+  target: Readonly<ScoutTargetProfile>,
   briefId: string | null
 ): Promise<DiscoveryResult> {
-  const outcome = await discoverFromSources(query)
+  const query = buildSourceQuery(target)
+  const outcome = await discoverFromSources(target)
 
   const parts = [
     outcome.discovered.length > 0
@@ -102,7 +120,9 @@ async function runSourceDiscovery(
       : outcome.quarantined > 1
         ? `${outcome.quarantined} subjects were personal accounts and were quarantined with nothing stored.`
         : '',
-    outcome.skipped > 0 ? `${outcome.skipped} already in the queue.` : '',
+    outcome.skipped > 0
+      ? `${outcome.skipped} did not meet the target or were already in the queue.`
+      : '',
     ...outcome.failures,
   ].filter(Boolean)
 
@@ -139,6 +159,7 @@ async function runSourceDiscovery(
 
 async function runCatalogueDiscovery(
   actor: Readonly<ActorContext>,
+  target: Readonly<ScoutTargetProfile>,
   sourcesWanted: boolean,
   briefId: string | null
 ): Promise<DiscoveryResult> {
@@ -147,8 +168,11 @@ async function runCatalogueDiscovery(
     .from(scoutCandidates)
 
   const known = new Set(existing.map((row) => row.normalisedName))
-  const remaining = discoverableCandidates.filter(
-    (seed) => !known.has(seed.displayName.toLocaleLowerCase('en'))
+  const remaining = rankSyntheticCandidates(
+    discoverableCandidates.filter(
+      (seed) => !known.has(seed.displayName.toLocaleLowerCase('en'))
+    ),
+    target
   )
   const batch = remaining.slice(0, BATCH_SIZE)
 
@@ -168,7 +192,9 @@ async function runCatalogueDiscovery(
 
   const note =
     batch.length === 0
-      ? `The synthetic catalogue is exhausted.${missingQuery || ' Enable SCOUT_SOURCES_ENABLED to search approved sources.'}`
+      ? target.query
+        ? `No synthetic examples match this target.${missingQuery || ' Enable approved sources to search live public evidence.'}`
+        : `The synthetic catalogue is exhausted.${missingQuery || ' Enable approved sources to search live public evidence.'}`
       : `Added ${createdIds.length} synthetic ${
           createdIds.length === 1 ? 'candidate' : 'candidates'
         } from the built-in catalogue. No external source was contacted.${missingQuery}`

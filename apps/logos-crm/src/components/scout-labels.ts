@@ -47,11 +47,11 @@ export const entityTypeLabels: Record<EntityType, string> = {
 }
 
 export const reviewStateLabels: Record<ReviewState, string> = {
-  needs_review: 'Needs review',
-  accepted: 'Accepted',
-  watch: 'Watching',
-  rejected: 'Rejected',
-  needs_evidence: 'Needs evidence',
+  needs_review: 'To qualify',
+  accepted: 'Qualified',
+  watch: 'Nurture',
+  rejected: 'Disqualified',
+  needs_evidence: 'Research needed',
   quarantined: 'Quarantined',
 }
 
@@ -66,8 +66,8 @@ export const gateLabels: Record<Gate, string> = {
 }
 
 export const decisionLabels = {
-  accept: 'Accept',
-  watch: 'Watch',
-  reject: 'Reject',
-  needs_evidence: 'Request evidence',
+  accept: 'Qualify',
+  watch: 'Nurture',
+  reject: 'Disqualify',
+  needs_evidence: 'Research',
 } as const

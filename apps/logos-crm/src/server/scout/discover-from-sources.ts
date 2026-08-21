@@ -1,5 +1,10 @@
 import type { ScoutCandidateSeed } from '@/server/db/scout-fixtures'
 import { insertScoutCandidate } from '@/server/db/seed-scout'
+import {
+  buildSourceQuery,
+  matchesTargetProfile,
+  type ScoutTargetProfile,
+} from '@/server/scout-target-profile'
 
 import { discoverOnGitHub } from './github-source'
 import {
@@ -62,7 +67,7 @@ async function corroborate(
  * recorded on every row.
  */
 export async function discoverFromSources(
-  query: string
+  profile: Readonly<ScoutTargetProfile>
 ): Promise<SourceDiscoveryOutcome> {
   const failures: string[] = []
   const discovered: string[] = []
@@ -72,7 +77,7 @@ export async function discoverFromSources(
 
   let findings
   try {
-    findings = await discoverOnGitHub(query)
+    findings = await discoverOnGitHub(buildSourceQuery(profile))
     sourcesUsed.add('GitHub')
   } catch (error) {
     if (error instanceof SourceUnavailableError) {
@@ -92,6 +97,11 @@ export async function discoverFromSources(
       const id = await insertScoutCandidate(finding.candidate)
       if (id) quarantined += 1
       else skipped += 1
+      continue
+    }
+
+    if (!matchesTargetProfile(finding.candidate, profile)) {
+      skipped += 1
       continue
     }
 

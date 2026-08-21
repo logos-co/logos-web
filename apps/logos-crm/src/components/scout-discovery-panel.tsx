@@ -16,11 +16,13 @@ interface BriefsResponse {
 
 interface ScoutDiscoveryPanelProps {
   isRunning: boolean
-  lastRun: ScoutDiscoveryRun | null
   recentRuns: ScoutDiscoveryRun[]
   sourcesEnabled: boolean
   onRun: (input: { briefId?: string; mode: 'synthetic' | 'sources' }) => void
 }
+
+const DISCOVERY_PURPOSE =
+  'Find organisations for partnership and ecosystem qualification.'
 
 function splitList(value: string): string[] {
   return value
@@ -29,31 +31,30 @@ function splitList(value: string): string[] {
     .filter(Boolean)
 }
 
+function briefName(query: string): string {
+  const firstSentence = query.trim().split(/[.!?]/)[0]?.trim() ?? query.trim()
+  return firstSentence.slice(0, 72)
+}
+
 export function ScoutDiscoveryPanel({
   isRunning,
-  lastRun,
   recentRuns,
   sourcesEnabled,
   onRun,
 }: ScoutDiscoveryPanelProps) {
   const queryClient = useQueryClient()
-  const [expanded, setExpanded] = useState(false)
   const [selectedBriefId, setSelectedBriefId] = useState('')
-  const [name, setName] = useState('')
-  const [purpose, setPurpose] = useState('')
   const [query, setQuery] = useState('')
-  const [organisationTypes, setOrganisationTypes] = useState('')
-  const [themes, setThemes] = useState('')
   const [exclusions, setExclusions] = useState('')
-  const [regions, setRegions] = useState('')
   const [activeWithinMonths, setActiveWithinMonths] = useState('12')
-  const [sourceTypes, setSourceTypes] = useState('GitHub')
-  const [mode, setMode] = useState<'synthetic' | 'sources'>('synthetic')
+  const [useApprovedSources, setUseApprovedSources] = useState(false)
 
   const briefsQuery = useQuery({
     queryKey: ['scout-briefs'],
     queryFn: () => apiClient<BriefsResponse>('/api/v1/scout/discovery-briefs'),
   })
+
+  const mode = sourcesEnabled && useApprovedSources ? 'sources' : 'synthetic'
 
   const saveBrief = useMutation({
     mutationFn: (input: CreateScoutDiscoveryBriefInput) =>
@@ -64,31 +65,22 @@ export function ScoutDiscoveryPanel({
     onSuccess: async ({ item }) => {
       setSelectedBriefId(item.id)
       await queryClient.invalidateQueries({ queryKey: ['scout-briefs'] })
-      onRun({
-        briefId: item.id,
-        mode,
-      })
+      onRun({ briefId: item.id, mode })
     },
   })
 
-  const canSave =
-    name.trim().length >= 3 &&
-    purpose.trim().length >= 3 &&
-    query.trim().length >= 2
-
-  function submitBrief(): void {
+  function findOrganisations(): void {
+    const target = query.trim()
     saveBrief.mutate({
-      name: name.trim(),
-      purpose: purpose.trim(),
-      query: query.trim(),
-      organisationTypes: splitList(organisationTypes),
-      themes: splitList(themes),
+      name: briefName(target),
+      purpose: DISCOVERY_PURPOSE,
+      query: target,
+      organisationTypes: [],
+      themes: [],
       exclusions: splitList(exclusions),
-      regions: splitList(regions),
-      activeWithinMonths: activeWithinMonths
-        ? Number(activeWithinMonths)
-        : null,
-      sourceTypes: splitList(sourceTypes),
+      regions: [],
+      activeWithinMonths: Number(activeWithinMonths),
+      sourceTypes: [],
     })
   }
 
@@ -97,42 +89,116 @@ export function ScoutDiscoveryPanel({
       className="scout-discovery-panel"
       aria-labelledby="discovery-title"
     >
-      <div className="scout-discovery-head">
-        <div>
-          <p className="utility-label">Discovery</p>
-          <h2 id="discovery-title">Run a defined search</h2>
-          <p>
-            A brief records why the search exists and what belongs in its
-            results. It never expands an approved source policy.
-          </p>
-        </div>
-        <button
-          aria-expanded={expanded}
-          className="scout-secondary-action cursor-pointer"
-          type="button"
-          onClick={() => setExpanded((value) => !value)}
-        >
-          {expanded ? 'Close' : 'New discovery run'}
-        </button>
+      <div className="scout-target-intro">
+        <p className="utility-label">Find organisations</p>
+        <h2 id="discovery-title">Who should Scout look for?</h2>
+        <p>
+          Describe the organisations, projects, or communities you want to
+          review. Scout will keep the public evidence that explains every
+          result.
+        </p>
       </div>
 
-      {lastRun ? (
-        <p className="scout-run-note">
-          Last run {new Date(lastRun.startedAt).toLocaleDateString('en-GB')}:{' '}
-          {lastRun.note}
-        </p>
-      ) : null}
+      <div className="scout-target-composer">
+        <label className="scout-target-query">
+          <span>Target description</span>
+          <textarea
+            placeholder="Privacy and networking organisations with active open-source work"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+        </label>
 
-      {expanded ? (
-        <div className="scout-discovery-body">
-          <div className="scout-saved-briefs">
+        <details className="scout-target-advanced">
+          <summary className="cursor-pointer">Refine this search</summary>
+          <div>
             <label>
-              <span>Saved brief</span>
+              <span>Published activity</span>
+              <select
+                value={activeWithinMonths}
+                onChange={(event) => setActiveWithinMonths(event.target.value)}
+              >
+                <option value="3">Within 3 months</option>
+                <option value="6">Within 6 months</option>
+                <option value="12">Within 12 months</option>
+                <option value="24">Within 24 months</option>
+              </select>
+            </label>
+            <label>
+              <span>Exclude</span>
+              <input
+                placeholder="Audience analytics, personal repositories"
+                value={exclusions}
+                onChange={(event) => setExclusions(event.target.value)}
+              />
+              <small>Separate several exclusions with commas.</small>
+            </label>
+            {sourcesEnabled ? (
+              <label className="scout-source-choice">
+                <span>Evidence source</span>
+                <span>
+                  <input
+                    checked={useApprovedSources}
+                    type="checkbox"
+                    onChange={(event) =>
+                      setUseApprovedSources(event.target.checked)
+                    }
+                  />
+                  Search approved public sources
+                </span>
+                <small>
+                  Leave this off to preview the workflow with invented demo
+                  organisations.
+                </small>
+              </label>
+            ) : null}
+          </div>
+        </details>
+
+        <div className="scout-target-action">
+          <p>
+            {mode === 'sources'
+              ? 'Scout will search approved public sources.'
+              : 'This run uses invented demo organisations and makes no external requests.'}
+          </p>
+          <button
+            className="scout-primary-action cursor-pointer"
+            disabled={
+              query.trim().length < 2 || saveBrief.isPending || isRunning
+            }
+            type="button"
+            onClick={findOrganisations}
+          >
+            {saveBrief.isPending || isRunning
+              ? 'Finding organisations'
+              : 'Find organisations'}
+          </button>
+        </div>
+
+        {query.trim().length > 0 && query.trim().length < 2 ? (
+          <p className="scout-field-help">Enter at least two characters.</p>
+        ) : null}
+        {saveBrief.isError ? (
+          <p className="form-error">
+            The target could not be saved. Check the fields and try again.
+          </p>
+        ) : null}
+      </div>
+
+      <div className="scout-discovery-secondary">
+        <details>
+          <summary className="cursor-pointer">
+            Use a saved search
+            <span>{briefsQuery.data?.items.length ?? 0}</span>
+          </summary>
+          <div className="scout-saved-search">
+            <label>
+              <span>Saved search</span>
               <select
                 value={selectedBriefId}
                 onChange={(event) => setSelectedBriefId(event.target.value)}
               >
-                <option value="">Select a brief</option>
+                <option value="">Choose a saved search</option>
                 {(briefsQuery.data?.items ?? []).map((brief) => (
                   <option key={brief.id} value={brief.id}>
                     {brief.name}
@@ -140,168 +206,37 @@ export function ScoutDiscoveryPanel({
                 ))}
               </select>
             </label>
-            <label className="scout-run-mode">
-              <span>Run mode</span>
-              <select
-                value={mode}
-                onChange={(event) =>
-                  setMode(event.target.value as 'synthetic' | 'sources')
-                }
-              >
-                <option value="synthetic">Synthetic catalogue</option>
-                <option disabled={!sourcesEnabled} value="sources">
-                  Approved sources
-                </option>
-              </select>
-            </label>
             <button
-              className="scout-primary-action cursor-pointer"
+              className="scout-secondary-action cursor-pointer"
               disabled={!selectedBriefId || isRunning}
               type="button"
-              onClick={() =>
-                onRun({
-                  briefId: selectedBriefId,
-                  mode,
-                })
-              }
+              onClick={() => onRun({ briefId: selectedBriefId, mode })}
             >
-              {isRunning ? 'Running discovery' : 'Run selected brief'}
+              Run saved search
             </button>
           </div>
+        </details>
 
-          <div className="scout-brief-form">
-            <label>
-              <span>Brief name</span>
-              <input
-                placeholder="Open networking organisations"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-              />
-            </label>
-            <label className="scout-brief-wide">
-              <span>Purpose</span>
-              <input
-                placeholder="Find organisations for a partnership review"
-                value={purpose}
-                onChange={(event) => setPurpose(event.target.value)}
-              />
-            </label>
-            <label className="scout-brief-wide">
-              <span>Search query</span>
-              <input
-                placeholder="Censorship-resistant networking"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-              />
-            </label>
-            <label>
-              <span>Organisation types</span>
-              <input
-                placeholder="Open-source project, foundation"
-                value={organisationTypes}
-                onChange={(event) => setOrganisationTypes(event.target.value)}
-              />
-            </label>
-            <label>
-              <span>Themes</span>
-              <input
-                placeholder="Networking, privacy"
-                value={themes}
-                onChange={(event) => setThemes(event.target.value)}
-              />
-            </label>
-            <label>
-              <span>Exclude</span>
-              <input
-                placeholder="Personal repositories"
-                value={exclusions}
-                onChange={(event) => setExclusions(event.target.value)}
-              />
-            </label>
-            <label>
-              <span>Regions</span>
-              <input
-                placeholder="Global, Europe"
-                value={regions}
-                onChange={(event) => setRegions(event.target.value)}
-              />
-            </label>
-            <label>
-              <span>Active within months</span>
-              <input
-                min="1"
-                max="120"
-                type="number"
-                value={activeWithinMonths}
-                onChange={(event) => setActiveWithinMonths(event.target.value)}
-              />
-            </label>
-            <label>
-              <span>Source types</span>
-              <input
-                placeholder="GitHub, Wikipedia"
-                value={sourceTypes}
-                onChange={(event) => setSourceTypes(event.target.value)}
-              />
-            </label>
-          </div>
-
-          <div className="scout-discovery-footer">
-            <p>
-              {sourcesEnabled
-                ? mode === 'sources'
-                  ? 'This run will contact the approved sources named by their active policies.'
-                  : 'This run will use the synthetic catalogue. No external source will be contacted.'
-                : 'This deployment will use the synthetic catalogue. No external source will be contacted.'}
-            </p>
-            <button
-              className="scout-primary-action cursor-pointer"
-              disabled={!canSave || saveBrief.isPending || isRunning}
-              type="button"
-              onClick={submitBrief}
-            >
-              {saveBrief.isPending ? 'Saving brief' : 'Save and run brief'}
-            </button>
-          </div>
-
-          {recentRuns.length > 0 ? (
-            <div className="scout-run-history">
-              <div className="scout-evidence-group-head">
-                <h2>Recent runs</h2>
-                <span>Source health and yield</span>
-              </div>
-              <div className="scout-run-history-grid">
-                {recentRuns.map((run) => (
-                  <article key={run.id}>
-                    <strong>
-                      {new Date(run.startedAt).toLocaleDateString('en-GB')}
-                    </strong>
-                    <span>{run.sourcesUsed.join(', ') || run.mode}</span>
-                    <dl>
-                      <div>
-                        <dt>Added</dt>
-                        <dd>{run.discoveredCount}</dd>
-                      </div>
-                      <div>
-                        <dt>Quarantined</dt>
-                        <dd>{run.quarantinedCount}</dd>
-                      </div>
-                      <div>
-                        <dt>Duplicates</dt>
-                        <dd>{run.skippedCount}</dd>
-                      </div>
-                      <div>
-                        <dt>Failures</dt>
-                        <dd>{run.failureCount}</dd>
-                      </div>
-                    </dl>
-                  </article>
-                ))}
-              </div>
+        {recentRuns.length > 0 ? (
+          <details>
+            <summary className="cursor-pointer">
+              Recent searches
+              <span>{recentRuns.length}</span>
+            </summary>
+            <div className="scout-run-history-grid">
+              {recentRuns.map((run) => (
+                <article key={run.id}>
+                  <strong>
+                    {new Date(run.startedAt).toLocaleDateString('en-GB')}
+                  </strong>
+                  <span>{run.sourcesUsed.join(', ') || run.mode}</span>
+                  <p>{run.note}</p>
+                </article>
+              ))}
             </div>
-          ) : null}
-        </div>
-      ) : null}
+          </details>
+        ) : null}
+      </div>
     </section>
   )
 }
