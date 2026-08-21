@@ -84,11 +84,13 @@ the synthetic catalogue.
 
 ## 3a. Approved sources
 
-| Source                    | What it contributes                                                                                        | Personal data it returns, and what happens to it                                                                                                                            |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GitHub public API         | Stated work, published repositories, latest public change, contribution path, documentation, official site | A contact address and a social handle on the profile, and contributor logins on repositories. None is read; anything shaped like a contact detail is dropped before storage |
-| Wikipedia REST            | An independent description of the organisation                                                             | Founder and staff names in prose; only the short summary is read, and it is quoted rather than parsed                                                                       |
-| DuckDuckGo instant answer | A second reading of the same public record                                                                 | Names appearing in an abstract; the same handling                                                                                                                           |
+| Source                      | What it contributes                                                                                        | Personal data it returns, and what happens to it                                                                                                                            |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GitHub public API           | Stated work, published repositories, latest public change, contribution path, documentation, official site | A contact address and a social handle on the profile, and contributor logins on repositories. None is read; anything shaped like a contact detail is dropped before storage |
+| Codeberg public API         | Organisation-owned repositories, latest public change, contribution path, documentation, official site     | Personal accounts can own repositories. Scout verifies the owner through the organisation endpoint and skips personal owners before extraction                              |
+| Open Collective GraphQL API | Active public-interest organisations, projects, communities, stated work, contribution path, official site | Individual accounts and member records exist in the API. Scout requests only active collective, fund, organisation, and project accounts, and never requests members        |
+| Wikipedia REST              | An independent description of the organisation                                                             | Founder and staff names in prose; only the short summary is read, and it is quoted rather than parsed                                                                       |
+| DuckDuckGo instant answer   | A second reading of the same public record                                                                 | Names appearing in an abstract; the same handling                                                                                                                           |
 
 Three rules hold across all of them, in `src/server/scout/`:
 
@@ -97,21 +99,23 @@ Three rules hold across all of them, in `src/server/scout/`:
   returned by a source cannot lead anywhere the policy did not already allow.
 - **Permitted fields only.** A policy names the fields its source may
   contribute, and the adapter reads no others off the response.
-- **The owner type is the boundary.** A GitHub repository owned by a person is
-  quarantined with the login and the reason kept and nothing else. In practice
-  most owners of the repositories a topic search returns are individuals, so
-  this fires on most runs.
+- **The owner or account type is the boundary.** A GitHub repository owned by a
+  person is quarantined with the login and the reason kept and nothing else. A
+  Codeberg personal owner is skipped before extraction. Open Collective is
+  queried only for collective, fund, organisation, and project accounts and no
+  member records are requested.
 
 A credential does not enable anything. `GITHUB_TOKEN` raises a rate limit and
 the adapter works without it.
 
 ### What a real run actually looks like
 
-Two searches run against GitHub, because they fail in opposite directions: a
-topic phrase finds nothing as an account name, and an organisation's name is
-rarely in the descriptions of the repositories it publishes. Owners are then
-checked one at a time, and each organisation is looked up in a reference work
-for a second opinion.
+GitHub, Codeberg, and Open Collective searches run independently. A source
+failure is recorded but does not discard findings from the other sources.
+Repository owners and collective account types are checked before any candidate
+is stored, and each accepted candidate is looked up in a reference work for a
+second opinion. Evidence from another source is merged into an existing
+candidate with the same normalised name rather than creating a duplicate.
 
 Corroboration is refused unless the entry is about the same subject. Looking up
 "Warpnet", a censorship-resistant networking project, returns an article about
@@ -551,9 +555,9 @@ enabling any approved-source adapter in a deployment:
 
 ### Phase 2 - approved source adapters (in progress)
 
-- GitHub, Wikipedia, and DuckDuckGo adapters exist behind the fetch wrapper,
-  permitted-field filter, quarantine path, per-source rate limits, and the
-  `SCOUT_SOURCES_ENABLED` flag;
+- GitHub, Codeberg, Open Collective, Wikipedia, and DuckDuckGo adapters exist
+  behind the fetch wrapper, permitted-field filter, organisation boundary,
+  per-source rate limits, and the `SCOUT_SOURCES_ENABLED` flag;
 - runs remain manual and require the reviewer to enable approved public sources
   for that search;
 - add `scout_source_policies` and `scout_candidate_identities`;

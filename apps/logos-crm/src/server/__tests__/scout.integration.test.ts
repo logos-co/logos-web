@@ -31,6 +31,7 @@ import {
 } from '@/server/scout-repository'
 import { createScoutDiscoveryBrief } from '@/server/scout-brief-repository'
 import { getScoutReport } from '@/server/scout-report-repository'
+import { upsertDiscoveredScoutCandidate } from '@/server/db/seed-scout'
 
 import {
   createTestUser,
@@ -126,6 +127,68 @@ describe.skipIf(!isIntegrationEnabled)('scout', () => {
     expect(await listOrganisations()).toHaveLength(0)
     expect(await listPeople()).toHaveLength(0)
     expect(await listCases({})).toHaveLength(0)
+  })
+
+  test('discovery merges evidence from another source into the same candidate', async () => {
+    const first = await upsertDiscoveredScoutCandidate({
+      displayName: 'Privacy Commons',
+      entityType: 'organisation',
+      domain: 'privacycommons.example',
+      summary: 'Open privacy infrastructure.',
+      firstSeenDaysAgo: 0,
+      lastObservedDaysAgo: 0,
+      evidence: [
+        {
+          field: 'public_repository',
+          value: 'privacy-commons/network',
+          sourceUrl: 'https://codeberg.org/privacy-commons/network',
+          sourceTitle: 'Codeberg repository',
+          contentHash: 'codeberg:privacy-commons:network',
+          excerpt: 'A public privacy network repository.',
+          extractionMethod: 'deterministic',
+          extractorVersion: 'codeberg-api-v1',
+          certainty: 'exact',
+          expiresAt: new Date(Date.now() + 90 * DAY),
+        },
+      ],
+    })
+    const second = await upsertDiscoveredScoutCandidate({
+      displayName: 'Privacy Commons Community',
+      entityType: 'community',
+      domain: 'privacycommons.example',
+      summary: 'A public-interest privacy community.',
+      firstSeenDaysAgo: 0,
+      lastObservedDaysAgo: 0,
+      evidence: [
+        {
+          field: 'contribution_path',
+          value: 'Public contribution page',
+          sourceUrl: 'https://opencollective.com/privacy-commons',
+          sourceTitle: 'Open Collective profile',
+          contentHash: 'open-collective:privacy-commons:contribute',
+          excerpt: 'The community accepts public contributions.',
+          extractionMethod: 'deterministic',
+          extractorVersion: 'open-collective-graphql-v2',
+          certainty: 'exact',
+          expiresAt: new Date(Date.now() + 90 * DAY),
+        },
+      ],
+    })
+
+    expect(first.created).toBe(true)
+    expect(second).toMatchObject({
+      id: first.id,
+      created: false,
+      evidenceAdded: 1,
+    })
+
+    const candidates = await db.select().from(scoutCandidates)
+    const evidence = await db
+      .select()
+      .from(scoutEvidence)
+      .where(eq(scoutEvidence.candidateId, first.id))
+    expect(candidates).toHaveLength(1)
+    expect(evidence).toHaveLength(2)
   })
 
   test('accepting a candidate creates nothing in the CRM', async () => {

@@ -1,12 +1,17 @@
 import type { ScoutCandidateSeed } from '@/server/db/scout-fixtures'
-import { insertScoutCandidate } from '@/server/db/seed-scout'
+import {
+  insertScoutCandidate,
+  upsertDiscoveredScoutCandidate,
+} from '@/server/db/seed-scout'
 import {
   buildSourceQuery,
-  matchesTargetProfile,
+  rankSourceCandidates,
   type ScoutTargetProfile,
 } from '@/server/scout-target-profile'
 
+import { discoverOnCodeberg } from './codeberg-source'
 import { discoverOnGitHub } from './github-source'
+import { discoverOnOpenCollective } from './open-collective-source'
 import {
   corroborateFromDuckDuckGo,
   corroborateFromWikipedia,
@@ -15,6 +20,7 @@ import { SourceUnavailableError } from './source-fetch'
 
 export interface SourceDiscoveryOutcome {
   discovered: string[]
+  enriched: number
   quarantined: number
   skipped: number
   sourcesUsed: string[]
@@ -71,26 +77,67 @@ export async function discoverFromSources(
 ): Promise<SourceDiscoveryOutcome> {
   const failures: string[] = []
   const discovered: string[] = []
+  let enriched = 0
   const sourcesUsed = new Set<string>()
   let quarantined = 0
   let skipped = 0
 
-  let findings
-  try {
-    findings = await discoverOnGitHub(buildSourceQuery(profile))
-    sourcesUsed.add('GitHub')
-  } catch (error) {
-    if (error instanceof SourceUnavailableError) {
-      return {
-        discovered: [],
-        quarantined: 0,
-        skipped: 0,
-        sourcesUsed: [],
-        failures: [error.message],
-      }
+  const query = buildSourceQuery(profile)
+  const adapters = [
+    { name: 'GitHub', run: () => discoverOnGitHub(query) },
+    {
+      name: 'Codeberg',
+      run: async () =>
+        (await discoverOnCodeberg(query)).map((candidate) => ({
+          candidate,
+          quarantined: false,
+        })),
+    },
+    {
+      name: 'Open Collective',
+      run: async () =>
+        (await discoverOnOpenCollective(query)).map((candidate) => ({
+          candidate,
+          quarantined: false,
+        })),
+    },
+  ]
+  const outcomes = await Promise.allSettled(
+    adapters.map(async (adapter) => ({
+      adapter,
+      findings: await adapter.run(),
+    }))
+  )
+  const findings = outcomes.flatMap((outcome, index) => {
+    const adapter = adapters[index]
+    if (!adapter) return []
+
+    if (outcome.status === 'fulfilled') {
+      sourcesUsed.add(adapter.name)
+      const quarantined = outcome.value.findings
+        .filter((finding) => finding.quarantined)
+        .slice(0, 1)
+      const accepted = rankSourceCandidates(
+        outcome.value.findings
+          .filter((finding) => !finding.quarantined)
+          .map((finding) => finding.candidate),
+        profile
+      )
+        .slice(0, 2)
+        .map((candidate) => ({ candidate, quarantined: false }))
+      skipped +=
+        outcome.value.findings.filter((finding) => !finding.quarantined)
+          .length - accepted.length
+      return [...accepted, ...quarantined]
     }
-    throw error
-  }
+
+    failures.push(
+      outcome.reason instanceof SourceUnavailableError
+        ? outcome.reason.message
+        : `${adapter.name} could not be searched.`
+    )
+    return []
+  })
 
   for (const finding of findings) {
     if (finding.quarantined) {
@@ -100,23 +147,20 @@ export async function discoverFromSources(
       continue
     }
 
-    if (!matchesTargetProfile(finding.candidate, profile)) {
-      skipped += 1
-      continue
-    }
-
     const withCorroboration = await corroborate(finding.candidate, failures)
     if (withCorroboration.evidence.length > finding.candidate.evidence.length) {
       sourcesUsed.add('reference works')
     }
 
-    const id = await insertScoutCandidate(withCorroboration)
-    if (id) discovered.push(id)
+    const result = await upsertDiscoveredScoutCandidate(withCorroboration)
+    if (result.created) discovered.push(result.id)
+    else if (result.evidenceAdded > 0) enriched += 1
     else skipped += 1
   }
 
   return {
     discovered,
+    enriched,
     quarantined,
     skipped,
     sourcesUsed: [...sourcesUsed],

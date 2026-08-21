@@ -60,7 +60,8 @@ export const githubPolicy: SourcePolicy = {
   minRequestIntervalMs: 400,
   requestTimeoutMs: 8_000,
   termsReviewedOn: '2026-08-15',
-  termsUrl: 'https://docs.github.com/en/site-policy/github-terms/github-terms-of-service',
+  termsUrl:
+    'https://docs.github.com/en/site-policy/github-terms/github-terms-of-service',
   extractorVersion: 'github-api-v1',
   evidenceTtlDays: 90,
 }
@@ -93,10 +94,60 @@ export const duckduckgoPolicy: SourcePolicy = {
   evidenceTtlDays: 60,
 }
 
+export const codebergPolicy: SourcePolicy = {
+  id: 'codeberg',
+  name: 'Codeberg public API',
+  allowedHosts: ['codeberg.org'],
+  permittedFields: [
+    'official_site',
+    'theme_match',
+    'public_repository',
+    'recent_release',
+    'public_documentation',
+    'contribution_path',
+  ],
+  personalDataFields: [
+    'owner email',
+    'owner location',
+    'individual account profile',
+  ],
+  minRequestIntervalMs: 400,
+  requestTimeoutMs: 8_000,
+  termsReviewedOn: '2026-08-21',
+  termsUrl: 'https://codeberg.org/Codeberg/org/src/branch/main/TermsOfUse.md',
+  extractorVersion: 'codeberg-api-v1',
+  evidenceTtlDays: 90,
+}
+
+export const openCollectivePolicy: SourcePolicy = {
+  id: 'open_collective',
+  name: 'Open Collective public GraphQL API',
+  allowedHosts: ['api.opencollective.com'],
+  permittedFields: [
+    'official_site',
+    'theme_match',
+    'recent_release',
+    'contribution_path',
+  ],
+  personalDataFields: [
+    'individual accounts',
+    'member names',
+    'member email addresses',
+  ],
+  minRequestIntervalMs: 500,
+  requestTimeoutMs: 8_000,
+  termsReviewedOn: '2026-08-21',
+  termsUrl: 'https://opencollective.com/terms',
+  extractorVersion: 'open-collective-graphql-v2',
+  evidenceTtlDays: 90,
+}
+
 export const sourcePolicies = [
   githubPolicy,
   wikipediaPolicy,
   duckduckgoPolicy,
+  codebergPolicy,
+  openCollectivePolicy,
 ] as const
 
 /**

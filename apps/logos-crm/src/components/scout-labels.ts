@@ -32,7 +32,7 @@ export const evidenceFieldLabels: Record<EvidenceField, string> = {
   official_site: 'Official site',
   theme_match: 'Stated work',
   public_repository: 'Public repository',
-  recent_release: 'Recent release',
+  recent_release: 'Recent public activity',
   public_documentation: 'Public documentation',
   contribution_path: 'Contribution path',
   ecosystem_relation: 'Ecosystem relation',

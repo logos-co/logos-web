@@ -45,7 +45,8 @@ async function waitForTurn(policy: Readonly<SourcePolicy>): Promise<void> {
  */
 export async function fetchFromSource<T>(
   policy: Readonly<SourcePolicy>,
-  url: string
+  url: string,
+  init: Readonly<RequestInit> = {}
 ): Promise<T> {
   const target = new URL(url)
 
@@ -57,9 +58,12 @@ export async function fetchFromSource<T>(
 
   await waitForTurn(policy)
 
-  const headers: Record<string, string> = {
-    'User-Agent': USER_AGENT,
-    Accept: 'application/json',
+  const headers = new Headers(init.headers)
+  headers.set('User-Agent', USER_AGENT)
+  headers.set('Accept', 'application/json')
+
+  if (init.body && !headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/json')
   }
 
   // A token raises GitHub's rate limit and nothing else. It cannot enable an
@@ -67,10 +71,11 @@ export async function fetchFromSource<T>(
   // policy, and it works without a token.
   const { GITHUB_TOKEN } = getServerEnv()
   if (policy.id === 'github' && GITHUB_TOKEN) {
-    headers.Authorization = `Bearer ${GITHUB_TOKEN}`
+    headers.set('Authorization', `Bearer ${GITHUB_TOKEN}`)
   }
 
   const response = await fetch(target, {
+    ...init,
     headers,
     signal: AbortSignal.timeout(policy.requestTimeoutMs),
   })

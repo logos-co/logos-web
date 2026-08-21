@@ -5,6 +5,7 @@ import { evidence, type ScoutCandidateSeed } from '@/server/db/scout-fixtures'
 import {
   buildSourceQuery,
   matchesTargetProfile,
+  rankSourceCandidates,
   rankSyntheticCandidates,
   type ScoutTargetProfile,
 } from './scout-target-profile'
@@ -103,5 +104,23 @@ describe('Scout target profiles', () => {
     expect(rankSyntheticCandidates([storage, privacy], target, now)).toEqual([
       privacy,
     ])
+  })
+
+  test('requires meaningful overlap before accepting a broad source result', () => {
+    const now = new Date('2026-08-21T12:00:00.000Z').getTime()
+    const relevant = candidate(
+      'Privacy Network',
+      'Privacy infrastructure for community networking.',
+      '2026-08-01'
+    )
+    const broadSearchNoise = candidate(
+      'News Network',
+      'Technology news and audience updates.',
+      '2026-08-01'
+    )
+
+    expect(
+      rankSourceCandidates([broadSearchNoise, relevant], target, now)
+    ).toEqual([relevant])
   })
 })

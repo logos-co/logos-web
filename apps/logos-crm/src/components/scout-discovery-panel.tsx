@@ -147,8 +147,9 @@ export function ScoutDiscoveryPanel({
                   Search approved public sources
                 </span>
                 <small>
-                  Leave this off to preview the workflow with invented demo
-                  organisations.
+                  Searches GitHub, Codeberg, and Open Collective, then checks
+                  Wikipedia and DuckDuckGo for independent evidence. Leave this
+                  off to use invented demo organisations.
                 </small>
               </label>
             ) : null}

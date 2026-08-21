@@ -125,6 +125,11 @@ async function runSourceDiscovery(
         ? 'One organisation did not meet the target or was already in the queue.'
         : `${outcome.skipped} organisations did not meet the target or were already in the queue.`
       : '',
+    outcome.enriched === 1
+      ? 'One existing candidate gained new evidence.'
+      : outcome.enriched > 1
+        ? `${outcome.enriched} existing candidates gained new evidence.`
+        : '',
     ...outcome.failures,
   ].filter(Boolean)
 

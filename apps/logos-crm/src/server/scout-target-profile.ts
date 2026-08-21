@@ -13,6 +13,28 @@ export type ScoutTargetProfile = Pick<
 
 const SEARCH_QUERY_MAX_LENGTH = 240
 const DAY = 24 * 60 * 60 * 1000
+const logosAlignmentTerms = [
+  'blockchain',
+  'censorship resistant',
+  'censorship-resistant',
+  'community',
+  'commons',
+  'cryptograph',
+  'decentralised',
+  'decentralized',
+  'messaging',
+  'mixnet',
+  'network',
+  'open source',
+  'open-source',
+  'p2p',
+  'peer-to-peer',
+  'privacy',
+  'private',
+  'protocol',
+  'public good',
+  'storage',
+] as const
 
 const ignoredSearchWords = new Set([
   'a',
@@ -65,6 +87,45 @@ function searchableText(candidate: Readonly<ScoutCandidateSeed>): string {
     .filter((value): value is string => Boolean(value))
     .join(' ')
     .toLocaleLowerCase('en')
+}
+
+function sourceRelevance(
+  candidate: Readonly<ScoutCandidateSeed>,
+  profile: Readonly<ScoutTargetProfile>
+): number | null {
+  const text = searchableText(candidate)
+  const queryWords = searchWords([profile.query])
+  const targetWords = searchWords([
+    profile.query,
+    ...profile.themes,
+    ...profile.organisationTypes,
+    ...profile.regions,
+  ])
+  const queryScore = queryWords.filter((word) => text.includes(word)).length
+  const targetScore = targetWords.filter((word) => text.includes(word)).length
+  const logosScore = logosAlignmentTerms.filter((term) =>
+    text.includes(term)
+  ).length
+
+  if (queryWords.length > 0 && queryScore === 0) return null
+  if (targetWords.length > 0 && targetScore === 0) return null
+  if (logosScore < 2) return null
+  return queryScore * 2 + targetScore + logosScore * 2
+}
+
+function generalRelevance(
+  candidate: Readonly<ScoutCandidateSeed>,
+  profile: Readonly<ScoutTargetProfile>
+): number | null {
+  const text = searchableText(candidate)
+  const targetWords = searchWords([
+    profile.query,
+    ...profile.themes,
+    ...profile.organisationTypes,
+    ...profile.regions,
+  ])
+  const score = targetWords.filter((word) => text.includes(word)).length
+  return targetWords.length === 0 || score > 0 ? score : null
 }
 
 function latestPublishedDate(
@@ -135,22 +196,36 @@ export function rankSyntheticCandidates(
   profile: Readonly<ScoutTargetProfile>,
   now = Date.now()
 ): ScoutCandidateSeed[] {
-  const targetWords = searchWords([
-    profile.query,
-    ...profile.themes,
-    ...profile.organisationTypes,
-    ...profile.regions,
-  ])
-
   return candidates
     .filter((candidate) => matchesTargetProfile(candidate, profile, now))
     .map((candidate) => ({
       candidate,
-      score: targetWords.filter((word) =>
-        searchableText(candidate).includes(word)
-      ).length,
+      score: generalRelevance(candidate, profile),
     }))
-    .filter(({ score }) => targetWords.length === 0 || score > 0)
+    .filter(
+      (result): result is { candidate: ScoutCandidateSeed; score: number } =>
+        result.score !== null
+    )
+    .sort((left, right) => right.score - left.score)
+    .map(({ candidate }) => candidate)
+}
+
+/** Ranks external findings and omits broad-search results with weak overlap. */
+export function rankSourceCandidates(
+  candidates: readonly ScoutCandidateSeed[],
+  profile: Readonly<ScoutTargetProfile>,
+  now = Date.now()
+): ScoutCandidateSeed[] {
+  return candidates
+    .filter((candidate) => matchesTargetProfile(candidate, profile, now))
+    .map((candidate) => ({
+      candidate,
+      score: sourceRelevance(candidate, profile),
+    }))
+    .filter(
+      (result): result is { candidate: ScoutCandidateSeed; score: number } =>
+        result.score !== null
+    )
     .sort((left, right) => right.score - left.score)
     .map(({ candidate }) => candidate)
 }
