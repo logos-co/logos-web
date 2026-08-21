@@ -14,12 +14,14 @@ Run from the repo root unless a task explicitly needs the app directory:
 
 ```bash
 pnpm --filter web dev
-pnpm --filter web build
+pnpm turbo run build --filter=web
 pnpm --filter web start
 pnpm --filter web lint
 pnpm --filter web check-types
 pnpm --filter web test
 ```
+
+Build through turbo, not `pnpm --filter web build`: `@acid-info/logos-ui` is a build dependency and only the orchestrator builds it. This is also how the deploy builds the app.
 
 `pnpm --filter web start` serves the static `out/` directory with `python3 -m http.server`; do not use `next start` for this app.
 
