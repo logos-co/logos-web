@@ -56,9 +56,15 @@ declare global {
 // interpolated in.
 /** Stays in the flow to reserve height, but hidden once the animation is armed. */
 const RESERVES_HEIGHT = '[.catch-no-one-typewriter-armed_&]:invisible'
-/** Laid over the reserved space; only rendered once the animation is armed. */
+/**
+ * Laid over the reserved space; only rendered once the animation is armed.
+ *
+ * It carries the cap-height trim itself: `text-box-trim` is not inherited and
+ * does not reach out-of-flow descendants, so without this the typed copy keeps
+ * the half-leading its in-flow twin had trimmed and lands a few pixels low.
+ */
 const OVERLAID =
-  'absolute inset-0 hidden [.catch-no-one-typewriter-armed_&]:block'
+  'absolute inset-0 hidden [text-box:trim-both_cap_alphabetic] [.catch-no-one-typewriter-armed_&]:block'
 
 /**
  * Read back out of the variant above rather than declared a second time: that
@@ -91,6 +97,9 @@ const useIsomorphicLayoutEffect =
   typeof window === 'undefined' ? useEffect : useLayoutEffect
 
 const isArmed = (): boolean =>
+  // Guarded: `classList.contains('')` throws, so an empty name has to mean
+  // "not armed" rather than take the page down with it.
+  TYPEWRITER_ARMED_CLASS !== '' &&
   document.documentElement.classList.contains(TYPEWRITER_ARMED_CLASS)
 
 /** Has `node` risen far enough up the viewport to start typing? */
@@ -213,6 +222,7 @@ export function HeroHeadline({
       </span>
       <span aria-hidden="true" data-typewriter="typed" className={OVERLAID}>
         <HeadlineLines
+          holdEmptyLines
           line1={line1.slice(0, Math.min(revealed, line1.length))}
           line2={line2.slice(0, Math.max(0, revealed - line1.length))}
         />
@@ -221,13 +231,39 @@ export function HeroHeadline({
   )
 }
 
-function HeadlineLines({ line1, line2 }: { line1: string; line2: string }) {
+/**
+ * Figma draws the highlight as a fixed rect: 1em tall, starting 3px above the
+ * cap top of a 56px line (0.054em) — so it clears the caps and hangs below the
+ * baseline. Offsetting from the line box instead would track the font's
+ * half-leading and sit too high with no margin under the text.
+ */
+const HIGHLIGHT_OFFSET = 'top-[0.118em]'
+
+function HeadlineLines({
+  line1,
+  line2,
+  /**
+   * Only the animated copy needs this. It is absolutely positioned, so holding
+   * empty lines open costs nothing, while doing the same in the flow would
+   * inflate the headline past the height Figma gives it.
+   */
+  holdEmptyLines = false,
+}: {
+  line1: string
+  line2: string
+  holdEmptyLines?: boolean
+}) {
+  const hold = holdEmptyLines ? 'min-h-[1em]' : ''
+
   return (
     <>
-      <span className="block min-h-[1em]">{line1}</span>
-      <span className="relative block min-h-[1em] w-fit">
+      <span className={`block ${hold}`}>{line1}</span>
+      <span className={`relative block w-fit ${hold}`}>
         {line2 ? (
-          <span className="absolute inset-y-0 -right-2 -left-2 bg-brand-yellow" />
+          <span
+            aria-hidden="true"
+            className={`absolute -right-2 -left-2 h-[1em] ${HIGHLIGHT_OFFSET} bg-brand-yellow`}
+          />
         ) : null}
         <span className="relative">{line2}</span>
       </span>
@@ -260,7 +296,12 @@ export function TypewriterQuote({
       ref={anchor as RefObject<HTMLParagraphElement>}
       className={`relative ${className}`}
     >
-      <span className="sr-only">{children}</span>
+      {/*
+        `select-none` keeps this out of a copied selection. Without it, copying
+        a quote — the whole point of a page built on citations — yields the text
+        twice, once from here and once from whichever visual copy is showing.
+      */}
+      <span className="sr-only select-none">{children}</span>
       <span
         aria-hidden="true"
         data-typewriter="reserved"

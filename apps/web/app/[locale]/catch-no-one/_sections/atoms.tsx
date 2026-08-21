@@ -135,7 +135,7 @@ export function SectionHeading({
   eyebrow?: string
   /** Dark panels pass `EYEBROW_DIM_ON_DARK`; Figma dims white, not off-white. */
   eyebrowClassName?: string
-  /** Typed out character by character, so it has to be a plain string. */
+  /** Plain string, matching the other copy primitives on this page. */
   children: string
 }) {
   return (

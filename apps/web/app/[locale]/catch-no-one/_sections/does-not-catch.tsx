@@ -8,6 +8,7 @@ import {
   ProseGroup,
   SectionHeading,
   Standfirst,
+  TRIM,
 } from './atoms'
 import { SearchShiftChart } from './search-shift-chart'
 
@@ -32,7 +33,9 @@ export function DoesNotCatch() {
         <hr className="w-full border-t border-gray-02" />
 
         <div className="flex flex-col gap-6 md:gap-[30px]">
-          <h3 className="font-display text-[22px] leading-none tracking-[-0.03em] md:text-[26px]">
+          <h3
+            className={`font-display ${TRIM} text-[22px] leading-none tracking-[-0.03em] md:text-[26px]`}
+          >
             {DOES_NOT_CATCH.studyHeading}
           </h3>
           <ProseGroup paragraphs={DOES_NOT_CATCH.studyBody} />

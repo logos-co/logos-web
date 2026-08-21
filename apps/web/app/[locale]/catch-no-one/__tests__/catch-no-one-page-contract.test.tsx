@@ -167,9 +167,12 @@ describe('typewriter', () => {
 
     expect(html).toContain(HERO.headlineLine1)
     expect(html).toContain(HERO.headlineLine2)
-    // Nothing is hidden, overlaid or duplicated when the effect is off.
+    // No overlaid or duplicated copies when the effect is off — the headline
+    // is in the document exactly once. (The decorative highlight is still
+    // aria-hidden, which is why this checks for copies rather than that.)
     expect(html).not.toContain('data-typewriter')
-    expect(html).not.toContain('aria-hidden')
+    expect(html.split(HERO.headlineLine1).length - 1).toBe(1)
+    expect(html.split(HERO.headlineLine2).length - 1).toBe(1)
   })
 
   test('turning the hero headline on brings back the two-copy machinery', () => {
@@ -204,8 +207,12 @@ describe('typewriter', () => {
     expect(html).toContain('prefers-reduced-motion: reduce')
     expect(TYPEWRITER_ARMED_CLASS).not.toBe('')
     expect(html).toContain(TYPEWRITER_ARMED_CLASS)
-    // The run is not gated on storage — it replays on every page load.
-    expect(html).not.toContain('sessionStorage')
+    // The animation replays on every page load, so the script must not persist
+    // "already ran" anywhere. Checked by absence because there is nothing to
+    // observe from a static render.
+    for (const api of ['sessionStorage', 'localStorage', 'cookie']) {
+      expect(html).not.toContain(api)
+    }
   })
 })
 
@@ -235,6 +242,7 @@ describe('catch-no-one SEO', () => {
     const citations = article.citation as ReadonlyArray<{ url: string }>
 
     expect(article['@type']).toBe('Article')
+    expect(article.image).toBeTruthy()
     expect(citations).toHaveLength(CASE_FILE.sources.length)
     expect(citations.map((c) => c.url)).toEqual(
       CASE_FILE.sources.map((source) => source.href)

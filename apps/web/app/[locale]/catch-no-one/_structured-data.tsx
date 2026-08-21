@@ -65,6 +65,9 @@ export function createCampaignArticleJsonLd(locale: string): JsonLdObject {
     description: HERO.intro,
     inLanguage: locale,
     isAccessibleForFree: true,
+    // The same asset the social cards use. Article rich results need an image;
+    // swap this for a campaign-specific one if the design lands.
+    image: [absoluteUrl('/og.jpeg')],
     author: { '@type': 'Organization', name: siteConfig.name },
     publisher: {
       '@type': 'Organization',
