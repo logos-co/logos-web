@@ -28,7 +28,7 @@ const TITLE = 'Check everyone to catch no one | Logos'
 // Kept under ~160 characters so search results show it whole. The longer
 // framing lives in the page's own opening paragraph.
 const DESCRIPTION =
-  "The EU's Chat Control and the UK's age checks promise to protect children by checking everyone. The researchers who build these systems say they will not work."
+  'EU and UK child-safety proposals could come at a significant cost to privacy and security. Here’s what leading researchers have found.'
 
 export async function generateMetadata({
   params,
