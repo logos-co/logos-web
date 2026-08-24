@@ -36,6 +36,9 @@ import {
   TypewriterQuote,
 } from '../_sections/typewriter'
 
+/** React escapes `&` in text nodes, so expectations have to escape it too. */
+const asMarkup = (text: string): string => text.replace(/&/g, '&amp;')
+
 /** Pulls the text of one of a typewriter's two visual copies. */
 const copyText = (
   html: string,
@@ -61,21 +64,6 @@ const pageHtml = async () => {
 describe('catch-no-one page contract', () => {
   test('is registered on the canonical route', () => {
     expect(ROUTES.catchNoOne).toBe('/catch-no-one')
-  })
-
-  test('exhibits are numbered 01–04 across the page', () => {
-    const labels = [
-      DOES_NOT_CATCH.exhibit01.label,
-      DOES_NOT_CATCH.exhibit02.label,
-      WE_ALL_PAY.exhibit03.label,
-      RIGHT_QUESTION.exhibit04.label,
-    ]
-    expect(labels).toEqual([
-      'Exhibit 01',
-      'Exhibit 02',
-      'Exhibit 03',
-      'Exhibit 04',
-    ])
   })
 
   test('every case-file source has a numbered index and an https link', () => {
@@ -138,7 +126,8 @@ describe('catch-no-one page render', () => {
       WE_ALL_PAY.exhibit03,
       RIGHT_QUESTION.exhibit04,
     ]) {
-      expect(html).toContain(exhibit.label)
+      // The card quotes its source; the credit lines below it name it.
+      expect(html).toContain(asMarkup(exhibit.lines[0]!))
     }
     for (const source of CASE_FILE.sources) {
       expect(html).toContain(source.href)

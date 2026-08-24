@@ -5,7 +5,7 @@
  * (`text-h2`, `text-h3-serif`, `text-eyebrow`, `font-display/sans/mono`,
  * `bg-brand-*`, `bg-accent-*`, `bg-gray-*`) so the page inherits palette
  * changes instead of pinning its own. The body sizes Figma uses — 20px sans,
- * 30px pull-quote, 14px eyebrow — have no equivalent utility in the token
+ * 30px pull-quote, 12px caption — have no equivalent utility in the token
  * package yet, so those are spelled out here; if they recur on other pages they
  * belong in `packages/tokens/src/typography.css`.
  *
@@ -31,20 +31,10 @@ import { TypewriterQuote } from './typewriter'
 export const TRIM = '[text-box:trim-both_cap_alphabetic]'
 
 /**
- * Eyebrow ink, dimmed to Figma's 50% against its panel.
- *
- * Light panels dim the inherited dark-green ink; dark panels use pure white at
- * 50%, which is what Figma specifies there (not the off-white used for body
- * copy).
- *
- * This lands under WCAG AA for text at this size — measured 3.11:1 on
- * off-white, 2.97:1 on tan and 2.25:1 on steel teal. That was raised with the
- * design owner and signed off: Figma is the source of truth for this page, and
- * the eyebrow repeats the section number and name already carried by the
- * heading beside it. Raising the value is a one-line change here.
+ * Recessive ink for a note on a dark panel — Figma's pure white at 50%, not the
+ * off-white used for body copy. Measures 4.67:1, which clears WCAG AA.
  */
-const EYEBROW_DIM_ON_LIGHT = 'opacity-50'
-export const EYEBROW_DIM_ON_DARK = 'text-white/50'
+export const DIM_ON_DARK = 'text-white/50'
 
 /** Figma pairs a 20px sans quote on desktop with a 30px pull-quote size. */
 const QUOTE_TYPE =
@@ -126,30 +116,9 @@ export function Column({
   )
 }
 
-/** Numbered eyebrow + display heading. Colour is inherited from the panel. */
-export function SectionHeading({
-  eyebrow,
-  eyebrowClassName = EYEBROW_DIM_ON_LIGHT,
-  children,
-}: {
-  eyebrow?: string
-  /** Dark panels pass `EYEBROW_DIM_ON_DARK`; Figma dims white, not off-white. */
-  eyebrowClassName?: string
-  /** Plain string, matching the other copy primitives on this page. */
-  children: string
-}) {
-  return (
-    <div className="flex flex-col gap-[18px]">
-      {eyebrow ? (
-        <p
-          className={`font-mono-body ${TRIM} text-[12px] leading-[1.15] tracking-[-0.01em] md:text-[14px] ${eyebrowClassName}`}
-        >
-          {eyebrow}
-        </p>
-      ) : null}
-      <h2 className={`text-h2 ${TRIM}`}>{children}</h2>
-    </div>
-  )
+/** Section display heading. Colour is inherited from the panel. */
+export function SectionHeading({ children }: { children: string }) {
+  return <h2 className={`text-h2 ${TRIM}`}>{children}</h2>
 }
 
 /** 20px Public Sans body copy — the page's default paragraph style. */
@@ -218,11 +187,9 @@ export function PullQuote({
 /** Light-blue quotation card plus its monospace source credit. */
 export function Exhibit({
   quote,
-  label,
   lines,
 }: {
   quote: string
-  label: string
   lines: readonly string[]
 }) {
   return (
@@ -235,7 +202,6 @@ export function Exhibit({
       <figcaption
         className={`font-mono ${TRIM} text-[11px] leading-[1.15] tracking-[-0.01em] md:text-[12px]`}
       >
-        <span className="block font-bold">{label}</span>
         {lines.map((line, index) => (
           <span key={`${index}-${line.slice(0, 32)}`} className="block">
             {line}
@@ -246,10 +212,10 @@ export function Exhibit({
   )
 }
 
-/** Monospace note set in the dimmed eyebrow ink. */
+/** Small monospace note, set in the recessive ink. */
 export function DimNote({
   lines,
-  className = EYEBROW_DIM_ON_DARK,
+  className = DIM_ON_DARK,
 }: {
   lines: readonly string[]
   className?: string

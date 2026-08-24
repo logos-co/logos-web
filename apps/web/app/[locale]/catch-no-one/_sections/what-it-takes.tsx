@@ -24,7 +24,7 @@ export function WhatItTakes() {
   return (
     <Panel className="rounded-t-[30px] bg-accent-tan text-brand-dark-green">
       <Column>
-        <SectionHeading eyebrow={WHAT_IT_TAKES.eyebrow}>
+        <SectionHeading>
           {WHAT_IT_TAKES.heading}
         </SectionHeading>
 

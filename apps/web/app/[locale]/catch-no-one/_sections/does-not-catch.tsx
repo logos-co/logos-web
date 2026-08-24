@@ -16,7 +16,7 @@ export function DoesNotCatch() {
   return (
     <Panel className="bg-brand-off-white text-brand-dark-green">
       <Column>
-        <SectionHeading eyebrow={DOES_NOT_CATCH.eyebrow}>
+        <SectionHeading>
           {DOES_NOT_CATCH.heading}
         </SectionHeading>
 
