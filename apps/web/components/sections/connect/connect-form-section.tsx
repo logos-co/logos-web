@@ -50,6 +50,8 @@ const MAX_WEBSITE_ROWS = 5
 type Props = {
   afform: AfformConfig
   afformOptions?: AfformOptions
+  /** `REQUIRED_FIELDS_BY_FORM[formName]` from `@repo/funnel`. */
+  requiredFields: readonly string[]
   apiEndpoint: string
   pagePrivacy?: string
   pagePrivacyLink?: string
@@ -81,6 +83,7 @@ function buildInitialData(fields: AfformField[]): FormValues {
 export function ConnectFormSection({
   afform,
   afformOptions = {},
+  requiredFields,
   apiEndpoint,
   pagePrivacy = '',
   pagePrivacyLink = '',
@@ -95,8 +98,8 @@ export function ConnectFormSection({
   )
 
   const { schema: formSchema, requiredFields: REQUIRED_FIELDS } = useMemo(
-    () => buildFormSchema(afform.fields ?? []),
-    [afform.fields]
+    () => buildFormSchema(afform.fields ?? [], requiredFields),
+    [afform.fields, requiredFields]
   )
 
   const initialData = useMemo(

@@ -16,7 +16,6 @@ export const HEAR_ABOUT_FIELD: AfformField = {
   formKey: HEAR_ABOUT_FORM_KEY,
   label: HEAR_ABOUT_QUESTION,
   inputType: 'select',
-  required: true,
   options: HEAR_ABOUT_OPTIONS.map(({ value, label }) => ({ value, label })),
 }
 

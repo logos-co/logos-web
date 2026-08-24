@@ -2,8 +2,6 @@ import { z } from 'zod'
 
 import type { AfformField } from './types'
 
-const ALWAYS_REQUIRED = ['email']
-
 /**
  * Maximum length for free-text funnel form fields. Matches the Notion API's
  * 2000-character per-element limit for `rich_text`/`title` properties, which
@@ -19,10 +17,7 @@ function normalizeStringArray(value: unknown): string[] {
   return [String(value)]
 }
 
-function buildFieldSchema(
-  field: AfformField,
-  requiredFields: Set<string>
-) {
+function buildFieldSchema(field: AfformField, requiredFields: Set<string>) {
   const { formKey, inputType } = field
   const isReq = requiredFields.has(formKey)
 
@@ -70,14 +65,12 @@ function buildFieldSchema(
     : z.string().trim().max(MAX_TEXT_LENGTH, tooLong).optional().default('')
 }
 
+/** `requiredKeys` comes from `REQUIRED_FIELDS_BY_FORM` in `@repo/funnel`. */
 export function buildFormSchema(
   fields: AfformField[],
-  alwaysRequired: string[] = ALWAYS_REQUIRED
+  requiredKeys: readonly string[]
 ) {
-  const requiredFields = new Set([
-    ...fields.filter((f) => f.required).map((f) => f.formKey),
-    ...alwaysRequired,
-  ])
+  const requiredFields = new Set(requiredKeys)
 
   const schemaShape: Record<string, z.ZodTypeAny> = {}
   for (const field of fields) {
@@ -86,8 +79,7 @@ export function buildFormSchema(
   }
   schemaShape.socials = z.string().optional().default('')
 
-  const hasChatFields =
-    'chat' in schemaShape && 'chatService' in schemaShape
+  const hasChatFields = 'chat' in schemaShape && 'chatService' in schemaShape
 
   const baseSchema = z.object(schemaShape)
 

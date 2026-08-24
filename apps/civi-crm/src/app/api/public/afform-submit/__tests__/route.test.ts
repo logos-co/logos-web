@@ -18,6 +18,53 @@ import { submitToNotion } from '@/lib/notion/submit'
 import { isNotionIntakeSubmitEnabled } from '@/lib/intake-submit-flags'
 import { submitToN8n } from '@/lib/n8n/submit'
 
+// Every required answer, so a test only spells out the field it exercises.
+const REQUIRED_ANSWERS: Record<string, Record<string, unknown>> = {
+  afformActivistBuilder: {
+    name: 'Ada',
+    city: 'London',
+    country: '1226',
+    skills: ['1'],
+    hearAbout: '2',
+    backgroundBuilder: 'Protocols',
+    techVision: 'Privacy by default',
+    email: 'ada@example.com',
+  },
+  afformCoalitionPartner: {
+    name: 'Ada',
+    city: 'London',
+    country: '1226',
+    affiliatedOrgs: 'Analytical Society',
+    hearAbout: '2',
+    backgroundPartner: 'Coalitions',
+    email: 'ada@example.com',
+  },
+  afformActivistLeaderSteward: {
+    name: 'Ada',
+    city: 'London',
+    country: '1226',
+    skills: ['1'],
+    hearAbout: '2',
+    backgroundLeader: 'Organising',
+    activitiesVision: 'Local meetups',
+    email: 'ada@example.com',
+  },
+}
+
+function validPayload(
+  formName: string,
+  overrides: Record<string, unknown> = {}
+): Record<string, unknown> {
+  return { formName, ...REQUIRED_ANSWERS[formName], ...overrides }
+}
+
+function answers(
+  formName: string,
+  overrides: Record<string, unknown> = {}
+): Record<string, unknown> {
+  return { ...REQUIRED_ANSWERS[formName], ...overrides }
+}
+
 function makeRequest(body: Record<string, unknown>) {
   return new NextRequest('http://localhost/api/public/afform-submit', {
     method: 'POST',
@@ -39,31 +86,25 @@ describe('POST /api/public/afform-submit', () => {
     vi.unstubAllGlobals()
   })
 
-  it('accepts a funnel submission with a valid hear-about answer', async () => {
-    const res = await POST(
-      makeRequest({
-        formName: 'afformActivistBuilder',
-        name: 'Ada',
-        hearAbout: '2',
-      })
-    )
+  it('accepts a funnel submission with every required answer', async () => {
+    const res = await POST(makeRequest(validPayload('afformActivistBuilder')))
     const body = await res.json()
 
     expect(res.status).toBe(201)
     expect(body.success).toBe(true)
     expect(vi.mocked(submitToNotion)).toHaveBeenCalledWith(
-      { name: 'Ada', hearAbout: '2' },
+      answers('afformActivistBuilder'),
       'afformActivistBuilder'
     )
   })
 
   it('rejects an unknown form name', async () => {
     const res = await POST(
-      makeRequest({
-        formName: 'afformCircleContactForm',
-        name: 'Ada',
-        hearAbout: '2',
-      })
+      makeRequest(
+        validPayload('afformActivistBuilder', {
+          formName: 'afformCircleContactForm',
+        })
+      )
     )
     const body = await res.json()
 
@@ -74,31 +115,27 @@ describe('POST /api/public/afform-submit', () => {
 
   it('drops the legacy field definitions from the submitted payload', async () => {
     const res = await POST(
-      makeRequest({
-        formName: 'afformActivistLeaderSteward',
-        fields: [{ formKey: 'name', fieldName: 'first_name' }],
-        name: 'Ada',
-        hearAbout: '2',
-      })
+      makeRequest(
+        validPayload('afformActivistLeaderSteward', {
+          fields: [{ formKey: 'name', fieldName: 'first_name' }],
+        })
+      )
     )
 
     expect(res.status).toBe(201)
     expect(vi.mocked(submitToNotion)).toHaveBeenCalledWith(
-      { name: 'Ada', hearAbout: '2' },
+      answers('afformActivistLeaderSteward'),
       'afformActivistLeaderSteward'
     )
     expect(vi.mocked(submitToN8n)).toHaveBeenCalledWith(
-      { name: 'Ada', hearAbout: '2' },
+      answers('afformActivistLeaderSteward'),
       'afformActivistLeaderSteward'
     )
   })
 
   it('rejects a funnel submission missing the hear-about answer', async () => {
     const res = await POST(
-      makeRequest({
-        formName: 'afformActivistBuilder',
-        name: 'Ada',
-      })
+      makeRequest(validPayload('afformActivistBuilder', { hearAbout: '' }))
     )
     const body = await res.json()
 
@@ -109,11 +146,7 @@ describe('POST /api/public/afform-submit', () => {
 
   it('rejects a funnel submission with an unknown hear-about id', async () => {
     const res = await POST(
-      makeRequest({
-        formName: 'afformActivistBuilder',
-        name: 'Ada',
-        hearAbout: '999',
-      })
+      makeRequest(validPayload('afformActivistBuilder', { hearAbout: '999' }))
     )
     const body = await res.json()
 
@@ -122,19 +155,81 @@ describe('POST /api/public/afform-submit', () => {
     expect(vi.mocked(submitToNotion)).toHaveBeenCalledTimes(0)
   })
 
+  it('rejects a submission missing a required field', async () => {
+    const { name: _name, ...withoutName } = validPayload(
+      'afformActivistBuilder'
+    )
+
+    const res = await POST(makeRequest(withoutName))
+    const body = await res.json()
+
+    expect(res.status).toBe(400)
+    expect(body.error).toBe('Missing or invalid required fields')
+    expect(body.fields).toEqual(['name'])
+    expect(vi.mocked(submitToNotion)).toHaveBeenCalledTimes(0)
+  })
+
+  it('reports every missing required field at once', async () => {
+    const res = await POST(
+      makeRequest(
+        validPayload('afformActivistBuilder', {
+          name: '   ',
+          country: '',
+          skills: [],
+        })
+      )
+    )
+    const body = await res.json()
+
+    expect(res.status).toBe(400)
+    expect(body.fields).toEqual(['name', 'country', 'skills'])
+  })
+
+  it('rejects a malformed email', async () => {
+    const res = await POST(
+      makeRequest(validPayload('afformCoalitionPartner', { email: 'ada@' }))
+    )
+    const body = await res.json()
+
+    expect(res.status).toBe(400)
+    expect(body.fields).toEqual(['email'])
+    expect(vi.mocked(submitToNotion)).toHaveBeenCalledTimes(0)
+  })
+
+  it('applies the required fields of the submitted form only', async () => {
+    // techVision is required on the builder form and absent from the partner one.
+    const res = await POST(makeRequest(validPayload('afformCoalitionPartner')))
+
+    expect(res.status).toBe(201)
+  })
+
+  it('accepts a required select submitted as an array', async () => {
+    const res = await POST(
+      makeRequest(validPayload('afformActivistBuilder', { country: ['1226'] }))
+    )
+
+    expect(res.status).toBe(201)
+  })
+
+  it('rejects a missing required field even when Notion is disabled', async () => {
+    vi.mocked(isNotionIntakeSubmitEnabled).mockReturnValue(false)
+    const { city: _city, ...withoutCity } = validPayload(
+      'afformActivistLeaderSteward'
+    )
+
+    const res = await POST(makeRequest(withoutCity))
+
+    expect(res.status).toBe(400)
+    expect(vi.mocked(submitToN8n)).toHaveBeenCalledTimes(0)
+  })
+
   it('returns 502 when the Notion submission fails', async () => {
     vi.mocked(submitToNotion).mockResolvedValue({
       ok: false,
       message: 'Notion unavailable',
     })
 
-    const res = await POST(
-      makeRequest({
-        formName: 'afformCoalitionPartner',
-        name: 'Ada',
-        hearAbout: '2',
-      })
-    )
+    const res = await POST(makeRequest(validPayload('afformCoalitionPartner')))
     const body = await res.json()
 
     expect(res.status).toBe(502)
@@ -145,13 +240,7 @@ describe('POST /api/public/afform-submit', () => {
   it('skips Notion when the destination is disabled', async () => {
     vi.mocked(isNotionIntakeSubmitEnabled).mockReturnValue(false)
 
-    const res = await POST(
-      makeRequest({
-        formName: 'afformActivistBuilder',
-        name: 'Ada',
-        hearAbout: '2',
-      })
-    )
+    const res = await POST(makeRequest(validPayload('afformActivistBuilder')))
     const body = await res.json()
 
     expect(res.status).toBe(201)
@@ -161,16 +250,12 @@ describe('POST /api/public/afform-submit', () => {
 
   it('forwards the steward form to n8n', async () => {
     const res = await POST(
-      makeRequest({
-        formName: 'afformActivistLeaderSteward',
-        name: 'Ada',
-        hearAbout: '2',
-      })
+      makeRequest(validPayload('afformActivistLeaderSteward'))
     )
 
     expect(res.status).toBe(201)
     expect(vi.mocked(submitToN8n)).toHaveBeenCalledWith(
-      { name: 'Ada', hearAbout: '2' },
+      answers('afformActivistLeaderSteward'),
       'afformActivistLeaderSteward'
     )
   })
@@ -178,13 +263,7 @@ describe('POST /api/public/afform-submit', () => {
   it.each(['afformActivistBuilder', 'afformCoalitionPartner'])(
     'does not forward %s to n8n',
     async (formName) => {
-      await POST(
-        makeRequest({
-          formName,
-          name: 'Ada',
-          hearAbout: '2',
-        })
-      )
+      await POST(makeRequest(validPayload(formName)))
 
       expect(vi.mocked(submitToN8n)).toHaveBeenCalledTimes(0)
     }
@@ -197,11 +276,7 @@ describe('POST /api/public/afform-submit', () => {
     })
 
     const res = await POST(
-      makeRequest({
-        formName: 'afformActivistLeaderSteward',
-        name: 'Ada',
-        hearAbout: '2',
-      })
+      makeRequest(validPayload('afformActivistLeaderSteward'))
     )
     const body = await res.json()
 
@@ -214,11 +289,7 @@ describe('POST /api/public/afform-submit', () => {
     vi.mocked(isNotionIntakeSubmitEnabled).mockReturnValue(false)
 
     const res = await POST(
-      makeRequest({
-        formName: 'afformActivistLeaderSteward',
-        name: 'Ada',
-        hearAbout: '2',
-      })
+      makeRequest(validPayload('afformActivistLeaderSteward'))
     )
 
     expect(res.status).toBe(201)

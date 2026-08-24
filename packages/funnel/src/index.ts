@@ -10,6 +10,8 @@
  *   mapping (`src/lib/notion/maps.ts`), and the Notion `Profile` select
  *   (`src/lib/notion/build-notion-properties.ts`)
  *
+ * `./required-fields` is re-exported here to keep one entry point.
+ *
  * `HEAR_ABOUT_QUESTION` doubles as the name of the select property on the
  * production Notion database, and the option labels are its select options.
  * Rewording the question or the labels therefore requires renaming the
@@ -58,3 +60,9 @@ export function getProfileForForm(formName?: string): string | undefined {
   if (!formName || !isProfileFormName(formName)) return undefined
   return PROFILE_BY_FORM_NAME[formName]
 }
+
+export {
+  REQUIRED_FIELDS_BY_FORM,
+  findInvalidRequiredFields,
+  getRequiredFieldsForForm,
+} from './required-fields'

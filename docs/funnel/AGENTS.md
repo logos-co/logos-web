@@ -21,9 +21,10 @@ apps/civi-crm
   POST /api/public/afform-submit
   ├── 1. validate body and formName (must be one of the three allowed values)
   ├── 2. require a known `hearAbout` option id
-  ├── 3. verify hCaptcha (once, single-use token -- cannot verify twice)
-  ├── 4. submitToN8n(formData, formName)     -- steward form only; best-effort (logged on failure)
-  └── 5. submitToNotion(formData, formName)  -- unless FUNNEL_INTAKE_NOTION_DISABLED; failure → 502
+  ├── 3. require every other field the form marks required (`findInvalidRequiredFields`)
+  ├── 4. verify hCaptcha (once, single-use token -- cannot verify twice)
+  ├── 5. submitToN8n(formData, formName)     -- steward form only; best-effort (logged on failure)
+  └── 6. submitToNotion(formData, formName)  -- unless FUNNEL_INTAKE_NOTION_DISABLED; failure → 502
 ```
 
 The reason the writes share one handler: hCaptcha tokens are single-use. One POST, one token, the backend writes in sequence.
@@ -80,10 +81,11 @@ Three constraints shape it:
 | `apps/civi-crm/src/lib/intake-submit-flags.ts` | Reads the `FUNNEL_INTAKE_NOTION_DISABLED` env flag |
 | `apps/civi-crm/src/lib/notion/maps.ts` | `SKILLS_MAP`, `CHAT_SERVICE_MAP`, `COUNTRY_MAP`, `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT`; re-exports `HEAR_ABOUT_MAP` / `HEAR_ABOUT_QUESTION` from `@repo/funnel` |
 | `packages/funnel/src/index.ts` | `@repo/funnel` -- single source of truth for the "How did you first hear about Logos?" question, options, and id → label map, and for `PROFILE_BY_FORM_NAME` / `getProfileForForm` |
+| `packages/funnel/src/required-fields.ts` | `REQUIRED_FIELDS_BY_FORM` / `findInvalidRequiredFields` -- single source of truth for which answers each form requires; read by both the `apps/web` schema and the endpoint |
 | `apps/web/lib/funnel-newsletter-signup.ts` | Post-submit Ghost newsletter opt-ins (`wantsNewsletter` / `wantsEvents`) |
 | `apps/web/lib/funnel-forms/afform-*.ts` | Hand-maintained form definitions (fields + option lists) per funnel form |
 | `apps/web/lib/funnel-forms/types.ts` | `AfformField` / `AfformConfig` / `AfformOptions` shapes those files satisfy |
-| `apps/web/lib/funnel-forms/contactFormSchema.ts` | Builds the zod schema and the required-field set from the form definition |
+| `apps/web/lib/funnel-forms/contactFormSchema.ts` | Builds the zod schema from the form definition and the required list it is given |
 | `apps/web/lib/funnel-forms/hear-about-field.ts` | "How did you first hear about Logos?" field def + `withHearAboutField` injector used by the three form pages |
 | `apps/civi-crm/src/lib/notion/build-notion-properties.ts` | `buildNotionProperties` |
 | `apps/civi-crm/src/lib/notion/submit.ts` | `submitToNotion` -- resolves the data source, builds properties, POSTs page |
@@ -233,6 +235,7 @@ ADD COLUMN "How did you first hear about Logos?" SELECT('Friend or colleague','S
 - **Joined multi-values** -- `chat[]` -> `handle (Service)` entries in `Phone or Social Handle`.
 - **`Mvmt Organization` is free text** -- `affiliatedOrgs` is written verbatim to the `Mvmt Organization` rich-text column (clamped to 2000 chars), keeping the curated `Organization` select free of intake noise. (Intake no longer writes to `Organization`.)
 - **`hearAbout` is spliced in at page level** -- its def lives in `apps/web/lib/funnel-forms/hear-about-field.ts` rather than in the per-form definitions, and `withHearAboutField` inserts it after `chatService` (a no-op if a form ever defines the field itself). The endpoint rejects a submission whose `hearAbout` is missing or is not a known option id, so the check cannot be skipped client-side. The question, option list, and id → label map live once in `@repo/funnel` (`packages/funnel`); the question string doubles as the Notion property name, so rewording it means renaming the property in Notion first.
+- **One required-field list, read by both sides** -- `REQUIRED_FIELDS_BY_FORM` in `@repo/funnel` is the only place a funnel field is marked required. The form pages pass it into `ConnectFormSection`, which builds the zod schema and the asterisks from it, and the endpoint rejects a payload missing any of them with `400 Missing or invalid required fields` (the response names the offending `fields`). The form definitions under `apps/web/lib/funnel-forms/` carry no `required` flag -- they describe rendering only. `email` is additionally checked for a plausible address; that pattern is looser than the client's zod `.email()` on purpose, so the endpoint can never reject what the form accepted. What the two sides still implement separately is what counts as an *answer* (zod vs `isAnswered`), which is what `apps/web/lib/funnel-forms/__tests__/required-fields-parity.test.ts` covers.
 - **Newsletter opt-ins are fire-and-forget from the client** -- they run after the intake POST resolves, never block it, and never fail it. See the section above.
 - **Env var name** -- `NOTION_DB_ID`.
 
@@ -248,5 +251,6 @@ pnpm --filter web test
 Notion property mapping: `apps/civi-crm/src/lib/notion/__tests__/build-notion-properties.test.ts`
 n8n payload building: `apps/civi-crm/src/lib/n8n/__tests__/build-payload.test.ts`
 Endpoint behaviour: `apps/civi-crm/src/app/api/public/afform-submit/__tests__/route.test.ts`
+Endpoint agrees with the form schema: `apps/web/lib/funnel-forms/__tests__/required-fields-parity.test.ts`
 Newsletter opt-ins: `apps/web/lib/__tests__/funnel-newsletter-signup.test.ts`
 Subscribe payload: `apps/web/lib/__tests__/newsletter-signup.test.ts`

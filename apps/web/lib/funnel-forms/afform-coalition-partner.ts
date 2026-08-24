@@ -4,7 +4,8 @@
  * Originally generated from the CiviCRM Afform of the same name; CiviCRM is
  * gone, so this file is now maintained by hand. The option ids are the ids the
  * intake endpoint (`apps/civi-crm`) resolves back to labels, so changing one
- * means changing it there too.
+ * means changing it there too. Which fields are required lives in
+ * `REQUIRED_FIELDS_BY_FORM` (`@repo/funnel`).
  */
 
 import type { AfformConfig, AfformOptions } from './types'
@@ -18,57 +19,48 @@ export const AFFORM: AfformConfig = {
       formKey: 'name',
       label: 'Nickname/Name',
       inputType: 'text',
-      required: true,
     },
     {
       formKey: 'city',
       label: 'city',
       inputType: 'text',
-      required: true,
     },
     {
       formKey: 'country',
       label: 'Country',
       inputType: 'select',
-      required: true,
     },
     {
       formKey: 'skills',
       label: 'Skills/Experience',
       inputType: 'select',
-      required: false,
     },
     {
       formKey: 'email',
       label: 'email',
       inputType: 'email',
-      required: false,
     },
     {
       formKey: 'affiliatedOrgs',
       label: 'Affiliated Organisations',
       inputType: 'text',
-      required: true,
     },
     {
       formKey: 'website',
       label: 'Website or Socials',
       inputType: 'text',
-      required: false,
       repeatable: true,
     },
     {
       formKey: 'chat',
       label: 'Chat Name',
       inputType: 'text',
-      required: false,
       repeatable: true,
     },
     {
       formKey: 'chatService',
       label: 'Chat Service',
       inputType: 'select',
-      required: false,
       repeatable: true,
     },
     {
@@ -76,26 +68,22 @@ export const AFFORM: AfformConfig = {
       label:
         "Tell us about your organisation, community, or project, what problem you're trying to solve, what you've already built or run, and where you think collaboration with the wider network could be valuable.",
       inputType: 'textarea',
-      required: true,
     },
     {
       formKey: 'questions',
       label:
         'What else would you like us to know? What questions do you have for us?',
       inputType: 'textarea',
-      required: false,
     },
     {
       formKey: 'wantsEvents',
       label: 'I want to be informed about events in my city',
       inputType: 'checkbox',
-      required: false,
     },
     {
       formKey: 'wantsNewsletter',
       label: 'I want to receive the Logos Newsletter',
       inputType: 'checkbox',
-      required: false,
     },
   ],
 }

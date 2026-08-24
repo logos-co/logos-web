@@ -2,10 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { AFFORM as ACTIVIST_BUILDER_AFFORM } from '../afform-activist-builder'
 import { buildFormSchema } from '../contactFormSchema'
-import {
-  HEAR_ABOUT_FORM_KEY,
-  withHearAboutField,
-} from '../hear-about-field'
+import { HEAR_ABOUT_FORM_KEY, withHearAboutField } from '../hear-about-field'
 
 describe('withHearAboutField', () => {
   it('inserts the field right after chatService', () => {
@@ -39,7 +36,9 @@ describe('buildFormSchema hearAbout validation', () => {
   const fields = withHearAboutField(ACTIVIST_BUILDER_AFFORM).fields
 
   it('rejects submissions without a hearAbout selection', () => {
-    const { schema, requiredFields } = buildFormSchema(fields, [])
+    const { schema, requiredFields } = buildFormSchema(fields, [
+      HEAR_ABOUT_FORM_KEY,
+    ])
 
     expect(requiredFields.has(HEAR_ABOUT_FORM_KEY)).toBe(true)
 
@@ -47,14 +46,12 @@ describe('buildFormSchema hearAbout validation', () => {
     expect(result.success).toBe(false)
     if (result.success) return
     expect(
-      result.error.issues.some(
-        (issue) => issue.path[0] === HEAR_ABOUT_FORM_KEY
-      )
+      result.error.issues.some((issue) => issue.path[0] === HEAR_ABOUT_FORM_KEY)
     ).toBe(true)
   })
 
   it('accepts a selected hearAbout option', () => {
-    const { schema } = buildFormSchema(fields, [])
+    const { schema } = buildFormSchema(fields, [HEAR_ABOUT_FORM_KEY])
 
     // Other required fields are left out on purpose; only assert that the
     // hearAbout selection itself no longer raises an issue.

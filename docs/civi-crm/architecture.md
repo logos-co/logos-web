@@ -59,9 +59,10 @@ apps/civi-crm/
 
 1. Parse the body; reject a `formName` outside the three allowed funnel forms.
 2. Reject a submission whose `hearAbout` answer is missing or is not a known option id. Enforced server-side so a tampered submission cannot skip the field.
-3. Verify the hCaptcha token when `HCAPTCHA_SECRET` is set. Tokens are single-use, so this happens once and every destination write shares that one verification.
-4. Forward the steward form to the n8n/Baserow webhook. Best-effort: a failure is logged and does not fail the request.
-5. Write the Notion page unless `FUNNEL_INTAKE_NOTION_DISABLED` is truthy. A failure returns `502`.
+3. Reject a submission missing any other field the form marks required, or whose `email` is not a plausible address. The list lives in `@repo/funnel` (`REQUIRED_FIELDS_BY_FORM`), which `apps/web` also builds its form schema from; the `400` names the offending `fields`.
+4. Verify the hCaptcha token when `HCAPTCHA_SECRET` is set. Tokens are single-use, so this happens once and every destination write shares that one verification.
+5. Forward the steward form to the n8n/Baserow webhook. Best-effort: a failure is logged and does not fail the request.
+6. Write the Notion page unless `FUNNEL_INTAKE_NOTION_DISABLED` is truthy. A failure returns `502`.
 
 The legacy `fields[]` key (CiviCRM Afform field definitions) is dropped from the payload if a client still sends it.
 
