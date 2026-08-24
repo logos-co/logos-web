@@ -14,26 +14,24 @@ import { describe, expect, it } from 'vitest'
 import {
   AFFORM as BUILDER_AFFORM,
   AFFORM_NAME as BUILDER_NAME,
-  AFFORM_OPTIONS as BUILDER_OPTIONS,
 } from '../afform-activist-builder'
 import {
   AFFORM as STEWARD_AFFORM,
   AFFORM_NAME as STEWARD_NAME,
-  AFFORM_OPTIONS as STEWARD_OPTIONS,
 } from '../afform-activist-leader-steward'
 import {
   AFFORM as PARTNER_AFFORM,
   AFFORM_NAME as PARTNER_NAME,
-  AFFORM_OPTIONS as PARTNER_OPTIONS,
 } from '../afform-coalition-partner'
+import { AFFORM_OPTIONS } from '../afform-options'
 import { buildFormSchema } from '../contactFormSchema'
 import { withHearAboutField } from '../hear-about-field'
 import type { AfformConfig, AfformField, AfformOptions } from '../types'
 
 const FORMS: [ProfileFormName, AfformConfig, AfformOptions][] = [
-  [BUILDER_NAME, BUILDER_AFFORM, BUILDER_OPTIONS],
-  [PARTNER_NAME, PARTNER_AFFORM, PARTNER_OPTIONS],
-  [STEWARD_NAME, STEWARD_AFFORM, STEWARD_OPTIONS],
+  [BUILDER_NAME, BUILDER_AFFORM, AFFORM_OPTIONS],
+  [PARTNER_NAME, PARTNER_AFFORM, AFFORM_OPTIONS],
+  [STEWARD_NAME, STEWARD_AFFORM, AFFORM_OPTIONS],
 ]
 
 function sampleAnswer(field: AfformField, options: AfformOptions) {

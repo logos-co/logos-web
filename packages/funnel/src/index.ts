@@ -10,7 +10,8 @@
  *   mapping (`src/lib/notion/maps.ts`), and the Notion `Profile` select
  *   (`src/lib/notion/build-notion-properties.ts`)
  *
- * `./required-fields` is re-exported here to keep one entry point.
+ * `./required-fields` and `./form-options` are re-exported here to keep one
+ * entry point.
  *
  * `HEAR_ABOUT_QUESTION` doubles as the name of the select property on the
  * production Notion database, and the option labels are its select options.
@@ -66,3 +67,10 @@ export {
   findInvalidRequiredFields,
   getRequiredFieldsForForm,
 } from './required-fields'
+
+export {
+  CHAT_SERVICE_OPTIONS,
+  COUNTRY_OPTIONS,
+  SKILLS_OPTIONS,
+  type FunnelFieldOption,
+} from './form-options'

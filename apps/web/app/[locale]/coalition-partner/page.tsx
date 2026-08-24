@@ -13,8 +13,8 @@ import { env } from '@/lib/env'
 import {
   AFFORM,
   AFFORM_NAME,
-  AFFORM_OPTIONS,
 } from '@/lib/funnel-forms/afform-coalition-partner'
+import { AFFORM_OPTIONS } from '@/lib/funnel-forms/afform-options'
 import { withHearAboutField } from '@/lib/funnel-forms/hear-about-field'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
