@@ -1,8 +1,16 @@
 /**
- * Option lists shared by the three funnel forms. The three form definitions in
- * `apps/web/lib/funnel-forms` render identical dropdowns, and the ids are what
- * the intake endpoint (`apps/civi-crm`) resolves back to labels, so an id here
- * only means anything as long as it means the same thing there.
+ * Option lists shared by the three funnel forms, and the id → label maps the
+ * intake endpoint resolves submissions against. Both sides read the same array,
+ * so an id can only ever mean one thing:
+ *
+ * - `apps/web` renders the dropdowns from the options
+ *   (`lib/funnel-forms/afform-options.ts`)
+ * - `apps/civi-crm` resolves the submitted ids back to labels through the maps
+ *   (`src/lib/notion/maps.ts`)
+ *
+ * The `Skills` labels double as the options of the Notion `multi_select` of the
+ * same name, so renaming one requires renaming the option in Notion first --
+ * see docs/funnel/AGENTS.md. `Country` is rich text and takes any label.
  *
  * Defined here rather than in `./index` because that module re-exports this
  * one.
@@ -11,6 +19,12 @@
 export interface FunnelFieldOption {
   value: string
   label: string
+}
+
+export function toLabelMap(
+  options: readonly FunnelFieldOption[]
+): Record<string, string> {
+  return Object.fromEntries(options.map(({ value, label }) => [value, label]))
 }
 
 export const SKILLS_OPTIONS: FunnelFieldOption[] = [
@@ -98,7 +112,7 @@ export const COUNTRY_OPTIONS: FunnelFieldOption[] = [
   { value: '1051', label: 'Congo, Republic of the' },
   { value: '1052', label: 'Cook Islands' },
   { value: '1053', label: 'Costa Rica' },
-  { value: '1054', label: 'Côte d’Ivoire' },
+  { value: '1054', label: "Côte d'Ivoire" },
   { value: '1055', label: 'Croatia' },
   { value: '1056', label: 'Cuba' },
   { value: '1057', label: 'Cyprus' },
@@ -296,3 +310,9 @@ export const COUNTRY_OPTIONS: FunnelFieldOption[] = [
   { value: '1252', label: 'Saint Barthélemy' },
   { value: '1253', label: 'Saint Martin (French part)' },
 ]
+
+export const SKILLS_MAP = toLabelMap(SKILLS_OPTIONS)
+
+export const CHAT_SERVICE_MAP = toLabelMap(CHAT_SERVICE_OPTIONS)
+
+export const COUNTRY_MAP = toLabelMap(COUNTRY_OPTIONS)

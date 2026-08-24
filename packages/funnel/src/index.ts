@@ -11,13 +11,16 @@
  *   (`src/lib/notion/build-notion-properties.ts`)
  *
  * `./required-fields` and `./form-options` are re-exported here to keep one
- * entry point.
+ * entry point; `./form-options` holds the option lists the three funnel forms
+ * share and the id → label maps `apps/civi-crm` resolves them with.
  *
  * `HEAR_ABOUT_QUESTION` doubles as the name of the select property on the
  * production Notion database, and the option labels are its select options.
  * Rewording the question or the labels therefore requires renaming the
  * property/options in Notion first — see docs/funnel/AGENTS.md.
  */
+
+import { toLabelMap } from './form-options'
 
 export const HEAR_ABOUT_QUESTION = 'How did you first hear about Logos?'
 
@@ -34,9 +37,7 @@ export const HEAR_ABOUT_OPTIONS = [
 
 export type HearAboutOption = (typeof HEAR_ABOUT_OPTIONS)[number]
 
-export const HEAR_ABOUT_MAP: Record<string, string> = Object.fromEntries(
-  HEAR_ABOUT_OPTIONS.map(({ value, label }) => [value, label])
-)
+export const HEAR_ABOUT_MAP = toLabelMap(HEAR_ABOUT_OPTIONS)
 
 /**
  * Profile label per funnel form. These are the option labels of the Notion
@@ -69,8 +70,11 @@ export {
 } from './required-fields'
 
 export {
+  CHAT_SERVICE_MAP,
   CHAT_SERVICE_OPTIONS,
+  COUNTRY_MAP,
   COUNTRY_OPTIONS,
+  SKILLS_MAP,
   SKILLS_OPTIONS,
   type FunnelFieldOption,
 } from './form-options'
