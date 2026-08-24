@@ -22,6 +22,7 @@ import {
   DOES_NOT_CATCH,
   HERO,
   RIGHT_QUESTION,
+  SEO,
   WE_ALL_PAY,
 } from '../_content'
 import CatchNoOnePage, { generateMetadata } from '../page'
@@ -237,6 +238,17 @@ describe('catch-no-one SEO', () => {
 
     expect(String(metadata.alternates?.canonical)).toContain(ROUTES.catchNoOne)
     expect(String(metadata.openGraph?.url)).toContain(ROUTES.catchNoOne)
+  })
+
+  test('the page describes itself the same way everywhere', async () => {
+    const metadata = await generateMetadata({
+      params: Promise.resolve({ locale: 'en' }),
+    })
+    const article = createCampaignArticleJsonLd('en') as Record<string, unknown>
+
+    // One description of the page, not one for search and another for crawlers.
+    expect(article.description).toBe(metadata.description)
+    expect(article.description).toBe(SEO.description)
   })
 
   test('the article cites every source the case file lists', () => {
