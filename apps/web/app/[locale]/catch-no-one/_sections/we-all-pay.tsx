@@ -2,7 +2,6 @@ import { WE_ALL_PAY } from '../_content'
 
 import {
   Column,
-  EYEBROW_DIM_ON_DARK,
   Exhibit,
   Panel,
   Prose,
@@ -17,10 +16,7 @@ export function WeAllPay() {
   return (
     <Panel className="rounded-[30px] bg-accent-steel-teal text-brand-off-white">
       <Column>
-        <SectionHeading
-          eyebrow={WE_ALL_PAY.eyebrow}
-          eyebrowClassName={EYEBROW_DIM_ON_DARK}
-        >
+        <SectionHeading>
           {WE_ALL_PAY.heading}
         </SectionHeading>
 

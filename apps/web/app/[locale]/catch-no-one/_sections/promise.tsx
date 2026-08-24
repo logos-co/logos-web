@@ -2,7 +2,6 @@ import { PROMISE } from '../_content'
 
 import {
   Column,
-  EYEBROW_DIM_ON_DARK,
   Panel,
   ProseGroup,
   SectionHeading,
@@ -15,10 +14,7 @@ export function LawsPromise() {
     // value wins.
     <Panel className="rounded-[30px] bg-brand-dark-green text-[#fafaf7]">
       <Column>
-        <SectionHeading
-          eyebrow={PROMISE.eyebrow}
-          eyebrowClassName={EYEBROW_DIM_ON_DARK}
-        >
+        <SectionHeading>
           {PROMISE.heading}
         </SectionHeading>
         <ProseGroup paragraphs={PROMISE.body} />

@@ -14,7 +14,7 @@ export function RightQuestion() {
   return (
     <Panel className="bg-brand-off-white text-brand-dark-green">
       <Column>
-        <SectionHeading eyebrow={RIGHT_QUESTION.eyebrow}>
+        <SectionHeading>
           {RIGHT_QUESTION.heading}
         </SectionHeading>
 
