@@ -66,7 +66,7 @@ pipeline {
             "NEXT_PUBLIC_HCAPTCHA_SITEKEY=${params.NEXT_PUBLIC_HCAPTCHA_SITEKEY}",
             "NEXT_PUBLIC_API_MODE=${apiMode()}",
           ]) {
-            nix.develop('pnpm --filter ./apps/web build',
+            nix.develop('pnpm turbo run build --filter=web',
               keepEnv: [
                 'NEXT_PUBLIC_SITE_URL',
                 'NEXT_PUBLIC_CIVI_CRM_URL',

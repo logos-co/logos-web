@@ -88,7 +88,7 @@ const analyzer = withBundleAnalyzer({ enabled: process.env.ANALYZE === 'true' })
 export default withNextIntl(analyzer(nextConfig))
 ```
 
-`pnpm --filter web build` with `ANALYZE=true` emits HTML reports under
+`pnpm turbo run build --filter=web` with `ANALYZE=true` emits HTML reports under
 `.next/analyze/`.
 
 ### Why not yet
