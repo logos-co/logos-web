@@ -21,14 +21,9 @@ import {
   JsonLd,
   PAGE_KEYWORDS,
 } from './_structured-data'
+import { SEO } from './_content'
 
 const ROUTE = ROUTES.catchNoOne
-
-const TITLE = 'Check everyone to catch no one | Logos'
-// Kept under ~160 characters so search results show it whole. The longer
-// framing lives in the page's own opening paragraph.
-const DESCRIPTION =
-  'EU and UK child-safety proposals could come at a significant cost to privacy and security. Here’s what leading researchers have found.'
 
 export async function generateMetadata({
   params,
@@ -40,8 +35,8 @@ export async function generateMetadata({
     throw new Error(`generateMetadata received non-active locale "${locale}"`)
   }
   const metadata = await createDefaultMetadata({
-    title: TITLE,
-    description: DESCRIPTION,
+    title: SEO.title,
+    description: SEO.description,
     keywords: [...PAGE_KEYWORDS],
     locale,
     path: ROUTE,

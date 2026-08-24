@@ -14,7 +14,7 @@ import siteConfig from '@/constants/site-config'
 import { ROUTES } from '@/constants/routes'
 import { absoluteUrl } from '@/lib/metadata'
 
-import { CASE_FILE, HERO } from './_content'
+import { CASE_FILE, HERO, SEO } from './_content'
 
 type JsonLdValue =
   | boolean
@@ -62,7 +62,7 @@ export function createCampaignArticleJsonLd(locale: string): JsonLdObject {
     mainEntityOfPage: url,
     url,
     headline: PAGE_NAME,
-    description: HERO.intro,
+    description: SEO.description,
     inLanguage: locale,
     isAccessibleForFree: true,
     // The same asset the social cards use. Article rich results need an image;

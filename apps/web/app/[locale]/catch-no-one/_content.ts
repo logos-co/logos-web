@@ -7,6 +7,19 @@
  * verbatim from the Figma source so design review can diff copy in one place.
  */
 
+/**
+ * Search copy. Not from Figma — written for search results and social cards,
+ * and reused by the page's structured data so there is one description of the
+ * page rather than two.
+ */
+export const SEO = {
+  title: 'Check everyone to catch no one | Logos',
+  // Kept under ~160 characters so search results show it whole. The longer
+  // framing lives in the page's own opening paragraph.
+  description:
+    'EU and UK child-safety proposals could come at a significant cost to privacy and security. Here’s what leading researchers have found.',
+} as const
+
 /** Identifies which route a CTA card points at. */
 export type CtaCardKey = 'buildTheParallel' | 'joinACircle'
 
