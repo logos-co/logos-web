@@ -1,12 +1,7 @@
 import type { CaseStatus } from '@/contracts/case'
+import { statusLabels } from '@/contracts/case-labels'
 
-export const statusLabels: Record<CaseStatus, string> = {
-  new: 'New',
-  in_progress: 'In progress',
-  waiting: 'Waiting',
-  resolved: 'Resolved',
-  closed: 'Closed',
-}
+export { statusLabels }
 
 export const nextStatus: Record<CaseStatus, CaseStatus> = {
   new: 'in_progress',

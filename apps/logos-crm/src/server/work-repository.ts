@@ -5,17 +5,20 @@ import type {
   CreateActivityInput,
   CreateTaskInput,
   TaskRecord,
+  UpdateActivityInput,
   UpdateTaskInput,
   WorkActor,
   WorkListQuery,
   WorkSubjectType,
 } from '@/contracts/work'
+import { buildExcerpt } from '@/contracts/mention'
 import { isContactActivity } from '@/contracts/work'
 import { recordAuditEvent } from '@/server/audit'
 import type { ActorContext } from '@/server/auth'
 import { db } from '@/server/db'
 import { activities, cases, tasks, users } from '@/server/db/schema'
 import { queueMentionNotifications } from '@/server/notification-repository'
+import { forbidden, notFound } from '@/server/service-errors'
 
 type ActivityRow = typeof activities.$inferSelect
 type TaskRow = typeof tasks.$inferSelect
@@ -87,10 +90,17 @@ function toActivityRecord(
     ...readSubject(row),
     id: row.id,
     type: row.type,
-    body: row.body,
+    // A deleted note keeps its row so the timeline and the audit trail still
+    // resolve, but the body never leaves the server again.
+    body: row.deletedAt ? '' : row.body,
     occurredAt: row.occurredAt.toISOString(),
     createdBy: requireActor(actors, row.createdByUserId),
     createdAt: row.createdAt.toISOString(),
+    editedAt: row.editedAt?.toISOString() ?? null,
+    editedBy: row.editedByUserId
+      ? requireActor(actors, row.editedByUserId)
+      : null,
+    isDeleted: row.deletedAt !== null,
   }
 }
 
@@ -124,8 +134,131 @@ export async function listActivities(
     .where(subjectCondition(activities, query.subjectType, query.subjectId))
     .orderBy(desc(activities.occurredAt), desc(activities.createdAt))
 
-  const actors = await loadActors(rows.map((row) => row.createdByUserId))
+  const actors = await loadActors(
+    rows.flatMap((row) =>
+      row.editedByUserId
+        ? [row.createdByUserId, row.editedByUserId]
+        : [row.createdByUserId]
+    )
+  )
   return rows.map((row) => toActivityRecord(row, actors))
+}
+
+/**
+ * Rewrites a note's body.
+ *
+ * Only the author may edit their own note. That is a rule about authorship
+ * rather than permission: a timeline entry attributed to somebody who did not
+ * write its current text is worse than one nobody can correct, and there is no
+ * identity model yet to express "an admin may override" honestly.
+ *
+ * The previous body goes into the audit event, so an edit is recoverable even
+ * though the note itself only ever holds its current text.
+ */
+export async function updateActivity(
+  actor: Readonly<ActorContext>,
+  id: string,
+  input: Readonly<UpdateActivityInput>
+): Promise<ActivityRecord> {
+  const row = await db.transaction(async (transaction) => {
+    const [current] = await transaction
+      .select()
+      .from(activities)
+      .where(eq(activities.id, id))
+      .limit(1)
+      .for('update')
+
+    if (!current) throw notFound('The note no longer exists.')
+    if (current.deletedAt) throw notFound('The note has been deleted.')
+    if (current.createdByUserId !== actor.userId) {
+      throw forbidden('Only the author can edit this note.')
+    }
+    if (current.body === input.body) return current
+
+    const now = new Date()
+    const [updated] = await transaction
+      .update(activities)
+      .set({ body: input.body, editedAt: now, editedByUserId: actor.userId })
+      .where(eq(activities.id, id))
+      .returning()
+
+    if (!updated) throw notFound('The note no longer exists.')
+
+    // Mentions are re-queued for the new body, so somebody named in an edit is
+    // told about it. Names removed by the edit are not un-notified: the message
+    // has already been sent, and pretending otherwise would be a lie about what
+    // happened.
+    await queueMentionNotifications(transaction, actor, {
+      activityId: updated.id,
+      caseId: updated.caseId,
+      body: input.body,
+    })
+
+    await recordAuditEvent(transaction, actor, {
+      action: 'activity.edited',
+      entityType: 'activity',
+      entityId: updated.id,
+      changes: {
+        body: {
+          from: buildExcerpt(current.body),
+          to: buildExcerpt(input.body),
+        },
+      },
+    })
+
+    return updated
+  })
+
+  const actors = await loadActors(
+    row.editedByUserId
+      ? [row.createdByUserId, row.editedByUserId]
+      : [row.createdByUserId]
+  )
+  return toActivityRecord(row, actors)
+}
+
+/**
+ * Soft-deletes a note. The row stays, so a case timeline does not develop a
+ * hole and the audit trail still resolves; the body stops being served.
+ */
+export async function deleteActivity(
+  actor: Readonly<ActorContext>,
+  id: string
+): Promise<ActivityRecord> {
+  const row = await db.transaction(async (transaction) => {
+    const [current] = await transaction
+      .select()
+      .from(activities)
+      .where(eq(activities.id, id))
+      .limit(1)
+      .for('update')
+
+    if (!current) throw notFound('The note no longer exists.')
+    if (current.deletedAt) return current
+    if (current.createdByUserId !== actor.userId) {
+      throw forbidden('Only the author can delete this note.')
+    }
+
+    const [updated] = await transaction
+      .update(activities)
+      .set({ deletedAt: new Date(), deletedByUserId: actor.userId })
+      .where(eq(activities.id, id))
+      .returning()
+
+    if (!updated) throw notFound('The note no longer exists.')
+
+    await recordAuditEvent(transaction, actor, {
+      action: 'activity.deleted',
+      entityType: 'activity',
+      entityId: updated.id,
+      summary: buildExcerpt(current.body),
+    })
+
+    return updated
+  })
+
+  const actors = await loadActors([row.createdByUserId])
+  return toActivityRecord(row, actors)
 }
 
 /**

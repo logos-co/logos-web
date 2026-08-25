@@ -14,7 +14,7 @@ import {
 } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
 
-import { pipelineKeys } from '@/contracts/pipeline'
+import { integrationStageKeys, pipelineKeys } from '@/contracts/pipeline'
 import {
   activityTypes,
   caseDecisions,
@@ -58,6 +58,10 @@ export {
 
 export const caseStatus = pgEnum('case_status', caseStatuses)
 export const casePipeline = pgEnum('case_pipeline', pipelineKeys)
+export const caseIntegrationStage = pgEnum(
+  'case_integration_stage',
+  integrationStageKeys
+)
 export const casePriority = pgEnum('case_priority', casePriorities)
 export const userStatus = pgEnum('user_status', userStatuses)
 export const changeSource = pgEnum('change_source', changeSources)
@@ -266,6 +270,12 @@ export const cases = pgTable(
      */
     pipeline: casePipeline('pipeline').default('ecodev').notNull(),
     stage: text('stage').notNull(),
+    /**
+     * The integration track, orthogonal to `stage`. Null means the case is not
+     * on the track, which is a different fact from `not_started` - see
+     * `contracts/pipeline.ts`.
+     */
+    integrationStage: caseIntegrationStage('integration_stage'),
     priority: casePriority('priority').default('medium').notNull(),
     /** Answer to "How did you first hear about Logos?" on the intake form. */
     leadSource: text('lead_source'),
@@ -420,6 +430,24 @@ export const activities = pgTable(
     createdByUserId: uuid('created_by_user_id')
       .notNull()
       .references(() => users.id, { onDelete: 'restrict' }),
+    /**
+     * An edited note says so. The Notion CRM cannot edit a comment at all,
+     * which is one of the things this replaces - but an edit trail that can be
+     * rewritten without trace is worse than not being able to edit, because a
+     * reader has no way to tell the difference.
+     */
+    editedAt: timestamp('edited_at', { withTimezone: true }),
+    editedByUserId: uuid('edited_by_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    /**
+     * Soft delete. The row stays so the timeline keeps its shape and the audit
+     * trail still resolves; the body is what stops being shown.
+     */
+    deletedAt: timestamp('deleted_at', { withTimezone: true }),
+    deletedByUserId: uuid('deleted_by_user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
     createdAt: timestamp('created_at', { withTimezone: true })
       .defaultNow()
       .notNull(),

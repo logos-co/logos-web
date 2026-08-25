@@ -26,8 +26,19 @@ export const workActorSchema = z.object({
  */
 export const createActivitySchema = workListQuerySchema.extend({
   type: activityTypeSchema.default('note'),
-  body: z.string().trim().min(1).max(2_000),
+  // Raised from 2,000: a note is now Markdown, and the markup for a list or a
+  // linked screenshot spends characters the author did not choose to spend.
+  body: z.string().trim().min(1).max(8_000),
   occurredAt: z.string().datetime().optional(),
+})
+
+/**
+ * Editing an existing note. Only the body: the author, the subject, and when
+ * it happened are facts about the note, not fields, and letting an edit move a
+ * note onto another case would make the timeline unreliable.
+ */
+export const updateActivitySchema = z.object({
+  body: z.string().trim().min(1).max(8_000),
 })
 
 export const createTaskSchema = workListQuerySchema.extend({
@@ -60,6 +71,10 @@ export const activityRecordSchema = z.object({
   occurredAt: z.string().datetime(),
   createdBy: workActorSchema,
   createdAt: z.string().datetime(),
+  editedAt: z.string().datetime().nullable(),
+  editedBy: workActorSchema.nullable(),
+  /** A deleted note keeps its place in the timeline but not its body. */
+  isDeleted: z.boolean(),
 })
 
 export const taskRecordSchema = z.object({
@@ -78,6 +93,7 @@ export const taskRecordSchema = z.object({
 })
 
 export type ActivityRecord = z.infer<typeof activityRecordSchema>
+export type UpdateActivityInput = z.infer<typeof updateActivitySchema>
 export type ActivityType = z.infer<typeof activityTypeSchema>
 export type CreateActivityInput = z.infer<typeof createActivitySchema>
 export type CreateTaskInput = z.infer<typeof createTaskSchema>

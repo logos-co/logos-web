@@ -13,8 +13,13 @@ import type {
   TaskStatus,
   WorkSubjectType,
 } from '@/contracts/work'
+import type { TimelineEntry } from '@/contracts/timeline'
 import type { UserRecord } from '@/contracts/user'
 import { apiClient } from '@/lib/api-client'
+
+import { RecordTimeline } from './record-timeline'
+import { RichTextEditor } from './rich-text-editor'
+import { RichTextView } from './rich-text-view'
 
 interface WorkResponse<T> {
   items: T[]
@@ -56,9 +61,15 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
   const [assigneeUserId, setAssigneeUserId] = useState('')
   const [priority, setPriority] = useState<TaskPriority>('medium')
   const [dueDate, setDueDate] = useState(defaultDueDate)
-  const [activeLedger, setActiveLedger] = useState<'tasks' | 'activity'>(
-    subjectType === 'case' ? 'tasks' : 'activity'
-  )
+  /**
+   * History is the default panel. "What has happened with this partner" was
+   * previously answered by reading two tabs and inferring the order between
+   * them, which is the gap the merged timeline closes - so it is what the
+   * record opens on.
+   */
+  const [activeLedger, setActiveLedger] = useState<
+    'history' | 'tasks' | 'activity'
+  >('history')
   const [feedback, setFeedback] = useState<string | null>(null)
 
   useEffect(() => {
@@ -68,7 +79,7 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
     setAssigneeUserId('')
     setPriority('medium')
     setDueDate(defaultDueDate())
-    setActiveLedger(subjectType === 'case' ? 'tasks' : 'activity')
+    setActiveLedger('history')
     setFeedback(null)
   }, [subjectId, subjectType])
 
@@ -83,6 +94,14 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
     queryFn: () =>
       apiClient<WorkResponse<ActivityRecord>>(
         `/api/v1/activities?subjectType=${subjectType}&subjectId=${subjectId}`
+      ),
+  })
+
+  const timelineQuery = useQuery({
+    queryKey: ['timeline', ...queryKey],
+    queryFn: () =>
+      apiClient<WorkResponse<TimelineEntry>>(
+        `/api/v1/timeline?subjectType=${subjectType}&subjectId=${subjectId}`
       ),
   })
 
@@ -103,9 +122,12 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
     onSuccess: async () => {
       setNote('')
       setFeedback('Note recorded.')
-      await queryClient.invalidateQueries({
-        queryKey: ['activities', ...queryKey],
-      })
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ['activities', ...queryKey],
+        }),
+        queryClient.invalidateQueries({ queryKey: ['timeline', ...queryKey] }),
+      ])
     },
   })
 
@@ -119,9 +141,10 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
       setTaskTitle('')
       setAddingTask(false)
       setFeedback('Task added.')
-      await queryClient.invalidateQueries({
-        queryKey: ['tasks', ...queryKey],
-      })
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['tasks', ...queryKey] }),
+        queryClient.invalidateQueries({ queryKey: ['timeline', ...queryKey] }),
+      ])
     },
   })
 
@@ -133,9 +156,10 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
       }),
     onSuccess: async () => {
       setFeedback('Task updated.')
-      await queryClient.invalidateQueries({
-        queryKey: ['tasks', ...queryKey],
-      })
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['tasks', ...queryKey] }),
+        queryClient.invalidateQueries({ queryKey: ['timeline', ...queryKey] }),
+      ])
     },
   })
 
@@ -153,6 +177,15 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
   return (
     <div className="record-work">
       <div className="work-tabs" aria-label="Record work" role="tablist">
+        <button
+          aria-selected={activeLedger === 'history'}
+          className="cursor-pointer"
+          role="tab"
+          type="button"
+          onClick={() => setActiveLedger('history')}
+        >
+          History <span>{timelineQuery.data?.items.length ?? 0}</span>
+        </button>
         <button
           aria-selected={activeLedger === 'tasks'}
           className="cursor-pointer"
@@ -172,6 +205,18 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
           Activity <span>{activities.length}</span>
         </button>
       </div>
+
+      {activeLedger === 'history' && (
+        <section className="history-ledger" role="tabpanel">
+          <RecordTimeline
+            entries={timelineQuery.data?.items ?? []}
+            isLoading={timelineQuery.isLoading}
+            subjectId={subjectId}
+            subjectType={subjectType}
+            onFeedback={setFeedback}
+          />
+        </section>
+      )}
 
       {activeLedger === 'tasks' && (
         <section className="task-ledger" role="tabpanel">
@@ -324,17 +369,16 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
           >
             <label>
               <span>Add note</span>
-              <textarea
-                required
-                maxLength={2_000}
-                placeholder="Record context for the next coordinator."
-                value={note}
-                onChange={(event) => setNote(event.target.value)}
-              />
             </label>
+            <RichTextEditor
+              label="Note body"
+              placeholder="Record context for the next coordinator. **Bold**, - lists, and [links](https://) work."
+              value={note}
+              onChange={setNote}
+            />
             <button
               className="work-text-action cursor-pointer"
-              disabled={createActivityMutation.isPending}
+              disabled={createActivityMutation.isPending || !note.trim()}
               type="submit"
             >
               {createActivityMutation.isPending ? 'Saving…' : 'Record note'}
@@ -350,8 +394,15 @@ export function RecordWork({ subjectId, subjectType }: RecordWorkProps) {
                     <strong>{activityLabels[activity.type]}</strong>
                     <time>{formatWorkDate(activity.occurredAt)}</time>
                   </p>
-                  <div>{activity.body}</div>
-                  <small>{activity.createdBy.displayName}</small>
+                  {activity.isDeleted ? (
+                    <p className="timeline-deleted">This note was deleted.</p>
+                  ) : (
+                    <RichTextView body={activity.body} />
+                  )}
+                  <small>
+                    {activity.createdBy.displayName}
+                    {activity.editedAt ? ' · edited' : ''}
+                  </small>
                 </div>
               </article>
             ))}

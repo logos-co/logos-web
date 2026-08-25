@@ -42,6 +42,40 @@ function normaliseContact(value: string, type: 'email' | 'phone'): string {
     : value.replace(/[^\d+]/g, '')
 }
 
+/** The transaction handle both callers already hold. */
+type OrganisationWriter = Parameters<Parameters<typeof db.transaction>[0]>[0]
+
+/**
+ * Resolves a typed organisation name to a record, creating one if the name is
+ * new. Matching is on the normalised name, so "Cypherpunk Guild Berlin" typed
+ * twice with different capitalisation is one organisation rather than two.
+ *
+ * Takes a transaction because both callers - public intake and case creation -
+ * need the organisation to commit with the thing that referenced it.
+ */
+export async function findOrCreateOrganisation(
+  transaction: OrganisationWriter,
+  name: string
+): Promise<string> {
+  const normalisedName = normaliseName(name)
+
+  const [existing] = await transaction
+    .select({ id: organisations.id })
+    .from(organisations)
+    .where(eq(organisations.normalisedName, normalisedName))
+    .limit(1)
+
+  if (existing) return existing.id
+
+  const [created] = await transaction
+    .insert(organisations)
+    .values({ displayName: name.trim(), normalisedName, status: 'prospect' })
+    .returning()
+
+  if (!created) throw new Error('The organisation record was not created.')
+  return created.id
+}
+
 export async function listOrganisations(
   filters: Readonly<DirectoryListFilters> = {}
 ): Promise<OrganisationRecord[]> {

@@ -24,6 +24,15 @@ export function conflict(message: string): ServiceError {
   return new ServiceError('CONFLICT', message, 409)
 }
 
+/**
+ * The caller is known but is not the one who may do this. Distinct from a 404
+ * so somebody editing their own note gets a usable message rather than being
+ * told their note vanished.
+ */
+export function forbidden(message: string): ServiceError {
+  return new ServiceError('FORBIDDEN', message, 403)
+}
+
 export function invalidTransition(
   message: string,
   fields?: Record<string, string>

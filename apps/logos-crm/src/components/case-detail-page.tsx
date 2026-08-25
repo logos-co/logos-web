@@ -6,7 +6,8 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 import type { CaseRecord, CaseStatus } from '@/contracts/case'
-import { stageLabel } from '@/contracts/pipeline'
+import type { IntegrationStageKey } from '@/contracts/pipeline'
+import { integrationStages, stageLabel } from '@/contracts/pipeline'
 import { apiClient } from '@/lib/api-client'
 
 import { CaseEvaluation } from './case-evaluation'
@@ -35,6 +36,29 @@ export function CaseDetailPage({ id }: CaseDetailPageProps) {
     queryKey: ['case', id],
     queryFn: () => apiClient<{ item: CaseRecord }>(`/api/v1/cases/${id}`),
   })
+  const integrationMutation = useMutation({
+    mutationFn: ({
+      integrationStage,
+      expectedVersion,
+    }: {
+      integrationStage: IntegrationStageKey | null
+      expectedVersion: number
+    }) =>
+      apiClient<{ item: CaseRecord }>(`/api/v1/cases/${id}/integration`, {
+        method: 'PATCH',
+        body: JSON.stringify({ integrationStage, expectedVersion }),
+      }),
+    onSuccess: async () => {
+      setFeedback('Integration track updated.')
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['case', id] }),
+        queryClient.invalidateQueries({ queryKey: ['cases'] }),
+        queryClient.invalidateQueries({ queryKey: ['timeline', 'case', id] }),
+      ])
+    },
+    onError: () => setFeedback('The integration track could not be updated.'),
+  })
+
   const statusMutation = useMutation({
     mutationFn: ({
       status,
@@ -138,6 +162,39 @@ export function CaseDetailPage({ id }: CaseDetailPageProps) {
                   <div>
                     <dt>Stage</dt>
                     <dd>{stageLabel(item.pipeline, item.stage)}</dd>
+                  </div>
+                  <div>
+                    <dt>Integration track</dt>
+                    <dd>
+                      {/*
+                        A second axis over the same case, from the export's
+                        Nimbus Status column. "Not tracked" is offered as a
+                        real choice because it is one: a case nobody has
+                        assessed is not the same as one assessed as not
+                        started.
+                      */}
+                      <select
+                        aria-label="Integration track"
+                        className="fact-select"
+                        disabled={integrationMutation.isPending}
+                        value={item.integrationStage ?? ''}
+                        onChange={(event) =>
+                          integrationMutation.mutate({
+                            integrationStage:
+                              (event.target.value as IntegrationStageKey) ||
+                              null,
+                            expectedVersion: item.version,
+                          })
+                        }
+                      >
+                        <option value="">Not tracked</option>
+                        {integrationStages.map((stage) => (
+                          <option key={stage.key} value={stage.key}>
+                            {stage.label}
+                          </option>
+                        ))}
+                      </select>
+                    </dd>
                   </div>
                   <div>
                     <dt>Last contact</dt>

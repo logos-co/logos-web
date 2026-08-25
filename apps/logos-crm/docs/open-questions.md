@@ -187,17 +187,25 @@ board is a direct statement of where a coordinator says the work is, and a deal
 that jumps from `lead` to `confirmed` because it closed on one call is a real
 thing that happened rather than an error to reject.
 
-**Still open, and now visible:**
+**Also built.** All four business units in the export's `BU` column exist as
+teams - Ecodev (392 rows), Movement (127), nimbus (42), IR (13). Teams are not
+pipelines: nimbus and IR rows carry the Ecodev `Status` (35 of 42 and 12 of 13
+respectively), so they are teams working the Ecodev board rather than boards of
+their own. What nimbus has of its own is the integration track, modelled from
+`Nimbus Status` as a second axis over the same case, because 60 of its 64 real
+values sit on rows that also carry an Ecodev `Status`. Null on that field means
+the case is not on the track, which is deliberately distinct from `not_started`:
+the Notion default filled that column on all 563 rows, so "not started" there
+mostly meant nobody had considered it.
 
-- **Two more business units.** The export's `BU` is a multi-select over Ecodev
-  (392), Movement (127), nimbus (42), and IR (13) - a row can be `Ecodev, IR`.
-  Only Ecodev and Movement are modelled, because only they had anyone in the
-  requirements call. Nobody has been asked what nimbus and IR need.
-- **The third status column.** `Nimbus Status` is not a third pipeline: 60 of
-  its 64 real values sit on rows that also carry an Ecodev `Status`, so it is a
-  second axis over the same case. Modelling it as a pipeline would be wrong and
-  modelling it as an axis needs a stakeholder. Until then those 64 rows lose
-  that field on import.
+**Still open:**
+
+- **Whether the modelling matches what those teams do.** The shapes above come
+  from the export, not from nimbus or IR, neither of whom was in the
+  requirements call. The data says how they used one Notion table; it does not
+  say what they need.
+- **`BU` is a multi-select.** A row can be `Ecodev, IR`; a case here has one
+  team. Thirteen rows in the export carry two units, so this is real but small.
 - **Emoji in two labels.** `Solution Eng 👀` and `Confirmed 💪` are stored as
   keys and displayed as labels, so renaming them is a code change rather than a
   silent rewrite of history. Worth confirming the team wants to keep them.
@@ -207,6 +215,33 @@ thing that happened rather than an error to reject.
 **Cost of delay.** The nimbus and IR question gets more expensive the closer the
 Notion cutover gets: their rows are in the same table, and an import that has no
 pipeline for them either drops them or files them under somebody else's board.
+
+---
+
+## 9b. Rich text notes and attachments
+
+**Question.** What can a note contain, and can it be corrected after the fact?
+
+**Built.** Notes are Markdown - headings, bold, italic, inline code, bullet and
+numbered lists, quotes, links, and images by URL. The renderer turns the parsed
+document into React elements and emits no markup at all, so a note is not an
+injection surface regardless of what somebody pastes into it, and `javascript:`
+and `data:` hrefs render as text rather than as links. Notes can be edited and
+soft-deleted by their author; an edit stamps who and when, the previous text is
+kept in the audit event, and a deleted note keeps its place in the timeline
+without its body.
+
+**Still open.** Uploads. An image has to be linked by URL because there is no
+blob storage in this application - the deployment spec names a protected file
+volume, but nothing writes to it. A real upload path needs an endpoint, type and
+size limits, and a decision about how an attachment on a person's record is
+covered by the erasure path in item 8. Pasting a screenshot is what people
+actually asked for, so this gap is worth closing before cutover.
+
+**Also open.** Only the author may edit or delete. That is a rule about
+authorship rather than a permission model, and it will want revisiting once
+identity lands - there is currently no honest way to express "an admin may
+override".
 
 ---
 

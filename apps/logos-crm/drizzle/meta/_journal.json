@@ -99,6 +99,13 @@
       "when": 1787670619272,
       "tag": "0013_dazzling_nick_fury",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1787673616908,
+      "tag": "0014_lucky_redwing",
+      "breakpoints": true
     }
   ]
 }

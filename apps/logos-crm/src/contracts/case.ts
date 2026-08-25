@@ -1,6 +1,10 @@
 import { z } from 'zod/v4'
 
-import { isStageOf, pipelineKeySchema } from './pipeline'
+import {
+  integrationStageSchema,
+  isStageOf,
+  pipelineKeySchema,
+} from './pipeline'
 import { caseDecisions, casePriorities, caseStatuses } from './values'
 
 export const caseStatusSchema = z.enum(caseStatuses)
@@ -24,11 +28,25 @@ export const createCaseSchema = z
     teamId: z.string().uuid().optional(),
     pipeline: pipelineKeySchema,
     stage: z.string().trim().min(2).max(80),
+    integrationStage: integrationStageSchema.optional(),
     priority: casePrioritySchema,
     nextAction: z.string().trim().min(3).max(240).optional(),
     nextActionAt: z.string().datetime().optional(),
     organisationId: z.string().uuid().optional(),
+    /**
+     * A name typed instead of picked. Data entry has to be fast, and a lead
+     * whose organisation is not in the CRM yet is the common case rather than
+     * the exception - forcing the coordinator to leave, create the
+     * organisation, and come back is how leads end up recorded nowhere. The
+     * name is matched against existing organisations before one is created, so
+     * typing a name that already exists links rather than duplicates.
+     */
+    organisationName: z.string().trim().min(2).max(160).optional(),
     personIds: z.array(z.string().uuid()).max(12).default([]),
+  })
+  .refine((value) => !(value.organisationId && value.organisationName), {
+    path: ['organisationName'],
+    message: 'Give either an existing organisation or a new name.',
   })
   .refine((value) => isStageOf(value.pipeline, value.stage), {
     path: ['stage'],
@@ -45,6 +63,19 @@ export const updateCaseStageSchema = z.object({
   stage: z.string().trim().min(2).max(80),
   expectedVersion: z.number().int().positive(),
   reason: z.string().trim().max(500).optional(),
+})
+
+/**
+ * The integration track is set on its own, not folded into the stage move. It
+ * is a second axis: a case can advance on the board without moving on the
+ * track and the other way round, and one request that wrote both would make
+ * every board drag an implicit claim about integration readiness.
+ *
+ * `null` takes the case off the track, which is not the same as `not_started`.
+ */
+export const updateCaseIntegrationSchema = z.object({
+  integrationStage: integrationStageSchema.nullable(),
+  expectedVersion: z.number().int().positive(),
 })
 
 /**
@@ -112,6 +143,7 @@ export const caseRecordSchema = z.object({
   status: caseStatusSchema,
   pipeline: pipelineKeySchema,
   stage: z.string(),
+  integrationStage: integrationStageSchema.nullable(),
   priority: casePrioritySchema,
   nextAction: z.string().nullable(),
   nextActionAt: z.string().datetime().nullable(),
@@ -145,5 +177,8 @@ export type CaseListQuery = z.infer<typeof caseListQuerySchema>
 export type CaseRecord = z.infer<typeof caseRecordSchema>
 export type CaseStatus = z.infer<typeof caseStatusSchema>
 export type CreateCaseInput = z.infer<typeof createCaseSchema>
+export type UpdateCaseIntegrationInput = z.infer<
+  typeof updateCaseIntegrationSchema
+>
 export type UpdateCaseStageInput = z.infer<typeof updateCaseStageSchema>
 export type UpdateCaseStatusInput = z.infer<typeof updateCaseStatusSchema>

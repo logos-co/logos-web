@@ -17,12 +17,14 @@ import type {
   CaseRecord,
   CaseStatus,
   CreateCaseInput,
+  UpdateCaseIntegrationInput,
   UpdateCaseStageInput,
   UpdateCaseStatusInput,
 } from '@/contracts/case'
 import type { PipelineKey } from '@/contracts/pipeline'
 import {
   canMoveToStage,
+  integrationStageLabel,
   isStageOf,
   pipelineList,
   stageLabel,
@@ -43,6 +45,7 @@ import {
   tasks,
   users,
 } from '@/server/db/schema'
+import { findOrCreateOrganisation } from '@/server/directory-repository'
 import { conflict, invalidTransition, notFound } from '@/server/service-errors'
 
 export interface CaseListFilters {
@@ -387,7 +390,19 @@ export async function createCase(
   }
 
   const created = await db.transaction(async (transaction) => {
-    const { organisationId, personIds, nextActionAt, ...caseInput } = input
+    const {
+      organisationId: pickedOrganisationId,
+      organisationName,
+      personIds,
+      nextActionAt,
+      ...caseInput
+    } = input
+
+    // A typed name resolves inside the same transaction as the case, so a
+    // failure cannot leave an organisation behind with no case attached to it.
+    const organisationId = organisationName
+      ? await findOrCreateOrganisation(transaction, organisationName)
+      : pickedOrganisationId
     const [row] = await transaction
       .insert(cases)
       .values({
@@ -522,6 +537,76 @@ export async function updateCaseStage(
         stage: {
           from: stageLabel(current.pipeline, current.stage),
           to: stageLabel(row.pipeline, row.stage),
+        },
+      },
+    })
+
+    return row
+  })
+
+  const [record] = await hydrateCaseRecords([updated])
+  if (!record) throw notFound('The case no longer exists.')
+  return record
+}
+
+/**
+ * Sets or clears the integration track.
+ *
+ * No workflow history row: that table is the case's stage-and-status timeline,
+ * and writing a row whose stage did not change would show up in every duration
+ * metric built on it as a move that never happened. The audit event carries the
+ * change instead.
+ */
+export async function updateCaseIntegration(
+  actor: Readonly<ActorContext>,
+  id: string,
+  input: Readonly<UpdateCaseIntegrationInput>
+): Promise<CaseRecord> {
+  const updated = await db.transaction(async (transaction) => {
+    const [current] = await transaction
+      .select()
+      .from(cases)
+      .where(eq(cases.id, id))
+      .limit(1)
+      .for('update')
+
+    if (!current) throw notFound('The case no longer exists.')
+
+    if (current.version !== input.expectedVersion) {
+      throw conflict(
+        'The case changed since it was loaded. Reload it and try again.'
+      )
+    }
+
+    if (current.integrationStage === input.integrationStage) return current
+
+    const now = new Date()
+    const [row] = await transaction
+      .update(cases)
+      .set({
+        integrationStage: input.integrationStage,
+        version: current.version + 1,
+        updatedAt: now,
+      })
+      .where(eq(cases.id, id))
+      .returning()
+
+    if (!row) throw notFound('The case no longer exists.')
+
+    await recordAuditEvent(transaction, actor, {
+      action: 'case.integration_changed',
+      entityType: 'case',
+      entityId: row.id,
+      changes: {
+        integrationStage: {
+          // "Off the track" is a real value here, and rendering it as an empty
+          // string would read as a missing field rather than a decision.
+          from: current.integrationStage
+            ? integrationStageLabel(current.integrationStage)
+            : 'Not tracked',
+          to: row.integrationStage
+            ? integrationStageLabel(row.integrationStage)
+            : 'Not tracked',
         },
       },
     })

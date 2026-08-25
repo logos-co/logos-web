@@ -132,7 +132,10 @@ test('a coordinator records an evaluation and a decision', async ({
   await page.goto(`/cases/${caseId}`)
 
   await page.getByRole('button', { name: 'Record' }).first().click()
-  await page.getByRole('combobox').first().selectOption('4')
+  // Anchored to its own label rather than "the first combobox on the page":
+  // the case detail carries several selects now, and a positional locator
+  // silently starts driving a different control every time one is added.
+  await page.getByLabel('Score').selectOption('4')
   await page
     .getByPlaceholder('What did this stage show?')
     .fill('Strong alignment on the coalition track.')

@@ -19,6 +19,8 @@ const userSeeds = [
   ['Mara Chen', 'mara.chen@logos.co', 'Ecodev'],
   ['Jon Bell', 'jon.bell@logos.co', 'Movement'],
   ['Niko Reyes', 'niko.reyes@logos.co', 'Ecodev'],
+  ['Ada Ferreira', 'ada.ferreira@logos.co', 'Nimbus'],
+  ['Sam Okonkwo', 'sam.okonkwo@logos.co', 'IR'],
 ] as const
 
 await db
@@ -37,17 +39,15 @@ const userRows = await db.select().from(schema.users)
 const userByName = new Map(userRows.map((row) => [row.displayName, row]))
 
 /**
- * Both are seeded so the demo shows cross-team work, which a single-team
- * fixture cannot produce.
+ * The four business units in the Notion export's `BU` column.
  *
- * The Notion export carries two more business units - nimbus and IR - and a
- * record there can belong to several at once. They are left out because no
- * stakeholder for them has been interviewed yet, not because they do not
- * exist. The `stage` values below are the real Notion ones, and Ecodev and
- * Movement do not share a vocabulary: each team runs its own pipeline on its
- * own column. See docs/open-questions.md#9.
+ * Teams are not pipelines. Movement runs its own board, but nimbus and IR do
+ * not: in the export their rows carry the Ecodev `Status` - 35 of 42 nimbus
+ * rows and 12 of 13 IR rows - so they are teams working the Ecodev pipeline.
+ * What nimbus has of its own is the integration track, which is a second axis
+ * over the same case rather than a board of its own.
  */
-const teamSeeds = ['Ecodev', 'Movement'] as const
+const teamSeeds = ['Ecodev', 'Movement', 'Nimbus', 'IR'] as const
 
 await db
   .insert(schema.teams)
@@ -290,9 +290,10 @@ const caseSeeds = [
   {
     title: 'Waku integration for guild messaging',
     organisationName: 'Cypherpunk Guild Berlin',
-    ownerName: 'Mara Chen',
-    teamName: 'Ecodev',
+    ownerName: 'Ada Ferreira',
+    teamName: 'Nimbus',
     pipeline: 'ecodev' as const,
+    integrationStage: 'engaged' as const,
     status: 'in_progress' as const,
     stage: 'solution_eng',
     priority: 'high' as const,
@@ -300,7 +301,19 @@ const caseSeeds = [
     leadSource: null,
     summary:
       'Guild wants to move its announcement channel off a centralised platform onto Waku.',
-    note: 'Walked through the Waku relay setup and what the guild would have to self-host.',
+    note: [
+      '## Discovery call',
+      '',
+      'Walked through the relay setup and what the guild would have to self-host.',
+      '',
+      '- They run **~400 members** across two channels',
+      '- Blocker is moderation tooling, not the transport',
+      '- Wants a written comparison against their current platform',
+      '',
+      '> "If we can keep threads, we can move next quarter."',
+      '',
+      'Next: send the `nwaku` operator guide and book a follow-up.',
+    ].join('\n'),
     nextAction: 'Confirm technical discovery session',
     nextActionAt: new Date(now + day),
     lastContactAt: new Date(now - day),
@@ -311,6 +324,7 @@ const caseSeeds = [
     ownerName: 'Niko Reyes',
     teamName: 'Ecodev',
     pipeline: 'ecodev' as const,
+    integrationStage: 'assess_value_proposition' as const,
     status: 'waiting' as const,
     stage: 'qualified',
     priority: 'medium' as const,
@@ -329,6 +343,7 @@ const caseSeeds = [
     ownerName: null,
     teamName: 'Ecodev',
     pipeline: 'ecodev' as const,
+    integrationStage: null,
     status: 'new' as const,
     stage: 'lead',
     priority: 'high' as const,
@@ -345,8 +360,9 @@ const caseSeeds = [
     title: 'Codex storage pilot for public archives',
     organisationName: 'Freedom Stack Foundation',
     ownerName: 'Mara Chen',
-    teamName: 'Ecodev',
+    teamName: 'IR',
     pipeline: 'ecodev' as const,
+    integrationStage: 'ready_for_integration' as const,
     status: 'resolved' as const,
     stage: 'confirmed',
     priority: 'low' as const,
@@ -365,6 +381,7 @@ const caseSeeds = [
     ownerName: 'Jon Bell',
     teamName: 'Movement',
     pipeline: 'movement' as const,
+    integrationStage: null,
     status: 'in_progress' as const,
     stage: 'training_call',
     priority: 'medium' as const,
@@ -383,6 +400,7 @@ const caseSeeds = [
     ownerName: 'Jon Bell',
     teamName: 'Movement',
     pipeline: 'movement' as const,
+    integrationStage: null,
     status: 'closed' as const,
     stage: 'redirected_post_call',
     priority: 'low' as const,
@@ -429,6 +447,7 @@ const existingCaseTitles = new Set(
           status: seed.status,
           pipeline: seed.pipeline,
           stage: seed.stage,
+          integrationStage: seed.integrationStage,
           priority: seed.priority,
           profile: seed.profile,
           leadSource: seed.leadSource,

@@ -4,6 +4,7 @@ import type { IntakeResult, IntakeSubmissionInput } from '@/contracts/intake'
 import { intakeProfileByForm } from '@/contracts/intake'
 import { recordAuditEvent, systemActor } from '@/server/audit'
 import { defaultStageFor } from '@/contracts/pipeline'
+import { findOrCreateOrganisation } from '@/server/directory-repository'
 import { db } from '@/server/db'
 import {
   caseAssignments,
@@ -122,29 +123,6 @@ async function findOrCreatePerson(
     await transaction.insert(contactMethods).values(methods)
   }
 
-  return created.id
-}
-
-async function findOrCreateOrganisation(
-  transaction: Transaction,
-  name: string
-): Promise<string> {
-  const normalisedName = normalise(name)
-
-  const [existing] = await transaction
-    .select({ id: organisations.id })
-    .from(organisations)
-    .where(eq(organisations.normalisedName, normalisedName))
-    .limit(1)
-
-  if (existing) return existing.id
-
-  const [created] = await transaction
-    .insert(organisations)
-    .values({ displayName: name.trim(), normalisedName, status: 'prospect' })
-    .returning()
-
-  if (!created) throw new Error('The organisation record was not created.')
   return created.id
 }
 

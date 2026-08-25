@@ -26,13 +26,24 @@ const formSchema = createCaseSchema
     nextAction: true,
     nextActionAt: true,
     organisationId: true,
+    organisationName: true,
     ownerUserId: true,
     personIds: true,
   })
   .extend({
     nextAction: z.string().trim().max(240),
     nextActionAt: z.string(),
-    organisationId: z.string().uuid('Choose an organisation.'),
+    /**
+     * A name, not an id. Restricting this to organisations already in the CRM
+     * meant a coordinator with a new lead had to leave, create the
+     * organisation, and come back - so the datalist suggests what exists and
+     * accepts anything else, and the server matches or creates on submit.
+     */
+    organisationName: z
+      .string()
+      .trim()
+      .min(2, 'Name the organisation.')
+      .max(160),
     ownerUserId: z.union([z.string().uuid(), z.literal('')]),
     personId: z.union([z.string().uuid(), z.literal('')]),
   })
@@ -90,7 +101,7 @@ export function NewCaseDialog({
     mode: 'onSubmit',
     defaultValues: {
       title: '',
-      organisationId: '',
+      organisationName: '',
       personId: '',
       ownerUserId: '',
       pipeline: 'ecodev',
@@ -106,10 +117,20 @@ export function NewCaseDialog({
   if (!isOpen) return null
 
   const submit = handleSubmit(async (values) => {
-    const { personId, ownerUserId, nextAction, nextActionAt, ...caseValues } =
-      values
+    const {
+      personId,
+      ownerUserId,
+      nextAction,
+      nextActionAt,
+      organisationName,
+      ...caseValues
+    } = values
+    // Sent as a name whether or not it matches something on screen. The server
+    // owns "is this the same organisation", because the browser's copy of the
+    // list is always a moment behind.
     await onCreate({
       ...caseValues,
+      organisationName,
       ...(ownerUserId ? { ownerUserId } : {}),
       ...(nextAction
         ? {
@@ -136,16 +157,19 @@ export function NewCaseDialog({
         <div className="form-row">
           <FormField
             label="Organisation"
-            error={errors.organisationId?.message}
+            error={errors.organisationName?.message}
           >
-            <select {...register('organisationId')}>
-              <option value="">Choose organisation</option>
+            <input
+              {...register('organisationName')}
+              autoComplete="off"
+              list="organisation-options"
+              placeholder="Type a name, new or existing"
+            />
+            <datalist id="organisation-options">
               {organisations.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.displayName}
-                </option>
+                <option key={item.id} value={item.displayName} />
               ))}
-            </select>
+            </datalist>
           </FormField>
           <FormField label="Owner" error={errors.ownerUserId?.message}>
             <select {...register('ownerUserId')}>

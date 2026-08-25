@@ -19,12 +19,11 @@ import { z } from 'zod/v4'
  * the Notion labels carry emoji, and a stored value that can be re-typed by
  * anyone editing a select option is not something reports can be built on.
  *
- * Not modelled here: the export's third status column, `Nimbus Status`. It is
- * not a third pipeline - 60 of its 64 real values sit on rows that also carry
- * an Ecodev `Status`, so it is a second axis over the same case rather than an
- * alternative to it. Modelling it as a pipeline would be wrong, and modelling
- * it as an axis needs a stakeholder nobody has interviewed. See
- * `docs/open-questions.md`.
+ * The export's third status column, `Nimbus Status`, is deliberately not one of
+ * these. It is not a third pipeline: 60 of its 64 real values sit on rows that
+ * also carry an Ecodev `Status`, so it is a second axis over the same case
+ * rather than an alternative to it. It is modelled below as the integration
+ * track.
  */
 export const pipelineKeys = ['ecodev', 'movement'] as const
 
@@ -97,6 +96,55 @@ export const PIPELINES: Readonly<Record<PipelineKey, Pipeline>> = {
 export const pipelineList: readonly Pipeline[] = pipelineKeys.map(
   (key) => PIPELINES[key]
 )
+
+/**
+ * The integration track, from the export's `Nimbus Status` column.
+ *
+ * A second axis rather than a pipeline, because that is what the data is: a
+ * case can be `qualified` on the Ecodev board and `engaged` on the integration
+ * track at the same time, and 60 of the 64 rows carrying a real value do
+ * exactly that. Squeezing it into `stage` would force a choice between the two
+ * facts and lose one of them.
+ *
+ * Null means the case is not on the track at all, which is different from
+ * `not_started`: the export's default filled that column on all 563 rows, so
+ * "not started" there mostly meant "nobody considered this", and carrying that
+ * distinction forward would make the count meaningless.
+ */
+export const integrationStageKeys = [
+  'not_started',
+  'to_reach_out',
+  'assess_value_proposition',
+  'engaged',
+  'regular_contact',
+  'ready_for_integration',
+] as const
+
+export type IntegrationStageKey = (typeof integrationStageKeys)[number]
+
+const INTEGRATION_STAGE_LABELS: Readonly<Record<IntegrationStageKey, string>> =
+  {
+    not_started: 'Not started',
+    to_reach_out: 'To reach out',
+    assess_value_proposition: 'Assess value proposition',
+    engaged: 'Engaged',
+    regular_contact: 'Regular contact',
+    ready_for_integration: 'Ready for integration',
+  }
+
+export function integrationStageLabel(stage: IntegrationStageKey): string {
+  return INTEGRATION_STAGE_LABELS[stage]
+}
+
+export const integrationStages: ReadonlyArray<{
+  key: IntegrationStageKey
+  label: string
+}> = integrationStageKeys.map((key) => ({
+  key,
+  label: INTEGRATION_STAGE_LABELS[key],
+}))
+
+export const integrationStageSchema = z.enum(integrationStageKeys)
 
 export const pipelineKeySchema = z.enum(pipelineKeys)
 
