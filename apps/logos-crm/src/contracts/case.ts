@@ -1,5 +1,6 @@
 import { z } from 'zod/v4'
 
+import { isStageOf, pipelineKeySchema } from './pipeline'
 import { caseDecisions, casePriorities, caseStatuses } from './values'
 
 export const caseStatusSchema = z.enum(caseStatuses)
@@ -16,16 +17,34 @@ export const caseActorSchema = z.object({
  * placeholder values to satisfy a NOT NULL would corrupt the queues built on
  * them.
  */
-export const createCaseSchema = z.object({
-  title: z.string().trim().min(3).max(160),
-  ownerUserId: z.string().uuid().optional(),
-  teamId: z.string().uuid().optional(),
+export const createCaseSchema = z
+  .object({
+    title: z.string().trim().min(3).max(160),
+    ownerUserId: z.string().uuid().optional(),
+    teamId: z.string().uuid().optional(),
+    pipeline: pipelineKeySchema,
+    stage: z.string().trim().min(2).max(80),
+    priority: casePrioritySchema,
+    nextAction: z.string().trim().min(3).max(240).optional(),
+    nextActionAt: z.string().datetime().optional(),
+    organisationId: z.string().uuid().optional(),
+    personIds: z.array(z.string().uuid()).max(12).default([]),
+  })
+  .refine((value) => isStageOf(value.pipeline, value.stage), {
+    path: ['stage'],
+    message: 'The stage does not belong to the selected pipeline.',
+  })
+
+/**
+ * Moving a case along its board. The pipeline is not accepted here: a case
+ * changes stage far more often than it changes team, and letting one request
+ * do both means a dropped card could silently move a case onto another team's
+ * board. Re-piping is a separate, deliberate action.
+ */
+export const updateCaseStageSchema = z.object({
   stage: z.string().trim().min(2).max(80),
-  priority: casePrioritySchema,
-  nextAction: z.string().trim().min(3).max(240).optional(),
-  nextActionAt: z.string().datetime().optional(),
-  organisationId: z.string().uuid().optional(),
-  personIds: z.array(z.string().uuid()).max(12).default([]),
+  expectedVersion: z.number().int().positive(),
+  reason: z.string().trim().max(500).optional(),
 })
 
 /**
@@ -66,6 +85,7 @@ export const caseListQuerySchema = z.object({
   status: caseStatusSchema.optional(),
   queue: caseQueueSchema.default('all'),
   ownerUserId: z.string().uuid().optional(),
+  pipeline: pipelineKeySchema.optional(),
 })
 
 /**
@@ -90,6 +110,7 @@ export const caseRecordSchema = z.object({
   organisationName: z.string().nullable(),
   owner: caseActorSchema.nullable(),
   status: caseStatusSchema,
+  pipeline: pipelineKeySchema,
   stage: z.string(),
   priority: casePrioritySchema,
   nextAction: z.string().nullable(),
@@ -124,4 +145,5 @@ export type CaseListQuery = z.infer<typeof caseListQuerySchema>
 export type CaseRecord = z.infer<typeof caseRecordSchema>
 export type CaseStatus = z.infer<typeof caseStatusSchema>
 export type CreateCaseInput = z.infer<typeof createCaseSchema>
+export type UpdateCaseStageInput = z.infer<typeof updateCaseStageSchema>
 export type UpdateCaseStatusInput = z.infer<typeof updateCaseStatusSchema>

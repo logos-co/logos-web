@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 import type { CaseRecord, CaseStatus } from '@/contracts/case'
+import { stageLabel } from '@/contracts/pipeline'
 import { apiClient } from '@/lib/api-client'
 
 import { CaseEvaluation } from './case-evaluation'
@@ -136,7 +137,7 @@ export function CaseDetailPage({ id }: CaseDetailPageProps) {
                   </div>
                   <div>
                     <dt>Stage</dt>
-                    <dd>{item.stage}</dd>
+                    <dd>{stageLabel(item.pipeline, item.stage)}</dd>
                   </div>
                   <div>
                     <dt>Last contact</dt>

@@ -207,7 +207,8 @@ describe.skipIf(!isIntegrationEnabled)('erasure', () => {
       .returning()
     const record = await createCase(actor, {
       title: 'Protocol research partnership',
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'medium',
       organisationId: organisation?.id,
       personIds: [personId],

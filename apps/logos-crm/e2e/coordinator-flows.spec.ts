@@ -54,11 +54,56 @@ test('a funnel submission arrives as an untriaged case in the queue', async ({
     .getByRole('button', { name: /Needs triage/ })
     .click()
 
+  // The public funnel files submissions on the Movement board, so the case is
+  // not on the Ecodev board a coordinator opens on. The pipeline tab has to
+  // carry the count, because a board that hides new intake behind a tab with
+  // no number on it is how intake gets missed.
+  await page
+    .getByLabel('Pipelines')
+    .getByRole('button', { name: /Movement [1-9]/ })
+    .click()
+
   const row = page.getByRole('link', { name: new RegExp(applicant) })
   await expect(row).toBeVisible()
   // Unassigned and untriaged is the honest state for something nobody has
-  // looked at, and the list has to show it that way.
+  // looked at, and the board has to show it that way.
   await expect(page.getByText('Unassigned').first()).toBeVisible()
+})
+
+test('an empty board says which pipeline the matches are on', async ({
+  page,
+  request,
+}) => {
+  const applicant = `Elsewhere Applicant ${Date.now()}`
+  await captureIntake(request, applicant)
+
+  await openCases(page)
+  // A search only this case can match, so the Ecodev board is genuinely empty
+  // rather than empty by coincidence of what else is seeded.
+  await page.getByPlaceholder('Case, organisation, owner').fill(applicant)
+
+  const switcher = page.getByRole('button', { name: /1 on Movement/ })
+  await expect(switcher).toBeVisible()
+  await switcher.click()
+
+  await expect(
+    page.getByRole('link', { name: new RegExp(applicant) })
+  ).toBeVisible()
+})
+
+test('the list spans every pipeline and names which board a case is on', async ({
+  page,
+  request,
+}) => {
+  const applicant = `List Applicant ${Date.now()}`
+  await captureIntake(request, applicant)
+
+  await openCases(page)
+  await page.getByRole('button', { name: 'List', exact: true }).click()
+
+  const row = page.getByRole('link', { name: new RegExp(applicant) })
+  await expect(row).toBeVisible()
+  await expect(page.getByText('New Lead').first()).toBeVisible()
 })
 
 test('an untriaged case shows triage as its next action', async ({

@@ -8,11 +8,17 @@ const now = Date.now()
 /**
  * The seeded users are what the actor seam resolves against while the app runs
  * without authentication: `CRM_DEV_ACTOR_EMAIL` must match one of these.
+ *
+ * The names are invented. Everything here is served on a demo instance with no
+ * sign-in, so a real colleague's name and address would be personal data
+ * published to anyone with the URL - the same thing the privacy rules in this
+ * app exist to prevent. The team names are the real ones because a team is not
+ * a person.
  */
 const userSeeds = [
-  ['Mara Chen', 'mara.chen@logos.co'],
-  ['Jon Bell', 'jon.bell@logos.co'],
-  ['Niko Reyes', 'niko.reyes@logos.co'],
+  ['Mara Chen', 'mara.chen@logos.co', 'Ecodev'],
+  ['Jon Bell', 'jon.bell@logos.co', 'Movement'],
+  ['Niko Reyes', 'niko.reyes@logos.co', 'Ecodev'],
 ] as const
 
 await db
@@ -30,45 +36,74 @@ await db
 const userRows = await db.select().from(schema.users)
 const userByName = new Map(userRows.map((row) => [row.displayName, row]))
 
+/**
+ * Both are seeded so the demo shows cross-team work, which a single-team
+ * fixture cannot produce.
+ *
+ * The Notion export carries two more business units - nimbus and IR - and a
+ * record there can belong to several at once. They are left out because no
+ * stakeholder for them has been interviewed yet, not because they do not
+ * exist. The `stage` values below are the real Notion ones, and Ecodev and
+ * Movement do not share a vocabulary: each team runs its own pipeline on its
+ * own column. See docs/open-questions.md#9.
+ */
+const teamSeeds = ['Ecodev', 'Movement'] as const
+
 await db
   .insert(schema.teams)
-  .values({ name: 'Movement', normalisedName: 'movement' })
+  .values(
+    teamSeeds.map((name) => ({
+      name,
+      normalisedName: name.toLocaleLowerCase('en'),
+    }))
+  )
   .onConflictDoNothing()
 
-const [movementTeam] = await db.select().from(schema.teams).limit(1)
+const teamRows = await db.select().from(schema.teams)
+const teamByName = new Map(teamRows.map((row) => [row.name, row]))
 
-const userTeamValues = userRows.flatMap((user) =>
-  movementTeam ? [{ userId: user.id, teamId: movementTeam.id }] : []
-)
+const userTeamValues = userSeeds.flatMap(([displayName, , teamName]) => {
+  const user = userByName.get(displayName)
+  const team = teamByName.get(teamName)
+  return user && team ? [{ userId: user.id, teamId: team.id }] : []
+})
 if (userTeamValues.length > 0) {
   await db.insert(schema.userTeams).values(userTeamValues).onConflictDoNothing()
 }
 
+/**
+ * Counterparties, not Logos itself. The organisations are invented and use
+ * `.example` domains, which is reserved and can never resolve: a demo instance
+ * that carries a real organisation's name and address implies a relationship
+ * nobody agreed to, and a plausible-looking domain invites somebody to mail it.
+ * The Logos side of the relationship is carried by the cases below, which name
+ * the real programmes these leads would be talking to.
+ */
 const organisationSeeds = [
   [
-    'Open Systems Lab',
-    'opensystems.example',
-    'Research infrastructure and open protocol engineering.',
+    'Cypherpunk Guild Berlin',
+    'cypherpunkguild.example',
+    'Privacy meetup running monthly workshops on censorship-resistant messaging.',
   ],
   [
-    'Nodecraft Collective',
-    'nodecraft.example',
-    'Community-operated infrastructure and node education.',
+    'Meshnet Node Collective',
+    'meshnetnodes.example',
+    'Community node operators hosting relays and testnet infrastructure.',
   ],
   [
-    'Cipher Commons',
-    'ciphercommons.example',
-    'Privacy tooling research and public-interest deployment.',
+    'Parallel Society Institute',
+    'parallelsociety.example',
+    'Research group publishing on network states and self-sovereign governance.',
   ],
   [
-    'Assembly School',
-    'assemblyschool.example',
-    'Developer education and technical community programmes.',
+    'Freedom Stack Foundation',
+    'freedomstack.example',
+    'Grant funder for public-interest censorship-resistant infrastructure.',
   ],
   [
-    'Moss Studio',
-    'mossstudio.example',
-    'Local-first product and interaction design practice.',
+    'Sovereign Campus Network',
+    'sovereigncampus.example',
+    'University cypherpunk societies running student build programmes.',
   ],
   [
     'Independent',
@@ -98,31 +133,41 @@ const organisationByName = new Map(
 
 const personSeeds = [
   [
-    'Amina Okafor',
-    'Research director',
-    'Open Systems Lab',
-    'amina@opensystems.example',
+    'Nadia Brandt',
+    'Community lead',
+    'Cypherpunk Guild Berlin',
+    'nadia@cypherpunkguild.example',
   ],
   [
-    'Leo Martin',
-    'Infrastructure lead',
-    'Nodecraft Collective',
-    'leo@nodecraft.example',
+    'Emil Vasquez',
+    'Node operations lead',
+    'Meshnet Node Collective',
+    'emil@meshnetnodes.example',
   ],
   [
-    'Sora Kim',
-    'Privacy researcher',
-    'Cipher Commons',
-    'sora@ciphercommons.example',
+    'Hana Ito',
+    'Research fellow',
+    'Parallel Society Institute',
+    'hana@parallelsociety.example',
   ],
   [
-    'Iris Patel',
-    'Programme director',
-    'Assembly School',
-    'iris@assemblyschool.example',
+    'Omar Diallo',
+    'Grants director',
+    'Freedom Stack Foundation',
+    'omar@freedomstack.example',
   ],
-  ['Tomas Vale', 'Product lead', 'Moss Studio', 'tomas@mossstudio.example'],
-  ['Rae Morgan', 'Independent researcher', 'Independent', 'rae@example.org'],
+  [
+    'Petra Nowak',
+    'Programme organiser',
+    'Sovereign Campus Network',
+    'petra@sovereigncampus.example',
+  ],
+  [
+    'Kofi Mensah',
+    'Independent protocol researcher',
+    'Independent',
+    'kofi@example.org',
+  ],
 ] as const
 
 await db
@@ -234,70 +279,118 @@ if (relationshipValues.length > 0) {
  * The third case is deliberately unassigned with no next action: unassigned and
  * untriaged is a real intake state, and the queues have to be built against it
  * rather than against a placeholder.
+ *
+ * `profile` and `leadSource` are set on the Movement cases only. They are
+ * answers to public funnel questions, and in the Notion export all 124 rows
+ * carrying a Profile are Movement - so putting one on an Ecodev case would
+ * claim the lead arrived through a form it never saw, and inflate every funnel
+ * breakdown built on the field.
  */
 const caseSeeds = [
   {
-    title: 'Protocol research partnership',
-    organisationName: 'Open Systems Lab',
+    title: 'Waku integration for guild messaging',
+    organisationName: 'Cypherpunk Guild Berlin',
     ownerName: 'Mara Chen',
+    teamName: 'Ecodev',
+    pipeline: 'ecodev' as const,
     status: 'in_progress' as const,
-    stage: 'Qualification',
+    stage: 'solution_eng',
     priority: 'high' as const,
+    profile: null,
+    leadSource: null,
+    summary:
+      'Guild wants to move its announcement channel off a centralised platform onto Waku.',
+    note: 'Walked through the Waku relay setup and what the guild would have to self-host.',
     nextAction: 'Confirm technical discovery session',
     nextActionAt: new Date(now + day),
     lastContactAt: new Date(now - day),
   },
   {
-    title: 'Community node programme',
-    organisationName: 'Nodecraft Collective',
-    ownerName: 'Jon Bell',
+    title: 'Nomos testnet node cohort',
+    organisationName: 'Meshnet Node Collective',
+    ownerName: 'Niko Reyes',
+    teamName: 'Ecodev',
+    pipeline: 'ecodev' as const,
     status: 'waiting' as const,
-    stage: 'Proposal',
+    stage: 'qualified',
     priority: 'medium' as const,
+    profile: null,
+    leadSource: null,
+    summary:
+      'Collective can bring roughly forty operators into the next Nomos testnet round.',
+    note: 'Sent the operator requirements; waiting on their hardware inventory.',
     nextAction: 'Review hosting requirements',
     nextActionAt: new Date(now + day * 3),
     lastContactAt: new Date(now - day * 4),
   },
   {
-    title: 'Privacy tooling collaboration',
-    organisationName: 'Cipher Commons',
+    title: 'Network state research collaboration',
+    organisationName: 'Parallel Society Institute',
     ownerName: null,
+    teamName: 'Ecodev',
+    pipeline: 'ecodev' as const,
     status: 'new' as const,
-    stage: 'Intake',
+    stage: 'lead',
     priority: 'high' as const,
+    profile: null,
+    leadSource: null,
+    summary:
+      'Institute asked about a joint publication. Nobody has picked it up yet.',
+    note: 'Inbound email to the ecodev alias. No coordinator assigned.',
     nextAction: null,
     nextActionAt: null,
     lastContactAt: null,
   },
   {
-    title: 'Developer education series',
-    organisationName: 'Assembly School',
-    ownerName: 'Niko Reyes',
+    title: 'Codex storage pilot for public archives',
+    organisationName: 'Freedom Stack Foundation',
+    ownerName: 'Mara Chen',
+    teamName: 'Ecodev',
+    pipeline: 'ecodev' as const,
     status: 'resolved' as const,
-    stage: 'Approved',
+    stage: 'confirmed',
     priority: 'low' as const,
+    profile: null,
+    leadSource: null,
+    summary:
+      'Foundation is funding a durable archive and wants Codex as the storage layer.',
+    note: 'Approved for the pilot. Scope and archive size agreed on the last call.',
     nextAction: 'Archive final programme notes',
     nextActionAt: new Date(now + day * 7),
     lastContactAt: new Date(now - day * 2),
   },
   {
-    title: 'Local-first tooling pilot',
-    organisationName: 'Moss Studio',
+    title: 'Logos Circles campus chapter',
+    organisationName: 'Sovereign Campus Network',
     ownerName: 'Jon Bell',
+    teamName: 'Movement',
+    pipeline: 'movement' as const,
     status: 'in_progress' as const,
-    stage: 'Discovery',
+    stage: 'training_call',
     priority: 'medium' as const,
+    profile: 'Activist Leader / Steward',
+    leadSource: 'Social media',
+    summary:
+      'Three student societies want to run Logos Circles chapters next term.',
+    note: 'Discussed what a chapter commits to and who would steward each society.',
     nextAction: 'Share integration brief',
     nextActionAt: new Date(now + day * 2),
     lastContactAt: new Date(now - day * 3),
   },
   {
-    title: 'Research grants intake',
+    title: 'Logos Press Engine contributor outreach',
     organisationName: 'Independent',
-    ownerName: 'Niko Reyes',
+    ownerName: 'Jon Bell',
+    teamName: 'Movement',
+    pipeline: 'movement' as const,
     status: 'closed' as const,
-    stage: 'Redirected',
+    stage: 'redirected_post_call',
     priority: 'low' as const,
+    profile: 'Activist Builder',
+    leadSource: 'Podcast',
+    summary:
+      'Researcher pitched a written series. Redirected to the editorial contributor path.',
+    note: 'Closed and redirected: this is an editorial submission, not a partnership.',
     nextAction: null,
     nextActionAt: null,
     lastContactAt: new Date(now - day * 14),
@@ -332,10 +425,14 @@ const existingCaseTitles = new Set(
         .values({
           title: seed.title,
           ownerUserId: owner?.id ?? null,
-          teamId: movementTeam?.id ?? null,
+          teamId: teamByName.get(seed.teamName)?.id ?? null,
           status: seed.status,
+          pipeline: seed.pipeline,
           stage: seed.stage,
           priority: seed.priority,
+          profile: seed.profile,
+          leadSource: seed.leadSource,
+          summary: seed.summary,
           nextAction: seed.nextAction,
           nextActionAt: seed.nextActionAt,
           lastContactAt: seed.lastContactAt,
@@ -412,7 +509,7 @@ if (defaultAuthor) {
             {
               caseId: caseRow.id,
               type: index % 2 === 0 ? ('meeting' as const) : ('email' as const),
-              body: `Reviewed the current position for ${seed.title.toLocaleLowerCase('en')}.`,
+              body: seed.note,
               occurredAt: new Date(now - day * (index + 1)),
               createdByUserId: author.id,
             },
@@ -423,7 +520,7 @@ if (defaultAuthor) {
             {
               personId: personRow.id,
               type: 'note' as const,
-              body: `Primary contact for ${seed.title.toLocaleLowerCase('en')}.`,
+              body: `Primary contact for ${seed.title}.`,
               occurredAt: new Date(now - day * (index + 2)),
               createdByUserId: defaultAuthor.id,
             },
@@ -434,7 +531,7 @@ if (defaultAuthor) {
             {
               organisationId: organisation.id,
               type: 'note' as const,
-              body: `Active relationship through ${seed.title.toLocaleLowerCase('en')}.`,
+              body: `Active relationship through ${seed.title}.`,
               occurredAt: new Date(now - day * (index + 3)),
               createdByUserId: defaultAuthor.id,
             },

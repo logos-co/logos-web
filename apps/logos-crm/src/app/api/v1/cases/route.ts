@@ -11,6 +11,7 @@ export async function GET(request: Request): Promise<Response> {
       status: url.searchParams.get('status') || undefined,
       queue: url.searchParams.get('queue') || undefined,
       ownerUserId: url.searchParams.get('ownerUserId') || undefined,
+      pipeline: url.searchParams.get('pipeline') || undefined,
     })
     // The "my work" queue needs to know who is asking, so the actor is resolved
     // for reads as well as writes.

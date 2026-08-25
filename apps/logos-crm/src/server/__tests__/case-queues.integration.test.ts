@@ -42,7 +42,8 @@ describe.skipIf(!isIntegrationEnabled)('case queues', () => {
   async function openCase(title: string, ownerUserId?: string) {
     return createCase(actor, {
       title,
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'medium',
       organisationId,
       personIds: [],
@@ -213,7 +214,8 @@ describe.skipIf(!isIntegrationEnabled)('next action', () => {
   async function openCase() {
     return createCase(actor, {
       title: 'Protocol research partnership',
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'medium',
       organisationId,
       personIds: [],

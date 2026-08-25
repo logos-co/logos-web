@@ -93,7 +93,8 @@ describe.skipIf(!isIntegrationEnabled)('global search', () => {
     const organisationId = await addOrganisation('Cipher Commons')
     await createCase(actor, {
       title: 'Privacy tooling collaboration',
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'medium',
       organisationId,
       personIds: [],
@@ -108,7 +109,8 @@ describe.skipIf(!isIntegrationEnabled)('global search', () => {
     const organisationId = await addOrganisation('Nodecraft Collective')
     await createCase(actor, {
       title: 'Community node programme',
-      stage: 'Proposal',
+      pipeline: 'ecodev' as const,
+      stage: 'negotiation',
       priority: 'medium',
       organisationId,
       personIds: [],
@@ -125,7 +127,8 @@ describe.skipIf(!isIntegrationEnabled)('global search', () => {
     await addPerson('Signal Tester', 'tester@signalworks.example')
     await createCase(actor, {
       title: 'Signal partnership',
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'medium',
       organisationId,
       personIds: [],

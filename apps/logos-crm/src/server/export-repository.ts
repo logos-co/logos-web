@@ -6,6 +6,7 @@ import { listCases } from '@/server/case-repository'
 import { recordAuditEvent } from '@/server/audit'
 import type { ActorContext } from '@/server/auth'
 import { toCsv } from '@/server/csv'
+import { stageLabel } from '@/contracts/pipeline'
 import { db } from '@/server/db'
 import { exportJobs } from '@/server/db/schema'
 import { getFunnelReport } from '@/server/report-repository'
@@ -131,7 +132,10 @@ async function buildRows(
       organisation: item.organisationName ?? '',
       owner: item.owner?.displayName ?? 'Unassigned',
       status: item.status,
-      stage: item.stage,
+      pipeline: item.pipeline,
+      // The label, not the stored key: a spreadsheet is read by people, and
+      // `solution_eng` is not what anybody calls that column in Notion.
+      stage: stageLabel(item.pipeline, item.stage),
       priority: item.priority,
       decision: item.decision,
       lead_source: item.leadSource ?? '',

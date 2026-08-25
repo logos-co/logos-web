@@ -18,10 +18,13 @@ import type {
   CaseStatus,
   CreateCaseInput,
 } from '@/contracts/case'
+import type { PipelineKey } from '@/contracts/pipeline'
+import { getPipeline, pipelineList, stageLabel } from '@/contracts/pipeline'
 import type { OrganisationRecord, PersonRecord } from '@/contracts/directory'
 import type { UserRecord } from '@/contracts/user'
 import { apiClient } from '@/lib/api-client'
 
+import { CaseBoard, type StageMove } from './case-board'
 import { statusLabels, StatusBadge } from './case-status'
 import { CrmShell, type WorkspaceView } from './crm-shell'
 import { DashboardView } from './dashboard-view'
@@ -87,6 +90,9 @@ export function CrmDemo({ view }: CrmDemoProps) {
   const deferredSearch = useDeferredValue(search.trim())
   const [status, setStatus] = useState<CaseStatus | 'all'>('all')
   const [queue, setQueue] = useState<CaseQueue>('all')
+  const [pipeline, setPipeline] = useState<PipelineKey>('ecodev')
+  const [layout, setLayout] = useState<'board' | 'list'>('board')
+  const [ownerUserId, setOwnerUserId] = useState<string>('')
   const [isDialogOpen, setDialogOpen] = useState(false)
   const [feedback, setFeedback] = useState<string | null>(null)
 
@@ -96,13 +102,25 @@ export function CrmDemo({ view }: CrmDemoProps) {
     return () => window.clearTimeout(timeout)
   }, [feedback])
 
+  /**
+   * Every pipeline is fetched, and the board narrows to one afterwards.
+   *
+   * Filtering server-side instead would hide work rather than move it: the
+   * public funnel files submissions on the Movement board, so a coordinator
+   * sitting on Ecodev would see "Needs triage 1" in the tab - those counts are
+   * whole-workspace - and an empty board under it. Holding every pipeline here
+   * lets the pipeline tabs carry their own counts, which turns "where is that
+   * case" into something visible instead of something you go looking for. The
+   * endpoint keeps its `pipeline` filter for exports and other callers.
+   */
   const casesQuery = useQuery({
-    queryKey: ['cases', deferredSearch, status, queue],
+    queryKey: ['cases', deferredSearch, status, queue, ownerUserId],
     queryFn: () => {
       const params = new URLSearchParams()
       if (deferredSearch) params.set('q', deferredSearch)
       if (status !== 'all') params.set('status', status)
       if (queue !== 'all') params.set('queue', queue)
+      if (ownerUserId) params.set('ownerUserId', ownerUserId)
       const suffix = params.size > 0 ? `?${params.toString()}` : ''
       return apiClient<CasesResponse>(`/api/v1/cases${suffix}`)
     },
@@ -147,7 +165,68 @@ export function CrmDemo({ view }: CrmDemoProps) {
     onError: () => setFeedback('The case could not be created. Retry.'),
   })
 
+  /**
+   * Optimistic on purpose. A board where the card returns to its old column for
+   * a moment before jumping to the new one reads as a failed drop, and people
+   * drag it again. The previous list is captured so a rejected move - a stale
+   * version, a stage that is not on this pipeline - puts the card back exactly
+   * where it was rather than leaving the board guessing.
+   */
+  const moveMutation = useMutation({
+    mutationFn: ({ id, stage, expectedVersion }: StageMove) =>
+      apiClient<{ item: CaseRecord }>(`/api/v1/cases/${id}/stage`, {
+        method: 'PATCH',
+        body: JSON.stringify({ stage, expectedVersion }),
+      }),
+    onMutate: async ({ id, stage }) => {
+      await queryClient.cancelQueries({ queryKey: ['cases'] })
+      const previous = queryClient.getQueriesData<CasesResponse>({
+        queryKey: ['cases'],
+      })
+      queryClient.setQueriesData<CasesResponse>(
+        { queryKey: ['cases'] },
+        (current) =>
+          current && {
+            ...current,
+            items: current.items.map((item) =>
+              item.id === id ? { ...item, stage } : item
+            ),
+          }
+      )
+      return { previous }
+    },
+    onError: (_error, _variables, context) => {
+      for (const [key, value] of context?.previous ?? []) {
+        queryClient.setQueryData(key, value)
+      }
+      setFeedback('The case could not be moved. Reload and try again.')
+    },
+    onSuccess: ({ item }) => {
+      setFeedback(`Moved to ${stageLabel(item.pipeline, item.stage)}.`)
+    },
+    onSettled: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['cases'] }),
+        queryClient.invalidateQueries({ queryKey: ['dashboard'] }),
+      ])
+    },
+  })
+
   const items = casesQuery.data?.items ?? []
+  // The board needs one vocabulary to build columns from; the list does not, so
+  // it shows every pipeline and names which one each case is on.
+  const boardItems = useMemo(
+    () => items.filter((item) => item.pipeline === pipeline),
+    [items, pipeline]
+  )
+  const visibleItems = layout === 'board' ? boardItems : items
+  const countByPipeline = useMemo(() => {
+    const counts = new Map<PipelineKey, number>()
+    for (const item of items) {
+      counts.set(item.pipeline, (counts.get(item.pipeline) ?? 0) + 1)
+    }
+    return counts
+  }, [items])
   const caseColumns = useMemo<ColumnDef<CaseRecord>[]>(
     () => [
       {
@@ -164,7 +243,21 @@ export function CrmDemo({ view }: CrmDemoProps) {
           </Link>
         ),
       },
-      { accessorKey: 'stage', header: 'Stage' },
+      {
+        id: 'stage',
+        header: 'Stage',
+        // The label, not the stored key. The list and the board have to name
+        // the same column the same way or they read as two different systems.
+        // The pipeline is named alongside it because the two vocabularies do
+        // not overlap, and "Eligible" says nothing without knowing whose board
+        // it is on.
+        cell: ({ row }) => (
+          <span className="stage-cell">
+            <span>{stageLabel(row.original.pipeline, row.original.stage)}</span>
+            <small>{getPipeline(row.original.pipeline).label}</small>
+          </span>
+        ),
+      },
       {
         id: 'owner',
         header: 'Owner',
@@ -245,6 +338,54 @@ export function CrmDemo({ view }: CrmDemoProps) {
               </Button>
             </header>
 
+            <nav className="pipeline-tabs" aria-label="Pipelines">
+              {pipelineList.map((item) => (
+                <button
+                  aria-pressed={pipeline === item.key}
+                  className={`pipeline-tab cursor-pointer ${pipeline === item.key ? 'selected' : ''}`}
+                  key={item.key}
+                  type="button"
+                  onClick={() => setPipeline(item.key)}
+                >
+                  <span>{item.label}</span>
+                  <b>{countByPipeline.get(item.key) ?? 0}</b>
+                </button>
+              ))}
+              <span className="pipeline-tabs-spacer" />
+              <label className="board-owner-filter">
+                <span className="visually-hidden">Filter by owner</span>
+                <select
+                  value={ownerUserId}
+                  onChange={(event) => setOwnerUserId(event.target.value)}
+                >
+                  <option value="">Everyone&rsquo;s cases</option>
+                  {(usersQuery.data?.items ?? []).map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.displayName}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <div className="layout-toggle" role="group" aria-label="Layout">
+                <button
+                  aria-pressed={layout === 'board'}
+                  className={`layout-toggle-option cursor-pointer ${layout === 'board' ? 'selected' : ''}`}
+                  type="button"
+                  onClick={() => setLayout('board')}
+                >
+                  Board
+                </button>
+                <button
+                  aria-pressed={layout === 'list'}
+                  className={`layout-toggle-option cursor-pointer ${layout === 'list' ? 'selected' : ''}`}
+                  type="button"
+                  onClick={() => setLayout('list')}
+                >
+                  List
+                </button>
+              </div>
+            </nav>
+
             <nav className="queue-tabs" aria-label="Case queues">
               {queueTabs.map((tab) => (
                 <button
@@ -292,7 +433,8 @@ export function CrmDemo({ view }: CrmDemoProps) {
                     {status === 'all' ? 'All cases' : statusLabels[status]}
                   </h2>
                   <span className="result-count" aria-live="polite">
-                    {items.length} {items.length === 1 ? 'case' : 'cases'}
+                    {visibleItems.length}{' '}
+                    {visibleItems.length === 1 ? 'case' : 'cases'}
                   </span>
                 </div>
                 <div className="table-controls">
@@ -321,85 +463,117 @@ export function CrmDemo({ view }: CrmDemoProps) {
                 </div>
               </div>
 
-              <div className="table-wrap">
-                <table aria-busy={casesQuery.isFetching}>
-                  <caption className="visually-hidden">
-                    Cases. Select any row to open its detail page.
-                  </caption>
-                  <thead>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                      <tr key={headerGroup.id}>
-                        {headerGroup.headers.map((header) => (
-                          <th key={header.id}>
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                          </th>
-                        ))}
-                      </tr>
-                    ))}
-                  </thead>
-                  <tbody>
-                    {table.getRowModel().rows.map((row) => (
-                      <RecordRow
-                        href={`/cases/${row.original.id}`}
-                        key={row.id}
-                      >
-                        {row.getVisibleCells().map((cell) => (
-                          <td
-                            data-label={String(
-                              cell.column.columnDef.header ?? ''
-                            )}
-                            key={cell.id}
-                          >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </td>
-                        ))}
-                      </RecordRow>
-                    ))}
-                  </tbody>
-                </table>
+              {layout === 'board' ? (
+                <CaseBoard
+                  cases={boardItems}
+                  isBusy={casesQuery.isFetching || moveMutation.isPending}
+                  pipeline={pipeline}
+                  onMove={(move) => moveMutation.mutate(move)}
+                />
+              ) : (
+                <div className="table-wrap">
+                  <table aria-busy={casesQuery.isFetching}>
+                    <caption className="visually-hidden">
+                      Cases. Select any row to open its detail page.
+                    </caption>
+                    <thead>
+                      {table.getHeaderGroups().map((headerGroup) => (
+                        <tr key={headerGroup.id}>
+                          {headerGroup.headers.map((header) => (
+                            <th key={header.id}>
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                            </th>
+                          ))}
+                        </tr>
+                      ))}
+                    </thead>
+                    <tbody>
+                      {table.getRowModel().rows.map((row) => (
+                        <RecordRow
+                          href={`/cases/${row.original.id}`}
+                          key={row.id}
+                        >
+                          {row.getVisibleCells().map((cell) => (
+                            <td
+                              data-label={String(
+                                cell.column.columnDef.header ?? ''
+                              )}
+                              key={cell.id}
+                            >
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </td>
+                          ))}
+                        </RecordRow>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
 
-                {casesQuery.isLoading && (
-                  <TableMessage>Loading the queue…</TableMessage>
-                )}
-                {casesQuery.isError && (
+              {casesQuery.isLoading && (
+                <TableMessage>Loading the queue…</TableMessage>
+              )}
+              {casesQuery.isError && (
+                <TableMessage>
+                  <p>The case list could not be loaded.</p>
+                  <button
+                    className="table-state-action cursor-pointer"
+                    type="button"
+                    onClick={() => casesQuery.refetch()}
+                  >
+                    Retry
+                  </button>
+                </TableMessage>
+              )}
+              {!casesQuery.isLoading &&
+                !casesQuery.isError &&
+                visibleItems.length === 0 && (
                   <TableMessage>
-                    <p>The case list could not be loaded.</p>
-                    <button
-                      className="table-state-action cursor-pointer"
-                      type="button"
-                      onClick={() => casesQuery.refetch()}
-                    >
-                      Retry
-                    </button>
+                    <p>No cases match these filters.</p>
+                    {/*
+                      A board shows one pipeline, so "nothing here" is
+                      ambiguous: the case may exist on another team's board.
+                      Say which one and offer the switch, rather than leaving
+                      someone to find it by clicking through the tabs.
+                    */}
+                    {layout === 'board' &&
+                      pipelineList
+                        .filter(
+                          (item) =>
+                            item.key !== pipeline &&
+                            (countByPipeline.get(item.key) ?? 0) > 0
+                        )
+                        .map((item) => (
+                          <button
+                            className="table-state-action cursor-pointer"
+                            key={item.key}
+                            type="button"
+                            onClick={() => setPipeline(item.key)}
+                          >
+                            {countByPipeline.get(item.key)} on {item.label}
+                          </button>
+                        ))}
+                    {(search || status !== 'all') && (
+                      <button
+                        className="table-state-action cursor-pointer"
+                        type="button"
+                        onClick={() => {
+                          setSearch('')
+                          setStatus('all')
+                          setQueue('all')
+                        }}
+                      >
+                        Clear filters
+                      </button>
+                    )}
                   </TableMessage>
                 )}
-                {!casesQuery.isLoading &&
-                  !casesQuery.isError &&
-                  items.length === 0 && (
-                    <TableMessage>
-                      <p>No cases match these filters.</p>
-                      {(search || status !== 'all') && (
-                        <button
-                          className="table-state-action cursor-pointer"
-                          type="button"
-                          onClick={() => {
-                            setSearch('')
-                            setStatus('all')
-                            setQueue('all')
-                          }}
-                        >
-                          Clear filters
-                        </button>
-                      )}
-                    </TableMessage>
-                  )}
-              </div>
             </section>
           </>
         ) : (

@@ -4420,3 +4420,253 @@ table[aria-busy='true'] tbody {
     border-bottom: 1px solid rgb(21 37 33 / 14%);
   }
 }
+
+/* Pipeline tabs, layout toggle, and the case board. */
+
+.pipeline-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.pipeline-tabs-spacer {
+  flex: 1 1 auto;
+}
+
+.pipeline-tab {
+  /*
+   * inline-flex with a gap rather than a margin on the count: the gap is what
+   * makes the browser compute the accessible name as "Movement 11" instead of
+   * "Movement11", so the tab is addressable by what it reads as.
+   */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 15px;
+  border: 1px solid rgb(21 37 33 / 15%);
+  border-radius: 999px;
+  background: var(--color-white);
+  color: var(--color-brand-dark-green);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.pipeline-tab:hover {
+  border-color: rgb(21 37 33 / 35%);
+}
+
+.pipeline-tab.selected {
+  border-color: var(--color-brand-dark-green);
+  background: var(--color-brand-dark-green);
+  color: var(--color-white);
+}
+
+.board-owner-filter select,
+.layout-toggle {
+  height: 32px;
+  border: 1px solid rgb(21 37 33 / 15%);
+  border-radius: 999px;
+  background: var(--color-white);
+  color: var(--color-brand-dark-green);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.board-owner-filter select {
+  padding: 0 12px;
+}
+
+.layout-toggle {
+  display: inline-flex;
+  overflow: hidden;
+  padding: 3px;
+}
+
+.layout-toggle-option {
+  padding: 0 13px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-brand-dark-green);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.layout-toggle-option.selected {
+  background: var(--color-brand-yellow);
+}
+
+.case-board {
+  display: flex;
+  gap: 12px;
+  min-height: 380px;
+  padding: 12px 0 4px;
+  overflow-x: auto;
+  border-top: 1px solid rgb(21 37 33 / 12%);
+}
+
+.board-column {
+  display: flex;
+  flex: 0 0 250px;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid rgb(21 37 33 / 12%);
+  border-radius: 6px;
+  background: rgb(21 37 33 / 2%);
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease;
+}
+
+.board-column.drop-target {
+  border-color: var(--color-brand-dark-green);
+  background: var(--color-brand-yellow);
+}
+
+/*
+ * Terminal columns are tinted, not hidden. A board that hides won and lost work
+ * makes a pipeline look healthier than it is.
+ */
+.board-column[data-kind='won'] {
+  background: rgb(21 37 33 / 6%);
+}
+
+.board-column[data-kind='lost'],
+.board-column[data-kind='parked'],
+.board-column[data-kind='redirected'] {
+  opacity: 0.82;
+}
+
+.board-column[data-kind='unmapped'] {
+  border-style: dashed;
+  border-color: rgb(21 37 33 / 35%);
+}
+
+.board-column-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgb(21 37 33 / 12%);
+}
+
+.board-column-header h3 {
+  color: var(--color-gray-05);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.board-column-header b {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.board-column-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.board-column-empty {
+  padding: 10px 2px;
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+}
+
+.board-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  border: 1px solid rgb(21 37 33 / 12%);
+  border-left: 3px solid rgb(21 37 33 / 25%);
+  border-radius: 4px;
+  background: var(--color-white);
+  cursor: grab;
+}
+
+.board-card[data-priority='high'] {
+  border-left-color: var(--color-brand-yellow);
+}
+
+.board-card[data-priority='low'] {
+  border-left-color: rgb(21 37 33 / 12%);
+}
+
+.board-card:active {
+  cursor: grabbing;
+}
+
+.board-card-title {
+  font-size: var(--text-sm);
+  line-height: 1.35;
+}
+
+.board-card-org,
+.board-card-task {
+  color: var(--ink-muted);
+  font-size: var(--text-xs);
+}
+
+.board-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-muted);
+  font-size: var(--text-xs);
+}
+
+.board-card-move select {
+  width: 100%;
+  height: 26px;
+  border: 1px solid rgb(21 37 33 / 12%);
+  border-radius: 3px;
+  background: var(--color-white);
+  color: var(--color-gray-05);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+@media (max-width: 720px) {
+  .board-column {
+    flex-basis: 84vw;
+  }
+}
+
+.stage-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.stage-cell small {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.pipeline-tab b {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1;
+}

@@ -46,7 +46,8 @@ describe.skipIf(!isIntegrationEnabled)('mention notifications', () => {
 
     const record = await createCase(author, {
       title: 'Protocol research partnership',
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'medium',
       organisationId,
       personIds: [],

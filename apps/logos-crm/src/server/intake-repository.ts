@@ -3,6 +3,7 @@ import { and, eq, isNull, sql } from 'drizzle-orm'
 import type { IntakeResult, IntakeSubmissionInput } from '@/contracts/intake'
 import { intakeProfileByForm } from '@/contracts/intake'
 import { recordAuditEvent, systemActor } from '@/server/audit'
+import { defaultStageFor } from '@/contracts/pipeline'
 import { db } from '@/server/db'
 import {
   caseAssignments,
@@ -268,7 +269,12 @@ export async function processSubmission(
       .insert(cases)
       .values({
         title: `${intakeProfileByForm[input.formName]} - ${input.name}`,
-        stage: 'Intake',
+        // Every one of the 63 funnel-created rows in the Notion export is
+        // BU=Movement and carries only a `Mvmt Status`; none has an Ecodev
+        // `Status`. The public funnel feeds the Movement board, so a
+        // submission enters at that pipeline's first stage.
+        pipeline: 'movement',
+        stage: defaultStageFor('movement'),
         priority: 'medium',
         status: 'new',
         leadSource: input.hearAbout ?? null,

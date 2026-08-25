@@ -32,7 +32,8 @@ describe.skipIf(!isIntegrationEnabled)('overdue task reminders', () => {
     const organisationId = await createTestOrganisation('Open Systems Lab')
     const record = await createCase(actor, {
       title: 'Protocol research partnership',
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'medium',
       organisationId,
       personIds: [],

@@ -17,8 +17,16 @@ import type {
   CaseRecord,
   CaseStatus,
   CreateCaseInput,
+  UpdateCaseStageInput,
   UpdateCaseStatusInput,
 } from '@/contracts/case'
+import type { PipelineKey } from '@/contracts/pipeline'
+import {
+  canMoveToStage,
+  isStageOf,
+  pipelineList,
+  stageLabel,
+} from '@/contracts/pipeline'
 import { caseStatusTransitions } from '@/contracts/values'
 import { recordAuditEvent } from '@/server/audit'
 import type { ActorContext } from '@/server/auth'
@@ -42,6 +50,7 @@ export interface CaseListFilters {
   status?: CaseStatus
   queue?: CaseQueue
   ownerUserId?: string
+  pipeline?: PipelineKey
 }
 
 interface CaseRelations {
@@ -51,6 +60,24 @@ interface CaseRelations {
   nextTask: CaseRecord['nextTask']
   openTaskCount: number
   relatedPeople: CaseRecord['relatedPeople']
+}
+
+/**
+ * Stage keys whose label contains the term. Case-insensitive on the label
+ * because that is what the user typed, and on the key too so a copied
+ * identifier from an export still finds its cases.
+ */
+function matchingStageKeys(term: string): string[] {
+  const needle = term.toLocaleLowerCase('en')
+  return pipelineList.flatMap((pipeline) =>
+    pipeline.stages
+      .filter(
+        (stage) =>
+          stage.label.toLocaleLowerCase('en').includes(needle) ||
+          stage.key.includes(needle)
+      )
+      .map((stage) => stage.key)
+  )
 }
 
 /** Statuses that still represent live work. */
@@ -283,6 +310,10 @@ export async function listCases(
     conditions.push(eq(cases.status, filters.status))
   }
 
+  if (filters.pipeline) {
+    conditions.push(eq(cases.pipeline, filters.pipeline))
+  }
+
   if (filters.ownerUserId) {
     conditions.push(eq(cases.ownerUserId, filters.ownerUserId))
   }
@@ -305,9 +336,15 @@ export async function listCases(
       )
       .where(ilike(organisations.displayName, query))
 
+    // Stage is stored as a key (`solution_eng`) and shown as a label
+    // ("Solution Eng"), so matching the column directly would fail on exactly
+    // the text the user can see. The catalogue is code, so the label match is
+    // resolved here and pushed down as a key set.
+    const stageKeys = matchingStageKeys(filters.q)
+
     const searchCondition = or(
       ilike(cases.title, query),
-      ilike(cases.stage, query),
+      ...(stageKeys.length > 0 ? [inArray(cases.stage, stageKeys)] : []),
       inArray(cases.ownerUserId, matchingOwners),
       inArray(cases.id, matchingOrganisationCases)
     )
@@ -339,6 +376,16 @@ export async function createCase(
   actor: Readonly<ActorContext>,
   input: Readonly<CreateCaseInput>
 ): Promise<CaseRecord> {
+  // Re-checked here and not only in the request schema: every write path -
+  // intake, the Notion import, a future bulk edit - reaches this function, and
+  // a stage that does not belong to its pipeline puts the case on a board it
+  // can never be found on.
+  if (!isStageOf(input.pipeline, input.stage)) {
+    throw invalidTransition('Unsupported stage for this pipeline.', {
+      stage: `${input.stage} is not a stage of the ${input.pipeline} pipeline.`,
+    })
+  }
+
   const created = await db.transaction(async (transaction) => {
     const { organisationId, personIds, nextActionAt, ...caseInput } = input
     const [row] = await transaction
@@ -399,6 +446,91 @@ export async function createCase(
 
   const [record] = await hydrateCaseRecords([created])
   if (!record) throw new Error('The case was not created.')
+  return record
+}
+
+/**
+ * Moves a case to another stage of its own pipeline.
+ *
+ * Separate from `updateCaseStatus` because the two answer different questions:
+ * status is the lifecycle the app enforces, stage is where the team says the
+ * work sits. They are written the same way - row, workflow history, and audit
+ * event in one transaction - so a board drag leaves the same trail a form
+ * submission does.
+ */
+export async function updateCaseStage(
+  actor: Readonly<ActorContext>,
+  id: string,
+  input: Readonly<UpdateCaseStageInput>
+): Promise<CaseRecord> {
+  const updated = await db.transaction(async (transaction) => {
+    const [current] = await transaction
+      .select()
+      .from(cases)
+      .where(eq(cases.id, id))
+      .limit(1)
+      .for('update')
+
+    if (!current) throw notFound('The case no longer exists.')
+
+    if (current.version !== input.expectedVersion) {
+      throw conflict(
+        'The case changed since it was loaded. Reload it and try again.'
+      )
+    }
+
+    if (current.stage === input.stage) return current
+
+    if (!canMoveToStage(current.pipeline, input.stage)) {
+      throw invalidTransition('Unsupported stage for this pipeline.', {
+        stage: `${input.stage} is not a stage of the ${current.pipeline} pipeline.`,
+      })
+    }
+
+    const now = new Date()
+    const [row] = await transaction
+      .update(cases)
+      .set({
+        stage: input.stage,
+        version: current.version + 1,
+        updatedAt: now,
+      })
+      .where(eq(cases.id, id))
+      .returning()
+
+    if (!row) throw notFound('The case no longer exists.')
+
+    await transaction.insert(caseWorkflowHistory).values({
+      caseId: row.id,
+      // The status did not change, but history rows carry it so a reader of
+      // the timeline never has to join back to find out what it was.
+      fromStatus: current.status,
+      toStatus: row.status,
+      fromStage: current.stage,
+      toStage: row.stage,
+      effectiveAt: now,
+      actorUserId: actor.userId,
+      reason: input.reason ?? null,
+    })
+
+    await recordAuditEvent(transaction, actor, {
+      action: 'case.stage_changed',
+      entityType: 'case',
+      entityId: row.id,
+      summary: input.reason ?? undefined,
+      changes: {
+        stage: {
+          from: stageLabel(current.pipeline, current.stage),
+          to: stageLabel(row.pipeline, row.stage),
+        },
+      },
+    })
+
+    return row
+  })
+
+  const [record] = await hydrateCaseRecords([updated])
+  if (!record) throw notFound('The case no longer exists.')
   return record
 }
 

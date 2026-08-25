@@ -36,7 +36,8 @@ describe.skipIf(!isIntegrationEnabled)('case workflow', () => {
   async function openCase(overrides: { ownerUserId?: string } = {}) {
     return createCase(actor, {
       title: 'Protocol research partnership',
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'high',
       organisationId,
       personIds: [],
@@ -195,7 +196,8 @@ describe.skipIf(!isIntegrationEnabled)('contact tracking', () => {
   async function openCase() {
     return createCase(actor, {
       title: 'Community node programme',
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'medium',
       organisationId,
       personIds: [],

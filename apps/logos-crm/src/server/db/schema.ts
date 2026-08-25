@@ -14,6 +14,7 @@ import {
 } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
 
+import { pipelineKeys } from '@/contracts/pipeline'
 import {
   activityTypes,
   caseDecisions,
@@ -56,6 +57,7 @@ export {
 } from '@/contracts/values'
 
 export const caseStatus = pgEnum('case_status', caseStatuses)
+export const casePipeline = pgEnum('case_pipeline', pipelineKeys)
 export const casePriority = pgEnum('case_priority', casePriorities)
 export const userStatus = pgEnum('user_status', userStatuses)
 export const changeSource = pgEnum('change_source', changeSources)
@@ -256,6 +258,13 @@ export const cases = pgTable(
       onDelete: 'set null',
     }),
     status: caseStatus('status').default('new').notNull(),
+    /**
+     * Which team's board this case runs on. `stage` holds a stage key of this
+     * pipeline; the pairing is enforced in the service layer rather than by a
+     * foreign key, because the catalogue is code (see `contracts/pipeline.ts`)
+     * and a stage retired from it must still render on the cases that carry it.
+     */
+    pipeline: casePipeline('pipeline').default('ecodev').notNull(),
     stage: text('stage').notNull(),
     priority: casePriority('priority').default('medium').notNull(),
     /** Answer to "How did you first hear about Logos?" on the intake form. */

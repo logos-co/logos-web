@@ -163,16 +163,50 @@ asked us not to.
 
 ---
 
-## 9. Ecodev case type
+## 9. Pipelines, stages, and the business units nobody has spoken for
 
-**Question.** The stage and substatus catalogue, the valid pairs, and the
-allowed transitions (status-web#1176).
+**Question.** The stage catalogue, the valid pairs, and the allowed transitions
+(status-web#1176).
 
-**Assumed.** Not built. Cases carry a free-text `stage`.
+**Built.** The August 2026 `IFT BD CRM` Notion export settled the catalogue, so
+it is no longer a guess. That export is one flat table of 563 rows carrying a
+separate status column per business unit, and the columns are disjoint in
+practice: of 126 Movement rows, 124 use only `Mvmt Status` and none use
+`Status`. So `contracts/pipeline.ts` holds two pipelines with the real labels,
+a case names its pipeline, and its stage must be one of that pipeline's stages
 
-**Cost of delay.** Moderate. The typed subtype table and its catalogue are
-specified in `data-model.md`; building them against an unconfirmed catalogue
-would mean rebuilding them.
+- checked in the request schema and again in the service, because intake, the
+  Notion import, and any future bulk edit all reach the same function. Moving a
+  case between stages writes workflow history and an audit event in the same
+  transaction a status change does. The board groups by stage and offers the move
+  as a drag and as a select, and a stage that is no longer in the catalogue lands
+  in an `Unmapped stage` column rather than disappearing.
+
+Stage moves are unrestricted within a pipeline. Unlike the status machine, the
+board is a direct statement of where a coordinator says the work is, and a deal
+that jumps from `lead` to `confirmed` because it closed on one call is a real
+thing that happened rather than an error to reject.
+
+**Still open, and now visible:**
+
+- **Two more business units.** The export's `BU` is a multi-select over Ecodev
+  (392), Movement (127), nimbus (42), and IR (13) - a row can be `Ecodev, IR`.
+  Only Ecodev and Movement are modelled, because only they had anyone in the
+  requirements call. Nobody has been asked what nimbus and IR need.
+- **The third status column.** `Nimbus Status` is not a third pipeline: 60 of
+  its 64 real values sit on rows that also carry an Ecodev `Status`, so it is a
+  second axis over the same case. Modelling it as a pipeline would be wrong and
+  modelling it as an axis needs a stakeholder. Until then those 64 rows lose
+  that field on import.
+- **Emoji in two labels.** `Solution Eng 👀` and `Confirmed 💪` are stored as
+  keys and displayed as labels, so renaming them is a code change rather than a
+  silent rewrite of history. Worth confirming the team wants to keep them.
+- **Whether a case may change pipeline.** Not offered. A board drag deliberately
+  cannot move a case onto another team's board.
+
+**Cost of delay.** The nimbus and IR question gets more expensive the closer the
+Notion cutover gets: their rows are in the same table, and an import that has no
+pipeline for them either drops them or files them under somebody else's board.
 
 ---
 

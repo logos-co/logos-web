@@ -55,7 +55,8 @@ describe.skipIf(!isIntegrationEnabled)('funnel report', () => {
   async function openCase(title: string, ownerUserId?: string) {
     return createCase(actor, {
       title,
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'medium',
       organisationId,
       personIds: [],

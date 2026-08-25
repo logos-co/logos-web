@@ -32,7 +32,8 @@ describe.skipIf(!isIntegrationEnabled)('case evaluation', () => {
   async function openCase() {
     return createCase(actor, {
       title: 'Coalition Partner - Amina Okafor',
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'medium',
       organisationId,
       personIds: [],

@@ -152,14 +152,16 @@ describe.skipIf(!isIntegrationEnabled)('merging people', () => {
 
     const shared = await createCase(actor, {
       title: 'Shared case',
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'medium',
       organisationId,
       personIds: [survivor],
     })
     const other = await createCase(actor, {
       title: 'Duplicate only',
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'medium',
       organisationId,
       personIds: [duplicate],
@@ -301,7 +303,8 @@ describe.skipIf(!isIntegrationEnabled)('merging organisations', () => {
 
     await createCase(actor, {
       title: 'Duplicate organisation case',
-      stage: 'Intake',
+      pipeline: 'ecodev' as const,
+      stage: 'lead',
       priority: 'medium',
       organisationId: duplicate,
       personIds: [],

@@ -6,6 +6,11 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod/v4'
 
 import { createCaseSchema, type CreateCaseInput } from '@/contracts/case'
+import {
+  defaultStageFor,
+  getPipeline,
+  pipelineList,
+} from '@/contracts/pipeline'
 import type { OrganisationRecord, PersonRecord } from '@/contracts/directory'
 import type { UserRecord } from '@/contracts/user'
 
@@ -78,19 +83,25 @@ export function NewCaseDialog({
     handleSubmit,
     register,
     reset,
+    setValue,
+    watch,
   } = useForm<CaseFormValues>({
     resolver: zodResolver(formSchema),
+    mode: 'onSubmit',
     defaultValues: {
       title: '',
       organisationId: '',
       personId: '',
       ownerUserId: '',
-      stage: 'Intake',
+      pipeline: 'ecodev',
+      stage: defaultStageFor('ecodev'),
       priority: 'medium',
       nextAction: '',
       nextActionAt: defaultDueDate(),
     },
   })
+
+  const pipeline = watch('pipeline')
 
   if (!isOpen) return null
 
@@ -161,12 +172,31 @@ export function NewCaseDialog({
         </FormField>
 
         <div className="form-row">
+          <FormField label="Pipeline" error={errors.pipeline?.message}>
+            <select
+              {...register('pipeline', {
+                // Stage keys are not shared between pipelines, so a stage left
+                // over from the previous choice would fail validation with an
+                // error the user cannot see the cause of. Reset it to the new
+                // pipeline's first stage instead.
+                onChange: (event) =>
+                  setValue('stage', defaultStageFor(event.target.value)),
+              })}
+            >
+              {pipelineList.map((item) => (
+                <option key={item.key} value={item.key}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+          </FormField>
           <FormField label="Stage" error={errors.stage?.message}>
             <select {...register('stage')}>
-              <option>Intake</option>
-              <option>Discovery</option>
-              <option>Qualification</option>
-              <option>Proposal</option>
+              {getPipeline(pipeline).stages.map((item) => (
+                <option key={item.key} value={item.key}>
+                  {item.label}
+                </option>
+              ))}
             </select>
           </FormField>
           <FormField label="Priority" error={errors.priority?.message}>
