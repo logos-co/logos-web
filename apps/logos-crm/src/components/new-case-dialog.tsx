@@ -7,13 +7,18 @@ import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod/v4'
 
-import { createCaseSchema, type CreateCaseInput } from '@/contracts/case'
+import {
+  createCaseSchema,
+  type CasePriority,
+  type CreateCaseInput,
+} from '@/contracts/case'
 import {
   defaultStageFor,
   getPipeline,
   pipelineList,
 } from '@/contracts/pipeline'
 import type { OrganisationRecord, PersonRecord } from '@/contracts/directory'
+import type { PipelineKey } from '@/contracts/pipeline'
 import type { UserRecord } from '@/contracts/user'
 import { apiClient } from '@/lib/api-client'
 
@@ -25,6 +30,12 @@ import { FormField, RecordDialog } from './record-dialog'
  * in the schema: a case can legitimately start unassigned and untriaged, and
  * the empty option has to mean "unassigned" rather than forcing a guess.
  */
+const PRIORITY_OPTIONS: ComboboxOption[] = [
+  { id: 'low', label: 'Low' },
+  { id: 'medium', label: 'Medium' },
+  { id: 'high', label: 'High' },
+]
+
 const formSchema = createCaseSchema
   .omit({
     nextAction: true,
@@ -118,6 +129,8 @@ export function NewCaseDialog({
   })
 
   const pipeline = watch('pipeline')
+  const stage = watch('stage')
+  const priority = watch('priority')
   const organisationName = watch('organisationName')
   const ownerUserId = watch('ownerUserId')
   const personId = watch('personId')
@@ -132,8 +145,27 @@ export function NewCaseDialog({
     [organisations]
   )
   const ownerOptions = useMemo<ComboboxOption[]>(
-    () => users.map((item) => ({ id: item.id, label: item.displayName })),
+    () =>
+      users.map((item) => ({
+        id: item.id,
+        label: item.displayName,
+        // Shown and searchable, so typing an address finds the person and a
+        // derived one is visible rather than silently assumed.
+        hint: item.email,
+      })),
     [users]
+  )
+  const pipelineOptions = useMemo<ComboboxOption[]>(
+    () => pipelineList.map((item) => ({ id: item.key, label: item.label })),
+    []
+  )
+  const stageOptions = useMemo<ComboboxOption[]>(
+    () =>
+      getPipeline(pipeline).stages.map((item) => ({
+        id: item.key,
+        label: item.label,
+      })),
+    [pipeline]
   )
   const personOptions = useMemo<ComboboxOption[]>(
     () =>
@@ -167,6 +199,32 @@ export function NewCaseDialog({
   const onCreatePerson = (fullName: string): void => {
     createPersonMutation.mutate(fullName)
   }
+
+  /**
+   * Adding a coordinator from here. The typed text is taken as an address when
+   * it looks like one and as a name otherwise; the server derives the missing
+   * half either way, and returns the existing account when the address already
+   * belongs to somebody.
+   */
+  const createUserMutation = useMutation({
+    mutationFn: (typed: string) =>
+      apiClient<{ item: UserRecord }>('/api/v1/users', {
+        method: 'POST',
+        body: JSON.stringify(
+          typed.includes('@')
+            ? {
+                displayName:
+                  typed.split('@')[0]?.replace(/[._]+/g, ' ') ?? typed,
+                email: typed,
+              }
+            : { displayName: typed }
+        ),
+      }),
+    onSuccess: async ({ item }) => {
+      await queryClient.invalidateQueries({ queryKey: ['users'] })
+      setValue('ownerUserId', item.id)
+    },
+  })
 
   if (!isOpen) return null
 
@@ -250,9 +308,10 @@ export function NewCaseDialog({
               emptyOptionLabel="Unassigned"
               label="Owner"
               options={ownerOptions}
-              placeholder="Search coordinators"
+              placeholder="Search, or type a name to add"
               value={ownerUserId || null}
               onChange={(id) => setValue('ownerUserId', id ?? '')}
+              onCreate={(typed) => createUserMutation.mutate(typed)}
             />
           </FormField>
         </div>
@@ -271,38 +330,40 @@ export function NewCaseDialog({
 
         <div className="form-row">
           <FormField label="Pipeline" error={errors.pipeline?.message}>
-            <select
-              {...register('pipeline', {
+            {/* Pick-only: no `onCreate`, so no add row. A pipeline is a
+                catalogue in code, not something a case form may invent. */}
+            <Combobox
+              label="Pipeline"
+              options={pipelineOptions}
+              value={pipeline}
+              onChange={(key) => {
+                if (!key) return
+                setValue('pipeline', key as PipelineKey)
                 // Stage keys are not shared between pipelines, so a stage left
                 // over from the previous choice would fail validation with an
                 // error the user cannot see the cause of. Reset it to the new
                 // pipeline's first stage instead.
-                onChange: (event) =>
-                  setValue('stage', defaultStageFor(event.target.value)),
-              })}
-            >
-              {pipelineList.map((item) => (
-                <option key={item.key} value={item.key}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
+                setValue('stage', defaultStageFor(key as PipelineKey))
+              }}
+            />
           </FormField>
           <FormField label="Stage" error={errors.stage?.message}>
-            <select {...register('stage')}>
-              {getPipeline(pipeline).stages.map((item) => (
-                <option key={item.key} value={item.key}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
+            <Combobox
+              label="Stage"
+              options={stageOptions}
+              value={stage}
+              onChange={(key) => key && setValue('stage', key)}
+            />
           </FormField>
           <FormField label="Priority" error={errors.priority?.message}>
-            <select {...register('priority')}>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
+            <Combobox
+              label="Priority"
+              options={PRIORITY_OPTIONS}
+              value={priority}
+              onChange={(key) =>
+                key && setValue('priority', key as CasePriority)
+              }
+            />
           </FormField>
         </div>
 
