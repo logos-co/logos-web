@@ -63,7 +63,7 @@ export const PROMISE = {
 export const DOES_NOT_CATCH = {
   heading: 'It doesn’t catch them',
   intro:
-    "Start with the scanning. In 2024, 14 of the world's most senior cryptographers published a peer-reviewed review of client-side scanning (CSS). Among the authors are Ronald Rivest and Whitfield Diffie, who invented the public-key cryptography that secures the modern internet, alongside Bruce Schneier and Susan Landau, whose work shapes how governments themselves reason about surveillance. These aren’t campaigners. They’re the people who would have to make the technology work. Having examined it closely, they concluded that, on its own terms, it fails.",
+    "Start with the scanning. In 2024, 14 of the world's most senior cryptographers published a peer-reviewed review of client-side scanning (CSS). Among the authors are Ronald Rivest and Whitfield Diffie, pioneers of the public-key cryptography that secures the modern internet, alongside Bruce Schneier and Susan Landau, whose work shapes how governments themselves reason about surveillance. These aren’t campaigners. They’re the people who would have to make the technology work. Having examined it closely, they concluded that, on its own terms, it fails.",
   exhibit01: {
     quote:
       '“CSS neither guarantees efficacious crime prevention nor prevents surveillance. Indeed, the effect is the opposite.”',
