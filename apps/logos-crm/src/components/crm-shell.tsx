@@ -104,7 +104,10 @@ export function CrmShell({ children, view }: CrmShellProps) {
           type="button"
           onClick={toggleSidebar}
         >
-          <CircleArrowIcon direction={isCollapsed ? 'right' : 'left'} size={22} />
+          <CircleArrowIcon
+            direction={isCollapsed ? 'right' : 'left'}
+            size={22}
+          />
           <span className="visually-hidden">
             {isCollapsed ? 'Expand the sidebar' : 'Collapse the sidebar'}
           </span>
@@ -199,7 +202,15 @@ export function CrmShell({ children, view }: CrmShellProps) {
       </aside>
 
       <main className="crm-main" id="main-content" ref={mainRef} tabIndex={-1}>
-        {children}
+        {/*
+          Keyed by view so React replaces this subtree on navigation, which is
+          what replays the entry animation. Without the key the shell reuses
+          the same node between routes and a page change lands with no
+          acknowledgement at all.
+        */}
+        <div className="workspace-transition" key={view}>
+          {children}
+        </div>
       </main>
 
       {/* An instance anyone can open without signing in has to say so, or the
