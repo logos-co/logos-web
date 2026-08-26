@@ -1,7 +1,14 @@
 'use client'
 
-import type { ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Dialog, Modal, ModalOverlay } from 'react-aria-components'
+
+/**
+ * How long the panel takes to leave. Mirrors `--dialog-exit` in the stylesheet;
+ * the two are kept in step because the parent unmounts this component, so the
+ * exit has to be timed here rather than left to the animation alone.
+ */
+const EXIT_MS = 200
 
 interface RecordDialogProps {
   children: ReactNode
@@ -10,6 +17,15 @@ interface RecordDialogProps {
   title: string
 }
 
+/**
+ * Closing runs in two steps.
+ *
+ * Every caller mounts this conditionally, so telling the parent immediately
+ * would tear the panel out mid-slide and it would vanish rather than leave.
+ * Instead the overlay is closed first - React Aria plays the exit animation on
+ * `[data-exiting]` - and the parent is told once that has had time to finish,
+ * which is also what resets the form for the next open.
+ */
 export function RecordDialog({
   children,
   kicker,
@@ -17,14 +33,26 @@ export function RecordDialog({
   title,
 }: RecordDialogProps) {
   const titleId = `dialog-${title.toLocaleLowerCase('en').replace(/[^a-z0-9]+/g, '-')}`
+  const [isOpen, setOpen] = useState(true)
+  const timeout = useRef<number | undefined>(undefined)
+
+  useEffect(() => () => window.clearTimeout(timeout.current), [])
+
+  function requestClose(): void {
+    // Guarded: a second Close while the first is still animating would queue a
+    // second `onClose` against a parent that has already moved on.
+    if (!isOpen) return
+    setOpen(false)
+    timeout.current = window.setTimeout(onClose, EXIT_MS)
+  }
 
   return (
     <ModalOverlay
       className="dialog-backdrop"
       isDismissable={false}
-      isOpen
+      isOpen={isOpen}
       onOpenChange={(open) => {
-        if (!open) onClose()
+        if (!open) requestClose()
       }}
     >
       <Modal className="dialog-modal">
@@ -41,7 +69,7 @@ export function RecordDialog({
             <button
               className="text-action cursor-pointer"
               type="button"
-              onClick={onClose}
+              onClick={requestClose}
             >
               Close
             </button>

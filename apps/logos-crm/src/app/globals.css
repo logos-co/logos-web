@@ -2263,6 +2263,62 @@ table[aria-busy='true'] tbody {
   backdrop-filter: blur(3px);
 }
 
+/*
+ * The panel is a drawer, so it should arrive from the edge it lives on rather
+ * than appear where it already is. React Aria stamps `data-entering` and
+ * `data-exiting` on the overlay and its modal, which is what these hang off.
+ *
+ * `--dialog-exit` is mirrored by `EXIT_MS` in `record-dialog.tsx`: the parent
+ * unmounts the dialog, so the component has to know how long to wait.
+ */
+:root {
+  --dialog-enter: 240ms;
+  --dialog-exit: 200ms;
+  --ease-out: cubic-bezier(0.22, 0.8, 0.36, 1);
+}
+
+@keyframes dialog-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-backdrop-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-panel-in {
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-panel-out {
+  to {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+}
+
+.dialog-backdrop[data-entering] {
+  animation: dialog-backdrop-in var(--dialog-enter) var(--ease-out);
+}
+
+.dialog-backdrop[data-exiting] {
+  animation: dialog-backdrop-out var(--dialog-exit) ease-in forwards;
+}
+
+.dialog-backdrop[data-entering] .dialog-modal {
+  animation: dialog-panel-in var(--dialog-enter) var(--ease-out);
+}
+
+.dialog-backdrop[data-exiting] .dialog-modal {
+  animation: dialog-panel-out var(--dialog-exit) ease-in forwards;
+}
+
 .dialog-modal {
   width: min(520px, 100%);
   height: 100%;
@@ -2280,7 +2336,17 @@ table[aria-busy='true'] tbody {
   box-shadow: -20px 0 50px rgb(21 37 33 / 18%);
 }
 
+@keyframes toast-in {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+}
+
 .feedback-toast {
+  /* Rises into place: it appears without being asked for, so it needs a
+     moment of movement to be noticed rather than to have simply been there. */
+  animation: toast-in 200ms var(--ease-out);
   position: fixed;
   z-index: 70;
   right: 24px;
@@ -2700,12 +2766,23 @@ table[aria-busy='true'] tbody {
   }
 }
 
+/*
+ * Motion is a preference, not a decoration. The animation properties are here
+ * as well as the transition ones because the drawer, the dropdown, and the
+ * toast are keyframed - killing only transitions would have left exactly the
+ * movement somebody turned this setting on to avoid.
+ *
+ * Kept at a hair above zero rather than `none` so `animationend` still fires
+ * and the exit animations still land on their final frame.
+ */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
 
@@ -4623,8 +4700,22 @@ table[aria-busy='true'] tbody {
   border-left-color: rgb(21 37 33 / 12%);
 }
 
+.board-card {
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    transform 140ms var(--ease-out);
+}
+
+.board-card:hover {
+  border-color: rgb(21 37 33 / 28%);
+  box-shadow: 0 4px 14px rgb(21 37 33 / 10%);
+  transform: translateY(-1px);
+}
+
 .board-card:active {
   cursor: grabbing;
+  transform: none;
 }
 
 .board-card-title {
@@ -4942,7 +5033,15 @@ table[aria-busy='true'] tbody {
   opacity: 0.4;
 }
 
+@keyframes combobox-in {
+  from {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+}
+
 .combobox-list {
+  animation: combobox-in 130ms var(--ease-out);
   position: absolute;
   z-index: 40;
   top: calc(100% + 4px);
