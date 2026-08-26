@@ -72,37 +72,42 @@ if (userTeamValues.length > 0) {
 }
 
 /**
- * Counterparties, not Logos itself. The organisations are invented and use
- * `.example` domains, which is reserved and can never resolve: a demo instance
- * that carries a real organisation's name and address implies a relationship
- * nobody agreed to, and a plausible-looking domain invites somebody to mail it.
- * The Logos side of the relationship is carried by the cases below, which name
+ * Counterparties, not Logos itself. The organisations are invented, because a
+ * demo instance carrying a real organisation's name implies a relationship
+ * nobody agreed to. The Logos side is carried by the cases below, which name
  * the real programmes these leads would be talking to.
+ *
+ * No domains. A fake one has to be unresolvable, which meant `.example` - and
+ * a reserved TLD repeated down every organisation picker is a column of text
+ * that tells the reader nothing while looking like something. Leaving it unset
+ * is also the more truthful shape: in the Notion export only 73 of 563 rows
+ * carry a website at all. The column, its index, and search over it are
+ * untouched and populate from real data.
  */
 const organisationSeeds = [
   [
     'Cypherpunk Guild Berlin',
-    'cypherpunkguild.example',
+    null,
     'Privacy meetup running monthly workshops on censorship-resistant messaging.',
   ],
   [
     'Meshnet Node Collective',
-    'meshnetnodes.example',
+    null,
     'Community node operators hosting relays and testnet infrastructure.',
   ],
   [
     'Parallel Society Institute',
-    'parallelsociety.example',
+    null,
     'Research group publishing on network states and self-sovereign governance.',
   ],
   [
     'Freedom Stack Foundation',
-    'freedomstack.example',
+    null,
     'Grant funder for public-interest censorship-resistant infrastructure.',
   ],
   [
     'Sovereign Campus Network',
-    'sovereigncampus.example',
+    null,
     'University cypherpunk societies running student build programmes.',
   ],
   [

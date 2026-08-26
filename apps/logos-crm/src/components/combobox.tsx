@@ -245,6 +245,7 @@ export function Combobox({
       <button
         aria-label={isOpen ? `Close ${label} options` : `Open ${label} options`}
         className="combobox-toggle cursor-pointer"
+        data-open={isOpen ? 'true' : 'false'}
         disabled={disabled}
         tabIndex={-1}
         type="button"
@@ -253,7 +254,28 @@ export function Combobox({
           inputRef.current?.focus()
         }}
       >
-        <span aria-hidden="true">▾</span>
+        {/*
+          Drawn rather than typed. The `▾` glyph renders at whatever size and
+          weight the fallback font decides, which came out faint enough to be
+          easy to miss - the one mark telling you this field has a list behind
+          it. An SVG stroke is the same everywhere and can turn to point up
+          when the list is open.
+        */}
+        <svg
+          aria-hidden="true"
+          fill="none"
+          height="16"
+          viewBox="0 0 16 16"
+          width="16"
+        >
+          <path
+            d="M4 6.5 8 10.5 12 6.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.75"
+          />
+        </svg>
       </button>
 
       {isOpen && (

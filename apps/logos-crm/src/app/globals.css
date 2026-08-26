@@ -4911,7 +4911,7 @@ table[aria-busy='true'] tbody {
 
 .combobox-input {
   width: 100%;
-  padding-right: 32px;
+  padding-right: 38px;
 }
 
 .combobox-toggle {
@@ -4921,12 +4921,25 @@ table[aria-busy='true'] tbody {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
+  width: 36px;
   height: 100%;
   border: 0;
   background: transparent;
-  color: var(--ink-muted);
-  font-size: 12px;
+  /* Full ink, not muted: this is the only affordance saying the field has a
+     list behind it, and at 16px a muted stroke disappeared against the fill. */
+  color: var(--color-brand-dark-green);
+}
+
+.combobox-toggle svg {
+  transition: transform 140ms ease;
+}
+
+.combobox-toggle[data-open='true'] svg {
+  transform: rotate(180deg);
+}
+
+.combobox-toggle:disabled {
+  opacity: 0.4;
 }
 
 .combobox-list {
