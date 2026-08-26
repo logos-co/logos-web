@@ -1,4 +1,4 @@
-import { DOES_NOT_CATCH } from '../_content'
+import { CHART, DOES_NOT_CATCH } from '../_content'
 
 import {
   Column,
@@ -7,6 +7,7 @@ import {
   Prose,
   ProseGroup,
   SectionHeading,
+  SourceNote,
   Standfirst,
   TRIM,
 } from './atoms'
@@ -41,7 +42,10 @@ export function DoesNotCatch() {
           <ProseGroup paragraphs={DOES_NOT_CATCH.studyBody} />
         </div>
 
-        <SearchShiftChart />
+        <figure className="flex w-full flex-col gap-5">
+          <SearchShiftChart />
+          <SourceNote lines={CHART.source} />
+        </figure>
 
         <Standfirst lines={DOES_NOT_CATCH.closingLines} />
       </Column>

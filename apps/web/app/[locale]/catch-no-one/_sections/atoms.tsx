@@ -173,15 +173,19 @@ export function Standfirst({
   )
 }
 
-/** Large sans statement set between body paragraphs. */
-export function PullQuote({
-  children,
-  className = '',
-}: {
-  children: ReactNode
-  className?: string
-}) {
-  return <p className={`${QUOTE_TYPE} ${TRIM} ${className}`}>{children}</p>
+/** Monospace credit naming the work a figure quotes or draws on. */
+export function SourceNote({ lines }: { lines: readonly string[] }) {
+  return (
+    <figcaption
+      className={`font-mono ${TRIM} text-[11px] leading-[1.15] tracking-[-0.01em] md:text-[12px]`}
+    >
+      {lines.map((line, index) => (
+        <span key={`${index}-${line.slice(0, 32)}`} className="block">
+          {line}
+        </span>
+      ))}
+    </figcaption>
+  )
 }
 
 /** Light-blue quotation card plus its monospace source credit. */
@@ -199,15 +203,7 @@ export function Exhibit({
           {quote}
         </TypewriterQuote>
       </blockquote>
-      <figcaption
-        className={`font-mono ${TRIM} text-[11px] leading-[1.15] tracking-[-0.01em] md:text-[12px]`}
-      >
-        {lines.map((line, index) => (
-          <span key={`${index}-${line.slice(0, 32)}`} className="block">
-            {line}
-          </span>
-        ))}
-      </figcaption>
+      <SourceNote lines={lines} />
     </figure>
   )
 }

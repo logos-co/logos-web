@@ -5,7 +5,6 @@ import {
   Exhibit,
   Panel,
   Prose,
-  PullQuote,
   SectionHeading,
   Standfirst,
 } from './atoms'
@@ -27,10 +26,6 @@ export function RightQuestion() {
         {RIGHT_QUESTION.body.map((paragraph, index) => (
           <Prose key={`body-${index}`}>{paragraph}</Prose>
         ))}
-
-        <PullQuote>{RIGHT_QUESTION.pullQuote}</PullQuote>
-
-        <Prose>{RIGHT_QUESTION.outro}</Prose>
       </Column>
     </Panel>
   )
