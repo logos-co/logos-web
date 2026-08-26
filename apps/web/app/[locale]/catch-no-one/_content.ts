@@ -73,7 +73,7 @@ export const DOES_NOT_CATCH = {
     ],
   },
   afterExhibit01: [
-    "Their reasoning is concrete, not rhetorical. A scanner that reads everyone's messages doesn’t reliably find criminal material because the detectors are simple to defeat. Altering a handful of pixels in an image is enough to push a known illegal file past the filter without changing anything a human eye would notice. So the people actually trafficking that material adapt and slip around the check, while the scanner keeps reading the private messages of the entire population, i.e. people that were never a threat.",
+    "Their reasoning is concrete, not rhetorical. A scanner that reads everyone's messages doesn’t reliably find criminal material because the detectors may be defeated through methods like poisoning attacks or false positive attacks. While the people actually trafficking that material adapt and slip around the check, the scanner keeps reading the private messages of the entire population, i.e. people that were never a threat.",
     'The result is the surveillance of everyone, and almost none of the enforcement that was promised. Crucially, the report finds no design that escapes this outcome. The failure is structural, not a rough edge to be smoothed out in a future version.',
     'The age checks fail for the same underlying reason, and the objection is not a fringe position. In September 2025, 807 named scientists and security researchers from 37 countries signed a joint statement to the European Parliament and Council. Their assessment of age verification was unambiguous.',
   ],
@@ -85,11 +85,11 @@ export const DOES_NOT_CATCH = {
     ],
   },
   afterExhibit02:
-    "They weren’t speaking hypothetically. They pointed directly to the UK's own experience under the Online Safety Act, where the arrival of age checks pushed users towards services that don't run them and VPNs that let a person appear to be somewhere the rules don’t apply. This cannot be argued away. It already happened, on a national scale. And a separate study shows us how large the movement actually was.",
+    "They weren’t speaking hypothetically. They pointed directly to the UK's own experience under the Online Safety Act, where the arrival of age checks pushed users towards services that don't run them and VPNs that let a person appear to be somewhere the rules don’t apply. This cannot be argued away. It already happened, on a national scale. A separate study from the US shows us how large such a behaviour shift may be.",
   studyHeading: 'With checks activated, did people stop or move?',
   studyBody: [
     "In 2023, more than 20 US states began forcing adult sites to verify visitors' ages. The two biggest sites differed in their response: the market leader blocked users in those states or pulled out entirely. Its main rival ignored the rules and stayed open.",
-    "Researchers measured what people did next, comparing searches in the affected states against what would have happened without the law. Three months in, demand hadn't dropped. It simply moved.",
+    'Researchers measured what people did next, comparing searches in the affected states against what would have happened without the law. In the three months after the laws were passed, there was a 51% decrease in searches for the most popular site which complied with state age verification laws. Searches for the second most popular site, which did not comply with state laws, increased 48.1%, while searches for VPN services increased 23.6%. Demand didn’t drop. It simply moved.',
   ],
   closingLines: [
     'The compliant site lost half its traffic.  Almost all',
@@ -99,7 +99,13 @@ export const DOES_NOT_CATCH = {
   ],
 } as const
 
-export const CHART: { readonly groups: readonly ChartGroup[] } = {
+export const CHART: {
+  readonly source: readonly string[]
+  readonly groups: readonly ChartGroup[]
+} = {
+  source: [
+    'Lang, David, et al. “Age verification and public adaptation: A pre-registered synthetic control multiverse.”',
+  ],
   groups: [
     {
       legend: 'WHAT THE LAW WAS MEANT TO DO',
@@ -141,7 +147,7 @@ export const WE_ALL_PAY = {
   bodyBeforeExhibit: [
     'It continues to invade the privacy of everyone who acted lawfully and passed through it. The second promise was that the cost to those people is small. Researchers have measured what actually happens to your data when you submit to an age check. At the 2026 IEEE Symposium on Security and Privacy, the leading venue in the field, a team from Georgia Tech and UC Irvine published the first large-scale study of how age verification is really deployed across the web. What they found contradicted the central assurance written into these laws.',
     "Most sites covered by age-verification laws don't actually enforce them. The ones that do often outsource the job to a small number of third-party verification companies, one of which handles an estimated 60% of the market.",
-    'Depending on the method used, a single check can capture your face and browser fingerprinting, and pass identifying details to other firms, including credit-card processors and location services. The justification written into these laws is that verification companies are commercially motivated to protect what they collect. The study found the reverse: it becomes a record waiting for the day it leaks, held by a company you never chose to trust.',
+    'Depending on the method used, a single check can capture your face and browser fingerprinting, and pass identifying details to other firms, including credit-card processors and location services. The justification written into these laws is that verification companies are commercially motivated to protect what they collect. But the study found that such data may be entrusted not only to the contracted provider, but also to several “fourth parties” that are significantly less visible to users.',
     'This isn’t the failure of one badly run vendor or one careless country. A 2026 study evaluated deployed age-verification systems across several European jurisdictions, testing whether they actually deliver on their claims.',
   ],
   exhibit03: {
@@ -154,7 +160,6 @@ export const WE_ALL_PAY = {
   },
   bodyAfterExhibit: [
     'Not one of the tested systems held up against a realistic attempt to fool it, and verified access could be captured and passed to others. Yet every innocent user still handed over real personal data to use the services. The trade, in plain terms, is real exposure for everyone in return for protection that, on inspection, isn’t actually there.',
-    'And the machinery doesn’t stay in the box it was sold in. The 807 scientists warn that inspecting a message before it’s encrypted renders the encryption useless, for every user, by design, because there is no way to build a reading capability that only ever reads the guilty. The IEEE team also found age verification running on sites reached from a US state with no law requiring it, demonstrating its spread beyond the jurisdictions that had initially implemented it. And perhaps most concerning, the same infrastructure built to check ages today can later be repurposed to exclude users based on other factors, such as political affiliation or any other arbitrary requirement set by a future government.',
   ],
 } as const
 
@@ -175,18 +180,13 @@ export const RIGHT_QUESTION = {
     ],
   },
   body: [
-    "Most violence against children is family violence, committed at home by someone the child already knows. Abuse that begins online, with a stranger, is the minority of cases. A scanner reading everyone's messages is aimed at the smallest part of the problem.",
+    "The paper argues most violence against children is family violence, committed at home by someone the child already knows. Abuse that begins online, with a stranger, is the minority of cases. A scanner reading everyone's messages is aimed at the smallest part of the problem.",
     "Meanwhile, the people who actually protect children have been defunded. Child protection is done by teachers, GPs, social workers, and local police who know the family, and they have been starved of resources while the money is spent on flawed central technical systems. The proposal fails to help and crowds out what works. Meanwhile, the agencies promising to catch predators by inspecting everyone's messages have, as Anderson notes, historically faced no penalty when they fail to prevent harm.",
-    'Which is why the answer is not a better checkpoint. Every version of “check everyone” needs one thing to function: a chokepoint. Everyone is forced through a single gate, where the inspection booth can be bolted on. An identity layer that every request must clear can be routed around, tricked, or fall victim to data breaches. Remove the chokepoint, and there is nothing left to install the check on.',
   ],
-  pullQuote:
-    'The answer isn’t a gentler checkpoint. It’s infrastructure with no chokepoint at all.',
-  outro:
-    'You don’t petition the booth to be kinder. If it can be made less strict, it can also be made tighter on demand. Instead, you build a road that was never designed to have a booth. That is the work: parallel systems with no central gate to inspect, no personal documents hoarded on servers vulnerable to breaches, and no single point to which a detection order can be pinned. Not a better version of being checked, but an internet where no central authority can require you to prove your innocence of a crime you were never suspected of.',
 } as const
 
 export const WHAT_IT_TAKES = {
-  heading: 'What it takes',
+  heading: 'The Logos approach: Private tech and civic resilience',
   standfirstLines: [
     'Privacy-preserving technology and institutions',
     'that serve the communities they belong to.',

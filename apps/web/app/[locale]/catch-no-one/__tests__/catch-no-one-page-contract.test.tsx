@@ -21,9 +21,11 @@ import {
   CHART,
   DOES_NOT_CATCH,
   HERO,
+  PROMISE,
   RIGHT_QUESTION,
   SEO,
   WE_ALL_PAY,
+  WHAT_IT_TAKES,
 } from '../_content'
 import CatchNoOnePage, { generateMetadata } from '../page'
 import {
@@ -100,13 +102,15 @@ describe('catch-no-one page contract', () => {
 describe('catch-no-one page render', () => {
   test('renders every section with its heading, in Figma order', async () => {
     const html = await pageHtml()
+    // Read off the copy rather than repeated here, so an editorial change to a
+    // heading does not read as a broken page.
     const headings = [
-      'What the laws say they do',
-      'It doesn’t catch them',
-      'We all pay',
-      'Ask the right question',
-      'What it takes',
-      'The case file',
+      PROMISE.heading,
+      DOES_NOT_CATCH.heading,
+      WE_ALL_PAY.heading,
+      RIGHT_QUESTION.heading,
+      WHAT_IT_TAKES.heading,
+      CASE_FILE.heading,
     ]
 
     let cursor = -1
