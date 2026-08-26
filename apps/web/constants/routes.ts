@@ -85,7 +85,7 @@ export const ROUTES = {
 
   // Campaigns
   ukDebt: '/ukdebt',
-  catchNoOne: '/catch-no-one',
+  chatControl: '/chatcontrol',
 } as const
 
 // ---------------------------------------------------------------------------

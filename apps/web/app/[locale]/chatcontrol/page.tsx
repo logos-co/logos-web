@@ -23,7 +23,7 @@ import {
 } from './_structured-data'
 import { SEO } from './_content'
 
-const ROUTE = ROUTES.catchNoOne
+const ROUTE = ROUTES.chatControl
 
 export async function generateMetadata({
   params,
@@ -52,14 +52,14 @@ export async function generateMetadata({
   return { ...metadata, openGraph }
 }
 
-export default async function CatchNoOnePage({
+export default async function ChatControlPage({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
   if (!isActiveLocale(locale)) {
-    throw new Error(`CatchNoOnePage received non-active locale "${locale}"`)
+    throw new Error(`ChatControlPage received non-active locale "${locale}"`)
   }
 
   return (
