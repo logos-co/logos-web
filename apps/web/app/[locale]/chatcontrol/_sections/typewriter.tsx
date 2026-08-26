@@ -47,7 +47,7 @@ const HYDRATION_FAILSAFE_MS = 4000
 declare global {
   interface Window {
     /** Set by the arming script; called once a typewriter mounts. */
-    __catchNoOneTypewriterHydrated?: () => void
+    __chatControlTypewriterHydrated?: () => void
   }
 }
 
@@ -60,7 +60,7 @@ declare global {
  * Used for the tail of a quote that has not been typed yet, and for the copy of
  * the hero headline that reserves its height.
  */
-const UNTYPED = '[.catch-no-one-typewriter-armed_&]:invisible'
+const UNTYPED = '[.chatcontrol-typewriter-armed_&]:invisible'
 /**
  * Laid over the reserved space; only rendered once the animation is armed.
  *
@@ -69,7 +69,7 @@ const UNTYPED = '[.catch-no-one-typewriter-armed_&]:invisible'
  * the half-leading its in-flow twin had trimmed and lands a few pixels low.
  */
 const OVERLAID =
-  'absolute inset-0 hidden [text-box:trim-both_cap_alphabetic] [.catch-no-one-typewriter-armed_&]:block'
+  'absolute inset-0 hidden [text-box:trim-both_cap_alphabetic] [.chatcontrol-typewriter-armed_&]:block'
 
 /**
  * Read back out of the variant above rather than declared a second time: that
@@ -92,7 +92,7 @@ if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matc
 var d=document.documentElement;
 d.classList.add('${TYPEWRITER_ARMED_CLASS}');
 var t=setTimeout(function(){d.classList.remove('${TYPEWRITER_ARMED_CLASS}')},${HYDRATION_FAILSAFE_MS});
-window.__catchNoOneTypewriterHydrated=function(){clearTimeout(t)};
+window.__chatControlTypewriterHydrated=function(){clearTimeout(t)};
 }catch(e){}})()`
 
   return <script dangerouslySetInnerHTML={{ __html: source }} />
@@ -132,7 +132,7 @@ function useTypewriter(
 
   useIsomorphicLayoutEffect(() => {
     // The bundle is running, so the arming script's failsafe is not needed.
-    window.__catchNoOneTypewriterHydrated?.()
+    window.__chatControlTypewriterHydrated?.()
 
     if (!enabled || !isArmed()) {
       // Not animating: fill the overlaid copy in so it never lags behind the

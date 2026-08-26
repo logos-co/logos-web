@@ -53,7 +53,7 @@ export const PAGE_KEYWORDS = [
 const PAGE_NAME = `${HERO.headlineLine1} ${HERO.headlineLine2}`
 
 export function createCampaignArticleJsonLd(locale: string): JsonLdObject {
-  const url = absoluteUrl(ROUTES.catchNoOne, locale)
+  const url = absoluteUrl(ROUTES.chatControl, locale)
 
   return {
     '@context': 'https://schema.org',
@@ -89,7 +89,7 @@ export function createCampaignArticleJsonLd(locale: string): JsonLdObject {
 export function createCampaignBreadcrumbJsonLd(locale: string): JsonLdObject {
   const trail = [
     { name: siteConfig.name, path: ROUTES.home },
-    { name: PAGE_NAME, path: ROUTES.catchNoOne },
+    { name: PAGE_NAME, path: ROUTES.chatControl },
   ]
 
   return {

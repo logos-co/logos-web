@@ -28,7 +28,7 @@ const staticIndexableRoutes = [
   ROUTES.manifesto,
   ROUTES.movement,
   ROUTES.buildTheParallel,
-  ROUTES.catchNoOne,
+  ROUTES.chatControl,
   ROUTES.nodeProgramme,
   ROUTES.operators,
   ROUTES.podcast,

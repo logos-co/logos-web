@@ -27,7 +27,7 @@ import {
   WE_ALL_PAY,
   WHAT_IT_TAKES,
 } from '../_content'
-import CatchNoOnePage, { generateMetadata } from '../page'
+import ChatControlPage, { generateMetadata } from '../page'
 import {
   createCampaignArticleJsonLd,
   createCampaignBreadcrumbJsonLd,
@@ -58,15 +58,15 @@ const copyText = (
  * drive directly — call it and render the element it resolves to.
  */
 const pageHtml = async () => {
-  const element = await CatchNoOnePage({
+  const element = await ChatControlPage({
     params: Promise.resolve({ locale: 'en' }),
   })
   return renderToStaticMarkup(element)
 }
 
-describe('catch-no-one page contract', () => {
+describe('chatcontrol page contract', () => {
   test('is registered on the canonical route', () => {
-    expect(ROUTES.catchNoOne).toBe('/catch-no-one')
+    expect(ROUTES.chatControl).toBe('/chatcontrol')
   })
 
   test('every case-file source has a numbered index and an https link', () => {
@@ -99,7 +99,7 @@ describe('catch-no-one page contract', () => {
   })
 })
 
-describe('catch-no-one page render', () => {
+describe('chatcontrol page render', () => {
   test('renders every section with its heading, in Figma order', async () => {
     const html = await pageHtml()
     // Read off the copy rather than repeated here, so an editorial change to a
@@ -223,7 +223,7 @@ describe('typewriter', () => {
   })
 })
 
-describe('catch-no-one SEO', () => {
+describe('chatcontrol SEO', () => {
   test('the description fits what search results actually show', async () => {
     const metadata = await generateMetadata({
       params: Promise.resolve({ locale: 'en' }),
@@ -240,8 +240,8 @@ describe('catch-no-one SEO', () => {
       params: Promise.resolve({ locale: 'en' }),
     })
 
-    expect(String(metadata.alternates?.canonical)).toContain(ROUTES.catchNoOne)
-    expect(String(metadata.openGraph?.url)).toContain(ROUTES.catchNoOne)
+    expect(String(metadata.alternates?.canonical)).toContain(ROUTES.chatControl)
+    expect(String(metadata.openGraph?.url)).toContain(ROUTES.chatControl)
   })
 
   test('the page describes itself the same way everywhere', async () => {
@@ -276,7 +276,7 @@ describe('catch-no-one SEO', () => {
 
     expect(crumb['@type']).toBe('BreadcrumbList')
     expect(items.map((i) => i.position)).toEqual([1, 2])
-    expect(items[1]!.item).toContain(ROUTES.catchNoOne)
+    expect(items[1]!.item).toContain(ROUTES.chatControl)
   })
 
   test('both blocks render as parseable JSON-LD on the page', async () => {
