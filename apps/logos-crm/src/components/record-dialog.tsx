@@ -49,7 +49,10 @@ export function RecordDialog({
   return (
     <ModalOverlay
       className="dialog-backdrop"
-      isDismissable={false}
+      // Clicking the page behind a modal means "I am done with this", and a
+      // dialog that ignores it reads as stuck. It routes through the same
+      // `requestClose` as the button, so the panel leaves the same way.
+      isDismissable
       isOpen={isOpen}
       onOpenChange={(open) => {
         if (!open) requestClose()

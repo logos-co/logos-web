@@ -43,6 +43,15 @@ interface CrmShellProps {
  */
 const SIDEBAR_STORAGE_KEY = 'logos-crm.sidebar-collapsed'
 
+/**
+ * Session storage, not local: the sidebar preference is a preference, but this
+ * is a warning that the records on screen are fictional and that real personal
+ * details must not be typed into them. Getting it out of the way for the rest
+ * of a sitting is reasonable; silencing it for good on a shared machine, where
+ * the next person opens the same URL, is not.
+ */
+const DEMO_NOTICE_STORAGE_KEY = 'logos-crm.demo-notice-dismissed'
+
 export function CrmShell({ children, view }: CrmShellProps) {
   const mainRef = useRef<HTMLElement>(null)
   const router = useRouter()
@@ -53,6 +62,7 @@ export function CrmShell({ children, view }: CrmShellProps) {
    * disagree with the server's and hydrate into a flash of the wrong layout.
    */
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isNoticeDismissed, setNoticeDismissed] = useState(false)
   const dashboardQuery = useQuery({
     queryKey: ['dashboard'],
     queryFn: () => apiClient<DashboardResponse>('/api/v1/dashboard'),
@@ -76,7 +86,15 @@ export function CrmShell({ children, view }: CrmShellProps) {
 
   useEffect(() => {
     setIsCollapsed(window.localStorage.getItem(SIDEBAR_STORAGE_KEY) === 'true')
+    setNoticeDismissed(
+      window.sessionStorage.getItem(DEMO_NOTICE_STORAGE_KEY) === 'true'
+    )
   }, [])
+
+  function dismissNotice(): void {
+    window.sessionStorage.setItem(DEMO_NOTICE_STORAGE_KEY, 'true')
+    setNoticeDismissed(true)
+  }
 
   useEffect(() => {
     window.scrollTo({ left: 0, top: 0, behavior: 'auto' })
@@ -215,11 +233,34 @@ export function CrmShell({ children, view }: CrmShellProps) {
 
       {/* An instance anyone can open without signing in has to say so, or the
           seeded records read as a real caseload. */}
-      {actorQuery.data?.item.authMode === 'demo' ? (
-        <p className="demo-badge">
-          Demo instance: seeded data, no sign-in. Never enter a real
-          person&rsquo;s details.
-        </p>
+      {actorQuery.data?.item.authMode === 'demo' && !isNoticeDismissed ? (
+        <aside className="demo-badge" role="note">
+          <p>
+            Demo instance: seeded data, no sign-in. Never enter a real
+            person&rsquo;s details.
+          </p>
+          <button
+            aria-label="Dismiss the demo notice"
+            className="demo-badge-dismiss cursor-pointer"
+            type="button"
+            onClick={dismissNotice}
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="14"
+              viewBox="0 0 14 14"
+              width="14"
+            >
+              <path
+                d="M3.5 3.5 10.5 10.5M10.5 3.5 3.5 10.5"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="1.75"
+              />
+            </svg>
+          </button>
+        </aside>
       ) : null}
     </div>
   )
