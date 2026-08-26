@@ -1,3 +1,4 @@
+import { LIST_LIMIT_DEFAULT, LIST_LIMIT_MAX } from './case'
 import { z } from 'zod/v4'
 
 import { directoryStatuses } from './values'
@@ -6,6 +7,13 @@ export const directoryStatusSchema = z.enum(directoryStatuses)
 
 export const directoryListQuerySchema = z.object({
   q: z.string().trim().max(120).optional(),
+  // Same cap and reasoning as the case list: see `LIST_LIMIT_DEFAULT`.
+  limit: z.coerce
+    .number()
+    .int()
+    .positive()
+    .max(LIST_LIMIT_MAX)
+    .default(LIST_LIMIT_DEFAULT),
 })
 
 export const createOrganisationSchema = z.object({

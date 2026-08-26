@@ -127,9 +127,13 @@ export function CrmDemo({ view }: CrmDemoProps) {
     placeholderData: (previous) => previous,
   })
 
+  // Scoped to the selected pipeline so the queue tabs and the status ribbon
+  // count the same cases the board is showing. Unscoped, the ribbon read "6"
+  // over a board holding 4.
   const dashboardQuery = useQuery({
-    queryKey: ['dashboard'],
-    queryFn: () => apiClient<DashboardResponse>('/api/v1/dashboard'),
+    queryKey: ['dashboard', pipeline],
+    queryFn: () =>
+      apiClient<DashboardResponse>(`/api/v1/dashboard?pipeline=${pipeline}`),
   })
 
   const peopleQuery = useQuery({

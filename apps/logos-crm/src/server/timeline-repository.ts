@@ -1,4 +1,4 @@
-import { and, desc, eq, isNotNull } from 'drizzle-orm'
+import { and, desc, eq, inArray, isNotNull } from 'drizzle-orm'
 
 import { statusLabels } from '@/contracts/case-labels'
 import type { PipelineKey } from '@/contracts/pipeline'
@@ -24,11 +24,9 @@ async function loadActors(
   const rows = await db
     .select({ id: users.id, displayName: users.displayName })
     .from(users)
-  return new Map(
-    rows
-      .filter((row) => unique.includes(row.id))
-      .map((row) => [row.id, { id: row.id, displayName: row.displayName }])
-  )
+    .where(inArray(users.id, unique))
+
+  return new Map(rows.map((row) => [row.id, row]))
 }
 
 const activityVerbs: Record<string, string> = {

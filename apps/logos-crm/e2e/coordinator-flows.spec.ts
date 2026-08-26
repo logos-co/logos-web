@@ -155,3 +155,61 @@ test('a coordinator records an evaluation and a decision', async ({
     page.getByText('Clear fit for the coalition track.').first()
   ).toBeVisible()
 })
+
+test('the organisation field searches, and Enter creates what is not there', async ({
+  page,
+}) => {
+  await openCases(page)
+  await page.getByRole('button', { name: 'New case' }).click()
+
+  const title = `Waku relay pilot ${Date.now()}`
+  await page.getByPlaceholder('What are we coordinating?').fill(title)
+
+  // Typing filters the existing organisations rather than making the user
+  // scroll a list that a native select could not have filtered at all.
+  const organisation = page.getByRole('combobox', { name: 'Organisation' })
+  await organisation.fill('mesh')
+  await expect(
+    page.getByRole('option', { name: /Meshnet Node Collective/ })
+  ).toBeVisible()
+
+  // A name nothing matches is offered as a new record, and Enter takes it.
+  const newOrganisation = `Cypherpunk Hall ${Date.now()}`
+  await organisation.fill(newOrganisation)
+  await expect(
+    page.getByRole('option', { name: new RegExp(`Add .${newOrganisation}`) })
+  ).toBeVisible()
+  await organisation.press('Enter')
+  await expect(organisation).toHaveValue(newOrganisation)
+
+  // Enter inside the combobox must not have submitted the form behind it.
+  await expect(page.getByRole('heading', { name: 'Open a case' })).toBeVisible()
+
+  await page.getByRole('button', { name: 'Create case' }).click()
+
+  await expect(page.getByRole('heading', { name: title })).toBeVisible()
+  await expect(page.getByText(newOrganisation).first()).toBeVisible()
+})
+
+test('Escape closes the dropdown without discarding the form', async ({
+  page,
+}) => {
+  await openCases(page)
+  await page.getByRole('button', { name: 'New case' }).click()
+
+  const title = `Nomos cohort ${Date.now()}`
+  await page.getByPlaceholder('What are we coordinating?').fill(title)
+
+  const contact = page.getByRole('combobox', { name: 'Primary contact' })
+  await contact.click()
+  await expect(page.getByRole('listbox')).toBeVisible()
+
+  await contact.press('Escape')
+
+  await expect(page.getByRole('listbox')).toBeHidden()
+  // The dialog shares the Escape key, so this is the regression that matters:
+  // losing the dropdown must not lose everything already typed.
+  await expect(page.getByPlaceholder('What are we coordinating?')).toHaveValue(
+    title
+  )
+})

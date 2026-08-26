@@ -18,6 +18,7 @@ import type {
   UpdateOrganisationInput,
   UpdatePersonInput,
 } from '@/contracts/directory'
+import { LIST_LIMIT_DEFAULT } from '@/contracts/case'
 import { db } from '@/server/db'
 import {
   caseOrganisations,
@@ -30,6 +31,7 @@ import {
 
 export interface DirectoryListFilters {
   q?: string
+  limit?: number
 }
 
 function normaliseName(value: string): string {
@@ -91,6 +93,7 @@ export async function listOrganisations(
     .from(organisations)
     .where(condition)
     .orderBy(asc(organisations.displayName))
+    .limit(filters.limit ?? LIST_LIMIT_DEFAULT)
 
   if (rows.length === 0) return []
   const ids = rows.map((row) => row.id)
@@ -160,6 +163,7 @@ export async function listPeople(
     .from(people)
     .where(conditions.length > 0 ? and(...conditions) : undefined)
     .orderBy(asc(people.fullName))
+    .limit(filters.limit ?? LIST_LIMIT_DEFAULT)
 
   if (rows.length === 0) return []
   const ids = rows.map((row) => row.id)

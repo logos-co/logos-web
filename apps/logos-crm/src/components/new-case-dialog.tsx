@@ -2,6 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@acid-info/logos-ui'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod/v4'
 
@@ -13,7 +15,9 @@ import {
 } from '@/contracts/pipeline'
 import type { OrganisationRecord, PersonRecord } from '@/contracts/directory'
 import type { UserRecord } from '@/contracts/user'
+import { apiClient } from '@/lib/api-client'
 
+import { Combobox, type ComboboxOption } from './combobox'
 import { FormField, RecordDialog } from './record-dialog'
 
 /**
@@ -89,6 +93,7 @@ export function NewCaseDialog({
   people,
   users,
 }: NewCaseDialogProps) {
+  const queryClient = useQueryClient()
   const {
     formState: { errors },
     handleSubmit,
@@ -113,6 +118,55 @@ export function NewCaseDialog({
   })
 
   const pipeline = watch('pipeline')
+  const organisationName = watch('organisationName')
+  const ownerUserId = watch('ownerUserId')
+  const personId = watch('personId')
+
+  const organisationOptions = useMemo<ComboboxOption[]>(
+    () =>
+      organisations.map((item) => ({
+        id: item.id,
+        label: item.displayName,
+        hint: item.domain ?? undefined,
+      })),
+    [organisations]
+  )
+  const ownerOptions = useMemo<ComboboxOption[]>(
+    () => users.map((item) => ({ id: item.id, label: item.displayName })),
+    [users]
+  )
+  const personOptions = useMemo<ComboboxOption[]>(
+    () =>
+      people.map((item) => ({
+        id: item.id,
+        label: item.fullName,
+        hint: item.organisationName ?? undefined,
+      })),
+    [people]
+  )
+
+  /**
+   * Creating a person from here records a name and nothing else. Consent and
+   * contact details stay unset rather than being inferred from the fact that
+   * somebody typed a name into a case form - the person has not agreed to
+   * anything yet, and a default that says otherwise is the kind of claim this
+   * app exists to avoid making.
+   */
+  const createPersonMutation = useMutation({
+    mutationFn: (fullName: string) =>
+      apiClient<{ item: PersonRecord }>('/api/v1/people', {
+        method: 'POST',
+        body: JSON.stringify({ fullName }),
+      }),
+    onSuccess: async ({ item }) => {
+      await queryClient.invalidateQueries({ queryKey: ['people'] })
+      setValue('personId', item.id)
+    },
+  })
+
+  const onCreatePerson = (fullName: string): void => {
+    createPersonMutation.mutate(fullName)
+  }
 
   if (!isOpen) return null
 
@@ -159,40 +213,60 @@ export function NewCaseDialog({
             label="Organisation"
             error={errors.organisationName?.message}
           >
-            <input
-              {...register('organisationName')}
-              autoComplete="off"
-              list="organisation-options"
-              placeholder="Type a name, new or existing"
+            {/*
+              Keyed by name rather than id: the server matches an existing
+              organisation on its normalised name and creates one otherwise, so
+              a lead whose organisation is new needs no detour through the
+              directory.
+            */}
+            <Combobox
+              displayValue={organisationName}
+              invalid={Boolean(errors.organisationName)}
+              label="Organisation"
+              options={organisationOptions}
+              placeholder="Search, or type a new name"
+              value={
+                organisationOptions.find(
+                  (option) => option.label === organisationName
+                )?.id ?? null
+              }
+              onChange={(id) =>
+                setValue(
+                  'organisationName',
+                  organisationOptions.find((option) => option.id === id)
+                    ?.label ?? '',
+                  { shouldValidate: true }
+                )
+              }
+              onCreate={(name) =>
+                setValue('organisationName', name, { shouldValidate: true })
+              }
             />
-            <datalist id="organisation-options">
-              {organisations.map((item) => (
-                <option key={item.id} value={item.displayName} />
-              ))}
-            </datalist>
           </FormField>
           <FormField label="Owner" error={errors.ownerUserId?.message}>
-            <select {...register('ownerUserId')}>
-              <option value="">Unassigned</option>
-              {users.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.displayName}
-                </option>
-              ))}
-            </select>
+            {/* No create: a coordinator is an account, not something a case
+                form may conjure. */}
+            <Combobox
+              emptyOptionLabel="Unassigned"
+              label="Owner"
+              options={ownerOptions}
+              placeholder="Search coordinators"
+              value={ownerUserId || null}
+              onChange={(id) => setValue('ownerUserId', id ?? '')}
+            />
           </FormField>
         </div>
 
         <FormField label="Primary contact" error={errors.personId?.message}>
-          <select {...register('personId')}>
-            <option value="">No primary contact</option>
-            {people.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.fullName}
-                {item.organisationName ? ` · ${item.organisationName}` : ''}
-              </option>
-            ))}
-          </select>
+          <Combobox
+            emptyOptionLabel="No primary contact"
+            label="Primary contact"
+            options={personOptions}
+            placeholder="Search people, or type a new name"
+            value={personId || null}
+            onChange={(id) => setValue('personId', id ?? '')}
+            onCreate={onCreatePerson}
+          />
         </FormField>
 
         <div className="form-row">

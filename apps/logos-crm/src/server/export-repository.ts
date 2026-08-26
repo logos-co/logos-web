@@ -6,7 +6,7 @@ import { listCases } from '@/server/case-repository'
 import { recordAuditEvent } from '@/server/audit'
 import type { ActorContext } from '@/server/auth'
 import { toCsv } from '@/server/csv'
-import { stageLabel } from '@/contracts/pipeline'
+import { integrationStageLabel, stageLabel } from '@/contracts/pipeline'
 import { db } from '@/server/db'
 import { exportJobs } from '@/server/db/schema'
 import { getFunnelReport } from '@/server/report-repository'
@@ -136,6 +136,11 @@ async function buildRows(
       // The label, not the stored key: a spreadsheet is read by people, and
       // `solution_eng` is not what anybody calls that column in Notion.
       stage: stageLabel(item.pipeline, item.stage),
+      // Managed on the case detail but previously absent from the export, so
+      // the integration track existed on screen and nowhere in reporting.
+      integration_track: item.integrationStage
+        ? integrationStageLabel(item.integrationStage)
+        : '',
       priority: item.priority,
       decision: item.decision,
       lead_source: item.leadSource ?? '',

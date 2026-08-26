@@ -245,6 +245,30 @@ override".
 
 ---
 
+## 9c. Deployment: the worker does not run on the preview
+
+**Question.** Where do the background jobs run once real data lands?
+
+**Built.** `compose.yaml` runs a `crm-worker` container alongside the web app,
+and Graphile Worker owns the schedule: `expire_intake_payloads` nightly and
+`send_task_reminders` each morning, with `send_email_notification` drained as
+notes queue it.
+
+**Not running on Vercel.** The preview deploys the Next.js app only, so on that
+instance none of the three fire. Two of them are conveniences - a mention that
+never emails, a reminder that never arrives - and the demo has no SMTP anyway.
+The third is not: `expire_intake_payloads` is how
+`INTAKE_PAYLOAD_RETENTION_DAYS` is actually honoured, so an instance without a
+worker keeps raw funnel submissions indefinitely.
+
+**Deliberately not solved here.** Vercel Cron routes would work, but they are a
+second deployment target for a runtime whose spec is Docker Compose, and
+building them now would mean maintaining both. The decision is which target is
+real. Until it is made, an instance holding real personal data must run the
+worker - which the preview, as configured, does not.
+
+---
+
 ## 10. Notifications
 
 **Question.** Who owns the Discord bot, which channels may it post to, and is

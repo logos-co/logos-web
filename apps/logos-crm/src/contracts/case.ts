@@ -111,7 +111,25 @@ export const caseQueues = [
 
 export const caseQueueSchema = z.enum(caseQueues)
 
+/**
+ * How many rows a list endpoint will return.
+ *
+ * Not pagination - a cap. The Notion export alone is 563 rows and the board
+ * renders every card it is given, so an uncapped list is a page that gets
+ * slower every week until somebody notices. A real pager needs a sort key and
+ * a cursor and belongs with the import work; this stops the cliff in the
+ * meantime and tells the caller when it truncated.
+ */
+export const LIST_LIMIT_DEFAULT = 200
+export const LIST_LIMIT_MAX = 500
+
 export const caseListQuerySchema = z.object({
+  limit: z.coerce
+    .number()
+    .int()
+    .positive()
+    .max(LIST_LIMIT_MAX)
+    .default(LIST_LIMIT_DEFAULT),
   q: z.string().trim().max(120).optional(),
   status: caseStatusSchema.optional(),
   queue: caseQueueSchema.default('all'),

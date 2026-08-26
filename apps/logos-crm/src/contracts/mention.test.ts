@@ -6,6 +6,36 @@ import {
   parseMentionHandles,
 } from './mention'
 
+describe('mentions inside markdown', () => {
+  test('survives bold and italic, which notes are now written in', () => {
+    expect(parseMentionHandles('ping **@mara.chen** please')).toEqual([
+      'mara.chen',
+    ])
+    expect(parseMentionHandles('ping _@mara.chen_ please')).toEqual([
+      'mara.chen',
+    ])
+    expect(parseMentionHandles('ping ~~@mara.chen~~')).toEqual(['mara.chen'])
+  })
+
+  test('survives list, heading, and quote markers', () => {
+    expect(parseMentionHandles('- @mara.chen to follow up')).toEqual([
+      'mara.chen',
+    ])
+    expect(parseMentionHandles('## @mara.chen owns this')).toEqual([
+      'mara.chen',
+    ])
+    expect(parseMentionHandles('> @mara.chen said no')).toEqual(['mara.chen'])
+  })
+
+  test('does not notify for a handle quoted in code', () => {
+    expect(parseMentionHandles('run `@mara.chen` literally')).toEqual([])
+  })
+
+  test('does not carry the closing emphasis into the handle', () => {
+    expect(parseMentionHandles('**@mara.chen**')).toEqual(['mara.chen'])
+  })
+})
+
 describe('mention parsing', () => {
   test('finds a dotted handle', () => {
     expect(parseMentionHandles('Can @mara.chen take this one?')).toEqual([

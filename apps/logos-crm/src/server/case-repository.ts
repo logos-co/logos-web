@@ -29,6 +29,7 @@ import {
   pipelineList,
   stageLabel,
 } from '@/contracts/pipeline'
+import { LIST_LIMIT_DEFAULT } from '@/contracts/case'
 import { caseStatusTransitions } from '@/contracts/values'
 import { recordAuditEvent } from '@/server/audit'
 import type { ActorContext } from '@/server/auth'
@@ -54,6 +55,7 @@ export interface CaseListFilters {
   queue?: CaseQueue
   ownerUserId?: string
   pipeline?: PipelineKey
+  limit?: number
 }
 
 interface CaseRelations {
@@ -359,6 +361,7 @@ export async function listCases(
     .from(cases)
     .where(conditions.length > 0 ? and(...conditions) : undefined)
     .orderBy(desc(cases.updatedAt))
+    .limit(filters.limit ?? LIST_LIMIT_DEFAULT)
 
   return hydrateCaseRecords(rows)
 }
@@ -767,8 +770,17 @@ export async function assignCase(
  * Counts for the queue tabs. Each count uses the same predicate as the queue it
  * labels, so a tab reading "3" and its list showing three rows cannot disagree.
  */
+/**
+ * Queue counts, optionally narrowed to one pipeline.
+ *
+ * The narrowing matters because the board shows one pipeline: a tab reading
+ * "Needs triage 1" above a board with nothing in it is a number describing a
+ * different set of cases than the one on screen, and the reader has no way to
+ * tell.
+ */
 export async function countCasesByQueue(
-  actorUserId: string | null
+  actorUserId: string | null,
+  pipeline?: PipelineKey
 ): Promise<Record<CaseQueue, number>> {
   const queues: CaseQueue[] = [
     'all',
@@ -782,7 +794,10 @@ export async function countCasesByQueue(
 
   const results = await Promise.all(
     queues.map(async (queue) => {
-      const condition = queueCondition(queue, actorUserId)
+      const queueClause = queueCondition(queue, actorUserId)
+      const condition = pipeline
+        ? and(eq(cases.pipeline, pipeline), queueClause)
+        : queueClause
       const [row] = await db
         .select({ value: count() })
         .from(cases)
@@ -794,7 +809,7 @@ export async function countCasesByQueue(
   return Object.fromEntries(results) as Record<CaseQueue, number>
 }
 
-export async function getDashboardSummary(): Promise<{
+export async function getDashboardSummary(pipeline?: PipelineKey): Promise<{
   total: number
   openTotal: number
   byStatus: Record<CaseStatus, number>
@@ -802,6 +817,7 @@ export async function getDashboardSummary(): Promise<{
   const rows = await db
     .select({ status: cases.status, value: count() })
     .from(cases)
+    .where(pipeline ? eq(cases.pipeline, pipeline) : undefined)
     .groupBy(cases.status)
 
   const byStatus: Record<CaseStatus, number> = {

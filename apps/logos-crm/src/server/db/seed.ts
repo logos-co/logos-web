@@ -170,17 +170,36 @@ const personSeeds = [
   ],
 ] as const
 
-await db
-  .insert(schema.people)
-  .values(
-    personSeeds.map(([fullName, roleTitle, organisationName], index) => ({
-      fullName,
-      roleTitle,
-      status: index < 4 ? ('active' as const) : ('prospect' as const),
-      summary: `Primary coordination contact for ${organisationName}.`,
-    }))
-  )
-  .onConflictDoNothing()
+/**
+ * Guarded by name rather than by `onConflictDoNothing`.
+ *
+ * There is no unique index on `full_name` and there should not be: two real
+ * people can share a name, and a constraint that says otherwise would reject
+ * the second one. But that also means a conflict clause has nothing to fire
+ * on, so an unguarded insert silently duplicated every seeded contact on each
+ * run - and the demo is re-seeded often.
+ */
+const existingPersonNames = new Set(
+  (
+    await db.select({ fullName: schema.people.fullName }).from(schema.people)
+  ).map((row) => row.fullName)
+)
+const newPersonValues = personSeeds.flatMap(
+  ([fullName, roleTitle, organisationName], index) =>
+    existingPersonNames.has(fullName)
+      ? []
+      : [
+          {
+            fullName,
+            roleTitle,
+            status: index < 4 ? ('active' as const) : ('prospect' as const),
+            summary: `Primary coordination contact for ${organisationName}.`,
+          },
+        ]
+)
+if (newPersonValues.length > 0) {
+  await db.insert(schema.people).values(newPersonValues)
+}
 
 const personRows = await db.select().from(schema.people)
 const personByName = new Map(personRows.map((row) => [row.fullName, row]))
