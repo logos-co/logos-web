@@ -83,19 +83,34 @@ describe('chatcontrol page contract', () => {
     }
   })
 
-  test('chart bars keep the proportions measured in Figma', () => {
+  test('the chart carries one loss and two gains', () => {
     const [meant, actual] = CHART.groups
-    expect(meant!.rows).toHaveLength(1)
-    // The hatched track stands for demand that left; it has nothing to fill.
-    expect(meant!.rows[0]!.fill).toBeNull()
+    const changes = CHART.groups.flatMap((group) =>
+      group.rows.map((row) => row.change)
+    )
 
-    const fills = actual!.rows.map((row) => row.fill!)
-    expect(fills[0]).toBeCloseTo(550 / 621, 5)
-    expect(fills[1]).toBeCloseTo(349 / 621, 5)
-    for (const fill of fills) {
-      expect(fill).toBeGreaterThan(0)
-      expect(fill).toBeLessThanOrEqual(1)
-    }
+    expect(meant!.rows.map((row) => row.change)).toEqual([-51])
+    expect(actual!.rows.map((row) => row.change)).toEqual([48, 23])
+    // A diverging chart is only readable if nothing sits on the zero line.
+    expect(changes.every((change) => change !== 0)).toBe(true)
+  })
+
+  test('bar lengths are proportional to the figures they carry', async () => {
+    const html = await pageHtml()
+    const widths = [...html.matchAll(/width:\s*([\d.]+)%/g)].map((match) =>
+      Number(match[1])
+    )
+    const changes = CHART.groups.flatMap((group) =>
+      group.rows.map((row) => Math.abs(row.change))
+    )
+    // Mirrors the chart: the axis runs to 60 unless the data exceeds it.
+    const scale = Math.max(60, ...changes)
+
+    expect(widths).toHaveLength(changes.length)
+    // Half the track is one full `scale`, so every bar shares one axis.
+    changes.forEach((change, index) => {
+      expect(widths[index]).toBeCloseTo((change / scale) * 50, 1)
+    })
   })
 })
 
