@@ -88,11 +88,11 @@ export const DOES_NOT_CATCH = {
     "They weren’t speaking hypothetically. They pointed directly to the UK's own experience under the Online Safety Act, where the arrival of age checks pushed users towards services that don't run them and VPNs that let a person appear to be somewhere the rules don’t apply. This cannot be argued away. It already happened, on a national scale. A separate study from the US shows us how large such a behaviour shift may be.",
   studyHeading: 'With checks activated, did people stop or move?',
   studyBody: [
-    "In 2023, more than 20 US states began forcing adult sites to verify visitors' ages. The two biggest sites differed in their response: the market leader blocked users in those states or pulled out entirely. Its main rival ignored the rules and stayed open.",
-    'Researchers measured what people did next, comparing searches in the affected states against what would have happened without the law. In the three months after the laws were passed, there was a 51% decrease in searches for the most popular site which complied with state age verification laws. Searches for the second most popular site, which did not comply with state laws, increased 48.1%, while searches for VPN services increased 23.6%. Demand didn’t drop. It simply moved.',
+    "In 2023, more than 20 US states began forcing adult sites to verify visitors' ages. The two biggest sites differed in their response: the market leader complied with the age verification. Its main rival ignored the rules and stayed open.",
+    'Researchers measured what people did next by comparing web search activity. In the three months after the laws were passed, there was a 51% decrease in searches for the most popular site which complied with state age verification laws. Searches for the second most popular site, which did not comply with state laws, increased 48.1%, while searches for VPN services increased 23.6%. Demand didn’t drop. It simply moved.',
   ],
   closingLines: [
-    'The compliant site lost half its traffic.  Almost all',
+    'The compliant site lost half its search traffic.  Almost all',
     "of it reappeared somewhere the law couldn't reach.",
     '',
     "The rules didn't stop the behaviour. They relocated it.",
@@ -181,7 +181,7 @@ export const RIGHT_QUESTION = {
   },
   body: [
     "The paper argues most violence against children is family violence, committed at home by someone the child already knows. Abuse that begins online, with a stranger, is the minority of cases. A scanner reading everyone's messages is aimed at the smallest part of the problem.",
-    "Meanwhile, the people who actually protect children have been defunded. Child protection is done by teachers, GPs, social workers, and local police who know the family, and they have been starved of resources while the money is spent on flawed central technical systems. The proposal fails to help and crowds out what works. Meanwhile, the agencies promising to catch predators by inspecting everyone's messages have, as Anderson notes, historically faced no penalty when they fail to prevent harm.",
+    "Meanwhile, the people who actually protect children have been defunded. Child protection is done by teachers, GPs, social workers, and local police who know the family, and they have been starved of resources while the money is spent on flawed central technical systems. At the same time, the agencies promising to catch predators by inspecting everyone's messages have, as Anderson notes, historically faced no sanction when they fail to prevent harm.",
   ],
 } as const
 
@@ -198,7 +198,7 @@ export const WHAT_IT_TAKES = {
     "Logos Circles. Technology alone won't save us. Logos Circles are self-organised local groups that translate the tools and values of Logos into collective action. By tackling winnable issues that matter locally, from cleanups and community fundraising to advocacy against measures that threaten our freedoms, Circles build the trust, solidarity, and parallel civic capacity that a resilient, people-powered network requires.",
   ],
   cards: [
-    { key: 'buildTheParallel', title: 'Build the Parallel', cta: 'Get Started' },
+    { key: 'buildTheParallel', title: 'Explore the Tech', cta: 'Get Started' },
     { key: 'joinACircle', title: 'Join a Circle', cta: 'Join the movement' },
   ],
 } as const
