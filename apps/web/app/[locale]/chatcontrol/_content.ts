@@ -111,7 +111,7 @@ export const CHART: {
       legend: 'WHAT THE LAW WAS MEANT TO DO',
       rows: [
         {
-          label: 'Search for the site that complied',
+          label: 'Searches for the site that complied',
           value: '-51%',
           direction: 'down',
           fill: null,
