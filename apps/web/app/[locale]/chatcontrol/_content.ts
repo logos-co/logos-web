@@ -30,11 +30,12 @@ export type Exhibit = {
 
 export type ChartRow = {
   label: string
-  value: string
-  /** Arrow direction shown beside the value. */
-  direction: 'down' | 'up'
-  /** Bar fill as a share of the track, 0–1. `null` renders the hatched track. */
-  fill: number | null
+  /**
+   * Signed percentage change. The sign drives which side of the zero line the
+   * bar sits on, its arrow and its colour; the magnitude drives its length. The
+   * displayed value is derived from it, so the number and the bar cannot drift.
+   */
+  change: number
 }
 
 export type ChartGroup = {
@@ -110,12 +111,7 @@ export const CHART: {
     {
       legend: 'WHAT THE LAW WAS MEANT TO DO',
       rows: [
-        {
-          label: 'Searches for the site that complied',
-          value: '-51%',
-          direction: 'down',
-          fill: null,
-        },
+        { label: 'Searches for the site that complied', change: -51 },
       ],
     },
     {
@@ -123,15 +119,11 @@ export const CHART: {
       rows: [
         {
           label: 'Searches for the non-compliant rival (that ignored the law)',
-          value: '+48%',
-          direction: 'up',
-          fill: 550 / 621,
+          change: 48,
         },
         {
           label: 'Searches for VPNs (to hide location and bypass the check)',
-          value: '+23%',
-          direction: 'up',
-          fill: 349 / 621,
+          change: 23,
         },
       ],
     },
