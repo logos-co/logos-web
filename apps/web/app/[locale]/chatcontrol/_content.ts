@@ -111,7 +111,7 @@ export const CHART: {
       legend: 'WHAT THE LAW WAS MEANT TO DO',
       rows: [
         {
-          label: 'Search for the site that complied (mostly by blocking the state)',
+          label: 'Search for the site that complied',
           value: '-51%',
           direction: 'down',
           fill: null,
@@ -145,7 +145,7 @@ export const WE_ALL_PAY = {
     'it doesn’t stop operating.',
   ],
   bodyBeforeExhibit: [
-    'It continues to invade the privacy of everyone who acted lawfully and passed through it. The second promise was that the cost to those people is small. Researchers have measured what actually happens to your data when you submit to an age check. At the 2026 IEEE Symposium on Security and Privacy, the leading venue in the field, a team from Georgia Tech and UC Irvine published the first large-scale study of how age verification is really deployed across the web. What they found contradicted the central assurance written into these laws.',
+    'It continues to invade the privacy of everyone who acted lawfully and passed through it. The second promise was that the cost to those people is small. Researchers have measured what actually happens to your data when you submit to an age check. At the 2026 IEEE Symposium on Security and Privacy, the leading venue in the field, a team from Georgia Tech and UC Irvine published the first large-scale study of how age verification is really deployed across the web in US states. What they found contradicted the central assurance written into these laws.',
     "Most sites covered by age-verification laws don't actually enforce them. The ones that do often outsource the job to a small number of third-party verification companies, one of which handles an estimated 60% of the market.",
     'Depending on the method used, a single check can capture your face and browser fingerprinting, and pass identifying details to other firms, including credit-card processors and location services. The justification written into these laws is that verification companies are commercially motivated to protect what they collect. But the study found that such data may be entrusted not only to the contracted provider, but also to several “fourth parties” that are significantly less visible to users.',
     'This isn’t the failure of one badly run vendor or one careless country. A 2026 study evaluated deployed age-verification systems across several European jurisdictions, testing whether they actually deliver on their claims.',
