@@ -19,7 +19,7 @@ const normalizeVisibleLabel = (value: unknown): string =>
   typeof value === 'string'
     ? value
         .split(/\r?\n+/)
-        .map((line) => line.replace(/\s+/g, ' ').trim())
+        .map((line) => normalizeLabel(line))
         .filter(Boolean)
         .join(SEGMENT_SEPARATOR)
     : ''
