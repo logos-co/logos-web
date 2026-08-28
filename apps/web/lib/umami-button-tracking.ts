@@ -4,8 +4,39 @@ export interface ButtonClickEventData {
   readonly source: string
 }
 
+/** Matches the ` - ` already used by hand-written event names. */
+const SEGMENT_SEPARATOR = ' - '
+
 const normalizeLabel = (value: unknown): string =>
   typeof value === 'string' ? value.replace(/\s+/g, ' ').trim() : ''
+
+/**
+ * Joins the rendered lines of a label with a dash, so a card that stacks a
+ * heading above its CTA reads as `Explore the Tech - Get Started` rather than
+ * the run-together `Explore the TechGet Started`.
+ */
+const normalizeVisibleLabel = (value: unknown): string =>
+  typeof value === 'string'
+    ? value
+        .split(/\r?\n+/)
+        .map((line) => line.replace(/\s+/g, ' ').trim())
+        .filter(Boolean)
+        .join(SEGMENT_SEPARATOR)
+    : ''
+
+/**
+ * `innerText` reflects the rendered line boxes, so it is the only source that
+ * knows where one piece of copy ends and the next begins. It is missing
+ * outside a real layout engine, where `textContent` is the best available
+ * fallback.
+ */
+const getVisibleLabel = (button: Element): string => {
+  const innerText = (button as HTMLElement).innerText
+
+  return normalizeVisibleLabel(
+    typeof innerText === 'string' ? innerText : button.textContent
+  )
+}
 
 export function getTrackableButton(target: unknown): Element | null {
   if (
@@ -56,7 +87,7 @@ export function getButtonTrackingLabel(button: Element | null): string | null {
         ?.getAttribute('data-umami-event-name')
     ) ||
     normalizeLabel(button.id) ||
-    normalizeLabel(button.textContent) ||
+    getVisibleLabel(button) ||
     normalizeLabel(button.getAttribute('aria-label')) ||
     normalizeLabel(button.getAttribute('name')) ||
     normalizeLabel(button.getAttribute('title')) ||
