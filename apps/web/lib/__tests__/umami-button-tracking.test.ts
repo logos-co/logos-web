@@ -16,6 +16,7 @@ interface FakeButtonOptions {
   readonly excluded?: boolean
   readonly excludedAncestor?: boolean
   readonly id?: string
+  readonly innerText?: string
   readonly name?: string
   readonly nestedEventName?: string
   readonly textContent?: string
@@ -29,6 +30,7 @@ const createButton = ({
   excluded = false,
   excludedAncestor = false,
   id = '',
+  innerText,
   name,
   nestedEventName,
   textContent = '',
@@ -53,6 +55,7 @@ const createButton = ({
     disabled,
     getAttribute: (name: string) => attributes.get(name) ?? null,
     id,
+    innerText,
     querySelector: (selector: string) =>
       selector === '[data-umami-event-name]' && nestedEventName
         ? {
@@ -125,6 +128,17 @@ describe('getButtonTrackingLabel', () => {
         })
       )
     ).toBe('Open map cluster - 2 circles')
+  })
+
+  it('joins the rendered lines of stacked copy with a dash', () => {
+    expect(
+      getButtonTrackingLabel(
+        createButton({
+          innerText: 'Explore the Tech\nGet Started',
+          textContent: 'Explore the TechGet Started',
+        })
+      )
+    ).toBe('Explore the Tech - Get Started')
   })
 
   it('falls back through text, aria-label, name, and title', () => {
