@@ -50,6 +50,8 @@ const staticIndexableRoutes = [
   ROUTES.activistBuilder,
   ROUTES.activistLeaderSteward,
   ROUTES.coalitionPartner,
+  // /one-pager is excluded -- it is useless without the signed token in the
+  // emailed link, and its metadata is noindex
   ...(ROUTE_AVAILABILITY.about ? [ROUTES.about] : []),
   ROUTES.fieldGuide,
 ] as const

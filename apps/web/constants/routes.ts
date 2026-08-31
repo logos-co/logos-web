@@ -43,6 +43,8 @@ export const ROUTES = {
   activistBuilder: '/activist-builder',
   activistLeaderSteward: '/activist-leader-steward',
   coalitionPartner: '/coalition-partner',
+  /** Reached only through a signed link emailed to a funnel candidate. */
+  onePager: '/one-pager',
 
   // Node Programme
   nodeProgramme: '/node-programme',

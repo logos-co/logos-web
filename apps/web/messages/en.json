@@ -115,6 +115,29 @@
       "title": "Let's Connect | Logos",
       "description": "Be part of what's unfolding. Receive updates on progress, gatherings and opportunities to contribute.",
       "heading": "Let's Connect."
+    },
+    "onePager": {
+      "title": "Upload your one pager | Logos",
+      "description": "Upload the one pager for your Logos application.",
+      "heading": "Upload your one pager",
+      "intro": "Thanks for taking the next step with Logos. Attach your one pager below and it goes straight to the team reviewing your application.",
+      "checking": "Checking your upload link…",
+      "requirements": "PDF only, up to {maxMb} MB and no more than 1 page. You can upload once, so send the version you want reviewed.",
+      "chooseFile": "Choose a PDF",
+      "submit": "Upload one pager",
+      "submitting": "Uploading…",
+      "successHeading": "Your one pager is with us.",
+      "successBody": "We have attached it to your application and let the team know. This link is now closed, so there is nothing else for you to do. We will be in touch.",
+      "usedHeading": "You have already submitted your one pager.",
+      "usedBody": "This link allows a single upload and it has been used.",
+      "invalidHeading": "This link is no longer valid.",
+      "invalidBody": "Upload links expire after 10 days.",
+      "missingTokenHeading": "This page needs your upload link.",
+      "missingTokenBody": "Open the link from the email we sent you. It carries the details we need to match your one pager to your application.",
+      "errorType": "Please choose a PDF file.",
+      "errorEmpty": "That file is empty. Please choose another one.",
+      "errorSize": "That file is too large. The limit is {maxMb} MB.",
+      "errorGeneric": "We could not upload your file. Please check your connection and try again."
     }
   },
   "connectForm": {
