@@ -5,6 +5,15 @@ import { getAllIdeas, getCircles } from '@repo/content/loaders'
 
 import { ROUTES } from '../constants/routes'
 import { ROUTE_AVAILABILITY } from '../constants/route-availability'
+import { env } from '../lib/env'
+
+/**
+ * robots.txt is deliberately different per environment, so the assertions have
+ * to follow the same switch `app/robots.ts` uses. Only the production deploy
+ * invites crawlers and advertises a sitemap; every other build closes itself
+ * off so staging never competes with logos.co.
+ */
+const isProductionBuild = env.NEXT_PUBLIC_API_MODE === 'production'
 
 const webRoot = process.cwd()
 const outDir = join(webRoot, 'out')
@@ -103,8 +112,26 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
     failures.push('robots.txt is missing from the static export root')
   } else {
     const robots = readFileSync(robotsPath, 'utf8')
-    if (!robots.includes('Sitemap: https://logos.co/sitemap.xml')) {
-      failures.push('robots.txt is missing the production sitemap URL')
+    if (isProductionBuild) {
+      if (!robots.includes('Allow: /')) {
+        failures.push(
+          'robots.txt does not allow crawling in a production build'
+        )
+      }
+      if (!robots.includes('Sitemap: https://logos.co/sitemap.xml')) {
+        failures.push('robots.txt is missing the production sitemap URL')
+      }
+    } else {
+      if (!robots.includes('Disallow: /')) {
+        failures.push(
+          'robots.txt should disallow crawling outside a production build'
+        )
+      }
+      if (robots.includes('Sitemap:')) {
+        failures.push(
+          'robots.txt should not advertise a sitemap outside a production build'
+        )
+      }
     }
   }
 

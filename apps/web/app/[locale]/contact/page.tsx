@@ -3,8 +3,13 @@ import { createRedirectMetadata, StaticRedirect } from '@/lib/static-redirect'
 
 const TARGET = ROUTES.home
 
-export const metadata = createRedirectMetadata(TARGET)
+export const generateMetadata = createRedirectMetadata(TARGET)
 
-export default function ContactRedirectPage() {
-  return <StaticRedirect target={TARGET} />
+export default async function ContactRedirectPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  return <StaticRedirect target={TARGET} locale={locale} />
 }
