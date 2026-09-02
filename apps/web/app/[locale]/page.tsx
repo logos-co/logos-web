@@ -29,7 +29,10 @@ import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 import { getLatestBlogArticles } from '@/lib/blog-engine'
-import { createOrganizationJsonLd } from '@/lib/structured-data'
+import {
+  createOrganizationJsonLd,
+  createWebSiteJsonLd,
+} from '@/lib/structured-data'
 import { getSocialProofStats } from '@/lib/social-proof-stats'
 import { getWinnableIssuesCount } from '@/lib/winnable-issues'
 
@@ -115,6 +118,7 @@ export default async function HomePage({
   return (
     <>
       <JsonLd data={createOrganizationJsonLd()} />
+      <JsonLd data={createWebSiteJsonLd()} />
       <HeroSectionView data={hero} />
       <SocialProofSection
         data={socialProof}

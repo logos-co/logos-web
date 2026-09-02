@@ -6,6 +6,7 @@ import siteConfig from '@/constants/site-config'
 import {
   createBreadcrumbListJsonLd,
   createOrganizationJsonLd,
+  createWebSiteJsonLd,
 } from '@/lib/structured-data'
 
 // Derived, not hardcoded: siteConfig.url comes from NEXT_PUBLIC_SITE_URL, which
@@ -22,6 +23,43 @@ describe('structured data', () => {
       url: BASE_URL,
       logo: `${BASE_URL}/apple-touch-icon.png`,
     })
+  })
+
+  it('lists every configured social profile as sameAs', () => {
+    // "Logos" collides with the common noun for logo design, so these are the
+    // signals that tell Google which entity the site belongs to. Discord was
+    // configured in settings.json but never reached the graph.
+    const { sameAs } = createOrganizationJsonLd() as { sameAs: string[] }
+
+    expect(sameAs).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('twitter.com'),
+        expect.stringContaining('youtube.com'),
+        expect.stringContaining('github.com'),
+        expect.stringContaining('discord'),
+      ])
+    )
+  })
+
+  it('builds a WebSite entity published by the organisation', () => {
+    expect(createWebSiteJsonLd()).toMatchObject({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      '@id': `${BASE_URL}/#website`,
+      url: BASE_URL,
+      name: 'Logos',
+      inLanguage: 'en',
+      publisher: { '@id': `${BASE_URL}/#organization` },
+    })
+  })
+
+  it('links the WebSite publisher to the Organization node id', () => {
+    const organisation = createOrganizationJsonLd() as { '@id': string }
+    const website = createWebSiteJsonLd() as {
+      publisher: { '@id': string }
+    }
+
+    expect(website.publisher['@id']).toBe(organisation['@id'])
   })
 
   it('builds ordered canonical breadcrumb URLs', () => {
