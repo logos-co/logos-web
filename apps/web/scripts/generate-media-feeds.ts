@@ -9,6 +9,7 @@ import {
   type BlogArticleDetail,
   type BlogPodcastDetail,
 } from '../lib/blog-content'
+import { isFeedXml } from '../lib/media-feeds'
 
 const SITE_ORIGIN = 'https://logos.co'
 const outputRoot = path.resolve(process.cwd(), 'public')
@@ -65,14 +66,32 @@ function atomDocument(
   return `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom"><id>${SITE_ORIGIN}/media</id><title>Logos Media</title><link href="${SITE_ORIGIN}/media"/><updated>${escapeXml(updated)}</updated>${entries}</feed>`
 }
 
-async function legacyFeed(showSlug: string): Promise<string> {
-  const response = await fetch(`${LEGACY_BLOG_ORIGIN}/rss/${showSlug}.xml`)
+/**
+ * Mirrors a show's legacy feed, or reports that there is nothing to mirror.
+ *
+ * A missing legacy feed is not a build failure -- the show simply has no
+ * subscribers to carry over -- but a non-feed response must never be written,
+ * so both cases return null and say why.
+ */
+async function legacyFeed(showSlug: string): Promise<string | null> {
+  const url = `${LEGACY_BLOG_ORIGIN}/rss/${showSlug}.xml`
+  const response = await fetch(url)
   if (!response.ok) {
-    throw new Error(
-      `Legacy ${showSlug} feed failed with status ${response.status}`
+    console.warn(
+      `Legacy ${showSlug} feed answered ${response.status}: url=${url}`
     )
+    return null
   }
-  return response.text()
+
+  const body = await response.text()
+  if (!isFeedXml(body)) {
+    console.warn(
+      `Legacy ${showSlug} feed is not XML, ignoring it: url=${url} content-type=${response.headers.get('content-type') ?? 'unknown'}`
+    )
+    return null
+  }
+
+  return body
 }
 
 async function main(): Promise<void> {
@@ -120,13 +139,21 @@ async function main(): Promise<void> {
     allPosts
   )
   const atom = atomDocument(allPosts)
+  if (!hashingItOutRss) {
+    console.warn(
+      'Skipping public/rss/hashing-it-out.xml -- the show has no published episodes and no usable legacy feed'
+    )
+  }
+
   await Promise.all([
     writeFile(path.join(rssDir, 'main.xml'), mainRss),
     writeFile(
       path.join(rssDir, 'logos-state.xml'),
       rssDocument('Logos Podcast', 'The Logos Podcast', logosState)
     ),
-    writeFile(path.join(rssDir, 'hashing-it-out.xml'), hashingItOutRss),
+    ...(hashingItOutRss
+      ? [writeFile(path.join(rssDir, 'hashing-it-out.xml'), hashingItOutRss)]
+      : []),
     writeFile(path.join(outputRoot, 'rss.xml'), mainRss),
     writeFile(path.join(outputRoot, 'atom.xml'), atom),
     writeFile(path.join(outputRoot, 'atom_page2.xml'), atom),
