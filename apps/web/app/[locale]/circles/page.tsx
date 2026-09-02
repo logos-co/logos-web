@@ -1,7 +1,10 @@
-import { redirect } from 'next/navigation'
-
 import { ROUTES } from '@/constants/routes'
+import { createRedirectMetadata, StaticRedirect } from '@/lib/static-redirect'
 
-export default function CirclesPage() {
-  redirect(ROUTES.movement)
+const TARGET = ROUTES.movement
+
+export const metadata = createRedirectMetadata(TARGET)
+
+export default function CirclesRedirectPage() {
+  return <StaticRedirect target={TARGET} />
 }
