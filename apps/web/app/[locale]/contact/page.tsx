@@ -1,7 +1,10 @@
-import { redirect } from 'next/navigation'
-
 import { ROUTES } from '@/constants/routes'
+import { createRedirectMetadata, StaticRedirect } from '@/lib/static-redirect'
 
-export default function ContactPage() {
-  redirect(ROUTES.home)
+const TARGET = ROUTES.home
+
+export const metadata = createRedirectMetadata(TARGET)
+
+export default function ContactRedirectPage() {
+  return <StaticRedirect target={TARGET} />
 }
