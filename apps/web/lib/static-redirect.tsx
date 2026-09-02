@@ -20,29 +20,51 @@
  * correctly filed under "Page with redirect".
  *
  * Redirect sources stay out of `app/sitemap.ts` — a sitemap lists destinations.
+ *
+ * Both helpers take an explicit `locale`. Calling `getTranslations()` without
+ * one makes next-intl reach for `headers()`, which turns the route dynamic and
+ * fails the export with `couldn't be rendered statically`.
  */
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
 import { absoluteUrl } from '@/lib/metadata'
 import { env } from '@/lib/env'
 
+type LocaleParams = { params: Promise<{ locale: string }> }
+
 /**
- * Metadata envelope for a redirect stub: canonical points at the destination
- * so Google consolidates the two URLs, and indexing follows the same
- * production gate as `createDefaultMetadata` so staging never leaks.
+ * Builds the `generateMetadata` export for a redirect stub: canonical points at
+ * the destination so Google consolidates the two URLs, and indexing follows the
+ * same production gate as `createDefaultMetadata` so staging never leaks.
  */
-export function createRedirectMetadata(target: string): Metadata {
-  return {
-    title: 'Redirecting…',
-    alternates: { canonical: absoluteUrl(target) },
-    robots: {
-      index: env.NEXT_PUBLIC_API_MODE === 'production',
-      follow: true,
-    },
+export function createRedirectMetadata(target: string) {
+  return async function generateMetadata({
+    params,
+  }: LocaleParams): Promise<Metadata> {
+    const { locale } = await params
+    const t = await getTranslations({ locale, namespace: 'pages.redirect' })
+
+    return {
+      title: t('title'),
+      alternates: { canonical: absoluteUrl(target) },
+      robots: {
+        index: env.NEXT_PUBLIC_API_MODE === 'production',
+        follow: true,
+      },
+    }
   }
 }
 
-export function StaticRedirect({ target }: { target: string }) {
+export async function StaticRedirect({
+  target,
+  locale,
+}: {
+  target: string
+  locale: string
+}) {
+  const t = await getTranslations({ locale, namespace: 'pages.redirect' })
+
   return (
     <>
       <meta httpEquiv="refresh" content={`0; url=${target}`} />
@@ -53,7 +75,12 @@ export function StaticRedirect({ target }: { target: string }) {
       />
       <noscript>
         <p className="px-3 py-12 text-brand-dark-green">
-          Redirecting to <a href={target}>{target}</a>…
+          <a
+            href={target}
+            className="cursor-pointer underline transition-opacity hover:opacity-70"
+          >
+            {t('fallback', { target })}
+          </a>
         </p>
       </noscript>
     </>

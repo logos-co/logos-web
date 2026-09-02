@@ -3,8 +3,13 @@ import { createRedirectMetadata, StaticRedirect } from '@/lib/static-redirect'
 
 const TARGET = ROUTES.testnetFaqs
 
-export const metadata = createRedirectMetadata(TARGET)
+export const generateMetadata = createRedirectMetadata(TARGET)
 
-export default function TestnetV01FaqsRedirectPage() {
-  return <StaticRedirect target={TARGET} />
+export default async function TestnetV01FaqsRedirectPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  return <StaticRedirect target={TARGET} locale={locale} />
 }

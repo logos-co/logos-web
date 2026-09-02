@@ -55,7 +55,8 @@
     "notFound": {
       "code": "404",
       "heading": "We couldn’t find that page.",
-      "homeLink": "Return to homepage"
+      "homeLink": "Return to homepage",
+      "metaTitle": "Page not found | Logos"
     },
     "about": {
       "title": "About | Logos",
@@ -138,6 +139,10 @@
       "errorEmpty": "That file is empty. Please choose another one.",
       "errorSize": "That file is too large. The limit is {maxMb} MB.",
       "errorGeneric": "We could not upload your file. Please check your connection and try again."
+    },
+    "redirect": {
+      "title": "Redirecting…",
+      "fallback": "Continue to {target}"
     }
   },
   "connectForm": {

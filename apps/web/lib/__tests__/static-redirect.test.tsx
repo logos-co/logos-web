@@ -3,6 +3,13 @@ import { fileURLToPath } from 'node:url'
 
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
+// vitest resolves `next-intl/server` to its client build, where
+// `getTranslations` throws. These cases assert the robots and canonical
+// envelope, not the copy, so a pass-through translator is enough.
+vi.mock('next-intl/server', () => ({
+  getTranslations: async () => (key: string) => key,
+}))
+
 const originalEnv = { ...process.env }
 
 const loadStaticRedirect = async (apiMode: string | undefined) => {
@@ -33,7 +40,9 @@ const REDIRECT_PAGES = [
 
 const readPage = (route: string) =>
   readFileSync(
-    fileURLToPath(new URL(`../../app/[locale]/${route}/page.tsx`, import.meta.url)),
+    fileURLToPath(
+      new URL(`../../app/[locale]/${route}/page.tsx`, import.meta.url)
+    ),
     { encoding: 'utf8' }
   )
 
@@ -46,27 +55,28 @@ describe('static redirect metadata', () => {
     // 'noindex' tag" instead of "Page with redirect" and never forwarded its
     // ranking signals to /book — while the URL was still drawing clicks at
     // position 2.1.
-    expect(createRedirectMetadata('/book').robots).toEqual({
-      index: true,
-      follow: true,
+    const metadata = await createRedirectMetadata('/book')({
+      params: Promise.resolve({ locale: 'en' }),
     })
+    expect(metadata.robots).toEqual({ index: true, follow: true })
   })
 
   test('keeps staging deploys out of the index', async () => {
     const { createRedirectMetadata } = await loadStaticRedirect('staging')
 
-    expect(createRedirectMetadata('/book').robots).toEqual({
-      index: false,
-      follow: true,
+    const metadata = await createRedirectMetadata('/book')({
+      params: Promise.resolve({ locale: 'en' }),
     })
+    expect(metadata.robots).toEqual({ index: false, follow: true })
   })
 
   test('points the canonical at the destination, not the source', async () => {
     const { createRedirectMetadata } = await loadStaticRedirect('production')
 
-    expect(createRedirectMetadata('/book').alternates?.canonical).toMatch(
-      /\/book$/
-    )
+    const metadata = await createRedirectMetadata('/book')({
+      params: Promise.resolve({ locale: 'en' }),
+    })
+    expect(metadata.alternates?.canonical).toMatch(/\/book$/)
   })
 })
 
@@ -77,16 +87,21 @@ describe('static redirect pages', () => {
       const source = readPage(route)
 
       expect(source).toContain("from '@/lib/static-redirect'")
-      expect(source).toContain('createRedirectMetadata')
+      expect(source).toContain(
+        'export const generateMetadata = createRedirectMetadata(TARGET)'
+      )
       expect(source).toContain('StaticRedirect')
     }
   )
 
-  test.each(REDIRECT_PAGES)('/%s declares no robots rules of its own', (route) => {
-    // The helper owns the robots envelope; a page overriding it locally is how
-    // the noindex regression happened in the first place.
-    expect(readPage(route)).not.toContain('robots')
-  })
+  test.each(REDIRECT_PAGES)(
+    '/%s declares no robots rules of its own',
+    (route) => {
+      // The helper owns the robots envelope; a page overriding it locally is how
+      // the noindex regression happened in the first place.
+      expect(readPage(route)).not.toContain('robots')
+    }
+  )
 
   test.each(REDIRECT_PAGES)(
     '/%s does not use redirect() from next/navigation',
