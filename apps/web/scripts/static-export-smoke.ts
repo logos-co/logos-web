@@ -99,8 +99,10 @@ const collectExpectedRoutes = async (): Promise<string[]> => {
   return [...new Set(routes)].sort((a, b) => a.localeCompare(b))
 }
 
+const SITE_ORIGIN = 'https://logos.co'
+
 const toCanonicalUrl = (route: string): string => {
-  return route === '/' ? 'https://logos.co/' : `https://logos.co${route}`
+  return route === '/' ? `${SITE_ORIGIN}/` : `${SITE_ORIGIN}${route}`
 }
 
 const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
@@ -148,9 +150,31 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
         failures.push(`sitemap.xml is missing ${toCanonicalUrl(route)}`)
       }
     }
+    failures.push(...findSitemapUrlsWithoutPages(sitemap))
   }
 
   return failures
+}
+
+/**
+ * The loop above only proves every page we expected reached the sitemap. It
+ * cannot catch the opposite failure: a `<loc>` the export never wrote an HTML
+ * file for, which would send crawlers to a 404. RFP detail routes are the real
+ * risk, since the sitemap and the pages each resolve them from the live GitHub
+ * listing.
+ *
+ * This reads the sitemap back against `out/` and needs no second GitHub fetch.
+ */
+const findSitemapUrlsWithoutPages = (sitemap: string): string[] => {
+  const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
+    (match) => match[1]!
+  )
+
+  return locs.flatMap((loc) => {
+    const route = loc.replace(SITE_ORIGIN, '') || '/'
+    if (findHtmlFile(route)) return []
+    return [`sitemap.xml lists ${loc} but the export has no page for it`]
+  })
 }
 
 const isLocalAssetHref = (href: string): boolean => {
