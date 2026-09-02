@@ -40,6 +40,14 @@ const htmlResponse = (html: string): Response =>
     text: async () => html,
   }) as unknown as Response
 
+const errorResponse = (status: number): Response =>
+  ({
+    ok: false,
+    status,
+    headers: new Headers({ 'content-type': 'text/html; charset=utf-8' }),
+    text: async () => 'Temporarily unavailable',
+  }) as unknown as Response
+
 const FETCH_INIT_JSON = {
   cache: 'force-cache',
   headers: { Accept: 'application/json' },
@@ -55,6 +63,45 @@ afterEach(() => {
 })
 
 describe('getLatestBlogArticles', () => {
+  test('keeps static-safe cache settings and search reading time when article enrichment fails', async () => {
+    const fetchMock = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(
+        jsonResponse({
+          data: {
+            posts: [
+              {
+                type: 'article',
+                data: {
+                  title: 'Article with temporary page failure',
+                  slug: 'temporarily-unavailable',
+                  publishedAt: '2026-05-09',
+                  readingTime: 7,
+                  coverImage: {
+                    url: 'https://cms-press.logos.co/uploads/article.jpg',
+                  },
+                },
+              },
+            ],
+          },
+        })
+      )
+      .mockResolvedValueOnce(errorResponse(503))
+      .mockResolvedValueOnce(errorResponse(503))
+
+    const articles = await getLatestBlogArticles(1)
+
+    expect(articles[0]?.readingTime).toBe(7)
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      3,
+      'https://blog.logos.co/article/temporarily-unavailable',
+      {
+        cache: 'force-cache',
+        headers: { 'X-Logos-Build-Retry': '1' },
+      }
+    )
+  })
+
   test('overfetches before image filtering and enriches stale reading times', async () => {
     const fetchMock = vi
       .spyOn(globalThis, 'fetch')
@@ -137,7 +184,8 @@ describe('getLatestBlogArticles', () => {
         image: 'https://cms-press.logos.co/uploads/article-one.jpg',
         thumbnailImage:
           'https://cms-press.logos.co/uploads/thumbnail_article-one.jpg',
-        galleryImage: 'https://cms-press.logos.co/uploads/small_article-one.jpg',
+        galleryImage:
+          'https://cms-press.logos.co/uploads/small_article-one.jpg',
         cardImage: 'https://cms-press.logos.co/uploads/article-one.jpg',
         featuredImage: 'https://cms-press.logos.co/uploads/article-one.jpg',
         readingTime: 13,
@@ -267,9 +315,7 @@ describe('getBlogPageData', () => {
           })
         }
 
-        if (
-          url === 'https://blog.logos.co/article/developer-update-apr-2026'
-        ) {
+        if (url === 'https://blog.logos.co/article/developer-update-apr-2026') {
           return htmlResponse(articlePageHtml(12))
         }
 

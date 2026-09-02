@@ -119,13 +119,17 @@ type FetchResult<T> = { ok: true; data: T } | { ok: false; error: Error }
 async function tryFetchText(
   url: string,
   label: string,
-  cache: RequestCache,
-  acceptJson: boolean
+  acceptJson: boolean,
+  retry = false
 ): Promise<FetchResult<{ text: string; contentType: string; status: number }>> {
   try {
+    const headers: Record<string, string> = {}
+    if (acceptJson) headers.Accept = 'application/json'
+    if (retry) headers['X-Logos-Build-Retry'] = '1'
+
     const response = await fetch(url, {
-      cache,
-      headers: acceptJson ? { Accept: 'application/json' } : undefined,
+      cache: 'force-cache',
+      headers: Object.keys(headers).length > 0 ? headers : undefined,
     })
     const text = await response.text()
     const contentType = response.headers.get('content-type') ?? '<missing>'
@@ -167,11 +171,11 @@ function parseFetchedJson<T>(
 }
 
 async function fetchJsonResilient<T>(url: string, label: string): Promise<T> {
-  const firstAttempt = await tryFetchText(url, label, 'force-cache', true)
+  const firstAttempt = await tryFetchText(url, label, true)
   const parsed = parseFetchedJson<T>(firstAttempt, url, label)
   if (parsed.ok) return parsed.data
 
-  const retry = await tryFetchText(url, label, 'no-store', true)
+  const retry = await tryFetchText(url, label, true, true)
   const retryParsed = parseFetchedJson<T>(retry, url, label)
   if (retryParsed.ok) return retryParsed.data
 
@@ -179,10 +183,10 @@ async function fetchJsonResilient<T>(url: string, label: string): Promise<T> {
 }
 
 async function fetchTextResilient(url: string, label: string): Promise<string> {
-  const firstAttempt = await tryFetchText(url, label, 'force-cache', false)
+  const firstAttempt = await tryFetchText(url, label, false)
   if (firstAttempt.ok) return firstAttempt.data.text
 
-  const retry = await tryFetchText(url, label, 'no-store', false)
+  const retry = await tryFetchText(url, label, false, true)
   if (retry.ok) return retry.data.text
 
   throw retry.error
@@ -328,10 +332,7 @@ const getBlogImageVariantUrl = (
       PRESS_IMAGE_VARIANT_PREFIXES.find((prefix) =>
         fileName.startsWith(prefix)
       ) !== undefined
-        ? fileName.replace(
-            /^(thumbnail_|small_|medium_|large_)/,
-            ''
-          )
+        ? fileName.replace(/^(thumbnail_|small_|medium_|large_)/, '')
         : fileName
 
     url.pathname = `${directory}${blogImageVariantPrefix(variant)}${baseFileName}`
@@ -357,10 +358,7 @@ const getBlogSearchItems = async (
     params.set('tags', tag)
   }
   const url = `${PRESS_SEARCH_API}?${params.toString()}`
-  const json = await fetchJsonResilient<BlogSearchResponse>(
-    url,
-    'Blog search'
-  )
+  const json = await fetchJsonResilient<BlogSearchResponse>(url, 'Blog search')
   return json.data?.posts?.filter((post) => post.type === type) ?? []
 }
 
@@ -391,7 +389,15 @@ const withArticlePageReadingTime = async (
   post: BlogSearchPost,
   row: BlogArticleRow
 ): Promise<BlogArticleRow> => {
-  const pageReadingTime = await getArticlePageReadingTime(post.data.slug)
+  let pageReadingTime: number | undefined
+  try {
+    pageReadingTime = await getArticlePageReadingTime(post.data.slug)
+  } catch {
+    // Article-page reading time only enriches the search result. A single
+    // unavailable article must not make the whole static media page disappear.
+    return row
+  }
+
   return {
     ...row,
     readingTime: pageReadingTime ?? row.readingTime,
