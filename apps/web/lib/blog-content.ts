@@ -6,7 +6,15 @@ import { EXTERNAL_URLS } from '@/constants/routes'
 
 export const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
 
-const BLOG_SEARCH_LIMIT = 100
+/**
+ * Both slug sources cap a single response at 100 posts, so the archive has to
+ * be read one page at a time. Stopping at the first page would silently drop
+ * the oldest posts from the sitemap, the feeds and the static export the day
+ * the archive outgrows the cap.
+ */
+const SLUG_PAGE_SIZE = 100
+/** Safety valve: 100 full pages is far beyond any realistic archive. */
+const MAX_SLUG_PAGES = 100
 const CMS_PRESS_ORIGIN = 'https://cms-press.logos.co'
 const FORUM_ORIGIN = EXTERNAL_URLS.forum.replace(/\/$/, '')
 const BODY_SNIPPET_LIMIT = 200
@@ -647,6 +655,29 @@ async function fetchLegacyPageProps<T>(
   }
 
   throw new Error(`${label} missing pageProps: path=${path}`)
+}
+
+/**
+ * Reads a paged listing to the end, stopping on the first short page.
+ *
+ * Rows are returned raw so the caller can map and filter them afterwards --
+ * filtering inside the loop would shorten a full page and end the walk early.
+ */
+async function collectAllPages<T>(
+  fetchPage: (offset: number, pageSize: number) => Promise<T[]>,
+  label: string
+): Promise<T[]> {
+  let collected: T[] = []
+
+  for (let page = 0; page < MAX_SLUG_PAGES; page += 1) {
+    const rows = await fetchPage(page * SLUG_PAGE_SIZE, SLUG_PAGE_SIZE)
+    collected = [...collected, ...rows]
+    if (rows.length < SLUG_PAGE_SIZE) return collected
+  }
+
+  throw new Error(
+    `${label} still returned full pages after ${MAX_SLUG_PAGES} requests -- pagination is not advancing`
+  )
 }
 
 function hasStrapiConfig() {
@@ -1312,10 +1343,10 @@ function mapLegacyPodcast(value: unknown): BlogPodcastDetail {
 }
 
 const POST_SLUGS_QUERY = `
-  query PostSlugs($type: String!) {
+  query PostSlugs($type: String!, $start: Int!, $limit: Int!) {
     posts(
       filters: { type: { eq: $type } }
-      pagination: { limit: 100 }
+      pagination: { start: $start, limit: $limit }
       sort: ["publish_date:desc"]
       publicationState: LIVE
     ) {
@@ -1336,55 +1367,71 @@ const POST_SLUGS_QUERY = `
 `
 
 async function getStrapiArticleSlugs(): Promise<string[]> {
-  const data = await fetchPressGraphql<GraphqlPostSlugData>(
-    POST_SLUGS_QUERY,
-    { type: 'Article' },
-    'Article slugs'
-  )
+  const posts = await collectAllPages(async (start, limit) => {
+    const data = await fetchPressGraphql<GraphqlPostSlugData>(
+      POST_SLUGS_QUERY,
+      { type: 'Article', start, limit },
+      'Article slugs'
+    )
+    return data.posts?.data ?? []
+  }, 'Article slugs')
 
-  return (
-    data.posts?.data
-      ?.map((post) => post.attributes?.slug ?? '')
-      .filter(Boolean) ?? []
-  )
+  return posts.map((post) => post.attributes?.slug ?? '').filter(Boolean)
+}
+
+type BlogSearchPost = NonNullable<
+  NonNullable<BlogSearchResponse['data']>['posts']
+>[number]
+
+function fetchLegacySearchPage(
+  type: 'article' | 'podcast',
+  label: string
+): (offset: number, pageSize: number) => Promise<BlogSearchPost[]> {
+  return async (offset, pageSize) => {
+    const params = new URLSearchParams({
+      type,
+      skip: String(offset),
+      limit: String(pageSize),
+    })
+    const json = await fetchJson<BlogSearchResponse>(
+      `${BLOG_ORIGIN}/api/search?${params.toString()}`,
+      label
+    )
+    return json.data?.posts ?? []
+  }
 }
 
 async function getLegacyArticleSlugs(): Promise<string[]> {
-  const params = new URLSearchParams({
-    type: 'article',
-    limit: String(BLOG_SEARCH_LIMIT),
-  })
-  const json = await fetchJson<BlogSearchResponse>(
-    `${BLOG_ORIGIN}/api/search?${params.toString()}`,
+  const posts = await collectAllPages(
+    fetchLegacySearchPage('article', 'Blog article search'),
     'Blog article search'
   )
-  return (
-    json.data?.posts
-      ?.filter((post) => post.type === 'article')
-      .map((post) => post.data?.slug ?? '')
-      .filter(Boolean) ?? []
-  )
+  return posts
+    .filter((post) => post.type === 'article')
+    .map((post) => post.data?.slug ?? '')
+    .filter(Boolean)
 }
 
 async function getStrapiPodcastPaths(): Promise<
   Array<{ showSlug: string; slug: string }>
 > {
-  const data = await fetchPressGraphql<GraphqlPostSlugData>(
-    POST_SLUGS_QUERY,
-    { type: 'Episode' },
-    'Podcast slugs'
-  )
+  const posts = await collectAllPages(async (start, limit) => {
+    const data = await fetchPressGraphql<GraphqlPostSlugData>(
+      POST_SLUGS_QUERY,
+      { type: 'Episode', start, limit },
+      'Podcast slugs'
+    )
+    return data.posts?.data ?? []
+  }, 'Podcast slugs')
 
-  return (
-    data.posts?.data
-      ?.map((post) => ({
-        showSlug:
-          post.attributes?.podcast_show?.data?.attributes?.slug ??
-          DEFAULT_PODCAST_SHOW_SLUG,
-        slug: post.attributes?.slug ?? '',
-      }))
-      .filter((path) => path.slug.length > 0) ?? []
-  )
+  return posts
+    .map((post) => ({
+      showSlug:
+        post.attributes?.podcast_show?.data?.attributes?.slug ??
+        DEFAULT_PODCAST_SHOW_SLUG,
+      slug: post.attributes?.slug ?? '',
+    }))
+    .filter((path) => path.slug.length > 0)
 }
 
 export async function getBlogArticleSlugs(): Promise<string[]> {
@@ -1404,23 +1451,17 @@ export async function getBlogArticleSlugs(): Promise<string[]> {
 async function getLegacyPodcastPaths(): Promise<
   Array<{ showSlug: string; slug: string }>
 > {
-  const params = new URLSearchParams({
-    type: 'podcast',
-    limit: String(BLOG_SEARCH_LIMIT),
-  })
-  const json = await fetchJson<BlogSearchResponse>(
-    `${BLOG_ORIGIN}/api/search?${params.toString()}`,
+  const posts = await collectAllPages(
+    fetchLegacySearchPage('podcast', 'Blog podcast search'),
     'Blog podcast search'
   )
-  return (
-    json.data?.posts
-      ?.filter((post) => post.type === 'podcast')
-      .map((post) => ({
-        showSlug: DEFAULT_PODCAST_SHOW_SLUG,
-        slug: post.data?.slug ?? '',
-      }))
-      .filter((path) => path.slug.length > 0) ?? []
-  )
+  return posts
+    .filter((post) => post.type === 'podcast')
+    .map((post) => ({
+      showSlug: DEFAULT_PODCAST_SHOW_SLUG,
+      slug: post.data?.slug ?? '',
+    }))
+    .filter((path) => path.slug.length > 0)
 }
 
 export async function getBlogPodcastPaths(): Promise<
