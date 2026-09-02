@@ -248,28 +248,63 @@ const firstMatch = (raw: string, patterns: RegExp[]): string | undefined => {
   return undefined
 }
 
+/**
+ * Upper bound for an RFP summary. It is rendered both as the page's meta
+ * description and as the card blurb, so it targets the ~155 characters Google
+ * shows before truncating a description itself.
+ */
+const SUMMARY_MAX_LENGTH = 155
+
+/**
+ * Flattens the markdown that survives into a summary. Without this the raw
+ * source leaks into `<meta name="description">` — `/builders-hub/rfps/
+ * curated-lending-vaults` shipped a description ending
+ * `delivered by [RFP-008](./RFP-008-lending-borr`.
+ */
+const stripMarkdown = (text: string): string =>
+  text
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '') // images
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1') // links → their label
+    .replace(/`([^`]+)`/g, '$1') // inline code
+    .replace(/(\*\*|__)(.*?)\1/g, '$2') // bold
+    .replace(/(\*|_)(?=\S)(.*?\S)\1/g, '$2') // italic
+    .replace(/^>\s*/gm, '') // blockquote markers
+    .replace(/\s+/g, ' ')
+    .trim()
+
+/**
+ * Cuts to the last whole word inside `max`, so a summary never ends mid-word.
+ */
+const truncateAtWord = (text: string, max: number): string => {
+  if (text.length <= max) return text
+  const clipped = text.slice(0, max)
+  const lastSpace = clipped.lastIndexOf(' ')
+  const trimmed = (lastSpace > 0 ? clipped.slice(0, lastSpace) : clipped)
+    .replace(/[\s,;:.\-—]+$/, '')
+  return `${trimmed}…`
+}
+
 const extractSummary = (raw: string): string => {
   const overview = raw.match(/##\s*(?:🧭\s*)?Overview\s*\n+([\s\S]*?)(?=\n##)/i)
-  if (overview) {
-    return overview[1]
-      .split('\n')
-      .map((line) => line.trim())
-      .filter(Boolean)
-      .join(' ')
-      .slice(0, 200)
-  }
-  const lines = raw
-    .split('\n')
-    .filter(
-      (line) =>
-        line.trim() &&
-        !line.startsWith('#') &&
-        !line.startsWith('|') &&
-        !line.startsWith('---') &&
-        !line.startsWith('**')
-    )
-  return lines.slice(0, 3).join(' ').slice(0, 200)
+  const source = overview
+    ? overview[1]
+    : raw
+        .split('\n')
+        .filter(
+          (line) =>
+            line.trim() &&
+            !line.startsWith('#') &&
+            !line.startsWith('|') &&
+            !line.startsWith('---') &&
+            !line.startsWith('**')
+        )
+        .slice(0, 3)
+        .join(' ')
+
+  return truncateAtWord(stripMarkdown(source), SUMMARY_MAX_LENGTH)
 }
+
+export const extractSummaryForTest = extractSummary
 
 /** Trimmed non-empty string from an untyped frontmatter value, else undefined. */
 const str = (value: unknown): string | undefined =>
