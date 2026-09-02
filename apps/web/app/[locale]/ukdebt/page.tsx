@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 
 import siteConfig from '@/constants/site-config'
+import { ROUTES } from '@/constants/routes'
+import { absoluteUrl } from '@/lib/metadata'
+import { env } from '@/lib/env'
 
 import UkDebtContent from './UkDebtContent'
 
@@ -13,6 +16,14 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url.replace(/\/+$/, '')),
   title: TITLE,
   description: DESCRIPTION,
+  // This campaign page keeps its copy inline rather than going through
+  // `createDefaultMetadata`, so the canonical and robots envelope every other
+  // route inherits has to be spelled out here.
+  alternates: { canonical: absoluteUrl(ROUTES.ukDebt) },
+  robots: {
+    index: env.NEXT_PUBLIC_API_MODE === 'production',
+    follow: true,
+  },
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,

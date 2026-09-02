@@ -59,14 +59,17 @@ export async function createDefaultMetadata({
           url: absoluteUrl('/og.jpeg'),
           width: 1200,
           height: 630,
-          alt: title,
+          alt: _title,
         },
       ],
     },
+    // Use the resolved values, not the raw arguments: a page that relies on the
+    // site-level title/description fallback would otherwise ship empty Twitter
+    // tags and an empty OG image alt.
     twitter: {
       card: 'summary_large_image',
-      title,
-      description,
+      title: _title,
+      description: _description,
       images: [absoluteUrl('/og.jpeg')],
     },
     icons: faviconIcons,

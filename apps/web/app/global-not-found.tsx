@@ -8,11 +8,15 @@ import Script from 'next/script'
 import { fontVariables } from '@/app/fonts'
 import { NotFoundPage } from '@/components/not-found-page'
 import SiteShell from '@/components/site-shell'
+import siteConfig from '@/constants/site-config'
 import { faviconIcons } from '@/lib/favicon'
 import { themeInitScript } from '@/lib/theme'
 import messages from '@/messages/en.json'
 
+// Next.js adds `noindex` to not-found pages on its own; the title is ours to
+// set, and without one the 404 document ships with no <title> at all.
 export const metadata: Metadata = {
+  title: `${messages.pages.notFound.code} — Page not found | ${siteConfig.name}`,
   icons: faviconIcons,
 }
 
