@@ -30,8 +30,8 @@ A demo that looks unlike logos.co is a bug, however well it works.
 
 | Route | What it shows |
 | --- | --- |
-| `/` | Overview: what these demos are and why they exist. |
-| `/messaging` | **Logos Messaging** — the browser as a Waku node, joining the peer-to-peer network directly and exchanging messages with other browsers. |
+| `/` | Lists the demos. Nothing else. |
+| `/messaging` | **Logos Messaging** — the browser as a light node, joining the peer-to-peer network directly and exchanging messages with other browsers. |
 
 Demos live in a sidebar shell, so a visitor moves between them by clicking. The
 catalogue in `src/demos/registry.ts` drives the sidebar, the overview list, and
@@ -43,6 +43,10 @@ its `href`.
 The Logos protocols run **in the visitor's browser**, not on a server of ours.
 `@waku/sdk` starts a light node that bootstraps over DNS discovery, dials the
 public fleet over secure websockets, and sends and receives messages itself.
+
+Copy uses the Logos vocabulary: **Logos Messaging** for the stack area, with
+**Delivery** and **Chat** as its modules. "Waku" is not used in anything a
+visitor reads; library names keep their own names.
 
 That is the whole reason this app has no API routes and builds to static output:
 there is no server in the path to store or read anything.

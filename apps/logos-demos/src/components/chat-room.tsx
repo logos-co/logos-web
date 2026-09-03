@@ -18,7 +18,7 @@ function EmptyState({
   isLoadingHistory: boolean
 }) {
   if (!isReady) {
-    return 'Connecting this browser to the Waku network…'
+    return 'Connecting this browser to the messaging network…'
   }
   if (isLoadingHistory) {
     return 'Asking store nodes for earlier messages…'

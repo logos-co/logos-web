@@ -1,17 +1,22 @@
 // Thin, framework-free wrapper around @waku/sdk.
 //
 // Everything here runs in the BROWSER: the page has no backend. A visitor's
-// browser starts a Waku light node, dials the public fleet over secure
-// websockets, and sends/receives messages directly on the network. Nothing
-// this file does touches a server we operate.
+// browser starts a light node via @waku/sdk, dials the public fleet over
+// secure websockets, and sends/receives messages directly on the network.
+// Nothing this file does touches a server we operate.
+//
+// Naming: logos.co calls this stack area Logos Messaging, with Delivery and
+// Chat as its modules, so user-facing copy says Delivery and never "Waku".
+// The library and its identifiers keep their own names, because that is what
+// they are.
 //
 // Kept free of React so it can be lifted into a shared package (or a
 // non-React app) unchanged.
 
 /**
- * Waku content topic: /<app>/<version>/<topic>/<encoding>.
+ * Content topic: /<app>/<version>/<topic>/<encoding>.
  *
- * Nothing published to Waku can be deleted — store nodes hold it for their
+ * Nothing published can be deleted — store nodes hold it for their
  * retention window, and there is no delete primitive to reach for. Bumping the
  * version is how this demo gets a clean room: the old traffic still exists on
  * the old topic, and nobody is listening to it any more.

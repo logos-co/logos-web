@@ -11,7 +11,7 @@ export default function Page() {
     <div className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-12 md:py-16">
       <header className="flex flex-col gap-4">
         <p className="text-eyebrow text-gray-05">Demo · {demo.stack}</p>
-        <h1 className="text-h1 max-w-[20ch] text-brand-dark-green">
+        <h1 className="text-h3-sans max-w-[24ch] text-brand-dark-green">
           {demo.label}
         </h1>
         <p className="text-body-sans max-w-[62ch] text-gray-06">

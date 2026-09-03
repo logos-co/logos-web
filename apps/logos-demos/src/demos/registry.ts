@@ -17,7 +17,7 @@ export const DEMOS: readonly Demo[] = [
   {
     href: '/messaging',
     label: 'Logos Messaging',
-    stack: 'Waku',
+    stack: 'Delivery',
     summary:
       'Your browser joins the peer-to-peer messaging network directly and exchanges messages with other browsers. No backend, no account, no install.',
   },

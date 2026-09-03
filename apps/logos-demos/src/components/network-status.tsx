@@ -51,7 +51,7 @@ export function NetworkStatus({ snapshot }: { snapshot: NodeSnapshot }) {
           label="This browser's peer id"
           value={snapshot.selfPeerId ? shortenPeerId(snapshot.selfPeerId) : '—'}
         />
-        <Field label="Network" value="Waku · public fleet" />
+        <Field label="Network" value="Public fleet" />
       </dl>
 
       {snapshot.peerIds.length > 0 && (

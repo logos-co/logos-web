@@ -6,7 +6,11 @@ Guidance for agents working inside `apps/logos-demos`. The root `AGENTS.md` stil
 
 Self-contained web demos of the Logos stack, built so anyone can try them from a URL with no install and no account. Next.js 16, Tailwind v4, static output, no API routes. Dev server runs on port **3005**.
 
-The Logos protocols run in the **visitor's browser**, not on a server of ours. `@waku/sdk` starts a light node that bootstraps over DNS discovery and talks to the network itself. Do not add a backend, an API route, or a service of ours into the message path — "this page has no backend" is the claim the demo makes on screen, and it has to stay true.
+The Logos protocols run in the **visitor's browser**, not on a server of ours. `@waku/sdk` starts a light node that bootstraps over DNS discovery and talks to the network itself.
+
+Do not add a backend, an API route, or a service of ours into the message path — "this page has no backend" is the claim the demo makes on screen, and it has to stay true.
+
+**Naming: never write "Waku" in user-facing copy.** logos.co calls this stack area **Logos Messaging**, with **Delivery** and **Chat** as its modules, so that is the vocabulary demos use. Library names and code identifiers (`@waku/sdk`, `use-waku-node.ts`) keep their own names, because that is what they are — the rule is about what a visitor reads, not about renaming a dependency.
 
 **Overview:** [`README.md`](./README.md)
 
@@ -30,20 +34,20 @@ Copy is still British English and still English-only in committed files.
 ## Code Organization
 
 - `src/demos/registry.ts` is the demo catalogue and the single source of truth for the sidebar, the overview list, and each demo's heading. Adding a demo means one entry there plus a route at its `href` — never hardcode a demo into the sidebar.
-- One demo per route under `src/app/<demo>/`. `/` is the overview; `/messaging` is the Waku demo.
+- One demo per route under `src/app/<demo>/`. `/` is the overview, which lists the demos and nothing else; `/messaging` is the messaging demo.
 - `DemoShell` (in `src/components/`) is the sidebar shell, rendered from the root layout. It derives the active item from `usePathname`.
 - Protocol code that does not depend on React lives in `src/lib/`. Keep it framework-free so it can move into a shared package unchanged.
 - React state that owns a node's lifetime lives in a hook under `src/components/`.
 - Import `@waku/sdk` lazily, inside an effect (`await import('@waku/sdk')`). It reaches for browser APIs that do not exist during server rendering, and it pulls in libp2p, which does not belong in the initial bundle.
 - Validate everything arriving off the wire before rendering it. Topics are public and other applications may publish there.
 
-## Waku Notes
+## Messaging Notes
 
 - `createLightNode` must be called with `defaultBootstrap: true`. The `discovery` option documents its own defaults, but `createLibp2pAndUpdateOptions` only applies them inside the `defaultBootstrap` branch, so a node created without it registers no peer discovery and never finds a peer.
-- Filter delivers only messages published from now on. A tab that opens later needs a Store query (`node.store.queryWithOrderedCallback`) for the backlog, or it starts empty. De-duplicate the overlap between history and live delivery.
+- `@waku/sdk` Filter delivers only messages published from now on. A tab that opens later needs a Store query (`node.store.queryWithOrderedCallback`) for the backlog, or it starts empty. De-duplicate the overlap between history and live delivery.
 - `waitForPeers` needs a generous timeout; discovery and dialling take seconds.
 - Moving to a Logos fleet later is a `networkConfig` (`clusterId`, shards) and bootstrap-peer change. Keep those in configuration, not scattered through components.
-- **Nothing published to Waku can be deleted.** Store nodes hold it for their retention window and there is no delete primitive. To give a demo a clean room, bump the version segment of its content topic (`/logos-demos/<version>/<topic>/proto`); the old traffic stays on the old topic with nobody listening. Never add a "clear messages" control that only empties local state — a reload restores it from Store, and a demo whose whole claim is "there is no server" must not fake a delete.
+- **Nothing published to the network can be deleted.** Store nodes hold it for their retention window and there is no delete primitive. To give a demo a clean room, bump the version segment of its content topic (`/logos-demos/<version>/<topic>/proto`); the old traffic stays on the old topic with nobody listening. Never add a "clear messages" control that only empties local state — a reload restores it from Store, and a demo whose whole claim is "there is no server" must not fake a delete.
 
 ## Commands
 
