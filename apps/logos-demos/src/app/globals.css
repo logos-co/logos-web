@@ -240,7 +240,7 @@ input:focus-visible {
 
 .dialog-modal {
   display: flex;
-  width: min(760px, 100%);
+  width: min(920px, 100%);
   /*
    * Measured against the viewport, not the overlay: `max-height: 100%` resolves
    * against the overlay's border box and ignores its padding, which pushes a
@@ -377,10 +377,18 @@ input:focus-visible {
   background: var(--color-white);
 }
 
+/*
+ * Deliberately NOT `max-width: 100%`. mermaid emits a viewBox, so constraining
+ * the width scales the whole drawing, text included: a 1379px diagram in a
+ * 660px column rendered its 13px labels at 6px and was unreadable. Letting the
+ * SVG keep its intrinsic size and scrolling the figure instead keeps the type
+ * legible, and the diagrams above are written narrow enough that it rarely
+ * comes to that.
+ */
 .mermaid-figure svg {
   display: block;
   height: auto;
-  max-width: 100%;
+  max-width: none;
   margin: 0 auto;
 }
 

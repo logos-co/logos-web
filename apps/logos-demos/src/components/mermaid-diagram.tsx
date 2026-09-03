@@ -27,15 +27,46 @@ export function MermaidDiagram({ source }: { source: string }) {
         securityLevel: 'strict',
         fontFamily: 'var(--font-sans)',
         theme: 'base',
+        // Without this mermaid sets width="100%" on the SVG, and a diagram
+        // wider than its column is scaled down, text and all. A fixed pixel
+        // width keeps the type at its real size and lets the figure scroll.
+        flowchart: { useMaxWidth: false },
+        sequence: { useMaxWidth: false },
+        // The Logos palette, spelled out rather than left to mermaid's
+        // defaults, which are lilac and yellow and look nothing like the rest
+        // of the page. Values mirror packages/tokens/src/colors.css.
         themeVariables: {
           background: '#f5f5ef',
+          fontSize: '14px',
+
+          // Nodes
           primaryColor: '#ffffff',
           primaryBorderColor: '#152521',
           primaryTextColor: '#152521',
-          lineColor: '#616e69',
           secondaryColor: '#e2e0c9',
           tertiaryColor: '#c6ebf7',
-          fontSize: '13px',
+
+          // Edges
+          lineColor: '#616e69',
+          textColor: '#152521',
+
+          // Groups
+          clusterBkg: '#f5f5ef',
+          clusterBorder: '#b8bdb8',
+
+          // Sequence diagrams
+          actorBkg: '#ffffff',
+          actorBorder: '#152521',
+          actorTextColor: '#152521',
+          actorLineColor: '#b8bdb8',
+          signalColor: '#616e69',
+          signalTextColor: '#152521',
+          labelBoxBkgColor: '#ffffff',
+          labelBoxBorderColor: '#152521',
+          labelTextColor: '#152521',
+          noteBkgColor: '#ffd328',
+          noteBorderColor: '#152521',
+          noteTextColor: '#152521',
         },
       })
 

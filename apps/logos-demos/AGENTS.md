@@ -38,6 +38,15 @@ Copy is still British English and still English-only in committed files.
 - `DemoShell` (in `src/components/`) is the sidebar shell, rendered from the root layout. It derives the active item from `usePathname`.
 - **A demo page carries no explanatory prose.** It is a heading, the demo, and a Learn more button. Everything about how the thing works belongs in that demo's `src/demos/<demo>/how-it-works.md`, which the page reads at build time through `readExplainer` and the dialog renders. A visitor who wants to play is not made to read first, and a visitor who wants the detail gets more than a paragraph would have given them.
 - Explainers are real `.md` files so they stay editable as markdown. Use ```mermaid fences for diagrams; `MermaidDiagram` lazy-imports mermaid so it never lands in the page bundle.
+
+### Keep diagrams narrow (required)
+
+**A wide diagram must be split and stacked vertically, never left to run wide.** The dialog column is about 840px. mermaid emits a `viewBox`, so a drawing wider than its column gets scaled down with its text: a 1420px flowchart rendered its 14px labels at 6px and was unreadable.
+
+- Lay comparisons out as stacked rows (`flowchart TB` with `direction LR` inside each subgraph), not side by side. Two subgraphs with no edge between them are independent roots and mermaid will place them side by side anyway, so join them with an invisible link (`usual ~~~ here`) to force the stack.
+- Keep sequence diagrams to three participants and short arrow labels. Label length is what drives participant spacing, so "what did I miss?" costs less width than a full sentence.
+- Measure rather than eyeball: open the dialog and compare each SVG's `viewBox` width against its rendered width. Anything below about 0.95 is being shrunk, and the fix is a narrower diagram, not a smaller font.
+- `useMaxWidth: false` is set for flowcharts and sequence diagrams so mermaid emits a pixel width instead of `width="100%"`, and `.mermaid-figure` scrolls. That is a backstop, not a licence to draw wide: a diagram the reader has to scroll sideways has already failed.
 - `LearnMoreDialog` is the modal pattern: React Aria `ModalOverlay`/`Modal`/`Dialog`, `isDismissable` for click-outside, and a two-step close whose `EXIT_MS` mirrors `--dialog-exit` in the stylesheet. Keep those two in step, or the panel will be torn out mid-animation.
 - Protocol code that does not depend on React lives in `src/lib/`. Keep it framework-free so it can move into a shared package unchanged.
 - React state that owns a node's lifetime lives in a hook under `src/components/`.

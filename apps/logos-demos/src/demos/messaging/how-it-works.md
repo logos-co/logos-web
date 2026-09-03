@@ -4,14 +4,14 @@ Most chat you have used works like the top row below. This demo works like the
 bottom row.
 
 ```mermaid
-flowchart LR
+flowchart TB
   subgraph usual["The usual shape"]
     direction LR
-    A1["Your browser"] --> S1["Company server"] --> B1["Their browser"]
+    A1["Your browser"] --> S1["A company server"] --> B1["Their browser"]
   end
   subgraph here["This demo"]
     direction LR
-    A2["Your browser<br/>(a node)"] --> N["Peer-to-peer<br/>network"] --> B2["Their browser<br/>(a node)"]
+    A2["Your browser"] --> N["The network"] --> B2["Their browser"]
   end
   usual ~~~ here
 ```
@@ -29,16 +29,14 @@ full nodes to push messages to it and to publish on its behalf.
 ```mermaid
 sequenceDiagram
   participant B as Your browser
-  participant D as DNS discovery
   participant P as Public fleet
   participant S as Store node
 
-  B->>D: which nodes are out there?
-  D-->>B: a list of addresses
-  B->>P: connect (secure websocket)
+  Note over B: finds addresses<br/>over DNS
+  B->>P: connect
   P-->>B: connected
-  B->>P: push new messages on this topic to me
-  B->>S: what did I miss in the last 24 hours?
+  B->>P: subscribe
+  B->>S: what did I miss?
   S-->>B: recent messages
 ```
 
@@ -55,13 +53,13 @@ listening to that topic receives it.
 ```mermaid
 sequenceDiagram
   participant You as Your browser
-  participant Net as Public fleet
+  participant Net as The network
   participant Them as Another browser
 
-  You->>Net: publish to /logos-demos/2/messaging/proto
+  You->>Net: publish to the topic
   Net-->>Them: deliver
-  Net-->>You: deliver (your own message comes back too)
-  Note over You: A message id sent with each<br/>message is what stops it<br/>appearing twice
+  Net-->>You: deliver
+  Note over You: your own message<br/>comes back too
 ```
 
 The topic is the room. Anyone listening to the same topic is in it.
