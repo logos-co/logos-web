@@ -10,14 +10,16 @@
  *   2. `<meta http-equiv="refresh">` fires for users with JS disabled.
  *   3. `<noscript>` link as a final fallback.
  *
- * These pages must never carry `noindex`. Google reads a zero-delay meta
- * refresh as a permanent redirect and forwards the source URL's ranking
- * signals to the canonical target, but `noindex` overrides that and drops the
- * source outright, stranding whatever it had earned. Search Console showed
- * both halves of this: `/farewell-to-westphalia` (noindex) was filed under
- * "Excluded by 'noindex' tag" while still drawing 20 clicks from 373
- * impressions at position 2.1, whereas `/circles` (no robots meta) was
- * correctly filed under "Page with redirect".
+ * In production these pages must never carry `noindex`. Google reads a
+ * zero-delay meta refresh as a permanent redirect and forwards the source
+ * URL's ranking signals to the canonical target, but `noindex` overrides that
+ * and drops the source outright, stranding whatever it had earned. Search
+ * Console showed both halves of this: `/farewell-to-westphalia` (noindex) was
+ * filed under "Excluded by 'noindex' tag" while still drawing 20 clicks from
+ * 373 impressions at position 2.1, whereas `/circles` (no robots meta) was
+ * correctly filed under "Page with redirect". Everywhere else the stub follows
+ * the same production gate as the rest of the site and stays out of the index
+ * — see `createRedirectMetadata` below.
  *
  * Redirect sources stay out of `app/sitemap.ts` — a sitemap lists destinations.
  *
