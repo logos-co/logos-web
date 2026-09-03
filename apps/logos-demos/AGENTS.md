@@ -29,7 +29,9 @@ Copy is still British English and still English-only in committed files.
 
 ## Code Organization
 
-- One demo per route under `src/app/<demo>/`; the root route is the Waku messaging demo.
+- `src/demos/registry.ts` is the demo catalogue and the single source of truth for the sidebar, the overview list, and each demo's heading. Adding a demo means one entry there plus a route at its `href` — never hardcode a demo into the sidebar.
+- One demo per route under `src/app/<demo>/`. `/` is the overview; `/messaging` is the Waku demo.
+- `DemoShell` (in `src/components/`) is the sidebar shell, rendered from the root layout. It derives the active item from `usePathname`.
 - Protocol code that does not depend on React lives in `src/lib/`. Keep it framework-free so it can move into a shared package unchanged.
 - React state that owns a node's lifetime lives in a hook under `src/components/`.
 - Import `@waku/sdk` lazily, inside an effect (`await import('@waku/sdk')`). It reaches for browser APIs that do not exist during server rendering, and it pulls in libp2p, which does not belong in the initial bundle.
@@ -41,6 +43,7 @@ Copy is still British English and still English-only in committed files.
 - Filter delivers only messages published from now on. A tab that opens later needs a Store query (`node.store.queryWithOrderedCallback`) for the backlog, or it starts empty. De-duplicate the overlap between history and live delivery.
 - `waitForPeers` needs a generous timeout; discovery and dialling take seconds.
 - Moving to a Logos fleet later is a `networkConfig` (`clusterId`, shards) and bootstrap-peer change. Keep those in configuration, not scattered through components.
+- **Nothing published to Waku can be deleted.** Store nodes hold it for their retention window and there is no delete primitive. To give a demo a clean room, bump the version segment of its content topic (`/logos-demos/<version>/<topic>/proto`); the old traffic stays on the old topic with nobody listening. Never add a "clear messages" control that only empties local state — a reload restores it from Store, and a demo whose whole claim is "there is no server" must not fake a delete.
 
 ## Commands
 

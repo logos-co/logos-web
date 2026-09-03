@@ -1,34 +1,62 @@
-import { ChatRoom } from '@/components/chat-room'
+import Link from 'next/link'
+
+import { DEMOS } from '@/demos/registry'
 
 export default function Page() {
   return (
-    <main className="mx-auto flex max-w-5xl flex-col gap-8 px-5 py-12 md:py-16">
+    <div className="mx-auto flex max-w-4xl flex-col gap-10 px-6 py-12 md:py-16">
       <header className="flex flex-col gap-4">
-        <p className="text-eyebrow text-gray-05">Logos stack · web demo</p>
-        <h1 className="text-h1 max-w-[20ch] text-brand-dark-green">
-          This page has no backend.
+        <p className="text-eyebrow text-gray-05">Logos stack · web demos</p>
+        <h1 className="text-h1 max-w-[22ch] text-brand-dark-green">
+          The Logos stack, from a browser.
         </h1>
-        <p className="text-body-sans max-w-[60ch] text-gray-06">
-          Opening it turns your browser into a node on Waku, the peer-to-peer
-          messaging network behind Logos. Messages travel between browsers over
-          that network. Nothing is stored on, or routed through, a server we
-          operate.
+        <p className="text-body-sans max-w-[62ch] text-gray-06">
+          Each demo runs a Logos protocol inside your own browser. There is no
+          account to create, nothing to install, and no backend of ours in the
+          path — the page you are reading is static, and the network traffic
+          leaves your browser for the network directly.
         </p>
       </header>
 
-      <ChatRoom />
+      <section className="flex flex-col gap-3">
+        <h2 className="text-eyebrow text-gray-05">Demos</h2>
+        <ul className="flex flex-col gap-3">
+          {DEMOS.map((demo) => (
+            <li key={demo.href}>
+              <Link
+                href={demo.href}
+                className="group flex cursor-pointer flex-col gap-2 border border-gray-01 bg-white p-5 transition-colors hover:bg-accent-light-blue"
+              >
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="text-h4-sans text-brand-dark-green">
+                    {demo.label}
+                  </span>
+                  <span className="text-mono-s text-gray-05">{demo.stack}</span>
+                </div>
+                <span className="text-body-sans max-w-[62ch] text-gray-06">
+                  {demo.summary}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-      <footer className="flex flex-col gap-2 border-t border-gray-01 pt-6">
-        <p className="text-caption-sans text-gray-05">
-          Open this page in a second tab, or send the link to someone else, and
-          watch messages cross the network between them.
+      <section className="flex flex-col gap-3 border-t border-gray-01 pt-8">
+        <h2 className="text-eyebrow text-gray-05">Why this exists</h2>
+        <p className="text-body-sans max-w-[62ch] text-gray-06">
+          The way into Logos today is Basecamp, a desktop application you
+          download as a 94 MB disk image or a 258 MB AppImage, unsigned on
+          macOS, with no Windows build, whose first screen asks you to browse a
+          catalogue and install your first app. These demos are the same
+          technology behind a link instead — so that trying it costs a click,
+          not an afternoon.
         </p>
-        <p className="text-caption-sans text-gray-05">
-          This is a public topic on a public fleet — anyone running the same
-          demo can read it. Encrypted rooms are the next step, not a missing
-          one.
+        <p className="text-body-sans max-w-[62ch] text-gray-06">
+          What runs here is real. It is also deliberately partial, and each demo
+          says on its own page what it does not yet do.
         </p>
-      </footer>
-    </main>
+      </section>
+    </div>
   )
 }

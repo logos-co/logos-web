@@ -35,3 +35,132 @@ input:focus-visible {
   outline: 2px solid var(--color-brand-yellow);
   outline-offset: 2px;
 }
+
+/* ── Shell ──────────────────────────────────────────────────────────────── */
+
+.demo-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 248px minmax(0, 1fr);
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 10px;
+  left: 10px;
+  padding: 9px 12px;
+  background: var(--color-brand-yellow);
+  color: var(--color-brand-dark-green);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.demo-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 18px 18px;
+  background: var(--color-brand-dark-green);
+  color: var(--color-brand-off-white);
+}
+
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px 24px;
+  border-bottom: 1px solid rgb(245 245 239 / 18%);
+  color: var(--color-brand-off-white);
+  text-decoration: none;
+  transition: opacity 150ms ease;
+}
+
+.brand-block strong {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.brand-block:hover {
+  opacity: 0.78;
+}
+
+.primary-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 24px 0;
+}
+
+.primary-nav a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 12px;
+  color: rgb(245 245 239 / 66%);
+  font-size: 14px;
+  text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.primary-nav a span {
+  font-family: var(--font-mono-body);
+  font-size: 11px;
+  color: rgb(245 245 239 / 45%);
+}
+
+.primary-nav a:hover,
+.primary-nav a.active {
+  background: rgb(245 245 239 / 10%);
+  color: var(--color-brand-off-white);
+}
+
+.primary-nav a.active span {
+  color: rgb(245 245 239 / 70%);
+}
+
+.sidebar-note {
+  margin: auto 0 0;
+  padding: 0 12px;
+  color: rgb(245 245 239 / 45%);
+  font-family: var(--font-mono-body);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.demo-main {
+  min-width: 0;
+}
+
+@media (width < 48rem) {
+  .demo-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .demo-sidebar {
+    position: static;
+    height: auto;
+    padding: 16px 18px;
+  }
+
+  .primary-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 16px 0 0;
+  }
+}

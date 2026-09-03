@@ -30,7 +30,13 @@ A demo that looks unlike logos.co is a bug, however well it works.
 
 | Route | What it shows |
 | --- | --- |
-| `/` | The browser as a Waku node: it joins the peer-to-peer network directly and exchanges messages with other browsers. No backend. |
+| `/` | Overview: what these demos are and why they exist. |
+| `/messaging` | **Logos Messaging** — the browser as a Waku node, joining the peer-to-peer network directly and exchanging messages with other browsers. |
+
+Demos live in a sidebar shell, so a visitor moves between them by clicking. The
+catalogue in `src/demos/registry.ts` drives the sidebar, the overview list, and
+each demo's own heading — adding a demo means one entry there plus a route at
+its `href`.
 
 ## Architecture
 

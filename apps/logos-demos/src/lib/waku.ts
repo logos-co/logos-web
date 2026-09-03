@@ -8,8 +8,15 @@
 // Kept free of React so it can be lifted into a shared package (or a
 // non-React app) unchanged.
 
-/** Waku content topic: /<app>/<version>/<topic>/<encoding>. */
-export const CONTENT_TOPIC = '/logos-demos/1/lobby/proto'
+/**
+ * Waku content topic: /<app>/<version>/<topic>/<encoding>.
+ *
+ * Nothing published to Waku can be deleted — store nodes hold it for their
+ * retention window, and there is no delete primitive to reach for. Bumping the
+ * version is how this demo gets a clean room: the old traffic still exists on
+ * the old topic, and nobody is listening to it any more.
+ */
+export const CONTENT_TOPIC = '/logos-demos/2/messaging/proto'
 
 /** Wire shape of a chat message. Kept tiny and versioned. */
 export type ChatPayload = {
