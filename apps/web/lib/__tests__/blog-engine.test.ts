@@ -58,12 +58,27 @@ const FETCH_INIT_HTML = {
   headers: undefined,
 }
 
+const RETRY_DELAY_MS = 400
+
+/**
+ * Runs the retry backoff immediately so the suite does not sit through it,
+ * while still recording the delay the code asked for.
+ */
+const stubRetryBackoff = () =>
+  vi.spyOn(globalThis, 'setTimeout').mockImplementation(((
+    callback: () => void
+  ) => {
+    callback()
+    return 0
+  }) as unknown as typeof setTimeout)
+
 afterEach(() => {
   vi.restoreAllMocks()
 })
 
 describe('getLatestBlogArticles', () => {
-  test('keeps static-safe cache settings and search reading time when article enrichment fails', async () => {
+  test('backs off, then retries with a distinct cache key, when article enrichment fails', async () => {
+    const backoff = stubRetryBackoff()
     const fetchMock = vi
       .spyOn(globalThis, 'fetch')
       .mockResolvedValueOnce(
@@ -92,6 +107,12 @@ describe('getLatestBlogArticles', () => {
     const articles = await getLatestBlogArticles(1)
 
     expect(articles[0]?.readingTime).toBe(7)
+    expect(backoff).toHaveBeenCalledWith(expect.any(Function), RETRY_DELAY_MS)
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      2,
+      'https://blog.logos.co/article/temporarily-unavailable',
+      FETCH_INIT_HTML
+    )
     expect(fetchMock).toHaveBeenNthCalledWith(
       3,
       'https://blog.logos.co/article/temporarily-unavailable',
