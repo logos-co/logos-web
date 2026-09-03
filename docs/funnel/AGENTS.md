@@ -163,7 +163,7 @@ The table below lists every property in the database as of 2026-05-29. The **Fun
 | `Website 4` | url | **yes -- added** | Fourth entry of `website[]`; omitted if absent |
 | `Website 5` | url | **yes -- added** | Fifth entry of `website[]`; omitted if absent. The form caps the website field at 5 rows (`MAX_WEBSITE_ROWS`), so entries 1-5 map to these columns and the array never overflows |
 | `Phone or Social Handle` | phone_number | **yes -- reused** | `chat[]` + `chatService[]` joined as `handle (Service) \| ...` |
-| `Mvmt Status` | select | **yes -- reused** | Always written as `New Lead` on intake; other options: `Active`, `Onboarding`, `Approved`, `Redirected - Post Call`, `No Show`, `Call Scheduled`, `Redirected`, `Eligible` |
+| `Mvmt Status` | select | **yes -- reused** | Always written as `New Lead` on intake; other options: `Active`, `Onboarding`, `Approved`, `Redirected - Post Call`, `No Show`, `Call Scheduled`, `Redirected`, `Eligible`, `One Pager` |
 | `BU` | multi_select | **yes -- reused** | Always written as `Movement`; other options: `IR`, `Comms`, `Ecodev` |
 | `Added` | created_time | **yes -- auto** | Read-only; set by Notion on row creation; not written by intake |
 | `City` | rich_text | **yes -- added** | From `city`; omitted if empty |
@@ -228,6 +228,77 @@ ADD COLUMN "How did you first hear about Logos?" SELECT('Friend or colleague','S
 
 ---
 
+## One pager upload (logos-web#150)
+
+Setting a candidate's `Mvmt Status` to `One Pager` emails them a link to
+`logos.co/one-pager`. They attach a PDF there, and it lands as a file block on their own
+Notion page.
+
+Everything server-side lives in **admin-acid** (`admin-acid.logos.co`): it already owns
+the funnel webhook, the email templates, the SMTP transport and a Notion client, and
+`apps/web` is a static export with no API routes. This repo holds the page and its
+transport only -- what follows documents that half. For the token format, the upload
+endpoint and the Notion write path, read admin-acid.
+
+```
+Notion: Mvmt Status -> "One Pager"
+  └─ automation -> admin-acid emails the candidate a signed link
+
+candidate opens logos.co/one-pager?t=<signed token>          (this repo)
+  ├─ GET  admin-acid /api/funnel/one-pager?t=...  -> { valid, used }
+  └─ POST admin-acid /api/funnel/one-pager        (multipart: token + file)
+       └─ admin-acid validates, writes to Notion, notifies the reviewers
+```
+
+The two facts from that side the page has to render: the link **expires**, and it is good
+for a **single upload**. Both are enforced upstream; this side only reports them.
+
+### Page states
+
+| State | Reached by |
+| --- | --- |
+| Missing link | `/one-pager` opened with no `?t=` |
+| No longer valid | `GET` answered `valid: false` -- a forged **or** expired token; the upstream cannot tell them apart, so there is one message for both |
+| Already submitted | `GET` answered `used: true`, or the `POST` 409'd and the follow-up status check confirmed the slot is spent |
+| Checking / ready / uploading / success | the normal path |
+| Error | any other non-2xx; the upstream's own message is shown verbatim, since those strings are written for the candidate |
+
+A **failed** status check resolves to `unknown` and falls through to the ready state
+rather than to "no longer valid". The check can fail transiently, and is blocked outright
+by CORS unless the page is served from a Logos-owned origin; the `POST` is the authority.
+
+### Constraints
+
+- **Client-side, cross-origin.** Same shape as the newsletter signup: a static export
+  posting straight at `admin-acid.logos.co`, which allowlists Logos-owned origins. A page
+  served from `localhost` therefore reaches only a local admin run with `IS_DEV_ENV=true`
+  (`ONE_PAGER_ENDPOINTS.development` points at `localhost:3003`, in step with
+  `SUBSCRIBE_ENDPOINTS` -- the same upstream app); against the deployed hosts, unit tests
+  are the verification.
+- **No preflight.** The `GET` is safelisted, and the `POST` sends `multipart/form-data`
+  with the token as a form field rather than a header. Moving the token to an
+  `Authorization` header would need a change to the upstream's CORS allowlist.
+- **`useSearchParams` needs a `<Suspense>` boundary** above it or the static export build
+  fails. The page provides one; the section is the only client component.
+- **The page-count rule is not enforced here.** A one pager must be two pages or fewer,
+  and that is checked upstream only -- a PDF parser has no business in the public bundle.
+  This side checks type and size, and `ONE_PAGER_MAX_BYTES` is kept equal to the upstream
+  constant of the same name.
+- **The route is unlisted.** `noindex` metadata and no sitemap entry: without the emailed
+  token the page can do nothing.
+
+| Path | Role |
+| --- | --- |
+| `apps/web/app/[locale]/one-pager/page.tsx` | Route, `noindex` metadata, the `<Suspense>` boundary |
+| `apps/web/app/[locale]/one-pager/_sections/one-pager-upload.tsx` | The client flow and every state above |
+| `apps/web/lib/one-pager-upload.ts` | `ONE_PAGER_ENDPOINTS`, the status check, the upload, the client-side file checks |
+| `apps/web/messages/en.json` (`pages.onePager`) | All page copy |
+
+Copy is placeholder pending final wording; it lives entirely in the `pages.onePager`
+message namespace.
+
+---
+
 ## Key design decisions
 
 - **One endpoint for all forms** -- hCaptcha tokens are single-use; `/coalition-partner`, `/activist-builder`, and `/activist-leader-steward` all point at `POST /api/public/afform-submit`.
@@ -257,3 +328,5 @@ Endpoint behaviour: `apps/civi-crm/src/app/api/public/afform-submit/__tests__/ro
 Endpoint agrees with the form schema: `apps/web/lib/funnel-forms/__tests__/required-fields-parity.test.ts`
 Newsletter opt-ins: `apps/web/lib/__tests__/funnel-newsletter-signup.test.ts`
 Subscribe payload: `apps/web/lib/__tests__/newsletter-signup.test.ts`
+One pager transport: `apps/web/lib/__tests__/one-pager-upload.test.ts`
+One pager page: `apps/web/app/__tests__/one-pager-page-contract.test.ts`

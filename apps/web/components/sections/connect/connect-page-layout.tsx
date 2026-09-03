@@ -5,9 +5,15 @@ type Props = {
   heading?: string
   intro?: ReactNode
   children: ReactNode
+  showMark?: boolean
 }
 
-export function ConnectPageLayout({ heading, intro, children }: Props) {
+export function ConnectPageLayout({
+  heading,
+  intro,
+  children,
+  showMark = true,
+}: Props) {
   return (
     <div className="bg-brand-off-white px-3 pt-16 pb-20 text-brand-dark-green">
       <div className="mx-auto w-full max-w-[800px]">
@@ -15,7 +21,9 @@ export function ConnectPageLayout({ heading, intro, children }: Props) {
           <div className={`text-center${intro ? ' mb-12' : ' mb-6'}`}>
             {heading ? (
               <div className="mb-6 flex items-center justify-center gap-3">
-                <LogosMark size={28} className="w-5 shrink-0" />
+                {showMark ? (
+                  <LogosMark size={28} className="w-5 shrink-0" />
+                ) : null}
                 <h1 className="font-display text-[30px] leading-none tracking-[-0.9px] md:text-[36px] md:tracking-[-1.08px]">
                   {heading}
                 </h1>
