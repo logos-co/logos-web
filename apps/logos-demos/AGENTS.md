@@ -36,6 +36,9 @@ Copy is still British English and still English-only in committed files.
 - `src/demos/registry.ts` is the demo catalogue and the single source of truth for the sidebar, the overview list, and each demo's heading. Adding a demo means one entry there plus a route at its `href` — never hardcode a demo into the sidebar.
 - One demo per route under `src/app/<demo>/`. `/` is the overview, which lists the demos and nothing else; `/messaging` is the messaging demo.
 - `DemoShell` (in `src/components/`) is the sidebar shell, rendered from the root layout. It derives the active item from `usePathname`.
+- **A demo page carries no explanatory prose.** It is a heading, the demo, and a Learn more button. Everything about how the thing works belongs in that demo's `src/demos/<demo>/how-it-works.md`, which the page reads at build time through `readExplainer` and the dialog renders. A visitor who wants to play is not made to read first, and a visitor who wants the detail gets more than a paragraph would have given them.
+- Explainers are real `.md` files so they stay editable as markdown. Use ```mermaid fences for diagrams; `MermaidDiagram` lazy-imports mermaid so it never lands in the page bundle.
+- `LearnMoreDialog` is the modal pattern: React Aria `ModalOverlay`/`Modal`/`Dialog`, `isDismissable` for click-outside, and a two-step close whose `EXIT_MS` mirrors `--dialog-exit` in the stylesheet. Keep those two in step, or the panel will be torn out mid-animation.
 - Protocol code that does not depend on React lives in `src/lib/`. Keep it framework-free so it can move into a shared package unchanged.
 - React state that owns a node's lifetime lives in a hook under `src/components/`.
 - Import `@waku/sdk` lazily, inside an effect (`await import('@waku/sdk')`). It reaches for browser APIs that do not exist during server rendering, and it pulls in libp2p, which does not belong in the initial bundle.

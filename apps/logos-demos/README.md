@@ -38,6 +38,12 @@ catalogue in `src/demos/registry.ts` drives the sidebar, the overview list, and
 each demo's own heading — adding a demo means one entry there plus a route at
 its `href`.
 
+A demo page is a heading, the demo, and a **Learn more** button. The
+explanation lives in `src/demos/<demo>/how-it-works.md`, read at build time and
+rendered into a modal, with mermaid diagrams for the parts that are easier to
+draw than to describe. Nobody has to read anything before trying the thing, and
+the detail is there for anyone who wants it.
+
 ## Architecture
 
 The Logos protocols run **in the visitor's browser**, not on a server of ours.

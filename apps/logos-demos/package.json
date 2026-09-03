@@ -14,9 +14,13 @@
     "@acid-info/logos-tokens": "workspace:*",
     "@acid-info/logos-ui": "workspace:*",
     "@waku/sdk": "^0.0.36",
+    "mermaid": "^11.17.2",
     "next": "16.2.4",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-aria-components": "^1.20.0",
+    "react-dom": "^19.2.5",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@repo/config": "workspace:*",

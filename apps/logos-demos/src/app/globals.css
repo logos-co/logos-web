@@ -164,3 +164,231 @@ input:focus-visible {
     padding: 16px 0 0;
   }
 }
+
+/* ── Learn more dialog ──────────────────────────────────────────────────── */
+
+/*
+ * React Aria stamps `data-entering` and `data-exiting` on the overlay, which is
+ * what the animations below hang off. `--dialog-exit` is mirrored by `EXIT_MS`
+ * in `learn-more-dialog.tsx`: the caller unmounts the dialog, so the component
+ * has to know how long to wait before it does.
+ */
+:root {
+  --dialog-enter: 240ms;
+  --dialog-exit: 200ms;
+  --ease-out: cubic-bezier(0.22, 0.8, 0.36, 1);
+}
+
+@keyframes dialog-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-backdrop-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/*
+ * Settles into place rather than flying in: a small rise and a hair of scale
+ * reads as the card coming forward, which is what a modal over a dimmed page
+ * is doing. Anything larger turns an explainer into an event.
+ */
+@keyframes dialog-panel-in {
+  from {
+    transform: translateY(12px) scale(0.98);
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-panel-out {
+  to {
+    transform: translateY(6px) scale(0.99);
+    opacity: 0;
+  }
+}
+
+.dialog-backdrop {
+  position: fixed;
+  z-index: 50;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  background: rgb(21 37 33 / 55%);
+  backdrop-filter: blur(3px);
+}
+
+.dialog-backdrop[data-entering] {
+  animation: dialog-backdrop-in var(--dialog-enter) var(--ease-out);
+}
+
+.dialog-backdrop[data-exiting] {
+  animation: dialog-backdrop-out var(--dialog-exit) ease-in forwards;
+}
+
+.dialog-backdrop[data-entering] .dialog-modal {
+  animation: dialog-panel-in var(--dialog-enter) var(--ease-out);
+}
+
+.dialog-backdrop[data-exiting] .dialog-modal {
+  animation: dialog-panel-out var(--dialog-exit) ease-in forwards;
+}
+
+.dialog-modal {
+  display: flex;
+  width: min(760px, 100%);
+  /*
+   * Measured against the viewport, not the overlay: `max-height: 100%` resolves
+   * against the overlay's border box and ignores its padding, which pushes a
+   * long explainer past the bottom of the screen with no way to scroll. `dvh`
+   * so mobile browser chrome counts too.
+   */
+  max-height: calc(100dvh - 64px);
+  outline: 0;
+}
+
+.dialog-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  /* `min-height: 0` is what lets the panel shrink below its content so the
+     scroll engages instead of the box growing to fit. */
+  min-height: 0;
+  width: 100%;
+  overflow-y: auto;
+  padding: 28px 32px 36px;
+  border: 1px solid rgb(21 37 33 / 14%);
+  border-radius: 18px;
+  background: var(--color-brand-off-white);
+  box-shadow: 0 26px 70px rgb(21 37 33 / 26%);
+}
+
+.dialog-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: -28px -32px 4px;
+  padding: 28px 32px 12px;
+  background: var(--color-brand-off-white);
+}
+
+/* ── Explainer prose ────────────────────────────────────────────────────── */
+
+/*
+ * Element selectors rather than a `components` map: the markdown is ours, the
+ * element set is small and fixed, and keeping the styling in one block is
+ * easier to read than the same rules spread across render functions.
+ */
+.explainer-prose {
+  color: var(--color-gray-06);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.explainer-prose > :first-child {
+  margin-top: 0;
+}
+
+.explainer-prose h2 {
+  margin: 32px 0 10px;
+  color: var(--color-brand-dark-green);
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.explainer-prose p {
+  margin: 0 0 12px;
+  max-width: 66ch;
+}
+
+.explainer-prose strong {
+  color: var(--color-brand-dark-green);
+  font-weight: 500;
+}
+
+.explainer-prose code {
+  padding: 1px 4px;
+  border: 1px solid var(--color-gray-01);
+  background: var(--color-white);
+  font-family: var(--font-mono-body);
+  font-size: 0.8125rem;
+}
+
+.explainer-prose pre {
+  overflow-x: auto;
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--color-gray-01);
+  background: var(--color-white);
+}
+
+.explainer-prose pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.explainer-prose table {
+  width: 100%;
+  margin: 0 0 16px;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.explainer-prose th,
+.explainer-prose td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--color-gray-01);
+  text-align: left;
+  vertical-align: top;
+}
+
+.explainer-prose th {
+  color: var(--color-gray-05);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.explainer-prose td code {
+  white-space: nowrap;
+}
+
+/* Diagrams get room and a surface of their own, and scroll rather than
+   overflow the panel on a narrow screen. */
+.mermaid-figure {
+  overflow-x: auto;
+  margin: 0 0 20px;
+  padding: 18px 16px;
+  border: 1px solid var(--color-gray-01);
+  background: var(--color-white);
+}
+
+.mermaid-figure svg {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog-backdrop[data-entering],
+  .dialog-backdrop[data-exiting],
+  .dialog-backdrop[data-entering] .dialog-modal,
+  .dialog-backdrop[data-exiting] .dialog-modal {
+    animation-duration: 0.01ms;
+  }
+}
