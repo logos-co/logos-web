@@ -15,12 +15,18 @@ import {
 const PEER_POLL_INTERVAL_MS = 3000
 const PEER_WAIT_TIMEOUT_MS = 30000
 
+/** How far back to ask store nodes for history when a tab opens. */
+const HISTORY_WINDOW_MS = 24 * 60 * 60 * 1000
+/** Upper bound on the history a fresh tab renders. */
+const HISTORY_MESSAGE_LIMIT = 100
+
 const INITIAL_SNAPSHOT: NodeSnapshot = {
   status: 'idle',
   peerCount: 0,
   peerIds: [],
   selfPeerId: null,
   error: null,
+  isLoadingHistory: false,
 }
 
 /**
@@ -99,6 +105,35 @@ export function useWakuNode() {
         if (!payload) return
         appendMessage({ ...payload, fromSelf: false })
       })
+      if (cancelled) return
+
+      // Filter only delivers messages published from now on, so a tab that
+      // opens later would start empty. Store nodes retain recent traffic, so
+      // ask them for the backlog. Subscribing first and querying second means
+      // anything published during the query is still caught live;
+      // appendMessage de-duplicates the overlap by message id.
+      patch({ isLoadingHistory: true })
+      try {
+        await node.store!.queryWithOrderedCallback(
+          [decoder],
+          (wakuMessage) => {
+            if (!wakuMessage.payload) return
+            const historic = decodePayload(wakuMessage.payload)
+            if (!historic) return
+            appendMessage({ ...historic, fromSelf: false })
+          },
+          {
+            timeStart: new Date(Date.now() - HISTORY_WINDOW_MS),
+            paginationLimit: HISTORY_MESSAGE_LIMIT,
+            paginationForward: false,
+          },
+        )
+      } catch {
+        // No store peer, or the query failed. Live messages still work, so
+        // this degrades to an empty backlog rather than a broken page.
+      } finally {
+        patch({ isLoadingHistory: false })
+      }
       if (cancelled) return
 
       const refreshPeers = async () => {

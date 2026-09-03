@@ -1,10 +1,30 @@
 'use client'
 
+import { Button } from '@acid-info/logos-ui'
 import { useEffect, useRef, useState } from 'react'
 
 import { NetworkStatus } from '@/components/network-status'
 import { useWakuNode } from '@/components/use-waku-node'
 import { CONTENT_TOPIC, formatTime, isBlank } from '@/lib/waku'
+
+const INPUT_CLASS =
+  'text-body-sans border border-gray-01 bg-white px-3 py-2.5 text-brand-dark-green placeholder:text-gray-04'
+
+function EmptyState({
+  isReady,
+  isLoadingHistory,
+}: {
+  isReady: boolean
+  isLoadingHistory: boolean
+}) {
+  if (!isReady) {
+    return 'Connecting this browser to the Waku network…'
+  }
+  if (isLoadingHistory) {
+    return 'Asking store nodes for earlier messages…'
+  }
+  return 'No messages yet. Say something — or open this page in a second tab and watch it arrive over the network.'
+}
 
 export function ChatRoom() {
   const { snapshot, messages, send } = useWakuNode()
@@ -43,36 +63,38 @@ export function ChatRoom() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-      <section className="flex min-h-[520px] flex-col rounded-lg border border-[var(--color-gray-01)] bg-[var(--color-white)]">
+      <section className="flex min-h-[520px] flex-col border border-gray-01 bg-white">
         <div className="flex-1 overflow-y-auto p-5">
           {messages.length === 0 ? (
-            <p className="pt-16 text-center text-sm text-[var(--color-gray-04)]">
-              {isReady
-                ? 'No messages yet. Say something — or open this page in a second tab and watch it arrive over the network.'
-                : 'Connecting this browser to the Waku network…'}
+            <p className="text-body-sans pt-16 text-center text-gray-04">
+              <EmptyState
+                isReady={isReady}
+                isLoadingHistory={snapshot.isLoadingHistory}
+              />
             </p>
           ) : (
             <ul className="flex flex-col gap-4">
               {messages.map((message) => (
                 <li
                   key={message.id}
-                  className={
-                    message.fromSelf ? 'flex flex-col items-end' : 'flex flex-col'
-                  }
+                  className={`flex flex-col ${message.fromSelf ? 'items-end' : ''}`}
                 >
-                  <div className="flex items-baseline gap-2 text-[12px] text-[var(--color-gray-05)]">
-                    <span className="font-medium text-[var(--color-gray-06)]">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-caption-sans text-gray-06">
                       {message.fromSelf ? 'You' : message.nickname}
                     </span>
-                    <time dateTime={new Date(message.sentAt).toISOString()}>
+                    <time
+                      dateTime={new Date(message.sentAt).toISOString()}
+                      className="text-mono-s text-gray-04"
+                    >
                       {formatTime(message.sentAt)}
                     </time>
                   </div>
                   <p
-                    className={`mt-1 max-w-[46ch] rounded-lg px-3.5 py-2.5 text-[15px] whitespace-pre-wrap ${
+                    className={`text-body-sans mt-1 max-w-[46ch] px-3.5 py-2.5 whitespace-pre-wrap ${
                       message.fromSelf
-                        ? 'bg-[var(--color-brand-dark-green)] text-[var(--color-brand-off-white)]'
-                        : 'bg-[var(--color-brand-off-white)] text-[var(--color-brand-dark-green)]'
+                        ? 'bg-brand-dark-green text-brand-off-white'
+                        : 'bg-brand-off-white text-brand-dark-green'
                     }`}
                   >
                     {message.text}
@@ -86,16 +108,16 @@ export function ChatRoom() {
 
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-3 border-t border-[var(--color-gray-01)] p-4"
+          className="flex flex-col gap-3 border-t border-gray-01 p-4"
         >
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
             <input
               value={nickname}
               onChange={(event) => setNickname(event.target.value)}
               placeholder="Your name"
               maxLength={32}
               aria-label="Your name"
-              className="w-full rounded border border-[var(--color-gray-01)] px-3 py-2.5 text-[15px] sm:w-40"
+              className={`${INPUT_CLASS} w-full sm:w-40`}
             />
             <input
               value={draft}
@@ -106,26 +128,26 @@ export function ChatRoom() {
               maxLength={512}
               disabled={!isReady}
               aria-label="Message"
-              className="flex-1 rounded border border-[var(--color-gray-01)] px-3 py-2.5 text-[15px] disabled:bg-[var(--color-brand-off-white)] disabled:text-[var(--color-gray-04)]"
+              className={`${INPUT_CLASS} flex-1 disabled:bg-brand-off-white disabled:text-gray-04`}
             />
-            <button
+            <Button
               type="submit"
+              variant="primary"
+              icon={false}
               disabled={!canSend}
-              className="rounded bg-[var(--color-brand-dark-green)] px-5 py-2.5 text-[15px] font-medium text-[var(--color-brand-off-white)] disabled:bg-[var(--color-gray-02)]"
+              className="cursor-pointer"
             >
-              {isSending ? 'Sending…' : 'Send'}
-            </button>
+              {isSending ? 'Sending' : 'Send'}
+            </Button>
           </div>
 
           {sendError && (
-            <p role="alert" className="text-[13px] text-[var(--color-accent-purple)]">
+            <p role="alert" className="text-caption-sans text-accent-purple">
               {sendError}
             </p>
           )}
 
-          <p className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--color-gray-04)]">
-            {CONTENT_TOPIC}
-          </p>
+          <p className="text-mono-s text-gray-04">{CONTENT_TOPIC}</p>
         </form>
       </section>
 

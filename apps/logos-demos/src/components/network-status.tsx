@@ -11,22 +11,18 @@ const STATUS_COPY: Record<NodeSnapshot['status'], string> = {
 }
 
 const STATUS_TONE: Record<NodeSnapshot['status'], string> = {
-  idle: 'bg-[var(--color-gray-02)]',
-  starting: 'bg-[var(--color-accent-tan)]',
-  connecting: 'bg-[var(--color-brand-yellow)]',
-  ready: 'bg-[var(--color-accent-steel-teal)]',
-  failed: 'bg-[var(--color-accent-purple)]',
+  idle: 'bg-gray-02',
+  starting: 'bg-accent-tan',
+  connecting: 'bg-brand-yellow',
+  ready: 'bg-accent-steel-teal',
+  failed: 'bg-accent-purple',
 }
 
 function Field({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <dt className="text-[11px] uppercase tracking-wider text-[var(--color-gray-05)]">
-        {label}
-      </dt>
-      <dd className="font-[family-name:var(--font-mono)] text-[13px] break-all text-[var(--color-brand-dark-green)]">
-        {value}
-      </dd>
+      <dt className="text-eyebrow text-gray-05">{label}</dt>
+      <dd className="text-mono-s break-all text-brand-dark-green">{value}</dd>
     </div>
   )
 }
@@ -36,7 +32,7 @@ export function NetworkStatus({ snapshot }: { snapshot: NodeSnapshot }) {
     snapshot.status === 'starting' || snapshot.status === 'connecting'
 
   return (
-    <aside className="flex flex-col gap-5 rounded-lg border border-[var(--color-gray-01)] bg-[var(--color-white)] p-5">
+    <aside className="flex flex-col gap-5 border border-gray-01 bg-white p-5">
       <div className="flex items-center gap-2.5">
         <span
           aria-hidden
@@ -44,7 +40,7 @@ export function NetworkStatus({ snapshot }: { snapshot: NodeSnapshot }) {
             isSettling ? 'animate-pulse' : ''
           }`}
         />
-        <span className="text-sm font-medium">
+        <span className="text-body-sans text-brand-dark-green">
           {STATUS_COPY[snapshot.status]}
         </span>
       </div>
@@ -53,21 +49,21 @@ export function NetworkStatus({ snapshot }: { snapshot: NodeSnapshot }) {
         <Field label="Connected peers" value={String(snapshot.peerCount)} />
         <Field
           label="This browser's peer id"
-          value={
-            snapshot.selfPeerId ? shortenPeerId(snapshot.selfPeerId) : '—'
-          }
+          value={snapshot.selfPeerId ? shortenPeerId(snapshot.selfPeerId) : '—'}
         />
         <Field label="Network" value="Waku · public fleet" />
       </dl>
 
       {snapshot.peerIds.length > 0 && (
-        <details className="text-[13px]">
-          <summary className="cursor-pointer text-[var(--color-gray-05)] hover:text-[var(--color-brand-dark-green)]">
+        <details>
+          <summary className="text-caption-sans cursor-pointer text-gray-05 hover:text-brand-dark-green">
             Peers this browser is talking to
           </summary>
-          <ul className="mt-2 flex flex-col gap-1 font-[family-name:var(--font-mono)] text-[12px] text-[var(--color-gray-06)]">
+          <ul className="mt-2 flex flex-col gap-1">
             {snapshot.peerIds.map((peerId) => (
-              <li key={peerId}>{shortenPeerId(peerId)}</li>
+              <li key={peerId} className="text-mono-s text-gray-06">
+                {shortenPeerId(peerId)}
+              </li>
             ))}
           </ul>
         </details>
@@ -76,7 +72,7 @@ export function NetworkStatus({ snapshot }: { snapshot: NodeSnapshot }) {
       {snapshot.error && (
         <p
           role="alert"
-          className="rounded border border-[var(--color-accent-purple)] bg-[var(--color-brand-off-white)] p-3 text-[13px] text-[var(--color-accent-purple)]"
+          className="text-caption-sans border border-accent-purple bg-brand-off-white p-3 text-accent-purple"
         >
           {snapshot.error}
         </p>

@@ -40,6 +40,8 @@ export type NodeSnapshot = {
   /** Our own libp2p peer id — this browser's identity on the network. */
   selfPeerId: string | null
   error: string | null
+  /** True while store nodes are being queried for the backlog. */
+  isLoadingHistory: boolean
 }
 
 const MAX_TEXT_LENGTH = 512

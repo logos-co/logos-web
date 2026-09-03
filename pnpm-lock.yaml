@@ -203,6 +203,9 @@ importers:
       '@acid-info/logos-tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
+      '@acid-info/logos-ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@waku/sdk':
         specifier: ^0.0.36
         version: 0.0.36(@multiformats/multiaddr@12.5.1)

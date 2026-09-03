@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 @import '@acid-info/logos-tokens/theme.css';
+@import '@acid-info/logos-ui/styles.css';
+
+@source '../../../../packages/ui/src/**/*.{ts,tsx}';
 
 :root {
   color-scheme: light;
@@ -24,10 +27,6 @@ body {
 button,
 input {
   font: inherit;
-}
-
-button:not(:disabled) {
-  cursor: pointer;
 }
 
 button:focus-visible,

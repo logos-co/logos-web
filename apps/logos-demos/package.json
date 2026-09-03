@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@acid-info/logos-tokens": "workspace:*",
+    "@acid-info/logos-ui": "workspace:*",
     "@waku/sdk": "^0.0.36",
     "next": "16.2.4",
     "react": "^19.2.5",
