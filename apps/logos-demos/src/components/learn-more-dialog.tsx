@@ -104,10 +104,12 @@ export function LearnMoreDialog({
             </button>
           </div>
 
-          <div className="explainer-prose">
-            <Markdown remarkPlugins={[remarkGfm]} components={components}>
-              {body}
-            </Markdown>
+          <div className="dialog-body">
+            <div className="explainer-prose">
+              <Markdown remarkPlugins={[remarkGfm]} components={components}>
+                {body}
+              </Markdown>
+            </div>
           </div>
         </Dialog>
       </Modal>

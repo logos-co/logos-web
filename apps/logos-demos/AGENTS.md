@@ -79,6 +79,8 @@ Build through turbo, never `pnpm --filter logos-demos build`: `@acid-info/logos-
 
 Type-checking passing is not the same as the demo working — these demos depend on a live peer-to-peer network, so browser verification is required before reporting done.
 
+**After editing `globals.css`, restart the dev server.** Turbopack has served stale CSS here more than once, which reads as "my fix did nothing" and sends you looking for a bug that is not there. `rm -rf apps/logos-demos/.next` and start it again, then re-measure.
+
 Start the dev server, wait for the status panel to report `Connected` with a non-zero peer count, then open a second tab and confirm a message crosses between them. Check that a freshly opened tab loads the backlog from Store. Peer discovery takes several seconds, so a page that looks empty on first paint is not yet a failure.
 
 ## Keeping Docs Up to Date

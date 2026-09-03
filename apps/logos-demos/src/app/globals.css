@@ -251,16 +251,24 @@ input:focus-visible {
   outline: 0;
 }
 
+/*
+ * The panel itself does not scroll: the header is a fixed row and the body
+ * below it is the scroll container.
+ *
+ * A sticky header inside a padded scroll container sticks to the container's
+ * PADDING box, not its border box, so content scrolled past showed through the
+ * 28px band above it. Splitting the two removes the class of bug rather than
+ * tuning offsets against it.
+ */
 .dialog-panel {
   display: flex;
   flex: 1;
   flex-direction: column;
   /* `min-height: 0` is what lets the panel shrink below its content so the
-     scroll engages instead of the box growing to fit. */
+     body's scroll engages instead of the box growing to fit. */
   min-height: 0;
   width: 100%;
-  overflow-y: auto;
-  padding: 28px 32px 36px;
+  overflow: hidden;
   border: 1px solid rgb(21 37 33 / 14%);
   border-radius: 18px;
   background: var(--color-brand-off-white);
@@ -268,16 +276,20 @@ input:focus-visible {
 }
 
 .dialog-header {
-  position: sticky;
-  top: 0;
-  z-index: 1;
   display: flex;
+  flex-shrink: 0;
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  margin: -28px -32px 4px;
-  padding: 28px 32px 12px;
-  background: var(--color-brand-off-white);
+  padding: 26px 32px 16px;
+  border-bottom: 1px solid var(--color-gray-01);
+}
+
+.dialog-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px 32px 32px;
 }
 
 /* ── Explainer prose ────────────────────────────────────────────────────── */
