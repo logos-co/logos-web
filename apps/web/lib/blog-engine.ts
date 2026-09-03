@@ -109,10 +109,20 @@ type CalendarResponse = {
 
 const BODY_SNIPPET_LIMIT = 200
 
+/**
+ * A failed first attempt is usually a short hiccup on the blog API, so give it
+ * a moment before retrying. Without this the retry lands within milliseconds
+ * of the failure and hits the same bad state.
+ */
+const RETRY_DELAY_MS = 400
+
 const truncate = (value: string, limit = BODY_SNIPPET_LIMIT) =>
   value.length > limit
     ? `${value.slice(0, limit)}…(${value.length} chars)`
     : value
+
+const wait = (ms: number) =>
+  new Promise<void>((resolve) => setTimeout(resolve, ms))
 
 type FetchResult<T> = { ok: true; data: T } | { ok: false; error: Error }
 
@@ -125,6 +135,11 @@ async function tryFetchText(
   try {
     const headers: Record<string, string> = {}
     if (acceptJson) headers.Accept = 'application/json'
+    // Both attempts use `force-cache` so the route stays static for
+    // `output: 'export'`. Next puts request headers in the fetch cache key, so
+    // this header is what keeps the retry from resolving to the first
+    // attempt's cache entry. Do not swap it for `no-store` or
+    // `revalidate: 0`: either one makes the route dynamic and fails the export.
     if (retry) headers['X-Logos-Build-Retry'] = '1'
 
     const response = await fetch(url, {
@@ -175,6 +190,7 @@ async function fetchJsonResilient<T>(url: string, label: string): Promise<T> {
   const parsed = parseFetchedJson<T>(firstAttempt, url, label)
   if (parsed.ok) return parsed.data
 
+  await wait(RETRY_DELAY_MS)
   const retry = await tryFetchText(url, label, true, true)
   const retryParsed = parseFetchedJson<T>(retry, url, label)
   if (retryParsed.ok) return retryParsed.data
@@ -186,6 +202,7 @@ async function fetchTextResilient(url: string, label: string): Promise<string> {
   const firstAttempt = await tryFetchText(url, label, false)
   if (firstAttempt.ok) return firstAttempt.data.text
 
+  await wait(RETRY_DELAY_MS)
   const retry = await tryFetchText(url, label, false, true)
   if (retry.ok) return retry.data.text
 
