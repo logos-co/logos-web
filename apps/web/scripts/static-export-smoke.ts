@@ -68,10 +68,10 @@ const htmlFileToRoute = (filePath: string): string => {
 }
 
 /**
- * RFP detail slugs come from the live GitHub listing, so they are only knowable
+ * RFP detail slugs come from the live Github listing, so they are only knowable
  * from what this build actually exported. Reading them back out of `out/` keeps
  * the sitemap assertion comparing the export against itself, instead of racing a
- * second GitHub fetch against the one the build already made.
+ * second Github fetch against the one the build already made.
  */
 const collectExportedRfpDetailRoutes = (): string[] => {
   const rfpsDir = join(outDir, toRoutePath(ROUTES.rfps))
@@ -120,7 +120,7 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
           'robots.txt does not allow crawling in a production build'
         )
       }
-      if (!robots.includes('Sitemap: https://logos.co/sitemap.xml')) {
+      if (!robots.includes(`Sitemap: ${SITE_ORIGIN}/sitemap.xml`)) {
         failures.push('robots.txt is missing the production sitemap URL')
       }
     } else {
@@ -160,10 +160,10 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
  * The loop above only proves every page we expected reached the sitemap. It
  * cannot catch the opposite failure: a `<loc>` the export never wrote an HTML
  * file for, which would send crawlers to a 404. RFP detail routes are the real
- * risk, since the sitemap and the pages each resolve them from the live GitHub
+ * risk, since the sitemap and the pages each resolve them from the live Github
  * listing.
  *
- * This reads the sitemap back against `out/` and needs no second GitHub fetch.
+ * This reads the sitemap back against `out/` and needs no second Github fetch.
  */
 const findSitemapUrlsWithoutPages = (sitemap: string): string[] => {
   const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
