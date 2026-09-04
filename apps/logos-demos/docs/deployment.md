@@ -108,9 +108,20 @@ Build through turbo, never `pnpm --filter logos-demos build`. `@acid-info/logos-
 is a build dependency and only the orchestrator builds it, so the app build alone
 fails on a clean checkout.
 
-The output is fully static (`○ prerendered as static content`). If that ever
-stops being true, something has quietly added a server dependency, and the
-claims on the page need re-reading.
+Every page is prerendered (`○ prerendered as static content`). The only
+server-rendered entries should be the blockchain proxy routes (`ƒ`):
+
+```
+├ ƒ /api/blockchain/account
+├ ƒ /api/blockchain/blocks
+├ ƒ /api/blockchain/search
+├ ○ /blockchain
+└ ○ /messaging
+```
+
+If a page turns from `○` into `ƒ`, or a route appears that is not one of those
+three, something has quietly added a server dependency and the claims on the
+pages need re-reading.
 
 ## Turbopack serves stale CSS
 

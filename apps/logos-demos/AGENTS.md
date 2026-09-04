@@ -4,9 +4,9 @@ Guidance for agents working inside `apps/logos-demos`. The root `AGENTS.md` stil
 
 ## App Role
 
-Self-contained web demos of the Logos stack, built so anyone can try them from a URL with no install and no account. Next.js 16, Tailwind v4, static output, no API routes. Dev server runs on port **3005**.
+Self-contained web demos of the Logos stack, built so anyone can try them from a URL with no install and no account. Next.js 16, Tailwind v4. Every page is prerendered as static content; the only server code is the blockchain demo's read-only proxy under `src/app/api/blockchain/`. Dev server runs on port **3005**.
 
-The Logos protocols run in the **visitor's browser**, not on a server of ours. `@waku/sdk` starts a light node that bootstraps over DNS discovery and talks to the network itself.
+Logos Messaging runs entirely in the **visitor's browser**: `@waku/sdk` starts a light node that bootstraps over DNS discovery and talks to the network itself, with no server of ours in the path. Logos Blockchain cannot do that, because the block explorer sends no CORS headers, so it reads through the proxy instead. See the claims rule below.
 
 **Claims are per demo, not app-wide.** Logos Messaging genuinely has no backend: the browser is a node and no server of ours is in the path. Keep it that way — never route messaging through an API route. Logos Blockchain does have a proxy in the path, because the block explorer sends no CORS headers, and its page says so plainly.
 

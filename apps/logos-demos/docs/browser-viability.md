@@ -14,7 +14,8 @@ The constraint that shapes every demo in this app. Checked 2026-09-04.
 
 `@waku/sdk` is a real light client. The browser gets its own libp2p peer
 identity, dials fleet nodes over `wss`, and pushes and receives messages itself.
-No server of ours is in the path, and the app builds to static output.
+No server of ours is in the path, and the page is prerendered as static
+content. This demo alone needs no route handler.
 
 This is the exception, not the rule, and it is why the messaging demo is the one
 that makes the strongest claim. Two things had to be true at once: a browser

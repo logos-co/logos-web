@@ -75,8 +75,11 @@ Copy uses the Logos vocabulary: **Logos Messaging** for the stack area, with
 **Delivery** and **Chat** as its modules. "Waku" is not used in anything a
 visitor reads; library names keep their own names.
 
-That is the whole reason this app has no API routes and builds to static output:
-there is no server in the path to store or read anything.
+That is why every page here is prerendered as static content. The messaging
+demo has no server in its path at all. The blockchain demo is the exception:
+the block explorer sends no CORS headers, so a read-only proxy under
+`src/app/api/blockchain/` makes that call server side, and the demo page says
+so.
 
 It also rules out the alternative. `logos-js-sdk` binds the native
 `liblogos_protocol` through koffi and dials a long-lived `logoscore` daemon, so
