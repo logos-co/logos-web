@@ -1,3 +1,4 @@
+import { ChainSearch } from '@/components/chain-search'
 import { ChainView } from '@/components/chain-view'
 import { LearnMoreButton } from '@/components/learn-more-button'
 import { readExplainer } from '@/demos/explainer'
@@ -21,6 +22,7 @@ export default function Page() {
         <LearnMoreButton body={explainer} title="How this works" />
       </header>
 
+      <ChainSearch />
       <ChainView />
     </div>
   )

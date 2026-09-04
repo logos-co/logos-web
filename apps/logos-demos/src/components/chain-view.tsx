@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from 'react'
 
+import { TransactionCard } from '@/components/chain-records'
 import { useChainBlocks } from '@/components/use-chain-blocks'
+import type { BlockSummary } from '@/lib/blockchain'
 import {
   formatAge,
   formatTimestamp,
@@ -44,6 +46,50 @@ function Liveness({ blocks }: { blocks: ReturnType<typeof useChainBlocks>['block
   )
 }
 
+/**
+ * A block, expandable to its transactions. They arrive with the block, so
+ * opening a row costs nothing and does not ask the explorer again.
+ */
+function BlockRow({ block }: { block: BlockSummary }) {
+  const label = `${block.transactionCount} ${block.transactionCount === 1 ? 'tx' : 'txs'}`
+
+  return (
+    <li className="border-t border-gray-01 py-3 first:border-t-0 first:pt-0">
+      <details className="group">
+        <summary className="flex cursor-pointer flex-wrap items-baseline gap-x-4 gap-y-1">
+          <span className="text-h4-sans w-24 shrink-0 text-brand-dark-green">
+            {block.id}
+          </span>
+          <span className="text-mono-s flex-1 break-all text-gray-06">
+            {shortenHash(block.hash)}
+          </span>
+          <span className="text-caption-sans text-gray-05 group-open:text-brand-dark-green">
+            {label}
+          </span>
+          <span className="text-caption-sans w-20 shrink-0 text-gray-05">
+            {block.status}
+          </span>
+          <span className="text-mono-s w-full text-gray-04 sm:w-auto">
+            {formatTimestamp(block.timestamp)}
+          </span>
+        </summary>
+
+        <div className="mt-3 flex flex-col gap-3">
+          {block.transactions.length === 0 ? (
+            <p className="text-caption-sans text-gray-04">
+              This block carried no transactions.
+            </p>
+          ) : (
+            block.transactions.map((tx) => (
+              <TransactionCard key={tx.hash} tx={tx} />
+            ))
+          )}
+        </div>
+      </details>
+    </li>
+  )
+}
+
 export function ChainView() {
   const { blocks, isLoading, error } = useChainBlocks()
 
@@ -65,27 +111,7 @@ export function ChainView() {
         {blocks.length > 0 && (
           <ul className="flex flex-col">
             {blocks.map((block) => (
-              <li
-                key={block.hash}
-                className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t border-gray-01 py-3 first:border-t-0 first:pt-0"
-              >
-                <span className="text-h4-sans w-24 shrink-0 text-brand-dark-green">
-                  {block.id}
-                </span>
-                <span className="text-mono-s flex-1 break-all text-gray-06">
-                  {shortenHash(block.hash)}
-                </span>
-                <span className="text-caption-sans text-gray-05">
-                  {block.transactionCount}{' '}
-                  {block.transactionCount === 1 ? 'tx' : 'txs'}
-                </span>
-                <span className="text-caption-sans w-20 shrink-0 text-gray-05">
-                  {block.status}
-                </span>
-                <span className="text-mono-s w-full text-gray-04 sm:w-auto">
-                  {formatTimestamp(block.timestamp)}
-                </span>
-              </li>
+              <BlockRow key={block.hash} block={block} />
             ))}
           </ul>
         )}
