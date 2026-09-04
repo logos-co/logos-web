@@ -1,8 +1,10 @@
 import { ExternalLink } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
-import { LogosMark } from '@acid-info/logos-ui'
+import { Button, LogosMark } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
+import { Link } from '@/i18n/navigation'
 import type {
   ActiveCircleLocation,
   ActiveCircleStat,
@@ -20,13 +22,49 @@ function formatStatValue(value: number | null) {
 }
 
 function StatCard({ stat }: { stat: ActiveCircleStat }) {
-  return (
-    <div className="flex min-h-[154px] flex-col justify-between rounded-[24px] border border-brand-dark-green/20 bg-brand-off-white p-4 text-brand-dark-green transition-colors md:min-h-[180px] md:p-5">
+  const t = useTranslations('activeCircles')
+  const className =
+    'flex min-h-[154px] flex-col justify-between rounded-[24px] border border-brand-dark-green/20 bg-brand-off-white p-4 text-brand-dark-green transition-colors md:min-h-[180px] md:p-5'
+  const content = (
+    <>
       <p className="font-display text-[56px] leading-none md:text-[72px]">
         {formatStatValue(stat.value)}
       </p>
-      <p className="text-eyebrow max-w-[140px]">{stat.label}</p>
-    </div>
+      <p className="text-eyebrow max-w-[140px]">
+        {stat.label === 'Distinct Cities' ? t('activeCircles') : stat.label}
+      </p>
+    </>
+  )
+
+  if (stat.label === 'Total Circle Events') {
+    return (
+      <a
+        href="https://luma.com/logosevents"
+        className={`${className} cursor-pointer hover:bg-brand-yellow`}
+      >
+        {content}
+      </a>
+    )
+  }
+
+  return <div className={className}>{content}</div>
+}
+
+function JoinCircleButton({ light = false }: { light?: boolean }) {
+  const t = useTranslations('activeCircles')
+
+  return (
+    <Button
+      href="/movement#activist-circle"
+      linkAs={Link}
+      className={
+        light
+          ? 'cursor-pointer bg-brand-off-white text-brand-dark-green hover:bg-brand-yellow'
+          : 'cursor-pointer'
+      }
+    >
+      {t('joinCircle')}
+    </Button>
   )
 }
 
@@ -70,7 +108,7 @@ function LocationLink({ location }: { location: ActiveCircleLocation }) {
         href={location.href}
         target="_blank"
         rel="noopener noreferrer"
-        className={className}
+        className={`${className} cursor-pointer`}
       >
         {content}
       </a>
@@ -98,6 +136,9 @@ function ActiveCirclesHero({ activeSinceDate }: { activeSinceDate: string }) {
           <p className="text-mono-s mx-auto mt-6 max-w-[420px] text-center text-brand-off-white/70">
             Circles and contributions across the Logos network.
           </p>
+          <div className="mt-8 flex justify-center">
+            <JoinCircleButton light />
+          </div>
         </div>
         <p className="text-mono-s col-start-2 row-start-1 mt-28 max-w-[178px] text-brand-off-white/70 md:col-span-2 md:col-start-11 md:mt-16">
           Live event data from Logos Circle sources.
@@ -130,10 +171,7 @@ function LocationsSection({
 }) {
   return (
     <section className="border-t border-brand-dark-green/10 bg-gray-01 pb-16">
-      <SectionHeader
-        title="Active Circles"
-        eyebrow={`${locations.length.toLocaleString()} locations`}
-      />
+      <SectionHeader title="Active Circles" />
       {locations.length === 0 ? (
         <p className="text-mono-s px-3 pb-12 text-brand-dark-green">
           No active circles found.
@@ -145,6 +183,9 @@ function LocationsSection({
           ))}
         </ContentWidth>
       )}
+      <ContentWidth className="mt-8 flex justify-center px-3">
+        <JoinCircleButton />
+      </ContentWidth>
     </section>
   )
 }
