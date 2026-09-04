@@ -21,6 +21,13 @@ export const DEMOS: readonly Demo[] = [
     summary:
       'Your browser joins the peer-to-peer messaging network directly and exchanges messages with other browsers. No backend, no account, no install.',
   },
+  {
+    href: '/blockchain',
+    label: 'Logos Blockchain',
+    stack: 'LEZ',
+    summary:
+      'Recent blocks from the live Logos Execution Zone testnet, read through the public block explorer.',
+  },
 ]
 
 export function findDemo(href: string): Demo | undefined {

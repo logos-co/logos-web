@@ -8,7 +8,9 @@ Self-contained web demos of the Logos stack, built so anyone can try them from a
 
 The Logos protocols run in the **visitor's browser**, not on a server of ours. `@waku/sdk` starts a light node that bootstraps over DNS discovery and talks to the network itself.
 
-Do not add a backend, an API route, or a service of ours into the message path — "this page has no backend" is the claim the demo makes on screen, and it has to stay true.
+**Claims are per demo, not app-wide.** Logos Messaging genuinely has no backend: the browser is a node and no server of ours is in the path. Keep it that way — never route messaging through an API route. Logos Blockchain does have a proxy in the path, because the block explorer sends no CORS headers, and its page says so plainly.
+
+A proxy is allowed only where the alternative is no demo at all, and only for **public, read-only** data: no keys, no user content, no writes. If a proxy starts carrying anything user-specific it is a different thing and needs its own argument. Whatever a demo does, its page must say it.
 
 **Naming: never write "Waku" in user-facing copy.** logos.co calls this stack area **Logos Messaging**, with **Delivery** and **Chat** as its modules, so that is the vocabulary demos use. Library names and code identifiers (`@waku/sdk`, `use-waku-node.ts`) keep their own names, because that is what they are — the rule is about what a visitor reads, not about renaming a dependency.
 

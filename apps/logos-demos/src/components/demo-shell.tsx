@@ -55,7 +55,8 @@ export function DemoShell({ children }: { children: ReactNode }) {
         </nav>
 
         <p className="sidebar-note">
-          Every demo runs the protocol in your browser. There is no backend.
+          Each demo says on its own page how much of it runs in your browser and
+          what, if anything, it goes through.
         </p>
       </aside>
 
