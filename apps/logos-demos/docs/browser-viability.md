@@ -8,7 +8,7 @@ The constraint that shapes every demo in this app. Checked 2026-09-04.
 | --- | --- | --- |
 | Messaging | **Yes** | `@waku/sdk` light node over secure websockets. Nothing else |
 | Blockchain | Read-only, **via a proxy** | The explorer API works but sends no CORS headers |
-| Storage | **No** | Joining needs discv5 over UDP. A node must sit in between |
+| Storage | **No** | No browser transport and no public endpoint. Needs a node we run |
 
 ## Messaging — genuinely browser-native
 
@@ -51,26 +51,59 @@ different thing and needs a different conversation.
 Also note the chain was not producing blocks when this was written, so confirm
 it is live before building a view that implies motion.
 
-## Storage — needs a node
+## Storage — not possible from a browser at all
 
-`@codex-storage/sdk-js` is an HTTP client for a storage node's REST API, not a
-node. Every example in its README is `new Codex("http://localhost:8080")`. The
-browser cannot be a participant: joining the network means discv5 over UDP,
-which browsers do not have, and there is no public HTTP gateway.
+Checked exhaustively on 2026-09-04, because it kept looking like it should be
+possible. It is not, and the reason is the transport layer rather than a
+policy someone could change.
 
-So a storage demo needs one node we run:
+**The browser cannot join.** Discovery is discv5 over UDP and transfer is
+libp2p TCP. A browser has neither. The word "websocket" does not appear
+anywhere in `docs/storage`, so there is no browser-reachable transport to ask
+for. This is the difference from messaging, where a browser light client and a
+public `wss` fleet both existed.
+
+**There is no public endpoint.** All six `logos.test` fleet nodes refuse
+connections on the documented API port:
+
+```
+178.128.140.206  129.212.221.44   34.70.60.201
+34.123.182.254   47.76.168.186    47.76.178.164     :8080 -> no connection
+```
+
+and none of `storage.logos.co`, `api.storage.logos.co`,
+`gateway.storage.logos.co`, `testnet.storage.logos.co`,
+`storage.testnet.logos.co` or `codex.logos.co` resolve.
+
+**That is the design, not an oversight.** The whole of `docs/storage` is about
+running your own node: NAT traversal, port forwarding, finding your public IP.
+The introduction says parties who care about content "operate their own nodes
+and curate the list of files they wish to replicate".
+
+**The web UIs in the org are all local-node UIs.** `logos-storage-frontend`
+shows "the status of a locally running codex node", `logos-storage-marketplace-ui`
+and `codex-cloud` are the same shape, and `metrics` (metrics.codex.storage)
+reads a Supabase table the team fills, not a node.
+
+**The SDK cannot stand in for a node either.** `@codex-storage/sdk-js` has one
+dependency, `valibot`, for schema validation. Every method is a call to a
+node's REST API, and nothing computes a CID locally. Implementing Codex's
+chunking and merkle structure by hand would be possible but unverifiable
+without a node, and a demo that shows a CID Codex would not agree with is
+worse than no demo.
+
+### What would unlock it
+
+Either the team exposes a gateway, or one container is allowed:
 
 ```
 docker run logosstorage/logos-storage-nim --network=logos.test \
-  --api-bindaddr=0.0.0.0 --api-port=8080 --nat=none --api-cors-origin='<origin>'
+  --api-bindaddr=0.0.0.0 --api-port=8080 --nat=none \
+  --api-cors-origin='<origin>'
 ```
 
-Lighter than it sounds. It is a published image, discovery is outbound UDP so no
-public IP or port forwarding is needed, and the node has a CORS flag. But it is
-still infrastructure someone has to keep alive, and when it dies the demo dies
-with it. That is a product decision, not a technical one.
-
-The chunked upload API suits a browser well once a node exists:
+Discovery is outbound UDP, so that needs no public IP and no port forwarding.
+With a node in reach, the chunked upload API suits a browser well:
 
 ```
 uploadInit(filename, chunkSize) -> uploadChunk(sessionId, base64) -> uploadFinalize() -> CID
@@ -78,8 +111,9 @@ downloadChunks(cid, local, chunkSize)
 storageUploadProgress / storageUploadDone / storageDownloadProgress
 ```
 
-It takes chunks rather than file paths, so nothing has to touch a disk of ours,
-and the progress events drive a real progress bar.
+It takes chunks rather than file paths, so nothing touches a disk of ours, and
+the progress events drive a real progress bar. Until then there is nothing
+honest to build.
 
 ## The rule this leaves behind
 

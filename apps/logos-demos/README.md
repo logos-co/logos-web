@@ -53,6 +53,18 @@ rendered into a modal, with mermaid diagrams for the parts that are easier to
 draw than to describe. Nobody has to read anything before trying the thing, and
 the detail is there for anyone who wants it.
 
+## What is not here
+
+**Logos Storage has no demo, and cannot have one while this app is Vercel only.**
+A browser cannot join the storage network (discovery is discv5 over UDP,
+transfer is libp2p TCP, and there is no websocket transport), and no public
+gateway exists to call instead. That is a design choice on the storage side
+rather than an oversight, and it needs a node we run to change.
+
+[`docs/browser-viability.md`](./docs/browser-viability.md) records what was
+checked and what would unlock it, so the question does not have to be
+re-investigated from scratch.
+
 ## Architecture
 
 The Logos protocols run **in the visitor's browser**, not on a server of ours.

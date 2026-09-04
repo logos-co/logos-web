@@ -45,7 +45,13 @@ Discovery is **outbound UDP**, so joining needs no public IP and no port
 forwarding. The node's REST API is at `/api/storage/v1`, and the node accepts
 `--api-cors-origin`.
 
-There is no public storage HTTP gateway. Every consumer runs a node.
+**There is no public storage HTTP gateway, and this was checked properly.** All
+six `logos.test` fleet nodes refuse connections on port 8080, and none of
+`storage.logos.co`, `api.storage.logos.co`, `gateway.storage.logos.co`,
+`testnet.storage.logos.co`, `storage.testnet.logos.co` or `codex.logos.co`
+resolve. Every consumer runs a node; see
+[browser-viability.md](./browser-viability.md) for the full account and for what
+would change it.
 
 ## Blockchain
 
@@ -76,6 +82,24 @@ Returns real block data: `header` with `block_id`, `prev_block_hash`, `hash`,
 The hash suffix is a build artefact of Leptos server functions. **It will change
 when the explorer is rebuilt**, so resolve it at runtime from the WASM rather
 than hard-coding it, or accept that it needs updating.
+
+All seven take form-encoded bodies. Their arguments, discovered from the error
+messages they return when called empty:
+
+| Function | Arguments |
+| --- | --- |
+| `get_blocks` | `limit` |
+| `get_block_by_id` | `block_id` |
+| `get_block_by_hash` | `block_hash` |
+| `get_transaction` | `tx_hash` |
+| `get_account` | `account_id` |
+| `get_transactions_by_account` | `account_id`, `offset`, `limit` |
+| `search` | `query` |
+
+`search` returns `{blocks, transactions, accounts}` and works out for itself
+whether a query is a block id, a transaction hash or an account address. Note
+its accounts arrive as `[id, account]` tuples, while `get_account` returns the
+account alone.
 
 **No CORS.** `OPTIONS` on a server function returns `405 Method Not Allowed`
 with no `Access-Control-Allow-Origin`, so a browser on another origin cannot
