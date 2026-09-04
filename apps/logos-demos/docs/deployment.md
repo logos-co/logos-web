@@ -46,6 +46,32 @@ Until then, deploy through the API with a `gitSource`, targeting `production`
 when the shareable URL should update. Pushing to the branch does nothing on its
 own.
 
+### How to reconnect
+
+Once `apps/logos-demos` is on `develop`, one call restores it. The token the
+Vercel CLI keeps is enough; it refreshes itself, so `vercel whoami` first if a
+call comes back `invalidToken`.
+
+```sh
+TOKEN=$(python3 -c "import json,os;print(json.load(open(os.path.expanduser('~/Library/Application Support/com.vercel.cli/auth.json')))['token'])")
+
+curl -s -X POST \
+  "https://api.vercel.com/v9/projects/prj_8BzCrW4AGK87TJV26Jcnl8MpEqzz/link?teamId=team_tI9IlM2r0P1M0ptF1hRuXgIR" \
+  -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+  -d '{"type":"github","repo":"logos-co/logos-web"}'
+```
+
+Then confirm the project still has Root Directory `apps/logos-demos` and no
+ignore command, and check one unrelated open PR: its `Vercel – logos-demos`
+check should read "Skipped - Not affected", not fail. If it fails, disconnect
+again rather than leaving other people's PRs red:
+
+```sh
+curl -s -X DELETE \
+  "https://api.vercel.com/v9/projects/prj_8BzCrW4AGK87TJV26Jcnl8MpEqzz/link?teamId=team_tI9IlM2r0P1M0ptF1hRuXgIR" \
+  -H "Authorization: Bearer $TOKEN"
+```
+
 ## Never run `vercel deploy` from the repo root
 
 The repo root has its own `.vercel/project.json`, and it points at
