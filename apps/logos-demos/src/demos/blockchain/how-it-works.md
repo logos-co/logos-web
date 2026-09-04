@@ -79,6 +79,14 @@ missing for a while even though it is confirmed.
 Expanding a block in the list shows its transactions without asking the
 explorer again: they arrive with the block.
 
+**Every hash and address is followable.** Clicking one searches it, so you can
+walk from a block to its previous block, from a transaction to the accounts it
+touched, or from an account to the program that owns it. An account also lists
+its own transactions, a page at a time.
+
+The query lives in the URL, so anything you find can be sent to someone else and
+the back button behaves.
+
 ## What is not here, and why
 
 There is no wallet, nothing to send, and no account of your own.

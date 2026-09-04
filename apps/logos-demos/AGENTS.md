@@ -57,6 +57,19 @@ Copy is still British English and still English-only in committed files.
 - Import `@waku/sdk` lazily, inside an effect (`await import('@waku/sdk')`). It reaches for browser APIs that do not exist during server rendering, and it pulls in libp2p, which does not belong in the initial bundle.
 - Validate everything arriving off the wire before rendering it. Topics are public and other applications may publish there.
 
+## Proxied data is normalised twice, so parse the right shape
+
+The blockchain routes normalise the explorer's payload before answering, which means there are **two shapes for the same record** and two sets of parsers in `src/lib/blockchain.ts`:
+
+- `parseBlock` / `parseTransaction` / `parseSearchResults` take the **explorer's** shape. Only route handlers use them.
+- `parseSummary` / `parseTransactionSummaries` / `parseSearchPayload` take the **normalised** shape. Only client code uses them.
+
+Using the wrong one is silent. There is no type error, because both take `unknown`, and no runtime error, because a parser that finds no fields returns null and the row is dropped. The list simply comes out empty. This has already happened twice: once on accounts, once on an account's transactions.
+
+**If a list renders empty while its route returns data, check this first.**
+
+Two explorer shapes worth knowing while you are here. Accounts come back from `search` as `[id, account]` tuples but from `get_account` as the account alone. Transactions are an externally tagged enum, `{ "Public": { ... } }`, so the variant name is kept rather than unwrapped: `Public` is all this testnet shows today, and a private variant is the entire point of the chain.
+
 ## Messaging Notes
 
 - `createLightNode` must be called with `defaultBootstrap: true`. The `discovery` option documents its own defaults, but `createLibp2pAndUpdateOptions` only applies them inside the `defaultBootstrap` branch, so a node created without it registers no peer discovery and never finds a peer.

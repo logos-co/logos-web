@@ -1,5 +1,6 @@
-import { ChainSearch } from '@/components/chain-search'
-import { ChainView } from '@/components/chain-view'
+import { Suspense } from 'react'
+
+import { ChainExplorer } from '@/components/chain-explorer'
 import { LearnMoreButton } from '@/components/learn-more-button'
 import { readExplainer } from '@/demos/explainer'
 import { findDemo } from '@/demos/registry'
@@ -22,8 +23,11 @@ export default function Page() {
         <LearnMoreButton body={explainer} title="How this works" />
       </header>
 
-      <ChainSearch />
-      <ChainView />
+      {/* ChainExplorer reads the query from the URL, which needs a boundary
+          while the page is prerendered. */}
+      <Suspense fallback={null}>
+        <ChainExplorer />
+      </Suspense>
     </div>
   )
 }

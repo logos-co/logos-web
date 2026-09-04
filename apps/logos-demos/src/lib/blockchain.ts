@@ -106,12 +106,7 @@ export function parseSummary(raw: unknown): BlockSummary | null {
         ? transactionCount
         : 0,
     status: typeof status === 'string' ? status : 'Unknown',
-    transactions: Array.isArray(transactions)
-      ? transactions.filter(
-          (tx): tx is TransactionSummary =>
-            typeof tx === 'object' && tx !== null && 'hash' in tx,
-        )
-      : [],
+    transactions: parseTransactionSummaries(transactions),
   }
 }
 
@@ -305,6 +300,44 @@ export function parseSearchResults(raw: unknown): SearchResults {
   }
 }
 
+/**
+ * Validate a transaction that has already been through `parseTransaction`, as
+ * every route in this app returns it.
+ *
+ * The proxy normalises before it answers, so anything client-side must parse
+ * the NORMALISED shape. Running the explorer's own parser over it drops every
+ * row silently, with no type error and no runtime error: the list simply comes
+ * out empty.
+ */
+export function parseTransactionSummary(
+  raw: unknown,
+): TransactionSummary | null {
+  if (typeof raw !== 'object' || raw === null) return null
+
+  const { kind, hash, programId, accountIds, hasProof } = raw as Record<
+    string,
+    unknown
+  >
+  if (typeof hash !== 'string') return null
+
+  return {
+    kind: typeof kind === 'string' ? kind : 'Unknown',
+    hash,
+    programId: typeof programId === 'string' ? programId : '',
+    accountIds: Array.isArray(accountIds)
+      ? accountIds.filter((id): id is string => typeof id === 'string')
+      : [],
+    hasProof: hasProof === true,
+  }
+}
+
+export function parseTransactionSummaries(raw: unknown): TransactionSummary[] {
+  if (!Array.isArray(raw)) return []
+  return raw
+    .map(parseTransactionSummary)
+    .filter((tx): tx is TransactionSummary => tx !== null)
+}
+
 /** Parse the search payload this app's proxy returns, which is already normalised. */
 export function parseSearchPayload(raw: unknown): SearchResults {
   if (typeof raw !== 'object' || raw === null) return EMPTY_RESULTS
@@ -313,12 +346,7 @@ export function parseSearchPayload(raw: unknown): SearchResults {
 
   return {
     blocks: parseSummaries(blocks),
-    transactions: Array.isArray(transactions)
-      ? transactions.filter(
-          (tx): tx is TransactionSummary =>
-            typeof tx === 'object' && tx !== null && 'hash' in tx,
-        )
-      : [],
+    transactions: parseTransactionSummaries(transactions),
     accounts: Array.isArray(accounts)
       ? accounts.filter(
           (account): account is AccountSummary =>

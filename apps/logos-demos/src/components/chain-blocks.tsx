@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-import { TransactionCard } from '@/components/chain-records'
+import { TransactionCard, type SelectHandler } from '@/components/chain-records'
 import { useChainBlocks } from '@/components/use-chain-blocks'
 import type { BlockSummary } from '@/lib/blockchain'
 import {
@@ -12,9 +12,16 @@ import {
   shortenHash,
 } from '@/lib/blockchain'
 
-function Liveness({ blocks }: { blocks: ReturnType<typeof useChainBlocks>['blocks'] }) {
-  // Age is measured against the clock, so it is computed after mount to keep
-  // the server and client markup identical.
+/**
+ * Whether the chain is still producing.
+ *
+ * The testnet sits idle for days at a time, and a list of blocks gives no hint
+ * of that on its own: the numbers look the same whether the newest one arrived
+ * a minute or a week ago.
+ */
+function Liveness({ blocks }: { blocks: BlockSummary[] }) {
+  // Measured against the clock, so it waits for mount to keep the server and
+  // client markup identical.
   const [now, setNow] = useState<number | null>(null)
   useEffect(() => {
     setNow(Date.now())
@@ -29,7 +36,7 @@ function Liveness({ blocks }: { blocks: ReturnType<typeof useChainBlocks>['block
   const isLive = liveness.state === 'live'
 
   return (
-    <div className="flex items-center gap-2.5">
+    <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
       <span
         aria-hidden
         className={`size-2.5 rounded-full ${
@@ -46,16 +53,19 @@ function Liveness({ blocks }: { blocks: ReturnType<typeof useChainBlocks>['block
   )
 }
 
-/**
- * A block, expandable to its transactions. They arrive with the block, so
- * opening a row costs nothing and does not ask the explorer again.
- */
-function BlockRow({ block }: { block: BlockSummary }) {
+/** A block, expandable to the transactions that arrived with it. */
+function BlockRow({
+  block,
+  onSelect,
+}: {
+  block: BlockSummary
+  onSelect?: SelectHandler
+}) {
   const label = `${block.transactionCount} ${block.transactionCount === 1 ? 'tx' : 'txs'}`
 
   return (
     <li className="border-t border-gray-01 py-3 first:border-t-0 first:pt-0">
-      <details className="group">
+      <details>
         <summary className="flex cursor-pointer flex-wrap items-baseline gap-x-4 gap-y-1">
           <span className="text-h4-sans w-24 shrink-0 text-brand-dark-green">
             {block.id}
@@ -63,9 +73,7 @@ function BlockRow({ block }: { block: BlockSummary }) {
           <span className="text-mono-s flex-1 break-all text-gray-06">
             {shortenHash(block.hash)}
           </span>
-          <span className="text-caption-sans text-gray-05 group-open:text-brand-dark-green">
-            {label}
-          </span>
+          <span className="text-caption-sans text-gray-05">{label}</span>
           <span className="text-caption-sans w-20 shrink-0 text-gray-05">
             {block.status}
           </span>
@@ -81,7 +89,7 @@ function BlockRow({ block }: { block: BlockSummary }) {
             </p>
           ) : (
             block.transactions.map((tx) => (
-              <TransactionCard key={tx.hash} tx={tx} />
+              <TransactionCard key={tx.hash} tx={tx} onSelect={onSelect} />
             ))
           )}
         </div>
@@ -90,11 +98,13 @@ function BlockRow({ block }: { block: BlockSummary }) {
   )
 }
 
-export function ChainView() {
+export function ChainBlocks({ onSelect }: { onSelect?: SelectHandler }) {
   const { blocks, isLoading, error } = useChainBlocks()
 
   return (
-    <div className="flex flex-col gap-5">
+    <section className="flex flex-col gap-4">
+      <h2 className="text-eyebrow text-gray-05">Recent blocks</h2>
+
       <div className="flex flex-col gap-4 border border-gray-01 bg-white p-5">
         <Liveness blocks={blocks} />
 
@@ -111,7 +121,7 @@ export function ChainView() {
         {blocks.length > 0 && (
           <ul className="flex flex-col">
             {blocks.map((block) => (
-              <BlockRow key={block.hash} block={block} />
+              <BlockRow key={block.hash} block={block} onSelect={onSelect} />
             ))}
           </ul>
         )}
@@ -123,6 +133,6 @@ export function ChainView() {
         it directly. Nothing is written, and no key or account of yours is
         involved.
       </p>
-    </div>
+    </section>
   )
 }
