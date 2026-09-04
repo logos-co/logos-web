@@ -14,6 +14,8 @@ Do not add a backend, an API route, or a service of ours into the message path â
 
 **Overview:** [`README.md`](./README.md)
 
+**Notes:** [`docs/`](./docs/) covers the stack and its naming, live endpoints and what a browser can reach, `@waku/sdk` gotchas, and deployment traps. Read [`docs/browser-viability.md`](./docs/browser-viability.md) before promising a new demo, and add to `docs/` when you learn something the hard way.
+
 ## Use the existing design system (required)
 
 **Every demo uses the existing Logos design system.** Never hand-roll styling â€” a demo that looks unlike logos.co is a bug, however well it works.

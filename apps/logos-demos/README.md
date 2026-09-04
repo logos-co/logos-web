@@ -9,6 +9,14 @@ with no Windows build, whose first screen asks you to browse a catalog and
 install your first app. These demos exist to put the same technology behind a
 link instead.
 
+## Notes
+
+[`docs/`](./docs/) holds what was learned building these: the Logos stack and
+its naming, which endpoints are live and which are reachable from a browser,
+`@waku/sdk` behaviour that is not in its types, and the deployment traps in this
+monorepo. Read [`docs/browser-viability.md`](./docs/browser-viability.md) before
+promising a new demo.
+
 ## Design system
 
 **Every demo uses the existing Logos design system.** Do not hand-roll styling.
