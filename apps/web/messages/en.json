@@ -1,4 +1,8 @@
 {
+  "activeCircles": {
+    "activeCircles": "Active Circles",
+    "joinCircle": "Join a Circle"
+  },
   "locale": {
     "language": "Language",
     "en": "English"
