@@ -1,0 +1,36 @@
+{
+  "name": "logos-demos",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port 3005",
+    "build": "next build",
+    "start": "next start --port 3005",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@acid-info/logos-tokens": "workspace:*",
+    "@acid-info/logos-ui": "workspace:*",
+    "@waku/sdk": "^0.0.36",
+    "mermaid": "^11.17.2",
+    "next": "16.2.4",
+    "react": "^19.2.5",
+    "react-aria-components": "^1.20.0",
+    "react-dom": "^19.2.5",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/node": "25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "19.2.3",
+    "eslint": "^10.2.1",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.3"
+  }
+}

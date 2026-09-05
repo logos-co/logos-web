@@ -11,6 +11,7 @@ pnpm + Turborepo monorepo. Node `24`, pnpm `11.1`.
 | `apps/web` | Public Next.js 16 site. Tailwind v4, `next-intl`, static export. Port `3000`. |
 | `apps/cms` | Payload CMS 3.x admin app (Next.js 16 + Postgres). Port `3001`, admin at `/admin`. |
 | `apps/civi-crm` | Public funnel intake endpoint (Next.js 16, no pages). Port `3002`. See [`docs/civi-crm/architecture.md`](docs/civi-crm/architecture.md). |
+| `apps/logos-demos` | Demos of the Logos stack (Next.js 16). Pages are static; the blockchain demo adds read-only proxy route handlers. Port `3005`. See [`apps/logos-demos/AGENTS.md`](apps/logos-demos/AGENTS.md). |
 | `packages/content` | Content schemas, loaders for `content/**`, GitHub mutation helpers, locale registry. |
 | `packages/ui` | Shared React primitives + SVG icon components. |
 | `packages/tokens` | Design tokens. |

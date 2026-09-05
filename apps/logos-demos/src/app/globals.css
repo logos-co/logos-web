@@ -1,0 +1,414 @@
+@import 'tailwindcss';
+@import '@acid-info/logos-tokens/theme.css';
+@import '@acid-info/logos-ui/styles.css';
+
+@source '../../../../packages/ui/src/**/*.{ts,tsx}';
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-brand-off-white);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  background: var(--color-brand-off-white);
+  color: var(--color-brand-dark-green);
+  font-family: var(--font-sans);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--color-brand-yellow);
+  outline-offset: 2px;
+}
+
+/* ── Shell ──────────────────────────────────────────────────────────────── */
+
+.demo-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 248px minmax(0, 1fr);
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 10px;
+  left: 10px;
+  padding: 9px 12px;
+  background: var(--color-brand-yellow);
+  color: var(--color-brand-dark-green);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.demo-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 18px 18px;
+  background: var(--color-brand-dark-green);
+  color: var(--color-brand-off-white);
+}
+
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px 24px;
+  border-bottom: 1px solid rgb(245 245 239 / 18%);
+  color: var(--color-brand-off-white);
+  text-decoration: none;
+  transition: opacity 150ms ease;
+}
+
+.brand-block strong {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.brand-block:hover {
+  opacity: 0.78;
+}
+
+.primary-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 24px 0;
+}
+
+.primary-nav a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 12px;
+  color: rgb(245 245 239 / 66%);
+  font-size: 14px;
+  text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.primary-nav a span {
+  font-family: var(--font-mono-body);
+  font-size: 11px;
+  color: rgb(245 245 239 / 45%);
+}
+
+.primary-nav a:hover,
+.primary-nav a.active {
+  background: rgb(245 245 239 / 10%);
+  color: var(--color-brand-off-white);
+}
+
+.primary-nav a.active span {
+  color: rgb(245 245 239 / 70%);
+}
+
+.sidebar-note {
+  margin: auto 0 0;
+  padding: 0 12px;
+  color: rgb(245 245 239 / 45%);
+  font-family: var(--font-mono-body);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.demo-main {
+  min-width: 0;
+}
+
+@media (width < 48rem) {
+  .demo-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .demo-sidebar {
+    position: static;
+    height: auto;
+    padding: 16px 18px;
+  }
+
+  .primary-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 16px 0 0;
+  }
+}
+
+/* ── Learn more dialog ──────────────────────────────────────────────────── */
+
+/*
+ * React Aria stamps `data-entering` and `data-exiting` on the overlay, which is
+ * what the animations below hang off. `--dialog-exit` is mirrored by `EXIT_MS`
+ * in `learn-more-dialog.tsx`: the caller unmounts the dialog, so the component
+ * has to know how long to wait before it does.
+ */
+:root {
+  --dialog-enter: 240ms;
+  --dialog-exit: 200ms;
+  --ease-out: cubic-bezier(0.22, 0.8, 0.36, 1);
+}
+
+@keyframes dialog-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-backdrop-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/*
+ * Settles into place rather than flying in: a small rise and a hair of scale
+ * reads as the card coming forward, which is what a modal over a dimmed page
+ * is doing. Anything larger turns an explainer into an event.
+ */
+@keyframes dialog-panel-in {
+  from {
+    transform: translateY(12px) scale(0.98);
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-panel-out {
+  to {
+    transform: translateY(6px) scale(0.99);
+    opacity: 0;
+  }
+}
+
+.dialog-backdrop {
+  position: fixed;
+  z-index: 50;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  background: rgb(21 37 33 / 55%);
+  backdrop-filter: blur(3px);
+}
+
+.dialog-backdrop[data-entering] {
+  animation: dialog-backdrop-in var(--dialog-enter) var(--ease-out);
+}
+
+.dialog-backdrop[data-exiting] {
+  animation: dialog-backdrop-out var(--dialog-exit) ease-in forwards;
+}
+
+.dialog-backdrop[data-entering] .dialog-modal {
+  animation: dialog-panel-in var(--dialog-enter) var(--ease-out);
+}
+
+.dialog-backdrop[data-exiting] .dialog-modal {
+  animation: dialog-panel-out var(--dialog-exit) ease-in forwards;
+}
+
+.dialog-modal {
+  display: flex;
+  width: min(920px, 100%);
+  /*
+   * Measured against the viewport, not the overlay: `max-height: 100%` resolves
+   * against the overlay's border box and ignores its padding, which pushes a
+   * long explainer past the bottom of the screen with no way to scroll. `dvh`
+   * so mobile browser chrome counts too.
+   */
+  max-height: calc(100dvh - 64px);
+  outline: 0;
+}
+
+/*
+ * The panel itself does not scroll: the header is a fixed row and the body
+ * below it is the scroll container.
+ *
+ * A sticky header inside a padded scroll container sticks to the container's
+ * PADDING box, not its border box, so content scrolled past showed through the
+ * 28px band above it. Splitting the two removes the class of bug rather than
+ * tuning offsets against it.
+ */
+.dialog-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  /* `min-height: 0` is what lets the panel shrink below its content so the
+     body's scroll engages instead of the box growing to fit. */
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgb(21 37 33 / 14%);
+  border-radius: 18px;
+  background: var(--color-brand-off-white);
+  box-shadow: 0 26px 70px rgb(21 37 33 / 26%);
+}
+
+.dialog-header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 26px 32px 16px;
+  border-bottom: 1px solid var(--color-gray-01);
+}
+
+.dialog-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px 32px 32px;
+}
+
+/* ── Explainer prose ────────────────────────────────────────────────────── */
+
+/*
+ * Element selectors rather than a `components` map: the markdown is ours, the
+ * element set is small and fixed, and keeping the styling in one block is
+ * easier to read than the same rules spread across render functions.
+ */
+.explainer-prose {
+  color: var(--color-gray-06);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.explainer-prose > :first-child {
+  margin-top: 0;
+}
+
+.explainer-prose h2 {
+  margin: 32px 0 10px;
+  color: var(--color-brand-dark-green);
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.explainer-prose p {
+  margin: 0 0 12px;
+  max-width: 66ch;
+}
+
+.explainer-prose strong {
+  color: var(--color-brand-dark-green);
+  font-weight: 500;
+}
+
+.explainer-prose code {
+  padding: 1px 4px;
+  border: 1px solid var(--color-gray-01);
+  background: var(--color-white);
+  font-family: var(--font-mono-body);
+  font-size: 0.8125rem;
+}
+
+.explainer-prose pre {
+  overflow-x: auto;
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--color-gray-01);
+  background: var(--color-white);
+}
+
+.explainer-prose pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.explainer-prose table {
+  width: 100%;
+  margin: 0 0 16px;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.explainer-prose th,
+.explainer-prose td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--color-gray-01);
+  text-align: left;
+  vertical-align: top;
+}
+
+.explainer-prose th {
+  color: var(--color-gray-05);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.explainer-prose td code {
+  white-space: nowrap;
+}
+
+/* Diagrams get room and a surface of their own, and scroll rather than
+   overflow the panel on a narrow screen. */
+.mermaid-figure {
+  overflow-x: auto;
+  margin: 0 0 20px;
+  padding: 18px 16px;
+  border: 1px solid var(--color-gray-01);
+  background: var(--color-white);
+}
+
+/*
+ * Deliberately NOT `max-width: 100%`. mermaid emits a viewBox, so constraining
+ * the width scales the whole drawing, text included: a 1379px diagram in a
+ * 660px column rendered its 13px labels at 6px and was unreadable. Letting the
+ * SVG keep its intrinsic size and scrolling the figure instead keeps the type
+ * legible, and the diagrams above are written narrow enough that it rarely
+ * comes to that.
+ */
+.mermaid-figure svg {
+  display: block;
+  height: auto;
+  max-width: none;
+  margin: 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog-backdrop[data-entering],
+  .dialog-backdrop[data-exiting],
+  .dialog-backdrop[data-entering] .dialog-modal,
+  .dialog-backdrop[data-exiting] .dialog-modal {
+    animation-duration: 0.01ms;
+  }
+}
