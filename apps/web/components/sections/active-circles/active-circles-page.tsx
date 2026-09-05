@@ -36,7 +36,10 @@ function StatCard({ stat }: { stat: ActiveCircleStat }) {
     </>
   )
 
-  if (stat.label === 'Upcoming Events') {
+  if (
+    stat.label === 'Total Circle Events' ||
+    stat.label === 'Upcoming Events'
+  ) {
     return (
       <a
         href="https://luma.com/logosevents"
