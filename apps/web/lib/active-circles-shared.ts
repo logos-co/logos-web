@@ -38,8 +38,8 @@ export type ActiveCircleMarker = {
   eventUrl: string | null
 }
 
-export type ActiveCircleStat = {
-  label: string
+export interface ActiveCircleStat {
+  id: 'totalEvents' | 'activeCircles' | 'distinctCountries' | 'upcomingEvents'
   value: number | null
 }
 

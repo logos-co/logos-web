@@ -1,6 +1,9 @@
 {
   "activeCircles": {
     "activeCircles": "Active Circles",
+    "totalEvents": "Total Circle Events",
+    "distinctCountries": "Distinct Countries",
+    "upcomingEvents": "Upcoming Events",
     "joinCircle": "Join a Circle"
   },
   "locale": {

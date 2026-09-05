@@ -421,19 +421,19 @@
   ],
   "stats": [
     {
-      "label": "Total Circle Events",
+      "id": "totalEvents",
       "value": 163
     },
     {
-      "label": "Distinct Cities",
+      "id": "activeCircles",
       "value": 36
     },
     {
-      "label": "Distinct Countries",
+      "id": "distinctCountries",
       "value": 28
     },
     {
-      "label": "Upcoming Events",
+      "id": "upcomingEvents",
       "value": 9
     }
   ]

@@ -295,10 +295,10 @@ export async function buildActiveCirclesSnapshot(
   ).size
 
   const stats: ActiveCircleStat[] = [
-    { label: 'Total Circle Events', value: events.length },
-    { label: 'Distinct Cities', value: distinctActiveCities },
-    { label: 'Distinct Countries', value: distinctCountries },
-    { label: 'Upcoming Events', value: upcomingEvents.length },
+    { id: 'totalEvents', value: events.length },
+    { id: 'activeCircles', value: distinctActiveCities },
+    { id: 'distinctCountries', value: distinctCountries },
+    { id: 'upcomingEvents', value: upcomingEvents.length },
   ]
 
   return {

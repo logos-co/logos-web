@@ -1,10 +1,10 @@
 import { ExternalLink } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
-import { Button, LogosMark } from '@acid-info/logos-ui'
+import { LogosMark } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
-import { Link } from '@/i18n/navigation'
+import { Button } from '@/components/ui'
 import type {
   ActiveCircleLocation,
   ActiveCircleStat,
@@ -31,18 +31,17 @@ function StatCard({ stat }: { stat: ActiveCircleStat }) {
         {formatStatValue(stat.value)}
       </p>
       <p className="text-eyebrow max-w-[140px]">
-        {stat.label === 'Distinct Cities' ? t('activeCircles') : stat.label}
+        {t(stat.id)}
       </p>
     </>
   )
 
-  if (
-    stat.label === 'Total Circle Events' ||
-    stat.label === 'Upcoming Events'
-  ) {
+  if (stat.id === 'totalEvents' || stat.id === 'upcomingEvents') {
     return (
       <a
         href="https://luma.com/logosevents"
+        target="_blank"
+        rel="noopener noreferrer"
         className={`${className} cursor-pointer hover:bg-brand-yellow`}
       >
         {content}
@@ -59,7 +58,6 @@ function JoinCircleButton({ light = false }: { light?: boolean }) {
   return (
     <Button
       href="/movement#activist-circle"
-      linkAs={Link}
       className={
         light
           ? 'cursor-pointer bg-brand-off-white text-brand-dark-green hover:bg-brand-yellow'
@@ -122,6 +120,8 @@ function LocationLink({ location }: { location: ActiveCircleLocation }) {
 }
 
 function ActiveCirclesHero({ activeSinceDate }: { activeSinceDate: string }) {
+  const t = useTranslations('activeCircles')
+
   return (
     <section className="relative overflow-hidden bg-brand-dark-green px-3 pt-20 text-brand-off-white md:pt-28">
       <div className="absolute left-3 top-6 flex size-[48px] items-center justify-center rounded-full border border-brand-off-white/30 md:left-1/2 md:-translate-x-1/2">
@@ -134,7 +134,7 @@ function ActiveCirclesHero({ activeSinceDate }: { activeSinceDate: string }) {
         </p>
         <div className="col-span-2 self-end md:col-span-8 md:col-start-3 md:self-center">
           <h1 className="text-h1 text-center text-brand-off-white">
-            Active Circles
+            {t('activeCircles')}
           </h1>
           <p className="text-mono-s mx-auto mt-6 max-w-[420px] text-center text-brand-off-white/70">
             Circles and contributions across the Logos network.
@@ -160,7 +160,7 @@ function StatsSection({ stats }: { stats: ActiveCircleStat[] }) {
       />
       <ContentWidth className="grid gap-3 px-3 pb-12 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <StatCard key={stat.label} stat={stat} />
+          <StatCard key={stat.id} stat={stat} />
         ))}
       </ContentWidth>
     </section>
@@ -172,9 +172,11 @@ function LocationsSection({
 }: {
   locations: ActiveCircleLocation[]
 }) {
+  const t = useTranslations('activeCircles')
+
   return (
     <section className="border-t border-brand-dark-green/10 bg-gray-01 pb-16">
-      <SectionHeader title="Active Circles" />
+      <SectionHeader title={t('activeCircles')} />
       {locations.length === 0 ? (
         <p className="text-mono-s px-3 pb-12 text-brand-dark-green">
           No active circles found.
