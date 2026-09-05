@@ -2,5 +2,5 @@
 3:I[56105,["/_next/static/chunks/17hkzjx44u3dy.js","/_next/static/chunks/0-cgqeykwauj~.js"],"OutletBoundary"]
 4:"$Sreact.suspense"
 2:["$","p",null,{"className":"px-3 py-12 text-brand-dark-green","children":["$","a",null,{"href":"/design-guide","className":"cursor-pointer underline transition-opacity hover:opacity-70","children":"Continue to /design-guide"}]}]
-0:{"rsc":["$","$1","c",{"children":[[["$","meta",null,{"httpEquiv":"refresh","content":"0; url=/design-guide"}],["$","script",null,{"dangerouslySetInnerHTML":{"__html":"window.location.replace(\"/design-guide\")"}}],["$","noscript",null,{"children":"$2"}]],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"wVzi1W0kkdc5qMOuuczRA"}
+0:{"rsc":["$","$1","c",{"children":[[["$","meta",null,{"httpEquiv":"refresh","content":"0; url=/design-guide"}],["$","script",null,{"dangerouslySetInnerHTML":{"__html":"window.location.replace(\"/design-guide\")"}}],["$","noscript",null,{"children":"$2"}]],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"6DQZowfz450nbY-JJ3Ysc"}
 5:null
