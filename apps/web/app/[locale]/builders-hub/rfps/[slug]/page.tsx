@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 
 import { getActiveLocales } from '@repo/content/locales'
 import {
@@ -58,15 +59,16 @@ export default async function RfpDetailPage({ params }: LocaleSlugParams) {
   const rfp = await fetchGithubRfpBySlug(slug)
   if (!rfp) notFound()
 
-  const [buildersHub, listingSettings] = await Promise.all([
+  const [buildersHub, listingSettings, t] = await Promise.all([
     getPageCopy(ROUTES.buildersHub, locale),
     getBuilderHubListingSettings({ page: 'rfps', locale }),
+    getTranslations('pages.rfps.detail'),
   ])
 
   const meta = [
-    { label: 'Status', value: rfp.status },
-    rfp.category ? { label: 'Category', value: rfp.category } : null,
-    rfp.tier ? { label: 'Tier', value: rfp.tier } : null,
+    { label: t('meta.status'), value: rfp.status },
+    rfp.category ? { label: t('meta.category'), value: rfp.category } : null,
+    rfp.tier ? { label: t('meta.tier'), value: rfp.tier } : null,
   ].filter((x): x is { label: string; value: string } => Boolean(x))
 
   return (
@@ -87,20 +89,20 @@ export default async function RfpDetailPage({ params }: LocaleSlugParams) {
       />
       <BuildersHubDetailLayout
         backHref={ROUTES.rfps}
-        backLabel="All RFPs"
+        backLabel={t('backLabel')}
         eyebrow={`${rfp.number} · ${rfp.status}`}
         title={rfp.title}
         tagline={rfp.summary}
         body={<LegalMarkdown body={stripLeadingHeading(rfp.rawMarkdown)} />}
         primaryCta={{
-          label: 'Apply',
+          label: t('applyCta'),
           href: RFP_APPLY_URL,
           external: true,
         }}
         meta={meta}
         footer={
           <Button href={rfp.githubUrl} variant="secondary">
-            View on GitHub
+            {t('githubCta')}
           </Button>
         }
       />

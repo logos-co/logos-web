@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 
 import { getActiveLocales } from '@repo/content/locales'
 import {
@@ -65,9 +66,10 @@ export default async function IdeaDetailPage({ params }: LocaleSlugParams) {
   }
   if (idea.status !== 'published') notFound()
 
-  const [buildersHub, listingSettings] = await Promise.all([
+  const [buildersHub, listingSettings, t] = await Promise.all([
     getPageCopy(ROUTES.buildersHub, locale),
     getBuilderHubListingSettings({ page: 'ideas', locale }),
+    getTranslations('pages.ideas.detail'),
   ])
 
   const submitter = idea.submitter.name
@@ -77,14 +79,14 @@ export default async function IdeaDetailPage({ params }: LocaleSlugParams) {
   const reward = formatReward(idea.reward)
 
   const meta = [
-    { label: 'Status', value: idea.status },
-    { label: 'Submitter', value: submitter },
-    reward ? { label: 'Reward', value: reward } : null,
+    { label: t('meta.status'), value: idea.status },
+    { label: t('meta.submitter'), value: submitter },
+    reward ? { label: t('meta.reward'), value: reward } : null,
     idea.submittedAt
-      ? { label: 'Submitted', value: formatDateLong(idea.submittedAt) }
+      ? { label: t('meta.submitted'), value: formatDateLong(idea.submittedAt) }
       : null,
     idea.tags.length > 0
-      ? { label: 'Tags', value: idea.tags.join(', ') }
+      ? { label: t('meta.tags'), value: idea.tags.join(', ') }
       : null,
   ].filter((x): x is { label: string; value: string } => Boolean(x))
 
@@ -117,15 +119,15 @@ export default async function IdeaDetailPage({ params }: LocaleSlugParams) {
       />
       <BuildersHubDetailLayout
         backHref={ROUTES.ideas}
-        backLabel="All ideas"
-        eyebrow={`Idea · ${idea.status}`}
+        backLabel={t('backLabel')}
+        eyebrow={`${t('eyebrow')} · ${idea.status}`}
         title={idea.title}
         tagline={idea.tagline}
         description={idea.description}
         primaryCta={
           idea.discussionUrl
             ? {
-                label: idea.ctaLabel ?? 'Discuss',
+                label: idea.ctaLabel ?? t('discussCta'),
                 href: idea.discussionUrl,
                 external: true,
               }
@@ -134,7 +136,7 @@ export default async function IdeaDetailPage({ params }: LocaleSlugParams) {
         meta={meta}
         footer={
           <RelatedLinksList
-            heading="Related RFPs"
+            heading={t('relatedHeading')}
             hrefBase={ROUTES.rfps}
             items={related}
           />

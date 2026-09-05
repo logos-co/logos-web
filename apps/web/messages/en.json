@@ -39,12 +39,35 @@
     "ideas": {
       "title": "Ideas | Logos",
       "description": "Community-submitted ideas for decentralised applications on Logos. Browse active submissions or contribute your own.",
-      "heading": "Ideas"
+      "heading": "Ideas",
+      "detail": {
+        "backLabel": "All ideas",
+        "eyebrow": "Idea",
+        "discussCta": "Discuss",
+        "relatedHeading": "Related RFPs",
+        "meta": {
+          "status": "Status",
+          "submitter": "Submitter",
+          "reward": "Reward",
+          "submitted": "Submitted",
+          "tags": "Tags"
+        }
+      }
     },
     "rfps": {
       "title": "RFPs | Logos",
       "description": "Request-for-proposals on Logos. USDC + XP rewards for builders shipping attack-resistant public registries, decentralised archives, private financial networks, and more.",
-      "heading": "RFPs"
+      "heading": "RFPs",
+      "detail": {
+        "backLabel": "All RFPs",
+        "applyCta": "Apply",
+        "githubCta": "View on GitHub",
+        "meta": {
+          "status": "Status",
+          "category": "Category",
+          "tier": "Tier"
+        }
+      }
     },
     "circleDetail": {
       "title": "{city} Circle | Logos",
