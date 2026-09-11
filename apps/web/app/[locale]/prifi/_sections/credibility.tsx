@@ -60,7 +60,7 @@ function CredibilityCard({ card }: { card: (typeof CREDIBILITY)[number] }) {
         {/* Figma counts this line's trailing space when centring it. */}
         <p>
           {card.body[0]}
-          {' '}
+          {'\u00a0'}
         </p>
         <p className="mt-[1.2em] xl:mt-[3.6px]">{card.body[1]}</p>
       </div>

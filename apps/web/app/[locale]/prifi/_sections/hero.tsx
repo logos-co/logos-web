@@ -1,9 +1,7 @@
 import Image from 'next/image'
 
-import { Button } from '@/components/ui'
-
 import { HERO } from '../_content'
-import { TRIM } from './atoms'
+import { CtaButton, TRIM } from './atoms'
 
 export function Hero() {
   const [firstLine, secondLine] = HERO.heading
@@ -26,7 +24,7 @@ export function Hero() {
             centres them; the non-breaking space keeps that offset. */}
         <h1 className={`text-h2 w-full ${TRIM}`}>
           {firstLine}
-          {' '}
+          {'\u00a0'}
           <br />
           {secondLine}
         </h1>
@@ -38,24 +36,24 @@ export function Hero() {
         >
           <p>
             {HERO.body[0]}
-            {' '}
+            {'\u00a0'}
           </p>
           <p className="mt-[1.2em]">{HERO.body[1]}</p>
         </div>
         <div className="flex flex-wrap justify-center gap-1">
-          <Button
+          <CtaButton
             href={HERO.primaryCta.href}
             className="cursor-pointer bg-brand-off-white text-brand-dark-green"
           >
             {HERO.primaryCta.label}
-          </Button>
-          <Button
+          </CtaButton>
+          <CtaButton
             href={HERO.secondaryCta.href}
             variant="secondary"
             className="cursor-pointer border-brand-off-white/50 text-brand-off-white"
           >
             {HERO.secondaryCta.label}
-          </Button>
+          </CtaButton>
         </div>
       </div>
     </section>

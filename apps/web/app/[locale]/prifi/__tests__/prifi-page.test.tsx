@@ -140,15 +140,29 @@ describe('prifi page render', () => {
     }
   })
 
-  test('every deeper-dive card links out with its CTA', async () => {
+  test('every deeper-dive card links out with its CTA, once it has a URL', async () => {
     const html = await pageHtml()
 
     for (const card of DEEPER_DIVES.cards) {
-      expect(html).toContain(`href="${card.href}"`)
+      if (card.href) expect(html).toContain(`href="${card.href}"`)
     }
     expect(html.split(DEEPER_DIVES.cards[0].cta).length - 1).toBe(
       DEEPER_DIVES.cards.length
     )
+  })
+
+  test('CTAs without a URL yet stay on the page as plain buttons', async () => {
+    const html = await pageHtml()
+    const buttonFor = (label: string) =>
+      new RegExp(`<button type="button"[^>]*>(?:(?!</button>).)*${label}`, 'i')
+
+    expect(LINKS.thesis).toBeNull()
+    expect(LINKS.theoryPaper).toBeNull()
+    expect(html).toMatch(buttonFor(HERO.primaryCta.label))
+    expect(html).toMatch(buttonFor(DEEPER_DIVES.cards[0].cta))
+    // Decided links still navigate.
+    expect(html).toContain(`href="${LINKS.messagingPaper}"`)
+    expect(html).toContain(`href="${LINKS.storagePaper}"`)
   })
 
   test('gives every table column and row a header', async () => {
