@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import ContentWidth from '@/components/layout/content-width'
+
 import { CREDIBILITY, TRANSPARENCY } from '../_content'
 import { TRIM } from './atoms'
 
@@ -10,25 +12,27 @@ import { TRIM } from './atoms'
  */
 export function Credibility() {
   return (
-    <section className="bg-gray-01 px-3 pt-16 pb-16 text-brand-dark-green lg:pt-[120px] lg:pb-[120px]">
-      <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-        <h2 className={`text-h3-serif lg:w-[43.64%] ${TRIM}`}>
-          {TRANSPARENCY.heading}
-        </h2>
-        <div className="flex flex-col gap-6 lg:w-[50.42%]">
-          <div className="h-px bg-brand-dark-green/10" />
-          <p className="text-mono-s text-black">{TRANSPARENCY.body}</p>
-          <div className="h-px bg-brand-dark-green/10" />
+    <section className="bg-gray-01 pt-16 pb-16 text-brand-dark-green lg:pt-[120px] lg:pb-[120px]">
+      <ContentWidth>
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+          <h2 className={`text-h3-serif lg:w-[43.64%] ${TRIM}`}>
+            {TRANSPARENCY.heading}
+          </h2>
+          <div className="flex flex-col gap-6 lg:w-[50.42%]">
+            <div className="h-px bg-brand-dark-green/10" />
+            <p className="text-mono-s text-black">{TRANSPARENCY.body}</p>
+            <div className="h-px bg-brand-dark-green/10" />
+          </div>
         </div>
-      </div>
-      {/* Figma's 30px under the heading row plus the cards' 12px top padding,
+        {/* Figma's 30px under the heading row plus the cards' 12px top padding,
           less the 5.2px the 12px note adds (10px in the file), so the cards
           keep Figma's position. */}
-      <div className="mt-11 flex flex-col gap-3 lg:mt-[36.8px] lg:flex-row">
-        {CREDIBILITY.map((card) => (
-          <CredibilityCard key={card.title} card={card} />
-        ))}
-      </div>
+        <div className="mt-11 flex flex-col gap-3 lg:mt-[36.8px] lg:flex-row">
+          {CREDIBILITY.map((card) => (
+            <CredibilityCard key={card.title} card={card} />
+          ))}
+        </div>
+      </ContentWidth>
     </section>
   )
 }

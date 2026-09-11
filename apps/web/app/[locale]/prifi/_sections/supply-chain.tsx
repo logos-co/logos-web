@@ -1,16 +1,27 @@
 import Image from 'next/image'
 
+import ContentWidth from '@/components/layout/content-width'
+import { DragScroll } from '@/components/ui'
+
 import { SUPPLY_CHAIN, SUPPLY_CHAIN_ID } from '../_content'
 import { TRIM } from './atoms'
 
 /** Figma's section height, which the baked glow image is cut to. */
 const GLOW_HEIGHT = 'h-[1406px]'
 
+/**
+ * Below 1440px the link cards and the graph scroll sideways. The scrollbar is
+ * hidden like the site's other card rows, so `DragScroll` lets mouse users
+ * drag them.
+ */
+const SIDE_SCROLL =
+  '-mx-3 cursor-pointer overflow-x-auto px-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden desktop:mx-0 desktop:cursor-auto desktop:overflow-visible desktop:px-0'
+
 export function SupplyChain() {
   return (
     <section
       id={SUPPLY_CHAIN_ID}
-      className="relative overflow-hidden bg-black px-3 pt-[88px] pb-[87px] text-white lg:pt-[142px]"
+      className="relative overflow-hidden bg-black pt-[88px] pb-[87px] text-white lg:pt-[142px]"
     >
       {/* The forest photo blurred by 280px at 50% over black, baked into a
           small image instead of a live filter. */}
@@ -24,18 +35,20 @@ export function SupplyChain() {
         />
       </div>
 
-      <Intro />
-      <ChainLinks />
+      <ContentWidth className="relative">
+        <Intro />
+        <ChainLinks />
 
-      {/* Figma's 96px, less the 6.6px the 12px link copy adds to the cards
-          (10px in the file), so this block keeps Figma's position. */}
-      <div className="relative mt-24 flex flex-col gap-10 lg:mt-[89.4px] desktop:flex-row desktop:items-end desktop:justify-between desktop:gap-0">
-        <div className="flex flex-col gap-[54px] desktop:w-[599px]">
-          <Facts />
-          <Stats />
+        {/* Figma's 96px, less the 6.6px the 12px link copy adds to the cards
+            (10px in the file), so this block keeps Figma's position. */}
+        <div className="relative mt-24 flex flex-col gap-10 lg:mt-[89.4px] desktop:flex-row desktop:items-end desktop:justify-between desktop:gap-0">
+          <div className="flex flex-col gap-[54px] desktop:w-[599px]">
+            <Facts />
+            <Stats />
+          </div>
+          <IdentityGraph />
         </div>
-        <IdentityGraph />
-      </div>
+      </ContentWidth>
     </section>
   )
 }
@@ -69,19 +82,21 @@ function Intro() {
 
 function ChainLinks() {
   return (
-    <ol className="relative -mx-3 mt-[120px] flex gap-3 overflow-x-auto px-3 [scrollbar-width:none] lg:mt-[176px] desktop:mx-0 desktop:justify-between desktop:gap-0 desktop:overflow-visible desktop:px-0">
-      {SUPPLY_CHAIN.links.map((link, index) => (
-        <li
-          key={index}
-          className={`flex w-[191px] shrink-0 flex-col gap-3.5 rounded-[5px] border border-white p-2.5 pt-[11px] font-mono text-xs leading-[1.35] font-semibold uppercase ${
-            index === 0 ? 'bg-white text-black' : 'text-white'
-          }`}
-        >
-          <p>{link.label}</p>
-          <p className="whitespace-pre-line">{link.body}</p>
-        </li>
-      ))}
-    </ol>
+    <DragScroll className={`relative mt-[120px] lg:mt-[176px] ${SIDE_SCROLL}`}>
+      <ol className="flex w-max gap-3 desktop:w-full desktop:justify-between desktop:gap-0">
+        {SUPPLY_CHAIN.links.map((link, index) => (
+          <li
+            key={index}
+            className={`flex w-[191px] shrink-0 flex-col gap-3.5 rounded-[5px] border border-white p-2.5 pt-[11px] font-mono text-xs leading-[1.35] font-semibold uppercase ${
+              index === 0 ? 'bg-white text-black' : 'text-white'
+            }`}
+          >
+            <p>{link.label}</p>
+            <p className="whitespace-pre-line">{link.body}</p>
+          </li>
+        ))}
+      </ol>
+    </DragScroll>
   )
 }
 
@@ -126,7 +141,7 @@ function Stats() {
  */
 function IdentityGraph() {
   return (
-    <div className="-mx-3 overflow-x-auto px-3 [scrollbar-width:none] desktop:mx-0 desktop:overflow-visible desktop:px-0">
+    <DragScroll className={SIDE_SCROLL}>
       <div className="relative aspect-[803/409] w-full min-w-[640px] rounded-[5px] border border-t-white/30 border-r-white/[0.18] border-b-white/[0.16] border-l-white/25 bg-black/90 desktop:aspect-auto desktop:h-[409px] desktop:w-[803px]">
         <div className="absolute inset-x-[15px] inset-y-[14px] mix-blend-lighten">
           <Image
@@ -138,6 +153,6 @@ function IdentityGraph() {
           />
         </div>
       </div>
-    </div>
+    </DragScroll>
   )
 }
