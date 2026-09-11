@@ -86,7 +86,7 @@ const DEFAULT_CLASS_NAMES = {
     'font-display text-[30px] leading-none tracking-[-0.9px] [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] lg:text-[56px] lg:tracking-[-0.03em]',
   aside: 'flex items-center gap-3 lg:gap-[42px]',
   subtitle:
-    'hidden font-mono text-[14px] tracking-[-0.03em] text-brand-off-white/90 sm:inline lg:text-[20px] desktop:whitespace-nowrap',
+    'hidden font-mono text-[14px] tracking-[-0.03em] text-brand-off-white/90 sm:inline lg:text-[20px]',
   panel:
     'flex flex-col gap-8 pb-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12 lg:pb-[60px]',
   body: 'font-sans text-[14px] leading-[1.2]',

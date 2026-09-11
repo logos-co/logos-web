@@ -26,6 +26,8 @@ export function Gathering() {
           classNames={{
             card: 'flex min-h-[358px] w-full shrink-0 flex-col items-start justify-between gap-[17px] rounded-3xl bg-gray-01 p-3 md:max-desktop:h-full md:max-desktop:min-h-[396px] desktop:h-[500px] desktop:justify-start',
             body: 'flex w-full flex-col gap-3 p-3 desktop:h-[130px]',
+            description:
+              'text-mono-s whitespace-pre-line text-brand-dark-green',
             footer: 'flex w-full flex-col desktop:flex-1',
             media:
               'relative h-[202px] w-full overflow-hidden rounded-[18px] md:max-desktop:h-62 desktop:flex-1',

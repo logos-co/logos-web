@@ -32,6 +32,7 @@ const IMAGE_POSITION_CLASSNAMES = [
 const DEFAULT_CARD_CLASS_NAMES = {
   card: 'flex min-h-[358px] w-full shrink-0 flex-col items-start justify-between rounded-3xl bg-gray-01 p-1.5 md:h-full md:min-h-[396px]',
   body: 'flex w-full flex-col gap-3 p-3',
+  description: 'text-mono-s text-brand-dark-green',
   footer: 'flex w-full flex-col',
   media: 'relative h-[202px] w-full overflow-hidden rounded-[18px] md:h-62',
 }
@@ -74,9 +75,7 @@ function FeatureCard({
             {title}
           </p>
         </div>
-        <p className="text-mono-s whitespace-pre-line text-brand-dark-green">
-          {body}
-        </p>
+        <p className={classNames.description}>{body}</p>
       </div>
       <div className={classNames.footer}>
         {cta || secondaryCta ? (
