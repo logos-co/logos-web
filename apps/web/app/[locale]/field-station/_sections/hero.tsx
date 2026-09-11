@@ -13,7 +13,9 @@ const CTA_TEXT_CLASSNAME =
  * Figma pins the copy block 186.5px from the top of the 800px frame and the
  * link row 48px from the bottom. The image is rounded along the bottom only,
  * so its top meets the header square, and it runs 8px past the right edge,
- * so only the bottom-left corner shows as rounded.
+ * so only the bottom-left corner shows as rounded. The button and status
+ * offsets put their tops at Figma's 505.5px and 563px; the site's 12px CTA
+ * text makes the button 3px taller than Figma's 10px one.
  */
 export function Hero() {
   return (
@@ -72,11 +74,11 @@ export function Hero() {
       <Button
         href={APPLY_HREF}
         data-umami-event-name={EVENT_NAMES.heroApply}
-        className="mt-[57.8px] w-full max-w-[432px] cursor-pointer border border-white bg-brand-off-white text-brand-dark-green"
+        className="mt-[52.5px] w-full max-w-[432px] cursor-pointer border border-white bg-brand-off-white text-brand-dark-green"
       >
         {HERO.cta}
       </Button>
-      <p className={`mt-[26.5px] ${CTA_TEXT_CLASSNAME}`}>{HERO.status}</p>
+      <p className={`mt-[23.3px] ${CTA_TEXT_CLASSNAME}`}>{HERO.status}</p>
     </CampaignHero>
   )
 }
