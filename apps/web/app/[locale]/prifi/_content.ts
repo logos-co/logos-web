@@ -43,35 +43,190 @@ export const SUPPLY_CHAIN = {
   heading: 'The transaction \nsupply chain.',
   lead: 'Settlement is just one of seven links in the chain.\u00a0Blockchain provides unprecedented settlement security. But transactions depend on infrastructure beyond settlement. Every exposed link creates another opportunity for surveillance or manipulation.',
   note: 'PriFi protects participants from two directions: limiting what an attacker can learn and what they can influence. Leaks cost billions annually. Even small cost reductions add up: a 0.1% drop in transaction costs can quadruple a nation’s wealth.',
-  /** Figma repeats the first link as a placeholder in all seven slots. */
-  links: Array.from({ length: 7 }, () => ({
-    label: '01 Discovery',
-    body: 'Finding a counterparty\nwho has what you want.',
-  })),
   intro: 'Every transaction starts well before any value is ever exchanged.',
-  facts: [
-    { label: 'What transparent Rails Expose', body: 'Pending order flow' },
-    { label: 'Tools Used', body: 'pools, RPC endpoints, relayer networks.' },
+  factLabels: {
+    exposes: 'What transparent Rails Expose',
+    tools: 'Tools Used',
+    threat: 'Threat Model',
+  },
+  statLabels: ['Cost of Leak in Crypto', 'Cost of leaks in the real world'],
+  /**
+   * One entry per link, from the Figma variant frames (850:2325 to 851:3190),
+   * each of which shows that link's card as active. Figma numbers the links
+   * 01 to 08 with no 06, reuses the Contracting diagram for Ordering and the
+   * Settlement one for Enforcement, and gives Discovery the Ordering copy.
+   */
+  links: [
     {
-      label: 'Threat Model',
-      body: 'A visible mempool tells every bot watching exactly \nwhat’s about to happen. Front-running and sandwich \nattacks run on that visibility alone.',
+      label: '01 Discovery',
+      body: 'Finding a counterparty\nwho has what you want.',
+      exposes: 'Pending order flow',
+      tools: 'pools, RPC endpoints, relayer networks.',
+      threat:
+        "A visible mempool tells every bot watching exactly \nwhat's about to happen. Front-running and sandwich \nattacks run on that visibility alone.",
+      outro: 'IP and timing expose proposers',
+      stats: [
+        [{ value: '$800M+', note: 'Sandwich & other attacks / 3yr' }],
+        [
+          {
+            value: '$5B',
+            note: 'year latency-arbitrage tax on global equities',
+          },
+        ],
+      ],
+      graph: {
+        src: '/images/prifi/graph-discovery.webp',
+        alt: "Identity leakage. Each leak looks small. Together they're a graph.",
+        tall: false,
+      },
+    },
+    {
+      label: '02 Diligence',
+      body: 'Verifying they are \nwho they claim',
+      exposes: 'Address history, identity graph',
+      tools: 'On-chain analytics, attestations, reserve and credit checks.',
+      threat:
+        'A counterparty can misrepresent reserves. An outsider can watch \ndiligence requests and infer intent before terms are even set.',
+      outro:
+        'Browser + wallet leaking IP, fingerprint, globally linkable identity graph',
+      stats: [
+        [
+          { value: '$3B+', note: 'surveillance industry monetises the graph' },
+          { value: '$84M', note: 'lost in address-poisoning' },
+        ],
+        [{ value: '$0.5B+', note: 'settlement for exposing 147M IDs' }],
+      ],
+      graph: {
+        src: '/images/prifi/graph-diligence.webp',
+        alt: 'Diligence. Two hazards, one request.',
+        tall: true,
+      },
+    },
+    {
+      label: '03 Negotiation',
+      body: 'Agreeing on price \nand terms',
+      exposes: 'Size, terms, reservation price',
+      tools: 'Chat applications, RFQ threads, term sheets.',
+      threat:
+        'Leaked terms let a predator position ahead of execution. \nA counterparty can also stall or renegotiate once terms are already known elsewhere.',
+      outro: 'Telegram, Twitter, public mempools leak intent',
+      stats: [
+        [{ value: '~80%', note: 'of ETH DeFi routes through private RPCs' }],
+        [{ value: '>50%', note: 'of US equity volume trades off-exchange' }],
+      ],
+      graph: {
+        src: '/images/prifi/graph-negotiation.webp',
+        alt: "Negotiation. Leaked terms don't wait for the deal to close.",
+        tall: false,
+      },
+    },
+    {
+      label: '04 Contracting',
+      body: 'Committing in \nenforceable form',
+      exposes: 'Frontend and signing context',
+      tools: 'Multisig wallets, contract code, signing interfaces.',
+      threat:
+        'A spoofed signing interface can show one transaction and execute another. \nThe signer authorizes something they never actually agreed to.',
+      outro:
+        'DNS, IPFS, AWS, RPCs, and centralised frontends \ncreate billion-dollar attack surfaces',
+      stats: [
+        [
+          { value: '~$1.5B', note: 'stolen from Bybit' },
+          { value: '~$0.5B/yr', note: 'lost to wallet-drainer phishing' },
+        ],
+        [
+          {
+            value: '$2.8B/yr',
+            note: 'lost to manipulated payment instructions',
+          },
+        ],
+      ],
+      graph: {
+        src: '/images/prifi/graph-contracting.webp',
+        alt: "Contracting. The interface can lie. The signature can't take it back.",
+        tall: true,
+      },
+    },
+    {
+      label: '05 Ordering',
+      body: 'Deciding whose trade \ngoes when',
+      exposes: 'Pending order flow',
+      tools: 'Mempools, RPC endpoints, relayer networks.',
+      threat:
+        "A visible mempool tells every bot watching exactly what's \nabout to happen. Front-running and sandwich attacks run on that visibility alone.",
+      outro: 'IP and timing expose proposers',
+      stats: [
+        [{ value: '$800M+', note: 'Sandwich & other attacks / 3yr' }],
+        [
+          {
+            value: '$5B',
+            note: 'year latency-arbitrage tax on global equities',
+          },
+        ],
+      ],
+      graph: {
+        src: '/images/prifi/graph-ordering.webp',
+        alt: "Contracting. The interface can lie. The signature can't take it back.",
+        tall: false,
+      },
+    },
+    {
+      label: '07 Settlement',
+      body: 'The only link where \nvalue moves',
+      exposes: 'Balances, approvals, positions',
+      tools: 'Consensus, execution clients. (BANKS?)',
+      threat:
+        "The chain executes exactly what it's given. \nWhatever risk exists here was already decided upstream.",
+      outro: 'Balances, validators, and positions are visible',
+      stats: [
+        [
+          {
+            value: '$4.3B',
+            note: 'lost across 49 cross-chain settlement attacks',
+          },
+        ],
+        [
+          {
+            value: '$81M',
+            note: 'stolen through a forged SWIFT payment instruction',
+          },
+        ],
+      ],
+      graph: {
+        src: '/images/prifi/graph-settlement.webp',
+        alt: "Settlement. The chain executes exactly what it's given.",
+        tall: false,
+      },
+    },
+    {
+      label: '08 Enforcement',
+      body: 'Making the \noutcome stick',
+      exposes: 'Identifiable operators',
+      tools: 'Litigation, asset freezes, on-chain governance votes.',
+      threat:
+        'A deal defaults after settlement, and recourse depends on \ncourts or goodwill that may not reach across borders or block explorers.',
+      outro: 'Identifiable operators',
+      stats: [
+        [
+          {
+            value: '$4.2B',
+            note: 'frozen post-settlement with \nselective enforcement',
+          },
+        ],
+        [
+          {
+            value: '$2B+',
+            note: 'Breaking offshore and Swiss bank secrecy \nintroduced $2B+ enforcement costs',
+          },
+        ],
+      ],
+      graph: {
+        src: '/images/prifi/graph-settlement.webp',
+        alt: "Settlement. The chain executes exactly what it's given.",
+        tall: false,
+      },
     },
   ],
-  outro: 'IP and timing expose proposers',
-  stats: [
-    {
-      label: 'Cost of Leak in Crypto',
-      value: '$800M+',
-      note: 'Sandwich & other attacks / 3yr',
-    },
-    {
-      label: 'Cost of leaks in the real world',
-      value: '$5B',
-      note: 'year latency-arbitrage tax on global equities',
-    },
-  ],
-  graphAlt:
-    'Identity leakage: a browser and wallet leak an IP address, a device fingerprint, RPC requests and dApp connections, which link into one identity.',
 } as const
 
 export const EXPLOIT_BAND = {

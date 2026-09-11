@@ -177,6 +177,37 @@ describe('prifi page render', () => {
     }
   })
 
+  test('renders the seven supply chain links as tabs, Discovery first', async () => {
+    const html = await pageHtml()
+    const tabs = html.match(/<button[^>]*role="tab"[^>]*>/g) ?? []
+
+    expect(tabs).toHaveLength(SUPPLY_CHAIN.links.length)
+    expect(tabs[0]).toContain('aria-selected="true"')
+    expect(
+      tabs.slice(1).every((tab) => tab.includes('aria-selected="false"'))
+    ).toBe(true)
+    expect(html).toContain('role="tabpanel"')
+    for (const link of SUPPLY_CHAIN.links) {
+      expect(html).toContain(asMarkup(link.label))
+    }
+    // The panel starts on Discovery's facts.
+    expect(html).toContain(asMarkup(SUPPLY_CHAIN.links[0].exposes))
+  })
+
+  test('gives every supply chain link its facts, two costs and a diagram', () => {
+    for (const link of SUPPLY_CHAIN.links) {
+      expect(
+        link.exposes && link.tools && link.threat && link.outro,
+        link.label
+      ).toBeTruthy()
+      expect(link.stats, link.label).toHaveLength(
+        SUPPLY_CHAIN.statLabels.length
+      )
+      expect(existsSync(publicFile(link.graph.src)), link.graph.src).toBe(true)
+      expect(link.graph.alt.length, link.label).toBeGreaterThan(0)
+    }
+  })
+
   test('marks the dark top of the page so the header keeps light ink over it', async () => {
     const html = await pageHtml()
     expect(html.match(/data-header-tone="dark"/g)).toHaveLength(1)
