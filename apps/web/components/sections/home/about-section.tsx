@@ -1,8 +1,12 @@
+import type { ReactNode } from 'react'
+
 import type { HomeAboutSection } from '@repo/content/schemas'
 
 import { SectionHeadingReveal } from '@/components/motion/section-heading-reveal'
 import { StackCard } from '@/components/motion/stack-card'
+import { cn } from '@/lib/cn'
 import CivilSocietyAccordion, {
+  type AccordionClassNames,
   type AccordionItem,
 } from './civil-society-accordion'
 
@@ -57,19 +61,80 @@ export default function AboutSection({ data }: { data: HomeAboutSection }) {
   ]
 
   return (
-    <StackCard
+    <AccordionPanelSection
       id="about"
-      rise={180}
+      heading={data.heading}
+      headingMobile={data.headingMobile}
+      items={items}
+    />
+  )
+}
+
+const DEFAULT_HEADING_CLASSNAME =
+  'mx-auto max-w-[853px] whitespace-pre-line text-center font-display text-[24px] leading-none tracking-[-0.72px] desktop:text-[36px] desktop:tracking-[-0.03em]'
+const DEFAULT_LIST_CLASSNAME = 'mt-[112px] lg:mt-[74px]'
+
+interface AccordionPanelSectionProps {
+  id: string
+  heading: string
+  headingMobile?: string
+  items: AccordionItem[]
+  className?: string
+  /** Merged over the inner padding wrapper. */
+  contentClassName?: string
+  /** Replaces the heading's classes. */
+  headingClassName?: string
+  /** Replaces the spacing wrapper around the accordion. */
+  listClassName?: string
+  accordionClassNames?: AccordionClassNames
+  accordionIcons?: { open: ReactNode; closed: ReactNode }
+  /** Scroll-in rise in px; the homepage stacks cards, other pages can pass 0. */
+  rise?: number
+}
+
+/**
+ * The dark-green rounded panel that holds the homepage accordion. Exported so
+ * campaign pages can reuse the same block with their own rows.
+ */
+export function AccordionPanelSection({
+  id,
+  heading,
+  headingMobile = heading,
+  items,
+  className,
+  contentClassName,
+  headingClassName = DEFAULT_HEADING_CLASSNAME,
+  listClassName = DEFAULT_LIST_CLASSNAME,
+  accordionClassNames,
+  accordionIcons,
+  rise = 180,
+}: AccordionPanelSectionProps) {
+  return (
+    <StackCard
+      id={id}
+      rise={rise}
       mobileRise={0}
-      className="relative z-[2] mt-3 rounded-t-[40px] bg-brand-dark-green text-brand-off-white lg:mt-[48px] lg:rounded-t-[100px]"
+      className={cn(
+        'relative z-[2] mt-3 rounded-t-[40px] bg-brand-dark-green text-brand-off-white lg:mt-[48px] lg:rounded-t-[100px]',
+        className
+      )}
     >
-      <div className="mx-auto max-w-[1440px] px-3 pt-[112px] pb-[200px] lg:px-[130px] lg:pt-[112px] lg:pb-[291px]">
-        <SectionHeadingReveal className="mx-auto max-w-[853px] whitespace-pre-line text-center font-display text-[24px] leading-none tracking-[-0.72px] desktop:text-[36px] desktop:tracking-[-0.03em]">
-          <span className="desktop:hidden">{data.headingMobile}</span>
-          <span className="hidden desktop:inline">{data.heading}</span>
+      <div
+        className={cn(
+          'mx-auto max-w-[1440px] px-3 pt-[112px] pb-[200px] lg:px-[130px] lg:pt-[112px] lg:pb-[291px]',
+          contentClassName
+        )}
+      >
+        <SectionHeadingReveal className={headingClassName}>
+          <span className="desktop:hidden">{headingMobile}</span>
+          <span className="hidden desktop:inline">{heading}</span>
         </SectionHeadingReveal>
-        <div className="mt-[112px] lg:mt-[74px]">
-          <CivilSocietyAccordion items={items} />
+        <div className={listClassName}>
+          <CivilSocietyAccordion
+            items={items}
+            classNames={accordionClassNames}
+            icons={accordionIcons}
+          />
         </div>
       </div>
     </StackCard>

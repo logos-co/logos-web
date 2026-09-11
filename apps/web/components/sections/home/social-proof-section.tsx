@@ -11,27 +11,55 @@ import {
 } from '@/lib/homepage-section-data'
 import type { SocialProofStats } from '@/lib/social-proof-stats'
 
-function StatCardView({ card }: { card: HomeStatCard }) {
+const DEFAULT_STAT_CARD_CLASS_NAMES = {
+  root: 'hidden h-full w-full min-w-0 rounded-[20px] border border-brand-dark-green bg-brand-off-white text-brand-dark-green md:grid md:grid-cols-1',
+  label: 'font-sans text-xs leading-[1.15] tracking-[-0.01em]',
+  value:
+    'font-display text-[44px] leading-[1.15] tracking-[-0.01em] lg:text-[80px]',
+}
+
+interface StatCardViewProps {
+  card: Pick<HomeStatCard, 'label' | 'value'> & { body?: string }
+  /** Each slot replaces the default classes outright. */
+  classNames?: Partial<typeof DEFAULT_STAT_CARD_CLASS_NAMES>
+  /** Keeps the card square; turn off to let `classNames.root` size it. */
+  square?: boolean
+  /** Trims label and value boxes to the cap height, as Figma sets them. */
+  trimText?: boolean
+}
+
+const TEXT_BOX_TRIM = '[text-box-edge:cap_alphabetic] [text-box-trim:trim-both]'
+
+/** Exported so other pages can show the same stat card. */
+export function StatCardView({
+  card,
+  classNames,
+  square = true,
+  trimText = false,
+}: StatCardViewProps) {
+  const slots = { ...DEFAULT_STAT_CARD_CLASS_NAMES, ...classNames }
+  const trim = trimText ? ` ${TEXT_BOX_TRIM}` : ''
+
   return (
-    <article className="hidden h-full w-full min-w-0 rounded-[20px] border border-brand-dark-green bg-brand-off-white text-brand-dark-green md:grid md:grid-cols-1">
-      <div
-        aria-hidden
-        className="col-start-1 row-start-1 aspect-square w-full"
-      />
+    <article className={slots.root}>
+      {square ? (
+        <div
+          aria-hidden
+          className="col-start-1 row-start-1 aspect-square w-full"
+        />
+      ) : null}
       <div className="col-start-1 row-start-1 flex min-w-0 flex-col gap-4 p-4 xl:gap-[23px] xl:p-5">
         <span className="inline-flex w-fit items-center rounded-[4px] border border-brand-dark-green px-[11px] py-1.5">
-          <span className="font-sans text-xs leading-[1.15] tracking-[-0.01em]">
-            {card.label}
-          </span>
+          <span className={`${slots.label}${trim}`}>{card.label}</span>
         </span>
 
-        <p className="font-display text-[44px] leading-[1.15] tracking-[-0.01em] lg:text-[80px]">
-          {card.value}
-        </p>
+        <p className={`${slots.value}${trim}`}>{card.value}</p>
 
-        <p className="mt-auto max-w-full min-w-0 font-sans text-[13px] leading-[1.15] tracking-[-0.01em] [overflow-wrap:anywhere] xl:text-[15px]">
-          {card.body}
-        </p>
+        {card.body ? (
+          <p className="mt-auto max-w-full min-w-0 font-sans text-[13px] leading-[1.15] tracking-[-0.01em] [overflow-wrap:anywhere] xl:text-[15px]">
+            {card.body}
+          </p>
+        ) : null}
       </div>
     </article>
   )
