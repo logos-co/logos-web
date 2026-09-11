@@ -7,6 +7,7 @@ import {
   EVENT_NAMES,
   SECTION_IDS,
 } from '../_content'
+import { LinkedText } from './atoms'
 
 /**
  * The Basecamp "How it works" block at Figma's 702/702 split. The photo keeps
@@ -51,7 +52,9 @@ export function Application() {
                 </span>
               ))}
             </p>
-            <p className="text-mono-s">{APPLICATION_INTRO.note}</p>
+            <p className="text-mono-s">
+              <LinkedText {...APPLICATION_INTRO.note} />
+            </p>
           </>
         }
       />

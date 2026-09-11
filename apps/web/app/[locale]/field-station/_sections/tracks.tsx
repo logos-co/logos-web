@@ -2,6 +2,7 @@ import { IconMask } from '@/components/icons/icon-mask'
 import { AccordionPanelSection } from '@/components/sections/home/about-section'
 
 import { EVENT_NAMES, SECTION_IDS, TRACKS, type TrackBlock } from '../_content'
+import { LinkedText } from './atoms'
 
 const CHEVRON = (
   <IconMask
@@ -9,30 +10,6 @@ const CHEVRON = (
     className="size-6 text-white"
   />
 )
-
-function BlockText({ block }: { block: TrackBlock }) {
-  const { link } = block
-  const at = link?.href ? block.text.lastIndexOf(link.label) : -1
-  if (!link?.href || at < 0) {
-    return <>{block.text}</>
-  }
-
-  return (
-    <>
-      {block.text.slice(0, at)}
-      <a
-        href={link.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        data-umami-event-name={link.eventName}
-        className="cursor-pointer underline underline-offset-2"
-      >
-        {link.label}
-      </a>
-      {block.text.slice(at + link.label.length)}
-    </>
-  )
-}
 
 /**
  * Figma's expanded track (frame 12:524) is one 14px text block with a blank
@@ -45,7 +22,7 @@ function TrackDetails({ blocks }: { blocks: readonly TrackBlock[] }) {
       {block.heading ? (
         <strong className="mb-1.5 block font-bold">{block.heading}</strong>
       ) : null}
-      <BlockText block={block} />
+      <LinkedText text={block.text} link={block.link} />
     </p>
   ))
 }

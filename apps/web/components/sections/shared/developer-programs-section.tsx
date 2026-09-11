@@ -131,21 +131,17 @@ interface ProgramPanelLink {
 const PANEL_FOCUS_CLASSNAME =
   'cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green'
 
-function ProgramPanel({
+/** External URLs open in a new tab and skip the locale prefix, as the app
+ * Button does. */
+function PanelLink({
   link,
   className,
   children,
 }: {
-  link?: ProgramPanelLink
+  link: ProgramPanelLink
   className: string
-  children: ReactNode
+  children?: ReactNode
 }) {
-  if (!link) {
-    return <div className={className}>{children}</div>
-  }
-
-  // External URLs open in a new tab and skip the locale prefix, as the app
-  // Button does.
   if (/^https?:\/\//.test(link.href)) {
     return (
       <a
@@ -154,7 +150,7 @@ function ProgramPanel({
         rel="noopener noreferrer"
         aria-label={link.ariaLabel}
         data-umami-event-name={link.eventName}
-        className={`${className} ${PANEL_FOCUS_CLASSNAME}`}
+        className={className}
       >
         {children}
       </a>
@@ -166,10 +162,48 @@ function ProgramPanel({
       href={link.href}
       aria-label={link.ariaLabel}
       data-umami-event-name={link.eventName}
-      className={`${className} ${PANEL_FOCUS_CLASSNAME}`}
+      className={className}
     >
       {children}
     </Link>
+  )
+}
+
+function ProgramPanel({
+  link,
+  overlay = false,
+  className,
+  children,
+}: {
+  link?: ProgramPanelLink
+  /**
+   * Lays the link over the panel instead of wrapping it, so links inside the
+   * panel stay clickable (links cannot nest).
+   */
+  overlay?: boolean
+  className: string
+  children: ReactNode
+}) {
+  if (!link) {
+    return <div className={className}>{children}</div>
+  }
+
+  if (overlay) {
+    return (
+      <div className={`relative ${className}`}>
+        <PanelLink
+          link={link}
+          className={`absolute inset-0 z-[1] rounded-[inherit] ${PANEL_FOCUS_CLASSNAME}`}
+        />
+        {children}
+      </div>
+    )
+  }
+
+  return (
+    <PanelLink link={link} className={`${className} ${PANEL_FOCUS_CLASSNAME}`}>
+      {children}
+    </PanelLink>
   )
 }
 
@@ -219,6 +253,11 @@ interface ProgramOutlinePanelProps {
   description: string
   /** Shown below the copy. */
   children?: ReactNode
+  /**
+   * Links under the copy. They sit above the panel link, which then lies over
+   * the panel rather than wrapping it.
+   */
+  actions?: ReactNode
 }
 
 export function ProgramOutlinePanel({
@@ -227,16 +266,21 @@ export function ProgramOutlinePanel({
   title,
   description,
   children,
+  actions,
 }: ProgramOutlinePanelProps) {
   return (
     <ProgramPanel
       link={link}
+      overlay={Boolean(actions)}
       className="flex h-[370px] flex-col items-center justify-center overflow-hidden rounded-xl border border-brand-dark-green px-4 py-10"
     >
       {mark ? <div className="mb-10">{mark}</div> : null}
       <div className="flex flex-col items-center gap-3 text-center">
         <h3 className="text-subhead-sans">{title}</h3>
         <p className="w-full max-w-[338px] text-mono-s">{description}</p>
+        {actions ? (
+          <div className="relative z-[2] text-mono-s">{actions}</div>
+        ) : null}
       </div>
       {children}
     </ProgramPanel>

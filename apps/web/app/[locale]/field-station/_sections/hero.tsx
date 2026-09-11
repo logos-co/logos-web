@@ -1,9 +1,10 @@
 import Image from 'next/image'
 
+import { IconMask } from '@/components/icons/icon-mask'
 import { CampaignHero } from '@/components/sections/shared/campaign-hero'
 import { Button } from '@/components/ui'
 
-import { APPLY_HREF, EVENT_NAMES, HERO } from '../_content'
+import { APPLY_HREF, EVENT_NAMES, HERO, PARTNERS } from '../_content'
 
 /** Same mono label style as the site's CTA buttons. */
 const CTA_TEXT_CLASSNAME =
@@ -14,7 +15,9 @@ const CTA_TEXT_CLASSNAME =
  * link row 48px from the bottom. The image is rounded along the bottom only,
  * so its top meets the header square, and it runs 8px past the right edge,
  * so only the bottom-left corner shows as rounded. The button and status
- * offsets put their tops at Figma's 505.5px and 563px.
+ * offsets put their tops at Figma's 505.5px and 563px. The Zu-Grama logo
+ * sits 40px above the title, as on the key visual's co-host lockup, and the
+ * top padding gives up its 73px so the title keeps Figma's position.
  */
 export function Hero() {
   return (
@@ -22,7 +25,7 @@ export function Hero() {
       classNames={{
         root: 'relative min-h-[800px] overflow-hidden bg-brand-off-white px-3 pt-10 text-brand-off-white md:h-[800px]',
         content:
-          'relative z-10 flex min-h-[760px] flex-col items-center pt-20 pb-12 md:h-full md:min-h-0 md:pt-[146.5px]',
+          'relative z-10 flex min-h-[760px] flex-col items-center pt-8 pb-12 md:h-full md:min-h-0 md:pt-[73.5px]',
         column: 'flex w-full max-w-[530px] flex-col items-center text-center',
       }}
       background={
@@ -56,6 +59,13 @@ export function Hero() {
         </nav>
       }
     >
+      <p className="mb-10 flex">
+        <span className="sr-only">{PARTNERS.zuGrama.logo.alt}</span>
+        <IconMask
+          src={PARTNERS.zuGrama.logo.src}
+          className="h-[33px] w-[106px] text-brand-off-white"
+        />
+      </p>
       <h1 className="text-h2 leading-[0.88]! [text-box-edge:cap_alphabetic] [text-box-trim:trim-both]">
         <span className="text-h5-serif">{HERO.label}</span>
         <br />

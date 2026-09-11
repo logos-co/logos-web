@@ -48,6 +48,17 @@ export function Partners() {
         }
         title={zuGrama.title}
         description={zuGrama.description}
+        actions={
+          <a
+            href={zuGrama.x.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-umami-event-name={EVENT_NAMES.partnerZuGramaX}
+            className="cursor-pointer underline underline-offset-2"
+          >
+            {zuGrama.x.label}
+          </a>
+        }
       />
     </ProgramPanelsSection>
   )

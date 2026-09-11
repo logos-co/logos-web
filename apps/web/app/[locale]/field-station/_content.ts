@@ -43,6 +43,12 @@ export const SECTION_IDS = {
  */
 export const APPLY_HREF = `#${SECTION_IDS.applicationProcess}`
 
+/**
+ * The application form behind "can be completed here". The brief says the
+ * link lands over the weekend; the word stays plain text until it is set.
+ */
+const APPLICATION_FORM_HREF: string | undefined = undefined
+
 const IMAGE_DIR = '/campaigns/field-station'
 
 /**
@@ -55,6 +61,7 @@ export const EVENT_NAMES = {
   heroSectionLink: (label: string) => `Jump to ${label} - Hero`,
   applicationApply: 'Apply now - Application process',
   applicationInstall: 'Install Basecamp - Application process',
+  applicationForm: 'Application form - Application process',
   applyBannerInstall: 'Install Basecamp - Apply banner',
   trackToggle: (title: string) => `Track - ${title}`,
   trackLink: (title: string) => `Problem statements - ${title}`,
@@ -62,6 +69,7 @@ export const EVENT_NAMES = {
   faqLink: (label: string) => `FAQ link - ${label}`,
   partnerLogos: 'Logos homepage - Partners',
   partnerZuGrama: 'Zu-Grama website - Partners',
+  partnerZuGramaX: 'Zu-Grama on X - Partners',
 }
 
 /** The residency itself, for the page's schema.org Event. */
@@ -106,7 +114,7 @@ export const HERO = {
 export const ABOUT = {
   heading: 'About the Program',
   paragraphs: [
-    'Field Station is a one-week residency programme at a 500-acre regenerative farm in Rajasthan, where accepted participants will come together to create a real, working parallel society: living, eating, debugging, and shipping solutions to real-world issues.',
+    'Field Station is a one-week residency programme at a 500-acre regenerative project in Rajasthan, where accepted participants will come together to create a real, working parallel society: living, eating, debugging, and shipping solutions to real-world issues.',
     'Residents will choose one of the four tracks listed below to build a prototype. At the end of the one-week programme, a demo day will give participants the opportunity to showcase their work for a chance to win milestone-based grants to continue the project.',
   ],
   stats: [
@@ -127,26 +135,18 @@ export interface TrackBlock {
   link?: { label: string; href?: string; eventName: string }
 }
 
-/**
- * Problem statement docs for each track. The copy is live; the "here" links
- * switch on as soon as a URL lands here.
- */
-const PROBLEM_STATEMENTS_HREF: Record<
-  'civicPrize' | 'sovereigntyPrivacy' | 'zuGramaDacc',
-  string | undefined
-> = {
-  civicPrize: undefined,
-  sovereigntyPrivacy: undefined,
-  zuGramaDacc: undefined,
-}
+/** The problem statements for every track live in one shared doc. */
+const PROBLEM_STATEMENTS_HREF =
+  'https://docs.google.com/document/d/156ZY74bStEtQk4wg40IUz4uPTksCHfCjPd15HVSfNFc/edit?pli=1&tab=t.0'
 
-const problemStatementsLink = (
-  track: keyof typeof PROBLEM_STATEMENTS_HREF,
-  title: string
-) => ({
-  label: 'here',
-  href: PROBLEM_STATEMENTS_HREF[track],
-  eventName: EVENT_NAMES.trackLink(title),
+/** The brief asks for this sentence, linked to the doc, under every track. */
+const problemStatements = (title: string): TrackBlock => ({
+  text: 'For a list of problem statements, please see here.',
+  link: {
+    label: 'here',
+    href: PROBLEM_STATEMENTS_HREF,
+    eventName: EVENT_NAMES.trackLink(title),
+  },
 })
 
 export const TRACKS = {
@@ -174,10 +174,7 @@ export const TRACKS = {
           heading: 'Privacy-preserving mutual aid coordination',
           text: 'Residents and site staff constantly need things from each other: a ride into Jaipur, a spare part, or someone who can fix a bike. Within this track, an example of something you could build would be a simple offers-and-requests board that matches people. This kind of tool can again lean on the full Logos stack.',
         },
-        {
-          text: 'See more problem statements here.',
-          link: problemStatementsLink('civicPrize', 'Logos Civic Prize'),
-        },
+        problemStatements('Logos Civic Prize'),
       ],
     },
     {
@@ -199,13 +196,7 @@ export const TRACKS = {
         {
           text: 'Finally, you can build towards one of the prizes in the standing λPrize catalogue, which funds core ecosystem primitives and runs in parallel to the residency under its own normal rules.',
         },
-        {
-          text: 'See more problem statements here.',
-          link: problemStatementsLink(
-            'sovereigntyPrivacy',
-            'Logos Sovereignty and Privacy'
-          ),
-        },
+        problemStatements('Logos Sovereignty and Privacy'),
       ],
     },
     {
@@ -222,13 +213,7 @@ export const TRACKS = {
         {
           text: 'We are also particularly interested in solutions that might help India across health, sense-making tools, etc.',
         },
-        {
-          text: 'For a list of problem statements, please see here.',
-          link: problemStatementsLink(
-            'zuGramaDacc',
-            'Zu-Grama d/acc (decentralised acceleration)'
-          ),
-        },
+        problemStatements('Zu-Grama d/acc (decentralised acceleration)'),
       ],
     },
     {
@@ -248,6 +233,7 @@ export const TRACKS = {
         {
           text: "You apply to this track as one of three things: artist, writer, or explorer. As an artist, you bring the residency's cultural dimension, music, painting, farming, whatever your practice is, into a space that's otherwise all whiteboards and terminals. As a writer, your job is to document what's actually happening, honest accounts of what a parallel society looks like when people try to live inside one. And as an explorer you don't need a fixed role at all, just a problem you can't stop thinking about, explained in plain language, and an honest answer to what you're actually doing about it, whether that's a live experiment, volunteering, a half-built prototype, a dataset, a paper, or just a clear idea of the first thing you'd try.",
         },
+        problemStatements('Resident, non-builder'),
       ],
     },
   ],
@@ -270,7 +256,14 @@ export const APPLICATION_INTRO = {
     'designers, testers, and people with a passion for exploring new ways of living are',
     'welcome to apply to join.',
   ],
-  note: 'The application process is simple and done through Devfolio.',
+  note: {
+    text: 'The application process is simple can be completed here',
+    link: {
+      label: 'here',
+      href: APPLICATION_FORM_HREF,
+      eventName: EVENT_NAMES.applicationForm,
+    },
+  },
   image: {
     src: `${IMAGE_DIR}/application.webp`,
     alt: 'Wild grasses against a blue sky',
@@ -484,6 +477,8 @@ export const PARTNERS = {
   zuGrama: {
     title: 'About Zu-Grama',
     href: 'https://zugrama.org/',
+    /** The handle zugrama.org links to. */
+    x: { label: 'X: @ZuGramaIndia', href: 'https://x.com/ZuGramaIndia' },
     description:
       'ZuGrama is an experiment in building pro-human places and pro-human technology. Our north star is a permanent village where people live, build and test technologies that preserve human agency. We are working toward this through residencies, pop-up villages and community events, with a base in Bangalore and programmes across India and elsewhere.',
     logo: {
@@ -528,7 +523,7 @@ export const FAQ = {
       {
         links: [
           {
-            label: 'docs.logos.co/basecamp/install-logos-basecamp',
+            label: BASECAMP_INSTALL_DOCS,
             href: BASECAMP_INSTALL_DOCS,
           },
           {
@@ -546,7 +541,7 @@ export const FAQ = {
     faqItem('How do I run a node?', [
       {
         links: [
-          { label: 'docs.logos.co/run-a-node', href: RUN_A_NODE_DOCS },
+          { label: RUN_A_NODE_DOCS, href: RUN_A_NODE_DOCS },
           {
             label: 'How to Run a Logos Blockchain Node with Docker',
             href: 'https://www.youtube.com/watch?v=yWtu2O1TlJg',
