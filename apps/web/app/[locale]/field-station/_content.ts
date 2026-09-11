@@ -60,6 +60,8 @@ export const EVENT_NAMES = {
   trackLink: (title: string) => `Problem statements - ${title}`,
   faqToggle: (question: string) => `FAQ - ${question}`,
   faqLink: (label: string) => `FAQ link - ${label}`,
+  partnerLogos: 'Logos homepage - Partners',
+  partnerZuGrama: 'Zu-Grama website - Partners',
 }
 
 /** The residency itself, for the page's schema.org Event. */
@@ -474,12 +476,14 @@ export const APPLY_BANNER: GiantSwitchSection = {
 export const PARTNERS = {
   logos: {
     title: 'About Logos',
+    href: ROUTES.home,
     description:
       'Private messaging, storage, and blockchain infrastructure for civil society. Logos builds the sovereignty and privacy layer – the permissionless tools – for people running what they depend on.',
     image: { src: `${IMAGE_DIR}/about-logos.webp`, alt: '' },
   },
   zuGrama: {
     title: 'About Zu-Grama',
+    href: 'https://zugrama.org/',
     description:
       'ZuGrama is an experiment in building pro-human places and pro-human technology. Our north star is a permanent village where people live, build and test technologies that preserve human agency. We are working toward this through residencies, pop-up villages and community events, with a base in Bangalore and programmes across India and elsewhere.',
     logo: {

@@ -7,7 +7,7 @@ import {
   ProgramPanelsSection,
 } from '@/components/sections/shared/developer-programs-section'
 
-import { PARTNERS } from '../_content'
+import { EVENT_NAMES, PARTNERS } from '../_content'
 
 /** Figma draws the mark 17.55px tall. */
 const LOGOS_MARK_HEIGHT = 17.55
@@ -22,12 +22,22 @@ export function Partners() {
   return (
     <ProgramPanelsSection className="mt-28 border-t border-brand-dark-green/10 pt-[23px] pb-25">
       <ProgramImagePanel
+        link={{
+          href: logos.href,
+          ariaLabel: 'Logos homepage',
+          eventName: EVENT_NAMES.partnerLogos,
+        }}
         image={logos.image}
         mark={<LogosMark size={LOGOS_MARK_HEIGHT} className="relative" />}
         title={logos.title}
         description={logos.description}
       />
       <ProgramOutlinePanel
+        link={{
+          href: zuGrama.href,
+          ariaLabel: 'Zu-Grama website (opens in a new tab)',
+          eventName: EVENT_NAMES.partnerZuGrama,
+        }}
         mark={
           <Image
             src={zuGrama.logo.src}

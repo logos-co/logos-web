@@ -198,6 +198,12 @@
   --text-xs: 0.625rem;
 }
 
+/* Puts a block inside a `text-small-compact` page back on the 12px default. */
+@utility text-small-default {
+  --text-small-size: 0.75rem; /* 12px */
+  --text-xs: 0.75rem;
+}
+
 @utility text-eyebrow {
   font-family: var(--font-mono);
   font-weight: 500; /* Fira Code Medium */

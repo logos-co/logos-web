@@ -144,6 +144,23 @@ function ProgramPanel({
     return <div className={className}>{children}</div>
   }
 
+  // External URLs open in a new tab and skip the locale prefix, as the app
+  // Button does.
+  if (/^https?:\/\//.test(link.href)) {
+    return (
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={link.ariaLabel}
+        data-umami-event-name={link.eventName}
+        className={`${className} ${PANEL_FOCUS_CLASSNAME}`}
+      >
+        {children}
+      </a>
+    )
+  }
+
   return (
     <Link
       href={link.href}

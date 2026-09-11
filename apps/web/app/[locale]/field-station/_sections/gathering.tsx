@@ -13,10 +13,14 @@ const IMAGE_POSITIONS = ['object-center', 'object-center', 'object-center']
  * heights only hold at the 1440 canvas; narrower columns keep the networking
  * layout so the copy never runs into the photo. Figma leaves 80.5px under
  * the venue photo; 81px keeps every section below on Figma's whole-pixel y.
+ * The card copy runs at the site's 12px rather than the page's 10px.
  */
 export function Gathering() {
   return (
-    <section id={SECTION_IDS.activities} className="mt-[81px] scroll-mt-12">
+    <section
+      id={SECTION_IDS.activities}
+      className="text-small-default mt-[81px] scroll-mt-12"
+    >
       <ContentWidth className="desktop:px-0">
         <SectionHeading>{GATHERING.heading}</SectionHeading>
       </ContentWidth>

@@ -68,10 +68,14 @@ function Answer({ blocks }: { blocks: FaqBlock[] }) {
   return blocks.map((block, index) => <AnswerBlock key={index} block={block} />)
 }
 
-/** The homepage accordion, restyled as Figma's grey question cards. */
+/**
+ * The homepage accordion, restyled as Figma's grey question cards. Questions
+ * and answers run at the site's 12px rather than the page's 10px, and the
+ * answer column is sized in em so it keeps Figma's line breaks.
+ */
 export function Faq() {
   return (
-    <section className="mt-28">
+    <section className="text-small-default mt-28">
       <ContentWidth>
         <SectionHeading>{FAQ.heading}</SectionHeading>
         <div className="mt-6">
@@ -87,7 +91,7 @@ export function Faq() {
               title: 'text-eyebrow text-black',
               aside: 'flex items-center',
               panel: 'pt-3',
-              body: 'text-mono-s max-w-[422px] text-black [&>*+*]:mt-[1.3em]',
+              body: 'text-mono-s max-w-[42.2em] text-black [&>*+*]:mt-[1.3em]',
             }}
             icons={{
               open: <span className={TOGGLE_CLASSNAME}>-</span>,
