@@ -31,6 +31,7 @@ const staticIndexableRoutes = [
   ROUTES.chatControl,
   ROUTES.ukDebt,
   ROUTES.fieldStation,
+  ROUTES.prifi,
   ROUTES.nodeProgramme,
   ROUTES.operators,
   ROUTES.podcast,
