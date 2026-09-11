@@ -44,6 +44,14 @@ export function About() {
                 trimText
                 classNames={{
                   root: 'grid h-[156px] w-[174px] rounded-[20px] border border-brand-dark-green bg-brand-off-white text-brand-dark-green',
+                  // Figma strokes the card and tag inside their padding, so
+                  // each loses 1px of padding to its CSS border: 20px card
+                  // inset, 124×21 tag.
+                  content:
+                    'col-start-1 row-start-1 flex min-w-0 flex-col gap-[23px] p-[19px]',
+                  tag: 'inline-flex w-fit items-center rounded-[4px] border border-brand-dark-green px-[10px] py-[5px]',
+                  // Figma sets this tag at 12px, above the page's 10px small text.
+                  label: 'text-caption-sans',
                 }}
               />
             ))}

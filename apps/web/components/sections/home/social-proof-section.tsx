@@ -13,6 +13,9 @@ import type { SocialProofStats } from '@/lib/social-proof-stats'
 
 const DEFAULT_STAT_CARD_CLASS_NAMES = {
   root: 'hidden h-full w-full min-w-0 rounded-[20px] border border-brand-dark-green bg-brand-off-white text-brand-dark-green md:grid md:grid-cols-1',
+  content:
+    'col-start-1 row-start-1 flex min-w-0 flex-col gap-4 p-4 xl:gap-[23px] xl:p-5',
+  tag: 'inline-flex w-fit items-center rounded-[4px] border border-brand-dark-green px-[11px] py-1.5',
   label: 'font-sans text-xs leading-[1.15] tracking-[-0.01em]',
   value:
     'font-display text-[44px] leading-[1.15] tracking-[-0.01em] lg:text-[80px]',
@@ -48,8 +51,8 @@ export function StatCardView({
           className="col-start-1 row-start-1 aspect-square w-full"
         />
       ) : null}
-      <div className="col-start-1 row-start-1 flex min-w-0 flex-col gap-4 p-4 xl:gap-[23px] xl:p-5">
-        <span className="inline-flex w-fit items-center rounded-[4px] border border-brand-dark-green px-[11px] py-1.5">
+      <div className={slots.content}>
+        <span className={slots.tag}>
           <span className={`${slots.label}${trim}`}>{card.label}</span>
         </span>
 

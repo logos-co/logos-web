@@ -11,6 +11,7 @@ const DEFAULT_CLASS_NAMES = {
     'flex flex-col gap-6 lg:min-h-[435px] xl:min-h-[549px] desktop:min-h-[621px] lg:justify-between lg:gap-8',
   title: 'text-h3-sans mb-[14px] text-brand-dark-green',
   intro: 'mb-10 flex flex-col gap-10 text-brand-dark-green',
+  row: 'grid gap-4 pt-[6px] pb-3 lg:grid-cols-2 lg:gap-3',
   media:
     'relative aspect-[351/313] lg:aspect-auto lg:h-[435px] xl:h-[549px] desktop:h-[621px] overflow-hidden rounded-xl',
 }
@@ -54,10 +55,7 @@ export function HowItWorksSection({
           {intro ? <div className={slots.intro}>{intro}</div> : null}
           <div className="divide-y divide-brand-dark-green/50 border-t border-brand-dark-green/50">
             {data.rows.map((row) => (
-              <article
-                key={row.number}
-                className="grid gap-4 pt-[6px] pb-3 lg:grid-cols-2 lg:gap-3"
-              >
+              <article key={row.number} className={slots.row}>
                 <span className="text-eyebrow text-brand-dark-green">
                   {row.number}
                 </span>

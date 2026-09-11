@@ -13,7 +13,7 @@ export function Timeline() {
     <section className="mt-28">
       <ContentWidth className="!px-0">
         <SectionHeading className="px-3">{TIMELINE.heading}</SectionHeading>
-        <div className="mt-9 md:grid md:grid-cols-[714fr_464fr_238fr]">
+        <div className="mt-9 md:grid md:grid-cols-[714fr_464fr_238fr] md:gap-x-3">
           {TIMELINE.rows.map((row, index) => (
             <ReleaseModuleRow
               key={row.date}

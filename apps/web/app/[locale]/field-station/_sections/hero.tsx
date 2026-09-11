@@ -14,8 +14,7 @@ const CTA_TEXT_CLASSNAME =
  * link row 48px from the bottom. The image is rounded along the bottom only,
  * so its top meets the header square, and it runs 8px past the right edge,
  * so only the bottom-left corner shows as rounded. The button and status
- * offsets put their tops at Figma's 505.5px and 563px; the site's 12px CTA
- * text makes the button 3px taller than Figma's 10px one.
+ * offsets put their tops at Figma's 505.5px and 563px.
  */
 export function Hero() {
   return (
@@ -23,7 +22,7 @@ export function Hero() {
       classNames={{
         root: 'relative min-h-[800px] overflow-hidden bg-brand-off-white px-3 pt-10 text-brand-off-white md:h-[800px]',
         content:
-          'relative z-10 flex min-h-[760px] flex-col items-center pt-20 pb-[46px] md:h-full md:min-h-0 md:pt-[146.5px]',
+          'relative z-10 flex min-h-[760px] flex-col items-center pt-20 pb-12 md:h-full md:min-h-0 md:pt-[146.5px]',
         column: 'flex w-full max-w-[530px] flex-col items-center text-center',
       }}
       background={
@@ -78,7 +77,7 @@ export function Hero() {
       >
         {HERO.cta}
       </Button>
-      <p className={`mt-[23.3px] ${CTA_TEXT_CLASSNAME}`}>{HERO.status}</p>
+      <p className={`mt-[26.5px] ${CTA_TEXT_CLASSNAME}`}>{HERO.status}</p>
     </CampaignHero>
   )
 }

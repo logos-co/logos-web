@@ -126,6 +126,8 @@ export const TRACKS = {
       key: 'sovereignty-privacy',
       title: 'Logos Sovereignty and Privacy',
       subtitle: 'Bring your own idea',
+      // Figma gives this caption a 234px box, wider than the text.
+      subtitleClassName: 'sm:inline-block sm:min-w-[234px]',
     },
     {
       key: 'zu-grama-dacc',

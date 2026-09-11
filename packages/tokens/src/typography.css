@@ -187,10 +187,21 @@
 
 /* Mono — Fira Code / Fira Mono */
 
+/*
+ * Small text (Eyebrow, Mono S and the `text-xs` CTA labels) runs at 12px
+ * site-wide, up from Figma's 10px. `text-small-compact` on a wrapper puts
+ * everything inside back on Figma's 10px, for pages that must match the
+ * frame line for line.
+ */
+@utility text-small-compact {
+  --text-small-size: 0.625rem; /* 10px */
+  --text-xs: 0.625rem;
+}
+
 @utility text-eyebrow {
   font-family: var(--font-mono);
   font-weight: 500; /* Fira Code Medium */
-  font-size: 0.75rem; /* 12px */
+  font-size: var(--text-small-size, 0.75rem); /* 12px */
   line-height: 1.3;
   letter-spacing: 0;
   text-transform: uppercase;
@@ -210,7 +221,7 @@
 @utility text-mono-s {
   font-family: var(--font-mono-body);
   font-weight: 400; /* Fira Mono Regular */
-  font-size: 0.75rem; /* 12px */
+  font-size: var(--text-small-size, 0.75rem); /* 12px */
   line-height: 1.3;
   letter-spacing: 0;
 }

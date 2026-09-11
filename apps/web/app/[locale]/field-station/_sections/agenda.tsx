@@ -9,7 +9,8 @@ import { SectionHeading } from './atoms'
 /**
  * Two rows of four at desktop, as in Figma. The cards are a fixed 345px wide,
  * so narrower screens get the same drag-scroll row the homepage use cases use
- * instead of an eight-card stack.
+ * instead of an eight-card stack. Figma strokes the card inside its 16px
+ * inset, so the title and caption sit 15px inside the 1px CSS border.
  */
 export function Agenda() {
   return (
@@ -25,6 +26,8 @@ export function Agenda() {
                 imageSrc={card.imageSrc}
                 imageAlt=""
                 imageClassName={CARD_IMAGE_CLASSNAMES[card.slot]}
+                titleClassName="text-h4-sans absolute left-[15px] top-[10px] w-[249px] text-brand-dark-green"
+                descriptionClassName="text-mono-s absolute bottom-[15px] left-[15px] w-[186px] text-brand-dark-green"
               />
             </div>
           ))}

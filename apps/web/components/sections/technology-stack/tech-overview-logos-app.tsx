@@ -44,12 +44,15 @@ type Props = {
   className?: string
   /** Stable Umami event names for the CTAs. */
   eventNames?: { primary?: string; secondary?: string }
+  /** Appended to the GiantSwitch classes. */
+  switchClassName?: string
 }
 
 export default function TechOverviewLogosApp({
   data,
   className = 'mt-8 mb-10 md:mt-25 md:mb-25',
   eventNames,
+  switchClassName,
 }: Props) {
   const titleWords = data.title.split(' ')
   const shouldBreakMobileTitle = titleWords.length > 2
@@ -64,7 +67,7 @@ export default function TechOverviewLogosApp({
     <section id="logos-app" className={className}>
       <ContentWidth className="bg-brand-off-white pt-0 pb-4 md:py-0">
         <GiantSwitch
-          className="[&>div]:pb-27.5 md:[&>div]:pb-14"
+          className={`[&>div]:pb-27.5 md:[&>div]:pb-14${switchClassName ? ` ${switchClassName}` : ''}`}
           accent={data.accent}
           imagePosition={data.imagePosition}
           installHoverShift

@@ -12,11 +12,15 @@ import { PARTNERS } from '../_content'
 /** Figma draws the mark 17.55px tall. */
 const LOGOS_MARK_HEIGHT = 17.55
 
+/**
+ * Figma's 24px top padding includes the 1px hairline it strokes inside the
+ * frame; the CSS border sits outside the padding, so the padding is 23px.
+ */
 export function Partners() {
   const { logos, zuGrama } = PARTNERS
 
   return (
-    <ProgramPanelsSection className="mt-28 border-t border-brand-dark-green/10 pt-6 pb-25">
+    <ProgramPanelsSection className="mt-28 border-t border-brand-dark-green/10 pt-[23px] pb-25">
       <ProgramImagePanel
         image={logos.image}
         mark={<LogosMark size={LOGOS_MARK_HEIGHT} className="relative" />}

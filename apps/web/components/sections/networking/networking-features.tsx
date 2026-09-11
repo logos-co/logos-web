@@ -30,6 +30,7 @@ const IMAGE_POSITION_CLASSNAMES = [
 ]
 
 const DEFAULT_CARD_CLASS_NAMES = {
+  title: 'text-body-sans whitespace-nowrap text-brand-dark-green',
   card: 'flex min-h-[358px] w-full shrink-0 flex-col items-start justify-between rounded-3xl bg-gray-01 p-1.5 md:h-full md:min-h-[396px]',
   body: 'flex w-full flex-col gap-3 p-3',
   description: 'text-mono-s text-brand-dark-green',
@@ -71,9 +72,7 @@ function FeatureCard({
             className={`h-3 w-[18px] shrink-0 rounded-full ${dotClassName}`}
             aria-hidden="true"
           />
-          <p className="text-body-sans whitespace-nowrap text-brand-dark-green">
-            {title}
-          </p>
+          <p className={classNames.title}>{title}</p>
         </div>
         <p className={classNames.description}>{body}</p>
       </div>
@@ -119,18 +118,21 @@ type Props = {
   classNames?: FeatureCardClassNames
   /** Per-card object-position classes, in card order. */
   imagePositionClassNames?: readonly string[]
+  /** Replaces the width and side padding wrapper around the cards. */
+  containerClassName?: string
 }
 
 export default function NetworkingFeatures({
   data,
   classNames,
   imagePositionClassNames = IMAGE_POSITION_CLASSNAMES,
+  containerClassName = 'mx-auto max-w-360 px-3',
 }: Props) {
   const cardClassNames = { ...DEFAULT_CARD_CLASS_NAMES, ...classNames }
 
   return (
     <section className="bg-brand-off-white">
-      <div className="mx-auto max-w-360 px-3">
+      <div className={containerClassName}>
         <Reveal
           stagger
           amount={0.15}

@@ -52,7 +52,12 @@ function ScrollControl({
 }
 
 type UseCaseCardProps = Omit<TechOverviewUseCaseCard, 'href' | 'ctaLabel'> &
-  Partial<Pick<TechOverviewUseCaseCard, 'href' | 'ctaLabel'>>
+  Partial<Pick<TechOverviewUseCaseCard, 'href' | 'ctaLabel'>> & {
+    /** Replaces the title's classes. */
+    titleClassName?: string
+    /** Replaces the description's classes. */
+    descriptionClassName?: string
+  }
 
 const USE_CASE_CARD_CLASSNAME =
   'border-brand-dark-green/50 relative block h-[317px] w-[345px] shrink-0 overflow-hidden rounded-xl border bg-brand-off-white text-brand-dark-green'
@@ -66,12 +71,12 @@ export function UseCaseCard({
   imageSrc,
   imageAlt,
   imageClassName,
+  titleClassName = 'text-h4-sans absolute left-4 top-4 w-[249px] text-brand-dark-green',
+  descriptionClassName = 'text-mono-s absolute bottom-4 left-4 w-[186px] text-brand-dark-green',
 }: UseCaseCardProps) {
   const content = (
     <>
-      <h3 className="text-h4-sans absolute left-4 top-4 w-[249px] text-brand-dark-green">
-        {title}
-      </h3>
+      <h3 className={titleClassName}>{title}</h3>
 
       {ctaLabel ? (
         <div className="absolute left-4 top-[83px]">
@@ -81,9 +86,7 @@ export function UseCaseCard({
         </div>
       ) : null}
 
-      <p className="text-mono-s absolute bottom-4 left-4 w-[186px] text-brand-dark-green">
-        {description}
-      </p>
+      <p className={descriptionClassName}>{description}</p>
 
       <div
         className={`absolute bottom-[11px] right-[10px] overflow-hidden ${imageClassName}`}

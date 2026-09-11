@@ -20,11 +20,11 @@ export function Venue() {
       heading={
         <div className="flex flex-col gap-[19px] desktop:pb-[136px]">
           <SectionHeading>{VENUE.heading}</SectionHeading>
-          <div className="text-mono-s desktop:w-[345px] flex flex-col gap-8 text-brand-dark-green">
+          <div className="text-mono-s desktop:w-[345px] flex flex-col gap-[2.6em] text-brand-dark-green">
             {VENUE.blocks.map((block) => (
               <div key={block.label}>
                 <p className="font-bold">{block.label}</p>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-[1.3em]">
                   {block.paragraphs.map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}

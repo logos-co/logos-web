@@ -26,6 +26,8 @@ export interface AccordionItem {
   imageClassName?: string
   /** Stable Umami event name for the toggle; defaults to the visible label. */
   eventName?: string
+  /** Appended to the subtitle slot for this row only. */
+  subtitleClassName?: string
 }
 
 function hasPanel(item: AccordionItem): boolean {
@@ -126,7 +128,15 @@ export default function CivilSocietyAccordion({
             <span className={slots.title}>{item.title}</span>
             <span className={slots.aside}>
               {item.subtitle ? (
-                <span className={slots.subtitle}>{item.subtitle}</span>
+                <span
+                  className={
+                    item.subtitleClassName
+                      ? `${slots.subtitle} ${item.subtitleClassName}`
+                      : slots.subtitle
+                  }
+                >
+                  {item.subtitle}
+                </span>
               ) : null}
               {icons ? (
                 isOpen ? (
