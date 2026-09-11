@@ -68,43 +68,32 @@ function Answer({ blocks }: { blocks: FaqBlock[] }) {
   return blocks.map((block, index) => <AnswerBlock key={index} block={block} />)
 }
 
-/**
- * The homepage accordion, restyled as Figma's grey question cards, in two
- * labelled groups. Only the first question starts open, as in Figma.
- */
+/** The homepage accordion, restyled as Figma's grey question cards. */
 export function Faq() {
   return (
     <section className="mt-28">
       <ContentWidth>
         <SectionHeading>{FAQ.heading}</SectionHeading>
-        <div className="mt-6 flex flex-col gap-6">
-          {FAQ.groups.map((group, groupIndex) => (
-            <div key={group.key} className="flex flex-col gap-3">
-              <h3 className="text-eyebrow text-brand-dark-green">
-                {group.label}
-              </h3>
-              <CivilSocietyAccordion
-                items={group.items.map(({ answer, ...item }) => ({
-                  ...item,
-                  content: <Answer blocks={answer} />,
-                }))}
-                initialOpenKey={groupIndex === 0 ? undefined : null}
-                classNames={{
-                  root: 'flex w-full flex-col gap-3',
-                  item: 'rounded-xl bg-gray-01 p-3',
-                  row: 'flex w-full items-center justify-between gap-6 text-left',
-                  title: 'text-eyebrow text-black',
-                  aside: 'flex items-center',
-                  panel: 'pt-3',
-                  body: 'text-mono-s max-w-[422px] text-black [&>*+*]:mt-[1.3em]',
-                }}
-                icons={{
-                  open: <span className={TOGGLE_CLASSNAME}>-</span>,
-                  closed: <span className={TOGGLE_CLASSNAME}>+</span>,
-                }}
-              />
-            </div>
-          ))}
+        <div className="mt-6">
+          <CivilSocietyAccordion
+            items={FAQ.items.map(({ answer, ...item }) => ({
+              ...item,
+              content: <Answer blocks={answer} />,
+            }))}
+            classNames={{
+              root: 'flex w-full flex-col gap-3',
+              item: 'rounded-xl bg-gray-01 p-3',
+              row: 'flex w-full items-center justify-between gap-6 text-left',
+              title: 'text-eyebrow text-black',
+              aside: 'flex items-center',
+              panel: 'pt-3',
+              body: 'text-mono-s max-w-[422px] text-black [&>*+*]:mt-[1.3em]',
+            }}
+            icons={{
+              open: <span className={TOGGLE_CLASSNAME}>-</span>,
+              closed: <span className={TOGGLE_CLASSNAME}>+</span>,
+            }}
+          />
         </div>
       </ContentWidth>
     </section>

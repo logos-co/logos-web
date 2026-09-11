@@ -102,7 +102,7 @@ export const HERO = {
 } as const
 
 export const ABOUT = {
-  heading: 'About the Programme',
+  heading: 'About the Program',
   paragraphs: [
     'Field Station is a one-week residency programme at a 500-acre regenerative farm in Rajasthan, where accepted participants will come together to create a real, working parallel society: living, eating, debugging, and shipping solutions to real-world issues.',
     'Residents will choose one of the four tracks listed below to build a prototype. At the end of the one-week programme, a demo day will give participants the opportunity to showcase their work for a chance to win milestone-based grants to continue the project.',
@@ -515,96 +515,84 @@ const faqItem = (question: string, answer: FaqBlock[]) => ({
 
 export const FAQ = {
   heading: 'FAQ',
-  groups: [
-    {
-      key: 'technical',
-      label: 'Technical info',
-      items: [
-        faqItem('How do I install Basecamp?', [
+  items: [
+    faqItem('How do I install Basecamp?', [
+      {
+        text: 'Go to logos.co/basecamp and install either the Linux version or Mac version.',
+        link: { label: 'logos.co/basecamp', href: ROUTES.basecamp },
+      },
+      {
+        links: [
           {
-            text: 'Go to logos.co/basecamp and install either the Linux version or Mac version.',
-            link: { label: 'logos.co/basecamp', href: ROUTES.basecamp },
+            label: 'docs.logos.co/basecamp/install-logos-basecamp',
+            href: BASECAMP_INSTALL_DOCS,
           },
           {
-            links: [
-              {
-                label: 'docs.logos.co/basecamp/install-logos-basecamp',
-                href: BASECAMP_INSTALL_DOCS,
-              },
-              {
-                label: 'Installing Logos Basecamp',
-                href: 'https://www.youtube.com/watch?v=SZ72xolkZz4',
-              },
-              {
-                label: 'Quickstart Logos Basecamp',
-                href: 'https://www.youtube.com/watch?v=EwCkegIm_1o',
-              },
-              { label: 'Latest release', href: EXTERNAL_URLS.basecampRelease },
-            ],
-          },
-        ]),
-        faqItem('How do I run a node?', [
-          {
-            links: [
-              { label: 'docs.logos.co/run-a-node', href: RUN_A_NODE_DOCS },
-              {
-                label: 'How to Run a Logos Blockchain Node with Docker',
-                href: 'https://www.youtube.com/watch?v=yWtu2O1TlJg',
-              },
-            ],
-          },
-        ]),
-        faqItem('Do I need to be a developer?', [
-          {
-            text: 'No. About 30 residents take part from mixed backgrounds. Some ship software. Others use it, test it, and vote for winning submissions.',
-          },
-        ]),
-        faqItem('Do I need a working prototype?', [
-          {
-            text: 'No, but if you have one, link it. It will prioritise your application.',
-          },
-        ]),
-        faqItem("What's Basecamp, and do I need it?", [
-          {
-            text: 'Basecamp is a local-first launcher for the Logos stack and is used to run a Logos node. Installing it, and where applicable, running a node, is required for an application to be successful.',
-          },
-        ]),
-      ],
-    },
-    {
-      key: 'general',
-      label: 'General FAQs',
-      items: [
-        faqItem("What's the accommodation like?", [
-          {
-            text: 'Shared rooms, 5–7 people, single-sex. Farm-to-table food, boutique tents, and haveli lodgings on site.',
-          },
-        ]),
-        faqItem('Is there a code of conduct?', [
-          {
-            text: 'Yes. Phone-free communal evenings, a shared field-note board visible to the group, and a code of conduct governing how residents interact with the venue, staff, and one another.',
-          },
-        ]),
-        faqItem('What does it cost?', [
-          {
-            text: '25 - 30 residents will have accommodation, food, and beverages provided for them.',
+            label: 'Installing Logos Basecamp',
+            href: 'https://www.youtube.com/watch?v=SZ72xolkZz4',
           },
           {
-            text: 'Local travel support details are provided within the application form. No international flights will be compensated.',
+            label: 'Quickstart Logos Basecamp',
+            href: 'https://www.youtube.com/watch?v=EwCkegIm_1o',
           },
+          { label: 'Latest release', href: EXTERNAL_URLS.basecampRelease },
+        ],
+      },
+    ]),
+    faqItem('How do I run a node?', [
+      {
+        links: [
+          { label: 'docs.logos.co/run-a-node', href: RUN_A_NODE_DOCS },
           {
-            text: 'In the coming weeks, we will post options for paid guests on site during the last four days of the residency.',
+            label: 'How to Run a Logos Blockchain Node with Docker',
+            href: 'https://www.youtube.com/watch?v=yWtu2O1TlJg',
           },
-        ]),
-        faqItem('How do I get from Jaipur to Dhun?', [
-          {
-            text: 'We will share details regarding transfer from Jaipur to Dhun to selected residents',
-          },
-        ]),
-        faqItem('Which is the nearest airport to Dhun?', [
-          { text: 'Jaipur International Airport' },
-        ]),
-      ],
-    },
+        ],
+      },
+    ]),
+    faqItem('Do I need to be a developer?', [
+      {
+        text: 'No. About 30 residents take part from mixed backgrounds. Some ship software. Others use it, test it, and vote for winning submissions.',
+      },
+    ]),
+    faqItem('Do I need a working prototype?', [
+      {
+        text: 'No, but if you have one, link it. It will prioritise your application.',
+      },
+    ]),
+    faqItem("What's Basecamp, and do I need it?", [
+      {
+        text: 'Basecamp is a local-first launcher for the Logos stack and is used to run a Logos node. Installing it, and where applicable, running a node, is required for an application to be successful.',
+      },
+    ]),
+    faqItem("What's the accommodation like?", [
+      {
+        text: 'Shared rooms, 5–7 people, single-sex. Farm-to-table food, boutique tents, and haveli lodgings on site.',
+      },
+    ]),
+    faqItem('Is there a code of conduct?', [
+      {
+        text: 'Yes. Phone-free communal evenings, a shared field-note board visible to the group, and a code of conduct governing how residents interact with the venue, staff, and one another.',
+      },
+    ]),
+    faqItem('What does it cost?', [
+      {
+        text: '25 - 30 residents will have accommodation, food, and beverages provided for them.',
+      },
+      {
+        text: 'Local travel support details are provided within the application form. No international flights will be compensated.',
+      },
+      {
+        text: 'In the coming weeks, we will post options for paid guests on site during the last four days of the residency.',
+      },
+    ]),
+    faqItem('How do I get from Jaipur to Dhun?', [
+      {
+        text: 'We will share details regarding transfer from Jaipur to Dhun to selected residents',
+      },
+    ]),
+    faqItem('Which is the nearest airport to Dhun?', [
+      { text: 'Jaipur International Airport' },
+    ]),
   ],
 }
