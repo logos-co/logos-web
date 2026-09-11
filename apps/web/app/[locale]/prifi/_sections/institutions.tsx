@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import ContentWidth from '@/components/layout/content-width'
+
 import { INSTITUTIONS } from '../_content'
 import { BODY_18, TRIM } from './atoms'
 
@@ -17,7 +19,7 @@ const CORNER_FADE =
  */
 export function Institutions() {
   return (
-    <section className="relative isolate flex flex-col overflow-hidden bg-brand-off-white text-brand-dark-green lg:h-[672px] lg:justify-center lg:px-3 lg:py-[60px]">
+    <section className="relative isolate flex flex-col overflow-hidden bg-brand-off-white text-brand-dark-green lg:h-[672px] lg:justify-center lg:py-[60px]">
       <div className="relative order-last aspect-[4/3] w-full md:aspect-[2/1] lg:absolute lg:inset-0 lg:-z-10 lg:aspect-auto">
         <Image
           src="/images/prifi/institutions.webp"
@@ -37,13 +39,15 @@ export function Institutions() {
           style={{ backgroundImage: CORNER_FADE }}
         />
       </div>
-      <div className="flex max-w-[818px] flex-col gap-6 px-3 pt-16 pb-6 lg:p-0">
-        <h2 className={`text-h3-serif ${TRIM}`}>{INSTITUTIONS.heading}</h2>
-        <div className={BODY_18}>
-          <p>{INSTITUTIONS.body[0]}</p>
-          <p className="mt-[1.2em]">{INSTITUTIONS.body[1]}</p>
+      <ContentWidth className="w-full">
+        <div className="flex max-w-[818px] flex-col gap-6 pt-16 pb-6 lg:p-0">
+          <h2 className={`text-h3-serif ${TRIM}`}>{INSTITUTIONS.heading}</h2>
+          <div className={BODY_18}>
+            <p>{INSTITUTIONS.body[0]}</p>
+            <p className="mt-[1.2em]">{INSTITUTIONS.body[1]}</p>
+          </div>
         </div>
-      </div>
+      </ContentWidth>
     </section>
   )
 }

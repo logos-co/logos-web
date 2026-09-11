@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import ContentWidth from '@/components/layout/content-width'
+
 import { HAZARDS, PROTECTION } from '../_content'
 import { BODY_18, MONO_CELL, TRIM } from './atoms'
 
@@ -10,11 +12,13 @@ import { BODY_18, MONO_CELL, TRIM } from './atoms'
  */
 export function Hazards() {
   return (
-    <section className="flex flex-col gap-[60px] bg-brand-off-white px-3 py-16 text-brand-dark-green lg:min-h-[1074px] lg:pt-[100.5px] lg:pb-[60px]">
-      <HazardClasses />
-      <hr className="border-black/25" />
-      <Protection />
-      <ProtectionMatrix />
+    <section className="bg-brand-off-white py-16 text-brand-dark-green lg:min-h-[1074px] lg:pt-[100.5px] lg:pb-[60px]">
+      <ContentWidth className="flex flex-col gap-[60px]">
+        <HazardClasses />
+        <hr className="border-black/25" />
+        <Protection />
+        <ProtectionMatrix />
+      </ContentWidth>
     </section>
   )
 }
