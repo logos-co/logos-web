@@ -1,8 +1,7 @@
 import ContentWidth from '@/components/layout/content-width'
-import { Button } from '@/components/ui'
 
 import { DEEPER_DIVES } from '../_content'
-import { TRIM } from './atoms'
+import { CtaButton, TRIM } from './atoms'
 
 /**
  * Figma fixes this frame at 596px with 24px above and 100px below, and
@@ -34,9 +33,9 @@ export function DeeperDives() {
                   </p>
                 </div>
               </div>
-              <Button href={card.href} className="cursor-pointer">
+              <CtaButton href={card.href} className="cursor-pointer">
                 {card.cta}
-              </Button>
+              </CtaButton>
             </article>
           ))}
         </div>

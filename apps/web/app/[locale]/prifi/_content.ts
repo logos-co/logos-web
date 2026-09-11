@@ -11,16 +11,20 @@ import { ROUTES } from '@/constants/routes'
 
 export const SUPPLY_CHAIN_ID = 'transaction-supply-chain'
 
+/** A CTA destination that has not been decided yet. */
+type PendingHref = string | null
+
 /**
- * Figma gives these CTAs no destination yet. Each points at the closest page
- * the site already has until the thesis and papers are published.
+ * The thesis and the Theory paper have no URL yet. Until one is set here, their
+ * CTAs render as plain buttons, so a click keeps the reader on this page. The
+ * Messaging and Storage papers point at those tech stack pages.
  */
 export const LINKS = {
-  thesis: ROUTES.research,
+  thesis: null as PendingHref,
   supplyChain: `#${SUPPLY_CHAIN_ID}`,
-  theoryPaper: ROUTES.research,
-  messagingPaper: ROUTES.messaging,
-  storagePaper: ROUTES.storage,
+  theoryPaper: null as PendingHref,
+  messagingPaper: ROUTES.messaging as PendingHref,
+  storagePaper: ROUTES.storage as PendingHref,
 } as const
 
 export const HERO = {
