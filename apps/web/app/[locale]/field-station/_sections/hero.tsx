@@ -11,8 +11,9 @@ const CTA_TEXT_CLASSNAME =
 
 /**
  * Figma pins the copy block 186.5px from the top of the 800px frame and the
- * link row 48px from the bottom; the image runs 8px past the right edge, so
- * only its left corners show as rounded.
+ * link row 48px from the bottom. The image is rounded along the bottom only,
+ * so its top meets the header square, and it runs 8px past the right edge,
+ * so only the bottom-left corner shows as rounded.
  */
 export function Hero() {
   return (
@@ -24,7 +25,7 @@ export function Hero() {
         column: 'flex w-full max-w-[530px] flex-col items-center text-center',
       }}
       background={
-        <div className="absolute inset-y-0 left-0 w-[calc(100%+8px)] overflow-hidden rounded-[20px]">
+        <div className="absolute inset-y-0 left-0 w-[calc(100%+8px)] overflow-hidden rounded-b-[20px]">
           <Image
             src={HERO.image}
             alt=""
