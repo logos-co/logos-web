@@ -5,15 +5,14 @@ import { describe, expect, test, vi } from 'vitest'
 import { ROUTES } from '@/constants/routes'
 
 vi.mock('@/i18n/navigation', () => ({
+  // Forwards every prop, as the real Link does, so data attributes survive.
   Link: ({
     children,
-    href,
-    className,
+    ...props
   }: {
     children: ReactNode
     href: string
-    className?: string
-  }) => createElement('a', { href, className }, children),
+  } & Record<string, unknown>) => createElement('a', props, children),
 }))
 
 import { EVENT_DETAILS, HERO, OG_IMAGE, SECTION_IDS, SEO } from '../_content'
@@ -100,9 +99,6 @@ describe('field station page', () => {
     const names = clickable.map((tag) => attr(tag, 'data-umami-event-name'))
 
     expect(names.every(Boolean)).toBe(true)
-    // FAQ placeholder questions repeat, so only the non-FAQ names must be
-    // unique; each FAQ toggle is still named after its question.
-    const ctaNames = names.filter((name) => !name?.startsWith('FAQ - '))
-    expect(new Set(ctaNames).size).toBe(ctaNames.length)
+    expect(new Set(names).size).toBe(names.length)
   })
 })

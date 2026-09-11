@@ -13,7 +13,7 @@ import type {
   TableSection,
 } from '@repo/content/schemas'
 
-import { EXTERNAL_URLS } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
 export const SEO = {
   title: 'Field Station: Rajasthan Builder Residency | Logos x Zu-Grama',
@@ -59,6 +59,7 @@ export const EVENT_NAMES = {
   trackToggle: (title: string) => `Track - ${title}`,
   trackLink: (title: string) => `Problem statements - ${title}`,
   faqToggle: (question: string) => `FAQ - ${question}`,
+  faqLink: (label: string) => `FAQ link - ${label}`,
 }
 
 /** The residency itself, for the page's schema.org Event. */
@@ -480,7 +481,7 @@ export const PARTNERS = {
   zuGrama: {
     title: 'About Zu-Grama',
     description:
-      'A pop-up village operator in the Zuzalu lineage, running end-to-end India operations from a permanent Bangalore node, Zu-Grama is an experiment in building pro-human places and pro-human technologies. Zu-Grama brings the local community, the venue, and the on-ground reach to Build the Parallel.',
+      'ZuGrama is an experiment in building pro-human places and pro-human technology. Our north star is a permanent village where people live, build and test technologies that preserve human agency. We are working toward this through residencies, pop-up villages and community events, with a base in Bangalore and programmes across India and elsewhere.',
     logo: {
       src: '/campaigns/field-station/zu-grama-logo.svg',
       alt: 'Zu-Grama',
@@ -490,22 +491,120 @@ export const PARTNERS = {
   },
 } as const
 
+export interface FaqLink {
+  label: string
+  href: string
+}
+
+/**
+ * An answer paragraph, or a run of links set one per line. `link.label` is
+ * the part of `text` that links.
+ */
+export type FaqBlock = { text: string; link?: FaqLink } | { links: FaqLink[] }
+
+const BASECAMP_INSTALL_DOCS =
+  'https://docs.logos.co/basecamp/install-logos-basecamp'
+const RUN_A_NODE_DOCS = 'https://docs.logos.co/run-a-node'
+
+const faqItem = (question: string, answer: FaqBlock[]) => ({
+  key: question,
+  title: question,
+  eventName: EVENT_NAMES.faqToggle(question),
+  answer,
+})
+
 export const FAQ = {
   heading: 'FAQ',
-  // Placeholder copy from the Figma frame until the real questions land.
-  items: [
-    'Lorem ipsum dolor sit amet consectetur?',
-    'consectetur Mauris tristique?',
-    'Lorem ipsum dolor sit amet consectetur?',
-    'consectetur Mauris tristique?',
-    'Lorem ipsum dolor sit amet consectetur?',
-    'consectetur Mauris tristique?',
-    'Lorem ipsum dolor sit amet consectetur?',
-    'consectetur Mauris tristique?',
-  ].map((question, index) => ({
-    key: `faq-${index}`,
-    title: question,
-    eventName: EVENT_NAMES.faqToggle(question),
-    body: 'Aliquet arcu tempus ut consequat eu amet faucibus. Donec vitae nulla at tortor turpis viverra. Dui risus leo ut nec metus rhoncus massa. Fames sit mauris vel ut. Nulla cras consectetur mi venenatis consequat porttitor. Viverra sed convallis in venenatis tempor suspendisse magna sagittis.',
-  })),
+  groups: [
+    {
+      key: 'technical',
+      label: 'Technical info',
+      items: [
+        faqItem('How do I install Basecamp?', [
+          {
+            text: 'Go to logos.co/basecamp and install either the Linux version or Mac version.',
+            link: { label: 'logos.co/basecamp', href: ROUTES.basecamp },
+          },
+          {
+            links: [
+              {
+                label: 'docs.logos.co/basecamp/install-logos-basecamp',
+                href: BASECAMP_INSTALL_DOCS,
+              },
+              {
+                label: 'Installing Logos Basecamp',
+                href: 'https://www.youtube.com/watch?v=SZ72xolkZz4',
+              },
+              {
+                label: 'Quickstart Logos Basecamp',
+                href: 'https://www.youtube.com/watch?v=EwCkegIm_1o',
+              },
+              { label: 'Latest release', href: EXTERNAL_URLS.basecampRelease },
+            ],
+          },
+        ]),
+        faqItem('How do I run a node?', [
+          {
+            links: [
+              { label: 'docs.logos.co/run-a-node', href: RUN_A_NODE_DOCS },
+              {
+                label: 'How to Run a Logos Blockchain Node with Docker',
+                href: 'https://www.youtube.com/watch?v=yWtu2O1TlJg',
+              },
+            ],
+          },
+        ]),
+        faqItem('Do I need to be a developer?', [
+          {
+            text: 'No. About 30 residents take part from mixed backgrounds. Some ship software. Others use it, test it, and vote for winning submissions.',
+          },
+        ]),
+        faqItem('Do I need a working prototype?', [
+          {
+            text: 'No, but if you have one, link it. It will prioritise your application.',
+          },
+        ]),
+        faqItem("What's Basecamp, and do I need it?", [
+          {
+            text: 'Basecamp is a local-first launcher for the Logos stack and is used to run a Logos node. Installing it, and where applicable, running a node, is required for an application to be successful.',
+          },
+        ]),
+      ],
+    },
+    {
+      key: 'general',
+      label: 'General FAQs',
+      items: [
+        faqItem("What's the accommodation like?", [
+          {
+            text: 'Shared rooms, 5–7 people, single-sex. Farm-to-table food, boutique tents, and haveli lodgings on site.',
+          },
+        ]),
+        faqItem('Is there a code of conduct?', [
+          {
+            text: 'Yes. Phone-free communal evenings, a shared field-note board visible to the group, and a code of conduct governing how residents interact with the venue, staff, and one another.',
+          },
+        ]),
+        faqItem('What does it cost?', [
+          {
+            text: '25 - 30 residents will have accommodation, food, and beverages provided for them.',
+          },
+          {
+            text: 'Local travel support details are provided within the application form. No international flights will be compensated.',
+          },
+          {
+            text: 'In the coming weeks, we will post options for paid guests on site during the last four days of the residency.',
+          },
+        ]),
+        faqItem('How do I get from Jaipur to Dhun?', [
+          {
+            text: 'We will share details regarding transfer from Jaipur to Dhun to selected residents',
+          },
+        ]),
+        faqItem('Which is the nearest airport to Dhun?', [
+          { text: 'Jaipur International Airport' },
+        ]),
+      ],
+    },
+  ],
 }

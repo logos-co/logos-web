@@ -35,15 +35,15 @@ function BlockText({ block }: { block: TrackBlock }) {
 }
 
 /**
- * Figma's expanded track (frame 12:524) is one 14px text block: a blank line
- * between paragraphs, and bold underlined idea titles running straight into
- * their paragraph.
+ * Figma's expanded track (frame 12:524) is one 14px text block with a blank
+ * line between paragraphs. Idea titles are set as plain document headings:
+ * bold, no underline, with a little space before their paragraph.
  */
 function TrackDetails({ blocks }: { blocks: readonly TrackBlock[] }) {
   return blocks.map((block) => (
     <p key={block.text}>
       {block.heading ? (
-        <strong className="block font-bold underline">{block.heading}</strong>
+        <strong className="mb-1.5 block font-bold">{block.heading}</strong>
       ) : null}
       <BlockText block={block} />
     </p>
