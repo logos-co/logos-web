@@ -56,6 +56,8 @@ export const EVENT_NAMES = {
   applicationApply: 'Apply now - Application process',
   applicationInstall: 'Install Basecamp - Application process',
   applyBannerInstall: 'Install Basecamp - Apply banner',
+  trackToggle: (title: string) => `Track - ${title}`,
+  trackLink: (title: string) => `Problem statements - ${title}`,
   faqToggle: (question: string) => `FAQ - ${question}`,
 }
 
@@ -114,6 +116,36 @@ export const ABOUT = {
   },
 } as const
 
+/** A panel paragraph; `heading` runs in bold straight into the text. */
+export interface TrackBlock {
+  heading?: string
+  text: string
+  /** Words in `text` that link out once `href` is set. */
+  link?: { label: string; href?: string; eventName: string }
+}
+
+/**
+ * Problem statement docs for each track. The copy is live; the "here" links
+ * switch on as soon as a URL lands here.
+ */
+const PROBLEM_STATEMENTS_HREF: Record<
+  'civicPrize' | 'sovereigntyPrivacy' | 'zuGramaDacc',
+  string | undefined
+> = {
+  civicPrize: undefined,
+  sovereigntyPrivacy: undefined,
+  zuGramaDacc: undefined,
+}
+
+const problemStatementsLink = (
+  track: keyof typeof PROBLEM_STATEMENTS_HREF,
+  title: string
+) => ({
+  label: 'here',
+  href: PROBLEM_STATEMENTS_HREF[track],
+  eventName: EVENT_NAMES.trackLink(title),
+})
+
 export const TRACKS = {
   heading: 'The Tracks',
   items: [
@@ -121,6 +153,29 @@ export const TRACKS = {
       key: 'civic-prize',
       title: 'Logos Civic Prize',
       subtitle: 'Tools to rebuild civil society',
+      details: [
+        {
+          text: 'Develop the tools to rebuild civil society. Two live civic prizes defined by Logos Circles – real people ideating solutions to real-world issues. Build your own creative version of one of the ideas listed below:',
+        },
+        {
+          heading: 'Civic reporting and community response',
+          text: "If something breaks on the farm, in the village, or within surrounding communities, such as a water issue, a waste problem, blocked access, or something needing maintenance, there's no shared way to report it and track what happens next.",
+        },
+        {
+          text: "Within this track, you'd build the tool that fixes that: someone reports a problem, it gets tracked, and everyone can see its status change from reported to in-progress to resolved.",
+        },
+        {
+          text: 'This kind of tool can lean on the full Logos stack: Messaging to notify people, Storage for evidence, and Blockchain to keep the status history tamper proof.',
+        },
+        {
+          heading: 'Privacy-preserving mutual aid coordination',
+          text: 'Residents and site staff constantly need things from each other: a ride into Jaipur, a spare part, or someone who can fix a bike. Within this track, an example of something you could build would be a simple offers-and-requests board that matches people. This kind of tool can again lean on the full Logos stack.',
+        },
+        {
+          text: 'See more problem statements here.',
+          link: problemStatementsLink('civicPrize', 'Logos Civic Prize'),
+        },
+      ],
     },
     {
       key: 'sovereignty-privacy',
@@ -128,19 +183,81 @@ export const TRACKS = {
       subtitle: 'Bring your own idea',
       // Figma gives this caption a 234px box, wider than the text.
       subtitleClassName: 'sm:inline-block sm:min-w-[234px]',
+      details: [
+        {
+          text: 'Already have a live project designed to enable sovereignty through privacy? Bring your work in progress and refine it with the Logos private-by-default tech stack',
+        },
+        {
+          text: "This is the track for builders who want to work directly on Logos. If you are already building something that puts privacy and sovereignty into people's hands, or have an idea in this field, this track is for you. A tool, an app, or a protocol designed around the idea that people should own their own data and infrastructure rather than rent it from someone else. You can start with an idea, or apply with something already a work in progress.",
+        },
+        {
+          text: 'You can also think of other tools that are relevant to your city, community, or Dhun and Jaipur.',
+        },
+        {
+          text: 'Finally, you can build towards one of the prizes in the standing λPrize catalogue, which funds core ecosystem primitives and runs in parallel to the residency under its own normal rules.',
+        },
+        {
+          text: 'See more problem statements here.',
+          link: problemStatementsLink(
+            'sovereigntyPrivacy',
+            'Logos Sovereignty and Privacy'
+          ),
+        },
+      ],
     },
     {
       key: 'zu-grama-dacc',
       title: 'Zu-Grama d/acc\n(decentralised acceleration)',
       subtitle: 'AI, neurotech, bio-resilience',
+      details: [
+        {
+          text: 'AI, neurotech, bio-resilience – the Zu-Grama-led track intersects with the Logos stack (where possible, not essential) at the AI × cryptography × sovereignty junction.',
+        },
+        {
+          text: 'This is for people building technologies that preserve human agency in a world shaped by increasingly powerful AI, biology and digital systems. We are especially looking for researchers and builders working on AI alignment, AI for science, Biotech, Neurotech, sense-making, civic tech, privacy and d/acc-aligned infrastructure. We’ll prioritise applicants with a serious question, project, or experiment they want to push forward during the residency, and who would benefit from working closely with others across these fields.',
+        },
+        {
+          text: 'We are also particularly interested in solutions that might help India across health, sense-making tools, etc.',
+        },
+        {
+          text: 'For a list of problem statements, please see here.',
+          link: problemStatementsLink(
+            'zuGramaDacc',
+            'Zu-Grama d/acc (decentralised acceleration)'
+          ),
+        },
+      ],
     },
     {
       key: 'resident',
       title: 'Resident, non-builder',
       subtitle: 'Join as an activist, community organiser, artist',
+      details: [
+        {
+          text: 'Join as an activist, cultural or community organiser, user, artist, writer, tester, or voter rather than to ship code or products. This track is for those who want to explore and help with dogfooding tools.',
+        },
+        {
+          text: 'Not everyone at Field Station is writing code. This track is for the people who make a builder residency work by using, testing, and judging what gets built rather than building it themselves.',
+        },
+        {
+          text: "For example, civic reporting and mutual aid only prove themselves useful if someone outside the build team actually uses them on site, or back at home in their local community. Whether you're drawn by the ideals of sovereign infrastructure or have an interest in AI and bio-resilience, that's enough to apply.",
+        },
+        {
+          text: "You apply to this track as one of three things: artist, writer, or explorer. As an artist, you bring the residency's cultural dimension, music, painting, farming, whatever your practice is, into a space that's otherwise all whiteboards and terminals. As a writer, your job is to document what's actually happening, honest accounts of what a parallel society looks like when people try to live inside one. And as an explorer you don't need a fixed role at all, just a problem you can't stop thinking about, explained in plain language, and an honest answer to what you're actually doing about it, whether that's a live experiment, volunteering, a half-built prototype, a dataset, a paper, or just a clear idea of the first thing you'd try.",
+        },
+      ],
     },
   ],
-} as const
+} as const satisfies {
+  heading: string
+  items: readonly {
+    key: string
+    title: string
+    subtitle: string
+    subtitleClassName?: string
+    details: readonly TrackBlock[]
+  }[]
+}
 
 export const APPLICATION_INTRO = {
   /** Figma breaks the paragraph by hand; the lines only break on desktop. */

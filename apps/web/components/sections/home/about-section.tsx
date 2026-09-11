@@ -88,6 +88,8 @@ interface AccordionPanelSectionProps {
   listClassName?: string
   accordionClassNames?: AccordionClassNames
   accordionIcons?: { open: ReactNode; closed: ReactNode }
+  /** The accordion panel open on load; `null` starts with every row closed. */
+  accordionInitialOpenKey?: AccordionItem['key'] | null
   /** Scroll-in rise in px; the homepage stacks cards, other pages can pass 0. */
   rise?: number
 }
@@ -107,6 +109,7 @@ export function AccordionPanelSection({
   listClassName = DEFAULT_LIST_CLASSNAME,
   accordionClassNames,
   accordionIcons,
+  accordionInitialOpenKey,
   rise = 180,
 }: AccordionPanelSectionProps) {
   return (
@@ -134,6 +137,7 @@ export function AccordionPanelSection({
             items={items}
             classNames={accordionClassNames}
             icons={accordionIcons}
+            initialOpenKey={accordionInitialOpenKey}
           />
         </div>
       </div>

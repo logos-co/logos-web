@@ -12,14 +12,16 @@ export interface AccordionFactLink {
 }
 
 /**
- * An item without `body`, `facts` or `image` renders as a static row: there is
- * nothing to expand, so it gets no toggle button.
+ * An item without `body`, `content`, `facts` or `image` renders as a static
+ * row: there is nothing to expand, so it gets no toggle button.
  */
 export interface AccordionItem {
   key: string
   title: string
   subtitle?: string
   body?: string
+  /** Rich panel copy, rendered in the `body` slot in place of `body`. */
+  content?: ReactNode
   facts?: string[]
   factLinks?: Partial<Record<number, AccordionFactLink>>
   image?: string
@@ -31,7 +33,7 @@ export interface AccordionItem {
 }
 
 function hasPanel(item: AccordionItem): boolean {
-  return Boolean(item.body || item.facts?.length || item.image)
+  return Boolean(item.body || item.content || item.facts?.length || item.image)
 }
 
 function FactText({ fact, link }: { fact: string; link?: AccordionFactLink }) {
@@ -105,15 +107,23 @@ interface CivilSocietyAccordionProps {
   classNames?: AccordionClassNames
   /** Replaces the rotating chevron with one element per state. */
   icons?: { open: ReactNode; closed: ReactNode }
+  /**
+   * The panel open on load; `null` starts with every row closed. Defaults to
+   * the first item with a panel.
+   */
+  initialOpenKey?: AccordionItem['key'] | null
 }
 
 export default function CivilSocietyAccordion({
   items,
   classNames,
   icons,
+  initialOpenKey,
 }: CivilSocietyAccordionProps) {
-  const [openKey, setOpenKey] = useState<AccordionItem['key'] | null>(
-    () => items.find(hasPanel)?.key ?? null
+  const [openKey, setOpenKey] = useState<AccordionItem['key'] | null>(() =>
+    initialOpenKey === undefined
+      ? (items.find(hasPanel)?.key ?? null)
+      : initialOpenKey
   )
   const slots = { ...DEFAULT_CLASS_NAMES, ...classNames }
 
@@ -181,7 +191,9 @@ export default function CivilSocietyAccordion({
                 >
                   <div className={slots.panel}>
                     <div className="flex max-w-[572px] flex-col gap-6 lg:gap-[30px]">
-                      {item.body ? (
+                      {item.content ? (
+                        <div className={slots.body}>{item.content}</div>
+                      ) : item.body ? (
                         <p className={slots.body}>{item.body}</p>
                       ) : null}
                       {item.facts?.length ? (

@@ -1,7 +1,7 @@
 import { IconMask } from '@/components/icons/icon-mask'
 import { AccordionPanelSection } from '@/components/sections/home/about-section'
 
-import { SECTION_IDS, TRACKS } from '../_content'
+import { EVENT_NAMES, SECTION_IDS, TRACKS, type TrackBlock } from '../_content'
 
 const CHEVRON = (
   <IconMask
@@ -10,16 +10,63 @@ const CHEVRON = (
   />
 )
 
+function BlockText({ block }: { block: TrackBlock }) {
+  const { link } = block
+  const at = link?.href ? block.text.lastIndexOf(link.label) : -1
+  if (!link?.href || at < 0) {
+    return <>{block.text}</>
+  }
+
+  return (
+    <>
+      {block.text.slice(0, at)}
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-umami-event-name={link.eventName}
+        className="cursor-pointer underline underline-offset-2"
+      >
+        {link.label}
+      </a>
+      {block.text.slice(at + link.label.length)}
+    </>
+  )
+}
+
+/**
+ * Figma's expanded track (frame 12:524) is one 14px text block: a blank line
+ * between paragraphs, and bold underlined idea titles running straight into
+ * their paragraph.
+ */
+function TrackDetails({ blocks }: { blocks: readonly TrackBlock[] }) {
+  return blocks.map((block) => (
+    <p key={block.text}>
+      {block.heading ? (
+        <strong className="block font-bold underline">{block.heading}</strong>
+      ) : null}
+      <BlockText block={block} />
+    </p>
+  ))
+}
+
+const ITEMS = TRACKS.items.map(({ details, ...item }) => ({
+  ...item,
+  eventName: EVENT_NAMES.trackToggle(item.title.replace('\n', ' ')),
+  content: <TrackDetails blocks={details} />,
+}))
+
 /**
  * The homepage's dark accordion panel set to the Figma frame: fully rounded,
  * a 60px title, 13px of air above and below each row and white hairlines.
+ * The tracks start closed, as the page frame draws them.
  */
 export function Tracks() {
   return (
     <AccordionPanelSection
       id={SECTION_IDS.tracks}
       heading={TRACKS.heading}
-      items={[...TRACKS.items]}
+      items={ITEMS}
       rise={0}
       className="mt-28 scroll-mt-12 rounded-[40px] lg:mt-28 lg:rounded-[100px]"
       contentClassName="pb-28 lg:px-[min(130px,9.03vw)] lg:pb-[164px]"
@@ -27,13 +74,20 @@ export function Tracks() {
       listClassName="mt-[112px]"
       accordionClassNames={{
         item: 'border-t border-white/20 last:border-b',
-        row: 'flex w-full items-center justify-between gap-6 py-[30px] text-left md:py-[42.5px]',
+        // An open panel takes 4px from the row and gives it back as panel
+        // padding, so the trimmed first line keeps Figma's position while its
+        // ascenders stay inside the panel's overflow clip.
+        row: 'flex w-full items-center justify-between gap-6 py-[30px] text-left aria-expanded:pb-[26px] md:py-[42.5px] md:aria-expanded:pb-[38.5px]',
         title:
           'text-h2 whitespace-pre-line text-white [text-box-edge:cap_alphabetic] [text-box-trim:trim-both]',
         subtitle:
           'text-mono-l hidden text-white/60 [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] sm:inline desktop:whitespace-nowrap',
+        panel:
+          'flex flex-col gap-8 pt-1 pb-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12 lg:pb-[60px]',
+        body: 'text-body-sans text-white [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] [&>p+p]:mt-[1.2em]',
       }}
       accordionIcons={{ open: CHEVRON, closed: CHEVRON }}
+      accordionInitialOpenKey={null}
     />
   )
 }
