@@ -5,6 +5,7 @@ import { isActiveLocale } from '@repo/content/locales'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/lib/metadata'
 
+import { SEO } from './_content'
 import { PriFiPage } from './_sections/prifi-page'
 
 const ROUTE = ROUTES.prifi
@@ -21,12 +22,16 @@ async function resolveLocale(params: PageProps['params'], caller: string) {
   return locale
 }
 
-// The page has no title or description yet, so the site defaults stand in.
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const locale = await resolveLocale(params, 'generateMetadata')
-  return createDefaultMetadata({ locale, path: ROUTE })
+  return createDefaultMetadata({
+    title: SEO.title,
+    description: SEO.description,
+    locale,
+    path: ROUTE,
+  })
 }
 
 export default async function Page({ params }: PageProps) {
