@@ -6,6 +6,7 @@ import {
   homeBuilderPortalSectionSchema,
   homeChoosePathSectionSchema,
   homeDecideSectionSchema,
+  homePrifiSectionSchema,
   homeSocialProofSectionSchema,
   homeStartBuildingSectionSchema,
   homeUseCasesSectionSchema,
@@ -23,6 +24,18 @@ describe('home section schemas', () => {
       bodyParts: ['a', 'b', 'c', 'd'],
     }
     assert.deepStrictEqual(homeDecideSectionSchema.parse(value), value)
+    assert.deepStrictEqual(pageSectionSchema.parse(value), value)
+  })
+
+  it('parses a homePrifi section', () => {
+    const value = {
+      componentType: 'homePrifi',
+      key: 'home.prifi',
+      headline: 'A parallel society needs an economy.',
+      bodyParts: ['a', 'b'],
+      cta: 'Read the PriFi Thesis',
+    }
+    assert.deepStrictEqual(homePrifiSectionSchema.parse(value), value)
     assert.deepStrictEqual(pageSectionSchema.parse(value), value)
   })
 
