@@ -38,9 +38,7 @@ export const homeChoosePathSectionSchema = z.object({
   operate: choosePathItemSchema,
   activism: choosePathItemSchema,
 })
-export type HomeChoosePathSection = z.infer<
-  typeof homeChoosePathSectionSchema
->
+export type HomeChoosePathSection = z.infer<typeof homeChoosePathSectionSchema>
 
 export const homeDecideSectionSchema = z.object({
   componentType: z.literal('homeDecide'),
@@ -51,6 +49,19 @@ export const homeDecideSectionSchema = z.object({
   bodyParts: z.array(z.string().min(1)).length(4),
 })
 export type HomeDecideSection = z.infer<typeof homeDecideSectionSchema>
+
+/**
+ * The PriFi module on the homepage (Figma 1014:1501). Its link is
+ * `ROUTES.prifi`, so only the label lives in content.
+ */
+export const homePrifiSectionSchema = z.object({
+  componentType: z.literal('homePrifi'),
+  key: sectionKeySchema,
+  headline: z.string().min(1),
+  bodyParts: z.array(z.string().min(1)).length(2),
+  cta: z.string().min(1),
+})
+export type HomePrifiSection = z.infer<typeof homePrifiSectionSchema>
 
 export const homeStartBuildingSectionSchema = z.object({
   componentType: z.literal('homeStartBuilding'),

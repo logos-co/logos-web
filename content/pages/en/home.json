@@ -87,6 +87,16 @@
       ]
     },
     {
+      "componentType": "homePrifi",
+      "key": "home.prifi",
+      "headline": "A parallel society needs an economy. \nPriFi protects its participants.",
+      "bodyParts": [
+        "Blockchain brought unparalleled credibility to settlement, but its transparency created attack surfaces elsewhere.",
+        "PriFi aims to secure the other 6 links in the transaction lifecycle, reducing risk and cost to enable new capital to migrate onchain."
+      ],
+      "cta": "Read the PriFi Thesis"
+    },
+    {
       "componentType": "homeAbout",
       "key": "home.about",
       "heading": "Civil society is in decline. Our institutions are failing.\nReform from within cannot reverse this.",

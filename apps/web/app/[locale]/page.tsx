@@ -6,6 +6,7 @@ import type {
   HomeBuilderPortalSection,
   HomeChoosePathSection,
   HomeDecideSection,
+  HomePrifiSection,
   HomeSocialProofSection,
   HomeStartBuildingSection,
   HomeUseCasesSection,
@@ -16,6 +17,7 @@ import type {
 import AboutSection from '@/components/sections/home/about-section'
 import BuilderPortalSection from '@/components/sections/home/builder-portal-section'
 import DecideSection from '@/components/sections/home/decide-section'
+import PrifiSection from '@/components/sections/home/prifi-section'
 import { JsonLd } from '@/components/seo/json-ld'
 import FeatureCardsSection from '@/components/sections/shared/feature-cards-section'
 import HeroSectionView from '@/components/sections/shared/hero-section'
@@ -90,6 +92,11 @@ export default async function HomePage({
     'homeDecide',
     'home.decide'
   )
+  const prifi = findSection<HomePrifiSection>(
+    page.sections,
+    'homePrifi',
+    'home.prifi'
+  )
 
   const startBuilding = findSection<HomeStartBuildingSection>(
     page.sections,
@@ -137,6 +144,7 @@ export default async function HomePage({
       />
       <AboutSection data={about} />
       <DecideSection data={decide} />
+      <PrifiSection data={prifi} />
       <UseCasesSection data={useCases} />
       <BuilderPortalSection data={builderPortal} />
       <TechStackSection

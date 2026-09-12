@@ -40,7 +40,7 @@ export default function UseCasesSection({
   return (
     <StackCard
       rise={180}
-      className="relative z-[4] -mt-[180px] rounded-t-[40px] bg-gray-01 text-brand-dark-green lg:rounded-t-[100px]"
+      className="relative z-[5] -mt-[180px] rounded-t-[40px] bg-white text-brand-dark-green lg:rounded-t-[100px]"
     >
       <div className="mx-auto max-w-[1440px] py-[82px] lg:px-3 lg:pt-[112px] lg:pb-[112px]">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center pb-[45px] text-center lg:gap-12 lg:pb-12">
