@@ -29,6 +29,7 @@ import {
   LINKS,
   LOGOS_STACK,
   PROTECTION,
+  SEO,
   SUPPLY_CHAIN,
   SUPPLY_CHAIN_ID,
   TRANSPARENCY,
@@ -56,12 +57,17 @@ describe('prifi page contract', () => {
     expect(ROUTES.prifi).toBe('/prifi')
   })
 
-  test('metadata points the canonical URL at /prifi', async () => {
+  test('metadata carries the page title, description and canonical URL', async () => {
     const metadata = await generateMetadata({
       params: Promise.resolve({ locale: 'en' }),
     })
 
     expect(String(metadata.alternates?.canonical)).toMatch(/\/prifi$/)
+    expect(metadata.title).toBe(SEO.title)
+    expect(metadata.description).toBe(SEO.description)
+    // Social cards repeat them rather than falling back to the site defaults.
+    expect(metadata.openGraph?.title).toBe(SEO.title)
+    expect(metadata.twitter?.description).toBe(SEO.description)
   })
 
   test('every image the page ships exists under public/', async () => {

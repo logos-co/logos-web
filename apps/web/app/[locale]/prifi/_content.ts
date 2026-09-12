@@ -9,6 +9,13 @@
  */
 import { ROUTES } from '@/constants/routes'
 
+/** Page title and meta description, supplied by the team. */
+export const SEO = {
+  title: 'PriFi: Securing the Entire Transaction Supply Chain | Logos',
+  description:
+    "PriFi (Private Finance) secures every step of the transaction supply chain, not just settlement. Learn the 7-step transaction lifecycle, the two hazard classes, and why blockchain's transparency creates new risks.",
+} as const
+
 export const SUPPLY_CHAIN_ID = 'transaction-supply-chain'
 
 /** A CTA destination that has not been decided yet. */
