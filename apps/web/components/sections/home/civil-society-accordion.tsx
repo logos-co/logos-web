@@ -132,7 +132,8 @@ export default function CivilSocietyAccordion({
       {items.map((item) => {
         const isExpandable = hasPanel(item)
         const isOpen = isExpandable && item.key === openKey
-        const panelId = `civil-society-panel-${item.key}`
+        // Keys can be whole questions; ids and aria-controls take no spaces.
+        const panelId = `civil-society-panel-${item.key.replace(/[^A-Za-z0-9_-]+/g, '-')}`
         const rowContent = (
           <>
             <span className={slots.title}>{item.title}</span>
@@ -148,7 +149,7 @@ export default function CivilSocietyAccordion({
                   {item.subtitle}
                 </span>
               ) : null}
-              {icons ? (
+              {!isExpandable ? null : icons ? (
                 isOpen ? (
                   icons.open
                 ) : (
