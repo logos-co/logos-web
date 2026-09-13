@@ -120,8 +120,8 @@ export const homeUseCasesSectionSchema = z.object({
   eyebrow: z.string().min(1),
   headline: z.string().min(1),
   headlineMobile: z.string().min(1),
-  lambda: z.string().min(1),
-  lambdaMobile: z.string().min(1),
+  /** Label for the line under the headline that links to `ROUTES.prifi`. */
+  thesisCta: z.string().min(1),
   secure: useCaseCardSchema,
   money: useCaseCardSchema,
   archives: useCaseCardSchema,
