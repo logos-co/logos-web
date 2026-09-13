@@ -30,6 +30,7 @@ const staticIndexableRoutes = [
   ROUTES.buildTheParallel,
   ROUTES.chatControl,
   ROUTES.ukDebt,
+  ROUTES.prifi,
   ROUTES.nodeProgramme,
   ROUTES.operators,
   ROUTES.podcast,

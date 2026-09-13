@@ -32,6 +32,7 @@ const contracts: PageContract[] = [
       { componentType: 'homeChoosePath', key: 'home.paths' },
       { componentType: 'homeAbout', key: 'home.about' },
       { componentType: 'homeDecide', key: 'home.decide' },
+      { componentType: 'homePrifi', key: 'home.prifi' },
       { componentType: 'homeUseCases', key: 'home.useCases' },
       { componentType: 'homeBuilderPortal', key: 'home.builderPortal' },
       { componentType: 'techStackOverview', key: 'home.techStack' },

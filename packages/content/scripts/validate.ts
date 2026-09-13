@@ -425,6 +425,7 @@ const buildPagesChecks = (locale: Language): Check[] => [
         'homeSocialProof',
         'homeChoosePath',
         'homeDecide',
+        'homePrifi',
         'homeAbout',
         'techStackOverview',
         'homeStartBuilding',

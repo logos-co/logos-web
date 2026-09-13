@@ -88,6 +88,7 @@ export const ROUTES = {
   // Campaigns
   ukDebt: '/ukdebt',
   chatControl: '/chatcontrol',
+  prifi: '/prifi',
 } as const
 
 // ---------------------------------------------------------------------------

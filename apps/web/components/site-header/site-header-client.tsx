@@ -16,6 +16,10 @@ import { NavOverlay } from '@acid-info/logos-ui/client'
 import { IconMask } from '@/components/icons/icon-mask'
 import { ROUTES } from '@/constants/routes'
 import { Link, usePathname } from '@/i18n/navigation'
+import {
+  DARK_HEADER_ZONE_SELECTOR,
+  isProbeOverDarkZone,
+} from '@/lib/header-tone'
 
 import { HomepageHighlightCard } from './homepage-highlight-card'
 
@@ -71,7 +75,8 @@ export default function SiteHeaderClient({
     normalizedPathname.endsWith(ROUTES.book) ||
     normalizedPathname.endsWith(ROUTES.about) ||
     normalizedPathname.endsWith(ROUTES.lambdaPrize) ||
-    normalizedPathname.endsWith(ROUTES.buildTheParallel)
+    normalizedPathname.endsWith(ROUTES.buildTheParallel) ||
+    normalizedPathname.endsWith(ROUTES.prifi)
   const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.media)
   const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
   const usesAccentTanHeaderTone =
@@ -100,18 +105,32 @@ export default function SiteHeaderClient({
     }
 
     const syncHeaderColor = () => {
+      const darkZones = document.querySelectorAll(DARK_HEADER_ZONE_SELECTOR)
+
+      if (darkZones.length > 0) {
+        const bounds = Array.from(darkZones, (zone) =>
+          zone.getBoundingClientRect()
+        )
+        setHasPassedHero(!isProbeOverDarkZone(bounds))
+        return
+      }
+
       setHasPassedHero(window.scrollY >= window.innerHeight)
     }
 
     syncHeaderColor()
+    // Dark zones belong to the page, so re-read them once the new route has
+    // painted rather than keeping the tone the previous page left behind.
+    const frame = window.requestAnimationFrame(syncHeaderColor)
     window.addEventListener('scroll', syncHeaderColor, { passive: true })
     window.addEventListener('resize', syncHeaderColor)
 
     return () => {
+      window.cancelAnimationFrame(frame)
       window.removeEventListener('scroll', syncHeaderColor)
       window.removeEventListener('resize', syncHeaderColor)
     }
-  }, [usesHeroHeaderTone])
+  }, [usesHeroHeaderTone, normalizedPathname])
 
   const headerToneClass = usesHeroHeaderTone
     ? hasPassedHero

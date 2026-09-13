@@ -57,7 +57,8 @@
       "label": "Research Forum",
       "href": "https://forum.research.logos.co/",
       "external": true
-    }
+    },
+    { "label": "PriFi Thesis", "href": "/prifi" }
   ],
   "infrastructureLinks": [
     { "label": "Messaging", "href": "/technology-stack/messaging" },
