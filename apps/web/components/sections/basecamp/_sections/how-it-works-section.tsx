@@ -31,6 +31,8 @@ interface HowItWorksSectionProps {
   image?: { src: string; alt: string; className: string }
   /** Umami event names for the CTAs, in render order. */
   eventNames?: readonly string[]
+  /** Rich row copy keyed by row number, shown in place of `description`. */
+  rowDescriptions?: Partial<Record<string, ReactNode>>
 }
 
 export function HowItWorksSection({
@@ -39,6 +41,7 @@ export function HowItWorksSection({
   classNames,
   image = DEFAULT_IMAGE,
   eventNames,
+  rowDescriptions,
 }: HowItWorksSectionProps) {
   const slots = { ...DEFAULT_CLASS_NAMES, ...classNames }
   const downloadActions = [
@@ -54,20 +57,25 @@ export function HowItWorksSection({
           <h2 className={slots.title}>{data.title}</h2>
           {intro ? <div className={slots.intro}>{intro}</div> : null}
           <div className="divide-y divide-brand-dark-green/50 border-t border-brand-dark-green/50">
-            {data.rows.map((row) => (
-              <article key={row.number} className={slots.row}>
-                <span className="text-eyebrow text-brand-dark-green">
-                  {row.number}
-                </span>
-                <div className="grid gap-2">
-                  {row.description ? (
-                    <p className="text-mono-s text-brand-dark-green">
-                      {row.description}
-                    </p>
-                  ) : null}
-                </div>
-              </article>
-            ))}
+            {data.rows.map((row) => {
+              const description =
+                (row.number ? rowDescriptions?.[row.number] : undefined) ??
+                row.description
+              return (
+                <article key={row.number} className={slots.row}>
+                  <span className="text-eyebrow text-brand-dark-green">
+                    {row.number}
+                  </span>
+                  <div className="grid gap-2">
+                    {description ? (
+                      <p className="text-mono-s text-brand-dark-green">
+                        {description}
+                      </p>
+                    ) : null}
+                  </div>
+                </article>
+              )
+            })}
           </div>
         </div>
         {downloadActions.length > 0 ? (

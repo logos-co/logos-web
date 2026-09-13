@@ -1,6 +1,7 @@
 import TechOverviewLogosApp from '@/components/sections/technology-stack/tech-overview-logos-app'
+import { Button } from '@/components/ui'
 
-import { APPLY_BANNER, EVENT_NAMES } from '../_content'
+import { APPLY_BANNER, APPLY_BANNER_CTA, EVENT_NAMES } from '../_content'
 import { About } from './about'
 import { Agenda } from './agenda'
 import { Application } from './application'
@@ -32,10 +33,17 @@ export function FieldStationPage() {
       <TechOverviewLogosApp
         data={APPLY_BANNER}
         className="mt-28"
-        eventNames={{ primary: EVENT_NAMES.applyBannerInstall }}
-        // Figma trims the title and body to their cap height, and draws the
-        // Install border inside its 8px padding, so the button is 31px tall.
-        switchClassName="[&_.giant-switch\_\_content_p]:[text-box-edge:cap_alphabetic] [&_.giant-switch\_\_content_p]:[text-box-trim:trim-both] [&_[data-giant-switch-install-trigger]_a]:py-[7px]"
+        // Figma trims the title to its cap height.
+        switchClassName="[&_.giant-switch\_\_content_p]:[text-box-edge:cap_alphabetic] [&_.giant-switch\_\_content_p]:[text-box-trim:trim-both]"
+        actions={
+          <Button
+            href={APPLY_BANNER_CTA.href}
+            variant="secondary"
+            data-umami-event-name={EVENT_NAMES.applyBannerApply}
+          >
+            {APPLY_BANNER_CTA.label}
+          </Button>
+        }
       />
       <Faq />
       <Partners />
