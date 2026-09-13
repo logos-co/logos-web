@@ -104,7 +104,8 @@ export const HERO = {
     ],
   ],
   cta: 'Apply now',
-  status: 'Applications are open from 11 Sept to 26 Sept · Residency 23–31 Oct',
+  status: 'Applications are open from 11 Sept to 26 Sept',
+  residency: 'Residency 23 Oct - 31 Oct',
   links: [
     { label: 'About', href: `#${SECTION_IDS.about}` },
     { label: 'Tracks', href: `#${SECTION_IDS.tracks}` },

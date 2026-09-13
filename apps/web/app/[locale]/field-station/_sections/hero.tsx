@@ -10,6 +10,10 @@ import { APPLY_HREF, EVENT_NAMES, HERO, PARTNERS } from '../_content'
 const CTA_TEXT_CLASSNAME =
   'font-mono text-xs leading-[1.35] font-semibold uppercase'
 
+/** The residency dates, set a step larger and bolder than the status line. */
+const RESIDENCY_TEXT_CLASSNAME =
+  'font-mono text-sm leading-[1.35] font-bold uppercase'
+
 /**
  * Figma pins the copy block 186.5px from the top of the 800px frame and the
  * link row 48px from the bottom. The image is rounded along the bottom only,
@@ -88,6 +92,7 @@ export function Hero() {
         {HERO.cta}
       </Button>
       <p className={`mt-[26.5px] ${CTA_TEXT_CLASSNAME}`}>{HERO.status}</p>
+      <p className={`mt-3 ${RESIDENCY_TEXT_CLASSNAME}`}>{HERO.residency}</p>
     </CampaignHero>
   )
 }
