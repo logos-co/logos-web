@@ -39,6 +39,7 @@ export function FieldStationPage() {
           <Button
             href={APPLY_BANNER_CTA.href}
             variant="secondary"
+            className="cursor-pointer"
             data-umami-event-name={EVENT_NAMES.applyBannerApply}
           >
             {APPLY_BANNER_CTA.label}

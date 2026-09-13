@@ -147,6 +147,18 @@ describe('field station page', () => {
     ])
   })
 
+  test('accordion toggles point at panel ids without whitespace', async () => {
+    const buttons = (await pageHtml()).match(/<button\s[^>]*>/g) ?? []
+    const controls = buttons
+      .map((tag) => attr(tag, 'aria-controls'))
+      .filter(Boolean)
+
+    expect(controls.length).toBeGreaterThan(0)
+    for (const id of controls) {
+      expect(id).not.toMatch(/\s/)
+    }
+  })
+
   test('external links open in a new tab', async () => {
     const external = anchorTags(await pageHtml()).filter((tag) =>
       /^https?:\/\//.test(attr(tag, 'href') ?? '')
