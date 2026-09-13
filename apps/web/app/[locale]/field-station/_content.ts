@@ -38,14 +38,14 @@ export const SECTION_IDS = {
 } as const
 
 /**
- * The application form. The brief says the link is still to come; until it is
- * set, every "Apply now" points at the section that explains how to apply and
- * "can be completed here" stays plain text.
+ * The application form. The brief puts it on the application process button,
+ * the Apply Now button above the FAQ and "can be completed here".
  */
-const APPLICATION_FORM_HREF: string | undefined = undefined
+const APPLICATION_FORM_HREF =
+  'https://cryptpad.fr/form/#/2/form/view/bI7xMBt68MNhB34MvEzSLRHva4ENGd+lpgojlmJX2Ss/'
 
-export const APPLY_HREF =
-  APPLICATION_FORM_HREF ?? `#${SECTION_IDS.applicationProcess}`
+/** The hero's Apply now jumps to the section that explains how to apply. */
+export const APPLY_HREF = `#${SECTION_IDS.applicationProcess}`
 
 const IMAGE_DIR = '/campaigns/field-station'
 
@@ -71,6 +71,7 @@ export const EVENT_NAMES = {
   applyBannerApply: 'Apply now - Apply banner',
   trackToggle: (title: string) => `Track - ${title}`,
   trackLink: (title: string) => `Problem statements - ${title}`,
+  trackDocsLink: (title: string) => `Logos docs - ${title}`,
   faqToggle: (question: string) => `FAQ - ${question}`,
   faqLink: (label: string) => `FAQ link - ${label}`,
   partnerLogos: 'Logos homepage - Partners',
@@ -141,17 +142,28 @@ export interface TrackBlock {
   link?: { label: string; href?: string; eventName: string }
 }
 
-/** The problem statements for every track live in one shared doc. */
+/** The problem statements for the Zu-Grama and resident tracks. */
 const PROBLEM_STATEMENTS_HREF =
-  'https://docs.google.com/document/d/156ZY74bStEtQk4wg40IUz4uPTksCHfCjPd15HVSfNFc/edit?pli=1&tab=t.0'
+  'https://cryptpad.fr/doc/#/2/doc/view/pHM3rINk35z-ANzThR1S1047RQYHfrO599zIXID5lV8/'
 
-/** The brief asks for this sentence, linked to the doc, under every track. */
+const LOGOS_DOCS_HREF = 'https://docs.logos.co/'
+
 const problemStatements = (title: string): TrackBlock => ({
   text: 'For a list of problem statements, please see here.',
   link: {
     label: 'here',
     href: PROBLEM_STATEMENTS_HREF,
     eventName: EVENT_NAMES.trackLink(title),
+  },
+})
+
+/** The two Logos tracks point at the Logos docs instead. */
+const logosStack = (title: string): TrackBlock => ({
+  text: 'For more information about the Logos stack, please see here.',
+  link: {
+    label: 'here',
+    href: LOGOS_DOCS_HREF,
+    eventName: EVENT_NAMES.trackDocsLink(title),
   },
 })
 
@@ -180,7 +192,7 @@ export const TRACKS = {
           heading: 'Privacy-preserving mutual aid coordination',
           text: 'Residents and site staff constantly need things from each other: a ride into Jaipur, a spare part, or someone who can fix a bike. Within this track, an example of something you could build would be a simple offers-and-requests board that matches people. This kind of tool can again lean on the full Logos stack.',
         },
-        problemStatements('Logos Civic Prize'),
+        logosStack('Logos Civic Prize'),
       ],
     },
     {
@@ -202,7 +214,7 @@ export const TRACKS = {
         {
           text: 'Finally, you can build towards one of the prizes in the standing λPrize catalogue, which funds core ecosystem primitives and runs in parallel to the residency under its own normal rules.',
         },
-        problemStatements('Logos Sovereignty and Privacy'),
+        logosStack('Logos Sovereignty and Privacy'),
       ],
     },
     {
@@ -276,23 +288,15 @@ export const APPLICATION_INTRO = {
   },
 } as const
 
-/** The blockchain module video tutorial behind "see here"; still to come. */
-const BLOCKCHAIN_MODULE_VIDEO_HREF: string | undefined = undefined
-
-/** Step 04 as the brief rewrote it, with its install guide and video links. */
+/** Step 04, final copy from the brief, with its installation guide link. */
 export const APPLICATION_STEP_4 = {
   number: '04',
-  text: 'Install Logos Basecamp (installation guide) Add the blockchain module inside basecamp (see here for a video tutorial) and make a note of the block height.',
+  text: 'Install Logos Basecamp (installation guide) Add the blockchain module inside basecamp, and make a note of the block height.',
   link: [
     {
       label: 'installation guide',
       href: BASECAMP_INSTALL_VIDEO,
       eventName: EVENT_NAMES.applicationStepLink('installation guide'),
-    },
-    {
-      label: 'here',
-      href: BLOCKCHAIN_MODULE_VIDEO_HREF,
-      eventName: EVENT_NAMES.applicationStepLink('video tutorial'),
     },
   ],
 } satisfies {
@@ -321,7 +325,8 @@ export const APPLICATION: TableSection = {
   title: 'The application process',
   action: {
     label: 'Apply now',
-    href: APPLY_HREF,
+    href: APPLICATION_FORM_HREF,
+    external: true,
     variant: 'secondary',
   },
   rows: APPLICATION_STEPS.map((step, index) => ({
@@ -492,7 +497,7 @@ export const APPLY_BANNER: Omit<GiantSwitchSection, 'description'> = {
 
 export const APPLY_BANNER_CTA = {
   label: 'Apply Now',
-  href: APPLY_HREF,
+  href: APPLICATION_FORM_HREF,
 } as const
 
 export const PARTNERS = {

@@ -18,11 +18,14 @@ vi.mock('@/i18n/navigation', () => ({
 import {
   APPLICATION_STEP_4,
   APPLY_BANNER_CTA,
+  APPLY_HREF,
+  TRACKS,
   EVENT_DETAILS,
   HERO,
   OG_IMAGE,
   SECTION_IDS,
   SEO,
+  type TrackBlock,
 } from '../_content'
 import FieldStationPage, { generateMetadata } from '../page'
 
@@ -98,10 +101,13 @@ describe('field station page', () => {
     expect(banner).not.toContain('Install')
   })
 
-  test('step 04 links the install guide and holds the video link until it lands', async () => {
+  test('step 04 carries the final copy and links the installation guide', async () => {
     const html = await pageHtml()
-    const [guide, video] = APPLICATION_STEP_4.link
+    const [guide] = APPLICATION_STEP_4.link
 
+    expect(html).toContain(
+      ') Add the blockchain module inside basecamp, and make a note of the block height.'
+    )
     expect(
       anchorTags(html).some(
         (tag) =>
@@ -109,9 +115,36 @@ describe('field station page', () => {
           attr(tag, 'data-umami-event-name') === guide.eventName
       )
     ).toBe(true)
-    if (!video.href) {
-      expect(html).toContain('(see here for a video tutorial)')
-    }
+  })
+
+  test('the application form sits on both Apply buttons and the note, the hero jumps to the section', async () => {
+    const html = await pageHtml()
+    const formLinks = anchorTags(html).filter(
+      (tag) => attr(tag, 'href') === APPLY_BANNER_CTA.href
+    )
+
+    expect(APPLY_BANNER_CTA.href).toMatch(/^https:\/\/cryptpad\.fr\/form\//)
+    expect(formLinks.map((tag) => attr(tag, 'data-umami-event-name'))).toEqual(
+      expect.arrayContaining([
+        'Application form - Application process',
+        'Apply now - Application process',
+        'Apply now - Apply banner',
+      ])
+    )
+    expect(APPLY_HREF).toBe(`#${SECTION_IDS.applicationProcess}`)
+  })
+
+  test('each track ends with its brief link', () => {
+    const lastLinks = TRACKS.items.map(
+      (item) => (item.details.at(-1) as TrackBlock | undefined)?.link?.href
+    )
+
+    expect(lastLinks).toEqual([
+      'https://docs.logos.co/',
+      'https://docs.logos.co/',
+      expect.stringMatching(/^https:\/\/cryptpad\.fr\/doc\//),
+      expect.stringMatching(/^https:\/\/cryptpad\.fr\/doc\//),
+    ])
   })
 
   test('external links open in a new tab', async () => {
