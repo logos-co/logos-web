@@ -117,7 +117,7 @@ describe('field station page', () => {
     ).toBe(true)
   })
 
-  test('the application form sits on both Apply buttons and the note, the hero jumps to the section', async () => {
+  test('every Apply button and the note open the application form', async () => {
     const html = await pageHtml()
     const formLinks = anchorTags(html).filter(
       (tag) => attr(tag, 'href') === APPLY_BANNER_CTA.href
@@ -126,12 +126,13 @@ describe('field station page', () => {
     expect(APPLY_BANNER_CTA.href).toMatch(/^https:\/\/cryptpad\.fr\/form\//)
     expect(formLinks.map((tag) => attr(tag, 'data-umami-event-name'))).toEqual(
       expect.arrayContaining([
+        'Apply now - Hero',
         'Application form - Application process',
         'Apply now - Application process',
         'Apply now - Apply banner',
       ])
     )
-    expect(APPLY_HREF).toBe(`#${SECTION_IDS.applicationProcess}`)
+    expect(APPLY_HREF).toBe(APPLY_BANNER_CTA.href)
   })
 
   test('each track ends with its brief link', () => {

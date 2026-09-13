@@ -38,14 +38,15 @@ export const SECTION_IDS = {
 } as const
 
 /**
- * The application form. The brief puts it on the application process button,
- * the Apply Now button above the FAQ and "can be completed here".
+ * The application form. Every Apply button on the page opens it: the hero,
+ * the application process, the banner above the FAQ and "can be completed
+ * here".
  */
 const APPLICATION_FORM_HREF =
   'https://cryptpad.fr/form/#/2/form/view/bI7xMBt68MNhB34MvEzSLRHva4ENGd+lpgojlmJX2Ss/'
 
-/** The hero's Apply now jumps to the section that explains how to apply. */
-export const APPLY_HREF = `#${SECTION_IDS.applicationProcess}`
+/** The hero's Apply now goes straight to the form, not down the page. */
+export const APPLY_HREF = APPLICATION_FORM_HREF
 
 const IMAGE_DIR = '/campaigns/field-station'
 
