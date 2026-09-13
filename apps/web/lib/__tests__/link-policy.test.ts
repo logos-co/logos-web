@@ -24,10 +24,7 @@ import fieldGuideManifest from '../../../../content/field-guide/en/manifest.json
 
 const repoRoot = join(__dirname, '../../../..')
 const webRoot = join(repoRoot, 'apps/web')
-const fieldGuideChaptersRoot = join(
-  repoRoot,
-  'content/field-guide/en/chapters'
-)
+const fieldGuideChaptersRoot = join(repoRoot, 'content/field-guide/en/chapters')
 const pagesContentRoot = join(repoRoot, 'content/pages/en')
 const scannedRoots = ['apps/web', 'content', 'packages/content'].map((root) =>
   join(repoRoot, root)
@@ -64,8 +61,7 @@ const basecampLinuxX64DownloadHref =
   'https://github.com/logos-co/logos-basecamp/releases/download/0.2.3/LogosBasecamp-Desktop-v0.2.3-aa2377-x86_64.AppImage'
 const basecampMacArm64DownloadHref =
   'https://github.com/logos-co/logos-basecamp/releases/download/0.2.3/LogosBasecamp-Desktop-v0.2.3-aa2377-aarch64.dmg'
-const runNodeCliDocsHref =
-  'https://docs.logos.co/'
+const runNodeCliDocsHref = 'https://docs.logos.co/'
 const docsLabels = new Set(['docs', 'documentation', 'view the docs'])
 const routeUsageAllowlist = new Set([
   'apps/web/app/[locale]/work-with-us/page.tsx',
@@ -205,10 +201,7 @@ describe('link policy', () => {
         const path = join(pagesContentRoot, entry)
         const content = JSON.parse(readFileSync(path, 'utf8')) as unknown
 
-        return collectBuilderHubHrefOffenders(
-          content,
-          relative(repoRoot, path)
-        )
+        return collectBuilderHubHrefOffenders(content, relative(repoRoot, path))
       })
 
     expect(offenders).toEqual([])
@@ -279,7 +272,7 @@ describe('link policy', () => {
     )
   })
 
-  it('routes the homepage Lambda Prize text CTA to the Lambda Prize page', () => {
+  it('routes the homepage Use Cases text CTA to the PriFi page', () => {
     const useCasesSection = readFileSync(
       join(webRoot, 'components/sections/home/use-cases-section.tsx'),
       'utf8'
@@ -287,17 +280,15 @@ describe('link policy', () => {
 
     const useCasesContentSection = homePage.sections.find(
       (section) => section.key === 'home.useCases'
-    ) as { lambda: string } | undefined
+    ) as { thesisCta: string } | undefined
     expect(useCasesContentSection).toBeDefined()
-    const lambdaCopy = useCasesContentSection?.lambda ?? ''
 
-    expect(ROUTES.lambdaPrize).toBe('/lambda-prize')
-    expect(lambdaCopy.replace(/<\/?lambdaPrize>/g, '')).toBe(
-      'Explore the applications Logos is funding through the Lambda Prize.'
+    expect(ROUTES.prifi).toBe('/prifi')
+    expect(useCasesContentSection?.thesisCta).toBe(
+      'Read the Logos PriFi Thesis'
     )
-    expect(lambdaCopy).toContain('<lambdaPrize>Lambda Prize</lambdaPrize>')
-    expect(lambdaCopy).not.toContain('LAMBDA PRIZE >>')
-    expect(useCasesSection).toMatch(/renderLambdaPrizeText\([^)]*ROUTES\.lambdaPrize/)
+    expect(useCasesSection).toContain('href={ROUTES.prifi}')
+    expect(useCasesSection).not.toContain('ROUTES.lambdaPrize')
   })
 
   it('routes manifesto related reading links to their target pages', () => {
@@ -309,7 +300,9 @@ describe('link policy', () => {
     expect(ROUTES.book).toBe('/book')
     expect(EXTERNAL_URLS.livingWithinTruth).toBe(livingWithinTruthHref)
     expect(EXTERNAL_URLS.logosGenealogyArticle).toBe(logosGenealogyHref)
-    const manifestoSection = manifestoContentPage.sections[0] as { more?: string[] }
+    const manifestoSection = manifestoContentPage.sections[0] as {
+      more?: string[]
+    }
     expect(manifestoSection.more).toEqual([
       'Farewell to Westphalia',
       'Living Within the Truth | Parallel Society',
@@ -384,10 +377,7 @@ describe('link policy', () => {
 
     expect(offenders).toEqual([])
     expect(
-      readFileSync(
-        join(fieldGuideChaptersRoot, 'index.md'),
-        'utf8'
-      )
+      readFileSync(join(fieldGuideChaptersRoot, 'index.md'), 'utf8')
     ).toContain('[The Full System](/field-guide/the-full-system)')
   })
 
