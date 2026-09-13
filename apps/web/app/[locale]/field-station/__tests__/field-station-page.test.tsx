@@ -15,7 +15,15 @@ vi.mock('@/i18n/navigation', () => ({
   } & Record<string, unknown>) => createElement('a', props, children),
 }))
 
-import { EVENT_DETAILS, HERO, OG_IMAGE, SECTION_IDS, SEO } from '../_content'
+import {
+  APPLICATION_STEP_4,
+  APPLY_BANNER_CTA,
+  EVENT_DETAILS,
+  HERO,
+  OG_IMAGE,
+  SECTION_IDS,
+  SEO,
+} from '../_content'
 import FieldStationPage, { generateMetadata } from '../page'
 
 const params = Promise.resolve({ locale: 'en' })
@@ -75,6 +83,34 @@ describe('field station page', () => {
       const id = link.href.slice(1)
       expect(Object.values(SECTION_IDS)).toContain(id)
       expect(html).toContain(`id="${id}"`)
+    }
+  })
+
+  test('the apply banner is just its title and an Apply Now button', async () => {
+    const html = await pageHtml()
+    const banner =
+      html.match(/<section id="logos-app".*?<\/section>/s)?.[0] ?? ''
+    const links = anchorTags(banner)
+
+    expect(links).toHaveLength(1)
+    expect(attr(links[0], 'href')).toBe(APPLY_BANNER_CTA.href)
+    expect(banner).toContain(APPLY_BANNER_CTA.label)
+    expect(banner).not.toContain('Install')
+  })
+
+  test('step 04 links the install guide and holds the video link until it lands', async () => {
+    const html = await pageHtml()
+    const [guide, video] = APPLICATION_STEP_4.link
+
+    expect(
+      anchorTags(html).some(
+        (tag) =>
+          attr(tag, 'href') === guide.href &&
+          attr(tag, 'data-umami-event-name') === guide.eventName
+      )
+    ).toBe(true)
+    if (!video.href) {
+      expect(html).toContain('(see here for a video tutorial)')
     }
   })
 

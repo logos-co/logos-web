@@ -2,6 +2,8 @@ import type { ReactNode } from 'react'
 
 import type { TrackBlock } from '../_content'
 
+type TextLink = NonNullable<TrackBlock['link']>
+
 /** The H3 Sans section title the Figma frame uses above most blocks. */
 export function SectionHeading({
   children,
@@ -17,35 +19,52 @@ export function SectionHeading({
   )
 }
 
+const escapeRegExp = (value: string) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
 /**
- * Copy with one linked phrase. The phrase stays plain text until its `href`
- * is set, so links waiting on the team never point anywhere.
+ * Copy with linked phrases, matched as whole words in order. A phrase stays
+ * plain text until its `href` is set, so links waiting on the team never
+ * point anywhere.
  */
 export function LinkedText({
   text,
   link,
 }: {
   text: string
-  link?: TrackBlock['link']
+  link?: TextLink | readonly TextLink[]
 }) {
-  const at = link?.href ? text.lastIndexOf(link.label) : -1
-  if (!link?.href || at < 0) {
-    return <>{text}</>
-  }
+  const links = link === undefined ? [] : 'label' in link ? [link] : link
+  const parts: ReactNode[] = []
+  let cursor = 0
+  let emitted = 0
 
-  return (
-    <>
-      {text.slice(0, at)}
+  for (const item of links) {
+    const match = new RegExp(`\\b${escapeRegExp(item.label)}\\b`).exec(
+      text.slice(cursor)
+    )
+    if (!match) continue
+
+    const start = cursor + match.index
+    cursor = start + item.label.length
+    if (!item.href) continue
+
+    parts.push(
+      text.slice(emitted, start),
       <a
-        href={link.href}
+        key={start}
+        href={item.href}
         target="_blank"
         rel="noopener noreferrer"
-        data-umami-event-name={link.eventName}
+        data-umami-event-name={item.eventName}
         className="cursor-pointer underline underline-offset-2"
       >
-        {link.label}
+        {item.label}
       </a>
-      {text.slice(at + link.label.length)}
-    </>
-  )
+    )
+    emitted = cursor
+  }
+  parts.push(text.slice(emitted))
+
+  return <>{parts}</>
 }

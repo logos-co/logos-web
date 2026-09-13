@@ -38,18 +38,20 @@ export const SECTION_IDS = {
 } as const
 
 /**
- * The Devfolio application URL is not in the design yet, so "Apply now" points
- * at the section that explains how to apply.
- */
-export const APPLY_HREF = `#${SECTION_IDS.applicationProcess}`
-
-/**
- * The application form behind "can be completed here". The brief says the
- * link lands over the weekend; the word stays plain text until it is set.
+ * The application form. The brief says the link is still to come; until it is
+ * set, every "Apply now" points at the section that explains how to apply and
+ * "can be completed here" stays plain text.
  */
 const APPLICATION_FORM_HREF: string | undefined = undefined
 
+export const APPLY_HREF =
+  APPLICATION_FORM_HREF ?? `#${SECTION_IDS.applicationProcess}`
+
 const IMAGE_DIR = '/campaigns/field-station'
+
+const BASECAMP_INSTALL_DOCS =
+  'https://docs.logos.co/basecamp/install-logos-basecamp'
+const RUN_A_NODE_DOCS = 'https://docs.logos.co/run-a-node'
 
 /**
  * Umami click names. The site-wide tracker otherwise names an event after the
@@ -62,7 +64,9 @@ export const EVENT_NAMES = {
   applicationApply: 'Apply now - Application process',
   applicationInstall: 'Install Basecamp - Application process',
   applicationForm: 'Application form - Application process',
-  applyBannerInstall: 'Install Basecamp - Apply banner',
+  applicationStepLink: (label: string) =>
+    `Step link - ${label} - Application process`,
+  applyBannerApply: 'Apply now - Apply banner',
   trackToggle: (title: string) => `Track - ${title}`,
   trackLink: (title: string) => `Problem statements - ${title}`,
   faqToggle: (question: string) => `FAQ - ${question}`,
@@ -270,11 +274,36 @@ export const APPLICATION_INTRO = {
   },
 } as const
 
+/** The blockchain module video tutorial behind "see here"; still to come. */
+const BLOCKCHAIN_MODULE_VIDEO_HREF: string | undefined = undefined
+
+/** Step 04 as the brief rewrote it, with its install guide and video links. */
+export const APPLICATION_STEP_4 = {
+  number: '04',
+  text: 'Install Logos Basecamp (installation guide) Add the blockchain module inside basecamp (see here for a video tutorial) and make a note of the block height.',
+  link: [
+    {
+      label: 'installation guide',
+      href: BASECAMP_INSTALL_DOCS,
+      eventName: EVENT_NAMES.applicationStepLink('installation guide'),
+    },
+    {
+      label: 'here',
+      href: BLOCKCHAIN_MODULE_VIDEO_HREF,
+      eventName: EVENT_NAMES.applicationStepLink('video tutorial'),
+    },
+  ],
+} satisfies {
+  number: string
+  text: string
+  link: NonNullable<TrackBlock['link']>[]
+}
+
 const APPLICATION_STEPS = [
   'Select the track you wish to apply for.',
   'Explain your idea.',
   'Include relevant links to demos or prototypes (not required, but they will support your application).',
-  'Install Logos Basecamp and retrieve your application code. Enter your code into the Devfolio application.',
+  APPLICATION_STEP_4.text,
   'Applications are reviewed by a panel of judges for each track.',
 ] as const
 
@@ -444,27 +473,25 @@ export const AGENDA = {
   })),
 }
 
-export const APPLY_BANNER: GiantSwitchSection = {
+/** The brief cuts the banner down to its title and an Apply Now button. */
+export const APPLY_BANNER: Omit<GiantSwitchSection, 'description'> = {
   componentType: 'giantSwitch',
   key: 'fieldStation.apply',
   accent: 'grey',
   imagePosition: 'left',
   title: 'Apply Now',
-  description:
-    'Basecamp is the launcher and unified surface of the Logos stack. It is an executable that wraps the Logos runtime, initialises the Logos Core environment, and discovers and loads plugins from installed modules.',
   image: {
     src: `${IMAGE_DIR}/apply.webp`,
     alt: 'Sunset over a lake',
     width: 1132,
     height: 1132,
   },
-  primaryCta: {
-    label: 'Install',
-    href: EXTERNAL_URLS.basecampRelease,
-    external: true,
-    variant: 'secondary',
-  },
 }
+
+export const APPLY_BANNER_CTA = {
+  label: 'Apply Now',
+  href: APPLY_HREF,
+} as const
 
 export const PARTNERS = {
   logos: {
@@ -500,10 +527,6 @@ export interface FaqLink {
  * the part of `text` that links.
  */
 export type FaqBlock = { text: string; link?: FaqLink } | { links: FaqLink[] }
-
-const BASECAMP_INSTALL_DOCS =
-  'https://docs.logos.co/basecamp/install-logos-basecamp'
-const RUN_A_NODE_DOCS = 'https://docs.logos.co/run-a-node'
 
 const faqItem = (question: string, answer: FaqBlock[]) => ({
   key: question,
@@ -566,7 +589,10 @@ export const FAQ = {
     ]),
     faqItem("What's the accommodation like?", [
       {
-        text: 'Shared rooms, 5–7 people, single-sex. Farm-to-table food, boutique tents, and haveli lodgings on site.',
+        text: 'Shared rooms (2 per tent /room), separate beds, shared bathroom.',
+      },
+      {
+        text: 'We cannot guarantee same-sex shared accomodation. All accomodation is shared with individual separated beds and a shared bathroom/toilet per room/tent. You can see some photos above.',
       },
     ]),
     faqItem('Is there a code of conduct?', [
