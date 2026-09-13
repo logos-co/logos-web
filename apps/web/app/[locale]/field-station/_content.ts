@@ -51,6 +51,8 @@ const IMAGE_DIR = '/campaigns/field-station'
 
 const BASECAMP_INSTALL_DOCS =
   'https://docs.logos.co/basecamp/install-logos-basecamp'
+/** Installing Logos Basecamp; the brief links step 04's "installation guide" here. */
+const BASECAMP_INSTALL_VIDEO = 'https://www.youtube.com/watch?v=SZ72xolkZz4'
 const RUN_A_NODE_DOCS = 'https://docs.logos.co/run-a-node'
 
 /**
@@ -284,7 +286,7 @@ export const APPLICATION_STEP_4 = {
   link: [
     {
       label: 'installation guide',
-      href: BASECAMP_INSTALL_DOCS,
+      href: BASECAMP_INSTALL_VIDEO,
       eventName: EVENT_NAMES.applicationStepLink('installation guide'),
     },
     {
@@ -551,7 +553,7 @@ export const FAQ = {
           },
           {
             label: 'Installing Logos Basecamp',
-            href: 'https://www.youtube.com/watch?v=SZ72xolkZz4',
+            href: BASECAMP_INSTALL_VIDEO,
           },
           {
             label: 'Quickstart Logos Basecamp',
