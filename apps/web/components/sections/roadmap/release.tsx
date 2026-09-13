@@ -226,12 +226,19 @@ function ReleaseModuleTable({ modules }: { modules: ReleaseModule[] }) {
   )
 }
 
-function ReleaseModuleRow({
+/**
+ * A "Row entry" line. Rows are `md:col-span-3 md:grid-cols-subgrid`, so the
+ * parent grid decides the three desktop column widths. Exported for reuse.
+ */
+export function ReleaseModuleRow({
   module,
   index,
+  bodyClassName = 'max-w-[368px] font-mono-body text-xs leading-[1.3]',
 }: {
   module: ReleaseModule
   index: number
+  /** Replaces the body paragraph's classes. */
+  bodyClassName?: string
 }) {
   return (
     <article
@@ -242,9 +249,7 @@ function ReleaseModuleRow({
       <h3 className="font-display text-[14px] leading-[1.2] md:pl-3">
         {module.label}
       </h3>
-      <p className="max-w-[368px] font-mono-body text-xs leading-[1.3]">
-        {module.body}
-      </p>
+      <p className={bodyClassName}>{module.body}</p>
       {module.actions.length > 0 ? (
         <div className="col-start-2 mt-3 flex flex-wrap items-start gap-3 md:col-start-3 md:mt-0 md:min-w-[156px] md:pr-3">
           {module.actions.map((action, actionIndex) => (

@@ -15,7 +15,7 @@ export interface TechOverviewUseCasesScrollMetrics {
   clientWidth: number
 }
 
-const CARD_IMAGE_CLASSNAMES = [
+export const CARD_IMAGE_CLASSNAMES = [
   'h-[120px] w-24',
   'h-[77px] w-24',
   'h-[119px] w-24',
@@ -40,7 +40,7 @@ export function getTechOverviewUseCaseCards(
           },
         ]
       : []
-    )
+  )
 }
 
 export function isTechOverviewUseCasesScrollable({

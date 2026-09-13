@@ -61,9 +61,12 @@ async function getClientPlatform(): Promise<UserAgentDataValues> {
 export function BasecampCta({
   cta,
   className,
+  eventName,
 }: {
   cta: CTA
   className?: string
+  /** Stable Umami event name; the tracker falls back to the label. */
+  eventName?: string
 }) {
   const fallbackLinkProps = resolveBasecampInstallCtaLinkProps(cta)
   const [href, setHref] = useState(fallbackLinkProps.href)
@@ -101,6 +104,7 @@ export function BasecampCta({
       variant={cta.variant ?? 'secondary'}
       icon={getButtonIcon(cta.iconOverride)}
       className={className}
+      data-umami-event-name={eventName}
     >
       {cta.label}
     </Button>

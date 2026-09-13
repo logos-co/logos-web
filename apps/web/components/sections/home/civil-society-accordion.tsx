@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'motion/react'
 import Image from 'next/image'
-import { useState } from 'react'
+import { type ReactNode, useState } from 'react'
 
 import { EASE } from '@/lib/motion'
 
@@ -11,15 +11,29 @@ export interface AccordionFactLink {
   href: string
 }
 
+/**
+ * An item without `body`, `content`, `facts` or `image` renders as a static
+ * row: there is nothing to expand, so it gets no toggle button.
+ */
 export interface AccordionItem {
-  key: 'debt' | 'surveillance' | 'corruption' | 'stagnation'
+  key: string
   title: string
-  subtitle: string
-  body: string
-  facts: string[]
-  factLinks: Partial<Record<number, AccordionFactLink>>
-  image: string
+  subtitle?: string
+  body?: string
+  /** Rich panel copy, rendered in the `body` slot in place of `body`. */
+  content?: ReactNode
+  facts?: string[]
+  factLinks?: Partial<Record<number, AccordionFactLink>>
+  image?: string
   imageClassName?: string
+  /** Stable Umami event name for the toggle; defaults to the visible label. */
+  eventName?: string
+  /** Appended to the subtitle slot for this row only. */
+  subtitleClassName?: string
+}
+
+function hasPanel(item: AccordionItem): boolean {
+  return Boolean(item.body || item.content || item.facts?.length || item.image)
 }
 
 function FactText({ fact, link }: { fact: string; link?: AccordionFactLink }) {
@@ -68,43 +82,101 @@ function ChevronDown({ open }: { open: boolean }) {
   )
 }
 
+const DEFAULT_CLASS_NAMES = {
+  root: 'flex w-full flex-col',
+  item: 'border-t border-brand-off-white/25 last:border-b',
+  row: 'flex w-full items-center justify-between gap-6 py-[30px] text-left',
+  title:
+    'font-display text-[30px] leading-none tracking-[-0.9px] [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] lg:text-[56px] lg:tracking-[-0.03em]',
+  aside: 'flex items-center gap-3 lg:gap-[42px]',
+  subtitle:
+    'hidden font-mono text-[14px] tracking-[-0.03em] text-brand-off-white/90 sm:inline lg:text-[20px]',
+  panel:
+    'flex flex-col gap-8 pb-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12 lg:pb-[60px]',
+  body: 'font-sans text-[14px] leading-[1.2]',
+}
+
+/**
+ * Each slot replaces the default classes outright rather than merging with
+ * them, so a caller restyling a slot passes its full class list.
+ */
+export type AccordionClassNames = Partial<typeof DEFAULT_CLASS_NAMES>
+
+interface CivilSocietyAccordionProps {
+  items: AccordionItem[]
+  classNames?: AccordionClassNames
+  /** Replaces the rotating chevron with one element per state. */
+  icons?: { open: ReactNode; closed: ReactNode }
+  /**
+   * The panel open on load; `null` starts with every row closed. Defaults to
+   * the first item with a panel.
+   */
+  initialOpenKey?: AccordionItem['key'] | null
+}
+
 export default function CivilSocietyAccordion({
   items,
-}: {
-  items: AccordionItem[]
-}) {
-  const [openKey, setOpenKey] = useState<AccordionItem['key'] | null>(
-    () => items[0]?.key ?? null
+  classNames,
+  icons,
+  initialOpenKey,
+}: CivilSocietyAccordionProps) {
+  const [openKey, setOpenKey] = useState<AccordionItem['key'] | null>(() =>
+    initialOpenKey === undefined
+      ? (items.find(hasPanel)?.key ?? null)
+      : initialOpenKey
   )
+  const slots = { ...DEFAULT_CLASS_NAMES, ...classNames }
 
   return (
-    <div className="flex w-full flex-col">
+    <div className={slots.root}>
       {items.map((item) => {
-        const isOpen = item.key === openKey
+        const isExpandable = hasPanel(item)
+        const isOpen = isExpandable && item.key === openKey
         const panelId = `civil-society-panel-${item.key}`
-
-        return (
-          <div
-            key={item.key}
-            className="border-t border-brand-off-white/25 last:border-b"
-          >
-            <button
-              type="button"
-              aria-expanded={isOpen}
-              aria-controls={panelId}
-              onClick={() => setOpenKey(isOpen ? null : item.key)}
-              className="flex w-full cursor-pointer items-center justify-between gap-6 py-[30px] text-left transition-opacity hover:opacity-80"
-            >
-              <span className="font-display text-[30px] leading-none tracking-[-0.9px] [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] lg:text-[56px] lg:tracking-[-0.03em]">
-                {item.title}
-              </span>
-              <span className="flex items-center gap-3 lg:gap-[42px]">
-                <span className="hidden font-mono text-[14px] tracking-[-0.03em] text-brand-off-white/90 sm:inline lg:text-[20px]">
+        const rowContent = (
+          <>
+            <span className={slots.title}>{item.title}</span>
+            <span className={slots.aside}>
+              {item.subtitle ? (
+                <span
+                  className={
+                    item.subtitleClassName
+                      ? `${slots.subtitle} ${item.subtitleClassName}`
+                      : slots.subtitle
+                  }
+                >
                   {item.subtitle}
                 </span>
+              ) : null}
+              {icons ? (
+                isOpen ? (
+                  icons.open
+                ) : (
+                  icons.closed
+                )
+              ) : (
                 <ChevronDown open={isOpen} />
-              </span>
-            </button>
+              )}
+            </span>
+          </>
+        )
+
+        return (
+          <div key={item.key} className={slots.item}>
+            {isExpandable ? (
+              <button
+                type="button"
+                aria-expanded={isOpen}
+                aria-controls={panelId}
+                data-umami-event-name={item.eventName}
+                onClick={() => setOpenKey(isOpen ? null : item.key)}
+                className={`${slots.row} cursor-pointer transition-opacity hover:opacity-80`}
+              >
+                {rowContent}
+              </button>
+            ) : (
+              <div className={slots.row}>{rowContent}</div>
+            )}
 
             <AnimatePresence initial={false}>
               {isOpen ? (
@@ -117,32 +189,38 @@ export default function CivilSocietyAccordion({
                   transition={{ duration: 0.45, ease: EASE.inOut }}
                   className="overflow-hidden"
                 >
-                  <div className="flex flex-col gap-8 pb-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12 lg:pb-[60px]">
+                  <div className={slots.panel}>
                     <div className="flex max-w-[572px] flex-col gap-6 lg:gap-[30px]">
-                      <p className="font-sans text-[14px] leading-[1.2]">
-                        {item.body}
-                      </p>
-                      <div className="flex flex-col gap-4 font-mono text-xs leading-[1.3] lg:gap-[20px]">
-                        {item.facts.map((fact, index) => (
-                          <p key={fact}>
-                            <FactText
-                              fact={fact}
-                              link={item.factLinks[index]}
-                            />
-                          </p>
-                        ))}
-                      </div>
+                      {item.content ? (
+                        <div className={slots.body}>{item.content}</div>
+                      ) : item.body ? (
+                        <p className={slots.body}>{item.body}</p>
+                      ) : null}
+                      {item.facts?.length ? (
+                        <div className="flex flex-col gap-4 font-mono text-xs leading-[1.3] lg:gap-[20px]">
+                          {item.facts.map((fact, index) => (
+                            <p key={fact}>
+                              <FactText
+                                fact={fact}
+                                link={item.factLinks?.[index]}
+                              />
+                            </p>
+                          ))}
+                        </div>
+                      ) : null}
                     </div>
 
-                    <div className="relative h-[180px] w-full shrink-0 overflow-hidden rounded-[20px] lg:h-[199px] lg:w-[401px]">
-                      <Image
-                        src={item.image}
-                        alt=""
-                        fill
-                        sizes="(max-width: 1023px) calc(100vw - 48px), 401px"
-                        className={`object-cover ${item.imageClassName ?? ''}`}
-                      />
-                    </div>
+                    {item.image ? (
+                      <div className="relative h-[180px] w-full shrink-0 overflow-hidden rounded-[20px] lg:h-[199px] lg:w-[401px]">
+                        <Image
+                          src={item.image}
+                          alt=""
+                          fill
+                          sizes="(max-width: 1023px) calc(100vw - 48px), 401px"
+                          className={`object-cover ${item.imageClassName ?? ''}`}
+                        />
+                      </div>
+                    ) : null}
                   </div>
                 </motion.div>
               ) : null}

@@ -51,7 +51,19 @@ function ScrollControl({
   )
 }
 
-function UseCaseCard({
+type UseCaseCardProps = Omit<TechOverviewUseCaseCard, 'href' | 'ctaLabel'> &
+  Partial<Pick<TechOverviewUseCaseCard, 'href' | 'ctaLabel'>> & {
+    /** Replaces the title's classes. */
+    titleClassName?: string
+    /** Replaces the description's classes. */
+    descriptionClassName?: string
+  }
+
+const USE_CASE_CARD_CLASSNAME =
+  'border-brand-dark-green/50 relative block h-[317px] w-[345px] shrink-0 overflow-hidden rounded-xl border bg-brand-off-white text-brand-dark-green'
+
+/** Exported so other pages can show the same card without a link. */
+export function UseCaseCard({
   title,
   description,
   href,
@@ -59,25 +71,22 @@ function UseCaseCard({
   imageSrc,
   imageAlt,
   imageClassName,
-}: TechOverviewUseCaseCard) {
-  return (
-    <a
-      href={href}
-      className="border-brand-dark-green/50 relative block h-[317px] w-[345px] shrink-0 cursor-pointer overflow-hidden rounded-xl border bg-brand-off-white text-brand-dark-green transition-opacity hover:opacity-90"
-    >
-      <h3 className="text-h4-sans absolute left-4 top-4 w-[249px] text-brand-dark-green">
-        {title}
-      </h3>
+  titleClassName = 'text-h4-sans absolute left-4 top-4 w-[249px] text-brand-dark-green',
+  descriptionClassName = 'text-mono-s absolute bottom-4 left-4 w-[186px] text-brand-dark-green',
+}: UseCaseCardProps) {
+  const content = (
+    <>
+      <h3 className={titleClassName}>{title}</h3>
 
-      <div className="absolute left-4 top-[83px]">
-        <span className="font-mono text-[13px] leading-[1.1] font-bold tracking-normal uppercase underline decoration-brand-dark-green/50 underline-offset-[4px]">
-          {ctaLabel}
-        </span>
-      </div>
+      {ctaLabel ? (
+        <div className="absolute left-4 top-[83px]">
+          <span className="font-mono text-[13px] leading-[1.1] font-bold tracking-normal uppercase underline decoration-brand-dark-green/50 underline-offset-[4px]">
+            {ctaLabel}
+          </span>
+        </div>
+      ) : null}
 
-      <p className="text-mono-s absolute bottom-4 left-4 w-[186px] text-brand-dark-green">
-        {description}
-      </p>
+      <p className={descriptionClassName}>{description}</p>
 
       <div
         className={`absolute bottom-[11px] right-[10px] overflow-hidden ${imageClassName}`}
@@ -90,6 +99,19 @@ function UseCaseCard({
           className="object-cover"
         />
       </div>
+    </>
+  )
+
+  if (!href) {
+    return <article className={USE_CASE_CARD_CLASSNAME}>{content}</article>
+  }
+
+  return (
+    <a
+      href={href}
+      className={`${USE_CASE_CARD_CLASSNAME} cursor-pointer transition-opacity hover:opacity-90`}
+    >
+      {content}
     </a>
   )
 }
@@ -195,7 +217,10 @@ export default function TechOverviewUseCases({ data }: Props) {
           {canScroll ? (
             <div className="absolute left-0 top-[269px] flex gap-2.5">
               <ScrollControl direction="left" onClick={() => scroll('left')} />
-              <ScrollControl direction="right" onClick={() => scroll('right')} />
+              <ScrollControl
+                direction="right"
+                onClick={() => scroll('right')}
+              />
             </div>
           ) : null}
 
