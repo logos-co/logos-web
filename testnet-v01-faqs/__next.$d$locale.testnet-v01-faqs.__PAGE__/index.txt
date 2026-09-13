@@ -2,5 +2,5 @@
 3:I[93851,["/_next/static/chunks/03nuhivib13_i.js","/_next/static/chunks/0c1nds211k~cp.js"],"OutletBoundary"]
 4:"$Sreact.suspense"
 2:["$","p",null,{"className":"px-3 py-12 text-brand-dark-green","children":["$","a",null,{"href":"/testnet-faqs","className":"cursor-pointer underline transition-opacity hover:opacity-70","children":"Continue to /testnet-faqs"}]}]
-0:{"rsc":["$","$1","c",{"children":[[["$","meta",null,{"httpEquiv":"refresh","content":"0; url=/testnet-faqs"}],["$","script",null,{"dangerouslySetInnerHTML":{"__html":"window.location.replace(\"/testnet-faqs\")"}}],["$","noscript",null,{"children":"$2"}]],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"y09_5maBvXWKO0kOT0LdX"}
+0:{"rsc":["$","$1","c",{"children":[[["$","meta",null,{"httpEquiv":"refresh","content":"0; url=/testnet-faqs"}],["$","script",null,{"dangerouslySetInnerHTML":{"__html":"window.location.replace(\"/testnet-faqs\")"}}],["$","noscript",null,{"children":"$2"}]],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"W4Gl_7Grhvv-VYznN7E5E"}
 5:null
