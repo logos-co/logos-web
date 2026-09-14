@@ -513,8 +513,8 @@ export const PARTNERS = {
   zuGrama: {
     title: 'About Zu-Grama',
     href: 'https://zugrama.org/',
-    /** The handle zugrama.org links to. */
-    x: { label: 'X: @ZuGramaIndia', href: 'https://x.com/ZuGramaIndia' },
+    /** Zu-Grama's X handle. */
+    x: { label: 'X: @zugramadotorg', href: 'https://x.com/zugramadotorg' },
     description:
       'ZuGrama is an experiment in building pro-human places and pro-human technology. Our north star is a permanent village where people live, build and test technologies that preserve human agency. We are working toward this through residencies, pop-up villages and community events, with a base in Bangalore and programmes across India and elsewhere.',
     logo: {
