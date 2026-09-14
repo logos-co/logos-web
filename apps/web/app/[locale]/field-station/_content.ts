@@ -526,6 +526,29 @@ export const PARTNERS = {
   },
 } as const
 
+/**
+ * Partners who join and amplify the residency, from their official brand
+ * repos (devfolioco/brand-assets, ETHIndia/brand-assets), used unmodified on
+ * the light background. More logos follow as partners join.
+ */
+export const COALITION = {
+  heading: 'Coalition / Community Partners',
+  logos: [
+    {
+      name: 'Devfolio',
+      src: `${IMAGE_DIR}/coalition/devfolio.svg`,
+      width: 619.1,
+      height: 129,
+    },
+    {
+      name: 'ETHIndia',
+      src: `${IMAGE_DIR}/coalition/ethindia.png`,
+      width: 940,
+      height: 218,
+    },
+  ],
+} as const
+
 export interface FaqLink {
   label: string
   href: string

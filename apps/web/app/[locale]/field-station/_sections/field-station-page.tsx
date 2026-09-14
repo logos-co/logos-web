@@ -5,6 +5,7 @@ import { APPLY_BANNER, APPLY_BANNER_CTA, EVENT_NAMES } from '../_content'
 import { About } from './about'
 import { Agenda } from './agenda'
 import { Application } from './application'
+import { Coalition } from './coalition'
 import { Faq } from './faq'
 import { Gathering } from './gathering'
 import { Hero } from './hero'
@@ -48,6 +49,7 @@ export function FieldStationPage() {
       />
       <Faq />
       <Partners />
+      <Coalition />
     </div>
   )
 }

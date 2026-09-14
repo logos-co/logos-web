@@ -19,6 +19,7 @@ import {
   APPLICATION_STEP_4,
   APPLY_BANNER_CTA,
   APPLY_HREF,
+  COALITION,
   TRACKS,
   EVENT_DETAILS,
   HERO,
@@ -157,6 +158,16 @@ describe('field station page', () => {
     expect(controls.length).toBeGreaterThan(0)
     for (const id of controls) {
       expect(id).not.toMatch(/\s/)
+    }
+  })
+
+  test('the coalition block lists every partner logo under its heading', async () => {
+    const html = await pageHtml()
+    const block = html.slice(html.indexOf(COALITION.heading))
+
+    expect(block.length).toBeGreaterThan(COALITION.heading.length)
+    for (const logo of COALITION.logos) {
+      expect(block).toContain(`alt="${logo.name}"`)
     }
   })
 
