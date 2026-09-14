@@ -78,6 +78,7 @@ export const EVENT_NAMES = {
   partnerLogos: 'Logos homepage - Partners',
   partnerZuGrama: 'Zu-Grama website - Partners',
   partnerZuGramaX: 'Zu-Grama on X - Partners',
+  coalitionLink: (name: string) => `${name} on X - Coalition`,
 }
 
 /** The residency itself, for the page's schema.org Event. */
@@ -529,19 +530,22 @@ export const PARTNERS = {
 /**
  * Partners who join and amplify the residency, from their official brand
  * repos (devfolioco/brand-assets, ETHIndia/brand-assets), used unmodified on
- * the light background. More logos follow as partners join.
+ * the light background, each linking to the partner's X account. More logos
+ * follow as partners join.
  */
 export const COALITION = {
   heading: 'Coalition / Community Partners',
   logos: [
     {
       name: 'Devfolio',
+      href: 'https://x.com/devfolio',
       src: `${IMAGE_DIR}/coalition/devfolio.svg`,
       width: 619.1,
       height: 129,
     },
     {
       name: 'ETHIndia',
+      href: 'https://x.com/ethindiaco',
       src: `${IMAGE_DIR}/coalition/ethindia.png`,
       width: 940,
       height: 218,

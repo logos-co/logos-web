@@ -168,6 +168,10 @@ describe('field station page', () => {
     expect(block.length).toBeGreaterThan(COALITION.heading.length)
     for (const logo of COALITION.logos) {
       expect(block).toContain(`alt="${logo.name}"`)
+      const link = anchorTags(block).find(
+        (tag) => attr(tag, 'href') === logo.href
+      )
+      expect(link && attr(link, 'target')).toBe('_blank')
     }
   })
 
