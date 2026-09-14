@@ -34,8 +34,8 @@ export function Partners() {
       />
       <ProgramOutlinePanel
         link={{
-          href: zuGrama.href,
-          ariaLabel: 'Zu-Grama website (opens in a new tab)',
+          href: zuGrama.x.href,
+          ariaLabel: 'Zu-Grama on X (opens in a new tab)',
           eventName: EVENT_NAMES.partnerZuGrama,
         }}
         mark={
