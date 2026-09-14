@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import { LogosMark, LogosWordmark } from '@acid-info/logos-ui'
+
 import { IconMask } from '@/components/icons/icon-mask'
 import { CampaignHero } from '@/components/sections/shared/campaign-hero'
 import { Button } from '@/components/ui'
@@ -19,9 +21,9 @@ const RESIDENCY_TEXT_CLASSNAME =
  * link row 48px from the bottom. The image is rounded along the bottom only,
  * so its top meets the header square, and it runs 8px past the right edge,
  * so only the bottom-left corner shows as rounded. The button and status
- * offsets put their tops at Figma's 505.5px and 563px. The Zu-Grama logo
- * sits 40px above the title, as on the key visual's co-host lockup, and the
- * top padding gives up its 73px so the title keeps Figma's position.
+ * offsets put their tops at Figma's 505.5px and 563px. The Logos and
+ * Zu-Grama logos sit side by side 40px above the title, and the top padding
+ * gives up its 73px so the title keeps Figma's position.
  */
 export function Hero() {
   return (
@@ -63,8 +65,13 @@ export function Hero() {
         </nav>
       }
     >
-      <p className="mb-10 flex">
-        <span className="sr-only">{PARTNERS.zuGrama.logo.alt}</span>
+      <p className="mb-10 flex h-[33px] items-end gap-8">
+        <span className="sr-only">Logos and {PARTNERS.zuGrama.logo.alt}</span>
+        {/* The header's λ Logos lockup, scaled so its capitals and baseline match GRAMA's. */}
+        <span className="flex translate-y-[4.2px] items-center gap-[8.9px]">
+          <LogosMark size={24.5} className="shrink-0" />
+          <LogosWordmark className="h-[28.9px] w-[84.5px] translate-y-[2.2px]" />
+        </span>
         <IconMask
           src={PARTNERS.zuGrama.logo.src}
           className="h-[33px] w-[106px] text-brand-off-white"
