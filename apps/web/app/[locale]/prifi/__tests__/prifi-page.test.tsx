@@ -36,9 +36,9 @@ import {
 } from '../_content'
 import PriFiPage, { generateMetadata } from '../page'
 
-/** React escapes `&` and `'` in text nodes, so expectations have to as well. */
+/** React escapes special text characters, so expectations have to as well. */
 const asMarkup = (text: string): string =>
-  text.replace(/&/g, '&amp;').replace(/'/g, '&#x27;')
+  text.replace(/&/g, '&amp;').replace(/'/g, '&#x27;').replace(/>/g, '&gt;')
 
 /** Collapses the hand-set `\n` breaks the way the rendered text reads. */
 const oneLine = (text: string): string => text.replace(/\s*\n\s*/g, ' ').trim()
@@ -160,7 +160,10 @@ describe('prifi page render', () => {
   test('CTAs without a URL yet stay on the page as plain buttons', async () => {
     const html = await pageHtml()
     const buttonFor = (label: string) =>
-      new RegExp(`<button type="button"[^>]*>(?:(?!</button>).)*${label}`, 'i')
+      new RegExp(
+        `<button type="button"[^>]*>(?:(?!</button>).)*${asMarkup(label)}`,
+        'i'
+      )
 
     expect(LINKS.thesis).toBeNull()
     expect(LINKS.theoryPaper).toBeNull()
@@ -245,10 +248,7 @@ describe('prifi page render', () => {
 
   test('gives every supply chain link its facts, two costs and a diagram', () => {
     for (const link of SUPPLY_CHAIN.links) {
-      expect(
-        link.exposes && link.tools && link.threat && link.outro,
-        link.label
-      ).toBeTruthy()
+      expect(link.exposes && link.tools && link.threat, link.label).toBeTruthy()
       expect(link.stats, link.label).toHaveLength(
         SUPPLY_CHAIN.statLabels.length
       )

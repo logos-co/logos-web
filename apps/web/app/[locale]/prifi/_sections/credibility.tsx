@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import ContentWidth from '@/components/layout/content-width'
 
-import { CREDIBILITY, TRANSPARENCY } from '../_content'
+import { CREDIBILITY, IMPERATIVE_COMMITMENTS, TRANSPARENCY } from '../_content'
 import { TRIM } from './atoms'
 
 /**
@@ -20,7 +20,9 @@ export function Credibility() {
           </h2>
           <div className="flex flex-col gap-6 lg:w-[50.42%]">
             <div className="h-px bg-brand-dark-green/10" />
-            <p className="text-mono-s text-black">{TRANSPARENCY.body}</p>
+            <p className="text-mono-s whitespace-pre-line text-black">
+              {TRANSPARENCY.body}
+            </p>
             <div className="h-px bg-brand-dark-green/10" />
           </div>
         </div>
@@ -31,6 +33,14 @@ export function Credibility() {
           {CREDIBILITY.map((card) => (
             <CredibilityCard key={card.title} card={card} />
           ))}
+        </div>
+        <div className="mt-16 max-w-[818px]">
+          <h2 className={`text-h3-serif ${TRIM}`}>
+            {IMPERATIVE_COMMITMENTS.heading}
+          </h2>
+          <p className="mt-6 text-[18px] leading-[1.4]">
+            {IMPERATIVE_COMMITMENTS.body}
+          </p>
         </div>
       </ContentWidth>
     </section>
@@ -70,7 +80,7 @@ function CredibilityCard({ card }: { card: (typeof CREDIBILITY)[number] }) {
           giving that back keeps the centred content on Figma's lines. */}
       <div className="relative flex w-full flex-col gap-3 xl:-mb-[4.2px]">
         <div className="h-px bg-white/25" />
-        <p className="text-eyebrow px-3">{card.note}</p>
+        <p className="text-eyebrow whitespace-pre-line px-3">{card.note}</p>
         <div className="h-px bg-white/25" />
       </div>
     </article>

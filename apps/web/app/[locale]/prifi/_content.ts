@@ -37,51 +37,49 @@ export const LINKS = {
 export const HERO = {
   heading: [
     'A parallel society needs an economy.',
-    'PriFi protects its participants',
+    'PriFi protects its participants.',
   ],
   body: [
-    'PriFi combines secrecy and security: limiting what outsiders can learn and manipulate',
-    'Blockchain secures settlement. But onchain transactions are not atomic events. Logos secures the whole transaction supply chain.',
+    'PriFi, or private finance, is a technical design philosophy: financial primitives deployed on privacy-preserving, peer-to-peer infrastructure, on hardware you control.',
+    'Strengthening commitments to reduce transaction costs by limiting what parties inside and out of transactions can monitor and manipulate.',
+    'Purpose-built for privacy and security, not patches "bolted on" later.',
   ],
-  primaryCta: { label: 'Read the PriFi Thesis', href: LINKS.thesis },
+  primaryCta: { label: 'Read the PriFi thesis >>', href: LINKS.thesis },
   secondaryCta: {
-    label: 'Explore the transaction supply chain',
+    label: 'Explore the transaction supply chain >>',
     href: LINKS.supplyChain,
   },
 } as const
 
 export const SUPPLY_CHAIN = {
-  heading: 'The transaction \nsupply chain.',
+  heading: 'The transaction supply chain',
   lead: 'Settlement is just one of seven links in the chain.\u00a0Blockchain provides unprecedented settlement security. But transactions depend on infrastructure beyond settlement. Every exposed link creates another opportunity for surveillance or manipulation.',
-  note: 'PriFi protects participants from two directions: limiting what an attacker can learn and what they can influence. Leaks cost billions annually. Even small cost reductions add up: a 0.1% drop in transaction costs can quadruple a nation’s wealth.',
-  intro: 'Every transaction starts well before any value is ever exchanged.',
+  note: "PriFi protects participants from two directions: limiting what an attacker can learn and what they can influence. Leaks cost billions annually. Even small efficiency increases add up: a 0.1% drop in transaction costs can quadruple a nation's wealth.",
   factLabels: {
-    exposes: 'What transparent Rails Expose',
-    tools: 'Tools Used',
-    threat: 'Threat Model',
+    exposes: 'What is exposed',
+    tools: 'Where exposure occurs',
+    threat: 'Threat model',
   },
-  statLabels: ['Cost of Leak in Crypto', 'Cost of leaks in the real world'],
-  /**
-   * One entry per link, from the Figma variant frames (850:2325 to 851:3190),
-   * each of which shows that link's card as active. Figma numbers the links
-   * 01 to 08 with no 06, reuses the Contracting diagram for Ordering and the
-   * Settlement one for Enforcement, and gives Discovery the Ordering copy.
-   */
+  statLabels: ['Costs in crypto', 'Costs outside crypto'],
   links: [
     {
       label: '01 Discovery',
-      body: 'Finding a counterparty\nwho has what you want.',
-      exposes: 'Pending order flow',
-      tools: 'pools, RPC endpoints, relayer networks.',
-      threat:
-        "A visible mempool tells every bot watching exactly \nwhat's about to happen. Front-running and sandwich \nattacks run on that visibility alone.",
-      outro: 'IP and timing expose proposers',
+      body: 'Finding a counterparty who has what you want.',
+      exposes: 'Counterparties, intent.',
+      tools:
+        'Browsers, order books, RFQ platforms, direct messages, block explorers, wallets leaking IPs, globally linkable identity graphs via fingerprinting.',
+      threat: 'Onchain analysis maps wallets and flows before a deal exists.',
       stats: [
-        [{ value: '$800M+', note: 'Sandwich & other attacks / 3yr' }],
         [
           {
-            value: '$5B',
-            note: 'year latency-arbitrage tax on global equities',
+            value: '$100M+',
+            note: 'in losses from physical coercion attacks (Jan-Apr 2026)',
+          },
+        ],
+        [
+          {
+            value: '£42M',
+            note: 'added to the acquisition cost by a single M&A leak in the UK',
           },
         ],
       ],
@@ -93,19 +91,29 @@ export const SUPPLY_CHAIN = {
     },
     {
       label: '02 Diligence',
-      body: 'Verifying they are \nwho they claim',
-      exposes: 'Address history, identity graph',
-      tools: 'On-chain analytics, attestations, reserve and credit checks.',
+      body: 'Verifying they are who they claim.',
+      exposes: 'Address history, identity graph, balances.',
+      tools:
+        'Browsers, wallets leaking IPs, globally linkable identity graphs via fingerprinting.\n\nOnchain analytics, attestations, reserve and credit checks.',
       threat:
-        'A counterparty can misrepresent reserves. An outsider can watch \ndiligence requests and infer intent before terms are even set.',
-      outro:
-        'Browser + wallet leaking IP, fingerprint, globally linkable identity graph',
+        'In offchain finance, a counterparty can misrepresent reserves. Onchain, an outsider can watch diligence requests, infer intent, and identify targets before terms are even set.',
       stats: [
         [
-          { value: '$3B+', note: 'surveillance industry monetises the graph' },
-          { value: '$84M', note: 'lost in address-poisoning' },
+          {
+            value: '$3B+',
+            note: 'surveillance industry monetises identity graphs.',
+          },
+          {
+            value: '$84M',
+            note: 'lost in address poisoning over 270M attempts.',
+          },
         ],
-        [{ value: '$0.5B+', note: 'settlement for exposing 147M IDs' }],
+        [
+          {
+            value: '$700M+',
+            note: 'Equifax paid settlement for exposing 147M IDs.',
+          },
+        ],
       ],
       graph: {
         src: '/images/prifi/graph-diligence.webp',
@@ -115,15 +123,24 @@ export const SUPPLY_CHAIN = {
     },
     {
       label: '03 Negotiation',
-      body: 'Agreeing on price \nand terms',
+      body: 'Agreeing on price and terms.',
       exposes: 'Size, terms, reservation price',
-      tools: 'Chat applications, RFQ threads, term sheets.',
+      tools: 'Chat apps, RFQ threads, term sheets, public mempools.',
       threat:
-        'Leaked terms let a predator position ahead of execution. \nA counterparty can also stall or renegotiate once terms are already known elsewhere.',
-      outro: 'Telegram, Twitter, public mempools leak intent',
+        'Leaked terms let an attacker position themselves ahead of transaction execution.\n\nA counterparty can stall or renegotiate once terms are known elsewhere.',
       stats: [
-        [{ value: '~80%', note: 'of ETH DeFi routes through private RPCs' }],
-        [{ value: '>50%', note: 'of US equity volume trades off-exchange' }],
+        [
+          {
+            value: '~80%',
+            note: 'of ETH DeFi pays a premium to route through private PRCs',
+          },
+        ],
+        [
+          {
+            value: '>50%',
+            note: 'of US equity volume trades off-exchange, leading to weaker price discovery and other inefficiencies.',
+          },
+        ],
       ],
       graph: {
         src: '/images/prifi/graph-negotiation.webp',
@@ -133,17 +150,20 @@ export const SUPPLY_CHAIN = {
     },
     {
       label: '04 Contracting',
-      body: 'Committing in \nenforceable form',
-      exposes: 'Frontend and signing context',
-      tools: 'Multisig wallets, contract code, signing interfaces.',
+      body: 'Committing in enforceable form.',
+      exposes:
+        'Wallet addresses, browser-derived data, approximate location, signing contexts.',
+      tools:
+        'Browsers, wallets leaking IP, globally linkable identity graphs via fingerprinting, DNS, IPFS, AWS, RPCs, and other centralised frontends create billion-dollar attack surfaces.',
       threat:
-        'A spoofed signing interface can show one transaction and execute another. \nThe signer authorizes something they never actually agreed to.',
-      outro:
-        'DNS, IPFS, AWS, RPCs, and centralised frontends \ncreate billion-dollar attack surfaces',
+        'A spoofed signing interface can show one transaction and execute another.\n\nThe signer authorises something they never agreed to.',
       stats: [
         [
-          { value: '~$1.5B', note: 'stolen from Bybit' },
-          { value: '~$0.5B/yr', note: 'lost to wallet-drainer phishing' },
+          { value: '~$1.5B', note: 'stolen from ByBit.' },
+          {
+            value: '~$0.5B/yr',
+            note: 'lost to wallet-drainer phishing.',
+          },
         ],
         [
           {
@@ -160,18 +180,22 @@ export const SUPPLY_CHAIN = {
     },
     {
       label: '05 Ordering',
-      body: 'Deciding whose trade \ngoes when',
-      exposes: 'Pending order flow',
+      body: 'Deciding whose transaction goes when.',
+      exposes: 'IPs, pending order flow, intent, sizing, timing.',
       tools: 'Mempools, RPC endpoints, relayer networks.',
       threat:
-        "A visible mempool tells every bot watching exactly what's \nabout to happen. Front-running and sandwich attacks run on that visibility alone.",
-      outro: 'IP and timing expose proposers',
+        "A visible mempool tells every bot watching exactly what's about to happen.\n\nFrontrunning and sandwich attacks run on that visibility.",
       stats: [
-        [{ value: '$800M+', note: 'Sandwich & other attacks / 3yr' }],
         [
           {
-            value: '$5B',
-            note: 'year latency-arbitrage tax on global equities',
+            value: '$800M+',
+            note: 'sandwich and other attacks/3yr.',
+          },
+        ],
+        [
+          {
+            value: '$5B/yr',
+            note: 'latency-arbitrage tax on global equities.',
           },
         ],
       ],
@@ -182,24 +206,23 @@ export const SUPPLY_CHAIN = {
       },
     },
     {
-      label: '07 Settlement',
-      body: 'The only link where \nvalue moves',
-      exposes: 'Balances, approvals, positions',
-      tools: 'Consensus, execution clients. (BANKS?)',
+      label: '06 Settlement',
+      body: 'The only link where value moves.',
+      exposes: 'Balances, approvals, wallet addresses, approvals.',
+      tools: 'RPC endpoints, wallets, browsers, relayer networks.',
       threat:
-        "The chain executes exactly what it's given. \nWhatever risk exists here was already decided upstream.",
-      outro: 'Balances, validators, and positions are visible',
+        'The blockchain finalises exactly what reaches settlement, including upstream compromises.\n\nIt enforces what was signed, not necessarily what was intended.',
       stats: [
         [
           {
             value: '$4.3B',
-            note: 'lost across 49 cross-chain settlement attacks',
+            note: 'lost across cross-chain settlement attacks.',
           },
         ],
         [
           {
             value: '$81M',
-            note: 'stolen through a forged SWIFT payment instruction',
+            note: 'stolen through forged SWIFT payment instructions.',
           },
         ],
       ],
@@ -210,24 +233,25 @@ export const SUPPLY_CHAIN = {
       },
     },
     {
-      label: '08 Enforcement',
-      body: 'Making the \noutcome stick',
-      exposes: 'Identifiable operators',
-      tools: 'Litigation, asset freezes, on-chain governance votes.',
+      label: '07 Enforcement and recourse',
+      body: 'Making the outcome stick, or proving what happened when it does not.',
+      exposes:
+        'Proposer and validator addresses, staking balances, transactions validated, transactor wallet addresses.',
+      tools:
+        'Browsers, wallets leaking IPs, globally linkable identity graphs via fingerprinting, onchain analytics.',
       threat:
-        'A deal defaults after settlement, and recourse depends on \ncourts or goodwill that may not reach across borders or block explorers.',
-      outro: 'Identifiable operators',
+        'Blockchain finality makes transactions difficult to reverse, even if it was not the intended transaction. Recourse moves outside the protocol, where dispute resolution requires exposing everything.\n\nPolitical pressure on identifiable validators to censor transactions compromises blockchain sovereignty.',
       stats: [
         [
           {
-            value: '$4.2B',
-            note: 'frozen post-settlement with \nselective enforcement',
+            value: '~75%',
+            note: 'of Ethereum validators censored blocks following OFAC sanctions at 2022 peak, still ~29% in June 2026',
           },
         ],
         [
           {
             value: '$2B+',
-            note: 'Breaking offshore and Swiss bank secrecy \nintroduced $2B+ enforcement costs',
+            note: 'Breaking offshore and Swiss banking secrecy introduced $2B+ in enforcement costs.',
           },
         ],
       ],
@@ -249,8 +273,7 @@ export const EXPLOIT_BAND = {
 } as const
 
 export const HAZARDS = {
-  heading:
-    'Two hazard classes threaten transactions: \nThe counterparty and the outsider',
+  heading: 'Two hazard classes: The counterparty and the outsider',
   classes: [
     {
       name: 'THE COUNTERPARTY',
@@ -270,14 +293,14 @@ export const HAZARDS = {
 } as const
 
 export const PROTECTION = {
-  heading: 'Two forms of protection: \nSecurity and secrecy',
+  heading: 'Two forms of protection: Security and secrecy',
   lead: 'The two hazard classes require different defences.',
   body: [
     'Security binds, making defection difficult or costly.',
-    'Secrecy starves, denying information needed to identify, \ntarget, or exploit a transaction.',
+    'Secrecy starves, denying information needed to identify, target, or exploit a transaction.',
   ],
   matrix: {
-    columns: ['Security - Binds', 'Secrecy - Starves'],
+    columns: ['Security - constrains action', 'Secrecy - denies information'],
     rows: [
       {
         hazard: 'Counterparty',
@@ -285,12 +308,12 @@ export const PROTECTION = {
           {
             verdict: 'Works',
             reason:
-              'Signed into the deal, so they cn be held to it after the fact.',
+              'Inside the transaction and can be made subject to its rules and commitments. Security reduces their ability or incentive to misrepresent, default, or defect.',
           },
           {
             verdict: 'Fails',
             reason:
-              'Dealing with you requires knowing who you are. Can’t be starved.',
+              "A transaction requires some information to pass between counterparties. You can minimise what is disclosed, but you cannot remove the counterparty's access to the deal entirely.",
           },
         ],
       },
@@ -298,13 +321,14 @@ export const PROTECTION = {
         hazard: 'Outsider',
         cells: [
           {
-            verdict: 'Works',
+            verdict: 'Fails',
             reason:
-              'Signed into the deal, so they cn be held to it after the fact.',
+              'Entered no agreement with you. There may be no contract, collateral, or protocol commitment capable of constraining what they do with information they obtain.',
           },
           {
             verdict: 'Works',
-            reason: 'No visibility into the asset means no target to pursue.',
+            reason:
+              'An outsider must first find something worth exploiting. Concealing counterparties, holdings, positions, and intentions removes the information needed to identify and attack a target.',
           },
         ],
       },
@@ -314,17 +338,17 @@ export const PROTECTION = {
 
 export const TRANSPARENCY = {
   heading:
-    'Transparency is an institutional hazard, blocking capital moving onchain',
-  body: 'These hazards are mitigated through organisations, institutions, and individuals making credible commitments. These commitments fall into two categories: motivational and imperative.',
+    'Institutional quality is measured by the credibility of the commitments they make',
+  body: 'Transactions depend on promises about future behaviour. Promises that are dependable when breaking them becomes attractive are known as credible commitments.\n\nThe stronger those commitments, the less participants need to spend verifying, monitoring, insuring against, or policing one another.\n\nThe credibility of commitments can fall into two categories: motivational and imperative.',
 } as const
 
 const CREDIBILITY_BODY = [
-  'An organisation can break a commitment but has reasons not to.',
-  'Discretion is still there. It holds only for as long as the incentives do.',
+  'A party can break a commitment, but has a reason not to.',
+  'The commitment holds for as long as the incentives to keep it do.',
 ] as const
 
 const CREDIBILITY_NOTE =
-  'Swiss commitment to secrecy fell in 2008 after the US squeezed one identifiable banker.'
+  'Swiss commitment to banking secrecy fell in 2008 after the US squeezed an identifiable banker.\n\nEthereum operators are just as identifiable: ~75% of blocks delivered by OFAC-compliant validators filtered out sanctioned transactions.'
 
 export const CREDIBILITY = [
   {
@@ -335,53 +359,55 @@ export const CREDIBILITY = [
   },
   {
     title: 'Imperative credibility',
-    body: CREDIBILITY_BODY,
-    note: CREDIBILITY_NOTE,
+    body: [
+      'The discretion to defect is removed structurally.',
+      'The system makes violating the commitment prohibitively costly.',
+    ],
+    note: 'Blockchains introduced imperative credibility for transaction settlement by making rules self-enforcing.',
     image: '/images/prifi/imperative.webp',
   },
 ] as const
 
-const STORAGE_ROLE =
-  'Content-addressed, verifiable storage, so the contracting interface becomes \na commitment you can check rather than a server you must trust.'
-
-const BLEND_ROLE =
-  'Propagation co-designed with consensus, and private proof of stake, \nso producing a block no longer requires wearing a name tag.'
+export const IMPERATIVE_COMMITMENTS = {
+  heading: 'Imperative commitments reduce the cost of transacting',
+  body: 'When participants have structural assurances, rather trust alone, risk mitigation costs fall. Lower transaction costs enable new market activity.',
+} as const
 
 export const LOGOS_STACK = {
   heading: 'Logos secures the full transaction supply chain',
-  body: 'Logos brings imperative credibility to the full transaction supply chain. A complete, unified stack providing unprecedented protection to every link.',
+  body: 'A complete, unified stack providing unprecedented imperative credibility at every link.',
   /** Screen-reader column headers; the design shows the table without them. */
   columns: ['Component', 'What it does', 'Links it covers'],
   rows: [
     {
       component: 'Basecamp',
-      role: 'A self-contained desktop application that bundles everything you need to \ninteract with the Logos stack – UI running locally on user controlled hardware',
-      covers: 'Covers Discovery and Diligence',
+      role: 'A self-contained desktop application that bundles everything you need to interact with the Logos stack. A UI running locally on user-controlled hardware.',
+      covers: 'Shields discovery and diligence',
     },
     {
       component: 'Logos Messaging',
-      role: 'Anonymous communication and coordination, so discovery and negotiation \nstop leaking intentions before terms exist.',
-      covers: 'Covers Negotiation',
+      role: 'Anonymous communication and coordination. Stops intentions leaking before terms exist.',
+      covers: 'Shields discovery, diligence, and negotiation',
     },
     {
       component: 'Logos Storage',
-      role: STORAGE_ROLE,
-      covers: 'Covers Contracting',
+      role: 'Decentralised content-addressed storage commits a content hash to the exact file or interface being retrieved: alter the content, and the hash changes. Instead of trusting a server, the integrity of what you load can be verified independently.',
+      covers: 'Shields contracting',
     },
     {
       component: 'Logos Blockchain – Blend',
-      role: BLEND_ROLE,
-      covers: 'Covers Ordering',
+      role: 'Consensus-aware private propagation obscures where transactions and block proposals originate, disrupting ordering observation and exploitation.',
+      covers: 'Shields ordering',
     },
     {
       component: 'Logos Blockchain –\u00a0Cryptarchia',
-      role: STORAGE_ROLE,
-      covers: 'Covers Settlement',
+      role: 'Private PoS keeps those securing settlement from becoming targets for bribery, coercion, or censorship.',
+      covers: 'Shields settlement',
     },
     {
       component: 'Logos Blockchain – Zones',
-      role: BLEND_ROLE,
-      covers: 'Covers Enforcement',
+      role: 'Programmable privacy makes disclosure selective. Participants can prove what is needed for compliance or dispute resolution without exposing entire transaction histories.',
+      covers: 'Shields enforcement',
     },
   ],
 } as const
@@ -390,7 +416,7 @@ export const INSTITUTIONS = {
   heading: 'What institutions sold to a few, PriFi makes structural.',
   body: [
     'Security and secrecy have historically been expensive institutional services available through trusted intermediaries and favourable jurisdictions. PriFi extends access to anyone with an online device.',
-    'Logos infrastructure elevates institutional commitments from strong motivational to structurally imperative to provide even stronger protections than those that were previously reserved only for the ultra wealthy.',
+    'Logos infrastructure elevates institutional commitments from strong motivational to structurally imperative to provide even greater protections than those that were previously reserved only for the ultra wealthy.',
   ],
 } as const
 

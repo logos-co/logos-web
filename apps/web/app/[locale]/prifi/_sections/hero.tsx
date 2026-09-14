@@ -31,14 +31,15 @@ export function Hero() {
         {/* Figma fixes this frame at 44px and lets the copy run past it, so
             the CTAs sit 60px below the frame rather than below the text.
             Narrow screens wrap the copy onto more lines, so it hugs there. */}
-        <div
-          className={`text-body-sans w-full max-w-[462px] lg:h-[44px] ${TRIM}`}
-        >
-          <p>
-            {HERO.body[0]}
-            {'\u00a0'}
-          </p>
-          <p className="mt-[1.2em]">{HERO.body[1]}</p>
+        <div className={`text-body-sans w-full max-w-[462px] ${TRIM}`}>
+          {HERO.body.map((paragraph, index) => (
+            <p
+              key={paragraph}
+              className={index === 0 ? undefined : 'mt-[1.2em]'}
+            >
+              {paragraph}
+            </p>
+          ))}
         </div>
         <div className="flex flex-wrap justify-center gap-1">
           <CtaButton
