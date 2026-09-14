@@ -76,7 +76,7 @@ export const EVENT_NAMES = {
   faqToggle: (question: string) => `FAQ - ${question}`,
   faqLink: (label: string) => `FAQ link - ${label}`,
   partnerLogos: 'Logos homepage - Partners',
-  partnerZuGrama: 'Zu-Grama website - Partners',
+  partnerZuGrama: 'Zu-Grama card - Partners',
   partnerZuGramaX: 'Zu-Grama on X - Partners',
   coalitionLink: (name: string) => `${name} on X - Coalition`,
 }
@@ -513,7 +513,6 @@ export const PARTNERS = {
   },
   zuGrama: {
     title: 'About Zu-Grama',
-    href: 'https://zugrama.org/',
     /** Zu-Grama's X handle. */
     x: { label: 'X: @zugramadotorg', href: 'https://x.com/zugramadotorg' },
     description:
