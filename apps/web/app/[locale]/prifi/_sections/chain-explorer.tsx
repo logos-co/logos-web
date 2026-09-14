@@ -73,24 +73,17 @@ const ACCORDION_CLASS_NAMES: AccordionClassNames = {
 function ChainAccordion() {
   return (
     <div data-chain-layout="accordion" className="mt-[120px] lg:hidden">
-      <p
-        className={`font-mono text-xs leading-[1.3] font-medium uppercase ${TRIM}`}
-      >
-        {SUPPLY_CHAIN.intro}
-      </p>
-      <div className="mt-10">
-        <CivilSocietyAccordion
-          items={LINKS.map((link) => ({
-            key: link.label,
-            title: link.label,
-            subtitle: oneLine(link.body),
-            eventName: `Supply chain - ${link.label}`,
-            content: <LinkDetails link={link} />,
-          }))}
-          classNames={ACCORDION_CLASS_NAMES}
-          initialOpenKey={null}
-        />
-      </div>
+      <CivilSocietyAccordion
+        items={LINKS.map((link) => ({
+          key: link.label,
+          title: link.label,
+          subtitle: oneLine(link.body),
+          eventName: `Supply chain - ${link.label}`,
+          content: <LinkDetails link={link} />,
+        }))}
+        classNames={ACCORDION_CLASS_NAMES}
+        initialOpenKey={null}
+      />
     </div>
   )
 }
@@ -103,7 +96,7 @@ function LinkDetails({ link }: { link: ChainLink }) {
       <p className="font-mono text-xs leading-[1.3] font-semibold uppercase sm:hidden">
         {oneLine(link.body)}
       </p>
-      <Facts link={link} showIntro={false} />
+      <Facts link={link} />
       <Stats link={link} fluid />
       <Graph link={link} />
     </>
@@ -188,14 +181,7 @@ function ChainTabs() {
   )
 }
 
-function Facts({
-  link,
-  showIntro = true,
-}: {
-  link: ChainLink
-  /** The accordion shows the intro once above its rows instead. */
-  showIntro?: boolean
-}) {
+function Facts({ link }: { link: ChainLink }) {
   const { factLabels } = SUPPLY_CHAIN
   const rows = [
     [factLabels.exposes, link.exposes],
@@ -205,9 +191,6 @@ function Facts({
 
   return (
     <div className="flex flex-col gap-[22px] font-mono text-xs leading-[1.3] uppercase">
-      {showIntro ? (
-        <p className={`font-medium ${TRIM}`}>{SUPPLY_CHAIN.intro}</p>
-      ) : null}
       {rows.map(([label, body]) => (
         <div key={label} className="flex flex-col items-start gap-2">
           <p className={`border-b border-white pb-[3.5px] font-bold ${TRIM}`}>
@@ -216,7 +199,6 @@ function Facts({
           <p className={`lg:whitespace-pre-line ${TRIM}`}>{body}</p>
         </div>
       ))}
-      <p className={`font-bold lg:whitespace-pre-line ${TRIM}`}>{link.outro}</p>
     </div>
   )
 }
