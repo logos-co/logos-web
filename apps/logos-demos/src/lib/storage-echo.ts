@@ -1,5 +1,5 @@
 /**
- * echo.codex.storage — the one Logos Storage service a browser may call.
+ * echo.codex.storage, the one Logos Storage service a browser may call.
  *
  * It answers with `access-control-allow-origin: *` and allows the
  * `X-Real-IP-Custom` header, which is how the official marketplace UI checks a

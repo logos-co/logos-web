@@ -18,7 +18,7 @@ const INITIAL: FleetState = { nodes: [], isLoading: true, error: null }
  *
  * fleets.logos.co sends no CORS header, so the browser is not allowed to read
  * it directly. The route passes the roster through unchanged, which is why the
- * response is parsed here with `parseFleet` — the same parser either side.
+ * response is parsed here with `parseFleet`, the same parser either side.
  */
 export function useStorageFleet(fleet: FleetName): FleetState {
   const [state, setState] = useState<FleetState>(INITIAL)

@@ -4,26 +4,43 @@ import { Button } from '@acid-info/logos-ui'
 import { useEffect, useRef, useState } from 'react'
 
 import { NetworkStatus } from '@/components/network-status'
+import { SkeletonLine } from '@/components/skeleton'
 import { useWakuNode } from '@/components/use-waku-node'
 import { CONTENT_TOPIC, formatTime, isBlank } from '@/lib/waku'
 
 const INPUT_CLASS =
   'text-body-sans border border-gray-01 bg-white px-3 py-2.5 text-brand-dark-green placeholder:text-gray-04'
 
-function EmptyState({
-  isReady,
-  isLoadingHistory,
-}: {
-  isReady: boolean
-  isLoadingHistory: boolean
-}) {
+/**
+ * Message-shaped placeholders while the store nodes are answering.
+ *
+ * The history request can return several messages at once, so a sentence
+ * followed by a filled feed reads as a jump. These sit where the messages will.
+ */
+function HistorySkeleton() {
+  const widths = ['w-40', 'w-64', 'w-52']
+
+  return (
+    <ul
+      aria-busy="true"
+      aria-label="Asking store nodes for earlier messages"
+      className="flex flex-col gap-4"
+    >
+      {widths.map((width, i) => (
+        <li key={i} className="flex flex-col gap-1">
+          <SkeletonLine className="text-body-sans w-24" />
+          <SkeletonLine className={`text-body-sans ${width}`} />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function EmptyState({ isReady }: { isReady: boolean }) {
   if (!isReady) {
     return 'Connecting this browser to the messaging network…'
   }
-  if (isLoadingHistory) {
-    return 'Asking store nodes for earlier messages…'
-  }
-  return 'No messages yet. Say something — or open this page in a second tab and watch it arrive over the network.'
+  return 'No messages yet. Say something, or open this page in a second tab and watch it arrive over the network.'
 }
 
 export function ChatRoom() {
@@ -65,12 +82,11 @@ export function ChatRoom() {
     <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
       <section className="flex min-h-[520px] flex-col border border-gray-01 bg-white">
         <div className="flex-1 overflow-y-auto p-5">
-          {messages.length === 0 ? (
+          {messages.length === 0 && snapshot.isLoadingHistory ? (
+            <HistorySkeleton />
+          ) : messages.length === 0 ? (
             <p className="text-body-sans pt-16 text-center text-gray-04">
-              <EmptyState
-                isReady={isReady}
-                isLoadingHistory={snapshot.isLoadingHistory}
-              />
+              <EmptyState isReady={isReady} />
             </p>
           ) : (
             <ul className="flex flex-col gap-4">

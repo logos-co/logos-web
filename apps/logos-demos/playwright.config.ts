@@ -16,7 +16,7 @@ const PORT = 3005
  * Where to run.
  *
  * Defaults to a dev server started here. Set `E2E_BASE_URL` to point at a
- * deployment instead — worth doing before calling a fix done, because the bugs
+ * deployment instead. Worth doing before calling a fix done, because the bugs
  * this suite exists for were ones that only showed up on a real build.
  */
 const DEPLOYED = process.env.E2E_BASE_URL

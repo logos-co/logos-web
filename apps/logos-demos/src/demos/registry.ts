@@ -5,7 +5,7 @@
 export type Demo = {
   /** Route for the demo. */
   href: string
-  /** Sidebar label — short, the name of the thing being demonstrated. */
+  /** Sidebar label. Short, the name of the thing being demonstrated. */
   label: string
   /** Which part of the Logos stack this exercises. */
   stack: string

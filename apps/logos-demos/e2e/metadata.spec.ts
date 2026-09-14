@@ -48,7 +48,7 @@ test.describe('site metadata', () => {
     test(`${demo.label} is titled and shareable`, async ({ page }) => {
       await page.goto(demo.href)
 
-      await expect(page).toHaveTitle(`${demo.label} — ${SITE_NAME}`)
+      await expect(page).toHaveTitle(`${demo.label} · ${SITE_NAME}`)
       expect(await meta(page, 'property="og:title"')).toBe(demo.label)
       expect(await meta(page, 'property="og:site_name"')).toBe(SITE_NAME)
       expect(await meta(page, 'name="description"')).toBe(demo.summary)

@@ -9,7 +9,7 @@ Use the names logos.co uses. They are not always the names in the code.
 | Layer | Public name | Modules | Note |
 | --- | --- | --- | --- |
 | Messaging | **Logos Messaging** | Delivery, Chat | `content/pages/en/technology-stack-messaging.json` in `logos-web` is the source of truth |
-| Storage | **Logos Storage** | — | Content-addressed, CID-based |
+| Storage | **Logos Storage** | none | Content-addressed, CID-based |
 | Blockchain | **Logos Blockchain** | Cryptarchia, LEZ, Blend | Privacy-first proof of stake |
 | Networking | Discovery, peering, mixnet | libp2p, mix | Underneath the rest |
 

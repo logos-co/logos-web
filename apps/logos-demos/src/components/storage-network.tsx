@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import { useNodeProbes, type NodeProbe } from '@/components/use-node-probes'
+import { SkeletonCard, SkeletonLine, SkeletonStat } from '@/components/skeleton'
 import { useStorageFleet } from '@/components/use-storage-fleet'
 import type { FleetName, StorageNode } from '@/lib/storage-fleet'
 import {
@@ -16,7 +17,9 @@ function Field({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5">
       <dt className="text-label text-gray-05">{label}</dt>
-      <dd className="text-mono-body break-all text-gray-06">{value || '—'}</dd>
+      <dd className="text-mono-body break-all text-gray-06">
+        {value || 'not published'}
+      </dd>
     </div>
   )
 }
@@ -27,7 +30,7 @@ function Field({ label, value }: { label: string; value: string }) {
  * answer here is about the node, not about the viewer.
  */
 function Reachability({ isReachable }: { isReachable: boolean | null }) {
-  if (isReachable === null) return <span className="text-gray-05">checking…</span>
+  if (isReachable === null) return <SkeletonLine className="w-20" />
   return (
     <span className={isReachable ? 'text-brand-dark-green' : 'text-gray-05'}>
       {isReachable ? 'answering' : 'no answer'}
@@ -35,11 +38,32 @@ function Reachability({ isReachable }: { isReachable: boolean | null }) {
   )
 }
 
+/**
+ * A field whose value is still being looked up.
+ *
+ * The roster arrives before the geolocation does, so these two rows would sit
+ * empty and then fill in. A placeholder the height of the value keeps the card
+ * from growing under the reader.
+ */
+function PendingField({
+  label,
+  value,
+}: {
+  label: string
+  value: string | undefined | null | false
+}) {
+  return (
+    <div className="flex flex-col gap-0.5">
+      <dt className="text-label text-gray-05">{label}</dt>
+      <dd className="text-mono-body break-all text-gray-06">
+        {value || <SkeletonLine className="w-32" />}
+      </dd>
+    </div>
+  )
+}
+
 function NodeCard({ node, probe }: { node: StorageNode; probe?: NodeProbe }) {
   const location = probe?.location
-  const place = location
-    ? [location.city, location.country].filter(Boolean).join(', ')
-    : 'locating…'
 
   return (
     <article className="flex flex-col gap-3 border border-gray-01 bg-white p-4">
@@ -48,8 +72,14 @@ function NodeCard({ node, probe }: { node: StorageNode; probe?: NodeProbe }) {
         <span className="text-body-sans text-gray-05">role {node.role}</span>
       </div>
       <dl className="flex flex-col gap-2">
-        <Field label="Located" value={place} />
-        <Field label="Network" value={location?.asnOrg || '—'} />
+        <PendingField
+          label="Located"
+          value={
+            location &&
+            [location.city, location.country].filter(Boolean).join(', ')
+          }
+        />
+        <PendingField label="Network" value={location?.asnOrg} />
         <Field label="Peer id" value={shortenKey(node.peerId)} />
         <Field label="Address" value={`${node.address}:${node.port}`} />
         <Field
@@ -64,6 +94,39 @@ function NodeCard({ node, probe }: { node: StorageNode; probe?: NodeProbe }) {
         </div>
       </dl>
     </article>
+  )
+}
+
+/**
+ * The roster's shape while it is being fetched.
+ *
+ * Six nodes across three regions is what both published fleets hold, so the
+ * placeholder is that size: the page settles into the same layout instead of
+ * jumping when the answer lands.
+ */
+function RosterSkeleton() {
+  return (
+    <div
+      aria-busy="true"
+      aria-label="Reading the roster"
+      className="flex flex-col gap-6"
+    >
+      <dl className="grid grid-cols-2 gap-5 border border-gray-01 bg-white p-5 sm:grid-cols-4">
+        {['Nodes', 'Regions', 'Mix relays', 'Roles'].map((label) => (
+          <SkeletonStat key={label} label={label} />
+        ))}
+      </dl>
+
+      {Array.from({ length: 2 }, (_, group) => (
+        <section key={group} className="flex flex-col gap-3">
+          <SkeletonLine className="text-label w-40" />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <SkeletonCard lines={4} />
+            <SkeletonCard lines={4} />
+          </div>
+        </section>
+      ))}
+    </div>
   )
 }
 
@@ -101,9 +164,7 @@ export function StorageNetwork() {
         </p>
       )}
 
-      {isLoading && nodes.length === 0 && !error && (
-        <p className="text-body-sans text-gray-04">Reading the roster…</p>
-      )}
+      {isLoading && nodes.length === 0 && !error && <RosterSkeleton />}
 
       {nodes.length > 0 && (
         <>
@@ -143,7 +204,11 @@ export function StorageNetwork() {
               </h2>
               <div className="grid gap-3 sm:grid-cols-2">
                 {group.map((node) => (
-                  <NodeCard key={node.host} node={node} probe={probes[node.host]} />
+                  <NodeCard
+                    key={node.host}
+                    node={node}
+                    probe={probes[node.host]}
+                  />
                 ))}
               </div>
             </section>

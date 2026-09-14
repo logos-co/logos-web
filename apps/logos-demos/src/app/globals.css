@@ -465,3 +465,31 @@ input:focus-visible {
     animation-duration: 0.01ms;
   }
 }
+
+/*
+ * Loading placeholders.
+ *
+ * A slow pulse rather than a sweeping shimmer: these pages sit next to live
+ * data that updates on its own, and a busy animation reads as activity that
+ * is not happening. Respects a reduced-motion preference by holding still.
+ */
+.skeleton {
+  background: var(--color-gray-01);
+  animation: skeleton-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}

@@ -55,7 +55,7 @@ would change it.
 
 ## Blockchain
 
-### Testnet nodes — public, and what the demo uses
+### Testnet nodes: public, and what the demo uses
 
 `deployment/.env.testnet` in `logos-blockchain` names `PUBLIC_IP_ADDR=65.109.51.37`
 with node API ports 18080-18083. **All four are publicly reachable**, checked
@@ -83,7 +83,7 @@ reports the process, not production, so it says `Online` either way.
 `height` and `slot` are Cryptarchia's base-chain counters and unrelated to LEZ
 block numbers.
 
-### LEZ block explorer — public, not used
+### LEZ block explorer: public, not used
 
 **https://explorer.testnet.lez.logos.co/** is public and works. The demo used
 it before moving to the nodes, and it is still the only way to see LEZ
@@ -97,7 +97,7 @@ JSON returns `Args|missing field 'limit'`. It sends **no CORS headers**, and
 Its index was last updated 30 August, showing LEZ block 30017, while the base
 chain has kept producing. A stale LEZ indexer is not a stalled chain.
 
-### Other blockchain endpoints — not public
+### Other blockchain endpoints: not public
 
 - `testnet.blockchain.logos.co` is behind an **OAuth2 Proxy requiring Github
   sign-in**. The nginx config in `logos-blockchain/deployment/nginx/run.conf`

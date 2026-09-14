@@ -8,11 +8,11 @@ Self-contained web demos of the Logos stack, built so anyone can try them from a
 
 Logos Messaging runs entirely in the **visitor's browser**: `@waku/sdk` starts a light node that bootstraps over DNS discovery and talks to the network itself, with no server of ours in the path. Logos Blockchain cannot do that, because the block explorer sends no CORS headers, so it reads through the proxy instead. See the claims rule below.
 
-**Claims are per demo, not app-wide.** Logos Messaging genuinely has no backend: the browser is a node and no server of ours is in the path. Keep it that way — never route messaging through an API route. Logos Blockchain does have a proxy in the path, because the block explorer sends no CORS headers, and its page says so plainly.
+**Claims are per demo, not app-wide.** Logos Messaging genuinely has no backend: the browser is a node and no server of ours is in the path. Keep it that way, and never route messaging through an API route. Logos Blockchain does have a proxy in the path, because the block explorer sends no CORS headers, and its page says so plainly.
 
 A proxy is allowed only where the alternative is no demo at all, and only for **public, read-only** data: no keys, no user content, no writes. If a proxy starts carrying anything user-specific it is a different thing and needs its own argument. Whatever a demo does, its page must say it.
 
-**Naming: never write "Waku" in user-facing copy.** logos.co calls this stack area **Logos Messaging**, with **Delivery** and **Chat** as its modules, so that is the vocabulary demos use. Library names and code identifiers (`@waku/sdk`, `use-waku-node.ts`) keep their own names, because that is what they are — the rule is about what a visitor reads, not about renaming a dependency.
+**Naming: never write "Waku" in user-facing copy.** logos.co calls this stack area **Logos Messaging**, with **Delivery** and **Chat** as its modules, so that is the vocabulary demos use. Library names and code identifiers (`@waku/sdk`, `use-waku-node.ts`) keep their own names, because that is what they are. The rule is about what a visitor reads, not about renaming a dependency.
 
 **Overview:** [`README.md`](./README.md)
 
@@ -28,16 +28,19 @@ The tokens are not changed to fix this, because logos.co uses them too.
 
 ## Use the existing design system (required)
 
-**Every demo uses the existing Logos design system.** Never hand-roll styling — a demo that looks unlike logos.co is a bug, however well it works.
+**Every demo uses the existing Logos design system.** Never hand-roll styling. A demo that looks unlike logos.co is a bug, however well it works.
 
 - **Components** come from `@acid-info/logos-ui`: `Button`, `Card`, `Table`, the icon set, `LogosMark`. If a primitive is missing, add it to `packages/ui` rather than writing a local one.
 - **Typography** uses the token utilities from `packages/tokens`: `text-hero`, `text-h1`, `text-h2`, `text-h3-serif`, `text-h4-serif`, `text-card-title-serif`, `text-subhead-serif`, `text-body-serif`, `text-h3-sans`, `text-h4-sans`, `text-subhead-sans`, `text-body-sans`, `text-caption-sans`, `text-eyebrow`, `text-mono-s`. Never set a font size or line height directly, and never write `text-[15px]`.
 - **Colours** use the token utilities: `bg-brand-dark-green`, `text-brand-off-white`, `text-gray-05`, `border-gray-01`, `bg-accent-light-blue`, and the rest of the palette in `packages/tokens/src/colors.css`. Never inline a hex value, and never put a raw `var(--color-…)` in a className.
 - Adding a demo means importing the design system, not restyling from scratch.
 
-Per the root guide, every clickable element still needs `cursor-pointer` in its className — the `Button` primitive does not add it.
+Per the root guide, every clickable element still needs `cursor-pointer` in its className, because the `Button` primitive does not add it.
 
 ## Copy
+
+**No em dashes anywhere.** Not in page titles, body copy, explainers, docs, or code comments. They read as machine-written. Use a comma, a colon, a full stop, or split the sentence. That includes the long dash some UIs use to stand in for a missing value: say what is actually missing instead, like `not reported` or `none`.
+
 
 Demo copy is hardcoded in the components, not routed through `next-intl`, and this app is exempt from the repo-wide i18n rule. The demos are single-locale explanatory pages whose wording is inseparable from the thing being demonstrated; splitting it into message files makes it harder to keep the explanation and the behaviour in step. If a demo ever ships in more than one language, move that demo's copy to `next-intl` at that point.
 
@@ -45,7 +48,7 @@ Copy is still British English and still English-only in committed files.
 
 ## Code Organization
 
-- `src/demos/registry.ts` is the demo catalogue and the single source of truth for the sidebar, the overview list, and each demo's heading. Adding a demo means one entry there plus a route at its `href` — never hardcode a demo into the sidebar.
+- `src/demos/registry.ts` is the demo catalogue and the single source of truth for the sidebar, the overview list, and each demo's heading. Adding a demo means one entry there plus a route at its `href`. Never hardcode a demo into the sidebar.
 - One demo per route under `src/app/<demo>/`. `/` is the overview, which lists the demos and nothing else; `/messaging` is the messaging demo.
 - `DemoShell` (in `src/components/`) is the sidebar shell, rendered from the root layout. It derives the active item from `usePathname`.
 - **A demo page carries no explanatory prose.** It is a heading, the demo, and a Learn more button. Everything about how the thing works belongs in that demo's `src/demos/<demo>/how-it-works.md`, which the page reads at build time through `readExplainer` and the dialog renders. A visitor who wants to play is not made to read first, and a visitor who wants the detail gets more than a paragraph would have given them.
@@ -86,7 +89,7 @@ A missing `access-control-allow-origin` header looks exactly like a success in a
 
 ## Verify protocol code against the real implementation
 
-`src/lib/storage-cid.ts` reimplements a piece of logos-storage-nim. Its tests do not check it against itself — the fixtures are a real node's answers, obtained by downloading the published binary and uploading each input. See docs/storage-cid.md.
+`src/lib/storage-cid.ts` reimplements a piece of logos-storage-nim. Its tests do not check it against itself. The fixtures are a real node's answers, obtained by downloading the published binary and uploading each input. See docs/storage-cid.md.
 
 Do the same for anything that reimplements a protocol. A self-consistent test proves the code agrees with itself, which is exactly the thing that was never in doubt. Prebuilt binaries and stored artefacts on disk beat guessing: when the manifest encoding was wrong, `xxd` on the node's own manifest file named the field in seconds.
 
@@ -108,13 +111,21 @@ The suite starts a **fresh** dev server each run, so stop any dev server already
 
 ## The mimetype is part of the CID, and nodes refuse most of them
 
-A node maps the request's Content-Type through nim's `std/mimetypes` and answers 422 if nothing matches. `text/markdown` does not match, so dropping any `.md` file — a README, for instance — hits it. Uploading with no Content-Type is allowed and the manifest simply omits the field.
+A node maps the request's Content-Type through nim's `std/mimetypes` and answers 422 if nothing matches. `text/markdown` does not match, so dropping any `.md` file, a README for instance, hits it. Uploading with no Content-Type is allowed and the manifest simply omits the field.
 
 `src/lib/storage-mimetypes.ts` carries the accepted set, generated from nim's table. Do not widen it by guessing; check against a node.
 
+## Show the shape while waiting, never a blank
+
+Every demo reads a live network, so there is always a wait: four testnet nodes, a roster fetch, a light node finding peers. Blank and then suddenly full reads as broken and then startling.
+
+`src/components/skeleton.tsx` holds the placeholders. Mirror the real layout rather than inventing a generic box, and keep labels as real text: they are known before the values are, and `Height` is more use than a grey rectangle.
+
+**A skeleton cannot promise identical height.** A value of unknown length may wrap, and some network names do. It promises the rows exist from the start, so the card settles instead of unfolding. `e2e/loading.spec.ts` delays the responses on purpose, because locally they answer in well under a second and none of this can be seen by hand.
+
 ## Page metadata replaces, it does not merge
 
-A page that sets `openGraph` or `twitter` in its metadata replaces the layout's object outright. Miss `images` or `card` and the page silently stops carrying a share card — nothing fails, the link just previews as bare text. `demoMetadata` in `src/demos/metadata.ts` restates them for that reason, and `e2e/metadata.spec.ts` checks every demo still has them.
+A page that sets `openGraph` or `twitter` in its metadata replaces the layout's object outright. Miss `images` or `card` and the page silently stops carrying a share card. Nothing fails, the link just previews as bare text. `demoMetadata` in `src/demos/metadata.ts` restates them for that reason, and `e2e/metadata.spec.ts` checks every demo still has them.
 
 Titles, descriptions and the sitemap all come from `src/demos/registry.ts`, so a new demo needs an entry there and nothing else.
 
@@ -133,7 +144,7 @@ Titles, descriptions and the sitemap all come from `src/demos/registry.ts`, so a
 - `@waku/sdk` Filter delivers only messages published from now on. A tab that opens later needs a Store query (`node.store.queryWithOrderedCallback`) for the backlog, or it starts empty. De-duplicate the overlap between history and live delivery.
 - `waitForPeers` needs a generous timeout; discovery and dialling take seconds.
 - Moving to a Logos fleet later is a `networkConfig` (`clusterId`, shards) and bootstrap-peer change. Keep those in configuration, not scattered through components.
-- **Nothing published to the network can be deleted.** Store nodes hold it for their retention window and there is no delete primitive. To give a demo a clean room, bump the version segment of its content topic (`/logos-demos/<version>/<topic>/proto`); the old traffic stays on the old topic with nobody listening. Never add a "clear messages" control that only empties local state — a reload restores it from Store, and a demo whose whole claim is "there is no server" must not fake a delete.
+- **Nothing published to the network can be deleted.** Store nodes hold it for their retention window and there is no delete primitive. To give a demo a clean room, bump the version segment of its content topic (`/logos-demos/<version>/<topic>/proto`); the old traffic stays on the old topic with nobody listening. Never add a "clear messages" control that only empties local state. A reload restores it from Store, and a demo whose whole claim is "there is no server" must not fake a delete.
 
 ## Commands
 
@@ -152,7 +163,7 @@ Build through turbo, never `pnpm --filter logos-demos build`: `@acid-info/logos-
 
 ## Frontend Verification
 
-Type-checking passing is not the same as the demo working — these demos depend on a live peer-to-peer network, so browser verification is required before reporting done.
+Type-checking passing is not the same as the demo working. These demos depend on a live peer-to-peer network, so browser verification is required before reporting done.
 
 **After editing `globals.css`, restart the dev server.** Turbopack has served stale CSS here more than once, which reads as "my fix did nothing" and sends you looking for a bug that is not there. `rm -rf apps/logos-demos/.next` and start it again, then re-measure.
 

@@ -1,7 +1,7 @@
 # The Logos Storage CID, computed in a browser
 
 A browser cannot join Logos Storage. It can still give a file the exact address
-the network would, because a CID is not something a node hands out — it is a
+the network would, because a CID is not something a node hands out. It is a
 pure function of the bytes.
 
 This is what `src/lib/storage-cid.ts` does, and it is the only part of the
@@ -36,7 +36,7 @@ implementation drifts from the network, which a self-consistent test could
 never catch.
 
 The node also writes each manifest to `<data-dir>/repo/manifests/`, as the raw
-protobuf. That is worth more than any amount of guessing — when the encoding
+protobuf. That is worth more than any amount of guessing. When the encoding
 did not match, `xxd` on that file showed exactly which field was wrong.
 
 ## The scheme
@@ -63,11 +63,11 @@ still compressed, so even a one-block file has a level above its leaf.
 
 **CIDs.** All CIDv1 with sha2-256, differing only in the content codec:
 
-| Codec              | Value    | What it names                                  |
-| ------------------ | -------- | ---------------------------------------------- |
-| `storage-manifest` | `0xCD01` | the manifest — this is the CID the node prints |
-| `storage-block`    | `0xCD02` | one block                                      |
-| `storage-root`     | `0xCD03` | the merkle root                                |
+| Codec              | Value    | What it names                         |
+| ------------------ | -------- | ------------------------------------- |
+| `storage-manifest` | `0xCD01` | the manifest, the CID the node prints |
+| `storage-block`    | `0xCD02` | one block                             |
+| `storage-root`     | `0xCD03` | the merkle root                       |
 
 **Manifest.** A protobuf, wrapped in a one-field envelope. Fields in order:
 `manifestVersion`, `treeCid`, `blockSize`, `datasetSize`, `codec`, `hcodec`,
@@ -85,7 +85,7 @@ if extension == "":
 ```
 
 `text/markdown` is not in that table, and browsers report it for every `.md`
-file — so dropping a README on the demo hits this. An upload with **no**
+file, so dropping a README on the demo hits this. An upload with **no**
 Content-Type is fine, though: the field is simply left out of the manifest.
 
 That is what the page does when the browser's type would be refused, and it
@@ -112,7 +112,7 @@ wrong CID with no error anywhere.
 
 **Filename and mimetype change the CID.** They are manifest fields, so the same
 bytes uploaded with a different name have a different address. The node reads
-the name from `Content-Disposition`, not from a query parameter — passing
+the name from `Content-Disposition`, not from a query parameter. Passing
 `?filename=` silently does nothing, which cost an hour of thinking the encoder
 was wrong when the test's expectation was.
 

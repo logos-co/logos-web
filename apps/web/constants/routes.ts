@@ -89,6 +89,7 @@ export const ROUTES = {
   ukDebt: '/ukdebt',
   chatControl: '/chatcontrol',
   prifi: '/prifi',
+  fieldStation: '/field-station',
 } as const
 
 // ---------------------------------------------------------------------------
@@ -119,8 +120,7 @@ export const EXTERNAL_URLS = {
   workshopsPlaylist:
     'https://www.youtube.com/playlist?list=PLZe53tXAogqMdZSKhY316YKn3_tJ0RWZ7',
   livingWithinTruth: 'https://www.youtube.com/watch?v=xy4uK20lFBQ',
-  logosGenealogyArticle:
-    'https://blog.logos.co/article/a-genealogy-of-logos',
+  logosGenealogyArticle: 'https://blog.logos.co/article/a-genealogy-of-logos',
   lambdaPrizes: 'https://github.com/logos-co/lambda-prize/tree/master/prizes',
   basecampRelease:
     'https://github.com/logos-co/logos-basecamp/releases#release-0.2.3',

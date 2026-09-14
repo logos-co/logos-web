@@ -71,7 +71,7 @@ export function useCidCompute() {
 
       // The node reads the mimetype from the request's Content-Type and the
       // name from Content-Disposition. Both go into the manifest, so both
-      // change the CID — a renamed file is a different CID.
+      // change the CID. A renamed file is a different CID.
       const reportedMimetype = file.type
 
       /**

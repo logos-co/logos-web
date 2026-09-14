@@ -9,7 +9,7 @@
  *       return RestApiResponse.error(Http422, "The MIME type ... is not valid.")
  *
  * So `text/markdown` is refused, which matters because browsers report it for
- * any `.md` file. Verified against a running node — see docs/storage-cid.md.
+ * any `.md` file. Verified against a running node. See docs/storage-cid.md.
  *
  * Generated from nim-lang/Nim `lib/pure/mimetypes.nim` (version-2-2), taking
  * the 771 distinct values of that extension-to-type table.

@@ -10,7 +10,7 @@ The constraint that shapes every demo in this app. Checked 2026-09-04.
 | Blockchain | Read-only, **via a proxy** | Nodes allow browsers, but are HTTP while the app is HTTPS |
 | Storage | Roster only, **via a proxy** | No browser transport and no public node. The published roster sends no CORS header |
 
-## Messaging — genuinely browser-native
+## Messaging: genuinely browser-native
 
 `@waku/sdk` is a real light client. The browser gets its own libp2p peer
 identity, dials fleet nodes over `wss`, and pushes and receives messages itself.
@@ -22,7 +22,7 @@ that makes the strongest claim. Two things had to be true at once: a browser
 implementation exists, and there is a public fleet speaking a transport browsers
 can use. Neither holds for the other two.
 
-## Blockchain — read-only through a proxy, for an unexpected reason
+## Blockchain: read-only through a proxy, for an unexpected reason
 
 The testnet nodes are public and send `access-control-allow-origin: *`, so
 permission is not the obstacle. **They are served over plain HTTP while the
@@ -44,7 +44,7 @@ carry a build hash that moves on every deploy. Reading the nodes is
 first-hand, and it turned out the base chain was producing normally while the
 explorer's index had been stuck since 30 August.
 
-## Storage — the network cannot be joined from a browser
+## Storage: the network cannot be joined from a browser
 
 Checked exhaustively on 2026-09-04, because it kept looking like it should be
 possible. It is not, and the reason is the transport layer rather than a
@@ -117,7 +117,7 @@ Before promising a demo, answer two questions:
 
 Messaging answers yes to both. Blockchain answers yes then no, and a proxy
 converts the no. Storage answers no to the first, and nothing in the page can
-fix that — so the demo shows the published roster instead, which is a proxy
+fix that, so the demo shows the published roster instead, which is a proxy
 case for the ordinary reason that it sends no CORS header. See
 [storage-research.md](./storage-research.md).
 

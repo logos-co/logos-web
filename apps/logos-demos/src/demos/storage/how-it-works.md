@@ -34,10 +34,10 @@ flowchart TB
   msg ~~~ store
 ```
 
-Nor is there a public node to call instead. Twelve nodes were checked across
-both fleets and every one refuses a connection on its API port, which is the
-design rather than an oversight: the storage documentation is entirely about
-running your own node.
+Nor is there a public node to call instead. Twelve were checked across both
+fleets, and none of them will talk to us. Their ports are open, but only to
+addresses on a list we are not on, so a browser gets nothing either way. The
+storage documentation is entirely about running your own node.
 
 ## What this page can actually do
 
@@ -89,10 +89,11 @@ roots it folds to are the ones a real node published.
 ## Why the type sometimes says none
 
 A node will not accept any Content-Type. It looks the value up in a table of
-known file types and refuses anything it cannot place — and `text/markdown`,
-which browsers report for every `.md` file, is one of those. Uploading with no
-type at all is allowed, and the manifest then records none. So for those files
-the page shows the CID for that upload, and says which type was refused.
+known file types and refuses anything it cannot place. `text/markdown` is one of
+those, and browsers report it for every `.md` file, so dropping a README hits
+it. Uploading with no type at all is allowed, and the manifest then records
+none, so that is the upload the address describes. The page says which type was
+refused.
 
 ## What is live
 

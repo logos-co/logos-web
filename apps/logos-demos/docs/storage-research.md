@@ -42,10 +42,10 @@ Twelve nodes probed individually on port 8080, the API port:
 - `logos.test`: six, from `fleets.logos.co/logos-test/storage-network.json`
 - `logos.dev`: six, from `fleets.logos.co/logos-dev/storage-network.json`
 
-All refuse the connection **from here** — see "The ports are open, just not to
+All refuse the connection **from here**. See "The ports are open, just not to
 us" below, which corrects what this originally concluded from that. **The
 `port: 8080` in the roster is the node's
-configured API port, not an open one** — it is bound locally or firewalled.
+configured API port, not an open one**: it is bound locally or firewalled.
 Two Hetzner hosts from the infra repo's Cloudflare DNS config refuse as well.
 
 Hostnames, from `infra-logos-storage`:
@@ -91,7 +91,7 @@ Chain                 Status Network Sepolia, chainId 1660990954
 
 It fails on one thing. The only RPC for that chain, in the config and in the
 public chain registry at `chainid.network`, is
-`https://public.sepolia.rpc.status.network`, and it returns **NXDOMAIN** —
+`https://public.sepolia.rpc.status.network`, and it returns **NXDOMAIN**,
 confirmed against Cloudflare's resolver, so it is not a local DNS problem.
 `status.network` itself resolves; the RPC subdomain is gone.
 
@@ -106,13 +106,13 @@ An earlier version of this file said every node refuses its API port. That was
 wrong, and the way it was wrong is worth keeping.
 
 `echo.codex.storage/port/<port>` checks reachability from its own vantage, and
-with the `X-Real-IP-Custom` header it checks a host you name — this is how the
+with the `X-Real-IP-Custom` header it checks a host you name. This is how the
 official marketplace UI tests a node. Asked about the fleet nodes it answers
 `reachable: true`, while a direct connection from here is refused. A port the
 service knows is closed (`9999`) answers `false`, so it is not simply agreeing.
 
 So the nodes filter by source address. The port is open; we are not on the
-list. The practical conclusion is the same — no upload path for us — but
+list. The practical conclusion is the same, no upload path for us, but
 "closed" and "not open to you" are different facts.
 
 ## There is no public gateway
@@ -123,7 +123,7 @@ for anything that serves content by CID over HTTP. There is nothing.
 - `api.codex.storage` serves a documentation page; every API path is a 404
 - `api.demo.codex.storage` is behind HTTP Basic auth
 - `app.codex.storage` is the marketplace UI, and its bundle points at
-  `http://127.0.0.1:8080` — your own node
+  `http://127.0.0.1:8080`, your own node
 - `Podex`, the closest thing to what we wanted (upload media, share a link,
   announce over Waku), defaults to `localhost:8080` plus its own Go backend
   for downloads
@@ -146,7 +146,7 @@ answering rather than as a static list.
 
 The roster itself sends **no `access-control-allow-origin` header at all**, so a page cannot
 read it directly and the demo proxies it through `/api/storage/fleet`. Checking
-this with `curl -I` alone is not enough — the response is a plain 200 and the
+this with `curl -I` alone is not enough: the response is a plain 200 and the
 missing header is easy to miss. The browser console is what settles it. Each
 entry carries
 `host`, `role`, `peerId`, `spr`, `tcpSpr`, `mixPubKey`, `libp2pPubKey`,

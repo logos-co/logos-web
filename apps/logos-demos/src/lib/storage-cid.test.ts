@@ -18,7 +18,7 @@ import { BLOCK_SIZE, computeCid } from './storage-cid'
 /**
  * Deterministic bytes, so the fixtures stay reproducible without storing
  * megabytes in the repository. xorshift32, because it stays exact in 32-bit
- * integer arithmetic — a multiplying generator would lose precision above
+ * integer arithmetic. A multiplying generator would lose precision above
  * 2^53 and produce different bytes here than in the script that fed the node.
  */
 function pseudoRandom(length: number, seed: number): Uint8Array {

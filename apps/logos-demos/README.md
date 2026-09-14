@@ -1,7 +1,7 @@
 # logos-demos
 
 Small, self-contained web demos of the Logos stack, built so that anyone can try
-them from a URL — no install, no account, no infrastructure for us to run.
+them from a URL. No install, no account, no infrastructure for us to run.
 
 The entry point to Logos today is [logos-basecamp](https://github.com/logos-co/logos-basecamp),
 a desktop shell shipped as a 94 MB DMG or a 258 MB AppImage, unsigned on macOS,
@@ -40,16 +40,16 @@ A demo that looks unlike logos.co is a bug, however well it works.
 
 ## Demos
 
-| Route         | What it shows                                                                                                                             |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `/`           | Lists the demos. Nothing else.                                                                                                            |
-| `/messaging`  | **Logos Messaging** — the browser as a light node, joining the peer-to-peer network directly and exchanging messages with other browsers. |
-| `/blockchain` | **Logos Blockchain** — live blocks and consensus state from the testnet nodes, including each block's proof of leadership.                |
-| `/storage`    | **Logos Storage** — the address the network would give a file, worked out in the browser, plus the live roster of nodes.                  |
+| Route         | What it shows                                                                                                                            |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`           | Lists the demos. Nothing else.                                                                                                           |
+| `/messaging`  | **Logos Messaging**: the browser as a light node, joining the peer-to-peer network directly and exchanging messages with other browsers. |
+| `/blockchain` | **Logos Blockchain**: live blocks and consensus state from the testnet nodes, including each block's proof of leadership.                |
+| `/storage`    | **Logos Storage**: the address the network would give a file, worked out in the browser, plus the live roster of nodes.                  |
 
 Demos live in a sidebar shell, so a visitor moves between them by clicking. The
 catalogue in `src/demos/registry.ts` drives the sidebar, the overview list, and
-each demo's own heading — adding a demo means one entry there plus a route at
+each demo's own heading. Adding a demo means one entry there plus a route at
 its `href`.
 
 A demo page is a heading, the demo, and a **Learn more** button. The
@@ -60,9 +60,9 @@ the detail is there for anyone who wants it.
 
 ## What is not here
 
-**Nothing is stored on the Logos Storage network.** A browser cannot join it —
+**Nothing is stored on the Logos Storage network.** A browser cannot join it:
 discovery is discv5 over UDP, transfer is libp2p TCP, and there is no websocket
-transport — and no public gateway exists to call instead. That is a design
+transport, and no public gateway exists to call instead. That is a design
 choice on the storage side rather than an oversight, and it needs a node we run
 to change.
 
@@ -146,5 +146,5 @@ more than one bug here only appeared on a real build.
 
 Vercel project `logos-demos` (IFT team), root directory `apps/logos-demos`,
 built with the turbo command in `vercel.json`. Deployment protection is off, so
-preview URLs are shareable without a Vercel account — the same setting as
+preview URLs are shareable without a Vercel account, the same setting as
 `logos-crm` and `logos-co-web`.

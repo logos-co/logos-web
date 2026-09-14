@@ -9,7 +9,7 @@ import { SITE_DESCRIPTION, SITE_NAME } from '@/lib/site'
  * name and description the pages use. Rendered at build time.
  */
 
-export const alt = `${SITE_NAME} — ${SITE_DESCRIPTION}`
+export const alt = `${SITE_NAME}. ${SITE_DESCRIPTION}`
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 

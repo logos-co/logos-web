@@ -21,7 +21,7 @@ async function readBlock(id: string): Promise<Block | null> {
     if (!response.ok) return null
 
     const time = parseChainTime(
-      await (await getFresh(`${LEAD_NODE}/time/info`)).json().catch(() => null),
+      await (await getFresh(`${LEAD_NODE}/time/info`)).json().catch(() => null)
     )
     return parseBlock(await response.json(), time)
   } catch {
@@ -50,7 +50,7 @@ function Field({
             {value}
           </Link>
         ) : (
-          value || '—'
+          value || 'not reported'
         )}
       </dd>
     </div>
@@ -84,14 +84,13 @@ export default async function Page({
       <section className="flex flex-col gap-5 border border-gray-01 bg-white p-5">
         <dl className="grid gap-5 sm:grid-cols-3">
           <Field label="Slot" value={String(block.slot)} />
-          <Field
-            label="Transactions"
-            value={String(block.transactionCount)}
-          />
+          <Field label="Transactions" value={String(block.transactionCount)} />
           <Field
             label="Time"
             value={
-              block.timestamp === null ? '—' : formatTimestamp(block.timestamp)
+              block.timestamp === null
+                ? 'no time yet'
+                : formatTimestamp(block.timestamp)
             }
           />
         </dl>
@@ -100,7 +99,9 @@ export default async function Page({
           <Field
             label="Parent block"
             value={block.parent}
-            href={block.parent ? `/blockchain/block/${block.parent}` : undefined}
+            href={
+              block.parent ? `/blockchain/block/${block.parent}` : undefined
+            }
           />
         </dl>
       </section>

@@ -1,5 +1,6 @@
 'use client'
 
+import { SkeletonLine } from '@/components/skeleton'
 import { type NodeSnapshot, shortenPeerId } from '@/lib/waku'
 
 const STATUS_COPY: Record<NodeSnapshot['status'], string> = {
@@ -18,11 +19,28 @@ const STATUS_TONE: Record<NodeSnapshot['status'], string> = {
   failed: 'bg-accent-purple',
 }
 
-function Field({ label, value }: { label: string; value: string }) {
+/**
+ * A field whose value only exists once the node has settled.
+ *
+ * Starting a light node and finding peers takes seconds, so these would read
+ * a zero and a blank and then change. A placeholder says the answer is coming
+ * instead of stating a wrong one.
+ */
+function Field({
+  label,
+  value,
+  isPending = false,
+}: {
+  label: string
+  value: string
+  isPending?: boolean
+}) {
   return (
     <div className="flex flex-col gap-1">
       <dt className="text-label text-gray-05">{label}</dt>
-      <dd className="text-mono-body break-all text-brand-dark-green">{value}</dd>
+      <dd className="text-mono-body break-all text-brand-dark-green">
+        {isPending ? <SkeletonLine className="w-24" /> : value}
+      </dd>
     </div>
   )
 }
@@ -46,10 +64,19 @@ export function NetworkStatus({ snapshot }: { snapshot: NodeSnapshot }) {
       </div>
 
       <dl className="flex flex-col gap-4">
-        <Field label="Connected peers" value={String(snapshot.peerCount)} />
+        <Field
+          label="Connected peers"
+          value={String(snapshot.peerCount)}
+          isPending={isSettling && snapshot.peerCount === 0}
+        />
         <Field
           label="This browser's peer id"
-          value={snapshot.selfPeerId ? shortenPeerId(snapshot.selfPeerId) : '—'}
+          value={
+            snapshot.selfPeerId
+              ? shortenPeerId(snapshot.selfPeerId)
+              : 'not started'
+          }
+          isPending={!snapshot.selfPeerId && snapshot.status !== 'failed'}
         />
         <Field label="Network" value="Public fleet" />
       </dl>

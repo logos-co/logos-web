@@ -2,7 +2,7 @@
  * The storage demo, end to end.
  *
  * The CIDs asserted here came from a real Logos Storage node (v0.4.5), not
- * from the code under test — the same fixtures the unit tests use. What this
+ * from the code under test, the same fixtures the unit tests use. What this
  * adds is the path a person actually takes: a real file through a real file
  * input, and the address the page works out for it.
  */

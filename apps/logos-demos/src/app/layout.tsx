@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: {
     default: SITE_NAME,
     // Each demo supplies only its own name.
-    template: `%s — ${SITE_NAME}`,
+    template: `%s · ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,

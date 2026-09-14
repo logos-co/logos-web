@@ -41,7 +41,7 @@ export function useWakuNode() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
 
   // Populated once the node is live. `send` reads these, so they are refs
-  // rather than state — a re-render must not be required for sending to work.
+  // rather than state, because a re-render must not be required for sending.
   const nodeRef = useRef<Awaited<
     ReturnType<typeof import('@waku/sdk').createLightNode>
   > | null>(null)
@@ -75,7 +75,7 @@ export function useWakuNode() {
       const { createLightNode } = await import('@waku/sdk')
 
       patch({ status: 'starting' })
-      // `defaultBootstrap` is what registers the peer-discovery mechanisms —
+      // `defaultBootstrap` is what registers the peer-discovery mechanisms.
       // without it the node starts with none and never finds a peer. (The
       // `discovery` option's documented defaults only apply inside this flag.)
       // DNS discovery resolves the public fleets, which a browser can reach

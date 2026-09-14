@@ -14,12 +14,7 @@ export function References({ items }: { items: readonly Reference[] }) {
       aria-label="References"
       className="flex flex-col gap-4 border-t border-gray-01 pt-8"
     >
-      <div className="flex flex-col gap-1">
-        <h2 className="text-h4-sans text-brand-dark-green">References</h2>
-        <p className="text-body-sans text-gray-05">
-          Everything this demo talks to, and the source it was built from.
-        </p>
-      </div>
+      <h2 className="text-h4-sans text-brand-dark-green">References</h2>
 
       <ul className="grid gap-2 sm:grid-cols-2">
         {items.map((item) => (

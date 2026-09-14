@@ -56,7 +56,7 @@ export function DemoShell({ children }: { children: ReactNode }) {
         </nav>
 
         <div className="sidebar-orgs">
-          <span className="text-label">Source</span>
+          <span className="text-label">Sources</span>
           <ul>
             {ORGS.map((org) => (
               <li key={org.href}>

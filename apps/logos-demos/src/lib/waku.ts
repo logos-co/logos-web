@@ -16,7 +16,7 @@
 /**
  * Content topic: /<app>/<version>/<topic>/<encoding>.
  *
- * Nothing published can be deleted — store nodes hold it for their
+ * Nothing published can be deleted. Store nodes hold it for their
  * retention window, and there is no delete primitive to reach for. Bumping the
  * version is how this demo gets a clean room: the old traffic still exists on
  * the old topic, and nobody is listening to it any more.
@@ -49,7 +49,7 @@ export type NodeSnapshot = {
   status: NodeStatus
   peerCount: number
   peerIds: string[]
-  /** Our own libp2p peer id — this browser's identity on the network. */
+  /** Our own libp2p peer id, this browser's identity on the network. */
   selfPeerId: string | null
   error: string | null
   /** True while store nodes are being queried for the backlog. */

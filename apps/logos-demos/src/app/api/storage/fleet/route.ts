@@ -13,7 +13,7 @@ import { FLEET_URL, FLEETS } from '@/lib/storage-fleet'
  * It passes the roster through unchanged rather than normalising it, so there
  * is one shape and one parser (`parseFleet`, on the client) rather than two.
  *
- * It is the roster, not the network. Nothing here talks to a storage node — see
+ * It is the roster, not the network. Nothing here talks to a storage node. See
  * docs/storage-research.md for why a browser cannot.
  */
 
