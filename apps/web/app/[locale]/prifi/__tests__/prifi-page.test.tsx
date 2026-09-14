@@ -214,6 +214,35 @@ describe('prifi page render', () => {
     expect(html).toContain(asMarkup(SUPPLY_CHAIN.links[0].exposes))
   })
 
+  test('below 1024px lists every supply chain link as a closed accordion row', async () => {
+    const html = await pageHtml()
+    const start = html.indexOf('data-chain-layout="accordion"')
+    const end = html.indexOf('data-chain-layout="tabs"')
+    expect(start, 'accordion layout missing').toBeGreaterThan(-1)
+    expect(end, 'tabs layout missing').toBeGreaterThan(start)
+
+    const accordion = html.slice(start, end)
+    const toggles: string[] =
+      accordion.match(/<button[^>]*aria-expanded="[^"]*"[^>]*>/g) ?? []
+
+    // Every link is listed, and all start closed so the whole chain is visible.
+    expect(toggles).toHaveLength(SUPPLY_CHAIN.links.length)
+    expect(
+      toggles.every((toggle) => toggle.includes('aria-expanded="false"'))
+    ).toBe(true)
+    for (const link of SUPPLY_CHAIN.links) {
+      expect(accordion).toContain(asMarkup(link.label))
+    }
+
+    // Each layout shows on its own side of the lg breakpoint.
+    expect(html.slice(Math.max(0, start - 200), start + 120)).toMatch(
+      /class="[^"]*\blg:hidden\b/
+    )
+    expect(html.slice(Math.max(0, end - 200), end + 120)).toMatch(
+      /class="[^"]*\bhidden lg:block\b/
+    )
+  })
+
   test('gives every supply chain link its facts, two costs and a diagram', () => {
     for (const link of SUPPLY_CHAIN.links) {
       expect(
