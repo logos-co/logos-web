@@ -133,6 +133,12 @@ describe('prifi page render', () => {
     expect(html).toContain(`href="#${SUPPLY_CHAIN_ID}"`)
   })
 
+  test('includes the source copy on increased risk and transaction costs', () => {
+    expect(SUPPLY_CHAIN.lead).toContain(
+      'Increased risk means increased transaction costs.'
+    )
+  })
+
   test('renders both comparison tables as real tables', async () => {
     const html = await pageHtml()
     const tables = html.match(/<table\b/g) ?? []

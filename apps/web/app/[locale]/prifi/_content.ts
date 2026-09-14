@@ -53,7 +53,7 @@ export const HERO = {
 
 export const SUPPLY_CHAIN = {
   heading: 'The transaction supply chain',
-  lead: 'Settlement is just one of seven links in the chain.\u00a0Blockchain provides unprecedented settlement security. But transactions depend on infrastructure beyond settlement. Every exposed link creates another opportunity for surveillance or manipulation.',
+  lead: 'Settlement is just one of seven links in the chain.\u00a0Blockchain provides unprecedented settlement security. But transactions depend on infrastructure beyond settlement. Every exposed link creates another opportunity for surveillance or manipulation. Increased risk means increased transaction costs.',
   note: "PriFi protects participants from two directions: limiting what an attacker can learn and what they can influence. Leaks cost billions annually. Even small efficiency increases add up: a 0.1% drop in transaction costs can quadruple a nation's wealth.",
   factLabels: {
     exposes: 'What is exposed',
@@ -300,7 +300,7 @@ export const PROTECTION = {
     'Secrecy starves, denying information needed to identify, target, or exploit a transaction.',
   ],
   matrix: {
-    columns: ['Security - constrains action', 'Secrecy - denies information'],
+    columns: ['Security – constrains action', 'Secrecy – denies information'],
     rows: [
       {
         hazard: 'Counterparty',
@@ -395,17 +395,17 @@ export const LOGOS_STACK = {
       covers: 'Shields contracting',
     },
     {
-      component: 'Logos Blockchain – Blend',
+      component: 'Logos Blockchain (Blend)',
       role: 'Consensus-aware private propagation obscures where transactions and block proposals originate, disrupting ordering observation and exploitation.',
       covers: 'Shields ordering',
     },
     {
-      component: 'Logos Blockchain –\u00a0Cryptarchia',
+      component: 'Logos Blockchain (Cryptarchia)',
       role: 'Private PoS keeps those securing settlement from becoming targets for bribery, coercion, or censorship.',
       covers: 'Shields settlement',
     },
     {
-      component: 'Logos Blockchain – Zones',
+      component: 'Logos Blockchain (Zones)',
       role: 'Programmable privacy makes disclosure selective. Participants can prove what is needed for compliance or dispute resolution without exposing entire transaction histories.',
       covers: 'Shields enforcement',
     },
