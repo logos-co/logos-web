@@ -1,23 +1,21 @@
 # AGENTS.md
 
-> **Frozen.** This app is superseded by [`apps/api`](../api/AGENTS.md), which hosts the same endpoint. Do not edit anything here; make changes in `apps/api`. This directory is removed once the callers point at `apps/api`.
-
-Guidance for agents working inside `apps/civi-crm`. The root `AGENTS.md` still applies; this file adds app-specific instructions for the nearest subtree.
+Guidance for agents working inside `apps/api`. The root `AGENTS.md` still applies; this file adds app-specific instructions for the nearest subtree.
 
 ## App Role
 
-This app hosts the public intake endpoint for the funnel forms on `apps/web`: `POST /api/public/afform-submit`. It is a Next.js 16 app with no pages, no database and no authenticated area. Submissions are forwarded to Notion, and the steward form additionally to an n8n/Baserow webhook. Dev server runs on port **3002**.
+This app hosts the public intake endpoint for the funnel forms on `apps/web`: `POST /api/public/afform-submit`. It is a Next.js 16 app with no pages, no database and no authenticated area. Submissions are forwarded to Notion, and the steward form additionally to an n8n/Baserow webhook. Dev server runs on port **3003**.
 
-The name is historical: this was the web layer on top of CiviCRM for Circle Case management. The CiviCRM instances were shut down and every interaction with them was removed in [logos-web#123](https://github.com/logos-co/logos-web/issues/123). Nothing reads the Keycloak proxy headers anymore, so the proxy that used to protect the case-management pages is no longer needed in front of this app.
+It supersedes `apps/civi-crm`, the former web layer on top of CiviCRM whose only surviving job was this endpoint (the CiviCRM instances were shut down in [logos-web#123](https://github.com/logos-co/logos-web/issues/123)). The endpoint was moved here verbatim; `apps/civi-crm` is frozen and will be removed once the callers point at this app.
 
-**Architecture document:** [`docs/civi-crm/architecture.md`](../../docs/civi-crm/architecture.md)
+**Architecture document:** [`docs/api/architecture.md`](../../docs/api/architecture.md)
 
 **Funnel reference:** [`docs/funnel/AGENTS.md`](../../docs/funnel/AGENTS.md)
 Read it before changing anything about form submissions. It documents the request flow, the Notion database schema, the id → label maps, and the newsletter opt-ins that run on the `apps/web` side.
 
 ## Keeping Docs Up to Date
 
-When you make a structural change, update `docs/civi-crm/architecture.md` **and** this `AGENTS.md` in the same commit or PR if either is affected. Changes that require an architecture doc update:
+When you make a structural change, update `docs/api/architecture.md` **and** this `AGENTS.md` in the same commit or PR if either is affected. Changes that require an architecture doc update:
 
 - Adding, removing, or renaming files in the `src/` tree
 - Adding, removing, or changing API routes
@@ -34,12 +32,12 @@ Minor implementation details (function bodies) do not require a doc update.
 Run from the repo root unless a task explicitly needs the app directory:
 
 ```bash
-pnpm --filter civi-crm dev
-pnpm --filter civi-crm build
-pnpm --filter civi-crm lint
-pnpm --filter civi-crm lint:fix
-pnpm --filter civi-crm check-types
-pnpm --filter civi-crm test
+pnpm --filter api dev
+pnpm --filter api build
+pnpm --filter api lint
+pnpm --filter api lint:fix
+pnpm --filter api check-types
+pnpm --filter api test
 ```
 
 ## Code Organization
