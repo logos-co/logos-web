@@ -253,6 +253,11 @@ describe('prifi page render', () => {
   })
 
   test('gives every supply chain link its facts, two costs and a diagram', () => {
+    const diagramSources = new Set(
+      SUPPLY_CHAIN.links.map((link) => link.graph.src)
+    )
+
+    expect(diagramSources.size).toBe(SUPPLY_CHAIN.links.length)
     for (const link of SUPPLY_CHAIN.links) {
       expect(link.exposes && link.tools && link.threat, link.label).toBeTruthy()
       expect(link.stats, link.label).toHaveLength(
