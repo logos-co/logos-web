@@ -84,7 +84,7 @@ export const SUPPLY_CHAIN = {
         ],
       ],
       graph: {
-        src: '/images/prifi/graph-discovery.webp',
+        src: '/images/prifi/logos-discovery-illustration-web.png',
         alt: "Identity leakage. Each leak looks small. Together they're a graph.",
         tall: false,
       },
@@ -116,7 +116,7 @@ export const SUPPLY_CHAIN = {
         ],
       ],
       graph: {
-        src: '/images/prifi/graph-diligence.webp',
+        src: '/images/prifi/logos-diligence-illustration-web.png',
         alt: 'Diligence. Two hazards, one request.',
         tall: true,
       },
@@ -143,7 +143,7 @@ export const SUPPLY_CHAIN = {
         ],
       ],
       graph: {
-        src: '/images/prifi/graph-negotiation.webp',
+        src: '/images/prifi/logos-negotiation-illustration-web.png',
         alt: "Negotiation. Leaked terms don't wait for the deal to close.",
         tall: false,
       },
@@ -173,7 +173,7 @@ export const SUPPLY_CHAIN = {
         ],
       ],
       graph: {
-        src: '/images/prifi/graph-contracting.webp',
+        src: '/images/prifi/logos-contracting-illustration-web.png',
         alt: "Contracting. The interface can lie. The signature can't take it back.",
         tall: true,
       },
@@ -200,8 +200,8 @@ export const SUPPLY_CHAIN = {
         ],
       ],
       graph: {
-        src: '/images/prifi/graph-ordering.webp',
-        alt: "Contracting. The interface can lie. The signature can't take it back.",
+        src: '/images/prifi/logos-ordering-illustration-web.png',
+        alt: 'Ordering. Public order flow exposes transactions to frontrunning.',
         tall: false,
       },
     },
@@ -227,7 +227,7 @@ export const SUPPLY_CHAIN = {
         ],
       ],
       graph: {
-        src: '/images/prifi/graph-settlement.webp',
+        src: '/images/prifi/logos-settlement-illustration-web.png',
         alt: "Settlement. The chain executes exactly what it's given.",
         tall: false,
       },
@@ -256,8 +256,8 @@ export const SUPPLY_CHAIN = {
         ],
       ],
       graph: {
-        src: '/images/prifi/graph-settlement.webp',
-        alt: "Settlement. The chain executes exactly what it's given.",
+        src: '/images/prifi/logos-enforcement-illustration-web.png',
+        alt: 'Enforcement and recourse. Dispute resolution exposes transaction participants and validators.',
         tall: false,
       },
     },
