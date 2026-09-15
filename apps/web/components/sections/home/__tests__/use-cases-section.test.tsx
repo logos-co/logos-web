@@ -60,9 +60,7 @@ const data = {
   eyebrow: 'Use Cases',
   headline: 'Privacy is the condition.',
   headlineMobile: 'Privacy.',
-  lambda:
-    'Explore the applications funded through the <lambdaPrize>Lambda Prize</lambdaPrize>.',
-  lambdaMobile: 'Explore via <lambdaPrize>Lambda Prize</lambdaPrize>.',
+  thesisCta: 'Read the Logos PriFi Thesis',
   secure: card('Secure, private communications.'),
   money: card('Private, censorship-resistant money.'),
   archives: card('Permanent, decentralised archives.'),
@@ -70,7 +68,7 @@ const data = {
 }
 
 describe('UseCasesSection', () => {
-  it('renders eyebrow, card title, and the Lambda Prize link', () => {
+  it('renders eyebrow, card title, and the PriFi thesis link', () => {
     const html = renderToStaticMarkup(createElement(UseCasesSection, { data }))
 
     // Eyebrow appears in both mobile and desktop slots
@@ -79,12 +77,11 @@ describe('UseCasesSection', () => {
     // A card title renders
     expect(html).toContain('Secure, private communications.')
 
-    // The Lambda Prize link renders as an anchor containing the inner text
-    expect(html).toContain('>Lambda Prize<')
-    expect(html).toContain('<a ')
+    // The thesis line renders as a link in both the mobile and desktop slots
+    expect(html.split('>Read the Logos PriFi Thesis<').length - 1).toBe(2)
 
-    // Highest-risk part of the refactor: the anchor must carry the correct
-    // href. ROUTES.lambdaPrize === '/lambda-prize' (apps/web/constants/routes.ts).
-    expect(html).toContain('href="/lambda-prize"')
+    // The anchor must carry the PriFi route (apps/web/constants/routes.ts).
+    expect(html).toContain('href="/prifi"')
+    expect(html).not.toContain('href="/lambda-prize"')
   })
 })

@@ -1,5 +1,3 @@
-import { Fragment, type ReactNode } from 'react'
-
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -11,24 +9,15 @@ import { HOME_USE_CASE_CARDS } from '@/lib/homepage-section-data'
 
 import type { HomeUseCasesSection } from '@repo/content/schemas'
 
-const LAMBDA_TAG = /<lambdaPrize>(.*?)<\/lambdaPrize>/
-
-function renderLambdaPrizeText(value: string, href: string): ReactNode {
-  const match = value.match(LAMBDA_TAG)
-  if (!match) return value
-  const [full, inner] = match
-  const [before, after] = value.split(full)
+/** The line under the headline sends readers to the PriFi thesis. */
+function ThesisLink({ label }: { label: string }) {
   return (
-    <Fragment>
-      {before}
-      <Link
-        href={href}
-        className="cursor-pointer underline decoration-[1px] underline-offset-[3px] transition-opacity hover:opacity-70"
-      >
-        {inner}
-      </Link>
-      {after}
-    </Fragment>
+    <Link
+      href={ROUTES.prifi}
+      className="cursor-pointer underline decoration-[1px] underline-offset-[3px] transition-opacity hover:opacity-70"
+    >
+      {label}
+    </Link>
   )
 }
 
@@ -40,7 +29,7 @@ export default function UseCasesSection({
   return (
     <StackCard
       rise={180}
-      className="relative z-[4] -mt-[180px] rounded-t-[40px] bg-gray-01 text-brand-dark-green lg:rounded-t-[100px]"
+      className="relative z-[5] -mt-[180px] rounded-t-[40px] bg-white text-brand-dark-green lg:rounded-t-[100px]"
     >
       <div className="mx-auto max-w-[1440px] py-[82px] lg:px-3 lg:pt-[112px] lg:pb-[112px]">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center pb-[45px] text-center lg:gap-12 lg:pb-12">
@@ -49,8 +38,8 @@ export default function UseCasesSection({
               <p className="text-h4-sans whitespace-pre-line">
                 {data.headlineMobile}
               </p>
-              <p className="text-mono-s whitespace-pre-line">
-                {renderLambdaPrizeText(data.lambdaMobile, ROUTES.lambdaPrize)}
+              <p className="text-mono-s">
+                <ThesisLink label={data.thesisCta} />
               </p>
             </div>
             <p className="text-mono-s hidden w-full lg:block">{data.eyebrow}</p>
@@ -62,7 +51,7 @@ export default function UseCasesSection({
             {data.eyebrow}
           </SectionHeadingReveal>
           <p className="text-mono-s hidden w-full lg:block">
-            {renderLambdaPrizeText(data.lambda, ROUTES.lambdaPrize)}
+            <ThesisLink label={data.thesisCta} />
           </p>
         </div>
 
