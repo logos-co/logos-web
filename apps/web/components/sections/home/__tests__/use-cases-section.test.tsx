@@ -38,8 +38,8 @@ vi.mock('next/image', () => ({
     createElement('img', { src, alt }),
 }))
 
-vi.mock('next/link', () => ({
-  default: ({
+vi.mock('@/i18n/navigation', () => ({
+  Link: ({
     children,
     href,
     className,
@@ -47,7 +47,12 @@ vi.mock('next/link', () => ({
     children: ReactNode
     href: string
     className?: string
-  }) => createElement('a', { href, className }, children),
+  }) =>
+    createElement(
+      'a',
+      { href, className, 'data-locale-aware-link': true },
+      children
+    ),
 }))
 
 import UseCasesSection from '../use-cases-section'
@@ -83,5 +88,6 @@ describe('UseCasesSection', () => {
     // The anchor must carry the PriFi route (apps/web/constants/routes.ts).
     expect(html).toContain('href="/prifi"')
     expect(html).not.toContain('href="/lambda-prize"')
+    expect(html.match(/data-locale-aware-link="true"/g)).toHaveLength(2)
   })
 })

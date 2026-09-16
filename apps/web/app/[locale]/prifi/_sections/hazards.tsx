@@ -1,41 +1,50 @@
 import Image from 'next/image'
+import type { PrifiCopySection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 
-import { HAZARDS, PROTECTION } from '../_content'
 import { BODY_18, MONO_CELL, TRIM } from './atoms'
+
+type HazardsCopy = PrifiCopySection['hazards']
+type ProtectionCopy = PrifiCopySection['protection']
 
 /**
  * Figma fixes this frame at 1074px and centres its content, which puts the
  * first heading 100.5px down. The 12px table copy (10px in the file) runs the
  * content 10px taller, so the top padding is pinned and the bottom absorbs it.
  */
-export function Hazards() {
+export function Hazards({
+  hazards,
+  protection,
+}: {
+  hazards: HazardsCopy
+  protection: ProtectionCopy
+}) {
   return (
     <section className="bg-brand-off-white py-16 text-brand-dark-green lg:min-h-[1074px] lg:pt-[100.5px] lg:pb-[60px]">
       <ContentWidth className="flex flex-col gap-[60px]">
-        <HazardClasses />
+        <HazardClasses copy={hazards} />
         <hr className="border-black/25" />
-        <Protection />
-        <ProtectionMatrix />
+        <Protection copy={protection} />
+        <ProtectionMatrix copy={protection} />
       </ContentWidth>
     </section>
   )
 }
 
-function HazardClasses() {
+function HazardClasses({ copy }: { copy: HazardsCopy }) {
   return (
     // Figma fixes this block at 296px, a few px taller than its copy.
     <div className="lg:min-h-[296px]">
       <h2 className={`text-h3-serif lg:whitespace-pre-line ${TRIM}`}>
-        {HAZARDS.heading}
+        {copy.heading}
       </h2>
       {/* Each column is a subgrid over four shared rows, so the closing
           paragraphs line up whichever column runs longer. */}
       <div
         className={`mt-10 grid gap-10 lg:mt-[58px] lg:grid-cols-2 lg:grid-rows-[repeat(4,auto)] lg:gap-x-[138px] lg:gap-y-0 ${BODY_18}`}
       >
-        {HAZARDS.classes.map((hazard) => (
+        {copy.classes.map((hazard) => (
           <div
             key={hazard.name}
             className="flex flex-col lg:row-span-4 lg:grid lg:grid-rows-subgrid"
@@ -53,22 +62,20 @@ function HazardClasses() {
   )
 }
 
-function Protection() {
+function Protection({ copy }: { copy: ProtectionCopy }) {
   return (
     // Figma's row is 1415px wide, so the photo stops 1px short of the edge.
     <div className="flex flex-col gap-10 lg:mr-px lg:flex-row lg:justify-between">
       <div className="flex flex-col gap-10">
         <div className="flex flex-col gap-5">
           <h2 className={`text-h3-serif lg:whitespace-pre-line ${TRIM}`}>
-            {PROTECTION.heading}
+            {copy.heading}
           </h2>
-          <p className={`font-bold ${BODY_18}`}>{PROTECTION.lead}</p>
+          <p className={`font-bold ${BODY_18}`}>{copy.lead}</p>
         </div>
         <div className={BODY_18}>
-          <p>{PROTECTION.body[0]}</p>
-          <p className="mt-[1.2em] lg:whitespace-pre-line">
-            {PROTECTION.body[1]}
-          </p>
+          <p>{copy.body[0]}</p>
+          <p className="mt-[1.2em] lg:whitespace-pre-line">{copy.body[1]}</p>
         </div>
       </div>
       <div className="relative h-[232px] w-full shrink-0 overflow-hidden rounded-[20px] lg:w-[43%]">
@@ -84,8 +91,8 @@ function Protection() {
   )
 }
 
-function ProtectionMatrix() {
-  const { columns, rows } = PROTECTION.matrix
+function ProtectionMatrix({ copy }: { copy: ProtectionCopy }) {
+  const { columns, rows } = copy.matrix
 
   return (
     <div className="-mx-3 overflow-x-auto px-3">

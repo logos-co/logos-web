@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
+import homePage from '../../../../../../content/pages/en/home.json' with { type: 'json' }
+
 import { buildPageFixtureChange, type PageDocLike } from '../save-page-as-pr'
 
 const createPageDoc = (overrides: Partial<PageDocLike> = {}): PageDocLike => ({
@@ -49,5 +51,24 @@ describe('buildPageFixtureChange', () => {
         ),
       /page route mismatch/
     )
+  })
+
+  it('accepts the current Home page sections through the CMS workflow', () => {
+    const change = buildPageFixtureChange({
+      slug: 'home',
+      route: '/',
+      page: homePage,
+    })
+
+    assert.equal(change.path, 'content/pages/en/home.json')
+    assert.ok('content' in change)
+
+    const page = JSON.parse(String(change.content)) as {
+      sections: Array<{ componentType: string }>
+    }
+    const sectionTypes = page.sections.map(({ componentType }) => componentType)
+
+    assert.ok(sectionTypes.includes('homeUseCases'))
+    assert.ok(sectionTypes.includes('homePrifi'))
   })
 })

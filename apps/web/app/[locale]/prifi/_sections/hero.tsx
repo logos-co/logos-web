@@ -1,10 +1,12 @@
 import Image from 'next/image'
+import type { PrifiCopySection } from '@repo/content/schemas'
 
-import { HERO } from '../_content'
 import { CtaButton, TRIM } from './atoms'
 
-export function Hero() {
-  const [firstLine, secondLine] = HERO.heading
+type HeroCopy = PrifiCopySection['hero']
+
+export function Hero({ copy }: { copy: HeroCopy }) {
+  const [firstLine, secondLine] = copy.heading
 
   return (
     <section className="relative h-[800px] overflow-hidden bg-brand-dark-green text-brand-off-white">
@@ -32,7 +34,7 @@ export function Hero() {
             the CTAs sit 60px below the frame rather than below the text.
             Narrow screens wrap the copy onto more lines, so it hugs there. */}
         <div className={`text-body-sans w-full max-w-[462px] ${TRIM}`}>
-          {HERO.body.map((paragraph, index) => (
+          {copy.body.map((paragraph, index) => (
             <p
               key={paragraph}
               className={index === 0 ? undefined : 'mt-[1.2em]'}
@@ -43,17 +45,17 @@ export function Hero() {
         </div>
         <div className="flex flex-wrap justify-center gap-1">
           <CtaButton
-            href={HERO.primaryCta.href}
+            href={copy.primaryCta.href}
             className="cursor-pointer bg-brand-off-white text-brand-dark-green"
           >
-            {HERO.primaryCta.label}
+            {copy.primaryCta.label}
           </CtaButton>
           <CtaButton
-            href={HERO.secondaryCta.href}
+            href={copy.secondaryCta.href}
             variant="secondary"
             className="cursor-pointer border-brand-off-white/50 text-brand-off-white"
           >
-            {HERO.secondaryCta.label}
+            {copy.secondaryCta.label}
           </CtaButton>
         </div>
       </div>
