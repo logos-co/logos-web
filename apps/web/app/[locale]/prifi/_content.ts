@@ -41,7 +41,7 @@ export const HERO = {
   ],
   body: [
     'PriFi, or private finance, is a technical design philosophy: financial primitives deployed on privacy-preserving, peer-to-peer infrastructure, on hardware you control.',
-    'Strengthening commitments to reduce transaction costs by limiting what parties inside and out of transactions can monitor and manipulate.',
+    'Strengthening commitments to reduce transaction costs by limiting what an attacker can learn about a transaction and what they can manipulate.',
     'Purpose-built for privacy and security, not patches "bolted on" later.',
   ],
   primaryCta: { label: 'Read the PriFi thesis >>', href: LINKS.thesis },
@@ -53,7 +53,7 @@ export const HERO = {
 
 export const SUPPLY_CHAIN = {
   heading: 'The transaction supply chain',
-  lead: 'Settlement is just one of seven links in the chain.\u00a0Blockchain provides unprecedented settlement security. But transactions depend on infrastructure beyond settlement. Every exposed link creates another opportunity for surveillance or manipulation. Increased risk means increased transaction costs.',
+  lead: 'Settlement is just one of seven links in the chain.\u00a0Blockchain provides unprecedented settlement security. But transactions depend on infrastructure beyond settlement. Every exposed link creates another opportunity for privacy leaks or manipulation. Increased risk means increased transaction costs.',
   note: "PriFi protects participants from two directions: limiting what an attacker can learn and what they can influence. Leaks cost billions annually. Even small efficiency increases add up: a 0.1% drop in transaction costs can quadruple a nation's wealth.",
   factLabels: {
     exposes: 'What is exposed',
@@ -105,13 +105,13 @@ export const SUPPLY_CHAIN = {
           },
           {
             value: '$84M',
-            note: 'lost in address poisoning over 270M attempts.',
+            note: 'lost in address poisoning',
           },
         ],
         [
           {
-            value: '$700M+',
-            note: 'Equifax paid settlement for exposing 147M IDs.',
+            value: '$0.5B+',
+            note: 'settlement for exposing 147M IDs',
           },
         ],
       ],
@@ -138,7 +138,7 @@ export const SUPPLY_CHAIN = {
         [
           {
             value: '>50%',
-            note: 'of US equity volume trades off-exchange, leading to weaker price discovery and other inefficiencies.',
+            note: 'of US equity volume trades off-exchange',
           },
         ],
       ],
@@ -240,12 +240,12 @@ export const SUPPLY_CHAIN = {
       tools:
         'Browsers, wallets leaking IPs, globally linkable identity graphs via fingerprinting, onchain analytics.',
       threat:
-        'Blockchain finality makes transactions difficult to reverse, even if it was not the intended transaction. Recourse moves outside the protocol, where dispute resolution requires exposing everything.\n\nPolitical pressure on identifiable validators to censor transactions compromises blockchain sovereignty.',
+        'Blockchain finality makes transactions difficult to reverse, even if it was not the intended transaction. Recourse moves outside the protocol, where dispute resolution requires exposing everything.\n\nExternal pressure on identifiable validators to censor transactions compromises blockchain sovereignty.',
       stats: [
         [
           {
-            value: '~75%',
-            note: 'of Ethereum validators censored blocks following OFAC sanctions at 2022 peak, still ~29% in June 2026',
+            value: '$4.2B',
+            note: 'frozen post-settlement with selective enforcement',
           },
         ],
         [
@@ -269,7 +269,7 @@ export const EXPLOIT_BAND = {
     'Each exposed link is an opportunity for exploitation.',
     'Secure one link and the attacker moves to the next.',
   ],
-  conclusion: 'PriFi secures the whole supply chain.',
+  conclusion: 'PriFi aims to protect the whole transaction supply chain.',
 } as const
 
 export const HAZARDS = {
@@ -285,22 +285,22 @@ export const HAZARDS = {
     {
       name: 'THE OUTSIDER',
       who: 'Everyone outside of the deal',
-      risk: 'Thieves and extortionists can target your holdings and what you can pay. Frontrunners and competitors can exploit your positions and intentions. The state can see it all.',
+      risk: 'Thieves and extortionists can target your holdings and what you can pay. Frontrunners and competitors can exploit your positions and intentions.',
       bound:
-        'Outsiders are not party to the transaction. They signed nothing and cannot be bound by its terms, only denied of exploitable information.',
+        'Outsiders are not party to the transaction. They signed nothing and cannot be bound by its terms, only denied exploitable information.',
     },
   ],
 } as const
 
 export const PROTECTION = {
-  heading: 'Two forms of protection: Security and secrecy',
+  heading: 'Two forms of protection: Security and privacy',
   lead: 'The two hazard classes require different defences.',
   body: [
     'Security binds, making defection difficult or costly.',
-    'Secrecy starves, denying information needed to identify, target, or exploit a transaction.',
+    'Privacy starves, denying information needed to identify, target, or exploit a transaction.',
   ],
   matrix: {
-    columns: ['Security – constrains action', 'Secrecy – denies information'],
+    columns: ['Security – constrains action', 'Privacy – denies information'],
     rows: [
       {
         hazard: 'Counterparty',
@@ -348,7 +348,7 @@ const CREDIBILITY_BODY = [
 ] as const
 
 const CREDIBILITY_NOTE =
-  'Swiss commitment to banking secrecy fell in 2008 after the US squeezed an identifiable banker.\n\nEthereum operators are just as identifiable: ~75% of blocks delivered by OFAC-compliant validators filtered out sanctioned transactions.'
+  '$4.2B frozen post-settlement with selective enforcement'
 
 export const CREDIBILITY = [
   {
@@ -370,11 +370,11 @@ export const CREDIBILITY = [
 
 export const IMPERATIVE_COMMITMENTS = {
   heading: 'Imperative commitments reduce the cost of transacting',
-  body: 'When participants have structural assurances, rather trust alone, risk mitigation costs fall. Lower transaction costs enable new market activity.',
+  body: 'When participants have structural assurances, rather than trust alone, risk mitigation costs fall. Lower transaction costs enable new market activity.',
 } as const
 
 export const LOGOS_STACK = {
-  heading: 'Logos secures the full transaction supply chain',
+  heading: 'Logos protects the full transaction supply chain',
   body: 'A complete, unified stack providing unprecedented imperative credibility at every link.',
   /** Screen-reader column headers; the design shows the table without them. */
   columns: ['Component', 'What it does', 'Links it covers'],
@@ -382,32 +382,32 @@ export const LOGOS_STACK = {
     {
       component: 'Basecamp',
       role: 'A self-contained desktop application that bundles everything you need to interact with the Logos stack. A UI running locally on user-controlled hardware.',
-      covers: 'Shields discovery and diligence',
+      covers: 'Protects discovery and diligence',
     },
     {
       component: 'Logos Messaging',
       role: 'Anonymous communication and coordination. Stops intentions leaking before terms exist.',
-      covers: 'Shields discovery, diligence, and negotiation',
+      covers: 'Protects discovery, diligence, and negotiation',
     },
     {
       component: 'Logos Storage',
       role: 'Decentralised content-addressed storage commits a content hash to the exact file or interface being retrieved: alter the content, and the hash changes. Instead of trusting a server, the integrity of what you load can be verified independently.',
-      covers: 'Shields contracting',
+      covers: 'Protects contracting',
     },
     {
       component: 'Logos Blockchain (Blend)',
       role: 'Consensus-aware private propagation obscures where transactions and block proposals originate, disrupting ordering observation and exploitation.',
-      covers: 'Shields ordering',
+      covers: 'Protects ordering',
     },
     {
       component: 'Logos Blockchain (Cryptarchia)',
       role: 'Private PoS keeps those securing settlement from becoming targets for bribery, coercion, or censorship.',
-      covers: 'Shields settlement',
+      covers: 'Protects settlement',
     },
     {
       component: 'Logos Blockchain (Zones)',
       role: 'Programmable privacy makes disclosure selective. Participants can prove what is needed for compliance or dispute resolution without exposing entire transaction histories.',
-      covers: 'Shields enforcement',
+      covers: 'Protects enforcement',
     },
   ],
 } as const
@@ -415,7 +415,7 @@ export const LOGOS_STACK = {
 export const INSTITUTIONS = {
   heading: 'What institutions sold to a few, PriFi makes structural.',
   body: [
-    'Security and secrecy have historically been expensive institutional services available through trusted intermediaries and favourable jurisdictions. PriFi extends access to anyone with an online device.',
+    'Security and privacy have historically been expensive institutional services available through trusted intermediaries and favourable jurisdictions. PriFi extends access to anyone with an online device.',
     'Logos infrastructure elevates institutional commitments from strong motivational to structurally imperative to provide even greater protections than those that were previously reserved only for the ultra wealthy.',
   ],
 } as const
