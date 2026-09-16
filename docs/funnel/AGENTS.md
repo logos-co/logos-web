@@ -4,7 +4,7 @@ Target audience: AI agents reading this codebase.
 
 ## What this is
 
-Three public funnel forms (Coalition Partner, Activist Builder, Activist Leader / Steward) post to a single API endpoint on `apps/civi-crm`. They write to Notion, plus the n8n/Baserow webhook for the steward form.
+Three public funnel forms (Coalition Partner, Activist Builder, Activist Leader / Steward) post to a single API endpoint on `apps/api`. They write to Notion, plus the n8n/Baserow webhook for the steward form.
 
 **`/connect` is now `/contact`, and its form content was removed because it is no longer used.** The route at `apps/web/app/[locale]/contact/page.tsx` now redirects to the home page. Its `afformCircleContactForm` `formName` is no longer accepted by the endpoint: it only ever wrote to CiviCRM, which is gone (logos-web#123).
 
@@ -17,7 +17,7 @@ apps/web (static)
   └── connect-form-section.tsx
         │  POST { formName, captchaToken, ...formFields }
         ▼
-apps/civi-crm
+apps/api
   POST /api/public/afform-submit
   ├── 1. validate body and formName (must be one of the three allowed values)
   ├── 2. require a known `hearAbout` option id
@@ -28,6 +28,8 @@ apps/civi-crm
 ```
 
 The reason the writes share one handler: hCaptcha tokens are single-use. One POST, one token, the backend writes in sequence.
+
+Transitional: `apps/web` still posts to `apps/civi-crm`, a frozen copy of the same endpoint, until its `NEXT_PUBLIC_CIVI_CRM_URL` is switched to the `apps/api` deployment. Code changes go to `apps/api` only.
 
 After that POST resolves successfully, `apps/web` fires the newsletter opt-ins on its own (see below). They are not part of the `afform-submit` request.
 
@@ -77,9 +79,9 @@ Three constraints shape it:
 
 | Path | Role |
 | --- | --- |
-| `apps/civi-crm/src/app/api/public/afform-submit/route.ts` | Orchestrator: validation, captcha, calls the destination libs |
-| `apps/civi-crm/src/lib/intake-submit-flags.ts` | Reads the `FUNNEL_INTAKE_NOTION_DISABLED` env flag |
-| `apps/civi-crm/src/lib/notion/maps.ts` | `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT`; re-exports `SKILLS_MAP` / `CHAT_SERVICE_MAP` / `COUNTRY_MAP` / `HEAR_ABOUT_MAP` / `HEAR_ABOUT_QUESTION` from `@repo/funnel` |
+| `apps/api/src/app/api/public/afform-submit/route.ts` | Orchestrator: validation, captcha, calls the destination libs |
+| `apps/api/src/lib/intake-submit-flags.ts` | Reads the `FUNNEL_INTAKE_NOTION_DISABLED` env flag |
+| `apps/api/src/lib/notion/maps.ts` | `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT`; re-exports `SKILLS_MAP` / `CHAT_SERVICE_MAP` / `COUNTRY_MAP` / `HEAR_ABOUT_MAP` / `HEAR_ABOUT_QUESTION` from `@repo/funnel` |
 | `packages/funnel/src/index.ts` | `@repo/funnel` -- single source of truth for the "How did you first hear about Logos?" question, options, and id → label map, and for `PROFILE_BY_FORM_NAME` / `getProfileForForm` |
 | `packages/funnel/src/form-options.ts` | `SKILLS_OPTIONS` / `CHAT_SERVICE_OPTIONS` / `COUNTRY_OPTIONS` -- the dropdown options the three forms share, and the `*_MAP` id → label maps derived from them (logos-web#140) |
 | `packages/funnel/src/required-fields.ts` | `REQUIRED_FIELDS_BY_FORM` / `findInvalidRequiredFields` -- single source of truth for which answers each form requires; read by both the `apps/web` schema and the endpoint |
@@ -89,11 +91,11 @@ Three constraints shape it:
 | `apps/web/lib/funnel-forms/types.ts` | `AfformField` / `AfformConfig` / `AfformOptions` shapes those files satisfy |
 | `apps/web/lib/funnel-forms/contactFormSchema.ts` | Builds the zod schema from the form definition and the required list it is given |
 | `apps/web/lib/funnel-forms/hear-about-field.ts` | "How did you first hear about Logos?" field def + `withHearAboutField` injector used by the three form pages |
-| `apps/civi-crm/src/lib/notion/build-notion-properties.ts` | `buildNotionProperties` |
-| `apps/civi-crm/src/lib/notion/submit.ts` | `submitToNotion` -- resolves the data source, builds properties, POSTs page |
-| `apps/civi-crm/src/lib/n8n/build-payload.ts` | `buildN8nPayload` -- merges id-based answers with their labels |
-| `apps/civi-crm/src/lib/n8n/submit.ts` | `submitToN8n` -- steward webhook POST |
-| `apps/civi-crm/src/lib/notion/__tests__/build-notion-properties.test.ts` | Property mapping unit tests |
+| `apps/api/src/lib/notion/build-notion-properties.ts` | `buildNotionProperties` |
+| `apps/api/src/lib/notion/submit.ts` | `submitToNotion` -- resolves the data source, builds properties, POSTs page |
+| `apps/api/src/lib/n8n/build-payload.ts` | `buildN8nPayload` -- merges id-based answers with their labels |
+| `apps/api/src/lib/n8n/submit.ts` | `submitToN8n` -- steward webhook POST |
+| `apps/api/src/lib/notion/__tests__/build-notion-properties.test.ts` | Property mapping unit tests |
 
 The Notion and n8n libs are independent apart from the shared id → label maps. Removing one means deleting its folder and one call site in the orchestrator.
 
@@ -318,13 +320,13 @@ message namespace.
 ## Testing
 
 ```bash
-pnpm --filter civi-crm test
+pnpm --filter api test
 pnpm --filter web test
 ```
 
-Notion property mapping: `apps/civi-crm/src/lib/notion/__tests__/build-notion-properties.test.ts`
-n8n payload building: `apps/civi-crm/src/lib/n8n/__tests__/build-payload.test.ts`
-Endpoint behaviour: `apps/civi-crm/src/app/api/public/afform-submit/__tests__/route.test.ts`
+Notion property mapping: `apps/api/src/lib/notion/__tests__/build-notion-properties.test.ts`
+n8n payload building: `apps/api/src/lib/n8n/__tests__/build-payload.test.ts`
+Endpoint behaviour: `apps/api/src/app/api/public/afform-submit/__tests__/route.test.ts`
 Endpoint agrees with the form schema: `apps/web/lib/funnel-forms/__tests__/required-fields-parity.test.ts`
 Newsletter opt-ins: `apps/web/lib/__tests__/funnel-newsletter-signup.test.ts`
 Subscribe payload: `apps/web/lib/__tests__/newsletter-signup.test.ts`
