@@ -3,8 +3,10 @@ import { join } from 'node:path'
 import { createElement, type ReactNode } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, test, vi } from 'vitest'
+import { prifiCopySectionSchema } from '@repo/content/schemas'
 
 import { ROUTES } from '@/constants/routes'
+import prifiPage from '../../../../../../content/pages/en/prifi.json' with { type: 'json' }
 
 vi.mock('@/i18n/navigation', () => ({
   Link: ({
@@ -19,22 +21,21 @@ vi.mock('@/i18n/navigation', () => ({
     createElement('a', { href, className, 'data-intl-link': true }, children),
 }))
 
-import {
-  CREDIBILITY,
-  DEEPER_DIVES,
-  EXPLOIT_BAND,
-  HAZARDS,
-  HERO,
-  INSTITUTIONS,
-  LINKS,
-  LOGOS_STACK,
-  PROTECTION,
-  SEO,
-  SUPPLY_CHAIN,
-  SUPPLY_CHAIN_ID,
-  TRANSPARENCY,
-} from '../_content'
 import PriFiPage, { generateMetadata } from '../page'
+
+const COPY = prifiCopySectionSchema.parse(prifiPage.sections[0])
+const {
+  credibility: CREDIBILITY,
+  deeperDives: DEEPER_DIVES,
+  exploitBand: EXPLOIT_BAND,
+  hazards: HAZARDS,
+  hero: HERO,
+  institutions: INSTITUTIONS,
+  logosStack: LOGOS_STACK,
+  protection: PROTECTION,
+  supplyChain: SUPPLY_CHAIN,
+  transparency: TRANSPARENCY,
+} = COPY
 
 /** React escapes special text characters, so expectations have to as well. */
 const asMarkup = (text: string): string =>
@@ -63,11 +64,11 @@ describe('prifi page contract', () => {
     })
 
     expect(String(metadata.alternates?.canonical)).toMatch(/\/prifi$/)
-    expect(metadata.title).toBe(SEO.title)
-    expect(metadata.description).toBe(SEO.description)
+    expect(metadata.title).toBe(prifiPage.title)
+    expect(metadata.description).toBe(prifiPage.description)
     // Social cards repeat them rather than falling back to the site defaults.
-    expect(metadata.openGraph?.title).toBe(SEO.title)
-    expect(metadata.twitter?.description).toBe(SEO.description)
+    expect(metadata.openGraph?.title).toBe(prifiPage.title)
+    expect(metadata.twitter?.description).toBe(prifiPage.description)
   })
 
   test('every image the page ships exists under public/', async () => {
@@ -128,9 +129,9 @@ describe('prifi page render', () => {
   test('the supply chain CTA scrolls to the supply chain section', async () => {
     const html = await pageHtml()
 
-    expect(LINKS.supplyChain).toBe(`#${SUPPLY_CHAIN_ID}`)
-    expect(html).toContain(`id="${SUPPLY_CHAIN_ID}"`)
-    expect(html).toContain(`href="#${SUPPLY_CHAIN_ID}"`)
+    expect(HERO.secondaryCta.href).toBe('#transaction-supply-chain')
+    expect(html).toContain('id="transaction-supply-chain"')
+    expect(html).toContain('href="#transaction-supply-chain"')
   })
 
   test('includes the source copy on increased risk and transaction costs', () => {
@@ -168,8 +169,8 @@ describe('prifi page render', () => {
     const articleUrl =
       'https://blog.logos.co/article/pri-fi-securing-transaction-supply-chain'
 
-    expect(LINKS.thesis).toBe(articleUrl)
-    expect(LINKS.theoryPaper).toBe(articleUrl)
+    expect(HERO.primaryCta.href).toBe(articleUrl)
+    expect(DEEPER_DIVES.cards[0].href).toBe(articleUrl)
     expect(html.split(`href="${articleUrl}"`).length - 1).toBe(2)
     expect(DEEPER_DIVES.cards.map((card) => card.title)).toEqual(['Theory'])
   })
@@ -215,6 +216,15 @@ describe('prifi page render', () => {
     }
     // The panel starts on Discovery's facts.
     expect(html).toContain(asMarkup(SUPPLY_CHAIN.links[0].exposes))
+  })
+
+  test('mounts only the active supply chain diagram initially', async () => {
+    const html = await pageHtml()
+    const mountedDiagrams = SUPPLY_CHAIN.links.filter((link) =>
+      html.includes(`alt="${asMarkup(link.graph.alt)}"`)
+    )
+
+    expect(mountedDiagrams).toEqual([SUPPLY_CHAIN.links[0]])
   })
 
   test('below 1024px lists every supply chain link as a closed accordion row', async () => {

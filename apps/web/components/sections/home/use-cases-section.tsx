@@ -1,10 +1,10 @@
 import Image from 'next/image'
-import Link from 'next/link'
 
 import { SectionHeadingReveal } from '@/components/motion/section-heading-reveal'
 import { StackCard } from '@/components/motion/stack-card'
 import { DragScroll } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
+import { Link } from '@/i18n/navigation'
 import { HOME_USE_CASE_CARDS } from '@/lib/homepage-section-data'
 
 import type { HomeUseCasesSection } from '@repo/content/schemas'

@@ -1,27 +1,40 @@
 import Image from 'next/image'
+import type { PrifiCopySection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 
-import { CREDIBILITY, IMPERATIVE_COMMITMENTS, TRANSPARENCY } from '../_content'
 import { TRIM } from './atoms'
+
+type TransparencyCopy = PrifiCopySection['transparency']
+type CredibilityCopy = PrifiCopySection['credibility']
+type CredibilityCardCopy = CredibilityCopy[number]
+type ImperativeCommitmentsCopy = PrifiCopySection['imperativeCommitments']
 
 /**
  * Figma splits this into two frames — the heading row (226px) and the cards
  * (470px) — but the cards are the two answers to the heading, so they share
  * one section and sit under its h2.
  */
-export function Credibility() {
+export function Credibility({
+  transparency,
+  credibility,
+  imperativeCommitments,
+}: {
+  transparency: TransparencyCopy
+  credibility: CredibilityCopy
+  imperativeCommitments: ImperativeCommitmentsCopy
+}) {
   return (
     <section className="bg-gray-01 pt-16 pb-16 text-brand-dark-green lg:pt-[120px] lg:pb-[120px]">
       <ContentWidth>
         <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
           <h2 className={`text-h3-serif lg:w-[43.64%] ${TRIM}`}>
-            {TRANSPARENCY.heading}
+            {transparency.heading}
           </h2>
           <div className="flex flex-col gap-6 lg:w-[50.42%]">
             <div className="h-px bg-brand-dark-green/10" />
             <p className="text-mono-s whitespace-pre-line text-black">
-              {TRANSPARENCY.body}
+              {transparency.body}
             </p>
             <div className="h-px bg-brand-dark-green/10" />
           </div>
@@ -30,16 +43,16 @@ export function Credibility() {
           less the 5.2px the 12px note adds (10px in the file), so the cards
           keep Figma's position. */}
         <div className="mt-11 flex flex-col gap-3 lg:mt-[36.8px] lg:flex-row">
-          {CREDIBILITY.map((card) => (
+          {credibility.map((card) => (
             <CredibilityCard key={card.title} card={card} />
           ))}
         </div>
         <div className="mt-16 max-w-[818px]">
           <h2 className={`text-h3-serif ${TRIM}`}>
-            {IMPERATIVE_COMMITMENTS.heading}
+            {imperativeCommitments.heading}
           </h2>
           <p className="mt-6 text-[18px] leading-[1.4]">
-            {IMPERATIVE_COMMITMENTS.body}
+            {imperativeCommitments.body}
           </p>
         </div>
       </ContentWidth>
@@ -51,7 +64,7 @@ export function Credibility() {
  * The two card photos are already blurred in Figma; the crops here are the
  * part of each fill the card shows.
  */
-function CredibilityCard({ card }: { card: (typeof CREDIBILITY)[number] }) {
+function CredibilityCard({ card }: { card: CredibilityCardCopy }) {
   return (
     <article className="relative flex min-h-[338px] flex-1 flex-col items-center justify-center gap-[34px] overflow-hidden rounded-[20px] py-12 text-center text-white lg:h-[338px] lg:py-0">
       <Image

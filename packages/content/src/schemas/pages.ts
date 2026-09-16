@@ -38,6 +38,7 @@ import {
   researchCopySectionSchema,
   roadmapCopySectionSchema,
 } from './pages/page-copy-sections'
+import { prifiCopySectionSchema } from './pages/prifi'
 import { sectionKeySchema } from './pages/shared'
 export type {
   HomeAboutSection,
@@ -77,6 +78,7 @@ export type {
   ResearchCopySection,
   RoadmapCopySection,
 } from './pages/page-copy-sections'
+export type { PrifiCopySection } from './pages/prifi'
 export {
   activistBuilderCopySectionSchema,
   activistLeaderStewardCopySectionSchema,
@@ -95,6 +97,7 @@ export {
   researchCopySectionSchema,
   roadmapCopySectionSchema,
 } from './pages/page-copy-sections'
+export { prifiCopySectionSchema } from './pages/prifi'
 
 /**
  * Internal-only route path. Pages are statically rendered under `/[locale]`,
@@ -455,6 +458,7 @@ export const pageSectionSchema = z.discriminatedUnion('componentType', [
   manifestoCopySectionSchema,
   mediaCopySectionSchema,
   podcastCopySectionSchema,
+  prifiCopySectionSchema,
   broadcastCopySectionSchema,
   activistBuilderCopySectionSchema,
   activistLeaderStewardCopySectionSchema,

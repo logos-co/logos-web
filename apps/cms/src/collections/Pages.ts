@@ -52,6 +52,9 @@ export const Pages: CollectionConfig = {
       name: 'page',
       type: 'json',
       required: true,
+      // Sections stay in one JSON document. The save workflow validates the
+      // complete value with pageCopySchema, so section additions do not need
+      // parallel Payload block definitions.
       admin: {
         description: 'Must match @repo/content pageCopySchema exactly.',
       },

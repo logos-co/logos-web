@@ -1,19 +1,21 @@
 import ContentWidth from '@/components/layout/content-width'
+import type { PrifiCopySection } from '@repo/content/schemas'
 
-import { DEEPER_DIVES } from '../_content'
 import { CtaButton, TRIM } from './atoms'
+
+type DeeperDivesCopy = PrifiCopySection['deeperDives']
 
 /**
  * Figma fixes this frame at 596px with 24px above and 100px below, and
  * centres the content in what is left.
  */
-export function DeeperDives() {
+export function DeeperDives({ copy }: { copy: DeeperDivesCopy }) {
   return (
     <section className="flex flex-col border-t border-brand-dark-green/10 bg-gray-01 py-16 text-brand-dark-green lg:min-h-[596px] lg:justify-center lg:pt-6 lg:pb-[100px]">
       <ContentWidth className="flex w-full flex-col gap-10">
-        <h2 className="text-h4-sans">{DEEPER_DIVES.heading}</h2>
+        <h2 className="text-h4-sans">{copy.heading}</h2>
         <div className="flex flex-col gap-3 lg:flex-row">
-          {DEEPER_DIVES.cards.map((card) => (
+          {copy.cards.map((card) => (
             <article
               key={card.title}
               className="flex min-h-[250px] min-w-0 flex-1 flex-col items-start justify-between gap-10 overflow-clip rounded-xl bg-gray-02 p-4 lg:max-w-[calc((100%_-_24px)/3)]"

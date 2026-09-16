@@ -2,18 +2,17 @@
 
 import Image from 'next/image'
 import { useId, useRef, useState, type KeyboardEvent } from 'react'
+import type { PrifiCopySection } from '@repo/content/schemas'
 
 import CivilSocietyAccordion, {
   type AccordionClassNames,
 } from '@/components/sections/home/civil-society-accordion'
 import { DragScroll } from '@/components/ui'
 
-import { SUPPLY_CHAIN } from '../_content'
 import { TRIM } from './atoms'
 
-type ChainLink = (typeof SUPPLY_CHAIN.links)[number]
-
-const LINKS = SUPPLY_CHAIN.links
+type SupplyChainCopy = PrifiCopySection['supplyChain']
+type ChainLink = SupplyChainCopy['links'][number]
 
 /**
  * Below 1440px the link cards and the graph scroll sideways. The scrollbar is
@@ -23,17 +22,13 @@ const LINKS = SUPPLY_CHAIN.links
 const SIDE_SCROLL =
   '-mx-3 cursor-pointer overflow-x-auto px-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden desktop:mx-0 desktop:cursor-auto desktop:overflow-visible desktop:px-0'
 
-/** Each distinct diagram once, so every one is loaded before it is shown. */
-const GRAPHS = [
-  ...new Map(LINKS.map((link) => [link.graph.src, link.graph])).values(),
-]
-
-const KEY_STEPS: Record<string, (index: number) => number> = {
-  ArrowRight: (index) => (index + 1) % LINKS.length,
-  ArrowLeft: (index) => (index - 1 + LINKS.length) % LINKS.length,
-  Home: () => 0,
-  End: () => LINKS.length - 1,
-}
+const KEY_STEPS: Record<string, (index: number, linkCount: number) => number> =
+  {
+    ArrowRight: (index, linkCount) => (index + 1) % linkCount,
+    ArrowLeft: (index, linkCount) => (index - 1 + linkCount) % linkCount,
+    Home: () => 0,
+    End: (_index, linkCount) => linkCount - 1,
+  }
 
 /** Figma sets the card copy on two lines; one line reads better in a row. */
 const oneLine = (text: string) => text.replace(/\s*\n\s*/g, ' ')
@@ -45,11 +40,11 @@ const oneLine = (text: string) => text.replace(/\s*\n\s*/g, ' ')
  * is hard to follow on a phone, so the links become the homepage's dropdown
  * accordion instead: every link is listed, closed, and opens in place.
  */
-export function ChainExplorer() {
+export function ChainExplorer({ copy }: { copy: SupplyChainCopy }) {
   return (
     <>
-      <ChainAccordion />
-      <ChainTabs />
+      <ChainAccordion copy={copy} />
+      <ChainTabs copy={copy} />
     </>
   )
 }
@@ -70,16 +65,16 @@ const ACCORDION_CLASS_NAMES: AccordionClassNames = {
   body: 'flex flex-col gap-10 text-white',
 }
 
-function ChainAccordion() {
+function ChainAccordion({ copy }: { copy: SupplyChainCopy }) {
   return (
     <div data-chain-layout="accordion" className="mt-[120px] lg:hidden">
       <CivilSocietyAccordion
-        items={LINKS.map((link) => ({
+        items={copy.links.map((link) => ({
           key: link.label,
           title: link.label,
           subtitle: oneLine(link.body),
           eventName: `Supply chain - ${link.label}`,
-          content: <LinkDetails link={link} />,
+          content: <LinkDetails copy={copy} link={link} />,
         }))}
         classNames={ACCORDION_CLASS_NAMES}
         initialOpenKey={null}
@@ -89,31 +84,38 @@ function ChainAccordion() {
 }
 
 /** One link's facts, costs and diagram, opened inside its accordion row. */
-function LinkDetails({ link }: { link: ChainLink }) {
+function LinkDetails({
+  copy,
+  link,
+}: {
+  copy: SupplyChainCopy
+  link: ChainLink
+}) {
   return (
     <>
       {/* Phones hide the row's subtitle, so it leads the panel instead. */}
       <p className="font-mono text-xs leading-[1.3] font-semibold uppercase sm:hidden">
         {oneLine(link.body)}
       </p>
-      <Facts link={link} />
-      <Stats link={link} fluid />
+      <Facts factLabels={copy.factLabels} link={link} />
+      <Stats statLabels={copy.statLabels} link={link} fluid />
       <Graph link={link} />
     </>
   )
 }
 
-function ChainTabs() {
+function ChainTabs({ copy }: { copy: SupplyChainCopy }) {
+  const { links } = copy
   const [active, setActive] = useState(0)
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
   const id = useId()
-  const link = LINKS[active]!
+  const link = links[active]!
 
   const onKeyDown = (event: KeyboardEvent, index: number) => {
     const step = KEY_STEPS[event.key]
     if (!step) return
     event.preventDefault()
-    const next = step(index)
+    const next = step(index, links.length)
     setActive(next)
     tabs.current[next]?.focus()
   }
@@ -123,10 +125,10 @@ function ChainTabs() {
       <DragScroll className={`relative mt-[176px] ${SIDE_SCROLL}`}>
         <div
           role="tablist"
-          aria-label="The links of the transaction supply chain"
+          aria-label={copy.tabListLabel}
           className="flex w-max gap-3 desktop:w-full desktop:justify-between desktop:gap-0"
         >
-          {LINKS.map((item, index) => {
+          {links.map((item, index) => {
             const isActive = index === active
             return (
               <button
@@ -172,8 +174,8 @@ function ChainTabs() {
             link.graph.tall ? 'desktop:h-[442px]' : 'desktop:h-[409px]'
           }`}
         >
-          <Facts link={link} />
-          <Stats link={link} />
+          <Facts factLabels={copy.factLabels} link={link} />
+          <Stats statLabels={copy.statLabels} link={link} />
         </div>
         <Graph link={link} />
       </div>
@@ -181,8 +183,13 @@ function ChainTabs() {
   )
 }
 
-function Facts({ link }: { link: ChainLink }) {
-  const { factLabels } = SUPPLY_CHAIN
+function Facts({
+  factLabels,
+  link,
+}: {
+  factLabels: SupplyChainCopy['factLabels']
+  link: ChainLink
+}) {
   const rows = [
     [factLabels.exposes, link.exposes],
     [factLabels.tools, link.tools],
@@ -209,9 +216,11 @@ function Facts({ link }: { link: ChainLink }) {
  */
 function Stats({
   link,
+  statLabels,
   fluid = false,
 }: {
   link: ChainLink
+  statLabels: SupplyChainCopy['statLabels']
   /** Share the row's width instead of Figma's fixed 291px cards. */
   fluid?: boolean
 }) {
@@ -219,7 +228,7 @@ function Stats({
     <div className="flex flex-col gap-3 sm:flex-row sm:gap-[17px]">
       {link.stats.map((entries, index) => (
         <div
-          key={SUPPLY_CHAIN.statLabels[index]}
+          key={statLabels[index]}
           className={`flex min-h-[131px] w-full flex-col rounded-[5px] bg-[#404040] px-5 py-2.5 leading-[1.35] uppercase ${
             fluid ? 'sm:w-auto sm:flex-1' : 'sm:w-[291px]'
           } ${entries.length > 1 ? 'gap-2.5' : 'justify-between'} ${
@@ -227,7 +236,7 @@ function Stats({
           }`}
         >
           <p className="font-mono text-xs leading-[1.35] font-semibold">
-            {SUPPLY_CHAIN.statLabels[index]}
+            {statLabels[index]}
           </p>
           {entries.length > 1 ? (
             entries.map((entry) => (
@@ -257,9 +266,9 @@ function Stats({
 }
 
 /**
- * Every diagram stays mounted and only the active one is shown, so hovering
- * across the cards swaps them without waiting for a download. On phones the
- * diagram keeps a legible size and scrolls sideways instead.
+ * Only the active diagram is mounted so the page does not download all seven
+ * full-width images up front. On phones the diagram keeps a legible size and
+ * scrolls sideways instead.
  */
 function Graph({ link }: { link: ChainLink }) {
   return (
@@ -271,20 +280,15 @@ function Graph({ link }: { link: ChainLink }) {
             : 'aspect-[803/409] desktop:aspect-auto desktop:h-[409px]'
         }`}
       >
-        {GRAPHS.map((graph) => {
-          const isShown = graph.src === link.graph.src
-          return (
-            <Image
-              key={graph.src}
-              src={graph.src}
-              alt={isShown ? link.graph.alt : ''}
-              aria-hidden={!isShown}
-              fill
-              sizes="(min-width: 1440px) 803px, 100vw"
-              className={`object-cover object-top ${isShown ? 'opacity-100' : 'opacity-0'}`}
-            />
-          )
-        })}
+        <Image
+          key={link.graph.src}
+          src={link.graph.src}
+          alt={link.graph.alt}
+          fill
+          loading="lazy"
+          sizes="(min-width: 1440px) 803px, 100vw"
+          className="object-cover object-top"
+        />
       </div>
     </DragScroll>
   )

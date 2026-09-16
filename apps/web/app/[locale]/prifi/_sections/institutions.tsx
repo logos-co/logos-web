@@ -1,9 +1,11 @@
 import Image from 'next/image'
+import type { PrifiCopySection } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
 
-import { INSTITUTIONS } from '../_content'
 import { BODY_18, TRIM } from './atoms'
+
+type InstitutionsCopy = PrifiCopySection['institutions']
 
 /** Figma's off-white fade down from the top of the photo. */
 const TOP_FADE =
@@ -17,7 +19,7 @@ const CORNER_FADE =
  * On desktop the copy sits on the photo, as in Figma. Narrow screens have no
  * room for that without covering the climber, so the photo drops below.
  */
-export function Institutions() {
+export function Institutions({ copy }: { copy: InstitutionsCopy }) {
   return (
     <section className="relative isolate flex flex-col overflow-hidden bg-brand-off-white text-brand-dark-green lg:h-[672px] lg:justify-center lg:py-[60px]">
       <div className="relative order-last aspect-[4/3] w-full md:aspect-[2/1] lg:absolute lg:inset-0 lg:-z-10 lg:aspect-auto">
@@ -41,10 +43,10 @@ export function Institutions() {
       </div>
       <ContentWidth className="w-full">
         <div className="flex max-w-[818px] flex-col gap-6 pt-16 pb-6 lg:p-0">
-          <h2 className={`text-h3-serif ${TRIM}`}>{INSTITUTIONS.heading}</h2>
+          <h2 className={`text-h3-serif ${TRIM}`}>{copy.heading}</h2>
           <div className={BODY_18}>
-            <p>{INSTITUTIONS.body[0]}</p>
-            <p className="mt-[1.2em]">{INSTITUTIONS.body[1]}</p>
+            <p>{copy.body[0]}</p>
+            <p className="mt-[1.2em]">{copy.body[1]}</p>
           </div>
         </div>
       </ContentWidth>
