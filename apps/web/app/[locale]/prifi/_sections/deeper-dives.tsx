@@ -16,7 +16,7 @@ export function DeeperDives() {
           {DEEPER_DIVES.cards.map((card) => (
             <article
               key={card.title}
-              className="flex min-h-[250px] min-w-0 flex-1 flex-col items-start justify-between gap-10 overflow-clip rounded-xl bg-gray-02 p-4"
+              className="flex min-h-[250px] min-w-0 flex-1 flex-col items-start justify-between gap-10 overflow-clip rounded-xl bg-gray-02 p-4 lg:max-w-[calc((100%_-_24px)/3)]"
             >
               <div className="flex flex-col gap-6">
                 <h3 className="text-h4-sans">{card.title}</h3>
