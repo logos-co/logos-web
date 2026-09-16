@@ -7,8 +7,6 @@
  * and collapses to a space on narrower screens. `\u00a0` is a non-breaking
  * space Figma uses to steer a wrap.
  */
-import { ROUTES } from '@/constants/routes'
-
 /** Page title and meta description, supplied by the team. */
 export const SEO = {
   title: 'PriFi: Securing the Entire Transaction Supply Chain | Logos',
@@ -18,20 +16,13 @@ export const SEO = {
 
 export const SUPPLY_CHAIN_ID = 'transaction-supply-chain'
 
-/** A CTA destination that has not been decided yet. */
-type PendingHref = string | null
+const PRIFI_BLOG_URL =
+  'https://blog.logos.co/article/pri-fi-securing-transaction-supply-chain'
 
-/**
- * The thesis and the Theory paper have no URL yet. Until one is set here, their
- * CTAs render as plain buttons, so a click keeps the reader on this page. The
- * Messaging and Storage papers point at those tech stack pages.
- */
 export const LINKS = {
-  thesis: null as PendingHref,
+  thesis: PRIFI_BLOG_URL,
   supplyChain: `#${SUPPLY_CHAIN_ID}`,
-  theoryPaper: null as PendingHref,
-  messagingPaper: ROUTES.messaging as PendingHref,
-  storagePaper: ROUTES.storage as PendingHref,
+  theoryPaper: PRIFI_BLOG_URL,
 } as const
 
 export const HERO = {
@@ -433,22 +424,6 @@ export const DEEPER_DIVES = {
       body: 'The full argument — commitment capacity, \nthe two hazard classes, and where the writ stops.',
       cta: PAPER_CTA,
       href: LINKS.theoryPaper,
-    },
-    {
-      title: 'Logos Messaging',
-      subtitle: 'Anonymous discovery without \na public broadcast',
-      body: 'Metadata protection at the transport layer, and what it costs to keep intentions off the record.',
-      cta: PAPER_CTA,
-      href: LINKS.messagingPaper,
-    },
-    {
-      title: 'Logos Storage',
-      // Figma's trailing breaks hold this one-line placeholder to the same two
-      // lines as its neighbours, so the three bodies share a baseline.
-      subtitle: 'Lorem Ipsum \n\n',
-      body: 'The full argument — commitment capacity, \nthe two hazard classes, and where the writ stops.',
-      cta: PAPER_CTA,
-      href: LINKS.storagePaper,
     },
   ],
 } as const
