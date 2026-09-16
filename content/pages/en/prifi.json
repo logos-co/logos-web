@@ -4,6 +4,14 @@
   "route": "/prifi",
   "title": "PriFi: Securing the Entire Transaction Supply Chain | Logos",
   "description": "PriFi (Private Finance) secures every step of the transaction supply chain, not just settlement. Learn the 7-step transaction lifecycle, the two hazard classes, and why blockchain's transparency creates new risks.",
+  "seo": {
+    "ogImage": {
+      "src": "/images/prifi/hero-og.jpg",
+      "alt": "Sunlight filtering through mist over a forest",
+      "width": 1200,
+      "height": 630
+    }
+  },
   "sections": [
     {
       "componentType": "prifiCopy",

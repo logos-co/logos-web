@@ -24,6 +24,7 @@ vi.mock('@/i18n/navigation', () => ({
 import PriFiPage, { generateMetadata } from '../page'
 
 const COPY = prifiCopySectionSchema.parse(prifiPage.sections[0])
+const OG_IMAGE = prifiPage.seo.ogImage
 const {
   credibility: CREDIBILITY,
   deeperDives: DEEPER_DIVES,
@@ -58,7 +59,7 @@ describe('prifi page contract', () => {
     expect(ROUTES.prifi).toBe('/prifi')
   })
 
-  test('metadata carries the page title, description and canonical URL', async () => {
+  test('metadata carries the page copy, canonical URL and hero OG image', async () => {
     const metadata = await generateMetadata({
       params: Promise.resolve({ locale: 'en' }),
     })
@@ -69,6 +70,18 @@ describe('prifi page contract', () => {
     // Social cards repeat them rather than falling back to the site defaults.
     expect(metadata.openGraph?.title).toBe(prifiPage.title)
     expect(metadata.twitter?.description).toBe(prifiPage.description)
+    expect(metadata.openGraph?.images).toEqual([
+      expect.objectContaining({
+        url: expect.stringMatching(new RegExp(`${OG_IMAGE.src}$`)),
+        width: OG_IMAGE.width,
+        height: OG_IMAGE.height,
+        alt: OG_IMAGE.alt,
+      }),
+    ])
+    expect(metadata.twitter?.images).toEqual([
+      expect.stringMatching(new RegExp(`${OG_IMAGE.src}$`)),
+    ])
+    expect(existsSync(publicFile(OG_IMAGE.src)), OG_IMAGE.src).toBe(true)
   })
 
   test('every image the page ships exists under public/', async () => {
