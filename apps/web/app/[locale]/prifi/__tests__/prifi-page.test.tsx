@@ -163,21 +163,15 @@ describe('prifi page render', () => {
     )
   })
 
-  test('CTAs without a URL yet stay on the page as plain buttons', async () => {
+  test('links the hero and Theory CTAs to the published PriFi article', async () => {
     const html = await pageHtml()
-    const buttonFor = (label: string) =>
-      new RegExp(
-        `<button type="button"[^>]*>(?:(?!</button>).)*${asMarkup(label)}`,
-        'i'
-      )
+    const articleUrl =
+      'https://blog.logos.co/article/pri-fi-securing-transaction-supply-chain'
 
-    expect(LINKS.thesis).toBeNull()
-    expect(LINKS.theoryPaper).toBeNull()
-    expect(html).toMatch(buttonFor(HERO.primaryCta.label))
-    expect(html).toMatch(buttonFor(DEEPER_DIVES.cards[0].cta))
-    // Decided links still navigate.
-    expect(html).toContain(`href="${LINKS.messagingPaper}"`)
-    expect(html).toContain(`href="${LINKS.storagePaper}"`)
+    expect(LINKS.thesis).toBe(articleUrl)
+    expect(LINKS.theoryPaper).toBe(articleUrl)
+    expect(html.split(`href="${articleUrl}"`).length - 1).toBe(2)
+    expect(DEEPER_DIVES.cards.map((card) => card.title)).toEqual(['Theory'])
   })
 
   test('gives every table column and row a header', async () => {
