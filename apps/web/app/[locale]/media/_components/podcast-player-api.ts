@@ -1,3 +1,5 @@
+export { youtubeVideoId as extractYoutubeVideoId } from '@/lib/media-embed'
+
 export interface YoutubePlayer {
   destroy: () => void
   getCurrentTime: () => number
@@ -78,25 +80,6 @@ let spotifyApiPromise: Promise<SpotifyApi> | undefined
 
 const YOUTUBE_API_SCRIPT_ID = 'youtube-iframe-api'
 let youtubeApiPromise: Promise<YoutubeApi> | undefined
-
-export function extractYoutubeVideoId(url: string): string | undefined {
-  try {
-    const parsed = new URL(url)
-    if (parsed.hostname === 'youtu.be') {
-      return parsed.pathname.split('/').filter(Boolean)[0]
-    }
-    if (parsed.hostname.includes('youtube.com')) {
-      return (
-        parsed.searchParams.get('v') ??
-        parsed.pathname.match(/\/(?:embed|shorts)\/([^/?]+)/)?.[1]
-      )
-    }
-  } catch {
-    return undefined
-  }
-
-  return undefined
-}
 
 export function loadYoutubeApi(): Promise<YoutubeApi> {
   if (window.YT) return Promise.resolve(window.YT)

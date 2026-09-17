@@ -26,25 +26,39 @@ export function spotifyEmbedUrl(src: string): string | undefined {
   }
 }
 
-export function youtubeEmbedUrl(src: string): string | undefined {
+const YOUTUBE_VIDEO_ID_PATTERN = /^[A-Za-z0-9_-]{11}$/
+
+/**
+ * Some CMS fields hold several links separated by newlines. The URL parser
+ * strips newlines instead of stopping at them, so only the first link is read.
+ */
+function firstUrl(src: string): URL | undefined {
+  const [first] = src.trim().split(/\s+/)
+  if (!first) return undefined
   try {
-    const url = new URL(src.startsWith('//') ? `https:${src}` : src)
-    const hostname = url.hostname.replace(/^www\./, '')
-
-    if (hostname === 'youtu.be') {
-      const id = url.pathname.split('/').filter(Boolean)[0]
-      return id ? `https://www.youtube.com/embed/${id}` : undefined
-    }
-
-    if (hostname === 'youtube.com' || hostname === 'm.youtube.com') {
-      const id =
-        url.searchParams.get('v') ??
-        url.pathname.match(/\/(?:embed|shorts)\/([^/?]+)/)?.[1]
-      return id ? `https://www.youtube.com/embed/${id}` : undefined
-    }
+    return new URL(first.startsWith('//') ? `https:${first}` : first)
   } catch {
     return undefined
   }
+}
 
-  return undefined
+export function youtubeVideoId(src: string): string | undefined {
+  const url = firstUrl(src)
+  if (!url) return undefined
+
+  const hostname = url.hostname.replace(/^(?:www|m)\./, '')
+  const id =
+    hostname === 'youtu.be'
+      ? url.pathname.split('/').filter(Boolean)[0]
+      : hostname === 'youtube.com'
+        ? (url.searchParams.get('v') ??
+          url.pathname.match(/\/(?:embed|shorts)\/([^/?]+)/)?.[1])
+        : undefined
+
+  return id && YOUTUBE_VIDEO_ID_PATTERN.test(id) ? id : undefined
+}
+
+export function youtubeEmbedUrl(src: string): string | undefined {
+  const id = youtubeVideoId(src)
+  return id ? `https://www.youtube.com/embed/${id}` : undefined
 }
