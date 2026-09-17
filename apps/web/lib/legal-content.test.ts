@@ -31,11 +31,39 @@ describe('getLegalDoc', () => {
       'operators-terms-of-use',
       'operators-privacy-policy',
       'operators-disclaimer',
+      'field-station-application-terms',
+      'field-station-privacy-policy',
     ]) {
       const doc = getLegalDoc(slug)
       expect(doc.title).toContain('| Logos')
       expect(doc.body.length).toBeGreaterThan(0)
     }
+  })
+
+  it('numbers the Field Station application terms as one list of sections', () => {
+    const terms = getLegalDoc('field-station-application-terms')
+    const sections = terms.body.match(/^## .+$/gm) ?? []
+
+    // The Google Docs export restarts the numbering at "Application"; the
+    // published page keeps one running sequence.
+    expect(sections).toHaveLength(13)
+    expect(sections[0]).toBe('## 1. About these Terms')
+    expect(sections[2]).toBe('## 3. Application')
+    expect(sections[12]).toBe('## 13. Application confirmation')
+    expect(terms.body).toContain('Last updated: 16 September 2026')
+  })
+
+  it('keeps the Field Station privacy policy sections and contact', () => {
+    const privacy = getLegalDoc('field-station-privacy-policy')
+    const sections = privacy.body.match(/^## .+$/gm) ?? []
+
+    expect(sections).toHaveLength(7)
+    expect(sections[0]).toBe('## 1. Introduction')
+    expect(sections[6]).toBe('## 7. Additional information')
+    expect(privacy.body).toContain('Last updated: 16 September 2026')
+    expect(privacy.body).toContain(
+      '[legal@free.technology](mailto:legal@free.technology)'
+    )
   })
 
   it('keeps operator legal documents in renderable markdown structure', () => {

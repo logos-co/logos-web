@@ -2,8 +2,6 @@ import type { ReactNode } from 'react'
 
 import ContentWidth from '@/components/layout/content-width'
 
-import { DocsToc, type DocsTocKey } from './docs-toc'
-
 /**
  * Layout shell shared by FAQ, Terms, Privacy, Security and any future
  * docs / legal pages: the left ToC + the right content column.
@@ -18,15 +16,16 @@ import { DocsToc, type DocsTocKey } from './docs-toc'
  */
 
 interface DocsPageShellProps {
-  activeKey: DocsTocKey
+  /** Left column navigation, usually `<DocsToc />`. */
+  nav: ReactNode
   children: ReactNode
 }
 
-export function DocsPageShell({ activeKey, children }: DocsPageShellProps) {
+export function DocsPageShell({ nav, children }: DocsPageShellProps) {
   return (
     <ContentWidth>
       <section className="flex min-h-190 flex-col items-start gap-3 xl:flex-row xl:gap-122">
-        <DocsToc activeKey={activeKey} />
+        {nav}
         <div className="flex w-full flex-col items-start gap-6 pb-20 xl:w-116 xl:py-20">
           {children}
         </div>

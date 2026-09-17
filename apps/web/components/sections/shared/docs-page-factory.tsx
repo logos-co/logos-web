@@ -17,13 +17,14 @@
  *   export { generateMetadata }
  *   export default Page
  */
+import type { ReactNode } from 'react'
 import { setRequestLocale } from 'next-intl/server'
 
 import { getLegalDoc } from '@/lib/legal-content'
 import { createDefaultMetadata } from '@/lib/metadata'
 
 import { DocsPageShell } from './docs-page-shell'
-import type { DocsTocKey } from './docs-toc'
+import { DocsToc, type DocsTocKey } from './docs-toc'
 import { LegalMarkdown } from './legal-markdown'
 
 type RouteParams = { params: Promise<{ locale: string }> }
@@ -33,11 +34,22 @@ type DocsPageConfig = {
   slug: string
   /** Canonical route path from `ROUTES` — used for SEO metadata. */
   path: string
-  /** Sidebar TOC entry to highlight as active. */
-  activeKey: DocsTocKey
-}
+} & (
+  | {
+      /** Sidebar TOC entry to highlight as active. */
+      activeKey: DocsTocKey
+    }
+  | {
+      /** Own sidebar, for documents outside the site-wide docs set. */
+      nav: ReactNode
+    }
+)
 
-export function createDocsPage({ slug, path, activeKey }: DocsPageConfig) {
+export function createDocsPage(config: DocsPageConfig) {
+  const { slug, path } = config
+  const nav =
+    'nav' in config ? config.nav : <DocsToc activeKey={config.activeKey} />
+
   async function generateMetadata({ params }: RouteParams) {
     const { locale } = await params
     setRequestLocale(locale)
@@ -51,7 +63,7 @@ export function createDocsPage({ slug, path, activeKey }: DocsPageConfig) {
     const { heading, body } = getLegalDoc(slug)
 
     return (
-      <DocsPageShell activeKey={activeKey}>
+      <DocsPageShell nav={nav}>
         <h1 className="text-eyebrow w-full text-brand-dark-green">{heading}</h1>
         <LegalMarkdown body={body} />
       </DocsPageShell>

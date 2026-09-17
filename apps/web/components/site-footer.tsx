@@ -12,6 +12,7 @@ import { isActiveLocale } from '@repo/content/locales'
 
 import { Link } from '@/i18n/navigation'
 import { SiteFooterNewsletter } from '@/components/site-footer-newsletter'
+import { SiteFooterPageLegalLinks } from '@/components/site-footer-page-legal-links'
 
 function LogosLockup() {
   return (
@@ -54,6 +55,7 @@ export default async function SiteFooter({ locale }: { locale: string }) {
       researchLinks={footer.researchLinks}
       infrastructureLinks={footer.infrastructureLinks}
       legalLinks={footer.legalLinks}
+      pageLegalLinks={<SiteFooterPageLegalLinks />}
       builtBy={{
         label: footer.builtBy.label,
         attribution: footer.builtBy.attribution,
