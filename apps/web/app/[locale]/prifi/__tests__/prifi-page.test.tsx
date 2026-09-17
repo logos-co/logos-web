@@ -179,8 +179,7 @@ describe('prifi page render', () => {
 
   test('links the hero and Theory CTAs to the published PriFi article', async () => {
     const html = await pageHtml()
-    const articleUrl =
-      'https://blog.logos.co/article/pri-fi-securing-transaction-supply-chain'
+    const articleUrl = '/media/article/pri-fi-securing-transaction-supply-chain'
 
     expect(HERO.primaryCta.href).toBe(articleUrl)
     expect(DEEPER_DIVES.cards[0].href).toBe(articleUrl)
