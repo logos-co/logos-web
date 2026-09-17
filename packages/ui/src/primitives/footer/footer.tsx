@@ -6,7 +6,7 @@
  *
  * Desktop uses absolute positions from Figma's footer component so page-height
  * audits can compare the shared footer directly against the frame. Mobile (base,
- * below 1025px) compacts those offsets to ~612px so the whole footer — newsletter
+ * below 1025px) compacts those offsets to ~663px so the whole footer — newsletter
  * title through legal links — fits within a single phone viewport without scrolling.
  */
 import type { ReactNode } from 'react'
@@ -116,7 +116,7 @@ export function Footer({
 }: FooterProps) {
   return (
     <footer
-      className={`relative h-[612px] overflow-hidden bg-brand-dark-green text-brand-off-white lg:h-[688px] ${className ?? ''}`}
+      className={`relative h-[663px] overflow-hidden bg-brand-dark-green text-brand-off-white lg:h-[688px] ${className ?? ''}`}
     >
       <div className="absolute top-6 left-3 flex w-[370px] max-w-[calc(100%-24px)] flex-col gap-3 lg:w-[345px]">
         <p className="w-full max-w-[314px] font-sans text-[18px] leading-[1.15] tracking-[-0.18px] text-brand-off-white">
@@ -175,7 +175,8 @@ export function Footer({
         <LinkList label="Infrastructure" links={infrastructureLinks} />
       </div>
 
-      <div className="absolute top-[540px] left-3 lg:top-[617px] lg:left-[calc(50%+6px)]">
+      {/* 29px below the four-link Research list, the gap that sits above it. */}
+      <div className="absolute top-[591px] left-3 lg:top-[617px] lg:left-[calc(50%+6px)]">
         <LinkList links={legalLinks} />
       </div>
     </footer>
