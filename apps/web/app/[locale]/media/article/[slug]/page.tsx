@@ -7,6 +7,7 @@ import { JsonLd } from '@/components/seo/json-ld'
 import { ROUTES } from '@/constants/routes'
 import { routing } from '@/i18n/routing'
 import { getBlogArticleDetail, getBlogArticleSlugs } from '@/lib/blog-content'
+import { withLocalMediaImages } from '@/lib/media-image-manifest'
 import { absoluteUrl, createDefaultMetadata } from '@/lib/metadata'
 import {
   createArticleJsonLd,
@@ -107,7 +108,7 @@ export default async function ArticlePage({
         )}
       />
       <ArticleDetailPage
-        article={article}
+        article={withLocalMediaImages(article)}
         breadcrumbs={parentCrumbs}
         copy={copy}
         canonicalUrl={canonicalUrl}

@@ -1,11 +1,14 @@
 'use client'
 
-import Image from 'next/image'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { BlogContentBlock, BlogDynamicBlock } from '@/lib/blog-content'
 import { cn } from '@/lib/cn'
+import { addTargetBlank } from '@/lib/html-links'
 import { youtubeEmbedUrl } from '@/lib/media-embed'
+import { MEDIA_BODY_IMAGE_SIZES } from '@/lib/media-image-sizes'
+
+import { MediaImage } from './media-image'
 
 interface MediaRichContentProps {
   bodyHtml?: string
@@ -15,13 +18,6 @@ interface MediaRichContentProps {
 }
 
 const EMBED_CSP = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: https:; media-src https:; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://unpkg.com; connect-src https:; frame-src https:;">`
-
-function addTargetBlank(html: string): string {
-  return html.replace(
-    /<a\b(?![^>]*\btarget=)([^>]*?)>/gi,
-    '<a target="_blank" rel="noopener noreferrer"$1>'
-  )
-}
 
 function renderEmbed(src: string, html: string) {
   const youtubeSrc = youtubeEmbedUrl(src)
@@ -54,13 +50,7 @@ function ContentBlock({ block }: { block: BlogContentBlock }) {
   if (block.type === 'image') {
     return (
       <figure className="media-detail-block-image" id={`i-${block.order}`}>
-        <Image
-          src={block.url}
-          alt={block.alt}
-          width={block.width || 1200}
-          height={block.height || 630}
-          sizes="(max-width: 767px) calc(100vw - 24px), 700px"
-        />
+        <MediaImage image={block} sizes={MEDIA_BODY_IMAGE_SIZES} />
         {block.caption ? <figcaption>{block.caption}</figcaption> : null}
       </figure>
     )

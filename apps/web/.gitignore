@@ -4,3 +4,5 @@ public/atom.xml
 public/atom_page2.xml
 public/rss.xml
 public/rss/*.xml
+.media-images
+public/media-images
