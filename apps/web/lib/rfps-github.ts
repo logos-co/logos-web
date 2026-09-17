@@ -17,6 +17,12 @@ import type { RfpListItem } from '@/lib/rfp-types'
 
 const RFP_CONTENTS_URL =
   'https://api.github.com/repos/logos-co/rfp/contents/RFPs'
+const RFP_JSDELIVR_FLAT_URL =
+  'https://data.jsdelivr.com/v1/package/gh/logos-co/rfp@master/flat'
+const RFP_JSDELIVR_CONTENT_BASE_URL =
+  'https://cdn.jsdelivr.net/gh/logos-co/rfp@master/RFPs/'
+const RFP_GITHUB_BLOB_BASE_URL =
+  'https://github.com/logos-co/rfp/blob/master/RFPs/'
 
 /** Where the detail-page "Apply" CTA points (GitHub issue template). */
 export const RFP_APPLY_URL =
@@ -37,6 +43,10 @@ const githubHeaders = (): Record<string, string> => {
   const token = process.env.GITHUB_TOKEN
   if (token) headers.Authorization = `token ${token}`
   return headers
+}
+
+const publicMirrorHeaders: Readonly<Record<string, string>> = {
+  'User-Agent': 'logos-web-build',
 }
 
 export type GithubRfp = RfpListItem & {
@@ -66,6 +76,10 @@ const isContentEntry = (value: unknown): value is GithubContentEntry =>
 type GithubBlobResponse = {
   content?: string
   encoding?: string
+}
+
+type JsDelivrFlatResponse = {
+  files?: unknown
 }
 
 /** Signals `withRetry` that the failure is transient and worth another round. */
@@ -178,10 +192,12 @@ const fetchRfpMarkdownEntry = async (
   }
 
   if (entry.git_url) {
-    return fetchGithubBlob(entry.git_url, headers)
+    const blob = await fetchGithubBlob(entry.git_url, headers)
+    if (blob) return blob
   }
 
-  return null
+  const fallbackUrl = `${RFP_JSDELIVR_CONTENT_BASE_URL}${encodeURIComponent(entry.name)}`
+  return fetchTextWithRetry(fallbackUrl, publicMirrorHeaders)
 }
 
 export const fetchRfpMarkdownEntryForTest = fetchRfpMarkdownEntry
@@ -379,7 +395,7 @@ const parseRfpMarkdown = (
   }
 }
 
-/** Raised when the GitHub RFP source is unreachable or only partly readable. */
+/** Raised when the public RFP source is unreachable or only partly readable. */
 export class RfpSourceError extends Error {
   constructor(message: string, options?: { cause?: unknown }) {
     super(message, options)
@@ -387,8 +403,55 @@ export class RfpSourceError extends Error {
   }
 }
 
-/** Lists the `RFPs/` directory, retrying transient GitHub failures. */
-const fetchRfpListing = async (): Promise<unknown> => {
+const parseJsDelivrRfpListing = (
+  value: unknown
+): GithubContentEntry[] | null => {
+  if (typeof value !== 'object' || value === null) return null
+
+  const files = (value as JsDelivrFlatResponse).files
+  if (!Array.isArray(files)) return null
+
+  return files.flatMap((file): GithubContentEntry[] => {
+    if (typeof file !== 'object' || file === null) return []
+
+    const path = (file as { name?: unknown }).name
+    if (typeof path !== 'string' || !path.startsWith('/RFPs/')) return []
+
+    const name = path.slice('/RFPs/'.length)
+    if (!name || name.includes('/')) return []
+
+    const encodedName = encodeURIComponent(name)
+    return [
+      {
+        name,
+        download_url: `${RFP_JSDELIVR_CONTENT_BASE_URL}${encodedName}`,
+        html_url: `${RFP_GITHUB_BLOB_BASE_URL}${encodedName}`,
+        git_url: null,
+      },
+    ]
+  })
+}
+
+export const parseJsDelivrRfpListingForTest = parseJsDelivrRfpListing
+
+const fetchJsDelivrRfpListing = async (): Promise<
+  GithubContentEntry[] | null
+> => {
+  const raw = await fetchTextWithRetry(
+    RFP_JSDELIVR_FLAT_URL,
+    publicMirrorHeaders
+  )
+  if (!raw) return null
+
+  try {
+    return parseJsDelivrRfpListing(JSON.parse(raw))
+  } catch {
+    return null
+  }
+}
+
+/** Lists `RFPs/`, falling back to the public mirror after GitHub failures. */
+const fetchRfpListing = async (): Promise<GithubContentEntry[]> => {
   let lastFailure = 'no response'
   const entries = await withRetry<unknown>(async () => {
     let res: Response
@@ -411,11 +474,21 @@ const fetchRfpListing = async (): Promise<unknown> => {
     }
   })
 
-  if (entries === null) {
-    throw new RfpSourceError(`Failed to list RFPs from GitHub: ${lastFailure}`)
+  if (Array.isArray(entries)) {
+    return entries.filter(isContentEntry)
   }
-  return entries
+
+  if (entries !== null) lastFailure = 'listing response was not an array'
+
+  const fallbackEntries = await fetchJsDelivrRfpListing()
+  if (fallbackEntries?.length) return fallbackEntries
+
+  throw new RfpSourceError(
+    `Failed to list RFPs from GitHub (${lastFailure}) and jsDelivr`
+  )
 }
+
+export const fetchRfpListingForTest = fetchRfpListing
 
 /**
  * Fetches and parses every published RFP from the GitHub repo, sorted by RFP
@@ -423,18 +496,14 @@ const fetchRfpListing = async (): Promise<unknown> => {
  * `cache()` so repeated calls within a build pass dedupe; Next's fetch Data
  * Cache dedupes the underlying network requests across passes.
  *
- * Throws `RfpSourceError` if the listing or any individual RFP file cannot be
- * read. Every caller -- sitemap, `generateStaticParams`, the listing page --
- * uses this, so a GitHub outage fails the build loudly instead of exporting a
- * site whose RFP detail routes silently 404 (there is no runtime fallback
- * under `output: 'export'`).
+ * Throws `RfpSourceError` if neither GitHub nor its public mirror can provide
+ * the listing or any individual RFP file. Every caller -- sitemap,
+ * `generateStaticParams`, the listing page -- uses this, so a source outage
+ * fails the build loudly instead of exporting a site whose RFP detail routes
+ * silently 404 (there is no runtime fallback under `output: 'export'`).
  */
 export const fetchGithubRfps = cache(async (): Promise<GithubRfp[]> => {
   const entries = await fetchRfpListing()
-
-  if (!Array.isArray(entries)) {
-    throw new RfpSourceError('GitHub RFP listing returned a non-array response')
-  }
 
   const mdFiles = entries
     .filter(isContentEntry)
