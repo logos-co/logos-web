@@ -43,10 +43,10 @@ export type Env = {
    */
   NEXT_PUBLIC_ADMIN_ACID_API_URL: string | undefined
   /**
-   * Public origin of the intake app `apps/civi-crm` (e.g. `https://civi.logos.co`
-   * or `http://localhost:3002`), which hosts the endpoint the funnel forms post to.
+   * Public origin of the intake app `apps/api`,
+   * which hosts the endpoint the funnel forms post to.
    */
-  NEXT_PUBLIC_CIVI_CRM_URL: string | undefined
+  NEXT_PUBLIC_LOGOS_API_URL: string | undefined
   /**
    * hCaptcha public sitekey for connect forms.
    */
@@ -103,8 +103,8 @@ export const env: Env = {
   NEXT_PUBLIC_ADMIN_ACID_API_URL: readOptionalString(
     process.env.NEXT_PUBLIC_ADMIN_ACID_API_URL
   ),
-  NEXT_PUBLIC_CIVI_CRM_URL: readOptionalString(
-    process.env.NEXT_PUBLIC_CIVI_CRM_URL
+  NEXT_PUBLIC_LOGOS_API_URL: readOptionalString(
+    process.env.NEXT_PUBLIC_LOGOS_API_URL
   ),
   NEXT_PUBLIC_HCAPTCHA_SITEKEY: readOptionalString(
     process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY

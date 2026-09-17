@@ -25,7 +25,7 @@ const findSection = createSectionFinder('coalition-partner')
 export const generateMetadata = createPageMetadata(ROUTE)
 
 function getAfformSubmitApiUrl() {
-  const base = env.NEXT_PUBLIC_CIVI_CRM_URL
+  const base = env.NEXT_PUBLIC_LOGOS_API_URL
   return base ? `${base.replace(/\/+$/, '')}/api/public/afform-submit` : ''
 }
 
