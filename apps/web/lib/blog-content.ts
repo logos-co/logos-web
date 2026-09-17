@@ -19,7 +19,7 @@ export const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
 const SLUG_PAGE_SIZE = 100
 /** Safety valve: 100 full pages is far beyond any realistic archive. */
 const MAX_SLUG_PAGES = 100
-const CMS_PRESS_ORIGIN = 'https://cms-press.logos.co'
+export const CMS_PRESS_ORIGIN = 'https://cms-press.logos.co'
 const BODY_SNIPPET_LIMIT = 200
 
 export interface BlogTag {
@@ -39,6 +39,8 @@ export interface BlogImage {
   width: number
   height: number
   caption?: string
+  /** Responsive local variants, filled in by lib/media-images at render. */
+  srcSet?: string
 }
 
 export interface BlogTocItem {
@@ -775,7 +777,7 @@ async function enrichApplePodcastsChannel(
   }
 }
 
-function resolveAssetUrl(rawUrl?: string | null): string {
+export function resolveAssetUrl(rawUrl?: string | null): string {
   if (!rawUrl) return ''
   if (/^https?:\/\//i.test(rawUrl)) return rawUrl
 

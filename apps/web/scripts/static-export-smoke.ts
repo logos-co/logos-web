@@ -6,6 +6,7 @@ import { getAllIdeas, getCircles } from '@repo/content/loaders'
 import { ROUTES } from '../constants/routes'
 import { ROUTE_AVAILABILITY } from '../constants/route-availability'
 import { env } from '../lib/env'
+import { MEDIA_IMAGE_DIR } from '../lib/media-images'
 
 /**
  * robots.txt is deliberately different per environment, so the assertions have
@@ -295,8 +296,15 @@ const assertHtmlPage = (route: string, filePath: string): string[] => {
   }
   failures.push(...assertStructuredData(route, html))
 
-  const refs = html.matchAll(/\b(?:href|src)=["']([^"']+)["']/g)
-  for (const [, rawHref] of refs) {
+  const refs = [
+    ...[...html.matchAll(/\b(?:href|src)=["']([^"']+)["']/g)].map(
+      (match) => match[1]
+    ),
+    ...[...html.matchAll(/\b(?:srcset|imagesrcset)=["']([^"']+)["']/gi)]
+      .flatMap((match) => match[1]!.split(','))
+      .map((candidate) => candidate.trim().split(/\s+/, 1)[0]),
+  ]
+  for (const rawHref of refs) {
     if (!rawHref || !isLocalAssetHref(rawHref)) continue
     const assetPath = rawHref.split(/[?#]/, 1)[0]!
     const absolutePath = join(outDir, assetPath.replace(/^\/+/, ''))
@@ -311,6 +319,23 @@ const assertHtmlPage = (route: string, filePath: string): string[] => {
   }
 
   return failures
+}
+
+/**
+ * The media detail pages should serve the resized copies written by
+ * generate-media-assets. One page using them proves the pipeline ran; the
+ * asset check above proves every referenced copy was exported.
+ */
+const assertMediaImages = (): string[] => {
+  const articleDir = join(outDir, toRoutePath(ROUTES.mediaArticles))
+  if (!existsSync(articleDir)) return ['the export has no media article pages']
+
+  const usesLocalImages = collectHtmlFiles(articleDir).some((file) =>
+    readFileSync(file, 'utf8').includes(`/${MEDIA_IMAGE_DIR}/`)
+  )
+  return usesLocalImages
+    ? []
+    : [`no media article page uses the resized images in /${MEDIA_IMAGE_DIR}`]
 }
 
 const main = async (): Promise<void> => {
@@ -329,6 +354,7 @@ const main = async (): Promise<void> => {
   const checkedHtmlFiles = new Set<string>()
   const expectedRoutes = await collectExpectedRoutes()
   failures.push(...assertSeoFiles(expectedRoutes))
+  failures.push(...assertMediaImages())
 
   for (const route of expectedRoutes) {
     const htmlFile = findHtmlFile(route)
