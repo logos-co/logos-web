@@ -81,6 +81,16 @@ export function createBreadcrumbListJsonLd(
   }
 }
 
+/**
+ * Google wants full ISO 8601 datetimes, but the CMS stores some dates as a
+ * bare `YYYY-MM-DD`. Unreadable values are left out rather than emitted.
+ */
+function toIsoDateTime(value: string | null | undefined): string | undefined {
+  if (!value) return undefined
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
+}
+
 export interface ArticleJsonLdInput {
   /** Canonical path of the article page. */
   path: string
@@ -110,8 +120,8 @@ export function createArticleJsonLd(input: ArticleJsonLdInput): JsonLdObject {
     description: input.description,
     url: pageUrl,
     image: input.image ?? undefined,
-    datePublished: input.datePublished ?? undefined,
-    dateModified: input.dateModified ?? input.datePublished ?? undefined,
+    datePublished: toIsoDateTime(input.datePublished),
+    dateModified: toIsoDateTime(input.dateModified ?? input.datePublished),
     author: input.authors.map((name) => ({ '@type': 'Person', name })),
     publisher: {
       '@type': 'Organization',
@@ -147,7 +157,7 @@ export function createPodcastEpisodeJsonLd(
     description: input.description,
     url: absoluteUrl(input.path),
     image: input.image ?? undefined,
-    datePublished: input.datePublished ?? undefined,
+    datePublished: toIsoDateTime(input.datePublished),
     episodeNumber: input.episodeNumber ?? undefined,
     partOfSeries: input.series
       ? {
