@@ -65,6 +65,9 @@ const parseSearchPost = (value: unknown): BlogSearchPost | null => {
           ? (value.data.modifiedAt ?? value.data.publishedAt)
           : value.data.publishedAt
       ) || null,
+    // The search payload carries a numeric showId, not a slug. Logos Podcast is
+    // the only show with episodes, so results map to it until a second show
+    // ships and the dialog can be given an id-to-slug map.
     href:
       type === 'article'
         ? `/media/article/${slug}`
@@ -78,17 +81,15 @@ const parseSearchPost = (value: unknown): BlogSearchPost | null => {
   }
 }
 
-const runtimeSearchApiUrl = () => {
-  if (
-    typeof window !== 'undefined' &&
-    (window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1')
-  ) {
-    return LOCAL_SEARCH_API_URL
-  }
-
-  return BLOG_SEARCH_API_URL
-}
+/**
+ * `next dev` proxies the legacy API through a rewrite to dodge CORS. A built
+ * export has no such route, even when it is served from localhost, so it must
+ * call the legacy deployment directly.
+ */
+const runtimeSearchApiUrl = () =>
+  process.env.NODE_ENV === 'development'
+    ? LOCAL_SEARCH_API_URL
+    : BLOG_SEARCH_API_URL
 
 export function buildBlogSearchApiUrl(
   request: Readonly<BlogSearchRequest>,
