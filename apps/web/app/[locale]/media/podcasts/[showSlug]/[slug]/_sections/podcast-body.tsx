@@ -1,12 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { MediaRichContent } from '../../../../_components/media-rich-content'
 import type { BlogPodcastDetail } from '@/lib/blog-content'
 import { cn } from '@/lib/cn'
 
 import type { PodcastDetailCopy } from './types'
+
+/** Matches `.media-podcast-content--collapsed` in media-detail.css. */
+const COLLAPSED_BLOCK_COUNT = 6
 
 interface PodcastBodyProps {
   copy: PodcastDetailCopy
@@ -26,7 +29,16 @@ function contentBlocks(podcast: BlogPodcastDetail) {
 
 export function PodcastBody({ copy, podcast }: PodcastBodyProps) {
   const [expanded, setExpanded] = useState(false)
+  // Short show notes fit inside the collapsed height, so the button would only
+  // remove itself. How many blocks the CMS body renders is only knowable here.
+  const [isCollapsible, setIsCollapsible] = useState(true)
+  const contentRef = useRef<HTMLDivElement>(null)
   const content = contentBlocks(podcast)
+
+  useEffect(() => {
+    const section = contentRef.current?.querySelector('.media-podcast-content')
+    setIsCollapsible((section?.childElementCount ?? 0) > COLLAPSED_BLOCK_COUNT)
+  }, [podcast])
 
   if (!podcast.bodyHtml && !podcast.blocks?.length && content.length === 0) {
     return null
@@ -34,17 +46,17 @@ export function PodcastBody({ copy, podcast }: PodcastBodyProps) {
 
   return (
     <div className="mt-16">
-      <div className="media-podcast-transcript">
+      <div className="media-podcast-transcript" ref={contentRef}>
         <MediaRichContent
           bodyHtml={podcast.bodyHtml}
           blocks={podcast.blocks}
           className={cn(
             'media-podcast-content',
-            !expanded && 'media-podcast-content--collapsed'
+            !expanded && isCollapsible && 'media-podcast-content--collapsed'
           )}
           content={content}
         />
-        {!expanded ? (
+        {!expanded && isCollapsible ? (
           <button
             type="button"
             onClick={() => setExpanded(true)}
