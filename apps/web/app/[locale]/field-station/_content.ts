@@ -78,7 +78,9 @@ export const EVENT_NAMES = {
   partnerLogos: 'Logos homepage - Partners',
   partnerZuGrama: 'Zu-Grama card - Partners',
   partnerZuGramaX: 'Zu-Grama on X - Partners',
-  coalitionLink: (name: string) => `${name} on X - Coalition`,
+  aboutApplication: 'Application form - About',
+  coalitionLink: (name: string, destination: string) =>
+    `${name} ${destination} - Coalition`,
   legalLink: (label: string) => `${label} - Legal`,
 }
 
@@ -125,9 +127,21 @@ export const HERO = {
 export const ABOUT = {
   heading: 'About the Program',
   paragraphs: [
-    'Field Station is a one-week residency programme at a 500-acre regenerative project in Rajasthan, where accepted participants will come together to create a real, working parallel society: living, eating, debugging, and shipping solutions to real-world issues.',
-    'Residents will choose one of the four tracks listed below to build a prototype. At the end of the one-week programme, a demo day will give participants the opportunity to showcase their work for a chance to win milestone-based grants to continue the project.',
-  ],
+    {
+      text: 'Field Station is a one-week residency programme at a 500-acre regenerative project in Rajasthan, where accepted participants will come together to create a real, working parallel society: living, eating, debugging, and shipping solutions to real-world issues.',
+    },
+    {
+      text: "30 selected residents receive a full scholarship: 8 nights' accommodation, food and drinks, on-site activities, and access to the closing summit on 30 October. Travel assistance can be requested within your application.",
+      link: {
+        label: 'application',
+        href: APPLICATION_FORM_HREF,
+        eventName: EVENT_NAMES.aboutApplication,
+      },
+    },
+    {
+      text: 'Residents will choose one of the four tracks listed below to build a prototype. At the end of the one-week programme, a demo day will give participants the opportunity to showcase their work for a chance to win milestone-based grants to continue the project.',
+    },
+  ] as readonly TrackBlock[],
   stats: [
     { label: 'Curated Residents', value: '30' },
     { label: 'Nights on Site', value: '8' },
@@ -528,10 +542,11 @@ export const PARTNERS = {
 } as const
 
 /**
- * Partners who join and amplify the residency, from their official brand
- * repos (devfolioco/brand-assets, ETHIndia/brand-assets), used unmodified on
- * the light background, each linking to the partner's X account. More logos
- * follow as partners join.
+ * Partners who join and amplify the residency, in alphabetical order. Devfolio
+ * and ETHIndia come from their official brand repos (devfolioco/brand-assets,
+ * ETHIndia/brand-assets) and link to their X accounts. Dhun's black-on-white
+ * JPEG from the campaign doc has its white turned transparent for the light
+ * background. More logos follow as partners join.
  */
 export const COALITION = {
   heading: 'Coalition / Community Partners',
@@ -539,13 +554,27 @@ export const COALITION = {
     {
       name: 'Devfolio',
       href: 'https://x.com/devfolio',
+      destination: 'on X',
       src: `${IMAGE_DIR}/coalition/devfolio.svg`,
       width: 619.1,
       height: 129,
     },
     {
+      // No X account; the tile opens the venue's own site.
+      name: 'Dhun',
+      href: 'https://dhun.life/',
+      destination: 'website',
+      src: `${IMAGE_DIR}/coalition/dhun.png`,
+      width: 772,
+      height: 442,
+      // A two-line lockup: at the shared height its name would read smaller
+      // than the one-line wordmarks and JAIPUR would not read at all.
+      displayHeight: 44,
+    },
+    {
       name: 'ETHIndia',
       href: 'https://x.com/ethindiaco',
+      destination: 'on X',
       src: `${IMAGE_DIR}/coalition/ethindia.png`,
       width: 940,
       height: 218,
