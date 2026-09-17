@@ -6,6 +6,7 @@ import {
   getBlogArticleSlugs,
   getBlogPodcastDetail,
   getBlogPodcastPaths,
+  getBlogPodcastShowSlugs,
   type BlogArticleDetail,
   type BlogPodcastDetail,
 } from '../lib/blog-content'
@@ -67,9 +68,25 @@ async function legacyFeed(showSlug: string): Promise<string | null> {
   return body
 }
 
+async function showFeed(
+  showSlug: string,
+  episodes: BlogPodcastDetail[]
+): Promise<string | null> {
+  if (episodes.length === 0) return legacyFeed(showSlug)
+
+  const show = episodes.find((episode) => episode.show)?.show
+  const title = show?.title || showSlug
+  return buildRssDocument({
+    title,
+    description: show?.descriptionText || `${title} podcast episodes`,
+    posts: episodes,
+  })
+}
+
 async function writeMediaFeeds(
   articles: BlogArticleDetail[],
-  podcasts: BlogPodcastDetail[]
+  podcasts: BlogPodcastDetail[],
+  showSlugs: string[]
 ): Promise<void> {
   const publishedArticles = articles.filter(
     (article) => !article.isDraft && article.publishedAt
@@ -78,20 +95,27 @@ async function writeMediaFeeds(
     (podcast) => !podcast.isDraft && podcast.publishedAt
   )
   const allPosts = newestFirst([...publishedArticles, ...publishedPodcasts])
-  const logosState = newestFirst(
-    publishedPodcasts.filter((podcast) => podcast.showSlug === 'logos-state')
+
+  // One feed per show the CMS knows about, so a new show does not leave its
+  // subscribers on a redirect to a missing file. A show with no published
+  // episodes falls back to mirroring whatever the legacy blog still serves.
+  const showFeeds = await Promise.all(
+    showSlugs.map(async (showSlug) => ({
+      showSlug,
+      body: await showFeed(
+        showSlug,
+        newestFirst(
+          publishedPodcasts.filter((podcast) => podcast.showSlug === showSlug)
+        )
+      ),
+    }))
   )
-  const hashingItOut = newestFirst(
-    publishedPodcasts.filter((podcast) => podcast.showSlug === 'hashing-it-out')
-  )
-  const hashingItOutRss =
-    hashingItOut.length > 0
-      ? buildRssDocument({
-          title: 'Hashing It Out',
-          description: 'Hashing It Out podcast episodes',
-          posts: hashingItOut,
-        })
-      : await legacyFeed('hashing-it-out')
+  for (const { showSlug, body } of showFeeds) {
+    if (body) continue
+    console.warn(
+      `Skipping public/rss/${showSlug}.xml -- the show has no published episodes and no usable legacy feed`
+    )
+  }
 
   const rssDir = path.join(outputRoot, 'rss')
   await mkdir(rssDir, { recursive: true })
@@ -109,25 +133,12 @@ async function writeMediaFeeds(
     posts: allPosts,
   })
   const atom = buildAtomDocument(allPosts)
-  if (!hashingItOutRss) {
-    console.warn(
-      'Skipping public/rss/hashing-it-out.xml -- the show has no published episodes and no usable legacy feed'
-    )
-  }
 
   await Promise.all([
     writeFile(path.join(rssDir, 'main.xml'), articlesRss),
-    writeFile(
-      path.join(rssDir, 'logos-state.xml'),
-      buildRssDocument({
-        title: 'Logos Podcast',
-        description: 'The Logos Podcast',
-        posts: logosState,
-      })
+    ...showFeeds.flatMap(({ showSlug, body }) =>
+      body ? [writeFile(path.join(rssDir, `${showSlug}.xml`), body)] : []
     ),
-    ...(hashingItOutRss
-      ? [writeFile(path.join(rssDir, 'hashing-it-out.xml'), hashingItOutRss)]
-      : []),
     writeFile(path.join(outputRoot, 'rss.xml'), allPostsRss),
     writeFile(path.join(outputRoot, 'atom.xml'), atom),
     writeFile(path.join(outputRoot, 'atom_page2.xml'), atom),
@@ -159,9 +170,10 @@ async function writeMediaImages(posts: MediaPost[]): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  const [articleSlugs, podcastPaths] = await Promise.all([
+  const [articleSlugs, podcastPaths, showSlugs] = await Promise.all([
     getBlogArticleSlugs(),
     getBlogPodcastPaths(),
+    getBlogPodcastShowSlugs(),
   ])
   const [articles, podcasts] = await Promise.all([
     Promise.all(articleSlugs.map((slug) => getBlogArticleDetail(slug))),
@@ -174,7 +186,7 @@ async function main(): Promise<void> {
 
   // Drafts get pages too (noindex), so their images are resized as well.
   await Promise.all([
-    writeMediaFeeds(articles, podcasts),
+    writeMediaFeeds(articles, podcasts, showSlugs),
     writeMediaImages([...articles, ...podcasts]),
   ])
 }
