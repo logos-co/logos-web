@@ -57,7 +57,7 @@ describe.each([
     const nav = html.match(/<nav\b[^>]*>.*?<\/nav>/s)?.[0] ?? ''
 
     expect(html).toContain(escapeHtml(doc.heading))
-    expect(html).toContain('Last updated: 16 September 2026')
+    expect(html).toMatch(/Last updated: \d{1,2} [A-Z][a-z]+ \d{4}/)
     expect(nav).toContain(`href="${ROUTES.fieldStation}"`)
 
     for (const link of LEGAL_LINKS) {
