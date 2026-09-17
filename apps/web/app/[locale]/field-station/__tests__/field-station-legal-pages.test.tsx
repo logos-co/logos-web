@@ -4,7 +4,6 @@ import { describe, expect, test, vi } from 'vitest'
 
 import { ROUTES } from '@/constants/routes'
 import { getLegalDoc } from '@/lib/legal-content'
-import { FIELD_STATION_LEGAL_LINKS } from '@/lib/page-legal-links'
 
 vi.mock('@/i18n/navigation', () => ({
   Link: ({
@@ -20,6 +19,7 @@ vi.mock('next-intl/server', () => ({
   setRequestLocale: () => undefined,
 }))
 
+import { LEGAL_LINKS } from '../_content'
 import * as privacyPage from '../privacy-policy/page'
 import * as termsPage from '../terms-and-conditions/page'
 
@@ -60,7 +60,7 @@ describe.each([
     expect(html).toContain('Last updated: 16 September 2026')
     expect(nav).toContain(`href="${ROUTES.fieldStation}"`)
 
-    for (const link of FIELD_STATION_LEGAL_LINKS.links) {
+    for (const link of LEGAL_LINKS) {
       if (link.href === route) {
         expect(nav).toMatch(
           new RegExp(`aria-current="page"[^>]*>.*?${link.label}`, 's')

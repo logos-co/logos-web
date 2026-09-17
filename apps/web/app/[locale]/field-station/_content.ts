@@ -79,6 +79,7 @@ export const EVENT_NAMES = {
   partnerZuGrama: 'Zu-Grama card - Partners',
   partnerZuGramaX: 'Zu-Grama on X - Partners',
   coalitionLink: (name: string) => `${name} on X - Coalition`,
+  legalLink: (label: string) => `${label} - Legal`,
 }
 
 /** The residency itself, for the page's schema.org Event. */
@@ -551,6 +552,12 @@ export const COALITION = {
     },
   ],
 } as const
+
+/** The application's own legal documents, listed under the partners. */
+export const LEGAL_LINKS = [
+  { label: 'Application Terms', href: ROUTES.fieldStationTerms },
+  { label: 'Privacy Policy', href: ROUTES.fieldStationPrivacy },
+] as const
 
 export interface FaqLink {
   label: string
