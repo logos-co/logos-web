@@ -3,10 +3,15 @@ import { getTranslations } from 'next-intl/server'
 
 import { isActiveLocale } from '@repo/content/locales'
 
+import { JsonLd } from '@/components/seo/json-ld'
 import { ROUTES } from '@/constants/routes'
 import { routing } from '@/i18n/routing'
 import { getBlogPodcastDetail, getBlogPodcastPaths } from '@/lib/blog-content'
 import { absoluteUrl, createDefaultMetadata } from '@/lib/metadata'
+import {
+  createBreadcrumbListJsonLd,
+  createPodcastEpisodeJsonLd,
+} from '@/lib/structured-data'
 
 import { PodcastDetailPage } from './_sections/podcast-detail-page'
 import type { PodcastDetailCopy } from './_sections/types'
@@ -45,58 +50,6 @@ export async function generateMetadata({
   })
 }
 
-function podcastJsonLd(
-  podcast: Awaited<ReturnType<typeof getBlogPodcastDetail>>
-) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'PodcastEpisode',
-    name: podcast.title,
-    description: podcast.description,
-    datePublished: podcast.publishedAt,
-    image: podcast.ogImage?.url ?? podcast.coverImage?.url,
-    episodeNumber: podcast.episodeNumber,
-    partOfSeries: podcast.show
-      ? {
-          '@type': 'PodcastSeries',
-          name: podcast.show.title,
-          url: absoluteUrl(ROUTES.mediaPodcastsSection),
-        }
-      : undefined,
-    url: absoluteUrl(ROUTES.mediaPodcast(podcast.showSlug, podcast.slug)),
-  }
-}
-
-function podcastBreadcrumbJsonLd(
-  podcast: { showSlug: string; slug: string; title: string },
-  labels: { media: string; podcasts: string }
-) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: labels.media,
-        item: absoluteUrl(ROUTES.media),
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: labels.podcasts,
-        item: absoluteUrl(ROUTES.mediaPodcastsSection),
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: podcast.title,
-        item: absoluteUrl(ROUTES.mediaPodcast(podcast.showSlug, podcast.slug)),
-      },
-    ],
-  }
-}
-
 export default async function PodcastPage({
   params,
 }: {
@@ -115,6 +68,7 @@ export default async function PodcastPage({
   if (!podcast) notFound()
 
   const copy: PodcastDetailCopy = {
+    breadcrumb: t('breadcrumbs.label'),
     channels: t('podcast.channels'),
     close: t('podcast.close'),
     copied: t('podcast.copied'),
@@ -133,31 +87,36 @@ export default async function PodcastPage({
     showNotes: t('podcast.showNotes'),
     unmute: t('podcast.unmute'),
   }
-  const canonicalUrl = absoluteUrl(
-    ROUTES.mediaPodcast(podcast.showSlug, podcast.slug),
-    locale
-  )
+  const podcastPath = ROUTES.mediaPodcast(podcast.showSlug, podcast.slug)
+  const canonicalUrl = absoluteUrl(podcastPath, locale)
+  const parentCrumbs = [
+    { name: t('breadcrumbs.media'), path: ROUTES.media },
+    { name: t('breadcrumbs.podcasts'), path: ROUTES.mediaPodcastsSection },
+  ]
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(podcastJsonLd(podcast)),
-        }}
+      <JsonLd
+        data={createPodcastEpisodeJsonLd({
+          path: podcastPath,
+          name: podcast.title,
+          description: podcast.description,
+          image: podcast.ogImage?.url ?? podcast.coverImage?.url,
+          datePublished: podcast.publishedAt,
+          episodeNumber: podcast.episodeNumber,
+          series: podcast.show
+            ? { name: podcast.show.title, path: ROUTES.mediaPodcastsSection }
+            : null,
+        })}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            podcastBreadcrumbJsonLd(podcast, {
-              media: t('breadcrumbs.media'),
-              podcasts: t('breadcrumbs.podcasts'),
-            })
-          ),
-        }}
+      <JsonLd
+        data={createBreadcrumbListJsonLd(
+          [...parentCrumbs, { name: podcast.title, path: podcastPath }],
+          locale
+        )}
       />
       <PodcastDetailPage
+        breadcrumbs={parentCrumbs}
         canonicalUrl={canonicalUrl}
         copy={copy}
         podcast={podcast}

@@ -1,10 +1,12 @@
 import Image from 'next/image'
 
+import { MediaBreadcrumb } from '../../../_components/media-breadcrumb'
 import { MediaSummary } from '../../../_components/media-summary'
 import { ShareButton } from '../../../_components/share-button'
-import type { ArticleDetailSectionProps } from './types'
+import type { ArticleBreadcrumbProps, ArticleDetailSectionProps } from './types'
 
-interface ArticleHeroProps extends ArticleDetailSectionProps {
+interface ArticleHeroProps
+  extends ArticleDetailSectionProps, ArticleBreadcrumbProps {
   canonicalUrl: string
 }
 
@@ -20,11 +22,19 @@ function formatDate(iso: string | null) {
     .toUpperCase()
 }
 
-export function ArticleHero({ article, copy, canonicalUrl }: ArticleHeroProps) {
+export function ArticleHero({
+  article,
+  breadcrumbs,
+  copy,
+  canonicalUrl,
+}: ArticleHeroProps) {
   const date = formatDate(article.publishedAt)
 
   return (
     <header className="mb-6 flex flex-col text-brand-dark-green">
+      <div className="mb-6">
+        <MediaBreadcrumb label={copy.breadcrumb} items={breadcrumbs} />
+      </div>
       <div className="mb-3 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4">
         <span>{copy.minRead.toUpperCase()}</span>
         <span

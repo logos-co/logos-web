@@ -1,8 +1,12 @@
 import { env } from '@/lib/env'
 import { BLOG_DEPLOYMENT_ORIGIN, BLOG_ORIGIN } from '@/lib/blog-engine'
+import { fetchDiscourseTopic, type BlogDiscussion } from '@/lib/discourse-topic'
+import { addTargetBlank } from '@/lib/html-links'
+import { logger } from '@/lib/logger'
 import { youtubeEmbedUrl } from '@/lib/media-embed'
 import { resolveAudioFromApplePodcasts } from '@/lib/podcast-feed'
-import { EXTERNAL_URLS } from '@/constants/routes'
+
+export type { BlogDiscussion, BlogDiscussionPost } from '@/lib/discourse-topic'
 
 export const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
 
@@ -16,7 +20,6 @@ const SLUG_PAGE_SIZE = 100
 /** Safety valve: 100 full pages is far beyond any realistic archive. */
 const MAX_SLUG_PAGES = 100
 const CMS_PRESS_ORIGIN = 'https://cms-press.logos.co'
-const FORUM_ORIGIN = EXTERNAL_URLS.forum.replace(/\/$/, '')
 const BODY_SNIPPET_LIMIT = 200
 
 export interface BlogTag {
@@ -53,23 +56,6 @@ export interface BlogFootnote {
   refValue: string
   valueHTML: string
   valueText: string
-}
-
-export interface BlogDiscussionPost {
-  id: string
-  avatarUrl: string
-  createdAt: string
-  displayName: string
-  html: string
-}
-
-export interface BlogDiscussion {
-  id: number
-  posts: BlogDiscussionPost[]
-  postsCount: number
-  slug: string
-  title: string
-  url: string
 }
 
 export interface BlogTextBlock {
@@ -417,13 +403,6 @@ function uniqueSlug(base: string, used: Set<string>): string {
   return slug
 }
 
-function addTargetBlank(html: string) {
-  return html.replace(
-    /<a\b(?![^>]*\btarget=)([^>]*?)>/gi,
-    '<a target="_blank" rel="noopener noreferrer"$1>'
-  )
-}
-
 function normaliseSummaryHtml(value: string): string | undefined {
   const html = value.replace(/<section\b[^>]*>[\s\S]*?<\/section>/gi, '').trim()
 
@@ -456,60 +435,15 @@ async function fetchDiscussion(
 ): Promise<BlogDiscussion | undefined> {
   if (!topicId) return undefined
 
+  // A forum outage must not fail the build: the page still links to the
+  // forum and the browser refreshes the replies after load.
   try {
-    const response = await fetch(`${FORUM_ORIGIN}/t/${topicId}.json`, {
-      cache: 'force-cache',
+    return await fetchDiscourseTopic(topicId, { cache: 'force-cache' })
+  } catch (error) {
+    logger.warn('Discourse topic unavailable at build time', {
+      topicId,
+      error,
     })
-    if (!response.ok) return undefined
-
-    const topic = (await response.json()) as unknown
-    if (!isRecord(topic)) return undefined
-
-    const slug = stringValue(topic.slug)
-    const title = stringValue(topic.title)
-    const stream = isRecord(topic.post_stream) ? topic.post_stream : {}
-    const rawPosts = Array.isArray(stream.posts) ? stream.posts : []
-    const posts = rawPosts
-      .slice(1, 4)
-      .filter(isRecord)
-      .map((post): BlogDiscussionPost | null => {
-        const id = post.id
-        const username = stringValue(post.username)
-        const avatarTemplate = stringValue(post.avatar_template)
-        const createdAt = stringValue(post.created_at)
-        const html = stringValue(post.cooked)
-        if (!id || !username || !avatarTemplate || !createdAt || !html) {
-          return null
-        }
-
-        const avatarPath = avatarTemplate.replace('{size}', '40')
-        const avatarUrl = avatarPath.startsWith('http')
-          ? avatarPath
-          : `${FORUM_ORIGIN}${avatarPath}`
-        const linkedHtml = addTargetBlank(
-          html.replace(/href="\/u\//g, `href="${FORUM_ORIGIN}/u/`)
-        )
-
-        return {
-          id: String(id),
-          avatarUrl,
-          createdAt,
-          displayName: stringValue(post.display_username) || username,
-          html: linkedHtml,
-        }
-      })
-      .filter((post): post is BlogDiscussionPost => post !== null)
-    const rawPostsCount = optionalNumberValue(topic.posts_count) ?? 1
-
-    return {
-      id: topicId,
-      posts,
-      postsCount: Math.max(0, rawPostsCount - 1),
-      slug,
-      title,
-      url: `${FORUM_ORIGIN}/t/${slug}/${topicId}`,
-    }
-  } catch {
     return undefined
   }
 }
