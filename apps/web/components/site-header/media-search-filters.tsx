@@ -71,10 +71,12 @@ export function MediaSearchFilters({
               <button
                 key={type}
                 type="button"
+                aria-pressed={selectedTypes.includes(type)}
                 onClick={() => onTypeToggle(type)}
                 className="flex w-full cursor-pointer items-center gap-2 px-2 py-2 text-left font-sans text-[13px] hover:bg-brand-dark-green hover:text-brand-off-white"
               >
                 <span
+                  aria-hidden="true"
                   className={`size-3 border border-current ${
                     selectedTypes.includes(type) ? 'bg-current' : ''
                   }`}
@@ -103,10 +105,12 @@ export function MediaSearchFilters({
               <button
                 key={topic}
                 type="button"
+                aria-pressed={selectedTopics.includes(topic)}
                 onClick={() => onTopicToggle(topic)}
                 className="flex w-full cursor-pointer items-center gap-2 px-2 py-2 text-left font-sans text-[13px] hover:bg-brand-dark-green hover:text-brand-off-white"
               >
                 <span
+                  aria-hidden="true"
                   className={`size-3 shrink-0 border border-current ${
                     selectedTopics.includes(topic) ? 'bg-current' : ''
                   }`}
