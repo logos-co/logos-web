@@ -1,6 +1,7 @@
-import Image from 'next/image'
+import { MEDIA_BODY_IMAGE_SIZES } from '@/lib/media-image-sizes'
 
 import { MediaBreadcrumb } from '../../../_components/media-breadcrumb'
+import { MediaImage } from '../../../_components/media-image'
 import { MediaSummary } from '../../../_components/media-summary'
 import { ShareButton } from '../../../_components/share-button'
 import type { ArticleBreadcrumbProps, ArticleDetailSectionProps } from './types'
@@ -107,13 +108,11 @@ export function ArticleHero({
       {article.coverImage ? (
         <figure className="my-10 w-full max-md:my-6">
           <div className="relative aspect-[1200/630] w-full overflow-hidden bg-brand-dark-green/10">
-            <Image
-              src={article.coverImage.url}
-              alt={article.coverImage.alt}
-              fill
+            <MediaImage
+              image={article.coverImage}
+              sizes={MEDIA_BODY_IMAGE_SIZES}
               priority
-              className="object-cover"
-              sizes="(max-width: 767px) calc(100vw - 32px), 700px"
+              className="absolute inset-0 size-full object-cover"
             />
           </div>
           <figcaption className="min-h-2 pt-2 font-sans text-[12px] leading-4">

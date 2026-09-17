@@ -7,6 +7,7 @@ import { JsonLd } from '@/components/seo/json-ld'
 import { ROUTES } from '@/constants/routes'
 import { routing } from '@/i18n/routing'
 import { getBlogPodcastDetail, getBlogPodcastPaths } from '@/lib/blog-content'
+import { withLocalMediaImages } from '@/lib/media-image-manifest'
 import { absoluteUrl, createDefaultMetadata } from '@/lib/metadata'
 import {
   createBreadcrumbListJsonLd,
@@ -119,7 +120,7 @@ export default async function PodcastPage({
         breadcrumbs={parentCrumbs}
         canonicalUrl={canonicalUrl}
         copy={copy}
-        podcast={podcast}
+        podcast={withLocalMediaImages(podcast)}
       />
     </>
   )

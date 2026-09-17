@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useEffect, useMemo, useRef } from 'react'
 
 import {
@@ -19,6 +18,9 @@ import {
   type YoutubePlayer,
 } from '../../../../_components/podcast-player-api'
 import type { BlogPodcastDetail } from '@/lib/blog-content'
+import { MEDIA_BODY_IMAGE_SIZES } from '@/lib/media-image-sizes'
+
+import { MediaImage } from '../../../../_components/media-image'
 
 interface PodcastPlayerProps {
   copy: PodcastPlayerCopy
@@ -354,13 +356,11 @@ export function PodcastPlayer({ copy, podcast }: PodcastPlayerProps) {
       {mode === 'youtube' ? (
         <div ref={youtubeContainerRef} className="h-full w-full" />
       ) : podcast.coverImage ? (
-        <Image
-          src={podcast.coverImage.url}
-          alt={podcast.coverImage.alt}
-          fill
+        <MediaImage
+          image={podcast.coverImage}
+          sizes={MEDIA_BODY_IMAGE_SIZES}
           priority
-          sizes="(max-width: 767px) calc(100vw - 32px), 696px"
-          className="object-cover"
+          className="absolute inset-0 size-full object-cover"
         />
       ) : null}
 

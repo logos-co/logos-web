@@ -31,6 +31,11 @@ export type Env = {
    */
   NEXT_PUBLIC_API_MODE: ApiMode | undefined
   /**
+   * Sub-path the static export is served under, mirrored from `basePath` in
+   * next.config.mjs. Plain `<img>` tags need it prefixed by hand.
+   */
+  BASE_PATH: string | undefined
+  /**
    * Public site URL (e.g. `https://logos-co-web.vercel.app`). Used for
    * canonical, OG and Twitter absolute URLs. Set per environment.
    */
@@ -124,6 +129,7 @@ export const env: Env = {
     'NEXT_PUBLIC_API_MODE',
     true
   ),
+  BASE_PATH: readOptionalString(process.env.BASE_PATH),
   NEXT_PUBLIC_SITE_URL: readOptionalString(process.env.NEXT_PUBLIC_SITE_URL),
   NEXT_PUBLIC_CMS_URL: readOptionalString(process.env.NEXT_PUBLIC_CMS_URL),
   NEXT_PUBLIC_ADMIN_ACID_API_URL: readOptionalString(
