@@ -1,53 +1,103 @@
-import { EXTERNAL_URLS } from '@/constants/routes'
-import type { BlogArticleDetail } from '@/lib/blog-content'
+'use client'
 
-import type { ArticleDetailCopy } from './types'
+import { useTranslations } from 'next-intl'
+import { useEffect, useState } from 'react'
+
+import { EXTERNAL_URLS } from '@/constants/routes'
+import { fetchDiscourseTopic, type BlogDiscussion } from '@/lib/discourse-topic'
+import { logger } from '@/lib/logger'
+
+/** Forum category the legacy blog filed article discussions under. */
+const ARTICLE_DISCUSSION_CATEGORY_ID = '8'
 
 interface ArticleDiscussionProps {
-  article: BlogArticleDetail
   canonicalUrl: string
-  copy: Pick<
-    ArticleDetailCopy,
-    | 'discussion'
-    | 'discussionComments'
-    | 'joinDiscussion'
-    | 'noDiscussion'
-    | 'readFullArticle'
-    | 'startDiscussion'
-    | 'viewFullDiscussion'
-  >
+  /** Replies baked in at build time; shown until the live fetch lands. */
+  initialDiscussion?: BlogDiscussion
+  summary: string
+  title: string
+  topicId?: number
+}
+
+function formatPostDate(value: string): string {
+  // Fixed zone so the server snapshot and the hydrated page agree.
+  return new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'UTC',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(new Date(value))
 }
 
 function newDiscussionUrl(
-  article: BlogArticleDetail,
+  title: string,
+  summary: string,
   canonicalUrl: string,
   readFullArticle: string
 ): string {
   const url = new URL('new-topic', EXTERNAL_URLS.forum)
-  url.searchParams.set('title', article.title)
+  url.searchParams.set('title', title)
   url.searchParams.set(
     'body',
-    `${article.summary}\n\n[${readFullArticle}](${canonicalUrl})`
+    `${summary}\n\n[${readFullArticle}](${canonicalUrl})`
   )
-  url.searchParams.set('category', '8')
+  url.searchParams.set('category', ARTICLE_DISCUSSION_CATEGORY_ID)
   return url.toString()
 }
 
+/**
+ * forum.logos.co only answers CORS for logos.co and its preview deployments,
+ * so a localhost request always fails with a console error.
+ */
+const CAN_REFRESH_DISCUSSION = process.env.NODE_ENV === 'production'
+
+/**
+ * The static export freezes replies at build time, so refresh them from the
+ * forum once the page is in the browser. Any failure keeps the snapshot.
+ */
+function useLiveDiscussion(
+  topicId: number | undefined,
+  initialDiscussion: BlogDiscussion | undefined
+): BlogDiscussion | undefined {
+  const [discussion, setDiscussion] = useState(initialDiscussion)
+
+  useEffect(() => {
+    if (!topicId || !CAN_REFRESH_DISCUSSION) return
+
+    const controller = new AbortController()
+    fetchDiscourseTopic(topicId, { signal: controller.signal })
+      .then((latest) => {
+        if (latest) setDiscussion(latest)
+      })
+      .catch((error: unknown) => {
+        if (controller.signal.aborted) return
+        logger.debug('Live discussion refresh failed', { topicId, error })
+      })
+
+    return () => controller.abort()
+  }, [topicId])
+
+  return discussion
+}
+
 export function ArticleDiscussion({
-  article,
   canonicalUrl,
-  copy,
+  initialDiscussion,
+  summary,
+  title,
+  topicId,
 }: ArticleDiscussionProps) {
-  const discussion = article.discussion
+  const t = useTranslations('mediaDetail.article')
+  const discussion = useLiveDiscussion(topicId, initialDiscussion)
   const actionUrl =
     discussion?.url ??
-    newDiscussionUrl(article, canonicalUrl, copy.readFullArticle)
+    newDiscussionUrl(title, summary, canonicalUrl, t('readFullArticle'))
 
   return (
     <section className="mb-8">
       <div className="mb-4 flex items-center justify-between gap-4">
         <h3 className="font-sans text-[20px] font-semibold leading-[42px]">
-          {copy.discussion}
+          {t('discussion')}
         </h3>
         <a
           href={actionUrl}
@@ -55,7 +105,7 @@ export function ArticleDiscussion({
           rel="noopener noreferrer"
           className="cursor-pointer font-sans text-[14px] leading-5 underline underline-offset-2"
         >
-          {discussion ? copy.joinDiscussion : copy.startDiscussion}
+          {discussion ? t('joinDiscussion') : t('startDiscussion')}
         </a>
       </div>
 
@@ -66,7 +116,7 @@ export function ArticleDiscussion({
               {discussion.title}
             </h3>
             <div className="mt-1 flex items-center gap-2 font-sans text-[12px] leading-4">
-              <span>{copy.discussionComments}</span>
+              <span>{t('comments', { count: discussion.postsCount })}</span>
               <span aria-hidden="true">•</span>
               <a
                 href={discussion.url}
@@ -74,7 +124,7 @@ export function ArticleDiscussion({
                 rel="noopener noreferrer"
                 className="cursor-pointer underline underline-offset-2"
               >
-                {copy.viewFullDiscussion}
+                {t('viewFullDiscussion')}
               </a>
             </div>
           </div>
@@ -103,11 +153,7 @@ export function ArticleDiscussion({
                         dateTime={post.createdAt}
                         className="font-sans text-[12px] leading-4"
                       >
-                        {new Intl.DateTimeFormat('en-GB', {
-                          day: 'numeric',
-                          month: 'short',
-                          year: 'numeric',
-                        }).format(new Date(post.createdAt))}
+                        {formatPostDate(post.createdAt)}
                       </time>
                     </div>
                   </div>
@@ -120,13 +166,13 @@ export function ArticleDiscussion({
             </div>
           ) : (
             <p className="py-4 text-center font-sans text-[14px] italic leading-6">
-              {copy.noDiscussion}
+              {t('noDiscussion')}
             </p>
           )}
         </div>
       ) : (
         <p className="py-4 text-center font-sans text-[14px] italic leading-6">
-          {copy.noDiscussion}
+          {t('noDiscussion')}
         </p>
       )}
     </section>

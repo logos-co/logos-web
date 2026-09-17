@@ -104,9 +104,11 @@ export function ArticleFooter({
         ) : null}
 
         <ArticleDiscussion
-          article={article}
           canonicalUrl={canonicalUrl}
-          copy={copy}
+          initialDiscussion={article.discussion}
+          summary={article.summary}
+          title={article.title}
+          topicId={article.discourseTopicId}
         />
 
         <ReferenceCollapse

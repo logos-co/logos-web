@@ -1,6 +1,8 @@
 import type { BlogArticleDetail } from '@/lib/blog-content'
+import type { BreadcrumbItem } from '@/lib/structured-data'
 
 export interface ArticleDetailCopy {
+  breadcrumb: string
   contents: string
   share: string
   copied: string
@@ -8,16 +10,14 @@ export interface ArticleDetailCopy {
   fromSameAuthors: string
   footnotes: string
   minRead: string
-  discussion: string
-  discussionComments: string
-  joinDiscussion: string
-  noDiscussion: string
-  readFullArticle: string
-  startDiscussion: string
-  viewFullDiscussion: string
 }
 
 export interface ArticleDetailSectionProps {
   article: BlogArticleDetail
   copy: ArticleDetailCopy
+}
+
+export interface ArticleBreadcrumbProps {
+  /** Parent sections shown above the title. */
+  breadcrumbs: ReadonlyArray<BreadcrumbItem>
 }
