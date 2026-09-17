@@ -1,10 +1,7 @@
-import type { Metadata } from 'next'
-
-import { StaticRedirect } from '@/components/seo/static-redirect'
 import { ROUTES } from '@/constants/routes'
 import { routing } from '@/i18n/routing'
 import { getBlogPodcastPaths } from '@/lib/blog-content'
-import { absoluteUrl } from '@/lib/metadata'
+import { createRedirectMetadata, StaticRedirect } from '@/lib/static-redirect'
 
 export const dynamicParams = false
 
@@ -18,22 +15,22 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ showSlug: string; slug: string }>
-}): Promise<Metadata> {
+  params: Promise<{ locale: string; showSlug: string; slug: string }>
+}) {
   const { showSlug, slug } = await params
-  return {
-    robots: { index: false, follow: true },
-    alternates: { canonical: absoluteUrl(ROUTES.mediaPodcast(showSlug, slug)) },
-  }
+  return createRedirectMetadata(ROUTES.mediaPodcast(showSlug, slug))({ params })
 }
 
 export default async function LegacyPodcastPage({
   params,
 }: {
-  params: Promise<{ showSlug: string; slug: string }>
+  params: Promise<{ locale: string; showSlug: string; slug: string }>
 }) {
-  const { showSlug, slug } = await params
+  const { locale, showSlug, slug } = await params
   return (
-    <StaticRedirect target={absoluteUrl(ROUTES.mediaPodcast(showSlug, slug))} />
+    <StaticRedirect
+      target={ROUTES.mediaPodcast(showSlug, slug)}
+      locale={locale}
+    />
   )
 }
