@@ -28,7 +28,7 @@
         ],
         "primaryCta": {
           "label": "Read the PriFi thesis >>",
-          "href": "https://blog.logos.co/article/pri-fi-securing-transaction-supply-chain"
+          "href": "/media/article/pri-fi-securing-transaction-supply-chain"
         },
         "secondaryCta": {
           "label": "Explore the transaction supply chain >>",
@@ -385,7 +385,7 @@
             "subtitle": "Vaults of glass: why transparent blockchains \nare incomplete institutions",
             "body": "The full argument — commitment capacity, \nthe two hazard classes, and where the writ stops.",
             "cta": "READ THE PAPER",
-            "href": "https://blog.logos.co/article/pri-fi-securing-transaction-supply-chain"
+            "href": "/media/article/pri-fi-securing-transaction-supply-chain"
           }
         ]
       }
