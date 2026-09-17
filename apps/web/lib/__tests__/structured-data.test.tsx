@@ -135,6 +135,42 @@ describe('structured data', () => {
     })
   })
 
+  it('writes date-only CMS values as full timestamps', () => {
+    // Rich Results flags bare dates as invalid datetimes without a timezone.
+    const article = createArticleJsonLd({
+      path: '/media/article/anonymous-block-proposers',
+      headline: 'Anonymous Block Proposers',
+      description: '',
+      datePublished: '2026-03-24',
+      dateModified: '2026-03-25',
+      authors: [],
+    })
+    const episode = createPodcastEpisodeJsonLd({
+      path: '/media/podcasts/logos-state/episode',
+      name: 'Episode',
+      description: '',
+      datePublished: '2024-09-18',
+    })
+
+    expect(article.datePublished).toBe('2026-03-24T00:00:00.000Z')
+    expect(article.dateModified).toBe('2026-03-25T00:00:00.000Z')
+    expect(episode.datePublished).toBe('2024-09-18T00:00:00.000Z')
+  })
+
+  it('drops dates the CMS stored in an unreadable format', () => {
+    const article = createArticleJsonLd({
+      path: '/media/article/broken',
+      headline: 'Broken',
+      description: '',
+      datePublished: 'not a date',
+      dateModified: null,
+      authors: [],
+    })
+
+    expect(article.datePublished).toBeUndefined()
+    expect(article.dateModified).toBeUndefined()
+  })
+
   it('builds a podcast episode that belongs to its series', () => {
     expect(
       createPodcastEpisodeJsonLd({
