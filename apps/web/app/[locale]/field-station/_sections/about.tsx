@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { StatCardView } from '@/components/sections/home/social-proof-section'
 
 import { ABOUT, SECTION_IDS } from '../_content'
+import { LinkedText } from './atoms'
 
 /**
  * 490×652 portrait beside the copy column; the column (heading, lead copy,
@@ -30,7 +31,9 @@ export function About() {
             <h2 className="text-h2-lg">{ABOUT.heading}</h2>
             <div className="text-lead-sans flex max-w-[596px] flex-col gap-[1.4em]">
               {ABOUT.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+                <p key={paragraph.text}>
+                  <LinkedText text={paragraph.text} link={paragraph.link} />
+                </p>
               ))}
             </div>
           </div>

@@ -22,6 +22,7 @@ import {
   COALITION,
   TRACKS,
   EVENT_DETAILS,
+  EVENT_NAMES,
   HERO,
   LEGAL_LINKS,
   OG_IMAGE,
@@ -174,6 +175,30 @@ describe('field station page', () => {
       )
       expect(link && attr(link, 'target')).toBe('_blank')
     }
+  })
+
+  test('lists the coalition partners in alphabetical order', () => {
+    const names = COALITION.logos.map((logo) => logo.name)
+
+    expect(names).toContain('Dhun')
+    expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)))
+  })
+
+  test('the about copy offers the scholarship and links the application form', async () => {
+    const html = await pageHtml()
+    const about =
+      html.match(
+        new RegExp(`<section id="${SECTION_IDS.about}".*?</section>`, 's')
+      )?.[0] ?? ''
+    const formLink = anchorTags(about).find(
+      (tag) => attr(tag, 'href') === APPLY_HREF
+    )
+
+    expect(about).toContain('30 selected residents receive a full scholarship')
+    expect(attr(formLink ?? '', 'data-umami-event-name')).toBe(
+      EVENT_NAMES.aboutApplication
+    )
+    expect(attr(formLink ?? '', 'target')).toBe('_blank')
   })
 
   test('the legal documents are linked below the coalition logos', async () => {
