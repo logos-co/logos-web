@@ -42,6 +42,12 @@ export type FooterProps = {
   researchLinks: FooterLink[]
   infrastructureLinks: FooterLink[]
   legalLinks: FooterLink[]
+  /**
+   * Legal links that only apply to the current page, such as a programme's own
+   * terms, shown beside `legalLinks`. A slot so the host app can pick them from
+   * its router; render them with `FooterLinkList` to match the other lists.
+   */
+  pageLegalLinks?: ReactNode
   builtBy?: { label: string; attribution: ReactNode; href?: string }
   /** Override the internal-link element (e.g. pass next-intl's `Link`). External links always use `<a>`. Defaults to `'a'`. */
   linkAs?: LinkLikeComponent
@@ -76,13 +82,13 @@ function FooterLinkItem({
   )
 }
 
-function LinkList({
+export function FooterLinkList({
   label,
   links,
   linkAs,
 }: {
   label?: string
-  links: FooterLink[]
+  links: readonly FooterLink[]
   linkAs?: LinkLikeComponent
 }) {
   if (links.length === 0) {
@@ -111,6 +117,7 @@ export function Footer({
   researchLinks,
   infrastructureLinks,
   legalLinks,
+  pageLegalLinks,
   logo,
   className,
 }: FooterProps) {
@@ -160,25 +167,33 @@ export function Footer({
       )}
 
       <div className="absolute top-[332px] left-3 lg:top-[133px] lg:left-[calc(50%+6px)]">
-        <LinkList links={mainLinks} />
+        <FooterLinkList links={mainLinks} />
       </div>
 
       <div className="absolute top-[332px] left-[calc(50%+6px)] lg:top-[133px] lg:left-[calc(83.33%+3px)]">
-        <LinkList links={socialLinks} />
+        <FooterLinkList links={socialLinks} />
       </div>
 
       <div className="absolute top-[460px] left-3 lg:top-[322px] lg:left-[calc(50%+8px)]">
-        <LinkList label="Research" links={researchLinks} />
+        <FooterLinkList label="Research" links={researchLinks} />
       </div>
 
       <div className="absolute top-[460px] left-[calc(50%+6px)] lg:top-[322px] lg:left-[calc(83.33%+3px)]">
-        <LinkList label="Infrastructure" links={infrastructureLinks} />
+        <FooterLinkList label="Infrastructure" links={infrastructureLinks} />
       </div>
 
       {/* 29px below the four-link Research list, the gap that sits above it. */}
       <div className="absolute top-[591px] left-3 lg:top-[617px] lg:left-[calc(50%+6px)]">
-        <LinkList links={legalLinks} />
+        <FooterLinkList links={legalLinks} />
       </div>
+
+      {pageLegalLinks && (
+        // A label row is 3px taller than a link row, so starting 3px higher
+        // lines these links up with the site legal links beside them.
+        <div className="absolute top-[588px] left-[calc(50%+6px)] lg:top-[614px] lg:left-[calc(83.33%+3px)]">
+          {pageLegalLinks}
+        </div>
+      )}
     </footer>
   )
 }

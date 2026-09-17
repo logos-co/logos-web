@@ -40,7 +40,13 @@ const components: Components = {
   ol: ({ children }) => (
     <ol className="list-decimal space-y-2 pl-5">{children}</ol>
   ),
-  li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+  // A clause can hold several paragraphs or a sub-list; space them like the
+  // top-level blocks and list items.
+  li: ({ children }) => (
+    <li className="leading-relaxed [&>ol]:mt-2 [&>p+p]:mt-4 [&>ul]:mt-2">
+      {children}
+    </li>
+  ),
   a: ({ href, children }) => (
     <a
       href={href}

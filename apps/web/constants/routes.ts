@@ -89,6 +89,8 @@ export const ROUTES = {
   ukDebt: '/ukdebt',
   chatControl: '/chatcontrol',
   fieldStation: '/field-station',
+  fieldStationTerms: '/field-station/terms-and-conditions',
+  fieldStationPrivacy: '/field-station/privacy-policy',
   prifi: '/prifi',
 } as const
 

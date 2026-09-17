@@ -3,6 +3,7 @@ import { isActiveLocale } from '@repo/content/locales'
 import type { DesignGuideCopySection } from '@repo/content/schemas'
 
 import { DocsPageShell } from '@/components/sections/shared/docs-page-shell'
+import { DocsToc } from '@/components/sections/shared/docs-toc'
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
@@ -30,7 +31,7 @@ export default async function DesignGuidePage({
   )
 
   return (
-    <DocsPageShell activeKey="designGuide">
+    <DocsPageShell nav={<DocsToc activeKey="designGuide" />}>
       <h1 className="text-eyebrow w-full text-brand-dark-green">
         {copy.heading}
       </h1>

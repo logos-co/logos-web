@@ -77,6 +77,8 @@ Background: `bg-brand-dark-green`, `text-brand-off-white`.
 
 Desktop (md+): 3-column layout — image + "Built by IFT" (left), logo + primary links + research + legal (middle), tagline + social + infrastructure (right). Mobile: 2-column with image + logo/tagline stacked on top.
 
+Programme pages can add their own legal documents beside the site legal links. `apps/web/lib/page-legal-links.ts` maps a route to its links (today only Field Station), and `SiteFooterPageLegalLinks` picks them from the current path.
+
 ```ts
 interface FooterLink {
   label: string
@@ -93,6 +95,7 @@ interface FooterProps {
   researchLinks: FooterLink[] // under "RESEARCH" label
   infrastructureLinks: FooterLink[] // under "INFRASTRUCTURE" label
   legalLinks: FooterLink[] // Terms, Privacy, Security
+  pageLegalLinks?: ReactNode // page-only legal list beside legalLinks (render with FooterLinkList)
   builtBy?: { label: string; attribution: ReactNode; href?: string }
   className?: string
 }

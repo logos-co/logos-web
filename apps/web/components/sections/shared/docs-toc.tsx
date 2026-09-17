@@ -40,25 +40,33 @@ const ITEMS: ReadonlyArray<DocsTocItem> = [
   { key: 'testnetTerms', href: ROUTES.testnetTermsAndConditions },
 ]
 
-interface DocsTocProps {
-  activeKey: DocsTocKey
+export interface DocsNavItem {
+  label: string
+  href: string
 }
 
-export async function DocsToc({ activeKey }: DocsTocProps) {
-  const t = await getTranslations('common.docsNav')
+interface DocsNavProps {
+  /** Accessible name of the navigation landmark. */
+  label: string
+  items: readonly DocsNavItem[]
+  /** `href` of the item for the current page. */
+  activeHref?: string
+}
 
+/** The docs side navigation, for any set of sibling documents. */
+export function DocsNav({ label, items, activeHref }: DocsNavProps) {
   return (
     <nav
-      aria-label="Docs navigation"
+      aria-label={label}
       className="flex w-56.5 shrink-0 flex-col items-start gap-1 self-start py-20 xl:sticky xl:top-0"
     >
-      {ITEMS.map((item) => {
-        const isActive = item.key === activeKey
+      {items.map((item) => {
+        const isActive = item.href === activeHref
 
         if (isActive) {
           return (
             <span
-              key={item.key}
+              key={item.href}
               aria-current="page"
               className="flex items-center gap-1"
             >
@@ -67,7 +75,7 @@ export async function DocsToc({ activeKey }: DocsTocProps) {
                 className="h-2 w-3 shrink-0 rounded-full bg-brand-dark-green"
               />
               <span className="text-eyebrow text-brand-dark-green">
-                {t(item.key)}
+                {item.label}
               </span>
             </span>
           )
@@ -77,11 +85,26 @@ export async function DocsToc({ activeKey }: DocsTocProps) {
           'text-mono-s cursor-pointer text-brand-dark-green transition-opacity hover:opacity-60'
 
         return (
-          <Link key={item.key} href={item.href} className={className}>
-            {t(item.key)}
+          <Link key={item.href} href={item.href} className={className}>
+            {item.label}
           </Link>
         )
       })}
     </nav>
+  )
+}
+
+interface DocsTocProps {
+  activeKey: DocsTocKey
+}
+
+/** The site-wide docs navigation shared by the legal and guide pages. */
+export async function DocsToc({ activeKey }: DocsTocProps) {
+  const t = await getTranslations('common.docsNav')
+  const items = ITEMS.map(({ key, href }) => ({ label: t(key), href }))
+  const activeHref = ITEMS.find(({ key }) => key === activeKey)?.href
+
+  return (
+    <DocsNav label="Docs navigation" items={items} activeHref={activeHref} />
   )
 }
