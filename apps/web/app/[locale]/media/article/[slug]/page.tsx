@@ -3,11 +3,15 @@ import { getTranslations } from 'next-intl/server'
 
 import { isActiveLocale } from '@repo/content/locales'
 
+import { JsonLd } from '@/components/seo/json-ld'
 import { ROUTES } from '@/constants/routes'
 import { routing } from '@/i18n/routing'
 import { getBlogArticleDetail, getBlogArticleSlugs } from '@/lib/blog-content'
 import { absoluteUrl, createDefaultMetadata } from '@/lib/metadata'
-import { ORGANIZATION_FRAGMENT, SCHEMA_ORGANIZATION } from '@/lib/schema-org'
+import {
+  createArticleJsonLd,
+  createBreadcrumbListJsonLd,
+} from '@/lib/structured-data'
 
 import { ArticleDetailPage } from './_sections/article-detail-page'
 import type { ArticleDetailCopy } from './_sections/types'
@@ -49,68 +53,6 @@ export async function generateMetadata({
   })
 }
 
-function articleJsonLd(
-  article: Awaited<ReturnType<typeof getBlogArticleDetail>>
-) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: article.title,
-    description: article.summary,
-    datePublished: article.publishedAt,
-    dateModified: article.modifiedAt ?? article.publishedAt,
-    image: article.ogImage?.url ?? article.coverImage?.url,
-    author: article.authors.map((author) => ({
-      '@type': 'Person',
-      name: author.name,
-    })),
-    publisher: {
-      '@type': SCHEMA_ORGANIZATION,
-      '@id': `${absoluteUrl('')}${ORGANIZATION_FRAGMENT}`,
-      name: 'Logos',
-      url: absoluteUrl(''),
-      logo: {
-        '@type': 'ImageObject',
-        url: absoluteUrl('/logo.svg'),
-      },
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': absoluteUrl(ROUTES.mediaArticle(article.slug)),
-    },
-  }
-}
-
-function articleBreadcrumbJsonLd(
-  article: { slug: string; title: string },
-  labels: { media: string; articles: string }
-) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: labels.media,
-        item: absoluteUrl(ROUTES.media),
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: labels.articles,
-        item: absoluteUrl(ROUTES.mediaArticles),
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: article.title,
-        item: absoluteUrl(ROUTES.mediaArticle(article.slug)),
-      },
-    ],
-  }
-}
-
 export default async function ArticlePage({
   params,
 }: {
@@ -129,6 +71,7 @@ export default async function ArticlePage({
   if (!article) notFound()
 
   const copy: ArticleDetailCopy = {
+    breadcrumb: t('breadcrumbs.label'),
     contents: t('article.contents'),
     share: t('article.share'),
     copied: t('article.copied'),
@@ -136,39 +79,36 @@ export default async function ArticlePage({
     fromSameAuthors: t('article.fromSameAuthors'),
     footnotes: t('article.footnotes'),
     minRead: t('article.minRead', { count: article.readingTime }),
-    discussion: t('article.discussion'),
-    discussionComments: t('article.comments', {
-      count: article.discussion?.postsCount ?? 0,
-    }),
-    joinDiscussion: t('article.joinDiscussion'),
-    noDiscussion: t('article.noDiscussion'),
-    readFullArticle: t('article.readFullArticle'),
-    startDiscussion: t('article.startDiscussion'),
-    viewFullDiscussion: t('article.viewFullDiscussion'),
   }
-  const canonicalUrl = absoluteUrl(ROUTES.mediaArticle(article.slug), locale)
+  const articlePath = ROUTES.mediaArticle(article.slug)
+  const canonicalUrl = absoluteUrl(articlePath, locale)
+  const parentCrumbs = [
+    { name: t('breadcrumbs.media'), path: ROUTES.media },
+    { name: t('breadcrumbs.articles'), path: ROUTES.mediaArticlesSection },
+  ]
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(articleJsonLd(article)),
-        }}
+      <JsonLd
+        data={createArticleJsonLd({
+          path: articlePath,
+          headline: article.title,
+          description: article.summary,
+          image: article.ogImage?.url ?? article.coverImage?.url,
+          datePublished: article.publishedAt,
+          dateModified: article.modifiedAt,
+          authors: article.authors.map((author) => author.name),
+        })}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            articleBreadcrumbJsonLd(article, {
-              media: t('breadcrumbs.media'),
-              articles: t('breadcrumbs.articles'),
-            })
-          ),
-        }}
+      <JsonLd
+        data={createBreadcrumbListJsonLd(
+          [...parentCrumbs, { name: article.title, path: articlePath }],
+          locale
+        )}
       />
       <ArticleDetailPage
         article={article}
+        breadcrumbs={parentCrumbs}
         copy={copy}
         canonicalUrl={canonicalUrl}
       />

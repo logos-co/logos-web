@@ -10,13 +10,15 @@ import { ExternalLink } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
 
+import { MediaBreadcrumb } from '../../../../_components/media-breadcrumb'
 import { MediaSummary } from '../../../../_components/media-summary'
 import { ShareButton } from '../../../../_components/share-button'
 import { PodcastPlayer } from './podcast-player'
 import { PodcastStats } from './podcast-stats'
-import type { PodcastDetailSectionProps } from './types'
+import type { PodcastBreadcrumbProps, PodcastDetailSectionProps } from './types'
 
-interface PodcastHeroProps extends PodcastDetailSectionProps {
+interface PodcastHeroProps
+  extends PodcastDetailSectionProps, PodcastBreadcrumbProps {
   canonicalUrl: string
 }
 
@@ -44,7 +46,12 @@ function channelIcon(value: string) {
   return null
 }
 
-export function PodcastHero({ canonicalUrl, copy, podcast }: PodcastHeroProps) {
+export function PodcastHero({
+  breadcrumbs,
+  canonicalUrl,
+  copy,
+  podcast,
+}: PodcastHeroProps) {
   const date = formatDate(podcast.publishedAt)
   const episodeId = podcast.id || `${podcast.showSlug}/${podcast.slug}`
   const listeningChannels = podcast.channels.filter(
@@ -53,6 +60,9 @@ export function PodcastHero({ canonicalUrl, copy, podcast }: PodcastHeroProps) {
 
   return (
     <section className="flex flex-col">
+      <div className="mb-6">
+        <MediaBreadcrumb label={copy.breadcrumb} items={breadcrumbs} />
+      </div>
       <PodcastPlayer copy={copy} podcast={podcast} />
 
       <PodcastStats
