@@ -4,7 +4,7 @@
  * inline `options` resolves here.
  *
  * The lists themselves live in `@repo/funnel` — the intake endpoint on
- * `apps/civi-crm` resolves the submitted ids back to labels.
+ * `apps/api` resolves the submitted ids back to labels.
  */
 
 import {

@@ -5,7 +5,7 @@ import type { AfformField } from './types'
 /**
  * Maximum length for free-text funnel form fields. Matches the Notion API's
  * 2000-character per-element limit for `rich_text`/`title` properties, which
- * these fields map to downstream in `apps/civi-crm`.
+ * these fields map to downstream in `apps/api`.
  */
 export const MAX_TEXT_LENGTH = 2000
 

@@ -29,8 +29,6 @@ apps/api
 
 The reason the writes share one handler: hCaptcha tokens are single-use. One POST, one token, the backend writes in sequence.
 
-Transitional: `apps/web` still posts to `apps/civi-crm`, a frozen copy of the same endpoint, until its `NEXT_PUBLIC_CIVI_CRM_URL` is switched to the `apps/api` deployment. Code changes go to `apps/api` only.
-
 After that POST resolves successfully, `apps/web` fires the newsletter opt-ins on its own (see below). They are not part of the `afform-submit` request.
 
 ---
