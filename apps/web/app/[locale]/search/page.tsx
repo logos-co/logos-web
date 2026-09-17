@@ -1,14 +1,15 @@
-import type { Metadata } from 'next'
-
-import { StaticRedirect } from '@/components/seo/static-redirect'
 import { ROUTES } from '@/constants/routes'
-import { absoluteUrl } from '@/lib/metadata'
+import { createRedirectMetadata, StaticRedirect } from '@/lib/static-redirect'
 
-export const metadata: Metadata = {
-  robots: { index: false, follow: true },
-  alternates: { canonical: absoluteUrl(ROUTES.media) },
-}
+const TARGET = ROUTES.media
 
-export default function LegacySearchPage() {
-  return <StaticRedirect target={absoluteUrl(ROUTES.media)} />
+export const generateMetadata = createRedirectMetadata(TARGET)
+
+export default async function LegacySearchPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  return <StaticRedirect target={TARGET} locale={locale} />
 }

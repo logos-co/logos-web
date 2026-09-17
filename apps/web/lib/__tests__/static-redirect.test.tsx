@@ -34,6 +34,8 @@ const REDIRECT_PAGES = [
   'circles',
   'contact',
   'farewell-to-westphalia',
+  'podcasts',
+  'search',
   'tech-stack',
   'testnet-v01-faqs',
 ] as const

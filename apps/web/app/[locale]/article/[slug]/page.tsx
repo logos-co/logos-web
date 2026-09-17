@@ -1,12 +1,7 @@
-import type { Metadata } from 'next'
-
-import { isActiveLocale } from '@repo/content/locales'
-
-import { StaticRedirect } from '@/components/seo/static-redirect'
 import { ROUTES } from '@/constants/routes'
 import { routing } from '@/i18n/routing'
 import { getBlogArticleSlugs } from '@/lib/blog-content'
-import { absoluteUrl } from '@/lib/metadata'
+import { createRedirectMetadata, StaticRedirect } from '@/lib/static-redirect'
 
 export const dynamicParams = false
 
@@ -21,15 +16,9 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string; slug: string }>
-}): Promise<Metadata> {
-  const { locale, slug } = await params
-  if (!isActiveLocale(locale)) {
-    throw new Error(`generateMetadata received non-active locale "${locale}"`)
-  }
-  return {
-    robots: { index: false, follow: true },
-    alternates: { canonical: absoluteUrl(ROUTES.mediaArticle(slug), locale) },
-  }
+}) {
+  const { slug } = await params
+  return createRedirectMetadata(ROUTES.mediaArticle(slug))({ params })
 }
 
 export default async function LegacyArticlePage({
@@ -38,7 +27,5 @@ export default async function LegacyArticlePage({
   params: Promise<{ locale: string; slug: string }>
 }) {
   const { locale, slug } = await params
-  return (
-    <StaticRedirect target={absoluteUrl(ROUTES.mediaArticle(slug), locale)} />
-  )
+  return <StaticRedirect target={ROUTES.mediaArticle(slug)} locale={locale} />
 }
