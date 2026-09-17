@@ -9,6 +9,7 @@ import { Coalition } from './coalition'
 import { Faq } from './faq'
 import { Gathering } from './gathering'
 import { Hero } from './hero'
+import { LegalLinks } from './legal-links'
 import { Partners } from './partners'
 import { Timeline } from './timeline'
 import { Tracks } from './tracks'
@@ -50,6 +51,7 @@ export function FieldStationPage() {
       <Faq />
       <Partners />
       <Coalition />
+      <LegalLinks />
     </div>
   )
 }

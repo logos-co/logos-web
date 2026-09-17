@@ -1,10 +1,11 @@
 import { DocsNav } from '@/components/sections/shared/docs-toc'
 import { ROUTES } from '@/constants/routes'
-import { FIELD_STATION_LEGAL_LINKS } from '@/lib/page-legal-links'
+
+import { LEGAL_LINKS } from './_content'
 
 const ITEMS = [
-  { label: FIELD_STATION_LEGAL_LINKS.label, href: ROUTES.fieldStation },
-  ...FIELD_STATION_LEGAL_LINKS.links,
+  { label: 'Field Station', href: ROUTES.fieldStation },
+  ...LEGAL_LINKS,
 ]
 
 /** Side navigation for the Field Station application documents. */

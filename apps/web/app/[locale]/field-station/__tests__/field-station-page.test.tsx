@@ -23,6 +23,7 @@ import {
   TRACKS,
   EVENT_DETAILS,
   HERO,
+  LEGAL_LINKS,
   OG_IMAGE,
   SECTION_IDS,
   SEO,
@@ -172,6 +173,26 @@ describe('field station page', () => {
         (tag) => attr(tag, 'href') === logo.href
       )
       expect(link && attr(link, 'target')).toBe('_blank')
+    }
+  })
+
+  test('the legal documents are linked below the coalition logos', async () => {
+    const html = await pageHtml()
+    const block = html.slice(html.indexOf(COALITION.heading))
+    const lastLogo = block.lastIndexOf(`alt="${COALITION.logos.at(-1)?.name}"`)
+
+    expect(LEGAL_LINKS.map((link) => link.href)).toEqual([
+      ROUTES.fieldStationTerms,
+      ROUTES.fieldStationPrivacy,
+    ])
+    for (const link of LEGAL_LINKS) {
+      const tag = anchorTags(block).find(
+        (candidate) => attr(candidate, 'href') === link.href
+      )
+      expect(tag).toBeDefined()
+      expect(block.indexOf(tag ?? '')).toBeGreaterThan(lastLogo)
+      expect(attr(tag ?? '', 'target')).toBeUndefined()
+      expect(block).toContain(`>${link.label}</a>`)
     }
   })
 
