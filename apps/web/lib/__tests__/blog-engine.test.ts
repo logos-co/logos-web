@@ -2,6 +2,7 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import {
   getBroadcastEvents,
+  getBlogSearchTopics,
   getLatestBlogArticles,
   getLatestBlogPodcasts,
   getBlogPageData,
@@ -455,5 +456,27 @@ describe('getBroadcastEvents', () => {
       links: ['https://example.com/update', 'https://example.com/backup'],
       link: 'https://example.com/update',
     })
+  })
+})
+
+describe('getBlogSearchTopics', () => {
+  test('reads the topics the legacy search page ships', async () => {
+    stubRetryBackoff()
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      htmlResponse(
+        '<script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"topics":["Learn"," Community ",""]}}}</script>'
+      )
+    )
+
+    await expect(getBlogSearchTopics()).resolves.toEqual(['Learn', 'Community'])
+  })
+
+  test('falls back to no topics when the legacy blog is unreachable', async () => {
+    // The header renders on every route, so a legacy outage must not take the
+    // whole static export down: free-text search works without topic filters.
+    stubRetryBackoff()
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(errorResponse(503))
+
+    await expect(getBlogSearchTopics()).resolves.toEqual([])
   })
 })

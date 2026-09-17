@@ -1,6 +1,7 @@
 import { cache } from 'react'
 
 import { env } from '@/lib/env'
+import { logger } from '@/lib/logger'
 import { ROUTES } from '@/constants/routes'
 
 export const BLOG_ORIGIN = 'https://blog.logos.co'
@@ -547,6 +548,11 @@ export const getBlogPageData = async () => {
   }
 }
 
+/**
+ * Topic chips for the media search dialog, read from the legacy search page.
+ * The header renders on every route, so a legacy outage must not fail the
+ * build: search still works without the chips.
+ */
 export const getBlogSearchTopics = cache(async (): Promise<string[]> => {
   for (const origin of [BLOG_ORIGIN, BLOG_DEPLOYMENT_ORIGIN]) {
     let html: string
@@ -574,7 +580,8 @@ export const getBlogSearchTopics = cache(async (): Promise<string[]> => {
       .filter(Boolean)
   }
 
-  throw new Error('Blog search page is missing topic data')
+  logger.warn('Blog search page has no topic data, hiding the topic filters')
+  return []
 })
 
 export const getLatestBlogPodcasts = async (limit = 20) => {
