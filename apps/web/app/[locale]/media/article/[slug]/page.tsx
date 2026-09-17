@@ -1,4 +1,3 @@
-import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 
 import { isActiveLocale } from '@repo/content/locales'
@@ -64,12 +63,13 @@ export default async function ArticlePage({
     throw new Error(`ArticlePage received non-active locale "${locale}"`)
   }
 
+  // No catch: the slug came from generateStaticParams, so a failure here means
+  // the CMS is down or the content is malformed, and the export should stop
+  // rather than publish a 404 in place of a real page.
   const [article, t] = await Promise.all([
-    getBlogArticleDetail(slug).catch(() => null),
+    getBlogArticleDetail(slug),
     getTranslations('mediaDetail'),
   ])
-
-  if (!article) notFound()
 
   const copy: ArticleDetailCopy = {
     breadcrumb: t('breadcrumbs.label'),
