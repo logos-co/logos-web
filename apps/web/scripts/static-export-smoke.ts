@@ -7,6 +7,10 @@ import { ROUTES } from '../constants/routes'
 import { ROUTE_AVAILABILITY } from '../constants/route-availability'
 import { env } from '../lib/env'
 import { MEDIA_IMAGE_DIR } from '../lib/media-images'
+import {
+  MEDIA_SEARCH_INDEX_FILE,
+  type MediaSearchIndex,
+} from '../lib/media-search'
 
 /**
  * robots.txt is deliberately different per environment, so the assertions have
@@ -338,6 +342,37 @@ const assertMediaImages = (): string[] => {
     : [`no media article page uses the resized images in /${MEDIA_IMAGE_DIR}`]
 }
 
+/**
+ * Media search runs on an index written at build time. Every result has to
+ * open a page and show a thumbnail this export actually contains.
+ */
+const assertMediaSearchIndex = (): string[] => {
+  const indexPath = join(outDir, MEDIA_SEARCH_INDEX_FILE)
+  if (!existsSync(indexPath)) {
+    return [`${MEDIA_SEARCH_INDEX_FILE} is missing from the static export`]
+  }
+
+  const { documents } = JSON.parse(
+    readFileSync(indexPath, 'utf8')
+  ) as MediaSearchIndex
+  if (documents.length === 0) return ['the media search index is empty']
+
+  return documents.flatMap((document) => {
+    const failures: string[] = []
+    if (!findHtmlFile(document.href)) {
+      failures.push(`media search links to ${document.href}, which has no page`)
+    }
+    const imageUrl = document.image?.url ?? ''
+    if (
+      isLocalAssetHref(imageUrl) &&
+      !existsSync(join(outDir, imageUrl.replace(/^\/+/, '')))
+    ) {
+      failures.push(`media search thumbnail ${imageUrl} was not exported`)
+    }
+    return failures
+  })
+}
+
 const main = async (): Promise<void> => {
   if (!existsSync(outDir)) {
     throw new Error(
@@ -355,6 +390,7 @@ const main = async (): Promise<void> => {
   const expectedRoutes = await collectExpectedRoutes()
   failures.push(...assertSeoFiles(expectedRoutes))
   failures.push(...assertMediaImages())
+  failures.push(...assertMediaSearchIndex())
 
   for (const route of expectedRoutes) {
     const htmlFile = findHtmlFile(route)

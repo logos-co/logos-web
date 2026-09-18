@@ -37,6 +37,7 @@
     "gray-matter": "^4.0.3",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.11.0",
+    "minisearch": "^7.2.0",
     "motion": "^12.38.0",
     "next": "16.2.4",
     "next-intl": "^4.9.1",

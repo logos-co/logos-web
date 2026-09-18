@@ -6,11 +6,11 @@ import { useTranslations } from 'next-intl'
 import { SearchIcon, XIcon } from '@acid-info/logos-ui'
 
 import {
-  BLOG_SEARCH_PAGE_SIZE,
-  searchBlog,
-  type BlogSearchContentType,
-  type BlogSearchPost,
-} from '@/lib/blog-search-api'
+  MEDIA_SEARCH_PAGE_SIZE,
+  loadMediaSearch,
+  type MediaSearchContentType,
+  type MediaSearchPost,
+} from '@/lib/media-search'
 
 import {
   DEFAULT_MEDIA_SEARCH_TYPES,
@@ -22,13 +22,14 @@ import { MediaSearchResults } from './media-search-results'
 interface MediaSearchDialogProps {
   isOpen: boolean
   locale: string
-  topics: readonly string[]
+  /** The index written by generate-media-assets, loaded on first open. */
+  searchIndexUrl: string
   onClose: () => void
 }
 
 const mergeUniquePosts = (
-  current: readonly BlogSearchPost[],
-  incoming: readonly BlogSearchPost[]
+  current: readonly MediaSearchPost[],
+  incoming: readonly MediaSearchPost[]
 ) => [
   ...new Map(
     [...current, ...incoming].map((post) => [post.href, post] as const)
@@ -38,20 +39,22 @@ const mergeUniquePosts = (
 export function MediaSearchDialog({
   isOpen,
   locale,
-  topics,
+  searchIndexUrl,
   onClose,
 }: MediaSearchDialogProps) {
   const t = useTranslations('mediaSearch')
-  const requestController = useRef<AbortController | null>(null)
+  // Guards against a slow first index load finishing after a newer search.
+  const latestRequest = useRef(0)
+  const [topics, setTopics] = useState<string[]>([])
   const [draft, setDraft] = useState('')
   const [query, setQuery] = useState('')
-  const [selectedTypes, setSelectedTypes] = useState<BlogSearchContentType[]>(
+  const [selectedTypes, setSelectedTypes] = useState<MediaSearchContentType[]>(
     DEFAULT_MEDIA_SEARCH_TYPES
   )
   const [selectedTopics, setSelectedTopics] = useState<string[]>([])
   const [activeFilter, setActiveFilter] =
     useState<MediaSearchActiveFilter>(null)
-  const [posts, setPosts] = useState<BlogSearchPost[]>([])
+  const [posts, setPosts] = useState<MediaSearchPost[]>([])
   const [total, setTotal] = useState(0)
   const [hasMore, setHasMore] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -59,7 +62,7 @@ export function MediaSearchDialog({
 
   useEffect(() => {
     if (!isOpen) {
-      requestController.current?.abort()
+      latestRequest.current += 1
       setDraft('')
       setQuery('')
       setSelectedTypes(DEFAULT_MEDIA_SEARCH_TYPES)
@@ -73,6 +76,11 @@ export function MediaSearchDialog({
       return
     }
 
+    // Warm the index while the reader types, and fill the topic filter.
+    loadMediaSearch(searchIndexUrl)
+      .then((search) => setTopics(search.topics))
+      .catch(() => setTopics([]))
+
     const previousOverflow = document.body.style.overflow
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose()
@@ -85,11 +93,11 @@ export function MediaSearchDialog({
       document.body.style.overflow = previousOverflow
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen, onClose])
+  }, [isOpen, onClose, searchIndexUrl])
 
   const runSearch = async (
     nextQuery: string,
-    nextTypes: readonly BlogSearchContentType[],
+    nextTypes: readonly MediaSearchContentType[],
     nextTopics: readonly string[],
     skip = 0
   ) => {
@@ -102,37 +110,35 @@ export function MediaSearchDialog({
       return
     }
 
-    requestController.current?.abort()
-    const controller = new AbortController()
-    requestController.current = controller
+    const request = latestRequest.current + 1
+    latestRequest.current = request
     setIsLoading(true)
     setHasError(false)
     setQuery(trimmedQuery)
     if (skip === 0) setPosts([])
 
     try {
-      const result = await searchBlog(
-        {
-          query: trimmedQuery,
-          tags: nextTopics,
-          types: nextTypes,
-          limit: BLOG_SEARCH_PAGE_SIZE,
-          skip,
-        },
-        controller.signal
-      )
+      const search = await loadMediaSearch(searchIndexUrl)
+      if (latestRequest.current !== request) return
+      const result = search.search({
+        query: trimmedQuery,
+        tags: nextTopics,
+        types: nextTypes,
+        limit: MEDIA_SEARCH_PAGE_SIZE,
+        skip,
+      })
 
       setPosts((current) =>
         skip === 0 ? result.posts : mergeUniquePosts(current, result.posts)
       )
       setTotal(result.total)
       setHasMore(result.hasMore)
-    } catch (error) {
-      if (error instanceof DOMException && error.name === 'AbortError') return
+    } catch {
+      if (latestRequest.current !== request) return
       setHasError(true)
       if (skip === 0) setPosts([])
     } finally {
-      if (requestController.current === controller) setIsLoading(false)
+      if (latestRequest.current === request) setIsLoading(false)
     }
   }
 
@@ -142,7 +148,7 @@ export function MediaSearchDialog({
     void runSearch(draft, selectedTypes, selectedTopics)
   }
 
-  const toggleType = (type: BlogSearchContentType) => {
+  const toggleType = (type: MediaSearchContentType) => {
     const nextTypes = selectedTypes.includes(type)
       ? selectedTypes.filter((selectedType) => selectedType !== type)
       : [...selectedTypes, type]
@@ -162,7 +168,7 @@ export function MediaSearchDialog({
   }
 
   const clearSearch = () => {
-    requestController.current?.abort()
+    latestRequest.current += 1
     setDraft('')
     setQuery('')
     setPosts([])

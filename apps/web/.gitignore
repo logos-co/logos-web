@@ -6,3 +6,4 @@ public/rss.xml
 public/rss/*.xml
 .media-images
 public/media-images
+public/media-search-index.json

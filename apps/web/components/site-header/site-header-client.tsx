@@ -40,7 +40,7 @@ type Props = {
   sitemap: NavOverlayLink[]
   community: NavOverlayCommunityCard[]
   menuPanels: NavOverlayMenuPanel[]
-  searchTopics: string[]
+  searchIndexUrl: string
   primaryCta?: NavOverlayLink
   homepageHighlight?: HomepageHighlight
 }
@@ -59,7 +59,7 @@ export default function SiteHeaderClient({
   sitemap,
   community,
   menuPanels,
-  searchTopics,
+  searchIndexUrl,
   primaryCta,
   homepageHighlight,
 }: Props) {
@@ -326,7 +326,7 @@ export default function SiteHeaderClient({
       <MediaSearchDialog
         isOpen={isSearchOpen}
         locale={locale}
-        topics={searchTopics}
+        searchIndexUrl={searchIndexUrl}
         onClose={closeSearch}
       />
     </>
