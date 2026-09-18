@@ -2,7 +2,7 @@
  * "How did you first hear about Logos?" — funnel form field.
  *
  * The question wording and the option list are shared with the Notion side
- * through `@repo/funnel`: the intake endpoint on `apps/civi-crm` resolves the
+ * through `@repo/funnel`: the intake endpoint on `apps/api` resolves the
  * submitted option id back to its label and rejects ids it does not know.
  */
 

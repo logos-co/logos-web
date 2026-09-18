@@ -1,5 +1,5 @@
 /**
- * `apps/civi-crm` validates submissions against the same REQUIRED_FIELDS_BY_FORM
+ * `apps/api` validates submissions against the same REQUIRED_FIELDS_BY_FORM
  * this schema is built from, but with its own notion of what counts as an
  * answer. These tests fail when the two disagree.
  */
