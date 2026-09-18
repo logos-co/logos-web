@@ -34,6 +34,7 @@ const staticIndexableRoutes = [
   ROUTES.fieldStationTerms,
   ROUTES.fieldStationPrivacy,
   ROUTES.prifi,
+  ROUTES.pastPresentFuture,
   ROUTES.nodeProgramme,
   ROUTES.operators,
   ROUTES.podcast,

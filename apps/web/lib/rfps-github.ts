@@ -49,6 +49,16 @@ const publicMirrorHeaders: Readonly<Record<string, string>> = {
   'User-Agent': 'logos-web-build',
 }
 
+const contentHeaders = (url: string): Readonly<Record<string, string>> => {
+  try {
+    return new URL(url).hostname === 'api.github.com'
+      ? githubHeaders()
+      : publicMirrorHeaders
+  } catch {
+    return publicMirrorHeaders
+  }
+}
+
 export type GithubRfp = RfpListItem & {
   /** RFP identifier, e.g. `RFP-001`. */
   number: string
@@ -179,20 +189,25 @@ const rawUrlFromHtmlUrl = (htmlUrl: string | null): string | null => {
 const fetchRfpMarkdownEntry = async (
   entry: GithubContentEntry
 ): Promise<string | null> => {
-  const headers = githubHeaders()
   if (entry.download_url) {
-    const raw = await fetchTextWithRetry(entry.download_url, headers)
+    const raw = await fetchTextWithRetry(
+      entry.download_url,
+      contentHeaders(entry.download_url)
+    )
     if (raw) return raw
   }
 
   const rawUrl = rawUrlFromHtmlUrl(entry.html_url)
   if (rawUrl && rawUrl !== entry.download_url) {
-    const raw = await fetchTextWithRetry(rawUrl, headers)
+    const raw = await fetchTextWithRetry(rawUrl, contentHeaders(rawUrl))
     if (raw) return raw
   }
 
   if (entry.git_url) {
-    const blob = await fetchGithubBlob(entry.git_url, headers)
+    const blob = await fetchGithubBlob(
+      entry.git_url,
+      contentHeaders(entry.git_url)
+    )
     if (blob) return blob
   }
 

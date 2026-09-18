@@ -29,6 +29,7 @@ const staticRoutes = [
   ROUTES.buildersHub,
   ROUTES.ideas,
   ROUTES.rfps,
+  ROUTES.pastPresentFuture,
 ] as const
 
 const toRoutePath = (route: string): string => {
@@ -244,6 +245,11 @@ const assertHtmlPage = (route: string, filePath: string): string[] => {
   }
   if (!html.includes('</html>')) {
     failures.push(`${route} exported HTML is missing closing </html>`)
+  }
+  if (html.includes('sveltekit-prerender')) {
+    failures.push(
+      `${route} contains the SvelteKit prerender placeholder origin`
+    )
   }
   if (html.includes(`href="/${locale}/`) || html.includes(`src="/${locale}/`)) {
     failures.push(`${route} still contains default-locale-prefixed asset paths`)
