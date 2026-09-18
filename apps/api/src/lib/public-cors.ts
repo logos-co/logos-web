@@ -1,4 +1,8 @@
-const PRODUCTION_ORIGIN_PATTERNS: RegExp[] = [/^https:\/\/logos\.co$/]
+// logos.co and dev.logos.co are both static builds that may post at any API deployment.
+const SITE_ORIGIN_PATTERNS: RegExp[] = [
+  /^https:\/\/logos\.co$/,
+  /^https:\/\/dev\.logos\.co$/,
+]
 
 const LOCAL_DEV_ORIGIN_PATTERNS: RegExp[] = [/^http:\/\/localhost:\d+$/]
 
@@ -24,11 +28,11 @@ function isProductionDeployment(): boolean {
 
 function builtInOriginPatterns(): RegExp[] {
   if (isProductionDeployment()) {
-    return PRODUCTION_ORIGIN_PATTERNS
+    return SITE_ORIGIN_PATTERNS
   }
 
   return [
-    ...PRODUCTION_ORIGIN_PATTERNS,
+    ...SITE_ORIGIN_PATTERNS,
     ...LOCAL_DEV_ORIGIN_PATTERNS,
     ...PREVIEW_WEB_ORIGIN_PATTERNS,
   ]

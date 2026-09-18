@@ -67,7 +67,7 @@ The legacy `fields[]` key (CiviCRM Afform field definitions) is dropped from the
 
 ### CORS
 
-`src/middleware.ts` answers preflight requests and sets the response headers for `/api/public/*`, using the allowlist in `src/lib/public-cors.ts`: `logos.co` in production, plus `localhost` and `logos-co-web*.vercel.app` previews elsewhere, plus anything in `CORS_ALLOWED_ORIGINS`.
+`src/middleware.ts` answers preflight requests and sets the response headers for `/api/public/*`, using the allowlist in `src/lib/public-cors.ts`: `logos.co` and `dev.logos.co` on every deployment, plus `localhost` and `logos-co-web*.vercel.app` previews outside production, plus anything in `CORS_ALLOWED_ORIGINS`.
 
 ---
 
