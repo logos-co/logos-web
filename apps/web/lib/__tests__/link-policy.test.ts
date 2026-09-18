@@ -324,6 +324,22 @@ describe('link policy', () => {
     expect(allCards.some((card) => card.href === ROUTES.media)).toBe(true)
   })
 
+  it('routes the Past Present Future navigation card to the campaign', () => {
+    const explorePanel = navigation.menuPanels.find(
+      (panel) => panel.label === 'Explore'
+    )
+    const aboutCards = explorePanel?.cardSections?.find(
+      (section) => section.label === 'About'
+    )?.cards
+
+    expect(ROUTES.pastPresentFuture).toBe('/past-present-future')
+    expect(aboutCards).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ href: ROUTES.pastPresentFuture }),
+      ])
+    )
+  })
+
   it('does not ship placeholder or known-broken links', () => {
     const offenders = scannedRoots.flatMap(collectTextFiles).flatMap((file) => {
       const text = readFileSync(file, 'utf8')
