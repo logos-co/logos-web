@@ -131,5 +131,5 @@ def isMasterBranch() { GIT_BRANCH ==~ /.*master/ }
 def deployBranch() { isMasterBranch() ? 'deploy-master' : 'deploy-develop' }
 def deployDomain() { isMasterBranch() ? 'logos.co' : 'dev.logos.co' }
 def apiMode() { isMasterBranch() ? 'production' : 'staging' }
-def logosApiUrl() { isMasterBranch() ? 'https://logos-web-api.vercel.app' : 'https://logos-web-api-git-develop-status-im-web.vercel.app' }
+def logosApiUrl() { isMasterBranch() ? 'https://logos-web-civi.vercel.app' : 'https://logos-web-civi-git-develop-status-im-web.vercel.app' }
 def cmsDomain() { isMasterBranch() ? 'cms.logos.co' : 'dev-cms.logos.co' }
