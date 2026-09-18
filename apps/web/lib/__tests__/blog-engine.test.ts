@@ -1,5 +1,19 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
+import type { BlogArticleDetail, BlogPodcastDetail } from '../blog-content'
+
+const { contentMock } = vi.hoisted(() => ({
+  contentMock: {
+    getAllBlogArticles: vi.fn(),
+    getAllBlogPodcasts: vi.fn(),
+  },
+}))
+
+vi.mock('../blog-content', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../blog-content')>()),
+  ...contentMock,
+}))
+
 import {
   getBroadcastEvents,
   getLatestBlogArticles,
@@ -76,329 +90,163 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
+const CMS = 'https://cms-press.logos.co/uploads'
+
+const article = (
+  slug: string,
+  overrides: Partial<BlogArticleDetail> = {}
+): BlogArticleDetail =>
+  ({
+    type: 'article',
+    id: slug,
+    slug,
+    title: slug,
+    summary: `${slug} summary`,
+    publishedAt: '2026-05-01T00:00:00.000Z',
+    modifiedAt: null,
+    createdAt: null,
+    tags: [],
+    authors: [{ id: '1', name: 'Logos' }],
+    coverImage: { url: `${CMS}/${slug}.jpg`, alt: '', width: 0, height: 0 },
+    readingTime: 4,
+    toc: [],
+    footnotes: [],
+    relatedArticles: [],
+    articlesFromSameAuthors: [],
+    ...overrides,
+  }) as BlogArticleDetail
+
+const podcast = (
+  slug: string,
+  overrides: Partial<BlogPodcastDetail> = {}
+): BlogPodcastDetail =>
+  ({
+    type: 'podcast',
+    id: slug,
+    slug,
+    showSlug: 'logos-state',
+    title: slug,
+    summary: '',
+    description: `<p>${slug} notes</p>`,
+    publishedAt: '2026-04-01T00:00:00.000Z',
+    modifiedAt: null,
+    createdAt: null,
+    tags: [],
+    authors: [],
+    coverImage: { url: `${CMS}/${slug}.png`, alt: '', width: 0, height: 0 },
+    episodeNumber: 7,
+    channels: [],
+    credits: [],
+    transcription: [],
+    relatedEpisodes: [],
+    footnotes: [],
+    ...overrides,
+  }) as BlogPodcastDetail
+
 describe('getLatestBlogArticles', () => {
-  test('backs off, then retries with a distinct cache key, when article enrichment fails', async () => {
-    const backoff = stubRetryBackoff()
-    const fetchMock = vi
-      .spyOn(globalThis, 'fetch')
-      .mockResolvedValueOnce(
-        jsonResponse({
-          data: {
-            posts: [
-              {
-                type: 'article',
-                data: {
-                  title: 'Article with temporary page failure',
-                  slug: 'temporarily-unavailable',
-                  publishedAt: '2026-05-09',
-                  readingTime: 7,
-                  coverImage: {
-                    url: 'https://cms-press.logos.co/uploads/article.jpg',
-                  },
-                },
-              },
-            ],
-          },
-        })
-      )
-      .mockResolvedValueOnce(errorResponse(503))
-      .mockResolvedValueOnce(errorResponse(503))
+  test('lists published articles with a cover, newest first', async () => {
+    contentMock.getAllBlogArticles.mockResolvedValue([
+      article('older', { publishedAt: '2026-03-01T00:00:00.000Z' }),
+      article('draft', { isDraft: true }),
+      article('no-cover', { coverImage: null }),
+      article('newest', { publishedAt: '2026-06-01T00:00:00.000Z' }),
+      article('undated', { publishedAt: null }),
+    ])
 
-    const articles = await getLatestBlogArticles(1)
+    const rows = await getLatestBlogArticles(2)
 
-    expect(articles[0]?.readingTime).toBe(7)
-    expect(backoff).toHaveBeenCalledWith(expect.any(Function), RETRY_DELAY_MS)
-    expect(fetchMock).toHaveBeenNthCalledWith(
-      2,
-      'https://blog.logos.co/article/temporarily-unavailable',
-      FETCH_INIT_HTML
-    )
-    expect(fetchMock).toHaveBeenNthCalledWith(
-      3,
-      'https://blog.logos.co/article/temporarily-unavailable',
-      {
-        cache: 'force-cache',
-        headers: { 'X-Logos-Build-Retry': '1' },
-      }
-    )
-  })
-
-  test('overfetches before image filtering and enriches stale reading times', async () => {
-    const fetchMock = vi
-      .spyOn(globalThis, 'fetch')
-      .mockResolvedValueOnce(
-        jsonResponse({
-          data: {
-            posts: [
-              {
-                type: 'article',
-                data: {
-                  title: 'Missing image',
-                  slug: 'missing-image',
-                  publishedAt: '2026-05-10',
-                },
-              },
-              {
-                type: 'article',
-                data: {
-                  title: 'Article one',
-                  slug: 'article-one',
-                  publishedAt: '2026-05-09',
-                  readingTime: 1,
-                  coverImage: {
-                    url: 'https://cms-press.logos.co/uploads/article-one.jpg',
-                  },
-                },
-              },
-              {
-                type: 'podcast',
-                data: {
-                  title: 'Wrong type',
-                  slug: 'wrong-type',
-                  publishedAt: '2026-05-08',
-                  coverImage: {
-                    url: 'https://cms-press.logos.co/uploads/wrong-type.jpg',
-                  },
-                },
-              },
-              {
-                type: 'article',
-                data: {
-                  title: 'Article two',
-                  slug: 'article-two',
-                  publishedAt: '2026-05-07',
-                  coverImage: {
-                    url: 'https://cms-press.logos.co/uploads/article-two.jpg',
-                  },
-                  readingTime: 5,
-                  authors: [{ name: 'Logos' }],
-                },
-              },
-            ],
-          },
-        })
-      )
-      .mockResolvedValueOnce(htmlResponse(articlePageHtml(13)))
-      .mockResolvedValueOnce(htmlResponse(articlePageHtml(5)))
-
-    const articles = await getLatestBlogArticles(2)
-
-    expect(fetchMock).toHaveBeenNthCalledWith(
-      1,
-      'https://blog.logos.co/api/search?type=article&limit=6',
-      FETCH_INIT_JSON
-    )
-    expect(fetchMock).toHaveBeenNthCalledWith(
-      2,
-      'https://blog.logos.co/article/article-one',
-      FETCH_INIT_HTML
-    )
-    expect(fetchMock).toHaveBeenNthCalledWith(
-      3,
-      'https://blog.logos.co/article/article-two',
-      FETCH_INIT_HTML
-    )
-    expect(articles).toMatchObject([
-      {
-        title: 'Article one',
-        href: 'https://blog.logos.co/article/article-one',
-        image: 'https://cms-press.logos.co/uploads/article-one.jpg',
-        thumbnailImage:
-          'https://cms-press.logos.co/uploads/thumbnail_article-one.jpg',
-        galleryImage:
-          'https://cms-press.logos.co/uploads/small_article-one.jpg',
-        cardImage: 'https://cms-press.logos.co/uploads/article-one.jpg',
-        featuredImage: 'https://cms-press.logos.co/uploads/article-one.jpg',
-        readingTime: 13,
-      },
-      {
-        title: 'Article two',
-        href: 'https://blog.logos.co/article/article-two',
-        readingTime: 5,
-      },
+    expect(rows.map((row) => row.href)).toEqual([
+      '/media/article/newest',
+      '/media/article/older',
     ])
   })
 
-  test('passes the selected tag to blog search', async () => {
-    const fetchMock = vi
-      .spyOn(globalThis, 'fetch')
-      .mockResolvedValueOnce(
-        jsonResponse({
-          data: {
-            posts: [
-              {
-                type: 'article',
-                data: {
-                  title: 'Blockchain article',
-                  slug: 'blockchain-article',
-                  publishedAt: '2026-06-04',
-                  coverImage: {
-                    url: 'https://cms-press.logos.co/uploads/blockchain.jpg',
-                  },
-                  readingTime: 3,
-                },
-              },
-            ],
-          },
-        })
-      )
-      .mockResolvedValueOnce(htmlResponse(articlePageHtml(3)))
+  test('maps card images, dates and reading time from the article', async () => {
+    contentMock.getAllBlogArticles.mockResolvedValue([
+      article('june-2026', {
+        title: 'State: June 2026',
+        subtitle: '<b>Monthly</b> roundup',
+        publishedAt: '2026-07-01T00:00:00.000Z',
+        readingTime: 13,
+        authors: [
+          { id: '1', name: 'Ada' },
+          { id: '2', name: 'Lin' },
+        ],
+      }),
+    ])
 
-    await getLatestBlogArticles(1, 'Blockchain')
+    const [row] = await getLatestBlogArticles(1)
 
-    expect(fetchMock).toHaveBeenNthCalledWith(
-      1,
-      'https://blog.logos.co/api/search?type=article&limit=3&tags=Blockchain',
-      FETCH_INIT_JSON
-    )
+    expect(row).toEqual({
+      title: 'State: June 2026',
+      titleSerif: 'State:',
+      date: '01 Jul 2026',
+      galleryDate: '07.01.26',
+      author: 'Ada, Lin',
+      description: 'Monthly roundup',
+      image: `${CMS}/june-2026.jpg`,
+      thumbnailImage: `${CMS}/thumbnail_june-2026.jpg`,
+      galleryImage: `${CMS}/small_june-2026.jpg`,
+      cardImage: `${CMS}/june-2026.jpg`,
+      featuredImage: `${CMS}/june-2026.jpg`,
+      href: '/media/article/june-2026',
+      readingTime: 13,
+    })
   })
 
-  test('uses the original cover image for article cards', async () => {
-    vi.spyOn(globalThis, 'fetch')
-      .mockResolvedValueOnce(
-        jsonResponse({
-          data: {
-            posts: [
-              {
-                type: 'article',
-                data: {
-                  title: 'Decentralise the Log, Not the Server',
-                  slug: 'decentralise-log-not-server',
-                  publishedAt: '2026-03-30',
-                  coverImage: {
-                    url: 'https://cms-press.logos.co/uploads/logos_blockchain_decentralise_log_featured_db49a4cae3.png',
-                  },
-                  readingTime: 1,
-                },
-              },
-            ],
-          },
-        })
-      )
-      .mockResolvedValueOnce(htmlResponse(articlePageHtml(11)))
+  test('keeps only articles carrying the requested tag', async () => {
+    contentMock.getAllBlogArticles.mockResolvedValue([
+      article('storage', { tags: [{ id: '1', name: 'Storage' }] }),
+      article('blockchain', { tags: [{ id: '2', name: 'Blockchain' }] }),
+    ])
 
-    const articles = await getLatestBlogArticles(1, 'Blockchain')
+    const rows = await getLatestBlogArticles(4, 'blockchain')
 
-    expect(articles[0]?.cardImage).toBe(
-      'https://cms-press.logos.co/uploads/logos_blockchain_decentralise_log_featured_db49a4cae3.png'
-    )
-    expect(articles[0]?.image).toBe(
-      'https://cms-press.logos.co/uploads/logos_blockchain_decentralise_log_featured_db49a4cae3.png'
-    )
+    expect(rows.map((row) => row.href)).toEqual(['/media/article/blockchain'])
   })
 })
 
 describe('getBlogPageData', () => {
-  test('uses canonical article page reading times instead of stale search values', async () => {
-    const fetchMock = vi
-      .spyOn(globalThis, 'fetch')
-      .mockImplementation(async (input) => {
-        const url = String(input)
-
-        if (url === 'https://blog.logos.co/api/search?type=article&limit=100') {
-          return jsonResponse({
-            data: {
-              posts: [
-                {
-                  type: 'article',
-                  data: {
-                    title: 'Logos Dev Update: April 2026',
-                    slug: 'developer-update-apr-2026',
-                    publishedAt: '2026-05-06',
-                    coverImage: {
-                      url: 'https://cms-press.logos.co/uploads/dev-update.jpg',
-                    },
-                    readingTime: 1,
-                  },
-                },
-              ],
-            },
-          })
-        }
-
-        if (url === 'https://blog.logos.co/api/search?type=podcast&limit=20') {
-          return jsonResponse({
-            data: {
-              posts: [
-                {
-                  type: 'podcast',
-                  data: {
-                    title: 'Logos State',
-                    slug: 'logos-state',
-                    publishedAt: '2026-05-01',
-                    coverImage: {
-                      url: 'https://cms-press.logos.co/uploads/podcast.jpg',
-                    },
-                  },
-                },
-              ],
-            },
-          })
-        }
-
-        if (url === 'https://blog.logos.co/article/developer-update-apr-2026') {
-          return htmlResponse(articlePageHtml(12))
-        }
-
-        throw new Error(`Unexpected fetch URL: ${url}`)
-      })
+  test('returns every listable article and the latest episodes', async () => {
+    contentMock.getAllBlogArticles.mockResolvedValue([
+      article('a'),
+      article('b', { coverImage: null }),
+    ])
+    contentMock.getAllBlogPodcasts.mockResolvedValue([podcast('ep-1')])
 
     const data = await getBlogPageData()
 
-    expect(fetchMock).toHaveBeenCalledWith(
-      'https://blog.logos.co/article/developer-update-apr-2026',
-      FETCH_INIT_HTML
-    )
-    expect(data.articles).toMatchObject([
-      {
-        title: 'Logos Dev Update: April 2026',
-        readingTime: 12,
-      },
+    expect(data.articles.map((row) => row.href)).toEqual(['/media/article/a'])
+    expect(data.podcasts.map((row) => row.href)).toEqual([
+      '/media/podcasts/logos-state/ep-1',
     ])
   })
 })
 
 describe('getLatestBlogPodcasts', () => {
-  test('maps podcast search results without inventing missing fields', async () => {
-    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
-      jsonResponse({
-        data: {
-          posts: [
-            {
-              type: 'podcast',
-              data: {
-                title: 'Federico Ast, Kleros: Decentralised Arbitration System',
-                slug: 'federico-ast-kleros',
-                publishedAt: '2024-09-18',
-                coverImage: {
-                  url: 'https://cms-press.logos.co/uploads/podcast.jpg',
-                },
-                description: 'Actual podcast description',
-                episodeNumber: 14,
-              },
-            },
-          ],
-        },
-      })
-    )
-
-    const podcasts = await getLatestBlogPodcasts(1)
-
-    expect(fetchMock).toHaveBeenCalledWith(
-      'https://blog.logos.co/api/search?type=podcast&limit=1',
-      FETCH_INIT_JSON
-    )
-    expect(podcasts).toEqual([
-      {
-        title: 'Federico Ast, Kleros: Decentralised Arbitration System',
-        image: 'https://cms-press.logos.co/uploads/podcast.jpg',
-        description: 'Actual podcast description',
-        date: '18 Sept 2024',
-        episodeNumber: 14,
-        href: 'https://blog.logos.co/podcasts/logos-state/federico-ast-kleros',
-      },
+  test('maps episodes onto their own show, newest first', async () => {
+    contentMock.getAllBlogPodcasts.mockResolvedValue([
+      podcast('old', { publishedAt: '2024-01-01T00:00:00.000Z' }),
+      podcast('new', {
+        showSlug: 'hashing-it-out',
+        publishedAt: '2026-01-01T00:00:00.000Z',
+      }),
+      podcast('draft', { isDraft: true }),
     ])
-    expect('duration' in podcasts[0]).toBe(false)
+
+    const rows = await getLatestBlogPodcasts(5)
+
+    expect(rows).toEqual([
+      {
+        title: 'new',
+        image: `${CMS}/new.png`,
+        description: 'new notes',
+        date: '01 Jan 2026',
+        episodeNumber: 7,
+        href: '/media/podcasts/hashing-it-out/new',
+      },
+      expect.objectContaining({ href: '/media/podcasts/logos-state/old' }),
+    ])
   })
 })
 

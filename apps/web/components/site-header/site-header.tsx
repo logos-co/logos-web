@@ -21,6 +21,9 @@ import type {
   NavOverlaySection,
 } from '@acid-info/logos-ui'
 
+import { env } from '@/lib/env'
+import { MEDIA_SEARCH_INDEX_FILE } from '@/lib/media-search'
+
 import SiteHeaderClient from './site-header-client'
 
 export default async function SiteHeader({ locale }: { locale: string }) {
@@ -70,10 +73,12 @@ export default async function SiteHeader({ locale }: { locale: string }) {
 
   return (
     <SiteHeaderClient
+      locale={locale}
       closedBar={navigation.closedBar}
       sitemap={sitemap}
       community={community}
       menuPanels={menuPanels}
+      searchIndexUrl={`${env.BASE_PATH ?? ''}/${MEDIA_SEARCH_INDEX_FILE}`}
       primaryCta={navigation.primaryCta}
       homepageHighlight={navigation.homepageHighlight}
     />

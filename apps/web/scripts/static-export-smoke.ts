@@ -6,6 +6,11 @@ import { getAllIdeas, getCircles } from '@repo/content/loaders'
 import { ROUTES } from '../constants/routes'
 import { ROUTE_AVAILABILITY } from '../constants/route-availability'
 import { env } from '../lib/env'
+import { MEDIA_IMAGE_DIR } from '../lib/media-images'
+import {
+  MEDIA_SEARCH_INDEX_FILE,
+  type MediaSearchIndex,
+} from '../lib/media-search'
 
 /**
  * robots.txt is deliberately different per environment, so the assertions have
@@ -109,6 +114,21 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
   const failures: string[] = []
   const robotsPath = join(outDir, 'robots.txt')
   const sitemapPath = join(outDir, 'sitemap.xml')
+  // rss/hashing-it-out.xml is optional: the show has no episodes in the CMS and
+  // blog.logos.co never served a real feed there, so the generator skips it.
+  const feedPaths = [
+    'rss/main.xml',
+    'rss/logos-state.xml',
+    'rss.xml',
+    'atom.xml',
+    'atom_page2.xml',
+  ]
+
+  for (const feedPath of feedPaths) {
+    if (!existsSync(join(outDir, feedPath))) {
+      failures.push(`${feedPath} is missing from the static export`)
+    }
+  }
 
   if (!existsSync(robotsPath)) {
     failures.push('robots.txt is missing from the static export root')
@@ -141,7 +161,20 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
     failures.push('sitemap.xml is missing from the static export root')
   } else {
     const sitemap = readFileSync(sitemapPath, 'utf8')
-    if (sitemap.includes('<lastmod>')) {
+    const sitemapEntries = [
+      ...sitemap.matchAll(/<url>\s*<loc>([^<]+)<\/loc>([\s\S]*?)<\/url>/g),
+    ].map(([, loc = '', body = '']) => ({
+      loc,
+      hasLastmod: body.includes('<lastmod>'),
+    }))
+    const isMediaDetailUrl = (loc: string) =>
+      /^https:\/\/logos\.co\/media\/(?:article|podcasts)\//.test(loc)
+    // Only media detail pages carry a content-derived modified date.
+    if (
+      sitemapEntries.some(
+        (entry) => entry.hasLastmod && !isMediaDetailUrl(entry.loc)
+      )
+    ) {
       failures.push('sitemap.xml contains unverified lastmod values')
     }
     for (const route of expectedRoutes) {
@@ -151,6 +184,17 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
       }
     }
     failures.push(...findSitemapUrlsWithoutPages(sitemap))
+    const mediaDetailEntries = sitemapEntries.filter((entry) =>
+      isMediaDetailUrl(entry.loc)
+    )
+    if (
+      mediaDetailEntries.length === 0 ||
+      mediaDetailEntries.some((entry) => !entry.hasLastmod)
+    ) {
+      failures.push(
+        'sitemap.xml media detail entries must use content-derived lastmod values'
+      )
+    }
   }
 
   return failures
@@ -250,8 +294,15 @@ const assertHtmlPage = (route: string, filePath: string): string[] => {
   }
   failures.push(...assertStructuredData(route, html))
 
-  const refs = html.matchAll(/\b(?:href|src)=["']([^"']+)["']/g)
-  for (const [, rawHref] of refs) {
+  const refs = [
+    ...[...html.matchAll(/\b(?:href|src)=["']([^"']+)["']/g)].map(
+      (match) => match[1]
+    ),
+    ...[...html.matchAll(/\b(?:srcset|imagesrcset)=["']([^"']+)["']/gi)]
+      .flatMap((match) => match[1]!.split(','))
+      .map((candidate) => candidate.trim().split(/\s+/, 1)[0]),
+  ]
+  for (const rawHref of refs) {
     if (!rawHref || !isLocalAssetHref(rawHref)) continue
     const assetPath = rawHref.split(/[?#]/, 1)[0]!
     const absolutePath = join(outDir, assetPath.replace(/^\/+/, ''))
@@ -266,6 +317,54 @@ const assertHtmlPage = (route: string, filePath: string): string[] => {
   }
 
   return failures
+}
+
+/**
+ * The media detail pages should serve the resized copies written by
+ * generate-media-assets. One page using them proves the pipeline ran; the
+ * asset check above proves every referenced copy was exported.
+ */
+const assertMediaImages = (): string[] => {
+  const articleDir = join(outDir, toRoutePath(ROUTES.mediaArticles))
+  if (!existsSync(articleDir)) return ['the export has no media article pages']
+
+  const usesLocalImages = collectHtmlFiles(articleDir).some((file) =>
+    readFileSync(file, 'utf8').includes(`/${MEDIA_IMAGE_DIR}/`)
+  )
+  return usesLocalImages
+    ? []
+    : [`no media article page uses the resized images in /${MEDIA_IMAGE_DIR}`]
+}
+
+/**
+ * Media search runs on an index written at build time. Every result has to
+ * open a page and show a thumbnail this export actually contains.
+ */
+const assertMediaSearchIndex = (): string[] => {
+  const indexPath = join(outDir, MEDIA_SEARCH_INDEX_FILE)
+  if (!existsSync(indexPath)) {
+    return [`${MEDIA_SEARCH_INDEX_FILE} is missing from the static export`]
+  }
+
+  const { documents } = JSON.parse(
+    readFileSync(indexPath, 'utf8')
+  ) as MediaSearchIndex
+  if (documents.length === 0) return ['the media search index is empty']
+
+  return documents.flatMap((document) => {
+    const failures: string[] = []
+    if (!findHtmlFile(document.href)) {
+      failures.push(`media search links to ${document.href}, which has no page`)
+    }
+    const imageUrl = document.image?.url ?? ''
+    if (
+      isLocalAssetHref(imageUrl) &&
+      !existsSync(join(outDir, imageUrl.replace(/^\/+/, '')))
+    ) {
+      failures.push(`media search thumbnail ${imageUrl} was not exported`)
+    }
+    return failures
+  })
 }
 
 const main = async (): Promise<void> => {
@@ -284,6 +383,8 @@ const main = async (): Promise<void> => {
   const checkedHtmlFiles = new Set<string>()
   const expectedRoutes = await collectExpectedRoutes()
   failures.push(...assertSeoFiles(expectedRoutes))
+  failures.push(...assertMediaImages())
+  failures.push(...assertMediaSearchIndex())
 
   for (const route of expectedRoutes) {
     const htmlFile = findHtmlFile(route)

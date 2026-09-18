@@ -60,20 +60,35 @@ pipeline {
     stage('Build the web app') {
       steps {
         script {
-          withEnv([
-            "NEXT_PUBLIC_SITE_URL=https://${deployDomain()}",
-            "NEXT_PUBLIC_CIVI_CRM_URL=${civiCrmUrl()}",
-            "NEXT_PUBLIC_HCAPTCHA_SITEKEY=${params.NEXT_PUBLIC_HCAPTCHA_SITEKEY}",
-            "NEXT_PUBLIC_API_MODE=${apiMode()}",
+          /* The /media pages are built from the blog CMS (Strapi) and Simplecast,
+           * so a production build fails without these. */
+          withCredentials([
+            string(credentialsId: 'logos-web-strapi-api-key', variable: 'STRAPI_API_KEY'),
+            string(credentialsId: 'logos-web-simplecast-access-token', variable: 'SIMPLECAST_ACCESS_TOKEN'),
           ]) {
-            nix.develop('pnpm turbo run build --filter=web',
-              keepEnv: [
-                'NEXT_PUBLIC_SITE_URL',
-                'NEXT_PUBLIC_CIVI_CRM_URL',
-                'NEXT_PUBLIC_HCAPTCHA_SITEKEY',
-                'NEXT_PUBLIC_API_MODE'
-              ]
-            )
+            withEnv([
+              "NEXT_PUBLIC_SITE_URL=https://${deployDomain()}",
+              "NEXT_PUBLIC_CIVI_CRM_URL=${civiCrmUrl()}",
+              "NEXT_PUBLIC_HCAPTCHA_SITEKEY=${params.NEXT_PUBLIC_HCAPTCHA_SITEKEY}",
+              "NEXT_PUBLIC_API_MODE=${apiMode()}",
+              "NEXT_PUBLIC_ASSETS_BASE_URL=${blogCmsUrl()}",
+              "STRAPI_API_URL=${blogCmsUrl()}/api",
+              "STRAPI_GRAPHQL_URL=${blogCmsUrl()}/graphql",
+            ]) {
+              nix.develop('pnpm turbo run build --filter=web',
+                keepEnv: [
+                  'NEXT_PUBLIC_SITE_URL',
+                  'NEXT_PUBLIC_CIVI_CRM_URL',
+                  'NEXT_PUBLIC_HCAPTCHA_SITEKEY',
+                  'NEXT_PUBLIC_API_MODE',
+                  'NEXT_PUBLIC_ASSETS_BASE_URL',
+                  'STRAPI_API_URL',
+                  'STRAPI_GRAPHQL_URL',
+                  'STRAPI_API_KEY',
+                  'SIMPLECAST_ACCESS_TOKEN'
+                ]
+              )
+            }
           }
         }
       }
@@ -133,3 +148,4 @@ def deployDomain() { isMasterBranch() ? 'logos.co' : 'dev.logos.co' }
 def apiMode() { isMasterBranch() ? 'production' : 'staging' }
 def civiCrmUrl() { isMasterBranch() ? 'https://logos-web-civi.vercel.app' : 'https://logos-web-civi-git-develop-status-im-web.vercel.app/' }
 def cmsDomain() { isMasterBranch() ? 'cms.logos.co' : 'dev-cms.logos.co' }
+def blogCmsUrl() { 'https://cms-press.logos.co' }

@@ -81,6 +81,94 @@ export function createBreadcrumbListJsonLd(
   }
 }
 
+/**
+ * Google wants full ISO 8601 datetimes, but the CMS stores some dates as a
+ * bare `YYYY-MM-DD`. Unreadable values are left out rather than emitted.
+ */
+function toIsoDateTime(value: string | null | undefined): string | undefined {
+  if (!value) return undefined
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
+}
+
+export interface ArticleJsonLdInput {
+  /** Canonical path of the article page. */
+  path: string
+  headline: string
+  description: string
+  /** Absolute URL of the share image. */
+  image?: string | null
+  /** ISO 8601 dates. */
+  datePublished: string | null
+  dateModified: string | null
+  authors: ReadonlyArray<string>
+}
+
+/**
+ * schema.org Article for a /media article. The publisher carries the same
+ * `@id` as the homepage Organization node, plus the name and logo Google asks
+ * for, because that node is only emitted on the homepage.
+ */
+export function createArticleJsonLd(input: ArticleJsonLdInput): JsonLdObject {
+  const siteUrl = absoluteUrl('')
+  const pageUrl = absoluteUrl(input.path)
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: input.headline,
+    description: input.description,
+    url: pageUrl,
+    image: input.image ?? undefined,
+    datePublished: toIsoDateTime(input.datePublished),
+    dateModified: toIsoDateTime(input.dateModified ?? input.datePublished),
+    author: input.authors.map((name) => ({ '@type': 'Person', name })),
+    publisher: {
+      '@type': 'Organization',
+      '@id': `${siteUrl}/#organization`,
+      name: siteConfig.name,
+      url: siteUrl,
+      logo: absoluteUrl('/apple-touch-icon.png'),
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+  }
+}
+
+export interface PodcastEpisodeJsonLdInput {
+  /** Canonical path of the episode page. */
+  path: string
+  name: string
+  description: string
+  /** Absolute URL of the share image. */
+  image?: string | null
+  /** ISO 8601 date. */
+  datePublished: string | null
+  episodeNumber?: number | null
+  series?: { name: string; path: string } | null
+}
+
+export function createPodcastEpisodeJsonLd(
+  input: PodcastEpisodeJsonLdInput
+): JsonLdObject {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'PodcastEpisode',
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.path),
+    image: input.image ?? undefined,
+    datePublished: toIsoDateTime(input.datePublished),
+    episodeNumber: input.episodeNumber ?? undefined,
+    partOfSeries: input.series
+      ? {
+          '@type': 'PodcastSeries',
+          name: input.series.name,
+          url: absoluteUrl(input.series.path),
+        }
+      : undefined,
+  }
+}
+
 export interface EventJsonLdInput {
   /** Canonical path of the page describing the event. */
   path: string

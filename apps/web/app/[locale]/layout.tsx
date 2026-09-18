@@ -1,4 +1,5 @@
 import '@/css/tailwind.css'
+import './media/media-detail.css'
 
 import type { ReactNode } from 'react'
 import type { Metadata, Viewport } from 'next'

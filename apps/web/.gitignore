@@ -1,2 +1,9 @@
 .vercel
 .env*.local
+public/atom.xml
+public/atom_page2.xml
+public/rss.xml
+public/rss/*.xml
+.media-images
+public/media-images
+public/media-search-index.json

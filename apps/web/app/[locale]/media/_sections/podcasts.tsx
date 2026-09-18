@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
-import { ExternalLink } from '@/components/ui'
 import { repeatToLength, type BlogPodcastRow } from '@/lib/blog-engine'
 
 import {
@@ -14,6 +13,7 @@ import {
   Dot,
   PlayIcon,
   BlogRowLink,
+  MediaLink,
   RowThumbnail,
   SectionCta,
   UnderlineLabel,
@@ -48,7 +48,7 @@ function PodcastHero({
 }) {
   return (
     <div className="h-[723px] bg-accent-tan p-3 xl:h-[430px]">
-      <ExternalLink
+      <MediaLink
         href={latestPodcast.href}
         className="group block cursor-pointer"
       >
@@ -101,7 +101,7 @@ function PodcastHero({
             />
           </div>
         </ContentWidth>
-      </ExternalLink>
+      </MediaLink>
     </div>
   )
 }
