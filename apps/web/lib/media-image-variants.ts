@@ -5,6 +5,7 @@ import { basename, extname, join } from 'node:path'
 
 import sharp from 'sharp'
 
+import { mapWithConcurrency } from '@/lib/concurrency'
 import {
   MEDIA_IMAGE_WIDTHS,
   type MediaImageEntry,
@@ -145,26 +146,6 @@ async function buildOne(
     const reason = error instanceof Error ? error.message : String(error)
     return { kind: 'failed', url, reason }
   }
-}
-
-async function mapWithConcurrency<T, R>(
-  items: ReadonlyArray<T>,
-  limit: number,
-  task: (item: T) => Promise<R>
-): Promise<R[]> {
-  const results: R[] = new Array(items.length)
-  let next = 0
-  const worker = async () => {
-    while (next < items.length) {
-      const index = next
-      next += 1
-      results[index] = await task(items[index]!)
-    }
-  }
-  await Promise.all(
-    Array.from({ length: Math.min(limit, items.length) }, worker)
-  )
-  return results
 }
 
 export async function buildMediaImages({

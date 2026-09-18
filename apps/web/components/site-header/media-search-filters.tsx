@@ -2,22 +2,22 @@
 
 import { useTranslations } from 'next-intl'
 
-import type { BlogSearchContentType } from '@/lib/blog-search-api'
+import type { MediaSearchContentType } from '@/lib/media-search'
 
 export type MediaSearchActiveFilter = 'type' | 'topic' | null
 
-export const DEFAULT_MEDIA_SEARCH_TYPES: BlogSearchContentType[] = [
+export const DEFAULT_MEDIA_SEARCH_TYPES: MediaSearchContentType[] = [
   'article',
   'podcast',
 ]
 
 interface MediaSearchFiltersProps {
   topics: readonly string[]
-  selectedTypes: readonly BlogSearchContentType[]
+  selectedTypes: readonly MediaSearchContentType[]
   selectedTopics: readonly string[]
   activeFilter: MediaSearchActiveFilter
   onActiveFilterChange: (filter: MediaSearchActiveFilter) => void
-  onTypeToggle: (type: BlogSearchContentType) => void
+  onTypeToggle: (type: MediaSearchContentType) => void
   onTopicToggle: (topic: string) => void
   onClear: () => void
 }

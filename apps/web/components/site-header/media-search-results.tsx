@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
-import type { BlogSearchPost } from '@/lib/blog-search-api'
+import type { MediaSearchPost } from '@/lib/media-search'
 import { Link } from '@/i18n/navigation'
 
 interface MediaSearchResultsProps {
-  posts: readonly BlogSearchPost[]
+  posts: readonly MediaSearchPost[]
   locale: string
   onResultClick: () => void
 }

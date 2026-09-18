@@ -1,18 +1,17 @@
-import { cache } from 'react'
-
-import { env } from '@/lib/env'
-import { logger } from '@/lib/logger'
 import { ROUTES } from '@/constants/routes'
+import {
+  getAllBlogArticles,
+  getAllBlogPodcasts,
+  isPublishedPost,
+  type BlogArticleDetail,
+  type BlogPodcastDetail,
+  type BlogPostMeta,
+} from '@/lib/blog-content'
+import { env } from '@/lib/env'
 
-export const BLOG_ORIGIN = 'https://blog.logos.co'
-
-export const BLOG_DEPLOYMENT_ORIGIN = 'https://lpe-seven.vercel.app'
-const PRESS_SEARCH_API = `${BLOG_ORIGIN}/api/search`
-const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
 const ADMIN_ACID_API_ORIGIN =
   env.NEXT_PUBLIC_ADMIN_ACID_API_URL ?? 'https://admin-acid.logos.co/api'
 const CALENDAR_PUBLIC_PATH = '/calendar/public'
-const PRESS_ARTICLE_IMAGE_OVERFETCH_MULTIPLIER = 3
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -57,43 +56,6 @@ export type BroadcastEventRow = {
   timeMinutes: number | null
   links: string[]
   link?: string
-}
-
-type BlogSearchPost = {
-  data: {
-    title: string
-    subtitle?: string | null
-    slug: string
-    publishedAt?: string | null
-    coverImage?: {
-      url?: string | null
-      alt?: string | null
-    } | null
-    summary?: string | null
-    description?: string | null
-    readingTime?: number | null
-    episodeNumber?: number | null
-    authors?: { name: string }[]
-  }
-  type: 'article' | 'podcast'
-}
-
-type BlogArticlePageResponse = {
-  props?: {
-    pageProps?: {
-      data?: {
-        data?: {
-          readingTime?: number | null
-        }
-      }
-    }
-  }
-}
-
-type BlogSearchResponse = {
-  data?: {
-    posts?: BlogSearchPost[]
-  }
 }
 
 type CalendarEvent = {
@@ -205,17 +167,6 @@ async function fetchJsonResilient<T>(url: string, label: string): Promise<T> {
   if (retryParsed.ok) return retryParsed.data
 
   throw retryParsed.error
-}
-
-async function fetchTextResilient(url: string, label: string): Promise<string> {
-  const firstAttempt = await tryFetchText(url, label, false)
-  if (firstAttempt.ok) return firstAttempt.data.text
-
-  await wait(RETRY_DELAY_MS)
-  const retry = await tryFetchText(url, label, false, true)
-  if (retry.ok) return retry.data.text
-
-  throw retry.error
 }
 
 const stripHtml = (value: string): string =>
@@ -371,106 +322,6 @@ const getBlogImageVariantUrl = (
 export const repeatToLength = <T>(items: T[], length: number): T[] =>
   Array.from({ length }, (_, index) => items[index % items.length])
 
-const getBlogSearchItems = async (
-  type: 'article' | 'podcast',
-  limit: number,
-  tag?: string
-): Promise<BlogSearchPost[]> => {
-  const params = new URLSearchParams({
-    type,
-    limit: String(limit),
-  })
-  if (tag) {
-    params.set('tags', tag)
-  }
-  const url = `${PRESS_SEARCH_API}?${params.toString()}`
-  const json = await fetchJsonResilient<BlogSearchResponse>(url, 'Blog search')
-  return json.data?.posts?.filter((post) => post.type === type) ?? []
-}
-
-const getPositiveReadingTime = (value?: number | null) =>
-  typeof value === 'number' && Number.isFinite(value) && value > 0
-    ? value
-    : undefined
-
-const extractArticlePageReadingTime = (html: string) => {
-  const match = html.match(
-    /<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/
-  )
-  if (!match) return undefined
-
-  const pageData = JSON.parse(match[1]) as BlogArticlePageResponse
-  return getPositiveReadingTime(
-    pageData.props?.pageProps?.data?.data?.readingTime
-  )
-}
-
-const getArticlePageReadingTime = async (slug: string) => {
-  const url = `${BLOG_ORIGIN}/article/${slug}`
-  const html = await fetchTextResilient(url, 'Blog article page')
-  return extractArticlePageReadingTime(html)
-}
-
-const withArticlePageReadingTime = async (
-  post: BlogSearchPost,
-  row: BlogArticleRow
-): Promise<BlogArticleRow> => {
-  let pageReadingTime: number | undefined
-  try {
-    pageReadingTime = await getArticlePageReadingTime(post.data.slug)
-  } catch {
-    // Article-page reading time only enriches the search result. A single
-    // unavailable article must not make the whole static media page disappear.
-    return row
-  }
-
-  return {
-    ...row,
-    readingTime: pageReadingTime ?? row.readingTime,
-  }
-}
-
-const toArticleRow = (post: BlogSearchPost): BlogArticleRow => {
-  const data = post.data
-  const author = data.authors?.map((item) => item.name).join(', ') || 'Logos'
-  const description = stripHtml(data.subtitle || data.summary || '')
-  const readingTime = getPositiveReadingTime(data.readingTime) ?? 1
-  const coverImage = data.coverImage?.url || ''
-  const thumbnailImage = getBlogImageVariantUrl(coverImage, 'thumbnail')
-  const galleryImage = getBlogImageVariantUrl(coverImage, 'small')
-  const featuredImage = getBlogImageVariantUrl(coverImage, 'original')
-  const cardImage = featuredImage
-
-  return {
-    title: data.title,
-    titleSerif: inferSerifPrefix(data.title),
-    date: formatLongDate(data.publishedAt),
-    galleryDate: formatGalleryDate(data.publishedAt),
-    author,
-    description,
-    image: cardImage,
-    thumbnailImage,
-    galleryImage,
-    cardImage,
-    featuredImage,
-    href: ROUTES.mediaArticle(data.slug),
-    readingTime,
-  }
-}
-
-const toPodcastRow = (post: BlogSearchPost): BlogPodcastRow => {
-  const data = post.data
-
-  return {
-    title: data.title,
-    image: data.coverImage?.url || '',
-    description: stripHtml(data.description || data.summary || ''),
-    date: formatLongDate(data.publishedAt),
-    episodeNumber: data.episodeNumber ?? undefined,
-    href: ROUTES.mediaPodcast(DEFAULT_PODCAST_SHOW_SLUG, data.slug),
-  }
-}
-
 const isMeaningful = (value?: string | null) => {
   if (!value) return false
   return value.trim().length > 0 && value.trim().toLowerCase() !== 'null'
@@ -513,80 +364,80 @@ const toBroadcastEventRow = (event: CalendarEvent): BroadcastEventRow => {
   }
 }
 
-export const getLatestBlogArticles = async (limit = 4, tag?: string) => {
-  const searchLimit = Math.max(
-    limit,
-    limit * PRESS_ARTICLE_IMAGE_OVERFETCH_MULTIPLIER
-  )
-  const articlePosts = await getBlogSearchItems('article', searchLimit, tag)
-  const visiblePosts = articlePosts
-    .map((post) => ({ post, row: toArticleRow(post) }))
-    .filter(({ row }) => hasImage(row))
-    .slice(0, limit)
+const publishedTime = (post: BlogPostMeta): number =>
+  post.publishedAt ? Date.parse(post.publishedAt) : 0
 
-  return Promise.all(
-    visiblePosts.map(async ({ post, row }) => {
-      return withArticlePageReadingTime(post, row)
-    })
-  )
+const newestPublished = <T extends BlogPostMeta>(posts: T[]): T[] =>
+  posts
+    .filter(isPublishedPost)
+    .sort((a, b) => publishedTime(b) - publishedTime(a))
+
+const hasTag = (post: BlogPostMeta, tag: string): boolean =>
+  post.tags.some((item) => item.name.toLowerCase() === tag.toLowerCase())
+
+const toArticleRow = (article: BlogArticleDetail): BlogArticleRow => {
+  const coverImage = article.coverImage?.url ?? ''
+  const featuredImage = getBlogImageVariantUrl(coverImage, 'original')
+
+  return {
+    title: article.title,
+    titleSerif: inferSerifPrefix(article.title),
+    date: formatLongDate(article.publishedAt),
+    galleryDate: formatGalleryDate(article.publishedAt),
+    author: article.authors.map((author) => author.name).join(', ') || 'Logos',
+    description: stripHtml(article.subtitle || article.summary || ''),
+    image: featuredImage,
+    thumbnailImage: getBlogImageVariantUrl(coverImage, 'thumbnail'),
+    galleryImage: getBlogImageVariantUrl(coverImage, 'small'),
+    cardImage: featuredImage,
+    featuredImage,
+    href: ROUTES.mediaArticle(article.slug),
+    readingTime: article.readingTime > 0 ? article.readingTime : 1,
+  }
 }
 
+const toPodcastRow = (podcast: BlogPodcastDetail): BlogPodcastRow => ({
+  title: podcast.title,
+  image: podcast.coverImage?.url ?? '',
+  description: stripHtml(podcast.description || podcast.summary || ''),
+  date: formatLongDate(podcast.publishedAt),
+  episodeNumber: podcast.episodeNumber ?? undefined,
+  href: ROUTES.mediaPodcast(podcast.showSlug, podcast.slug),
+})
+
+/**
+ * Article cards across the site (home, technology stack, media). Reads the
+ * same CMS data the article pages are built from, so every card links to a
+ * page that exists.
+ */
+export const getLatestBlogArticles = async (
+  limit = 4,
+  tag?: string
+): Promise<BlogArticleRow[]> =>
+  newestPublished(await getAllBlogArticles())
+    .filter((article) => !tag || hasTag(article, tag))
+    .map(toArticleRow)
+    .filter(hasImage)
+    .slice(0, limit)
+
+export const getLatestBlogPodcasts = async (
+  limit = 20
+): Promise<BlogPodcastRow[]> =>
+  newestPublished(await getAllBlogPodcasts())
+    .map(toPodcastRow)
+    .filter(hasImage)
+    .slice(0, limit)
+
 export const getBlogPageData = async () => {
-  const [articlePosts, podcastPosts] = await Promise.all([
-    getBlogSearchItems('article', 100),
-    getBlogSearchItems('podcast', 20),
+  const [articles, podcasts] = await Promise.all([
+    getAllBlogArticles(),
+    getLatestBlogPodcasts(),
   ])
 
   return {
-    articles: await Promise.all(
-      articlePosts
-        .map((post) => ({ post, row: toArticleRow(post) }))
-        .filter(({ row }) => hasImage(row))
-        .map(({ post, row }) => withArticlePageReadingTime(post, row))
-    ),
-    podcasts: podcastPosts.map(toPodcastRow).filter(hasImage),
+    articles: newestPublished(articles).map(toArticleRow).filter(hasImage),
+    podcasts,
   }
-}
-
-/**
- * Topic chips for the media search dialog, read from the legacy search page.
- * The header renders on every route, so a legacy outage must not fail the
- * build: search still works without the chips.
- */
-export const getBlogSearchTopics = cache(async (): Promise<string[]> => {
-  for (const origin of [BLOG_ORIGIN, BLOG_DEPLOYMENT_ORIGIN]) {
-    let html: string
-    try {
-      html = await fetchTextResilient(`${origin}/search`, 'Blog search page')
-    } catch {
-      continue
-    }
-    const match = html.match(
-      /<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/
-    )
-    if (!match) continue
-
-    const payload: unknown = JSON.parse(match[1])
-    if (!isRecord(payload) || !isRecord(payload.props)) continue
-
-    const pageProps = isRecord(payload.props.pageProps)
-      ? payload.props.pageProps
-      : null
-    if (!pageProps || !Array.isArray(pageProps.topics)) continue
-
-    return pageProps.topics
-      .filter((topic): topic is string => typeof topic === 'string')
-      .map((topic) => topic.trim())
-      .filter(Boolean)
-  }
-
-  logger.warn('Blog search page has no topic data, hiding the topic filters')
-  return []
-})
-
-export const getLatestBlogPodcasts = async (limit = 20) => {
-  const podcastPosts = await getBlogSearchItems('podcast', limit)
-  return podcastPosts.map(toPodcastRow).filter(hasImage)
 }
 
 export const getBroadcastEvents = async () => {
