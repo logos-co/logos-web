@@ -158,6 +158,15 @@
                 "src": "/images/roadmap/hero-thumb.webp",
                 "alt": ""
               }
+            },
+            {
+              "label": "Past. Present. Future",
+              "href": "/past-present-future",
+              "description": "Examining where society has been, is now and is going.",
+              "image": {
+                "src": "/past-present-future/og.jpg",
+                "alt": ""
+              }
             }
           ]
         },

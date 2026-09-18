@@ -92,6 +92,7 @@ export const ROUTES = {
   fieldStationTerms: '/field-station/terms-and-conditions',
   fieldStationPrivacy: '/field-station/privacy-policy',
   prifi: '/prifi',
+  pastPresentFuture: '/past-present-future',
 } as const
 
 // ---------------------------------------------------------------------------
