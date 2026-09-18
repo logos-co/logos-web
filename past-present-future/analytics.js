@@ -27,8 +27,15 @@
 
     if (element.classList.contains('copt')) {
       const key = normalizeLabel(element.querySelector('.ckey')?.textContent)
+      const choice = normalizeLabel(
+        element.querySelector('.clabel')?.textContent
+      )
 
-      return key ? `Choose ${key}` : 'Choose'
+      if (key && choice) {
+        return `Choose ${key} (${choice})`
+      }
+
+      return key ? `Choose ${key}` : choice ? `Choose - ${choice}` : 'Choose'
     }
 
     if (element.id === 'mute') {
@@ -90,7 +97,7 @@
     }
 
     if (window.location.pathname.includes('/choices/mike')) {
-      return 'Mike experience'
+      return 'Mike Experience'
     }
 
     if (element.closest('.choices-scope')) {
