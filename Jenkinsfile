@@ -62,14 +62,14 @@ pipeline {
         script {
           withEnv([
             "NEXT_PUBLIC_SITE_URL=https://${deployDomain()}",
-            "NEXT_PUBLIC_CIVI_CRM_URL=${civiCrmUrl()}",
+            "NEXT_PUBLIC_LOGOS_API_URL=${logosApiUrl()}",
             "NEXT_PUBLIC_HCAPTCHA_SITEKEY=${params.NEXT_PUBLIC_HCAPTCHA_SITEKEY}",
             "NEXT_PUBLIC_API_MODE=${apiMode()}",
           ]) {
             nix.develop('pnpm turbo run build --filter=web',
               keepEnv: [
                 'NEXT_PUBLIC_SITE_URL',
-                'NEXT_PUBLIC_CIVI_CRM_URL',
+                'NEXT_PUBLIC_LOGOS_API_URL',
                 'NEXT_PUBLIC_HCAPTCHA_SITEKEY',
                 'NEXT_PUBLIC_API_MODE'
               ]
@@ -131,5 +131,5 @@ def isMasterBranch() { GIT_BRANCH ==~ /.*master/ }
 def deployBranch() { isMasterBranch() ? 'deploy-master' : 'deploy-develop' }
 def deployDomain() { isMasterBranch() ? 'logos.co' : 'dev.logos.co' }
 def apiMode() { isMasterBranch() ? 'production' : 'staging' }
-def civiCrmUrl() { isMasterBranch() ? 'https://logos-web-civi.vercel.app' : 'https://logos-web-civi-git-develop-status-im-web.vercel.app/' }
+def logosApiUrl() { isMasterBranch() ? 'https://logos-web-api.vercel.app' : 'https://logos-web-api-git-develop-status-im-web.vercel.app' }
 def cmsDomain() { isMasterBranch() ? 'cms.logos.co' : 'dev-cms.logos.co' }
