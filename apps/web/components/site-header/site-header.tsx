@@ -21,7 +21,8 @@ import type {
   NavOverlaySection,
 } from '@acid-info/logos-ui'
 
-import { getBlogSearchTopics } from '@/lib/blog-engine'
+import { env } from '@/lib/env'
+import { MEDIA_SEARCH_INDEX_FILE } from '@/lib/media-search'
 
 import SiteHeaderClient from './site-header-client'
 
@@ -29,10 +30,7 @@ export default async function SiteHeader({ locale }: { locale: string }) {
   if (!isActiveLocale(locale)) {
     throw new Error(`SiteHeader received non-active locale "${locale}"`)
   }
-  const [navigation, searchTopics] = await Promise.all([
-    getNavigationContent(locale),
-    getBlogSearchTopics(),
-  ])
+  const navigation = await getNavigationContent(locale)
 
   const sitemap: NavOverlayLink[] = navigation.sitemap
 
@@ -80,7 +78,7 @@ export default async function SiteHeader({ locale }: { locale: string }) {
       sitemap={sitemap}
       community={community}
       menuPanels={menuPanels}
-      searchTopics={searchTopics}
+      searchIndexUrl={`${env.BASE_PATH ?? ''}/${MEDIA_SEARCH_INDEX_FILE}`}
       primaryCta={navigation.primaryCta}
       homepageHighlight={navigation.homepageHighlight}
     />

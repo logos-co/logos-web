@@ -2,21 +2,25 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
 import {
-  getBlogArticleDetail,
-  getBlogArticleSlugs,
-  getBlogPodcastDetail,
-  getBlogPodcastPaths,
+  getAllBlogArticles,
+  getAllBlogPodcasts,
   getBlogPodcastShowSlugs,
   type BlogArticleDetail,
   type BlogPodcastDetail,
 } from '../lib/blog-content'
+import { env } from '../lib/env'
 import {
   MEDIA_IMAGE_CACHE_DIR,
   MEDIA_IMAGE_MANIFEST_PATH,
   MEDIA_IMAGE_OUTPUT_DIR,
 } from '../lib/media-image-manifest'
 import { buildMediaImages } from '../lib/media-image-variants'
-import { collectMediaImageUrls } from '../lib/media-images'
+import {
+  collectMediaImageUrls,
+  type MediaImageManifest,
+} from '../lib/media-images'
+import { MEDIA_SEARCH_INDEX_FILE } from '../lib/media-search'
+import { buildMediaSearchDocuments } from '../lib/media-search-index'
 import {
   buildAtomDocument,
   buildRssDocument,
@@ -25,8 +29,8 @@ import {
 
 /**
  * Reads every media post once, then writes what the static export needs next
- * to the pages: the RSS and Atom feeds, and resized copies of the images the
- * detail pages show.
+ * to the pages: the RSS and Atom feeds, resized copies of the images the
+ * detail pages show, and the index the media search runs on.
  */
 
 const outputRoot = path.resolve(process.cwd(), 'public')
@@ -145,7 +149,9 @@ async function writeMediaFeeds(
   ])
 }
 
-async function writeMediaImages(posts: MediaPost[]): Promise<void> {
+async function writeMediaImages(
+  posts: MediaPost[]
+): Promise<MediaImageManifest> {
   const startedAt = Date.now()
   const urls = [...new Set(posts.flatMap(collectMediaImageUrls))]
   const { manifest, failures, skipped } = await buildMediaImages({
@@ -167,28 +173,39 @@ async function writeMediaImages(posts: MediaPost[]): Promise<void> {
   console.log(
     `Media images: ${Object.keys(manifest).length} resized, ${skipped.length} vector or animated, ${failures.length} failed (${seconds}s)`
   )
+  return manifest
+}
+
+async function writeMediaSearchIndex(
+  posts: MediaPost[],
+  manifest: MediaImageManifest
+): Promise<void> {
+  const documents = buildMediaSearchDocuments(
+    posts,
+    manifest,
+    env.BASE_PATH ?? ''
+  )
+  await writeFile(
+    path.join(outputRoot, MEDIA_SEARCH_INDEX_FILE),
+    JSON.stringify({ documents })
+  )
+  console.log(`Media search index: ${documents.length} posts`)
 }
 
 async function main(): Promise<void> {
-  const [articleSlugs, podcastPaths, showSlugs] = await Promise.all([
-    getBlogArticleSlugs(),
-    getBlogPodcastPaths(),
+  const [articles, podcasts, showSlugs] = await Promise.all([
+    getAllBlogArticles(),
+    getAllBlogPodcasts(),
     getBlogPodcastShowSlugs(),
   ])
-  const [articles, podcasts] = await Promise.all([
-    Promise.all(articleSlugs.map((slug) => getBlogArticleDetail(slug))),
-    Promise.all(
-      podcastPaths.map(({ showSlug, slug }) =>
-        getBlogPodcastDetail(showSlug, slug)
-      )
-    ),
-  ])
+  const posts = [...articles, ...podcasts]
 
   // Drafts get pages too (noindex), so their images are resized as well.
-  await Promise.all([
+  const [manifest] = await Promise.all([
+    writeMediaImages(posts),
     writeMediaFeeds(articles, podcasts, showSlugs),
-    writeMediaImages([...articles, ...podcasts]),
   ])
+  await writeMediaSearchIndex(posts, manifest)
 }
 
 await main()

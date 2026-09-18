@@ -1,6 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { getBlogArticleSlugs, getBlogPodcastPaths } from '@/lib/blog-content'
+import {
+  getAllBlogArticles,
+  getBlogArticleSlugs,
+  getBlogPodcastPaths,
+  isPublishedPost,
+} from '@/lib/blog-content'
 
 const { envStub } = vi.hoisted(() => ({
   envStub: {
@@ -159,5 +164,52 @@ describe('slug queries against Strapi', () => {
       showSlug: 'hashing-it-out',
       slug: 'tail-episode',
     })
+  })
+})
+
+const legacyArticleHtml = (slug: string, publishedAt: string) => ({
+  ok: true,
+  status: 200,
+  text: async () =>
+    `<script id="__NEXT_DATA__" type="application/json">${JSON.stringify({
+      props: {
+        pageProps: {
+          data: {
+            data: { id: slug, slug, title: slug.toUpperCase(), publishedAt },
+          },
+        },
+      },
+    })}</script>`,
+})
+
+describe('getAllBlogArticles', () => {
+  it('returns every article detail in slug order', async () => {
+    const fetchMock = vi.fn(async (url: string) => {
+      if (url.includes('/api/search')) {
+        return legacyArticlePage(['first', 'second'])
+      }
+      const slug = url.split('/article/')[1]!
+      return legacyArticleHtml(slug, '2026-07-01T00:00:00.000Z')
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    const articles = await getAllBlogArticles()
+
+    expect(articles.map((article) => article.title)).toEqual([
+      'FIRST',
+      'SECOND',
+    ])
+  })
+})
+
+describe('isPublishedPost', () => {
+  it('keeps posts that are live and dated', () => {
+    expect(isPublishedPost({ isDraft: false, publishedAt: '2026-07-01' })).toBe(
+      true
+    )
+    expect(isPublishedPost({ isDraft: true, publishedAt: '2026-07-01' })).toBe(
+      false
+    )
+    expect(isPublishedPost({ isDraft: false, publishedAt: null })).toBe(false)
   })
 })

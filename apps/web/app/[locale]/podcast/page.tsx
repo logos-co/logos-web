@@ -9,7 +9,7 @@ import { createSectionFinder } from '@/lib/page-sections'
 import ContentWidth from '@/components/layout/content-width'
 import { ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
-import { BLOG_ORIGIN, getLatestBlogPodcasts } from '@/lib/blog-engine'
+import { getLatestBlogPodcasts } from '@/lib/blog-engine'
 
 import { PodcastsSection } from '../media/_sections/podcasts'
 
@@ -95,7 +95,7 @@ export default async function LogosPodcastPage({
       />
       <PodcastsSection
         podcasts={podcasts}
-        ctaHref={`${BLOG_ORIGIN}/podcasts`}
+        ctaHref={ROUTES.mediaPodcastsSection}
         copy={{
           heading: data.latestHeading,
           media: data.eyebrow,

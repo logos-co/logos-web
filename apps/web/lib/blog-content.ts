@@ -1,5 +1,7 @@
+import { cache } from 'react'
+
+import { mapWithConcurrency } from '@/lib/concurrency'
 import { env } from '@/lib/env'
-import { BLOG_DEPLOYMENT_ORIGIN, BLOG_ORIGIN } from '@/lib/blog-engine'
 import { fetchDiscourseTopic, type BlogDiscussion } from '@/lib/discourse-topic'
 import { addTargetBlank } from '@/lib/html-links'
 import { logger } from '@/lib/logger'
@@ -9,6 +11,15 @@ import { resolveAudioFromApplePodcasts } from '@/lib/podcast-feed'
 export type { BlogDiscussion, BlogDiscussionPost } from '@/lib/discourse-topic'
 
 export const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
+
+/**
+ * The legacy blog app, read only when Strapi credentials are missing (local
+ * dev, CI and previews without the key). Production reads Strapi.
+ */
+export const BLOG_ORIGIN = 'https://blog.logos.co'
+export const BLOG_DEPLOYMENT_ORIGIN = 'https://lpe-seven.vercel.app'
+/** Details are fetched a few at a time: a burst trips the legacy blog. */
+const DETAIL_FETCH_CONCURRENCY = 6
 
 /**
  * Both slug sources cap a single response at 100 posts, so the archive has to
@@ -1951,3 +1962,28 @@ export async function getBlogPodcastDetail(
   }
   return getLegacyPodcast(showSlug, slug)
 }
+
+/** Live posts with a publish date: drafts render (noindex) but are never listed. */
+export const isPublishedPost = (
+  post: Pick<BlogPostMeta, 'isDraft' | 'publishedAt'>
+): boolean => !post.isDraft && Boolean(post.publishedAt)
+
+/** Every article, newest first as the CMS returns them. */
+export const getAllBlogArticles = cache(
+  async (): Promise<BlogArticleDetail[]> => {
+    const slugs = await getBlogArticleSlugs()
+    return mapWithConcurrency(slugs, DETAIL_FETCH_CONCURRENCY, (slug) =>
+      getBlogArticleDetail(slug)
+    )
+  }
+)
+
+/** Every podcast episode, newest first as the CMS returns them. */
+export const getAllBlogPodcasts = cache(
+  async (): Promise<BlogPodcastDetail[]> => {
+    const paths = await getBlogPodcastPaths()
+    return mapWithConcurrency(paths, DETAIL_FETCH_CONCURRENCY, (path) =>
+      getBlogPodcastDetail(path.showSlug, path.slug)
+    )
+  }
+)
