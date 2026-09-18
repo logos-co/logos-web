@@ -1,5 +1,6 @@
 ;(() => {
-  const trackableSelector = 'button, [role="button"], a, .button'
+  const trackableSelector =
+    'button, [role="button"], [role="link"], a, .button, .choices-scope .face'
 
   const normalizeLabel = (value) =>
     typeof value === 'string' ? value.replace(/\s+/g, ' ').trim() : ''
@@ -14,6 +15,24 @@
 
     if (element.classList.contains('wm-back')) {
       return 'Close exhibit'
+    }
+
+    if (element.classList.contains('face')) {
+      const character = normalizeLabel(
+        element.querySelector('.face-name')?.textContent
+      )
+
+      return character ? `Select ${character}` : ''
+    }
+
+    if (element.classList.contains('copt')) {
+      const key = normalizeLabel(element.querySelector('.ckey')?.textContent)
+
+      return key ? `Choose ${key}` : 'Choose'
+    }
+
+    if (element.id === 'mute') {
+      return normalizeLabel(element.getAttribute('aria-label'))
     }
 
     return (
@@ -70,6 +89,18 @@
       return 'Timeline'
     }
 
+    if (window.location.pathname.includes('/choices/mike')) {
+      return 'Mike experience'
+    }
+
+    if (element.closest('.choices-scope')) {
+      return "Life's Choices"
+    }
+
+    if (element.classList.contains('mm-room')) {
+      return 'Museum navigation'
+    }
+
     return ''
   }
 
@@ -91,11 +122,35 @@
     const exhibit = element
       .closest('[data-kind="main"], [role="dialog"]')
       ?.querySelector('.mx-title, #wm-title')
+    const character = normalizeLabel(
+      element.querySelector('.face-name')?.textContent
+    )
+    const path = normalizeLabel(element.querySelector('.face-path')?.textContent)
+    const choiceRoot = element.closest('#choice')
+    const choice = normalizeLabel(
+      element.querySelector('.clabel')?.textContent
+    )
+    const choiceKey = normalizeLabel(
+      element.querySelector('.ckey')?.textContent
+    )
+    const age = normalizeLabel(choiceRoot?.querySelector('.c-age')?.textContent)
+    const scene = normalizeLabel(
+      choiceRoot?.querySelector('.c-title')?.textContent
+    )
 
     return {
       ...data,
       ...(context ? { context } : {}),
       ...(exhibit ? { exhibit: normalizeLabel(exhibit.textContent) } : {}),
+      ...(character ? { character } : {}),
+      ...(path ? { path } : {}),
+      ...(element.classList.contains('face')
+        ? { available: !element.classList.contains('soon') }
+        : {}),
+      ...(choice ? { choice } : {}),
+      ...(choiceKey ? { choiceKey } : {}),
+      ...(age ? { age } : {}),
+      ...(scene ? { scene } : {}),
     }
   }
 
