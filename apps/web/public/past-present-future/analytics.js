@@ -32,7 +32,7 @@
       )
 
       if (key && choice) {
-        return `Choose ${key} - ${choice}`
+        return `Choose ${key} (${choice})`
       }
 
       return key ? `Choose ${key}` : choice ? `Choose - ${choice}` : 'Choose'
