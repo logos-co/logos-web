@@ -18,15 +18,19 @@ Rules run top to bottom and the first match wins. All redirects are 301 and keep
 | `/calendar`                                                   | `https://logos.co/logos-broadcast-network`      | That page shows the same events calendar                                          |
 | `/`, `/search`, `/about`, and any other page                  | `https://logos.co/media`                        | The media landing replaces the blog home, search and about page                   |
 
+## What logos.co needs from the old blog
+
+Nothing in production. Every media page, the article cards across the site and the media search (a static index written at build time) read the CMS at cms-press.logos.co directly.
+
+Builds without the Strapi key (local dev, CI without the secrets, Vercel previews without the env vars) fall back to the old blog's API. Give them `STRAPI_API_KEY` and `SIMPLECAST_ACCESS_TOKEN` before the old blog is switched off, or those builds will fail.
+
 ## What stays on blog.logos.co for now
 
-These paths must not redirect until the old blog is switched off:
+These paths must not redirect while the old blog is still running:
 
-- `/api/*`: the /media landing page reads the legacy search API at build time. The header search calls the same API on lpe-seven.vercel.app, a separate deployment of the old blog.
-- `/preview/*` and any path containing `/id/`: the CMS sends editors to these draft previews.
+- `/api/*`: the fallback above.
+- `/preview/*` and any path containing `/id/`: the CMS sends editors to these draft previews. They need a new home before the old blog is switched off.
 - `/_next/*` and any other path with a file extension (images, icons, `robots.txt`, `sitemap.xml`): the preview pages need their assets, and the old sitemap helps Google find the redirects faster. The feeds listed above are the only files that move.
-
-Before blog.logos.co can be switched off, the /media landing and header search have to read Strapi directly and the CMS previews need a new home.
 
 ## After the switch
 
