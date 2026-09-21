@@ -1,0 +1,5 @@
+@media (max-width: 760px) and (orientation: portrait) {
+  #shell #film {
+    object-fit: contain;
+  }
+}
