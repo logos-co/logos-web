@@ -37,6 +37,18 @@ const staticRoutes = [
   ROUTES.pastPresentFuture,
 ] as const
 
+/**
+ * apps/past-present-future is a separate SvelteKit app copied into the export
+ * by scripts/copy-past-present-future.sh. The sitemap only lists its landing
+ * page, so check its inner pages made it into `out/` too.
+ */
+const pastPresentFutureRoutes = [
+  ROUTES.pastPresentFuture,
+  `${ROUTES.pastPresentFuture}/choices`,
+  `${ROUTES.pastPresentFuture}/choices/mike`,
+  `${ROUTES.pastPresentFuture}/museum-of-civil-liberties`,
+] as const
+
 const toRoutePath = (route: string): string => {
   const normalized = route === '/' ? '' : route.replace(/^\/+/, '')
   return normalized
@@ -400,6 +412,12 @@ const main = async (): Promise<void> => {
     }
     checkedHtmlFiles.add(htmlFile)
     failures.push(...assertHtmlPage(route, htmlFile))
+  }
+
+  for (const route of pastPresentFutureRoutes) {
+    if (!findHtmlFile(route)) {
+      failures.push(`${route} did not export an HTML file`)
+    }
   }
 
   for (const htmlFile of collectHtmlFiles(outDir)) {

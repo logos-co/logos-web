@@ -13,6 +13,7 @@ pnpm + Turborepo monorepo. Node `24`, pnpm `11.1`.
 | `apps/api` | Public funnel intake endpoint (Next.js 16, no pages). Port `3003`. See [`docs/api/architecture.md`](docs/api/architecture.md). |
 | `apps/civi-crm` | Frozen predecessor of `apps/api`; do not edit. Removed once the callers point at `apps/api`. |
 | `apps/logos-demos` | Demos of the Logos stack (Next.js 16). Pages are static; the blockchain demo adds read-only proxy route handlers. Port `3005`. See [`apps/logos-demos/AGENTS.md`](apps/logos-demos/AGENTS.md). |
+| `apps/past-present-future` | SvelteKit app served at `/past-present-future`, fully prerendered. `apps/web` depends on it, so its build runs first and `apps/web/scripts/copy-past-present-future.sh` copies it into `apps/web/out`. In dev, `apps/web` proxies the path to its Vite server on port `3006`. |
 | `packages/content` | Content schemas, loaders for `content/**`, GitHub mutation helpers, locale registry. |
 | `packages/ui` | Shared React primitives + SVG icon components. |
 | `packages/tokens` | Design tokens. |
