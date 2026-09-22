@@ -64,18 +64,23 @@ export function DeveloperProgramsSection({
         description={data.rfpsDescription}
       >
         <div className="mt-15 flex w-full justify-center gap-3 md:w-[1416px] md:-translate-x-[176px] md:justify-start">
+          {/* The copy stays in the flow: a tagline long enough to reach the
+              CTA grows the card (and its row) instead of covering the CTA. */}
           {previewRfps.map((rfp, itemIndex) => (
             <div
               key={rfp.slug}
-              className={`relative hidden h-[166px] w-full max-w-[345px] shrink-0 overflow-hidden rounded-xl border border-brand-dark-green/50 p-4 first:block md:block md:w-[345px] ${
+              className={`relative hidden min-h-[166px] w-full max-w-[345px] shrink-0 flex-col overflow-hidden rounded-xl border border-brand-dark-green/50 p-4 first:flex md:flex md:w-[345px] ${
                 itemIndex % 2 === 1 ? 'opacity-50' : ''
               }`}
             >
-              <h4 className="w-[249px] text-h4-sans">{rfp.title}</h4>
-              <span className="absolute top-[83px] left-4 font-mono text-xs font-semibold uppercase underline underline-offset-[3px]">
+              {/* Two lines are reserved so the CTA lines up across cards. */}
+              <h4 className="min-h-[2lh] w-[249px] text-h4-sans">
+                {rfp.title}
+              </h4>
+              <span className="mt-3.5 self-start font-mono text-xs font-semibold uppercase underline underline-offset-[3px]">
                 {rfp.ctaLabel ?? data.rfpsTitle}
               </span>
-              <p className="absolute bottom-4 left-4 w-[186px] text-mono-s">
+              <p className="mt-auto w-[186px] pt-0.5 text-mono-s">
                 {rfp.tagline ?? rfp.summary}
               </p>
               {rfp.image ? (
