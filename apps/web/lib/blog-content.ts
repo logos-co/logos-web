@@ -550,6 +550,40 @@ async function collectAllPages<T>(
   )
 }
 
+/** The CMS sits behind a proxy that now and then drops a connection. */
+const CMS_FETCH_ATTEMPTS = 3
+const CMS_RETRY_DELAY_MS = 1000
+
+/**
+ * Reads a CMS response, retrying when the connection drops before the body
+ * arrives, so one dropped socket does not fail the whole build. HTTP errors
+ * come back as they are: retrying them would not change the answer.
+ */
+async function fetchCmsText(
+  init: RequestInit,
+  label: string
+): Promise<{ ok: boolean; status: number; text: string }> {
+  for (let attempt = 1; ; attempt += 1) {
+    try {
+      const response = await fetch(CMS_PRESS_GRAPHQL_URL, init)
+      return {
+        ok: response.ok,
+        status: response.status,
+        text: await response.text(),
+      }
+    } catch (error) {
+      if (attempt >= CMS_FETCH_ATTEMPTS) throw error
+      logger.warn(`${label} CMS request dropped, retrying`, {
+        attempt,
+        error: error instanceof Error ? error.message : String(error),
+      })
+      await new Promise((resolve) =>
+        setTimeout(resolve, CMS_RETRY_DELAY_MS * attempt)
+      )
+    }
+  }
+}
+
 async function fetchPressGraphql<T>(
   query: string,
   variables: Record<string, unknown>,
@@ -563,17 +597,20 @@ async function fetchPressGraphql<T>(
     )
   }
 
-  const response = await fetch(CMS_PRESS_GRAPHQL_URL, {
-    method: 'POST',
-    cache: 'force-cache',
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${env.STRAPI_API_KEY}`,
-      'Content-Type': 'application/json',
+  const response = await fetchCmsText(
+    {
+      method: 'POST',
+      cache: 'force-cache',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${env.STRAPI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query, variables }),
     },
-    body: JSON.stringify({ query, variables }),
-  })
-  const text = await response.text()
+    label
+  )
+  const { text } = response
   if (!response.ok) {
     throw new Error(
       `${label} GraphQL failed: status=${response.status} body=${truncate(text)}`

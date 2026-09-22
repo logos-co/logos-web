@@ -165,6 +165,43 @@ const strapiArticle = (slug: string, publishDate: string) =>
     },
   })
 
+describe('a dropped CMS connection', () => {
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('is retried instead of failing the build', async () => {
+    // The CMS sits behind a proxy that now and then closes a connection.
+    vi.useFakeTimers()
+    useStrapi()
+    const fetchMock = vi
+      .fn()
+      .mockRejectedValueOnce(new TypeError('fetch failed'))
+      .mockResolvedValueOnce(strapiPostPage([{ slug: 'only-article' }]))
+    vi.stubGlobal('fetch', fetchMock)
+
+    const slugs = getBlogArticleSlugs()
+    await vi.runAllTimersAsync()
+
+    await expect(slugs).resolves.toEqual(['only-article'])
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+  })
+
+  it('still fails the build when the CMS stays unreachable', async () => {
+    vi.useFakeTimers()
+    useStrapi()
+    const fetchMock = vi.fn().mockRejectedValue(new TypeError('fetch failed'))
+    vi.stubGlobal('fetch', fetchMock)
+
+    const slugs = getBlogArticleSlugs()
+    const assertion = expect(slugs).rejects.toThrow('fetch failed')
+    await vi.runAllTimersAsync()
+
+    await assertion
+    expect(fetchMock).toHaveBeenCalledTimes(3)
+  })
+})
+
 describe('getAllBlogArticles', () => {
   it('returns every article detail in slug order', async () => {
     useStrapi()
