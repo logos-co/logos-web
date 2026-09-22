@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { BlogContentBlock, BlogDynamicBlock } from '@/lib/blog-content'
 import { cn } from '@/lib/cn'
-import { addTargetBlank } from '@/lib/html-links'
+import { prepareCmsLinks } from '@/lib/html-links'
 import { youtubeEmbedUrl } from '@/lib/media-embed'
 import { MEDIA_BODY_IMAGE_SIZES } from '@/lib/media-image-sizes'
 
@@ -41,7 +41,7 @@ function renderEmbed(src: string, html: string) {
   return (
     <div
       className="media-detail-embed"
-      dangerouslySetInnerHTML={{ __html: addTargetBlank(html) }}
+      dangerouslySetInnerHTML={{ __html: prepareCmsLinks(html) }}
     />
   )
 }
@@ -63,7 +63,7 @@ function ContentBlock({ block }: { block: BlogContentBlock }) {
   return (
     <div
       className="contents"
-      dangerouslySetInnerHTML={{ __html: addTargetBlank(block.html) }}
+      dangerouslySetInnerHTML={{ __html: prepareCmsLinks(block.html) }}
     />
   )
 }
@@ -114,7 +114,7 @@ function HtmlDocumentEmbed({
     root.className = ['media-detail-html-document', parsed.body.className]
       .filter(Boolean)
       .join(' ')
-    root.innerHTML = addTargetBlank(parsed.body.innerHTML)
+    root.innerHTML = prepareCmsLinks(parsed.body.innerHTML)
 
     const insertedElements: HTMLElement[] = []
     for (const source of [...styles, ...links]) {
@@ -214,7 +214,7 @@ function DynamicBlock({
     return (
       <div
         className="contents"
-        dangerouslySetInnerHTML={{ __html: addTargetBlank(block.body) }}
+        dangerouslySetInnerHTML={{ __html: prepareCmsLinks(block.body) }}
       />
     )
   }
@@ -247,7 +247,7 @@ export function MediaRichContent({
     return (
       <section
         className={cn('media-detail-content', className)}
-        dangerouslySetInnerHTML={{ __html: addTargetBlank(bodyHtml) }}
+        dangerouslySetInnerHTML={{ __html: prepareCmsLinks(bodyHtml) }}
       />
     )
   }
