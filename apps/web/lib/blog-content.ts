@@ -3,7 +3,7 @@ import { cache } from 'react'
 import { mapWithConcurrency } from '@/lib/concurrency'
 import { env } from '@/lib/env'
 import { fetchDiscourseTopic, type BlogDiscussion } from '@/lib/discourse-topic'
-import { addTargetBlank } from '@/lib/html-links'
+import { prepareCmsLinks } from '@/lib/html-links'
 import { logger } from '@/lib/logger'
 import { youtubeEmbedUrl } from '@/lib/media-embed'
 import { resolveAudioFromApplePodcasts } from '@/lib/podcast-feed'
@@ -419,7 +419,7 @@ function uniqueSlug(base: string, used: Set<string>): string {
 function normaliseSummaryHtml(value: string): string | undefined {
   const html = value.replace(/<section\b[^>]*>[\s\S]*?<\/section>/gi, '').trim()
 
-  return html ? addTargetBlank(html) : undefined
+  return html ? prepareCmsLinks(html) : undefined
 }
 
 function escapeHtmlAttribute(value: string): string {
@@ -503,7 +503,7 @@ function normaliseArticleHtml(rawHtml: string): {
 
   const toc: BlogTocItem[] = []
   let blockIndex = 0
-  const html = addTargetBlank(withFootnoteRefs).replace(
+  const html = prepareCmsLinks(withFootnoteRefs).replace(
     /<h([1-6])([^>]*)>([\s\S]*?)<\/h\1>/gi,
     (match, level, rawAttrs, innerHtml) => {
       const title = stripBlogHtml(innerHtml)

@@ -1,5 +1,5 @@
 import { EXTERNAL_URLS } from '@/constants/routes'
-import { addTargetBlank } from '@/lib/html-links'
+import { prepareCmsLinks } from '@/lib/html-links'
 
 /**
  * Reads the public Discourse topic behind a /media article. Shared by the
@@ -55,7 +55,7 @@ function parseReply(post: Record<string, unknown>): BlogDiscussionPost | null {
       : `${FORUM_ORIGIN}${avatarPath}`,
     createdAt,
     displayName: stringValue(post.display_username) || username,
-    html: addTargetBlank(
+    html: prepareCmsLinks(
       html.replace(/href="\/u\//g, `href="${FORUM_ORIGIN}/u/`)
     ),
   }
