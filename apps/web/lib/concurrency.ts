@@ -1,6 +1,6 @@
 /**
  * Maps over items with at most `limit` tasks in flight, keeping input order.
- * Used where a burst of requests would trip the CMS or the legacy blog.
+ * Used where a burst of requests would trip the CMS.
  */
 export async function mapWithConcurrency<T, R>(
   items: ReadonlyArray<T>,

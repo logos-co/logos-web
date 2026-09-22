@@ -9,7 +9,6 @@ import {
 
 const { envStub } = vi.hoisted(() => ({
   envStub: {
-    CI: false,
     NEXT_PUBLIC_API_MODE: undefined as string | undefined,
     NEXT_PUBLIC_ADMIN_ACID_API_URL: undefined as string | undefined,
     NEXT_PUBLIC_ASSETS_BASE_URL: undefined as string | undefined,
@@ -29,11 +28,6 @@ const jsonResponse = (payload: unknown) => ({
   status: 200,
   text: async () => JSON.stringify(payload),
 })
-
-const legacyArticlePage = (slugs: string[]) =>
-  jsonResponse({
-    data: { posts: slugs.map((slug) => ({ type: 'article', data: { slug } })) },
-  })
 
 const strapiPostPage = (posts: Array<{ slug?: string; showSlug?: string }>) =>
   jsonResponse({
@@ -68,50 +62,16 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-describe('getBlogArticleSlugs on the legacy search API', () => {
-  it('reads every page instead of stopping at the first response cap', async () => {
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(legacyArticlePage(range(PAGE_SIZE, 'a')))
-      .mockResolvedValueOnce(legacyArticlePage(range(PAGE_SIZE, 'b')))
-      .mockResolvedValueOnce(legacyArticlePage(range(37, 'c')))
+describe('without Strapi credentials', () => {
+  it('fails instead of reading the old blog', async () => {
+    // blog.logos.co is being switched off, so there is no second source.
+    const fetchMock = vi.fn()
     vi.stubGlobal('fetch', fetchMock)
 
-    const slugs = await getBlogArticleSlugs()
-
-    expect(slugs).toHaveLength(PAGE_SIZE * 2 + 37)
-    expect(new Set(slugs).size).toBe(slugs.length)
-    expect(
-      fetchMock.mock.calls.map(([url]) =>
-        new URL(url as string).searchParams.get('skip')
-      )
-    ).toEqual(['0', '100', '200'])
-  })
-
-  it('stops after a single short page', async () => {
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValue(legacyArticlePage(['only-article']))
-    vi.stubGlobal('fetch', fetchMock)
-
-    await expect(getBlogArticleSlugs()).resolves.toEqual(['only-article'])
-    expect(fetchMock).toHaveBeenCalledTimes(1)
-  })
-
-  it('keeps walking when a full page carries an unusable row', async () => {
-    const withGap = [...range(PAGE_SIZE - 1, 'a'), '']
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(legacyArticlePage(withGap))
-      .mockResolvedValueOnce(legacyArticlePage(['tail-article']))
-    vi.stubGlobal('fetch', fetchMock)
-
-    const slugs = await getBlogArticleSlugs()
-
-    expect(fetchMock).toHaveBeenCalledTimes(2)
-    expect(slugs).toHaveLength(PAGE_SIZE)
-    expect(slugs).toContain('tail-article')
-    expect(slugs).not.toContain('')
+    await expect(getBlogArticleSlugs()).rejects.toThrow(
+      /STRAPI_GRAPHQL_URL and STRAPI_API_KEY/
+    )
+    expect(fetchMock).not.toHaveBeenCalled()
   })
 })
 
@@ -165,31 +125,58 @@ describe('slug queries against Strapi', () => {
       slug: 'tail-episode',
     })
   })
+
+  it('keeps walking when a full page carries an unusable row', async () => {
+    useStrapi()
+    const withGap = [
+      ...range(PAGE_SIZE - 1, 'a').map((slug) => ({ slug })),
+      { slug: '' },
+    ]
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(strapiPostPage(withGap))
+      .mockResolvedValueOnce(strapiPostPage([{ slug: 'tail-article' }]))
+    vi.stubGlobal('fetch', fetchMock)
+
+    const slugs = await getBlogArticleSlugs()
+
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+    expect(slugs).toHaveLength(PAGE_SIZE)
+    expect(slugs).toContain('tail-article')
+    expect(slugs).not.toContain('')
+  })
 })
 
-const legacyArticleHtml = (slug: string, publishedAt: string) => ({
-  ok: true,
-  status: 200,
-  text: async () =>
-    `<script id="__NEXT_DATA__" type="application/json">${JSON.stringify({
-      props: {
-        pageProps: {
-          data: {
-            data: { id: slug, slug, title: slug.toUpperCase(), publishedAt },
+const strapiArticle = (slug: string, publishDate: string) =>
+  jsonResponse({
+    data: {
+      posts: {
+        data: [
+          {
+            id: slug,
+            attributes: {
+              slug,
+              title: slug.toUpperCase(),
+              publish_date: publishDate,
+            },
           },
-        },
+        ],
       },
-    })}</script>`,
-})
+    },
+  })
 
 describe('getAllBlogArticles', () => {
   it('returns every article detail in slug order', async () => {
-    const fetchMock = vi.fn(async (url: string) => {
-      if (url.includes('/api/search')) {
-        return legacyArticlePage(['first', 'second'])
+    useStrapi()
+    const fetchMock = vi.fn(async (_url: string, init: RequestInit) => {
+      const { query, variables } = JSON.parse(init.body as string) as {
+        query: string
+        variables: { slug?: string }
       }
-      const slug = url.split('/article/')[1]!
-      return legacyArticleHtml(slug, '2026-07-01T00:00:00.000Z')
+      if (query.includes('PostSlugs')) {
+        return strapiPostPage([{ slug: 'first' }, { slug: 'second' }])
+      }
+      return strapiArticle(variables.slug!, '2026-07-01T00:00:00.000Z')
     })
     vi.stubGlobal('fetch', fetchMock)
 

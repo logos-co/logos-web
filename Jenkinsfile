@@ -61,7 +61,7 @@ pipeline {
       steps {
         script {
           /* The /media pages are built from the blog CMS (Strapi) and Simplecast,
-           * so a production build fails without these. */
+           * so the build fails without these. */
           withCredentials([
             string(credentialsId: 'logos-web-strapi-api-key', variable: 'STRAPI_API_KEY'),
             string(credentialsId: 'logos-web-simplecast-access-token', variable: 'SIMPLECAST_ACCESS_TOKEN'),

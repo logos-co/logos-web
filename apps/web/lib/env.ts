@@ -20,10 +20,6 @@ type NodeEnv = (typeof NODE_ENV_VALUES)[number]
 type ApiMode = (typeof API_MODE_VALUES)[number]
 
 export type Env = {
-  /**
-   * Standard CI flag set by GitHub Actions and other build runners.
-   */
-  CI: boolean
   NODE_ENV: NodeEnv
   /**
    * Toggle for production-only behaviour gates (search-engine indexing,
@@ -119,7 +115,6 @@ function readOptionalString(raw: string | undefined): string | undefined {
 }
 
 export const env: Env = {
-  CI: process.env.CI === 'true',
   NODE_ENV:
     assertOneOf(process.env.NODE_ENV, NODE_ENV_VALUES, 'NODE_ENV', true) ??
     'development',

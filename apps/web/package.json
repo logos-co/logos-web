@@ -14,7 +14,7 @@
     "build": "pnpm build:app",
     "build:app": "pnpm sync:active-circles && pnpm generate:media-assets && next build && pnpm build:strip-locale",
     "sync:active-circles": "tsx scripts/sync-active-circles.ts",
-    "generate:media-assets": "tsx scripts/generate-media-assets.ts",
+    "generate:media-assets": "tsx --env-file-if-exists=.env.local scripts/generate-media-assets.ts",
     "build:export": "pnpm build",
     "build:strip-locale": "bash scripts/strip-default-locale-prefix.sh",
     "start": "python3 -m http.server 3000 --directory out",

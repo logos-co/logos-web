@@ -115,8 +115,8 @@ const assertSeoFiles = (expectedRoutes: readonly string[]): string[] => {
   const failures: string[] = []
   const robotsPath = join(outDir, 'robots.txt')
   const sitemapPath = join(outDir, 'sitemap.xml')
-  // rss/hashing-it-out.xml is optional: the show has no episodes in the CMS and
-  // blog.logos.co never served a real feed there, so the generator skips it.
+  // rss/hashing-it-out.xml is optional: the show has no published episodes in
+  // the CMS, so the generator skips it.
   const feedPaths = [
     'rss/main.xml',
     'rss/logos-state.xml',
