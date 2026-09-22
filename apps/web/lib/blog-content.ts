@@ -11,14 +11,7 @@ import { resolveAudioFromApplePodcasts } from '@/lib/podcast-feed'
 export type { BlogDiscussion, BlogDiscussionPost } from '@/lib/discourse-topic'
 
 export const DEFAULT_PODCAST_SHOW_SLUG = 'logos-state'
-
-/**
- * The legacy blog app, read only when Strapi credentials are missing (local
- * dev, CI and previews without the key). Production reads Strapi.
- */
-export const BLOG_ORIGIN = 'https://blog.logos.co'
-export const BLOG_DEPLOYMENT_ORIGIN = 'https://lpe-seven.vercel.app'
-/** Details are fetched a few at a time: a burst trips the legacy blog. */
+/** Details are fetched a few at a time: a burst trips the CMS. */
 const DETAIL_FETCH_CONCURRENCY = 6
 
 /**
@@ -198,30 +191,6 @@ export interface BlogPodcastDetail extends BlogPostMeta {
 }
 
 type FetchResult<T> = { ok: true; data: T } | { ok: false; error: Error }
-
-type BlogSearchResponse = {
-  data?: {
-    posts?: Array<{
-      type?: 'article' | 'podcast'
-      data?: {
-        slug?: string
-      }
-    }>
-  }
-}
-
-type LegacyArticlePageProps = {
-  data?: {
-    data?: unknown
-    relatedArticles?: unknown[]
-    articlesFromSameAuthors?: unknown[]
-  }
-}
-
-type LegacyPodcastPageProps = {
-  episode?: unknown
-  relatedEpisodes?: unknown[]
-}
 
 type GraphqlResponse<T> = {
   data?: T
@@ -553,57 +522,6 @@ async function tryFetchText(
   }
 }
 
-async function fetchJson<T>(url: string, label: string): Promise<T> {
-  const result = await tryFetchText(
-    url,
-    {
-      cache: 'force-cache',
-      headers: { Accept: 'application/json' },
-    },
-    label
-  )
-  if (!result.ok) throw result.error
-
-  try {
-    return JSON.parse(result.data) as T
-  } catch {
-    throw new Error(
-      `${label} returned non-JSON: url=${url} body=${truncate(result.data)}`
-    )
-  }
-}
-
-async function fetchLegacyPageProps<T>(
-  path: string,
-  label: string
-): Promise<T> {
-  for (const origin of [BLOG_ORIGIN, BLOG_DEPLOYMENT_ORIGIN]) {
-    const url = `${origin}${path}`
-    const result = await tryFetchText(
-      url,
-      {
-        cache: 'force-cache',
-      },
-      label
-    )
-    if (!result.ok) continue
-
-    const match = result.data.match(
-      /<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/
-    )
-    if (!match) continue
-
-    const page = JSON.parse(match[1]) as {
-      props?: {
-        pageProps?: T
-      }
-    }
-    if (page.props?.pageProps) return page.props.pageProps
-  }
-
-  throw new Error(`${label} missing pageProps: path=${path}`)
-}
-
 /**
  * Reads a paged listing to the end, stopping on the first short page.
  *
@@ -627,22 +545,16 @@ async function collectAllPages<T>(
   )
 }
 
-function hasStrapiConfig() {
-  return Boolean(env.STRAPI_GRAPHQL_URL && env.STRAPI_API_KEY)
-}
-
-function shouldAllowLegacyFallback() {
-  return env.CI || env.NEXT_PUBLIC_API_MODE !== 'production'
-}
-
 async function fetchPressGraphql<T>(
   query: string,
   variables: Record<string, unknown>,
   label: string
 ): Promise<T> {
+  // The blog CMS is the only source of media content: there is no other
+  // copy to fall back to once blog.logos.co is gone.
   if (!env.STRAPI_GRAPHQL_URL || !env.STRAPI_API_KEY) {
     throw new Error(
-      `${label} requires STRAPI_GRAPHQL_URL and STRAPI_API_KEY to be set`
+      `${label} requires STRAPI_GRAPHQL_URL and STRAPI_API_KEY to be set (see apps/web/.env.example)`
     )
   }
 
@@ -999,296 +911,6 @@ function mapGraphqlPodcast(
   }
 }
 
-function mapLegacyImage(value: unknown): BlogImage | null {
-  if (!isRecord(value)) return null
-  const url = optionalStringValue(value.url)
-  if (!url) return null
-  return {
-    url,
-    alt: stringValue(value.alt),
-    width: optionalNumberValue(value.width) ?? 0,
-    height: optionalNumberValue(value.height) ?? 0,
-    caption: optionalStringValue(value.caption),
-  }
-}
-
-function mapLegacyTags(value: unknown): BlogTag[] {
-  if (!Array.isArray(value)) return []
-  return value
-    .map((tag): BlogTag | null => {
-      if (!isRecord(tag)) return null
-      const name = stringValue(tag.name)
-      if (!name) return null
-      return {
-        id: stringValue(tag.id),
-        name,
-      }
-    })
-    .filter((tag): tag is BlogTag => tag !== null)
-}
-
-function mapLegacyAuthors(value: unknown): BlogAuthor[] {
-  if (!Array.isArray(value)) return []
-  return value
-    .map((author): BlogAuthor | null => {
-      if (!isRecord(author)) return null
-      const name = stringValue(author.name)
-      if (!name) return null
-      return {
-        id: stringValue(author.id),
-        name,
-        emailAddress: optionalStringValue(author.emailAddress),
-      }
-    })
-    .filter((author): author is BlogAuthor => author !== null)
-}
-
-function mapLegacyContentBlocks(value: unknown): BlogContentBlock[] {
-  if (!Array.isArray(value)) return []
-  return value
-    .map((block): BlogContentBlock | null => {
-      if (!isRecord(block)) return null
-      if (block.type === 'image') {
-        const image = mapLegacyImage(block)
-        if (!image) return null
-        return {
-          ...image,
-          type: 'image',
-          order: optionalNumberValue(block.order) ?? 0,
-          labels: Array.isArray(block.labels) ? block.labels.map(String) : [],
-        }
-      }
-      if (block.type === 'text') {
-        return {
-          type: 'text',
-          id: optionalStringValue(block.id),
-          order: optionalNumberValue(block.order) ?? 0,
-          tagName: stringValue(block.tagName) || 'p',
-          html: stringValue(block.html),
-          text: stringValue(block.text),
-          labels: Array.isArray(block.labels) ? block.labels.map(String) : [],
-          classNames: Array.isArray(block.classNames)
-            ? block.classNames.map(String)
-            : [],
-          footnotes: Array.isArray(block.footnotes)
-            ? (block.footnotes as BlogFootnote[])
-            : [],
-          embed: isRecord(block.embed)
-            ? {
-                src: stringValue(block.embed.src),
-                html: stringValue(block.embed.html),
-              }
-            : undefined,
-        }
-      }
-      return null
-    })
-    .filter((block): block is BlogContentBlock => block !== null)
-}
-
-function mapLegacyDynamicBlocks(
-  value: unknown
-): BlogDynamicBlock[] | undefined {
-  if (!Array.isArray(value)) return undefined
-  const blocks = value
-    .filter(isRecord)
-    .map((block) => block as unknown as BlogDynamicBlock)
-  return blocks.length > 0 ? blocks : undefined
-}
-
-function htmlAttribute(name: string, value: unknown): string {
-  const text = stringValue(value)
-  if (!text) return ''
-  return ` ${name}="${escapeHtmlAttribute(text)}"`
-}
-
-function serialiseLegacyHtmlDocument(value: unknown): string | undefined {
-  if (!isRecord(value)) return undefined
-
-  const bodyHtml = stringValue(value.bodyHtml)
-  if (!bodyHtml.trim()) return undefined
-
-  const metas = Array.isArray(value.metas)
-    ? value.metas
-        .filter(isRecord)
-        .map((meta) => {
-          if (stringValue(meta.charset)) {
-            return `<meta charset="${escapeHtmlAttribute(stringValue(meta.charset))}">`
-          }
-
-          const attrs = [
-            htmlAttribute('name', meta.name),
-            htmlAttribute('content', meta.content),
-            htmlAttribute('property', meta.property),
-            htmlAttribute('http-equiv', meta.httpEquiv),
-          ].join('')
-          return attrs ? `<meta${attrs}>` : ''
-        })
-        .filter(Boolean)
-        .join('')
-    : ''
-  const links = Array.isArray(value.links)
-    ? value.links
-        .filter(isRecord)
-        .map((link) => {
-          const attrs = [
-            htmlAttribute('rel', link.rel),
-            htmlAttribute('href', link.href),
-            htmlAttribute('as', link.as),
-            htmlAttribute('type', link.type),
-            htmlAttribute('crossorigin', link.crossOrigin),
-          ].join('')
-          return attrs ? `<link${attrs}>` : ''
-        })
-        .filter(Boolean)
-        .join('')
-    : ''
-  const styles = Array.isArray(value.styles)
-    ? value.styles
-        .map((style) => `<style>${stringValue(style)}</style>`)
-        .join('')
-    : ''
-  const scripts = Array.isArray(value.scripts)
-    ? value.scripts
-        .filter(isRecord)
-        .map((script) => {
-          const attrs = [
-            htmlAttribute('src', script.src),
-            htmlAttribute('type', script.type),
-            script.async ? ' async' : '',
-            script.defer ? ' defer' : '',
-            script.noModule ? ' nomodule' : '',
-          ].join('')
-          return `<script${attrs}>${stringValue(script.content)}</script>`
-        })
-        .join('')
-    : ''
-  const title = stringValue(value.title)
-  const bodyClass = htmlAttribute('class', value.bodyClass)
-
-  return `<!doctype html><html><head>${title ? `<title>${title}</title>` : ''}${metas}${links}${styles}</head><body${bodyClass}>${bodyHtml}${scripts}</body></html>`
-}
-
-function mapLegacyToc(value: unknown): BlogTocItem[] {
-  if (!Array.isArray(value)) return []
-  return value
-    .map((item) => {
-      if (!isRecord(item)) return null
-      return {
-        level: optionalNumberValue(item.level) ?? 0,
-        tag: stringValue(item.tag),
-        href: stringValue(item.href),
-        title: stringValue(item.title),
-        blockIndex: optionalNumberValue(item.blockIndex) ?? 0,
-      }
-    })
-    .filter((item): item is BlogTocItem => Boolean(item?.title && item.href))
-}
-
-function mapLegacyPostMeta(value: unknown): BlogPostMeta {
-  const post = isRecord(value) ? value : {}
-  const rawSummary = stringValue(post.summary)
-  return {
-    id: stringValue(post.id),
-    uuid: optionalStringValue(post.uuid),
-    slug: stringValue(post.slug),
-    title: stringValue(post.title),
-    subtitle: optionalStringValue(post.subtitle),
-    summary: stripBlogHtml(rawSummary),
-    summaryHtml: normaliseSummaryHtml(rawSummary),
-    publishedAt: optionalStringValue(post.publishedAt) ?? null,
-    modifiedAt: optionalStringValue(post.modifiedAt) ?? null,
-    createdAt: optionalStringValue(post.createdAt) ?? null,
-    tags: mapLegacyTags(post.tags),
-    authors: mapLegacyAuthors(post.authors),
-    coverImage: mapLegacyImage(post.coverImage),
-    ogImage: mapLegacyImage(post.ogImage),
-    isDraft: Boolean(post.isDraft),
-    discourseTopicId: optionalNumberValue(post.discourse_topic_id),
-  }
-}
-
-function mapLegacyArticle(value: unknown): BlogArticleDetail {
-  const post = isRecord(value) ? value : {}
-  const content = mapLegacyContentBlocks(post.content)
-  const htmlDocument = serialiseLegacyHtmlDocument(post.htmlDocument)
-  return {
-    ...mapLegacyPostMeta(post),
-    type: 'article',
-    readingTime: optionalNumberValue(post.readingTime) ?? 1,
-    toc: mapLegacyToc(post.toc),
-    footnotes: content.flatMap((block) => block.footnotes ?? []),
-    content,
-    blocks: htmlDocument
-      ? [
-          {
-            type: 'interactive-embed',
-            title: stringValue(post.title),
-            fullHtml: htmlDocument,
-            html: '',
-          },
-        ]
-      : mapLegacyDynamicBlocks(post.blocks),
-    relatedArticles: [],
-    articlesFromSameAuthors: [],
-    discussion: undefined,
-  }
-}
-
-function mapLegacyPodcast(value: unknown): BlogPodcastDetail {
-  const post = isRecord(value) ? value : {}
-  const show = isRecord(post.show)
-    ? {
-        id: stringValue(post.show.id),
-        slug: stringValue(post.show.slug) || DEFAULT_PODCAST_SHOW_SLUG,
-        title: stringValue(post.show.title) || 'Logos Podcast',
-        description: stringValue(post.show.description),
-        descriptionText: optionalStringValue(post.show.descriptionText),
-        logo: mapLegacyImage(post.show.logo),
-        hosts: mapLegacyAuthors(post.show.hosts),
-      }
-    : undefined
-  const content = mapLegacyContentBlocks(post.content)
-
-  return {
-    ...mapLegacyPostMeta(post),
-    type: 'podcast',
-    description: stripBlogHtml(
-      stringValue(post.description) || stringValue(post.summary)
-    ),
-    summaryHtml: normaliseSummaryHtml(
-      stringValue(post.summary) || stringValue(post.description)
-    ),
-    episodeNumber: optionalNumberValue(post.episodeNumber),
-    showSlug: show?.slug ?? DEFAULT_PODCAST_SHOW_SLUG,
-    show,
-    channels: Array.isArray(post.channels)
-      ? post.channels
-          .filter(isRecord)
-          .map((channel) => ({
-            name: stringValue(channel.name),
-            url: stringValue(channel.url),
-            data: isRecord(channel.data)
-              ? {
-                  duration: optionalNumberValue(channel.data.duration),
-                  audioFileUrl: optionalStringValue(channel.data.audioFileUrl),
-                }
-              : undefined,
-          }))
-          .filter((channel) => channel.name && channel.url)
-      : [],
-    credits: mapLegacyContentBlocks(post.credits),
-    creditsHtml: undefined,
-    transcription: Array.isArray(post.transcription)
-      ? (post.transcription as BlogPodcastDetail['transcription'])
-      : [],
-    content,
-    blocks: mapLegacyDynamicBlocks(post.blocks),
-    relatedEpisodes: [],
-    footnotes: content.flatMap((block) => block.footnotes ?? []),
-  }
-}
-
 const POST_SLUGS_QUERY = `
   query PostSlugs($type: String!, $start: Int!, $limit: Int!) {
     posts(
@@ -1326,39 +948,6 @@ async function getStrapiArticleSlugs(): Promise<string[]> {
   return posts.map((post) => post.attributes?.slug ?? '').filter(Boolean)
 }
 
-type BlogSearchPost = NonNullable<
-  NonNullable<BlogSearchResponse['data']>['posts']
->[number]
-
-function fetchLegacySearchPage(
-  type: 'article' | 'podcast',
-  label: string
-): (offset: number, pageSize: number) => Promise<BlogSearchPost[]> {
-  return async (offset, pageSize) => {
-    const params = new URLSearchParams({
-      type,
-      skip: String(offset),
-      limit: String(pageSize),
-    })
-    const json = await fetchJson<BlogSearchResponse>(
-      `${BLOG_ORIGIN}/api/search?${params.toString()}`,
-      label
-    )
-    return json.data?.posts ?? []
-  }
-}
-
-async function getLegacyArticleSlugs(): Promise<string[]> {
-  const posts = await collectAllPages(
-    fetchLegacySearchPage('article', 'Blog article search'),
-    'Blog article search'
-  )
-  return posts
-    .filter((post) => post.type === 'article')
-    .map((post) => post.data?.slug ?? '')
-    .filter(Boolean)
-}
-
 async function getStrapiPodcastPaths(): Promise<
   Array<{ showSlug: string; slug: string }>
 > {
@@ -1381,50 +970,14 @@ async function getStrapiPodcastPaths(): Promise<
     .filter((path) => path.slug.length > 0)
 }
 
-export async function getBlogArticleSlugs(): Promise<string[]> {
-  if (hasStrapiConfig()) {
-    try {
-      return await getStrapiArticleSlugs()
-    } catch (error) {
-      if (!shouldAllowLegacyFallback()) throw error
-    }
-  }
-  if (!shouldAllowLegacyFallback() && !hasStrapiConfig()) {
-    throw new Error('Blog article slugs require Strapi env in production')
-  }
-  return getLegacyArticleSlugs()
+export function getBlogArticleSlugs(): Promise<string[]> {
+  return getStrapiArticleSlugs()
 }
 
-async function getLegacyPodcastPaths(): Promise<
+export function getBlogPodcastPaths(): Promise<
   Array<{ showSlug: string; slug: string }>
 > {
-  const posts = await collectAllPages(
-    fetchLegacySearchPage('podcast', 'Blog podcast search'),
-    'Blog podcast search'
-  )
-  return posts
-    .filter((post) => post.type === 'podcast')
-    .map((post) => ({
-      showSlug: DEFAULT_PODCAST_SHOW_SLUG,
-      slug: post.data?.slug ?? '',
-    }))
-    .filter((path) => path.slug.length > 0)
-}
-
-export async function getBlogPodcastPaths(): Promise<
-  Array<{ showSlug: string; slug: string }>
-> {
-  if (hasStrapiConfig()) {
-    try {
-      return await getStrapiPodcastPaths()
-    } catch (error) {
-      if (!shouldAllowLegacyFallback()) throw error
-    }
-  }
-  if (!shouldAllowLegacyFallback() && !hasStrapiConfig()) {
-    throw new Error('Blog podcast slugs require Strapi env in production')
-  }
-  return getLegacyPodcastPaths()
+  return getStrapiPodcastPaths()
 }
 
 export async function getBlogPodcastShowSlugs(): Promise<string[]> {
@@ -1900,67 +1453,15 @@ async function getStrapiPodcast(
   )
 }
 
-async function getLegacyArticle(slug: string): Promise<BlogArticleDetail> {
-  const pageProps = await fetchLegacyPageProps<LegacyArticlePageProps>(
-    `/article/${slug}`,
-    'Legacy article page'
-  )
-  const article = mapLegacyArticle(pageProps.data?.data)
-  article.relatedArticles =
-    pageProps.data?.relatedArticles?.map(mapLegacyPostMeta) ?? []
-  article.articlesFromSameAuthors =
-    pageProps.data?.articlesFromSameAuthors?.map(mapLegacyPostMeta) ?? []
-  article.discussion = await fetchDiscussion(article.discourseTopicId)
-  return article
+export function getBlogArticleDetail(slug: string): Promise<BlogArticleDetail> {
+  return getStrapiArticle(slug)
 }
 
-async function getLegacyPodcast(
+export function getBlogPodcastDetail(
   showSlug: string,
   slug: string
 ): Promise<BlogPodcastDetail> {
-  const pageProps = await fetchLegacyPageProps<LegacyPodcastPageProps>(
-    `/podcasts/${showSlug}/${slug}`,
-    'Legacy podcast page'
-  )
-  const podcast = mapLegacyPodcast(pageProps.episode)
-  podcast.relatedEpisodes =
-    pageProps.relatedEpisodes?.map(mapLegacyPodcast) ?? []
-  // Which source the episode came from must not decide whether it has a
-  // player, so the legacy payload gets the same treatment as the Strapi one.
-  return enrichApplePodcastsChannel(podcast)
-}
-
-export async function getBlogArticleDetail(
-  slug: string
-): Promise<BlogArticleDetail> {
-  if (hasStrapiConfig()) {
-    try {
-      return await getStrapiArticle(slug)
-    } catch (error) {
-      if (!shouldAllowLegacyFallback()) throw error
-    }
-  }
-  if (!shouldAllowLegacyFallback() && !hasStrapiConfig()) {
-    throw new Error('Blog article detail requires Strapi env in production')
-  }
-  return getLegacyArticle(slug)
-}
-
-export async function getBlogPodcastDetail(
-  showSlug: string,
-  slug: string
-): Promise<BlogPodcastDetail> {
-  if (hasStrapiConfig()) {
-    try {
-      return await getStrapiPodcast(showSlug, slug)
-    } catch (error) {
-      if (!shouldAllowLegacyFallback()) throw error
-    }
-  }
-  if (!shouldAllowLegacyFallback() && !hasStrapiConfig()) {
-    throw new Error('Blog podcast detail requires Strapi env in production')
-  }
-  return getLegacyPodcast(showSlug, slug)
+  return getStrapiPodcast(showSlug, slug)
 }
 
 /** Live posts with a publish date: drafts render (noindex) but are never listed. */

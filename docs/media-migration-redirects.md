@@ -22,18 +22,16 @@ Rules run top to bottom and the first match wins. All redirects are 301 and keep
 
 Nothing in production. Every media page, the article cards across the site and the media search (a static index written at build time) read the CMS at cms-press.logos.co directly.
 
-Builds without the Strapi key (local dev, CI without the secrets, Vercel previews without the env vars) fall back to the old blog's API. Give them `STRAPI_API_KEY` and `SIMPLECAST_ACCESS_TOKEN` before the old blog is switched off, or those builds will fail.
+No other build needs it either: there is no fallback to the old blog. Every build (local dev, CI, Vercel previews, Jenkins) fails without `STRAPI_API_KEY`. Production builds also fail without `SIMPLECAST_ACCESS_TOKEN`; other builds leave Simplecast episodes without their audio file.
 
 ## What stays on blog.logos.co for now
 
 These paths must not redirect while the old blog is still running:
 
-- `/api/*`: the fallback above.
 - `/preview/*` and any path containing `/id/`: the CMS sends editors to these draft previews. They need a new home before the old blog is switched off.
 - `/_next/*` and any other path with a file extension (images, icons, `robots.txt`, `sitemap.xml`): the preview pages need their assets, and the old sitemap helps Google find the redirects faster. The feeds listed above are the only files that move.
 
 ## After the switch
 
 - `curl -sI https://blog.logos.co/article/june-2026` answers 301 to `https://logos.co/media/article/june-2026`, and that page answers 200 with a self canonical.
-- `curl -sI https://blog.logos.co/api/search` still answers 200 from the old blog.
 - Search Console's Change of Address tool only handles whole-site moves, so it does not apply to a subdomain moving into a path. Instead, confirm logos.co/sitemap.xml lists the /media pages and watch the blog.logos.co URLs move to "Page with redirect" in the page indexing report.
