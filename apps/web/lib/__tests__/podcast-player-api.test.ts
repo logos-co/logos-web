@@ -1,9 +1,10 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 
 import {
   extractSpotifyUri,
   extractYoutubeVideoId,
   formatPlaybackTime,
+  seekYoutubePlayer,
 } from '@/app/[locale]/media/_components/podcast-player-api'
 
 describe('extractSpotifyUri', () => {
@@ -75,5 +76,62 @@ describe('formatPlaybackTime', () => {
     [3600, '1:00:00'],
   ])('formats %s as %s', (value, expected) => {
     expect(formatPlaybackTime(value)).toBe(expected)
+  })
+})
+
+describe('seekYoutubePlayer', () => {
+  const YOUTUBE_STATE = {
+    UNSTARTED: -1,
+    ENDED: 0,
+    PLAYING: 1,
+    PAUSED: 2,
+    BUFFERING: 3,
+    CUED: 5,
+  }
+  const fakePlayer = (state: number, currentTime = 0) => {
+    const calls: string[] = []
+    return {
+      calls,
+      getCurrentTime: () => currentTime,
+      getPlayerState: () => state,
+      pauseVideo: vi.fn(() => calls.push('pause')),
+      seekTo: vi.fn(() => calls.push('seek')),
+    }
+  }
+
+  test.each([YOUTUBE_STATE.CUED, YOUTUBE_STATE.UNSTARTED, YOUTUBE_STATE.ENDED])(
+    'pauses right after seeking a player that is not playing (state %s)',
+    (state) => {
+      // Youtube starts a cued video as soon as it is seeked, which made a
+      // newly opened episode play on its own.
+      const player = fakePlayer(state)
+
+      seekYoutubePlayer(player, 42)
+
+      expect(player.seekTo).toHaveBeenCalledWith(42, true)
+      expect(player.calls).toEqual(['seek', 'pause'])
+    }
+  )
+
+  test('leaves a player that has not started alone when it is already there', () => {
+    // Seeking would swap the cover thumbnail for a black, paused frame.
+    const player = fakePlayer(YOUTUBE_STATE.CUED, 0)
+
+    seekYoutubePlayer(player, 0)
+
+    expect(player.calls).toEqual([])
+  })
+
+  test.each([
+    YOUTUBE_STATE.PLAYING,
+    YOUTUBE_STATE.PAUSED,
+    YOUTUBE_STATE.BUFFERING,
+  ])('only seeks a started player (state %s)', (state) => {
+    const player = fakePlayer(state)
+
+    seekYoutubePlayer(player, 42)
+
+    expect(player.seekTo).toHaveBeenCalledWith(42, true)
+    expect(player.pauseVideo).not.toHaveBeenCalled()
   })
 })

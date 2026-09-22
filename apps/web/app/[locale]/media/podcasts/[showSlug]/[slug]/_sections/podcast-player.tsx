@@ -14,6 +14,7 @@ import {
   extractYoutubeVideoId,
   loadSpotifyApi,
   loadYoutubeApi,
+  seekYoutubePlayer,
   type SpotifyController,
   type YoutubePlayer,
 } from '../../../../_components/podcast-player-api'
@@ -142,7 +143,7 @@ export function PodcastPlayer({ copy, podcast }: PodcastPlayerProps) {
               getPlaying: () => playing,
               pause: () => event.target.pauseVideo(),
               play: () => event.target.playVideo(),
-              seekTo: (seconds) => event.target.seekTo(seconds, true),
+              seekTo: (seconds) => seekYoutubePlayer(event.target, seconds),
               setMuted: (muted) =>
                 muted ? event.target.mute() : event.target.unMute(),
             }
