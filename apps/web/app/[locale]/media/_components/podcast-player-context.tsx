@@ -21,6 +21,7 @@ import {
   formatPlaybackTime,
   loadSpotifyApi,
   loadYoutubeApi,
+  seekYoutubePlayer,
   type SpotifyController,
   type YoutubePlayer,
 } from './podcast-player-api'
@@ -262,21 +263,26 @@ function GlobalYoutubeEngine({
               getPlaying: () => playingRef.current,
               pause: () => event.target.pauseVideo(),
               play: () => event.target.playVideo(),
-              seekTo: (seconds) => event.target.seekTo(seconds, true),
+              seekTo: (seconds) => seekYoutubePlayer(event.target, seconds),
               setMuted: (muted) =>
                 muted ? event.target.mute() : event.target.unMute(),
             }
             setController(controller)
-            controller.seekTo(playbackRef.current.currentTime)
+            const resume = enabledRef.current && playbackRef.current.isPlaying
+            // Resuming wants the video started, which a plain seek does. The
+            // pausing seek would flash "paused" while playback restarts.
+            if (resume) {
+              event.target.seekTo(playbackRef.current.currentTime, true)
+            } else {
+              controller.seekTo(playbackRef.current.currentTime)
+            }
             controller.setMuted(playbackRef.current.isMuted)
             report({
               duration: controller.getDuration(),
               isMuted: controller.getMuted(),
               isReady: true,
             })
-            if (enabledRef.current && playbackRef.current.isPlaying) {
-              controller.play()
-            }
+            if (resume) controller.play()
           },
           onStateChange: (event) => {
             playingRef.current =
@@ -574,11 +580,20 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
   const registrationsRef = useRef(new Map<string, Registration>())
   const visibleRef = useRef(new Map<string, boolean>())
   const globalControllerRef = useRef<PodcastPlaybackController | null>(null)
+  /**
+   * True from the moment a playing episode is handed to the global engine (a
+   * reload, or leaving its page) until the reader next uses the player. The
+   * engine flickers between "playing" and "not playing" while playback
+   * restarts, and a newly opened episode must not read that as "paused" and
+   * take the player over.
+   */
+  const resumingRef = useRef(false)
 
   useEffect(() => {
     const stored = readStoredPlayback()
     if (stored) {
       stateRef.current = stored
+      resumingRef.current = stored.isPlaying
       setState(stored)
     }
   }, [])
@@ -633,6 +648,7 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
     (episodeId: string) => {
       const registration = registrationsRef.current.get(episodeId)
       if (!registration) return
+      resumingRef.current = false
 
       const previousEpisodeId = stateRef.current.episode?.id
       const previousController = activeController()
@@ -681,7 +697,10 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
         previousController.pause()
       }
       globalControllerRef.current?.pause()
-      controller.seekTo(nextTime)
+      // Only a hand-off of the same episode needs its position carried over.
+      // A different episode is already where it should be, and embeds can
+      // start playing when seeked, so it must not be touched.
+      if (sameEpisode) controller.seekTo(nextTime)
       controller.setMuted(isVisible ? nextMuted : true)
       if (nextPlaying && !controller.getPlaying()) controller.play()
     },
@@ -695,7 +714,7 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
       if (
         !current.episode ||
         current.episode.id === episode.id ||
-        !current.isPlaying
+        (!current.isPlaying && !resumingRef.current)
       ) {
         activateEpisode(episode.id)
       }
@@ -717,6 +736,7 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
           ? controller
           : (globalControllerRef.current ?? controller)
         const snapshot = playbackPatch(active)
+        resumingRef.current = snapshot.isPlaying
         updateLocalEpisodeId(null)
         updateActiveVisible(false)
         updateState((current) => ({
@@ -794,6 +814,7 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
 
   const toggleEpisode = useCallback(
     (episodeId: string) => {
+      resumingRef.current = false
       if (stateRef.current.episode?.id !== episodeId) {
         activateEpisode(episodeId)
         const controller = registrationsRef.current.get(episodeId)?.controller
@@ -846,6 +867,7 @@ export function PodcastPlayerProvider({ children }: { children: ReactNode }) {
   }, [activeController, updateState])
 
   const close = useCallback(() => {
+    resumingRef.current = false
     activeController()?.pause()
     globalControllerRef.current?.pause()
     updateLocalEpisodeId(null)

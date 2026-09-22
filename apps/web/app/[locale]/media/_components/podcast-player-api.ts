@@ -5,12 +5,44 @@ export interface YoutubePlayer {
   getCurrentTime: () => number
   getDuration: () => number
   getIframe: () => HTMLIFrameElement
+  getPlayerState: () => number
   isMuted: () => boolean
   mute: () => void
   pauseVideo: () => void
   playVideo: () => void
   seekTo: (seconds: number, allowSeekAhead: boolean) => void
   unMute: () => void
+}
+
+/** `YT.PlayerState` values where the video is playing or paused mid-way. */
+const YOUTUBE_STARTED_STATES = new Set([1, 2, 3])
+/** A seek this close to where the player already is changes nothing. */
+const SEEK_TOLERANCE_SECONDS = 1
+
+/**
+ * Youtube starts a video that is not playing or paused (cued, unstarted,
+ * ended) the moment it is seeked, which made a newly opened episode play on
+ * its own. Pausing straight after keeps a seek from changing whether the
+ * episode plays; a play() issued afterwards still starts from the new spot.
+ */
+export function seekYoutubePlayer(
+  player: Pick<
+    YoutubePlayer,
+    'getCurrentTime' | 'getPlayerState' | 'pauseVideo' | 'seekTo'
+  >,
+  seconds: number
+): void {
+  const started = YOUTUBE_STARTED_STATES.has(player.getPlayerState())
+  // Seeking a player that has not started swaps its cover for a black frame,
+  // so a seek to where it already is gets skipped.
+  if (
+    !started &&
+    Math.abs(player.getCurrentTime() - seconds) < SEEK_TOLERANCE_SECONDS
+  ) {
+    return
+  }
+  player.seekTo(seconds, true)
+  if (!started) player.pauseVideo()
 }
 
 export interface YoutubePlayerEvent {
