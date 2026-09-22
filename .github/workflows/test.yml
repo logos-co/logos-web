@@ -35,9 +35,6 @@ jobs:
       DEPLOYMENT_VERSION: ci
       # The /media pages are built from the blog CMS, the only source of media
       # content. With API mode production the build fails without either secret.
-      NEXT_PUBLIC_ASSETS_BASE_URL: https://cms-press.logos.co
-      STRAPI_API_URL: https://cms-press.logos.co/api
-      STRAPI_GRAPHQL_URL: https://cms-press.logos.co/graphql
       STRAPI_API_KEY: ${{ secrets.STRAPI_API_KEY }}
       SIMPLECAST_ACCESS_TOKEN: ${{ secrets.SIMPLECAST_ACCESS_TOKEN }}
       NEXT_PUBLIC_API_MODE: production

@@ -71,9 +71,6 @@ pipeline {
               "NEXT_PUBLIC_LOGOS_API_URL=${logosApiUrl()}",
               "NEXT_PUBLIC_HCAPTCHA_SITEKEY=${params.NEXT_PUBLIC_HCAPTCHA_SITEKEY}",
               "NEXT_PUBLIC_API_MODE=${apiMode()}",
-              "NEXT_PUBLIC_ASSETS_BASE_URL=${blogCmsUrl()}",
-              "STRAPI_API_URL=${blogCmsUrl()}/api",
-              "STRAPI_GRAPHQL_URL=${blogCmsUrl()}/graphql",
             ]) {
               nix.develop('pnpm turbo run build --filter=web',
                 keepEnv: [
@@ -81,9 +78,6 @@ pipeline {
                   'NEXT_PUBLIC_LOGOS_API_URL',
                   'NEXT_PUBLIC_HCAPTCHA_SITEKEY',
                   'NEXT_PUBLIC_API_MODE',
-                  'NEXT_PUBLIC_ASSETS_BASE_URL',
-                  'STRAPI_API_URL',
-                  'STRAPI_GRAPHQL_URL',
                   'STRAPI_API_KEY',
                   'SIMPLECAST_ACCESS_TOKEN'
                 ]
@@ -148,4 +142,3 @@ def deployDomain() { isMasterBranch() ? 'logos.co' : 'dev.logos.co' }
 def apiMode() { isMasterBranch() ? 'production' : 'staging' }
 def logosApiUrl() { isMasterBranch() ? 'https://logos-web-api.vercel.app' : 'https://logos-web-api-git-develop-status-im-web.vercel.app' }
 def cmsDomain() { isMasterBranch() ? 'cms.logos.co' : 'dev-cms.logos.co' }
-def blogCmsUrl() { 'https://cms-press.logos.co' }

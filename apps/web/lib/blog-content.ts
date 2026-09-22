@@ -23,7 +23,12 @@ const DETAIL_FETCH_CONCURRENCY = 6
 const SLUG_PAGE_SIZE = 100
 /** Safety valve: 100 full pages is far beyond any realistic archive. */
 const MAX_SLUG_PAGES = 100
+/**
+ * The blog CMS. Its address is public and the same for every build, so it
+ * lives here; only the API key is configuration.
+ */
 export const CMS_PRESS_ORIGIN = 'https://cms-press.logos.co'
+const CMS_PRESS_GRAPHQL_URL = `${CMS_PRESS_ORIGIN}/graphql`
 const BODY_SNIPPET_LIMIT = 200
 
 export interface BlogTag {
@@ -552,13 +557,13 @@ async function fetchPressGraphql<T>(
 ): Promise<T> {
   // The blog CMS is the only source of media content: there is no other
   // copy to fall back to once blog.logos.co is gone.
-  if (!env.STRAPI_GRAPHQL_URL || !env.STRAPI_API_KEY) {
+  if (!env.STRAPI_API_KEY) {
     throw new Error(
-      `${label} requires STRAPI_GRAPHQL_URL and STRAPI_API_KEY to be set (see apps/web/.env.example)`
+      `${label} requires STRAPI_API_KEY to be set (see apps/web/.env.example)`
     )
   }
 
-  const response = await fetch(env.STRAPI_GRAPHQL_URL, {
+  const response = await fetch(CMS_PRESS_GRAPHQL_URL, {
     method: 'POST',
     cache: 'force-cache',
     headers: {
@@ -704,11 +709,7 @@ export function resolveAssetUrl(rawUrl?: string | null): string {
   if (!rawUrl) return ''
   if (/^https?:\/\//i.test(rawUrl)) return rawUrl
 
-  const base =
-    env.NEXT_PUBLIC_ASSETS_BASE_URL ??
-    env.STRAPI_API_URL?.replace(/\/api\/?$/, '') ??
-    CMS_PRESS_ORIGIN
-  return `${base.replace(/\/+$/, '')}${rawUrl.startsWith('/') ? rawUrl : `/${rawUrl}`}`
+  return `${CMS_PRESS_ORIGIN}${rawUrl.startsWith('/') ? rawUrl : `/${rawUrl}`}`
 }
 
 function mapGraphqlImage(image?: GraphqlImageRelation): BlogImage | null {

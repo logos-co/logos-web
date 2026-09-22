@@ -22,10 +22,7 @@
         "VERCEL_BRANCH_URL",
         "VERCEL_ENV",
         "NEXT_PUBLIC_SERVER_URL",
-        "NEXT_PUBLIC_WEB_URL",
-        "NEXT_PUBLIC_ASSETS_BASE_URL",
-        "STRAPI_API_URL",
-        "STRAPI_GRAPHQL_URL"
+        "NEXT_PUBLIC_WEB_URL"
       ],
       "passThroughEnv": [
         "GITHUB_TOKEN",
