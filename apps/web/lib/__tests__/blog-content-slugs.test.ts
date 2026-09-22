@@ -11,10 +11,7 @@ const { envStub } = vi.hoisted(() => ({
   envStub: {
     NEXT_PUBLIC_API_MODE: undefined as string | undefined,
     NEXT_PUBLIC_ADMIN_ACID_API_URL: undefined as string | undefined,
-    NEXT_PUBLIC_ASSETS_BASE_URL: undefined as string | undefined,
     SIMPLECAST_ACCESS_TOKEN: undefined as string | undefined,
-    STRAPI_API_URL: undefined as string | undefined,
-    STRAPI_GRAPHQL_URL: undefined as string | undefined,
     STRAPI_API_KEY: undefined as string | undefined,
   },
 }))
@@ -49,12 +46,10 @@ const range = (count: number, prefix: string) =>
   Array.from({ length: count }, (_, index) => `${prefix}-${index}`)
 
 const useStrapi = () => {
-  envStub.STRAPI_GRAPHQL_URL = 'https://cms-press.example/graphql'
   envStub.STRAPI_API_KEY = 'test-key'
 }
 
 beforeEach(() => {
-  envStub.STRAPI_GRAPHQL_URL = undefined
   envStub.STRAPI_API_KEY = undefined
 })
 
@@ -62,14 +57,14 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-describe('without Strapi credentials', () => {
+describe('without the Strapi key', () => {
   it('fails instead of reading the old blog', async () => {
     // blog.logos.co is being switched off, so there is no second source.
     const fetchMock = vi.fn()
     vi.stubGlobal('fetch', fetchMock)
 
     await expect(getBlogArticleSlugs()).rejects.toThrow(
-      /STRAPI_GRAPHQL_URL and STRAPI_API_KEY/
+      /requires STRAPI_API_KEY/
     )
     expect(fetchMock).not.toHaveBeenCalled()
   })
@@ -90,6 +85,11 @@ describe('slug queries against Strapi', () => {
 
     expect(slugs).toHaveLength(PAGE_SIZE + 1)
     expect(slugs.at(-1)).toBe('tail-article')
+    // The CMS address is fixed; only the key comes from the environment.
+    expect(fetchMock.mock.calls.map(([url]) => url)).toEqual([
+      'https://cms-press.logos.co/graphql',
+      'https://cms-press.logos.co/graphql',
+    ])
     expect(
       fetchMock.mock.calls.map(
         ([, init]) => JSON.parse((init as RequestInit).body as string).variables

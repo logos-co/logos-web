@@ -7,7 +7,6 @@ import {
   type BlogImage,
   type BlogPodcastDetail,
 } from '@/lib/blog-content'
-import { env } from '@/lib/env'
 import { MEDIA_BODY_IMAGE_SIZES } from '@/lib/media-image-sizes'
 
 /**
@@ -56,11 +55,7 @@ const RESPONSIVE_ATTRIBUTES = [
 ]
 
 function isCmsHost(url: URL): boolean {
-  const assetBase = env.NEXT_PUBLIC_ASSETS_BASE_URL
-  const hosts = assetBase
-    ? [...LEGACY_CMS_HOSTS, new URL(assetBase).host]
-    : LEGACY_CMS_HOSTS
-  return hosts.includes(url.host) || url.hostname === 'localhost'
+  return LEGACY_CMS_HOSTS.includes(url.host) || url.hostname === 'localhost'
 }
 
 /**
