@@ -12,7 +12,7 @@ Every production capability must be self-hostable. The application must not requ
 
 ## 1. Purpose and scope
 
-`logos-crm` is the long-term Logos CRM application. It starts as a new, independently deployable CRM with its own PostgreSQL database and gradually absorbs the workflows currently served by `apps/civi-crm`.
+`logos-crm` is the long-term Logos CRM application. It starts as a new, independently deployable CRM with its own PostgreSQL database and gradually absorbs the workflows the former CiviCRM deployment served.
 
 The application is not a wrapper around CiviCRM. CiviCRM remains an integration and migration source during the transition, then becomes removable once all required workflows and data have been cut over.
 
@@ -34,7 +34,6 @@ The application is not a wrapper around CiviCRM. CiviCRM remains an integration 
 
 - public CRM access;
 - replacing the public website or CMS;
-- modifying `apps/civi-crm` in place;
 - supporting multiple CRM databases;
 - exposing CiviCRM credentials to browser code.
 - a full long-tail Ecodev taxonomy in v1.
@@ -235,7 +234,7 @@ Before v1 is considered ready:
 8. A representative CiviCRM export can be imported twice without duplicate records.
 9. Reconciliation reports every unmapped or conflicting source record.
 10. Backup restore and migration rollback have been tested.
-11. The public website and existing `apps/civi-crm` behaviour remain unchanged until cutover is approved.
+11. The public website and the existing `apps/api` funnel intake endpoint remain unchanged until cutover is approved.
 
 ## 10. Source requirement coverage
 

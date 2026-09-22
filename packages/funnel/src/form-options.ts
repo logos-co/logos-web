@@ -5,7 +5,7 @@
  *
  * - `apps/web` renders the dropdowns from the options
  *   (`lib/funnel-forms/afform-options.ts`)
- * - `apps/civi-crm` resolves the submitted ids back to labels through the maps
+ * - `apps/api` resolves the submitted ids back to labels through the maps
  *   (`src/lib/notion/maps.ts`)
  *
  * The `Skills` labels double as the options of the Notion `multi_select` of the

@@ -6,13 +6,13 @@
  * - `apps/web` — the form field label and dropdown options
  *   (`lib/funnel-forms/hear-about-field.ts`), and the profile written into the
  *   Ghost member note (`lib/funnel-newsletter-signup.ts`)
- * - `apps/civi-crm` — the Notion property name and the option-id → label
+ * - `apps/api` — the Notion property name and the option-id → label
  *   mapping (`src/lib/notion/maps.ts`), and the Notion `Profile` select
  *   (`src/lib/notion/build-notion-properties.ts`)
  *
  * `./required-fields` and `./form-options` are re-exported here to keep one
  * entry point; `./form-options` holds the option lists the three funnel forms
- * share and the id → label maps `apps/civi-crm` resolves them with.
+ * share and the id → label maps `apps/api` resolves them with.
  *
  * `HEAR_ABOUT_QUESTION` doubles as the name of the select property on the
  * production Notion database, and the option labels are its select options.
