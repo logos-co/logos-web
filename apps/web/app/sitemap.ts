@@ -11,10 +11,9 @@ import siteConfig from '@/constants/site-config'
 import { ROUTES } from '@/constants/routes'
 import { ROUTE_AVAILABILITY } from '@/constants/route-availability'
 import {
-  getBlogArticleDetail,
-  getBlogArticleSlugs,
-  getBlogPodcastDetail,
-  getBlogPodcastPaths,
+  getAllBlogArticles,
+  getAllBlogPodcasts,
+  isPublishedPost,
 } from '@/lib/blog-content'
 import { fetchGithubRfps } from '@/lib/rfps-github'
 
@@ -83,14 +82,16 @@ const buildSitemapEntry = (
 // RFPs come from the live GitHub listing. A partial or failed fetch must fail
 // the build rather than quietly ship a sitemap missing every RFP detail URL.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [rfps, ideas, circles, fieldGuide, articleSlugs, podcastPaths] =
+  // Media details come through the shared loaders, which fetch a few at a
+  // time: firing one request per post at once trips the CMS.
+  const [rfps, ideas, circles, fieldGuide, articles, podcasts] =
     await Promise.all([
       fetchGithubRfps(),
       getAllIdeas({ locale: 'en', status: 'published' }),
       getCircles({ locale: 'en', status: 'published' }),
       getFieldGuideManifest('en'),
-      getBlogArticleSlugs(),
-      getBlogPodcastPaths(),
+      getAllBlogArticles(),
+      getAllBlogPodcasts(),
     ])
 
   // Index chapter is served by ROUTES.fieldGuide (already in the static list).
@@ -108,17 +109,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...fieldGuideChapters,
   ]
 
-  const [articles, podcasts] = await Promise.all([
-    Promise.all(articleSlugs.map((slug) => getBlogArticleDetail(slug))),
-    Promise.all(
-      podcastPaths.map((path) => getBlogPodcastDetail(path.showSlug, path.slug))
-    ),
-  ])
-
   const entries: MetadataRoute.Sitemap = [
     ...staticRoutes.map((route) => buildSitemapEntry(route)),
     ...articles
-      .filter((article) => !article.isDraft && article.publishedAt)
+      .filter(isPublishedPost)
       .map((article) =>
         buildSitemapEntry(
           ROUTES.mediaArticle(article.slug),
@@ -126,7 +120,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         )
       ),
     ...podcasts
-      .filter((podcast) => !podcast.isDraft && podcast.publishedAt)
+      .filter(isPublishedPost)
       .map((podcast) =>
         buildSitemapEntry(
           ROUTES.mediaPodcast(podcast.showSlug, podcast.slug),
