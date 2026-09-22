@@ -63,7 +63,7 @@ pnpm generate-types   # cms only — regenerates packages/types/src/payload.ts
 - **The λ brand mark is `<LogosMark />`** from `@repo/ui`. Size via `size`, color via parent `text-*` (the SVG uses `currentColor`). Never `<img src=".svg" />` or `<span>λ</span>`.
 - **Every clickable element gets `cursor-pointer`** in its Tailwind className: buttons, `onClick` handlers, anchors, clickable cards.
 - **Basecamp install CTAs keep automatic OS and architecture detection.** When publishing a new Basecamp release, update `EXTERNAL_URLS.basecampRelease` and every platform download URL together using the exact GitHub release asset names. Supported Linux and macOS clients download the matching asset directly; unknown or unsupported clients fall back to `https://github.com/logos-co/logos-basecamp/releases#release-<version>`. Content-level `external` flags must never bypass this resolver.
-- **Visuals match Figma 1:1.** Pull the spec (font sizes, fills, gaps, padding) from Figma before implementing. See `docs/components.md` for canonical node IDs and `docs/web-pages.md` for per-page references.
+- **Visuals match Figma 1:1.** Pull the spec (font sizes, fills, gaps, padding) from Figma before implementing. See `docs/components.md` for canonical node IDs.
 - **Types on public APIs.** Exported functions, shared utilities, component props. Use `interface` for object shapes, `type` for unions/intersections. Avoid `any`; use `unknown` + narrowing for external input.
 - **Keep reusable code out of generated or oversized files.** If a type, constant list, validator, or UI helper is used in more than one place, move it into a focused module and import it. Do not let generated files or collection configs absorb long literal unions, large option arrays, or repeated validation logic.
 - **Split files by feature when they grow.** Prefer small folders with focused files (types, constants, validators, components) over large catch-all modules. Create a feature folder once a file mixes multiple responsibilities or becomes hard to scan.
@@ -100,13 +100,9 @@ Payload collections: `Pages`, `Circles`, `Ideas`, `Rfps`, `ContentChangeRequests
 
 ## Where to look first
 
-- `docs/deployment.md` — env vars, Vercel dev/staging vs self-hosted prod, Postgres setup, troubleshooting.
-- `docs/cms-github-content-plan.md` — canonical schema + workflow design.
-- `docs/web-pages.md` — per-page Figma references and requirements.
-- `docs/components.md` — shared component specs (Nav, Footer, etc.) with Figma node IDs.
-- `docs/code-quality-followups.md` — known gaps awaiting design/infra decisions.
-- `docs/seo.md` — SEO/metadata expectations.
-- `docs/responsive-image-frame-fitting.md` — techniques for making images fill a card or frame perfectly at every viewport (aspect-ratio, derived heights, object-fit, sizes). Read before implementing any full-bleed or frame-fitted image section.
+- `docs/components.md` -- shared component specs (Nav, Footer, etc.) with Figma node IDs.
+- `docs/api/architecture.md` -- the funnel intake endpoint: routes, request handling, env vars.
+- `docs/funnel/AGENTS.md` -- the funnel end to end: request flow, Notion schema, option maps.
 
 ## Don't
 

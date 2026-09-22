@@ -26,7 +26,7 @@ pnpm dev            # web → http://localhost:3000, cms → http://localhost:30
 
 Payload Admin: <http://localhost:3001/admin>.
 
-`apps/cms` requires `PAYLOAD_SECRET` and `DATABASE_URL` (Postgres). Copy `apps/cms/.env.example` to `apps/cms/.env` and fill it in. See [docs/deployment.md](./docs/deployment.md) for the full env matrix.
+`apps/cms` requires `PAYLOAD_SECRET` and `DATABASE_URL` (Postgres). Copy `apps/cms/.env.example` to `apps/cms/.env` and fill it in.
 
 ### Workspace package builds
 
@@ -66,9 +66,6 @@ Direct pushes to either are blocked by branch protection.
 ## Documentation
 
 - [AGENTS.md](./AGENTS.md) — conventions and rules for AI agents working in this repo
-- [docs/deployment.md](./docs/deployment.md) — env vars, Vercel dev/staging, self-hosted production
-- [docs/cms-github-content-plan.md](./docs/cms-github-content-plan.md) — schema + GitHub workflow design
-- [docs/web-pages.md](./docs/web-pages.md) — per-page web requirements (Figma references)
-- [docs/components.md](./docs/components.md) — shared component specs
-- [docs/seo.md](./docs/seo.md) — SEO and metadata expectations
-- [docs/code-quality-followups.md](./docs/code-quality-followups.md) — known gaps awaiting decisions
+- [docs/components.md](./docs/components.md) -- shared component specs
+- [docs/api/architecture.md](./docs/api/architecture.md) -- funnel intake endpoint
+- [docs/funnel/AGENTS.md](./docs/funnel/AGENTS.md) -- funnel forms end to end
