@@ -4,6 +4,7 @@ pnpm + Turborepo monorepo for the Logos website and its content CMS.
 
 - `apps/web` — public Next.js 16 site (Tailwind v4, `next-intl`, static export)
 - `apps/cms` — Payload CMS 3.x admin (Postgres-backed; edits ship as GitHub PRs)
+- `apps/past-present-future` — SvelteKit app served at `/past-present-future`, copied into the web export at build time
 - `packages/content` — content schemas, loaders for `content/**`, GitHub mutation helpers
 - `packages/ui` — shared React primitives and SVG icons (`<LogosMark />`, etc.)
 - `packages/tokens` — design tokens
