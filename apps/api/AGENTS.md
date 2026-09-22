@@ -6,8 +6,6 @@ Guidance for agents working inside `apps/api`. The root `AGENTS.md` still applie
 
 This app hosts the public intake endpoint for the funnel forms on `apps/web`: `POST /api/public/afform-submit`. It is a Next.js 16 app with no pages, no database and no authenticated area. Submissions are forwarded to Notion, and the steward form additionally to an n8n/Baserow webhook. Dev server runs on port **3003**.
 
-It supersedes `apps/civi-crm`, the former web layer on top of CiviCRM whose only surviving job was this endpoint (the CiviCRM instances were shut down in [logos-web#123](https://github.com/logos-co/logos-web/issues/123)). The endpoint was moved here verbatim; `apps/civi-crm` is frozen and will be removed once the callers point at this app.
-
 **Architecture document:** [`docs/api/architecture.md`](../../docs/api/architecture.md)
 
 **Funnel reference:** [`docs/funnel/AGENTS.md`](../../docs/funnel/AGENTS.md)
