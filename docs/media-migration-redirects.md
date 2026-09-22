@@ -13,7 +13,8 @@ Rules run top to bottom and the first match wins. All redirects are 301 and keep
 | `/article/<slug>`                                             | `https://logos.co/media/article/<slug>`         | Same article, new home                                                            |
 | `/podcasts/<show>/<slug>`                                     | `https://logos.co/media/podcasts/<show>/<slug>` | Same episode, new home                                                            |
 | `/rss/<feed>.xml`, `/rss.xml`, `/atom.xml`, `/atom_page2.xml` | Same path on logos.co                           | The build writes these feeds with the legacy guids, so subscribers see no repeats |
-| `/security`, `/terms`, `/privacy-policy`                      | Same path on logos.co                           | These pages already exist on logos.co                                             |
+| `/security`, `/privacy-policy`                                | Same path on logos.co                           | These pages already exist on logos.co                                             |
+| `/terms`                                                      | `https://logos.co/terms-and-conditions`         | logos.co has no `/terms`, it answers with the not found page                      |
 | `/podcasts`, `/podcasts/<show>`                               | `https://logos.co/media#podcasts`               | There is no show listing page, the podcasts section replaces it                   |
 | `/calendar`                                                   | `https://logos.co/logos-broadcast-network`      | That page shows the same events calendar                                          |
 | `/`, `/search`, `/about`, and any other page                  | `https://logos.co/media`                        | The media landing replaces the blog home, search and about page                   |
