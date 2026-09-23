@@ -150,6 +150,9 @@ const collections = [
 export default buildConfig({
   admin: {
     components: {
+      beforeDashboard: [
+        '@/components/admin/site-publish-panel.tsx#SitePublishPanel',
+      ],
       graphics: {
         Icon: '@/components/admin/logos-admin-icon.tsx#LogosAdminIcon',
       },
