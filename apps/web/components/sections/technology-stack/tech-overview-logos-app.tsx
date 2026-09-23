@@ -7,7 +7,7 @@ import type { GiantSwitchSection } from '@repo/content/schemas'
 import { IconMask } from '@/components/icons/icon-mask'
 import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
-import { resolveBasecampInstallCtaLinkProps } from '@/lib/basecamp-release-links'
+import { BasecampDownloadButton } from '@/components/sections/shared/basecamp-download-cta'
 
 /**
  * Map the icon enum on a giantSwitch tag to the actual SVG asset shipped in
@@ -128,17 +128,15 @@ export default function TechOverviewLogosApp({
                     className="inline-flex"
                     data-giant-switch-install-trigger
                   >
-                    <Button
-                      {...resolveBasecampInstallCtaLinkProps({
+                    <BasecampDownloadButton
+                      cta={{
                         ...data.primaryCta,
                         iconOverride: 'download',
-                      })}
-                      variant="secondary"
+                        variant: 'secondary',
+                      }}
                       icon={<DownloadIcon />}
-                      data-umami-event-name={eventNames?.primary}
-                    >
-                      {data.primaryCta.label}
-                    </Button>
+                      eventName={eventNames?.primary}
+                    />
                   </span>
                 ) : null}
                 {data.secondaryCta ? (

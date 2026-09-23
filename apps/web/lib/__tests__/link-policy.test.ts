@@ -490,6 +490,12 @@ describe('link policy', () => {
         external: true,
       })
     )
+    expect(buildersHubSettings.appInstall.installCta).toEqual(
+      expect.objectContaining({
+        href: basecampReleaseHref,
+        external: true,
+      })
+    )
 
     expect(
       resolveBasecampInstallCtaHref({
@@ -538,6 +544,18 @@ describe('link policy', () => {
         iconOverride: 'download',
       })
     ).toBe(true)
+    expect(
+      isBasecampInstallCta({
+        label: 'Install',
+        href: basecampReleaseHref,
+      })
+    ).toBe(true)
+    expect(
+      isBasecampInstallCta({
+        label: 'Install',
+        href: '/builders-hub#app-install',
+      })
+    ).toBe(false)
     expect(
       resolveBasecampInstallCtaLinkProps({
         label: 'Install',

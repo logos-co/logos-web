@@ -29,7 +29,9 @@ export function resolveBasecampInstallPreferredPlatform(
 export function isBasecampInstallCta(cta: InstallCtaLike): boolean {
   return (
     resolveBasecampInstallPreferredPlatform(cta) !== null ||
-    (cta.iconOverride === 'download' && installLabel.test(cta.label))
+    (installLabel.test(cta.label) &&
+      (cta.iconOverride === 'download' ||
+        cta.href === EXTERNAL_URLS.basecampRelease))
   )
 }
 

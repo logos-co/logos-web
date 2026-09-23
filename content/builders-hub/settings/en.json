@@ -319,7 +319,8 @@
     ],
     "installCta": {
       "label": "Install",
-      "href": "/builders-hub#app-install",
+      "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.3.0",
+      "external": true,
       "variant": "primary"
     },
     "learnMoreCta": {

@@ -47,7 +47,7 @@ describe('resolveBasecampDownloadTarget', () => {
     ).toBe(EXTERNAL_URLS.basecampRelease)
   })
 
-  it('uses the release page for Windows because no Windows asset exists', () => {
+  it('uses the release page for Windows, which is outside automatic selection', () => {
     expect(
       resolveBasecampDownloadTarget({
         architecture: 'x86',
