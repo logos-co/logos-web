@@ -20,11 +20,12 @@ describe('public-cors', () => {
   })
 
   describe('isPublicCorsOriginAllowed', () => {
-    it('allows only logos.co on production deployments', () => {
+    it('allows only the logos.co sites on production deployments', () => {
       setEnvVar('VERCEL_ENV', 'production')
       setEnvVar('NODE_ENV', 'production')
 
       expect(isPublicCorsOriginAllowed('https://logos.co')).toBe(true)
+      expect(isPublicCorsOriginAllowed('https://dev.logos.co')).toBe(true)
       expect(isPublicCorsOriginAllowed('http://localhost:3000')).toBe(false)
       expect(isPublicCorsOriginAllowed(PREVIEW_WEB_ORIGIN)).toBe(false)
     })
@@ -34,6 +35,7 @@ describe('public-cors', () => {
       setEnvVar('NODE_ENV', 'production')
 
       expect(isPublicCorsOriginAllowed('https://logos.co')).toBe(true)
+      expect(isPublicCorsOriginAllowed('https://dev.logos.co')).toBe(true)
       expect(isPublicCorsOriginAllowed('http://localhost:3000')).toBe(true)
       expect(isPublicCorsOriginAllowed(PREVIEW_WEB_ORIGIN)).toBe(true)
     })
@@ -52,6 +54,10 @@ describe('public-cors', () => {
       expect(isPublicCorsOriginAllowed('https://other-app.vercel.app')).toBe(
         false
       )
+      expect(isPublicCorsOriginAllowed('https://logos.co.evil.example')).toBe(
+        false
+      )
+      expect(isPublicCorsOriginAllowed('http://dev.logos.co')).toBe(false)
     })
 
     it('allows origins from CORS_ALLOWED_ORIGINS on any deployment', () => {
