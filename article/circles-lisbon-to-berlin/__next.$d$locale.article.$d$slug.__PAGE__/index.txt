@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+3:I[293851,["/_next/static/chunks/0o.znt-g04.5y.js","/_next/static/chunks/03s-k2gwn5vto.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+2:["$","p",null,{"className":"px-3 py-12 text-brand-dark-green","children":["$","a",null,{"href":"/media/article/circles-lisbon-to-berlin","className":"cursor-pointer underline transition-opacity hover:opacity-70","children":"Continue to /media/article/circles-lisbon-to-berlin"}]}]
+0:{"rsc":["$","$1","c",{"children":[[["$","meta",null,{"httpEquiv":"refresh","content":"0; url=/media/article/circles-lisbon-to-berlin"}],["$","script",null,{"dangerouslySetInnerHTML":{"__html":"window.location.replace(\"/media/article/circles-lisbon-to-berlin\")"}}],["$","noscript",null,{"children":"$2"}]],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"92u7-UIDqY6U-B8XERjcf"}
+5:null
