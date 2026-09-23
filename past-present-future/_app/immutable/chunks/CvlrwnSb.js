@@ -1,0 +1,1 @@
+import{ab as c,b8 as o,aP as i,a4 as d,aS as b}from"./CocVNKcl.js";function u(e,n,a){c(()=>{var r=o(()=>n(e,a==null?void 0:a())||{});if(a&&(r!=null&&r.update)){var s=!1,t={};i(()=>{var f=a();d(f),s&&b(t,f)&&(t=f,r.update(f))}),s=!0}if(r!=null&&r.destroy)return()=>r.destroy()})}export{u as a};

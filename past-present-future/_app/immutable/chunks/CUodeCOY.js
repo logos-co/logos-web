@@ -1,1 +1,0 @@
-import{e as n,u as o,r as d,d as i,c as u}from"./D7_8xiRi.js";function k(e,c,f){n(()=>{var r=o(()=>c(e,f==null?void 0:f())||{});if(f&&(r!=null&&r.update)){var a=!1,t={};d(()=>{var s=f();i(s),a&&u(t,s)&&(t=s,r.update(s))}),a=!0}if(r!=null&&r.destroy)return()=>r.destroy()})}export{k as a};

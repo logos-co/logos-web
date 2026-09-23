@@ -1,6 +1,6 @@
 1:"$Sreact.fragment"
-2:I[4727,["/_next/static/chunks/0h_9rj9ae-_60.js","/_next/static/chunks/0x2qc9sv27igf.js","/_next/static/chunks/0~ve1meh1d.qc.js","/_next/static/chunks/0sctvwvnn27kg.js","/_next/static/chunks/01ygv4wrztois.js","/_next/static/chunks/11_9r225-y8vk.js","/_next/static/chunks/05h3zy~zgs4fy.js","/_next/static/chunks/0gdm2cy1qo1--.js"],"FieldGuideThemeProvider"]
-3:I[557335,["/_next/static/chunks/0o.znt-g04.5y.js","/_next/static/chunks/03s-k2gwn5vto.js"],"default"]
-4:I[155188,["/_next/static/chunks/0o.znt-g04.5y.js","/_next/static/chunks/03s-k2gwn5vto.js"],"default"]
+2:I[4727,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/002tn.3us7upu.js","/_next/static/chunks/0pxdppmvna7p6.js"],"FieldGuideThemeProvider"]
+3:I[57335,["/_next/static/chunks/03nuhivib13_i.js","/_next/static/chunks/0c1nds211k~cp.js"],"default"]
+4:I[55188,["/_next/static/chunks/03nuhivib13_i.js","/_next/static/chunks/0c1nds211k~cp.js"],"default"]
 :HL["/_next/static/chunks/0z_blgz_yuaqu.css","style"]
-0:{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/0z_blgz_yuaqu.css","precedence":"next"}],["$","script","script-0",{"src":"/_next/static/chunks/0gdm2cy1qo1--.js","async":true}]],["$","$L2",null,{"children":["$","$L3",null,{"parallelRouterKey":"children","template":["$","$L4",null,{}]}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"V2fJOsBXs1J4caYaE1oLq"}
+0:{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/0z_blgz_yuaqu.css","precedence":"next"}],["$","script","script-0",{"src":"/_next/static/chunks/0pxdppmvna7p6.js","async":true}]],["$","$L2",null,{"children":["$","$L3",null,{"parallelRouterKey":"children","template":["$","$L4",null,{}]}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"ctmU_1_sK1oSPRz7eYxNu"}
