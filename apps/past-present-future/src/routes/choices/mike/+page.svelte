@@ -40,7 +40,6 @@
     let agecardOn = $state(false);
     let ageKey = $state(0);
     let acAge = $state("");
-    let paused = $state(false);
     let muted = $state(false);
 
     let cAge = $state(""),
@@ -188,10 +187,6 @@
         playScene(0);
     }
 
-    function togglePP() {
-        if (filmEl.paused) filmEl.play().catch(() => {});
-        else filmEl.pause();
-    }
     function toggleMute() {
         filmEl.muted = !filmEl.muted;
     }
@@ -465,18 +460,6 @@
         } else advance();
     }
 
-    function skipStep() {
-        if (outcomeOn) {
-            onNext();
-            return;
-        }
-        if (filmplaying && filmEl.duration && isFinite(filmEl.duration)) {
-            if (filmEl.paused) filmEl.play().catch(() => {});
-            filmEl.currentTime = Math.max(0, filmEl.duration - 0.05);
-            return;
-        }
-        if (choiceArmed) autoPick();
-    }
     function advance() {
         hideOutcome();
         idx++;
@@ -621,8 +604,6 @@
                 class:frozen={filmFrozen}
                 class:bfade={filmBfade}
                 style:filter={gradeFilter}
-                onplay={() => (paused = false)}
-                onpause={() => (paused = true)}
                 onvolumechange={() =>
                     (muted = filmEl.muted || filmEl.volume === 0)}
             ></video>
@@ -636,15 +617,7 @@
             {#key ageKey}<div class="ac-age">{acAge}</div>{/key}
         </div>
 
-        <FilmHud
-            showControls={filmplaying}
-            showSkip={playing}
-            {paused}
-            {muted}
-            onplaypause={togglePP}
-            onmute={toggleMute}
-            onskip={skipStep}
-        />
+        <FilmHud showControls={filmplaying} {muted} onmute={toggleMute} />
 
         <IntroScreen
             on={introOn}
