@@ -42,9 +42,8 @@ export function Hero() {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-bottom"
+            className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-linear-[46.88deg] from-black/60 from-[45.238%] to-black/0 to-[77.486%]" />
         </div>
       }
       footer={

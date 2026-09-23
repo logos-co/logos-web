@@ -25,7 +25,7 @@ export const OG_IMAGE = {
   src: '/campaigns/field-station/og-image.jpg',
   width: 1200,
   height: 630,
-  alt: 'Aerial view of the Field Station venue, a regenerative farm in Rajasthan',
+  alt: 'Aerial view of the Field Station entrance in Rajasthan',
 } as const
 
 /** In-page anchors the hero links to. */
@@ -148,7 +148,7 @@ export const ABOUT = {
   ],
   image: {
     src: `${IMAGE_DIR}/about.webp`,
-    alt: 'Aerial view of the Field Station farm and haveli in Rajasthan',
+    alt: 'Sunset reflected in a lake at the Field Station venue',
   },
 } as const
 
@@ -399,7 +399,7 @@ export const VENUE = {
   heading: 'About the Venue',
   image: {
     src: `${IMAGE_DIR}/venue.webp`,
-    alt: 'The haveli at the Field Station venue in Rajasthan',
+    alt: 'Before and after aerial views of the regenerative farm in Rajasthan',
   },
   blocks: [
     {
@@ -541,13 +541,7 @@ export const PARTNERS = {
   },
 } as const
 
-/**
- * Partners who join and amplify the residency, in alphabetical order. Devfolio
- * and ETHIndia come from their official brand repos (devfolioco/brand-assets,
- * ETHIndia/brand-assets) and link to their X accounts. Dhun's black-on-white
- * JPEG from the campaign doc has its white turned transparent for the light
- * background. More logos follow as partners join.
- */
+/** Partners who join and amplify the residency, in alphabetical order. */
 export const COALITION = {
   heading: 'Coalition / Community Partners',
   logos: [
@@ -578,6 +572,23 @@ export const COALITION = {
       src: `${IMAGE_DIR}/coalition/ethindia.png`,
       width: 940,
       height: 218,
+    },
+    {
+      name: 'Road to Devcon India',
+      href: 'https://devcon.org/en/road-to-devcon/',
+      destination: 'website',
+      src: `${IMAGE_DIR}/coalition/devcon.svg`,
+      width: 1900,
+      height: 1300,
+      displayHeight: 110,
+    },
+    {
+      name: 'Web3meetups',
+      href: 'https://web3meetups.xyz/',
+      destination: 'website',
+      src: `${IMAGE_DIR}/coalition/web3meetups.png`,
+      width: 1084,
+      height: 152,
     },
   ],
 } as const

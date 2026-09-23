@@ -26,14 +26,14 @@
       "ctas": [
         {
           "label": "Install Linux",
-          "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.2.3",
+          "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.3.0",
           "external": true,
           "variant": "secondary",
           "iconOverride": "download"
         },
         {
           "label": "Install macOS",
-          "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.2.3",
+          "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.3.0",
           "external": true,
           "variant": "secondary",
           "iconOverride": "download"
@@ -46,7 +46,7 @@
       "title": "How Basecamp Works",
       "action": {
         "label": "Install Linux",
-        "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.2.3",
+        "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.3.0",
         "external": true,
         "variant": "secondary"
       },
@@ -63,7 +63,7 @@
           },
           "secondaryCta": {
             "label": "Install Macos",
-            "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.2.3",
+            "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.3.0",
             "external": true,
             "variant": "secondary"
           }
@@ -175,7 +175,7 @@
           "description": "Download the local launcher for apps built on Logos",
           "cta": {
             "label": "Install",
-            "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.2.3",
+            "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.3.0",
             "external": true,
             "variant": "primary",
             "iconOverride": "download"
