@@ -5,10 +5,6 @@ import { StatCardView } from '@/components/sections/home/social-proof-section'
 import { ABOUT, SECTION_IDS } from '../_content'
 import { LinkedText } from './atoms'
 
-/**
- * 490×652 portrait beside the copy column; the column (heading, lead copy,
- * stat cards) is vertically centred on the image, as in Figma.
- */
 export function About() {
   return (
     <section
@@ -16,13 +12,13 @@ export function About() {
       className="mt-28 scroll-mt-12 bg-brand-off-white px-3 lg:py-[127px]"
     >
       <div className="mx-auto flex max-w-[1175px] flex-col items-center gap-[54px] lg:flex-row">
-        <div className="relative aspect-[490/652] w-full max-w-[490px] shrink-0 overflow-hidden rounded-[20px]">
+        <div className="relative aspect-square w-full max-w-[490px] shrink-0 overflow-hidden rounded-[20px]">
           <Image
             src={ABOUT.image.src}
             alt={ABOUT.image.alt}
             fill
             sizes="(max-width: 1023px) calc(100vw - 24px), 490px"
-            className="object-cover"
+            className="object-cover object-[38%_center]"
           />
         </div>
 

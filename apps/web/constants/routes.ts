@@ -135,13 +135,13 @@ export const EXTERNAL_URLS = {
   logosGenealogyArticle: '/media/article/a-genealogy-of-logos',
   lambdaPrizes: 'https://github.com/logos-co/lambda-prize/tree/master/prizes',
   basecampRelease:
-    'https://github.com/logos-co/logos-basecamp/releases#release-0.2.3',
+    'https://github.com/logos-co/logos-basecamp/releases#release-0.3.0',
   basecampLinuxArm64Download:
-    'https://github.com/logos-co/logos-basecamp/releases/download/0.2.3/LogosBasecamp-Desktop-v0.2.3-aa2377-aarch64.AppImage',
+    'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-aarch64.AppImage',
   basecampLinuxX64Download:
-    'https://github.com/logos-co/logos-basecamp/releases/download/0.2.3/LogosBasecamp-Desktop-v0.2.3-aa2377-x86_64.AppImage',
+    'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-x86_64.AppImage',
   basecampMacArm64Download:
-    'https://github.com/logos-co/logos-basecamp/releases/download/0.2.3/LogosBasecamp-Desktop-v0.2.3-aa2377-aarch64.dmg',
+    'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-aarch64.dmg',
 
   // Research
   vacp2p: 'https://vac.dev',
