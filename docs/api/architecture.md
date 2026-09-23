@@ -8,7 +8,7 @@
 
 `api` is a Next.js application in `apps/api` that hosts the public intake endpoint for the funnel forms on `apps/web`. It has no database, no pages and no authenticated area.
 
-It supersedes `apps/civi-crm`, which used to be a read/write web layer on top of CiviCRM for Circle Case management. The CiviCRM instances were shut down and every interaction with them was removed in [logos-web#123](https://github.com/logos-co/logos-web/issues/123); that app was kept only for this endpoint, which was then moved here verbatim. The funnel itself is documented in [`docs/funnel/AGENTS.md`](../funnel/AGENTS.md), which is the reference for anything about form submissions.
+The funnel itself is documented in [`docs/funnel/AGENTS.md`](../funnel/AGENTS.md), which is the reference for anything about form submissions.
 
 | Route | Purpose |
 |---|---|
@@ -63,7 +63,7 @@ apps/api/
 5. Forward the steward form to the n8n/Baserow webhook. Best-effort: a failure is logged and does not fail the request.
 6. Write the Notion page unless `FUNNEL_INTAKE_NOTION_DISABLED` is truthy. A failure returns `502`.
 
-The legacy `fields[]` key (CiviCRM Afform field definitions) is dropped from the payload if a client still sends it.
+A `fields[]` key in the body is dropped rather than forwarded, so a client that sends one cannot leak it into the Notion or n8n payloads.
 
 ### CORS
 

@@ -61,9 +61,7 @@ Example: `app/[locale]/lambda-prize/_sections/` — `hero.tsx`,
 
 ## Frontend Verification
 
-For UI changes, read the relevant docs in `docs/web-pages.md` or `docs/components.md`, run the dev server, and verify the result in a browser before reporting done.
-
-When working on sections that embed a full-bleed or frame-fitted image (aspect-ratio containers, `fill` images, breakpoint-derived heights), follow the pattern documented in `docs/responsive-image-frame-fitting.md`.
+For UI changes, read the relevant docs in `docs/components.md`, run the dev server, and verify the result in a browser before reporting done.
 
 Do not add UI implementation contract tests for Tailwind class strings, Figma measurements, layout spacing, motion details, hover treatment, or component source structure. These tests churn during active UI iteration and should be replaced with browser verification or durable behavioural tests only.
 

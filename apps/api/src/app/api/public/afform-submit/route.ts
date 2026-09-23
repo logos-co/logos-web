@@ -59,9 +59,8 @@ export async function POST(req: NextRequest) {
     return jsonResponse({ error: 'Invalid request body' }, 400)
   }
 
-  // `fields` carried the CiviCRM Afform field definitions. Nothing reads them
-  // anymore, but it is dropped explicitly so a client that still sends the key
-  // does not leak it into the Notion / n8n payloads.
+  // `fields` is dropped explicitly so a client that sends the key does not leak
+  // it into the Notion / n8n payloads.
   const {
     formName,
     captchaToken,

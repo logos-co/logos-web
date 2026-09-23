@@ -8,7 +8,6 @@
     "dev:web": "turbo run dev --filter=web...",
     "dev:cms": "turbo run dev --filter=cms...",
     "dev:api": "turbo run dev --filter=api...",
-    "dev:civi-crm": "turbo run dev --filter=civi-crm...",
     "dev:logos-crm": "turbo run dev --filter=logos-crm...",
     "dev:past-present-future": "turbo run dev --filter=past-present-future",
     "lint": "turbo run lint",

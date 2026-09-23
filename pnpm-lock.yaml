@@ -58,46 +58,6 @@ importers:
         specifier: ^4.1.5
         version: 4.1.7(@types/node@25.6.0)(@vitest/coverage-v8@4.1.7)(happy-dom@20.9.0)(vite@8.0.13(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.7.0)(sass@1.77.4)(tsx@4.22.3))
 
-  apps/civi-crm:
-    dependencies:
-      '@repo/funnel':
-        specifier: workspace:*
-        version: link:../../packages/funnel
-      next:
-        specifier: 16.2.4
-        version: 16.2.4(@playwright/test@1.63.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4)
-      react:
-        specifier: ^19.2.5
-        version: 19.2.6
-      react-dom:
-        specifier: ^19.2.5
-        version: 19.2.6(react@19.2.6)
-    devDependencies:
-      '@repo/config':
-        specifier: workspace:*
-        version: link:../../packages/config
-      '@types/node':
-        specifier: 25.6.0
-        version: 25.6.0
-      '@types/react':
-        specifier: ^19.2.14
-        version: 19.2.15
-      '@types/react-dom':
-        specifier: 19.2.3
-        version: 19.2.3(@types/react@19.2.15)
-      '@vitest/coverage-v8':
-        specifier: ^4.1.5
-        version: 4.1.7(vitest@4.1.7)
-      eslint:
-        specifier: ^10.2.1
-        version: 10.4.0(jiti@2.7.0)
-      typescript:
-        specifier: ^6.0.3
-        version: 6.0.3
-      vitest:
-        specifier: ^4.1.5
-        version: 4.1.7(@types/node@25.6.0)(@vitest/coverage-v8@4.1.7)(happy-dom@20.9.0)(vite@8.0.13(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.7.0)(sass@1.77.4)(tsx@4.22.3))
-
   apps/cms:
     dependencies:
       '@next/env':
