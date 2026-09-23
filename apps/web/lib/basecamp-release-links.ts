@@ -47,7 +47,8 @@ export function resolveBasecampInstallCtaLinkProps(
     href === EXTERNAL_URLS.basecampRelease ||
     href === EXTERNAL_URLS.basecampLinuxArm64Download ||
     href === EXTERNAL_URLS.basecampLinuxX64Download ||
-    href === EXTERNAL_URLS.basecampMacArm64Download
+    href === EXTERNAL_URLS.basecampMacArm64Download ||
+    href === EXTERNAL_URLS.basecampWindowsX64Download
 
   return cta.external || isBasecampDownloadUrl
     ? { href, target: '_blank', rel: 'noopener noreferrer' }

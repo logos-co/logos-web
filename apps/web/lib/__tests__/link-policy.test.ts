@@ -61,6 +61,8 @@ const basecampLinuxX64DownloadHref =
   'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-x86_64.AppImage'
 const basecampMacArm64DownloadHref =
   'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-aarch64.dmg'
+const basecampWindowsX64DownloadHref =
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-x86_64-windows-setup.exe'
 const runNodeCliDocsHref = 'https://docs.logos.co/'
 const docsLabels = new Set(['docs', 'documentation', 'view the docs'])
 const routeUsageAllowlist = new Set([
@@ -477,6 +479,9 @@ describe('link policy', () => {
     )
     expect(EXTERNAL_URLS.basecampMacArm64Download).toBe(
       basecampMacArm64DownloadHref
+    )
+    expect(EXTERNAL_URLS.basecampWindowsX64Download).toBe(
+      basecampWindowsX64DownloadHref
     )
     expect(technologyStackHero?.status?.cta).toEqual(
       expect.objectContaining({

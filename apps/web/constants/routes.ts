@@ -142,6 +142,8 @@ export const EXTERNAL_URLS = {
     'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-x86_64.AppImage',
   basecampMacArm64Download:
     'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-aarch64.dmg',
+  basecampWindowsX64Download:
+    'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-x86_64-windows-setup.exe',
 
   // Research
   vacp2p: 'https://vac.dev',
