@@ -371,6 +371,9 @@ importers:
       next-intl:
         specifier: ^4.9.1
         version: 4.12.0(next@16.2.4(@playwright/test@1.63.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4))(react@19.2.6)(typescript@6.0.3)
+      past-present-future:
+        specifier: workspace:*
+        version: link:../past-present-future
       react:
         specifier: ^19.2.5
         version: 19.2.6
@@ -423,9 +426,6 @@ importers:
       eslint:
         specifier: ^10.2.1
         version: 10.4.0(jiti@2.7.0)
-      past-present-future:
-        specifier: workspace:*
-        version: link:../past-present-future
       postcss:
         specifier: ^8.5.10
         version: 8.5.15
