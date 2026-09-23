@@ -1,13 +1,5 @@
 <script>
-    let {
-        showControls = false,
-        showSkip = false,
-        paused = false,
-        muted = false,
-        onplaypause,
-        onmute,
-        onskip,
-    } = $props();
+    let { showControls = false, muted = false, onmute } = $props();
 </script>
 
 <button
@@ -56,7 +48,6 @@
 
 
 <style>
-    #playpause,
     #mute {
         position: absolute;
         top: 20px;
@@ -73,76 +64,18 @@
         cursor: pointer;
         transition: color 0.2s;
     }
-    #playpause {
-        right: 106px;
-    }
     #mute {
         right: 22px;
     }
-    #playpause.show,
     #mute.show {
         display: flex;
     }
-    #playpause:hover,
     #mute:hover {
         color: var(--signal);
-    }
-    #skip {
-        position: absolute;
-        top: 22px;
-        right: 22px;
-        z-index: 52;
-        display: none;
-        align-items: center;
-        gap: 6px;
-        padding: 7px 12px;
-        background: rgba(6, 8, 7, 0.5);
-        border: 1px solid rgba(236, 236, 228, 0.28);
-        border-radius: 999px;
-        color: rgba(236, 236, 228, 0.9);
-        font-family: var(--code);
-        font-size: 10px;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        cursor: pointer;
-        -webkit-backdrop-filter: blur(6px);
-        backdrop-filter: blur(6px);
-        transition:
-            color 0.2s,
-            border-color 0.2s;
-    }
-    #skip svg {
-        width: 11px;
-        height: 11px;
-        fill: currentColor;
-        display: block;
-    }
-    #skip:hover {
-        color: var(--signal);
-        border-color: rgba(236, 236, 228, 0.5);
-    }
-    #skip.show {
-        display: flex;
-    }
-    #playpause svg {
-        width: 11px;
-        height: 13px;
-        fill: currentColor;
-        display: block;
     }
     #mute svg {
         width: 19px;
         height: 15px;
-        display: block;
-    }
-    #playpause .i-play {
-        display: none;
-        margin-left: 1px;
-    }
-    #playpause.paused .i-pause {
-        display: none;
-    }
-    #playpause.paused .i-play {
         display: block;
     }
     #mute .i-muted {
@@ -155,23 +88,11 @@
         display: block;
     }
     @media (max-width: 680px) {
-        #playpause {
-            top: 51px;
-            right: 92px;
-            width: 30px;
-            height: 30px;
-        }
         #mute {
             top: 51px;
             right: 16px;
             width: 30px;
             height: 30px;
-        }
-        #skip {
-            top: 52px;
-            right: 16px;
-            padding: 6px 10px;
-            font-size: 9px;
         }
     }
 </style>
