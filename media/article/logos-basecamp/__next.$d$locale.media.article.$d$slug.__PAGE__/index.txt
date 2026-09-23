@@ -1,0 +1,1034 @@
+1:"$Sreact.fragment"
+2:I[29612,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"ArticleSidebar"]
+3:I[94886,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"default"]
+c:I[30117,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"ShareButton"]
+d:I[15120,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"MediaRichContent"]
+f:I[23738,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"ArticleDiscussion"]
+10:I[11522,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"MediaCollapse"]
+18:I[93851,["/_next/static/chunks/03nuhivib13_i.js","/_next/static/chunks/0c1nds211k~cp.js"],"OutletBoundary"]
+19:"$Sreact.suspense"
+:HL["/media-images/Basecamp_Banner_1a7a9add64-bebc9f7f-750.webp","image",{"imageSrcSet":"/media-images/Basecamp_Banner_1a7a9add64-bebc9f7f-750.webp 750w, /media-images/Basecamp_Banner_1a7a9add64-bebc9f7f-1400.webp 1400w","imageSizes":"(max-width: 767px) calc(100vw - 32px), 700px","fetchPriority":"high"}]
+0:{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Basecamp: Your Base of Operations on the Logos Frontier\",\"description\":\"Basecamp is a fully local launcher for the Logos stack, running all modules on your device from a unified surface. Private by default. Modular. Complete user control.  \",\"url\":\"https://logos.co/media/article/logos-basecamp\",\"image\":\"https://cms-press.logos.co/uploads/og_logos_basecamp_9d62734367.jpg\",\"datePublished\":\"2026-05-05T00:00:00.000Z\",\"dateModified\":\"2026-05-05T00:00:00.000Z\",\"author\":[{\"@type\":\"Person\",\"name\":\"Dr. Corey Petty\"}],\"publisher\":{\"@type\":\"Organization\",\"@id\":\"https://logos.co/#organization\",\"name\":\"Logos\",\"url\":\"https://logos.co\",\"logo\":\"https://logos.co/apple-touch-icon.png\"},\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https://logos.co/media/article/logos-basecamp\"}}"}}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Media\",\"item\":\"https://logos.co/media\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Articles\",\"item\":\"https://logos.co/media#articles\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Basecamp: Your Base of Operations on the Logos Frontier\",\"item\":\"https://logos.co/media/article/logos-basecamp\"}]}"}}],["$","div",null,{"className":"media-detail-page bg-accent-tan pt-6 text-brand-dark-green lg:pt-[52px]","children":["$","div",null,{"className":"mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 md:grid-cols-[repeat(16,minmax(0,1fr))] md:gap-4 lg:px-0","children":[["$","$L2",null,{"contentsLabel":"Contents","title":"Basecamp: Your Base of Operations on the Logos Frontier","toc":[]}],["$","article",null,{"className":"flex min-w-0 max-w-[700px] flex-col gap-4 md:col-span-10 md:col-start-6 lg:col-span-8 lg:col-start-5","children":[["$","header",null,{"className":"mb-6 flex flex-col text-brand-dark-green","children":[["$","div",null,{"className":"mb-6","children":["$","nav",null,{"aria-label":"Breadcrumb","className":"font-sans text-[12px] leading-4 text-brand-dark-green","children":["$","ol",null,{"className":"flex flex-wrap items-center gap-2","children":[["$","li","/media",{"className":"flex items-center gap-2","children":[null,["$","$L3",null,{"href":"/media","localeCookie":{"name":"NEXT_LOCALE","sameSite":"lax"},"className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Media","prefetch":false}]]}],["$","li","/media#articles",{"className":"flex items-center gap-2","children":[["$","span",null,{"aria-hidden":"true","children":"/"}],["$","$L3",null,{"href":"/media#articles","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Articles","prefetch":false}]]}]]}]}]}],["$","div",null,{"className":"mb-3 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[["$","span",null,{"children":"9 MIN"}],["$","span",null,{"aria-hidden":"true","className":"size-[3px] rounded-full bg-current"}],["$","span",null,{"children":"5 MAY 2026"}]]}],["$","div",null,{"children":[["$","h1",null,{"id":"title-anchor","className":"scroll-mt-[95px] font-display text-[44px] leading-[54px] tracking-normal","children":"Basecamp: Your Base of Operations on the Logos Frontier"}],["$","p",null,{"className":"mt-4 max-w-full whitespace-pre-wrap font-sans text-[18px] leading-6 tracking-normal md:text-[16px]","children":"Private by default, local by design, your gateway to the Logos ecosystem"}]]}],["$","div",null,{"className":"mb-8 mt-4 flex flex-wrap items-center gap-3","children":[["$","div","2",{"className":"flex items-center gap-3","children":["$L4",null]}]]}],"$L5","$L6","$L7"]}],"$L8","$L9"]}]]}]}]],["$La"],"$Lb"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"0kP-zEZYyRM_fvfP-mpuW"}
+4:["$","span",null,{"className":"flex items-center gap-2","children":[["$","span",null,{"className":"flex size-4 items-center justify-center rounded-full border border-brand-dark-green font-sans text-[11px] leading-4","children":"D"}],["$","span",null,{"className":"font-sans text-[12px] leading-4","children":"Dr. Corey Petty"}]]}]
+5:["$","div",null,{"className":"flex w-fit max-w-full items-start gap-4","children":[["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","88",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"Logos stack"}],["$","span","91",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"Tech"}],["$","span","8",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"Blockchain"}]]}],["$","span",null,{"aria-hidden":"true","className":"mt-1.5 h-3 border-l border-brand-dark-green"}],["$","$Lc",null,{"label":"Share","copiedLabel":"Copied","title":"Basecamp: Your Base of Operations on the Logos Frontier","url":"https://logos.co/media/article/logos-basecamp"}]]}]
+6:["$","figure",null,{"className":"my-10 w-full max-md:my-6","children":[["$","div",null,{"className":"relative aspect-[1200/630] w-full overflow-hidden bg-brand-dark-green/10","children":["$","img",null,{"src":"/media-images/Basecamp_Banner_1a7a9add64-bebc9f7f-750.webp","srcSet":"/media-images/Basecamp_Banner_1a7a9add64-bebc9f7f-750.webp 750w, /media-images/Basecamp_Banner_1a7a9add64-bebc9f7f-1400.webp 1400w","sizes":"(max-width: 767px) calc(100vw - 32px), 700px","alt":"","width":2000,"height":1050,"loading":"eager","fetchPriority":"high","decoding":"async","className":"absolute inset-0 size-full object-cover"}]}],["$","figcaption",null,{"className":"min-h-2 pt-2 font-sans text-[12px] leading-4","children":""}]]}]
+7:["$","div",null,{"className":"border-y border-brand-dark-green py-6 max-sm:py-4","children":["$","div",null,{"className":"media-detail-summary whitespace-pre-wrap font-sans text-[20px] leading-[30px] tracking-normal text-brand-dark-green max-sm:text-[18px] max-sm:leading-6","dangerouslySetInnerHTML":{"__html":"<p>Basecamp is a fully local launcher for the Logos stack, running all modules on your device from a unified surface. Private by default. Modular. Complete user control.</p>"}}]}]
+e:Tb2de,<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basecamp: Your Base of Operations on the Logos Frontier — Preview</title>
+<style>
+  body {
+    font-family: 'Georgia', serif;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2em 1.5em 4em;
+    background: #fff;
+    color: #1a1a2e;
+    line-height: 1.75;
+  }
+  h1 { font-size: 2em; line-height: 1.2; margin-bottom: 0.2em; }
+  h2 { font-size: 1.4em; line-height: 1.25; margin-top: 2em; margin-bottom: 0.4em; }
+  h3.subtitle { font-size: 1.05em; font-weight: 400; color: #4a4a68; margin-top: 0; margin-bottom: 0.3em; line-height: 1.4; }
+  .byline { color: #71717a; font-size: 0.9em; margin-bottom: 2em; font-style: italic; }
+  p { margin-bottom: 1.5em; }
+  ul { margin-bottom: 1.5em; }
+  li { margin-bottom: 0.4em; }
+  a { color: #1e5fa8; }
+  hr { border: none; border-top: 1px solid #e4e4e7; margin: 2.5em 0; }
+  code { font-family: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace; background: #f4f4f5; padding: 0.1em 0.35em; border-radius: 3px; font-size: 0.92em; }
+</style>
+
+<!-- ─── Scoped styles for the Basecamp stack interactive ─── -->
+<style>
+  .bc {
+    --bc-text: #1a1a2e;
+    --bc-text-dim: #71717a;
+    --bc-text-secondary: #4a4a68;
+    --bc-border: #d4d4d8;
+    --bc-border-strong: #52525b;
+    --bc-border-soft: #b7b7bd;
+    --bc-bg: #ffffff;
+    --bc-bg-surface: #fafafa;
+    --bc-bg-elevated: #f4f4f5;
+
+    /* Entry zone tints */
+    --bc-zone-basecamp: #f1f3f7;
+    --bc-zone-standalone: #edf3fb;
+    --bc-zone-headless: #f7f2e8;
+
+    /* Entry header colors — all three share a neutral base in the resting state.
+       Highlight accents (red/green/blue/amber) take over when an entry is selected. */
+    --bc-entry-header: #27272a;
+    --bc-basecamp: var(--bc-entry-header);
+    --bc-standalone: var(--bc-entry-header);
+    --bc-headless: var(--bc-entry-header);
+
+    /* Layer tints — lightest at top, darkening toward the runtime */
+    --bc-layer-apps-bg: #fcfcfe;
+    --bc-layer-modules-bg: #ecedf2;
+    --bc-layer-network-bg: #dadce3;
+    --bc-layer-runtime-bg: #c7cad3;
+
+    /* Highlight accents */
+    --bc-accent: #c22d2d;
+    --bc-accent-bg: rgba(194, 45, 45, 0.09);
+    --bc-accent-text: #a12020;
+    --bc-green: #16864e;
+    --bc-green-bg: rgba(22, 134, 78, 0.09);
+    --bc-amber: #b45309;
+    --bc-amber-bg: rgba(180, 83, 9, 0.09);
+    --bc-blue: #1e5fa8;
+    --bc-blue-bg: rgba(30, 95, 168, 0.09);
+
+    --bc-mono: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Courier New', monospace;
+    --bc-dim-opacity: 0.25;
+    font-family: inherit;
+    color: var(--bc-text);
+    margin: 2.2em 0;
+  }
+
+  .bc-panel {
+    background: var(--bc-bg);
+    border: 1px solid var(--bc-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .bc-panel-header {
+    padding: 0.75em 1.2em;
+    background: var(--bc-bg-elevated);
+    border-bottom: 1px solid var(--bc-border);
+    font-family: var(--bc-mono);
+    font-size: 0.72em;
+    font-weight: 600;
+    color: var(--bc-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+  .bc-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--bc-accent);
+    flex-shrink: 0;
+    animation: bc-blink 2.2s ease-in-out infinite;
+  }
+  @keyframes bc-blink { 0%,100%{opacity:1}50%{opacity:0.35} }
+
+  /* ── Tabs ── */
+  .bc-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35em;
+    padding: 0.85em 1em;
+    background: var(--bc-bg-elevated);
+    border-bottom: 1px solid var(--bc-border);
+  }
+  .bc-tab {
+    font-family: inherit;
+    font-size: 0.82em;
+    font-weight: 500;
+    padding: 0.45em 0.9em;
+    border: 1px solid var(--bc-border);
+    background: #fff;
+    color: var(--bc-text-secondary);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    line-height: 1.25;
+  }
+  .bc-tab:hover { border-color: var(--bc-border-strong); color: var(--bc-text); }
+  .bc-tab[aria-selected="true"] {
+    background: var(--bc-text);
+    border-color: var(--bc-text);
+    color: #fff;
+  }
+
+  .bc-stage {
+    padding: 1.4em 1em 1em;
+    background: #fff;
+  }
+  .bc-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+
+  /* ── Layer bands ── */
+  .bc-layer-bg { stroke: none; transition: all 0.35s ease; }
+  .bc-layer-apps      { fill: var(--bc-layer-apps-bg); }
+  .bc-layer-modules   { fill: var(--bc-layer-modules-bg); }
+  .bc-layer-network   { fill: var(--bc-layer-network-bg); }
+  .bc-layer-runtime   { fill: var(--bc-layer-runtime-bg); }
+
+  .bc-layer-label {
+    font-family: var(--bc-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    fill: var(--bc-text-dim);
+    text-transform: uppercase;
+    transition: all 0.35s ease;
+  }
+
+  /* ── Nodes ── */
+  .bc-node rect, .bc-node .bc-node-shape {
+    fill: #fff;
+    stroke: var(--bc-border-soft);
+    stroke-width: 1;
+    transition: all 0.35s ease;
+  }
+  .bc-node text {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    fill: var(--bc-text);
+    font-size: 12px;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    transition: all 0.35s ease;
+  }
+  .bc-node-small text { font-size: 11px; }
+  .bc-node-tiny  text { font-size: 10px; }
+  .bc-node-large text { font-size: 13px; font-weight: 500; }
+
+  /* Proposed / forward-looking modules — dashed border, slightly muted text. */
+  .bc-node-proposed rect, .bc-node-proposed .bc-node-shape {
+    stroke-dasharray: 4 3;
+    fill: #fafafa;
+  }
+  .bc-node-proposed text { fill: var(--bc-text-secondary); font-style: italic; }
+
+  /* ── Entry zones ── */
+  .bc-entry .bc-entry-frame  { stroke: none; transition: all 0.35s ease; }
+  .bc-entry .bc-entry-header { stroke: none; transition: all 0.35s ease; }
+
+  .bc-entry-basecamp   .bc-entry-frame  { fill: var(--bc-zone-basecamp); }
+  .bc-entry-standalone .bc-entry-frame  { fill: var(--bc-zone-standalone); }
+  .bc-entry-headless   .bc-entry-frame  { fill: var(--bc-zone-headless); }
+
+  .bc-entry-basecamp   .bc-entry-header { fill: var(--bc-basecamp); }
+  .bc-entry-standalone .bc-entry-header { fill: var(--bc-standalone); }
+  .bc-entry-headless   .bc-entry-header { fill: var(--bc-headless); }
+
+  .bc-entry text.bc-entry-title {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    fill: #fff;
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+  .bc-entry text.bc-entry-sub {
+    font-family: var(--bc-mono);
+    font-size: 9.5px;
+    fill: var(--bc-text-dim);
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+  .bc-entry text.bc-entry-inner {
+    font-family: var(--bc-mono);
+    font-size: 10px;
+    fill: var(--bc-text-dim);
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+
+  /* ── Arrows ── */
+  .bc-arrow path {
+    fill: none;
+    stroke: var(--bc-border-strong);
+    stroke-width: 1.3;
+    transition: stroke 0.2s ease;
+  }
+  .bc-arrow-head { fill: var(--bc-border-strong); transition: fill 0.2s ease; }
+
+  .bc-flow-arrow path {
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 5 4;
+    animation: bc-flow-dash 0.8s linear infinite;
+  }
+  @keyframes bc-flow-dash { to { stroke-dashoffset: -18; } }
+  .bc-flow-arrow .bc-arrow-head { transition: none; }
+
+  /* ── Dimming ── */
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-node:not(.bc-hl) rect,
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-node:not(.bc-hl) .bc-node-shape {
+    opacity: var(--bc-dim-opacity);
+  }
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-node:not(.bc-hl) text {
+    opacity: var(--bc-dim-opacity);
+  }
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-entry:not(.bc-hl) .bc-entry-frame,
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-entry:not(.bc-hl) .bc-entry-header {
+    opacity: 0.4;
+  }
+  /* Keep entry titles legible even when the entry is dimmed */
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-entry:not(.bc-hl) text.bc-entry-title {
+    opacity: 0.65;
+  }
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-entry:not(.bc-hl) text.bc-entry-sub,
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-entry:not(.bc-hl) text.bc-entry-inner {
+    opacity: 0.4;
+  }
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-arrow-static:not(.bc-hl) path,
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-arrow-static:not(.bc-hl) .bc-arrow-head {
+    opacity: calc(var(--bc-dim-opacity) * 0.7);
+  }
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-layer-bg { opacity: 0.6; }
+  .bc-svg[data-view]:not([data-view="overview"]) .bc-layer-label { opacity: 0.6; }
+
+  /* ── Highlight accents ── */
+  .bc-svg .bc-hl.bc-accent-red rect,
+  .bc-svg .bc-hl.bc-accent-red .bc-node-shape {
+    fill: var(--bc-accent-bg);
+    stroke: var(--bc-accent);
+    stroke-width: 1.8;
+  }
+  .bc-svg .bc-hl.bc-accent-red text { fill: var(--bc-accent-text); font-weight: 600; }
+  .bc-svg .bc-entry.bc-hl.bc-accent-red .bc-entry-frame  { fill: var(--bc-accent-bg); }
+  .bc-svg .bc-entry.bc-hl.bc-accent-red .bc-entry-header { fill: var(--bc-accent); }
+
+  .bc-svg .bc-hl.bc-accent-green rect,
+  .bc-svg .bc-hl.bc-accent-green .bc-node-shape {
+    fill: var(--bc-green-bg);
+    stroke: var(--bc-green);
+    stroke-width: 1.8;
+  }
+  .bc-svg .bc-hl.bc-accent-green text { fill: var(--bc-green); font-weight: 600; }
+  .bc-svg .bc-entry.bc-hl.bc-accent-green .bc-entry-frame  { fill: var(--bc-green-bg); }
+  .bc-svg .bc-entry.bc-hl.bc-accent-green .bc-entry-header { fill: var(--bc-green); }
+
+  .bc-svg .bc-hl.bc-accent-blue rect,
+  .bc-svg .bc-hl.bc-accent-blue .bc-node-shape {
+    fill: var(--bc-blue-bg);
+    stroke: var(--bc-blue);
+    stroke-width: 1.8;
+  }
+  .bc-svg .bc-hl.bc-accent-blue text { fill: var(--bc-blue); font-weight: 600; }
+  .bc-svg .bc-entry.bc-hl.bc-accent-blue .bc-entry-frame  { fill: var(--bc-blue-bg); }
+  .bc-svg .bc-entry.bc-hl.bc-accent-blue .bc-entry-header { fill: var(--bc-blue); }
+
+  .bc-svg .bc-hl.bc-accent-amber rect,
+  .bc-svg .bc-hl.bc-accent-amber .bc-node-shape {
+    fill: var(--bc-amber-bg);
+    stroke: var(--bc-amber);
+    stroke-width: 1.8;
+  }
+  .bc-svg .bc-hl.bc-accent-amber text { fill: var(--bc-amber); font-weight: 600; }
+  .bc-svg .bc-entry.bc-hl.bc-accent-amber .bc-entry-frame  { fill: var(--bc-amber-bg); }
+  .bc-svg .bc-entry.bc-hl.bc-accent-amber .bc-entry-header { fill: var(--bc-amber); }
+
+  /* Entry title stays WHITE even when highlighted — the highlight bg is dark/colored. */
+  .bc-svg .bc-entry.bc-hl text.bc-entry-title {
+    fill: #fff;
+    font-weight: 700;
+  }
+
+  /* Flow arrow accents */
+  .bc-flow-arrow.bc-accent-red   path { stroke: var(--bc-accent); }
+  .bc-flow-arrow.bc-accent-red   .bc-arrow-head { fill: var(--bc-accent); }
+  .bc-flow-arrow.bc-accent-green path { stroke: var(--bc-green); }
+  .bc-flow-arrow.bc-accent-green .bc-arrow-head { fill: var(--bc-green); }
+  .bc-flow-arrow.bc-accent-blue  path { stroke: var(--bc-blue); }
+  .bc-flow-arrow.bc-accent-blue  .bc-arrow-head { fill: var(--bc-blue); }
+  .bc-flow-arrow.bc-accent-amber path { stroke: var(--bc-amber); }
+  .bc-flow-arrow.bc-accent-amber .bc-arrow-head { fill: var(--bc-amber); }
+
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-red   path { stroke: var(--bc-accent); stroke-width: 1.8; }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-red   .bc-arrow-head { fill: var(--bc-accent); }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-green path { stroke: var(--bc-green); stroke-width: 1.8; }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-green .bc-arrow-head { fill: var(--bc-green); }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-blue  path { stroke: var(--bc-blue); stroke-width: 1.8; }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-blue  .bc-arrow-head { fill: var(--bc-blue); }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-amber path { stroke: var(--bc-amber); stroke-width: 1.8; }
+  .bc-svg .bc-arrow-static.bc-hl.bc-accent-amber .bc-arrow-head { fill: var(--bc-amber); }
+
+  /* ── Caption ── */
+  .bc-caption {
+    padding: 1em 1.4em 1.2em;
+    border-top: 1px solid var(--bc-border);
+    background: var(--bc-bg-surface);
+  }
+  .bc-caption h3 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 1em;
+    font-weight: 600;
+    margin: 0 0 0.35em;
+    color: var(--bc-text);
+  }
+  .bc-caption p {
+    margin: 0;
+    font-size: 0.95em;
+    color: var(--bc-text-secondary);
+    line-height: 1.65;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  .bc-caption .bc-caption-tag {
+    display: inline-block;
+    font-family: var(--bc-mono);
+    font-size: 0.7em;
+    padding: 0.15em 0.55em;
+    border-radius: 3px;
+    background: var(--bc-bg-elevated);
+    border: 1px solid var(--bc-border);
+    color: var(--bc-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 0.5em;
+    vertical-align: 2px;
+  }
+</style>
+</head>
+<body data-new-gr-c-s-check-loaded="14.1287.0" data-gr-ext-installed="">
+
+<h1>Basecamp: Your Base of Operations on the Logos Frontier</h1>
+
+<p>
+  Every expedition needs a base of operations. A private, secure shelter already equipped with supplies and communications, so you can spend your time exploring, not building from scratch.
+</p>
+
+<p><strong>That's Basecamp.</strong></p>
+
+<p>
+  Basecamp is a ready-to-run distribution that you deploy on your own hardware, under your control. From the moment it’s installed, you’re standing on your own ground, not connecting to someone else’s infrastructure. The Logos Runtime is already running locally, core modules are loaded, and essential applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one.
+</p>
+<p>
+  This changes the relationship between the user and the system. When everything runs locally, privacy is the default state. Because you control the environment, you control your data.
+</p>
+  
+<hr>
+
+<h2>What Basecamp actually is</h2>
+
+<p>
+  Basecamp is the launcher and unified surface of the Logos stack. It is an executable that wraps the Logos Runtime and does three things:
+</p>
+
+<ol>
+  <li>Initialises the Logos Core environment on startup</li>
+  <li>Discovers and loads UI plugins from whatever modules are installed</li>
+  <li>Presents a unified surface where users interact with everything</li>
+</ol>
+
+<p>
+  That last point is important to understand. Basecamp doesn't <em>do</em> the work, it <em>surfaces</em> it to users. The logic for the wallet lives in the blockchain module, messaging in comms, and file-sharing in storage. Basecamp is the place all of those show up, consistently, in one place.
+</p>
+
+<p>
+  Think of it as the user-facing access point for a modular, unified stack — the thing that turns a collection of powerful, interoperable modules into a coherent experience.
+</p>
+
+<h2>Local-first, by conviction</h2>
+ 
+<p>
+  Every layer in the stack you're about to see — Runtime, Network, Modules, App Backends — runs on <em>your</em> machine. Not on a cloud server you rent, not behind an API you call, not in a data centre that logs your queries, graphs your social connections, and sells the patterns. 
+</p>
+
+<p>
+  The entire stack is local-first infrastructure, operated as a peer-to-peer network where your node is a full participant, sourcing and leveraging the modules it needs to run your application.
+</p>
+ 
+<p>
+  Centralised services are custodial by nature: they require your trust and can access your metadata, if not your actual data, in return for convenience. The trade-off is rarely made explicit. Who you message, when, how often, from where — that metadata is often more revealing than the content itself, and conventional architectures funnel all of it through chokepoints that can observe, store, and monetise it. 
+</p>
+<p>
+  Basecamp's stack is designed around the opposite assumption. The P2P network layer means your messages, files, and transactions flow between peers, not through a single relay. The modules run locally, so your wallet state, your chat history, and your file index never leave your device unless you choose to share them. There is no sign-up, no account on a remote server, no quiet background sync to infrastructure controlled by a single entity.
+</p>
+
+<h2>A diagram you can walk through</h2>
+
+<p>
+  The Logos stack is layered: the Logos Runtime at the foundation, the network on top, modules stacked above (each higher module depending on the ones beneath it, implicitly composing into something useful), and app backends at the apex. Basecamp is one of three ways in. The diagram illustrates this structure. Pick a use case from the tabs and the slice of the stack it leans on lights up, with live arrows tracing the data flow.
+</p>
+
+<div class="bc">
+  <div class="bc-panel">
+    <div class="bc-panel-header">
+      <span class="bc-dot"></span>
+      <span>Logos Stack · Interactive</span>
+    </div>
+
+    <div class="bc-tabs" role="tablist" id="bc-tabs"></div>
+
+    <div class="bc-stage">
+      <svg class="bc-svg" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logos stack diagram">
+        <defs>
+          <marker id="bc-arrow-marker" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" class="bc-arrow-head"></path>
+          </marker>
+          <marker id="bc-flow-marker" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" class="bc-arrow-head"></path>
+          </marker>
+        </defs>
+
+        <!-- Layer bands: App backends, Modules, Network, Runtime. -->
+        <rect class="bc-layer-bg bc-layer-apps" x="20" y="200" width="920" height="66" rx="6"></rect>
+        <rect class="bc-layer-bg bc-layer-modules" x="20" y="286" width="920" height="158" rx="6"></rect>
+        <rect class="bc-layer-bg bc-layer-network" x="20" y="464" width="920" height="54" rx="6"></rect>
+        <rect class="bc-layer-bg bc-layer-runtime" x="20" y="538" width="920" height="54" rx="6"></rect>
+
+        <text class="bc-layer-label" x="34" y="212">APP BACKENDS</text>
+        <text class="bc-layer-label" x="34" y="298">MODULES</text>
+        <text class="bc-layer-label" x="34" y="476">NETWORK</text>
+        <text class="bc-layer-label" x="34" y="550">RUNTIME</text>
+
+        <!-- ── Basecamp ── -->
+        <g class="bc-entry bc-entry-basecamp" data-id="basecamp">
+          <rect class="bc-entry-frame" x="20" y="20" width="520" height="160" rx="8"></rect>
+          <path class="bc-entry-header" d="M 28 20 L 532 20 A 8 8 0 0 1 540 28 L 540 52 L 20 52 L 20 28 A 8 8 0 0 1 28 20 Z"></path>
+          <text class="bc-entry-title" x="280" y="36">Logos Basecamp</text>
+          <text class="bc-entry-sub" x="280" y="66">default launcher · loads UI plugins</text>
+        </g>
+
+        <g class="bc-node bc-node-tiny" data-id="ui-package-manager">
+          <rect x="30" y="82" width="68" height="88" rx="3"></rect>
+          <text x="64" y="115">Package</text>
+          <text x="64" y="128">manager</text>
+          <text x="64" y="141">UI</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="ui-blockchain-dashboard">
+          <rect x="102" y="82" width="68" height="88" rx="3"></rect>
+          <text x="136" y="115">Blockchain</text>
+          <text x="136" y="128">Node</text>
+          <text x="136" y="141">Dashboard</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="ui-lez-wallet">
+          <rect x="174" y="82" width="68" height="88" rx="3"></rect>
+          <text x="208" y="121">LEZ Wallet</text>
+          <text x="208" y="135">UI</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="ui-storage">
+          <rect x="246" y="82" width="68" height="88" rx="3"></rect>
+          <text x="280" y="121">Storage</text>
+          <text x="280" y="135">UI</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="ui-dex">
+          <rect x="318" y="82" width="68" height="88" rx="3"></rect>
+          <text x="352" y="128">DEX UI</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="ui-messaging">
+          <rect x="390" y="82" width="68" height="88" rx="3"></rect>
+          <text x="424" y="121">Messaging</text>
+          <text x="424" y="135">UI</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="ui-more">
+          <rect x="462" y="82" width="68" height="88" rx="3"></rect>
+          <text x="496" y="128">…</text>
+        </g>
+
+        <!-- ── Standalone App ── -->
+        <g class="bc-entry bc-entry-standalone" data-id="standalone">
+          <rect class="bc-entry-frame" x="560" y="20" width="160" height="160" rx="8"></rect>
+          <path class="bc-entry-header" d="M 568 20 L 712 20 A 8 8 0 0 1 720 28 L 720 52 L 560 52 L 560 28 A 8 8 0 0 1 568 20 Z"></path>
+          <text class="bc-entry-title" x="640" y="36">Standalone App</text>
+          <text class="bc-entry-sub" x="640" y="66">one binary · no launcher</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="standalone-ui">
+          <rect x="578" y="82" width="124" height="88" rx="3"></rect>
+          <text x="640" y="115">Your app's UI</text>
+          <text x="640" y="129">(bundled)</text>
+          <text x="640" y="148" style="font-size:9px; fill:#71717a">ships as one binary</text>
+        </g>
+
+        <!-- ── Headless Node ── -->
+        <g class="bc-entry bc-entry-headless bc-hl bc-accent-amber" data-id="headless">
+          <rect class="bc-entry-frame" x="740" y="20" width="200" height="160" rx="8"></rect>
+          <path class="bc-entry-header" d="M 748 20 L 932 20 A 8 8 0 0 1 940 28 L 940 52 L 740 52 L 740 28 A 8 8 0 0 1 748 20 Z"></path>
+          <text class="bc-entry-title" x="840" y="36">Headless Node</text>
+          <text class="bc-entry-sub" x="840" y="66">server / validator · CLI</text>
+        </g>
+        <g class="bc-node bc-node-tiny bc-hl bc-accent-amber" data-id="headless-cli">
+          <rect x="758" y="82" width="164" height="88" rx="3"></rect>
+          <text x="840" y="115" style="font-family: var(--bc-mono); font-size: 13px;">$ logos-node</text>
+          <text x="840" y="132">CLI (or no UI at all)</text>
+          <text x="840" y="151" style="font-size: 9px; fill: #71717a">drives the core directly</text>
+        </g>
+
+        <!-- App backends layer -->
+        <g class="bc-node bc-node-tiny" data-id="app-dex">
+          <rect x="294" y="224" width="54" height="36" rx="3"></rect>
+          <text x="321" y="242">Dex</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="app-stablecoin">
+          <rect x="352" y="224" width="60" height="36" rx="3"></rect>
+          <text x="382" y="236">Stable</text>
+          <text x="382" y="248">coin</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="app-lez-wallet">
+          <rect x="416" y="224" width="60" height="36" rx="3"></rect>
+          <text x="446" y="236">LEZ</text>
+          <text x="446" y="248">Wallet</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="app-more">
+          <rect x="480" y="224" width="30" height="36" rx="3"></rect>
+          <text x="495" y="242">…</text>
+        </g>
+
+        <!-- Modules — upper row -->
+        <g class="bc-node bc-node-tiny" data-id="lez-dec-seq">
+          <rect x="184" y="310" width="90" height="32" rx="3"></rect>
+          <text x="229" y="326">LEZ dec seq</text>
+        </g>
+        <g class="bc-node bc-node-small bc-hl bc-accent-amber" data-id="lez">
+          <rect x="282" y="310" width="240" height="32" rx="3"></rect>
+          <text x="402" y="319">LEZ</text>
+          <text x="402" y="333">(token ops API + Indexer)</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="zones">
+          <rect x="532" y="310" width="58" height="32" rx="3"></rect>
+          <text x="561" y="326">&lt;zones&gt;</text>
+        </g>
+        <g class="bc-node bc-node-tiny bc-hl bc-accent-amber" data-id="files">
+          <rect x="620" y="310" width="80" height="32" rx="3"></rect>
+          <text x="660" y="326">Files</text>
+        </g>
+        <g class="bc-node bc-node-tiny bc-hl bc-accent-amber" data-id="chat">
+          <rect x="720" y="310" width="80" height="32" rx="3"></rect>
+          <text x="760" y="326">Chat</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="swaps">
+          <rect x="820" y="310" width="80" height="32" rx="3"></rect>
+          <text x="860" y="326">Swaps</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="protocols-more">
+          <rect x="908" y="310" width="22" height="32" rx="3"></rect>
+          <text x="919" y="326">…</text>
+        </g>
+
+        <g class="bc-arrow bc-arrow-static" data-id="arrow-lez-decseq">
+          <path d="M 282 326 L 277 326" marker-end="url(#bc-arrow-marker)"></path>
+        </g>
+
+        <!-- Modules — lower row -->
+        <g class="bc-node bc-node-tiny bc-hl bc-accent-amber" data-id="package-manager">
+          <rect x="70" y="396" width="100" height="42" rx="3"></rect>
+          <text x="120" y="410">Package</text>
+          <text x="120" y="424">Manager</text>
+        </g>
+        <g class="bc-node bc-node-small bc-hl bc-accent-amber" data-id="blockchain">
+          <rect x="190" y="396" width="420" height="42" rx="3"></rect>
+          <text x="400" y="418">Blockchain</text>
+        </g>
+        <g class="bc-node bc-node-tiny bc-hl bc-accent-amber" data-id="storage">
+          <rect x="620" y="396" width="80" height="42" rx="3"></rect>
+          <text x="660" y="418">Storage</text>
+        </g>
+        <g class="bc-node bc-node-tiny bc-hl bc-accent-amber" data-id="delivery">
+          <rect x="720" y="396" width="80" height="42" rx="3"></rect>
+          <text x="760" y="418">Delivery</text>
+        </g>
+        <g class="bc-node bc-node-tiny bc-node-proposed" data-id="monero">
+          <rect x="820" y="396" width="80" height="42" rx="3"></rect>
+          <text x="860" y="412">Monero</text>
+          <text x="860" y="426" style="font-size: 8.5px;">(proposed)</text>
+        </g>
+        <g class="bc-node bc-node-tiny" data-id="modules-more">
+          <rect x="908" y="396" width="22" height="42" rx="3"></rect>
+          <text x="919" y="418">…</text>
+        </g>
+
+        <g class="bc-arrow bc-arrow-static" data-id="arrow-delivery-storage">
+          <path d="M 720 418 L 703 418" marker-end="url(#bc-arrow-marker)"></path>
+        </g>
+
+        <!-- Network layer -->
+        <g class="bc-node bc-node-large bc-hl bc-accent-amber" data-id="p2p">
+          <rect x="70" y="488" width="870" height="22" rx="3"></rect>
+          <text x="505" y="500">P2P · discovery · peering · mix</text>
+        </g>
+
+        <!-- Runtime layer -->
+        <g class="bc-node bc-node-large bc-hl bc-accent-amber" data-id="runtime">
+          <rect x="70" y="562" width="870" height="22" rx="3"></rect>
+          <text x="505" y="573">logos runtime</text>
+        </g>
+
+        <g class="bc-flow-arrows"><g class="bc-arrow bc-flow-arrow bc-accent-amber"><path d="M 840 170 L 840 280 L 402 280 L 402 308" marker-end="url(#bc-flow-marker)"></path></g><g class="bc-arrow bc-flow-arrow bc-accent-amber"><path d="M 402 342 L 402 366 L 400 366 L 400 394" marker-end="url(#bc-flow-marker)"></path></g><g class="bc-arrow bc-flow-arrow bc-accent-amber"><path d="M 400 438 L 400 458 L 505 458 L 505 486" marker-end="url(#bc-flow-marker)"></path></g><g class="bc-arrow bc-flow-arrow bc-accent-amber"><path d="M 505 510 L 505 560" marker-end="url(#bc-flow-marker)"></path></g><g class="bc-arrow bc-flow-arrow bc-accent-amber"><path d="M 840 170 L 840 280 L 660 280 L 660 308" marker-end="url(#bc-flow-marker)"></path></g><g class="bc-arrow bc-flow-arrow bc-accent-amber"><path d="M 660 342 L 660 394" marker-end="url(#bc-flow-marker)"></path></g><g class="bc-arrow bc-flow-arrow bc-accent-amber"><path d="M 660 438 L 660 458 L 505 458 L 505 486" marker-end="url(#bc-flow-marker)"></path></g><g class="bc-arrow bc-flow-arrow bc-accent-amber"><path d="M 840 170 L 840 280 L 760 280 L 760 308" marker-end="url(#bc-flow-marker)"></path></g><g class="bc-arrow bc-flow-arrow bc-accent-amber"><path d="M 760 342 L 760 394" marker-end="url(#bc-flow-marker)"></path></g><g class="bc-arrow bc-flow-arrow bc-accent-amber"><path d="M 760 438 L 760 458 L 505 458 L 505 486" marker-end="url(#bc-flow-marker)"></path></g><g class="bc-arrow bc-flow-arrow bc-accent-amber"><path d="M 840 170 L 840 366 L 120 366 L 120 394" marker-end="url(#bc-flow-marker)"></path></g></g>
+      </svg>
+    </div>
+
+    <div class="bc-caption">
+      <h3 id="bc-view-title">Run a node with no UI</h3>
+      <p id="bc-view-body"><span class="bc-caption-tag">Headless node</span>For servers, validators, infrastructure. The headless entry skips the App Backends layer entirely but reaches into modules at any depth — a validator drives LEZ on top of Blockchain, a storage provider drives Files on top of Storage, a relay drives Chat on top of Delivery. Runtime up, P2P peers connected.</p>
+    </div>
+  </div>
+</div>
+
+<p>
+  The diagram autoplays through every use case defined below; click any tab to pin it as you continue reading. The rest of this article points back at specific views to ground each idea in something visual.
+</p>
+
+<hr>
+
+<h2>What you get out of the box</h2>
+
+<p>
+  The default Basecamp installation ships with <strong>Simple Apps</strong> for each core module:
+</p>
+
+<ul>
+  <li><strong>Wallet</strong> — managing accounts and assets on the Logos blockchain</li>
+  <li><strong>Chat interface</strong> — encrypted messaging via the Logos comms layer</li>
+  <li><strong>Filesharing tool</strong> — private, decentralised file storage and sharing</li>
+  <li><strong>Blockchain / LEZ explorer</strong> — inspect the chain, transactions, and execution zones</li>
+</ul>
+
+<p>
+  The <em>Default Basecamp user</em> tab in the diagram shows what this looks like in motion: each Simple App is a UI plugin at the top of the Basecamp zone, and each one lights up its own slice of the stack <em>in parallel</em>. The wallet rides LEZ → Blockchain. The messenger rides Chat → Delivery. The dashboard reads straight from the blockchain. Same launcher, several flows, no duplication.
+</p>
+
+<p>
+  The single-purpose tabs — such as <em>DEX trader</em>, <em>Private messaging</em>, and <em>File sharing</em> — isolate each of those flows. The arrows show the direction of dependency: a chat user's bytes flow through Chat → Delivery → P2P, never touching the blockchain. A trader's flow through LEZ → Blockchain, never touching Storage. This flow is what makes the Logos stack truly modular and interoperable.
+</p>
+
+<p>
+  These aren't separate apps stitched together; they load from Basecamp's unified shell using a consistent design system and are discovered automatically by the Package Manager.
+</p>
+
+<hr>
+
+<h2>Module-agnostic by design</h2>
+
+<p>
+  Basecamp doesn't care which modules you have installed. It discovers them, loads their UI plugins, and surfaces them to you whatever the configured profile contains.
+</p>
+
+<p>
+  This is an intentional design feature. The stack composition is defined by which modules are selected, not by the launcher. This allows a developer building a specialised Logos distribution to swap the module set entirely, using only what they need. Basecamp simply loads what is there, offering one launcher for many possible stack configurations.
+</p>
+
+<p>
+  The <em>Atomic swap</em> tab in the diagram makes this case visually. A trustless cross-chain swap composes the existing Swaps module on top of LEZ (Logos side) with a <em>proposed</em> Monero module (XMR side, shown with a dashed border). The DEX UI doesn't change; the user's path through the stack does. Adding a new module with new capabilities requires no work on the part of the launcher, which just traces the data flow through the new stack configuration.
+</p>
+
+<p>
+  This composability is where Basecamp draws from its inspirations: the <a href="https://github.com/ethereum/mist">Mist Browser</a> was an early reference point — an entry-level gateway into an ecosystem — and <a href="https://leechcraft.org/">LeechCraft</a>, a modular live environment where every capability is a plugin. Basecamp's ambition is to go further: composability at the ecosystem layer, built on a privacy-preserving, decentralised foundation.
+</p>
+
+<hr>
+
+<h2>Three ways in, one stack</h2>
+
+<p>
+  Basecamp is the default launcher, but it is not the only way for users to access the Logos stack. The three header zones at the top of the diagram show the available options:
+</p>
+
+<ul>
+  <li><strong>Logos Basecamp</strong> — the unified launcher most users want. Discovers modules, surfaces their UIs, gets out of the way.</li>
+  <li><strong>Standalone App</strong> — when you don't want a launcher at all. A single binary ships with its own UI and just the modules it needs. Useful for purpose-built clients (the <em>Standalone app</em> tab walks through a focused DEX example) where Basecamp's discovery model would be unnecessary overhead.</li>
+  <li><strong>Headless Node</strong> — no UI surface, just a CLI. Useful for servers, validators, or infrastructure. The <em>Headless node</em> tab shows that headless can drive modules at any depth — a validator drives LEZ on top of Blockchain, a storage provider drives Files on top of Storage, and a relay drives Chat on top of Delivery. Runtime up, P2P peers connected.</li>
+</ul>
+
+<p>
+  The choice between the three is about what <em>surface</em> you want, not what's underneath.
+</p>
+
+<hr>
+
+<h2>For developers: QML is the easy path</h2>
+
+<p>
+  Basecamp is also where the module-building story meets deployment. Once you've scaffolded a module with the <code>lm</code> CLI and the module-builder tooling, Basecamp is how you actually run it. The <em>Module developer</em> tab in the diagram traces the path involved: the new module gets detected by the Package Manager module, listed in the Package Manager UI, and auto-loaded by Basecamp on its next launch. The rest of the stack is what your module <em>composes against</em>.
+</p>
+
+<p>
+  The team is moving toward a QML-only UI layer for module frontends, with the C++ application backend running in a separate process. The practical upshot of this approach is that if you build your module UI in QML, it works in Basecamp without friction. The system is intentionally designed this way — the examples and tooling are being built to make QML the path of least resistance.
+</p>
+
+<p>
+  Current support: <strong>Linux and macOS</strong>, with <strong>C++</strong> for module development. Windows, Android, iOS, and additional SDK languages (Rust, JS, Nim) are in active development.
+</p>
+
+<hr>
+
+<h2>The road ahead</h2>
+
+<p>
+  Basecamp is currently in active development on the Logos Testnet v0.1.2, with Testnet v0.1.3 set to mark a significant UX step forward, delivering a new docking widget system (KDDockWidgets), onboarding flows, and settings encryption. That's when Basecamp stops being a developer testing surface and begins to resemble the first-class user experience the frontier deserves.
+</p>
+
+<hr>
+
+<h2>Start here</h2>
+
+<p>
+  Basecamp is available now for Linux and macOS.
+</p>
+
+<ul>
+  <li><strong>Repository:</strong> <a href="https://github.com/logos-co/logos-basecamp">github.com/logos-co/logos-basecamp</a></li>
+  <li><strong>Builder Hub:</strong> <a href="https://build.logos.co/">build.logos.co</a></li>
+</ul>
+
+<p>
+  The frontier awaits. Basecamp is how you reach it.
+</p>
+
+<script>
+(function () {
+  const VIEWS = [
+    {
+      id: 'overview',
+      label: 'Overview',
+      accent: 'red',
+      title: 'Full stack at a glance',
+      body: 'Three ways into the same stack. <strong>Basecamp</strong> is the default launcher. A <strong>Standalone App</strong> bundles a custom UI with chosen modules and ships as one binary. A <strong>Headless Node</strong> skips the UI entirely. Pick a use case above to see — with live flow arrows — which slice each one touches.',
+      entry: null, paths: [], extras: []
+    },
+    {
+      id: 'default-user',
+      label: 'Default Basecamp user',
+      accent: 'red',
+      title: 'Install Basecamp, start using the Simple Apps',
+      body: 'The out-of-the-box experience. Basecamp loads default UI plugins — wallet, messaging, explorer, dashboard — and each surfaces its own slice of the stack in parallel. A single launcher, multiple flows.',
+      entry: 'basecamp',
+      paths: [
+        ['ui-lez-wallet',  'app-lez-wallet', 'lez',      'blockchain', 'p2p', 'runtime'],
+        ['ui-messaging',   'chat',           'delivery', 'p2p'],
+        ['ui-blockchain-dashboard', 'blockchain']
+      ],
+      extras: ['lez-dec-seq', 'files', 'storage', 'arrow-lez-decseq']
+    },
+    {
+      id: 'dex-trader',
+      label: 'DEX trader',
+      accent: 'green',
+      title: 'Trade on the decentralised exchange',
+      body: 'The DEX UI surfaces the Dex application, which composes token operations on LEZ and settles on the blockchain. Storage and delivery stay idle — this is a chain-state path, straight through the network to the runtime.',
+      entry: 'basecamp',
+      paths: [
+        ['ui-dex', 'app-dex', 'lez', 'blockchain', 'p2p', 'runtime']
+      ],
+      extras: ['lez-dec-seq', 'arrow-lez-decseq']
+    },
+    {
+      id: 'atomic-swap',
+      label: 'Atomic swap',
+      accent: 'green',
+      title: 'Cross-chain atomic swap (LOGOS ↔ XMR)',
+      body: 'The Swaps module orchestrates a trustless cross-chain swap. The Logos side rides on LEZ and settles on Blockchain; the XMR side rides on a <em>proposed</em> Monero module. Both sides reach their networks through the shared P2P layer. Same DEX entry as a normal trade — the user picks the pair, the stack picks the path.',
+      entry: 'basecamp',
+      paths: [
+        ['ui-dex', 'app-dex', 'swaps', 'lez', 'blockchain', 'p2p', 'runtime'],
+        ['swaps', 'monero', 'p2p']
+      ],
+      extras: ['lez-dec-seq', 'arrow-lez-decseq']
+    },
+    {
+      id: 'messaging',
+      label: 'Private messaging',
+      accent: 'blue',
+      title: 'Encrypted chat over the mixnet',
+      body: 'The Chat module rides on the Delivery module beneath it and out through the mix-routed P2P layer. Nothing here touches the blockchain — messages are a data-plane concern, not a ledger concern.',
+      entry: 'basecamp',
+      paths: [
+        ['ui-messaging', 'chat', 'delivery', 'p2p', 'runtime']
+      ],
+      extras: []
+    },
+    {
+      id: 'file-sharing',
+      label: 'File sharing',
+      accent: 'blue',
+      title: 'Private, decentralised file storage',
+      body: 'Files ride on the adjacent pair beneath them: Storage holds data, Delivery moves it between peers. The Files module sits on top of both. Blockchain only enters if metadata needs chain anchoring.',
+      entry: 'basecamp',
+      paths: [
+        ['ui-storage', 'files', 'storage', 'p2p', 'runtime'],
+        ['files', 'delivery']
+      ],
+      extras: ['arrow-delivery-storage']
+    },
+    {
+      id: 'module-dev',
+      label: 'Module developer',
+      accent: 'amber',
+      title: 'Build a module; Basecamp discovers it',
+      body: 'Scaffold with the <code>lm</code> CLI, ship. The Package Manager module detects the new module, the Package Manager UI lists it, and Basecamp auto-loads its QML UI on next launch. The rest of the stack is what your module <em>composes against</em>.',
+      entry: 'basecamp',
+      paths: [
+        ['ui-package-manager', 'package-manager', 'p2p', 'runtime']
+      ],
+      extras: []
+    },
+    {
+      id: 'headless',
+      label: 'Headless node',
+      accent: 'amber',
+      title: 'Run a node with no UI',
+      body: 'For servers, validators, infrastructure. The headless entry skips the App Backends layer entirely but reaches into modules at any depth — a validator drives LEZ on top of Blockchain, a storage provider drives Files on top of Storage, a relay drives Chat on top of Delivery. Runtime up, P2P peers connected.',
+      entry: 'headless',
+      paths: [
+        ['headless-cli', 'lez',   'blockchain', 'p2p', 'runtime'],
+        ['headless-cli', 'files', 'storage',    'p2p'],
+        ['headless-cli', 'chat',  'delivery',   'p2p'],
+        ['headless-cli', 'package-manager']
+      ],
+      extras: []
+    },
+    {
+      id: 'standalone',
+      label: 'Standalone app',
+      accent: 'blue',
+      title: 'Ship a single-purpose app, no launcher',
+      body: 'Sometimes you don\'t want a launcher — you want to ship <em>one</em> thing. A standalone app bundles its own UI with just the modules it needs (here: a focused DEX client) and ships as a single binary. Same stack, no Basecamp surface.',
+      entry: 'standalone',
+      paths: [
+        ['standalone-ui', 'app-dex', 'lez', 'blockchain', 'p2p', 'runtime']
+      ],
+      extras: ['lez-dec-seq', 'arrow-lez-decseq']
+    }
+  ];
+
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const svg = document.querySelector('.bc-svg');
+  const tabs = document.getElementById('bc-tabs');
+  const titleEl = document.getElementById('bc-view-title');
+  const bodyEl = document.getElementById('bc-view-body');
+  const flowContainer = svg.querySelector('.bc-flow-arrows');
+
+  // Guard against double-initialisation (e.g. Quartz client-side re-renders).
+  if (tabs.dataset.initialized) return;
+  tabs.dataset.initialized = 'true';
+
+  VIEWS.forEach((v, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'bc-tab';
+    btn.textContent = v.label;
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    btn.dataset.view = v.id;
+    btn.addEventListener('click', () => {
+      stopAutoplay();
+      setView(v.id);
+    });
+    tabs.appendChild(btn);
+  });
+
+  // ── Autoplay: rotate through views on initial load. Any tab click stops it. ──
+  const AUTOPLAY_INTERVAL_MS = 4500;
+  let autoplayTimer = null;
+  let autoplayActive = true;
+
+  function nextAutoplayView() {
+    if (!autoplayActive) return;
+    const currentId = svg.getAttribute('data-view');
+    const currentIdx = VIEWS.findIndex(v => v.id === currentId);
+    const nextIdx = (currentIdx + 1) % VIEWS.length;
+    setView(VIEWS[nextIdx].id);
+    autoplayTimer = setTimeout(nextAutoplayView, AUTOPLAY_INTERVAL_MS);
+  }
+
+  function stopAutoplay() {
+    autoplayActive = false;
+    if (autoplayTimer) {
+      clearTimeout(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  function getNodeBox(id) {
+    const group = svg.querySelector('[data-id="' + id + '"]');
+    if (!group) return null;
+    const rect = group.querySelector('rect');
+    if (!rect) return null;
+    const x = parseFloat(rect.getAttribute('x'));
+    const y = parseFloat(rect.getAttribute('y'));
+    const w = parseFloat(rect.getAttribute('width'));
+    const h = parseFloat(rect.getAttribute('height'));
+    return { x, y, w, h, cx: x + w / 2, cy: y + h / 2, top: y, bottom: y + h };
+  }
+
+  function buildArrow(sourceId, targetId, accent) {
+    const s = getNodeBox(sourceId);
+    const t = getNodeBox(targetId);
+    if (!s || !t) return null;
+
+    const sx = s.cx, sy = s.bottom;
+    const tx = t.cx, ty = t.top;
+
+    const minMid = sy + 6;
+    const maxMid = ty - 6;
+    const preferredMid = ty - 30;
+    const midY = Math.max(minMid, Math.min(preferredMid, maxMid));
+
+    let pathD;
+    if (Math.abs(sx - tx) < 2) {
+      pathD = 'M ' + sx + ' ' + sy + ' L ' + tx + ' ' + (ty - 2);
+    } else {
+      pathD = 'M ' + sx + ' ' + sy +
+              ' L ' + sx + ' ' + midY +
+              ' L ' + tx + ' ' + midY +
+              ' L ' + tx + ' ' + (ty - 2);
+    }
+
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('class', 'bc-arrow bc-flow-arrow bc-accent-' + accent);
+    const path = document.createElementNS(SVG_NS, 'path');
+    path.setAttribute('d', pathD);
+    path.setAttribute('marker-end', 'url(#bc-flow-marker)');
+    g.appendChild(path);
+    return g;
+  }
+
+  function highlight(id, accentClass) {
+    const el = svg.querySelector('[data-id="' + id + '"]');
+    if (el) el.classList.add('bc-hl', accentClass);
+  }
+
+  function setView(viewId) {
+    const view = VIEWS.find(v => v.id === viewId) || VIEWS[0];
+    const accentClass = 'bc-accent-' + view.accent;
+
+    tabs.querySelectorAll('.bc-tab').forEach(btn => {
+      btn.setAttribute('aria-selected', btn.dataset.view === view.id ? 'true' : 'false');
+    });
+
+    svg.querySelectorAll('.bc-hl').forEach(el => {
+      el.classList.remove('bc-hl', 'bc-accent-red', 'bc-accent-green', 'bc-accent-blue', 'bc-accent-amber');
+    });
+    while (flowContainer.firstChild) flowContainer.removeChild(flowContainer.firstChild);
+
+    svg.setAttribute('data-view', view.id);
+
+    if (view.entry) highlight(view.entry, accentClass);
+
+    (view.paths || []).forEach(path => {
+      path.forEach(id => highlight(id, accentClass));
+      for (let i = 0; i < path.length - 1; i++) {
+        const arrow = buildArrow(path[i], path[i + 1], view.accent);
+        if (arrow) flowContainer.appendChild(arrow);
+      }
+    });
+
+    (view.extras || []).forEach(id => highlight(id, accentClass));
+
+    titleEl.textContent = view.title;
+    bodyEl.innerHTML =
+      '<span class="bc-caption-tag">' + view.label + '</span>' + view.body;
+  }
+
+  setView(VIEWS[0].id);
+  autoplayTimer = setTimeout(nextAutoplayView, AUTOPLAY_INTERVAL_MS);
+})();
+</script>
+
+</body></html>
+8:["$","$Ld",null,{"blocks":[{"type":"interactive-embed","title":"Basecamp: Your Base of Operations on the Logos Frontier","fullHtml":"$e","html":""}],"content":[]}]
+9:["$","footer",null,{"className":"mt-4 pb-20 max-sm:mt-[72px]","children":["$","div",null,{"className":"[&>section+section]:-mt-px","children":[null,["$","$Lf",null,{"canonicalUrl":"https://logos.co/media/article/logos-basecamp","summary":"Basecamp is a fully local launcher for the Logos stack, running all modules on your device from a unified surface. Private by default. Modular. Complete user control.  ","title":"Basecamp: Your Base of Operations on the Logos Frontier"}],["$","$L10",null,{"label":"Related Articles","children":[["$","div","112",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/logos-testnet-v01","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Logos Testnet v0.1: A Convergence Milestone","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","8",{"children":"Logos"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"16 March 2026"}]]}]]}],["$","div","123",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/testnet-v0-1-review","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Logos Testnet v0.1 in Review","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","8",{"children":"Logos"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"17 April 2026"}]]}]]}],["$","div","116",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/anonymous-block-proposers","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Anonymous Block Proposers: How Logos Solves Leader Privacy","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"24 March 2026"}]]}]]}]]}],["$","$L10",null,{"label":"From The Same Authors","children":[["$","div","147",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/interzone-bridging-logos","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Interzone Bridging: Moving Value Between Zones on Logos","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"5 August 2026"}]]}]]}],["$","div","143",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/logos-blockchain-v02","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Logos Blockchain in Testnet v0.2: Privacy Reaches Consensus","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"22 July 2026"}]]}]]}],["$","div","124",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/dispersive-medium","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"The Dispersive Medium","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],"$L11","$L12"]}]]}],"$L13","$L14","$L15","$L16","$L17"]}]]}]}]
+a:["$","script","script-0",{"src":"/_next/static/chunks/0_5ei0vb5lr9k.js","async":true}]
+b:["$","$L18",null,{"children":["$","$19",null,{"name":"Next.MetadataOutlet","children":"$@1a"}]}]
+11:["$","span",null,{"aria-hidden":"true","children":"•"}]
+12:["$","span",null,{"children":"24 April 2026"}]
+13:["$","div","116",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/anonymous-block-proposers","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Anonymous Block Proposers: How Logos Solves Leader Privacy","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"24 March 2026"}]]}]]}]
+14:["$","div","109",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/logos-as-an-operating-system","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"The Logos Tech Stack: An Operating System for Sovereignty","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"24 February 2026"}]]}]]}]
+15:["$","div","108",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/browser-betrayed-you","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Your Browser Has Already Betrayed You","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"19 February 2026"}]]}]]}]
+16:["$","div","101",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/how-blockchain-transactions-leak-data","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"The Anatomy of Exposure: How Blockchain Transactions Leak Information at Every Layer","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"26 January 2026"}]]}]]}]
+17:["$","div","20",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/how-to-ethically-build-public-goods-infrastructure","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"How To Ethically Build Public Goods Infrastructure","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"3 November 2023"}]]}]]}]
+1a:null

@@ -1,0 +1,1097 @@
+1:"$Sreact.fragment"
+2:I[57335,["/_next/static/chunks/03nuhivib13_i.js","/_next/static/chunks/0c1nds211k~cp.js"],"default"]
+3:I[55188,["/_next/static/chunks/03nuhivib13_i.js","/_next/static/chunks/0c1nds211k~cp.js"],"default"]
+6:I[93851,["/_next/static/chunks/03nuhivib13_i.js","/_next/static/chunks/0c1nds211k~cp.js"],"OutletBoundary"]
+7:"$Sreact.suspense"
+a:I[93851,["/_next/static/chunks/03nuhivib13_i.js","/_next/static/chunks/0c1nds211k~cp.js"],"ViewportBoundary"]
+c:I[93851,["/_next/static/chunks/03nuhivib13_i.js","/_next/static/chunks/0c1nds211k~cp.js"],"MetadataBoundary"]
+e:I[55066,[],"default",1]
+:HL["/_next/static/chunks/0sfvzuki14z3~.css","style"]
+:HL["/_next/static/chunks/0v8.l3scmbsr6.css","style"]
+:HL["/_next/static/chunks/04cm.w0twky0p.css","style"]
+:HL["/_next/static/media/788ad271f9d0b1c8-s.p.0ozfxe_l0spp4.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/8f50c616ff21aafd-s.p.04xpi8-p5fibe.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/9ce9a4a38ba25966-s.p.0ai088f2k10g..woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/b8b552e8609c5636-s.p.0vinx1niofu4y.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/fa0520225c6f3d07-s.p.0_88erakuzr64.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/rhymes_display_regular-s.p.14b85k4~uv6qn.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"P":null,"c":["","en","media","article","browser-betrayed-you"],"q":"","i":false,"f":[[["",{"children":[["locale","en","d",null],{"children":["media",{"children":["article",{"children":[["slug","browser-betrayed-you","d",null],{"children":["__PAGE__",{}]}]}]}]},"$undefined","$undefined",16]}],[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/0sfvzuki14z3~.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/0v8.l3scmbsr6.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","2",{"rel":"stylesheet","href":"/_next/static/chunks/04cm.w0twky0p.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/0xdfjrgb1-l6e.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0kxztukdpg3gd.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/0w20jh1w-dz7k.js","async":true,"nonce":"$undefined"}],["$","script","script-3",{"src":"/_next/static/chunks/1678z6no7g3cm.js","async":true,"nonce":"$undefined"}],["$","script","script-4",{"src":"/_next/static/chunks/0ax2i_.v22cc4.js","async":true,"nonce":"$undefined"}],["$","script","script-5",{"src":"/_next/static/chunks/16u1xgi-pu~32.js","async":true,"nonce":"$undefined"}],["$","script","script-6",{"src":"/_next/static/chunks/00fxhtlr_w_4r.js","async":true,"nonce":"$undefined"}]],"$L4"]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":["$L5",[["$","script","script-0",{"src":"/_next/static/chunks/0_5ei0vb5lr9k.js","async":true,"nonce":"$undefined"}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],{},null,false,null]},null,false,"$@9"]},null,false,"$@9"]},null,false,null]},null,false,null]},null,false,"$@9"],["$","$1","h",{"children":[null,["$","$La",null,{"children":"$Lb"}],["$","div",null,{"hidden":true,"children":["$","$Lc",null,{"children":["$","$7",null,{"name":"Next.Metadata","children":"$Ld"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],false]],"m":"$undefined","G":["$e",[]],"S":true,"h":null,"s":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"0kP-zEZYyRM_fvfP-mpuW"}
+f:[]
+9:"$Wf"
+10:I[54163,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js"],"default"]
+4:["$","$L10",null,{"formats":"$undefined","locale":"en","messages":{"activeCircles":{"activeCircles":"Active Circles","totalEvents":"Total Circle Events","distinctCountries":"Distinct Countries","upcomingEvents":"Upcoming Events","joinCircle":"Join a Circle"},"locale":{"language":"Language","en":"English"},"common":{"docsNav":{"guides":"Guides","logosForum":"Logos Forum","researchForum":"Research Forum","designGuide":"Design Guide","terms":"Terms & Conditions","privacy":"Privacy Policy","security":"Security","testnetFaqs":"Testnet FAQ","testnetTerms":"Testnet Terms"},"nav":{"resources":"Resources","contributors":"Contributors","miilestones":"Milestones"}},"designSystems":{"components":{"table":{"placeholderTitle":"Component State Example"},"giantSwitch":{"downloadDescription":"If the download does not start automatically, click Download Again below."}}},"pages":{"ideas":{"title":"Ideas | Logos","description":"Community-submitted ideas for decentralised applications on Logos. Browse active submissions or contribute your own.","heading":"Ideas","detail":{"backLabel":"All ideas","eyebrow":"Idea","discussCta":"Discuss","relatedHeading":"Related RFPs","meta":{"status":"Status","submitter":"Submitter","reward":"Reward","submitted":"Submitted","tags":"Tags"}}},"rfps":{"title":"RFPs | Logos","description":"Request-for-proposals on Logos. USDC + XP rewards for builders shipping attack-resistant public registries, decentralised archives, private financial networks, and more.","heading":"RFPs","detail":{"backLabel":"All RFPs","applyCta":"Apply","githubCta":"View on GitHub","meta":{"status":"Status","category":"Category","tier":"Tier"}}},"circleDetail":{"title":"{city} Circle | Logos","description":"The {city} chapter of Logos Circles — upcoming events, initiatives, and how to join your local movement.","heading":"{city}"},"links":{"title":"Links | Logos","description":"Curated links to Logos ecosystem projects and resources.","heading":"Links"},"notFound":{"code":"404","heading":"We couldn’t find that page.","homeLink":"Return to homepage","metaTitle":"Page not found | Logos"},"about":{"title":"About | Logos","description":"Logos is on a mission to revitalise Civil Society. A community of builders, activists, and change seekers contributing in a wide variety of ways.","heading":"Logos is on a mission to revitalise Civil Society.","hero":{"title":"Logos is on a mission to revitalise Civil Society."},"community":{"eyebrow":"A global community committed to driving change","body":"We are a community of builders, activists, and change seekers who contribute in a wide variety of ways.","cta":"Join a circle"},"initiative":{"caption":"Our initiatives connect local action with sovereign technology."},"whoWeAre":{"title":"Who We Are","eyebrow":"People first","taglineLine1":"A movement","taglineLine2":"for civil society.","useCasesLabel":"Use Cases","useCase1Label":"Your own bank","useCase1Body":"Build a bank powered by logic you've programmedd","useCase2Label":"Your own currency","useCase2Body":"Create tokens that you can transfer and use across applications","useCase3Label":"A JavaScript Logos wallet","useCase3Body":"Use familiar tooling to interact with Logos modules and applications","useCase4Label":"An open, permissionless DNS","useCase4Body":"Re-imagine existing services as decentralised, open applications","historyTitle":"Our History","historyBody":"Logos was created to give people the tools to live soverign lives.","principlesTitle":"Our Principles","principlesBody":"Our mission is to empower individuals to achieve their aspirations and create a better future for all.  Where freedom, liberty, and human sovereignty are protected, and censorship resistance is ensured.","principlesAside":"(Mission, Vision, Prinicples)","howWeWorkTitle":"How We Work","howWeWorkBody":"We build decentralised technology and inspire change. We work with local communities to use our technology to build the tools they need.","howWeWorkCta":"See our process"},"ourWork":{"title":"Our Work","body":"We build the tools for people to create what they need. We create the underlying technology. People all over the world have created amazing applications specific to their needs.","ctaAll":"All Case Studies","cardEyebrow":"Case Study","cardCta":"Learn More","card1Title":"Logos-Powered Nextdoor App Clone","card2Title":"Digital ID Replacement with Logos","cardBody":"Local communities are using Logos-aligned tools to coordinate around practical needs, from neighbourhood organising to digital rights.\n\nThese case studies show how civic action and resilient technology can reinforce each other.\n\nEach example starts with a concrete problem and a small group of people willing to build a better path."}},"workWithUs":{"title":"Work With Us | Logos","description":"Open roles and ways to collaborate with the Logos team.","heading":"Work With Us"},"connect":{"title":"Let's Connect | Logos","description":"Be part of what's unfolding. Receive updates on progress, gatherings and opportunities to contribute.","heading":"Let's Connect."},"onePager":{"title":"Upload your one pager | Logos","description":"Upload the one pager for your Logos application.","heading":"Upload your one pager","intro":"Thanks for taking the next step with Logos. Attach your one pager below and it goes straight to the team reviewing your application.","checking":"Checking your upload link…","requirements":"PDF only, up to {maxMb} MB and no more than 1 page. You can upload once, so send the version you want reviewed.","chooseFile":"Choose a PDF","submit":"Upload one pager","submitting":"Uploading…","successHeading":"Your one pager is with us.","successBody":"We have attached it to your application and let the team know. This link is now closed, so there is nothing else for you to do. We will be in touch.","usedHeading":"You have already submitted your one pager.","usedBody":"This link allows a single upload and it has been used.","invalidHeading":"This link is no longer valid.","invalidBody":"Upload links expire after 10 days.","missingTokenHeading":"This page needs your upload link.","missingTokenBody":"Open the link from the email we sent you. It carries the details we need to match your one pager to your application.","errorType":"Please choose a PDF file.","errorEmpty":"That file is empty. Please choose another one.","errorSize":"That file is too large. The limit is {maxMb} MB.","errorGeneric":"We could not upload your file. Please check your connection and try again."},"redirect":{"title":"Redirecting…","fallback":"Continue to {target}"}},"connectForm":{"submit":"Send","submitting":"Sending...","selectPlaceholder":"Select…","selectAtLeastOne":"Please select at least one","selectFieldRequired":"Please select {field}","selectOptionRequired":"Please select an option","fieldRequired":"Please enter {field}","tooLong":"Must be {max} characters or fewer","emailInvalid":"Please enter a valid email address","captchaRequired":"Please complete the captcha.","captchaFailed":"Captcha verification failed. Please try again.","submitError":"Something went wrong. Please try again.","networkError":"Network error. Please check your connection and try again.","defaultConfirmation":"Thank you for reaching out!","successBody":"We've received your information and our People Ops team will review it shortly. If relevant, we'll schedule an intro call or connect you with the right people.","successAnnouncement":"Form submitted successfully. Thank you for reaching out!","loadingAnnouncement":"Submitting form, please wait...","errorsAnnouncement":"Form has {count, plural, one {# error} other {# errors}}. Please correct the highlighted fields.","chatLabel":"Chat name / chat service","chatHandlePlaceholder":"Chat handle","chatServicePlaceholder":"Service","chatServiceRequired":"Please select a chat service","chatNameRequired":"Please enter a chat name","remove":"Remove","addAnother":"+ Add another","addChatRow":"Add another chat","removeChatRow":"Remove chat row {index}","addFieldRow":"Add another {field}","removeFieldRow":"Remove {field} {index}"},"circlesMap":{"subscribeHeading":"Stay Tuned for Future Events","subscribeBody":"No events in {city} right now — check back soon!","emailPlaceholder":"Enter email","subscribeCta":"Subscribe →","subscribingLabel":"Subscribing…","subscribedHeading":"Subscribed!","subscribedBody":"We'll keep you updated on upcoming events.","subscribeError":"Something went wrong.","scrollZoomHint":"Use {key} + scroll to zoom"},"mediaSearch":{"searchLabel":"Search Logos Media","placeholder":"Search articles and podcasts","submit":"Search","clear":"Clear search","clearFilters":"Clear filters","close":"Close search","articles":"Articles","podcasts":"Podcasts","topics":"Topics","selectedTopics":"{count} topics","results":"{count, plural, one {# result} other {# results}}","loading":"Searching…","loadError":"Search is unavailable. Try again.","noResultsTitle":"No results found","noResultsBody":"Try another word or clear the filters.","loadMore":"Load more","article":"Article","podcast":"Podcast"},"mediaDetail":{"breadcrumbs":{"label":"Breadcrumb","media":"Media","articles":"Articles","podcasts":"Podcasts"},"article":{"contents":"Contents","share":"Share","copied":"Copied","relatedArticles":"Related Articles","fromSameAuthors":"From The Same Authors","footnotes":"Footnotes","minRead":"{count} min","discussion":"Discussion","comments":"{count, plural, one {# comment} other {# comments}}","joinDiscussion":"Join Discussion","noDiscussion":"No discussion yet.","readFullArticle":"Read the full article","startDiscussion":"Start Discussion","viewFullDiscussion":"View full discussion"},"podcast":{"channels":"Channels","close":"Close player","copied":"Copied","credits":"Credits","listen":"Listen","minutes":"minutes","mute":"Mute","pause":"Pause","play":"Play","relatedEpisodes":"More posts","references":"References","seek":"Seek episode","share":"Share","showLess":"Show less","showMore":"Show more","showNotes":"Show notes","unmute":"Unmute"}}},"now":"$undefined","timeZone":"UTC","children":"$L11"}]
+12:I[67382,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js"],""]
+13:I[88160,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js"],"Providers"]
+14:I[43588,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js"],"PodcastPlayerProvider"]
+15:I[81107,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js"],"default"]
+16:I[11770,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js"],"default"]
+17:I[65205,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js"],"default"]
+19:I[11798,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js"],"default"]
+1a:I[52316,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0bpl7te_3ul9-.js"],"default"]
+11:["$","html",null,{"lang":"en","className":"scroll-smooth rhymesdisplay_b8087fb8-module__8EKiAG__variable public_sans_d4e4ef0f-module__-oWnya__variable open_sans_a7d9b752-module___eEi8W__variable fira_code_57d878b-module__TfNSkG__variable fira_mono_37c6529c-module__5lrg9q__variable","suppressHydrationWarning":true,"children":[["$","head",null,{"children":[["$","script",null,{"dangerouslySetInnerHTML":{"__html":"\n  (function() {\n    try {\n      var theme = localStorage.getItem('theme');\n      var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';\n      var initialTheme = theme || systemTheme;\n      document.documentElement.setAttribute('data-theme', initialTheme);\n    } catch (e) {}\n  })();\n"}}],["$","$L12",null,{"strategy":"afterInteractive","src":"https://umami.bi.status.im/script.js","data-website-id":"144fa9a5-fe44-4bf3-a585-45742cfa89cc","data-domains":"logos.co"}]]}],["$","body",null,{"children":["$","$L13",null,{"children":["$","$L14",null,{"children":[["$","$L15",null,{}],["$","$L16",null,{}],["$","$L17",null,{"children":"$L18"}],["$","main",null,{"className":"relative","children":["$","$L19",null,{"children":["$","$L2",null,{"parallelRouterKey":"children","error":"$1a","errorStyles":[],"errorScripts":[["$","script","script-0",{"src":"/_next/static/chunks/0bpl7te_3ul9-.js","async":true}]],"template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":["$L1b",[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}]}],"$L1c"]}]}]}]]}]
+1b:["$","section",null,{"aria-labelledby":"not-found-heading","className":"flex min-h-[calc(100svh-40px)] items-center justify-center px-3 py-20 md:min-h-[calc(100svh-42px)]","children":["$","div",null,{"className":"flex max-w-4xl flex-col items-center gap-6 text-center","children":[["$","h1",null,{"id":"not-found-heading","className":"text-h2 text-brand-dark-green","children":"404"}],["$","p",null,{"className":"text-body-sans text-brand-dark-green","children":"We couldn’t find that page."}],"$L1d"]}]}]
+1e:I[94886,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"default"]
+1d:["$","$L1e",null,{"ref":"$undefined","href":"/","locale":"$undefined","localeCookie":{"name":"NEXT_LOCALE","sameSite":"lax"},"className":"inline-flex items-center justify-center rounded-xl bg-brand-dark-green px-3 py-2 text-brand-off-white backdrop-blur-[5px] transition-colors hover:bg-accent-steel-teal","children":["$","span",null,{"className":"inline-flex items-center gap-1.5","children":[["$","span",null,{"className":"font-mono text-xs leading-[1.35] font-semibold uppercase whitespace-nowrap ","children":"Return to homepage"}],["$","svg",null,{"aria-hidden":"true","xmlns":"http://www.w3.org/2000/svg","width":"10","height":"10","viewBox":"0 0 10 10","fill":"none","children":["$","path",null,{"d":"M10 5L5 10L4.08262 9.08261L7.51647 5.64876H0V4.35124H7.51647L4.08262 0.917385L5 0L10 5Z","fill":"currentColor"}]}]]}],"prefetch":false}]
+b:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+1f:I[86469,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js"],"default"]
+20:I[66288,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js"],"Image"]
+2b:I[58167,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js"],"SiteFooterNewsletter"]
+18:["$","$L1f",null,{"locale":"en","closedBar":{"brandLabel":"LOGOS","menuLabel":"MENU","closeLabel":"CLOSE MENU","openAriaLabel":"Open navigation menu","closeAriaLabel":"Close navigation menu","searchAriaLabel":"Search Logos Media"},"sitemap":[{"label":"Technology Stack","href":"/technology-stack"},{"label":"Movement","href":"/movement"},{"label":"Builders Hub","href":"/builders-hub"},{"label":"Book","href":"/book"},{"label":"λ Prize","href":"/lambda-prize"}],"community":[{"label":"Build","href":"/get-started","description":"Building privacy-first, decentralised applications. Read the docs, learn the stack, write code.","ctaLabel":"START BUILDING","image":["$","$L20",null,{"src":"/nav-overlay/figma/take-action-build.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]},{"label":"Operate","href":"/node-programme","description":"Run a node. Decentralise the network. Secure Logos. Setup takes minutes.","ctaLabel":"NODE PROGRAMME","image":["$","$L20",null,{"src":"/nav-overlay/figma/take-action-operate.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]},{"label":"Organise","href":"/movement","description":"Join the Logos Movement to re-build civil society. Find a Circle and solve local issues.","ctaLabel":"TAKE ACTION","image":["$","$L20",null,{"src":"/nav-overlay/figma/take-action-movement.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]}],"menuPanels":[{"label":"Take Action","textSections":[{"label":"Resources","links":[{"label":"Docs","href":"https://docs.logos.co/"},{"label":"Events","href":"https://luma.com/logosevents"},{"label":"Join Community","href":"https://discord.gg/Ykv4eZyHUJ"},{"label":"Install Basecamp","href":"/basecamp"},{"label":"Work with us","href":"https://free.technology/jobs"}]}],"actionCards":[{"label":"Build","href":"/get-started","description":"Build privacy-first, decentralised applications. Read the docs, learn the stack, write code.","ctaLabel":"Start building","image":["$","$L20",null,{"src":"/nav-overlay/figma/take-action-build.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]},{"label":"Operate","href":"/node-programme","description":"Run a node. Decentralise the network. Secure Logos. Setup takes minutes.","ctaLabel":"Run a node","image":["$","$L20",null,{"src":"/nav-overlay/figma/take-action-operate.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]},{"label":"Organise","href":"/movement","description":"Join the Logos Movement to rebuild civil society. Find a Circle and solve local issues.","ctaLabel":"Join the movement","image":["$","$L20",null,{"src":"/nav-overlay/figma/take-action-movement.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]}],"cardSections":[]},{"label":"Explore","textSections":[{"label":"Resources","links":[{"label":"Manifesto","href":"/manifesto"},{"label":"Community Forum","href":"https://forum.logos.co/"},{"label":"Design Guide","href":"/design-guide"},{"label":"Field Guide","href":"/field-guide"},{"label":"Book","href":"/book"}]},{"label":"Socials","links":[{"label":"Discord","href":"https://discord.gg/Ykv4eZyHUJ"},{"label":"X","href":"https://twitter.com/logos_network"},{"label":"YouTube","href":"https://youtube.com/@logos_network"}]}],"actionCards":[],"cardSections":[{"label":"About","cards":[{"label":"Logos Media","href":"/media","description":"Articles, news, podcasts, and media throughout the Logos Network.","ctaLabel":"$undefined","image":["$","$L20",null,{"src":"/nav-overlay/figma/blog-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]},{"label":"Roadmap","href":"/roadmap","description":"View the path to Parallel Societies.","ctaLabel":"$undefined","image":["$","$L20",null,{"src":"/images/roadmap/hero-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]},{"label":"Past. Present. Future","href":"/past-present-future","description":"Examining where society has been, is now and is going.","ctaLabel":"$undefined","image":["$","$L20",null,{"src":"/past-present-future/og.jpg","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]}]},{"label":"PROGRAMMES","cards":[{"label":"Lambda Prize","href":"/lambda-prize","description":"A competitive prize framework powering the Logos network.","ctaLabel":"$undefined","image":"$L21"},{"label":"RFPs","href":"/builders-hub/rfps","description":"A grants programme to support independent developers and teams.","ctaLabel":"$undefined","image":"$L22"}]}]},{"label":"Technology","textSections":[{"label":"Resources","links":[{"label":"Docs","href":"https://docs.logos.co/"},{"label":"GitHub","href":"https://github.com/logos-co"},{"label":"Start Building","href":"/get-started"}]}],"actionCards":[],"cardSections":[{"label":"Tech Stack","cards":[{"label":"Overview","href":"/technology-stack","description":"Private-by-default, modular infrastructure for parallel societies.","ctaLabel":"$undefined","image":"$L23"},{"label":"Blockchain","href":"/technology-stack/blockchain","description":"Privacy-first consensus for decentralised applications.","ctaLabel":"$undefined","image":"$L24"},{"label":"Messaging","href":"/technology-stack/messaging","description":"Decentralised peer-to-peer communication.","ctaLabel":"$undefined","image":"$L25"},{"label":"Networking","href":"/technology-stack/networking","description":"Discovery, Peering, and Mix-net","ctaLabel":"$undefined","image":"$L26"},{"label":"Storage","href":"/technology-stack/storage","description":"Secure decentralised storage for decentralised apps and file sharing.","ctaLabel":"$undefined","image":"$L27"},{"label":"Basecamp","href":"/basecamp","description":"Complete distribution that bundles the runtime,  default modules, and UI.","ctaLabel":"$undefined","image":"$L28"}]}]},{"label":"Research","textSections":[{"label":"Resources","links":[{"label":"Specs / RFC","href":"https://lip.logos.co/"},{"label":"Research Forum","href":"https://forum.research.logos.co/"}]}],"actionCards":[],"cardSections":[{"label":"Research","cards":[{"label":"Research Overview","href":"/research","description":"Learn about the research efforts led by Logos.","ctaLabel":"$undefined","image":"$L29"},{"label":"PriFi","href":"/prifi","description":"Extending imperative credibility beyond transaction settlement to reduce risks and mitigation costs","ctaLabel":"$undefined","image":"$L2a"}]}]}],"searchIndexUrl":"/media-search-index.json","primaryCta":{"label":"Install Basecamp","href":"/basecamp"},"homepageHighlight":{"enabled":true,"body":"PriFi and the Incomplete Institution: Securing the Transaction Supply Chain","dismissAriaLabel":"Dismiss announcement","cta":{"label":"Explore the Thesis","href":"/prifi"},"image":{"src":"/images/home/prifi-highlight.webp","alt":""}}}]
+2c:T88a,M14.6386 26C13.728 26 12.945 25.7854 12.2881 25.3549C11.6312 24.9244 11.1344 24.2467 10.7962 23.3233C10.5841 22.7003 10.4359 21.9368 10.3513 21.0328C10.2668 20.1302 10.2134 19.1833 10.1926 18.1948C10.1718 17.1842 10.1497 16.2061 10.1289 15.2592C10.1289 15.0017 10.0651 14.8716 9.93897 14.8716C9.83361 14.8716 9.72695 14.9575 9.62159 15.1292C9.21967 15.8822 8.74359 16.742 8.19208 17.7097C7.66268 18.6773 7.13328 19.645 6.60388 20.6127C6.07447 21.5804 5.5984 22.4518 5.17436 23.2257C4.77243 23.9788 4.48627 24.5264 4.31717 24.871C4.10515 25.3445 3.76696 25.6449 3.3013 25.7737C2.85644 25.9246 2.29582 25.9571 1.61814 25.8699C0.940452 25.7841 0.464381 25.5149 0.188624 25.0635C-0.107945 24.5901 -0.0546142 24.0958 0.347315 23.5795C0.623072 23.2348 1.01459 22.7198 1.52188 22.0317C2.03047 21.3216 2.6015 20.5269 3.23626 19.645C3.87102 18.7424 4.51749 17.8176 5.17306 16.8707C5.85075 15.9031 6.48551 14.9783 7.07865 14.0964C7.67178 13.1938 8.16867 12.4082 8.5706 11.7423C8.99464 11.0542 9.26909 10.5483 9.39657 10.2257C9.52404 9.92526 9.66062 9.591 9.8089 9.22551C9.95719 8.86003 10.0313 8.48414 10.0313 8.09655C10.0313 6.67754 9.89345 5.61231 9.61899 4.90345C9.36535 4.17249 9.01545 3.68864 8.5706 3.45193C8.14655 3.1944 7.68089 3.06433 7.1736 3.06433C6.79248 3.06433 6.38015 3.13977 5.9353 3.29065C5.51125 3.44152 5.2368 3.58069 5.10933 3.70945C4.87649 3.94617 4.65407 3.98909 4.44205 3.83822C4.23002 3.68734 4.16629 3.44022 4.25214 3.09685C4.48497 2.30085 4.90901 1.592 5.52296 0.967684C6.13951 0.322561 6.9967 0 8.09713 0C9.26129 0 10.1822 0.332967 10.8599 1.0002C11.5376 1.66743 12.0241 2.73137 12.3206 4.1933C12.6172 5.65523 12.7655 7.5906 12.7655 9.9994C12.7655 12.8374 12.8084 15.1071 12.893 16.8057C12.9775 18.5044 13.1154 19.7842 13.3053 20.6439C13.4952 21.4828 13.7606 22.0421 14.0987 22.3218C14.459 22.6014 14.9026 22.7406 15.432 22.7406C15.9614 22.7406 16.4167 22.6326 16.8615 22.418C17.3272 22.2034 17.7291 21.9238 18.0686 21.5791C18.2169 21.4074 18.386 21.3424 18.5772 21.3853C18.7671 21.4282 18.9154 21.5466 19.022 21.7404C19.1495 21.9121 19.1495 22.1384 19.022 22.418C18.5772 23.4078 17.9841 24.2571 17.2439 24.966C16.5246 25.654 15.6557 25.9987 14.6399 25.9987L14.6386 26Z1c:["$","footer",null,{"className":"relative h-[663px] overflow-hidden bg-brand-dark-green text-brand-off-white lg:h-[688px] ","children":[["$","div",null,{"className":"absolute top-6 left-3 flex w-[370px] max-w-[calc(100%-24px)] flex-col gap-3 lg:w-[345px]","children":[["$","p",null,{"className":"w-full max-w-[314px] font-sans text-[18px] leading-[1.15] tracking-[-0.18px] text-brand-off-white","children":"Stay ahead with the latest updates."}],["$","$L2b",null,{"emailLabel":"Enter email","roleLabel":"Role","cityLabel":"city","submitLabel":"Submit"}]]}],["$","div",null,{"className":"absolute top-[200px] left-3 h-[47px] w-[83px] overflow-hidden lg:top-[549px] lg:h-[127px] lg:w-[226px] *:size-full *:object-cover","children":["$","$L20",null,{"src":"/images/home/footer-image.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 83px, 226px"}]}],["$","div",null,{"className":"absolute top-[200px] left-[calc(50%+6px)] lg:top-6","children":["$","span",null,{"className":"inline-flex items-center gap-2 text-brand-off-white","children":[["$","svg",null,{"aria-hidden":"true","className":"inline-block fill-current shrink-0","fill":"none","style":{"width":11.538461538461538,"height":15},"viewBox":"0 0 20 26","xmlns":"http://www.w3.org/2000/svg","children":["$","path",null,{"d":"$2c"}]}],["$","span",null,{"className":"font-display text-[18px] leading-none","children":"Logos"}]]}]}],"$L2d","$L2e","$L2f","$L30","$L31","$L32"]}]
+21:["$","$L20",null,{"src":"/nav-overlay/figma/lambda-prize-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]
+22:["$","$L20",null,{"src":"/nav-overlay/figma/rfps-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]
+23:["$","$L20",null,{"src":"/nav-overlay/figma/tech-overview-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]
+24:["$","$L20",null,{"src":"/nav-overlay/figma/tech-blockchain-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]
+25:["$","$L20",null,{"src":"/nav-overlay/figma/tech-messaging-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]
+26:["$","$L20",null,{"src":"/nav-overlay/figma/tech-networking-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]
+27:["$","$L20",null,{"src":"/nav-overlay/figma/tech-storage-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]
+28:["$","$L20",null,{"src":"/nav-overlay/figma/tech-basecamp-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]
+29:["$","$L20",null,{"src":"/nav-overlay/figma/research-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]
+2a:["$","$L20",null,{"src":"/nav-overlay/figma/prifi-thumb.webp","alt":"","fill":true,"sizes":"(max-width: 768px) 42px, 226px"}]
+2d:["$","p",null,{"className":"text-body-serif absolute top-[251px] left-[calc(50%+6px)] w-[175px] text-brand-off-white lg:top-[22px] lg:left-[calc(83.33%+2px)] lg:w-[226px]","children":"Build the parallel"}]
+2e:["$","div",null,{"className":"absolute top-[332px] left-3 lg:top-[133px] lg:left-[calc(50%+6px)]","children":["$","div",null,{"className":"flex flex-col gap-1","children":["$undefined",[["$","a","https://free.technology/jobs",{"href":"https://free.technology/jobs","target":"_blank","rel":"noopener noreferrer","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Work With Us"}],["$","a","/design-guide",{"href":"/design-guide","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Design Guide"}],["$","a","/field-guide",{"href":"/field-guide","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Field Guide"}],["$","a","/roadmap",{"href":"/roadmap","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Roadmap"}]]]}]}]
+2f:["$","div",null,{"className":"absolute top-[332px] left-[calc(50%+6px)] lg:top-[133px] lg:left-[calc(83.33%+3px)]","children":["$","div",null,{"className":"flex flex-col gap-1","children":["$undefined",[["$","a","https://x.com/Logos_network",{"href":"https://x.com/Logos_network","target":"_blank","rel":"noopener noreferrer","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"X"}],["$","a","https://discord.gg/Ykv4eZyHUJ",{"href":"https://discord.gg/Ykv4eZyHUJ","target":"_blank","rel":"noopener noreferrer","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Discord"}],["$","a","https://www.youtube.com/@logos_network",{"href":"https://www.youtube.com/@logos_network","target":"_blank","rel":"noopener noreferrer","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"YouTube"}],["$","a","/media",{"href":"/media","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Blog"}],["$","a","https://github.com/logos-co",{"href":"https://github.com/logos-co","target":"_blank","rel":"noopener noreferrer","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Github"}]]]}]}]
+30:["$","div",null,{"className":"absolute top-[460px] left-3 lg:top-[322px] lg:left-[calc(50%+8px)]","children":["$","div",null,{"className":"flex flex-col gap-1","children":[["$","p",null,{"className":"text-eyebrow mb-1 text-brand-off-white","children":"Research"}],[["$","a","/research",{"href":"/research","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Research Overview"}],["$","a","https://lip.logos.co/",{"href":"https://lip.logos.co/","target":"_blank","rel":"noopener noreferrer","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Specs / RFC"}],["$","a","https://forum.research.logos.co/",{"href":"https://forum.research.logos.co/","target":"_blank","rel":"noopener noreferrer","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Research Forum"}],["$","a","/prifi",{"href":"/prifi","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"PriFi Thesis"}]]]}]}]
+31:["$","div",null,{"className":"absolute top-[460px] left-[calc(50%+6px)] lg:top-[322px] lg:left-[calc(83.33%+3px)]","children":["$","div",null,{"className":"flex flex-col gap-1","children":[["$","p",null,{"className":"text-eyebrow mb-1 text-brand-off-white","children":"Infrastructure"}],[["$","a","/technology-stack/messaging",{"href":"/technology-stack/messaging","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Messaging"}],["$","a","/technology-stack/storage",{"href":"/technology-stack/storage","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Storage"}],["$","a","/technology-stack/blockchain",{"href":"/technology-stack/blockchain","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Blockchain"}],["$","a","/technology-stack/networking",{"href":"/technology-stack/networking","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Networking"}]]]}]}]
+32:["$","div",null,{"className":"absolute top-[591px] left-3 lg:top-[617px] lg:left-[calc(50%+6px)]","children":["$","div",null,{"className":"flex flex-col gap-1","children":["$undefined",[["$","a","/terms-and-conditions",{"href":"/terms-and-conditions","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Terms & Conditions"}],["$","a","/privacy-policy",{"href":"/privacy-policy","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Privacy Policy"}],["$","a","/security",{"href":"/security","className":"text-mono-s w-fit cursor-pointer border-b border-brand-off-white/10 text-brand-off-white transition-opacity hover:opacity-70","children":"Security"}]]]}]}]
+33:I[29612,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"ArticleSidebar"]
+5:[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Your Browser Has Already Betrayed You\",\"description\":\"\",\"url\":\"https://logos.co/media/article/browser-betrayed-you\",\"image\":\"https://cms-press.logos.co/uploads/browser_betrayed_you_7dfcfd4972.jpg\",\"datePublished\":\"2026-02-19T00:00:00.000Z\",\"dateModified\":\"2026-02-19T00:00:00.000Z\",\"author\":[{\"@type\":\"Person\",\"name\":\"Dr. Corey Petty\"}],\"publisher\":{\"@type\":\"Organization\",\"@id\":\"https://logos.co/#organization\",\"name\":\"Logos\",\"url\":\"https://logos.co\",\"logo\":\"https://logos.co/apple-touch-icon.png\"},\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https://logos.co/media/article/browser-betrayed-you\"}}"}}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Media\",\"item\":\"https://logos.co/media\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Articles\",\"item\":\"https://logos.co/media#articles\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Your Browser Has Already Betrayed You\",\"item\":\"https://logos.co/media/article/browser-betrayed-you\"}]}"}}],["$","div",null,{"className":"media-detail-page bg-accent-tan pt-6 text-brand-dark-green lg:pt-[52px]","children":["$","div",null,{"className":"mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 md:grid-cols-[repeat(16,minmax(0,1fr))] md:gap-4 lg:px-0","children":[["$","$L33",null,{"contentsLabel":"Contents","title":"Your Browser Has Already Betrayed You","toc":[]}],["$","article",null,{"className":"flex min-w-0 max-w-[700px] flex-col gap-4 md:col-span-10 md:col-start-6 lg:col-span-8 lg:col-start-5","children":[["$","header",null,{"className":"mb-6 flex flex-col text-brand-dark-green","children":[["$","div",null,{"className":"mb-6","children":["$","nav",null,{"aria-label":"Breadcrumb","className":"font-sans text-[12px] leading-4 text-brand-dark-green","children":["$","ol",null,{"className":"flex flex-wrap items-center gap-2","children":[["$","li","/media",{"className":"flex items-center gap-2","children":[null,"$L34"]}],["$","li","/media#articles",{"className":"flex items-center gap-2","children":[["$","span",null,{"aria-hidden":"true","children":"/"}],"$L35"]}]]}]}]}],["$","div",null,{"className":"mb-3 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[["$","span",null,{"children":"1 MIN"}],["$","span",null,{"aria-hidden":"true","className":"size-[3px] rounded-full bg-current"}],["$","span",null,{"children":"19 FEB 2026"}]]}],["$","div",null,{"children":[["$","h1",null,{"id":"title-anchor","className":"scroll-mt-[95px] font-display text-[44px] leading-[54px] tracking-normal","children":"Your Browser Has Already Betrayed You"}],["$","p",null,{"className":"mt-4 max-w-full whitespace-pre-wrap font-sans text-[18px] leading-6 tracking-normal md:text-[16px]","children":"Surveillance begins before your transactions do. It begins in your browser."}]]}],["$","div",null,{"className":"mb-8 mt-4 flex flex-wrap items-center gap-3","children":[["$","div","2",{"className":"flex items-center gap-3","children":[["$","span",null,{"className":"flex items-center gap-2","children":[["$","span",null,{"className":"flex size-4 items-center justify-center rounded-full border border-brand-dark-green font-sans text-[11px] leading-4","children":"D"}],["$","span",null,{"className":"font-sans text-[12px] leading-4","children":"Dr. Corey Petty"}]]}],null]}]]}],["$","div",null,{"className":"flex w-fit max-w-full items-start gap-4","children":[["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","91",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"Tech"}],"$L36","$L37"]}],"$L38","$L39"]}],"$L3a","$L3b"]}],"$L3c","$L3d"]}]]}]}]]
+3e:I[30117,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"ShareButton"]
+3f:I[15120,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"MediaRichContent"]
+41:I[23738,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"ArticleDiscussion"]
+42:I[11522,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"MediaCollapse"]
+:HL["/media-images/browser_betrayed_you_7dfcfd4972-aa27e17d-750.webp","image",{"fetchPriority":"high","imageSrcSet":"/media-images/browser_betrayed_you_7dfcfd4972-aa27e17d-750.webp 750w, /media-images/browser_betrayed_you_7dfcfd4972-aa27e17d-1280.webp 1280w","imageSizes":"(max-width: 767px) calc(100vw - 32px), 700px"}]
+36:["$","span","2",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"privacy"}]
+37:["$","span","4",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"surveillance"}]
+38:["$","span",null,{"aria-hidden":"true","className":"mt-1.5 h-3 border-l border-brand-dark-green"}]
+39:["$","$L3e",null,{"label":"Share","copiedLabel":"Copied","title":"Your Browser Has Already Betrayed You","url":"https://logos.co/media/article/browser-betrayed-you"}]
+3a:["$","figure",null,{"className":"my-10 w-full max-md:my-6","children":[["$","div",null,{"className":"relative aspect-[1200/630] w-full overflow-hidden bg-brand-dark-green/10","children":["$","img",null,{"src":"/media-images/browser_betrayed_you_7dfcfd4972-aa27e17d-750.webp","srcSet":"/media-images/browser_betrayed_you_7dfcfd4972-aa27e17d-750.webp 750w, /media-images/browser_betrayed_you_7dfcfd4972-aa27e17d-1280.webp 1280w","sizes":"(max-width: 767px) calc(100vw - 32px), 700px","alt":"","width":1280,"height":853,"loading":"eager","fetchPriority":"high","decoding":"async","className":"absolute inset-0 size-full object-cover"}]}],["$","figcaption",null,{"className":"min-h-2 pt-2 font-sans text-[12px] leading-4","children":""}]]}]
+3b:null
+40:Te4eb,<!--
+  Stage 0: Your Browser Has Already Betrayed You
+  Designed for embedding in the Logos Press Engine (press.logos.co)
+  
+  This file contains only the article content + styles + scripts.
+  The Press Engine provides the site header, navigation, footer, 
+  and wrapping article layout. Styles are scoped to avoid conflicts.
+-->
+<style>
+  /* ── Scoped styles for Stage 0 article ── */
+  .s0-article {
+    --s0-text: #1a1a2e;
+    --s0-text-secondary: #4a4a68;
+    --s0-text-dim: #71717a;
+    --s0-bg: #ffffff;
+    --s0-bg-surface: #f8f8fa;
+    --s0-bg-elevated: #f0f0f4;
+    --s0-border: #e4e4e7;
+    --s0-border-light: #f0f0f2;
+    --s0-accent: #c22d2d;
+    --s0-accent-bg: rgba(194, 45, 45, 0.06);
+    --s0-accent-border: rgba(194, 45, 45, 0.15);
+    --s0-accent-text: #a12020;
+    --s0-green: #16864e;
+    --s0-green-bg: rgba(22, 134, 78, 0.06);
+    --s0-green-border: rgba(22, 134, 78, 0.15);
+    --s0-amber: #b45309;
+    --s0-amber-bg: rgba(180, 83, 9, 0.06);
+    --s0-amber-border: rgba(180, 83, 9, 0.15);
+    --s0-mono: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Courier New', monospace;
+
+    color: var(--s0-text);
+    line-height: 1.75;
+    font-size: inherit;
+  }
+
+  .s0-article p { margin-bottom: 1.5em; }
+
+  .s0-article h2 {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: var(--s0-text);
+    margin: 2.5em 0 0.8em;
+    line-height: 1.3;
+  }
+
+  .s0-article hr {
+    border: none;
+    border-top: 1px solid var(--s0-border);
+    margin: 2.5em 0;
+  }
+
+  .s0-article a { color: var(--s0-accent); text-decoration: underline; text-underline-offset: 3px; }
+  .s0-article strong { color: var(--s0-text); font-weight: 600; }
+  .s0-article em { font-style: italic; }
+  .s0-article code {
+    font-family: var(--s0-mono);
+    font-size: 0.88em;
+    background: var(--s0-bg-surface);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    border: 1px solid var(--s0-border);
+  }
+
+  /* ── Inline personal data tags ── */
+  .s0-pd {
+    font-family: var(--s0-mono);
+    font-size: 0.85em;
+    padding: 0.12em 0.45em;
+    border-radius: 4px;
+    background: var(--s0-accent-bg);
+    color: var(--s0-accent-text);
+    border: 1px solid var(--s0-accent-border);
+    white-space: nowrap;
+  }
+  .s0-pd-green {
+    background: var(--s0-green-bg);
+    color: var(--s0-green);
+    border-color: var(--s0-green-border);
+  }
+  .s0-pd-amber {
+    background: var(--s0-amber-bg);
+    color: var(--s0-amber);
+    border-color: var(--s0-amber-border);
+  }
+
+  /* ── Epigraphs ── */
+  .s0-epigraph {
+    font-style: italic;
+    color: var(--s0-text-secondary);
+    font-size: 1.05em;
+    margin: 0 0 1.8em;
+    padding-left: 1.2em;
+    border-left: 2px solid var(--s0-border);
+  }
+  .s0-epigraph cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.82em;
+    margin-top: 0.4em;
+    color: var(--s0-text-dim);
+  }
+
+  /* ── Demo panels ── */
+  .s0-demo {
+    background: var(--s0-bg-surface);
+    border: 1px solid var(--s0-border);
+    border-radius: 10px;
+    margin: 2em 0;
+    overflow: hidden;
+  }
+  .s0-demo-header {
+    padding: 0.8em 1.2em;
+    background: var(--s0-bg-elevated);
+    border-bottom: 1px solid var(--s0-border);
+    font-family: var(--s0-mono);
+    font-size: 0.7em;
+    font-weight: 600;
+    color: var(--s0-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+  .s0-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--s0-accent);
+    animation: s0-blink 2s ease-in-out infinite;
+  }
+  .s0-dot-green { background: var(--s0-green); }
+  @keyframes s0-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .s0-demo-body { padding: 1.2em; }
+  .s0-demo-footer {
+    padding: 0.8em 1.2em;
+    background: var(--s0-accent-bg);
+    border-top: 1px solid var(--s0-accent-border);
+    font-size: 0.82em;
+    color: var(--s0-text-secondary);
+    line-height: 1.6;
+  }
+  .s0-demo-footer strong { color: var(--s0-accent-text); }
+  .s0-demo-footer-green {
+    background: var(--s0-green-bg);
+    border-top-color: var(--s0-green-border);
+  }
+  .s0-demo-footer-green strong { color: var(--s0-green); }
+
+  /* ── Fingerprint grid ── */
+  .s0-fp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6em;
+  }
+  @media (max-width: 600px) { .s0-fp-grid { grid-template-columns: 1fr; } }
+  .s0-fp-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 0.8em;
+    background: var(--s0-bg);
+    border: 1px solid var(--s0-border-light);
+    border-radius: 6px;
+    font-family: var(--s0-mono);
+    font-size: 0.75em;
+  }
+  .s0-fp-label { color: var(--s0-text-dim); }
+  .s0-fp-value { color: var(--s0-text); font-weight: 500; text-align: right; max-width: 55%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .s0-fp-item-blocked { opacity: 0.55; }
+  .s0-fp-value-blocked { color: var(--s0-green); }
+
+  /* ── Hash box ── */
+  .s0-hash-box {
+    margin-top: 1em;
+    padding: 0.8em;
+    background: var(--s0-bg);
+    border: 1px solid var(--s0-accent-border);
+    border-radius: 6px;
+    text-align: center;
+  }
+  .s0-hash-label {
+    font-family: var(--s0-mono);
+    font-size: 0.65em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--s0-accent-text);
+    margin-bottom: 0.3em;
+  }
+  .s0-hash-value {
+    font-family: var(--s0-mono);
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--s0-text);
+    word-break: break-all;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Signature comparison ── */
+  .s0-sig-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8em;
+    margin-top: 0.8em;
+  }
+  @media (max-width: 600px) { .s0-sig-compare { grid-template-columns: 1fr; } }
+  .s0-sig-panel {
+    background: var(--s0-bg);
+    border-radius: 8px;
+    padding: 0.8em;
+    border: 1px solid var(--s0-border-light);
+  }
+  .s0-sig-title {
+    font-family: var(--s0-mono);
+    font-size: 0.68em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.6em;
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+  }
+  .s0-sig-title-hw { color: #7c3aed; }
+  .s0-sig-title-br { color: #2563eb; }
+  .s0-sig-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3em 0;
+    font-family: var(--s0-mono);
+    font-size: 0.7em;
+    border-bottom: 1px solid var(--s0-border-light);
+  }
+  .s0-sig-row:last-of-type { border-bottom: none; }
+  .s0-sig-row-label { color: var(--s0-text-dim); }
+  .s0-sig-row-value { color: var(--s0-text); text-align: right; max-width: 55%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .s0-sig-hash-row {
+    margin-top: 0.6em;
+    padding-top: 0.6em;
+    border-top: 1px solid var(--s0-border);
+    text-align: center;
+  }
+  .s0-sig-hash-lbl { font-family: var(--s0-mono); font-size: 0.6em; color: var(--s0-text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+  .s0-sig-hash-val { font-family: var(--s0-mono); font-size: 0.95em; font-weight: 600; margin-top: 0.2em; }
+  .s0-sig-hash-hw { color: #7c3aed; }
+  .s0-sig-hash-br { color: #2563eb; }
+
+  /* ── Network signature ── */
+  .s0-net-sig {
+    background: var(--s0-bg);
+    border-radius: 8px;
+    padding: 0.8em;
+    margin-top: 0.8em;
+    border: 1px solid var(--s0-border-light);
+  }
+  .s0-net-sig-title {
+    font-family: var(--s0-mono);
+    font-size: 0.68em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.6em;
+    color: var(--s0-amber);
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+  }
+
+  /* ── Privacy callout ── */
+  .s0-privacy-callout {
+    background: var(--s0-green-bg);
+    border: 1px solid var(--s0-green-border);
+    border-radius: 8px;
+    padding: 1.2em 1.4em;
+    margin: 1.8em 0;
+  }
+  .s0-privacy-callout-title {
+    font-size: 0.88em;
+    font-weight: 600;
+    color: var(--s0-green);
+    margin-bottom: 0.4em;
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+  }
+  .s0-privacy-callout p {
+    font-size: 0.88em;
+    color: var(--s0-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0.5em;
+  }
+  .s0-privacy-callout p:last-child { margin-bottom: 0; }
+  .s0-privacy-feature {
+    display: inline-block;
+    font-family: var(--s0-mono);
+    font-size: 0.78em;
+    padding: 0.15em 0.5em;
+    border-radius: 4px;
+    margin: 0.15em 0.2em 0.15em 0;
+    background: var(--s0-green-bg);
+    color: var(--s0-green);
+    border: 1px solid var(--s0-green-border);
+  }
+  .s0-privacy-callout-amber {
+    background: var(--s0-amber-bg);
+    border-color: var(--s0-amber-border);
+  }
+  .s0-privacy-callout-amber .s0-privacy-callout-title { color: var(--s0-amber); }
+  .s0-privacy-callout-amber .s0-privacy-feature {
+    background: var(--s0-amber-bg); color: var(--s0-amber); border-color: var(--s0-amber-border);
+  }
+
+  /* ── Zombie storage ── */
+  .s0-zombie-grid { display: grid; gap: 0.4em; }
+  .s0-zombie-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.5em 0.8em; background: var(--s0-bg);
+    border: 1px solid var(--s0-border-light);
+    border-radius: 6px; font-family: var(--s0-mono); font-size: 0.78em;
+  }
+  .s0-zombie-status { display: flex; align-items: center; gap: 0.35em; }
+  .s0-zombie-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .s0-zombie-dot.active { background: var(--s0-accent); }
+  .s0-zombie-dot.cleared { background: var(--s0-green); }
+  .s0-zombie-dot.restored { background: var(--s0-amber); }
+  .s0-zombie-dot.unavail { background: var(--s0-text-dim); opacity: 0.25; }
+  .s0-zombie-btn {
+    font-size: 0.82em; font-weight: 600;
+    padding: 0.45em 1.1em; border-radius: 6px;
+    border: none; cursor: pointer; transition: all 0.15s; margin-top: 0.8em;
+  }
+  .s0-zombie-btn-clear { background: #16a34a; color: #fff; }
+  .s0-zombie-btn-clear:hover { background: #15803d; }
+  .s0-zombie-btn-restore { background: var(--s0-accent); color: #fff; }
+  .s0-zombie-btn-restore:hover { background: #a12020; }
+  .s0-zombie-controls { display: flex; gap: 0.6em; flex-wrap: wrap; }
+
+  /* ── RTB auction ── */
+  .s0-auction-viz { position: relative; padding: 0.8em; min-height: 180px; }
+  .s0-auction-you { text-align: center; margin-bottom: 1.2em; }
+  .s0-auction-you-label { font-family: var(--s0-mono); font-size: 0.7em; color: var(--s0-text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+  .s0-auction-you-dot {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--s0-accent); margin: 0.4em auto;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1em; color: #fff; box-shadow: 0 0 20px rgba(194, 45, 45, 0.25);
+  }
+  .s0-auction-bidders { display: flex; flex-wrap: wrap; gap: 0.4em; justify-content: center; }
+  .s0-auction-bidder {
+    font-family: var(--s0-mono); font-size: 0.62em;
+    padding: 0.25em 0.5em; background: var(--s0-bg);
+    border: 1px solid var(--s0-border); border-radius: 4px;
+    color: var(--s0-text-dim); opacity: 0; transform: translateY(6px);
+    animation: s0-bidder-in 0.25s forwards;
+  }
+  @keyframes s0-bidder-in { to { opacity: 1; transform: translateY(0); } }
+  .s0-auction-timer { text-align: center; margin-top: 0.8em; font-family: var(--s0-mono); font-size: 0.82em; color: var(--s0-accent-text); }
+
+  /* ── Data flow ── */
+  .s0-flow { padding: 1em 0.5em; }
+  .s0-flow-step { display: flex; align-items: flex-start; gap: 0.8em; margin-bottom: 0.3em; }
+  .s0-flow-line { display: flex; flex-direction: column; align-items: center; width: 22px; flex-shrink: 0; }
+  .s0-flow-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--s0-accent); flex-shrink: 0; margin-top: 5px; }
+  .s0-flow-connector { width: 2px; flex: 1; min-height: 26px; background: var(--s0-accent-border); }
+  .s0-flow-content { padding-bottom: 0.8em; }
+  .s0-flow-title { font-size: 0.85em; font-weight: 600; color: var(--s0-text); }
+  .s0-flow-desc { font-size: 0.78em; color: var(--s0-text-dim); margin-top: 0.15em; }
+  .s0-flow-personal {
+    font-family: var(--s0-mono); font-size: 0.7em; color: var(--s0-accent-text);
+    background: var(--s0-accent-bg); padding: 0.15em 0.4em;
+    border-radius: 3px; display: inline-block; margin-top: 0.25em;
+  }
+
+  /* ── Stat row ── */
+  .s0-stat-row { display: flex; gap: 1em; margin: 1.8em 0; flex-wrap: wrap; }
+  .s0-stat-box {
+    flex: 1; min-width: 140px; padding: 1.1em;
+    background: var(--s0-bg-surface); border: 1px solid var(--s0-border);
+    border-radius: 8px; text-align: center;
+  }
+  .s0-stat-num { font-family: var(--s0-mono); font-size: 1.8em; font-weight: 700; color: var(--s0-accent); line-height: 1; }
+  .s0-stat-label { font-size: 0.72em; color: var(--s0-text-dim); margin-top: 0.4em; }
+
+  /* ── Pull quote ── */
+  .s0-pull-quote {
+    margin: 2.5em 0; padding: 1.5em 0;
+    border-top: 1px solid var(--s0-border);
+    border-bottom: 1px solid var(--s0-border);
+    font-size: 1.3em; font-weight: 300; line-height: 1.5;
+    color: var(--s0-text); text-align: center; font-style: italic;
+  }
+
+  /* ── Exposure grid ── */
+  .s0-exposure-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.4em; }
+  .s0-exposure-item {
+    display: flex; justify-content: space-between; padding: 0.4em 0.7em;
+    background: var(--s0-bg); border: 1px solid var(--s0-border-light);
+    border-radius: 4px; font-family: var(--s0-mono); font-size: 0.7em;
+    opacity: 0; transform: scale(0.96); animation: s0-expose 0.15s forwards;
+  }
+  @keyframes s0-expose { to { opacity: 1; transform: scale(1); } }
+  .s0-exposure-label { color: var(--s0-text-dim); }
+  .s0-exposure-value { color: var(--s0-accent-text); text-align: right; max-width: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .s0-exposure-value-green { color: var(--s0-green); }
+
+  /* ── Further reading / CTA ── */
+  .s0-further-reading {
+    padding: 1.5em;
+    background: var(--s0-bg-surface);
+    border: 1px solid var(--s0-border);
+    border-radius: 8px;
+    margin-top: 2.5em;
+  }
+  .s0-further-reading h3 {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: var(--s0-text);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 1em;
+  }
+  .s0-further-reading a {
+    display: block;
+    color: var(--s0-accent);
+    text-decoration: none;
+    font-size: 0.9em;
+    padding: 0.45em 0;
+    border-bottom: 1px solid var(--s0-border-light);
+    transition: color 0.15s;
+  }
+  .s0-further-reading a:last-child { border-bottom: none; }
+  .s0-further-reading a:hover { color: #e03e3e; }
+  .s0-further-reading a span { display: block; font-size: 0.82em; color: var(--s0-text-dim); margin-top: 0.1em; }
+
+  .s0-logos-cta {
+    margin-top: 2.5em;
+    padding: 2.5em 1.5em;
+    background: var(--s0-bg-surface);
+    border: 1px solid var(--s0-border);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .s0-logos-cta h3 { font-size: 1.3em; font-weight: 700; color: var(--s0-text); margin-bottom: 0.6em; }
+  .s0-logos-cta p { font-size: 0.9em; color: var(--s0-text-secondary); max-width: 480px; margin: 0 auto 1.2em; line-height: 1.6; }
+  .s0-logos-cta a {
+    display: inline-block; font-weight: 600; font-size: 0.85em;
+    color: #fff; background: var(--s0-accent); padding: 0.55em 1.4em;
+    border-radius: 6px; text-decoration: none; transition: background 0.15s;
+  }
+  .s0-logos-cta a:hover { background: #a12020; }
+
+  @media (max-width: 600px) {
+    .s0-demo { margin: 1.5em -0.5em; }
+    .s0-stat-row { flex-direction: column; }
+  }
+</style>
+
+<div class="s0-article" id="s0-article-body">
+  <noscript>
+    <p>This article requires JavaScript to demonstrate browser surveillance techniques in real time. The irony is intentional.</p>
+  </noscript>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ══════════════════════════════════════════════
+  // DATA COLLECTION
+  // ══════════════════════════════════════════════
+
+  function collectData() {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    let gpu = 'Blocked';
+    let webglVendor = 'N/A', webglVersion = 'N/A', webglBlocked = true;
+    if (gl) {
+      webglVersion = gl.getParameter(gl.VERSION) || 'N/A';
+      webglVendor = gl.getParameter(gl.VENDOR) || 'N/A';
+      const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+      if (dbg) { gpu = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) || 'Hidden'; webglBlocked = false; }
+      else { gpu = 'Hidden by browser'; }
+    }
+
+    let canvasBlocked = false;
+    try {
+      const c = document.createElement('canvas'); c.width = 200; c.height = 50;
+      const ctx = c.getContext('2d'); ctx.textBaseline = 'top'; ctx.font = '14px Arial'; ctx.fillText('fp test', 2, 2);
+      canvasBlocked = !c.toDataURL() || c.toDataURL().length < 100;
+    } catch { canvasBlocked = true; }
+
+    const ua = navigator.userAgent;
+    let browser = 'Unknown', engine = 'Unknown';
+    let isBrave = false, isTor = false, isFirefox = false, isLibreWolf = false;
+
+    if (ua.includes('LibreWolf') || ua.includes('Librewolf')) { browser = 'LibreWolf'; engine = 'Gecko'; isLibreWolf = true; isFirefox = true; }
+    else if (ua.includes('Firefox')) { browser = 'Firefox'; engine = 'Gecko'; isFirefox = true; }
+    else if (ua.includes('Edg/')) { browser = 'Microsoft Edge'; engine = 'Blink'; }
+    else if (ua.includes('OPR/') || ua.includes('Opera')) { browser = 'Opera'; engine = 'Blink'; }
+    else if (ua.includes('Chrome')) {
+      if (navigator.brave && typeof navigator.brave.isBrave === 'function') { browser = 'Brave'; isBrave = true; }
+      else { browser = 'Chrome'; }
+      engine = 'Blink';
+    }
+    else if (ua.includes('Safari')) { browser = 'Safari'; engine = 'WebKit'; }
+
+    if (isFirefox && screen.width === 1000 && screen.height === 1000) isTor = true;
+
+    let os = 'Unknown OS';
+    if (ua.includes('Windows')) os = 'Windows';
+    else if (ua.includes('Mac OS')) os = 'macOS';
+    else if (ua.includes('Linux')) os = 'Linux';
+    else if (ua.includes('Android')) os = 'Android';
+    else if (ua.includes('iPhone') || ua.includes('iPad')) os = 'iOS';
+
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const hour = new Date().getHours();
+    let timeOfDay = 'night';
+    if (hour >= 5 && hour < 12) timeOfDay = 'morning';
+    else if (hour >= 12 && hour < 17) timeOfDay = 'afternoon';
+    else if (hour >= 17 && hour < 21) timeOfDay = 'evening';
+
+    const localTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    const tzLoc = {
+      'America/New_York': 'the eastern United States', 'America/Chicago': 'the central United States',
+      'America/Denver': 'the mountain region of the US', 'America/Los_Angeles': 'the western United States',
+      'America/Phoenix': 'Arizona', 'America/Anchorage': 'Alaska', 'Pacific/Honolulu': 'Hawaii',
+      'America/Toronto': 'eastern Canada', 'America/Vancouver': 'western Canada',
+      'Europe/London': 'the United Kingdom', 'Europe/Paris': 'France', 'Europe/Berlin': 'Germany',
+      'Europe/Amsterdam': 'the Netherlands', 'Europe/Zurich': 'Switzerland', 'Europe/Madrid': 'Spain',
+      'Europe/Rome': 'Italy', 'Europe/Stockholm': 'Scandinavia', 'Europe/Warsaw': 'Poland',
+      'Europe/Prague': 'Central Europe', 'Europe/Moscow': 'Russia',
+      'Asia/Tokyo': 'Japan', 'Asia/Shanghai': 'China', 'Asia/Singapore': 'Singapore',
+      'Asia/Dubai': 'the UAE', 'Asia/Kolkata': 'India', 'Asia/Seoul': 'South Korea',
+      'Australia/Sydney': 'eastern Australia', 'Australia/Melbourne': 'southeastern Australia',
+    };
+    const locationGuess = tzLoc[tz] || tz.replace(/_/g, ' ').split('/').pop();
+
+    // Hardware signature (cross-browser stable)
+    const hwRaw = `${screen.width}x${screen.height}|${screen.colorDepth}|${navigator.hardwareConcurrency}|${tz}|${window.devicePixelRatio}`;
+    let hwHash = 0;
+    for (let i = 0; i < hwRaw.length; i++) { hwHash = ((hwHash << 5) - hwHash) + hwRaw.charCodeAt(i); hwHash |= 0; }
+    const hardwareSig = Math.abs(hwHash).toString(16).padStart(8, '0').toUpperCase();
+
+    // Browser signature (browser-specific)
+    const brRaw = `${gpu}|${ua}|${navigator.language}|${engine}|${navigator.platform}`;
+    let brHash = 0;
+    for (let i = 0; i < brRaw.length; i++) { brHash = ((brHash << 5) - brHash) + brRaw.charCodeAt(i); brHash |= 0; }
+    const browserSig = Math.abs(brHash).toString(16).padStart(8, '0').toUpperCase();
+
+    // Combined
+    const combinedRaw = hwRaw + '|' + brRaw;
+    let combHash = 0;
+    for (let i = 0; i < combinedRaw.length; i++) { combHash = ((combHash << 5) - combHash) + combinedRaw.charCodeAt(i); combHash |= 0; }
+    const fingerprint = Math.abs(combHash).toString(16).padStart(8, '0').toUpperCase();
+
+    const storageTests = {
+      'Cookies': (() => { try { document.cookie = '__test=1'; return document.cookie.includes('__test'); } catch { return false; } })(),
+      'localStorage': (() => { try { localStorage.setItem('__t', '1'); localStorage.removeItem('__t'); return true; } catch { return false; } })(),
+      'sessionStorage': (() => { try { sessionStorage.setItem('__t', '1'); sessionStorage.removeItem('__t'); return true; } catch { return false; } })(),
+      'IndexedDB': !!window.indexedDB,
+      'Cache API': !!window.caches,
+      'Service Workers': !!navigator.serviceWorker,
+    };
+    const storageCount = Object.values(storageTests).filter(Boolean).length;
+
+    const privacyFeatures = [];
+    if (isBrave) privacyFeatures.push('Brave Shields');
+    if (isTor) privacyFeatures.push('Tor Browser');
+    if (isLibreWolf) privacyFeatures.push('LibreWolf');
+    if (webglBlocked) privacyFeatures.push('WebGL debug info blocked');
+    if (canvasBlocked) privacyFeatures.push('Canvas fingerprinting blocked');
+    if (navigator.doNotTrack === '1') privacyFeatures.push('Do Not Track enabled');
+    if (!navigator.deviceMemory) privacyFeatures.push('Device memory hidden');
+    if (!navigator.connection) privacyFeatures.push('Network info hidden');
+    if (isFirefox && !isTor && !isLibreWolf) privacyFeatures.push('Firefox (configurable protections)');
+
+    const hasGoodPrivacy = privacyFeatures.length >= 3;
+    const hasModeratePrivacy = privacyFeatures.length >= 1 && !hasGoodPrivacy;
+
+    const allSignals = [
+      ['Browser', browser], ['Engine', engine], ['OS', os],
+      ['Screen', `${screen.width}×${screen.height}`],
+      ['Viewport', `${window.innerWidth}×${window.innerHeight}`],
+      ['Pixel Ratio', window.devicePixelRatio],
+      ['Color Depth', `${screen.colorDepth}-bit`],
+      ['CPU Cores', navigator.hardwareConcurrency || '?'],
+      ['GPU', gpu.length > 50 ? gpu.substring(0, 50) + '…' : gpu],
+      ['Language', navigator.language],
+      ['Languages', (navigator.languages || []).join(', ')],
+      ['Timezone', tz],
+      ['UTC Offset', `UTC${new Date().getTimezoneOffset() > 0 ? '-' : '+'}${Math.abs(new Date().getTimezoneOffset() / 60)}`],
+      ['Local Time', localTime],
+      ['Platform', navigator.platform || 'N/A'],
+      ['Touch Support', 'ontouchstart' in window ? 'Yes' : 'No'],
+      ['Max Touch Points', navigator.maxTouchPoints || 0],
+      ['Device Memory', navigator.deviceMemory ? `${navigator.deviceMemory} GB` : 'Hidden'],
+      ['Connection Type', navigator.connection?.effectiveType || 'Hidden'],
+      ['Do Not Track', navigator.doNotTrack || 'Not set'],
+      ['Cookies Enabled', navigator.cookieEnabled ? 'Yes' : 'No'],
+      ['PDF Viewer', navigator.pdfViewerEnabled !== undefined ? (navigator.pdfViewerEnabled ? 'Yes' : 'No') : 'Unknown'],
+      ['WebGL Vendor', webglVendor],
+      ['WebGL Version', webglVersion],
+      ['Canvas FP', canvasBlocked ? 'Blocked' : 'Exposed'],
+      ['Hardware Sig', hardwareSig],
+      ['Browser Sig', browserSig],
+    ];
+
+    console.log('%c[Stage 0 Diagnostics]', 'color: #c22d2d; font-weight: bold');
+    console.log('Browser:', browser, '| Engine:', engine, '| OS:', os);
+    console.log('Hardware Signature:', hardwareSig, '(same across browsers)');
+    console.log('Browser Signature:', browserSig, '(changes per browser)');
+    console.log('Combined:', fingerprint);
+    console.log('Privacy:', privacyFeatures.length ? privacyFeatures.join(', ') : 'None detected');
+
+    return {
+      browser, engine, os, gpu, tz, timeOfDay, localTime, locationGuess,
+      screenW: screen.width, screenH: screen.height,
+      cores: navigator.hardwareConcurrency || '?',
+      pixelRatio: window.devicePixelRatio, lang: navigator.language, fingerprint,
+      hardwareSig, browserSig, webglBlocked, canvasBlocked,
+      isBrave, isTor, isFirefox, isLibreWolf,
+      storageTests, storageCount, allSignals,
+      privacyFeatures, hasGoodPrivacy, hasModeratePrivacy
+    };
+  }
+
+  const D = collectData();
+
+  // ══════════════════════════════════════════════
+  // RENDER
+  // ══════════════════════════════════════════════
+
+  function pd(v) { return `<span class="s0-pd">${v}</span>`; }
+  function pdg(v) { return `<span class="s0-pd s0-pd-green">${v}</span>`; }
+
+  function render() {
+    const el = document.getElementById('s0-article-body');
+
+    const gpuText = D.webglBlocked
+      ? `Your graphics hardware identifies as ${pdg('Hidden')} — your browser is blocking the WebGL debug info that would reveal it.`
+      : `Your graphics hardware identifies as ${pd(D.gpu.length > 60 ? D.gpu.substring(0, 60) + '…' : D.gpu)}.`;
+
+    const privacyBlock = D.hasGoodPrivacy
+      ? `<div class="s0-privacy-callout">
+          <div class="s0-privacy-callout-title">🛡️ You're putting up a fight</div>
+          <p>Your browser is actively resisting some of the fingerprinting techniques described in this article. We detected:</p>
+          <p>${D.privacyFeatures.map(f => `<span class="s0-privacy-feature">${f}</span>`).join(' ')}</p>
+          <p>This is good. It is not sufficient — as the rest of this article will demonstrate — but it means you are ahead of the vast majority of internet users. The signals that <em>are</em> leaking are still enough to significantly narrow your identity, but you are making the work harder. Keep reading to understand what's still exposed.</p>
+        </div>`
+      : D.hasModeratePrivacy
+        ? `<div class="s0-privacy-callout s0-privacy-callout-amber">
+            <div class="s0-privacy-callout-title">⚡ Some protections detected</div>
+            <p>Your browser has some privacy features active: ${D.privacyFeatures.map(f => `<span class="s0-privacy-feature">${f}</span>`).join(' ')}</p>
+            <p>This helps, but significant fingerprinting surface remains exposed. The sections that follow will show you what's still leaking and why it matters.</p>
+          </div>`
+        : '';
+
+    const browserAdvice = D.isTor
+      ? pdg('You appear to be using Tor Browser — this is the gold standard. All Tor users present an identical fingerprint, making individual identification far more difficult.')
+      : D.isLibreWolf
+        ? pdg('You appear to be using LibreWolf — a privacy-hardened Firefox fork. This is a strong choice.')
+        : D.isBrave
+          ? pdg('You appear to be using Brave — its Shields feature blocks many tracking scripts and can randomize fingerprinting surfaces. Make sure Shields are set to "Aggressive."')
+          : D.isFirefox
+            ? pdg('You appear to be using Firefox — with <code>privacy.resistFingerprinting</code> enabled in <code>about:config</code>, it becomes significantly harder to fingerprint.')
+            : `You are currently using ${pd(D.browser)}, which provides limited fingerprinting protection in its default configuration.`;
+
+    el.innerHTML = `
+<p class="s0-epigraph">
+  "You have zero privacy anyway. Get over it."
+  <cite>— Scott McNealy, CEO of Sun Microsystems, 1999</cite>
+</p>
+
+<p>Twenty-six years later, McNealy's provocation has aged into prophecy. But what even he likely did not anticipate was how your privacy would be lost — not through government surveillance or corporate data breaches, but a quiet, continuous betrayal performed by the most mundane piece of software on your computer: your web browser.</p>
+
+<p>You are reading this on ${pd(D.browser)}, running on ${pd(D.os)}. Your screen is ${pd(D.screenW + '×' + D.screenH)} pixels. ${gpuText} You are in the ${pd(D.tz)} timezone, which places you in ${pd(D.locationGuess)}, and it is ${pd(D.localTime)} where you are sitting. I know this because your browser told me, without asking you, the moment this page loaded.</p>
+
+<p>None of this required cookies. None of it required your consent. None of it was transmitted to a server — every data point was computed locally, in JavaScript, using APIs your browser exposes to every website you visit. The information I just quoted back to you is a small fraction of what is routinely collected. Here is a more complete inventory:</p>
+
+<div class="s0-demo">
+  <div class="s0-demo-header"><span class="s0-dot"></span> Live — Computed from your browser right now</div>
+  <div class="s0-demo-body">
+    <div class="s0-fp-grid" id="s0-fp-grid"></div>
+    <div class="s0-hash-box">
+      <div class="s0-hash-label">Combined Fingerprint Hash</div>
+      <div class="s0-hash-value">${D.fingerprint}</div>
+    </div>
+  </div>
+  <div class="s0-demo-footer ${D.hasGoodPrivacy ? 's0-demo-footer-green' : ''}">
+    ${D.hasGoodPrivacy
+      ? `<strong>Some signals blocked.</strong> Your browser is hiding certain data points (marked above). This reduces your fingerprint's uniqueness — but the remaining signals still provide significant entropy.`
+      : `<strong>What this means:</strong> These signals combine to produce a fingerprint that is statistically unique among millions of users. The EFF's <a href="https://coveryourtracks.eff.org/static/browser-uniqueness.pdf">Panopticlick study</a> (Eckersley, 2010) found 83.6% of browsers were instantly unique; the <a href="https://hal.inria.fr/hal-01285470/document">AmIUnique study</a> (Laperdrix et al., 2016) found 89.4%. When canvas, WebGL, and audio fingerprinting are combined, uniqueness climbs higher still.`}
+  </div>
+</div>
+
+${privacyBlock}
+
+<p>This fingerprint — ${pd(D.fingerprint)} — is not a random identifier assigned to you. It is <em>derived</em> from the physical characteristics of your machine and the software running on it. And this leads to a problem that privacy-conscious users discover with dismay: changing your browser does not change your identity.</p>
+
+<hr />
+
+<h2>The signals that follow you</h2>
+
+<p>Not all fingerprint signals are created equal. Some are specific to your browser — switch browsers, and they change. But others are properties of your <em>hardware</em> and <em>operating system</em>, and those remain identical regardless of which browser you open.</p>
+
+<p>In 2017, researchers Yinzhi Cao, Song Li, and Erik Wijmans <a href="https://yinzhicao.org/TrackingFree/crossbrowsertracking_NDSS17.pdf">published a study</a> (NDSS 2017) demonstrating that cross-browser fingerprinting — identifying the same person across different browsers on the same machine — achieves <strong>99.24% accuracy</strong>. Their technique focused exclusively on OS-level and hardware-level signals that no individual browser can mask: screen resolution, CPU core count, display pixel ratio, color depth, and timezone.</p>
+
+<p>To make this concrete, here are the two layers of your fingerprint, separated:</p>
+
+<div class="s0-demo">
+  <div class="s0-demo-header"><span class="s0-dot"></span> Your machine vs. your browser — Two layers of identity</div>
+  <div class="s0-demo-body">
+    <div class="s0-sig-compare" id="s0-sig-compare"></div>
+    <div class="s0-net-sig" id="s0-net-sig"></div>
+  </div>
+  <div class="s0-demo-footer">
+    <strong>Try this yourself:</strong> Open this page in a different browser on the same machine. The hardware signature (purple) should be identical. The browser signature (blue) will differ. ${D.hasGoodPrivacy ? 'Note: your privacy browser may randomize some hardware-level values — this is a feature, not a bug.' : 'A tracker that knows both can link your browsing across every browser on this device.'}
+  </div>
+</div>
+
+<p>The hardware signature (${pd(D.hardwareSig)}) is computed from signals that are properties of your machine: your screen resolution (${pd(D.screenW + '×' + D.screenH)}), your CPU core count (${pd(D.cores)}), your pixel ratio (${pd(D.pixelRatio + 'x')}), and your timezone (${pd(D.tz)}). Switch from ${D.browser} to any other browser on this machine, and these values remain the same.</p>
+
+<p>But the surveillance apparatus does not stop at your machine. It extends across your <em>devices</em>.</p>
+
+<p>Identity graph companies — Tapad, Drawbridge (now LinkedIn), LiveRamp — specialize in <strong>probabilistic cross-device matching</strong>. If a phone and a laptop appear on the same IP address at 8 PM, and the same office IP at 10 AM, and both are set to ${pd(D.tz)} with ${pd(D.lang)} as the preferred language, the probability that they belong to the same person is extremely high.</p>
+
+<p>You do not need to log into anything for this correlation to occur. The network-level signals shown above — timezone, language, inferred region — are shared by every device on your network. Individually weak, they are the backbone of cross-device identity graphs that track you across your phone, laptop, tablet, and work computer.</p>
+
+<hr />
+
+<h2>The auction that just happened</h2>
+
+<p class="s0-epigraph">
+  "If you're not paying for the product, you are the product."
+  <cite>— Commonly attributed; origin uncertain</cite>
+</p>
+
+<p>When you loaded this page, something happened that happens on virtually every webpage you visit: an auction was conducted for your attention. It took approximately 100 milliseconds. Hundreds of companies participated. You were the commodity being sold.</p>
+
+<p>This is the real-time bidding (RTB) ecosystem. When a page with advertising loads, the publisher's ad server sends a "bid request" containing everything it knows about you — your fingerprint, inferred location, browsing history, demographics. Per the <a href="https://iabtechlab.com/standards/openrtb/">IAB OpenRTB specification</a>, this is broadcast to hundreds of demand-side platforms simultaneously.</p>
+
+<p><strong>Every participant in this auction receives your data, regardless of whether they win the bid.</strong> A single page load broadcasts your identity to between 200 and 1,000 companies. The winner shows you an ad, but the other 999 keep your data.</p>
+
+<div class="s0-demo">
+  <div class="s0-demo-header"><span class="s0-dot"></span> Simulated — What a typical RTB auction looks like</div>
+  <div class="s0-demo-body">
+    <div class="s0-auction-viz">
+      <div class="s0-auction-you">
+        <div class="s0-auction-you-label">Your page load</div>
+        <div class="s0-auction-you-dot">👁</div>
+      </div>
+      <div class="s0-auction-bidders" id="s0-auction-bidders"></div>
+      <div class="s0-auction-timer" id="s0-auction-timer"></div>
+    </div>
+  </div>
+  <div class="s0-demo-footer">
+    <strong>Scale:</strong> The <a href="https://www.iccl.ie/digital-data/iccl-report-on-the-scale-of-real-time-bidding-data-broadcasts-in-the-u-s-and-europe/">ICCL's 2022 report</a> found RTB systems broadcast Americans' data 294 billion times per day — an average of 747 exposures per person, per day. These figures exclude Facebook and Amazon.
+  </div>
+</div>
+
+<p>The RTB ecosystem was built to sell advertising, not to serve blockchain analytics. But surveillance infrastructure, once built, does not respect the boundaries of its original purpose. The same data broker that compiles your browsing profile for a shoe advertiser sells that profile to analytics firms that correlate it with public blockchain transactions.</p>
+
+<div class="s0-stat-row">
+  <div class="s0-stat-box"><div class="s0-stat-num">294B</div><div class="s0-stat-label">RTB broadcasts/day in the US (ICCL, 2022)</div></div>
+  <div class="s0-stat-box"><div class="s0-stat-num">4,698</div><div class="s0-stat-label">Companies in Google's RTB (ICCL, 2022)</div></div>
+  <div class="s0-stat-box"><div class="s0-stat-num">$250B+</div><div class="s0-stat-label">Annual programmatic ad spend</div></div>
+</div>
+
+<hr />
+
+<h2>The thing you cannot kill</h2>
+
+<p>"Clear your cookies." This is the standard advice. It is also nearly useless.</p>
+
+<p>In 2010, researcher Samy Kamkar released <a href="https://samy.pl/evercookie/">Evercookie</a> — a proof-of-concept demonstrating that trackers can store your identity in so many redundant locations that clearing any one is futile. Delete a cookie, and it restores from localStorage. Clear that, and it reconstructs from IndexedDB. If your identity is stored in six places and you clear five, you are still identified. And any surviving cookie repopulates the other five. (Acar et al. <a href="https://dl.acm.org/doi/10.1145/2660267.2660347">confirmed in 2014</a> that these techniques were being deployed at scale in the wild.)</p>
+
+<p>Your browser has ${pd(D.storageCount + ' of 6')} common storage mechanisms available:</p>
+
+<div class="s0-demo">
+  <div class="s0-demo-header"><span class="s0-dot"></span> Interactive — Zombie tracker demonstration</div>
+  <div class="s0-demo-body">
+    <div class="s0-zombie-grid" id="s0-zombie-grid"></div>
+    <div class="s0-zombie-controls" id="s0-zombie-controls" style="margin-top:0.8em"></div>
+    <div id="s0-zombie-msg" style="font-size:0.85em;margin-top:0.6em;color:var(--s0-text-dim);min-height:1.4em"></div>
+  </div>
+  <div class="s0-demo-footer">
+    <strong>Try it:</strong> Clear all storage, then resurrect from backup. In practice, trackers use even more exotic methods: HTTP ETags, HSTS supercookies, favicon cache fingerprinting.
+  </div>
+</div>
+
+${D.storageCount < 4
+  ? `<p>Your browser is blocking ${6 - D.storageCount} of 6 common storage mechanisms — ${pdg('meaningful protection')}. But even ${D.storageCount} mechanisms suffice for zombie tracking: a single surviving backup restores all others.</p>`
+  : `<p>The persistence of modern tracking means "fresh starts" are largely illusory. Clear your data, switch to incognito, even install a new browser — and trackers will re-identify you within minutes through fingerprinting or login-based correlation.</p>`}
+
+<hr />
+
+<h2>The connection to your wallet</h2>
+
+<p class="s0-epigraph">"The user hasn't connected a wallet. They haven't visited a blockchain site. They have already been catalogued."</p>
+
+<p>Chain analytics firms like Chainalysis and Elliptic do not primarily deanonymise users through cryptographic attacks. Their method is simpler: <a href="https://www.chainalysis.com/blog/cryptocurrency-entity-identification/">correlating on-chain data</a> (transactions, address clustering, timing) with off-chain data (browser fingerprints, IP addresses, exchange KYC, data broker profiles).</p>
+
+<div class="s0-demo">
+  <div class="s0-demo-header"><span class="s0-dot"></span> The deanonymization pipeline</div>
+  <div class="s0-demo-body">
+    <div class="s0-flow" id="s0-flow"></div>
+  </div>
+  <div class="s0-demo-footer">
+    <strong>Key insight:</strong> By the time you click "Connect Wallet," the association between your identity and your blockchain address has already been established through browser surveillance. The connection merely confirms what was already inferred.
+  </div>
+</div>
+
+<p>You opened ${pd(D.browser)} this ${D.timeOfDay}. Before visiting any blockchain site, your hardware signature — ${pd(D.hardwareSig)} — was already being broadcast via RTB and correlated with your browsing activity. When you later visited a block explorer, that visit was logged alongside the same signature. When you connected a wallet, the event was recorded by analytics, telemetry, and RPC endpoints — all correlatable.</p>
+
+<p>Even switching browsers doesn't help: cross-browser hardware fingerprinting at 99.24% accuracy links your "anonymous" blockchain browser to your everyday identity.</p>
+
+<div class="s0-pull-quote">Privacy is not a feature you activate at the moment of a transaction. It is a property of the entire system you inhabit — or it is nothing.</div>
+
+<hr />
+
+<h2>The environment is hostile by design</h2>
+
+<p>The modern browser grants every website access to a staggering amount of system information. This is not an implementation flaw, it is a <em>design feature</em>. Websites need screen size for responsive layouts, GPU access for graphics, timezone for local times. Each API has a legitimate purpose. Collectively, they form a surveillance apparatus of remarkable precision.</p>
+
+<p>Beyond the browser, wallet extensions introduce their own attack surface. MetaMask injects <code>window.ethereum</code> into every page — immediately identifying you as a crypto user before you click "Connect." MetaMask also has over 1,800 npm dependencies, and a single compromised package has the potential to exfiltrate private keys or redirect transactions. The risk is not theoretical: <a href="https://www.chainalysis.com/crypto-crime/">crypto theft through various attack vectors</a> regularly exceeds billions of dollars annually, with browser-based attacks — malicious extensions, supply chain compromises, session hijacking — accounting for a growing share.</p>
+
+<hr />
+
+<h2>The scale of the exposure</h2>
+
+<div class="s0-stat-row">
+  <div class="s0-stat-box"><div class="s0-stat-num">98.8%</div><div class="s0-stat-label">of websites use JavaScript (W3Techs)</div></div>
+  <div class="s0-stat-box"><div class="s0-stat-num">83–89%</div><div class="s0-stat-label">unique via fingerprinting (Eckersley; Laperdrix et al.)</div></div>
+  <div class="s0-stat-box"><div class="s0-stat-num">97%</div><div class="s0-stat-label">exposed to cookie syncing (Englehardt &amp; Narayanan)</div></div>
+</div>
+
+<p>Princeton's <a href="https://dl.acm.org/doi/10.1145/2976749.2978313">Web Transparency &amp; Accountability Project</a> (Englehardt &amp; Narayanan, 2016) found Google's trackers on 75% of the top million websites. Facebook's pixel is on a third of the top 100 US hospital sites. For blockchain users, the most popular block explorers, RPC providers, and DeFi frontends all employ standard analytics that feed the tracking ecosystem.</p>
+
+<p>This constant background data collection is the default state of the web. The question is not <em>whether</em> your browser activity is being correlated with your blockchain activity — it is how many entities have already done so.</p>
+
+<hr />
+
+<h2>What can be done</h2>
+
+<p>It would be dishonest to end this analysis with a clean list of mitigations that restore your privacy. The problem is structural. But there are measures you can take to mitigate your exposure:</p>
+
+<ul>
+<li><strong>Use a privacy-focused browser:</strong> Tor Browser is the gold standard. For daily use, Firefox with <code>privacy.resistFingerprinting</code> and Brave with aggressive shields both meaningfully reduce fingerprint uniqueness. ${browserAdvice}</li>
+
+<li><strong>Separate your identities:</strong> Use dedicated browser profiles — or better, separate browsers — for blockchain activity and general browsing. The cross-browser hardware signature we demonstrated shows why this is hard, but separation forces trackers to rely on probabilistic matching rather than deterministic linking.</li>
+
+<li><strong>Run your own infrastructure:</strong> Use a local Ethereum node instead of Infura or Alchemy. Connect through a VPN or Tor. Self-hosting eliminates the most dangerous correlation vectors.</li>
+
+<li><strong>Use air-gapped hardware for transaction signing:</strong> A device like <a href="https://keycard.tech">Keycard</a> — an open-source hardware wallet — ensures private keys never touch your browser environment. When your signing device has no network connection and no browser, the surveillance apparatus becomes irrelevant to key security.</li>
+
+<li><strong>Demand better infrastructure:</strong> The fundamental problem is architectural: the web assumes trust in a hostile environment. The long-term solution is infrastructure that does not make this assumption.</li>
+</ul>
+
+<p>This is the problem <a href="https://logos.co">Logos</a> is working on. The <a href="https://logos-co.github.io/assembly/content-tracker/Logos-Tech-Stack-Diagram">Logos technology stack</a> is being built to address the full-stack privacy problem: <strong>Logos Messaging</strong> for private coordination without centralised servers or metadata exposure, <strong>Logos Storage</strong> for censorship-resistant data persistence and file-sharing without trusting a cloud provider, and <strong>Logos Blockchain</strong> for sovereign, privacy-preserving consensus. This work is early, and these are hard problems that resist quick solutions, but the architectural direction is clear. You cannot build privacy on top of a surveillance platform — you must build a new platform with a different approach.</p>
+
+<hr />
+
+<h2>What this page knows about you</h2>
+
+<p>${D.hasGoodPrivacy
+  ? 'Your browser blocked some of what we tried to collect. Values marked in green below are signals your browser successfully hid. But look at what is <em>still</em> exposed — and remember that every other site collects the same information and <em>sends it to someone else</em>.'
+  : 'Below is a complete inventory of what this single page determined about you using only standard JavaScript APIs. No permissions requested. No consent dialogs. Remember: every other site you visit today collects the same and <em>sends it to someone else</em>.'}</p>
+
+<div class="s0-demo">
+  <div class="s0-demo-header"><span class="s0-dot ${D.hasGoodPrivacy ? 's0-dot-green' : ''}"></span> Complete — Everything this page ${D.hasGoodPrivacy ? 'could and couldn\'t' : ''} determine about you</div>
+  <div class="s0-demo-body">
+    <div class="s0-exposure-grid" id="s0-exposure-grid"></div>
+  </div>
+  <div class="s0-demo-footer ${D.hasGoodPrivacy ? 's0-demo-footer-green' : ''}">
+    <strong>${D.allSignals.length} signals</strong> queried in under 100ms. ${D.hasGoodPrivacy ? 'Your browser blocked some — well done — but ' + D.allSignals.filter(([,v]) => !['Blocked','Hidden','Hidden by browser','N/A'].includes(v)).length + ' still leaked.' : 'This is what "Stage 0" looks like.'}
+  </div>
+</div>
+
+<p>${D.hasGoodPrivacy
+  ? 'You are doing better than most. But the signals still exposed — screen resolution, timezone, CPU cores, language — provide enough entropy to narrow you to a very small group. Against a motivated adversary, "a very small group" often resolves to "you."'
+  : 'Combined, these signals form a fingerprint almost certainly unique to you. On any other site, this would be transmitted to a server, correlated with prior visits, enriched with broker data, and filed into a profile that follows you into your financial life.'}</p>
+
+<p>This is Stage 0. This is where privacy is lost. Not in a transaction, not in a smart contract, not in a consensus protocol. Here, in ${pd(D.browser)}, on the screen you are looking at right now.</p>
+
+<p>The surveillance begins before your transaction does. Until we build systems that account for this reality, blockchain privacy will remain a cryptographic fiction undermined by the browser you opened this ${D.timeOfDay}.</p>
+
+<div class="s0-further-reading">
+  <h3>Sources &amp; further reading</h3>
+  <a href="https://coveryourtracks.eff.org/static/browser-uniqueness.pdf">How Unique Is Your Web Browser?<span>Eckersley, 2010 — EFF Panopticlick. The foundational fingerprinting study (83.6% uniqueness across 470K browsers)</span></a>
+  <a href="https://hal.inria.fr/hal-01285470/document">Beauty and the Beast: Diverting Modern Web Browsers to Build Unique Browser Fingerprints<span>Laperdrix et al., 2016 — AmIUnique study (89.4% uniqueness across 119K browsers)</span></a>
+  <a href="https://yinzhicao.org/TrackingFree/crossbrowsertracking_NDSS17.pdf">Cross-Browser Fingerprinting via OS and Hardware Level Features<span>Cao, Li &amp; Wijmans, 2017 — NDSS. 99.24% cross-browser identification accuracy</span></a>
+  <a href="https://dl.acm.org/doi/10.1145/2976749.2978313">Online Tracking: A 1-Million-Site Measurement and Analysis<span>Englehardt &amp; Narayanan, 2016 — CCS. Princeton Web Transparency Project</span></a>
+  <a href="https://dl.acm.org/doi/10.1145/2660267.2660347">The Web Never Forgets: Persistent Tracking Mechanisms in the Wild<span>Acar et al., 2014 — CCS. Evercookie and canvas fingerprinting in real-world deployment</span></a>
+  <a href="https://www.iccl.ie/digital-data/iccl-report-on-the-scale-of-real-time-bidding-data-broadcasts-in-the-u-s-and-europe/">The Biggest Data Breach: RTB Data Broadcasts in the U.S. and Europe<span>ICCL, 2022 — 294 billion US broadcasts/day; 4,698 companies receiving data</span></a>
+  <a href="https://samy.pl/evercookie/">Evercookie<span>Kamkar, 2010 — The original zombie cookie proof-of-concept</span></a>
+  <a href="https://amiunique.org/">Am I Unique?<span>Academic browser fingerprinting research and live testing tool</span></a>
+  <a href="https://coveryourtracks.eff.org/">Cover Your Tracks<span>EFF's fingerprint analysis and tracking protection tester</span></a>
+  <a href="https://keycard.tech">Keycard<span>Open-source, air-gapped hardware wallet for secure transaction signing</span></a>
+  <a href="https://logos-co.github.io/assembly/content-tracker/Logos-Tech-Stack-Diagram">Logos Tech Stack<span>Architecture diagram of the Logos privacy infrastructure</span></a>
+</div>
+
+<div class="s0-logos-cta">
+  <h3>Privacy is a full-stack problem.</h3>
+  <p>Logos is building the infrastructure to make a sovereign, privacy-preserving internet possible. This work is early and the problems are hard. But the direction is clear.</p>
+  <a href="https://logos.co">Learn more at logos.co →</a>
+</div>
+    `;
+
+    // ── Populate interactive elements ──
+
+    // Fingerprint grid
+    const fpData = [
+      ['Browser', D.browser, false], ['Engine', D.engine, false], ['OS', D.os, false],
+      ['Screen', `${D.screenW}×${D.screenH}`, false],
+      ['GPU', D.gpu.length > 40 ? D.gpu.substring(0,40)+'…' : D.gpu, D.webglBlocked],
+      ['CPU Cores', D.cores, false], ['Pixel Ratio', D.pixelRatio+'x', false],
+      ['Language', D.lang, false], ['Timezone', D.tz, false],
+      ['Color Depth', screen.colorDepth+'-bit', false],
+      ['Canvas FP', D.canvasBlocked ? 'Blocked' : 'Exposed', D.canvasBlocked],
+      ['Device Memory', navigator.deviceMemory ? navigator.deviceMemory+' GB' : 'Hidden', !navigator.deviceMemory]
+    ];
+    document.getElementById('s0-fp-grid').innerHTML = fpData.map(([l,v,b]) =>
+      `<div class="s0-fp-item ${b?'s0-fp-item-blocked':''}"><span class="s0-fp-label">${l}</span><span class="s0-fp-value ${b?'s0-fp-value-blocked':''}">${b?'🛡️ '+v:v}</span></div>`
+    ).join('');
+
+    // Signature comparison
+    const hw = [['Screen',`${D.screenW}×${D.screenH}`],['Color Depth',screen.colorDepth+'-bit'],['CPU Cores',D.cores],['Pixel Ratio',D.pixelRatio+'x'],['Timezone',D.tz]];
+    const br = [['User Agent',D.browser+' / '+D.engine],['GPU Renderer',D.gpu.length>35?D.gpu.substring(0,35)+'…':D.gpu],['Platform',navigator.platform||'N/A'],['Language',D.lang],['Canvas FP',D.canvasBlocked?'Blocked':'Varies per engine']];
+    document.getElementById('s0-sig-compare').innerHTML = `
+      <div class="s0-sig-panel">
+        <div class="s0-sig-title s0-sig-title-hw">🖥️ Hardware Signature <span style="font-weight:400;font-size:0.9em;color:var(--s0-text-dim)">(cross-browser)</span></div>
+        ${hw.map(([l,v])=>`<div class="s0-sig-row"><span class="s0-sig-row-label">${l}</span><span class="s0-sig-row-value">${v}</span></div>`).join('')}
+        <div class="s0-sig-hash-row"><div class="s0-sig-hash-lbl">Hardware ID</div><div class="s0-sig-hash-val s0-sig-hash-hw">${D.hardwareSig}</div></div>
+      </div>
+      <div class="s0-sig-panel">
+        <div class="s0-sig-title s0-sig-title-br">🌐 Browser Signature <span style="font-weight:400;font-size:0.9em;color:var(--s0-text-dim)">(per browser)</span></div>
+        ${br.map(([l,v])=>`<div class="s0-sig-row"><span class="s0-sig-row-label">${l}</span><span class="s0-sig-row-value">${v}</span></div>`).join('')}
+        <div class="s0-sig-hash-row"><div class="s0-sig-hash-lbl">Browser ID</div><div class="s0-sig-hash-val s0-sig-hash-br">${D.browserSig}</div></div>
+      </div>`;
+
+    // Network signature
+    const net = [['Timezone',D.tz],['Language',D.lang],['Inferred Region',D.locationGuess],['Local Time',D.localTime],['Connection',navigator.connection?.effectiveType||'Hidden']];
+    document.getElementById('s0-net-sig').innerHTML = `
+      <div class="s0-net-sig-title">📡 Network Signature <span style="font-weight:400;font-size:0.9em;color:var(--s0-text-dim)">(links devices)</span></div>
+      ${net.map(([l,v])=>`<div class="s0-sig-row"><span class="s0-sig-row-label">${l}</span><span class="s0-sig-row-value">${v}</span></div>`).join('')}
+      <div style="margin-top:0.6em;font-size:0.75em;color:var(--s0-text-dim)">These signals are shared by every device on your network. Combined with IP correlation, identity graph companies link your phone, laptop, and tablet into a single profile.</div>`;
+
+    // RTB auction
+    const bidders = ['Google Ads','The Trade Desk','Meta DSP','Amazon Ads','Criteo','MediaMath','Xandr','PubMatic','OpenX','Index Exchange','Magnite','Sovrn','TripleLift','Yahoo DSP','Amobee','Basis Tech','AdTheorent','Lotame','LiveRamp','Oracle Data Cloud','Tapad','Drawbridge','Acxiom'];
+    const bEl = document.getElementById('s0-auction-bidders');
+    const tEl = document.getElementById('s0-auction-timer');
+    let bi = 0;
+    const bInt = setInterval(() => {
+      if (bi >= bidders.length) { clearInterval(bInt); tEl.textContent = `${bidders.length} companies received your data in ~100ms`; return; }
+      const d = document.createElement('div'); d.className = 's0-auction-bidder'; d.textContent = bidders[bi]; bEl.appendChild(d);
+      tEl.textContent = `${bi+1} bidders receiving data...`; bi++;
+    }, 120);
+
+    // Zombie storage
+    const mechs = Object.entries(D.storageTests);
+    let zState = 'stored';
+    function renderZ() {
+      document.getElementById('s0-zombie-grid').innerHTML = mechs.map(([n,a]) => {
+        let dc = a ? 'active' : 'unavail', st = a ? 'Tracking' : 'Blocked';
+        if (a && zState === 'cleared') { dc = 'cleared'; st = 'Cleared ✓'; }
+        else if (a && zState === 'restored') { dc = 'restored'; st = 'Restored ⚠'; }
+        return `<div class="s0-zombie-row"><span style="color:var(--s0-text-dim)">${n}</span><span class="s0-zombie-status"><span style="font-size:0.9em">${st}</span><span class="s0-zombie-dot ${dc}"></span></span></div>`;
+      }).join('');
+      const ctrl = document.getElementById('s0-zombie-controls');
+      const msg = document.getElementById('s0-zombie-msg');
+      if (zState === 'stored') {
+        ctrl.innerHTML = `<button class="s0-zombie-btn s0-zombie-btn-clear" id="s0-z-clear">Clear all storage</button>`;
+        msg.textContent = `${D.storageCount} mechanisms available for tracking.`;
+      } else if (zState === 'cleared') {
+        ctrl.innerHTML = `<button class="s0-zombie-btn s0-zombie-btn-restore" id="s0-z-restore">Resurrect from backup</button>`;
+        msg.textContent = 'All cleared. You think you\'re free. But one mechanism was missed...';
+      } else {
+        ctrl.innerHTML = `<button class="s0-zombie-btn s0-zombie-btn-clear" id="s0-z-reset">Reset demo</button>`;
+        msg.innerHTML = '<strong style="color:var(--s0-amber)">Restored to all locations from a single backup.</strong> This is Evercookie-style tracking.';
+      }
+      document.getElementById('s0-z-clear')?.addEventListener('click', () => { zState = 'cleared'; renderZ(); });
+      document.getElementById('s0-z-restore')?.addEventListener('click', () => { zState = 'restored'; renderZ(); });
+      document.getElementById('s0-z-reset')?.addEventListener('click', () => { zState = 'stored'; renderZ(); });
+    }
+    renderZ();
+
+    // Data flow
+    const steps = [
+      {t:'You open your browser',d:'JavaScript APIs expose your hardware and software configuration.',p:`Hardware: ${D.hardwareSig} · Browser: ${D.browserSig}`},
+      {t:'You browse the web',d:'Every ad-supported page broadcasts your identity to hundreds of companies via RTB.',p:`Location: ${D.locationGuess} · Browser: ${D.browser}`},
+      {t:'Data brokers compile your profile',d:'LiveRamp, Oracle, Acxiom merge tracking data into unified identity graphs.'},
+      {t:'You visit a block explorer',d:'Your hardware signature is logged alongside the addresses and transactions you viewed.'},
+      {t:'You connect a wallet',d:'The dApp records your wallet address. Analytics correlate it with your fingerprints.'},
+      {t:'RPC requests leak metadata',d:'Your wallet sends JSON-RPC to Infura/Alchemy, logging IP and query patterns.'},
+      {t:'Chain analytics correlates everything',d:'On-chain clustering meets off-chain identity data.',p:`${D.hardwareSig} → 0x...your_address → Your name`},
+    ];
+    document.getElementById('s0-flow').innerHTML = steps.map((s,i) => `
+      <div class="s0-flow-step"><div class="s0-flow-line"><div class="s0-flow-dot"></div>${i<steps.length-1?'<div class="s0-flow-connector"></div>':''}</div>
+      <div class="s0-flow-content"><div class="s0-flow-title">${s.t}</div><div class="s0-flow-desc">${s.d}</div>${s.p?`<div class="s0-flow-personal">${s.p}</div>`:''}</div></div>`).join('');
+
+    // Exposure grid
+    const blocked = ['Blocked','Hidden','Hidden by browser','N/A'];
+    document.getElementById('s0-exposure-grid').innerHTML = D.allSignals.map(([l,v],i) => {
+      const b = blocked.includes(v);
+      return `<div class="s0-exposure-item" style="animation-delay:${i*0.04}s"><span class="s0-exposure-label">${l}</span><span class="s0-exposure-value ${b?'s0-exposure-value-green':''}">${b?'🛡️ '+v:v}</span></div>`;
+    }).join('');
+  }
+
+  render();
+})();
+</script>
+3c:["$","$L3f",null,{"bodyHtml":"$undefined","blocks":[{"type":"interactive-embed","title":"Your Browser Has Already Betrayed You","fullHtml":"$40","html":""}],"content":[]}]
+3d:["$","footer",null,{"className":"mt-4 pb-20 max-sm:mt-[72px]","children":["$","div",null,{"className":"[&>section+section]:-mt-px","children":[null,["$","$L41",null,{"canonicalUrl":"https://logos.co/media/article/browser-betrayed-you","initialDiscussion":"$undefined","summary":"","title":"Your Browser Has Already Betrayed You","topicId":"$undefined"}],null,["$","$L42",null,{"label":"From The Same Authors","children":[["$","div","147",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":["$L43",["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"5 August 2026"}]]}]]}],["$","div","143",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":["$L44",["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"22 July 2026"}]]}]]}],["$","div","126",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":["$L45",["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"5 May 2026"}]]}]]}],["$","div","124",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":["$L46",["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"24 April 2026"}]]}]]}],["$","div","116",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":["$L47",["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"24 March 2026"}]]}]]}],["$","div","109",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":["$L48",["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"24 February 2026"}]]}]]}],["$","div","101",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":["$L49",["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"26 January 2026"}]]}]]}],["$","div","20",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":["$L4a",["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"3 November 2023"}]]}]]}]]}]]}]}]
+34:["$","$L1e",null,{"ref":"$undefined","href":"/media","locale":"$undefined","localeCookie":"$1d:props:localeCookie","className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Media","prefetch":false}]
+35:["$","$L1e",null,{"ref":"$undefined","href":"/media#articles","locale":"$undefined","localeCookie":"$1d:props:localeCookie","className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Articles","prefetch":false}]
+43:["$","$L1e",null,{"ref":"$undefined","href":"/media/article/interzone-bridging-logos","locale":"$undefined","localeCookie":"$1d:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Interzone Bridging: Moving Value Between Zones on Logos","prefetch":false}]
+44:["$","$L1e",null,{"ref":"$undefined","href":"/media/article/logos-blockchain-v02","locale":"$undefined","localeCookie":"$1d:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Logos Blockchain in Testnet v0.2: Privacy Reaches Consensus","prefetch":false}]
+45:["$","$L1e",null,{"ref":"$undefined","href":"/media/article/logos-basecamp","locale":"$undefined","localeCookie":"$1d:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Basecamp: Your Base of Operations on the Logos Frontier","prefetch":false}]
+46:["$","$L1e",null,{"ref":"$undefined","href":"/media/article/dispersive-medium","locale":"$undefined","localeCookie":"$1d:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"The Dispersive Medium","prefetch":false}]
+47:["$","$L1e",null,{"ref":"$undefined","href":"/media/article/anonymous-block-proposers","locale":"$undefined","localeCookie":"$1d:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Anonymous Block Proposers: How Logos Solves Leader Privacy","prefetch":false}]
+48:["$","$L1e",null,{"ref":"$undefined","href":"/media/article/logos-as-an-operating-system","locale":"$undefined","localeCookie":"$1d:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"The Logos Tech Stack: An Operating System for Sovereignty","prefetch":false}]
+49:["$","$L1e",null,{"ref":"$undefined","href":"/media/article/how-blockchain-transactions-leak-data","locale":"$undefined","localeCookie":"$1d:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"The Anatomy of Exposure: How Blockchain Transactions Leak Information at Every Layer","prefetch":false}]
+4a:["$","$L1e",null,{"ref":"$undefined","href":"/media/article/how-to-ethically-build-public-goods-infrastructure","locale":"$undefined","localeCookie":"$1d:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"How To Ethically Build Public Goods Infrastructure","prefetch":false}]
+4b:I[10001,["/_next/static/chunks/03nuhivib13_i.js","/_next/static/chunks/0c1nds211k~cp.js"],"IconMark"]
+8:null
+d:[["$","title","0",{"children":"Your Browser Has Already Betrayed You | Logos"}],["$","meta","1",{"name":"description","content":"Private-by default technology to reclaim civil society. Logos is the decentralised infrastructure for building parallel systems."}],["$","meta","2",{"name":"keywords","content":"logos,decentralised,privacy,civil society,blockchain"}],["$","meta","3",{"name":"creator","content":"Logos"}],["$","meta","4",{"name":"robots","content":"index, follow"}],["$","link","5",{"rel":"canonical","href":"https://logos.co/media/article/browser-betrayed-you"}],["$","link","6",{"rel":"alternate","hrefLang":"en","href":"https://logos.co/media/article/browser-betrayed-you"}],["$","link","7",{"rel":"alternate","hrefLang":"x-default","href":"https://logos.co/media/article/browser-betrayed-you"}],["$","link","8",{"rel":"alternate","type":"application/rss+xml","href":"https://logos.co/rss/main.xml","title":"Logos Media"}],["$","link","9",{"rel":"alternate","type":"application/rss+xml","href":"https://logos.co/rss/logos-state.xml","title":"Logos Podcast"}],["$","link","10",{"rel":"alternate","type":"application/atom+xml","href":"https://logos.co/atom.xml"}],["$","meta","11",{"property":"og:title","content":"Your Browser Has Already Betrayed You | Logos"}],["$","meta","12",{"property":"og:description","content":"Private-by default technology to reclaim civil society. Logos is the decentralised infrastructure for building parallel systems."}],["$","meta","13",{"property":"og:url","content":"https://logos.co/media/article/browser-betrayed-you"}],["$","meta","14",{"property":"og:site_name","content":"Logos"}],["$","meta","15",{"property":"og:locale","content":"en"}],["$","meta","16",{"property":"og:image","content":"https://cms-press.logos.co/uploads/browser_betrayed_you_7dfcfd4972.jpg"}],["$","meta","17",{"property":"og:image:width","content":"1280"}],["$","meta","18",{"property":"og:image:height","content":"853"}],["$","meta","19",{"property":"og:type","content":"article"}],["$","meta","20",{"property":"article:published_time","content":"2026-02-19"}],["$","meta","21",{"property":"article:modified_time","content":"2026-02-19"}],["$","meta","22",{"property":"article:author","content":"Dr. Corey Petty"}],["$","meta","23",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","24",{"name":"twitter:title","content":"Your Browser Has Already Betrayed You | Logos"}],["$","meta","25",{"name":"twitter:description","content":"Private-by default technology to reclaim civil society. Logos is the decentralised infrastructure for building parallel systems."}],["$","meta","26",{"name":"twitter:image","content":"https://cms-press.logos.co/uploads/browser_betrayed_you_7dfcfd4972.jpg"}],["$","link","27",{"rel":"icon","href":"/favicon.svg?v=20260630","type":"image/svg+xml","media":"(prefers-color-scheme: light)"}],["$","link","28",{"rel":"icon","href":"/favicon-dark.svg?v=20260630","type":"image/svg+xml","media":"(prefers-color-scheme: dark)"}],["$","link","29",{"rel":"icon","href":"/favicon-32x32.png?v=20260630","sizes":"32x32","type":"image/png","media":"(prefers-color-scheme: light)"}],["$","link","30",{"rel":"icon","href":"/favicon-32x32-dark.png?v=20260630","sizes":"32x32","type":"image/png","media":"(prefers-color-scheme: dark)"}],["$","link","31",{"rel":"icon","href":"/favicon-16x16.png?v=20260630","sizes":"16x16","type":"image/png","media":"(prefers-color-scheme: light)"}],["$","link","32",{"rel":"icon","href":"/favicon-16x16-dark.png?v=20260630","sizes":"16x16","type":"image/png","media":"(prefers-color-scheme: dark)"}],["$","link","33",{"rel":"icon","href":"/favicon.ico?v=20260630","sizes":"any","media":"(prefers-color-scheme: light)"}],["$","link","34",{"rel":"icon","href":"/favicon-dark.ico?v=20260630","sizes":"any","media":"(prefers-color-scheme: dark)"}],["$","link","35",{"rel":"apple-touch-icon","href":"/apple-touch-icon.png","sizes":"180x180","type":"image/png"}],["$","$L4b","36",{}]]

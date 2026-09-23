@@ -1,0 +1,1801 @@
+1:"$Sreact.fragment"
+2:I[29612,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"ArticleSidebar"]
+3:I[94886,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"default"]
+b:I[30117,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"ShareButton"]
+c:I[15120,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"MediaRichContent"]
+e:I[23738,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"ArticleDiscussion"]
+f:I[11522,["/_next/static/chunks/0xdfjrgb1-l6e.js","/_next/static/chunks/0kxztukdpg3gd.js","/_next/static/chunks/0w20jh1w-dz7k.js","/_next/static/chunks/1678z6no7g3cm.js","/_next/static/chunks/0ax2i_.v22cc4.js","/_next/static/chunks/16u1xgi-pu~32.js","/_next/static/chunks/00fxhtlr_w_4r.js","/_next/static/chunks/0_5ei0vb5lr9k.js"],"MediaCollapse"]
+13:I[93851,["/_next/static/chunks/03nuhivib13_i.js","/_next/static/chunks/0c1nds211k~cp.js"],"OutletBoundary"]
+14:"$Sreact.suspense"
+:HL["/media-images/dispersive_medium_474ccc1b6d-383f9d47-750.webp","image",{"imageSrcSet":"/media-images/dispersive_medium_474ccc1b6d-383f9d47-750.webp 750w, /media-images/dispersive_medium_474ccc1b6d-383f9d47-1280.webp 1280w","imageSizes":"(max-width: 767px) calc(100vw - 32px), 700px","fetchPriority":"high"}]
+0:{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"The Dispersive Medium\",\"description\":\"\",\"url\":\"https://logos.co/media/article/dispersive-medium\",\"image\":\"https://cms-press.logos.co/uploads/og_dispersive_medium_a50e39bf4f.jpg\",\"datePublished\":\"2026-04-24T00:00:00.000Z\",\"dateModified\":\"2026-04-24T00:00:00.000Z\",\"author\":[{\"@type\":\"Person\",\"name\":\"Dr. Corey Petty\"}],\"publisher\":{\"@type\":\"Organization\",\"@id\":\"https://logos.co/#organization\",\"name\":\"Logos\",\"url\":\"https://logos.co\",\"logo\":\"https://logos.co/apple-touch-icon.png\"},\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https://logos.co/media/article/dispersive-medium\"}}"}}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Media\",\"item\":\"https://logos.co/media\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Articles\",\"item\":\"https://logos.co/media#articles\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"The Dispersive Medium\",\"item\":\"https://logos.co/media/article/dispersive-medium\"}]}"}}],["$","div",null,{"className":"media-detail-page bg-accent-tan pt-6 text-brand-dark-green lg:pt-[52px]","children":["$","div",null,{"className":"mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 md:grid-cols-[repeat(16,minmax(0,1fr))] md:gap-4 lg:px-0","children":[["$","$L2",null,{"contentsLabel":"Contents","title":"The Dispersive Medium","toc":[]}],["$","article",null,{"className":"flex min-w-0 max-w-[700px] flex-col gap-4 md:col-span-10 md:col-start-6 lg:col-span-8 lg:col-start-5","children":[["$","header",null,{"className":"mb-6 flex flex-col text-brand-dark-green","children":[["$","div",null,{"className":"mb-6","children":["$","nav",null,{"aria-label":"Breadcrumb","className":"font-sans text-[12px] leading-4 text-brand-dark-green","children":["$","ol",null,{"className":"flex flex-wrap items-center gap-2","children":[["$","li","/media",{"className":"flex items-center gap-2","children":[null,["$","$L3",null,{"href":"/media","localeCookie":{"name":"NEXT_LOCALE","sameSite":"lax"},"className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Media","prefetch":false}]]}],["$","li","/media#articles",{"className":"flex items-center gap-2","children":[["$","span",null,{"aria-hidden":"true","children":"/"}],["$","$L3",null,{"href":"/media#articles","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Articles","prefetch":false}]]}]]}]}]}],["$","div",null,{"className":"mb-3 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[["$","span",null,{"children":"21 MIN"}],["$","span",null,{"aria-hidden":"true","className":"size-[3px] rounded-full bg-current"}],["$","span",null,{"children":"24 APR 2026"}]]}],["$","div",null,{"children":[["$","h1",null,{"id":"title-anchor","className":"scroll-mt-[95px] font-display text-[44px] leading-[54px] tracking-normal","children":"The Dispersive Medium"}],["$","p",null,{"className":"mt-4 max-w-full whitespace-pre-wrap font-sans text-[18px] leading-6 tracking-normal md:text-[16px]","children":"How platform infrastructure dissolved civil society's coherence — and what it would take to restore it"}]]}],["$","div",null,{"className":"mb-8 mt-4 flex flex-wrap items-center gap-3","children":[["$","div","2",{"className":"flex items-center gap-3","children":[["$","span",null,{"className":"flex items-center gap-2","children":[["$","span",null,{"className":"flex size-4 items-center justify-center rounded-full border border-brand-dark-green font-sans text-[11px] leading-4","children":"D"}],["$","span",null,{"className":"font-sans text-[12px] leading-4","children":"Dr. Corey Petty"}]]}],null]}]]}],"$L4","$L5","$L6"]}],"$L7","$L8"]}]]}]}]],["$L9"],"$La"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"0kP-zEZYyRM_fvfP-mpuW"}
+4:["$","div",null,{"className":"flex w-fit max-w-full items-start gap-4","children":[["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","6",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"Logos"}]]}],["$","span",null,{"aria-hidden":"true","className":"mt-1.5 h-3 border-l border-brand-dark-green"}],["$","$Lb",null,{"label":"Share","copiedLabel":"Copied","title":"The Dispersive Medium","url":"https://logos.co/media/article/dispersive-medium"}]]}]
+5:["$","figure",null,{"className":"my-10 w-full max-md:my-6","children":[["$","div",null,{"className":"relative aspect-[1200/630] w-full overflow-hidden bg-brand-dark-green/10","children":["$","img",null,{"src":"/media-images/dispersive_medium_474ccc1b6d-383f9d47-750.webp","srcSet":"/media-images/dispersive_medium_474ccc1b6d-383f9d47-750.webp 750w, /media-images/dispersive_medium_474ccc1b6d-383f9d47-1280.webp 1280w","sizes":"(max-width: 767px) calc(100vw - 32px), 700px","alt":"","width":1280,"height":854,"loading":"eager","fetchPriority":"high","decoding":"async","className":"absolute inset-0 size-full object-cover"}]}],["$","figcaption",null,{"className":"min-h-2 pt-2 font-sans text-[12px] leading-4","children":""}]]}]
+6:null
+d:T11dce,<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Dispersive Medium — Draft Preview</title>
+    <style>
+      h3.subtitle {
+        font-size: 1.05em;
+        font-weight: 400;
+        color: #4a4a68;
+        margin-top: 0;
+        margin-bottom: 0.3em;
+        line-height: 1.4;
+      }
+      .byline {
+        color: #71717a;
+        font-size: 0.9em;
+        margin-bottom: 2em;
+        font-style: italic;
+      }
+      blockquote {
+        border-left: 3px solid #e4e4e7;
+        margin: 1.5em 0;
+        padding: 0.5em 1.2em;
+        color: #4a4a68;
+        font-style: italic;
+      }
+      em {
+        font-style: italic;
+      }
+      strong {
+        font-weight: 700;
+      }
+    </style>
+
+    <!-- ─── Interactive component styles ─── -->
+    <style>
+      .dm {
+        --dm-bg: #ffffff;
+        --dm-bg-surface: #f8f8fa;
+        --dm-bg-elevated: #f0f0f4;
+        --dm-border: #e4e4e7;
+        --dm-text: #1a1a2e;
+        --dm-text-dim: #71717a;
+        --dm-text-secondary: #4a4a68;
+        --dm-accent: #c22d2d;
+        --dm-accent-bg: rgba(194, 45, 45, 0.06);
+        --dm-accent-border: rgba(194, 45, 45, 0.18);
+        --dm-green: #16864e;
+        --dm-green-bg: rgba(22, 134, 78, 0.06);
+        --dm-green-border: rgba(22, 134, 78, 0.15);
+        --dm-amber: #b45309;
+        --dm-amber-bg: rgba(180, 83, 9, 0.07);
+        --dm-amber-border: rgba(180, 83, 9, 0.18);
+        --dm-mono:
+          "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", "Courier New",
+          monospace;
+        font-family: inherit;
+        color: var(--dm-text);
+      }
+      .dm-panel {
+        background: var(--dm-bg-surface);
+        border: 1px solid var(--dm-border);
+        border-radius: 10px;
+        margin: 2em 0;
+        overflow: hidden;
+      }
+      .dm-panel-header {
+        padding: 0.75em 1.2em;
+        background: var(--dm-bg-elevated);
+        border-bottom: 1px solid var(--dm-border);
+        font-family: var(--dm-mono);
+        font-size: 0.68em;
+        font-weight: 600;
+        color: var(--dm-text-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        display: flex;
+        align-items: center;
+        gap: 0.6em;
+      }
+      .dm-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--dm-accent);
+        animation: dm-blink 2s ease-in-out infinite;
+        flex-shrink: 0;
+      }
+      .dm-dot-green {
+        background: var(--dm-green);
+      }
+      .dm-dot-amber {
+        background: var(--dm-amber);
+        animation: none;
+      }
+      @keyframes dm-blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+      .dm-panel-body {
+        padding: 1.2em;
+      }
+      .dm-panel-footer {
+        padding: 0.75em 1.2em;
+        background: var(--dm-accent-bg);
+        border-top: 1px solid var(--dm-accent-border);
+        font-size: 0.82em;
+        color: var(--dm-text-secondary);
+        line-height: 1.6;
+      }
+      .dm-panel-footer strong {
+        color: var(--dm-accent);
+      }
+      .dm-panel-footer-green {
+        background: var(--dm-green-bg);
+        border-top-color: var(--dm-green-border);
+      }
+      .dm-panel-footer-green strong {
+        color: var(--dm-green);
+      }
+      .dm-panel-footer-amber {
+        background: var(--dm-amber-bg);
+        border-top-color: var(--dm-amber-border);
+      }
+      .dm-panel-footer-amber strong {
+        color: var(--dm-amber);
+      }
+
+      /* ── two-panel wave ── */
+      .dm-wave-panels {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8em;
+      }
+      @media (max-width: 540px) {
+        .dm-wave-panels {
+          grid-template-columns: 1fr;
+        }
+      }
+      .dm-wave-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .dm-wave-panel-label {
+        font-family: var(--dm-mono);
+        font-size: 0.65em;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        padding: 0.4em 0.7em;
+        border-radius: 5px 5px 0 0;
+        border: 1px solid var(--dm-border);
+        border-bottom: none;
+        background: var(--dm-bg-elevated);
+        color: var(--dm-text-dim);
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+      }
+      .dm-wave-panel-label.dm-label-linear {
+        color: var(--dm-accent);
+        border-color: var(--dm-accent-border);
+        background: var(--dm-accent-bg);
+      }
+      .dm-wave-panel-label.dm-label-nonlinear {
+        color: var(--dm-green);
+        border-color: var(--dm-green-border);
+        background: var(--dm-green-bg);
+      }
+      .dm-wave-canvas {
+        display: block;
+        width: 100%;
+        border-radius: 0 0 5px 5px;
+        background: #0e1117;
+        border: 1px solid var(--dm-border);
+      }
+      .dm-wave-canvas.dm-canvas-linear {
+        border-color: var(--dm-accent-border);
+      }
+      .dm-wave-canvas.dm-canvas-nonlinear {
+        border-color: var(--dm-green-border);
+      }
+
+      /* shared controls */
+      .dm-wave-shared {
+        margin-top: 1em;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6em;
+      }
+      .dm-ctrl-row {
+        display: flex;
+        align-items: center;
+        gap: 0.8em;
+      }
+      .dm-ctrl-label {
+        font-family: var(--dm-mono);
+        font-size: 0.68em;
+        font-weight: 600;
+        color: var(--dm-text-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        white-space: nowrap;
+        min-width: 7em;
+      }
+      .dm-ctrl-slider {
+        flex: 1;
+      }
+      .dm-ctrl-val {
+        font-family: var(--dm-mono);
+        font-size: 0.75em;
+        font-weight: 700;
+        color: var(--dm-text-secondary);
+        width: 3.5em;
+        text-align: right;
+      }
+      .dm-ctrl-row input[type="range"] {
+        accent-color: var(--dm-accent);
+      }
+
+      /* balance indicator */
+      .dm-balance {
+        margin-top: 0.5em;
+        padding: 0.55em 0.9em;
+        border-radius: 6px;
+        border: 1px solid var(--dm-border);
+        background: var(--dm-bg-elevated);
+        display: flex;
+        align-items: center;
+        gap: 0.7em;
+        font-size: 0.78em;
+        font-family: var(--dm-mono);
+      }
+      .dm-balance-pip {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        transition: background 0.3s;
+      }
+      .dm-balance-text {
+        color: var(--dm-text-secondary);
+        flex: 1;
+      }
+      .dm-balance-eq {
+        font-size: 0.75em;
+        color: var(--dm-text-dim);
+        font-style: italic;
+      }
+
+      /* ── reach calculator ── */
+      .dm-reach-inputs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1em;
+        margin-bottom: 1.2em;
+      }
+      @media (max-width: 540px) {
+        .dm-reach-inputs {
+          grid-template-columns: 1fr;
+        }
+      }
+      .dm-field label {
+        display: block;
+        font-size: 0.75em;
+        font-weight: 600;
+        color: var(--dm-text-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        margin-bottom: 0.4em;
+        font-family: var(--dm-mono);
+      }
+      .dm-field input[type="range"] {
+        width: 100%;
+        accent-color: var(--dm-accent);
+      }
+      .dm-field-val {
+        font-family: var(--dm-mono);
+        font-size: 0.82em;
+        color: var(--dm-text-secondary);
+        margin-top: 0.2em;
+      }
+      .dm-reach-result {
+        background: var(--dm-bg-elevated);
+        border-radius: 8px;
+        padding: 1em 1.2em;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8em;
+        text-align: center;
+      }
+      @media (max-width: 480px) {
+        .dm-reach-result {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .dm-reach-stat-label {
+        font-size: 0.7em;
+        color: var(--dm-text-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        font-family: var(--dm-mono);
+        margin-bottom: 0.3em;
+      }
+      .dm-reach-stat-val {
+        font-size: 1.5em;
+        font-weight: 700;
+        line-height: 1.1;
+      }
+      .dm-reach-stat-sub {
+        font-size: 0.72em;
+        color: var(--dm-text-dim);
+        margin-top: 0.15em;
+      }
+      .dm-reach-chart {
+        margin-top: 1em;
+        position: relative;
+        height: 80px;
+      }
+      .dm-reach-chart canvas {
+        display: block;
+        width: 100%;
+        height: 80px;
+        border-radius: 4px;
+      }
+      .dm-reach-chart-label {
+        position: absolute;
+        top: 6px;
+        right: 8px;
+        font-size: 0.68em;
+        font-family: var(--dm-mono);
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      /* ── link rot checker ── */
+      .dm-rot-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+      }
+      .dm-rot-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.8em;
+        padding: 0.6em 0.8em;
+        border-radius: 6px;
+        background: var(--dm-bg-elevated);
+        font-size: 0.82em;
+        line-height: 1.4;
+        transition: background 0.3s;
+      }
+      .dm-rot-status {
+        font-family: var(--dm-mono);
+        font-size: 0.75em;
+        font-weight: 700;
+        padding: 0.2em 0.55em;
+        border-radius: 4px;
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin-top: 0.1em;
+        letter-spacing: 0.04em;
+      }
+      .dm-rot-checking {
+        background: var(--dm-bg-elevated);
+        color: var(--dm-text-dim);
+        border: 1px solid var(--dm-border);
+      }
+      .dm-rot-live {
+        background: var(--dm-green-bg);
+        color: var(--dm-green);
+        border: 1px solid var(--dm-green-border);
+      }
+      .dm-rot-dead {
+        background: var(--dm-accent-bg);
+        color: var(--dm-accent);
+        border: 1px solid var(--dm-accent-border);
+      }
+      .dm-rot-changed {
+        background: var(--dm-amber-bg);
+        color: var(--dm-amber);
+        border: 1px solid var(--dm-amber-border);
+      }
+      .dm-rot-url {
+        font-family: var(--dm-mono);
+        font-size: 0.85em;
+        color: var(--dm-text-dim);
+        word-break: break-all;
+      }
+      .dm-rot-desc {
+        color: var(--dm-text-secondary);
+      }
+      .dm-rot-summary {
+        margin-top: 1em;
+        padding: 0.8em 1em;
+        background: var(--dm-accent-bg);
+        border: 1px solid var(--dm-accent-border);
+        border-radius: 6px;
+        font-size: 0.85em;
+        color: var(--dm-text-secondary);
+        display: none;
+      }
+      .dm-rot-summary strong {
+        color: var(--dm-accent);
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+      I want to start with a claim that sounds like physics, because it is
+      physics, and because the physics turns out to matter.
+    </p>
+
+    <p>
+      The difference between a signal and noise is not energy. It's not volume,
+      or intent, or numbers. A coherent signal and an incoherent one can carry
+      identical amounts of energy &mdash; the same people, the same passion, the
+      same righteous anger. What separates them is something more subtle and,
+      once you see it, more devastating:
+      <strong>phase relationships</strong> &mdash; whether the components of a
+      system are synchronised, locked together in a way that makes their
+      contributions reinforce rather than cancel. Think of a crowd chanting in
+      unison versus a crowd where everyone is shouting something different at
+      the same volume. Same energy. Completely different effect.
+    </p>
+
+    <p>
+      In physics, a wave packet &mdash; a localised burst of energy capable of
+      carrying information across a medium &mdash; is not defined by any single
+      frequency it contains. It's defined by the relationships between all of
+      them. Destroy those relationships and the packet disperses. The energy
+      doesn't go anywhere. The frequencies are all still present. But the signal
+      loses its shape. It bleeds out into background noise, and you can no
+      longer distinguish it from everything else.
+    </p>
+
+    <p>
+      Here is the thing about dispersion that most people don't know: it doesn't
+      require anything to go wrong. There's no external force, no disruption, no
+      bad actor. In any real medium, different frequencies travel at slightly
+      different speeds. Given enough time, a packet that starts sharp will
+      spread. This is the default state. Coherence is the thing that requires
+      explanation.
+    </p>
+
+    <p>
+      Civil society is a wave packet. That's not a poetic gesture &mdash; it's a
+      structural claim. The mapping is not exact: human systems are messier than
+      optical fibers, and the mechanisms of social dispersion don't obey
+      Schr&ouml;dinger's equation. But the <em>pattern</em> is the same, and the
+      pattern is what matters. Energy that remains present but loses its
+      coordination. A medium whose properties determine whether coherence holds
+      or dissolves. The distinction between a signal problem and an
+      infrastructure problem. These aren't metaphors borrowed from physics for
+      flavor. They're the same phenomenon, observed at different scales.
+    </p>
+
+    <p>
+      And for the last two decades, civil society's wave packet has been
+      dispersing. Not because the people disappeared, or the energy left, or the
+      desire to organise evaporated. Because the medium changed.
+    </p>
+
+    <p>
+      You can watch it happen. Figure 1 below shows two identical wave packets
+      &mdash; same energy, same starting shape &mdash; traveling through two
+      different media. On the left, a normal medium: the packet evaporates. Its
+      components drift apart at different speeds and the signal flattens into
+      nothing. The energy is all still there, but it no longer has a shape you
+      could recognise or use. On the right, a medium with a special structural
+      property: it pushes back against the spreading in exact proportion. The
+      packet holds. In physics, a wave that does this is called a
+      <strong>soliton</strong> &mdash; a pulse that maintains its shape not
+      because something is holding it together from outside, but because the
+      medium itself has a built-in counterforce to dispersion. Drag the
+      dispersion slider up and watch the difference. The left packet dissolves.
+      The right one doesn't care. Keep that distinction in mind. We'll come back
+      to it.
+    </p>
+
+    <!-- ═══════════════════════════════════════════════════
+     FIGURE 1: Wave Packet Visualizer (two-panel)
+     ═══════════════════════════════════════════════════ -->
+    <div class="dm" id="dm-wave">
+      <div class="dm-panel">
+        <div class="dm-panel-header">
+          <span class="dm-dot" id="dm-wave-dot"></span>
+          Figure 1 &mdash; Same packet. Different medium.
+        </div>
+        <div class="dm-panel-body">
+          <div class="dm-wave-panels">
+            <div class="dm-wave-panel">
+              <div class="dm-wave-panel-label dm-label-linear">
+                <span
+                  style="
+                    display: inline-block;
+                    width: 7px;
+                    height: 7px;
+                    border-radius: 50%;
+                    background: var(--dm-accent);
+                  "
+                ></span>
+                Linear medium
+              </div>
+              <canvas
+                class="dm-wave-canvas dm-canvas-linear"
+                id="dm-wave-canvas-L"
+                height="160"
+              ></canvas>
+            </div>
+            <div class="dm-wave-panel">
+              <div class="dm-wave-panel-label dm-label-nonlinear">
+                <span
+                  style="
+                    display: inline-block;
+                    width: 7px;
+                    height: 7px;
+                    border-radius: 50%;
+                    background: var(--dm-green);
+                  "
+                ></span>
+                Nonlinear medium
+              </div>
+              <canvas
+                class="dm-wave-canvas dm-canvas-nonlinear"
+                id="dm-wave-canvas-R"
+                height="160"
+              ></canvas>
+            </div>
+          </div>
+
+          <div class="dm-wave-shared">
+            <div class="dm-ctrl-row">
+              <span class="dm-ctrl-label">Dispersion</span>
+              <input
+                class="dm-ctrl-slider"
+                id="dm-disp-slider"
+                type="range"
+                min="0"
+                max="3"
+                step="0.05"
+                value="2"
+                oninput="dmWave.setDispersion(+this.value)"
+                style="accent-color: var(--dm-accent)"
+              />
+              <span class="dm-ctrl-val" id="dm-disp-val">2.0&times;</span>
+            </div>
+            <div class="dm-ctrl-row">
+              <span class="dm-ctrl-label">Phase coherence</span>
+              <input
+                class="dm-ctrl-slider"
+                id="dm-phase-slider"
+                type="range"
+                min="0"
+                max="1"
+                step="0.02"
+                value="1"
+                oninput="dmWave.setPhase(+this.value)"
+                style="accent-color: var(--dm-accent)"
+              />
+              <span class="dm-ctrl-val" id="dm-phase-val">aligned</span>
+            </div>
+            <div class="dm-balance" id="dm-balance">
+              <span class="dm-balance-pip" id="dm-balance-pip"></span>
+              <span class="dm-balance-text" id="dm-balance-text"></span>
+              <span class="dm-balance-eq" id="dm-balance-eq"></span>
+            </div>
+          </div>
+        </div>
+        <div class="dm-panel-footer" id="dm-wave-footer">
+          <strong>Watch the left packet evaporate.</strong> Both sides start
+          with the same signal. In the left (linear) medium, dispersion wins
+          &mdash; the components drift apart and the pulse flattens into
+          background noise. In the right (nonlinear) medium, a structural
+          counterforce exactly cancels the spreading: the soliton holds its
+          shape. Drag the dispersion slider to maximum. The left signal is
+          destroyed. The right one is untouched. Same energy. Different medium.
+          Opposite outcome.
+        </div>
+      </div>
+    </div>
+
+    <hr />
+
+    <h2>What coherence looked like</h2>
+
+    <p>
+      The space between the individual and the state &mdash; the space where
+      communities actually form, where trust is built, where coordination
+      happens below the level of power &mdash; has always depended on
+      infrastructure. Not in a romantic sense. In a literal, technical sense:
+      the physical and institutional substrate through which people communicate,
+      coordinate, and remember.
+    </p>
+
+    <p>
+      For most of human history, that infrastructure was either community-owned
+      or at minimum not adversarially controlled. The printing press was
+      expensive, but once in your hands it was yours. Parish records were held
+      by the parish. Letters were private by default &mdash; not private because
+      a corporation decided to extend that privilege, but private because
+      physical interception was costly and visible. The town square required no
+      terms of service. An underground newspaper required only paper, a
+      typewriter, and people willing to pass it hand to hand.
+    </p>
+
+    <p>
+      This matters because distributed infrastructure produces something that,
+      in physics terms, resembles a flat <strong>dispersion relation</strong>.
+      That term describes the rule governing how fast different frequencies
+      travel through a given medium. If the rule is flat &mdash; all frequencies
+      travel at the same speed &mdash; the phase relationships hold and a packet
+      stays sharp. The analogy isn't exact: the real advantage of distributed
+      infrastructure is less about propagation speed and more about topology
+      &mdash; no chokepoint, no single point of control. But the effect on
+      coherence is the same. Different kinds of communities, different rhythms
+      and concerns and languages, can maintain their coordination simultaneously
+      without one being systematically advantaged or suppressed by the medium
+      itself.
+    </p>
+
+    <p>
+      You can see what this looked like in practice when you look at its most
+      extreme form: the <em>samizdat</em> networks of 1970s Czechoslovakia. The
+      word is Russian &mdash; <em>sam</em> meaning "self" and
+      <em>izdat</em> from "publishing house." Self-published. It referred to the
+      clandestine copying and hand-to-hand distribution of censored writings:
+      essays, novels, political analysis, poetry, typed on manual typewriters
+      and passed from apartment to apartment, outside any official channel.
+      Under Soviet-era regimes where the state controlled every printing press,
+      samizdat was the only medium that couldn't be shut off from above.
+    </p>
+
+    <p>
+      V&aacute;clav Benda, mathematician, Roman Catholic, and Charter 77
+      signatory, understood the infrastructure problem with unusual clarity.
+      Writing in 1978, in an essay that circulated as a handwritten and typed
+      manuscript passed from apartment to apartment &mdash; distributed, by
+      necessity, in the medium most resistant to state capture &mdash; he argued
+      that moral dissent alone was insufficient. What was needed was not better
+      arguments made through existing channels. What was needed was parallel
+      infrastructure: parallel education, parallel culture, parallel
+      communication networks, a parallel economy of trust.
+    </p>
+
+    <p>
+      The genius of samizdat was precisely its technical properties. No central
+      exchange point. No single node that could be shut down. No algorithm
+      mediating who received what based on engagement metrics. By mid-1989, H.
+      Gordon Skilling estimated fifty to sixty typewritten journals were in
+      circulation, covering drama, history, economics, literature, philosophy.
+      The physical distribution mechanism &mdash; the thing that looked like
+      weakness &mdash; was actually the source of its resilience. You couldn't
+      take it down because there was nothing to take down. The medium had no
+      chokepoint.
+    </p>
+
+    <p>
+      Benda called this project the Parallel Polis. His fellow dissident
+      V&aacute;clav Havel would later become its most famous voice, though
+      Havel's analysis operated at a different register: not infrastructure, but
+      compliance &mdash; and specifically, the way a system's infrastructure can
+      make compliance automatic, even unconscious.
+    </p>
+
+    <p>
+      In his 1978 essay "The Power of the Powerless," Havel offered a thought
+      experiment that has become one of the most cited passages in dissident
+      literature. Imagine a greengrocer in a Communist-era shop. Among his
+      carrots and onions he places a sign in the window: a Party slogan. The
+      sign was delivered from headquarters along with the vegetables. He doesn't
+      believe it. He may not even read it. But he displays it, because not
+      displaying it would invite questions, inspections, trouble. And in
+      displaying it, he becomes a small structural element of the system's
+      reproduction. The sign in the window carries a message, but the message
+      has nothing to do with what the words say. The real message is:
+      <em
+        >I can be depended upon. I am beyond reproach. I am obedient and
+        therefore I have the right to be left in peace.</em
+      >
+      This will matter later, when we get to platforms.
+    </p>
+
+    <p>
+      Both men were describing, from different angles, the same phenomenon:
+      <strong>the medium is the message</strong>. Not as aphorism, but as
+      mechanism.
+    </p>
+
+    <hr />
+
+    <h2>The capture</h2>
+
+    <p>
+      Marshall McLuhan said it in 1964. He meant it literally. It's not just
+      what travels through the infrastructure that matters &mdash; it's the
+      infrastructure itself that shapes what can be said, who can say it, who
+      can hear it, and what happens to them when they do.
+    </p>
+
+    <p>Consider what happened on the night of January 27, 2011.</p>
+
+    <p>
+      Egyptian activists had spent months building coordination across platforms
+      they did not own or control. The "We Are All Khaled Said" Facebook page,
+      created anonymously by a Google marketing executive named Wael Ghonim, had
+      grown to over 350,000 followers before January 25 &mdash; eventually
+      surpassing three million. A University of Washington study found that
+      tweets about political change in Egypt jumped from roughly 2,300 per day
+      to 230,000 per day in the week before Mubarak's resignation. The platforms
+      had functioned as coordination infrastructure in a way that impressed and
+      excited almost everyone who observed it. The platforms had lowered the
+      transaction costs of collective action. The signal was strong and sharp.
+    </p>
+
+    <p>
+      Then, at 22:12 UTC on January 27, the Egyptian government made a phone
+      call. Then another. Then another. Over a thirteen-minute window, five
+      internet service providers &mdash; Link Egypt, Vodafone, Telecom Egypt,
+      Etisalat, Internet Egypt &mdash; withdrew approximately 3,500 BGP routes.
+      Ninety-three percent of all Egyptian networks went dark.
+    </p>
+
+    <p>
+      The mechanism was simple. Engineers at each ISP accessed their routers and
+      deleted IP address lists. The entire communication infrastructure of a
+      nation of eighty million people had been built through four major
+      providers sharing a single main exchange point. One phone call per
+      company. Thirteen minutes.
+    </p>
+
+    <p>
+      Strictly speaking, this isn't dispersion &mdash; it's something worse.
+      Dispersion is gradual: the signal spreads, weakens, loses shape over time.
+      What happened in Egypt was a hard cutoff &mdash; the medium itself was
+      removed. The packet didn't blur. It was switched off. But the reason it
+      <em>could</em> be switched off is the same structural problem: the
+      infrastructure had a chokepoint. It always does when it's centralised.
+      Dispersion is what happens slowly, in the background, when the medium is
+      merely indifferent. Cutoff is what happens when the medium is actively
+      hostile. Both are properties of the medium, not the signal.
+    </p>
+
+    <p>
+      Vodafone's post-crisis statement confirmed what everyone suspected: the
+      shutdown was not a technical failure but a direct order, executed under
+      emergency powers, after which the same infrastructure was used to
+      distribute pro-government SMS messages to the same population it had just
+      silenced. The activist network that had spent months achieving phase-lock
+      &mdash; synchronising their message, their timing, their collective action
+      &mdash; was dispersed in thirteen minutes. The same medium that had
+      carried the signal dissolved it.
+    </p>
+
+    <p>
+      Egypt is the legible version of the story because it happened fast and
+      visibly. The slower version is happening everywhere, continuously, and is
+      much harder to see.
+    </p>
+
+    <p>
+      Facebook's average organic page reach declined from roughly sixteen
+      percent in 2012 to under two percent by 2022. For the activist or
+      community organisation, this means a page that once reliably reached one
+      in six followers now reaches one in fifty. A 2025 academic study found
+      reactions to news content on the platform declined by seventy-eight
+      percent between 2021 and 2024. In the terms we've been using, this is a
+      change to the dispersion relation &mdash; the platform rewrote the rules
+      governing how fast different voices travel through it. Your community is
+      still there. The people are all still present. But the platform now
+      determines who gets heard at what speed &mdash; and it has set that speed,
+      for you, much slower than for the advertiser.
+    </p>
+
+    <p>
+      Figure 2 lets you see what this means for a real audience. Set your
+      follower count, pick the year you started building, and watch the
+      algorithm's cut. The decay curve is not a bug or a temporary condition
+      &mdash; it is the rule of the medium you chose to build on.
+    </p>
+
+    <!-- ═══════════════════════════════════════════════════
+     FIGURE 2: Organic Reach Collapse Calculator
+     ═══════════════════════════════════════════════════ -->
+    <div class="dm" id="dm-reach">
+      <div class="dm-panel">
+        <div class="dm-panel-header">
+          <span class="dm-dot dm-dot-amber"></span>
+          Figure 2 &mdash; Your audience, after the algorithm
+        </div>
+        <div class="dm-panel-body">
+          <div class="dm-reach-inputs">
+            <div class="dm-field">
+              <label>Followers / page likes</label>
+              <input
+                type="range"
+                id="dm-followers"
+                min="100"
+                max="500000"
+                value="10000"
+                step="100"
+                oninput="dmReach.update()"
+              />
+              <div class="dm-field-val" id="dm-followers-val">10,000</div>
+            </div>
+            <div class="dm-field">
+              <label>Year you started</label>
+              <input
+                type="range"
+                id="dm-year"
+                min="2012"
+                max="2024"
+                value="2014"
+                step="1"
+                oninput="dmReach.update()"
+              />
+              <div class="dm-field-val" id="dm-year-val">2014</div>
+            </div>
+          </div>
+          <div class="dm-reach-result" id="dm-reach-result"></div>
+          <div class="dm-reach-chart">
+            <canvas id="dm-reach-canvas" height="80"></canvas>
+            <div class="dm-reach-chart-label">
+              Organic reach % &middot; 2012&ndash;2024
+            </div>
+          </div>
+        </div>
+        <div class="dm-panel-footer dm-panel-footer-amber">
+          <strong>Figure 2 &middot; Source:</strong> Hootsuite / We Are Social
+          data series. Facebook organic page reach declined from ~16% in 2012 to
+          under 2% by 2022 &mdash; the platform rewrote the rules of the medium.
+          Your community is still there. The platform changed who gets heard.
+        </div>
+      </div>
+    </div>
+
+    <p>
+      The Myanmar case is where the logic of this arrives at its most terrible
+      conclusion. The Rohingya are a Muslim ethnic minority in Myanmar, a
+      predominantly Buddhist country. They have faced decades of systematic
+      persecution &mdash; stripped of citizenship in 1982, confined to camps,
+      denied freedom of movement. By the 2010s, they were one of the most
+      persecuted populations on earth, and ethnic tensions were already a
+      political tool wielded by Myanmar's military establishment.
+    </p>
+
+    <p>
+      Into this context arrived Facebook. When mobile data prices dropped from
+      roughly a thousand dollars per SIM card to about a dollar in early 2014,
+      Myanmar went from almost no internet access to mass connectivity virtually
+      overnight. For approximately twenty million people, Facebook didn't just
+      become the dominant platform &mdash; it became synonymous with the
+      internet itself. There was no prior web culture, no distributed media
+      ecosystem, no existing online public square. There was Facebook, and there
+      was nothing.
+    </p>
+
+    <p>
+      The UN Fact-Finding Mission would later conclude that Facebook played a
+      "determining" role in the genocide that followed. The algorithm that had
+      been tuned for engagement amplified the content most likely to generate
+      reactions &mdash; and the content most likely to generate reactions in a
+      context of deep ethnic fear was the content calling for violence. The
+      medium did not need to be malevolent. It needed only to optimise for
+      something other than the community's coherence. The dispersion &mdash; of
+      Rohingya life, of social fabric, of the possibility of peaceful
+      coexistence &mdash; followed from the architecture.
+    </p>
+
+    <p>
+      Then there is the subtler mechanism, the one that works before any
+      particular community forms.
+    </p>
+
+    <p>
+      After Edward Snowden's disclosures in June 2013, researchers began
+      measuring something they called the chilling effect. Jon Penney found an
+      immediate drop of roughly twenty percent in Wikipedia traffic to
+      terrorism-related articles &mdash; a change in the secular trend that
+      persisted. PEN America surveyed over five hundred American writers and
+      found a quarter had curtailed social media activity; a sixth had
+      self-censored on topics they would otherwise have addressed. Bruce
+      Schneier estimated that approximately 706 million people worldwide changed
+      their online behavior following the Snowden revelations.
+    </p>
+
+    <p>
+      The most direct evidence for what this means for coordination came from
+      qualitative research in Uganda and Zimbabwe, where activists described in
+      precise terms what happens when you know or suspect you might be watched.
+    </p>
+
+    <p>
+      In physics terms, this isn't quite dispersion &mdash; it's closer to
+      damping. Dispersion spreads a signal's energy across space; damping
+      removes energy from the system entirely. Surveillance doesn't scatter
+      coordination &mdash; it suppresses it. People don't keep shouting at
+      different speeds; they go quiet. But the effect on the wave packet is the
+      same: no signal forms. The packet never coheres. Not because anything
+      visible happened to anyone, but because the medium had been structured
+      such that the cost of coordination &mdash; the exposure, the risk, the
+      uncertainty &mdash; was high enough that trust couldn't take hold. The
+      Stasi, which had roughly one informant per sixty-three citizens at its
+      peak, understood this as a management principle: you don't need to punish
+      everyone. You only need to make people uncertain about who is watching.
+      Research on reunified Germany found that higher historical spy density
+      still predicted lower interpersonal trust, lower institutional trust, and
+      lower incomes more than two decades after the Wall came down. Whether you
+      call it dispersion or damping, the loss of coherence outlasts the
+      mechanism that produced it by a generation.
+    </p>
+
+    <p>And then there is memory.</p>
+
+    <p>
+      A 2024 Pew Research study found that twenty-five percent of all webpages
+      that existed between 2013 and 2023 are no longer accessible. From 2013
+      specifically, thirty-eight percent are gone. Figure 3 checks the sources
+      cited in this very article, live, in your browser &mdash; you can watch
+      the results come in. The Harvard Law School found that nearly half of URLs
+      in published US Supreme Court opinions no longer produce their originally
+      cited content. In 2019, MySpace confirmed that over fifty million songs by
+      fourteen million artists &mdash; twelve years of recorded independent
+      music &mdash; had been lost in a server migration. One in three links in
+      Wikipedia articles leads nowhere. GeoCities, which once housed
+      thirty-eight million user pages, was shut down by Yahoo in 2009; a
+      volunteer rescue operation saved roughly one million accounts before the
+      deadline. The Internet Archive &mdash; one organization, running on
+      donations, responsible for the primary safety net against digital amnesia
+      for the entire English-speaking world &mdash; was successfully attacked in
+      October 2024, exposing thirty-one million user records and taking the site
+      offline for days.
+    </p>
+
+    <!-- ═══════════════════════════════════════════════════
+     FIGURE 3: Link Rot Live Checker
+     ═══════════════════════════════════════════════════ -->
+    <div class="dm" id="dm-rot">
+      <div class="dm-panel">
+        <div class="dm-panel-header">
+          <span class="dm-dot" id="dm-rot-dot"></span>
+          Figure 3 &mdash; Live: sources cited in this article
+        </div>
+        <div class="dm-panel-body">
+          <div class="dm-rot-list" id="dm-rot-list"></div>
+          <div class="dm-rot-summary" id="dm-rot-summary"></div>
+        </div>
+        <div class="dm-panel-footer">
+          <strong>Figure 3 &middot; What you're seeing:</strong> Each source
+          cited in this article, checked live in your browser right now. A 2024
+          Pew study found 25% of all webpages from 2013&ndash;2023 are no longer
+          accessible. From 2013 specifically: 38%. Civil society's memory is
+          stored on servers it doesn't own, subject to terms it didn't
+          negotiate.
+        </div>
+      </div>
+    </div>
+
+    <p>
+      Civil society's memory is stored on servers it doesn't own, in formats it
+      doesn't control, subject to retention policies it never agreed to and
+      cannot negotiate. When Tumblr changed its content policy in December 2018,
+      monthly traffic dropped by a hundred and fifty million visits within three
+      months. Sixty-four percent of LGBTQ people between sixteen and thirty-five
+      had used the platform; research found that use among queer users was more
+      than halved. The community didn't die because of external pressure. It
+      died because a platform updated its terms. The medium changed. The
+      community dispersed.
+    </p>
+
+    <hr />
+
+    <h2>The energy didn't go anywhere</h2>
+
+    <p>
+      This is the point that gets missed, and it's important enough to dwell on.
+    </p>
+
+    <p>
+      Every movement that got de-platformed, every community that watched its
+      organic reach throttled to noise, every organizing effort that collapsed
+      because the coordination channel was surveilled or shut down &mdash; those
+      people didn't stop caring. The desire to organise, to resist, to build, to
+      remember didn't disappear. The grief and the anger and the solidarity were
+      still there. They are still there.
+    </p>
+
+    <p>What dispersed was the phase relationship between them.</p>
+
+    <p>
+      This matters because it changes the diagnosis &mdash; and therefore the
+      prescription. If the problem were energy, the solution would be more
+      energy: more people, more passion, more effort on the same platforms,
+      better content, stronger messaging. Build a bigger audience on Instagram.
+      Optimise for the algorithm. Get verified. Find workarounds.
+    </p>
+
+    <p>
+      But you cannot solve a dispersion problem by adding energy to a dispersive
+      medium. The packet spreads regardless. The signal-to-noise ratio doesn't
+      improve &mdash; you're just making the noise louder too. Amplifying a
+      signal that has already lost its phase relationships gives you a louder
+      version of noise.
+    </p>
+
+    <p>
+      Zeynep Tufekci, in <em>Twitter and Tear Gas</em>, described this with the
+      precision of someone who had watched it happen repeatedly. Networked
+      movements can organise a march in days that would have taken the civil
+      rights movement months to plan. But the platform becomes the
+      organisational form. Its affordances become constraints. What looks like
+      the movement's strength &mdash; its speed, its viral reach &mdash; is also
+      its fragility, because the infrastructure that amplified it can change its
+      terms at any moment, and the movement has no fallback.
+    </p>
+
+    <p>
+      This is Tufekci's "tactical freeze." It's Ghonim's revolution that ousted
+      Mubarak and then couldn't hold its coordination together long enough to
+      determine what came next. It's every activist organisation that spent
+      years building a Facebook following, only to have its reach cut to two
+      percent when the algorithm changed. The energy was real. The coherence was
+      borrowed from infrastructure they didn't own.
+    </p>
+
+    <p>
+      Havel understood the mechanism from the other direction. The greengrocer
+      doesn't display the slogan because he agrees with it. He displays it
+      because the medium of his daily life &mdash; his shop, his suppliers, his
+      customers, his position in a system he cannot exit &mdash; has been
+      structured such that compliance is the path of least resistance. The sign
+      in the window isn't ideology. It's infrastructure compliance. And
+      accepting the platform's terms of service, building your community's
+      coordination on infrastructure you don't control, structuring your
+      organisation's memory in formats that belong to someone else &mdash; these
+      are the contemporary versions of the sign in the window. Not because you
+      endorse the surveillance or the algorithmic throttling or the unilateral
+      policy changes. But because the medium is available and free and where
+      everyone already is, and the cost of non-compliance is invisibility.
+    </p>
+
+    <p>The medium is the message. Not as aphorism. As mechanism.</p>
+
+    <hr />
+
+    <h2>What a different medium looks like</h2>
+
+    <p>
+      In 1978, Benda was not arguing for cleverer dissent. He was arguing that
+      the form of the infrastructure determined what was possible. He proposed
+      six domains for parallel institution-building: civic monitoring, culture,
+      education, information, economy, politics. The first requirement of each
+      was the same: that it exist outside the system's medium. Not reform of the
+      medium. Not better use of the medium. A different medium entirely.
+    </p>
+
+    <p>
+      The Paraleln&iacute; Polis that opened in Prague's Hole&scaron;ovice
+      district in 2014 &mdash; founded explicitly in Benda's name, housing the
+      world's first bitcoin-only caf&eacute; alongside a hackerspace and an
+      Institute of Cryptoanarchy &mdash; understood this connection directly.
+      The argument was structural: what the dissident samizdat networks achieved
+      through physical distribution and personal trust, cryptographic
+      infrastructure achieves through mathematics. Private by physics, not by
+      policy. Decentralized by architecture, not by aspiration.
+    </p>
+
+    <p>
+      This is what a change to the dispersion relation of the medium actually
+      looks like.
+    </p>
+
+    <p>
+      Civil society has three dependencies it cannot afford to outsource. Three
+      things that, if captured, change the dispersion relation of the medium.
+      Communication &mdash; how it speaks, organises, dissents. Coordination
+      &mdash; how it agrees, transacts, builds binding commitments. Memory
+      &mdash; how it persists, records, and remembers across time. Capture any
+      one of them and you've handed someone else a dial that controls how fast
+      your signal spreads into noise.
+    </p>
+
+    <p>
+      The sovereign answer to each is structural, not technical in the narrow
+      sense. Communication private by physics rather than policy &mdash; where
+      end-to-end encryption is a property of the protocol, not a feature a
+      platform can revoke. Coordination grounded in verifiable consensus rather
+      than institutional trust &mdash; where an agreement is enforced by
+      mathematics rather than by a platform's willingness to honor it. Memory
+      distributed across infrastructure no single actor can delete &mdash; where
+      a record's persistence doesn't depend on a corporation's continued
+      interest in maintaining it.
+    </p>
+
+    <p>
+      This is what Logos is building. Not three products that sit on top of
+      existing infrastructure. Three changes to the dispersion relation of the
+      medium: Logos Messaging, Logos Blockchain, Logos Storage. Communication,
+      coordination, memory &mdash; the three things civil society cannot
+      outsource.
+    </p>
+
+    <p>
+      I want to be precise about what this means and doesn't mean. It doesn't
+      mean the technology is sufficient by itself, or that infrastructure alone
+      produces coherence. Benda was building samizdat networks with people who
+      trusted each other, in a context of shared stakes and genuine risk. The
+      technology is a necessary condition, not a sufficient one. A medium in
+      which coherence can hold is not the same as a coherent community.
+    </p>
+
+    <p>
+      But a medium in which coherence cannot hold guarantees that it won't. And
+      that is where we are.
+    </p>
+
+    <hr />
+
+    <h2>What remains</h2>
+
+    <p>
+      There is something important in the fact that the energy didn't disperse.
+    </p>
+
+    <p>
+      The movements are still there, in some form. The communities that got
+      de-platformed rebuilt, partially, elsewhere. The activists who went quiet
+      under surveillance found other ways. The organising that failed on
+      Facebook continued in Signal groups and encrypted chats and physical
+      meetings in spaces not indexed by any algorithm. The desire to coordinate,
+      to resist, to build something that holds &mdash; it persists. It has
+      always persisted. That's not the problem.
+    </p>
+
+    <p>
+      The problem is that every medium they've used to do it has eventually been
+      captured, or turned against them, or simply ceased to exist. GeoCities.
+      Tumblr. MySpace. Twitter, in its pre-Musk form. Facebook, before organic
+      reach became a pay-to-play feature. Each platform offered, for a time, a
+      medium in which certain kinds of coordination were possible. Each was
+      eventually restructured in ways that served the platform's interests over
+      the community's coherence. This is not conspiracy. It's architecture.
+    </p>
+
+    <p>What's needed is not a better platform. It's a different medium.</p>
+
+    <p>
+      Building outside it. Building in a medium where the phase relationships
+      &mdash; the trust, the coordination, the shared memory &mdash; can hold.
+      Where dispersion is not the default. Where coherence doesn't require
+      permission.
+    </p>
+
+    <p>
+      Civil society has the energy. It has always had the energy. What it has
+      lacked, repeatedly, is a medium in which the shape holds.
+    </p>
+
+    <p>That is the medium worth building.</p>
+
+    <hr />
+
+    <p>
+      <em
+        >Corey Petty is Chief Evangelist at the Institute of Free Technology,
+        the organisation building the Logos ecosystem. This essay was adapted
+        from a keynote address delivered at the IFT All-Hands, Lisbon, March
+        2026.</em
+      >
+    </p>
+
+    <script>
+      (function () {
+        "use strict";
+
+        // ══════════════════════════════════════════════
+        // FIGURE 1 — WAVE PACKET VISUALIZER (two-panel)
+        // ══════════════════════════════════════════════
+
+        const dmWave = (window.dmWave = (() => {
+          const canvasL = document.getElementById("dm-wave-canvas-L");
+          const canvasR = document.getElementById("dm-wave-canvas-R");
+          const ctxL = canvasL.getContext("2d");
+          const ctxR = canvasR.getContext("2d");
+          const dot = document.getElementById("dm-wave-dot");
+          const footer = document.getElementById("dm-wave-footer");
+
+          let t = 0;
+          let WL = 300,
+            WR = 300,
+            H = 160;
+          let dispExp = 2.0;
+          let phaseCoherence = 1.0;
+
+          const COMPS = [
+            { a: 0.52, lam: 0.26, color: "#e05252" },
+            { a: 0.5, lam: 0.2, color: "#e07040" },
+            { a: 0.48, lam: 0.16, color: "#e0a030" },
+            { a: 0.45, lam: 0.13, color: "#c8c030" },
+            { a: 0.42, lam: 0.1, color: "#70c050" },
+            { a: 0.38, lam: 0.08, color: "#44b86e" },
+            { a: 0.34, lam: 0.065, color: "#30b8b0" },
+            { a: 0.3, lam: 0.052, color: "#4e9cff" },
+            { a: 0.26, lam: 0.042, color: "#8060ff" },
+            { a: 0.22, lam: 0.034, color: "#c050e0" },
+          ];
+
+          // Evenly-spaced phase offsets (deterministic) so incoherence always
+          // produces visible destructive interference, not lucky alignment.
+          const RAND_PHASES = COMPS.map(
+            (_, i) => (i / COMPS.length) * 2 * Math.PI,
+          );
+
+          function phaseFor(c, i, W) {
+            const k = (2 * Math.PI) / (c.lam * W);
+            const centerPhase = k * (W * 0.5);
+            // At coherence=1: offset=0, all components constructively interfere at center.
+            // At coherence=0: each component gets a full spread of phase offsets → cancellation.
+            const randomOffset = RAND_PHASES[i] * (1 - phaseCoherence);
+            return centerPhase + randomOffset;
+          }
+
+          const BASE_V = 0.05;
+          const SIGMA0 = 0.11;
+
+          function linearEnvelope(time, W) {
+            const sigma0 = W * SIGMA0;
+            const cx = W * 0.5 + BASE_V * time * W;
+            // Phase coherence is the primary driver of whether the packet survives.
+            // coherence=1 → spreadRate near 0: packet holds shape across the full loop.
+            // coherence=0 → spreadRate at full strength: packet evaporates in ~1-2 seconds.
+            // The slider interpolates between "holds" and "dissolves".
+            const incoherence = 1 - phaseCoherence;
+            const spreadRate = dispExp * incoherence * incoherence * 4.0;
+            const sigma = sigma0 * Math.sqrt(1 + (spreadRate * time) ** 2);
+            return { cx, sigma };
+          }
+
+          function linearSum(x, time, W) {
+            const sigma0 = W * SIGMA0;
+            const { cx, sigma } = linearEnvelope(time, W);
+            // Energy conservation: as envelope broadens, peak amplitude drops
+            const ampScale = sigma0 / sigma;
+            const baseK = (2 * Math.PI) / (COMPS[0].lam * W);
+            return COMPS.reduce((sum, c, i) => {
+              const k = (2 * Math.PI) / (c.lam * W);
+              const vp =
+                dispExp === 0
+                  ? BASE_V
+                  : BASE_V * (1 + dispExp * (k / baseK - 1) * 0.35);
+              const phase0 = phaseFor(c, i, W);
+              // Each component's energy center drifts at its own group velocity
+              const compCx = dispExp === 0 ? cx : W * 0.5 + vp * time * W;
+              // Broadening envelope + per-component drift = visible spatial separation
+              const env = Math.exp(-0.5 * ((x - compCx) / sigma) ** 2);
+              return (
+                sum +
+                c.a *
+                  ampScale *
+                  env *
+                  Math.cos(k * x - k * vp * time * W - phase0)
+              );
+            }, 0);
+          }
+
+          function solitonWave(x, time, W) {
+            const center = W * 0.5 + BASE_V * time * W;
+            const width = W * 0.07;
+            const u = (x - center) / width;
+            return 1 / (Math.cosh(u) * Math.cosh(u));
+          }
+
+          function resize() {
+            const dpr = window.devicePixelRatio || 1;
+            const rL = canvasL.getBoundingClientRect();
+            const rR = canvasR.getBoundingClientRect();
+            WL = rL.width || 300;
+            WR = rR.width || 300;
+            canvasL.width = WL * dpr;
+            canvasL.height = H * dpr;
+            canvasR.width = WR * dpr;
+            canvasR.height = H * dpr;
+            ctxL.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctxR.setTransform(dpr, 0, 0, dpr, 0, 0);
+          }
+
+          function drawPanel(
+            ctx,
+            W,
+            waveFunc,
+            lineColor,
+            showComponents,
+            compAlpha,
+            vScale,
+          ) {
+            vScale = vScale !== undefined ? vScale : 0.42;
+            ctx.clearRect(0, 0, W, H);
+            ctx.fillStyle = "#0e1117";
+            ctx.fillRect(0, 0, W, H);
+            ctx.strokeStyle = "rgba(255,255,255,0.05)";
+            ctx.lineWidth = 1;
+            for (let i = 1; i < 4; i++) {
+              ctx.beginPath();
+              ctx.moveTo(0, (H * i) / 4);
+              ctx.lineTo(W, (H * i) / 4);
+              ctx.stroke();
+            }
+            ctx.strokeStyle = "rgba(255,255,255,0.10)";
+            ctx.beginPath();
+            ctx.moveTo(0, H / 2);
+            ctx.lineTo(W, H / 2);
+            ctx.stroke();
+
+            if (showComponents && dispExp > 0.05) {
+              const baseK = (2 * Math.PI) / (COMPS[0].lam * W);
+              const { cx, sigma } = linearEnvelope(t, W);
+              const sigma0 = W * SIGMA0;
+              const ampScale = sigma0 / sigma;
+              const alpha = Math.min(compAlpha, compAlpha * (dispExp / 1.5));
+              COMPS.forEach((c, i) => {
+                const k = (2 * Math.PI) / (c.lam * W);
+                const vp =
+                  dispExp === 0
+                    ? BASE_V
+                    : BASE_V * (1 + dispExp * (k / baseK - 1) * 0.35);
+                const compCx = dispExp === 0 ? cx : W * 0.5 + vp * t * W;
+                const phase0 = phaseFor(c, i, W);
+                ctx.beginPath();
+                ctx.strokeStyle =
+                  c.color +
+                  Math.round(alpha * 255)
+                    .toString(16)
+                    .padStart(2, "0");
+                ctx.lineWidth = 0.85;
+                for (let x = 0; x <= W; x += 2) {
+                  const env = Math.exp(-0.5 * ((x - compCx) / sigma) ** 2);
+                  const y =
+                    H / 2 -
+                    c.a *
+                      ampScale *
+                      env *
+                      Math.cos(k * x - k * vp * t * W - phase0) *
+                      (H * 0.38);
+                  x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+              });
+            }
+
+            ctx.beginPath();
+            ctx.strokeStyle = lineColor;
+            ctx.lineWidth = 2.5;
+            ctx.shadowColor = lineColor;
+            ctx.shadowBlur = 10;
+            for (let x = 0; x <= W; x += 1.5) {
+              const y = H / 2 - waveFunc(x, t, W) * (H * vScale);
+              x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // Envelope: computed from the actual wave sum rather than an analytical
+            // Gaussian, so it tracks the true peak even as components spatially separate.
+            if (showComponents && waveFunc === linearSum) {
+              // Sample the wave at every 2px and track running max amplitude
+              const step = 2;
+              const rawAmps = [];
+              for (let x = 0; x <= W; x += step) {
+                rawAmps.push(Math.abs(waveFunc(x, t, W)));
+              }
+              // Smooth the envelope with a short sliding-window max for a clean curve
+              const winHalf = 6; // ±6 samples = ±12px
+              const smoothed = rawAmps.map((_, i) => {
+                let mx = 0;
+                for (
+                  let j = Math.max(0, i - winHalf);
+                  j <= Math.min(rawAmps.length - 1, i + winHalf);
+                  j++
+                ) {
+                  if (rawAmps[j] > mx) mx = rawAmps[j];
+                }
+                return mx;
+              });
+
+              ctx.setLineDash([4, 4]);
+              ctx.strokeStyle = lineColor + "88";
+              ctx.lineWidth = 1.5;
+              // Upper envelope
+              ctx.beginPath();
+              smoothed.forEach((a, i) => {
+                const x = i * step;
+                const y = H / 2 - a * (H * vScale);
+                i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+              });
+              ctx.stroke();
+              // Lower envelope (mirror)
+              ctx.beginPath();
+              smoothed.forEach((a, i) => {
+                const x = i * step;
+                const y = H / 2 + a * (H * vScale);
+                i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+              });
+              ctx.stroke();
+              ctx.setLineDash([]);
+            }
+          }
+
+          function updateBalance() {
+            const pip = document.getElementById("dm-balance-pip");
+            const text = document.getElementById("dm-balance-text");
+            const eq = document.getElementById("dm-balance-eq");
+            const bal = document.getElementById("dm-balance");
+            if (dispExp === 0) {
+              pip.style.background = "#71717a";
+              text.textContent =
+                "No dispersion \u2014 both media behave identically. Dial dispersion up.";
+              eq.textContent = "";
+              bal.style.borderColor = "";
+            } else if (dispExp < 1.0) {
+              pip.style.background = "#b45309";
+              text.textContent =
+                "Mild dispersion \u2014 linear packet slowly drifts apart. Soliton holds.";
+              eq.textContent =
+                "\u03B3P\u2080 \u2248 \u03B2\u2082/2T\u2080\u00B2";
+              bal.style.borderColor = "var(--dm-amber-border)";
+            } else if (dispExp < 2.5) {
+              pip.style.background = "#16864e";
+              text.textContent =
+                "Nonlinear balance active \u2014 self-focusing exactly cancels spreading. Linear packet losing shape.";
+              eq.textContent =
+                "\u03B3P\u2080 = \u03B2\u2082/2T\u2080\u00B2 \u2713";
+              bal.style.borderColor = "var(--dm-green-border)";
+            } else {
+              pip.style.background = "#16864e";
+              text.textContent =
+                "Strong dispersion \u2014 linear medium destroys the packet. Soliton unfazed.";
+              eq.textContent =
+                "\u03B3P\u2080 = \u03B2\u2082/2T\u2080\u00B2 \u2713";
+              bal.style.borderColor = "var(--dm-green-border)";
+            }
+          }
+
+          function updateFooter() {
+            const coherenceWord =
+              phaseCoherence > 0.8
+                ? "phase-aligned"
+                : phaseCoherence > 0.3
+                  ? "partially coherent"
+                  : "incoherent";
+            if (dispExp === 0) {
+              footer.innerHTML =
+                "<strong>No dispersion:</strong> Both media treat all frequencies identically. Neither packet spreads. This is the trivial baseline \u2014 drag Dispersion up to see the difference.";
+            } else if (dispExp < 1.2) {
+              footer.innerHTML =
+                "<strong>Mild dispersion, " +
+                coherenceWord +
+                " source:</strong> The linear packet is beginning to spread \u2014 watch it lose amplitude and width. The nonlinear packet holds. Even here, the soliton lock is active.";
+            } else if (dispExp < 2.5) {
+              footer.innerHTML =
+                "<strong>Quadratic dispersion, " +
+                coherenceWord +
+                " source:</strong> The linear packet is falling apart regardless of how well-aligned the phases started. On the right, nonlinear self-focusing locks the shape. Same dispersion. Opposite outcome.";
+            } else {
+              footer.innerHTML =
+                "<strong>Extreme dispersion, " +
+                coherenceWord +
+                " source:</strong> The linear medium has destroyed the packet. The energy is still there \u2014 it\u2019s just noise. The soliton hasn\u2019t noticed. The nonlinear balance holds at any dispersion strength \u2014 that\u2019s what makes it structurally different, not just better.";
+            }
+          }
+
+          function draw() {
+            drawPanel(ctxL, WL, linearSum, "#c22d2d", true, 0.35);
+            drawPanel(ctxR, WR, solitonWave, "#16864e", true, 0.22, 0.32);
+          }
+
+          const LOOP_SECS = 10;
+          function tick() {
+            t += 0.016;
+            if (t > LOOP_SECS) t = 0;
+            draw();
+            requestAnimationFrame(tick);
+          }
+
+          function setDispersion(val) {
+            dispExp = val;
+            document.getElementById("dm-disp-val").textContent =
+              val.toFixed(1) + "\u00d7";
+            updateBalance();
+            updateFooter();
+          }
+
+          function setPhase(val) {
+            phaseCoherence = val;
+            document.getElementById("dm-phase-val").textContent =
+              val > 0.9
+                ? "aligned"
+                : val > 0.5
+                  ? "partial"
+                  : val > 0.15
+                    ? "loose"
+                    : "random";
+            updateFooter();
+          }
+
+          setTimeout(() => {
+            resize();
+            window.addEventListener("resize", resize);
+            updateBalance();
+            updateFooter();
+            tick();
+          }, 50);
+
+          return { setDispersion, setPhase };
+        })());
+
+        // ══════════════════════════════════════════════
+        // FIGURE 2 — ORGANIC REACH CALCULATOR
+        // ══════════════════════════════════════════════
+
+        const dmReach = (window.dmReach = (() => {
+          const REACH = {
+            2012: 16.0,
+            2013: 12.5,
+            2014: 6.5,
+            2015: 4.2,
+            2016: 3.5,
+            2017: 3.0,
+            2018: 2.5,
+            2019: 2.2,
+            2020: 2.0,
+            2021: 1.9,
+            2022: 1.8,
+            2023: 1.5,
+            2024: 1.4,
+          };
+          const YEARS = Object.keys(REACH)
+            .map(Number)
+            .sort((a, b) => a - b);
+          const fmt = (n) =>
+            n >= 1e6
+              ? (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M"
+              : n >= 1e3
+                ? Math.round(n / 1e3) + "K"
+                : String(n);
+
+          function update() {
+            const followers = +document.getElementById("dm-followers").value;
+            const startYear = +document.getElementById("dm-year").value;
+            document.getElementById("dm-followers-val").textContent =
+              followers.toLocaleString();
+            document.getElementById("dm-year-val").textContent = startYear;
+            const rThen = REACH[startYear] || 16;
+            const rNow = REACH[2024];
+            const then = Math.round((followers * rThen) / 100);
+            const now = Math.round((followers * rNow) / 100);
+            const lostPct = Math.round(((then - now) / then) * 100);
+            document.getElementById("dm-reach-result").innerHTML =
+              '<div><div class="dm-reach-stat-label">In ' +
+              startYear +
+              '</div><div class="dm-reach-stat-val" style="color:var(--dm-green)">' +
+              fmt(then) +
+              '</div><div class="dm-reach-stat-sub">' +
+              rThen.toFixed(1) +
+              "% of your audience</div></div>" +
+              '<div><div class="dm-reach-stat-label">In 2024</div><div class="dm-reach-stat-val" style="color:var(--dm-accent)">' +
+              fmt(now) +
+              '</div><div class="dm-reach-stat-sub">' +
+              rNow.toFixed(1) +
+              "% of your audience</div></div>" +
+              '<div><div class="dm-reach-stat-label">Audience lost</div><div class="dm-reach-stat-val" style="color:var(--dm-amber)">' +
+              lostPct +
+              '%</div><div class="dm-reach-stat-sub">' +
+              fmt(then - now) +
+              " people per post</div></div>";
+            drawChart(startYear);
+          }
+
+          function drawChart(startYear) {
+            const canvas = document.getElementById("dm-reach-canvas");
+            const dpr = window.devicePixelRatio || 1;
+            const W = canvas.getBoundingClientRect().width || 600,
+              H = 80;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            const ctx = canvas.getContext("2d");
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.fillStyle = "#0e1117";
+            ctx.fillRect(0, 0, W, H);
+            const maxPct = 18;
+            const grad = ctx.createLinearGradient(0, 0, 0, H);
+            grad.addColorStop(0, "rgba(180,83,9,0.45)");
+            grad.addColorStop(1, "rgba(180,83,9,0.02)");
+            ctx.beginPath();
+            YEARS.forEach((y, i) => {
+              const x = (i / (YEARS.length - 1)) * (W - 2) + 1,
+                yy = H - 8 - (REACH[y] / maxPct) * (H - 16);
+              i === 0 ? ctx.moveTo(x, yy) : ctx.lineTo(x, yy);
+            });
+            ctx.lineTo(W - 1, H);
+            ctx.lineTo(1, H);
+            ctx.closePath();
+            ctx.fillStyle = grad;
+            ctx.fill();
+            ctx.beginPath();
+            ctx.strokeStyle = "#b45309";
+            ctx.lineWidth = 2;
+            YEARS.forEach((y, i) => {
+              const x = (i / (YEARS.length - 1)) * (W - 2) + 1,
+                yy = H - 8 - (REACH[y] / maxPct) * (H - 16);
+              i === 0 ? ctx.moveTo(x, yy) : ctx.lineTo(x, yy);
+            });
+            ctx.stroke();
+            const si = YEARS.indexOf(startYear);
+            if (si >= 0) {
+              const x = (si / (YEARS.length - 1)) * (W - 2) + 1,
+                yy = H - 8 - (REACH[startYear] / maxPct) * (H - 16);
+              ctx.beginPath();
+              ctx.arc(x, yy, 4, 0, Math.PI * 2);
+              ctx.fillStyle = "#fff";
+              ctx.fill();
+            }
+            ctx.fillStyle = "rgba(255,255,255,0.3)";
+            ctx.font = "9px SF Mono,monospace";
+            [2012, 2016, 2020, 2024].forEach((y) => {
+              const i = YEARS.indexOf(y);
+              if (i < 0) return;
+              ctx.fillText(
+                y,
+                (i / (YEARS.length - 1)) * (W - 2) + 1 - 12,
+                H - 1,
+              );
+            });
+          }
+
+          setTimeout(() => {
+            update();
+            window.addEventListener("resize", update);
+          }, 80);
+          return { update };
+        })());
+
+        // ══════════════════════════════════════════════
+        // FIGURE 3 — LINK ROT CHECKER
+        // ══════════════════════════════════════════════
+
+        (() => {
+          const SOURCES = [
+            {
+              url: "https://www.pewresearch.org/data-labs/2024/05/17/when-online-content-disappears/",
+              desc: "Pew Research: When Online Content Disappears (2024)",
+              expected: "live",
+            },
+            {
+              url: "https://harvardlawreview.org/2014/03/perma-scoping-and-addressing-the-problem-of-link-rot/",
+              desc: "Harvard Law Review: Link rot in Supreme Court opinions",
+              expected: "live",
+            },
+            {
+              url: "https://www.renesys.com/2011/01/egypt-leaves-the-internet/",
+              desc: "Renesys: Egypt Leaves the Internet (Jan 2011)",
+              expected: "dead",
+            },
+            {
+              url: "https://web.archive.org/web/20091027230014/http://geocities.com/",
+              desc: "GeoCities \u2014 38 million pages. Shut down by Yahoo, 2009.",
+              expected: "archive",
+            },
+            {
+              url: "https://penamerica.org/research/chilling-effects/",
+              desc: "PEN America: Chilling Effects \u2014 Writers and Self-Censorship",
+              expected: "live",
+            },
+            {
+              url: "https://www.unhcr.org/news/press/2018/8/5b8d0f544/un-appoints-independent-international-fact-finding-mission-myanmar.html",
+              desc: "UN Fact-Finding Mission on Myanmar",
+              expected: "live",
+            },
+            {
+              url: "https://archive.org/",
+              desc: "Internet Archive \u2014 attacked Oct 2024, 31M records exposed",
+              expected: "live",
+            },
+          ];
+          const list = document.getElementById("dm-rot-list");
+          const dot = document.getElementById("dm-rot-dot");
+          const summary = document.getElementById("dm-rot-summary");
+          list.innerHTML = SOURCES.map(
+            (s, i) =>
+              '<div class="dm-rot-row" id="dm-rot-row-' +
+              i +
+              '">' +
+              '<span class="dm-rot-status dm-rot-checking" id="dm-rot-status-' +
+              i +
+              '">Checking\u2026</span>' +
+              '<div><div class="dm-rot-desc">' +
+              s.desc +
+              '</div><div class="dm-rot-url">' +
+              s.url +
+              "</div></div>" +
+              "</div>",
+          ).join("");
+          const results = [];
+          async function checkUrl(s, i) {
+            const statusEl = document.getElementById("dm-rot-status-" + i);
+            const rowEl = document.getElementById("dm-rot-row-" + i);
+            try {
+              const ctrl = new AbortController();
+              const to = setTimeout(() => ctrl.abort(), 8000);
+              await fetch(s.url, {
+                method: "HEAD",
+                mode: "no-cors",
+                signal: ctrl.signal,
+              });
+              clearTimeout(to);
+              if (s.url.includes("web.archive.org")) {
+                statusEl.textContent = "Archived";
+                statusEl.className = "dm-rot-status dm-rot-changed";
+                rowEl.style.background = "var(--dm-amber-bg)";
+                results.push("archived");
+              } else {
+                statusEl.textContent = "Live";
+                statusEl.className = "dm-rot-status dm-rot-live";
+                results.push("live");
+              }
+            } catch (e) {
+              if (e.name === "AbortError") {
+                statusEl.textContent = "Timeout";
+                statusEl.className = "dm-rot-status dm-rot-dead";
+                rowEl.style.background = "var(--dm-accent-bg)";
+                results.push("dead");
+              } else {
+                const isDead = s.expected === "dead";
+                statusEl.textContent = isDead ? "Gone" : "Unknown";
+                statusEl.className =
+                  "dm-rot-status " +
+                  (isDead ? "dm-rot-dead" : "dm-rot-changed");
+                if (isDead) rowEl.style.background = "var(--dm-accent-bg)";
+                results.push(isDead ? "dead" : "unknown");
+              }
+            }
+            dot.style.background = results.some((r) => r === "dead")
+              ? "#c22d2d"
+              : "#16864e";
+            if (results.length === SOURCES.length) {
+              const dead = results.filter((r) => r === "dead").length,
+                live = results.filter((r) => r === "live").length,
+                arch = results.filter((r) => r === "archived").length;
+              summary.style.display = "block";
+              summary.innerHTML =
+                "Of " +
+                SOURCES.length +
+                " sources checked: <strong>" +
+                live +
+                " reachable</strong>" +
+                (arch
+                  ? ', <strong style="color:var(--dm-amber)">' +
+                    arch +
+                    " archived only</strong>"
+                  : "") +
+                ", <strong>" +
+                dead +
+                " gone</strong>. The sources that no longer exist were once authoritative references \u2014 now part of the 25% of the web that has disappeared since 2013.";
+            }
+          }
+          SOURCES.forEach((s, i) =>
+            setTimeout(() => checkUrl(s, i), i * 600 + 400),
+          );
+        })();
+      })();
+    </script>
+  </body>
+</html>
+7:["$","$Lc",null,{"blocks":[{"type":"interactive-embed","title":"The Dispersive Medium","fullHtml":"$d","html":""}],"content":[]}]
+8:["$","footer",null,{"className":"mt-4 pb-20 max-sm:mt-[72px]","children":["$","div",null,{"className":"[&>section+section]:-mt-px","children":[null,["$","$Le",null,{"canonicalUrl":"https://logos.co/media/article/dispersive-medium","summary":"","title":"The Dispersive Medium"}],null,["$","$Lf",null,{"label":"From The Same Authors","children":[["$","div","147",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/interzone-bridging-logos","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Interzone Bridging: Moving Value Between Zones on Logos","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"5 August 2026"}]]}]]}],["$","div","143",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/logos-blockchain-v02","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Logos Blockchain in Testnet v0.2: Privacy Reaches Consensus","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"22 July 2026"}]]}]]}],["$","div","126",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/logos-basecamp","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Basecamp: Your Base of Operations on the Logos Frontier","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"5 May 2026"}]]}]]}],["$","div","116",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/anonymous-block-proposers","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Anonymous Block Proposers: How Logos Solves Leader Privacy","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"24 March 2026"}]]}]]}],["$","div","109",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/logos-as-an-operating-system","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"The Logos Tech Stack: An Operating System for Sovereignty","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"24 February 2026"}]]}]]}],["$","div","108",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/browser-betrayed-you","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Your Browser Has Already Betrayed You","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"19 February 2026"}]]}]]}],["$","div","101",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":["$L10","$L11"]}],"$L12"]}]]}]}]
+9:["$","script","script-0",{"src":"/_next/static/chunks/0_5ei0vb5lr9k.js","async":true}]
+a:["$","$L13",null,{"children":["$","$14",null,{"name":"Next.MetadataOutlet","children":"$@15"}]}]
+10:["$","$L3",null,{"href":"/media/article/how-blockchain-transactions-leak-data","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"The Anatomy of Exposure: How Blockchain Transactions Leak Information at Every Layer","prefetch":false}]
+11:["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"26 January 2026"}]]}]
+12:["$","div","20",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L3",null,{"href":"/media/article/how-to-ethically-build-public-goods-infrastructure","localeCookie":"$0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"How To Ethically Build Public Goods Infrastructure","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","2",{"children":"Dr. Corey Petty"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"3 November 2023"}]]}]]}]
+15:null

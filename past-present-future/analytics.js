@@ -132,11 +132,11 @@
     const character = normalizeLabel(
       element.querySelector('.face-name')?.textContent
     )
-    const path = normalizeLabel(element.querySelector('.face-path')?.textContent)
-    const choiceRoot = element.closest('#choice')
-    const choice = normalizeLabel(
-      element.querySelector('.clabel')?.textContent
+    const path = normalizeLabel(
+      element.querySelector('.face-path')?.textContent
     )
+    const choiceRoot = element.closest('#choice')
+    const choice = normalizeLabel(element.querySelector('.clabel')?.textContent)
     const choiceKey = normalizeLabel(
       element.querySelector('.ckey')?.textContent
     )
