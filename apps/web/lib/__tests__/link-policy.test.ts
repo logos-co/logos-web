@@ -501,6 +501,19 @@ describe('link policy', () => {
         external: true,
       })
     )
+    expect(buildersHubSettings.hero.topRightCta.href).toBe(
+      basecampReleaseHref
+    )
+    expect(navigation.primaryCta.href).toBe(basecampReleaseHref)
+    expect(
+      navigation.menuPanels[0].textSections[0].links.find(
+        (link) => link.label === 'Install Basecamp'
+      )?.href
+    ).toBe(basecampReleaseHref)
+    const homeHero = homePage.sections.find(
+      (section) => section.key === 'home.atf'
+    ) as { ctas?: { href: string }[] } | undefined
+    expect(homeHero?.ctas?.[0]?.href).toBe(basecampReleaseHref)
 
     expect(
       resolveBasecampInstallCtaHref({

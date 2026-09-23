@@ -7,7 +7,8 @@
     "description": "The logos technology stack is our toolkit for charting a new path. The builder hub provides ideas, resources, and everything you need to start your expedition into a new frontier.",
     "topRightCta": {
       "label": "Install Basecamp",
-      "href": "/basecamp"
+      "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.3.0",
+      "external": true
     },
     "secondaryCtas": [
       {
