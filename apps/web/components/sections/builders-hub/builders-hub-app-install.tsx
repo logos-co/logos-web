@@ -9,6 +9,7 @@ import type {
 
 import { Button } from '@/components/ui'
 import ContentWidth from '@/components/layout/content-width'
+import { BasecampDownloadButton } from '@/components/sections/shared/basecamp-download-cta'
 
 type Props = {
   data: BuilderHubSettings['appInstall']
@@ -66,15 +67,7 @@ export function BuildersHubAppInstall({ data }: Props) {
           }
           actions={
             <>
-              <Button
-                href={data.installCta.href}
-                variant={data.installCta.variant ?? 'secondary'}
-                {...(data.installCta.external
-                  ? { target: '_blank', rel: 'noopener noreferrer' }
-                  : {})}
-              >
-                {data.installCta.label}
-              </Button>
+              <BasecampDownloadButton cta={data.installCta} />
               <Button
                 href={data.learnMoreCta.href}
                 variant={data.learnMoreCta.variant ?? 'tertiary'}

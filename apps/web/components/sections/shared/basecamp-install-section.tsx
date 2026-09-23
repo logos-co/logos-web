@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import ContentWidth from '@/components/layout/content-width'
+import { BasecampDownloadLink } from './basecamp-download-cta'
 
 interface BasecampInstallCardImage {
   src: string
@@ -79,8 +80,6 @@ function BasecampInstallCard({
   eventName?: string
 }) {
   const primaryCta = card.ctas?.[0]
-  const isExternal =
-    primaryCta?.external || primaryCta?.href.startsWith('https://')
 
   const cardContent = (
     <>
@@ -98,17 +97,13 @@ function BasecampInstallCard({
 
   if (primaryCta) {
     return (
-      <a
-        href={primaryCta.href}
+      <BasecampDownloadLink
+        cta={primaryCta}
         className="flex h-[458px] cursor-pointer flex-col gap-1.5 overflow-hidden rounded-xl bg-gray-01 p-1.5 transition-[background-color,box-shadow] duration-200 ease-out hover:bg-brand-dark-green/5 hover:ring-1 hover:ring-inset hover:ring-brand-dark-green/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green md:h-[589px]"
-        aria-label={primaryCta.label}
-        data-umami-event-name={eventName}
-        {...(isExternal
-          ? { target: '_blank', rel: 'noopener noreferrer' }
-          : {})}
+        eventName={eventName}
       >
         {cardContent}
-      </a>
+      </BasecampDownloadLink>
     )
   }
 
