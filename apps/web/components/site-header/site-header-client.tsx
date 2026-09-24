@@ -79,6 +79,20 @@ export default function SiteHeaderClient({
     isFieldStation && primaryCta
       ? { ...primaryCta, href: BASECAMP_RELEASE_PAGE }
       : primaryCta
+  const displayedMenuPanels =
+    isFieldStation && primaryCta
+      ? menuPanels.map((panel) => ({
+          ...panel,
+          textSections: panel.textSections?.map((section) => ({
+            ...section,
+            links: section.links.map((link) =>
+              link.label === primaryCta.label && link.href === ROUTES.basecamp
+                ? { ...link, href: BASECAMP_RELEASE_PAGE }
+                : link
+            ),
+          })),
+        }))
+      : menuPanels
   const isMediaPath =
     normalizedPathname === ROUTES.media ||
     normalizedPathname.startsWith(`${ROUTES.media}/`)
@@ -324,7 +338,7 @@ export default function SiteHeaderClient({
         initialSelectedPanelLabel={initialPanelLabel ?? undefined}
         sitemap={sitemap}
         community={community}
-        menuPanels={menuPanels}
+        menuPanels={displayedMenuPanels}
         primaryCta={displayedPrimaryCta}
         labels={{ closeMenu: closedBar.closeLabel }}
         linkAs={Link}
