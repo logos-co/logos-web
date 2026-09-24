@@ -17,7 +17,7 @@ import { ROUTES } from '@/constants/routes'
 
 export const BASECAMP_RELEASE_HREF =
   'https://github.com/logos-co/logos-basecamp/releases#release-0.3.0'
-const BASECAMP_RELEASE_PAGE =
+export const BASECAMP_RELEASE_PAGE =
   'https://github.com/logos-co/logos-basecamp/releases/tag/0.3.0'
 
 export const SEO = {
@@ -624,8 +624,7 @@ export const FAQ = {
   items: [
     faqItem('How do I install Basecamp?', [
       {
-        text: 'Go to logos.co/basecamp and install either the Linux version or Mac version.',
-        link: { label: 'logos.co/basecamp', href: ROUTES.basecamp },
+        text: 'Use the Install Basecamp button above to download the version for your device.',
       },
       {
         links: [
