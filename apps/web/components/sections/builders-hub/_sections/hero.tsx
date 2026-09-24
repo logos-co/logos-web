@@ -2,8 +2,9 @@ import Image from 'next/image'
 import type { BuilderHubSettings } from '@repo/content/schemas'
 
 import ContentWidth from '@/components/layout/content-width'
-import { BasecampDownloadButton } from '@/components/sections/shared/basecamp-download-cta'
+import { Button } from '@/components/ui'
 
+import { externalProps } from './atoms'
 import type { Cta } from './types'
 
 export function BuildersHubHero({ hero }: { hero: BuilderHubSettings['hero'] }) {
@@ -33,11 +34,14 @@ export function BuildersHubHero({ hero }: { hero: BuilderHubSettings['hero'] }) 
 
         <div className="absolute top-[279px] left-3 flex flex-col items-start gap-3 md:top-[11px] md:left-[83.33%] md:translate-x-[2px] md:gap-1.5">
           {ctas.map((cta) => (
-            <BasecampDownloadButton
+            <Button
               key={cta.label}
-              cta={cta}
-              defaultVariant="link"
-            />
+              href={cta.href}
+              variant="link"
+              {...externalProps(cta)}
+            >
+              {cta.label}
+            </Button>
           ))}
         </div>
 

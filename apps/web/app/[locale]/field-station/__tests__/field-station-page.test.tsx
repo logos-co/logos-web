@@ -17,6 +17,7 @@ vi.mock('@/i18n/navigation', () => ({
 
 import {
   APPLICATION_STEP_4,
+  BASECAMP_RELEASE_HREF,
   APPLY_BANNER_CTA,
   APPLY_HREF,
   COALITION,
@@ -30,6 +31,7 @@ import {
   SEO,
   type TrackBlock,
 } from '../_content'
+import { resolveFieldStationDownloadTarget } from '../_sections/basecamp-install-button'
 import FieldStationPage, { generateMetadata } from '../page'
 
 const params = Promise.resolve({ locale: 'en' })
@@ -44,6 +46,39 @@ const attr = (tag: string, name: string): string | undefined =>
   tag.match(new RegExp(`\\s${name}="([^"]*)"`))?.[1]
 
 describe('field station page', () => {
+  test('installs Basecamp 0.3.0 from this page without changing site-wide links', async () => {
+    const html = await pageHtml()
+    const install = anchorTags(html).find(
+      (tag) =>
+        attr(tag, 'data-umami-event-name') === EVENT_NAMES.applicationInstall
+    )
+
+    expect(install).toBeDefined()
+    expect(attr(install!, 'href')).toBe(BASECAMP_RELEASE_HREF)
+    expect(
+      resolveFieldStationDownloadTarget({
+        platform: 'Linux',
+        architecture: 'x86',
+        bitness: '64',
+      })
+    ).toContain('/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-')
+    expect(
+      resolveFieldStationDownloadTarget({
+        platform: 'macOS',
+        architecture: 'arm',
+      })
+    ).toMatch(/-aarch64\.dmg$/)
+    expect(
+      resolveFieldStationDownloadTarget({
+        platform: 'Windows',
+        architecture: 'x86_64',
+      })
+    ).toMatch(/-windows-setup\.exe$/)
+    expect(resolveFieldStationDownloadTarget({ platform: 'Windows' })).toBe(
+      BASECAMP_RELEASE_HREF
+    )
+  })
+
   test('is registered on the canonical route', () => {
     expect(ROUTES.fieldStation).toBe('/field-station')
   })

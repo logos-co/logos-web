@@ -4,8 +4,8 @@ import { SectionMarker } from '@acid-info/logos-ui'
 import type { CTA } from '@repo/content/schemas'
 
 import { IconMask } from '@/components/icons/icon-mask'
-import { type ButtonVariant } from '@/components/ui'
-import { BasecampDownloadButton } from './basecamp-download-cta'
+import { Button, type ButtonVariant } from '@/components/ui'
+import { resolveBasecampInstallCtaLinkProps } from '@/lib/basecamp-release-links'
 
 type PanelTone = 'gray-01' | 'gray-02'
 type PanelSize = 'large' | 'compact'
@@ -45,6 +45,10 @@ function getButtonIcon(iconOverride?: string) {
   return undefined
 }
 
+function ctaAttrs(external?: boolean) {
+  return external ? { target: '_blank', rel: 'noopener noreferrer' } : {}
+}
+
 function OverviewMediaPanelActions({
   cta,
   secondaryCta,
@@ -65,19 +69,26 @@ function OverviewMediaPanelActions({
       className={`flex items-baseline gap-1.5${className ? ` ${className}` : ''}`}
     >
       {cta ? (
-        <BasecampDownloadButton
-          cta={cta}
-          defaultVariant={primaryCtaDefaultVariant}
+        <Button
+          {...resolveBasecampInstallCtaLinkProps(cta)}
+          variant={cta.variant ?? primaryCtaDefaultVariant}
           icon={getButtonIcon(cta.iconOverride)}
           className="cursor-pointer"
-        />
+          {...ctaAttrs(cta.external)}
+        >
+          {cta.label}
+        </Button>
       ) : null}
       {secondaryCta ? (
-        <BasecampDownloadButton
-          cta={secondaryCta}
+        <Button
+          {...resolveBasecampInstallCtaLinkProps(secondaryCta)}
+          variant={secondaryCta.variant ?? 'secondary'}
           icon={getButtonIcon(secondaryCta.iconOverride)}
           className="cursor-pointer"
-        />
+          {...ctaAttrs(secondaryCta.external)}
+        >
+          {secondaryCta.label}
+        </Button>
       ) : null}
     </div>
   )

@@ -13,7 +13,12 @@ import type {
   TableSection,
 } from '@repo/content/schemas'
 
-import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
+import { ROUTES } from '@/constants/routes'
+
+export const BASECAMP_RELEASE_HREF =
+  'https://github.com/logos-co/logos-basecamp/releases#release-0.3.0'
+const BASECAMP_RELEASE_PAGE =
+  'https://github.com/logos-co/logos-basecamp/releases/tag/0.3.0'
 
 export const SEO = {
   title: 'Field Station: Rajasthan Builder Residency | Logos x Zu-Grama',
@@ -332,10 +337,7 @@ const APPLICATION_STEPS = [
 ] as const
 
 /**
- * `HowItWorksSection` renders its CTAs from `action` plus the first row's
- * `cta`, so the Basecamp install button rides on step 01. It keeps the
- * download icon because that is what switches on OS detection
- * (`isBasecampInstallCta`).
+ * The first row carries the Field Station install action.
  */
 export const APPLICATION: TableSection = {
   componentType: 'table',
@@ -355,7 +357,7 @@ export const APPLICATION: TableSection = {
       ? {
           cta: {
             label: 'Install Basecamp',
-            href: EXTERNAL_URLS.basecampRelease,
+            href: BASECAMP_RELEASE_HREF,
             external: true,
             variant: 'primary' as const,
             iconOverride: 'download' as const,
@@ -639,7 +641,7 @@ export const FAQ = {
             label: 'Quickstart Logos Basecamp',
             href: 'https://www.youtube.com/watch?v=EwCkegIm_1o',
           },
-          { label: 'Latest release', href: EXTERNAL_URLS.basecampRelease },
+          { label: 'Latest release', href: BASECAMP_RELEASE_PAGE },
         ],
       },
     ]),

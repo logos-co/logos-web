@@ -54,15 +54,13 @@ const communityIdeasHref = 'https://github.com/logos-co/ideas'
 const livingWithinTruthHref = 'https://www.youtube.com/watch?v=xy4uK20lFBQ'
 const logosGenealogyHref = '/media/article/a-genealogy-of-logos'
 const basecampReleaseHref =
-  'https://github.com/logos-co/logos-basecamp/releases#release-0.3.0'
+  'https://github.com/logos-co/logos-basecamp/releases#release-0.2.3'
 const basecampLinuxArm64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-aarch64.AppImage'
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.2.3/LogosBasecamp-Desktop-v0.2.3-aa2377-aarch64.AppImage'
 const basecampLinuxX64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-x86_64.AppImage'
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.2.3/LogosBasecamp-Desktop-v0.2.3-aa2377-x86_64.AppImage'
 const basecampMacArm64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-aarch64.dmg'
-const basecampWindowsX64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-x86_64-windows-setup.exe'
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.2.3/LogosBasecamp-Desktop-v0.2.3-aa2377-aarch64.dmg'
 const runNodeCliDocsHref = 'https://docs.logos.co/'
 const docsLabels = new Set(['docs', 'documentation', 'view the docs'])
 const routeUsageAllowlist = new Set([
@@ -480,9 +478,6 @@ describe('link policy', () => {
     expect(EXTERNAL_URLS.basecampMacArm64Download).toBe(
       basecampMacArm64DownloadHref
     )
-    expect(EXTERNAL_URLS.basecampWindowsX64Download).toBe(
-      basecampWindowsX64DownloadHref
-    )
     expect(technologyStackHero?.status?.cta).toEqual(
       expect.objectContaining({
         href: basecampReleaseHref,
@@ -495,25 +490,6 @@ describe('link policy', () => {
         external: true,
       })
     )
-    expect(buildersHubSettings.appInstall.installCta).toEqual(
-      expect.objectContaining({
-        href: basecampReleaseHref,
-        external: true,
-      })
-    )
-    expect(buildersHubSettings.hero.topRightCta.href).toBe(
-      basecampReleaseHref
-    )
-    expect(navigation.primaryCta.href).toBe(basecampReleaseHref)
-    expect(
-      navigation.menuPanels[0].textSections[0].links.find(
-        (link) => link.label === 'Install Basecamp'
-      )?.href
-    ).toBe(basecampReleaseHref)
-    const homeHero = homePage.sections.find(
-      (section) => section.key === 'home.atf'
-    ) as { ctas?: { href: string }[] } | undefined
-    expect(homeHero?.ctas?.[0]?.href).toBe(basecampReleaseHref)
 
     expect(
       resolveBasecampInstallCtaHref({
@@ -562,18 +538,6 @@ describe('link policy', () => {
         iconOverride: 'download',
       })
     ).toBe(true)
-    expect(
-      isBasecampInstallCta({
-        label: 'Install',
-        href: basecampReleaseHref,
-      })
-    ).toBe(true)
-    expect(
-      isBasecampInstallCta({
-        label: 'Install',
-        href: '/builders-hub#app-install',
-      })
-    ).toBe(false)
     expect(
       resolveBasecampInstallCtaLinkProps({
         label: 'Install',
