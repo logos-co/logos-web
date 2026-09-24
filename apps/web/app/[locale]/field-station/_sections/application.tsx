@@ -1,5 +1,7 @@
-import { HowItWorksSection } from '@/components/sections/basecamp/_sections/how-it-works-section'
+import Image from 'next/image'
+
 import ContentWidth from '@/components/layout/content-width'
+import { Button } from '@/components/ui'
 
 import {
   APPLICATION,
@@ -9,6 +11,7 @@ import {
   SECTION_IDS,
 } from '../_content'
 import { LinkedText } from './atoms'
+import { BasecampInstallButton } from './basecamp-install-button'
 
 const ROW_DESCRIPTIONS = {
   [APPLICATION_STEP_4.number]: (
@@ -26,46 +29,71 @@ export function Application() {
       id={SECTION_IDS.applicationProcess}
       className="mt-28 scroll-mt-12 !p-0"
     >
-      <HowItWorksSection
-        data={APPLICATION}
-        eventNames={[
-          EVENT_NAMES.applicationApply,
-          EVENT_NAMES.applicationInstall,
-        ]}
-        image={{ ...APPLICATION_INTRO.image, className: 'object-cover' }}
-        rowDescriptions={ROW_DESCRIPTIONS}
-        classNames={{
-          root: 'grid w-full gap-6 px-3 py-10 lg:grid-cols-2 lg:gap-3 lg:p-3',
-          column: 'flex flex-col gap-6 lg:justify-between lg:gap-8',
-          // Figma's 16px blank line sets the body a pixel higher than a
-          // 16px margin does, so the column's glyphs land on its rows.
-          title: 'text-h3-sans mb-[15px] text-brand-dark-green',
-          intro: 'mb-[42px] flex flex-col gap-[42px] text-brand-dark-green',
-          // Figma draws the rule inside the 31px row pitch; the border adds 1px.
-          row: 'grid gap-4 pt-[5px] pb-3 lg:grid-cols-2 lg:gap-3',
-          media: 'relative aspect-[702/626] overflow-hidden rounded-xl',
-        }}
-        intro={
-          <>
-            <p className="text-body-lg-sans max-w-[612px]">
-              {APPLICATION_INTRO.bodyLines.map((line, index) => (
-                <span key={line}>
-                  {index > 0 ? (
-                    <>
-                      <span className="desktop:hidden"> </span>
-                      <br className="hidden desktop:inline" />
-                    </>
-                  ) : null}
-                  {line}
-                </span>
+      <section className="grid w-full gap-6 px-3 py-10 lg:grid-cols-2 lg:gap-3 lg:p-3">
+        <div className="flex flex-col gap-6 lg:justify-between lg:gap-8">
+          <div>
+            <h2 className="text-h3-sans mb-[15px] text-brand-dark-green">
+              {APPLICATION.title}
+            </h2>
+            <div className="mb-[42px] flex flex-col gap-[42px] text-brand-dark-green">
+              <p className="text-body-lg-sans max-w-[612px]">
+                {APPLICATION_INTRO.bodyLines.map((line, index) => (
+                  <span key={line}>
+                    {index > 0 ? (
+                      <>
+                        <span className="desktop:hidden"> </span>
+                        <br className="hidden desktop:inline" />
+                      </>
+                    ) : null}
+                    {line}
+                  </span>
+                ))}
+              </p>
+              <p className="text-mono-s">
+                <LinkedText {...APPLICATION_INTRO.note} />
+              </p>
+            </div>
+            <div className="divide-y divide-brand-dark-green/50 border-t border-brand-dark-green/50">
+              {APPLICATION.rows.map((row) => (
+                <article
+                  key={row.number}
+                  className="grid gap-4 pt-[5px] pb-3 lg:grid-cols-2 lg:gap-3"
+                >
+                  <span className="text-eyebrow text-brand-dark-green">
+                    {row.number}
+                  </span>
+                  <div className="grid gap-2">
+                    <p className="text-mono-s text-brand-dark-green">
+                      {ROW_DESCRIPTIONS[row.number ?? ''] ?? row.description}
+                    </p>
+                  </div>
+                </article>
               ))}
-            </p>
-            <p className="text-mono-s">
-              <LinkedText {...APPLICATION_INTRO.note} />
-            </p>
-          </>
-        }
-      />
+            </div>
+          </div>
+          <div className="flex flex-wrap items-start gap-1">
+            <Button
+              href={APPLICATION.action!.href}
+              variant="secondary"
+              className="cursor-pointer"
+              data-umami-event-name={EVENT_NAMES.applicationApply}
+            >
+              {APPLICATION.action!.label}
+            </Button>
+            <BasecampInstallButton />
+          </div>
+        </div>
+        <div className="relative aspect-[702/626] overflow-hidden rounded-xl">
+          <Image
+            src={APPLICATION_INTRO.image.src}
+            alt={APPLICATION_INTRO.image.alt}
+            fill
+            priority
+            sizes="(max-width: 1024px) calc(100vw - 24px), (max-width: 1440px) calc(50vw - 24px), 696px"
+            className="object-cover"
+          />
+        </div>
+      </section>
     </ContentWidth>
   )
 }

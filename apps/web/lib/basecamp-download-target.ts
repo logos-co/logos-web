@@ -82,9 +82,5 @@ export function resolveBasecampDownloadTarget(
     return EXTERNAL_URLS.basecampMacArm64Download
   }
 
-  if (platform === 'windows' && architecture === 'x86_64') {
-    return EXTERNAL_URLS.basecampWindowsX64Download
-  }
-
   return EXTERNAL_URLS.basecampRelease
 }

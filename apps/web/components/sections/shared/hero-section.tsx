@@ -6,7 +6,6 @@ import { motion, useScroll, useTransform } from 'motion/react'
 import type { HeroSection } from '@repo/content/schemas'
 
 import { Button } from '@/components/ui'
-import { BasecampDownloadButton } from './basecamp-download-cta'
 
 interface HeroSectionViewProps {
   data: HeroSection
@@ -120,12 +119,13 @@ export default function HeroSectionView({
       ) : null}
       <div className="flex flex-col items-center gap-2 lg:flex-row">
         {primaryCta ? (
-          <BasecampDownloadButton
-            cta={primaryCta}
-            defaultVariant="primary"
-            eventName={primaryEventName}
+          <Button
+            href={primaryCta.href}
+            data-umami-event-name={primaryEventName}
             className="cursor-pointer bg-brand-off-white text-brand-dark-green transition-all hover:bg-transparent hover:text-brand-off-white"
-          />
+          >
+            {primaryCta.label}
+          </Button>
         ) : null}
         {secondaryCta ? (
           <Button

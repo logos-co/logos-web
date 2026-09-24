@@ -47,7 +47,7 @@ describe('resolveBasecampDownloadTarget', () => {
     ).toBe(EXTERNAL_URLS.basecampRelease)
   })
 
-  it('selects the Windows x86_64 installer', () => {
+  it('uses the release page for Windows because no Windows asset exists', () => {
     expect(
       resolveBasecampDownloadTarget({
         architecture: 'x86',
@@ -55,7 +55,7 @@ describe('resolveBasecampDownloadTarget', () => {
         platform: 'Windows',
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
       })
-    ).toBe(EXTERNAL_URLS.basecampWindowsX64Download)
+    ).toBe(EXTERNAL_URLS.basecampRelease)
   })
 
   it('uses the release page when the selected OS differs from the current OS', () => {

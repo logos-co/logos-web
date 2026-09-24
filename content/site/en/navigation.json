@@ -16,7 +16,7 @@
     { "label": "Book", "href": "/book" },
     { "label": "λ Prize", "href": "/lambda-prize" }
   ],
-  "primaryCta": { "label": "Install Basecamp", "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.3.0" },
+  "primaryCta": { "label": "Install Basecamp", "href": "/basecamp" },
   "homepageHighlight": {
     "enabled": true,
     "body": "PriFi and the Incomplete Institution: Securing the Transaction Supply Chain",
@@ -75,7 +75,7 @@
               "label": "Join Community",
               "href": "https://discord.gg/Ykv4eZyHUJ"
             },
-            { "label": "Install Basecamp", "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.3.0" },
+            { "label": "Install Basecamp", "href": "/basecamp" },
             { "label": "Work with us", "href": "https://free.technology/jobs" }
           ]
         }

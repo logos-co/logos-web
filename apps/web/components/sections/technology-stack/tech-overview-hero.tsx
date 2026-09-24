@@ -6,7 +6,7 @@ import { IconMask } from '@/components/icons/icon-mask'
 import ContentWidth from '@/components/layout/content-width'
 import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui'
-import { BasecampDownloadButton } from '@/components/sections/shared/basecamp-download-cta'
+import { resolveBasecampInstallCtaLinkProps } from '@/lib/basecamp-release-links'
 
 type Props = {
   data: HeroSection
@@ -66,11 +66,14 @@ function StatusCard({
           ) : null}
         </p>
         {status.cta ? (
-          <BasecampDownloadButton
-            cta={status.cta}
+          <Button
+            {...resolveBasecampInstallCtaLinkProps(status.cta)}
+            variant={status.cta.variant ?? 'secondary'}
             icon={getButtonIcon(status.cta.iconOverride)}
             className="cursor-pointer"
-          />
+          >
+            {status.cta.label}
+          </Button>
         ) : null}
       </div>
     </div>
@@ -121,12 +124,15 @@ export default function TechOverviewHero({ data }: Props) {
           {data.ctas && data.ctas.length > 0 ? (
             <div className="flex flex-col items-start gap-2.5 xl:flex-row">
               {data.ctas.map((cta) => (
-                <BasecampDownloadButton
+                <Button
                   key={cta.label}
-                  cta={cta}
+                  {...resolveBasecampInstallCtaLinkProps(cta)}
+                  variant={cta.variant ?? 'secondary'}
                   icon={getButtonIcon(cta.iconOverride)}
                   className="cursor-pointer"
-                />
+                >
+                  {cta.label}
+                </Button>
               ))}
             </div>
           ) : null}

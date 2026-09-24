@@ -29,9 +29,7 @@ export function resolveBasecampInstallPreferredPlatform(
 export function isBasecampInstallCta(cta: InstallCtaLike): boolean {
   return (
     resolveBasecampInstallPreferredPlatform(cta) !== null ||
-    (installLabel.test(cta.label) &&
-      (cta.iconOverride === 'download' ||
-        cta.href === EXTERNAL_URLS.basecampRelease))
+    (cta.iconOverride === 'download' && installLabel.test(cta.label))
   )
 }
 
@@ -47,8 +45,7 @@ export function resolveBasecampInstallCtaLinkProps(
     href === EXTERNAL_URLS.basecampRelease ||
     href === EXTERNAL_URLS.basecampLinuxArm64Download ||
     href === EXTERNAL_URLS.basecampLinuxX64Download ||
-    href === EXTERNAL_URLS.basecampMacArm64Download ||
-    href === EXTERNAL_URLS.basecampWindowsX64Download
+    href === EXTERNAL_URLS.basecampMacArm64Download
 
   return cta.external || isBasecampDownloadUrl
     ? { href, target: '_blank', rel: 'noopener noreferrer' }

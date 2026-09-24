@@ -1,7 +1,7 @@
 'use client'
 
 import clsx from 'clsx'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import type { HomepageHighlight } from '@repo/content/schemas'
 import {
@@ -15,7 +15,6 @@ import {
 import { NavOverlay } from '@acid-info/logos-ui/client'
 
 import { IconMask } from '@/components/icons/icon-mask'
-import { useBasecampDownloadHref } from '@/components/sections/shared/basecamp-download-cta'
 import { ROUTES } from '@/constants/routes'
 import { Link, usePathname } from '@/i18n/navigation'
 import {
@@ -46,8 +45,6 @@ type Props = {
   homepageHighlight?: HomepageHighlight
 }
 
-const emptyCta = { label: '', href: '' }
-
 function HamburgerIcon() {
   return <IconMask src="/icons/hamburger-menu.svg" className="size-[15px]" />
 }
@@ -66,25 +63,6 @@ export default function SiteHeaderClient({
   primaryCta,
   homepageHighlight,
 }: Props) {
-  const primaryCtaHref = useBasecampDownloadHref(primaryCta ?? emptyCta)
-  const resolvedPrimaryCta = primaryCta
-    ? { ...primaryCta, href: primaryCtaHref }
-    : undefined
-  const resolvedMenuPanels = useMemo(
-    () =>
-      menuPanels.map((panel) => ({
-        ...panel,
-        textSections: panel.textSections?.map((section) => ({
-          ...section,
-          links: section.links.map((link) =>
-            link.label === primaryCta?.label && link.href === primaryCta.href
-              ? { ...link, href: primaryCtaHref }
-              : link
-          ),
-        })),
-      })),
-    [menuPanels, primaryCta?.href, primaryCta?.label, primaryCtaHref]
-  )
   const [isOpen, setIsOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [initialPanelLabel, setInitialPanelLabel] = useState<string | null>(
@@ -304,10 +282,7 @@ export default function SiteHeaderClient({
 
           {primaryCta ? (
             <Link
-              href={primaryCtaHref}
-              {...(/^https?:\/\//.test(primaryCtaHref)
-                ? { target: '_blank', rel: 'noopener noreferrer' }
-                : {})}
+              href={primaryCta.href}
               className={clsx(
                 'absolute top-1/2 -translate-y-1/2 text-eyebrow font-semibold cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
                 'hidden lg:inline-flex',
@@ -343,8 +318,8 @@ export default function SiteHeaderClient({
         initialSelectedPanelLabel={initialPanelLabel ?? undefined}
         sitemap={sitemap}
         community={community}
-        menuPanels={resolvedMenuPanels}
-        primaryCta={resolvedPrimaryCta}
+        menuPanels={menuPanels}
+        primaryCta={primaryCta}
         labels={{ closeMenu: closedBar.closeLabel }}
         linkAs={Link}
       />
