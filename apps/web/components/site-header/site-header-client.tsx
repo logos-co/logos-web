@@ -14,7 +14,7 @@ import {
 } from '@acid-info/logos-ui'
 import { NavOverlay } from '@acid-info/logos-ui/client'
 
-import { useFieldStationDownloadHref } from '@/app/[locale]/field-station/_sections/basecamp-install-button'
+import { BASECAMP_RELEASE_PAGE } from '@/app/[locale]/field-station/_content'
 import { IconMask } from '@/components/icons/icon-mask'
 import { ROUTES } from '@/constants/routes'
 import { Link, usePathname } from '@/i18n/navigation'
@@ -75,25 +75,10 @@ export default function SiteHeaderClient({
   const pathname = usePathname()
   const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
   const isFieldStation = normalizedPathname === ROUTES.fieldStation
-  const fieldStationDownloadHref = useFieldStationDownloadHref(isFieldStation)
   const displayedPrimaryCta =
     isFieldStation && primaryCta
-      ? { ...primaryCta, href: fieldStationDownloadHref }
+      ? { ...primaryCta, href: BASECAMP_RELEASE_PAGE }
       : primaryCta
-  const displayedMenuPanels =
-    isFieldStation && primaryCta
-      ? menuPanels.map((panel) => ({
-          ...panel,
-          textSections: panel.textSections?.map((section) => ({
-            ...section,
-            links: section.links.map((link) =>
-              link.label === primaryCta.label && link.href === ROUTES.basecamp
-                ? { ...link, href: fieldStationDownloadHref }
-                : link
-            ),
-          })),
-        }))
-      : menuPanels
   const isMediaPath =
     normalizedPathname === ROUTES.media ||
     normalizedPathname.startsWith(`${ROUTES.media}/`)
@@ -339,7 +324,7 @@ export default function SiteHeaderClient({
         initialSelectedPanelLabel={initialPanelLabel ?? undefined}
         sitemap={sitemap}
         community={community}
-        menuPanels={displayedMenuPanels}
+        menuPanels={menuPanels}
         primaryCta={displayedPrimaryCta}
         labels={{ closeMenu: closedBar.closeLabel }}
         linkAs={Link}

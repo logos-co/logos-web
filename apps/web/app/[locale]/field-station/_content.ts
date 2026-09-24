@@ -13,10 +13,8 @@ import type {
   TableSection,
 } from '@repo/content/schemas'
 
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
-export const BASECAMP_RELEASE_HREF =
-  'https://github.com/logos-co/logos-basecamp/releases#release-0.3.0'
 export const BASECAMP_RELEASE_PAGE =
   'https://github.com/logos-co/logos-basecamp/releases/tag/0.3.0'
 
@@ -30,7 +28,7 @@ export const OG_IMAGE = {
   src: '/campaigns/field-station/og-image.jpg',
   width: 1200,
   height: 630,
-  alt: 'Aerial view of the Field Station entrance in Rajasthan',
+  alt: 'Aerial view of the Field Station venue, a regenerative farm in Rajasthan',
 } as const
 
 /** In-page anchors the hero links to. */
@@ -153,7 +151,7 @@ export const ABOUT = {
   ],
   image: {
     src: `${IMAGE_DIR}/about.webp`,
-    alt: 'Sunset reflected in a lake at the Field Station venue',
+    alt: 'Aerial view of the Field Station farm and haveli in Rajasthan',
   },
 } as const
 
@@ -357,7 +355,7 @@ export const APPLICATION: TableSection = {
       ? {
           cta: {
             label: 'Install Basecamp',
-            href: BASECAMP_RELEASE_HREF,
+            href: BASECAMP_RELEASE_PAGE,
             external: true,
             variant: 'primary' as const,
             iconOverride: 'download' as const,
@@ -401,7 +399,7 @@ export const VENUE = {
   heading: 'About the Venue',
   image: {
     src: `${IMAGE_DIR}/venue.webp`,
-    alt: 'Before and after aerial views of the regenerative farm in Rajasthan',
+    alt: 'The haveli at the Field Station venue in Rajasthan',
   },
   blocks: [
     {
@@ -543,7 +541,13 @@ export const PARTNERS = {
   },
 } as const
 
-/** Partners who join and amplify the residency, in alphabetical order. */
+/**
+ * Partners who join and amplify the residency, in alphabetical order. Devfolio
+ * and ETHIndia come from their official brand repos (devfolioco/brand-assets,
+ * ETHIndia/brand-assets) and link to their X accounts. Dhun's black-on-white
+ * JPEG from the campaign doc has its white turned transparent for the light
+ * background. More logos follow as partners join.
+ */
 export const COALITION = {
   heading: 'Coalition / Community Partners',
   logos: [
@@ -641,7 +645,7 @@ export const FAQ = {
             label: 'Quickstart Logos Basecamp',
             href: 'https://www.youtube.com/watch?v=EwCkegIm_1o',
           },
-          { label: 'Latest release', href: BASECAMP_RELEASE_PAGE },
+          { label: 'Latest release', href: EXTERNAL_URLS.basecampRelease },
         ],
       },
     ]),

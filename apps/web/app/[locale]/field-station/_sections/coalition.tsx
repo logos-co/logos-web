@@ -12,14 +12,15 @@ import { SectionHeading } from './atoms'
 const LOGO_HEIGHT = 28
 
 /**
- * Set like the FAQ block: the page's section heading, then outlined logo tiles.
+ * Set like the FAQ block: the page's section heading, then the agenda cards'
+ * outline tiles, four to a row on desktop so later partners slot in.
  */
 export function Coalition() {
   return (
     <section>
       <ContentWidth>
         <SectionHeading>{COALITION.heading}</SectionHeading>
-        <ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
+        <ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
           {COALITION.logos.map((logo) => {
             const height =
               'displayHeight' in logo ? logo.displayHeight : LOGO_HEIGHT
