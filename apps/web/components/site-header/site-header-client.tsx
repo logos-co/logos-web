@@ -1,7 +1,12 @@
 'use client'
 
 import clsx from 'clsx'
-import { useCallback, useEffect, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useState,
+  type AnchorHTMLAttributes,
+} from 'react'
 
 import type { HomepageHighlight } from '@repo/content/schemas'
 import {
@@ -44,6 +49,17 @@ type Props = {
   searchIndexUrl: string
   primaryCta?: NavOverlayLink
   homepageHighlight?: HomepageHighlight
+}
+
+// NavOverlay only opens https hrefs in a new tab, so local PDFs opt in here.
+function NavOverlayLinkAs({
+  href,
+  ...props
+}: AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }) {
+  const newTabProps = href.endsWith('.pdf')
+    ? ({ target: '_blank', rel: 'noopener noreferrer' } as const)
+    : {}
+  return <Link href={href} {...newTabProps} {...props} />
 }
 
 function HamburgerIcon() {
@@ -341,7 +357,7 @@ export default function SiteHeaderClient({
         menuPanels={displayedMenuPanels}
         primaryCta={displayedPrimaryCta}
         labels={{ closeMenu: closedBar.closeLabel }}
-        linkAs={Link}
+        linkAs={NavOverlayLinkAs}
       />
       <MediaSearchDialog
         isOpen={isSearchOpen}
