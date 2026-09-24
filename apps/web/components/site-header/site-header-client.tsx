@@ -14,6 +14,7 @@ import {
 } from '@acid-info/logos-ui'
 import { NavOverlay } from '@acid-info/logos-ui/client'
 
+import { useFieldStationDownloadHref } from '@/app/[locale]/field-station/_sections/basecamp-install-button'
 import { IconMask } from '@/components/icons/icon-mask'
 import { ROUTES } from '@/constants/routes'
 import { Link, usePathname } from '@/i18n/navigation'
@@ -73,6 +74,26 @@ export default function SiteHeaderClient({
     useState(false)
   const pathname = usePathname()
   const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
+  const isFieldStation = normalizedPathname === ROUTES.fieldStation
+  const fieldStationDownloadHref = useFieldStationDownloadHref(isFieldStation)
+  const displayedPrimaryCta =
+    isFieldStation && primaryCta
+      ? { ...primaryCta, href: fieldStationDownloadHref }
+      : primaryCta
+  const displayedMenuPanels =
+    isFieldStation && primaryCta
+      ? menuPanels.map((panel) => ({
+          ...panel,
+          textSections: panel.textSections?.map((section) => ({
+            ...section,
+            links: section.links.map((link) =>
+              link.label === primaryCta.label && link.href === ROUTES.basecamp
+                ? { ...link, href: fieldStationDownloadHref }
+                : link
+            ),
+          })),
+        }))
+      : menuPanels
   const isMediaPath =
     normalizedPathname === ROUTES.media ||
     normalizedPathname.startsWith(`${ROUTES.media}/`)
@@ -280,9 +301,9 @@ export default function SiteHeaderClient({
             ))}
           </nav>
 
-          {primaryCta ? (
+          {displayedPrimaryCta ? (
             <Link
-              href={primaryCta.href}
+              href={displayedPrimaryCta.href}
               className={clsx(
                 'absolute top-1/2 -translate-y-1/2 text-eyebrow font-semibold cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
                 'hidden lg:inline-flex',
@@ -292,7 +313,7 @@ export default function SiteHeaderClient({
                   : 'bg-brand-dark-green text-brand-off-white'
               )}
             >
-              {primaryCta.label}
+              {displayedPrimaryCta.label}
             </Link>
           ) : null}
 
@@ -318,8 +339,8 @@ export default function SiteHeaderClient({
         initialSelectedPanelLabel={initialPanelLabel ?? undefined}
         sitemap={sitemap}
         community={community}
-        menuPanels={menuPanels}
-        primaryCta={primaryCta}
+        menuPanels={displayedMenuPanels}
+        primaryCta={displayedPrimaryCta}
         labels={{ closeMenu: closedBar.closeLabel }}
         linkAs={Link}
       />
