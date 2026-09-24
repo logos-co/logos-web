@@ -18,6 +18,7 @@ vi.mock('@/i18n/navigation', () => ({
 import {
   APPLICATION_STEP_4,
   BASECAMP_RELEASE_HREF,
+  BASECAMP_RELEASE_PAGE,
   APPLY_BANNER_CTA,
   APPLY_HREF,
   COALITION,
@@ -46,7 +47,7 @@ const attr = (tag: string, name: string): string | undefined =>
   tag.match(new RegExp(`\\s${name}="([^"]*)"`))?.[1]
 
 describe('field station page', () => {
-  test('installs Basecamp 0.3.0 from this page without changing site-wide links', async () => {
+  test('installs Basecamp 0.3.0 from Field Station and links its FAQ to the release', async () => {
     const html = await pageHtml()
     const install = anchorTags(html).find(
       (tag) =>
@@ -55,6 +56,14 @@ describe('field station page', () => {
 
     expect(install).toBeDefined()
     expect(attr(install!, 'href')).toBe(BASECAMP_RELEASE_HREF)
+    expect(
+      anchorTags(html).some(
+        (tag) =>
+          attr(tag, 'data-umami-event-name') ===
+            'FAQ link - Latest release' &&
+          attr(tag, 'href') === BASECAMP_RELEASE_PAGE
+      )
+    ).toBe(true)
     expect(
       resolveFieldStationDownloadTarget({
         platform: 'Linux',
