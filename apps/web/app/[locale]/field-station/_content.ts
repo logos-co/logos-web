@@ -624,7 +624,8 @@ export const FAQ = {
   items: [
     faqItem('How do I install Basecamp?', [
       {
-        text: 'Use the Install Basecamp button above to download the version for your device.',
+        text: 'Go to logos.co/basecamp and install either the Linux version or Mac version.',
+        link: { label: 'logos.co/basecamp', href: ROUTES.basecamp },
       },
       {
         links: [
