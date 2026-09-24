@@ -11,8 +11,8 @@ export function About() {
       id={SECTION_IDS.about}
       className="mt-28 scroll-mt-12 bg-brand-off-white px-3 lg:py-[127px]"
     >
-      <div className="mx-auto flex max-w-[1175px] flex-col items-center gap-[54px] lg:flex-row">
-        <div className="relative aspect-square w-full max-w-[490px] shrink-0 overflow-hidden rounded-[20px]">
+      <div className="mx-auto flex max-w-[1175px] flex-col items-center gap-[54px] lg:grid lg:grid-cols-[490px_minmax(0,631px)] lg:items-start lg:gap-x-[54px] lg:gap-y-0">
+        <div className="relative aspect-square w-full max-w-[490px] shrink-0 overflow-hidden rounded-[20px] lg:col-start-1 lg:row-start-2 lg:row-span-2 lg:self-start">
           <Image
             src={ABOUT.image.src}
             alt={ABOUT.image.alt}
@@ -22,10 +22,12 @@ export function About() {
           />
         </div>
 
-        <div className="flex w-full max-w-[631px] flex-col gap-[44px] text-brand-dark-green">
-          <div className="flex flex-col gap-[51px]">
-            <h2 className="text-h2-lg">{ABOUT.heading}</h2>
-            <div className="text-lead-sans flex max-w-[596px] flex-col gap-[1.4em]">
+        <div className="flex w-full max-w-[631px] flex-col gap-[44px] text-brand-dark-green lg:contents">
+          <div className="flex flex-col gap-[51px] lg:contents">
+            <h2 className="text-h2-lg lg:col-start-2 lg:row-start-1 lg:mb-[51px]">
+              {ABOUT.heading}
+            </h2>
+            <div className="text-lead-sans flex max-w-[596px] flex-col gap-[1.4em] lg:col-start-2 lg:row-start-2">
               {ABOUT.paragraphs.map((paragraph) => (
                 <p key={paragraph.text}>
                   <LinkedText text={paragraph.text} link={paragraph.link} />
@@ -34,7 +36,7 @@ export function About() {
             </div>
           </div>
 
-          <div className="flex gap-[21px]">
+          <div className="flex gap-[21px] lg:col-start-2 lg:row-start-3 lg:mt-[44px]">
             {ABOUT.stats.map((stat) => (
               <StatCardView
                 key={stat.label}
