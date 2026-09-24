@@ -53,7 +53,10 @@ export function resolveFieldStationDownloadTarget(
   if (/windows|win32|win64/.test(platform) && architecture === 'x86_64') {
     return RELEASE_ASSETS.windowsX64
   }
-  if (/macos|macintosh|mac os|macintel/.test(platform) && architecture === 'arm64') {
+  if (
+    /macos|macintosh|mac os|macintel/.test(platform) &&
+    architecture === 'arm64'
+  ) {
     return RELEASE_ASSETS.macArm64
   }
   if (/linux|x11/.test(platform)) {
@@ -63,10 +66,11 @@ export function resolveFieldStationDownloadTarget(
   return BASECAMP_RELEASE_HREF
 }
 
-export function BasecampInstallButton() {
+export function useFieldStationDownloadHref(enabled = true): string {
   const [href, setHref] = useState<string>(BASECAMP_RELEASE_HREF)
 
   useEffect(() => {
+    if (!enabled) return
     const userAgentData = (navigator as NavigatorWithUserAgentData)
       .userAgentData
     let cancelled = false
@@ -98,7 +102,13 @@ export function BasecampInstallButton() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [enabled])
+
+  return href
+}
+
+export function BasecampInstallButton() {
+  const href = useFieldStationDownloadHref()
 
   return (
     <Button
