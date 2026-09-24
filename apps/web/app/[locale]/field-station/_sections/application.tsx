@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+import { IconMask } from '@/components/icons/icon-mask'
 import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
 
@@ -7,11 +8,11 @@ import {
   APPLICATION,
   APPLICATION_INTRO,
   APPLICATION_STEP_4,
+  BASECAMP_RELEASE_PAGE,
   EVENT_NAMES,
   SECTION_IDS,
 } from '../_content'
 import { LinkedText } from './atoms'
-import { BasecampInstallButton } from './basecamp-install-button'
 
 const ROW_DESCRIPTIONS = {
   [APPLICATION_STEP_4.number]: (
@@ -80,7 +81,17 @@ export function Application() {
             >
               {APPLICATION.action!.label}
             </Button>
-            <BasecampInstallButton />
+            <Button
+              href={BASECAMP_RELEASE_PAGE}
+              variant="primary"
+              icon={
+                <IconMask src="/icons/download.svg" className="size-[15px]" />
+              }
+              className="cursor-pointer"
+              data-umami-event-name={EVENT_NAMES.applicationInstall}
+            >
+              {APPLICATION.rows[0]?.cta?.label}
+            </Button>
           </div>
         </div>
         <div className="relative aspect-[702/626] overflow-hidden rounded-xl">
