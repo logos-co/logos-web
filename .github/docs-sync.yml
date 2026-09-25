@@ -1,0 +1,27 @@
+# Repo-specific tuning for the shared docs sync (acid-info/ai-docs-sync).
+# Read from the target branch (develop).
+doc_paths:
+  - README.md
+  - AGENTS.md
+  - CLAUDE.md
+  - docs/**/*.md
+  - apps/*/AGENTS.md
+  - apps/*/README.md
+  - apps/*/docs/**/*.md
+  - packages/*/AGENTS.md
+  - packages/*/README.md
+
+never_touch:
+  # dated research records, not maintained docs
+  - apps/logos-demos/docs/browser-viability.md
+  - apps/logos-demos/docs/storage-research.md
+
+extra_ignore:
+  - 'flake.lock'
+  - 'packages/types/src/payload.ts'
+  - 'apps/cms/src/app/(payload)/admin/importMap.js'
+  - 'apps/cms/src/migrations/*.json'
+
+guidelines_files:
+  - AGENTS.md
+  - CLAUDE.md
