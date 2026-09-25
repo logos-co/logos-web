@@ -65,33 +65,33 @@
         "prizes": [
           {
             "meta": {
-              "id": "LP-0017",
+              "id": "LP-0018",
               "effort": "Effort: Medium",
-              "prize": "Prize: $400"
+              "prize": "Prize: $1,500"
             },
-            "title": "Whistleblower — censorship-resistant document upload and indexing Basecamp app",
-            "body": "This prize funds \"Whistleblower\", a Logos Basecamp app that lets anyone upload a document and make it permanently discoverable — without relying on any centralised server, without requiring the publisher to hold tokens, and without a single point of censorship.",
-            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0017.md"
+            "title": "OpenStreetMap Integration — Decentralised Map Data Distribution",
+            "body": "This prize funds an OpenStreetMap (OSM) data distribution system for the Logos ecosystem. Users can browse available map regions, host map data in Logos Storage, and download map files whose integrity is guaranteed by content-addressing (CID), with import-time checksum verification against Geofabrik.",
+            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0018.md"
           },
           {
             "meta": {
-              "id": "LP-0008",
-              "effort": "Effort: Large",
-              "prize": "Prize: $1,200"
+              "id": "LP-0021",
+              "effort": "Effort: X-Large",
+              "prize": "Prize: $20,000"
             },
-            "title": "Autonomous AI Module with Wallet, Storage, and Messaging",
-            "body": "This prize is for a Logos Core module that runs an autonomous AI agent with native access to the full Logos stack: a LEZ wallet, Logos Storage, and Logos Messaging. The agent has its own identity and funds, can communicate with its owner via chat, and can communicate with other agents.",
-            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0008.md"
+            "title": "LEZ Wallet and Provider SDK",
+            "body": "This prize is for a Logos wallet module scoped to a single Logos Execution Zone (LEZ): a wallet experience that manages assets on a LEZ zone, including the token program, multiple accounts (public and private), and a developer-facing Wallet Provider SDK with wallet selection and approval flows for third-party dApps.",
+            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0021.md"
           },
           {
             "meta": {
-              "id": "LP-0016",
-              "effort": "Effort: Large",
-              "prize": "Prize: $1,200"
+              "id": "LP-0023",
+              "effort": "Effort: Medium",
+              "prize": "Prize: $2,000"
             },
-            "title": "Anonymous Forum with Threshold Moderation and Membership Revocation",
-            "body": "This prize is for a protocol for anonymous, moderated forums. Members post without revealing their identity and their posts are unlinkable to one another — yet a coordinated group of moderators can act on individual pieces of content, and a member who accumulates too many moderation strikes loses their membership.",
-            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0016.md"
+            "title": "LEZ Program Registry",
+            "body": "This prize is for a program registry for the Logos Execution Zone (LEZ): a product that lets developers publish their deployed programs together with human-readable metadata and a pointer to the program's IDL and source code, and lets anyone browse, search, and verify those entries through a CLI, an SDK, and a Logos Core Module.",
+            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0023.md"
           }
         ]
       },
