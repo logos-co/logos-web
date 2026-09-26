@@ -1,0 +1,98 @@
+# Publishes the site the same way the Jenkins job does: build the static
+# export, then push it to the deploy branch nginx serves. The CMS triggers
+# this over repository_dispatch so editors can publish CMS changes without a
+# code push, which a static site otherwise needs.
+name: Publish site
+# The run name is how the CMS tells a dev run from a production one.
+run-name: publish-${{ github.event.client_payload.environment || inputs.environment || 'dev' }}
+
+on:
+  repository_dispatch:
+    types: [publish-site]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Which site to publish
+        type: choice
+        options:
+          - dev
+          - production
+        default: dev
+
+concurrency:
+  group: publish-site-${{ github.event.client_payload.environment || inputs.environment || 'dev' }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    env:
+      ENVIRONMENT: ${{ github.event.client_payload.environment || inputs.environment || 'dev' }}
+    steps:
+      - name: Resolve the environment
+        id: target
+        run: |
+          case "$ENVIRONMENT" in
+            dev)
+              {
+                echo "ref=develop"
+                echo "deploy_branch=deploy-develop"
+                echo "domain=dev.logos.co"
+                echo "site_url=https://dev.logos.co"
+                echo "api_mode=staging"
+                echo "logos_api_url=https://logos-web-api-git-develop-status-im-web.vercel.app"
+              } >> "$GITHUB_OUTPUT"
+              ;;
+            production)
+              {
+                echo "ref=master"
+                echo "deploy_branch=deploy-master"
+                echo "domain=logos.co"
+                echo "site_url=https://logos.co"
+                echo "api_mode=production"
+                echo "logos_api_url=https://logos-web-api.vercel.app"
+              } >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "Unknown environment: $ENVIRONMENT" >&2
+              exit 1
+              ;;
+          esac
+
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.target.outputs.ref }}
+
+      - uses: pnpm/action-setup@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build the web app
+        env:
+          # Mirrors the Jenkinsfile: the /media pages come from the blog CMS,
+          # and the build fails without its key.
+          STRAPI_API_KEY: ${{ secrets.STRAPI_API_KEY }}
+          SIMPLECAST_ACCESS_TOKEN: ${{ secrets.SIMPLECAST_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.target.outputs.site_url }}
+          NEXT_PUBLIC_API_MODE: ${{ steps.target.outputs.api_mode }}
+          NEXT_PUBLIC_LOGOS_API_URL: ${{ steps.target.outputs.logos_api_url }}
+          NEXT_PUBLIC_HCAPTCHA_SITEKEY: 2ec82f0e-5f3c-45d2-ba38-223ceb5eee42
+        run: pnpm turbo run build --filter=web
+
+      - name: Publish the export to its deploy branch
+        env:
+          DEPLOY_BRANCH: ${{ steps.target.outputs.deploy_branch }}
+          DOMAIN: ${{ steps.target.outputs.domain }}
+        run: |
+          pipx install ghp-import
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          ghp-import -b "$DEPLOY_BRANCH" -c "$DOMAIN" -m "Publish $DOMAIN" -p apps/web/out

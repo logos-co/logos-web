@@ -4,6 +4,7 @@ import { RecentDocumentPrBanner as RecentDocumentPrBanner_a102a2e2c84a5d6790a167
 import { ContentPrSaveButton as ContentPrSaveButton_eff21f8e3c112d205ed6bcb1ea85fe6f } from '@/components/admin/content-pr-save-button.tsx'
 import { TimezoneField as TimezoneField_675c144de479f7a98214bb815213c778 } from '@/components/admin/timezone-field.tsx'
 import { LogosAdminIcon as LogosAdminIcon_3f85cd2944b0930640c630ac2df975a7 } from '@/components/admin/logos-admin-icon.tsx'
+import { SitePublishPanel as SitePublishPanel_0e3e0ee296df9afe69a0971fed5db9b3 } from '@/components/admin/site-publish-panel.tsx'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -14,5 +15,6 @@ export const importMap = {
   "@/components/admin/content-pr-save-button.tsx#ContentPrSaveButton": ContentPrSaveButton_eff21f8e3c112d205ed6bcb1ea85fe6f,
   "@/components/admin/timezone-field.tsx#TimezoneField": TimezoneField_675c144de479f7a98214bb815213c778,
   "@/components/admin/logos-admin-icon.tsx#LogosAdminIcon": LogosAdminIcon_3f85cd2944b0930640c630ac2df975a7,
+  "@/components/admin/site-publish-panel.tsx#SitePublishPanel": SitePublishPanel_0e3e0ee296df9afe69a0971fed5db9b3,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
