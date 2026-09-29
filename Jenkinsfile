@@ -139,7 +139,7 @@ pipeline {
 }
 def isMasterBranch() { GIT_BRANCH ==~ /.*master/ }
 def deployBranch() { isMasterBranch() ? 'deploy-master' : 'deploy-develop' }
-// --no-history force-pushes a parentless commit; deploy-master keeps its history until logos.co supports that.
+// --no-history only for develop for now
 def deployHistoryFlag() { isMasterBranch() ? '' : '--no-history' }
 def deployDomain() { isMasterBranch() ? 'logos.co' : 'dev.logos.co' }
 def apiMode() { isMasterBranch() ? 'production' : 'staging' }
