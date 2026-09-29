@@ -27,7 +27,7 @@
       },
       "release": {
         "tabsAriaLabel": "Roadmap testnet releases",
-        "activeTab": "TESTNET V0.2",
+        "activeTab": "TESTNET V0.3",
         "feature": {
           "eyebrow": "Build",
           "body": "Operate early. Help harden a private-by-default network that protects civil liberties and strengthens trust in our communities."
@@ -291,19 +291,24 @@
               "width": 1916,
               "height": 821
             },
-            "status": "IN DEVELOPMENT",
-            "dateLabel": "Expected Release",
-            "date": "H2 2026",
+            "status": "LIVE",
+            "dateLabel": "Date Released",
+            "date": "September 30, 2026",
             "objectiveLabel": "Key Objectives",
             "objective": "Ecosystem Dynamics",
+            "releaseNotes": {
+              "label": "Release Notes:",
+              "href": "https://roadmap.logos.co/testnets/v03-release"
+            },
             "body": [
-              "This version of the Logos testnet will test the ability for the network to sustain itself.",
-              "Meaningful apps will become available to users and the developer experience will be improved. Liquidity primitives will be implemented and the network will be stress-tested to validate its architecture."
+              "Testnet v0.3 tests the ability of the network to sustain itself, with permissionless onboarding, decentralised sequencing, and staking of bridged funds on the base layer.",
+              "It brings the first wallets for existing assets to Basecamp, alongside Logos SQL, a SQL zone for building database-backed applications.",
+              "Testnet v0.3 also improves the developer experience, with a unified command-line tool, Windows support, and RLN, Mix, and Service Discovery shipped as standalone modules."
             ],
             "modules": [
               {
                 "label": "Logos Core",
-                "body": "TBD",
+                "body": "A unified command-line tool, Windows support, and new Monero and Ethereum wallets in Basecamp.",
                 "actions": [
                   {
                     "label": "Overview",
@@ -319,7 +324,7 @@
               },
               {
                 "label": "Networking",
-                "body": "TBD",
+                "body": "Standalone RLN, Mix, and Service Discovery modules, including support for running Mix nodes.",
                 "actions": [
                   {
                     "label": "Overview",
@@ -340,7 +345,7 @@
               },
               {
                 "label": "Blockchain",
-                "body": "TBD",
+                "body": "Proof-of-work onboarding with EmPoWering, decentralised sequencing for the LEZ, staking of bridged funds with Channel Notes, and Logos SQL.",
                 "actions": [
                   {
                     "label": "Overview",
@@ -361,7 +366,7 @@
               },
               {
                 "label": "Messaging",
-                "body": "TBD",
+                "body": "RLN in Delivery through the RLN module, and Mix exposed through the Messaging API. Message history persisted across sessions in Chat.",
                 "actions": [
                   {
                     "label": "Overview",
@@ -382,7 +387,7 @@
               },
               {
                 "label": "Storage",
-                "body": "TBD",
+                "body": "Downloads over Mix, and Logos Storage as a backend for the Logos package manager.",
                 "actions": [
                   {
                     "label": "Overview",

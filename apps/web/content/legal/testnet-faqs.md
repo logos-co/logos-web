@@ -6,7 +6,7 @@ heading: 'Logos Testnet FAQs'
 
 ## What is Logos Testnet?
 
-The Logos Testnet is an early, experimental development environment designed for early stage testing of the Logos technology stack. It brings together components including Logos Messaging, Logos Storage, and Logos Blockchain modules into a unified modular system. Logos Testnet v0.2 builds on the first release, adding execution-layer functionality through the Logos Execution Zone (LEZ) alongside continuous improvements across the modules.
+The Logos Testnet is an early, experimental development environment designed for early stage testing of the Logos technology stack. It brings together components including Logos Messaging, Logos Storage, and Logos Blockchain modules into a unified modular system. Logos Testnet v0.3 builds on the first release, adding execution-layer functionality through the Logos Execution Zone (LEZ) alongside continuous improvements across the modules.
 
 The environment allows developers and node operators to run nodes, interact with the backend infrastructure, and experiment with how the different modules of the Logos tech stack operate together under real network conditions.
 
@@ -14,7 +14,7 @@ This release continues to focus primarily on backend functionality, architectura
 
 ## What is the purpose of this testnet?
 
-Testnet v0.2 is focused on backend validation and module integration across the Logos tech stack. It is designed to stress-test infrastructure, expose APIs, and verify how the different protocols interact under real network conditions.
+Testnet v0.3 is focused on backend validation and module integration across the Logos tech stack. It is designed to stress-test infrastructure, expose APIs, and verify how the different protocols interact under real network conditions.
 
 It allows developers and node operators to explore the stack's capabilities hands-on.
 
@@ -24,7 +24,7 @@ Yes, the software components used in the Logos tech stack are released under the
 
 ## Is this a real environment?
 
-Yes. Testnet v0.2 runs a real environment where messages are routed through a real functioning test network, files are processed through testnet storage components, and programs can execute. However, it's an early alpha with no guarantees on performance, persistence or reliability. Messages fail, delay or get lost. The Logos Blockchain component runs strictly in a testnet environment mode.
+Yes. Testnet v0.3 runs a real environment where messages are routed through a real functioning test network, files are processed through testnet storage components, and programs can execute. However, it's an early alpha with no guarantees on performance, persistence or reliability. Messages fail, delay or get lost. The Logos Blockchain component runs strictly in a testnet environment mode.
 
 ## Is this blockchain?
 
@@ -41,13 +41,13 @@ No. It's not a production network, mainnet preview or launch. It doesn't represe
 
 ## What are testnet tokens?
 
-Testnet tokens exist only for testing blockchain-specific features (e.g., submitting transactions) in the environment. They have no value, aren't transferable outside the testnet, redeemable or convertible, and confer no rights to future benefits. For further details see the [Logos Blockchain Testnet (v0.2) Terms & Conditions](/testnet-terms-and-conditions).
+Testnet tokens exist only for testing blockchain-specific features (e.g., submitting transactions) in the environment. They have no value, aren't transferable outside the testnet, redeemable or convertible, and confer no rights to future benefits. For further details see the [Logos Blockchain Testnet (v0.3) Terms & Conditions](/testnet-terms-and-conditions).
 
 ## Do I need testnet tokens to participate?
 
 No. You can explore most components without blockchain interaction. For testing blockchain-specific functionalities, you can obtain test tokens via the faucet.
 
-If you choose to request or use testnet tokens, please refer to the [Logos Blockchain Testnet (v0.2) Terms & Conditions](/testnet-terms-and-conditions) which govern blockchain-specific testing activity.
+If you choose to request or use testnet tokens, please refer to the [Logos Blockchain Testnet (v0.3) Terms & Conditions](/testnet-terms-and-conditions) which govern blockchain-specific testing activity.
 
 ## Is the testnet secure?
 

@@ -19,14 +19,14 @@
   "primaryCta": { "label": "Install Basecamp", "href": "/basecamp" },
   "homepageHighlight": {
     "enabled": true,
-    "body": "PriFi and the Incomplete Institution: Securing the Transaction Supply Chain",
+    "body": "Testnet v0.3 is live. It introduces new privacy preserving features and improves the usability of the entire stack",
     "dismissAriaLabel": "Dismiss announcement",
     "cta": {
-      "label": "Explore the Thesis",
-      "href": "/prifi"
+      "label": "Learn More",
+      "href": "/roadmap"
     },
     "image": {
-      "src": "/images/home/prifi-highlight.webp",
+      "src": "/images/home/testnet-highlight.webp",
       "alt": ""
     }
   },
