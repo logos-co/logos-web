@@ -94,7 +94,6 @@ pipeline {
           script {
             nix.develop("""
               ghp-import \
-                ${deployHistoryFlag()} \
                 -b ${deployBranch()} \
                 -c ${deployDomain()} \
                 -p apps/web/out
@@ -139,8 +138,6 @@ pipeline {
 }
 def isMasterBranch() { GIT_BRANCH ==~ /.*master/ }
 def deployBranch() { isMasterBranch() ? 'deploy-master' : 'deploy-develop' }
-// --no-history only for develop for now
-def deployHistoryFlag() { isMasterBranch() ? '' : '--no-history' }
 def deployDomain() { isMasterBranch() ? 'logos.co' : 'dev.logos.co' }
 def apiMode() { isMasterBranch() ? 'production' : 'staging' }
 def logosApiUrl() { isMasterBranch() ? 'https://logos-web-api.vercel.app' : 'https://logos-web-api-git-develop-status-im-web.vercel.app' }
