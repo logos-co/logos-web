@@ -1,7 +1,7 @@
 ---
 title: 'Testnet Terms & Conditions | Logos'
 description: 'Terms and conditions for participating in the Logos Blockchain Testnet Programme.'
-heading: 'Logos Blockchain Testnet (v0.2) - Terms and Conditions'
+heading: 'Logos Blockchain Testnet (v0.3) - Terms and Conditions'
 ---
 
 Last updated: 30 June 2026
