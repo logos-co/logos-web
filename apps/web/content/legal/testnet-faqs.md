@@ -6,7 +6,7 @@ heading: 'Logos Testnet FAQs'
 
 ## What is Logos Testnet?
 
-The Logos Testnet is an early, experimental development environment designed for early stage testing of the Logos technology stack. It brings together components including Logos Messaging, Logos Storage, and Logos Blockchain modules into a unified modular system. Logos Testnet v0.3 builds on the first release, adding execution-layer functionality through the Logos Execution Zone (LEZ) alongside continuous improvements across the modules.
+The Logos Testnet is an early, experimental development environment designed for early stage testing of the Logos technology stack. It brings together components including Logos Messaging, Logos Storage, and Logos Blockchain modules into a unified modular system. Logos Testnet v0.2 builds on the first release, adding execution-layer functionality through the Logos Execution Zone (LEZ) alongside continuous improvements across the modules.
 
 The environment allows developers and node operators to run nodes, interact with the backend infrastructure, and experiment with how the different modules of the Logos tech stack operate together under real network conditions.
 
