@@ -15,7 +15,7 @@ interface BasecampInstallCtaLinkProps {
 }
 
 const installLinuxLabel = /^install linux$/i
-const installMacLabel = /^install mac(?:os)?$/i
+const installMacLabel = /^install mac(?:os)?(?: \(silicon\))?$/i
 const installLabel = /^install(?:\s|$)/i
 
 export function resolveBasecampInstallPreferredPlatform(

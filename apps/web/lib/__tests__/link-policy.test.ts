@@ -54,7 +54,7 @@ const communityIdeasHref = 'https://github.com/logos-co/ideas'
 const livingWithinTruthHref = 'https://www.youtube.com/watch?v=xy4uK20lFBQ'
 const logosGenealogyHref = '/media/article/a-genealogy-of-logos'
 const basecampReleaseHref =
-  'https://github.com/logos-co/logos-basecamp/releases#release-0.3.0'
+  'https://github.com/logos-co/logos-basecamp/releases/latest'
 const basecampLinuxArm64DownloadHref =
   'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-aarch64.AppImage'
 const basecampLinuxX64DownloadHref =
@@ -533,6 +533,12 @@ describe('link policy', () => {
     expect(
       resolveBasecampInstallPreferredPlatform({
         label: 'Install Macos',
+        href: ROUTES.getStarted,
+      })
+    ).toBe('macos')
+    expect(
+      resolveBasecampInstallPreferredPlatform({
+        label: 'Install macOS (Silicon)',
         href: ROUTES.getStarted,
       })
     ).toBe('macos')
