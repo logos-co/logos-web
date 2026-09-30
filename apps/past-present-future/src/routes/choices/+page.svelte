@@ -7,7 +7,7 @@
 	const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
 	function faceTap(e, i) {
 		if (!isMobile()) return;
-		if (i === 0 && activeFace === 0 && e.target.closest('.face-go')) return;
+		if (i < 2 && activeFace === i && e.target.closest('.face-go')) return;
 		e.preventDefault();
 		activeFace = i;
 	}
@@ -46,15 +46,14 @@
 				<div class="face-go">▶ Live his life</div>
 			</div>
 		</a>
-		<!-- svelte-ignore a11y_no_static_element_interactions, a11y_click_events_have_key_events -->
-		<div class="face soon" class:active={activeFace === 1} onclick={(e) => faceTap(e, 1)}>
+		<a class="face" class:active={activeFace === 1} href="/past-present-future/choices/amanda" onclick={(e) => faceTap(e, 1)}>
 			<div class="face-img" style="background-image:url('/past-present-future/choices/faces/amanda.webp')"></div>
 			<div class="face-body">
 				<div class="face-name">Amanda</div>
 				<div class="face-path">The Watched Path</div>
-				<div class="face-go">Coming soon</div>
+				<div class="face-go">▶ Live her life</div>
 			</div>
-		</div>
+		</a>
 		<!-- svelte-ignore a11y_no_static_element_interactions, a11y_click_events_have_key_events -->
 		<div class="face soon" class:active={activeFace === 2} onclick={(e) => faceTap(e, 2)}>
 			<div class="face-img" style="background-image:url('/past-present-future/choices/faces/richard.webp')"></div>
