@@ -64,11 +64,6 @@
                     "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/logoscore/"
-                  },
-                  {
-                    "label": "Docs",
-                    "variant": "secondary",
-                    "href": "https://docs.logos.co/core"
                   }
                 ]
               },
@@ -189,11 +184,6 @@
                     "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/logoscore/"
-                  },
-                  {
-                    "label": "Docs",
-                    "variant": "secondary",
-                    "href": "https://docs.logos.co/core"
                   }
                 ]
               },
@@ -293,7 +283,7 @@
             },
             "status": "LIVE",
             "dateLabel": "Date Released",
-            "date": "September 17, 2026",
+            "date": "September 30, 2026",
             "objectiveLabel": "Key Objectives",
             "objective": "Ecosystem Dynamics",
             "releaseNotes": {
@@ -314,11 +304,6 @@
                     "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/logoscore/"
-                  },
-                  {
-                    "label": "Docs",
-                    "variant": "secondary",
-                    "href": "https://docs.logos.co/core"
                   }
                 ]
               },
@@ -434,11 +419,6 @@
                     "label": "Overview",
                     "variant": "primary",
                     "href": "https://roadmap.logos.co/logoscore/"
-                  },
-                  {
-                    "label": "Docs",
-                    "variant": "secondary",
-                    "href": "https://docs.logos.co/core"
                   }
                 ]
               },
