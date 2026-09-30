@@ -52,7 +52,7 @@
         "body": "Testnet v0.3 launched in September 2026. It introduced new privacy preserving features and improves the usability of the entire stack.",
         "cta": {
           "label": "Install Testnet v0.3.0",
-          "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.3.0",
+          "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
           "external": true,
           "variant": "secondary",
           "iconOverride": "download"
@@ -176,7 +176,7 @@
       ],
       "primaryCta": {
         "label": "Install",
-        "href": "https://github.com/logos-co/logos-basecamp/releases#release-0.3.0",
+        "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
         "external": true,
         "variant": "primary"
       },
