@@ -1,7 +1,7 @@
 import type { HeroSection } from '@repo/content/schemas'
 import { LogosMark } from '@acid-info/logos-ui'
 
-import { ButtonArrowIcon } from '@/components/ui'
+import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 import { Link } from '@/i18n/navigation'
 
@@ -73,6 +73,31 @@ function HeroBodyColumn({
   )
 }
 
+function HeroLinks({
+  links,
+  className,
+}: {
+  links: NonNullable<HeroSection['links']>
+  className?: string
+}) {
+  return (
+    <div className={`flex items-start ${className ?? ''}`}>
+      <div className="flex flex-wrap items-center gap-2.5 md:flex-col md:items-start">
+        {links.map((link) => (
+          <Button
+            key={link.label}
+            href={link.href}
+            variant={link.variant ?? 'tertiary'}
+            className="cursor-pointer"
+          >
+            {link.label}
+          </Button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export function HeroSectionView({ data }: { data: HeroSection }) {
   const bodyDetails = paragraphs(data.bodySecondary)
 
@@ -88,6 +113,9 @@ export function HeroSectionView({ data }: { data: HeroSection }) {
           <HeroTitle headline={data.headline} />
         </div>
         <div className="pt-[135px]">
+          {data.links ? (
+            <HeroLinks links={data.links} className="mb-6" />
+          ) : null}
           <HeroBodyColumn
             body={data.body}
             bodyDetails={bodyDetails}
@@ -106,12 +134,24 @@ export function HeroSectionView({ data }: { data: HeroSection }) {
         <div className="md:col-span-2">
           <HeroTitle headline={data.headline} />
         </div>
-        <div className="md:col-span-2">
+        <div
+          className={
+            data.links
+              ? 'md:col-span-2 lg:grid lg:grid-cols-2 lg:gap-3'
+              : 'md:col-span-2'
+          }
+        >
           <HeroBodyColumn
             body={data.body}
             bodyDetails={bodyDetails}
             ctas={data.ctas}
           />
+          {data.links ? (
+            <HeroLinks
+              links={data.links}
+              className="mt-6 lg:mt-0 lg:justify-end"
+            />
+          ) : null}
         </div>
       </div>
     </section>
