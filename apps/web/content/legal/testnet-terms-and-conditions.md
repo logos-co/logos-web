@@ -58,7 +58,7 @@ As a Participant, you are prohibited from the following:
 - Engaging in any activities that are abusive, fraudulent, negligent, in bad faith or wilful misconduct;
 - Misrepresenting your relationship with IFT as being anything more than being a Participant;
 - Gaining or trying to gain unauthorised access to the Logos Blockchain Testnet or its components;
-- Engaging in malicious or bad-faith conduct intended to disrupt, compromise or exploit  the integrity, safety, security, availability or performance of the Logos Blockchain Testnet, including, but not limited to, sending any viruses, worms, malware, Trojan horses, or other harmful or destructive code or content, other than good-faith testing activities consistent with the purpose of the Logos Blockchain Testnet Programme;
+- Engaging in malicious or bad-faith conduct intended to disrupt, compromise or exploit the integrity, safety, security, availability or performance of the Logos Blockchain Testnet, including, but not limited to, sending any viruses, worms, malware, Trojan horses, or other harmful or destructive code or content, other than good-faith testing activities consistent with the purpose of the Logos Blockchain Testnet Programme;
 - Violating any applicable third party service provider's rules or policies;
 - Using or attempting to use any real-world or value-bearing assets in connection with the Logos Blockchain Testnet Programme; and
 - Encouraging or enabling any other Participant, other individual or entity to do any of the foregoing or otherwise to violate these Terms.
