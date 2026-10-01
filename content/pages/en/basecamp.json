@@ -38,6 +38,18 @@
           "variant": "secondary",
           "iconOverride": "download"
         }
+      ],
+      "links": [
+        {
+          "label": "Logos Blockchain Testnet T&Cs",
+          "href": "/testnet-terms-and-conditions",
+          "variant": "tertiary"
+        },
+        {
+          "label": "Logos Blockchain Testnet Privacy Policy",
+          "href": "/testnet-privacy-policy",
+          "variant": "tertiary"
+        }
       ]
     },
     {

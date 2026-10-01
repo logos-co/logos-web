@@ -25,13 +25,13 @@ export default function TechStackDetailHero({
   desktopAt1025 = false,
   className,
 }: Props) {
-  const [primaryCta, secondaryCta] = data.ctas ?? []
+  const ctas = data.ctas ?? []
   const baseClassName = desktopAt1025
     ? 'mb-0 lg:mb-0 lg:pt-[27px]'
     : 'mb-0 md:mb-0 md:pt-[27px]'
   const stackedActionsClassName = desktopAt1025
-    ? 'flex items-center gap-2.5 lg:flex-col lg:items-start'
-    : 'flex items-center gap-2.5 md:flex-col md:items-start'
+    ? 'flex flex-wrap items-center gap-2.5 lg:flex-col lg:items-start'
+    : 'flex flex-wrap items-center gap-2.5 md:flex-col md:items-start'
 
   return (
     <TechDetailHero
@@ -92,24 +92,20 @@ export default function TechStackDetailHero({
               : 'flex flex-wrap items-center gap-2.5'
           }
         >
-          {primaryCta ? (
+          {ctas.map((cta, index) => (
             <Button
-              href={primaryCta.href}
-              variant={primaryCta.variant ?? actionVariant ?? 'primary'}
+              key={cta.label}
+              href={cta.href}
+              variant={
+                cta.variant ??
+                actionVariant ??
+                (index === 0 ? 'primary' : 'secondary')
+              }
               className="cursor-pointer"
             >
-              {primaryCta.label}
+              {cta.label}
             </Button>
-          ) : null}
-          {secondaryCta ? (
-            <Button
-              href={secondaryCta.href}
-              variant={secondaryCta.variant ?? actionVariant ?? 'secondary'}
-              className="cursor-pointer"
-            >
-              {secondaryCta.label}
-            </Button>
-          ) : null}
+          ))}
         </div>
       }
     />

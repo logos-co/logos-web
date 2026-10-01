@@ -156,6 +156,8 @@ export const heroSectionSchema = z.object({
     .optional(),
   background: mediaRefSchema.optional(),
   ctas: z.array(ctaSchema).optional(),
+  /** Secondary text links shown beside the hero body (e.g. legal pages). */
+  links: z.array(ctaSchema).optional(),
 })
 export type HeroSection = z.infer<typeof heroSectionSchema>
 

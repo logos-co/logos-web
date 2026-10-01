@@ -69,7 +69,15 @@
   "legalLinks": [
     { "label": "Terms & Conditions", "href": "/terms-and-conditions" },
     { "label": "Privacy Policy", "href": "/privacy-policy" },
-    { "label": "Security", "href": "/security" }
+    { "label": "Security", "href": "/security" },
+    {
+      "label": "Logos Blockchain Testnet T&Cs",
+      "href": "/testnet-terms-and-conditions"
+    },
+    {
+      "label": "Logos Blockchain Testnet Privacy Policy",
+      "href": "/testnet-privacy-policy"
+    }
   ],
   "builtBy": {
     "label": "Built by",
