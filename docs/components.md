@@ -77,6 +77,8 @@ Background: `bg-brand-dark-green`, `text-brand-off-white`.
 
 Desktop (md+): 3-column layout — image + "Built by IFT" (left), logo + primary links + research + legal (middle), tagline + social + infrastructure (right). Mobile: 2-column with image + logo/tagline stacked on top.
 
+The Figma heights (663px mobile, 688px desktop) are minimums. The legal links sit in normal flow, so three links land exactly on those heights and a longer list makes the footer taller instead of being clipped. On desktop the image stays pinned 12px above the bottom edge.
+
 ```ts
 interface FooterLink {
   label: string
@@ -92,7 +94,7 @@ interface FooterProps {
   socialLinks: FooterLink[] // Twitter, Discord, YouTube, Blog, Github
   researchLinks: FooterLink[] // under "RESEARCH" label
   infrastructureLinks: FooterLink[] // under "INFRASTRUCTURE" label
-  legalLinks: FooterLink[] // Terms, Privacy, Security
+  legalLinks: FooterLink[] // Terms, Privacy, Security, Testnet T&Cs, Testnet Privacy Policy
   builtBy?: { label: string; attribution: ReactNode; href?: string }
   className?: string
 }
