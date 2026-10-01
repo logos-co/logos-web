@@ -1,16 +1,20 @@
 ---
 title: 'Testnet FAQs | Logos'
 description: 'Frequently asked questions about the Logos Testnet — what it is, its purpose, and how to take part.'
-heading: 'Logos Testnet FAQs'
+heading: 'Logos Testnet v0.3 FAQs'
 ---
 
 ## What is Logos Testnet?
 
-The Logos Testnet is an early, experimental development environment designed for early stage testing of the Logos technology stack. It brings together components including Logos Messaging, Logos Storage, and Logos Blockchain modules into a unified modular system. Logos Testnet v0.2 builds on the first release, adding execution-layer functionality through the Logos Execution Zone (LEZ) alongside continuous improvements across the modules.
+The Logos Testnet is an early, experimental development environment designed for early stage testing of the Logos technology stack. It brings together components including Logos Messaging, Logos Storage, and Logos Blockchain modules into a unified modular system. Logos Testnet v0.3 builds on the previous releases, adding proof-of-work participation, decentralised sequencing for the Logos Execution Zone (LEZ), downloads routed over the Mix network, and Logos SQL, alongside continuous improvements across the modules.
 
 The environment allows developers and node operators to run nodes, interact with the backend infrastructure, and experiment with how the different modules of the Logos tech stack operate together under real network conditions.
 
 This release continues to focus primarily on backend functionality, architectural validation and module integration rather than polished UX or stability.
+
+## How do I get started?
+
+Basecamp is one of the ways to run the Logos stack. It is open-source software providing a runtime environment in which the Logos modules run together on your own machine. The modules are also available individually in the Logos GitHub repositories and can be run from the command line or built from source.
 
 ## What is the purpose of this testnet?
 
@@ -30,7 +34,7 @@ Yes. Testnet v0.3 runs a real environment where messages are routed through a re
 
 No. The blockchain is only one component of the broader Logos modular stack. The stack consists of several modules:
 
-- **Logos Blockchain** - a scalable layer for trustless agreements designed for sovereignty, modularity, and privacy-preserving infrastructure.
+- **Logos Blockchain** - a scalable layer for trustless agreements designed for sovereignty, modularity, and privacy-preserving infrastructure. Execution zones, including the Logos Execution Zone (LEZ) and Logos SQL, run on top of it.
 - **Logos Storage** - a decentralised storage system designed to provide censorship resistance and durable data availability.
 - **Logos Messaging** - a peer-to-peer communication layer enabling private and censorship-resistant interactions between network participants.
 - **Logos Core** - the runtime environment and modular SDK for developers to build, integrate and run decentralised, peer-to-peer applications and modules locally.
@@ -43,11 +47,19 @@ No. It's not a production network, mainnet preview or launch. It doesn't represe
 
 Testnet tokens exist only for testing blockchain-specific features (e.g., submitting transactions) in the environment. They have no value, aren't transferable outside the testnet, redeemable or convertible, and confer no rights to future benefits. For further details see the [Logos Blockchain Testnet (v0.3) Terms & Conditions](/testnet-terms-and-conditions).
 
+## How do I obtain testnet tokens?
+
+Testnet tokens are obtained by performing computational work on the Logos Blockchain testnet. This can be done through Basecamp or by running a node from the command line.
+
+A web-based faucet has been used to distribute testnet tokens in earlier releases and may be available from time to time.
+
+Obtaining testnet tokens creates no entitlement, expectation or claim to anything of value, now or in the future, including where you have expended computational resources to obtain them.
+
 ## Do I need testnet tokens to participate?
 
-No. You can explore most components without blockchain interaction. For testing blockchain-specific functionalities, you can obtain test tokens via the faucet.
+No. You can explore most components without interacting with the Logos blockchain testnet, though blockchain-specific testing will be limited without them.
 
-If you choose to request or use testnet tokens, please refer to the [Logos Blockchain Testnet (v0.3) Terms & Conditions](/testnet-terms-and-conditions) which govern blockchain-specific testing activity.
+If you choose to obtain or use testnet tokens, please refer to the [Logos Blockchain Testnet (v0.3) Terms & Conditions](/testnet-terms-and-conditions) which govern blockchain-specific testing activity.
 
 ## Is the testnet secure?
 
@@ -55,11 +67,11 @@ No. It's under active development, likely contains bugs or vulnerabilities, and 
 
 ## Can I build on the testnet?
 
-Yes, the testnet is designed to be built upon by developers interested in experimenting with the Logos modular stack. Refer to the official documentation for guides on getting started: [https://docs.logos.co/build-an-app](https://docs.logos.co/build-an-app)
+Yes, the testnet is designed to be built upon by developers interested in experimenting with the Logos modular stack. Logos SQL also allows developers to build database-backed applications using standard SQL. Refer to the official documentation for guides on getting started: [https://docs.logos.co/build-an-app](https://docs.logos.co/build-an-app)
 
 ## Where can I report issues or bugs?
 
-Issue reporting channels will be shared alongside the developer documentation. This will likely include the relevant GitHub repositories and community channels (e.g., Discord) where developers can report bugs, submit issues, and discuss technical questions.
+Issue reporting channels will be shared alongside the developer documentation. This will likely include the relevant GitHub repositories and community channels (e.g. Discord) where developers can report bugs, submit issues, and discuss technical questions.
 
 ## What about entitlements, expectations, rights or benefits for participating?
 
@@ -67,4 +79,4 @@ Participation creates no entitlements, expectations, rights to future tokens/ben
 
 ## Is any service provided with the Logos testnet?
 
-No service is provided; the testnet consists of experimental open-source software that you run locally on your own hardware. You're fully responsible for setup, operation, and risks in this developer-oriented environment.
+No service is provided; the testnet consists of experimental open-source software that you run locally on your own hardware. You're fully responsible for setup, operation, and risks in this developer-oriented environment. Some testnet functionality depends on the infrastructure we operate for the purposes of the testnet, which may be modified, limited or withdrawn at any time.

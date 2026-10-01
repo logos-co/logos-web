@@ -33,6 +33,8 @@ describe('getLegalDoc', () => {
       'operators-disclaimer',
       'field-station-application-terms',
       'field-station-privacy-policy',
+      'testnet-terms-and-conditions',
+      'testnet-privacy-policy',
     ]) {
       const doc = getLegalDoc(slug)
       expect(doc.title).toContain('| Logos')
