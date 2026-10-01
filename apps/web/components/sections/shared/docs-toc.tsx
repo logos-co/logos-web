@@ -25,6 +25,7 @@ export type DocsTocKey =
   | 'faq'
   | 'testnetFaqs'
   | 'testnetTerms'
+  | 'testnetPrivacy'
 
 interface DocsTocItem {
   key: DocsTocKey
@@ -38,6 +39,7 @@ const ITEMS: ReadonlyArray<DocsTocItem> = [
   { key: 'security', href: ROUTES.security },
   { key: 'testnetFaqs', href: ROUTES.testnetFaqs },
   { key: 'testnetTerms', href: ROUTES.testnetTermsAndConditions },
+  { key: 'testnetPrivacy', href: ROUTES.testnetPrivacyPolicy },
 ]
 
 export interface DocsNavItem {

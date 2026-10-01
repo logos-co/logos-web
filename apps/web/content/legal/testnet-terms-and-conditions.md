@@ -4,25 +4,25 @@ description: 'Terms and conditions for participating in the Logos Blockchain Tes
 heading: 'Logos Blockchain Testnet (v0.3) - Terms and Conditions'
 ---
 
-Last updated: 30 June 2026
+Last updated: 1 October 2026
 
 ## 1) About these Terms
 
 By accessing or participating in the Logos Blockchain Testnet Programme, including by running a node, interacting with the testnet infrastructure, or otherwise testing the Logos Blockchain Testnet, you agree that these terms and conditions ("Testnet Terms and Conditions") apply to you (also referred to as the "Participant"). These Testnet Terms and Conditions therefore constitute a binding obligation between you and IFT. If you do not agree to these Testnet Terms and Conditions, you must not participate in the Logos Blockchain Testnet Programme.
 
-If you have specific questions about these Testnet Terms and Conditions, please contact us at [legal@free.technology](mailto:legal@free.technology).
+If you have specific questions about these Testnet Terms and Conditions please contact us at [legal@free.technology](mailto:legal@free.technology).
 
 In these Testnet Terms and Conditions, whenever we refer to "we", "our", "us" (or variations thereof) or IFT, we are referring to IFT Studio Pte. Limited, a company incorporated under the laws of Singapore with registered number 201625575Z, and registered office at 160 Robinson Road, #24-09 Singapore 068914.
 
 ## 2) Introduction to Logos and the Logos Blockchain Testnet
 
-Logos is a modular technology stack that consists of a blockchain for trustless agreements and coordination (Logos Blockchain), decentralised storage (Logos Storage), an anonymous communication layer (Logos Messaging), and an integrated developer environment that packages all infrastructure components into a single runtime, enabling teams to build, test, and deploy applications efficiently (Logos Core).
+Logos is a modular technology stack that consists of a blockchain for trustless agreements and coordination (Logos Blockchain), decentralised storage (Logos Storage), an anonymous communication layer (Logos Messaging), and an integrated developer environment that packages all infrastructure components into a single runtime, enabling teams to build, test, and deploy applications efficiently (Logos Core). Execution zones, including the Logos Execution Zone, may run on top of Logos Blockchain.
 
 As part of the continued development of Logos, IFT has established a non-incentivised testnet programme ("Logos Blockchain Testnet Programme") to allow participants to interact with and test a testnet version of the Logos Blockchain and its associated testnet components ("Logos Blockchain Testnet") in realistic conditions.
 
 The Logos Blockchain Testnet Programme is intended primarily to support (i) testing of consensus and protocol-level functionality, (ii) testing of execution-layer functionality, (iii) node operation and validation, (iv) stress-testing of network behaviour, and (v) identification of bugs and technical issues prior to any potential future mainnet deployment.
 
-It's important to note that throughout the duration of the Logos Blockchain Testnet Programme, available functionalities and features may be limited and may require specific or evolving technical setups. This is typical for testnet releases as they serve as a proving ground for core infrastructure and allow for iterative improvements based on user feedback and testing results.
+It's important to note that throughout the duration of the Logos Blockchain Testnet Programme, available functionalities and features may be limited, may vary between releases, and may require specific or evolving technical setups. This is typical for testnet releases as they serve as a proving ground for core infrastructure and allow for iterative improvements based on user feedback and testing results.
 
 To stay up-to-date with the latest available features and functionalities of the Logos Blockchain Testnet, interested parties can refer to the dedicated page that lists these details. This resource will provide the most current information on what users can expect to interact with on the testnet. Such documentation is provided for informational purposes only and may be updated at any time.
 
@@ -30,7 +30,7 @@ To stay up-to-date with the latest available features and functionalities of the
 
 As part of your participation in the Logos Blockchain Testnet Programme, IFT will need to collect and process certain information on a limited basis, which may include personal data. The main purpose of IFT collecting and processing this personal data is in order to facilitate and administer such participation in the Logos Blockchain Testnet Programme.
 
-Please consult the full details in the Privacy Policy.
+Please consult the full details in the [Privacy Policy](/testnet-privacy-policy).
 
 ## 4) Participation in the Logos Blockchain Testnet Programme
 
@@ -58,7 +58,7 @@ As a Participant, you are prohibited from the following:
 - Engaging in any activities that are abusive, fraudulent, negligent, in bad faith or wilful misconduct;
 - Misrepresenting your relationship with IFT as being anything more than being a Participant;
 - Gaining or trying to gain unauthorised access to the Logos Blockchain Testnet or its components;
-- Engaging in malicious or bad-faith conduct intended to disrupt, compromise or exploit the integrity, safety, security, availability or performance of the Logos Blockchain Testnet, including, but not limited to, sending any viruses, worms, malware, Trojan horses, or other harmful or destructive code or content, other than good-faith testing activities consistent with the purpose of the Logos Blockchain Testnet Programme;
+- Engaging in malicious or bad-faith conduct intended to disrupt, compromise or exploit  the integrity, safety, security, availability or performance of the Logos Blockchain Testnet, including, but not limited to, sending any viruses, worms, malware, Trojan horses, or other harmful or destructive code or content, other than good-faith testing activities consistent with the purpose of the Logos Blockchain Testnet Programme;
 - Violating any applicable third party service provider's rules or policies;
 - Using or attempting to use any real-world or value-bearing assets in connection with the Logos Blockchain Testnet Programme; and
 - Encouraging or enabling any other Participant, other individual or entity to do any of the foregoing or otherwise to violate these Terms.
@@ -67,21 +67,21 @@ You are responsible for all costs and expenses incurred by you in connection wit
 
 ## 7) Non-incentivised Participation
 
-Participation in the Logos Blockchain Testnet Programme is entirely voluntary and non-incentivised. You acknowledge that, for now, there are no rewards, compensation or incentives of any kind with your participation in the Logos Blockchain Testnet Programme. You further acknowledge that participation in the Logos Blockchain Testnet Programme does not create any right, entitlement or expectation to receive tokens, governance rights, network roles, compensation or any other benefit now or in the future.
+Participation in the Logos Blockchain Testnet Programme is entirely voluntary and non-incentivised. You acknowledge that, for now, there are no rewards, compensation or incentives of any kind with your participation in the Logos Blockchain Testnet Programme. Logos Blockchain Testnet Tokens allocated by the protocol itself, including where allocated to participants performing computational work on the Logos Blockchain Testnet, consist solely of testnet tokens having no value as described in clause 8 and do not constitute a reward, compensation or incentive for the purposes of this clause. You further acknowledge that participation in the Logos Blockchain Testnet Programme does not create any right, entitlement or expectation to receive tokens, governance rights, network roles, compensation or any other benefit now or in the future, including where you have expended computational or other resources in connection with your participation.
 
 For the avoidance of doubt, any feedback or other similar contributions about the Logos Blockchain Testnet that you might provide will also not be rewarded or compensated.
 
 ## 8) Logos Blockchain Testnet Tokens
 
-As part of your participation in the Logos Blockchain Testnet Programme, you might accumulate testnet-only tokens ("Logos Blockchain Testnet Tokens"). These Logos Blockchain Testnet Tokens might be transferred to you by IFT or you might obtain them through other means, such as, through a faucet set up to distribute such testnet tokens to Participants of the Logos Blockchain Testnet Programme.
+As part of your participation in the Logos Blockchain Testnet Programme, you might accumulate testnet-only tokens ("Logos Blockchain Testnet Tokens"). You may obtain Logos Blockchain Testnet Tokens by performing computational work on the Logos Blockchain Testnet, or by other means available from time to time, which may include a faucet operated to distribute such testnet tokens to Participants of the Logos Blockchain Testnet Programme. The means by which Logos Blockchain Testnet Tokens may be obtained may change at any time and any particular means may be withdrawn or suspended without notice.
 
 You acknowledge that these Logos Blockchain Testnet Tokens are virtual items with no value of any kind and they are not convertible to any other currency, token, or any other form of property. You shall not transfer Logos Blockchain Testnet Tokens to any other users outside the Logos Blockchain Testnet Programme, nor shall you attempt to sell, trade, or transfer any Logos Blockchain Testnet Tokens outside of the Logos Blockchain Testnet. Any attempts to do so will be deemed null and void.
 
-You further acknowledge that Logos Blockchain Testnet Tokens have no persistence across testnet instances or phases. IFT may, in its sole discretion and without notice, terminate, reset, redeploy, re-genesis or otherwise replace the Logos Blockchain Testnet at any time, at which point any Logos Blockchain Testnet Tokens you may have accrued will cease to exist and will not be transferred, migrated, or otherwise available in any subsequent testnet. You further acknowledge that balances, transaction history, execution state, configuration data, and any other on-chain or off-chain data may be permanently rendered inaccessible or otherwise lost.
+You further acknowledge that Logos Blockchain Testnet Tokens have no persistence across testnet instances or phases. IFT may, in its sole discretion and without notice, terminate, reset, redeploy, reconfigure, re-genesis or otherwise replace the Logos Blockchain Testnet at any time, at which point any Logos Blockchain Testnet Tokens you may have accrued will cease to exist and will not be transferred, migrated, or otherwise available in any subsequent testnet. You further acknowledge that balances, transaction history, execution state, configuration data, and any other on-chain or off-chain data may be permanently rendered inaccessible or otherwise lost.
 
 ## 9) Wallet
 
-As part of your participation in the Logos Blockchain Testnet Programme, IFT may transfer you certain Logos Blockchain Testnet Tokens by way of a faucet as described in clause 8 of these Terms. You are solely responsible for the security of your wallet, including storing and securing your private keys. IFT does not and will not ask you for your private keys of your wallet. You are solely responsible for all activities that occur in relation to your wallet.
+Logos Blockchain Testnet Tokens obtained by you will be held in a wallet you control. You are solely responsible for the security of your wallet, including storing and securing your private keys. IFT does not and will not ask you for your private keys of your wallet. You are solely responsible for all activities that occur in relation to your wallet.
 
 ## 10) Representations and warranties
 
@@ -152,3 +152,4 @@ These Terms constitute the entire agreement between the Parties with respect to 
 ### Changes to these Terms
 
 We reserve the right to modify the Terms at our sole discretion. If any modification is unacceptable to you, your only option is to cease your participation in the Logos Blockchain Testnet Programme. Your continued participation in the Logos Blockchain Testnet Programme following the posting of any such modifications will indicate and confirm your agreement to such modifications.
+

@@ -79,6 +79,7 @@ export const ROUTES = {
   // Info / Help
   testnetFaqs: '/testnet-faqs',
   testnetTermsAndConditions: '/testnet-terms-and-conditions',
+  testnetPrivacyPolicy: '/testnet-privacy-policy',
 
   // Legal
   terms: '/terms-and-conditions',
