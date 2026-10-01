@@ -8,6 +8,8 @@
  * audits can compare the shared footer directly against the frame. Mobile (base,
  * below 1025px) compacts those offsets to ~663px so the whole footer — newsletter
  * title through legal links — fits within a single phone viewport without scrolling.
+ * Those heights are minimums: the legal links sit in normal flow, so a longer
+ * list makes the footer taller rather than being clipped.
  */
 import type { ReactNode } from 'react'
 
@@ -116,7 +118,7 @@ export function Footer({
 }: FooterProps) {
   return (
     <footer
-      className={`relative h-[663px] overflow-hidden bg-brand-dark-green text-brand-off-white lg:h-[688px] ${className ?? ''}`}
+      className={`relative min-h-[663px] overflow-hidden bg-brand-dark-green text-brand-off-white lg:min-h-[688px] ${className ?? ''}`}
     >
       <div className="absolute top-6 left-3 flex w-[370px] max-w-[calc(100%-24px)] flex-col gap-3 lg:w-[345px]">
         <p className="w-full max-w-[314px] font-sans text-[18px] leading-[1.15] tracking-[-0.18px] text-brand-off-white">
@@ -145,7 +147,8 @@ export function Footer({
         )}
       </div>
 
-      <div className="absolute top-[200px] left-3 h-[47px] w-[83px] overflow-hidden lg:top-[549px] lg:h-[127px] lg:w-[226px] *:size-full *:object-cover">
+      {/* Desktop pins the image 12px above the bottom edge so it stays there when the footer grows. */}
+      <div className="absolute top-[200px] left-3 h-[47px] w-[83px] overflow-hidden lg:top-auto lg:bottom-3 lg:h-[127px] lg:w-[226px] *:size-full *:object-cover">
         {image}
       </div>
 
@@ -175,8 +178,13 @@ export function Footer({
         <LinkList label="Infrastructure" links={infrastructureLinks} />
       </div>
 
-      {/* 29px below the four-link Research list, the gap that sits above it. */}
-      <div className="absolute top-[591px] left-3 lg:top-[617px] lg:left-[calc(50%+6px)]">
+      {/*
+        29px below the four-link Research list, the gap that sits above it.
+        Kept in normal flow (not absolute) so the footer grows with the list:
+        three links land exactly on Figma's 663px / 688px heights, and any
+        extra links extend the footer instead of being clipped.
+      */}
+      <div className="pt-[591px] pb-3.5 pl-3 lg:pt-[617px] lg:pb-[13px] lg:pl-[calc(50%+6px)]">
         <LinkList links={legalLinks} />
       </div>
     </footer>
