@@ -1,0 +1,1 @@
+import{W as s,ao as t,am as i}from"./B-vblx_p.js";import{B as m}from"./Bcxt5MdG.js";const c=Symbol("NaN");function h(r,e,n){t&&i();var o=new m(r);s(()=>{var a=e();a!==a&&(a=c),o.ensure(a,n)})}export{h as k};
