@@ -56,13 +56,13 @@ const logosGenealogyHref = '/media/article/a-genealogy-of-logos'
 const basecampReleaseHref =
   'https://github.com/logos-co/logos-basecamp/releases/latest'
 const basecampLinuxArm64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-aarch64.AppImage'
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-aarch64.AppImage'
 const basecampLinuxX64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-x86_64.AppImage'
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-x86_64.AppImage'
 const basecampMacArm64DownloadHref =
   'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-aarch64.dmg'
 const basecampWindowsX64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-x86_64-windows-setup.exe'
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-x86_64-windows-setup.exe'
 const runNodeCliDocsHref = 'https://docs.logos.co/'
 const docsLabels = new Set(['docs', 'documentation', 'view the docs'])
 const routeUsageAllowlist = new Set([
