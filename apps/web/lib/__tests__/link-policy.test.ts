@@ -60,7 +60,7 @@ const basecampLinuxArm64DownloadHref =
 const basecampLinuxX64DownloadHref =
   'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-x86_64.AppImage'
 const basecampMacArm64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-aarch64.dmg'
+  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-aarch64.dmg'
 const basecampWindowsX64DownloadHref =
   'https://github.com/logos-co/logos-basecamp/releases/download/0.3.0/LogosBasecamp-Desktop-v0.3.0-bbe5da-x86_64-windows-setup.exe'
 const runNodeCliDocsHref = 'https://docs.logos.co/'
