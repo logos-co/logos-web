@@ -83,6 +83,7 @@ export interface Config {
     'circle-initiatives': CircleInitiative;
     'circle-resources': CircleResource;
     'content-change-requests': ContentChangeRequest;
+    'site-publish-reservations': SitePublishReservation;
     'payload-kv': PayloadKv;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -105,6 +106,7 @@ export interface Config {
     'circle-initiatives': CircleInitiativesSelect<false> | CircleInitiativesSelect<true>;
     'circle-resources': CircleResourcesSelect<false> | CircleResourcesSelect<true>;
     'content-change-requests': ContentChangeRequestsSelect<false> | ContentChangeRequestsSelect<true>;
+    'site-publish-reservations': SitePublishReservationsSelect<false> | SitePublishReservationsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -652,6 +654,19 @@ export interface ContentChangeRequest {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-publish-reservations".
+ */
+export interface SitePublishReservation {
+  id: number;
+  key: string;
+  token: string;
+  environment: string;
+  baselineBuild: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -1000,6 +1015,18 @@ export interface ContentChangeRequestsSelect<T extends boolean = true> {
   status?: T;
   commitSha?: T;
   createdBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-publish-reservations_select".
+ */
+export interface SitePublishReservationsSelect<T extends boolean = true> {
+  key?: T;
+  token?: T;
+  environment?: T;
+  baselineBuild?: T;
   updatedAt?: T;
   createdAt?: T;
 }

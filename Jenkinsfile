@@ -28,6 +28,16 @@ pipeline {
   }
 
   parameters {
+    booleanParam(
+      name: 'SITE_PUBLISH',
+      defaultValue: false,
+      description: 'Rebuild the static site from the CMS without rebuilding the Payload image.',
+    )
+    string(
+      name: 'PREVIEW_BUILD',
+      defaultValue: '',
+      description: 'For a manual live publish, the develop build number reviewed on dev.logos.co.',
+    )
     string(
       name: 'NEXT_PUBLIC_HCAPTCHA_SITEKEY',
       defaultValue: '2ec82f0e-5f3c-45d2-ba38-223ceb5eee42',
@@ -57,6 +67,24 @@ pipeline {
 
   stages {
 
+    stage('Restore reviewed media') {
+      when { expression { params.SITE_PUBLISH && isMasterBranch() } }
+      steps {
+        script {
+          if (!(params.PREVIEW_BUILD ==~ /[1-9][0-9]*/)) {
+            error('Review dev.logos.co and select its successful build number before publishing live.')
+          }
+          // The source is the sibling develop job, never a caller-provided project.
+          copyArtifacts(
+            projectName: "/${env.JOB_NAME.replaceFirst('/master$', '/develop')}",
+            selector: specific(params.PREVIEW_BUILD),
+            filter: 'press-snapshot.json',
+            fingerprintArtifacts: true,
+          )
+        }
+      }
+    }
+
     stage('Build the web app') {
       steps {
         script {
@@ -72,16 +100,25 @@ pipeline {
               "NEXT_PUBLIC_HCAPTCHA_SITEKEY=${params.NEXT_PUBLIC_HCAPTCHA_SITEKEY}",
               "NEXT_PUBLIC_API_MODE=${apiMode()}",
             ]) {
-              nix.develop('pnpm turbo run build --filter=web',
-                keepEnv: [
-                  'NEXT_PUBLIC_SITE_URL',
-                  'NEXT_PUBLIC_LOGOS_API_URL',
-                  'NEXT_PUBLIC_HCAPTCHA_SITEKEY',
-                  'NEXT_PUBLIC_API_MODE',
-                  'STRAPI_API_KEY',
-                  'SIMPLECAST_ACCESS_TOKEN'
-                ]
-              )
+              if (!(params.SITE_PUBLISH && isMasterBranch())) {
+                // Resolve media once so feeds, cards and article pages use the same content.
+                nix.develop('pnpm --filter web exec tsx scripts/capture-press-snapshot.ts',
+                  keepEnv: ['STRAPI_API_KEY', 'SIMPLECAST_ACCESS_TOKEN', 'NEXT_PUBLIC_API_MODE'])
+              }
+              withEnv(["PRESS_CONTENT_SNAPSHOT=${env.WORKSPACE}/press-snapshot.json"]) {
+                // External CMS changes do not change Turbo's source hash.
+                nix.develop('pnpm turbo run build --filter=web --force',
+                  keepEnv: [
+                    'NEXT_PUBLIC_SITE_URL',
+                    'NEXT_PUBLIC_LOGOS_API_URL',
+                    'NEXT_PUBLIC_HCAPTCHA_SITEKEY',
+                    'NEXT_PUBLIC_API_MODE',
+                    'STRAPI_API_KEY',
+                    'SIMPLECAST_ACCESS_TOKEN',
+                    'PRESS_CONTENT_SNAPSHOT'
+                  ]
+                )
+              }
             }
           }
         }
@@ -105,6 +142,7 @@ pipeline {
     }
 
     stage('Build CMS docker image') {
+      when { expression { !params.SITE_PUBLISH } }
       steps {
         script {
           withCredentials([string(credentialsId: 'logos-cms-actions-encryption-key', variable: 'NEXT_SERVER_ACTIONS_ENCRYPTION_KEY')]) {
@@ -121,6 +159,7 @@ pipeline {
     }
 
     stage('Push CMS docker image'){
+      when { expression { !params.SITE_PUBLISH } }
       steps {
         script {
           withDockerRegistry([
@@ -133,6 +172,10 @@ pipeline {
     }
   }
   post {
+    success {
+      // Only successful previews expose a promotable snapshot to the master job.
+      archiveArtifacts artifacts: 'press-snapshot.json', fingerprint: true
+    }
     cleanup { cleanWs() }
   }
 }

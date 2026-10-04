@@ -28,6 +28,8 @@ import {
   SiteSettingsContent,
 } from './src/collections/SiteContent'
 import { Users } from './src/collections/Users'
+import { SitePublishReservations } from './src/collections/SitePublishReservations'
+import sitePublishMessages from './src/messages/site-publish.en.json'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -145,9 +147,11 @@ const collections = [
   CircleInitiatives,
   CircleResources,
   ContentChangeRequests,
+  SitePublishReservations,
 ].map(disableDocumentLocks)
 
 export default buildConfig({
+  i18n: { translations: { en: { sitePublish: sitePublishMessages } } },
   admin: {
     components: {
       beforeDashboard: [

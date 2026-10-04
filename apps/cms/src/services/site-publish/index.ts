@@ -1,37 +1,36 @@
-import {
-  dispatchPublish,
-  listPublicPublishRuns,
-  listPublishRuns,
-} from './github-runs'
-import {
-  clearPublishStatusCache,
-  createLoadPublishStatus,
-} from './load-publish-status'
+import { getJenkinsClient } from './jenkins'
+import { createLoadPublishStatus } from './load-publish-status'
 import { createTriggerPublish } from './trigger-publish'
+import { getPayload } from 'payload'
+import {
+  createPublishReservations,
+  withPublishReservation,
+  type PublishReservations,
+} from './reservations'
 
-export {
-  isPublishEnvironment,
-  PUBLISH_ENVIRONMENTS,
-  PUBLISH_ENVIRONMENT_ORDER,
-  type PublishEnvironment,
-} from './environments'
-export type {
-  PublishEnvironmentStatus,
-  PublishRun,
-  PublishStatus,
-} from './publish-status'
-export type { PublishStatusResult } from './load-publish-status'
+export { isPublishEnvironment } from './environments'
 export { PublishBlockedError } from './trigger-publish'
 
-/** What the publish panel shows: the last run of each site and what is allowed. */
-export const loadPublishStatus = createLoadPublishStatus({
-  listPublicRuns: listPublicPublishRuns,
-  listRuns: listPublishRuns,
+const loadJenkinsStatus = createLoadPublishStatus({
+  listRuns: (environment) => getJenkinsClient().listRuns(environment),
 })
-
-/** Starts a publish of one site, when its rules allow it. */
+const getReservations = async (): Promise<PublishReservations> => {
+  const { default: config } = await import('@payload-config')
+  const payload = await getPayload({ config })
+  return createPublishReservations(payload.db)
+}
+const reservations: PublishReservations = {
+  acquire: async (...args) => (await getReservations()).acquire(...args),
+  read: async () => (await getReservations()).read(),
+  release: async (token) => (await getReservations()).release(token),
+}
+export const loadPublishStatus = withPublishReservation(
+  loadJenkinsStatus,
+  reservations
+)
 export const triggerPublish = createTriggerPublish({
-  clearStatusCache: clearPublishStatusCache,
-  dispatch: dispatchPublish,
-  loadStatus: loadPublishStatus,
+  dispatch: (environment, previewBuild) =>
+    getJenkinsClient().dispatch(environment, previewBuild),
+  loadStatus: loadJenkinsStatus,
+  reservations,
 })

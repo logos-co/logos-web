@@ -197,3 +197,15 @@ GET /api/health
 | [`.env.docker.example`](./.env.docker.example) | Docker Compose template → copy to repo-root `.env.docker` | template only |
 
 Never commit the filled-in `.env` / `.env.docker` files — secrets are injected at runtime, never baked into the image.
+
+## Manual article publishing
+
+Edit and publish articles in [Strapi](https://cms-press.logos.co/admin), then use the Payload dashboard's **Build preview** button. It starts the Jenkins `develop` branch job and publishes static pages to `dev.logos.co`. Strapi drafts are not included. Review the preview, then select **Publish live** and confirm the reviewed build number. The Jenkins `master` job builds production pages using that preview's media snapshot, so later Strapi edits cannot slip into the live article content. Other site content and code still come from the respective branch; normal code deployments retain their existing behaviour.
+
+Set the four `JENKINS_*` runtime variables in `.env.example` on the CMS host. Use a Jenkins API token, not an account password. Jenkins must have the Copy Artifact plugin, and the `master` branch job must have permission to copy `press-snapshot.json` from its sibling `develop` job. Keep the existing Strapi and Simplecast Jenkins credentials. Deploy this Jenkinsfile to both branches and initialise each job's parameters before enabling the buttons. Existing runs without a snapshot cannot be promoted.
+
+CMS requests set `SITE_PUBLISH=true`, skipping the unrelated Payload Docker build. Live requests also set `PREVIEW_BUILD` to the successful preview the editor confirmed. The snapshot is archived only after a successful build and is never placed in the public export. Missing or expired artifacts fail the build; make a new preview. External media URLs remain external assets, rather than immutable copies of every remote resource.
+
+The CMS reserves one request atomically in Postgres across both environments and all replicas. It keeps the reservation until Jenkins reports the queue or a newer build; rejected submissions release it. Lost responses retain the reservation because Jenkins may have accepted the request. Apply the included database migration before enabling the buttons. If the CMS stops during submission and no Jenkins job ever appears, an operator must verify both Jenkins jobs are idle before removing the stale row from `payload.site_publish_reservations` (or the configured Payload schema). Reservations do not expire automatically, so a slow Jenkins response cannot cause a duplicate deployment.
+
+Jenkins integration follows the [Remote Access API](https://www.jenkins.io/doc/book/using/remote-access-api/) and [Copy Artifact](https://www.jenkins.io/doc/pipeline/steps/copyartifact/) interfaces.

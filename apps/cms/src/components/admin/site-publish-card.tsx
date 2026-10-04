@@ -1,31 +1,21 @@
 'use client'
 
-export interface PublishRunView {
-  conclusion: string | null
-  finishedAt: string | null
-  id: number
-  runUrl: string
-  startedAt: string | null
-  state: 'queued' | 'running' | 'finished'
-  succeeded: boolean
-}
+import type {
+  PublishEnvironmentStatus,
+  PublishRun,
+} from '@/services/site-publish/publish-status'
+import { useSitePublishTranslation } from './use-site-publish-translation'
 
-export interface PublishEnvironmentView {
-  blockedReason?: string
-  canPublish: boolean
-  estimatedDurationMs: number | null
-  label: string
-  latestRun: PublishRunView | null
-  siteUrl: string
-}
+type Translate = ReturnType<typeof useSitePublishTranslation>['t']
 
 interface SitePublishCardProps {
-  environment: PublishEnvironmentView
+  environment: PublishEnvironmentStatus
   mediaUrl: string
   now: number
   onPublish: () => void
   pending: boolean
   title: string
+  actionLabel: string
 }
 
 const formatDuration = (ms: number): string => {
@@ -43,21 +33,34 @@ const formatTime = (value: string): string =>
     month: 'short',
   })
 
-const runStateText = (run: PublishRunView | null, now: number): string => {
-  if (!run) return 'Not published from here yet.'
+const runStateText = (
+  run: PublishRun | null,
+  now: number,
+  t: Translate
+): string => {
+  if (!run) return t('sitePublish:never')
   if (run.state !== 'finished') {
     const elapsed = run.startedAt ? now - Date.parse(run.startedAt) : 0
-    return `${run.state === 'queued' ? 'Queued' : 'Building'} for ${formatDuration(elapsed)}.`
+    return t(
+      run.state === 'queued' ? 'sitePublish:queued' : 'sitePublish:running',
+      { duration: formatDuration(elapsed) }
+    )
   }
   if (run.succeeded) {
-    return `Published ${run.finishedAt ? formatTime(run.finishedAt) : 'earlier'}.`
+    return t('sitePublish:published', {
+      time: run.finishedAt
+        ? formatTime(run.finishedAt)
+        : t('sitePublish:earlier'),
+    })
   }
-  return `Last publish ${run.conclusion ?? 'did not finish'}.`
+  return t('sitePublish:failed', {
+    result: run.conclusion ?? t('sitePublish:unfinished'),
+  })
 }
 
 /** How far along a running publish is, against the last good run's time. */
 const progressPercent = (
-  environment: PublishEnvironmentView,
+  environment: PublishEnvironmentStatus,
   now: number
 ): number | null => {
   const run = environment.latestRun
@@ -70,7 +73,7 @@ const progressPercent = (
   )
 }
 
-const linkStyle = { color: 'inherit', fontSize: 12 }
+const linkStyle = { color: 'inherit', fontSize: 12, cursor: 'pointer' }
 
 export const SitePublishCard = ({
   environment,
@@ -79,7 +82,9 @@ export const SitePublishCard = ({
   onPublish,
   pending,
   title,
+  actionLabel,
 }: SitePublishCardProps) => {
+  const { t } = useSitePublishTranslation()
   const run = environment.latestRun
   const percent = progressPercent(environment, now)
   const disabled = pending || !environment.canPublish
@@ -103,6 +108,7 @@ export const SitePublishCard = ({
         <strong style={{ fontSize: 13 }}>{title}</strong>
         <button
           type="button"
+          className="cursor-pointer"
           disabled={disabled}
           onClick={onPublish}
           style={{
@@ -118,12 +124,12 @@ export const SitePublishCard = ({
             padding: '6px 12px',
           }}
         >
-          {pending ? 'Starting...' : 'Publish'}
+          {pending ? t('sitePublish:starting') : actionLabel}
         </button>
       </div>
 
       <div style={{ fontSize: 12, opacity: 0.78 }}>
-        {runStateText(run, now)}
+        {runStateText(run, now, t)}
         {environment.blockedReason ? ` ${environment.blockedReason}` : ''}
       </div>
 
@@ -151,34 +157,33 @@ export const SitePublishCard = ({
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
         {run ? (
           <a
+            className="cursor-pointer"
             href={run.runUrl}
             rel="noreferrer"
             style={linkStyle}
             target="_blank"
           >
-            Build log
+            {t('sitePublish:buildLog')}
           </a>
         ) : null}
-        {run?.succeeded ? (
-          <>
-            <a
-              href={environment.siteUrl}
-              rel="noreferrer"
-              style={linkStyle}
-              target="_blank"
-            >
-              {environment.label}
-            </a>
-            <a
-              href={mediaUrl}
-              rel="noreferrer"
-              style={linkStyle}
-              target="_blank"
-            >
-              Media
-            </a>
-          </>
-        ) : null}
+        <a
+          className="cursor-pointer"
+          href={environment.siteUrl}
+          rel="noreferrer"
+          style={linkStyle}
+          target="_blank"
+        >
+          {environment.label}
+        </a>
+        <a
+          className="cursor-pointer"
+          href={mediaUrl}
+          rel="noreferrer"
+          style={linkStyle}
+          target="_blank"
+        >
+          {t('sitePublish:media')}
+        </a>
       </div>
     </div>
   )

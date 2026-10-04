@@ -1,90 +1,90 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-import {
-  SitePublishCard,
-  type PublishEnvironmentView,
-} from './site-publish-card'
-
-type PublishEnvironmentName = 'dev' | 'production'
-
-interface PublishStatusResponse {
-  error?: string
-  fetchedAt?: string
-  status?: Record<PublishEnvironmentName, PublishEnvironmentView>
-}
+import type { PublishEnvironment } from '@/services/site-publish/environments'
+import type { PublishStatus } from '@/services/site-publish/publish-status'
+import { SitePublishCard } from './site-publish-card'
+import { useSitePublishTranslation } from './use-site-publish-translation'
 
 const STATUS_ENDPOINT = '/api/site-publish'
-/** While a publish runs the panel keeps up; the server caches the reads. */
 const POLL_MS = 10_000
-const CLOCK_MS = 1_000
-
-const PRODUCTION_CONFIRM =
-  'Publish logos.co? This puts the current CMS content on the live site.'
-
-const isRunning = (status: PublishStatusResponse['status']): boolean =>
-  Boolean(
-    status &&
-    Object.values(status).some(
-      (environment) =>
-        environment.latestRun && environment.latestRun.state !== 'finished'
-    )
-  )
 
 export const SitePublishPanel = () => {
-  const [response, setResponse] = useState<PublishStatusResponse | null>(null)
-  const [pending, setPending] = useState<PublishEnvironmentName | null>(null)
+  const { t } = useSitePublishTranslation()
+  const [status, setStatus] = useState<PublishStatus | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [pending, setPending] = useState<PublishEnvironment | null>(null)
+  const accepted = useRef<{
+    environment: PublishEnvironment
+    previousRun: number | undefined
+  } | null>(null)
   const [now, setNow] = useState(() => Date.now())
 
   const readStatus = useCallback(async () => {
     try {
-      const res = await fetch(STATUS_ENDPOINT, { credentials: 'same-origin' })
-      const json = (await res.json()) as PublishStatusResponse
-      setResponse(
-        res.ok
-          ? json
-          : { error: json.error ?? `request failed (${res.status})` }
-      )
-    } catch (error) {
-      setResponse({
-        error: error instanceof Error ? error.message : String(error),
+      const res = await fetch(STATUS_ENDPOINT, {
+        credentials: 'same-origin',
+        cache: 'no-store',
       })
-    }
-  }, [])
-
-  const publish = useCallback(
-    async (environment: PublishEnvironmentName) => {
-      if (environment === 'production' && !window.confirm(PRODUCTION_CONFIRM)) {
-        return
+      const json = (await res.json()) as {
+        status?: PublishStatus
+        error?: string
       }
-      setPending(environment)
-      try {
-        const res = await fetch(STATUS_ENDPOINT, {
-          body: JSON.stringify({ environment }),
-          credentials: 'same-origin',
-          headers: { 'Content-Type': 'application/json' },
-          method: 'POST',
-        })
-        if (!res.ok) {
-          const json = (await res.json()) as { error?: string }
-          setResponse((current) => ({
-            ...current,
-            error: json.error ?? `request failed (${res.status})`,
-          }))
+      if (!res.ok || !json.status)
+        throw new Error(
+          json.error ?? t('sitePublish:requestFailed', { status: res.status })
+        )
+      setStatus(json.status)
+      if (accepted.current) {
+        const run = json.status[accepted.current.environment].latestRun
+        if (
+          run &&
+          (run.id !== accepted.current.previousRun || run.state !== 'finished')
+        ) {
+          accepted.current = null
+          setPending(null)
         }
-      } catch (error) {
-        setResponse((current) => ({
-          ...current,
-          error: error instanceof Error ? error.message : String(error),
-        }))
-      } finally {
-        setPending(null)
-        await readStatus()
       }
-    },
-    [readStatus]
-  )
+    } catch (failure) {
+      setStatus(null)
+      setError(failure instanceof Error ? failure.message : String(failure))
+    }
+  }, [t])
+
+  const publish = async (environment: PublishEnvironment): Promise<void> => {
+    if (!status || pending) return
+    const previewBuild = status.dev.latestRun?.id
+    if (
+      environment === 'production' &&
+      !window.confirm(t('sitePublish:confirm', { build: previewBuild }))
+    )
+      return
+    setPending(environment)
+    setError(null)
+    try {
+      const res = await fetch(STATUS_ENDPOINT, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ environment, previewBuild }),
+      })
+      if (!res.ok) {
+        const json = (await res.json()) as { error?: string }
+        throw new Error(
+          json.error ?? t('sitePublish:requestFailed', { status: res.status })
+        )
+      }
+      accepted.current = {
+        environment,
+        previousRun: status[environment].latestRun?.id,
+      }
+      await readStatus()
+    } catch (failure) {
+      setError(failure instanceof Error ? failure.message : String(failure))
+      setPending(null)
+    }
+  }
 
   useEffect(() => {
     void readStatus()
@@ -93,51 +93,53 @@ export const SitePublishPanel = () => {
   }, [readStatus])
 
   useEffect(() => {
-    if (!isRunning(response?.status)) return
-    const timer = window.setInterval(() => setNow(Date.now()), CLOCK_MS)
+    const timer = window.setInterval(() => setNow(Date.now()), 1000)
     return () => window.clearInterval(timer)
-  }, [response])
-
-  const status = response?.status
+  }, [])
 
   return (
     <div style={{ marginBottom: 'var(--base, 16px)' }}>
       <div style={{ fontSize: 13, marginBottom: 8 }}>
-        <strong>Publish the site</strong>
+        <strong>{t('sitePublish:title')}</strong>
         <div style={{ marginTop: 4, opacity: 0.78 }}>
-          The site is built as static pages, so CMS changes appear once it is
-          published. Publish to dev first, check it, then publish live.
+          {t('sitePublish:description')}
         </div>
       </div>
-
-      {response?.error ? (
-        <div style={{ color: 'var(--theme-error-500, #a33)', fontSize: 12 }}>
-          {response.error}
+      {error ? (
+        <div
+          role="alert"
+          style={{ color: 'var(--theme-error-500, #a33)', fontSize: 12 }}
+        >
+          {error}
         </div>
       ) : null}
-
+      {pending ? <div role="status">{t('sitePublish:accepted')}</div> : null}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
         {status ? (
-          <>
+          (['dev', 'production'] as const).map((environment) => (
             <SitePublishCard
-              environment={status.dev}
-              mediaUrl={`${status.dev.siteUrl}/media`}
+              key={environment}
+              environment={status[environment]}
+              mediaUrl={`${status[environment].siteUrl}/media`}
               now={now}
-              onPublish={() => void publish('dev')}
-              pending={pending === 'dev'}
-              title="dev.logos.co"
+              onPublish={() => void publish(environment)}
+              pending={pending !== null}
+              title={t(
+                environment === 'dev'
+                  ? 'sitePublish:staging'
+                  : 'sitePublish:production'
+              )}
+              actionLabel={t(
+                environment === 'dev'
+                  ? 'sitePublish:buildPreview'
+                  : 'sitePublish:publishLive'
+              )}
             />
-            <SitePublishCard
-              environment={status.production}
-              mediaUrl={`${status.production.siteUrl}/media`}
-              now={now}
-              onPublish={() => void publish('production')}
-              pending={pending === 'production'}
-              title="logos.co (live)"
-            />
-          </>
+          ))
         ) : (
-          <div style={{ fontSize: 12, opacity: 0.78 }}>Checking...</div>
+          <div style={{ fontSize: 12, opacity: 0.78 }}>
+            {t('sitePublish:checking')}
+          </div>
         )}
       </div>
     </div>

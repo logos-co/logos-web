@@ -1,7 +1,11 @@
 import { PUBLISH_ENVIRONMENTS, type PublishEnvironment } from './environments'
 import type { PublishStatusResult } from './load-publish-status'
+import { DispatchUncertainError } from './dispatch-error'
+import {
+  withPublishReservation,
+  type PublishReservations,
+} from './reservations'
 
-/** The environment cannot be published right now, and why. */
 export class PublishBlockedError extends Error {
   constructor(message: string) {
     super(message)
@@ -10,33 +14,71 @@ export class PublishBlockedError extends Error {
 }
 
 export interface TriggerPublishDependencies {
-  clearStatusCache: () => void
-  dispatch: (environment: PublishEnvironment) => Promise<void>
+  dispatch: (
+    environment: PublishEnvironment,
+    previewBuild?: number
+  ) => Promise<void>
   loadStatus: () => Promise<PublishStatusResult>
+  reservations: PublishReservations
 }
 
-export interface TriggerPublishResult {
-  environment: PublishEnvironment
-  label: string
-}
-
-/**
- * Starts a publish, but only when the panel's rules allow it: the button can
- * be worked around, the server rule cannot.
- */
-export const createTriggerPublish =
-  ({ clearStatusCache, dispatch, loadStatus }: TriggerPublishDependencies) =>
-  async (environment: PublishEnvironment): Promise<TriggerPublishResult> => {
-    const { status } = await loadStatus()
-    const environmentStatus = status[environment]
-    if (!environmentStatus.canPublish) {
+export const createTriggerPublish = ({
+  dispatch,
+  loadStatus,
+  reservations,
+}: TriggerPublishDependencies): ((
+  environment: PublishEnvironment,
+  previewBuild?: number
+) => Promise<{ environment: PublishEnvironment; label: string }>) => {
+  return async (environment, previewBuild) => {
+    const initial = await withPublishReservation(loadStatus, reservations)()
+    if (!initial.status[environment].canPublish) {
       throw new PublishBlockedError(
-        environmentStatus.blockedReason ?? 'This site cannot be published now.'
+        initial.status[environment].blockedReason ??
+          'This site cannot be published now.'
       )
     }
-
-    await dispatch(environment)
-    clearStatusCache()
-
-    return { environment, label: PUBLISH_ENVIRONMENTS[environment].label }
+    const latest = initial.status[environment].latestRun
+    const reservation = await reservations.acquire(
+      environment,
+      latest && latest.id > 0 ? latest.id : 0
+    )
+    if (!reservation)
+      throw new PublishBlockedError(
+        'A build request is already awaiting confirmation from Jenkins.'
+      )
+    try {
+      const { status } = await loadStatus()
+      if (status[environment].latestRun?.id !== latest?.id) {
+        throw new PublishBlockedError(
+          'The Jenkins build history changed. Refresh before submitting a build.'
+        )
+      }
+      if (!status[environment].canPublish) {
+        throw new PublishBlockedError(
+          status[environment].blockedReason ??
+            'This site cannot be published now.'
+        )
+      }
+      if (
+        environment === 'production' &&
+        (!Number.isSafeInteger(previewBuild) ||
+          previewBuild !== status.dev.latestRun?.id)
+      ) {
+        throw new PublishBlockedError(
+          'The staging preview has changed. Review the latest build before publishing live.'
+        )
+      }
+      await dispatch(
+        environment,
+        environment === 'production' ? previewBuild : undefined
+      )
+      return { environment, label: PUBLISH_ENVIRONMENTS[environment].label }
+    } catch (error) {
+      if (!(error instanceof DispatchUncertainError)) {
+        await reservations.release(reservation.token)
+      }
+      throw error
+    }
   }
+}

@@ -2,6 +2,7 @@ import { cache } from 'react'
 
 import { mapWithConcurrency } from '@/lib/concurrency'
 import { env } from '@/lib/env'
+import { getPressSnapshot } from '@/lib/press-snapshot'
 import { fetchDiscourseTopic, type BlogDiscussion } from '@/lib/discourse-topic'
 import { prepareCmsLinks } from '@/lib/html-links'
 import { logger } from '@/lib/logger'
@@ -1008,13 +1009,18 @@ async function getStrapiPodcastPaths(): Promise<
     .filter((path) => path.slug.length > 0)
 }
 
-export function getBlogArticleSlugs(): Promise<string[]> {
+export async function getBlogArticleSlugs(): Promise<string[]> {
+  const snapshot = await getPressSnapshot()
+  if (snapshot) return snapshot.articles.map((article) => article.slug)
   return getStrapiArticleSlugs()
 }
 
-export function getBlogPodcastPaths(): Promise<
+export async function getBlogPodcastPaths(): Promise<
   Array<{ showSlug: string; slug: string }>
 > {
+  const snapshot = await getPressSnapshot()
+  if (snapshot)
+    return snapshot.podcasts.map(({ showSlug, slug }) => ({ showSlug, slug }))
   return getStrapiPodcastPaths()
 }
 
@@ -1491,14 +1497,34 @@ async function getStrapiPodcast(
   )
 }
 
-export function getBlogArticleDetail(slug: string): Promise<BlogArticleDetail> {
+export async function getBlogArticleDetail(
+  slug: string
+): Promise<BlogArticleDetail> {
+  const snapshot = await getPressSnapshot()
+  if (snapshot) {
+    const article = snapshot.articles.find((item) => item.slug === slug)
+    if (!article)
+      throw new Error(`Article absent from reviewed preview: ${slug}`)
+    return article
+  }
   return getStrapiArticle(slug)
 }
 
-export function getBlogPodcastDetail(
+export async function getBlogPodcastDetail(
   showSlug: string,
   slug: string
 ): Promise<BlogPodcastDetail> {
+  const snapshot = await getPressSnapshot()
+  if (snapshot) {
+    const podcast = snapshot.podcasts.find(
+      (item) => item.slug === slug && item.showSlug === showSlug
+    )
+    if (!podcast)
+      throw new Error(
+        `Podcast absent from reviewed preview: ${showSlug}/${slug}`
+      )
+    return podcast
+  }
   return getStrapiPodcast(showSlug, slug)
 }
 
