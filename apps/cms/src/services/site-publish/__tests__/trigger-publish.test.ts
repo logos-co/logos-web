@@ -1,91 +1,143 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
+import { buildPublishStatus, type PublishRun } from '../publish-status'
+import { createTriggerPublish, PublishBlockedError } from '../trigger-publish'
+import { memoryReservations, run } from './fixtures'
+import { DispatchUncertainError } from '../dispatch-error'
 
-import { buildPublishStatus, type WorkflowRun } from '../publish-status'
-import {
-  createTriggerPublish,
-  PublishBlockedError,
-  type TriggerPublishDependencies,
-} from '../trigger-publish'
-
-const successfulDevRun: WorkflowRun = {
-  conclusion: 'success',
-  display_title: 'publish-dev',
-  html_url: 'https://github.com/logos-co/logos-web/actions/runs/1',
-  id: 1,
-  run_started_at: '2026-09-23T10:00:00.000Z',
-  status: 'completed',
-  updated_at: '2026-09-23T10:07:00.000Z',
-}
-
-const createDependencies = (
-  runs: WorkflowRun[],
-  overrides: Partial<TriggerPublishDependencies> = {}
-): { dependencies: TriggerPublishDependencies; dispatched: string[] } => {
-  const dispatched: string[] = []
-  return {
-    dependencies: {
-      clearStatusCache: () => undefined,
-      dispatch: async (environment) => {
-        dispatched.push(environment)
-      },
-      loadStatus: async () => ({
-        fetchedAt: '2026-09-23T10:10:00.000Z',
-        source: 'app' as const,
-        status: buildPublishStatus(runs),
-      }),
-      ...overrides,
+const setup = (dev: PublishRun[] = []) => {
+  const dispatched: unknown[] = []
+  const trigger = createTriggerPublish({
+    reservations: memoryReservations(),
+    loadStatus: async () => ({
+      fetchedAt: '',
+      status: buildPublishStatus({ dev, production: [] }),
+    }),
+    dispatch: async (...args) => {
+      dispatched.push(args)
     },
-    dispatched,
-  }
+  })
+  return { trigger, dispatched }
 }
-
-describe('createTriggerPublish', () => {
-  it('starts a dev publish', async () => {
-    const { dependencies, dispatched } = createDependencies([])
-    const trigger = createTriggerPublish(dependencies)
-
-    const result = await trigger('dev')
-
-    assert.deepEqual(dispatched, ['dev'])
-    assert.equal(result.environment, 'dev')
-  })
-
-  it('refuses production until dev published successfully', async () => {
-    const { dependencies, dispatched } = createDependencies([])
-    const trigger = createTriggerPublish(dependencies)
-
-    await assert.rejects(
-      () => trigger('production'),
-      (error: unknown) => {
-        assert.ok(error instanceof PublishBlockedError)
-        assert.match(error.message, /Publish to dev first/)
-        return true
-      }
-    )
-    assert.deepEqual(dispatched, [])
-  })
-
-  it('starts a production publish once dev published successfully', async () => {
-    const { dependencies, dispatched } = createDependencies([successfulDevRun])
-    const trigger = createTriggerPublish(dependencies)
-
-    await trigger('production')
-
-    assert.deepEqual(dispatched, ['production'])
-  })
-
-  it('drops the cached status so the new run shows up', async () => {
-    let cleared = 0
-    const { dependencies } = createDependencies([], {
-      clearStatusCache: () => {
-        cleared += 1
+describe('manual Jenkins publishing', () => {
+  it('retains the reservation when the dispatch response is lost', async () => {
+    const reservations = memoryReservations()
+    const trigger = createTriggerPublish({
+      reservations,
+      loadStatus: async () => ({
+        fetchedAt: '',
+        status: buildPublishStatus({ dev: [], production: [] }),
+      }),
+      dispatch: async () => {
+        throw new DispatchUncertainError(new Error('connection lost'))
       },
     })
-    const trigger = createTriggerPublish(dependencies)
-
+    await assert.rejects(() => trigger('dev'), DispatchUncertainError)
+    assert.ok(await reservations.read())
+    await assert.rejects(() => trigger('dev'), PublishBlockedError)
+  })
+  it('rejects changed build history before dispatch', async () => {
+    let reads = 0
+    const trigger = createTriggerPublish({
+      reservations: memoryReservations(),
+      loadStatus: async () => ({
+        fetchedAt: '',
+        status: buildPublishStatus({
+          dev: [run({ id: ++reads })],
+          production: [],
+        }),
+      }),
+      dispatch: async () => {
+        assert.fail('must not dispatch')
+      },
+    })
+    await assert.rejects(() => trigger('dev'), /history changed/)
+  })
+  it('allows the first staging build', async () => {
+    const { trigger, dispatched } = setup()
     await trigger('dev')
-
-    assert.equal(cleared, 1)
+    assert.deepEqual(dispatched, [['dev', undefined]])
+  })
+  it('requires a successful reviewed preview and rejects stale or missing approval', async () => {
+    for (const [dev, approval] of [
+      [[], 10],
+      [[run()], undefined],
+      [[run()], 9],
+    ] as const) {
+      const { trigger, dispatched } = setup([...dev])
+      await assert.rejects(
+        () => trigger('production', approval),
+        PublishBlockedError
+      )
+      assert.deepEqual(dispatched, [])
+    }
+  })
+  it('passes the reviewed build number to production', async () => {
+    const { trigger, dispatched } = setup([run()])
+    await trigger('production', 10)
+    assert.deepEqual(dispatched, [['production', 10]])
+  })
+  it('serialises concurrent requests across instances and retains the reservation before queue visibility', async () => {
+    const reservations = memoryReservations()
+    let dispatched = 0
+    const dependencies = {
+      reservations,
+      loadStatus: async () => ({
+        fetchedAt: '',
+        status: buildPublishStatus({ dev: [], production: [] }),
+      }),
+      dispatch: async () => {
+        dispatched += 1
+      },
+    }
+    const triggers = [
+      createTriggerPublish(dependencies),
+      createTriggerPublish(dependencies),
+    ]
+    const results = await Promise.allSettled(
+      triggers.map((trigger) => trigger('dev'))
+    )
+    assert.equal(
+      results.filter((result) => result.status === 'fulfilled').length,
+      1
+    )
+    assert.equal(dispatched, 1)
+    await assert.rejects(() => triggers[0]!('dev'), PublishBlockedError)
+    assert.equal(dispatched, 1)
+  })
+  it('releases a failed dispatch so a retry can proceed', async () => {
+    let fail = true
+    const trigger = createTriggerPublish({
+      reservations: memoryReservations(),
+      loadStatus: async () => ({
+        fetchedAt: '',
+        status: buildPublishStatus({ dev: [], production: [] }),
+      }),
+      dispatch: async () => {
+        if (fail) throw new Error('Jenkins rejected the request')
+      },
+    })
+    await assert.rejects(() => trigger('dev'), /Jenkins rejected/)
+    fail = false
+    await trigger('dev')
+  })
+  it('rechecks fresh eligibility after acquiring the reservation', async () => {
+    let reads = 0
+    const reservations = memoryReservations()
+    const trigger = createTriggerPublish({
+      reservations,
+      loadStatus: async () => ({
+        fetchedAt: '',
+        status: buildPublishStatus({
+          dev: ++reads > 1 ? [run({ state: 'running', succeeded: false })] : [],
+          production: [],
+        }),
+      }),
+      dispatch: async () => {
+        assert.fail('must not dispatch')
+      },
+    })
+    await assert.rejects(() => trigger('dev'), PublishBlockedError)
+    assert.equal(await reservations.read(), null)
   })
 })

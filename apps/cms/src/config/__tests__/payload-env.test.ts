@@ -226,6 +226,7 @@ describe('Payload admin document locking', () => {
 
     assert.deepEqual(actualEditableSlugs, [
       ...CMS_COLLECTION_SLUGS,
+      'site-publish-reservations',
       'payload-kv',
       'payload-preferences',
       'payload-migrations',

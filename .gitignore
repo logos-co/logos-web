@@ -67,3 +67,6 @@ mcp.json
 # Playwright / browser-MCP artifacts (never commit)
 .playwright-mcp/
 **/.playwright-mcp/
+
+# Internal Jenkins media snapshot (never served from public/).
+/press-snapshot.json

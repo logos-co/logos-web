@@ -33,7 +33,8 @@
       "passThroughEnv": [
         "GITHUB_TOKEN",
         "STRAPI_API_KEY",
-        "SIMPLECAST_ACCESS_TOKEN"
+        "SIMPLECAST_ACCESS_TOKEN",
+        "PRESS_CONTENT_SNAPSHOT"
       ]
     },
     "lint": {

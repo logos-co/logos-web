@@ -1,0 +1,22 @@
+{
+  "title": "Publish the site",
+  "description": "Publish articles in Strapi, then build the staging preview. Check dev.logos.co before publishing the reviewed media content live.",
+  "confirm": "Publish the media content from staging build #{{build}} to logos.co? Confirm that you have checked dev.logos.co.",
+  "checking": "Checking Jenkins...",
+  "accepted": "Waiting for Jenkins to report the requested build.",
+  "staging": "dev.logos.co (preview)",
+  "production": "logos.co (live)",
+  "buildPreview": "Build preview",
+  "publishLive": "Publish live",
+  "starting": "Starting...",
+  "buildLog": "Build log",
+  "media": "Media",
+  "never": "No build yet.",
+  "queued": "Queued for {{duration}}.",
+  "running": "Building for {{duration}}.",
+  "published": "Published {{time}}.",
+  "failed": "Last build: {{result}}.",
+  "earlier": "earlier",
+  "unfinished": "did not finish",
+  "requestFailed": "Request failed ({{status}})."
+}
