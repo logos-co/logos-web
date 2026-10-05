@@ -75,4 +75,29 @@ describe('resolveBasecampDownloadTarget', () => {
       EXTERNAL_URLS.basecampRelease
     )
   })
+  it.each([
+    { platform: 'Linux', architecture: 'arm', bitness: '32' },
+    {
+      platform: 'Windows',
+      architecture: 'x86',
+      bitness: '32',
+      userAgent: 'Win64; x64',
+    },
+    { platform: 'Linux', architecture: 'arm' },
+    { platform: 'Windows', architecture: 'arm', bitness: '64' },
+    {
+      platform: 'Linux',
+      architecture: 'arm',
+      bitness: '64',
+      userAgent: 'Android',
+    },
+    { platform: 'MacIntel', userAgent: 'Mozilla/5.0 (iPad; CPU OS 18_0)' },
+  ])(
+    'uses the release page for unsupported or ambiguous clients: %j',
+    (client) => {
+      expect(resolveBasecampDownloadTarget(client)).toBe(
+        EXTERNAL_URLS.basecampRelease
+      )
+    }
+  )
 })

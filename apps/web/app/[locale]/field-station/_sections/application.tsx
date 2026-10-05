@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import { IconMask } from '@/components/icons/icon-mask'
+import { BasecampCta } from '@/components/sections/basecamp/_sections/basecamp-cta'
 import ContentWidth from '@/components/layout/content-width'
 import { Button } from '@/components/ui'
 
@@ -81,17 +81,16 @@ export function Application() {
             >
               {APPLICATION.action!.label}
             </Button>
-            <Button
-              href={BASECAMP_RELEASE_PAGE}
-              variant="primary"
-              icon={
-                <IconMask src="/icons/download.svg" className="size-[15px]" />
-              }
+            <BasecampCta
+              cta={{
+                label: APPLICATION.rows[0]!.cta!.label,
+                href: BASECAMP_RELEASE_PAGE,
+                variant: 'primary',
+                iconOverride: 'download',
+              }}
               className="cursor-pointer"
-              data-umami-event-name={EVENT_NAMES.applicationInstall}
-            >
-              {APPLICATION.rows[0]?.cta?.label}
-            </Button>
+              eventName={EVENT_NAMES.applicationInstall}
+            />
           </div>
         </div>
         <div className="relative aspect-[702/626] overflow-hidden rounded-xl">

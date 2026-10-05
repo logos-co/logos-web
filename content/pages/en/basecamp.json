@@ -25,18 +25,18 @@
       "bodySecondary": "Basecamp runs on your machine and stays on your machine.\n\nno accounts to create\nno data handed to third parties\nno cloud dependencies",
       "ctas": [
         {
-          "label": "Install Linux",
+          "label": "Install Basecamp",
           "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
           "external": true,
           "variant": "secondary",
           "iconOverride": "download"
         },
         {
-          "label": "Install macOS (Silicon)",
+          "label": "All downloads",
           "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
           "external": true,
           "variant": "secondary",
-          "iconOverride": "download"
+          "iconOverride": "none"
         }
       ],
       "links": [
@@ -55,18 +55,19 @@
     {
       "componentType": "table",
       "key": "basecamp.howItWorks",
-      "title": "How Basecamp Works",
+      "title": "Install Logos Basecamp",
       "action": {
-        "label": "Install Linux",
+        "label": "Install Basecamp",
         "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
         "external": true,
-        "variant": "secondary"
+        "variant": "secondary",
+        "iconOverride": "download"
       },
       "rows": [
         {
           "number": "01",
           "title": "Step 01",
-          "description": "Basecamp is built around a modular architecture. At its core is a lightweight runtime that manages self-contained modules, each providing a distinct capability such as private peer-to-peer messaging or distributed storage.",
+          "description": "Download the file for your operating system and hardware. For macOS with Apple Silicon (ARM64), choose the .dmg file ending in -aarch64.dmg. For Windows on Intel or AMD (64-bit), choose the installer ending in -x86_64-windows-setup.exe.",
           "cta": {
             "label": "Documentation",
             "href": "https://docs.logos.co/basecamp",
@@ -74,7 +75,7 @@
             "variant": "primary"
           },
           "secondaryCta": {
-            "label": "Install Macos (Silicon)",
+            "label": "All downloads",
             "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
             "external": true,
             "variant": "secondary"
@@ -83,12 +84,12 @@
         {
           "number": "02",
           "title": "Step 02",
-          "description": "When you run an app on Basecamp, Basecamp automatically loads in and configures the modules you need. Modules are loaded, updated, and managed through a built-in package manager, and new modules can be added as the stack grows. "
+          "description": "On Linux, choose the AppImage ending in -x86_64.AppImage for Intel or AMD (64-bit), or -aarch64.AppImage for ARM64. Before opening it, right-click the file, open Properties, and allow it to run as a program."
         },
         {
           "number": "03",
           "title": "Step 03",
-          "description": "Basecamp is a dynamic interface for applications built on the private, decentralised internet. The more tools are built on the Logos stack, the more its capabilities grow without requiring you to reinstall or reconfigure anything."
+          "description": "Open Basecamp and use the Applications screen to install apps. Some Logos apps are not yet available on Windows. If your system is not detected or supported, use All downloads to check the available builds."
         }
       ]
     },
@@ -159,10 +160,10 @@
       "cards": [
         {
           "title": "Basecamp Documentation",
-          "description": "Basecamp is an open-source application. If you want to explore the codebase, build from source, or develop your own modules, everything lives on GitHub.",
+          "description": "Learn how to install Basecamp, add apps and modules, and use the Logos stack.",
           "cta": {
             "label": "View the docs",
-            "href": "https://docs.logos.co/",
+            "href": "https://docs.logos.co/basecamp",
             "external": true,
             "variant": "primary"
           }

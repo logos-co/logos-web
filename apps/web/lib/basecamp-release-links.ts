@@ -1,14 +1,14 @@
 import { EXTERNAL_URLS } from '@/constants/routes'
 import type { BasecampPlatform } from '@/lib/basecamp-download-target'
 
-interface InstallCtaLike {
+export interface InstallCtaLike {
   label: string
   href: string
   external?: boolean
   iconOverride?: string
 }
 
-interface BasecampInstallCtaLinkProps {
+export interface BasecampInstallCtaLinkProps {
   href: string
   target?: '_blank'
   rel?: 'noopener noreferrer'
@@ -29,7 +29,11 @@ export function resolveBasecampInstallPreferredPlatform(
 export function isBasecampInstallCta(cta: InstallCtaLike): boolean {
   return (
     resolveBasecampInstallPreferredPlatform(cta) !== null ||
-    (cta.iconOverride === 'download' && installLabel.test(cta.label))
+    (installLabel.test(cta.label) &&
+      (cta.iconOverride === 'download' ||
+        /^https:\/\/github\.com\/logos-co\/logos-basecamp(?:\/|$)/.test(
+          cta.href
+        )))
   )
 }
 

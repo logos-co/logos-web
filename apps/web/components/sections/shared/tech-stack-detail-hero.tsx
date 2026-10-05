@@ -3,7 +3,7 @@ import type { HeroSection } from '@repo/content/schemas'
 
 import { Button, ButtonArrowIcon, type ButtonVariant } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
-import { resolveBasecampInstallCtaLinkProps } from '@/lib/basecamp-release-links'
+import { BasecampCta } from '@/components/sections/basecamp/_sections/basecamp-cta'
 
 import { DownloadIcon } from './builder-cta-card'
 
@@ -60,17 +60,15 @@ export default function TechStackDetailHero({
               label: data.status.label,
               body: data.status.body,
               cta: data.status.cta ? (
-                <Button
-                  {...resolveBasecampInstallCtaLinkProps({
+                <BasecampCta
+                  cta={{
                     ...data.status.cta,
                     iconOverride: 'download',
-                  })}
-                  variant={data.status.cta.variant ?? 'secondary'}
+                  }}
+                  defaultVariant={data.status.cta.variant ?? 'secondary'}
                   icon={<DownloadIcon />}
                   className="w-fit cursor-pointer rounded-none"
-                >
-                  {data.status.cta.label}
-                </Button>
+                />
               ) : null,
               secondaryCta: data.status.secondaryCta ? (
                 <Button

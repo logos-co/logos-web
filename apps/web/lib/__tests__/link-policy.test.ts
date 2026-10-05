@@ -562,6 +562,26 @@ describe('link policy', () => {
     })
   })
 
+  it('detects Basecamp release installs without relying on a download icon', () => {
+    expect(
+      isBasecampInstallCta({
+        label: 'Install Basecamp',
+        href: basecampReleaseHref,
+        external: true,
+      })
+    ).toBe(true)
+    expect(
+      isBasecampInstallCta({
+        label: 'All downloads',
+        href: basecampReleaseHref,
+        external: true,
+      })
+    ).toBe(false)
+    expect(
+      isBasecampInstallCta({ label: 'Install Basecamp', href: ROUTES.basecamp })
+    ).toBe(false)
+  })
+
   it('does not resolve stale repo press fixtures in public web surfaces', () => {
     const offenders = collectTextFiles(webRoot).flatMap((file) => {
       const text = readFileSync(file, 'utf8')

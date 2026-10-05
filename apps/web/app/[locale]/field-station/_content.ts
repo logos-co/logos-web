@@ -15,8 +15,7 @@ import type {
 
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 
-export const BASECAMP_RELEASE_PAGE =
-  'https://github.com/logos-co/logos-basecamp/releases/tag/0.3.0'
+export const BASECAMP_RELEASE_PAGE = EXTERNAL_URLS.basecampRelease
 
 export const SEO = {
   title: 'Field Station: Rajasthan Builder Residency | Logos x Zu-Grama',

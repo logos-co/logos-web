@@ -45,7 +45,8 @@
         "body": "The Logos testnet is currently live. The testnet includes the LEZ sequencer, a block explorer, and demo applications for atomic swaps and ZK-multisig. It is designed for backend validation and developer experimentation.",
         "cta": {
           "label": "Install Testnet",
-          "href": "/technology-stack/blockchain",
+          "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
+          "external": true,
           "variant": "secondary",
           "iconOverride": "download"
         }
@@ -53,7 +54,7 @@
       "ctas": [
         {
           "label": "Install & Run A Node",
-          "href": "/get-started",
+          "href": "/node-programme",
           "variant": "tertiary"
         },
         {

@@ -17,6 +17,7 @@ function detectPlatform({
 }: BasecampClientPlatform): BasecampPlatform {
   const value = `${platform} ${userAgent}`.toLowerCase()
 
+  if (/android|iphone|ipad|ipod/.test(value)) return 'unknown'
   if (/windows|win32|win64/.test(value)) return 'windows'
   if (/macintosh|mac os|macintel/.test(value)) return 'macos'
   if (/linux|x11/.test(value)) return 'linux'
@@ -32,7 +33,12 @@ function detectArchitecture({
 }: BasecampClientPlatform): BasecampArchitecture {
   const highEntropyArchitecture = architecture.toLowerCase()
 
-  if (/aarch64|arm64|armv8|^arm$/.test(highEntropyArchitecture)) {
+  if (bitness === '32') return 'unknown'
+
+  if (
+    /aarch64|arm64|armv8/.test(highEntropyArchitecture) ||
+    (highEntropyArchitecture === 'arm' && bitness === '64')
+  ) {
     return 'arm64'
   }
 
@@ -58,8 +64,7 @@ export function resolveBasecampDownloadTarget(
 ): string {
   const detectedPlatform = detectPlatform(client)
   const preferredPlatform =
-    client.preferredPlatform === 'linux' ||
-    client.preferredPlatform === 'macos'
+    client.preferredPlatform === 'linux' || client.preferredPlatform === 'macos'
       ? client.preferredPlatform
       : null
 
