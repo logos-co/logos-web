@@ -12,6 +12,7 @@ export default function BlockchainHero(props: Props) {
     <TechStackDetailHero
       {...props}
       actionVariant="tertiary"
+      basecampInstallationPurpose="blockchain"
       stackActions
       className="min-h-[517px] md:min-h-auto lg:min-h-103.5"
     />

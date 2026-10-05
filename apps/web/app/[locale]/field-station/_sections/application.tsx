@@ -90,6 +90,7 @@ export function Application() {
               }}
               className="cursor-pointer"
               eventName={EVENT_NAMES.applicationInstall}
+              installationPurpose="blockchain"
             />
           </div>
         </div>

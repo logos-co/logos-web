@@ -2,6 +2,7 @@ import { EXTERNAL_URLS } from '@/constants/routes'
 
 export type BasecampPlatform = 'linux' | 'macos' | 'windows' | 'unknown'
 export type BasecampArchitecture = 'arm64' | 'x86_64' | 'unknown'
+export type BasecampInstallationPurpose = 'blockchain'
 
 export interface BasecampClientPlatform {
   readonly architecture?: string
@@ -9,6 +10,7 @@ export interface BasecampClientPlatform {
   readonly platform?: string
   readonly preferredPlatform?: string | null
   readonly userAgent?: string
+  readonly purpose?: BasecampInstallationPurpose
 }
 
 function detectPlatform({
@@ -19,7 +21,7 @@ function detectPlatform({
 
   if (/android|iphone|ipad|ipod/.test(value)) return 'unknown'
   if (/windows|win32|win64/.test(value)) return 'windows'
-  if (/macintosh|mac os|macintel/.test(value)) return 'macos'
+  if (/macintosh|mac os|macos|macintel/.test(value)) return 'macos'
   if (/linux|x11/.test(value)) return 'linux'
 
   return 'unknown'
@@ -74,6 +76,15 @@ export function resolveBasecampDownloadTarget(
 
   const platform = preferredPlatform ?? detectedPlatform
   const architecture = detectArchitecture(client)
+
+  // Blockchain modules require the Linux AppImage under WSL2, not the native installer.
+  if (
+    platform === 'windows' &&
+    architecture === 'x86_64' &&
+    client.purpose === 'blockchain'
+  ) {
+    return EXTERNAL_URLS.basecampWindowsBlockchainGuide
+  }
 
   if (platform === 'linux' && architecture === 'arm64') {
     return EXTERNAL_URLS.basecampLinuxArm64Download

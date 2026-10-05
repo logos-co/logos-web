@@ -7,6 +7,7 @@ import type { CTA } from '@repo/content/schemas'
 import { IconMask } from '@/components/icons/icon-mask'
 import { Button, type ButtonVariant } from '@/components/ui'
 import { useBasecampInstallLink } from '@/lib/use-basecamp-install-link'
+import type { BasecampInstallationPurpose } from '@/lib/basecamp-download-target'
 
 function getButtonIcon(iconOverride?: string) {
   if (iconOverride === 'download') {
@@ -24,6 +25,7 @@ export function BasecampCta({
   eventName,
   icon,
   defaultVariant = 'secondary',
+  installationPurpose,
 }: {
   cta: CTA
   className?: string
@@ -31,8 +33,9 @@ export function BasecampCta({
   eventName?: string
   icon?: ReactNode | false
   defaultVariant?: ButtonVariant
+  installationPurpose?: BasecampInstallationPurpose
 }) {
-  const linkProps = useBasecampInstallLink(cta)
+  const linkProps = useBasecampInstallLink(cta, installationPurpose)
 
   return (
     <Button

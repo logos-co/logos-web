@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from 'react'
 
-import { resolveBasecampDownloadTarget } from '@/lib/basecamp-download-target'
+import {
+  resolveBasecampDownloadTarget,
+  type BasecampInstallationPurpose,
+} from '@/lib/basecamp-download-target'
 import {
   isBasecampInstallCta,
   resolveBasecampInstallCtaLinkProps,
@@ -47,7 +50,8 @@ async function getClientPlatform(): Promise<UserAgentDataValues> {
 }
 
 export function useBasecampInstallLink(
-  cta: InstallCtaLike
+  cta: InstallCtaLike,
+  purpose?: BasecampInstallationPurpose
 ): BasecampInstallCtaLinkProps {
   const fallbackLinkProps = resolveBasecampInstallCtaLinkProps(cta)
   const [href, setHref] = useState(fallbackLinkProps.href)
@@ -66,6 +70,7 @@ export function useBasecampInstallLink(
         platform: clientPlatform.platform ?? navigator.platform,
         preferredPlatform: resolveBasecampInstallPreferredPlatform(cta),
         userAgent: navigator.userAgent,
+        purpose,
       })
 
       if (!isCancelled) setHref(target)
@@ -76,7 +81,7 @@ export function useBasecampInstallLink(
     return () => {
       isCancelled = true
     }
-  }, [cta])
+  }, [cta, purpose])
 
   return { ...fallbackLinkProps, href }
 }

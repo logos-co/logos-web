@@ -58,6 +58,56 @@ describe('resolveBasecampDownloadTarget', () => {
     ).toBe(EXTERNAL_URLS.basecampWindowsX64Download)
   })
 
+  it.each([
+    { architecture: 'x86', bitness: '64' },
+    { userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
+  ])('directs Windows blockchain users to WSL2 guidance: %j', (hardware) => {
+    expect(
+      resolveBasecampDownloadTarget({
+        ...hardware,
+        platform: 'Windows',
+        purpose: 'blockchain',
+      })
+    ).toBe(EXTERNAL_URLS.basecampWindowsBlockchainGuide)
+  })
+
+  it.each([
+    { architecture: 'arm', bitness: '64' },
+    { architecture: 'x86', bitness: '32' },
+    {},
+  ])(
+    'keeps the release fallback for unsupported Windows blockchain clients: %j',
+    (hardware) => {
+      expect(
+        resolveBasecampDownloadTarget({
+          ...hardware,
+          platform: 'Windows',
+          purpose: 'blockchain',
+        })
+      ).toBe(EXTERNAL_URLS.basecampRelease)
+    }
+  )
+
+  it('keeps the direct Linux download for blockchain users', () => {
+    expect(
+      resolveBasecampDownloadTarget({
+        platform: 'Linux x86_64',
+        purpose: 'blockchain',
+      })
+    ).toBe(EXTERNAL_URLS.basecampLinuxX64Download)
+  })
+
+  it('keeps the direct Apple Silicon download for blockchain users', () => {
+    expect(
+      resolveBasecampDownloadTarget({
+        platform: 'macOS',
+        architecture: 'arm',
+        bitness: '64',
+        purpose: 'blockchain',
+      })
+    ).toBe(EXTERNAL_URLS.basecampMacArm64Download)
+  })
+
   it('uses the release page when the selected OS differs from the current OS', () => {
     expect(
       resolveBasecampDownloadTarget({

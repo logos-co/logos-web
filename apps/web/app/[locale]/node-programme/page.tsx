@@ -3,7 +3,10 @@ import type { ReactNode } from 'react'
 
 import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
-import type { NodeProgrammeCopySection } from '@repo/content/schemas'
+import type {
+  CtaPanelSection,
+  NodeProgrammeCopySection,
+} from '@repo/content/schemas'
 import { LogosMark } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
@@ -78,6 +81,11 @@ export default async function NodeProgramPage({
     'nodeProgrammeCopy',
     'nodeProgramme.copy'
   )
+  const basecampGuide = findSection<CtaPanelSection>(
+    page.sections,
+    'ctaPanel',
+    'nodeProgramme.basecampGuide'
+  )
 
   return (
     <main className="bg-brand-off-white">
@@ -148,7 +156,22 @@ export default async function NodeProgramPage({
             </p>
             <h2 className="text-h3 max-w-[560px]">{data.builders.title}</h2>
           </div>
-          <p className="text-mono-s max-w-[486px]">{data.builders.body}</p>
+          <div className="grid max-w-[486px] gap-6">
+            <p className="text-mono-s">{data.builders.body}</p>
+            <div className="grid gap-3">
+              <h3 className="text-subhead-sans">{basecampGuide.title}</h3>
+              <p className="text-mono-s">{basecampGuide.description}</p>
+              {basecampGuide.cta ? (
+                <Button
+                  href={basecampGuide.cta.href}
+                  variant={basecampGuide.cta.variant ?? 'link'}
+                  className="w-fit cursor-pointer"
+                >
+                  {basecampGuide.cta.label}
+                </Button>
+              ) : null}
+            </div>
+          </div>
         </div>
       </SectionShell>
 

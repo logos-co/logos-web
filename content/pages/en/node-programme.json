@@ -92,6 +92,18 @@
         "successLink": "Join our server",
         "imageAlt": "Forest landscape for the Logos node programme"
       }
+    },
+    {
+      "componentType": "ctaPanel",
+      "key": "nodeProgramme.basecampGuide",
+      "title": "Run a node with Basecamp",
+      "description": "Use the Basecamp node guide to run a node through a graphical interface. This guide currently covers Testnet v0.2.1 and has not yet been updated for v0.3.",
+      "cta": {
+        "label": "Basecamp node guide (v0.2.1)",
+        "href": "https://docs.logos.co/blockchain/get-started/run-a-logos-blockchain-node-from-basecamp",
+        "external": true,
+        "variant": "link"
+      }
     }
   ]
 }
