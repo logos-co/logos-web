@@ -1,4 +1,4 @@
-# Repo-specific tuning for the shared docs sync (acid-info/ai-docs-sync).
+# Repo-specific tuning for the shared docs sync (acid-info/ai-tools, tools/ai-docs-sync).
 # Read from the target branch (develop).
 doc_paths:
   - README.md

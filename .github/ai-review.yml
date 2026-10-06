@@ -1,5 +1,5 @@
-# Repo-specific tuning for the shared reviewer (acid-info/ai-review).
-# Models, severity threshold and diff budget are owned centrally -- change them there.
+# Repo-specific tuning for the shared reviewer (acid-info/ai-tools, tools/ai-review).
+# Models, severity threshold and diff budget are owned centrally; change them there.
 extra_ignore:
   - 'flake.lock'
   - 'packages/types/src/payload.ts'
