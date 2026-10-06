@@ -1,6 +1,6 @@
 # logos-co
 
-pnpm + Turborepo monorepo for the Logos website and its content CMS.
+pnpm + Turborepo monorepo for the Logos website and its content CMS
 
 - `apps/web` — public Next.js 16 site (Tailwind v4, `next-intl`, static export)
 - `apps/cms` — Payload CMS 3.x admin (Postgres-backed; edits ship as GitHub PRs)
