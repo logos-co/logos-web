@@ -28,14 +28,14 @@
           "label": "Install Basecamp",
           "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
           "external": true,
-          "variant": "secondary",
+          "variant": "primary",
           "iconOverride": "download"
         },
         {
           "label": "All downloads",
           "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
           "external": true,
-          "variant": "secondary",
+          "variant": "link",
           "iconOverride": "none"
         }
       ],
@@ -60,7 +60,7 @@
         "label": "Install Basecamp",
         "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
         "external": true,
-        "variant": "secondary",
+        "variant": "primary",
         "iconOverride": "download"
       },
       "rows": [
@@ -72,13 +72,13 @@
             "label": "Installation guide",
             "href": "https://docs.logos.co/basecamp/install-logos-basecamp",
             "external": true,
-            "variant": "primary"
+            "variant": "secondary"
           },
           "secondaryCta": {
             "label": "All downloads",
             "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
             "external": true,
-            "variant": "secondary"
+            "variant": "link"
           }
         },
         {
