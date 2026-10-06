@@ -68,6 +68,7 @@ function StatusCard({
         {status.cta ? (
           <BasecampCta
             cta={status.cta}
+            installationPurpose="blockchain"
             defaultVariant={status.cta.variant ?? 'secondary'}
             icon={getButtonIcon(status.cta.iconOverride)}
             className="cursor-pointer"
