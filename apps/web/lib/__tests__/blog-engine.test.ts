@@ -145,6 +145,22 @@ const podcast = (
   }) as BlogPodcastDetail
 
 describe('getBlogArticleListing', () => {
+  test('preserves the searchable summary separately from the displayed subtitle', async () => {
+    contentMock.getAllBlogArticles.mockResolvedValue([
+      article('july-2025', {
+        subtitle: 'Your roundup of recent developments',
+        summary: '<p>Road to PSF arrives in <strong>Zanzibar</strong>.</p>',
+      }),
+    ])
+
+    const [row] = await getBlogArticleListing()
+
+    expect(row).toMatchObject({
+      description: 'Your roundup of recent developments',
+      summary: 'Road to PSF arrives in Zanzibar .',
+    })
+  })
+
   test('keeps the complete published archive, including articles without covers', async () => {
     const archive = Array.from({ length: 90 }, (_, index) =>
       article(`article-${index}`, {
