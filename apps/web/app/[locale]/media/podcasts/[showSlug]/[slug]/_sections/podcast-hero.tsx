@@ -87,7 +87,7 @@ export function PodcastHero({
               />
             ) : null}
             <Link
-              href={ROUTES.mediaPodcastsSection}
+              href={ROUTES.mediaPodcasts}
               className="cursor-pointer font-sans text-[14px] leading-5 tracking-normal no-underline"
             >
               {podcast.show.title}

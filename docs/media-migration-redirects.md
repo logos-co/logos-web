@@ -15,7 +15,7 @@ Rules run top to bottom and the first match wins. All redirects are 301 and keep
 | `/rss/<feed>.xml`, `/rss.xml`, `/atom.xml`, `/atom_page2.xml` | Same path on logos.co                           | The build writes these feeds with the legacy guids, so subscribers see no repeats |
 | `/security`, `/privacy-policy`                                | Same path on logos.co                           | These pages already exist on logos.co                                             |
 | `/terms`                                                      | `https://logos.co/terms-and-conditions`         | logos.co has no `/terms`, it answers with the not found page                      |
-| `/podcasts`, `/podcasts/<show>`                               | `https://logos.co/media#podcasts`               | There is no show listing page, the podcasts section replaces it                   |
+| `/podcasts`, `/podcasts/<show>`                               | `https://logos.co/media/podcasts`               | The podcast listing replaces the old index and show listings                   |
 | `/calendar`                                                   | `https://logos.co/logos-broadcast-network`      | That page shows the same events calendar                                          |
 | `/`, `/search`, `/about`, and any other page                  | `https://logos.co/media`                        | The media landing replaces the blog home, search and about page                   |
 
@@ -36,3 +36,23 @@ These paths must not redirect while the old blog is still running:
 
 - `curl -sI https://blog.logos.co/article/june-2026` answers 301 to `https://logos.co/media/article/june-2026`, and that page answers 200 with a self canonical.
 - Search Console's Change of Address tool only handles whole-site moves, so it does not apply to a subdomain moving into a path. Instead, confirm logos.co/sitemap.xml lists the /media pages and watch the blog.logos.co URLs move to "Page with redirect" in the page indexing report.
+
+## Listing URLs on logos.co
+
+The canonical listing pages are `/media/articles` and `/media/podcasts`.
+The site includes static redirect pages for `/articles`, `/podcast`, `/podcasts`
+and `/podcasts/<show>` so existing links still reach the listings. These use
+JavaScript and a zero-delay meta refresh, with a canonical pointing to the new
+listing; they do not return an HTTP 301.
+
+After deploying the new listings, add HTTP 301 redirects in the logos.co
+Cloudflare ruleset or nginx configuration, preserving query strings:
+
+| Old URL | New URL |
+| --- | --- |
+| `/articles` | `/media/articles` |
+| `/podcast` | `/media/podcasts` |
+| `/podcasts` | `/media/podcasts` |
+
+Match optional trailing slashes as well. These infrastructure rules are managed
+outside this repository. Keep article and episode detail URLs unchanged.

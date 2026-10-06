@@ -85,7 +85,7 @@ export default async function ArticlePage({
   const canonicalUrl = absoluteUrl(articlePath, locale)
   const parentCrumbs = [
     { name: t('breadcrumbs.media'), path: ROUTES.media },
-    { name: t('breadcrumbs.articles'), path: ROUTES.mediaArticlesSection },
+    { name: t('breadcrumbs.articles'), path: ROUTES.articles },
   ]
 
   return (

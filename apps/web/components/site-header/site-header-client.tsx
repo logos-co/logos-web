@@ -140,7 +140,7 @@ export default function SiteHeaderClient({
   const usesAccentTanHeaderTone =
     (isMediaPath && !usesTransparentHeader) ||
     normalizedPathname.endsWith(ROUTES.logosBroadcastNetwork) ||
-    normalizedPathname.endsWith(ROUTES.podcast) ||
+    normalizedPathname.endsWith(ROUTES.mediaPodcasts) ||
     normalizedPathname.endsWith(ROUTES.articles) ||
     normalizedPathname.startsWith(`${ROUTES.mediaArticles}/`) ||
     normalizedPathname.startsWith(`${ROUTES.mediaPodcasts}/`)

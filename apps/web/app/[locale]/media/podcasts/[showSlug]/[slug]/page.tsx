@@ -92,7 +92,7 @@ export default async function PodcastPage({
   const canonicalUrl = absoluteUrl(podcastPath, locale)
   const parentCrumbs = [
     { name: t('breadcrumbs.media'), path: ROUTES.media },
-    { name: t('breadcrumbs.podcasts'), path: ROUTES.mediaPodcastsSection },
+    { name: t('breadcrumbs.podcasts'), path: ROUTES.mediaPodcasts },
   ]
 
   return (
@@ -106,7 +106,7 @@ export default async function PodcastPage({
           datePublished: podcast.publishedAt,
           episodeNumber: podcast.episodeNumber,
           series: podcast.show
-            ? { name: podcast.show.title, path: ROUTES.mediaPodcastsSection }
+            ? { name: podcast.show.title, path: ROUTES.mediaPodcasts }
             : null,
         })}
       />

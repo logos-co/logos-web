@@ -72,7 +72,7 @@ describe('prepareCmsLinks', () => {
       'https://blog.logos.co/podcasts/logos-state/jameson-lopp?t=1#notes',
       '/media/podcasts/logos-state/jameson-lopp#notes',
     ],
-    ['http://blog.logos.co/podcasts', '/media#podcasts'],
+    ['http://blog.logos.co/podcasts', '/media/podcasts'],
     [
       'https://press.logos.co/article/spirit-of-freedom',
       '/media/article/spirit-of-freedom',

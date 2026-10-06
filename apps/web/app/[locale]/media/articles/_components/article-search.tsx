@@ -7,7 +7,7 @@ import { SearchIcon, XIcon } from '@acid-info/logos-ui'
 import ContentWidth from '@/components/layout/content-width'
 import type { BlogArticleListingRow } from '@/lib/blog-engine'
 
-import { ArticleEntry } from '../../media/_sections/articles'
+import { ArticleEntry } from '../../_sections/articles'
 
 interface ArticleSearchProps {
   articles: readonly BlogArticleListingRow[]
