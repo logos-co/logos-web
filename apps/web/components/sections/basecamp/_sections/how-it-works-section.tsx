@@ -12,6 +12,7 @@ const DEFAULT_CLASS_NAMES = {
   title: 'text-h3-sans mb-[14px] text-brand-dark-green',
   intro: 'mb-10 flex flex-col gap-10 text-brand-dark-green',
   row: 'grid gap-4 pt-[6px] pb-3 lg:grid-cols-2 lg:gap-3',
+  actions: 'flex flex-wrap items-start gap-1',
   media:
     'relative aspect-[351/313] lg:aspect-auto lg:h-[435px] xl:h-[549px] desktop:h-[621px] overflow-hidden rounded-xl',
 }
@@ -79,7 +80,7 @@ export function HowItWorksSection({
           </div>
         </div>
         {downloadActions.length > 0 ? (
-          <div className="flex flex-wrap items-start gap-1">
+          <div className={slots.actions}>
             {downloadActions.map((cta, index) => (
               <BasecampCta
                 key={cta.label}

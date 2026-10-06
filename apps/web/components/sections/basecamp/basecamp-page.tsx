@@ -43,6 +43,7 @@ export default function BasecampPage({
         <TechStackDetailSection className="md:!mt-0 md:first-of-type:!mt-0">
           <HowItWorksSection
             data={howItWorks}
+            classNames={{ actions: 'flex flex-wrap items-center gap-4' }}
             intro={
               howItWorks.subtitle ? (
                 <p className="text-mono-s whitespace-pre-line">
