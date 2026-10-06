@@ -3,7 +3,7 @@ import { routing } from '@/i18n/routing'
 import { getBlogPodcastShowSlugs } from '@/lib/blog-content'
 import { createRedirectMetadata, StaticRedirect } from '@/lib/static-redirect'
 
-const TARGET = ROUTES.mediaPodcastsSection
+const TARGET = ROUTES.mediaPodcasts
 
 export const dynamicParams = false
 

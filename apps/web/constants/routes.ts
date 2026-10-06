@@ -58,7 +58,7 @@ export const ROUTES = {
 
   // Blog (formerly "Logos Press Engine")
   media: '/media',
-  articles: '/articles',
+  articles: '/media/articles',
   mediaArticles: '/media/article',
   mediaArticlesSection: '/media#articles',
   /** Dynamic route — `/media/article/[slug]`. */
@@ -68,7 +68,6 @@ export const ROUTES = {
   /** Dynamic route — `/media/podcasts/[showSlug]/[slug]`. */
   mediaPodcast: (showSlug: string, slug: string) =>
     `/media/podcasts/${showSlug}/${slug}`,
-  podcast: '/podcast',
   logosBroadcastNetwork: '/logos-broadcast-network',
 
   // About

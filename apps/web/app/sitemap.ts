@@ -42,7 +42,7 @@ const staticIndexableRoutes = [
   ROUTES.pastPresentFuture,
   ROUTES.nodeProgramme,
   ROUTES.operators,
-  ROUTES.podcast,
+  ROUTES.mediaPodcasts,
   ROUTES.media,
   ROUTES.articles,
   ROUTES.privacy,

@@ -143,8 +143,13 @@ const contracts: PageContract[] = [
     sections: [{ componentType: 'mediaCopy', key: 'media.copy' }],
   },
   {
-    route: ROUTES.podcast,
-    name: 'podcast',
+    route: ROUTES.articles,
+    name: 'media-articles',
+    sections: [],
+  },
+  {
+    route: ROUTES.mediaPodcasts,
+    name: 'media-podcasts',
     sections: [{ componentType: 'podcastCopy', key: 'podcast.copy' }],
   },
   {

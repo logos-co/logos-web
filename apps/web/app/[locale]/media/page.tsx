@@ -97,7 +97,7 @@ export default async function BlogPage({
       </section>
       <PodcastsSection
         podcasts={podcasts}
-        ctaHref={ROUTES.podcast}
+        ctaHref={ROUTES.mediaPodcasts}
         copy={{
           heading: data.podcasts.heading,
           media: data.podcasts.media,

@@ -31,7 +31,7 @@ function mediaPathForLegacyBlogUrl(href: string): string | null {
   if (section === 'podcasts' && first && second) {
     return `${ROUTES.mediaPodcast(first, second)}${url.hash}`
   }
-  if (section === 'podcasts') return ROUTES.mediaPodcastsSection
+  if (section === 'podcasts') return ROUTES.mediaPodcasts
   if (section === 'calendar') return ROUTES.logosBroadcastNetwork
   return ROUTES.media
 }

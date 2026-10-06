@@ -30,10 +30,12 @@ afterEach(() => {
 
 /** Every page that redirects instead of rendering content of its own. */
 const REDIRECT_PAGES = [
+  'articles',
   'brand-kit',
   'circles',
   'contact',
   'farewell-to-westphalia',
+  'podcast',
   'podcasts',
   'search',
   'tech-stack',
