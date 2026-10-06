@@ -3,6 +3,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import type { PublishEnvironment } from '@/services/site-publish/environments'
+import {
+  JENKINS_JOBS,
+  PUBLISH_ENVIRONMENTS,
+} from '@/services/site-publish/environments'
 import type { PublishStatus } from '@/services/site-publish/publish-status'
 import { SitePublishCard } from './site-publish-card'
 import { useSitePublishTranslation } from './use-site-publish-translation'
@@ -14,6 +18,7 @@ export const SitePublishPanel = () => {
   const { t } = useSitePublishTranslation()
   const [status, setStatus] = useState<PublishStatus | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [statusError, setStatusError] = useState<string | null>(null)
   const [pending, setPending] = useState<PublishEnvironment | null>(null)
   const accepted = useRef<{
     environment: PublishEnvironment
@@ -36,6 +41,7 @@ export const SitePublishPanel = () => {
           json.error ?? t('sitePublish:requestFailed', { status: res.status })
         )
       setStatus(json.status)
+      setStatusError(null)
       if (accepted.current) {
         const run = json.status[accepted.current.environment].latestRun
         if (
@@ -48,7 +54,9 @@ export const SitePublishPanel = () => {
       }
     } catch (failure) {
       setStatus(null)
-      setError(failure instanceof Error ? failure.message : String(failure))
+      setStatusError(
+        failure instanceof Error ? failure.message : String(failure)
+      )
     }
   }, [t])
 
@@ -105,22 +113,34 @@ export const SitePublishPanel = () => {
           {t('sitePublish:description')}
         </div>
       </div>
-      {error ? (
+      {error || statusError ? (
         <div
           role="alert"
           style={{ color: 'var(--theme-error-500, #a33)', fontSize: 12 }}
         >
-          {error}
+          {error ?? statusError}
         </div>
+      ) : null}
+      {statusError ? (
+        <p style={{ fontSize: 12 }}>{t('sitePublish:manualInstructions')}</p>
       ) : null}
       {pending ? <div role="status">{t('sitePublish:accepted')}</div> : null}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-        {status ? (
+        {status || statusError ? (
           (['dev', 'production'] as const).map((environment) => (
             <SitePublishCard
               key={environment}
-              environment={status[environment]}
-              mediaUrl={`${status[environment].siteUrl}/media`}
+              environment={
+                status?.[environment] ?? {
+                  ...PUBLISH_ENVIRONMENTS[environment],
+                  canPublish: false,
+                  estimatedDurationMs: null,
+                  latestRun: null,
+                }
+              }
+              mediaUrl={`${PUBLISH_ENVIRONMENTS[environment].siteUrl}/media`}
+              jenkinsUrl={JENKINS_JOBS[environment]}
+              unavailable={statusError !== null}
               now={now}
               onPublish={() => void publish(environment)}
               pending={pending !== null}

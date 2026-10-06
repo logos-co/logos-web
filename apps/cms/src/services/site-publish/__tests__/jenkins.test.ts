@@ -5,15 +5,22 @@ import { loadJenkinsConfig } from '../jenkins-config'
 import { DispatchUncertainError } from '../dispatch-error'
 
 const source = {
-  JENKINS_DEV_JOB_URL: 'https://ci.example.com/job/logos-web/job/develop/',
+  JENKINS_DEV_JOB_URL:
+    'https://ci.infra.status.im/job/website/job/dev.logos.co/',
   JENKINS_PRODUCTION_JOB_URL:
-    'https://ci.example.com/job/logos-web/job/master/',
+    'https://ci.infra.status.im/job/website/job/logos.co/',
   JENKINS_USER: 'test',
   JENKINS_API_TOKEN: 'test-token',
 }
 const config = loadJenkinsConfig(source)
 
 describe('Jenkins API', () => {
+  it('accepts the deployed domain-named website jobs', () => {
+    assert.deepEqual(config.jobs, {
+      dev: source.JENKINS_DEV_JOB_URL,
+      production: source.JENKINS_PRODUCTION_JOB_URL,
+    })
+  })
   it('distinguishes an unconfirmed submission from a rejected request', async () => {
     const lost: typeof fetch = async () => {
       throw new Error('connection lost')
@@ -89,6 +96,24 @@ describe('Jenkins API', () => {
           JENKINS_DEV_JOB_URL: source.JENKINS_PRODUCTION_JOB_URL,
         }),
       /must differ/
+    )
+    assert.throws(
+      () =>
+        loadJenkinsConfig({
+          ...source,
+          JENKINS_DEV_JOB_URL:
+            'https://other.example.com/job/website/job/dev.logos.co/',
+        }),
+      /same controller/
+    )
+    assert.throws(
+      () =>
+        loadJenkinsConfig({
+          ...source,
+          JENKINS_PRODUCTION_JOB_URL:
+            'https://ci.infra.status.im/job/another/job/logos.co/',
+        }),
+      /sibling/
     )
   })
 })

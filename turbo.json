@@ -31,6 +31,10 @@
         "NEXT_PUBLIC_WEB_URL"
       ],
       "passThroughEnv": [
+        "JENKINS_DEV_JOB_URL",
+        "JENKINS_PRODUCTION_JOB_URL",
+        "JENKINS_USER",
+        "JENKINS_API_TOKEN",
         "GITHUB_TOKEN",
         "STRAPI_API_KEY",
         "SIMPLECAST_ACCESS_TOKEN",
@@ -66,7 +70,13 @@
       "dependsOn": ["^build"],
       "cache": false,
       "persistent": true,
-      "env": ["DATABASE_URL"]
+      "env": ["DATABASE_URL"],
+      "passThroughEnv": [
+        "JENKINS_DEV_JOB_URL",
+        "JENKINS_PRODUCTION_JOB_URL",
+        "JENKINS_USER",
+        "JENKINS_API_TOKEN"
+      ]
     },
     "@acid-info/logos-ui#dev": {
       "dependsOn": ["build"],

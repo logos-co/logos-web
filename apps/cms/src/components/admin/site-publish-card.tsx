@@ -16,6 +16,8 @@ interface SitePublishCardProps {
   pending: boolean
   title: string
   actionLabel: string
+  jenkinsUrl: string
+  unavailable: boolean
 }
 
 const formatDuration = (ms: number): string => {
@@ -83,6 +85,8 @@ export const SitePublishCard = ({
   pending,
   title,
   actionLabel,
+  jenkinsUrl,
+  unavailable,
 }: SitePublishCardProps) => {
   const { t } = useSitePublishTranslation()
   const run = environment.latestRun
@@ -106,30 +110,42 @@ export const SitePublishCard = ({
         style={{ display: 'flex', gap: 12, justifyContent: 'space-between' }}
       >
         <strong style={{ fontSize: 13 }}>{title}</strong>
-        <button
-          type="button"
-          className="cursor-pointer"
-          disabled={disabled}
-          onClick={onPublish}
-          style={{
-            background: 'var(--theme-bg, #fff)',
-            border: '1px solid var(--theme-elevation-300, #b8b8b8)',
-            borderRadius: 4,
-            color: 'inherit',
-            cursor: disabled ? 'not-allowed' : 'pointer',
-            flexShrink: 0,
-            fontSize: 13,
-            fontWeight: 700,
-            opacity: disabled ? 0.6 : 1,
-            padding: '6px 12px',
-          }}
-        >
-          {pending ? t('sitePublish:starting') : actionLabel}
-        </button>
+        {unavailable ? (
+          <a
+            className="cursor-pointer"
+            href={`${jenkinsUrl}build?delay=0sec`}
+            rel="noreferrer"
+            target="_blank"
+            style={{ ...linkStyle, fontWeight: 700 }}
+          >
+            {t('sitePublish:openJenkins')}
+          </a>
+        ) : (
+          <button
+            type="button"
+            className="cursor-pointer"
+            disabled={disabled}
+            onClick={onPublish}
+            style={{
+              background: 'var(--theme-bg, #fff)',
+              border: '1px solid var(--theme-elevation-300, #b8b8b8)',
+              borderRadius: 4,
+              color: 'inherit',
+              cursor: disabled ? 'not-allowed' : 'pointer',
+              flexShrink: 0,
+              fontSize: 13,
+              fontWeight: 700,
+              opacity: disabled ? 0.6 : 1,
+              padding: '6px 12px',
+            }}
+          >
+            {pending ? t('sitePublish:starting') : actionLabel}
+          </button>
+        )}
       </div>
 
       <div style={{ fontSize: 12, opacity: 0.78 }}>
-        {runStateText(run, now, t)}
+        {unavailable ? t('sitePublish:unavailable') : runStateText(run, now, t)}
         {environment.blockedReason ? ` ${environment.blockedReason}` : ''}
       </div>
 
@@ -155,10 +171,10 @@ export const SitePublishCard = ({
       )}
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-        {run ? (
+        {run || unavailable ? (
           <a
             className="cursor-pointer"
-            href={run.runUrl}
+            href={run?.runUrl ?? jenkinsUrl}
             rel="noreferrer"
             style={linkStyle}
             target="_blank"

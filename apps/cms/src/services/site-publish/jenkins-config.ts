@@ -38,11 +38,11 @@ export const loadJenkinsConfig = (
     throw new Error('Jenkins jobs must use the same controller')
   }
   if (
-    !jobs.production.endsWith('/job/master/') ||
-    new URL('../develop/', jobs.production).href !== jobs.dev
+    !jobs.production.endsWith('/job/logos.co/') ||
+    new URL('../dev.logos.co/', jobs.production).href !== jobs.dev
   ) {
     throw new Error(
-      'Jenkins jobs must be sibling develop and master branch jobs'
+      'Jenkins jobs must be sibling dev.logos.co and logos.co jobs'
     )
   }
   return {

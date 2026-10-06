@@ -16,6 +16,7 @@ pipeline {
 
   options {
     disableConcurrentBuilds()
+    copyArtifactPermission('website/logos.co')
     buildDiscarder(logRotator(
       numToKeepStr: '20',
       daysToKeepStr: '30',
@@ -74,9 +75,9 @@ pipeline {
           if (!(params.PREVIEW_BUILD ==~ /[1-9][0-9]*/)) {
             error('Review dev.logos.co and select its successful build number before publishing live.')
           }
-          // The source is the sibling develop job, never a caller-provided project.
+          // The deployed website jobs are named after domains, not Git branches.
           copyArtifacts(
-            projectName: "/${env.JOB_NAME.replaceFirst('/master$', '/develop')}",
+            projectName: '/website/dev.logos.co',
             selector: specific(params.PREVIEW_BUILD),
             filter: 'press-snapshot.json',
             fingerprintArtifacts: true,
