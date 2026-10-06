@@ -140,13 +140,13 @@ export const EXTERNAL_URLS = {
   basecampRelease:
     'https://github.com/logos-co/logos-basecamp/releases/latest',
   basecampLinuxArm64Download:
-    'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-aarch64.AppImage',
+    'https://github.com/logos-co/logos-basecamp/releases/latest/download/LogosBasecamp-Desktop-aarch64.AppImage',
   basecampLinuxX64Download:
-    'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-x86_64.AppImage',
+    'https://github.com/logos-co/logos-basecamp/releases/latest/download/LogosBasecamp-Desktop-x86_64.AppImage',
   basecampMacArm64Download:
-    'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-aarch64.dmg',
+    'https://github.com/logos-co/logos-basecamp/releases/latest/download/LogosBasecamp-Desktop-aarch64.dmg',
   basecampWindowsX64Download:
-    'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-x86_64-windows-setup.exe',
+    'https://github.com/logos-co/logos-basecamp/releases/latest/download/LogosBasecamp-Desktop-x86_64-windows-setup.exe',
 
   // Research
   vacp2p: 'https://vac.dev',
