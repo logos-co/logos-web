@@ -5,12 +5,12 @@ import { useTranslations } from 'next-intl'
 import { SearchIcon, XIcon } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
-import type { BlogArticleRow } from '@/lib/blog-engine'
+import type { BlogArticleListingRow } from '@/lib/blog-engine'
 
 import { ArticleEntry } from '../../media/_sections/articles'
 
 interface ArticleSearchProps {
-  articles: readonly BlogArticleRow[]
+  articles: readonly BlogArticleListingRow[]
   children: ReactNode
 }
 
@@ -24,7 +24,12 @@ export function ArticleSearch({ articles, children }: ArticleSearchProps) {
   const hasQuery = terms.length > 0
   const results = hasQuery
     ? articles.filter((article) => {
-        const text = [article.title, article.description, article.author]
+        const text = [
+          article.title,
+          article.description,
+          article.summary,
+          article.author,
+        ]
           .join(' ')
           .toLocaleLowerCase()
         return terms.every((term) => text.includes(term))

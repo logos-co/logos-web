@@ -33,6 +33,10 @@ export type BlogArticleRow = {
   readingTime: number
 }
 
+export interface BlogArticleListingRow extends BlogArticleRow {
+  summary: string
+}
+
 export type BlogPodcastRow = {
   title: string
   image: string
@@ -420,8 +424,13 @@ export const getLatestBlogArticles = async (
     .filter(hasImage)
     .slice(0, limit)
 
-export const getBlogArticleListing = async (): Promise<BlogArticleRow[]> =>
-  newestPublished(await getAllBlogArticles()).map(toArticleRow)
+export const getBlogArticleListing = async (): Promise<
+  BlogArticleListingRow[]
+> =>
+  newestPublished(await getAllBlogArticles()).map((article) => ({
+    ...toArticleRow(article),
+    summary: stripHtml(article.summary),
+  }))
 
 export const getLatestBlogPodcasts = async (
   limit = 20
