@@ -41,7 +41,16 @@ export default function BasecampPage({
       <ContentWidth className="!p-0">
         <HeroSectionView data={hero} />
         <TechStackDetailSection className="md:!mt-0 md:first-of-type:!mt-0">
-          <HowItWorksSection data={howItWorks} />
+          <HowItWorksSection
+            data={howItWorks}
+            intro={
+              howItWorks.subtitle ? (
+                <p className="text-mono-s whitespace-pre-line">
+                  {howItWorks.subtitle}
+                </p>
+              ) : undefined
+            }
+          />
         </TechStackDetailSection>
         <TechStackDetailSection className="!mt-[17px] mb-[48px] md:!mt-[12px] md:mb-[40px]">
           <LocalFirstSection data={localFirst} />

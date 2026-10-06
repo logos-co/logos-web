@@ -7,6 +7,8 @@ import {
 import type { CardGridSection } from '@repo/content/schemas'
 
 import { Reveal } from '@/components/motion/reveal'
+import { BasecampCta } from '@/components/sections/basecamp/_sections/basecamp-cta'
+import { BasecampDownloadLink } from '@/components/sections/basecamp/_sections/basecamp-download-link'
 import { Button } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
 
@@ -118,20 +120,23 @@ export default function TechStackBuilderCta({
           title: logosAppCard.title,
           description: logosAppCard.description,
           linkOverlay: logosAppCard.cta ? (
-            <CardLinkOverlay
-              href={logosAppCard.cta.href}
-              external={logosAppCard.cta.external}
+            <BasecampDownloadLink
+              cta={{ ...logosAppCard.cta, iconOverride: 'download' }}
+              aria-hidden="true"
+              tabIndex={-1}
+              className={CARD_LINK_OVERLAY}
             />
           ) : null,
           cta: logosAppCard.cta ? (
-            <Button
-              href={logosAppCard.cta.href}
-              variant="primary"
+            <BasecampCta
+              cta={{
+                ...logosAppCard.cta,
+                variant: 'primary',
+                iconOverride: 'download',
+              }}
               icon={<DownloadIcon />}
-              className={STRETCHED_LINK}
-            >
-              {logosAppCard.cta.label}
-            </Button>
+              className={`cursor-pointer ${STRETCHED_LINK}`}
+            />
           ) : null,
         }
       : undefined,

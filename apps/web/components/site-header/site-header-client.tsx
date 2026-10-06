@@ -23,6 +23,7 @@ import { BASECAMP_RELEASE_PAGE } from '@/app/[locale]/field-station/_content'
 import { IconMask } from '@/components/icons/icon-mask'
 import { ROUTES } from '@/constants/routes'
 import { Link, usePathname } from '@/i18n/navigation'
+import { useBasecampInstallLink } from '@/lib/use-basecamp-install-link'
 import {
   DARK_HEADER_ZONE_SELECTOR,
   isProbeOverDarkZone,
@@ -91,9 +92,18 @@ export default function SiteHeaderClient({
   const pathname = usePathname()
   const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
   const isFieldStation = normalizedPathname === ROUTES.fieldStation
+  const basecampLink = useBasecampInstallLink(
+    {
+      label: primaryCta?.label ?? '',
+      href: isFieldStation
+        ? BASECAMP_RELEASE_PAGE
+        : (primaryCta?.href ?? ROUTES.basecamp),
+    },
+    isFieldStation ? 'blockchain' : undefined
+  )
   const displayedPrimaryCta =
     isFieldStation && primaryCta
-      ? { ...primaryCta, href: BASECAMP_RELEASE_PAGE }
+      ? { ...primaryCta, href: basecampLink.href }
       : primaryCta
   const displayedMenuPanels =
     isFieldStation && primaryCta
@@ -103,7 +113,7 @@ export default function SiteHeaderClient({
             ...section,
             links: section.links.map((link) =>
               link.label === primaryCta.label && link.href === ROUTES.basecamp
-                ? { ...link, href: BASECAMP_RELEASE_PAGE }
+                ? { ...link, href: basecampLink.href }
                 : link
             ),
           })),

@@ -7,7 +7,8 @@ import type {
   BuilderHubTagIcon,
 } from '@repo/content/schemas'
 
-import { Button } from '@/components/ui'
+import { Button, ButtonArrowIcon } from '@/components/ui'
+import { BasecampCta } from '@/components/sections/basecamp/_sections/basecamp-cta'
 import ContentWidth from '@/components/layout/content-width'
 
 type Props = {
@@ -66,15 +67,11 @@ export function BuildersHubAppInstall({ data }: Props) {
           }
           actions={
             <>
-              <Button
-                href={data.installCta.href}
-                variant={data.installCta.variant ?? 'secondary'}
-                {...(data.installCta.external
-                  ? { target: '_blank', rel: 'noopener noreferrer' }
-                  : {})}
-              >
-                {data.installCta.label}
-              </Button>
+              <BasecampCta
+                cta={{ ...data.installCta, iconOverride: 'download' }}
+                icon={<ButtonArrowIcon />}
+                className="cursor-pointer"
+              />
               <Button
                 href={data.learnMoreCta.href}
                 variant={data.learnMoreCta.variant ?? 'tertiary'}
