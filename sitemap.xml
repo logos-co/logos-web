@@ -13,9 +13,6 @@
 <loc>https://logos.co/activist-leader-steward</loc>
 </url>
 <url>
-<loc>https://logos.co/articles</loc>
-</url>
-<url>
 <loc>https://logos.co/basecamp</loc>
 </url>
 <url>
@@ -547,6 +544,12 @@
 <lastmod>2026-02-02</lastmod>
 </url>
 <url>
+<loc>https://logos.co/media/articles</loc>
+</url>
+<url>
+<loc>https://logos.co/media/podcasts</loc>
+</url>
+<url>
 <loc>https://logos.co/media/podcasts/logos-state/assange-appeal-update-logos-podcast</loc>
 <lastmod>2024-05-22</lastmod>
 </url>
@@ -617,9 +620,6 @@
 </url>
 <url>
 <loc>https://logos.co/past-present-future</loc>
-</url>
-<url>
-<loc>https://logos.co/podcast</loc>
 </url>
 <url>
 <loc>https://logos.co/prifi</loc>
