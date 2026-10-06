@@ -420,6 +420,9 @@ export const getLatestBlogArticles = async (
     .filter(hasImage)
     .slice(0, limit)
 
+export const getBlogArticleListing = async (): Promise<BlogArticleRow[]> =>
+  newestPublished(await getAllBlogArticles()).map(toArticleRow)
+
 export const getLatestBlogPodcasts = async (
   limit = 20
 ): Promise<BlogPodcastRow[]> =>

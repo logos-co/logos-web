@@ -3,6 +3,7 @@
  * and the full-bleed featured spread.
  */
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { LogosMark } from '@acid-info/logos-ui'
 
 import ContentWidth from '@/components/layout/content-width'
@@ -119,6 +120,7 @@ export function ArticleEntry({
   article: BlogArticleRow
   index: number
 }) {
+  const t = useTranslations('articleListing')
   const titleRest = article.titleSerif
     ? article.title.replace(article.titleSerif, '').trim()
     : article.title
@@ -126,10 +128,14 @@ export function ArticleEntry({
   return (
     <BlogRowLink href={article.href} index={index} className="h-[107px]">
       <ContentWidth className="relative flex h-full items-center gap-3 md:grid md:grid-cols-[107px_minmax(0,607px)_minmax(0,543px)] md:gap-0">
-        <RowThumbnail
-          src={article.thumbnailImage}
-          className="h-[77px] w-[107px] shrink-0 md:block"
-        />
+        {article.thumbnailImage ? (
+          <RowThumbnail
+            src={article.thumbnailImage}
+            className="h-[77px] w-[107px] shrink-0 md:block"
+          />
+        ) : (
+          <div className="w-[107px] shrink-0" />
+        )}
         <div className="flex min-w-0 flex-1 flex-col justify-center gap-1.5 md:h-full md:gap-1.5 md:py-3 md:pl-3">
           <div className="text-mono-s flex items-center gap-2.5 text-brand-dark-green">
             <span>{article.date}</span>
@@ -154,7 +160,9 @@ export function ArticleEntry({
             {article.description}
           </p>
           <div className="shrink-0 py-3">
-            <UnderlineLabel>{article.readingTime} min read</UnderlineLabel>
+            <UnderlineLabel>
+              {t('readingTime', { count: article.readingTime })}
+            </UnderlineLabel>
           </div>
         </div>
       </ContentWidth>
@@ -242,13 +250,15 @@ export function FeaturedArticle({
           </div>
         </div>
         <div className="relative order-1 aspect-video w-full overflow-hidden desktop:order-2 desktop:min-w-0 desktop:flex-1">
-          <Image
-            src={article.featuredImage}
-            alt=""
-            fill
-            sizes="(max-width: 1440px) calc(100vw - 24px), 940px"
-            className="object-cover object-center"
-          />
+          {article.featuredImage ? (
+            <Image
+              src={article.featuredImage}
+              alt=""
+              fill
+              sizes="(max-width: 1440px) calc(100vw - 24px), 940px"
+              className="object-cover object-center"
+            />
+          ) : null}
         </div>
       </ContentWidth>
     </section>

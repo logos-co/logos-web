@@ -93,7 +93,7 @@ export default async function BlogPage({
             index={index}
           />
         ))}
-        <ArticlesCta href="#articles" label={data.articles.seeMore} />
+        <ArticlesCta href={ROUTES.articles} label={data.articles.seeMore} />
       </section>
       <PodcastsSection
         podcasts={podcasts}

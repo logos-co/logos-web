@@ -141,6 +141,7 @@ export default function SiteHeaderClient({
     (isMediaPath && !usesTransparentHeader) ||
     normalizedPathname.endsWith(ROUTES.logosBroadcastNetwork) ||
     normalizedPathname.endsWith(ROUTES.podcast) ||
+    normalizedPathname.endsWith(ROUTES.articles) ||
     normalizedPathname.startsWith(`${ROUTES.mediaArticles}/`) ||
     normalizedPathname.startsWith(`${ROUTES.mediaPodcasts}/`)
   const open = () => {

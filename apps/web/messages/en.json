@@ -218,6 +218,16 @@
     "subscribeError": "Something went wrong.",
     "scrollZoomHint": "Use {key} + scroll to zoom"
   },
+  "articleListing": {
+    "searchPlaceholder": "Search articles",
+    "searchHint": "Search titles, summaries and authors.",
+    "articleCount": "{count, plural, one {# article} other {# articles}}",
+    "noResultsBody": "Try another word or clear your search.",
+    "latestHeading": "Latest Articles",
+    "readingTime": "{count} min read",
+    "backToMedia": "Logos Media",
+    "readArticle": "Read Article"
+  },
   "mediaSearch": {
     "searchLabel": "Search Logos Media",
     "placeholder": "Search articles and podcasts",
