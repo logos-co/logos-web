@@ -16,7 +16,7 @@ pipeline {
 
   options {
     disableConcurrentBuilds()
-    copyArtifactPermission('website/logos.co')
+    copyArtifactPermission('/website/logos.co')
     buildDiscarder(logRotator(
       numToKeepStr: '20',
       daysToKeepStr: '30',
