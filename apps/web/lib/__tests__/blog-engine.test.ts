@@ -19,6 +19,7 @@ import {
   getLatestBlogArticles,
   getLatestBlogPodcasts,
   getBlogPageData,
+  getBlogArticleListing,
 } from '../blog-engine'
 
 const articlePageHtml = (readingTime: number) => `
@@ -142,6 +143,33 @@ const podcast = (
     footnotes: [],
     ...overrides,
   }) as BlogPodcastDetail
+
+describe('getBlogArticleListing', () => {
+  test('keeps the complete published archive, including articles without covers', async () => {
+    const archive = Array.from({ length: 90 }, (_, index) =>
+      article(`article-${index}`, {
+        publishedAt: new Date(Date.UTC(2026, 0, index + 1)).toISOString(),
+        ...(index === 0 ? { coverImage: null } : {}),
+      })
+    )
+    contentMock.getAllBlogArticles.mockResolvedValue([
+      ...archive,
+      article('draft', { isDraft: true }),
+      article('undated', { publishedAt: null }),
+    ])
+
+    const rows = await getBlogArticleListing()
+
+    expect(rows).toHaveLength(90)
+    expect(new Set(rows.map((row) => row.href)).size).toBe(90)
+    expect(rows[0].href).toBe('/media/article/article-89')
+    expect(rows.at(-1)).toMatchObject({
+      href: '/media/article/article-0',
+      thumbnailImage: '',
+    })
+    expect(archive[0].slug).toBe('article-0')
+  })
+})
 
 describe('getLatestBlogArticles', () => {
   test('lists published articles with a cover, newest first', async () => {

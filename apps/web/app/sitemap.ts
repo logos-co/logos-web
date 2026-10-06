@@ -44,6 +44,7 @@ const staticIndexableRoutes = [
   ROUTES.operators,
   ROUTES.podcast,
   ROUTES.media,
+  ROUTES.articles,
   ROUTES.privacy,
   ROUTES.research,
   ROUTES.security,
