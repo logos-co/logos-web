@@ -6,6 +6,7 @@ import {
 } from '../../packages/content/src/github/site-publish-settings.ts'
 import {
   publicationInput,
+  validateDeployedPreview,
   validateReviewedRun,
   type ReviewedRun,
 } from './input.mts'
@@ -35,6 +36,12 @@ const github = async <T,>(path: string): Promise<T> => {
 const input = publicationInput(
   JSON.parse(await readFile(required('GITHUB_EVENT_PATH'), 'utf8'))
 )
+const live = input.environment === 'production'
+const deployBranch = live ? 'deploy-master' : 'deploy-develop'
+const baseline = await github<{ object: { sha: string } }>(
+  `git/ref/heads/${deployBranch}`
+)
+let stagingBaseline = ''
 if (input.environment === 'production') {
   const run = await github<ReviewedRun>(`actions/runs/${input.previewBuild}`)
   const history = await github<{ workflow_runs: ReviewedRun[] }>(
@@ -60,14 +67,26 @@ if (input.environment === 'production') {
     throw new Error(
       'The reviewed snapshot has expired. Build a new staging preview.'
     )
+  const staging = await github<{ object: { sha: string } }>(
+    'git/ref/heads/deploy-develop'
+  )
+  stagingBaseline = staging.object.sha
+  const marker = await github<{ content: string }>(
+    `contents/site-publish.json?ref=${stagingBaseline}`
+  )
+  validateDeployedPreview(
+    JSON.parse(Buffer.from(marker.content, 'base64').toString('utf8')),
+    input.previewBuild!
+  )
 }
-const live = input.environment === 'production'
 await appendFile(
   required('GITHUB_OUTPUT'),
   [
     `environment=${input.environment}`,
     `source_ref=${live ? 'master' : 'develop'}`,
-    `deploy_branch=${live ? 'deploy-master' : 'deploy-develop'}`,
+    `deploy_branch=${deployBranch}`,
+    `deploy_baseline=${baseline.object.sha}`,
+    `staging_baseline=${stagingBaseline}`,
     `site_url=https://${live ? 'logos.co' : 'dev.logos.co'}`,
     `api_mode=${live ? 'production' : 'staging'}`,
     `api_url=${live ? 'https://logos-web-api.vercel.app' : 'https://logos-web-api-git-develop-status-im-web.vercel.app'}`,
