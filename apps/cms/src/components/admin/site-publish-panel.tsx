@@ -17,14 +17,16 @@ const POLL_MS = 10_000
 export const SitePublishPanel = () => {
   const { t } = useSitePublishTranslation()
   const [status, setStatus] = useState<PublishStatus | null>(null)
-  const [error, setError] = useState<string | null>(null)
-  const [statusError, setStatusError] = useState<string | null>(null)
+  const [error, setError] = useState<{
+    environment: PublishEnvironment
+    message: string
+  } | null>(null)
+  const [unavailable, setUnavailable] = useState(false)
   const [pending, setPending] = useState<PublishEnvironment | null>(null)
   const accepted = useRef<{
     environment: PublishEnvironment
     previousRun: number | undefined
   } | null>(null)
-  const [now, setNow] = useState(() => Date.now())
 
   const readStatus = useCallback(async () => {
     try {
@@ -41,7 +43,7 @@ export const SitePublishPanel = () => {
           json.error ?? t('sitePublish:requestFailed', { status: res.status })
         )
       setStatus(json.status)
-      setStatusError(null)
+      setUnavailable(false)
       if (accepted.current) {
         const run = json.status[accepted.current.environment].latestRun
         if (
@@ -52,11 +54,9 @@ export const SitePublishPanel = () => {
           setPending(null)
         }
       }
-    } catch (failure) {
+    } catch {
       setStatus(null)
-      setStatusError(
-        failure instanceof Error ? failure.message : String(failure)
-      )
+      setUnavailable(true)
     }
   }, [t])
 
@@ -89,7 +89,10 @@ export const SitePublishPanel = () => {
       }
       await readStatus()
     } catch (failure) {
-      setError(failure instanceof Error ? failure.message : String(failure))
+      setError({
+        environment,
+        message: failure instanceof Error ? failure.message : String(failure),
+      })
       setPending(null)
     }
   }
@@ -100,68 +103,55 @@ export const SitePublishPanel = () => {
     return () => window.clearInterval(timer)
   }, [readStatus])
 
-  useEffect(() => {
-    const timer = window.setInterval(() => setNow(Date.now()), 1000)
-    return () => window.clearInterval(timer)
-  }, [])
-
   return (
-    <div style={{ marginBottom: 'var(--base, 16px)' }}>
-      <div style={{ fontSize: 13, marginBottom: 8 }}>
-        <strong>{t('sitePublish:title')}</strong>
-        <div style={{ marginTop: 4, opacity: 0.78 }}>
-          {t('sitePublish:description')}
-        </div>
-      </div>
-      {error || statusError ? (
-        <div
-          role="alert"
-          style={{ color: 'var(--theme-error-500, #a33)', fontSize: 12 }}
-        >
-          {error ?? statusError}
-        </div>
-      ) : null}
-      {statusError ? (
-        <p style={{ fontSize: 12 }}>{t('sitePublish:manualInstructions')}</p>
-      ) : null}
-      {pending ? <div role="status">{t('sitePublish:accepted')}</div> : null}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-        {status || statusError ? (
-          (['dev', 'production'] as const).map((environment) => (
-            <SitePublishCard
-              key={environment}
-              environment={
-                status?.[environment] ?? {
-                  ...PUBLISH_ENVIRONMENTS[environment],
-                  canPublish: false,
-                  estimatedDurationMs: null,
-                  latestRun: null,
-                }
-              }
-              mediaUrl={`${PUBLISH_ENVIRONMENTS[environment].siteUrl}/media`}
-              jenkinsUrl={JENKINS_JOBS[environment]}
-              unavailable={statusError !== null}
-              now={now}
-              onPublish={() => void publish(environment)}
-              pending={pending !== null}
-              title={t(
-                environment === 'dev'
-                  ? 'sitePublish:staging'
-                  : 'sitePublish:production'
-              )}
-              actionLabel={t(
-                environment === 'dev'
-                  ? 'sitePublish:buildPreview'
-                  : 'sitePublish:publishLive'
-              )}
-            />
-          ))
-        ) : (
-          <div style={{ fontSize: 12, opacity: 0.78 }}>
-            {t('sitePublish:checking')}
-          </div>
-        )}
-      </div>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 12,
+        marginBottom: 'var(--base, 16px)',
+      }}
+    >
+      {(['dev', 'production'] as const).map((environment) => (
+        <SitePublishCard
+          key={environment}
+          environment={
+            status?.[environment] ?? {
+              ...PUBLISH_ENVIRONMENTS[environment],
+              canPublish: false,
+              estimatedDurationMs: null,
+              latestRun: null,
+            }
+          }
+          jenkinsUrl={JENKINS_JOBS[environment]}
+          unavailable={unavailable}
+          loading={!status && !unavailable}
+          error={error?.environment === environment ? error.message : null}
+          onPublish={() => void publish(environment)}
+          pending={pending === environment}
+          busy={pending !== null}
+          title={t(
+            environment === 'dev'
+              ? 'sitePublish:staging'
+              : 'sitePublish:production'
+          )}
+          actionLabel={t(
+            environment === 'dev'
+              ? 'sitePublish:buildPreview'
+              : 'sitePublish:publishLive'
+          )}
+          jenkinsActionLabel={t(
+            environment === 'dev'
+              ? 'sitePublish:buildPreviewInJenkins'
+              : 'sitePublish:publishLiveInJenkins'
+          )}
+          viewLabel={t(
+            environment === 'dev'
+              ? 'sitePublish:viewStaging'
+              : 'sitePublish:viewLive'
+          )}
+        />
+      ))}
     </div>
   )
 }
