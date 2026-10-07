@@ -27,7 +27,7 @@ export const readPressSnapshot = async (
       'Unsupported press content snapshot; build a new staging preview'
     )
   }
-  // The snapshot is an internal Jenkins artifact produced by this app, never a browser input.
+  // The snapshot is an internal build artifact produced by this app, never a browser input.
   return value as PressSnapshot
 }
 

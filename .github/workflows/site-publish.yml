@@ -1,0 +1,112 @@
+name: Site publish
+run-name: 'Site publish: ${{ github.event.client_payload.environment || inputs.environment }}'
+
+on:
+  repository_dispatch:
+    types: [site-publish]
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [dev, production]
+        required: true
+      previewBuild:
+        description: Successful staging run reviewed on dev.logos.co
+        type: string
+        required: false
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: site-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          path: workflow-tools
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Validate the publication request
+        id: publication
+        working-directory: workflow-tools
+        run: node scripts/site-publish/prepare.mts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check out the site source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.publication.outputs.source_ref }}
+          fetch-depth: 1
+          path: site
+          persist-credentials: false
+      - uses: pnpm/action-setup@v5
+        with:
+          version: 11.1.0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: site/pnpm-lock.yaml
+      - run: CI=true pnpm install --frozen-lockfile
+      - name: Capture staging media
+        if: steps.publication.outputs.environment == 'dev'
+        run: pnpm --filter web exec tsx scripts/capture-press-snapshot.ts
+        env:
+          NEXT_PUBLIC_API_MODE: staging
+          STRAPI_API_KEY: ${{ secrets.STRAPI_API_KEY }}
+          SIMPLECAST_ACCESS_TOKEN: ${{ secrets.SIMPLECAST_ACCESS_TOKEN }}
+      - name: Restore reviewed media
+        if: steps.publication.outputs.environment == 'production'
+        uses: actions/download-artifact@v5
+        with:
+          name: press-snapshot
+          run-id: ${{ steps.publication.outputs.preview_build }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: site
+      - name: Build the static site
+        run: PRESS_CONTENT_SNAPSHOT="$GITHUB_WORKSPACE/site/press-snapshot.json" pnpm turbo run build --filter=web --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.publication.outputs.site_url }}
+          NEXT_PUBLIC_LOGOS_API_URL: ${{ steps.publication.outputs.api_url }}
+          NEXT_PUBLIC_API_MODE: ${{ steps.publication.outputs.api_mode }}
+          NEXT_PUBLIC_HCAPTCHA_SITEKEY: 2ec82f0e-5f3c-45d2-ba38-223ceb5eee42
+      - name: Authenticate the publisher as the CMS GitHub App
+        id: publish-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.SITE_PUBLISH_APP_ID }}
+          private-key: ${{ secrets.SITE_PUBLISH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-contents: write
+      - name: Publish the static export
+        run: node ../workflow-tools/scripts/site-publish/publish.mts
+        env:
+          SITE_PUBLISH_TOKEN: ${{ steps.publish-token.outputs.token }}
+          DEPLOY_BRANCH: ${{ steps.publication.outputs.deploy_branch }}
+          SITE_URL: ${{ steps.publication.outputs.site_url }}
+          PREVIEW_BUILD: ${{ steps.publication.outputs.preview_build }}
+      - name: Confirm the site has updated
+        run: node ../workflow-tools/scripts/site-publish/verify.mts
+        env:
+          SITE_URL: ${{ steps.publication.outputs.site_url }}
+      - name: Archive successful staging media
+        if: steps.publication.outputs.environment == 'dev'
+        uses: actions/upload-artifact@v4
+        with:
+          name: press-snapshot
+          path: site/press-snapshot.json
+          if-no-files-found: error
+          retention-days: 14

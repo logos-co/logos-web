@@ -15,11 +15,11 @@ it('re-reads queue state instead of authorising against cached success', async (
   queued = true
   assert.equal((await load()).status.production.canPublish, false)
 })
-it('fails closed when Jenkins cannot be read', async () => {
+it('fails closed when GitHub Actions cannot be read', async () => {
   const load = createLoadPublishStatus({
     listRuns: async () => {
-      throw new Error('Jenkins unavailable')
+      throw new Error('GitHub Actions unavailable')
     },
   })
-  await assert.rejects(load, /Jenkins unavailable/)
+  await assert.rejects(load, /GitHub Actions unavailable/)
 })

@@ -1,4 +1,4 @@
-import { getJenkinsClient } from './jenkins'
+import { getGithubPublishClient } from './github'
 import { createLoadPublishStatus } from './load-publish-status'
 import { createTriggerPublish } from './trigger-publish'
 import { getPayload } from 'payload'
@@ -11,8 +11,8 @@ import {
 export { isPublishEnvironment } from './environments'
 export { PublishBlockedError } from './trigger-publish'
 
-const loadJenkinsStatus = createLoadPublishStatus({
-  listRuns: (environment) => getJenkinsClient().listRuns(environment),
+const loadGithubStatus = createLoadPublishStatus({
+  listRuns: (environment) => getGithubPublishClient().listRuns(environment),
 })
 const getReservations = async (): Promise<PublishReservations> => {
   const { default: config } = await import('@payload-config')
@@ -25,12 +25,12 @@ const reservations: PublishReservations = {
   release: async (token) => (await getReservations()).release(token),
 }
 export const loadPublishStatus = withPublishReservation(
-  loadJenkinsStatus,
+  loadGithubStatus,
   reservations
 )
 export const triggerPublish = createTriggerPublish({
   dispatch: (environment, previewBuild) =>
-    getJenkinsClient().dispatch(environment, previewBuild),
-  loadStatus: loadJenkinsStatus,
+    getGithubPublishClient().dispatch(environment, previewBuild),
+  loadStatus: loadGithubStatus,
   reservations,
 })

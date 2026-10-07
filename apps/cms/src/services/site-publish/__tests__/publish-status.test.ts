@@ -3,7 +3,7 @@ import { describe, it } from 'node:test'
 import { buildPublishStatus } from '../publish-status'
 import { run } from './fixtures'
 
-describe('Jenkins publish status', () => {
+describe('GitHub Actions publish status', () => {
   it('allows the first preview but blocks live publishing', () => {
     const status = buildPublishStatus({ dev: [], production: [] })
     assert.equal(status.dev.canPublish, true)

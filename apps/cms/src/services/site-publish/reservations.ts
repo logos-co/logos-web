@@ -66,15 +66,21 @@ export const withPublishReservation =
       return result
     }
     const blockedReason =
-      'A build request is awaiting confirmation from Jenkins.'
+      'A build request is awaiting confirmation from GitHub Actions.'
     return {
       ...result,
       status: {
-        dev: { ...result.status.dev, canPublish: false, blockedReason },
+        dev: {
+          ...result.status.dev,
+          canPublish: false,
+          blockedReason,
+          blockedReasonKey: 'requestPending',
+        },
         production: {
           ...result.status.production,
           canPublish: false,
           blockedReason,
+          blockedReasonKey: 'requestPending',
         },
       },
     }

@@ -5,10 +5,16 @@
   "production": "Live",
   "buildPreview": "Build staging",
   "publishLive": "Publish live",
-  "buildPreviewInJenkins": "Build staging in Jenkins",
-  "publishLiveInJenkins": "Publish live in Jenkins",
   "viewStaging": "View staging",
   "viewLive": "View live",
   "starting": "Starting...",
-  "requestFailed": "Request failed ({{status}})."
+  "requestFailed": "Request failed ({{status}}).",
+  "unavailable": "Publishing is unavailable.",
+  "buildBusy": "A build is in progress.",
+  "previewRequired": "Build staging first.",
+  "snapshotRequired": "Build a new staging preview.",
+  "requestPending": "Build requested.",
+  "queued": "Queued...",
+  "running": "Building...",
+  "buildFailed": "Build failed. Try again."
 }

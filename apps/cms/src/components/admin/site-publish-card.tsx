@@ -1,6 +1,6 @@
 'use client'
 
-import type { CSSProperties } from 'react'
+import { useId, type CSSProperties } from 'react'
 import type { PublishEnvironmentStatus } from '@/services/site-publish/publish-status'
 import { useSitePublishTranslation } from './use-site-publish-translation'
 
@@ -13,9 +13,7 @@ interface SitePublishCardProps {
   error: string | null
   title: string
   actionLabel: string
-  jenkinsActionLabel: string
   viewLabel: string
-  jenkinsUrl: string
   unavailable: boolean
 }
 
@@ -44,13 +42,18 @@ export const SitePublishCard = ({
   error,
   title,
   actionLabel,
-  jenkinsActionLabel,
   viewLabel,
-  jenkinsUrl,
   unavailable,
 }: SitePublishCardProps) => {
   const { t } = useSitePublishTranslation()
-  const disabled = busy || loading || !environment.canPublish
+  const disabled = busy || loading || unavailable || !environment.canPublish
+  const statusId = useId()
+  const blockedMessage = unavailable
+    ? t('sitePublish:unavailable')
+    : environment.blockedReasonKey
+      ? t(`sitePublish:${environment.blockedReasonKey}`)
+      : null
+  const runState = environment.latestRun?.state
 
   return (
     <section
@@ -68,36 +71,28 @@ export const SitePublishCard = ({
     >
       <strong style={{ fontSize: 15 }}>{title}</strong>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        {unavailable ? (
-          <a
-            className="cursor-pointer"
-            href={`${jenkinsUrl}build?delay=0sec`}
-            rel="noreferrer"
-            target="_blank"
-            style={primaryButtonStyle}
-          >
-            {jenkinsActionLabel}
-          </a>
-        ) : (
-          <button
-            type="button"
-            className="cursor-pointer"
-            disabled={disabled}
-            onClick={onPublish}
-            title={environment.blockedReason}
-            style={{
-              ...primaryButtonStyle,
-              cursor: disabled ? 'not-allowed' : 'pointer',
-              opacity: disabled ? 0.6 : 1,
-            }}
-          >
-            {loading
-              ? t('sitePublish:checking')
-              : pending
-                ? t('sitePublish:starting')
-                : actionLabel}
-          </button>
-        )}
+        <button
+          type="button"
+          className="cursor-pointer"
+          disabled={disabled}
+          onClick={onPublish}
+          aria-describedby={blockedMessage ? statusId : undefined}
+          style={{
+            ...primaryButtonStyle,
+            cursor: disabled ? 'not-allowed' : 'pointer',
+            opacity: disabled ? 0.6 : 1,
+          }}
+        >
+          {loading
+            ? t('sitePublish:checking')
+            : pending
+              ? t('sitePublish:starting')
+              : runState === 'queued'
+                ? t('sitePublish:queued')
+                : runState === 'running'
+                  ? t('sitePublish:running')
+                  : actionLabel}
+        </button>
         <a
           className="cursor-pointer"
           href={environment.siteUrl}
@@ -112,12 +107,19 @@ export const SitePublishCard = ({
           {viewLabel}
         </a>
       </div>
-      {error ? (
+      {blockedMessage ? (
+        <div id={statusId} role="status" style={{ fontSize: 12 }}>
+          {blockedMessage}
+        </div>
+      ) : null}
+      {error ||
+      (environment.latestRun?.state === 'finished' &&
+        !environment.latestRun.succeeded) ? (
         <div
           role="alert"
           style={{ color: 'var(--theme-error-500, #a33)', fontSize: 12 }}
         >
-          {error}
+          {error ?? t('sitePublish:buildFailed')}
         </div>
       ) : null}
     </section>

@@ -45,13 +45,13 @@ export const createTriggerPublish = ({
     )
     if (!reservation)
       throw new PublishBlockedError(
-        'A build request is already awaiting confirmation from Jenkins.'
+        'A build request is already awaiting confirmation from GitHub Actions.'
       )
     try {
       const { status } = await loadStatus()
       if (status[environment].latestRun?.id !== latest?.id) {
         throw new PublishBlockedError(
-          'The Jenkins build history changed. Refresh before submitting a build.'
+          'The GitHub Actions build history changed. Refresh before submitting a build.'
         )
       }
       if (!status[environment].canPublish) {
