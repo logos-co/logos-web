@@ -1,0 +1,9 @@
+{
+  "tag": "0.3.2",
+  "downloads": {
+    "linuxArm64": "https://github.com/logos-co/logos-basecamp/releases/download/0.3.2/LogosBasecamp-Desktop-v0.3.2-f2fae6-aarch64.AppImage",
+    "linuxX64": "https://github.com/logos-co/logos-basecamp/releases/download/0.3.2/LogosBasecamp-Desktop-v0.3.2-f2fae6-x86_64.AppImage",
+    "macArm64": "https://github.com/logos-co/logos-basecamp/releases/download/0.3.2/LogosBasecamp-Desktop-v0.3.2-f2fae6-aarch64.dmg",
+    "windowsX64": "https://github.com/logos-co/logos-basecamp/releases/download/0.3.2/LogosBasecamp-Desktop-v0.3.2-f2fae6-x86_64-setup.exe"
+  }
+}

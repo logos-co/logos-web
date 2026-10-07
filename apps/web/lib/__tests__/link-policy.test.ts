@@ -21,6 +21,7 @@ import messages from '../../messages/en.json' with { type: 'json' }
 import footer from '../../../../content/site/en/footer.json' with { type: 'json' }
 import navigation from '../../../../content/site/en/navigation.json' with { type: 'json' }
 import fieldGuideManifest from '../../../../content/field-guide/en/manifest.json' with { type: 'json' }
+import basecampRelease from '../data/basecamp-release.snapshot.json' with { type: 'json' }
 
 const repoRoot = join(__dirname, '../../../..')
 const webRoot = join(repoRoot, 'apps/web')
@@ -55,14 +56,10 @@ const livingWithinTruthHref = 'https://www.youtube.com/watch?v=xy4uK20lFBQ'
 const logosGenealogyHref = '/media/article/a-genealogy-of-logos'
 const basecampReleaseHref =
   'https://github.com/logos-co/logos-basecamp/releases/latest'
-const basecampLinuxArm64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-aarch64.AppImage'
-const basecampLinuxX64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-x86_64.AppImage'
-const basecampMacArm64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-aarch64.dmg'
-const basecampWindowsX64DownloadHref =
-  'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-x86_64-windows-setup.exe'
+const basecampLinuxArm64DownloadHref = basecampRelease.downloads.linuxArm64
+const basecampLinuxX64DownloadHref = basecampRelease.downloads.linuxX64
+const basecampMacArm64DownloadHref = basecampRelease.downloads.macArm64
+const basecampWindowsX64DownloadHref = basecampRelease.downloads.windowsX64
 const runNodeCliDocsHref = 'https://docs.logos.co/'
 const docsLabels = new Set(['docs', 'documentation', 'view the docs'])
 const routeUsageAllowlist = new Set([

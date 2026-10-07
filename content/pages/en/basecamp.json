@@ -92,7 +92,7 @@
           "description": "Basecamp is a dynamic interface for applications built on the private, decentralised internet. The more tools are built on the Logos stack, the more its capabilities grow without requiring you to reinstall or reconfigure anything."
         }
       ],
-      "subtitle": "To install Basecamp, choose the file for your system: macOS with Apple Silicon (ARM64) uses -aarch64.dmg; Windows on Intel or AMD (64-bit) uses -x86_64-windows-setup.exe. Linux uses -x86_64.AppImage for Intel or AMD (64-bit), or -aarch64.AppImage for ARM64.\n\nOn Linux, right-click the AppImage, open Properties, and allow it to run as a program. On macOS, open the DMG and drag Basecamp into Applications.\n\nUse the Applications screen in Basecamp to install apps. Some apps are not yet available on native Windows; the blockchain node and swap app require the Linux AppImage under WSL2. Use All downloads if your system cannot be detected, or the installation guide for setup help."
+      "subtitle": "To install Basecamp, choose the file for your system: macOS with Apple Silicon (ARM64) uses -aarch64.dmg; Windows on Intel or AMD (64-bit) uses the .exe installer. Linux uses -x86_64.AppImage for Intel or AMD (64-bit), or -aarch64.AppImage for ARM64.\n\nOn Linux, right-click the AppImage, open Properties, and allow it to run as a program. On macOS, open the DMG and drag Basecamp into Applications.\n\nUse the Applications screen in Basecamp to install apps. Some apps are not yet available on native Windows; the blockchain node and swap app require the Linux AppImage under WSL2. Use All downloads if your system cannot be detected, or the installation guide for setup help."
     },
     {
       "componentType": "ctaPanel",

@@ -57,6 +57,8 @@ pnpm check-types     # next typegen + tsc --noEmit
 pnpm generate-types  # regenerate packages/types/src/payload.ts from Payload schema
 ```
 
+Every web build refreshes Basecamp downloads from GitHub's latest full release before compilation. Drafts, prereleases and RC tags are rejected, and all four platform URLs come from the actual release assets. The web build is uncached in Turbo and fails if the API is unavailable or an asset is missing or ambiguous. `GITHUB_TOKEN` is optional for public releases and recommended on shared CI runners to avoid rate limits. Local development and tests use the committed snapshot; run `pnpm --filter web sync:basecamp-release` to refresh it without building. A new Basecamp release reaches the website on its next build.
+
 ## Branch model
 
 - `develop` — default branch + staging. CMS-generated content PRs target this

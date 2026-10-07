@@ -8,7 +8,8 @@
     "./loaders": "./src/loaders/index.ts",
     "./github": "./src/github/index.ts",
     "./media": "./src/media/index.ts",
-    "./locales": "./src/locales/index.ts"
+    "./locales": "./src/locales/index.ts",
+    "./basecamp": "./src/basecamp/releases.ts"
   },
   "scripts": {
     "test": "node --import tsx --test \"src/**/*.test.ts\"",

@@ -9,6 +9,8 @@
  *   3. Update sitemap.ts
  */
 
+import basecampRelease from '../lib/data/basecamp-release.snapshot.json' with { type: 'json' }
+
 // ---------------------------------------------------------------------------
 // Internal routes — pages in apps/web
 // ---------------------------------------------------------------------------
@@ -137,16 +139,11 @@ export const EXTERNAL_URLS = {
   livingWithinTruth: 'https://www.youtube.com/watch?v=xy4uK20lFBQ',
   logosGenealogyArticle: '/media/article/a-genealogy-of-logos',
   lambdaPrizes: 'https://github.com/logos-co/lambda-prize/tree/master/prizes',
-  basecampRelease:
-    'https://github.com/logos-co/logos-basecamp/releases/latest',
-  basecampLinuxArm64Download:
-    'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-aarch64.AppImage',
-  basecampLinuxX64Download:
-    'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-x86_64.AppImage',
-  basecampMacArm64Download:
-    'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-aarch64.dmg',
-  basecampWindowsX64Download:
-    'https://github.com/logos-co/logos-basecamp/releases/download/0.3.1/LogosBasecamp-Desktop-v0.3.1-aeb819-x86_64-windows-setup.exe',
+  basecampRelease: 'https://github.com/logos-co/logos-basecamp/releases/latest',
+  basecampLinuxArm64Download: basecampRelease.downloads.linuxArm64,
+  basecampLinuxX64Download: basecampRelease.downloads.linuxX64,
+  basecampMacArm64Download: basecampRelease.downloads.macArm64,
+  basecampWindowsX64Download: basecampRelease.downloads.windowsX64,
 
   // Research
   vacp2p: 'https://vac.dev',
