@@ -96,6 +96,8 @@ jobs:
         env:
           SITE_PUBLISH_TOKEN: ${{ steps.publish-token.outputs.token }}
           DEPLOY_BRANCH: ${{ steps.publication.outputs.deploy_branch }}
+          DEPLOY_BASELINE: ${{ steps.publication.outputs.deploy_baseline }}
+          STAGING_BASELINE: ${{ steps.publication.outputs.staging_baseline }}
           SITE_URL: ${{ steps.publication.outputs.site_url }}
           PREVIEW_BUILD: ${{ steps.publication.outputs.preview_build }}
       - name: Confirm the site has updated

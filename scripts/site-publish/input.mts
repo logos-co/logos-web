@@ -61,3 +61,11 @@ export const validateReviewedRun = (
     )
   }
 }
+
+export const validateDeployedPreview = (
+  marker: unknown,
+  previewBuild: number
+): void => {
+  if (record(marker).runId !== previewBuild)
+    throw new Error('Staging has changed. Build and review a new preview.')
+}

@@ -31,6 +31,17 @@ const git = (args: string[], cwd?: string): string =>
 // Keep the short-lived App token out of Git URLs, arguments and configuration files.
 git(['fetch', 'origin', `${branch}:refs/remotes/origin/${branch}`])
 const previous = git(['rev-parse', `refs/remotes/origin/${branch}`])
+if (previous !== process.env.DEPLOY_BASELINE)
+  throw new Error('The deployment changed during the build. Start a new build.')
+if (branch === 'deploy-master') {
+  const staging = git([
+    'ls-remote',
+    'origin',
+    'refs/heads/deploy-develop',
+  ]).split(/\s+/)[0]
+  if (!process.env.STAGING_BASELINE || staging !== process.env.STAGING_BASELINE)
+    throw new Error('Staging changed during the build. Review a new preview.')
+}
 const directory = await mkdtemp(resolve(tmpdir(), 'logos-site-publish-'))
 const output = resolve('apps/web/out')
 await readFile(resolve(output, 'index.html'))

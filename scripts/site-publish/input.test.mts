@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 import {
   publicationInput,
+  validateDeployedPreview,
   validateReviewedRun,
   type ReviewedRun,
 } from './input.mts'
@@ -57,5 +58,11 @@ describe('site publication input', () => {
     }
     assert.throws(() => validateReviewedRun(run, 43))
     assert.throws(() => validateReviewedRun(run, undefined))
+  })
+  it('rejects previews replaced by another publisher', () => {
+    validateDeployedPreview({ runId: 42 }, 42)
+    for (const marker of [null, {}, { runId: 43 }, { runId: '42' }]) {
+      assert.throws(() => validateDeployedPreview(marker, 42))
+    }
   })
 })
