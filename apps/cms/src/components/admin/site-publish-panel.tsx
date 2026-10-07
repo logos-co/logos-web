@@ -3,10 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import type { PublishEnvironment } from '@/services/site-publish/environments'
-import {
-  JENKINS_JOBS,
-  PUBLISH_ENVIRONMENTS,
-} from '@/services/site-publish/environments'
+import { PUBLISH_ENVIRONMENTS } from '@/services/site-publish/environments'
 import type { PublishStatus } from '@/services/site-publish/publish-status'
 import { SitePublishCard } from './site-publish-card'
 import { useSitePublishTranslation } from './use-site-publish-translation'
@@ -123,7 +120,6 @@ export const SitePublishPanel = () => {
               latestRun: null,
             }
           }
-          jenkinsUrl={JENKINS_JOBS[environment]}
           unavailable={unavailable}
           loading={!status && !unavailable}
           error={error?.environment === environment ? error.message : null}
@@ -139,11 +135,6 @@ export const SitePublishPanel = () => {
             environment === 'dev'
               ? 'sitePublish:buildPreview'
               : 'sitePublish:publishLive'
-          )}
-          jenkinsActionLabel={t(
-            environment === 'dev'
-              ? 'sitePublish:buildPreviewInJenkins'
-              : 'sitePublish:publishLiveInJenkins'
           )}
           viewLabel={t(
             environment === 'dev'

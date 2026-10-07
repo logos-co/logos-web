@@ -51,7 +51,7 @@ export type Env = {
    * Server-side Strapi API token for legacy Logos Press Engine content.
    */
   STRAPI_API_KEY: string | undefined
-  /** Internal Jenkins artifact containing the reviewed media content. */
+  /** Internal build artifact containing the reviewed media content. */
   PRESS_CONTENT_SNAPSHOT: string | undefined
   /**
    * Server-side Simplecast API token for legacy Logos Press Engine podcast

@@ -13,6 +13,11 @@ export interface PublishRun {
 
 export interface PublishEnvironmentStatus {
   blockedReason?: string
+  blockedReasonKey?:
+    | 'buildBusy'
+    | 'previewRequired'
+    | 'snapshotRequired'
+    | 'requestPending'
   canPublish: boolean
   estimatedDurationMs: number | null
   label: string
@@ -40,13 +45,14 @@ export const buildPublishStatus = (runs: PublishRuns): PublishStatus => {
         : undefined)
   const statusFor = (
     environment: PublishEnvironment,
-    blockedReason?: string
+    blockedReason?: string,
+    blockedReasonKey?: PublishEnvironmentStatus['blockedReasonKey']
   ): PublishEnvironmentStatus => {
     const good = runs[environment].find((run) => run.succeeded)
     return {
       ...PUBLISH_ENVIRONMENTS[environment],
       canPublish: !blockedReason,
-      ...(blockedReason ? { blockedReason } : {}),
+      ...(blockedReason ? { blockedReason, blockedReasonKey } : {}),
       latestRun: runs[environment][0] ?? null,
       estimatedDurationMs:
         good?.startedAt && good.finishedAt
@@ -55,7 +61,17 @@ export const buildPublishStatus = (runs: PublishRuns): PublishStatus => {
     }
   }
   return {
-    dev: statusFor('dev', blocked),
-    production: statusFor('production', productionBlocked),
+    dev: statusFor('dev', blocked, blocked ? 'buildBusy' : undefined),
+    production: statusFor(
+      'production',
+      productionBlocked,
+      blocked
+        ? 'buildBusy'
+        : !dev?.succeeded
+          ? 'previewRequired'
+          : !dev.hasSnapshot
+            ? 'snapshotRequired'
+            : undefined
+    ),
   }
 }

@@ -3,7 +3,7 @@ import type { PublishReservation, PublishReservations } from '../reservations'
 
 export const run = (overrides: Partial<PublishRun> = {}): PublishRun => ({
   id: 10,
-  runUrl: 'https://jenkins.example.com/job/logos-web/job/develop/10/',
+  runUrl: 'https://github.com/example/site/actions/runs/10',
   state: 'finished',
   conclusion: 'SUCCESS',
   succeeded: true,

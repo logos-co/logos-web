@@ -111,14 +111,14 @@ describe('site publish HTTP handlers', () => {
     assert.equal((await handlers.POST(malformed)).status, 400)
     assert.deepEqual(submitted, [])
   })
-  it('maps Jenkins failures to 502 for status reads and submissions', async () => {
+  it('maps GitHub Actions failures to 502 for status reads and submissions', async () => {
     const handlers = createSitePublishHandlers({
       authenticate: async () => true,
       loadPublishStatus: async () => {
-        throw new Error('Jenkins unavailable')
+        throw new Error('GitHub Actions unavailable')
       },
       triggerPublish: async () => {
-        throw new Error('Jenkins unavailable')
+        throw new Error('GitHub Actions unavailable')
       },
     })
     for (const response of [
@@ -126,7 +126,9 @@ describe('site publish HTTP handlers', () => {
       await handlers.POST(request({ environment: 'dev' })),
     ]) {
       assert.equal(response.status, 502)
-      assert.deepEqual(await response.json(), { error: 'Jenkins unavailable' })
+      assert.deepEqual(await response.json(), {
+        error: 'GitHub Actions unavailable',
+      })
     }
   })
 })

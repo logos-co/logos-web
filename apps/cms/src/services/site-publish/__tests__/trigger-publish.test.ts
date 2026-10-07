@@ -19,7 +19,7 @@ const setup = (dev: PublishRun[] = []) => {
   })
   return { trigger, dispatched }
 }
-describe('manual Jenkins publishing', () => {
+describe('GitHub App publishing', () => {
   it('retains the reservation when the dispatch response is lost', async () => {
     const reservations = memoryReservations()
     const trigger = createTriggerPublish({
@@ -114,10 +114,10 @@ describe('manual Jenkins publishing', () => {
         status: buildPublishStatus({ dev: [], production: [] }),
       }),
       dispatch: async () => {
-        if (fail) throw new Error('Jenkins rejected the request')
+        if (fail) throw new Error('GitHub Actions rejected the request')
       },
     })
-    await assert.rejects(() => trigger('dev'), /Jenkins rejected/)
+    await assert.rejects(() => trigger('dev'), /GitHub Actions rejected/)
     fail = false
     await trigger('dev')
   })
