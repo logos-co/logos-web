@@ -17,17 +17,16 @@ export const setContentRoot = (root: string): void => {
   configuredRoot = root
 }
 
-const WORKSPACE_MARKERS = ['pnpm-workspace.yaml', 'turbo.json'] as const
-
+// Package-level turbo.json files configure tasks, not the content workspace.
 const isWorkspaceRoot = (dir: string): boolean =>
-  WORKSPACE_MARKERS.some((marker) => existsSync(resolve(dir, marker)))
+  existsSync(resolve(dir, 'pnpm-workspace.yaml'))
 
 /**
  * Resolution order:
  *   1. `setContentRoot(...)` (highest priority — explicit caller intent).
  *   2. `LOGOS_CONTENT_ROOT` env var.
  *   3. Walk up from `process.cwd()` for the workspace root (identified by
- *      `pnpm-workspace.yaml` or `turbo.json`) and use its `content/` dir.
+ *      `pnpm-workspace.yaml`) and use its `content/` dir.
  *      A bare `content/` lookup would mis-identify `packages/content` itself
  *      as the data root, so the resolver insists on a workspace marker.
  */

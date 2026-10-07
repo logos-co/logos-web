@@ -51,6 +51,8 @@ export type Env = {
    * Server-side Strapi API token for legacy Logos Press Engine content.
    */
   STRAPI_API_KEY: string | undefined
+  /** Optional server-side token for build-time public GitHub release queries. */
+  GITHUB_TOKEN: string | undefined
   /** Internal build artifact containing the reviewed media content. */
   PRESS_CONTENT_SNAPSHOT: string | undefined
   /**
@@ -121,6 +123,7 @@ export const env: Env = {
     process.env.NEXT_PUBLIC_ADMIN_ACID_API_URL
   ),
   STRAPI_API_KEY: readOptionalString(process.env.STRAPI_API_KEY),
+  GITHUB_TOKEN: readOptionalString(process.env.GITHUB_TOKEN),
   PRESS_CONTENT_SNAPSHOT: readOptionalString(
     process.env.PRESS_CONTENT_SNAPSHOT
   ),
