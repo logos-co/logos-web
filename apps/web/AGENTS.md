@@ -23,6 +23,8 @@ pnpm --filter web test
 
 Build through turbo, never `pnpm --filter web build`: `@acid-info/logos-ui` is a build dependency and only the orchestrator builds it, so the app build alone fails on a clean checkout. Jenkins and Vercel (`vercel.json`) both run the turbo command.
 
+Every build starts with `pnpm sync:basecamp-release` (`scripts/sync-basecamp-release.ts`), which queries GitHub's latest full Basecamp release and rewrites all four platform download URLs in `lib/data/basecamp-release.snapshot.json` before compilation. An optional `GITHUB_TOKEN` (read through `lib/env.ts`) authenticates the query. If the query fails or any platform asset is missing or ambiguous, the build fails rather than reusing stale downloads. `apps/web/turbo.json` sets `cache: false` on `build` so this refresh runs on every build; keep it uncached. Local development and tests use the committed snapshot.
+
 `pnpm --filter web start` serves the static `out/` directory with `python3 -m http.server`; do not use `next start` for this app.
 
 ## Code Organization
