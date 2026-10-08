@@ -146,7 +146,6 @@ export const EXTERNAL_URLS = {
   basecampWindowsX64Download: basecampRelease.downloads.windowsX64,
 
   // Research
-  vacp2p: 'https://vac.dev',
   researchSpecs: 'https://research.logos.co',
   researchForum: 'https://forum.research.logos.co/',
   researchDiscord: 'https://discord.gg/PQFdubGt6d',
@@ -160,10 +159,7 @@ export const EXTERNAL_URLS = {
   vacGithub: 'https://github.com/vacp2p',
 
   // Infrastructure projects
-  waku: 'https://waku.org',
   nimbus: 'https://nimbus.team',
-  codex: 'https://codex.storage',
-  nomos: 'https://nomos.tech',
 
   // Attribution
   ift: 'https://free.technology',
