@@ -19,7 +19,7 @@
     "@acid-info/logos-ui": "workspace:*",
     "@waku/sdk": "^0.0.36",
     "mermaid": "^11.17.2",
-    "next": "16.2.4",
+    "next": "16.3.8",
     "react": "^19.2.5",
     "react-aria-components": "^1.20.0",
     "react-dom": "^19.2.5",
