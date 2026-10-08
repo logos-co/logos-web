@@ -132,6 +132,7 @@ pipeline {
           script {
             nix.develop("""
               ghp-import \
+                --no-history \
                 -b ${deployBranch()} \
                 -c ${deployDomain()} \
                 -p apps/web/out
