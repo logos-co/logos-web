@@ -53,6 +53,7 @@ Cloudflare ruleset or nginx configuration, preserving query strings:
 | `/articles` | `/media/articles` |
 | `/podcast` | `/media/podcasts` |
 | `/podcasts` | `/media/podcasts` |
+| `/podcasts/<show>` | `/media/podcasts` |
 
 Match optional trailing slashes as well. These infrastructure rules are managed
 outside this repository. Keep article and episode detail URLs unchanged.
