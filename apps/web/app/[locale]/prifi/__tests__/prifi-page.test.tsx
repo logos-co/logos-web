@@ -177,14 +177,13 @@ describe('prifi page render', () => {
     )
   })
 
-  test('links the hero and Theory CTAs to the published PriFi article', async () => {
+  test('links the hero and first resource CTA to the published PriFi article', async () => {
     const html = await pageHtml()
     const articleUrl = '/media/article/pri-fi-securing-transaction-supply-chain'
 
     expect(HERO.primaryCta.href).toBe(articleUrl)
     expect(DEEPER_DIVES.cards[0].href).toBe(articleUrl)
     expect(html.split(`href="${articleUrl}"`).length - 1).toBe(2)
-    expect(DEEPER_DIVES.cards.map((card) => card.title)).toEqual(['Theory'])
   })
 
   test('gives every table column and row a header', async () => {

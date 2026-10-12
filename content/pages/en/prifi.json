@@ -381,11 +381,28 @@
         "heading": "Deeper dives into the transaction supply chain and how Logos secures it",
         "cards": [
           {
-            "title": "Theory",
-            "subtitle": "Vaults of glass: why transparent blockchains \nare incomplete institutions",
+            "title": "PriFi and the Incomplete Institution: Securing the Transaction Supply Chain",
             "body": "The full argument — commitment capacity, \nthe two hazard classes, and where the writ stops.",
-            "cta": "READ THE PAPER",
+            "cta": "READ THE ARTICLE",
             "href": "/media/article/pri-fi-securing-transaction-supply-chain"
+          },
+          {
+            "title": "Building the Tools for Private and Local-First Coordination",
+            "body": "Why PriFi needs more than a private blockchain",
+            "cta": "READ THE ARTICLE",
+            "href": "/media/article/private-local-first-coordination-tools"
+          },
+          {
+            "title": "From Motivational to Imperative: Strengthening Commitments with PriFi",
+            "body": "Making commitments credible through structural design choices",
+            "cta": "READ THE ARTICLE",
+            "href": "/media/article/motivational-imperative-commitment-prifi"
+          },
+          {
+            "title": "Mitigating Hazards from Inside and Outside Transactions with PriFi",
+            "body": "Two hazard classes threaten transactions: those inside the deal and (potentially) everyone else",
+            "cta": "READ THE ARTICLE",
+            "href": "/media/article/prifi-hazards"
           }
         ]
       }
