@@ -22,18 +22,11 @@ export function DeeperDives({ copy }: { copy: DeeperDivesCopy }) {
             >
               <div className="flex flex-col gap-6">
                 <h3 className="text-h4-sans">{card.title}</h3>
-                <div className="text-body-sans flex flex-col gap-6">
-                  <p
-                    className={`font-bold lg:max-w-[329px] lg:whitespace-pre-line ${TRIM}`}
-                  >
-                    {card.subtitle}
-                  </p>
-                  <p
-                    className={`lg:max-w-[329px] lg:whitespace-pre-line ${TRIM}`}
-                  >
-                    {card.body}
-                  </p>
-                </div>
+                <p
+                  className={`text-body-sans lg:max-w-[329px] lg:whitespace-pre-line ${TRIM}`}
+                >
+                  {card.body}
+                </p>
               </div>
               <CtaButton href={card.href} className="cursor-pointer">
                 {card.cta}
