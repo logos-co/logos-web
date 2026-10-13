@@ -7,7 +7,11 @@
 import { getProfileForForm } from '@repo/funnel'
 
 import { logger } from '@/lib/logger'
-import { NEWSLETTER_IDS, submitNewsletterSignup } from '@/lib/newsletter-signup'
+import {
+  NEWSLETTER_IDS,
+  type NewsletterSignupInput,
+  submitNewsletterSignup,
+} from '@/lib/newsletter-signup'
 
 export type FunnelNewsletterSignupInput = {
   email: string
@@ -98,13 +102,11 @@ export function buildRegionalNewsletterNote({
 }
 
 async function subscribeQuietly(
-  newsletterId: string,
-  email: string,
-  note: string,
-  formFields?: Record<string, unknown>
+  input: NewsletterSignupInput & { newsletterId: string }
 ): Promise<void> {
+  const { newsletterId } = input
   try {
-    await submitNewsletterSignup({ email, newsletterId, note, formFields })
+    await submitNewsletterSignup(input)
   } catch (error) {
     logger.warn('Funnel newsletter subscription failed', {
       newsletterId,
@@ -134,20 +136,23 @@ export async function submitFunnelNewsletterSignups({
   const profile = getProfileForForm(formName)
 
   if (wantsNewsletter) {
-    await subscribeQuietly(
-      NEWSLETTER_IDS.logos,
-      address,
-      buildLogosNewsletterNote(profile),
-      formFields
-    )
+    await subscribeQuietly({
+      newsletterId: NEWSLETTER_IDS.logos,
+      email: address,
+      note: buildLogosNewsletterNote(profile),
+      formFields,
+    })
   }
 
   if (wantsEvents) {
-    await subscribeQuietly(
-      NEWSLETTER_IDS.regional,
-      address,
-      buildRegionalNewsletterNote({ city, country, profile }),
-      formFields
-    )
+    await subscribeQuietly({
+      newsletterId: NEWSLETTER_IDS.regional,
+      email: address,
+      note: buildRegionalNewsletterNote({ city, country, profile }),
+      // Upstream city labels read these fields, never the note.
+      city,
+      country,
+      formFields,
+    })
   }
 }
