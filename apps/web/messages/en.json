@@ -249,6 +249,7 @@
     "podcast": "Podcast"
   },
   "mediaDetail": {
+    "interactiveContent": "Interactive content",
     "breadcrumbs": {
       "label": "Breadcrumb",
       "media": "Media",

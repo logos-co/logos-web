@@ -7,7 +7,9 @@ import { cn } from '@/lib/cn'
 import { prepareCmsLinks } from '@/lib/html-links'
 import { youtubeEmbedUrl } from '@/lib/media-embed'
 import { MEDIA_BODY_IMAGE_SIZES } from '@/lib/media-image-sizes'
+import { injectEmbedCsp } from '@/lib/media-interactive-document'
 
+import { HtmlDocumentEmbed } from './html-document-embed'
 import { MediaImage } from './media-image'
 
 interface MediaRichContentProps {
@@ -16,8 +18,6 @@ interface MediaRichContentProps {
   className?: string
   content?: BlogContentBlock[]
 }
-
-const EMBED_CSP = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: https:; media-src https:; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://unpkg.com; connect-src https:; frame-src https:;">`
 
 function renderEmbed(src: string, html: string) {
   const youtubeSrc = youtubeEmbedUrl(src)
@@ -68,16 +68,6 @@ function ContentBlock({ block }: { block: BlogContentBlock }) {
   )
 }
 
-function injectCsp(html: string): string {
-  if (/<meta[^>]+http-equiv=["']Content-Security-Policy["']/i.test(html)) {
-    return html
-  }
-  if (/<head[^>]*>/i.test(html)) {
-    return html.replace(/<head[^>]*>/i, (match) => `${match}${EMBED_CSP}`)
-  }
-  return `<!doctype html><html><head><meta charset="utf-8" />${EMBED_CSP}</head><body>${html}</body></html>`
-}
-
 function buildSrcDoc(
   block: Extract<BlogDynamicBlock, { type: 'interactive-embed' }>,
   frameId: string
@@ -86,60 +76,11 @@ function buildSrcDoc(
   const heightScript = `<script>(function(){var frameId=${JSON.stringify(frameId)};var last=-1;function post(){var height=Math.max(document.documentElement?document.documentElement.scrollHeight:0,document.body?document.body.scrollHeight:0);if(height===last)return;last=height;parent.postMessage({type:'logos-media-embed-height',frameId:frameId,height:height},'*');}function observe(){try{var root=document.documentElement||document.body;if(!root)return;new MutationObserver(post).observe(root,{childList:true,subtree:true,attributes:true,characterData:true});if(typeof ResizeObserver!=='undefined')new ResizeObserver(post).observe(root);}catch(error){}}function retry(count){post();if(count<20)setTimeout(function(){retry(count+1)},500)}window.addEventListener('message',function(event){var data=event.data;if(data&&data.type==='logos-media-embed-request-height'&&data.frameId===frameId)post();});window.addEventListener('load',post);window.addEventListener('resize',post);observe();window.addEventListener('DOMContentLoaded',observe);retry(0);})();</script>`
   // Full HTML documents never reach here: HtmlDocumentEmbed renders them.
   const source = `<!doctype html><html><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><style>html,body{margin:0;padding:0;overflow:hidden}${block.css ?? ''}</style></head><body>${block.html}${block.js ? `<script>${block.js.replace(/<[/]script>/gi, '<\\/script>')}</script>` : ''}</body></html>`
-  const withCsp = injectCsp(source)
+  const withCsp = injectEmbedCsp(source)
 
   return /<[/]body>/i.test(withCsp)
     ? withCsp.replace(/<[/]body>/i, `${linkScript}${heightScript}</body>`)
     : `${withCsp}${linkScript}${heightScript}`
-}
-
-function HtmlDocumentEmbed({
-  block,
-}: {
-  block: Extract<BlogDynamicBlock, { type: 'interactive-embed' }>
-}) {
-  const rootRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const root = rootRef.current
-    if (!root || !block.fullHtml) return
-
-    const parsed = new DOMParser().parseFromString(block.fullHtml, 'text/html')
-    const styles = [...parsed.querySelectorAll('style')]
-    const links = [...parsed.querySelectorAll('link')]
-    const scripts = [...parsed.querySelectorAll('script')]
-
-    scripts.forEach((script) => script.remove())
-    parsed.querySelectorAll('style').forEach((style) => style.remove())
-    root.className = ['media-detail-html-document', parsed.body.className]
-      .filter(Boolean)
-      .join(' ')
-    root.innerHTML = prepareCmsLinks(parsed.body.innerHTML)
-
-    const insertedElements: HTMLElement[] = []
-    for (const source of [...styles, ...links]) {
-      const clone = source.cloneNode(true) as HTMLElement
-      document.head.appendChild(clone)
-      insertedElements.push(clone)
-    }
-
-    for (const source of scripts) {
-      const script = document.createElement('script')
-      for (const attribute of source.attributes) {
-        script.setAttribute(attribute.name, attribute.value)
-      }
-      script.textContent = source.textContent
-      root.appendChild(script)
-      insertedElements.push(script)
-    }
-
-    return () => {
-      insertedElements.forEach((element) => element.remove())
-      root.replaceChildren()
-    }
-  }, [block.fullHtml])
-
-  return <div ref={rootRef} className="media-detail-html-document" />
 }
 
 function SrcDocEmbed({
@@ -231,7 +172,11 @@ function DynamicBlock({
   // Two components rather than one with an early return, so neither calls
   // its hooks conditionally.
   return block.fullHtml?.trim() ? (
-    <HtmlDocumentEmbed block={block} />
+    <HtmlDocumentEmbed
+      html={block.fullHtml}
+      title={block.title}
+      height={block.height}
+    />
   ) : (
     <SrcDocEmbed block={block} index={index} />
   )
