@@ -26,7 +26,7 @@ import type {
   ActiveCircleMarker,
   ActiveCircleUpcomingEvent,
 } from '@/lib/active-circles'
-import { submitNewsletterSignup } from '@/lib/newsletter-signup'
+import { submitDefaultNewsletterSignup } from '@/lib/newsletter-signup'
 
 const DEFAULT_CENTER: [number, number] = [20, 0]
 const DEFAULT_ZOOM = 2
@@ -167,10 +167,11 @@ function NoEventPopupContent({ marker }: { marker: ActiveCircleMarker }) {
     setStatus('loading')
     setErrorMsg('')
     try {
-      await submitNewsletterSignup({
+      await submitDefaultNewsletterSignup({
         email,
         role: 'activist',
-        city: [marker.city, marker.country].filter(Boolean).join(', '),
+        city: marker.city,
+        country: marker.country,
       })
       setStatus('success')
     } catch (err) {

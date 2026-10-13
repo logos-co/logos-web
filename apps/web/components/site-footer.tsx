@@ -9,9 +9,13 @@ import Image from 'next/image'
 import { Footer, LogosMark } from '@acid-info/logos-ui'
 import { getFooter } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
+import { COUNTRY_OPTIONS } from '@repo/funnel'
 
 import { Link } from '@/i18n/navigation'
 import { SiteFooterNewsletter } from '@/components/site-footer-newsletter'
+
+// Labels, never option ids, like the funnel forms submit.
+const COUNTRY_LABELS = COUNTRY_OPTIONS.map((option) => option.label)
 
 function LogosLockup() {
   return (
@@ -45,6 +49,8 @@ export default async function SiteFooter({ locale }: { locale: string }) {
           emailLabel={footer.newsletter.emailLabel}
           roleLabel={footer.newsletter.roleLabel}
           cityLabel={footer.newsletter.cityLabel}
+          countryLabel={footer.newsletter.countryLabel}
+          countryOptions={COUNTRY_LABELS}
           submitLabel={footer.newsletter.submitLabel}
         />
       }

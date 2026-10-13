@@ -372,6 +372,7 @@ export function Footers() {
           emailLabel: 'Enter email',
           roleLabel: 'Role',
           cityLabel: 'city',
+          countryLabel: 'Country',
           submitLabel: 'Submit',
         }}
         tagline="Build the parallel"
