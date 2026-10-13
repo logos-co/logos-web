@@ -16,7 +16,11 @@ export function buildInteractiveDocument(
   fullHtml: string,
   frameId: string
 ): string {
-  const linkScript = `<script>(function(){
+  const documentScript = `<script>(function(){
+    // Keep the page backdrop visible without changing cards or diagrams.
+    [document.documentElement,document.body].forEach(function(root){
+      root.style.setProperty('background','transparent','important');
+    });
     document.querySelectorAll('a[href]').forEach(function(link){
       if(link.getAttribute('href').charAt(0)==='#')return;
       if(!link.target)link.target='_blank';
@@ -52,6 +56,9 @@ export function buildInteractiveDocument(
   const withCsp = injectEmbedCsp(prepareCmsLinks(fullHtml))
 
   return /<[/]body>/i.test(withCsp)
-    ? withCsp.replace(/<[/]body>/i, () => `${linkScript}${heightScript}</body>`)
-    : `${withCsp}${linkScript}${heightScript}`
+    ? withCsp.replace(
+        /<[/]body>/i,
+        () => `${documentScript}${heightScript}</body>`
+      )
+    : `${withCsp}${documentScript}${heightScript}`
 }
