@@ -18,10 +18,37 @@ export function observeInteractiveFrame(
     for (const link of document.querySelectorAll<HTMLAnchorElement>(
       'a[href]'
     )) {
-      if (link.getAttribute('href')?.startsWith('#')) continue
-      if (!link.target) link.target = '_blank'
-      link.rel = 'noopener noreferrer'
+      // prepareCmsLinks has already chosen the target. Keep authored rel tokens.
+      if (link.target.toLowerCase() === '_blank') {
+        link.relList.add('noopener', 'noreferrer')
+      }
     }
+
+    function navigateSiteLink(event: MouseEvent) {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      )
+        return
+      const link = (
+        event.target as Element | null
+      )?.closest?.<HTMLAnchorElement>('a[href]')
+      if (!link || link.hasAttribute('download')) return
+      const href = link.getAttribute('href')!
+      if (
+        !/^\/(?!\/)/.test(href) ||
+        (link.target && link.target.toLowerCase() !== '_self')
+      )
+        return
+      // Site routes belong in the containing page, not inside the article frame.
+      event.preventDefault()
+      iframe.ownerDocument.defaultView?.location.assign(href)
+    }
+    document.addEventListener('click', navigateSiteLink)
 
     let active = true
     let lastHeight = -1
@@ -62,6 +89,7 @@ export function observeInteractiveFrame(
       resize.disconnect()
       view.removeEventListener('resize', updateHeight)
       document.removeEventListener('load', updateHeight, true)
+      document.removeEventListener('click', navigateSiteLink)
     }
   }
 
