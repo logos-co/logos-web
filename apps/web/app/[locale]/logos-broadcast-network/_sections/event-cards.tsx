@@ -1,11 +1,11 @@
 import Image from 'next/image'
 
 import ContentWidth from '@/components/layout/content-width'
+import { compareEvents } from '@/components/sections/events-calendar/calendar-dates'
 import { ExternalLink } from '@/components/ui'
 import { cn } from '@/lib/cn'
 import type { BroadcastEventRow } from '@/lib/blog-engine'
 
-import { compareEvents } from './atoms'
 import type { BroadcastNetworkCopy } from './types'
 
 const FEATURE_IMAGES = [

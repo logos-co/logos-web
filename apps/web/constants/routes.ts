@@ -67,6 +67,7 @@ export const ROUTES = {
   mediaArticle: (slug: string) => `/media/article/${slug}`,
   mediaPodcasts: '/media/podcasts',
   mediaPodcastsSection: '/media#podcasts',
+  mediaCalendar: '/media/calendar',
   /** Dynamic route — `/media/podcasts/[showSlug]/[slug]`. */
   mediaPodcast: (showSlug: string, slug: string) =>
     `/media/podcasts/${showSlug}/${slug}`,

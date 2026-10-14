@@ -58,6 +58,11 @@ export type BroadcastEventRow = {
   localDateKey: string
   localTimestamp: number
   timeMinutes: number | null
+  typeLabel: string
+  topic: string
+  guest: string
+  speakers: string[]
+  notes: string
   links: string[]
   link?: string
 }
@@ -342,8 +347,8 @@ const toBroadcastEventRow = (event: CalendarEvent): BroadcastEventRow => {
   const topic = meaningfulText(event.topic)
   const calendarTitle = topic || typeLabel || 'Event'
   const guest = meaningfulText(event.guest)
-  const speakers = event.speakers.map(meaningfulText).filter(Boolean).join(', ')
-  const host = speakers || guest || 'Logos Network'
+  const speakers = event.speakers.map(meaningfulText).filter(Boolean)
+  const host = speakers.join(', ') || guest || 'Logos Network'
   const detailParts = [topic, guest].filter(Boolean)
   const localDateTime =
     getEventLocalDateTime(event) ?? new Date(`${event.date}T00:00:00.000Z`)
@@ -363,6 +368,11 @@ const toBroadcastEventRow = (event: CalendarEvent): BroadcastEventRow => {
     localDateKey: formatLocalDateKey(localDateTime),
     localTimestamp: localDateTime.getTime(),
     timeMinutes: getEventTimeMinutesSinceMidnight(event.time),
+    typeLabel: meaningfulText(typeLabel),
+    topic,
+    guest,
+    speakers,
+    notes: meaningfulText(event.notes),
     links,
     link: links[0],
   }

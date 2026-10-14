@@ -45,6 +45,7 @@ const staticIndexableRoutes = [
   ROUTES.mediaPodcasts,
   ROUTES.media,
   ROUTES.articles,
+  ROUTES.mediaCalendar,
   ROUTES.privacy,
   ROUTES.research,
   ROUTES.security,

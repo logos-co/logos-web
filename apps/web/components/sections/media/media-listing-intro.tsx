@@ -7,7 +7,7 @@ import { Link } from '@/i18n/navigation'
 
 interface MediaListingIntroCopy {
   title: string
-  description: string
+  description?: string
   byline?: string
   backToMedia: string
 }
@@ -35,7 +35,9 @@ export function MediaListingIntro({ copy }: { copy: MediaListingIntroCopy }) {
             </h1>
           </div>
           <div className="text-mono-s flex min-w-0 flex-col gap-6 text-black md:col-start-7 md:col-end-10">
-            <p className="wrap-break-word">{copy.description}</p>
+            {copy.description ? (
+              <p className="wrap-break-word">{copy.description}</p>
+            ) : null}
             {copy.byline ? <p>{copy.byline}</p> : null}
           </div>
         </div>
