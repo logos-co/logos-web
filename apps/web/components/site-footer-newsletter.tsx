@@ -6,12 +6,14 @@ import {
   type FooterNewsletterValues,
 } from '@acid-info/logos-ui/client'
 
-import { submitNewsletterSignup } from '@/lib/newsletter-signup'
+import { submitDefaultNewsletterSignup } from '@/lib/newsletter-signup'
 
 type SiteFooterNewsletterProps = {
   emailLabel: string
   roleLabel: string
   cityLabel: string
+  countryLabel: string
+  countryOptions: readonly string[]
   submitLabel: string
 }
 
@@ -23,7 +25,7 @@ type SiteFooterNewsletterProps = {
 export function SiteFooterNewsletter(props: SiteFooterNewsletterProps) {
   const mutation = useMutation({
     mutationFn: (values: FooterNewsletterValues) =>
-      submitNewsletterSignup(values),
+      submitDefaultNewsletterSignup(values),
   })
 
   return <FooterNewsletter {...props} onSubmit={mutation.mutateAsync} />

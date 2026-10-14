@@ -36,11 +36,13 @@ export type NewsletterSignupInput = {
   email: string
   role?: string
   city?: string
+  country?: string
   /** Override the target newsletter. Defaults to the site newsletter. */
   newsletterId?: string
   /**
-   * Sent verbatim instead of a note composed from `role` / `city`. The upstream
-   * appends it to the member's existing note, so send one entry per call.
+   * Sent verbatim instead of a note composed from `role` / `city` / `country`.
+   * The upstream appends it to the member's existing note, so send one entry
+   * per call.
    */
   note?: string
   /**
@@ -48,7 +50,14 @@ export type NewsletterSignupInput = {
    * fields. Resolved keys win over a form field of the same name.
    */
   formFields?: Record<string, unknown>
+  /** `false` skips the upstream auto-reply email. Defaults to sending it. */
+  sendAutoReply?: boolean
 }
+
+export type DefaultNewsletterSignupInput = Pick<
+  NewsletterSignupInput,
+  'email' | 'role' | 'city' | 'country' | 'formFields'
+>
 
 type SignupResponse = {
   error?: unknown
@@ -60,14 +69,17 @@ function getSubscribeEndpoint(): string {
   return SUBSCRIBE_ENDPOINTS[mode]
 }
 
-/** Compose the freeform `note` field from the optional role + city inputs. */
-function buildNote(role?: string, city?: string): string {
+/** Compose the freeform `note` field from the optional role, city and country. */
+function buildNote(role?: string, city?: string, country?: string): string {
   const parts: string[] = []
   if (role?.trim()) {
     parts.push(`Role: ${role.trim()}`)
   }
   if (city?.trim()) {
     parts.push(`City: ${city.trim()}`)
+  }
+  if (country?.trim()) {
+    parts.push(`Country: ${country.trim()}`)
   }
   return parts.join('\n')
 }
@@ -93,27 +105,31 @@ export async function submitNewsletterSignup({
   email,
   role,
   city,
+  country,
   newsletterId,
   note: noteOverride,
   formFields,
+  sendAutoReply,
 }: NewsletterSignupInput): Promise<void> {
   if (!EMAIL_PATTERN.test(email)) {
     throw new Error('Please enter a valid email address.')
   }
 
-  const note = noteOverride ?? buildNote(role, city)
+  const note = noteOverride ?? buildNote(role, city, country)
 
   const body = JSON.stringify({
     // Submitted fields first, so the resolved keys below win a name clash.
     ...formFields,
     ...trimmedField('role', role),
     ...trimmedField('city', city),
+    ...trimmedField('country', country),
     email,
     type: 'logos',
     newsletter: newsletterId ?? DEFAULT_NEWSLETTER_ID,
     // `undefined` drops the key, so an empty note omits it rather than
     // letting a forwarded `note` stand in.
     note: note || undefined,
+    sendAutoReply,
   })
 
   const endpoint = getSubscribeEndpoint()
@@ -136,5 +152,42 @@ export async function submitNewsletterSignup({
 
   if (!response.ok) {
     throw new Error(getErrorMessage(data) ?? 'Failed to subscribe.')
+  }
+}
+
+/**
+ * Signup for forms without a newsletter choice: always the site newsletter,
+ * plus the Regional Newsletter when a city or country was given. Throws only
+ * when the site newsletter subscription fails.
+ *
+ * Sequential by necessity: the upstream merges the note into the member's
+ * existing one with a read-modify-write, so concurrent calls lose a note.
+ */
+export async function submitDefaultNewsletterSignup({
+  email,
+  role,
+  city,
+  country,
+  formFields,
+}: DefaultNewsletterSignupInput): Promise<void> {
+  await submitNewsletterSignup({ email, role, city, country, formFields })
+
+  if (!city?.trim() && !country?.trim()) return
+
+  try {
+    await submitNewsletterSignup({
+      email,
+      role,
+      city,
+      country,
+      formFields,
+      newsletterId: NEWSLETTER_IDS.regional,
+      // The site newsletter subscription already sent both; a second note
+      // would be appended again to the same member.
+      note: '',
+      sendAutoReply: false,
+    })
+  } catch (error) {
+    logger.warn('Regional newsletter subscription failed', { error })
   }
 }

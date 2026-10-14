@@ -199,6 +199,8 @@ describe('submitFunnelNewsletterSignups', () => {
     expect(bodyOf(fetchMock, 0)).toEqual({
       email: 'activist@example.com',
       type: 'logos',
+      city: 'Berlin',
+      country: 'Germany',
       newsletter: REGIONAL_NEWSLETTER,
       note: 'City: Berlin\nCountry: Germany\nProfile: Activist Leader / Steward',
     })
@@ -220,9 +222,13 @@ describe('submitFunnelNewsletterSignups', () => {
       note: 'Profile: Activist Builder',
     })
     expect(bodyOf(fetchMock, 1)).toMatchObject({
+      city: 'Berlin',
+      country: 'Germany',
       newsletter: REGIONAL_NEWSLETTER,
       note: 'City: Berlin\nCountry: Germany\nProfile: Activist Builder',
     })
+    expect(bodyOf(fetchMock, 0)).not.toHaveProperty('city')
+    expect(bodyOf(fetchMock, 0)).not.toHaveProperty('country')
   })
 
   test('the second subscription waits for the first to avoid racing the note merge', async () => {

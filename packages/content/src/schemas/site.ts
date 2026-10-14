@@ -115,6 +115,7 @@ export const footerSchema = z.object({
     emailLabel: z.string().min(1),
     roleLabel: z.string().min(1),
     cityLabel: z.string().min(1),
+    countryLabel: z.string().min(1).default('Country'),
     submitLabel: z.string().min(1),
   }),
   tagline: z.string().min(1),
