@@ -56,9 +56,11 @@ Profile: <profile>
 
 `<profile>` is the same string the Notion `Profile` select gets -- `PROFILE_BY_FORM_NAME` in `@repo/funnel`, read through `getProfileForForm` on both sides. `country` arrives as a numeric option id and is resolved to its label against the form's own options before it reaches the note; an unresolvable id is dropped.
 
+The Regional request also sends the resolved `city` and `country` (the label) as top-level `city` / `country` fields alongside the note: the upstream builds its city labels from those fields, never from the note. The Logos request does not set them as resolved fields.
+
 Alongside the note, each subscription forwards the submitted answers: the form values plus `formName`, flattened into the request body as top-level fields. The captcha token stays out -- it is intake plumbing. The upstream hands the answers to its auto-reply filters; nothing here allowlists individual fields, so a new form field needs no change in `apps/web`.
 
-Every select value is sent as its **label**, not the option id (`toLabelledFormFields`): the subscribe endpoint has no access to the option lists, so `country: "1003"` would be unreadable where `country: "Algeria"` is not. Ids that resolve to nothing are dropped. Text fields and checkboxes pass through untouched, and the resolved keys (`email`, `type`, `newsletter`, `note`) are written last so a same-named form field can never overwrite them.
+Every select value is sent as its **label**, not the option id (`toLabelledFormFields`): the subscribe endpoint has no access to the option lists, so `country: "1003"` would be unreadable where `country: "Algeria"` is not. Ids that resolve to nothing are dropped. Text fields and checkboxes pass through untouched, and the resolved keys (`email`, `type`, `newsletter`, `note`, plus `city` / `country` on the Regional request) are written last so a same-named form field can never overwrite them.
 
 | Path | Role |
 | --- | --- |

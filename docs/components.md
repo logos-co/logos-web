@@ -79,6 +79,19 @@ Desktop (md+): 3-column layout — image + "Built by IFT" (left), logo + primary
 
 The Figma heights (663px mobile, 688px desktop) are minimums. The legal links sit in normal flow, so three links land exactly on those heights and a longer list makes the footer taller instead of being clipped. On desktop the image stays pinned 12px above the bottom edge.
 
+### Newsletter form
+
+`newsletterForm` replaces the static newsletter placeholder. The site passes `SiteFooterNewsletter`, which wraps `FooterNewsletter` from `@acid-info/logos-ui/client` (`packages/ui/src/primitives/footer/footer-newsletter.tsx`).
+
+Layout, top to bottom:
+
+- Email -- the only required field, marked with a red `*`
+- Role dropdown + city input
+- Country dropdown + submit button
+- A `* required` legend (`requiredLabel`, default `required`)
+
+The country dropdown is searchable: typing filters the `countryOptions` (case and diacritics insensitive, prefix matches first), arrow keys move, Enter selects, Escape or an outside click closes. The selected label is submitted as is. The site passes the funnel `COUNTRY_OPTIONS` labels. On submit the site subscribes to the Logos Newsletter, plus the Regional Newsletter when a city or country is given.
+
 ```ts
 interface FooterLink {
   label: string
@@ -95,8 +108,29 @@ interface FooterProps {
   researchLinks: FooterLink[] // under "RESEARCH" label
   infrastructureLinks: FooterLink[] // under "INFRASTRUCTURE" label
   legalLinks: FooterLink[] // Terms, Privacy, Security, Testnet T&Cs, Testnet Privacy Policy
+  newsletter: {
+    emailLabel: string
+    roleLabel: string
+    cityLabel: string
+    countryLabel?: string // placeholder falls back to 'Country'
+    submitLabel: string
+  }
+  newsletterForm?: ReactNode // replaces the static placeholder form
   builtBy?: { label: string; attribution: ReactNode; href?: string }
   className?: string
+}
+
+interface FooterNewsletterProps {
+  emailLabel: string
+  roleLabel: string
+  cityLabel: string
+  countryLabel: string
+  submitLabel: string
+  onSubmit: (values: { email: string; role: string; city: string; country: string }) => Promise<void>
+  roleOptions?: readonly string[] // default: Node operator / Builder
+  countryOptions: readonly string[] // searchable
+  requiredLabel?: string // default: 'required'
+  successMessage?: string
 }
 ```
 
