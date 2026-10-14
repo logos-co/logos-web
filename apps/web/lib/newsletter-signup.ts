@@ -182,7 +182,9 @@ export async function submitDefaultNewsletterSignup({
       country,
       formFields,
       newsletterId: NEWSLETTER_IDS.regional,
-      // The site newsletter subscription already sent one.
+      // The site newsletter subscription already sent both; a second note
+      // would be appended again to the same member.
+      note: '',
       sendAutoReply: false,
     })
   } catch (error) {

@@ -218,7 +218,6 @@ describe('submitDefaultNewsletterSignup', () => {
       city: 'Lyon',
       type: 'logos',
       newsletter: REGIONAL_NEWSLETTER,
-      note: 'City: Lyon',
       sendAutoReply: false,
     })
   })
@@ -237,12 +236,11 @@ describe('submitDefaultNewsletterSignup', () => {
       country: 'France',
       type: 'logos',
       newsletter: REGIONAL_NEWSLETTER,
-      note: 'Country: France',
       sendAutoReply: false,
     })
   })
 
-  test('sends the same note, fields and form answers to both newsletters', async () => {
+  test('sends the fields and form answers to both newsletters but the note only once', async () => {
     const fetchMock = stubFetch()
 
     await submitDefaultNewsletterSignup({
@@ -260,11 +258,11 @@ describe('submitDefaultNewsletterSignup', () => {
       city: 'Burbank',
       country: 'United States',
       type: 'logos',
-      note: 'Role: activist\nCity: Burbank\nCountry: United States',
     }
     expect(bodyOf(fetchMock, 0)).toEqual({
       ...shared,
       newsletter: LOGOS_NEWSLETTER,
+      note: 'Role: activist\nCity: Burbank\nCountry: United States',
     })
     expect(bodyOf(fetchMock, 1)).toEqual({
       ...shared,
