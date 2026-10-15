@@ -6,6 +6,7 @@ interface ZinePageProps {
   label: string
   highlights?: ReadonlyArray<{ start: number; end: number }>
   block?: ZineBlock
+  onSelectBlock?: (index: number) => void
 }
 
 export function ZinePage({
@@ -14,12 +15,13 @@ export function ZinePage({
   label,
   highlights = [],
   block,
+  onSelectBlock,
 }: ZinePageProps) {
   const crop = block
     ? {
-        x: Math.max(0, block.x - 4),
+        x: Math.max(0, block.x - 2),
         y: Math.max(0, block.y - 4),
-        width: Math.min(page.width - block.x + 4, block.width + 8),
+        width: Math.min(page.width - block.x + 2, block.width + 4),
         height: block.height + 8,
       }
     : { x: 0, y: 0, width: page.width, height: page.height }
@@ -31,6 +33,28 @@ export function ZinePage({
     >
       <svg
         viewBox={`${crop.x} ${crop.y} ${crop.width} ${crop.height}`}
+        className={onSelectBlock ? 'cursor-pointer' : undefined}
+        onClick={
+          onSelectBlock
+            ? (event) => {
+                if (window.getSelection()?.toString()) return
+                const matrix = event.currentTarget.getScreenCTM()
+                if (!matrix) return
+                const point = new DOMPoint(
+                  event.clientX,
+                  event.clientY
+                ).matrixTransform(matrix.inverse())
+                const index = page.blocks.findIndex(
+                  (item) =>
+                    point.x >= item.x &&
+                    point.x <= item.x + item.width &&
+                    point.y >= item.y &&
+                    point.y <= item.y + item.height
+                )
+                if (index >= 0) onSelectBlock(index)
+              }
+            : undefined
+        }
         role="group"
         aria-label={label}
       >

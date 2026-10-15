@@ -65,4 +65,26 @@ describe('PDF text extraction', () => {
     expect(result.blocks[0].start).toBe(0)
     expect(result.blocks[0].end).toBe(2)
   })
+  it('includes outdented and centred lines in the guided crop', () => {
+    const result = extractText(
+      content([
+        line('Indented opening', 18, 100, 100),
+        line('Full width second line', 10, 112, 115),
+        line('Centred final line', 14, 124, 100),
+      ]),
+      600,
+      0
+    )
+    expect(result.blocks).toHaveLength(1)
+    const block = result.blocks[0]
+    for (const word of result.words) {
+      expect(word.x).toBeGreaterThanOrEqual(block.x)
+      expect(word.x + word.width).toBeLessThanOrEqual(
+        block.x + block.width + 0.02
+      )
+      expect(word.y + word.height).toBeLessThanOrEqual(
+        block.y + block.height + 0.02
+      )
+    }
+  })
 })

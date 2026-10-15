@@ -99,13 +99,23 @@ export function searchDocument(
       const end = offsets.findIndex(
         (position) => position >= offset + needle.length
       )
+      const block = page.blocks.find(
+        (item) => start >= item.start && start < item.end
+      )
+      const contextStart = block ? offsets[block.start] : 0
+      const contextEnd = block
+        ? (offsets[block.end] ?? text.length)
+        : text.length
       hits.push({
         page: page.number,
         start,
         end: end === -1 ? page.words.length : end,
-        before: text.slice(Math.max(0, offset - 55), offset),
+        before: text.slice(Math.max(contextStart, offset - 55), offset),
         match: text.slice(offset, offset + needle.length),
-        after: text.slice(offset + needle.length, offset + needle.length + 85),
+        after: text.slice(
+          offset + needle.length,
+          Math.min(contextEnd, offset + needle.length + 85)
+        ),
       })
       offset = lower.indexOf(needle, offset + needle.length)
     }

@@ -30,7 +30,13 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
   const [document, setDocument] = useState<ZineDocument | null>(null)
   const [failed, setFailed] = useState(false)
   const [attempt, setAttempt] = useState(0)
-  const [panel, setPanel] = useState<ReaderPanel>(null)
+  const [panelOverride, setPanel] = useState<ReaderPanel | undefined>(undefined)
+  const panel =
+    panelOverride === undefined
+      ? state.query && state.view !== 'guided'
+        ? 'search'
+        : null
+      : panelOverride
   const [hoverPage, setHoverPage] = useState<number | null>(null)
   const touch = useRef<{ x: number; y: number } | null>(null)
   const view = mobile && state.view === 'spreads' ? 'pages' : state.view
@@ -172,7 +178,7 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
   )
 
   return (
-    <div className="zine-reader" data-view={view}>
+    <div className="zine-reader" data-view={view} data-panel={panel}>
       <ZineToolbar
         issue={issue}
         view={view}
@@ -242,10 +248,13 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
                 <div
                   className={`zine-stage ${guided ? 'zine-guided-stage' : ''}`}
                   onTouchStart={(event) => {
-                    touch.current = {
-                      x: event.touches[0].clientX,
-                      y: event.touches[0].clientY,
-                    }
+                    touch.current =
+                      event.touches.length === 1
+                        ? {
+                            x: event.touches[0].clientX,
+                            y: event.touches[0].clientY,
+                          }
+                        : null
                   }}
                   onTouchEnd={(event) => {
                     const origin = touch.current
@@ -253,18 +262,23 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
                     if (!origin || window.getSelection()?.toString()) return
                     const dx = event.changedTouches[0].clientX - origin.x
                     const dy = event.changedTouches[0].clientY - origin.y
-                    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5)
+                    if (
+                      Math.abs(dx) > 60 &&
+                      Math.abs(dx) > Math.abs(dy) * 1.5
+                    ) {
+                      event.preventDefault()
                       move(dx < 0 ? 1 : -1)
+                    }
                   }}
                 >
-                  {!guided && (
-                    <div className="zine-stage-prev zine-desktop">
-                      {navButton(-1)}
-                    </div>
-                  )}
                   <div
                     className={`zine-sheets ${spreads && numbers.length === 2 ? 'zine-spread' : ''}`}
                   >
+                    {!guided && (
+                      <div className="zine-stage-prev zine-desktop">
+                        {navButton(-1)}
+                      </div>
+                    )}
                     {guided && (
                       <h2 className="zine-guided-heading">
                         {articleTitle(issue, state.page)}
@@ -277,6 +291,14 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
                         page={document.pages[number]}
                         label={label(number)}
                         block={block}
+                        onSelectBlock={
+                          mobile && !guided
+                            ? (index) => {
+                                navigate({ view: 'guided', block: index })
+                                setPanel(null)
+                              }
+                            : undefined
+                        }
                         highlights={[
                           ...hits.filter((hit) => hit.page === number),
                           ...(number === state.page &&
@@ -310,12 +332,12 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
                         </p>
                       </>
                     )}
+                    {!guided && (
+                      <div className="zine-stage-next zine-desktop">
+                        {navButton(1)}
+                      </div>
+                    )}
                   </div>
-                  {!guided && (
-                    <div className="zine-stage-next zine-desktop">
-                      {navButton(1)}
-                    </div>
-                  )}
                 </div>
                 {guided ? (
                   <div className="zine-guided-nav">
@@ -329,6 +351,8 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
                       issue={issue}
                       page={state.page}
                       numbers={numbers}
+                      hits={hits}
+                      searching={Boolean(state.query.trim())}
                       label={label}
                       selectPage={selectPage}
                       showView={showView}
@@ -341,6 +365,7 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
           {panel === 'search' && (
             <ZineSearch
               issue={issue}
+              page={state.page}
               query={state.query}
               hits={hits}
               onQuery={(query) => navigate({ query }, true)}
@@ -367,7 +392,7 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
                   onClick={() => setPanel(null)}
                   aria-label={t('closeContents')}
                 >
-                  <XIcon />
+                  <XIcon size={24} />
                 </button>
               </div>
               <ZineContents
@@ -388,8 +413,8 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
         </div>
       )}
       <ZineSelection
-        key={`${state.page}-${view}`}
-        locationKey={`${state.page}-${view}`}
+        key={`${state.page}-${view}-${blockIndex}`}
+        locationKey={`${state.page}-${view}-${blockIndex}`}
       />
       <noscript>
         <p>

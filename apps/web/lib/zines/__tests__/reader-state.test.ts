@@ -92,4 +92,22 @@ describe('zine search', () => {
     expect(searchDocument(document, '   ')).toEqual([])
     expect(searchDocument(document, 'absent')).toEqual([])
   })
+  it('keeps snippets inside their reading block without leaking headers', () => {
+    const grouped: ZineDocument = {
+      ...document,
+      pages: [
+        {
+          ...document.pages[0],
+          blocks: [
+            { x: 0, y: 10, width: 30, height: 10, start: 0, end: 3 },
+            { x: 30, y: 10, width: 30, height: 10, start: 3, end: 6 },
+          ],
+        },
+      ],
+    }
+    const hits = searchDocument(grouped, 'parallel')
+    expect(hits[0].after.trim()).toBe('society.')
+    expect(hits[1].before).toBe('')
+    expect(hits[1].after.trim()).toBe('institutions [test]')
+  })
 })

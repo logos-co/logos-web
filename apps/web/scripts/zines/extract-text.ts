@@ -90,8 +90,16 @@ export function extractText(
     else
       blocks[blocks.length - 1] = {
         ...last,
-        width: round(Math.max(last.width, line.x + line.width - last.x)),
-        height: round(Math.max(last.height, line.y + line.height - last.y)),
+        x: Math.min(last.x, line.x),
+        y: Math.min(last.y, line.y),
+        width: round(
+          Math.max(last.x + last.width, line.x + line.width) -
+            Math.min(last.x, line.x)
+        ),
+        height: round(
+          Math.max(last.y + last.height, line.y + line.height) -
+            Math.min(last.y, line.y)
+        ),
         end: line.end,
       }
     previous = line

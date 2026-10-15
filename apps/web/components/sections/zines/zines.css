@@ -135,7 +135,9 @@
   padding: 8px 0;
   border-bottom: 2px solid transparent;
 }
-.zine-view-tabs button[aria-pressed='true'] {
+.zine-reader:not([data-panel='search'])
+  .zine-view-tabs
+  button[aria-pressed='true'] {
   color: var(--color-brand-off-white);
   border-color: var(--color-brand-yellow);
 }
@@ -153,6 +155,9 @@
 .zine-close svg {
   width: 18px;
   height: 18px;
+}
+.zine-search-toggle[aria-expanded='true'] {
+  border-bottom: 2px solid var(--color-brand-yellow);
 }
 .zine-download {
   min-width: 176px;
@@ -179,6 +184,7 @@
   overflow: auto;
 }
 .zine-sheets {
+  position: relative;
   display: flex;
   justify-content: center;
   height: 100%;
@@ -220,10 +226,19 @@
   top: calc(50% - 20px);
 }
 .zine-stage-prev {
-  left: 24px;
+  left: -72px;
 }
 .zine-stage-next {
-  right: 24px;
+  right: -72px;
+}
+.zine-reader[data-panel] .zine-stage {
+  padding-inline: 62px;
+}
+.zine-reader[data-panel] .zine-stage-prev {
+  left: -56px;
+}
+.zine-reader[data-panel] .zine-stage-next {
+  right: -56px;
 }
 .zine-arrow {
   border-color: var(--color-gray-05);
@@ -237,10 +252,19 @@
   cursor: default;
 }
 .zine-filmstrip {
+  --thumb-width: 37px;
+  --thumb-height: 52px;
+  --thumb-gap: 10px;
   height: 104px;
   flex-shrink: 0;
   border-top: 1px solid var(--color-gray-06);
   padding: 14px 24px 10px;
+}
+.zine-reader[data-panel] .zine-filmstrip {
+  --thumb-width: 31px;
+  --thumb-height: 44px;
+  --thumb-gap: 6px;
+  padding: 16px 6px 10px;
 }
 .zine-thumbnails {
   display: flex;
@@ -249,23 +273,36 @@
   max-width: 100%;
   overflow-x: auto;
   margin: auto;
-  gap: 3px;
-  padding: 3px;
+  gap: var(--thumb-gap);
+  padding: 7px 3px 3px;
   scrollbar-width: thin;
 }
+.zine-thumb-group {
+  display: flex;
+  flex-shrink: 0;
+}
 .zine-thumbnails button {
-  flex: 0 0 37px;
+  position: relative;
+  flex: 0 0 var(--thumb-width);
+  width: var(--thumb-width);
 }
-.zine-thumbnails button:nth-child(2n) {
-  margin-left: 7px;
-}
-.zine-thumbnails button[aria-current] {
+.zine-thumb-group[data-active='true'],
+.zine-thumbnails button[data-active='true'] {
   outline: 2px solid var(--color-brand-yellow);
   outline-offset: 1px;
 }
+.zine-thumbnails button[data-hit='true']::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 4px;
+  right: 4px;
+  height: 3px;
+  background: var(--color-brand-yellow);
+}
 .zine-thumbnails img {
-  width: 37px;
-  height: 52px;
+  width: var(--thumb-width);
+  height: var(--thumb-height);
   object-fit: cover;
 }
 .zine-page-status {
@@ -284,46 +321,50 @@
   flex-shrink: 0;
 }
 .zine-contents h2 {
-  font-family: var(--font-display);
-  font-size: 24px;
-  margin-bottom: 28px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--color-gray-03);
 }
 .zine-contents section {
   border-top: 1px solid var(--color-gray-06);
   margin-top: 20px;
-  padding-top: 16px;
+  padding-top: 10px;
 }
 .zine-contents h3 {
   font-family: var(--font-mono);
   font-size: 11px;
   text-transform: uppercase;
   color: var(--color-gray-03);
-  margin-bottom: 12px;
+  line-height: 1.4;
 }
 .zine-contents button {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
   width: 100%;
   text-align: left;
   font-family: var(--font-display);
   font-size: 17px;
   line-height: 1.25;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 .zine-contents button:hover,
 .zine-contents button[aria-current] {
   color: var(--color-brand-yellow);
 }
 .zine-contents button span:last-child {
+  flex: 0 0 32px;
+  text-align: right;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   padding-top: 3px;
 }
 .zine-grid {
   display: grid;
   grid-template-columns: repeat(8, minmax(0, 1fr));
-  gap: 28px 20px;
+  gap: 44px 20px;
   flex: 1;
   align-content: start;
 }
@@ -365,13 +406,16 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  border: 1px solid var(--color-gray-02);
-  border-radius: 4px;
-  padding: 12px;
+  height: 44px;
+  border: 1px solid var(--color-brand-dark-green);
+  border-radius: 12px;
+  padding: 0 12px;
 }
-.zine-search-input svg {
-  width: 18px;
-  height: 18px;
+.zine-search-input:focus-within {
+  outline: 2px solid var(--color-brand-yellow);
+  outline-offset: 2px;
+}
+.zine-search-input > svg {
   flex-shrink: 0;
 }
 .zine-search-input input {
@@ -380,42 +424,77 @@
   background: transparent;
   font-size: 16px;
 }
-.zine-search-summary {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  margin: 16px 0 24px;
+.zine-search-input input:focus-visible {
+  outline: none;
 }
-.zine-search-results section {
-  border-top: 1px solid var(--color-gray-02);
-  padding-top: 20px;
-  margin-bottom: 24px;
+.zine-search-input input::-webkit-search-cancel-button {
+  display: none;
 }
-.zine-search-results h3 {
+.zine-search-input button {
   display: flex;
-  justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.zine-search-results h3 span {
   color: var(--color-gray-05);
 }
-.zine-search-results h4 {
-  font-family: var(--font-display);
-  font-size: 20px;
-  margin-bottom: 12px;
+.zine-search-summary {
+  font-family: var(--font-mono);
+  color: var(--color-gray-05);
+  font-size: 12px;
+  margin: 16px 0 8px;
 }
-.zine-search-results button {
-  display: block;
+.zine-search-result {
+  position: relative;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 24px;
+  gap: 6px 12px;
+  width: 100%;
   text-align: left;
-  font-size: 13px;
-  line-height: 1.5;
-  margin-bottom: 16px;
+  border-bottom: 1px solid var(--color-gray-02);
+  padding: 12px 0;
+}
+.zine-search-result[aria-current]::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--color-brand-yellow);
+}
+.zine-result-page,
+.zine-result-count {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-gray-05);
+  padding-top: 3px;
+}
+.zine-result-count {
+  text-align: right;
+}
+.zine-result-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1.25;
+}
+.zine-result-snippet {
+  grid-column: 2 / 4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  color: var(--color-gray-06);
+  font-size: 14px;
+  line-height: 20px;
 }
 .zine-search-results mark {
-  background: var(--color-brand-yellow);
+  background: transparent;
   color: inherit;
+  font-weight: 600;
+}
+.zine-more-results {
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  text-decoration: underline;
 }
 .zine-contents-panel {
   border-left: 1px solid var(--color-gray-06);
@@ -437,7 +516,7 @@
   margin-left: auto;
 }
 .zine-guided-stage {
-  padding: 24px 16px;
+  padding: 24px 16px 64px;
 }
 .zine-guided-stage .zine-sheets {
   flex-direction: column;
@@ -573,7 +652,8 @@
   .zine-toolbar-actions {
     gap: 24px;
   }
-  .zine-stage {
+  .zine-stage,
+  .zine-reader[data-panel] .zine-stage {
     padding: 20px 16px 0;
     flex: 0 0 auto;
     overflow: visible;
@@ -591,12 +671,46 @@
     height: auto;
   }
   .zine-mobile-controls {
-    padding: 24px 16px 0;
+    padding: 12px 16px 0;
   }
   .zine-mobile-controls input {
     width: 100%;
-    height: 18px;
-    accent-color: var(--color-brand-off-white);
+    display: block;
+    appearance: none;
+    -webkit-appearance: none;
+    height: 20px;
+    background: transparent;
+  }
+  .zine-mobile-controls input::-webkit-slider-runnable-track {
+    height: 2px;
+    background: linear-gradient(
+      to right,
+      var(--color-brand-yellow) var(--zine-progress),
+      var(--color-gray-06) var(--zine-progress)
+    );
+  }
+  .zine-mobile-controls input::-moz-range-track {
+    height: 2px;
+    background: linear-gradient(
+      to right,
+      var(--color-brand-yellow) var(--zine-progress),
+      var(--color-gray-06) var(--zine-progress)
+    );
+  }
+  .zine-mobile-controls input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 2px;
+    height: 2px;
+    background: var(--color-brand-off-white);
+  }
+  .zine-mobile-controls input::-moz-range-thumb {
+    width: 2px;
+    height: 2px;
+    border: 0;
+    background: var(--color-brand-off-white);
+  }
+  .zine-mobile-controls .zine-page-status {
+    margin-top: 2px;
   }
   .zine-guided-entry {
     margin-top: auto;
@@ -644,7 +758,7 @@
   .zine-guided-stage {
     flex: 1;
     overflow: auto;
-    padding: 24px 16px;
+    padding: 24px 16px 64px;
   }
   .zine-guided-stage .zine-sheets {
     width: 100%;

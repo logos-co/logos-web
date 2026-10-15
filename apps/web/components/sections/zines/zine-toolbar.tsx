@@ -40,7 +40,7 @@ export function ZineToolbar({
             onClick={() => showView('pages')}
             aria-label={t('closeGuided')}
           >
-            <XIcon />
+            <XIcon size={24} />
           </button>
         </>
       ) : (
