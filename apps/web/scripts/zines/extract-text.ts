@@ -76,8 +76,7 @@ export function extractText(
       !previous ||
       Math.abs(line.x - previous.x) > 12 ||
       line.y < previous.y - 2 ||
-      line.y - previous.y > previous.fontHeight * 1.65 ||
-      Math.abs(line.fontHeight - previous.fontHeight) > 2
+      line.y - previous.y > previous.fontHeight * 1.65
     if (newBlock || !last)
       blocks.push({
         x: line.x,

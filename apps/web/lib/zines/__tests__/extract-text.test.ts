@@ -87,4 +87,24 @@ describe('PDF text extraction', () => {
       )
     }
   })
+  it('keeps a category, headline and subtitle together despite font changes', () => {
+    const headline = {
+      ...line('The Parallel Society', 14, 70, 178),
+      transform: [22, 0, 0, 22, 14, 530],
+      height: 22,
+    }
+    const result = extractText(
+      content([
+        line('UNDERSTANDING WHOLE SYSTEMS', 14, 50, 120),
+        headline,
+        line('The historical case for institutions', 14, 90, 267),
+        line('First body paragraph', 14, 125, 123),
+      ]),
+      600,
+      0
+    )
+    expect(result.blocks).toHaveLength(2)
+    expect(result.blocks[0]).toMatchObject({ start: 0, end: 11 })
+    expect(result.blocks[1].start).toBe(11)
+  })
 })
