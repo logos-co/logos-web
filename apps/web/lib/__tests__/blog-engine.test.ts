@@ -348,4 +348,37 @@ describe('getBroadcastEvents', () => {
       link: 'https://example.com/update',
     })
   })
+
+  test('keeps the event detail fields and drops placeholder values', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      jsonResponse({
+        success: true,
+        data: [
+          {
+            id: 3,
+            date: '2026-10-13',
+            time: '17:00',
+            type: { label: 'λ X Space', value: 'x-space' },
+            guest: ' Guest Name ',
+            speakers: ['Speaker One', null, 'null', ' Speaker Two '],
+            topic: 'null',
+            notes: 'Bring questions',
+            links: ['https://x.com/Logos_network', ' '],
+          },
+        ],
+      })
+    )
+
+    const [event] = await getBroadcastEvents()
+
+    expect(event).toMatchObject({
+      typeLabel: 'λ X Space',
+      topic: '',
+      guest: 'Guest Name',
+      speakers: ['Speaker One', 'Speaker Two'],
+      notes: 'Bring questions',
+      host: 'Speaker One, Speaker Two',
+      links: ['https://x.com/Logos_network'],
+    })
+  })
 })

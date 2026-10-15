@@ -153,6 +153,13 @@ const contracts: PageContract[] = [
     sections: [{ componentType: 'podcastCopy', key: 'podcast.copy' }],
   },
   {
+    route: ROUTES.mediaCalendar,
+    name: 'media-calendar',
+    sections: [
+      { componentType: 'mediaCalendarCopy', key: 'mediaCalendar.copy' },
+    ],
+  },
+  {
     route: ROUTES.logosBroadcastNetwork,
     name: 'logos-broadcast-network',
     sections: [

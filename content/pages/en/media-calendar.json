@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/media/calendar",
+  "title": "Calendar | Logos",
+  "description": "Live streams, updates, and regular programming across the entire Logos network.",
+  "sections": [
+    {
+      "componentType": "mediaCalendarCopy",
+      "key": "mediaCalendar.copy",
+      "heading": "Calendar",
+      "backToMedia": "Logos Media",
+      "calendar": {
+        "yearLabel": "Year",
+        "monthLabel": "Month",
+        "todayLabel": "Today"
+      },
+      "details": {
+        "empty": "No events scheduled for this date.",
+        "guest": "Guest",
+        "speakers": "Speakers",
+        "notes": "Notes",
+        "links": "Links"
+      }
+    }
+  ]
+}

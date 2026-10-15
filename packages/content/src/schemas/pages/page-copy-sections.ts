@@ -606,6 +606,28 @@ export const broadcastCopySectionSchema = z.object({
 })
 export type BroadcastCopySection = z.infer<typeof broadcastCopySectionSchema>
 
+export const mediaCalendarCopySectionSchema = z.object({
+  componentType: z.literal('mediaCalendarCopy'),
+  key: sectionKeySchema,
+  heading: z.string().min(1),
+  backToMedia: z.string().min(1),
+  calendar: z.object({
+    yearLabel: z.string().min(1),
+    monthLabel: z.string().min(1),
+    todayLabel: z.string().min(1),
+  }),
+  details: z.object({
+    empty: z.string().min(1),
+    guest: z.string().min(1),
+    speakers: z.string().min(1),
+    notes: z.string().min(1),
+    links: z.string().min(1),
+  }),
+})
+export type MediaCalendarCopySection = z.infer<
+  typeof mediaCalendarCopySectionSchema
+>
+
 export const manifestoCopySectionSchema = z.object({
   componentType: z.literal('manifestoCopy'),
   key: sectionKeySchema,

@@ -49,6 +49,7 @@ export default async function LogosBroadcastNetworkPage({
     <BroadcastNetworkPage
       podcasts={podcasts}
       events={events}
+      referenceTime={Date.now()}
       copy={{
         title: data.heading,
         introPrimary: data.intro.primary,
