@@ -398,3 +398,12 @@ interface BuildersHubPageHeaderProps {
 | Ideas desktop                   | `2259:41841`     |
 | RFPs desktop                    | `2259:43033`     |
 | Builders Hub desktop            | `2212:27068`     |
+
+
+## Zine catalogue and reader
+
+**Figma:** Logos Designs, page `3748:262`; catalogue `3748:263`, spreads `3748:289`, search `3748:356`, grid `3748:477`, mobile page `3748:612`, guided reading `3748:627`.
+
+The `/zines` catalogue and `/zines/[slug]` reader live in `apps/web`. They use the shared Logos colour tokens, Rhymes display font, monospace labels, Button, IconButton and SVG icons. Catalogue and issue metadata live in `content/zines/<locale>/`; UI labels use `messages/<locale>.json`.
+
+`generate:zines` runs before development and production builds. It trims the print bleed and generates full-size WebP pages, thumbnails, positioned words and reading blocks from the local print PDF. PDF.js and the canvas renderer are build dependencies only. The browser loads static assets, supports printed-page and passage links, and crops original artwork for guided reading. Generated assets are ignored by Git and included in the static export.

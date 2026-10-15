@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "slug": "lan-01",
+  "title": "Local Area Network",
+  "shortTitle": "LAN 01",
+  "edition": "Issue 01 · September 2026",
+  "description": "A record of the parallel society, published by Logos. Read, search and explore the first issue of Local Area Network.",
+  "pdf": "/zine/lan-issue-01.pdf",
+  "trim": 9,
+  "pageCount": 32,
+  "sections": [
+    {
+      "title": "Understanding Whole Systems",
+      "entries": [
+        {
+          "page": 4,
+          "title": "The Parallel Society"
+        },
+        {
+          "page": 5,
+          "title": "Against Centralisation, Not Against Governance"
+        },
+        {
+          "page": 6,
+          "title": "The Anti-Palantir Manifesto"
+        }
+      ]
+    },
+    {
+      "title": "Parallel Infrastructure",
+      "entries": [
+        {
+          "page": 8,
+          "title": "Monthly Highlights"
+        },
+        {
+          "page": 9,
+          "title": "The Transaction Supply Chain"
+        },
+        {
+          "page": 11,
+          "title": "A Batteries Included Launch for Logos"
+        },
+        {
+          "page": 12,
+          "title": "Logos x Aquari's Nigeria Roadshow"
+        },
+        {
+          "page": 13,
+          "title": "Precious Plastic / e-NABLE"
+        }
+      ]
+    },
+    {
+      "title": "Parallel Economy",
+      "entries": [
+        {
+          "page": 15,
+          "title": "What Is the Parallel Economy?"
+        },
+        {
+          "page": 15,
+          "title": "For One of Our Own"
+        },
+        {
+          "page": 16,
+          "title": "Two Maps of the Monero Circular Economy"
+        }
+      ]
+    },
+    {
+      "title": "Parallel Action",
+      "entries": [
+        {
+          "page": 18,
+          "title": "Housing Rights and a Reversed Eviction"
+        },
+        {
+          "page": 19,
+          "title": "Free Health Screenings and the Real Cost of Care"
+        },
+        {
+          "page": 20,
+          "title": "Mapping the Gaps in the UK"
+        }
+      ]
+    },
+    {
+      "title": "Parallel Education",
+      "entries": [
+        {
+          "page": 22,
+          "title": "Under a Tree: Logos Circle / Delhi on Parallel Education"
+        },
+        {
+          "page": 23,
+          "title": "Bridging the Gap Towards Employment"
+        }
+      ]
+    },
+    {
+      "title": "Parallel Culture",
+      "entries": [
+        {
+          "page": 25,
+          "title": "Samizdat"
+        },
+        {
+          "page": 26,
+          "title": "Radio Basecamp"
+        },
+        {
+          "page": 27,
+          "title": "LAN Party at DARK Prague"
+        },
+        {
+          "page": 28,
+          "title": "Freequencies: Lisbon's Underground Builds Its Own Tools"
+        }
+      ]
+    }
+  ],
+  "pageTitles": {
+    "0": "Cover",
+    "1": "Editorial",
+    "2": "Index",
+    "3": "Understanding Whole Systems",
+    "7": "Parallel Infrastructure",
+    "14": "Parallel Economy",
+    "17": "Parallel Action",
+    "21": "Parallel Education",
+    "24": "Parallel Culture",
+    "29": "The Movement in Numbers",
+    "30": "Photography",
+    "31": "Back Cover"
+  }
+}
