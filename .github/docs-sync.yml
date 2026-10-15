@@ -25,3 +25,6 @@ extra_ignore:
 guidelines_files:
   - AGENTS.md
   - CLAUDE.md
+
+reviewers:
+  - '@logos-co/web'
