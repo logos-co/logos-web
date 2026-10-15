@@ -62,9 +62,9 @@ export function CalendarCell({ day, isSelected, onSelect }: CalendarCellProps) {
   const content = (
     <>
       <DayNumber value={day.dayNumber} />
-      {day.events.length > 0 ? (
+      {day.pillEvents.length > 0 ? (
         <span className="flex min-h-0 w-full flex-1 flex-col gap-1 overflow-y-auto pr-1">
-          {day.events.map((event) => (
+          {day.pillEvents.map((event) => (
             <EventPill key={event.id} event={event} interactive={!onSelect} />
           ))}
         </span>
@@ -86,6 +86,12 @@ export function CalendarCell({ day, isSelected, onSelect }: CalendarCellProps) {
   )
 }
 
+const MOBILE_DAY_BASE =
+  'flex shrink-0 snap-center flex-col justify-between rounded-xl p-2 text-brand-dark-green'
+const MOBILE_DAY_SELECTED = 'min-h-[301px] w-[273px] bg-accent-light-blue'
+const MOBILE_DAY_IDLE =
+  'h-[301px] w-[192px] border border-brand-dark-green/50 transition-colors hover:bg-[#c7f3ff]'
+
 interface MobileDayCarouselProps {
   days: CalendarDay[]
   selectedKey: string | null
@@ -100,7 +106,7 @@ export function MobileDayCarousel({
   onSelect,
   hasDetailsPanel = false,
 }: MobileDayCarouselProps) {
-  const selectedRef = useRef<HTMLDivElement>(null)
+  const selectedRef = useRef<HTMLDivElement & HTMLButtonElement>(null)
   const monthDays = days.filter((day) => day.isCurrentMonth)
 
   useEffect(() => {
@@ -119,22 +125,23 @@ export function MobileDayCarousel({
       {/* Spacers let the first and last day center within the viewport. */}
       <div aria-hidden className="w-[calc(50%-136px)] shrink-0" />
       {monthDays.map((day) => {
-        if (day.key === selectedKey) {
+        const isSelected = day.key === selectedKey
+
+        // With a details panel every day stays a button, so tapping one keeps
+        // keyboard focus on it. Without one, the selected day becomes a card
+        // whose event pills are links, which can't sit inside a button.
+        if (isSelected && !hasDetailsPanel) {
           return (
             <div
               key={day.key}
               ref={selectedRef}
-              className="flex min-h-[301px] w-[273px] shrink-0 snap-center flex-col justify-between rounded-xl bg-accent-light-blue p-2 text-brand-dark-green"
+              className={cn(MOBILE_DAY_BASE, MOBILE_DAY_SELECTED)}
             >
               <DayNumber value={day.dayNumber} />
-              {day.events.length > 0 ? (
+              {day.pillEvents.length > 0 ? (
                 <div className="flex flex-col gap-1">
-                  {day.events.map((event) => (
-                    <EventPill
-                      key={event.id}
-                      event={event}
-                      interactive={!hasDetailsPanel}
-                    />
+                  {day.pillEvents.map((event) => (
+                    <EventPill key={event.id} event={event} />
                   ))}
                 </div>
               ) : null}
@@ -145,14 +152,20 @@ export function MobileDayCarousel({
         return (
           <button
             key={day.key}
+            ref={isSelected ? selectedRef : undefined}
             type="button"
+            aria-pressed={hasDetailsPanel ? isSelected : undefined}
             onClick={() => onSelect(day.key)}
-            className="flex h-[301px] w-[192px] shrink-0 cursor-pointer snap-center flex-col justify-between rounded-xl border border-brand-dark-green/50 p-2 text-left text-brand-dark-green transition-colors hover:bg-[#c7f3ff]"
+            className={cn(
+              MOBILE_DAY_BASE,
+              'cursor-pointer text-left',
+              isSelected ? MOBILE_DAY_SELECTED : MOBILE_DAY_IDLE
+            )}
           >
             <DayNumber value={day.dayNumber} />
-            {day.events.length > 0 ? (
+            {day.pillEvents.length > 0 ? (
               <span className="flex w-full flex-col gap-1">
-                {day.events.map((event) => (
+                {day.pillEvents.map((event) => (
                   <EventPill key={event.id} event={event} interactive={false} />
                 ))}
               </span>

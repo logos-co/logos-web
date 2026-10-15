@@ -81,16 +81,16 @@ export function EventsCalendar({
     () => getInitialAnchor(events, now, getDayKey),
     [events, now, getDayKey]
   )
-  const years = useMemo(
-    () => getCalendarYears(events, now, getDayKey),
-    [events, now, getDayKey]
-  )
 
   // `null` means "not chosen yet": follow the URL or the anchor.
   const [chosenMonth, setChosenMonth] = useState<CalendarMonth | null>(null)
   const [chosenKey, setChosenKey] = useState<string | null>(null)
 
   const calendarMonth = chosenMonth ?? urlMonth ?? anchor
+  const years = useMemo(
+    () => getCalendarYears(events, now, getDayKey, calendarMonth.year),
+    [events, now, getDayKey, calendarMonth.year]
+  )
   const days = buildCalendarDays(events, calendarMonth, getDayKey)
   const selectedKey =
     chosenKey ?? (urlMonth ? pickSelectedKey(days) : anchor.dayKey)

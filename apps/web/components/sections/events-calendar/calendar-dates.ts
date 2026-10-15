@@ -33,7 +33,10 @@ export interface CalendarDay {
   dayNumber: string
   key: string
   isCurrentMonth: boolean
+  /** Every event on the day, in time order. */
   events: BroadcastEventRow[]
+  /** One event per title, for the compact pills in a day cell. */
+  pillEvents: BroadcastEventRow[]
 }
 
 export type DayKeyResolver = (event: BroadcastEventRow) => string
@@ -96,17 +99,10 @@ function groupEventsByDay(
   getDayKey: DayKeyResolver
 ) {
   const eventsByDate = new Map<string, BroadcastEventRow[]>()
-  const seenTitles = new Map<string, Set<string>>()
 
   for (const event of events) {
     const key = getDayKey(event)
-    const dayEvents = eventsByDate.get(key) ?? []
-    const titlesForDate = seenTitles.get(key) ?? new Set()
-    if (titlesForDate.has(event.calendarTitle)) continue
-
-    titlesForDate.add(event.calendarTitle)
-    eventsByDate.set(key, [...dayEvents, event])
-    seenTitles.set(key, titlesForDate)
+    eventsByDate.set(key, [...(eventsByDate.get(key) ?? []), event])
   }
 
   return new Map(
@@ -116,6 +112,14 @@ function groupEventsByDay(
     ])
   )
 }
+
+const uniqueByTitle = (events: BroadcastEventRow[]) =>
+  events.filter(
+    (event, index) =>
+      events.findIndex(
+        (other) => other.calendarTitle === event.calendarTitle
+      ) === index
+  )
 
 export function buildCalendarDays(
   events: BroadcastEventRow[],
@@ -133,11 +137,14 @@ export function buildCalendarDays(
     const date = new Date(year, month, 1 - startOffset + index)
     const key = formatCalendarKey(date)
 
+    const dayEvents = eventsByDate.get(key) ?? []
+
     return {
       key,
       dayNumber: String(date.getDate()).padStart(2, '0'),
       isCurrentMonth: date.getMonth() === month,
-      events: eventsByDate.get(key) ?? [],
+      events: dayEvents,
+      pillEvents: uniqueByTitle(dayEvents),
     }
   })
 }
@@ -157,13 +164,23 @@ export function pickSelectedKey(days: CalendarDay[], preferredKey?: string) {
   return firstWithEvents?.key ?? monthDays[0]?.key ?? null
 }
 
+/**
+ * Year options: a year either side of today, every year with events, and the
+ * year on screen (which can be outside both after URL or arrow navigation).
+ */
 export function getCalendarYears(
   events: BroadcastEventRow[],
   now: Date,
-  getDayKey: DayKeyResolver
+  getDayKey: DayKeyResolver,
+  visibleYear: number
 ) {
   const currentYear = now.getFullYear()
-  const years = new Set([currentYear - 1, currentYear, currentYear + 1])
+  const years = new Set([
+    currentYear - 1,
+    currentYear,
+    currentYear + 1,
+    visibleYear,
+  ])
 
   for (const event of events) {
     years.add(parseCalendarKey(getDayKey(event)).year)

@@ -6,6 +6,7 @@ import {
   buildCalendarDays,
   formatCalendarKey,
   formatUtcOffsetLabel,
+  getCalendarYears,
   getInitialAnchor,
   parseMonthQuery,
   pickSelectedKey,
@@ -68,7 +69,7 @@ describe('buildCalendarDays', () => {
     })
   })
 
-  test('drops repeated titles on the same day and sorts by time', () => {
+  test('keeps every event for the day but one pill per title', () => {
     const late = makeEvent({ id: 1, localTimestamp: 2, calendarTitle: 'Late' })
     const early = makeEvent({
       id: 2,
@@ -88,7 +89,8 @@ describe('buildCalendarDays', () => {
     )
     const day = days.find((item) => item.key === '2026-10-13')
 
-    expect(day?.events.map((event) => event.id)).toEqual([2, 1])
+    expect(day?.events.map((event) => event.id)).toEqual([2, 1, 3])
+    expect(day?.pillEvents.map((event) => event.id)).toEqual([2, 1])
   })
 })
 
@@ -157,5 +159,15 @@ describe('formatUtcOffsetLabel', () => {
     expect(formatUtcOffsetLabel(withOffset(420))).toBe('UTC-7')
     expect(formatUtcOffsetLabel(withOffset(-330))).toBe('UTC+5:30')
     expect(formatUtcOffsetLabel(withOffset(0))).toBe('UTC+0')
+  })
+})
+
+describe('getCalendarYears', () => {
+  test('includes the visible year even without events in it', () => {
+    const event = makeEvent({ id: 1, localDateKey: '2026-10-13' })
+
+    expect(
+      getCalendarYears([event], new Date(2026, 9, 13), byLocalDateKey, 2099)
+    ).toEqual([2025, 2026, 2027, 2099])
   })
 })
