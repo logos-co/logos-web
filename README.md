@@ -70,5 +70,6 @@ Direct pushes to either are blocked by branch protection.
 
 - [AGENTS.md](./AGENTS.md) — conventions and rules for AI agents working in this repo
 - [docs/components.md](./docs/components.md) -- shared component specs
+- [docs/media-calendar.md](./docs/media-calendar.md) -- the `/media/calendar` page: event details, timezone handling, `?year=&month=` URL state
 - [docs/api/architecture.md](./docs/api/architecture.md) -- funnel intake endpoint
 - [docs/funnel/AGENTS.md](./docs/funnel/AGENTS.md) -- funnel forms end to end
