@@ -1,5 +1,5 @@
 /**
- * Newsletter signup transport for the footer form.
+ * Newsletter signup transport for the site's signup forms.
  *
  * The site is a static export (`output: 'export'`), so there is no server
  * route to proxy through. This module ports the logic of the legacy
@@ -26,6 +26,7 @@ const SUBSCRIBE_ENDPOINTS = {
 export const NEWSLETTER_IDS = {
   logos: '6913441fee2f120001cec90d',
   regional: '6a672fa7d5b09400014fffa1',
+  ukDebt: '6a0dd2f8d5b09400014fed2e',
 } as const
 
 const DEFAULT_NEWSLETTER_ID = NEWSLETTER_IDS.logos

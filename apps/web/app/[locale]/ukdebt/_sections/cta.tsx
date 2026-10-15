@@ -4,12 +4,9 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import Link from 'next/link'
 
-import styles from '../ukdebt.module.css'
+import { NEWSLETTER_IDS, submitNewsletterSignup } from '@/lib/newsletter-signup'
 
-const UK_DEBT_NEWSLETTER_ID = '6a0dd2f8d5b09400014fed2e'
-// Target deploys as a static export (no API routes), so the signup posts
-// directly to the live logos.co proxy instead of a relative /api path.
-const SIGNUP_ENDPOINT = 'https://logos.co/api/email-signup'
+import styles from '../ukdebt.module.css'
 
 export function Cta() {
   const [isSignupOpen, setIsSignupOpen] = useState(false)
@@ -22,31 +19,14 @@ export function Cta() {
   const handleSignupSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    if (!email || !email.includes('@')) {
-      setSignupStatus('error')
-      setSignupMessage('Please enter a valid email address.')
-      return
-    }
-
     setSignupStatus('loading')
     setSignupMessage('')
 
     try {
-      const response = await fetch(SIGNUP_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          newsletter: UK_DEBT_NEWSLETTER_ID,
-        }),
+      await submitNewsletterSignup({
+        email,
+        newsletterId: NEWSLETTER_IDS.ukDebt,
       })
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to subscribe.')
-      }
 
       setEmail('')
       setSignupStatus('success')
@@ -54,7 +34,7 @@ export function Cta() {
     } catch (error) {
       setSignupStatus('error')
       setSignupMessage(
-        error instanceof Error ? error.message : 'Failed to subscribe.',
+        error instanceof Error ? error.message : 'Failed to subscribe.'
       )
     }
   }
