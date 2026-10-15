@@ -64,6 +64,9 @@
 <loc>https://dev.logos.co/builders-hub/rfps/curated-lending-vaults</loc>
 </url>
 <url>
+<loc>https://dev.logos.co/builders-hub/rfps/ethereum-state-attestation</loc>
+</url>
+<url>
 <loc>https://dev.logos.co/builders-hub/rfps/freeze-authority-lib</loc>
 </url>
 <url>
@@ -557,6 +560,9 @@
 </url>
 <url>
 <loc>https://dev.logos.co/media/articles</loc>
+</url>
+<url>
+<loc>https://dev.logos.co/media/calendar</loc>
 </url>
 <url>
 <loc>https://dev.logos.co/media/podcasts</loc>
