@@ -51,7 +51,33 @@ async function main(): Promise<void> {
           .webp({ quality: 82 })
           .toFile(resolve(output, `${index}-thumb.webp`)),
       ])
+      const annotations = await page.getAnnotations()
+      const links = annotations.flatMap((annotation) => {
+        if (
+          typeof annotation.url !== 'string' ||
+          !/^(https?:\/\/|mailto:)/.test(annotation.url)
+        )
+          return []
+        const [x1, y1] = viewport.convertToViewportPoint(
+          annotation.rect[0],
+          annotation.rect[1]
+        )
+        const [x2, y2] = viewport.convertToViewportPoint(
+          annotation.rect[2],
+          annotation.rect[3]
+        )
+        return [
+          {
+            href: annotation.url,
+            x: Math.min(x1, x2) - issue.trim,
+            y: Math.min(y1, y2) - issue.trim,
+            width: Math.abs(x2 - x1),
+            height: Math.abs(y2 - y1),
+          },
+        ]
+      })
       pages.push({
+        links,
         number: index,
         width,
         height,

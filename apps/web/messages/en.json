@@ -337,6 +337,13 @@
     "loading": "Loading the issue...",
     "loadFailed": "The issue could not be loaded. Try again or download the print PDF.",
     "retry": "Try again",
-    "javascriptRequired": "Enable JavaScript to use the interactive reader, or download the complete issue."
+    "javascriptRequired": "Enable JavaScript to use the interactive reader, or download the complete issue.",
+    "articleResources": "Original text & links",
+    "backToIssue": "Back to issue",
+    "originalText": "Original repository text",
+    "originalNote": "This text is from the original LAN repository, with British English spelling, and may differ from the print edition.",
+    "references": "Reference links",
+    "repositorySource": "View repository source",
+    "editorialResources": "Editorial: original text & links"
   }
 }

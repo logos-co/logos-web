@@ -107,4 +107,18 @@ describe('PDF text extraction', () => {
     expect(result.blocks[0]).toMatchObject({ start: 0, end: 11 })
     expect(result.blocks[1].start).toBe(11)
   })
+  it('separates a spanning headline from a narrower body column', () => {
+    const headline = {
+      ...line('Wide heading', 10, 70, 250),
+      transform: [22, 0, 0, 22, 10, 530],
+      height: 22,
+    }
+    const result = extractText(
+      content([headline, line('Narrow body text', 10, 90, 180)]),
+      600,
+      0
+    )
+    expect(result.blocks).toHaveLength(2)
+    expect(result.blocks[1]).toMatchObject({ width: 180, start: 2, end: 5 })
+  })
 })

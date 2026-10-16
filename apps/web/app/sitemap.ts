@@ -6,6 +6,7 @@ import {
   getCircles,
   getFieldGuideManifest,
   getZineCatalogue,
+  getZineIssue,
 } from '@repo/content/loaders'
 
 import siteConfig from '@/constants/site-config'
@@ -105,6 +106,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .filter((item) => item.slug !== 'index')
     .map((item) => ROUTES.fieldGuideChapter(item.slug))
 
+  const zineIssues = await Promise.all(
+    zines.editions
+      .filter((edition) => edition.reader)
+      .map((edition) => getZineIssue('en', edition.slug))
+  )
+
   const staticRoutes = [
     ...staticIndexableRoutes,
     ...rfps.map((rfp) => `${ROUTES.rfps}/${rfp.slug}`),
@@ -113,6 +120,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ? circles.map((circle) => ROUTES.circle(circle.slug))
       : []),
     ...fieldGuideChapters,
+    ...zineIssues.flatMap((issue) =>
+      (issue.articles ?? []).map((article) =>
+        ROUTES.zineArticle(issue.slug, article.slug)
+      )
+    ),
     ...zines.editions
       .filter((edition) => edition.reader)
       .map((edition) => ROUTES.zine(edition.slug)),

@@ -55,10 +55,14 @@ export function nextPage(
   )
 }
 
-export function articleTitle(issue: ZineIssue, page: number): string {
+export function articleTitle(issue: ZineIssue, page: number, word = 0): string {
   const entries = issue.sections
     .flatMap((section) => section.entries)
-    .filter((entry) => entry.page <= page)
+    .filter(
+      (entry) =>
+        entry.page < page ||
+        (entry.page === page && (entry.startWord ?? 0) <= word)
+    )
   return (
     issue.pageTitles[String(page)] ??
     entries[entries.length - 1]?.title ??

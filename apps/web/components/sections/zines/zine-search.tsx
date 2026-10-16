@@ -78,7 +78,7 @@ export function ZineSearch({
                 {t('resultPage', { page: String(number).padStart(2, '0') })}
               </span>
               <span className="zine-result-title">
-                {articleTitle(issue, number)}
+                {articleTitle(issue, number, hit.start)}
               </span>
               <span
                 className="zine-result-count"

@@ -96,6 +96,33 @@ export function ZinePage({
               )
           )}
         </text>
+        {(page.links ?? [])
+          .filter(
+            (link) =>
+              link.x < crop.x + crop.width &&
+              link.x + link.width > crop.x &&
+              link.y < crop.y + crop.height &&
+              link.y + link.height > crop.y
+          )
+          .map((link, index) => (
+            <a
+              key={index}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={link.href}
+              className="zine-document-link cursor-pointer"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <rect
+                x={link.x}
+                y={link.y}
+                width={link.width}
+                height={link.height}
+                fill="transparent"
+              />
+            </a>
+          ))}
       </svg>
     </figure>
   )

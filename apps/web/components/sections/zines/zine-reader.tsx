@@ -281,7 +281,7 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
                     )}
                     {guided && (
                       <h2 className="zine-guided-heading">
-                        {articleTitle(issue, state.page)}
+                        {articleTitle(issue, state.page, block?.start ?? 0)}
                       </h2>
                     )}
                     {(guided ? [state.page] : numbers).map((number) => (
@@ -378,7 +378,8 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
                   view: mobile ? 'pages' : 'spreads',
                   block: 0,
                 })
-                if (mobile) setPanel(null)
+                if (window.matchMedia('(max-width: 1100px)').matches)
+                  setPanel(null)
               }}
             />
           )}

@@ -61,7 +61,7 @@
 .zine-reader {
   height: 100vh;
   height: 100dvh;
-  min-height: 480px;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
@@ -776,5 +776,103 @@
 @media (min-width: 768px) and (max-width: 1000px) {
   .zine-identity {
     display: none;
+  }
+}
+
+.zine-document-link:hover rect,
+.zine-document-link:focus-visible rect {
+  fill: var(--color-brand-yellow);
+  fill-opacity: 0.25;
+  stroke: var(--color-brand-dark-green);
+  stroke-width: 0.5;
+}
+.zine-resource-link {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .zine-editions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 1100px) {
+  .zine-body {
+    position: relative;
+  }
+  .zine-search,
+  .zine-contents-panel {
+    position: absolute;
+    z-index: 20;
+    inset: 0 0 0 auto;
+    width: min(400px, 100%);
+    background: var(--color-brand-off-white);
+    color: var(--color-brand-dark-green);
+    box-shadow: -8px 0 24px #0003;
+  }
+  .zine-contents-panel .zine-contents h3 {
+    color: var(--color-gray-05);
+  }
+  .zine-reader[data-panel] .zine-stage {
+    padding-inline: 72px;
+  }
+}
+@media (max-width: 767px) {
+  .zine-search,
+  .zine-contents-panel {
+    width: 100%;
+  }
+  .zine-reader[data-panel] .zine-stage {
+    padding-inline: 16px;
+  }
+}
+@media (max-height: 500px) and (min-width: 768px) {
+  .zine-stage {
+    padding-block: 12px;
+  }
+  .zine-filmstrip,
+  .zine-reader[data-panel] .zine-filmstrip {
+    height: 82px;
+    --thumb-height: 32px;
+    --thumb-width: 23px;
+    padding-block: 8px;
+  }
+  .zine-guided-stage {
+    padding: 16px;
+  }
+  .zine-guided-nav {
+    padding-block: 8px;
+  }
+}
+
+@media (max-height: 500px) and (max-width: 767px) {
+  .zine-reader:not([data-view='guided']) .zine-stage {
+    flex: 1;
+    overflow: hidden;
+    padding-block: 12px 0;
+  }
+  .zine-reader:not([data-view='guided']) .zine-sheets,
+  .zine-reader:not([data-view='guided']) .zine-page,
+  .zine-reader:not([data-view='guided']) .zine-page svg {
+    width: auto;
+    height: 100%;
+  }
+  .zine-mobile-controls {
+    flex-shrink: 0;
+    padding-top: 4px;
+  }
+  .zine-guided-entry {
+    flex-shrink: 0;
+    padding: 8px 16px 10px;
+  }
+  .zine-guided-entry p {
+    margin-top: 4px;
+  }
+  .zine-guided-nav {
+    padding-block: 8px;
   }
 }

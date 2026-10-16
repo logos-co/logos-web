@@ -2,6 +2,7 @@ import { assertActiveLocale } from '../locales/registry'
 import type { Language } from '../schemas/common'
 import {
   zineCatalogueSchema,
+  zineArticleBodiesSchema,
   zineIssueSchema,
   type ZineCatalogue,
   type ZineIssue,
@@ -40,4 +41,18 @@ export const getZineIssue = async (
   if (issue.slug !== slug || issue.language !== locale)
     throw new Error('Zine issue identity mismatch')
   return issue
+}
+
+export async function getZineArticleBodies(
+  locale: Language,
+  slug: string
+): Promise<Record<string, string>> {
+  const issue = await getZineIssue(locale, slug)
+  const bodies = await readJson(
+    contentPath('zines', locale, `${slug}-articles.json`),
+    zineArticleBodiesSchema
+  )
+  if ((issue.articles ?? []).some((article) => !bodies[article.slug]))
+    throw new Error('Missing zine article text')
+  return bodies
 }

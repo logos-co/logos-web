@@ -27,6 +27,16 @@ export const zineCatalogueSchema = z
   )
 export type ZineCatalogue = z.infer<typeof zineCatalogueSchema>
 
+export const zineArticleSchema = z.object({
+  slug: slugSchema,
+  title: z.string().min(1),
+  page: z.number().int().positive(),
+  source: z.string().url(),
+  references: z.array(z.string().url()),
+})
+export type ZineArticle = z.infer<typeof zineArticleSchema>
+export const zineArticleBodiesSchema = z.record(slugSchema, z.string().min(1))
+
 export const zineIssueSchema = z
   .object({
     schemaVersion: schemaVersion(1),
@@ -40,6 +50,7 @@ export const zineIssueSchema = z
     trim: z.number().nonnegative(),
     pageCount: z.number().int().min(3),
     pageTitles: z.record(z.string(), z.string().min(1)),
+    articles: z.array(zineArticleSchema).optional(),
     sections: z
       .array(
         z.object({
@@ -49,6 +60,7 @@ export const zineIssueSchema = z
               z.object({
                 title: z.string().min(1),
                 page: z.number().int().positive(),
+                startWord: z.number().int().nonnegative().optional(),
               })
             )
             .min(1),
@@ -86,6 +98,17 @@ export const zinePageSchema = z.object({
   number: z.number().int().nonnegative(),
   width: z.number().positive(),
   height: z.number().positive(),
+  links: z
+    .array(
+      z.object({
+        href: z.string().regex(/^(https?:\/\/|mailto:)/),
+        x: z.number(),
+        y: z.number(),
+        width: z.number().positive(),
+        height: z.number().positive(),
+      })
+    )
+    .optional(),
   words: z.array(zineWordSchema),
   blocks: z.array(zineBlockSchema),
 })
