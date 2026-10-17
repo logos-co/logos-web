@@ -1,7 +1,6 @@
 import type { ZineIssue } from '@repo/content/schemas'
 import { useTranslations } from 'next-intl'
-import { Link } from '@/i18n/navigation'
-import { ROUTES } from '@/constants/routes'
+import { printedPageNumber } from '@/lib/zines/reader-state'
 
 interface ZineContentsProps {
   issue: ZineIssue
@@ -20,17 +19,6 @@ export function ZineContents({
   return (
     <nav className="zine-contents" aria-label={t('contents')}>
       <h2>{t('contents')}</h2>
-      {issue.articles
-        ?.filter((article) => article.page === 1)
-        .map((article) => (
-          <Link
-            key={article.slug}
-            href={ROUTES.zineArticle(issue.slug, article.slug)}
-            className="zine-resource-link cursor-pointer"
-          >
-            {t('editorialResources')}
-          </Link>
-        ))}
       {issue.sections.map((section) => (
         <section key={section.title}>
           <h3>{section.title}</h3>
@@ -47,22 +35,8 @@ export function ZineContents({
                 onBlur={() => onHover?.(null)}
               >
                 <span>{entry.title}</span>
-                <span>{String(entry.page).padStart(2, '0')}</span>
+                <span>{printedPageNumber(issue, entry.page)}</span>
               </button>
-              {issue.articles
-                ?.filter(
-                  (article) =>
-                    article.page === entry.page && article.title === entry.title
-                )
-                .map((article) => (
-                  <Link
-                    key={article.slug}
-                    href={ROUTES.zineArticle(issue.slug, article.slug)}
-                    className="zine-resource-link cursor-pointer"
-                  >
-                    {t('articleResources')}
-                  </Link>
-                ))}
             </div>
           ))}
         </section>

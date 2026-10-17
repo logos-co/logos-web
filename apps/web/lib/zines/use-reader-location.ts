@@ -38,7 +38,13 @@ export function useReaderLocation(pageCount: number): {
     const url = new URL(window.location.href)
     const next = { ...readState(url.search, pageCount), ...patch }
     for (const [key, value] of Object.entries(next)) {
-      if (value === null || value === '' || (key === 'block' && value === 0))
+      if (key === 'panel' && value === null && next.query.trim())
+        url.searchParams.set('panel', 'none')
+      else if (
+        value === null ||
+        value === '' ||
+        (key === 'block' && value === 0)
+      )
         url.searchParams.delete(key === 'query' ? 'q' : key)
       else url.searchParams.set(key === 'query' ? 'q' : key, String(value))
     }

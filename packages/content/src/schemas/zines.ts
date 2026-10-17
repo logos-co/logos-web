@@ -27,16 +27,6 @@ export const zineCatalogueSchema = z
   )
 export type ZineCatalogue = z.infer<typeof zineCatalogueSchema>
 
-export const zineArticleSchema = z.object({
-  slug: slugSchema,
-  title: z.string().min(1),
-  page: z.number().int().positive(),
-  source: z.string().url(),
-  references: z.array(z.string().url()),
-})
-export type ZineArticle = z.infer<typeof zineArticleSchema>
-export const zineArticleBodiesSchema = z.record(slugSchema, z.string().min(1))
-
 export const zineIssueSchema = z
   .object({
     schemaVersion: schemaVersion(1),
@@ -49,8 +39,14 @@ export const zineIssueSchema = z
     pdf: z.string().regex(/^\/zine\/[a-z0-9-]+\.pdf$/),
     trim: z.number().nonnegative(),
     pageCount: z.number().int().min(3),
+    pageNumberOffset: z.number().int().min(-1).max(1).optional(),
     pageTitles: z.record(z.string(), z.string().min(1)),
-    articles: z.array(zineArticleSchema).optional(),
+    textLayer: z.boolean().optional(),
+    printLayout: z.enum(['pages', 'spreads']).optional(),
+    imposedPdf: z
+      .string()
+      .regex(/^\/zine\/[a-z0-9-]+\.pdf$/)
+      .optional(),
     sections: z
       .array(
         z.object({
@@ -120,3 +116,24 @@ export const zineDocumentSchema = z.object({
   pages: z.array(zinePageSchema).min(3),
 })
 export type ZineDocument = z.infer<typeof zineDocumentSchema>
+
+export const zinePrintGuideSchema = z.object({
+  schemaVersion: schemaVersion(1),
+  language: languageSchema,
+  steps: z
+    .array(z.object({ title: z.string().min(1), body: z.string().min(1) }))
+    .min(1),
+  shop: z.object({ title: z.string().min(1), body: z.string().min(1) }),
+  spreadPrint: z.string().min(1),
+})
+export type ZinePrintGuide = z.infer<typeof zinePrintGuideSchema>
+
+export const zineTextLayerSchema = z.object({
+  sourceHash: z.string(),
+  pages: z.array(
+    z.object({
+      words: z.array(zineWordSchema),
+      blocks: z.array(zineBlockSchema),
+    })
+  ),
+})

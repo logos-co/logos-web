@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "language": "en",
   "title": "Logos Zines",
-  "description": "A group becomes a culture when it can see itself. Logos zines are where the movement does that: a record of what our activists are building, who they are helping, what they are running, and what they are learning on the way. Whatever we document becomes the direction of the practice, so each issue works as a mirror, a shared image of ourselves that people start practising toward.",
+  "description": "Logos zines are the movement's record of itself. From a food bank in Ibadan to a node running behind a hotel router in Prague, they collect what our activists build, run, learn and take inspiration from. Read them online, search inside them, or print a copy.",
   "editions": [
     {
       "slug": "lan-01",
@@ -16,30 +16,28 @@
       "title": "Pioneering a New Era of Freedom",
       "date": "March 2026",
       "cover": "/images/zines/pioneering.png",
-      "reader": false
+      "reader": true
     },
     {
       "slug": "nation-states",
       "title": "Nation States Are Obsolete",
       "date": "February 2026",
       "cover": "/images/zines/nation-states.png",
-      "reader": false,
-      "href": "https://logos.metalabel.com/nation-states-obsolete"
+      "reader": true
     },
     {
       "slug": "open-source",
       "title": "Open Source Everything",
       "date": "October 2025",
       "cover": "/images/zines/open-source.png",
-      "reader": false,
-      "href": "https://logos.metalabel.com/open-source-everything"
+      "reader": true
     },
     {
       "slug": "reformatting",
       "title": "A Simple Guide to Reformatting Society",
       "date": "May 2022",
       "cover": "/images/zines/reformatting.png",
-      "reader": false
+      "reader": true
     }
   ]
 }

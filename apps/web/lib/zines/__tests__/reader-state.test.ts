@@ -4,6 +4,7 @@ import {
   readState,
   searchDocument,
   visiblePages,
+  printedPageNumber,
 } from '../reader-state'
 import type { ZineDocument } from '@repo/content/schemas'
 
@@ -36,6 +37,11 @@ const document: ZineDocument = {
 }
 
 describe('zine navigation', () => {
+  it('matches printed folios when an edition numbers its covers differently', () => {
+    expect(printedPageNumber({}, 4)).toBe('04')
+    expect(printedPageNumber({ pageNumberOffset: 1 }, 4)).toBe('05')
+    expect(printedPageNumber({ pageNumberOffset: -1 }, 3)).toBe('02')
+  })
   it('maps printed pages to spreads without pairing either cover', () => {
     expect(visiblePages(0, 32, true)).toEqual([0])
     expect(visiblePages(4, 32, true)).toEqual([3, 4])
@@ -66,6 +72,19 @@ describe('zine navigation', () => {
     expect(
       readState('?page=4&q=parallel&view=guided&block=12', 32)
     ).toMatchObject({ page: 4, query: 'parallel', view: 'guided', block: 12 })
+  })
+  it('restores the print guide independently of the page, view and search', () => {
+    expect(
+      readState('?page=4&view=pages&panel=print&q=parallel', 32)
+    ).toMatchObject({
+      page: 4,
+      view: 'pages',
+      panel: 'print',
+      query: 'parallel',
+    })
+    expect(readState('?q=parallel', 32).panel).toBe('search')
+    expect(readState('?q=parallel&panel=none', 32).panel).toBeNull()
+    expect(readState('?panel=unknown', 32).panel).toBeNull()
   })
 })
 

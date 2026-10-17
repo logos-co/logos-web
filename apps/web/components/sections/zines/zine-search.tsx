@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { SearchIcon, XIcon } from '@acid-info/logos-ui'
 import type { ZineIssue } from '@repo/content/schemas'
 import { useTranslations } from 'next-intl'
-import { articleTitle, type SearchHit } from '@/lib/zines/reader-state'
+import {
+  articleTitle,
+  printedPageNumber,
+  type SearchHit,
+} from '@/lib/zines/reader-state'
 
 interface ZineSearchProps {
   issue: ZineIssue
@@ -75,7 +79,15 @@ export function ZineSearch({
               onClick={() => onSelect(hit)}
             >
               <span className="zine-result-page">
-                {t('resultPage', { page: String(number).padStart(2, '0') })}
+                {number === 0
+                  ? t('cover')
+                  : number === issue.pageCount - 1
+                    ? t('backCover')
+                    : number + (issue.pageNumberOffset ?? 0) === 0
+                      ? t('insideCover')
+                      : t('resultPage', {
+                          page: printedPageNumber(issue, number),
+                        })}
               </span>
               <span className="zine-result-title">
                 {articleTitle(issue, number, hit.start)}

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "steps": [
+    {
+      "title": "01 · Print",
+      "body": "Open the PDF in your preferred PDF tool. Print it as a booklet, on both sides, flipping on the short edge. Print one copy first to check the pages line up."
+    },
+    {
+      "title": "02 · Paper",
+      "body": "Regular printing paper is thick enough. Recycled paper cuts the cost. Black and white is fine."
+    },
+    {
+      "title": "03 · Fold and staple",
+      "body": "Fold the stack in half and staple along the fold. A long-arm stapler reaches the middle of the sheet."
+    },
+    {
+      "title": "04 · Trim",
+      "body": "If the file has crop marks, cut along them."
+    }
+  ],
+  "shop": {
+    "title": "At a print shop",
+    "body": "Bring the PDF and ask for an A5 saddle-stitched booklet, printed double sided."
+  },
+  "spreadPrint": "This PDF contains facing pages. Split the spreads into single pages in your PDF tool before using booklet mode, or give the supplied PDF to a print shop. Print one copy first to check the page order and orientation."
+}

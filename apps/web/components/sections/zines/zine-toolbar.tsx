@@ -3,9 +3,8 @@ import type { ZineIssue } from '@repo/content/schemas'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { ROUTES } from '@/constants/routes'
-import type { ReaderView } from '@/lib/zines/reader-state'
+import type { ReaderView, ReaderPanel } from '@/lib/zines/reader-state'
 
-export type ReaderPanel = 'search' | 'contents' | null
 interface ZineToolbarProps {
   issue: ZineIssue
   view: ReaderView
@@ -90,10 +89,20 @@ export function ZineToolbar({
             <button
               type="button"
               className="cursor-pointer"
-              aria-expanded={panel === 'contents' || view === 'grid'}
+              aria-expanded={
+                panel === 'contents' || (view === 'grid' && panel === null)
+              }
               onClick={() => setPanel(panel === 'contents' ? null : 'contents')}
             >
               {t('contents')}
+            </button>
+            <button
+              type="button"
+              className="zine-print-toggle cursor-pointer"
+              aria-expanded={panel === 'print'}
+              onClick={() => setPanel(panel === 'print' ? null : 'print')}
+            >
+              {t('printGuide')}
             </button>
             <Button
               href={issue.pdf}

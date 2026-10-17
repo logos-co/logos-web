@@ -3,6 +3,7 @@ import {
   ContentNotFoundError,
   getZineCatalogue,
   getZineIssue,
+  getZinePrintGuide,
 } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import { ZineReader } from '@/components/sections/zines/zine-reader'
@@ -50,6 +51,7 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function ZineIssuePage({ params }: PageProps) {
-  const { issue } = await readIssue(params)
-  return <ZineReader issue={issue} />
+  const { locale, issue } = await readIssue(params)
+  const printGuide = await getZinePrintGuide(locale)
+  return <ZineReader issue={issue} printGuide={printGuide} />
 }

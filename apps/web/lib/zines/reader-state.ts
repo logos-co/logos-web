@@ -1,6 +1,7 @@
 import type { ZineDocument, ZineIssue } from '@repo/content/schemas'
 
 export type ReaderView = 'spreads' | 'pages' | 'grid' | 'guided'
+export type ReaderPanel = 'search' | 'contents' | 'print' | null
 export interface ReaderState {
   page: number
   view: ReaderView
@@ -8,6 +9,7 @@ export interface ReaderState {
   query: string
   start: number | null
   end: number | null
+  panel: ReaderPanel
 }
 
 const integer = (value: string | null, fallback: number): number =>
@@ -16,6 +18,7 @@ const integer = (value: string | null, fallback: number): number =>
 export function readState(search: string, pageCount: number): ReaderState {
   const params = new URLSearchParams(search)
   const view = params.get('view')
+  const panel = params.get('panel')
   return {
     page: Math.min(integer(params.get('page'), 0), pageCount - 1),
     view:
@@ -26,6 +29,12 @@ export function readState(search: string, pageCount: number): ReaderState {
     query: (params.get('q') ?? '').slice(0, 120),
     start: params.has('start') ? integer(params.get('start'), -1) : null,
     end: params.has('end') ? integer(params.get('end'), -1) : null,
+    panel:
+      panel === 'print' || panel === 'contents' || panel === 'search'
+        ? panel
+        : !params.has('panel') && params.get('q')?.trim() && view !== 'guided'
+          ? 'search'
+          : null,
   }
 }
 
@@ -53,6 +62,13 @@ export function nextPage(
       direction === 1 ? visible[visible.length - 1] + 1 : visible[0] - 1
     )
   )
+}
+
+export function printedPageNumber(
+  issue: Pick<ZineIssue, 'pageNumberOffset'>,
+  page: number
+): string {
+  return String(page + (issue.pageNumberOffset ?? 0)).padStart(2, '0')
 }
 
 export function articleTitle(issue: ZineIssue, page: number, word = 0): string {

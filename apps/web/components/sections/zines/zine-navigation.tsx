@@ -4,6 +4,7 @@ import type { ZineIssue } from '@repo/content/schemas'
 import { useTranslations } from 'next-intl'
 import {
   visiblePages,
+  printedPageNumber,
   type SearchHit,
   type ReaderView,
 } from '@/lib/zines/reader-state'
@@ -85,13 +86,14 @@ export function ZineNavigation({
             ))}
         </div>
         <p className="zine-page-status" role="status">
-          {numbers.length === 2
+          {numbers.length === 2 &&
+          numbers[0] + (issue.pageNumberOffset ?? 0) > 0
             ? t('spreadStatus', {
-                first: String(numbers[0]).padStart(2, '0'),
-                last: String(numbers[1]).padStart(2, '0'),
-                count: issue.pageCount - 2,
+                first: printedPageNumber(issue, numbers[0]),
+                last: printedPageNumber(issue, numbers[1]),
+                count: issue.pageCount - 2 + (issue.pageNumberOffset ?? 0),
               })
-            : label(page)}
+            : numbers.map(label).join(' · ')}
           {searching &&
             ` · ${t(numbers.length === 2 ? 'spreadHits' : 'pageHits', {
               count: hits.filter((hit) => numbers.includes(hit.page)).length,
@@ -115,10 +117,12 @@ export function ZineNavigation({
           aria-label={t('goToPage')}
         />
         <p className="zine-page-status" role="status">
-          {page > 0 && page < issue.pageCount - 1
+          {page > 0 &&
+          page < issue.pageCount - 1 &&
+          page + (issue.pageNumberOffset ?? 0) > 0
             ? t('pageStatus', {
-                page: String(page).padStart(2, '0'),
-                count: issue.pageCount - 2,
+                page: printedPageNumber(issue, page),
+                count: issue.pageCount - 2 + (issue.pageNumberOffset ?? 0),
               })
             : label(page)}
         </p>

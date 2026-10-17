@@ -2,10 +2,11 @@ import { assertActiveLocale } from '../locales/registry'
 import type { Language } from '../schemas/common'
 import {
   zineCatalogueSchema,
-  zineArticleBodiesSchema,
   zineIssueSchema,
+  zinePrintGuideSchema,
   type ZineCatalogue,
   type ZineIssue,
+  type ZinePrintGuide,
 } from '../schemas/zines'
 import { ContentNotFoundError, contentPath, readJson } from './_fs'
 
@@ -43,16 +44,15 @@ export const getZineIssue = async (
   return issue
 }
 
-export async function getZineArticleBodies(
-  locale: Language,
-  slug: string
-): Promise<Record<string, string>> {
-  const issue = await getZineIssue(locale, slug)
-  const bodies = await readJson(
-    contentPath('zines', locale, `${slug}-articles.json`),
-    zineArticleBodiesSchema
+export async function getZinePrintGuide(
+  locale: Language
+): Promise<ZinePrintGuide> {
+  assertActiveLocale(locale)
+  const guide = await readJson(
+    contentPath('zines', locale, 'print-guide.json'),
+    zinePrintGuideSchema
   )
-  if ((issue.articles ?? []).some((article) => !bodies[article.slug]))
-    throw new Error('Missing zine article text')
-  return bodies
+  if (guide.language !== locale)
+    throw new Error('Zine print guide locale mismatch')
+  return guide
 }

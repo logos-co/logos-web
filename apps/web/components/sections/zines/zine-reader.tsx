@@ -6,37 +6,42 @@ import {
   zineDocumentSchema,
   type ZineDocument,
   type ZineIssue,
+  type ZinePrintGuide,
 } from '@repo/content/schemas'
 import { useTranslations } from 'next-intl'
 import {
   articleTitle,
+  printedPageNumber,
   nextPage,
   searchDocument,
   visiblePages,
   type ReaderView,
+  type ReaderPanel,
 } from '@/lib/zines/reader-state'
 import { useReaderLocation } from '@/lib/zines/use-reader-location'
-import { ZineToolbar, type ReaderPanel } from './zine-toolbar'
+import { ZineToolbar } from './zine-toolbar'
 import { ZineNavigation } from './zine-navigation'
 import { ZinePage } from './zine-page'
 import { ZineContents } from './zine-contents'
 import { ZineSearch } from './zine-search'
 import { ZineSelection } from './zine-selection'
+import { ZinePrintGuidePanel } from './zine-print-guide'
 import './zines.css'
 
-export function ZineReader({ issue }: { issue: ZineIssue }) {
+export function ZineReader({
+  issue,
+  printGuide,
+}: {
+  issue: ZineIssue
+  printGuide: ZinePrintGuide
+}) {
   const t = useTranslations('zines')
   const { state, mobile, navigate } = useReaderLocation(issue.pageCount)
   const [document, setDocument] = useState<ZineDocument | null>(null)
   const [failed, setFailed] = useState(false)
   const [attempt, setAttempt] = useState(0)
-  const [panelOverride, setPanel] = useState<ReaderPanel | undefined>(undefined)
-  const panel =
-    panelOverride === undefined
-      ? state.query && state.view !== 'guided'
-        ? 'search'
-        : null
-      : panelOverride
+  const panel = state.panel
+  const setPanel = (panel: ReaderPanel): void => navigate({ panel })
   const [hoverPage, setHoverPage] = useState<number | null>(null)
   const touch = useRef<{ x: number; y: number } | null>(null)
   const view = mobile && state.view === 'spreads' ? 'pages' : state.view
@@ -58,16 +63,18 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
       ? t('cover')
       : number === issue.pageCount - 1
         ? t('backCover')
-        : t('page', { page: String(number).padStart(2, '0') })
+        : number + (issue.pageNumberOffset ?? 0) === 0
+          ? t('insideCover')
+          : t('page', { page: printedPageNumber(issue, number) })
   const selectPage = (number: number): void => {
     navigate({
       page: number,
       block: 0,
       start: null,
       end: null,
+      panel: panel === 'contents' ? null : panel,
       ...(view === 'grid' ? { view: mobile ? 'pages' : 'spreads' } : {}),
     })
-    if (panel === 'contents') setPanel(null)
     window.getSelection()?.removeAllRanges()
   }
   const move = (direction: -1 | 1): void => {
@@ -116,8 +123,7 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
   useEffect(() => {
     const onKey = (event: KeyboardEvent): void => {
       if (event.key === 'Escape') {
-        setPanel(null)
-        if (guided) navigate({ view: 'pages' })
+        navigate({ panel: null, ...(guided ? { view: 'pages' } : {}) })
         return
       }
       if (
@@ -148,8 +154,11 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
   })
 
   const showView = (next: ReaderView): void => {
-    navigate({ view: next, block: 0 })
-    setPanel(null)
+    navigate({
+      view: next,
+      block: 0,
+      panel: panel === 'print' && next !== 'guided' ? 'print' : null,
+    })
   }
   const navButton = (direction: -1 | 1) => (
     <IconButton
@@ -208,12 +217,14 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
           <div className="zine-main">
             {view === 'grid' ? (
               <div className="zine-grid-layout">
-                <ZineContents
-                  issue={issue}
-                  page={state.page}
-                  onSelect={selectPage}
-                  onHover={setHoverPage}
-                />
+                {panel !== 'print' && panel !== 'search' && (
+                  <ZineContents
+                    issue={issue}
+                    page={state.page}
+                    onSelect={selectPage}
+                    onHover={setHoverPage}
+                  />
+                )}
                 <div className="zine-grid" aria-label={t('grid')}>
                   {document.pages.map((item) => (
                     <button
@@ -235,9 +246,10 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
                       />
                       <span>
                         {item.number === 0 ||
-                        item.number === issue.pageCount - 1
+                        item.number === issue.pageCount - 1 ||
+                        item.number + (issue.pageNumberOffset ?? 0) === 0
                           ? label(item.number)
-                          : String(item.number).padStart(2, '0')}
+                          : printedPageNumber(issue, item.number)}
                       </span>
                     </button>
                   ))}
@@ -294,8 +306,11 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
                         onSelectBlock={
                           mobile && !guided
                             ? (index) => {
-                                navigate({ view: 'guided', block: index })
-                                setPanel(null)
+                                navigate({
+                                  view: 'guided',
+                                  block: index,
+                                  panel: null,
+                                })
                               }
                             : undefined
                         }
@@ -326,7 +341,7 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
                             ? t('blockStatus', {
                                 block: blockIndex + 1,
                                 count: page.blocks.length,
-                                page: String(state.page).padStart(2, '0'),
+                                page: printedPageNumber(issue, state.page),
                               })
                             : label(state.page)}
                         </p>
@@ -377,9 +392,10 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
                   end: hit.end,
                   view: mobile ? 'pages' : 'spreads',
                   block: 0,
+                  panel: window.matchMedia('(max-width: 1100px)').matches
+                    ? null
+                    : panel,
                 })
-                if (window.matchMedia('(max-width: 1100px)').matches)
-                  setPanel(null)
               }}
             />
           )}
@@ -410,6 +426,13 @@ export function ZineReader({ issue }: { issue: ZineIssue }) {
                 {t('download')}
               </Button>
             </aside>
+          )}
+          {panel === 'print' && (
+            <ZinePrintGuidePanel
+              issue={issue}
+              guide={printGuide}
+              onClose={() => setPanel(null)}
+            />
           )}
         </div>
       )}

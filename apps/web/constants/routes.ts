@@ -94,8 +94,6 @@ export const ROUTES = {
   fieldGuide: '/field-guide',
   zines: '/zines',
   zine: (slug: string) => `/zines/${slug}`,
-  zineArticle: (slug: string, article: string) =>
-    `/zines/${slug}/articles/${article}`,
   /** Dynamic route — `/field-guide/[slug]`. */
   fieldGuideChapter: (slug: string) => `/field-guide/${slug}`,
 

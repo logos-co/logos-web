@@ -338,12 +338,10 @@
     "loadFailed": "The issue could not be loaded. Try again or download the print PDF.",
     "retry": "Try again",
     "javascriptRequired": "Enable JavaScript to use the interactive reader, or download the complete issue.",
-    "articleResources": "Original text & links",
-    "backToIssue": "Back to issue",
-    "originalText": "Original repository text",
-    "originalNote": "This text is from the original LAN repository, with British English spelling, and may differ from the print edition.",
-    "references": "Reference links",
-    "repositorySource": "View repository source",
-    "editorialResources": "Editorial: original text & links"
+    "printGuide": "Print guide",
+    "closePrintGuide": "Close print guide",
+    "downloadImposed": "Download A3 print layout",
+    "imposedNote": "This file is already arranged for A3 booklet printing. Print at actual size, on both sides, flipping on the short edge. Do not select booklet mode again. Print one copy first to check the page order and orientation.",
+    "insideCover": "Inside cover"
   }
 }
