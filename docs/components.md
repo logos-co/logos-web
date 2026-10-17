@@ -398,3 +398,16 @@ interface BuildersHubPageHeaderProps {
 | Ideas desktop                   | `2259:41841`     |
 | RFPs desktop                    | `2259:43033`     |
 | Builders Hub desktop            | `2212:27068`     |
+
+
+## Zine catalogue and reader
+
+**Figma:** Logos Designs, page `3748:262`; latest catalogue `3761:262` and print guide panel `3761:354`. Reader, search, grid and phone variants are on the same page.
+
+The `/zines` catalogue and `/zines/[slug]` reader live in `apps/web`. They use the shared Logos colour tokens, Rhymes display font, monospace labels, Button, IconButton and SVG icons. Catalogue and issue metadata live in `content/zines/<locale>/`; UI labels use `messages/<locale>.json`.
+
+`generate:zines` runs before development and production builds. It trims the print bleed and generates full-size WebP pages, thumbnails, positioned words and reading blocks from the local print PDF. PDF.js and the canvas renderer are build dependencies only. The browser loads static assets, supports printed-page and passage links, and crops original artwork for guided reading. Generated assets are ignored by Git and included in the static export.
+
+All five catalogue editions open in the reader. Landscape source sheets are split into facing pages in reading order; the supplied PDFs remain downloadable. Nation States also offers the separate imposed A3 file in its print guide. Pioneering uses a smaller PDF with full-resolution JPEG images and retained vector artwork. Its original supplied file is not modified.
+
+The print guide lives in `content/zines/<locale>/print-guide.json`, opens with `?panel=print`, and stays open during page navigation. There are no separate original-text article routes. Two outlined/image-only issues use checked-in OCR word positions under `apps/web/scripts/zines/text-layers/`, matched to the PDF by SHA-256. These are verbatim source derivatives, not editorial website copy. To prepare them after replacing a PDF, install Tesseract with English language data and run `pnpm --filter web exec tsx scripts/prepare-zine-text.ts <slug>`, then inspect search highlights and guided crops in the browser. OCR can contain recognition errors; the rendered PDF remains the visual source of truth. JPEG 2000 decoding uses PDF.js's bundled WASM during asset generation.

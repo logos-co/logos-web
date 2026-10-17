@@ -5,6 +5,7 @@ import {
   getAllIdeas,
   getCircles,
   getFieldGuideManifest,
+  getZineCatalogue,
 } from '@repo/content/loaders'
 
 import siteConfig from '@/constants/site-config'
@@ -68,6 +69,7 @@ const staticIndexableRoutes = [
   // emailed link, and its metadata is noindex
   ...(ROUTE_AVAILABILITY.about ? [ROUTES.about] : []),
   ROUTES.fieldGuide,
+  ROUTES.zines,
 ] as const
 
 const buildSitemapEntry = (
@@ -87,7 +89,7 @@ const buildSitemapEntry = (
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Media details come through the shared loaders, which fetch a few at a
   // time: firing one request per post at once trips the CMS.
-  const [rfps, ideas, circles, fieldGuide, articles, podcasts] =
+  const [rfps, ideas, circles, fieldGuide, articles, podcasts, zines] =
     await Promise.all([
       fetchGithubRfps(),
       getAllIdeas({ locale: 'en', status: 'published' }),
@@ -95,6 +97,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       getFieldGuideManifest('en'),
       getAllBlogArticles(),
       getAllBlogPodcasts(),
+      getZineCatalogue('en'),
     ])
 
   // Index chapter is served by ROUTES.fieldGuide (already in the static list).
@@ -110,6 +113,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ? circles.map((circle) => ROUTES.circle(circle.slug))
       : []),
     ...fieldGuideChapters,
+    ...zines.editions
+      .filter((edition) => edition.reader)
+      .map((edition) => ROUTES.zine(edition.slug)),
   ]
 
   const entries: MetadataRoute.Sitemap = [

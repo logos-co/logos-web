@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "slug": "reformatting",
+  "title": "A Simple Guide to Reformatting Society",
+  "shortTitle": "Reformatting Society",
+  "edition": "May 2022",
+  "description": "Read A Simple Guide to Reformatting Society, published by Logos in May 2022.",
+  "pdf": "/zine/reformatting.pdf",
+  "trim": 0,
+  "pageCount": 26,
+  "pageTitles": {},
+  "sections": [
+    {
+      "title": "A Simple Guide to Reformatting Society",
+      "entries": [
+        {
+          "page": 2,
+          "title": "Table of Contents"
+        },
+        {
+          "page": 4,
+          "title": "Preface"
+        },
+        {
+          "page": 6,
+          "title": "Welcome to Logos"
+        },
+        {
+          "page": 8,
+          "title": "Why"
+        },
+        {
+          "page": 10,
+          "title": "Architecture"
+        },
+        {
+          "page": 12,
+          "title": "Communication"
+        },
+        {
+          "page": 14,
+          "title": "Storage"
+        },
+        {
+          "page": 16,
+          "title": "Consensus"
+        },
+        {
+          "page": 18,
+          "title": "Ecosystem"
+        },
+        {
+          "page": 20,
+          "title": "Settling In"
+        },
+        {
+          "page": 22,
+          "title": "Funding"
+        },
+        {
+          "page": 23,
+          "title": "Join Us"
+        },
+        {
+          "page": 24,
+          "title": "A Cypherpunk's Manifesto"
+        }
+      ]
+    }
+  ],
+  "printLayout": "spreads",
+  "pageNumberOffset": 1
+}

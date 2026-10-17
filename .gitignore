@@ -70,3 +70,6 @@ mcp.json
 
 # Internal Jenkins media snapshot (never served from public/).
 /press-snapshot.json
+
+# Zine pages and text positions are generated from the print PDFs.
+/apps/web/public/zines/generated/

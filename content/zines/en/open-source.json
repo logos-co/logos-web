@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "slug": "open-source",
+  "title": "Open Source Everything",
+  "shortTitle": "Open Source",
+  "edition": "October 2025",
+  "description": "Read Open Source Everything, published by Logos in October 2025.",
+  "pdf": "/zine/open-source.pdf",
+  "trim": 0,
+  "pageCount": 32,
+  "pageTitles": {},
+  "sections": [
+    {
+      "title": "Open Source Everything",
+      "entries": [
+        {
+          "page": 1,
+          "title": "Table of Contents"
+        },
+        {
+          "page": 4,
+          "title": "Shared Stories Matter"
+        },
+        {
+          "page": 5,
+          "title": "Beyond Westphalia"
+        },
+        {
+          "page": 11,
+          "title": "What Is a Network State?"
+        },
+        {
+          "page": 14,
+          "title": "Rebels with a Cause (Your Privacy)"
+        },
+        {
+          "page": 17,
+          "title": "Spears, Hunters, and Tribe"
+        },
+        {
+          "page": 28,
+          "title": "Logos Circles"
+        }
+      ]
+    }
+  ],
+  "textLayer": true,
+  "pageNumberOffset": 1
+}
