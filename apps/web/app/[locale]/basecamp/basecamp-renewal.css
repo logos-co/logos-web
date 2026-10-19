@@ -219,34 +219,58 @@
   z-index: 10;
   top: 0;
   height: 64px;
-  background: var(--bc-paper);
-  border-bottom: 1px solid #1a1a1a26;
-  color: var(--bc-green);
+  background: #232323;
+  border-top: 1px solid #f5f5ef1a;
+  border-bottom: 1px solid #f5f5ef1a;
+  color: var(--bc-paper);
 }
 .bc-subnav-inner {
-  justify-content: flex-start;
-  gap: 50px;
+  gap: 40px;
+}
+.bc-subnav-paths {
+  display: flex;
+  align-items: center;
+  gap: 40px;
 }
 .bc-subnav-group {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 28px;
   white-space: nowrap;
 }
 .bc-subnav-group span {
   font-family: var(--next-font-mono), monospace;
-  font-weight: 600;
+  font-weight: 500;
+  line-height: 1.3;
   text-transform: uppercase;
-  color: #15252180;
+  color: #f5f5ef59;
   font-size: 10px;
 }
 .bc-subnav-group a {
-  font-size: 13px;
+  padding: 22px 0 20px;
+  border-bottom: 2px solid transparent;
+  color: #f5f5ef99;
+  font-family: var(--next-font-mono), monospace;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.bc-subnav-group a.is-active {
+  border-bottom-color: var(--bc-orange);
+  color: var(--bc-paper);
+}
+.bc-subnav-divider {
+  width: 1px;
+  height: 20px;
+  flex: none;
+  background: #f5f5ef26;
 }
 .bc-subnav-install {
   margin-left: auto !important;
-  background: var(--bc-dark);
-  color: var(--bc-paper);
+  background: var(--bc-orange);
+  color: var(--bc-green);
 }
 .bc-about {
   height: 557px;
@@ -1078,6 +1102,17 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+@media (min-width: 768px) and (max-width: 991px) {
+  .bc-subnav-inner {
+    gap: 16px;
+  }
+  .bc-subnav-paths {
+    gap: 24px;
+  }
+  .bc-subnav-group {
+    gap: 16px;
+  }
+}
 @media (max-width: 767px) {
   .basecamp-renewal h2 {
     font-size: 40px;
@@ -1136,6 +1171,9 @@
     width: max-content;
     gap: 32px;
     justify-content: flex-start;
+  }
+  .bc-subnav-paths {
+    gap: 24px;
   }
   .bc-subnav-group {
     gap: 16px;
@@ -2088,11 +2126,9 @@
   }
   .bc-subnav-inner {
     width: 100%;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    overflow-x: auto;
+    padding-top: 0;
+    padding-bottom: 0;
   }
   .bc-filters {
     flex-wrap: wrap;
