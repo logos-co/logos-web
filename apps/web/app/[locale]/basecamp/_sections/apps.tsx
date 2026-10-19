@@ -17,23 +17,23 @@ export function Apps({ copy }: { copy: Renewal['apps'] }) {
   return (
     <section id="run-apps" className="bc-light bc-apps">
       <div className="bc-section-header">
-        <h2>
-          <Lines lines={copy.title} />
-        </h2>
         <div>
+          <h2>
+            <Lines lines={copy.title} />
+          </h2>
           <p className="bc-apps-description">{copy.description}</p>
-          <div className="bc-filters">
-            {copy.filters.map((item) => (
-              <button
-                type="button"
-                className={`cursor-pointer ${item === filter ? 'is-active' : ''}`}
-                onClick={() => setFilter(item)}
-                key={item}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
+        </div>
+        <div className="bc-filters">
+          {copy.filters.map((item) => (
+            <button
+              type="button"
+              className={`cursor-pointer ${item === filter ? 'is-active' : ''}`}
+              onClick={() => setFilter(item)}
+              key={item}
+            >
+              {item}
+            </button>
+          ))}
         </div>
       </div>
       <div className="bc-app-grid">

@@ -58,7 +58,9 @@ export function HowItWorks({ copy }: { copy: Renewal['how'] }) {
               ))}
             </div>
           </div>
-          <div className={`bc-diagram-row ${active === 1 ? 'is-active' : ''}`}>
+          <div
+            className={`bc-diagram-row bc-modules-row ${active === 1 ? 'is-active' : ''}`}
+          >
             <span>{copy.layers[1].title}</span>
             <div>
               {diagram.modules.map((group) => (
