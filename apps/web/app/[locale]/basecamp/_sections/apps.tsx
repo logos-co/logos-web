@@ -60,15 +60,19 @@ export function Apps({ copy }: { copy: Renewal['apps'] }) {
           </article>
         ))}
         <div className="bc-install-card">
-          <small>{copy.installCard.eyebrow}</small>
-          <h3>
-            <Lines lines={copy.installCard.title} />
-          </h3>
-          <p>{copy.installCard.platforms}</p>
-          <InstallLink
-            cta={copy.installCard.action}
-            className="bc-button-orange"
-          />
+          <div className="bc-install-card-top">
+            <small>{copy.installCard.eyebrow}</small>
+            <h3>
+              <Lines lines={copy.installCard.title} />
+            </h3>
+          </div>
+          <div className="bc-install-card-bottom">
+            <p>{copy.installCard.platforms}</p>
+            <InstallLink
+              cta={copy.installCard.action}
+              className="bc-button-orange"
+            />
+          </div>
         </div>
       </div>
       <div className="bc-community">
