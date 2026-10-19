@@ -6,6 +6,7 @@ import ScrollToTop from '@/components/scroll-to-top'
 import SiteFooter from '@/components/site-footer'
 import SiteHeader from '@/components/site-header'
 import SiteHeaderGate from '@/components/site-header/site-header-gate'
+import SiteFooterGate from '@/components/site-footer-gate'
 import UmamiButtonTracker from '@/components/umami-button-tracker'
 import { PodcastPlayerProvider } from '@/app/[locale]/media/_components/podcast-player-context'
 
@@ -26,7 +27,9 @@ export default function SiteShell({ children, locale }: SiteShellProps) {
         <main className="relative">
           <PageTransition>{children}</PageTransition>
         </main>
-        <SiteFooter locale={locale} />
+        <SiteFooterGate>
+          <SiteFooter locale={locale} />
+        </SiteFooterGate>
       </PodcastPlayerProvider>
     </Providers>
   )

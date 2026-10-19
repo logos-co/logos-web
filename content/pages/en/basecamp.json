@@ -3,8 +3,8 @@
   "language": "en",
   "route": "/basecamp",
   "title": "Basecamp | Logos",
-  "description": "Logos Basecamp is a self-contained desktop application for running the Logos stack locally.",
-  "heading": "Basecamp",
+  "description": "Basecamp is a desktop interface for apps built on the Logos stack. Under the hood, it runs modules that deliver p2p messaging, storage, and a blockchain node.",
+  "heading": "Logos Basecamp",
   "seo": {
     "keywords": [
       "logos",
@@ -17,185 +17,790 @@
   },
   "sections": [
     {
-      "componentType": "hero",
-      "key": "basecamp.hero",
-      "eyebrow": "Technology stack",
-      "headline": "Basecamp",
-      "body": "Logos Basecamp is a self-contained desktop application that bundles everything you need to interact with the Logos stack into a single install: a blockchain node, a wallet, a module manager, and a growing set of tools.",
-      "bodySecondary": "Basecamp runs on your machine and stays on your machine.\n\nno accounts to create\nno data handed to third parties\nno cloud dependencies",
-      "ctas": [
-        {
+      "componentType": "basecampRenewal",
+      "key": "basecamp.renewal",
+      "nav": {
+        "homeLabel": "Logos home",
+        "links": [
+          {
+            "label": "Take Action",
+            "href": "/movement"
+          },
+          {
+            "label": "Explore",
+            "href": "/about"
+          },
+          {
+            "label": "Technology",
+            "href": "/technology-stack"
+          },
+          {
+            "label": "Research",
+            "href": "/research"
+          }
+        ],
+        "install": {
           "label": "Install Basecamp",
           "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
           "external": true,
-          "variant": "primary",
           "iconOverride": "download"
-        },
-        {
-          "label": "All downloads",
+        }
+      },
+      "hero": {
+        "badges": ["Basecamp v0.3.2", "Testnet v0.3"],
+        "title": ["Logos", "Basecamp"],
+        "description": "Basecamp is a desktop interface for apps built on the Logos stack. Under the hood, it runs modules that deliver p2p messaging, storage, and a blockchain node.",
+        "statement": "No cloud. No accounts. No third parties.",
+        "install": {
+          "label": "Install Basecamp →",
           "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
           "external": true,
-          "variant": "link",
-          "iconOverride": "none"
-        }
-      ],
-      "links": [
-        {
-          "label": "Logos Blockchain Testnet T&Cs",
-          "href": "/testnet-terms-and-conditions",
-          "variant": "tertiary"
+          "iconOverride": "download"
         },
-        {
-          "label": "Logos Blockchain Testnet Privacy Policy",
-          "href": "/testnet-privacy-policy",
-          "variant": "tertiary"
-        }
-      ]
-    },
-    {
-      "componentType": "table",
-      "key": "basecamp.howItWorks",
-      "title": "How Basecamp Works",
-      "action": {
-        "label": "Install Basecamp",
-        "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
-        "external": true,
-        "variant": "primary",
-        "iconOverride": "download"
-      },
-      "rows": [
-        {
-          "number": "01",
-          "title": "Step 01",
-          "description": "Basecamp is built around a modular architecture. At its core is a lightweight runtime that manages self-contained modules, each providing a distinct capability such as private peer-to-peer messaging or distributed storage.",
-          "cta": {
-            "label": "Installation guide",
-            "href": "https://docs.logos.co/basecamp/install-logos-basecamp",
-            "external": true,
-            "variant": "secondary"
+        "versions": {
+          "label": "View all versions →",
+          "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
+          "external": true
+        },
+        "platforms": [
+          {
+            "label": "macOS · Apple silicon",
+            "available": true
           },
-          "secondaryCta": {
-            "label": "All downloads",
+          {
+            "label": "Linux",
+            "available": true
+          },
+          {
+            "label": "Windows · on roadmap",
+            "available": false
+          }
+        ],
+        "status": "Running on this machine",
+        "windowTitle": "Logos Basecamp",
+        "windowAlt": "Logos Basecamp application window"
+      },
+      "subnav": {
+        "useLabel": "Use",
+        "buildLabel": "Build",
+        "useLinks": [
+          {
+            "label": "About",
+            "href": "#about"
+          },
+          {
+            "label": "Run a node",
+            "href": "#run-a-node"
+          },
+          {
+            "label": "Run apps",
+            "href": "#run-apps"
+          }
+        ],
+        "buildLinks": [
+          {
+            "label": "Build an app",
+            "href": "#build-an-app"
+          },
+          {
+            "label": "Dev programs",
+            "href": "#dev-programs"
+          }
+        ],
+        "install": {
+          "label": "Install →",
+          "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
+          "external": true,
+          "iconOverride": "download"
+        }
+      },
+      "about": {
+        "title": ["Private systems need", "software people run", "themselves."],
+        "paragraphs": [
+          [
+            "Most apps run on someone else's server.",
+            "That server sees who you are, what you do,",
+            "and who you talk to."
+          ],
+          [
+            "Basecamp moves that work back under your control.",
+            "Your keys, data, and activity stay on your machine.",
+            "You are the infrastructure."
+          ]
+        ],
+        "stats": [
+          {
+            "value": "1,103",
+            "label": "Basecamp installs"
+          },
+          {
+            "value": "17",
+            "label": "live starter apps"
+          },
+          {
+            "value": "250",
+            "label": "testnet nodes"
+          },
+          {
+            "value": "~3 min",
+            "label": "from download to running a node"
+          }
+        ]
+      },
+      "how": {
+        "title": ["How Logos", "Basecamp works."],
+        "intro": "The Logos stack is layered: the Logos Runtime at the foundation, the network on top, modules stacked above, and apps you can see and use.",
+        "disclaimer": "[Disclaimer copy slot] Basecamp is experimental software running on testnet. Apps may change without notice.",
+        "layers": [
+          {
+            "title": "Apps",
+            "label": "Layer 3",
+            "description": "A dynamic interface for applications built on the private, decentralised internet.",
+            "highlight": "Highlights the Apps layer"
+          },
+          {
+            "title": "Modules",
+            "label": "Layer 2",
+            "description": "Private storage, messaging and blockchain, loaded through a built-in package manager as they are needed."
+          },
+          {
+            "title": "Runtime",
+            "label": "Layer 1",
+            "description": "A lightweight runtime at the core that manages self-contained modules."
+          }
+        ],
+        "diagram": {
+          "title": "Logos stack",
+          "hint": "Click a layer or app",
+          "apps": [
+            "Package Manager",
+            "LEZ Wallet",
+            "LEZ Explorer",
+            "Blockchain",
+            "Chat",
+            "Storage",
+            "Ethereum Wallet",
+            "Monero Wallet",
+            "Monero Node",
+            "Accounts"
+          ],
+          "modules": [
+            {
+              "label": "chain",
+              "items": ["LEZ Core", "LEZ Indexer", "Blockchain node"]
+            },
+            {
+              "label": "comms",
+              "items": ["Chat", "Delivery", "RLN", "libp2p", "Storage"]
+            },
+            {
+              "label": "evm",
+              "items": [
+                "Tx Sender",
+                "Assets",
+                "Token List",
+                "Fees",
+                "Ethereum RPC"
+              ]
+            },
+            {
+              "label": "platform",
+              "items": [
+                "Package Manager",
+                "Package Downloader",
+                "Capabilities",
+                "Module State"
+              ]
+            }
+          ],
+          "network": [
+            "P2P · discovery · peering · mix",
+            "HTTPS / RPC · package catalogue"
+          ],
+          "runtime": "Logos Runtime",
+          "selectedPath": "Storage → Storage module → P2P → Runtime",
+          "selectedDescription": "The storage module ships with Basecamp. Files move directly between peers.",
+          "networkLabel": "Network"
+        }
+      },
+      "local": {
+        "title": "Local first. Private. Secure.",
+        "typicalTitle": "Typical application",
+        "basecampTitle": "Basecamp",
+        "rows": [
+          {
+            "label": "Account",
+            "typical": "Email, password, terms. Account held by the provider.",
+            "basecamp": "None. Keys on your device."
+          },
+          {
+            "label": "Wallet",
+            "typical": "Browser extension. Hosted RPC provider sees your IP and activity.",
+            "basecamp": "Your own node. Private transfers backed by zero-knowledge proofs."
+          },
+          {
+            "label": "Messaging",
+            "typical": "A central server relays messages and logs metadata.",
+            "basecamp": "Peer to peer. Keys live on your device."
+          },
+          {
+            "label": "Files",
+            "typical": "A cloud provider holds your files and your index.",
+            "basecamp": "Stored locally, shared directly between peers."
+          },
+          {
+            "label": "Policy changes",
+            "typical": "Terms change. Accounts get suspended.",
+            "basecamp": "Nothing to suspend. You run it."
+          }
+        ]
+      },
+      "run": {
+        "title": ["Join privately.", "Run a node in Basecamp."],
+        "description": "No on-ramp required. Participation is permissionless and private through Proof-of-Work. Anyone can receive their first tokens by running a node.",
+        "steps": [
+          {
+            "label": "Step 1",
+            "status": "Done ✓",
+            "title": "Install Basecamp"
+          },
+          {
+            "label": "Step 2",
+            "status": "In progress",
+            "title": "Load the blockchain module"
+          },
+          {
+            "label": "Step 3",
+            "status": "",
+            "title": "Set up your config"
+          },
+          {
+            "label": "Step 4",
+            "status": "",
+            "title": "Start running your node"
+          }
+        ],
+        "playerHint": "Auto-playing · pick a step to pin it",
+        "windowAlt": "Basecamp module manager",
+        "calloutTitle": "Blockchain module · 0.3.1 · 144.7 MB",
+        "calloutBody": "Installed. Next: set up your config.",
+        "nextLabel": "Next step →",
+        "install": {
+          "label": "Install Basecamp →",
+          "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
+          "external": true,
+          "iconOverride": "download"
+        },
+        "demo": {
+          "label": "▶  Watch the demo",
+          "href": "https://www.youtube.com/@logos_network",
+          "external": true
+        }
+      },
+      "apps": {
+        "title": ["Apps you can", "run today."],
+        "description": "Logos-built apps are experimental. They may contain bugs, change without notice, or behave unexpectedly. Use them at your own risk.",
+        "filters": ["All", "Blockchain", "LEZ", "Messaging", "Storage"],
+        "cards": [
+          {
+            "initial": "W",
+            "title": "LEZ Wallet",
+            "description": "Hold and send LEZ tokens from a wallet that lives on your machine.",
+            "uses": "uses: blockchain · LEZ",
+            "category": "blockchain",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "E",
+            "title": "LEZ Explorer",
+            "description": "Browse blocks and transactions on the Logos Execution Zone.",
+            "uses": "uses: blockchain · LEZ",
+            "category": "blockchain",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "λ",
+            "title": "Blockchain",
+            "description": "Run your node and track status, peers, rewards, and mining.",
+            "uses": "uses: blockchain",
+            "category": "blockchain",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "M",
+            "title": "Monero Node",
+            "description": "[One-line description]",
+            "uses": "uses: [modules]",
+            "category": "Other",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "M",
+            "title": "Monero Wallet",
+            "description": "[One-line description]",
+            "uses": "uses: [modules]",
+            "category": "Other",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "S",
+            "title": "Storage",
+            "description": "Upload, fetch, and share files peer to peer from your own vault.",
+            "uses": "uses: storage",
+            "category": "storage",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "D",
+            "title": "Delivery Demo",
+            "description": "An educational demo of how Logos delivers messages.",
+            "uses": "uses: messaging",
+            "category": "messaging",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "V",
+            "title": "Verified Proxy",
+            "description": "[One-line description]",
+            "uses": "uses: [modules]",
+            "category": "Other",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "C",
+            "title": "Chat",
+            "description": "Encrypted one-to-one chat. Peer to peer, with no server in the middle.",
+            "uses": "uses: messaging",
+            "category": "messaging",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "T",
+            "title": "Token Lists",
+            "description": "[One-line description]",
+            "uses": "uses: [modules]",
+            "category": "Other",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "S",
+            "title": "Signer",
+            "description": "[One-line description]",
+            "uses": "uses: [modules]",
+            "category": "Other",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "K",
+            "title": "Keystore",
+            "description": "[One-line description]",
+            "uses": "uses: [modules]",
+            "category": "Other",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "E",
+            "title": "Ethereum Wallet",
+            "description": "[One-line description]",
+            "uses": "uses: [modules]",
+            "category": "Other",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "R",
+            "title": "Ethereum RPC",
+            "description": "[One-line description]",
+            "uses": "uses: [modules]",
+            "category": "Other",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          },
+          {
+            "initial": "A",
+            "title": "Accounts",
+            "description": "Create and manage Logos accounts.",
+            "uses": "uses: [modules]",
+            "category": "Other",
+            "action": {
+              "label": "Load app →",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            },
+            "guide": {
+              "label": "Guide",
+              "href": "https://docs.logos.co/basecamp",
+              "external": true
+            }
+          }
+        ],
+        "installCard": {
+          "eyebrow": "Get started",
+          "title": ["Install", "Basecamp."],
+          "platforms": "macOS (Apple silicon) · Linux",
+          "action": {
+            "label": "Download →",
             "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
             "external": true,
-            "variant": "link"
-          }
-        },
-        {
-          "number": "02",
-          "title": "Step 02",
-          "description": "When you run an app on Basecamp, Basecamp automatically loads in and configures the modules you need. Modules are loaded, updated, and managed through a built-in package manager, and new modules can be added as the stack grows. "
-        },
-        {
-          "number": "03",
-          "title": "Step 03",
-          "description": "Basecamp is a dynamic interface for applications built on the private, decentralised internet. The more tools are built on the Logos stack, the more its capabilities grow without requiring you to reinstall or reconfigure anything."
-        }
-      ],
-      "subtitle": "To install Basecamp, choose the file for your system: macOS with Apple Silicon (ARM64) uses -aarch64.dmg; Windows on Intel or AMD (64-bit) uses the .exe installer. Linux uses -x86_64.AppImage for Intel or AMD (64-bit), or -aarch64.AppImage for ARM64.\n\nOn Linux, right-click the AppImage, open Properties, and allow it to run as a program. On macOS, open the DMG and drag Basecamp into Applications.\n\nUse the Applications screen in Basecamp to install apps. Some apps are not yet available on native Windows; the blockchain node and swap app require the Linux AppImage under WSL2. Use All downloads if your system cannot be detected, or the installation guide for setup help."
-    },
-    {
-      "componentType": "ctaPanel",
-      "key": "basecamp.localFirst",
-      "eyebrow": "basecamp",
-      "footerLabel": "Storage",
-      "title": "Local First",
-      "description": "Logos Basecamp runs entirely on your own hardware. Your keys, your data, and your activity never leave your device unless you choose to broadcast a transaction to the network.\n\nThere is no hosted backend, no telemetry layer, and no intermediary between you and the network. When you run Basecamp, you are the infrastructure. Running local-first software means no server breaches, data harvesting, platform deplatforming, or silent policy changes that affect how your information is stored or shared.",
-      "image": {
-        "src": "/images/basecamp/local-first.webp",
-        "alt": "",
-        "width": 736,
-        "height": 831
-      },
-      "cta": {
-        "label": "Documentation",
-        "href": "https://docs.logos.co/basecamp",
-        "variant": "secondary"
-      }
-    },
-    {
-      "componentType": "featuredText",
-      "key": "basecamp.modular",
-      "title": {
-        "highlight": "Modular",
-        "rest": "by design"
-      },
-      "body": [
-        "Basecamp is designed as a seamless interface for apps that use the Logos stack. All modules run locally on your machine and deliver different functions. The modules you run depend on the app you are using."
-      ]
-    },
-    {
-      "componentType": "cardGrid",
-      "key": "basecamp.capabilities",
-      "heading": "What you can you do with Basecamp",
-      "cards": [
-        {
-          "title": "Wallet",
-          "description": "Create and manage accounts on the Logos Execution Zone. Send and receive tokens, including privacy-preserving transfers backed by zero-knowledge proofs where the network verifies correctness without ever seeing your private data."
-        },
-        {
-          "title": "Private Messaging",
-          "description": "Send encrypted messages over the Logos communications layer. Messages flow peer-to-peer through a mix-routed network with no central relay or metadata logging."
-        },
-        {
-          "title": "Blockchain Explorer",
-          "description": "Inspect the chain, browse transactions, and explore activity on the Logos Execution Zone."
-        },
-        {
-          "title": "File Sharing",
-          "description": "Store and share files using decentralised storage. Your file index stays on your device; data moves directly between peers."
-        },
-        {
-          "title": "Node Dashboard",
-          "description": "Run a full blockchain node directly from Basecamp. Participate in the testnet, validate module integration, and contribute to the health of the network."
-        },
-        {
-          "title": "Package Manager",
-          "description": "Browse, install, and manage modules. As new tools are built on the Logos stack, Basecamp discovers them automatically."
-        }
-      ]
-    },
-    {
-      "componentType": "cardGrid",
-      "key": "basecamp.resources",
-      "cards": [
-        {
-          "title": "Basecamp Documentation",
-          "description": "Learn how to install Basecamp, add apps and modules, and use the Logos stack.",
-          "cta": {
-            "label": "View the docs",
-            "href": "https://docs.logos.co/basecamp",
-            "external": true,
-            "variant": "primary"
-          }
-        },
-        {
-          "title": "Start Building",
-          "description": "Build privacy-preserving tools and applications",
-          "image": {
-            "src": "/images/basecamp/builder-hub.webp",
-            "alt": "",
-            "width": 2880,
-            "height": 3839
-          },
-          "cta": {
-            "label": "Build",
-            "href": "/get-started",
-            "variant": "secondary"
-          }
-        },
-        {
-          "title": "Install Basecamp",
-          "description": "Download the local launcher for apps built on Logos",
-          "cta": {
-            "label": "Install",
-            "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
-            "external": true,
-            "variant": "primary",
             "iconOverride": "download"
           }
+        },
+        "community": {
+          "eyebrow": "Community built",
+          "title": ["Built by the", "community."],
+          "description": "Basecamp is a dynamic local interface for private, secure applications. The community is already experimenting.",
+          "disclaimer": "Built by the community and shared for informational purposes only. Not reviewed or endorsed by Logos. Check an app before you use it.",
+          "action": {
+            "label": "Make your own →",
+            "href": "https://docs.logos.co/basecamp",
+            "external": true
+          },
+          "cards": [
+            {
+              "initial": "R",
+              "title": "Receiver",
+              "description": "Community radio streamed over Tor"
+            },
+            {
+              "initial": "D",
+              "title": "Docs",
+              "description": "Searchable Logos docs, offline"
+            },
+            {
+              "initial": "D",
+              "title": "Dead Drop",
+              "description": "Leave a file for one person to find"
+            },
+            {
+              "initial": "B",
+              "title": "Ballot Box",
+              "description": "Private polls for your circle"
+            },
+            {
+              "initial": "M",
+              "title": "Mutual Aid",
+              "description": "Pledge support without exposing anyone"
+            },
+            {
+              "initial": "B",
+              "title": "Bulletin",
+              "description": "A neighbourhood board with no admin"
+            },
+            {
+              "initial": "Z",
+              "title": "ZK Guess Game",
+              "description": "Prove you know without telling"
+            },
+            {
+              "initial": "A",
+              "title": "Archive",
+              "description": "Keep records nobody can quietly delete"
+            }
+          ]
         }
-      ]
+      },
+      "build": {
+        "title": ["Build an App.", "Run it in Basecamp."],
+        "description": "Build private-by-default applications that run locally. Scaffold a module, inspect it, then install and call it from Basecamp.",
+        "docs": {
+          "label": "View the docs →",
+          "href": "https://docs.logos.co/basecamp",
+          "external": true
+        },
+        "tutorials": {
+          "label": "View tutorials →",
+          "href": "https://www.youtube.com/@logos_network",
+          "external": true
+        },
+        "codeTabs": ["Scaffold", "Inspect", "Install & call"],
+        "codeComment": "# Scaffold a core module from the logos-module-builder template",
+        "codeCommand": "[SCAFFOLD COMMAND]",
+        "copyLabel": "Copy",
+        "programmesTitle": "Explore developer programs. Build for rewards.",
+        "programmesDescription": "Funding for builders shipping on the private, decentralised internet.",
+        "programmes": [
+          {
+            "eyebrow": "Lambda Prize",
+            "title": "Build an app. Win the Lambda Prize.",
+            "description": "[Info copy here — what the prize funds, deadlines, how to enter.]",
+            "action": {
+              "label": "Learn more →",
+              "href": "/lambda-prize",
+              "external": false
+            },
+            "image": "/images/basecamp/renewal/developer-prize.png"
+          },
+          {
+            "eyebrow": "RFPs",
+            "title": "Answer a request for proposals.",
+            "description": "[Info copy here — open RFPs, scope, and rewards.]",
+            "action": {
+              "label": "Learn more →",
+              "href": "/builders-hub/rfps",
+              "external": false
+            },
+            "image": "/images/basecamp/renewal/developer-rfps.png"
+          }
+        ]
+      },
+      "started": {
+        "title": "Get started",
+        "install": {
+          "eyebrow": "INSTALL",
+          "title": "Download Basecamp",
+          "links": [
+            {
+              "label": "macOS (Apple silicon)",
+              "href": "https://github.com/logos-co/logos-basecamp/releases/latest"
+            },
+            {
+              "label": "Linux",
+              "href": "https://github.com/logos-co/logos-basecamp/releases/latest"
+            },
+            {
+              "label": "Checksums and signatures",
+              "href": "https://github.com/logos-co/logos-basecamp/releases/latest"
+            }
+          ],
+          "platforms": [
+            "macOS · Apple silicon — Available",
+            "Linux — Available",
+            "Windows — On roadmap"
+          ]
+        },
+        "docs": {
+          "eyebrow": "DOCS",
+          "title": "Guides",
+          "links": [
+            {
+              "label": "Install Logos Basecamp",
+              "href": "https://docs.logos.co/basecamp/install-logos-basecamp"
+            },
+            {
+              "label": "Install and load a module",
+              "href": "https://docs.logos.co/basecamp"
+            },
+            {
+              "label": "Swap ETH and LEZ tokens",
+              "href": "https://docs.logos.co/basecamp"
+            }
+          ]
+        },
+        "video": {
+          "eyebrow": "VIDEO",
+          "title": "Basecamp tutorials",
+          "link": {
+            "label": "Watch the playlist on YouTube",
+            "href": "https://www.youtube.com/@logos_network"
+          }
+        }
+      },
+      "footer": {
+        "newsletterTitle": "Stay ahead with the latest updates.",
+        "emailLabel": "Enter email",
+        "roleLabel": "Role",
+        "cityLabel": "city",
+        "submitLabel": "Submit",
+        "tagline": "Pioneering a new era of freedom.",
+        "researchLabel": "Research",
+        "infrastructureLabel": "Infrastructure",
+        "links": [
+          {
+            "label": "Work With Us",
+            "href": "https://free.technology/jobs"
+          },
+          {
+            "label": "Brand Guidelines",
+            "href": "/design-guide"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitter",
+            "href": "https://x.com/Logos_network"
+          },
+          {
+            "label": "Discord",
+            "href": "https://discord.gg/Ykv4eZyHUJ"
+          },
+          {
+            "label": "YouTube",
+            "href": "https://www.youtube.com/@logos_network"
+          },
+          {
+            "label": "Blog",
+            "href": "/media"
+          },
+          {
+            "label": "Github",
+            "href": "https://github.com/logos-co"
+          }
+        ],
+        "research": [
+          {
+            "label": "VacP2P",
+            "href": "https://vac.dev"
+          }
+        ],
+        "infrastructure": [
+          {
+            "label": "Waku",
+            "href": "/technology-stack/messaging"
+          },
+          {
+            "label": "Nimbus",
+            "href": "/technology-stack/networking"
+          },
+          {
+            "label": "Codex",
+            "href": "/technology-stack/storage"
+          },
+          {
+            "label": "Nomos",
+            "href": "/technology-stack/blockchain"
+          }
+        ],
+        "legal": [
+          {
+            "label": "Terms & Conditions",
+            "href": "/terms-and-conditions"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "/privacy-policy"
+          },
+          {
+            "label": "Security",
+            "href": "/security"
+          }
+        ],
+        "successLabel": "Thank you for subscribing.",
+        "errorLabel": "Please try again."
+      }
     }
   ]
 }
