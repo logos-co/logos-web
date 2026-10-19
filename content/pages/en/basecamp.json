@@ -19,33 +19,6 @@
     {
       "componentType": "basecampRenewal",
       "key": "basecamp.renewal",
-      "nav": {
-        "homeLabel": "Logos home",
-        "links": [
-          {
-            "label": "Take Action",
-            "href": "/movement"
-          },
-          {
-            "label": "Explore",
-            "href": "/about"
-          },
-          {
-            "label": "Technology",
-            "href": "/technology-stack"
-          },
-          {
-            "label": "Research",
-            "href": "/research"
-          }
-        ],
-        "install": {
-          "label": "Install Basecamp",
-          "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
-          "external": true,
-          "iconOverride": "download"
-        }
-      },
       "hero": {
         "badges": ["Basecamp v0.3.2", "Testnet v0.3"],
         "title": ["Logos", "Basecamp"],
@@ -718,88 +691,6 @@
             "href": "https://www.youtube.com/@logos_network"
           }
         }
-      },
-      "footer": {
-        "newsletterTitle": "Stay ahead with the latest updates.",
-        "emailLabel": "Enter email",
-        "roleLabel": "Role",
-        "cityLabel": "city",
-        "submitLabel": "Submit",
-        "tagline": "Pioneering a new era of freedom.",
-        "researchLabel": "Research",
-        "infrastructureLabel": "Infrastructure",
-        "links": [
-          {
-            "label": "Work With Us",
-            "href": "https://free.technology/jobs"
-          },
-          {
-            "label": "Brand Guidelines",
-            "href": "/design-guide"
-          }
-        ],
-        "socials": [
-          {
-            "label": "Twitter",
-            "href": "https://x.com/Logos_network"
-          },
-          {
-            "label": "Discord",
-            "href": "https://discord.gg/Ykv4eZyHUJ"
-          },
-          {
-            "label": "YouTube",
-            "href": "https://www.youtube.com/@logos_network"
-          },
-          {
-            "label": "Blog",
-            "href": "/media"
-          },
-          {
-            "label": "Github",
-            "href": "https://github.com/logos-co"
-          }
-        ],
-        "research": [
-          {
-            "label": "VacP2P",
-            "href": "https://vac.dev"
-          }
-        ],
-        "infrastructure": [
-          {
-            "label": "Waku",
-            "href": "/technology-stack/messaging"
-          },
-          {
-            "label": "Nimbus",
-            "href": "/technology-stack/networking"
-          },
-          {
-            "label": "Codex",
-            "href": "/technology-stack/storage"
-          },
-          {
-            "label": "Nomos",
-            "href": "/technology-stack/blockchain"
-          }
-        ],
-        "legal": [
-          {
-            "label": "Terms & Conditions",
-            "href": "/terms-and-conditions"
-          },
-          {
-            "label": "Privacy Policy",
-            "href": "/privacy-policy"
-          },
-          {
-            "label": "Security",
-            "href": "/security"
-          }
-        ],
-        "successLabel": "Thank you for subscribing.",
-        "errorLabel": "Please try again."
       }
     }
   ]

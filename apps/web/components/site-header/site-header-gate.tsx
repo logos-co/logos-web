@@ -5,11 +5,7 @@ import { usePathname } from 'next/navigation'
 import { ROUTES } from '@/constants/routes'
 
 // Routes that render their own header and must hide the global SiteHeader.
-const CHROMELESS_HEADER_PATHS = [
-  ROUTES.ukDebt,
-  ROUTES.fieldGuide,
-  ROUTES.basecamp,
-]
+const CHROMELESS_HEADER_PATHS = [ROUTES.ukDebt, ROUTES.fieldGuide]
 
 type SiteHeaderGateProps = {
   children: ReactNode

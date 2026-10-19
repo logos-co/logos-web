@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
 import type { BasecampRenewalSection } from '@repo/content/schemas'
-import { LogosMark } from '@acid-info/logos-ui'
 
 export type Renewal = BasecampRenewalSection
 export const asset = '/images/basecamp/renewal'
@@ -19,15 +18,6 @@ export function Lines({
           {line}
         </span>
       ))}
-    </span>
-  )
-}
-
-export function Brand({ size = 16 }: { size?: number }) {
-  return (
-    <span className="bc-brand">
-      <LogosMark size={size} />
-      <span>Logos</span>
     </span>
   )
 }

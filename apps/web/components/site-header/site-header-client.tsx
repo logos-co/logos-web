@@ -91,6 +91,7 @@ export default function SiteHeaderClient({
     useState(false)
   const pathname = usePathname()
   const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
+  const isBasecamp = normalizedPathname === ROUTES.basecamp
   const isFieldStation = normalizedPathname === ROUTES.fieldStation
   const basecampLink = useBasecampInstallLink(
     {
@@ -202,11 +203,13 @@ export default function SiteHeaderClient({
     }
   }, [usesHeroHeaderTone, normalizedPathname])
 
-  const headerToneClass = usesHeroHeaderTone
-    ? hasPassedHero
-      ? 'text-black'
-      : 'text-white'
-    : 'text-brand-dark-green'
+  const headerToneClass = isBasecamp
+    ? 'text-brand-off-white'
+    : usesHeroHeaderTone
+      ? hasPassedHero
+        ? 'text-black'
+        : 'text-white'
+      : 'text-brand-dark-green'
 
   const openPanel = (panelLabel: string) => {
     setInitialPanelLabel(panelLabel)
@@ -221,6 +224,7 @@ export default function SiteHeaderClient({
         className={clsx(
           'left-0 right-0 top-0 z-50',
           usesOverlayHeader ? 'fixed' : 'sticky',
+          isBasecamp && 'bg-[#1a1a1a]',
           usesAccentTanHeaderTone && 'bg-accent-tan'
         )}
       >
@@ -334,7 +338,7 @@ export default function SiteHeaderClient({
                 'absolute top-1/2 -translate-y-1/2 text-eyebrow font-semibold cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
                 'hidden lg:inline-flex',
                 isMediaPath ? 'right-[52px]' : 'right-3',
-                usesHeroHeaderTone && !hasPassedHero
+                isBasecamp || (usesHeroHeaderTone && !hasPassedHero)
                   ? 'bg-brand-off-white text-brand-dark-green'
                   : 'bg-brand-dark-green text-brand-off-white'
               )}
@@ -360,6 +364,7 @@ export default function SiteHeaderClient({
 
       {/* Full-screen overlay — shared primitive from @acid-info/logos-ui */}
       <NavOverlay
+        className={isBasecamp ? 'basecamp-nav-overlay' : undefined}
         isOpen={isOpen}
         onClose={close}
         initialSelectedPanelLabel={initialPanelLabel ?? undefined}

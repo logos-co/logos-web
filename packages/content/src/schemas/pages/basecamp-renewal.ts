@@ -10,7 +10,6 @@ const link = z.object({ label: copy, href: linkHrefSchema })
 export const basecampRenewalSectionSchema = z.object({
   componentType: z.literal('basecampRenewal'),
   key: sectionKeySchema,
-  nav: z.object({ homeLabel: copy, links: z.array(link), install: ctaSchema }),
   hero: z.object({
     badges: lines,
     title: lines,
@@ -148,23 +147,6 @@ export const basecampRenewalSectionSchema = z.object({
     }),
     docs: z.object({ eyebrow: copy, title: copy, links: z.array(link) }),
     video: z.object({ eyebrow: copy, title: copy, link }),
-  }),
-  footer: z.object({
-    newsletterTitle: copy,
-    emailLabel: copy,
-    roleLabel: copy,
-    cityLabel: copy,
-    submitLabel: copy,
-    successLabel: copy,
-    errorLabel: copy,
-    tagline: copy,
-    researchLabel: copy,
-    infrastructureLabel: copy,
-    links: z.array(link),
-    socials: z.array(link),
-    research: z.array(link),
-    infrastructure: z.array(link),
-    legal: z.array(link),
   }),
 })
 

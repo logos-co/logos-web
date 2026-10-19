@@ -6,7 +6,6 @@ import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 
-import { Navigation } from './_sections/navigation'
 import { Hero } from './_sections/hero'
 import { Subnavigation } from './_sections/subnavigation'
 import { About } from './_sections/about'
@@ -16,7 +15,6 @@ import { RunANode } from './_sections/run-a-node'
 import { Apps } from './_sections/apps'
 import { Build } from './_sections/build'
 import { GetStarted } from './_sections/get-started'
-import { Footer } from './_sections/footer'
 import './basecamp-renewal.css'
 
 const ROUTE = ROUTES.basecamp
@@ -39,7 +37,6 @@ export default async function BasecampRoutePage({
   )
   return (
     <div className="basecamp-renewal">
-      <Navigation copy={section.nav} />
       <Hero copy={section.hero} />
       <Subnavigation copy={section.subnav} />
       <About copy={section.about} />
@@ -49,7 +46,6 @@ export default async function BasecampRoutePage({
       <Apps copy={section.apps} />
       <Build copy={section.build} />
       <GetStarted copy={section.started} />
-      <Footer copy={section.footer} />
     </div>
   )
 }
