@@ -338,9 +338,11 @@ export default function SiteHeaderClient({
                 'absolute top-1/2 -translate-y-1/2 text-eyebrow font-semibold cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
                 'hidden lg:inline-flex',
                 isMediaPath ? 'right-[52px]' : 'right-3',
-                isBasecamp || (usesHeroHeaderTone && !hasPassedHero)
-                  ? 'bg-brand-off-white text-brand-dark-green'
-                  : 'bg-brand-dark-green text-brand-off-white'
+                isBasecamp
+                  ? 'bg-[#ff673e] text-brand-dark-green'
+                  : usesHeroHeaderTone && !hasPassedHero
+                    ? 'bg-brand-off-white text-brand-dark-green'
+                    : 'bg-brand-dark-green text-brand-off-white'
               )}
             >
               {displayedPrimaryCta.label}
