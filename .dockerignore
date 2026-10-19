@@ -23,6 +23,7 @@
 **/.env
 **/.env.*
 !**/.env.example
+!apps/cms/.env.docker.example
 
 # Vercel
 **/.vercel
@@ -33,5 +34,7 @@
 
 # Docker files themselves
 **/Dockerfile
+!apps/cms/Dockerfile
 **/.dockerignore
 docker-compose*.yml
+!docker-compose.prod.yml
