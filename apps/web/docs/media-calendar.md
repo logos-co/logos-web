@@ -14,8 +14,8 @@ The page is in the sitemap and linked from the Explore menu as `Calendar` (`cont
 
 Two sections on an `accent-tan` background:
 
-1. `MediaListingIntro` -- the page heading and the `Logos Media` back link. The intro has no description on this page; `description` is optional on `MediaListingIntro`.
-2. `EventsCalendar` -- rendered with `details`, `syncMonthToUrl` and `compact`.
+1. `MediaListingIntro`: the page heading and the `Logos Media` back link. The intro has no description on this page; `description` is optional on `MediaListingIntro`.
+2. `EventsCalendar`: rendered with `details`, `syncMonthToUrl` and `compact`.
 
 ---
 
@@ -23,14 +23,14 @@ Two sections on an `accent-tan` background:
 
 The calendar used to live in `app/[locale]/logos-broadcast-network/_sections/`. It now lives in `components/sections/events-calendar/` so the Logos Broadcast Network page and the media calendar share it.
 
-| File                        | Role                                                                          |
-| --------------------------- | ----------------------------------------------------------------------------- |
-| `events-calendar.tsx`       | Client component: month state, URL sync, hydration switch, layout             |
-| `calendar-dates.ts`         | Date helpers: day grid, opening anchor, year options, `?year=&month=` parsing |
-| `calendar-days.tsx`         | Desktop `CalendarCell` and mobile `MobileDayCarousel`                         |
-| `calendar-controls.tsx`     | `MonthSelect`, `YearSelect`, previous / today / next buttons                  |
-| `event-details.tsx`         | Details panel for the selected day                                            |
-| `types.ts`                  | `EventsCalendarCopy`, `EventDetailsCopy`                                      |
+| File                    | Role                                                                          |
+| ----------------------- | ----------------------------------------------------------------------------- |
+| `events-calendar.tsx`   | Client component: month state, URL sync, hydration switch, layout             |
+| `calendar-dates.ts`     | Date helpers: day grid, opening anchor, year options, `?year=&month=` parsing |
+| `calendar-days.tsx`     | Desktop `CalendarCell` and mobile `MobileDayCarousel`                         |
+| `calendar-controls.tsx` | `MonthSelect`, `YearSelect`, previous / today / next buttons                  |
+| `event-details.tsx`     | Details panel for the selected day                                            |
+| `types.ts`              | `EventsCalendarCopy`, `EventDetailsCopy`                                      |
 
 ```ts
 interface EventsCalendarProps {
@@ -126,6 +126,12 @@ interface MediaCalendarCopySection {
   heading: string
   backToMedia: string
   calendar: { yearLabel: string; monthLabel: string; todayLabel: string }
-  details: { empty: string; guest: string; speakers: string; notes: string; links: string }
+  details: {
+    empty: string
+    guest: string
+    speakers: string
+    notes: string
+    links: string
+  }
 }
 ```

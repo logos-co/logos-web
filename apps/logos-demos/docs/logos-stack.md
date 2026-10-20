@@ -6,12 +6,12 @@ What the pieces are called, what they do, and which repository owns each one.
 
 Use the names logos.co uses. They are not always the names in the code.
 
-| Layer | Public name | Modules | Note |
-| --- | --- | --- | --- |
-| Messaging | **Logos Messaging** | Delivery, Chat | `content/pages/en/technology-stack-messaging.json` in `logos-web` is the source of truth |
-| Storage | **Logos Storage** | none | Content-addressed, CID-based |
-| Blockchain | **Logos Blockchain** | Cryptarchia, LEZ, Blend | Privacy-first proof of stake |
-| Networking | Discovery, peering, mixnet | libp2p, mix | Underneath the rest |
+| Layer      | Public name                | Modules                 | Note                                                                                     |
+| ---------- | -------------------------- | ----------------------- | ---------------------------------------------------------------------------------------- |
+| Messaging  | **Logos Messaging**        | Delivery, Chat          | `content/pages/en/technology-stack-messaging.json` in `logos-web` is the source of truth |
+| Storage    | **Logos Storage**          | none                    | Content-addressed, CID-based                                                             |
+| Blockchain | **Logos Blockchain**       | Cryptarchia, LEZ, Blend | Privacy-first proof of stake                                                             |
+| Networking | Discovery, peering, mixnet | libp2p, mix             | Underneath the rest                                                                      |
 
 **"Waku" is not used in user-facing copy.** Logos Messaging is built on Waku
 protocols and `logos-delivery` is a Nim implementation of them, but logos.co
@@ -58,18 +58,18 @@ knows both sides' addresses, so a room link is enough.
 
 ## Repositories worth knowing
 
-| Repository | What |
-| --- | --- |
-| `logos-co/logos-basecamp` | Desktop shell. Read `docs/spec.md` for the runtime model |
-| `logos-co/logos-logoscore-cli` | Headless daemon: `logoscore`, `logosctl` |
-| `logos-co/logos-js-sdk` | Node SDK over the `lp_*` C ABI. Not browser-capable |
-| `logos-co/logos-chat-module` | Chat module and its `.lidl` contract |
-| `logos-co/logos-delivery-module` | Delivery module wrapping `liblogosdelivery` |
-| `logos-messaging/logos-delivery` | Messaging protocols in Nim |
-| `logos-storage/logos-storage-nim` | Storage node. `network_presets.json` holds the bootstrap sets |
-| `logos-blockchain/logos-blockchain` | Node. `deployment/` holds the compose stack |
-| `logos-co/node-configs` | Sample node configs |
-| `logos-co/logos-monitoring` | DHT crawler; its README explains how to join the live storage network |
+| Repository                          | What                                                                  |
+| ----------------------------------- | --------------------------------------------------------------------- |
+| `logos-co/logos-basecamp`           | Desktop shell. Read `docs/spec.md` for the runtime model              |
+| `logos-co/logos-logoscore-cli`      | Headless daemon: `logoscore`, `logosctl`                              |
+| `logos-co/logos-js-sdk`             | Node SDK over the `lp_*` C ABI. Not browser-capable                   |
+| `logos-co/logos-chat-module`        | Chat module and its `.lidl` contract                                  |
+| `logos-co/logos-delivery-module`    | Delivery module wrapping `liblogosdelivery`                           |
+| `logos-messaging/logos-delivery`    | Messaging protocols in Nim                                            |
+| `logos-storage/logos-storage-nim`   | Storage node. `network_presets.json` holds the bootstrap sets         |
+| `logos-blockchain/logos-blockchain` | Node. `deployment/` holds the compose stack                           |
+| `logos-co/node-configs`             | Sample node configs                                                   |
+| `logos-co/logos-monitoring`         | DHT crawler; its README explains how to join the live storage network |
 
 ## logos-js-sdk, and why this app does not use it
 

@@ -1,334 +1,315 @@
-# Funnel intake -- architecture reference
+# Funnel intake
 
-Target audience: AI agents reading this codebase.
+How the three public funnel forms on `apps/web` reach the intake endpoint on
+`apps/api` and land in Notion (and, for the steward form, an n8n/Baserow
+webhook), including the Notion database schema and the shared option maps. Covers
+[`apps/api/src/app/api/public/afform-submit/route.ts`](../../apps/api/src/app/api/public/afform-submit/route.ts),
+[`apps/web/lib/funnel-forms`](../../apps/web/lib/funnel-forms),
+[`apps/web/lib/funnel-newsletter-signup.ts`](../../apps/web/lib/funnel-newsletter-signup.ts) and
+[`packages/funnel/src`](../../packages/funnel/src).
 
 ## What this is
 
-Three public funnel forms (Coalition Partner, Activist Builder, Activist Leader / Steward) post to a single API endpoint on `apps/api`. They write to Notion, plus the n8n/Baserow webhook for the steward form.
+Three public funnel forms post to one API endpoint, which writes them to Notion
+and, for the steward form, also to an n8n/Baserow webhook:
 
-`/contact` (`apps/web/app/[locale]/contact/page.tsx`) redirects to the home page and carries no form. The endpoint does not accept an `afformCircleContactForm` `formName`.
+- Coalition Partner: `/coalition-partner`
+- Activist Builder: `/activist-builder`
+- Activist Leader / Steward: `/activist-leader-steward`
 
----
+`/contact` (`apps/web/app/[locale]/contact/page.tsx`) redirects to the home page
+and carries no form, so the endpoint does not accept an `afformCircleContactForm`
+`formName`.
 
-## Request flow
+The endpoint's internals (validation steps, env vars, CORS, the Notion write
+path, tests) are documented in
+[apps/api/docs/architecture.md](../../apps/api/docs/architecture.md). This doc
+covers the flow end to end and the Notion schema.
+
+## End to end flow
 
 ```
-apps/web (static)
-  └── connect-form-section.tsx
-        │  POST { formName, captchaToken, ...formFields }
-        ▼
+apps/web (static, ConnectFormSection)
+  -> POST { formName, captchaToken, ...formFields }
 apps/api
   POST /api/public/afform-submit
-  ├── 1. validate body and formName (must be one of the three allowed values)
-  ├── 2. require a known `hearAbout` option id
-  ├── 3. require every other field the form marks required (`findInvalidRequiredFields`)
-  ├── 4. verify hCaptcha (once, single-use token -- cannot verify twice)
-  ├── 5. submitToN8n(formData, formName)     -- steward form only; best-effort (logged on failure)
-  └── 6. submitToNotion(formData, formName)  -- unless FUNNEL_INTAKE_NOTION_DISABLED; failure → 502
+  -> validates, verifies hCaptcha, forwards to Notion and (steward only) n8n
 ```
 
-The reason the writes share one handler: hCaptcha tokens are single-use. One POST, one token, the backend writes in sequence.
+All three forms share one handler because hCaptcha tokens are single-use: one
+POST, one token, the backend writes in sequence. After the POST resolves,
+`apps/web` fires the newsletter opt-ins on its own; they are not part of the
+`afform-submit` request.
 
-After that POST resolves successfully, `apps/web` fires the newsletter opt-ins on its own (see below). They are not part of the `afform-submit` request.
+## Forms and formName
 
----
+| Web page                   | `formName` in POST body       | Notion `Profile` value      |
+| -------------------------- | ----------------------------- | --------------------------- |
+| `/coalition-partner`       | `afformCoalitionPartner`      | `Coalition Partner`         |
+| `/activist-builder`        | `afformActivistBuilder`       | `Activist Builder`          |
+| `/activist-leader-steward` | `afformActivistLeaderSteward` | `Activist Leader / Steward` |
 
-## Newsletter opt-ins (logos-web#116)
+The profile mapping is `PROFILE_BY_FORM_NAME` in `packages/funnel/src/index.ts`,
+read through `getProfileForForm` on both sides.
 
-Each ticked checkbox subscribes the submitted email to a Ghost newsletter via `admin-acid.logos.co` and attaches a note to the member profile.
+## Shared values in @repo/funnel
 
-| Checkbox | `formKey` | Newsletter | Ghost id |
-| --- | --- | --- | --- |
-| "I want to receive the Logos Newsletter" | `wantsNewsletter` | Logos Newsletter | `6913441fee2f120001cec90d` |
-| "I want to be informed about events in my city" | `wantsEvents` | Regional Newsletter | `6a672fa7d5b09400014fffa1` |
+`packages/funnel` (`@repo/funnel`) is the single source of truth for the values
+both sides read, so a submitted id always resolves to the label the visitor
+picked.
 
-Each field is its own line; blank ones are omitted entirely.
+- `HEAR_ABOUT_QUESTION` and `HEAR_ABOUT_OPTIONS` (`src/index.ts`): the "How did
+  you first hear about Logos?" question and its options. The question string
+  doubles as the Notion select property name, and the labels are its select
+  options, so rewording either means renaming the property or options in Notion
+  first.
+- `PROFILE_BY_FORM_NAME` / `getProfileForForm` (`src/index.ts`): the per-form
+  Notion `Profile` label (the table above).
+- `SKILLS_OPTIONS` / `CHAT_SERVICE_OPTIONS` / `COUNTRY_OPTIONS`
+  (`src/form-options.ts`): the dropdown options the three forms share. `apps/web`
+  renders them through `AFFORM_OPTIONS` (`lib/funnel-forms/afform-options.ts`);
+  `apps/api` resolves ids back to labels through `SKILLS_MAP` /
+  `CHAT_SERVICE_MAP` / `COUNTRY_MAP` and `HEAR_ABOUT_MAP`, all `toLabelMap()` over
+  the same arrays.
 
-```
-Profile: <profile>
-```
+`Skills` labels double as the options of the Notion `multi_select` of the same
+name. `Country` is rich text and takes any label.
 
-```
-City: <city>
-Country: <country>
-Profile: <profile>
-```
+Skills options (16): `Developer`, `Web3 builder`, `Privacy domain expert`,
+`Website developer`, `Product designer`, `Researcher`, `Activist`,
+`Project manager`, `Community builder`, `Thought leader / Influencer`,
+`Creative`, `Marketer`, `Fundraiser`, `Educator`, `Policy advocate`,
+`Translator`.
 
-`<profile>` is the same string the Notion `Profile` select gets -- `PROFILE_BY_FORM_NAME` in `@repo/funnel`, read through `getProfileForForm` on both sides. `country` arrives as a numeric option id and is resolved to its label against the form's own options before it reaches the note; an unresolvable id is dropped.
+Hear-about options (8): `Friend or colleague`, `Social media`, `Search engine`,
+`Event or conference`, `Another community or organization`, `Podcast`,
+`News/article/blog`, `Other`.
 
-The Regional request also sends the resolved `city` and `country` (the label) as top-level `city` / `country` fields alongside the note: the upstream builds its city labels from those fields, never from the note. The Logos request does not set them as resolved fields.
+`REQUIRED_FIELDS_BY_FORM` (`src/required-fields.ts`) is the single place a funnel
+field is marked required. The form pages pass it into `ConnectFormSection`, which
+builds the zod schema and the asterisks from it, and the endpoint rejects a
+payload missing any of them. The per-form definitions under
+`apps/web/lib/funnel-forms/` carry no `required` flag; they describe rendering
+only. `email` is also checked for a plausible address, with a looser pattern than
+the client's zod `.email()` so the endpoint never rejects what the form accepted.
 
-Alongside the note, each subscription forwards the submitted answers: the form values plus `formName`, flattened into the request body as top-level fields. The captcha token stays out -- it is intake plumbing. The upstream hands the answers to its auto-reply filters; nothing here allowlists individual fields, so a new form field needs no change in `apps/web`.
-
-Every select value is sent as its **label**, not the option id (`toLabelledFormFields`): the subscribe endpoint has no access to the option lists, so `country: "1003"` would be unreadable where `country: "Algeria"` is not. Ids that resolve to nothing are dropped. Text fields and checkboxes pass through untouched, and the resolved keys (`email`, `type`, `newsletter`, `note`, plus `city` / `country` on the Regional request) are written last so a same-named form field can never overwrite them.
-
-| Path | Role |
-| --- | --- |
-| `apps/web/lib/funnel-newsletter-signup.ts` | Builds the notes, fires the subscriptions |
-| `apps/web/lib/newsletter-signup.ts` | Shared transport; `NEWSLETTER_IDS`, optional verbatim `note`, `formFields` pass-through |
-
-Three constraints shape it:
-
-- **Client-side.** `apps/web` is a static export, so there is no route to proxy through -- same as the footer signup. `admin-acid.logos.co` allowlists Logos-owned origins for CORS, so these calls always fail on `localhost`; unit tests are the verification.
-- **Never throws.** It runs after the intake POST has already succeeded and its captcha token is spent, so a subscription failure is swallowed and logged rather than surfaced -- otherwise a successful submission would render as a network error (and would do so on every local submit).
-- **Sequential, Logos first.** The upstream folds the note into the member's existing note with a read-modify-write against the Ghost admin API (`mergeNote`: entries joined by a blank line, exact duplicates skipped). Firing both concurrently races that read and loses one note.
-
----
+The rules for keeping these in sync live in
+[apps/api/AGENTS.md](../../apps/api/AGENTS.md) and
+[packages/funnel/AGENTS.md](../../packages/funnel/AGENTS.md).
 
 ## Code layout
 
-| Path | Role |
-| --- | --- |
-| `apps/api/src/app/api/public/afform-submit/route.ts` | Orchestrator: validation, captcha, calls the destination libs |
-| `apps/api/src/lib/intake-submit-flags.ts` | Reads the `FUNNEL_INTAKE_NOTION_DISABLED` env flag |
-| `apps/api/src/lib/notion/maps.ts` | `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT`; re-exports `SKILLS_MAP` / `CHAT_SERVICE_MAP` / `COUNTRY_MAP` / `HEAR_ABOUT_MAP` / `HEAR_ABOUT_QUESTION` from `@repo/funnel` |
-| `packages/funnel/src/index.ts` | `@repo/funnel` -- single source of truth for the "How did you first hear about Logos?" question, options, and id → label map, and for `PROFILE_BY_FORM_NAME` / `getProfileForForm` |
-| `packages/funnel/src/form-options.ts` | `SKILLS_OPTIONS` / `CHAT_SERVICE_OPTIONS` / `COUNTRY_OPTIONS` -- the dropdown options the three forms share, and the `*_MAP` id → label maps derived from them (logos-web#140) |
-| `packages/funnel/src/required-fields.ts` | `REQUIRED_FIELDS_BY_FORM` / `findInvalidRequiredFields` -- single source of truth for which answers each form requires; read by both the `apps/web` schema and the endpoint |
-| `apps/web/lib/funnel-newsletter-signup.ts` | Post-submit Ghost newsletter opt-ins (`wantsNewsletter` / `wantsEvents`) |
-| `apps/web/lib/funnel-forms/afform-*.ts` | Hand-maintained field definitions per funnel form; rendering only |
-| `apps/web/lib/funnel-forms/afform-options.ts` | `AFFORM_OPTIONS` -- the `@repo/funnel` option lists keyed by `formKey`, passed to every form page |
-| `apps/web/lib/funnel-forms/types.ts` | `AfformField` / `AfformConfig` / `AfformOptions` shapes those files satisfy |
-| `apps/web/lib/funnel-forms/contactFormSchema.ts` | Builds the zod schema from the form definition and the required list it is given |
-| `apps/web/lib/funnel-forms/hear-about-field.ts` | "How did you first hear about Logos?" field def + `withHearAboutField` injector used by the three form pages |
-| `apps/api/src/lib/notion/build-notion-properties.ts` | `buildNotionProperties` |
-| `apps/api/src/lib/notion/submit.ts` | `submitToNotion` -- resolves the data source, builds properties, POSTs page |
-| `apps/api/src/lib/n8n/build-payload.ts` | `buildN8nPayload` -- merges id-based answers with their labels |
-| `apps/api/src/lib/n8n/submit.ts` | `submitToN8n` -- steward webhook POST |
-| `apps/api/src/lib/notion/__tests__/build-notion-properties.test.ts` | Property mapping unit tests |
+| Path                                                 | Role                                                                                 |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `apps/api/src/app/api/public/afform-submit/route.ts` | Orchestrator: validation, captcha, calls the destination libs                        |
+| `apps/api/src/lib/intake-submit-flags.ts`            | Reads the `FUNNEL_INTAKE_NOTION_DISABLED` env flag                                   |
+| `apps/api/src/lib/notion/maps.ts`                    | `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT`; re-exports the `@repo/funnel` maps            |
+| `apps/api/src/lib/notion/build-notion-properties.ts` | `buildNotionProperties` and `resolveHearAboutLabel`                                  |
+| `apps/api/src/lib/notion/constants.ts`               | Notion API base URL, version, 2000 char text limit                                   |
+| `apps/api/src/lib/notion/evaluation-template.ts`     | Evaluation template blocks attached to every new page                                |
+| `apps/api/src/lib/notion/submit.ts`                  | `submitToNotion`: resolves the data source, builds properties, POSTs the page        |
+| `apps/api/src/lib/n8n/build-payload.ts`              | `buildN8nPayload`: merges id-based answers with their labels                         |
+| `apps/api/src/lib/n8n/constants.ts`                  | `N8N_STEWARD_WEBHOOK_URL`                                                            |
+| `apps/api/src/lib/n8n/submit.ts`                     | `submitToN8n`: steward webhook POST                                                  |
+| `packages/funnel/src/index.ts`                       | `@repo/funnel` entry point; re-exports the modules below                             |
+| `packages/funnel/src/form-options.ts`                | The shared option lists and the maps derived from them                               |
+| `packages/funnel/src/required-fields.ts`             | `REQUIRED_FIELDS_BY_FORM` / `findInvalidRequiredFields`                              |
+| `apps/web/lib/funnel-newsletter-signup.ts`           | Post-submit Ghost newsletter opt-ins                                                 |
+| `apps/web/lib/funnel-forms/afform-*.ts`              | Hand-maintained field definitions per form; rendering only                           |
+| `apps/web/lib/funnel-forms/afform-options.ts`        | `AFFORM_OPTIONS`: the `@repo/funnel` option lists keyed by `formKey`                 |
+| `apps/web/lib/funnel-forms/contactFormSchema.ts`     | Builds the zod schema from the form definition and the required list                 |
+| `apps/web/lib/funnel-forms/hear-about-field.ts`      | Hear-about field def plus `withHearAboutField`, which inserts it after `chatService` |
+| `apps/web/lib/funnel-forms/types.ts`                 | The `Afform*` shapes those files satisfy                                             |
 
-The Notion and n8n libs are independent apart from the shared id → label maps. Removing one means deleting its folder and one call site in the orchestrator.
+The Notion and n8n libs are independent apart from the shared id to label maps.
+Removing one means deleting its folder and one call site in the orchestrator.
 
----
+## Notion database schema
 
-## Forms and `formName`
+The intake writes to the "IFT BD CRM" database. The table lists every property
+as recorded 2026-05-29; the **Funnel** column says whether and how the intake
+writes it. The `yes` rows are what `buildNotionProperties` produces; the `no`
+rows are maintained by hand in Notion.
 
-| Web page | `formName` in POST body | Notion `Profile` value |
-| --- | --- | --- |
-| `/coalition-partner` | `afformCoalitionPartner` | `Coalition Partner` |
-| `/activist-builder` | `afformActivistBuilder` | `Activist Builder` |
-| `/activist-leader-steward` | `afformActivistLeaderSteward` | `Activist Leader / Steward` |
+| Property                              | Notion type      | Funnel      | Notes                                                                                                                                                                               |
+| ------------------------------------- | ---------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Name`                                | title            | yes, reused | From form `name`; fallback `"Unknown"`                                                                                                                                              |
+| `Email/Website`                       | email            | yes, reused | From `email`; omitted if empty                                                                                                                                                      |
+| `Profile`                             | select           | yes, reused | From `formName` via `getProfileForForm`; options are the three profile labels                                                                                                       |
+| `Mvmt Organization`                   | text             | yes, added  | From `affiliatedOrgs`, written verbatim (clamped to 2000 chars) rather than into the curated `Organization` select, which intake does not write; omitted if empty                   |
+| `Website`                             | url              | yes, reused | First entry of `website[]`                                                                                                                                                          |
+| `Website 2`                           | url              | yes, added  | Second entry of `website[]`; omitted if absent                                                                                                                                      |
+| `Website 3`                           | url              | yes, added  | Third entry; omitted if absent                                                                                                                                                      |
+| `Website 4`                           | url              | yes, added  | Fourth entry; omitted if absent                                                                                                                                                     |
+| `Website 5`                           | url              | yes, added  | Fifth entry; omitted if absent. The form caps the field at 5 rows (`MAX_WEBSITE_ROWS`)                                                                                              |
+| `Phone or Social Handle`              | phone_number     | yes, reused | `chat[]` + `chatService[]` joined as `handle (Service) \| ...`                                                                                                                      |
+| `Mvmt Status`                         | select           | yes, reused | Always `New Lead` on intake; other options include `Active`, `Onboarding`, `Approved`, `Redirected - Post Call`, `No Show`, `Call Scheduled`, `Redirected`, `Eligible`, `One Pager` |
+| `BU`                                  | multi_select     | yes, reused | Always `Movement`; other options: `IR`, `Comms`, `Ecodev`                                                                                                                           |
+| `Added`                               | created_time     | auto        | Set by Notion on row creation; not written by intake                                                                                                                                |
+| `City`                                | rich_text        | yes, added  | From `city`; omitted if empty                                                                                                                                                       |
+| `Country`                             | rich_text        | yes, added  | From `country` (id mapped via `COUNTRY_MAP`; unknown ids written as-is)                                                                                                             |
+| `Skills`                              | multi_select     | yes, added  | From `skills[]` (ids mapped via `SKILLS_MAP`; unknown ids written as-is); options: see shared values                                                                                |
+| `Background`                          | rich_text        | yes, added  | First non-empty of `backgroundPartner`, `backgroundBuilder`, `backgroundLeader`                                                                                                     |
+| `Tech Vision`                         | rich_text        | yes, added  | From `techVision`; Activist Builder only                                                                                                                                            |
+| `Activities Vision`                   | rich_text        | yes, added  | From `activitiesVision`; Activist Leader / Steward only                                                                                                                             |
+| `Questions`                           | rich_text        | yes, added  | From `questions`; omitted if empty                                                                                                                                                  |
+| `Wants Events`                        | checkbox         | yes, added  | From `wantsEvents`                                                                                                                                                                  |
+| `Wants Newsletter`                    | checkbox         | yes, added  | From `wantsNewsletter`                                                                                                                                                              |
+| `How did you first hear about Logos?` | select           | yes, added  | From `hearAbout` (id mapped via `HEAR_ABOUT_MAP`); unknown ids are dropped so tampering cannot create new options; options: see shared values                                       |
+| `Account Owner`                       | person           | no          | BD team member assigned to the row                                                                                                                                                  |
+| `Contacts`                            | rich_text        | no          | Free-form contact notes                                                                                                                                                             |
+| `Event Touchpoints`                   | multi_select     | no          | Options: `EthCC 2025`, `Protocolberg 2025`, `EthDenver 2025`, `EthDam`, `ETHCC`, `Inbound`, `Devcon 2024`, `Decentralized Data Summit`, `Devconnect 2025`                           |
+| `Last Contact`                        | date             | no          | Date of most recent BD interaction                                                                                                                                                  |
+| `Last edited time`                    | last_edited_time | no          | System-managed                                                                                                                                                                      |
+| `Nimbus Status`                       | status           | no          | Options: `Not started`, `In progress`, `Done`                                                                                                                                       |
+| `Platform`                            | multi_select     | no          | Options: `JS Browser`, `JS Electron`, `NodeJS`, `Rust`, `Golang`, `C++`                                                                                                             |
+| `Priority`                            | select           | no          | Options: `Low`, `Medium`, `High`, `To be established`                                                                                                                               |
+| `Segment`                             | multi_select     | no          | Options: `Social`, `Infrastructure`, `Cross-chain`, `L2`, `Studio`, `DeFi`, `Tooling`, `Nodes`, `AI`, `Wallets`, `Investor`, `Oracle`, `indexer`                                    |
+| `Stack`                               | multi_select     | no          | Options: `Nimbus`, `Logos Storage`, `Logos Messaging`, `Logos Blockchain`                                                                                                           |
+| `Status`                              | select           | no          | Options: `Lead`, `Qualified`, `Solution Eng`, `Preliminary interest`, `Confirmed`, `Future`, `Negotiation`, `Lost`, `Archive`                                                       |
+| `Tags`                                | multi_select     | no          | Options include `Wallet dapp SDK user`, `Chat SDK user`, `Potential Waku users`, `Grant Recipient`, `Operator`, and others                                                          |
+| `Total Funding`                       | number           | no          | Funding amount in USD                                                                                                                                                               |
+| `User Persona Type`                   | multi_select     | no          | Options include `Node Operator`, `Developer`, `Integrator`, `Partner`, `Investor`, `Community`, and others                                                                          |
+| `Waku Solution Engineers`             | person           | no          | Waku team member assigned to the row                                                                                                                                                |
 
----
+### How the intake columns were added
 
-## Env variables
+Thirteen columns were added for funnel intake via `notion-update-data-source`
+DDL; the pre-existing properties were left as they were, except that the
+pre-existing `Website` url column now receives the first submitted website
+instead of the old pipe-joined string. On 2026-07-06 one more column was added to
+the production database (database `5b951a531bd94db9b0078e11640e1051`, data source
+`9fe0dc96-98dc-493b-8e09-37c17f020872`) for logos-web#90:
 
-### Required when Notion intake is enabled (default)
+    ADD COLUMN "How did you first hear about Logos?" SELECT('Friend or colleague','Social media','Search engine','Event or conference','Another community or organization','Podcast','News/article/blog','Other')
 
-| Variable | Purpose |
-| --- | --- |
-| `NOTION_API_TOKEN` | Notion integration secret |
-| `NOTION_DB_ID` | ID of the Notion database |
+"Hide when empty" per property cannot be set via the Notion API or MCP. It must
+be toggled manually in the Notion UI for each added property, including
+`Website 2` to `Website 5`.
 
-### Required for live submissions
+## Newsletter opt-ins
 
-| Variable | Purpose |
-| --- | --- |
-| `HCAPTCHA_SECRET` | Verify captcha tokens from `apps/web` |
-| `N8N_STEWARD_WEBHOOK_TOKEN` | `X-Webhook-Token` for the steward webhook; unset = steward forward skipped |
+After the intake POST succeeds, `apps/web` fires the newsletter opt-ins the
+visitor ticked. Each one subscribes the submitted email to a Ghost newsletter via
+`admin-acid.logos.co` and attaches a note to the member profile.
 
-### Optional opt-outs
+| Checkbox                                        | `formKey`         | Newsletter          | Ghost id                   |
+| ----------------------------------------------- | ----------------- | ------------------- | -------------------------- |
+| "I want to receive the Logos Newsletter"        | `wantsNewsletter` | Logos Newsletter    | `6913441fee2f120001cec90d` |
+| "I want to be informed about events in my city" | `wantsEvents`     | Regional Newsletter | `6a672fa7d5b09400014fffa1` |
 
-| Variable | Effect when truthy (`1`, `true`, `yes`, `on`) |
-| --- | --- |
-| `FUNNEL_INTAKE_NOTION_DISABLED` | Skip the Notion write; the endpoint still returns `201` |
+`<profile>` in the note is the same string the Notion `Profile` select gets, via
+`getProfileForForm`. `country` arrives as a numeric option id and is resolved to
+its label against the form's own options before it reaches the note; an
+unresolvable id is dropped. The Regional request also sends the resolved `city`
+and `country` as top-level fields alongside the note, because the upstream builds
+its city labels from those fields, never from the note.
 
-Default (no flag set): all three forms write to Notion, and a Notion failure fails the submission with `502`.
+Each subscription forwards the submitted answers (the form values plus
+`formName`) flattened into the request body as top-level fields. The captcha token
+stays out; it is intake plumbing. Nothing here allowlists individual fields, so a
+new form field needs no change in `apps/web`. Select values are sent as their
+label, not the id (`toLabelledFormFields`), because the subscribe endpoint has no
+access to the option lists. Ids that resolve to nothing are dropped. Text fields
+and checkboxes pass through untouched, and the resolved keys (`email`, `type`,
+`newsletter`, `note`, plus `city` and `country` on the Regional request) are
+written last so a same-named form field cannot overwrite them.
 
----
+Three constraints shape it:
 
-## `submitToNotion` runtime behaviour
+- **Client-side.** `apps/web` is a static export, so there is no route to proxy
+  through, same as the footer signup. `admin-acid.logos.co` allowlists
+  Logos-owned origins for CORS, so these calls always fail on `localhost`; unit
+  tests are the verification.
+- **Never throws.** It runs after the intake POST has already succeeded and its
+  captcha token is spent, so a subscription failure is swallowed and logged
+  rather than surfaced. Otherwise a successful submission would render as a
+  network error, including on every local submit.
+- **Sequential, Logos first.** The upstream folds the note into the member's
+  existing note with a read-modify-write against the Ghost admin API, so firing
+  both concurrently races that read and loses one note.
 
-1. Read `NOTION_API_TOKEN` and `NOTION_DB_ID`; return `{ ok: false }` if either is missing.
-2. `resolveDataSourceId(databaseId)` -- use `NOTION_DATA_SOURCE_ID` if pinned, else `GET /v1/databases/{id}` and fall back to the sole data source (errors if multiple and none pinned).
-3. `buildNotionProperties(formData, formName)` -- see field mapping below.
-4. `POST /v1/pages` with `parent.data_source_id` and `properties`. Notion API version: `2026-03-11`.
-5. Return `{ ok: true }` or `{ ok: false, message }`.
+| Path                                       | Role                                                                                    |
+| ------------------------------------------ | --------------------------------------------------------------------------------------- |
+| `apps/web/lib/funnel-newsletter-signup.ts` | Builds the notes, fires the subscriptions                                               |
+| `apps/web/lib/newsletter-signup.ts`        | Shared transport; `NEWSLETTER_IDS`, optional verbatim `note`, `formFields` pass-through |
 
-Empty optional properties (rich text, url, email, select) are omitted from the POST body so rows stay sparse.
-
----
-
-## IFT BD CRM -- full database schema
-
-The table below lists every property in the database as of 2026-05-29. The **Funnel** column marks whether the funnel intake writes to the property, and how.
-
-| Property | Notion type | Funnel | Notes |
-| --- | --- | --- | --- |
-| `Name` | title | **yes -- reused** | From form `name`; fallback `"Unknown"` |
-| `Email/Website` | email | **yes -- reused** | From `email`; omitted if empty |
-| `Profile` | select | **yes -- reused** | Derived from `formName` via `getProfileForForm`; options: `Coalition Partner`, `Activist Builder`, `Activist Leader / Steward` |
-| `Mvmt Organization` | text | **yes -- added** | From `affiliatedOrgs`; written as-is (rich text, clamped to 2000 chars); omitted if empty |
-| `Website` | url | **yes -- reused** | First entry of `website[]` |
-| `Website 2` | url | **yes -- added** | Second entry of `website[]`; omitted if absent |
-| `Website 3` | url | **yes -- added** | Third entry of `website[]`; omitted if absent |
-| `Website 4` | url | **yes -- added** | Fourth entry of `website[]`; omitted if absent |
-| `Website 5` | url | **yes -- added** | Fifth entry of `website[]`; omitted if absent. The form caps the website field at 5 rows (`MAX_WEBSITE_ROWS`), so entries 1-5 map to these columns and the array never overflows |
-| `Phone or Social Handle` | phone_number | **yes -- reused** | `chat[]` + `chatService[]` joined as `handle (Service) \| ...` |
-| `Mvmt Status` | select | **yes -- reused** | Always written as `New Lead` on intake; other options: `Active`, `Onboarding`, `Approved`, `Redirected - Post Call`, `No Show`, `Call Scheduled`, `Redirected`, `Eligible`, `One Pager` |
-| `BU` | multi_select | **yes -- reused** | Always written as `Movement`; other options: `IR`, `Comms`, `Ecodev` |
-| `Added` | created_time | **yes -- auto** | Read-only; set by Notion on row creation; not written by intake |
-| `City` | rich_text | **yes -- added** | From `city`; omitted if empty |
-| `Country` | rich_text | **yes -- added** | From `country` (numeric option id mapped to full name via `COUNTRY_MAP`) |
-| `Skills` | multi_select | **yes -- added** | From `skills[]` (numeric option ids mapped to labels via `SKILLS_MAP`); 16 options (see below) |
-| `Background` | rich_text | **yes -- added** | First non-empty of `backgroundPartner`, `backgroundBuilder`, `backgroundLeader` |
-| `Tech Vision` | rich_text | **yes -- added** | From `techVision`; Activist Builder only; omitted if empty |
-| `Activities Vision` | rich_text | **yes -- added** | From `activitiesVision`; Activist Leader / Steward only; omitted if empty |
-| `Questions` | rich_text | **yes -- added** | From `questions`; omitted if empty |
-| `Wants Events` | checkbox | **yes -- added** | From `wantsEvents` boolean |
-| `Wants Newsletter` | checkbox | **yes -- added** | From `wantsNewsletter` boolean |
-| `How did you first hear about Logos?` | select | **yes -- added** | From `hearAbout` (numeric option id mapped via `HEAR_ABOUT_MAP`); unknown ids are dropped (property omitted) so tampering can't create new select options; options: `Friend or colleague`, `Social media`, `Search engine`, `Event or conference`, `Another community or organization`, `Podcast`, `News/article/blog`, `Other` |
-| `Account Owner` | person | no | BD team member assigned to the row |
-| `Contacts` | rich_text | no | Free-form contact notes; manually populated |
-| `Event Touchpoints` | multi_select | no | Events where the contact was met; options: `EthCC 2025`, `Protocolberg 2025`, `EthDenver 2025`, `EthDam`, `ETHCC`, `Inbound`, `Devcon 2024`, `Decentralized Data Summit`, `Devconnect 2025` |
-| `Last Contact` | date | no | Date of most recent BD interaction; manually set |
-| `Last edited time` | last_edited_time | no | System-managed; read-only |
-| `Nimbus Status` | status | no | Nimbus-specific workflow status; options: `Not started`, `In progress`, `Done` |
-| `Platform` | multi_select | no | Technical platform tags; options: `JS Browser`, `JS Electron`, `NodeJS`, `Rust`, `Golang`, `C++` |
-| `Priority` | select | no | BD priority; options: `Low`, `Medium`, `High`, `To be established` |
-| `Segment` | multi_select | no | Market segment; options: `Social`, `Infrastructure`, `Cross-chain`, `L2`, `Studio`, `DeFi`, `Tooling`, `Nodes`, `AI`, `Wallets`, `Investor`, `Oracle`, `indexer` |
-| `Stack` | multi_select | no | Logos stack involvement; options: `Nimbus`, `Logos Storage`, `Logos Messaging`, `Logos Blockchain` |
-| `Status` | select | no | BD pipeline stage; options: `Lead`, `Qualified`, `Solution Eng`, `Preliminary interest`, `Confirmed`, `Future`, `Negotiation`, `Lost`, `Archive` |
-| `Tags` | multi_select | no | Miscellaneous labels; options include `Wallet dapp SDK user`, `Chat SDK user`, `Potential Waku users`, `Grant Recipient`, `Operator`, and others |
-| `Total Funding` | number | no | Funding amount in USD; manually populated |
-| `User Persona Type` | multi_select | no | Persona classification; options include `Node Operator`, `Developer`, `Integrator`, `Partner`, `Investor`, `Community`, and others |
-| `Waku Solution Engineers` | person | no | Waku team member assigned to the row |
-
-### Skills multi_select options (16)
-
-`Developer`, `Web3 builder`, `Privacy domain expert`, `Website developer`, `Product designer`, `Researcher`, `Activist`, `Project manager`, `Community builder`, `Thought leader / Influencer`, `Creative`, `Marketer`, `Fundraiser`, `Educator`, `Policy advocate`, `Translator`
-
-### How the DB was extended for funnel intake
-
-Thirteen columns were added via `notion-update-data-source` DDL. The pre-existing properties were not modified (the pre-existing `Website` url column is now populated with the first submitted website instead of the old pipe-joined string).
-
-```sql
-ADD COLUMN "City" RICH_TEXT;
-ADD COLUMN "Country" RICH_TEXT;
-ADD COLUMN "Skills" MULTI_SELECT('Developer','Web3 builder','Privacy domain expert','Website developer','Product designer','Researcher','Activist','Project manager','Community builder','Thought leader / Influencer','Creative','Marketer','Fundraiser','Educator','Policy advocate','Translator');
-ADD COLUMN "Background" RICH_TEXT;
-ADD COLUMN "Tech Vision" RICH_TEXT;
-ADD COLUMN "Activities Vision" RICH_TEXT;
-ADD COLUMN "Questions" RICH_TEXT;
-ADD COLUMN "Wants Events" CHECKBOX;
-ADD COLUMN "Wants Newsletter" CHECKBOX;
-ADD COLUMN "Website 2" URL;
-ADD COLUMN "Website 3" URL;
-ADD COLUMN "Website 4" URL;
-ADD COLUMN "Website 5" URL
-```
-
-On 2026-07-06 one more column was added (to the **production** database, `5b951a531bd94db9b0078e11640e1051` / data source `9fe0dc96-98dc-493b-8e09-37c17f020872`) for issue [logos-web#90](https://github.com/logos-co/logos-web/issues/90):
-
-```sql
-ADD COLUMN "How did you first hear about Logos?" SELECT('Friend or colleague','Social media','Search engine','Event or conference','Another community or organization','Podcast','News/article/blog','Other')
-```
-
-**Known limitation:** "Hide when empty" per property cannot be set via the Notion API or MCP. It must be toggled manually in the Notion UI for each of the added properties -- including `Website 2`..`Website 5` (Database -> ... -> Properties -> each property -> Visibility -> Hide when empty).
-
-**Production note:** the four `Website 2`..`Website 5` columns above were added to the **test** database (`ede0c08525554244b940f681318a0891`). The production database referenced by `NOTION_DB_ID` must receive the same four `URL` columns before this ships -- a page POST referencing an unknown property is rejected by the Notion API, which would break live submissions.
-
----
-
-## One pager upload (logos-web#150)
+## One pager upload
 
 Setting a candidate's `Mvmt Status` to `One Pager` emails them a link to
-`logos.co/one-pager`. They attach a PDF there, and it lands as a file block on their own
-Notion page.
+`logos.co/one-pager`. They attach a PDF there, and it lands as a file block on
+their own Notion page.
 
-Everything server-side lives in **admin-acid** (`admin-acid.logos.co`): it already owns
-the funnel webhook, the email templates, the SMTP transport and a Notion client, and
+Everything server-side lives in admin-acid (`admin-acid.logos.co`): it owns the
+funnel webhook, the email templates, the SMTP transport and a Notion client, and
 `apps/web` is a static export with no API routes. This repo holds the page and its
-transport only -- what follows documents that half. For the token format, the upload
-endpoint and the Notion write path, read admin-acid.
+transport only. For the token format, the upload endpoint and the Notion write
+path, read admin-acid.
 
 ```
 Notion: Mvmt Status -> "One Pager"
-  └─ automation -> admin-acid emails the candidate a signed link
+  -> automation emails the candidate a signed link
 
 candidate opens logos.co/one-pager?t=<signed token>          (this repo)
-  ├─ GET  admin-acid /api/funnel/one-pager?t=...  -> { valid, used }
-  └─ POST admin-acid /api/funnel/one-pager        (multipart: token + file)
-       └─ admin-acid validates, writes to Notion, notifies the reviewers
+  -> GET  admin-acid /api/funnel/one-pager?t=...  -> { valid, used }
+  -> POST admin-acid /api/funnel/one-pager        (multipart: token + file)
+       -> admin-acid validates, writes to Notion, notifies the reviewers
 ```
 
-The two facts from that side the page has to render: the link **expires**, and it is good
-for a **single upload**. Both are enforced upstream; this side only reports them.
+The two facts from that side the page has to render: the link expires, and it is
+good for a single upload. Both are enforced upstream; this side only reports
+them.
 
 ### Page states
 
-| State | Reached by |
-| --- | --- |
-| Missing link | `/one-pager` opened with no `?t=` |
-| No longer valid | `GET` answered `valid: false` -- a forged **or** expired token; the upstream cannot tell them apart, so there is one message for both |
-| Already submitted | `GET` answered `used: true`, or the `POST` 409'd and the follow-up status check confirmed the slot is spent |
-| Checking / ready / uploading / success | the normal path |
-| Error | any other non-2xx; the upstream's own message is shown verbatim, since those strings are written for the candidate |
+| State                                  | Reached by                                                                                                                      |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Missing link                           | `/one-pager` opened with no `?t=`                                                                                               |
+| No longer valid                        | `GET` answered `valid: false`: a forged or expired token; the upstream cannot tell them apart, so there is one message for both |
+| Already submitted                      | `GET` answered `used: true`, or the `POST` 409'd and the follow-up status check confirmed the slot is spent                     |
+| Checking / ready / uploading / success | the normal path                                                                                                                 |
+| Error                                  | any other non-2xx; the upstream's own message is shown verbatim                                                                 |
 
-A **failed** status check resolves to `unknown` and falls through to the ready state
-rather than to "no longer valid". The check can fail transiently, and is blocked outright
-by CORS unless the page is served from a Logos-owned origin; the `POST` is the authority.
+A failed status check resolves to `unknown` and falls through to the ready state
+rather than to "no longer valid". The check can fail transiently, and is blocked
+outright by CORS unless the page is served from a Logos-owned origin; the `POST`
+is the authority.
 
 ### Constraints
 
-- **Client-side, cross-origin.** Same shape as the newsletter signup: a static export
-  posting straight at `admin-acid.logos.co`, which allowlists Logos-owned origins. A page
-  served from `localhost` therefore reaches only a local admin run with `IS_DEV_ENV=true`
-  (`ONE_PAGER_ENDPOINTS.development` points at `localhost:3003`, in step with
-  `SUBSCRIBE_ENDPOINTS` -- the same upstream app); against the deployed hosts, unit tests
-  are the verification.
-- **No preflight.** The `GET` is safelisted, and the `POST` sends `multipart/form-data`
-  with the token as a form field rather than a header. Moving the token to an
-  `Authorization` header would need a change to the upstream's CORS allowlist.
-- **`useSearchParams` needs a `<Suspense>` boundary** above it or the static export build
-  fails. The page provides one; the section is the only client component.
-- **The page-count rule is not enforced here.** A one pager must be two pages or fewer,
-  and that is checked upstream only -- a PDF parser has no business in the public bundle.
-  This side checks type and size, and `ONE_PAGER_MAX_BYTES` is kept equal to the upstream
-  constant of the same name.
-- **The route is unlisted.** `noindex` metadata and no sitemap entry: without the emailed
-  token the page can do nothing.
+- **Client-side, cross-origin.** Same shape as the newsletter signup: a static
+  export posting straight at `admin-acid.logos.co`, which allowlists Logos-owned
+  origins. A page served from `localhost` therefore reaches only a local admin
+  run with `IS_DEV_ENV=true` (`ONE_PAGER_ENDPOINTS.development` points at
+  `localhost:3003`); against the deployed hosts, unit tests are the verification.
+- **No preflight.** The `GET` is safelisted, and the `POST` sends
+  `multipart/form-data` with the token as a form field rather than a header.
+  Moving the token to an `Authorization` header would need a change to the
+  upstream's CORS allowlist.
+- **`useSearchParams` needs a `<Suspense>` boundary** above it or the static
+  export build fails. The page provides one; the section is the only client
+  component.
+- **The page-count rule is not enforced here.** A one pager must be two pages or
+  fewer, checked upstream only. This side checks type and size, and
+  `ONE_PAGER_MAX_BYTES` is kept equal to the upstream constant of the same name.
+- **The route is unlisted.** `noindex` metadata and no sitemap entry: without the
+  emailed token the page can do nothing.
 
-| Path | Role |
-| --- | --- |
-| `apps/web/app/[locale]/one-pager/page.tsx` | Route, `noindex` metadata, the `<Suspense>` boundary |
-| `apps/web/app/[locale]/one-pager/_sections/one-pager-upload.tsx` | The client flow and every state above |
-| `apps/web/lib/one-pager-upload.ts` | `ONE_PAGER_ENDPOINTS`, the status check, the upload, the client-side file checks |
-| `apps/web/messages/en.json` (`pages.onePager`) | All page copy |
-
-Copy is placeholder pending final wording; it lives entirely in the `pages.onePager`
-message namespace.
-
----
-
-## Key design decisions
-
-- **One endpoint for all forms** -- hCaptcha tokens are single-use; `/coalition-partner`, `/activist-builder`, and `/activist-leader-steward` all point at `POST /api/public/afform-submit`.
-- **Per-form destination rules** -- all three forms write to Notion (`502` on failure). Only the steward form is additionally forwarded to the n8n/Baserow webhook, and that forward is best-effort: a failure is logged and the submission still returns `201`.
-- **One `Background` column** -- All `background*` textarea variants collapse into a single rich-text property.
-- **One column per website** -- `website[]` is spread across discrete url columns: entry 1 -> `Website`, entries 2-5 -> `Website 2`..`Website 5`. Blank rows are dropped first, so the columns fill contiguously. The funnel form caps the website field at 5 rows (`MAX_WEBSITE_ROWS` in `connect-form-section.tsx`), so the array never overflows the available columns.
-- **Joined multi-values** -- `chat[]` -> `handle (Service)` entries in `Phone or Social Handle`.
-- **`Mvmt Organization` is free text** -- `affiliatedOrgs` is written verbatim to the `Mvmt Organization` rich-text column (clamped to 2000 chars), keeping the curated `Organization` select free of intake noise. Intake does not write to `Organization`.
-- **`hearAbout` is spliced in at page level** -- its def lives in `apps/web/lib/funnel-forms/hear-about-field.ts` rather than in the per-form definitions, and `withHearAboutField` inserts it after `chatService` (a no-op if a form ever defines the field itself). The endpoint rejects a submission whose `hearAbout` is missing or is not a known option id, so the check cannot be skipped client-side. The question, option list, and id → label map live once in `@repo/funnel` (`packages/funnel`); the question string doubles as the Notion property name, so rewording it means renaming the property in Notion first.
-- **One option list, read by both sides** -- `skills`, `chatService` and `country` live once in `packages/funnel/src/form-options.ts`, shared by all three forms. `apps/web` reaches them through `AFFORM_OPTIONS` (`lib/funnel-forms/afform-options.ts`), and the endpoint's `SKILLS_MAP` / `CHAT_SERVICE_MAP` / `COUNTRY_MAP` are `toLabelMap()` over the same arrays, as is `HEAR_ABOUT_MAP`. An id therefore means the same thing in the dropdown and in Notion. A form that needs its own list can put `options` on the field itself, which `getOptionsForField` prefers (logos-web#140).
-- **One required-field list, read by both sides** -- `REQUIRED_FIELDS_BY_FORM` in `@repo/funnel` is the only place a funnel field is marked required. The form pages pass it into `ConnectFormSection`, which builds the zod schema and the asterisks from it, and the endpoint rejects a payload missing any of them with `400 Missing or invalid required fields` (the response names the offending `fields`). The form definitions under `apps/web/lib/funnel-forms/` carry no `required` flag -- they describe rendering only. `email` is additionally checked for a plausible address; that pattern is looser than the client's zod `.email()` on purpose, so the endpoint can never reject what the form accepted. What the two sides implement separately is what counts as an *answer* (zod vs `isAnswered`), which is what `apps/web/lib/funnel-forms/__tests__/required-fields-parity.test.ts` covers.
-- **Newsletter opt-ins are fire-and-forget from the client** -- they run after the intake POST resolves, never block it, and never fail it. See the section above.
-- **Env var name** -- `NOTION_DB_ID`.
-
----
+| Path                                                             | Role                                                                             |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `apps/web/app/[locale]/one-pager/page.tsx`                       | Route, `noindex` metadata, the `<Suspense>` boundary                             |
+| `apps/web/app/[locale]/one-pager/_sections/one-pager-upload.tsx` | The client flow and every state above                                            |
+| `apps/web/lib/one-pager-upload.ts`                               | `ONE_PAGER_ENDPOINTS`, the status check, the upload, the client-side file checks |
+| `apps/web/messages/en.json` (`pages.onePager`)                   | All page copy                                                                    |
 
 ## Testing
 
-```bash
-pnpm --filter api test
-pnpm --filter web test
-```
+- Endpoint behaviour: `apps/api/src/app/api/public/afform-submit/__tests__/route.test.ts`
+- Notion property mapping: `apps/api/src/lib/notion/__tests__/build-notion-properties.test.ts`
+- n8n payload: `apps/api/src/lib/n8n/__tests__/build-payload.test.ts`
+- Endpoint agrees with the form schema: `apps/web/lib/funnel-forms/__tests__/required-fields-parity.test.ts`
+- Newsletter opt-ins: `apps/web/lib/__tests__/funnel-newsletter-signup.test.ts`
+- Subscribe payload: `apps/web/lib/__tests__/newsletter-signup.test.ts`
+- One pager: `apps/web/lib/__tests__/one-pager-upload.test.ts` and `apps/web/app/__tests__/one-pager-page-contract.test.ts`
 
-Notion property mapping: `apps/api/src/lib/notion/__tests__/build-notion-properties.test.ts`
-n8n payload building: `apps/api/src/lib/n8n/__tests__/build-payload.test.ts`
-Endpoint behaviour: `apps/api/src/app/api/public/afform-submit/__tests__/route.test.ts`
-Endpoint agrees with the form schema: `apps/web/lib/funnel-forms/__tests__/required-fields-parity.test.ts`
-Newsletter opt-ins: `apps/web/lib/__tests__/funnel-newsletter-signup.test.ts`
-Subscribe payload: `apps/web/lib/__tests__/newsletter-signup.test.ts`
-One pager transport: `apps/web/lib/__tests__/one-pager-upload.test.ts`
-One pager page: `apps/web/app/__tests__/one-pager-page-contract.test.ts`
+Run with `pnpm --filter api test` and `pnpm --filter web test`.

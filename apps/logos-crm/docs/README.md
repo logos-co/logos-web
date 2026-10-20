@@ -1,19 +1,13 @@
-# Logos CRM Specifications
+# Logos CRM docs
 
-Read in this order:
+Reference for `apps/logos-crm`, the self-hosted coordination workspace. Covers
+[`src/server`](../src/server), [`src/contracts`](../src/contracts), [`src/app`](../src/app),
+[`src/components`](../src/components), [`drizzle/`](../drizzle), and the Docker setup.
 
-1. [`architecture.md`](architecture.md) — scope, decisions, packages, permissions, and acceptance criteria.
-2. [`data-model.md`](data-model.md) — PostgreSQL entities, constraints, merge rules, visibility, search, and retention.
-3. [`backend.md`](backend.md) — services, API routes, jobs, reporting, security, and tests.
-4. [`frontend.md`](frontend.md) — screens, interactions, design-system requirements, and browser tests.
-5. [`deployment.md`](deployment.md) — Docker Compose, Infra contracts, secrets, health, release, and recovery.
-
-The runtime is intentionally small: one Next.js application image used by `web` and `worker`, one PostgreSQL service, one protected file volume, and Infra-provided authentication and SMTP. There is no Redis, hosted queue, Vercel dependency, separate backend service, or separate scheduler.
-
-Implementation is reuse-first: Drizzle owns the persistence schema, browser-safe Zod schemas own API and form contracts, Drizzle Kit owns migrations, and Drizzle Seed owns fixtures; Next.js Route Handlers expose REST endpoints; CASL owns ability evaluation; Graphile Worker owns scheduling and retries; PapaParse and `write-excel-file` own file formats. CRM-specific code is limited to business rules, queries, and UI composition.
-
-## Demo implementation
-
-The `logos-crm` branch includes a PostgreSQL-backed vertical slice under `apps/logos-crm`: a pipeline summary, searchable case table, case detail/next-action view, case creation, status progression, people and organisation directories, contact methods, explicit case relationships, record activity timelines, and assigned tasks through Next.js Route Handlers. Activities and tasks each belong to exactly one case, person, or organisation, with that invariant enforced in PostgreSQL. The demo supports recording notes, creating tasks, and completing or reopening tasks. It intentionally omits production authentication, CASL enforcement, Graphile Worker jobs, reminders, notifications, imports, merges, and CiviCRM cutover.
-
-Run the complete demo with `docker compose -f apps/logos-crm/compose.yaml up --build`. Compose starts PostgreSQL, runs the Drizzle migration and idempotent demo seed, then serves the CRM at `http://localhost:3004`. The `db:migrate`, `db:seed`, and `dev` workspace scripts remain available for local development.
+| Doc                                | Read it when                                                      |
+| ---------------------------------- | ----------------------------------------------------------------- |
+| [architecture.md](architecture.md) | Understanding the shape, stack, and what is not built yet         |
+| [data-model.md](data-model.md)     | Changing or querying the Drizzle schema and PostgreSQL tables     |
+| [backend.md](backend.md)           | Working on contracts, repositories, or `/api/v1` route handlers   |
+| [frontend.md](frontend.md)         | Working on screens, components, or client data fetching           |
+| [deployment.md](deployment.md)     | Running or changing Docker Compose, the Dockerfile, or migrations |

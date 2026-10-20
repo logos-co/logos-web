@@ -6,12 +6,12 @@ How this app ships, and the traps in this monorepo. Current as of 2026-09-04.
 
 Project `logos-demos` on the **IFT** team (`status-im-web`).
 
-| Setting | Value |
-| --- | --- |
-| Root Directory | `apps/logos-demos` |
-| Framework | Next.js |
-| Build Command | from `apps/logos-demos/vercel.json`: `pnpm turbo run build --filter=logos-demos` |
-| Deployment Protection | off, so preview URLs are shareable without a Vercel account |
+| Setting               | Value                                                                            |
+| --------------------- | -------------------------------------------------------------------------------- |
+| Root Directory        | `apps/logos-demos`                                                               |
+| Framework             | Next.js                                                                          |
+| Build Command         | from `apps/logos-demos/vercel.json`: `pnpm turbo run build --filter=logos-demos` |
+| Deployment Protection | off, so preview URLs are shareable without a Vercel account                      |
 
 Protection is off to match `logos-crm` and `logos-co-web`. It means anyone with
 the link can open a deployment, which is the point for a demo.
@@ -62,9 +62,9 @@ curl -s -X POST \
 ```
 
 Then confirm the project still has Root Directory `apps/logos-demos` and no
-ignore command, and check one unrelated open PR: its `Vercel – logos-demos`
-check should read "Skipped - Not affected", not fail. If it fails, disconnect
-again rather than leaving other people's PRs red:
+ignore command, and check one unrelated open PR: its Vercel check for
+`logos-demos` should report a skip ("Not affected"), not fail. If it fails,
+disconnect again rather than leaving other people's PRs red:
 
 ```sh
 curl -s -X DELETE \
@@ -109,17 +109,20 @@ is a build dependency and only the orchestrator builds it, so the app build alon
 fails on a clean checkout.
 
 Every page is prerendered (`○ prerendered as static content`). The only
-server-rendered entries should be the blockchain proxy routes (`ƒ`):
+server-rendered entries should be the read-only proxy routes (`ƒ`):
 
 ```
 ├ ƒ /api/chain
+├ ƒ /api/chain/search
+├ ƒ /api/chain/stream
+├ ƒ /api/storage/fleet
 ├ ○ /blockchain
 └ ○ /messaging
 ```
 
-If a page turns from `○` into `ƒ`, or a second route appears, something has
-quietly added a server dependency and the claims on the pages need
-re-reading.
+If a page route turns from `○` into `ƒ`, or an API route appears that is not one
+of these proxies, something has quietly added a server dependency and the claims
+on the pages need re-reading.
 
 ## Turbopack serves stale CSS
 
@@ -132,3 +135,24 @@ rm -rf apps/logos-demos/.next
 This bit twice while building the dialog. Both times the symptom was "my fix did
 nothing", and both times the fix was correct and simply not being served. If a
 style change appears to have no effect, rule this out before debugging the CSS.
+
+## Deployment facts are runtime facts, not build-time ones
+
+A statically prerendered page freezes anything it reads from `process.env` at
+build time, and the build does not even see most variables: `turbo.json`
+declares an `env` allowlist and Turborepo strips the rest. Ask a route handler
+instead, which runs per request and needs no declaration. `src/lib/site.ts`
+holds the site URL and description as constants for exactly this reason.
+
+## End-to-end against a deployment
+
+`E2E_BASE_URL=<url> pnpm --filter logos-demos test:e2e` skips the dev server
+and drives that deployment instead. Do this before calling a fix done: both
+bugs the suite has caught so far only appeared on a real build, and a local
+pass said nothing about either.
+
+The suite starts a fresh dev server each run, so stop any dev server already on
+port 3005 (the Browser pane runs one) or the run fails immediately. It used to
+reuse a running one, and a run then reused a server started before the fix
+under test and reported it broken. Set `E2E_REUSE_SERVER=1` to opt back in, but
+not while judging whether a change worked.

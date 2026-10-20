@@ -20,9 +20,16 @@ The types actively mislead here. `CreateNodeOptions.discovery` documents
 
 ```js
 if (options?.defaultBootstrap) {
-  peerDiscovery.push(...getPeerDiscoveries({ dns: true, peerExchange: true, peerCache: true, ...options.discovery }, options.peerCache))
+  peerDiscovery.push(
+    ...getPeerDiscoveries(
+      { dns: true, peerExchange: true, peerCache: true, ...options.discovery },
+      options.peerCache
+    )
+  )
 } else {
-  peerDiscovery.push(...getPeerDiscoveries(options.discovery, options.peerCache))
+  peerDiscovery.push(
+    ...getPeerDiscoveries(options.discovery, options.peerCache)
+  )
 }
 ```
 

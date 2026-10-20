@@ -1,27 +1,26 @@
-# logos-demos notes
+# logos-demos docs
 
-Working notes gathered while building the demos in this app: what the Logos
-stack actually is, which parts of it a browser can reach, and what bit us.
+Working notes for `apps/logos-demos`: what the Logos stack actually is, which
+parts of it a browser can reach, and what bit us. Most of this is not written
+down in one place, so it is gathered here instead of re-derived each time.
 
-They exist because most of this is not written down in one place. It is spread
-across a dozen repositories, a fleets dashboard, and the behaviour of live
-endpoints, and re-deriving it costs hours.
-
-| File                                                             | What it covers                                                             |
-| ---------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [logos-stack.md](./logos-stack.md)                               | The stack: naming, layers, modules, and which repository owns what         |
-| [network-access.md](./network-access.md)                         | The live networks and endpoints, and which are reachable from a browser    |
-| [research/browser-viability.md](./research/browser-viability.md) | Per protocol: can this run in a browser, and what does it need             |
-| [research/storage-research.md](./research/storage-research.md)   | The second pass over Logos Storage: everything probed, and what is left    |
-| [storage-cid.md](./storage-cid.md)                               | The CID scheme, how it was verified against a real node, and its two traps |
-| [waku-sdk-notes.md](./waku-sdk-notes.md)                         | `@waku/sdk` behaviour that is not obvious from its types                   |
-| [deployment.md](./deployment.md)                                 | How this app deploys, and the Vercel traps in this monorepo                |
+| Doc                                                            | Read it when                                           |
+| -------------------------------------------------------------- | ------------------------------------------------------ |
+| [logos-stack.md](logos-stack.md)                               | You need the naming, modules, or repository ownership  |
+| [demos.md](demos.md)                                           | You add or change a demo, its explainer, or its claims |
+| [design-system.md](design-system.md)                           | You style anything, or write copy                      |
+| [blockchain.md](blockchain.md)                                 | You touch the blockchain demo or its proxy             |
+| [network-access.md](network-access.md)                         | You check what a browser can actually reach            |
+| [storage-cid.md](storage-cid.md)                               | You touch the CID, mimetype, or proof code             |
+| [waku-sdk-notes.md](waku-sdk-notes.md)                         | You touch `@waku/sdk` or the messaging demo            |
+| [deployment.md](deployment.md)                                 | You deploy, or debug a build or dev-server problem     |
+| [research/browser-viability.md](research/browser-viability.md) | You consider promising a new demo                      |
+| [research/storage-research.md](research/storage-research.md)   | You revisit whether storage is reachable               |
 
 ## Reading these
 
-**Every network claim carries the date it was checked.** Endpoints move, fleets
-are redeployed, and access policy changes without notice. A statement here is
+Every network claim carries the date it was checked. Endpoints move, fleets are
+redeployed, and access policy changes without notice. A statement here is
 evidence that something was true once, not a guarantee that it is true now.
-Re-check before building on one.
-
-Where something was inferred rather than observed, it says so.
+Re-check before building on one. Where something was inferred rather than
+observed, it says so.

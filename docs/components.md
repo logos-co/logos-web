@@ -1,4 +1,4 @@
-# Logos — Shared Components
+# Shared components
 
 Reusable components used across all pages. Each entry includes a Figma reference, structure, variants, and responsive notes.
 
@@ -6,7 +6,7 @@ Reusable components used across all pages. Each entry includes a Figma reference
 
 ## 1. Nav Bar
 
-**Figma:** `Nav` section — node 40009046:23611
+**Figma:** `Nav` section, node 40009046:23611
 **Instance name in frames:** `D2 Nav`
 
 ### Closed state (default)
@@ -19,10 +19,10 @@ Reusable components used across all pages. Each entry includes a Figma reference
 | Background    | Transparent (overlays page content)   |
 | Position      | Fixed, top-0, full width, z-index top |
 
-**Layout — left to right:**
+**Layout, left to right:**
 
-- `LOGOS` — wordmark, uppercase, small caps
-- `MENU ≡` — opens overlay; changes to `CLOSE MENU ×` when open
+- `LOGOS`: wordmark, uppercase, small caps
+- `MENU ≡`: opens overlay; changes to `CLOSE MENU ×` when open
 
 ### Open state (hamburger overlay)
 
@@ -35,7 +35,7 @@ Full-screen overlay, dark green background (`#0D1F17` approx).
 | Left   | `SITEMAP` label + large serif nav links stacked vertically |
 | Right  | `JOIN OUR COMMUNITY` cards + `PRESS` section               |
 
-**Sitemap links (large serif, ~80–96px):**
+**Sitemap links (large serif, about 80 to 96px):**
 
 1. Technology Stack
 2. Take Action
@@ -45,9 +45,9 @@ Full-screen overlay, dark green background (`#0D1F17` approx).
 
 **JOIN OUR COMMUNITY cards (3 cards, image background, dark overlay):**
 
-- Lambda icon Build — "Explore programmes and resources to help you build your cyberstate."
-- Lambda icon Node Programme — "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies."
-- Lambda icon Circles — "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections."
+- Lambda icon Build: "Explore programmes and resources to help you build your cyberstate."
+- Lambda icon Node Programme: "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies."
+- Lambda icon Circles: "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections."
 
 **PRESS section:** label + `SEE ALL →` link + 4 press image thumbnails (date + headline below each).
 
@@ -70,12 +70,12 @@ interface NavProps {
 ## 2. Footer
 
 **Implementation:** [`packages/ui/src/primitives/footer/footer.tsx`](../packages/ui/src/primitives/footer/footer.tsx)
-**Site wrapper:** [`apps/web/components/site-footer.tsx`](../apps/web/components/site-footer.tsx) — wires Logos-specific links
-**Figma:** `Footer` desktop — node 40009046:22948 · mobile — node 40009046:22697
+**Site wrapper:** [`apps/web/components/site-footer.tsx`](../apps/web/components/site-footer.tsx), which wires Logos-specific links
+**Figma:** `Footer` desktop, node 40009046:22948 · mobile, node 40009046:22697
 
 Background: `bg-brand-dark-green`, `text-brand-off-white`.
 
-Desktop (md+): 3-column layout — image + "Built by IFT" (left), logo + primary links + research + legal (middle), tagline + social + infrastructure (right). Mobile: 2-column with image + logo/tagline stacked on top.
+Desktop (md+): 3-column layout: image + "Built by IFT" (left), logo + primary links + research + legal (middle), tagline + social + infrastructure (right). Mobile: 2-column with image + logo/tagline stacked on top.
 
 The Figma heights (663px mobile, 688px desktop) are minimums. The legal links sit in normal flow, so three links land exactly on those heights and a longer list makes the footer taller instead of being clipped. On desktop the image stays pinned 12px above the bottom edge.
 
@@ -126,7 +126,12 @@ interface FooterNewsletterProps {
   cityLabel: string
   countryLabel: string
   submitLabel: string
-  onSubmit: (values: { email: string; role: string; city: string; country: string }) => Promise<void>
+  onSubmit: (values: {
+    email: string
+    role: string
+    city: string
+    country: string
+  }) => Promise<void>
   roleOptions?: readonly string[] // default: Node operator / Builder
   countryOptions: readonly string[] // searchable
   requiredLabel?: string // default: 'required'
@@ -139,7 +144,7 @@ interface FooterNewsletterProps {
 ## 3. Button
 
 **Implementation:** [`packages/ui/src/primitives/button/button.tsx`](../packages/ui/src/primitives/button/button.tsx)
-**Figma:** `CTA` component set — node 1022:6225
+**Figma:** `CTA` component set, node 1022:6225
 
 Renders `<a>` when `href` is provided, `<button>` otherwise. Label is auto-uppercased via CSS.
 
@@ -168,7 +173,7 @@ interface ButtonProps {
 ## 4. GiantSwitch
 
 **Implementation:** [`packages/ui/src/primitives/giant-switch/giant-switch.tsx`](../packages/ui/src/primitives/giant-switch/giant-switch.tsx)
-**Figma:** `Logos App Giant Switch` component set — node 1972:22168
+**Figma:** `Logos App Giant Switch` component set, node 1972:22168
 
 Oversized banner panel with a circular image disc and a content block. Used in Builders Hub for the "Install the Logos app" section. Also exports `GiantSwitchTag` for pill labels inside `tags`.
 
@@ -211,11 +216,11 @@ interface GiantSwitchTagProps {
 ## 5. Card
 
 **Implementation:** [`packages/ui/src/primitives/card/card.tsx`](../packages/ui/src/primitives/card/card.tsx)
-**Figma:** `Card hover` section — node 40009046:27669
+**Figma:** `Card hover` section, node 40009046:27669
 
 Tech-stack / feature card used on the Homepage and Technology Stack pages. Default state: transparent bg, dark-green border, centred Lambda icon + title. Hover state: light-blue bg, top-left thumbnail, top-right CTA pill, description revealed.
 
-Also exports `CardInfo` — a small rounded info block anchored to the bottom of a fixed-height card (used in the Blockchain section).
+Also exports `CardInfo`, a small rounded info block anchored to the bottom of a fixed-height card (used in the Blockchain section).
 
 ```ts
 interface CardProps {
@@ -238,9 +243,9 @@ interface CardProps {
 ## 6. Table + TableRow
 
 **Implementation:** [`packages/ui/src/primitives/table/table.tsx`](../packages/ui/src/primitives/table/table.tsx)
-**Figma:** `Side by Side` section — node 2259:43916
+**Figma:** `Side by Side` section, node 2259:43916
 
-Used in list view on `/builders-hub/rfps` and `/builders-hub/ideas`. `Table` provides the header (serif title, mono subtitle, optional action slot). `TableRow` is a 50px full-width row — odd rows get a 5% dark-green tint, even rows grey-01; all rows switch to light-blue on hover.
+Used in list view on `/builders-hub/rfps` and `/builders-hub/ideas`. `Table` provides the header (serif title, mono subtitle, optional action slot). `TableRow` is a 50px full-width row; odd rows get a 5% dark-green tint, even rows grey-01; all rows switch to light-blue on hover.
 
 Row columns: `flex-[714]` number + title · `flex-[464]` description · `w-[107px]` reward · action slot.
 
@@ -311,9 +316,9 @@ interface TableRowProps {
 ## 7. ViewToggle
 
 **Implementation:** [`packages/ui/src/primitives/view-toggle/view-toggle.tsx`](../packages/ui/src/primitives/view-toggle/view-toggle.tsx)
-**Figma:** Labels `Grid (default)` / `List` — `RFPs` section — node 2213:32470
+**Figma:** Labels `Grid (default)` / `List`, `RFPs` section, node 2213:32470
 
-Generic view-mode switcher — `Grid / List` labels with a slash separator. Inactive option dimmed; active option underlined. Accepts either `getHref` (SSR-friendly, renders `<a>`) or `onChange` (client-side, renders `<button>`).
+Generic view-mode switcher: `Grid / List` labels with a slash separator. Inactive option dimmed; active option underlined. Accepts either `getHref` (SSR-friendly, renders `<a>`) or `onChange` (client-side, renders `<button>`).
 
 - Default view per page: **Grid** for RFPs, **List** for Ideas
 - Toggle switches between `<Card>` grid layout and `<Table>` + `<TableRow>` list layout
@@ -356,7 +361,7 @@ type PaginationProps = {
 
 ---
 
-## 9. Page Header — Builders Hub sub-pages
+## 9. Page header (Builders Hub sub-pages)
 
 **Figma:** Top of Ideas (node `2259:41841`) and RFPs (node `2259:43033`) frames.
 

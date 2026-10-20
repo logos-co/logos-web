@@ -1,43 +1,45 @@
 # AGENTS.md
 
-Guidance for agents working inside `apps/cms`. The root `AGENTS.md` still applies; this file adds CMS-specific instructions for the nearest subtree.
+Rules for agents working in `apps/cms`. The root `AGENTS.md` also applies.
 
-## App Role
+## Role
 
-This is the Payload CMS 3.x admin app on Next.js 16. It runs on port `3001`, with the admin UI at `/admin`.
-
-Payload Postgres is not the production content source of truth. It stores users, sessions, drafts, and PR cache. Published content changes must flow through the GitHub PR workflow targeting `develop`.
+Payload CMS admin app on Next.js 16, Postgres-backed, port 3001, admin UI at `/admin`. Postgres is not the content source of truth: it stores users, sessions, drafts and PR cache only. Published content changes always ship as GitHub PRs targeting `develop`.
 
 ## Commands
 
-Run from the repo root unless a task explicitly needs the app directory:
+Run from the repo root.
 
 ```bash
-pnpm --filter cms dev
-pnpm --filter cms build
-pnpm --filter cms lint
-pnpm --filter cms check-types
-pnpm --filter cms generate-types
-pnpm --filter cms generate-import-map
+pnpm --filter cms dev              # next dev on :3001, schema auto-sync on
+pnpm --filter cms build            # validate build env, regenerate import map, next build
+pnpm --filter cms lint             # eslint, zero warnings
+pnpm --filter cms check-types      # next typegen + tsc --noEmit
+pnpm --filter cms test             # node:test suite
+pnpm --filter cms generate-types   # regenerate @repo/types payload.ts
+pnpm --filter cms generate-import-map # regenerate the Payload admin import map
+pnpm --filter cms migrate:create   # generate a SQL migration from the current schema
+pnpm --filter cms migrate:status   # list applied / pending migrations
+pnpm --filter cms migrate          # apply pending migrations
 ```
 
-Use `pnpm generate-types` from the repo root after Payload collection or schema changes that affect generated types.
+Run `pnpm generate-types` from the root after any collection or schema change.
 
-## Code Organization
+## Rules
 
-- Payload collections live in `src/collections/`.
-- GitHub-backed content mutation logic lives in `src/services/content-workflow/`.
-- Admin-specific UI belongs under `src/components/admin/`.
-- Keep reusable content schemas, loaders, locale helpers, and GitHub mutation helpers in `@repo/content`, not duplicated in this app.
-
-## Content Workflow Rules
-
-- Do not write published content directly to Postgres.
-- Do not bypass `save-as-pr.ts`, `save-idea-as-pr.ts`, `save-rfp-as-pr.ts`, or the existing content workflow helpers when changing CMS publishing behavior.
+- Collections live in `src/collections/`: users, media, pages, builder-hub-settings, builder-listing-settings, site-settings-content, site-navigation-content, site-footer-content, rfps, ideas, builder-resources, circles, circle-events, circle-initiatives, circle-resources, content-change-requests, site-publish-reservations.
+- Do not write published content straight to Postgres. The 13 content collections mutate `content/**` through the GitHub PR workflow in `src/services/content-workflow/`.
+- Use the existing helpers, never reimplement the PR flow: `save-as-pr.ts` plus `save-page-as-pr.ts`, `save-idea-as-pr.ts`, `save-rfp-as-pr.ts`, `save-circle-as-pr.ts`, `save-circle-event-as-pr.ts`, `save-circle-initiative-as-pr.ts`, `save-circle-resource-as-pr.ts`, `save-builder-resource-as-pr.ts`, `save-builder-hub-settings-as-pr.ts`, `save-builder-listing-settings-as-pr.ts`, `save-site-content-as-pr.ts`.
 - CMS-generated content PRs target `develop`.
-- If a collection edits content under `content/**`, keep the Payload collection, `@repo/content` schema/loader, fixtures, and generated types in sync.
+- If a collection edits content under `content/**`, keep the Payload collection, the `@repo/content` schema and loader, fixtures and generated types in sync. See `packages/content/AGENTS.md`.
 
-## Environment
+## Gotchas
 
-The CMS must not silently fall back to localhost in production-like environments. Keep the existing assertions around `NEXT_PUBLIC_SERVER_URL` and `NEXT_PUBLIC_WEB_URL`; fix the environment instead of weakening those checks.
+- Keep the production env assertions in `payload.config.ts`: the app throws when `NEXT_PUBLIC_SERVER_URL` or `NEXT_PUBLIC_WEB_URL` is missing in a non-Vercel production build. Fix the environment, never weaken the check.
+- The dev wrapper (`scripts/dev.ts`) refuses to run in deployment environments and auto-accepts Payload schema-push prompts. Production uses reviewed migrations, never schema push: `payload migrate` runs in `docker-entrypoint.sh`, and Payload never pushes when `NODE_ENV=production`.
 
+## Docs
+
+- [docs/environment.md](docs/environment.md): env var reference and required values
+- [docs/deployment.md](docs/deployment.md): Docker, migrations, first admin, health check
+- [docs/publishing.md](docs/publishing.md): site publish workflow and reservations

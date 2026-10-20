@@ -80,28 +80,23 @@ export function LocalizedButton() {
 
 ## Exports
 
-All public components and types are exported from the package root:
+Three entrypoints:
+
+- `@acid-info/logos-ui` (root): server-safe components and types. Includes
+  `Button`, `ButtonArrowIcon`, `Card`, `CardInfo`, `Footer`, `GiantSwitch`,
+  `GiantSwitchTag`, `IconButton`, `Pagination`, `Table`, `TableRow`,
+  `ViewToggle`, the technology-stack section components, and the icons
+  (`LogosMark`, `LogosWordmark`, `SearchIcon`, `XIcon`, `MediaShareIcon`,
+  `DownloadIcon`, the podcast icons, and others).
+- `@acid-info/logos-ui/client`: components that use React effects, marked
+  `'use client'`. Exports `NavOverlay` and `FooterNewsletter` (plus their
+  types).
+- `@acid-info/logos-ui/styles.css`: compiled component styles, registered as
+  Tailwind sources.
+
+The full list lives in `src/index.ts` and `src/client.ts`.
 
 ```tsx
-import {
-  Button,
-  ButtonArrowIcon,
-  Card,
-  Footer,
-  GiantSwitch,
-  IconButton,
-  LogosMark,
-  NavOverlay,
-  Pagination,
-  Table,
-  ViewToggle,
-  XIcon,
-} from '@acid-info/logos-ui'
-```
-
-Client-only components that use React effects are exported from the client
-entrypoint:
-
-```tsx
+import { Button, Card, LogosMark } from '@acid-info/logos-ui'
 import { NavOverlay } from '@acid-info/logos-ui/client'
 ```

@@ -3,6 +3,14 @@
 Everything below was checked on **2026-09-04** unless stated otherwise. Re-check
 before relying on any of it.
 
+## Trust the browser, not curl
+
+A missing `access-control-allow-origin` header looks exactly like a success in a
+terminal: the status is 200 and the body is there. Only the browser enforces it.
+`fleets.logos.co` was written up as needing no proxy on the strength of a clean
+`curl`, and the page then failed with a CORS error on first load. Open the page
+and read the console before writing down that something works from a browser.
+
 ## Fleets dashboard
 
 **https://fleets.logos.co/** is public and lists the team's fleets and hosts.
@@ -10,10 +18,10 @@ This is the fastest way to see what is actually running.
 
 Two fleets, three service types:
 
-| Fleet | Services |
-| --- | --- |
-| `logos.test` | `logos-node-delivery`, `logos-node-storage` on `node-01/02.<region>.logos.test.status.im` |
-| `logos.dev` | `logos-node-delivery`, `logos-node-storage`, `logos-node-blockchain` on `<service>-01/02.<region>.logos.dev.status.im` |
+| Fleet        | Services                                                                                                               |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `logos.test` | `logos-node-delivery`, `logos-node-storage` on `node-01/02.<region>.logos.test.status.im`                              |
+| `logos.dev`  | `logos-node-delivery`, `logos-node-storage`, `logos-node-blockchain` on `<service>-01/02.<region>.logos.dev.status.im` |
 
 Regions: `do-ams3`, `gc-us-central1-a`, `ac-cn-hongkong-c`.
 
@@ -121,4 +129,5 @@ websockets a browser can reach was **not verified**. If they do, moving the demo
 is a `networkConfig` change, not a rewrite.
 
 Until then, web visitors meet each other but not desktop Basecamp users, and the
-demo page says so.
+demo page says so. Messages go to a public content topic on the public fleet,
+so the demo is not private; that limit is on the page too.

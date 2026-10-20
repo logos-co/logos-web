@@ -1,36 +1,38 @@
 # Self-hosted fonts
 
-Commercial / non-Google fonts live here. They are not committed — drop the files locally and keep them out of git via `.gitignore` (or commit after license allows).
+Which fonts are committed, which are ignored, and how `apps/web/app/fonts.ts`
+loads them. This file lives in `docs/` and is not served publicly.
 
-## Required files
+## Rhymes Display
 
-### Rhymes Display
+One commercial font is committed, with the license verified:
 
-Consumed by `apps/web/app/fonts.ts` via `next/font/local`.
+- `public/fonts/rhymes-display/rhymes-display-regular.woff2` (weight 400,
+  style normal)
 
-```
-public/fonts/rhymes-display/
-└── rhymes-display-regular.woff2   ← weight 400, style normal
-```
+[`app/fonts.ts`](../app/fonts.ts) loads it with `next/font/local` and exposes it
+as `var(--next-font-display)`, which the `@acid-info/logos-tokens` typography
+utilities (`text-hero`, `text-h1`, and so on) reference.
 
-- **Source**: Figma specifies "Rhymes Display Regular" for Hero, H1, H2, H3/H4 Serif, Subhead Serif, Body Serif.
-- **Usage in code**: referenced as `var(--font-display)` through `@acid-info/logos-tokens/typography.css` utilities (`text-hero`, `text-h1`, …).
-- **License**: verify with the brand owner before committing the woff2. The repo expects the file at dev time — `pnpm dev` will fail with a clear "file not found" error until the file is in place.
+## Gitignore rules
 
-### Additional weights (future)
+The root [`.gitignore`](../../../.gitignore) ignores every font file under
+`apps/*/public/fonts`:
 
-If the brand adopts italic or non-400 weights, add entries to `src[]` in `apps/web/app/fonts.ts`:
+- `*.woff`, `*.woff2`, `*.ttf` and `*.otf` are ignored.
+- `README.md` files under `public/fonts` are kept.
+- `apps/*/public/fonts/rhymes-display/*.woff2` is re-included, with a note that
+  the license is verified and the file is committed for Vercel builds.
 
-```ts
-src: [
-  { path: './rhymes-display/rhymes-display-regular.woff2', weight: '400', style: 'normal' },
-  { path: './rhymes-display/rhymes-display-italic.woff2',  weight: '400', style: 'italic' },
-]
-```
+To add a new self-hosted font, commit the file and extend the re-include rule.
+Verify the license with the brand owner before committing.
 
-## Google-hosted fonts
+## Google fonts
 
-These do **not** belong here — they are loaded via `next/font/google` in `apps/web/app/fonts.ts`:
+Loaded in [`app/fonts.ts`](../app/fonts.ts) via `next/font/google`, not
+self-hosted:
 
 - Public Sans (400/500/600/700)
+- Open Sans (400)
 - Fira Code (400/500)
+- Fira Mono (400/700)

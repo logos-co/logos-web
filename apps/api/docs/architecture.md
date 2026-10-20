@@ -1,4 +1,4 @@
-# `api` — Architecture Document
+# Architecture
 
 > Node ≥ 24, pnpm 11.1
 
@@ -10,21 +10,21 @@
 
 The funnel itself is documented in [`docs/funnel/README.md`](../../../docs/funnel/README.md), which is the reference for anything about form submissions.
 
-| Route | Purpose |
-|---|---|
+| Route                            | Purpose                                           |
+| -------------------------------- | ------------------------------------------------- |
 | `POST /api/public/afform-submit` | Public intake endpoint for the three funnel forms |
 
 ---
 
 ## 2. Tech Stack
 
-| Concern | Choice | Rationale |
-|---|---|---|
-| Framework | Next.js 16 | Route Handlers plus middleware; no pages are rendered |
-| Language | TypeScript (strict null checks, bundler module resolution) | Consistent with `packages/config/typescript/base.json` |
-| Testing | Vitest | Mocks the outbound HTTP calls (Notion, n8n, hCaptcha) |
-| Database | None | Submissions are forwarded to Notion and n8n |
-| Linting | `@repo/config/eslint/next` | Same as `apps/web` |
+| Concern   | Choice                                                     | Rationale                                              |
+| --------- | ---------------------------------------------------------- | ------------------------------------------------------ |
+| Framework | Next.js 16                                                 | Route Handlers plus middleware; no pages are rendered  |
+| Language  | TypeScript (strict null checks, bundler module resolution) | Consistent with `packages/config/typescript/base.json` |
+| Testing   | Vitest                                                     | Mocks the outbound HTTP calls (Notion, n8n, hCaptcha)  |
+| Database  | None                                                       | Submissions are forwarded to Notion and n8n            |
+| Linting   | `@repo/config/eslint/next`                                 | Same as `apps/web`                                     |
 
 Dev server runs on port **3003**.
 
@@ -65,6 +65,17 @@ apps/api/
 
 A `fields[]` key in the body is dropped rather than forwarded, so a client that sends one cannot leak it into the Notion or n8n payloads.
 
+### Notion write path
+
+`submitToNotion` (in `src/lib/notion/submit.ts`) resolves the target data source, builds the page properties and POSTs the page:
+
+1. Reads `NOTION_API_TOKEN` and `NOTION_DB_ID`; returns `{ ok: false }` if either is missing.
+2. Resolves the data source: `NOTION_DATA_SOURCE_ID` takes precedence; otherwise a `GET /v1/databases/{id}` falls back to the database's sole data source, and errors when there is none or several and none is pinned.
+3. `buildNotionProperties` maps the submitted answers to Notion properties (the full property table lives in the funnel doc).
+4. `POST /v1/pages` with `parent.data_source_id`, the properties, and the evaluation template blocks from `src/lib/notion/evaluation-template.ts`. Notion API version: `2026-03-11`.
+
+Empty optional properties are omitted so rows stay sparse.
+
 ### CORS
 
 `src/middleware.ts` answers preflight requests and sets the response headers for `/api/public/*`, using the allowlist in `src/lib/public-cors.ts`: `logos.co` and `dev.logos.co` on every deployment, plus `localhost` and `logos-co-web*.vercel.app` previews outside production, plus anything in `CORS_ALLOWED_ORIGINS`. It is the only source of CORS headers; `next.config.mjs` sets none, so a disallowed origin gets no `Access-Control-Allow-Origin` at all.
@@ -75,14 +86,14 @@ A `fields[]` key in the body is dropped rather than forwarded, so a client that 
 
 See [`apps/api/.env.example`](../.env.example) for the full list with comments.
 
-| Variable | Purpose |
-|---|---|
-| `HCAPTCHA_SECRET` | Verify captcha tokens; unset = captcha not verified |
-| `NOTION_API_TOKEN`, `NOTION_DB_ID` | Notion intake target |
-| `NOTION_DATA_SOURCE_ID` | Pins writes when the database holds multiple data sources |
-| `FUNNEL_INTAKE_NOTION_DISABLED` | Skip the Notion write |
-| `N8N_STEWARD_WEBHOOK_TOKEN` | `X-Webhook-Token` for the steward webhook; unset = forward skipped |
-| `CORS_ALLOWED_ORIGINS` | Extra comma-separated origins for `/api/public/*` |
+| Variable                           | Purpose                                                            |
+| ---------------------------------- | ------------------------------------------------------------------ |
+| `HCAPTCHA_SECRET`                  | Verify captcha tokens; unset = captcha not verified                |
+| `NOTION_API_TOKEN`, `NOTION_DB_ID` | Notion intake target                                               |
+| `NOTION_DATA_SOURCE_ID`            | Pins writes when the database holds multiple data sources          |
+| `FUNNEL_INTAKE_NOTION_DISABLED`    | Skip the Notion write                                              |
+| `N8N_STEWARD_WEBHOOK_TOKEN`        | `X-Webhook-Token` for the steward webhook; unset = forward skipped |
+| `CORS_ALLOWED_ORIGINS`             | Extra comma-separated origins for `/api/public/*`                  |
 
 ---
 
