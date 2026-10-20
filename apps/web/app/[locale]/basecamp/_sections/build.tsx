@@ -7,6 +7,17 @@ import { Lines, LinkButton } from './atoms'
 
 export function Build({ copy }: { copy: Renewal['build'] }) {
   const [tab, setTab] = useState(0)
+  const [copied, setCopied] = useState(false)
+  const example = copy.codeExamples[tab]
+
+  async function copyExample() {
+    await navigator.clipboard.writeText(
+      [example.comment, ...example.commands].join('\n')
+    )
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
     <section id="build-an-app" className="bc-build">
       <div className="bc-build-top">
@@ -30,32 +41,42 @@ export function Build({ copy }: { copy: Renewal['build'] }) {
         <div className="bc-code">
           <div className="bc-code-tabs">
             <div>
-              {copy.codeTabs.map((item, index) => (
+              {copy.codeExamples.map((item, index) => (
                 <button
                   type="button"
                   className={`cursor-pointer ${index === tab ? 'is-active' : ''}`}
-                  key={item}
-                  onClick={() => setTab(index)}
+                  key={item.label}
+                  aria-pressed={index === tab}
+                  onClick={() => {
+                    setTab(index)
+                    setCopied(false)
+                  }}
                 >
-                  {item}
+                  {item.label}
                 </button>
               ))}
             </div>
             <button
               type="button"
               className="cursor-pointer"
-              onClick={() =>
-                void navigator.clipboard.writeText(copy.codeCommand)
-              }
+              onClick={() => void copyExample()}
             >
-              {copy.copyLabel}
+              {copied ? copy.copiedLabel : copy.copyLabel}
             </button>
           </div>
           <div className="bc-code-body">
-            <span>{copy.codeComment}</span>
-            <p>
-              <b>$</b> {copy.codeCommand}
-            </p>
+            <span>{example.comment}</span>
+            {example.commands.map((command) =>
+              command.startsWith('#') ? (
+                <p className="bc-code-comment" key={command}>
+                  {command}
+                </p>
+              ) : (
+                <p key={command}>
+                  <b>$</b> {command}
+                </p>
+              )
+            )}
           </div>
         </div>
       </div>

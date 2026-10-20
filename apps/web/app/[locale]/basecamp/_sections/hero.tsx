@@ -1,9 +1,15 @@
+'use client'
+
+import { useState } from 'react'
 import Image from 'next/image'
+import { LogosMark } from '@acid-info/logos-ui'
 import type { Renewal } from './atoms'
 import { asset, Lines, LinkButton } from './atoms'
 import { InstallLink } from './install-link'
 
 export function Hero({ copy }: { copy: Renewal['hero'] }) {
+  const [preview, setPreview] = useState(0)
+
   return (
     <section className="bc-hero">
       <div className="bc-hero-inner">
@@ -41,7 +47,9 @@ export function Hero({ copy }: { copy: Renewal['hero'] }) {
             height={820}
             className="bc-hero-glow"
           />
-          <div className="bc-product-window">
+          <div
+            className={`bc-product-window ${preview === 0 ? '' : 'has-preview'}`}
+          >
             <div className="bc-product-titlebar">
               <div>
                 <i />
@@ -49,15 +57,61 @@ export function Hero({ copy }: { copy: Renewal['hero'] }) {
                 <i />
               </div>
               <span>{copy.windowTitle}</span>
+              <div
+                className="bc-product-tabs"
+                role="tablist"
+                aria-label={copy.previewLabel}
+              >
+                {copy.previewTabs.map((label, index) => (
+                  <button
+                    key={label}
+                    type="button"
+                    role="tab"
+                    aria-selected={index === preview}
+                    className={`cursor-pointer ${index === preview ? 'is-active' : ''}`}
+                    onClick={() => setPreview(index)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
             </div>
-            <Image
-              src={`${asset}/hero-product.png`}
-              alt={copy.windowAlt}
-              width={1510}
-              height={948}
-              priority
-              className="bc-hero-product"
-            />
+            {preview === 0 ? (
+              <Image
+                src={`${asset}/hero-product.png`}
+                alt={copy.windowAlt}
+                width={1510}
+                height={948}
+                priority
+                className="bc-hero-product"
+              />
+            ) : (
+              <div className="bc-product-preview" role="tabpanel">
+                <aside>
+                  <LogosMark size={30} />
+                  {copy.previewTabs.slice(1).map((label, index) => (
+                    <button
+                      key={label}
+                      type="button"
+                      className={`cursor-pointer ${index + 1 === preview ? 'is-active' : ''}`}
+                      onClick={() => setPreview(index + 1)}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </aside>
+                <div>
+                  <small>{copy.windowTitle}</small>
+                  <h2>{copy.previews[preview - 1].title}</h2>
+                  <p>{copy.previews[preview - 1].description}</p>
+                  <div className="bc-product-preview-grid">
+                    {copy.previews[preview - 1].details.map((detail) => (
+                      <span key={detail}>{detail}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           <div className="bc-status">
             <span className="bc-status-dot" />

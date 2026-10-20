@@ -1,12 +1,35 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Renewal } from './atoms'
 import { Lines } from './atoms'
 
 export function HowItWorks({ copy }: { copy: Renewal['how'] }) {
   const [active, setActive] = useState(0)
+  const [autoApp, setAutoApp] = useState('Storage')
+  const [hoveredApp, setHoveredApp] = useState<string | null>(null)
+  const [pinnedApp, setPinnedApp] = useState<string | null>(null)
   const diagram = copy.diagram
+  const selectedApp = hoveredApp ?? pinnedApp ?? autoApp
+  const selectedFlow =
+    diagram.flows.find((flow) => flow.app === selectedApp) ?? diagram.flows[0]
+
+  useEffect(() => {
+    if (
+      pinnedApp ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      return
+    }
+    const interval = window.setInterval(() => {
+      setAutoApp((current) => {
+        const next = (diagram.apps.indexOf(current) + 1) % diagram.apps.length
+        return diagram.apps[next]
+      })
+    }, 6000)
+    return () => window.clearInterval(interval)
+  }, [diagram.apps, pinnedApp])
+
   return (
     <section className="bc-light bc-how">
       <div className="bc-section-header">
@@ -24,6 +47,7 @@ export function HowItWorks({ copy }: { copy: Renewal['how'] }) {
             <button
               type="button"
               onClick={() => setActive(index)}
+              aria-pressed={index === active}
               className={`bc-layer cursor-pointer ${index === active ? 'is-active' : ''}`}
               key={layer.title}
             >
@@ -49,9 +73,14 @@ export function HowItWorks({ copy }: { copy: Renewal['how'] }) {
               {diagram.apps.map((item) => (
                 <button
                   type="button"
-                  className={`cursor-pointer ${item === 'Storage' ? 'is-selected' : ''}`}
+                  className={`cursor-pointer ${item === selectedApp ? 'is-selected' : ''}`}
                   key={item}
-                  onClick={() => setActive(0)}
+                  aria-pressed={item === selectedApp}
+                  onMouseEnter={() => setHoveredApp(item)}
+                  onMouseLeave={() => setHoveredApp(null)}
+                  onFocus={() => setHoveredApp(item)}
+                  onBlur={() => setHoveredApp(null)}
+                  onClick={() => setPinnedApp(item)}
                 >
                   {item}
                 </button>
@@ -69,11 +98,13 @@ export function HowItWorks({ copy }: { copy: Renewal['how'] }) {
                   {group.items.map((item) => (
                     <span
                       className={
-                        ['Storage', 'Capabilities', 'Module State'].includes(
-                          item
-                        )
+                        selectedApp === 'Storage' && item === 'Storage'
                           ? 'is-outlined'
-                          : ''
+                          : selectedFlow.modules.includes(item)
+                            ? 'is-flow'
+                            : ['Capabilities', 'Module State'].includes(item)
+                              ? 'is-outlined'
+                              : ''
                       }
                       key={item}
                     >
@@ -87,7 +118,10 @@ export function HowItWorks({ copy }: { copy: Renewal['how'] }) {
           <div className="bc-network">
             <small>{diagram.networkLabel}</small>
             {diagram.network.map((line, index) => (
-              <span className={index === 0 ? 'is-outlined' : ''} key={line}>
+              <span
+                className={selectedFlow.network === index ? 'is-outlined' : ''}
+                key={line}
+              >
                 {line}
               </span>
             ))}
@@ -99,8 +133,8 @@ export function HowItWorks({ copy }: { copy: Renewal['how'] }) {
             <span>{diagram.runtime}</span>
           </div>
           <div className="bc-diagram-note">
-            <strong>{diagram.selectedPath}</strong>
-            <p>{diagram.selectedDescription}</p>
+            <strong>{selectedFlow.path}</strong>
+            <p>{selectedFlow.description}</p>
           </div>
         </div>
       </div>

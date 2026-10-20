@@ -51,7 +51,36 @@
         ],
         "status": "Running on this machine",
         "windowTitle": "Logos Basecamp",
-        "windowAlt": "Logos Basecamp application window"
+        "windowAlt": "Logos Basecamp application window",
+        "previewLabel": "Basecamp app previews",
+        "previewTabs": ["Packages", "Blockchain", "Chat", "Storage"],
+        "previews": [
+          {
+            "title": "Blockchain Node",
+            "description": "Not started",
+            "details": [
+              "Stake (TestToken) —",
+              "Earned (TestToken) —",
+              "Peers —",
+              "Mining Rewards (TestToken) —"
+            ]
+          },
+          {
+            "title": "Chat",
+            "description": "Online · logos.test",
+            "details": [
+              "Previous sessions",
+              "Ridge crew",
+              "No messages yet",
+              "Message"
+            ]
+          },
+          {
+            "title": "Logos Storage Vault.",
+            "description": "92.1 MB / 20.00 GB Total space available",
+            "details": ["Storage", "Upload", "Fetch Manifest", "Manifests"]
+          }
+        ]
       },
       "subnav": {
         "useLabel": "Use",
@@ -191,8 +220,84 @@
             "HTTPS / RPC · package catalogue"
           ],
           "runtime": "Logos Runtime",
-          "selectedPath": "Storage → Storage module → P2P → Runtime",
-          "selectedDescription": "The storage module ships with Basecamp. Files move directly between peers.",
+          "flows": [
+            {
+              "app": "Package Manager",
+              "path": "Package Manager → Package Manager · Package Downloader → HTTPS (package catalogue) → Runtime",
+              "description": "Ships with Basecamp. It reads the default catalogue and installs every other app and module.",
+              "modules": ["Package Manager", "Package Downloader"],
+              "network": 1
+            },
+            {
+              "app": "LEZ Wallet",
+              "path": "LEZ Wallet → LEZ Core → HTTPS / RPC (LEZ sequencer) → Runtime",
+              "description": "A thin UI over LEZ Core. Keys and wallet state stay on your machine.",
+              "modules": ["LEZ Core"],
+              "network": 1
+            },
+            {
+              "app": "LEZ Explorer",
+              "path": "LEZ Explorer → LEZ Indexer → HTTPS / RPC → Runtime",
+              "description": "Reads blocks and transactions through the LEZ Indexer module.",
+              "modules": ["LEZ Indexer"],
+              "network": 1
+            },
+            {
+              "app": "Blockchain",
+              "path": "Blockchain → Blockchain node → P2P · discovery · peering · mix → Runtime",
+              "description": "Your own node, talking to peers directly. No RPC provider in between.",
+              "modules": ["Blockchain node"],
+              "network": 0
+            },
+            {
+              "app": "Chat",
+              "path": "Chat → Chat · Delivery → P2P · mix → Runtime",
+              "description": "Messages move through Chat and Delivery to peers. They never touch the chain.",
+              "modules": ["Chat", "Delivery"],
+              "network": 0
+            },
+            {
+              "app": "Storage",
+              "path": "Storage → Storage module → P2P → Runtime",
+              "description": "The storage module ships with Basecamp. Files move directly between peers.",
+              "modules": ["Storage"],
+              "network": 0
+            },
+            {
+              "app": "Ethereum Wallet",
+              "path": "Ethereum Wallet → Tx Sender · Assets · Token List · Fees · Ethereum RPC · Keystore → EVM endpoints → Runtime",
+              "description": "One backend composes six EVM modules. Keys never leave the Keystore module.",
+              "modules": [
+                "Tx Sender",
+                "Assets",
+                "Token List",
+                "Fees",
+                "Ethereum RPC"
+              ],
+              "network": 1
+            },
+            {
+              "app": "Monero Wallet",
+              "path": "Monero Wallet → Wallet Core · Node RPC → Monero → Runtime",
+              "description": "A Monero wallet running as Logos modules, inside the same Basecamp shell.",
+              "modules": [],
+              "network": 1
+            },
+            {
+              "app": "Monero Node",
+              "path": "Monero Node → monerod → Monero network → Runtime",
+              "description": "Runs monerod locally as a module, so your wallet can talk to your own node.",
+              "modules": [],
+              "network": 1
+            },
+            {
+              "app": "Accounts",
+              "path": "Accounts → Runtime",
+              "description": "A UI with no module dependencies. It loads straight onto the runtime.",
+              "modules": [],
+              "network": null
+            }
+          ],
           "networkLabel": "Network"
         }
       },
@@ -255,9 +360,38 @@
         ],
         "playerHint": "Auto-playing · pick a step to pin it",
         "windowAlt": "Basecamp module manager",
-        "calloutTitle": "Blockchain module · 0.3.1 · 144.7 MB",
-        "calloutBody": "Installed. Next: set up your config.",
         "nextLabel": "Next step →",
+        "pinnedHint": "Step {step} of 4",
+        "panels": [
+          {
+            "title": "Install Basecamp",
+            "body": "Installing…",
+            "detail": "0 accounts · 0 third parties · 0 cloud",
+            "calloutTitle": "Install Basecamp",
+            "calloutBody": "Download and install Basecamp on your machine."
+          },
+          {
+            "title": "Blockchain Module",
+            "body": "core · 0.3.1 · 144.7 MB",
+            "detail": "Install the Blockchain Module from the package manager.",
+            "calloutTitle": "Blockchain module · 0.3.1 · 144.7 MB",
+            "calloutBody": "Installed. Next: set up your config."
+          },
+          {
+            "title": "Node User Config",
+            "body": "~/.basecamp/user/module_data/blockchain_module/user_config.yaml",
+            "detail": "Deployment Config · Built-in default",
+            "calloutTitle": "Set up your config",
+            "calloutBody": "Choose your user and deployment configuration."
+          },
+          {
+            "title": "Blockchain Node",
+            "body": "Starting your node…",
+            "detail": "Peers · Rewards · Mining · Settings",
+            "calloutTitle": "Start running your node",
+            "calloutBody": "Your node connects to peers from this machine."
+          }
+        ],
         "install": {
           "label": "Install Basecamp →",
           "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
@@ -609,10 +743,29 @@
           "href": "https://www.youtube.com/@logos_network",
           "external": true
         },
-        "codeTabs": ["Scaffold", "Inspect", "Install & call"],
-        "codeComment": "# Scaffold a core module from the logos-module-builder template",
-        "codeCommand": "[SCAFFOLD COMMAND]",
+        "codeExamples": [
+          {
+            "label": "Scaffold",
+            "comment": "# Scaffold a core module from the logos-module-builder template",
+            "commands": ["[SCAFFOLD COMMAND]"]
+          },
+          {
+            "label": "Inspect",
+            "comment": "# Inspect the compiled module's metadata, methods, and events",
+            "commands": ["lm [INSPECT COMMAND]"]
+          },
+          {
+            "label": "Install & call",
+            "comment": "# Package the module, install it, and call its methods",
+            "commands": [
+              "[PACKAGE COMMAND]",
+              "logoscorectl [INSTALL COMMAND]",
+              "# Or open Basecamp and call it from the UI"
+            ]
+          }
+        ],
         "copyLabel": "Copy",
+        "copiedLabel": "Copied",
         "programmesTitle": "Explore developer programs. Build for rewards.",
         "programmesDescription": "Funding for builders shipping on the private, decentralised internet.",
         "programmes": [

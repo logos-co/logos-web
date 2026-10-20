@@ -551,7 +551,7 @@
 }
 @media (min-width: 1200px) {
   .bc-diagram {
-    height: 578px;
+    height: auto;
     min-height: 578px;
   }
   .bc-diagram-head {
@@ -566,7 +566,8 @@
     flex: none;
   }
   .bc-diagram-note {
-    height: 41px;
+    height: auto;
+    min-height: 41px;
     flex: none;
   }
   .bc-diagram-note strong {
@@ -1048,6 +1049,9 @@
 }
 .bc-code-body b {
   color: var(--bc-orange);
+}
+.bc-code-body .bc-code-comment {
+  color: #f5f5ef66;
 }
 .bc-programmes {
   margin-top: 120px;
@@ -1761,11 +1765,31 @@
   font-size: 10px;
   color: #f5f5ef80;
 }
-.bc-product-titlebar > div {
+.bc-product-titlebar > div:first-child {
   position: absolute;
   left: 14px;
   display: flex;
   gap: 6px;
+}
+.bc-product-tabs {
+  position: absolute;
+  left: 60px;
+  display: flex;
+  gap: 3px;
+  z-index: 3;
+}
+.bc-product-tabs button {
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #f5f5ef80;
+  font-family: var(--next-font-mono), monospace;
+  font-size: 9px;
+}
+.bc-product-tabs button.is-active {
+  background: #ff673e33;
+  color: var(--bc-orange);
 }
 .bc-product-titlebar i {
   display: block;
@@ -1779,6 +1803,67 @@
   width: 860px;
   height: 528px;
   object-fit: cover;
+}
+.bc-product-preview {
+  position: absolute;
+  inset: 31px 0 0;
+  display: grid;
+  grid-template-columns: 155px 1fr;
+  background: #171717;
+  color: var(--bc-paper);
+}
+.bc-product-preview aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 26px 14px;
+  border-right: 1px solid #ffffff1f;
+  color: var(--bc-orange);
+}
+.bc-product-preview aside button {
+  width: 100%;
+  padding: 9px 8px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: #f5f5ef99;
+  text-align: left;
+  font-size: 12px;
+}
+.bc-product-preview aside button.is-active {
+  background: #ff673e33;
+  color: var(--bc-paper);
+}
+.bc-product-preview > div {
+  padding: 55px 45px;
+}
+.bc-product-preview small {
+  color: var(--bc-orange);
+  font-family: var(--next-font-mono), monospace;
+  text-transform: uppercase;
+}
+.bc-product-preview h2 {
+  margin-top: 18px;
+  font-size: 36px;
+  line-height: 1.1;
+}
+.bc-product-preview p {
+  margin-top: 12px;
+  color: #f5f5efb3;
+}
+.bc-product-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 40px;
+}
+.bc-product-preview-grid span {
+  padding: 24px 16px;
+  border: 1px solid #ffffff26;
+  border-radius: 8px;
+  background: #222;
+  font-size: 12px;
 }
 .bc-status {
   background: #1a1a1aeb;
@@ -1819,6 +1904,9 @@
   .bc-product-titlebar {
     height: 21px;
   }
+  .bc-product-titlebar > span {
+    display: none;
+  }
   .bc-product-titlebar i {
     width: 7px;
     height: 7px;
@@ -1827,6 +1915,37 @@
     top: 20px;
     width: 520px;
     height: 318px;
+  }
+  .bc-product-tabs button {
+    font-size: 7px;
+    padding: 2px 3px;
+  }
+  .bc-product-preview {
+    top: 20px;
+    grid-template-columns: 90px 1fr;
+  }
+  .bc-product-preview aside {
+    padding: 16px 6px;
+  }
+  .bc-product-preview aside button {
+    font-size: 9px;
+  }
+  .bc-product-preview > div {
+    padding: 25px 18px;
+  }
+  .bc-product-preview h2 {
+    font-size: 22px;
+  }
+  .bc-product-preview p,
+  .bc-product-preview-grid span {
+    font-size: 10px;
+  }
+  .bc-product-preview-grid {
+    margin-top: 16px;
+    gap: 6px;
+  }
+  .bc-product-preview-grid span {
+    padding: 12px 8px;
   }
   .bc-status {
     top: 300px;
@@ -2085,6 +2204,76 @@
   object-fit: cover;
   opacity: 0.55;
 }
+.bc-run-panel {
+  position: absolute;
+  inset: 34px 0 0;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  color: var(--bc-paper);
+  background: #171717;
+}
+.bc-run-panel-sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 30px 20px;
+  border-right: 1px solid #ffffff1f;
+  color: var(--bc-orange);
+  font-size: 13px;
+}
+.bc-run-panel-sidebar span {
+  color: var(--bc-paper);
+}
+.bc-run-panel-content {
+  padding: 60px;
+}
+.bc-run-panel-content small {
+  color: var(--bc-orange);
+  font-family: var(--next-font-mono), monospace;
+  text-transform: uppercase;
+}
+.bc-run-panel-content h3 {
+  margin-top: 24px;
+  font-size: 38px;
+  line-height: 1.1;
+}
+.bc-run-panel-content p {
+  margin-top: 20px;
+  color: #f5f5efb3;
+  overflow-wrap: anywhere;
+}
+.bc-run-progress {
+  position: relative;
+  width: min(100%, 520px);
+  height: 30px;
+  margin-top: 36px;
+  border: 1px solid #ffffff33;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.bc-run-progress span {
+  display: block;
+  height: 100%;
+  background: var(--bc-orange);
+  transition: width 250ms linear;
+}
+.bc-run-progress b {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--bc-paper);
+  font-family: var(--next-font-mono), monospace;
+  font-size: 12px;
+}
+.bc-run-panel-detail {
+  margin-top: 36px;
+  padding: 18px;
+  border: 1px solid #ffffff26;
+  border-radius: 8px;
+  color: #f5f5efb3;
+}
 .bc-run-callout {
   left: 50%;
   top: 50%;
@@ -2192,6 +2381,34 @@
   .bc-run-visual > img {
     height: 366px;
   }
+  .bc-run-panel {
+    grid-template-columns: 70px 1fr;
+  }
+  .bc-run-panel-sidebar {
+    padding: 15px;
+  }
+  .bc-run-panel-sidebar span {
+    display: none;
+  }
+  .bc-run-panel-content {
+    padding: 22px;
+  }
+  .bc-run-panel-content h3 {
+    margin-top: 12px;
+    font-size: 22px;
+  }
+  .bc-run-panel-content p {
+    margin-top: 12px;
+    font-size: 12px;
+  }
+  .bc-run-progress,
+  .bc-run-panel-detail {
+    margin-top: 18px;
+  }
+  .bc-run-panel-detail {
+    padding: 10px;
+    font-size: 11px;
+  }
   .bc-run-titlebar span {
     font-size: 7px;
   }
@@ -2219,6 +2436,13 @@
   border: 1px solid var(--bc-orange);
   padding: 6px 10px;
   color: var(--bc-paper);
+}
+.bc-module-group > span.is-flow {
+  border: 1px solid var(--bc-orange);
+  padding: 6px 10px;
+  color: var(--bc-paper);
+  background: #ff673e33;
+  box-shadow: 0 0 12px #ff673e33;
 }
 .bc-network,
 .bc-diagram-runtime {
@@ -2371,6 +2595,9 @@
   .bc-product-window {
     height: auto;
   }
+  .bc-product-window.has-preview {
+    aspect-ratio: 860 / 560;
+  }
   .bc-hero-visual {
     height: auto;
   }
@@ -2456,6 +2683,13 @@
     width: 100%;
     height: calc(100% - 34px);
     object-fit: contain;
+  }
+}
+@media (max-width: 767px) {
+  .bc-run-visual {
+    height: 400px;
+    min-height: 400px;
+    aspect-ratio: auto;
   }
 }
 @media (max-width: 360px) {

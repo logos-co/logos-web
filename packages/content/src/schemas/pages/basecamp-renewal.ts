@@ -21,6 +21,17 @@ export const basecampRenewalSectionSchema = z.object({
     platforms: z.array(z.object({ label: copy, available: z.boolean() })),
     status: copy,
     windowAlt: copy,
+    previewLabel: copy,
+    previewTabs: lines.length(4),
+    previews: z
+      .array(
+        z.object({
+          title: copy,
+          description: copy,
+          details: lines,
+        })
+      )
+      .length(3),
   }),
   subnav: z.object({
     useLabel: copy,
@@ -56,8 +67,17 @@ export const basecampRenewalSectionSchema = z.object({
       networkLabel: copy,
       network: lines,
       runtime: copy,
-      selectedPath: copy,
-      selectedDescription: copy,
+      flows: z
+        .array(
+          z.object({
+            app: copy,
+            path: copy,
+            description: copy,
+            modules: z.array(copy),
+            network: z.number().int().min(0).max(1).nullable(),
+          })
+        )
+        .min(1),
     }),
   }),
   local: z.object({
@@ -76,9 +96,19 @@ export const basecampRenewalSectionSchema = z.object({
       .length(4),
     playerHint: copy,
     windowAlt: copy,
-    calloutTitle: copy,
-    calloutBody: copy,
     nextLabel: copy,
+    pinnedHint: copy,
+    panels: z
+      .array(
+        z.object({
+          title: copy,
+          body: copy,
+          detail: copy,
+          calloutTitle: copy,
+          calloutBody: copy,
+        })
+      )
+      .length(4),
     install: ctaSchema,
     demo: ctaSchema,
   }),
@@ -119,10 +149,11 @@ export const basecampRenewalSectionSchema = z.object({
     description: copy,
     docs: ctaSchema,
     tutorials: ctaSchema,
-    codeTabs: lines,
-    codeComment: copy,
-    codeCommand: copy,
+    codeExamples: z
+      .array(z.object({ label: copy, comment: copy, commands: lines }))
+      .length(3),
     copyLabel: copy,
+    copiedLabel: copy,
     programmesTitle: copy,
     programmesDescription: copy,
     programmes: z

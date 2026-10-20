@@ -7,12 +7,14 @@ import { Lines, LinkButton } from './atoms'
 import { InstallLink } from './install-link'
 
 export function Apps({ copy }: { copy: Renewal['apps'] }) {
-  const [filter, setFilter] = useState(copy.filters[0])
+  const [filters, setFilters] = useState<string[]>([])
   const cards =
-    filter === copy.filters[0]
+    filters.length === 0
       ? copy.cards
       : copy.cards.filter((card) =>
-          card.uses.toLowerCase().includes(filter.toLowerCase())
+          filters.some((filter) =>
+            card.uses.toLowerCase().includes(filter.toLowerCase())
+          )
         )
   return (
     <section id="run-apps" className="bc-light bc-apps">
@@ -24,16 +26,31 @@ export function Apps({ copy }: { copy: Renewal['apps'] }) {
           <p className="bc-apps-description">{copy.description}</p>
         </div>
         <div className="bc-filters">
-          {copy.filters.map((item) => (
-            <button
-              type="button"
-              className={`cursor-pointer ${item === filter ? 'is-active' : ''}`}
-              onClick={() => setFilter(item)}
-              key={item}
-            >
-              {item}
-            </button>
-          ))}
+          {copy.filters.map((item) => {
+            const isActive =
+              item === copy.filters[0]
+                ? filters.length === 0
+                : filters.includes(item)
+            return (
+              <button
+                type="button"
+                className={`cursor-pointer ${isActive ? 'is-active' : ''}`}
+                aria-pressed={isActive}
+                onClick={() =>
+                  setFilters((current) =>
+                    item === copy.filters[0]
+                      ? []
+                      : current.includes(item)
+                        ? current.filter((filter) => filter !== item)
+                        : [...current, item]
+                  )
+                }
+                key={item}
+              >
+                {item}
+              </button>
+            )
+          })}
         </div>
       </div>
       <div className="bc-app-grid">
