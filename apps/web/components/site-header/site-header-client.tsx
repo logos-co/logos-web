@@ -90,18 +90,13 @@ export default function SiteHeaderClient({
     useState(false)
   const pathname = usePathname()
   const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
-  const isFieldStation = normalizedPathname === ROUTES.fieldStation
-  const downloadsBasecamp =
-    isFieldStation || normalizedPathname === ROUTES.basecamp
-  const basecampLink = useBasecampInstallLink(
-    {
-      label: primaryCta?.label ?? '',
-      href: downloadsBasecamp
-        ? EXTERNAL_URLS.basecampRelease
-        : (primaryCta?.href ?? ROUTES.basecamp),
-    },
-    isFieldStation ? 'blockchain' : undefined
-  )
+  const downloadsBasecamp = normalizedPathname === ROUTES.basecamp
+  const basecampLink = useBasecampInstallLink({
+    label: primaryCta?.label ?? '',
+    href: downloadsBasecamp
+      ? EXTERNAL_URLS.basecampRelease
+      : (primaryCta?.href ?? ROUTES.basecamp),
+  })
   const PrimaryCtaLink = downloadsBasecamp ? 'a' : Link
   const displayedPrimaryCta =
     downloadsBasecamp && primaryCta

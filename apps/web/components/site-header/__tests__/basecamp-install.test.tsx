@@ -43,7 +43,7 @@ function renderHeader(pathname: string): string {
 describe('header Basecamp installation', () => {
   beforeEach(() => overlay.mockClear())
 
-  it.each(['/basecamp', '/basecamp/', '/field-station', '/field-station/'])(
+  it.each(['/basecamp', '/basecamp/'])(
     'provides a working release link before platform detection on %s',
     (pathname) => {
       const html = renderHeader(pathname)
@@ -76,7 +76,7 @@ describe('header Basecamp installation', () => {
     }
   )
 
-  it.each(['/', '/technology-stack'])(
+  it.each(['/', '/technology-stack', '/field-station', '/field-station/'])(
     'keeps the Basecamp introduction reachable from %s',
     (pathname) => {
       const html = renderHeader(pathname)
