@@ -96,11 +96,15 @@ function pickCountry(label: string) {
 }
 
 function keyDown(input: HTMLInputElement, key: string) {
-  act(() => {
-    input.dispatchEvent(
-      new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true })
-    )
+  const event = new KeyboardEvent('keydown', {
+    key,
+    bubbles: true,
+    cancelable: true,
   })
+  act(() => {
+    input.dispatchEvent(event)
+  })
+  return event
 }
 
 async function submit() {
@@ -139,7 +143,7 @@ describe('FooterNewsletter city autocomplete', () => {
     await typeCity('seo')
 
     keyDown(cityInput(), 'ArrowDown')
-    keyDown(cityInput(), 'Enter')
+    expect(keyDown(cityInput(), 'Enter').defaultPrevented).toBe(true)
     expect(cityOptions()).toEqual([])
 
     await submit()
@@ -171,7 +175,7 @@ describe('FooterNewsletter city autocomplete', () => {
     await typeCity('Anyigba')
 
     // No highlighted suggestion, so Enter is left to submit the form.
-    keyDown(cityInput(), 'Enter')
+    expect(keyDown(cityInput(), 'Enter').defaultPrevented).toBe(false)
     await submit()
 
     expect(onSubmit).toHaveBeenCalledWith(
