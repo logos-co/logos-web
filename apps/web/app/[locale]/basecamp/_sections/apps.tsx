@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { LogosMark } from '@acid-info/logos-ui'
+import Image from 'next/image'
 import type { Renewal } from './atoms'
 import { Lines, LinkButton } from './atoms'
 import { InstallLink } from './install-link'
@@ -44,8 +44,8 @@ export function Apps({ copy }: { copy: Renewal['apps'] }) {
         {cards.map((card) => (
           <article className="bc-app-card" key={card.title}>
             <div className="bc-app-art">
-              <div>
-                {card.initial === 'λ' ? <LogosMark size={30} /> : card.initial}
+              <div className={card.iconBackground === 'dark' ? 'bc-app-icon-dark' : undefined}>
+                <Image src={card.icon} alt="" width={64} height={64} />
               </div>
             </div>
             <div className="bc-app-info">

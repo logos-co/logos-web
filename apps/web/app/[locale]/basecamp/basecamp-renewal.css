@@ -825,16 +825,17 @@
 .bc-app-art > div {
   width: 64px;
   height: 64px;
-  border: 1px solid #1a1a1a14;
-  border-radius: 16px;
-  background: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 16px #0000000f;
-  color: var(--bc-orange);
-  font-family: var(--next-font-display), serif;
-  font-size: 30px;
+}
+.bc-app-art img {
+  border-radius: 15px;
+  object-fit: contain;
+}
+.bc-app-art .bc-app-icon-dark {
+  background: #1a1a1a;
+  border-radius: 15px;
 }
 .bc-app-info {
   padding: 20px;
@@ -1125,6 +1126,7 @@
   font-weight: 400;
   letter-spacing: -0.24px;
   line-height: 1.1;
+  white-space: nowrap;
 }
 .bc-programme-grid p {
   font-size: 15px;
@@ -1202,6 +1204,9 @@
   color: #15252180;
 }
 @media (max-width: 1199px) {
+  .bc-programme-grid h3 {
+    white-space: normal;
+  }
   .bc-subnav-inner {
     padding: 0 48px;
   }

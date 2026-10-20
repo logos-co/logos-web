@@ -3,7 +3,7 @@
   "language": "en",
   "route": "/basecamp",
   "title": "Basecamp | Logos",
-  "description": "Basecamp is a desktop interface for apps built on the Logos stack. Under the hood, it runs modules that deliver p2p messaging, storage, and a blockchain node.",
+  "description": "Basecamp is a local-first launcher for peer-to-peer apps built on Logos.",
   "heading": "Logos Basecamp",
   "seo": {
     "keywords": [
@@ -22,8 +22,8 @@
       "hero": {
         "badges": ["Basecamp v0.3.2", "Testnet v0.3"],
         "title": ["Logos", "Basecamp"],
-        "description": "Basecamp is a desktop interface for apps built on the Logos stack. Under the hood, it runs modules that deliver p2p messaging, storage, and a blockchain node.",
-        "statement": "No cloud. No accounts. No third parties.",
+        "description": "Basecamp is a local-first launcher for peer-to-peer apps built on Logos.",
+        "statement": "No cloud. No accounts. Private-by-default.",
         "install": {
           "label": "Install Basecamp →",
           "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
@@ -168,19 +168,19 @@
       },
       "how": {
         "title": ["How Logos", "Basecamp works."],
-        "intro": "The Logos stack is layered: the Logos Runtime at the foundation, the network on top, modules stacked above, and apps you can see and use.",
-        "disclaimer": "[Disclaimer copy slot] Basecamp is experimental software running on testnet. Apps may change without notice.",
+        "intro": "The Logos stack is layered and modular. Applications load the capabilities they need through an open, local-first framework.",
+        "disclaimer": "Disclaimer: Basecamp is experimental software running on testnet. Apps may change without notice.",
         "layers": [
           {
             "title": "Apps",
             "label": "Layer 3",
-            "description": "A dynamic interface for applications built on the private, decentralised internet.",
+            "description": "User-facing applications available in Basecamp that load the capabilities they need through modules.",
             "highlight": "Highlights the Apps layer"
           },
           {
             "title": "Modules",
             "label": "Layer 2",
-            "description": "Private storage, messaging and blockchain, loaded through a built-in package manager as they are needed."
+            "description": "Utilities such as private storage, messaging, and blockchain that are loaded through a built-in package manager when needed."
           },
           {
             "title": "Runtime",
@@ -427,7 +427,7 @@
         "filters": ["All", "Blockchain", "LEZ", "Messaging", "Storage"],
         "cards": [
           {
-            "initial": "W",
+            "icon": "/images/basecamp/renewal/app-icons/lez-wallet.png",
             "title": "LEZ Wallet",
             "description": "Hold and send LEZ tokens from a wallet that lives on your machine.",
             "uses": "uses: blockchain · LEZ",
@@ -444,7 +444,7 @@
             }
           },
           {
-            "initial": "E",
+            "icon": "/images/basecamp/renewal/app-icons/lez-explorer.png",
             "title": "LEZ Explorer",
             "description": "Browse blocks and transactions on the Logos Execution Zone.",
             "uses": "uses: blockchain · LEZ",
@@ -461,7 +461,7 @@
             }
           },
           {
-            "initial": "λ",
+            "icon": "/images/basecamp/renewal/app-icons/blockchain.png",
             "title": "Blockchain",
             "description": "Run your node and track status, peers, rewards, and mining.",
             "uses": "uses: blockchain",
@@ -478,7 +478,7 @@
             }
           },
           {
-            "initial": "M",
+            "icon": "/images/basecamp/renewal/app-icons/monero-node.png",
             "title": "Monero Node",
             "description": "[One-line description]",
             "uses": "uses: [modules]",
@@ -495,7 +495,7 @@
             }
           },
           {
-            "initial": "M",
+            "icon": "/images/basecamp/renewal/app-icons/monero-wallet.png",
             "title": "Monero Wallet",
             "description": "[One-line description]",
             "uses": "uses: [modules]",
@@ -512,7 +512,7 @@
             }
           },
           {
-            "initial": "S",
+            "icon": "/images/basecamp/renewal/app-icons/storage.png",
             "title": "Storage",
             "description": "Upload, fetch, and share files peer to peer from your own vault.",
             "uses": "uses: storage",
@@ -529,7 +529,8 @@
             }
           },
           {
-            "initial": "D",
+            "icon": "/images/basecamp/renewal/app-icons/delivery-demo.png",
+            "iconBackground": "dark",
             "title": "Delivery Demo",
             "description": "An educational demo of how Logos delivers messages.",
             "uses": "uses: messaging",
@@ -546,7 +547,7 @@
             }
           },
           {
-            "initial": "V",
+            "icon": "/images/basecamp/renewal/app-icons/verified-proxy.png",
             "title": "Verified Proxy",
             "description": "[One-line description]",
             "uses": "uses: [modules]",
@@ -563,7 +564,7 @@
             }
           },
           {
-            "initial": "C",
+            "icon": "/images/basecamp/renewal/app-icons/chat.png",
             "title": "Chat",
             "description": "Encrypted one-to-one chat. Peer to peer, with no server in the middle.",
             "uses": "uses: messaging",
@@ -580,7 +581,7 @@
             }
           },
           {
-            "initial": "T",
+            "icon": "/images/basecamp/renewal/app-icons/token-lists.png",
             "title": "Token Lists",
             "description": "[One-line description]",
             "uses": "uses: [modules]",
@@ -597,7 +598,7 @@
             }
           },
           {
-            "initial": "S",
+            "icon": "/images/basecamp/renewal/app-icons/signer.png",
             "title": "Signer",
             "description": "[One-line description]",
             "uses": "uses: [modules]",
@@ -614,7 +615,7 @@
             }
           },
           {
-            "initial": "K",
+            "icon": "/images/basecamp/renewal/app-icons/keystore.png",
             "title": "Keystore",
             "description": "[One-line description]",
             "uses": "uses: [modules]",
@@ -631,7 +632,7 @@
             }
           },
           {
-            "initial": "E",
+            "icon": "/images/basecamp/renewal/app-icons/ethereum-wallet.png",
             "title": "Ethereum Wallet",
             "description": "[One-line description]",
             "uses": "uses: [modules]",
@@ -648,7 +649,7 @@
             }
           },
           {
-            "initial": "R",
+            "icon": "/images/basecamp/renewal/app-icons/ethereum-rpc.png",
             "title": "Ethereum RPC",
             "description": "[One-line description]",
             "uses": "uses: [modules]",
@@ -665,7 +666,7 @@
             }
           },
           {
-            "initial": "A",
+            "icon": "/images/basecamp/renewal/app-icons/accounts.png",
             "title": "Accounts",
             "description": "Create and manage Logos accounts.",
             "uses": "uses: [modules]",
@@ -696,7 +697,7 @@
         "community": {
           "eyebrow": "Community built",
           "title": ["Built by the", "community."],
-          "description": "Basecamp is a dynamic local interface for private, secure applications. The community is already experimenting.",
+          "description": "The community is already building. Join the developers creating privacy-preserving apps available through Basecamp.",
           "disclaimer": "Built by the community and shared for informational purposes only. Not reviewed or endorsed by Logos. Check an app before you use it.",
           "action": {
             "label": "Make your own →",
@@ -748,7 +749,7 @@
         }
       },
       "build": {
-        "title": ["Build an App.", "Run it in Basecamp."],
+        "title": ["Build an app.", "Run it in Basecamp."],
         "description": "Build private-by-default applications that run locally. Scaffold a module, inspect it, then install and call it from Basecamp.",
         "docs": {
           "label": "View the docs →",
@@ -783,13 +784,13 @@
         ],
         "copyLabel": "Copy",
         "copiedLabel": "Copied",
-        "programmesTitle": "Explore developer programs. Build for rewards.",
+        "programmesTitle": "Explore developer programmes. Build for rewards.",
         "programmesDescription": "Funding for builders shipping on the private, decentralised internet.",
         "programmes": [
           {
             "eyebrow": "Lambda Prize",
-            "title": "Build an app. Win the Lambda Prize.",
-            "description": "[Info copy here — what the prize funds, deadlines, how to enter.]",
+            "title": "Launch a product. Find real users. Win the prize.",
+            "description": "Lambda Prize rewards products that launch on the Logos stack and find real users. There's no application. Build in public, and release early so usage grows while you build.",
             "action": {
               "label": "Learn more →",
               "href": "/lambda-prize",
@@ -799,8 +800,8 @@
           },
           {
             "eyebrow": "RFPs",
-            "title": "Answer a request for proposals.",
-            "description": "[Info copy here — open RFPs, scope, and rewards.]",
+            "title": "Send a proposal to a spec. Get funded to build it.",
+            "description": "RFPs provide funding to build and audit protocols, core building blocks and infrastructure. Respond to an RFP with a proposal including approach, milestones, budget. Selected teams get a grant, paid as each milestone lands.",
             "action": {
               "label": "Learn more →",
               "href": "/builders-hub/rfps",

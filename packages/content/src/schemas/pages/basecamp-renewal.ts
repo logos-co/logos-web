@@ -135,7 +135,8 @@ export const basecampRenewalSectionSchema = z.object({
     filters: lines,
     cards: z.array(
       z.object({
-        initial: copy,
+        icon: copy,
+        iconBackground: z.enum(['dark']).optional(),
         title: copy,
         description: copy,
         uses: copy,
