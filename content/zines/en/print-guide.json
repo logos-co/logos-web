@@ -21,7 +21,7 @@
   ],
   "shop": {
     "title": "At a print shop",
-    "body": "Bring the PDF and ask for an A5 saddle-stitched booklet, printed double sided."
+    "body": "Bring the PDF and ask for a saddle-stitched booklet, printed double sided."
   },
   "spreadPrint": "This PDF contains facing pages. Split the spreads into single pages in your PDF tool before using booklet mode, or give the supplied PDF to a print shop. Print one copy first to check the page order and orientation."
 }
