@@ -19,9 +19,8 @@ import {
 } from '@acid-info/logos-ui'
 import { NavOverlay } from '@acid-info/logos-ui/client'
 
-import { BASECAMP_RELEASE_PAGE } from '@/app/[locale]/field-station/_content'
 import { IconMask } from '@/components/icons/icon-mask'
-import { ROUTES } from '@/constants/routes'
+import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 import { Link, usePathname } from '@/i18n/navigation'
 import { useBasecampInstallLink } from '@/lib/use-basecamp-install-link'
 import {
@@ -92,21 +91,24 @@ export default function SiteHeaderClient({
   const pathname = usePathname()
   const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
   const isFieldStation = normalizedPathname === ROUTES.fieldStation
+  const downloadsBasecamp =
+    isFieldStation || normalizedPathname === ROUTES.basecamp
   const basecampLink = useBasecampInstallLink(
     {
       label: primaryCta?.label ?? '',
-      href: isFieldStation
-        ? BASECAMP_RELEASE_PAGE
+      href: downloadsBasecamp
+        ? EXTERNAL_URLS.basecampRelease
         : (primaryCta?.href ?? ROUTES.basecamp),
     },
     isFieldStation ? 'blockchain' : undefined
   )
+  const PrimaryCtaLink = downloadsBasecamp ? 'a' : Link
   const displayedPrimaryCta =
-    isFieldStation && primaryCta
+    downloadsBasecamp && primaryCta
       ? { ...primaryCta, href: basecampLink.href }
       : primaryCta
   const displayedMenuPanels =
-    isFieldStation && primaryCta
+    downloadsBasecamp && primaryCta
       ? menuPanels.map((panel) => ({
           ...panel,
           textSections: panel.textSections?.map((section) => ({
@@ -328,7 +330,8 @@ export default function SiteHeaderClient({
           </nav>
 
           {displayedPrimaryCta ? (
-            <Link
+            <PrimaryCtaLink
+              {...(downloadsBasecamp ? basecampLink : {})}
               href={displayedPrimaryCta.href}
               className={clsx(
                 'absolute top-1/2 -translate-y-1/2 text-eyebrow font-semibold cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
@@ -340,7 +343,7 @@ export default function SiteHeaderClient({
               )}
             >
               {displayedPrimaryCta.label}
-            </Link>
+            </PrimaryCtaLink>
           ) : null}
 
           {isMediaPath ? (
