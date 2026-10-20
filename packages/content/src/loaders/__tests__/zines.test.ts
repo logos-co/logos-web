@@ -7,9 +7,10 @@ import { zineCatalogueSchema, zineIssueSchema } from '../../schemas/zines'
 describe('zine catalogue and issue', () => {
   it('loads every readable edition with valid contents and a local PDF', async () => {
     const catalogue = await getZineCatalogue('en')
-    assert.equal(catalogue.editions.length, 5)
-    assert.equal(catalogue.editions.filter((item) => item.reader).length, 5)
+    assert.equal(catalogue.editions.length, 6)
+    assert.equal(catalogue.editions.filter((item) => item.reader).length, 6)
     const pageCounts: Record<string, number> = {
+      'lan-02': 24,
       'lan-01': 32,
       pioneering: 24,
       'nation-states': 24,
