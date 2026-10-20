@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: PageProps) {
   const catalogue = await getZineCatalogue(locale)
   return createDefaultMetadata({
     title: catalogue.title,
-    description: catalogue.description,
+    description: catalogue.description.replace(/\n\n/g, ' '),
     locale,
     path: ROUTES.zines,
   })
@@ -34,7 +34,11 @@ export default async function ZinesPage({ params }: PageProps) {
           </span>
           {catalogue.title}
         </h1>
-        <p>{catalogue.description}</p>
+        <div className="zine-catalogue-description">
+          {catalogue.description.split('\n\n').map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
       </div>
       <div className="zine-editions">
         {catalogue.editions.map((edition) => {

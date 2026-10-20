@@ -19,6 +19,10 @@
 .zine-catalogue-intro p {
   max-width: 847px;
 }
+.zine-catalogue-description {
+  display: grid;
+  gap: 24px;
+}
 .zine-catalogue-intro h1 {
   font: inherit;
 }
