@@ -1879,6 +1879,109 @@
   background: #222;
   font-size: 12px;
 }
+.bc-product-preview > .bc-product-chat-content {
+  min-width: 0;
+  padding: 0;
+}
+.bc-chat-demo {
+  display: grid;
+  grid-template-columns: 36% 64%;
+  height: 100%;
+  min-width: 0;
+}
+.bc-chat-sessions,
+.bc-chat-thread {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 20px 16px;
+}
+.bc-chat-sessions {
+  gap: 10px;
+  border-right: 1px solid #ffffff1f;
+}
+.bc-chat-new {
+  padding: 10px;
+  border-radius: 6px;
+  background: var(--bc-orange);
+  color: #171717;
+  font-size: 11px;
+  font-weight: 600;
+}
+.bc-chat-sessions > small {
+  color: #f5f5ef80;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.bc-chat-session {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  border-radius: 6px;
+}
+.bc-chat-session.is-active {
+  background: #ffffff12;
+}
+.bc-chat-session strong,
+.bc-chat-thread > strong {
+  font-size: 11px;
+  font-weight: 600;
+}
+.bc-chat-session span,
+.bc-chat-identity span {
+  color: #f5f5ef80;
+  font-size: 10px;
+}
+.bc-chat-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+  padding: 10px;
+  border: 1px solid #ffffff26;
+  border-radius: 6px;
+}
+.bc-chat-identity strong {
+  font-size: 10px;
+}
+.bc-chat-thread {
+  gap: 12px;
+}
+.bc-chat-thread > strong {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ffffff1f;
+}
+.bc-chat-messages {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 8px;
+  flex: 1;
+}
+.bc-chat-messages span {
+  max-width: 88%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #ffffff12;
+  font-size: 11px;
+  line-height: 1.35;
+}
+.bc-chat-messages .is-outgoing {
+  align-self: flex-end;
+  background: #ff673e24;
+  border: 1px solid #ff673e5c;
+}
+.bc-chat-input {
+  min-height: 32px;
+  padding: 9px 10px;
+  border: 1px solid #ffffff26;
+  border-radius: 6px;
+  color: #f5f5ef9c;
+  font-size: 10px;
+}
 .bc-storage-node {
   display: flex;
   align-items: center;
@@ -1978,6 +2081,29 @@
   }
   .bc-product-preview-grid span {
     padding: 12px 8px;
+  }
+  .bc-chat-sessions,
+  .bc-chat-thread {
+    gap: 6px;
+    padding: 9px 7px;
+  }
+  .bc-chat-new,
+  .bc-chat-session {
+    padding: 6px;
+  }
+  .bc-chat-new,
+  .bc-chat-session strong,
+  .bc-chat-thread > strong,
+  .bc-chat-messages span,
+  .bc-chat-input {
+    font-size: 8px;
+  }
+  .bc-chat-session span,
+  .bc-chat-identity {
+    display: none;
+  }
+  .bc-chat-messages span {
+    padding: 5px 6px;
   }
   .bc-status {
     top: 300px;

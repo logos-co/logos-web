@@ -81,6 +81,16 @@
             "details": ["Storage", "Upload", "Fetch Manifest", "Manifests"]
           }
         ],
+        "chatDemo": {
+          "newChatLabel": "+ New chat",
+          "sessionPreview": "Fire's lit...",
+          "otherSession": "Trail log",
+          "identity": "0d166910",
+          "firstMessage": "Made it to the ridge.",
+          "secondMessage": "Fire's lit. See you at first light.",
+          "draft": "Got the cables?",
+          "reply": "Already on your machine. No embassy required."
+        },
         "storageNode": {
           "label": "Manage node",
           "activeStatus": "Unknown",

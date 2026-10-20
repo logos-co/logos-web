@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
 import type { Renewal } from './atoms'
 import { asset, Lines, LinkButton } from './atoms'
+import { HeroChatDemo } from './hero-chat-demo'
 import { InstallLink } from './install-link'
 
 export function Hero({ copy }: { copy: Renewal['hero'] }) {
@@ -101,35 +102,45 @@ export function Hero({ copy }: { copy: Renewal['hero'] }) {
                     </button>
                   ))}
                 </aside>
-                <div>
-                  <small>{copy.windowTitle}</small>
-                  <h2>{copy.previews[preview - 1].title}</h2>
-                  <p>{copy.previews[preview - 1].description}</p>
-                  <div className="bc-product-preview-grid">
-                    {copy.previews[preview - 1].details.map((detail) => (
-                      <span key={detail}>{detail}</span>
-                    ))}
-                  </div>
-                  {preview === 3 && (
-                    <div className="bc-storage-node">
-                      <span>{copy.storageNode.label}</span>
-                      <span>
-                        {storageNodeRunning
-                          ? copy.storageNode.activeStatus
-                          : copy.storageNode.stoppedStatus}
-                      </span>
-                      <button
-                        type="button"
-                        className="cursor-pointer"
-                        onClick={() =>
-                          setStorageNodeRunning((running) => !running)
-                        }
-                      >
-                        {storageNodeRunning
-                          ? copy.storageNode.stopLabel
-                          : copy.storageNode.startLabel}
-                      </button>
-                    </div>
+                <div className={preview === 2 ? 'bc-product-chat-content' : ''}>
+                  {preview === 2 ? (
+                    <HeroChatDemo
+                      copy={copy.chatDemo}
+                      description={copy.previews[1].description}
+                      details={copy.previews[1].details}
+                    />
+                  ) : (
+                    <>
+                      <small>{copy.windowTitle}</small>
+                      <h2>{copy.previews[preview - 1].title}</h2>
+                      <p>{copy.previews[preview - 1].description}</p>
+                      <div className="bc-product-preview-grid">
+                        {copy.previews[preview - 1].details.map((detail) => (
+                          <span key={detail}>{detail}</span>
+                        ))}
+                      </div>
+                      {preview === 3 && (
+                        <div className="bc-storage-node">
+                          <span>{copy.storageNode.label}</span>
+                          <span>
+                            {storageNodeRunning
+                              ? copy.storageNode.activeStatus
+                              : copy.storageNode.stoppedStatus}
+                          </span>
+                          <button
+                            type="button"
+                            className="cursor-pointer"
+                            onClick={() =>
+                              setStorageNodeRunning((running) => !running)
+                            }
+                          >
+                            {storageNodeRunning
+                              ? copy.storageNode.stopLabel
+                              : copy.storageNode.startLabel}
+                          </button>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

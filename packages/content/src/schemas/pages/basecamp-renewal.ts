@@ -32,6 +32,16 @@ export const basecampRenewalSectionSchema = z.object({
         })
       )
       .length(3),
+    chatDemo: z.object({
+      newChatLabel: copy,
+      sessionPreview: copy,
+      otherSession: copy,
+      identity: copy,
+      firstMessage: copy,
+      secondMessage: copy,
+      draft: copy,
+      reply: copy,
+    }),
     storageNode: z.object({
       label: copy,
       activeStatus: copy,
