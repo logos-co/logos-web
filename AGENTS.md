@@ -10,7 +10,7 @@ pnpm + Turborepo monorepo. Node `24`, pnpm `11.1`.
 | --- | --- |
 | `apps/web` | Public Next.js 16 site. Tailwind v4, `next-intl`, static export. Port `3000`. |
 | `apps/cms` | Payload CMS 3.x admin app (Next.js 16 + Postgres). Port `3001`, admin at `/admin`. |
-| `apps/api` | Public funnel intake endpoint (Next.js 16, no pages). Port `3003`. See [`docs/api/architecture.md`](docs/api/architecture.md). |
+| `apps/api` | Public funnel intake endpoint (Next.js 16, no pages). Port `3003`. See [`apps/api/docs/architecture.md`](apps/api/docs/architecture.md). |
 | `apps/logos-demos` | Demos of the Logos stack (Next.js 16). Pages are static; the blockchain demo adds read-only proxy route handlers. Port `3005`. See [`apps/logos-demos/AGENTS.md`](apps/logos-demos/AGENTS.md). |
 | `apps/past-present-future` | SvelteKit app served at `/past-present-future`, fully prerendered. `apps/web` depends on it, so its build runs first and `apps/web/scripts/copy-past-present-future.sh` copies it into `apps/web/out`. In dev, `apps/web` proxies the path to its Vite server on port `3006`. |
 | `packages/content` | Content schemas, loaders for `content/**`, GitHub mutation helpers, locale registry. |
@@ -102,8 +102,8 @@ Payload collections: `Pages`, `Circles`, `Ideas`, `Rfps`, `ContentChangeRequests
 ## Where to look first
 
 - `docs/components.md` -- shared component specs (Nav, Footer, etc.) with Figma node IDs.
-- `docs/api/architecture.md` -- the funnel intake endpoint: routes, request handling, env vars.
-- `docs/funnel/AGENTS.md` -- the funnel end to end: request flow, Notion schema, option maps.
+- `apps/api/docs/architecture.md` -- the funnel intake endpoint: routes, request handling, env vars.
+- `docs/funnel/README.md` -- the funnel end to end: request flow, Notion schema, option maps.
 
 ## Don't
 

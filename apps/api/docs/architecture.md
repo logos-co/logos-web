@@ -8,7 +8,7 @@
 
 `api` is a Next.js application in `apps/api` that hosts the public intake endpoint for the funnel forms on `apps/web`. It has no database, no pages and no authenticated area.
 
-The funnel itself is documented in [`docs/funnel/AGENTS.md`](../funnel/AGENTS.md), which is the reference for anything about form submissions.
+The funnel itself is documented in [`docs/funnel/README.md`](../../../docs/funnel/README.md), which is the reference for anything about form submissions.
 
 | Route | Purpose |
 |---|---|
@@ -73,7 +73,7 @@ A `fields[]` key in the body is dropped rather than forwarded, so a client that 
 
 ## 5. Environment Variables
 
-See [`apps/api/.env.example`](../../apps/api/.env.example) for the full list with comments.
+See [`apps/api/.env.example`](../.env.example) for the full list with comments.
 
 | Variable | Purpose |
 |---|---|

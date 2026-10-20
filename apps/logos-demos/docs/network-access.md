@@ -50,7 +50,7 @@ six `logos.test` fleet nodes refuse connections on port 8080, and none of
 `storage.logos.co`, `api.storage.logos.co`, `gateway.storage.logos.co`,
 `testnet.storage.logos.co`, `storage.testnet.logos.co` or `codex.logos.co`
 resolve. Every consumer runs a node; see
-[browser-viability.md](./browser-viability.md) for the full account and for what
+[research/browser-viability.md](./research/browser-viability.md) for the full account and for what
 would change it.
 
 ## Blockchain

@@ -129,4 +129,4 @@ is the only thing standing in the way.
 | What | Where |
 | --- | --- |
 | Roster shapes | `src/lib/storage-fleet.ts` |
-| Everything checked, and the open lead | `docs/storage-research.md` |
+| Everything checked, and the open lead | `docs/research/storage-research.md` |

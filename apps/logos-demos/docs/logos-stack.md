@@ -35,7 +35,7 @@ Logos is a module system, not a monolith. Two component types:
 Two front ends host them: **Basecamp** (desktop GUI) and **logoscore / logosctl**
 (headless CLI daemon). Both link `liblogos`.
 
-None of this runs in a browser. See [browser-viability.md](./browser-viability.md).
+None of this runs in a browser. See [research/browser-viability.md](./research/browser-viability.md).
 
 ## Module contracts
 

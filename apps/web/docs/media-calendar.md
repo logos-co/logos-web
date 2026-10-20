@@ -2,9 +2,9 @@
 
 The `/media/calendar` page lists live streams, updates and regular programming across the Logos network. It is a port of the calendar at https://blog.logos.co/calendar.
 
-**Route:** [`apps/web/app/[locale]/media/calendar/page.tsx`](../apps/web/app/[locale]/media/calendar/page.tsx) (`ROUTES.mediaCalendar`)
-**Shared calendar:** [`apps/web/components/sections/events-calendar/`](../apps/web/components/sections/events-calendar/events-calendar.tsx)
-**Copy:** [`content/pages/en/media-calendar.json`](../content/pages/en/media-calendar.json)
+**Route:** [`apps/web/app/[locale]/media/calendar/page.tsx`](../app/[locale]/media/calendar/page.tsx) (`ROUTES.mediaCalendar`)
+**Shared calendar:** [`apps/web/components/sections/events-calendar/`](../components/sections/events-calendar/events-calendar.tsx)
+**Copy:** [`content/pages/en/media-calendar.json`](../../../content/pages/en/media-calendar.json)
 
 The page is in the sitemap and linked from the Explore menu as `Calendar` (`content/site/en/navigation.json`).
 
