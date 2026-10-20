@@ -7,14 +7,12 @@ import { Lines, LinkButton } from './atoms'
 import { InstallLink } from './install-link'
 
 export function Apps({ copy }: { copy: Renewal['apps'] }) {
-  const [filters, setFilters] = useState<string[]>([])
+  const [filter, setFilter] = useState(copy.filters[0])
   const cards =
-    filters.length === 0
+    filter === copy.filters[0]
       ? copy.cards
       : copy.cards.filter((card) =>
-          filters.some((filter) =>
-            card.uses.toLowerCase().includes(filter.toLowerCase())
-          )
+          card.uses.toLowerCase().includes(filter.toLowerCase())
         )
   return (
     <section id="run-apps" className="bc-light bc-apps">
@@ -27,24 +25,13 @@ export function Apps({ copy }: { copy: Renewal['apps'] }) {
         </div>
         <div className="bc-filters">
           {copy.filters.map((item) => {
-            const isActive =
-              item === copy.filters[0]
-                ? filters.length === 0
-                : filters.includes(item)
+            const isActive = item === filter
             return (
               <button
                 type="button"
                 className={`cursor-pointer ${isActive ? 'is-active' : ''}`}
                 aria-pressed={isActive}
-                onClick={() =>
-                  setFilters((current) =>
-                    item === copy.filters[0]
-                      ? []
-                      : current.includes(item)
-                        ? current.filter((filter) => filter !== item)
-                        : [...current, item]
-                  )
-                }
+                onClick={() => setFilter(item)}
                 key={item}
               >
                 {item}

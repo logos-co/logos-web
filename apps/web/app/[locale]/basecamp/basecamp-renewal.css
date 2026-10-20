@@ -492,27 +492,6 @@
   flex-wrap: wrap;
   gap: 6px;
 }
-.bc-diagram-app-groups {
-  flex-direction: column;
-}
-.bc-diagram-app-groups > div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.bc-diagram-surfaces {
-  align-items: center;
-}
-.bc-diagram-surfaces small {
-  color: #f5f5ef66;
-  white-space: nowrap;
-  text-transform: none;
-}
-.bc-diagram-surfaces > div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
 .bc-diagram-row button,
 .bc-module-group > span {
   background: #ffffff10;
@@ -899,6 +878,7 @@
   color: #15252180;
 }
 .bc-install-card {
+  position: relative;
   background: var(--bc-green);
   color: var(--bc-paper);
   border-radius: 20px;
@@ -937,6 +917,11 @@
 }
 .bc-install-card .bc-button {
   min-height: 0;
+}
+.bc-install-card .bc-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
 }
 .bc-community {
   display: grid;
@@ -1110,11 +1095,18 @@
   overflow: hidden;
 }
 .bc-programme-grid img {
+  display: block;
   width: 100%;
   height: 280px;
   object-fit: cover;
 }
-.bc-programme-grid article > div {
+.bc-programme-grid article > a {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+.bc-programme-grid article > a > div {
   padding: 28px;
   display: flex;
   flex-direction: column;
@@ -1140,7 +1132,7 @@
   letter-spacing: -0.15px;
   color: #f5f5efa6;
 }
-.bc-programme-grid a {
+.bc-programme-grid .bc-programme-action {
   margin-top: 8px;
   color: var(--bc-orange);
   font-family: var(--next-font-mono), monospace;

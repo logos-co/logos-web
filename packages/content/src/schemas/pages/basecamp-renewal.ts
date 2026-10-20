@@ -70,8 +70,6 @@ export const basecampRenewalSectionSchema = z.object({
       title: copy,
       hint: copy,
       apps: lines,
-      surfacesLabel: copy,
-      surfaces: lines,
       modules: z.array(z.object({ label: copy, items: lines })),
       networkLabel: copy,
       network: lines,

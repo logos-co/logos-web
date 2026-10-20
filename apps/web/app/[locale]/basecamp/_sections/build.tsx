@@ -88,15 +88,17 @@ export function Build({ copy }: { copy: Renewal['build'] }) {
         <div className="bc-programme-grid">
           {copy.programmes.map((item) => (
             <article key={item.eyebrow}>
-              <Image src={item.image} alt="" width={914} height={450} />
-              <div>
-                <small>{item.eyebrow}</small>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-                <a href={item.action.href} className="cursor-pointer">
-                  {item.action.label}
-                </a>
-              </div>
+              <a href={item.action.href} className="cursor-pointer">
+                <Image src={item.image} alt="" width={914} height={450} />
+                <div>
+                  <small>{item.eyebrow}</small>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <span className="bc-programme-action">
+                    {item.action.label}
+                  </span>
+                </div>
+              </a>
             </article>
           ))}
         </div>
