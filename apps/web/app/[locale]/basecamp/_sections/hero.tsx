@@ -9,6 +9,7 @@ import { InstallLink } from './install-link'
 
 export function Hero({ copy }: { copy: Renewal['hero'] }) {
   const [preview, setPreview] = useState(0)
+  const [storageNodeRunning, setStorageNodeRunning] = useState(true)
 
   return (
     <section className="bc-hero">
@@ -109,6 +110,27 @@ export function Hero({ copy }: { copy: Renewal['hero'] }) {
                       <span key={detail}>{detail}</span>
                     ))}
                   </div>
+                  {preview === 3 && (
+                    <div className="bc-storage-node">
+                      <span>{copy.storageNode.label}</span>
+                      <span>
+                        {storageNodeRunning
+                          ? copy.storageNode.activeStatus
+                          : copy.storageNode.stoppedStatus}
+                      </span>
+                      <button
+                        type="button"
+                        className="cursor-pointer"
+                        onClick={() =>
+                          setStorageNodeRunning((running) => !running)
+                        }
+                      >
+                        {storageNodeRunning
+                          ? copy.storageNode.stopLabel
+                          : copy.storageNode.startLabel}
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

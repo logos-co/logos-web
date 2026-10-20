@@ -80,7 +80,14 @@
             "description": "92.1 MB / 20.00 GB Total space available",
             "details": ["Storage", "Upload", "Fetch Manifest", "Manifests"]
           }
-        ]
+        ],
+        "storageNode": {
+          "label": "Manage node",
+          "activeStatus": "Unknown",
+          "stoppedStatus": "Stopped",
+          "startLabel": "Start",
+          "stopLabel": "Stop"
+        }
       },
       "subnav": {
         "useLabel": "Use",
@@ -186,6 +193,15 @@
             "Monero Node",
             "Accounts"
           ],
+          "surfacesLabel": "+ settings & approval surfaces:",
+          "surfaces": [
+            "Keystore",
+            "Signer",
+            "Ethereum RPC",
+            "Token Lists",
+            "Verified Proxy",
+            "Delivery Demo"
+          ],
           "modules": [
             {
               "label": "chain",
@@ -202,8 +218,14 @@
                 "Assets",
                 "Token List",
                 "Fees",
-                "Ethereum RPC"
+                "Ethereum RPC",
+                "Verified Proxy",
+                "Keystore"
               ]
+            },
+            {
+              "label": "monero",
+              "items": ["Wallet Core", "Node RPC", "monerod"]
             },
             {
               "label": "platform",
@@ -217,7 +239,7 @@
           ],
           "network": [
             "P2P · discovery · peering · mix",
-            "HTTPS / RPC · package catalogue"
+            "HTTPS / RPC · package catalogue · LEZ sequencer · EVM endpoints · Monero"
           ],
           "runtime": "Logos Runtime",
           "flows": [
@@ -272,7 +294,8 @@
                 "Assets",
                 "Token List",
                 "Fees",
-                "Ethereum RPC"
+                "Ethereum RPC",
+                "Keystore"
               ],
               "network": 1
             },
@@ -280,14 +303,14 @@
               "app": "Monero Wallet",
               "path": "Monero Wallet → Wallet Core · Node RPC → Monero → Runtime",
               "description": "A Monero wallet running as Logos modules, inside the same Basecamp shell.",
-              "modules": [],
+              "modules": ["Wallet Core", "Node RPC"],
               "network": 1
             },
             {
               "app": "Monero Node",
               "path": "Monero Node → monerod → Monero network → Runtime",
               "description": "Runs monerod locally as a module, so your wallet can talk to your own node.",
-              "modules": [],
+              "modules": ["monerod"],
               "network": 1
             },
             {
@@ -296,6 +319,48 @@
               "description": "A UI with no module dependencies. It loads straight onto the runtime.",
               "modules": [],
               "network": null
+            },
+            {
+              "app": "Keystore",
+              "path": "Keystore → Keystore → Runtime",
+              "description": "The one place accounts are created, imported, exported, and deleted. No network.",
+              "modules": ["Keystore"],
+              "network": null
+            },
+            {
+              "app": "Signer",
+              "path": "Signer → Keystore → Runtime",
+              "description": "Shows what a module asked to sign, in the keystore's own words, and takes the password.",
+              "modules": ["Keystore"],
+              "network": null
+            },
+            {
+              "app": "Ethereum RPC",
+              "path": "Ethereum RPC → Ethereum RPC → EVM endpoints → Runtime",
+              "description": "Device-wide JSON-RPC endpoints, shared by every Logos wallet on this machine.",
+              "modules": ["Ethereum RPC"],
+              "network": 1
+            },
+            {
+              "app": "Token Lists",
+              "path": "Token Lists → Token List → HTTPS → Runtime",
+              "description": "One token catalogue, shared by every wallet on the device.",
+              "modules": ["Token List"],
+              "network": 1
+            },
+            {
+              "app": "Verified Proxy",
+              "path": "Verified Proxy → Verified Proxy → HTTPS / RPC → Runtime",
+              "description": "Light-client verified routing for RPC calls.",
+              "modules": ["Verified Proxy"],
+              "network": 1
+            },
+            {
+              "app": "Delivery Demo",
+              "path": "Delivery Demo → Delivery · RLN → P2P → Runtime",
+              "description": "An educational demo of message delivery, rate-limited with RLN.",
+              "modules": ["Delivery", "RLN"],
+              "network": 0
             }
           ],
           "networkLabel": "Network"

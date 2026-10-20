@@ -32,6 +32,13 @@ export const basecampRenewalSectionSchema = z.object({
         })
       )
       .length(3),
+    storageNode: z.object({
+      label: copy,
+      activeStatus: copy,
+      stoppedStatus: copy,
+      startLabel: copy,
+      stopLabel: copy,
+    }),
   }),
   subnav: z.object({
     useLabel: copy,
@@ -63,6 +70,8 @@ export const basecampRenewalSectionSchema = z.object({
       title: copy,
       hint: copy,
       apps: lines,
+      surfacesLabel: copy,
+      surfaces: lines,
       modules: z.array(z.object({ label: copy, items: lines })),
       networkLabel: copy,
       network: lines,

@@ -492,6 +492,27 @@
   flex-wrap: wrap;
   gap: 6px;
 }
+.bc-diagram-app-groups {
+  flex-direction: column;
+}
+.bc-diagram-app-groups > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.bc-diagram-surfaces {
+  align-items: center;
+}
+.bc-diagram-surfaces small {
+  color: #f5f5ef66;
+  white-space: nowrap;
+  text-transform: none;
+}
+.bc-diagram-surfaces > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
 .bc-diagram-row button,
 .bc-module-group > span {
   background: #ffffff10;
@@ -513,6 +534,7 @@
   margin-bottom: 0;
 }
 .bc-modules-row > div {
+  flex-direction: column;
   row-gap: 8px;
 }
 .bc-module-group small {
@@ -1864,6 +1886,24 @@
   border-radius: 8px;
   background: #222;
   font-size: 12px;
+}
+.bc-storage-node {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  font-size: 12px;
+}
+.bc-storage-node span:nth-child(2) {
+  color: #f5f5ef99;
+  margin-left: auto;
+}
+.bc-storage-node button {
+  border: 1px solid #f5f5ef66;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--bc-paper);
+  padding: 6px 12px;
 }
 .bc-status {
   background: #1a1a1aeb;

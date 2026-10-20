@@ -69,22 +69,44 @@ export function HowItWorks({ copy }: { copy: Renewal['how'] }) {
           </div>
           <div className={`bc-diagram-row ${active === 0 ? 'is-active' : ''}`}>
             <span>{copy.layers[0].title}</span>
-            <div>
-              {diagram.apps.map((item) => (
-                <button
-                  type="button"
-                  className={`cursor-pointer ${item === selectedApp ? 'is-selected' : ''}`}
-                  key={item}
-                  aria-pressed={item === selectedApp}
-                  onMouseEnter={() => setHoveredApp(item)}
-                  onMouseLeave={() => setHoveredApp(null)}
-                  onFocus={() => setHoveredApp(item)}
-                  onBlur={() => setHoveredApp(null)}
-                  onClick={() => setPinnedApp(item)}
-                >
-                  {item}
-                </button>
-              ))}
+            <div className="bc-diagram-app-groups">
+              <div>
+                {diagram.apps.map((item) => (
+                  <button
+                    type="button"
+                    className={`cursor-pointer ${item === selectedApp ? 'is-selected' : ''}`}
+                    key={item}
+                    aria-pressed={item === selectedApp}
+                    onMouseEnter={() => setHoveredApp(item)}
+                    onMouseLeave={() => setHoveredApp(null)}
+                    onFocus={() => setHoveredApp(item)}
+                    onBlur={() => setHoveredApp(null)}
+                    onClick={() => setPinnedApp(item)}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+              <div className="bc-diagram-surfaces">
+                <small>{diagram.surfacesLabel}</small>
+                <div>
+                  {diagram.surfaces.map((item) => (
+                    <button
+                      type="button"
+                      className={`cursor-pointer ${item === selectedApp ? 'is-selected' : ''}`}
+                      key={item}
+                      aria-pressed={item === selectedApp}
+                      onMouseEnter={() => setHoveredApp(item)}
+                      onMouseLeave={() => setHoveredApp(null)}
+                      onFocus={() => setHoveredApp(item)}
+                      onBlur={() => setHoveredApp(null)}
+                      onClick={() => setPinnedApp(item)}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
           <div
