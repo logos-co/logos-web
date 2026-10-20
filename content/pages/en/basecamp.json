@@ -439,7 +439,7 @@
             },
             "guide": {
               "label": "Guide",
-              "href": "https://docs.logos.co/basecamp",
+              "href": "https://docs.logos.co/lez/get-started/run-lez-wallet-ui-and-initiate-native-token-transfers",
               "external": true
             }
           },
@@ -473,7 +473,7 @@
             },
             "guide": {
               "label": "Guide",
-              "href": "https://docs.logos.co/basecamp",
+              "href": "https://docs.logos.co/blockchain/get-started/run-a-logos-blockchain-node-from-basecamp",
               "external": true
             }
           },
@@ -524,7 +524,7 @@
             },
             "guide": {
               "label": "Guide",
-              "href": "https://docs.logos.co/basecamp",
+              "href": "https://docs.logos.co/storage/get-started/set-up-and-use-logos-storage-ui",
               "external": true
             }
           },
@@ -576,7 +576,7 @@
             },
             "guide": {
               "label": "Guide",
-              "href": "https://docs.logos.co/basecamp",
+              "href": "https://docs.logos.co/messaging/get-started/send-1-1-messages-logos-chat",
               "external": true
             }
           },
@@ -846,11 +846,11 @@
             },
             {
               "label": "Install and load a module",
-              "href": "https://docs.logos.co/basecamp"
+              "href": "https://docs.logos.co/basecamp/install-and-load-a-module-in-logos-basecamp"
             },
             {
               "label": "Swap ETH and LEZ tokens",
-              "href": "https://docs.logos.co/basecamp"
+              "href": "https://docs.logos.co/basecamp/atomic-swaps-poc"
             }
           ]
         },

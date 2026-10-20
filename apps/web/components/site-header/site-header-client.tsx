@@ -93,21 +93,22 @@ export default function SiteHeaderClient({
   const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
   const isBasecamp = normalizedPathname === ROUTES.basecamp
   const isFieldStation = normalizedPathname === ROUTES.fieldStation
+  const usesBasecampDownloadCta = isBasecamp || isFieldStation
   const basecampLink = useBasecampInstallLink(
     {
       label: primaryCta?.label ?? '',
-      href: isFieldStation
+      href: usesBasecampDownloadCta
         ? BASECAMP_RELEASE_PAGE
         : (primaryCta?.href ?? ROUTES.basecamp),
     },
     isFieldStation ? 'blockchain' : undefined
   )
   const displayedPrimaryCta =
-    isFieldStation && primaryCta
+    usesBasecampDownloadCta && primaryCta
       ? { ...primaryCta, href: basecampLink.href }
       : primaryCta
   const displayedMenuPanels =
-    isFieldStation && primaryCta
+    usesBasecampDownloadCta && primaryCta
       ? menuPanels.map((panel) => ({
           ...panel,
           textSections: panel.textSections?.map((section) => ({
@@ -334,6 +335,8 @@ export default function SiteHeaderClient({
           {displayedPrimaryCta ? (
             <Link
               href={displayedPrimaryCta.href}
+              target={usesBasecampDownloadCta ? basecampLink.target : undefined}
+              rel={usesBasecampDownloadCta ? basecampLink.rel : undefined}
               className={clsx(
                 'absolute top-1/2 -translate-y-1/2 text-eyebrow font-semibold cursor-pointer items-center rounded-xl px-3 py-2.5 uppercase transition-opacity hover:opacity-85',
                 'hidden lg:inline-flex',
