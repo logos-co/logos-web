@@ -1,6 +1,7 @@
 'use client'
 
 import HCaptcha from '@hcaptcha/react-hcaptcha'
+import type { CitySuggestion } from '@acid-info/logos-ui/client'
 import { Check } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useTranslations } from 'next-intl'
@@ -25,6 +26,7 @@ import type {
   AfformField,
   AfformOptions,
 } from '@/lib/funnel-forms/types'
+import { searchCitiesByCountryId } from '@/lib/city-search'
 import { cn } from '@/lib/cn'
 import {
   submitFunnelNewsletterSignups,
@@ -34,6 +36,7 @@ import {
 
 import { getOptionsForField } from './get-field-options'
 import {
+  CityField,
   FieldLabel,
   MultiselectField,
   SelectField,
@@ -126,6 +129,8 @@ export function ConnectFormSection({
   const [successState, setSuccessState] = useState(false)
   const [serverError, setServerError] = useState('')
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  // Country id of the picked city suggestion, empty for typed text.
+  const [cityCountry, setCityCountry] = useState('')
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const captchaRef = useRef<HCaptcha>(null)
 
@@ -166,6 +171,27 @@ export function ConnectFormSection({
       const value = typeof event === 'string' ? event : event.target.value
       setFormData((prev) => ({ ...prev, [field]: value }))
     }
+
+  const handleCityChange = (value: string) => {
+    setCityCountry('')
+    setFormData((prev) => ({ ...prev, city: value }))
+  }
+
+  const handleSelectCity = ({ name, country }: CitySuggestion) => {
+    setCityCountry(country)
+    setFormData((prev) => ({ ...prev, city: name, country }))
+  }
+
+  const handleCountryChange = (value: string) => {
+    // A picked city only exists in its own country.
+    const clearsCity = cityCountry !== '' && cityCountry !== value
+    if (clearsCity) setCityCountry('')
+    setFormData((prev) => ({
+      ...prev,
+      country: value,
+      ...(clearsCity && { city: '' }),
+    }))
+  }
 
   const handleChangeRepeatable =
     (fieldKey: string, index: number) =>
@@ -551,7 +577,11 @@ export function ConnectFormSection({
                 label={label}
                 options={options}
                 value={String(value ?? '')}
-                onChange={handleChange(field.formKey)}
+                onChange={
+                  field.formKey === 'country'
+                    ? handleCountryChange
+                    : handleChange(field.formKey)
+                }
                 placeholder={placeholder}
                 required={REQUIRED_FIELDS.has(field.formKey)}
                 disabled={loadingState}
@@ -693,27 +723,43 @@ export function ConnectFormSection({
             )
           }
 
+          const inputProps = {
+            id: field.formKey,
+            label: (
+              <span>
+                {label}
+                {REQUIRED_FIELDS.has(field.formKey) ? (
+                  <span className="ml-0.5 text-red-600">*</span>
+                ) : null}
+              </span>
+            ),
+            name: field.formKey,
+            placeholder,
+            error: hasFieldError,
+            disabled: loadingState,
+            overLimitMessage: t('tooLong', { max: MAX_TEXT_LENGTH }),
+          }
+
           return (
             <div key={field.formKey} className="w-full">
-              <TextInput
-                id={field.formKey}
-                label={
-                  <span>
-                    {label}
-                    {REQUIRED_FIELDS.has(field.formKey) ? (
-                      <span className="ml-0.5 text-red-600">*</span>
-                    ) : null}
-                  </span>
-                }
-                name={field.formKey}
-                type={field.inputType === 'email' ? 'email' : 'text'}
-                placeholder={placeholder}
-                onChange={handleChange(field.formKey)}
-                value={String(value ?? '')}
-                error={hasFieldError}
-                disabled={loadingState}
-                overLimitMessage={t('tooLong', { max: MAX_TEXT_LENGTH })}
-              />
+              {field.formKey === 'city' ? (
+                <CityField
+                  {...inputProps}
+                  value={String(value ?? '')}
+                  country={String(formData.country ?? '')}
+                  countryOptions={fieldOptions.country ?? []}
+                  search={searchCitiesByCountryId}
+                  onChange={handleCityChange}
+                  onSelect={handleSelectCity}
+                />
+              ) : (
+                <TextInput
+                  {...inputProps}
+                  type={field.inputType === 'email' ? 'email' : 'text'}
+                  onChange={handleChange(field.formKey)}
+                  value={String(value ?? '')}
+                />
+              )}
               {!isOverLimit &&
               hasFieldError &&
               REQUIRED_FIELDS.has(field.formKey) ? (
