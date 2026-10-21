@@ -131,6 +131,9 @@ pipeline {
         sshagent(credentials: ['status-im-auto-ssh']) {
           script {
             nix.develop("""
+              # ghp-import uses the remote-tracking ref, which can become stale during the build.
+              git fetch --no-tags origin \
+                refs/heads/${deployBranch()}:refs/remotes/origin/${deployBranch()} &&
               ghp-import \
                 -b ${deployBranch()} \
                 -c ${deployDomain()} \
