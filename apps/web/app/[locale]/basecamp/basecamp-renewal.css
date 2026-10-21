@@ -2487,6 +2487,7 @@
 .bc-run-callout button {
   align-self: center;
   flex: none;
+  margin-left: auto;
   width: 92px;
   padding: 8px 12px;
   line-height: 1.35;
