@@ -2442,6 +2442,7 @@
   top: 50%;
   bottom: auto;
   right: auto;
+  width: min(379px, calc(100% - 40px));
   transform: translateX(-50%);
   background: #1a1a1af5;
   border-color: #ff673ecc;
@@ -2451,12 +2452,13 @@
   flex-direction: row;
   align-items: center;
   gap: 14px;
-  white-space: nowrap;
+  white-space: normal;
 }
 .bc-run-callout > div {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 .bc-run-callout strong {
   font-family: var(--next-font-mono), monospace;
@@ -2470,6 +2472,7 @@
 }
 .bc-run-callout button {
   align-self: center;
+  flex: none;
   width: 92px;
   padding: 8px 12px;
   line-height: 1.35;
