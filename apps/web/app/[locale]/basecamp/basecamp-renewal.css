@@ -2772,7 +2772,7 @@
     aspect-ratio: 860 / 560;
   }
   .bc-hero-visual {
-    height: auto;
+    height: min(560px, calc((100vw - 96px) * 560 / 860));
   }
   .bc-hero-product {
     position: static;
