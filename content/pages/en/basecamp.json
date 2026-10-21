@@ -53,6 +53,7 @@
         "windowTitle": "Logos Basecamp",
         "windowAlt": "Logos Basecamp application window",
         "previewLabel": "Basecamp app previews",
+        "interactionHint": "Try it — click an app in the sidebar",
         "previewTabs": ["Packages", "Blockchain", "Chat", "Storage"],
         "previews": [
           {

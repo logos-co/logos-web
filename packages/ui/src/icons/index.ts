@@ -1,6 +1,7 @@
 export { CircleArrowIcon } from './circle-arrow-icon'
 export { LogosMark } from './logos-mark'
 export { LogosWordmark } from './logos-wordmark'
+export { PointerIcon } from './pointer-icon'
 export { MediaShareIcon } from './media-icons'
 export { SearchIcon } from './search-icon'
 export {

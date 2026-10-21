@@ -22,6 +22,7 @@ export const basecampRenewalSectionSchema = z.object({
     status: copy,
     windowAlt: copy,
     previewLabel: copy,
+    interactionHint: copy,
     previewTabs: lines.length(4),
     previews: z
       .array(

@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Image from 'next/image'
-import { LogosMark } from '@acid-info/logos-ui'
+import { LogosMark, PointerIcon } from '@acid-info/logos-ui'
 import type { Renewal } from './atoms'
 import { asset, Lines, LinkButton } from './atoms'
 import { HeroChatDemo } from './hero-chat-demo'
@@ -17,6 +17,13 @@ export function Hero({
 }) {
   const [preview, setPreview] = useState(0)
   const [storageNodeRunning, setStorageNodeRunning] = useState(true)
+  const [hasInteracted, setHasInteracted] = useState(false)
+  const touchStartX = useRef<number | null>(null)
+
+  const selectPreview = (index: number) => {
+    setPreview(index)
+    setHasInteracted(true)
+  }
 
   return (
     <section className="bc-hero">
@@ -57,6 +64,17 @@ export function Hero({
           />
           <div
             className={`bc-product-window ${preview === 0 ? '' : 'has-preview'}`}
+            onTouchStart={(event) => {
+              touchStartX.current = event.touches[0]?.clientX ?? null
+            }}
+            onTouchEnd={(event) => {
+              if (touchStartX.current === null) return
+              const distance = event.changedTouches[0]?.clientX - touchStartX.current
+              touchStartX.current = null
+              if (distance !== undefined && Math.abs(distance) > 45) {
+                selectPreview((preview + (distance < 0 ? 1 : 3)) % 4)
+              }
+            }}
           >
             <div className="bc-product-titlebar">
               <div>
@@ -65,24 +83,6 @@ export function Hero({
                 <i />
               </div>
               <span>{copy.windowTitle}</span>
-              <div
-                className="bc-product-tabs"
-                role="tablist"
-                aria-label={copy.previewLabel}
-              >
-                {copy.previewTabs.map((label, index) => (
-                  <button
-                    key={label}
-                    type="button"
-                    role="tab"
-                    aria-selected={index === preview}
-                    className={`cursor-pointer ${index === preview ? 'is-active' : ''}`}
-                    onClick={() => setPreview(index)}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
             </div>
             {preview === 0 ? (
               <Image
@@ -95,19 +95,6 @@ export function Hero({
               />
             ) : (
               <div className="bc-product-preview" role="tabpanel">
-                <aside>
-                  <LogosMark size={30} />
-                  {copy.previewTabs.slice(1).map((label, index) => (
-                    <button
-                      key={label}
-                      type="button"
-                      className={`cursor-pointer ${index + 1 === preview ? 'is-active' : ''}`}
-                      onClick={() => setPreview(index + 1)}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </aside>
                 <div className={preview === 2 ? 'bc-product-chat-content' : ''}>
                   {preview === 2 ? (
                     <HeroChatDemo
@@ -151,6 +138,48 @@ export function Hero({
                 </div>
               </div>
             )}
+            <div className="bc-product-app-rail" role="tablist" aria-label={copy.previewLabel}>
+              {copy.previewTabs.map((label, index) => (
+                <button
+                  key={label}
+                  type="button"
+                  role="tab"
+                  aria-label={label}
+                  aria-selected={index === preview}
+                  className={`cursor-pointer ${index === preview ? 'is-active' : ''}`}
+                  onClick={() => selectPreview(index)}
+                >
+                  {index === 0 ? (
+                    <LogosMark size={24} />
+                  ) : (
+                    <Image
+                      src={`${asset}/app-icons/${['', 'blockchain', 'chat', 'storage'][index]}.png`}
+                      alt=""
+                      width={24}
+                      height={24}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+            {preview === 0 && !hasInteracted && (
+              <div className="bc-product-hint">
+                <PointerIcon width={14} height={14} />
+                {copy.interactionHint}
+              </div>
+            )}
+          </div>
+          <div className="bc-product-dots" aria-label={copy.previewLabel}>
+            {copy.previewTabs.map((label, index) => (
+              <button
+                key={label}
+                type="button"
+                aria-label={label}
+                aria-current={index === preview ? 'true' : undefined}
+                className="cursor-pointer"
+                onClick={() => selectPreview(index)}
+              />
+            ))}
           </div>
           <div className="bc-status">
             <span className="bc-status-dot" />
