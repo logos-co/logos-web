@@ -378,6 +378,9 @@
   gap: 24px;
   margin-top: 56px;
 }
+.bc-layer-tabs {
+  display: none;
+}
 .bc-how .bc-section-header h2,
 .bc-local h2,
 .bc-build-top h2,
@@ -2864,6 +2867,46 @@
   }
   .bc-stats span {
     font-size: 14px;
+  }
+  .bc-how {
+    padding: 80px 16px 40px;
+  }
+  .bc-how-grid {
+    margin-top: 24px;
+  }
+  .bc-layer-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    margin-bottom: 20px;
+    border: 1px solid #1a1a1a26;
+    border-radius: 8px;
+  }
+  .bc-layer-tabs button {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 4px;
+    border-radius: 5px;
+    font-family: var(--next-font-mono), monospace;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #1a1a1a99;
+  }
+  .bc-layer-tabs button[aria-pressed='true'] {
+    background: var(--bc-green);
+    color: var(--bc-paper);
+  }
+  .bc-layers .bc-layer:not(.is-active) {
+    display: none;
+  }
+  .bc-layers .bc-layer {
+    min-height: 0;
+    padding: 20px;
+    border-radius: 12px;
+  }
+  .bc-diagram {
+    margin-top: 20px;
   }
 }
 @media (max-width: 360px) {

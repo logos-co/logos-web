@@ -180,12 +180,14 @@
           {
             "title": "Modules",
             "label": "Layer 2",
-            "description": "Utilities such as private storage, messaging, and blockchain that are loaded through a built-in package manager when needed."
+            "description": "Utilities such as private storage, messaging, and blockchain that are loaded through a built-in package manager when needed.",
+            "highlight": "Highlights the Modules layer"
           },
           {
             "title": "Runtime",
             "label": "Layer 1",
-            "description": "A lightweight runtime at the core that manages self-contained modules."
+            "description": "A lightweight runtime at the core that manages self-contained modules.",
+            "highlight": "Highlights the Runtime"
           }
         ],
         "diagram": {

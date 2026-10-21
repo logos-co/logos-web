@@ -42,6 +42,19 @@ export function HowItWorks({ copy }: { copy: Renewal['how'] }) {
         </div>
       </div>
       <div className="bc-how-grid">
+        <div className="bc-layer-tabs" role="group" aria-label={copy.title.join(' ')}>
+          {copy.layers.map((layer, index) => (
+            <button
+              key={layer.title}
+              type="button"
+              className="cursor-pointer"
+              aria-pressed={index === active}
+              onClick={() => setActive(index)}
+            >
+              {layer.title}
+            </button>
+          ))}
+        </div>
         <div className="bc-layers">
           {copy.layers.map((layer, index) => (
             <button
