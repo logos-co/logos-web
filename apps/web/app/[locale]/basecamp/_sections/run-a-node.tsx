@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { LogosMark } from '@acid-info/logos-ui'
 import type { Renewal } from './atoms'
 import { asset, Lines, LinkButton } from './atoms'
 import { InstallLink } from './install-link'
+import { NodeStepPreview } from './node-step-preview'
 
 const stepDurationMs = 6000
 
@@ -13,9 +13,11 @@ export function RunANode({ copy }: { copy: Renewal['run'] }) {
   const [step, setStep] = useState(0)
   const [pinned, setPinned] = useState(false)
   const [visible, setVisible] = useState(false)
+  const [previewVisible, setPreviewVisible] = useState(false)
   const [stepProgress, setStepProgress] = useState(0)
   const [progress, setProgress] = useState(0)
   const stepsRef = useRef<HTMLDivElement>(null)
+  const previewRef = useRef<HTMLDivElement>(null)
   const elapsedRef = useRef(0)
   const panel = copy.panels[step]
 
@@ -30,6 +32,20 @@ export function RunANode({ copy }: { copy: Renewal['run'] }) {
       { threshold: 0.01 }
     )
     observer.observe(steps)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const preview = previewRef.current
+    if (!preview) {
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setPreviewVisible(entry.isIntersecting),
+      { threshold: 0.01 }
+    )
+    observer.observe(preview)
     return () => observer.disconnect()
   }, [])
 
@@ -63,15 +79,15 @@ export function RunANode({ copy }: { copy: Renewal['run'] }) {
   }, [copy.steps.length, pinned, visible])
 
   useEffect(() => {
-    if (step !== 3 || !visible) {
+    if (step === 0 || !previewVisible) {
       return
     }
     const interval = window.setInterval(
-      () => setProgress((current) => Math.min(current + 4, 100)),
+      () => setProgress((current) => Math.min(current + 5, 100)),
       250
     )
     return () => window.clearInterval(interval)
-  }, [step, visible])
+  }, [step, previewVisible])
 
   function selectStep(index: number) {
     setStep(index)
@@ -118,7 +134,10 @@ export function RunANode({ copy }: { copy: Renewal['run'] }) {
             </button>
           ))}
         </div>
-        <div className={`bc-run-visual ${step === 0 ? 'is-image-state' : ''}`}>
+        <div
+          ref={previewRef}
+          className={`bc-run-visual ${step === 0 ? 'is-image-state' : ''}`}
+        >
           <div className="bc-run-titlebar">
             <div>
               <i />
@@ -126,7 +145,7 @@ export function RunANode({ copy }: { copy: Renewal['run'] }) {
               <i />
             </div>
             <span>
-              {pinned
+              {step > 0 || pinned
                 ? copy.pinnedHint.replace('{step}', String(step + 1))
                 : copy.playerHint}
             </span>
@@ -139,38 +158,23 @@ export function RunANode({ copy }: { copy: Renewal['run'] }) {
               height={948}
             />
           ) : (
-            <div className="bc-run-panel" key={step}>
-              <div className="bc-run-panel-sidebar">
-                <LogosMark size={28} />
-                <span>{copy.steps[step].title}</span>
+            <NodeStepPreview step={step} progress={progress} copy={copy.previews} />
+          )}
+          {step === 0 && (
+            <div className="bc-run-callout">
+              <div>
+                <strong>{panel.calloutTitle}</strong>
+                <span>{panel.calloutBody}</span>
               </div>
-              <div className="bc-run-panel-content">
-                <small>{copy.steps[step].label}</small>
-                <h3>{panel.title}</h3>
-                <p>{panel.body}</p>
-                {(step === 0 || step === 3) && (
-                  <div className="bc-run-progress" aria-label={`${progress}%`}>
-                    <span style={{ width: `${progress}%` }} />
-                    <b>{progress}%</b>
-                  </div>
-                )}
-                <div className="bc-run-panel-detail">{panel.detail}</div>
-              </div>
+              <button
+                type="button"
+                className="cursor-pointer"
+                onClick={() => selectStep((step + 1) % copy.steps.length)}
+              >
+                {copy.nextLabel}
+              </button>
             </div>
           )}
-          <div className="bc-run-callout">
-            <div>
-              <strong>{panel.calloutTitle}</strong>
-              <span>{panel.calloutBody}</span>
-            </div>
-            <button
-              type="button"
-              className="cursor-pointer"
-              onClick={() => selectStep((step + 1) % copy.steps.length)}
-            >
-              {copy.nextLabel}
-            </button>
-          </div>
         </div>
       </div>
       <div className="bc-run-bottom">
