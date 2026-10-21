@@ -150,8 +150,10 @@ export const basecampRenewalSectionSchema = z.object({
     title: lines,
     description: copy,
     steps: z
-      .array(z.object({ label: copy, status: z.string(), title: copy }))
+      .array(z.object({ label: copy, title: copy }))
       .length(4),
+    activeStatus: copy,
+    completedStatus: copy,
     playerHint: copy,
     windowAlt: copy,
     nextLabel: copy,

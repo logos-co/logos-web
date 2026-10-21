@@ -414,25 +414,23 @@
         "steps": [
           {
             "label": "Step 1",
-            "status": "Done ✓",
             "title": "Install Basecamp"
           },
           {
             "label": "Step 2",
-            "status": "In progress",
             "title": "Load the blockchain module"
           },
           {
             "label": "Step 3",
-            "status": "",
             "title": "Set up your config"
           },
           {
             "label": "Step 4",
-            "status": "",
             "title": "Start running your node"
           }
         ],
+        "activeStatus": "Now",
+        "completedStatus": "Done ✓",
         "playerHint": "Auto-playing · pick a step to pin it",
         "windowAlt": "Basecamp module manager",
         "nextLabel": "Next step →",
@@ -442,8 +440,8 @@
             "title": "Install Basecamp",
             "body": "Installing…",
             "detail": "0 accounts · 0 third parties · 0 cloud",
-            "calloutTitle": "Install Basecamp",
-            "calloutBody": "Download and install Basecamp on your machine."
+            "calloutTitle": "Step 1 · Install Basecamp · macOS / Linux",
+            "calloutBody": "Download Basecamp for your machine."
           },
           {
             "title": "Blockchain Module",
