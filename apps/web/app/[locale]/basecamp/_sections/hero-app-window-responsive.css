@@ -1,6 +1,10 @@
-@media (min-width: 1400px) and (max-width: 1519px) {
+@media (min-width: 1400px) {
+  .basecamp-renewal .bc-hero-visual {
+    left: max(660px, calc(50vw - 60px));
+    width: min(860px, calc(100vw - max(660px, calc(50vw - 60px))));
+  }
   .bc-demo-window {
-    width: calc(100vw - 660px);
+    width: 100%;
   }
 }
 @media (min-width: 1200px) and (max-width: 1399px) {
