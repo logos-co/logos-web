@@ -753,7 +753,6 @@
           }
         },
         "community": {
-          "eyebrow": "Community built",
           "title": ["Built by the", "community."],
           "description": "The community is already building. Join the developers creating privacy-preserving apps available through Basecamp.",
           "disclaimer": "Built by the community and shared for informational purposes only. Not reviewed or endorsed by Logos. Check an app before you use it.",

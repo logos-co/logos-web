@@ -899,8 +899,7 @@
   align-items: flex-start;
   gap: 12px;
 }
-.bc-install-card small,
-.bc-community-intro > small:first-child {
+.bc-install-card small {
   font-family: var(--next-font-mono), monospace;
   font-size: 10px;
   text-transform: uppercase;

@@ -193,7 +193,6 @@ export const basecampRenewalSectionSchema = z.object({
       action: ctaSchema,
     }),
     community: z.object({
-      eyebrow: copy,
       title: lines,
       description: copy,
       disclaimer: copy,

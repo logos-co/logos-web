@@ -81,7 +81,6 @@ export function Apps({ copy }: { copy: Renewal['apps'] }) {
       </div>
       <div className="bc-community">
         <div className="bc-community-intro">
-          <small>{copy.community.eyebrow}</small>
           <h2>
             <Lines lines={copy.community.title} />
           </h2>
