@@ -1,3 +1,4 @@
+import { spawnSync } from 'node:child_process'
 import { describe, expect, it } from 'vitest'
 import type { TextContent, TextItem } from 'pdfjs-dist/types/src/display/api'
 import { extractText } from '../../../scripts/zines/extract-text'
@@ -18,6 +19,40 @@ const content = (items: TextItem[]): TextContent => ({
 })
 
 describe('PDF text extraction', () => {
+  it('measures proportional word bounds without loading system fonts', () => {
+    const moduleUrl = new URL(
+      '../../../scripts/zines/extract-text.ts',
+      import.meta.url
+    ).href
+    const result = spawnSync(
+      process.execPath,
+      [
+        '--import',
+        'tsx',
+        '--input-type=module',
+        '-e',
+        `import { extractText } from ${JSON.stringify(moduleUrl)};
+         const result = extractText(${JSON.stringify(content([line('WWW iii', 20, 100)]))}, 600, 0);
+         process.stdout.write(JSON.stringify(result));`,
+      ],
+      {
+        env: { ...process.env, DISABLE_SYSTEM_FONTS_LOAD: '1' },
+        encoding: 'utf8',
+        timeout: 15_000,
+      }
+    )
+    expect(result.status, result.stderr).toBe(0)
+    const extracted: ReturnType<typeof extractText> = JSON.parse(result.stdout)
+    expect(extracted.words.map((word) => word.text)).toEqual(['WWW', 'iii'])
+    expect(extracted.words[0].x).toBe(20)
+    expect(extracted.words[0].width).toBeGreaterThan(extracted.words[1].width)
+    for (const word of extracted.words) {
+      expect(Number.isFinite(word.x)).toBe(true)
+      expect(word.width).toBeGreaterThan(0)
+      expect(word.x + word.width).toBeLessThanOrEqual(120.02)
+    }
+  })
+
   it('keeps headers selectable and groups inline runs with their paragraph', () => {
     const result = extractText(
       content([

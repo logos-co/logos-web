@@ -1,6 +1,16 @@
-import { createCanvas } from '@napi-rs/canvas'
+import { fileURLToPath } from 'node:url'
+import { createCanvas, GlobalFonts } from '@napi-rs/canvas'
 import type { TextContent, TextItem } from 'pdfjs-dist/types/src/display/api'
 import type { ZineBlock, ZineWord } from '@repo/content/schemas'
+
+const measurementFont = 'Logos Zine Measurement'
+// CI images may have no system fonts; PDF.js already ships this licensed font.
+const fontPath = fileURLToPath(
+  import.meta.resolve('pdfjs-dist/standard_fonts/LiberationSans-Regular.ttf')
+)
+if (!GlobalFonts.registerFromPath(fontPath, measurementFont)) {
+  throw new Error(`Could not register the zine measurement font: ${fontPath}`)
+}
 
 interface ExtractedText {
   words: ZineWord[]
@@ -28,8 +38,14 @@ export function extractText(
     const height = Math.hypot(item.transform[2], item.transform[3])
     const x = item.transform[4] - trim
     const y = pageHeight - item.transform[5] - trim - height * 0.8
-    context.font = `${height}px sans-serif`
-    const scale = item.width / context.measureText(item.str).width
+    context.font = `${height}px "${measurementFont}"`
+    const measuredWidth = context.measureText(item.str).width
+    if (!Number.isFinite(measuredWidth) || measuredWidth <= 0) {
+      throw new Error(
+        `Could not measure zine text: ${JSON.stringify(item.str)}`
+      )
+    }
+    const scale = item.width / measuredWidth
     const start = words.length
     for (const match of item.str.matchAll(/\S+/g)) {
       words.push({
