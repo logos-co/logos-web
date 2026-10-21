@@ -6,6 +6,7 @@ import { LogosMark, PointerIcon } from '@acid-info/logos-ui'
 import type { Renewal } from './atoms'
 import { asset, Lines, LinkButton } from './atoms'
 import { HeroChatDemo } from './hero-chat-demo'
+import { BlockchainDemo, StorageDemo } from './hero-app-demos'
 import { InstallLink } from './install-link'
 
 export function Hero({
@@ -16,7 +17,6 @@ export function Hero({
   badges: readonly string[]
 }) {
   const [preview, setPreview] = useState(0)
-  const [storageNodeRunning, setStorageNodeRunning] = useState(true)
   const [hasInteracted, setHasInteracted] = useState(false)
   const touchStartX = useRef<number | null>(null)
 
@@ -95,47 +95,25 @@ export function Hero({
               />
             ) : (
               <div className="bc-product-preview" role="tabpanel">
-                <div className={preview === 2 ? 'bc-product-chat-content' : ''}>
-                  {preview === 2 ? (
+                {preview === 1 ? (
+                  <BlockchainDemo
+                    copy={copy.blockchainDemo}
+                    title={copy.previews[0].title}
+                  />
+                ) : preview === 2 ? (
+                  <div className="bc-product-chat-content">
                     <HeroChatDemo
                       copy={copy.chatDemo}
                       description={copy.previews[1].description}
                       details={copy.previews[1].details}
                     />
-                  ) : (
-                    <>
-                      <small>{copy.windowTitle}</small>
-                      <h2>{copy.previews[preview - 1].title}</h2>
-                      <p>{copy.previews[preview - 1].description}</p>
-                      <div className="bc-product-preview-grid">
-                        {copy.previews[preview - 1].details.map((detail) => (
-                          <span key={detail}>{detail}</span>
-                        ))}
-                      </div>
-                      {preview === 3 && (
-                        <div className="bc-storage-node">
-                          <span>{copy.storageNode.label}</span>
-                          <span>
-                            {storageNodeRunning
-                              ? copy.storageNode.activeStatus
-                              : copy.storageNode.stoppedStatus}
-                          </span>
-                          <button
-                            type="button"
-                            className="cursor-pointer"
-                            onClick={() =>
-                              setStorageNodeRunning((running) => !running)
-                            }
-                          >
-                            {storageNodeRunning
-                              ? copy.storageNode.stopLabel
-                              : copy.storageNode.startLabel}
-                          </button>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  <StorageDemo
+                    copy={copy.storageDemo}
+                    title={copy.previews[2].title}
+                  />
+                )}
               </div>
             )}
             <div className="bc-product-app-rail" role="tablist" aria-label={copy.previewLabel}>

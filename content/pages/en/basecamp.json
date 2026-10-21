@@ -98,6 +98,61 @@
           "stoppedStatus": "Stopped",
           "startLabel": "Start",
           "stopLabel": "Stop"
+        },
+        "blockchainDemo": {
+          "tabs": ["Node", "Rewards", "Explorer", "Wallet", "Mining", "Settings"],
+          "online": "Online",
+          "offline": "Offline",
+          "emptyValue": "—",
+          "nodeLabel": "Node status",
+          "miningLabel": "Mining",
+          "startNode": "Start node",
+          "stopNode": "Stop node",
+          "startMining": "Start mining",
+          "stopMining": "Stop mining",
+          "metrics": [
+            { "label": "Stake (TestToken)", "value": "—" },
+            { "label": "Earned (TestToken)", "value": "—" },
+            { "label": "Peers", "value": "122" },
+            { "label": "Mining Rewards (TestToken)", "value": "—" }
+          ],
+          "panels": [
+            { "title": "Node overview", "description": "Your blockchain node is running on this machine." },
+            { "title": "Rewards", "description": "Track rewards earned by your node." },
+            { "title": "Explorer", "description": "Browse blocks and transactions from your node." },
+            { "title": "Wallet", "description": "Manage your local testnet wallet." },
+            { "title": "Mining", "description": "Control Proof-of-Work mining on this machine." },
+            { "title": "Settings", "description": "Configure your node and local resources." }
+          ],
+          "peerLabel": "Peer ID",
+          "peerId": "12D3KooW...",
+          "systemLabel": "System",
+          "system": ["CPU", "RAM", "Height", "Slot"]
+        },
+        "storageDemo": {
+          "alpha": "ALPHA",
+          "used": "92.1 MB",
+          "capacity": "20 GB",
+          "usageLabel": "Disk usage",
+          "uploadTitle": "Upload a file",
+          "uploadHint": "Click to browse or drag a file here",
+          "browseLabel": "Browse files",
+          "selectedLabel": "Selected locally:",
+          "fetchTitle": "Fetch a manifest",
+          "cidPlaceholder": "Enter a CID",
+          "fetchLabel": "Fetch",
+          "invalidCid": "Enter a CID to search this preview.",
+          "fetchPreviewNotice": "Preview only. No file was fetched.",
+          "manifestsTitle": "Manifests",
+          "manifestHeaders": ["Name", "CID", "Size"],
+          "manifests": [
+            { "name": "field-notes.lgx", "cid": "bafy...7d2a", "size": "4.8 MB" },
+            { "name": "local-backup.lgx", "cid": "bafy...e910", "size": "87.3 MB" }
+          ],
+          "nodeLabel": "Storage node",
+          "nodeStatus": "Connected",
+          "peerLabel": "Peers",
+          "peers": "12"
         }
       },
       "subnav": {

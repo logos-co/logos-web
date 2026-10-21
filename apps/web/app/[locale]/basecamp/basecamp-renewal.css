@@ -2976,6 +2976,296 @@
 .bc-product-dots {
   display: none;
 }
+.bc-product-preview > .bc-app-demo {
+  height: 100%;
+  overflow: hidden;
+  padding: 0;
+  background: #151515;
+  color: #f5f5ef;
+  font-family: var(--next-font-sans), sans-serif;
+}
+.bc-app-demo-header {
+  height: 79px;
+  padding: 19px 24px 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ffffff14;
+}
+.bc-app-demo-header > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bc-app-demo-header svg,
+.bc-app-demo-header small {
+  color: var(--bc-orange);
+  font-family: var(--next-font-mono), monospace;
+  font-size: 10px;
+}
+.bc-app-demo-header h2,
+.bc-product-preview .bc-app-demo h2 {
+  margin: 0;
+  font-family: var(--next-font-sans), sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.bc-app-demo-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #f5f5efb3;
+  font-size: 11px;
+}
+.bc-app-demo-status i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #51d987;
+}
+.bc-app-demo-status i.is-offline {
+  background: #f5f5ef80;
+}
+.bc-app-demo-tabs {
+  display: flex;
+  gap: 20px;
+  padding: 0 24px;
+  border-bottom: 1px solid #ffffff26;
+}
+.bc-app-demo-tabs button {
+  height: 39px;
+  padding: 0 2px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #f5f5ef99;
+  font-size: 11px;
+}
+.bc-app-demo-tabs button.is-active {
+  border-bottom-color: var(--bc-orange);
+  color: var(--bc-orange);
+}
+.bc-blockchain-content,
+.bc-storage-content {
+  padding: 20px 24px;
+}
+.bc-blockchain-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.bc-app-demo h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+.bc-product-preview .bc-app-demo p {
+  margin: 5px 0 0;
+  color: #f5f5ef80;
+  font-size: 10px;
+}
+.bc-blockchain-controls {
+  display: flex;
+  gap: 6px;
+}
+.bc-blockchain-controls button,
+.bc-storage-fetch button {
+  flex: none;
+  padding: 8px 10px;
+  border: 1px solid #ffffff45;
+  border-radius: 4px;
+  background: #232323;
+  color: #f5f5ef;
+  font-size: 10px;
+}
+.bc-blockchain-controls button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.bc-blockchain-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 22px;
+}
+.bc-blockchain-metrics > div,
+.bc-blockchain-lower > div,
+.bc-storage-usage,
+.bc-storage-panels > section,
+.bc-storage-manifests {
+  border: 1px solid #ffffff1f;
+  border-radius: 8px;
+  background: #1d1d1d;
+}
+.bc-blockchain-metrics > div {
+  min-height: 74px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.bc-app-demo small {
+  color: #f5f5ef80;
+  font-size: 10px;
+}
+.bc-blockchain-metrics strong {
+  color: var(--bc-orange);
+  font-size: 18px;
+  font-weight: 500;
+}
+.bc-blockchain-lower {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+.bc-blockchain-lower > div {
+  min-height: 125px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bc-blockchain-lower strong {
+  font-size: 18px;
+}
+.bc-blockchain-lower span {
+  color: #f5f5ef99;
+  font-size: 10px;
+}
+.bc-blockchain-system {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.bc-blockchain-system span {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ffffff1a;
+}
+.bc-storage-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bc-storage-usage {
+  padding: 12px 16px;
+}
+.bc-storage-usage > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bc-storage-usage strong {
+  font-size: 15px;
+  font-weight: 500;
+}
+.bc-storage-usage em {
+  color: #f5f5ef80;
+  font-style: normal;
+  font-size: 11px;
+}
+.bc-storage-progress {
+  height: 5px;
+  margin-top: 10px;
+  border-radius: 5px;
+  background: #ffffff1f;
+}
+.bc-storage-progress span {
+  display: block;
+  width: 4.6%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--bc-orange);
+}
+.bc-storage-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.bc-storage-panels > section {
+  min-height: 170px;
+  padding: 14px;
+}
+.bc-storage-drop {
+  width: 100%;
+  min-height: 112px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px dashed #ffffff50;
+  border-radius: 6px;
+  background: #ffffff08;
+  color: #f5f5ef;
+  font-size: 11px;
+}
+.bc-storage-drop strong {
+  color: var(--bc-orange);
+}
+.bc-storage-fetch form {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+}
+.bc-storage-fetch input {
+  min-width: 0;
+  flex: 1;
+  padding: 7px;
+  border: 1px solid #ffffff30;
+  border-radius: 4px;
+  background: #151515;
+  color: #f5f5ef;
+  font-size: 10px;
+}
+.bc-storage-fetch [role='status'] {
+  display: block;
+  margin-top: 5px;
+}
+.bc-storage-node-status {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+.bc-storage-node-status span {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: #f5f5ef80;
+  font-size: 10px;
+}
+.bc-storage-node-status b {
+  color: #f5f5ef;
+  font-weight: 500;
+}
+.bc-storage-manifests {
+  padding: 12px 14px;
+}
+.bc-storage-manifests table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+  font-size: 10px;
+  text-align: left;
+}
+.bc-storage-manifests th,
+.bc-storage-manifests td {
+  padding: 6px 4px;
+  border-top: 1px solid #ffffff1a;
+}
+.bc-storage-manifests th {
+  color: #f5f5ef80;
+  font-weight: 400;
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .bc-blockchain-controls {
+    flex-direction: column;
+  }
+}
 @media (max-width: 767px) {
   .bc-hero {
     min-height: 0;
