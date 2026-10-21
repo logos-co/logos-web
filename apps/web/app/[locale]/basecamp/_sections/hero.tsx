@@ -8,7 +8,13 @@ import { asset, Lines, LinkButton } from './atoms'
 import { HeroChatDemo } from './hero-chat-demo'
 import { InstallLink } from './install-link'
 
-export function Hero({ copy }: { copy: Renewal['hero'] }) {
+export function Hero({
+  copy,
+  badges,
+}: {
+  copy: Renewal['hero']
+  badges: readonly string[]
+}) {
   const [preview, setPreview] = useState(0)
   const [storageNodeRunning, setStorageNodeRunning] = useState(true)
 
@@ -17,7 +23,7 @@ export function Hero({ copy }: { copy: Renewal['hero'] }) {
       <div className="bc-hero-inner">
         <div className="bc-hero-copy">
           <div className="bc-badges">
-            {copy.badges.map((label) => (
+            {badges.map((label) => (
               <span key={label}>{label}</span>
             ))}
           </div>

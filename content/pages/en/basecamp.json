@@ -20,7 +20,7 @@
       "componentType": "basecampRenewal",
       "key": "basecamp.renewal",
       "hero": {
-        "badges": ["Basecamp v0.3.2", "Testnet v0.3"],
+        "badges": ["Basecamp v{version}", "Testnet v{version}"],
         "title": ["Logos", "Basecamp"],
         "description": "Basecamp is a local-first launcher for peer-to-peer apps built on Logos.",
         "statement": "No cloud. No accounts. Private-by-default.",
