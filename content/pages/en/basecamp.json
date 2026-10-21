@@ -515,8 +515,7 @@
             "category": "blockchain",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/lez_wallet_ui"
             },
             "guide": {
               "label": "Guide",
@@ -532,8 +531,7 @@
             "category": "blockchain",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/lez_explorer_ui"
             },
             "guide": {
               "label": "Guide",
@@ -549,8 +547,7 @@
             "category": "blockchain",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/blockchain_ui"
             },
             "guide": {
               "label": "Guide",
@@ -566,8 +563,7 @@
             "category": "Other",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/monerod_ui"
             },
             "guide": {
               "label": "Guide",
@@ -583,8 +579,7 @@
             "category": "Other",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/monero_wallet_ui"
             },
             "guide": {
               "label": "Guide",
@@ -600,8 +595,7 @@
             "category": "storage",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/storage_ui"
             },
             "guide": {
               "label": "Guide",
@@ -618,8 +612,7 @@
             "category": "messaging",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/delivery_demo"
             },
             "guide": {
               "label": "Guide",
@@ -635,8 +628,7 @@
             "category": "Other",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/verified_proxy_ui"
             },
             "guide": {
               "label": "Guide",
@@ -652,8 +644,7 @@
             "category": "messaging",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/chat_ui"
             },
             "guide": {
               "label": "Guide",
@@ -669,8 +660,7 @@
             "category": "Other",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/token_list_ui"
             },
             "guide": {
               "label": "Guide",
@@ -686,8 +676,7 @@
             "category": "Other",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/evm_signer_ui"
             },
             "guide": {
               "label": "Guide",
@@ -703,8 +692,7 @@
             "category": "Other",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/evm_keystore_ui"
             },
             "guide": {
               "label": "Guide",
@@ -720,8 +708,7 @@
             "category": "Other",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/eth_wallet_ui"
             },
             "guide": {
               "label": "Guide",
@@ -737,8 +724,7 @@
             "category": "Other",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/eth_rpc_ui"
             },
             "guide": {
               "label": "Guide",
@@ -754,8 +740,7 @@
             "category": "Other",
             "action": {
               "label": "Load app →",
-              "href": "https://docs.logos.co/basecamp",
-              "external": true
+              "href": "basecamp://app/accounts_ui"
             },
             "guide": {
               "label": "Guide",

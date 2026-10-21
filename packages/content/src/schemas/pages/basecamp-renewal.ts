@@ -203,7 +203,10 @@ export const basecampRenewalSectionSchema = z.object({
         description: copy,
         uses: copy,
         category: copy,
-        action: ctaSchema,
+        action: ctaSchema.extend({
+          href: z.string().regex(/^basecamp:\/\/app\/[a-z][a-z0-9_]*$/),
+          external: z.literal(false).optional(),
+        }),
         guide: ctaSchema,
       })
     ),
