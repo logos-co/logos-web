@@ -45,8 +45,8 @@
             "available": true
           },
           {
-            "label": "Windows · on roadmap",
-            "available": false
+            "label": "Windows",
+            "available": true
           }
         ],
         "status": "Running on this machine",
@@ -440,7 +440,7 @@
             "title": "Install Basecamp",
             "body": "Installing…",
             "detail": "0 accounts · 0 third parties · 0 cloud",
-            "calloutTitle": "Step 1 · Install Basecamp · macOS / Linux",
+            "calloutTitle": "Step 1 · Install Basecamp · macOS / Linux / Windows",
             "calloutBody": "Download Basecamp for your machine."
           },
           {
@@ -742,7 +742,7 @@
         "installCard": {
           "eyebrow": "Get started",
           "title": ["Install", "Basecamp."],
-          "platforms": "macOS (Apple silicon) · Linux",
+          "platforms": "macOS (Apple silicon) · Linux · Windows",
           "action": {
             "label": "Download →",
             "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
@@ -881,6 +881,10 @@
               "href": "https://github.com/logos-co/logos-basecamp/releases/latest"
             },
             {
+              "label": "Windows",
+              "href": "https://github.com/logos-co/logos-basecamp/releases/latest"
+            },
+            {
               "label": "Checksums and signatures",
               "href": "https://github.com/logos-co/logos-basecamp/releases/latest"
             }
@@ -888,8 +892,9 @@
           "platforms": [
             "macOS · Apple silicon — Available",
             "Linux — Available",
-            "Windows — On roadmap"
-          ]
+            "Windows — Available"
+          ],
+          "note": "Some Logos Apps are not yet compiled for windows."
         },
         "docs": {
           "eyebrow": "DOCS",

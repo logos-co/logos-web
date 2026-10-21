@@ -66,9 +66,15 @@ export function resolveBasecampDownloadTarget(
 ): string {
   const detectedPlatform = detectPlatform(client)
   const preferredPlatform =
-    client.preferredPlatform === 'linux' || client.preferredPlatform === 'macos'
+    client.preferredPlatform === 'linux' ||
+    client.preferredPlatform === 'macos' ||
+    client.preferredPlatform === 'windows'
       ? client.preferredPlatform
       : null
+
+  if (preferredPlatform === 'windows' && client.purpose !== 'blockchain') {
+    return EXTERNAL_URLS.basecampWindowsX64Download
+  }
 
   if (preferredPlatform && preferredPlatform !== detectedPlatform) {
     return EXTERNAL_URLS.basecampRelease

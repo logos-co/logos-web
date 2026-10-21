@@ -14,22 +14,25 @@ export interface BasecampInstallCtaLinkProps {
   rel?: 'noopener noreferrer'
 }
 
-const installLinuxLabel = /^install linux$/i
-const installMacLabel = /^install mac(?:os)?(?: \(silicon\))?$/i
+const installLinuxLabel = /^(?:install )?linux$/i
+const installMacLabel = /^(?:install )?mac(?:os)?(?: \((?:apple )?silicon\))?$/i
+const installWindowsLabel = /^(?:install )?windows$/i
 const installLabel = /^install(?:\s|$)/i
+const downloadLabel = /^download(?:\s|$)/i
 
 export function resolveBasecampInstallPreferredPlatform(
   cta: InstallCtaLike
 ): BasecampPlatform | null {
   if (installLinuxLabel.test(cta.label)) return 'linux'
   if (installMacLabel.test(cta.label)) return 'macos'
+  if (installWindowsLabel.test(cta.label)) return 'windows'
   return null
 }
 
 export function isBasecampInstallCta(cta: InstallCtaLike): boolean {
   return (
     resolveBasecampInstallPreferredPlatform(cta) !== null ||
-    (installLabel.test(cta.label) &&
+    ((installLabel.test(cta.label) || downloadLabel.test(cta.label)) &&
       (cta.iconOverride === 'download' ||
         /^https:\/\/github\.com\/logos-co\/logos-basecamp(?:\/|$)/.test(
           cta.href

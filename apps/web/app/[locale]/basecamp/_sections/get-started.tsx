@@ -11,10 +11,9 @@ export function GetStarted({ copy }: { copy: Renewal['started'] }) {
           <h3>{copy.install.title}</h3>
           <div className="bc-started-links">
             {copy.install.links.map((link, index) =>
-              index < 2 ? (
+              index < 3 ? (
                 <InstallLink
                   cta={{ ...link, external: true, iconOverride: 'download' }}
-                  platform={index === 0 ? 'macos' : 'linux'}
                   key={link.label}
                   className="bc-started-link"
                 />
@@ -26,13 +25,14 @@ export function GetStarted({ copy }: { copy: Renewal['started'] }) {
             )}
           </div>
           <div className="bc-started-platforms">
-            {copy.install.platforms.map((item, index) => (
+            {copy.install.platforms.map((item) => (
               <span key={item}>
-                <i className={index === 2 ? 'is-roadmap' : ''} />
+                <i />
                 {item}
               </span>
             ))}
           </div>
+          <p className="bc-started-note">{copy.install.note}</p>
         </article>
         <article>
           <small>{copy.docs.eyebrow}</small>

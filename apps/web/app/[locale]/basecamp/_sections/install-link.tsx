@@ -9,22 +9,12 @@ export function InstallLink({
   cta,
   children,
   className = '',
-  platform,
 }: {
   cta: CTA
   children?: ReactNode
   className?: string
-  platform?: 'macos' | 'linux'
 }) {
-  const resolved = useBasecampInstallLink({
-    ...cta,
-    label:
-      platform === 'macos'
-        ? 'Install Mac'
-        : platform === 'linux'
-          ? 'Install Linux'
-          : 'Install Basecamp',
-  })
+  const resolved = useBasecampInstallLink(cta)
   return (
     <a
       {...resolved}

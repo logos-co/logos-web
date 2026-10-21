@@ -540,6 +540,25 @@ describe('link policy', () => {
       })
     ).toBe('macos')
     expect(
+      resolveBasecampInstallPreferredPlatform({
+        label: 'macOS (Apple silicon)',
+        href: basecampReleaseHref,
+      })
+    ).toBe('macos')
+    expect(
+      resolveBasecampInstallPreferredPlatform({
+        label: 'Windows',
+        href: basecampReleaseHref,
+      })
+    ).toBe('windows')
+    expect(
+      isBasecampInstallCta({
+        label: 'Download →',
+        href: basecampReleaseHref,
+        iconOverride: 'download',
+      })
+    ).toBe(true)
+    expect(
       isBasecampInstallCta({
         label: 'Install',
         href: ROUTES.basecamp,

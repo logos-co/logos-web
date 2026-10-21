@@ -235,6 +235,7 @@ export const basecampRenewalSectionSchema = z.object({
       title: copy,
       links: z.array(link),
       platforms: lines,
+      note: copy,
     }),
     docs: z.object({ eyebrow: copy, title: copy, links: z.array(link) }),
     video: z.object({ eyebrow: copy, title: copy, link }),

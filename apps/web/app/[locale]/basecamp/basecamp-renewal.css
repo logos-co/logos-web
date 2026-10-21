@@ -1713,8 +1713,12 @@
   background: url('/images/basecamp/renewal/started-dot-1.svg') center/contain
     no-repeat;
 }
-.bc-started-platforms i.is-roadmap {
-  background-image: url('/images/basecamp/renewal/started-dot-2.svg');
+.bc-started-note {
+  margin-top: 12px;
+  color: #f5f5efb3;
+  font-family: var(--next-font-mono), monospace;
+  font-size: 10px;
+  line-height: 1.4;
 }
 .bc-platforms i {
   background: url('/images/basecamp/renewal/hero-dot-2.svg') center/contain
@@ -1729,7 +1733,7 @@
 }
 @media (min-width: 1200px) {
   .bc-started {
-    height: 611px;
+    min-height: 611px;
     padding-bottom: 100px;
   }
 }
