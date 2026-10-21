@@ -1,0 +1,59 @@
+1:"$Sreact.fragment"
+2:I[66869,["/_next/static/chunks/1t3a86vn3yn52.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/37ullkb03wbyp.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/04o15karij0su.js","/_next/static/chunks/3ol_pnxz5wu0l.js","/_next/static/chunks/3d12j6-y72phj.js"],"default"]
+3:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+8:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"ViewportBoundary"]
+9:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"MetadataBoundary"]
+:HL["/images/zines/lan-02.png","image"]
+:HL["/images/zines/lan-01.png","image"]
+:HL["/images/zines/pioneering.png","image"]
+:HL["/images/zines/nation-states.png","image"]
+:HL["/images/zines/open-source.png","image"]
+:HL["/images/zines/reformatting.png","image"]
+:HL["/_next/static/chunks/2ng5p6_ublccn.css","style"]
+7:X
+2b:X
+2b:C
+0:{"buildId":"61l5pRz-mBGnJoXFVnsQw","data":[{"rsc":["$","$1","c",{"children":[["$","section",null,{"className":"zine-catalogue","children":[["$","div",null,{"className":"zine-catalogue-intro","children":[["$","h1",null,{"children":[["$","span",null,{"className":"zine-catalogue-number","aria-hidden":"true","children":"1"}],"Logos Zines"]}],["$","div",null,{"className":"zine-catalogue-description","children":[["$","p","Logos zines are the movement's record of itself. From a food bank in Ibadan to a node running behind a hotel router in Prague, they collect what our activists build, run, learn and take inspiration from.",{"children":"Logos zines are the movement's record of itself. From a food bank in Ibadan to a node running behind a hotel router in Prague, they collect what our activists build, run, learn and take inspiration from."}],["$","p","Read them online, search inside them, or print a copy.",{"children":"Read them online, search inside them, or print a copy."}]]}]]}],["$","div",null,{"className":"zine-editions","children":[["$","$L2","lan-02",{"href":"/zines/lan-02","localeCookie":{"name":"NEXT_LOCALE","sameSite":"lax"},"className":"cursor-pointer","children":["$","figure",null,{"data-edition":"lan-02","children":[["$","img",null,{"src":"/images/zines/lan-02.png","alt":"Local Area Network - Issue 02","width":278,"height":394}],["$","figcaption",null,{"children":"October 2026"}]]}],"prefetch":false}],["$","$L2","lan-01",{"href":"/zines/lan-01","localeCookie":"$0:data:0:rsc:props:children:0:props:children:1:props:children:0:props:localeCookie","className":"cursor-pointer","children":["$","figure",null,{"data-edition":"lan-01","children":[["$","img",null,{"src":"/images/zines/lan-01.png","alt":"Local Area Network - Issue 01","width":278,"height":394}],["$","figcaption",null,{"children":"September 2026"}]]}],"prefetch":false}],["$","$L2","pioneering",{"href":"/zines/pioneering","localeCookie":"$0:data:0:rsc:props:children:0:props:children:1:props:children:0:props:localeCookie","className":"cursor-pointer","children":["$","figure",null,{"data-edition":"pioneering","children":[["$","img",null,{"src":"/images/zines/pioneering.png","alt":"Pioneering a New Era of Freedom","width":278,"height":394}],["$","figcaption",null,{"children":"March 2026"}]]}],"prefetch":false}],["$","$L2","nation-states",{"href":"/zines/nation-states","localeCookie":"$0:data:0:rsc:props:children:0:props:children:1:props:children:0:props:localeCookie","className":"cursor-pointer","children":["$","figure",null,{"data-edition":"nation-states","children":[["$","img",null,{"src":"/images/zines/nation-states.png","alt":"Nation States Are Obsolete","width":278,"height":394}],["$","figcaption",null,{"children":"February 2026"}]]}],"prefetch":false}],["$","$L2","open-source",{"href":"/zines/open-source","localeCookie":"$0:data:0:rsc:props:children:0:props:children:1:props:children:0:props:localeCookie","className":"cursor-pointer","children":["$","figure",null,{"data-edition":"open-source","children":[["$","img",null,{"src":"/images/zines/open-source.png","alt":"Open Source Everything","width":278,"height":394}],["$","figcaption",null,{"children":"October 2025"}]]}],"prefetch":false}],["$","$L2","reformatting",{"href":"/zines/reformatting","localeCookie":"$0:data:0:rsc:props:children:0:props:children:1:props:children:0:props:localeCookie","className":"cursor-pointer","children":["$","figure",null,{"data-edition":"reformatting","children":[["$","img",null,{"src":"/images/zines/reformatting.png","alt":"A Simple Guide to Reformatting Society","width":278,"height":394}],["$","figcaption",null,{"children":"May 2022"}]]}],"prefetch":false}]]}]]}],[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/2ng5p6_ublccn.css","precedence":"next"}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":"$@6","staleTime":"$7","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$L8",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L9",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Logos Zines"}],["$","meta","1",{"name":"description","content":"Logos zines are the movement's record of itself. From a food bank in Ibadan to a node running behind a hotel router in Prague, they collect what our activists build, run, learn and take inspiration from. Read them online, search inside them, or print a copy."}],["$","meta","2",{"name":"keywords","content":"logos,decentralised,privacy,civil society,blockchain"}],["$","meta","3",{"name":"creator","content":"Logos"}],["$","meta","4",{"name":"robots","content":"noindex, follow"}],["$","link","5",{"rel":"canonical","href":"https://dev.logos.co/zines"}],"$La","$Lb","$Lc","$Ld","$Le","$Lf","$L10","$L11","$L12","$L13","$L14","$L15","$L16","$L17","$L18","$L19","$L1a","$L1b","$L1c","$L1d","$L1e","$L1f","$L20","$L21","$L22","$L23","$L24","$L25","$L26"]}]}]}],"$L27"]}],"isPartial":"$@28","staleTime":"$7","varyParams":null},{"rsc":"$L29","isPartial":"$@2a","staleTime":"$7","varyParams":"$2b"}],"isUpgradeableISRFallback":false,"a":"$@2c","rootVaryParams":null,"needsRuntimeRequest":"$@2d"}
+2e:I[61096,["/_next/static/chunks/2s2ety_0_qcqe.js"],"IconMark"]
+2f:I[74724,["/_next/static/chunks/2s2ety_0_qcqe.js"],"default"]
+30:I[64438,["/_next/static/chunks/2s2ety_0_qcqe.js"],"default"]
+5:null
+a:["$","link","6",{"rel":"alternate","hrefLang":"en","href":"https://dev.logos.co/zines"}]
+b:["$","link","7",{"rel":"alternate","hrefLang":"x-default","href":"https://dev.logos.co/zines"}]
+c:["$","link","8",{"rel":"alternate","type":"application/rss+xml","href":"https://dev.logos.co/rss/main.xml","title":"Logos Media"}]
+d:["$","link","9",{"rel":"alternate","type":"application/rss+xml","href":"https://dev.logos.co/rss/logos-state.xml","title":"Logos Podcast"}]
+e:["$","link","10",{"rel":"alternate","type":"application/atom+xml","href":"https://dev.logos.co/atom.xml"}]
+f:["$","meta","11",{"property":"og:title","content":"Logos Zines"}]
+10:["$","meta","12",{"property":"og:description","content":"Logos zines are the movement's record of itself. From a food bank in Ibadan to a node running behind a hotel router in Prague, they collect what our activists build, run, learn and take inspiration from. Read them online, search inside them, or print a copy."}]
+11:["$","meta","13",{"property":"og:url","content":"https://dev.logos.co/zines"}]
+12:["$","meta","14",{"property":"og:site_name","content":"Logos"}]
+13:["$","meta","15",{"property":"og:locale","content":"en"}]
+14:["$","meta","16",{"property":"og:image","content":"https://dev.logos.co/og.jpeg"}]
+15:["$","meta","17",{"property":"og:image:width","content":"1200"}]
+16:["$","meta","18",{"property":"og:image:height","content":"630"}]
+17:["$","meta","19",{"property":"og:image:alt","content":"Logos Zines"}]
+18:["$","meta","20",{"property":"og:type","content":"website"}]
+19:["$","meta","21",{"name":"twitter:card","content":"summary_large_image"}]
+1a:["$","meta","22",{"name":"twitter:title","content":"Logos Zines"}]
+1b:["$","meta","23",{"name":"twitter:description","content":"Logos zines are the movement's record of itself. From a food bank in Ibadan to a node running behind a hotel router in Prague, they collect what our activists build, run, learn and take inspiration from. Read them online, search inside them, or print a copy."}]
+1c:["$","meta","24",{"name":"twitter:image","content":"https://dev.logos.co/og.jpeg"}]
+1d:["$","link","25",{"rel":"icon","href":"/favicon.svg?v=20260630","type":"image/svg+xml","media":"(prefers-color-scheme: light)"}]
+1e:["$","link","26",{"rel":"icon","href":"/favicon-dark.svg?v=20260630","type":"image/svg+xml","media":"(prefers-color-scheme: dark)"}]
+1f:["$","link","27",{"rel":"icon","href":"/favicon-32x32.png?v=20260630","sizes":"32x32","type":"image/png","media":"(prefers-color-scheme: light)"}]
+20:["$","link","28",{"rel":"icon","href":"/favicon-32x32-dark.png?v=20260630","sizes":"32x32","type":"image/png","media":"(prefers-color-scheme: dark)"}]
+21:["$","link","29",{"rel":"icon","href":"/favicon-16x16.png?v=20260630","sizes":"16x16","type":"image/png","media":"(prefers-color-scheme: light)"}]
+22:["$","link","30",{"rel":"icon","href":"/favicon-16x16-dark.png?v=20260630","sizes":"16x16","type":"image/png","media":"(prefers-color-scheme: dark)"}]
+23:["$","link","31",{"rel":"icon","href":"/favicon.ico?v=20260630","sizes":"any","media":"(prefers-color-scheme: light)"}]
+24:["$","link","32",{"rel":"icon","href":"/favicon-dark.ico?v=20260630","sizes":"any","media":"(prefers-color-scheme: dark)"}]
+25:["$","link","33",{"rel":"apple-touch-icon","href":"/apple-touch-icon.png","sizes":"180x180","type":"image/png"}]
+26:["$","$L2e","34",{}]
+27:["$","meta",null,{"name":"next-size-adjust","content":""}]
+29:["$","$1","c",{"children":[null,["$","$L2f",null,{"parallelRouterKey":"children","template":["$","$L30",null,{}]}]]}]
+2d:true
+7:300
+7:C
+2c:0
+2a:"$undefined"
+6:"$undefined"
+28:"$undefined"
