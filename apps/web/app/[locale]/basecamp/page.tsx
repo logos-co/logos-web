@@ -57,7 +57,7 @@ export default async function BasecampRoutePage({
   )
   return (
     <div className="basecamp-renewal">
-      <Hero copy={section.hero} badges={badges} />
+      <Hero copy={section.hero} badges={badges} releaseTag={basecampRelease.tag} />
       <Subnavigation copy={section.subnav} />
       <About copy={section.about} />
       <HowItWorks copy={section.how} />

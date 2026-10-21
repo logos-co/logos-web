@@ -1,6 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import {
+  BasecampArrowUpIcon,
+  BasecampChevronDownIcon,
+} from '@acid-info/logos-ui'
 import type { Renewal } from './atoms'
 
 interface HeroChatDemoProps {
@@ -38,19 +42,31 @@ export function HeroChatDemo({
   return (
     <div className="bc-chat-demo">
       <div className="bc-chat-sessions">
-        <div className="bc-chat-new">{copy.newChatLabel}</div>
+        <div className="bc-chat-new">
+          <span>{copy.newChatLabel}</span>
+          <BasecampChevronDownIcon />
+        </div>
         <small>{details[0]}</small>
         <div className="bc-chat-session is-active">
-          <strong>{details[1]}</strong>
-          <span>{copy.sessionPreview}</span>
+          <i aria-hidden="true" />
+          <div>
+            <strong>{details[1]}</strong>
+            <span>{copy.sessionPreview}</span>
+          </div>
         </div>
         <div className="bc-chat-session">
-          <strong>{copy.otherSession}</strong>
-          <span>{details[2]}</span>
+          <i aria-hidden="true" />
+          <div>
+            <strong>{copy.otherSession}</strong>
+            <span>{details[2]}</span>
+          </div>
         </div>
         <div className="bc-chat-identity">
-          <strong>{copy.identity}</strong>
-          <span>{description}</span>
+          <i aria-hidden="true">{copy.identity.slice(0, 2)}</i>
+          <div>
+            <strong>{copy.identity}</strong>
+            <span>{description}</span>
+          </div>
         </div>
       </div>
       <div className="bc-chat-thread">
@@ -61,7 +77,17 @@ export function HeroChatDemo({
           {sent && <span className="is-outgoing">{copy.draft}</span>}
           {replied && <span>{copy.reply}</span>}
         </div>
-        <div className="bc-chat-input">{draft}</div>
+        <div className="bc-chat-input">
+          <span>{draft}</span>
+          <button
+            type="button"
+            className="cursor-pointer"
+            aria-label={copy.sendLabel}
+            onClick={() => setFrame(sentAt)}
+          >
+            <BasecampArrowUpIcon />
+          </button>
+        </div>
       </div>
     </div>
   )

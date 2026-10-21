@@ -54,7 +54,8 @@
         "windowAlt": "Logos Basecamp application window",
         "previewLabel": "Basecamp app previews",
         "interactionHint": "Try it — click an app in the sidebar",
-        "previewTabs": ["Packages", "Blockchain", "Chat", "Storage"],
+        "portableLabel": "Portable",
+        "previewTabs": ["Blockchain", "Chat", "Storage"],
         "previews": [
           {
             "title": "Blockchain Node",
@@ -90,7 +91,8 @@
           "firstMessage": "Made it to the ridge.",
           "secondMessage": "Fire's lit. See you at first light.",
           "draft": "Got the cables?",
-          "reply": "Already on your machine. No embassy required."
+          "reply": "Already on your machine. No embassy required.",
+          "sendLabel": "Send message"
         },
         "storageNode": {
           "label": "Manage node",
@@ -107,14 +109,25 @@
           "nodeLabel": "Node status",
           "miningLabel": "Mining",
           "startNode": "Start node",
-          "stopNode": "Stop node",
-          "startMining": "Start mining",
-          "stopMining": "Stop mining",
+          "stopNode": "Stop Node",
+          "startMining": "Start Mining",
+          "stopMining": "Stop Mining",
+          "uptime": "Uptime: 5d 1h",
+          "following": "Following the chain",
+          "stages": ["Started", "Online", "Funded", "Aging", "Proposing", "Earning"],
           "metrics": [
-            { "label": "Stake (TestToken)", "value": "—" },
-            { "label": "Earned (TestToken)", "value": "—" },
-            { "label": "Peers", "value": "122" },
-            { "label": "Mining Rewards (TestToken)", "value": "—" }
+            { "label": "Stake (TestToken)", "value": "0", "detail": "Nothing has aged yet" },
+            { "label": "Earned (TestToken)", "value": "0", "detail": "No rewards claimed yet" },
+            { "label": "Blend", "value": "Edge", "detail": "Mixed by the core network" },
+            { "label": "Epoch", "value": "1", "detail": "" },
+            { "label": "Ready to Claim", "value": "0", "detail": "" },
+            { "label": "Peers", "value": "122", "detail": "129 connection(s)" },
+            { "label": "Peer ID", "value": "12D3Ko...Wuem", "detail": "" },
+            { "label": "Mining Rewards (TestToken)", "value": "2.01", "detail": "1007 claimed · 5 waiting" },
+            { "label": "CPU", "value": "130%", "detail": "7% of 20 cores" },
+            { "label": "RAM", "value": "3.7GB", "detail": "" },
+            { "label": "Height", "value": "11103", "detail": "" },
+            { "label": "Slot", "value": "442036", "detail": "" }
           ],
           "panels": [
             { "title": "Node overview", "description": "Your blockchain node is running on this machine." },
@@ -131,28 +144,40 @@
         },
         "storageDemo": {
           "alpha": "ALPHA",
+          "brandLabel": "Logos Storage",
+          "vaultTitle": "Vault.",
+          "spaceLabel": "Total space available",
+          "utilised": "92.1 MB Utilized",
+          "free": "19.91 GB Free",
+          "utilisationRate": "Disk Utilization Rate",
+          "noDownload": "No download in progress",
+          "privateLabel": "Private",
+          "discovering": "Discovering peers...",
+          "emptyPeerCount": "0",
           "used": "92.1 MB",
-          "capacity": "20 GB",
+          "capacity": "20.00 GB",
           "usageLabel": "Disk usage",
-          "uploadTitle": "Upload a file",
+          "uploadTitle": "Upload",
           "uploadHint": "Click to browse or drag a file here",
-          "browseLabel": "Browse files",
+          "browseLabel": "Click to browse",
+          "uploadLimit": "Up to 1 file",
           "selectedLabel": "Selected locally:",
-          "fetchTitle": "Fetch a manifest",
-          "cidPlaceholder": "Enter a CID",
+          "fetchTitle": "Fetch Manifest",
+          "cidPlaceholder": "CID",
           "fetchLabel": "Fetch",
           "invalidCid": "Enter a CID to search this preview.",
           "fetchPreviewNotice": "Preview only. No file was fetched.",
           "manifestsTitle": "Manifests",
-          "manifestHeaders": ["Name", "CID", "Size"],
+          "manifestMimeType": "application/...",
+          "manifestHeaders": ["Manifest", "Mimetype", "Size", "Actions"],
           "manifests": [
-            { "name": "field-notes.lgx", "cid": "bafy...7d2a", "size": "4.8 MB" },
-            { "name": "local-backup.lgx", "cid": "bafy...e910", "size": "87.3 MB" }
+            { "name": "monero_wallet_ui-0.1.1.lgx", "cid": "zDvZRwzmDjKNciGDCd17xiAk5NkEgxGPNrpD32L2pHTnzcGBn2SX", "size": "14.3 MB" },
+            { "name": "monerod_module-0.1.1.lgx", "cid": "zDvZRwzmDEB2qMwK1FmhVEuSRdcn2txxrKMVNhPFEw2W6CRKCQnp", "size": "44.9 MB" }
           ],
-          "nodeLabel": "Storage node",
-          "nodeStatus": "Connected",
+          "nodeLabel": "Node",
+          "nodeStatus": "Unknown",
           "peerLabel": "Peers",
-          "peers": "12"
+          "peers": "16"
         }
       },
       "subnav": {

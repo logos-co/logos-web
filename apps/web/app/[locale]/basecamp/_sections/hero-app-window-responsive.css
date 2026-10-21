@@ -1,0 +1,85 @@
+@media (min-width: 1400px) and (max-width: 1519px) {
+  .bc-demo-window {
+    width: calc(100vw - 660px);
+  }
+}
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .basecamp-renewal .bc-hero {
+    height: 1200px;
+  }
+  .basecamp-renewal .bc-hero-visual {
+    left: max(48px, calc((100vw - 860px) / 2));
+    top: 600px;
+    width: min(860px, calc(100vw - 96px));
+  }
+  .bc-demo-window {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .basecamp-renewal .bc-hero {
+    height: 1200px;
+  }
+  .bc-demo-window {
+    width: min(860px, 100%);
+  }
+  .bc-demo-body {
+    grid-template-columns: 135px minmax(0, 1fr);
+  }
+  .bc-demo-sidebar {
+    padding-inline: 7px;
+  }
+  .bc-demo-app {
+    gap: 6px;
+    font-size: 12px;
+  }
+  .bc-demo-screen {
+    padding: 14px;
+  }
+  .bc-demo-blockchain-heading h2 {
+    font-size: 18px;
+  }
+  .bc-demo-blockchain-controls button {
+    padding: 5px 6px;
+    font-size: 9px;
+  }
+  .bc-demo-blockchain-tabs button {
+    padding-inline: 5px;
+    font-size: 9px;
+  }
+}
+@media (max-width: 767px) {
+  .bc-demo-window {
+    width: 860px;
+    height: 560px;
+    transform: scale(0.6);
+    transform-origin: top left;
+  }
+  .bc-demo-mobile-tabs {
+    display: flex;
+    position: absolute;
+    z-index: 2;
+    top: 480px;
+    left: 200px;
+  }
+  .bc-demo-mobile-tabs button {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  .bc-demo-mobile-tabs button::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #f5f5ef80;
+  }
+  .bc-demo-mobile-tabs button.is-active::after {
+    background: #f07d5e;
+  }
+}

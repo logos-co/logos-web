@@ -1,30 +1,21 @@
 'use client'
 
-import { useRef, useState } from 'react'
 import Image from 'next/image'
-import { LogosMark, PointerIcon } from '@acid-info/logos-ui'
+
 import type { Renewal } from './atoms'
 import { asset, Lines, LinkButton } from './atoms'
-import { HeroChatDemo } from './hero-chat-demo'
-import { BlockchainDemo, StorageDemo } from './hero-app-demos'
+import { HeroAppWindow } from './hero-app-window'
 import { InstallLink } from './install-link'
 
 export function Hero({
   copy,
   badges,
+  releaseTag,
 }: {
   copy: Renewal['hero']
   badges: readonly string[]
+  releaseTag: string
 }) {
-  const [preview, setPreview] = useState(0)
-  const [hasInteracted, setHasInteracted] = useState(false)
-  const touchStartX = useRef<number | null>(null)
-
-  const selectPreview = (index: number) => {
-    setPreview(index)
-    setHasInteracted(true)
-  }
-
   return (
     <section className="bc-hero">
       <div className="bc-hero-inner">
@@ -62,107 +53,11 @@ export function Hero({
             height={820}
             className="bc-hero-glow"
           />
-          <div
-            className={`bc-product-window ${preview === 0 ? '' : 'has-preview'}`}
-            onTouchStart={(event) => {
-              touchStartX.current = event.touches[0]?.clientX ?? null
-            }}
-            onTouchEnd={(event) => {
-              if (touchStartX.current === null) return
-              const distance = event.changedTouches[0]?.clientX - touchStartX.current
-              touchStartX.current = null
-              if (distance !== undefined && Math.abs(distance) > 45) {
-                selectPreview((preview + (distance < 0 ? 1 : 3)) % 4)
-              }
-            }}
-          >
-            <div className="bc-product-titlebar">
-              <div>
-                <i />
-                <i />
-                <i />
-              </div>
-              <span>{copy.windowTitle}</span>
-            </div>
-            {preview === 0 ? (
-              <Image
-                src={`${asset}/hero-product.png`}
-                alt={copy.windowAlt}
-                width={1510}
-                height={948}
-                priority
-                className="bc-hero-product"
-              />
-            ) : (
-              <div className="bc-product-preview" role="tabpanel">
-                {preview === 1 ? (
-                  <BlockchainDemo
-                    copy={copy.blockchainDemo}
-                    title={copy.previews[0].title}
-                  />
-                ) : preview === 2 ? (
-                  <div className="bc-product-chat-content">
-                    <HeroChatDemo
-                      copy={copy.chatDemo}
-                      description={copy.previews[1].description}
-                      details={copy.previews[1].details}
-                    />
-                  </div>
-                ) : (
-                  <StorageDemo
-                    copy={copy.storageDemo}
-                    title={copy.previews[2].title}
-                  />
-                )}
-              </div>
-            )}
-            <div className="bc-product-app-rail" role="tablist" aria-label={copy.previewLabel}>
-              {copy.previewTabs.map((label, index) => (
-                <button
-                  key={label}
-                  type="button"
-                  role="tab"
-                  aria-label={label}
-                  aria-selected={index === preview}
-                  className={`cursor-pointer ${index === preview ? 'is-active' : ''}`}
-                  onClick={() => selectPreview(index)}
-                >
-                  {index === 0 ? (
-                    <LogosMark size={24} />
-                  ) : (
-                    <Image
-                      src={`${asset}/app-icons/${['', 'blockchain', 'chat', 'storage'][index]}.png`}
-                      alt=""
-                      width={24}
-                      height={24}
-                    />
-                  )}
-                </button>
-              ))}
-            </div>
-            {preview === 0 && !hasInteracted && (
-              <div className="bc-product-hint">
-                <PointerIcon width={14} height={14} />
-                {copy.interactionHint}
-              </div>
-            )}
-          </div>
-          <div className="bc-product-dots" aria-label={copy.previewLabel}>
-            {copy.previewTabs.map((label, index) => (
-              <button
-                key={label}
-                type="button"
-                aria-label={label}
-                aria-current={index === preview ? 'true' : undefined}
-                className="cursor-pointer"
-                onClick={() => selectPreview(index)}
-              />
-            ))}
-          </div>
-          <div className="bc-status">
-            <span className="bc-status-dot" />
-            {copy.status}
-          </div>
+          <HeroAppWindow
+            copy={copy}
+            releaseTag={releaseTag}
+            testnetBadge={badges[1] ?? ''}
+          />
         </div>
       </div>
     </section>
