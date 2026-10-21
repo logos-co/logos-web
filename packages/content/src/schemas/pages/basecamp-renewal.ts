@@ -200,6 +200,7 @@ export const basecampRenewalSectionSchema = z.object({
         version: copy,
         size: copy,
         install: copy,
+        installTooltip: copy,
         installing: copy,
         installed: copy,
         idleCaption: copy,

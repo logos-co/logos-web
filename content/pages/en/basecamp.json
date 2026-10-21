@@ -502,6 +502,7 @@
             "version": "0.3.1",
             "size": "144.7 MB",
             "install": "Install",
+            "installTooltip": "Installs v{version}",
             "installing": "Installing…",
             "installed": "Installed",
             "idleCaption": "Click Install on the Blockchain Module",

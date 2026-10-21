@@ -15,11 +15,11 @@ export function NodeStepPreview({
 }: NodeStepPreviewProps) {
   if (step === 1) {
     const packageCopy = copy.package
-    const phase =
-      progress < 20 ? 'idle' : progress < 90 ? 'installing' : 'installed'
+    const tick = progress % 60
+    const phase = tick < 15 ? 'idle' : tick < 42 ? 'installing' : 'installed'
     const installProgress = Math.min(
       100,
-      Math.max(0, Math.round(((progress - 20) / 70) * 100))
+      Math.max(0, Math.round(((tick - 15) / 27) * 100))
     )
 
     return (
@@ -53,17 +53,25 @@ export function NodeStepPreview({
               {packageCopy.version}
             </span>
             <span>{packageCopy.size}</span>
-            <span className={`bc-node-package-action is-${phase}`}>
-              {phase === 'idle'
-                ? packageCopy.install
-                : phase === 'installing'
-                  ? packageCopy.installing
-                  : packageCopy.installed}
-              {phase === 'installing' && (
-                <i>
-                  <span style={{ width: `${installProgress}%` }} />
-                </i>
+            <span className="bc-node-package-action-wrap">
+              {tick >= 8 && tick < 15 && (
+                <span className="bc-node-package-tooltip">
+                  {packageCopy.installTooltip.replace('{version}', packageCopy.version)}
+                </span>
               )}
+              <span className={`bc-node-package-action is-${phase} ${tick >= 12 && tick < 15 ? 'is-clicked' : ''}`}>
+                {phase === 'idle'
+                  ? packageCopy.install
+                  : phase === 'installing'
+                    ? packageCopy.installing
+                    : packageCopy.installed}
+                {phase === 'installing' && (
+                  <i>
+                    <span style={{ width: `${installProgress}%` }} />
+                  </i>
+                )}
+              </span>
+              <span className={`bc-node-cursor ${tick < 3 ? 'is-approaching' : ''} ${phase !== 'idle' ? 'is-leaving' : ''}`} aria-hidden="true" />
             </span>
           </div>
         </div>
@@ -83,7 +91,9 @@ export function NodeStepPreview({
 
   if (step === 2) {
     const configCopy = copy.config
-    const started = progress >= 55
+    const tick = progress % 46
+    const started = tick >= 16
+    const rippleProgress = tick >= 13 && tick < 17 ? (tick - 13) / 4 : null
 
     return (
       <div className="bc-node-preview bc-node-config-preview">
@@ -93,7 +103,7 @@ export function NodeStepPreview({
           </h3>
           <div>
             <span className="bc-node-config-fund">{configCopy.fund}</span>
-            <span className="bc-node-config-start">
+            <span className={`bc-node-config-start ${tick >= 13 && tick < 17 ? 'is-clicked' : ''}`}>
               {started ? configCopy.stopNode : configCopy.startNode}
             </span>
           </div>
@@ -128,24 +138,37 @@ export function NodeStepPreview({
             className={`bc-node-config-banner ${started ? 'is-started' : ''}`}
             aria-live="polite"
           >
-            <span aria-hidden="true" />
+            <span aria-hidden="true">{started ? null : 'i'}</span>
             {started ? configCopy.startedMessage : configCopy.readyMessage}
           </div>
         </div>
+        {rippleProgress !== null && (
+          <span
+            className="bc-node-config-ripple"
+            style={{
+              width: 20 + rippleProgress * 28,
+              height: 20 + rippleProgress * 28,
+              opacity: 1 - rippleProgress,
+            }}
+            aria-hidden="true"
+          />
+        )}
+        <span className={`bc-node-cursor bc-node-config-cursor ${tick < 5 ? 'is-approaching' : ''}`} aria-hidden="true" />
       </div>
     )
   }
 
-  const synced = progress >= 100
+  const synced = Math.round((progress % 46) * 3) >= 100
+  const syncProgress = Math.min(100, Math.round((progress % 46) * 3))
   return (
     <div className="bc-node-preview bc-node-sync-preview">
       <div
         className={`bc-node-sync-ring ${synced ? 'is-synced' : ''}`}
-        style={{ '--bc-sync-progress': `${progress}%` } as CSSProperties}
+        style={{ '--bc-sync-progress': `${syncProgress}%` } as CSSProperties}
       >
         <div>
           <strong>{synced ? copy.sync.running : copy.sync.syncing}</strong>
-          <span>{synced ? copy.sync.synced : `${progress}%`}</span>
+          <span>{synced ? copy.sync.synced : `${syncProgress}%`}</span>
         </div>
       </div>
     </div>

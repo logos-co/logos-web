@@ -8,6 +8,7 @@ import { InstallLink } from './install-link'
 import { NodeStepPreview } from './node-step-preview'
 
 const stepDurationMs = 6000
+const previewStepDurationMs = [stepDurationMs, 4860, 4050, 4050]
 
 export function RunANode({ copy }: { copy: Renewal['run'] }) {
   const [step, setStep] = useState(0)
@@ -59,6 +60,7 @@ export function RunANode({ copy }: { copy: Renewal['run'] }) {
     }
 
     let lastTick = performance.now()
+    const duration = previewStepDurationMs[step]
     const interval = window.setInterval(() => {
       const now = performance.now()
       if (document.visibilityState === 'hidden') {
@@ -68,23 +70,23 @@ export function RunANode({ copy }: { copy: Renewal['run'] }) {
 
       elapsedRef.current += now - lastTick
       lastTick = now
-      if (elapsedRef.current >= stepDurationMs) {
-        elapsedRef.current %= stepDurationMs
+      if (elapsedRef.current >= duration) {
+        elapsedRef.current %= duration
         setProgress(0)
         setStep((current) => (current + 1) % copy.steps.length)
       }
-      setStepProgress((elapsedRef.current / stepDurationMs) * 100)
+      setStepProgress((elapsedRef.current / duration) * 100)
     }, 50)
     return () => window.clearInterval(interval)
-  }, [copy.steps.length, pinned, visible])
+  }, [copy.steps.length, pinned, step, visible])
 
   useEffect(() => {
     if (step === 0 || !previewVisible) {
       return
     }
     const interval = window.setInterval(
-      () => setProgress((current) => Math.min(current + 5, 100)),
-      250
+      () => setProgress((current) => current + 1),
+      90
     )
     return () => window.clearInterval(interval)
   }, [step, previewVisible])
@@ -176,6 +178,25 @@ export function RunANode({ copy }: { copy: Renewal['run'] }) {
             </div>
           )}
         </div>
+        {step > 0 && (
+          <div className="bc-run-callout bc-run-callout-below">
+            <div>
+              <strong>{panel.calloutTitle}</strong>
+              <span>
+                {step === 1 && progress % 60 < 42
+                  ? panel.detail
+                  : panel.calloutBody}
+              </span>
+            </div>
+            <button
+              type="button"
+              className="cursor-pointer"
+              onClick={() => selectStep((step + 1) % copy.steps.length)}
+            >
+              {copy.nextLabel}
+            </button>
+          </div>
+        )}
       </div>
       <div className="bc-run-bottom">
         <InstallLink cta={copy.install} className="bc-button-orange" />
