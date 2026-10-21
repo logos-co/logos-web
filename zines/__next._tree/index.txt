@@ -14,4 +14,4 @@
 :HL["/images/zines/nation-states.png","image"]
 :HL["/images/zines/open-source.png","image"]
 :HL["/images/zines/reformatting.png","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"locale","param":{"type":"d","key":"en","siblings":[]},"prefetchHints":4144,"slots":{"children":{"name":"zines","param":null,"prefetchHints":4160,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"61l5pRz-mBGnJoXFVnsQw"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"locale","param":{"type":"d","key":"en","siblings":[]},"prefetchHints":4144,"slots":{"children":{"name":"zines","param":null,"prefetchHints":4160,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"ZqLsJl1H4fG4W4l6aEv98"}
