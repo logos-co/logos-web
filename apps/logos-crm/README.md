@@ -20,8 +20,8 @@ Copy `.env.example` to `.env`. The only variable is `DATABASE_URL`, a PostgreSQL
 
 ## Deploy
 
-The only supported target is Docker Compose on a Logos-controlled Linux host. See
-[docs/deployment.md](docs/deployment.md).
+Docker Compose on a Logos-controlled Linux host, for local or demo use only: there is no
+authentication and the database credentials are hard-coded. See [docs/deployment.md](docs/deployment.md).
 
 ## More
 

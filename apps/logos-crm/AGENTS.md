@@ -36,6 +36,8 @@ database. It is not a static export, and it never calls the GitHub API or the pu
 - `activities` and `tasks` each require exactly one subject (case, person, or organisation) via a
   Postgres `CHECK`. Create rows through `work-repository.ts`, not raw inserts.
 - The `version` column on directory rows exists but is not yet used for concurrency control.
+- There is no authentication and `compose.yaml` hard-codes the database credentials. Keep both
+  ports bound to `127.0.0.1`; never present the setup as safe to expose publicly.
 - next-intl is configured with a single `en` locale, but only page metadata is localised today; UI
   copy is hardcoded in components. Route new user-facing strings through `messages/en.json`.
 

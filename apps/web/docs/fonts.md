@@ -16,16 +16,13 @@ utilities (`text-hero`, `text-h1`, and so on) reference.
 
 ## Gitignore rules
 
-The root [`.gitignore`](../../../.gitignore) ignores every font file under
-`apps/*/public/fonts`:
+The root [`.gitignore`](../../../.gitignore) ignores `*.woff`, `*.woff2`,
+`*.ttf` and `*.otf` under `apps/*/public/fonts`, then re-includes
+`apps/*/public/fonts/rhymes-display/*.woff2` because its license is verified and
+the file is needed for Vercel builds.
 
-- `*.woff`, `*.woff2`, `*.ttf` and `*.otf` are ignored.
-- `README.md` files under `public/fonts` are kept.
-- `apps/*/public/fonts/rhymes-display/*.woff2` is re-included, with a note that
-  the license is verified and the file is committed for Vercel builds.
-
-To add a new self-hosted font, commit the file and extend the re-include rule.
-Verify the license with the brand owner before committing.
+To add a new self-hosted font, verify the license with the brand owner first,
+then add a re-include rule for it and commit the file.
 
 ## Google fonts
 

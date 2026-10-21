@@ -10,6 +10,10 @@ The only supported target is Docker Compose on a Logos-controlled Linux host. Th
 service, no SMTP, no authentication proxy, and no file volume today: the project runs one
 PostgreSQL service, one short-lived setup step, and one web service.
 
+The app has no authentication and the compose file hard-codes the database credentials
+(`logos`/`logos`), so this setup is for local or demo use only. Both ports bind to `127.0.0.1`; do
+not expose them beyond the host until authentication and real secrets are in place.
+
 ## Compose services
 
 | Service     | Responsibility                                                                                                      |
