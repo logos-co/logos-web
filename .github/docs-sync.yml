@@ -25,3 +25,9 @@ extra_ignore:
 guidelines_files:
   - AGENTS.md
   - CLAUDE.md
+
+# Members of @logos-co/web, by login: the Actions token cannot read org teams, so a team request
+# fails with a 422. Keep in sync with the team.
+reviewers:
+  - '@jinhojang6'
+  - '@JulesFiliot'

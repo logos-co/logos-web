@@ -5,6 +5,7 @@ import { Providers } from '@/components/providers'
 import ScrollToTop from '@/components/scroll-to-top'
 import SiteFooter from '@/components/site-footer'
 import SiteHeader from '@/components/site-header'
+import { ZineChromeGate } from '@/components/sections/zines/zine-chrome-gate'
 import SiteHeaderGate from '@/components/site-header/site-header-gate'
 import SiteFooterGate from '@/components/site-footer-gate'
 import UmamiButtonTracker from '@/components/umami-button-tracker'
@@ -21,15 +22,19 @@ export default function SiteShell({ children, locale }: SiteShellProps) {
       <PodcastPlayerProvider>
         <UmamiButtonTracker />
         <ScrollToTop />
-        <SiteHeaderGate>
-          <SiteHeader locale={locale} />
-        </SiteHeaderGate>
+        <ZineChromeGate>
+          <SiteHeaderGate>
+            <SiteHeader locale={locale} />
+          </SiteHeaderGate>
+        </ZineChromeGate>
         <main className="relative">
           <PageTransition>{children}</PageTransition>
         </main>
-        <SiteFooterGate>
-          <SiteFooter locale={locale} />
-        </SiteFooterGate>
+        <ZineChromeGate>
+          <SiteFooterGate>
+            <SiteFooter locale={locale} />
+          </SiteFooterGate>
+        </ZineChromeGate>
       </PodcastPlayerProvider>
     </Providers>
   )

@@ -92,6 +92,8 @@ export const ROUTES = {
   // Footer misc
   designGuide: '/design-guide',
   fieldGuide: '/field-guide',
+  zines: '/zines',
+  zine: (slug: string) => `/zines/${slug}`,
   /** Dynamic route — `/field-guide/[slug]`. */
   fieldGuideChapter: (slug: string) => `/field-guide/${slug}`,
 

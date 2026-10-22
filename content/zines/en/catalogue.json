@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "title": "Logos Zines",
+  "description": "Logos zines are the movement's record of itself. From a food bank in Ibadan to a node running behind a hotel router in Prague, they collect what our activists build, run, learn and take inspiration from.\n\nRead them online, search inside them, or print a copy.",
+  "editions": [
+    {
+      "slug": "lan-02",
+      "title": "Local Area Network - Issue 02",
+      "date": "October 2026",
+      "cover": "/images/zines/lan-02.png",
+      "reader": true
+    },
+    {
+      "slug": "lan-01",
+      "title": "Local Area Network - Issue 01",
+      "date": "September 2026",
+      "cover": "/images/zines/lan-01.png",
+      "reader": true
+    },
+    {
+      "slug": "pioneering",
+      "title": "Pioneering a New Era of Freedom",
+      "date": "March 2026",
+      "cover": "/images/zines/pioneering.png",
+      "reader": true
+    },
+    {
+      "slug": "nation-states",
+      "title": "Nation States Are Obsolete",
+      "date": "February 2026",
+      "cover": "/images/zines/nation-states.png",
+      "reader": true
+    },
+    {
+      "slug": "open-source",
+      "title": "Open Source Everything",
+      "date": "October 2025",
+      "cover": "/images/zines/open-source.png",
+      "reader": true
+    },
+    {
+      "slug": "reformatting",
+      "title": "A Simple Guide to Reformatting Society",
+      "date": "May 2022",
+      "cover": "/images/zines/reformatting.png",
+      "reader": true
+    }
+  ]
+}

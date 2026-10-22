@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "slug": "lan-02",
+  "title": "Local Area Network",
+  "shortTitle": "LAN 02",
+  "edition": "Issue 02 \u00b7 October 2026",
+  "description": "A record of the parallel society, published by Logos. Read, search and explore the October 2026 issue of Local Area Network.",
+  "pdf": "/zine/lan-issue-02.pdf",
+  "trim": 9,
+  "pageCount": 24,
+  "pageNumberOffset": 1,
+  "sections": [
+    {
+      "title": "Understanding Whole Systems",
+      "entries": [
+        {
+          "page": 3,
+          "title": "The Patriot Act at 25"
+        },
+        {
+          "page": 4,
+          "title": "The Case for PriFi"
+        },
+        {
+          "page": 5,
+          "title": "Past. Present. Future."
+        }
+      ]
+    },
+    {
+      "title": "Parallel Infrastructure",
+      "entries": [
+        {
+          "page": 6,
+          "title": "Monthly Highlights"
+        },
+        {
+          "page": 7,
+          "title": "Every Shilling Accounted For"
+        },
+        {
+          "page": 8,
+          "title": "Who Keeps the Member List?"
+        },
+        {
+          "page": 9,
+          "title": "Keycards for a Building Nobody Can Renovate"
+        }
+      ]
+    },
+    {
+      "title": "Parallel Economy",
+      "entries": [
+        {
+          "page": 10,
+          "title": "From Training to Internship"
+        },
+        {
+          "page": 10,
+          "title": "How to Spot the Scam",
+          "startWord": 305
+        },
+        {
+          "page": 11,
+          "title": "Pooling Commitments"
+        },
+        {
+          "page": 12,
+          "title": "The Shopper-Controlled Shop"
+        }
+      ]
+    },
+    {
+      "title": "Parallel Action",
+      "entries": [
+        {
+          "page": 13,
+          "title": "Where the Health System Doesn't Reach"
+        },
+        {
+          "page": 14,
+          "title": "From Meetup to Action"
+        },
+        {
+          "page": 15,
+          "title": "Two Families Went Home"
+        },
+        {
+          "page": 16,
+          "title": "Action, Not Permission"
+        },
+        {
+          "page": 17,
+          "title": "Mapping the Cameras"
+        }
+      ]
+    },
+    {
+      "title": "Parallel Education",
+      "entries": [
+        {
+          "page": 18,
+          "title": "Three Weeks, Sixty Percent"
+        },
+        {
+          "page": 18,
+          "title": "More Than Doctors and Lawyers",
+          "startWord": 228
+        }
+      ]
+    },
+    {
+      "title": "Parallel Culture",
+      "entries": [
+        {
+          "page": 19,
+          "title": "Test It Before You Leave"
+        },
+        {
+          "page": 20,
+          "title": "From Report to Story"
+        },
+        {
+          "page": 21,
+          "title": "The Shadow Phase"
+        }
+      ]
+    }
+  ],
+  "pageTitles": {
+    "0": "Cover",
+    "1": "Editorial",
+    "2": "Index",
+    "22": "Photography",
+    "23": "Back Cover"
+  }
+}
