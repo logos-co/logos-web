@@ -51,7 +51,7 @@ run the turbo command.
   assert Tailwind classes, Figma measurements or source structure; verify UI in
   a browser instead.
 
-## Gotchas
+## Caveats
 
 - A locale added to `routing.ts` makes its message and content files required
   at build time; there is no silent fallback.

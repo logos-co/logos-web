@@ -29,7 +29,7 @@ database. It is not a static export, and it never calls the GitHub API or the pu
 - Server-only code (db, repositories, env) lives under `src/server` and must not be imported by
   client components.
 
-## Gotchas
+## Caveats
 
 - `cases.organisation` and `cases.owner` are denormalised free text, not foreign keys; the link
   tables `case_organisations` and `case_people` carry the real relationships.

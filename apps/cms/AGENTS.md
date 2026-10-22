@@ -33,7 +33,7 @@ Run `pnpm generate-types` from the root after any collection or schema change.
 - CMS-generated content PRs target `develop`.
 - If a collection edits content under `content/**`, keep the Payload collection, the `@repo/content` schema and loader, fixtures and generated types in sync. See `packages/content/AGENTS.md`.
 
-## Gotchas
+## Caveats
 
 - Keep the production env assertions in `payload.config.ts`: the app throws when `NEXT_PUBLIC_SERVER_URL` or `NEXT_PUBLIC_WEB_URL` is missing in a non-Vercel production build. Fix the environment, never weaken the check.
 - The dev wrapper (`scripts/dev.ts`) refuses to run in deployment environments and auto-accepts Payload schema-push prompts. Production uses reviewed migrations, never schema push: `payload migrate` runs in `docker-entrypoint.sh`, and Payload never pushes when `NODE_ENV=production`.

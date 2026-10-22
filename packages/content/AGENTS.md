@@ -34,6 +34,6 @@ pnpm --filter @repo/content test           # node:test suite
 pnpm --filter @repo/content check-types    # tsc --noEmit
 ```
 
-## Gotchas
+## Caveats
 
 - `github-smoke` mutates a real repo via `GITHUB_OWNER` / `GITHUB_REPO` and GitHub App credentials; it cleans up in `finally`.

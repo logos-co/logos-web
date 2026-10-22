@@ -39,7 +39,7 @@ I/O, no React, no runtime dependency on either consumer.
   `apps/web` builds its zod schema from it and `apps/api` validates against it.
   Do not add a `required` flag to the per-form definitions in `apps/web`.
 
-## Gotchas
+## Caveats
 
 - `findInvalidRequiredFields` uses a looser email pattern than the client's zod
   `.email()` on purpose, so the endpoint never rejects what the form accepted.

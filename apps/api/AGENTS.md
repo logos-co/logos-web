@@ -44,7 +44,7 @@ Run from the repo root:
   `buildNotionProperties`, an env var, or the code layout, update
   `docs/architecture.md` and `docs/funnel/README.md` in the same PR.
 
-## Gotchas
+## Caveats
 
 - If the target Notion database holds multiple data sources (Notion API
   2025-09-03+), set `NOTION_DATA_SOURCE_ID` to pin writes to one source, or
