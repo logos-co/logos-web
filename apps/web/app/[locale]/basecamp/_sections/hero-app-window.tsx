@@ -84,9 +84,7 @@ export function HeroAppWindow({
                     key={label}
                     onClick={() => setSelected(index)}
                   >
-                    <span
-                      className={`bc-demo-app-icon bc-demo-app-icon-${index}`}
-                    >
+                    <span className="bc-demo-app-icon">
                       <Icon />
                     </span>
                     <span>{label}</span>
