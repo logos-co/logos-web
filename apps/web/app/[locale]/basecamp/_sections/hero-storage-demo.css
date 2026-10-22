@@ -190,35 +190,33 @@
   font-size: 12px;
   font-weight: 400;
 }
-.bc-demo-storage-fetch form {
+.bc-demo-storage-fetch-row {
   display: flex;
   gap: 4px;
+  font-size: 8px;
+  line-height: 12px;
 }
-.bc-demo-storage-fetch input {
+.bc-demo-storage-cid {
   flex: 1;
   min-width: 0;
-  padding: 4px 6px;
-  border: 0;
+  padding: 5px 6px;
   border-radius: 4px;
   background: #161616;
-  color: #ededed;
-  font-size: 8px;
+  color: rgb(237 237 237 / 0.5);
 }
-.bc-demo-storage-fetch form button {
+.bc-demo-storage-fetch-button {
   padding: 4px 6px;
   border: 1px solid #3a3a3a;
   border-radius: 4px;
-  background: transparent;
   color: #8a8a8a;
-  font-size: 8px;
 }
-.bc-demo-storage-fetch > div {
+.bc-demo-storage-fetch-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 2px;
 }
-.bc-demo-storage-fetch label {
+.bc-demo-storage-private {
   display: flex;
   align-items: center;
   gap: 3px;
@@ -226,33 +224,23 @@
   white-space: nowrap;
   font-size: 7px;
 }
-.bc-demo-storage-fetch label input {
-  appearance: none;
+.bc-demo-storage-private i {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  box-sizing: border-box;
   width: 16px;
   height: 9px;
+  padding: 0 1px;
   border-radius: 99px;
   background: #3a3a3a;
-  cursor: pointer;
 }
-.bc-demo-storage-fetch label input::before {
+.bc-demo-storage-private i::before {
   content: '';
-  display: block;
   width: 7px;
   height: 7px;
-  margin: 1px;
   border-radius: 50%;
   background: #ededed;
-}
-.bc-demo-storage-fetch label input:checked {
-  background: #f07d5e;
-}
-.bc-demo-storage-fetch label input:checked::before {
-  transform: translateX(7px);
-}
-.bc-demo-storage-fetch > small {
-  display: block;
-  color: #bdbdbd;
-  font-size: 8px;
 }
 .bc-demo-storage-node h3 {
   display: flex;

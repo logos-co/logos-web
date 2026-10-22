@@ -97,8 +97,6 @@ export const basecampRenewalSectionSchema = z.object({
       fetchTitle: copy,
       cidPlaceholder: copy,
       fetchLabel: copy,
-      invalidCid: copy,
-      fetchPreviewNotice: copy,
       manifestsTitle: copy,
       manifestMimeType: copy,
       manifestHeaders: lines.length(4),

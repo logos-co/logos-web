@@ -146,10 +146,7 @@ export function StorageDemo({
   category,
   blockchainCategory,
 }: StorageDemoProps) {
-  const [cid, setCid] = useState('')
-  const [fetchMessage, setFetchMessage] = useState('')
   const [nodeRunning, setNodeRunning] = useState(true)
-  const [isPrivate, setIsPrivate] = useState(false)
 
   return (
     <div className="bc-demo-storage">
@@ -205,34 +202,19 @@ export function StorageDemo({
             <h3>{copy.uploadTitle}</h3>
           </div>
           <div className="bc-demo-storage-fetch">
-            <form
-              onSubmit={(event) => {
-                event.preventDefault()
-                setFetchMessage(cid ? copy.fetchPreviewNotice : copy.invalidCid)
-              }}
-            >
-              <input
-                value={cid}
-                onChange={(event) => setCid(event.target.value)}
-                placeholder={copy.cidPlaceholder}
-                aria-label={copy.cidPlaceholder}
-              />
-              <button type="submit" className="cursor-pointer">
+            <div className="bc-demo-storage-fetch-row">
+              <span className="bc-demo-storage-cid">{copy.cidPlaceholder}</span>
+              <span className="bc-demo-storage-fetch-button">
                 {copy.fetchLabel}
-              </button>
-            </form>
-            <div>
-              <h3>{copy.fetchTitle}</h3>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={isPrivate}
-                  onChange={(event) => setIsPrivate(event.target.checked)}
-                />
-                {copy.privateLabel}
-              </label>
+              </span>
             </div>
-            {fetchMessage && <small role="status">{fetchMessage}</small>}
+            <div className="bc-demo-storage-fetch-meta">
+              <h3>{copy.fetchTitle}</h3>
+              <span className="bc-demo-storage-private">
+                <i />
+                {copy.privateLabel}
+              </span>
+            </div>
           </div>
         </div>
         <div className="bc-demo-storage-right">

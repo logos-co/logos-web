@@ -164,8 +164,6 @@
           "fetchTitle": "Fetch Manifest",
           "cidPlaceholder": "CID",
           "fetchLabel": "Fetch",
-          "invalidCid": "Enter a CID to search this preview.",
-          "fetchPreviewNotice": "Preview only. No file was fetched.",
           "manifestsTitle": "Manifests",
           "manifestMimeType": "application/...",
           "manifestHeaders": ["Manifest", "Mimetype", "Size", "Actions"],
