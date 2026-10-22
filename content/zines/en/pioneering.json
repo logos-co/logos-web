@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "slug": "pioneering",
+  "title": "Pioneering a New Era of Freedom",
+  "shortTitle": "Pioneering",
+  "edition": "March 2026",
+  "description": "Read Pioneering a New Era of Freedom, published by Logos in March 2026.",
+  "pdf": "/zine/pioneering.pdf",
+  "trim": 17.0075,
+  "pageCount": 24,
+  "pageTitles": {},
+  "sections": [
+    {
+      "title": "Pioneering a New Era of Freedom",
+      "entries": [
+        {
+          "page": 2,
+          "title": "In This Issue"
+        },
+        {
+          "page": 3,
+          "title": "Building on the Frontier"
+        },
+        {
+          "page": 5,
+          "title": "Logos Testnet v0.1: Pioneering a New Era of Freedom"
+        },
+        {
+          "page": 9,
+          "title": "Parallel Society"
+        },
+        {
+          "page": 14,
+          "title": "Parallel Societies as Transitional Governance"
+        },
+        {
+          "page": 17,
+          "title": "There Is No Freedom Without Open Hardware"
+        },
+        {
+          "page": 19,
+          "title": "A Stack Gap in Blockchain Privacy"
+        },
+        {
+          "page": 21,
+          "title": "Logos Circles"
+        }
+      ]
+    }
+  ],
+  "textLayer": true,
+  "pageNumberOffset": -1
+}

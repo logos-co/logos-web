@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "slug": "nation-states",
+  "title": "Nation States Are Obsolete",
+  "shortTitle": "Nation States",
+  "edition": "February 2026",
+  "description": "Read Nation States Are Obsolete, published by Logos in February 2026.",
+  "pdf": "/zine/nation-states.pdf",
+  "trim": 0,
+  "pageCount": 24,
+  "pageTitles": {},
+  "sections": [
+    {
+      "title": "Nation States Are Obsolete",
+      "entries": [
+        {
+          "page": 2,
+          "title": "Farewell to Westphalia"
+        },
+        {
+          "page": 4,
+          "title": "Critical Error"
+        },
+        {
+          "page": 5,
+          "title": "Forced Grouping Leads to Conflict"
+        },
+        {
+          "page": 7,
+          "title": "Centralised Currency Debasement"
+        },
+        {
+          "page": 9,
+          "title": "Centralised Record Failure"
+        },
+        {
+          "page": 11,
+          "title": "No Exit Option"
+        },
+        {
+          "page": 13,
+          "title": "Centralisation Breeds Corruption"
+        },
+        {
+          "page": 15,
+          "title": "Architecture Enables Total War"
+        },
+        {
+          "page": 17,
+          "title": "Sovereignty Deadlock"
+        },
+        {
+          "page": 19,
+          "title": "Opacity Erodes Trust"
+        },
+        {
+          "page": 21,
+          "title": "Build What Comes Next"
+        },
+        {
+          "page": 22,
+          "title": "The Logos Stack"
+        }
+      ]
+    }
+  ],
+  "imposedPdf": "/zine/nation-states-imposed-a3.pdf",
+  "printLayout": "spreads"
+}
