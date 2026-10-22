@@ -1,41 +1,37 @@
-# Logos — Shared Components
+# Shared components
 
-Reusable components used across all pages. Each entry includes a Figma reference, structure, variants, and responsive notes.
+The components used on more than one page, with the props each one takes and the Figma node it was built from. Primitives live in [`packages/ui/src/primitives`](../packages/ui/src/primitives) and ship from `@acid-info/logos-ui`; page-level wrappers live in [`apps/web/components`](../apps/web/components). Colour and type names below are the tokens from `@acid-info/logos-tokens`.
 
----
+## Nav
 
-## 1. Nav Bar
+The closed bar is [`apps/web/components/site-header/site-header-client.tsx`](../apps/web/components/site-header/site-header-client.tsx); the full-screen menu is [`packages/ui/src/primitives/nav-overlay/nav-overlay.tsx`](../packages/ui/src/primitives/nav-overlay/nav-overlay.tsx).
 
-**Figma:** `Nav` section — node 40009046:23611
-**Instance name in frames:** `D2 Nav`
+Figma: `Nav` section, node `40009046:23611`. The open desktop frame is `40009046:23686` and the open mobile frame `40009046:23612`. Frames use the instance name `D2 Nav`.
 
 ### Closed state (default)
 
-| Property      | Value                                 |
-| ------------- | ------------------------------------- |
-| Height        | 40px                                  |
-| Desktop width | 1440px                                |
-| Mobile width  | 393px                                 |
-| Background    | Transparent (overlays page content)   |
-| Position      | Fixed, top-0, full width, z-index top |
+| Property      | Value                                      |
+| ------------- | ------------------------------------------ |
+| Height        | 40px                                       |
+| Desktop width | 1440px                                     |
+| Mobile width  | 393px                                      |
+| Background    | Transparent, so page content shows through |
+| Position      | Fixed, top-0, full width, top z-index      |
 
-**Layout — left to right:**
+Left to right: the `LOGOS` wordmark in small caps, then `MENU ≡`, which turns into `CLOSE MENU ×` while the overlay is open.
 
-- `LOGOS` — wordmark, uppercase, small caps
-- `MENU ≡` — opens overlay; changes to `CLOSE MENU ×` when open
+### Open state
 
-### Open state (hamburger overlay)
+A full-screen overlay in dark green, about `#0D1F17`.
 
-Full-screen overlay, dark green background (`#0D1F17` approx).
+Desktop lays it out in two columns:
 
-**Desktop (two-column layout):**
+| Column | Content                                                |
+| ------ | ------------------------------------------------------ |
+| Left   | `SITEMAP` label and the large serif nav links, stacked |
+| Right  | `JOIN OUR COMMUNITY` cards and the `PRESS` section     |
 
-| Column | Content                                                    |
-| ------ | ---------------------------------------------------------- |
-| Left   | `SITEMAP` label + large serif nav links stacked vertically |
-| Right  | `JOIN OUR COMMUNITY` cards + `PRESS` section               |
-
-**Sitemap links (large serif, ~80–96px):**
+The sitemap links are large serif, roughly 80 to 96px, in this order:
 
 1. Technology Stack
 2. Take Action
@@ -43,72 +39,52 @@ Full-screen overlay, dark green background (`#0D1F17` approx).
 4. Book
 5. Links
 
-**JOIN OUR COMMUNITY cards (3 cards, image background, dark overlay):**
+Each community card has an image background under a dark overlay and the Lambda icon above its label, three in total:
 
-- Lambda icon Build — "Explore programmes and resources to help you build your cyberstate."
-- Lambda icon Node Programme — "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies."
-- Lambda icon Circles — "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections."
+- Build: "Explore programmes and resources to help you build your cyberstate."
+- Node Programme: "The Node Programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies."
+- Circles: "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections."
 
-**PRESS section:** label + `SEE ALL →` link + 4 press image thumbnails (date + headline below each).
+The press block is a label, a `SEE ALL →` link and four image thumbnails, each with its date and headline underneath.
 
-**Mobile (single-column):**
+On mobile the same bar stays on top, the sitemap links stack full width, the community cards stack vertically, and the press thumbnails are hidden or scroll sideways.
 
-- Same top bar
-- Sitemap links stack full-width
-- JOIN OUR COMMUNITY cards stack vertically (full width)
-- PRESS thumbnails hidden or scrollable
+`NavOverlay` is a client component; import it from `@acid-info/logos-ui/client`. `isOpen` and `onClose` drive it, `sitemap`, `community`, `blog`, `menuPanels` and `primaryCta` carry the content, `labels` carries the localised strings and `linkAs` routes internal links through next-intl. `NavOverlayProps` in the source file has the remaining optional slots.
 
-```ts
-interface NavProps {
-  transparent?: boolean // default true; false = dark bg (inner pages)
-  activePath?: string // highlights active sitemap link
-}
-```
+## Footer
 
----
+Implementation: [`packages/ui/src/primitives/footer/footer.tsx`](../packages/ui/src/primitives/footer/footer.tsx). The site wrapper that wires the Logos links is [`apps/web/components/site-footer.tsx`](../apps/web/components/site-footer.tsx).
 
-## 2. Footer
+Figma: desktop node `40009046:22948`, mobile node `40009046:22697`.
 
-**Implementation:** [`packages/ui/src/primitives/footer/footer.tsx`](../packages/ui/src/primitives/footer/footer.tsx)
-**Site wrapper:** [`apps/web/components/site-footer.tsx`](../apps/web/components/site-footer.tsx) — wires Logos-specific links
-**Figma:** `Footer` desktop — node 40009046:22948 · mobile — node 40009046:22697
+Background is `bg-brand-dark-green` with `text-brand-off-white`. From `lg` (1025px) up the footer is three columns: image and "Built by IFT" on the left, logo with the primary, research and legal links in the middle, tagline with social and infrastructure links on the right. Below that it is two columns, with the image above the logo and tagline.
 
-Background: `bg-brand-dark-green`, `text-brand-off-white`.
-
-Desktop (md+): 3-column layout — image + "Built by IFT" (left), logo + primary links + research + legal (middle), tagline + social + infrastructure (right). Mobile: 2-column with image + logo/tagline stacked on top.
-
-The Figma heights (663px mobile, 688px desktop) are minimums. The legal links sit in normal flow, so three links land exactly on those heights and a longer list makes the footer taller instead of being clipped. On desktop the image stays pinned 12px above the bottom edge.
+The Figma heights are minimums (663px mobile, 688px desktop). The legal links sit in normal flow, so three of them land exactly on those heights and a longer list makes the footer taller instead of clipping it. On desktop the image stays pinned 12px above the bottom edge.
 
 ### Newsletter form
 
-`newsletterForm` replaces the static newsletter placeholder. The site passes `SiteFooterNewsletter`, which wraps `FooterNewsletter` from `@acid-info/logos-ui/client` (`packages/ui/src/primitives/footer/footer-newsletter.tsx`).
+`newsletterForm` replaces the static newsletter placeholder. The site passes `SiteFooterNewsletter`, which wraps `FooterNewsletter` from `@acid-info/logos-ui/client` ([`packages/ui/src/primitives/footer/footer-newsletter.tsx`](../packages/ui/src/primitives/footer/footer-newsletter.tsx)).
 
-Layout, top to bottom:
+From top to bottom:
 
-- Email -- the only required field, marked with a red `*`
-- Role dropdown + city input
-- Country dropdown + submit button
-- A `* required` legend (`requiredLabel`, default `required`)
+- Email, the only required field, marked with a red `*`
+- Role dropdown and city input
+- Country dropdown and submit button
+- A `* required` legend, from `requiredLabel`, which defaults to `required`
 
-The country dropdown is searchable: typing filters the `countryOptions` (case and diacritics insensitive, prefix matches first), arrow keys move, Enter selects, Escape or an outside click closes. The selected label is submitted as is. The site passes the funnel `COUNTRY_OPTIONS` labels. On submit the site subscribes to the Logos Newsletter, plus the Regional Newsletter when a city or country is given.
+The country dropdown is searchable: typing filters `countryOptions` (case and diacritics insensitive, prefix matches first), arrow keys move, Enter selects, Escape or a click outside closes. The selected label is submitted as it stands, which is why the site passes the funnel `COUNTRY_OPTIONS` labels. On submit the site subscribes to the Logos Newsletter and, when a city or country was given, the Regional Newsletter too.
 
 ```ts
 interface FooterLink {
   label: string
   href: string
-  external?: boolean // opens in new tab with rel="noopener noreferrer"
+  external?: boolean // opens in a new tab with rel="noopener noreferrer"
 }
 
 interface FooterProps {
   image?: ReactNode // <Image fill /> recommended
-  tagline?: ReactNode
-  logo?: ReactNode // Lambda icon Logos lockup
-  mainLinks: FooterLink[] // Work With Us, Brand Guidelines
-  socialLinks: FooterLink[] // Twitter, Discord, YouTube, Blog, Github
-  researchLinks: FooterLink[] // under "RESEARCH" label
-  infrastructureLinks: FooterLink[] // under "INFRASTRUCTURE" label
-  legalLinks: FooterLink[] // Terms, Privacy, Security, Testnet T&Cs, Testnet Privacy Policy
   newsletter: {
+    title: string
     emailLabel: string
     roleLabel: string
     cityLabel: string
@@ -116,6 +92,13 @@ interface FooterProps {
     submitLabel: string
   }
   newsletterForm?: ReactNode // replaces the static placeholder form
+  tagline?: ReactNode
+  logo?: ReactNode // Lambda icon Logos lockup
+  mainLinks: FooterLink[] // Work With Us, Brand Guidelines
+  socialLinks: FooterLink[] // Twitter, Discord, YouTube, Blog, Github
+  researchLinks: FooterLink[] // under the "RESEARCH" label
+  infrastructureLinks: FooterLink[] // under the "INFRASTRUCTURE" label
+  legalLinks: FooterLink[] // Terms, Privacy, Security, Testnet T&Cs, Testnet Privacy Policy
   builtBy?: { label: string; attribution: ReactNode; href?: string }
   className?: string
 }
@@ -126,31 +109,31 @@ interface FooterNewsletterProps {
   cityLabel: string
   countryLabel: string
   submitLabel: string
-  onSubmit: (values: { email: string; role: string; city: string; country: string }) => Promise<void>
-  roleOptions?: readonly string[] // default: Node operator / Builder
+  onSubmit: (values: {
+    email: string
+    role: string
+    city: string
+    country: string
+  }) => Promise<void>
+  roleOptions?: readonly string[] // default: Node operator, Builder, Activist
   countryOptions: readonly string[] // searchable
   requiredLabel?: string // default: 'required'
   successMessage?: string
 }
 ```
 
----
+## Button
 
-## 3. Button
+Implementation: [`packages/ui/src/primitives/button/button.tsx`](../packages/ui/src/primitives/button/button.tsx). Figma: `CTA` component set, node `1022:6225`.
 
-**Implementation:** [`packages/ui/src/primitives/button/button.tsx`](../packages/ui/src/primitives/button/button.tsx)
-**Figma:** `CTA` component set — node 1022:6225
+Renders an `<a>` when you pass `href` and a `<button>` otherwise. The label is uppercased in CSS, so write it in sentence case.
 
-Renders `<a>` when `href` is provided, `<button>` otherwise. Label is auto-uppercased via CSS.
-
-### Variants
-
-| Variant     | Appearance                                                | Usage                                     |
-| ----------- | --------------------------------------------------------- | ----------------------------------------- |
-| `primary`   | Dark-green fill, off-white label, right-arrow icon        | Main CTAs (`APPLY →`, `SUBMIT AN IDEA →`) |
-| `secondary` | Off-white bg, dark-green border + label, right-arrow icon | Secondary actions                         |
-| `tertiary`  | No bg/border, dark-green label, right-arrow icon          | Ghost / inline actions                    |
-| `link`      | Underlined label, no icon                                 | Inline text links                         |
+| Variant     | Appearance                                                          | Usage                                     |
+| ----------- | ------------------------------------------------------------------- | ----------------------------------------- |
+| `primary`   | Dark-green fill, off-white label, right-arrow icon                  | Main CTAs (`APPLY →`, `SUBMIT AN IDEA →`) |
+| `secondary` | Off-white background, dark-green border and label, right-arrow icon | Secondary actions                         |
+| `tertiary`  | No background or border, dark-green label, right-arrow icon         | Ghost and inline actions                  |
+| `link`      | Underlined label, no icon                                           | Inline text links                         |
 
 ```ts
 interface ButtonProps {
@@ -158,26 +141,25 @@ interface ButtonProps {
   children: ReactNode // label text
   href?: string // renders <a> when set
   icon?: ReactNode | false // defaults to right-arrow; pass false to hide
+  linkAs?: LinkLikeComponent // router link for internal hrefs
   className?: string
-  // + all native <button> or <a> attrs
+  // plus all native <button> or <a> attributes
 }
 ```
 
----
+## GiantSwitch
 
-## 4. GiantSwitch
+Implementation: [`packages/ui/src/primitives/giant-switch/giant-switch.tsx`](../packages/ui/src/primitives/giant-switch/giant-switch.tsx). Figma: `Logos App Giant Switch` component set, node `1972:22168`.
 
-**Implementation:** [`packages/ui/src/primitives/giant-switch/giant-switch.tsx`](../packages/ui/src/primitives/giant-switch/giant-switch.tsx)
-**Figma:** `Logos App Giant Switch` component set — node 1972:22168
+A banner panel with a circular image disc and a content block, used in Builders Hub for the "Install the Logos app" section. It also exports `GiantSwitchTag` for the pills inside `tags`.
 
-Oversized banner panel with a circular image disc and a content block. Used in Builders Hub for the "Install the Logos app" section. Also exports `GiantSwitchTag` for pill labels inside `tags`.
-
-Desktop: image disc and content are absolutely positioned side-by-side (590px panel height, rounded-200). Mobile: stacked flex column (828px, rounded-100).
+From `xl` up the disc and the content are absolutely positioned side by side in a 590px panel with `rounded-200`. Below that the layout stacks into a flex column with `rounded-100`, sized to its content. The image is always on top on mobile, whatever `imagePosition` says.
 
 ```ts
 interface GiantSwitchProps {
   accent?: 'grey' | 'yellow' // default: 'grey'
   imagePosition?: 'left' | 'right' // desktop only; default: 'left'
+  installHoverShift?: boolean // default: false
   image: ReactNode // fill-mode <Image> recommended
   title: ReactNode
   description?: ReactNode
@@ -192,8 +174,6 @@ interface GiantSwitchTagProps {
 }
 ```
 
-### Usage
-
 ```tsx
 <GiantSwitch
   accent="grey"
@@ -201,21 +181,23 @@ interface GiantSwitchTagProps {
   image={<Image fill src={...} alt="" />}
   title="Install the Logos app."
   description="..."
-  tags={<><GiantSwitchTag icon={<WalletIcon />}>Wallet</GiantSwitchTag></>}
-  actions={<><Button href="...">Install</Button><Button variant="secondary" href="...">Learn more</Button></>}
+  tags={<GiantSwitchTag>Wallet</GiantSwitchTag>}
+  actions={
+    <>
+      <Button href="...">Install</Button>
+      <Button variant="secondary" href="...">Learn more</Button>
+    </>
+  }
 />
 ```
 
----
+## Card
 
-## 5. Card
+Implementation: [`packages/ui/src/primitives/card/card.tsx`](../packages/ui/src/primitives/card/card.tsx). Figma: `Card hover` section, node `40009046:27669`.
 
-**Implementation:** [`packages/ui/src/primitives/card/card.tsx`](../packages/ui/src/primitives/card/card.tsx)
-**Figma:** `Card hover` section — node 40009046:27669
+The tech-stack and feature card used on the homepage and the technology stack pages. In its default state it has a transparent background, a dark-green border and a centred Lambda icon with the title. On hover the background turns light blue and the card reveals a thumbnail in the top-left, a CTA pill in the top-right and the description.
 
-Tech-stack / feature card used on the Homepage and Technology Stack pages. Default state: transparent bg, dark-green border, centred Lambda icon + title. Hover state: light-blue bg, top-left thumbnail, top-right CTA pill, description revealed.
-
-Also exports `CardInfo` — a small rounded info block anchored to the bottom of a fixed-height card (used in the Blockchain section).
+It also exports `CardInfo`, a small rounded info block pinned to the bottom of a fixed-height card, used in the Blockchain section.
 
 ```ts
 interface CardProps {
@@ -223,26 +205,24 @@ interface CardProps {
   description?: ReactNode
   image?: ReactNode // thumbnail shown top-left on hover
   ctaLabel?: string // default: 'Learn more'
-  ctaHref?: string // renders top-right CTA pill when provided
-  showIcon?: boolean // show Lambda icon glyph; default true
-  forceHover?: boolean // pin card in hover state (e.g. Figma parity)
-  staticDefault?: boolean // lock in default state, disable hover reveal
+  ctaHref?: string // renders a top-right CTA pill when provided
+  linkAs?: LinkLikeComponent // router link for ctaHref
+  showIcon?: boolean // show the Lambda icon; default true
+  forceHover?: boolean // pin the card in its hover state (Figma parity)
+  staticDefault?: boolean // lock the default state, no hover reveal
   height?: number | string // fixed height; omit to size to content
-  children?: ReactNode // extra content at bottom (e.g. CardInfo blocks)
+  children?: ReactNode // extra content at the bottom, e.g. CardInfo
   className?: string
 }
 ```
 
----
+## Table and TableRow
 
-## 6. Table + TableRow
+Implementation: [`packages/ui/src/primitives/table/table.tsx`](../packages/ui/src/primitives/table/table.tsx). Figma: `Side by Side` section, node `2259:43916`.
 
-**Implementation:** [`packages/ui/src/primitives/table/table.tsx`](../packages/ui/src/primitives/table/table.tsx)
-**Figma:** `Side by Side` section — node 2259:43916
+Used in list view on `/builders-hub/rfps` and `/builders-hub/ideas`. `Table` renders the header: a serif title, a mono subtitle and an optional action slot. `TableRow` is a 50px full-width row, tinted 5% dark green on odd rows and `gray-01` on even ones, switching to light blue on hover. Below `md` the description, reward and action columns are hidden.
 
-Used in list view on `/builders-hub/rfps` and `/builders-hub/ideas`. `Table` provides the header (serif title, mono subtitle, optional action slot). `TableRow` is a 50px full-width row — odd rows get a 5% dark-green tint, even rows grey-01; all rows switch to light-blue on hover.
-
-Row columns: `flex-[714]` number + title · `flex-[464]` description · `w-[107px]` reward · action slot.
+The columns divide roughly as 714 for number and title, 464 for the description, a fixed 107px for the reward, then the action slot.
 
 ```tsx
 <Table
@@ -300,23 +280,19 @@ interface TableRowProps {
   number?: ReactNode
   title: ReactNode
   description?: ReactNode
-  reward?: ReactNode // omit for Idea rows
+  reward?: ReactNode // omit for idea rows
   action?: ReactNode
   className?: string
 }
 ```
 
----
+## ViewToggle
 
-## 7. ViewToggle
+Implementation: [`packages/ui/src/primitives/view-toggle/view-toggle.tsx`](../packages/ui/src/primitives/view-toggle/view-toggle.tsx). Figma: labels `Grid (default)` and `List` in the `RFPs` section, node `2213:32470`.
 
-**Implementation:** [`packages/ui/src/primitives/view-toggle/view-toggle.tsx`](../packages/ui/src/primitives/view-toggle/view-toggle.tsx)
-**Figma:** Labels `Grid (default)` / `List` — `RFPs` section — node 2213:32470
+Switches between grid and list with the labels `Grid / List` and a slash between them. The inactive option is dimmed, the active one is underlined. Pass `getHref` for a server-rendered link per view, or `onChange` for a client-side switch. Passing both is a type error.
 
-Generic view-mode switcher — `Grid / List` labels with a slash separator. Inactive option dimmed; active option underlined. Accepts either `getHref` (SSR-friendly, renders `<a>`) or `onChange` (client-side, renders `<button>`).
-
-- Default view per page: **Grid** for RFPs, **List** for Ideas
-- Toggle switches between `<Card>` grid layout and `<Table>` + `<TableRow>` list layout
+The default view comes from content, not from the component: `content/builders-hub/listings/rfps/en.json` sets grid and `content/builders-hub/listings/ideas/en.json` sets list.
 
 ```ts
 interface ViewOption<Id extends string = string> {
@@ -334,13 +310,11 @@ type ViewToggleProps<Id extends string = string> = {
 )
 ```
 
----
+## Pagination
 
-## 8. Pagination
+Implementation: [`packages/ui/src/primitives/pagination/pagination.tsx`](../packages/ui/src/primitives/pagination/pagination.tsx).
 
-**Implementation:** [`packages/ui/src/primitives/pagination/pagination.tsx`](../packages/ui/src/primitives/pagination/pagination.tsx)
-
-Used on `/builders-hub/ideas` and `/builders-hub/rfps` list/grid views. Renders `← 1 2 3 →`; collapses to `← 1 … 4 5 6 … 10 →` when `totalPages > maxVisible`. Accepts either `getHref` (SSR-friendly, renders `<a>`) or `onChange` (client-side).
+Used by the `/builders-hub/ideas` and `/builders-hub/rfps` listings. Renders `← 1 2 3 →`, and collapses to `← 1 … 4 5 6 … 10 →` once `totalPages` goes past `maxVisible`. Same split as `ViewToggle`: `getHref` renders links, `onChange` renders buttons.
 
 ```ts
 type PaginationProps = {
@@ -354,38 +328,34 @@ type PaginationProps = {
 )
 ```
 
----
+## Builders Hub listing header
 
-## 9. Page Header — Builders Hub sub-pages
+[`apps/web/components/sections/builders-hub/builders-hub-listing-header.tsx`](../apps/web/components/sections/builders-hub/builders-hub-listing-header.tsx) is the header on `/builders-hub/ideas` and `/builders-hub/rfps`: a back link, the page title with the Lambda mark, the description, an optional submit CTA, and the `Grid / List` toggle on the right.
 
-**Figma:** Top of Ideas (node `2259:41841`) and RFPs (node `2259:43033`) frames.
+Figma: RFPs desktop node `40009046:25012`, RFPs mobile `40009046:24924`.
 
-Shared header shell for `/builders-hub/*` sub-pages.
-
-```
-← BUILDERS HUB
-
-Lambda icon [Page Title]       [description copy]       [Primary CTA →]
-
-Grid / List                                               (view toggle, right-aligned)
-```
+It takes `buildViewHref` when the toggle should be a link, or `onViewChange` when the listing keeps state in the client. The rest of the props are filters on the same header:
 
 ```ts
-interface BuildersHubPageHeaderProps {
-  title: string // e.g. "Ideas" | "RFPs"
-  description: string
-  ctaLabel: string // e.g. "SUBMIT AN IDEA" | "SUBMIT AN RFP"
-  ctaHref: string
+type Props = {
+  title: string
+  description?: string
+  submitCta?: CTA
   view: 'grid' | 'list'
-  onViewChange: (view: 'grid' | 'list') => void
-}
+  mobileDescription?: string
+  mobileSpacious?: boolean
+  eyebrow?: string
+  backHref?: string
+  backLabel?: string // default: 'builders hub'
+} & (
+  | { buildViewHref: (view: 'grid' | 'list') => string; onViewChange?: never }
+  | { onViewChange: (view: 'grid' | 'list') => void; buildViewHref?: never }
+)
 ```
 
----
+## Figma nodes
 
-## Figma Node Quick Reference
-
-| Component                       | Figma Node       |
+| Component                       | Figma node       |
 | ------------------------------- | ---------------- |
 | Nav section (desktop + mobile)  | `40009046:23611` |
 | Nav bar desktop (open)          | `40009046:23686` |

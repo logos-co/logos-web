@@ -1,74 +1,62 @@
-# logos-co
+# logos-web
 
-pnpm + Turborepo monorepo for the Logos website and its content CMS
+This monorepo holds the public Logos website (logos.co), the Payload CMS that edits its content, the API behind its signup forms and a few internal tools. It uses pnpm workspaces and Turborepo.
 
-- `apps/web` — public Next.js 16 site (Tailwind v4, `next-intl`, static export)
-- `apps/cms` — Payload CMS 3.x admin (Postgres-backed; edits ship as GitHub PRs)
-- `apps/past-present-future` — SvelteKit app served at `/past-present-future`, copied into the web export at build time
-- `packages/content` — content schemas, loaders for `content/**`, GitHub mutation helpers
-- `packages/ui` — shared React primitives and SVG icons (`<LogosMark />`, etc.)
-- `packages/tokens` — design tokens
-- `packages/types` — shared types incl. Payload-generated
-- `packages/config` — shared ESLint / TypeScript / Prettier config
-- `content/**` — production source of truth (pages, press, circles, builders-hub, site)
+## Workspaces
 
-Apps are entrypoints only. Shared logic lives in packages. The web app reads `content/**` at build time and never calls GitHub at request time.
+| Path                       | Package                   | What it is                                                         | Port |
+| -------------------------- | ------------------------- | ------------------------------------------------------------------ | ---- |
+| `apps/web`                 | `web`                     | Public Next.js 16 site, built as a static export                   | 3000 |
+| `apps/cms`                 | `cms`                     | Payload CMS 3.x admin on Postgres, at `/admin`                     | 3001 |
+| `apps/api`                 | `api`                     | Funnel intake endpoint (Next.js 16, no pages)                      | 3003 |
+| `apps/logos-crm`           | `logos-crm`               | Internal CRM (Next.js 16, Drizzle, Postgres)                       | 3004 |
+| `apps/logos-demos`         | `logos-demos`             | Demos of the Logos stack (Next.js 16)                              | 3005 |
+| `apps/past-present-future` | `past-present-future`     | SvelteKit app served at `/past-present-future` inside the web site | 3006 |
+| `packages/content`         | `@repo/content`           | Schemas and loaders for `content/**`, GitHub helpers, locales      |      |
+| `packages/funnel`          | `@repo/funnel`            | Funnel questions, option ids and required fields                   |      |
+| `packages/ui`              | `@acid-info/logos-ui`     | React primitives and SVG icons                                     |      |
+| `packages/tokens`          | `@acid-info/logos-tokens` | Design tokens as CSS                                               |      |
+| `packages/types`           | `@repo/types`             | Shared types, including the Payload-generated ones                 |      |
+| `packages/config`          | `@repo/config`            | ESLint, TypeScript and Prettier presets                            |      |
 
-## Requirements
+Page copy and structured data (pages, press, circles, builders-hub, site) live in `content/**`, and that folder is what production builds from. Apps are thin entrypoints; shared logic goes in a package.
 
-Node `24`, pnpm `11.1.0`.
+## Run it
 
-## Quick start
+You need Node 24 ([`.node-version`](.node-version)) and pnpm 11.1.0 (pinned in [`package.json`](package.json)).
 
 ```bash
 pnpm install
-pnpm dev            # web → http://localhost:3000, cms → http://localhost:3001
+pnpm dev            # every app: web :3000, cms :3001, api :3003, crm :3004, demos :3005, ppf :3006
+pnpm dev:web        # one app plus the packages it needs; also dev:cms, dev:api, dev:logos-crm, dev:past-present-future
 ```
 
-Payload Admin: <http://localhost:3001/admin>.
+The CMS won't start without `PAYLOAD_SECRET` and a Postgres `DATABASE_URL`. Copy `apps/cms/.env.example` to `apps/cms/.env` and fill it in; the admin is then at <http://localhost:3001/admin>. `apps/web`, `apps/api` and `apps/logos-crm` each have their own `.env.example` too.
 
-`apps/cms` requires `PAYLOAD_SECRET` and `DATABASE_URL` (Postgres). Copy `apps/cms/.env.example` to `apps/cms/.env` and fill it in.
-
-### Workspace package builds
-
-Apps consume internal packages (`@acid-info/logos-ui`, `@acid-info/logos-content`, etc.) through their compiled `dist/` outputs declared in each package's `exports` map. Turborepo's `dev` task declares `dependsOn: ["^build"]`, so `pnpm dev` builds upstream packages before starting the app servers.
-
-If a `dist/` directory goes missing (e.g. after `git clean -fdx` or manually removing `node_modules`) and an app is started directly without going through `pnpm dev`, you may see errors like:
-
-```text
-Module not found: Can't resolve '@acid-info/logos-ui/client'
-```
-
-Rebuild the affected workspace package to fix it:
+## Scripts
 
 ```bash
-pnpm --filter @acid-info/logos-ui build
-```
-
-Or run `pnpm build` once at the repo root to compile every package.
-
-## Common scripts
-
-```bash
-pnpm build           # web static export + cms build
-pnpm test            # vitest (apps/web)
+pnpm build           # web static export, cms build and every other workspace with a build script
+pnpm test            # tests in every workspace that has them
 pnpm lint            # eslint --max-warnings 0
-pnpm check-types     # next typegen + tsc --noEmit
-pnpm generate-types  # regenerate packages/types/src/payload.ts from Payload schema
+pnpm check-types     # tsc --noEmit everywhere
+pnpm generate-types  # regenerate packages/types/src/payload.ts from the CMS config
+pnpm test:release    # the full release gate
 ```
 
-Every web build refreshes Basecamp downloads from GitHub's latest full release before compilation. Drafts, prereleases and RC tags are rejected, and all four platform URLs come from the actual release assets. The web build is uncached in Turbo and fails if the API is unavailable or an asset is missing or ambiguous. `GITHUB_TOKEN` is optional for public releases and recommended on shared CI runners to avoid rate limits. Local development and tests use the committed snapshot; run `pnpm --filter web sync:basecamp-release` to refresh it without building. A new Basecamp release reaches the website on its next build.
+`test:release` is what CI runs on every pull request: repo health checks, lint, types, tests, content validation, a clean web build, the full build, then static export and performance checks. Run it before you call release work done.
 
-## Branch model
+## Missing `dist/` folders
 
-- `develop` — default branch + staging. CMS-generated content PRs target this
-- `master` — production (created when production deploys spin up)
+Apps import `@acid-info/logos-ui` from its compiled `dist/`. `pnpm dev` and `pnpm build` build upstream packages first, but if you start an app some other way after `dist/` has gone (say, after `git clean -fdx`), you'll get `Module not found: Can't resolve '@acid-info/logos-ui/client'`. Run `pnpm --filter @acid-info/logos-ui build`, or `pnpm build` once to rebuild every package.
 
-Direct pushes to either are blocked by branch protection.
+## Branches
 
-## Documentation
+`develop` is the default branch and deploys to staging; CMS content PRs target it. `master` is production. Branch protection blocks direct pushes to both, so everything lands through a PR. [docs/deployment.md](docs/deployment.md) covers what deploys where.
 
-- [AGENTS.md](./AGENTS.md) — conventions and rules for AI agents working in this repo
-- [docs/components.md](./docs/components.md) -- shared component specs
-- [apps/api/docs/architecture.md](./apps/api/docs/architecture.md) -- funnel intake endpoint
-- [docs/funnel/README.md](./docs/funnel/README.md) -- funnel forms end to end
+## More
+
+- [docs/README.md](docs/README.md): index of every doc in the repo
+- [docs/architecture.md](docs/architecture.md): how the workspaces depend on each other and how content flows
+- [docs/deployment.md](docs/deployment.md): branches, CI and deploy targets
+- [AGENTS.md](AGENTS.md): rules for AI agents working in this repo

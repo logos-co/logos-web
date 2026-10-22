@@ -1,95 +1,109 @@
-# `api` — Architecture Document
+# Architecture
 
-> Node ≥ 24, pnpm 11.1
+How `apps/api` handles a funnel submission: the one route, the order its checks
+run in, the Notion and n8n writers, CORS and the env vars behind them. The forms
+and the Notion schema are in [docs/funnel/README.md](../../../docs/funnel/README.md);
+this page stops at the endpoint. The app is a Next.js 16 route handler with no
+pages and no database, and the dev server listens on port 3003. It needs Node 24
+and pnpm 11.1, like the rest of the repo.
 
----
-
-## 1. Overview
-
-`api` is a Next.js application in `apps/api` that hosts the public intake endpoint for the funnel forms on `apps/web`. It has no database, no pages and no authenticated area.
-
-The funnel itself is documented in [`docs/funnel/README.md`](../../../docs/funnel/README.md), which is the reference for anything about form submissions.
-
-| Route | Purpose |
-|---|---|
-| `POST /api/public/afform-submit` | Public intake endpoint for the three funnel forms |
-
----
-
-## 2. Tech Stack
-
-| Concern | Choice | Rationale |
-|---|---|---|
-| Framework | Next.js 16 | Route Handlers plus middleware; no pages are rendered |
-| Language | TypeScript (strict null checks, bundler module resolution) | Consistent with `packages/config/typescript/base.json` |
-| Testing | Vitest | Mocks the outbound HTTP calls (Notion, n8n, hCaptcha) |
-| Database | None | Submissions are forwarded to Notion and n8n |
-| Linting | `@repo/config/eslint/next` | Same as `apps/web` |
-
-Dev server runs on port **3003**.
-
----
-
-## 3. File Architecture
+## Layout
 
 ```
 apps/api/
 ├── src/
-│   ├── app/
-│   │   └── api/public/afform-submit/
-│   │       ├── route.ts              # Orchestrator: validation, captcha, fan-out
-│   │       └── __tests__/route.test.ts
+│   ├── app/api/public/afform-submit/
+│   │   ├── route.ts              # validation, captcha, calls the writers
+│   │   └── __tests__/route.test.ts
 │   ├── lib/
-│   │   ├── intake-submit-flags.ts    # FUNNEL_INTAKE_NOTION_DISABLED
-│   │   ├── public-cors.ts            # Allowed origins for /api/public/*
-│   │   ├── notion/                   # Property builder + page POST
-│   │   └── n8n/                      # Steward webhook payload + POST
-│   └── middleware.ts                 # CORS headers on /api/public/*
+│   │   ├── intake-submit-flags.ts  # FUNNEL_INTAKE_NOTION_DISABLED
+│   │   ├── public-cors.ts          # allowed origins for /api/public/*
+│   │   ├── notion/                 # property builder, page POST, template blocks
+│   │   └── n8n/                    # steward payload and webhook POST
+│   └── middleware.ts               # CORS headers and preflight on /api/public/*
 ├── next.config.mjs
-├── vercel.json                       # Build command for the Vercel project
+├── vercel.json                     # build command for the Vercel project
 └── vitest.config.ts
 ```
 
----
-
-## 4. Request Handling
+## Request handling
 
 `POST /api/public/afform-submit` is the only handler. In order:
 
-1. Parse the body; reject a `formName` outside the three allowed funnel forms.
-2. Reject a submission whose `hearAbout` answer is missing or is not a known option id. Enforced server-side so a tampered submission cannot skip the field.
-3. Reject a submission missing any other field the form marks required, or whose `email` is not a plausible address. The list lives in `@repo/funnel` (`REQUIRED_FIELDS_BY_FORM`), which `apps/web` also builds its form schema from; the `400` names the offending `fields`.
-4. Verify the hCaptcha token when `HCAPTCHA_SECRET` is set. Tokens are single-use, so this happens once and every destination write shares that one verification.
-5. Forward the steward form to the n8n/Baserow webhook. Best-effort: a failure is logged and does not fail the request.
-6. Write the Notion page unless `FUNNEL_INTAKE_NOTION_DISABLED` is truthy. A failure returns `502`.
+1. Parse the JSON body and reject a `formName` that is not
+   `afformActivistBuilder`, `afformActivistLeaderSteward` or
+   `afformCoalitionPartner`.
+2. Reject a submission whose `hearAbout` does not resolve to a known option id,
+   the same check `buildNotionProperties` uses before writing it. It runs
+   whatever `FUNNEL_INTAKE_NOTION_DISABLED` says, so the requirement cannot lapse
+   when the Notion write is off.
+3. Reject a submission missing a field its form marks required, or whose `email`
+   is not plausible. The list comes from `REQUIRED_FIELDS_BY_FORM` in
+   `@repo/funnel`, which `apps/web` also builds its form schema from, and the
+   `400` names the offending `fields`.
+4. Verify the hCaptcha token when `HCAPTCHA_SECRET` is set: a missing token is a
+   `400`, a failed check a `403`. Tokens are single-use, so this happens once and
+   both writers use that one result.
+5. Forward the steward application (`afformActivistLeaderSteward`) to the
+   n8n/Baserow webhook. Best-effort: a failure is logged and the request
+   continues.
+6. Write the Notion page and answer `201`, or answer `201` without writing when
+   `FUNNEL_INTAKE_NOTION_DISABLED` is truthy. A Notion failure is a `502`.
 
-A `fields[]` key in the body is dropped rather than forwarded, so a client that sends one cannot leak it into the Notion or n8n payloads.
+The handler drops a `fields` key from the body before it does anything else, so
+a client that sends one cannot push it into the Notion or n8n payloads.
+
+### Notion write
+
+`submitToNotion` in `src/lib/notion/submit.ts` does four things:
+
+1. Read `NOTION_API_TOKEN` and `NOTION_DB_ID`, returning `{ ok: false }` if
+   either is missing.
+2. Find the data source. `NOTION_DATA_SOURCE_ID` wins when set; otherwise a
+   `GET /v1/databases/{id}` uses the database's only data source, and fails when
+   there is none or more than one.
+3. Build the properties with `buildNotionProperties`. The property table is in
+   the funnel doc.
+4. `POST /v1/pages` with `parent.data_source_id`, the properties and the blocks
+   from `src/lib/notion/evaluation-template.ts`. Every request sends
+   `Notion-Version: 2026-03-11`.
+
+Empty optional properties are left out, so rows stay sparse. Text is clipped to
+2000 characters, Notion's limit for one rich-text element.
 
 ### CORS
 
-`src/middleware.ts` answers preflight requests and sets the response headers for `/api/public/*`, using the allowlist in `src/lib/public-cors.ts`: `logos.co` and `dev.logos.co` on every deployment, plus `localhost` and `logos-co-web*.vercel.app` previews outside production, plus anything in `CORS_ALLOWED_ORIGINS`. It is the only source of CORS headers; `next.config.mjs` sets none, so a disallowed origin gets no `Access-Control-Allow-Origin` at all.
+`src/middleware.ts` matches `/api/public/:path*`, answers `OPTIONS` with a `204`
+and adds the CORS headers to every response. Whether an origin is allowed is
+decided only in `src/lib/public-cors.ts`: `https://logos.co` and
+`https://dev.logos.co` on every deployment, plus `http://localhost:<port>` and
+`https://logos-co-web*.vercel.app` when the deployment is not production, plus
+anything listed in `CORS_ALLOWED_ORIGINS`. Production means
+`VERCEL_ENV=production`, or `NODE_ENV=production` for a local `next start`. A
+disallowed origin gets no `Access-Control-Allow-Origin` at all, because
+`next.config.mjs` sets no headers of its own.
 
----
+## Environment variables
 
-## 5. Environment Variables
+[`apps/api/.env.example`](../.env.example) holds the same list with comments.
 
-See [`apps/api/.env.example`](../.env.example) for the full list with comments.
+| Variable                           | Purpose                                                            |
+| ---------------------------------- | ------------------------------------------------------------------ |
+| `HCAPTCHA_SECRET`                  | Verify captcha tokens; unset = captcha not verified                |
+| `NOTION_API_TOKEN`, `NOTION_DB_ID` | Notion intake target                                               |
+| `NOTION_DATA_SOURCE_ID`            | Pins writes when the database holds multiple data sources          |
+| `FUNNEL_INTAKE_NOTION_DISABLED`    | Skip the Notion write                                              |
+| `N8N_STEWARD_WEBHOOK_TOKEN`        | `X-Webhook-Token` for the steward webhook; unset = forward skipped |
+| `CORS_ALLOWED_ORIGINS`             | Extra comma-separated origins for `/api/public/*`                  |
 
-| Variable | Purpose |
-|---|---|
-| `HCAPTCHA_SECRET` | Verify captcha tokens; unset = captcha not verified |
-| `NOTION_API_TOKEN`, `NOTION_DB_ID` | Notion intake target |
-| `NOTION_DATA_SOURCE_ID` | Pins writes when the database holds multiple data sources |
-| `FUNNEL_INTAKE_NOTION_DISABLED` | Skip the Notion write |
-| `N8N_STEWARD_WEBHOOK_TOKEN` | `X-Webhook-Token` for the steward webhook; unset = forward skipped |
-| `CORS_ALLOWED_ORIGINS` | Extra comma-separated origins for `/api/public/*` |
+## Checks
 
----
+    pnpm --filter api test
+    pnpm --filter api lint
+    pnpm --filter api check-types
 
-## 6. Testing
-
-```bash
-pnpm --filter api test
-```
-
-Vitest covers the endpoint behaviour, the Notion property mapping, the n8n payload building, the env flag, and the CORS allowlist.
+ESLint comes from `@repo/config/eslint/next` and TypeScript from the shared base
+in `packages/config/typescript`, the same as `apps/web`. Vitest runs in a node
+environment and mocks the outbound side: `fetch` in the lib tests and the two
+writers in the route test. The suites cover request handling, the Notion
+property mapping, the n8n payload, the env flag and the CORS allowlist.

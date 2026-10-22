@@ -1,19 +1,17 @@
-# AGENTS.md
+# apps/web
 
-Guidance for agents working inside `apps/web`. The root `AGENTS.md` still applies; this file adds web-app-specific instructions for the nearest subtree.
+Rules for agents working in `apps/web`. The root `AGENTS.md` also applies.
 
-## App Role
+## Role
 
-This is the public Next.js 16 site. It uses Tailwind v4, `next-intl`, and static export. The dev server runs on port `3000`.
-
-The app reads `content/**` at build time. Do not add request-time GitHub API calls or runtime CMS dependencies to the public site.
+The public Next.js 16 site: Tailwind v4, `next-intl`, static export, dev server on port 3000. It reads `content/**` at build time, so never add request-time GitHub API or CMS calls to a public page.
 
 ## Commands
 
-Run from the repo root unless a task explicitly needs the app directory:
+From the repo root:
 
 ```bash
-pnpm --filter web dev
+pnpm dev:web
 pnpm turbo run build --filter=web
 pnpm --filter web start
 pnpm --filter web lint
@@ -21,50 +19,26 @@ pnpm --filter web check-types
 pnpm --filter web test
 ```
 
-Build through turbo, never `pnpm --filter web build`: `@acid-info/logos-ui` is a build dependency and only the orchestrator builds it, so the app build alone fails on a clean checkout. Jenkins and Vercel (`vercel.json`) both run the turbo command.
+Build through turbo, never `pnpm --filter web build`: `@acid-info/logos-ui` must build first and only the turbo orchestrator does that. Vercel and Jenkins run the turbo command. `pnpm --filter web start` serves `out/` with `python3 -m http.server`; never use `next start` for this app.
 
-Every build starts with `pnpm sync:basecamp-release` (`scripts/sync-basecamp-release.ts`), which queries GitHub's latest full Basecamp release and rewrites all four platform download URLs in `lib/data/basecamp-release.snapshot.json` before compilation. An optional `GITHUB_TOKEN` (read through `lib/env.ts`) authenticates the query. If the query fails or any platform asset is missing or ambiguous, the build fails rather than reusing stale downloads. `apps/web/turbo.json` sets `cache: false` on `build` so this refresh runs on every build; keep it uncached. Local development and tests use the committed snapshot.
+## Rules
 
-`pnpm --filter web start` serves the static `out/` directory with `python3 -m http.server`; do not use `next start` for this app.
+- Every build refreshes the four Basecamp download URLs from the latest full GitHub release. Reject drafts, prereleases and RC tags, fail the build rather than reuse a stale snapshot, and keep the web build task uncached in `apps/web/turbo.json`. [docs/basecamp-release.md](docs/basecamp-release.md) has the parsing rules.
+- Unknown or unsupported clients fall back to `EXTERNAL_URLS.basecampRelease`. A content-level `external` flag must never bypass the resolver.
+- Don't move the four download URLs to `releases/latest/download/` until the Basecamp release workflow is live and all four assets are verified on the latest full release. Until then those URLs return 404, PR previews included.
+- Read env through `lib/env.ts`; add new variables there, not in feature code.
+- Locales come from `i18n/routing.ts`. UI chrome lives in `messages/<locale>.json`; page copy and structured data live in `content/**`. Every user-facing string goes through an i18n key or a content file.
+- `scripts/strip-default-locale-prefix.sh` runs after `next build` and strips the default locale prefix from the export. Don't bypass it.
+- Put each page section in `app/[locale]/<route>/_sections/<section>.tsx` and keep the page file a thin composition with no section markup. Split a section file once it nears 200 lines.
+- Vitest tests sit beside the code in `__tests__/`. Don't assert Tailwind classes, Figma measurements or source structure; verify UI in a browser.
 
-## Code Organization
+## Caveats
 
-- Routes live under `app/[locale]/<route>/`.
-- Section components live under `components/sections/<section>/`.
-- Shared, reusable UI should move to `@acid-info/logos-ui` when it belongs outside this app.
-- Use `lib/env.ts` for environment access; do not read `process.env` directly from feature code.
-- Keep Vitest tests beside the code in `__tests__/` folders.
+- A locale added to `routing.ts` makes its message and content files required at build time. There is no silent fallback.
 
-### One section per file (required)
+## Docs
 
-Never put multiple page sections in a single file. Each top-level page
-section (hero, a feature band, a CTA strip, etc. — typically one `<section>`)
-gets its own file.
-
-- For a route, put sections in `app/[locale]/<route>/_sections/<section>.tsx`
-  (kebab-case, one exported section component per file).
-- The page/route composes them in a thin orchestrator that only imports the
-  sections and arranges them — it should contain no section markup itself.
-- Put shared copy/prop types in `_sections/types.ts` and shared presentational
-  helpers in `_sections/atoms.tsx`; import them into each section.
-- Rule of thumb: if a section file approaches ~200 lines or defines a second
-  `<section>`, split it. Section files over ~400 lines are a smell.
-
-Example: `app/[locale]/lambda-prize/_sections/` — `hero.tsx`,
-`how-it-works.tsx`, `featured-prizes.tsx`, `about-programme.tsx`, `support.tsx`,
-`types.ts`, `atoms.tsx`, with `lambda-prize-page.tsx` as the orchestrator.
-
-## i18n and Content
-
-- UI chrome belongs in `messages/<locale>.json` and must be accessed with `next-intl`.
-- Page copy and structured data belong in `content/**`, loaded through `@repo/content`.
-- User-facing strings, including metadata text, labels, titles, and descriptions, must use i18n keys or content files.
-- Adding a locale in `i18n/routing.ts` makes its message and content files required at build time.
-
-## Frontend Verification
-
-For UI changes, read the relevant docs in `docs/components.md`, run the dev server, and verify the result in a browser before reporting done.
-
-Do not add UI implementation contract tests for Tailwind class strings, Figma measurements, layout spacing, motion details, hover treatment, or component source structure. These tests churn during active UI iteration and should be replaced with browser verification or durable behavioural tests only.
-
-After static builds, keep the default-locale stripping step intact: `scripts/strip-default-locale-prefix.sh`.
+- [docs/basecamp-release.md](docs/basecamp-release.md): Basecamp download resolution and release parsing
+- [docs/media-calendar.md](docs/media-calendar.md): the `/media/calendar` page
+- [docs/fonts.md](docs/fonts.md): self-hosted and Google fonts
+- [docs/README.md](docs/README.md): index of the docs in this app

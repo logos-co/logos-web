@@ -1,115 +1,110 @@
 # AGENTS.md
 
-Operating guide for AI coding agents working in this repo. Keep changes minimal, match the conventions below, and prefer reading the linked docs over inferring intent.
+Rules for AI coding agents working in this repo. Keep changes minimal.
 
 ## Repo shape
 
-pnpm + Turborepo monorepo. Node `24`, pnpm `11.1`.
+pnpm + Turborepo monorepo. Node 24, pnpm 11.1.
 
-| Path | Role |
-| --- | --- |
-| `apps/web` | Public Next.js 16 site. Tailwind v4, `next-intl`, static export. Port `3000`. |
-| `apps/cms` | Payload CMS 3.x admin app (Next.js 16 + Postgres). Port `3001`, admin at `/admin`. |
-| `apps/api` | Public funnel intake endpoint (Next.js 16, no pages). Port `3003`. See [`apps/api/docs/architecture.md`](apps/api/docs/architecture.md). |
-| `apps/logos-demos` | Demos of the Logos stack (Next.js 16). Pages are static; the blockchain demo adds read-only proxy route handlers. Port `3005`. See [`apps/logos-demos/AGENTS.md`](apps/logos-demos/AGENTS.md). |
-| `apps/past-present-future` | SvelteKit app served at `/past-present-future`, fully prerendered. `apps/web` depends on it, so its build runs first and `apps/web/scripts/copy-past-present-future.sh` copies it into `apps/web/out`. In dev, `apps/web` proxies the path to its Vite server on port `3006`. |
-| `packages/content` | Content schemas, loaders for `content/**`, GitHub mutation helpers, locale registry. |
-| `packages/ui` | Shared React primitives + SVG icon components. |
-| `packages/tokens` | Design tokens. |
-| `packages/types` | Shared types incl. Payload-generated (`generate-types`). |
-| `packages/config` | Shared ESLint / TypeScript / Prettier config. |
-| `content/**` | **Production source of truth** for page copy and structured data (pages, press, circles, builders-hub, site). |
-| `docs/**` | Deployment, plan, page/component specs. Read before designing. |
-
-Apps are entrypoints only. New shared logic goes in a package, not duplicated across apps.
+| Path                       | Role                               |
+| -------------------------- | ---------------------------------- |
+| `apps/web`                 | Next.js 16 site, static export.    |
+| `apps/cms`                 | Payload CMS 3.x admin (Postgres).  |
+| `apps/api`                 | Public funnel intake endpoint.     |
+| `apps/logos-crm`           | Internal CRM (Drizzle + Postgres). |
+| `apps/logos-demos`         | Logos stack demos.                 |
+| `apps/past-present-future` | SvelteKit app, prerendered.        |
+| `packages/content`         | Content schemas and loaders.       |
+| `packages/funnel`          | Shared funnel form values.         |
+| `packages/ui`              | React primitives + SVG icons.      |
+| `packages/tokens`          | Design tokens.                     |
+| `packages/types`           | Shared types, Payload-generated.   |
+| `packages/config`          | ESLint / TypeScript / Prettier.    |
+| `content/**`               | Source of truth for page copy.     |
 
 ## Commands
 
-Run from repo root unless noted.
+From repo root.
 
 ```bash
-pnpm install
-pnpm dev              # turbo: web on :3000, cms on :3001, api on :3003
-pnpm build            # web static export + cms next build
-pnpm test             # vitest in apps/web
-pnpm lint             # eslint --max-warnings 0 across workspaces
-pnpm check-types      # next typegen + tsc --noEmit
-pnpm generate-types   # cms only — regenerates packages/types/src/payload.ts
+pnpm dev              # turbo: all apps (web 3000, cms 3001, api 3003, crm 3004, demos 3005, ppf 3006)
+pnpm build            # turbo: web export + cms build
+pnpm test             # turbo: all workspaces
+pnpm lint             # eslint --max-warnings 0
+pnpm check-types      # turbo: tsc --noEmit
+pnpm generate-types   # cms only
 ```
 
-`apps/web/start` is `python3 -m http.server` over the static `out/` build, not `next start`. Treat the web app as static.
+`dev:*` filters run one app plus its dependencies (`dev:web`, `dev:cms`, `dev:api`, `dev:logos-crm`, `dev:past-present-future`). `test:release` is the full release gate, and it is what CI runs.
 
 ## Architecture rules
 
-1. **`apps/web` does not call the GitHub API at request time.** It reads `content/**` at build. Preview deploys build per PR; production deploys from `master`.
-2. **CMS edits are PRs, not DB writes.** Payload's Postgres only stores users, sessions, drafts, and PR cache. All published content changes go through `develop` via GitHub PR (see `apps/cms/src/services/content-workflow/`).
-3. **Branch model:** `develop` is the default + staging branch. `master` is production (created when production deploys spin up). Direct commits to either are blocked by branch protection. CMS-generated PRs target `develop`.
-4. **Env access is typed.** Use `apps/web/lib/env.ts`; never reach into `process.env` from feature code. Add new vars to `env.ts`.
-5. **The CMS refuses to boot in production-like envs without `NEXT_PUBLIC_SERVER_URL` / `NEXT_PUBLIC_WEB_URL`** — silent localhost fallback breaks CORS/cookies. Don't "fix" this by removing the assertion.
-
-## i18n
-
-- Active locales come from `apps/web/i18n/routing.ts` (today: `['en']`). `Language` type is pre-declared as `'en' | 'fr' | 'ko'` so adding a locale is a routing change, not a schema change.
-- UI chrome → `apps/web/messages/<locale>.json` (`next-intl`).
-- Page copy / structured data → `content/**/<locale>/...` JSON files.
-- **All user-facing strings go through i18n keys.** Includes titles, descriptions, labels, and `createDefaultMetadata` args. Use `getTranslations` in server components, `useTranslations` in client components. Hardcoded strings will be rejected.
-- A locale added to `routing.ts` makes its `<locale>.json` files required at build time — there is no silent fallback.
-- After `next build`, `apps/web/scripts/strip-default-locale-prefix.sh` strips the `/en` prefix from the static export. Don't bypass it.
+1. `apps/web` reads `content/**` at build time and never calls the GitHub API at request time.
+2. CMS edits are PRs, not DB writes. Payload's Postgres keeps users, sessions, drafts, the open-PR mirror and publish reservations; published content changes through a PR against `develop`.
+3. Branch model: `develop` is default + staging, `master` is production. Direct commits to either are blocked. CMS-generated PRs target `develop`.
 
 ## Code conventions
 
-- **Repo files are English only.** Committed code, comments, docs, copy. Chat replies can be in any language; files cannot.
-- **Use British English for public paths and all user-facing copy.** This includes route segments, slugs, content JSON values, `next-intl` messages, metadata, docs that quote public copy, and CMS seed fixtures. Prefer spellings such as `decentralised`, `centralised`, `programme`, `organise`, `organisation`, `neighbourhood`, and `licence` for copy. Keep third-party API literals, official external URLs, schema.org types, package names, generated types, and internal field names unchanged when they require American spelling.
-- **Icons are React SVG components** exported from `@repo/ui` (`packages/ui/src/icons`). If a designed icon is missing, stop and ask for a Figma export — don't substitute Unicode/text.
-- **The λ brand mark is `<LogosMark />`** from `@repo/ui`. Size via `size`, color via parent `text-*` (the SVG uses `currentColor`). Never `<img src=".svg" />` or `<span>λ</span>`.
-- **Every clickable element gets `cursor-pointer`** in its Tailwind className: buttons, `onClick` handlers, anchors, clickable cards.
-- **Basecamp install CTAs keep automatic OS and architecture detection.** Each web build refreshes all four platform URLs together from the GitHub latest full release API before compilation. The release parser rejects drafts, prereleases and RC tags, and uses the actual uploaded asset URLs. The build must fail if the query fails or any platform asset is missing or ambiguous; never silently reuse a stale snapshot. Keep the web build uncached in Turbo so this refresh runs on every build. Switch to `releases/latest/download/` with stable platform asset names only after the Basecamp release workflow is active and all four files have been verified on the latest full release; otherwise those URLs return 404, including on PR previews. Supported Linux (x86_64 and aarch64), macOS (aarch64) and Windows (x86_64) clients download the matching asset directly; unknown or unsupported clients fall back to `EXTERNAL_URLS.basecampRelease` (`https://github.com/logos-co/logos-basecamp/releases/latest`), which follows new versions without edits. Content-level `external` flags must never bypass this resolver.
-- **Visuals match Figma 1:1.** Pull the spec (font sizes, fills, gaps, padding) from Figma before implementing. See `docs/components.md` for canonical node IDs.
-- **Types on public APIs.** Exported functions, shared utilities, component props. Use `interface` for object shapes, `type` for unions/intersections. Avoid `any`; use `unknown` + narrowing for external input.
-- **Keep reusable code out of generated or oversized files.** If a type, constant list, validator, or UI helper is used in more than one place, move it into a focused module and import it. Do not let generated files or collection configs absorb long literal unions, large option arrays, or repeated validation logic.
-- **Split files by feature when they grow.** Prefer small folders with focused files (types, constants, validators, components) over large catch-all modules. Create a feature folder once a file mixes multiple responsibilities or becomes hard to scan.
-- **Immutability.** Spread/copy, never mutate. `Readonly<T>` on inputs where it clarifies intent.
-- **No `console.log` in committed code.**
-- **Follow existing file organization.** Many small focused files over large ones. Routes live under `apps/web/app/[locale]/<route>/`; section components under `apps/web/components/sections/<section>/`.
+- Repo files are English only; chat replies may be any language.
+- British English for public paths and user-facing copy. Prefer `decentralised`, `programme`, `licence`. Keep third-party literals, external URLs and generated types.
+- Icons are React SVG components from `@acid-info/logos-ui` (`packages/ui/src/icons`). If one is missing, ask for a Figma export; do not substitute Unicode or text.
+- The λ mark is `<LogosMark />` from `@acid-info/logos-ui`; size via `size`, colour via `text-*`. Never `<img src=".svg" />` or `<span>λ</span>`.
+- Every clickable element gets `cursor-pointer`. Visuals match Figma 1:1.
+- Public API types: `interface` for object shapes, `type` for unions. No `any`.
+- Copy, never mutate. Split files by feature when they grow.
+- No `console.log` in committed code.
 
 ## Content + CMS
 
-Schemas: `packages/content/src/schemas/` (Zod). Loaders: `packages/content/src/loaders/` (typed, fail loudly on missing required locale files).
-
-When changing a schema:
-1. Update the Zod schema in `packages/content/src/schemas/`.
-2. Update / add the corresponding loader.
-3. Update fixtures under `content/**`.
-4. If the CMS edits this collection, update the matching Payload collection in `apps/cms/src/collections/` and the workflow service in `apps/cms/src/services/content-workflow/`.
-5. Run `pnpm generate-types` (CMS) and `pnpm check-types`.
-
-Payload collections: `Pages`, `Circles`, `Ideas`, `Rfps`, `ContentChangeRequests`, `Users`. The first four mutate via the GitHub PR workflow (see `save-as-pr.ts`, `save-idea-as-pr.ts`, `save-rfp-as-pr.ts`).
+Schemas are in `packages/content/src/schemas/` (Zod), loaders in `packages/content/src/loaders/`. Follow the checklist in [`packages/content/AGENTS.md`](packages/content/AGENTS.md); Payload collections and the CMS env assertion are in [`apps/cms/AGENTS.md`](apps/cms/AGENTS.md).
 
 ## Testing
 
-- Vitest lives in `apps/web` (`pnpm test` from root or app). Add tests beside the code in `__tests__/` folders.
-- Do not add UI implementation contract tests that assert Tailwind class strings, Figma measurements, layout spacing, motion details, hover treatment, or component source structure. UI changes are reviewed through browser verification, not brittle source-string tests.
-- Playwright is the standard for E2E if/when added.
-- For UI/frontend changes, **start the dev server and verify in a browser** before reporting done. Type-check passing ≠ feature working.
+Vitest runs the tests in `apps/web`, `apps/api` and `apps/logos-demos`; `apps/cms` and `packages/content` use `node --test`. Put tests in `__tests__/` folders beside the code.
+
+Do not add UI contract tests for Tailwind classes, Figma measurements, spacing, motion or hover states; check those in a browser.
 
 ## Git + PRs
 
-- **Never auto-commit or push without explicit instruction.**
-- **Never add co-author / `Co-Authored-By` lines** to commits in this repo.
+- Never auto-commit or push without explicit instruction.
+- Never add `Co-Authored-By` or AI attribution.
 - Conventional commit prefixes: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `perf`, `ci`.
 - PR base branch is `develop`.
 
-## Where to look first
+## Docs map
 
-- `docs/components.md` -- shared component specs (Nav, Footer, etc.) with Figma node IDs.
-- `apps/api/docs/architecture.md` -- the funnel intake endpoint: routes, request handling, env vars.
-- `docs/funnel/README.md` -- the funnel end to end: request flow, Notion schema, option maps.
+- [docs/README.md](docs/README.md): index
+- [docs/architecture.md](docs/architecture.md): workspaces
+- [docs/deployment.md](docs/deployment.md): branches and CI
+- [docs/components.md](docs/components.md): components
+- [docs/funnel/README.md](docs/funnel/README.md): funnel end to end
+- [docs/media-migration.md](docs/media-migration.md): blog redirects
+- App rules: [apps/web](apps/web/AGENTS.md), [apps/cms](apps/cms/AGENTS.md), [apps/logos-demos](apps/logos-demos/AGENTS.md)
 
 ## Don't
 
-- Don't introduce new top-level packages or apps without checking with the user.
-- Don't add backwards-compat shims, `_unused` renames, or "removed in vX" comments. Delete cleanly.
-- Don't add error-handling for cases that can't occur, or fallbacks that hide misconfiguration.
-- Don't write comments that restate the code. Comments explain *why*, only when non-obvious.
-- Don't create new `.md` files unless explicitly asked.
-- Don't run destructive git operations (`reset --hard`, force push, branch delete) without confirmation.
+- Don't add top-level packages or apps without asking first.
+- Don't add backwards-compat shims or "removed in vX" comments; delete cleanly.
+- Don't add error handling for impossible cases.
+- Don't write comments that restate the code.
+- Don't create docs outside the layout below.
+- Don't run destructive git operations (`reset --hard`, force push) without confirmation.
+
+## Documentation
+
+Docs are maintained by hand and by the ai-docs-sync workflow on every merge to `develop`. Follow
+this layout so both stay in step:
+
+- `README.md` (root and every app or package): for humans. What it is, how to run it, where to go
+  next. Short. No agent rules.
+- `AGENTS.md` (root and app or package roots only): rules and caveats for agents. Imperative, no
+  reference material. Root at most 6,000 characters, others at most 3,500.
+- `docs/` at the root: topics that span more than one app or package. `docs/README.md` is the index.
+- `apps/<name>/docs/`, `packages/<name>/docs/`: detailed reference owned by one app or package,
+  indexed by its own `docs/README.md`. Dated research notes go in `docs/research/` and are frozen.
+- No `CLAUDE.md`: Claude Code ignores every `AGENTS.md` when one exists.
+
+A doc lives in the narrowest app or package that owns all the code it describes. Each doc starts
+with `# Title`, then one sentence of scope that links the code paths it covers. State each fact in
+one place and link to it elsewhere. Use relative links, no en or em dashes, no AI attribution.
+Update the matching doc in the same PR when you change behaviour, commands, env vars or routes.

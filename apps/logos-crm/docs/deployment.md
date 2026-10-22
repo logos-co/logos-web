@@ -1,109 +1,67 @@
-# Logos CRM — Self-hosted Deployment Specification
+# Logos CRM deployment
 
-## 1. Supported deployment model
+How `apps/logos-crm` runs in Docker and how its schema gets applied. The files that define it are
+[`compose.yaml`](../compose.yaml), [`Dockerfile`](../Dockerfile),
+[`drizzle.config.ts`](../drizzle.config.ts) and [`.env.example`](../.env.example).
 
-The only supported application deployment target is a Logos-operated Linux host with Docker Engine and Docker Compose. Development, staging, and production use the same three long-running services with environment-specific configuration; migrations use a short-lived command from the same application image.
+## Deployment model
 
-Vercel, hosted databases, Redis, Upstash, Vercel KV, hosted queues, and Kubernetes are not dependencies. Authentication, TLS, the external reverse proxy, and SMTP are supplied by Infra and remain outside this Compose project.
+Docker Compose is the only deployment setup in the repo. It runs a PostgreSQL service, a
+short-lived setup container and the web service; there is no worker, SMTP, authentication proxy or
+file volume.
 
-## 2. Compose topology
+Treat it as local or demo only. The app has no authentication and `compose.yaml` hard-codes the
+database credentials (`logos`/`logos`). Both ports bind to `127.0.0.1`, and they should stay that
+way until there is authentication and real secrets.
 
-| Service  | Responsibility                                                         |
-| -------- | ---------------------------------------------------------------------- |
-| `web`    | Next.js UI, Route Handlers, health checks, and authenticated downloads |
-| `worker` | Graphile Worker notifications, imports, exports, and task reminders    |
-| `crm-db` | PostgreSQL application data and Graphile Worker queue                  |
+## Compose services
 
-The web and worker services share one application image but use separate commands and health checks. `crm-db` and `worker` publish no host ports. `web` binds only to localhost or an Infra-approved private interface and must not be directly internet-accessible.
+| Service     | What it does                                                                                                        |
+| ----------- | ------------------------------------------------------------------------------------------------------------------- |
+| `crm-db`    | PostgreSQL 17 (`postgres:17-alpine`), bound to `127.0.0.1:5434`, named volume `logos-crm-db`, readiness healthcheck |
+| `crm-setup` | Waits for a healthy `crm-db`, runs `db:migrate` then `db:seed`, and exits                                           |
+| `crm-web`   | The Next.js app on `127.0.0.1:3004`, healthcheck on `/api/health`, starts once `crm-setup` has succeeded            |
 
-Required named volumes:
+`crm-setup` and `crm-web` build the same image from [`Dockerfile`](../Dockerfile) with the repo root
+as build context, and both connect as `postgresql://logos:logos@crm-db:5432/logos_crm`.
 
-- `crm-db-data` for PostgreSQL;
-- `crm-files` mounted by `web` and `worker`, with protected `/imports` and `/exports` subdirectories.
+## Run
 
-Production images are pinned by version or digest and never use `latest` tags.
-
-## 3. Environment configuration
-
-Configuration is typed, server-only, scoped to the consuming service, and validated at startup.
-
-```text
-DATABASE_URL
-AUTH_USER_SUBJECT_HEADER
-AUTH_USER_EMAIL_HEADER
-AUTH_PROXY_SECRET_HEADER
-AUTH_PROXY_SHARED_SECRET
-CRM_PUBLIC_URL
-SMTP_ENABLED
-SMTP_SERVER
-SMTP_PORT
-SMTP_USER
-SMTP_PASSWORD
-SMTP_FROM
-SMTP_TLS_ENABLE
-DISCORD_ENABLED
-DISCORD_BOT_TOKEN
-DISCORD_DEFAULT_CHANNEL_ID
-EXPORT_DIRECTORY
-EXPORT_RETENTION_HOURS
-IMPORT_DIRECTORY
-IMPORT_RETENTION_HOURS
-IMPORT_MAX_BYTES
-IMPORT_MAX_ROWS
-LOG_LEVEL
-CRM_STALE_CONTACT_DAYS
-DEV_USER_SUBJECT_MOCK
-DEV_USER_EMAIL_MOCK
+```bash
+docker compose -f apps/logos-crm/compose.yaml up --build
 ```
 
-The SMTP names and TLS behaviour intentionally match the existing `admin-acid` deployment contract. The worker receives SMTP and Discord credentials; the web service does not. When an integration is disabled, its credentials are optional and no jobs are created for that channel. Enabled but incomplete integration configuration fails startup.
+Because `crm-setup` migrates and seeds before `crm-web` starts, a clean `up --build` gives you a
+ready database and the CRM on `http://localhost:3004`.
 
-`EXPORT_DIRECTORY` and `IMPORT_DIRECTORY` point to separate subdirectories in the shared `crm-files` volume. Neither directory is exposed as a static reverse-proxy path. The web writes uploads and streams authorised downloads; the worker processes and expires files.
+## Image build
 
-Secrets use Compose secrets or root-owned environment files outside the repository. Applications support `_FILE` variants for database, proxy-verification, SMTP, and Discord secrets. Development identity mocks work only outside production; production startup fails if either mock variable is set.
+The image starts from `node:24-alpine` and enables pnpm 11.1.0 through corepack. It installs the
+workspace, builds `@acid-info/logos-ui`, then builds the app with a placeholder `DATABASE_URL`
+(`postgresql://build:build@localhost:5432/build`). The container runs
+`pnpm --filter logos-crm start`, which is `next start --port 3004`.
 
-## 4. Trusted proxy contract
+## Migrations
 
-Infra must strip incoming copies of all configured identity and proxy-verification headers, authenticate the request, then inject the immutable subject, current email, and shared verification value. The CRM compares the verification value in constant time and rejects missing or invalid headers before user lookup. The immutable subject, not email, identifies the local user.
+drizzle-kit owns the migrations in [`drizzle/`](../drizzle). [`drizzle.config.ts`](../drizzle.config.ts)
+reads the schema from `src/server/db/schema.ts` and connects to `DATABASE_URL`, falling back to
+`postgresql://logos:logos@localhost:5434/logos_crm`, which is the Compose database.
 
-The shared secret is a defence-in-depth control in addition to binding `web` to a non-public interface. Infra owns secret rotation and coordinates overlapping old/new values during rotation.
+```bash
+pnpm --filter logos-crm db:generate   # write a new migration after changing schema.ts
+pnpm --filter logos-crm db:migrate    # apply pending migrations
+pnpm --filter logos-crm db:seed       # load the idempotent demo seed
+```
 
-## 5. Container behaviour
+Never edit the generated SQL by hand; change the schema and regenerate.
 
-- `crm-db` has a PostgreSQL readiness check and persistent storage.
-- A one-shot `migrate` profile/service runs `drizzle-kit migrate` from the application image and exits; there is no custom migration runner.
-- `web` exposes `/api/health/live` and `/api/health/ready`.
-- `worker` waits for database readiness, handles `SIGTERM`, stops claiming jobs, and finishes or safely releases active work.
-- Services use `restart: unless-stopped`, bounded CPU/memory settings, and Docker log rotation.
-- The application image runs as a non-root user and excludes development dependencies and source secrets.
+## Environment
 
-## 6. Release procedure
+[`src/server/env.ts`](../src/server/env.ts) validates the environment with Zod. The only variable is
+`DATABASE_URL`, a PostgreSQL connection string. For local development outside Docker, copy
+`.env.example` to `.env`.
 
-1. Build and scan the immutable application image.
-2. Pull or build all pinned Compose images.
-3. Run the one-shot migration service.
-4. Verify database readiness and migration version.
-5. Recreate web and worker services.
-6. Smoke-test authentication through the Infra proxy, `/api/v1/me`, task processing, export-volume access, and worker health.
-7. Confirm backup and log collection are active.
+## Backup and recovery
 
-Migrations follow expand-and-contract changes so the existing and next application versions can overlap safely during recreation.
-
-## 7. Backup and recovery
-
-Backups use a host-controlled scheduled command that runs `pg_dump` against `crm-db`; no scheduler container is required. The runbook defines frequency, retention, encryption, access control, restore to an isolated Compose project, recovery objectives, and quarterly restore verification.
-
-Catalogue, workflow history, jobs, and audit tables are included. Short-lived exports and raw import files are excluded from long-term backups.
-
-## 8. Operational acceptance criteria
-
-A clean Linux host must be able to:
-
-- start database, web, and worker with Docker Compose;
-- run migrations and the idempotent admin-bootstrap command;
-- accept verified Infra proxy identity and reject forged/direct identity headers;
-- create a case and task, enqueue a Graphile Worker job, and send through the existing SMTP configuration;
-- restart the worker without losing or duplicating work;
-- run imports, exports, and notifications without Redis or another broker;
-- perform the documented backup and restore;
-- run without any Vercel-specific build, runtime, or storage feature.
+There is no backup or restore automation yet. Until there is a runbook, back up by hand with
+standard PostgreSQL tools such as `pg_dump` against the `crm-db` service.

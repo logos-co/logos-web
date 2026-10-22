@@ -1,10 +1,6 @@
 # @acid-info/logos-ui
 
-Shared Logos React primitives and SVG icons.
-
-This package contains reusable UI components used by Logos web surfaces,
-including `<LogosMark />`, `<Button />`, `<Card />`, `<Footer />`,
-`<NavOverlay />`, `<Pagination />`, and table/view controls.
+Shared Logos React primitives and SVG icons: the Logos mark and wordmark, `Button`, `Card`, `Footer`, `NavOverlay`, `Pagination`, the table and view-toggle controls from Builders Hub, and the podcast, search and share icons.
 
 ## Install
 
@@ -12,19 +8,11 @@ including `<LogosMark />`, `<Button />`, `<Card />`, `<Footer />`,
 pnpm add @acid-info/logos-ui @acid-info/logos-tokens
 ```
 
-```bash
-npm install @acid-info/logos-ui @acid-info/logos-tokens
-```
-
-`react` is a peer dependency. Install it in your app if it is not already
-present.
+`react` (18.3+ or 19) is a peer dependency. `@acid-info/logos-tokens` is an optional peer, but in practice you want it: the components are styled with the Logos Tailwind tokens.
 
 ## Styles
 
-The components use Logos Tailwind utility classes and expect the Logos token
-CSS to be imported by the consuming app.
-
-For Tailwind v4, import the token package in your app stylesheet:
+Import the tokens and the package stylesheet in your Tailwind v4 entry stylesheet:
 
 ```css
 @import 'tailwindcss';
@@ -32,11 +20,7 @@ For Tailwind v4, import the token package in your app stylesheet:
 @import '@acid-info/logos-ui/styles.css';
 ```
 
-The UI stylesheet registers the package's compiled component files as Tailwind
-sources. This is required because Tailwind does not scan `node_modules` by
-default.
-
-The React package does not inject global CSS by itself.
+The stylesheet is one line, `@source './dist'`. It makes Tailwind scan the package's compiled files, which it does not do for `node_modules` by default, so leaving it out gives you unstyled components. The package injects no global CSS.
 
 ## Usage
 
@@ -60,48 +44,23 @@ export function HeaderAction() {
 }
 ```
 
-## Link Components
+## Linking to your router
 
-Components that render internal links accept a `linkAs` prop for framework
-routers such as Next.js or `next-intl`.
+`Button` and `Card` take a `linkAs` prop for any component that accepts an anchor's props, such as `next/link`, so internal links stay client-side routed:
 
 ```tsx
 import Link from 'next/link'
 import { Button } from '@acid-info/logos-ui'
 
-export function LocalizedButton() {
-  return (
-    <Button href="/about" linkAs={Link}>
-      About
-    </Button>
-  )
-}
+<Button href="/about" linkAs={Link}>
+  About
+</Button>
 ```
 
-## Exports
+## Entrypoints
 
-All public components and types are exported from the package root:
+`@acid-info/logos-ui` is the root entrypoint with server-safe components and their types, including `Button`, `ButtonArrowIcon`, `Card`, `CardInfo`, `Footer`, `GiantSwitch`, `GiantSwitchTag`, `IconButton`, `Pagination`, `Table`, `TableRow`, `ViewToggle`, the technology-stack sections and the icons.
 
-```tsx
-import {
-  Button,
-  ButtonArrowIcon,
-  Card,
-  Footer,
-  GiantSwitch,
-  IconButton,
-  LogosMark,
-  NavOverlay,
-  Pagination,
-  Table,
-  ViewToggle,
-  XIcon,
-} from '@acid-info/logos-ui'
-```
+`@acid-info/logos-ui/client` holds the components that need React effects and are marked `'use client'`: `NavOverlay` and `FooterNewsletter`. Import them from there, otherwise a server component will fail to build.
 
-Client-only components that use React effects are exported from the client
-entrypoint:
-
-```tsx
-import { NavOverlay } from '@acid-info/logos-ui/client'
-```
+`@acid-info/logos-ui/styles.css` is the stylesheet described above. The full export list is in `src/index.ts` and `src/client.ts`.
