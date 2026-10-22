@@ -1,4 +1,4 @@
-# AGENTS.md
+# apps/logos-crm
 
 Rules for agents working in `apps/logos-crm`. The root `AGENTS.md` also applies.
 

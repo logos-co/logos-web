@@ -1,4 +1,4 @@
-# AGENTS.md
+# apps/logos-demos
 
 Rules for agents working in `apps/logos-demos`. The root `AGENTS.md` also applies.
 

@@ -1,4 +1,4 @@
-# AGENTS.md
+# packages/funnel
 
 Rules for agents working in `packages/funnel` (`@repo/funnel`). The root
 `AGENTS.md` also applies.

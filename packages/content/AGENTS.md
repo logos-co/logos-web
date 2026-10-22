@@ -1,4 +1,4 @@
-# AGENTS.md
+# packages/content
 
 Rules for agents working in `packages/content` (`@repo/content`). The root `AGENTS.md` also applies.
 

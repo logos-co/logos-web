@@ -1,4 +1,4 @@
-# AGENTS.md
+# apps/cms
 
 Rules for agents working in `apps/cms`. The root `AGENTS.md` also applies.
 
