@@ -169,7 +169,7 @@
   background-image: radial-gradient(circle, #3c3c3c 1.8px, transparent 2.2px);
   background-size: 7px 7px;
 }
-.bc-demo-storage-upload button {
+.bc-demo-storage-dropzone {
   width: 100%;
   padding: 4px 6px;
   border: 0;
@@ -179,7 +179,7 @@
   text-align: left;
   font-size: 8px;
 }
-.bc-demo-storage-upload button span {
+.bc-demo-storage-dropzone span {
   display: block;
   color: #6a6a6a;
 }

@@ -161,7 +161,6 @@
           "uploadHint": "Click to browse or drag a file here",
           "browseLabel": "Click to browse",
           "uploadLimit": "Up to 1 file",
-          "selectedLabel": "Selected locally:",
           "fetchTitle": "Fetch Manifest",
           "cidPlaceholder": "CID",
           "fetchLabel": "Fetch",

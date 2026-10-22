@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { BasecampCheckIcon, LogosMark } from '@acid-info/logos-ui'
 
 import type { Renewal } from './atoms'
@@ -146,8 +146,6 @@ export function StorageDemo({
   category,
   blockchainCategory,
 }: StorageDemoProps) {
-  const inputRef = useRef<HTMLInputElement>(null)
-  const [selectedFile, setSelectedFile] = useState('')
   const [cid, setCid] = useState('')
   const [fetchMessage, setFetchMessage] = useState('')
   const [nodeRunning, setNodeRunning] = useState(true)
@@ -200,33 +198,10 @@ export function StorageDemo({
             {copy.noDownload}
           </div>
           <div className="bc-demo-storage-upload">
-            <button
-              type="button"
-              className="cursor-pointer"
-              onClick={() => inputRef.current?.click()}
-              onDragOver={(event) => event.preventDefault()}
-              onDrop={(event) => {
-                event.preventDefault()
-                setSelectedFile(event.dataTransfer.files[0]?.name ?? '')
-              }}
-            >
+            <div className="bc-demo-storage-dropzone">
               <strong>{copy.browseLabel}</strong>
-              <span>
-                {selectedFile
-                  ? `${copy.selectedLabel} ${selectedFile}`
-                  : copy.uploadLimit}
-              </span>
-            </button>
-            <input
-              ref={inputRef}
-              type="file"
-              className="sr-only"
-              tabIndex={-1}
-              aria-hidden="true"
-              onChange={(event) =>
-                setSelectedFile(event.target.files?.[0]?.name ?? '')
-              }
-            />
+              <span>{copy.uploadLimit}</span>
+            </div>
             <h3>{copy.uploadTitle}</h3>
           </div>
           <div className="bc-demo-storage-fetch">

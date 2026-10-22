@@ -94,7 +94,6 @@ export const basecampRenewalSectionSchema = z.object({
       uploadHint: copy,
       browseLabel: copy,
       uploadLimit: copy,
-      selectedLabel: copy,
       fetchTitle: copy,
       cidPlaceholder: copy,
       fetchLabel: copy,
