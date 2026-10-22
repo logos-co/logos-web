@@ -1,35 +1,24 @@
 # Self-hosted fonts
 
-Which fonts are committed, which are ignored, and how `apps/web/app/fonts.ts`
-loads them. This file lives in `docs/` and is not served publicly.
+Which fonts [`app/fonts.ts`](../app/fonts.ts) loads, which files are committed, and how the root [`.gitignore`](../../../.gitignore) decides what goes into the repo.
 
 ## Rhymes Display
 
-One commercial font is committed, with the license verified:
+Rhymes Display regular (`public/fonts/rhymes-display/rhymes-display-regular.woff2`, weight 400, normal style) is the one commercial font committed, and its license was verified.
 
-- `public/fonts/rhymes-display/rhymes-display-regular.woff2` (weight 400,
-  style normal)
-
-[`app/fonts.ts`](../app/fonts.ts) loads it with `next/font/local` and exposes it
-as `var(--next-font-display)`, which the `@acid-info/logos-tokens` typography
-utilities (`text-hero`, `text-h1`, and so on) reference.
+[`app/fonts.ts`](../app/fonts.ts) loads it with `next/font/local` and exposes it as `var(--next-font-display)`. The typography utilities in [`packages/tokens/src/typography.css`](../../../packages/tokens/src/typography.css) (`text-hero`, `text-h1` and the rest) read `--font-display`, which resolves through `var(--next-font-display)`.
 
 ## Gitignore rules
 
-The root [`.gitignore`](../../../.gitignore) ignores `*.woff`, `*.woff2`,
-`*.ttf` and `*.otf` under `apps/*/public/fonts`, then re-includes
-`apps/*/public/fonts/rhymes-display/*.woff2` because its license is verified and
-the file is needed for Vercel builds.
+The root `.gitignore` ignores `*.woff`, `*.woff2`, `*.ttf` and `*.otf` under `apps/*/public/fonts`, then re-includes `apps/*/public/fonts/rhymes-display/*.woff2` because the license is verified and Vercel builds need the file.
 
-To add a new self-hosted font, verify the license with the brand owner first,
-then add a re-include rule for it and commit the file.
+To add a self-hosted font, verify the license with the brand owner first, add a re-include rule for it and commit the file.
 
 ## Google fonts
 
-Loaded in [`app/fonts.ts`](../app/fonts.ts) via `next/font/google`, not
-self-hosted:
+[`app/fonts.ts`](../app/fonts.ts) loads these with `next/font/google` rather than self-hosting:
 
-- Public Sans (400/500/600/700)
-- Open Sans (400)
-- Fira Code (400/500)
-- Fira Mono (400/700)
+- Public Sans (400/500/600/700), `--next-font-sans`
+- Open Sans (400), `--next-font-article`
+- Fira Code (400/500), `--next-font-mono`
+- Fira Mono (400/700), `--next-font-mono-body`

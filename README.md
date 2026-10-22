@@ -1,67 +1,62 @@
 # logos-web
 
-pnpm + Turborepo monorepo for the Logos website and its content CMS, intake API and internal tools.
+This monorepo holds the public Logos website (logos.co), the Payload CMS that edits its content, the API behind its signup forms and a few internal tools. It uses pnpm workspaces and Turborepo.
 
 ## Workspaces
 
-| Path                       | Package                   | Purpose                                                                              | Port |
-| -------------------------- | ------------------------- | ------------------------------------------------------------------------------------ | ---- |
-| `apps/web`                 | `web`                     | Public Next.js 16 site (Tailwind v4, `next-intl`, static export).                    | 3000 |
-| `apps/cms`                 | `cms`                     | Payload CMS 3.x admin (Next.js 16 + Postgres). Admin at `/admin`.                    | 3001 |
-| `apps/api`                 | `api`                     | Public funnel intake endpoint (Next.js 16, no pages).                                | 3003 |
-| `apps/logos-crm`           | `logos-crm`               | Internal CRM (Next.js 16, Drizzle + Postgres).                                       | 3004 |
-| `apps/logos-demos`         | `logos-demos`             | Demos of the Logos stack (Next.js 16).                                               | 3005 |
-| `apps/past-present-future` | `past-present-future`     | SvelteKit app served at `/past-present-future`, copied into the web export.          | 3006 |
-| `packages/content`         | `@repo/content`           | Content schemas, loaders for `content/**`, GitHub mutation helpers, locale registry. | n/a  |
-| `packages/funnel`          | `@repo/funnel`            | Shared funnel form values (questions, option ids, required-field lists).             | n/a  |
-| `packages/ui`              | `@acid-info/logos-ui`     | Shared React primitives and SVG icons.                                               | n/a  |
-| `packages/tokens`          | `@acid-info/logos-tokens` | Design tokens.                                                                       | n/a  |
-| `packages/types`           | `@repo/types`             | Shared types, Payload-generated.                                                     | n/a  |
-| `packages/config`          | `@repo/config`            | Shared ESLint / TypeScript / Prettier config.                                        | n/a  |
+| Path                       | Package                   | What it is                                                         | Port |
+| -------------------------- | ------------------------- | ------------------------------------------------------------------ | ---- |
+| `apps/web`                 | `web`                     | Public Next.js 16 site, built as a static export                   | 3000 |
+| `apps/cms`                 | `cms`                     | Payload CMS 3.x admin on Postgres, at `/admin`                     | 3001 |
+| `apps/api`                 | `api`                     | Funnel intake endpoint (Next.js 16, no pages)                      | 3003 |
+| `apps/logos-crm`           | `logos-crm`               | Internal CRM (Next.js 16, Drizzle, Postgres)                       | 3004 |
+| `apps/logos-demos`         | `logos-demos`             | Demos of the Logos stack (Next.js 16)                              | 3005 |
+| `apps/past-present-future` | `past-present-future`     | SvelteKit app served at `/past-present-future` inside the web site | 3006 |
+| `packages/content`         | `@repo/content`           | Schemas and loaders for `content/**`, GitHub helpers, locales      |      |
+| `packages/funnel`          | `@repo/funnel`            | Funnel questions, option ids and required fields                   |      |
+| `packages/ui`              | `@acid-info/logos-ui`     | React primitives and SVG icons                                     |      |
+| `packages/tokens`          | `@acid-info/logos-tokens` | Design tokens as CSS                                               |      |
+| `packages/types`           | `@repo/types`             | Shared types, including the Payload-generated ones                 |      |
+| `packages/config`          | `@repo/config`            | ESLint, TypeScript and Prettier presets                            |      |
 
-`content/**` is the production source of truth for page copy and structured data (pages, press, circles, builders-hub, site). Apps are entrypoints only; shared logic lives in packages.
+Page copy and structured data (pages, press, circles, builders-hub, site) live in `content/**`, and that folder is what production builds from. Apps are thin entrypoints; shared logic goes in a package.
 
-## Requirements
+## Run it
 
-Node 24, pnpm 11.1.0. See [`.node-version`](.node-version) and [`package.json`](package.json).
-
-## Quick start
+You need Node 24 ([`.node-version`](.node-version)) and pnpm 11.1.0 (pinned in [`package.json`](package.json)).
 
 ```bash
 pnpm install
-pnpm dev            # starts all apps: web :3000, cms :3001, api :3003, crm :3004, demos :3005, ppf :3006
+pnpm dev            # every app: web :3000, cms :3001, api :3003, crm :3004, demos :3005, ppf :3006
+pnpm dev:web        # one app plus the packages it needs; also dev:cms, dev:api, dev:logos-crm, dev:past-present-future
 ```
 
-`apps/cms` needs `PAYLOAD_SECRET` and `DATABASE_URL` (Postgres): copy `apps/cms/.env.example` to `apps/cms/.env` and fill it in. `apps/api` and `apps/logos-crm` also read a `.env` file. Payload Admin runs at <http://localhost:3001/admin>.
+The CMS won't start without `PAYLOAD_SECRET` and a Postgres `DATABASE_URL`. Copy `apps/cms/.env.example` to `apps/cms/.env` and fill it in; the admin is then at <http://localhost:3001/admin>. `apps/web`, `apps/api` and `apps/logos-crm` each have their own `.env.example` too.
 
-## Common scripts
+## Scripts
 
 ```bash
-pnpm build           # turbo: web static export + cms build + everything with a build script
-pnpm test            # turbo: runs test in every workspace that has one
-pnpm lint            # eslint --max-warnings 0 across workspaces
-pnpm check-types     # turbo: tsc --noEmit across workspaces
-pnpm generate-types  # cms only: regenerate packages/types/src/payload.ts
+pnpm build           # web static export, cms build and every other workspace with a build script
+pnpm test            # tests in every workspace that has them
+pnpm lint            # eslint --max-warnings 0
+pnpm check-types     # tsc --noEmit everywhere
+pnpm generate-types  # regenerate packages/types/src/payload.ts from the CMS config
+pnpm test:release    # the full release gate
 ```
 
-`dev:*` filters start one app plus its dependencies: `pnpm dev:web`, `dev:cms`, `dev:api`, `dev:logos-crm`, `dev:past-present-future`.
+`test:release` is what CI runs on every pull request: repo health checks, lint, types, tests, content validation, a clean web build, the full build, then static export and performance checks. Run it before you call release work done.
 
-`pnpm test:release` runs the full release gate (repo health, lint, types, tests, content validation, a clean web deploy build, static and performance checks). Run it before marking release work done.
+## Missing `dist/` folders
 
-### Missing `dist/` directories
+Apps import `@acid-info/logos-ui` from its compiled `dist/`. `pnpm dev` and `pnpm build` build upstream packages first, but if you start an app some other way after `dist/` has gone (say, after `git clean -fdx`), you'll get `Module not found: Can't resolve '@acid-info/logos-ui/client'`. Run `pnpm --filter @acid-info/logos-ui build`, or `pnpm build` once to rebuild every package.
 
-Apps consume internal packages through their compiled `dist/` outputs. Turborepo's `dev` task depends on `^build`, so `pnpm dev` builds upstream packages first. If a `dist/` directory goes missing (for example after `git clean -fdx`) and you start an app directly, you may see `Module not found: Can't resolve '@acid-info/logos-ui/client'`. Rebuild the affected package (`pnpm --filter @acid-info/logos-ui build`) or run `pnpm build` once to compile every package.
+## Branches
 
-## Branch model
+`develop` is the default branch and deploys to staging; CMS content PRs target it. `master` is production. Branch protection blocks direct pushes to both, so everything lands through a PR. [docs/deployment.md](docs/deployment.md) covers what deploys where.
 
-- `develop`: default branch + staging. CMS-generated content PRs target this.
-- `master`: production, created when production deploys spin up.
+## More
 
-Direct pushes to either are blocked by branch protection.
-
-## Docs
-
-- [docs/README.md](docs/README.md): index of all docs
-- [docs/architecture.md](docs/architecture.md): workspaces, dependencies, content flow
-- [docs/deployment.md](docs/deployment.md): branches, CI, what deploys where
+- [docs/README.md](docs/README.md): index of every doc in the repo
+- [docs/architecture.md](docs/architecture.md): how the workspaces depend on each other and how content flows
+- [docs/deployment.md](docs/deployment.md): branches, CI and deploy targets
 - [AGENTS.md](AGENTS.md): rules for AI agents working in this repo

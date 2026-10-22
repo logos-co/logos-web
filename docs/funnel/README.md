@@ -1,30 +1,28 @@
 # Funnel intake
 
-How the three public funnel forms on `apps/web` reach the intake endpoint on
-`apps/api` and land in Notion (and, for the steward form, an n8n/Baserow
-webhook), including the Notion database schema and the shared option maps. Covers
+The three funnel forms on `apps/web` post to one endpoint on `apps/api`, which
+writes each submission to Notion and forwards the steward form to an n8n/Baserow
+webhook as well. This page follows a submission end to end and records the
+Notion database schema and the option maps both sides share. The code is in
 [`apps/api/src/app/api/public/afform-submit/route.ts`](../../apps/api/src/app/api/public/afform-submit/route.ts),
 [`apps/web/lib/funnel-forms`](../../apps/web/lib/funnel-forms),
 [`apps/web/lib/funnel-newsletter-signup.ts`](../../apps/web/lib/funnel-newsletter-signup.ts) and
-[`packages/funnel/src`](../../packages/funnel/src).
+[`packages/funnel/src`](../../packages/funnel/src). How the endpoint itself
+validates, its env vars and CORS are in
+[apps/api/docs/architecture.md](../../apps/api/docs/architecture.md).
 
-## What this is
+## Forms
 
-Three public funnel forms post to one API endpoint, which writes them to Notion
-and, for the steward form, also to an n8n/Baserow webhook:
+| Web page                   | `formName` in POST body       | Notion `Profile` value      |
+| -------------------------- | ----------------------------- | --------------------------- |
+| `/coalition-partner`       | `afformCoalitionPartner`      | `Coalition Partner`         |
+| `/activist-builder`        | `afformActivistBuilder`       | `Activist Builder`          |
+| `/activist-leader-steward` | `afformActivistLeaderSteward` | `Activist Leader / Steward` |
 
-- Coalition Partner: `/coalition-partner`
-- Activist Builder: `/activist-builder`
-- Activist Leader / Steward: `/activist-leader-steward`
-
-`/contact` (`apps/web/app/[locale]/contact/page.tsx`) redirects to the home page
-and carries no form, so the endpoint does not accept an `afformCircleContactForm`
-`formName`.
-
-The endpoint's internals (validation steps, env vars, CORS, the Notion write
-path, tests) are documented in
-[apps/api/docs/architecture.md](../../apps/api/docs/architecture.md). This doc
-covers the flow end to end and the Notion schema.
+Both apps read the profile label through `getProfileForForm` in
+`@repo/funnel`. `/contact` (`apps/web/app/[locale]/contact/page.tsx`) only
+redirects to the home page and has no form, so the endpoint rejects any other
+`formName`, including the old `afformCircleContactForm`.
 
 ## End to end flow
 
@@ -36,44 +34,33 @@ apps/api
   -> validates, verifies hCaptcha, forwards to Notion and (steward only) n8n
 ```
 
-All three forms share one handler because hCaptcha tokens are single-use: one
-POST, one token, the backend writes in sequence. After the POST resolves,
-`apps/web` fires the newsletter opt-ins on its own; they are not part of the
-`afform-submit` request.
-
-## Forms and formName
-
-| Web page                   | `formName` in POST body       | Notion `Profile` value      |
-| -------------------------- | ----------------------------- | --------------------------- |
-| `/coalition-partner`       | `afformCoalitionPartner`      | `Coalition Partner`         |
-| `/activist-builder`        | `afformActivistBuilder`       | `Activist Builder`          |
-| `/activist-leader-steward` | `afformActivistLeaderSteward` | `Activist Leader / Steward` |
-
-The profile mapping is `PROFILE_BY_FORM_NAME` in `packages/funnel/src/index.ts`,
-read through `getProfileForForm` on both sides.
+hCaptcha tokens are single-use, so the browser makes one POST and the endpoint
+does every write behind a single verification. That is why all three forms
+share one handler. Once the POST succeeds, `apps/web` sends the
+[newsletter opt-ins](#newsletter-opt-ins) on its own; they are not part of the
+intake request.
 
 ## Shared values in @repo/funnel
 
-`packages/funnel` (`@repo/funnel`) is the single source of truth for the values
-both sides read, so a submitted id always resolves to the label the visitor
-picked.
+`packages/funnel` (`@repo/funnel`) holds every value the form and the endpoint
+must agree on, so a submitted id always resolves to the label the visitor
+picked. The rules for changing them are in
+[packages/funnel/AGENTS.md](../../packages/funnel/AGENTS.md) and
+[apps/api/AGENTS.md](../../apps/api/AGENTS.md).
 
-- `HEAR_ABOUT_QUESTION` and `HEAR_ABOUT_OPTIONS` (`src/index.ts`): the "How did
-  you first hear about Logos?" question and its options. The question string
-  doubles as the Notion select property name, and the labels are its select
-  options, so rewording either means renaming the property or options in Notion
-  first.
-- `PROFILE_BY_FORM_NAME` / `getProfileForForm` (`src/index.ts`): the per-form
-  Notion `Profile` label (the table above).
-- `SKILLS_OPTIONS` / `CHAT_SERVICE_OPTIONS` / `COUNTRY_OPTIONS`
-  (`src/form-options.ts`): the dropdown options the three forms share. `apps/web`
-  renders them through `AFFORM_OPTIONS` (`lib/funnel-forms/afform-options.ts`);
-  `apps/api` resolves ids back to labels through `SKILLS_MAP` /
-  `CHAT_SERVICE_MAP` / `COUNTRY_MAP` and `HEAR_ABOUT_MAP`, all `toLabelMap()` over
-  the same arrays.
+`src/index.ts` has `HEAR_ABOUT_QUESTION` and `HEAR_ABOUT_OPTIONS`, the "How did
+you first hear about Logos?" question and its options, plus
+`PROFILE_BY_FORM_NAME` and `getProfileForForm` for the table above. The question
+string is also the name of the Notion select property and the labels are its
+options, so to reword either you rename the property or option in Notion first.
 
-`Skills` labels double as the options of the Notion `multi_select` of the same
-name. `Country` is rich text and takes any label.
+`src/form-options.ts` has `SKILLS_OPTIONS`, `CHAT_SERVICE_OPTIONS` and
+`COUNTRY_OPTIONS`, the dropdowns all three forms share. `apps/web` renders them
+through `AFFORM_OPTIONS` (`lib/funnel-forms/afform-options.ts`). `apps/api`
+turns ids back into labels with `SKILLS_MAP`, `CHAT_SERVICE_MAP`, `COUNTRY_MAP`
+and `HEAR_ABOUT_MAP`, each built by `toLabelMap()` from the same array. The
+`Skills` labels are also the options of the Notion `Skills` multi_select;
+`Country` is rich text in Notion and accepts any label.
 
 Skills options (16): `Developer`, `Web3 builder`, `Privacy domain expert`,
 `Website developer`, `Product designer`, `Researcher`, `Activist`,
@@ -85,17 +72,14 @@ Hear-about options (8): `Friend or colleague`, `Social media`, `Search engine`,
 `Event or conference`, `Another community or organization`, `Podcast`,
 `News/article/blog`, `Other`.
 
-`REQUIRED_FIELDS_BY_FORM` (`src/required-fields.ts`) is the single place a funnel
-field is marked required. The form pages pass it into `ConnectFormSection`, which
+`src/required-fields.ts` has `REQUIRED_FIELDS_BY_FORM`, the only place a funnel
+field is marked required. The form pages pass it to `ConnectFormSection`, which
 builds the zod schema and the asterisks from it, and the endpoint rejects a
-payload missing any of them. The per-form definitions under
-`apps/web/lib/funnel-forms/` carry no `required` flag; they describe rendering
-only. `email` is also checked for a plausible address, with a looser pattern than
-the client's zod `.email()` so the endpoint never rejects what the form accepted.
-
-The rules for keeping these in sync live in
-[apps/api/AGENTS.md](../../apps/api/AGENTS.md) and
-[packages/funnel/AGENTS.md](../../packages/funnel/AGENTS.md).
+payload that misses any of the fields. The per-form definitions in
+`apps/web/lib/funnel-forms/` describe rendering only and have no `required`
+flag. The endpoint also checks that `email` looks like an address, with a
+looser pattern than the client's zod `.email()` so it never rejects what the
+form accepted.
 
 ## Code layout
 
@@ -121,15 +105,16 @@ The rules for keeping these in sync live in
 | `apps/web/lib/funnel-forms/hear-about-field.ts`      | Hear-about field def plus `withHearAboutField`, which inserts it after `chatService` |
 | `apps/web/lib/funnel-forms/types.ts`                 | The `Afform*` shapes those files satisfy                                             |
 
-The Notion and n8n libs are independent apart from the shared id to label maps.
-Removing one means deleting its folder and one call site in the orchestrator.
+The Notion and n8n libs share nothing except the id to label maps. To drop a
+destination, delete its folder and its one call in the orchestrator.
 
 ## Notion database schema
 
-The intake writes to the "IFT BD CRM" database. The table lists every property
-as recorded 2026-05-29; the **Funnel** column says whether and how the intake
-writes it. The `yes` rows are what `buildNotionProperties` produces; the `no`
-rows are maintained by hand in Notion.
+Intake writes to the "IFT BD CRM" database. The table lists every property in
+it. In the Funnel column, "reused" means intake writes a property the BD team
+already had, "added" means the property was created for intake, and "no" means
+the team maintains it by hand. The written rows are exactly what
+`buildNotionProperties` produces.
 
 | Property                              | Notion type      | Funnel      | Notes                                                                                                                                                                               |
 | ------------------------------------- | ---------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -174,60 +159,62 @@ rows are maintained by hand in Notion.
 
 ### How the intake columns were added
 
-Thirteen columns were added for funnel intake via `notion-update-data-source`
-DDL; the pre-existing properties were left as they were, except that the
-pre-existing `Website` url column now receives the first submitted website
-instead of the old pipe-joined string. On 2026-07-06 one more column was added to
-the production database (database `5b951a531bd94db9b0078e11640e1051`, data source
+The first thirteen intake columns went in through `notion-update-data-source`
+DDL. The pre-existing properties kept their definitions; the only change on
+that side is that `Website` now gets the first submitted website instead of
+the old pipe-joined string. `Mvmt Organization` came later. On 2026-07-06 the
+hear-about column was added to the production database (database
+`5b951a531bd94db9b0078e11640e1051`, data source
 `9fe0dc96-98dc-493b-8e09-37c17f020872`) for logos-web#90:
 
     ADD COLUMN "How did you first hear about Logos?" SELECT('Friend or colleague','Social media','Search engine','Event or conference','Another community or organization','Podcast','News/article/blog','Other')
 
-"Hide when empty" per property cannot be set via the Notion API or MCP. It must
-be toggled manually in the Notion UI for each added property, including
-`Website 2` to `Website 5`.
+Neither the Notion API nor the MCP can set "Hide when empty" on a property, so
+someone has to toggle it in the Notion UI for each added property, `Website 2`
+to `Website 5` included.
 
 ## Newsletter opt-ins
 
-After the intake POST succeeds, `apps/web` fires the newsletter opt-ins the
-visitor ticked. Each one subscribes the submitted email to a Ghost newsletter via
-`admin-acid.logos.co` and attaches a note to the member profile.
+After the intake POST succeeds, `apps/web` subscribes the submitted email to
+each Ghost newsletter the visitor ticked, through `admin-acid.logos.co`, and
+attaches a note to the member profile.
 
 | Checkbox                                        | `formKey`         | Newsletter          | Ghost id                   |
 | ----------------------------------------------- | ----------------- | ------------------- | -------------------------- |
 | "I want to receive the Logos Newsletter"        | `wantsNewsletter` | Logos Newsletter    | `6913441fee2f120001cec90d` |
 | "I want to be informed about events in my city" | `wantsEvents`     | Regional Newsletter | `6a672fa7d5b09400014fffa1` |
 
-`<profile>` in the note is the same string the Notion `Profile` select gets, via
-`getProfileForForm`. `country` arrives as a numeric option id and is resolved to
-its label against the form's own options before it reaches the note; an
-unresolvable id is dropped. The Regional request also sends the resolved `city`
-and `country` as top-level fields alongside the note, because the upstream builds
-its city labels from those fields, never from the note.
+The Logos note is a `Profile:` line; the Regional note has `City:`,
+`Country:` and `Profile:` lines. The profile is the same string the Notion
+`Profile` select gets, from `getProfileForForm`. `country` arrives as a numeric
+option id and is resolved against the form's own options before it goes into
+the note; an id that resolves to nothing is dropped. The Regional request also
+sends `city` and `country` as top-level fields, because the upstream builds its
+city labels from those fields and never reads the note.
 
-Each subscription forwards the submitted answers (the form values plus
-`formName`) flattened into the request body as top-level fields. The captcha token
-stays out; it is intake plumbing. Nothing here allowlists individual fields, so a
-new form field needs no change in `apps/web`. Select values are sent as their
-label, not the id (`toLabelledFormFields`), because the subscribe endpoint has no
-access to the option lists. Ids that resolve to nothing are dropped. Text fields
-and checkboxes pass through untouched, and the resolved keys (`email`, `type`,
+Each request also carries the submitted answers (the form values plus
+`formName`) as top-level fields, without the captcha token. There is no
+per-field allowlist, so a new form field needs no change here. Select values
+go out as labels (`toLabelledFormFields`) because the subscribe endpoint has no
+access to the option lists, and unresolvable ids are dropped. Text fields and
+checkboxes pass through unchanged. The resolved keys (`email`, `type`,
 `newsletter`, `note`, plus `city` and `country` on the Regional request) are
-written last so a same-named form field cannot overwrite them.
+written last, so a form field with the same name cannot overwrite them.
 
-Three constraints shape it:
+A few constraints explain the shape of this code:
 
-- **Client-side.** `apps/web` is a static export, so there is no route to proxy
-  through, same as the footer signup. `admin-acid.logos.co` allowlists
-  Logos-owned origins for CORS, so these calls always fail on `localhost`; unit
-  tests are the verification.
-- **Never throws.** It runs after the intake POST has already succeeded and its
-  captcha token is spent, so a subscription failure is swallowed and logged
-  rather than surfaced. Otherwise a successful submission would render as a
-  network error, including on every local submit.
-- **Sequential, Logos first.** The upstream folds the note into the member's
-  existing note with a read-modify-write against the Ghost admin API, so firing
-  both concurrently races that read and loses one note.
+- It runs in the browser. `apps/web` is a static export with no route to proxy
+  through, the same as the footer signup. `admin-acid.logos.co` only allows
+  Logos-owned origins through CORS, so these calls always fail on `localhost`
+  and the unit tests are how you verify them.
+- It never throws. By the time it runs, the intake POST has succeeded and spent
+  its captcha token, so a failed subscription is logged and swallowed. Surfacing
+  it would show a network error after a successful submission, and on every
+  local submit.
+- The two subscriptions run one after the other, Logos first. The upstream
+  merges the note into the member's existing note with a read-modify-write
+  against the Ghost admin API, and two concurrent calls race that read and lose
+  one note.
 
 | Path                                       | Role                                                                                    |
 | ------------------------------------------ | --------------------------------------------------------------------------------------- |
@@ -236,15 +223,15 @@ Three constraints shape it:
 
 ## One pager upload
 
-Setting a candidate's `Mvmt Status` to `One Pager` emails them a link to
-`logos.co/one-pager`. They attach a PDF there, and it lands as a file block on
-their own Notion page.
+When someone sets a candidate's `Mvmt Status` to `One Pager`, the candidate gets
+an email with a link to `logos.co/one-pager`. They attach a PDF there, and it
+lands as a file block on their own Notion page.
 
-Everything server-side lives in admin-acid (`admin-acid.logos.co`): it owns the
-funnel webhook, the email templates, the SMTP transport and a Notion client, and
-`apps/web` is a static export with no API routes. This repo holds the page and its
-transport only. For the token format, the upload endpoint and the Notion write
-path, read admin-acid.
+All the server-side work happens in admin-acid (`admin-acid.logos.co`), which
+owns the funnel webhook, the email templates, the SMTP transport and a Notion
+client. `apps/web` is a static export with no API routes, so this repo has only
+the page and its transport. Read admin-acid for the token format, the upload
+endpoint and the Notion write.
 
 ```
 Notion: Mvmt Status -> "One Pager"
@@ -256,9 +243,8 @@ candidate opens logos.co/one-pager?t=<signed token>          (this repo)
        -> admin-acid validates, writes to Notion, notifies the reviewers
 ```
 
-The two facts from that side the page has to render: the link expires, and it is
-good for a single upload. Both are enforced upstream; this side only reports
-them.
+The link expires and is good for one upload. admin-acid enforces both; the page
+only tells the candidate which case they hit.
 
 ### Page states
 
@@ -270,30 +256,30 @@ them.
 | Checking / ready / uploading / success | the normal path                                                                                                                 |
 | Error                                  | any other non-2xx; the upstream's own message is shown verbatim                                                                 |
 
-A failed status check resolves to `unknown` and falls through to the ready state
-rather than to "no longer valid". The check can fail transiently, and is blocked
-outright by CORS unless the page is served from a Logos-owned origin; the `POST`
-is the authority.
+If the status check fails, it resolves to `unknown` and the page shows the
+ready state, not "no longer valid". The check can fail transiently, and CORS
+blocks it outright unless the page comes from a Logos-owned origin, so the
+`POST` has the final say.
 
 ### Constraints
 
-- **Client-side, cross-origin.** Same shape as the newsletter signup: a static
-  export posting straight at `admin-acid.logos.co`, which allowlists Logos-owned
-  origins. A page served from `localhost` therefore reaches only a local admin
-  run with `IS_DEV_ENV=true` (`ONE_PAGER_ENDPOINTS.development` points at
-  `localhost:3003`); against the deployed hosts, unit tests are the verification.
-- **No preflight.** The `GET` is safelisted, and the `POST` sends
-  `multipart/form-data` with the token as a form field rather than a header.
-  Moving the token to an `Authorization` header would need a change to the
-  upstream's CORS allowlist.
-- **`useSearchParams` needs a `<Suspense>` boundary** above it or the static
-  export build fails. The page provides one; the section is the only client
+- The page calls admin-acid straight from the browser, like the newsletter
+  signup, and admin-acid only allows Logos-owned origins. Served from
+  `localhost`, the page can only reach a local admin run with `IS_DEV_ENV=true`
+  (`ONE_PAGER_ENDPOINTS.development` points at `localhost:3003`). Against the
+  deployed hosts, the unit tests are the verification.
+- Neither request triggers a CORS preflight. The `GET` is safelisted, and the
+  `POST` sends `multipart/form-data` with the token as a form field. Moving the
+  token into an `Authorization` header would need a change to the upstream's
+  CORS allowlist.
+- `useSearchParams` needs a `<Suspense>` boundary above it, or the static export
+  build fails. The page provides one, and the upload section is the only client
   component.
-- **The page-count rule is not enforced here.** A one pager must be two pages or
-  fewer, checked upstream only. This side checks type and size, and
-  `ONE_PAGER_MAX_BYTES` is kept equal to the upstream constant of the same name.
-- **The route is unlisted.** `noindex` metadata and no sitemap entry: without the
-  emailed token the page can do nothing.
+- A one pager must be two pages or fewer, and only admin-acid checks that. This
+  side checks type and size, and `ONE_PAGER_MAX_BYTES` must stay equal to the
+  upstream constant of the same name.
+- The route is unlisted: it has `noindex` metadata and no sitemap entry, since
+  the page does nothing without the emailed token.
 
 | Path                                                             | Role                                                                             |
 | ---------------------------------------------------------------- | -------------------------------------------------------------------------------- |
@@ -304,12 +290,15 @@ is the authority.
 
 ## Testing
 
-- Endpoint behaviour: `apps/api/src/app/api/public/afform-submit/__tests__/route.test.ts`
-- Notion property mapping: `apps/api/src/lib/notion/__tests__/build-notion-properties.test.ts`
-- n8n payload: `apps/api/src/lib/n8n/__tests__/build-payload.test.ts`
-- Endpoint agrees with the form schema: `apps/web/lib/funnel-forms/__tests__/required-fields-parity.test.ts`
-- Newsletter opt-ins: `apps/web/lib/__tests__/funnel-newsletter-signup.test.ts`
-- Subscribe payload: `apps/web/lib/__tests__/newsletter-signup.test.ts`
-- One pager: `apps/web/lib/__tests__/one-pager-upload.test.ts` and `apps/web/app/__tests__/one-pager-page-contract.test.ts`
+Run `pnpm --filter api test` and `pnpm --filter web test`. The tests that cover
+the funnel:
 
-Run with `pnpm --filter api test` and `pnpm --filter web test`.
+| What                                 | Test file                                                                                                   |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| Endpoint behaviour                   | `apps/api/src/app/api/public/afform-submit/__tests__/route.test.ts`                                         |
+| Notion property mapping              | `apps/api/src/lib/notion/__tests__/build-notion-properties.test.ts`                                         |
+| n8n payload                          | `apps/api/src/lib/n8n/__tests__/build-payload.test.ts`                                                      |
+| Endpoint agrees with the form schema | `apps/web/lib/funnel-forms/__tests__/required-fields-parity.test.ts`                                        |
+| Newsletter opt-ins                   | `apps/web/lib/__tests__/funnel-newsletter-signup.test.ts`                                                   |
+| Subscribe payload                    | `apps/web/lib/__tests__/newsletter-signup.test.ts`                                                          |
+| One pager                            | `apps/web/lib/__tests__/one-pager-upload.test.ts`, `apps/web/app/__tests__/one-pager-page-contract.test.ts` |

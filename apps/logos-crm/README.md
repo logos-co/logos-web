@@ -1,18 +1,26 @@
 # logos-crm
 
-The Logos CRM: a self-hosted coordination workspace for people, organisations, and cases. A Next.js
-16 server app backed by its own PostgreSQL database, currently a working demo vertical slice served
-at `http://localhost:3004`.
+The Logos CRM, a self-hosted workspace for tracking people, organisations and cases. It is a
+Next.js 16 server app with its own PostgreSQL database, and today it is a working demo: there is no
+login, and it runs on `http://localhost:3004`.
 
 ## Run
 
-    docker compose -f apps/logos-crm/compose.yaml up --build   # http://localhost:3004
+The quickest way is Docker Compose, which starts PostgreSQL, applies migrations, loads the demo
+seed and serves the app on port 3004:
 
-For local development without Docker, start PostgreSQL first, then:
+    docker compose -f apps/logos-crm/compose.yaml up --build
+
+To run the app outside Docker you still need PostgreSQL. `.env.example` points at the Compose
+database on `localhost:5434`, so `docker compose -f apps/logos-crm/compose.yaml up crm-db` is
+enough. Then, from the repo root:
 
     pnpm --filter logos-crm db:migrate
     pnpm --filter logos-crm db:seed
     pnpm dev:logos-crm                    # http://localhost:3004
+
+The seed runs under `tsx`, which doesn't read `.env`, so export `DATABASE_URL` in your shell before
+running `db:seed`.
 
 ## Environment
 
@@ -20,8 +28,9 @@ Copy `.env.example` to `.env`. The only variable is `DATABASE_URL`, a PostgreSQL
 
 ## Deploy
 
-Docker Compose on a Logos-controlled Linux host, for local or demo use only: there is no
-authentication and the database credentials are hard-coded. See [docs/deployment.md](docs/deployment.md).
+Docker Compose is the only setup in the repo, and it is for local or demo use: the app has no
+authentication and `compose.yaml` hard-codes the database credentials. See
+[docs/deployment.md](docs/deployment.md).
 
 ## More
 

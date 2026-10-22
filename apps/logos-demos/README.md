@@ -1,43 +1,49 @@
 # logos-demos
 
-Self-contained browser demos of the Logos stack, at
-https://logos-demos.vercel.app. No install, no account, no infrastructure for
-us to run.
+Browser demos of the Logos stack, live at https://logos-demos.vercel.app.
+Visitors need no install and no account, and we run no infrastructure for them.
 
-The entry point to Logos today is Basecamp, a desktop shell you download and
-install. These demos put the same technology behind a link: each one is a
-static page that talks to the network directly from your browser.
+Today you get into Logos through Basecamp, a desktop shell you download and
+install. These demos put the same technology behind a link: each one is a page
+that talks to the network from the visitor's browser.
 
-## Demos
+| Route         | What it shows                                                            |
+| ------------- | ------------------------------------------------------------------------ |
+| `/messaging`  | Logos Messaging: the tab runs a light node and messages other tabs       |
+| `/blockchain` | Logos Blockchain: live blocks and consensus state from the testnet       |
+| `/storage`    | Logos Storage: the address the network would give a file, and the roster |
 
-| Route         | What it shows                                                                  |
-| ------------- | ------------------------------------------------------------------------------ |
-| `/messaging`  | Logos Messaging: this tab as a light node, exchanging messages with other tabs |
-| `/blockchain` | Logos Blockchain: live blocks and consensus state from the testnet             |
-| `/storage`    | Logos Storage: the address the network would give a file, plus the live roster |
-
-The messaging demo has no server of ours in its path. The other two read
-through read-only proxies for endpoints a browser cannot reach, and each page
-says which it is. Nothing here stores anything on the Logos Storage network:
-see [docs/research/browser-viability.md](docs/research/browser-viability.md)
-for what a browser can and cannot do.
+Messaging has no server of ours in its path. Blockchain and Storage read through
+read-only proxies because a browser can't reach their endpoints, and each page
+says which kind it is. Nothing here stores anything on the Logos Storage
+network; [docs/research/browser-viability.md](docs/research/browser-viability.md)
+explains what a browser can and can't do.
 
 ## Run
+
+From the repo root:
 
     pnpm turbo run dev --filter=logos-demos...   # http://localhost:3005
     pnpm turbo run build --filter=logos-demos
     pnpm --filter logos-demos test
     pnpm --filter logos-demos test:e2e
 
-Build through turbo, never `pnpm --filter logos-demos build`:
-`@acid-info/logos-ui` is a build dependency.
+Always build through turbo. `pnpm --filter logos-demos build` on its own fails
+on a clean checkout, because `@acid-info/logos-ui` has to be built first.
+
+## Environment
+
+The app reads no environment variables; the site URL and description are
+constants in `src/lib/site.ts`. The e2e suite takes `E2E_BASE_URL` and
+`E2E_REUSE_SERVER`, described in [docs/deployment.md](docs/deployment.md).
 
 ## Deploy
 
 Vercel project `logos-demos`, built with the turbo command in `vercel.json`.
-See [docs/deployment.md](docs/deployment.md).
+Merging to `develop` updates production. See
+[docs/deployment.md](docs/deployment.md).
 
 ## More
 
-- [Docs](docs/README.md)
-- [Agent guide](AGENTS.md)
+- [docs/README.md](docs/README.md) lists the reference docs.
+- [AGENTS.md](AGENTS.md) has the rules for coding agents.

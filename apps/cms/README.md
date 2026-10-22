@@ -1,30 +1,28 @@
 # Logos CMS
 
-Payload CMS admin app on Next.js 16, backed by Postgres. The admin UI lives at `/admin` and the app runs on port 3001.
+The Payload CMS admin for logos.co, a Next.js 16 app on port 3001 with the admin UI at `/admin`.
 
-Postgres is not the production source of truth for content. It stores users, sessions, drafts and PR cache; published content changes ship as GitHub PRs targeting `develop`. See [AGENTS.md](AGENTS.md) for the content workflow rules.
+Editors use it to change site content, but nothing they do writes to the live site directly. The "Create PR" action opens a GitHub PR against `develop` that edits files under `content/**`, and the public site builds from those files. Postgres only holds users, sessions, drafts and the PR cache. The rules for that workflow are in [AGENTS.md](AGENTS.md).
 
 ## Run
 
 ```bash
-cp apps/cms/.env.example apps/cms/.env   # fill in PAYLOAD_SECRET and DATABASE_URL
+cp apps/cms/.env.example apps/cms/.env   # fill in DATABASE_URL
 pnpm dev:cms                             # http://localhost:3001/admin
 ```
 
-`pnpm dev:cms` is a turbo wrapper that builds workspace dependencies first. `pnpm --filter cms dev` starts `next dev` directly against your own Postgres with schema auto-sync enabled. The dev wrapper refuses to run in deployment environments.
+`pnpm dev:cms` goes through turbo, so it builds the workspace packages the CMS depends on first. `pnpm --filter cms dev` skips that and starts `next dev` straight away. Both run against your own Postgres with schema auto-sync on, and the dev script refuses to start if it detects a production or Vercel environment.
 
 ## Environment
 
-Every variable is documented in [docs/environment.md](docs/environment.md). The only values required to boot are `PAYLOAD_SECRET` and `DATABASE_URL`.
+`DATABASE_URL` is the only variable you need to boot locally. `PAYLOAD_SECRET` is required in production and falls back to an insecure placeholder in dev. Everything else, including the GitHub App credentials behind "Create PR", is in [docs/environment.md](docs/environment.md).
 
 ## Deploy
 
-Production is a self-hosted Docker image that applies reviewed SQL migrations before `next start`. See [docs/deployment.md](docs/deployment.md).
+Production runs as a self-hosted Docker image that applies the reviewed SQL migrations before `next start`. See [docs/deployment.md](docs/deployment.md).
 
 ## More
 
-- [docs/README.md](docs/README.md): index of CMS docs
-- [docs/environment.md](docs/environment.md): environment variable reference
-- [docs/deployment.md](docs/deployment.md): Docker, migrations, first admin, health check
-- [docs/publishing.md](docs/publishing.md): article and site publishing
+- [docs/README.md](docs/README.md): index of the CMS docs
+- [docs/publishing.md](docs/publishing.md): how the Build staging and Publish live buttons work
 - [AGENTS.md](AGENTS.md): rules for agents working in this app

@@ -1,9 +1,7 @@
 # Logos CMS docs
 
-Reference for the Payload CMS admin app. Covers [`apps/cms/src`](../src), [`apps/cms/scripts`](../scripts) and the deployment assets at [`apps/cms/Dockerfile`](../Dockerfile) and [`docker-compose.prod.yml`](../../../docker-compose.prod.yml).
+Reference for the Payload CMS admin app: the code in [`apps/cms/src`](../src) and [`apps/cms/scripts`](../scripts), plus the deployment files [`apps/cms/Dockerfile`](../Dockerfile) and [`docker-compose.prod.yml`](../../../docker-compose.prod.yml).
 
-| Doc                              | Read it when                                                                 |
-| -------------------------------- | ---------------------------------------------------------------------------- |
-| [environment.md](environment.md) | You need the full environment variable reference or a variable's default.    |
-| [deployment.md](deployment.md)   | You build the Docker image, change migrations, or bootstrap the first admin. |
-| [publishing.md](publishing.md)   | You work on or operate the site publish workflow and its reservations.       |
+- [environment.md](environment.md): every environment variable the CMS reads, with defaults.
+- [deployment.md](deployment.md): building the Docker image, migrations, creating the first admin, the health check.
+- [publishing.md](publishing.md): the Build staging and Publish live buttons, and the reservation that stops two publishes running at once.

@@ -1,10 +1,10 @@
 # @repo/content
 
-Shared content package: Zod schemas, typed loaders for `content/**`, GitHub mutation helpers and the active locale registry. `apps/web` loads site content through it; `apps/cms` reuses its schemas and GitHub helpers.
+Schemas and loaders for `content/**`, plus the GitHub helpers the CMS uses to turn edits into pull requests. `apps/web` reads every page through this package; `apps/cms` reuses the schemas and GitHub layer.
 
 ## Exports
 
-The package entry ([`src/index.ts`](src/index.ts)) re-exports `schemas`, `loaders`, `github`, `media` and `locales`. The `exports` map also exposes the subpaths `./schemas`, `./loaders`, `./github`, `./media`, `./locales` and `./basecamp`.
+[`src/index.ts`](src/index.ts) re-exports `schemas`, `loaders`, `github`, `media` and `locales`. Each of those is also a subpath (`@repo/content/schemas`, `@repo/content/loaders`, and so on), and `@repo/content/basecamp` exposes the Basecamp release list, which `apps/web` syncs at build time.
 
 ## Scripts
 
@@ -15,8 +15,8 @@ pnpm --filter @repo/content test           # node:test suite
 pnpm --filter @repo/content check-types    # tsc --noEmit
 ```
 
-`validate` walks the active locales and runs each loader against the on-disk fixtures, exiting non-zero on the first failure. `github-smoke` runs the full create branch, commit, open PR, query PR, close PR, delete branch lifecycle against a real repo.
+`validate` walks the active locales and runs each loader against the on-disk fixtures, exiting non-zero on the first failure. `github-smoke` runs the full create branch, commit, open PR, query PR, close PR, delete branch lifecycle against a real repo named by `GITHUB_OWNER` and `GITHUB_REPO`; it needs GitHub App credentials and cleans up in a `finally` block.
 
 ## More
 
-- [AGENTS.md](AGENTS.md): schema-change checklist and rules for agents
+- [AGENTS.md](AGENTS.md): schema-change checklist and the rules agents have to follow

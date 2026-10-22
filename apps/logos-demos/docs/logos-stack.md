@@ -1,48 +1,50 @@
 # The Logos stack
 
-What the pieces are called, what they do, and which repository owns each one.
+What the parts of the Logos stack are called, what they do and which
+repository owns each one: background for the demos in
+[`apps/logos-demos`](..), whose copy has to use these names.
 
 ## Naming
 
-Use the names logos.co uses. They are not always the names in the code.
+Use the names logos.co uses. They don't always match the names in the code.
 
 | Layer      | Public name                | Modules                 | Note                                                                                     |
 | ---------- | -------------------------- | ----------------------- | ---------------------------------------------------------------------------------------- |
-| Messaging  | **Logos Messaging**        | Delivery, Chat          | `content/pages/en/technology-stack-messaging.json` in `logos-web` is the source of truth |
-| Storage    | **Logos Storage**          | none                    | Content-addressed, CID-based                                                             |
-| Blockchain | **Logos Blockchain**       | Cryptarchia, LEZ, Blend | Privacy-first proof of stake                                                             |
+| Messaging  | Logos Messaging            | Delivery, Chat          | `content/pages/en/technology-stack-messaging.json` in `logos-web` is the source of truth |
+| Storage    | Logos Storage              | none                    | Content-addressed, CID-based                                                             |
+| Blockchain | Logos Blockchain           | Cryptarchia, LEZ, Blend | Privacy-first proof of stake                                                             |
 | Networking | Discovery, peering, mixnet | libp2p, mix             | Underneath the rest                                                                      |
 
-**"Waku" is not used in user-facing copy.** Logos Messaging is built on Waku
-protocols and `logos-delivery` is a Nim implementation of them, but logos.co
-keeps `waku` only as an SEO keyword. Library names keep their own names:
-`@waku/sdk` is called `@waku/sdk` because that is what it is.
+**"Waku" never appears in user-facing copy.** Logos Messaging is built on the
+Waku protocols, and `logos-delivery` is a Nim implementation of them, but
+logos.co keeps `waku` only as an SEO keyword. Libraries keep their own names:
+`@waku/sdk` is still `@waku/sdk`.
 
-"Codex" has the same shape. The storage implementation descends from Codex and
-the npm client is still `@codex-storage/sdk-js`, but the product is Logos
-Storage.
+Codex is the same story. The storage implementation descends from Codex and the
+npm client is still `@codex-storage/sdk-js`, but the product is Logos Storage.
 
 ## Runtime model
 
-Logos is a module system, not a monolith. Two component types:
+Logos is a set of modules, not a monolith, with two kinds of component.
 
-- **Logos Modules** are headless backend services. Each runs in its own
-  `logos_host` process and talks to the others over a local socket with token
-  auth. `chat_module`, `storage_module`, `delivery_module`, `capability_module`.
-- **UI Apps** are Qt/QML plugins loaded into the shell process, which call
-  modules for their backend.
+Logos Modules are headless backend services: `chat_module`, `storage_module`,
+`delivery_module`, `capability_module`. Each runs in its own `logos_host`
+process and talks to the others over a local socket with token auth. UI Apps
+are Qt/QML plugins loaded into the shell process, and they call modules for
+their backend.
 
-Two front ends host them: **Basecamp** (desktop GUI) and **logoscore / logosctl**
-(headless CLI daemon). Both link `liblogos`.
+Two front ends host them, and both link `liblogos`: Basecamp, the desktop GUI,
+and logoscore / logosctl, a headless CLI daemon.
 
-None of this runs in a browser. See [research/browser-viability.md](./research/browser-viability.md).
+None of this runs in a browser. See
+[research/browser-viability.md](./research/browser-viability.md).
 
 ## Module contracts
 
 Modules declare their interface in `.lidl` files, and codegen turns those into
-typed clients per language. `chat_module.lidl` is the most complete example and
-worth reading even if you never call it: it documents 1:1 and group
-conversations, message history, delivery state, and the event set.
+typed clients for each language. `chat_module.lidl` is the most complete one
+and worth reading even if you never call it: it covers 1:1 and group
+conversations, message history, delivery state and the events.
 
 ```
 create_conversation(peer_address)        create_group_conversation(name, desc)
@@ -51,10 +53,10 @@ list_conversations()  get_messages(convo_id)  status()
 event message_received / conversation_created / delivery_state_changed / ...
 ```
 
-The peer address comes from `get_address()` and is exchanged out of band. On
-desktop that means copy and paste, which is the single largest piece of friction
-in the Basecamp chat flow. A web app does not have that problem: it already
-knows both sides' addresses, so a room link is enough.
+The peer address comes from `get_address()` and has to be exchanged out of band.
+On desktop that means copy and paste, which is the biggest source of friction in
+the Basecamp chat flow. A web app doesn't have that problem: it already knows
+both sides' addresses, so a room link is enough.
 
 ## Repositories worth knowing
 
@@ -74,14 +76,13 @@ knows both sides' addresses, so a room link is enough.
 ## logos-js-sdk, and why this app does not use it
 
 `logos-js-sdk` is a koffi FFI wrapper over `liblogos_protocol`. It loads a
-native `.so`/`.dylib` and speaks the `lp_*` C ABI over TCP or a Unix socket to a
-running daemon.
+native `.so` or `.dylib` and speaks the `lp_*` C ABI to a running daemon over
+TCP or a Unix socket.
 
-It cannot run in a browser, and it cannot run on serverless: it needs a native
-library, a long-lived TCP connection, and durable event subscriptions. Its
-provider half does not work at all against `logos-protocol` master, where
-`lp_provider_register` returns `LP_OK` and serves nothing.
+That rules out both the browser and serverless: it needs a native library, a
+long-lived TCP connection and durable event subscriptions. Its provider half
+doesn't work at all against `logos-protocol` master, where
+`lp_provider_register` returns `LP_OK` and then serves nothing.
 
-It is the right tool for a Node service that sits beside a daemon. It is the
-wrong tool for a static web app, which is why these demos talk to protocols
-directly instead.
+It suits a Node service running next to a daemon. A static web app can't use
+it, so these demos talk to the protocols directly.

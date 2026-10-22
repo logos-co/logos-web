@@ -1,80 +1,72 @@
 # CMS environment variables
 
-Reference for every environment variable the CMS reads. Sources: [`apps/cms/.env.example`](../.env.example), [`apps/cms/.env.docker.example`](../.env.docker.example), [`apps/cms/payload.config.ts`](../payload.config.ts), [`apps/cms/scripts/validate-production-build-env.ts`](../scripts/validate-production-build-env.ts) and the `build` task in [`turbo.json`](../../../turbo.json).
+Every environment variable the CMS reads, taken from [`apps/cms/.env.example`](../.env.example), [`apps/cms/.env.docker.example`](../.env.docker.example), [`apps/cms/payload.config.ts`](../payload.config.ts), [`apps/cms/scripts/validate-production-build-env.ts`](../scripts/validate-production-build-env.ts) and the `build` task in [`turbo.json`](../../../turbo.json).
 
-Two templates exist:
-
-| File                  | Copy to                 | Used by                   |
-| --------------------- | ----------------------- | ------------------------- |
-| `.env.example`        | `apps/cms/.env`         | local dev                 |
-| `.env.docker.example` | repo-root `.env.docker` | `docker-compose.prod.yml` |
-
-Never commit a filled-in `.env` or `.env.docker`; secrets are injected at runtime, never baked into the image.
+There are two templates. Copy `.env.example` to `apps/cms/.env` for local dev, and `.env.docker.example` to `.env.docker` at the repo root for `docker-compose.prod.yml`. Never commit either filled-in file; secrets are passed at runtime and never baked into the image.
 
 ## Required to boot
 
-| Variable         | Purpose                                                                                                  |
-| ---------------- | -------------------------------------------------------------------------------------------------------- |
-| `PAYLOAD_SECRET` | Required in every environment. Generate with `openssl rand -hex 32`. Production builds throw when unset. |
-| `DATABASE_URL`   | Postgres connection string. `payload.config.ts` throws when unset.                                       |
+| Variable         | Purpose                                                                                                                                                      |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `DATABASE_URL`   | Postgres connection string. `payload.config.ts` throws when it is unset.                                                                                     |
+| `PAYLOAD_SECRET` | Generate with `openssl rand -hex 32`. `payload.config.ts` throws when it is unset and `NODE_ENV=production`; outside production it falls back to an insecure dev value. |
 
 ## URLs
 
-| Variable                 | Default                 | Notes                                                                                                                                                |
-| ------------------------ | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SERVER_URL` | `http://localhost:3001` | Public CMS origin. Required in self-hosted (non-Vercel) production; the build throws when missing. On Vercel it falls back to `https://$VERCEL_URL`. |
-| `NEXT_PUBLIC_WEB_URL`    | `http://localhost:3000` | Web frontend origin for CORS and CSRF. Required in self-hosted (non-Vercel) production.                                                              |
+| Variable                 | Default                 | Notes                                                                                                                                         |
+| ------------------------ | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SERVER_URL` | `http://localhost:3001` | Public CMS origin. Required in self-hosted production, where the build throws without it. On Vercel it falls back to `https://$VERCEL_URL`. |
+| `NEXT_PUBLIC_WEB_URL`    | `http://localhost:3000` | Public web origin, used for CORS and CSRF. Required in self-hosted production.                                                                |
 
 ## Build time
 
-| Variable                                        | Notes                                                                                                                                                                                                                                   |
-| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY`            | Stable Server Actions key. [`scripts/validate-production-build-env.ts`](../scripts/validate-production-build-env.ts) fails the build when missing. Generate with `openssl rand -base64 32` and reuse the same value across deployments. |
-| `NEXT_PUBLIC_SERVER_URL`, `NEXT_PUBLIC_WEB_URL` | Inlined into the client bundle at build time. Changing them requires a rebuild.                                                                                                                                                         |
+[`scripts/validate-production-build-env.ts`](../scripts/validate-production-build-env.ts) fails `pnpm --filter cms build` when `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` is missing. Generate it once with `openssl rand -base64 32` and reuse the same value for every deployment, because it keeps Server Actions stable across deployments.
+
+`NEXT_PUBLIC_SERVER_URL` and `NEXT_PUBLIC_WEB_URL` are inlined into the client bundle at build time, so changing either needs a rebuild.
 
 ## Postgres tuning
 
-| Variable                           | Default                                           | Notes                                                                                                               |
-| ---------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `PAYLOAD_DB_SCHEMA`                | `payload`                                         | Schema that scopes Payload tables; change it to share one database across environments (for example `payload_dev`). |
-| `PAYLOAD_DB_POOL_MAX`              | `3` local and Vercel, `10` self-hosted production | Max Postgres clients per runtime.                                                                                   |
-| `PAYLOAD_DB_CONNECTION_TIMEOUT_MS` | `5000`                                            | Connection timeout in milliseconds.                                                                                 |
-| `PAYLOAD_DB_QUERY_TIMEOUT_MS`      | `15000`                                           | Query and statement timeout in milliseconds.                                                                        |
-| `PAYLOAD_DB_IDLE_TIMEOUT_MS`       | `5000`                                            | Idle timeout in milliseconds.                                                                                       |
-| `PAYLOAD_HEALTH_TIMEOUT_MS`        | `10000`                                           | Database timeout for the health endpoint, read by `src/app/(payload)/api/health/route.ts`.                          |
+| Variable                           | Default                                           | Notes                                                                                                   |
+| ---------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `PAYLOAD_DB_SCHEMA`                | `payload`                                         | Schema for the Payload tables. Set a different one, such as `payload_dev`, to share a database between environments. |
+| `PAYLOAD_DB_POOL_MAX`              | `3` local and Vercel, `10` self-hosted production | Max Postgres clients per runtime.                                                                       |
+| `PAYLOAD_DB_CONNECTION_TIMEOUT_MS` | `5000`                                            | Connection timeout.                                                                                     |
+| `PAYLOAD_DB_QUERY_TIMEOUT_MS`      | `15000`                                           | Query and statement timeout.                                                                            |
+| `PAYLOAD_DB_IDLE_TIMEOUT_MS`       | `5000`                                            | Idle timeout.                                                                                           |
+| `PAYLOAD_HEALTH_TIMEOUT_MS`        | `10000`                                           | Database timeout for the health endpoint in `src/app/(payload)/api/health/route.ts`.                    |
+
+All timeouts are in milliseconds.
 
 ## Schema sync
 
-| Variable          | Default | Notes                                                                                                                    |
-| ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `PAYLOAD_DB_PUSH` | `true`  | Auto-create or sync the schema on boot. Payload never pushes when `NODE_ENV=production`, so this only affects local dev. |
+`PAYLOAD_DB_PUSH` defaults to `true` and makes Payload create or sync the schema on boot. Payload never pushes when `NODE_ENV=production`, so in practice it only affects local dev. Deployed environments use migrations; see [deployment.md](deployment.md#database-migrations).
 
 ## GitHub PR workflow
 
-Used by the Admin "Create PR" action. GitHub App installation credentials only; personal access tokens are rejected.
+The Admin "Create PR" action needs these. It authenticates as a GitHub App installation and rejects personal access tokens.
 
-| Variable                        | Default    | Notes                                                                                                           |
-| ------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- |
-| `GITHUB_OWNER`                  | none       | Required for "Create PR".                                                                                       |
-| `GITHUB_REPO`                   | none       | Required for "Create PR".                                                                                       |
-| `GITHUB_APP_ID`                 | none       | Required for "Create PR".                                                                                       |
-| `GITHUB_APP_PRIVATE_KEY`        | none       | Required for "Create PR". Multiline key on one line with literal `\n` separators.                               |
-| `GITHUB_INSTALLATION_ID`        | none       | Required for "Create PR".                                                                                       |
-| `GITHUB_PR_BASE_BRANCH`         | `develop`  | Branch new content PRs open against.                                                                            |
-| `GITHUB_STAGING_BRANCH`         | `develop`  | Long-lived staging branch.                                                                                      |
-| `GITHUB_PRODUCTION_BRANCH`      | `master`   | Production branch, promoted to via a develop to master PR.                                                      |
-| `GITHUB_CONTENT_BRANCH_PREFIX`  | `content/` | Prefix on every CMS-managed branch.                                                                             |
-| `CONTENT_DIRECT_COMMIT_ENABLED` | `false`    | When false, the mutation service refuses direct commits to staging or production. Set `true` only in local dev. |
+| Variable                        | Default    | Notes                                                                                  |
+| ------------------------------- | ---------- | -------------------------------------------------------------------------------------- |
+| `GITHUB_OWNER`                  | none       | Required for "Create PR".                                                              |
+| `GITHUB_REPO`                   | none       | Required for "Create PR".                                                              |
+| `GITHUB_APP_ID`                 | none       | Required for "Create PR".                                                              |
+| `GITHUB_APP_PRIVATE_KEY`        | none       | Required for "Create PR". Put the multiline key on one line with literal `\n`.         |
+| `GITHUB_INSTALLATION_ID`        | none       | Required for "Create PR".                                                              |
+| `GITHUB_PR_BASE_BRANCH`         | `develop`  | Branch that content PRs open against.                                                  |
+| `GITHUB_STAGING_BRANCH`         | `develop`  | Long-lived staging branch.                                                             |
+| `GITHUB_PRODUCTION_BRANCH`      | `master`   | Production branch, updated through a `develop` to `master` PR.                         |
+| `GITHUB_CONTENT_BRANCH_PREFIX`  | `content/` | Prefix for every branch the CMS creates.                                               |
+| `CONTENT_DIRECT_COMMIT_ENABLED` | `false`    | While false, the CMS refuses direct commits to the staging or production branch. Only set `true` in local dev. |
 
 ## Docker Compose
 
-Read from repo-root `.env.docker` by `docker-compose.prod.yml`.
+`docker-compose.prod.yml` reads these from `.env.docker` at the repo root.
 
-| Variable                                                                                 | Notes                                                                                                                                       |
-| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`                                      | Credentials for the bundled Postgres. The compose file builds `DATABASE_URL` from these.                                                    |
-| `CMS_PORT`                                                                               | Host port mapped to the container's `:3000` (default `3001`).                                                                               |
-| `CMS_SYNC_ON_BOOT`                                                                       | Default `true`. Seeds or refreshes the CMS database from git `content/` on every boot; set `false` once editors manage content directly.    |
-| `JENKINS_DEV_JOB_URL`, `JENKINS_PRODUCTION_JOB_URL`, `JENKINS_USER`, `JENKINS_API_TOKEN` | Optional. Passed to the container by the compose file but not read by the current CMS code, which publishes through GitHub Actions instead. |
+| Variable                                                                                 | Notes                                                                                                                         |
+| ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`                                      | Credentials for the bundled Postgres. Compose builds `DATABASE_URL` from them.                                                |
+| `CMS_PORT`                                                                               | Host port mapped to the container's port 3000. Default `3001`.                                                                |
+| `CMS_SYNC_ON_BOOT`                                                                       | Default `true`: every boot seeds or refreshes the database from git `content/`. Set `false` once editors manage content in Admin, or git content overwrites their changes on each boot. |
+| `JENKINS_DEV_JOB_URL`, `JENKINS_PRODUCTION_JOB_URL`, `JENKINS_USER`, `JENKINS_API_TOKEN` | Optional. Compose passes them to the container, but the CMS code no longer reads them; it publishes through GitHub Actions.  |
 
-The `PAYLOAD_SECRET`, `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY`, `NEXT_PUBLIC_SERVER_URL`, `NEXT_PUBLIC_WEB_URL`, `PAYLOAD_DB_SCHEMA`, `PAYLOAD_DB_POOL_MAX`, `PAYLOAD_DB_PUSH` and `GITHUB_*` variables also appear in `.env.docker.example` with the same semantics as above.
+`.env.docker.example` also lists `PAYLOAD_SECRET`, `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY`, `NEXT_PUBLIC_SERVER_URL`, `NEXT_PUBLIC_WEB_URL`, `PAYLOAD_DB_SCHEMA`, `PAYLOAD_DB_POOL_MAX`, `PAYLOAD_DB_PUSH` and the `GITHUB_*` variables, which behave as described above.

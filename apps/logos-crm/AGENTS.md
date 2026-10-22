@@ -4,47 +4,45 @@ Rules for agents working in `apps/logos-crm`. The root `AGENTS.md` also applies.
 
 ## Role
 
-A self-hosted CRM (Next.js 16, App Router, server runtime, port 3004) backed by its own PostgreSQL
-database. It is not a static export, and it never calls the GitHub API or the public website.
+Self-hosted CRM on Next.js 16 (App Router, `next start`, port 3004) with its own PostgreSQL
+database. It is not a static export and never calls the GitHub API or the public website.
 
 ## Commands
 
-- `pnpm dev:logos-crm`: Next dev server on port 3004, after building workspace deps.
-- `pnpm --filter logos-crm db:generate`: `drizzle-kit generate` (writes `drizzle/`).
+- `pnpm dev:logos-crm`: dev server on port 3004, after building workspace deps.
+- `pnpm --filter logos-crm db:generate`: `drizzle-kit generate` into `drizzle/`.
 - `pnpm --filter logos-crm db:migrate`: apply migrations to `DATABASE_URL`.
 - `pnpm --filter logos-crm db:seed`: idempotent demo seed.
 - `pnpm --filter logos-crm lint` and `check-types`.
 
 ## Rules
 
-- `src/server/db/schema.ts` is the single source of truth for the database schema.
-- Migrations live in `drizzle/` and are generated with `db:generate`. Never hand-edit the generated
-  SQL; change `schema.ts` and regenerate.
-- Shared request and response contracts are Zod schemas in `src/contracts/`. Infer types with
-  `z.infer` instead of duplicating interfaces, and keep them browser-safe (no server imports).
-- Data invariants are enforced in PostgreSQL (unique indexes and `CHECK` constraints), not only in
-  the repository layer. Preserve them when changing the schema.
-- Route handlers under `src/app/api/v1` stay thin: validate with the contract, call a repository in
-  `src/server`, and map errors with `src/server/api-response.ts`.
-- Server-only code (db, repositories, env) lives under `src/server` and must not be imported by
-  client components.
+- Change the database only in `src/server/db/schema.ts`, then run `db:generate`. Never hand-edit
+  the SQL in `drizzle/`.
+- Keep data invariants in PostgreSQL (unique indexes, `CHECK` constraints) as well as in the
+  repositories. Don't drop them when changing the schema.
+- Put request and response shapes in `src/contracts/` as Zod schemas and get types with `z.infer`.
+  Contracts must stay browser-safe: no server imports.
+- Keep route handlers under `src/app/api/v1` thin: parse with the contract, call a repository in
+  `src/server`, and turn errors into responses with `apiException` from `src/server/api-response.ts`.
+- Never import `src/server` (db, repositories, env) from client components.
+- Route new user-facing strings through `messages/en.json`, even though most existing UI copy is
+  hardcoded.
 
 ## Caveats
 
-- `cases.organisation` and `cases.owner` are denormalised free text, not foreign keys; the link
-  tables `case_organisations` and `case_people` carry the real relationships.
-- `activities` and `tasks` each require exactly one subject (case, person, or organisation) via a
-  Postgres `CHECK`. Create rows through `work-repository.ts`, not raw inserts.
-- The `version` column on directory rows exists but is not yet used for concurrency control.
+- `crm_cases.organisation` and `crm_cases.owner` are free-text display values, not foreign keys.
+  The real links are in `crm_case_organisations` and `crm_case_people`.
+- Activities and tasks need exactly one subject (case, person or organisation), enforced by a
+  Postgres `CHECK`. Create them through `work-repository.ts`, not raw inserts.
+- The `version` column on people and organisations is never read or incremented.
 - There is no authentication and `compose.yaml` hard-codes the database credentials. Keep both
-  ports bound to `127.0.0.1`; never present the setup as safe to expose publicly.
-- next-intl is configured with a single `en` locale, but only page metadata is localised today; UI
-  copy is hardcoded in components. Route new user-facing strings through `messages/en.json`.
+  ports bound to `127.0.0.1` and never describe the setup as safe to expose.
 
 ## Docs
 
 - [docs/architecture.md](docs/architecture.md): overall shape and what is not built yet.
-- [docs/data-model.md](docs/data-model.md): tables, columns, constraints, and indexes.
-- [docs/backend.md](docs/backend.md): contracts, repositories, and API routes.
-- [docs/frontend.md](docs/frontend.md): screens, components, and client data.
-- [docs/deployment.md](docs/deployment.md): Docker Compose, the Dockerfile, and migrations.
+- [docs/data-model.md](docs/data-model.md): tables, columns, constraints and indexes.
+- [docs/backend.md](docs/backend.md): contracts, repositories and API routes.
+- [docs/frontend.md](docs/frontend.md): screens, components and client data.
+- [docs/deployment.md](docs/deployment.md): Docker Compose, the Dockerfile and migrations.

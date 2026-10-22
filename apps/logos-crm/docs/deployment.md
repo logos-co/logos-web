@@ -1,29 +1,29 @@
 # Logos CRM deployment
 
-How `apps/logos-crm` runs and how its schema is applied. The source of truth is
-[`compose.yaml`](../compose.yaml), [`Dockerfile`](../Dockerfile), [`drizzle.config.ts`](../drizzle.config.ts),
-and [`.env.example`](../.env.example).
+How `apps/logos-crm` runs in Docker and how its schema gets applied. The files that define it are
+[`compose.yaml`](../compose.yaml), [`Dockerfile`](../Dockerfile),
+[`drizzle.config.ts`](../drizzle.config.ts) and [`.env.example`](../.env.example).
 
 ## Deployment model
 
-The only supported target is Docker Compose on a Logos-controlled Linux host. There is no worker
-service, no SMTP, no authentication proxy, and no file volume today: the project runs one
-PostgreSQL service, one short-lived setup step, and one web service.
+Docker Compose is the only deployment setup in the repo. It runs a PostgreSQL service, a
+short-lived setup container and the web service; there is no worker, SMTP, authentication proxy or
+file volume.
 
-The app has no authentication and the compose file hard-codes the database credentials
-(`logos`/`logos`), so this setup is for local or demo use only. Both ports bind to `127.0.0.1`; do
-not expose them beyond the host until authentication and real secrets are in place.
+Treat it as local or demo only. The app has no authentication and `compose.yaml` hard-codes the
+database credentials (`logos`/`logos`). Both ports bind to `127.0.0.1`, and they should stay that
+way until there is authentication and real secrets.
 
 ## Compose services
 
-| Service     | Responsibility                                                                                                      |
+| Service     | What it does                                                                                                        |
 | ----------- | ------------------------------------------------------------------------------------------------------------------- |
 | `crm-db`    | PostgreSQL 17 (`postgres:17-alpine`), bound to `127.0.0.1:5434`, named volume `logos-crm-db`, readiness healthcheck |
-| `crm-setup` | One-shot container that runs `db:migrate` then `db:seed`, then exits                                                |
-| `crm-web`   | The Next.js app, bound to `127.0.0.1:3004`, healthcheck on `/api/health`, starts after `crm-setup` completes        |
+| `crm-setup` | Waits for a healthy `crm-db`, runs `db:migrate` then `db:seed`, and exits                                           |
+| `crm-web`   | The Next.js app on `127.0.0.1:3004`, healthcheck on `/api/health`, starts once `crm-setup` has succeeded            |
 
-Both app containers build from [`Dockerfile`](../Dockerfile) with the repo root as context, and
-connect to the database as `postgresql://logos:logos@crm-db:5432/logos_crm`.
+`crm-setup` and `crm-web` build the same image from [`Dockerfile`](../Dockerfile) with the repo root
+as build context, and both connect as `postgresql://logos:logos@crm-db:5432/logos_crm`.
 
 ## Run
 
@@ -31,35 +31,37 @@ connect to the database as `postgresql://logos:logos@crm-db:5432/logos_crm`.
 docker compose -f apps/logos-crm/compose.yaml up --build
 ```
 
-The CRM is then served at `http://localhost:3004`.
+Because `crm-setup` migrates and seeds before `crm-web` starts, a clean `up --build` gives you a
+ready database and the CRM on `http://localhost:3004`.
 
 ## Image build
 
-The Dockerfile uses `node:24-alpine`, enables pnpm 11.1.0 via corepack, builds
-`@acid-info/logos-ui` first, then builds the app with a placeholder `DATABASE_URL`, and starts it
-with `pnpm --filter logos-crm start`.
+The image starts from `node:24-alpine` and enables pnpm 11.1.0 through corepack. It installs the
+workspace, builds `@acid-info/logos-ui`, then builds the app with a placeholder `DATABASE_URL`
+(`postgresql://build:build@localhost:5432/build`). The container runs
+`pnpm --filter logos-crm start`, which is `next start --port 3004`.
 
 ## Migrations
 
-Migrations are owned by drizzle-kit and stored in [`drizzle/`](../drizzle). The config in
-[`drizzle.config.ts`](../drizzle.config.ts) points at `src/server/db/schema.ts` and defaults to
-`postgresql://logos:logos@localhost:5434/logos_crm` when `DATABASE_URL` is not set.
+drizzle-kit owns the migrations in [`drizzle/`](../drizzle). [`drizzle.config.ts`](../drizzle.config.ts)
+reads the schema from `src/server/db/schema.ts` and connects to `DATABASE_URL`, falling back to
+`postgresql://logos:logos@localhost:5434/logos_crm`, which is the Compose database.
 
-- `pnpm --filter logos-crm db:generate` writes a new migration from a schema change.
-- `pnpm --filter logos-crm db:migrate` applies pending migrations.
-- `pnpm --filter logos-crm db:seed` loads the idempotent demo seed.
+```bash
+pnpm --filter logos-crm db:generate   # write a new migration after changing schema.ts
+pnpm --filter logos-crm db:migrate    # apply pending migrations
+pnpm --filter logos-crm db:seed       # load the idempotent demo seed
+```
 
-Never edit the generated SQL in `drizzle/` by hand; change the schema and regenerate. The compose
-`crm-setup` service runs migrate and seed automatically, so a clean `up --build` produces a ready
-database.
+Never edit the generated SQL by hand; change the schema and regenerate.
 
 ## Environment
 
-The app validates its environment with [`src/server/env.ts`](../src/server/env.ts). The only
-variable is `DATABASE_URL`, a PostgreSQL connection string. Copy `.env.example` to `.env` for local
-development outside Docker.
+[`src/server/env.ts`](../src/server/env.ts) validates the environment with Zod. The only variable is
+`DATABASE_URL`, a PostgreSQL connection string. For local development outside Docker, copy
+`.env.example` to `.env`.
 
 ## Backup and recovery
 
-No backup or restore automation is included yet. Standard PostgreSQL tooling (`pg_dump` against the
-`crm-db` volume) is the manual option until a runbook is added.
+There is no backup or restore automation yet. Until there is a runbook, back up by hand with
+standard PostgreSQL tools such as `pg_dump` against the `crm-db` service.

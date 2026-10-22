@@ -1,9 +1,20 @@
 # @repo/config
 
-Shared ESLint, TypeScript and Prettier presets for every workspace in the monorepo.
+ESLint, TypeScript and Prettier presets shared by every workspace in the monorepo.
 
-- ESLint: [`eslint/base.mjs`](eslint/base.mjs) (TypeScript-aware base) and [`eslint/next.mjs`](eslint/next.mjs) (Next.js apps).
-- TypeScript: [`typescript/base.json`](typescript/base.json), [`typescript/next.json`](typescript/next.json) and [`typescript/react-library.json`](typescript/react-library.json).
-- Prettier: [`prettier/index.mjs`](prettier/index.mjs), re-exported by the root [`prettier.config.mjs`](../../prettier.config.mjs).
+Workspaces use the presets by relative path, not by package name. The ESLint config goes into the workspace's `eslint.config.mjs`, choosing [`eslint/base.mjs`](eslint/base.mjs) for TypeScript packages or [`eslint/next.mjs`](eslint/next.mjs) for Next.js apps:
 
-The package `exports` map exposes `./eslint/base`, `./eslint/next` and `./prettier`. In practice apps import the ESLint config by relative path, for example `import nextConfig from '../../packages/config/eslint/next.mjs'`, and reference the TypeScript presets via `"extends": "../../packages/config/typescript/next.json"` in `tsconfig.json`.
+```js
+import nextConfig from '../../packages/config/eslint/next.mjs'
+
+export default [
+  { ignores: ['next-env.d.ts'] },
+  ...nextConfig,
+]
+```
+
+`tsconfig.json` extends one of [`typescript/base.json`](typescript/base.json), [`typescript/next.json`](typescript/next.json) or [`typescript/react-library.json`](typescript/react-library.json) with `"extends": "../../packages/config/typescript/next.json"`.
+
+Prettier settings live in [`prettier/index.mjs`](prettier/index.mjs): no semicolons, single quotes, ES5 trailing commas. The root [`prettier.config.mjs`](../../prettier.config.mjs) re-exports them, so Prettier picks them up when you run it from the repo root.
+
+The `exports` map declares `./eslint/base`, `./eslint/next` and `./prettier`, but nothing imports `@repo/config/...` today. A new workspace should follow the relative-path pattern above instead of importing the package by name.

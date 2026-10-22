@@ -1,66 +1,71 @@
 # Design system
 
-How demos in `apps/logos-demos` must look and read. Every demo uses the existing
-Logos design system; a demo that looks unlike logos.co is a bug, however well it
-works. Code covered: `src/app/globals.css`, `packages/tokens`, `packages/ui`.
+How the demos must look and read. Code:
+[`src/app/globals.css`](../src/app/globals.css),
+[`packages/tokens`](../../../packages/tokens) and
+[`packages/ui`](../../../packages/ui).
+
+Every demo uses the Logos design system. A demo that looks unlike logos.co is a
+bug, however well it works.
 
 ## Nothing below 14px, and no size literals
 
-The shared tokens in `packages/tokens` include 12px steps (`text-eyebrow`,
-`text-mono-s`, `text-caption-sans`). Do not use them here. This app defines
-`text-label` and `text-mono-body` in `globals.css` for those roles, and
-`text-body-sans` is already 14px.
+The shared tokens include three 12px utilities: `text-eyebrow`, `text-mono-s`
+and `text-caption-sans`. Don't use them here. For those roles this app defines
+`text-label` and `text-mono-body` in `globals.css`, and `text-body-sans` is
+already 14px.
 
 Never write a font size as a literal, in CSS or as `text-[15px]`. Sizes come
-from Tailwind's scale (`var(--text-sm)`, `var(--text-base)`, `var(--text-lg)`,
-`var(--text-xl)`).
+from Tailwind's scale: `var(--text-sm)`, `var(--text-base)`, `var(--text-lg)`,
+`var(--text-xl)`.
 
-The tokens are not changed to fix this, because logos.co uses them too. Shared
-components set their own sizes: `Button` in `packages/ui` renders its label at
-`text-xs` (12px), so `globals.css` raises `.text-xs` to `var(--text-sm)` for
-this app only, unlayered so it outranks the utility it is raising.
+We don't change the tokens to get there, because logos.co uses them too. The
+same goes for shared components that set their own sizes: `Button` in
+`packages/ui` renders its label at `text-xs` (12px), so `globals.css` raises
+`.text-xs` to `var(--text-sm)` for this app only. That rule is unlayered so it
+outranks the Tailwind utility it overrides.
 
 ## Components
 
-Components come from `@acid-info/logos-ui`: `Button`, `Card`, `Table`, the icon
-set, `LogosMark`. If a primitive is missing, add it to `packages/ui` rather than
-writing a local one. A demo imports the design system; it does not restyle from
-scratch.
+Use the components from `@acid-info/logos-ui`: `Button`, `Card`, `Table`, the
+icon set and `LogosMark`. If a primitive is missing, add it to `packages/ui`
+instead of writing a local one. Demos import the design system; they don't
+restyle from scratch.
 
 ## Typography
 
-Use the token utilities from `packages/tokens`: `text-hero`, `text-h1`,
+Use the type utilities from `packages/tokens`: `text-hero`, `text-h1`,
 `text-h2`, `text-h3-serif`, `text-h4-serif`, `text-card-title-serif`,
 `text-subhead-serif`, `text-body-serif`, `text-h3-sans`, `text-h4-sans`,
-`text-subhead-sans`, `text-body-sans`, `text-caption-sans`, `text-eyebrow`,
-`text-mono-s`. Never set a font size or line height directly.
+`text-subhead-sans` and `text-body-sans`, plus this app's `text-label` and
+`text-mono-body`. Never set a font size or line height directly.
 
 ## Colours
 
-Use the token utilities: `bg-brand-dark-green`, `text-brand-off-white`,
-`text-gray-05`, `border-gray-01`, `bg-accent-light-blue`, and the rest of the
-palette in `packages/tokens/src/colors.css`. Never inline a hex value, and never
-put a raw `var(--color-...)` in a className.
+Use the colour utilities, such as `bg-brand-dark-green`,
+`text-brand-off-white`, `text-gray-05`, `border-gray-01` and
+`bg-accent-light-blue`; the full palette is in
+[`packages/tokens/src/colors.css`](../../../packages/tokens/src/colors.css).
+Never inline a hex value or put a raw `var(--color-...)` in a className.
 
-Every clickable element keeps `cursor-pointer` in its className; the `Button`
-primitive does not add it.
+Every clickable element needs `cursor-pointer` in its className. The `Button`
+primitive doesn't add it.
 
 ## Copy
 
 No em dashes anywhere: page titles, body copy, explainers, docs, code comments.
-Use a comma, a colon, a full stop, or split the sentence. A long dash used to
-stand in for a missing value is also out: say what is missing (`not reported`,
+Use a comma, a colon or a full stop, or split the sentence. Don't use a long
+dash to stand for a missing value either; say what is missing (`not reported`,
 `none`).
 
-Naming follows logos.co: the stack area is **Logos Messaging**, with **Delivery**
-and **Chat** as its modules. Never write "Waku" in visitor-facing copy. Library
-names and code identifiers (`@waku/sdk`, `use-waku-node.ts`) keep their own
-names. See [logos-stack.md](logos-stack.md).
+Names follow logos.co. The stack area is Logos Messaging, and its modules are
+Delivery and Chat. Never write "Waku" in copy a visitor sees. Library names and
+code identifiers (`@waku/sdk`, `use-waku-node.ts`) keep their own names. See
+[logos-stack.md](logos-stack.md).
 
-Demo copy is hardcoded in components, not routed through `next-intl`, and this
+Demo copy is hardcoded in components and doesn't go through `next-intl`; this
 app is exempt from the repo-wide i18n rule. The demos are single-locale
-explanatory pages whose wording is inseparable from the behaviour being
-demonstrated. If a demo ever ships in more than one language, move that demo's
-copy to `next-intl` at that point.
+explanatory pages, and their wording is tied to the behaviour they show. If a
+demo ever ships in more than one language, move its copy to `next-intl` then.
 
-Copy is British English and English-only in committed files.
+Copy is British English, and committed files are English only.
