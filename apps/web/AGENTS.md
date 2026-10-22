@@ -12,7 +12,7 @@ GitHub API or CMS calls to the public site.
 
 Run from the repo root:
 
-    pnpm --filter web dev
+    pnpm dev:web
     pnpm turbo run build --filter=web
     pnpm --filter web start
     pnpm --filter web lint

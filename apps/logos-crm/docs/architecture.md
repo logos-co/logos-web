@@ -23,7 +23,7 @@ and tasks. It ships without authentication and with demo data seeded by `db:seed
 | Framework   | Next.js 16 App Router, React 19, TypeScript                                                |
 | Database    | PostgreSQL via Drizzle ORM (`node-postgres`)                                               |
 | API         | Next.js Route Handlers under `/api/v1`                                                     |
-| Validation  | Zod v4 schemas in `src/contracts/`                                                         |
+| Validation  | Zod v3 schemas in `src/contracts/`                                                         |
 | Client data | TanStack Query v5, TanStack Table v8                                                       |
 | Forms       | React Hook Form with `@hookform/resolvers`                                                 |
 | UI          | `@acid-info/logos-ui`, `@acid-info/logos-tokens`, Tailwind CSS v4, `react-aria-components` |

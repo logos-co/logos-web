@@ -9,7 +9,7 @@ database. It is not a static export, and it never calls the GitHub API or the pu
 
 ## Commands
 
-- `pnpm --filter logos-crm dev`: Next dev server on port 3004.
+- `pnpm dev:logos-crm`: Next dev server on port 3004, after building workspace deps.
 - `pnpm --filter logos-crm db:generate`: `drizzle-kit generate` (writes `drizzle/`).
 - `pnpm --filter logos-crm db:migrate`: apply migrations to `DATABASE_URL`.
 - `pnpm --filter logos-crm db:seed`: idempotent demo seed.

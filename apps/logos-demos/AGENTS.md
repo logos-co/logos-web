@@ -14,7 +14,7 @@ ours, Blockchain and Storage read through a proxy. See
 
 Run from the repo root:
 
-    pnpm --filter logos-demos dev            # http://localhost:3005
+    pnpm turbo run dev --filter=logos-demos... # http://localhost:3005
     pnpm turbo run build --filter=logos-demos
     pnpm --filter logos-demos lint
     pnpm --filter logos-demos check-types

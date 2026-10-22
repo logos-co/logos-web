@@ -7,7 +7,7 @@ n8n/Baserow webhook for the steward form.
 
 ## Run
 
-    pnpm --filter api dev          # http://localhost:3003
+    pnpm dev:api                   # http://localhost:3003
     pnpm --filter api test         # Vitest
     pnpm --filter api lint
     pnpm --filter api check-types

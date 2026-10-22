@@ -24,7 +24,7 @@ for what a browser can and cannot do.
 
 ## Run
 
-    pnpm --filter logos-demos dev            # http://localhost:3005
+    pnpm turbo run dev --filter=logos-demos...   # http://localhost:3005
     pnpm turbo run build --filter=logos-demos
     pnpm --filter logos-demos test
     pnpm --filter logos-demos test:e2e

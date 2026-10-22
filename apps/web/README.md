@@ -5,7 +5,7 @@ exported to static HTML and served at https://logos.co.
 
 ## Run
 
-    pnpm --filter web dev        # http://localhost:3000
+    pnpm dev:web                 # http://localhost:3000
 
 ## Build
 

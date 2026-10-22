@@ -12,7 +12,7 @@ For local development without Docker, start PostgreSQL first, then:
 
     pnpm --filter logos-crm db:migrate
     pnpm --filter logos-crm db:seed
-    pnpm --filter logos-crm dev           # http://localhost:3004
+    pnpm dev:logos-crm                    # http://localhost:3004
 
 ## Environment
 
