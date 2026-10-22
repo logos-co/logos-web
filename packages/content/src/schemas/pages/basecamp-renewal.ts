@@ -56,6 +56,8 @@ export const basecampRenewalSectionSchema = z.object({
       tabs: lines.length(6),
       online: copy,
       offline: copy,
+      notStarted: copy,
+      starting: copy,
       emptyValue: copy,
       nodeLabel: copy,
       miningLabel: copy,

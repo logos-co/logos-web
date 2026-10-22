@@ -105,6 +105,8 @@
           "tabs": ["Node", "Rewards", "Explorer", "Wallet", "Mining", "Settings"],
           "online": "Online",
           "offline": "Offline",
+          "notStarted": "Not started",
+          "starting": "Starting…",
           "emptyValue": "—",
           "nodeLabel": "Node status",
           "miningLabel": "Mining",

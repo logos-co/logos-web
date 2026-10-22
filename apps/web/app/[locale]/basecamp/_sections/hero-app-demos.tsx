@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { BasecampCheckIcon, LogosMark } from '@acid-info/logos-ui'
 
 import type { Renewal } from './atoms'
+import { useNodeBoot } from './use-node-boot'
 
 interface BlockchainDemoProps {
   copy: Renewal['hero']['blockchainDemo']
@@ -15,6 +16,22 @@ export function BlockchainDemo({ copy, title, category }: BlockchainDemoProps) {
   const [tab, setTab] = useState(0)
   const [nodeRunning, setNodeRunning] = useState(true)
   const [mining, setMining] = useState(true)
+  const boot = useNodeBoot(nodeRunning)
+  const isOnline = nodeRunning && boot.isOnline
+  const doneStages = nodeRunning ? boot.doneStages : 0
+  const statusLabel = !nodeRunning
+    ? copy.offline
+    : !boot.isStarted
+      ? copy.notStarted
+      : isOnline
+        ? copy.online
+        : copy.starting
+  const statusClass =
+    !nodeRunning || !boot.isStarted
+      ? 'is-offline'
+      : isOnline
+        ? ''
+        : 'is-starting'
 
   return (
     <div className="bc-demo-blockchain">
@@ -31,7 +48,7 @@ export function BlockchainDemo({ copy, title, category }: BlockchainDemoProps) {
           <button
             type="button"
             className="cursor-pointer"
-            disabled={!nodeRunning}
+            disabled={!isOnline}
             onClick={() => setMining((value) => !value)}
           >
             {mining ? copy.stopMining : copy.startMining}
@@ -70,11 +87,9 @@ export function BlockchainDemo({ copy, title, category }: BlockchainDemoProps) {
         <div className="bc-demo-node-panel" role="tabpanel">
           <div className="bc-demo-node-status">
             <div className="bc-demo-node-status-head">
-              <strong className={nodeRunning ? '' : 'is-offline'}>
-                {nodeRunning ? copy.online : copy.offline}
-              </strong>
+              <strong className={statusClass}>{statusLabel}</strong>
               <span>
-                {nodeRunning ? (
+                {isOnline ? (
                   <>
                     {copy.uptime}
                     <br />
@@ -88,37 +103,42 @@ export function BlockchainDemo({ copy, title, category }: BlockchainDemoProps) {
                 <span
                   key={stage}
                   className={
-                    !nodeRunning
-                      ? ''
-                      : index < 2
-                        ? 'is-done'
-                        : index === 2
-                          ? 'is-current'
-                          : ''
+                    index < doneStages
+                      ? 'is-done'
+                      : index === doneStages && boot.isStarted && nodeRunning
+                        ? 'is-current'
+                        : ''
                   }
                 >
-                  {nodeRunning && index < 2 ? <BasecampCheckIcon /> : null}
+                  {index < doneStages ? <BasecampCheckIcon /> : null}
                   {stage}
                 </span>
               ))}
             </div>
           </div>
           <div className="bc-demo-node-metrics">
-            {copy.metrics.map((metric) => (
-              <div key={metric.label}>
-                <small>{metric.label}</small>
-                <strong
-                  className={
-                    metric.label === copy.metrics[2].label ? 'is-blue' : ''
-                  }
-                >
-                  {nodeRunning ? metric.value : copy.emptyValue}
-                </strong>
-                {metric.detail && (
-                  <span>{nodeRunning ? metric.detail : ''}</span>
-                )}
-              </div>
-            ))}
+            {copy.metrics.map((metric) => {
+              const isPeerId = metric.label === copy.peerLabel
+              return (
+                <div key={metric.label}>
+                  <small>{metric.label}</small>
+                  <strong
+                    className={
+                      isOnline && metric.label === copy.metrics[2].label
+                        ? 'is-blue'
+                        : ''
+                    }
+                  >
+                    {isOnline || (nodeRunning && isPeerId)
+                      ? metric.value
+                      : copy.emptyValue}
+                  </strong>
+                  {metric.detail && (
+                    <span>{isOnline ? metric.detail : ''}</span>
+                  )}
+                </div>
+              )
+            })}
           </div>
         </div>
       ) : (

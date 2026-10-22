@@ -111,6 +111,9 @@
 .bc-demo-node-status-head strong.is-offline {
   color: #8a8a8a;
 }
+.bc-demo-node-status-head strong.is-starting {
+  color: #ededed;
+}
 .bc-demo-node-status-head span {
   color: #9a9a9a;
   text-align: right;
@@ -143,6 +146,14 @@
   text-align: center;
   text-overflow: ellipsis;
   font-size: 9px;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bc-demo-node-stages span {
+    transition: none;
+  }
 }
 .bc-demo-node-stages svg {
   flex: 0 0 10px;
