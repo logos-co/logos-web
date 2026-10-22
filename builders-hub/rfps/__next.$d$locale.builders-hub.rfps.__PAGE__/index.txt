@@ -1124,7 +1124,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.7:T6890,# RFP-005 — Multisig and Coordination
+**Discussions**.7:T68f5,# RFP-005 — Multisig and Coordination
 
 > **Note.** This specification describes an outcome that may benefit the Logos
 > ecosystem. It is a proposal rather than an instruction. Its requirements
@@ -1166,8 +1166,9 @@ the properties LEZ makes uniquely possible: multisig state that is private by
 default, and a coordination channel that is encrypted and metadata-resistant.
 
 The deliverable is a codebase carried through an independent security audit
-(Supportability requirement #13) and deployed on devnet/testnet. Deploying or
-operating the software beyond that is outside the scope of this RFP.
+(Supportability requirement #13), with the multisig LEZ program delivered for
+LEZ testnet 0.4 (Supportability requirement #4). Deploying or operating the
+software beyond that is outside the scope of this RFP.
 
 Multisig is the single most widely used custody primitive in the ecosystem, and
 the value in multisig custody today is immense. Safe (formerly Gnosis Safe), the
@@ -1301,7 +1302,7 @@ design space.
 #### Performance
 
 1. Compute unit usage, transaction size, and client-side proving time for each
-   on-chain operation must be documented and benchmarked against LEZ devnet
+   on-chain operation must be documented and benchmarked against LEZ testnet 0.4
    limits. All benchmarks must be produced with **real proving**. Development
    mode produces stub receipts orders of magnitude smaller and faster than real
    ones, and figures gathered that way are meaningless for capacity planning;
@@ -1318,8 +1319,9 @@ design space.
 01. The multisig program runs on the Logos Execution Zone (LEZ) and uses LEZ
     private accounts for its private-by-default posture.
 02. The per-multisig coordination room is built on the Logos chat module.
-03. The delivered implementation is compatible with Logos testnet 0.3 and 0.4.
-04. The multisig program is deployed and tested on LEZ devnet/testnet.
+03. The delivered implementation is compatible with Logos testnet 0.4.
+04. The multisig LEZ program is delivered for LEZ testnet 0.4: it is deployed
+    and tested on LEZ testnet 0.4.
 05. End-to-end integration tests run against a LEZ sequencer (standalone mode)
     and are included in CI.
 06. CI must be green on the default branch.
@@ -2195,7 +2197,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.9:T4897,# RFP-012 — Curated Lending Vaults
+**Discussions**.9:T4917,# RFP-012 — Curated Lending Vaults
 
 > **Note.** This specification describes an outcome that may benefit the Logos
 > ecosystem. It is a proposal rather than an instruction. Its requirements
@@ -2235,6 +2237,9 @@ accepts deposits of a single loan token, issues transferable vault share tokens
 lending markets according to a curator-defined strategy. This is the Morpho
 Vaults V2 equivalent for LEZ: a vault layer that abstracts isolated markets into
 a single deposit interface for passive lenders.
+
+The vault LEZ program is delivered for LEZ testnet 0.4 (Supportability
+requirement #1).
 
 Morpho Blue's isolated-market core is powerful but requires lenders to choose
 individual markets manually (evaluating collateral quality, oracle reliability,
@@ -2397,7 +2402,8 @@ concentrating risk decisions in a single governance body.
 
 #### Supportability
 
-1. The updated program is deployed and tested on LEZ devnet/testnet.
+1. The vault LEZ program is delivered for LEZ testnet 0.4: it is deployed and
+   tested on LEZ testnet 0.4.
 2. End-to-end integration tests run against a LEZ sequencer (standalone mode)
    and are included in CI; CI must be green on the default branch.
 3. Every hard requirement in Functionality, Usability, Reliability, and
@@ -2904,7 +2910,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.b:T3ca5,# RFP-014 — Liquidation & Auction Engine
+**Discussions**.b:T3d51,# RFP-014 — Liquidation & Auction Engine
 
 > **Note.** This specification describes an outcome that may benefit the Logos
 > ecosystem. It is a proposal rather than an instruction. Its requirements
@@ -2943,6 +2949,9 @@ designed as a reusable program that each CDP product can deploy as its own
 instance. It detects undercollateralized positions, seizes collateral, and sells
 it via auctions to cover debt. It also manages protocol surplus and debt through
 separate auction mechanisms.
+
+The liquidation and auction LEZ program is delivered for LEZ testnet 0.4
+(Supportability requirement #1).
 
 The design follows proven patterns from
 [RAI / Reflexer Finance](https://reflexer.finance/): a fixed-discount auction
@@ -3071,7 +3080,8 @@ guarantees.
 
 #### Supportability
 
-1. The program is deployed and tested on LEZ devnet/testnet.
+1. The liquidation and auction LEZ program is delivered for LEZ testnet 0.4: it
+   is deployed and tested on LEZ testnet 0.4.
 
 2. End-to-end integration tests run against a LEZ sequencer (standalone mode)
    with `RISC0_DEV_MODE=0` and are included in CI.
@@ -3264,7 +3274,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.c:Tad99,# RFP-015: Privacy-Preserving Token Launchpad: Bonding Curve
+**Discussions**.c:Tad45,# RFP-015: Privacy-Preserving Token Launchpad: Bonding Curve
 
 > **Note.** This specification describes an outcome that may benefit the Logos
 > ecosystem. It is a proposal rather than an instruction. Its requirements
@@ -3307,6 +3317,9 @@ pattern (see [RFP-008](/builders-hub/rfps/lending-borrowing-protocol), which def
 this interaction model for LEZ applications): when a private account is used,
 each purchase is routed through a fresh, single-use public account, hiding the
 link between the buyer's private identity and their participation in the sale.
+
+The bonding curve LEZ program is delivered for LEZ testnet 0.4 (Supportability
+requirement #1).
 
 The bonding curve launchpad complements [RFP-016](/builders-hub/rfps/lbp-launchpad):
 where LBPs reward patient buyers (price falls over time unless buying pressure
@@ -3720,14 +3733,12 @@ instead.
    one LEZ transaction.
 3. Document the compute unit (CU) cost of each operation: create namespace,
    create sale, buy, sell, close sale, collect fees, withdraw, set fee rate, set
-   treasury. Note the LEZ testnet version against which measurements were taken.
+   treasury. Measurements are taken on LEZ testnet 0.4.
 
 #### Supportability
 
-Proposals must include separate milestones for testnet 0.2, testnet 0.3, and
-mainnet deployment.
-
-1. The bonding curve program is deployed and tested on LEZ testnet 0.2.
+1. The bonding curve LEZ program is delivered for LEZ testnet 0.4: it is
+   deployed and tested on LEZ testnet 0.4.
 2. End-to-end integration tests run against a LEZ sequencer (standalone mode)
    and are included in CI. CI must be green on the default branch.
 3. Every hard requirement in Functionality, Usability, Reliability, and
@@ -3754,8 +3765,6 @@ mainnet deployment.
    specifying which guarantees are enforced by the on-chain program and which
    depend on correct client behaviour; and what happens if a user bypasses the
    expected interaction path.
-6. The program is updated and verified on LEZ testnet 0.3.
-7. The program is deployed to LEZ mainnet.
 
 #### + Privacy
 
@@ -4048,7 +4057,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.d:Ta780,# RFP-016: Privacy-Preserving Token Launchpad: LBP
+**Discussions**.d:Ta71c,# RFP-016: Privacy-Preserving Token Launchpad: LBP
 
 > **Note.** This specification describes an outcome that may benefit the Logos
 > ecosystem. It is a proposal rather than an instruction. Its requirements
@@ -4094,6 +4103,9 @@ purchase is routed through a fresh, single-use public account, hiding the link
 between the buyer's private identity and their participation in the sale. An
 optional private allowlist gate enables projects to restrict participation
 without exposing the eligibility set on-chain.
+
+The LBP LEZ program is delivered for LEZ testnet 0.4 (Supportability requirement
+#1).
 
 The launchpad is the entry point for new projects into the Logos ecosystem. It
 is where token price and initial distribution are established.
@@ -4489,15 +4501,13 @@ pattern for account layout and address derivation.
 3. Document the compute unit (CU) cost of each operation: create namespace,
    create sale, buy, poke weights, pause/resume, close sale, collect fees,
    withdraw, set fee rate, set treasury. The withdraw figure must include the
-   fee transfer when collection has not already occurred. Note the LEZ testnet
-   version against which measurements were taken.
+   fee transfer when collection has not already occurred. Measurements are taken
+   on LEZ testnet 0.4.
 
 #### Supportability
 
-Proposals must include separate milestones for testnet 0.2, testnet 0.3, and
-mainnet deployment.
-
-1. The launchpad program is deployed and tested on LEZ testnet 0.2.
+1. The LBP LEZ program is delivered for LEZ testnet 0.4: it is deployed and
+   tested on LEZ testnet 0.4.
 2. End-to-end integration tests run against a LEZ sequencer (standalone mode)
    and are included in CI. CI must be green on the default branch.
 3. Every hard requirement in Functionality, Usability, Reliability, and
@@ -4526,8 +4536,6 @@ mainnet deployment.
    specifying which guarantees are enforced by the on-chain program and which
    depend on correct client behaviour; and what happens if a user bypasses the
    expected interaction path.
-6. The program is updated and verified on LEZ testnet 0.3.
-7. The program is deployed to LEZ mainnet.
 
 #### + Privacy
 
@@ -4829,7 +4837,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.e:T56f6,# RFP-017: Privacy-Preserving Token Vesting
+**Discussions**.e:T5667,# RFP-017: Privacy-Preserving Token Vesting
 
 > **Note.** This specification describes an outcome that may benefit the Logos
 > ecosystem. It is a proposal rather than an instruction. Its requirements
@@ -4868,6 +4876,9 @@ milestone-based). Recipients can claim vested tokens directly to a public
 account or to a private account. When claimed to a private account, the
 destination and all subsequent token movements are hidden from on-chain
 observers.
+
+The vesting LEZ program is delivered for LEZ testnet 0.4 (Supportability
+requirement #1).
 
 Token vesting is a prerequisite for credible token launches. Every protocol that
 issues a token must lock some allocation for founders, early contributors, or
@@ -5073,16 +5084,13 @@ distribution platforms) may be included but is not required.
 
 1. A single claim completes within one LEZ transaction.
 2. Document the compute unit (CU) cost of each operation: create schedule,
-   claim, cancel, signal milestone, transfer beneficiary. Note the LEZ testnet
-   version against which measurements were taken, as the per-transaction compute
-   budget may change.
+   claim, cancel, signal milestone, transfer beneficiary. Measurements are taken
+   on LEZ testnet 0.4.
 
 #### Supportability
 
-Proposals must include separate milestones for testnet 0.2, testnet 0.3, and
-mainnet deployment.
-
-1. The vesting program is deployed and tested on LEZ testnet 0.2.
+1. The vesting LEZ program is delivered for LEZ testnet 0.4: it is deployed and
+   tested on LEZ testnet 0.4.
 2. End-to-end integration tests run against a LEZ sequencer (standalone mode)
    and are included in CI. CI must be green on the default branch.
 3. Every hard requirement in Functionality, Usability, Reliability, and
@@ -5090,8 +5098,6 @@ mainnet deployment.
 4. A README documents end-to-end usage: deployment steps, program addresses, and
    step-by-step instructions for creating a schedule, claiming, and cancelling
    via CLI and mini-app.
-5. The program is updated and verified on LEZ testnet 0.3.
-6. The program is deployed to LEZ mainnet.
 
 #### + Privacy
 
@@ -7354,7 +7360,7 @@ We typically respond within **14 days**. For clarification questions, please use
 **Discussions**.16:X
 1b:X
 1b:C
-0:{"buildId":"3Gz8PsE-KQ9LlO1Ll_FMg","data":[{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Logos\",\"item\":\"https://logos.co/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Logos Builders Hub\",\"item\":\"https://logos.co/builders-hub\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"RFPs\",\"item\":\"https://logos.co/builders-hub/rfps\"}]}"}}],["$","$L2",null,{"kind":"rfps","settings":{"schemaVersion":1,"language":"en","page":"rfps","title":"RFPs","description":"Funded calls for builders to ship Logos-powered applications and infrastructure.","breadcrumbLabel":"RFPs","submitCta":{"label":"Submit an RFP","href":"https://discord.gg/Ykv4eZyHUJ","external":true},"defaultView":"grid","pageSize":12,"pagination":{"previousLabel":"Previous","nextLabel":"Next"},"bottomCta":{"title":"Have a build idea worth funding?","cta":{"label":"Submit an RFP","href":"https://discord.gg/Ykv4eZyHUJ","external":true}}},"items":[{"number":"RFP-001","slug":"admin-authority-lib","title":"Admin Authority Library","category":"Developer Tooling & Infrastructure","summary":"Build a reusable library that provides standardised access control for LEE programs, where privileged functions, including the ability to transfer or…","status":"closed","tier":"XS","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-001-admin-authority-lib.md","rawMarkdown":"$3"},{"number":"RFP-002","slug":"freeze-authority-lib","title":"Freeze Authority Library","category":"Developer Tooling & Infrastructure","summary":"Build a reusable library that provides a standardised freeze mechanism for LEE programs, allowing an authorised account to disable all (or selected)…","status":"closed","tier":"XS","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-002-freeze-authority-lib.md","rawMarkdown":"$4"},{"number":"RFP-003","slug":"atomic-swaps","title":"Atomic Swaps with LEZ","category":"Applications & Integrations","summary":"Build a unified atomic swap application that enables trustless, non-custodial exchanges between LEZ and three external chains: Bitcoin, Monero, and Zcash…","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-003-atomic-swaps.md","rawMarkdown":"$5"},{"number":"RFP-004","slug":"privacy-preserving-dex","title":"Privacy-Preserving Decentralized Exchange (DEX)","category":"Applications & Integrations","summary":"Build a decentralized exchange on LEZ with public AMM liquidity pools. Users with public accounts interact with the DEX directly. Users with private…","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-004-privacy-preserving-dex.md","rawMarkdown":"$6"},{"number":"RFP-005","slug":"multisig-and-coordination","title":"Multisig and Coordination","category":"Applications & Integrations","summary":"Build an audited M-of-N multisig program on the Logos Execution Zone (LEZ), together with an in-band coordination channel so signers can propose…","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-005-multisig-and-coordination.md","rawMarkdown":"$7"},{"number":"RFP-008","slug":"lending-borrowing-protocol","title":"Lending & Borrowing Protocol","category":"Applications & Integrations","summary":"Build a permissionless, isolated-market lending protocol on LEZ, following the Morpho Blue design: each market is an independent lending pair defined by…","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-008-lending-borrowing-protocol.md","rawMarkdown":"$8"},{"number":"RFP-012","slug":"curated-lending-vaults","title":"Curated Lending Vaults","category":"Applications & Integrations","summary":"Build a curated vault layer on top of the isolated-market lending protocol delivered by RFP-008. Each vault accepts deposits of a single loan token…","status":"closed","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-012-curated-lending-vaults.md","rawMarkdown":"$9"},{"number":"RFP-013","slug":"reflexive-stablecoin-protocol","title":"Reflexive Stablecoin Protocol","category":"Applications & Integrations","summary":"Build a non-pegged, reflexive stablecoin protocol for the Logos Execution Zone (LEZ). The stablecoin is backed by a reference token collateral and uses an…","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-013-reflexive-stablecoin-protocol.md","rawMarkdown":"$a"},{"number":"RFP-014","slug":"liquidation-auction-engine","title":"Liquidation & Auction Engine","category":"Applications & Integrations","summary":"Build a permissionless liquidation and auction system for collateralized debt position (CDP) protocols on the Logos Execution Zone (LEZ). This system is…","status":"closed","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-014-liquidation-auction-engine.md","rawMarkdown":"$b"},{"number":"RFP-015","slug":"bonding-curve-launchpad","title":"Privacy-Preserving Token Launchpad: Bonding Curve","category":"Applications & Integrations","summary":"Build a bonding curve token launchpad on LEZ, using a supply-driven pricing mechanism where token price increases deterministically as a function of…","status":"closed","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-015-bonding-curve-launchpad.md","rawMarkdown":"$c"},{"number":"RFP-016","slug":"lbp-launchpad","title":"Privacy-Preserving Token Launchpad: LBP","category":"Applications & Integrations","summary":"Build a token launchpad on LEZ using a Liquidity Bootstrapping Pool (LBP) mechanism, a time-limited, weight-shifting AMM that enables fair, bot-resistant…","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-016-lbp-launchpad.md","rawMarkdown":"$d"},{"number":"RFP-017","slug":"token-vesting","title":"Privacy-Preserving Token Vesting","category":"Applications & Integrations","summary":"Build a token vesting program on LEZ that locks project, team, or investor tokens against configurable time-based schedules (cliff, linear, or…","status":"closed","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-017-token-vesting.md","rawMarkdown":"$e"},{"number":"RFP-019","slug":"twap-oracle","title":"On-Chain TWAP Oracle","category":"Developer Tooling & Infrastructure","summary":"Build an on-chain TWAP (time-weighted average price) oracle program for LEZ that records price observations from LEZ DEX pools (RFP-004) and exposes…","status":"closed","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-019-twap-oracle.md","rawMarkdown":"$f"},{"number":"RFP-020","slug":"redstone-oracle-adaptor","title":"RedStone Off-Chain Oracle Adaptor for LEZ","category":"Developer Tooling & Infrastructure","summary":"Build a RedStone off-chain oracle adaptor for LEZ: a public-mode LEZ program that verifies RedStone-signed data packages, exposes the resulting prices…","status":"closed","tier":"M","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-020-redstone-oracle-adaptor.md","rawMarkdown":"$10"},{"number":"RFP-021","slug":"ethereum-state-attestation","title":"Trustless Ethereum State Attestation for LEZ","category":"Developer Tooling & Infrastructure","summary":"Build a reusable LEZ primitive that lets any LEZ program act on a fact about Ethereum state and know that fact is true, with no trusted intermediary. A…","status":"open","tier":"M","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-021-ethereum-state-attestation.md","rawMarkdown":"$11"}]}]],["$L12","$L13"],"$L14"]}],"isPartial":"$@15","staleTime":"$16","varyParams":null},{"rsc":"$L17","isPartial":"$@18","staleTime":"$16","varyParams":null},{"rsc":"$L19","isPartial":"$@1a","staleTime":"$16","varyParams":"$1b"},{"rsc":"$L1c","isPartial":"$@1d","staleTime":"$16","varyParams":"$1b"}],"isUpgradeableISRFallback":false,"a":"$@1e","rootVaryParams":null,"needsRuntimeRequest":"$@1f"}
+0:{"buildId":"fvXD4ITfIMO0yo2hKgXgZ","data":[{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Logos\",\"item\":\"https://logos.co/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Logos Builders Hub\",\"item\":\"https://logos.co/builders-hub\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"RFPs\",\"item\":\"https://logos.co/builders-hub/rfps\"}]}"}}],["$","$L2",null,{"kind":"rfps","settings":{"schemaVersion":1,"language":"en","page":"rfps","title":"RFPs","description":"Funded calls for builders to ship Logos-powered applications and infrastructure.","breadcrumbLabel":"RFPs","submitCta":{"label":"Submit an RFP","href":"https://discord.gg/Ykv4eZyHUJ","external":true},"defaultView":"grid","pageSize":12,"pagination":{"previousLabel":"Previous","nextLabel":"Next"},"bottomCta":{"title":"Have a build idea worth funding?","cta":{"label":"Submit an RFP","href":"https://discord.gg/Ykv4eZyHUJ","external":true}}},"items":[{"number":"RFP-001","slug":"admin-authority-lib","title":"Admin Authority Library","category":"Developer Tooling & Infrastructure","summary":"Build a reusable library that provides standardised access control for LEE programs, where privileged functions, including the ability to transfer or…","status":"closed","tier":"XS","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-001-admin-authority-lib.md","rawMarkdown":"$3"},{"number":"RFP-002","slug":"freeze-authority-lib","title":"Freeze Authority Library","category":"Developer Tooling & Infrastructure","summary":"Build a reusable library that provides a standardised freeze mechanism for LEE programs, allowing an authorised account to disable all (or selected)…","status":"closed","tier":"XS","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-002-freeze-authority-lib.md","rawMarkdown":"$4"},{"number":"RFP-003","slug":"atomic-swaps","title":"Atomic Swaps with LEZ","category":"Applications & Integrations","summary":"Build a unified atomic swap application that enables trustless, non-custodial exchanges between LEZ and three external chains: Bitcoin, Monero, and Zcash…","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-003-atomic-swaps.md","rawMarkdown":"$5"},{"number":"RFP-004","slug":"privacy-preserving-dex","title":"Privacy-Preserving Decentralized Exchange (DEX)","category":"Applications & Integrations","summary":"Build a decentralized exchange on LEZ with public AMM liquidity pools. Users with public accounts interact with the DEX directly. Users with private…","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-004-privacy-preserving-dex.md","rawMarkdown":"$6"},{"number":"RFP-005","slug":"multisig-and-coordination","title":"Multisig and Coordination","category":"Applications & Integrations","summary":"Build an audited M-of-N multisig program on the Logos Execution Zone (LEZ), together with an in-band coordination channel so signers can propose…","status":"open","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-005-multisig-and-coordination.md","rawMarkdown":"$7"},{"number":"RFP-008","slug":"lending-borrowing-protocol","title":"Lending & Borrowing Protocol","category":"Applications & Integrations","summary":"Build a permissionless, isolated-market lending protocol on LEZ, following the Morpho Blue design: each market is an independent lending pair defined by…","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-008-lending-borrowing-protocol.md","rawMarkdown":"$8"},{"number":"RFP-012","slug":"curated-lending-vaults","title":"Curated Lending Vaults","category":"Applications & Integrations","summary":"Build a curated vault layer on top of the isolated-market lending protocol delivered by RFP-008. Each vault accepts deposits of a single loan token…","status":"closed","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-012-curated-lending-vaults.md","rawMarkdown":"$9"},{"number":"RFP-013","slug":"reflexive-stablecoin-protocol","title":"Reflexive Stablecoin Protocol","category":"Applications & Integrations","summary":"Build a non-pegged, reflexive stablecoin protocol for the Logos Execution Zone (LEZ). The stablecoin is backed by a reference token collateral and uses an…","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-013-reflexive-stablecoin-protocol.md","rawMarkdown":"$a"},{"number":"RFP-014","slug":"liquidation-auction-engine","title":"Liquidation & Auction Engine","category":"Applications & Integrations","summary":"Build a permissionless liquidation and auction system for collateralized debt position (CDP) protocols on the Logos Execution Zone (LEZ). This system is…","status":"closed","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-014-liquidation-auction-engine.md","rawMarkdown":"$b"},{"number":"RFP-015","slug":"bonding-curve-launchpad","title":"Privacy-Preserving Token Launchpad: Bonding Curve","category":"Applications & Integrations","summary":"Build a bonding curve token launchpad on LEZ, using a supply-driven pricing mechanism where token price increases deterministically as a function of…","status":"closed","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-015-bonding-curve-launchpad.md","rawMarkdown":"$c"},{"number":"RFP-016","slug":"lbp-launchpad","title":"Privacy-Preserving Token Launchpad: LBP","category":"Applications & Integrations","summary":"Build a token launchpad on LEZ using a Liquidity Bootstrapping Pool (LBP) mechanism, a time-limited, weight-shifting AMM that enables fair, bot-resistant…","status":"closed","tier":"XL","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-016-lbp-launchpad.md","rawMarkdown":"$d"},{"number":"RFP-017","slug":"token-vesting","title":"Privacy-Preserving Token Vesting","category":"Applications & Integrations","summary":"Build a token vesting program on LEZ that locks project, team, or investor tokens against configurable time-based schedules (cliff, linear, or…","status":"closed","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-017-token-vesting.md","rawMarkdown":"$e"},{"number":"RFP-019","slug":"twap-oracle","title":"On-Chain TWAP Oracle","category":"Developer Tooling & Infrastructure","summary":"Build an on-chain TWAP (time-weighted average price) oracle program for LEZ that records price observations from LEZ DEX pools (RFP-004) and exposes…","status":"closed","tier":"L","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-019-twap-oracle.md","rawMarkdown":"$f"},{"number":"RFP-020","slug":"redstone-oracle-adaptor","title":"RedStone Off-Chain Oracle Adaptor for LEZ","category":"Developer Tooling & Infrastructure","summary":"Build a RedStone off-chain oracle adaptor for LEZ: a public-mode LEZ program that verifies RedStone-signed data packages, exposes the resulting prices…","status":"closed","tier":"M","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-020-redstone-oracle-adaptor.md","rawMarkdown":"$10"},{"number":"RFP-021","slug":"ethereum-state-attestation","title":"Trustless Ethereum State Attestation for LEZ","category":"Developer Tooling & Infrastructure","summary":"Build a reusable LEZ primitive that lets any LEZ program act on a fact about Ethereum state and know that fact is true, with no trusted intermediary. A…","status":"open","tier":"M","githubUrl":"https://github.com/logos-co/rfp/blob/master/RFPs/RFP-021-ethereum-state-attestation.md","rawMarkdown":"$11"}]}]],["$L12","$L13"],"$L14"]}],"isPartial":"$@15","staleTime":"$16","varyParams":null},{"rsc":"$L17","isPartial":"$@18","staleTime":"$16","varyParams":null},{"rsc":"$L19","isPartial":"$@1a","staleTime":"$16","varyParams":"$1b"},{"rsc":"$L1c","isPartial":"$@1d","staleTime":"$16","varyParams":"$1b"}],"isUpgradeableISRFallback":false,"a":"$@1e","rootVaryParams":null,"needsRuntimeRequest":"$@1f"}
 20:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"OutletBoundary"]
 21:"$Sreact.suspense"
 23:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"ViewportBoundary"]
