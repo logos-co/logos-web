@@ -2,21 +2,6 @@ import type { SVGProps } from 'react'
 
 type AppIconProps = SVGProps<SVGSVGElement>
 
-export function BasecampAppMark(props: AppIconProps) {
-  return (
-    <svg viewBox="0 0 48 48" fill="none" aria-hidden="true" {...props}>
-      <path
-        d="M24 3.5c1.2 0 2.3.6 2.9 1.7l17 29.4c1.3 2.2-.3 5-2.9 5H7c-2.6 0-4.2-2.8-2.9-5l17-29.4c.6-1.1 1.7-1.7 2.9-1.7z"
-        fill="#2A2A2A"
-      />
-      <path d="M24 14.5 34.5 33h-21z" fill="#F07D5E" />
-      <path d="m24 22.5 4.6 10.5h-9.2z" fill="#B8432A" />
-      <path d="m24 14.5 2.2 3.9-2.2 4.1-2.2-4.1z" fill="#FFB199" />
-      <circle cx="24" cy="37" r="1.7" fill="#F07D5E" />
-    </svg>
-  )
-}
-
 export function BasecampBlockchainIcon(props: AppIconProps) {
   return (
     <svg

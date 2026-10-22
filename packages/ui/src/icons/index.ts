@@ -11,7 +11,6 @@ export {
 } from './podcast-icons'
 export { XIcon } from './x-icon'
 export {
-  BasecampAppMark,
   BasecampBlockchainIcon,
   BasecampChatIcon,
   BasecampStorageIcon,
@@ -19,3 +18,4 @@ export {
   BasecampArrowUpIcon,
   BasecampCheckIcon,
 } from './basecamp-app-icons'
+export { BasecampLogo } from './basecamp-logo'

@@ -2,8 +2,8 @@
 
 import { useRef, useState } from 'react'
 import {
-  BasecampAppMark,
   BasecampBlockchainIcon,
+  BasecampLogo,
   BasecampChatIcon,
   BasecampStorageIcon,
 } from '@acid-info/logos-ui'
@@ -28,6 +28,10 @@ const icons = [
   BasecampChatIcon,
   BasecampStorageIcon,
 ] as const
+
+// The demo sidebar (#161616) is darker than the app's (#262626), so the logo
+// badge goes darker too to keep the same contrast.
+const LOGO_BADGE_COLOR = '#050505'
 
 export function HeroAppWindow({
   copy,
@@ -65,7 +69,7 @@ export function HeroAppWindow({
         <div className="bc-demo-body">
           <aside className="bc-demo-sidebar">
             <div className="bc-demo-brand">
-              <BasecampAppMark />
+              <BasecampLogo badgeColor={LOGO_BADGE_COLOR} />
             </div>
             <div
               className="bc-demo-apps"
