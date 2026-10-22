@@ -1005,62 +1005,17 @@
   color: #f5f5efcc;
   margin-bottom: 24px;
 }
-.bc-code {
-  background: #121212;
-  border: 1px solid #f5f5ef1a;
+.bc-build-shot {
+  height: 380px;
+  border: 1px solid #ffffff1f;
   border-radius: 18px;
   overflow: hidden;
 }
-.bc-code-tabs {
-  border-bottom: 1px solid #f5f5ef14;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  font-family: var(--next-font-mono), monospace;
-  font-size: 10px;
-  height: 50px;
-}
-.bc-code-tabs > div {
-  display: flex;
-  gap: 24px;
-}
-.bc-code-tabs button {
-  background: transparent;
-  border: 0;
-  color: #f5f5ef73;
-  padding: 18px 0 16px;
-}
-.bc-code-tabs button.is-active {
-  border-bottom: 2px solid var(--bc-orange);
-  color: var(--bc-paper);
-}
-.bc-code-tabs > button {
-  border: 1px solid #f5f5ef33;
-  border-radius: 8px;
-  padding: 6px 10px;
-  color: var(--bc-paper);
-}
-.bc-code-body {
-  height: 240px;
-  padding: 28px 24px;
-  font-family: var(--next-font-mono), monospace;
-  font-size: 12px;
-  line-height: 1.5;
-  white-space: nowrap;
-  overflow: auto;
-}
-.bc-code-body span {
-  color: #f5f5ef66;
-}
-.bc-code-body p {
-  margin-top: 8px;
-}
-.bc-code-body b {
-  color: var(--bc-orange);
-}
-.bc-code-body .bc-code-comment {
-  color: #f5f5ef66;
+.bc-build-shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .bc-programmes {
   margin-top: 120px;
@@ -1514,8 +1469,11 @@
   .bc-build-top > div > p {
     font-size: 16px;
   }
-  .bc-code {
+  .bc-build-shot {
+    height: auto;
     margin-top: 36px;
+    aspect-ratio: 361 / 230;
+    border-radius: 12px;
   }
   .bc-programmes {
     margin-top: 90px;
@@ -1643,6 +1601,11 @@
   }
   .bc-build-top > div > p {
     width: 600px;
+  }
+  .bc-build-shot {
+    height: auto;
+    margin-top: 36px;
+    aspect-ratio: 1510 / 948;
   }
 }
 @media (max-width: 767px) {

@@ -272,11 +272,7 @@ export const basecampRenewalSectionSchema = z.object({
     description: copy,
     docs: ctaSchema,
     tutorials: ctaSchema,
-    codeExamples: z
-      .array(z.object({ label: copy, comment: copy, commands: lines }))
-      .length(3),
-    copyLabel: copy,
-    copiedLabel: copy,
+    screenshotAlt: copy,
     programmesTitle: copy,
     programmesDescription: copy,
     programmes: z

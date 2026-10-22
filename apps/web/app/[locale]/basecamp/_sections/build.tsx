@@ -1,23 +1,8 @@
-'use client'
-
-import { useState } from 'react'
 import Image from 'next/image'
 import type { Renewal } from './atoms'
-import { Lines, LinkButton } from './atoms'
+import { asset, Lines, LinkButton } from './atoms'
 
 export function Build({ copy }: { copy: Renewal['build'] }) {
-  const [tab, setTab] = useState(0)
-  const [copied, setCopied] = useState(false)
-  const example = copy.codeExamples[tab]
-
-  async function copyExample() {
-    await navigator.clipboard.writeText(
-      [example.comment, ...example.commands].join('\n')
-    )
-    setCopied(true)
-    window.setTimeout(() => setCopied(false), 2000)
-  }
-
   return (
     <section id="build-an-app" className="bc-build">
       <div className="bc-build-top">
@@ -38,46 +23,14 @@ export function Build({ copy }: { copy: Renewal['build'] }) {
             </LinkButton>
           </div>
         </div>
-        <div className="bc-code">
-          <div className="bc-code-tabs">
-            <div>
-              {copy.codeExamples.map((item, index) => (
-                <button
-                  type="button"
-                  className={`cursor-pointer ${index === tab ? 'is-active' : ''}`}
-                  key={item.label}
-                  aria-pressed={index === tab}
-                  onClick={() => {
-                    setTab(index)
-                    setCopied(false)
-                  }}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-            <button
-              type="button"
-              className="cursor-pointer"
-              onClick={() => void copyExample()}
-            >
-              {copied ? copy.copiedLabel : copy.copyLabel}
-            </button>
-          </div>
-          <div className="bc-code-body">
-            <span>{example.comment}</span>
-            {example.commands.map((command) =>
-              command.startsWith('#') ? (
-                <p className="bc-code-comment" key={command}>
-                  {command}
-                </p>
-              ) : (
-                <p key={command}>
-                  <b>$</b> {command}
-                </p>
-              )
-            )}
-          </div>
+        <div className="bc-build-shot">
+          <Image
+            src={`${asset}/hero-product.png`}
+            alt={copy.screenshotAlt}
+            width={1510}
+            height={948}
+            sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) 50vw, 632px"
+          />
         </div>
       </div>
       <div id="dev-programs" className="bc-programmes">

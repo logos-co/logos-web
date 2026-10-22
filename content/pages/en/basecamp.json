@@ -867,29 +867,7 @@
           "href": "https://www.youtube.com/playlist?list=PLKLihqaY2Vc0",
           "external": true
         },
-        "codeExamples": [
-          {
-            "label": "Scaffold",
-            "comment": "# Scaffold a core module from the logos-module-builder template",
-            "commands": ["[SCAFFOLD COMMAND]"]
-          },
-          {
-            "label": "Inspect",
-            "comment": "# Inspect the compiled module's metadata, methods, and events",
-            "commands": ["lm [INSPECT COMMAND]"]
-          },
-          {
-            "label": "Install & call",
-            "comment": "# Package the module, install it, and call its methods",
-            "commands": [
-              "[PACKAGE COMMAND]",
-              "logoscorectl [INSTALL COMMAND]",
-              "# Or open Basecamp and call it from the UI"
-            ]
-          }
-        ],
-        "copyLabel": "Copy",
-        "copiedLabel": "Copied",
+        "screenshotAlt": "Basecamp package manager",
         "programmesTitle": "Explore developer programmes. Build for rewards.",
         "programmesDescription": "Funding for builders building on the private, decentralised internet.",
         "programmes": [
