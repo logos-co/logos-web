@@ -15,6 +15,9 @@
 **/coverage
 **/*.tsbuildinfo
 
+# Published zines are not needed for source analysis or tests
+apps/web/public/zine/*.pdf
+
 # VCS / CI
 .git
 .github

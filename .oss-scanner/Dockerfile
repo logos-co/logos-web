@@ -10,7 +10,7 @@ COPY . .
 
 RUN pnpm install --frozen-lockfile
 
-# These values satisfy the CMS build checks without granting access to services.
+# These values satisfy build-time checks without granting access to services.
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA= \
     NEXT_PUBLIC_SERVER_URL=http://localhost:3001 \
@@ -20,4 +20,6 @@ RUN NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     pnpm turbo run build \
     --filter=api... \
     --filter=cms... \
-    --filter=@acid-info/logos-ui...
+    --filter=logos-crm... \
+    --filter=logos-demos... \
+    && pnpm --filter web check-types
