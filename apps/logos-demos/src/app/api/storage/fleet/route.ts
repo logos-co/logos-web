@@ -14,7 +14,7 @@ import { FLEET_URL, FLEETS } from '@/lib/storage-fleet'
  * is one shape and one parser (`parseFleet`, on the client) rather than two.
  *
  * It is the roster, not the network. Nothing here talks to a storage node. See
- * docs/storage-research.md for why a browser cannot.
+ * docs/research/storage-research.md for why a browser cannot.
  */
 
 /** The roster changes rarely, so a short shared cache is plenty. */

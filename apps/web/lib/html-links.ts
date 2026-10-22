@@ -13,7 +13,7 @@ const LEGACY_BLOG_HOSTS = new Set(['blog.logos.co', 'press.logos.co'])
 /**
  * The page an old blog link now lives at, or null for any other link. Editors
  * linked posts to each other with blog URLs, and that site is being switched
- * off. Mirrors the redirect map in docs/media-migration-redirects.md.
+ * off. Mirrors the redirect map in docs/media-migration.md.
  */
 function mediaPathForLegacyBlogUrl(href: string): string | null {
   let url: URL

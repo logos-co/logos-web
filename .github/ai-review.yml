@@ -8,4 +8,3 @@ extra_ignore:
 guidelines_files:
   - AGENTS.md
   - REVIEW.md
-  - CLAUDE.md

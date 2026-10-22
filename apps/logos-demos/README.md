@@ -14,7 +14,7 @@ link instead.
 [`docs/`](./docs/) holds what was learned building these: the Logos stack and
 its naming, which endpoints are live and which are reachable from a browser,
 `@waku/sdk` behaviour that is not in its types, and the deployment traps in this
-monorepo. Read [`docs/browser-viability.md`](./docs/browser-viability.md) before
+monorepo. Read [`docs/research/browser-viability.md`](./docs/research/browser-viability.md) before
 promising a new demo.
 
 ## Design system
@@ -75,8 +75,8 @@ to this app's own object store so a link could be shared. It worked, and it was
 labelled, but it put a demo of somebody else's storage under a Logos Storage
 heading. It has been removed and the store deleted.
 
-[`docs/browser-viability.md`](./docs/browser-viability.md) and
-[`docs/storage-research.md`](./docs/storage-research.md) record what was checked
+[`docs/research/browser-viability.md`](./docs/research/browser-viability.md) and
+[`docs/research/storage-research.md`](./docs/research/storage-research.md) record what was checked
 and what would unlock the rest.
 
 ## Architecture

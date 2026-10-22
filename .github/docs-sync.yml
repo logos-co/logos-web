@@ -3,18 +3,17 @@
 doc_paths:
   - README.md
   - AGENTS.md
-  - CLAUDE.md
   - docs/**/*.md
-  - apps/*/AGENTS.md
   - apps/*/README.md
+  - apps/*/AGENTS.md
   - apps/*/docs/**/*.md
-  - packages/*/AGENTS.md
   - packages/*/README.md
+  - packages/*/AGENTS.md
+  - packages/*/docs/**/*.md
 
 never_touch:
   # dated research records, not maintained docs
-  - apps/logos-demos/docs/browser-viability.md
-  - apps/logos-demos/docs/storage-research.md
+  - apps/*/docs/research/**
 
 extra_ignore:
   - 'flake.lock'
@@ -24,7 +23,6 @@ extra_ignore:
 
 guidelines_files:
   - AGENTS.md
-  - CLAUDE.md
 
 # Members of @logos-co/web, by login: the Actions token cannot read org teams, so a team request
 # fails with a 422. Keep in sync with the team.

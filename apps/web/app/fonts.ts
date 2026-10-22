@@ -10,7 +10,7 @@
  * disabled by default so `pnpm dev` / `pnpm build` work without the woff2.
  * To enable:
  *   1. Drop the file at public/fonts/rhymes-display/rhymes-display-regular.woff2
- *      (see apps/web/public/fonts/README.md for licensing notes)
+ *      (see apps/web/docs/fonts.md for licensing notes)
  *   2. Uncomment the `rhymesDisplay` block below and add it back to
  *      `fontVariables`. The typography utilities already reference
  *      `var(--next-font-display)`, so the swap is automatic.

@@ -6,7 +6,7 @@
 //
 // It is the roster, not the network itself. A browser cannot join Logos
 // Storage: discovery is discv5 over UDP and transfer is libp2p TCP, and it has
-// neither. See docs/storage-research.md.
+// neither. See docs/research/storage-research.md.
 
 /** The published fleets. `logos.test` is the populated one. */
 export const FLEETS = ['logos-test', 'logos-dev'] as const

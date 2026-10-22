@@ -6,14 +6,14 @@ Guidance for agents working inside `apps/api`. The root `AGENTS.md` still applie
 
 This app hosts the public intake endpoint for the funnel forms on `apps/web`: `POST /api/public/afform-submit`. It is a Next.js 16 app with no pages, no database and no authenticated area. Submissions are forwarded to Notion, and the steward form additionally to an n8n/Baserow webhook. Dev server runs on port **3003**.
 
-**Architecture document:** [`docs/api/architecture.md`](../../docs/api/architecture.md)
+**Architecture document:** [`docs/architecture.md`](./docs/architecture.md)
 
-**Funnel reference:** [`docs/funnel/AGENTS.md`](../../docs/funnel/AGENTS.md)
+**Funnel reference:** [`docs/funnel/README.md`](../../docs/funnel/README.md)
 Read it before changing anything about form submissions. It documents the request flow, the Notion database schema, the id → label maps, and the newsletter opt-ins that run on the `apps/web` side.
 
 ## Keeping Docs Up to Date
 
-When you make a structural change, update `docs/api/architecture.md` **and** this `AGENTS.md` in the same commit or PR if either is affected. Changes that require an architecture doc update:
+When you make a structural change, update `docs/architecture.md` **and** this `AGENTS.md` in the same commit or PR if either is affected. Changes that require an architecture doc update:
 
 - Adding, removing, or renaming files in the `src/` tree
 - Adding, removing, or changing API routes
@@ -21,7 +21,7 @@ When you make a structural change, update `docs/api/architecture.md` **and** thi
 - Changing the shape of what is sent to Notion or n8n
 - Changing commands or code-organization rules
 
-Anything that changes the funnel behaviour also belongs in `docs/funnel/AGENTS.md`.
+Anything that changes the funnel behaviour also belongs in `docs/funnel/README.md`.
 
 Minor implementation details (function bodies) do not require a doc update.
 

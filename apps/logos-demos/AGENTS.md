@@ -16,7 +16,7 @@ A proxy is allowed only where the alternative is no demo at all, and only for **
 
 **Overview:** [`README.md`](./README.md)
 
-**Notes:** [`docs/`](./docs/) covers the stack and its naming, live endpoints and what a browser can reach, `@waku/sdk` gotchas, and deployment traps. Read [`docs/browser-viability.md`](./docs/browser-viability.md) before promising a new demo, and add to `docs/` when you learn something the hard way.
+**Notes:** [`docs/`](./docs/) covers the stack and its naming, live endpoints and what a browser can reach, `@waku/sdk` gotchas, and deployment traps. Read [`docs/research/browser-viability.md`](./docs/research/browser-viability.md) before promising a new demo, and add to `docs/` when you learn something the hard way.
 
 ## Nothing smaller than 14px, and no size literals
 
@@ -97,7 +97,7 @@ Do the same for anything that reimplements a protocol. A self-consistent test pr
 
 The storage demo once published files to an object store of ours so a link could be shared. It was labelled as such and it still had to go: a demo of somebody else's storage does not belong under a Logos Storage heading, and a reader who has to reach the small print has already been misled.
 
-**If a piece of a demo is not the Logos stack, it does not ship.** Say what cannot be done instead. `docs/browser-viability.md` is where that judgement gets recorded.
+**If a piece of a demo is not the Logos stack, it does not ship.** Say what cannot be done instead. `docs/research/browser-viability.md` is where that judgement gets recorded.
 
 ## Deployment facts are runtime facts, not build-time ones
 

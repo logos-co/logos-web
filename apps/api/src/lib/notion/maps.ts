@@ -7,7 +7,7 @@
  * the visitor actually picked. `SKILLS_MAP` labels double as the options of the
  * Notion `Skills` multi_select and `HEAR_ABOUT_MAP` labels as those of the
  * select named by `HEAR_ABOUT_QUESTION`, so renaming one means renaming the
- * option in Notion first -- see docs/funnel/AGENTS.md.
+ * option in Notion first -- see docs/funnel/README.md.
  */
 
 export {

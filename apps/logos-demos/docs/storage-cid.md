@@ -119,7 +119,7 @@ was wrong when the test's expectation was.
 ## What this does not do
 
 It does not store anything, and neither does anything else in this app. See
-[storage-research.md](./storage-research.md) for what was checked.
+[research/storage-research.md](./research/storage-research.md) for what was checked.
 
 The demo briefly published files to an object store of our own so a link could
 be shared. That was removed: a demo of somebody else's storage does not belong

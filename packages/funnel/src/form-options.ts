@@ -10,7 +10,7 @@
  *
  * The `Skills` labels double as the options of the Notion `multi_select` of the
  * same name, so renaming one requires renaming the option in Notion first --
- * see docs/funnel/AGENTS.md. `Country` is rich text and takes any label.
+ * see docs/funnel/README.md. `Country` is rich text and takes any label.
  *
  * Defined here rather than in `./index` because that module re-exports this
  * one.

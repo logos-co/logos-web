@@ -17,7 +17,7 @@
  * `HEAR_ABOUT_QUESTION` doubles as the name of the select property on the
  * production Notion database, and the option labels are its select options.
  * Rewording the question or the labels therefore requires renaming the
- * property/options in Notion first — see docs/funnel/AGENTS.md.
+ * property/options in Notion first — see docs/funnel/README.md.
  */
 
 import { toLabelMap } from './form-options'

@@ -70,5 +70,5 @@ Direct pushes to either are blocked by branch protection.
 
 - [AGENTS.md](./AGENTS.md) — conventions and rules for AI agents working in this repo
 - [docs/components.md](./docs/components.md) -- shared component specs
-- [docs/api/architecture.md](./docs/api/architecture.md) -- funnel intake endpoint
-- [docs/funnel/AGENTS.md](./docs/funnel/AGENTS.md) -- funnel forms end to end
+- [apps/api/docs/architecture.md](./apps/api/docs/architecture.md) -- funnel intake endpoint
+- [docs/funnel/README.md](./docs/funnel/README.md) -- funnel forms end to end
