@@ -599,7 +599,7 @@
           {
             "icon": "/images/basecamp/renewal/app-icons/monero-node.png",
             "title": "Monero Node",
-            "description": "[One-line description]",
+            "description": "Run a local node for Monero, an external chain not on Logos.",
             "uses": "uses: [modules]",
             "category": "Other",
             "action": {
@@ -615,7 +615,7 @@
           {
             "icon": "/images/basecamp/renewal/app-icons/monero-wallet.png",
             "title": "Monero Wallet",
-            "description": "[One-line description]",
+            "description": "Send and receive on Monero, an external chain not on Logos.",
             "uses": "uses: [modules]",
             "category": "Other",
             "action": {
@@ -664,7 +664,7 @@
           {
             "icon": "/images/basecamp/renewal/app-icons/verified-proxy.png",
             "title": "Verified Proxy",
-            "description": "[One-line description]",
+            "description": "Configure and operate light-client-verfied Ethereum Proxy",
             "uses": "uses: [modules]",
             "category": "Other",
             "action": {
@@ -696,7 +696,7 @@
           {
             "icon": "/images/basecamp/renewal/app-icons/token-lists.png",
             "title": "Token Lists",
-            "description": "[One-line description]",
+            "description": "Device-wide token catalogue and enabled set.",
             "uses": "uses: [modules]",
             "category": "Other",
             "action": {
@@ -712,7 +712,7 @@
           {
             "icon": "/images/basecamp/renewal/app-icons/signer.png",
             "title": "Signer",
-            "description": "[One-line description]",
+            "description": "The signing approval surface.",
             "uses": "uses: [modules]",
             "category": "Other",
             "action": {
@@ -728,7 +728,7 @@
           {
             "icon": "/images/basecamp/renewal/app-icons/keystore.png",
             "title": "Keystore",
-            "description": "[One-line description]",
+            "description": "The one place accounts are created, imported, exported and deleted.",
             "uses": "uses: [modules]",
             "category": "Other",
             "action": {
@@ -744,7 +744,7 @@
           {
             "icon": "/images/basecamp/renewal/app-icons/ethereum-wallet.png",
             "title": "Ethereum Wallet",
-            "description": "[One-line description]",
+            "description": "View EVM assets and activity across enabled networks on external chains.",
             "uses": "uses: [modules]",
             "category": "Other",
             "action": {
@@ -760,7 +760,7 @@
           {
             "icon": "/images/basecamp/renewal/app-icons/ethereum-rpc.png",
             "title": "Ethereum RPC",
-            "description": "[One-line description]",
+            "description": "Device-wide JSON-RPC endpoints and light client verified routing.",
             "uses": "uses: [modules]",
             "category": "Other",
             "action": {
