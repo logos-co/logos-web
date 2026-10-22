@@ -539,7 +539,7 @@
         },
         "demo": {
           "label": "▶  Watch the demo",
-          "href": "https://www.youtube.com/@logos_network",
+          "href": "https://www.youtube.com/playlist?list=PLKLihqaY2Vc0",
           "external": true
         }
       },
@@ -864,7 +864,7 @@
         },
         "tutorials": {
           "label": "View tutorials →",
-          "href": "https://www.youtube.com/@logos_network",
+          "href": "https://www.youtube.com/playlist?list=PLKLihqaY2Vc0",
           "external": true
         },
         "codeExamples": [
@@ -970,7 +970,7 @@
           "title": "Basecamp tutorials",
           "link": {
             "label": "Watch the playlist on YouTube",
-            "href": "https://www.youtube.com/@logos_network"
+            "href": "https://www.youtube.com/playlist?list=PLKLihqaY2Vc0"
           }
         }
       }
