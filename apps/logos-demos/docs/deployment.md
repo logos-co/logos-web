@@ -1,6 +1,6 @@
 # Deployment
 
-How this app ships, and the traps in this monorepo. Current as of 2026-09-04.
+How this app ships, and the traps in this monorepo. Current as of 2026-10-22.
 
 ## Vercel project
 
@@ -18,59 +18,15 @@ the link can open a deployment, which is the point for a demo.
 
 Production URL: **https://logos-demos.vercel.app**
 
-## Git is deliberately disconnected
+## Git integration
 
-The project is **not** connected to the Github repository, and that is on
-purpose until `apps/logos-demos` exists on every branch.
+The project is connected to `logos-co/logos-web` with production branch
+`develop`. Pull requests get preview deployments, Vercel skips the ones that do
+not affect the app, and merging to `develop` updates the production URL.
 
-When it was connected, Vercel built it on every pull request in the repo.
-Branches without `apps/logos-demos` failed immediately:
-
-```
-The specified Root Directory "apps/logos-demos" does not exist.
-```
-
-which put a red check on unrelated people's PRs.
-
-An Ignored Build Step does not fix this. **The root-directory check runs before
-the ignore command**, so the command never executes. Moving the Root Directory
-to the repo root does let the ignore step run, but then Vercel looks for `next`
-in the root `package.json`, does not find it, and fails with `No Next.js version
-detected`.
-
-**Reconnect once this app is merged to `develop`.** From then on the directory
-exists on every branch, the automatic "not affected" skip works the way it does
-for the other apps, and previews come back.
-
-Until then, deploy through the API with a `gitSource`, targeting `production`
-when the shareable URL should update. Pushing to the branch does nothing on its
-own.
-
-### How to reconnect
-
-Once `apps/logos-demos` is on `develop`, one call restores it. The token the
-Vercel CLI keeps is enough; it refreshes itself, so `vercel whoami` first if a
-call comes back `invalidToken`.
-
-```sh
-TOKEN=$(python3 -c "import json,os;print(json.load(open(os.path.expanduser('~/Library/Application Support/com.vercel.cli/auth.json')))['token'])")
-
-curl -s -X POST \
-  "https://api.vercel.com/v9/projects/prj_8BzCrW4AGK87TJV26Jcnl8MpEqzz/link?teamId=team_tI9IlM2r0P1M0ptF1hRuXgIR" \
-  -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
-  -d '{"type":"github","repo":"logos-co/logos-web"}'
-```
-
-Then confirm the project still has Root Directory `apps/logos-demos` and no
-ignore command, and check one unrelated open PR: its Vercel check for
-`logos-demos` should report a skip ("Not affected"), not fail. If it fails,
-disconnect again rather than leaving other people's PRs red:
-
-```sh
-curl -s -X DELETE \
-  "https://api.vercel.com/v9/projects/prj_8BzCrW4AGK87TJV26Jcnl8MpEqzz/link?teamId=team_tI9IlM2r0P1M0ptF1hRuXgIR" \
-  -H "Authorization: Bearer $TOKEN"
-```
+Keep Root Directory at `apps/logos-demos` and leave the Ignored Build Step
+empty. The root-directory check runs before the ignore command, and moving the
+Root Directory to the repo root fails with `No Next.js version detected`.
 
 ## Never run `vercel deploy` from the repo root
 
