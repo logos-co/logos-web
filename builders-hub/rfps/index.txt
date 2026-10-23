@@ -16,7 +16,7 @@ e:I[44087,[],"default",1]
 :HL["/_next/static/media/fa0520225c6f3d07-s.p.33u8lzvd44aqk.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/rhymes_display_regular-s.p.3u2l90iun9r_-.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 9:X
-0:{"P":null,"c":["","en","builders-hub","rfps"],"q":"","i":false,"f":[[["",{"children":[["locale","en","d",[]],{"children":["builders-hub",{"children":["rfps",{"children":["__PAGE__",{},"$undefined","$undefined",4608]},"$undefined","$undefined",4608]},"$undefined","$undefined",4608]},"$undefined","$undefined",4624]},"$undefined","$undefined",4624],[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/1oxxkx7y1-7xp.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/3q85n6zb-elwk.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","2",{"rel":"stylesheet","href":"/_next/static/chunks/10c-gpasg_mej.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/1t3a86vn3yn52.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/1tvhd0voa8xx1.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/0h1o6bb1g1ax2.js","async":true,"nonce":"$undefined"}],["$","script","script-3",{"src":"/_next/static/chunks/1ba5-zhvukmxe.js","async":true,"nonce":"$undefined"}],["$","script","script-4",{"src":"/_next/static/chunks/04o15karij0su.js","async":true,"nonce":"$undefined"}],["$","script","script-5",{"src":"/_next/static/chunks/3ol_pnxz5wu0l.js","async":true,"nonce":"$undefined"}],["$","script","script-6",{"src":"/_next/static/chunks/3d12j6-y72phj.js","async":true,"nonce":"$undefined"}]],"$L4"]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":["$L5",[["$","script","script-0",{"src":"/_next/static/chunks/2dfoq7akz8ihf.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/2nzn0n12xopq9.js","async":true,"nonce":"$undefined"}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],{},null,false,null]},null,false,"$9"]},null,false,"$9"]},null,false,null]},null,false,"$9"],["$","$1","h",{"children":[null,["$","$La",null,{"children":"$Lb"}],["$","div",null,{"hidden":true,"children":["$","$Lc",null,{"children":["$","$7",null,{"name":"Next.Metadata","children":"$Ld"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],false]],"m":"$undefined","G":["$e",[]],"S":true,"h":null,"r":"$undefined","s":"$undefined","a":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"fvXD4ITfIMO0yo2hKgXgZ"}
+0:{"P":null,"c":["","en","builders-hub","rfps"],"q":"","i":false,"f":[[["",{"children":[["locale","en","d",[]],{"children":["builders-hub",{"children":["rfps",{"children":["__PAGE__",{},"$undefined","$undefined",4608]},"$undefined","$undefined",4608]},"$undefined","$undefined",4608]},"$undefined","$undefined",4624]},"$undefined","$undefined",4624],[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/1oxxkx7y1-7xp.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/3q85n6zb-elwk.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","2",{"rel":"stylesheet","href":"/_next/static/chunks/10c-gpasg_mej.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/1t3a86vn3yn52.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/1tvhd0voa8xx1.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/0h1o6bb1g1ax2.js","async":true,"nonce":"$undefined"}],["$","script","script-3",{"src":"/_next/static/chunks/1ba5-zhvukmxe.js","async":true,"nonce":"$undefined"}],["$","script","script-4",{"src":"/_next/static/chunks/04o15karij0su.js","async":true,"nonce":"$undefined"}],["$","script","script-5",{"src":"/_next/static/chunks/3ol_pnxz5wu0l.js","async":true,"nonce":"$undefined"}],["$","script","script-6",{"src":"/_next/static/chunks/3d12j6-y72phj.js","async":true,"nonce":"$undefined"}]],"$L4"]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":["$L5",[["$","script","script-0",{"src":"/_next/static/chunks/2dfoq7akz8ihf.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/2nzn0n12xopq9.js","async":true,"nonce":"$undefined"}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],{},null,false,null]},null,false,"$9"]},null,false,"$9"]},null,false,null]},null,false,"$9"],["$","$1","h",{"children":[null,["$","$La",null,{"children":"$Lb"}],["$","div",null,{"hidden":true,"children":["$","$Lc",null,{"children":["$","$7",null,{"name":"Next.Metadata","children":"$Ld"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],false]],"m":"$undefined","G":["$e",[]],"S":true,"h":null,"r":"$undefined","s":"$undefined","a":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"R3-g6aFHtnmYNEKPk63iw"}
 9:C
 f:I[1338,["/_next/static/chunks/1t3a86vn3yn52.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/0h1o6bb1g1ax2.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/04o15karij0su.js","/_next/static/chunks/3ol_pnxz5wu0l.js","/_next/static/chunks/3d12j6-y72phj.js"],"default"]
 4:["$","$Lf",null,{"formats":"$undefined","locale":"en","messages":{"activeCircles":{"activeCircles":"Active Circles","totalEvents":"Total Circle Events","distinctCountries":"Distinct Countries","upcomingEvents":"Upcoming Events","joinCircle":"Join a Circle"},"locale":{"language":"Language","en":"English"},"common":{"docsNav":{"guides":"Guides","logosForum":"Logos Forum","researchForum":"Research Forum","designGuide":"Design Guide","terms":"Terms & Conditions","privacy":"Privacy Policy","security":"Security","testnetFaqs":"Testnet FAQ","testnetTerms":"Testnet Terms","testnetPrivacy":"Testnet Privacy Policy"},"nav":{"resources":"Resources","contributors":"Contributors","miilestones":"Milestones"}},"designSystems":{"components":{"table":{"placeholderTitle":"Component State Example"},"giantSwitch":{"downloadDescription":"If the download does not start automatically, click Download Again below."}}},"pages":{"ideas":{"title":"Ideas | Logos","description":"Community-submitted ideas for decentralised applications on Logos. Browse active submissions or contribute your own.","heading":"Ideas","detail":{"backLabel":"All ideas","eyebrow":"Idea","discussCta":"Discuss","relatedHeading":"Related RFPs","meta":{"status":"Status","submitter":"Submitter","reward":"Reward","submitted":"Submitted","tags":"Tags"}}},"rfps":{"title":"RFPs | Logos","description":"Request-for-proposals on Logos. USDC + XP rewards for builders shipping attack-resistant public registries, decentralised archives, private financial networks, and more.","heading":"RFPs","detail":{"backLabel":"All RFPs","applyCta":"Apply","githubCta":"View on GitHub","meta":{"status":"Status","category":"Category","tier":"Tier"}}},"circleDetail":{"title":"{city} Circle | Logos","description":"The {city} chapter of Logos Circles — upcoming events, initiatives, and how to join your local movement.","heading":"{city}"},"links":{"title":"Links | Logos","description":"Curated links to Logos ecosystem projects and resources.","heading":"Links"},"notFound":{"code":"404","heading":"We couldn’t find that page.","homeLink":"Return to homepage","metaTitle":"Page not found | Logos"},"about":{"title":"About | Logos","description":"Logos is on a mission to revitalise Civil Society. A community of builders, activists, and change seekers contributing in a wide variety of ways.","heading":"Logos is on a mission to revitalise Civil Society.","hero":{"title":"Logos is on a mission to revitalise Civil Society."},"community":{"eyebrow":"A global community committed to driving change","body":"We are a community of builders, activists, and change seekers who contribute in a wide variety of ways.","cta":"Join a circle"},"initiative":{"caption":"Our initiatives connect local action with sovereign technology."},"whoWeAre":{"title":"Who We Are","eyebrow":"People first","taglineLine1":"A movement","taglineLine2":"for civil society.","useCasesLabel":"Use Cases","useCase1Label":"Your own bank","useCase1Body":"Build a bank powered by logic you've programmedd","useCase2Label":"Your own currency","useCase2Body":"Create tokens that you can transfer and use across applications","useCase3Label":"A JavaScript Logos wallet","useCase3Body":"Use familiar tooling to interact with Logos modules and applications","useCase4Label":"An open, permissionless DNS","useCase4Body":"Re-imagine existing services as decentralised, open applications","historyTitle":"Our History","historyBody":"Logos was created to give people the tools to live soverign lives.","principlesTitle":"Our Principles","principlesBody":"Our mission is to empower individuals to achieve their aspirations and create a better future for all.  Where freedom, liberty, and human sovereignty are protected, and censorship resistance is ensured.","principlesAside":"(Mission, Vision, Prinicples)","howWeWorkTitle":"How We Work","howWeWorkBody":"We build decentralised technology and inspire change. We work with local communities to use our technology to build the tools they need.","howWeWorkCta":"See our process"},"ourWork":{"title":"Our Work","body":"We build the tools for people to create what they need. We create the underlying technology. People all over the world have created amazing applications specific to their needs.","ctaAll":"All Case Studies","cardEyebrow":"Case Study","cardCta":"Learn More","card1Title":"Logos-Powered Nextdoor App Clone","card2Title":"Digital ID Replacement with Logos","cardBody":"Local communities are using Logos-aligned tools to coordinate around practical needs, from neighbourhood organising to digital rights.\n\nThese case studies show how civic action and resilient technology can reinforce each other.\n\nEach example starts with a concrete problem and a small group of people willing to build a better path."}},"workWithUs":{"title":"Work With Us | Logos","description":"Open roles and ways to collaborate with the Logos team.","heading":"Work With Us"},"connect":{"title":"Let's Connect | Logos","description":"Be part of what's unfolding. Receive updates on progress, gatherings and opportunities to contribute.","heading":"Let's Connect."},"onePager":{"title":"Upload your one pager | Logos","description":"Upload the one pager for your Logos application.","heading":"Upload your one pager","intro":"Thanks for taking the next step with Logos. Attach your one pager below and it goes straight to the team reviewing your application.","checking":"Checking your upload link…","requirements":"PDF only, up to {maxMb} MB and no more than 1 page. You can upload once, so send the version you want reviewed.","chooseFile":"Choose a PDF","submit":"Upload one pager","submitting":"Uploading…","successHeading":"Your one pager is with us.","successBody":"We have attached it to your application and let the team know. This link is now closed, so there is nothing else for you to do. We will be in touch.","usedHeading":"You have already submitted your one pager.","usedBody":"This link allows a single upload and it has been used.","invalidHeading":"This link is no longer valid.","invalidBody":"Upload links expire after 10 days.","missingTokenHeading":"This page needs your upload link.","missingTokenBody":"Open the link from the email we sent you. It carries the details we need to match your one pager to your application.","errorType":"Please choose a PDF file.","errorEmpty":"That file is empty. Please choose another one.","errorSize":"That file is too large. The limit is {maxMb} MB.","errorGeneric":"We could not upload your file. Please check your connection and try again."},"redirect":{"title":"Redirecting…","fallback":"Continue to {target}"}},"connectForm":{"submit":"Send","submitting":"Sending...","selectPlaceholder":"Select…","selectAtLeastOne":"Please select at least one","selectFieldRequired":"Please select {field}","selectOptionRequired":"Please select an option","fieldRequired":"Please enter {field}","tooLong":"Must be {max} characters or fewer","emailInvalid":"Please enter a valid email address","captchaRequired":"Please complete the captcha.","captchaFailed":"Captcha verification failed. Please try again.","submitError":"Something went wrong. Please try again.","networkError":"Network error. Please check your connection and try again.","defaultConfirmation":"Thank you for reaching out!","successBody":"We've received your information and our People Ops team will review it shortly. If relevant, we'll schedule an intro call or connect you with the right people.","successAnnouncement":"Form submitted successfully. Thank you for reaching out!","loadingAnnouncement":"Submitting form, please wait...","errorsAnnouncement":"Form has {count, plural, one {# error} other {# errors}}. Please correct the highlighted fields.","chatLabel":"Chat name / chat service","chatHandlePlaceholder":"Chat handle","chatServicePlaceholder":"Service","chatServiceRequired":"Please select a chat service","chatNameRequired":"Please enter a chat name","remove":"Remove","addAnother":"+ Add another","addChatRow":"Add another chat","removeChatRow":"Remove chat row {index}","addFieldRow":"Add another {field}","removeFieldRow":"Remove {field} {index}"},"circlesMap":{"subscribeHeading":"Stay Tuned for Future Events","subscribeBody":"No events in {city} right now — check back soon!","emailPlaceholder":"Enter email","subscribeCta":"Subscribe →","subscribingLabel":"Subscribing…","subscribedHeading":"Subscribed!","subscribedBody":"We'll keep you updated on upcoming events.","subscribeError":"Something went wrong.","scrollZoomHint":"Use {key} + scroll to zoom"},"articleListing":{"searchPlaceholder":"Search articles","searchHint":"Search titles, summaries and authors.","articleCount":"{count, plural, one {# article} other {# articles}}","noResultsBody":"Try another word or clear your search.","latestHeading":"Latest Articles","readingTime":"{count} min read","backToMedia":"Logos Media","readArticle":"Read Article"},"mediaSearch":{"searchLabel":"Search Logos Media","placeholder":"Search articles and podcasts","submit":"Search","clear":"Clear search","clearFilters":"Clear filters","close":"Close search","articles":"Articles","podcasts":"Podcasts","topics":"Topics","selectedTopics":"{count} topics","results":"{count, plural, one {# result} other {# results}}","loading":"Searching…","loadError":"Search is unavailable. Try again.","noResultsTitle":"No results found","noResultsBody":"Try another word or clear the filters.","loadMore":"Load more","article":"Article","podcast":"Podcast"},"mediaDetail":{"interactiveContent":"Interactive content","breadcrumbs":{"label":"Breadcrumb","media":"Media","articles":"Articles","podcasts":"Podcasts"},"article":{"contents":"Contents","share":"Share","copied":"Copied","relatedArticles":"Related Articles","fromSameAuthors":"From The Same Authors","footnotes":"Footnotes","minRead":"{count} min","discussion":"Discussion","comments":"{count, plural, one {# comment} other {# comments}}","joinDiscussion":"Join Discussion","noDiscussion":"No discussion yet.","readFullArticle":"Read the full article","startDiscussion":"Start Discussion","viewFullDiscussion":"View full discussion"},"podcast":{"channels":"Channels","close":"Close player","copied":"Copied","credits":"Credits","listen":"Listen","minutes":"minutes","mute":"Mute","pause":"Pause","play":"Play","relatedEpisodes":"More posts","references":"References","seek":"Seek episode","share":"Share","showLess":"Show less","showMore":"Show more","showNotes":"Show notes","unmute":"Unmute"}},"zines":{"title":"Logos Zines","backToZines":"Back to Logos Zines","view":"Reading view","spreads":"Spreads","pages":"Pages","grid":"Grid","search":"Search","contents":"Contents","download":"Download print PDF","guidedView":"Guided view","closeGuided":"Close guided view","cover":"Cover","backCover":"Back cover","page":"Page {page}","previousPage":"Previous page","nextPage":"Next page","previousBlock":"Previous block","nextBlock":"Next block","spreadStatus":"Pages {first}-{last} of {count}","pageStatus":"{page} / {count}","blockStatus":"Block {block} of {count} · page {page}","goToPage":"Go to page","guidedButton":"Read in guided view","guidedHint":"Or tap any column to zoom into it.","swipe":"Swipe for the next block","searchIssue":"Search this issue","searchPlaceholder":"Search the zine","searchHint":"Find words and passages across the whole issue.","results":"{count, plural, one {# result} other {# results}} on {pages, plural, one {# page} other {# pages}}","morePages":"Show {count} more pages","resultPage":"p.{page}","spreadHits":"{count, plural, one {# hit} other {# hits}} on this spread","pageHits":"{count, plural, one {# hit} other {# hits}} on this page","matches":"{count, plural, one {# match} other {# matches}}","closeSearch":"Close search","closeContents":"Close contents","copy":"Copy","copyLink":"Copy link to passage","copied":"Text copied","linkCopied":"Passage link copied","copyFailed":"Unable to copy. Please use your browser's copy command.","loading":"Loading the issue...","loadFailed":"The issue could not be loaded. Try again or download the print PDF.","retry":"Try again","javascriptRequired":"Enable JavaScript to use the interactive reader, or download the complete issue.","printGuide":"Print guide","closePrintGuide":"Close print guide","downloadImposed":"Download A3 print layout","imposedNote":"This file is already arranged for A3 booklet printing. Print at actual size, on both sides, flipping on the short edge. Do not select booklet mode again. Print one copy first to check the page order and orientation.","insideCover":"Inside cover"}},"now":"$undefined","timeZone":"UTC","children":"$L10"}]
@@ -3313,7 +3313,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.29:Tad45,# RFP-015: Privacy-Preserving Token Launchpad: Bonding Curve
+**Discussions**.29:Ta5e5,# RFP-015: Privacy-Preserving Token Launchpad: Bonding Curve
 
 > **Note.** This specification describes an outcome that may benefit the Logos
 > ecosystem. It is a proposal rather than an instruction. Its requirements
@@ -3341,7 +3341,7 @@ We typically respond within **14 days**. For clarification questions, please use
 > does so as principal, in their own name, and is solely responsible for
 > assessing its regulatory treatment, including any licensing, registration,
 > sanctions or anti-money laundering obligations that may apply to them. Logos
-> does not make any representation, provides any advice or assumes any
+> does not make any representation, provide any advice or assume any
 > responsibility in respect of any such determination or compliance.
 
 ## 🧭 Overview
@@ -3354,28 +3354,28 @@ supply-driven: price advances with each purchase. Participants can buy tokens
 directly from a public account or, for privacy, via a deshield→buy→re-shield
 pattern (see [RFP-008](/builders-hub/rfps/lending-borrowing-protocol), which defines
 this interaction model for LEZ applications): when a private account is used,
-each purchase is routed through a fresh, single-use public account, hiding the
-link between the buyer's private identity and their participation in the sale.
+each purchase is routed through a fresh, single-use public account, so that the
+buy is submitted by an account with no prior on-chain history and no on-chain
+link to the buyer's private account.
 
 The bonding curve LEZ program is delivered for LEZ testnet 0.4 (Supportability
 requirement #1).
 
-The bonding curve launchpad complements [RFP-016](/builders-hub/rfps/lbp-launchpad):
-where LBPs reward patient buyers (price falls over time unless buying pressure
-counteracts it), bonding curves reward early believers (price rises with each
-purchase). The two mechanisms suit different project profiles, and together they
-give the Logos ecosystem a complete token launch toolkit.
+The bonding curve launchpad complements [RFP-016](/builders-hub/rfps/lbp-launchpad).
+The mechanisms have different price trajectories: absent offsetting buying
+pressure, an LBP price generally declines over time, while a bonding-curve price
+increases as purchases reduce the remaining curve supply. They therefore provide
+distinct token-distribution mechanisms.
 
 ## 🔥 Why This Matters
 
-Bonding curves are one of the most proven token distribution mechanisms in DeFi.
-pump.fun surpassed $1B in daily trading volume on Solana using a
-constant-product bonding curve, demonstrating that the model scales and attracts
-broad community participation. Meteora's Dynamic Bonding Curve is a leading
-open-source SVM launchpad primitive, used in production by multiple projects.
-Beyond Solana, the constant-product model underpins Uniswap, Balancer, and
-virtually every major AMM; the formula is the most audited and best-understood
-pricing primitive in DeFi.
+Bonding curves are used as token distribution mechanisms across a number of DeFi
+applications. pump.fun surpassed $1B in daily trading volume on Solana using a
+constant-product bonding curve. Meteora's Dynamic Bonding Curve is an
+open-source SVM launchpad primitive used in production by multiple projects.
+Beyond Solana, constant-product pricing (and its weighted generalisation)
+underpins Uniswap and Balancer; the model is widely deployed and has been
+subject to substantial implementation and audit experience.
 
 ## 🏗 Design Rationale
 
@@ -3457,10 +3457,10 @@ and the LBP launchpad uses ([RFP-016](/builders-hub/rfps/lbp-launchpad)); the tw
 launchpads differ only in who bears the fee and when it may be collected. It
 keeps the treasury account out of the swap path entirely, so a buy costs one
 fewer token transfer and cannot fail because a treasury token account for the
-sale's collateral mint does not exist. Meteora's Dynamic Bonding Curve, the
-reference implementation for this RFP, accrues protocol and partner fees in the
-pool and exposes claim instructions in the same way. The cost is that the vault
-holds both the reserve and the accrued fees, so the program must maintain
+sale's collateral mint does not exist. Meteora's Dynamic Bonding Curve, a
+production deployment of this mechanism, accrues protocol and partner fees in
+the pool and exposes claim instructions in the same way. The cost is that the
+vault holds both the reserve and the accrued fees, so the program must maintain
 `vault_balance ≥ reserve + fees_accrued` on every path, including sells, which
 drain the reserve and must never be paid out of accrued fees. Curve StableSwapNG
 documents the failure mode of getting this wrong: fee state that is withdrawn
@@ -3482,10 +3482,10 @@ Per-swap accrual is critical for bonding curves. The graduation rate across the
 ecosystem is approximately 0.7% to 1.4% (see the
 [Sale Lifecycle](https://github.com/logos-co/rfp/blob/master/appendix/token-launchpad-ecosystem.md#sale-lifecycle-and-close-mechanics)
 section of the appendix): over 98% of bonding curves never reach their supply
-target. An at-close fee model would capture revenue on fewer than 2% of
-launches. Pump.fun, the largest bonding curve platform by volume, uses a
-buyer-side per-swap fee (dynamic, 0.05–0.95% since September 2025) and has
-generated over $818M in cumulative protocol fees (see the
+target. An at-close fee model would accrue fees on fewer than 2% of launches.
+Pump.fun, the largest bonding curve platform by volume, uses a buyer-side
+per-swap fee (dynamic, 0.05–0.95% since September 2025) and has generated over
+$818M in cumulative protocol fees (see the
 [Fee Structures](https://github.com/logos-co/rfp/blob/master/appendix/token-launchpad-ecosystem.md#fee-structures)
 section of the appendix for a cross-platform comparison).
 
@@ -3512,26 +3512,24 @@ for account layout and address derivation.
 
 ### Bonding curves and LBPs as complementary mechanisms
 
-The Logos ecosystem provides both a bonding curve launchpad (this RFP) and an
-LBP launchpad ([RFP-016](/builders-hub/rfps/lbp-launchpad)). The two mechanisms are
-not redundant: they suit different project profiles and together provide a
-complete token launch toolkit.
+This RFP specifies a bonding curve launchpad and
+[RFP-016](/builders-hub/rfps/lbp-launchpad) specifies an LBP launchpad. The two
+mechanisms are not redundant: they have different price trajectories and
+different properties at sale open.
 
-A bonding curve rewards early participation with a lower entry price and
-provides a fully deterministic, supply-driven price trajectory. The complete
-economic outcome is computable before the sale opens: starting price, price at
-any supply point, and total collateral at graduation are all known in advance.
-Graduation to a DEX pool is natural, since the virtual reserve model accumulates
-both token and collateral reserves in the correct ratio throughout the sale.
-This suits projects that want to reward early believers, need a transparent and
-auditable price formula, and value a predictable raise range.
+In a bonding curve, earlier purchases execute at a lower price, and the price
+trajectory is fully deterministic and supply-driven. The complete economic
+outcome is computable before the sale opens: starting price, price at any supply
+point, and total collateral at graduation are all known in advance. Graduation
+to a DEX pool follows directly from the virtual reserve model, which accumulates
+both token and collateral reserves in the correct ratio throughout the sale. The
+price formula is transparent and auditable, and the raise range is known before
+the sale opens.
 
 An LBP opens above estimated fair value and lets the market discover price over
-multiple days, without requiring the project to pre-set a valuation. It is
-better suited to projects that want broad, patient participation and
-market-driven price discovery. The two mechanisms are genuinely different tools
-for genuinely different launch strategies: teams should choose based on their
-community profile and distribution goals.
+multiple days, without the creator pre-setting a valuation. Participation is
+spread across the sale window and the clearing price is market-driven. Which
+mechanism fits a given launch depends on the creator's distribution goals.
 
 ### Known limitations of bonding curves for token launches
 
@@ -3541,8 +3539,7 @@ bonding curve, buying early is cheapest: bots that execute at the first block of
 an open sale acquire tokens at the starting spot price `p₀ = Vc / Vt`, before
 the broader community can participate. No bonding curve platform in the
 ecosystem implements access restrictions or bot mitigation at the protocol
-level. Projects seeking stronger bot-deterrence properties should use RFP-016
-instead.
+level.
 
 ## ✅ Scope of Work
 
@@ -3804,6 +3801,8 @@ instead.
    specifying which guarantees are enforced by the on-chain program and which
    depend on correct client behaviour; and what happens if a user bypasses the
    expected interaction path.
+6. Deployment scripts and documentation are sufficient for a third party to
+   deploy and configure the program without assistance from the team.
 
 #### + Privacy
 
@@ -3889,8 +3888,7 @@ directly or uses a non-conforming client could skip the re-shield, leaving
 purchased tokens in the ephemeral public account and breaking their own
 anonymity. The program enforces correctness of the buy (invariant preservation,
 slippage checks); the privacy pattern is enforced by the SDK, not by the
-on-chain program. Buyers who bypass the SDK accept full responsibility for any
-resulting privacy loss.
+on-chain program.
 
 ### Known Limitations
 
@@ -3899,9 +3897,7 @@ above estimated fair value and declines over time, a bonding curve opens at its
 lowest price (`p₀ = Vc / Vt`). Bots that execute at the first block of the sale
 acquire tokens at the cheapest possible price, before the community can
 participate. No bonding curve platform in the ecosystem implements access
-restrictions or bot mitigation at the protocol level. Projects requiring
-stronger bot deterrence should use [RFP-016](/builders-hub/rfps/lbp-launchpad)
-instead.
+restrictions or bot mitigation at the protocol level.
 
 ### Reference Implementation
 
@@ -3987,57 +3983,6 @@ production deployments or audits.
   relative to public-path buyers. No bonding curve platform currently implements
   this feature.
 
-## ⚠ Platform Dependencies
-
-This RFP is open for proposals. However, full implementation is blocked until
-the hard blockers below are delivered. Proposers may begin design and
-development work, but a working on-chain deployment requires them to be
-available.
-
-### Hard blockers
-
-#### Token authorities (LP-0013)
-
-The launchpad program is a token custodian: it holds the token sale reserve and
-the real collateral reserve, pays out tokens on buys and collateral on sells,
-and routes protocol fees to the treasury. This requires the transfer-authority
-primitives in
-[LP-0013](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0013.md),
-currently **open**.
-
-#### Admin authority (RFP-001)
-
-Each launchpad namespace is governed by its own admin authority (Functionality
-requirement F.9), which configures the protocol fee rate and treasury address
-(F.8) and can be transferred or renounced, using the standardised library from
-[RFP-001](/builders-hub/rfps/admin-authority-lib). The RFP is closed (candidate
-picked) and the library is in development.
-
-### Resolved dependencies
-
-These primitives were once blockers but are now delivered on LEZ, so they no
-longer gate this RFP. They remain in the frontmatter `dependencies` index for
-traceability.
-
-#### General cross-program calls (LP-0015)
-
-A buy operation must: (1) call the token program to transfer collateral from the
-buyer into the real collateral reserve, (2) compute `tokens_out` using the
-constant product formula, (3) call the token program again to transfer project
-tokens to the buyer, and (4) update curve state (`Vt`, `Vc`, real reserves).
-General cross-program calls via tail calls let each step continue in a protected
-continuation.
-[LP-0015](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0015.md)
-is **closed**, delivered by the LEZ team as part of the core runtime.
-
-#### Event emission (LP-0012)
-
-Analytics dashboards and monitoring services react to curve events (buy
-executed, sale closed) through structured events rather than polling every
-account.
-[LP-0012](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0012.md)
-is **closed**.
-
 ## 👤 Recommended Team Profile
 
 Team experienced with:
@@ -4078,8 +4023,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 - [LP-0014: Token program improvements: ATAs + wallet tooling](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0014.md)
 
 - [Meteora Dynamic Bonding Curve (program and docs)](https://github.com/MeteoraAg/dynamic-bonding-curve)
-  (primary reference implementation for constant product bonding curve on
-  Solana)
+  (a production deployment of a constant-product bonding curve on Solana)
 
 - [pump.fun bonding curve mechanism](https://deepwiki.com/pump-fun/pump-public-docs/3.1-pump-bonding-curve-mechanism)
   (canonical production deployment of constant product with virtual reserves)
@@ -4089,6 +4033,15 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 
 - [SPEL framework](https://github.com/logos-co/spel)
 
+The Resources listed above, and any third-party material referred to elsewhere
+in this specification, are for informational purposes only and are intended
+solely as guidance regarding tools or other artefacts that may be relevant to
+preparing a Submission under the Program. They may include, or may refer to,
+earlier published specifications, some of which may have received Submissions.
+Logos does not endorse or approve, and makes no representation regarding, any
+Submission or referenced material. It is ultimately the Applicant's
+responsibility to determine whether, and how, if at all, to use any Resource.
+
 ## ✏️ How to Apply
 
 👉 Submit a proposal using the Issue form:
@@ -4096,7 +4049,7 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 **[Submit Proposal](https://github.com/logos-co/rfp/issues/new?template=proposal.yml)**
 
 We typically respond within **14 days**. For clarification questions, please use
-**Discussions**.2a:Ta71c,# RFP-016: Privacy-Preserving Token Launchpad: LBP
+**Discussions**.2a:T9e88,# RFP-016: Privacy-Preserving Token Launchpad: LBP
 
 > **Note.** This specification describes an outcome that may benefit the Logos
 > ecosystem. It is a proposal rather than an instruction. Its requirements
@@ -4124,7 +4077,7 @@ We typically respond within **14 days**. For clarification questions, please use
 > does so as principal, in their own name, and is solely responsible for
 > assessing its regulatory treatment, including any licensing, registration,
 > sanctions or anti-money laundering obligations that may apply to them. Logos
-> does not make any representation, provides any advice or assumes any
+> does not make any representation, provide any advice or assume any
 > responsibility in respect of any such determination or compliance.
 
 Note that ecosystem research is available in the
@@ -4138,16 +4091,14 @@ price discovery for new token launches. Participants can buy tokens directly
 from a public account or, for privacy, via a deshield→buy→re-shield pattern (see
 [RFP-008](/builders-hub/rfps/lending-borrowing-protocol), which defines this
 interaction model for LEZ applications): when a private account is used, each
-purchase is routed through a fresh, single-use public account, hiding the link
-between the buyer's private identity and their participation in the sale. An
-optional private allowlist gate enables projects to restrict participation
-without exposing the eligibility set on-chain.
+purchase is routed through a fresh, single-use public account, so that the buy
+is submitted by an account with no prior on-chain history and no on-chain link
+to the buyer's private account. An optional private allowlist gate enables
+projects to restrict participation without exposing the eligibility set
+on-chain.
 
 The LBP LEZ program is delivered for LEZ testnet 0.4 (Supportability requirement
 #1).
-
-The launchpad is the entry point for new projects into the Logos ecosystem. It
-is where token price and initial distribution are established.
 
 ## 🔥 Why This Matters
 
@@ -4172,8 +4123,7 @@ On LEZ, the optional deshield→buy→re-shield pattern means a buyer's private
 account is never linked to their purchase on-chain. Observers see a buy
 transaction from an ephemeral public account with no prior history. The buyer's
 identity, their total position size, and the destination of their purchased
-tokens are all private. This is a structurally different, and stronger, privacy
-guarantee than anything available on existing launchpad platforms.
+tokens are all private.
 
 ## 🏗 Design Rationale
 
@@ -4191,16 +4141,14 @@ underpricing benefits buyers and dilutes the project; overpricing leads to an
 incomplete raise and reputation damage. Dutch auctions clear at a single price
 moment, which creates a coordination game: buyers wait for the price to fall and
 then rush simultaneously, producing congestion and poor UX.
-[LP-0004 (sealed-bid)](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0004.md)
-hides individual bids and is well-suited to single-item auctions, but clears at
-one moment rather than over days, making it unsuitable for broad community
-distribution.
+[LP-0004](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0004.md)
+uses a sealed-bid mechanism that hides individual bids and clears at a single
+point rather than continuously over a multi-day period.
 
-The Logos ecosystem also provides a bonding curve launchpad
-([RFP-015](/builders-hub/rfps/bonding-curve-launchpad)) for projects where early-entry
-incentives are intentional: price rises deterministically with each purchase,
-rewarding early believers with a lower entry price. The two mechanisms suit
-different project profiles and together provide a complete token launch toolkit.
+[RFP-015](/builders-hub/rfps/bonding-curve-launchpad) specifies a bonding curve
+launchpad, in which price rises deterministically with each purchase, so earlier
+purchases execute at a lower price. The two mechanisms have different price
+trajectories and provide distinct token-distribution mechanisms.
 
 Fixed-price mode is retained as a soft requirement for projects that have an
 existing community with a known clearing price and prefer simplicity over
@@ -4214,22 +4162,22 @@ practical implementation on any network. It would also undermine the LBP
 mechanism itself: price discovery requires all participants to observe the same
 current price curve so they can make informed decisions about when to buy.
 
-Public pool state is the correct choice here. It enables permissionless price
-transparency (every participant sees the same price), composability with other
-LEZ programs (e.g., routing, aggregators), permissionless weight poke
-transactions (anyone can advance the schedule without depending on the creator),
-and verifiable sale analytics. Participant privacy is instead enforced at the UX
-layer via the optional deshield→buy→re-shield pattern, which unlinks the buyer's
-private identity from their on-chain purchase without requiring private pool
-state.
+This RFP specification therefore uses public pool state. It enables
+permissionless price transparency (every participant sees the same price),
+composability with other LEZ programs (e.g., routing, aggregators),
+permissionless weight poke transactions (anyone can advance the schedule without
+depending on the creator), and verifiable sale analytics. Participant privacy is
+instead enforced at the UX layer via the optional deshield→buy→re-shield
+pattern, which unlinks the buyer's private identity from their on-chain purchase
+without requiring private pool state.
 
 ### Optional allowlist
 
-The allowlist gate is opt-in: many projects want permissionless open sales. When
-projects do need access control (e.g., geographic restrictions, community-only
-sales, pre-selected investor lists), the creator can commit an eligibility set
-at creation time and restrict buys to participants who can prove inclusion. The
-implementation approach is left to the proposing team.
+The allowlist gate is optional. When projects do need access control (e.g.,
+geographic restrictions, community-only sales, pre-selected investor lists), the
+creator can commit an eligibility set at creation time and restrict buys to
+participants who can prove inclusion. The implementation approach is left to the
+proposing team.
 
 On LEZ, the relevant anonymity set for any private account action is all private
 accounts in the zone, not the allowlist size. The execution environment is
@@ -4575,6 +4523,8 @@ pattern for account layout and address derivation.
    specifying which guarantees are enforced by the on-chain program and which
    depend on correct client behaviour; and what happens if a user bypasses the
    expected interaction path.
+6. Deployment scripts and documentation are sufficient for a third party to
+   deploy and configure the program without assistance from the team.
 
 #### + Privacy
 
@@ -4656,8 +4606,7 @@ itself cannot enforce the re-shield step: a buyer who calls the program directly
 or uses a non-conforming client could skip the re-shield, leaving purchased
 tokens in the ephemeral public account and breaking their own anonymity. The
 program enforces correctness of the buy (weight computation, slippage checks);
-the privacy pattern is enforced by the SDK, not by the on-chain program. Buyers
-who bypass the SDK accept full responsibility for any resulting privacy loss.
+the privacy pattern is enforced by the SDK, not by the on-chain program.
 
 ### Known Limitations
 
@@ -4669,8 +4618,8 @@ each buy from a private account uses a fresh ephemeral public address with no
 prior history, so the program cannot link multiple buys to the same underlying
 participant. Providing this feature would either require breaking the privacy
 guarantee or introducing off-chain coordination that reintroduces
-centralisation. Projects that need whale concentration limits should use the
-allowlist gate to restrict the eligible set instead.
+centralisation. The allowlist gate can restrict which participants are eligible,
+but does not cap the amount any eligible participant contributes.
 
 ### Soft Requirements
 
@@ -4756,10 +4705,10 @@ stored weight value.
 #### Timestamp dependency
 
 The program reads the block timestamp (or equivalent on-chain time source) at
-each buy to compute current weights. This creates a hard dependency on an
-on-chain clock primitive, noted in Platform Dependencies. The weight function's
-correctness depends on the timestamp advancing monotonically; if the on-chain
-clock stalls or regresses, weight computation will produce incorrect results.
+each buy to compute current weights. This creates a dependency on an on-chain
+clock primitive. The weight function's correctness depends on the timestamp
+advancing monotonically; if the on-chain clock stalls or regresses, weight
+computation will produce incorrect results.
 
 #### Deviation standard
 
@@ -4769,62 +4718,6 @@ auction overlay) provided the proposal includes: (1) a formal specification
 equivalent in detail to the formulas above, (2) a security argument that the
 mechanism's core invariant is preserved under all operations, and (3) citations
 to existing production deployments or audits.
-
-## ⚠ Platform Dependencies
-
-### Hard blockers
-
-These must be available on LEZ for development to start:
-
-#### Token authorities (LP-0013)
-
-The launchpad program is a token custodian: it holds pool token and collateral
-balances, pays out tokens on buys, and routes protocol fees to the treasury.
-This requires the transfer-authority primitives in
-[LP-0013](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0013.md),
-currently **open**.
-
-#### Authority libraries (RFP-001, RFP-002)
-
-Each launchpad namespace is governed by its own admin authority (Functionality
-requirement F.11), which configures the protocol fee rate and treasury address
-(F.10) and can be transferred or renounced; the sale pause capability (F.6)
-builds on a freeze authority. These come from the standardised libraries in
-[RFP-001](/builders-hub/rfps/admin-authority-lib) and
-[RFP-002](/builders-hub/rfps/freeze-authority-lib). Both RFPs are closed (candidate
-picked) and the libraries are in development.
-
-### Resolved dependencies
-
-These primitives were once blockers but are now delivered on LEZ, so they no
-longer gate this RFP. They remain in the frontmatter `dependencies` index for
-traceability.
-
-#### On-chain clock / timestamp
-
-The LBP mechanism is fundamentally time-driven: pool weights shift linearly from
-the start weight to the end weight over the sale duration, and the current price
-at any moment is a function of elapsed time since sale start. The LEZ clock
-program now maintains on-chain timestamp accounts that any program can read, so
-this is **delivered**.
-
-#### General cross-program calls (LP-0015)
-
-A buy operation must: (1) call the token program to transfer collateral from the
-buyer into the pool, (2) compute the token output based on current weights, (3)
-call the token program again to transfer project tokens to the buyer, and (4)
-update pool state (weights, balances, cumulative volume). General cross-program
-calls via tail calls let each step continue in a protected continuation.
-[LP-0015](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0015.md)
-is **closed**, delivered by the LEZ team as part of the core runtime.
-
-#### Event emission (LP-0012)
-
-Analytics dashboards and sale monitoring services react to pool events (buy
-executed, weights updated, sale closed) through structured events rather than
-polling every account.
-[LP-0012](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0012.md)
-is **closed**.
 
 ## 👤 Recommended Team Profile
 
@@ -4868,6 +4761,15 @@ All code must be released under the **MIT+Apache2.0 dual License**.
 - [Fjord Foundry LBP reference](https://help.fjordfoundry.com/fjord-foundry-docs/for-sale-creators/faqs-creators/lbp-faq)
 
 - [SPEL framework](https://github.com/logos-co/spel)
+
+The Resources listed above, and any third-party material referred to elsewhere
+in this specification, are for informational purposes only and are intended
+solely as guidance regarding tools or other artefacts that may be relevant to
+preparing a Submission under the Program. They may include, or may refer to,
+earlier published specifications, some of which may have received Submissions.
+Logos does not endorse or approve, and makes no representation regarding, any
+Submission or referenced material. It is ultimately the Applicant's
+responsibility to determine whether, and how, if at all, to use any Resource.
 
 ## ✏️ How to Apply
 
