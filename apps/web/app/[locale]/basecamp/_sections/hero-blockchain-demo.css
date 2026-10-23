@@ -1,0 +1,224 @@
+.bc-demo-blockchain,
+.bc-demo-storage {
+  height: 100%;
+  min-height: 0;
+}
+.bc-demo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px 6px 0 0;
+  background: #262626;
+  color: #bdbdbd;
+  font-size: 11px;
+}
+.bc-demo-chip i,
+.bc-demo-storage-tabs i {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: #f07d5e;
+}
+.bc-demo-blockchain-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 12px;
+}
+.basecamp-renewal .bc-demo-blockchain-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  white-space: nowrap;
+  color: #ededed;
+  font-family: var(--next-font-sans), sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+.bc-demo-blockchain-heading h2 svg {
+  color: #ededed;
+}
+.bc-demo-blockchain-controls {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+.bc-demo-blockchain-controls button {
+  padding: 5px 10px;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  background: transparent;
+  color: #dadada;
+  white-space: nowrap;
+  font-size: 11px;
+}
+.bc-demo-blockchain-controls button.is-primary {
+  border-color: #f07d5e;
+  background: #f07d5e;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+.bc-demo-blockchain-controls button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.bc-demo-blockchain-tabs {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  border-bottom: 1px solid #2a2a2a;
+}
+.bc-demo-blockchain-tabs button {
+  min-width: 0;
+  padding: 0 10px 7px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #9a9a9a;
+  white-space: nowrap;
+  font-size: 11px;
+}
+.bc-demo-blockchain-tabs button.is-active {
+  border-bottom-color: #f07d5e;
+  color: #f07d5e;
+}
+.bc-demo-node-panel {
+  padding-top: 10px;
+}
+.bc-demo-node-status {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #222;
+}
+.bc-demo-node-status-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.bc-demo-node-status-head strong {
+  color: #4ade80;
+  font-size: 24px;
+  line-height: 1;
+}
+.bc-demo-node-status-head strong.is-offline {
+  color: #8a8a8a;
+}
+.bc-demo-node-status-head strong.is-starting {
+  color: #ededed;
+}
+.bc-demo-node-status-head span {
+  color: #9a9a9a;
+  text-align: right;
+  font-size: 9px;
+  line-height: 1.5;
+}
+.bc-demo-node-stages {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 2px;
+}
+.bc-demo-node-stages span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  overflow: hidden;
+  padding: 6px 4px;
+  background: #1e1e1e;
+  color: #6e6e6e;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 7px) 0,
+    100% 50%,
+    calc(100% - 7px) 100%,
+    0 100%,
+    7px 50%
+  );
+  white-space: nowrap;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 9px;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bc-demo-node-stages span {
+    transition: none;
+  }
+}
+.bc-demo-node-stages svg {
+  flex: 0 0 10px;
+  width: 10px;
+  height: 10px;
+}
+.bc-demo-node-stages span.is-done {
+  background: #2c2c2c;
+  color: #bdbdbd;
+}
+.bc-demo-node-stages span.is-current {
+  background: #4a3a16;
+  color: #f5b544;
+  font-weight: 600;
+}
+.bc-demo-node-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+.bc-demo-node-metrics > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  min-height: 64px;
+  padding: 8px 9px;
+  border-radius: 8px;
+  background: #242424;
+}
+.bc-demo-node-metrics small,
+.bc-demo-node-metrics span {
+  overflow: hidden;
+  color: #9a9a9a;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 9px;
+}
+.bc-demo-node-metrics strong {
+  overflow: hidden;
+  color: #ededed;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  line-height: 1.15;
+}
+.bc-demo-node-metrics strong.is-blue {
+  color: #4a90e2;
+}
+.bc-demo-node-metrics span {
+  color: #8a8a8a;
+  font-size: 8px;
+}
+.bc-demo-blockchain-detail {
+  min-height: 290px;
+  padding: 24px 12px;
+  background: #222;
+}
+.bc-demo-blockchain-detail h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+.bc-demo-blockchain-detail p {
+  margin: 0;
+  color: #bdbdbd;
+  font-size: 13px;
+}

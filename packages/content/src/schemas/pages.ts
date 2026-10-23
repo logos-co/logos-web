@@ -40,6 +40,7 @@ import {
   roadmapCopySectionSchema,
 } from './pages/page-copy-sections'
 import { prifiCopySectionSchema } from './pages/prifi'
+import { basecampRenewalSectionSchema } from './pages/basecamp-renewal'
 import { sectionKeySchema } from './pages/shared'
 export type {
   HomeAboutSection,
@@ -81,6 +82,7 @@ export type {
   RoadmapCopySection,
 } from './pages/page-copy-sections'
 export type { PrifiCopySection } from './pages/prifi'
+export type { BasecampRenewalSection } from './pages/basecamp-renewal'
 export {
   activistBuilderCopySectionSchema,
   activistLeaderStewardCopySectionSchema,
@@ -101,6 +103,7 @@ export {
   roadmapCopySectionSchema,
 } from './pages/page-copy-sections'
 export { prifiCopySectionSchema } from './pages/prifi'
+export { basecampRenewalSectionSchema } from './pages/basecamp-renewal'
 
 /**
  * Internal-only route path. Pages are statically rendered under `/[locale]`,
@@ -470,6 +473,7 @@ export const pageSectionSchema = z.discriminatedUnion('componentType', [
   activistLeaderStewardCopySectionSchema,
   coalitionPartnerCopySectionSchema,
   customSectionSchema,
+  basecampRenewalSectionSchema,
 ])
 export type PageSection = z.infer<typeof pageSectionSchema>
 

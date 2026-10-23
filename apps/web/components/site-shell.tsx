@@ -7,6 +7,7 @@ import SiteFooter from '@/components/site-footer'
 import SiteHeader from '@/components/site-header'
 import { ZineChromeGate } from '@/components/sections/zines/zine-chrome-gate'
 import SiteHeaderGate from '@/components/site-header/site-header-gate'
+import SiteFooterGate from '@/components/site-footer-gate'
 import UmamiButtonTracker from '@/components/umami-button-tracker'
 import { PodcastPlayerProvider } from '@/app/[locale]/media/_components/podcast-player-context'
 
@@ -30,7 +31,9 @@ export default function SiteShell({ children, locale }: SiteShellProps) {
           <PageTransition>{children}</PageTransition>
         </main>
         <ZineChromeGate>
-          <SiteFooter locale={locale} />
+          <SiteFooterGate>
+            <SiteFooter locale={locale} />
+          </SiteFooterGate>
         </ZineChromeGate>
       </PodcastPlayerProvider>
     </Providers>
