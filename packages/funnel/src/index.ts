@@ -76,5 +76,6 @@ export {
   COUNTRY_OPTIONS,
   SKILLS_MAP,
   SKILLS_OPTIONS,
+  type FunnelCountryOption,
   type FunnelFieldOption,
 } from './form-options'

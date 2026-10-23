@@ -3,6 +3,11 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { FormEvent, KeyboardEvent, RefObject } from 'react'
 
+import {
+  useCityAutocomplete,
+  type CitySearch,
+  type CitySuggestion,
+} from '../city-autocomplete'
 import { FooterArrowIcon, FooterChevronIcon } from './footer-icons'
 
 /** Role choices offered in the custom dropdown. */
@@ -35,10 +40,17 @@ export type FooterNewsletterProps = {
   roleOptions?: readonly string[]
   /** Country choices, searchable. The selected label is submitted as is. */
   countryOptions: readonly string[]
+  /**
+   * City suggestions, whose `country` is one of `countryOptions`. Without
+   * it, the city is plain free text.
+   */
+  searchCities?: CitySearch
   /** Legend explaining the asterisk on the email field. */
   requiredLabel?: string
   /** Message shown after a successful submit. */
   successMessage?: string
+  /** Shown when only one of city and country is filled. */
+  cityCountryMessage?: string
 }
 
 const fieldClassName =
@@ -88,13 +100,17 @@ export function FooterNewsletter({
   onSubmit,
   roleOptions = DEFAULT_ROLE_OPTIONS,
   countryOptions,
+  searchCities,
   requiredLabel = 'required',
   successMessage = 'Thanks — you’re on the list.',
+  cityCountryMessage = 'Please enter both a city and a country, or neither.',
 }: FooterNewsletterProps) {
   const [email, setEmail] = useState('')
   const [role, setRole] = useState('')
   const [city, setCity] = useState('')
   const [country, setCountry] = useState('')
+  // Country of the picked city suggestion, empty for typed text.
+  const [cityCountry, setCityCountry] = useState('')
   const [isRoleOpen, setIsRoleOpen] = useState(false)
   const [isCountryOpen, setIsCountryOpen] = useState(false)
   const [countryQuery, setCountryQuery] = useState('')
@@ -107,6 +123,19 @@ export function FooterNewsletter({
   const countryListId = useId()
 
   const isBusy = status === 'loading' || status === 'success'
+
+  const handleSelectCity = (suggestion: CitySuggestion) => {
+    setCity(suggestion.name)
+    setCountry(suggestion.country)
+    setCityCountry(suggestion.country)
+  }
+
+  const cityAutocomplete = useCityAutocomplete({
+    search: searchCities,
+    query: city,
+    country,
+    onSelect: handleSelectCity,
+  })
 
   const filteredCountries = useMemo(() => {
     const query = normalize(countryQuery)
@@ -148,6 +177,11 @@ export function FooterNewsletter({
   }
 
   const handleSelectCountry = (option: string) => {
+    // A picked city only exists in its own country.
+    if (cityCountry && cityCountry !== option) {
+      setCity('')
+      setCityCountry('')
+    }
     setCountry(option)
     setIsCountryOpen(false)
   }
@@ -192,6 +226,13 @@ export function FooterNewsletter({
       return
     }
 
+    // The Regional Newsletter labels a city within its country.
+    if (Boolean(city.trim()) !== Boolean(country)) {
+      setStatus('error')
+      setMessage(cityCountryMessage)
+      return
+    }
+
     setStatus('loading')
     setMessage('')
 
@@ -202,6 +243,7 @@ export function FooterNewsletter({
       setRole('')
       setCity('')
       setCountry('')
+      setCityCountry('')
       setStatus('success')
       setMessage(successMessage)
     } catch (error) {
@@ -281,17 +323,61 @@ export function FooterNewsletter({
           )}
         </div>
 
-        <input
-          type="text"
-          name="city"
-          autoComplete="address-level2"
-          placeholder={cityLabel}
-          value={city}
-          disabled={isBusy}
-          onChange={(event) => setCity(event.target.value)}
-          className={`min-w-0 flex-1 ${fieldClassName}`}
-          aria-label={cityLabel}
-        />
+        <div
+          className="relative min-w-0 flex-1"
+          ref={cityAutocomplete.containerRef}
+        >
+          <input
+            type="text"
+            name="city"
+            placeholder={cityLabel}
+            value={city}
+            disabled={isBusy}
+            onChange={(event) => {
+              setCity(event.target.value)
+              setCityCountry('')
+              cityAutocomplete.open()
+            }}
+            className={`w-full ${fieldClassName}`}
+            aria-label={cityLabel}
+            {...cityAutocomplete.inputProps}
+          />
+
+          {cityAutocomplete.isOpen && (
+            <ul
+              id={cityAutocomplete.listId}
+              role="listbox"
+              aria-label={cityLabel}
+              className="absolute top-[calc(100%+4px)] right-0 z-50 max-h-[200px] w-full min-w-[200px] overflow-y-auto border border-brand-off-white/50 bg-brand-dark-green backdrop-blur-[5px]"
+            >
+              {cityAutocomplete.suggestions.map((suggestion, index) => (
+                <li
+                  key={`${suggestion.name}|${suggestion.country}`}
+                  id={cityAutocomplete.optionId(index)}
+                  role="option"
+                  aria-selected={index === cityAutocomplete.activeIndex}
+                >
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    onClick={() => cityAutocomplete.select(suggestion)}
+                    onMouseEnter={() => cityAutocomplete.setActiveIndex(index)}
+                    className={`${optionClassName} flex-wrap gap-x-1 ${
+                      index === cityAutocomplete.activeIndex
+                        ? 'bg-brand-off-white/10'
+                        : ''
+                    }`}
+                  >
+                    <span>{suggestion.name}</span>
+                    <span className="text-brand-off-white/60">
+                      {suggestion.country}
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
 
       <div className="flex w-full items-center gap-1">

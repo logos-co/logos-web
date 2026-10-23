@@ -158,8 +158,9 @@ export async function submitNewsletterSignup({
 
 /**
  * Signup for forms without a newsletter choice: always the site newsletter,
- * plus the Regional Newsletter when a city or country was given. Throws only
- * when the site newsletter subscription fails.
+ * plus the Regional Newsletter when both a city and a country were given, the
+ * upstream rejects either alone. Throws only when the site newsletter
+ * subscription fails.
  *
  * Sequential by necessity: the upstream merges the note into the member's
  * existing one with a read-modify-write, so concurrent calls lose a note.
@@ -173,7 +174,7 @@ export async function submitDefaultNewsletterSignup({
 }: DefaultNewsletterSignupInput): Promise<void> {
   await submitNewsletterSignup({ email, role, city, country, formFields })
 
-  if (!city?.trim() && !country?.trim()) return
+  if (!city?.trim() || !country?.trim()) return
 
   try {
     await submitNewsletterSignup({

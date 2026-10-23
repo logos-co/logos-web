@@ -1,5 +1,16 @@
 'use client'
 
+export {
+  CITY_SEARCH_DEBOUNCE_MS,
+  CITY_SEARCH_MIN_LENGTH,
+  useCityAutocomplete,
+} from './primitives/city-autocomplete'
+export type {
+  CitySearch,
+  CitySuggestion,
+  UseCityAutocompleteOptions,
+} from './primitives/city-autocomplete'
+
 export { FooterNewsletter } from './primitives/footer/footer-newsletter'
 export type {
   FooterNewsletterProps,

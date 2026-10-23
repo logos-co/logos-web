@@ -197,48 +197,24 @@ describe('submitDefaultNewsletterSignup', () => {
     })
   })
 
-  test('adds the Regional Newsletter when only a city is given', async () => {
-    const fetchMock = stubFetch()
+  test.each([
+    { city: 'Lyon', country: '' },
+    { city: '', country: 'France' },
+  ])(
+    'skips the Regional Newsletter without both a city and a country: %o',
+    async ({ city, country }) => {
+      const fetchMock = stubFetch()
 
-    await submitDefaultNewsletterSignup({
-      email: 'activist@example.com',
-      city: 'Lyon',
-    })
+      await submitDefaultNewsletterSignup({
+        email: 'activist@example.com',
+        city,
+        country,
+      })
 
-    expect(fetchMock).toHaveBeenCalledTimes(2)
-    expect(bodyOf(fetchMock, 0)).toEqual({
-      email: 'activist@example.com',
-      city: 'Lyon',
-      type: 'logos',
-      newsletter: LOGOS_NEWSLETTER,
-      note: 'City: Lyon',
-    })
-    expect(bodyOf(fetchMock, 1)).toEqual({
-      email: 'activist@example.com',
-      city: 'Lyon',
-      type: 'logos',
-      newsletter: REGIONAL_NEWSLETTER,
-      sendAutoReply: false,
-    })
-  })
-
-  test('adds the Regional Newsletter when only a country is given', async () => {
-    const fetchMock = stubFetch()
-
-    await submitDefaultNewsletterSignup({
-      email: 'activist@example.com',
-      country: 'France',
-    })
-
-    expect(fetchMock).toHaveBeenCalledTimes(2)
-    expect(bodyOf(fetchMock, 1)).toEqual({
-      email: 'activist@example.com',
-      country: 'France',
-      type: 'logos',
-      newsletter: REGIONAL_NEWSLETTER,
-      sendAutoReply: false,
-    })
-  })
+      expect(fetchMock).toHaveBeenCalledTimes(1)
+      expect(bodyOf(fetchMock).newsletter).toBe(LOGOS_NEWSLETTER)
+    }
+  )
 
   test('sends the fields and form answers to both newsletters but the note only once', async () => {
     const fetchMock = stubFetch()
@@ -285,6 +261,7 @@ describe('submitDefaultNewsletterSignup', () => {
     await submitDefaultNewsletterSignup({
       email: 'activist@example.com',
       city: 'Berlin',
+      country: 'Germany',
     })
 
     expect(order).toEqual([
@@ -305,6 +282,7 @@ describe('submitDefaultNewsletterSignup', () => {
       submitDefaultNewsletterSignup({
         email: 'activist@example.com',
         city: 'Berlin',
+        country: 'Germany',
       })
     ).rejects.toThrow('Upstream down.')
     expect(fetchMock).toHaveBeenCalledTimes(1)
@@ -324,6 +302,7 @@ describe('submitDefaultNewsletterSignup', () => {
       submitDefaultNewsletterSignup({
         email: 'activist@example.com',
         city: 'Berlin',
+        country: 'Germany',
       })
     ).resolves.toBeUndefined()
     expect(fetchMock).toHaveBeenCalledTimes(2)
