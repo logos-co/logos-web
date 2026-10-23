@@ -339,12 +339,14 @@ export function Footers() {
     { label: 'Blog', href: ROUTES.media },
     { label: 'Github', href: EXTERNAL_URLS.github },
   ]
-  const researchLinks = [{ label: 'VacP2P', href: EXTERNAL_URLS.vacp2p }]
+  const researchLinks = [
+    { label: 'Logos Research', href: EXTERNAL_URLS.researchSpecs },
+  ]
   const infrastructureLinks = [
-    { label: 'Waku', href: EXTERNAL_URLS.waku },
+    { label: 'Messaging', href: ROUTES.messaging },
     { label: 'Nimbus', href: EXTERNAL_URLS.nimbus },
-    { label: 'Codex', href: EXTERNAL_URLS.codex },
-    { label: 'Nomos', href: EXTERNAL_URLS.nomos },
+    { label: 'Storage', href: ROUTES.storage },
+    { label: 'Blockchain', href: ROUTES.blockchain },
   ]
   const legalLinks = [
     { label: 'Terms & Conditions', href: ROUTES.terms },
