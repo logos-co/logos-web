@@ -258,6 +258,7 @@
     },
     "article": {
       "contents": "Contents",
+      "installBasecamp": "Install Basecamp",
       "share": "Share",
       "copied": "Copied",
       "relatedArticles": "Related Articles",
