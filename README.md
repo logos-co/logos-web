@@ -19,7 +19,7 @@ This monorepo holds the public Logos website (logos.co), the Payload CMS that ed
 | `packages/types`           | `@repo/types`             | Shared types, including the Payload-generated ones                 |      |
 | `packages/config`          | `@repo/config`            | ESLint, TypeScript and Prettier presets                            |      |
 
-Page copy and structured data (pages, press, circles, builders-hub, site) live in `content/**`, and that folder is what production builds from. Apps are thin entrypoints; shared logic goes in a package.
+Page copy and structured data (pages, press, circles, builders-hub, zines, site) live in `content/**`, and that folder is what production builds from. Apps are thin entrypoints; shared logic goes in a package.
 
 ## Run it
 

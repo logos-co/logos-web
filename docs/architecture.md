@@ -21,7 +21,7 @@ This works only because `dev`, `build`, `test` and `check-types` all depend on `
 
 ## Content flow
 
-`content/**` is the source of truth for page copy and for the structured data behind pages, press, circles, builders-hub and site. `apps/web` reads it at build time through the `@repo/content` loaders and never calls the GitHub API at request time, so pages render without a round trip. The one build-time exception is the RFP listing, which fetches markdown from the `logos-co/rfp` repo ([`apps/web/lib/rfps-github.ts`](../apps/web/lib/rfps-github.ts)).
+`content/**` is the source of truth for page copy and for the structured data behind pages, press, circles, builders-hub, zines and site. `apps/web` reads it at build time through the `@repo/content` loaders and never calls the GitHub API at request time, so pages render without a round trip. The one build-time exception is the RFP listing, which fetches markdown from the `logos-co/rfp` repo ([`apps/web/lib/rfps-github.ts`](../apps/web/lib/rfps-github.ts)).
 
 The CMS doesn't publish by writing to its database. An editor's save becomes a GitHub pull request against `develop` that changes files under `content/**`, opened by the workflow service in [`apps/cms/src/services/content-workflow/`](../apps/cms/src/services/content-workflow). Payload's Postgres holds only what the admin needs while the edit is in flight: users, sessions, drafts, a mirror of open content PRs and the site publish reservations. GitHub has the diff. Once the PR merges, the next build picks it up: `develop` builds staging, `master` builds production. [Deployment](deployment.md) covers those builds.
 
