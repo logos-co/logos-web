@@ -1,6 +1,6 @@
 # @acid-info/logos-ui
 
-Shared Logos React primitives and SVG icons: the Logos mark and wordmark, `Button`, `Card`, `Footer`, `NavOverlay`, `Pagination`, the table and view-toggle controls from Builders Hub, and the podcast, search and share icons.
+Shared Logos React primitives and SVG icons: the Logos mark and wordmark, `Button`, `Card`, `Footer`, `NavOverlay`, `Pagination`, the table and view-toggle controls from Builders Hub, a headless city autocomplete hook, and the podcast, search and share icons.
 
 ## Install
 
@@ -62,5 +62,7 @@ import { Button } from '@acid-info/logos-ui'
 `@acid-info/logos-ui` is the root entrypoint with server-safe components and their types, including `Button`, `ButtonArrowIcon`, `Card`, `CardInfo`, `Footer`, `GiantSwitch`, `GiantSwitchTag`, `IconButton`, `Pagination`, `Table`, `TableRow`, `ViewToggle`, the technology-stack sections and the icons.
 
 `@acid-info/logos-ui/client` holds the components that need React effects and are marked `'use client'`: `NavOverlay` and `FooterNewsletter`. Import them from there, otherwise a server component will fail to build.
+
+The client entrypoint also exports `useCityAutocomplete`, a headless city combobox hook with debounced search, keyboard navigation and outside-click close. The caller renders the list and passes a `CitySearch` function; without one the field stays plain free text. `CITY_SEARCH_MIN_LENGTH` (2) and `CITY_SEARCH_DEBOUNCE_MS` (250) are exported alongside the `CitySearch`, `CitySuggestion` and `UseCityAutocompleteOptions` types. `FooterNewsletter` uses it when given a `searchCities` prop.
 
 `@acid-info/logos-ui/styles.css` is the stylesheet described above. The full export list is in `src/index.ts` and `src/client.ts`.

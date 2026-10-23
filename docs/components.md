@@ -72,7 +72,11 @@ From top to bottom:
 - Country dropdown and submit button
 - A `* required` legend, from `requiredLabel`, which defaults to `required`
 
-The country dropdown is searchable: typing filters `countryOptions` (case and diacritics insensitive, prefix matches first), arrow keys move, Enter selects, Escape or a click outside closes. The selected label is submitted as it stands, which is why the site passes the funnel `COUNTRY_OPTIONS` labels. On submit the site subscribes to the Logos Newsletter and, when a city or country was given, the Regional Newsletter too.
+The country dropdown is searchable: typing filters `countryOptions` (case and diacritics insensitive, prefix matches first), arrow keys move, Enter selects, Escape or a click outside closes. The selected label is submitted as it stands, which is why the site passes the funnel `COUNTRY_OPTIONS` labels.
+
+With `searchCities`, the city input suggests cities as you type: from 2 characters, debounced, within the selected country when one is set. Arrow keys move, Enter picks the highlighted suggestion, Escape, Tab or a click outside closes. Enter with no highlighted suggestion submits the typed text, so the city stays free text. Picking a suggestion also sets the country to the suggestion's `country`, which must be one of `countryOptions`; selecting another country afterwards clears a picked city. Without `searchCities` the city is plain free text. The combobox logic is the headless `useCityAutocomplete` hook ([`packages/ui/src/primitives/city-autocomplete/use-city-autocomplete.ts`](../packages/ui/src/primitives/city-autocomplete/use-city-autocomplete.ts)), also exported from `@acid-info/logos-ui/client`, so other forms render their own list. The site passes `searchCitiesByCountryLabel` from [`apps/web/lib/city-search.ts`](../apps/web/lib/city-search.ts), which queries the logos-admin `GET /api/cities` and resolves to no suggestions on any failure.
+
+City and country go together: submitting only one of them shows `cityCountryMessage` and sends nothing. On submit the site subscribes to the Logos Newsletter and, when both a city and a country were given, the Regional Newsletter too.
 
 ```ts
 interface FooterLink {
@@ -117,8 +121,10 @@ interface FooterNewsletterProps {
   }) => Promise<void>
   roleOptions?: readonly string[] // default: Node operator, Builder, Activist
   countryOptions: readonly string[] // searchable
+  searchCities?: CitySearch // city suggestions; omit for plain free text
   requiredLabel?: string // default: 'required'
   successMessage?: string
+  cityCountryMessage?: string // default: 'Please enter both a city and a country, or neither.'
 }
 ```
 
