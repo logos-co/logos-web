@@ -135,6 +135,7 @@ pipeline {
               git fetch --no-tags origin \
                 refs/heads/${deployBranch()}:refs/remotes/origin/${deployBranch()} &&
               ghp-import \
+                --no-history \
                 -b ${deployBranch()} \
                 -c ${deployDomain()} \
                 -p apps/web/out
