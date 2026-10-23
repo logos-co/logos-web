@@ -63,6 +63,6 @@ import { Button } from '@acid-info/logos-ui'
 
 `@acid-info/logos-ui/client` holds the components that need React effects and are marked `'use client'`: `NavOverlay` and `FooterNewsletter`. Import them from there, otherwise a server component will fail to build.
 
-The client entrypoint also exports `useCityAutocomplete`, a headless city combobox hook with debounced search, keyboard navigation and outside-click close. The caller renders the list and passes a `CitySearch` function; without one the field stays plain free text. `CITY_SEARCH_MIN_LENGTH` (2) and `CITY_SEARCH_DEBOUNCE_MS` (250) are exported alongside the `CitySearch`, `CitySuggestion` and `UseCityAutocompleteOptions` types. `FooterNewsletter` uses it when given a `searchCities` prop.
+It also exports `useCityAutocomplete`, the headless city combobox behind `FooterNewsletter`'s `searchCities` prop, with its `CitySearch`, `CitySuggestion` and `UseCityAutocompleteOptions` types and the `CITY_SEARCH_MIN_LENGTH` and `CITY_SEARCH_DEBOUNCE_MS` constants. You pass a `CitySearch` function and render the list yourself; [docs/components.md](../../docs/components.md#newsletter-form) describes how it behaves.
 
 `@acid-info/logos-ui/styles.css` is the stylesheet described above. The full export list is in `src/index.ts` and `src/client.ts`.

@@ -87,54 +87,54 @@ form accepted.
 ## City suggestions
 
 The `city` field in `ConnectFormSection` renders as `CityField`, which suggests
-cities as the visitor types. It uses the headless `useCityAutocomplete` hook
-from `@acid-info/logos-ui/client`, which searches once the trimmed text has
-`CITY_SEARCH_MIN_LENGTH` (2) characters, after a `CITY_SEARCH_DEBOUNCE_MS`
-(250 ms) pause, and aborts a pending search on the next keystroke. Arrow keys,
-Enter, Escape and an outside click work like the country dropdown; Enter with no
-highlighted suggestion is left to submit the form with the typed text.
+cities as the visitor types and stays free text otherwise. It is built on the
+`useCityAutocomplete` hook from `@acid-info/logos-ui/client`; its debounce,
+minimum length and keys are described with the
+[footer newsletter form](../components.md#newsletter-form), which uses the same
+hook.
 
-Suggestions come from `searchCitiesByCountryId` in `apps/web/lib/city-search.ts`,
-which calls `GET /api/cities` on the logos-admin app with `q` and, when a
-country is selected, `country` set to that option's ISO code. The endpoint is
-picked from `NEXT_PUBLIC_API_MODE` (`CITIES_ENDPOINTS`: `development` is
-`localhost:3003`, `staging` is `dev-admin-acid.logos.co`, and `production`, the
-default, is `admin-acid.logos.co`). Each result is mapped back to a
-`COUNTRY_OPTIONS` entry by its `countryCode`; results in a country the forms do
-not offer are dropped, and same-name places in one country become one
-suggestion. Any failure, CORS included, resolves to no suggestions, so the field
-stays free text.
+Suggestions come from `searchCities` in `apps/web/lib/city-search.ts`. It calls
+`GET /api/cities` on the logos-admin app with `q` and, when a country is
+selected, `country` set to that option's ISO code. The static export ships no
+city list, which is why this is a runtime call. `NEXT_PUBLIC_API_MODE` picks the
+endpoint from `CITIES_ENDPOINTS`: `development` is `localhost:3003`, `staging`
+is `dev-admin-acid.logos.co`, and `production`, the default, is
+`admin-acid.logos.co`. Each result maps back to a `COUNTRY_OPTIONS` entry by its
+`countryCode`. Results in a country the forms don't offer are dropped, because
+they couldn't set the country, and same-name places in one country become one
+suggestion. Any failure, CORS included, resolves to no suggestions.
 
-Picking a suggestion sets both `city` and `country` (the option id). Choosing a
-different country afterwards clears a city that was picked from a suggestion;
-typed text is kept. The footer newsletter form uses the same hook with
-`searchCitiesByCountryLabel`, since its country value is the option label.
+The two adapters differ only in the country value they work with. The funnel
+forms use `searchCitiesByCountryId`, because their country value is the option
+id; the footer uses `searchCitiesByCountryLabel`, because it submits the label.
+Picking a suggestion sets both `city` and `country`. Choosing a different country
+afterwards clears a city that came from a suggestion, but keeps typed text.
 
 ## Code layout
 
-| Path                                                     | Role                                                                                 |
-| -------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| `apps/api/src/app/api/public/afform-submit/route.ts`     | Orchestrator: validation, captcha, calls the destination libs                        |
-| `apps/api/src/lib/intake-submit-flags.ts`                | Reads the `FUNNEL_INTAKE_NOTION_DISABLED` env flag                                   |
-| `apps/api/src/lib/notion/maps.ts`                        | `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT`; re-exports the `@repo/funnel` maps            |
-| `apps/api/src/lib/notion/build-notion-properties.ts`     | `buildNotionProperties` and `resolveHearAboutLabel`                                  |
-| `apps/api/src/lib/notion/constants.ts`                   | Notion API base URL, version, 2000 char text limit                                   |
-| `apps/api/src/lib/notion/evaluation-template.ts`         | Evaluation template blocks attached to every new page                                |
-| `apps/api/src/lib/notion/submit.ts`                      | `submitToNotion`: resolves the data source, builds properties, POSTs the page        |
-| `apps/api/src/lib/n8n/build-payload.ts`                  | `buildN8nPayload`: merges id-based answers with their labels                         |
-| `apps/api/src/lib/n8n/constants.ts`                      | `N8N_STEWARD_WEBHOOK_URL`                                                            |
-| `apps/api/src/lib/n8n/submit.ts`                         | `submitToN8n`: steward webhook POST                                                  |
-| `packages/funnel/src/index.ts`                           | `@repo/funnel` entry point; re-exports the modules below                             |
-| `packages/funnel/src/form-options.ts`                    | The shared option lists and the maps derived from them                               |
-| `packages/funnel/src/required-fields.ts`                 | `REQUIRED_FIELDS_BY_FORM` / `findInvalidRequiredFields`                              |
-| `apps/web/lib/funnel-newsletter-signup.ts`               | Post-submit Ghost newsletter opt-ins                                                 |
-| `apps/web/lib/city-search.ts`                            | `CITIES_ENDPOINTS`, `searchCities` and the label and id country adapters             |
-| `apps/web/components/sections/connect/form/city-field.tsx` | `CityField`: the city input and its suggestion list                                |
-| `apps/web/lib/funnel-forms/afform-*.ts`                  | Hand-maintained field definitions per form; rendering only                           |
-| `apps/web/lib/funnel-forms/afform-options.ts`            | `AFFORM_OPTIONS`: the `@repo/funnel` option lists keyed by `formKey`                 |
-| `apps/web/lib/funnel-forms/contactFormSchema.ts`         | Builds the zod schema from the form definition and the required list                 |
-| `apps/web/lib/funnel-forms/hear-about-field.ts`          | Hear-about field def plus `withHearAboutField`, which inserts it after `chatService` |
-| `apps/web/lib/funnel-forms/types.ts`                     | The `Afform*` shapes those files satisfy                                             |
+| Path                                                       | Role                                                                                 |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `apps/api/src/app/api/public/afform-submit/route.ts`       | Orchestrator: validation, captcha, calls the destination libs                        |
+| `apps/api/src/lib/intake-submit-flags.ts`                  | Reads the `FUNNEL_INTAKE_NOTION_DISABLED` env flag                                   |
+| `apps/api/src/lib/notion/maps.ts`                          | `MVMT_STATUS_NEW_LEAD`, `BU_MOVEMENT`; re-exports the `@repo/funnel` maps            |
+| `apps/api/src/lib/notion/build-notion-properties.ts`       | `buildNotionProperties` and `resolveHearAboutLabel`                                  |
+| `apps/api/src/lib/notion/constants.ts`                     | Notion API base URL, version, 2000 char text limit                                   |
+| `apps/api/src/lib/notion/evaluation-template.ts`           | Evaluation template blocks attached to every new page                                |
+| `apps/api/src/lib/notion/submit.ts`                        | `submitToNotion`: resolves the data source, builds properties, POSTs the page        |
+| `apps/api/src/lib/n8n/build-payload.ts`                    | `buildN8nPayload`: merges id-based answers with their labels                         |
+| `apps/api/src/lib/n8n/constants.ts`                        | `N8N_STEWARD_WEBHOOK_URL`                                                            |
+| `apps/api/src/lib/n8n/submit.ts`                           | `submitToN8n`: steward webhook POST                                                  |
+| `packages/funnel/src/index.ts`                             | `@repo/funnel` entry point; re-exports the modules below                             |
+| `packages/funnel/src/form-options.ts`                      | The shared option lists and the maps derived from them                               |
+| `packages/funnel/src/required-fields.ts`                   | `REQUIRED_FIELDS_BY_FORM` / `findInvalidRequiredFields`                              |
+| `apps/web/lib/funnel-newsletter-signup.ts`                 | Post-submit Ghost newsletter opt-ins                                                 |
+| `apps/web/lib/city-search.ts`                              | `CITIES_ENDPOINTS`, `searchCities` and the label and id country adapters             |
+| `apps/web/components/sections/connect/form/city-field.tsx` | `CityField`: the city input and its suggestion list                                  |
+| `apps/web/lib/funnel-forms/afform-*.ts`                    | Hand-maintained field definitions per form; rendering only                           |
+| `apps/web/lib/funnel-forms/afform-options.ts`              | `AFFORM_OPTIONS`: the `@repo/funnel` option lists keyed by `formKey`                 |
+| `apps/web/lib/funnel-forms/contactFormSchema.ts`           | Builds the zod schema from the form definition and the required list                 |
+| `apps/web/lib/funnel-forms/hear-about-field.ts`            | Hear-about field def plus `withHearAboutField`, which inserts it after `chatService` |
+| `apps/web/lib/funnel-forms/types.ts`                       | The `Afform*` shapes those files satisfy                                             |
 
 The Notion and n8n libs share nothing except the id to label maps. To drop a
 destination, delete its folder and its one call in the orchestrator.

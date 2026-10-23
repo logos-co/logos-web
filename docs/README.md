@@ -9,7 +9,8 @@ Reference material for topics that span more than one workspace. Each file below
 - [components.md](components.md): shared UI components, their props and their Figma nodes
 - [funnel/README.md](funnel/README.md): the funnel forms, from `apps/web` through `apps/api` to Notion
 - [media-migration.md](media-migration.md): the redirect map for moving blog.logos.co to logos.co/media
-- [oss-scanner.md](oss-scanner.md): the offline OSS Scanner image, what it builds and type-checks, its build-only environment values and the files it excludes
+- [oss-scanner.md](oss-scanner.md): the offline OSS Scanner image and what it builds and leaves out
+- [zines.md](zines.md): the `/zines` catalogue and reader, from `content/zines/**` and the print PDFs to the generated page assets
 
 ## Workspaces
 
