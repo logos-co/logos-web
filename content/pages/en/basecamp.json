@@ -842,14 +842,14 @@
               "description": "A neighbourhood board with no admin"
             },
             {
-              "initial": "Z",
-              "title": "ZK Guess Game",
-              "description": "Prove you know without telling"
+              "initial": "W",
+              "title": "WhisperBox",
+              "description": "Privacy-first encrypted forms"
             },
             {
-              "initial": "A",
-              "title": "Archive",
-              "description": "Keep records nobody can quietly delete"
+              "initial": "Q",
+              "title": "Qaku",
+              "description": "Local-first, multi-writer Q&A."
             }
           ]
         }
