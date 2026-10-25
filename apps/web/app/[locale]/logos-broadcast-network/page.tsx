@@ -5,7 +5,7 @@ import type { BroadcastCopySection } from '@repo/content/schemas'
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
-import { getBroadcastEvents, getLatestBlogPodcasts } from '@/lib/blog-engine'
+import { getLatestBlogPodcasts } from '@/lib/blog-engine'
 
 import { BroadcastNetworkPage } from './_sections/broadcast-network-page'
 
@@ -27,10 +27,9 @@ export default async function LogosBroadcastNetworkPage({
     )
   }
 
-  const [page, podcasts, events] = await Promise.all([
+  const [page, podcasts] = await Promise.all([
     getPageCopy(ROUTE, locale),
     getLatestBlogPodcasts(20),
-    getBroadcastEvents(),
   ])
 
   if (podcasts.length === 0) {
@@ -48,7 +47,6 @@ export default async function LogosBroadcastNetworkPage({
   return (
     <BroadcastNetworkPage
       podcasts={podcasts}
-      events={events}
       referenceTime={Date.now()}
       copy={{
         title: data.heading,

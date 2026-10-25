@@ -9,7 +9,8 @@
     "./github": "./src/github/index.ts",
     "./media": "./src/media/index.ts",
     "./locales": "./src/locales/index.ts",
-    "./basecamp": "./src/basecamp/releases.ts"
+    "./basecamp": "./src/basecamp/releases.ts",
+    "./calendar": "./src/calendar/index.ts"
   },
   "scripts": {
     "test": "node --import tsx --test \"src/**/*.test.ts\"",

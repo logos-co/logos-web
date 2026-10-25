@@ -44,7 +44,7 @@ export type Env = {
    */
   NEXT_PUBLIC_CMS_URL: string | undefined
   /**
-   * Public calendar API origin used at build time for Logos Broadcast Network.
+   * Public calendar API origin used by the browser for live event listings.
    */
   NEXT_PUBLIC_ADMIN_ACID_API_URL: string | undefined
   /**

@@ -343,5 +343,10 @@
     "downloadImposed": "Download A3 print layout",
     "imposedNote": "This file is already arranged for A3 booklet printing. Print at actual size, on both sides, flipping on the short edge. Do not select booklet mode again. Print one copy first to check the page order and orientation.",
     "insideCover": "Inside cover"
+  },
+  "calendar": {
+    "loading": "Loading events...",
+    "error": "Unable to load the latest events. Please try again.",
+    "retry": "Try again"
   }
 }

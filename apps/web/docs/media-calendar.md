@@ -53,7 +53,11 @@ The broadcast page passes neither `details` nor `syncMonthToUrl`, so it behaves 
 
 ## Events data
 
-Events come from `getBroadcastEvents()` in [`lib/blog-engine.ts`](../lib/blog-engine.ts), which fetches `https://admin-acid.logos.co/api/calendar/public` at build time like the broadcast page does, so new events appear after the next deploy. `BroadcastEventRow` carries the fields the panel needs: `typeLabel`, `topic`, `guest`, `speakers` (an array), `notes` and `links`. Missing values arrive as empty strings, which the UI skips.
+Events are loaded in the browser by `LiveBroadcastEvents`, using the public `https://admin-acid.logos.co/api/calendar/public` endpoint. `lib/broadcast-events.ts` requests uncached data and `@repo/content/calendar` validates and maps the response. Neither the media calendar nor the Broadcast Network event cards fetch events during the static build, so admin changes do not require a website deployment.
+
+The shared React Query cache refreshes on each mount, every minute while the page is visible, and on focus or reconnect when stale (after one minute). Each response replaces the complete list, including edits and deletions. The Broadcast Network cards and calendar use the same response. Loading and request failures have translated status messages and a retry button; an error is never shown as an empty schedule. A successful empty list still displays the calendar.
+
+`BroadcastEventRow` carries `typeLabel`, `topic`, `guest`, `speakers`, `notes` and `links`. Placeholder values such as `null` or blank strings are dropped. The API must allow the website origin through CORS, including any preview or local development origin used for verification.
 
 ## Opening position and selection
 
@@ -75,9 +79,7 @@ The heading is the selected date, for example `13 October 2026`. Each event, in 
 
 ## Timezone behaviour
 
-The static HTML is rendered at build time, so the calendar first renders with build-time values: `referenceTime` as "now" and each event's `localDateKey` (the day on the build machine) for placement. That keeps the static HTML and the first client render identical.
-
-After hydration (`useIsHydrated` in [`lib/use-is-hydrated.ts`](../lib/use-is-hydrated.ts)) the calendar switches to the viewer's clock and timezone, so an event can move to a different day cell. The details panel only renders after hydration because it shows viewer-local times.
+The static HTML contains the loading state. Events are fetched after hydration and placed using the viewer's timezone. The shared calendar retains its hydration guard for date and URL handling, and the details panel shows viewer-local times.
 
 ## URL state
 
