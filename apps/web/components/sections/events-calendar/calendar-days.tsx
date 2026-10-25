@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 
 import { ExternalLink } from '@/components/ui'
 import { cn } from '@/lib/cn'
-import type { BroadcastEventRow } from '@/lib/blog-engine'
+import type { BroadcastEventRow } from '@repo/content/calendar'
 
 import type { CalendarDay } from './calendar-dates'
 

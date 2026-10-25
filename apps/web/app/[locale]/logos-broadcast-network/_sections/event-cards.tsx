@@ -4,7 +4,7 @@ import ContentWidth from '@/components/layout/content-width'
 import { compareEvents } from '@/components/sections/events-calendar/calendar-dates'
 import { ExternalLink } from '@/components/ui'
 import { cn } from '@/lib/cn'
-import type { BroadcastEventRow } from '@/lib/blog-engine'
+import type { BroadcastEventRow } from '@repo/content/calendar'
 
 import type { BroadcastNetworkCopy } from './types'
 

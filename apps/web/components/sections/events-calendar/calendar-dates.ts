@@ -1,4 +1,4 @@
-import type { BroadcastEventRow } from '@/lib/blog-engine'
+import type { BroadcastEventRow } from '@repo/content/calendar'
 
 export const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
 export const MONTHS = [

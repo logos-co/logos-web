@@ -2,10 +2,9 @@ import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type { MediaCalendarCopySection } from '@repo/content/schemas'
 
-import { EventsCalendar } from '@/components/sections/events-calendar/events-calendar'
+import { MediaEventsCalendar } from '@/components/sections/events-calendar/media-events-calendar'
 import { MediaListingIntro } from '@/components/sections/media/media-listing-intro'
 import { ROUTES } from '@/constants/routes'
-import { getBroadcastEvents } from '@/lib/blog-engine'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 
@@ -25,10 +24,7 @@ export default async function MediaCalendarPage({
     throw new Error(`MediaCalendarPage received non-active locale "${locale}"`)
   }
 
-  const [page, events] = await Promise.all([
-    getPageCopy(ROUTE, locale),
-    getBroadcastEvents(),
-  ])
+  const page = await getPageCopy(ROUTE, locale)
 
   const data = findSection<MediaCalendarCopySection>(
     page.sections,
@@ -44,13 +40,10 @@ export default async function MediaCalendarPage({
           backToMedia: data.backToMedia,
         }}
       />
-      <EventsCalendar
-        events={events}
+      <MediaEventsCalendar
         referenceTime={Date.now()}
         copy={data.calendar}
         details={data.details}
-        syncMonthToUrl
-        compact
       />
     </div>
   )

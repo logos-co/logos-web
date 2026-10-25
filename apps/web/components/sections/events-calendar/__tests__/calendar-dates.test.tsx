@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import type { BroadcastEventRow } from '@/lib/blog-engine'
+import type { BroadcastEventRow } from '@repo/content/calendar'
 
 import {
   buildCalendarDays,

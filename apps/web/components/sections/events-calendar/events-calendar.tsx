@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 
 import ContentWidth from '@/components/layout/content-width'
 import { cn } from '@/lib/cn'
-import type { BroadcastEventRow } from '@/lib/blog-engine'
+import type { BroadcastEventRow } from '@repo/content/calendar'
 import { useIsHydrated } from '@/lib/use-is-hydrated'
 
 import {

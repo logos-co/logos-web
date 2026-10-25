@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { ExternalLink } from '@/components/ui'
-import type { BroadcastEventRow } from '@/lib/blog-engine'
+import type { BroadcastEventRow } from '@repo/content/calendar'
 
 import {
   formatLocalTime,
