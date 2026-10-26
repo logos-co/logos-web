@@ -242,8 +242,9 @@ export const basecampRenewalSectionSchema = z.object({
         iconBackground: z.enum(['dark']).optional(),
         title: copy,
         description: copy,
-        uses: copy,
-        category: copy,
+        categories: z
+          .array(z.enum(['blockchain', 'lez', 'messaging', 'storage', 'other']))
+          .min(1),
         action: ctaSchema.extend({
           href: z.string().regex(/^basecamp:\/\/app\/[a-z][a-z0-9_]*$/),
           external: z.literal(false).optional(),

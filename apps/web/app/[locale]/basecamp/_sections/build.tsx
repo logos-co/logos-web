@@ -25,10 +25,10 @@ export function Build({ copy }: { copy: Renewal['build'] }) {
         </div>
         <div className="bc-build-shot">
           <Image
-            src={`${asset}/hero-product.png`}
+            src={`${asset}/build-app-basecamp.png`}
             alt={copy.screenshotAlt}
-            width={1510}
-            height={948}
+            width={1903}
+            height={1084}
             sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) 50vw, 632px"
           />
         </div>

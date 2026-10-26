@@ -552,8 +552,7 @@
             "icon": "/images/basecamp/renewal/app-icons/lez-wallet.png",
             "title": "LEZ Wallet",
             "description": "Hold and send LEZ tokens from a wallet that lives on your machine.",
-            "uses": "uses: blockchain · LEZ",
-            "category": "blockchain",
+            "categories": ["blockchain", "lez"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/lez_wallet_ui"
@@ -568,8 +567,7 @@
             "icon": "/images/basecamp/renewal/app-icons/lez-explorer.png",
             "title": "LEZ Explorer",
             "description": "Browse blocks and transactions on the Logos Execution Zone.",
-            "uses": "uses: blockchain · LEZ",
-            "category": "blockchain",
+            "categories": ["blockchain", "lez"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/lez_explorer_ui"
@@ -584,8 +582,7 @@
             "icon": "/images/basecamp/renewal/app-icons/blockchain.png",
             "title": "Blockchain",
             "description": "Run your node and track status, peers, rewards, and mining.",
-            "uses": "uses: blockchain",
-            "category": "blockchain",
+            "categories": ["blockchain"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/blockchain_ui"
@@ -600,8 +597,7 @@
             "icon": "/images/basecamp/renewal/app-icons/monero-node.png",
             "title": "Monero Node",
             "description": "Run a local node for Monero, an external chain not on Logos.",
-            "uses": "uses: [modules]",
-            "category": "Other",
+            "categories": ["other"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/monerod_ui"
@@ -616,8 +612,7 @@
             "icon": "/images/basecamp/renewal/app-icons/monero-wallet.png",
             "title": "Monero Wallet",
             "description": "Send and receive on Monero, an external chain not on Logos.",
-            "uses": "uses: [modules]",
-            "category": "Other",
+            "categories": ["other"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/monero_wallet_ui"
@@ -632,8 +627,7 @@
             "icon": "/images/basecamp/renewal/app-icons/storage.png",
             "title": "Storage",
             "description": "Upload, fetch, and share files peer to peer from your own vault.",
-            "uses": "uses: storage",
-            "category": "storage",
+            "categories": ["storage"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/storage_ui"
@@ -649,8 +643,7 @@
             "iconBackground": "dark",
             "title": "Delivery Demo",
             "description": "An educational demo of how Logos delivers messages.",
-            "uses": "uses: messaging",
-            "category": "messaging",
+            "categories": ["messaging"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/delivery_demo"
@@ -665,8 +658,7 @@
             "icon": "/images/basecamp/renewal/app-icons/verified-proxy.png",
             "title": "Verified Proxy",
             "description": "Configure and operate light-client-verfied Ethereum Proxy",
-            "uses": "uses: [modules]",
-            "category": "Other",
+            "categories": ["other"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/verified_proxy_ui"
@@ -681,8 +673,7 @@
             "icon": "/images/basecamp/renewal/app-icons/chat.png",
             "title": "Chat",
             "description": "Encrypted one-to-one chat. Peer to peer, with no server in the middle.",
-            "uses": "uses: messaging",
-            "category": "messaging",
+            "categories": ["messaging"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/chat_ui"
@@ -697,8 +688,7 @@
             "icon": "/images/basecamp/renewal/app-icons/token-lists.png",
             "title": "Token Lists",
             "description": "Device-wide token catalogue and enabled set.",
-            "uses": "uses: [modules]",
-            "category": "Other",
+            "categories": ["other"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/token_list_ui"
@@ -713,8 +703,7 @@
             "icon": "/images/basecamp/renewal/app-icons/signer.png",
             "title": "Signer",
             "description": "The signing approval surface.",
-            "uses": "uses: [modules]",
-            "category": "Other",
+            "categories": ["other"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/evm_signer_ui"
@@ -729,8 +718,7 @@
             "icon": "/images/basecamp/renewal/app-icons/keystore.png",
             "title": "Keystore",
             "description": "The one place accounts are created, imported, exported and deleted.",
-            "uses": "uses: [modules]",
-            "category": "Other",
+            "categories": ["other"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/evm_keystore_ui"
@@ -745,8 +733,7 @@
             "icon": "/images/basecamp/renewal/app-icons/ethereum-wallet.png",
             "title": "Ethereum Wallet",
             "description": "View EVM assets and activity across enabled networks on external chains.",
-            "uses": "uses: [modules]",
-            "category": "Other",
+            "categories": ["other"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/eth_wallet_ui"
@@ -761,8 +748,7 @@
             "icon": "/images/basecamp/renewal/app-icons/ethereum-rpc.png",
             "title": "Ethereum RPC",
             "description": "Device-wide JSON-RPC endpoints and light client verified routing.",
-            "uses": "uses: [modules]",
-            "category": "Other",
+            "categories": ["other"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/eth_rpc_ui"
@@ -777,8 +763,7 @@
             "icon": "/images/basecamp/renewal/app-icons/accounts.png",
             "title": "Accounts",
             "description": "Create and manage Logos accounts.",
-            "uses": "uses: [modules]",
-            "category": "Other",
+            "categories": ["other"],
             "action": {
               "label": "Load app →",
               "href": "basecamp://app/accounts_ui"
@@ -867,7 +852,7 @@
           "href": "https://www.youtube.com/playlist?list=PLKLihqaY2Vc0",
           "external": true
         },
-        "screenshotAlt": "Basecamp package manager",
+        "screenshotAlt": "Logos Basecamp home screen with installed apps",
         "programmesTitle": "Explore developer programmes. Build for rewards.",
         "programmesDescription": "Funding for builders building on the private, decentralised internet.",
         "programmes": [

@@ -12,7 +12,7 @@ export function Apps({ copy }: { copy: Renewal['apps'] }) {
     filter === copy.filters[0]
       ? copy.cards
       : copy.cards.filter((card) =>
-          card.uses.toLowerCase().includes(filter.toLowerCase())
+          card.categories.some((category) => category === filter.toLowerCase())
         )
   return (
     <section id="run-apps" className="bc-light bc-apps">
@@ -51,7 +51,6 @@ export function Apps({ copy }: { copy: Renewal['apps'] }) {
             <div className="bc-app-info">
               <h3>{card.title}</h3>
               <p>{card.description}</p>
-              <small>{card.uses}</small>
               <div className="bc-app-actions">
                 <a href={card.action.href} className="cursor-pointer">
                   {card.action.label}

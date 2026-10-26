@@ -816,6 +816,8 @@
   border-radius: 20px;
   overflow: hidden;
   min-height: 305px;
+  display: flex;
+  flex-direction: column;
 }
 .bc-app-art {
   height: 140px;
@@ -844,6 +846,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex: 1;
 }
 .bc-app-info h3 {
   font-family: var(--next-font-sans), sans-serif;
@@ -858,16 +861,10 @@
   letter-spacing: -0.14px;
   min-height: 38px;
 }
-.bc-app-info small {
-  font-family: var(--next-font-mono), monospace;
-  font-size: 10px;
-  color: #15252166;
-  text-transform: uppercase;
-  line-height: 1.3;
-}
 .bc-app-actions {
   border-top: 1px solid #1a1a1a14;
   padding-top: 10px;
+  margin-top: auto;
   display: flex;
   justify-content: space-between;
   font-family: var(--next-font-mono), monospace;
@@ -1006,7 +1003,7 @@
   margin-bottom: 24px;
 }
 .bc-build-shot {
-  height: 380px;
+  aspect-ratio: 1903 / 1084;
   border: 1px solid #ffffff1f;
   border-radius: 18px;
   overflow: hidden;
@@ -1015,7 +1012,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 .bc-programmes {
   margin-top: 120px;
@@ -1470,9 +1467,7 @@
     font-size: 16px;
   }
   .bc-build-shot {
-    height: auto;
     margin-top: 36px;
-    aspect-ratio: 361 / 230;
     border-radius: 12px;
   }
   .bc-programmes {
@@ -1603,9 +1598,7 @@
     width: 600px;
   }
   .bc-build-shot {
-    height: auto;
     margin-top: 36px;
-    aspect-ratio: 1510 / 948;
   }
 }
 @media (max-width: 767px) {
