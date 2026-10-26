@@ -1,0 +1,192 @@
+.bc-demo-screen .bc-chat-demo {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 10px;
+  height: 100%;
+}
+.bc-demo-screen .bc-chat-sessions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid #2e2e2e;
+  border-radius: 10px;
+  background: transparent;
+}
+.bc-demo-screen .bc-chat-new {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 9px;
+  border-radius: 7px;
+  background: #f07d5e;
+  color: #1a1a1a;
+  font-size: 12px;
+  font-weight: 600;
+}
+.bc-demo-screen .bc-chat-new svg {
+  width: 12px;
+  height: 12px;
+}
+.bc-demo-screen .bc-chat-sessions > small {
+  padding: 2px 4px;
+  color: #8a8a8a;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.bc-demo-screen .bc-chat-session {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  padding: 6px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+}
+.bc-demo-screen .bc-chat-session.is-active {
+  background: #252525;
+}
+.bc-demo-screen .bc-chat-session > i {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: #3d6b6a;
+}
+.bc-demo-screen .bc-chat-session:not(.is-active) > i {
+  background: #3a4a6b;
+}
+.bc-demo-screen .bc-chat-session > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bc-demo-screen .bc-chat-session strong {
+  overflow: hidden;
+  color: #ededed;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+.bc-demo-screen .bc-chat-session span {
+  overflow: hidden;
+  color: #8a8a8a;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 10px;
+  font-style: italic;
+}
+.bc-demo-screen .bc-chat-identity {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  padding: 8px;
+  border: 1px solid #2e2e2e;
+  border-radius: 10px;
+}
+.bc-demo-screen .bc-chat-identity > i {
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #f07d5e;
+  color: #1a1a1a;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+}
+.bc-demo-screen .bc-chat-identity > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bc-demo-screen .bc-chat-identity strong {
+  color: #ededed;
+  font-size: 11px;
+}
+.bc-demo-screen .bc-chat-identity span {
+  overflow: hidden;
+  color: #8a8a8a;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 10px;
+}
+.bc-demo-screen .bc-chat-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid #2e2e2e;
+  border-radius: 10px;
+  background: transparent;
+}
+.bc-demo-screen .bc-chat-thread > strong {
+  padding-bottom: 6px;
+  border-bottom: 1px solid #2a2a2a;
+  color: #bdbdbd;
+  font-size: 12px;
+}
+.bc-demo-screen .bc-chat-messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 0;
+}
+.bc-demo-screen .bc-chat-messages span {
+  max-width: 85%;
+  padding: 8px 11px;
+  border-radius: 12px;
+  background: #2a2a2a;
+  color: #ededed;
+  font-size: 13px;
+}
+.bc-demo-screen .bc-chat-messages span.is-outgoing {
+  align-self: flex-end;
+  border: 1px solid #f07d5e80;
+  background: #f07d5e29;
+}
+.bc-demo-screen .bc-chat-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 5px 5px 5px 12px;
+  border: 1px solid #2e2e2e;
+  border-radius: 99px;
+  background: transparent;
+  color: #ededed;
+  font-size: 12px;
+}
+.bc-demo-screen .bc-chat-input > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.bc-demo-screen .bc-chat-input button {
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: #f07d5e;
+  color: #1a1a1a;
+  font-size: 20px;
+  line-height: 1;
+}
+.bc-demo-screen .bc-chat-input button svg {
+  width: 15px;
+  height: 15px;
+}

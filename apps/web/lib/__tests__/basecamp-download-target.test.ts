@@ -58,6 +58,17 @@ describe('resolveBasecampDownloadTarget', () => {
     ).toBe(EXTERNAL_URLS.basecampWindowsX64Download)
   })
 
+  it('selects the Windows installer for the explicit Windows link', () => {
+    expect(
+      resolveBasecampDownloadTarget({
+        architecture: 'arm',
+        bitness: '64',
+        platform: 'macOS',
+        preferredPlatform: 'windows',
+      })
+    ).toBe(EXTERNAL_URLS.basecampWindowsX64Download)
+  })
+
   it.each([
     { architecture: 'x86', bitness: '64' },
     { userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
