@@ -4,20 +4,22 @@ The `/media/calendar` page lists live streams, updates and regular programming a
 
 ## Page structure
 
-The page renders two sections on an `accent-tan` background. `MediaListingIntro` renders the page heading and the `Logos Media` back link; `description` is optional on it and this page leaves it out. `EventsCalendar` renders with `details`, `syncMonthToUrl` and `compact`.
+The page renders two sections on an `accent-tan` background. `MediaListingIntro` renders the page heading and the `Logos Media` back link; `description` is optional on it and this page leaves it out. `MediaEventsCalendar` receives `copy`, `details` and `referenceTime` from the page, loads the events through `LiveBroadcastEvents`, and renders `EventsCalendar` with those events, `details`, `syncMonthToUrl` and `compact`.
 
 ## Shared calendar
 
 The calendar used to sit in `app/[locale]/logos-broadcast-network/_sections/`. It moved to `components/sections/events-calendar/` so the broadcast page and the media calendar can share it.
 
-| File                    | Role                                                                          |
-| ----------------------- | ----------------------------------------------------------------------------- |
-| `events-calendar.tsx`   | Client component: month state, URL sync, hydration switch, layout              |
-| `calendar-dates.ts`     | Date helpers: day grid, opening anchor, year options, `?year=&month=` parsing |
-| `calendar-days.tsx`     | Desktop `CalendarCell` and mobile `MobileDayCarousel`                         |
-| `calendar-controls.tsx` | `MonthSelect`, `YearSelect`, previous / today / next buttons                  |
-| `event-details.tsx`     | Details panel for the selected day                                            |
-| `types.ts`              | `EventsCalendarCopy`, `EventDetailsCopy`                                      |
+| File                         | Role                                                                          |
+| ---------------------------- | ----------------------------------------------------------------------------- |
+| `events-calendar.tsx`        | Client component: month state, URL sync, hydration switch, layout              |
+| `live-broadcast-events.tsx`  | Fetches events in the browser; renders loading, error and retry states        |
+| `media-events-calendar.tsx`  | Media page wrapper: `LiveBroadcastEvents` around `EventsCalendar`             |
+| `calendar-dates.ts`          | Date helpers: day grid, opening anchor, year options, `?year=&month=` parsing |
+| `calendar-days.tsx`          | Desktop `CalendarCell` and mobile `MobileDayCarousel`                         |
+| `calendar-controls.tsx`      | `MonthSelect`, `YearSelect`, previous / today / next buttons                  |
+| `event-details.tsx`          | Details panel for the selected day                                            |
+| `types.ts`                   | `EventsCalendarCopy`, `EventDetailsCopy`                                      |
 
 ```ts
 interface EventsCalendarProps {
@@ -53,11 +55,11 @@ The broadcast page passes neither `details` nor `syncMonthToUrl`, so it behaves 
 
 ## Events data
 
-Events are loaded in the browser by `LiveBroadcastEvents`, using the public `https://admin-acid.logos.co/api/calendar/public` endpoint. `lib/broadcast-events.ts` requests uncached data and `@repo/content/calendar` validates and maps the response. Neither the media calendar nor the Broadcast Network event cards fetch events during the static build, so admin changes do not require a website deployment.
+Events are loaded in the browser by `LiveBroadcastEvents` from `<origin>/calendar/public`. `lib/broadcast-events.ts` takes the origin from `NEXT_PUBLIC_ADMIN_ACID_API_URL` (read through `lib/env.ts`) and falls back to `https://admin-acid.logos.co/api` when it is unset, so the endpoint a given deployment uses depends on its environment. It requests uncached data, and `parseBroadcastEvents` from `@repo/content/calendar` validates and maps the response. Neither the media calendar nor the Broadcast Network event cards fetch events during the static build, so admin changes do not require a website deployment.
 
-The shared React Query cache refreshes on each mount, every minute while the page is visible, and on focus or reconnect when stale (after one minute). Each response replaces the complete list, including edits and deletions. The Broadcast Network cards and calendar use the same response. Loading and request failures have translated status messages and a retry button; an error is never shown as an empty schedule. A successful empty list still displays the calendar.
+The shared React Query cache refreshes on each mount, every minute while the page is visible, and on focus or reconnect when stale (after one minute). Each response replaces the complete list, including edits and deletions. The Broadcast Network cards and calendar use the same response. Loading and request failures show the translated `calendar.loading` and `calendar.error` messages from `messages/<locale>.json`, and failures add a `calendar.retry` button; an error is never shown as an empty schedule. A successful empty list still displays the calendar.
 
-`BroadcastEventRow` carries `typeLabel`, `topic`, `guest`, `speakers`, `notes` and `links`. Placeholder values such as `null` or blank strings are dropped. The API must allow the website origin through CORS, including any preview or local development origin used for verification.
+`BroadcastEventRow` carries `typeLabel`, `topic`, `guest`, `speakers`, `notes` and `links`. Placeholder values such as `null` or blank strings are dropped. The API must allow the website origin through CORS. It allows `logos.co` and `dev.logos.co`; local development and other preview origins need an API origin that permits their requests.
 
 ## Opening position and selection
 
