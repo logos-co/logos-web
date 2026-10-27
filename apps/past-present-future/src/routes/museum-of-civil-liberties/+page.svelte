@@ -1464,13 +1464,13 @@
 			</video>
 		</div>
 		<div class="kicker">
-			<span>Preserved immutably on the Logos Network</span>
+			<span>Soon to be preserved immutably on Logos</span>
 		</div>
 		<h1 id="museum-title">Welcome to the<br />Museum of Civil Liberties</h1>
 		<div class="sub">
 			Your freedoms are eroding. We’re creating the record. So current and
 			future generations know what was.<br />And can make the choice:
-			remain, or exit. Preserved immutably on the Logos Network.
+			remain, or exit.
 		</div>
 		<div class="hero-actions">
 			<button class="scrollcue" type="button" onclick={heroCtaClick}>Navigate the museum</button>
