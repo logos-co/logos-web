@@ -23,6 +23,8 @@ Build through turbo, never `pnpm --filter web build`: `@acid-info/logos-ui` must
 
 The build script runs `sync:basecamp-release`, `sync:active-circles` and `generate:media-assets` before `next build`, then copies the past-present-future export into `out/` and strips the `/en` prefix. Basecamp install CTAs get their download URLs from the latest full GitHub release, and a rejected release fails the build. See [docs/basecamp-release.md](docs/basecamp-release.md).
 
+[Article sharing metadata](app/[locale]/media/article/[slug]/page.tsx) uses the CMS OG image when it has positive width and height, otherwise the article cover. Open Graph, Twitter and Article JSON-LD use the same selection.
+
 ## Environment
 
 Copy [.env.example](.env.example) to `.env.local` (or `.env`). Add new variables to [`lib/env.ts`](lib/env.ts) instead of reading `process.env` from feature code.

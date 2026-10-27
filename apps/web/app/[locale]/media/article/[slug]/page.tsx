@@ -5,7 +5,11 @@ import { isActiveLocale } from '@repo/content/locales'
 import { JsonLd } from '@/components/seo/json-ld'
 import { ROUTES } from '@/constants/routes'
 import { routing } from '@/i18n/routing'
-import { getBlogArticleDetail, getBlogArticleSlugs } from '@/lib/blog-content'
+import {
+  getBlogArticleDetail,
+  getBlogArticleSlugs,
+  type BlogArticleDetail,
+} from '@/lib/blog-content'
 import { withLocalMediaImages } from '@/lib/media-image-manifest'
 import { absoluteUrl, createDefaultMetadata } from '@/lib/metadata'
 import {
@@ -17,6 +21,13 @@ import { ArticleDetailPage } from './_sections/article-detail-page'
 import type { ArticleDetailCopy } from './_sections/types'
 
 export const dynamicParams = false
+
+function getSocialImage(article: BlogArticleDetail) {
+  const image = article.ogImage
+  return image && image.width > 0 && image.height > 0
+    ? image
+    : article.coverImage
+}
 
 export async function generateStaticParams() {
   const slugs = await getBlogArticleSlugs()
@@ -45,7 +56,7 @@ export async function generateMetadata({
     locale,
     path: ROUTES.mediaArticle(article.slug),
     noindex: article.isDraft,
-    image: article.ogImage ?? article.coverImage,
+    image: getSocialImage(article),
     openGraphType: 'article',
     publishedTime: article.publishedAt,
     modifiedTime: article.modifiedAt,
@@ -95,7 +106,7 @@ export default async function ArticlePage({
           path: articlePath,
           headline: article.title,
           description: article.summary,
-          image: article.ogImage?.url ?? article.coverImage?.url,
+          image: getSocialImage(article)?.url,
           datePublished: article.publishedAt,
           dateModified: article.modifiedAt,
           authors: article.authors.map((author) => author.name),
