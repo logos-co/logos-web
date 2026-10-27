@@ -2,6 +2,7 @@
 	import { onMount, tick, flushSync } from "svelte";
 	import { SvelteSet } from "svelte/reactivity";
 	import WallModal from "$lib/components/WallModal.svelte";
+	import ExhibitSubmissionModal from "$lib/components/ExhibitSubmissionModal.svelte";
 
 	const WINGS = {
 		d: {
@@ -687,6 +688,11 @@
 	
 	
 	let wall = $state(null);
+	let submissionOpen = $state(false);
+	function openSubmission() {
+		closeDock();
+		submissionOpen = true;
+	}
 	
 	let booted = $state(false);
 	let dockOpen = $state(true);
@@ -1466,9 +1472,10 @@
 			future generations know what was.<br />And can make the choice:
 			remain, or exit. Preserved immutably on the Logos Network.
 		</div>
-		<button class="scrollcue" type="button" onclick={heroCtaClick}
-			>Navigate the museum</button
-		>
+		<div class="hero-actions">
+			<button class="scrollcue" type="button" onclick={heroCtaClick}>Navigate the museum</button>
+			<button class="scrollcue submission-cta" type="button" onclick={openSubmission} aria-haspopup="dialog" aria-controls="exhibit-submission">Submit an exhibit to the museum</button>
+		</div>
 	</section>
 
 	<main class="feed" aria-live="off" bind:this={feedEl}>
@@ -1683,6 +1690,7 @@
 	<footer class="loader" class:done={booted} aria-live="polite">
 		{#if booted}
 			<div class="loader-ctas">
+				<button class="loader-cta submission-cta" type="button" onclick={openSubmission} aria-haspopup="dialog" aria-controls="exhibit-submission">Submit an exhibit to the museum</button>
 				<a
 					class="loader-cta"
 					href="/build-the-parallel"
@@ -1700,6 +1708,7 @@
 	</footer>
 
 	<WallModal data={wall} onclose={() => (wall = null)} />
+	<ExhibitSubmissionModal open={submissionOpen} onclose={() => (submissionOpen = false)} />
 </div>
 
 <style>
@@ -2055,6 +2064,22 @@
 	.hero .scrollcue {
 		position: relative;
 		z-index: 1;
+	}
+	.hero-actions {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0 12px;
+	}
+	.hero-actions .submission-cta,
+	.loader-ctas .submission-cta {
+		cursor: pointer;
+		border-color: var(--debt);
+	}
+	.hero-actions .scrollcue,
+	.loader-ctas .submission-cta {
+		min-height: 44px;
 	}
 	.hero .kicker {
 		font-size: 13.2px;
