@@ -264,8 +264,9 @@ lands as a file block on their own Notion page.
 All the server-side work happens in admin-acid (`admin-acid.logos.co`), which
 owns the funnel webhook, the email templates, the SMTP transport and a Notion
 client. `apps/web` is a static export with no API routes, so this repo has only
-the page and its transport. Read admin-acid for the token format, the upload
-endpoint and the Notion write.
+the page and its transport. Read admin-acid's
+[docs/funnel.md](https://github.com/acid-info/admin-acid.logos.co/blob/develop/docs/funnel.md)
+for the token format, the upload endpoint and the Notion write.
 
 ```
 Notion: Mvmt Status -> "One Pager"
