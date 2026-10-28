@@ -30,6 +30,7 @@ const staticIndexableRoutes = [
   ROUTES.rfps,
   ROUTES.getStarted,
   ROUTES.lambdaPrize,
+  ROUTES.developerProgrammes,
   ROUTES.logosBroadcastNetwork,
   ROUTES.manifesto,
   ROUTES.movement,

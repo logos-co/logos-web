@@ -1,0 +1,278 @@
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .dp-hero-title {
+    padding-right: 5.6px;
+    font-size: 112px;
+    line-height: 112px;
+  }
+  .dp-panel {
+    height: 390px;
+  }
+  .dp-panel-title {
+    font-size: 88px;
+    line-height: 88px;
+    white-space: pre-line;
+  }
+  .dp-stats dd {
+    font-size: 27px;
+    letter-spacing: -0.8px;
+  }
+  .dp-stats > div:nth-child(2) dd {
+    white-space: normal;
+  }
+  .dp-comparison-card {
+    padding: 32px;
+  }
+  .dp-comparison-heading h3 {
+    font-size: 64px;
+    line-height: 77px;
+  }
+  .dp-comparison-card.dp-prize h3 {
+    line-height: 77px;
+  }
+  .dp-comparison-row dd {
+    font-size: 20px;
+    line-height: 24px;
+  }
+  .dp-choice {
+    padding: 88px 64px;
+    border-radius: 240px;
+  }
+  .dp-choice h3 {
+    font-size: 44px;
+  }
+  .dp-choice li {
+    font-size: 20px;
+    line-height: 24px;
+  }
+  .dp-statement {
+    grid-template-columns: 1.35fr 1fr;
+    padding-top: 280px;
+  }
+  .dp-statement h2 {
+    grid-column: auto;
+    font-size: 96px;
+    line-height: 100px;
+    white-space: pre-line;
+  }
+  .dp-statement-copy {
+    padding-top: 40px;
+  }
+}
+@media (max-width: 1023px) {
+  .dp-hero {
+    padding: 64px 24px;
+    gap: 24px;
+  }
+  .dp-hero-title {
+    padding-right: 5.6px;
+    font-size: clamp(52px, 9vw, 88px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .dp-hero-subtitle {
+    max-width: 600px;
+    font-size: 20px;
+    line-height: 26px;
+  }
+  .dp-programmes {
+    grid-template-columns: 1fr;
+    gap: 64px;
+    padding: 0 24px 80px;
+  }
+  .dp-panel {
+    height: 380px;
+  }
+  .dp-panel-title {
+    font-size: 96px;
+    line-height: 96px;
+    white-space: pre-line;
+  }
+  .dp-programme-details > .dp-intro,
+  .dp-programme-body {
+    width: 100%;
+  }
+  .dp-programme-body {
+    min-height: 0;
+  }
+  .dp-stats dd {
+    font-size: 30px;
+  }
+  .dp-stats > div:nth-child(2) dd {
+    white-space: normal;
+  }
+  .dp-comparison {
+    padding: 80px 24px;
+  }
+  .dp-section-heading {
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .dp-comparison > h2 {
+    margin-bottom: 40px;
+  }
+  .dp-comparison-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .dp-comparison-card {
+    padding: 32px;
+    gap: 32px;
+  }
+  .dp-comparison-heading h3 {
+    font-size: 64px;
+    line-height: 1;
+  }
+  .dp-comparison-row:last-child {
+    min-height: 80px;
+  }
+  .dp-comparison-row dd {
+    font-size: 22px;
+    line-height: 27px;
+  }
+  .dp-choices {
+    padding: 80px 24px;
+  }
+  .dp-choices-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .dp-choice {
+    padding: 80px max(40px, 12vw);
+    border-radius: 240px;
+  }
+  .dp-choice li {
+    font-size: 22px;
+    line-height: 27px;
+  }
+  .dp-principles {
+    padding: 80px 24px;
+  }
+  .dp-principles ol {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .dp-principles h3 {
+    margin-top: 24px;
+  }
+  .dp-principles li > p {
+    width: 100%;
+  }
+  .dp-statement {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 120px 24px 64px;
+    min-height: 0;
+  }
+  .dp-statement h2 {
+    grid-column: auto;
+    font-size: clamp(64px, 10vw, 96px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    white-space: pre-line;
+  }
+  .dp-statement-copy {
+    padding: 0;
+    max-width: 560px;
+  }
+  .dp-statement-copy > p {
+    white-space: pre-line;
+  }
+  .dp-resources {
+    padding: 80px 24px;
+  }
+  .dp-resources li {
+    grid-template-columns: 32px minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 16px 12px;
+  }
+  .dp-resources li > p {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .dp-resources li > .dp-cta {
+    grid-column: 3;
+    grid-row: 1 / 3;
+  }
+}
+@media (max-width: 599px) {
+  .dp-programmes {
+    padding-inline: 12px;
+  }
+  .dp-panel {
+    height: 300px;
+  }
+  .dp-panel-title {
+    left: 20px;
+    top: 72px;
+    font-size: clamp(52px, 16.41vw, 64px);
+    line-height: 64px;
+    letter-spacing: -2.56px;
+  }
+  .dp-stats {
+    gap: 8px;
+    grid-template-columns: 1fr 1.25fr 1fr;
+  }
+  .dp-stats dd {
+    font-size: 24px;
+    line-height: 28px;
+    letter-spacing: -0.72px;
+  }
+  .dp-opportunities li {
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 4px 8px;
+  }
+  .dp-opportunities li > :last-child {
+    grid-column: 2;
+  }
+  .dp-comparison {
+    padding-inline: 12px;
+  }
+  .dp-comparison-card {
+    padding: 24px;
+  }
+  .dp-comparison-heading h3 {
+    font-size: clamp(36px, 11.28vw, 44px);
+    line-height: 64px;
+    letter-spacing: -1.76px;
+  }
+  .dp-comparison-card.dp-prize h3 {
+    line-height: 64px;
+  }
+  .dp-choices {
+    padding-inline: 12px;
+  }
+  .dp-choice {
+    padding: 56px 28px;
+    border-radius: 120px;
+  }
+  .dp-choice h3 {
+    font-size: clamp(32px, 10.26vw, 40px);
+    line-height: 48px;
+    letter-spacing: -1.2px;
+  }
+  .dp-choice li {
+    font-size: 20px;
+    line-height: 25px;
+  }
+  .dp-principles > h2,
+  .dp-resources > h2 {
+    font-size: 30px;
+    line-height: 34px;
+  }
+  .dp-statement-copy > p {
+    white-space: normal;
+  }
+  .dp-resources {
+    padding-inline: 12px;
+  }
+  .dp-resources li {
+    grid-template-columns: 24px minmax(0, 1fr);
+  }
+  .dp-resources li > .dp-cta {
+    grid-column: 2;
+    grid-row: 3;
+    justify-self: start;
+    margin-top: 8px;
+  }
+}

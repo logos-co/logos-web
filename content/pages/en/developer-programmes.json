@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/developer-programmes",
+  "title": "Developer Programmes | Logos",
+  "description": "Explore the Logos RFP Programme and Lambda Prize. Get funded to build open-source infrastructure or earn rewards for products with real adoption.",
+  "heading": "Build the Parallel.",
+  "sections": [
+    {
+      "componentType": "developerProgrammesCopy",
+      "key": "developerProgrammes.copy",
+      "hero": {
+        "eyebrow": "Logos developer Programmes",
+        "title": "Build the Parallel.",
+        "subtitle": "RFPs and {mark}Prize — Developer programmes that  let you earn rewards.",
+        "body": "RFPs fund you team to build a specification. ʎ Prize rewards products on Logos\nthat launch to real users. Choose your path."
+      },
+      "programmes": [
+        {
+          "id": "rfp",
+          "name": "RFP Programme",
+          "panelTitle": "RFP \nProgramme",
+          "tag": "Funded up front",
+          "image": {
+            "src": "/images/developer-programmes/rfp.webp",
+            "alt": ""
+          },
+          "intro": "Send a proposal to a given spec. Get funded to build it.",
+          "body": "RFPs provide funding to build and audit costly protocols, core building blocks and\ninfrastructure. It starts with a spec from Logos. Your team responds with a proposal\nincluding approach, milestones, budget. Selected teams get a grant, paid as each\nmilestone lands.",
+          "stats": [
+            {
+              "value": "14",
+              "label": "RFPs published"
+            },
+            {
+              "value": "4 weeks to 6 months",
+              "label": "Build timelines"
+            },
+            {
+              "value": "14 days",
+              "label": "Decision after the RFP closes"
+            }
+          ],
+          "highlight": {
+            "label": "Open now",
+            "title": "RFP-005  Multisig and Coordination",
+            "detail": "Proposals due 16 Oct 2026"
+          },
+          "opportunities": [
+            {
+              "code": "RFP-012",
+              "title": "Curated Lending Vaults",
+              "detail": "Reopening soon"
+            },
+            {
+              "code": "RFP-014",
+              "title": "Liquidation and Auction Engine",
+              "detail": "Reopening soon"
+            }
+          ],
+          "cta": {
+            "label": "Explore RFPs",
+            "href": "/builders-hub/rfps"
+          },
+          "comparison": [
+            {
+              "label": "How you start",
+              "body": "Submit a proposal"
+            },
+            {
+              "label": "Who gets selected",
+              "body": "One team, before work begins"
+            },
+            {
+              "label": "When you get paid",
+              "body": "As each milestone is delivered"
+            },
+            {
+              "label": "What's judged",
+              "body": "Delivery to a fixed spec"
+            },
+            {
+              "label": "Typical work",
+              "body": "Building blocks, protocols, infrastructure"
+            },
+            {
+              "label": "Best for",
+              "body": "Teams with a track record"
+            }
+          ],
+          "choice": {
+            "title": "Go to RFPs if…",
+            "statements": [
+              "You're an expert dev team with a\ntrack record of building protocols.",
+              "You want to learn the Logos\necosystem and one day run a\nproduct or business on it.",
+              "You want funding while you build\nthat expertise."
+            ]
+          }
+        },
+        {
+          "id": "prize",
+          "name": "{mark}Prize",
+          "panelTitle": "{mark}Prize",
+          "tag": "Paid on adoption",
+          "image": {
+            "src": "/images/developer-programmes/prize.webp",
+            "alt": ""
+          },
+          "intro": "Launch a product. Find real users. Win the prize.",
+          "body": "ʎ Prize rewards products that launch on the Logos stack and find real users. There is\nno application process. Develop in public and release early so usage grows as build.\nEach prize sets its own success criteria and adoption target. Evaluators then confirm\nthe product runs and the usage is real. First one to meet all the criteria wins that prize,\npaid in USDT.",
+          "stats": [
+            {
+              "value": "5",
+              "label": "Prizes open now"
+            },
+            {
+              "value": "$34,000",
+              "label": "In open prizes"
+            },
+            {
+              "value": "11",
+              "label": "Prizes awarded"
+            }
+          ],
+          "highlight": {
+            "label": "Largest open prize",
+            "title": "LP-0021  LEZ Wallet and Provider SDK",
+            "detail": "$20,000"
+          },
+          "opportunities": [
+            {
+              "code": "LP-0026",
+              "title": "Forum App",
+              "detail": "$5,500"
+            },
+            {
+              "code": "LP-0001",
+              "title": "NFT Wallet and Private Ownership Proof",
+              "detail": "$5,000"
+            }
+          ],
+          "cta": {
+            "label": "Explore prizes",
+            "href": "/lambda-prize"
+          },
+          "comparison": [
+            {
+              "label": "How you start",
+              "body": "Learn the problem. Talk to users. Then build."
+            },
+            {
+              "label": "Who gets selected",
+              "body": "The first solution that meets every criterion"
+            },
+            {
+              "label": "When you get paid",
+              "body": "Once, when your solution is picked as the winner"
+            },
+            {
+              "label": "What's judged",
+              "body": "Working code plus real adoption"
+            },
+            {
+              "label": "Typical work",
+              "body": "Applications, SDKs, running a node or protocol"
+            },
+            {
+              "label": "Best for",
+              "body": "Teams looking to launch a successful product or\nbusiness"
+            }
+          ],
+          "choice": {
+            "title": "Go to {mark}Prize if…",
+            "statements": [
+              "You're a product and dev team\nready to launch on Logos.",
+              "You want privacy and\ndecentralisation at the core of\nyour product.",
+              "You'd welcome a prize to kick off\nyour search for market fit."
+            ]
+          },
+          "availability": "5 prizes open"
+        }
+      ],
+      "comparisonHeading": "How they differ.",
+      "choiceHeading": "Which one fits you?",
+      "choiceHelp": {
+        "text": "Still not sure? Ask us on",
+        "cta": {
+          "label": "Discord",
+          "href": "https://discord.gg/Ykv4eZyHUJ"
+        }
+      },
+      "principles": {
+        "heading": "Same rules on both tracks",
+        "items": [
+          {
+            "title": "Open source",
+            "body": "All work ships under MIT and Apache 2.0."
+          },
+          {
+            "title": "Yours to run",
+            "body": "You publish and maintain what you build. Logos\ndoesn't host or operate it."
+          },
+          {
+            "title": "Real support",
+            "body": "Office hours, livestreams and direct access to the\necosystem development team."
+          }
+        ]
+      },
+      "statement": {
+        "title": "Logos doesn't\nbuild the apps.\nYou do.",
+        "body": "The Logos stack is open source, delivering private-by-\ndefault blockchain, storage, and messaging. What runs\non it is up to builders.\n\nEvery mature network has wallets, exchanges, lending\nmarkets, and multisigs. A network with end-to-end\nprivacy needs them too. These programmes pay those\nwho build those applications.\n\nRFPs build the complex protocols and infrastructure on\ntop of Logos, while ʎPrizes add an incentive to launch\napps with product-market fit.",
+        "image": {
+          "src": "/images/developer-programmes/build.webp",
+          "alt": ""
+        }
+      },
+      "resources": {
+        "heading": "Get set up",
+        "items": [
+          {
+            "title": "Install Basecamp",
+            "body": "Run the Logos stack locally.",
+            "cta": {
+              "label": "Install",
+              "href": "/basecamp"
+            }
+          },
+          {
+            "title": "Read the docs",
+            "body": "Modules, APIs and how the stack fits together.",
+            "cta": {
+              "label": "View the docs",
+              "href": "https://docs.logos.co/"
+            }
+          },
+          {
+            "title": "Sample apps",
+            "body": "Reference apps to fork as a starting point.",
+            "cta": {
+              "label": "Browse",
+              "href": "https://github.com/logos-co/scaffold"
+            }
+          },
+          {
+            "title": "Demos and tutorials",
+            "body": "Walkthroughs from scaffold to shipped app.",
+            "cta": {
+              "label": "Watch",
+              "href": "https://www.youtube.com/playlist?list=PLZe53tXAogqMdZSKhY316YKn3_tJ0RWZ7"
+            }
+          },
+          {
+            "title": "Join Discord",
+            "body": "Ask questions and meet the core contributors.",
+            "cta": {
+              "label": "Join",
+              "href": "https://discord.gg/Ykv4eZyHUJ"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
