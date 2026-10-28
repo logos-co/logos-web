@@ -27,8 +27,8 @@ export function Build({ copy }: { copy: Renewal['build'] }) {
           <Image
             src={`${asset}/build-app-basecamp.png`}
             alt={copy.screenshotAlt}
-            width={1903}
-            height={1084}
+            width={3806}
+            height={2168}
             sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) 50vw, 632px"
           />
         </div>
