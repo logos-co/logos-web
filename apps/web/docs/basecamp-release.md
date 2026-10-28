@@ -30,13 +30,13 @@ If the API call fails or the release is rejected, the script exits non-zero and 
 | Windows x86_64 | `EXTERNAL_URLS.basecampWindowsX64Download` |
 | anything else  | `EXTERNAL_URLS.basecampRelease`            |
 
-A CTA labelled `Install Linux`, `Install Mac`, `Install MacOS` or `Install Mac (Silicon)` sets a preferred platform. If the browser reports a different OS, the CTA falls back to the release page instead of offering the wrong installer.
+A CTA whose label names a platform sets a preferred platform. Labels are matched case-insensitively and may start with `Install `: `Linux` sets Linux, `Windows` sets Windows, and `Mac` or `MacOS`, optionally followed by ` (Silicon)` or ` (Apple silicon)`, sets macOS. A Windows preference resolves to `EXTERNAL_URLS.basecampWindowsX64Download` whatever OS the browser reports, unless the link is resolved with a `blockchain` purpose. For any other preference, if the browser reports a different OS, the CTA falls back to the release page instead of offering the wrong installer.
 
 Windows x86_64 clients with a `blockchain` purpose get the WSL2 guide instead (`EXTERNAL_URLS.basecampWindowsBlockchainGuide`).
 
 ## Fallback and content flags
 
-The fallback `EXTERNAL_URLS.basecampRelease` is `https://github.com/logos-co/logos-basecamp/releases/latest`, which follows new versions without edits. Content-level `external` flags on install CTAs cannot bypass the resolver: [`basecamp-release-links.ts`](../lib/basecamp-release-links.ts) rewrites any install CTA to the fallback before the download target is resolved.
+The fallback `EXTERNAL_URLS.basecampRelease` is `https://github.com/logos-co/logos-basecamp/releases/latest`, which follows new versions without edits. Content-level `external` flags on install CTAs cannot bypass the resolver: [`basecamp-release-links.ts`](../lib/basecamp-release-links.ts) rewrites any install CTA to the fallback before the download target is resolved. A CTA counts as an install CTA when its label names a platform as above, or when its label starts with `Install` or `Download` and it either sets `iconOverride: 'download'` or links into `https://github.com/logos-co/logos-basecamp`.
 
 ## GITHUB_TOKEN
 
