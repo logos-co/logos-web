@@ -434,7 +434,7 @@
       },
       "run": {
         "title": ["Join privately.", "Run a node in Basecamp."],
-        "description": "No on-ramp required. Participation is permissionless and private through Proof-of-Work. Anyone can receive their first tokens by running a node.",
+        "description": "No on-ramp required. Permissionless, private participation in the Logos network via \"EmPoWering\" in Basecamp. Anyone can receive their first tokens via Proof-of-Work by running a node in Logos Basecamp.",
         "steps": [
           {
             "label": "Step 1",
