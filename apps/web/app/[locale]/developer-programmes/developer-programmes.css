@@ -124,6 +124,11 @@
 .dp-statement img {
   object-fit: cover;
 }
+.dp-panel > picture,
+.dp-statement > picture {
+  position: absolute;
+  inset: 0;
+}
 .dp-panel-scrim {
   position: absolute;
   inset: 0;

@@ -30,4 +30,6 @@ The [image component](../app/[locale]/developer-programmes/_sections/programme-i
 
 Dark section backgrounds keep the overlaid text readable while images load or if a request fails.
 
+Background picture elements are absolutely positioned so they do not occupy a grid column or push section copy into another row.
+
 After replacing a bundled original, run `pnpm --filter web generate:programme-images` and commit the regenerated variants. The [generator](../scripts/generate-programme-images.ts) preserves the source aspect ratio and uses AVIF quality 60 and WebP quality 90. Review desktop and mobile crops before publishing.

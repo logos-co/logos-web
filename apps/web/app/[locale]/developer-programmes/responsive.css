@@ -2,6 +2,9 @@
   .dp-rfp .dp-stats {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr);
   }
+  .dp-prize .dp-stats {
+    grid-template-columns: 150px 300px minmax(0, 1fr);
+  }
 }
 
 @media (max-width: 1439px) {
