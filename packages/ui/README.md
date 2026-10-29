@@ -44,6 +44,8 @@ export function HeaderAction() {
 }
 ```
 
+`LogosMark` accepts standard React SVG attributes alongside `size`, `width`, `height` and `style`.
+
 ## Linking to your router
 
 `Button` and `Card` take a `linkAs` prop for any component that accepts an anchor's props, such as `next/link`, so internal links stay client-side routed:

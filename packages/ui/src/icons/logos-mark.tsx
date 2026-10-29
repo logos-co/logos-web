@@ -9,9 +9,9 @@
  * Default render size is 14px tall (≈ 11×14). Pass `size` to scale
  * uniformly, or override `width` / `height` individually.
  */
-import type { CSSProperties, HTMLAttributes } from 'react'
+import type { CSSProperties, SVGAttributes } from 'react'
 
-type LogosMarkProps = Omit<HTMLAttributes<SVGSVGElement>, 'style'> & {
+type LogosMarkProps = Omit<SVGAttributes<SVGSVGElement>, 'style'> & {
   /** Height in px. Width is derived from the native aspect ratio. Default 14. */
   size?: number
   width?: number | string

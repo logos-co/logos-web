@@ -29,7 +29,7 @@ export function Choices({ heading, programmes, help }: ChoicesProps) {
               {programme.choice.statements.map((statement) => (
                 <li key={statement}>
                   <span className="dp-choice-arrow">
-                    <ButtonArrowIcon />
+                    <ButtonArrowIcon width={12} height={12} />
                   </span>
                   <span className="dp-lines">{statement}</span>
                 </li>

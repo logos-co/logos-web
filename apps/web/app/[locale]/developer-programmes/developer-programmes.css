@@ -24,6 +24,16 @@
 .developer-programmes .dp-mark > svg {
   display: inline-block;
   vertical-align: baseline;
+  position: relative;
+  top: 0.5px;
+}
+.developer-programmes .dp-copy-prefix {
+  display: inline-block;
+  padding-right: 0.03em;
+  margin-right: 0.25em;
+}
+.dp-panel-title .dp-mark > svg {
+  top: -0.5px;
 }
 .developer-programmes .dp-arrow {
   display: inline-flex;
@@ -53,6 +63,7 @@
   color: var(--color-brand-off-white);
   border-color: rgb(245 245 239 / 50%);
   padding-block: 7px;
+  padding-inline: 11px;
 }
 .dp-hero {
   display: flex;
@@ -78,6 +89,13 @@
 }
 .dp-hero-subtitle .dp-mark {
   margin-right: 4.32px;
+}
+.dp-hero-subtitle .dp-copy-prefix {
+  padding-right: 0.01em;
+}
+.dp-hero-subtitle .dp-em-dash {
+  /* Match the narrower dash advance in the Figma Public Sans font. */
+  margin-inline: -0.16em;
 }
 .dp-hero-body {
   font-size: 14px;
@@ -475,5 +493,9 @@
   }
   .dp-resources li {
     grid-template-columns: 107px 583px minmax(0, 1fr) auto;
+  }
+  .dp-resources li > .dp-cta {
+    position: relative;
+    top: 0.5px;
   }
 }

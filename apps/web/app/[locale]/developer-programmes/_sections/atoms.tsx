@@ -10,7 +10,9 @@ interface CopyProps {
 }
 
 export function Copy({ children, markSize = 20.64, fontSize = 24 }: CopyProps) {
-  return children.split('{mark}').map((part, index) => (
+  const parts = children.split('{mark}')
+
+  return parts.map((part, index) => (
     <Fragment key={index}>
       {index > 0 && (
         <span className="dp-mark">
@@ -18,11 +20,22 @@ export function Copy({ children, markSize = 20.64, fontSize = 24 }: CopyProps) {
             size={markSize}
             width={`${((markSize / fontSize) * 8) / 11}em`}
             height={`${markSize / fontSize}em`}
+            viewBox="0 0 19.1176 26"
+            preserveAspectRatio="none"
           />
           <span className="sr-only">Lambda </span>
         </span>
       )}
-      {part}
+      {index < parts.length - 1 && part ? (
+        <span className="dp-copy-prefix">{part.trimEnd()}</span>
+      ) : (
+        part.split('—').map((text, dashIndex) => (
+          <Fragment key={dashIndex}>
+            {dashIndex > 0 && <span className="dp-em-dash">—</span>}
+            {text}
+          </Fragment>
+        ))
+      )}
     </Fragment>
   ))
 }

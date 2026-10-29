@@ -1,3 +1,10 @@
+@media (max-width: 1439px) {
+  .developer-programmes .dp-cta {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
 @media (min-width: 1024px) and (max-width: 1439px) {
   .dp-hero-title {
     padding-right: 5.6px;

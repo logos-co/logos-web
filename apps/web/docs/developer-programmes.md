@@ -14,6 +14,8 @@ The [schema](../../../packages/content/src/schemas/pages/developer-programmes.ts
 
 The [Figma frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3270-17265) is 1440px wide. Newline escapes (`\n`) in body copy preserve its desktop line endings at widths of 1440px and above. Edit these breaks with the copy and review the result at 1440px. Below that width, copy wraps to the available space; the large programme and statement headings retain their deliberate breaks.
 
+Below 1440px, page CTAs have a minimum 44px touch target. Desktop CTA dimensions retain the Figma measurements.
+
 `{mark}` inserts the shared Logos mark in programme names, the hero subtitle and choice headings. Keep that token wherever the brand mark should appear. Do not replace it with an image or a Unicode substitute.
 
 The programme figures, opportunity names and deadlines are editorial copy matching the supplied design, not a live GitHub feed. Editors maintain them through the page fixture. Header, navigation and footer content remain owned by their existing site collections.
