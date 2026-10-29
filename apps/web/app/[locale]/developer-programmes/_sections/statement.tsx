@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import type { DeveloperProgrammesCopySection } from '@repo/content/schemas'
 import { Cta, DesktopLines } from './atoms'
+import { ProgrammeImage } from './programme-image'
 
 interface StatementProps extends Pick<
   DeveloperProgrammesCopySection,
@@ -12,7 +12,11 @@ interface StatementProps extends Pick<
 export function Statement({ copy, programmes }: StatementProps) {
   return (
     <section className="dp-statement">
-      <Image src={copy.image.src} alt={copy.image.alt} fill sizes="100vw" />
+      <ProgrammeImage
+        src={copy.image.src}
+        alt={copy.image.alt}
+        sizes="(max-width: 599px) 820px, 100vw"
+      />
       <div className="dp-statement-scrim" />
       <h2 className="dp-lines">{copy.title}</h2>
       <div className="dp-statement-copy">

@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import type { DeveloperProgrammesCopySection } from '@repo/content/schemas'
 import { Copy, Cta } from './atoms'
+import { ProgrammeImage } from './programme-image'
 
 export function Programmes({
   programmes,
@@ -13,12 +13,11 @@ export function Programmes({
           className={`dp-programme dp-${programme.id}`}
         >
           <div className="dp-panel">
-            <Image
+            <ProgrammeImage
               src={programme.image.src}
               alt={programme.image.alt}
-              fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              priority
+              sizes="(min-width: 1024px) calc(50vw - 18px), (min-width: 600px) calc(100vw - 48px), calc(100vw - 24px)"
+              eager={programme.id === 'rfp'}
             />
             {programme.id === 'prize' && <div className="dp-panel-scrim" />}
             <p className="dp-tag dp-eyebrow">{programme.tag}</p>

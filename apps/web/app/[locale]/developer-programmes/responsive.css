@@ -1,3 +1,9 @@
+@media (min-width: 1440px) {
+  .dp-rfp .dp-stats {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr);
+  }
+}
+
 @media (max-width: 1439px) {
   .developer-programmes .dp-cta {
     min-height: 44px;
@@ -22,9 +28,6 @@
   .dp-stats dd {
     font-size: 27px;
     letter-spacing: -0.8px;
-  }
-  .dp-stats > div:nth-child(2) dd {
-    white-space: normal;
   }
   .dp-comparison-card {
     padding: 32px;
@@ -103,9 +106,6 @@
   }
   .dp-stats dd {
     font-size: 30px;
-  }
-  .dp-stats > div:nth-child(2) dd {
-    white-space: normal;
   }
   .dp-comparison {
     padding: 80px 24px;

@@ -114,14 +114,18 @@
 .dp-programme {
   min-width: 0;
 }
+.dp-panel,
+.dp-statement {
+  background-color: var(--color-brand-dark-green);
+}
 .dp-panel {
   position: relative;
   height: 480px;
   border-radius: 12px;
   overflow: hidden;
 }
-.dp-panel > img,
-.dp-statement > img {
+.dp-panel img,
+.dp-statement img {
   object-fit: cover;
 }
 .dp-panel-scrim {
@@ -204,7 +208,7 @@
   font-size: 36px;
   line-height: 36px;
   letter-spacing: -1.08px;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .dp-highlight {
   display: flex;
