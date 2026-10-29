@@ -31,8 +31,8 @@
         },
         "building": {
           "title": "Impact building",
-          "body": "Build tech that creates real impact by solving local problems around the world.",
-          "cta": "Build for impact"
+          "body": "Put your tech skills to work solving real problems with communities worldwide.",
+          "cta": "Explore hacktivism"
         }
       },
       "campaign": {
@@ -90,10 +90,11 @@
         "cta": "Join the coalition"
       },
       "builder": {
-        "title": "Become an activist builder",
-        "body": "Activist Builders help Logos Circles tackle real-world problems with technology. Support communities locally or remotely, set up tools and nodes, and turn recurring needs into reusable solutions.",
-        "primaryCta": "Build for impact",
-        "secondaryCta": "Discover Logos Stack",
+        "title": "Calling all Hacktivists",
+        "body": "Hacktivists help Logos Circles tackle real-world problems with technology. Support communities locally or remotely, set up tools and nodes, and turn recurring needs into reusable solutions.",
+        "primaryCta": "Discover Logos Stack",
+        "secondaryCta": "Start Hacktivist Training",
+        "tertiaryCta": "Talk to Us",
         "feature": {
           "city": "Benin",
           "title": "Regenerative social DeFi fundraising platform",

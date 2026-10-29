@@ -129,6 +129,7 @@ export const movementCopySectionSchema = z.object({
     body: z.string().min(1),
     primaryCta: z.string().min(1),
     secondaryCta: z.string().min(1),
+    tertiaryCta: z.string().min(1),
     feature: z.object({
       city: z.string().min(1),
       title: z.string().min(1),

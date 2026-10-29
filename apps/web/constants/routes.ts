@@ -126,6 +126,9 @@ export const EXTERNAL_URLS = {
   circlesWinnableIssueBenin:
     'https://circles.logos.co/readme/about-logos-circles/winnable-issues-from-circles#benin-nigeria',
 
+  // Learning
+  hacktivistTraining: 'https://learning.logos.co/course/view.php?id=4',
+
   // Forum
   forum: 'https://forum.logos.co/',
   forumMeetups: 'https://forum.logos.co/c/meetups/6',
