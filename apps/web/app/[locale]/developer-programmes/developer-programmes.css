@@ -93,10 +93,6 @@
 .dp-hero-subtitle .dp-copy-prefix {
   padding-right: 0.01em;
 }
-.dp-hero-subtitle .dp-em-dash {
-  /* Match the narrower dash advance in the Figma Public Sans font. */
-  margin-inline: -0.16em;
-}
 .dp-hero-body {
   font-size: 14px;
   line-height: 19px;
@@ -279,13 +275,13 @@
 }
 .dp-comparison-heading h3 {
   font-family: var(--font-display);
-  font-size: 96px;
-  line-height: 94px;
-  letter-spacing: -3.84px;
+  font-size: 80px;
+  line-height: 78.333px;
+  letter-spacing: -3.2px;
   white-space: nowrap;
 }
 .dp-comparison-card.dp-prize h3 {
-  line-height: 96px;
+  line-height: 80px;
 }
 .dp-comparison-card dl {
   width: 100%;

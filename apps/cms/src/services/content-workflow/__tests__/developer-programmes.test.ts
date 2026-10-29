@@ -21,6 +21,8 @@ describe('developer programmes page publishing', () => {
       href: '/builders-hub/rfps',
     }
     copy.programmes[1]!.stats[0]!.value = '8'
+    copy.programmes[1]!.comparisonTag =
+      'An independently edited comparison label'
     copy.programmes[0]!.comparison[0]!.body = 'An updated proposal process.'
     copy.programmes[1]!.choice.statements[0] = 'An updated builder profile.'
     copy.statement.image = {
@@ -38,6 +40,10 @@ describe('developer programmes page publishing', () => {
     assert.equal(change.path, 'content/pages/en/developer-programmes.json')
     assert.ok('content' in change)
     assert.deepEqual(JSON.parse(String(change.content)), page)
+    assert.equal(
+      copy.programmes[1]!.tag,
+      fixture.sections[0]!.programmes[1]!.tag
+    )
   })
 
   it('rejects missing programme copy and unsafe button destinations', () => {

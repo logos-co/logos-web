@@ -12,8 +12,8 @@
       "hero": {
         "eyebrow": "Logos developer Programmes",
         "title": "Build the Parallel.",
-        "subtitle": "RFPs and {mark}Prize — Developer programmes that  let you earn rewards.",
-        "body": "RFPs fund you team to build a specification. ʎ Prize rewards products on Logos\nthat launch to real users. Choose your path."
+        "subtitle": "RFPs and {mark}Prize",
+        "body": "RFPs fund your team to build a specification. {mark}Prize rewards products on Logos\nthat launch to real users. Choose your path."
       },
       "programmes": [
         {
@@ -21,6 +21,7 @@
           "name": "RFP Programme",
           "panelTitle": "RFP \nProgramme",
           "tag": "Funded up front",
+          "comparisonTag": "Funded up front",
           "image": {
             "src": "/images/developer-programmes/rfp.webp",
             "alt": ""
@@ -73,7 +74,7 @@
             },
             {
               "label": "When you get paid",
-              "body": "As each milestone is delivered"
+              "body": "As each milestone lands"
             },
             {
               "label": "What's judged",
@@ -102,12 +103,13 @@
           "name": "{mark}Prize",
           "panelTitle": "{mark}Prize",
           "tag": "Paid on adoption",
+          "comparisonTag": "Rewarded on adoption",
           "image": {
             "src": "/images/developer-programmes/prize.webp",
             "alt": ""
           },
           "intro": "Launch a product. Find real users. Win the prize.",
-          "body": "ʎ Prize rewards products that launch on the Logos stack and find real users. There is\nno application process. Develop in public and release early so usage grows as build.\nEach prize sets its own success criteria and adoption target. Evaluators then confirm\nthe product runs and the usage is real. First one to meet all the criteria wins that prize,\npaid in USDT.",
+          "body": "{mark}Prize rewards products that launch on the Logos stack and find real users. There is\nno application process. Develop in public and release early so usage grows as you\nbuild. Each prize sets its own success criteria and adoption target. Evaluators then\nconfirm the product runs and the usage is real. First one to meet all the criteria wins\nthat prize, paid in USDT.",
           "stats": [
             {
               "value": "5",
@@ -153,7 +155,7 @@
               "body": "The first solution that meets every criterion"
             },
             {
-              "label": "When you get paid",
+              "label": "When you get rewarded",
               "body": "Once, when your solution is picked as the winner"
             },
             {
@@ -208,7 +210,7 @@
       },
       "statement": {
         "title": "Logos doesn't\nbuild the apps.\nYou do.",
-        "body": "The Logos stack is open source, delivering private-by-\ndefault blockchain, storage, and messaging. What runs\non it is up to builders.\n\nEvery mature network has wallets, exchanges, lending\nmarkets, and multisigs. A network with end-to-end\nprivacy needs them too. These programmes pay those\nwho build those applications.\n\nRFPs build the complex protocols and infrastructure on\ntop of Logos, while ʎPrizes add an incentive to launch\napps with product-market fit.",
+        "body": "The Logos stack is open source, delivering private-by-\ndefault blockchain, storage, and messaging. What runs\non it is up to builders.\n\nEvery mature network has wallets, exchanges, lending\nmarkets, and multisigs. A network with end-to-end\nprivacy needs them too. These programmes pay those\nwho build those applications.\n\nRFPs build the complex protocols and infrastructure on\ntop of Logos, while {mark}Prizes add an incentive to launch\napps with product-market fit.",
         "image": {
           "src": "/images/developer-programmes/build.webp",
           "alt": ""

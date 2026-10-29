@@ -9,6 +9,7 @@ const programme = z.object({
   name: text,
   panelTitle: text,
   tag: text,
+  comparisonTag: text,
   availability: text.optional(),
   image: mediaRefSchema,
   intro: text,

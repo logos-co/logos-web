@@ -10,6 +10,8 @@ The `developerProgrammesCopy` section groups `hero`, `programmes`, comparison an
 
 The [schema](../../../packages/content/src/schemas/pages/developer-programmes.ts) validates both the build-time loader and the CMS save operation. The existing Pages JSON field stores the section without new database fields or a database migration.
 
+Each programme has a `tag` for its image panel and a separate `comparisonTag` for the comparison card. Edit them independently when their wording differs.
+
 ## Desktop line breaks
 
 The [Figma frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3270-17265) is 1440px wide. Newline escapes (`\n`) in body copy preserve its desktop line endings at widths of 1440px and above. Edit these breaks with the copy and review the result at 1440px. Below that width, copy wraps to the available space; the large programme and statement headings retain their deliberate breaks.
@@ -18,7 +20,7 @@ Below 1440px, page CTAs have a minimum 44px touch target. Desktop CTA dimensions
 
 The RFP statistics give the longer delivery-time value a wider middle column on desktop, correcting an overlap in the supplied Figma frame without changing the copy or type size. Edited statistics wrap within their columns.
 
-`{mark}` inserts the shared Logos mark in programme names, the hero subtitle and choice headings. Keep that token wherever the brand mark should appear. Do not replace it with an image or a Unicode substitute.
+`{mark}` inserts the shared Logos mark in programme names, headings and body copy. Keep that token wherever the brand mark should appear. Do not replace it with an image or a Unicode substitute.
 
 The programme figures, opportunity names and deadlines are editorial copy matching the supplied design, not a live GitHub feed. Editors maintain them through the page fixture. Header, navigation and footer content remain owned by their existing site collections.
 

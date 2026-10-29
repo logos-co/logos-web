@@ -19,9 +19,9 @@ export function Comparison({ heading, programmes }: ComparisonProps) {
             className={`dp-comparison-card dp-${programme.id}`}
           >
             <div className="dp-comparison-heading">
-              <p className="dp-tag dp-eyebrow">{programme.tag}</p>
+              <p className="dp-tag dp-eyebrow">{programme.comparisonTag}</p>
               <h3>
-                <Copy markSize={77.76} fontSize={96}>
+                <Copy markSize={64.8} fontSize={80}>
                   {programme.name}
                 </Copy>
               </h3>

@@ -34,7 +34,11 @@ export function Programmes({
           </div>
           <div className="dp-programme-details">
             <p className="dp-intro">{programme.intro}</p>
-            <p className="dp-programme-body dp-lines">{programme.body}</p>
+            <p className="dp-programme-body dp-lines">
+              <Copy inline markSize={10.64} fontSize={14}>
+                {programme.body}
+              </Copy>
+            </p>
             <dl className="dp-stats">
               {programme.stats.map((stat) => (
                 <div key={stat.label}>

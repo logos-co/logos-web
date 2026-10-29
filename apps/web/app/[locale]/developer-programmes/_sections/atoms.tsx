@@ -7,9 +7,15 @@ interface CopyProps {
   children: string
   markSize?: number
   fontSize?: number
+  inline?: boolean
 }
 
-export function Copy({ children, markSize = 20.64, fontSize = 24 }: CopyProps) {
+export function Copy({
+  children,
+  markSize = 20.64,
+  fontSize = 24,
+  inline = false,
+}: CopyProps) {
   const parts = children.split('{mark}')
 
   return parts.map((part, index) => (
@@ -26,15 +32,10 @@ export function Copy({ children, markSize = 20.64, fontSize = 24 }: CopyProps) {
           <span className="sr-only">Lambda </span>
         </span>
       )}
-      {index < parts.length - 1 && part ? (
+      {!inline && index < parts.length - 1 && part ? (
         <span className="dp-copy-prefix">{part.trimEnd()}</span>
       ) : (
-        part.split('—').map((text, dashIndex) => (
-          <Fragment key={dashIndex}>
-            {dashIndex > 0 && <span className="dp-em-dash">—</span>}
-            {text}
-          </Fragment>
-        ))
+        part
       )}
     </Fragment>
   ))
@@ -43,7 +44,9 @@ export function Copy({ children, markSize = 20.64, fontSize = 24 }: CopyProps) {
 export function DesktopLines({ children }: { children: string }) {
   return children.split('\n').map((line, index, lines) => (
     <Fragment key={index}>
-      {line}
+      <Copy inline markSize={13.68} fontSize={18}>
+        {line}
+      </Copy>
       {index < lines.length - 1 &&
         (line === '' || lines[index + 1] === '' ? (
           <br />

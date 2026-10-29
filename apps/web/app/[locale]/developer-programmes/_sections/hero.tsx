@@ -13,7 +13,11 @@ export function Hero({
       <p className="dp-hero-subtitle">
         <Copy>{copy.subtitle}</Copy>
       </p>
-      <p className="dp-hero-body dp-lines">{copy.body}</p>
+      <p className="dp-hero-body dp-lines">
+        <Copy inline markSize={10.64} fontSize={14}>
+          {copy.body}
+        </Copy>
+      </p>
     </section>
   )
 }
