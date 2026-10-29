@@ -1,5 +1,11 @@
 import { cache } from 'react'
 
+import type { BlogDynamicBlock } from '@/lib/media-blocks/types'
+import {
+  mapGraphqlDynamicBlocks,
+  type GraphqlDynamicBlock,
+} from '@/lib/media-blocks/from-cms'
+
 import { mapWithConcurrency } from '@/lib/concurrency'
 import { env } from '@/lib/env'
 import { getPressSnapshot } from '@/lib/press-snapshot'
@@ -94,32 +100,6 @@ export interface BlogImageBlock extends BlogImage {
 }
 
 export type BlogContentBlock = BlogTextBlock | BlogImageBlock
-
-export interface BlogDynamicRichTextBlock {
-  type: 'rich-text'
-  body: string
-}
-
-export interface BlogDynamicCodeBlock {
-  type: 'code-block'
-  language?: string
-  code: string
-}
-
-export interface BlogDynamicInteractiveEmbedBlock {
-  type: 'interactive-embed'
-  title?: string
-  fullHtml?: string
-  html: string
-  css?: string
-  js?: string
-  height?: number
-}
-
-export type BlogDynamicBlock =
-  | BlogDynamicRichTextBlock
-  | BlogDynamicCodeBlock
-  | BlogDynamicInteractiveEmbedBlock
 
 export interface BlogPostMeta {
   id: string
@@ -254,19 +234,6 @@ type GraphqlPostAttributes = {
   related_posts?: {
     data?: GraphqlPostEntity[]
   }
-}
-
-type GraphqlDynamicBlock = {
-  __typename?: string
-  body?: string | null
-  code?: string | null
-  language?: string | null
-  title?: string | null
-  full_html?: string | null
-  html?: string | null
-  css?: string | null
-  js?: string | null
-  height?: number | null
 }
 
 type GraphqlPodcastShowAttributes = {
@@ -785,40 +752,6 @@ function mapGraphqlAuthors(attrs: GraphqlPostAttributes): BlogAuthor[] {
       }))
       .filter((author) => author.name.length > 0) ?? []
   )
-}
-
-function mapGraphqlDynamicBlocks(
-  blocks?: GraphqlDynamicBlock[] | null
-): BlogDynamicBlock[] | undefined {
-  const mapped =
-    blocks
-      ?.map((block): BlogDynamicBlock | null => {
-        if (block.__typename === 'ComponentBlocksRichText') {
-          return { type: 'rich-text', body: block.body ?? '' }
-        }
-        if (block.__typename === 'ComponentBlocksCodeBlock') {
-          return {
-            type: 'code-block',
-            code: block.code ?? '',
-            language: block.language ?? undefined,
-          }
-        }
-        if (block.__typename === 'ComponentBlocksInteractiveEmbed') {
-          return {
-            type: 'interactive-embed',
-            title: block.title ?? undefined,
-            fullHtml: block.full_html ?? undefined,
-            html: block.html ?? '',
-            css: block.css ?? undefined,
-            js: block.js ?? undefined,
-            height: block.height ?? undefined,
-          }
-        }
-        return null
-      })
-      .filter((block): block is BlogDynamicBlock => block !== null) ?? []
-
-  return mapped.length > 0 ? mapped : undefined
 }
 
 function mapGraphqlPostMeta(entity: GraphqlPostEntity): BlogPostMeta {

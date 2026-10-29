@@ -1,3 +1,4 @@
+import { ArticleBasecampCta } from './article-basecamp-cta'
 import { ArticleBody } from './article-body'
 import { ArticleFooter } from './article-footer'
 import { ArticleHero } from './article-hero'
@@ -31,6 +32,7 @@ export function ArticleDetailPage({
             canonicalUrl={canonicalUrl}
           />
           <ArticleBody article={article} />
+          <ArticleBasecampCta />
           <ArticleFooter
             copy={copy}
             footnotes={article.footnotes}
