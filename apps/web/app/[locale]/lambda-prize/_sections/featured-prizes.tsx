@@ -25,7 +25,7 @@ export function FeaturedPrizes({
                 <div className="lp-featured-image">
                   <Picture
                     image={prize.featured.image}
-                    sizes="(min-width: 1440px) 440px, (min-width: 768px) 50vw, 100vw"
+                    sizes="(min-width: 1120px) calc((100vw - 120px) / 3), (min-width: 768px) calc((100vw - 84px) / 2), calc(100vw - 56px)"
                   />
                   <span className="lp-tag lp-mono">{prize.statusLabel}</span>
                 </div>

@@ -54,7 +54,7 @@ export function Hero({ copy }: { copy: LambdaPrizeCopySection['hero'] }) {
       <div className="lp-stadium">
         <Picture
           image={copy.image}
-          sizes="(min-width: 1440px) 1416px, (min-width: 768px) 100vw, 768px"
+          sizes="(min-width: 768px) calc(100vw - 24px), 768px"
           priority
         />
         <div className="lp-stadium-shade" />

@@ -9,7 +9,7 @@ export function Rules({ copy }: { copy: LambdaPrizeCopySection['rules'] }) {
       <div className="lp-rules-image">
         <Picture
           image={copy.image}
-          sizes="(min-width: 1440px) 702px, (min-width: 1120px) 50vw, 100vw"
+          sizes="(min-width: 1120px) calc((100vw - 36px) / 2), (min-width: 768px) calc(100vw - 24px), calc(100vw - 32px)"
         />
       </div>
       <div className="lp-rules-panel">

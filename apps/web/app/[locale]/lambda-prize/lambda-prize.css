@@ -5,8 +5,7 @@
   font-family: var(--font-sans);
 }
 .lp-content {
-  max-width: 1440px;
-  margin-inline: auto;
+  width: 100%;
 }
 .lp-content section[id] {
   scroll-margin-top: 64px;
@@ -209,7 +208,7 @@
 .lp-content .lp-stats {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 300px));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 40px;
   color: #f5f5ef;
   width: calc(100% - 96px);
