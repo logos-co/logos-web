@@ -102,14 +102,14 @@
           "id": "prize",
           "name": "{mark}Prize",
           "panelTitle": "{mark}Prize",
-          "tag": "Rewarded on adoption",
+          "tag": "Paid on adoption",
           "comparisonTag": "Rewarded on adoption",
           "image": {
             "src": "/images/developer-programmes/prize.webp",
             "alt": ""
           },
           "intro": "Launch a product. Find real users. Win the prize.",
-          "body": "{mark}Prize rewards products that launch on the Logos stack and find real users. There is\nno application process. Develop in public and release early so usage grows as you\nbuild. Each prize sets its own success criteria and adoption target. Evaluators then\nconfirm the product runs and the usage is real. First one to meet all the criteria wins\nthat prize, awarded in USDT.",
+          "body": "{mark}Prize rewards products that launch on the Logos stack and find real users. There is\nno application process. Develop in public and release early so usage grows as you\nbuild. Each prize sets its own success criteria and adoption target. Evaluators then\nconfirm the product runs and the usage is real. First one to meet all the criteria wins\nthat prize, paid in USDT.",
           "stats": [
             {
               "value": "5",
@@ -155,7 +155,7 @@
               "body": "The first solution that meets every criterion"
             },
             {
-              "label": "When you get rewarded",
+              "label": "When you get Rewarded",
               "body": "Once, when your solution is picked as the winner"
             },
             {
@@ -168,15 +168,15 @@
             },
             {
               "label": "Best for",
-              "body": "Product and dev teams building on Logos"
+              "body": "Teams looking to launch a successful product or\nbusiness"
             }
           ],
           "choice": {
             "title": "Go to {mark}Prize if…",
             "statements": [
-              "You're a product and dev team\nbuilding on the Logos stack.",
+              "You're a product and dev team\nready to launch on Logos.",
               "You want privacy and\ndecentralisation at the core of\nyour product.",
-              "You want your build evaluated\nagainst the prize criteria."
+              "You'd welcome a prize to kick off\nyour search for market fit."
             ]
           },
           "availability": "5 prizes open"
@@ -210,7 +210,7 @@
       },
       "statement": {
         "title": "Logos doesn't\nbuild the apps.\nYou do.",
-        "body": "The Logos stack is open source, delivering private-by-\ndefault blockchain, storage, and messaging. What runs\non it is up to builders.\n\nEvery mature network has wallets, exchanges, lending\nmarkets, and multisigs. A network with end-to-end\nprivacy needs them too. These programmes support\nbuilders through grants and prizes.\n\nRFPs provide grants to support protocols and\ninfrastructure on Logos. {mark}Prizes reward builds that\nmeet the published prize criteria.",
+        "body": "The Logos stack is open source, delivering private-by-\ndefault blockchain, storage, and messaging. What runs\non it is up to builders.\n\nEvery mature network has wallets, exchanges, lending\nmarkets, and multisigs. A network with end-to-end\nprivacy needs them too. These programmes pay those\nwho build those applications.\n\nRFPs build the complex protocols and infrastructure on\ntop of Logos, while {mark}Prizes add an incentive to launch\napps with product-market fit.",
         "image": {
           "src": "/images/developer-programmes/build.webp",
           "alt": ""

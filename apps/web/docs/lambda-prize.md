@@ -16,7 +16,7 @@ The [desktop Figma v3 frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs
 
 The [mobile frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3329-17246) informs the stacked layout. Below 768px, the two monetary statistics precede the open and awarded counts, steps become vertical, and prize and resource cards stack. Intermediate widths use two-column prize cards and three-column steps where appropriate. CTAs have at least 44px targets below 1440px. The shared site header uses its default dark text on the light hero; the shared footer remains unchanged.
 
-The latest desktop title, "Already rewarded.", is used across viewport sizes and in the related labels. ASCII punctuation and British "Programme" follow repository conventions. The next-round callout retains the current Figma wording; comment #423 remains subject to the design team's eco-dev confirmation. The page implementation does not resolve or approve that comment.
+Copy follows the current Figma text layers. The desktop title is "Already rewarded.", while its eyebrow and navigation label remain "Already shipped". The resource callout retains Figma's "RFP Program" spelling. Apostrophes use ASCII punctuation. The next-round callout retains the current Figma wording; comment #423 remains subject to the design team's eco-dev confirmation. The page implementation does not resolve or approve that comment.
 
 The page uses the site's licensed Rhymes Display, Public Sans and Fira Code. Figma uses a trial Rhymes font; the licensed font has minor contour differences, as documented in the prior programme implementation.
 

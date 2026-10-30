@@ -35,7 +35,7 @@
             "href": "#open-prizes"
           },
           {
-            "label": "Already rewarded",
+            "label": "Already shipped",
             "href": "#already-rewarded"
           }
         ],
@@ -304,7 +304,7 @@
         }
       },
       "rewarded": {
-        "eyebrow": "Already rewarded",
+        "eyebrow": "Already shipped",
         "heading": "Already rewarded.",
         "body": "11 prizes already have merged solutions.",
         "cta": {
@@ -414,8 +414,8 @@
           }
         ],
         "rfp": {
-          "label": "RFP Programme",
-          "body": "Need funding before you build? The RFP Programme funds teams to build defined specs, paid per milestone.",
+          "label": "RFP Program",
+          "body": "Need funding before you build? The RFP Program funds teams to build defined specs, paid per milestone.",
           "cta": {
             "label": "Explore RFPs",
             "href": "/builders-hub/rfps"
