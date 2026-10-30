@@ -473,11 +473,11 @@
   line-height: 26px;
   letter-spacing: -0.24px;
 }
-.dp-resources li > .dp-mono:first-child {
+.dp-resource-name > .dp-mono:first-child {
   font-weight: 600;
   line-height: 12px;
 }
-.dp-resources li > .dp-cta {
+.dp-resource-details > .dp-cta {
   align-self: center;
 }
 .dp-desktop-break {
@@ -499,8 +499,13 @@
   .dp-resources li {
     grid-template-columns: 107px 583px minmax(0, 1fr) auto;
   }
-  .dp-resources li > .dp-cta {
+  .dp-resource-details > .dp-cta {
     position: relative;
     top: 0.5px;
   }
+}
+
+.dp-resource-name,
+.dp-resource-details {
+  display: contents;
 }

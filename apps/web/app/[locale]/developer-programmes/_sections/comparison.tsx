@@ -10,7 +10,7 @@ interface ComparisonProps extends Pick<
 
 export function Comparison({ heading, programmes }: ComparisonProps) {
   return (
-    <section className="dp-comparison">
+    <section className="dp-comparison dp-desktop-only">
       <h2 className="dp-section-heading">{heading}</h2>
       <div className="dp-comparison-grid">
         {programmes.map((programme) => (

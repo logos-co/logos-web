@@ -260,6 +260,74 @@
             }
           }
         ]
+      },
+      "mobile": {
+        "heroTitle": "Build the\nParallel.",
+        "heroSubtitle": "RFPs and {mark}Prize —",
+        "heroDescription": "Developer programmes that let you earn rewards.",
+        "comparisonHeading": "How they\ndiffer.",
+        "choiceHeading": "Which one\nfits you?",
+        "statementEyebrow": "Why these programs exist",
+        "showDetails": "Show details",
+        "hideDetails": "Hide details",
+        "programmeImages": [
+          {
+            "src": "/images/developer-programmes/rfp.webp",
+            "alt": ""
+          },
+          {
+            "src": "/images/developer-programmes/prize.webp",
+            "alt": ""
+          }
+        ],
+        "comparisonTags": [
+          "Funded up front",
+          "Paid on adoption"
+        ],
+        "comparisonRows": [
+          {
+            "label": "How you start",
+            "values": [
+              "Submit a proposal",
+              "Learn the problem. Talk to users. Then build."
+            ]
+          },
+          {
+            "label": "Who gets selected",
+            "values": [
+              "One team, before work begins",
+              "The first solution that meets every criterion"
+            ]
+          },
+          {
+            "label": "When you get paid",
+            "values": [
+              "As each milestone is delivered",
+              "Once, when your solution is picked as the winner"
+            ]
+          },
+          {
+            "label": "What's judged",
+            "values": [
+              "Delivery to a fixed spec",
+              "Working code plus\nreal adoption"
+            ]
+          },
+          {
+            "label": "Typical work",
+            "values": [
+              "Building blocks, protocols, infrastructure",
+              "Applications, SDKs, running a node or protocol"
+            ]
+          },
+          {
+            "label": "Best for",
+            "values": [
+              "Teams with a track record",
+              "Teams looking to launch a successful product or business"
+            ]
+          }
+        ]
       }
     }
   ]

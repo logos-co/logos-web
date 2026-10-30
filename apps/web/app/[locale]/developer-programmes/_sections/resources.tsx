@@ -12,12 +12,16 @@ export function Resources({
       <ol>
         {copy.items.map((item, index) => (
           <li key={item.title}>
-            <span className="dp-mono">
-              {String(index + 1).padStart(2, '0')}
-            </span>
-            <h3>{item.title}</h3>
-            <p className="dp-mono">{item.body}</p>
-            <Cta link={item.cta} variant="tertiary" />
+            <div className="dp-resource-name">
+              <span className="dp-mono">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3>{item.title}</h3>
+            </div>
+            <div className="dp-resource-details">
+              <p className="dp-mono">{item.body}</p>
+              <Cta link={item.cta} variant="tertiary" />
+            </div>
           </li>
         ))}
       </ol>

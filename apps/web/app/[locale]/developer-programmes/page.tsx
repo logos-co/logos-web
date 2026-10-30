@@ -10,12 +10,15 @@ import { Choices } from './_sections/choices'
 import { Comparison } from './_sections/comparison'
 import { Hero } from './_sections/hero'
 import { Principles } from './_sections/principles'
+import { MobileProgrammes } from './_sections/mobile-programmes'
+import { MobileComparison } from './_sections/mobile-comparison'
 import { Programmes } from './_sections/programmes'
 import { Resources } from './_sections/resources'
 import { Statement } from './_sections/statement'
 import { programmeMono } from './fonts'
 import './developer-programmes.css'
 import './responsive.css'
+import './mobile.css'
 
 interface PageProps {
   params: Promise<{ locale: string }>
@@ -42,19 +45,26 @@ export default async function Page({ params }: PageProps) {
     <div
       className={`developer-programmes text-small-compact ${programmeMono.variable}`}
     >
-      <Hero copy={copy.hero} />
+      <Hero copy={copy.hero} mobile={copy.mobile} />
       <Programmes programmes={copy.programmes} />
+      <MobileProgrammes programmes={copy.programmes} mobile={copy.mobile} />
+      <MobileComparison programmes={copy.programmes} mobile={copy.mobile} />
       <Comparison
         heading={copy.comparisonHeading}
         programmes={copy.programmes}
       />
       <Choices
         heading={copy.choiceHeading}
+        mobileHeading={copy.mobile.choiceHeading}
         programmes={copy.programmes}
         help={copy.choiceHelp}
       />
       <Principles copy={copy.principles} />
-      <Statement copy={copy.statement} programmes={copy.programmes} />
+      <Statement
+        copy={copy.statement}
+        programmes={copy.programmes}
+        mobileEyebrow={copy.mobile.statementEyebrow}
+      />
       <Resources copy={copy.resources} />
     </div>
   )

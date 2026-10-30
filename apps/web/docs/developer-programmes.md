@@ -16,7 +16,13 @@ Each programme has a `tag` for its image panel and a separate `comparisonTag` fo
 
 The [Figma frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3270-17265) is 1440px wide. Newline escapes (`\n`) in body copy preserve its desktop line endings at widths of 1440px and above. Edit these breaks with the copy and review the result at 1440px. Below that width, copy wraps to the available space; the large programme and statement headings retain their deliberate breaks.
 
-Below 1440px, page CTAs have a minimum 44px touch target. Desktop CTA dimensions retain the Figma measurements.
+## Mobile layout
+
+Below 768px, the page follows the [393px mobile frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3328-17344) and [expanded Prize card](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3378-19248). Programme cards start closed and can be expanded independently. The comparison uses paired columns, followed by centred choice capsules, ruled principles, a compact statement and resource rows.
+
+The section's `mobile` object owns mobile-only headings, hero description, toggle labels, card images, comparison tags and comparison rows. These retain the supplied mobile frame's wording even where it differs from desktop. Shared programme descriptions, statistics, opportunities and links continue to use `programmes`. The statement's paragraphs share the desktop copy with mobile typography. CMS editors should review both variants when changing copy. Existing CMS drafts need refreshing from the fixture to include the required `mobile` object.
+
+Mobile CTA dimensions follow Figma. Tablet widths from 768px to 1439px retain 44px minimum CTA targets. Desktop CTA dimensions retain the Figma measurements.
 
 The RFP statistics give the longer delivery-time value a wider middle column on desktop, correcting an overlap in the supplied Figma frame without changing the copy or type size. Edited statistics wrap within their columns.
 

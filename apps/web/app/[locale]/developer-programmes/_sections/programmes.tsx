@@ -6,7 +6,7 @@ export function Programmes({
   programmes,
 }: Pick<DeveloperProgrammesCopySection, 'programmes'>) {
   return (
-    <section className="dp-programmes">
+    <section className="dp-programmes dp-desktop-only">
       {programmes.map((programme) => (
         <article
           key={programme.id}

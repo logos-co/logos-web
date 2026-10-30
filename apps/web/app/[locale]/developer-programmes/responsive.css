@@ -196,11 +196,11 @@
     gap: 8px;
     padding: 16px 12px;
   }
-  .dp-resources li > p {
+  .dp-resource-details > p {
     grid-column: 2;
     grid-row: 2;
   }
-  .dp-resources li > .dp-cta {
+  .dp-resource-details > .dp-cta {
     grid-column: 3;
     grid-row: 1 / 3;
   }
@@ -279,7 +279,7 @@
   .dp-resources li {
     grid-template-columns: 24px minmax(0, 1fr);
   }
-  .dp-resources li > .dp-cta {
+  .dp-resource-details > .dp-cta {
     grid-column: 2;
     grid-row: 3;
     justify-self: start;
