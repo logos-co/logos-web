@@ -5,5 +5,8 @@ Reference for the public web app in [`apps/web`](../README.md). These docs cover
 - [basecamp-release.md](basecamp-release.md): how the Basecamp install CTAs resolve download URLs, and which GitHub releases the build accepts
 - [media-calendar.md](media-calendar.md): the `/media/calendar` page and the shared `EventsCalendar` it uses
 - [fonts.md](fonts.md): the fonts [`app/fonts.ts`](../app/fonts.ts) loads, and which files are committed
+- [developer-programmes.md](developer-programmes.md): editable programme copy, desktop line breaks and the developer programmes route
+
+- [lambda-prize.md](lambda-prize.md): editable v3 prize content, responsive layout and image generation
 
 Rules for coding agents are in [AGENTS.md](../AGENTS.md).

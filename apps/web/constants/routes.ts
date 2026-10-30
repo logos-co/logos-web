@@ -34,6 +34,7 @@ export const ROUTES = {
   ideas: '/builders-hub/ideas',
   rfps: '/builders-hub/rfps',
   lambdaPrize: '/lambda-prize',
+  developerProgrammes: '/developer-programmes',
 
   // Circles
   activeCircles: '/active-circles',

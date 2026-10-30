@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 
-import { activistBuilderCopySectionSchema, activistLeaderStewardCopySectionSchema, bookCopySectionSchema, coalitionPartnerCopySectionSchema, getStartedCopySectionSchema, lambdaPrizeCopySectionSchema, movementCopySectionSchema, nodeProgrammeCopySectionSchema, operatorsCopySectionSchema, pageSectionSchema, researchCopySectionSchema } from '../pages'
+import { activistBuilderCopySectionSchema, activistLeaderStewardCopySectionSchema, bookCopySectionSchema, coalitionPartnerCopySectionSchema, getStartedCopySectionSchema, movementCopySectionSchema, nodeProgrammeCopySectionSchema, operatorsCopySectionSchema, pageSectionSchema, researchCopySectionSchema } from '../pages'
 
 test('getStartedCopy parses a minimal valid value and routes through the union', () => {
   const value = {
@@ -142,27 +142,6 @@ test('operatorsCopy parses a minimal valid value and routes through the union', 
   }
   assert.equal(operatorsCopySectionSchema.parse(value).componentType, 'operatorsCopy')
   assert.equal(pageSectionSchema.parse(value).componentType, 'operatorsCopy')
-})
-
-test('lambdaPrizeCopy parses a minimal valid value and routes through the union', () => {
-  const row = { label: 'l', body: 'b' }
-  const value = {
-    componentType: 'lambdaPrizeCopy',
-    key: 'lambdaPrize.copy',
-    hero: { label: 'Prize', heading: 'The frontier is open.', body: 'Build on Logos.', primaryCta: 'View Prizes', secondaryCta: 'Builder Hub' },
-    howItWorks: { heading: 'How It Works', rows: [row] },
-    evaluation: { heading: 'Evaluation Criteria', primaryCta: 'View Prizes', secondaryCta: 'Discord', rows: [row] },
-    featured: {
-      heading: 'Featured Prizes',
-      status: 'Open',
-      prizes: [{ meta: { id: 'LP-0001', effort: 'Effort: Small', prize: 'Prize: $100' }, title: 'Test Prize', body: 'Prize body.', url: 'https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0001.md' }],
-    },
-    about: { heading: 'About', body: 'About body.', primaryCta: 'View Prizes', secondaryCta: 'Start Building', rows: [row] },
-    techStack: { startBuildingCta: 'Start Building', docsCta: 'View the docs' },
-    support: { heading: 'Get Support', body: 'Find examples.', cta: 'Help Center', rows: [{ label: 'Sample Apps', body: 'Explore.', action: 'View' }] },
-  }
-  assert.equal(lambdaPrizeCopySectionSchema.parse(value).componentType, 'lambdaPrizeCopy')
-  assert.equal(pageSectionSchema.parse(value).componentType, 'lambdaPrizeCopy')
 })
 
 test('activistBuilderCopy parses a minimal valid value and routes through the union', () => {

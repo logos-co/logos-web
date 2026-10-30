@@ -1,60 +1,83 @@
-/**
- * Shared presentational atoms for the Lambda Prize page sections.
- */
-import { ButtonArrowIcon } from '@/components/ui'
+import { Fragment } from 'react'
+import { Button, ButtonArrowIcon, LogosMark } from '@acid-info/logos-ui'
+
 import { Link } from '@/i18n/navigation'
 
-import type { RowCopy } from './types'
-
-export function TertiaryCta({
-  href,
-  children,
-  tone = 'dark',
-}: {
+export interface PageLink {
+  label: string
   href: string
-  children: string
-  tone?: 'dark' | 'light'
-}) {
-  const isExternal = /^https?:\/\//.test(href)
+}
 
+export function Cta({
+  link,
+  variant = 'primary',
+}: {
+  link: PageLink
+  variant?: 'primary' | 'secondary' | 'tertiary'
+}) {
   return (
-    <Link
-      href={href}
-      {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      className={`inline-flex cursor-pointer items-center gap-1 border-b pb-0.5 font-mono text-xs font-semibold uppercase leading-[1.35] ${
-        tone === 'light'
-          ? 'border-brand-off-white/50 text-brand-off-white'
-          : 'border-brand-dark-green/50 text-brand-dark-green'
-      }`}
+    <Button
+      href={link.href}
+      linkAs={Link}
+      variant={variant}
+      className="lp-cta cursor-pointer"
+      icon={
+        <span className="lp-arrow">
+          <ButtonArrowIcon />
+        </span>
+      }
     >
-      {children}
-      <ButtonArrowIcon />
-    </Link>
+      {link.label}
+    </Button>
   )
 }
 
-export function DataRows({
-  rows,
-  lastBorder = true,
+export function Copy({ children }: { children: string }) {
+  return children.split('{mark}').map((part, index) => (
+    <Fragment key={index}>
+      {index > 0 && (
+        <span className="lp-inline-mark">
+          <LogosMark
+            size={10.64}
+            width={7.74}
+            viewBox="0 0 19.1176 26"
+            preserveAspectRatio="none"
+          />
+          <span className="sr-only">Lambda</span>
+        </span>
+      )}
+      {part}
+    </Fragment>
+  ))
+}
+
+export function Lines({ children }: { children: string }) {
+  return children.split('\n').map((line, index, lines) => (
+    <Fragment key={index}>
+      <Copy>{line}</Copy>
+      {index < lines.length - 1 &&
+        (line === '' || lines[index + 1] === '' ? (
+          <br />
+        ) : (
+          <>
+            <br className="lp-desktop-break" />
+            {!line.endsWith('-') && <span className="lp-reflow-space"> </span>}
+          </>
+        ))}
+    </Fragment>
+  ))
+}
+
+export function SectionMeta({
+  copy,
 }: {
-  rows: RowCopy[]
-  lastBorder?: boolean
+  copy: { eyebrow: string; body: string; cta: PageLink }
 }) {
   return (
-    <div className="flex flex-col">
-      {rows.map((row, index) => (
-        <div
-          key={`${row.label}-${index}`}
-          className={`flex min-h-[36px] min-w-0 flex-col border-t border-brand-dark-green/50 py-3 lg:grid lg:min-h-[31px] lg:grid-cols-2 ${
-            lastBorder ? 'last:border-b' : ''
-          }`}
-        >
-          <p className="text-eyebrow min-w-0 uppercase">{row.label}</p>
-          <p className="text-mono-s min-w-0 pr-2 break-words [overflow-wrap:anywhere]">
-            {row.body}
-          </p>
-        </div>
-      ))}
+    <div className="lp-section-meta">
+      <p className="lp-eyebrow">{copy.eyebrow}</p>
+      <p className="lp-mono">{copy.body}</p>
+      <Cta link={copy.cta} variant="tertiary" />
     </div>
   )
 }
