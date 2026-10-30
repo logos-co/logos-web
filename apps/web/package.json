@@ -28,7 +28,8 @@
     "test:static": "tsx scripts/static-export-smoke.ts && tsx test/static-export/accessibility.test.ts && tsx test/static-export/navigation.test.ts",
     "test:watch": "vitest",
     "generate:zines": "tsx scripts/generate-zine-assets.ts",
-    "generate:programme-images": "tsx scripts/generate-programme-images.ts"
+    "generate:programme-images": "tsx scripts/generate-programme-images.ts",
+    "generate:lambda-prize-images": "tsx scripts/generate-lambda-prize-images.ts"
   },
   "dependencies": {
     "@acid-info/logos-tokens": "workspace:*",

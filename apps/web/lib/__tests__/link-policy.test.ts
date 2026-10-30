@@ -232,12 +232,9 @@ describe('link policy', () => {
   })
 
   it('routes the Lambda Prize Discord CTA to the shared Discord link', () => {
-    const lambdaPrizePage = readFileSync(
-      join(webRoot, 'app/[locale]/lambda-prize/_sections/how-it-works.tsx'),
-      'utf8'
-    )
     const lambdaPrizeSection = lambdaPrizeContentPage.sections[0] as {
-      evaluation: { secondaryCta: string }
+      hero: { secondaryCta: { href: string } }
+      finalCta: { secondaryCta: { href: string } }
     }
     const footerDiscordLink = footer.socialLinks.find(
       (link) => link.label === 'Discord'
@@ -250,10 +247,8 @@ describe('link policy', () => {
         external: true,
       })
     )
-    expect(lambdaPrizeSection.evaluation.secondaryCta).toBe(
-      'Connect with the team on Discord'
-    )
-    expect(lambdaPrizePage).toContain('href={EXTERNAL_URLS.discord}')
+    expect(lambdaPrizeSection.hero.secondaryCta.href).toBe(discordHref)
+    expect(lambdaPrizeSection.finalCta.secondaryCta.href).toBe(discordHref)
   })
 
   it('routes homepage builder support cards to their external repositories', () => {

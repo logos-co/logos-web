@@ -1,72 +1,53 @@
-import Image from 'next/image'
+import type { LambdaPrize, LambdaPrizeCopySection } from '@repo/content/schemas'
 
-import ContentWidth from '@/components/layout/content-width'
-import { Button } from '@/components/ui'
-
-import type { LambdaPrizePageCopy, PrizeCopy } from './types'
-
-const prizeImages = [
-  '/images/lambda-prize/prize-1.webp',
-  '/images/lambda-prize/prize-2.webp',
-  '/images/lambda-prize/prize-3.webp',
-]
-
-function PrizeCard({ prize, image }: { prize: PrizeCopy; image: string }) {
-  return (
-    <article className="relative h-[551px] overflow-hidden rounded-xl text-brand-off-white">
-      <Image
-        src={image}
-        alt=""
-        fill
-        sizes="33vw"
-        className="scale-105 object-cover blur-[6px]"
-      />
-      <div className="absolute inset-0 bg-brand-dark-green/35" />
-      <div className="relative z-10 flex h-full flex-col justify-between p-3">
-        <div className="flex min-w-0 items-start justify-between gap-3">
-          <div className="text-mono-s flex flex-col">
-            {prize.meta.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </div>
-          <span className="text-mono-s shrink-0 rounded-[4px] bg-[#c8f1ff] px-6 py-2 text-brand-dark-green">
-            {prize.status}
-          </span>
-        </div>
-        <div className="mx-auto flex w-[220px] flex-col items-center gap-6 text-center">
-          <h3 className="text-h4-serif">{prize.title}</h3>
-          <Button
-            href={prize.href}
-            className="cursor-pointer bg-brand-off-white text-brand-dark-green"
-          >
-            Learn More
-          </Button>
-        </div>
-        <p className="text-mono-s w-[276px] max-w-full">{prize.body}</p>
-      </div>
-    </article>
-  )
-}
+import { Cta, Lines, SectionMeta } from './atoms'
+import { Picture } from './picture'
 
 export function FeaturedPrizes({
   copy,
+  prizes,
 }: {
-  copy: LambdaPrizePageCopy['featured']
+  copy: LambdaPrizeCopySection['featured']
+  prizes: LambdaPrize[]
 }) {
   return (
-    <section className="mt-25 bg-brand-off-white px-0 text-brand-dark-green lg:mt-50 lg:px-3">
-      <ContentWidth>
-        <h2 className="text-h3-serif">{copy.heading}</h2>
-        <div className="mt-10 grid grid-cols-1 gap-4 lg:grid-cols-3 lg:mt-12">
-          {copy.prizes.map((prize, index) => (
-            <PrizeCard
-              key={`${prize.title}-${index}`}
-              prize={prize}
-              image={prizeImages[index % prizeImages.length]}
-            />
+    <section className="lp-featured" aria-labelledby="featured-heading">
+      <SectionMeta copy={copy} />
+      <h2 id="featured-heading" className="lp-section-heading">
+        {copy.heading}
+      </h2>
+      <div className="lp-prize-grid">
+        {prizes
+          .filter((prize) => prize.featured)
+          .map((prize) => (
+            <article key={prize.id} className="lp-featured-card">
+              {prize.featured && (
+                <div className="lp-featured-image">
+                  <Picture
+                    image={prize.featured.image}
+                    sizes="(min-width: 1440px) 440px, (min-width: 768px) 50vw, 100vw"
+                  />
+                  <span className="lp-tag lp-mono">{prize.statusLabel}</span>
+                </div>
+              )}
+              <div className="lp-featured-copy">
+                <p className="lp-eyebrow">{prize.id}</p>
+                <p className="lp-display lp-amount-featured">{prize.amount}</p>
+                <h3 className="lp-sans-title">
+                  <Lines>{prize.title}</Lines>
+                </h3>
+                <p className="lp-small lp-muted">
+                  <Lines>{prize.featured?.body ?? prize.body}</Lines>
+                </p>
+              </div>
+              {prize.cta && (
+                <div className="lp-featured-link">
+                  <Cta link={prize.cta} variant="tertiary" />
+                </div>
+              )}
+            </article>
           ))}
-        </div>
-      </ContentWidth>
+      </div>
     </section>
   )
 }

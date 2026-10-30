@@ -3,152 +3,435 @@
   "language": "en",
   "route": "/lambda-prize",
   "title": "Lambda Prize | Logos",
-  "description": "Lambda Prize is a competitive prize framework for developers building privacy-preserving software on the Logos stack.",
+  "description": "Lambda Prize rewards products built on the Logos stack that find real users. Explore open prizes, success criteria and rewarded solutions.",
   "sections": [
     {
       "componentType": "lambdaPrizeCopy",
       "key": "lambdaPrize.copy",
       "hero": {
-        "label": "Prize",
-        "heading": "The frontier is open.\nBuild what's next.",
-        "body": "Prize is the competitive prize framework powering the Logos network. A programme to accelerate real applications built on the Logos stack.",
-        "primaryCta": "View Prizes",
-        "secondaryCta": "Start Building"
-      },
-      "howItWorks": {
-        "heading": "How It Works",
-        "rows": [
+        "breadcrumb": {
+          "label": "Developer programmes",
+          "href": "/developer-programmes"
+        },
+        "breadcrumbCurrent": "Lambda Prize",
+        "title": "Prize",
+        "heading": "Launch something people use.\nGet rewarded.",
+        "body": "{mark} Prize rewards products built on the Logos stack that find real users,\nwhether you build them, reuse what exists, or both. No applications or\nproposals necessary - just build the first solution that meets every\ncriterion to win.",
+        "primaryCta": {
+          "label": "See open prizes",
+          "href": "#open-prizes"
+        },
+        "secondaryCta": {
+          "label": "Join #builder-hub",
+          "href": "https://discord.gg/Ykv4eZyHUJ"
+        },
+        "jumpLinks": [
           {
-            "label": "01",
-            "body": "Prizes are broken into three categories - small, medium, and large."
+            "label": "How it works",
+            "href": "#how-it-works"
           },
           {
-            "label": "02",
-            "body": "All prizes are listed in the GitHub repository."
+            "label": "Open prizes",
+            "href": "#open-prizes"
           },
           {
-            "label": "03",
-            "body": "Submissions are made as pull requests to the repository."
-          },
-          {
-            "label": "04",
-            "body": "Prizes will remain open until they are claimed or explicitly closed."
-          },
-          {
-            "label": "05",
-            "body": "Proposals are evaluated based on specific criteria outlined for each prize."
-          },
-          {
-            "label": "06",
-            "body": "Winners will be notified directly, after which rewards will be issued."
+            "label": "Already rewarded",
+            "href": "#already-rewarded"
           }
-        ]
-      },
-      "evaluation": {
-        "heading": "Evaluation Criteria",
-        "primaryCta": "View Prizes",
-        "secondaryCta": "Connect with the team on Discord",
-        "rows": [
+        ],
+        "image": {
+          "src": "/images/lambda-prize/v3/stadium.webp",
+          "alt": ""
+        },
+        "stats": [
           {
-            "label": "Step 1",
-            "body": "Pre-Screen Checklist: Submissions are reviewed by Logos core contributors to ensure baseline criteria are met."
+            "id": "open",
+            "value": "5",
+            "label": "PRIZES OPEN NOW"
           },
           {
-            "label": "Step 2",
-            "body": "Technical Evaluation: Logos core contributors will clone submission repositories to a clean environment and run a demo script without modification to verify success criteria and spot-check code quality and architecture."
+            "id": "total",
+            "value": "$34,000",
+            "label": "IN OPEN PRIZES"
+          },
+          {
+            "id": "largest",
+            "value": "$20,000",
+            "label": "LARGEST OPEN PRIZE"
+          },
+          {
+            "id": "awarded",
+            "value": "11",
+            "label": "PRIZES AWARDED"
           }
         ]
       },
       "featured": {
-        "heading": "Featured Prizes",
-        "status": "Open",
-        "prizes": [
-          {
-            "meta": {
-              "id": "LP-0018",
-              "effort": "Effort: Medium",
-              "prize": "Prize: $1,500"
-            },
-            "title": "OpenStreetMap Integration — Decentralised Map Data Distribution",
-            "body": "This prize funds an OpenStreetMap (OSM) data distribution system for the Logos ecosystem. Users can browse available map regions, host map data in Logos Storage, and download map files whose integrity is guaranteed by content-addressing (CID), with import-time checksum verification against Geofabrik.",
-            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0018.md"
-          },
-          {
-            "meta": {
-              "id": "LP-0021",
-              "effort": "Effort: X-Large",
-              "prize": "Prize: $20,000"
-            },
-            "title": "LEZ Wallet and Provider SDK",
-            "body": "This prize is for a Logos wallet module scoped to a single Logos Execution Zone (LEZ): a wallet experience that manages assets on a LEZ zone, including the token program, multiple accounts (public and private), and a developer-facing Wallet Provider SDK with wallet selection and approval flows for third-party dApps.",
-            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0021.md"
-          },
-          {
-            "meta": {
-              "id": "LP-0023",
-              "effort": "Effort: Medium",
-              "prize": "Prize: $2,000"
-            },
-            "title": "LEZ Program Registry",
-            "body": "This prize is for a program registry for the Logos Execution Zone (LEZ): a product that lets developers publish their deployed programs together with human-readable metadata and a pointer to the program's IDL and source code, and lets anyone browse, search, and verify those entries through a CLI, an SDK, and a Logos Core Module.",
-            "url": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0023.md"
-          }
-        ]
+        "eyebrow": "FEATURED PRIZES",
+        "heading": "Featured prizes",
+        "body": "Three prizes to start with. Every open prize is listed further down.",
+        "cta": {
+          "label": "See all open prizes",
+          "href": "#open-prizes"
+        }
       },
-      "about": {
-        "heading": "About the Programme",
-        "body": "The systems that were supposed to protect us, the institutions, the corporations, the platforms, have been captured. They surveil us, extract from us, and make decisions on our behalf without our consent. We are not asking them to change. Lambda Prize is for the builders who want to create the alternative.",
-        "primaryCta": "View Prizes",
-        "secondaryCta": "Start Building",
+      "prizes": [
+        {
+          "id": "LP-0021",
+          "status": "open",
+          "statusLabel": "OPEN · X-LARGE",
+          "title": "LEZ Wallet and Provider SDK",
+          "body": "A wallet for a single LEZ zone, with public and private\naccounts and an SDK for third-party apps.",
+          "amount": "$20,000",
+          "cta": {
+            "label": "Learn more",
+            "href": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0021.md"
+          },
+          "featured": {
+            "image": {
+              "src": "/images/lambda-prize/v3/wallet.webp",
+              "alt": ""
+            },
+            "body": "A wallet for a single LEZ zone, with public and private\naccounts and an SDK for third-party apps."
+          }
+        },
+        {
+          "id": "LP-0026",
+          "status": "open",
+          "statusLabel": "OPEN · LARGE",
+          "title": "Forum App",
+          "body": "A public forum with privacy at its core, for open discussion\nwithout surveillance.",
+          "amount": "$5,500",
+          "cta": {
+            "label": "Learn more",
+            "href": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0026.md"
+          },
+          "featured": {
+            "image": {
+              "src": "/images/lambda-prize/v3/forum.webp",
+              "alt": ""
+            },
+            "body": "A public forum with privacy at its core, for open discussion\nwithout surveillance."
+          }
+        },
+        {
+          "id": "LP-0001",
+          "status": "open",
+          "statusLabel": "OPEN · MEDIUM",
+          "title": "NFT Wallet Support and Private\nOwnership Proof",
+          "body": "NFT support for the LEZ wallet, plus proof you hold an\nNFT from a collection without revealing which one.",
+          "amount": "$5,000",
+          "cta": {
+            "label": "Learn more",
+            "href": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0001.md"
+          },
+          "featured": {
+            "image": {
+              "src": "/images/lambda-prize/v3/nft.webp",
+              "alt": ""
+            },
+            "body": "Prove you hold an NFT from a collection without revealing\nwhich one."
+          }
+        },
+        {
+          "id": "LP-0023",
+          "status": "open",
+          "statusLabel": "OPEN · MEDIUM",
+          "title": "LEZ Program Registry",
+          "body": "A registry that turns program IDs into named, searchable,\nsource-verified entries.",
+          "amount": "$2,000",
+          "cta": {
+            "label": "Learn more",
+            "href": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0023.md"
+          }
+        },
+        {
+          "id": "LP-0018",
+          "status": "open",
+          "statusLabel": "OPEN · MEDIUM",
+          "title": "OpenStreetMap Integration",
+          "body": "Map data distributed through Logos Storage, with\nintegrity checks.",
+          "amount": "$1,500",
+          "cta": {
+            "label": "Learn more",
+            "href": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0018.md"
+          }
+        },
+        {
+          "id": "LP-0022",
+          "status": "coming-soon",
+          "statusLabel": "COMING SOON · LARGE",
+          "title": "Combined Blockchain and Zone\nWallet",
+          "body": "One wallet across the Logos blockchain and any number of\nLEZ zones, with staking and bridging.",
+          "amount": "$10,000"
+        }
+      ],
+      "howItWorks": {
+        "eyebrow": "HOW IT WORKS",
+        "heading": "How it works.",
+        "steps": [
+          {
+            "number": "01",
+            "title": "Pick a prize.",
+            "body": "Each prize lists what to build, the\nsuccess criteria, and the payout."
+          },
+          {
+            "number": "02",
+            "title": "Talk to users.",
+            "body": "Find out what people would\nactually use before you write\ncode."
+          },
+          {
+            "number": "03",
+            "title": "Plan and build.",
+            "body": "Build or reuse. If something\nalready does the job, use it. You\nmay not need to build much, or\nanything at all."
+          },
+          {
+            "number": "04",
+            "title": "Grow Adoption.",
+            "body": "Every prize requires real\nadoption. Release early so usage\ngrows from day one."
+          },
+          {
+            "number": "05",
+            "title": "Claim it.",
+            "body": "Open a solution PR with\nevidence for each criterion."
+          },
+          {
+            "number": "06",
+            "title": "Get paid.",
+            "body": "The prize is paid in USDT when\nthe submission is picked as the\nwinner."
+          }
+        ],
+        "requirements": {
+          "eyebrow": "REQUIREMENTS",
+          "heading": "Real users and a\nsolution that works\nfor them.",
+          "cards": [
+            {
+              "eyebrow": "REQUIREMENT 1",
+              "title": "It's used.",
+              "body": "Each prize lists the adoption it needs. The LEZ Program Registry\nprize asks for:",
+              "metrics": [
+                {
+                  "value": "5",
+                  "label": "independent apps using your SDK"
+                },
+                {
+                  "value": "50",
+                  "label": "programs registered by 20+ authors over two months"
+                },
+                {
+                  "value": "40",
+                  "label": "public testimonials on Discord and X"
+                }
+              ]
+            },
+            {
+              "eyebrow": "REQUIREMENT 2",
+              "title": "It works.",
+              "body": "Your product does what the prize asks, for the people using it.\nBuild it, reuse what exists, or combine the two. Evaluators check\nit against every success criterion."
+            }
+          ],
+          "footnote": "Manufactured volume doesn't count. Evaluators check account history and commit history."
+        }
+      },
+      "rules": {
+        "eyebrow": "THE RULES",
+        "heading": "The Rules",
+        "body": "Five rules apply to every prize.",
+        "image": {
+          "src": "/images/lambda-prize/v3/rules.webp",
+          "alt": ""
+        },
         "rows": [
           {
-            "label": "Real outcomes, not proposals",
-            "body": "Prizes reward code that meets defined criteria."
+            "title": "First valid solution wins.",
+            "body": "Priority goes to the first solution PR that meets every criterion."
           },
           {
-            "label": "A stack that is private by default",
-            "body": "Privacy is a requirement for sovereignty. Build applications that simply can't exist elsewhere."
+            "title": "Pass or fail.",
+            "body": "Evaluation feedback is pass or fail. For detail, ask evaluators in\n#builder-hub."
           },
           {
-            "label": "Builders get support on their journey",
-            "body": "Regular office hours, livestreams, and direct access to the ecosystem development engineering team to support you."
+            "title": "Open source.",
+            "body": "Solutions ship under MIT and Apache 2.0."
+          },
+          {
+            "title": "Open to anyone.",
+            "body": "Any individual or team can enter. Logos contributors and their\ncontractors can't."
+          },
+          {
+            "title": "Build in public.",
+            "body": "It's expected. Claiming someone else's in-progress work isn't."
+          }
+        ],
+        "cta": {
+          "label": "Read the full terms",
+          "href": "https://github.com/logos-co/lambda-prize/blob/master/TERMS.md"
+        }
+      },
+      "openPrizes": {
+        "eyebrow": "OPEN PRIZES",
+        "heading": "Open prizes",
+        "body": "Five open now, one coming soon.",
+        "cta": {
+          "label": "All prizes on GitHub",
+          "href": "https://github.com/logos-co/lambda-prize/tree/master/prizes"
+        }
+      },
+      "ownership": {
+        "eyebrow": "WHAT YOU KEEP",
+        "lines": [
+          {
+            "before": "Adoption",
+            "image": {
+              "src": "/images/lambda-prize/v3/adoption.webp",
+              "alt": ""
+            },
+            "after": "is your key"
+          },
+          {
+            "before": "to a place  ",
+            "image": {
+              "src": "/images/lambda-prize/v3/ecosystem.webp",
+              "alt": ""
+            },
+            "after": "in the ecosystem."
+          }
+        ],
+        "body": "Prizes grow the Logos applications and infrastructure others depend on,\nand adoption is the key to sustainability.\n\nAfter you win a prize, you keep your app, its users, and your place in the\ngrowing Logos ecosystem.",
+        "nextRound": {
+          "title": "There's a next round.",
+          "body": "Every open prize covers a first adoption tranche. Follow-up prizes with higher thresholds are\nexpected as the network grows. Ship the first version and you're first in line for the next."
+        }
+      },
+      "rewarded": {
+        "eyebrow": "Already rewarded",
+        "heading": "Already rewarded.",
+        "body": "11 prizes already have merged solutions.",
+        "cta": {
+          "label": "See past solutions",
+          "href": "https://github.com/logos-co/lambda-prize/tree/master/solutions"
+        },
+        "solutions": [
+          {
+            "id": "LP-0002",
+            "title": "Private M-of-N multisig",
+            "author": "by pramadanif",
+            "cta": {
+              "label": "View repo",
+              "href": "https://github.com/pramadanif/lp-0002-private-multisig"
+            }
+          },
+          {
+            "id": "LP-0016",
+            "title": "Anonymous forum with threshold moderation",
+            "author": "by jeefxM",
+            "cta": {
+              "label": "View repo",
+              "href": "https://github.com/jeefxM/LP-0016-Anonymous-forum-with-moderation"
+            }
+          },
+          {
+            "id": "LP-0017",
+            "title": "Censorship-resistant whistleblower app",
+            "author": "by aegonmyy",
+            "cta": {
+              "label": "View repo",
+              "href": "https://github.com/aegonmyy/logoz"
+            }
+          },
+          {
+            "id": "LP-0009",
+            "title": "Nostr signer for Keycard",
+            "author": "by mmlado",
+            "cta": {
+              "label": "View repo",
+              "href": "https://github.com/mmlado/nip46-keycard"
+            }
+          },
+          {
+            "id": "LP-0008",
+            "title": "Autonomous AI agent module",
+            "author": "by aegonmyy",
+            "cta": {
+              "label": "View repo",
+              "href": "https://github.com/aegonmyy/logos-agent"
+            }
+          },
+          {
+            "id": "LP-0005",
+            "title": "Private token balance attestation",
+            "author": "by edenbd1",
+            "cta": {
+              "label": "View repo",
+              "href": "https://github.com/edenbd1/lp-0005-private-token-balance-attestation"
+            }
           }
         ]
       },
-      "techStack": {
-        "startBuildingCta": "Start Building",
-        "docsCta": "View the docs"
-      },
-      "support": {
-        "heading": "Get Support",
-        "body": "Find examples, tutorials, and community channels for building on Logos.",
-        "cta": "Help Center",
-        "rows": [
+      "resources": {
+        "heading": "Resources",
+        "body": "Office hours, livestreams, and direct access to the ecosystem development team. Ask\nquestions in Discord or on the Logos Forum.",
+        "items": [
           {
-            "label": "Sample Apps",
-            "body": "Explore reference applications that demonstrate common Logos workflows.",
-            "action": "View",
-            "href": "https://github.com/logos-co/eth-lez-atomic-swaps"
+            "number": "01",
+            "title": "Docs",
+            "cta": {
+              "label": "View the docs",
+              "href": "https://docs.logos.co/"
+            }
           },
           {
-            "label": "Demos and Tutorials",
-            "body": "Follow practical walkthroughs for core stack concepts and integrations.",
-            "action": "View",
-            "href": "https://www.youtube.com/playlist?list=PLZe53tXAogqMdZSKhY316YKn3_tJ0RWZ7"
+            "number": "02",
+            "title": "Sample apps",
+            "cta": {
+              "label": "Browse",
+              "href": "https://github.com/logos-co/eth-lez-atomic-swaps"
+            }
           },
           {
-            "label": "Install Basecamp",
-            "body": "Set up Basecamp and start experimenting with bundled modules.",
-            "action": "Install",
-            "href": "/basecamp"
+            "number": "03",
+            "title": "Demos and tutorials",
+            "cta": {
+              "label": "Watch",
+              "href": "https://www.youtube.com/playlist?list=PLZe53tXAogqMdZSKhY316YKn3_tJ0RWZ7"
+            }
           },
           {
-            "label": "Connect with Logos",
-            "body": "Join the community channels for implementation support and feedback.",
-            "action": "Connect",
-            "href": "https://discord.gg/Ykv4eZyHUJ"
+            "number": "04",
+            "title": "Install Basecamp",
+            "cta": {
+              "label": "Install",
+              "href": "/basecamp"
+            }
+          },
+          {
+            "number": "05",
+            "title": "Logos Forum",
+            "cta": {
+              "label": "Visit",
+              "href": "https://forum.logos.co/"
+            }
           }
-        ]
+        ],
+        "rfp": {
+          "label": "RFP Programme",
+          "body": "Need funding before you build? The RFP Programme funds teams to build defined specs, paid per milestone.",
+          "cta": {
+            "label": "Explore RFPs",
+            "href": "/builders-hub/rfps"
+          }
+        }
+      },
+      "finalCta": {
+        "heading": "Pick a prize. Start building.",
+        "primaryCta": {
+          "label": "See open prizes",
+          "href": "#open-prizes"
+        },
+        "secondaryCta": {
+          "label": "Join Discord",
+          "href": "https://discord.gg/Ykv4eZyHUJ"
+        }
       }
     }
   ]

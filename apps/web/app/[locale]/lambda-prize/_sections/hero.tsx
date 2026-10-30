@@ -1,63 +1,72 @@
-import Image from 'next/image'
 import { LogosMark } from '@acid-info/logos-ui'
+import type { LambdaPrizeCopySection } from '@repo/content/schemas'
 
-import { CampaignHero } from '@/components/sections/shared/campaign-hero'
-import { Button } from '@/components/ui'
-import { LambdaLockup } from '@/components/ui/lambda-lockup'
-import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
+import { Link } from '@/i18n/navigation'
 
-import type { LambdaPrizePageCopy } from './types'
+import { Cta, Lines } from './atoms'
+import { Picture } from './picture'
 
-export function Hero({ copy }: { copy: LambdaPrizePageCopy['hero'] }) {
-  const headingLines = copy.heading.split('\n')
-
+export function Hero({ copy }: { copy: LambdaPrizeCopySection['hero'] }) {
   return (
-    <CampaignHero
-      background={
-        <>
-          <Image
-            src="/images/lambda-prize/hero.webp"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover blur-[2px] grayscale"
-            priority
-          />
-          <div className="absolute inset-0 bg-brand-dark-green/35" />
-        </>
-      }
-    >
-      <LambdaLockup className="text-h4-serif mb-12 [--lockup-font-size:24px]">
-        <span>{copy.label}</span>
-      </LambdaLockup>
-      <h1 className="w-full max-w-[369px] font-display text-[40px] leading-none tracking-[-0.03em] lg:max-w-none lg:text-[56px] lg:leading-[0.88]">
-        {headingLines.map((line) => (
-          <span key={line} className="block">
-            {line}
-          </span>
-        ))}
-      </h1>
-      <p className="text-mono-s mt-12 w-full max-w-[345px] lg:w-[462px] lg:max-w-full">
-        <span className="inline-flex items-baseline gap-1">
-          <LogosMark size={7} className="shrink-0" />
-          <span>{copy.body}</span>
-        </span>
-      </p>
-      <div className="mt-15 flex gap-1">
-        <Button
-          href={EXTERNAL_URLS.lambdaPrizes}
-          className="cursor-pointer bg-brand-off-white text-brand-dark-green"
-        >
-          {copy.primaryCta}
-        </Button>
-        <Button
-          href={ROUTES.getStarted}
-          variant="secondary"
-          className="cursor-pointer border-brand-off-white/50 text-brand-off-white"
-        >
-          {copy.secondaryCta}
-        </Button>
+    <section className="lp-hero" aria-labelledby="lambda-title">
+      <div className="lp-hero-meta">
+        <p className="lp-eyebrow">
+          <Link href={copy.breadcrumb.href} className="cursor-pointer">
+            {copy.breadcrumb.label}
+          </Link>{' '}
+          / {copy.breadcrumbCurrent}
+        </p>
+        <nav aria-label={copy.breadcrumbCurrent} className="lp-jump-links">
+          {copy.jumpLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="lp-eyebrow cursor-pointer"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
       </div>
-    </CampaignHero>
+      <div className="lp-hero-intro">
+        <h1 id="lambda-title" className="lp-title">
+          <LogosMark
+            size={113.4}
+            width="0.58909em"
+            height="0.81em"
+            viewBox="0 0 19.1176 26"
+            preserveAspectRatio="none"
+          />
+          <span className="sr-only">Lambda </span>
+          <span>{copy.title}</span>
+        </h1>
+        <div className="lp-intro-copy">
+          <p className="lp-sans-title lp-hero-heading">{copy.heading}</p>
+          <p className="lp-small lp-muted">
+            <Lines>{copy.body}</Lines>
+          </p>
+          <div className="lp-actions">
+            <Cta link={copy.primaryCta} />
+            <Cta link={copy.secondaryCta} variant="secondary" />
+          </div>
+        </div>
+      </div>
+      <div className="lp-stadium">
+        <Picture
+          image={copy.image}
+          sizes="(min-width: 1440px) 1416px, (min-width: 768px) 100vw, 768px"
+          priority
+        />
+        <div className="lp-stadium-shade" />
+        <dl className="lp-stats">
+          {copy.stats.map((stat) => (
+            <div key={stat.id} className={`lp-stat lp-stat-${stat.id}`}>
+              <dt className="lp-eyebrow">{stat.label}</dt>
+              <dd className="lp-display">{stat.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
   )
 }

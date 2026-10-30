@@ -28,7 +28,6 @@ import {
   coalitionPartnerCopySectionSchema,
   designGuideCopySectionSchema,
   getStartedCopySectionSchema,
-  lambdaPrizeCopySectionSchema,
   manifestoCopySectionSchema,
   mediaCalendarCopySectionSchema,
   mediaCopySectionSchema,
@@ -39,6 +38,9 @@ import {
   researchCopySectionSchema,
   roadmapCopySectionSchema,
 } from './pages/page-copy-sections'
+import { lambdaPrizeCopySectionSchema } from './pages/lambda-prize'
+export { lambdaPrizeCopySectionSchema } from './pages/lambda-prize'
+export type { LambdaPrizeCopySection, LambdaPrize } from './pages/lambda-prize'
 import { prifiCopySectionSchema } from './pages/prifi'
 import { basecampRenewalSectionSchema } from './pages/basecamp-renewal'
 import { developerProgrammesCopySectionSchema } from './pages/developer-programmes'
@@ -71,7 +73,6 @@ export type {
   CoalitionPartnerCopySection,
   DesignGuideCopySection,
   GetStartedCopySection,
-  LambdaPrizeCopySection,
   ManifestoCopySection,
   MediaCalendarCopySection,
   MediaCopySection,
@@ -96,7 +97,6 @@ export {
   coalitionPartnerCopySectionSchema,
   designGuideCopySectionSchema,
   getStartedCopySectionSchema,
-  lambdaPrizeCopySectionSchema,
   manifestoCopySectionSchema,
   mediaCalendarCopySectionSchema,
   mediaCopySectionSchema,
