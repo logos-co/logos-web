@@ -3,7 +3,7 @@
   "language": "en",
   "route": "/lambda-prize",
   "title": "Lambda Prize | Logos",
-  "description": "Lambda Prize is a competitive prize framework for developers shipping privacy-preserving software on the Logos stack.",
+  "description": "Lambda Prize is a competitive prize framework for developers building privacy-preserving software on the Logos stack.",
   "sections": [
     {
       "componentType": "lambdaPrizeCopy",
@@ -11,7 +11,7 @@
       "hero": {
         "label": "Prize",
         "heading": "The frontier is open.\nBuild what's next.",
-        "body": "Prize is the competitive prize framework powering the Logos network. A programme to accelerate real, shipped applications built on the Logos stack.",
+        "body": "Prize is the competitive prize framework powering the Logos network. A programme to accelerate real applications built on the Logos stack.",
         "primaryCta": "View Prizes",
         "secondaryCta": "Start Building"
       },
@@ -103,7 +103,7 @@
         "rows": [
           {
             "label": "Real outcomes, not proposals",
-            "body": "Prizes go to shipped code that meets defined criteria."
+            "body": "Prizes reward code that meets defined criteria."
           },
           {
             "label": "A stack that is private by default",
