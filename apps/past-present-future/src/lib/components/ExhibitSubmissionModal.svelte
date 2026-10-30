@@ -24,7 +24,7 @@
 	];
 	const identityFields = [
 		{ key: 'name', label: 'Name', help: 'Optional. You can use a pseudonym.', limit: 50 },
-		{ key: 'handle', label: 'X handle', help: 'Optional. Used to credit submissions during promotion.', limit: 15 }
+		{ key: 'handle', label: 'X handle', help: 'Optional. Used to credit submissions.', limit: 15 }
 	];
 
 	$effect(() => {
@@ -132,7 +132,7 @@
 			<p class="note" id="submission-success" role="status">Your exhibit suggestion has been sent to the museum team for review. We do not guarantee that all submissions will be included in the museum.</p>
 			<button class="submit" type="button" onclick={closeModal}>Back to the museum</button>
 		{:else}
-		<p id="submission-note" class="note">The Museum of Civil Liberties explores historic infringements on civil liberties. Please ensure your submission relates to a past event, not an ongoing one. Additionally, we do not guarantee that all exhibit submissions will be included in the museum.</p>
+		<p id="submission-note" class="note">The Museum of Civil Liberties explores historic infringements on civil liberties. Please ensure your submission relates to a past event, not an ongoing one. We cannot guarantee that all exhibit submissions will be included in the museum.</p>
 		<form onsubmit={submit} aria-busy={sending}>
 			<fieldset disabled={sending}>
 				<div class="honey" aria-hidden="true"><label for="submission-website">Leave this field empty</label><input id="submission-website" type="text" name="website" tabindex="-1" autocomplete="off" bind:value={values.website} /></div>

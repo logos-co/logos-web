@@ -1474,7 +1474,7 @@
 		</div>
 		<div class="hero-actions">
 			<button class="scrollcue" type="button" onclick={heroCtaClick}>Navigate the museum</button>
-			<button class="scrollcue submission-cta" type="button" onclick={openSubmission} aria-haspopup="dialog" aria-controls="exhibit-submission">Submit an exhibit to the museum</button>
+			<button class="scrollcue submission-cta" type="button" onclick={openSubmission} aria-haspopup="dialog" aria-controls="exhibit-submission">Submit an exhibit</button>
 		</div>
 	</section>
 
@@ -1690,7 +1690,7 @@
 	<footer class="loader" class:done={booted} aria-live="polite">
 		{#if booted}
 			<div class="loader-ctas">
-				<button class="loader-cta submission-cta" type="button" onclick={openSubmission} aria-haspopup="dialog" aria-controls="exhibit-submission">Submit an exhibit to the museum</button>
+				<button class="loader-cta submission-cta" type="button" onclick={openSubmission} aria-haspopup="dialog" aria-controls="exhibit-submission">Submit an exhibit</button>
 				<a
 					class="loader-cta"
 					href="/build-the-parallel"
