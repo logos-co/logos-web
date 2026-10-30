@@ -52,6 +52,33 @@ describe('Lambda Prize v3', () => {
     expect(html).toContain('https://github.com/example/new-solution')
   })
 
+  it('renders independently edited mobile copy from CMS without replacing desktop copy', () => {
+    const updated = structuredClone(copy)
+    updated.howItWorks.requirements.mobileHeading = 'Mobile requirements'
+    updated.rewarded.mobileHeading = 'Mobile solutions'
+    updated.resources.rfp.mobile = {
+      title: 'Mobile funding title',
+      body: 'Mobile funding description',
+    }
+    const html = render(updated)
+    for (const text of [
+      'Mobile requirements',
+      'Mobile solutions',
+      'Mobile funding title',
+      'Mobile funding description',
+      copy.rewarded.heading,
+      copy.resources.rfp.body,
+    ]) {
+      expect(html).toContain(text)
+    }
+    expect(() =>
+      lambdaPrizeCopySectionSchema.parse({
+        ...updated,
+        rewarded: { ...updated.rewarded, mobileHeading: '' },
+      })
+    ).toThrow()
+  })
+
   it('uses the same prize data for featured and open listings', () => {
     const updated = structuredClone(copy)
     updated.prizes[0].amount = '$21,000'

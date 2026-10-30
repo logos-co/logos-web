@@ -28,7 +28,11 @@ export function Resources({
       </div>
       <aside className="lp-rfp">
         <span className="lp-tag lp-eyebrow">{copy.rfp.label}</span>
-        <p className="lp-body">{copy.rfp.body}</p>
+        <p className="lp-body lp-desktop-copy">{copy.rfp.body}</p>
+        <div className="lp-mobile-copy lp-rfp-copy">
+          <h3 className="lp-sans-title">{copy.rfp.mobile.title}</h3>
+          <p className="lp-small">{copy.rfp.mobile.body}</p>
+        </div>
         <Cta link={copy.rfp.cta} />
       </aside>
     </section>

@@ -230,7 +230,8 @@
               "body": "Your product does what the prize asks, for the people using it.\nBuild it, reuse what exists, or combine the two. Evaluators check\nit against every success criterion."
             }
           ],
-          "footnote": "Manufactured volume doesn't count. Evaluators check account history and commit history."
+          "footnote": "Manufactured volume doesn't count. Evaluators check account history and commit history.",
+          "mobileHeading": "Two gates.\nReal users. A product\nthat works for them."
         }
       },
       "rules": {
@@ -366,7 +367,8 @@
               "href": "https://github.com/edenbd1/lp-0005-private-token-balance-attestation"
             }
           }
-        ]
+        ],
+        "mobileHeading": "Already shipped."
       },
       "resources": {
         "heading": "Resources",
@@ -419,6 +421,10 @@
           "cta": {
             "label": "Explore RFPs",
             "href": "/builders-hub/rfps"
+          },
+          "mobile": {
+            "title": "Need funding before you build?",
+            "body": "The RFP Program funds teams to build defined specs, paid per milestone."
           }
         }
       },

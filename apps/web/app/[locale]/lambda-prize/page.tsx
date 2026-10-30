@@ -10,6 +10,7 @@ import { programmeMono } from '../developer-programmes/fonts'
 import { LambdaPrizePage } from './_sections/lambda-prize-page'
 import './lambda-prize.css'
 import './responsive.css'
+import './mobile.css'
 
 export const generateMetadata = createPageMetadata(ROUTES.lambdaPrize)
 const findSection = createSectionFinder('lambda-prize')
