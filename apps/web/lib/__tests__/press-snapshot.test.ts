@@ -64,7 +64,7 @@ describe('reviewed press content', () => {
     const path = join(directory, 'press.json')
     await writeFile(
       path,
-      JSON.stringify({ version: 2, articles: [], podcasts: [] })
+      JSON.stringify({ version: 3, articles: [], podcasts: [] })
     )
     await expect(readPressSnapshot(path)).rejects.toThrow(/Unsupported/)
   })
