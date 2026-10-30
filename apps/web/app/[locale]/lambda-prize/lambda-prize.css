@@ -279,6 +279,9 @@
   border-radius: 4px;
   background: #c6ebf7;
 }
+.lp-content .lp-tag {
+  font-weight: 500;
+}
 .lp-featured-image .lp-tag {
   position: absolute;
   left: 12px;
@@ -382,6 +385,9 @@
 .lp-requirement-card dl {
   margin-top: 24px;
 }
+.lp-content .lp-requirement-card dt {
+  font-weight: 600;
+}
 .lp-requirement-card dl > div {
   display: grid;
   grid-template-columns: 48px minmax(0, 1fr);
@@ -479,6 +485,7 @@
 }
 .lp-coming-soon .lp-prize-bottom > p {
   opacity: 0.6;
+  transform: none;
 }
 .lp-ownership {
   padding: 200px 12px 100px;
@@ -597,6 +604,9 @@
 }
 .lp-resource-grid h3 {
   margin-bottom: 8px;
+}
+.lp-content .lp-resource-grid article > .lp-eyebrow {
+  font-weight: 600;
 }
 .lp-resource-grid article > div {
   display: flex;
