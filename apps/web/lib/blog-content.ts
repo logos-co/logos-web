@@ -3,6 +3,7 @@ import { cache } from 'react'
 import { mapWithConcurrency } from '@/lib/concurrency'
 import { env } from '@/lib/env'
 import { getPressSnapshot } from '@/lib/press-snapshot'
+import { getPressPreviewSlugs } from '@/lib/press-preview'
 import { fetchDiscourseTopic, type BlogDiscussion } from '@/lib/discourse-topic'
 import { prepareCmsLinks } from '@/lib/html-links'
 import { logger } from '@/lib/logger'
@@ -984,7 +985,12 @@ async function getStrapiArticleSlugs(): Promise<string[]> {
     return data.posts?.data ?? []
   }, 'Article slugs')
 
-  return posts.map((post) => post.attributes?.slug ?? '').filter(Boolean)
+  return [
+    ...new Set([
+      ...posts.map((post) => post.attributes?.slug ?? '').filter(Boolean),
+      ...getPressPreviewSlugs(),
+    ]),
+  ]
 }
 
 async function getStrapiPodcastPaths(): Promise<
@@ -1032,11 +1038,11 @@ export async function getBlogPodcastShowSlugs(): Promise<string[]> {
 }
 
 const ARTICLE_DETAIL_QUERY = `
-  query ArticleDetail($slug: String!) {
+  query ArticleDetail($slug: String!, $publicationState: PublicationState!) {
     posts(
       filters: { and: [{ slug: { eq: $slug } }, { type: { eq: "Article" } }] }
       pagination: { limit: 1 }
-      publicationState: LIVE
+      publicationState: $publicationState
     ) {
       data {
         id
@@ -1232,7 +1238,12 @@ async function getStrapiArticle(slug: string): Promise<BlogArticleDetail> {
 
   const data = await fetchPressGraphql<Data>(
     ARTICLE_DETAIL_QUERY,
-    { slug },
+    {
+      slug,
+      publicationState: getPressPreviewSlugs().includes(slug)
+        ? 'PREVIEW'
+        : 'LIVE',
+    },
     'Article detail'
   )
   const post = data.posts?.data?.[0]

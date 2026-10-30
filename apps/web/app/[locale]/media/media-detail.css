@@ -255,6 +255,15 @@
   font: inherit;
 }
 
+.media-detail-content .media-detail-table {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.media-detail-content .media-detail-table > table {
+  min-width: 640px;
+}
+
 .media-detail-content :where(table) {
   width: 100%;
   margin: 24px 0;

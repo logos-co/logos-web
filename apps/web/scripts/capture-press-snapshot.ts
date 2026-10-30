@@ -14,5 +14,10 @@ const [articles, podcasts] = await Promise.all([
   getAllBlogArticles(),
   getAllBlogPodcasts(),
 ])
-const snapshot: PressSnapshot = { version: 1, articles, podcasts }
+// Version 2 also prevents older production code from promoting draft previews.
+const snapshot: PressSnapshot = {
+  version: [...articles, ...podcasts].some((post) => post.isDraft) ? 2 : 1,
+  articles,
+  podcasts,
+}
 await writeFile(resolve('../../press-snapshot.json'), JSON.stringify(snapshot))

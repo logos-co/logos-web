@@ -1,3 +1,4 @@
+import { isPressPreviewArticle } from '@/lib/press-preview'
 import { ROUTES } from '@/constants/routes'
 import {
   isPublishedPost,
@@ -83,6 +84,6 @@ export function buildMediaSearchDocuments(
   basePath = ''
 ): MediaSearchDocument[] {
   return posts
-    .filter(isPublishedPost)
+    .filter((post) => isPublishedPost(post) || isPressPreviewArticle(post))
     .map((post) => toDocument(post, manifest, basePath))
 }
