@@ -1,4 +1,5 @@
 import { MEDIA_BODY_IMAGE_SIZES } from '@/lib/media-image-sizes'
+import { wakuArticleHeroVisibility } from '@/lib/waku-article-presentation'
 
 import { MediaBreadcrumb } from '../../../_components/media-breadcrumb'
 import { MediaImage } from '../../../_components/media-image'
@@ -30,6 +31,7 @@ export function ArticleHero({
   canonicalUrl,
 }: ArticleHeroProps) {
   const date = formatDate(article.publishedAt)
+  const { showCover, showSummary } = wakuArticleHeroVisibility(article)
 
   return (
     <header className="mb-6 flex flex-col text-brand-dark-green">
@@ -105,7 +107,7 @@ export function ArticleHero({
         />
       </div>
 
-      {article.coverImage ? (
+      {article.coverImage && showCover ? (
         <figure className="my-10 w-full max-md:my-6">
           <div className="relative aspect-[1200/630] w-full overflow-hidden bg-brand-dark-green/10">
             <MediaImage
@@ -121,7 +123,9 @@ export function ArticleHero({
         </figure>
       ) : null}
 
-      <MediaSummary html={article.summaryHtml} text={article.summary} />
+      {showSummary ? (
+        <MediaSummary html={article.summaryHtml} text={article.summary} />
+      ) : null}
     </header>
   )
 }

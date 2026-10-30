@@ -30,3 +30,13 @@ A snapshot containing drafts uses version 2. Older production code accepts only 
 After review, publish the selected CMS posts and capture a new staging build. It must produce a version 1 snapshot before production promotion. Production queries still use only published CMS content. Coordinate per-article HTTP 301 redirects from the Waku host only after verifying the production destinations; the scripts only produce a redirect map and do not change infrastructure.
 
 See [deployment](../../../docs/deployment.md) for the staging build and production promotion process.
+
+## Rendering corrections
+
+The article detail hero suppresses a repeated cover or summary when the migrated body already contains it. The body retains its original image position, alternative text and caption; cards, social metadata and search still use the cover and summary. Only the 18 migrated slugs use this presentation rule. An exact repeated leading title becomes an empty fragment target, retaining incoming anchors without duplicating the H1 or table of contents.
+
+The converter normalises legacy MDX underline JSX and bold delimiters with trailing spaces. It also separates a standalone HTML break from following Markdown so the AI article's Waku link renders as a link. Parsed fenced and inline code ranges are excluded from these transformations. The three malformed source destinations (`walu.org/events`, `discord.waku.org`, `logos.co`) become explicit HTTPS URLs, and the sharding link uses the actual heading ID.
+
+To apply reviewed corrections to existing drafts, retain the original import directory and prepare a separate revised directory. Run `pnpm exec tsx --env-file=.env.local scripts/waku-migration/revise.ts /path/to/original-import /path/to/revised-plan --apply`. The revision script checks every draft against the original source and body before any write, saves an exclusive backup, rechecks before each update and changes only `body`. It refuses published posts or intervening editorial changes.
+
+Verification must compare the pinned original MDX rendering with complete exported pages, including hero/body duplication, image alternatives and captions, links and fragment targets, emphasis, tables and exact code examples. Body-to-import-plan equality alone is insufficient. Verify all 18 pages on desktop and mobile after staging deployment.
