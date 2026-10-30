@@ -255,7 +255,7 @@
     {
       "componentType": "homeBuilderPortal",
       "key": "home.builderPortal",
-      "title": "Basecamp.\nThe local launcher\nfor the Logos stack.",
+      "title": "Basecamp is a local-first launcher for peer-to-peer apps built on Logos.",
       "description": "Basecamp is a ready-to-run Logos distribution that you deploy on your own hardware, under your control. From the moment it’s installed, you’re standing on your own ground, not connecting to someone else’s infrastructure.\n\nThe Logos runtime runs locally, core modules are loaded, and essential applications — wallet, messenger, file sharing, blockchain explorer — are ready to use from day one.",
       "cta": "Learn more",
       "featureChat": "Load a basic chat app",
