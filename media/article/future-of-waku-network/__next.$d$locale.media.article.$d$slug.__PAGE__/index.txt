@@ -1,0 +1,136 @@
+1:"$Sreact.fragment"
+2:I[29612,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"ArticleSidebar"]
+3:I[66869,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"default"]
+11:X
+16:X
+16:C
+0:{"buildId":"dicak4mbzeiUiS7L7_MgJ","data":[{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"The Future of Waku Network: Scaling, Incentivization, and Heterogeneity\",\"description\":\"Learn how the Waku Network is evolving through scaling, incentivization, and diverse ecosystem development and what the future might look like.\",\"url\":\"https://dev.logos.co/media/article/future-of-waku-network\",\"image\":\"https://cms-press.logos.co/uploads/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e.png\",\"datePublished\":\"2023-04-03T00:00:00.000Z\",\"dateModified\":\"2023-04-03T00:00:00.000Z\",\"author\":[{\"@type\":\"Person\",\"name\":\"Franck\"}],\"publisher\":{\"@type\":\"Organization\",\"@id\":\"https://dev.logos.co/#organization\",\"name\":\"Logos\",\"url\":\"https://dev.logos.co\",\"logo\":\"https://dev.logos.co/apple-touch-icon.png\"},\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https://dev.logos.co/media/article/future-of-waku-network\"}}"}}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Media\",\"item\":\"https://dev.logos.co/media\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Articles\",\"item\":\"https://dev.logos.co/media/articles\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"The Future of Waku Network: Scaling, Incentivization, and Heterogeneity\",\"item\":\"https://dev.logos.co/media/article/future-of-waku-network\"}]}"}}],["$","div",null,{"className":"media-detail-page bg-accent-tan pt-6 text-brand-dark-green lg:pt-[52px]","children":["$","div",null,{"className":"mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 md:grid-cols-[repeat(16,minmax(0,1fr))] md:gap-4 lg:px-0","children":[["$","$L2",null,{"contentsLabel":"Contents","title":"The Future of Waku Network: Scaling, Incentivization, and Heterogeneity","toc":[{"level":2,"tag":"h2","href":"#dos-mitigation-for-status-communities","title":"DOS Mitigation for Status Communities","blockIndex":0},{"level":2,"tag":"h2","href":"#a-heterogeneous-waku-network","title":"A Heterogeneous Waku Network","blockIndex":1},{"level":3,"tag":"h3","href":"#reversing-the-incentivization-question","title":"Reversing the Incentivization Question","blockIndex":2},{"level":3,"tag":"h3","href":"#rln-and-service-credentials","title":"RLN and Service Credentials","blockIndex":3},{"level":2,"tag":"h2","href":"#waku-network-ethereum-or-cosmos","title":"Waku Network: Ethereum or Cosmos?","blockIndex":4},{"level":2,"tag":"h2","href":"#scalability-and-discovery-protocols","title":"Scalability and Discovery Protocols","blockIndex":5},{"level":2,"tag":"h2","href":"#open-problems","title":"Open Problems","blockIndex":6},{"level":2,"tag":"h2","href":"#the-evolving-waku-network","title":"The Evolving Waku Network","blockIndex":7},{"level":2,"tag":"h2","href":"#references","title":"References","blockIndex":8}]}],["$","article",null,{"className":"flex min-w-0 max-w-[700px] flex-col gap-4 md:col-span-10 md:col-start-6 lg:col-span-8 lg:col-start-5","children":[["$","header",null,{"className":"mb-6 flex flex-col text-brand-dark-green","children":[["$","div",null,{"className":"mb-6","children":["$","nav",null,{"aria-label":"Breadcrumb","className":"font-sans text-[12px] leading-4 text-brand-dark-green","children":["$","ol",null,{"className":"flex flex-wrap items-center gap-2","children":[["$","li","/media",{"className":"flex items-center gap-2","children":[null,["$","$L3",null,{"href":"/media","localeCookie":{"name":"NEXT_LOCALE","sameSite":"lax"},"className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Media","prefetch":false}]]}],["$","li","/media/articles",{"className":"flex items-center gap-2","children":["$L4","$L5"]}]]}]}]}],"$L6","$L7","$L8","$L9","$La","$Lb"]}],"$Lc","$Ld"]}]]}]}]],["$Le"],"$Lf"]}],"isPartial":"$@10","staleTime":"$11","varyParams":null},{"rsc":"$L12","isPartial":"$@13","staleTime":"$11","varyParams":null},{"rsc":"$L14","isPartial":"$@15","staleTime":"$11","varyParams":"$16"},{"rsc":"$L17","isPartial":"$@18","staleTime":"$11","varyParams":"$16"},{"rsc":"$L19","isPartial":"$@1a","staleTime":"$11","varyParams":null}],"isUpgradeableISRFallback":false,"a":"$@1b","rootVaryParams":null,"needsRuntimeRequest":"$@1c"}
+1d:I[30117,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"ShareButton"]
+1e:I[15120,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"MediaRichContent"]
+20:I[23738,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"ArticleDiscussion"]
+21:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"OutletBoundary"]
+22:"$Sreact.suspense"
+24:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"ViewportBoundary"]
+25:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"MetadataBoundary"]
+2a:I[74724,["/_next/static/chunks/2s2ety_0_qcqe.js"],"default"]
+2b:I[64438,["/_next/static/chunks/2s2ety_0_qcqe.js"],"default"]
+:HL["/media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-750.webp","image",{"imageSrcSet":"/media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-750.webp 750w, /media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-1400.webp 1400w","imageSizes":"(max-width: 767px) calc(100vw - 32px), 700px","fetchPriority":"high"}]
+4:["$","span",null,{"aria-hidden":"true","children":"/"}]
+5:["$","$L3",null,{"href":"/media/articles","localeCookie":"$0:data:0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Articles","prefetch":false}]
+6:["$","div",null,{"className":"mb-3 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[["$","span",null,{"children":"6 MIN"}],["$","span",null,{"aria-hidden":"true","className":"size-[3px] rounded-full bg-current"}],["$","span",null,{"children":"3 APR 2023"}]]}]
+7:["$","div",null,{"children":[["$","h1",null,{"id":"title-anchor","className":"scroll-mt-[95px] font-display text-[44px] leading-[54px] tracking-normal","children":"The Future of Waku Network: Scaling, Incentivization, and Heterogeneity"}],null]}]
+8:["$","div",null,{"className":"mb-8 mt-4 flex flex-wrap items-center gap-3","children":[["$","div","25",{"className":"flex items-center gap-3","children":[["$","span",null,{"className":"flex items-center gap-2","children":[["$","span",null,{"className":"flex size-4 items-center justify-center rounded-full border border-brand-dark-green font-sans text-[11px] leading-4","children":"F"}],["$","span",null,{"className":"font-sans text-[12px] leading-4","children":"Franck"}]]}],null]}]]}]
+9:["$","div",null,{"className":"flex w-fit max-w-full items-start gap-4","children":[["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","95",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"waku"}],["$","span","96",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"platform"}],["$","span","97",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"operator"}],["$","span","98",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"network"}]]}],["$","span",null,{"aria-hidden":"true","className":"mt-1.5 h-3 border-l border-brand-dark-green"}],["$","$L1d",null,{"label":"Share","copiedLabel":"Copied","title":"The Future of Waku Network: Scaling, Incentivization, and Heterogeneity","url":"https://dev.logos.co/media/article/future-of-waku-network"}]]}]
+a:["$","figure",null,{"className":"my-10 w-full max-md:my-6","children":[["$","div",null,{"className":"relative aspect-[1200/630] w-full overflow-hidden bg-brand-dark-green/10","children":["$","img",null,{"src":"/media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-750.webp","srcSet":"/media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-750.webp 750w, /media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-1400.webp 1400w","sizes":"(max-width: 767px) calc(100vw - 32px), 700px","alt":"","width":2040,"height":885,"loading":"eager","fetchPriority":"high","decoding":"async","className":"absolute inset-0 size-full object-cover"}]}],["$","figcaption",null,{"className":"min-h-2 pt-2 font-sans text-[12px] leading-4","children":""}]]}]
+b:["$","div",null,{"className":"border-y border-brand-dark-green py-6 max-sm:py-4","children":["$","div",null,{"className":"media-detail-summary whitespace-pre-wrap font-sans text-[20px] leading-[30px] tracking-normal text-brand-dark-green max-sm:text-[18px] max-sm:leading-6","dangerouslySetInnerHTML":{"__html":"Learn how the Waku Network is evolving through scaling, incentivization, and diverse ecosystem development and what the future might look like."}}]}]
+1f:T256e,<p>Learn how the Waku Network is evolving through scaling, incentivization, and diverse ecosystem development and what the future might look like.</p>
+<p>Waku is preparing for production with a focus on the Status Communities use case. In this blog post, we will provide an
+overview of recent discussions and research outputs, aiming to give you a better understanding of how the Waku network
+may look like in terms of scaling and incentivization.</p>
+<h2 id="dos-mitigation-for-status-communities">DOS Mitigation for Status Communities</h2>
+<p>Waku is actively exploring DOS mitigation mechanisms suitable for Status Communities. While RLN
+(Rate Limiting Nullifiers) remains the go-to DOS protection solution due to its privacy-preserving and
+censorship-resistant properties, there is still more work to be done. We are excited to collaborate with PSE
+(Privacy &amp; Scaling Explorations) in this endeavor. Learn more about their latest progress in this <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/CPerezz19/status/1640373940634939394?s=20">tweet</a>.</p>
+<h2 id="a-heterogeneous-waku-network">A Heterogeneous Waku Network</h2>
+<p>As we noted in a previous <a target="_blank" rel="noopener noreferrer" href="https://forum.vac.dev/t/waku-payment-models/166/3">forum post</a>, Waku&#x27;s protocol
+incentivization model needs to be flexible to accommodate various business models. Flexibility ensures that projects
+can choose how they want to use Waku based on their specific needs.</p>
+<h3 id="reversing-the-incentivization-question">Reversing the Incentivization Question</h3>
+<p>Traditionally, the question of incentivization revolves around how to incentivize operators to run nodes. We&#x27;d like to
+reframe the question and instead ask, &quot;How do we pay for the infrastructure?&quot;</p>
+<p>Waku does not intend to offer a free lunch.
+Ethereum&#x27;s infrastructure is supported by transaction fees and inflation, with validators receiving rewards from both sources.
+However, this model does not suit a communication network like Waku.
+Users and platforms would not want to pay for every single message they send. Additionally, Waku aims to support instant
+ephemeral messages that do not require consensus or long-term storage.</p>
+<p>Projects that use Waku to enable user interactions, whether for chat messages, gaming, private DeFi, notifications, or
+inter-wallet communication, may have different value extraction models. Some users might provide services for the
+project and expect to receive value by running nodes, while others may pay for the product or run infrastructure to
+contribute back. Waku aims to support each of these use cases, which means there will be various ways to &quot;pay for the
+infrastructure.&quot;</p>
+<p>In <a target="_blank" rel="noopener noreferrer" href="https://vac.dev/building-privacy-protecting-infrastructure">his talk</a>, Oskar addressed two strategies: RLN and service credentials.</p>
+<h3 id="rln-and-service-credentials">RLN and Service Credentials</h3>
+<p>RLN enables DOS protection across the network in a privacy-preserving and permission-less manner: stake in a contract,
+and you can send messages.</p>
+<p>Service credentials establish a customer-provider relationship. Users might pay to have messages they are interested in
+stored and served by a provider. Alternatively, a community owner could pay a service provider to host their community.</p>
+<p>Providers could offer trial or limited free services to Waku users, similar to Slack or Discord. Once a trial is expired or outgrown,
+a community owner could pay for more storage or bandwidth, similar to Slack&#x27;s model.
+Alternatively, individual users could contribute financially, akin to Discord&#x27;s Server Boost, or by sharing their own
+resources with their community.</p>
+<p>We anticipate witnessing various scenarios across the spectrum: from users sharing resources to users paying for access to the network and everything in between.</p>
+<h2 id="waku-network-ethereum-or-cosmos">Waku Network: Ethereum or Cosmos?</h2>
+<p>Another perspective is to consider whether the Waku network will resemble Ethereum or Cosmos.</p>
+<p>For those not familiar with the difference between both, in a very concise manner:</p>
+<ul>
+<li>Ethereum is a set of protocols and software that are designed to operate on one common network and infrastructure</li>
+<li>Cosmos is a set of protocols and software (SDKs) designed to be deployed in separate yet interoperable networks and infrastructures by third parties</li>
+</ul>
+<p>We want Waku to be decentralized to provide censorship resistance and privacy-preserving communication.
+If each application has to deploy its own network, we will not achieve this goal.
+Therefore, we aim Waku to be not only an open source set of protocols, but also a shared infrastructure that anyone can leverage to build applications on top, with some guarantees in terms of decentralization and anonymity.
+This approach is closer in spirit to Ethereum than Cosmos.
+Do note that, similarly to Ethereum, anyone is free to take Waku software and protocols and deploy their own network.</p>
+<p>Yet, because of the difference in the fee model, the Waku Network is unlikely to be as unified as Ethereum&#x27;s.
+We currently assume that there will be separate gossipsub networks with different funding models.
+Since there is no consensus on Waku, each individual operator can decide which network to support, enabling Waku to maintain its permission-less property.</p>
+<p>Most likely, the Waku network will be heterogeneous, and node operators will choose the incentivization model they prefer.</p>
+<h2 id="scalability-and-discovery-protocols">Scalability and Discovery Protocols</h2>
+<p>To enable scalability, the flow of messages in the Waku network will be divided in shards,
+so that not every node has to forward every message of the whole network.
+Discovery protocols will facilitate users connecting to the right nodes to receive the messages they are interested in.</p>
+<p>Different shards could be subject to a variety of rate limiting techniques (globally, targeted to that shard or something in-between).</p>
+<p>Marketplace protocols may also be developed to help operators understand how they can best support the network and where
+their resources are most needed. However, we are still far from establishing or even assert that such a marketplace will be needed.</p>
+<h2 id="open-problems">Open Problems</h2>
+<p>Splitting traffic between shards reduces bandwidth consumption for every Waku Relay node.
+This improvement increases the likelihood that users with home connections can participate and contribute to the gossipsub network without encountering issues.</p>
+<p>However, it does not cap traffic.
+There are still open problems regarding how to guarantee that someone can use Waku with lower Internet bandwidth or run critical services, such as a validation node, on the same connection.</p>
+<p>We have several ongoing initiatives:</p>
+<ul>
+<li>Analyzing the Status Community protocol to confirm efficient usage of Waku <a target="_blank" rel="noopener noreferrer" href="https://github.com/vacp2p/research/issues/177">[4]</a></li>
+<li>Simulating the Waku Network to measure actual bandwidth usage <a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/issues/2">[5]</a></li>
+<li>Segregating chat messages from control and media messages <a target="_blank" rel="noopener noreferrer" href="https://rfc.vac.dev/spec/57/#control-message-shards">[6]</a></li>
+</ul>
+<p>The final solution will likely be a combination of protocols that reduce bandwidth usage or mitigate the risk of DOS attacks, providing flexibility for users and platforms to enable the best experience.</p>
+<h2 id="the-evolving-waku-network">The Evolving Waku Network</h2>
+<p>The definition of the &quot;Waku Network&quot; will likely change over time. In the near future, it will transition from a single
+gossipsub network to a sharded set of networks unified by a common discovery layer. This change will promote scalability
+and allow various payment models to coexist within the Waku ecosystem.</p>
+<p>In conclusion, the future of Waku Network entails growth, incentivization, and heterogeneity while steadfastly
+maintaining its core principles. As Waku continues to evolve, we expect it to accommodate a diverse range of use cases
+and business models, all while preserving privacy, resisting censorship, avoiding surveillance, and remaining accessible
+to devices with limited resources.</p>
+<h2 id="references">References</h2>
+<ol>
+<li><a target="_blank" rel="noopener noreferrer" href="https://rfc.vac.dev/spec/51/">51/WAKU2-RELAY-SHARDING</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://rfc.vac.dev/spec/57/">57/STATUS-Simple-Scaling</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://rfc.vac.dev/spec/58/">58/RLN-V2</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://github.com/vacp2p/research/issues/177">Scaling Status Communities: Potential Problems</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/issues/2">Waku Network Testing</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://rfc.vac.dev/spec/57/#control-message-shards">51/WAKU2-RELAY-SHARDING: Control Message Shards</a></li>
+</ol><p><a target="_blank" rel="noopener noreferrer" href="https://forum.vac.dev/t/discussion-the-future-of-waku-network-scaling-incentivization-and-heterogeneity/173">Discuss this article</a></p>c:[["$","$L1e",null,{"bodyHtml":"$1f","content":[]}],null]
+d:["$","footer",null,{"className":"mt-4 pb-20 max-sm:mt-[72px]","children":["$","div",null,{"className":"[&>section+section]:-mt-px","children":[null,["$","$L20",null,{"canonicalUrl":"https://dev.logos.co/media/article/future-of-waku-network","summary":"Learn how the Waku Network is evolving through scaling, incentivization, and diverse ecosystem development and what the future might look like.","title":"The Future of Waku Network: Scaling, Incentivization, and Heterogeneity"}],null,null]}]}]
+e:["$","script","script-0",{"src":"/_next/static/chunks/42v9oo3je71u9.js","async":true}]
+f:["$","$L21",null,{"children":["$","$22",null,{"name":"Next.MetadataOutlet","children":"$@23"}]}]
+12:["$","$1","h",{"children":[null,["$","$L24",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L25",null,{"children":["$","$22",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"The Future of Waku Network: Scaling, Incentivization, and Heterogeneity | Logos"}],["$","meta","1",{"name":"description","content":"Learn how the Waku Network is evolving through scaling, incentivization, and diverse ecosystem development and what the future might look like."}],["$","meta","2",{"name":"keywords","content":"logos,decentralised,privacy,civil society,blockchain"}],["$","meta","3",{"name":"creator","content":"Logos"}],["$","meta","4",{"name":"robots","content":"noindex, nofollow"}],["$","link","5",{"rel":"canonical","href":"https://dev.logos.co/media/article/future-of-waku-network"}],["$","link","6",{"rel":"alternate","hrefLang":"en","href":"https://dev.logos.co/media/article/future-of-waku-network"}],["$","link","7",{"rel":"alternate","hrefLang":"x-default","href":"https://dev.logos.co/media/article/future-of-waku-network"}],["$","link","8",{"rel":"alternate","type":"application/rss+xml","href":"https://dev.logos.co/rss/main.xml","title":"Logos Media"}],["$","link","9",{"rel":"alternate","type":"application/rss+xml","href":"https://dev.logos.co/rss/logos-state.xml","title":"Logos Podcast"}],["$","link","10",{"rel":"alternate","type":"application/atom+xml","href":"https://dev.logos.co/atom.xml"}],["$","meta","11",{"property":"og:title","content":"The Future of Waku Network: Scaling, Incentivization, and Heterogeneity | Logos"}],["$","meta","12",{"property":"og:description","content":"Learn how the Waku Network is evolving through scaling, incentivization, and diverse ecosystem development and what the future might look like."}],["$","meta","13",{"property":"og:url","content":"https://dev.logos.co/media/article/future-of-waku-network"}],["$","meta","14",{"property":"og:site_name","content":"Logos"}],["$","meta","15",{"property":"og:locale","content":"en"}],["$","meta","16",{"property":"og:image","content":"https://cms-press.logos.co/uploads/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e.png"}],["$","meta","17",{"property":"og:image:width","content":"2040"}],["$","meta","18",{"property":"og:image:height","content":"885"}],["$","meta","19",{"property":"og:type","content":"article"}],["$","meta","20",{"property":"article:published_time","content":"2023-04-03"}],["$","meta","21",{"property":"article:modified_time","content":"2023-04-03"}],["$","meta","22",{"property":"article:author","content":"Franck"}],["$","meta","23",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","24",{"name":"twitter:title","content":"The Future of Waku Network: Scaling, Incentivization, and Heterogeneity | Logos"}],["$","meta","25",{"name":"twitter:description","content":"Learn how the Waku Network is evolving through scaling, incentivization, and diverse ecosystem development and what the future might look like."}],["$","meta","26",{"name":"twitter:image","content":"https://cms-press.logos.co/uploads/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e.png"}],["$","link","27",{"rel":"icon","href":"/favicon.svg?v=20260630","type":"image/svg+xml","media":"(prefers-color-scheme: light)"}],["$","link","28",{"rel":"icon","href":"/favicon-dark.svg?v=20260630","type":"image/svg+xml","media":"(prefers-color-scheme: dark)"}],["$","link","29",{"rel":"icon","href":"/favicon-32x32.png?v=20260630","sizes":"32x32","type":"image/png","media":"(prefers-color-scheme: light)"}],["$","link","30",{"rel":"icon","href":"/favicon-32x32-dark.png?v=20260630","sizes":"32x32","type":"image/png","media":"(prefers-color-scheme: dark)"}],["$","link","31",{"rel":"icon","href":"/favicon-16x16.png?v=20260630","sizes":"16x16","type":"image/png","media":"(prefers-color-scheme: light)"}],["$","link","32",{"rel":"icon","href":"/favicon-16x16-dark.png?v=20260630","sizes":"16x16","type":"image/png","media":"(prefers-color-scheme: dark)"}],["$","link","33",{"rel":"icon","href":"/favicon.ico?v=20260630","sizes":"any","media":"(prefers-color-scheme: light)"}],"$L26","$L27","$L28"]}]}]}],"$L29"]}]
+14:["$","$1","c",{"children":[null,["$","$L2a",null,{"parallelRouterKey":"children","template":["$","$L2b",null,{}]}]]}]
+17:["$","$1","c",{"children":[null,["$","$L2a",null,{"parallelRouterKey":"children","template":["$","$L2b",null,{}]}]]}]
+19:["$","$1","c",{"children":[null,["$","$L2a",null,{"parallelRouterKey":"children","template":["$","$L2b",null,{}]}]]}]
+1c:true
+2c:I[61096,["/_next/static/chunks/2s2ety_0_qcqe.js"],"IconMark"]
+23:null
+26:["$","link","34",{"rel":"icon","href":"/favicon-dark.ico?v=20260630","sizes":"any","media":"(prefers-color-scheme: dark)"}]
+27:["$","link","35",{"rel":"apple-touch-icon","href":"/apple-touch-icon.png","sizes":"180x180","type":"image/png"}]
+28:["$","$L2c","36",{}]
+29:["$","meta",null,{"name":"next-size-adjust","content":""}]
+11:300
+11:C
+1b:0
+15:"$undefined"
+18:"$undefined"
+1a:"$undefined"
+13:"$undefined"
+10:"$undefined"

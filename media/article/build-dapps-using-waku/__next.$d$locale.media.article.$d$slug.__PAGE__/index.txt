@@ -1,0 +1,614 @@
+1:"$Sreact.fragment"
+2:I[29612,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"ArticleSidebar"]
+7:X
+c:X
+c:C
+0:{"buildId":"dicak4mbzeiUiS7L7_MgJ","data":[{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Build a dApp Using Waku and Vue.js\",\"description\":\"Did you know that far beyond being a mere industry buzzword, decentralised communication represents a strategic response to the vulnerabilities inherent in centralised systems? It prioritises privacy, security, and censorship resistance, making it an indispensable component in web developers' toolkits.\",\"url\":\"https://dev.logos.co/media/article/build-dapps-using-waku\",\"image\":\"https://cms-press.logos.co/uploads/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e.png\",\"datePublished\":\"2024-03-04T00:00:00.000Z\",\"dateModified\":\"2024-03-04T00:00:00.000Z\",\"author\":[{\"@type\":\"Person\",\"name\":\"Joel Adewole\"}],\"publisher\":{\"@type\":\"Organization\",\"@id\":\"https://dev.logos.co/#organization\",\"name\":\"Logos\",\"url\":\"https://dev.logos.co\",\"logo\":\"https://dev.logos.co/apple-touch-icon.png\"},\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https://dev.logos.co/media/article/build-dapps-using-waku\"}}"}}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Media\",\"item\":\"https://dev.logos.co/media\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Articles\",\"item\":\"https://dev.logos.co/media/articles\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Build a dApp Using Waku and Vue.js\",\"item\":\"https://dev.logos.co/media/article/build-dapps-using-waku\"}]}"}}],["$","div",null,{"className":"media-detail-page bg-accent-tan pt-6 text-brand-dark-green lg:pt-[52px]","children":["$","div",null,{"className":"mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 md:grid-cols-[repeat(16,minmax(0,1fr))] md:gap-4 lg:px-0","children":[["$","$L2",null,{"contentsLabel":"Contents","title":"Build a dApp Using Waku and Vue.js","toc":[{"level":2,"tag":"h2","href":"#understanding-waku","title":"Understanding Waku","blockIndex":0},{"level":2,"tag":"h2","href":"#use-cases-of-waku","title":"Use cases of Waku","blockIndex":1},{"level":4,"tag":"h4","href":"#privacy-focused-communication","title":"Privacy-focused communication","blockIndex":2},{"level":4,"tag":"h4","href":"#censorship-resistant-messaging","title":"Censorship-resistant messaging","blockIndex":3},{"level":4,"tag":"h4","href":"#use-in-dapps-for-decentralised-communication","title":"Use in dApps for decentralised communication","blockIndex":4},{"level":2,"tag":"h2","href":"#building-a-dapp-with-waku-and-vuejs","title":"Building a dApp with Waku and Vue.js","blockIndex":5},{"level":3,"tag":"h3","href":"#dev-tools-i-used","title":"Dev tools I used?","blockIndex":6},{"level":3,"tag":"h3","href":"#setting-up-the-development-environment","title":"Setting up the development environment","blockIndex":7},{"level":3,"tag":"h3","href":"#setting-up-tailwind-in-vuejs","title":"Setting up Tailwind in Vue.js","blockIndex":8},{"level":3,"tag":"h3","href":"#configuring-routes","title":"Configuring routes","blockIndex":9},{"level":3,"tag":"h3","href":"#installing-waku-and-its-dependencies","title":"Installing Waku and its dependencies","blockIndex":10},{"level":3,"tag":"h3","href":"#implementing-waku-logic","title":"Implementing Waku logic","blockIndex":11},{"level":3,"tag":"h3","href":"#implement-wallet-connect-logic","title":"Implement Wallet Connect logic","blockIndex":12},{"level":3,"tag":"h3","href":"#building-the-ui-components","title":"Building the UI components","blockIndex":13},{"level":3,"tag":"h3","href":"#creating-polls","title":"Creating polls","blockIndex":14},{"level":3,"tag":"h3","href":"#real-time-voting-and-result-polling","title":"Real-time voting and result polling","blockIndex":15},{"level":2,"tag":"h2","href":"#summary-of-the-article","title":"Summary of the article","blockIndex":16}]}],"$L3"]}]}]],["$L4"],"$L5"]}],"isPartial":"$@6","staleTime":"$7","varyParams":null},{"rsc":"$L8","isPartial":"$@9","staleTime":"$7","varyParams":null},{"rsc":"$La","isPartial":"$@b","staleTime":"$7","varyParams":"$c"},{"rsc":"$Ld","isPartial":"$@e","staleTime":"$7","varyParams":"$c"},{"rsc":"$Lf","isPartial":"$@10","staleTime":"$7","varyParams":null}],"isUpgradeableISRFallback":false,"a":"$@11","rootVaryParams":null,"needsRuntimeRequest":"$@12"}
+13:I[66869,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"default"]
+14:I[30117,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"ShareButton"]
+17:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"OutletBoundary"]
+18:"$Sreact.suspense"
+1a:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"ViewportBoundary"]
+1b:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"MetadataBoundary"]
+24:I[74724,["/_next/static/chunks/2s2ety_0_qcqe.js"],"default"]
+25:I[64438,["/_next/static/chunks/2s2ety_0_qcqe.js"],"default"]
+:HL["/media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-750.webp","image",{"imageSrcSet":"/media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-750.webp 750w, /media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-1400.webp 1400w","imageSizes":"(max-width: 767px) calc(100vw - 32px), 700px","fetchPriority":"high"}]
+3:["$","article",null,{"className":"flex min-w-0 max-w-[700px] flex-col gap-4 md:col-span-10 md:col-start-6 lg:col-span-8 lg:col-start-5","children":[["$","header",null,{"className":"mb-6 flex flex-col text-brand-dark-green","children":[["$","div",null,{"className":"mb-6","children":["$","nav",null,{"aria-label":"Breadcrumb","className":"font-sans text-[12px] leading-4 text-brand-dark-green","children":["$","ol",null,{"className":"flex flex-wrap items-center gap-2","children":[["$","li","/media",{"className":"flex items-center gap-2","children":[null,["$","$L13",null,{"href":"/media","localeCookie":{"name":"NEXT_LOCALE","sameSite":"lax"},"className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Media","prefetch":false}]]}],["$","li","/media/articles",{"className":"flex items-center gap-2","children":[["$","span",null,{"aria-hidden":"true","children":"/"}],["$","$L13",null,{"href":"/media/articles","localeCookie":"$3:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Articles","prefetch":false}]]}]]}]}]}],["$","div",null,{"className":"mb-3 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[["$","span",null,{"children":"20 MIN"}],["$","span",null,{"aria-hidden":"true","className":"size-[3px] rounded-full bg-current"}],["$","span",null,{"children":"4 MAR 2024"}]]}],["$","div",null,{"children":[["$","h1",null,{"id":"title-anchor","className":"scroll-mt-[95px] font-display text-[44px] leading-[54px] tracking-normal","children":"Build a dApp Using Waku and Vue.js"}],null]}],["$","div",null,{"className":"mb-8 mt-4 flex flex-wrap items-center gap-3","children":[["$","div","30",{"className":"flex items-center gap-3","children":[["$","span",null,{"className":"flex items-center gap-2","children":[["$","span",null,{"className":"flex size-4 items-center justify-center rounded-full border border-brand-dark-green font-sans text-[11px] leading-4","children":"J"}],["$","span",null,{"className":"font-sans text-[12px] leading-4","children":"Joel Adewole"}]]}],null]}]]}],["$","div",null,{"className":"flex w-fit max-w-full items-start gap-4","children":[["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","95",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"waku"}]]}],["$","span",null,{"aria-hidden":"true","className":"mt-1.5 h-3 border-l border-brand-dark-green"}],["$","$L14",null,{"label":"Share","copiedLabel":"Copied","title":"Build a dApp Using Waku and Vue.js","url":"https://dev.logos.co/media/article/build-dapps-using-waku"}]]}],["$","figure",null,{"className":"my-10 w-full max-md:my-6","children":[["$","div",null,{"className":"relative aspect-[1200/630] w-full overflow-hidden bg-brand-dark-green/10","children":["$","img",null,{"src":"/media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-750.webp","srcSet":"/media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-750.webp 750w, /media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-1400.webp 1400w","sizes":"(max-width: 767px) calc(100vw - 32px), 700px","alt":"","width":2040,"height":885,"loading":"eager","fetchPriority":"high","decoding":"async","className":"absolute inset-0 size-full object-cover"}]}],["$","figcaption",null,{"className":"min-h-2 pt-2 font-sans text-[12px] leading-4","children":""}]]}],["$","div",null,{"className":"border-y border-brand-dark-green py-6 max-sm:py-4","children":["$","div",null,{"className":"media-detail-summary whitespace-pre-wrap font-sans text-[20px] leading-[30px] tracking-normal text-brand-dark-green max-sm:text-[18px] max-sm:leading-6","dangerouslySetInnerHTML":{"__html":"Did you know that far beyond being a mere industry buzzword, decentralised communication represents a strategic response to the vulnerabilities inherent in centralised systems? It prioritises privacy, security, and censorship resistance, making it an indispensable component in web developers' toolkits."}}]}]]}],["$L15",null],"$L16"]}]
+4:["$","script","script-0",{"src":"/_next/static/chunks/42v9oo3je71u9.js","async":true}]
+5:["$","$L17",null,{"children":["$","$18",null,{"name":"Next.MetadataOutlet","children":"$@19"}]}]
+8:["$","$1","h",{"children":[null,["$","$L1a",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L1b",null,{"children":["$","$18",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Build a dApp Using Waku and Vue.js | Logos"}],["$","meta","1",{"name":"description","content":"Did you know that far beyond being a mere industry buzzword, decentralised communication represents a strategic response to the vulnerabilities inherent in centralised systems? It prioritises privacy, security, and censorship resistance, making it an indispensable component in web developers' toolkits."}],["$","meta","2",{"name":"keywords","content":"logos,decentralised,privacy,civil society,blockchain"}],["$","meta","3",{"name":"creator","content":"Logos"}],["$","meta","4",{"name":"robots","content":"noindex, nofollow"}],["$","link","5",{"rel":"canonical","href":"https://dev.logos.co/media/article/build-dapps-using-waku"}],["$","link","6",{"rel":"alternate","hrefLang":"en","href":"https://dev.logos.co/media/article/build-dapps-using-waku"}],["$","link","7",{"rel":"alternate","hrefLang":"x-default","href":"https://dev.logos.co/media/article/build-dapps-using-waku"}],["$","link","8",{"rel":"alternate","type":"application/rss+xml","href":"https://dev.logos.co/rss/main.xml","title":"Logos Media"}],["$","link","9",{"rel":"alternate","type":"application/rss+xml","href":"https://dev.logos.co/rss/logos-state.xml","title":"Logos Podcast"}],["$","link","10",{"rel":"alternate","type":"application/atom+xml","href":"https://dev.logos.co/atom.xml"}],["$","meta","11",{"property":"og:title","content":"Build a dApp Using Waku and Vue.js | Logos"}],["$","meta","12",{"property":"og:description","content":"Did you know that far beyond being a mere industry buzzword, decentralised communication represents a strategic response to the vulnerabilities inherent in centralised systems? It prioritises privacy, security, and censorship resistance, making it an indispensable component in web developers' toolkits."}],["$","meta","13",{"property":"og:url","content":"https://dev.logos.co/media/article/build-dapps-using-waku"}],["$","meta","14",{"property":"og:site_name","content":"Logos"}],["$","meta","15",{"property":"og:locale","content":"en"}],["$","meta","16",{"property":"og:image","content":"https://cms-press.logos.co/uploads/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e.png"}],["$","meta","17",{"property":"og:image:width","content":"2040"}],["$","meta","18",{"property":"og:image:height","content":"885"}],["$","meta","19",{"property":"og:type","content":"article"}],["$","meta","20",{"property":"article:published_time","content":"2024-03-04"}],["$","meta","21",{"property":"article:modified_time","content":"2024-03-04"}],["$","meta","22",{"property":"article:author","content":"Joel Adewole"}],["$","meta","23",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","24",{"name":"twitter:title","content":"Build a dApp Using Waku and Vue.js | Logos"}],["$","meta","25",{"name":"twitter:description","content":"Did you know that far beyond being a mere industry buzzword, decentralised communication represents a strategic response to the vulnerabilities inherent in centralised systems? It prioritises privacy, security, and censorship resistance, making it an indispensable component in web developers' toolkits."}],["$","meta","26",{"name":"twitter:image","content":"https://cms-press.logos.co/uploads/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e.png"}],["$","link","27",{"rel":"icon","href":"/favicon.svg?v=20260630","type":"image/svg+xml","media":"(prefers-color-scheme: light)"}],["$","link","28",{"rel":"icon","href":"/favicon-dark.svg?v=20260630","type":"image/svg+xml","media":"(prefers-color-scheme: dark)"}],["$","link","29",{"rel":"icon","href":"/favicon-32x32.png?v=20260630","sizes":"32x32","type":"image/png","media":"(prefers-color-scheme: light)"}],"$L1c","$L1d","$L1e","$L1f","$L20","$L21","$L22"]}]}]}],"$L23"]}]
+a:["$","$1","c",{"children":[null,["$","$L24",null,{"parallelRouterKey":"children","template":["$","$L25",null,{}]}]]}]
+d:["$","$1","c",{"children":[null,["$","$L24",null,{"parallelRouterKey":"children","template":["$","$L25",null,{}]}]]}]
+f:["$","$1","c",{"children":[null,["$","$L24",null,{"parallelRouterKey":"children","template":["$","$L25",null,{}]}]]}]
+12:true
+26:I[15120,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"MediaRichContent"]
+28:I[23738,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"ArticleDiscussion"]
+29:I[61096,["/_next/static/chunks/2s2ety_0_qcqe.js"],"IconMark"]
+27:T932e,<p>Did you know that far beyond being a mere industry buzzword, decentralised communication represents a strategic response to the vulnerabilities inherent in centralised systems? It prioritises privacy, security, and censorship resistance, making it an indispensable component in web developers&#x27; toolkits.</p>
+<p>Traditional centralised communication systems have long struggled with censorship, single points of failure, and privacy concerns. With the rise of Web 3 and blockchain technology, decentralised communication solutions like Waku are emerging as a promising alternative. Waku offers a peer-to-peer messaging system that is resilient to censorship, scalable, and secure, making it an ideal choice for dApp developers looking to build next-generation applications.</p>
+<p>This article will guide you on how to build a decentralised application (dApp) using Waku, an uncompromising decentralised communication protocol, and Vue.js, a popular JavaScript framework for building user interfaces. Before diving into the hands-on development aspects of this article, it is recommended that you have a basic understanding of Vue.js, familiarity with Tailwind CSS for UI styling, and a grasp of web3.js for seamless wallet integration.</p>
+<p>If these technologies are new to you, no problem – this guide is meticulously created for all levels of expertise, providing step-by-step guidance at every level.</p>
+<h2 id="understanding-waku"><strong>Understanding Waku</strong></h2>
+<p>Waku is a collection of decentralised peer-to-peer messaging protocols that enable secure and censorship-resistant communication over a decentralised network. Its features include end-to-end encryption, persistent/ephemeral messaging, and efficient peer discovery, providing a foundation for secure and reliable communication.</p>
+<p>Waku operates within a peer-to-peer topology, creating a decentralised network that thwarts censorship and provides surveillance resistance. Its design supports scalability, with the ability to accommodate millions of users. It is designed to be the successor of Whisper, the messaging layer of the Ethereum blockchain peer-to-peer protocol suite, and outperforms it in scalability and resource efficiency.</p>
+<p>Waku&#x27;s architecture is underpinned by three distinct network interaction domains: gossip, discovery, and request/response. Although Waku is a cohesive whole in terms of capabilities, it encompasses three primary clients designed for different environments and several SDKs, including Rust, React Native, Kotlin, and Swift.</p>
+<ol>
+<li>nwaku: The reference implementation in Nim.</li>
+<li>go-waku: Tailored for native integration with Golang applications.</li>
+<li>js-waku: A JavaScript implementation optimized for browser environments.</li>
+</ol>
+<p>Waku consists of multiple protocols, each serving a specific function within the network. They include, but are not limited to:</p>
+<ul>
+<li>Waku Relay: The backbone of the Waku network, employing a pub/sub approach to peer-to-peer messaging. Emphasizes privacy, censorship resistance, and security, extending the libp2p GossipSub protocol.</li>
+<li>Waku Filter: A lightweight version of the relay protocol designed for resource-restricted devices. Allows light nodes to receive specific messages of interest from full nodes.</li>
+<li>Waku Store: Facilitates message retrieval for devices unable to participate in the Waku Relay network while offline.</li>
+<li>Waku Light Push: A request/response protocol enabling nodes with short connection windows or limited bandwidth to publish messages to the Waku network.</li>
+</ul>
+<p><img alt="alt_text" src="/media-images/waku_12c67d2953c0_waku_relay_shards_0760cd77ec-1e467d74-750.webp" srcset="/media-images/waku_12c67d2953c0_waku_relay_shards_0760cd77ec-1e467d74-750.webp 750w, /media-images/waku_12c67d2953c0_waku_relay_shards_0760cd77ec-1e467d74-813.webp 813w" sizes="(max-width: 767px) calc(100vw - 32px), 700px" width="813" height="642" loading="lazy" decoding="async" /></p>
+<p>Understanding Waku&#x27;s architecture and protocols lays the groundwork for proceeding into practical implementations.</p>
+<h2 id="use-cases-of-waku"><strong>Use cases of Waku</strong></h2>
+<p>Waku&#x27;s versatile architecture and capabilities find relevance in a myriad of real-world scenarios where secure and decentralised communication is paramount. Whether it&#x27;s facilitating private conversations between users, enabling data exchange between devices, or supporting communication among nodes within a network, Waku emerges as a robust solution.</p>
+<h4 id="privacy-focused-communication"><strong>Privacy-focused communication</strong></h4>
+<p>Waku&#x27;s emphasis on privacy makes it an ideal choice for scenarios where safeguarding user information is of utmost importance. In applications dealing with sensitive data or confidential conversations, Waku&#x27;s end-to-end encryption and decentralised architecture provide a secure environment, mitigating the risks associated with centralised communication platforms.</p>
+<h4 id="censorship-resistant-messaging"><strong>Censorship-resistant messaging</strong></h4>
+<p>Waku offers a beacon of hope for unrestricted communication in regions where internet censorship is prevalent. Its peer-to-peer topology prevents centralised authorities from controlling or monitoring messaging traffic, ensuring that users can communicate freely without fear of censorship. This makes Waku particularly valuable in promoting freedom of expression and supporting open communication channels.</p>
+<h4 id="use-in-dapps-for-decentralised-communication"><strong>Use in dApps for decentralised communication</strong></h4>
+<p>Decentralised applications (DApps) form a burgeoning ecosystem where Waku can play a pivotal role. Waku&#x27;s integration into dApps enhances communication functionalities, enabling real-time interactions among users while maintaining the decentralised ethos. This proves particularly valuable in scenarios such as collaborative platforms, social networks, or any application where user engagement and communication are central components.</p>
+<p>By exploring the features and capabilities of Waku, it becomes evident that Waku&#x27;s applicability extends beyond theoretical advantages, finding practical application in diverse areas.</p>
+<h2 id="building-a-dapp-with-waku-and-vuejs"><strong>Building a dApp with Waku and Vue.js</strong></h2>
+<p>Polling systems often face challenges related to centralisation, privacy concerns, and susceptibility to manipulation. By integrating Waku and Vue.js, we can tackle these challenges, creating a decentralised voting poll application that leverages the power of peer-to-peer communication.</p>
+<p>Here is the entire source code of my voting poll app on GitHub: <a target="_blank" rel="noopener noreferrer" href="https://github.com/wolz-CODElife/waku-vue-poll.git">https://github.com/wolz-CODElife/waku-vue-poll.git</a> and the <a target="_blank" rel="noopener noreferrer" href="https://waku-vue-poll.vercel.app/">live application</a> is hosted on Vercel.</p>
+<p><img alt="alt_text" src="/media-images/waku_d72135b218ee_image_1_604a7e0ed6-217c1291-750.webp" srcset="/media-images/waku_d72135b218ee_image_1_604a7e0ed6-217c1291-750.webp 750w, /media-images/waku_d72135b218ee_image_1_604a7e0ed6-217c1291-1400.webp 1400w" sizes="(max-width: 767px) calc(100vw - 32px), 700px" width="1600" height="962" loading="lazy" decoding="async" /></p>
+<p><img alt="alt_text" src="/media-images/waku_f7128aca2136_image_2_f356261429-56081d4c-750.webp" srcset="/media-images/waku_f7128aca2136_image_2_f356261429-56081d4c-750.webp 750w, /media-images/waku_f7128aca2136_image_2_f356261429-56081d4c-1400.webp 1400w" sizes="(max-width: 767px) calc(100vw - 32px), 700px" width="1600" height="962" loading="lazy" decoding="async" /></p>
+<p><img alt="alt_text" src="/media-images/waku_91496132a813_image_3_abb6d82132-e6ed5180-750.webp" srcset="/media-images/waku_91496132a813_image_3_abb6d82132-e6ed5180-750.webp 750w, /media-images/waku_91496132a813_image_3_abb6d82132-e6ed5180-1400.webp 1400w" sizes="(max-width: 767px) calc(100vw - 32px), 700px" width="1600" height="962" loading="lazy" decoding="async" /></p>
+<h3 id="dev-tools-i-used"><strong>Dev tools I used?</strong></h3>
+<ul>
+<li>Vite: To bootstrap the Vue3 application with the Tailwind template.</li>
+<li>Vue 3: To build the user interface.</li>
+<li>TypeScript: For type safety and potential for catching errors during compiling.</li>
+<li>Tailwind CSS: For styling the user interface.</li>
+<li>Web3.js: For implementing wallet connect.</li>
+<li>Node Polyfill Webpack Plugin: For providing polyfills necessary for emitting Web3.js events in the browser. Since Vue3 uses webpack v5, where polyfill Node core modules were removed.</li>
+<li>Crypto Hash: For hashing user address, where wallet is not available.</li>
+<li>Protobufjs: For serializing message data sent through Waku.</li>
+<li><code>@waku/sdk</code>: For accessing Waku node methods in JavaScript.</li>
+</ul>
+<h3 id="setting-up-the-development-environment"><strong>Setting up the development environment</strong></h3>
+<p>To set up your development environment, ensure you have Node v18+ then open a new terminal in your working directory and run the following command:</p>
+<pre><code>npm create vite@latest
+</code></pre>
+<p>Which will begin a dialogue in the terminal, you can choose options that work for you, or use the same options as I used:</p>
+<pre><code>Need to install the following packages:
+  create-vite@5.1.0
+Ok to proceed? (y) y
+✔ Project name: … waku-poll-app
+✔ Select a framework: › Vue
+✔ Select a variant: › TypeScript
+</code></pre>
+<p>This should create a new Vue application in your working directory, navigate to the app, install the default dependencies and start the app using the following command:</p>
+<pre><code>cd waku-poll-app
+npm install
+npm run dev
+</code></pre>
+<p>Next, we want to create a file structure that allows us to componentize the various parts of the app. Your <code>src</code> path should have a file structure like this:</p>
+<p><img alt="alt_text" src="/media-images/waku_3f32d222b3fe_image_4_cfa2cdfcf4-fb5f9c81-530.webp" srcset="/media-images/waku_3f32d222b3fe_image_4_cfa2cdfcf4-fb5f9c81-530.webp 530w" sizes="(max-width: 767px) calc(100vw - 32px), 700px" width="530" height="302" loading="lazy" decoding="async" /></p>
+<p>As we proceed we will update files with the necessary code, as for <code>assets/3dpoll.jpg</code> feel free to replace it with any image you see fit for your landing page.</p>
+<h3 id="setting-up-tailwind-in-vuejs"><strong>Setting up Tailwind in Vue.js</strong></h3>
+<p>To build our UI, we need to first install and configure Tailwind CSS in Vue 3. You can follow the official guide on <a target="_blank" rel="noopener noreferrer" href="https://v2.tailwindcss.com/docs/guides/vue-3-vite#setting-up-tailwind-css">Setting up Tailwind CSS</a>.</p>
+<h3 id="configuring-routes"><strong>Configuring routes</strong></h3>
+<p>To create multiple pages/routes in the app, we have to install Vue Router by running the following command in the terminal:</p>
+<pre><code>npm install --save vue-router@next 
+# Install the latest version
+</code></pre>
+<p>In this app, we just need two routes: “Home” and “Polls” which we have inside the <code>src/views</code> folder. These routes will contain the Layout of each page, and then we can define the routes in the <code>src/router/index.ts</code> file by using the following code:</p>
+<pre><code>import { createRouter, createWebHistory, RouteRecordRaw } from &#x27;vue-router&#x27;
+import Home from &#x27;@/views/Home.vue&#x27;
+
+const routes: Array&lt;RouteRecordRaw&gt; = [
+  {
+    path: &#x27;/&#x27;,
+    name: &#x27;Home&#x27;,
+    component: Home,
+  },
+  {
+    path: &#x27;/polls&#x27;,
+    name: &#x27;Polls&#x27;,
+
+    component: () =&gt; import(&#x27;../views/Polls.vue&#x27;),
+  }
+]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+})
+
+export default router
+</code></pre>
+<p>In the code snippet above, a Vue.js router configuration is defined. We import the necessary functions and types from &#x27;vue-router&#x27; and the Home component from <code>@/views/Home.vue</code>.</p>
+<p>The routes array contains route definitions for the Home and Polls components. The router is created using createRouter and createWebHistory functions, and the routes we defined earlier.</p>
+<p>The <code>component: () =&gt; import(&#x27;../views/Polls.vue&#x27;)</code> is used to dynamically import the &#x27;Polls.vue&#x27; component. This is a feature provided by Vue.js to asynchronously load the component when it&#x27;s needed, which can help improve initial page load performance by splitting the code into smaller chunks.</p>
+<p>Finally, the router is exported so we can access it in “main.ts”.</p>
+<p>Next, we register <code>router</code> to the Vue app by including it in the “main.ts” file like this:</p>
+<pre><code>// main.ts or main.js
+import { createApp } from &#x27;vue&#x27;;
+import App from &#x27;./App.vue&#x27;;
+import &#x27;./css/index.css&#x27;
+
+import router from &#x27;./router&#x27;
+
+createApp(App).use(router).mount(&#x27;#app&#x27;)
+</code></pre>
+<p>Next, we will create a Layout for our application with the following inside “App.vue”:</p>
+<pre><code>&lt;script lang=&quot;ts&quot;&gt;
+&lt;/script&gt;
+
+
+&lt;template&gt;
+  &lt;div class=&quot;flex flex-col h-screen justify-between&quot;&gt;
+    &lt;router-view class=&quot;container max-w-8xl mx-auto mb-auto px-4&quot; /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style&gt;
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+&lt;/style&gt;
+</code></pre>
+<p>In the code above, we use <code>router-view</code> to dynamically load the components of the current route into the DOM.</p>
+<h3 id="installing-waku-and-its-dependencies"><strong>Installing Waku and its dependencies</strong></h3>
+<p>To get started with Waku in our Vue 3 application, we need to install <code>@waku/sdk</code> which is a TypeScript implementation of the Waku protocol designed for web browser environments.</p>
+<p>To install <code>@waku.sdk</code> run the following command in the terminal:</p>
+<pre><code>npm install @waku/sdk
+</code></pre>
+<p>It is also recommended to create a message structure for your app, typically Waku developers use <a target="_blank" rel="noopener noreferrer" href="https://protobuf.dev/">Protocol Buffers</a> for consistency, interoperability, compatibility and payload size. To install <code>protobufjs</code>, run the following command in the terminal:</p>
+<pre><code>npm install protobufjs
+</code></pre>
+<h3 id="implementing-waku-logic"><strong>Implementing Waku logic</strong></h3>
+<p>The application runs on two fundamental logic, which are the wallet connect and Waku communication integrations. We will create two composables “waku.ts” and “client.ts” inside <code>src/composables</code>.</p>
+<p>“waku.ts” contains all the methods our Vue app needs to interact with the Waku protocol and transmit messages(polls) across users on the app. Inside this file, you should have the following code:</p>
+<pre><code>import { ref } from &#x27;vue&#x27;;
+import protobuf, { Message } from &#x27;protobufjs&#x27;;
+import {
+    createLightNode,
+    waitForRemotePeer,
+    createDecoder,
+    createEncoder,
+    Protocols,
+    IFilterSubscription,
+} from &#x27;@waku/sdk&#x27;;
+
+interface PollOption {
+    value: string;
+    votes: number;
+}
+
+interface PollMessage {
+    question: string;
+    options: { [key: string]: PollOption };
+}
+
+interface Poll {
+    msgid: string;
+    timestamp: string;
+    sender: string;
+    message: PollMessage;
+    // other properties...
+}
+
+
+export const status = ref&lt;string&gt;(&#x27;connecting...&#x27;);
+export const sender = ref(localStorage.getItem(&#x27;senderWalletAddress&#x27;) ?? &#x27;&#x27;);
+export const polls = ref&lt;Poll[]&gt;(JSON.parse(localStorage.getItem(&#x27;polls&#x27;) ?? &#x27;[]&#x27;));
+
+
+export const wakuNode = await createLightNode({
+    defaultBootstrap: true,
+});
+
+export const waitForRemotePeers = async () =&gt; {
+    // Wait for a successful peer connection
+    await waitForRemotePeer(wakuNode, [
+        Protocols.LightPush,
+        Protocols.Filter,
+    ]);
+}
+
+// Choose a content topic
+export const contentTopic = &#x27;/waku-vue-poll/1/polls/proto&#x27;;
+
+// message encoder and decoder
+export const encoder = createEncoder({ contentTopic, ephemeral: true });
+export const decoder = createDecoder(contentTopic);
+
+// Message structure with Protobuf
+export const PollQuestionWakuMessage = new protobuf.Type(&#x27;PollQuestion&#x27;)
+    .add(new protobuf.Field(&#x27;timestamp&#x27;, 1, &#x27;string&#x27;))
+    .add(new protobuf.Field(&#x27;msgid&#x27;, 2, &#x27;string&#x27;))
+    .add(new protobuf.Field(&#x27;sender&#x27;, 3, &#x27;string&#x27;))
+    .add(new protobuf.Field(&#x27;message&#x27;, 4, &#x27;string&#x27;));
+
+export const serializeMessage = (protoMessage: Message) =&gt; {
+    return PollQuestionWakuMessage.encode(protoMessage).finish()
+}
+
+export function useWaku() {
+
+    async function start() {
+        status.value = &#x27;connecting&#x27;        
+        try {
+            await wakuNode?.start().then(() =&gt; {
+                if (wakuNode.isStarted()) return waitForRemotePeers()
+            }).then(() =&gt; {
+                return wakuNode.connectionManager.getPeersByDiscovery()
+            }).then((data:any) =&gt; {
+                if (
+                    wakuNode.libp2p.getConnections().length ||
+                    data.CONNECTED.bootstrap.length ||
+                    data.CONNECTED[&#x27;peer-exchange&#x27;].length
+                ) {
+                    subscribe()
+                    status.value = &quot;connected&quot;
+                }
+            })
+        }
+        catch (error) {
+            console.error(&#x27;Error initializing Waku Light Node:&#x27;, error);
+            status.value = &#x27;not connected&#x27;;
+        }
+    }
+
+    async function stop() {
+        unsubscribe();
+        wakuNode.stop()
+        status.value = &#x27;not conencted&#x27;;
+    }
+    let subscription = {} as IFilterSubscription
+
+    async function subscribe() {
+        if (!wakuNode || status.value !== &#x27;connected&#x27;) await start();
+        try {
+          subscription = await wakuNode?.filter?.createSubscription();
+          await subscription.subscribe([decoder], (wakuMessage) =&gt; {
+            const messageObj = PollQuestionWakuMessage.decode(wakuMessage.payload).toJSON();
+            const result: Poll = {
+                timestamp: messageObj.timestamp,
+                msgid: messageObj.msgid,
+                sender: messageObj.sender,
+                message: JSON.parse(messageObj.message ?? &#x27;{}&#x27;)
+            };
+            handleSubscriptionResult(result);
+          });
+        } catch (error) {
+          console.error(&#x27;Error subscribing to Content Topic:&#x27;, error);
+        }
+      }
+
+      function handleSubscriptionResult(result:Poll) {
+        const msgid = result.msgid;
+        const existingPollIndex = polls.value.findIndex(poll =&gt; poll.msgid === msgid);
+
+        if (existingPollIndex !== -1) {
+          // Update the existing poll
+          polls.value.splice(existingPollIndex, 1, result);
+        } else {
+          // Add the new poll to the array
+          polls.value.unshift(result);
+        }
+
+        if (polls.value.length &gt; 0) {
+            localStorage.setItem(&#x27;polls&#x27;, JSON.stringify(polls.value));
+        }
+      }
+
+    async function unsubscribe() {
+        subscription.unsubscribe([contentTopic])
+    }
+
+    async function publish(sender: string, message: string, timestamp: string = new Date().toUTCString(), msgid: string = Date.now() + Math.floor(Math.random() * 90000).toString()) {    
+        if (!wakuNode || status.value !== &#x27;connected&#x27;) await start()
+
+        try {
+            const protoData = PollQuestionWakuMessage.create({
+                timestamp: timestamp,
+                msgid: msgid,
+                sender: sender,
+                message: message
+            })
+
+            return wakuNode.lightPush.send(encoder, { payload: serializeMessage(protoData) })
+        }
+        catch (error) {
+            console.error(&#x27;Error publishing to Content Topic:&#x27;, error);
+        }
+    }
+
+    return {
+        wakuNode,
+        status,
+        sender,
+        polls,
+        start,
+        stop,
+        subscribe,
+        unsubscribe,
+        publish,
+    };
+}
+</code></pre>
+<p>The above code enables interaction with the Waku network, enabling the creation and participation in polls within a Vue application.</p>
+<p>Firstly, we import necessary functions and define data structure using TypeScript interfaces to set a standard for PollOption, PollMessage and Poll. These structures represent the questions and options available in a poll and the overall structure of a poll, respectively.</p>
+<p>Reactive variables (status, sender, and polls) are defined to keep track of the connection status, the sender&#x27;s information, and the list of polls. These variables will be necessary for updating the Vue application in response to changes in the Waku network.</p>
+<p><em>Notice that we didn’t make WakuNode or any variable interacting with the Waku network directly reactive. As this will trigger <a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/js-waku/issues/1746">issue #1746</a> due to Waku nodes being too complex for Vue mechanisms to handle, so we have to keep the WakuNode instance outside Vue’s reactive scope.</em></p>
+<p><em>BTW, this took me almost 3 months to figure out 😭</em></p>
+<p>The WakuNode connection is established using the createLightNode function, optimizing resource usage by creating a Waku light node. This node connects to the Waku network and waits for peers to join using the <a target="_blank" rel="noopener noreferrer" href="https://rfc.vac.dev/spec/19/">LightPush</a> and <a target="_blank" rel="noopener noreferrer" href="https://rfc.vac.dev/spec/12/">Filter</a> Protocols. We defined a specific <a target="_blank" rel="noopener noreferrer" href="https://docs.waku.org/learn/concepts/content-topics">Content Topic</a> for this app to categorize messages and should have this format, <code>/{application-name}/{version}/{content-topic-name}/{encoding}</code>, make sure to replace <code>WAKU_CONTENT_TOPIC</code> with your actual Content Topic. and Protobuf is utilized for encoding and decoding messages efficiently to suit the <code>PollQuestionWakuMessage</code> message structure.</p>
+<p>After connecting to the Waku network, interaction follows. We created a function called useWaku() that encapsulates and returns all the variables and methods needed to interact with Waku across the entire application.</p>
+<p>First, we have the <code>start()</code> function that initiates the WakuNode connection, waits for peers to connect and subscribes to the chosen content topic, before updating the user’s status to <code>status.value = &quot;connected&quot;</code>.</p>
+<p>Next, we have <code>stop()</code> function that unsubscribes from the Content Topic and stops the WakuNode, before updating the user’s status to <code>status.value = &#x27;not conencted&#x27;</code>.</p>
+<p>Next, we have the <code>subscribe()</code> function that creates a subscription to the Content Topic using the Waku Filter, receives incoming poll messages, decodes them and updates the polls list. The handleSubscriptionResult function decodes incoming poll messages, checks for duplicates, and updates the list of polls accordingly.</p>
+<p>Next, we have the <code>unsubscribe()</code> function that disconnects the app from the Content Topic.</p>
+<p>Finally, the <code>publish()</code> function accepts the necessary parameters to create a new poll message and send the encoded poll message to the Waku network using the LightPush protocol.</p>
+<h3 id="implement-wallet-connect-logic"><strong>Implement Wallet Connect logic</strong></h3>
+<p>The <code>sender</code> variable in the “waku.ts” composable stores the wallet address of the connected wallet. For us to implement wallet connect, we need to first install “Web3.js” by running the following command in the terminal:</p>
+<pre><code>npm install web3
+</code></pre>
+<p>Since Vue 3 uses webpack v5, we need to install Node Polyfill Webpack Plugin to provide the polyfills necessary for emitting Web3.js events in the browser. Run the following command in the terminal to install the Node Polyfill Webpack Plugin:</p>
+<pre><code>npm i node-polyfill-webpack-plugin
+</code></pre>
+<p>Then include it in the “vite.config.ts” so that your “vite.config.ts” looks like this:</p>
+<pre><code>import { defineConfig } from &#x27;vite&#x27;;
+import vue from &#x27;@vitejs/plugin-vue&#x27;;
+import path from &#x27;path&#x27;;
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      &#x27;@/&#x27;: `${path.resolve(__dirname, &#x27;src&#x27;)}/`,
+    },
+  },
+  optimizeDeps: {
+    include: [&#x27;node-polyfill-webpack-plugin&#x27;],
+  },
+  esbuild: {
+    supported: {
+      &#x27;top-level-await&#x27;: true
+    }
+  }
+});
+</code></pre>
+<p>You will notice we are also supporting <code>top-level-await</code>, this is because we are instantiating WakuNode at a top-level and the Vite build doesn’t support this.</p>
+<p>Inside the “client.ts” we will have the following code:</p>
+<pre><code>import Web3 from &#x27;web3&#x27;;
+import { useWaku } from &#x27;./waku&#x27;;
+import { sha256 } from &#x27;crypto-hash&#x27;;
+
+declare global {
+    interface Window {
+        ethereum: any;
+        web3: any
+    }
+}
+
+const waku = useWaku()
+export const generateUniqueID = () =&gt; {
+    const userAgentHash = sha256(navigator.userAgent + Math.floor(Math.random() * 90000));
+  return userAgentHash;
+};
+
+// Validate Ethereum Address
+export const validateEthereumAddress = (address:any) =&gt; {
+    return /^(0x)?[0-9a-fA-F]{40}$/.test(address);
+}
+
+export function useWalletConnect() {
+    // Improved connectWallet Function
+    async function connectWallet() {
+        if (window.ethereum) {
+            try {
+                const accounts = await window.ethereum.request({ method: &#x27;eth_requestAccounts&#x27; });
+                window.web3 = new Web3(window.ethereum);
+
+                if (accounts.length &gt; 0 &amp;&amp; validateEthereumAddress(accounts[0])) {
+                    const walletAddress = accounts[0];
+                    waku.sender.value = walletAddress;
+                    localStorage.setItem(&#x27;senderWalletAddress&#x27;, walletAddress);
+                } else {
+                    console.error(&#x27;Invalid Ethereum address detected. Generating fallback ID.&#x27;);
+                    generateUniqueID().then((hashID) =&gt; {
+                        const newHash = &#x27;abcdef012345&#x27;[Math.floor(Math.random() * 12)] + &quot;x&quot; + hashID.slice(-20);
+                        waku.sender.value = newHash;
+                        localStorage.setItem(&#x27;senderWalletAddress&#x27;, newHash);
+                    });
+                }
+
+                await waku.start();
+            } catch (error) {
+                console.error(&#x27;Error connecting wallet:&#x27;, error);
+            }
+        } else {
+            console.log(&#x27;No Ethereum wallet detected.&#x27;);
+        }
+    }
+
+
+    async function disconnectWallet() {
+        localStorage.removeItem(&#x27;senderWalletAddress&#x27;);
+        localStorage.removeItem(&#x27;polls&#x27;);
+        // stop waku&#x27;s light node
+        await waku.wakuNode.stop();
+        waku.stop()
+        waku.sender.value = &quot;&quot;
+        waku.status.value = &quot;connecting...&quot;
+        waku.polls.value = []
+    }
+    async function signMessage(msgid: string, stringifiedMessage:string) {
+        const messageToSign = `Message ID: ${msgid}, Content: ${stringifiedMessage}`;
+        let signature;
+        try {
+            signature = await window.ethereum.request({
+                method: &#x27;personal_sign&#x27;,
+                params: [messageToSign, waku.sender.value],
+            });
+            return signature
+        } catch (signError) {
+            console.error(&#x27;Error signing the message:&#x27;, signError);
+            return;
+        }
+    }
+
+    return {
+        connectWallet,
+        disconnectWallet,
+        signMessage
+    };
+}
+</code></pre>
+<p>The above code enables users to connect their crypto wallet to the app as a means of identification. In this scenario, we used the wallet address as the sender of the poll.</p>
+<p>However, some users may not have wallets and we don’t want to limit the application to only users that have crypto wallets. To tackle this, we created the <code>generateUniqueID()</code> function to form a random hash from the <code>navigator.userAgent</code> address of the user’s browser. Then we store the sender’s address in localStorage as “&#x27;senderWalletAddress&#x27;”.</p>
+<p>We also created a <code>disconnectWallet()</code> function to remove the wallet address from localStorage and stop the WakuNode running.</p>
+<p>To claim ownership of the polls, users have to sign each poll message using their wallet, for this the <code>signMessage</code> function is executed.</p>
+<p>The <code>useWalletConnect</code> composable encapsulates and returns the <code>connectWallet</code>, <code>disconnectWallet</code> and <code>signMessage</code> functions so that they are accessible across the application.</p>
+<h3 id="building-the-ui-components"><strong>Building the UI components</strong></h3>
+<p>Now that we have our logic, we can build the UI to utilize the data and methods in our composables.</p>
+<p>We have 3 major components in this app, the <code>NavBar</code>, <code>Home</code> and <code>Polls</code>. Feel free to create your user interface or use mine:</p>
+<ul>
+<li><a target="_blank" rel="noopener noreferrer" href="https://github.com/wolz-CODElife/waku-vue-poll/blob/master/src/components/NavBar.vue">NavBar</a>: <code>src/components/NavBar.vue</code></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://github.com/wolz-CODElife/waku-vue-poll/blob/master/src/views/Home.vue">Home</a>: <code>src/views/Home.vue</code></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://github.com/wolz-CODElife/waku-vue-poll/blob/master/src/views/Polls.vue">Polls</a>: <code>src/views/.vue</code></li>
+</ul>
+<h3 id="creating-polls"><strong>Creating polls</strong></h3>
+<p>If you go through my NavBar component code, you will find that we have a <code>ref</code> called poll:</p>
+<pre><code>const poll = ref&lt;Poll&gt;({
+  question: &quot;&quot;,
+  options: {
+    a: { value: &quot;&quot;, votes: 0},
+    b: { value: &quot;&quot;, votes: 0},
+    c: { value: &quot;&quot;, votes: 0},
+    d: { value: &quot;&quot;, votes: 0},
+    e: { value: &quot;&quot;, votes: 0}
+  }
+})
+</code></pre>
+<p>This <code>ref</code> is updated by the modal form, and on submit, we trigger the <code>sendMessage</code> function:</p>
+<pre><code>const sendMessage = () =&gt; {
+  const stringifiedMessage = JSON.stringify(poll.value)
+  const msgid = Date.now() + Math.floor(Math.random() * 90000).toString();
+  const timestamp = new Date().toUTCString()
+
+  // sign message
+  signMessage(msgid, stringifiedMessage).then((signature) =&gt; {
+    // send a message
+    waku.publish(signature, stringifiedMessage, timestamp, msgid)
+
+    // reset question state
+    poll.value = {
+      question: &quot;&quot;,
+      options: {
+        a: { value: &quot;&quot;, votes: 0},
+        b: { value: &quot;&quot;, votes: 0},
+        c: { value: &quot;&quot;, votes: 0},
+        d: { value: &quot;&quot;, votes: 0},
+        e: { value: &quot;&quot;, votes: 0}
+      }
+    }
+    }
+    onToggle()
+    // redirect user to where the new poll is populated
+    if (router.currentRoute.value.path !== &quot;/polls&quot;) {
+      router.push(&quot;/polls&quot;)
+    }
+  }).catch((error) =&gt; {
+    console.error(&quot;Error sending message&quot;, error);
+  })
+}
+</code></pre>
+<p>In the above code, we stringify the poll data which includes the question, and options so that we can publish the poll as a message to Waku. Then we create a <code>msgid</code> and <code>timestamp</code> for the message, before using the user&#x27;s wallet to sign the message. Once the message is signed, we call the <code>waku.publish(waku.sender.value, stringifiedMessage)</code> function to register the update for other users subscribing to the Content Topic.</p>
+<h3 id="real-time-voting-and-result-polling"><strong>Real-time voting and result polling</strong></h3>
+<p>In the “Poll.vue” component, we have a <code>handleVote()</code> function:</p>
+<pre><code>const handleVote = async (msgid: string, selectedOption: string | number) =&gt; {
+  loading.value = true
+  try {
+    // Find the selected poll in the polls array
+    let selectedPollIndex = waku.polls.value.findIndex((poll) =&gt; poll.msgid === msgid);
+
+    if (selectedPollIndex !== -1) {
+      // Update the vote count before publishing
+      waku.polls.value[selectedPollIndex].message.options[selectedOption].votes += 1;
+
+      // Create a reactive copy to trigger reactivity
+      const reactiveCopy = reactive({ ...waku.polls.value[selectedPollIndex] });
+
+      // Publish the updated poll
+
+      const stringifiedMessage = JSON.stringify(reactiveCopy.message);
+
+      await waku.publish(reactiveCopy.sender , stringifiedMessage, reactiveCopy.timestamp, msgid);
+
+      // Store the msgid in local storage
+      votedPolls.value.push(msgid);
+      localStorage.setItem(&#x27;votedPolls&#x27;, JSON.stringify(votedPolls.value));
+    }
+    loading.value = false
+  } catch (error) {
+    console.error(&#x27;Error in handleVote:&#x27;, error);
+  }
+};
+</code></pre>
+<p>This function is triggered when the radio input of any option is clicked. This function collected the <code>msgid</code> and the <code>selectedOption</code> as parameters. Then call the <code>subscribe()</code> function to fetch the latest version of the polls, before updating the vote counts of an option in the poll that has the <code>msgid</code>.</p>
+<p>We created a reactive copy of the poll so that the vote count update will be reflected even if the state changes. Then we publish the reactive copy, which will send the updated poll results to all the users that are subscribed to the Content Topic of this app.</p>
+<p>To track the polls a user has voted for, we store a “votePolls” array in the localStorage.</p>
+<p>Feel free to play around with the functionality and optimize the performance to meet your application requirements.</p>
+<h2 id="summary-of-the-article"><strong>Summary of the article</strong></h2>
+<p>In this comprehensive guide, we embarked on a journey to integrate Waku, a decentralised communication protocol, into a Vue.js application, creating a real-time voting poll dApp. Let&#x27;s recap the key takeaways from the guide:</p>
+<ul>
+<li>Understanding Waku
+<ul>
+<li>Explored Waku as a family of protocols facilitating private, censorship-resistant communications over a decentralised network.</li>
+<li>Examined Waku&#x27;s features, architecture, and its focus on privacy, decentralisation, and adaptability to various platforms.</li>
+<li>Discussed the different components of Waku, such as Waku Relay, Waku Filter, Waku Store, and Waku Light Push.</li>
+</ul>
+</li>
+<li>Use Cases of Waku
+<ul>
+<li>Discussed real-world scenarios where Waku proves invaluable, emphasizing its role in privacy-focused communication, censorship-resistant messaging, and decentralised communication within dApps.</li>
+</ul>
+</li>
+<li>Building a dApp with Waku and Vue.js
+<ul>
+<li>Set up a Vue.js application using Vite and Tailwind CSS.</li>
+<li>Established a connection to the Waku network, implemented wallet authentication using Web3.js, and integrated the <code>@waku/sdk</code> for decentralised communication.</li>
+<li>Demonstrated the step-by-step process of building a real-time voting poll, connecting to the Waku network.</li>
+</ul>
+</li>
+</ul>
+<p>As you conclude this guide, consider taking the following actions to further explore and experiment with Waku:</p>
+<ol>
+<li><strong>Waku Documentation</strong>: Visit the <a target="_blank" rel="noopener noreferrer" href="https://docs.waku.org/">Waku documentation</a> to delve deeper into the functionalities, protocols, and use cases of Waku.</li>
+<li><strong>Experiment with Additional Functionalities</strong>: Extend the capabilities of your dApp by experimenting with additional functionalities provided by Waku. Explore features like ephemeral messaging, decentralised storage, and more to enhance your DApps.</li>
+<li><strong>Join the Waku Community</strong>: Engage with the <a target="_blank" rel="noopener noreferrer" href="https://waku.org/community/">Waku community</a> on forums, social media, or developer channels. Connect with like-minded developers, share your experiences, and stay updated on the latest developments within the Waku ecosystem.</li>
+<li><strong>Contribute to Waku</strong>: Consider <a target="_blank" rel="noopener noreferrer" href="https://waku.org/about/team">contributing</a> to the Waku project on platforms like GitHub. Whether it&#x27;s reporting issues, submitting pull requests, or suggesting improvements, your contributions can play a vital role in the growth of this decentralised communication protocol.</li>
+</ol>15:["$","$L26",null,{"bodyHtml":"$27","content":[]}]
+16:["$","footer",null,{"className":"mt-4 pb-20 max-sm:mt-[72px]","children":["$","div",null,{"className":"[&>section+section]:-mt-px","children":[null,["$","$L28",null,{"canonicalUrl":"https://dev.logos.co/media/article/build-dapps-using-waku","summary":"Did you know that far beyond being a mere industry buzzword, decentralised communication represents a strategic response to the vulnerabilities inherent in centralised systems? It prioritises privacy, security, and censorship resistance, making it an indispensable component in web developers' toolkits.","title":"Build a dApp Using Waku and Vue.js"}],null,null]}]}]
+19:null
+1c:["$","link","30",{"rel":"icon","href":"/favicon-32x32-dark.png?v=20260630","sizes":"32x32","type":"image/png","media":"(prefers-color-scheme: dark)"}]
+1d:["$","link","31",{"rel":"icon","href":"/favicon-16x16.png?v=20260630","sizes":"16x16","type":"image/png","media":"(prefers-color-scheme: light)"}]
+1e:["$","link","32",{"rel":"icon","href":"/favicon-16x16-dark.png?v=20260630","sizes":"16x16","type":"image/png","media":"(prefers-color-scheme: dark)"}]
+1f:["$","link","33",{"rel":"icon","href":"/favicon.ico?v=20260630","sizes":"any","media":"(prefers-color-scheme: light)"}]
+20:["$","link","34",{"rel":"icon","href":"/favicon-dark.ico?v=20260630","sizes":"any","media":"(prefers-color-scheme: dark)"}]
+21:["$","link","35",{"rel":"apple-touch-icon","href":"/apple-touch-icon.png","sizes":"180x180","type":"image/png"}]
+22:["$","$L29","36",{}]
+23:["$","meta",null,{"name":"next-size-adjust","content":""}]
+7:300
+7:C
+11:0
+b:"$undefined"
+e:"$undefined"
+10:"$undefined"
+9:"$undefined"
+6:"$undefined"

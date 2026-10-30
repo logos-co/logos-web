@@ -1,0 +1,263 @@
+1:"$Sreact.fragment"
+2:I[29612,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"ArticleSidebar"]
+3:I[66869,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"default"]
+f:X
+14:X
+14:C
+0:{"buildId":"dicak4mbzeiUiS7L7_MgJ","data":[{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"The Waku Roadmap\",\"description\":\"A comprehensive review of the Waku roadmap for H2 2023\",\"url\":\"https://dev.logos.co/media/article/waku-roadmap\",\"image\":\"https://cms-press.logos.co/uploads/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e.png\",\"datePublished\":\"2023-11-17T00:00:00.000Z\",\"dateModified\":\"2023-11-17T00:00:00.000Z\",\"author\":[{\"@type\":\"Person\",\"name\":\"Amelia Trapp\"},{\"@type\":\"Person\",\"name\":\"mf\"}],\"publisher\":{\"@type\":\"Organization\",\"@id\":\"https://dev.logos.co/#organization\",\"name\":\"Logos\",\"url\":\"https://dev.logos.co\",\"logo\":\"https://dev.logos.co/apple-touch-icon.png\"},\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https://dev.logos.co/media/article/waku-roadmap\"}}"}}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Media\",\"item\":\"https://dev.logos.co/media\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Articles\",\"item\":\"https://dev.logos.co/media/articles\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"The Waku Roadmap\",\"item\":\"https://dev.logos.co/media/article/waku-roadmap\"}]}"}}],["$","div",null,{"className":"media-detail-page bg-accent-tan pt-6 text-brand-dark-green lg:pt-[52px]","children":["$","div",null,{"className":"mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 md:grid-cols-[repeat(16,minmax(0,1fr))] md:gap-4 lg:px-0","children":[["$","$L2",null,{"contentsLabel":"Contents","title":"The Waku Roadmap","toc":[{"level":2,"tag":"h2","href":"#the-waku-roadmap-h2-2023","title":"The Waku Roadmap H2 2023","blockIndex":0},{"level":3,"tag":"h3","href":"#background-on-waku","title":"Background on Waku","blockIndex":1},{"level":3,"tag":"h3","href":"#achievements-in-h1-2023","title":"Achievements in H1 2023","blockIndex":2},{"level":3,"tag":"h3","href":"#roadmap-milestones-in-h2-2023","title":"Roadmap milestones in H2 2023","blockIndex":3},{"level":5,"tag":"h5","href":"#waku-network-gen-0","title":"Waku Network Gen 0","blockIndex":4},{"level":4,"tag":"h4","href":"#development-roadmap-tracks","title":"Development Roadmap tracks","blockIndex":5},{"level":5,"tag":"h5","href":"#general-track","title":"General Track","blockIndex":6},{"level":5,"tag":"h5","href":"#service-protocols","title":"Service Protocols","blockIndex":7},{"level":5,"tag":"h5","href":"#dos-protection","title":"DoS Protection","blockIndex":8},{"level":4,"tag":"h4","href":"#anticipated-risks-to-delivering-our-h2-milestones","title":"Anticipated risks to delivering our H2 milestones","blockIndex":9},{"level":4,"tag":"h4","href":"#become-a-part-of-the-waku-ecosystem","title":"Become a part of the Waku ecosystem","blockIndex":10}]}],["$","article",null,{"className":"flex min-w-0 max-w-[700px] flex-col gap-4 md:col-span-10 md:col-start-6 lg:col-span-8 lg:col-start-5","children":[["$","header",null,{"className":"mb-6 flex flex-col text-brand-dark-green","children":[["$","div",null,{"className":"mb-6","children":["$","nav",null,{"aria-label":"Breadcrumb","className":"font-sans text-[12px] leading-4 text-brand-dark-green","children":["$","ol",null,{"className":"flex flex-wrap items-center gap-2","children":[["$","li","/media",{"className":"flex items-center gap-2","children":[null,["$","$L3",null,{"href":"/media","localeCookie":{"name":"NEXT_LOCALE","sameSite":"lax"},"className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Media","prefetch":false}]]}],["$","li","/media/articles",{"className":"flex items-center gap-2","children":[["$","span",null,{"aria-hidden":"true","children":"/"}],["$","$L3",null,{"href":"/media/articles","localeCookie":"$0:data:0:rsc:props:children:0:2:props:children:props:children:1:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Articles","prefetch":false}]]}]]}]}]}],"$L4","$L5","$L6","$L7","$L8","$L9"]}],"$La","$Lb"]}]]}]}]],["$Lc"],"$Ld"]}],"isPartial":"$@e","staleTime":"$f","varyParams":null},{"rsc":"$L10","isPartial":"$@11","staleTime":"$f","varyParams":null},{"rsc":"$L12","isPartial":"$@13","staleTime":"$f","varyParams":"$14"},{"rsc":"$L15","isPartial":"$@16","staleTime":"$f","varyParams":"$14"},{"rsc":"$L17","isPartial":"$@18","staleTime":"$f","varyParams":null}],"isUpgradeableISRFallback":false,"a":"$@19","rootVaryParams":null,"needsRuntimeRequest":"$@1a"}
+1b:I[30117,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"ShareButton"]
+1c:I[15120,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"MediaRichContent"]
+1e:I[23738,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/3_vkhz-3bpp8h.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"ArticleDiscussion"]
+1f:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"OutletBoundary"]
+20:"$Sreact.suspense"
+22:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"ViewportBoundary"]
+23:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"MetadataBoundary"]
+24:I[61096,["/_next/static/chunks/2s2ety_0_qcqe.js"],"IconMark"]
+25:I[74724,["/_next/static/chunks/2s2ety_0_qcqe.js"],"default"]
+26:I[64438,["/_next/static/chunks/2s2ety_0_qcqe.js"],"default"]
+:HL["/media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-750.webp","image",{"imageSrcSet":"/media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-750.webp 750w, /media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-1400.webp 1400w","imageSizes":"(max-width: 767px) calc(100vw - 32px), 700px","fetchPriority":"high"}]
+4:["$","div",null,{"className":"mb-3 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[["$","span",null,{"children":"10 MIN"}],["$","span",null,{"aria-hidden":"true","className":"size-[3px] rounded-full bg-current"}],["$","span",null,{"children":"17 NOV 2023"}]]}]
+5:["$","div",null,{"children":[["$","h1",null,{"id":"title-anchor","className":"scroll-mt-[95px] font-display text-[44px] leading-[54px] tracking-normal","children":"The Waku Roadmap"}],null]}]
+6:["$","div",null,{"className":"mb-8 mt-4 flex flex-wrap items-center gap-3","children":[["$","div","28",{"className":"flex items-center gap-3","children":[["$","span",null,{"className":"flex items-center gap-2","children":[["$","span",null,{"className":"flex size-4 items-center justify-center rounded-full border border-brand-dark-green font-sans text-[11px] leading-4","children":"A"}],["$","span",null,{"className":"font-sans text-[12px] leading-4","children":"Amelia Trapp"}]]}],["$","span",null,{"aria-hidden":"true","children":"•"}]]}],["$","div","27",{"className":"flex items-center gap-3","children":[["$","span",null,{"className":"flex items-center gap-2","children":[["$","span",null,{"className":"flex size-4 items-center justify-center rounded-full border border-brand-dark-green font-sans text-[11px] leading-4","children":"m"}],["$","span",null,{"className":"font-sans text-[12px] leading-4","children":"mf"}]]}],null]}]]}]
+7:["$","div",null,{"className":"flex w-fit max-w-full items-start gap-4","children":[["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","95",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"waku"}],["$","span","102",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"roadmap"}],["$","span","100",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"progress"}],["$","span","101",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"milestones"}]]}],["$","span",null,{"aria-hidden":"true","className":"mt-1.5 h-3 border-l border-brand-dark-green"}],["$","$L1b",null,{"label":"Share","copiedLabel":"Copied","title":"The Waku Roadmap","url":"https://dev.logos.co/media/article/waku-roadmap"}]]}]
+8:["$","figure",null,{"className":"my-10 w-full max-md:my-6","children":[["$","div",null,{"className":"relative aspect-[1200/630] w-full overflow-hidden bg-brand-dark-green/10","children":["$","img",null,{"src":"/media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-750.webp","srcSet":"/media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-750.webp 750w, /media-images/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e-0538327d-1400.webp 1400w","sizes":"(max-width: 767px) calc(100vw - 32px), 700px","alt":"","width":2040,"height":885,"loading":"eager","fetchPriority":"high","decoding":"async","className":"absolute inset-0 size-full object-cover"}]}],["$","figcaption",null,{"className":"min-h-2 pt-2 font-sans text-[12px] leading-4","children":""}]]}]
+9:["$","div",null,{"className":"border-y border-brand-dark-green py-6 max-sm:py-4","children":["$","div",null,{"className":"media-detail-summary whitespace-pre-wrap font-sans text-[20px] leading-[30px] tracking-normal text-brand-dark-green max-sm:text-[18px] max-sm:leading-6","dangerouslySetInnerHTML":{"__html":"A comprehensive review of the Waku roadmap for H2 2023"}}]}]
+1d:T4b49,<h2 id="the-waku-roadmap-h2-2023"><strong>The Waku Roadmap H2 2023</strong></h2>
+<p>A comprehensive review of the Waku roadmap for H2 2023</p>
+<h3 id="background-on-waku">Background on Waku</h3>
+<p>To understand why Waku exists, you need only to consider the centralised internet. Technology giants can dictate what we see and with whom we can communicate. The centralised platforms we regularly use to communicate have privileged access to outlandish realms of personal data that powerful commercial and political institutions can leverage. In contrast, <a target="_blank" rel="noopener noreferrer" href="https://waku.org/">Waku</a> empowers internet users to circumvent these actions, offering a decentralised, open-source suite of privacy-preserving, peer-to-peer messaging protocols. The protocols are designed to flourish in resource-restricted environments to be accessible to people across the globe and can run on phones, servers, or browsers. Waku can be used for general messaging with humans, machines, or a hybrid situation.</p>
+<p>We apply <a target="_blank" rel="noopener noreferrer" href="https://hackmd.io/@vac/main/%2FYYlZYBCURFyO_ZG1EiteWg#11WAKU2-RELAY-gossipsub">Waku Relay</a> on top of the gossip protocol <a target="_blank" rel="noopener noreferrer" href="https://docs.libp2p.io/concepts/pubsub/overview/">GossipSub</a> from libp2p to route messages and information with a subset of connected peers, increasing security and privacy. A gossip protocol is a peer-to-peer protocol in which nodes periodically exchange information about themselves and other associated nodes. Currently, it is possible to use the Waku Network and join a public gossipsub network in a permissionless manner. Some projects using Waku that opt to do this include <a target="_blank" rel="noopener noreferrer" href="https://status.app/">Status Desktop and Mobile</a>, <a target="_blank" rel="noopener noreferrer" href="https://docs.railgun.org/wiki/learn/privacy-system/community-relayers">Railgun</a>, and <a target="_blank" rel="noopener noreferrer" href="https://docs.graphops.xyz/graphcast/design-principles">TheGraph</a>.</p>
+<h3 id="achievements-in-h1-2023">Achievements in H1 2023</h3>
+<p>One of the critical limitations of Waku is its reliance on a single GossipSub network for all users, which necessitates that each user relay traffic for all applications. As the adoption of Waku continues to grow, the bandwidth consumption skyrockets. Users with limited bandwidth capabilities are marginalised and unable to participate fully in the Waku Relay network. The key focus of the Waku development team in the first half of this year was to resolve some of these limitations around scaling to support the Status app’s goal of serving one million users.</p>
+<p>We met our milestone of providing a Waku network that can scale to approximately ten thousand active users within a <a target="_blank" rel="noopener noreferrer" href="https://status.app/">Status Community</a>, primarily thanks to implementing static sharding. Instead of having one relay network, we split the Waku Network into several relay (gossipsub) networks so that the end user is not required to relay the traffic of all applications, but rather just the traffic on the same shard. <a href="/media/article/scaling-waku-progress-update">We have also developed opt-in message signing</a> as another stopgap solution to match the Status app timeline and needs. The Community signs the messages with a single key belonging to the entire Community, presenting a more private solution than having individual signatures. This solution set, in addition to protocol and software improvements, should enable the Status team to launch the Status apps with reasonable bandwidth usage.</p>
+<p>The manual coordination of shard assignment with static sharding requires the actions of a central entity. While it is still permissionless, and anyone could run a node on any shard, the lack of coordination would deteriorate the user experience. Being able to scale Waku to support one million users on the Status app is dependent on our ability to improve on our H1 deliveries, which we will be stress testing and running through simulations.</p>
+<p>The Waku team also deployed basic protections. The Denial of Service (DoS) protections are very light and do not give any guarantees regarding bandwidth usage. Users running a node, such as Status Desktop, will not want it to hog their bandwidth. What was delivered in H1 has caveats in terms of permissionless and relative DOS protection. It is possible to build an application with either properties, but not both. You will find our approach to resolving this in the H2 roadmap below.</p>
+<p>You can read more about all of the deliveries in H1 <a href="/media/article/scaling-waku-progress-update">here.</a></p>
+<h3 id="roadmap-milestones-in-h2-2023">Roadmap milestones in H2 2023</h3>
+<p>Waku’s core milestone for H2 is launching and bootstrapping Waku Network Gen 0. There are an additional two milestones for 2024 that we have begun working on; those are:</p>
+<ul>
+<li><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/milestone/2">Add support for multiple platforms</a>&lt;span style={{ textDecoration: &quot;underline&quot;}}&gt;:</li>
+</ul>
+<p>We will be researching and experimenting with nim in 2023 to lay the groundwork for supporting multiple platforms.</p>
+<ul>
+<li><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/milestone/3">Instate quality assurance processes</a>&lt;span style={{ textDecoration: &quot;underline&quot;}}&gt;;</li>
+</ul>
+<p>This workstream has been initiated this year.</p>
+<h5 id="waku-network-gen-0">Waku Network Gen 0</h5>
+<p>The <a target="_blank" rel="noopener noreferrer" href="https://hackmd.io/6Q_bHochRMOvTRXN0vCr5A?both#Waku-Network-Gen-0">Waku Network Gen 0</a> builds on H1 2023’s network sharding innovations and uses rate limiting from work done in 2021 and 2022. The goal is to create one permissionless, auto-scalable, DoS protected public network. The auto-sharding protocol automatically allocates messages for an application and does not require a centralised, manual allocator.</p>
+<p>Through rate limiting, we will be working to ensure that users (or attackers) cannot flood the network beyond the maximum expected bandwidth usage. We will protect abuse through our RLN DoS protection, capping publishers to 1 message per second. We are also working on a dimensioning mechanism that would give publishers a maximum allocation of messages per day, limiting the maximum size of these messages within the overall network. Individuals can join a group on-chain and prove their membership in each message in a zero-knowledge manner – that is, without revealing which member they are. The number of members in the group is likely to be capped initially to guarantee maximum bandwidth usage by the network, although we will be able to review those when launching subsequent versions.</p>
+<p>Running nodes that fully participate in the Waku Relay Network should be encouraged. We aim to do so by optimising the software and making participation permissionless. With such innovations, the community can benefit from more neutral contributions to the network, hence the backbone of a secure, scalable network, and a more extensive set of nodes to get sender and recipient <a target="_blank" rel="noopener noreferrer" href="https://vac.dev/rlog/wakuv2-relay-anon?">k-anonymity</a>.</p>
+<p>It’s important to note that all current and future issues need to be solved while preserving our principles:</p>
+<ul>
+<li>Private</li>
+<li>Modular</li>
+<li>Scalable</li>
+<li>Censorship resistant</li>
+<li>Portable: works on mobile and browser</li>
+</ul>
+<h4 id="development-roadmap-tracks">Development Roadmap tracks</h4>
+<p>We have organised our research and development work into three tracks:</p>
+<p>General Track;</p>
+<p>Service Protocols;</p>
+<p>DoS protection.</p>
+<p>We will review each track in more detail below.</p>
+<h5 id="general-track">General Track</h5>
+<p>The foundational work focuses on creating a scalable and auto-sharded Waku Network. Here, we determine specifications, design, and implement strategies based on our research and development that aid in scaling the Waku Network.</p>
+<p>You can view the latest progress from the General Track <a target="_blank" rel="noopener noreferrer" href="https://github.com/orgs/waku-org/projects/2/views/2?filterQuery=E%3A+1.+">here</a>. Below are the key milestones and associated tasks from this track.</p>
+<ul>
+<li><strong><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/research/issues/6">1.1: Network requirements and design</a></strong>
+<ul>
+<li>Goal: 22 Sep 2023</li>
+<li>Key Activities:
+<ul>
+<li>Determine network specifications and design.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/issues/65">1.2: Auto-sharding for autoscaling</a></strong>
+<ul>
+<li>Goal: 30 Sep 2023</li>
+<li>Key Activities:
+<ul>
+<li>Design and implement auto-sharding strategy.</li>
+<li>Launch a limited number of shards.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/issues/66">1.3: Node bandwidth management mechanism</a></strong>
+<ul>
+<li>Goal: 31 Oct 2023</li>
+<li>Key Activities:
+<ul>
+<li>Implement bandwidth management to choose shards based on availability for relay nodes dynamically</li>
+<li>Design predictable bandwidth limits per shard</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/issues/67">1.4: Peer management and discovery</a></strong>
+<ul>
+<li>Goal: 30 Nov 2023</li>
+<li>Key Activities:
+<ul>
+<li>Design transparent interaction between applications and shards</li>
+<li>Peer management system to track and discover public shared peers</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/research/issues/1">1.5: Launch and dogfood integrated public Waku Network MVP</a></strong>
+<ul>
+<li>Goal: 31 Jan 2024</li>
+<li>Key Activities:
+<ul>
+<li>Launch Waku Network MVP</li>
+<li>Gather feedback and improve</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="service-protocols"><strong>Service Protocols</strong></h5>
+<p>Our focus within <a target="_blank" rel="noopener noreferrer" href="https://docs.waku.org/overview/concepts/protocols">Service Protocols</a> is required to upkeep and expand protocols such as filter, lightpush, peer exchange and store within the public network in a decentralised manner. Work within this track also involves ongoing efforts to incentivise our network.</p>
+<p>You can view the latest progress from the Service Protocols Track <a target="_blank" rel="noopener noreferrer" href="https://github.com/orgs/waku-org/projects/2/views/2?filterQuery=E%3A+2.+">here</a>. Below are the key milestones and associated tasks from this track.</p>
+<ul>
+<li><strong><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/issues/49">2.1: Production testing of existing protocols</a></strong>
+<ul>
+<li>Goal: 30 Nov 2023</li>
+<li>Key Activities:
+<ul>
+<li>Test and improve current service protocols: <a target="_blank" rel="noopener noreferrer" href="https://rfc.vac.dev/spec/12/">filter</a>, <a target="_blank" rel="noopener noreferrer" href="https://rfc.vac.dev/spec/19/">lightpush</a>, and <a target="_blank" rel="noopener noreferrer" href="https://rfc.vac.dev/spec/34/">peer-exchange</a>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/issues/63">2.2: Sharded capability discovery for light protocols</a></strong>
+<ul>
+<li>Goal: 30 Sep 2023</li>
+<li>Key Activities:
+<ul>
+<li>Peer selection mechanism that translates content topics to their underlying shard</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/issues/64">2.3: Basic distributed store services</a></strong>
+<ul>
+<li>Goal: 30 Nov 2023 (integrate in 2024)</li>
+<li>Key Activities:
+<ul>
+<li>Discover Store nodes for specific content topics and time ranges.</li>
+<li>Service nodes to advertise their store services</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/issues/80">2.4: Basic design for service incentivisation</a></strong>
+<ul>
+<li>Goal: 31 Dec 2023</li>
+<li>Key Activities:
+<ul>
+<li>Incentivize service provision of the Waku Network</li>
+<li>Tokenomics implementation</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="dos-protection"><strong>DoS Protection</strong></h5>
+<p>Denial of Service (DoS) mitigation is a challenge within any network. Bandwidth is a scarce resource for the Waku network; DoS protection is about stopping an attacker from flooding the network or for a Waku node to hog all of a user’s bandwidth. This track covers consensus mechanisms such as our rate-limiting designs.</p>
+<p>We balance free traffic with a fairly incentivised structure that doesn’t exhaust the overall bandwidth. We must implement measures to ensure the bandwidth usage is feasible for additional protocol-wide DOS protection. We need to assist node operators in maximising the use of their resources and allocate shard support depending on current traffic so that we can assure ongoing service guarantees.</p>
+<p>You can view the latest progress from the DoS Protection Track <a target="_blank" rel="noopener noreferrer" href="https://github.com/orgs/waku-org/projects/2/views/2?filterQuery=E%3A+3.+">here</a>. Below are the key milestones and associated tasks from this track.</p>
+<ul>
+<li><strong><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/issues/69">3.1: DoS requirements and design</a></strong>
+<ul>
+<li>Goal: 22 Sep 2023</li>
+<li>Key Activities:
+<ul>
+<li>Define DoS/spam protection specifications</li>
+<li>Design initial membership mechanisms</li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://hackmd.io/@alrevuelta/rkqbPKaoo">Free and or paid traffic design</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/issues/70">3.2: Basic DoS protection in production</a></strong>
+<ul>
+<li>Goal: 31 Oct 2023</li>
+<li>Key Activities:
+<ul>
+<li>Implement and launch the RLN mechanism</li>
+<li>Implement rate limiting</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/issues/71">3.3: Membership for Status Communities</a></strong>
+<ul>
+<li>Goal: 30 Nov 2023</li>
+<li>Key Activities:
+<ul>
+<li>Design membership assignments for community members</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/issues/72">3.4: Further memberships</a></strong>
+<ul>
+<li>Goal: 31 Dec 2023</li>
+<li>Key Activities:
+<ul>
+<li>Expanding memberships to third parties</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="anticipated-risks-to-delivering-our-h2-milestones">Anticipated risks to delivering our H2 milestones</h4>
+<p>We have identified several challenges that may impact our ability to deliver on our roadmap milestones.</p>
+<p><strong>1. Ongoing structural design changes due to practical implications:</strong></p>
+<p>Our network dimensioning on modelling and assumptions may need to be modified when applied in real-world use cases. For example, we have designed the network not to allow more than one message published per second by each publisher. We have set message sizes to a maximum of 150 KB, implemented a 20-second grace period, and divided all traffic among 8 defined network shards. The risk is that, despite our modelling and research, the structural changes might not be helpful for all applications.</p>
+<p>We are committed to building in the open and accept that our <a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/pm/blob/master/README.md">project management process</a> could be better. This principle of openness is why we are dedicating effort to producing easily digestible content, such as our documentation at <a target="_blank" rel="noopener noreferrer" href="https://docs.waku.org/">docs.waku.org</a>.</p>
+<p><strong>2. Interactions between applications and nodes:</strong></p>
+<p>Waku Relay is the foundation for building decentralised communications. There is uncertainty on how applications will interact with the underlying nodes to ensure that all app traffic gets routed seamlessly and transparently, all while having a balanced data load throughout eight different routing shards.</p>
+<p><strong>3. Navigating Bandwidth Management</strong></p>
+<p>Bandwidth in peer-to-peer networks is a luxury that needs to be acutely observed and managed. To maintain a large group of peers hosting nodes, we must be capable of securely managing bandwidth allocation to their nodes.</p>
+<h4 id="become-a-part-of-the-waku-ecosystem">Become a part of the Waku ecosystem</h4>
+<p>If you have questions about Waku’s development roadmap or want to join a like-minded community focused on bringing peer-to-peer communications to millions of users, join the Waku <a target="_blank" rel="noopener noreferrer" href="https://discord.waku.org/">Discord</a> or follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/Waku_org">X</a>.</p>
+<p>If the technology speaks to you, <a target="_blank" rel="noopener noreferrer" href="https://https://status.app/jobs/">check out our open job positions</a> or crack some of our <a target="_blank" rel="noopener noreferrer" href="https://github.org/waku-org/bounties">bounties</a>.</p>
+<p>You can also help to ensure that we stay decentralised by <a target="_blank" rel="noopener noreferrer" href="https://docs.waku.org/guides/nwaku/run-node">running your own Waku Node!</a></p>
+<p>To integrate Waku into your application, check the table below for the necessary links. You can always get further support from us on Discord.</p>
+<div class="media-detail-table"><table><tbody><tr><td>
+    </td><td><strong>Integrate Waku into your application</strong>
+    </td></tr><tr><td>docs
+    </td><td><a target="_blank" rel="noopener noreferrer" href="https://docs.waku.org/">https://docs.waku.org</a>
+    </td></tr><tr><td>nwaku
+    </td><td><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/nwaku">https://github.com/waku-org/nwaku</a>
+    </td></tr><tr><td>browser (JS/TS)
+    </td><td><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/js-waku">https://github.com/waku-org/js-waku</a>
+    </td></tr><tr><td>Go
+    </td><td><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/go-waku">https://github.com/waku-org/go-waku</a>
+    </td></tr><tr><td>Rust
+    </td><td><a target="_blank" rel="noopener noreferrer" href="https://github.com/waku-org/waku-rust-bindings">https://github.com/waku-org/waku-rust-bindings</a>
+    </td></tr></tbody></table></div>
+<p>We look forward to connecting and hearing your feedback on our roadmap.</p>a:[["$","$L1c",null,{"bodyHtml":"$1d","content":[]}],null]
+b:["$","footer",null,{"className":"mt-4 pb-20 max-sm:mt-[72px]","children":["$","div",null,{"className":"[&>section+section]:-mt-px","children":[null,["$","$L1e",null,{"canonicalUrl":"https://dev.logos.co/media/article/waku-roadmap","summary":"A comprehensive review of the Waku roadmap for H2 2023","title":"The Waku Roadmap"}],null,null]}]}]
+c:["$","script","script-0",{"src":"/_next/static/chunks/42v9oo3je71u9.js","async":true}]
+d:["$","$L1f",null,{"children":["$","$20",null,{"name":"Next.MetadataOutlet","children":"$@21"}]}]
+10:["$","$1","h",{"children":[null,["$","$L22",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L23",null,{"children":["$","$20",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"The Waku Roadmap | Logos"}],["$","meta","1",{"name":"description","content":"A comprehensive review of the Waku roadmap for H2 2023"}],["$","meta","2",{"name":"keywords","content":"logos,decentralised,privacy,civil society,blockchain"}],["$","meta","3",{"name":"creator","content":"Logos"}],["$","meta","4",{"name":"robots","content":"noindex, nofollow"}],["$","link","5",{"rel":"canonical","href":"https://dev.logos.co/media/article/waku-roadmap"}],["$","link","6",{"rel":"alternate","hrefLang":"en","href":"https://dev.logos.co/media/article/waku-roadmap"}],["$","link","7",{"rel":"alternate","hrefLang":"x-default","href":"https://dev.logos.co/media/article/waku-roadmap"}],["$","link","8",{"rel":"alternate","type":"application/rss+xml","href":"https://dev.logos.co/rss/main.xml","title":"Logos Media"}],["$","link","9",{"rel":"alternate","type":"application/rss+xml","href":"https://dev.logos.co/rss/logos-state.xml","title":"Logos Podcast"}],["$","link","10",{"rel":"alternate","type":"application/atom+xml","href":"https://dev.logos.co/atom.xml"}],["$","meta","11",{"property":"og:title","content":"The Waku Roadmap | Logos"}],["$","meta","12",{"property":"og:description","content":"A comprehensive review of the Waku roadmap for H2 2023"}],["$","meta","13",{"property":"og:url","content":"https://dev.logos.co/media/article/waku-roadmap"}],["$","meta","14",{"property":"og:site_name","content":"Logos"}],["$","meta","15",{"property":"og:locale","content":"en"}],["$","meta","16",{"property":"og:image","content":"https://cms-press.logos.co/uploads/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e.png"}],["$","meta","17",{"property":"og:image:width","content":"2040"}],["$","meta","18",{"property":"og:image:height","content":"885"}],["$","meta","19",{"property":"og:type","content":"article"}],["$","meta","20",{"property":"article:published_time","content":"2023-11-17"}],["$","meta","21",{"property":"article:modified_time","content":"2023-11-17"}],["$","meta","22",{"property":"article:author","content":"Amelia Trapp"}],["$","meta","23",{"property":"article:author","content":"mf"}],["$","meta","24",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","25",{"name":"twitter:title","content":"The Waku Roadmap | Logos"}],["$","meta","26",{"name":"twitter:description","content":"A comprehensive review of the Waku roadmap for H2 2023"}],["$","meta","27",{"name":"twitter:image","content":"https://cms-press.logos.co/uploads/waku_3ae5003f9014_black_waku_logo_with_name_27fa70829e.png"}],["$","link","28",{"rel":"icon","href":"/favicon.svg?v=20260630","type":"image/svg+xml","media":"(prefers-color-scheme: light)"}],["$","link","29",{"rel":"icon","href":"/favicon-dark.svg?v=20260630","type":"image/svg+xml","media":"(prefers-color-scheme: dark)"}],["$","link","30",{"rel":"icon","href":"/favicon-32x32.png?v=20260630","sizes":"32x32","type":"image/png","media":"(prefers-color-scheme: light)"}],["$","link","31",{"rel":"icon","href":"/favicon-32x32-dark.png?v=20260630","sizes":"32x32","type":"image/png","media":"(prefers-color-scheme: dark)"}],["$","link","32",{"rel":"icon","href":"/favicon-16x16.png?v=20260630","sizes":"16x16","type":"image/png","media":"(prefers-color-scheme: light)"}],["$","link","33",{"rel":"icon","href":"/favicon-16x16-dark.png?v=20260630","sizes":"16x16","type":"image/png","media":"(prefers-color-scheme: dark)"}],["$","link","34",{"rel":"icon","href":"/favicon.ico?v=20260630","sizes":"any","media":"(prefers-color-scheme: light)"}],["$","link","35",{"rel":"icon","href":"/favicon-dark.ico?v=20260630","sizes":"any","media":"(prefers-color-scheme: dark)"}],["$","link","36",{"rel":"apple-touch-icon","href":"/apple-touch-icon.png","sizes":"180x180","type":"image/png"}],["$","$L24","37",{}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}]
+12:["$","$1","c",{"children":[null,["$","$L25",null,{"parallelRouterKey":"children","template":["$","$L26",null,{}]}]]}]
+15:["$","$1","c",{"children":[null,["$","$L25",null,{"parallelRouterKey":"children","template":["$","$L26",null,{}]}]]}]
+17:["$","$1","c",{"children":[null,["$","$L25",null,{"parallelRouterKey":"children","template":["$","$L26",null,{}]}]]}]
+1a:true
+21:null
+f:300
+f:C
+19:0
+11:"$undefined"
+13:"$undefined"
+16:"$undefined"
+18:"$undefined"
+e:"$undefined"
