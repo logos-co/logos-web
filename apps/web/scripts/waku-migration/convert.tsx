@@ -5,6 +5,7 @@ import rehypeRaw from 'rehype-raw'
 import remarkGfm from 'remark-gfm'
 import matter from 'gray-matter'
 import GithubSlugger from 'github-slugger'
+import { normaliseLegacyMdx } from './legacy-mdx'
 
 export interface SourceArticle {
   sourceFile: string
@@ -35,6 +36,13 @@ const textOf = (node: HtmlNode): string =>
     : (node.children ?? []).map(textOf).join('')
 
 export function rewriteLink(href: string, slugs: ReadonlySet<string>): string {
+  const corrections: Record<string, string> = {
+    'walu.org/events': 'https://waku.org/events',
+    'discord.waku.org': 'https://discord.waku.org',
+    'logos.co': 'https://logos.co',
+    '#message-routing--sharding': '#message-routing---sharding',
+  }
+  if (corrections[href]) return corrections[href]
   if (href.startsWith('#')) return href
   const url = new URL(href, 'https://blog.waku.org/')
   if (url.hostname !== 'blog.waku.org') return href
@@ -57,25 +65,38 @@ export function convertArticle(
   if (!data.title || !data.slug || !Number.isFinite(date.getTime())) {
     throw new Error(`Missing title, slug or date: ${sourceFile}`)
   }
-  const cleaned = content
-    .replace(/^import \{ Button \} from '@acid-info\/lsd-react'\s*$/m, '')
-    .replace(
-      /<a href="\/es\/build-dapps-using-waku">\s*<Button>Read in Spanish<\/Button>\s*<\/a>\s*(?:<br\s*\/>\s*)*/m,
-      ''
-    )
-    .replace(/<!--\s*truncate\s*-->/g, '')
+  const cleaned = normaliseLegacyMdx(
+    content
+      .replace(/^import \{ Button \} from '@acid-info\/lsd-react'\s*$/m, '')
+      .replace(
+        /<a href="\/es\/build-dapps-using-waku">\s*<Button>Read in Spanish<\/Button>\s*<\/a>\s*(?:<br\s*\/>\s*)*/m,
+        ''
+      )
+      .replace(/<!--\s*truncate\s*-->/g, '')
+  )
   const images = new Set<string>()
   const codeBlocks: string[] = []
   let summary = ''
   const transform = () => (tree: HtmlNode) => {
     const slugger = new GithubSlugger()
+    const firstHeading = tree.children?.find((node) =>
+      /^h[1-6]$/.test(node.tagName ?? '')
+    )
+    const isDuplicateTitle = (node: HtmlNode) =>
+      node === firstHeading && textOf(node).trim() === title.trim()
     const hasH1 = (node: HtmlNode): boolean =>
-      node.tagName === 'h1' || (node.children ?? []).some(hasH1)
+      (node.tagName === 'h1' && !isDuplicateTitle(node)) ||
+      (node.children ?? []).some(hasH1)
     const shiftHeadings = hasH1(tree)
     const visit = (node: HtmlNode) => {
       const props = node.properties ?? {}
       if (/^h[1-6]$/.test(node.tagName ?? '')) {
         props.id = props.id || slugger.slug(textOf(node))
+        if (isDuplicateTitle(node)) {
+          // The page H1 owns this title; retain the source fragment destination.
+          node.tagName = 'span'
+          node.children = []
+        }
       }
       if (node.tagName === 'a' && typeof props.href === 'string') {
         props.href = rewriteLink(props.href, slugs)

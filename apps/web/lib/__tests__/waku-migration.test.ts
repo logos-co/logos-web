@@ -18,6 +18,49 @@ const convert = (body: string) =>
   })
 
 describe('Waku article conversion', () => {
+  it('renders legacy MDX formatting without changing fenced or inline code', () => {
+    const literal =
+      '**Reliability: ** <span style={{ textDecoration: "underline"}}>:</span>'
+    const article = convert(
+      `**Reliability: **Keep the words.\n\n[Platform](https://example.com)<span style={{ textDecoration: "underline"}}>:</span>\n\n<br />\n[Waku](https://waku.org/)\n\n\`${literal}\`\n\n\`\`\`jsx\n${literal}\n\`\`\``
+    )
+    expect(article.body).toContain(
+      '<strong>Reliability:</strong> Keep the words.'
+    )
+    expect(article.body).toContain('<u>:</u>')
+    expect(article.body).toContain('<a href="https://waku.org/">Waku</a>')
+    expect(article.codeBlocks).toEqual([`${literal}\n`])
+    expect(article.body).toContain('<code>**Reliability: ** &lt;span')
+  })
+  it('keeps the original title anchor without a second visible title', () => {
+    const article = convert(
+      '# Original title\n\nIntroduction.\n\n## Next section'
+    )
+    expect(article.body).toContain('<span id="original-title"></span>')
+    expect(article.body).not.toContain('>Original title<')
+    expect(article.body).toContain('<h2 id="next-section">Next section</h2>')
+    expect(article.title).toBe('Original title')
+  })
+  it('does not pair a valid bold closing delimiter with the next opening delimiter', () => {
+    const article = convert(
+      'The limit **was 1 message.** Now it is **100 messages** per minute.'
+    )
+    expect(article.body).toContain(
+      '<strong>was 1 message.</strong> Now it is <strong>100 messages</strong>'
+    )
+  })
+  it('repairs the audited source destinations and fragment', () => {
+    expect(rewriteLink('walu.org/events', new Set())).toBe(
+      'https://waku.org/events'
+    )
+    expect(rewriteLink('discord.waku.org', new Set())).toBe(
+      'https://discord.waku.org'
+    )
+    expect(rewriteLink('logos.co', new Set())).toBe('https://logos.co')
+    expect(rewriteLink('#message-routing--sharding', new Set())).toBe(
+      '#message-routing---sharding'
+    )
+  })
   it('preserves literal code, prose, tables, image captions and author/date metadata', () => {
     const article = convert(
       'Introduction.\n\n# Heading\n\n```jsx\nimport App from "./App"\n<App value={1} />\n```\n\n| A | B |\n| - | - |\n| 1 | 2 |\n\n<figure><img src="/img/a.png" alt="Diagram" /><figcaption>Original caption</figcaption></figure>'
