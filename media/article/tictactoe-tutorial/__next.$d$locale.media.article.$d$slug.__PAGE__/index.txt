@@ -1,0 +1,588 @@
+1:"$Sreact.fragment"
+2:I[29612,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/27vqw7tzvdrg-.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"ArticleSidebar"]
+7:X
+c:X
+c:C
+0:{"buildId":"4piQD5C-WaW9GFVqnAtcb","data":[{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Building a Tic-Tac-Toe Game with Waku\",\"description\":\"In this beginner-friendly tutorial, we will be building a basic TicTacToe game that can be played by two players who are connected using Waku.\",\"url\":\"https://logos.co/media/article/tictactoe-tutorial\",\"image\":\"https://cms-press.logos.co/uploads/waku_b3009bbae6a4_tictactoe_tutorial_57c5e94197.png\",\"datePublished\":\"2024-01-22T00:00:00.000Z\",\"dateModified\":\"2024-01-22T00:00:00.000Z\",\"author\":[{\"@type\":\"Person\",\"name\":\"Guru\"}],\"publisher\":{\"@type\":\"Organization\",\"@id\":\"https://logos.co/#organization\",\"name\":\"Logos\",\"url\":\"https://logos.co\",\"logo\":\"https://logos.co/apple-touch-icon.png\"},\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https://logos.co/media/article/tictactoe-tutorial\"}}"}}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Media\",\"item\":\"https://logos.co/media\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Articles\",\"item\":\"https://logos.co/media/articles\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Building a Tic-Tac-Toe Game with Waku\",\"item\":\"https://logos.co/media/article/tictactoe-tutorial\"}]}"}}],["$","div",null,{"className":"media-detail-page bg-accent-tan pt-6 text-brand-dark-green lg:pt-[52px]","children":["$","div",null,{"className":"mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 md:grid-cols-[repeat(16,minmax(0,1fr))] md:gap-4 lg:px-0","children":[["$","$L2",null,{"contentsLabel":"Contents","title":"Building a Tic-Tac-Toe Game with Waku","toc":[{"level":2,"tag":"h2","href":"#what-is-waku","title":"What is Waku","blockIndex":0},{"level":2,"tag":"h2","href":"#why-waku-for-building-a-tic-tac-toe-game","title":"Why Waku for building a Tic-Tac-Toe game?","blockIndex":1},{"level":2,"tag":"h2","href":"#getting-started-with-building","title":"Getting started with building","blockIndex":2},{"level":3,"tag":"h3","href":"#prerequisites","title":"Prerequisites","blockIndex":3},{"level":3,"tag":"h3","href":"#wireframing","title":"Wireframing","blockIndex":4},{"level":3,"tag":"h3","href":"#step-1--create-a-nextjs-project","title":"Step 1 : Create a NextJS project","blockIndex":5},{"level":3,"tag":"h3","href":"#step-2--organising-the-file-structure","title":"Step 2 : Organising the file structure","blockIndex":6},{"level":3,"tag":"h3","href":"#step-3--install-the-wakureact-sdk","title":"Step 3 : Install the @waku/react SDK","blockIndex":7},{"level":3,"tag":"h3","href":"#step-4--importing-the-sdk-and-initialising-the-providers","title":"Step 4 : Importing the SDK and initialising the providers","blockIndex":8},{"level":3,"tag":"h3","href":"#step-5--modify-the-indexjs-file","title":"Step 5 : Modify the index.js file","blockIndex":9},{"level":3,"tag":"h3","href":"#step-6--header-component-and-hero-component","title":"Step 6 : Header component and Hero component","blockIndex":10},{"level":3,"tag":"h3","href":"#step-7--sending-and-retrieving-messages-in-roomjs","title":"Step 7 : Sending and retrieving messages in Room.js","blockIndex":11},{"level":3,"tag":"h3","href":"#step-8--winning-conditions-and-finding-the-winner-with-useeffect","title":"Step 8 : Winning conditions and finding the winner with UseEffect()","blockIndex":12},{"level":3,"tag":"h3","href":"#step-9--loading-component-and-rendering-the-boxes","title":"Step 9 : Loading component and rendering the boxes","blockIndex":13},{"level":3,"tag":"h3","href":"#step-10--rendering-the-room","title":"Step 10 : Rendering the room","blockIndex":14},{"level":3,"tag":"h3","href":"#whats-next","title":"What's next?","blockIndex":15}]}],"$L3"]}]}]],["$L4"],"$L5"]}],"isPartial":"$@6","staleTime":"$7","varyParams":null},{"rsc":"$L8","isPartial":"$@9","staleTime":"$7","varyParams":null},{"rsc":"$La","isPartial":"$@b","staleTime":"$7","varyParams":"$c"},{"rsc":"$Ld","isPartial":"$@e","staleTime":"$7","varyParams":"$c"},{"rsc":"$Lf","isPartial":"$@10","staleTime":"$7","varyParams":null}],"isUpgradeableISRFallback":false,"a":"$@11","rootVaryParams":null,"needsRuntimeRequest":"$@12"}
+13:I[66869,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/27vqw7tzvdrg-.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"default"]
+14:I[30117,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/27vqw7tzvdrg-.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"ShareButton"]
+15:I[15120,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/27vqw7tzvdrg-.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"MediaRichContent"]
+18:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"OutletBoundary"]
+19:"$Sreact.suspense"
+1b:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"ViewportBoundary"]
+1c:I[79196,["/_next/static/chunks/2s2ety_0_qcqe.js"],"MetadataBoundary"]
+20:I[74724,["/_next/static/chunks/2s2ety_0_qcqe.js"],"default"]
+21:I[64438,["/_next/static/chunks/2s2ety_0_qcqe.js"],"default"]
+16:T761c,<span id="building-a-tic-tac-toe-game-with-waku"></span>
+<p>In this beginner-friendly tutorial, we will be building a basic TicTacToe game that can be played by two players who are connected using Waku.</p>
+<p><img alt="header" src="/media-images/waku_b3009bbae6a4_tictactoe_tutorial_57c5e94197-f53e2129-750.webp" srcset="/media-images/waku_b3009bbae6a4_tictactoe_tutorial_57c5e94197-f53e2129-750.webp 750w, /media-images/waku_b3009bbae6a4_tictactoe_tutorial_57c5e94197-f53e2129-1400.webp 1400w" sizes="(max-width: 767px) calc(100vw - 32px), 700px" width="3395" height="1813" loading="lazy" decoding="async" /></p>
+<h2 id="what-is-waku">What is Waku</h2>
+<p>Waku is a family of robust, censorship-resistant, and privacy-preserving communication protocols designed to enable perfomant messaging for web3 apps. When I say ‘messaging’, this does not restrict Waku’s use cases just to building ‘text’ messaging apps; Waku can also support other use cases like games, marketplaces, governance tooling, and much more.</p>
+<p>If you wish to know more about what Waku offers - check out the <a target="_blank" rel="noopener noreferrer" href="https://waku.org">website</a> or <a target="_blank" rel="noopener noreferrer" href="https://docs.waku.org">developer documentation</a>.</p>
+<h2 id="why-waku-for-building-a-tic-tac-toe-game">Why Waku for building a Tic-Tac-Toe game?</h2>
+<p>A Tic-Tac-Toe game is one of the most straightforward project ideas that can be implemented with Waku. This is because it involves just two players and has minimal web3 jargon. Implementing the game is very clear for anyone with prior experience in building with React-based frameworks and some enthusiasm to learn Waku.</p>
+<h2 id="getting-started-with-building">Getting started with building</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Some intermediate-level knowledge of React based frameworks (in this tutorial, we use NextJS)</li>
+<li>Understanding of Waku&#x27;s architecture</li>
+<li>Some coffee to sip along</li>
+</ul>
+<h3 id="wireframing">Wireframing</h3>
+<p>Before we start, let us visualise the project&#x27;s wireframe for a better understanding:</p>
+<p><img alt="wireframe" src="/media-images/waku_3844c544cd81_wireframe_ttt_b8ece2f9ce-a6a3ed41-750.webp" srcset="/media-images/waku_3844c544cd81_wireframe_ttt_b8ece2f9ce-a6a3ed41-750.webp 750w, /media-images/waku_3844c544cd81_wireframe_ttt_b8ece2f9ce-a6a3ed41-1285.webp 1285w" sizes="(max-width: 767px) calc(100vw - 32px), 700px" width="1285" height="778" loading="lazy" decoding="async" /></p>
+<p>The first screen on the left will be our landing screen with two buttons for starting a new game or joining an existing one. Each of the games in our TicTacToe game will have a <code>room-id</code> which two players will be connected to.</p>
+<p>Waku follows a &#x27;content topic based architecture&#x27;, meaning that the messages are routed and stored based on different content topics across the network. In our case, the content topic would be the <code>room-id</code> since it maps perfectly. Two players in a game will be connected by publishing on and subscribing to the same content-topic/<code>room-id</code>.</p>
+<p>Do not worry if you need clarification about this - you can figure it out in the next steps as you build the project.</p>
+<h3 id="step-1--create-a-nextjs-project">Step 1 : Create a NextJS project</h3>
+<p>Kickstarting a new NextJS project is super easy by using the command below:</p>
+<pre><code>npx create-next-app@latest TicTacToe --eslint
+</code></pre>
+<p>Make sure to select <code>Y</code> in the command line when you are prompted if you require TailwindCSS. Alternatively, please follow the instructions for installing TailwindCSS in this <a target="_blank" rel="noopener noreferrer" href="https://tailwindcss.com/docs/guides/nextjs">link</a>.</p>
+<p>Once you are done, you should be able to run the NextJS app by using the command <code>npm run dev</code></p>
+<h3 id="step-2--organising-the-file-structure">Step 2 : Organising the file structure</h3>
+<p>The file structure for this project is very easy to setup. Create a folder called <code>/components</code> in the root directory of the project. Inside the components folder, create four files:</p>
+<ol>
+<li><code>Header.js</code> : Contains the header component</li>
+<li><code>Hero.js</code> : Screen which appears on the menu asking if you wish to create a new game or join an existing game</li>
+<li><code>Loading.js</code> : Loader component</li>
+<li><code>Room.js</code> : This file will hold all the Waku and game logic</li>
+</ol>
+<p>Apart from the above files, you must create a new folder inside the <code>/pages</code> folder with the name <code>/pages/game</code>. Inside the game folder, create file called <code>[id].js</code> which will be used to navigate a user to a particular game room.</p>
+<h3 id="step-3--install-the-wakureact-sdk">Step 3 : Install the <code>@waku/react</code> SDK</h3>
+<p>Now, it is time to install the required libraries for using Waku by using the following command:</p>
+<pre><code>npm install @waku/react @waku/sdk protobufjs
+</code></pre>
+<p>Apart from these, we will also need a few more libraries that can be helpful during the next steps :</p>
+<pre><code>npm install short-unique-id copy-to-clipboard
+</code></pre>
+<p><code>short-unique-id</code> will be useful in generating a random unique id for the game room. <code>copy-to-clipboard</code> will help us implement a button that can copy the room ID to a user&#x27;s clipboard.</p>
+<h3 id="step-4--importing-the-sdk-and-initialising-the-providers">Step 4 : Importing the SDK and initialising the providers</h3>
+<p>Inside the <code>/pages</code> folder, you can find <code>_app.js</code> file, which is the starting point of a NextJS app. We will be initialising our provider here so that the Waku provider will wrap up the entire application.</p>
+<p>So, import the following on top of your file :</p>
+<pre><code class="language-js">import { LightNodeProvider } from &quot;@waku/react&quot;;
+import { Protocols } from &quot;@waku/sdk&quot;;
+</code></pre>
+<p>Now, wrap the components with the <code>&lt;LightNodeProvider&gt;</code> as follows :</p>
+<pre><code class="language-js">    &lt;LightNodeProvider
+      options={{ defaultBootstrap: true }}
+      protocols={[Protocols.Store, Protocols.Filter, Protocols.LightPush]}
+    &gt;
+      &lt;Component {...pageProps} /&gt;
+    &lt;/LightNodeProvider&gt;
+</code></pre>
+<p>This provider allows the usage of <strong>Store, Filter and LightPush protocols</strong> which will be helpful in implementing all the required functionalities of our game.</p>
+<h3 id="step-5--modify-the-indexjs-file">Step 5 : Modify the index.js file</h3>
+<p>The <code>index.js</code> file inside the <code>/pages</code> folder renders the index route of the application. Let&#x27;s make it display our components Header and Hero respectively,</p>
+<pre><code class="language-js">import Head from &#x27;next/head&#x27;
+import Hero from &#x27;@/components/Hero&#x27;
+import Header from &#x27;@/components/Header&#x27;
+
+
+export default function Home() {
+  
+  return (
+    &lt;&gt;
+      &lt;Head&gt;
+        &lt;title&gt;Tic Tac Toe&lt;/title&gt;
+        &lt;meta name=&quot;description&quot; content=&quot;Tic Tac Toe game created with Waku&quot; /&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;
+        &lt;link rel=&quot;icon&quot; href=&quot;/favicon.ico&quot; /&gt;
+      &lt;/Head&gt;
+      &lt;main className=&#x27;bg-black h-screen&#x27;&gt;
+        &lt;Header /&gt;
+        &lt;Hero /&gt;
+      &lt;/main&gt;
+    &lt;/&gt;
+  )
+}
+
+</code></pre>
+<h3 id="step-6--header-component-and-hero-component">Step 6 : Header component and Hero component</h3>
+<p>The header component will carry a logo on the left and a button with the link to our Github on the right end:</p>
+<p><strong>Header.js</strong></p>
+<pre><code class="language-js">import Link from &#x27;next/link&#x27;
+import React from &#x27;react&#x27;
+
+export default function Header() {
+    return (
+        &lt;div className=&#x27;flex p-5 justify-between items-center&#x27;&gt;
+            &lt;Link href=&quot;/&quot;&gt;
+                &lt;div id=&#x27;logo&#x27;&gt;
+                    Your-Logo
+                &lt;/div&gt;
+            &lt;/Link&gt;
+            &lt;a href=&#x27;https://github.com/hackyguru/tictactoe&#x27; className=&#x27;text-white flex space-x-3 items-center cursor-pointer&#x27;&gt;
+                &lt;p&gt;GitHub&lt;/p&gt;
+            &lt;/a&gt;
+        &lt;/div&gt;
+    )
+}
+</code></pre>
+<p>Remember to replace &#x27;Your-Logo&#x27; with your application&#x27;s logo.</p>
+<p><strong>Hero.js</strong></p>
+<p>The Hero component will allow users to create or join a new game. When a user creates a new game, a unique room ID is generated using the<code>short-unique-id</code> package. In case users want to join an existing game, they can enter the room ID to join in.</p>
+<pre><code class="language-js">import React, { useState, useEffect } from &#x27;react&#x27;;
+import Loading from &#x27;./Loading&#x27;;
+import ShortUniqueId from &#x27;short-unique-id&#x27;;
+import Router from &#x27;next/router&#x27;;
+
+export default function Hero() {
+  const options = { length: 8 };
+  const uid = new ShortUniqueId(options);
+
+  const [room, setRoom] = useState(null);
+  const [game, setGame] = useState(null);
+  const [joinLink, setJoinLink] = useState(&#x27;&#x27;);
+
+  useEffect(() =&gt; {
+    if (room === null) {
+      setRoom(uid.rnd());
+    }
+  }, []);
+
+  if (room === null) {
+    return &lt;Loading /&gt;;
+  }
+
+  const handleNewGameClick = () =&gt; {
+    sessionStorage.setItem(&#x27;roomId&#x27;, room);
+    sessionStorage.setItem(&#x27;player&#x27;, &#x27;x&#x27;);
+    Router.push(`/game/${room}`);
+  };
+
+  const handleJoinGameClick = () =&gt; {
+    setGame(&#x27;join&#x27;);
+  };
+
+  const handleJoinLinkChange = (e) =&gt; {
+    setJoinLink(e.target.value);
+  };
+
+  const handleJoinButtonClick = () =&gt; {
+    Router.push(`/game/${joinLink}`);
+  };
+
+  const handleGoBackClick = () =&gt; {
+    setGame(null);
+  };
+
+  return (
+    &lt;section id=&#x27;hero&#x27;&gt;
+      &lt;div className=&quot;mx-auto max-w-screen-xl px-4 lg:flex lg:mt-40 lg:items-center mt-40&quot;&gt;
+        &lt;div className=&quot;mx-auto max-w-xl text-center&quot;&gt;
+          &lt;h1 className=&quot;text-3xl sm:text-8xl text-white&quot;&gt;TicTacToe&lt;/h1&gt;
+          &lt;div className=&#x27;mt-8 sm:text-xl/relaxed text-white opacity-60 flex items-center justify-center&#x27;&gt;
+            &lt;p&gt;Built with&lt;/p&gt;
+            &lt;img src=&#x27;https://waku.org/theme/image/logo.svg&#x27; /&gt;
+            &lt;a href=&#x27;https://waku.org&#x27; className=&#x27;underline&#x27;&gt;
+              Waku
+            &lt;/a&gt;
+          &lt;/div&gt;
+
+          {game === null &amp;&amp; (
+            &lt;div className=&quot;mt-20 flex flex-wrap justify-center gap-4&quot;&gt;
+              &lt;button
+                className=&quot;block w-full bg-white px-12 py-3 text-sm font-medium hover:text-white hover:bg-black hover:border-2  hover:border-white focus:outline-none focus:ring  text-black&quot;
+                onClick={handleNewGameClick}
+              &gt;
+                New game
+              &lt;/button&gt;
+              &lt;button
+                onClick={handleJoinGameClick}
+                className=&quot;block w-full bg-white px-12 py-3 text-sm font-medium hover:text-white hover:bg-black hover:border-2  hover:border-white focus:outline-none focus:ring  text-black&quot;
+              &gt;
+                Join game
+              &lt;/button&gt;
+            &lt;/div&gt;
+          )}
+
+          {game === &#x27;join&#x27; &amp;&amp; (
+            &lt;div className=&quot;mt-20 space-y-4&quot;&gt;
+              &lt;input
+                value={joinLink}
+                onChange={handleJoinLinkChange}
+                className=&quot;px-3 py-3 border-2 border-white w-full&quot;
+                placeholder=&#x27;Enter the game link&#x27;
+              /&gt;
+              &lt;div className=&#x27;flex space-x-5 items-center&#x27;&gt;
+                &lt;button
+                  onClick={handleJoinButtonClick}
+                  className=&quot;block w-full bg-white px-12 py-3 text-sm font-medium hover:text-white hover:bg-black hover:border-2  hover:border-white focus:outline-none focus:ring  text-black&quot;
+                &gt;
+                  Join game
+                &lt;/button&gt;
+                &lt;button
+                  onClick={handleGoBackClick}
+                  className=&quot;block w-full bg-white px-12 py-3 text-sm font-medium hover:text-white hover:bg-black hover:border-2  hover:border-white focus:outline-none focus:ring text-black&quot;
+                &gt;
+                  Go back
+                &lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          )}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  );
+}
+</code></pre>
+<p>The above code leverages common React hooks like <code>useState() and useEffect()</code> to keep the app state and react to state changes. Summarising the above code, the state variable <code>game</code> will decide if the user wants to join an existing game or create a new game. <code>ShortUniqueId()</code> function will be used for generating a room ID if the user wants to create a new game.</p>
+<p>For the app&#x27;s simplicity, the user creating the game will always be &#x27;player X&#x27;, and the user joining the game will be &#x27;player O&#x27;. The session storage will hold the player as X or O and can be retrieved from the <code>player</code> item.</p>
+<h3 id="step-7--sending-and-retrieving-messages-in-roomjs">Step 7 : Sending and retrieving messages in <code>Room.js</code></h3>
+<p>The <code>Room.js</code> file will have all the code related to sending and subscribing to the messages in the content topic. This file will also include other miscellaneous stuff like the winning conditions, the player to make a move, finding if an opponent has joined the game and finally, finding the winner.</p>
+<p>Firstly, let us make all the required imports :</p>
+<pre><code class="language-js">import React, { useState, useEffect } from &#x27;react&#x27;;
+import Link from &#x27;next/link&#x27;;
+import copy from &#x27;copy-to-clipboard&#x27;;
+import protobuf from &#x27;protobufjs&#x27;;
+import {
+  useWaku,
+  useContentPair,
+  useLightPush,
+  useStoreMessages,
+  useFilterMessages,
+} from &#x27;@waku/react&#x27;;
+import { message } from &#x27;@waku/core&#x27;;
+import Loading from &#x27;./Loading&#x27;;
+</code></pre>
+<p>After this , we use a <code>Protobuff</code> object to define the structure of the messages like below :</p>
+<pre><code class="language-js">const ChatMessage = new protobuf.Type(&#x27;ChatMessage&#x27;)
+  .add(new protobuf.Field(&#x27;timestamp&#x27;, 1, &#x27;uint64&#x27;))
+  .add(new protobuf.Field(&#x27;sender&#x27;, 2, &#x27;string&#x27;))
+  .add(new protobuf.Field(&#x27;message&#x27;, 3, &#x27;string&#x27;));
+</code></pre>
+<p>Next, let us set up encoder and decoder:</p>
+<pre><code class="language-js">  const { decoder, encoder } = useContentPair();
+</code></pre>
+<p>Initializing LightPush, Filter and Store can be done in a very few lines of code :</p>
+<pre><code class="language-js">  const { messages: storeMessages } = useStoreMessages({
+    node,
+    decoder,
+  });
+
+  const { messages: filterMessages } = useFilterMessages({ node, decoder });
+
+  const { push } = useLightPush({ node, encoder });
+</code></pre>
+<p>With all these set up, sending a message into a content topic is completed. Here&#x27;s how your <code>sendMessage()</code> function should look like :</p>
+<pre><code class="language-js">  async function sendMessage(sender, message) {
+    const protoMessage = ChatMessage.create({
+      timestamp: Date.now(),
+      sender,
+      message,
+    });
+
+    const serialisedMessage = ChatMessage.encode(protoMessage).finish();
+
+    const timestamp = new Date();
+    await push({
+      payload: serialisedMessage,
+      timestamp,
+    });
+
+    console.log(&#x27;MESSAGE PUSHED&#x27;);
+  }
+</code></pre>
+<p>To setup the <code>decodeMessage()</code> function, you will have to pass the <code>wakuMessage</code> option into the function and use the <code>ChatMessage.decode()</code> function with the required parameters. Here&#x27;s the code :</p>
+<pre><code class="language-js">  function decodeMessage(wakuMessage) {
+    if (!wakuMessage.payload) return;
+
+    const { timestamp, sender, message } = ChatMessage.decode(wakuMessage.payload);
+
+    if (!timestamp || !sender || !message) return;
+
+    const time = new Date();
+    time.setTime(Number(timestamp));
+
+    return {
+      message,
+      timestamp: time,
+      sender,
+      timestampInt: wakuMessage.timestamp,
+    };
+  }
+</code></pre>
+<h3 id="step-8--winning-conditions-and-finding-the-winner-with-useeffect">Step 8 : Winning conditions and finding the winner with <code>UseEffect()</code></h3>
+<p>We will use the <code>useEffect()</code> hook to retrieve and map the messages from the contentTopic. After this, we also use the winning combinations to find the winner between the two players :</p>
+<pre><code class="language-js">// Finding if the players have joined the room
+  useEffect(() =&gt; {
+    if (node !== undefined) {
+      if (player === false) {
+        const p =
+          sessionStorage.getItem(&#x27;roomId&#x27;) == props.room &amp;&amp; sessionStorage.getItem(&#x27;player&#x27;) == &#x27;x&#x27;
+            ? &#x27;x&#x27;
+            : &#x27;o&#x27;;
+
+        setPlayer(p);
+        if (p === &#x27;o&#x27;) {
+          sendMessage(&#x27;o&#x27;, &#x27;joined&#x27;);
+        }
+      }
+      setNodeStart(true);
+    }
+  }, [node]);
+
+// Defining the winning condition and 
+  useEffect(() =&gt; {
+    let messages = storeMessages.concat(filterMessages);
+
+    let b = {};
+    let o = false;
+
+    messages = messages.map((message) =&gt; decodeMessage(message));
+
+    messages.forEach((message) =&gt; {
+      if (message.message === &#x27;joined&#x27;) {
+        o = true;
+        return;
+      }
+      if (message.message === &#x27;winner&#x27;) {
+        return;
+      }
+
+      b = { ...b, [message.message]: message.sender };
+    });
+
+    const winningCombinations = [
+      [&#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;],
+      [&#x27;4&#x27;, &#x27;5&#x27;, &#x27;6&#x27;],
+      [&#x27;7&#x27;, &#x27;8&#x27;, &#x27;9&#x27;],
+      [&#x27;1&#x27;, &#x27;4&#x27;, &#x27;7&#x27;],
+      [&#x27;2&#x27;, &#x27;5&#x27;, &#x27;8&#x27;],
+      [&#x27;3&#x27;, &#x27;6&#x27;, &#x27;9&#x27;],
+      [&#x27;1&#x27;, &#x27;5&#x27;, &#x27;9&#x27;],
+      [&#x27;3&#x27;, &#x27;5&#x27;, &#x27;7&#x27;],
+    ];
+
+    let winner = null;
+    let temp = null;
+    let winningPattern = null;
+
+    winningCombinations.forEach((combination) =&gt; {
+      if (winner !== null) {
+        return;
+      }
+      for (let [i, c] of combination.entries()) {
+        if (b[c] === undefined) {
+          temp = null;
+          break;
+        } else {
+          if (temp === null) {
+            temp = b[c];
+            continue;
+          } else {
+            if (temp === b[c]) {
+              if (i === 2) {
+                winner = temp;
+                winningPattern = combination;
+              }
+              continue;
+            }
+          }
+        }
+      }
+    });
+
+    setWinner(winner);
+    setWinningPattern(winningPattern);
+    setOpponentJoined(o);
+    setBoxes(b);
+  }, [storeMessages, filterMessages]);
+</code></pre>
+<p>The game will automatically end if a winning condition is met by one of the users.</p>
+<h3 id="step-9--loading-component-and-rendering-the-boxes">Step 9 : Loading component and rendering the boxes</h3>
+<p>The loading component will be visible if the node is not started or if an opponent player has not joined the room yet.</p>
+<pre><code class="language-js">  if (!nodeStart || !player || opponentJoined === null) {
+    return &lt;Loading /&gt;;
+  }
+</code></pre>
+<p>Here&#x27;s the code for <code>Loading.js</code> component :</p>
+<pre><code class="language-js">import React from &#x27;react&#x27;
+
+export default function Loading() {
+    return (
+        &lt;div className=&#x27;h-screen bg-black flex items-center w-full justify-center&#x27;&gt;
+            &lt;svg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 24 24&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+                &lt;g fill=&quot;none&quot; stroke=&quot;#ffffff&quot; stroke-linecap=&quot;round&quot; stroke-width=&quot;2&quot;&gt;
+                    &lt;path stroke-dasharray=&quot;60&quot; stroke-dashoffset=&quot;60&quot; stroke-opacity=&quot;.3&quot; d=&quot;M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z&quot;&gt;
+                        &lt;animate fill=&quot;freeze&quot; attributeName=&quot;stroke-dashoffset&quot; dur=&quot;1.3s&quot; values=&quot;60;0&quot; /&gt;
+                    &lt;/path&gt;
+                    &lt;path stroke-dasharray=&quot;15&quot; stroke-dashoffset=&quot;15&quot; d=&quot;M12 3C16.9706 3 21 7.02944 21 12&quot;&gt;
+                        &lt;animate fill=&quot;freeze&quot; attributeName=&quot;stroke-dashoffset&quot; dur=&quot;0.3s&quot; values=&quot;15;0&quot; /&gt;
+                        &lt;animateTransform attributeName=&quot;transform&quot; dur=&quot;1.5s&quot; repeatCount=&quot;indefinite&quot; type=&quot;rotate&quot; values=&quot;0 12 12;360 12 12&quot; /&gt;
+                    &lt;/path&gt;
+                &lt;/g&gt;
+            &lt;/svg&gt;
+            
+        &lt;/div&gt;
+    )
+}
+
+</code></pre>
+<p>After you are done setting up the loading component, it&#x27;s time to write a function that will handle rendering the boxes. This function will be used as an <code>onClick</code> handler that will send either <code>x</code> or <code>o</code> based on the player who clicks the box. It will also render the boxes with <code>x</code> or <code>o</code> based on the player who has clicked the box previously. Here&#x27;s the function :</p>
+<pre><code class="language-js">  function renderBoxes() {
+    let boxElements = [];
+    for (let i = 1; i &lt; 10; i += 1) {
+      if (boxes[i] === undefined) {
+        boxElements.push(
+          &lt;div
+            onClick={() =&gt; handlePlay(i.toString())}
+            className=&#x27;w-20 h-20 border-2 border-white flex items-center justify-center text-2xl text-white&#x27;
+          &gt;&lt;/div&gt;
+        );
+      } else {
+        if (boxes[i] === &#x27;x&#x27;) {
+          boxElements.push(
+            &lt;div className=&#x27;w-20 h-20 border-2 border-white flex items-center justify-center text-2xl text-white&#x27;&gt;
+              X
+            &lt;/div&gt;
+          );
+        } else {
+          boxElements.push(
+            &lt;div className=&#x27;w-20 h-20 border-2 border-white flex items-center justify-center text-2xl text-white&#x27;&gt;
+              O
+            &lt;/div&gt;
+          );
+        }
+      }
+    }
+    return &lt;div id=&#x27;tiles&#x27; className=&#x27;grid grid-cols-3 grid-rows-3 gap-3 mt-10&#x27;&gt;{boxElements}&lt;/div&gt;;
+  }
+</code></pre>
+<p>The above <code>renderBoxes()</code> function will render only the box grid. We also need some prompts to mention which user should be playing their move (X or Y) and also announce the winner. For this, here&#x27;s a simple UI that you can return in the Room function :</p>
+<pre><code class="language-js">    &lt;section id=&#x27;room&#x27;&gt;
+      &lt;div className=&#x27;flex justify-end mr-5 text-white space-x-5 items-center&#x27;&gt;
+        &lt;p&gt;Waku status : active&lt;/p&gt;
+
+        &lt;svg width=&#x27;20&#x27; height=&#x27;20&#x27; viewBox=&#x27;0 0 48 48&#x27; xmlns=&#x27;http://www.w3.org/2000/svg&#x27;&gt;
+          &lt;g fill=&#x27;none&#x27; stroke=&#x27;currentColor&#x27; strokeWidth=&#x27;4&#x27;&gt;
+            &lt;path d=&#x27;M13.5 39.37A16.927 16.927 0 0 0 24 43c3.963 0 7.61-1.356 10.5-3.63M19 9.747C12.051 11.882 7 18.351 7 26c0 1.925.32 3.775.91 5.5M29 9.747C35.949 11.882 41 18.351 41 26c0 1.925-.32 3.775-.91 5.5&#x27; /&gt;
+            &lt;path strokeLinecap=&#x27;round&#x27; strokeLinejoin=&#x27;round&#x27; d=&#x27;M43 36c0 1.342-.528 2.56-1.388 3.458A5 5 0 1 1 43 36Zm-28 0c0 1.342-.528 2.56-1.388 3.458A5 5 0 1 1 15 36ZM29 9c0 1.342-.528 2.56-1.388 3.458A5 5 0 1 1 29 9Z&#x27; /&gt;
+          &lt;/g&gt;
+        &lt;/svg&gt;
+        &lt;p&gt;Peers : {node?.libp2p?.getPeers()?.length ?? &#x27;-&#x27;}&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;div className=&#x27;mx-auto max-w-screen-xl px-4 mt-20 lg:flex lg:h-mt-40 lg:items-center&#x27;&gt;
+        &lt;div className=&#x27;mx-auto max-w-xl&#x27;&gt;
+          &lt;div className=&#x27;flex space-x-2 text-white opacity-60 mb-5 items-center&#x27;&gt;
+            &lt;Link href=&#x27;/&#x27;&gt;
+              &lt;svg width=&#x27;20&#x27; height=&#x27;20&#x27; viewBox=&#x27;0 0 1024 1024&#x27; xmlns=&#x27;http://www.w3.org/2000/svg&#x27;&gt;
+                &lt;path fill=&#x27;currentColor&#x27; d=&#x27;M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z&#x27; /&gt;
+                &lt;path
+                  fill=&#x27;currentColor&#x27;
+                  d=&#x27;m237.248 512l265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z&#x27;
+                /&gt;
+              &lt;/svg&gt;
+            &lt;/Link&gt;
+            &lt;p&gt;Game URL&lt;/p&gt;
+          &lt;/div&gt;
+          &lt;div className=&#x27;px-3 py-3 text-center flex border-2 border-white text-white underline items-center justify-between&#x27;&gt;
+            &lt;p&gt;https://waku-xo.vercel.app/game/{props.room}&lt;/p&gt;
+            &lt;button onClick={() =&gt; copy(`https://waku-xo.vercel.app/game/${props.room}`)}&gt;
+              &lt;svg width=&#x27;20&#x27; height=&#x27;20&#x27; viewBox=&#x27;0 0 256 256&#x27; xmlns=&#x27;http://www.w3.org/2000/svg&#x27;&gt;
+                &lt;path
+                  fill=&#x27;currentColor&#x27;
+                  d=&#x27;M216 32H88a8 8 0 0 0-8 8v40H40a8 8 0 0 0-8 8v128a8 8 0 0 0 8 8h128a8 8 0 0 0 8-8v-40h40a8 8 0 0 0 8-8V40a8 8 0 0 0-8-8Zm-56 176H48V96h112Zm48-48h-32V88a8 8 0 0 0-8-8H96V48h112Z&#x27;
+                /&gt;
+              &lt;/svg&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+
+          &lt;h1 className=&#x27;text-3xl sm:text-4xl text-white mt-20&#x27;&gt;
+            {!opponentJoined &amp;&amp; &#x27;Waiting for opponent to join&#x27;}
+            {winner == null &amp;&amp;
+              opponentJoined &amp;&amp;
+              (Object.keys(boxes).length % 2 === 0
+                ? player === &#x27;x&#x27;
+                  ? &#x27;Your turn&#x27;
+                  : &quot;Opponent&#x27;s turn&quot;
+                : player === &#x27;o&#x27;
+                ? &#x27;Your turn&#x27;
+                : &quot;Opponent&#x27;s turn&quot;)}
+            {winner != null &amp;&amp; (winner === &#x27;x&#x27; ? &#x27;X is winner&#x27; : &#x27;O is winner&#x27;)}
+          &lt;/h1&gt;
+{
+!winner &amp;&amp;
+          &lt;div className=&#x27;flex justify-center&#x27;&gt;{renderBoxes()}&lt;/div&gt;
+}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+</code></pre>
+<h3 id="step-10--rendering-the-room">Step 10 : Rendering the room</h3>
+<p><code>Room.js</code> is quite a big chunk of code, right? But don&#x27;t worry - it is easy to follow up and the final code can be found <a target="_blank" rel="noopener noreferrer" href="https://github.com/hackyguru/tictactoe/blob/main/components/Room.js">here</a>.</p>
+<p>There is one final step before our TicTacToe is complete. It is to create the <code>game/[id].js</code> page component. This component will render the room based on the <code>room id</code> provided on the URL. We use the     <code>useRouter()</code> hook to query the room id from the URL and then render the Room component :</p>
+<pre><code class="language-js">
+import Header from &#x27;@/components/Header&#x27;
+import Room from &#x27;@/components/Room&#x27;
+import React, { useState, useEffect } from &#x27;react&#x27;
+import Loading from &#x27;@/components/Loading&#x27;;
+import { useRouter } from &#x27;next/router&#x27;
+
+
+// Waku imports
+import { ContentPairProvider, useWaku } from &quot;@waku/react&quot;;
+
+// Misc imports
+import ShortUniqueId from &#x27;short-unique-id&#x27;;
+
+export default function Game() {
+
+    const router = useRouter();
+    const room = router.query.id;
+
+    return (
+        &lt;&gt;
+            &lt;ContentPairProvider
+                contentTopic={&quot;/tictactoe/&quot; + room}
+            &gt;
+                &lt;div className=&#x27;bg-black h-screen&#x27;&gt;
+                    &lt;Header /&gt;
+                    &lt;Room room={room} /&gt;
+                &lt;/div&gt;
+            &lt;/ContentPairProvider&gt;
+        &lt;/&gt;
+    )
+}
+</code></pre>
+<h3 id="whats-next">What&#x27;s next?</h3>
+<p>I hope that your TicTacToe application with Waku will be up and running now. If you are still stuck at part of the above 10 steps, please refer to our <a target="_blank" rel="noopener noreferrer" href="https://github.com/hackyguru/tictactoe">example repository</a> now. You can also try out the TicTacToe game in <a target="_blank" rel="noopener noreferrer" href="https://waku-xo.vercel.app">this link</a>.</p>
+<p>Please note that this is a very basic demonstration of using Waku&#x27;s react hooks to build a TicTacToe game. The game still needs a lot of improvements in terms of handling the connection, establishing the winning , etc.</p>
+<p>Here are some ideas for you to include in the future:</p>
+<ul>
+<li>
+<p>adding P2E (Play to Earn) mechanisms where users can connect their wallet, stake some crypto and then the winner gets the stake.</p>
+</li>
+<li>
+<p>adding names for players</p>
+</li>
+<li>
+<p>minting an NFT for the winner once a game is over</p>
+</li>
+</ul>
+<p>With Waku, the possibilities are limitless. Go ahead and start building! If you have any questions, feel free to drop us a messafe in our support channel on the <a target="_blank" rel="noopener noreferrer" href="https://discord.waku.org">Waku discord community</a>.</p>3:["$","article",null,{"className":"flex min-w-0 max-w-[700px] flex-col gap-4 md:col-span-10 md:col-start-6 lg:col-span-8 lg:col-start-5","children":[["$","header",null,{"className":"mb-6 flex flex-col text-brand-dark-green","children":[["$","div",null,{"className":"mb-6","children":["$","nav",null,{"aria-label":"Breadcrumb","className":"font-sans text-[12px] leading-4 text-brand-dark-green","children":["$","ol",null,{"className":"flex flex-wrap items-center gap-2","children":[["$","li","/media",{"className":"flex items-center gap-2","children":[null,["$","$L13",null,{"href":"/media","localeCookie":{"name":"NEXT_LOCALE","sameSite":"lax"},"className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Media","prefetch":false}]]}],["$","li","/media/articles",{"className":"flex items-center gap-2","children":[["$","span",null,{"aria-hidden":"true","children":"/"}],["$","$L13",null,{"href":"/media/articles","localeCookie":"$3:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer no-underline underline-offset-2 hover:underline","children":"Articles","prefetch":false}]]}]]}]}]}],["$","div",null,{"className":"mb-3 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[["$","span",null,{"children":"15 MIN"}],["$","span",null,{"aria-hidden":"true","className":"size-[3px] rounded-full bg-current"}],["$","span",null,{"children":"22 JAN 2024"}]]}],["$","div",null,{"children":[["$","h1",null,{"id":"title-anchor","className":"scroll-mt-[95px] font-display text-[44px] leading-[54px] tracking-normal","children":"Building a Tic-Tac-Toe Game with Waku"}],null]}],["$","div",null,{"className":"mb-8 mt-4 flex flex-wrap items-center gap-3","children":[["$","div","29",{"className":"flex items-center gap-3","children":[["$","span",null,{"className":"flex items-center gap-2","children":[["$","span",null,{"className":"flex size-4 items-center justify-center rounded-full border border-brand-dark-green font-sans text-[11px] leading-4","children":"G"}],["$","span",null,{"className":"font-sans text-[12px] leading-4","children":"Guru"}]]}],null]}]]}],["$","div",null,{"className":"flex w-fit max-w-full items-start gap-4","children":[["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","95",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"waku"}],["$","span","103",{"className":"flex h-6 items-center border border-brand-dark-green px-[7px] py-[3px] font-sans text-[12px] leading-4 text-brand-dark-green capitalize","children":"tutorials"}]]}],["$","span",null,{"aria-hidden":"true","className":"mt-1.5 h-3 border-l border-brand-dark-green"}],["$","$L14",null,{"label":"Share","copiedLabel":"Copied","title":"Building a Tic-Tac-Toe Game with Waku","url":"https://logos.co/media/article/tictactoe-tutorial"}]]}],null,null]}],[["$","$L15",null,{"bodyHtml":"$16","content":[]}],null],"$L17"]}]
+4:["$","script","script-0",{"src":"/_next/static/chunks/42v9oo3je71u9.js","async":true}]
+5:["$","$L18",null,{"children":["$","$19",null,{"name":"Next.MetadataOutlet","children":"$@1a"}]}]
+8:["$","$1","h",{"children":[null,["$","$L1b",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L1c",null,{"children":["$","$19",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Building a Tic-Tac-Toe Game with Waku | Logos"}],["$","meta","1",{"name":"description","content":"In this beginner-friendly tutorial, we will be building a basic TicTacToe game that can be played by two players who are connected using Waku."}],["$","meta","2",{"name":"keywords","content":"logos,decentralised,privacy,civil society,blockchain"}],["$","meta","3",{"name":"creator","content":"Logos"}],["$","meta","4",{"name":"robots","content":"index, follow"}],["$","link","5",{"rel":"canonical","href":"https://logos.co/media/article/tictactoe-tutorial"}],["$","link","6",{"rel":"alternate","hrefLang":"en","href":"https://logos.co/media/article/tictactoe-tutorial"}],["$","link","7",{"rel":"alternate","hrefLang":"x-default","href":"https://logos.co/media/article/tictactoe-tutorial"}],["$","link","8",{"rel":"alternate","type":"application/rss+xml","href":"https://logos.co/rss/main.xml","title":"Logos Media"}],["$","link","9",{"rel":"alternate","type":"application/rss+xml","href":"https://logos.co/rss/logos-state.xml","title":"Logos Podcast"}],["$","link","10",{"rel":"alternate","type":"application/atom+xml","href":"https://logos.co/atom.xml"}],["$","meta","11",{"property":"og:title","content":"Building a Tic-Tac-Toe Game with Waku | Logos"}],["$","meta","12",{"property":"og:description","content":"In this beginner-friendly tutorial, we will be building a basic TicTacToe game that can be played by two players who are connected using Waku."}],["$","meta","13",{"property":"og:url","content":"https://logos.co/media/article/tictactoe-tutorial"}],["$","meta","14",{"property":"og:site_name","content":"Logos"}],["$","meta","15",{"property":"og:locale","content":"en"}],["$","meta","16",{"property":"og:image","content":"https://cms-press.logos.co/uploads/waku_b3009bbae6a4_tictactoe_tutorial_57c5e94197.png"}],["$","meta","17",{"property":"og:image:width","content":"3395"}],["$","meta","18",{"property":"og:image:height","content":"1813"}],["$","meta","19",{"property":"og:type","content":"article"}],["$","meta","20",{"property":"article:published_time","content":"2024-01-22"}],["$","meta","21",{"property":"article:modified_time","content":"2024-01-22"}],["$","meta","22",{"property":"article:author","content":"Guru"}],["$","meta","23",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","24",{"name":"twitter:title","content":"Building a Tic-Tac-Toe Game with Waku | Logos"}],["$","meta","25",{"name":"twitter:description","content":"In this beginner-friendly tutorial, we will be building a basic TicTacToe game that can be played by two players who are connected using Waku."}],["$","meta","26",{"name":"twitter:image","content":"https://cms-press.logos.co/uploads/waku_b3009bbae6a4_tictactoe_tutorial_57c5e94197.png"}],["$","link","27",{"rel":"icon","href":"/favicon.svg?v=20260630","type":"image/svg+xml","media":"(prefers-color-scheme: light)"}],["$","link","28",{"rel":"icon","href":"/favicon-dark.svg?v=20260630","type":"image/svg+xml","media":"(prefers-color-scheme: dark)"}],["$","link","29",{"rel":"icon","href":"/favicon-32x32.png?v=20260630","sizes":"32x32","type":"image/png","media":"(prefers-color-scheme: light)"}],["$","link","30",{"rel":"icon","href":"/favicon-32x32-dark.png?v=20260630","sizes":"32x32","type":"image/png","media":"(prefers-color-scheme: dark)"}],["$","link","31",{"rel":"icon","href":"/favicon-16x16.png?v=20260630","sizes":"16x16","type":"image/png","media":"(prefers-color-scheme: light)"}],["$","link","32",{"rel":"icon","href":"/favicon-16x16-dark.png?v=20260630","sizes":"16x16","type":"image/png","media":"(prefers-color-scheme: dark)"}],["$","link","33",{"rel":"icon","href":"/favicon.ico?v=20260630","sizes":"any","media":"(prefers-color-scheme: light)"}],["$","link","34",{"rel":"icon","href":"/favicon-dark.ico?v=20260630","sizes":"any","media":"(prefers-color-scheme: dark)"}],"$L1d","$L1e"]}]}]}],"$L1f"]}]
+a:["$","$1","c",{"children":[null,["$","$L20",null,{"parallelRouterKey":"children","template":["$","$L21",null,{}]}]]}]
+d:["$","$1","c",{"children":[null,["$","$L20",null,{"parallelRouterKey":"children","template":["$","$L21",null,{}]}]]}]
+f:["$","$1","c",{"children":[null,["$","$L20",null,{"parallelRouterKey":"children","template":["$","$L21",null,{}]}]]}]
+12:true
+22:I[23738,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/27vqw7tzvdrg-.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"ArticleDiscussion"]
+23:I[11522,["/_next/static/chunks/3xq8s4trt5j0r.js","/_next/static/chunks/1tvhd0voa8xx1.js","/_next/static/chunks/27vqw7tzvdrg-.js","/_next/static/chunks/0u56lmuoni0le.js","/_next/static/chunks/1t6_rnqsxr-m_.js","/_next/static/chunks/3d-jxr36mdffr.js","/_next/static/chunks/3d12j6-y72phj.js","/_next/static/chunks/1ba5-zhvukmxe.js","/_next/static/chunks/42v9oo3je71u9.js"],"MediaCollapse"]
+24:I[61096,["/_next/static/chunks/2s2ety_0_qcqe.js"],"IconMark"]
+17:["$","footer",null,{"className":"mt-4 pb-20 max-sm:mt-[72px]","children":["$","div",null,{"className":"[&>section+section]:-mt-px","children":[null,["$","$L22",null,{"canonicalUrl":"https://logos.co/media/article/tictactoe-tutorial","summary":"In this beginner-friendly tutorial, we will be building a basic TicTacToe game that can be played by two players who are connected using Waku.","title":"Building a Tic-Tac-Toe Game with Waku"}],null,["$","$L23",null,{"label":"From The Same Authors","children":[["$","div","178",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L13",null,{"href":"/media/article/thegraph-waku-case-study","localeCookie":"$3:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Deep Dive Into The Graph: Powered by Waku","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","29",{"children":"Guru"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"13 May 2024"}]]}]]}],["$","div","176",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L13",null,{"href":"/media/article/railgun-waku-case-study","localeCookie":"$3:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"Deep Dive Into RAILGUN: Powered by Waku","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","29",{"children":"Guru"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"26 April 2024"}]]}]]}],["$","div","173",{"className":"border-b border-brand-dark-green px-[14px] py-3 last:border-b-0","children":[["$","$L13",null,{"href":"/media/article/convergence-of-ai-blockchain-privacy","localeCookie":"$3:props:children:0:props:children:0:props:children:props:children:props:children:0:props:children:1:props:localeCookie","className":"cursor-pointer font-sans text-[16px] leading-6 hover:underline","children":"The convergence of AI, Blockchain and Privacy","prefetch":false}],["$","div",null,{"className":"mt-2 flex flex-wrap items-center gap-2 font-sans text-[12px] leading-4","children":[[["$","span","29",{"children":"Guru"}]],["$","span",null,{"aria-hidden":"true","children":"•"}],["$","span",null,{"children":"22 March 2024"}]]}]]}]]}]]}]}]
+1a:null
+1d:["$","link","35",{"rel":"apple-touch-icon","href":"/apple-touch-icon.png","sizes":"180x180","type":"image/png"}]
+1e:["$","$L24","36",{}]
+1f:["$","meta",null,{"name":"next-size-adjust","content":""}]
+7:300
+7:C
+11:0
+b:"$undefined"
+e:"$undefined"
+10:"$undefined"
+9:"$undefined"
+6:"$undefined"
