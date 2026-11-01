@@ -10,7 +10,7 @@ export const criticalRoutes = [
   '/',
   '/active-circles',
   '/builders-hub',
-  '/builders-hub/rfps',
+  '/rfp',
   '/builders-hub/ideas',
   '/circles',
   '/technology-stack',

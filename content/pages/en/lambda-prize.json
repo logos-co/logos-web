@@ -420,7 +420,7 @@
           "body": "Need funding before you build? The RFP Program funds teams to build defined specs, paid per milestone.",
           "cta": {
             "label": "Explore RFPs",
-            "href": "/builders-hub/rfps"
+            "href": "/rfp"
           },
           "mobile": {
             "title": "Need funding before you build?",

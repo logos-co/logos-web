@@ -209,6 +209,7 @@ describe('link policy', () => {
   it('does not route public app CTAs to Builders Hub', () => {
     const allowedRouteOwners = [
       'app/[locale]/builders-hub/',
+      'app/[locale]/rfp/',
       'components/sections/builders-hub/',
       'app/sitemap.ts',
       'constants/routes.ts',

@@ -228,7 +228,7 @@ interface CardProps {
 
 Implementation: [`packages/ui/src/primitives/table/table.tsx`](../packages/ui/src/primitives/table/table.tsx). Figma: `Side by Side` section, node `2259:43916`.
 
-Used in list view on `/builders-hub/rfps` and `/builders-hub/ideas`. `Table` renders the header: a serif title, a mono subtitle and an optional action slot. `TableRow` is a 50px full-width row, tinted 5% dark green on odd rows and `gray-01` on even ones, switching to light blue on hover. Below `md` the description, reward and action columns are hidden.
+Used in list view on `/rfp` and `/builders-hub/ideas`. `Table` renders the header: a serif title, a mono subtitle and an optional action slot. `TableRow` is a 50px full-width row, tinted 5% dark green on odd rows and `gray-01` on even ones, switching to light blue on hover. Below `md` the description, reward and action columns are hidden.
 
 The columns divide roughly as 714 for number and title, 464 for the description, a fixed 107px for the reward, then the action slot.
 
@@ -322,7 +322,7 @@ type ViewToggleProps<Id extends string = string> = {
 
 Implementation: [`packages/ui/src/primitives/pagination/pagination.tsx`](../packages/ui/src/primitives/pagination/pagination.tsx).
 
-Used by the `/builders-hub/ideas` and `/builders-hub/rfps` listings. Renders `← 1 2 3 →`, and collapses to `← 1 … 4 5 6 … 10 →` once `totalPages` goes past `maxVisible`. Same split as `ViewToggle`: `getHref` renders links, `onChange` renders buttons.
+Used by the `/builders-hub/ideas` and `/rfp` listings. Renders `← 1 2 3 →`, and collapses to `← 1 … 4 5 6 … 10 →` once `totalPages` goes past `maxVisible`. Same split as `ViewToggle`: `getHref` renders links, `onChange` renders buttons.
 
 ```ts
 type PaginationProps = {
@@ -338,7 +338,7 @@ type PaginationProps = {
 
 ## Builders Hub listing header
 
-[`apps/web/components/sections/builders-hub/builders-hub-listing-header.tsx`](../apps/web/components/sections/builders-hub/builders-hub-listing-header.tsx) is the header on `/builders-hub/ideas` and `/builders-hub/rfps`: a back link, the page title with the Lambda mark, the description, an optional submit CTA, and the `Grid / List` toggle on the right.
+[`apps/web/components/sections/builders-hub/builders-hub-listing-header.tsx`](../apps/web/components/sections/builders-hub/builders-hub-listing-header.tsx) is the header on `/builders-hub/ideas` and `/rfp`: a back link, the page title with the Lambda mark, the description, an optional submit CTA, and the `Grid / List` toggle on the right.
 
 Figma: RFPs desktop node `40009046:25012`, RFPs mobile `40009046:24924`.
 

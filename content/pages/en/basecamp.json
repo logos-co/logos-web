@@ -873,7 +873,7 @@
             "description": "RFPs provide funding to build and audit protocols, core building blocks and infrastructure. Respond to an RFP with a proposal including approach, milestones, budget. Selected teams get a grant, paid as each milestone lands.",
             "action": {
               "label": "Learn more →",
-              "href": "/builders-hub/rfps",
+              "href": "/rfp",
               "external": false
             },
             "image": "/images/basecamp/renewal/developer-rfps.png"

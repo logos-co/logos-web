@@ -2,7 +2,7 @@
  * View-mode switcher — `Grid / List` labels with a slash separator.
  * Inactive option is dimmed; active option is full-strength and underlined.
  *
- * Used on /builders-hub/ideas (default: list) and /builders-hub/rfps (default: grid).
+ * Used on /builders-hub/ideas (default: list) and /rfp (default: grid).
  *
  *   <ViewToggle
  *     view="grid"

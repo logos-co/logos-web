@@ -61,9 +61,11 @@ export function createRedirectMetadata(target: string) {
 export async function StaticRedirect({
   target,
   locale,
+  preserveSearchAndHash = false,
 }: {
   target: string
   locale: string
+  preserveSearchAndHash?: boolean
 }) {
   const t = await getTranslations({ locale, namespace: 'pages.redirect' })
 
@@ -72,7 +74,7 @@ export async function StaticRedirect({
       <meta httpEquiv="refresh" content={`0; url=${target}`} />
       <script
         dangerouslySetInnerHTML={{
-          __html: `window.location.replace(${JSON.stringify(target)})`,
+          __html: `window.location.replace(${JSON.stringify(target)}${preserveSearchAndHash ? ' + window.location.search + window.location.hash' : ''})`,
         }}
       />
       <noscript>

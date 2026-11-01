@@ -1,5 +1,7 @@
 import { readFileSync, readdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import { runInNewContext } from 'node:vm'
+import { renderToStaticMarkup } from 'react-dom/server'
 
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
@@ -51,6 +53,48 @@ const readPage = (route: string) =>
   )
 
 describe('static redirect metadata', () => {
+  test('preserves listing filters and detail anchors when requested', async () => {
+    const { StaticRedirect } = await loadStaticRedirect('production')
+    for (const target of ['/rfp', '/rfp/curated-lending-vaults']) {
+      const html = renderToStaticMarkup(
+        await StaticRedirect({
+          target,
+          locale: 'en',
+          preserveSearchAndHash: true,
+        })
+      )
+      const replace = vi.fn()
+      const script = html.match(/<script>([\s\S]*?)<\/script>/)?.[1]
+      expect(script).toBeDefined()
+      runInNewContext(script!, {
+        window: {
+          location: {
+            replace,
+            search: '?filter=open&page=2',
+            hash: '#overview',
+          },
+        },
+      })
+      expect(replace).toHaveBeenCalledWith(
+        `${target}?filter=open&page=2#overview`
+      )
+      expect(html).toContain(`content="0; url=${target}"`)
+      expect(html).toContain(`href="${target}"`)
+    }
+  })
+
+  test('keeps existing redirect behaviour without the preservation option', async () => {
+    const { StaticRedirect } = await loadStaticRedirect('production')
+    const html = renderToStaticMarkup(
+      await StaticRedirect({ target: '/book', locale: 'en' })
+    )
+    const replace = vi.fn()
+    runInNewContext(html.match(/<script>([\s\S]*?)<\/script>/)![1]!, {
+      window: { location: { replace, search: '?old=true', hash: '#old' } },
+    })
+    expect(replace).toHaveBeenCalledWith('/book')
+  })
+
   test('never marks a redirect source noindex in production', async () => {
     const { createRedirectMetadata } = await loadStaticRedirect('production')
 

@@ -158,7 +158,7 @@
     "prizeHref": "/lambda-prize",
     "rfpsTitle": "Explore RFPs",
     "rfpsDescription": "The Logos RFP Program supports developers to build applications on the Logos Stack. Browse all open requests for proposals below.",
-    "rfpsHref": "/builders-hub/rfps"
+    "rfpsHref": "/rfp"
   },
   "support": {
     "title": "Get Support",
@@ -234,8 +234,8 @@
       "key": "rfps",
       "title": "RFPs",
       "description": "Funded calls for builders to ship privacy-first decentralised applications.",
-      "primaryCta": { "label": "Learn more", "href": "/builders-hub/rfps" },
-      "secondaryCta": { "label": "View now", "href": "/builders-hub/rfps" }
+      "primaryCta": { "label": "Learn more", "href": "/rfp" },
+      "secondaryCta": { "label": "View now", "href": "/rfp" }
     },
     {
       "key": "resources",
@@ -269,9 +269,9 @@
     "description": "Funded calls for builders to ship Logos-powered applications.",
     "filterCta": {
       "label": "Filter",
-      "href": "/builders-hub/rfps?filter=open"
+      "href": "/rfp?filter=open"
     },
-    "seeAllCta": { "label": "Explore RFPs", "href": "/builders-hub/rfps" },
+    "seeAllCta": { "label": "Explore RFPs", "href": "/rfp" },
     "submitCta": {
       "label": "Submit an RFP",
       "href": "https://discord.gg/Ykv4eZyHUJ",

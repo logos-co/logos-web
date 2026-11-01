@@ -32,7 +32,7 @@ export const ROUTES = {
   getStarted: '/get-started',
   buildersHub: '/builders-hub',
   ideas: '/builders-hub/ideas',
-  rfps: '/builders-hub/rfps',
+  rfps: '/rfp',
   lambdaPrize: '/lambda-prize',
   developerProgrammes: '/developer-programmes',
 
