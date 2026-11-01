@@ -47,7 +47,7 @@ export default function BuilderPortalSection({
     <BuilderPortalLayout
       heading={
         <SectionHeadingReveal
-          className="text-h2 desktop:w-[702px] relative z-[1] max-w-[702px] whitespace-pre-line text-brand-dark-green"
+          className="text-h2 max-w-full text-balance whitespace-pre-line text-brand-dark-green"
           delay={0.08}
         >
           {data.title}
