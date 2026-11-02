@@ -13,8 +13,6 @@ type SiteFooterNewsletterProps = {
   emailLabel: string
   roleLabel: string
   cityLabel: string
-  countryLabel: string
-  countryOptions: readonly string[]
   submitLabel: string
 }
 

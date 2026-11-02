@@ -35,9 +35,7 @@ beforeEach(() => {
         emailLabel: 'Email',
         roleLabel: 'Role',
         cityLabel: 'City',
-        countryLabel: 'Country',
         submitLabel: 'Subscribe',
-        countryOptions: ['Korea, Republic of', 'Nigeria'],
         searchCities,
         onSubmit,
       })
@@ -80,17 +78,6 @@ const cityOptions = () =>
     (option) => option.textContent
   )
 
-function pickCountry(label: string) {
-  const trigger = container.querySelector<HTMLButtonElement>(
-    'button[aria-label="Country"]'
-  )!
-  act(() => trigger.click())
-  const option = [...container.querySelectorAll('button')].find(
-    (button) => button.textContent === label
-  )!
-  act(() => option.click())
-}
-
 function keyDown(input: HTMLInputElement, key: string) {
   const event = new KeyboardEvent('keydown', {
     key,
@@ -119,20 +106,18 @@ describe('FooterNewsletter city autocomplete', () => {
   })
 
   it('suggests cities across every country', async () => {
-    pickCountry('Nigeria')
     await typeCity('La')
-
     expect(searchCities).toHaveBeenLastCalledWith('La', expect.anything())
     expect(cityOptions()).toEqual(['SeoulKorea, Republic of', 'LagosNigeria'])
   })
 
-  it('submits the picked suggestion and its country', async () => {
+  it('submits the picked city and its country', async () => {
     typeInto(emailInput(), 'reader@example.com')
     await typeCity('seo')
 
     keyDown(cityInput(), 'ArrowDown')
     expect(keyDown(cityInput(), 'Enter').defaultPrevented).toBe(true)
-    expect(cityOptions()).toEqual([])
+    expect(cityInput().value).toBe('Seoul, Korea, Republic of')
 
     await submit()
 
@@ -144,7 +129,8 @@ describe('FooterNewsletter city autocomplete', () => {
     })
   })
 
-  it('clears a picked city when the country changes', async () => {
+  it('drops the pick when the city text is edited', async () => {
+    typeInto(emailInput(), 'reader@example.com')
     await typeCity('seo')
     act(() =>
       container
@@ -152,37 +138,27 @@ describe('FooterNewsletter city autocomplete', () => {
         .click()
     )
 
-    pickCountry('Nigeria')
+    expect(cityInput().value).toBe('Seoul, Korea, Republic of')
 
-    expect(cityInput().value).toBe('')
-  })
-
-  it('still submits free text', async () => {
-    typeInto(emailInput(), 'reader@example.com')
-    pickCountry('Nigeria')
-    await typeCity('Anyigba')
-
-    // No highlighted suggestion, so Enter is left to submit the form.
-    expect(keyDown(cityInput(), 'Enter').defaultPrevented).toBe(false)
-    await submit()
-
-    expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({ city: 'Anyigba', country: 'Nigeria' })
-    )
-  })
-
-  it.each([
-    ['a city without a country', () => typeCity('Anyigba')],
-    ['a country without a city', async () => pickCountry('Nigeria')],
-  ])('refuses %s', async (_case, fill) => {
-    typeInto(emailInput(), 'reader@example.com')
-    await fill()
+    await typeCity('Seoul, Korea, Republic of!')
 
     await submit()
 
     expect(onSubmit).not.toHaveBeenCalled()
     expect(container.querySelector('[role="alert"]')?.textContent).toBe(
-      'Please enter both a city and a country, or neither.'
+      'Pick a city from the list.'
+    )
+  })
+
+  it('refuses a typed city that was not picked', async () => {
+    typeInto(emailInput(), 'reader@example.com')
+    await typeCity('Anyigba')
+
+    await submit()
+
+    expect(onSubmit).not.toHaveBeenCalled()
+    expect(container.querySelector('[role="alert"]')?.textContent).toBe(
+      'Pick a city from the list.'
     )
   })
 })

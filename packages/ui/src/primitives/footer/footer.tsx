@@ -29,7 +29,6 @@ export type FooterProps = {
     emailLabel: string
     roleLabel: string
     cityLabel: string
-    countryLabel?: string
     submitLabel: string
   }
   /**
@@ -144,11 +143,7 @@ export function Footer({
               </button>
             </div>
             <div className="flex w-full items-center gap-1">
-              <button className="text-eyebrow flex h-[32px] min-w-0 flex-1 cursor-pointer items-center justify-center gap-1 border border-brand-off-white/50 px-3 py-2 text-brand-off-white uppercase backdrop-blur-[5px]">
-                {newsletter.countryLabel ?? 'Country'}
-                <FooterChevronIcon />
-              </button>
-              <button className="text-eyebrow flex h-[32px] shrink-0 cursor-pointer items-center justify-center gap-1 rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green uppercase backdrop-blur-[5px]">
+              <button className="text-eyebrow flex h-[32px] w-full cursor-pointer items-center justify-center gap-1 rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green uppercase backdrop-blur-[5px]">
                 {newsletter.submitLabel}
                 <FooterArrowIcon />
               </button>
