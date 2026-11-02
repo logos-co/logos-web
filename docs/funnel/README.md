@@ -94,21 +94,21 @@ minimum length and keys are described with the
 hook.
 
 Suggestions come from `searchCities` in `apps/web/lib/city-search.ts`. It calls
-`GET /api/cities` on the logos-admin app with `q` and, when a country is
-selected, `country` set to that option's ISO code. The static export ships no
-city list, which is why this is a runtime call. `NEXT_PUBLIC_API_MODE` picks the
-endpoint from `CITIES_ENDPOINTS`: `development` is `localhost:3003`, `staging`
-is `dev-admin-acid.logos.co`, and `production`, the default, is
+`GET /api/cities` on the logos-admin app with `q` and no `country`, so every
+country is searched, most populous first. The static export ships no city list,
+which is why this is a runtime call. `NEXT_PUBLIC_API_MODE` picks the endpoint
+from `CITIES_ENDPOINTS`: `development` is `localhost:3003`, `staging` is
+`dev-admin-acid.logos.co`, and `production`, the default, is
 `admin-acid.logos.co`. Each result maps back to a `COUNTRY_OPTIONS` entry by its
-`countryCode`. Results in a country the forms don't offer are dropped, because
-they couldn't set the country, and same-name places in one country become one
-suggestion. Any failure, CORS included, resolves to no suggestions.
+`countryCode`, and the suggestion carries the option label. Results in a country
+the forms don't offer are dropped, because they couldn't set the country, and
+same-name places in one country become one suggestion. Any failure, CORS
+included, resolves to no suggestions.
 
-The two adapters differ only in the country value they work with. The funnel
-forms use `searchCitiesByCountryId`, because their country value is the option
-id; the footer uses `searchCitiesByCountryLabel`, because it submits the label.
-Picking a suggestion sets both `city` and `country`. Choosing a different country
-afterwards clears a city that came from a suggestion, but keeps typed text.
+The footer submits the label; the funnel forms map it back to the option id for
+the intake. Picking a suggestion sets both `city` and `country`. Choosing a
+different country afterwards clears a city that came from a suggestion, but
+keeps typed text.
 
 ## Code layout
 
@@ -128,7 +128,7 @@ afterwards clears a city that came from a suggestion, but keeps typed text.
 | `packages/funnel/src/form-options.ts`                      | The shared option lists and the maps derived from them                               |
 | `packages/funnel/src/required-fields.ts`                   | `REQUIRED_FIELDS_BY_FORM` / `findInvalidRequiredFields`                              |
 | `apps/web/lib/funnel-newsletter-signup.ts`                 | Post-submit Ghost newsletter opt-ins                                                 |
-| `apps/web/lib/city-search.ts`                              | `CITIES_ENDPOINTS`, `searchCities` and the label and id country adapters             |
+| `apps/web/lib/city-search.ts`                              | `CITIES_ENDPOINTS`, `searchCities`                                                   |
 | `apps/web/components/sections/connect/form/city-field.tsx` | `CityField`: the city input and its suggestion list                                  |
 | `apps/web/lib/funnel-forms/afform-*.ts`                    | Hand-maintained field definitions per form; rendering only                           |
 | `apps/web/lib/funnel-forms/afform-options.ts`              | `AFFORM_OPTIONS`: the `@repo/funnel` option lists keyed by `formKey`                 |

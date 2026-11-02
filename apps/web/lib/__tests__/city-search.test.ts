@@ -1,11 +1,7 @@
 import { COUNTRY_OPTIONS } from '@repo/funnel'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
-import {
-  searchCities,
-  searchCitiesByCountryId,
-  searchCitiesByCountryLabel,
-} from '../city-search'
+import { searchCities } from '../city-search'
 
 const signal = new AbortController().signal
 
@@ -21,40 +17,35 @@ function requestedUrl(fetchMock: ReturnType<typeof stubFetch>) {
 }
 
 const KOREA = COUNTRY_OPTIONS.find((option) => option.code === 'KR')!
+const NIGERIA = COUNTRY_OPTIONS.find((option) => option.code === 'NG')!
 
 describe('searchCities', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
   })
 
-  test('narrows the search to the country ISO code', async () => {
+  test('searches every country without narrowing', async () => {
     const fetchMock = stubFetch([])
 
-    await searchCities('seo', KOREA, signal)
+    await searchCities('seo', signal)
 
     const url = requestedUrl(fetchMock)
     expect(url.pathname).toBe('/api/cities')
     expect(url.searchParams.get('q')).toBe('seo')
-    expect(url.searchParams.get('country')).toBe('KR')
+    expect(url.searchParams.has('country')).toBe(false)
   })
 
-  test('searches every country without one', async () => {
-    const fetchMock = stubFetch([])
-
-    await searchCities('seo')
-
-    expect(requestedUrl(fetchMock).searchParams.has('country')).toBe(false)
-  })
-
-  test('keeps one suggestion per city and offered country', async () => {
+  test('keeps one suggestion per city and offered country, carrying the label', async () => {
     stubFetch([
       { name: 'Seoul', countryCode: 'KR', country: 'South Korea' },
       { name: 'Seoul', countryCode: 'KR', country: 'South Korea' },
-      { name: 'Seoul', countryCode: 'QQ', country: 'Nowhere' },
+      { name: 'Lagos', countryCode: 'NG', country: 'Nigeria' },
+      { name: 'Nowhere', countryCode: 'QQ', country: 'Nowhere' },
     ])
 
-    expect(await searchCities('seo')).toEqual([
-      { name: 'Seoul', country: KOREA },
+    expect(await searchCities('seo', signal)).toEqual([
+      { name: 'Seoul', country: KOREA.label },
+      { name: 'Lagos', country: NIGERIA.label },
     ])
   })
 
@@ -65,34 +56,10 @@ describe('searchCities', () => {
         throw new TypeError('Failed to fetch')
       })
     )
-    expect(await searchCities('seo')).toEqual([])
+    expect(await searchCities('seo', signal)).toEqual([])
 
     stubFetch([], { status: 429 })
-    expect(await searchCities('seo')).toEqual([])
-  })
-})
-
-describe('country adapters', () => {
-  afterEach(() => {
-    vi.unstubAllGlobals()
-  })
-
-  test('the footer speaks country labels', async () => {
-    const fetchMock = stubFetch([{ name: 'Seoul', countryCode: 'KR' }])
-
-    expect(
-      await searchCitiesByCountryLabel('seo', 'Korea, Republic of', signal)
-    ).toEqual([{ name: 'Seoul', country: 'Korea, Republic of' }])
-    expect(requestedUrl(fetchMock).searchParams.get('country')).toBe('KR')
-  })
-
-  test('the funnel forms speak country option ids', async () => {
-    const fetchMock = stubFetch([{ name: 'Seoul', countryCode: 'KR' }])
-
-    expect(await searchCitiesByCountryId('seo', KOREA.value, signal)).toEqual([
-      { name: 'Seoul', country: KOREA.value },
-    ])
-    expect(requestedUrl(fetchMock).searchParams.get('country')).toBe('KR')
+    expect(await searchCities('seo', signal)).toEqual([])
   })
 })
 

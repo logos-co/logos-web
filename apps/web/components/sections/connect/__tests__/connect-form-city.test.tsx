@@ -6,11 +6,11 @@ import { createRoot } from 'react-dom/client'
 import type { Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-const { searchCitiesByCountryId } = vi.hoisted(() => ({
-  searchCitiesByCountryId: vi.fn(),
+const { searchCities } = vi.hoisted(() => ({
+  searchCities: vi.fn(),
 }))
 
-vi.mock('@/lib/city-search', () => ({ searchCitiesByCountryId }))
+vi.mock('@/lib/city-search', () => ({ searchCities }))
 
 // Its Link pulls in next-intl navigation, which needs the Next runtime.
 vi.mock('@/components/ui/button', () => ({
@@ -39,9 +39,7 @@ let root: Root
 
 beforeEach(() => {
   vi.useFakeTimers()
-  searchCitiesByCountryId.mockResolvedValue([
-    { name: 'Lagos', country: NIGERIA.value },
-  ])
+  searchCities.mockResolvedValue([{ name: 'Lagos', country: NIGERIA.label }])
   container = document.createElement('div')
   document.body.append(container)
   root = createRoot(container)
@@ -60,7 +58,7 @@ beforeEach(() => {
 afterEach(() => {
   act(() => root.unmount())
   container.remove()
-  searchCitiesByCountryId.mockReset()
+  searchCities.mockReset()
   vi.useRealTimers()
 })
 
@@ -90,14 +88,10 @@ function pickSuggestion() {
 }
 
 describe('ConnectFormSection city autocomplete', () => {
-  it('suggests cities within the selected country id', async () => {
+  it('suggests cities across every country', async () => {
     await typeCity('lag')
 
-    expect(searchCitiesByCountryId).toHaveBeenLastCalledWith(
-      'lag',
-      '',
-      expect.anything()
-    )
+    expect(searchCities).toHaveBeenLastCalledWith('lag', expect.anything())
     expect(container.querySelector('[role="listbox"]')?.textContent).toContain(
       'LagosNigeria'
     )

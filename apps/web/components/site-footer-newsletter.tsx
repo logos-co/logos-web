@@ -6,7 +6,7 @@ import {
   type FooterNewsletterValues,
 } from '@acid-info/logos-ui/client'
 
-import { searchCitiesByCountryLabel } from '@/lib/city-search'
+import { searchCities } from '@/lib/city-search'
 import { submitDefaultNewsletterSignup } from '@/lib/newsletter-signup'
 
 type SiteFooterNewsletterProps = {
@@ -32,7 +32,7 @@ export function SiteFooterNewsletter(props: SiteFooterNewsletterProps) {
   return (
     <FooterNewsletter
       {...props}
-      searchCities={searchCitiesByCountryLabel}
+      searchCities={searchCities}
       onSubmit={mutation.mutateAsync}
     />
   )

@@ -26,7 +26,7 @@ import type {
   AfformField,
   AfformOptions,
 } from '@/lib/funnel-forms/types'
-import { searchCitiesByCountryId } from '@/lib/city-search'
+import { searchCities } from '@/lib/city-search'
 import { cn } from '@/lib/cn'
 import {
   submitFunnelNewsletterSignups,
@@ -177,7 +177,10 @@ export function ConnectFormSection({
     setFormData((prev) => ({ ...prev, city: value }))
   }
 
-  const handleSelectCity = ({ name, country }: CitySuggestion) => {
+  const handleSelectCity = ({ name, country: label }: CitySuggestion) => {
+    const country =
+      (fieldOptions.country ?? []).find((option) => option.label === label)
+        ?.value ?? ''
     setCityCountry(country)
     setFormData((prev) => ({ ...prev, city: name, country }))
   }
@@ -746,9 +749,7 @@ export function ConnectFormSection({
                 <CityField
                   {...inputProps}
                   value={String(value ?? '')}
-                  country={String(formData.country ?? '')}
-                  countryOptions={fieldOptions.country ?? []}
-                  search={searchCitiesByCountryId}
+                  search={searchCities}
                   onChange={handleCityChange}
                   onSelect={handleSelectCity}
                 />

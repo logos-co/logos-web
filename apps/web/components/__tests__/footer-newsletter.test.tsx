@@ -22,14 +22,10 @@ let root: Root
 
 beforeEach(() => {
   vi.useFakeTimers()
-  searchCities.mockImplementation(async (_query, country) =>
-    country === 'Nigeria'
-      ? [{ name: 'Lagos', country: 'Nigeria' }]
-      : [
-          { name: 'Seoul', country: 'Korea, Republic of' },
-          { name: 'Lagos', country: 'Nigeria' },
-        ]
-  )
+  searchCities.mockImplementation(async () => [
+    { name: 'Seoul', country: 'Korea, Republic of' },
+    { name: 'Lagos', country: 'Nigeria' },
+  ])
   container = document.createElement('div')
   document.body.append(container)
   root = createRoot(container)
@@ -122,20 +118,12 @@ describe('FooterNewsletter city autocomplete', () => {
     expect(searchCities).not.toHaveBeenCalled()
   })
 
-  it('suggests cities within the selected country', async () => {
-    await typeCity('La')
-    expect(searchCities).toHaveBeenLastCalledWith('La', '', expect.anything())
-    expect(cityOptions()).toEqual(['SeoulKorea, Republic of', 'LagosNigeria'])
-
+  it('suggests cities across every country', async () => {
     pickCountry('Nigeria')
-    await typeCity('Lag')
+    await typeCity('La')
 
-    expect(searchCities).toHaveBeenLastCalledWith(
-      'Lag',
-      'Nigeria',
-      expect.anything()
-    )
-    expect(cityOptions()).toEqual(['LagosNigeria'])
+    expect(searchCities).toHaveBeenLastCalledWith('La', expect.anything())
+    expect(cityOptions()).toEqual(['SeoulKorea, Republic of', 'LagosNigeria'])
   })
 
   it('submits the picked suggestion and its country', async () => {

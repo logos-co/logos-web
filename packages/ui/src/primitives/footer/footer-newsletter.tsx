@@ -41,8 +41,8 @@ export type FooterNewsletterProps = {
   /** Country choices, searchable. The selected label is submitted as is. */
   countryOptions: readonly string[]
   /**
-   * City suggestions, whose `country` is one of `countryOptions`. Without
-   * it, the city is plain free text.
+   * City suggestions across every country, whose `country` is one of
+   * `countryOptions`. Without it, the city is plain free text.
    */
   searchCities?: CitySearch
   /** Legend explaining the asterisk on the email field. */
@@ -133,7 +133,6 @@ export function FooterNewsletter({
   const cityAutocomplete = useCityAutocomplete({
     search: searchCities,
     query: city,
-    country,
     onSelect: handleSelectCity,
   })
 

@@ -10,12 +10,11 @@ export type CitySuggestion = {
 }
 
 /**
- * Suggestions for `query`, within `country` when it is set. Should resolve to
- * an empty list rather than reject: the field stays free text either way.
+ * Suggestions for `query` across every country. Should resolve to an empty
+ * list rather than reject: the field stays free text either way.
  */
 export type CitySearch = (
   query: string,
-  country: string,
   signal: AbortSignal
 ) => Promise<readonly CitySuggestion[]>
 
@@ -27,7 +26,6 @@ export type UseCityAutocompleteOptions = {
   search?: CitySearch
   /** The current city value. */
   query: string
-  country: string
   onSelect: (suggestion: CitySuggestion) => void
 }
 
@@ -38,7 +36,6 @@ export type UseCityAutocompleteOptions = {
 export function useCityAutocomplete({
   search,
   query,
-  country,
   onSelect,
 }: UseCityAutocompleteOptions) {
   const listId = useId()
@@ -58,7 +55,7 @@ export function useCityAutocomplete({
     if (
       !search ||
       trimmed.length < CITY_SEARCH_MIN_LENGTH ||
-      (picked?.name === trimmed && picked.country === country)
+      picked?.name === trimmed
     ) {
       return
     }
@@ -66,7 +63,7 @@ export function useCityAutocomplete({
     // Aborted on the next keystroke, so a slow answer never replaces a newer one.
     const controller = new AbortController()
     const timer = setTimeout(() => {
-      search(trimmed, country, controller.signal).then(
+      search(trimmed, controller.signal).then(
         (found) => {
           if (controller.signal.aborted) return
           setResults(found)
@@ -80,7 +77,7 @@ export function useCityAutocomplete({
       clearTimeout(timer)
       controller.abort()
     }
-  }, [search, trimmed, country])
+  }, [search, trimmed])
 
   const close = useCallback(() => {
     setIsOpen(false)

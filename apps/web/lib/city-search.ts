@@ -3,8 +3,8 @@
  * (`GET /api/cities`), so the static export ships no gazetteer. Same upstream
  * app and CORS allowlist as `newsletter-signup.ts`.
  */
-import type { CitySearch } from '@acid-info/logos-ui/client'
-import { COUNTRY_OPTIONS, type FunnelCountryOption } from '@repo/funnel'
+import type { CitySearch, CitySuggestion } from '@acid-info/logos-ui/client'
+import { COUNTRY_OPTIONS } from '@repo/funnel'
 
 import { env } from '@/lib/env'
 import { logger } from '@/lib/logger'
@@ -15,8 +15,6 @@ export const CITIES_ENDPOINTS = {
   production: 'https://admin-acid.logos.co/api/cities',
 } as const
 
-export type CityMatch = { name: string; country: FunnelCountryOption }
-
 type CitiesResponse = {
   data?: { name?: unknown; countryCode?: unknown }[]
 }
@@ -26,16 +24,13 @@ const COUNTRY_BY_CODE = new Map(
 )
 
 /**
- * Cities matching `query`, within `country` when given. Resolves to an empty
- * list on any failure, so the field falls back to free text.
+ * Cities matching `query` across every country, most populous first. Resolves
+ * to an empty list on any failure, so the field falls back to free text.
+ * `country` is the option label: the value the footer submits, and the funnel
+ * forms map back to the option id.
  */
-export async function searchCities(
-  query: string,
-  country?: FunnelCountryOption,
-  signal?: AbortSignal
-): Promise<CityMatch[]> {
+export const searchCities: CitySearch = async (query, signal) => {
   const params = new URLSearchParams({ q: query })
-  if (country) params.set('country', country.code)
   const endpoint = CITIES_ENDPOINTS[env.NEXT_PUBLIC_API_MODE ?? 'production']
 
   try {
@@ -46,7 +41,7 @@ export async function searchCities(
     if (!response.ok) return []
 
     const { data } = (await response.json()) as CitiesResponse
-    const matches = new Map<string, CityMatch>()
+    const matches = new Map<string, CitySuggestion>()
     for (const city of data ?? []) {
       if (typeof city.name !== 'string' || typeof city.countryCode !== 'string')
         continue
@@ -56,7 +51,7 @@ export async function searchCities(
       // Same-name places in one country are one suggestion.
       matches.set(`${city.name}|${option.code}`, {
         name: city.name,
-        country: option,
+        country: option.label,
       })
     }
     return [...matches.values()]
@@ -64,26 +59,4 @@ export async function searchCities(
     if (!signal?.aborted) logger.debug('City search failed', { error })
     return []
   }
-}
-
-/** For forms whose country value is the option label (the footer). */
-export const searchCitiesByCountryLabel: CitySearch = async (
-  query,
-  label,
-  signal
-) => {
-  const country = COUNTRY_OPTIONS.find((option) => option.label === label)
-  const matches = await searchCities(query, country, signal)
-  return matches.map(({ name, country }) => ({ name, country: country.label }))
-}
-
-/** For forms whose country value is the option id (the funnel forms). */
-export const searchCitiesByCountryId: CitySearch = async (
-  query,
-  id,
-  signal
-) => {
-  const country = COUNTRY_OPTIONS.find((option) => option.value === id)
-  const matches = await searchCities(query, country, signal)
-  return matches.map(({ name, country }) => ({ name, country: country.value }))
 }

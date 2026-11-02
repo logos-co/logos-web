@@ -9,7 +9,6 @@ import type { ComponentProps } from 'react'
 
 import { cn } from '@/lib/cn'
 
-import type { FieldOption } from '../get-field-options'
 import { TextInput } from './text-input'
 
 type Props = Omit<
@@ -17,19 +16,14 @@ type Props = Omit<
   'value' | 'onChange' | 'onSelect'
 > & {
   value: string
-  /** The selected country option id, which narrows the suggestions. */
-  country: string
-  countryOptions: readonly FieldOption[]
   search: CitySearch
   onChange: (value: string) => void
-  /** Sets both the city and the country id. */
+  /** Sets both the city and the country. */
   onSelect: (suggestion: CitySuggestion) => void
 }
 
 export function CityField({
   value,
-  country,
-  countryOptions,
   search,
   onChange,
   onSelect,
@@ -38,7 +32,6 @@ export function CityField({
   const autocomplete = useCityAutocomplete({
     search,
     query: value,
-    country,
     onSelect,
   })
 
@@ -78,8 +71,7 @@ export function CityField({
               >
                 {suggestion.name}
                 <span className="ml-1.5 text-brand-dark-green/50">
-                  {countryOptions.find((o) => o.value === suggestion.country)
-                    ?.label ?? ''}
+                  {suggestion.country}
                 </span>
               </button>
             </li>
