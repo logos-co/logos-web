@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
-import { Button, ButtonArrowIcon, LogosMark } from '@acid-info/logos-ui'
+import { ButtonArrowIcon, LogosMark } from '@acid-info/logos-ui'
 
-import { Link } from '@/i18n/navigation'
+import { Button } from '@/components/ui/button'
 
 interface CopyProps {
   children: string
@@ -70,7 +70,6 @@ export function Cta({ link, variant = 'primary', inverse = false }: CtaProps) {
   return (
     <Button
       href={link.href}
-      linkAs={Link}
       variant={variant}
       icon={
         <span className="dp-arrow">

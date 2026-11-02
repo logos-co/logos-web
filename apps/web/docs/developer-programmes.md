@@ -12,6 +12,8 @@ The [schema](../../../packages/content/src/schemas/pages/developer-programmes.ts
 
 Each programme has a `tag` for its image panel and a separate `comparisonTag` for the comparison card. Edit them independently when their wording differs.
 
+Page CTAs use the shared web Button: external HTTP(S) destinations open in a new tab with `noopener noreferrer`, while internal routes and section anchors stay in the current tab. This applies to desktop and mobile, including the resource links and Discord CTA.
+
 ## Desktop line breaks
 
 The [Figma frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3270-17265) is 1440px wide. Newline escapes (`\n`) in body copy preserve its desktop line endings at widths of 1440px and above. Edit these breaks with the copy and review the result at 1440px. Below that width, copy wraps to the available space; the large programme and statement headings retain their deliberate breaks.
