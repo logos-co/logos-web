@@ -57,9 +57,17 @@ const fieldClassName =
 const triggerClassName =
   'text-eyebrow flex h-[32px] w-full cursor-pointer items-center justify-center gap-1 border border-brand-off-white/50 px-3 py-2 text-brand-off-white backdrop-blur-[5px]'
 
-// Same font, padding, border width and alignment as the city field.
+// `text-eyebrow`'s 1.3 line-height is taller than the 32px field's 14px
+// content box. The input then clips its text to the content box and draws it
+// from the top, while a centred overlay centres the taller line box, putting
+// the country a pixel above the city. `leading-none` fits the line box, so
+// both centre the same way.
+const cityFieldClassName = `${fieldClassName} leading-none`
+
+// Same font, padding, border width, line-height and alignment as the city
+// field, so the country lands on the city's baseline.
 const pickedCountryClassName =
-  'text-eyebrow justify-center border border-transparent px-3 py-2 normal-case'
+  'text-eyebrow justify-center border border-transparent px-3 py-2 leading-none normal-case'
 
 // A picked city reads in caps, like the country next to it.
 const pickedCityClassName = 'uppercase'
@@ -263,7 +271,7 @@ export function FooterNewsletter({
               setCountry('')
               cityAutocomplete.open()
             }}
-            className={`w-full ${fieldClassName}`}
+            className={`w-full ${cityFieldClassName}`}
             style={pickedCityInputStyle('0.75rem', countryWidth, !!country)}
             aria-label={cityLabel}
             {...cityAutocomplete.inputProps}
