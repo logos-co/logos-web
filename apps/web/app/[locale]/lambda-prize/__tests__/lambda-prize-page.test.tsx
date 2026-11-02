@@ -1,3 +1,4 @@
+// @vitest-environment happy-dom
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it, vi } from 'vitest'
@@ -79,7 +80,58 @@ describe('Lambda Prize v3', () => {
     updated.prizes[0].title = 'Updated wallet'
     const html = render(updated)
     expect(html.match(/\$21,000/g)).toHaveLength(2)
-    expect(html.match(/Updated wallet/g)).toHaveLength(2)
+    const container = document.createElement('div')
+    container.innerHTML = html
+    expect(
+      [...container.querySelectorAll('h3')].filter(
+        (heading) => heading.textContent === 'Updated wallet'
+      )
+    ).toHaveLength(2)
+  })
+
+  it('makes each featured card a single named link using its edited CMS destination', () => {
+    const updated = structuredClone(copy)
+    updated.prizes[0].cta = {
+      label: 'View this prize',
+      href: 'https://github.com/example/edited-prize',
+    }
+    const container = document.createElement('div')
+    container.innerHTML = render(updated)
+    const section = container.querySelector(
+      '[aria-labelledby="featured-heading"]'
+    )!
+    const featured = updated.prizes.filter(
+      (prize) => prize.featured && prize.cta
+    )
+
+    expect(section.querySelectorAll('a')).toHaveLength(featured.length + 1)
+    for (const prize of featured) {
+      const link = [...section.querySelectorAll('a')].find(
+        (item) =>
+          item.getAttribute('aria-label') ===
+          prize.title.replace(/\s+/g, ' ').trim()
+      )!
+      expect(link.getAttribute('href')).toBe(prize.cta!.href)
+      expect(link.querySelector('img')).not.toBeNull()
+      expect(link.querySelector('h3')).not.toBeNull()
+      expect(link.textContent).toContain(prize.cta!.label)
+      expect(link.querySelector('a, button')).toBeNull()
+    }
+  })
+
+  it('keeps a featured prize without a destination non-interactive', () => {
+    const updated = structuredClone(copy)
+    delete updated.prizes[0].cta
+    const container = document.createElement('div')
+    container.innerHTML = render(updated)
+    const section = container.querySelector(
+      '[aria-labelledby="featured-heading"]'
+    )!
+    const title = [...section.querySelectorAll('h3')].find(
+      (item) => item.textContent === updated.prizes[0].title
+    )!
+    expect(title).toBeDefined()
+    expect(title.closest('a')).toBeNull()
   })
 
   it('links navigation to real section anchors and leaves coming-soon prizes without an action', () => {

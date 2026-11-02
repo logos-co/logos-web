@@ -272,6 +272,39 @@
   border-radius: 8px;
   overflow: hidden;
 }
+.lp-featured-image .lp-image {
+  transition:
+    filter 700ms ease-out,
+    transform 700ms ease-out;
+}
+.lp-featured-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgb(21 37 33 / 0%);
+  transition: background-color 300ms ease-out;
+}
+a.lp-featured-card:focus-visible .lp-image {
+  transform: scale(1.01);
+  filter: blur(4px);
+}
+a.lp-featured-card:focus-visible .lp-featured-overlay {
+  background: rgb(21 37 33 / 18%);
+}
+@media (hover: hover) {
+  a.lp-featured-card:hover .lp-image {
+    transform: scale(1.01);
+    filter: blur(4px);
+  }
+  a.lp-featured-card:hover .lp-featured-overlay {
+    background: rgb(21 37 33 / 18%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lp-featured-image .lp-image,
+  .lp-featured-overlay {
+    transition: none;
+  }
+}
 .lp-tag {
   display: inline-block;
   padding: 6px;

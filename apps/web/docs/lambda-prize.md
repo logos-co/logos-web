@@ -10,6 +10,8 @@ Desktop and mobile share the desktop Figma copy, including requirements and rewa
 
 The `prizes` array is the source for both listings. A prize with a `featured` image and description also appears in the featured listing; its title, amount, status and CTA remain shared. Omit `cta` when an upcoming prize has no destination. Statistics are editorial values matching the design, not a live GitHub feed. Solution links point to the repositories identified in the published solution records.
 
+Featured prize cards link across their full area to the CMS CTA destination. The CTA label remains visible within the single card link. Hover and keyboard focus use the image-card treatment from the home and technology pages: a slight zoom, blur and dark overlay. Cards without a CTA remain non-interactive.
+
 The [schema](../../../packages/content/src/schemas/pages/lambda-prize.ts) validates both build-time loading and CMS saves. The existing Pages JSON field requires no additional Payload fields or database migration. Saving follows the existing GitHub PR workflow against `develop`. This change replaces the earlier Lambda Prize section shape, so existing CMS drafts must be refreshed from the new fixture before editing.
 
 ## Design and responsive behaviour
