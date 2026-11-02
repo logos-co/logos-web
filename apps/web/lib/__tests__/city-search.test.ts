@@ -35,6 +35,14 @@ describe('searchCities', () => {
     expect(url.searchParams.has('country')).toBe(false)
   })
 
+  test('searches the city part of an edited pick', async () => {
+    const fetchMock = stubFetch([])
+
+    await searchCities('Lagos, Nigeri', signal)
+
+    expect(requestedUrl(fetchMock).searchParams.get('q')).toBe('Lagos')
+  })
+
   test('keeps one suggestion per city and offered country, carrying the label', async () => {
     stubFetch([
       { name: 'Seoul', countryCode: 'KR', country: 'South Korea' },

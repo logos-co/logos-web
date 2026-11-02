@@ -30,7 +30,8 @@ const COUNTRY_BY_CODE = new Map(
  * forms map back to the option id.
  */
 export const searchCities: CitySearch = async (query, signal) => {
-  const params = new URLSearchParams({ q: query })
+  // An edited pick still reads "Lagos, Nigeria": search the city part.
+  const params = new URLSearchParams({ q: query.split(',')[0]!.trim() })
   const endpoint = CITIES_ENDPOINTS[env.NEXT_PUBLIC_API_MODE ?? 'production']
 
   try {
