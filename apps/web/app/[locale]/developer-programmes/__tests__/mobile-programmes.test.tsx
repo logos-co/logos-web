@@ -16,6 +16,7 @@ vi.mock('@/i18n/navigation', () => ({
 
 import { MobileProgrammes } from '../_sections/mobile-programmes'
 import { MobileComparison } from '../_sections/mobile-comparison'
+import { Comparison } from '../_sections/comparison'
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true
 const copy = developerProgrammesCopySectionSchema.parse(page.sections[0])
@@ -54,20 +55,31 @@ describe('mobile programme content', () => {
     expect(panels[0]!.hidden).toBe(false)
   })
 
-  it('renders edited CMS toggle and mobile comparison copy', () => {
+  it('renders edited CMS toggles and shares comparison edits with desktop', () => {
     const edited = structuredClone(copy)
     edited.mobile.showDetails = 'Read programme details'
     edited.mobile.hideDetails = 'Close programme details'
-    edited.mobile.comparisonRows[0]!.values[1] = 'Updated mobile comparison'
+    edited.programmes[1].comparison[0]!.body = 'Updated shared comparison'
+    edited.programmes[1].comparison[0]!.label = 'Edited prize start label'
+    edited.programmes[1].comparisonTag = 'Edited comparison tag'
     act(() => root.render(createElement(MobileProgrammes, edited)))
     const button = container.querySelector('button')!
     expect(button.textContent).toContain('Read programme details')
     act(() => button.click())
     expect(button.textContent).toContain('Close programme details')
-    act(() => root.render(createElement(MobileComparison, edited)))
-    expect(container.textContent).toContain('Updated mobile comparison')
-    expect(copy.mobile.comparisonRows[0]!.values[1]).not.toBe(
-      'Updated mobile comparison'
-    )
+    const props = {
+      programmes: edited.programmes,
+      heading: edited.comparisonHeading,
+    }
+    for (const Component of [MobileComparison, Comparison]) {
+      act(() => root.render(createElement(Component, props)))
+      for (const text of [
+        'Updated shared comparison',
+        'Edited prize start label',
+        'Edited comparison tag',
+      ]) {
+        expect(container.textContent).toContain(text)
+      }
+    }
   })
 })

@@ -30,12 +30,7 @@ export function HowItWorks({
         <div className="lp-requirements-heading">
           <p className="lp-eyebrow">{copy.requirements.eyebrow}</p>
           <h3 className="lp-display lp-display-medium">
-            <span className="lp-desktop-copy">
-              <Lines>{copy.requirements.heading}</Lines>
-            </span>
-            <span className="lp-mobile-copy lp-mobile-lines">
-              {copy.requirements.mobileHeading}
-            </span>
+            <Lines>{copy.requirements.heading}</Lines>
           </h3>
         </div>
         <div className="lp-requirement-cards">

@@ -27,19 +27,9 @@ export const developerProgrammesCopySectionSchema = z.object({
   key: sectionKeySchema,
   hero: z.object({ eyebrow: text, title: text, subtitle: text, body: text }),
   mobile: z.object({
-    heroTitle: text,
-    heroSubtitle: text,
-    heroDescription: text,
-    comparisonHeading: text,
-    choiceHeading: text,
-    statementEyebrow: text,
     showDetails: text,
     hideDetails: text,
     programmeImages: z.tuple([mediaRefSchema, mediaRefSchema]),
-    comparisonTags: z.tuple([text, text]),
-    comparisonRows: z
-      .array(z.object({ label: text, values: z.tuple([text, text]) }))
-      .min(1),
   }),
   programmes: z.tuple([
     programme.extend({ id: z.literal('rfp') }),

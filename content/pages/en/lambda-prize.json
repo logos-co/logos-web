@@ -207,7 +207,7 @@
           "cards": [
             {
               "eyebrow": "REQUIREMENT 1",
-              "title": "It's used.",
+              "title": "It’s used.",
               "body": "Each prize lists the adoption it needs. The LEZ Program Registry\nprize asks for:",
               "metrics": [
                 {
@@ -230,8 +230,7 @@
               "body": "Your product does what the prize asks, for the people using it.\nBuild it, reuse what exists, or combine the two. Evaluators check\nit against every success criterion."
             }
           ],
-          "footnote": "Manufactured volume doesn't count. Evaluators check account history and commit history.",
-          "mobileHeading": "Two gates.\nReal users. A product\nthat works for them."
+          "footnote": "Manufactured volume doesn’t count. Evaluators check account history and commit history."
         }
       },
       "rules": {
@@ -257,11 +256,11 @@
           },
           {
             "title": "Open to anyone.",
-            "body": "Any individual or team can enter. Logos contributors and their\ncontractors can't."
+            "body": "Any individual or team can enter. Logos contributors and their\ncontractors can’t."
           },
           {
             "title": "Build in public.",
-            "body": "It's expected. Claiming someone else's in-progress work isn't."
+            "body": "It’s expected. Claiming someone else’s in-progress work isn’t."
           }
         ],
         "cta": {
@@ -363,8 +362,7 @@
               "href": "https://github.com/edenbd1/lp-0005-private-token-balance-attestation"
             }
           }
-        ],
-        "mobileHeading": "Already shipped."
+        ]
       },
       "resources": {
         "heading": "Resources",
@@ -413,15 +411,12 @@
         ],
         "rfp": {
           "label": "RFP Program",
-          "body": "Need funding before you build? The RFP Program funds teams to build defined specs, paid per milestone.",
+          "body": "The RFP Program funds teams to build defined specs, paid per milestone.",
           "cta": {
             "label": "Explore RFPs",
             "href": "/rfp"
           },
-          "mobile": {
-            "title": "Need funding before you build?",
-            "body": "The RFP Program funds teams to build defined specs, paid per milestone."
-          }
+          "title": "Need funding before you build?"
         }
       },
       "finalCta": {

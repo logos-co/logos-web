@@ -7,22 +7,13 @@ interface ChoicesProps extends Pick<
   'programmes'
 > {
   heading: string
-  mobileHeading: string
   help: DeveloperProgrammesCopySection['choiceHelp']
 }
 
-export function Choices({
-  heading,
-  mobileHeading,
-  programmes,
-  help,
-}: ChoicesProps) {
+export function Choices({ heading, programmes, help }: ChoicesProps) {
   return (
     <section className="dp-choices">
-      <h2 className="dp-section-heading">
-        <span className="dp-desktop-only">{heading}</span>
-        <span className="dp-mobile-only">{mobileHeading}</span>
-      </h2>
+      <h2 className="dp-section-heading">{heading}</h2>
       <div className="dp-choices-grid">
         {programmes.map((programme) => (
           <article

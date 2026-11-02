@@ -6,11 +6,10 @@ interface StatementProps extends Pick<
   DeveloperProgrammesCopySection,
   'programmes'
 > {
-  mobileEyebrow: string
   copy: DeveloperProgrammesCopySection['statement']
 }
 
-export function Statement({ copy, programmes, mobileEyebrow }: StatementProps) {
+export function Statement({ copy, programmes }: StatementProps) {
   return (
     <section className="dp-statement">
       <ProgrammeImage
@@ -19,9 +18,6 @@ export function Statement({ copy, programmes, mobileEyebrow }: StatementProps) {
         sizes="(max-width: 599px) 820px, 100vw"
       />
       <div className="dp-statement-scrim" />
-      <p className="dp-statement-eyebrow dp-eyebrow dp-mobile-only">
-        {mobileEyebrow}
-      </p>
       <h2 className="dp-lines">{copy.title}</h2>
       <div className="dp-statement-copy">
         <p className="dp-desktop-only">

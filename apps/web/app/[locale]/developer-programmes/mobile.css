@@ -212,6 +212,7 @@
     border-radius: 12px;
   }
   .dp-mobile-compare-header,
+  .dp-mobile-compare-labels,
   .dp-mobile-compare-row dd,
   .dp-mobile-compare-actions {
     display: grid;
@@ -345,9 +346,6 @@
     flex-direction: column;
     gap: 24px;
     padding: 60px 12px;
-  }
-  .dp-statement-eyebrow {
-    position: relative;
   }
   .dp-statement h2 {
     font-size: clamp(46px, 14.25vw, 56px);

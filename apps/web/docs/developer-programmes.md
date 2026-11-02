@@ -20,7 +20,7 @@ The [Figma frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Desi
 
 Below 768px, the page follows the [393px mobile frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3328-17344) and [expanded Prize card](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3378-19248). Programme cards start closed and can be expanded independently. The comparison uses paired columns, followed by centred choice capsules, ruled principles, a compact statement and resource rows.
 
-The section's `mobile` object owns mobile-only headings, hero description, toggle labels, card images, comparison tags and comparison rows. These retain the supplied mobile frame's wording even where it differs from desktop. Shared programme descriptions, statistics, opportunities and links continue to use `programmes`. The statement's paragraphs share the desktop copy with mobile typography. CMS editors should review both variants when changing copy. Existing CMS drafts need refreshing from the fixture to include the required `mobile` object.
+Desktop and mobile share the desktop Figma copy. Editing a heading, comparison tag or row, choice statement, or statement paragraph updates both layouts. The comparison keeps each programme's own label when the two columns use different wording. The section's `mobile` object contains only the expand/collapse labels and programme card images. Heading newlines preserve the mobile line breaks while desktop headings render on one line. Refresh existing CMS drafts from the fixture before editing.
 
 Mobile CTA dimensions follow Figma. Tablet widths from 768px to 1439px retain 44px minimum CTA targets. Desktop CTA dimensions retain the Figma measurements.
 

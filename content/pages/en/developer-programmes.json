@@ -11,7 +11,7 @@
       "key": "developerProgrammes.copy",
       "hero": {
         "eyebrow": "Logos developer Programmes",
-        "title": "Build the Parallel.",
+        "title": "Build the\nParallel.",
         "subtitle": "RFPs and {mark}Prize",
         "body": "RFPs fund your team to build a specification. {mark}Prize rewards products on Logos\nthat launch to real users. Choose your path."
       },
@@ -168,13 +168,13 @@
             },
             {
               "label": "Best for",
-              "body": "Teams looking to launch a successful product or\nbusiness"
+              "body": "Teams who know how to build products and grow the\nuser base. "
             }
           ],
           "choice": {
             "title": "Go to {mark}Prize if…",
             "statements": [
-              "You're a product and dev team\nready to launch on Logos.",
+              "You're a product and dev team\nand can grow a user base. ",
               "You want privacy and\ndecentralisation at the core of\nyour product.",
               "You'd welcome a prize to kick off\nyour search for market fit."
             ]
@@ -182,8 +182,8 @@
           "availability": "5 prizes open"
         }
       ],
-      "comparisonHeading": "How they differ.",
-      "choiceHeading": "Which one fits you?",
+      "comparisonHeading": "How they\ndiffer.",
+      "choiceHeading": "Which one\nfits you?",
       "choiceHelp": {
         "text": "Still not sure? Ask us on",
         "cta": {
@@ -210,7 +210,7 @@
       },
       "statement": {
         "title": "Logos doesn't\nbuild the apps.\nYou do.",
-        "body": "The Logos stack is open source, delivering private-by-\ndefault blockchain, storage, and messaging. What runs\non it is up to builders.\n\nEvery mature network has wallets, exchanges, lending\nmarkets, and multisigs. A network with end-to-end\nprivacy needs them too. These programmes pay those\nwho build those applications.\n\nRFPs build the complex protocols and infrastructure on\ntop of Logos, while {mark}Prizes add an incentive to launch\napps with product-market fit.",
+        "body": "The Logos stack is open source, delivering private-by-\ndefault blockchain, storage, and messaging. What runs\non it is up to builders.\n\nRFPs build the complex protocols and infrastructure on\ntop of Logos, while {mark}Prizes add an incentive to launch\napps with product-market fit.",
         "image": {
           "src": "/images/developer-programmes/build.webp",
           "alt": ""
@@ -262,12 +262,6 @@
         ]
       },
       "mobile": {
-        "heroTitle": "Build the\nParallel.",
-        "heroSubtitle": "RFPs and {mark}Prize —",
-        "heroDescription": "Developer programmes that let you earn rewards.",
-        "comparisonHeading": "How they\ndiffer.",
-        "choiceHeading": "Which one\nfits you?",
-        "statementEyebrow": "Why these programs exist",
         "showDetails": "Show details",
         "hideDetails": "Hide details",
         "programmeImages": [
@@ -278,54 +272,6 @@
           {
             "src": "/images/developer-programmes/prize.webp",
             "alt": ""
-          }
-        ],
-        "comparisonTags": [
-          "Funded up front",
-          "Paid on adoption"
-        ],
-        "comparisonRows": [
-          {
-            "label": "How you start",
-            "values": [
-              "Submit a proposal",
-              "Learn the problem. Talk to users. Then build."
-            ]
-          },
-          {
-            "label": "Who gets selected",
-            "values": [
-              "One team, before work begins",
-              "The first solution that meets every criterion"
-            ]
-          },
-          {
-            "label": "When you get paid",
-            "values": [
-              "As each milestone is delivered",
-              "Once, when your solution is picked as the winner"
-            ]
-          },
-          {
-            "label": "What's judged",
-            "values": [
-              "Delivery to a fixed spec",
-              "Working code plus\nreal adoption"
-            ]
-          },
-          {
-            "label": "Typical work",
-            "values": [
-              "Building blocks, protocols, infrastructure",
-              "Applications, SDKs, running a node or protocol"
-            ]
-          },
-          {
-            "label": "Best for",
-            "values": [
-              "Teams with a track record",
-              "Teams looking to launch a successful product or business"
-            ]
           }
         ]
       }

@@ -300,9 +300,6 @@
   .lp-content .lp-desktop-copy {
     display: none;
   }
-  .lp-mobile-lines {
-    white-space: pre-line;
-  }
   .lp-section-meta {
     display: contents;
   }

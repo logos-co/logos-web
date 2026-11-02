@@ -49,7 +49,6 @@ export const lambdaPrizeCopySectionSchema = z.object({
   howItWorks: sectionIntro.extend({
     steps: z.array(row.extend({ number: text })).min(1),
     requirements: sectionIntro.extend({
-      mobileHeading: text,
       cards: z
         .array(
           row.extend({
@@ -76,7 +75,6 @@ export const lambdaPrizeCopySectionSchema = z.object({
     body: text,
   }),
   rewarded: sectionIntro.extend({
-    mobileHeading: text,
     body: text,
     cta: link,
     solutions: z
@@ -87,7 +85,7 @@ export const lambdaPrizeCopySectionSchema = z.object({
     heading: text,
     body: text,
     items: z.array(z.object({ number: text, title: text, cta: link })).min(1),
-    rfp: z.object({ label: text, body: text, mobile: row, cta: link }),
+    rfp: z.object({ label: text, title: text, body: text, cta: link }),
   }),
   finalCta: z.object({ heading: text, primaryCta: link, secondaryCta: link }),
 })

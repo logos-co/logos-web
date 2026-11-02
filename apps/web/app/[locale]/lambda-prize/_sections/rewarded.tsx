@@ -16,8 +16,7 @@ export function Rewarded({
       <div className="lp-rewarded-intro">
         <p className="lp-eyebrow">{copy.eyebrow}</p>
         <h2 id="rewarded-heading" className="lp-display lp-display-medium">
-          <span className="lp-desktop-copy">{copy.heading}</span>
-          <span className="lp-mobile-copy">{copy.mobileHeading}</span>
+          {copy.heading}
         </h2>
         <p className="lp-body">{copy.body}</p>
         <Cta link={copy.cta} variant="secondary" />

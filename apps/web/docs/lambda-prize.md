@@ -6,7 +6,7 @@ The [`/lambda-prize` page](../app/[locale]/lambda-prize/page.tsx) renders the [v
 
 In CMS **Pages**, open `lambda-prize` and edit its `page` JSON. The `lambdaPrizeCopy` section contains the hero, statistics, featured introduction, prizes, steps and requirements, rules, ownership statement, rewarded solutions, resources and final CTA. All visible copy, amounts, status labels, images and link destinations are editable. Metadata uses the standard page title, description and SEO fields.
 
-Mobile-specific wording is editable in `howItWorks.requirements.mobileHeading`, `rewarded.mobileHeading`, and `resources.rfp.mobile.title` / `body`. These fields preserve the distinct text in the mobile Figma frame without changing desktop copy. The requirements mobile heading supports explicit newline escapes.
+Desktop and mobile share the desktop Figma copy, including requirements and rewarded-solution headings. The RFP callout uses the same `resources.rfp.title` and `body` in both layouts; desktop displays them inline, while mobile uses separate title and body styling. CMS edits update both layouts.
 
 The `prizes` array is the source for both listings. A prize with a `featured` image and description also appears in the featured listing; its title, amount, status and CTA remain shared. Omit `cta` when an upcoming prize has no destination. Statistics are editorial values matching the design, not a live GitHub feed. Solution links point to the repositories identified in the published solution records.
 
@@ -18,7 +18,7 @@ The [desktop Figma v3 frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs
 
 The [mobile frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3329-17246) is 393px wide and defines the mobile layout. Below 768px, the two monetary statistics precede the open and awarded counts, steps become vertical, and prize cards stack. Listing CTAs move below their cards, completed solutions show a full-width title with their repository link above it, and resources become compact horizontal rows. Intermediate widths use two-column prize cards and three-column steps where appropriate. Mobile CTA dimensions follow the Figma frame; tablet CTAs have at least 44px targets. The shared site header uses its default dark text on the light hero; the shared footer remains unchanged.
 
-Copy follows the current Figma text layers. The desktop title is "Already rewarded." and the mobile title is "Already shipped."; the eyebrow and navigation label remain "Already shipped". The resource callout retains Figma's "RFP Program" spelling. Apostrophes use ASCII punctuation. The next-round callout has been removed from both layouts and the content schema following the legal review. Existing CMS drafts should be refreshed from the fixture before editing.
+Copy and punctuation follow the desktop Figma text layers. Both layouts use the title "Already rewarded."; the eyebrow and navigation label remain "Already shipped". The resource callout retains Figma's "RFP Program" spelling. The next-round callout has been removed from both layouts and the content schema following the legal review. Existing CMS drafts should be refreshed from the fixture before editing.
 
 The page uses the site's licensed Rhymes Display, Public Sans and Fira Code. Figma uses a trial Rhymes font; the licensed font has minor contour differences, as documented in the prior programme implementation.
 

@@ -52,29 +52,23 @@ describe('Lambda Prize v3', () => {
     expect(html).toContain('https://github.com/example/new-solution')
   })
 
-  it('renders independently edited mobile copy from CMS without replacing desktop copy', () => {
+  it('renders shared headings and the same edited RFP copy in both layouts', () => {
     const updated = structuredClone(copy)
-    updated.howItWorks.requirements.mobileHeading = 'Mobile requirements'
-    updated.rewarded.mobileHeading = 'Mobile solutions'
-    updated.resources.rfp.mobile = {
-      title: 'Mobile funding title',
-      body: 'Mobile funding description',
-    }
+    updated.howItWorks.requirements.heading = 'Shared requirements'
+    updated.rewarded.heading = 'Shared solutions'
+    updated.resources.rfp.title = 'Shared funding title'
+    updated.resources.rfp.body = 'Shared funding description'
     const html = render(updated)
-    for (const text of [
-      'Mobile requirements',
-      'Mobile solutions',
-      'Mobile funding title',
-      'Mobile funding description',
-      copy.rewarded.heading,
-      copy.resources.rfp.body,
-    ]) {
-      expect(html).toContain(text)
+    for (const text of ['Shared requirements', 'Shared solutions']) {
+      expect(html.split(text)).toHaveLength(2)
+    }
+    for (const text of ['Shared funding title', 'Shared funding description']) {
+      expect(html.split(text)).toHaveLength(3)
     }
     expect(() =>
       lambdaPrizeCopySectionSchema.parse({
         ...updated,
-        rewarded: { ...updated.rewarded, mobileHeading: '' },
+        rewarded: { ...updated.rewarded, heading: '' },
       })
     ).toThrow()
   })

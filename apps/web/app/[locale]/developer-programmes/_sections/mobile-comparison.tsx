@@ -1,20 +1,27 @@
 import type { DeveloperProgrammesCopySection } from '@repo/content/schemas'
-import { Copy, Cta } from './atoms'
+import { Copy, Cta, DesktopLines } from './atoms'
+
+interface MobileComparisonProps {
+  programmes: DeveloperProgrammesCopySection['programmes']
+  heading: string
+}
 
 export function MobileComparison({
   programmes,
-  mobile,
-}: Pick<DeveloperProgrammesCopySection, 'programmes' | 'mobile'>) {
+  heading,
+}: MobileComparisonProps) {
+  const rowCount = Math.max(
+    ...programmes.map(({ comparison }) => comparison.length)
+  )
+
   return (
     <section className="dp-mobile-comparison dp-mobile-only">
-      <h2 className="dp-section-heading">{mobile.comparisonHeading}</h2>
+      <h2 className="dp-section-heading">{heading}</h2>
       <div className="dp-mobile-compare-card">
         <div className="dp-mobile-compare-header">
-          {programmes.map((programme, index) => (
+          {programmes.map((programme) => (
             <div key={programme.id} className={`dp-${programme.id}`}>
-              <p className="dp-tag dp-eyebrow">
-                {mobile.comparisonTags[index]}
-              </p>
+              <p className="dp-tag dp-eyebrow">{programme.comparisonTag}</p>
               <h3>
                 <Copy markSize={20.25} fontSize={25}>
                   {programme.name}
@@ -24,22 +31,46 @@ export function MobileComparison({
           ))}
         </div>
         <dl>
-          {mobile.comparisonRows.map((row) => (
-            <div className="dp-mobile-compare-row" key={row.label}>
-              <dt className="dp-eyebrow">{row.label}</dt>
-              <dd>
-                {row.values.map((value, index) => (
-                  <p key={programmes[index]!.id}>
-                    <span className="sr-only">
-                      {programmes[index]!.name.replace('{mark}', 'Lambda ')}
-                      :{' '}
-                    </span>
-                    {value}
-                  </p>
-                ))}
-              </dd>
-            </div>
-          ))}
+          {Array.from({ length: rowCount }, (_, rowIndex) => {
+            const rows = programmes.map(
+              ({ comparison }) => comparison[rowIndex]
+            )
+            const sharedLabel = rows.every(
+              (row) => row?.label === rows[0]?.label
+            )
+
+            return (
+              <div className="dp-mobile-compare-row" key={rowIndex}>
+                <dt
+                  className={`dp-eyebrow ${sharedLabel ? '' : 'dp-mobile-compare-labels'}`}
+                >
+                  {sharedLabel
+                    ? rows[0]?.label
+                    : rows.map((row, index) => (
+                        <span key={programmes[index]!.id}>{row?.label}</span>
+                      ))}
+                </dt>
+                <dd>
+                  {rows.map((row, index) => (
+                    <p key={programmes[index]!.id}>
+                      {row && (
+                        <>
+                          <span className="sr-only">
+                            {programmes[index]!.name.replace(
+                              '{mark}',
+                              'Lambda '
+                            )}
+                            :{' '}
+                          </span>
+                          <DesktopLines>{row.body}</DesktopLines>
+                        </>
+                      )}
+                    </p>
+                  ))}
+                </dd>
+              </div>
+            )
+          })}
         </dl>
         <div className="dp-mobile-compare-actions">
           {programmes.map((programme) => (

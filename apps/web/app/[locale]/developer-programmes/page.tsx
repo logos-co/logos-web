@@ -45,26 +45,24 @@ export default async function Page({ params }: PageProps) {
     <div
       className={`developer-programmes text-small-compact ${programmeMono.variable}`}
     >
-      <Hero copy={copy.hero} mobile={copy.mobile} />
+      <Hero copy={copy.hero} />
       <Programmes programmes={copy.programmes} />
       <MobileProgrammes programmes={copy.programmes} mobile={copy.mobile} />
-      <MobileComparison programmes={copy.programmes} mobile={copy.mobile} />
+      <MobileComparison
+        programmes={copy.programmes}
+        heading={copy.comparisonHeading}
+      />
       <Comparison
         heading={copy.comparisonHeading}
         programmes={copy.programmes}
       />
       <Choices
         heading={copy.choiceHeading}
-        mobileHeading={copy.mobile.choiceHeading}
         programmes={copy.programmes}
         help={copy.choiceHelp}
       />
       <Principles copy={copy.principles} />
-      <Statement
-        copy={copy.statement}
-        programmes={copy.programmes}
-        mobileEyebrow={copy.mobile.statementEyebrow}
-      />
+      <Statement copy={copy.statement} programmes={copy.programmes} />
       <Resources copy={copy.resources} />
     </div>
   )
