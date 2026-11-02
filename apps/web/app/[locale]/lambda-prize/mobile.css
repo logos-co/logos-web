@@ -199,9 +199,6 @@
     height: clamp(35px, 11.2vw, 44px);
     margin-top: 6px;
   }
-  .lp-next-round {
-    padding: 16px;
-  }
   .lp-rewarded {
     padding: 80px 16px 0;
     gap: 24px;

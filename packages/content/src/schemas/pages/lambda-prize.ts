@@ -74,7 +74,6 @@ export const lambdaPrizeCopySectionSchema = z.object({
       .array(z.object({ before: text, image: mediaRefSchema, after: text }))
       .length(2),
     body: text,
-    nextRound: row,
   }),
   rewarded: sectionIntro.extend({
     mobileHeading: text,

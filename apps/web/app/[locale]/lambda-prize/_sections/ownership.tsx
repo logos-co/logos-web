@@ -28,12 +28,6 @@ export function Ownership({
       <p className="lp-body lp-ownership-body">
         <Lines>{copy.body}</Lines>
       </p>
-      <aside className="lp-next-round">
-        <h3 className="lp-sans-title">{copy.nextRound.title}</h3>
-        <p className="lp-small">
-          <Lines>{copy.nextRound.body}</Lines>
-        </p>
-      </aside>
     </section>
   )
 }
