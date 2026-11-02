@@ -111,15 +111,19 @@ export function ConnectFormSection({
   )
 
   const fieldOptions = useMemo<FieldOptions>(
-    () =>
-      Object.fromEntries(
+    () => ({
+      ...Object.fromEntries(
         formFieldsWithKeys.map((field) => [
           field.formKey,
           getOptionsForField(field, afformOptions),
         ])
       ),
+      // `country` has no field: the picked city sets it.
+      country: afformOptions.country ?? [],
+    }),
     [formFieldsWithKeys, afformOptions]
   )
+  const countryOptions = fieldOptions.country ?? []
 
   const [formData, setFormData] = useState<FormValues>(initialData)
   const [submitable, setSubmitable] = useState(false)
@@ -129,13 +133,16 @@ export function ConnectFormSection({
   const [successState, setSuccessState] = useState(false)
   const [serverError, setServerError] = useState('')
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-  // Country id of the picked city suggestion, empty for typed text.
-  const [cityCountry, setCityCountry] = useState('')
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const captchaRef = useRef<HCaptcha>(null)
 
   const hcaptchaSitekey = process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY
   const hcaptchaEnabled = !!hcaptchaSitekey
+
+  const cityCountryLabel = formData.country
+    ? (countryOptions.find((option) => option.value === formData.country)
+        ?.label ?? '')
+    : ''
 
   const validate = useCallback(() => {
     const result = formSchema.safeParse(formData)
@@ -173,26 +180,15 @@ export function ConnectFormSection({
     }
 
   const handleCityChange = (value: string) => {
-    setCityCountry('')
-    setFormData((prev) => ({ ...prev, city: value }))
+    setFormData((prev) => ({ ...prev, city: value, country: '' }))
   }
 
-  const handleSelectCity = ({ name, country: label }: CitySuggestion) => {
-    const country =
-      (fieldOptions.country ?? []).find((option) => option.label === label)
-        ?.value ?? ''
-    setCityCountry(country)
-    setFormData((prev) => ({ ...prev, city: name, country }))
-  }
-
-  const handleCountryChange = (value: string) => {
-    // A picked city only exists in its own country.
-    const clearsCity = cityCountry !== '' && cityCountry !== value
-    if (clearsCity) setCityCountry('')
+  const handleSelectCity = ({ name, country }: CitySuggestion) => {
+    const option = countryOptions.find((o) => o.label === country)
     setFormData((prev) => ({
       ...prev,
-      country: value,
-      ...(clearsCity && { city: '' }),
+      city: name,
+      country: option?.value ?? '',
     }))
   }
 
@@ -397,6 +393,13 @@ export function ConnectFormSection({
   const hasError = (field: string) =>
     formErrors.length > 0 && errors.includes(field)
 
+  const requiredMessage = (formKey: string, label: string, value: string) => {
+    if (formKey === 'email') return t('emailInvalid')
+    // A filled city without a country was typed, not picked.
+    if (formKey === 'city' && value.trim()) return t('cityPickRequired')
+    return t('fieldRequired', { field: label.toLowerCase() })
+  }
+
   const getAnnouncementMessage = () => {
     if (successState) return t('successAnnouncement')
     if (loadingState) return t('loadingAnnouncement')
@@ -580,11 +583,7 @@ export function ConnectFormSection({
                 label={label}
                 options={options}
                 value={String(value ?? '')}
-                onChange={
-                  field.formKey === 'country'
-                    ? handleCountryChange
-                    : handleChange(field.formKey)
-                }
+                onChange={handleChange(field.formKey)}
                 placeholder={placeholder}
                 required={REQUIRED_FIELDS.has(field.formKey)}
                 disabled={loadingState}
@@ -749,6 +748,7 @@ export function ConnectFormSection({
                 <CityField
                   {...inputProps}
                   value={String(value ?? '')}
+                  countryLabel={cityCountryLabel}
                   search={searchCities}
                   onChange={handleCityChange}
                   onSelect={handleSelectCity}
@@ -765,9 +765,7 @@ export function ConnectFormSection({
               hasFieldError &&
               REQUIRED_FIELDS.has(field.formKey) ? (
                 <p className="mt-2 font-mono text-xs font-semibold text-red-600">
-                  {field.formKey === 'email'
-                    ? t('emailInvalid')
-                    : t('fieldRequired', { field: label.toLowerCase() })}
+                  {requiredMessage(field.formKey, label, String(value ?? ''))}
                 </p>
               ) : null}
             </div>

@@ -184,6 +184,7 @@
     "selectFieldRequired": "Please select {field}",
     "selectOptionRequired": "Please select an option",
     "fieldRequired": "Please enter {field}",
+    "cityPickRequired": "Pick a city from the list.",
     "tooLong": "Must be {max} characters or fewer",
     "emailInvalid": "Please enter a valid email address",
     "captchaRequired": "Please complete the captcha.",

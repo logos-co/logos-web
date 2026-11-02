@@ -55,8 +55,9 @@ string is also the name of the Notion select property and the labels are its
 options, so to reword either you rename the property or option in Notion first.
 
 `src/form-options.ts` has `SKILLS_OPTIONS`, `CHAT_SERVICE_OPTIONS` and
-`COUNTRY_OPTIONS`, the dropdowns all three forms share. `apps/web` renders them
-through `AFFORM_OPTIONS` (`lib/funnel-forms/afform-options.ts`). `apps/api`
+`COUNTRY_OPTIONS`, the option lists all three forms share. `apps/web` reads them
+through `AFFORM_OPTIONS` (`lib/funnel-forms/afform-options.ts`); `country` has no
+field of its own and is set by the [picked city](#city-suggestions). `apps/api`
 turns ids back into labels with `SKILLS_MAP`, `CHAT_SERVICE_MAP`, `COUNTRY_MAP`
 and `HEAR_ABOUT_MAP`, each built by `toLabelMap()` from the same array. The
 `Skills` labels are also the options of the Notion `Skills` multi_select;
@@ -87,7 +88,7 @@ form accepted.
 ## City suggestions
 
 The `city` field in `ConnectFormSection` renders as `CityField`, which suggests
-cities as the visitor types and stays free text otherwise. It is built on the
+cities as the visitor types. It is built on the
 `useCityAutocomplete` hook from `@acid-info/logos-ui/client`; its debounce,
 minimum length and keys are described with the
 [footer newsletter form](../components.md#newsletter-form), which uses the same
@@ -106,9 +107,11 @@ same-name places in one country become one suggestion. Any failure, CORS
 included, resolves to no suggestions.
 
 The footer submits the label; the funnel forms map it back to the option id for
-the intake. Picking a suggestion sets both `city` and `country`. Choosing a
-different country afterwards clears a city that came from a suggestion, but
-keeps typed text.
+the intake. Picking a suggestion sets both `city` and `country`, and the field
+then reads `Lagos, Nigeria`. Editing the text drops the pick. A city that was
+typed but not picked has no country: `buildFormSchema` reports it on the
+`city` field ("Pick a city from the list."), while `country` stays in
+`REQUIRED_FIELDS_BY_FORM` for the intake.
 
 ## Code layout
 

@@ -15,7 +15,10 @@ type Props = Omit<
   ComponentProps<typeof TextInput>,
   'value' | 'onChange' | 'onSelect'
 > & {
+  /** The city name; the picked country is appended for display only. */
   value: string
+  /** Country label of the picked suggestion, empty when not picked. */
+  countryLabel: string
   search: CitySearch
   onChange: (value: string) => void
   /** Sets both the city and the country. */
@@ -24,6 +27,7 @@ type Props = Omit<
 
 export function CityField({
   value,
+  countryLabel,
   search,
   onChange,
   onSelect,
@@ -35,11 +39,13 @@ export function CityField({
     onSelect,
   })
 
+  const display = countryLabel ? `${value}, ${countryLabel}` : value
+
   return (
     <div className="relative w-full" ref={autocomplete.containerRef}>
       <TextInput
         {...props}
-        value={value}
+        value={display}
         onChange={(event) => {
           onChange(event.target.value)
           autocomplete.open()

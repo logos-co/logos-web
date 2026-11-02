@@ -32,7 +32,6 @@ declare global {
 globalThis.IS_REACT_ACT_ENVIRONMENT = true
 
 const NIGERIA = COUNTRY_OPTIONS.find((option) => option.code === 'NG')!
-const KOREA = COUNTRY_OPTIONS.find((option) => option.code === 'KR')!
 
 let container: HTMLDivElement
 let root: Root
@@ -63,8 +62,6 @@ afterEach(() => {
 })
 
 const cityInput = () => container.querySelector<HTMLInputElement>('#city')!
-const countryTrigger = () =>
-  container.querySelector<HTMLButtonElement>('#country')!
 
 async function typeCity(value: string) {
   act(() => {
@@ -97,24 +94,34 @@ describe('ConnectFormSection city autocomplete', () => {
     )
   })
 
-  it('a picked city sets the country too', async () => {
+  it('a picked city sets the city and the country', async () => {
     await typeCity('lag')
     pickSuggestion()
 
-    expect(cityInput().value).toBe('Lagos')
-    expect(countryTrigger().textContent).toBe(NIGERIA.label)
+    expect(cityInput().value).toBe('Lagos, Nigeria')
   })
 
-  it('clears a picked city when another country is chosen', async () => {
+  it('editing a picked city drops the pick', async () => {
     await typeCity('lag')
     pickSuggestion()
 
-    act(() => countryTrigger().click())
-    const korea = [...container.querySelectorAll('[role="option"]')].find(
-      (option) => option.textContent === KOREA.label
-    ) as HTMLButtonElement
-    act(() => korea.click())
+    await typeCity('Lagos, Nigeria!')
 
-    expect(cityInput().value).toBe('')
+    expect(cityInput().value).toBe('Lagos, Nigeria!')
+  })
+
+  it('asks to pick a typed city that was not picked', async () => {
+    await typeCity('Anyigba')
+
+    act(() => {
+      container
+        .querySelector('form')!
+        .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
+    })
+
+    const messages = [...container.querySelectorAll('p')].map(
+      (p) => p.textContent
+    )
+    expect(messages).toContain('cityPickRequired')
   })
 })
