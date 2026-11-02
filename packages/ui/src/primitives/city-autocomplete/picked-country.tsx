@@ -33,16 +33,24 @@ export function usePickedCountryWidth(country: string) {
 }
 
 /**
- * `paddingRight` for the city input: its own padding plus the country label,
- * so a centred city stays lined up with the overlay.
+ * Styles for the city input while a city is picked (`isPicked`): room on the
+ * right for the country label (its own padding plus the label, so a centred
+ * city stays lined up with the overlay) and the caps the picked city reads in.
+ * The padding waits for the first measurement. Display only, so the input
+ * value keeps the city's own casing.
  */
-export function pickedCountryPadding(
+export function pickedCityInputStyle(
   basePadding: string,
-  countryWidth: number
-): CSSProperties | undefined {
-  return countryWidth
-    ? { paddingRight: `calc(${basePadding} + ${countryWidth}px)` }
-    : undefined
+  countryWidth: number,
+  isPicked: boolean
+): CSSProperties {
+  if (!isPicked) return {}
+  return {
+    paddingRight: countryWidth
+      ? `calc(${basePadding} + ${countryWidth}px)`
+      : undefined,
+    textTransform: 'uppercase',
+  }
 }
 
 export type PickedCountryProps = {
@@ -55,6 +63,8 @@ export type PickedCountryProps = {
    * so the country lands right after the typed city.
    */
   className: string
+  /** City style. Must match the input while it shows the picked city. */
+  cityClassName?: string
   /** Country style; put the gap to the city in padding so it is measured. */
   countryClassName: string
 }
@@ -63,13 +73,15 @@ export type PickedCountryProps = {
  * The picked country, drawn over the city input after the city text. It is
  * not part of the input value, so only the city can be edited. The input's
  * right padding follows the country's rendered width, so a long country
- * truncates while the city keeps the room it needs.
+ * truncates while the city keeps the room it needs. Pass `cityClassName` the
+ * input's own casing, so the invisible city measures as wide as the real one.
  */
 export function PickedCountry({
   city,
   country,
   countryRef,
   className,
+  cityClassName,
   countryClassName,
 }: PickedCountryProps) {
   if (!country) return null
@@ -79,7 +91,9 @@ export function PickedCountry({
       aria-hidden
       className={`pointer-events-none absolute inset-0 flex items-center overflow-hidden whitespace-pre ${className}`}
     >
-      <span className="invisible shrink-0">{city}</span>
+      <span className={`invisible shrink-0 ${cityClassName ?? ''}`}>
+        {city}
+      </span>
       {/* Shrinks with an ellipsis in a narrow field; the city stays whole. */}
       <span ref={countryRef} className={`min-w-0 truncate ${countryClassName}`}>
         {country}

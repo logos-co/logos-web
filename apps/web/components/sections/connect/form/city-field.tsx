@@ -2,7 +2,7 @@
 
 import {
   PickedCountry,
-  pickedCountryPadding,
+  pickedCityInputStyle,
   useCityAutocomplete,
   usePickedCountryWidth,
   type CitySearch,
@@ -32,6 +32,9 @@ type Props = Omit<
 const pickedCountryClassName =
   'border border-transparent px-3 py-2.5 font-sans text-[16px] leading-[1.2]'
 
+// A picked city reads in caps, like the country next to it.
+const pickedCityClassName = 'uppercase'
+
 // Same as the country in a suggestion.
 const countryClassName = 'pl-1.5 uppercase text-brand-dark-green/50'
 
@@ -55,7 +58,7 @@ export function CityField({
       <TextInput
         {...props}
         value={value}
-        style={pickedCountryPadding('0.75rem', countryWidth)}
+        style={pickedCityInputStyle('0.75rem', countryWidth, !!countryLabel)}
         onChange={(event) => {
           onChange(event.target.value)
           autocomplete.open()
@@ -66,6 +69,7 @@ export function CityField({
             country={countryLabel}
             countryRef={countryRef}
             className={pickedCountryClassName}
+            cityClassName={pickedCityClassName}
             countryClassName={countryClassName}
           />
         }

@@ -4,7 +4,7 @@ export {
   CITY_SEARCH_DEBOUNCE_MS,
   CITY_SEARCH_MIN_LENGTH,
   PickedCountry,
-  pickedCountryPadding,
+  pickedCityInputStyle,
   useCityAutocomplete,
   usePickedCountryWidth,
 } from './primitives/city-autocomplete'

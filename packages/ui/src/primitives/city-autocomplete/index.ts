@@ -10,7 +10,7 @@ export type {
 } from './use-city-autocomplete'
 export {
   PickedCountry,
-  pickedCountryPadding,
+  pickedCityInputStyle,
   usePickedCountryWidth,
 } from './picked-country'
 export type { PickedCountryProps } from './picked-country'

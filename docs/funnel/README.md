@@ -108,9 +108,10 @@ included, resolves to no suggestions.
 
 The footer submits the label; the funnel forms map it back to the option id for
 the intake. Picking a suggestion sets both `city` and `country`, and the field
-then reads `Lagos NIGERIA`, the country in grey caps as in the list. The country
-is drawn over the input, not part of its value, so only the city can be edited;
-editing it drops the pick. A hand-typed `Lagos, Nigeria` searches only the part
+then reads `LAGOS NIGERIA`, the city in caps and the country in grey caps as in
+the list. Both are display only: the input value keeps the city's casing, and
+the country is drawn over the input, not part of its value, so only the city can
+be edited; editing it drops the pick. A hand-typed `Lagos, Nigeria` searches only the part
 before the first comma. A city that
 was typed but not picked has no country: `buildFormSchema` reports it on the
 `city` field ("Pick a city from the list."), while `country` stays in

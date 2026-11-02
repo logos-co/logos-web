@@ -123,6 +123,8 @@ describe('FooterNewsletter city autocomplete', () => {
     keyDown(cityInput(), 'ArrowDown')
     expect(keyDown(cityInput(), 'Enter').defaultPrevented).toBe(true)
     expect(cityInput().value).toBe('Seoul')
+    // Display only, so the submitted city keeps its casing.
+    expect(cityInput().style.textTransform).toBe('uppercase')
     expect(pickedCountry()).toBe('Korea, Republic of')
 
     await submit()
@@ -148,6 +150,7 @@ describe('FooterNewsletter city autocomplete', () => {
 
     await typeCity('Seou')
     expect(pickedCountry()).toBeUndefined()
+    expect(cityInput().style.textTransform).toBe('')
 
     await submit()
 

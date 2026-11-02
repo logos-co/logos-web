@@ -103,6 +103,8 @@ describe('ConnectFormSection city autocomplete', () => {
     pickSuggestion()
 
     expect(cityInput().value).toBe('Lagos')
+    // Display only, so the submitted city keeps its casing.
+    expect(cityInput().style.textTransform).toBe('uppercase')
     expect(pickedCountry()).toBe(NIGERIA.label)
   })
 
@@ -114,6 +116,7 @@ describe('ConnectFormSection city autocomplete', () => {
 
     expect(cityInput().value).toBe('Lago')
     expect(pickedCountry()).toBeUndefined()
+    expect(cityInput().style.textTransform).toBe('')
   })
 
   it('asks to pick a typed city that was not picked', async () => {

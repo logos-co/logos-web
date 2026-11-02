@@ -5,7 +5,7 @@ import type { FormEvent, RefObject } from 'react'
 
 import {
   PickedCountry,
-  pickedCountryPadding,
+  pickedCityInputStyle,
   useCityAutocomplete,
   usePickedCountryWidth,
   type CitySearch,
@@ -60,6 +60,9 @@ const triggerClassName =
 // Same font, padding, border width and alignment as the city field.
 const pickedCountryClassName =
   'text-eyebrow justify-center border border-transparent px-3 py-2 normal-case'
+
+// A picked city reads in caps, like the country next to it.
+const pickedCityClassName = 'uppercase'
 
 // Same as the country in a suggestion.
 const countryClassName = 'pl-1 uppercase text-brand-off-white/60'
@@ -261,7 +264,7 @@ export function FooterNewsletter({
               cityAutocomplete.open()
             }}
             className={`w-full ${fieldClassName}`}
-            style={pickedCountryPadding('0.75rem', countryWidth)}
+            style={pickedCityInputStyle('0.75rem', countryWidth, !!country)}
             aria-label={cityLabel}
             {...cityAutocomplete.inputProps}
           />
@@ -270,6 +273,7 @@ export function FooterNewsletter({
             country={country}
             countryRef={countryRef}
             className={pickedCountryClassName}
+            cityClassName={pickedCityClassName}
             countryClassName={countryClassName}
           />
 
