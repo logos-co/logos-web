@@ -4,7 +4,10 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { FormEvent, RefObject } from 'react'
 
 import {
+  PickedCountry,
+  pickedCountryPadding,
   useCityAutocomplete,
+  usePickedCountryWidth,
   type CitySearch,
   type CitySuggestion,
 } from '../city-autocomplete'
@@ -53,6 +56,13 @@ const fieldClassName =
 
 const triggerClassName =
   'text-eyebrow flex h-[32px] w-full cursor-pointer items-center justify-center gap-1 border border-brand-off-white/50 px-3 py-2 text-brand-off-white backdrop-blur-[5px]'
+
+// Same font, padding, border width and alignment as the city field.
+const pickedCountryClassName =
+  'text-eyebrow justify-center border border-transparent px-3 py-2 normal-case'
+
+// Same as the country in a suggestion.
+const countryClassName = 'pl-1 uppercase text-brand-off-white/60'
 
 const optionClassName =
   'text-eyebrow flex w-full cursor-pointer items-center px-3 py-2 text-left text-brand-off-white uppercase transition-colors hover:bg-brand-off-white/10'
@@ -109,6 +119,8 @@ export function FooterNewsletter({
     setCity(suggestion.name)
     setCountry(suggestion.country)
   }
+
+  const { countryRef, countryWidth } = usePickedCountryWidth(country)
 
   const cityAutocomplete = useCityAutocomplete({
     search: searchCities,
@@ -241,7 +253,7 @@ export function FooterNewsletter({
             type="text"
             name="city"
             placeholder={cityLabel}
-            value={country ? `${city}, ${country}` : city}
+            value={city}
             disabled={isBusy}
             onChange={(event) => {
               setCity(event.target.value)
@@ -249,8 +261,16 @@ export function FooterNewsletter({
               cityAutocomplete.open()
             }}
             className={`w-full ${fieldClassName}`}
+            style={pickedCountryPadding('0.75rem', countryWidth)}
             aria-label={cityLabel}
             {...cityAutocomplete.inputProps}
+          />
+          <PickedCountry
+            city={city}
+            country={country}
+            countryRef={countryRef}
+            className={pickedCountryClassName}
+            countryClassName={countryClassName}
           />
 
           {cityAutocomplete.isOpen && (

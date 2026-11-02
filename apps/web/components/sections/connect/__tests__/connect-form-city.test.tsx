@@ -76,6 +76,10 @@ async function typeCity(value: string) {
   })
 }
 
+// The picked country, drawn over the city input.
+const pickedCountry = () =>
+  container.querySelector('#city ~ [aria-hidden] > :last-child')?.textContent
+
 function pickSuggestion() {
   act(() =>
     container
@@ -98,16 +102,18 @@ describe('ConnectFormSection city autocomplete', () => {
     await typeCity('lag')
     pickSuggestion()
 
-    expect(cityInput().value).toBe('Lagos, Nigeria')
+    expect(cityInput().value).toBe('Lagos')
+    expect(pickedCountry()).toBe(NIGERIA.label)
   })
 
   it('editing a picked city drops the pick', async () => {
     await typeCity('lag')
     pickSuggestion()
 
-    await typeCity('Lagos, Nigeria!')
+    await typeCity('Lago')
 
-    expect(cityInput().value).toBe('Lagos, Nigeria!')
+    expect(cityInput().value).toBe('Lago')
+    expect(pickedCountry()).toBeUndefined()
   })
 
   it('asks to pick a typed city that was not picked', async () => {

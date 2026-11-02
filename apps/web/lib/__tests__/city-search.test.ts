@@ -35,7 +35,7 @@ describe('searchCities', () => {
     expect(url.searchParams.has('country')).toBe(false)
   })
 
-  test('searches the city part of an edited pick', async () => {
+  test('searches the city part of a typed "city, country"', async () => {
     const fetchMock = stubFetch([])
 
     await searchCities('Lagos, Nigeri', signal)

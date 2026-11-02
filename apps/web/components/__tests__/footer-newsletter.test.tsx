@@ -73,6 +73,11 @@ async function typeCity(value: string) {
   })
 }
 
+// The picked country, drawn over the city input.
+const pickedCountry = () =>
+  container.querySelector('input[name="city"] ~ [aria-hidden] > :last-child')
+    ?.textContent
+
 const cityOptions = () =>
   [...container.querySelectorAll('[role="option"]')].map(
     (option) => option.textContent
@@ -117,7 +122,8 @@ describe('FooterNewsletter city autocomplete', () => {
 
     keyDown(cityInput(), 'ArrowDown')
     expect(keyDown(cityInput(), 'Enter').defaultPrevented).toBe(true)
-    expect(cityInput().value).toBe('Seoul, Korea, Republic of')
+    expect(cityInput().value).toBe('Seoul')
+    expect(pickedCountry()).toBe('Korea, Republic of')
 
     await submit()
 
@@ -138,9 +144,10 @@ describe('FooterNewsletter city autocomplete', () => {
         .click()
     )
 
-    expect(cityInput().value).toBe('Seoul, Korea, Republic of')
+    expect(cityInput().value).toBe('Seoul')
 
-    await typeCity('Seoul, Korea, Republic of!')
+    await typeCity('Seou')
+    expect(pickedCountry()).toBeUndefined()
 
     await submit()
 

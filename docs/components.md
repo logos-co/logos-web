@@ -72,9 +72,11 @@ From top to bottom:
 - Submit button
 - A `* required` legend, from `requiredLabel`, which defaults to `required`
 
-The city input suggests cities across every country from the `searchCities` function. Picking a suggestion sets the country and shows it in the field (`Seoul, Korea, Republic of`); editing the text drops the pick. The city is optional, but a filled city that was not picked has no country and is refused with "Pick a city from the list." The site passes `searchCities` from [`apps/web/lib/city-search.ts`](../apps/web/lib/city-search.ts); the funnel docs cover [where suggestions come from](funnel/README.md#city-suggestions).
+The city input suggests cities across every country from the `searchCities` function. Picking a suggestion sets the country and shows it after the city in grey caps, as in the list (`Seoul KOREA, REPUBLIC OF`). Only the city is in the input, so the country can't be edited; editing the city drops the pick. The city is optional, but a filled city that was not picked has no country and is refused with "Pick a city from the list." The site passes `searchCities` from [`apps/web/lib/city-search.ts`](../apps/web/lib/city-search.ts); the funnel docs cover [where suggestions come from](funnel/README.md#city-suggestions).
 
 The suggestion logic is the headless `useCityAutocomplete` hook ([`packages/ui/src/primitives/city-autocomplete/use-city-autocomplete.ts`](../packages/ui/src/primitives/city-autocomplete/use-city-autocomplete.ts)), exported from `@acid-info/logos-ui/client` so other forms can render their own list. It searches once the trimmed text has `CITY_SEARCH_MIN_LENGTH` (2) characters, after a `CITY_SEARCH_DEBOUNCE_MS` (250 ms) pause, and aborts a pending search on the next keystroke so a slow answer never replaces a newer one. Arrow keys move through the list, Enter picks the highlighted suggestion, and Escape, Tab or a click outside closes it. Enter with nothing highlighted is left to the form, which submits the typed text.
+
+`PickedCountry` draws the picked country over the city input, after an invisible copy of the city text, and `usePickedCountryWidth` with `pickedCountryPadding` reserves its width as right padding on the input. Give `PickedCountry` the input's font, padding, border width and alignment so the two line up; the footer and the funnel `CityField` both use it.
 
 The country is derived from the pick only. On submit the site subscribes to the Logos Newsletter and, when a city was picked, the Regional Newsletter too.
 

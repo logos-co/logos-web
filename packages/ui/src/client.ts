@@ -3,11 +3,15 @@
 export {
   CITY_SEARCH_DEBOUNCE_MS,
   CITY_SEARCH_MIN_LENGTH,
+  PickedCountry,
+  pickedCountryPadding,
   useCityAutocomplete,
+  usePickedCountryWidth,
 } from './primitives/city-autocomplete'
 export type {
   CitySearch,
   CitySuggestion,
+  PickedCountryProps,
   UseCityAutocompleteOptions,
 } from './primitives/city-autocomplete'
 
