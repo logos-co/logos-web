@@ -1,10 +1,13 @@
 'use client'
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
-import type { FormEvent, KeyboardEvent, RefObject } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import type { FormEvent, RefObject } from 'react'
 
 import {
+  PickedCountry,
+  pickedCityInputStyle,
   useCityAutocomplete,
+  usePickedCountryWidth,
   type CitySearch,
   type CitySuggestion,
 } from '../city-autocomplete'
@@ -19,7 +22,7 @@ export type FooterNewsletterValues = {
   email: string
   role: string
   city: string
-  /** One of `countryOptions`, or empty. */
+  /** Country of the picked city, or empty. */
   country: string
 }
 
@@ -27,7 +30,6 @@ export type FooterNewsletterProps = {
   emailLabel: string
   roleLabel: string
   cityLabel: string
-  countryLabel: string
   submitLabel: string
   /**
    * Submit handler. Receives the collected field values and should resolve on
@@ -38,19 +40,15 @@ export type FooterNewsletterProps = {
   onSubmit: (values: FooterNewsletterValues) => Promise<void>
   /** Override the role choices. Defaults to Node operator / Builder. */
   roleOptions?: readonly string[]
-  /** Country choices, searchable. The selected label is submitted as is. */
-  countryOptions: readonly string[]
   /**
-   * City suggestions, whose `country` is one of `countryOptions`. Without
-   * it, the city is plain free text.
+   * City suggestions. Picking one sets the submitted `country`; a typed city
+   * that was not picked is refused.
    */
-  searchCities?: CitySearch
+  searchCities: CitySearch
   /** Legend explaining the asterisk on the email field. */
   requiredLabel?: string
   /** Message shown after a successful submit. */
   successMessage?: string
-  /** Shown when only one of city and country is filled. */
-  cityCountryMessage?: string
 }
 
 const fieldClassName =
@@ -59,16 +57,29 @@ const fieldClassName =
 const triggerClassName =
   'text-eyebrow flex h-[32px] w-full cursor-pointer items-center justify-center gap-1 border border-brand-off-white/50 px-3 py-2 text-brand-off-white backdrop-blur-[5px]'
 
+// `text-eyebrow`'s 1.3 line-height is taller than the 32px field's 14px
+// content box. The input then clips its text to the content box and draws it
+// from the top, while a centred overlay centres the taller line box, putting
+// the country a pixel above the city. `leading-none` fits the line box, so
+// both centre the same way.
+const cityFieldClassName = `${fieldClassName} leading-none`
+
+// Same font, padding, border width, line-height and alignment as the city
+// field, so the country lands on the city's baseline.
+const pickedCountryClassName =
+  'text-eyebrow justify-center border border-transparent px-3 py-2 leading-none normal-case'
+
+// A picked city reads in caps, like the country next to it.
+const pickedCityClassName = 'uppercase'
+
+// Same as the country in a suggestion.
+const countryClassName = 'pl-1 uppercase text-brand-off-white/60'
+
 const optionClassName =
   'text-eyebrow flex w-full cursor-pointer items-center px-3 py-2 text-left text-brand-off-white uppercase transition-colors hover:bg-brand-off-white/10'
 
 const submitClassName =
   'text-eyebrow flex h-[32px] shrink-0 cursor-pointer items-center justify-center gap-1 rounded-xl bg-brand-off-white px-3 py-2 text-brand-dark-green uppercase backdrop-blur-[5px] transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-60'
-
-/** Case and diacritics insensitive, so "cote" finds "Côte d'Ivoire". */
-function normalize(value: string): string {
-  return value.normalize('NFKD').replace(/\p{M}/gu, '').toLowerCase().trim()
-}
 
 function useDismiss(
   ref: RefObject<HTMLElement | null>,
@@ -95,122 +106,45 @@ export function FooterNewsletter({
   emailLabel,
   roleLabel,
   cityLabel,
-  countryLabel,
   submitLabel,
   onSubmit,
   roleOptions = DEFAULT_ROLE_OPTIONS,
-  countryOptions,
   searchCities,
   requiredLabel = 'required',
   successMessage = 'Thanks — you’re on the list.',
-  cityCountryMessage = 'Please enter both a city and a country, or neither.',
 }: FooterNewsletterProps) {
   const [email, setEmail] = useState('')
   const [role, setRole] = useState('')
   const [city, setCity] = useState('')
-  const [country, setCountry] = useState('')
   // Country of the picked city suggestion, empty for typed text.
-  const [cityCountry, setCityCountry] = useState('')
+  const [country, setCountry] = useState('')
   const [isRoleOpen, setIsRoleOpen] = useState(false)
-  const [isCountryOpen, setIsCountryOpen] = useState(false)
-  const [countryQuery, setCountryQuery] = useState('')
-  const [activeCountry, setActiveCountry] = useState(0)
   const [status, setStatus] = useState<SignupStatus>('idle')
   const [message, setMessage] = useState('')
 
   const roleRef = useRef<HTMLDivElement>(null)
-  const countryRef = useRef<HTMLDivElement>(null)
-  const countryListId = useId()
 
   const isBusy = status === 'loading' || status === 'success'
 
   const handleSelectCity = (suggestion: CitySuggestion) => {
     setCity(suggestion.name)
     setCountry(suggestion.country)
-    setCityCountry(suggestion.country)
   }
+
+  const { countryRef, countryWidth } = usePickedCountryWidth(country)
 
   const cityAutocomplete = useCityAutocomplete({
     search: searchCities,
     query: city,
-    country,
     onSelect: handleSelectCity,
   })
 
-  const filteredCountries = useMemo(() => {
-    const query = normalize(countryQuery)
-    if (!query) {
-      return countryOptions
-    }
-    const matches = countryOptions.filter((option) =>
-      normalize(option).includes(query)
-    )
-    // Prefix matches first, so typing "ger" lands on Germany before Niger.
-    return [
-      ...matches.filter((option) => normalize(option).startsWith(query)),
-      ...matches.filter((option) => !normalize(option).startsWith(query)),
-    ]
-  }, [countryOptions, countryQuery])
-
   const closeRole = useCallback(() => setIsRoleOpen(false), [])
-  const closeCountry = useCallback(() => setIsCountryOpen(false), [])
   useDismiss(roleRef, isRoleOpen, closeRole)
-  useDismiss(countryRef, isCountryOpen, closeCountry)
-
-  useEffect(() => {
-    if (isCountryOpen) {
-      document
-        .getElementById(`${countryListId}-${activeCountry}`)
-        ?.scrollIntoView({ block: 'nearest' })
-    }
-  }, [isCountryOpen, activeCountry, countryListId])
 
   const handleSelectRole = (option: string) => {
     setRole(option)
     setIsRoleOpen(false)
-  }
-
-  const handleToggleCountry = () => {
-    setCountryQuery('')
-    setActiveCountry(0)
-    setIsCountryOpen((open) => !open)
-  }
-
-  const handleSelectCountry = (option: string) => {
-    // A picked city only exists in its own country.
-    if (cityCountry && cityCountry !== option) {
-      setCity('')
-      setCityCountry('')
-    }
-    setCountry(option)
-    setIsCountryOpen(false)
-  }
-
-  const handleCountryKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    switch (event.key) {
-      case 'ArrowDown':
-        event.preventDefault()
-        setActiveCountry((index) =>
-          Math.min(index + 1, filteredCountries.length - 1)
-        )
-        break
-      case 'ArrowUp':
-        event.preventDefault()
-        setActiveCountry((index) => Math.max(index - 1, 0))
-        break
-      case 'Enter': {
-        event.preventDefault()
-        const option = filteredCountries[activeCountry]
-        if (option) {
-          handleSelectCountry(option)
-        }
-        break
-      }
-      case 'Escape':
-        event.preventDefault()
-        setIsCountryOpen(false)
-        break
-    }
   }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -226,10 +160,10 @@ export function FooterNewsletter({
       return
     }
 
-    // The Regional Newsletter labels a city within its country.
-    if (Boolean(city.trim()) !== Boolean(country)) {
+    // A typed city that was not picked has no country.
+    if (city.trim() && !country) {
       setStatus('error')
-      setMessage(cityCountryMessage)
+      setMessage('Pick a city from the list.')
       return
     }
 
@@ -243,7 +177,6 @@ export function FooterNewsletter({
       setRole('')
       setCity('')
       setCountry('')
-      setCityCountry('')
       setStatus('success')
       setMessage(successMessage)
     } catch (error) {
@@ -335,12 +268,21 @@ export function FooterNewsletter({
             disabled={isBusy}
             onChange={(event) => {
               setCity(event.target.value)
-              setCityCountry('')
+              setCountry('')
               cityAutocomplete.open()
             }}
-            className={`w-full ${fieldClassName}`}
+            className={`w-full ${cityFieldClassName}`}
+            style={pickedCityInputStyle('0.75rem', countryWidth, !!country)}
             aria-label={cityLabel}
             {...cityAutocomplete.inputProps}
+          />
+          <PickedCountry
+            city={city}
+            country={country}
+            countryRef={countryRef}
+            className={pickedCountryClassName}
+            cityClassName={pickedCityClassName}
+            countryClassName={countryClassName}
           />
 
           {cityAutocomplete.isOpen && (
@@ -381,91 +323,11 @@ export function FooterNewsletter({
       </div>
 
       <div className="flex w-full items-center gap-1">
-        <div className="relative min-w-0 flex-1" ref={countryRef}>
-          <button
-            type="button"
-            disabled={isBusy}
-            onClick={handleToggleCountry}
-            className={triggerClassName}
-            aria-haspopup="listbox"
-            aria-expanded={isCountryOpen}
-            aria-label={countryLabel}
-          >
-            <span className="truncate">{country || countryLabel}</span>
-            <span
-              className={`transition-transform ${isCountryOpen ? 'rotate-180' : ''}`}
-            >
-              <FooterChevronIcon />
-            </span>
-          </button>
-
-          {isCountryOpen && (
-            <div className="absolute top-[calc(100%+4px)] left-0 z-50 w-full border border-brand-off-white/50 bg-brand-dark-green backdrop-blur-[5px]">
-              <input
-                type="text"
-                role="combobox"
-                autoFocus
-                autoComplete="off"
-                value={countryQuery}
-                onChange={(event) => {
-                  setCountryQuery(event.target.value)
-                  setActiveCountry(0)
-                }}
-                onKeyDown={handleCountryKeyDown}
-                placeholder={countryLabel}
-                aria-label={countryLabel}
-                aria-expanded
-                aria-controls={countryListId}
-                aria-activedescendant={
-                  filteredCountries[activeCountry]
-                    ? `${countryListId}-${activeCountry}`
-                    : undefined
-                }
-                className={`w-full border-0 border-b ${fieldClassName}`}
-              />
-              <ul
-                id={countryListId}
-                role="listbox"
-                className="max-h-[200px] overflow-y-auto"
-              >
-                {country && !countryQuery && (
-                  <li role="option" aria-selected={false}>
-                    <button
-                      type="button"
-                      tabIndex={-1}
-                      onClick={() => handleSelectCountry('')}
-                      className={`${optionClassName} text-brand-off-white/60`}
-                    >
-                      {countryLabel}
-                    </button>
-                  </li>
-                )}
-                {filteredCountries.map((option, index) => (
-                  <li
-                    key={option}
-                    id={`${countryListId}-${index}`}
-                    role="option"
-                    aria-selected={country === option}
-                  >
-                    <button
-                      type="button"
-                      tabIndex={-1}
-                      onClick={() => handleSelectCountry(option)}
-                      onMouseEnter={() => setActiveCountry(index)}
-                      className={`${optionClassName} ${
-                        index === activeCountry ? 'bg-brand-off-white/10' : ''
-                      }`}
-                    >
-                      {option}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-
-        <button type="submit" disabled={isBusy} className={submitClassName}>
+        <button
+          type="submit"
+          disabled={isBusy}
+          className={`${submitClassName} w-full`}
+        >
           {submitLabel}
           <FooterArrowIcon />
         </button>

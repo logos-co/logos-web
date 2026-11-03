@@ -69,6 +69,10 @@ function fillRequiredAnswers(
       ? sampleAnswer(field, options)
       : blankAnswer(field)
   }
+  // `country` has no field: the picked city sets it.
+  if (required.has('country')) {
+    answers.country = (options.country ?? [])[0]?.value ?? ''
+  }
   return answers
 }
 
@@ -89,13 +93,18 @@ describe('REQUIRED_FIELDS_BY_FORM', () => {
     }
   )
 
-  it.each(FORMS)('names only fields the %s form renders', (name, afform) => {
-    const keys = withHearAboutField(afform).fields.map((f) => f.formKey)
+  it.each(FORMS)(
+    'renders every %s required field but the picked country',
+    (name, afform) => {
+      const keys = withHearAboutField(afform).fields.map((f) => f.formKey)
+      const required = REQUIRED_FIELDS_BY_FORM[name]
 
-    expect(keys).toEqual(
-      expect.arrayContaining([...REQUIRED_FIELDS_BY_FORM[name]])
-    )
-  })
+      expect(keys).not.toContain('country')
+      expect(keys).toEqual(
+        expect.arrayContaining(required.filter((key) => key !== 'country'))
+      )
+    }
+  )
 
   it('covers every funnel form', () => {
     expect(Object.keys(REQUIRED_FIELDS_BY_FORM).sort()).toEqual(

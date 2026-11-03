@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes } from 'react'
+import type { InputHTMLAttributes, ReactNode } from 'react'
 
 import { MAX_TEXT_LENGTH } from '@/lib/funnel-forms/contactFormSchema'
 import { cn } from '@/lib/cn'
@@ -13,6 +13,8 @@ type Props = Omit<InputHTMLAttributes<HTMLInputElement>, 'className'> & {
   error?: boolean
   wrapperClassName?: string
   overLimitMessage?: string
+  /** Drawn over the input, positioned against it rather than the label. */
+  inputOverlay?: ReactNode
 }
 
 export function TextInput({
@@ -23,6 +25,7 @@ export function TextInput({
   maxLength = MAX_TEXT_LENGTH,
   value,
   overLimitMessage,
+  inputOverlay,
   ...props
 }: Props) {
   const count = String(value ?? '').length
@@ -30,19 +33,26 @@ export function TextInput({
   // truncating. Mirrors the schema, which accepts exactly `maxLength` and
   // rejects anything longer.
   const isOverLimit = count > maxLength
+  const input = (
+    <input
+      id={id}
+      value={value}
+      aria-invalid={error || isOverLimit || undefined}
+      className={cn(inputClassName, (error || isOverLimit) && 'border-red-600')}
+      {...props}
+    />
+  )
   return (
     <div className={cn('w-full', wrapperClassName)}>
       {label ? <FieldLabel htmlFor={id}>{label}</FieldLabel> : null}
-      <input
-        id={id}
-        value={value}
-        aria-invalid={error || isOverLimit || undefined}
-        className={cn(
-          inputClassName,
-          (error || isOverLimit) && 'border-red-600'
-        )}
-        {...props}
-      />
+      {inputOverlay ? (
+        <div className="relative">
+          {input}
+          {inputOverlay}
+        </div>
+      ) : (
+        input
+      )}
       {isOverLimit ? (
         <div
           className="mt-1 flex items-center gap-2 font-mono text-xs leading-[1.3] font-semibold text-red-600"

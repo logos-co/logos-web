@@ -25,11 +25,6 @@ export const AFFORM: AfformConfig = {
       inputType: 'text',
     },
     {
-      formKey: 'country',
-      label: 'Country',
-      inputType: 'select',
-    },
-    {
       formKey: 'skills',
       label: 'Skills/Experience',
       inputType: 'select',
