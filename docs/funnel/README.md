@@ -112,10 +112,14 @@ then reads `LAGOS NIGERIA`, the city in caps and the country in grey caps as in
 the list. Both are display only: the input value keeps the city's casing, and
 the country is drawn over the input, not part of its value, so only the city can
 be edited; editing it drops the pick. A hand-typed `Lagos, Nigeria` searches only the part
-before the first comma. A city that
-was typed but not picked has no country: `buildFormSchema` reports it on the
-`city` field ("Pick a city from the list."), while `country` stays in
-`REQUIRED_FIELDS_BY_FORM` for the intake.
+before the first comma.
+
+A city that was typed but not picked has no country, so the form refuses it.
+`buildFormSchema` adds the hidden `country` value to the schema whenever
+`country` is required but has no rendered field, and reports a city without a
+country on the `city` field. The form shows the `cityPickRequired` message
+("Pick a city from the list.") under the city field. `country` stays in
+`REQUIRED_FIELDS_BY_FORM` because the intake still requires it.
 
 ## Code layout
 
@@ -341,6 +345,7 @@ the funnel:
 | Notion property mapping              | `apps/api/src/lib/notion/__tests__/build-notion-properties.test.ts`                                         |
 | n8n payload                          | `apps/api/src/lib/n8n/__tests__/build-payload.test.ts`                                                      |
 | Endpoint agrees with the form schema | `apps/web/lib/funnel-forms/__tests__/required-fields-parity.test.ts`                                        |
+| Picked city and country validation   | `apps/web/lib/funnel-forms/__tests__/contactFormSchema.test.ts`                                             |
 | Newsletter opt-ins                   | `apps/web/lib/__tests__/funnel-newsletter-signup.test.ts`                                                   |
 | Subscribe payload                    | `apps/web/lib/__tests__/newsletter-signup.test.ts`                                                          |
 | City search and country ISO codes    | `apps/web/lib/__tests__/city-search.test.ts`                                                                |

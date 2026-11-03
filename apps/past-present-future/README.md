@@ -27,3 +27,5 @@ The museum's hero and footer buttons open [`ExhibitSubmissionModal.svelte`](src/
 [`museum-submission.js`](src/lib/museum-submission.js) posts JSON to the admin-acid `/api/forms/museum` endpoint. [`vite.config.js`](vite.config.js) resolves `NEXT_PUBLIC_API_MODE` at build time: `development` uses `http://localhost:3003`, `staging` uses `https://dev-admin-acid.logos.co`, and `production` uses `https://admin-acid.logos.co`. Vite dev defaults to development; builds default to production. Turbo includes the mode in this app's build inputs. Set it explicitly for staging builds.
 
 The matching admin-acid endpoint must be deployed before enabling this flow publicly. It sends to `pressengine@logos.co` through its existing SMTP account. The modal shows completion only after the API confirms success, preserves answers on failure and never automatically retries. To test locally, run that backend on port 3003 with `IS_DEV_ENV=true` and a local SMTP sink.
+
+For how to configure the submission endpoint and deploy the backend before you enable email delivery, see [Museum exhibit submissions](docs/museum-submissions.md).
