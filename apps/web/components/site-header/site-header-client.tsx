@@ -133,7 +133,6 @@ export default function SiteHeaderClient({
     normalizedPathname === ROUTES.home ||
     normalizedPathname.endsWith(ROUTES.book) ||
     normalizedPathname.endsWith(ROUTES.about) ||
-    normalizedPathname.endsWith(ROUTES.lambdaPrize) ||
     normalizedPathname.endsWith(ROUTES.buildTheParallel) ||
     normalizedPathname.endsWith(ROUTES.fieldStation) ||
     normalizedPathname.endsWith(ROUTES.prifi)

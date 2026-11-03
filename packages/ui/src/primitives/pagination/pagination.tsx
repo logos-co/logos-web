@@ -1,7 +1,7 @@
 /**
  * Numbered pagination: `← 1 2 3 →`
  *
- * Used on /builders-hub/ideas and /builders-hub/rfps. Supports either
+ * Used on /builders-hub/ideas and /rfp. Supports either
  * href-builder (SSR-friendly) or onChange (client-side).
  */
 import type { ReactNode } from 'react'

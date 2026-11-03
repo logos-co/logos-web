@@ -28,7 +28,6 @@ import {
   coalitionPartnerCopySectionSchema,
   designGuideCopySectionSchema,
   getStartedCopySectionSchema,
-  lambdaPrizeCopySectionSchema,
   manifestoCopySectionSchema,
   mediaCalendarCopySectionSchema,
   mediaCopySectionSchema,
@@ -39,8 +38,12 @@ import {
   researchCopySectionSchema,
   roadmapCopySectionSchema,
 } from './pages/page-copy-sections'
+import { lambdaPrizeCopySectionSchema } from './pages/lambda-prize'
+export { lambdaPrizeCopySectionSchema } from './pages/lambda-prize'
+export type { LambdaPrizeCopySection, LambdaPrize } from './pages/lambda-prize'
 import { prifiCopySectionSchema } from './pages/prifi'
 import { basecampRenewalSectionSchema } from './pages/basecamp-renewal'
+import { developerProgrammesCopySectionSchema } from './pages/developer-programmes'
 import { sectionKeySchema } from './pages/shared'
 export type {
   HomeAboutSection,
@@ -70,7 +73,6 @@ export type {
   CoalitionPartnerCopySection,
   DesignGuideCopySection,
   GetStartedCopySection,
-  LambdaPrizeCopySection,
   ManifestoCopySection,
   MediaCalendarCopySection,
   MediaCopySection,
@@ -83,6 +85,10 @@ export type {
 } from './pages/page-copy-sections'
 export type { PrifiCopySection } from './pages/prifi'
 export type { BasecampRenewalSection } from './pages/basecamp-renewal'
+export type {
+  DeveloperProgrammesCopySection,
+  DeveloperProgramme,
+} from './pages/developer-programmes'
 export {
   activistBuilderCopySectionSchema,
   activistLeaderStewardCopySectionSchema,
@@ -91,7 +97,6 @@ export {
   coalitionPartnerCopySectionSchema,
   designGuideCopySectionSchema,
   getStartedCopySectionSchema,
-  lambdaPrizeCopySectionSchema,
   manifestoCopySectionSchema,
   mediaCalendarCopySectionSchema,
   mediaCopySectionSchema,
@@ -104,6 +109,7 @@ export {
 } from './pages/page-copy-sections'
 export { prifiCopySectionSchema } from './pages/prifi'
 export { basecampRenewalSectionSchema } from './pages/basecamp-renewal'
+export { developerProgrammesCopySectionSchema } from './pages/developer-programmes'
 
 /**
  * Internal-only route path. Pages are statically rendered under `/[locale]`,
@@ -474,6 +480,7 @@ export const pageSectionSchema = z.discriminatedUnion('componentType', [
   coalitionPartnerCopySectionSchema,
   customSectionSchema,
   basecampRenewalSectionSchema,
+  developerProgrammesCopySectionSchema,
 ])
 export type PageSection = z.infer<typeof pageSectionSchema>
 

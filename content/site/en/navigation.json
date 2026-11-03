@@ -187,7 +187,7 @@
             },
             {
               "label": "RFPs",
-              "href": "/builders-hub/rfps",
+              "href": "/rfp",
               "description": "A grants programme to support independent developers and teams.",
               "image": {
                 "src": "/nav-overlay/figma/rfps-thumb.webp",

@@ -7,7 +7,7 @@ import type { RfpListItem } from '@/lib/rfp-types'
 /**
  * Build-time RFP source. RFPs live as markdown in the public GitHub repo
  * `logos-co/rfp` (one file per RFP under `RFPs/`). This module fetches and
- * parses them at build time so the `/builders-hub/rfps` listing and the
+ * parses them at build time so the `/rfp` listing and the
  * `[slug]` detail pages render from a single live source — mirroring
  * build.logos.co's `pages/rfp.tsx`, but server-side instead of client-side.
  *
@@ -240,7 +240,7 @@ const isAbsoluteOrAnchor = (href: string): boolean =>
  * browser would otherwise resolve against the page URL and 404.
  *
  * - `RFP-NNN-*.md` references become the internal detail route
- *   (`/builders-hub/rfps/<slug>`), using the same slug the pages are built with.
+ *   (`/rfp/<slug>`), using the same slug the pages are built with.
  * - Other repo-relative `.md` links (e.g. `../appendix/…`) have no site page, so
  *   they resolve to their absolute GitHub URL (anchors preserved).
  * - Absolute, external, and anchor links are left untouched.
@@ -288,7 +288,7 @@ const SUMMARY_MAX_LENGTH = 155
 
 /**
  * Flattens the markdown that survives into a summary. Without this the raw
- * source leaks into `<meta name="description">` — `/builders-hub/rfps/
+ * source leaks into `<meta name="description">` — `/rfp/
  * curated-lending-vaults` shipped a description ending
  * `delivered by [RFP-008](./RFP-008-lending-borr`.
  */

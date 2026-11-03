@@ -13,7 +13,7 @@ describe('rewriteRfpMarkdownLinks', () => {
     const md = 'See [LBP](./RFP-008-lending-borrowing-protocol.md) for context.'
 
     expect(rewriteRfpMarkdownLinks(md, FILE_URL)).toBe(
-      'See [LBP](/builders-hub/rfps/lending-borrowing-protocol) for context.'
+      'See [LBP](/rfp/lending-borrowing-protocol) for context.'
     )
   })
 
@@ -21,7 +21,7 @@ describe('rewriteRfpMarkdownLinks', () => {
     const md = '[admin](RFP-001-admin-authority-lib.md)'
 
     expect(rewriteRfpMarkdownLinks(md, FILE_URL)).toBe(
-      '[admin](/builders-hub/rfps/admin-authority-lib)'
+      '[admin](/rfp/admin-authority-lib)'
     )
   })
 
@@ -36,7 +36,7 @@ describe('rewriteRfpMarkdownLinks', () => {
   it('leaves external, absolute, and anchor links unchanged', () => {
     const md = [
       '[ext](https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0004.md)',
-      '[abs](/builders-hub/rfps)',
+      '[abs](/rfp)',
       '[frag](#overview)',
     ].join('\n')
 

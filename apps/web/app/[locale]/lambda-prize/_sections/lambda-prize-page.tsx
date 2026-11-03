@@ -1,48 +1,27 @@
-import type { TechStackOverviewSection } from '@repo/content/schemas'
+import type { LambdaPrizeCopySection } from '@repo/content/schemas'
 
-import TechStackSection from '@/components/sections/home/tech-stack-section'
-import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
-
-import { AboutProgramme } from './about-programme'
 import { FeaturedPrizes } from './featured-prizes'
+import { FinalCta } from './final-cta'
 import { Hero } from './hero'
 import { HowItWorks } from './how-it-works'
-import { Support } from './support'
-import type { LambdaPrizePageCopy } from './types'
+import { OpenPrizes } from './open-prizes'
+import { Ownership } from './ownership'
+import { Resources } from './resources'
+import { Rewarded } from './rewarded'
+import { Rules } from './rules'
 
-interface LambdaPrizePageProps {
-  copy: LambdaPrizePageCopy
-  techStack: TechStackOverviewSection
-}
-
-export function LambdaPrizePage({ copy, techStack }: LambdaPrizePageProps) {
+export function LambdaPrizePage({ copy }: { copy: LambdaPrizeCopySection }) {
   return (
-    <main className="overflow-hidden bg-brand-off-white">
+    <main className="lp-content">
       <Hero copy={copy.hero} />
-      <HowItWorks copy={copy.howItWorks} evaluation={copy.evaluation} />
-      <FeaturedPrizes copy={copy.featured} />
-      <AboutProgramme copy={copy.about} />
-      <TechStackSection
-        data={techStack}
-        networkingHref={ROUTES.networking}
-        foundationHref={ROUTES.technologyStack}
-        desktopAt1367
-        borderTop={false}
-        flushTop
-        bottomSpacingClassName="pb-3 lg:pb-25"
-        ctas={[
-          {
-            label: copy.techStack.startBuildingCta,
-            href: ROUTES.getStarted,
-          },
-          {
-            label: copy.techStack.docsCta,
-            href: EXTERNAL_URLS.docs,
-            variant: 'secondary',
-          },
-        ]}
-      />
-      <Support copy={copy.support} />
+      <FeaturedPrizes copy={copy.featured} prizes={copy.prizes} />
+      <HowItWorks copy={copy.howItWorks} />
+      <Rules copy={copy.rules} />
+      <OpenPrizes copy={copy.openPrizes} prizes={copy.prizes} />
+      <Ownership copy={copy.ownership} />
+      <Rewarded copy={copy.rewarded} />
+      <Resources copy={copy.resources} />
+      <FinalCta copy={copy.finalCta} />
     </main>
   )
 }

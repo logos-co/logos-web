@@ -11,7 +11,7 @@ const withOverview = (body: string) =>
 describe('RFP summary extraction', () => {
   test('unwraps markdown links to their label', () => {
     // Arrange — the shape that shipped raw markdown into the meta description
-    // of /builders-hub/rfps/curated-lending-vaults.
+    // of /rfp/curated-lending-vaults.
     const raw = withOverview(
       'Build a curated vault layer on top of the lending protocol delivered by [RFP-008](./RFP-008-lending-borrowing-protocol.md).'
     )
