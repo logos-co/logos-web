@@ -7,7 +7,7 @@
 	const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
 	function faceTap(e, i) {
 		if (!isMobile()) return;
-		if (i < 2 && activeFace === i && e.target.closest('.face-go')) return;
+		if (i < 3 && activeFace === i && e.target.closest('.face-go')) return;
 		e.preventDefault();
 		activeFace = i;
 	}
@@ -54,15 +54,14 @@
 				<div class="face-go">▶ Live her life</div>
 			</div>
 		</a>
-		<!-- svelte-ignore a11y_no_static_element_interactions, a11y_click_events_have_key_events -->
-		<div class="face soon" class:active={activeFace === 2} onclick={(e) => faceTap(e, 2)}>
-			<div class="face-img" style="background-image:url('/past-present-future/choices/faces/richard.webp')"></div>
+		<a class="face" class:active={activeFace === 2} href="/past-present-future/choices/nedu" onclick={(e) => faceTap(e, 2)}>
+			<div class="face-img" style="background-image:url('/past-present-future/choices/faces/nedu.webp')"></div>
 			<div class="face-body">
-				<div class="face-name">Nedo</div>
+				<div class="face-name">Nedu</div>
 				<div class="face-path">The Rigged Path</div>
-				<div class="face-go">Coming soon</div>
+				<div class="face-go">▶ Live his life</div>
 			</div>
-		</div>
+		</a>
 	</div>
 
 	<div class="veil-bot" aria-hidden="true"></div>
@@ -300,14 +299,6 @@
 		background: var(--signal);
 		color: var(--ink);
 		border-color: var(--signal);
-	}
-	.face.soon {
-		cursor: default;
-	}
-	.face.soon:hover .face-go {
-		background: rgba(245, 245, 239, 0.06);
-		color: rgba(236, 236, 228, 0.7);
-		border-color: rgba(245, 245, 239, 0.35);
 	}
 
 	.veil-top {
