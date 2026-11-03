@@ -22,7 +22,9 @@
     },
     { "label": "Design Guide", "href": "/design-guide" },
     { "label": "Field Guide", "href": "/field-guide" },
-    { "label": "Roadmap", "href": "/roadmap" }
+    { "label": "Roadmap", "href": "/roadmap" },
+    { "label": "Lambda Prize", "href": "/lambda-prize" },
+    { "label": "RFP", "href": "/rfp" }
   ],
   "socialLinks": [
     {
