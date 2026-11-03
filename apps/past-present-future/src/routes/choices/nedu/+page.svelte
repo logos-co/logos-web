@@ -5,7 +5,7 @@
     import { navBridge } from "$lib/nav-bridge.svelte.js";
     import { SCENES, choiceTime, srcOf, vid } from "$lib/choices/nedu/film.js";
     import { createLedger, naira, verdict } from "$lib/choices/nedu/ledger.js";
-    import { initAudio, sfxArm, sfxCommit, sfxKey } from "$lib/choices/nedu/sfx.js";
+    import { initAudio, setMuted, sfxArm, sfxCommit, sfxKey } from "$lib/choices/nedu/sfx.js";
     import IntroScreen from "$lib/choices/nedu/IntroScreen.svelte";
     import ChoiceScreen from "$lib/choices/nedu/ChoiceScreen.svelte";
     import FilmHud from "$lib/choices/nedu/FilmHud.svelte";
@@ -43,6 +43,10 @@
     let ambientReveal = $state(false);
     let paused = $state(false);
     let muted = $state(false);
+
+    $effect(() => {
+        setMuted(muted);
+    });
 
     let idx = $state(0);
     let cScene = $state(""),
@@ -342,6 +346,7 @@
         playing = true;
         navBridge.pillOpacity = "0";
         navBridge.pillEvents = "none";
+        navBridge.pillInert = true;
         resetState();
         bar.animate(0);
         playScene(0);
@@ -584,6 +589,7 @@
             navBridge.onNav = null;
             navBridge.pillOpacity = null;
             navBridge.pillEvents = null;
+            navBridge.pillInert = false;
             portraitMQ.removeEventListener("change", onMQ);
             reframe.destroy();
             cancelTimer();

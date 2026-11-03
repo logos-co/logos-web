@@ -43,6 +43,7 @@
 	<div class="nav-menu">
 		<div
 			class="nav-pill"
+			inert={navBridge.pillInert}
 			style:opacity={navBridge.pillOpacity}
 			style:pointer-events={navBridge.pillEvents}
 		>

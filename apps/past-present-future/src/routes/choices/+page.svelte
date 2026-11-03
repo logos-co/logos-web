@@ -6,7 +6,7 @@
 	let activeFace = $state(-1);
 	const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
 	function faceTap(e, i) {
-		if (!isMobile()) return;
+		if (!isMobile() || (i === 2 && e.detail === 0)) return;
 		if (i < 3 && activeFace === i && e.target.closest('.face-go')) return;
 		e.preventDefault();
 		activeFace = i;

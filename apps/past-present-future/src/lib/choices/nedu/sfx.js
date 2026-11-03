@@ -1,6 +1,12 @@
 let actx = null,
 	bus = null,
 	noiseBuf = null;
+let muted = false;
+
+export function setMuted(value) {
+	muted = value;
+	if (bus) bus.gain.value = muted ? 0 : 0.9;
+}
 
 export function initAudio() {
 	try {
@@ -16,7 +22,7 @@ export function initAudio() {
 			comp.attack.value = 0.002;
 			comp.release.value = 0.14;
 			bus = actx.createGain();
-			bus.gain.value = 0.9;
+			bus.gain.value = muted ? 0 : 0.9;
 			bus.connect(hp);
 			hp.connect(comp);
 			comp.connect(actx.destination);

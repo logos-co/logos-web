@@ -24,6 +24,8 @@ In a full web build, Turbo builds this app first because `apps/web` lists it as 
 
 The Nedu card on [`/choices`](src/routes/choices/+page.svelte) opens [`/choices/nedu`](src/routes/choices/nedu/+page.svelte), an interactive film with five decisions. Its components and story data live in [`src/lib/choices/nedu/`](src/lib/choices/nedu/), with MP4 and WebM clips in [`static/choices/nedu/videos/`](static/choices/nedu/videos/).
 
+At mobile widths, the Nedu card opens directly with Enter; touch users tap the card, then its action. Nedu's mute control covers both film audio and sound effects. During playback, the hidden desktop navigation is excluded from keyboard focus and restored when leaving Nedu.
+
 ## Museum exhibit submissions
 
 The museum's hero and footer buttons open [`ExhibitSubmissionModal.svelte`](src/lib/components/ExhibitSubmissionModal.svelte). The form collects an optional name (50 characters) and X handle (15), an exhibition, a historic event (300) and a primary source HTTP/HTTPS URL (100). Escape, the close button and the backdrop close the modal; unsent answers are retained while the page stays open.
