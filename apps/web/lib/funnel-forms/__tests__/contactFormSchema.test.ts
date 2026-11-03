@@ -57,6 +57,37 @@ describe('buildFormSchema select validation', () => {
   })
 })
 
+describe('buildFormSchema derived country validation', () => {
+  const CITY_FIELD: AfformField = {
+    formKey: 'city',
+    label: 'city',
+    inputType: 'text',
+  }
+
+  it('reports a missing picked country on the city field', () => {
+    const { schema } = buildFormSchema([CITY_FIELD], ['city', 'country'])
+
+    const result = schema.safeParse({ city: 'Lagos', socials: '' })
+
+    expect(result.success).toBe(false)
+    if (result.success) return
+    expect(result.error.issues.some((issue) => issue.path[0] === 'city')).toBe(
+      true
+    )
+    expect(
+      result.error.issues.some((issue) => issue.path[0] === 'country')
+    ).toBe(false)
+  })
+
+  it('accepts a city with a picked country', () => {
+    const { schema } = buildFormSchema([CITY_FIELD], ['city', 'country'])
+
+    expect(
+      schema.safeParse({ city: 'Lagos', country: '1157', socials: '' }).success
+    ).toBe(true)
+  })
+})
+
 describe('buildFormSchema chat validation', () => {
   it('requires chat service when a chat name is entered', () => {
     const { schema } = buildFormSchema(CHAT_FIELDS, [])

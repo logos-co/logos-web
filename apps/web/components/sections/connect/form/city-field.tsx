@@ -1,7 +1,10 @@
 'use client'
 
 import {
+  PickedCountry,
+  pickedCityInputStyle,
   useCityAutocomplete,
+  usePickedCountryWidth,
   type CitySearch,
   type CitySuggestion,
 } from '@acid-info/logos-ui/client'
@@ -9,27 +12,35 @@ import type { ComponentProps } from 'react'
 
 import { cn } from '@/lib/cn'
 
-import type { FieldOption } from '../get-field-options'
 import { TextInput } from './text-input'
 
 type Props = Omit<
   ComponentProps<typeof TextInput>,
-  'value' | 'onChange' | 'onSelect'
+  'value' | 'onChange' | 'onSelect' | 'inputOverlay'
 > & {
+  /** The city name, the only editable part of the field. */
   value: string
-  /** The selected country option id, which narrows the suggestions. */
-  country: string
-  countryOptions: readonly FieldOption[]
+  /** Country label of the picked suggestion, empty when not picked. */
+  countryLabel: string
   search: CitySearch
   onChange: (value: string) => void
-  /** Sets both the city and the country id. */
+  /** Sets both the city and the country. */
   onSelect: (suggestion: CitySuggestion) => void
 }
 
+// Same font, padding and border width as `inputClassName`.
+const pickedCountryClassName =
+  'border border-transparent px-3 py-2.5 font-sans text-[16px] leading-[1.2]'
+
+// A picked city reads in caps, like the country next to it.
+const pickedCityClassName = 'uppercase'
+
+// Same as the country in a suggestion.
+const countryClassName = 'pl-1.5 uppercase text-brand-dark-green/50'
+
 export function CityField({
   value,
-  country,
-  countryOptions,
+  countryLabel,
   search,
   onChange,
   onSelect,
@@ -38,19 +49,30 @@ export function CityField({
   const autocomplete = useCityAutocomplete({
     search,
     query: value,
-    country,
     onSelect,
   })
+  const { countryRef, countryWidth } = usePickedCountryWidth(countryLabel)
 
   return (
     <div className="relative w-full" ref={autocomplete.containerRef}>
       <TextInput
         {...props}
         value={value}
+        style={pickedCityInputStyle('0.75rem', countryWidth, !!countryLabel)}
         onChange={(event) => {
           onChange(event.target.value)
           autocomplete.open()
         }}
+        inputOverlay={
+          <PickedCountry
+            city={value}
+            country={countryLabel}
+            countryRef={countryRef}
+            className={pickedCountryClassName}
+            cityClassName={pickedCityClassName}
+            countryClassName={countryClassName}
+          />
+        }
         {...autocomplete.inputProps}
       />
       {autocomplete.isOpen ? (
@@ -77,9 +99,8 @@ export function CityField({
                 )}
               >
                 {suggestion.name}
-                <span className="ml-1.5 text-brand-dark-green/50">
-                  {countryOptions.find((o) => o.value === suggestion.country)
-                    ?.label ?? ''}
+                <span className="ml-1.5 text-brand-dark-green/50 uppercase">
+                  {suggestion.country}
                 </span>
               </button>
             </li>

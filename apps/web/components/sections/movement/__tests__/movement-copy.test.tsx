@@ -81,8 +81,8 @@ const fixture: MovementCopySection = {
     },
     building: {
       title: 'Impact Building',
-      body: 'Build tech that creates real impact.',
-      cta: 'Build for impact',
+      body: 'Put your tech skills to work.',
+      cta: 'Explore hacktivism',
     },
   },
   campaign: {
@@ -133,8 +133,9 @@ const fixture: MovementCopySection = {
   builder: {
     title: 'Become an Activist Builder',
     body: 'Every movement needs its tools.',
-    primaryCta: 'Build for impact',
-    secondaryCta: 'Build on Logos stack',
+    primaryCta: 'Discover Logos Stack',
+    secondaryCta: 'Start Hacktivist Training',
+    tertiaryCta: 'Talk to Us',
     feature: {
       city: 'Benin',
       title: 'Regenerative Social DeFi Fundraising Platform',

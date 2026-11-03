@@ -1,4 +1,5 @@
 import { MediaRichContent } from '../../../_components/media-rich-content'
+import { TweetEnhancement } from '../../../_components/tweet-enhancement'
 import type { BlogArticleDetail } from '@/lib/blog-content'
 
 interface ArticleBodyProps {
@@ -18,10 +19,15 @@ function contentBlocks(article: BlogArticleDetail) {
 
 export function ArticleBody({ article }: ArticleBodyProps) {
   return (
-    <MediaRichContent
-      bodyHtml={article.bodyHtml}
-      blocks={article.blocks}
-      content={contentBlocks(article)}
-    />
+    <>
+      <MediaRichContent
+        bodyHtml={article.bodyHtml}
+        blocks={article.blocks}
+        content={contentBlocks(article)}
+      />
+      {article.bodyHtml?.includes('class="twitter-tweet"') ? (
+        <TweetEnhancement slug={article.slug} />
+      ) : null}
+    </>
   )
 }

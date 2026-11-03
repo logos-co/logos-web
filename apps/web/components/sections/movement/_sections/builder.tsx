@@ -22,14 +22,16 @@ export function BuilderSection({ data }: { data: MovementCopySection }) {
         body={data.builder.body}
         cta={
           <div className="flex flex-wrap justify-center gap-2">
+            <Cta href={ROUTES.getStarted} label={data.builder.primaryCta} />
             <Cta
-              href={ROUTES.activistBuilder}
-              label={data.builder.primaryCta}
-            />
-            <Cta
-              href={ROUTES.getStarted}
+              href={EXTERNAL_URLS.hacktivistTraining}
               label={data.builder.secondaryCta}
               tone="secondary"
+            />
+            <Cta
+              href={ROUTES.activistBuilder}
+              label={data.builder.tertiaryCta}
+              tone="tertiary"
             />
           </div>
         }

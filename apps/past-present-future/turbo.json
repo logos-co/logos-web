@@ -1,0 +1,7 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": { "env": ["NEXT_PUBLIC_API_MODE"] },
+    "dev": { "env": ["NEXT_PUBLIC_API_MODE"] }
+  }
+}

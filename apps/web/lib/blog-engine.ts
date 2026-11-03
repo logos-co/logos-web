@@ -1,3 +1,4 @@
+import { isPressPreviewArticle } from '@/lib/press-preview'
 import { ROUTES } from '@/constants/routes'
 import {
   getAllBlogArticles,
@@ -125,7 +126,7 @@ const publishedTime = (post: BlogPostMeta): number =>
 
 const newestPublished = <T extends BlogPostMeta>(posts: T[]): T[] =>
   posts
-    .filter(isPublishedPost)
+    .filter((post) => isPublishedPost(post) || isPressPreviewArticle(post))
     .sort((a, b) => publishedTime(b) - publishedTime(a))
 
 const hasTag = (post: BlogPostMeta, tag: string): boolean =>

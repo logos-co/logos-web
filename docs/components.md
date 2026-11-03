@@ -69,16 +69,16 @@ From top to bottom:
 
 - Email, the only required field, marked with a red `*`
 - Role dropdown and city input
-- Country dropdown and submit button
+- Submit button
 - A `* required` legend, from `requiredLabel`, which defaults to `required`
 
-The country dropdown is searchable: typing filters `countryOptions` (case and diacritics insensitive, prefix matches first), arrow keys move, Enter selects, Escape or a click outside closes. The selected label is submitted as it stands, which is why the site passes the funnel `COUNTRY_OPTIONS` labels.
+The city input suggests cities across every country from the `searchCities` function. Picking a suggestion sets the country and shows it after the city in grey caps, as in the list, with the city in caps too (`SEOUL KOREA, REPUBLIC OF`). The caps are CSS only, so the submitted values keep their casing (`Seoul`, `Korea, Republic of`). Only the city is in the input, so the country can't be edited; editing the city drops the pick. The city is optional, but a filled city that was not picked has no country and is refused with "Pick a city from the list." The site passes `searchCities` from [`apps/web/lib/city-search.ts`](../apps/web/lib/city-search.ts); the funnel docs cover [where suggestions come from](funnel/README.md#city-suggestions).
 
-The city input is free text. Given a `searchCities` function, it also suggests cities, within the selected country when one is set. Picking a suggestion sets the country to the suggestion's `country`, which must be one of `countryOptions`, and choosing another country afterwards clears the picked city. The site passes `searchCitiesByCountryLabel` from [`apps/web/lib/city-search.ts`](../apps/web/lib/city-search.ts); the funnel docs cover [where suggestions come from](funnel/README.md#city-suggestions).
+The suggestion logic is the headless `useCityAutocomplete` hook ([`packages/ui/src/primitives/city-autocomplete/use-city-autocomplete.ts`](../packages/ui/src/primitives/city-autocomplete/use-city-autocomplete.ts)), exported from `@acid-info/logos-ui/client` so other forms can render their own list. It searches once the trimmed text has `CITY_SEARCH_MIN_LENGTH` (2) characters, after a `CITY_SEARCH_DEBOUNCE_MS` (250 ms) pause, and aborts a pending search on the next keystroke so a slow answer never replaces a newer one. Arrow keys move through the list, Enter picks the highlighted suggestion, and Escape, Tab or a click outside closes it. Enter with nothing highlighted is left to the form's submit handler, which refuses a typed city that was not picked.
 
-The suggestion logic is the headless `useCityAutocomplete` hook ([`packages/ui/src/primitives/city-autocomplete/use-city-autocomplete.ts`](../packages/ui/src/primitives/city-autocomplete/use-city-autocomplete.ts)), exported from `@acid-info/logos-ui/client` so other forms can render their own list. It searches once the trimmed text has `CITY_SEARCH_MIN_LENGTH` (2) characters, after a `CITY_SEARCH_DEBOUNCE_MS` (250 ms) pause, and aborts a pending search on the next keystroke so a slow answer never replaces a newer one. Arrow keys move through the list, Enter picks the highlighted suggestion, and Escape, Tab or a click outside closes it. Enter with nothing highlighted is left to the form, which submits the typed text.
+`PickedCountry` draws the picked country over the city input, after an invisible copy of the city text, and `usePickedCountryWidth` with `pickedCityInputStyle` reserves its width as right padding on the input and puts the input in caps. Give `PickedCountry` the input's font, padding, border width and alignment, and pass the same casing as `cityClassName`, so the two line up; the footer and the funnel `CityField` both use it.
 
-City and country go together: submitting only one of them shows `cityCountryMessage` and sends nothing. On submit the site subscribes to the Logos Newsletter and, when both a city and a country were given, the Regional Newsletter too.
+The country is derived from the pick only. On submit the site subscribes to the Logos Newsletter and, when a city was picked, the Regional Newsletter too.
 
 ```ts
 interface FooterLink {
@@ -94,7 +94,6 @@ interface FooterProps {
     emailLabel: string
     roleLabel: string
     cityLabel: string
-    countryLabel?: string // placeholder falls back to 'Country'
     submitLabel: string
   }
   newsletterForm?: ReactNode // replaces the static placeholder form
@@ -113,7 +112,6 @@ interface FooterNewsletterProps {
   emailLabel: string
   roleLabel: string
   cityLabel: string
-  countryLabel: string
   submitLabel: string
   onSubmit: (values: {
     email: string
@@ -122,11 +120,9 @@ interface FooterNewsletterProps {
     country: string
   }) => Promise<void>
   roleOptions?: readonly string[] // default: Node operator, Builder, Activist
-  countryOptions: readonly string[] // searchable
-  searchCities?: CitySearch // city suggestions; omit for plain free text
+  searchCities: CitySearch // city suggestions; the pick sets the country
   requiredLabel?: string // default: 'required'
   successMessage?: string
-  cityCountryMessage?: string // default: 'Please enter both a city and a country, or neither.'
 }
 ```
 

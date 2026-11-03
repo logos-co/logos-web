@@ -22,8 +22,8 @@ export function CenterCtaSection({
     <section
       className={`bg-brand-off-white px-3 py-25 text-center text-brand-dark-green ${className ?? ''}`}
     >
-      <div className="mx-auto flex max-w-[456px] flex-col items-center gap-10">
-        <div className="flex flex-col items-center gap-6">
+      <div className="mx-auto flex flex-col items-center gap-10">
+        <div className="flex max-w-[456px] flex-col items-center gap-6">
           <h2 className="text-h3-serif">{title}</h2>
           <p className="text-mono-s whitespace-pre-line">{body}</p>
         </div>

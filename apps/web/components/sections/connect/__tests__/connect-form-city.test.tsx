@@ -6,11 +6,11 @@ import { createRoot } from 'react-dom/client'
 import type { Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-const { searchCitiesByCountryId } = vi.hoisted(() => ({
-  searchCitiesByCountryId: vi.fn(),
+const { searchCities } = vi.hoisted(() => ({
+  searchCities: vi.fn(),
 }))
 
-vi.mock('@/lib/city-search', () => ({ searchCitiesByCountryId }))
+vi.mock('@/lib/city-search', () => ({ searchCities }))
 
 // Its Link pulls in next-intl navigation, which needs the Next runtime.
 vi.mock('@/components/ui/button', () => ({
@@ -32,16 +32,13 @@ declare global {
 globalThis.IS_REACT_ACT_ENVIRONMENT = true
 
 const NIGERIA = COUNTRY_OPTIONS.find((option) => option.code === 'NG')!
-const KOREA = COUNTRY_OPTIONS.find((option) => option.code === 'KR')!
 
 let container: HTMLDivElement
 let root: Root
 
 beforeEach(() => {
   vi.useFakeTimers()
-  searchCitiesByCountryId.mockResolvedValue([
-    { name: 'Lagos', country: NIGERIA.value },
-  ])
+  searchCities.mockResolvedValue([{ name: 'Lagos', country: NIGERIA.label }])
   container = document.createElement('div')
   document.body.append(container)
   root = createRoot(container)
@@ -60,13 +57,11 @@ beforeEach(() => {
 afterEach(() => {
   act(() => root.unmount())
   container.remove()
-  searchCitiesByCountryId.mockReset()
+  searchCities.mockReset()
   vi.useRealTimers()
 })
 
 const cityInput = () => container.querySelector<HTMLInputElement>('#city')!
-const countryTrigger = () =>
-  container.querySelector<HTMLButtonElement>('#country')!
 
 async function typeCity(value: string) {
   act(() => {
@@ -81,6 +76,10 @@ async function typeCity(value: string) {
   })
 }
 
+// The picked country, drawn over the city input.
+const pickedCountry = () =>
+  container.querySelector('#city ~ [aria-hidden] > :last-child')?.textContent
+
 function pickSuggestion() {
   act(() =>
     container
@@ -90,37 +89,48 @@ function pickSuggestion() {
 }
 
 describe('ConnectFormSection city autocomplete', () => {
-  it('suggests cities within the selected country id', async () => {
+  it('suggests cities across every country', async () => {
     await typeCity('lag')
 
-    expect(searchCitiesByCountryId).toHaveBeenLastCalledWith(
-      'lag',
-      '',
-      expect.anything()
-    )
+    expect(searchCities).toHaveBeenLastCalledWith('lag', expect.anything())
     expect(container.querySelector('[role="listbox"]')?.textContent).toContain(
       'LagosNigeria'
     )
   })
 
-  it('a picked city sets the country too', async () => {
+  it('a picked city sets the city and the country', async () => {
     await typeCity('lag')
     pickSuggestion()
 
     expect(cityInput().value).toBe('Lagos')
-    expect(countryTrigger().textContent).toBe(NIGERIA.label)
+    // Display only, so the submitted city keeps its casing.
+    expect(cityInput().style.textTransform).toBe('uppercase')
+    expect(pickedCountry()).toBe(NIGERIA.label)
   })
 
-  it('clears a picked city when another country is chosen', async () => {
+  it('editing a picked city drops the pick', async () => {
     await typeCity('lag')
     pickSuggestion()
 
-    act(() => countryTrigger().click())
-    const korea = [...container.querySelectorAll('[role="option"]')].find(
-      (option) => option.textContent === KOREA.label
-    ) as HTMLButtonElement
-    act(() => korea.click())
+    await typeCity('Lago')
 
-    expect(cityInput().value).toBe('')
+    expect(cityInput().value).toBe('Lago')
+    expect(pickedCountry()).toBeUndefined()
+    expect(cityInput().style.textTransform).toBe('')
+  })
+
+  it('asks to pick a typed city that was not picked', async () => {
+    await typeCity('Anyigba')
+
+    act(() => {
+      container
+        .querySelector('form')!
+        .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
+    })
+
+    const messages = [...container.querySelectorAll('p')].map(
+      (p) => p.textContent
+    )
+    expect(messages).toContain('cityPickRequired')
   })
 })

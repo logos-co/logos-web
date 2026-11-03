@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
   getAllBlogArticles,
+  getBlogArticleDetail,
   getBlogArticleSlugs,
   getBlogPodcastPaths,
   isPublishedPost,
@@ -51,6 +52,7 @@ const useStrapi = () => {
 
 beforeEach(() => {
   envStub.STRAPI_API_KEY = undefined
+  envStub.NEXT_PUBLIC_API_MODE = undefined
 })
 
 afterEach(() => {
@@ -223,6 +225,40 @@ describe('getAllBlogArticles', () => {
       'FIRST',
       'SECOND',
     ])
+  })
+})
+
+describe('staging preview queries', () => {
+  it('adds only the approved draft slugs to the live article archive', async () => {
+    useStrapi()
+    envStub.NEXT_PUBLIC_API_MODE = 'staging'
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(strapiPostPage([{ slug: 'published' }]))
+    )
+    const slugs = await getBlogArticleSlugs()
+    expect(slugs).toHaveLength(19)
+    expect(slugs).toContain('published')
+    expect(slugs).toContain('waku-roadmap')
+  })
+
+  it('reads approved drafts only on staging; other details remain live-only', async () => {
+    useStrapi()
+    const states: string[] = []
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (_url: string, init: RequestInit) => {
+        const { variables } = JSON.parse(init.body as string)
+        states.push(variables.publicationState)
+        return strapiArticle(variables.slug, '2023-11-17')
+      })
+    )
+    envStub.NEXT_PUBLIC_API_MODE = 'staging'
+    await getBlogArticleDetail('waku-roadmap')
+    await getBlogArticleDetail('unrelated-draft')
+    envStub.NEXT_PUBLIC_API_MODE = 'production'
+    await getBlogArticleDetail('waku-roadmap')
+    expect(states).toEqual(['PREVIEW', 'LIVE', 'LIVE'])
   })
 })
 

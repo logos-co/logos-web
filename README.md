@@ -1,6 +1,6 @@
 # logos-web
 
-This monorepo holds the public Logos website (logos.co), the Payload CMS that edits its content, the API behind its signup forms and a few internal tools. It uses pnpm workspaces and Turborepo
+This monorepo holds the public Logos website (logos.co), the Payload CMS that edits its content, the API behind its signup forms and a few internal tools. It uses pnpm workspaces and Turborepo.
 
 ## Workspaces
 

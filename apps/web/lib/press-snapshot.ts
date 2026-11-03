@@ -4,7 +4,7 @@ import { env } from './env'
 import type { BlogArticleDetail, BlogPodcastDetail } from './blog-content'
 
 export interface PressSnapshot {
-  version: 1
+  version: 1 | 2
   articles: BlogArticleDetail[]
   podcasts: BlogPodcastDetail[]
 }
@@ -17,7 +17,7 @@ export const readPressSnapshot = async (
     !value ||
     typeof value !== 'object' ||
     !('version' in value) ||
-    value.version !== 1 ||
+    (value.version !== 1 && value.version !== 2) ||
     !('articles' in value) ||
     !Array.isArray(value.articles) ||
     !('podcasts' in value) ||
@@ -28,7 +28,17 @@ export const readPressSnapshot = async (
     )
   }
   // The snapshot is an internal build artifact produced by this app, never a browser input.
-  return value as PressSnapshot
+  const snapshot = value as PressSnapshot
+  if (
+    env.NEXT_PUBLIC_API_MODE !== 'staging' &&
+    (snapshot.version === 2 ||
+      [...snapshot.articles, ...snapshot.podcasts].some((post) => post.isDraft))
+  ) {
+    throw new Error(
+      'A snapshot containing drafts is staging-only. Publish reviewed posts and capture a new snapshot before production.'
+    )
+  }
+  return snapshot
 }
 
 let snapshot: Promise<PressSnapshot> | undefined

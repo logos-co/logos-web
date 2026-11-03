@@ -34,7 +34,7 @@ test('movementCopy parses a minimal valid value and routes through the union', (
     events: { title: 't', body: 'b', cta: 'c', day1: { date: 'd', weekday: 'w' }, day2: { date: 'd', weekday: 'w' }, day3: { date: 'd', weekday: 'w' }, card: { title: 't', time: 't', timezone: 'z', location: 'l', hosts: 'h' } },
     involved: { title: 't', body: 'b', primaryCta: 'p', secondaryCta: 's' },
     coalition: { title: 't', body: 'b', cta: 'c' },
-    builder: { title: 't', body: 'b', primaryCta: 'p', secondaryCta: 's', feature: { city: 'c', title: 't', cta: 'c' }, details: { problem: { label: 'l', body: 'b' }, solution: { label: 'l', body: 'b' }, stack: { label: 'l', body: 'b' } } },
+    builder: { title: 't', body: 'b', primaryCta: 'p', secondaryCta: 's', tertiaryCta: 't', feature: { city: 'c', title: 't', cta: 'c' }, details: { problem: { label: 'l', body: 'b' }, solution: { label: 'l', body: 'b' }, stack: { label: 'l', body: 'b' } } },
     resources: { titleLine1: 'a', titleLine2: 'b', body: 'c', cta: 'd', rows: { start: { number: '01', title: 't', body: 'b', cta: 'c' } } },
   }
   assert.equal(movementCopySectionSchema.parse(value).componentType, 'movementCopy')

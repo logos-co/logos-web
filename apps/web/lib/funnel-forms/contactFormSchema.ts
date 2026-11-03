@@ -79,11 +79,20 @@ export function buildFormSchema(
   }
   schemaShape.socials = z.string().optional().default('')
 
+  // `country` is derived from the picked city, so it has no rendered field,
+  // but the endpoint still requires it. Parse it here and validate the city /
+  // country pairing below.
+  const hasDerivedCountry =
+    requiredFields.has('country') && !('country' in schemaShape)
+  if (hasDerivedCountry) {
+    schemaShape.country = z.string().trim().optional().default('')
+  }
+
   const hasChatFields = 'chat' in schemaShape && 'chatService' in schemaShape
 
   const baseSchema = z.object(schemaShape)
 
-  const schema = hasChatFields
+  const withChat = hasChatFields
     ? baseSchema.superRefine((data, ctx) => {
         const chatValues = normalizeStringArray(data.chat)
         const chatServiceValues = normalizeStringArray(data.chatService)
@@ -111,6 +120,20 @@ export function buildFormSchema(
         }
       })
     : baseSchema
+
+  const schema = hasDerivedCountry
+    ? withChat.superRefine((data, ctx) => {
+        const city = normalizeStringArray(data.city)[0] ?? ''
+        const country = normalizeStringArray(data.country)[0] ?? ''
+        if (city && !country) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['city'],
+            message: 'Pick a city from the list.',
+          })
+        }
+      })
+    : withChat
 
   return {
     schema,
