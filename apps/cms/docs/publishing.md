@@ -1,12 +1,15 @@
 # Publishing articles and the site
 
 Editors publish articles in Strapi and then push the site live from the Payload dashboard, without
-touching Jenkins. This page covers the two dashboard buttons, the workflow behind them and the
-reservation that stops two publishes from running at once. Code:
+touching Jenkins. This page covers the two dashboard buttons, the workflow behind them, the
+reservation that stops two publishes from running at once and the checks on merging content PRs.
+Code:
 [`.github/workflows/site-publish.yml`](../../../.github/workflows/site-publish.yml),
 [`apps/cms/src/services/site-publish`](../src/services/site-publish),
-[`apps/cms/src/components/admin/site-publish-panel.tsx`](../src/components/admin/site-publish-panel.tsx)
-and the labels in [`apps/cms/src/messages/site-publish.en.json`](../src/messages/site-publish.en.json).
+[`apps/cms/src/components/admin/site-publish-panel.tsx`](../src/components/admin/site-publish-panel.tsx),
+the labels in [`apps/cms/src/messages/site-publish.en.json`](../src/messages/site-publish.en.json)
+and the content PR workflow in
+[`apps/cms/src/services/content-workflow`](../src/services/content-workflow).
 
 ## How an editor publishes
 
@@ -26,6 +29,25 @@ logos.co.
 
 The cards say why an action is unavailable instead of failing quietly: a build already in progress,
 no staging preview yet, a failed build, or publishing switched off.
+
+## Merging content edits before a build
+
+Staging builds from `develop`, so a Payload edit only shows up there once its content PR is merged.
+Each save commits to one draft PR per content file, and later saves to the same file reuse it. For
+most collections that means one PR per record. Builder Resources and Circle Resources each live in a
+single shared file, so edits to different resources in one of those lists go into the same PR.
+
+The CMS only reuses or merges an open PR that the CMS GitHub App opened from a branch with the
+configured content branch prefix against the configured PR base branch. Its full diff must contain
+only `content/**` JSON files and image uploads under `apps/web/public/cms/uploads/`, all regular
+files. Anything else stops the save or the merge with an error.
+
+**Merge** sends the PR head commit you were shown, and the CMS merges that exact commit. If someone
+saved a newer change since you loaded the page, the CMS asks you to refresh and review the PR again
+before merging.
+
+The Content Change Requests collection mirrors these PRs. Signed-in editors can view its records,
+but only the CMS workflow creates, edits or deletes them.
 
 ## What the buttons need before they work
 
