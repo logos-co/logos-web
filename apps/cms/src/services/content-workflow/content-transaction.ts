@@ -9,6 +9,45 @@ import {
   type PayloadRequest,
 } from 'payload'
 
+async function contentTransaction(req: PayloadRequest) {
+  const id = await req.transactionID
+  const tx =
+    id &&
+    (req.payload.db.sessions?.[id]?.db as
+      | typeof req.payload.db.drizzle
+      | undefined)
+  if (!tx)
+    throw new Error('A database transaction is required to save CMS content')
+  return tx
+}
+
+async function tryContentLock(
+  tx: Awaited<ReturnType<typeof contentTransaction>>,
+  key: string
+) {
+  const lock = await tx.execute<{ acquired: boolean }>(
+    sql`SELECT pg_try_advisory_xact_lock(hashtextextended(${key}, 0)) AS acquired`
+  )
+  if (!lock.rows[0]?.acquired)
+    throw new APIError(
+      'Another edit or deletion is in progress for this content. Refresh and retry.',
+      409,
+      undefined,
+      true
+    )
+}
+
+export async function lockResourceRecord(
+  req: PayloadRequest,
+  collection: string,
+  id: string | number
+) {
+  await tryContentLock(
+    await contentTransaction(req),
+    `resource:${collection}:${id}`
+  )
+}
+
 export async function withContentPathLock<T>(
   payload: Payload,
   request: PayloadRequest | undefined,
@@ -19,12 +58,7 @@ export async function withContentPathLock<T>(
   const req = request ?? (await createLocalReq({}, payload))
   const owns = await initTransaction(req)
   try {
-    const id = await req.transactionID
-    const tx =
-      id &&
-      (payload.db.sessions?.[id]?.db as typeof payload.db.drizzle | undefined)
-    if (!tx)
-      throw new Error('A database transaction is required to save CMS content')
+    const tx = await contentTransaction(req)
     if (wait) {
       await tx.execute(
         sql`SELECT pg_advisory_xact_lock(hashtextextended(${path}, 0))`
@@ -32,16 +66,7 @@ export async function withContentPathLock<T>(
     } else {
       // An update may already hold the document row lock while a beforeDelete
       // hook owns the path lock. Reject the overlap before either waits on both.
-      const lock = await tx.execute<{ acquired: boolean }>(
-        sql`SELECT pg_try_advisory_xact_lock(hashtextextended(${path},0)) AS acquired`
-      )
-      if (!lock.rows[0]?.acquired)
-        throw new APIError(
-          'Another edit or deletion is in progress for this content. Refresh and retry.',
-          409,
-          undefined,
-          true
-        )
+      await tryContentLock(tx, path)
     }
     const result = await save(req)
     if (owns) await commitTransaction(req)

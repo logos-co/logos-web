@@ -10,6 +10,7 @@ import {
   Circles,
 } from '../Circles'
 import { Ideas } from '../Ideas'
+import { lockResourceBeforeChange } from '../content-pr-hooks'
 import { Pages } from '../Pages'
 import { Rfps } from '../Rfps'
 import {
@@ -41,9 +42,11 @@ describe('repo-backed content PR hooks', () => {
         collection.hooks?.afterChange?.length,
         `${collection.slug} should create content PRs in afterChange`
       )
-      assert.equal(
-        collection.hooks?.beforeChange,
-        undefined,
+      assert.deepEqual(
+        (collection.hooks?.beforeChange ?? []).filter(
+          (hook) => hook !== lockResourceBeforeChange
+        ),
+        [],
         `${collection.slug} should not create content PRs before persistence`
       )
     }

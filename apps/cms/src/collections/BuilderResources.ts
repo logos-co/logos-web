@@ -9,6 +9,8 @@ import {
 import {
   createChangePullRequestHook,
   createDeletePullRequestHook,
+  lockResourceBeforeChange,
+  lockResourceBeforeDelete,
 } from './content-pr-hooks'
 import {
   deleteBuilderResourceAsPullRequest,
@@ -27,12 +29,14 @@ export const BuilderResources: CollectionConfig = {
   },
   access: authenticatedCollectionAccess,
   hooks: {
+    beforeChange: [lockResourceBeforeChange],
     afterChange: [
       createChangePullRequestHook<BuilderResourceDocLike>({
         save: saveBuilderResourceAsPullRequest,
       }),
     ],
     beforeDelete: [
+      lockResourceBeforeDelete,
       createDeletePullRequestHook<BuilderResourceDocLike>({
         collection: 'builder-resources',
         save: deleteBuilderResourceAsPullRequest,

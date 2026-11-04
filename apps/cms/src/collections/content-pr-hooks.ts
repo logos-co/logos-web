@@ -1,5 +1,6 @@
 import type {
   CollectionAfterChangeHook,
+  CollectionBeforeChangeHook,
   CollectionBeforeDeleteHook,
   Payload,
   User,
@@ -10,6 +11,8 @@ import type {
   SaveContentAsPullRequestInput,
   SavePrEditor,
 } from '@/services/content-workflow'
+
+import { lockResourceRecord } from '@/services/content-workflow/content-transaction'
 
 export const SKIP_CONTENT_PR_CONTEXT = 'skipContentPr'
 
@@ -34,6 +37,25 @@ const getEditor = (user: User): SavePrEditor => ({
 
 const shouldSkipContentPr = (context: Record<string, unknown>): boolean =>
   context[SKIP_CONTENT_PR_CONTEXT] === true
+
+// Take the same record lock before an update locks the row or a deletion locks the list.
+export const lockResourceBeforeChange: CollectionBeforeChangeHook = async ({
+  collection,
+  operation,
+  originalDoc,
+  req,
+}) => {
+  if (operation === 'update')
+    await lockResourceRecord(req, collection.slug, originalDoc.id)
+}
+
+export const lockResourceBeforeDelete: CollectionBeforeDeleteHook = async ({
+  collection,
+  id,
+  req,
+}) => {
+  await lockResourceRecord(req, collection.slug, id)
+}
 
 export const createChangePullRequestHook =
   <TDoc>({
