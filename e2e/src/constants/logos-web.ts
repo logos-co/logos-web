@@ -33,9 +33,6 @@ export const LOGOS_WEB_CORE_ROUTES = [
   '/basecamp',
   '/builders-hub',
   '/builders-hub/ideas',
-  // RFPs moved from /builders-hub/rfps to /rfp on develop (#255); the old path
-  // is now a redirect page. movement.spec covers both until logos.co ships it,
-  // then add '/rfp' here.
   '/design-guide',
   '/field-guide',
   '/manifesto',
@@ -46,6 +43,7 @@ export const LOGOS_WEB_CORE_ROUTES = [
   '/movement',
   '/privacy-policy',
   '/research',
+  '/rfp',
   '/roadmap',
   '/technology-stack',
   '/technology-stack/blockchain',

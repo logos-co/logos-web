@@ -24,7 +24,7 @@ Inside `e2e/`: `pnpm test:e2e:headed`, `pnpm test:e2e:ui` and `pnpm test:e2e:rep
 | [`pages`](tests/pages.spec.ts)       | Main routes and past-present-future: 200, `h1`, title, description, canonical, robots meta per environment, the not-found page |
 | [`basecamp`](tests/basecamp.spec.ts) | Install button per OS and architecture, every download link is on the latest full release and answers 200                      |
 | [`media`](tests/media.spec.ts)       | Article and podcast lists open, media search returns results                                                                   |
-| [`movement`](tests/movement.spec.ts) | Circles map, zine reader, a Builders Hub RFP and idea                                                                          |
+| [`movement`](tests/movement.spec.ts) | Circles map, zine reader, an RFP, a Builders Hub idea                                                                          |
 | [`forms`](tests/forms.spec.ts)       | Intake forms render behind hCaptcha, footer newsletter form renders                                                            |
 | [`seo`](tests/seo.spec.ts)           | `robots.txt` per environment, sitemap entries answer 200                                                                       |
 

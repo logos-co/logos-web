@@ -25,13 +25,9 @@ test.describe('logos.co movement', () => {
     await expect(previous).toBeEnabled()
   })
 
-  test('an RFP opens from the Builders Hub', async ({ page }) => {
-    // The old path redirects to /rfp where that change is deployed (staging
-    // first), so start there and accept links under either path.
-    await page.goto('/builders-hub/rfps')
-    const rfp = page
-      .locator('a[href^="/rfp/"], a[href^="/builders-hub/rfps/"]')
-      .first()
+  test('an RFP opens from the RFP list', async ({ page }) => {
+    await page.goto('/rfp')
+    const rfp = page.locator('a[href^="/rfp/"]').first()
     const href = await rfp.getAttribute('href')
     const response = await page.goto(href!)
     expect(response?.status()).toBe(200)
