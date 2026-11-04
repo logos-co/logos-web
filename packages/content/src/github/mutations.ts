@@ -85,19 +85,27 @@ export const createBranch = async ({
   fromBranch?: string
 }): Promise<{ sha: string }> => {
   const config = getGithubConfig()
-  const octokit = getOctokit()
+  const sha = await getBranchSha(fromBranch ?? config.stagingBranch)
+  return createBranchAtSha({ newBranch, sha })
+}
+
+export const createBranchAtSha = async ({
+  newBranch,
+  sha,
+}: {
+  newBranch: string
+  sha: string
+}): Promise<{ sha: string }> => {
+  const config = getGithubConfig()
   ASSERT_BRANCH_PREFIX(newBranch)
-
-  const baseBranch = fromBranch ?? config.stagingBranch
-  const baseSha = await getBranchSha(baseBranch)
-
+  const octokit = getOctokit()
   await octokit.git.createRef({
     owner: config.owner,
     repo: config.repo,
     ref: `refs/heads/${newBranch}`,
-    sha: baseSha,
+    sha,
   })
-  return { sha: baseSha }
+  return { sha }
 }
 
 /**

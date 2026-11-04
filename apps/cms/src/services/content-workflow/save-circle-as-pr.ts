@@ -133,6 +133,7 @@ export const buildCircleFixtureDeleteChanges = (
 export const saveCircleAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<CircleDocLike>): Promise<SaveAsPullRequestResult> => {
   const { indexChange, localeChange } = buildCircleFixtureChanges(doc)
@@ -158,12 +159,14 @@ export const saveCircleAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }
 
 export const deleteCircleAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<CircleDocLike>): Promise<SaveAsPullRequestResult> => {
   const subject = createContentDeleteSubject({
@@ -187,5 +190,6 @@ export const deleteCircleAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }

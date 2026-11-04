@@ -5,6 +5,8 @@ import { getGithubConfig } from './config'
 
 interface GithubPullRequest {
   number: number
+  title: string
+  body?: string | null
   state: string
   draft?: boolean
   node_id: string
@@ -34,6 +36,8 @@ const managedPr = (pr: GithubPullRequest, login: string) => {
     return null
   return {
     number: pr.number,
+    ...(pr.title && { title: pr.title }),
+    ...(pr.body && { body: pr.body }),
     branchName: pr.head.ref,
     headSha: pr.head.sha,
     baseSha: pr.base.sha,

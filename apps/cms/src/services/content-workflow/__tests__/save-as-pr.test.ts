@@ -55,8 +55,7 @@ const createDependencies = (
   overrides: Partial<SaveAsPullRequestDependencies> = {}
 ): SaveAsPullRequestDependencies => ({
   recordContentChangeRequest: async () => 1,
-  withResourceListLock: async (_payload, _req, _path, save) =>
-    save({} as never),
+  withContentPathLock: async (_payload, _req, _path, save) => save({} as never),
   compareContentFiles: async (pr) => ({
     mergeBaseSha: 'base',
     files: [
@@ -83,7 +82,8 @@ const createDependencies = (
       ? 'commit-with-media'
       : 'commit-sha',
   }),
-  createBranch: async () => ({ sha: 'base-sha' }),
+  getBranchSha: async () => 'base-sha',
+  createBranchAtSha: async () => ({ sha: 'base-sha' }),
   createOrGetPullRequest: async ({ branchName }) => ({
     baseBranch: 'develop',
     branchName,
@@ -188,7 +188,7 @@ describe('createSaveAsPullRequest', () => {
             branchName: 'content/page-home-other-20261101-1111',
           },
         ],
-        createBranch: async () => assert.fail('must reuse branch'),
+        createBranchAtSha: async () => assert.fail('must reuse branch'),
         commitFiles: async ({ branch, expectedHeadSha }) => {
           assert.equal(branch, managedPr.branchName)
           assert.equal(expectedHeadSha, managedPr.headSha)
@@ -246,7 +246,7 @@ describe('createSaveAsPullRequest', () => {
             files: [{ filename: targetPath }] as never,
           }),
           verifyContentDiff: async () => [targetPath],
-          createBranch: async () =>
+          createBranchAtSha: async () =>
             assert.fail('must reuse the first resource PR'),
           commitFiles: async ({ branch, expectedHeadSha }) => {
             assert.equal(branch, first.branchName)
@@ -330,7 +330,7 @@ describe('createSaveAsPullRequest', () => {
           files: [{ filename: targetPath }] as never,
         }),
         verifyContentDiff: async () => [targetPath],
-        createBranch: async () => assert.fail('must reuse the same PR'),
+        createBranchAtSha: async () => assert.fail('must reuse the same PR'),
       })
     )
     assert.equal(
@@ -393,6 +393,88 @@ describe('createSaveAsPullRequest', () => {
       })
     )
     await assert.rejects(save(createInput(payload)), /unrelated upload/)
+  })
+
+  it('reuses an image-only legacy PR with a matching open mirror and a verified image reference', async () => {
+    const targetPath = 'content/pages/en/home.json'
+    const image = 'apps/web/public/cms/uploads/hero.webp'
+    const cached = {
+      targetPath,
+      status: 'open',
+      branchName: managedPr.branchName,
+      pullRequestNumber: managedPr.number,
+      commitSha: managedPr.headSha,
+    }
+    const { payload } = createPayload([[cached]])
+    const save = createSaveAsPullRequest(
+      createDependencies({
+        listManagedPullRequests: async () => [
+          { ...managedPr, title: 'content(page): update home' },
+        ],
+        compareContentFiles: async () => ({
+          files: [{ filename: image }] as never,
+          mergeBaseSha: 'base',
+        }),
+        verifyContentDiff: async () => [image],
+        readContentJson: async (path, ref) => {
+          assert.equal(path, targetPath)
+          assert.equal(ref, managedPr.headSha)
+          return { hero: '/cms/uploads/hero.webp' }
+        },
+        createBranchAtSha: async () =>
+          assert.fail('must reuse the verified legacy PR'),
+      })
+    )
+    assert.equal((await save(createInput(payload))).pullRequestNumber, 42)
+  })
+
+  it('rejects unrelated images even with a matching legacy mirror', async () => {
+    const { payload } = createPayload([
+      [
+        {
+          targetPath: 'content/pages/en/home.json',
+          status: 'open',
+          branchName: managedPr.branchName,
+          pullRequestNumber: 42,
+          commitSha: managedPr.headSha,
+        },
+      ],
+    ])
+    const file = 'apps/web/public/cms/uploads/other.svg'
+    const save = createSaveAsPullRequest(
+      createDependencies({
+        listManagedPullRequests: async () => [
+          { ...managedPr, title: 'content(page): update home' },
+        ],
+        compareContentFiles: async () => ({
+          files: [{ filename: file }] as never,
+          mergeBaseSha: 'base',
+        }),
+        verifyContentDiff: async () => [file],
+        readContentJson: async () => ({}),
+        commitFiles: async () => assert.fail('must not write'),
+      })
+    )
+    await assert.rejects(save(createInput(payload)), /unrelated upload/)
+  })
+
+  it('does not create a branch when a referenced image fails validation, including retries', async () => {
+    const { payload } = createPayload()
+    let branches = 0
+    const save = createSaveAsPullRequest(
+      createDependencies({
+        createBranchAtSha: async () => {
+          branches++
+          return { sha: 'base-sha' }
+        },
+      })
+    )
+    for (let attempt = 0; attempt < 2; attempt++)
+      await assert.rejects(
+        save(createInput(payload, { withMedia: true })),
+        /upload is missing/
+      )
+    assert.equal(branches, 0)
   })
 
   it('includes referenced CMS uploads in the GitHub commit', async () => {

@@ -53,6 +53,7 @@ export const buildSiteFooterFileChange = (doc: SiteFooterDocLike) => {
 export const saveSiteSettingsAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<SiteSettingsDocLike>): Promise<SaveAsPullRequestResult> => {
   const subject = createContentUpdateSubject({
@@ -73,12 +74,14 @@ export const saveSiteSettingsAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }
 
 export const saveSiteNavigationAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<SiteNavigationDocLike>): Promise<SaveAsPullRequestResult> => {
   const subject = createContentUpdateSubject({
@@ -99,12 +102,14 @@ export const saveSiteNavigationAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }
 
 export const saveSiteFooterAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<SiteFooterDocLike>): Promise<SaveAsPullRequestResult> => {
   const subject = createContentUpdateSubject({
@@ -125,5 +130,6 @@ export const saveSiteFooterAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }

@@ -39,6 +39,7 @@ export const buildPageFixtureChange = (doc: PageDocLike) => {
 export const savePageAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<PageDocLike>): Promise<SaveAsPullRequestResult> => {
   const subject = createContentUpdateSubject({
@@ -62,5 +63,6 @@ export const savePageAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }

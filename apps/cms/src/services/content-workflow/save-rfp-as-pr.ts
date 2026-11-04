@@ -117,6 +117,7 @@ export const buildRfpFixtureDeleteChanges = (
 export const saveRfpAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<RfpDocLike>): Promise<SaveAsPullRequestResult> => {
   const { indexChange, localeChange } = buildRfpFixtureChanges(doc)
@@ -142,12 +143,14 @@ export const saveRfpAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }
 
 export const deleteRfpAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<RfpDocLike>): Promise<SaveAsPullRequestResult> => {
   const subject = createContentDeleteSubject({
@@ -171,5 +174,6 @@ export const deleteRfpAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }

@@ -9,7 +9,7 @@ import type { Payload, PayloadRequest } from 'payload'
 import { Pool } from 'pg'
 import { type ResourceDoc, resourceSaver } from '../resource-list'
 import { createSaveAsPullRequest } from '../save-as-pr'
-import { withResourceListLock } from '../resource-transaction'
+import { withContentPathLock } from '../content-transaction'
 
 for (const [type, path] of [
   ['builder-resource', 'content/builders-hub/resources/en.json'],
@@ -70,10 +70,10 @@ for (const [type, path] of [
               prBaseBranch: 'develop',
               contentBranchPrefix: 'content/',
             }) as never,
-          withResourceListLock: async (p, req, file, operation) => {
+          withContentPathLock: async (p, req, file, operation, wait) => {
             if (++arrived === 2) release()
             await both
-            return withResourceListLock(p, req, file, operation)
+            return withContentPathLock(p, req, file, operation, wait)
           },
           listManagedPullRequests: async () =>
             opened
@@ -99,7 +99,8 @@ for (const [type, path] of [
             git('diff', '--name-only', base, pr.headSha).split('\n'),
           readContentJson: async (file, ref) =>
             JSON.parse(git('show', `${ref}:${file}`)),
-          createBranch: async ({ newBranch }) => {
+          getBranchSha: async () => base,
+          createBranchAtSha: async ({ newBranch }) => {
             assert.equal(branch, '')
             branch = newBranch
             git('checkout', '-qb', branch)

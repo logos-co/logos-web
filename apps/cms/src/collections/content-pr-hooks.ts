@@ -64,6 +64,7 @@ export const createDeletePullRequestHook =
     const doc = (await req.payload.findByID({
       collection,
       id,
+      req,
       depth: 0,
     })) as TDoc
 

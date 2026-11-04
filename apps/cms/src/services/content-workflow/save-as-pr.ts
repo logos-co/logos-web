@@ -1,7 +1,8 @@
 import {
   type FileChange,
   commitFiles,
-  createBranch,
+  createBranchAtSha,
+  getBranchSha,
   createOrGetPullRequest,
   listManagedPullRequests,
   verifyContentDiff,
@@ -16,11 +17,11 @@ import { buildContentBranchName, contentBranchStem } from './branch-naming'
 import { collectReferencedCmsUploadChanges } from './media-file-changes'
 
 import { findRecordPullRequest, recoverRemovedUploads } from './record-pr-files'
-import { withResourceListLock } from './resource-transaction'
+import { withContentPathLock } from './content-transaction'
 import { recordContentChangeRequest } from './record-content-change'
 
 export interface SaveAsPullRequestDependencies {
-  withResourceListLock: typeof withResourceListLock
+  withContentPathLock: typeof withContentPathLock
   readContentJson: typeof readContentJson
   getFileBlobShas: typeof getFileBlobShas
   compareContentFiles: typeof compareContentFiles
@@ -28,7 +29,8 @@ export interface SaveAsPullRequestDependencies {
   buildContentBranchName: typeof buildContentBranchName
   collectReferencedCmsUploadChanges: typeof collectReferencedCmsUploadChanges
   commitFiles: typeof commitFiles
-  createBranch: typeof createBranch
+  createBranchAtSha: typeof createBranchAtSha
+  getBranchSha: typeof getBranchSha
   createOrGetPullRequest: typeof createOrGetPullRequest
   listManagedPullRequests: typeof listManagedPullRequests
   verifyContentDiff: typeof verifyContentDiff
@@ -136,12 +138,13 @@ export type SaveAsPullRequestResult = {
 }
 
 const defaults = {
-  withResourceListLock,
+  withContentPathLock,
   buildContentBranchName,
   recordContentChangeRequest,
   collectReferencedCmsUploadChanges,
   commitFiles,
-  createBranch,
+  createBranchAtSha,
+  getBranchSha,
   createOrGetPullRequest,
   listManagedPullRequests,
   verifyContentDiff,
@@ -169,7 +172,8 @@ export const createSaveAsPullRequest =
       recordContentChangeRequest,
       collectReferencedCmsUploadChanges,
       commitFiles,
-      createBranch,
+      createBranchAtSha,
+      getBranchSha,
       createOrGetPullRequest,
       listManagedPullRequests,
       getGithubConfig,
@@ -206,7 +210,9 @@ export const createSaveAsPullRequest =
         open,
         paths,
         contentBranchStem(branchInput),
-        dependencies
+        dependencies,
+        cached,
+        input.prTitle
       )
       if (
         cached &&
@@ -229,13 +235,7 @@ export const createSaveAsPullRequest =
       const livePr = candidate?.pr
       const branch = livePr?.branchName ?? branchName
       const parent =
-        livePr?.headSha ??
-        (
-          await createBranch({
-            newBranch: branch,
-            fromBranch: config.prBaseBranch,
-          })
-        ).sha
+        livePr?.headSha ?? (await getBranchSha(config.prBaseBranch))
       const contentChanges = input.resourceList
         ? [
             input.resourceList.apply(
@@ -264,6 +264,7 @@ export const createSaveAsPullRequest =
           ))
         )
       }
+      if (!livePr) await createBranchAtSha({ newBranch: branch, sha: parent })
       const { commitSha } = await commitFiles({
         branch,
         expectedHeadSha: parent,
@@ -305,14 +306,13 @@ export const createSaveAsPullRequest =
         contentChangeRequestId,
       }
     }
-    return input.resourceList
-      ? dependencies.withResourceListLock(
-          input.payload,
-          input.req,
-          targetPath,
-          persist
-        )
-      : persist(input.req)
+    return dependencies.withContentPathLock(
+      input.payload,
+      input.req,
+      targetPath,
+      persist,
+      Boolean(input.resourceList)
+    )
   }
 
 export const saveAsPullRequest = createSaveAsPullRequest()

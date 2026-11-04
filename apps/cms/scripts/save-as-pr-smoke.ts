@@ -31,12 +31,13 @@ import { createSaveAsPullRequest } from '../src/services/content-workflow/save-a
 
 const saveAsPullRequest = createSaveAsPullRequest({
   recordContentChangeRequest: async () => 1,
+  withContentPathLock: async (_payload, _req, _path, save) => save({} as never),
 })
 
 const config = loadGithubConfigFromEnv()
 const { owner, repo, prBaseBranch: baseBranch } = config
 
-// The smoke exercises GitHub mutations with an empty local PR mirror.
+// This single-writer smoke exercises GitHub mutations without a database.
 const stubPayload = {
   find: async () => ({ docs: [] }),
 } as unknown as Payload
