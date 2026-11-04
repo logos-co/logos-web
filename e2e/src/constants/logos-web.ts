@@ -19,3 +19,46 @@ export const LOGOS_WEB_RULES: SiteRules = {
   // loads about 35 files, so one test every 3 s stays under the limit.
   testIntervalMs: siteEnvironment(LOGOS_WEB_URL) === 'local' ? 0 : 3_000,
 }
+
+/**
+ * Pages every run opens. Each must answer 200 and render a non-empty `h1`;
+ * page-specific checks live in their own spec.
+ */
+export const LOGOS_WEB_CORE_ROUTES = [
+  '/',
+  '/active-circles',
+  '/basecamp',
+  '/builders-hub',
+  '/builders-hub/ideas',
+  // RFPs moved from /builders-hub/rfps to /rfp on develop (#255); the old path
+  // is now a redirect page. movement.spec covers both until logos.co ships it,
+  // then add '/rfp' here.
+  '/design-guide',
+  '/field-guide',
+  '/manifesto',
+  '/media',
+  '/media/articles',
+  '/media/calendar',
+  '/media/podcasts',
+  '/movement',
+  '/privacy-policy',
+  '/research',
+  '/roadmap',
+  '/technology-stack',
+  '/technology-stack/blockchain',
+  '/technology-stack/messaging',
+  '/technology-stack/networking',
+  '/technology-stack/storage',
+  '/terms-and-conditions',
+  '/zines',
+] as const
+
+/**
+ * apps/past-present-future is a separate SvelteKit app copied into the export,
+ * so it gets its own list.
+ */
+export const PAST_PRESENT_FUTURE_ROUTES = [
+  '/past-present-future',
+  '/past-present-future/choices',
+  '/past-present-future/museum-of-civil-liberties',
+] as const
