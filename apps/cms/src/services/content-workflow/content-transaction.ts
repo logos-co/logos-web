@@ -21,6 +21,24 @@ async function contentTransaction(req: PayloadRequest) {
   return tx
 }
 
+// Payload runs bulk hooks concurrently on one transaction. Postgres considers
+// its advisory lock already held, so queue those hooks until the PR is updated.
+const pendingResourceSaves = new WeakMap<object, Promise<unknown>>()
+
+async function saveResourceInOrder<T>(
+  tx: object,
+  save: () => Promise<T>
+): Promise<T> {
+  const previous = pendingResourceSaves.get(tx)
+  const next = previous ? previous.then(save, save) : save()
+  pendingResourceSaves.set(tx, next)
+  try {
+    return await next
+  } finally {
+    if (pendingResourceSaves.get(tx) === next) pendingResourceSaves.delete(tx)
+  }
+}
+
 async function tryContentLock(
   tx: Awaited<ReturnType<typeof contentTransaction>>,
   key: string
@@ -68,7 +86,9 @@ export async function withContentPathLock<T>(
       // hook owns the path lock. Reject the overlap before either waits on both.
       await tryContentLock(tx, path)
     }
-    const result = await save(req)
+    const result = wait
+      ? await saveResourceInOrder(tx, () => save(req))
+      : await save(req)
     if (owns) await commitTransaction(req)
     return result
   } catch (error) {

@@ -4,7 +4,7 @@ The Payload CMS admin for logos.co, a Next.js 16 app on port 3001 with the admin
 
 Editors use it to change site content, but nothing they do writes to the live site directly. The "Create PR" action opens a GitHub PR against `develop` that edits files under `content/**`, and the public site builds from those files. Postgres only holds users, sessions, drafts and the PR cache. The rules for that workflow are in [AGENTS.md](AGENTS.md).
 
-When two editors change different builder or circle resources, both edits are kept in the shared list PR. If an edit and a deletion overlap on the same resource, the second request returns HTTP 409. Refresh the record before retrying.
+When two editors change different builder or circle resources, both edits are kept in the shared list PR. Bulk edits and deletions also apply every selected resource to that PR. If an edit and a deletion overlap on the same resource, the second request returns HTTP 409. Refresh the record before retrying.
 
 ## Run
 

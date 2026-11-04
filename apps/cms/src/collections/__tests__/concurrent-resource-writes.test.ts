@@ -1,9 +1,6 @@
 import assert from 'node:assert/strict'
-import { randomUUID } from 'node:crypto'
 import { it } from 'node:test'
-import { postgresAdapter } from '@payloadcms/db-postgres'
-import { buildConfig, getPayload } from 'payload'
-import { Pool } from 'pg'
+import { startResourceTestCms } from './resource-test-cms'
 import { BuilderResources } from '../BuilderResources'
 import { CircleResources } from '../Circles'
 
@@ -19,31 +16,11 @@ it(
   'rejects the second writer before a shared resource edit and deletion can deadlock',
   { skip: !process.env.CMS_TEST_DATABASE_URL, timeout: 30000 },
   async (t) => {
-    const connectionString = process.env.CMS_TEST_DATABASE_URL
-    const schemaName = 'resource_test_' + randomUUID().replaceAll('-', '')
-    const pool = new Pool({ connectionString, statement_timeout: 5000 })
-    t.after(async () => {
-      try {
-        await pool.query(`DROP SCHEMA IF EXISTS "${schemaName}" CASCADE`)
-      } finally {
-        await pool.end()
-      }
-    })
-
     // Pause the winner inside its transaction, after the collection hooks ran.
     let pause: (() => Promise<void>) | undefined
-    const adapter = postgresAdapter({
-      pool: { connectionString },
-      schemaName,
-      push: true,
-    })
-    const config = buildConfig({
-      secret: 'test-secret',
-      db: {
-        ...adapter,
-        init: (args) => Object.assign(adapter.init(args), { pool }),
-      },
-      collections: [BuilderResources, CircleResources].map((collection) => ({
+    const payload = await startResourceTestCms(
+      t,
+      [BuilderResources, CircleResources].map((collection) => ({
         ...collection,
         lockDocuments: false,
         hooks: {
@@ -61,11 +38,8 @@ it(
             },
           ],
         },
-      })),
-      typescript: { autoGenerate: false },
-    })
-    const payload = await getPayload({ config })
-    t.after(() => payload.destroy())
+      }))
+    )
 
     for (const collection of [
       'builder-resources',
