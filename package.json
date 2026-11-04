@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "clean": "rm -rf node_modules apps/*/node_modules packages/*/node_modules .turbo apps/*/.turbo packages/*/.turbo apps/*/.next apps/*/.svelte-kit apps/past-present-future/build apps/web/out",
+    "clean": "rm -rf node_modules apps/*/node_modules packages/*/node_modules e2e/node_modules e2e/test-results .turbo apps/*/.turbo packages/*/.turbo apps/*/.next apps/*/.svelte-kit apps/past-present-future/build apps/web/out",
     "dev": "turbo run dev",
     "dev:web": "turbo run dev --filter=web...",
     "dev:cms": "turbo run dev --filter=cms...",
@@ -16,6 +16,7 @@
     "check-types": "turbo run check-types",
     "test": "turbo run test",
     "test:static": "pnpm --filter web test:static",
+    "test:e2e": "pnpm --filter e2e test:e2e",
     "test:perf": "pnpm --filter web test:perf",
     "test:repo-health": "node --test scripts/__tests__/repo-health.test.mjs && node --test scripts/site-publish/*.test.mts",
     "test:web-deploy-build": "rm -rf packages/*/dist && pnpm turbo run build --filter=web --force",
