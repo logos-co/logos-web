@@ -1,7 +1,7 @@
 import { getOctokit } from './client'
 import { getGithubConfig } from './config'
 import { getBranchSha } from './mutations'
-import { getPullRequest } from './pull-requests'
+import { getManagedPullRequest, verifyContentDiff } from './managed-pr'
 
 export type BranchComparisonStatus =
   | 'ahead'
@@ -186,16 +186,20 @@ export const syncProductionBranchToStaging =
 
 export const mergePullRequestToBase = async ({
   pullRequestNumber,
+  branchName,
+  commitSha,
 }: {
   pullRequestNumber: number
+  branchName: string
+  commitSha: string
 }): Promise<MergePullRequestResult> => {
-  const { prBaseBranch, owner, repo } = getGithubConfig()
-  const pr = await getPullRequest(pullRequestNumber)
-  if (pr.baseBranch !== prBaseBranch) {
-    throw new Error(
-      `PR #${pullRequestNumber} targets "${pr.baseBranch}", expected "${prBaseBranch}"`
-    )
+  const { owner, repo } = getGithubConfig()
+  const pr = await getManagedPullRequest(pullRequestNumber)
+  if (pr.branchName !== branchName || pr.headSha !== commitSha) {
+    throw new Error('This PR no longer matches the saved CMS change')
   }
+  if (!(await verifyContentDiff(pr)).length)
+    throw new Error('This PR has no content changes to merge')
 
   const octokit = getOctokit()
   let readyForReview = false
@@ -209,6 +213,7 @@ export const mergePullRequestToBase = async ({
     repo,
     pull_number: pullRequestNumber,
     merge_method: 'squash',
+    sha: pr.headSha,
   })
 
   return {

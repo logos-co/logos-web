@@ -26,16 +26,13 @@ export const ContentChangeRequests: CollectionConfig = {
     useAsTitle: 'branchName',
     description:
       'Mirror of in-flight content PRs. Rows are created by the CMS workflow ' +
-      'service — do not edit by hand unless you know what you are doing.',
+      'service and are read-only here.',
   },
-  // Editors should not be able to mutate these arbitrarily — only the
-  // workflow service. For now leave open for development; tighten in a later
-  // phase once roles are wired.
   access: {
-    read: () => true,
-    create: () => true,
-    update: () => true,
-    delete: ({ req }) => Boolean(req.user),
+    read: ({ req }) => Boolean(req.user),
+    create: () => false,
+    update: () => false,
+    delete: () => false,
   },
   fields: [
     {

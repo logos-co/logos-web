@@ -36,7 +36,11 @@ describe('content workflow route contracts', () => {
 
     const response = await handler(
       request('http://localhost/api/content-workflow/merge-pr', {
-        body: JSON.stringify({ pullRequestNumber: 0 }),
+        headers: {
+          'Sec-Fetch-Site': 'same-origin',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ headSha: 'a'.repeat(40), pullRequestNumber: 0 }),
         method: 'POST',
       })
     )
@@ -57,7 +61,14 @@ describe('content workflow route contracts', () => {
 
     const response = await handler(
       request('http://localhost/api/content-workflow/merge-pr', {
-        body: JSON.stringify({ pullRequestNumber: 123 }),
+        headers: {
+          'Sec-Fetch-Site': 'same-origin',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          headSha: 'a'.repeat(40),
+          pullRequestNumber: 123,
+        }),
         method: 'POST',
       })
     )
@@ -77,7 +88,14 @@ describe('content workflow route contracts', () => {
 
     const response = await handler(
       request('http://localhost/api/content-workflow/merge-pr', {
-        body: JSON.stringify({ pullRequestNumber: 123 }),
+        headers: {
+          'Sec-Fetch-Site': 'same-origin',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          headSha: 'a'.repeat(40),
+          pullRequestNumber: 123,
+        }),
         method: 'POST',
       })
     )
@@ -86,9 +104,55 @@ describe('content workflow route contracts', () => {
     assert.match(String((await readJson(response)).error), /merge failed/)
   })
 
+  it('returns only matching CMS snapshots and takes the link from GitHub', async () => {
+    const live = {
+      number: 4,
+      branchName: 'content/page-home-20261104-1111',
+      baseSha: 'base',
+      headSha: 'saved',
+      nodeId: 'node',
+      draft: true,
+      htmlUrl: 'https://github.com/logos-co/logos-web/pull/4',
+    }
+    const row = {
+      id: 1,
+      contentType: 'page',
+      targetPath: 'content/pages/en/home.json',
+      branchName: live.branchName,
+      commitSha: 'saved',
+      pullRequestNumber: 4,
+      pullRequestUrl: 'https://example.invalid/',
+    }
+    const handler = createRecentPrGetHandler({
+      listManagedPullRequests: async () => [live],
+      getPayload: async () =>
+        ({
+          auth: async () => ({ user: { id: 1 } }),
+          find: async () => ({
+            docs: [
+              row,
+              { ...row, commitSha: 'old' },
+              { ...row, pullRequestNumber: 5 },
+            ],
+          }),
+        }) as never,
+      loadGithubConfigFromEnv: () => ({}) as never,
+      setGithubConfig: () => undefined,
+    })
+    const response = await handler(
+      request(
+        'http://localhost/api/content-workflow/recent-pr?collection=pages&slug=home'
+      )
+    )
+    const { pullRequests } = await response.json()
+    assert.equal(pullRequests.length, 1)
+    assert.equal(pullRequests[0].pullRequestUrl, live.htmlUrl)
+    assert.equal(pullRequests[0].headSha, live.headSha)
+  })
+
   it('rejects unauthenticated recent PR lookups', async () => {
     const handler = createRecentPrGetHandler({
-      findOpenPullRequestsTouchingPath: async () => [],
+      listManagedPullRequests: async () => [],
       getPayload: async () => createPayload({ user: null }),
       loadGithubConfigFromEnv: () => ({ owner: 'logos-co' }) as never,
       setGithubConfig: () => undefined,
@@ -105,7 +169,7 @@ describe('content workflow route contracts', () => {
 
   it('rejects unsupported recent PR collections', async () => {
     const handler = createRecentPrGetHandler({
-      findOpenPullRequestsTouchingPath: async () => [],
+      listManagedPullRequests: async () => [],
       getPayload: async () => createPayload(),
       loadGithubConfigFromEnv: () => ({ owner: 'logos-co' }) as never,
       setGithubConfig: () => undefined,
@@ -122,7 +186,7 @@ describe('content workflow route contracts', () => {
 
   it('returns 500 when recent PR GitHub config cannot load', async () => {
     const handler = createRecentPrGetHandler({
-      findOpenPullRequestsTouchingPath: async () => [],
+      listManagedPullRequests: async () => [],
       getPayload: async () => createPayload(),
       loadGithubConfigFromEnv: () => {
         throw new Error('missing github env')

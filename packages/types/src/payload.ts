@@ -614,7 +614,7 @@ export interface CircleResource {
   createdAt: string;
 }
 /**
- * Mirror of in-flight content PRs. Rows are created by the CMS workflow service — do not edit by hand unless you know what you are doing.
+ * Mirror of in-flight content PRs. Rows are created by the CMS workflow service and are read-only here.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "content-change-requests".

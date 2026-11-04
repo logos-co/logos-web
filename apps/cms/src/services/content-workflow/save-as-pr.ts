@@ -3,13 +3,16 @@ import {
   commitFiles,
   createBranch,
   createOrGetPullRequest,
-  findOpenPullRequestsTouchingPath,
-  findPullRequestByBranch,
+  listManagedPullRequests,
+  verifyContentDiff,
   getGithubConfig,
 } from '@repo/content/github'
 import type { Payload } from 'payload'
 
-import { buildContentBranchName } from './branch-naming'
+import {
+  buildContentBranchName,
+  sameContentRecordBranch,
+} from './branch-naming'
 import { collectReferencedCmsUploadChanges } from './media-file-changes'
 
 export interface SaveAsPullRequestDependencies {
@@ -18,8 +21,8 @@ export interface SaveAsPullRequestDependencies {
   commitFiles: typeof commitFiles
   createBranch: typeof createBranch
   createOrGetPullRequest: typeof createOrGetPullRequest
-  findOpenPullRequestsTouchingPath: typeof findOpenPullRequestsTouchingPath
-  findPullRequestByBranch: typeof findPullRequestByBranch
+  listManagedPullRequests: typeof listManagedPullRequests
+  verifyContentDiff: typeof verifyContentDiff
   getGithubConfig: typeof getGithubConfig
 }
 
@@ -137,10 +140,7 @@ const recordContentChangeRequest = async (
   const existing = await input.payload.find({
     collection: 'content-change-requests',
     where: {
-      or: [
-        { branchName: { equals: input.branchName } },
-        { pullRequestNumber: { equals: input.pullRequestNumber } },
-      ],
+      branchName: { equals: input.branchName },
     },
     sort: '-updatedAt',
     limit: 1,
@@ -192,8 +192,8 @@ export const createSaveAsPullRequest =
     commitFiles,
     createBranch,
     createOrGetPullRequest,
-    findOpenPullRequestsTouchingPath,
-    findPullRequestByBranch,
+    listManagedPullRequests,
+    verifyContentDiff,
     getGithubConfig,
   }: SaveAsPullRequestDependencies) =>
   async (input: SaveAsPullRequestInput): Promise<SaveAsPullRequestResult> => {
@@ -207,107 +207,80 @@ export const createSaveAsPullRequest =
       changes: input.changes,
     })
     const changes = [...input.changes, ...mediaChanges]
-    const existing = await input.payload.find({
-      collection: 'content-change-requests',
-      where: {
-        and: [
-          { targetPath: { equals: targetPath } },
-          { status: { in: ['draft', 'open'] } },
-        ],
-      },
-      sort: '-updatedAt',
-      limit: 1,
-    })
-
-    const existingRequest = existing.docs[0]
-    if (existingRequest) {
-      if (
-        !existingRequest.pullRequestNumber ||
-        !existingRequest.pullRequestUrl
-      ) {
-        throw new Error(
-          `open content change request ${existingRequest.id} is missing pull request metadata`
-        )
-      }
-
-      const branchName = existingRequest.branchName
-      const liveRequest = await findPullRequestByBranch(branchName)
-      if (!liveRequest) {
-        await input.payload.update({
-          collection: 'content-change-requests',
-          id: existingRequest.id,
-          data: { status: 'closed' },
-        })
-      } else {
-        const { commitSha } = await commitFiles({
-          branch: branchName,
-          message: input.commitMessage,
-          changes,
-        })
-
-        await input.payload.update({
-          collection: 'content-change-requests',
-          id: existingRequest.id,
-          data: {
-            pullRequestNumber: liveRequest.number,
-            pullRequestUrl: liveRequest.htmlUrl,
-            status: 'open',
-            commitSha,
-          },
-        })
-
-        return {
-          branchName,
-          pullRequestNumber: liveRequest.number,
-          pullRequestUrl: liveRequest.htmlUrl,
-          commitSha,
-          contentChangeRequestId: existingRequest.id,
-        }
-      }
-    }
-
     const branchName = buildContentBranchName({
       contentType: input.contentType,
       identifier: input.identifier,
+      prefix: config.contentBranchPrefix,
     })
-    const baseBranch = config.prBaseBranch
-
-    const livePullRequests = await findOpenPullRequestsTouchingPath(targetPath)
-    if (livePullRequests.length > 1) {
+    const existing = await input.payload.find({
+      collection: 'content-change-requests',
+      depth: 0,
+      limit: 1,
+      sort: '-updatedAt',
+      where: {
+        targetPath: { equals: targetPath },
+        status: { in: ['open', 'draft'] },
+      },
+    })
+    const cached = existing.docs[0]
+    const open = await listManagedPullRequests()
+    const candidates = open.filter((pr) =>
+      sameContentRecordBranch(pr.branchName, branchName)
+    )
+    if (
+      cached &&
+      !open.some(
+        (pr) =>
+          pr.number === cached.pullRequestNumber &&
+          pr.branchName === cached.branchName
+      )
+    ) {
+      await input.payload.update({
+        collection: 'content-change-requests',
+        where: {
+          id: { equals: cached.id },
+          updatedAt: { equals: cached.updatedAt },
+        },
+        data: { status: 'closed' },
+      })
+    }
+    if (candidates.length > 1) {
       throw new Error(
-        `multiple open pull requests already touch ${targetPath}; merge or close one before saving`
+        `multiple open pull requests for ${targetPath}; merge or close one before saving`
       )
     }
-    const livePullRequest = livePullRequests[0]
-    if (livePullRequest) {
-      const { commitSha } = await commitFiles({
-        branch: livePullRequest.branchName,
-        message: input.commitMessage,
-        changes,
-      })
-
-      const contentChangeRequestId = await recordContentChangeRequest({
-        ...input,
-        branchName: livePullRequest.branchName,
-        commitSha,
-        pullRequestNumber: livePullRequest.number,
-        pullRequestUrl: livePullRequest.htmlUrl,
-        targetPath,
-      })
-
-      return {
-        branchName: livePullRequest.branchName,
-        pullRequestNumber: livePullRequest.number,
-        pullRequestUrl: livePullRequest.htmlUrl,
-        commitSha,
-        contentChangeRequestId,
+    const livePr = candidates[0]
+    if (livePr) {
+      const paths = await verifyContentDiff(livePr)
+      const savedHead =
+        cached?.branchName === livePr.branchName &&
+        cached.pullRequestNumber === livePr.number &&
+        cached.commitSha === livePr.headSha
+      const recordPaths = new Set(changes.map((change) => change.path))
+      if (
+        paths.some(
+          (path) =>
+            !recordPaths.has(path) &&
+            !(savedHead && path.startsWith('apps/web/public/cms/uploads/'))
+        )
+      ) {
+        throw new Error(
+          'This content PR includes changes to a different record'
+        )
       }
     }
-
-    await createBranch({ newBranch: branchName, fromBranch: baseBranch })
-
+    const branch = livePr?.branchName ?? branchName
+    const parent =
+      livePr?.headSha ??
+      (
+        await createBranch({
+          newBranch: branch,
+          fromBranch: config.prBaseBranch,
+        })
+      ).sha
     const { commitSha } = await commitFiles({
-      branch: branchName,
+      branch,
+      expectedHeadSha: parent,
       message: input.commitMessage,
       changes,
     })
@@ -318,16 +291,18 @@ export const createSaveAsPullRequest =
     // `editor.email` and `editor.payloadAuditUrl` plumbing stays in the
     // input type for future internal uses (e.g. notification emails) but
     // never reaches the GitHub PR.
-    const pr = await createOrGetPullRequest({
-      branchName,
-      title: input.prTitle,
-      body: input.prBody ?? '',
-      draft: input.draft ?? true,
-    })
+    const pr =
+      livePr ??
+      (await createOrGetPullRequest({
+        branchName: branch,
+        title: input.prTitle,
+        body: input.prBody ?? '',
+        draft: input.draft ?? true,
+      }))
 
     const contentChangeRequestId = await recordContentChangeRequest({
       ...input,
-      branchName,
+      branchName: branch,
       commitSha,
       pullRequestNumber: pr.number,
       pullRequestUrl: pr.htmlUrl,
@@ -335,7 +310,7 @@ export const createSaveAsPullRequest =
     })
 
     return {
-      branchName,
+      branchName: branch,
       pullRequestNumber: pr.number,
       pullRequestUrl: pr.htmlUrl,
       commitSha,
@@ -349,7 +324,7 @@ export const saveAsPullRequest = createSaveAsPullRequest({
   commitFiles,
   createBranch,
   createOrGetPullRequest,
-  findOpenPullRequestsTouchingPath,
-  findPullRequestByBranch,
+  listManagedPullRequests,
+  verifyContentDiff,
   getGithubConfig,
 })

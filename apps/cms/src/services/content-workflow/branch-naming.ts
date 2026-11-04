@@ -42,6 +42,7 @@ export type BranchNameInput = {
    * page-level records (e.g. "/builders-hub" → "builders-hub").
    */
   identifier: string
+  prefix?: string
   /** Override for tests. Defaults to `new Date()`. */
   now?: Date
 }
@@ -49,6 +50,7 @@ export type BranchNameInput = {
 export const buildContentBranchName = ({
   contentType,
   identifier,
+  prefix = 'content/',
   now,
 }: BranchNameInput): string => {
   const namespace = slugifyForBranch(contentType)
@@ -59,5 +61,14 @@ export const buildContentBranchName = ({
       `branch name requires non-empty contentType and identifier (got contentType="${contentType}", identifier="${identifier}")`
     )
   }
-  return `content/${namespace}-${slug}-${timestamp}`
+  return `${prefix}${namespace}-${slug}-${timestamp}`
 }
+
+const timestampSuffix = /-\d{8}-\d{4}$/
+
+export const sameContentRecordBranch = (
+  candidate: string,
+  branch: string
+): boolean =>
+  timestampSuffix.test(candidate) &&
+  candidate.replace(timestampSuffix, '') === branch.replace(timestampSuffix, '')

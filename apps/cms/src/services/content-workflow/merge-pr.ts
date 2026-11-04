@@ -9,10 +9,13 @@ export interface MergeContentPullRequestDependencies {
 type ChangeRequestDoc = {
   id: string | number
   pullRequestNumber?: number | null
+  branchName?: string
+  commitSha?: string | null
   status?: string | null
 }
 
 export interface MergeContentPullRequestInput {
+  headSha: string
   payload: Payload
   pullRequestNumber: number
 }
@@ -54,23 +57,32 @@ export const createMergeContentPullRequest =
     input: MergeContentPullRequestInput
   ): Promise<MergeContentPullRequestResult> => {
     const changeRequest = await findChangeRequest(input)
+    if (!changeRequest?.branchName || !changeRequest.commitSha) {
+      throw new Error('No matching open CMS change for this PR')
+    }
+    if (changeRequest.commitSha !== input.headSha) {
+      throw new Error(
+        'This PR has changed. Refresh the page and review it again.'
+      )
+    }
     const result = await mergePullRequestToBase({
       pullRequestNumber: input.pullRequestNumber,
+      branchName: changeRequest.branchName,
+      commitSha: changeRequest.commitSha,
     })
 
-    if (changeRequest) {
-      await input.payload.update({
-        collection: 'content-change-requests',
-        id: changeRequest.id,
-        data: {
-          commitSha: result.sha ?? undefined,
-          status: 'merged',
-        },
-      })
-    }
+    if (!result.merged) throw new Error(result.message)
+    await input.payload.update({
+      collection: 'content-change-requests',
+      id: changeRequest.id,
+      data: {
+        commitSha: result.sha ?? undefined,
+        status: 'merged',
+      },
+    })
 
     return {
-      contentChangeRequestId: changeRequest?.id ?? null,
+      contentChangeRequestId: changeRequest.id,
       merged: result.merged,
       message: result.message,
       pullRequestNumber: result.pullRequestNumber,

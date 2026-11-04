@@ -150,9 +150,11 @@ export const commitFiles = async ({
   branch,
   message,
   changes,
+  expectedHeadSha,
 }: {
   branch: string
   message: string
+  expectedHeadSha?: string
   changes: FileChange[]
 }): Promise<{ commitSha: string }> => {
   if (changes.length === 0) {
@@ -162,7 +164,7 @@ export const commitFiles = async ({
   const octokit = getOctokit()
   const { owner, repo } = getGithubConfig()
 
-  const parentSha = await getBranchSha(branch)
+  const parentSha = expectedHeadSha ?? (await getBranchSha(branch))
   const { data: parentCommit } = await octokit.git.getCommit({
     owner,
     repo,

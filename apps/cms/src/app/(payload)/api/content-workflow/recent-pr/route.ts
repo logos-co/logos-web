@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { getPayload } from 'payload'
 
 import {
-  findOpenPullRequestsTouchingPath,
+  listManagedPullRequests,
   loadGithubConfigFromEnv,
   setGithubConfig,
 } from '@repo/content/github'
@@ -16,7 +16,7 @@ import { matchesRecentPullRequestScope } from '@/services/content-workflow/recen
 type PayloadClient = Awaited<ReturnType<typeof getPayload>>
 
 export interface RecentPrRouteDependencies {
-  findOpenPullRequestsTouchingPath: typeof findOpenPullRequestsTouchingPath
+  listManagedPullRequests: typeof listManagedPullRequests
   getPayload: () => Promise<PayloadClient>
   loadGithubConfigFromEnv: typeof loadGithubConfigFromEnv
   setGithubConfig: typeof setGithubConfig
@@ -26,6 +26,7 @@ type ChangeRequestDoc = {
   id: string | number
   contentType?: string | null
   targetPath?: string | null
+  commitSha?: string | null
   branchName?: string | null
   pullRequestNumber?: number | null
   pullRequestUrl?: string | null
@@ -38,7 +39,7 @@ const getErrorMessage = (error: unknown): string =>
 
 export const createRecentPrGetHandler =
   ({
-    findOpenPullRequestsTouchingPath,
+    listManagedPullRequests,
     getPayload,
     loadGithubConfigFromEnv,
     setGithubConfig,
@@ -70,9 +71,7 @@ export const createRecentPrGetHandler =
       slug,
     })
     let result: Awaited<ReturnType<typeof payload.find>>
-    let livePullRequests: Awaited<
-      ReturnType<typeof findOpenPullRequestsTouchingPath>
-    >
+    let livePullRequests: Awaited<ReturnType<typeof listManagedPullRequests>>
     try {
       const lookupResults = await Promise.all([
         payload.find({
@@ -81,16 +80,16 @@ export const createRecentPrGetHandler =
           limit: 100,
           sort: '-updatedAt',
           where: {
+            contentType: { in: [...contentTypes] },
+            ...(targetPath && { targetPath: { equals: targetPath } }),
             status: {
               equals: 'open',
             },
           },
         }),
         (async () => {
-          if (!targetPath) return []
-
           setGithubConfig(loadGithubConfigFromEnv())
-          return findOpenPullRequestsTouchingPath(targetPath)
+          return listManagedPullRequests()
         })(),
       ])
       result = lookupResults[0]
@@ -102,7 +101,8 @@ export const createRecentPrGetHandler =
       )
     }
 
-    const cachedPullRequests = (result.docs as unknown as ChangeRequestDoc[])
+    const live = new Map(livePullRequests.map((pr) => [pr.number, pr]))
+    const pullRequests = (result.docs as unknown as ChangeRequestDoc[])
       .filter((doc) => contentTypes.has(doc.contentType ?? ''))
       .filter((doc) =>
         matchesRecentPullRequestScope(doc, {
@@ -110,51 +110,36 @@ export const createRecentPrGetHandler =
           targetPath,
         })
       )
-      .filter((doc) => doc.pullRequestUrl)
-      .map((doc) => ({
-        id: doc.id,
-        branchName: doc.branchName,
-        contentType: doc.contentType,
-        pullRequestNumber: doc.pullRequestNumber,
-        pullRequestUrl: doc.pullRequestUrl,
-        status: doc.status,
-        targetPath: doc.targetPath,
-        updatedAt: doc.updatedAt,
-      }))
-
-    const liveByNumber = new Map(
-      livePullRequests.map((pr) => [
-        pr.number,
-        {
-          id: `github-${pr.number}`,
-          branchName: pr.branchName,
-          contentType: metadata.contentTypes[0],
-          draft: pr.draft,
-          pullRequestNumber: pr.number,
-          pullRequestUrl: pr.htmlUrl,
-          status: pr.state,
-          targetPath,
-          updatedAt: null,
-        },
-      ])
-    )
-
-    for (const pr of cachedPullRequests) {
-      if (pr.pullRequestNumber) {
-        liveByNumber.delete(pr.pullRequestNumber)
-      }
-    }
-
-    const pullRequests = [
-      ...Array.from(liveByNumber.values()),
-      ...cachedPullRequests,
-    ].slice(0, 3)
+      .flatMap((doc) => {
+        const pr = doc.pullRequestNumber && live.get(doc.pullRequestNumber)
+        if (
+          !pr ||
+          pr.branchName !== doc.branchName ||
+          pr.headSha !== doc.commitSha
+        )
+          return []
+        return [
+          {
+            id: doc.id,
+            branchName: pr.branchName,
+            contentType: doc.contentType,
+            headSha: pr.headSha,
+            pullRequestNumber: pr.number,
+            pullRequestUrl: pr.htmlUrl,
+            draft: pr.draft,
+            status: doc.status,
+            targetPath: doc.targetPath,
+            updatedAt: doc.updatedAt,
+          },
+        ]
+      })
+      .slice(0, 3)
 
     return NextResponse.json({ pullRequests })
   }
 
 export const GET = createRecentPrGetHandler({
-  findOpenPullRequestsTouchingPath,
+  listManagedPullRequests,
   getPayload: async () => {
     const { default: config } = await import('@payload-config')
     return getPayload({ config })

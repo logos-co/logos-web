@@ -53,7 +53,7 @@ const createPayload = (findResults: unknown[][] = [[]]) => {
 const createDependencies = (
   overrides: Partial<SaveAsPullRequestDependencies> = {}
 ): SaveAsPullRequestDependencies => ({
-  buildContentBranchName: () => 'content/page-home-test',
+  buildContentBranchName: () => 'content/page-home-20261104-1111',
   collectReferencedCmsUploadChanges: async ({ changes }) => {
     const { collectReferencedCmsUploadChanges } =
       await import('../media-file-changes')
@@ -79,8 +79,8 @@ const createDependencies = (
     state: 'open',
     title: 'content(page): update home',
   }),
-  findOpenPullRequestsTouchingPath: async () => [],
-  findPullRequestByBranch: async () => null,
+  listManagedPullRequests: async () => [],
+  verifyContentDiff: async () => ['content/pages/en/home.json'],
   getGithubConfig: () => ({
     appId: 'app',
     appPrivateKey: 'private-key',
@@ -133,128 +133,73 @@ describe('createSaveAsPullRequest', () => {
     )
   })
 
-  it('marks stale cached change requests closed before creating a new PR', async () => {
-    const { calls, payload } = createPayload([
-      [
-        {
-          id: 'ccr-stale',
-          branchName: 'content/page-home-stale',
-          pullRequestNumber: 99,
-          pullRequestUrl: 'https://github.com/logos-co/logos-co/pull/99',
-        },
-      ],
-      [],
-    ])
-    const save = createSaveAsPullRequest(createDependencies())
+  const managedPr = {
+    branchName: 'content/page-home-20261101-1111',
+    headSha: 'live-sha',
+    baseSha: 'base-sha',
+    draft: true,
+    htmlUrl: 'https://github.com/logos-co/logos-web/pull/42',
+    nodeId: 'node-42',
+    number: 42,
+  }
 
-    const result = await save(createInput(payload))
-
-    assert.equal(result.pullRequestNumber, 123)
-    assert.deepEqual(calls.update[0], {
-      collection: 'content-change-requests',
-      id: 'ccr-stale',
-      data: { status: 'closed' },
-    })
-    assert.equal(calls.create.length, 1)
-  })
-
-  it('commits to a live cached change request branch', async () => {
-    const { calls, payload } = createPayload([
-      [
-        {
-          id: 'ccr-live',
-          branchName: 'content/page-home-live',
-          pullRequestNumber: 42,
-          pullRequestUrl: 'https://github.com/logos-co/logos-co/pull/42',
-        },
-      ],
+  it('ignores a forged mirror branch and incomplete metadata when choosing the commit target', async () => {
+    const { payload } = createPayload([
+      [{ id: 'old', branchName: 'schema/code' }],
     ])
     const save = createSaveAsPullRequest(
       createDependencies({
-        findPullRequestByBranch: async () => ({
-          baseBranch: 'develop',
-          branchName: 'content/page-home-live',
-          changedFiles: 1,
-          draft: false,
-          htmlUrl: 'https://github.com/logos-co/logos-co/pull/42',
-          merged: false,
-          nodeId: 'node-42',
-          number: 42,
-          state: 'open',
-          title: 'content(page): update home',
-        }),
+        commitFiles: async ({ branch, expectedHeadSha }) => {
+          assert.equal(branch, 'content/page-home-20261104-1111')
+          assert.equal(expectedHeadSha, 'base-sha')
+          return { commitSha: 'new' }
+        },
       })
     )
-
-    const result = await save(createInput(payload))
-
-    assert.equal(result.branchName, 'content/page-home-live')
-    assert.equal(result.contentChangeRequestId, 'ccr-live')
-    assert.equal(calls.update[0]?.data?.status, 'open')
-    assert.equal(calls.create.length, 0)
+    await save(createInput(payload))
   })
 
-  it('reuses a live GitHub PR touching the target path', async () => {
-    const { calls, payload } = createPayload()
-    const save = createSaveAsPullRequest(
-      createDependencies({
-        findOpenPullRequestsTouchingPath: async () => [
-          {
-            baseBranch: 'develop',
-            branchName: 'content/page-home-existing',
-            changedFiles: 1,
-            draft: false,
-            htmlUrl: 'https://github.com/logos-co/logos-co/pull/77',
-            merged: false,
-            nodeId: 'node-77',
-            number: 77,
-            state: 'open',
-            title: 'content(page): update home',
-          },
-        ],
-      })
-    )
-
-    const result = await save(createInput(payload))
-
-    assert.equal(result.branchName, 'content/page-home-existing')
-    assert.equal(result.pullRequestNumber, 77)
-    assert.equal(calls.create[0]?.data?.pullRequestNumber, 77)
-  })
-
-  it('rejects multiple live GitHub PRs touching the target path', async () => {
+  it('recovers a managed PR by record and commits on the verified parent', async () => {
     const { payload } = createPayload()
     const save = createSaveAsPullRequest(
       createDependencies({
-        findOpenPullRequestsTouchingPath: async () => [
-          {
-            baseBranch: 'develop',
-            branchName: 'content/page-home-a',
-            changedFiles: 1,
-            draft: false,
-            htmlUrl: 'https://github.com/logos-co/logos-co/pull/1',
-            merged: false,
-            nodeId: 'node-1',
-            number: 1,
-            state: 'open',
-            title: 'A',
-          },
-          {
-            baseBranch: 'develop',
-            branchName: 'content/page-home-b',
-            changedFiles: 1,
-            draft: false,
-            htmlUrl: 'https://github.com/logos-co/logos-co/pull/2',
-            merged: false,
-            nodeId: 'node-2',
-            number: 2,
-            state: 'open',
-            title: 'B',
-          },
+        listManagedPullRequests: async () => [
+          managedPr,
+          { ...managedPr, branchName: 'content/page-home-other-20261101-1111' },
+        ],
+        createBranch: async () => assert.fail('must reuse branch'),
+        commitFiles: async ({ branch, expectedHeadSha }) => {
+          assert.equal(branch, managedPr.branchName)
+          assert.equal(expectedHeadSha, managedPr.headSha)
+          return { commitSha: 'new' }
+        },
+      })
+    )
+    assert.equal((await save(createInput(payload))).pullRequestNumber, 42)
+  })
+
+  it('rejects a matching branch containing a different record before writing', async () => {
+    const { payload } = createPayload()
+    const save = createSaveAsPullRequest(
+      createDependencies({
+        listManagedPullRequests: async () => [managedPr],
+        verifyContentDiff: async () => ['content/pages/en/other.json'],
+        commitFiles: async () => assert.fail('must not write'),
+      })
+    )
+    await assert.rejects(save(createInput(payload)), /different record/)
+  })
+
+  it('rejects multiple managed PRs for the same record', async () => {
+    const { payload } = createPayload()
+    const save = createSaveAsPullRequest(
+      createDependencies({
+        listManagedPullRequests: async () => [
+          managedPr,
+          { ...managedPr, number: 43 },
         ],
       })
     )
-
     await assert.rejects(
       save(createInput(payload)),
       /multiple open pull requests/

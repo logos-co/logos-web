@@ -36,11 +36,14 @@ const createDependencies = (
 
 describe('createMergeContentPullRequest', () => {
   it('marks the matching open content change request as merged', async () => {
-    const { payload, updates } = createPayload([{ id: 'ccr-1' }])
+    const { payload, updates } = createPayload([
+      { id: 'ccr-1', branchName: 'content/home', commitSha: 'saved-sha' },
+    ])
     const merge = createMergeContentPullRequest(createDependencies())
 
     const result = await merge({
       payload: payload as never,
+      headSha: 'saved-sha',
       pullRequestNumber: 123,
     })
 
@@ -55,21 +58,47 @@ describe('createMergeContentPullRequest', () => {
     })
   })
 
-  it('returns a null content change request id when Payload has no row', async () => {
+  it('rejects an untracked PR before calling GitHub', async () => {
     const { payload, updates } = createPayload()
-    const merge = createMergeContentPullRequest(createDependencies())
-
-    const result = await merge({
-      payload: payload as never,
-      pullRequestNumber: 123,
-    })
-
-    assert.equal(result.contentChangeRequestId, null)
+    const merge = createMergeContentPullRequest(
+      createDependencies({
+        mergePullRequestToBase: async () => assert.fail('must not merge'),
+      })
+    )
+    await assert.rejects(
+      merge({
+        payload: payload as never,
+        headSha: 'saved-sha',
+        pullRequestNumber: 123,
+      }),
+      /No matching open CMS change/
+    )
     assert.equal(updates.length, 0)
   })
 
+  it('requires the head shown to the editor even if the mirror has since advanced', async () => {
+    const { payload } = createPayload([
+      { id: 'ccr-1', branchName: 'content/home', commitSha: 'new-head' },
+    ])
+    const merge = createMergeContentPullRequest(
+      createDependencies({
+        mergePullRequestToBase: async () => assert.fail('must not merge'),
+      })
+    )
+    await assert.rejects(
+      merge({
+        payload: payload as never,
+        pullRequestNumber: 123,
+        headSha: 'old-head',
+      }),
+      /Refresh/
+    )
+  })
+
   it('does not mutate Payload when GitHub merge fails', async () => {
-    const { payload, updates } = createPayload([{ id: 'ccr-1' }])
+    const { payload, updates } = createPayload([
+      { id: 'ccr-1', branchName: 'content/home', commitSha: 'saved-sha' },
+    ])
     const merge = createMergeContentPullRequest(
       createDependencies({
         mergePullRequestToBase: async () => {
@@ -81,6 +110,7 @@ describe('createMergeContentPullRequest', () => {
     await assert.rejects(
       merge({
         payload: payload as never,
+        headSha: 'saved-sha',
         pullRequestNumber: 123,
       }),
       /merge failed/
