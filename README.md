@@ -18,6 +18,7 @@ This monorepo holds the public Logos website (logos.co), the Payload CMS that ed
 | `packages/tokens`          | `@acid-info/logos-tokens` | Design tokens as CSS                                               |      |
 | `packages/types`           | `@repo/types`             | Shared types, including the Payload-generated ones                 |      |
 | `packages/config`          | `@repo/config`            | ESLint, TypeScript and Prettier presets                            |      |
+| `e2e`                      | `e2e`                     | Playwright tests for the web site, local or deployed               |      |
 
 Page copy and structured data (pages, press, circles, builders-hub, zines, site) live in `content/**`, and that folder is what production builds from. Apps are thin entrypoints; shared logic goes in a package.
 
@@ -42,6 +43,7 @@ pnpm lint            # eslint --max-warnings 0
 pnpm check-types     # tsc --noEmit everywhere
 pnpm generate-types  # regenerate packages/types/src/payload.ts from the CMS config
 pnpm test:release    # the full release gate
+pnpm test:e2e        # Playwright against LOGOS_WEB_URL (default localhost:3000), see e2e/README.md
 ```
 
 `test:release` is what CI runs on every pull request: repo health checks, lint, types, tests, content validation, a clean web build, the full build, then static export and performance checks. Run it before you call release work done.

@@ -53,3 +53,5 @@ Runs locally or in Docker with [apps/logos-crm/compose.yaml](../apps/logos-crm/c
 ## CI
 
 [.github/workflows/test.yml](../.github/workflows/test.yml) runs `pnpm test:release` on every pull request and on pushes to `develop` and `master`. It starts a Postgres 17 service and passes in `STRAPI_API_KEY` and `SIMPLECAST_ACCESS_TOKEN`, which the web build needs, plus `GITHUB_TOKEN` so the RFP fetch at build time isn't rate limited to 60 requests an hour.
+
+[.github/workflows/e2e-daily.yml](../.github/workflows/e2e-daily.yml) runs the Playwright suite in [`e2e/`](../e2e/README.md) every day against dev.logos.co and logos.co. A failed run opens or comments on the issue labelled `e2e-daily`; the next green run closes it. It reads the optional `E2E_BYPASS_TOKEN` secret.
