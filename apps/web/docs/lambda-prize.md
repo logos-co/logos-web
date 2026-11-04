@@ -22,9 +22,9 @@ The [desktop Figma v3 frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs
 
 The [mobile frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3329-17246) is 393px wide and defines the mobile layout. Below 768px, the two monetary statistics precede the open and awarded counts, steps become vertical, and prize cards stack. Listing CTAs move below their cards, completed solutions show a full-width title with their repository link above it, and resources become compact horizontal rows. Intermediate widths use two-column prize cards and three-column steps where appropriate. Mobile CTA dimensions follow the Figma frame; tablet CTAs have at least 44px targets. The shared site header uses its default dark text on the light hero.
 
-Copy and punctuation follow the desktop Figma text layers. Both layouts use the title "Already rewarded."; the eyebrow and navigation label remain "Already shipped". The resource callout retains Figma's "RFP Program" spelling. The next-round callout has been removed from both layouts and the content schema following the legal review. Existing CMS drafts should be refreshed from the fixture before editing.
+Copy and punctuation follow the desktop Figma text layers. Both layouts use the title "Already rewarded."; the eyebrow and navigation label remain "Already shipped". The resource callout retains Figma's "RFP Program" spelling. The next-round callout has been removed from both layouts and the content schema. Existing CMS drafts should be refreshed from the fixture before editing.
 
-The page uses the site's licensed Rhymes Display, Public Sans and Fira Code. Figma uses a trial Rhymes font; the licensed font has minor contour differences, as documented in the prior programme implementation.
+Display and body text use the site's font variables. Monospace text uses Fira Code, loaded as `programmeMono` from the [developer programmes fonts file](../app/[locale]/developer-programmes/fonts.ts), which the page shares with `/developer-programmes`. [fonts.md](fonts.md) covers the site's fonts.
 
 ## Images
 

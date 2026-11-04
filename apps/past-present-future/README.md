@@ -22,7 +22,7 @@ In a full web build, Turbo builds this app first because `apps/web` lists it as 
 
 ## Nedu
 
-The Nedu card on [`/choices`](src/routes/choices/+page.svelte) opens [`/choices/nedu`](src/routes/choices/nedu/+page.svelte), an interactive film with five decisions. Its components and story data live in [`src/lib/choices/nedu/`](src/lib/choices/nedu/), with MP4 and WebM clips in [`static/choices/nedu/videos/`](static/choices/nedu/videos/).
+The Nedu card on [`/choices`](src/routes/choices/+page.svelte) opens [`/choices/nedu`](src/routes/choices/nedu/+page.svelte), an interactive film with five decisions. Its components and story data live in [`src/lib/choices/nedu/`](src/lib/choices/nedu/), with MP4 and WebM clips in [`static/choices/nedu/videos/`](static/choices/nedu/videos/). The card portrait is [`static/choices/faces/nedu.webp`](static/choices/faces/nedu.webp).
 
 At mobile widths, the Nedu card opens directly with Enter; touch users tap the card, then its action. Nedu's mute control covers both film audio and sound effects. During playback, the hidden desktop navigation is excluded from keyboard focus and restored when leaving Nedu.
 
