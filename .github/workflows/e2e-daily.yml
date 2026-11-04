@@ -21,7 +21,9 @@ jobs:
   e2e:
     name: logos.co (${{ matrix.environment }})
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # A full run takes about 4 minutes; the headroom covers retries and the
+    # sitemap test's own 10-minute limit.
+    timeout-minutes: 45
 
     strategy:
       fail-fast: false
@@ -87,7 +89,9 @@ jobs:
             const label = 'e2e-daily'
             const { owner, repo } = context.repo
             const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`
-            if (process.env.RESULT === 'cancelled') return
+            // A job that hits timeout-minutes also ends as `cancelled`, so only
+            // a run someone cancelled by hand is left out of the report.
+            if (process.env.RESULT === 'cancelled' && context.eventName !== 'schedule') return
             const failed = process.env.RESULT !== 'success'
 
             const { data: jobs } = await github.rest.actions.listJobsForWorkflowRun({
