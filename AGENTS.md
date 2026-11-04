@@ -79,7 +79,7 @@ Do not add UI contract tests for Tailwind classes, Figma measurements, spacing, 
 - [docs/components.md](docs/components.md): components
 - [docs/funnel/README.md](docs/funnel/README.md): funnel end to end
 - [docs/media-migration.md](docs/media-migration.md): blog redirects
-- App rules: [apps/web](apps/web/AGENTS.md), [apps/cms](apps/cms/AGENTS.md), [apps/logos-demos](apps/logos-demos/AGENTS.md)
+- App rules: [e2e](e2e/AGENTS.md), [apps/web](apps/web/AGENTS.md), [apps/cms](apps/cms/AGENTS.md), [apps/logos-demos](apps/logos-demos/AGENTS.md)
 
 ## Don't
 
