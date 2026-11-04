@@ -9,7 +9,10 @@ const BLOCKED_REQUESTS = [/umami\.bi\.status\.im/]
  * Console errors that do not fail a test. Keep each entry commented; a known
  * site bug comes out of the list once it is fixed.
  */
-const IGNORED_CONSOLE_ERRORS : RegExp[] = []
+const IGNORED_CONSOLE_ERRORS = [
+  // hCaptcha warns when the page is served from localhost (local runs only).
+  /localhost detected\. Please use a valid host/,
+]
 
 export const LOGOS_WEB_RULES: SiteRules = {
   blockedRequests: BLOCKED_REQUESTS,
@@ -61,6 +64,13 @@ export const PAST_PRESENT_FUTURE_ROUTES = [
   '/past-present-future',
   '/past-present-future/choices',
   '/past-present-future/museum-of-civil-liberties',
+] as const
+
+/** Pages that carry the intake form (`connect-form-section.tsx`). */
+export const CONNECT_FORM_ROUTES = [
+  '/activist-builder',
+  '/activist-leader-steward',
+  '/coalition-partner',
 ] as const
 
 /**
