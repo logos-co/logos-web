@@ -17,6 +17,8 @@ pnpm dev:cms                             # http://localhost:3001/admin
 
 `DATABASE_URL` is the only variable you need to boot locally. `PAYLOAD_SECRET` is required in production and falls back to an insecure placeholder in dev. Everything else, including the GitHub App credentials behind "Create PR", is in [docs/environment.md](docs/environment.md).
 
+Set `CMS_TEST_DATABASE_URL` to a test PostgreSQL database when running `pnpm --filter cms test` to include the concurrent PR save test. The test creates and drops its own schema. CI supplies this database.
+
 ## Deploy
 
 Production runs as a self-hosted Docker image that applies the reviewed SQL migrations before `next start`. See [docs/deployment.md](docs/deployment.md).

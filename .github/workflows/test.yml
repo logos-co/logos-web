@@ -27,6 +27,7 @@ jobs:
           - 5432:5432
     env:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/logos_test
+      CMS_TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/logos_test
       # Authenticates build-time GitHub API calls (RFP markdown is fetched from
       # logos-co/rfp during `next build`). Unauthenticated requests share a
       # 60 req/hr-per-IP limit across runners and intermittently 403, which fails
