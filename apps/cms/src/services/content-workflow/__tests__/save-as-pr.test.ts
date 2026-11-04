@@ -3,6 +3,7 @@ import { mkdir, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { afterEach, describe, it } from 'node:test'
 
+import { buildContentBranchName } from '../branch-naming'
 import {
   createSaveAsPullRequest,
   type SaveAsPullRequestDependencies,
@@ -53,6 +54,7 @@ const createPayload = (findResults: unknown[][] = [[]]) => {
 const createDependencies = (
   overrides: Partial<SaveAsPullRequestDependencies> = {}
 ): SaveAsPullRequestDependencies => ({
+  recordContentChangeRequest: async () => 1,
   buildContentBranchName: () => 'content/page-home-20261104-1111',
   collectReferencedCmsUploadChanges: async ({ changes }) => {
     const { collectReferencedCmsUploadChanges } =
@@ -205,6 +207,40 @@ describe('createSaveAsPullRequest', () => {
       /multiple open pull requests/
     )
   })
+
+  for (const [contentType, targetPath] of [
+    ['builder-resource', 'content/builders-hub/resources/en.json'],
+    ['circle-resource', 'content/circles/resources/en.json'],
+  ] as const) {
+    it(`reuses the same file PR for different ${contentType} slugs, including pre-existing branches`, async () => {
+      const { payload } = createPayload()
+      const first = {
+        ...managedPr,
+        branchName: `content/${contentType}-first-20261101-1111`,
+      }
+      const save = createSaveAsPullRequest(
+        createDependencies({
+          buildContentBranchName,
+          listManagedPullRequests: async () => [first],
+          verifyContentDiff: async () => [targetPath],
+          createBranch: async () =>
+            assert.fail('must reuse the first resource PR'),
+          commitFiles: async ({ branch, expectedHeadSha }) => {
+            assert.equal(branch, first.branchName)
+            assert.equal(expectedHeadSha, first.headSha)
+            return { commitSha: 'second' }
+          },
+        })
+      )
+      const result = await save({
+        ...createInput(payload),
+        contentType,
+        identifier: 'second',
+        changes: [{ path: targetPath, content: '{}' }],
+      })
+      assert.equal(result.pullRequestNumber, first.number)
+    })
+  }
 
   it('includes referenced CMS uploads in the GitHub commit', async () => {
     await mkdir(join(publicRoot, 'cms/uploads'), { recursive: true })

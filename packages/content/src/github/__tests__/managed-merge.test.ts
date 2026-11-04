@@ -99,6 +99,17 @@ describe('CMS merge boundary', () => {
     assert.deepEqual(writes, ['ready', 'merge'])
   })
 
+  it('merges an HEIC photo accepted by CMS image uploads', async () => {
+    const writes = mockGithub({
+      files: [
+        { filename: record },
+        { filename: 'apps/web/public/cms/uploads/photo.heic' },
+      ],
+    })
+    assert.equal((await mergePullRequestToBase(input)).merged, true)
+    assert.deepEqual(writes, ['ready', 'merge'])
+  })
+
   for (const [label, changes] of Object.entries({
     fork: { head: { ...head, repo: { full_name: 'outsider/web' } } },
     branch: { head: { ...head, ref: 'schema/work' } },

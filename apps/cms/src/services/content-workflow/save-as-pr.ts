@@ -15,7 +15,10 @@ import {
 } from './branch-naming'
 import { collectReferencedCmsUploadChanges } from './media-file-changes'
 
+import { recordContentChangeRequest } from './record-content-change'
+
 export interface SaveAsPullRequestDependencies {
+  recordContentChangeRequest: typeof recordContentChangeRequest
   buildContentBranchName: typeof buildContentBranchName
   collectReferencedCmsUploadChanges: typeof collectReferencedCmsUploadChanges
   commitFiles: typeof commitFiles
@@ -128,52 +131,16 @@ export type SaveAsPullRequestResult = {
   contentChangeRequestId: string | number
 }
 
-const recordContentChangeRequest = async (
-  input: SaveAsPullRequestInput & {
-    branchName: string
-    commitSha: string
-    pullRequestNumber: number
-    pullRequestUrl: string
-    targetPath: string
-  }
-): Promise<string | number> => {
-  const existing = await input.payload.find({
-    collection: 'content-change-requests',
-    where: {
-      branchName: { equals: input.branchName },
-    },
-    sort: '-updatedAt',
-    limit: 1,
-  })
-
-  const existingRequest = existing.docs[0]
-  const data = {
-    contentType: input.contentType,
-    targetPath: input.targetPath,
-    branchName: input.branchName,
-    pullRequestNumber: input.pullRequestNumber,
-    pullRequestUrl: input.pullRequestUrl,
-    status: 'open',
-    commitSha: input.commitSha,
-    ...(input.editor?.payloadUserId !== undefined && {
-      createdBy: input.editor.payloadUserId,
-    }),
-  }
-
-  if (existingRequest) {
-    await input.payload.update({
-      collection: 'content-change-requests',
-      id: existingRequest.id,
-      data,
-    })
-    return existingRequest.id
-  }
-
-  const created = await input.payload.create({
-    collection: 'content-change-requests',
-    data,
-  })
-  return created.id
+const defaults = {
+  buildContentBranchName,
+  recordContentChangeRequest,
+  collectReferencedCmsUploadChanges,
+  commitFiles,
+  createBranch,
+  createOrGetPullRequest,
+  listManagedPullRequests,
+  verifyContentDiff,
+  getGithubConfig,
 }
 
 /**
@@ -186,17 +153,20 @@ const recordContentChangeRequest = async (
  *   5. Upsert the `ContentChangeRequest` row that mirrors the PR state.
  */
 export const createSaveAsPullRequest =
-  ({
-    buildContentBranchName,
-    collectReferencedCmsUploadChanges,
-    commitFiles,
-    createBranch,
-    createOrGetPullRequest,
-    listManagedPullRequests,
-    verifyContentDiff,
-    getGithubConfig,
-  }: SaveAsPullRequestDependencies) =>
+  (overrides: Partial<SaveAsPullRequestDependencies> = {}) =>
   async (input: SaveAsPullRequestInput): Promise<SaveAsPullRequestResult> => {
+    const {
+      buildContentBranchName,
+      recordContentChangeRequest,
+      collectReferencedCmsUploadChanges,
+      commitFiles,
+      createBranch,
+      createOrGetPullRequest,
+      listManagedPullRequests,
+      verifyContentDiff,
+      getGithubConfig,
+    } = { ...defaults, ...overrides }
+
     if (input.changes.length === 0) {
       throw new Error('saveAsPullRequest requires at least one file change')
     }
@@ -207,9 +177,12 @@ export const createSaveAsPullRequest =
       changes: input.changes,
     })
     const changes = [...input.changes, ...mediaChanges]
+    const sharedResources =
+      input.contentType === 'builder-resource' ||
+      input.contentType === 'circle-resource'
     const branchName = buildContentBranchName({
       contentType: input.contentType,
-      identifier: input.identifier,
+      identifier: sharedResources ? 'resources' : input.identifier,
       prefix: config.contentBranchPrefix,
     })
     const existing = await input.payload.find({
@@ -224,8 +197,14 @@ export const createSaveAsPullRequest =
     })
     const cached = existing.docs[0]
     const open = await listManagedPullRequests()
-    const candidates = open.filter((pr) =>
-      sameContentRecordBranch(pr.branchName, branchName)
+    const candidates = open.filter(
+      (pr) =>
+        sameContentRecordBranch(pr.branchName, branchName) ||
+        (sharedResources &&
+          pr.branchName.startsWith(
+            `${config.contentBranchPrefix}${input.contentType}-`
+          ) &&
+          /-\d{8}-\d{4}$/.test(pr.branchName))
     )
     if (
       cached &&
@@ -256,6 +235,16 @@ export const createSaveAsPullRequest =
         cached?.branchName === livePr.branchName &&
         cached.pullRequestNumber === livePr.number &&
         cached.commitSha === livePr.headSha
+      if (
+        sharedResources &&
+        !sameContentRecordBranch(livePr.branchName, branchName) &&
+        !paths.includes(targetPath) &&
+        !savedHead
+      ) {
+        throw new Error(
+          'The existing resource PR does not match this content file'
+        )
+      }
       const recordPaths = new Set(changes.map((change) => change.path))
       if (
         paths.some(
@@ -302,6 +291,7 @@ export const createSaveAsPullRequest =
 
     const contentChangeRequestId = await recordContentChangeRequest({
       ...input,
+      parentSha: parent,
       branchName: branch,
       commitSha,
       pullRequestNumber: pr.number,
@@ -318,13 +308,4 @@ export const createSaveAsPullRequest =
     }
   }
 
-export const saveAsPullRequest = createSaveAsPullRequest({
-  buildContentBranchName,
-  collectReferencedCmsUploadChanges,
-  commitFiles,
-  createBranch,
-  createOrGetPullRequest,
-  listManagedPullRequests,
-  verifyContentDiff,
-  getGithubConfig,
-})
+export const saveAsPullRequest = createSaveAsPullRequest()

@@ -1,3 +1,5 @@
+import { lookup } from 'mrmime'
+
 import { getOctokit } from './client'
 import { getGithubConfig } from './config'
 
@@ -71,11 +73,13 @@ export const getManagedPullRequest = async (number: number) => {
   return pr
 }
 
-const isContentPath = (path: string) =>
-  (path.startsWith('content/') && path.endsWith('.json')) ||
-  /^apps\/web\/public\/cms\/uploads\/[^/]+\.(?:avif|bmp|gif|ico|jpe?g|png|svg|tiff?|webp)$/i.test(
-    path
-  )
+const isContentPath = (path: string) => {
+  if (path.startsWith('content/') && path.endsWith('.json')) return true
+  const upload =
+    /^apps\/web\/public\/cms\/uploads\/[^/]+\.([a-zA-Z0-9]+)$/.exec(path)
+  const mime = upload && lookup(upload[1]!)
+  return typeof mime === 'string' && mime.startsWith('image/')
+}
 
 export const verifyContentDiff = async (pr: {
   baseSha: string

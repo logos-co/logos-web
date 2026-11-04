@@ -1,17 +1,13 @@
 import type { Payload } from 'payload'
 
-import { mergePullRequestToBase } from '@repo/content/github'
+import {
+  getManagedPullRequest,
+  mergePullRequestToBase,
+} from '@repo/content/github'
 
 export interface MergeContentPullRequestDependencies {
+  getManagedPullRequest: typeof getManagedPullRequest
   mergePullRequestToBase: typeof mergePullRequestToBase
-}
-
-type ChangeRequestDoc = {
-  id: string | number
-  pullRequestNumber?: number | null
-  branchName?: string
-  commitSha?: string | null
-  status?: string | null
 }
 
 export interface MergeContentPullRequestInput {
@@ -29,48 +25,41 @@ export interface MergeContentPullRequestResult {
   sha: string | null
 }
 
-const findChangeRequest = async ({
-  payload,
-  pullRequestNumber,
-}: MergeContentPullRequestInput): Promise<ChangeRequestDoc | null> => {
-  const result = await payload.find({
-    collection: 'content-change-requests',
-    depth: 0,
-    limit: 1,
-    where: {
-      pullRequestNumber: {
-        equals: pullRequestNumber,
-      },
-      status: {
-        equals: 'open',
-      },
-    },
-  })
-
-  const doc = result.docs[0] as unknown as ChangeRequestDoc | undefined
-  return doc ?? null
-}
-
 export const createMergeContentPullRequest =
-  ({ mergePullRequestToBase }: MergeContentPullRequestDependencies) =>
+  ({
+    getManagedPullRequest,
+    mergePullRequestToBase,
+  }: MergeContentPullRequestDependencies) =>
   async (
     input: MergeContentPullRequestInput
   ): Promise<MergeContentPullRequestResult> => {
-    const changeRequest = await findChangeRequest(input)
-    if (!changeRequest?.branchName || !changeRequest.commitSha) {
-      throw new Error('No matching open CMS change for this PR')
-    }
-    if (changeRequest.commitSha !== input.headSha) {
+    const pr = await getManagedPullRequest(input.pullRequestNumber)
+    if (pr.headSha !== input.headSha)
       throw new Error(
         'This PR has changed. Refresh the page and review it again.'
       )
-    }
-    const result = await mergePullRequestToBase({
-      pullRequestNumber: input.pullRequestNumber,
-      branchName: changeRequest.branchName,
-      commitSha: changeRequest.commitSha,
+    const {
+      docs: [changeRequest],
+    } = await input.payload.find({
+      collection: 'content-change-requests',
+      depth: 0,
+      limit: 1,
+      where: {
+        pullRequestNumber: { equals: pr.number },
+        branchName: { equals: pr.branchName },
+        commitSha: { equals: input.headSha },
+        status: { equals: 'open' },
+      },
     })
-
+    if (!changeRequest)
+      throw new Error(
+        'No matching open CMS change for this PR. Refresh the page and review it again.'
+      )
+    const result = await mergePullRequestToBase({
+      pullRequestNumber: pr.number,
+      branchName: pr.branchName,
+      commitSha: input.headSha,
+    })
     if (!result.merged) throw new Error(result.message)
     await input.payload.update({
       collection: 'content-change-requests',
@@ -92,5 +81,6 @@ export const createMergeContentPullRequest =
   }
 
 export const mergeContentPullRequest = createMergeContentPullRequest({
+  getManagedPullRequest,
   mergePullRequestToBase,
 })
