@@ -62,14 +62,28 @@ async function resourceGitFixture(
   const both = new Promise<void>((resolve) => {
     release = resolve
   })
-  let failure: 'lookup' | 'second commit' | 'mirror' | undefined
+  type Failure =
+    | 'lookup'
+    | 'second commit'
+    | 'mirror'
+    | 'applied without acknowledgement'
+    | 'not applied without acknowledgement'
+  let failure: Failure | undefined
   const save = createSaveAsPullRequest({
     recordContentChangeRequest: async (input) => {
       if (failure === 'mirror') {
         failure = undefined
         throw new Error('Mirror reconciliation failed')
       }
-      return recordContentChangeRequest(input)
+      return recordContentChangeRequest(input, async () => ({
+        number: 1,
+        branchName: branch,
+        baseSha: base,
+        headSha: git('rev-parse', branch),
+        draft: true,
+        nodeId: 'pr',
+        htmlUrl: 'local',
+      }))
     },
     getGithubConfig: () =>
       ({
@@ -126,6 +140,10 @@ async function resourceGitFixture(
         failure = undefined
         throw new Error('GitHub rejected the branch update')
       }
+      if (failure === 'not applied without acknowledgement') {
+        failure = undefined
+        throw new Error('GitHub head unavailable')
+      }
       assert.equal(git('rev-parse', branch), expectedHeadSha)
       for (const change of changes) {
         assert.ok('content' in change)
@@ -133,12 +151,16 @@ async function resourceGitFixture(
       }
       git('add', '.')
       git('commit', '-qm', 'edit resource')
+      if (failure === 'applied without acknowledgement') {
+        failure = undefined
+        throw new Error('GitHub head unavailable')
+      }
       return { commitSha: git('rev-parse', branch) }
     },
   })
   return {
     save,
-    failOnce: (at: 'lookup' | 'second commit' | 'mirror') => {
+    failOnce: (at: Failure) => {
       failure = at
     },
     head: () => git('rev-parse', branch),
@@ -228,6 +250,122 @@ for (const [type, collection, config, path] of [
       assert.equal(git.prCount(), 1)
     }
   )
+  it(
+    `reserves both names and deletes the accepted ${type} slug after a single edit rolls back`,
+    { skip: !process.env.CMS_TEST_DATABASE_URL, timeout: 30000 },
+    async (t) => {
+      const git = await resourceGitFixture(t, path, false)
+      const { payload, docs, request } = await setup(t, git)
+      const id = docs[0]!.id
+      await payload.update({ ...request, id, data: { title: 'Seed PR' } })
+      git.failOnce('applied without acknowledgement')
+      await assert.rejects(
+        payload.update({ ...request, id, data: { slug: 'renamed' } })
+      )
+      assert.equal((await payload.findByID({ collection, id })).slug, 'a')
+      await assert.rejects(
+        payload.update({
+          ...request,
+          id: docs[1]!.id,
+          data: { slug: 'renamed' },
+        }),
+        { status: 409 }
+      )
+      assert.equal(
+        (await payload.findByID({ collection, id: docs[1]!.id })).slug,
+        'b'
+      )
+      await payload.delete({ ...request, id })
+      assert.deepEqual(
+        git.items().map((item) => item.slug),
+        ['b', 'untouched']
+      )
+      assert.equal(
+        (await payload.find({ collection: 'resource-renames' })).totalDocs,
+        0
+      )
+    }
+  )
+
+  for (const fault of [
+    'applied without acknowledgement',
+    'not applied without acknowledgement',
+    'mirror SQL timeout',
+  ] as const) {
+    it(
+      `recovers ${type} on a title-only edit after ${fault}`,
+      { skip: !process.env.CMS_TEST_DATABASE_URL, timeout: 30000 },
+      async (t) => {
+        const git = await resourceGitFixture(t, path, false)
+        const { payload, docs, request } = await setup(t, git)
+        const id = docs[0]!.id
+        const args = { ...request, where: { id: { equals: id } } }
+        const seed = await payload.update({
+          ...args,
+          data: { title: 'Before rename' },
+        })
+        assert.deepEqual(seed.errors, [])
+        const locker = await payload.db.pool.connect()
+        try {
+          if (fault === 'mirror SQL timeout') {
+            await locker.query('BEGIN')
+            await locker.query(
+              `SELECT id FROM "${payload.db.schemaName}".content_change_requests FOR UPDATE`
+            )
+          } else git.failOnce(fault)
+          const failed = await payload.update({
+            ...args,
+            data: { slug: 'renamed', description: 'Changed with rename' },
+          })
+          assert.equal(failed.errors[0]?.id, id)
+          if (fault === 'mirror SQL timeout')
+            assert.match(failed.errors[0]!.message, /could not record its head/)
+        } finally {
+          if (fault === 'mirror SQL timeout') await locker.query('ROLLBACK')
+          locker.release()
+        }
+        const slug =
+          fault === 'not applied without acknowledgement' ? 'a' : 'renamed'
+        const description = slug === 'a' ? 'a' : 'Changed with rename'
+        assert.equal(
+          (await payload.find({ collection: 'resource-renames' })).totalDocs,
+          1
+        )
+        if (fault === 'mirror SQL timeout')
+          assert.equal(
+            (await payload.findByID({ collection, id })).slug,
+            'renamed'
+          )
+        const next = await payload.update({
+          ...args,
+          data: { title: 'Follow-up' },
+        })
+        assert.deepEqual(next.errors, [])
+        assert.equal(next.docs[0]?.slug, slug)
+        const cms = await payload.findByID({ collection, id })
+        assert.equal(cms.slug, slug)
+        assert.equal(cms.description, description)
+        assert.equal(cms.title, 'Follow-up')
+        assert.deepEqual(
+          git.items().map((item) => item.slug),
+          [slug, 'b', 'untouched'].sort()
+        )
+        const saved = git.items().find((item) => item.slug === slug)
+        assert.equal(saved?.description, description)
+        assert.equal(saved?.title, cms.title)
+        assert.equal(
+          (await payload.find({ collection: 'resource-renames' })).totalDocs,
+          0
+        )
+        assert.equal(git.prCount(), 1)
+        assert.equal(
+          (await payload.find({ collection: 'content-change-requests' }))
+            .docs[0]?.commitSha,
+          git.head()
+        )
+      }
+    )
+  }
   for (const scenario of [
     'partial failure',
     'second commit failed',

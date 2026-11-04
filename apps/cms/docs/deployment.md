@@ -49,6 +49,8 @@ Next.js inlines the `NEXT_PUBLIC_*` values into the client bundle, so pass the r
 
 ## Database migrations
 
+Apply the `20261104_085127_resource_renames` migration before starting the resource rename recovery code. Budget one additional PostgreSQL connection per CMS instance for recovery and resource PR records. It closes after ten seconds idle.
+
 Production schema comes from the reviewed SQL migrations in [`src/migrations/`](../src/migrations/). Payload never pushes the schema when `NODE_ENV=production`, whatever `PAYLOAD_DB_PUSH` says.
 
 In Docker the [entrypoint](../docker-entrypoint.sh) runs `payload migrate` before `next start`. Payload records applied migrations in the `payload-migrations` table and skips them, so a fresh database is set up on first boot and a restart does nothing.

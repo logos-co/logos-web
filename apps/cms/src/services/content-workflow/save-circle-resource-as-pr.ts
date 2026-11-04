@@ -1,6 +1,6 @@
 import { resourceSaver, type ResourceDoc } from './resource-list'
 
-export type CircleResourceDocLike = ResourceDoc
+export type CircleResourceDocLike = ResourceDoc & { id: string | number }
 export const saveCircleResourceAsPullRequest = resourceSaver(
   'circle-resource',
   'upsert'

@@ -11,6 +11,7 @@ import {
   getFileBlobShas,
   getGithubConfig,
 } from '@repo/content/github'
+import type { BuilderResourceLocale } from '@repo/content/schemas'
 import type { Payload, PayloadRequest } from 'payload'
 
 import { buildContentBranchName, contentBranchStem } from './branch-naming'
@@ -103,7 +104,17 @@ export type SaveAsPullRequestInput = (
   | { changes: FileChange[]; resourceList?: never }
   | {
       changes?: never
-      resourceList: { path: string; apply: (parent: unknown) => FileChange }
+      resourceList: {
+        path: string
+        prepare: (
+          parent: unknown,
+          req: PayloadRequest
+        ) => Promise<{
+          change: FileChange
+          resource: BuilderResourceLocale
+          clearRename: () => Promise<void>
+        }>
+      }
     }
 ) & {
   req?: PayloadRequest
@@ -137,6 +148,7 @@ export type SaveAsPullRequestResult = {
   pullRequestUrl: string
   commitSha: string
   contentChangeRequestId: string | number
+  resource?: BuilderResourceLocale
 }
 
 const defaults = {
@@ -194,7 +206,7 @@ export const createSaveAsPullRequest =
       prefix: config.contentBranchPrefix,
     }
     const branchName = buildContentBranchName(branchInput)
-    const persist = async (req?: PayloadRequest) => {
+    const persist = async (req: PayloadRequest) => {
       const existing = await input.payload.find({
         collection: 'content-change-requests',
         req,
@@ -238,13 +250,13 @@ export const createSaveAsPullRequest =
       const branch = livePr?.branchName ?? branchName
       const parent =
         livePr?.headSha ?? (await getBranchSha(config.prBaseBranch))
-      const contentChanges = input.resourceList
-        ? [
-            input.resourceList.apply(
-              await dependencies.readContentJson(targetPath, parent)
-            ),
-          ]
-        : input.changes
+      const prepared = input.resourceList
+        ? await input.resourceList.prepare(
+            await dependencies.readContentJson(targetPath, parent),
+            req
+          )
+        : undefined
+      const contentChanges = prepared ? [prepared.change] : input.changes!
       const mediaChanges = await collectReferencedCmsUploadChanges({
         changes: contentChanges,
       })
@@ -298,6 +310,7 @@ export const createSaveAsPullRequest =
       const contentChangeRequestId = await recordContentChangeRequest({
         ...input,
         req,
+        independent: Boolean(input.resourceList),
         parentSha: parent,
         branchName: branch,
         commitSha,
@@ -312,12 +325,14 @@ export const createSaveAsPullRequest =
         )
       })
 
+      await prepared?.clearRename()
       return {
         branchName: branch,
         pullRequestNumber: pr.number,
         pullRequestUrl: pr.htmlUrl,
         commitSha,
         contentChangeRequestId,
+        ...(prepared && { resource: prepared.resource }),
       }
     }
     return dependencies.withContentPathLock(

@@ -277,7 +277,24 @@ const upsertBySlug = async (
   payload: PayloadInstance,
   collection: string,
   data: Record<string, unknown> & { slug: string }
-): Promise<'created' | 'updated'> => {
+): Promise<'created' | 'updated' | 'skipped'> => {
+  if (collection === 'builder-resources' || collection === 'circle-resources') {
+    const list =
+      collection === 'builder-resources'
+        ? 'builder-resource'
+        : 'circle-resource'
+    const pending = await payload.count({
+      collection: 'resource-renames',
+      where: {
+        list: { equals: list },
+        or: [
+          { fromSlug: { equals: data.slug } },
+          { toSlug: { equals: data.slug } },
+        ],
+      },
+    })
+    if (pending.totalDocs) return 'skipped'
+  }
   return upsertByField(payload, collection, 'slug', data.slug, data)
 }
 

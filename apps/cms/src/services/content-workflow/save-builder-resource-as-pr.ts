@@ -1,6 +1,6 @@
 import { resourceSaver, type ResourceDoc } from './resource-list'
 
-export type BuilderResourceDocLike = ResourceDoc
+export type BuilderResourceDocLike = ResourceDoc & { id: string | number }
 export const saveBuilderResourceAsPullRequest = resourceSaver(
   'builder-resource',
   'upsert'

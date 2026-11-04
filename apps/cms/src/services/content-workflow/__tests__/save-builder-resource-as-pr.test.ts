@@ -8,6 +8,7 @@ import { resourceListEdit } from '../resource-list'
 const createResourceDoc = (
   overrides: Partial<BuilderResourceDocLike> = {}
 ): BuilderResourceDocLike => ({
+  id: 1,
   slug: 'quick-start',
   status: 'published',
   title: 'Quick Start',

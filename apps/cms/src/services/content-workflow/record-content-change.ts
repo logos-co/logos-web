@@ -2,7 +2,10 @@ import { getManagedPullRequest } from '@repo/content/github'
 import type { Payload, PayloadRequest } from 'payload'
 import { sql } from '@payloadcms/db-postgres'
 
+import { resourceRecoveryDb } from './resource-recovery'
+
 interface SavedContentChange {
+  independent?: boolean
   req?: PayloadRequest
   payload: Payload
   contentType: string
@@ -21,9 +24,11 @@ export async function recordContentChangeRequest(
 ): Promise<number> {
   const adapter = input.payload.db
   const id = await input.req?.transactionID
-  const db = id
-    ? (adapter.sessions?.[id]?.db as typeof adapter.drizzle)
-    : adapter.drizzle
+  const db = input.independent
+    ? resourceRecoveryDb(input.payload)
+    : id
+      ? (adapter.sessions?.[id]?.db as typeof adapter.drizzle)
+      : adapter.drizzle
   const table = sql`${sql.identifier(adapter.schemaName ?? 'payload')}."content_change_requests"`
   let expectedSha: string | null = input.parentSha
   let expectedStatus = 'open'

@@ -3,6 +3,7 @@ import type { TestContext } from 'node:test'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { buildConfig, getPayload, type CollectionConfig } from 'payload'
 import { Pool } from 'pg'
+import { ResourceRenames } from '../ResourceRenames'
 
 export async function startResourceTestCms(
   t: TestContext,
@@ -20,7 +21,7 @@ export async function startResourceTestCms(
   })
 
   const adapter = postgresAdapter({
-    pool: { connectionString },
+    pool: { connectionString, statement_timeout: 1000 },
     schemaName,
     push: true,
   })
@@ -30,7 +31,7 @@ export async function startResourceTestCms(
       ...adapter,
       init: (args) => Object.assign(adapter.init(args), { pool }),
     },
-    collections,
+    collections: [...collections, ResourceRenames],
     typescript: { autoGenerate: false },
   })
   const payload = await getPayload({ config, key: schemaName })

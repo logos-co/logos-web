@@ -27,7 +27,7 @@ After any collection or schema change, run `pnpm generate-types` from the root a
 
 ## Rules
 
-- Collections live in `src/collections/`: users, media, pages, builder-hub-settings, builder-listing-settings, site-settings-content, site-navigation-content, site-footer-content, rfps, ideas, builder-resources, circles, circle-events, circle-initiatives, circle-resources, content-change-requests, site-publish-reservations.
+- Collections live in `src/collections/`: users, media, pages, builder-hub-settings, builder-listing-settings, site-settings-content, site-navigation-content, site-footer-content, rfps, ideas, builder-resources, circles, circle-events, circle-initiatives, circle-resources, content-change-requests, site-publish-reservations, resource-renames.
 - Never write published content straight to Postgres. The 13 content collections change `content/**` through the PR workflow in `src/services/content-workflow/`.
 - Reuse the existing PR helpers instead of writing a new PR flow: `save-as-pr.ts` plus the per-collection `save-page-as-pr.ts`, `save-idea-as-pr.ts`, `save-rfp-as-pr.ts`, `save-circle-as-pr.ts`, `save-circle-event-as-pr.ts`, `save-circle-initiative-as-pr.ts`, `save-circle-resource-as-pr.ts`, `save-builder-resource-as-pr.ts`, `save-builder-hub-settings-as-pr.ts`, `save-builder-listing-settings-as-pr.ts` and `save-site-content-as-pr.ts`.
 - When a collection edits `content/**`, keep the Payload collection, the `@repo/content` schema and loader, fixtures and generated types in sync. Follow `packages/content/AGENTS.md`.

@@ -84,7 +84,7 @@ export const createChangePullRequestHook =
   async ({ context, doc, previousDoc, req }) => {
     if (shouldSkipContentPr(context) || !req.user) return doc
 
-    await save({
+    const result = await save({
       doc: doc as TDoc,
       previousDoc: previousDoc as TDoc | undefined,
       payload: req.payload,
@@ -92,7 +92,7 @@ export const createChangePullRequestHook =
       editor: getEditor(req.user),
     })
 
-    return doc
+    return result.resource ? { ...doc, ...result.resource } : doc
   }
 
 export function createResourceChangePullRequestHook<TDoc>(
