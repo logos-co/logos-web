@@ -45,6 +45,7 @@ export const createChangePullRequestHook =
     await save({
       doc: doc as TDoc,
       payload: req.payload,
+      req,
       editor: getEditor(req.user),
     })
 
@@ -68,6 +69,7 @@ export const createDeletePullRequestHook =
     await save({
       doc,
       payload: req.payload,
+      req,
       editor: getEditor(req.user),
     })
   }

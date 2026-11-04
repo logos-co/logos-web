@@ -81,7 +81,7 @@ const isContentPath = (path: string) => {
   return typeof mime === 'string' && mime.startsWith('image/')
 }
 
-export const verifyContentDiff = async (pr: {
+export const compareContentFiles = async (pr: {
   baseSha: string
   headSha: string
 }) => {
@@ -93,7 +93,19 @@ export const verifyContentDiff = async (pr: {
     basehead: `${pr.baseSha}...${pr.headSha}`,
     per_page: 1,
   })
-  const files = comparison.files
+  return {
+    files: comparison.files,
+    mergeBaseSha: comparison.merge_base_commit.sha,
+  }
+}
+
+export const verifyContentDiff = async (
+  pr: { baseSha: string; headSha: string },
+  comparison?: Awaited<ReturnType<typeof compareContentFiles>>
+) => {
+  const { owner, repo } = getGithubConfig()
+  const octokit = getOctokit()
+  const { files } = comparison ?? (await compareContentFiles(pr))
   // GitHub caps a comparison at 300 filenames. Never approve a partial diff.
   if (
     !files ||

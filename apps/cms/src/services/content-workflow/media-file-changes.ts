@@ -30,7 +30,9 @@ const collectStrings = (value: unknown, out: Set<string>): void => {
   }
 }
 
-const getReferencedUploadPaths = (changes: readonly FileChange[]): string[] => {
+export const getReferencedUploadPaths = (
+  changes: readonly FileChange[]
+): string[] => {
   const paths = new Set<string>()
   for (const change of changes) {
     if (!isWriteChange(change) || typeof change.content !== 'string') continue

@@ -123,7 +123,6 @@ export const saveCircleEventAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'circle-event',
-    identifier: doc.slug,
     changes: [indexChange, localeChange],
     commitMessage: subject,
     prTitle: subject,
@@ -155,7 +154,6 @@ export const deleteCircleEventAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'circle-event',
-    identifier: doc.slug,
     changes: buildCircleEventFixtureDeleteChanges(doc),
     commitMessage: subject,
     prTitle: subject,

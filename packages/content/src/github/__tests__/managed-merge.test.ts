@@ -50,7 +50,7 @@ function mockGithub({
         break
       case '/repos/{owner}/{repo}/compare/{basehead}':
         assert.equal(options.basehead, 'base...head')
-        data = { files }
+        data = { files, merge_base_commit: { sha: 'base' } }
         break
       case '/repos/{owner}/{repo}/git/trees/{tree_sha}':
         assert.equal(options.tree_sha, 'head')

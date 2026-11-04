@@ -6,6 +6,11 @@ type FileWriteChange = {
   content: string | Uint8Array
 }
 
+interface ExistingBlobChange {
+  path: string
+  blobSha: string
+}
+
 type FileDeleteChange = {
   path: string
   deleted: true
@@ -16,7 +21,7 @@ type FileDeleteChange = {
  * (JSON, MDX) or raw bytes (uploaded media). Deletes become Git tree entries
  * with a null SHA.
  */
-export type FileChange = FileWriteChange | FileDeleteChange
+export type FileChange = FileWriteChange | FileDeleteChange | ExistingBlobChange
 
 const ASSERT_BRANCH_PREFIX = (branchName: string): void => {
   const {
@@ -198,7 +203,7 @@ export const commitFiles = async ({
         path: change.path,
         mode: '100644' as const,
         type: 'blob' as const,
-        sha: null,
+        sha: 'blobSha' in change ? change.blobSha : null,
       }
     })
   )

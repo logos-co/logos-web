@@ -1,15 +1,4 @@
-/**
- * CMS branch naming, plan §9.
- *
- * Examples:
- *   content/nav-main-20260427-1530
- *   content/builders-hub-rfp-secure-decentralised-frontends-20260427-1530
- *   content/circles-event-los-angeles-circle-4-20260427-1530
- *
- * The trailing timestamp keeps re-edits unique even if the editor cancels and
- * starts again before the previous PR closes. The branch lint workflow
- * accepts anything starting with `content/` so the suffix can evolve.
- */
+import { createHash, randomUUID } from 'node:crypto'
 
 const padTwo = (value: number): string => value.toString().padStart(2, '0')
 
@@ -34,41 +23,21 @@ const slugifyForBranch = (value: string): string =>
     .replace(/^-+|-+$/g, '')
     .slice(0, 80)
 
-export type BranchNameInput = {
-  /** Logical content type — drives the leading namespace. */
+export interface BranchNameInput {
   contentType: string
-  /**
-   * Identifier for the record being edited. Slug for collections; route for
-   * page-level records (e.g. "/builders-hub" → "builders-hub").
-   */
-  identifier: string
+  targetPath: string
   prefix?: string
-  /** Override for tests. Defaults to `new Date()`. */
   now?: Date
 }
 
-export const buildContentBranchName = ({
+export function contentBranchStem({
   contentType,
-  identifier,
+  targetPath,
   prefix = 'content/',
-  now,
-}: BranchNameInput): string => {
-  const namespace = slugifyForBranch(contentType)
-  const slug = slugifyForBranch(identifier)
-  const timestamp = formatTimestamp(now ?? new Date())
-  if (!namespace || !slug) {
-    throw new Error(
-      `branch name requires non-empty contentType and identifier (got contentType="${contentType}", identifier="${identifier}")`
-    )
-  }
-  return `${prefix}${namespace}-${slug}-${timestamp}`
+}: BranchNameInput) {
+  const key = createHash('sha256').update(targetPath).digest('hex').slice(0, 24)
+  return `${prefix}${slugifyForBranch(contentType)}-${key}/`
 }
 
-const timestampSuffix = /-\d{8}-\d{4}$/
-
-export const sameContentRecordBranch = (
-  candidate: string,
-  branch: string
-): boolean =>
-  timestampSuffix.test(candidate) &&
-  candidate.replace(timestampSuffix, '') === branch.replace(timestampSuffix, '')
+export const buildContentBranchName = (input: BranchNameInput): string =>
+  `${contentBranchStem(input)}${formatTimestamp(input.now ?? new Date())}-${randomUUID()}`

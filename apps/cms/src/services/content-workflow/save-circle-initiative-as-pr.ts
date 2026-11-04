@@ -117,7 +117,6 @@ export const saveCircleInitiativeAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'circle-initiative',
-    identifier: doc.slug,
     changes: [indexChange, localeChange],
     commitMessage: subject,
     prTitle: subject,
@@ -148,7 +147,6 @@ export const deleteCircleInitiativeAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'circle-initiative',
-    identifier: doc.slug,
     changes: buildCircleInitiativeFixtureDeleteChanges(doc),
     commitMessage: subject,
     prTitle: subject,

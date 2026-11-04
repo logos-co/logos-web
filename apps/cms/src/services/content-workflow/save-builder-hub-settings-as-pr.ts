@@ -35,7 +35,6 @@ export const saveBuilderHubSettingsAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'builder-hub-settings',
-    identifier: doc.slug,
     changes: [buildBuilderHubSettingsFileChange(doc)],
     commitMessage: subject,
     prTitle: subject,

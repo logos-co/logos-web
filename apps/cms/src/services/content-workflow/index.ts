@@ -52,13 +52,11 @@ export {
   type CircleInitiativeDocLike,
 } from './save-circle-initiative-as-pr'
 export {
-  buildCircleResourcesFileChange,
   deleteCircleResourceAsPullRequest,
   saveCircleResourceAsPullRequest,
   type CircleResourceDocLike,
 } from './save-circle-resource-as-pr'
 export {
-  buildBuilderResourcesFileChange,
   deleteBuilderResourceAsPullRequest,
   saveBuilderResourceAsPullRequest,
   type BuilderResourceDocLike,

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { it } from 'node:test'
 import { randomUUID } from 'node:crypto'
+import { drizzle } from '@payloadcms/db-postgres/drizzle/node-postgres'
 import { Pool } from 'pg'
 import type { Payload } from 'payload'
 import { recordContentChangeRequest } from '../record-content-change'
@@ -24,7 +25,7 @@ it(
       const branchName = 'content/page-home-20261104-1111'
       const targetPath = 'content/pages/en/home.json'
       const payload = {
-        db: { pool: db, schemaName: schema },
+        db: { drizzle: drizzle(db), schemaName: schema },
         auth: async () => ({ user: { id: 1 } }),
         find: async () => ({
           docs: (

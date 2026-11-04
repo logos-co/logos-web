@@ -81,7 +81,6 @@ export const saveBuilderListingSettingsAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'builder-listing',
-    identifier: doc.page,
     changes: [buildBuilderListingSettingsFileChange(doc)],
     commitMessage: subject,
     prTitle: subject,

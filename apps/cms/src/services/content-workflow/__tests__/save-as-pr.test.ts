@@ -3,7 +3,7 @@ import { mkdir, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { afterEach, describe, it } from 'node:test'
 
-import { buildContentBranchName } from '../branch-naming'
+import { buildContentBranchName, contentBranchStem } from '../branch-naming'
 import {
   createSaveAsPullRequest,
   type SaveAsPullRequestDependencies,
@@ -55,6 +55,21 @@ const createDependencies = (
   overrides: Partial<SaveAsPullRequestDependencies> = {}
 ): SaveAsPullRequestDependencies => ({
   recordContentChangeRequest: async () => 1,
+  withResourceListLock: async (_payload, _req, _path, save) =>
+    save({} as never),
+  compareContentFiles: async (pr) => ({
+    mergeBaseSha: 'base',
+    files: [
+      {
+        filename:
+          pr.headSha === 'other-head'
+            ? 'content/pages/en/other.json'
+            : 'content/pages/en/home.json',
+      },
+    ] as never,
+  }),
+  readContentJson: async () => null,
+  getFileBlobShas: async () => new Map(),
   buildContentBranchName: () => 'content/page-home-20261104-1111',
   collectReferencedCmsUploadChanges: async ({ changes }) => {
     const { collectReferencedCmsUploadChanges } =
@@ -101,7 +116,7 @@ const createDependencies = (
 const createInput = (
   payload: unknown,
   { withMedia = false }: { withMedia?: boolean } = {}
-): SaveAsPullRequestInput => ({
+): Extract<SaveAsPullRequestInput, { changes: unknown }> => ({
   changes: [
     {
       path: 'content/pages/en/home.json',
@@ -115,7 +130,7 @@ const createInput = (
   commitMessage: 'content(page): update home',
   contentType: 'page',
   draft: true,
-  identifier: 'home',
+
   payload: payload as SaveAsPullRequestInput['payload'],
   prTitle: 'content(page): update home',
 })
@@ -167,7 +182,11 @@ describe('createSaveAsPullRequest', () => {
       createDependencies({
         listManagedPullRequests: async () => [
           managedPr,
-          { ...managedPr, branchName: 'content/page-home-other-20261101-1111' },
+          {
+            ...managedPr,
+            headSha: 'other-head',
+            branchName: 'content/page-home-other-20261101-1111',
+          },
         ],
         createBranch: async () => assert.fail('must reuse branch'),
         commitFiles: async ({ branch, expectedHeadSha }) => {
@@ -222,6 +241,10 @@ describe('createSaveAsPullRequest', () => {
         createDependencies({
           buildContentBranchName,
           listManagedPullRequests: async () => [first],
+          compareContentFiles: async () => ({
+            mergeBaseSha: 'base',
+            files: [{ filename: targetPath }] as never,
+          }),
           verifyContentDiff: async () => [targetPath],
           createBranch: async () =>
             assert.fail('must reuse the first resource PR'),
@@ -235,12 +258,142 @@ describe('createSaveAsPullRequest', () => {
       const result = await save({
         ...createInput(payload),
         contentType,
-        identifier: 'second',
+
         changes: [{ path: targetPath, content: '{}' }],
       })
       assert.equal(result.pullRequestNumber, first.number)
     })
   }
+
+  it('distinguishes Circle event-demo from Circle Event demo even when their legacy branch stems collide', async () => {
+    const { payload } = createPayload()
+    const circle = 'content/circles/circles/event-demo/index.json'
+    const event = 'content/circles/events/demo/index.json'
+    const legacy = {
+      ...managedPr,
+      branchName: 'content/circle-event-demo-20261101-1111',
+    }
+    const save = createSaveAsPullRequest(
+      createDependencies({
+        buildContentBranchName,
+        listManagedPullRequests: async () => [legacy],
+        compareContentFiles: async () => ({
+          files: [{ filename: circle }] as never,
+          mergeBaseSha: 'base',
+        }),
+        commitFiles: async ({ branch }) => {
+          assert.notEqual(branch, legacy.branchName)
+          return { commitSha: 'event' }
+        },
+      })
+    )
+    assert.equal(
+      (
+        await save({
+          ...createInput(payload),
+          contentType: 'circle-event',
+          changes: [{ path: event, content: '{}' }],
+        })
+      ).pullRequestNumber,
+      123
+    )
+    const a = 'content/builders-hub/rfps/' + 'a'.repeat(80)
+    const now = new Date('2026-11-04')
+    assert.notEqual(
+      contentBranchStem({
+        targetPath: a + '-a/index.json',
+        contentType: 'rfp',
+        now,
+      }),
+      contentBranchStem({
+        targetPath: a + '-b/index.json',
+        contentType: 'rfp',
+        now,
+      })
+    )
+  })
+
+  it('reuses a legacy settings PR by its fixed file after the editor renames its slug', async () => {
+    const { payload } = createPayload()
+    const targetPath = 'content/site/en/settings.json'
+    const save = createSaveAsPullRequest(
+      createDependencies({
+        buildContentBranchName,
+        listManagedPullRequests: async () => [
+          {
+            ...managedPr,
+            branchName: 'content/site-settings-old-slug-20261101-1111',
+          },
+        ],
+        compareContentFiles: async () => ({
+          mergeBaseSha: 'base',
+          files: [{ filename: targetPath }] as never,
+        }),
+        verifyContentDiff: async () => [targetPath],
+        createBranch: async () => assert.fail('must reuse the same PR'),
+      })
+    )
+    assert.equal(
+      (
+        await save({
+          ...createInput(payload),
+          contentType: 'site-settings',
+          changes: [{ path: targetPath, content: '{}' }],
+        })
+      ).pullRequestNumber,
+      42
+    )
+  })
+
+  it('recovers a missing mirror when removing old images, restoring only the PR changes', async () => {
+    const { payload } = createPayload()
+    const path = 'content/pages/en/home.json',
+      added = 'apps/web/public/cms/uploads/new.webp',
+      modified = 'apps/web/public/cms/uploads/existing.webp'
+    const save = createSaveAsPullRequest(
+      createDependencies({
+        listManagedPullRequests: async () => [managedPr],
+        verifyContentDiff: async () => [path, added, modified],
+        readContentJson: async (file, ref) => {
+          assert.equal(file, path)
+          assert.equal(ref, managedPr.headSha)
+          return {
+            hero: '/cms/uploads/new.webp',
+            aside: '/cms/uploads/existing.webp',
+          }
+        },
+        getFileBlobShas: async (files, ref) => {
+          assert.equal(ref, 'base')
+          assert.deepEqual(files, [added, modified])
+          return new Map([[modified, 'original-blob']])
+        },
+        commitFiles: async ({ changes }) => {
+          assert.deepEqual(changes.slice(1), [
+            { path: added, deleted: true },
+            { path: modified, blobSha: 'original-blob' },
+          ])
+          return { commitSha: 'recovered' }
+        },
+      })
+    )
+    assert.equal((await save(createInput(payload))).pullRequestNumber, 42)
+  })
+
+  it('rejects a recovered PR carrying an upload not referenced by the saved record', async () => {
+    const { payload } = createPayload()
+    const save = createSaveAsPullRequest(
+      createDependencies({
+        listManagedPullRequests: async () => [managedPr],
+        verifyContentDiff: async () => [
+          'content/pages/en/home.json',
+          'apps/web/public/cms/uploads/unrelated.svg',
+        ],
+        readContentJson: async () => ({}),
+        commitFiles: async () => assert.fail('must not write'),
+      })
+    )
+    await assert.rejects(save(createInput(payload)), /unrelated upload/)
+  })
 
   it('includes referenced CMS uploads in the GitHub commit', async () => {
     await mkdir(join(publicRoot, 'cms/uploads'), { recursive: true })

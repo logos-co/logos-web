@@ -83,7 +83,6 @@ const main = async (): Promise<void> => {
   try {
     result = await saveAsPullRequest({
       contentType: 'rfp',
-      identifier: SLUG,
       changes: [
         { path: fixtureIndexPath, content: indexJson },
         { path: fixtureLocalePath, content: updatedLocaleJson },

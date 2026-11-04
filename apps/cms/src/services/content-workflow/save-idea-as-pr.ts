@@ -113,7 +113,6 @@ export const saveIdeaAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'idea',
-    identifier: doc.slug,
     changes: [indexChange, localeChange],
     commitMessage: subject,
     prTitle: subject,
@@ -144,7 +143,6 @@ export const deleteIdeaAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'idea',
-    identifier: doc.slug,
     changes: buildIdeaFixtureDeleteChanges(doc),
     commitMessage: subject,
     prTitle: subject,

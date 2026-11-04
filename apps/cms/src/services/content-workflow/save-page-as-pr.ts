@@ -48,7 +48,6 @@ export const savePageAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'page',
-    identifier: doc.slug,
     changes: [buildPageFixtureChange(doc)],
     commitMessage: subject,
     prTitle: subject,

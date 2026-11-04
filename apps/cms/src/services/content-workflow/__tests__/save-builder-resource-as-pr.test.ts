@@ -1,10 +1,9 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
-import {
-  buildBuilderResourcesFileChange,
-  type BuilderResourceDocLike,
-} from '../save-builder-resource-as-pr'
+import { type BuilderResourceDocLike } from '../save-builder-resource-as-pr'
+
+import { resourceListEdit } from '../resource-list'
 
 const createResourceDoc = (
   overrides: Partial<BuilderResourceDocLike> = {}
@@ -18,30 +17,22 @@ const createResourceDoc = (
   ...overrides,
 })
 
-describe('buildBuilderResourcesFileChange', () => {
+describe('resourceListEdit', () => {
   it('writes the Builders Hub resources flat file in repo shape', async () => {
-    const payload = {
-      find: async () => ({
-        docs: [
-          createResourceDoc(),
-          createResourceDoc({
-            slug: 'video-tutorials',
-            title: 'Video Tutorials',
-            ctaLabel: 'Watch',
-            href: 'https://youtube.com/@Logos_network',
-          }),
-        ],
-      }),
-    } as unknown as Parameters<
-      typeof buildBuilderResourcesFileChange
-    >[0]['payload']
-
-    const change = await buildBuilderResourcesFileChange({
-      doc: createResourceDoc(),
-      payload,
-      mutation: 'upsert',
+    const change = resourceListEdit(
+      'builder-resource',
+      createResourceDoc(),
+      'upsert'
+    ).apply({
+      schemaVersion: 1,
+      language: 'en',
+      items: [
+        createResourceDoc({
+          slug: 'video-tutorials',
+          href: 'https://youtube.com/@Logos_network',
+        }),
+      ],
     })
-
     assert.equal(change.path, 'content/builders-hub/resources/en.json')
     assert.ok('content' in change)
     const json = JSON.parse(String(change.content)) as {

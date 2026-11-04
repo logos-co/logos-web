@@ -127,7 +127,6 @@ export const saveRfpAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'rfp',
-    identifier: doc.slug,
     changes: [indexChange, localeChange],
     commitMessage: subject,
     prTitle: subject,
@@ -158,7 +157,6 @@ export const deleteRfpAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'rfp',
-    identifier: doc.slug,
     changes: buildRfpFixtureDeleteChanges(doc),
     commitMessage: subject,
     prTitle: subject,

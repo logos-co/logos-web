@@ -62,7 +62,6 @@ export const saveSiteSettingsAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'site-settings',
-    identifier: doc.slug,
     changes: [buildSiteSettingsFileChange(doc)],
     commitMessage: subject,
     prTitle: subject,
@@ -89,7 +88,6 @@ export const saveSiteNavigationAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'site-navigation',
-    identifier: doc.slug,
     changes: [buildSiteNavigationFileChange(doc)],
     commitMessage: subject,
     prTitle: subject,
@@ -116,7 +114,6 @@ export const saveSiteFooterAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'site-footer',
-    identifier: doc.slug,
     changes: [buildSiteFooterFileChange(doc)],
     commitMessage: subject,
     prTitle: subject,
