@@ -20,6 +20,8 @@ import { findRecordPullRequest, recoverRemovedUploads } from './record-pr-files'
 import { withContentPathLock } from './content-transaction'
 import { recordContentChangeRequest } from './record-content-change'
 
+export class PublishedResourceMirrorError extends Error {}
+
 export interface SaveAsPullRequestDependencies {
   withContentPathLock: typeof withContentPathLock
   readContentJson: typeof readContentJson
@@ -285,6 +287,12 @@ export const createSaveAsPullRequest =
           title: input.prTitle,
           body: input.prBody ?? '',
           draft: input.draft ?? true,
+        }).catch(async (error: unknown) => {
+          const accepted = (await listManagedPullRequests()).find(
+            (pr) => pr.branchName === branch && pr.headSha === commitSha
+          )
+          if (!accepted) throw error
+          return accepted
         }))
 
       const contentChangeRequestId = await recordContentChangeRequest({
@@ -296,6 +304,12 @@ export const createSaveAsPullRequest =
         pullRequestNumber: pr.number,
         pullRequestUrl: pr.htmlUrl,
         targetPath,
+      }).catch((cause: unknown) => {
+        if (!input.resourceList) throw cause
+        throw new PublishedResourceMirrorError(
+          `PR #${pr.number} was updated, but the CMS could not record its head.`,
+          { cause }
+        )
       })
 
       return {

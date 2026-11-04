@@ -231,12 +231,17 @@ export const commitFiles = async ({
     parents: [parentSha],
   })
 
-  await octokit.git.updateRef({
-    owner,
-    repo,
-    ref: `heads/${branch}`,
-    sha: newCommit.sha,
-  })
+  try {
+    await octokit.git.updateRef({
+      owner,
+      repo,
+      ref: `heads/${branch}`,
+      sha: newCommit.sha,
+    })
+  } catch (error) {
+    // A lost response can follow an accepted write. Only accept our exact SHA.
+    if ((await getBranchSha(branch)) !== newCommit.sha) throw error
+  }
 
   return { commitSha: newCommit.sha }
 }

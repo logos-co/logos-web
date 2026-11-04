@@ -160,6 +160,28 @@ describe('createSaveAsPullRequest', () => {
     number: 42,
   }
 
+  for (const headSha of ['commit-sha', 'unrelated']) {
+    it(`checks the managed PR head after a lost creation response: ${headSha}`, async () => {
+      const { payload } = createPayload()
+      let created = false
+      const save = createSaveAsPullRequest(
+        createDependencies({
+          buildContentBranchName: () => managedPr.branchName,
+          listManagedPullRequests: async () =>
+            created ? [{ ...managedPr, headSha }] : [],
+          createOrGetPullRequest: async () => {
+            created = true
+            throw new Error('Response lost')
+          },
+        })
+      )
+      const saving = save(createInput(payload))
+      if (headSha === 'commit-sha')
+        assert.equal((await saving).pullRequestNumber, managedPr.number)
+      else await assert.rejects(saving, /Response lost/)
+    })
+  }
+
   it('ignores a forged mirror branch and incomplete metadata when choosing the commit target', async () => {
     const { payload } = createPayload([
       [{ id: 'old', branchName: 'schema/code' }],

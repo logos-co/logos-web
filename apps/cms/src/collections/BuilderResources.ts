@@ -7,7 +7,7 @@ import {
   recentPrAdminComponents,
 } from './shared-fields'
 import {
-  createChangePullRequestHook,
+  createResourceChangePullRequestHook,
   createDeletePullRequestHook,
   lockResourceBeforeChange,
   lockResourceBeforeDelete,
@@ -31,7 +31,7 @@ export const BuilderResources: CollectionConfig = {
   hooks: {
     beforeChange: [lockResourceBeforeChange],
     afterChange: [
-      createChangePullRequestHook<BuilderResourceDocLike>({
+      createResourceChangePullRequestHook<BuilderResourceDocLike>({
         save: saveBuilderResourceAsPullRequest,
       }),
     ],

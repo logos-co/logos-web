@@ -10,6 +10,7 @@ import {
 } from './shared-fields'
 import {
   createChangePullRequestHook,
+  createResourceChangePullRequestHook,
   createDeletePullRequestHook,
   lockResourceBeforeChange,
   lockResourceBeforeDelete,
@@ -287,7 +288,7 @@ export const CircleResources: CollectionConfig = {
   hooks: {
     beforeChange: [lockResourceBeforeChange],
     afterChange: [
-      createChangePullRequestHook<CircleResourceDocLike>({
+      createResourceChangePullRequestHook<CircleResourceDocLike>({
         save: saveCircleResourceAsPullRequest,
       }),
     ],

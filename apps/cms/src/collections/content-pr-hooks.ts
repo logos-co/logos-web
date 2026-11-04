@@ -1,9 +1,10 @@
-import type {
-  CollectionAfterChangeHook,
-  CollectionBeforeChangeHook,
-  CollectionBeforeDeleteHook,
-  Payload,
-  User,
+import {
+  APIError,
+  type CollectionAfterChangeHook,
+  type CollectionBeforeChangeHook,
+  type CollectionBeforeDeleteHook,
+  type Payload,
+  type User,
 } from 'payload'
 
 import type {
@@ -12,6 +13,7 @@ import type {
   SavePrEditor,
 } from '@/services/content-workflow'
 
+import { PublishedResourceMirrorError } from '@/services/content-workflow/save-as-pr'
 import { lockResourceRecord } from '@/services/content-workflow/content-transaction'
 
 export const SKIP_CONTENT_PR_CONTEXT = 'skipContentPr'
@@ -45,8 +47,26 @@ export const lockResourceBeforeChange: CollectionBeforeChangeHook = async ({
   originalDoc,
   req,
 }) => {
-  if (operation === 'update')
-    await lockResourceRecord(req, collection.slug, originalDoc.id)
+  if (operation !== 'update') return
+  await lockResourceRecord(req, collection.slug, originalDoc.id)
+  // Bulk updates read their documents before taking record locks. Never use a
+  // superseded snapshot to publish a rename or restore a failed edit.
+  const current = await req.payload.db.findOne({
+    collection: collection.slug,
+    where: {
+      id: { equals: originalDoc.id },
+      updatedAt: { equals: originalDoc.updatedAt },
+    },
+    select: { id: true },
+    req,
+  })
+  if (!current)
+    throw new APIError(
+      'This resource has changed. Refresh and retry.',
+      409,
+      undefined,
+      true
+    )
 }
 
 export const lockResourceBeforeDelete: CollectionBeforeDeleteHook = async ({
@@ -74,6 +94,34 @@ export const createChangePullRequestHook =
 
     return doc
   }
+
+export function createResourceChangePullRequestHook<TDoc>(
+  input: CreateChangePullRequestHookInput<TDoc>
+): CollectionAfterChangeHook {
+  const publish = createChangePullRequestHook(input)
+  return async (args) => {
+    try {
+      return await publish(args)
+    } catch (error) {
+      if (
+        args.operation === 'update' &&
+        !(error instanceof PublishedResourceMirrorError)
+      ) {
+        // Payload commits successful siblings even when an afterChange hook
+        // fails. Restore this row under its record lock without firing hooks.
+        const { id, ...data } = args.previousDoc
+        await args.req.payload.db.updateOne({
+          collection: args.collection.slug,
+          id,
+          data,
+          req: args.req,
+          returning: false,
+        })
+      }
+      throw error
+    }
+  }
+}
 
 export const createDeletePullRequestHook =
   <TDoc>({
