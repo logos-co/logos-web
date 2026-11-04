@@ -62,3 +62,55 @@ export const PAST_PRESENT_FUTURE_ROUTES = [
   '/past-present-future/choices',
   '/past-present-future/museum-of-civil-liberties',
 ] as const
+
+/**
+ * Basecamp clients: what the browser reports through `navigator.userAgent`,
+ * `navigator.platform` and `navigator.userAgentData` (`null` where the browser
+ * has none), and the release asset the install button must link to. A `null`
+ * asset means the "latest release" fallback page.
+ */
+export const BASECAMP_CLIENTS = [
+  {
+    name: 'macOS on Apple silicon',
+    userAgent:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+    navigatorPlatform: 'MacIntel',
+    userAgentData: { platform: 'macOS', architecture: 'arm' },
+    asset: /-aarch64\.dmg$/,
+  },
+  {
+    name: 'Windows on x64',
+    userAgent:
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+    navigatorPlatform: 'Win32',
+    userAgentData: { platform: 'Windows', architecture: 'x86' },
+    asset: /-x86_64-setup\.exe$/,
+  },
+  {
+    name: 'Linux on x64',
+    userAgent:
+      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+    navigatorPlatform: 'Linux x86_64',
+    userAgentData: { platform: 'Linux', architecture: 'x86' },
+    asset: /-x86_64\.AppImage$/,
+  },
+  {
+    name: 'Linux on arm64',
+    userAgent:
+      'Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+    navigatorPlatform: 'Linux aarch64',
+    userAgentData: { platform: 'Linux', architecture: 'arm' },
+    asset: /-aarch64\.AppImage$/,
+  },
+  {
+    name: 'an iPhone',
+    userAgent:
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1',
+    navigatorPlatform: 'iPhone',
+    userAgentData: null,
+    asset: null,
+  },
+] as const
+
+export const BASECAMP_RELEASES =
+  'https://github.com/logos-co/logos-basecamp/releases'
