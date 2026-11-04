@@ -44,4 +44,27 @@ describe('resourceListEdit', () => {
     )
     assert.equal(json.items[0]?.href, '/technology-stack')
   })
+
+  it('replaces the old slug on rename and preserves the other items', () => {
+    const original = createResourceDoc()
+    const untouched = createResourceDoc({ slug: 'another' })
+    const file = {
+      schemaVersion: 1,
+      language: 'en',
+      items: [original, untouched],
+    }
+    const change = resourceListEdit(
+      'builder-resource',
+      { ...original, slug: 'renamed' },
+      'upsert',
+      original.slug
+    ).apply(file)
+    assert.ok('content' in change)
+    assert.deepEqual(
+      JSON.parse(String(change.content)).items.map(
+        (entry: BuilderResourceDocLike) => entry.slug
+      ),
+      ['another', 'renamed']
+    )
+  })
 })

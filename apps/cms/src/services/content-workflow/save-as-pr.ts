@@ -44,6 +44,7 @@ export interface SavePrEditor {
 export interface SaveContentAsPullRequestInput<TDoc> {
   req?: PayloadRequest
   doc: TDoc
+  previousDoc?: TDoc
   editor?: SavePrEditor
   payload: Payload
 }

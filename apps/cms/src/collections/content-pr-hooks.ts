@@ -39,11 +39,12 @@ export const createChangePullRequestHook =
   <TDoc>({
     save,
   }: CreateChangePullRequestHookInput<TDoc>): CollectionAfterChangeHook =>
-  async ({ context, doc, req }) => {
+  async ({ context, doc, previousDoc, req }) => {
     if (shouldSkipContentPr(context) || !req.user) return doc
 
     await save({
       doc: doc as TDoc,
+      previousDoc: previousDoc as TDoc | undefined,
       payload: req.payload,
       req,
       editor: getEditor(req.user),

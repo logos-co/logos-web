@@ -32,14 +32,17 @@ const lists = {
 export function resourceListEdit(
   type: ResourceType,
   doc: ResourceDoc,
-  operation: 'upsert' | 'delete'
+  operation: 'upsert' | 'delete',
+  previousSlug?: string
 ) {
   const { schema, path } = lists[type]
   return {
     path,
     apply(parent: unknown): FileChange {
       const file = schema.parse(parent)
-      const items = file.items.filter((item) => item.slug !== doc.slug)
+      const items = file.items.filter(
+        (item) => item.slug !== doc.slug && item.slug !== previousSlug
+      )
       if (operation === 'upsert') items.push(doc)
       items.sort((a, b) => a.slug.localeCompare(b.slug))
       return toJsonFileChange(path, schema.parse({ ...file, items }))
@@ -54,6 +57,7 @@ export function resourceSaver(
 ) {
   return ({
     doc,
+    previousDoc,
     payload,
     req,
     editor,
@@ -68,7 +72,7 @@ export function resourceSaver(
       req,
       editor,
       contentType: type,
-      resourceList: resourceListEdit(type, doc, operation),
+      resourceList: resourceListEdit(type, doc, operation, previousDoc?.slug),
       commitMessage: subject,
       prTitle: subject,
       draft: true,
