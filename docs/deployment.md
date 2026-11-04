@@ -1,6 +1,6 @@
 # Deployment
 
-Which branch deploys where, and how each app gets there. It covers [`Jenkinsfile`](../Jenkinsfile), [`.github/workflows/site-publish.yml`](../.github/workflows/site-publish.yml), [`.github/workflows/test.yml`](../.github/workflows/test.yml), the per-app `vercel.json` files (for example [`apps/web/vercel.json`](../apps/web/vercel.json)) and [`docker-compose.prod.yml`](../docker-compose.prod.yml).
+Which branch deploys where, and how each app gets there. It covers [`Jenkinsfile`](../Jenkinsfile), [`.github/workflows/site-publish.yml`](../.github/workflows/site-publish.yml), [`.github/workflows/test.yml`](../.github/workflows/test.yml), [`.github/workflows/e2e-daily.yml`](../.github/workflows/e2e-daily.yml), the per-app `vercel.json` files (for example [`apps/web/vercel.json`](../apps/web/vercel.json)) and [`docker-compose.prod.yml`](../docker-compose.prod.yml).
 
 ## Branches
 
@@ -54,4 +54,4 @@ Runs locally or in Docker with [apps/logos-crm/compose.yaml](../apps/logos-crm/c
 
 [.github/workflows/test.yml](../.github/workflows/test.yml) runs `pnpm test:release` on every pull request and on pushes to `develop` and `master`. It starts a Postgres 17 service and passes in `STRAPI_API_KEY` and `SIMPLECAST_ACCESS_TOKEN`, which the web build needs, plus `GITHUB_TOKEN` so the RFP fetch at build time isn't rate limited to 60 requests an hour.
 
-[.github/workflows/e2e-daily.yml](../.github/workflows/e2e-daily.yml) runs the Playwright suite in [`e2e/`](../e2e/README.md) every day against dev.logos.co and logos.co. A failed run opens or comments on the issue labelled `e2e-daily`; the next green run closes it. It reads the optional `E2E_BYPASS_TOKEN` secret.
+[.github/workflows/e2e-daily.yml](../.github/workflows/e2e-daily.yml) runs the Playwright suite in [`e2e/`](../e2e/README.md) every day at 05:47 UTC against dev.logos.co (staging) and logos.co (production), checking every sitemap entry. You can also start it by hand through `workflow_dispatch`. On the default branch, a failed run opens or comments on the issue labelled `e2e-daily`, and the next green run closes it; runs on other branches leave the issue alone. The HTML report and traces are kept as run artifacts for 14 days. The workflow reads the optional `E2E_BYPASS_TOKEN` secret and sends it as the `x-e2e-bypass` header, so the server can exempt the run from bot protection and rate limits.

@@ -28,6 +28,7 @@ Reference material for topics that span more than one workspace. Each file below
 | packages/tokens          | [README](../packages/tokens/README.md)          |                                                  |
 | packages/types           | [README](../packages/types/README.md)           |                                                  |
 | packages/config          | [README](../packages/config/README.md)          |                                                  |
+| e2e                      | [README](../e2e/README.md)                      | [AGENTS](../e2e/AGENTS.md)                       |
 
 ## Writing docs
 
