@@ -2,7 +2,11 @@
 
 The Payload CMS admin for logos.co, a Next.js 16 app on port 3001 with the admin UI at `/admin`.
 
-Editors use it to change site content, but nothing they do writes to the live site directly. The "Create PR" action opens a GitHub PR against `develop` that edits files under `content/**`, and the public site builds from those files. Postgres only holds users, sessions, drafts and the PR cache. The rules for that workflow are in [AGENTS.md](AGENTS.md).
+Editors use it to change site content, but nothing they do writes to the live site directly. The "Create PR" action opens a GitHub PR against `develop` that edits files under `content/**`, and the public site builds from those files. Postgres holds users, sessions, drafts and the records used to track publishing. The rules for that workflow are in [AGENTS.md](AGENTS.md).
+
+When two editors change different builder or circle resources, both edits are kept in the shared list PR. Bulk edits and deletions share that PR. If a resource edit fails to reach the PR, the CMS restores that item so you can retry, including a slug change. Successful items keep their changes.
+
+If GitHub cannot confirm a rename, the CMS keeps the old and requested slugs in its private recovery table. The next edit or deletion checks the current Git file before applying changes. Until the rename is resolved, another record cannot claim either slug and the startup sync skips both names. If an edit and a deletion overlap on the same resource, the second request returns HTTP 409. Refresh the record before retrying.
 
 ## Run
 
@@ -16,6 +20,8 @@ pnpm dev:cms                             # http://localhost:3001/admin
 ## Environment
 
 `DATABASE_URL` is the only variable you need to boot locally. `PAYLOAD_SECRET` is required in production and falls back to an insecure placeholder in dev. Everything else, including the GitHub App credentials behind "Create PR", is in [docs/environment.md](docs/environment.md).
+
+Set `CMS_TEST_DATABASE_URL` to a test PostgreSQL database when running `pnpm --filter cms test` to include the concurrent PR save test. The test creates and drops its own schema. CI supplies this database.
 
 ## Deploy
 

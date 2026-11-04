@@ -53,6 +53,7 @@ export const buildSiteFooterFileChange = (doc: SiteFooterDocLike) => {
 export const saveSiteSettingsAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<SiteSettingsDocLike>): Promise<SaveAsPullRequestResult> => {
   const subject = createContentUpdateSubject({
@@ -62,7 +63,6 @@ export const saveSiteSettingsAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'site-settings',
-    identifier: doc.slug,
     changes: [buildSiteSettingsFileChange(doc)],
     commitMessage: subject,
     prTitle: subject,
@@ -74,12 +74,14 @@ export const saveSiteSettingsAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }
 
 export const saveSiteNavigationAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<SiteNavigationDocLike>): Promise<SaveAsPullRequestResult> => {
   const subject = createContentUpdateSubject({
@@ -89,7 +91,6 @@ export const saveSiteNavigationAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'site-navigation',
-    identifier: doc.slug,
     changes: [buildSiteNavigationFileChange(doc)],
     commitMessage: subject,
     prTitle: subject,
@@ -101,12 +102,14 @@ export const saveSiteNavigationAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }
 
 export const saveSiteFooterAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<SiteFooterDocLike>): Promise<SaveAsPullRequestResult> => {
   const subject = createContentUpdateSubject({
@@ -116,7 +119,6 @@ export const saveSiteFooterAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'site-footer',
-    identifier: doc.slug,
     changes: [buildSiteFooterFileChange(doc)],
     commitMessage: subject,
     prTitle: subject,
@@ -128,5 +130,6 @@ export const saveSiteFooterAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }

@@ -28,6 +28,7 @@ import {
   SiteSettingsContent,
 } from './src/collections/SiteContent'
 import { Users } from './src/collections/Users'
+import { ResourceRenames } from './src/collections/ResourceRenames'
 import { SitePublishReservations } from './src/collections/SitePublishReservations'
 import sitePublishMessages from './src/messages/site-publish.en.json'
 
@@ -148,6 +149,7 @@ const collections = [
   CircleResources,
   ContentChangeRequests,
   SitePublishReservations,
+  ResourceRenames,
 ].map(disableDocumentLocks)
 
 export default buildConfig({

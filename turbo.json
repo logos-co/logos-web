@@ -45,6 +45,7 @@
     },
     "test": {
       "dependsOn": ["^build"],
+      "env": ["CMS_TEST_DATABASE_URL"],
       "outputs": []
     },
     "test:static": {

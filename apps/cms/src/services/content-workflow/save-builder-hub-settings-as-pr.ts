@@ -26,6 +26,7 @@ export const buildBuilderHubSettingsFileChange = (
 export const saveBuilderHubSettingsAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<BuilderHubSettingsDocLike>): Promise<SaveAsPullRequestResult> => {
   const subject = createContentUpdateSubject({
@@ -35,7 +36,6 @@ export const saveBuilderHubSettingsAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'builder-hub-settings',
-    identifier: doc.slug,
     changes: [buildBuilderHubSettingsFileChange(doc)],
     commitMessage: subject,
     prTitle: subject,
@@ -47,5 +47,6 @@ export const saveBuilderHubSettingsAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }

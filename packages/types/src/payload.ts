@@ -84,6 +84,7 @@ export interface Config {
     'circle-resources': CircleResource;
     'content-change-requests': ContentChangeRequest;
     'site-publish-reservations': SitePublishReservation;
+    'resource-renames': ResourceRename;
     'payload-kv': PayloadKv;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -107,6 +108,7 @@ export interface Config {
     'circle-resources': CircleResourcesSelect<false> | CircleResourcesSelect<true>;
     'content-change-requests': ContentChangeRequestsSelect<false> | ContentChangeRequestsSelect<true>;
     'site-publish-reservations': SitePublishReservationsSelect<false> | SitePublishReservationsSelect<true>;
+    'resource-renames': ResourceRenamesSelect<false> | ResourceRenamesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -614,7 +616,7 @@ export interface CircleResource {
   createdAt: string;
 }
 /**
- * Mirror of in-flight content PRs. Rows are created by the CMS workflow service — do not edit by hand unless you know what you are doing.
+ * Mirror of in-flight content PRs. Rows are created by the CMS workflow service and are read-only here.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "content-change-requests".
@@ -663,6 +665,19 @@ export interface SitePublishReservation {
   token: string;
   environment: string;
   baselineBuild: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resource-renames".
+ */
+export interface ResourceRename {
+  id: number;
+  record: string;
+  list: string;
+  fromSlug: string;
+  toSlug: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -1029,6 +1044,18 @@ export interface SitePublishReservationsSelect<T extends boolean = true> {
   token?: T;
   environment?: T;
   baselineBuild?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resource-renames_select".
+ */
+export interface ResourceRenamesSelect<T extends boolean = true> {
+  record?: T;
+  list?: T;
+  fromSlug?: T;
+  toSlug?: T;
   updatedAt?: T;
   createdAt?: T;
 }

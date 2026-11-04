@@ -7,8 +7,10 @@ import {
   recentPrAdminComponents,
 } from './shared-fields'
 import {
-  createChangePullRequestHook,
+  createResourceChangePullRequestHook,
   createDeletePullRequestHook,
+  lockResourceBeforeChange,
+  lockResourceBeforeDelete,
 } from './content-pr-hooks'
 import {
   deleteBuilderResourceAsPullRequest,
@@ -27,12 +29,14 @@ export const BuilderResources: CollectionConfig = {
   },
   access: authenticatedCollectionAccess,
   hooks: {
+    beforeChange: [lockResourceBeforeChange],
     afterChange: [
-      createChangePullRequestHook<BuilderResourceDocLike>({
+      createResourceChangePullRequestHook<BuilderResourceDocLike>({
         save: saveBuilderResourceAsPullRequest,
       }),
     ],
     beforeDelete: [
+      lockResourceBeforeDelete,
       createDeletePullRequestHook<BuilderResourceDocLike>({
         collection: 'builder-resources',
         save: deleteBuilderResourceAsPullRequest,

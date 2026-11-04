@@ -10,7 +10,10 @@ import {
 } from './shared-fields'
 import {
   createChangePullRequestHook,
+  createResourceChangePullRequestHook,
   createDeletePullRequestHook,
+  lockResourceBeforeChange,
+  lockResourceBeforeDelete,
 } from './content-pr-hooks'
 import { isValidIanaTimeZone } from '@/lib/timezones'
 import {
@@ -283,12 +286,14 @@ export const CircleResources: CollectionConfig = {
   },
   access: authenticatedCollectionAccess,
   hooks: {
+    beforeChange: [lockResourceBeforeChange],
     afterChange: [
-      createChangePullRequestHook<CircleResourceDocLike>({
+      createResourceChangePullRequestHook<CircleResourceDocLike>({
         save: saveCircleResourceAsPullRequest,
       }),
     ],
     beforeDelete: [
+      lockResourceBeforeDelete,
       createDeletePullRequestHook<CircleResourceDocLike>({
         collection: 'circle-resources',
         save: deleteCircleResourceAsPullRequest,

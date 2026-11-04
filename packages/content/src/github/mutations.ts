@@ -6,6 +6,11 @@ type FileWriteChange = {
   content: string | Uint8Array
 }
 
+interface ExistingBlobChange {
+  path: string
+  blobSha: string
+}
+
 type FileDeleteChange = {
   path: string
   deleted: true
@@ -16,7 +21,7 @@ type FileDeleteChange = {
  * (JSON, MDX) or raw bytes (uploaded media). Deletes become Git tree entries
  * with a null SHA.
  */
-export type FileChange = FileWriteChange | FileDeleteChange
+export type FileChange = FileWriteChange | FileDeleteChange | ExistingBlobChange
 
 const ASSERT_BRANCH_PREFIX = (branchName: string): void => {
   const {
@@ -80,19 +85,27 @@ export const createBranch = async ({
   fromBranch?: string
 }): Promise<{ sha: string }> => {
   const config = getGithubConfig()
-  const octokit = getOctokit()
+  const sha = await getBranchSha(fromBranch ?? config.stagingBranch)
+  return createBranchAtSha({ newBranch, sha })
+}
+
+export const createBranchAtSha = async ({
+  newBranch,
+  sha,
+}: {
+  newBranch: string
+  sha: string
+}): Promise<{ sha: string }> => {
+  const config = getGithubConfig()
   ASSERT_BRANCH_PREFIX(newBranch)
-
-  const baseBranch = fromBranch ?? config.stagingBranch
-  const baseSha = await getBranchSha(baseBranch)
-
+  const octokit = getOctokit()
   await octokit.git.createRef({
     owner: config.owner,
     repo: config.repo,
     ref: `refs/heads/${newBranch}`,
-    sha: baseSha,
+    sha,
   })
-  return { sha: baseSha }
+  return { sha }
 }
 
 /**
@@ -150,9 +163,11 @@ export const commitFiles = async ({
   branch,
   message,
   changes,
+  expectedHeadSha,
 }: {
   branch: string
   message: string
+  expectedHeadSha?: string
   changes: FileChange[]
 }): Promise<{ commitSha: string }> => {
   if (changes.length === 0) {
@@ -162,7 +177,7 @@ export const commitFiles = async ({
   const octokit = getOctokit()
   const { owner, repo } = getGithubConfig()
 
-  const parentSha = await getBranchSha(branch)
+  const parentSha = expectedHeadSha ?? (await getBranchSha(branch))
   const { data: parentCommit } = await octokit.git.getCommit({
     owner,
     repo,
@@ -196,7 +211,7 @@ export const commitFiles = async ({
         path: change.path,
         mode: '100644' as const,
         type: 'blob' as const,
-        sha: null,
+        sha: 'blobSha' in change ? change.blobSha : null,
       }
     })
   )
@@ -216,12 +231,17 @@ export const commitFiles = async ({
     parents: [parentSha],
   })
 
-  await octokit.git.updateRef({
-    owner,
-    repo,
-    ref: `heads/${branch}`,
-    sha: newCommit.sha,
-  })
+  try {
+    await octokit.git.updateRef({
+      owner,
+      repo,
+      ref: `heads/${branch}`,
+      sha: newCommit.sha,
+    })
+  } catch (error) {
+    // A lost response can follow an accepted write. Only accept our exact SHA.
+    if ((await getBranchSha(branch)) !== newCommit.sha) throw error
+  }
 
   return { commitSha: newCommit.sha }
 }

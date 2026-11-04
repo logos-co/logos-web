@@ -35,17 +35,28 @@ const loadGithubConfigResponse = ({
   }
 }
 
-const parsePullRequestNumber = async (
+const parseMergeRequest = async (
   req: NextRequest
-): Promise<NextResponse | number> => {
-  let body: { pullRequestNumber?: number }
+): Promise<NextResponse | { pullRequestNumber: number; headSha: string }> => {
+  if (
+    req.headers.get('sec-fetch-site') !== 'same-origin' ||
+    req.headers.get('content-type')?.split(';')[0]?.trim() !==
+      'application/json'
+  ) {
+    return NextResponse.json(
+      { error: 'A same-origin JSON request is required' },
+      { status: 403 }
+    )
+  }
+  let body: { pullRequestNumber?: number; headSha?: string } | null
   try {
-    body = (await req.json()) as { pullRequestNumber?: number }
+    body = (await req.json()) as typeof body
   } catch {
     return NextResponse.json({ error: 'invalid JSON body' }, { status: 400 })
   }
 
   if (
+    !body ||
     !Number.isInteger(body.pullRequestNumber) ||
     Number(body.pullRequestNumber) < 1
   ) {
@@ -55,7 +66,16 @@ const parsePullRequestNumber = async (
     )
   }
 
-  return Number(body.pullRequestNumber)
+  if (
+    typeof body.headSha !== 'string' ||
+    !/^[a-f0-9]{40}$/.test(body.headSha)
+  ) {
+    return NextResponse.json({ error: 'Invalid PR head SHA' }, { status: 400 })
+  }
+  return {
+    pullRequestNumber: Number(body.pullRequestNumber),
+    headSha: body.headSha,
+  }
 }
 
 export const createMergePrPostHandler =
@@ -66,9 +86,9 @@ export const createMergePrPostHandler =
     setGithubConfig,
   }: MergePrRouteDependencies) =>
   async (req: NextRequest): Promise<NextResponse> => {
-    const pullRequestNumberOrResponse = await parsePullRequestNumber(req)
-    if (typeof pullRequestNumberOrResponse !== 'number') {
-      return pullRequestNumberOrResponse
+    const request = await parseMergeRequest(req)
+    if (request instanceof NextResponse) {
+      return request
     }
 
     const githubConfigResponse = loadGithubConfigResponse({
@@ -88,7 +108,7 @@ export const createMergePrPostHandler =
     try {
       const result = await mergeContentPullRequest({
         payload,
-        pullRequestNumber: pullRequestNumberOrResponse,
+        ...request,
       })
       return NextResponse.json(result)
     } catch (error) {

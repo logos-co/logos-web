@@ -1,25 +1,42 @@
 import {
   type FileChange,
   commitFiles,
-  createBranch,
+  createBranchAtSha,
+  getBranchSha,
   createOrGetPullRequest,
-  findOpenPullRequestsTouchingPath,
-  findPullRequestByBranch,
+  listManagedPullRequests,
+  verifyContentDiff,
+  compareContentFiles,
+  readContentJson,
+  getFileBlobShas,
   getGithubConfig,
 } from '@repo/content/github'
-import type { Payload } from 'payload'
+import type { BuilderResourceLocale } from '@repo/content/schemas'
+import type { Payload, PayloadRequest } from 'payload'
 
-import { buildContentBranchName } from './branch-naming'
+import { buildContentBranchName, contentBranchStem } from './branch-naming'
 import { collectReferencedCmsUploadChanges } from './media-file-changes'
 
+import { findRecordPullRequest, recoverRemovedUploads } from './record-pr-files'
+import { withContentPathLock } from './content-transaction'
+import { recordContentChangeRequest } from './record-content-change'
+
+export class PublishedResourceMirrorError extends Error {}
+
 export interface SaveAsPullRequestDependencies {
+  withContentPathLock: typeof withContentPathLock
+  readContentJson: typeof readContentJson
+  getFileBlobShas: typeof getFileBlobShas
+  compareContentFiles: typeof compareContentFiles
+  recordContentChangeRequest: typeof recordContentChangeRequest
   buildContentBranchName: typeof buildContentBranchName
   collectReferencedCmsUploadChanges: typeof collectReferencedCmsUploadChanges
   commitFiles: typeof commitFiles
-  createBranch: typeof createBranch
+  createBranchAtSha: typeof createBranchAtSha
+  getBranchSha: typeof getBranchSha
   createOrGetPullRequest: typeof createOrGetPullRequest
-  findOpenPullRequestsTouchingPath: typeof findOpenPullRequestsTouchingPath
-  findPullRequestByBranch: typeof findPullRequestByBranch
+  listManagedPullRequests: typeof listManagedPullRequests
+  verifyContentDiff: typeof verifyContentDiff
   getGithubConfig: typeof getGithubConfig
 }
 
@@ -30,7 +47,9 @@ export interface SavePrEditor {
 }
 
 export interface SaveContentAsPullRequestInput<TDoc> {
+  req?: PayloadRequest
   doc: TDoc
+  previousDoc?: TDoc
   editor?: SavePrEditor
   payload: Payload
 }
@@ -81,20 +100,26 @@ export const createContentDeletePrBody = ({
     ...details,
   ].join('\n')
 
-export type SaveAsPullRequestInput = {
+export type SaveAsPullRequestInput = (
+  | { changes: FileChange[]; resourceList?: never }
+  | {
+      changes?: never
+      resourceList: {
+        path: string
+        prepare: (
+          parent: unknown,
+          req: PayloadRequest
+        ) => Promise<{
+          change: FileChange
+          resource: BuilderResourceLocale
+          clearRename: () => Promise<void>
+        }>
+      }
+    }
+) & {
+  req?: PayloadRequest
   /** Logical content type — used for branch naming and the CCR row. */
   contentType: string
-  /**
-   * Record identifier (slug or route) used in the branch name. The actual
-   * file path is supplied in `changes`; this is for branch-naming only.
-   */
-  identifier: string
-  /**
-   * One or more file changes to commit in a single atomic GitHub commit.
-   * The first change's `path` becomes the `targetPath` recorded on the
-   * ContentChangeRequest row (used for lock queries).
-   */
-  changes: FileChange[]
   /** Single-line commit subject. */
   commitMessage: string
   /** PR title. Plan §9 PR Title Rules — should start with `content(scope):`. */
@@ -123,57 +148,24 @@ export type SaveAsPullRequestResult = {
   pullRequestUrl: string
   commitSha: string
   contentChangeRequestId: string | number
+  resource?: BuilderResourceLocale
 }
 
-const recordContentChangeRequest = async (
-  input: SaveAsPullRequestInput & {
-    branchName: string
-    commitSha: string
-    pullRequestNumber: number
-    pullRequestUrl: string
-    targetPath: string
-  }
-): Promise<string | number> => {
-  const existing = await input.payload.find({
-    collection: 'content-change-requests',
-    where: {
-      or: [
-        { branchName: { equals: input.branchName } },
-        { pullRequestNumber: { equals: input.pullRequestNumber } },
-      ],
-    },
-    sort: '-updatedAt',
-    limit: 1,
-  })
-
-  const existingRequest = existing.docs[0]
-  const data = {
-    contentType: input.contentType,
-    targetPath: input.targetPath,
-    branchName: input.branchName,
-    pullRequestNumber: input.pullRequestNumber,
-    pullRequestUrl: input.pullRequestUrl,
-    status: 'open',
-    commitSha: input.commitSha,
-    ...(input.editor?.payloadUserId !== undefined && {
-      createdBy: input.editor.payloadUserId,
-    }),
-  }
-
-  if (existingRequest) {
-    await input.payload.update({
-      collection: 'content-change-requests',
-      id: existingRequest.id,
-      data,
-    })
-    return existingRequest.id
-  }
-
-  const created = await input.payload.create({
-    collection: 'content-change-requests',
-    data,
-  })
-  return created.id
+const defaults = {
+  withContentPathLock,
+  buildContentBranchName,
+  recordContentChangeRequest,
+  collectReferencedCmsUploadChanges,
+  commitFiles,
+  createBranchAtSha,
+  getBranchSha,
+  createOrGetPullRequest,
+  listManagedPullRequests,
+  verifyContentDiff,
+  compareContentFiles,
+  readContentJson,
+  getFileBlobShas,
+  getGithubConfig,
 }
 
 /**
@@ -186,170 +178,170 @@ const recordContentChangeRequest = async (
  *   5. Upsert the `ContentChangeRequest` row that mirrors the PR state.
  */
 export const createSaveAsPullRequest =
-  ({
-    buildContentBranchName,
-    collectReferencedCmsUploadChanges,
-    commitFiles,
-    createBranch,
-    createOrGetPullRequest,
-    findOpenPullRequestsTouchingPath,
-    findPullRequestByBranch,
-    getGithubConfig,
-  }: SaveAsPullRequestDependencies) =>
+  (overrides: Partial<SaveAsPullRequestDependencies> = {}) =>
   async (input: SaveAsPullRequestInput): Promise<SaveAsPullRequestResult> => {
-    if (input.changes.length === 0) {
+    const dependencies = { ...defaults, ...overrides }
+    const {
+      buildContentBranchName,
+      recordContentChangeRequest,
+      collectReferencedCmsUploadChanges,
+      commitFiles,
+      createBranchAtSha,
+      getBranchSha,
+      createOrGetPullRequest,
+      listManagedPullRequests,
+      getGithubConfig,
+    } = dependencies
+
+    const paths = input.resourceList
+      ? [input.resourceList.path]
+      : input.changes.map((change) => change.path)
+    const targetPath = paths[0]
+    if (!targetPath)
       throw new Error('saveAsPullRequest requires at least one file change')
-    }
-
     const config = getGithubConfig()
-    const targetPath = input.changes[0]!.path
-    const mediaChanges = await collectReferencedCmsUploadChanges({
-      changes: input.changes,
-    })
-    const changes = [...input.changes, ...mediaChanges]
-    const existing = await input.payload.find({
-      collection: 'content-change-requests',
-      where: {
-        and: [
-          { targetPath: { equals: targetPath } },
-          { status: { in: ['draft', 'open'] } },
-        ],
-      },
-      sort: '-updatedAt',
-      limit: 1,
-    })
-
-    const existingRequest = existing.docs[0]
-    if (existingRequest) {
+    const branchInput = {
+      contentType: input.contentType,
+      targetPath,
+      prefix: config.contentBranchPrefix,
+    }
+    const branchName = buildContentBranchName(branchInput)
+    const persist = async (req: PayloadRequest) => {
+      const existing = await input.payload.find({
+        collection: 'content-change-requests',
+        req,
+        depth: 0,
+        limit: 1,
+        sort: '-updatedAt',
+        where: {
+          targetPath: { equals: targetPath },
+          status: { in: ['open', 'draft'] },
+        },
+      })
+      const cached = existing.docs[0]
+      const open = await listManagedPullRequests()
+      const candidate = await findRecordPullRequest(
+        open,
+        paths,
+        contentBranchStem(branchInput),
+        dependencies,
+        cached,
+        input.prTitle
+      )
       if (
-        !existingRequest.pullRequestNumber ||
-        !existingRequest.pullRequestUrl
-      ) {
-        throw new Error(
-          `open content change request ${existingRequest.id} is missing pull request metadata`
+        cached &&
+        !open.some(
+          (pr) =>
+            pr.number === cached.pullRequestNumber &&
+            pr.branchName === cached.branchName
         )
-      }
-
-      const branchName = existingRequest.branchName
-      const liveRequest = await findPullRequestByBranch(branchName)
-      if (!liveRequest) {
+      ) {
         await input.payload.update({
           collection: 'content-change-requests',
-          id: existingRequest.id,
+          req,
+          where: {
+            id: { equals: cached.id },
+            updatedAt: { equals: cached.updatedAt },
+          },
           data: { status: 'closed' },
         })
-      } else {
-        const { commitSha } = await commitFiles({
-          branch: branchName,
-          message: input.commitMessage,
-          changes,
-        })
-
-        await input.payload.update({
-          collection: 'content-change-requests',
-          id: existingRequest.id,
-          data: {
-            pullRequestNumber: liveRequest.number,
-            pullRequestUrl: liveRequest.htmlUrl,
-            status: 'open',
-            commitSha,
-          },
-        })
-
-        return {
-          branchName,
-          pullRequestNumber: liveRequest.number,
-          pullRequestUrl: liveRequest.htmlUrl,
-          commitSha,
-          contentChangeRequestId: existingRequest.id,
-        }
       }
-    }
-
-    const branchName = buildContentBranchName({
-      contentType: input.contentType,
-      identifier: input.identifier,
-    })
-    const baseBranch = config.prBaseBranch
-
-    const livePullRequests = await findOpenPullRequestsTouchingPath(targetPath)
-    if (livePullRequests.length > 1) {
-      throw new Error(
-        `multiple open pull requests already touch ${targetPath}; merge or close one before saving`
-      )
-    }
-    const livePullRequest = livePullRequests[0]
-    if (livePullRequest) {
+      const livePr = candidate?.pr
+      const branch = livePr?.branchName ?? branchName
+      const parent =
+        livePr?.headSha ?? (await getBranchSha(config.prBaseBranch))
+      const prepared = input.resourceList
+        ? await input.resourceList.prepare(
+            await dependencies.readContentJson(targetPath, parent),
+            req
+          )
+        : undefined
+      const contentChanges = prepared ? [prepared.change] : input.changes!
+      const mediaChanges = await collectReferencedCmsUploadChanges({
+        changes: contentChanges,
+      })
+      const changes = [...contentChanges, ...mediaChanges]
+      if (
+        candidate &&
+        !(
+          cached?.branchName === candidate.pr.branchName &&
+          cached.pullRequestNumber === candidate.pr.number &&
+          cached.commitSha === parent
+        )
+      ) {
+        changes.push(
+          ...(await recoverRemovedUploads(
+            candidate,
+            paths,
+            mediaChanges,
+            dependencies
+          ))
+        )
+      }
+      if (!livePr) await createBranchAtSha({ newBranch: branch, sha: parent })
       const { commitSha } = await commitFiles({
-        branch: livePullRequest.branchName,
+        branch,
+        expectedHeadSha: parent,
         message: input.commitMessage,
         changes,
       })
 
+      // PR body intentionally omits editor identity. The internal CCR row
+      // (created below) records `createdBy` for audit; surfacing the editor's
+      // email on a public PR is PII leakage we explicitly avoid. The
+      // `editor.email` and `editor.payloadAuditUrl` plumbing stays in the
+      // input type for future internal uses (e.g. notification emails) but
+      // never reaches the GitHub PR.
+      const pr =
+        livePr ??
+        (await createOrGetPullRequest({
+          branchName: branch,
+          title: input.prTitle,
+          body: input.prBody ?? '',
+          draft: input.draft ?? true,
+        }).catch(async (error: unknown) => {
+          const accepted = (await listManagedPullRequests()).find(
+            (pr) => pr.branchName === branch && pr.headSha === commitSha
+          )
+          if (!accepted) throw error
+          return accepted
+        }))
+
       const contentChangeRequestId = await recordContentChangeRequest({
         ...input,
-        branchName: livePullRequest.branchName,
+        req,
+        independent: Boolean(input.resourceList),
+        parentSha: parent,
+        branchName: branch,
         commitSha,
-        pullRequestNumber: livePullRequest.number,
-        pullRequestUrl: livePullRequest.htmlUrl,
+        pullRequestNumber: pr.number,
+        pullRequestUrl: pr.htmlUrl,
         targetPath,
+      }).catch((cause: unknown) => {
+        if (!input.resourceList) throw cause
+        throw new PublishedResourceMirrorError(
+          `PR #${pr.number} was updated, but the CMS could not record its head.`,
+          { cause }
+        )
       })
 
+      await prepared?.clearRename()
       return {
-        branchName: livePullRequest.branchName,
-        pullRequestNumber: livePullRequest.number,
-        pullRequestUrl: livePullRequest.htmlUrl,
+        branchName: branch,
+        pullRequestNumber: pr.number,
+        pullRequestUrl: pr.htmlUrl,
         commitSha,
         contentChangeRequestId,
+        ...(prepared && { resource: prepared.resource }),
       }
     }
-
-    await createBranch({ newBranch: branchName, fromBranch: baseBranch })
-
-    const { commitSha } = await commitFiles({
-      branch: branchName,
-      message: input.commitMessage,
-      changes,
-    })
-
-    // PR body intentionally omits editor identity. The internal CCR row
-    // (created below) records `createdBy` for audit; surfacing the editor's
-    // email on a public PR is PII leakage we explicitly avoid. The
-    // `editor.email` and `editor.payloadAuditUrl` plumbing stays in the
-    // input type for future internal uses (e.g. notification emails) but
-    // never reaches the GitHub PR.
-    const pr = await createOrGetPullRequest({
-      branchName,
-      title: input.prTitle,
-      body: input.prBody ?? '',
-      draft: input.draft ?? true,
-    })
-
-    const contentChangeRequestId = await recordContentChangeRequest({
-      ...input,
-      branchName,
-      commitSha,
-      pullRequestNumber: pr.number,
-      pullRequestUrl: pr.htmlUrl,
+    return dependencies.withContentPathLock(
+      input.payload,
+      input.req,
       targetPath,
-    })
-
-    return {
-      branchName,
-      pullRequestNumber: pr.number,
-      pullRequestUrl: pr.htmlUrl,
-      commitSha,
-      contentChangeRequestId,
-    }
+      persist,
+      Boolean(input.resourceList)
+    )
   }
 
-export const saveAsPullRequest = createSaveAsPullRequest({
-  buildContentBranchName,
-  collectReferencedCmsUploadChanges,
-  commitFiles,
-  createBranch,
-  createOrGetPullRequest,
-  findOpenPullRequestsTouchingPath,
-  findPullRequestByBranch,
-  getGithubConfig,
-})
+export const saveAsPullRequest = createSaveAsPullRequest()

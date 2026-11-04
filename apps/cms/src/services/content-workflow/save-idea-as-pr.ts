@@ -103,6 +103,7 @@ export const buildIdeaFixtureDeleteChanges = (
 export const saveIdeaAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<IdeaDocLike>): Promise<SaveAsPullRequestResult> => {
   const { indexChange, localeChange } = buildIdeaFixtureChanges(doc)
@@ -113,7 +114,6 @@ export const saveIdeaAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'idea',
-    identifier: doc.slug,
     changes: [indexChange, localeChange],
     commitMessage: subject,
     prTitle: subject,
@@ -129,12 +129,14 @@ export const saveIdeaAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }
 
 export const deleteIdeaAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<IdeaDocLike>): Promise<SaveAsPullRequestResult> => {
   const subject = createContentDeleteSubject({
@@ -144,7 +146,6 @@ export const deleteIdeaAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'idea',
-    identifier: doc.slug,
     changes: buildIdeaFixtureDeleteChanges(doc),
     commitMessage: subject,
     prTitle: subject,
@@ -159,5 +160,6 @@ export const deleteIdeaAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }

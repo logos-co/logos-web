@@ -107,6 +107,7 @@ export const buildCircleInitiativeFixtureDeleteChanges = (
 export const saveCircleInitiativeAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<CircleInitiativeDocLike>): Promise<SaveAsPullRequestResult> => {
   const { indexChange, localeChange } = buildCircleInitiativeFixtureChanges(doc)
@@ -117,7 +118,6 @@ export const saveCircleInitiativeAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'circle-initiative',
-    identifier: doc.slug,
     changes: [indexChange, localeChange],
     commitMessage: subject,
     prTitle: subject,
@@ -133,12 +133,14 @@ export const saveCircleInitiativeAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }
 
 export const deleteCircleInitiativeAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<CircleInitiativeDocLike>): Promise<SaveAsPullRequestResult> => {
   const subject = createContentDeleteSubject({
@@ -148,7 +150,6 @@ export const deleteCircleInitiativeAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'circle-initiative',
-    identifier: doc.slug,
     changes: buildCircleInitiativeFixtureDeleteChanges(doc),
     commitMessage: subject,
     prTitle: subject,
@@ -163,5 +164,6 @@ export const deleteCircleInitiativeAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }

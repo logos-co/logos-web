@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getContentWorkflowCollectionLabel } from '@/services/content-workflow/collection-metadata'
 
 type RecentPullRequest = {
+  headSha: string
   id: string | number
   branchName?: string | null
   contentType?: string | null
@@ -160,43 +161,46 @@ const RecentPrBannerInner = ({
     setDismissed(true)
   }, [dismissKey])
 
-  const onMerge = useCallback(async (pullRequestNumber?: number | null) => {
-    if (!pullRequestNumber) return
+  const onMerge = useCallback(
+    async ({ pullRequestNumber, headSha }: RecentPullRequest) => {
+      if (!pullRequestNumber) return
 
-    setMergeError(null)
-    setMergedPr(null)
-    setMergingPr(pullRequestNumber)
-    try {
-      const response = await fetch('/api/content-workflow/merge-pr', {
-        body: JSON.stringify({ pullRequestNumber }),
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      })
-      const json = (await response.json()) as MergePrResult
-      if (!response.ok) {
-        throw new Error(json.error ?? `request failed (${response.status})`)
+      setMergeError(null)
+      setMergedPr(null)
+      setMergingPr(pullRequestNumber)
+      try {
+        const response = await fetch('/api/content-workflow/merge-pr', {
+          body: JSON.stringify({ pullRequestNumber, headSha }),
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+        })
+        const json = (await response.json()) as MergePrResult
+        if (!response.ok) {
+          throw new Error(json.error ?? `request failed (${response.status})`)
+        }
+        setMergedPr(json)
+
+        setResult((current) =>
+          current
+            ? {
+                ...current,
+                pullRequests: current.pullRequests.filter(
+                  (pr) => pr.pullRequestNumber !== pullRequestNumber
+                ),
+              }
+            : current
+        )
+      } catch (error) {
+        setMergeError(error instanceof Error ? error.message : String(error))
+      } finally {
+        setMergingPr(null)
       }
-      setMergedPr(json)
-
-      setResult((current) =>
-        current
-          ? {
-              ...current,
-              pullRequests: current.pullRequests.filter(
-                (pr) => pr.pullRequestNumber !== pullRequestNumber
-              ),
-            }
-          : current
-      )
-    } catch (error) {
-      setMergeError(error instanceof Error ? error.message : String(error))
-    } finally {
-      setMergingPr(null)
-    }
-  }, [])
+    },
+    []
+  )
 
   const label = collection
     ? getContentWorkflowCollectionLabel(collection)
@@ -294,7 +298,7 @@ const RecentPrBannerInner = ({
                   disabled={
                     !pr.pullRequestNumber || mergingPr === pr.pullRequestNumber
                   }
-                  onClick={() => void onMerge(pr.pullRequestNumber)}
+                  onClick={() => void onMerge(pr)}
                   style={{
                     border: '1px solid var(--theme-success-300, #88d39f)',
                     borderRadius: 4,

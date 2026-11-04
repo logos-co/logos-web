@@ -28,6 +28,7 @@ const toastId = 'content-pr-save-in-progress'
 const savedToastId = 'content-pr-save-created'
 
 type RecentPullRequest = {
+  headSha: string
   branchName?: string | null
   draft?: boolean | null
   pullRequestNumber?: number | null
@@ -403,7 +404,10 @@ export const ContentPrSaveButton = () => {
     setMergeResult(null)
     try {
       const response = await fetch('/api/content-workflow/merge-pr', {
-        body: JSON.stringify({ pullRequestNumber: recentPr.pullRequestNumber }),
+        body: JSON.stringify({
+          pullRequestNumber: recentPr.pullRequestNumber,
+          headSha: recentPr.headSha,
+        }),
         credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json',

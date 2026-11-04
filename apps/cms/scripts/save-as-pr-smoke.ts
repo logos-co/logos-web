@@ -7,7 +7,7 @@
  * at the expected file path, then cleans up (close PR + delete branch).
  *
  * Authentication: uses GitHub App installation credentials only.
- * The Payload-side `payload.create` for the `content-change-requests` row is
+ * Persistence of the `content-change-requests` row is
  * stubbed — this is a smoke for the GitHub-mutation half of the service, not
  * the Payload persistence half.
  *
@@ -27,41 +27,19 @@ import {
 } from '@repo/content/github'
 import type { Payload } from 'payload'
 
-import { saveAsPullRequest } from '../src/services/content-workflow'
+import { createSaveAsPullRequest } from '../src/services/content-workflow/save-as-pr'
+
+const saveAsPullRequest = createSaveAsPullRequest({
+  recordContentChangeRequest: async () => 1,
+  withContentPathLock: async (_payload, _req, _path, save) => save({} as never),
+})
 
 const config = loadGithubConfigFromEnv()
 const { owner, repo, prBaseBranch: baseBranch } = config
 
-/**
- * Minimal stub of the Payload instance — only `create` for the
- * `content-change-requests` collection is exercised. The smoke test does not
- * assert on the row itself; it just needs the call to resolve.
- */
+// This single-writer smoke exercises GitHub mutations without a database.
 const stubPayload = {
-  find: async ({ collection }: { collection: string }) => {
-    if (collection !== 'content-change-requests') {
-      throw new Error(
-        `stub payload received unexpected collection "${collection}"`
-      )
-    }
-    return { docs: [] }
-  },
-  create: async ({ collection }: { collection: string }) => {
-    if (collection !== 'content-change-requests') {
-      throw new Error(
-        `stub payload received unexpected collection "${collection}"`
-      )
-    }
-    return { id: 'stub-ccr-id' }
-  },
-  update: async ({ collection, id }: { collection: string; id: string }) => {
-    if (collection !== 'content-change-requests') {
-      throw new Error(
-        `stub payload received unexpected collection "${collection}"`
-      )
-    }
-    return { id }
-  },
+  find: async () => ({ docs: [] }),
 } as unknown as Payload
 
 const SLUG = 'secure-decentralised-frontends'
@@ -106,7 +84,6 @@ const main = async (): Promise<void> => {
   try {
     result = await saveAsPullRequest({
       contentType: 'rfp',
-      identifier: SLUG,
       changes: [
         { path: fixtureIndexPath, content: indexJson },
         { path: fixtureLocalePath, content: updatedLocaleJson },

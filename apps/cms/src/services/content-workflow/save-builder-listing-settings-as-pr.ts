@@ -71,6 +71,7 @@ export const buildBuilderListingSettingsFileChange = (
 export const saveBuilderListingSettingsAsPullRequest = async ({
   doc,
   payload,
+  req,
   editor,
 }: SaveContentAsPullRequestInput<BuilderListingSettingsDocLike>): Promise<SaveAsPullRequestResult> => {
   const subject = createContentUpdateSubject({
@@ -81,7 +82,6 @@ export const saveBuilderListingSettingsAsPullRequest = async ({
 
   return saveAsPullRequest({
     contentType: 'builder-listing',
-    identifier: doc.page,
     changes: [buildBuilderListingSettingsFileChange(doc)],
     commitMessage: subject,
     prTitle: subject,
@@ -93,5 +93,6 @@ export const saveBuilderListingSettingsAsPullRequest = async ({
     draft: true,
     editor,
     payload,
+    req,
   })
 }
