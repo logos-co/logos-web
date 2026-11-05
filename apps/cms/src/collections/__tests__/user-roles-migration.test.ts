@@ -28,7 +28,7 @@ for (const existingUsers of [0, 3]) {
       t.after(async () => {
         await payload?.destroy()
         await Promise.all(pools.map((pool) => pool.end()))
-        await maintenance.query(`DROP DATABASE "${database}" WITH (FORCE)`)
+        await maintenance.query(`DROP DATABASE "${database}"`)
         await maintenance.end()
       })
       const start = (legacy: boolean) => {
