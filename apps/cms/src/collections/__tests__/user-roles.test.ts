@@ -47,23 +47,23 @@ async function login(
   return result.token as string
 }
 
-for (const concurrent of [false, true]) {
+for (const { concurrent, path } of [
+  { concurrent: false, path: 'users/first-register' },
+  { concurrent: true, path: 'users/first-register/' },
+  { concurrent: true, path: 'users/FIRST-REGISTER/' },
+  { concurrent: true, path: 'users/First-Register' },
+]) {
   test(
-    `first registration creates one administrator (concurrent=${concurrent})`,
+    `first registration creates one administrator (${path}, concurrent=${concurrent})`,
     { skip: !enabled },
     async (t) => {
       const payload = await startResourceTestCms(t, [Users])
       const register = (email: string) =>
-        request(
-          payload,
-          concurrent ? 'users/first-register/' : 'users/first-register',
-          'POST',
-          {
-            email,
-            password,
-            role: email === 'first@example.com' ? 'editor' : 'admin',
-          }
-        )
+        request(payload, path, 'POST', {
+          email,
+          password,
+          role: email === 'first@example.com' ? 'editor' : 'admin',
+        })
       const responses = concurrent
         ? await Promise.all([
             register('first@example.com'),

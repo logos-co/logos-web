@@ -1,5 +1,5 @@
 import type { Access, CollectionConfig, FieldAccess } from 'payload'
-import { initialiseUserRole } from './user-roles'
+import { initialiseUserRole, readLoginRole, saveUserRole } from './user-roles'
 
 const isAdmin: Access = ({ req }) => req.user?.role === 'admin'
 const adminField: FieldAccess = ({ req }) => req.user?.role === 'admin'
@@ -26,6 +26,7 @@ export const Users: CollectionConfig = {
   },
   hooks: {
     beforeChange: [initialiseUserRole],
+    afterLogin: [readLoginRole],
   },
   fields: [
     {
@@ -37,6 +38,7 @@ export const Users: CollectionConfig = {
       type: 'select',
       required: true,
       defaultValue: 'editor',
+      hooks: { beforeChange: [saveUserRole] },
       options: [
         { label: 'Administrator', value: 'admin' },
         { label: 'Editor', value: 'editor' },

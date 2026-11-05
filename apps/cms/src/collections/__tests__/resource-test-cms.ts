@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import type { TestContext } from 'node:test'
-import { postgresAdapter } from '@payloadcms/db-postgres'
+import { userRolesPostgresAdapter } from '../../database/user-roles-adapter'
 import { buildConfig, getPayload, type CollectionConfig } from 'payload'
 import { Pool } from 'pg'
 import { ResourceRenames } from '../ResourceRenames'
@@ -20,7 +20,7 @@ export async function startResourceTestCms(
     }
   })
 
-  const adapter = postgresAdapter({
+  const adapter = userRolesPostgresAdapter({
     pool: { connectionString, statement_timeout: 1000 },
     schemaName,
     push: true,
