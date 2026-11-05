@@ -77,7 +77,7 @@ For local development, the [database adapter](../src/database/user-roles-adapter
 
 New accounts default to editor. Administrators can create accounts, manage other accounts and assign roles. Editors can read and update their own profile, email and password, and continue using the content editing and publishing workflows. Only administrators can unlock accounts or delete other users. Administrators cannot delete their own account or change their own role.
 
-Role updates go through the [user role field hook](../src/collections/user-roles.ts) in the account update transaction. Direct adapter updates exclude the role so that Payload's login, logout, session refresh and password reset writes cannot restore a stale role. Trusted maintenance scripts that assign roles must use `payload.update`, rather than `payload.db.updateOne`.
+Role updates go through the [user after-change hook](../src/collections/user-roles.ts) in the account update transaction, after validation and the account save succeed. In bulk updates, rejected accounts keep their roles while successfully saved accounts receive the requested changes. Direct adapter updates exclude the role so that Payload's login, logout, session refresh and password reset writes cannot restore a stale role. Trusted maintenance scripts that assign roles must use `payload.update`, rather than `payload.db.updateOne`.
 
 ## First admin user
 

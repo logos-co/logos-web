@@ -26,6 +26,7 @@ export const Users: CollectionConfig = {
   },
   hooks: {
     beforeChange: [initialiseUserRole],
+    afterChange: [saveUserRole],
     afterLogin: [readLoginRole],
   },
   fields: [
@@ -38,7 +39,6 @@ export const Users: CollectionConfig = {
       type: 'select',
       required: true,
       defaultValue: 'editor',
-      hooks: { beforeChange: [saveUserRole] },
       options: [
         { label: 'Administrator', value: 'admin' },
         { label: 'Editor', value: 'editor' },

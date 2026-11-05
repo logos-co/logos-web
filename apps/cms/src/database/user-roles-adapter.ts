@@ -14,7 +14,7 @@ export function userRolesPostgresAdapter(args: PostgresAdapterArgs) {
       db.updateOne = (update) => {
         if (update.collection !== 'users') return updateOne(update)
         // Payload auth writes stale whole-user snapshots without field hooks.
-        // Role changes are written separately by the validated role field hook.
+        // Role changes are written separately after the account update succeeds.
         const data = { ...update.data }
         delete data.role
         return updateOne({ ...update, data })

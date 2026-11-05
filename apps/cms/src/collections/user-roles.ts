@@ -2,8 +2,8 @@ import { sql } from '@payloadcms/db-postgres'
 import {
   APIError,
   type CollectionAfterLoginHook,
+  type CollectionAfterChangeHook,
   type CollectionBeforeChangeHook,
-  type FieldHook,
   type PayloadRequest,
   type TypedUser,
 } from 'payload'
@@ -20,25 +20,26 @@ async function userTransaction(req: PayloadRequest) {
   return tx
 }
 
-export const saveUserRole: FieldHook = async ({
+export const saveUserRole: CollectionAfterChangeHook = async ({
   operation,
-  value,
-  previousValue,
-  originalDoc,
+  data,
+  doc,
+  previousDoc,
   req,
 }) => {
+  const value = data.role
   if (
     operation !== 'update' ||
-    value === previousValue ||
+    value === previousDoc.role ||
     (value !== 'admin' && value !== 'editor')
   )
-    return value
-  // Field access has already removed unauthorised input. This write shares the
-  // normal update transaction, so failed validation rolls the role back too.
+    return doc
+  // Bulk updates commit successful documents even when others fail validation.
+  // Only write the authorised role after this document has actually been saved.
   const tx = await userTransaction(req)
   await tx.execute(sql`UPDATE ${sql.identifier(req.payload.db.schemaName || 'public')}."users"
-    SET "role" = ${value} WHERE "id" = ${originalDoc.id}`)
-  return value
+    SET "role" = ${value} WHERE "id" = ${previousDoc.id}`)
+  return 'role' in doc ? { ...doc, role: value } : doc
 }
 
 export const readLoginRole: CollectionAfterLoginHook = async ({
