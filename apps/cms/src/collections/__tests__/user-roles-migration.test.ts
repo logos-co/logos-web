@@ -12,9 +12,13 @@ process.env.PAYLOAD_FORCE_DRIZZLE_PUSH = 'true'
 
 const enabled = Boolean(process.env.CMS_TEST_DATABASE_URL)
 
-for (const existingUsers of [0, 3]) {
+for (const [schemaName, existingUsers] of [
+  ['payload', 0],
+  ['payload', 3],
+  ['cms_stage', 3],
+] as const) {
   test(
-    `role migration preserves ${existingUsers} existing accounts and supports rollback`,
+    `role migration in ${schemaName} preserves ${existingUsers} existing accounts and supports rollback`,
     { skip: !enabled },
     async (t) => {
       const database = 'user_roles_' + randomUUID().replaceAll('-', '')
@@ -37,7 +41,7 @@ for (const existingUsers of [0, 3]) {
         pools.push(pool)
         const adapter = (legacy ? postgresAdapter : userRolesPostgresAdapter)({
           pool: { connectionString: url.toString() },
-          schemaName: 'payload',
+          schemaName,
           push: legacy,
         })
         return getPayload({
@@ -62,6 +66,27 @@ for (const existingUsers of [0, 3]) {
         })
       }
       payload = await start(true)
+      const schema = sql.identifier(schemaName)
+      const db = payload.db.drizzle
+      if (schemaName !== 'payload') {
+        // Another CMS environment has already assigned roles in the same database.
+        await db.execute(sql`
+          CREATE SCHEMA "payload";
+          CREATE TYPE "payload"."enum_users_role" AS ENUM ('admin', 'editor');
+          CREATE TABLE "payload"."users" (id integer PRIMARY KEY, role "payload"."enum_users_role" NOT NULL);
+          INSERT INTO "payload"."users" VALUES (1, 'editor'), (2, 'admin');
+        `)
+      }
+      const checkOtherEnvironment = async () => {
+        if (schemaName === 'payload') return
+        const result = await db.execute(
+          sql`SELECT id, role FROM "payload"."users" ORDER BY id`
+        )
+        assert.deepEqual(result.rows, [
+          { id: 1, role: 'editor' },
+          { id: 2, role: 'admin' },
+        ])
+      }
       const identities: {
         id: string | number
         email: string
@@ -85,10 +110,10 @@ for (const existingUsers of [0, 3]) {
       }
       // Equal timestamps still produce one deterministic administrator by ID.
       await payload.db.drizzle.execute(
-        sql`UPDATE "payload"."users" SET created_at = '2026-01-01'`
+        sql`UPDATE ${schema}."users" SET created_at = '2026-01-01'`
       )
       const before = await payload.db.drizzle.execute(
-        sql`SELECT id, email, hash, salt FROM "payload"."users" ORDER BY id`
+        sql`SELECT id, email, hash, salt FROM ${schema}."users" ORDER BY id`
       )
       const args = {
         db: payload.db.drizzle,
@@ -96,25 +121,28 @@ for (const existingUsers of [0, 3]) {
         req: await createLocalReq({}, payload),
       }
       await up(args)
+      await checkOtherEnvironment()
       let roles = await payload.db.drizzle.execute(
-        sql`SELECT role FROM "payload"."users" ORDER BY id`
+        sql`SELECT role FROM ${schema}."users" ORDER BY id`
       )
       assert.deepEqual(
         roles.rows.map((row) => row.role),
         existingUsers ? ['admin', 'editor', 'editor'] : []
       )
       const after = await payload.db.drizzle.execute(
-        sql`SELECT id, email, hash, salt FROM "payload"."users" ORDER BY id`
+        sql`SELECT id, email, hash, salt FROM ${schema}."users" ORDER BY id`
       )
       assert.deepEqual(after.rows, before.rows)
       await down(args)
+      await checkOtherEnvironment()
       const columns = await payload.db.drizzle.execute(
-        sql`SELECT column_name FROM information_schema.columns WHERE table_schema = 'payload' AND table_name = 'users' AND column_name = 'role'`
+        sql`SELECT column_name FROM information_schema.columns WHERE table_schema = ${schemaName} AND table_name = 'users' AND column_name = 'role'`
       )
       assert.equal(columns.rows.length, 0)
       await up(args)
+      await checkOtherEnvironment()
       roles = await payload.db.drizzle.execute(
-        sql`SELECT role FROM "payload"."users" ORDER BY id`
+        sql`SELECT role FROM ${schema}."users" ORDER BY id`
       )
       assert.deepEqual(
         roles.rows.map((row) => row.role),

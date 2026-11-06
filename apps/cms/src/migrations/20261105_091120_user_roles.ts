@@ -1,12 +1,21 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
-import { userRolesMigrationSql } from '../database/user-roles-schema'
+import {
+  type MigrateUpArgs,
+  type MigrateDownArgs,
+  sql,
+} from '@payloadcms/db-postgres'
+import {
+  userRolesMigrationSql,
+  userRolesRollbackSql,
+} from '../database/user-roles-schema'
 
-export async function up({ db }: MigrateUpArgs): Promise<void> {
-  await db.execute(sql.raw(userRolesMigrationSql('payload')))
+export async function up({ db, payload }: MigrateUpArgs): Promise<void> {
+  await db.execute(
+    sql.raw(userRolesMigrationSql(payload.db.schemaName || 'public'))
+  )
 }
 
-export async function down({ db }: MigrateDownArgs): Promise<void> {
-  await db.execute(sql`
-   ALTER TABLE "payload"."users" DROP COLUMN "role";
-  DROP TYPE "payload"."enum_users_role";`)
+export async function down({ db, payload }: MigrateDownArgs): Promise<void> {
+  await db.execute(
+    sql.raw(userRolesRollbackSql(payload.db.schemaName || 'public'))
+  )
 }

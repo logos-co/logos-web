@@ -1,12 +1,24 @@
 import type { Pool } from 'pg'
 
+function quoteSchemaName(schemaName: string): string {
+  return `"${schemaName.replaceAll('"', '""')}"`
+}
+
 export function userRolesMigrationSql(schemaName: string): string {
-  const schema = `"${schemaName.replaceAll('"', '""')}"`
+  const schema = quoteSchemaName(schemaName)
   return `
     CREATE TYPE ${schema}."enum_users_role" AS ENUM('admin', 'editor');
     ALTER TABLE ${schema}."users" ADD COLUMN "role" ${schema}."enum_users_role" DEFAULT 'editor' NOT NULL;
     UPDATE ${schema}."users" SET "role" = 'admin'
     WHERE "id" = (SELECT "id" FROM ${schema}."users" ORDER BY "created_at", "id" LIMIT 1);
+  `
+}
+
+export function userRolesRollbackSql(schemaName: string): string {
+  const schema = quoteSchemaName(schemaName)
+  return `
+    ALTER TABLE ${schema}."users" DROP COLUMN "role";
+    DROP TYPE ${schema}."enum_users_role";
   `
 }
 
