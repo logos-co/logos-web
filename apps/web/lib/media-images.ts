@@ -1,9 +1,9 @@
+import type { BlogDynamicBlock } from '@/lib/media-blocks/types'
 import {
   CMS_PRESS_ORIGIN,
   resolveAssetUrl,
   type BlogArticleDetail,
   type BlogContentBlock,
-  type BlogDynamicBlock,
   type BlogImage,
   type BlogPodcastDetail,
 } from '@/lib/blog-content'
