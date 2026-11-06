@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { postgresAdapter } from '@payloadcms/db-postgres'
+import { userRolesPostgresAdapter } from './src/database/user-roles-adapter'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
 import type { CollectionConfig } from 'payload'
@@ -171,7 +171,7 @@ export default buildConfig({
   collections,
   cors: [serverURL, frontendURL],
   csrf: [serverURL, frontendURL],
-  db: postgresAdapter({
+  db: userRolesPostgresAdapter({
     pool: {
       connectionString: databaseUrl,
       connectionTimeoutMillis: databaseConnectionTimeoutMs,

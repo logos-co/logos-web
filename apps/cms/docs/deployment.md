@@ -69,6 +69,16 @@ A failed migration stops the deploy: the entrypoint runs under `set -e`, so the 
 
 The entrypoint migrates on every start, which assumes a single instance. The bundled compose file runs one `cms` service, so that holds today. If you add replicas, run migrations as a separate one-shot step or gate them behind a leader.
 
+## User roles
+
+The `20261105_091120_user_roles` migration keeps the earliest existing account (ordered by creation time, then ID) as an administrator and makes all other existing accounts editors. Apply it before serving the new CMS version. Both the migration and its rollback operate on the schema configured by `PAYLOAD_DB_SCHEMA` (default `payload`). Confirm that the earliest account is accessible before deployment. Its administrator can grant the role to other trusted accounts after migration. Existing passwords and sessions are preserved, and authenticated requests read the current role from the database.
+
+For local development, the [database adapter](../src/database/user-roles-adapter.ts) applies the same role transition before Payload's default schema push when the existing users table has no role column. The schema change and account transition are atomic. Subsequent starts preserve assigned roles, even if all administrators have been deliberately demoted. Production and migration commands still use the reviewed migration above. A database already synchronised by an older version with every account set to editor needs an explicit role assignment through a trusted local API script; restarting does not promote anyone.
+
+New accounts default to editor. Administrators can create accounts, manage other accounts and assign roles. Editors can read and update their own profile, email and password, and continue using the content editing and publishing workflows. Only administrators can unlock accounts or delete other users. Administrators cannot delete their own account or change their own role.
+
+Role updates go through the [user after-change hook](../src/collections/user-roles.ts) in the account update transaction, after validation and the account save succeed. In bulk updates, rejected accounts keep their roles while successfully saved accounts receive the requested changes. Direct adapter updates exclude the role so that Payload's login, logout, session refresh and password reset writes cannot restore a stale role. Trusted maintenance scripts that assign roles must use `payload.update`, rather than `payload.db.updateOne`.
+
 ## First admin user
 
 No environment variable creates the first admin. After the first deploy, the `users` table is empty, and Payload shows a "Create first user" screen at `/admin` on the public CMS origin (`NEXT_PUBLIC_SERVER_URL`). The email and password entered there become the first admin; further accounts are added from the Users collection.
