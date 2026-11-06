@@ -6,7 +6,10 @@ import {
   FRAME_HEIGHT_MESSAGE,
   FRAME_NAVIGATE_MESSAGE,
   FRAME_SYNC_MESSAGE,
-  INTERACTIVE_FRAME_SOURCE,
+  DEFAULT_HOST_STORAGE,
+  type FrameSize,
+  type HostStorage,
+  interactiveFrameSource,
 } from '../media-interactive-frame'
 
 let toParent: ReturnType<typeof vi.spyOn>
@@ -18,7 +21,9 @@ let toParent: ReturnType<typeof vi.spyOn>
 function mountArticle(
   html: string,
   bodyHeight = 0,
-  prepare?: (view: Window) => void
+  prepare?: (view: Window) => void,
+  storage: HostStorage = DEFAULT_HOST_STORAGE,
+  size?: FrameSize
 ) {
   const iframe = document.createElement('iframe')
   document.body.append(iframe)
@@ -39,7 +44,7 @@ function mountArticle(
     'getComputedStyle',
     'MutationObserver',
     'ResizeObserver',
-    INTERACTIVE_FRAME_SOURCE
+    interactiveFrameSource(storage, size)
   )(
     view,
     article,
@@ -74,34 +79,207 @@ describe('full HTML article integration', () => {
     const html = buildInteractiveDocument(
       `<html><head><meta http-equiv="Content-Security-Policy" content="script-src 'none'"></head><body></body></html>`
     )
-    expect(html.indexOf(INTERACTIVE_FRAME_SOURCE)).toBeLessThan(
+    expect(html.indexOf(interactiveFrameSource())).toBeLessThan(
       html.indexOf('Content-Security-Policy')
     )
   })
 
-  it('turns storage that throws in an opaque origin into a missing API', () => {
+  /** The getters a sandboxed frame really has: storage throws on access. */
+  function sandboxStorage(view: Window) {
+    const throwing = () => {
+      throw new DOMException('Sandboxed', 'SecurityError')
+    }
+    for (const name of ['caches', 'localStorage', 'sessionStorage']) {
+      Object.defineProperty(view, name, { configurable: true, get: throwing })
+    }
+    Object.defineProperty(view.navigator, 'serviceWorker', {
+      configurable: true,
+      get: throwing,
+    })
+    Object.defineProperty(view, 'indexedDB', {
+      configurable: true,
+      value: { native: true },
+    })
+  }
+
+  const BLOCKED: HostStorage = {
+    cookies: false,
+    cookieEnabled: false,
+    localStorage: false,
+    sessionStorage: false,
+    indexedDB: false,
+    caches: false,
+    serviceWorker: false,
+  }
+
+  it('gives working in-memory storage when the site allows it', () => {
+    const { view, article } = mountArticle('<p>Article</p>', 0, sandboxStorage)
+    for (const name of ['localStorage', 'sessionStorage'] as const) {
+      const storage = view[name]
+      storage.setItem('a', '1')
+      ;(storage as unknown as Record<string, string>).b = '2'
+      expect(storage.getItem('a')).toBe('1')
+      expect(storage.getItem('b')).toBe('2')
+      expect(storage.length).toBe(2)
+      expect(storage.key(0)).toBe('a')
+      expect(Object.keys(storage)).toEqual(['a', 'b'])
+      storage.removeItem('a')
+      expect(storage.getItem('a')).toBeNull()
+      storage.clear()
+      expect(storage.length).toBe(0)
+    }
+    view.localStorage.setItem('only', 'local')
+    expect(view.sessionStorage.getItem('only')).toBeNull()
+
+    article.cookie = '__test=1; path=/'
+    article.cookie = 'other=2'
+    expect(article.cookie).toBe('__test=1; other=2')
+    article.cookie = '__test=; max-age=0'
+    article.cookie = 'other=; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    expect(article.cookie).toBe('')
+    expect(view.navigator.cookieEnabled).toBe(true)
+    expect(document.cookie).not.toContain('__test')
+  })
+
+  it('keeps present storage APIs present and makes their calls fail', async () => {
+    const { view } = mountArticle('<p>Article</p>', 0, sandboxStorage)
+    expect(view.indexedDB).toEqual({ native: true })
+    expect(!!view.caches).toBe(true)
+    await expect(view.caches.open('x')).rejects.toMatchObject({
+      name: 'SecurityError',
+    })
+    const worker = view.navigator.serviceWorker
+    expect(!!worker).toBe(true)
+    expect(worker.controller).toBeNull()
+    await expect(worker.register('/sw.js')).rejects.toMatchObject({
+      name: 'SecurityError',
+    })
+    expect(() => worker.addEventListener('message', () => {})).not.toThrow()
+  })
+
+  it('stands in for IndexedDB when the sandbox hides it', () => {
     const { view } = mountArticle('<p>Article</p>', 0, (view) => {
-      Object.defineProperty(view, 'caches', {
+      sandboxStorage(view)
+      Object.defineProperty(view, 'indexedDB', {
         configurable: true,
         get() {
           throw new DOMException('Sandboxed', 'SecurityError')
         },
-      })
-      Object.defineProperty(view.navigator, 'serviceWorker', {
-        configurable: true,
-        get() {
-          throw new DOMException('Sandboxed', 'SecurityError')
-        },
-      })
-      Object.defineProperty(view, 'localStorage', {
-        configurable: true,
-        value: 'kept',
       })
     })
-    expect(() => view.caches).not.toThrow()
+    expect(!!view.indexedDB).toBe(true)
+    expect(() => view.indexedDB.open('x')).toThrow(
+      expect.objectContaining({ name: 'SecurityError' })
+    )
+  })
+
+  it('blocks storage the site blocks, as the article would see on logos.co', () => {
+    const { view, article } = mountArticle(
+      '<p>Article</p>',
+      0,
+      sandboxStorage,
+      BLOCKED
+    )
+    expect(() => view.localStorage).toThrow(
+      expect.objectContaining({ name: 'SecurityError' })
+    )
+    expect(() => view.sessionStorage).toThrow(
+      expect.objectContaining({ name: 'SecurityError' })
+    )
+    article.cookie = '__test=1'
+    expect(article.cookie).toBe('')
+    expect(view.navigator.cookieEnabled).toBe(false)
+    expect(view.indexedDB).toBeUndefined()
     expect(view.caches).toBeUndefined()
     expect(view.navigator.serviceWorker).toBeUndefined()
-    expect(view.localStorage).toBe('kept')
+  })
+
+  it('reports cookieEnabled as the site does, even when writes are blocked', () => {
+    const { view, article } = mountArticle(
+      '<p>Article</p>',
+      0,
+      sandboxStorage,
+      {
+        ...BLOCKED,
+        cookieEnabled: true,
+      }
+    )
+    article.cookie = '__test=1'
+    expect(article.cookie).toBe('')
+    expect(view.navigator.cookieEnabled).toBe(true)
+  })
+
+  /** A frame whose process has not received its size yet. */
+  function unsized(width = 0, height = 0) {
+    return (view: Window) => {
+      for (const [name, value] of [
+        ['innerWidth', () => width],
+        ['innerHeight', () => height],
+      ] as const) {
+        Object.defineProperty(view, name, {
+          configurable: true,
+          enumerable: true,
+          get: value,
+        })
+      }
+    }
+  }
+
+  it('reports the measured frame size until the real size arrives', () => {
+    let width = 0
+    const { view } = mountArticle(
+      '<p>Article</p>',
+      0,
+      (view) =>
+        Object.defineProperties(view, {
+          innerWidth: { configurable: true, get: () => width },
+          innerHeight: { configurable: true, get: () => 0 },
+        }),
+      DEFAULT_HOST_STORAGE,
+      { width: 700, height: 480 }
+    )
+    expect([view.innerWidth, view.innerHeight]).toEqual([700, 480])
+    width = 1024
+    expect(view.innerWidth).toBe(1024)
+  })
+
+  it('leaves the frame size alone when nothing was measured', () => {
+    const { view } = mountArticle('<p>Article</p>', 0, unsized())
+    expect([view.innerWidth, view.innerHeight]).toEqual([0, 0])
+    const sized = mountArticle(
+      '<p>Article</p>',
+      0,
+      unsized(320, 200),
+      DEFAULT_HOST_STORAGE,
+      { width: 700, height: 480 }
+    ).view
+    expect([sized.innerWidth, sized.innerHeight]).toEqual([320, 200])
+  })
+
+  it('embeds only numbers for the measured size', () => {
+    const source = interactiveFrameSource(DEFAULT_HOST_STORAGE, {
+      width: 700.4,
+      height: '480</script>',
+    } as unknown as FrameSize)
+    expect(source).not.toContain('</script>')
+    expect(
+      interactiveFrameSource(DEFAULT_HOST_STORAGE, {
+        width: 700.4,
+        height: 480,
+      })
+    ).toContain('{"innerWidth":700,"innerHeight":480}')
+  })
+
+  it('embeds only the storage flags in the frame script', () => {
+    const source = interactiveFrameSource({
+      ...DEFAULT_HOST_STORAGE,
+      caches: false,
+      extra: '</script>',
+    } as unknown as HostStorage)
+    expect(source).toContain(
+      '{"cookies":true,"cookieEnabled":true,"localStorage":true,"sessionStorage":true,"indexedDB":true,"caches":false,"serviceWorker":true}'
+    )
+    expect(source).not.toContain('</script>')
   })
 
   it('overrides both root backgrounds while preserving card backgrounds', () => {

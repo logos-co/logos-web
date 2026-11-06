@@ -1,11 +1,13 @@
 import { describe, expect, it, vi } from 'vitest'
 
 import {
+  DEFAULT_HOST_STORAGE,
   FRAME_HEIGHT_MESSAGE,
   FRAME_NAVIGATE_MESSAGE,
   FRAME_SYNC_MESSAGE,
   INTERACTIVE_FRAME_SANDBOX,
   observeInteractiveFrame,
+  probeHostStorage,
 } from '../media-interactive-frame'
 
 function createFrame() {
@@ -108,5 +110,88 @@ describe('interactive frame observation', () => {
     expect(onHeight).not.toHaveBeenCalled()
     expect(location.assign).not.toHaveBeenCalled()
     expect(contentWindow.postMessage).not.toHaveBeenCalled()
+  })
+})
+
+function memoryStorage() {
+  const data = new Map<string, string>()
+  return {
+    setItem: (key: string, value: string) => void data.set(key, value),
+    removeItem: (key: string) => void data.delete(key),
+    size: () => data.size,
+  }
+}
+
+/** A logos.co window whose cookie jar honours max-age=0. */
+function createHost(overrides: Record<string, unknown> = {}) {
+  const jar = new Map<string, string>()
+  const document = {
+    get cookie() {
+      return [...jar].map(([name, value]) => `${name}=${value}`).join('; ')
+    },
+    set cookie(raw: string) {
+      const [pair, ...attributes] = raw.split(';')
+      const [name, value] = pair.split('=')
+      if (attributes.some((attribute) => attribute.trim() === 'max-age=0')) {
+        jar.delete(name)
+      } else {
+        jar.set(name, value)
+      }
+    },
+  }
+  const view = {
+    document,
+    localStorage: memoryStorage(),
+    sessionStorage: memoryStorage(),
+    indexedDB: {},
+    caches: {},
+    navigator: { serviceWorker: {}, cookieEnabled: true },
+  }
+  // Copy descriptors so throwing getters stay getters.
+  Object.defineProperties(view, Object.getOwnPropertyDescriptors(overrides))
+  return { jar, view: view as unknown as Window }
+}
+
+describe('site storage probe', () => {
+  it('reports what logos.co allows and leaves nothing behind', () => {
+    const { view, jar } = createHost()
+    expect(probeHostStorage(view)).toEqual(DEFAULT_HOST_STORAGE)
+    expect(jar.size).toBe(0)
+    expect((view.localStorage as unknown as { size(): number }).size()).toBe(0)
+  })
+
+  it('reports blocked storage as unavailable', () => {
+    const throwing = {
+      setItem() {
+        throw new DOMException('Blocked', 'SecurityError')
+      },
+    }
+    const { view } = createHost({
+      // Browsers ignore cookie writes when cookies are blocked.
+      document: {
+        get cookie() {
+          return ''
+        },
+        set cookie(_: string) {},
+      },
+      localStorage: throwing,
+      get sessionStorage() {
+        throw new DOMException('Blocked', 'SecurityError')
+      },
+      indexedDB: undefined,
+      get caches() {
+        throw new DOMException('Blocked', 'SecurityError')
+      },
+      navigator: { cookieEnabled: false },
+    })
+    expect(probeHostStorage(view)).toEqual({
+      cookies: false,
+      cookieEnabled: false,
+      localStorage: false,
+      sessionStorage: false,
+      indexedDB: false,
+      caches: false,
+      serviceWorker: false,
+    })
   })
 })

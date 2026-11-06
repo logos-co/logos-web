@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
 import { buildInteractiveDocument } from '../media-interactive-document'
-import { INTERACTIVE_FRAME_SCRIPT } from '../media-interactive-frame'
+import {
+  DEFAULT_HOST_STORAGE,
+  interactiveFrameScript,
+} from '../media-interactive-frame'
+
+const INTERACTIVE_FRAME_SCRIPT = interactiveFrameScript()
 
 describe('buildInteractiveDocument', () => {
   it('preserves a full document and its body attributes, styles and scripts', () => {
@@ -42,6 +47,27 @@ describe('buildInteractiveDocument', () => {
     expect(html.indexOf(before)).toBeLessThan(
       html.indexOf(INTERACTIVE_FRAME_SCRIPT)
     )
+  })
+
+  it('mirrors the given site storage support into the frame', () => {
+    const blocked = { ...DEFAULT_HOST_STORAGE, cookies: false, caches: false }
+    const html = buildInteractiveDocument('<p>Article</p>', blocked)
+    expect(html).toContain(interactiveFrameScript(blocked))
+    expect(html).not.toContain(INTERACTIVE_FRAME_SCRIPT)
+    expect(buildInteractiveDocument('<p>Article</p>')).toContain(
+      INTERACTIVE_FRAME_SCRIPT
+    )
+  })
+
+  it('passes the measured frame size to the frame script', () => {
+    const size = { width: 700, height: 480 }
+    const html = buildInteractiveDocument(
+      '<p>Article</p>',
+      DEFAULT_HOST_STORAGE,
+      size
+    )
+    expect(html).toContain(interactiveFrameScript(DEFAULT_HOST_STORAGE, size))
+    expect(html).toContain('{"innerWidth":700,"innerHeight":480}')
   })
 
   it('keeps legacy blog links pointing at the migrated article', () => {
