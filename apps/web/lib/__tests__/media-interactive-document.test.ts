@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { buildInteractiveDocument } from '../media-interactive-document'
+import { INTERACTIVE_FRAME_SCRIPT } from '../media-interactive-frame'
 
 describe('buildInteractiveDocument', () => {
   it('preserves a full document and its body attributes, styles and scripts', () => {
@@ -24,7 +25,23 @@ describe('buildInteractiveDocument', () => {
     )
     expect(html.match(/Content-Security-Policy/g)).toHaveLength(1)
     expect(html).toContain(csp)
-    expect(html).not.toContain('<script')
+    expect(html.match(/<script>/g)).toHaveLength(1)
+    expect(html).toContain(`<head>${INTERACTIVE_FRAME_SCRIPT}${csp}`)
+  })
+
+  it.each([
+    [
+      '<!doctype html><html lang="en"><meta http-equiv="Content-Security-Policy" content="default-src https:"><body>Article</body></html>',
+      '<html lang="en">',
+    ],
+    ['<header>Top</header><p>Article</p>', '<head><meta charset="utf-8" />'],
+  ])('injects the frame integration once into %s', (fullHtml, before) => {
+    const html = buildInteractiveDocument(fullHtml)
+    expect(html.split(INTERACTIVE_FRAME_SCRIPT)).toHaveLength(2)
+    expect(html).toContain(fullHtml.match(/<(body|header)>[^<]*/)![0])
+    expect(html.indexOf(before)).toBeLessThan(
+      html.indexOf(INTERACTIVE_FRAME_SCRIPT)
+    )
   })
 
   it('keeps legacy blog links pointing at the migrated article', () => {

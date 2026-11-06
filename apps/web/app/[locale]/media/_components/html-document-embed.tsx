@@ -4,7 +4,10 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
 
 import { buildInteractiveDocument } from '@/lib/media-interactive-document'
-import { observeInteractiveFrame } from '@/lib/media-interactive-frame'
+import {
+  INTERACTIVE_FRAME_SANDBOX,
+  observeInteractiveFrame,
+} from '@/lib/media-interactive-frame'
 
 interface HtmlDocumentEmbedProps {
   html: string
@@ -35,7 +38,7 @@ export function HtmlDocumentEmbed({
       ref={iframeRef}
       title={title || t('interactiveContent')}
       srcDoc={buildInteractiveDocument(html)}
-      sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+      sandbox={INTERACTIVE_FRAME_SANDBOX}
       className="media-detail-interactive"
       style={{ height: fixedHeight ?? height }}
     />
