@@ -71,7 +71,7 @@ The entrypoint migrates on every start, which assumes a single instance. The bun
 
 ## User roles
 
-The `20261105_091120_user_roles` migration keeps the earliest existing account (ordered by creation time, then ID) as an administrator and makes all other existing accounts editors. Apply it before serving the new CMS version. Both the migration and its rollback operate on the schema configured by `PAYLOAD_DB_SCHEMA` (default `payload`). Confirm that the earliest account is accessible before deployment. Its administrator can grant the role to other trusted accounts after migration. Existing passwords and sessions are preserved, and authenticated requests read the current role from the database.
+The `20261105_091120_user_roles` migration keeps the earliest existing account (ordered by creation time, then ID) as an administrator and makes all other existing accounts editors. Apply it before serving the new CMS version. Both the migration and its rollback operate only on the schema configured by `PAYLOAD_DB_SCHEMA` (default `payload`, see [environment](environment.md)). On a shared database, set `PAYLOAD_DB_SCHEMA` to the intended schema so accounts in other schemas stay unchanged. Confirm that the earliest account is accessible before deployment. Its administrator can grant the role to other trusted accounts after migration. Existing passwords and sessions are preserved, and authenticated requests read the current role from the database.
 
 For local development, the [database adapter](../src/database/user-roles-adapter.ts) applies the same role transition before Payload's default schema push when the existing users table has no role column. The schema change and account transition are atomic. Subsequent starts preserve assigned roles, even if all administrators have been deliberately demoted. Production and migration commands still use the reviewed migration above. A database already synchronised by an older version with every account set to editor needs an explicit role assignment through a trusted local API script; restarting does not promote anyone.
 
@@ -81,7 +81,7 @@ Role updates go through the [user after-change hook](../src/collections/user-rol
 
 ## First admin user
 
-No environment variable creates the first admin. After the first deploy, the `users` table is empty, and Payload shows a "Create first user" screen at `/admin` on the public CMS origin (`NEXT_PUBLIC_SERVER_URL`). The email and password entered there become the first admin; further accounts are added from the Users collection.
+No environment variable creates the first admin. After the first deploy, the `users` table is empty, and Payload shows a "Create first user" screen at `/admin` on the public CMS origin (`NEXT_PUBLIC_SERVER_URL`). The account created there gets the administrator role. The CMS serialises first registration, so concurrent requests cannot create a second account, and a later request to `/api/users/first-register` fails with 403. The administrator then adds further accounts from the Users collection; they start as editors.
 
 **Create that account straight after the first deploy.** Until it exists, anyone who reaches `/admin` can claim it, so keep `/admin` behind the reverse proxy or network controls until then.
 
