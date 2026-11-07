@@ -2,7 +2,7 @@
 
 The [RFP listing](../app/[locale]/rfp/page.tsx) and [detail pages](../app/[locale]/rfp/[slug]/page.tsx) use `/rfp` and `/rfp/<slug>`.
 
-The programme landing page reads its shared desktop and mobile copy from [content/pages/en/rfp.json](../../../content/pages/en/rfp.json), validated by the [RFP programme schema](../../../packages/content/src/schemas/pages/rfp-programme.ts). Explicit newlines preserve the Figma desktop line endings at the 1440px frame width. Smaller viewports reflow the same copy. The 1440px content width also keeps those line endings on wider screens.
+The programme landing page reads its shared desktop and mobile copy from [content/pages/en/rfp.json](../../../content/pages/en/rfp.json), validated by the [RFP programme schema](../../../packages/content/src/schemas/pages/rfp-programme.ts). Sections span the full viewport width, matching the developer programmes page. Explicit newlines and paragraph widths preserve the Figma desktop line endings at 1440px and wider. Smaller viewports reflow the same copy.
 
 Payload Pages already edits and validates the complete page JSON through `pageCopySchema`; this section adds no Payload fields.
 

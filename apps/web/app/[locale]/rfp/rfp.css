@@ -1,7 +1,5 @@
 .rfp-programme {
   width: 100%;
-  max-width: 1440px;
-  margin-inline: auto;
   --font-mono: var(--developer-programmes-mono), 'Fira Code', monospace;
   color: var(--color-brand-dark-green);
   background: var(--color-brand-off-white);
