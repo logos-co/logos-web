@@ -118,8 +118,8 @@
           },
           "cta": {
             "label": "learn more",
-            "href": "https://www.railgun.org",
-            "external": true
+            "href": "/case-studies/railgun",
+            "external": false
           }
         }
       ]
