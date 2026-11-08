@@ -1503,6 +1503,15 @@
   text-align: right;
   transform: translateX(calc(var(--gapx, 0px) * -1 * (1 - var(--s, 1))));
 }
+:where(.railgun) .sentence-reference-width {
+  position: absolute;
+  visibility: hidden;
+  width: max-content;
+  white-space: pre;
+  font-family: var(--railgun-font-newsreader), var(--serif);
+  font-size: calc(var(--fz) * 0.93);
+  letter-spacing: -0.04em;
+}
 :where(.railgun) .sentence .mid {
   position: relative;
   align-self: stretch;
@@ -1544,8 +1553,11 @@
   align-items: center;
   gap: 12px;
   margin-top: 150px;
-  padding-top: 16px;
+  padding-top: 15px;
   border-top: 1px solid var(--ow50);
+  font-size: 18px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
   text-decoration: none;
   position: relative;
 }
@@ -1569,10 +1581,12 @@
   font-size: calc(clamp(36px, 3.9vw, 56px) * var(--k56));
   letter-spacing: -0.03em;
   display: inline-flex;
-  gap: 24px;
+  gap: 28px;
   align-items: center;
+  line-height: 1;
 }
 :where(.railgun) .next .to .arr {
+  display: flex;
   font-family: var(--sans);
   font-size: calc(clamp(36px, 3.9vw, 56px) * 0.86);
   line-height: 1;
@@ -1636,6 +1650,9 @@
   font-size: clamp(64px, 11vw, 180px);
   line-height: 0.92;
   letter-spacing: -0.045em;
+}
+:where(.railgun) .nextpage .np-body > p {
+  margin-block: 1em;
 }
 :where(.railgun) .nextpage .np-sub {
   opacity: 0;
@@ -2078,7 +2095,7 @@ body.railgun-lock {
 }
 
 :where(.railgun) .next .railgun-arrow {
-  width: 1em;
+  width: 0.69em;
   height: 1em;
 }
 
@@ -2219,8 +2236,12 @@ body.railgun-lock {
   }
 
   :where(.railgun) .next .to {
-    font-size: clamp(27px, 8vw, 36px);
+    font-size: clamp(27px, 7.64vw, 36px);
     gap: 8px;
+  }
+
+  :where(.railgun) .next .to .arr {
+    font-size: 26px;
   }
 
   :where(.railgun) .nextpage h2 {
@@ -2358,6 +2379,10 @@ body.railgun-lock {
 
   :where(.railgun) .fig .col .vgap {
     height: 8px;
+  }
+
+  :where(.railgun) .fig .col .vgap .pkt {
+    z-index: 1;
   }
 
   :where(.railgun) .fig .col .vgap::before,
@@ -2549,7 +2574,10 @@ body.railgun-lock {
 
   :where(.railgun) .closer .next {
     margin-top: 100px;
+    padding-top: 13px;
     font-size: 14px;
+    line-height: 1.2;
+    letter-spacing: normal;
   }
 
   :where(.railgun) .closing-cta {

@@ -45,21 +45,21 @@ export function mountStackReplay(scope: MotionScope) {
     if (reduced || signal.aborted) return
     const packet = connector.querySelector<HTMLElement>('.pkt')
     if (!packet) return
+    const compact = compactLayout()
     const local = connector.matches('.vconn, .vgap')
-    const vertical = local || compactLayout()
-    const distance = Math.max(
-      0,
-      vertical
-        ? connector.clientHeight - (local ? 4 : 12)
-        : connector.clientWidth - 12
-    )
+    const vertical = local || compact
+    // Compact cards shorten the gap, but the prototype still moves the packet 46px.
+    const distance =
+      compact && connector.classList.contains('vgap')
+        ? 46
+        : Math.max(
+            0,
+            vertical
+              ? connector.clientHeight - (local ? 4 : 12)
+              : connector.clientWidth - 12
+          )
     const axis = vertical ? 'Y' : 'X'
-    const spread =
-      compactLayout() && connector.classList.contains('vgap')
-        ? Math.max(0, (46 - distance) / 2)
-        : 0
-    const ends = [-spread, distance + spread]
-    const [from, to] = direction > 0 ? ends : [ends[1], ends[0]]
+    const [from, to] = direction > 0 ? [0, distance] : [distance, 0]
     const motion = packet.animate(
       [
         { transform: `translate${axis}(${from}px)`, opacity: 1 },

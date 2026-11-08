@@ -38,7 +38,6 @@ export function RailgunMotion({
     const sentence = select('#sentence')
     const left = select('#sentence .left')
     const right = select('#sentence .right')
-    const line = select('#sentence .mid')
     const rightLast = select('#sentence .r2')
     const revealLayout = mountReveals(scope)
     const stackLayout = mountStackReplay(scope)
@@ -78,10 +77,17 @@ export function RailgunMotion({
           right.getBoundingClientRect().left
       )
       sentence.style.setProperty('--ext', `${extension.toFixed(1)}px`)
-      sentence.style.setProperty(
-        '--gapx',
-        `${line.getBoundingClientRect().width / 2 + 32}px`
-      )
+      const measure = document.createElement('span')
+      measure.className = 'sentence-reference-width'
+      measure.setAttribute('aria-hidden', 'true')
+      sentence.append(measure)
+      measure.textContent = left.innerText
+      const leftWidth = measure.getBoundingClientRect().width
+      measure.textContent = right.innerText
+      const rightWidth = measure.getBoundingClientRect().width
+      measure.remove()
+      const travel = (sentence.clientWidth - leftWidth - rightWidth) / 2
+      sentence.style.setProperty('--gapx', `${Math.max(32, travel)}px`)
       const size = parseFloat(getComputedStyle(sentence).fontSize)
       const height = left.getBoundingClientRect().height
       const half = height / 2
