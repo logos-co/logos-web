@@ -1,0 +1,307 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/rfp",
+  "title": "RFP Programme | Logos",
+  "description": "Send a proposal. Get paid to learn the Logos stack. Explore RFPs, propose milestones and build open-source infrastructure with Logos.",
+  "sections": [
+    {
+      "componentType": "rfpProgrammeCopy",
+      "key": "rfp.copy",
+      "hero": {
+        "breadcrumb": {
+          "label": "Developer programmes",
+          "href": "/developer-programmes"
+        },
+        "breadcrumbCurrent": "RFP Program",
+        "title": "RFP\nProgramme",
+        "heading": "Send a proposal. Get paid to\nlearn the Logos stack.",
+        "jumpLinks": [
+          {
+            "label": "How it works",
+            "href": "#how-it-works"
+          },
+          {
+            "label": "Tiers",
+            "href": "#tiers"
+          },
+          {
+            "label": "Open RFPs",
+            "href": "#open-rfps"
+          },
+          {
+            "label": "What you ship",
+            "href": "#what-you-ship"
+          },
+          {
+            "label": "Who should apply",
+            "href": "#who-should-apply"
+          }
+        ],
+        "primaryCta": {
+          "label": "See open RFPs",
+          "href": "#open-rfps"
+        },
+        "secondaryCta": {
+          "label": "How proposals work",
+          "href": "#how-it-works"
+        },
+        "image": {
+          "src": "/images/rfp/mast.webp",
+          "alt": ""
+        },
+        "caption": "FIG. 01 — MAST, BLUE HOUR",
+        "publishedLabel": "RFPs published",
+        "stats": [
+          {
+            "label": "Build timelines",
+            "value": "4 weeks to 6 months"
+          },
+          {
+            "label": "Decision",
+            "value": "14 days after the RFP closes"
+          },
+          {
+            "label": "Grant payments",
+            "value": "Per milestone"
+          }
+        ],
+        "statusHeading": "RFP status",
+        "notifyCta": {
+          "label": "Get notified when RFPs open",
+          "href": "https://github.com/logos-co/rfp"
+        }
+      },
+      "howItWorks": {
+        "eyebrow": "How it works",
+        "kicker": "Five steps from spec to payout",
+        "heading": "How it works.",
+        "body": "Each RFP is an open request for a protocol or building block the whole\necosystem can use. Your team proposes how to build it. Selected teams\nget a grant, paid per milestone, so you obtain funding to gain Logos\nstack expertise.",
+        "steps": [
+          {
+            "title": "Read the spec.",
+            "body": "Each RFP sets the scope, the\nrequirements, the team profile and\nthe expected timeline."
+          },
+          {
+            "title": "Submit a proposal.",
+            "body": "Submit a proposal via the dedicated\nform with your team, technical\napproach, milestones, and budget."
+          },
+          {
+            "title": "Get a decision.",
+            "body": "Expect a decision within 14 days of\nthe RFP closing. Logos may ask\nquestions or suggest changes."
+          },
+          {
+            "title": "Sign a grant\nagreement.",
+            "body": "Milestones, payouts, and the timeline\nare set in writing."
+          },
+          {
+            "title": "Build and get paid.",
+            "body": "Each milestone is paid as it lands."
+          }
+        ],
+        "milestones": {
+          "heading": "You propose\nthe milestones.\nYou set the budget.",
+          "body": [
+            "Break the work into milestones, each with its own\ndeliverables, USD payout, and duration.",
+            "Handling user funds or new cryptography? Add an audit\nmilestone."
+          ],
+          "cta": {
+            "label": "View a sample proposal",
+            "href": "https://github.com/logos-co/rfp/blob/master/.github/ISSUE_TEMPLATE/proposal.yml"
+          },
+          "eyebrow": "Example milestone plan",
+          "tag": "Sample",
+          "payout": "[Payout]",
+          "optional": "Optional",
+          "rows": [
+            {
+              "title": "Design and specification",
+              "body": "Architecture doc, API spec, wireframes",
+              "duration": "2 weeks"
+            },
+            {
+              "title": "Core implementation",
+              "body": "Program on devnet, CLI",
+              "duration": "3 weeks"
+            },
+            {
+              "title": "Testing and docs",
+              "body": "Tests in CI, README, integration guide",
+              "duration": "2 weeks"
+            },
+            {
+              "title": "Audit",
+              "body": "Independent security review, published report",
+              "duration": "If applicable"
+            }
+          ],
+          "footnote": "Each milestone is paid as it's delivered."
+        }
+      },
+      "tiers": {
+        "eyebrow": "Tiers",
+        "kicker": "Timelines from published specs",
+        "heading": "Sized to the work.",
+        "body": "Every RFP is tagged with a tier.",
+        "tag": "Tier",
+        "examplesLabel": "Example RFPs",
+        "items": [
+          {
+            "size": "XS",
+            "duration": "About 4 weeks",
+            "examples": "Admin Authority Library, Freeze Authority\nLibrary"
+          },
+          {
+            "size": "M",
+            "duration": "6 to 10 weeks",
+            "examples": "RedStone Oracle Adaptor"
+          },
+          {
+            "size": "L",
+            "duration": "8 weeks to 6 months",
+            "examples": "Multisig and Coordination, Token Vesting,\nTWAP Oracle"
+          },
+          {
+            "size": "XL",
+            "duration": "14 to 24 weeks",
+            "examples": "Privacy-Preserving DEX, Atomic Swaps,\nLending and Borrowing"
+          }
+        ]
+      },
+      "listing": {
+        "eyebrow": "Open RFPs",
+        "heading": "Open RFPs",
+        "body": "There are {count} RFPs published so far, covering the core components of a private\nfinancial system.",
+        "thesisCta": {
+          "label": "Read the PriFi thesis",
+          "href": "/prifi"
+        },
+        "filters": {
+          "open": "Open and upcoming",
+          "closed": "Closed",
+          "all": "All"
+        },
+        "statuses": {
+          "open": "Open",
+          "upcoming": "Reopening soon",
+          "closed": "Closed"
+        },
+        "empty": "No RFPs are open or upcoming at the moment. Browse all RFPs or get notified when they open.",
+        "learnMore": "Learn more",
+        "submitCta": {
+          "label": "Submit a proposal",
+          "href": "https://github.com/logos-co/rfp/issues/new?template=proposal.yml"
+        },
+        "githubCta": {
+          "label": "All RFPs on GitHub",
+          "href": "https://github.com/logos-co/rfp"
+        },
+        "featured": [
+          {
+            "id": "RFP-005",
+            "image": {
+              "src": "/images/rfp/multisig.webp",
+              "alt": ""
+            },
+            "body": "An audited M-of-N multisig with a built-in channel for signers to\npropose, discuss and approve.",
+            "title": "Multisig and Coordination"
+          },
+          {
+            "id": "RFP-012",
+            "image": {
+              "src": "/images/rfp/vaults.webp",
+              "alt": ""
+            },
+            "body": "Curated vaults on top of the isolated-market lending protocol,\nwith transferable share tokens.",
+            "title": "Curated Lending Vaults"
+          },
+          {
+            "id": "RFP-014",
+            "image": {
+              "src": "/images/rfp/liquidation.webp",
+              "alt": ""
+            },
+            "body": "A reusable liquidation and auction engine for collateralised debt\nprotocols.",
+            "title": "Liquidation and Auction Engine"
+          }
+        ],
+        "moreLabel": "View {count} more RFPs"
+      },
+      "deliverables": {
+        "eyebrow": "What you ship",
+        "heading": "What is\nincluded in every\nfunded build.",
+        "body": "The bar for RFPs is purposefully high as other teams will\nbe building on the infrastructure you create.",
+        "items": [
+          "A module or SDK other Logos apps can call",
+          "A mini-app that runs in Basecamp",
+          "A CLI for core operations",
+          "Tests in CI, green on the default branch",
+          "Docs for developers and for users",
+          "A privacy document: what observers see, what stays private, what's trusted",
+          "A design decision log",
+          "Open source code under MIT and Apache 2.0"
+        ]
+      },
+      "applicants": {
+        "eyebrow": "Who should apply",
+        "heading": "Who these specs\nare written for.",
+        "body": [
+          "Teams that want to grow with Logos, not deliver and leave. Each RFP\nnames the experience it needs: custody design, Rust for zkVM targets,\napplied cryptography, DeFi protocol engineering.",
+          "You build complex software and get paid as each milestone lands.\nDuring this process, you'll cultivate deep expertise in the Logos stack\nand join a community and ecosystem building for the long term."
+        ],
+        "categoriesLabel": "RFP categories",
+        "categories": [
+          "Developer tooling and infrastructure",
+          "Applications and integrations",
+          "Ecosystem and community enablement"
+        ],
+        "image": {
+          "src": "/images/rfp/dish.webp",
+          "alt": ""
+        },
+        "caption": "FIG. 07 — DISH, VALLEY"
+      },
+      "terms": {
+        "eyebrow": "The terms",
+        "kicker": "Read before you propose",
+        "heading": "The terms.",
+        "cta": {
+          "label": "Read the full terms",
+          "href": "https://github.com/logos-co/rfp/blob/master/TERMS_AND_CONDITIONS.md"
+        },
+        "items": [
+          "You keep ownership of your code. It is licensed open source under MIT and Apache 2.0.",
+          "Proposals are public.",
+          "No grant is awarded until a grant agreement is signed.",
+          "Logos is the grantor. It doesn't deploy, host or operate what you build.",
+          "Logos selects at its discretion and may select no proposal."
+        ]
+      },
+      "after": {
+        "eyebrow": "After the RFP",
+        "heading": "Your code. Your expertise.\nYour next move.",
+        "body": "What you build is yours, open source under MIT and Apache 2.0. Take\nwhat you learned into your own venture, product, or app. Or you can\nlaunch to real users on Logos and aim to win a {mark} Prize.",
+        "cta": {
+          "label": "Explore prizes",
+          "href": "/lambda-prize"
+        },
+        "image": {
+          "src": "/images/rfp/antennas.webp",
+          "alt": ""
+        },
+        "caption": "{mark} Prize"
+      },
+      "finalCta": {
+        "heading": "Read a spec. Send a proposal.",
+        "primaryCta": {
+          "label": "See open RFPs",
+          "href": "#open-rfps"
+        },
+        "secondaryCta": {
+          "label": "Ask a question",
+          "href": "https://discord.gg/Ykv4eZyHUJ"
+        }
+      }
+    }
+  ]
+}

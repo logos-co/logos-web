@@ -38,6 +38,9 @@ import {
   researchCopySectionSchema,
   roadmapCopySectionSchema,
 } from './pages/page-copy-sections'
+import { rfpProgrammeCopySectionSchema } from './pages/rfp-programme'
+export { rfpProgrammeCopySectionSchema } from './pages/rfp-programme'
+export type { RfpProgrammeCopySection } from './pages/rfp-programme'
 import { lambdaPrizeCopySectionSchema } from './pages/lambda-prize'
 export { lambdaPrizeCopySectionSchema } from './pages/lambda-prize'
 export type { LambdaPrizeCopySection, LambdaPrize } from './pages/lambda-prize'
@@ -469,6 +472,7 @@ export const pageSectionSchema = z.discriminatedUnion('componentType', [
   nodeProgrammeCopySectionSchema,
   operatorsCopySectionSchema,
   lambdaPrizeCopySectionSchema,
+  rfpProgrammeCopySectionSchema,
   manifestoCopySectionSchema,
   mediaCalendarCopySectionSchema,
   mediaCopySectionSchema,
