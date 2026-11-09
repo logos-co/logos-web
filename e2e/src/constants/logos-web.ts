@@ -120,5 +120,5 @@ export const BASECAMP_CLIENTS = [
   },
 ] as const
 
-export const BASECAMP_RELEASES =
-  'https://github.com/logos-co/logos-basecamp/releases'
+export const BASECAMP_REPO = 'logos-co/logos-basecamp'
+export const BASECAMP_RELEASES = `https://github.com/${BASECAMP_REPO}/releases`

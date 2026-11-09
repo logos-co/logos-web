@@ -1,5 +1,10 @@
-import { BASECAMP_CLIENTS, BASECAMP_RELEASES } from '@constants/logos-web'
+import {
+  BASECAMP_CLIENTS,
+  BASECAMP_RELEASES,
+  BASECAMP_REPO,
+} from '@constants/logos-web'
 import { expect, test } from '@fixtures/site.fixture'
+import { getLatestRelease } from '@helpers/github-releases'
 
 import type { Page } from '@playwright/test'
 
@@ -65,7 +70,7 @@ test.describe('logos.co Basecamp downloads', () => {
     const mac = BASECAMP_CLIENTS[0]
     test.use({ userAgent: mac.userAgent })
 
-    test('every download link is the latest full release and answers 200', async ({
+    test('every download link is an asset of the latest full release', async ({
       page,
       request,
     }) => {
@@ -82,20 +87,18 @@ test.describe('logos.co Basecamp downloads', () => {
       const downloads = [...new Set(hrefs)]
       expect(downloads.length).toBeGreaterThan(0)
 
-      // GitHub's /releases/latest skips drafts and prereleases, the same rule
-      // the build applies when it picks the download URLs.
-      const latest = await request.get(`${BASECAMP_RELEASES}/latest`, {
-        maxRedirects: 0,
-      })
-      const latestTag = decodeURIComponent(
-        (latest.headers()['location'] ?? '').split('/releases/tag/')[1] ?? ''
-      )
-      expect(latestTag, 'latest release tag').not.toBe('')
+      // The API's latest release skips drafts and prereleases, the same rule
+      // the build applies when it picks the download URLs. Asked through the
+      // API: GitHub answers anonymous github.com traffic with 504s when it is
+      // under load.
+      const latest = await getLatestRelease(request, BASECAMP_REPO)
 
       for (const href of downloads) {
-        expect(href.match(RELEASE_ASSET)?.[1], href).toBe(latestTag)
-        const asset = await request.head(href)
-        expect(asset.status(), href).toBe(200)
+        expect(href.match(RELEASE_ASSET)?.[1], href).toBe(latest.tag_name)
+        const asset = latest.assets.find(
+          (asset) => asset.browser_download_url === href
+        )
+        expect(asset?.state, href).toBe('uploaded')
       }
     })
   })

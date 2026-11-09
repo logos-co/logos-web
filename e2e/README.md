@@ -22,7 +22,7 @@ Inside `e2e/`: `pnpm test:e2e:headed`, `pnpm test:e2e:ui` and `pnpm test:e2e:rep
 | Spec                                 | Covers                                                                                                                         |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
 | [`pages`](tests/pages.spec.ts)       | Main routes and past-present-future: 200, `h1`, title, description, canonical, robots meta per environment, the not-found page |
-| [`basecamp`](tests/basecamp.spec.ts) | Install button per OS and architecture, every download link is on the latest full release and answers 200                      |
+| [`basecamp`](tests/basecamp.spec.ts) | Install button per OS and architecture, every download link is an uploaded asset of the latest full release                    |
 | [`media`](tests/media.spec.ts)       | Article and podcast lists open, media search returns results                                                                   |
 | [`movement`](tests/movement.spec.ts) | Circles map, zine reader, an RFP, a Builders Hub idea                                                                          |
 | [`forms`](tests/forms.spec.ts)       | Intake forms render behind hCaptcha, footer newsletter form renders                                                            |
@@ -34,4 +34,4 @@ Every test also fails on an uncaught page error. On remote targets a `console.er
 
 [`e2e-daily.yml`](../.github/workflows/e2e-daily.yml) runs the suite every day at 05:47 UTC against dev.logos.co and logos.co, with the whole sitemap. A failure opens or comments on the issue labelled `e2e-daily`, and the next green run closes it. The report and traces are in the run artifacts for 14 days.
 
-Against a deployed site the suite runs one test at a time, three seconds apart, because nginx answers 503 past about 10 requests a second from one IP. Same-origin requests carry an `x-e2e-bypass` header set from the `E2E_BYPASS_TOKEN` secret, so the server can exempt the run from that limit and from bot protection.
+Against a deployed site the suite runs one test at a time, three seconds apart, because nginx answers 503 past about 10 requests a second from one IP. Same-origin requests carry an `x-e2e-bypass` header set from the `E2E_BYPASS_TOKEN` secret, so the server can exempt the run from that limit and from bot protection. The Basecamp test reads the latest release through the GitHub API with the workflow's `GITHUB_TOKEN`, since GitHub answers anonymous github.com traffic with 504s when it is under load.

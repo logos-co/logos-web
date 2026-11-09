@@ -58,6 +58,10 @@ jobs:
           # exempt the run from bot protection and rate limits. Optional until
           # the rule exists.
           E2E_BYPASS_TOKEN: ${{ secrets.E2E_BYPASS_TOKEN }}
+          # The Basecamp test looks up the latest release through the GitHub
+          # API. Anonymous requests to github.com time out when GitHub is under
+          # load.
+          GITHUB_TOKEN: ${{ github.token }}
           CI: true
 
       - name: Upload test report

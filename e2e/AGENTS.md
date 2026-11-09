@@ -11,6 +11,7 @@ Rules for agents working in `e2e/`. The root [AGENTS.md](../AGENTS.md) applies t
 
 - The suite runs daily against production. Keep it read-only: open forms and dialogs, never submit them. The intake forms reach the CRM and the footer form signs people up to the newsletter.
 - Assert on structure, not on copy or CMS content that editors change (article titles, headline text, counts).
+- Check GitHub releases through `@helpers/github-releases`, never with requests to github.com: GitHub answers anonymous traffic there with 504s when it is under load.
 - A known site bug that logs a console error goes in `src/constants/logos-web.ts` with a comment saying what is broken. Delete the entry when the bug is fixed.
 - Keep `src/fixtures/site.fixture.ts` in step with the copy in status-web (`e2e/src/fixtures/site.fixture.ts`); the two suites share its behaviour.
 - Do not name a script `test`: turbo would run it in `pnpm test`, which has no site to test.
