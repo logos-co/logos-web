@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from 'react'
 
-import { mountNavigation } from './navigation'
+import { mountGateway } from './gateway'
 import { mountReveals } from './reveals'
 import { clamp, compactLayout, createMotionScope, easeOut } from './scope'
 import { mountStackReplay } from './stack-replay'
@@ -41,7 +41,7 @@ export function RailgunMotion({
     const rightLast = select('#sentence .r2')
     const revealLayout = mountReveals(scope)
     const stackLayout = mountStackReplay(scope)
-    const navScroll = mountNavigation(scope)
+    mountGateway(scope)
     const transaction = mountTransaction(scope)
     const fontsReady = document.fonts.ready
     const skipController = new AbortController()
@@ -112,7 +112,6 @@ export function RailgunMotion({
 
     function onScroll() {
       ticking = false
-      navScroll()
       if (!reduced) {
         hero.style.setProperty(
           '--cover',

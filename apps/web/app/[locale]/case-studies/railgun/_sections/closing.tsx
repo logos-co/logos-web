@@ -7,7 +7,7 @@ export function Closing({ copy }: { copy: RailgunCopySection['closing'] }) {
   const text = createCopyRenderer(copy)
   return (
     <>
-      <section className="dark closer wrap" id="closer">
+      <section className="dark closer wrap" id="closer" data-header-tone="dark">
         <p className="h3">{text('aParallelSocietyNeeds')}</p>
         <div className="sentence" id="sentence">
           <div className="left">

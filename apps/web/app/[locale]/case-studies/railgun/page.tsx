@@ -13,7 +13,6 @@ import { RailgunFooter } from './_sections/footer'
 import { Gateway } from './_sections/gateway'
 import { Hero } from './_sections/hero'
 import { Intro } from './_sections/intro'
-import { Navigation } from './_sections/navigation'
 import { Privacy } from './_sections/privacy'
 import { Prifi } from './_sections/prifi'
 import { Production } from './_sections/production'
@@ -48,7 +47,6 @@ export default async function RailgunPage({
 
   return (
     <RailgunMotion className={newsreader.variable}>
-      <Navigation copy={copy.navigation} />
       <Hero copy={copy.hero} />
       <div className="sheet">
         <Intro copy={copy.intro} />
@@ -60,7 +58,9 @@ export default async function RailgunPage({
         <Prifi copy={copy.prifi} />
         <Build copy={copy.build} />
         <Closing copy={copy.closing} />
-        <RailgunFooter copy={copy.footer} locale={locale} />
+        <div data-header-tone="dark">
+          <RailgunFooter copy={copy.footer} locale={locale} />
+        </div>
       </div>
       <Gateway copy={copy.gateway} />
     </RailgunMotion>

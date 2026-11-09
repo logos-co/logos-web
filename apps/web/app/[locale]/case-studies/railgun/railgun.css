@@ -288,161 +288,6 @@
   font-size: 13px;
 }
 
-/* ---------- top nav (appears once the hero is behind you) ---------- */
-:where(.railgun) .topnav {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 70;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  background: var(--dg);
-  color: var(--ow);
-  border-bottom: 1px solid var(--ow20);
-  transform: translateY(-101%);
-  transition: transform var(--t-ui) var(--e-in);
-}
-:where(.railgun) .topnav.show {
-  transform: none;
-  transition: transform var(--t-state) var(--e-out);
-}
-:where(.railgun) .index {
-  position: relative;
-  display: flex;
-  gap: 22px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-:where(.railgun) .index a {
-  display: block;
-  text-decoration: none;
-  opacity: 0.55;
-  padding: 16px 0;
-  transition: opacity var(--t-hover) var(--e-snap);
-}
-:where(.railgun) .index a:hover,
-:where(.railgun) .index a.on {
-  opacity: 1;
-}
-:where(.railgun) .index .ind {
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  height: 2px;
-  width: 1px;
-  background: var(--lb);
-  transform-origin: left;
-  transition: transform var(--t-state) var(--e-out);
-}
-:where(.railgun) .menubtn {
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  background: none;
-  border: 0;
-  padding: 12px 0;
-  cursor: pointer;
-}
-:where(.railgun) .menubtn .bars {
-  display: inline-grid;
-  gap: 3px;
-}
-:where(.railgun) .menubtn .bars i {
-  display: block;
-  width: 14px;
-  height: 1px;
-  background: currentColor;
-  transition: transform var(--t-hover) var(--e-snap);
-}
-:where(.railgun) .menubtn:hover .bars i:last-child {
-  transform: translateX(-4px);
-}
-
-/* ---------- menu: unrolls from the nav's bottom edge ---------- */
-:where(.railgun) .menu {
-  position: fixed;
-  inset: 0;
-  z-index: 85;
-  background: var(--dg);
-  color: var(--ow);
-  display: flex;
-  flex-direction: column;
-  clip-path: inset(0 0 calc(100% - 48px) 0);
-  visibility: hidden;
-  transition:
-    clip-path var(--t-ui) var(--e-in),
-    visibility 0s linear var(--t-ui);
-}
-:where(.railgun) .menu.open {
-  clip-path: inset(0);
-  visibility: visible;
-  transition:
-    clip-path var(--t-space) var(--e-out),
-    visibility 0s;
-}
-:where(.railgun) .menu .bar {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--ow20);
-}
-:where(.railgun) .menu .close {
-  background: none;
-  border: 0;
-  cursor: pointer;
-  padding: 12px 0;
-}
-:where(.railgun) .menu ol {
-  list-style: none;
-  margin: 0;
-  padding: 40px 0 0;
-  flex: 1;
-  overflow: auto;
-}
-:where(.railgun) .menu li {
-  border-bottom: 1px solid var(--ow20);
-  overflow: hidden;
-}
-:where(.railgun) .menu li button {
-  display: grid;
-  grid-template-columns: 60px 1fr auto;
-  align-items: baseline;
-  gap: 12px;
-  padding: 14px 0;
-  text-decoration: none;
-}
-:where(.railgun) .menu li .n {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--lb);
-}
-:where(.railgun) .menu li .t {
-  font-family: var(--serif);
-  font-size: clamp(34px, 4.6vw, 64px);
-  line-height: 1;
-  letter-spacing: -0.03em;
-  transition: transform var(--t-ui) var(--e-snap);
-}
-:where(.railgun) .menu li button:hover .t {
-  transform: translateX(12px);
-}
-:where(.railgun) .menu li .in {
-  display: block;
-  transform: translateY(calc(100% + 0.75em));
-  transition: transform var(--t-ui) var(--e-in);
-}
-/* irregular stagger: the list accelerates as it fills */
-:where(.railgun) .menu.open li .in {
-  transform: none;
-  transition: transform 520ms var(--e-type) var(--d);
-}
-
 /* ================= 01a HERO (pinned; the intro sheet covers it) ================= */
 :where(.railgun) .hero {
   position: sticky;
@@ -454,21 +299,6 @@
   z-index: 0;
   display: flex;
   flex-direction: column;
-}
-:where(.railgun) .hero .navrow {
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex: none;
-}
-:where(.railgun) .hero .navrow b {
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  border-bottom: 1px solid var(--ow);
-  padding-bottom: 2px;
 }
 :where(.railgun) .hero .lockrow {
   padding-top: 24px;
@@ -538,6 +368,7 @@
 }
 :where(.railgun) .hero .stage {
   height: 100%;
+  padding-top: 40px;
   display: flex;
   flex-direction: column;
   transform-origin: 50% 0;
@@ -545,8 +376,7 @@
 }
 /* load: 1 the line draws (the loader) → 2 the photo opens down from it → 3 the headline rises line by line → 4 meta lands */
 .railgun.js .hero .lockrow,
-.railgun.js .hero .meta,
-.railgun.js .hero .navrow {
+.railgun.js .hero .meta {
   opacity: 0;
 }
 .railgun.js .hero .ph img {
@@ -559,7 +389,6 @@
 .railgun.js:not(.played) .hero .h1 {
   visibility: hidden;
 }
-.railgun.played .hero .navrow,
 .railgun.played .hero .lockrow {
   opacity: 1;
   transition: opacity 260ms var(--e-snap) 40ms;
@@ -1705,9 +1534,6 @@
   :where(.railgun) .split {
     row-gap: 24px;
   }
-  :where(.railgun) .index {
-    display: none;
-  }
   :where(.railgun) .hero {
     height: auto;
     min-height: 100svh;
@@ -1886,12 +1712,6 @@
   :where(.railgun) .sentence .mid b {
     top: 0;
   }
-  :where(.railgun) .menu li button {
-    grid-template-columns: 40px 1fr;
-  }
-  :where(.railgun) .menu li button .arr {
-    display: none;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   :where(.railgun) *,
@@ -1976,37 +1796,8 @@ body.railgun-lock {
 .railgun {
   min-width: 0;
   overflow-x: clip;
-  isolation: isolate;
   --k96: 1;
   --k56: 1;
-}
-
-:where(.railgun) .topnav:not(.show) {
-  visibility: hidden;
-}
-
-:where(.railgun) .topnav {
-  transition:
-    transform var(--t-ui) var(--e-in),
-    visibility 0s linear var(--t-ui);
-}
-
-:where(.railgun) .menu li button {
-  width: 100%;
-  text-align: left;
-}
-
-:where(.railgun) .hero .navrow {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-}
-
-:where(.railgun) .hero .navrow > svg {
-  justify-self: end;
-}
-
-:where(.railgun) .hero .navrow b {
-  justify-self: start;
 }
 
 :where(.railgun) .hero .lockrow {
@@ -2286,10 +2077,6 @@ body.railgun-lock {
   :where(.railgun) .stats96 .stat .nv > span {
     font-size: 35px;
   }
-}
-
-:where(.railgun) .hero .navrow {
-  grid-template-columns: calc(50% + 6px) auto 1fr;
 }
 
 :where(.railgun) .lockup .lg {

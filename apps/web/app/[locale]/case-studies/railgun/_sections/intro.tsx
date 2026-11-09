@@ -1,14 +1,13 @@
 import { createCopyRenderer } from './copy-text'
 import type { CSSProperties } from 'react'
 import { ButtonArrowIcon } from '@acid-info/logos-ui'
-import { railgunAnchors } from '../anchors'
 import type { RailgunCopySection } from '@repo/content/schemas'
 
 export function Intro({ copy }: { copy: RailgunCopySection['intro'] }) {
   const text = createCopyRenderer(copy)
   return (
     <>
-      <section className="intro dark wrap">
+      <section className="intro dark wrap" data-header-tone="dark">
         <div className="split">
           <p className="lead">{text('railgunIsASystem')}</p>
           <div className="side">
@@ -16,19 +15,13 @@ export function Intro({ copy }: { copy: RailgunCopySection['intro'] }) {
               <p>{text('toCoordinateTheseTransactions')}</p>
             </div>
             <div className="ctas">
-              <a
-                className="cta fill cursor-pointer"
-                href={railgunAnchors.build}
-              >
+              <a className="cta fill cursor-pointer" href="#build">
                 {copy.useRailgun}{' '}
                 <span className="arr">
                   <ButtonArrowIcon className={'railgun-arrow'} />
                 </span>
               </a>
-              <a
-                className="cta line cursor-pointer"
-                href={railgunAnchors.build}
-              >
+              <a className="cta line cursor-pointer" href="#build">
                 {copy.buildOnLogos}{' '}
                 <span className="arr">
                   <ButtonArrowIcon className={'railgun-arrow'} />
