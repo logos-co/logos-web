@@ -37,7 +37,7 @@ Because the parent cannot read the frame document, the work of styling, sizing a
 
 Inside the frame, the script:
 
-- Sets `overflow-x: hidden !important` on the root element. Content wider than the article column would otherwise add a horizontal scrollbar, which with classic scrollbars takes height from the frame, makes the article overflow vertically and traps the mouse wheel.
+- Keeps the frame from scrolling sideways. Content wider than the article column would otherwise add a horizontal scrollbar, which with classic scrollbars takes height from the frame, makes the article overflow vertically and traps the mouse wheel. Each time it measures the frame, the script checks whether the root is wider than the frame. If it is, every element that ends past the right edge and has `white-space: nowrap` gets `normal`, and one with `pre` gets `pre-wrap`, both `!important`, with `overflow-wrap: anywhere` and `box-decoration-break: clone` so inline tags keep their border on each line. An element is left alone when an ancestor below `body` has `overflow-x` set to `auto`, `scroll`, `hidden` or `clip`, such as ellipsis values or code blocks that scroll sideways. `body` and `html` are not checked. `overflow-x: hidden !important` on the root element stays as a backstop for content that cannot wrap, such as a wide image. `browser-betrayed-you` needs this: it puts whole sentences in `.s0-pd` tags styled `white-space: nowrap`, and without wrapping the end of the browser advice sentence was cut off.
 - Sets `background: transparent !important` on `html` and `body`.
 - Adds `noopener` and `noreferrer` to every link with `target="_blank"`, keeping any authored `rel` tokens.
 - Measures the body and reports the height to the parent on load, resize, DOM mutation, body resize, sub-resource load and when fonts are ready. It posts only when the height changes, or when the parent sends a sync message.
@@ -90,11 +90,12 @@ Run the unit and DOM tests:
 pnpm --filter web exec vitest run lib/__tests__/media-interactive
 ```
 
-Happy DOM does not run scripts inside iframes, so `media-interactive-frame-dom.test.ts` evaluates `interactiveFrameSource` against the frame window by hand.
+Happy DOM does not run scripts inside iframes, so `media-interactive-frame-dom.test.ts` evaluates `interactiveFrameSource` against the frame window by hand. Happy DOM has no layout either, so the wrapping tests stub `clientWidth`, `scrollWidth` and `getBoundingClientRect` to make an element stick out of the frame.
 
 To check in a browser, run `pnpm --filter web dev` and open `/media/article/browser-betrayed-you`, `/media/article/dispersive-medium` and `/media/article/logos-basecamp`:
 
 1. Each article renders at full height with no inner scrollbar.
 2. In `browser-betrayed-you`, "Viewport" shows the frame size rather than 0×0, and the storage demo reads "6 of 6", or "3 of 6" with all cookies blocked for the site.
-3. In DevTools, `document.querySelector('iframe.media-detail-interactive').contentDocument` returns `null`, and no `__test` cookie or new `localStorage` key appears on the site.
-4. An external link in an article opens a normal, unsandboxed tab.
+3. In `browser-betrayed-you`, opened in Brave or Firefox with scrollbars set to "Always" on macOS, the "You appear to be using ..." tag wraps and nothing is cut off.
+4. In DevTools, `document.querySelector('iframe.media-detail-interactive').contentDocument` returns `null`, and no `__test` cookie or new `localStorage` key appears on the site.
+5. An external link in an article opens a normal, unsandboxed tab.
