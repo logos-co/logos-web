@@ -150,7 +150,10 @@ function pickHostStorage(storage: HostStorage): HostStorage {
  * The frame never scrolls sideways. Content wider than the article column
  * would otherwise give the frame a horizontal scrollbar, and with classic
  * scrollbars that bar takes height from the frame, so the article overflows
- * vertically too and the frame traps the mouse wheel.
+ * vertically too and the frame traps the mouse wheel. Text that sticks out
+ * because the article set `white-space: nowrap` or `pre` wraps instead, unless
+ * it sits in a box of its own that clips or scrolls it. Hiding the overflow
+ * only covers what cannot wrap, such as a wide image.
  */
 export function interactiveFrameSource(
   storage: HostStorage = DEFAULT_HOST_STORAGE,
@@ -161,7 +164,9 @@ export function interactiveFrameSource(
 var host=window.parent;if(host===window)return;
 document.documentElement.style.setProperty('overflow-x','hidden','important');
 var last=-1;
-function measure(){var body=document.body;if(!body)return;var rect=body.getBoundingClientRect();var marginBottom=parseFloat(getComputedStyle(body).marginBottom)||0;var height=Math.ceil(rect.top+window.scrollY+Math.max(rect.height,body.scrollHeight)+marginBottom);if(height<=0||height===last)return;last=height;host.postMessage({type:${JSON.stringify(FRAME_HEIGHT_MESSAGE)},height:height},'*');}
+function clipped(node){for(var parent=node.parentElement;parent&&parent!==document.body;parent=parent.parentElement){if(/^(auto|scroll|hidden|clip)$/.test(getComputedStyle(parent).overflowX))return true;}return false;}
+function wrap(){var root=document.documentElement;var body=document.body;if(!body||root.scrollWidth<=root.clientWidth)return;var width=root.clientWidth;var nodes=body.querySelectorAll('*');for(var i=0;i<nodes.length;i++){var node=nodes[i];if(node.getBoundingClientRect().right<=width+1)continue;var space=getComputedStyle(node).whiteSpace;var mode=space==='nowrap'?'normal':space==='pre'?'pre-wrap':'';if(!mode||clipped(node))continue;node.style.setProperty('white-space',mode,'important');node.style.setProperty('overflow-wrap','anywhere','important');node.style.setProperty('-webkit-box-decoration-break','clone');node.style.setProperty('box-decoration-break','clone');}}
+function measure(){var body=document.body;if(!body)return;wrap();var rect=body.getBoundingClientRect();var marginBottom=parseFloat(getComputedStyle(body).marginBottom)||0;var height=Math.ceil(rect.top+window.scrollY+Math.max(rect.height,body.scrollHeight)+marginBottom);if(height<=0||height===last)return;last=height;host.postMessage({type:${JSON.stringify(FRAME_HEIGHT_MESSAGE)},height:height},'*');}
 function navigate(event){if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;var link=event.target&&event.target.closest?event.target.closest('a[href]'):null;if(!link||link.hasAttribute('download'))return;var href=link.getAttribute('href');if(!/^\\/(?![\\/\\\\])/.test(href)||(link.target&&link.target.toLowerCase()!=='_self'))return;event.preventDefault();host.postMessage({type:${JSON.stringify(FRAME_NAVIGATE_MESSAGE)},href:href},'*');}
 function connect(){var roots=[document.documentElement,document.body];for(var i=0;i<roots.length;i++){if(roots[i])roots[i].style.setProperty('background','transparent','important');}var links=document.querySelectorAll('a[href]');for(var j=0;j<links.length;j++){if(links[j].target.toLowerCase()==='_blank')links[j].relList.add('noopener','noreferrer');}if(document.body){new MutationObserver(measure).observe(document.body,{childList:true,subtree:true,attributes:true,characterData:true});if(typeof ResizeObserver!=='undefined')new ResizeObserver(measure).observe(document.body);}measure();}
 document.addEventListener('click',navigate);

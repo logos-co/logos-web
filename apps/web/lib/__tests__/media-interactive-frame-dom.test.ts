@@ -307,6 +307,56 @@ describe('full HTML article integration', () => {
     expect(root.style.getPropertyPriority('overflow-x')).toBe('important')
   })
 
+  /** Happy DOM has no layout: the frame is 700px wide, `#wide` ends at 1400px. */
+  function overflowing(view: Window) {
+    const root = view.document.documentElement
+    Object.defineProperty(root, 'clientWidth', { value: 700 })
+    Object.defineProperty(root, 'scrollWidth', { value: 1400 })
+    const real = view.Element.prototype.getBoundingClientRect
+    vi.spyOn(
+      view.Element.prototype,
+      'getBoundingClientRect'
+    ).mockImplementation(function (this: Element) {
+      if (this.classList.contains('wide')) return { right: 1400 } as DOMRect
+      return real.call(this)
+    })
+  }
+
+  it('wraps nowrap and pre text that sticks out of the frame', () => {
+    const { article } = mountArticle(
+      `<p><span id="tag" class="wide" style="white-space: nowrap">A long sentence</span></p>
+      <div id="code" class="wide" style="white-space: pre">code</div>`,
+      0,
+      overflowing
+    )
+    const tag = article.querySelector<HTMLElement>('#tag')!
+    expect(tag.style.getPropertyValue('white-space')).toBe('normal')
+    expect(tag.style.getPropertyPriority('white-space')).toBe('important')
+    expect(tag.style.getPropertyValue('overflow-wrap')).toBe('anywhere')
+    expect(article.querySelector<HTMLElement>('#code')!.style.whiteSpace).toBe(
+      'pre-wrap'
+    )
+  })
+
+  it('leaves text alone when it fits or scrolls inside its own box', () => {
+    const { article } = mountArticle(
+      `<span id="fits" style="white-space: nowrap">Short</span>
+      <div style="overflow-x: auto"><span id="scrolls" class="wide" style="white-space: pre">code</span></div>
+      <span id="normal" class="wide">Wide image</span>`,
+      0,
+      overflowing
+    )
+    expect(article.querySelector<HTMLElement>('#fits')!.style.whiteSpace).toBe(
+      'nowrap'
+    )
+    expect(
+      article.querySelector<HTMLElement>('#scrolls')!.style.whiteSpace
+    ).toBe('pre')
+    expect(
+      article.querySelector<HTMLElement>('#normal')!.style.whiteSpace
+    ).toBe('')
+  })
+
   it('preserves same-tab targets and rel metadata while securing new tabs', () => {
     const { article } =
       mountArticle(`<a id="site" href="/media/articles">Site</a>
