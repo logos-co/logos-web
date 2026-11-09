@@ -222,7 +222,7 @@ export function mountReveals(scope: MotionScope) {
     const fold = innerHeight * 0.9
     const eligible = (node: HTMLElement) =>
       !node.closest(
-        '.hero, #how .stage, #how .tabs, #how .pane, #fig #cols, .rv, .menu, .topnav, .next'
+        '.hero, #how .stage, #how .tabs, #how .pane, #fig #cols, .rv, .next'
       ) && node.getBoundingClientRect().top > fold
 
     for (const heading of headings.filter(eligible)) {

@@ -1,7 +1,6 @@
 import { createCopyRenderer } from './copy-text'
 import Image from 'next/image'
 import { railgunImage } from '../assets'
-import { LogosMark } from '@acid-info/logos-ui'
 import { BrandLockup } from './shared'
 import type { RailgunCopySection } from '@repo/content/schemas'
 
@@ -9,25 +8,13 @@ export function Hero({ copy }: { copy: RailgunCopySection['hero'] }) {
   const text = createCopyRenderer(copy)
   return (
     <>
-      <section className="hero" id="top" aria-label={copy.railgunUsesLogosTo}>
+      <section
+        className="hero"
+        id="top"
+        aria-label={copy.railgunUsesLogosTo}
+        data-header-tone="dark"
+      >
         <div className="stage" id="stage">
-          <div className="navrow wrap">
-            <b>{copy.logos}</b>
-            <button
-              className="menubtn mono cursor-pointer"
-              id="posmenu"
-              type="button"
-              aria-controls="menu"
-              aria-expanded="false"
-            >
-              {copy.menu}{' '}
-              <span className="bars" aria-hidden="true">
-                <i></i>
-                <i></i>
-              </span>
-            </button>
-            <LogosMark size={14} />
-          </div>
           <div className="lockrow wrap">
             <span className="lockup">
               <span className="lg">

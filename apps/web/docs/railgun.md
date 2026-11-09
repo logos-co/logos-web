@@ -1,6 +1,6 @@
 # RAILGUN case study
 
-The [case study route](../app/[locale]/case-studies/railgun/page.tsx) renders the [page copy](../../../content/pages/en/case-studies-railgun.json) at `/case-studies/railgun`. The Messaging page links to it from the RAILGUN card.
+The [case study route](../app/[locale]/case-studies/railgun/page.tsx) renders the [page copy](../../../content/pages/en/case-studies-railgun.json) at `/case-studies/railgun`. The Messaging page links to it from the RAILGUN card. The site-wide navigation overlays the cover and adjusts its text colour to the section beneath it.
 
 The [1440px desktop frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3767-17031) and [393px mobile frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3777-17120) supply the layout and copy. The [code-layer prototype](https://www.figma.com/proto/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3904-18706) supplies the timing and easing for the cover, section reveals, five-step transaction diagram, stack replay, and closing transition.
 

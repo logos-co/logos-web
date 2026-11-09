@@ -10,7 +10,7 @@ export function Transaction({
   const text = createCopyRenderer(copy)
   return (
     <>
-      <section className="dark pad wrap how" id="how">
+      <section className="dark pad wrap how" id="how" data-header-tone="dark">
         <div className="split">
           <h2 className="h2" data-railgun-lines="heading">
             {text('howAPrivateTransaction')}

@@ -26,6 +26,7 @@ import { Link, usePathname } from '@/i18n/navigation'
 import { useBasecampInstallLink } from '@/lib/use-basecamp-install-link'
 import {
   DARK_HEADER_ZONE_SELECTOR,
+  HEADER_TONE_PROBE_Y,
   isProbeOverDarkZone,
 } from '@/lib/header-tone'
 
@@ -129,7 +130,9 @@ export default function SiteHeaderClient({
     homepageHighlight?.enabled === true &&
     !isHomepageHighlightDismissed
 
+  const isRailgun = normalizedPathname.endsWith(ROUTES.railgun)
   const usesHeroHeaderTone =
+    isRailgun ||
     normalizedPathname === ROUTES.home ||
     normalizedPathname.endsWith(ROUTES.book) ||
     normalizedPathname.endsWith(ROUTES.about) ||
@@ -176,6 +179,15 @@ export default function SiteHeaderClient({
     }
 
     const syncHeaderColor = () => {
+      if (isRailgun) {
+        // The sticky cover stays in bounds as later sections paint over it.
+        const visibleSection = document
+          .elementsFromPoint(window.innerWidth / 2, HEADER_TONE_PROBE_Y)
+          .find((element) => element.closest('.railgun'))
+        setHasPassedHero(!visibleSection?.closest(DARK_HEADER_ZONE_SELECTOR))
+        return
+      }
+
       const darkZones = document.querySelectorAll(DARK_HEADER_ZONE_SELECTOR)
 
       if (darkZones.length > 0) {
@@ -201,7 +213,7 @@ export default function SiteHeaderClient({
       window.removeEventListener('scroll', syncHeaderColor)
       window.removeEventListener('resize', syncHeaderColor)
     }
-  }, [usesHeroHeaderTone, normalizedPathname])
+  }, [isRailgun, usesHeroHeaderTone, normalizedPathname])
 
   const headerToneClass = isBasecamp
     ? 'text-brand-off-white'
