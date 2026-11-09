@@ -14,6 +14,7 @@ type SiteFooterNewsletterProps = {
   roleLabel: string
   cityLabel: string
   submitLabel: string
+  inlineSubmit?: boolean
 }
 
 /**

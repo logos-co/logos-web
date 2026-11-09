@@ -42,7 +42,7 @@ export function Build({ copy }: { copy: RailgunCopySection['build'] }) {
             <p className="small">{text('shieldTokensAndUse')}</p>
             <div className="acts">
               <a
-                className="cta fill cursor-pointer"
+                className="cta fill-ow cursor-pointer"
                 href={EXTERNAL_URLS.railgunWallets}
               >
                 {copy.pickAWallet}{' '}

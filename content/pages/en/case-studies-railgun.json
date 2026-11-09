@@ -134,7 +134,8 @@
             "wakuIsNowLogos": "Waku is now Logos Delivery. RAILGUN's\ntraffic runs on its own network of Delivery\nnodes.",
             "logosDeliveryIsA": "Logos Delivery is a peer-to-peer network for\nprivate communication. Messages pass\nbetween many nodes, so no single machine\nsees who sent what to whom. Previously\ncalled Waku, Delivery is the data transport\nlayer of Logos, the open and modular stack\nfor privacy-preserving applications.",
             "theSealedTransactionReaches": "The sealed transaction reaches the chosen Broadcaster.\nNo one else can read it.",
-            "theBroadcasterRepliesEncrypted": "The Broadcaster replies, encrypted. Only the sender's\nwallet can open it."
+            "theBroadcasterRepliesEncrypted": "The Broadcaster replies, encrypted. Only the sender's\nwallet can open it.",
+            "bookend": "RAILGUN's proofs\nprotect the transaction.\nLogos Delivery secures\ntransmission."
           }
         }
       },
@@ -223,7 +224,8 @@
             "howAPrivateTransaction": "How a private\ntransaction is sent over\nLogos Delivery",
             "allCommunicationBetweenUsers": "All communication between users and\nRAILGUN Broadcasters is sent over Logos\nDelivery. Five steps, and no server at any\npoint.",
             "eachBroadcasterSignsIts": "Each Broadcaster signs its fee schedule with\nits 0zk viewing key and posts it to the fees\ntopic for its chain. Wallets receive the fees\nthey are configured to listen for and drop any\nquote that is unsigned, stale or from an\nunsupported version.",
-            "noOneCanTell": "No one can tell which fees you are\nmonitoring."
+            "noOneCanTell": "No one can tell which fees you are\nmonitoring.",
+            "caption0": "Broadcasters post signed fee quotes.\nWallets listen."
           }
         }
       },
@@ -322,9 +324,9 @@
         "n2": "[N]%",
         "ofRailgunVolumeSent": "Of RAILGUN volume sent through a Broadcaster",
         "photoAlt": "A white door standing open on a green hill under a clear sky",
-        "itJustTurnedOut": "\"It just turned out to be well-",
-        "suitedForOurNeeds": "suited for our needs, so we've",
-        "stuckWithIt": "stuck with it.\"",
+        "itJustTurnedOut": "“It just turned out to be well-",
+        "suitedForOurNeeds": "suited for our needs, so we’ve",
+        "stuckWithIt": "stuck with it.”",
         "keiranRailgunContributorOn": "Keiran, RAILGUN contributor, on choosing Waku, now Logos Delivery. Waku community call, March 2024.",
         "resilientAndDurable": "Resilient and durable",
         "any0xAddressCan": "Any 0x address can become a Broadcaster. None of them can access or modify a request. If any detail is changed, the proof is broken. Broadcasters can only refuse a transaction, and wallets will simply send it to the next one.",
@@ -346,7 +348,8 @@
             "ofRailgunVolumeSent": "Of RAILGUN volume sent\nthrough a Broadcaster",
             "keiranRailgunContributorOn": "Keiran, RAILGUN contributor, on choosing Waku, now\nLogos Delivery. Waku community call, March 2024.",
             "any0xAddressCan": "Any 0x address can become a Broadcaster.\nNone of them can access or modify a\nrequest. If any detail is changed, the proof is\nbroken. Broadcasters can only refuse a\ntransaction, and wallets will simply send it to\nthe next one.",
-            "railgunIsThePrivacy": "RAILGUN is the privacy layer in Kohaku, the\nEthereum Foundation's toolkit for private\nwallets. Every wallet that ships it brings new\nusers to the same Broadcasters, and more\nadoption of Logos technology."
+            "railgunIsThePrivacy": "RAILGUN is the privacy layer in Kohaku, the\nEthereum Foundation's toolkit for private\nwallets. Every wallet that ships it brings new\nusers to the same Broadcasters, and more\nadoption of Logos technology.",
+            "quote": "“It just turned out to be\nwell-suited for our\nneeds, so we’ve stuck\nwith it.”"
           }
         }
       },
@@ -458,6 +461,92 @@
         "nextCaseStudy": "Next case study",
         "gatewayFm": "Gateway.fm",
         "howGatewayFmRuns": "How Gateway.fm runs rollup infrastructure on Logos. Case study in production."
+      },
+      "footer": {
+        "tagline": "Pioneering a new era of freedom.",
+        "lineBreaks": {
+          "mobile": {
+            "tagline": "Pioneering a new era\nof freedom.",
+            "newsletterTitle": "Stay ahead with\nthe latest updates."
+          }
+        },
+        "newsletter": {
+          "title": "Stay ahead with the latest updates.",
+          "emailLabel": "Enter email",
+          "roleLabel": "Role",
+          "cityLabel": "city",
+          "submitLabel": "Submit"
+        },
+        "mainLinks": [
+          {
+            "label": "Work With Us",
+            "href": "https://free.technology/jobs"
+          },
+          {
+            "label": "Brand Guidelines",
+            "href": "/design-guide"
+          }
+        ],
+        "socialLinks": [
+          {
+            "label": "Twitter",
+            "href": "https://x.com/Logos_network"
+          },
+          {
+            "label": "Discord",
+            "href": "https://discord.gg/Ykv4eZyHUJ"
+          },
+          {
+            "label": "YouTube",
+            "href": "https://www.youtube.com/@logos_network"
+          },
+          {
+            "label": "Blog",
+            "href": "/media"
+          },
+          {
+            "label": "Github",
+            "href": "https://github.com/logos-co"
+          }
+        ],
+        "researchLinks": [
+          {
+            "label": "VacP2P",
+            "href": "https://github.com/vacp2p"
+          }
+        ],
+        "infrastructureLinks": [
+          {
+            "label": "Waku",
+            "href": "https://waku.org/"
+          },
+          {
+            "label": "Nimbus",
+            "href": "https://nimbus.team/"
+          },
+          {
+            "label": "Codex",
+            "href": "https://codex.storage/"
+          },
+          {
+            "label": "Nomos",
+            "href": "https://nomos.tech/"
+          }
+        ],
+        "legalLinks": [
+          {
+            "label": "Terms & Conditions",
+            "href": "/terms-and-conditions"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "/privacy-policy"
+          },
+          {
+            "label": "Security",
+            "href": "/security"
+          }
+        ]
       }
     }
   ]

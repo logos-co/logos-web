@@ -1,0 +1,78 @@
+.railgun-footer [data-footer-part='logo'] .brand-lockup {
+  display: flex;
+  gap: 4px;
+}
+
+.railgun-footer [data-footer-part='logo'] .brand-lockup > :last-child {
+  width: 43px;
+}
+
+.railgun-footer [data-footer-part='newsletter'] > p {
+  line-height: 21px;
+}
+
+.railgun-footer [data-footer-part] a {
+  border: 0;
+  box-shadow: 0 1px 0 rgb(245 245 239 / 10%);
+  font:
+    400 10px / 13px var(--next-font-mono-body),
+    monospace;
+}
+
+.railgun-footer [data-footer-part] form :is(input, button),
+.railgun-footer [data-footer-part] form [aria-hidden='true'] {
+  font: 600 10px / 1.35 var(--mono);
+}
+
+.railgun-footer [data-footer-part] form :is(input, button[aria-haspopup]) {
+  height: 31px;
+}
+
+.railgun-footer [data-footer-part] form button[type='submit'] {
+  color: var(--dg);
+  width: 79px;
+  height: 31px;
+  border-radius: 12px;
+}
+
+.railgun-footer input[name='city']:placeholder-shown {
+  padding-right: 31px;
+}
+
+.railgun-footer [data-newsletter-city-chevron] {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 6px);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+@media (width < 64rem) {
+  .railgun-footer [data-footer-part='newsletter'] > p,
+  .railgun-footer [data-footer-part='tagline'] {
+    white-space: pre-line;
+  }
+
+  .railgun-footer :is([data-footer-part='image'], [data-footer-part='logo']) {
+    top: 244px;
+  }
+
+  .railgun-footer [data-footer-part='tagline'] {
+    top: 295px;
+    max-width: calc(50% - 18px);
+  }
+
+  .railgun-footer :is([data-footer-part='main'], [data-footer-part='social']) {
+    top: 433px;
+  }
+
+  .railgun-footer
+    :is([data-footer-part='research'], [data-footer-part='infrastructure']) {
+    top: 608px;
+  }
+
+  .railgun-footer [data-footer-part='legal'] {
+    padding-top: 788px;
+    padding-bottom: 12px;
+  }
+}

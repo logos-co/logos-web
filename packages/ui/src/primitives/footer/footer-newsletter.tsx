@@ -45,6 +45,8 @@ export type FooterNewsletterProps = {
    * that was not picked is refused.
    */
   searchCities: CitySearch
+  /** Place Submit beside Role and City and keep required-field validation. */
+  inlineSubmit?: boolean
   /** Legend explaining the asterisk on the email field. */
   requiredLabel?: string
   /** Message shown after a successful submit. */
@@ -110,6 +112,7 @@ export function FooterNewsletter({
   onSubmit,
   roleOptions = DEFAULT_ROLE_OPTIONS,
   searchCities,
+  inlineSubmit = false,
   requiredLabel = 'required',
   successMessage = 'Thanks — you’re on the list.',
 }: FooterNewsletterProps) {
@@ -187,6 +190,17 @@ export function FooterNewsletter({
     }
   }
 
+  const submit = (
+    <button
+      type="submit"
+      disabled={isBusy}
+      className={`${submitClassName} ${inlineSubmit ? '' : 'w-full'}`}
+    >
+      {submitLabel}
+      <FooterArrowIcon />
+    </button>
+  )
+
   return (
     <form className="flex w-full flex-col gap-1" onSubmit={handleSubmit}>
       <div className="relative w-full">
@@ -209,7 +223,7 @@ export function FooterNewsletter({
           >
             <span>
               {emailLabel}
-              <sup className="ml-px text-red-500">*</sup>
+              {!inlineSubmit && <sup className="ml-px text-red-500">*</sup>}
             </span>
           </span>
         )}
@@ -276,6 +290,11 @@ export function FooterNewsletter({
             aria-label={cityLabel}
             {...cityAutocomplete.inputProps}
           />
+          {inlineSubmit && !city && (
+            <span data-newsletter-city-chevron>
+              <FooterChevronIcon />
+            </span>
+          )}
           <PickedCountry
             city={city}
             country={country}
@@ -320,22 +339,17 @@ export function FooterNewsletter({
             </ul>
           )}
         </div>
+        {inlineSubmit && submit}
       </div>
 
-      <div className="flex w-full items-center gap-1">
-        <button
-          type="submit"
-          disabled={isBusy}
-          className={`${submitClassName} w-full`}
-        >
-          {submitLabel}
-          <FooterArrowIcon />
-        </button>
-      </div>
-
-      <p className="text-eyebrow mt-1 text-brand-off-white/70 normal-case [--text-small-size:10px]">
-        <span className="text-red-500">*</span> {requiredLabel}
-      </p>
+      {!inlineSubmit && (
+        <>
+          <div className="flex w-full items-center gap-1">{submit}</div>
+          <p className="text-eyebrow mt-1 text-brand-off-white/70 normal-case [--text-small-size:10px]">
+            <span className="text-red-500">*</span> {requiredLabel}
+          </p>
+        </>
+      )}
 
       {message && (
         <p

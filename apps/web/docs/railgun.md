@@ -8,4 +8,4 @@ Each chapter owns its copy. Where a chapter has a `lineBreaks` entry, update tha
 
 The cover uses the prototype's three text-motion groups even when the approved mobile copy wraps onto four lines. The stack replay uses the prototype's packet travel distance across the shorter mobile card gaps. On mobile, the vertical PriFi timeline is visible before the three cards reveal together. On desktop, the three timeline segments draw in sequence.
 
-The Gateway.fm card opens the prototype's preview panel. The page uses the shared site footer and newsletter form.
+The Gateway.fm card opens the prototype's preview panel. The page uses the shared footer and newsletter form with the case study's link labels, layout and copy.
