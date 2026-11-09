@@ -59,3 +59,11 @@ export function strictConsole(baseURL: string): boolean {
   }
   return siteEnvironment(baseURL) !== 'local'
 }
+
+/**
+ * Token for the GitHub REST API, which the Basecamp test uses to look up the
+ * latest release. Optional locally; CI passes the workflow's GITHUB_TOKEN.
+ * Anonymous requests to github.com time out whenever GitHub sheds anonymous
+ * traffic, and the anonymous API allows 60 requests an hour per IP.
+ */
+export const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? ''

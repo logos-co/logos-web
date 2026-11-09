@@ -6,7 +6,8 @@
     "paths": {
       "@config/*": ["./src/config/*"],
       "@constants/*": ["./src/constants/*"],
-      "@fixtures/*": ["./src/fixtures/*"]
+      "@fixtures/*": ["./src/fixtures/*"],
+      "@helpers/*": ["./src/helpers/*"]
     }
   },
   "include": ["src", "tests", "playwright.config.ts"],
