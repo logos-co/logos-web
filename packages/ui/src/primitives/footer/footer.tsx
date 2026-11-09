@@ -122,6 +122,7 @@ export function Footer({
     >
       <div
         data-footer-motion="left"
+        data-footer-part="newsletter"
         className="absolute top-6 left-3 flex w-[370px] max-w-[calc(100%-24px)] flex-col gap-3 lg:w-[345px]"
       >
         <p className="w-full max-w-[314px] font-sans text-[18px] leading-[1.15] tracking-[-0.18px] text-brand-off-white">
@@ -161,6 +162,7 @@ export function Footer({
       {/* Desktop pins the image 12px above the bottom edge so it stays there when the footer grows. */}
       <div
         data-footer-motion="left"
+        data-footer-part="image"
         className="absolute top-[200px] left-3 h-[47px] w-[83px] overflow-hidden lg:top-auto lg:bottom-3 lg:h-[127px] lg:w-[226px] *:size-full *:object-cover"
       >
         {image}
@@ -168,6 +170,7 @@ export function Footer({
 
       <div
         data-footer-motion="right"
+        data-footer-part="logo"
         className="absolute top-[200px] left-[calc(50%+6px)] lg:top-6"
       >
         {logo}
@@ -176,6 +179,7 @@ export function Footer({
       {tagline && (
         <p
           data-footer-motion="right"
+          data-footer-part="tagline"
           className="text-body-serif absolute top-[251px] left-[calc(50%+6px)] w-[175px] text-brand-off-white lg:top-[22px] lg:left-[calc(83.33%+2px)] lg:w-[226px]"
         >
           {tagline}
@@ -184,6 +188,7 @@ export function Footer({
 
       <div
         data-footer-motion="right"
+        data-footer-part="main"
         className="absolute top-[332px] left-3 lg:top-[133px] lg:left-[calc(50%+6px)]"
       >
         <LinkList links={mainLinks} />
@@ -191,6 +196,7 @@ export function Footer({
 
       <div
         data-footer-motion="right"
+        data-footer-part="social"
         className="absolute top-[332px] left-[calc(50%+6px)] lg:top-[133px] lg:left-[calc(83.33%+3px)]"
       >
         <LinkList links={socialLinks} />
@@ -198,6 +204,7 @@ export function Footer({
 
       <div
         data-footer-motion="right"
+        data-footer-part="research"
         className="absolute top-[460px] left-3 lg:top-[322px] lg:left-[calc(50%+8px)]"
       >
         <LinkList label="Research" links={researchLinks} />
@@ -205,6 +212,7 @@ export function Footer({
 
       <div
         data-footer-motion="right"
+        data-footer-part="infrastructure"
         className="absolute top-[460px] left-[calc(50%+6px)] lg:top-[322px] lg:left-[calc(83.33%+3px)]"
       >
         <LinkList label="Infrastructure" links={infrastructureLinks} />
@@ -218,6 +226,7 @@ export function Footer({
       */}
       <div
         data-footer-motion="right"
+        data-footer-part="legal"
         className="pt-[591px] pb-3.5 pl-3 lg:pt-[617px] lg:pb-[13px] lg:pl-[calc(50%+6px)]"
       >
         <LinkList links={legalLinks} />

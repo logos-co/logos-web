@@ -6,7 +6,10 @@ import { BrandLockup } from './shared'
 import type { RailgunCopySection } from '@repo/content/schemas'
 
 export function Basics({ copy }: { copy: RailgunCopySection['basics'] }) {
-  const text = createCopyRenderer(copy)
+  const text = createCopyRenderer({
+    ...copy,
+    bookend: `${copy.railgunSProofsProtect} ${copy.logosDeliverySecuresTransmission}`,
+  })
   return (
     <>
       <section className="light pad wrap basics" id="basics">
@@ -91,16 +94,19 @@ export function Basics({ copy }: { copy: RailgunCopySection['basics'] }) {
           </div>
         </div>
         <p className="bookend lines rv">
-          <span className="ln">
-            <span style={{ '--d': '0ms' } as CSSProperties}>
-              {copy.railgunSProofsProtect}
+          <span className="desktop-copy">
+            <span className="ln">
+              <span style={{ '--d': '0ms' } as CSSProperties}>
+                {copy.railgunSProofsProtect}
+              </span>
+            </span>{' '}
+            <span className="ln">
+              <span style={{ '--d': '140ms' } as CSSProperties}>
+                {copy.logosDeliverySecuresTransmission}
+              </span>
             </span>
           </span>
-          <span className="ln">
-            <span style={{ '--d': '140ms' } as CSSProperties}>
-              {copy.logosDeliverySecuresTransmission}
-            </span>
-          </span>
+          <span className="mobile-copy">{text('bookend')}</span>
         </p>
       </section>
     </>

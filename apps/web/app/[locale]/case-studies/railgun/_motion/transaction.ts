@@ -10,6 +10,7 @@ export function mountTransaction(scope: MotionScope) {
   const caption = select('#dcap')
   const nextLabel = select('#nextlab')
   const labels = readLabels(caption, 'captions')
+  const mobileCaption = caption.dataset.mobileCaption
   const setDiagramStep = mountTransactionDiagram(scope)
   let pinned = false
   let current = -1
@@ -26,6 +27,13 @@ export function mountTransaction(scope: MotionScope) {
         String(index < step ? 1 : index === step ? progress : 0)
       )
     })
+  }
+
+  function renderCaption(step: number) {
+    caption.textContent =
+      step === 0 && compactLayout() && mobileCaption
+        ? mobileCaption
+        : labels[step]
   }
 
   function update(step: number) {
@@ -67,12 +75,12 @@ export function mountTransaction(scope: MotionScope) {
     }
 
     if (reduced) {
-      caption.textContent = labels[step]
+      renderCaption(step)
       return
     }
     caption.className = 'dcap out'
     captionTimer = scope.timeout(() => {
-      caption.textContent = labels[step]
+      renderCaption(step)
       caption.className = 'dcap pre'
       scope.afterPaint(() => {
         if (current === step) caption.className = 'dcap in'
@@ -81,6 +89,7 @@ export function mountTransaction(scope: MotionScope) {
   }
 
   function layout() {
+    if (!caption.classList.contains('out')) renderCaption(current)
     track.classList.remove('pin')
     const height = grid.offsetHeight
     pinned = !reduced && !compactLayout() && height + 84 <= innerHeight

@@ -34,6 +34,7 @@ export function Transaction({
                   className="dcap"
                   id="dcap"
                   aria-live="polite"
+                  data-mobile-caption={copy.lineBreaks?.mobile?.caption0}
                   data-captions={JSON.stringify([
                     copy.caption0,
                     copy.caption1,

@@ -1477,7 +1477,12 @@
 :where(.railgun) .bcard.lead {
   background: var(--dg);
   color: var(--ow);
-  border-color: var(--dg);
+  border: 0;
+}
+
+:where(.railgun) .bcard.lead .cta {
+  border: 0;
+  letter-spacing: 0;
 }
 
 /* ================= 09 CLOSER ================= */
@@ -1552,7 +1557,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  margin-top: 150px;
+  margin-top: 100px;
   padding-top: 15px;
   border-top: 1px solid var(--ow50);
   font-size: 18px;
@@ -1835,6 +1840,9 @@
   }
   :where(.railgun) .qp .q {
     position: static;
+  }
+  :where(.railgun) .qp blockquote {
+    --fz: 40px;
   }
   :where(.railgun) .qp {
     display: flex;
@@ -2223,6 +2231,19 @@ body.railgun-lock {
     border-radius: 12px;
   }
 
+  :where(.railgun) .dcapwrap {
+    left: 15px;
+    right: 15px;
+    bottom: 16px;
+  }
+
+  :where(.railgun) .dcap {
+    max-width: 300px;
+    font-family: var(--serif);
+    font-size: 20px;
+    white-space: pre-line;
+  }
+
   :where(.railgun) .fig .vconn {
     display: none;
   }
@@ -2232,7 +2253,7 @@ body.railgun-lock {
   }
 
   :where(.railgun) .bphoto {
-    aspect-ratio: 369 / 260;
+    aspect-ratio: 369 / 300;
   }
 
   :where(.railgun) .next .to {
@@ -2336,7 +2357,8 @@ body.railgun-lock {
   }
 
   :where(.railgun) .bookend {
-    font-size: 30px;
+    font-family: var(--railgun-font-newsreader), var(--serif);
+    font-size: 40px;
     line-height: 1;
     margin-top: 100px;
     margin-bottom: 0;
