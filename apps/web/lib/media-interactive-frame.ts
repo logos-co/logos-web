@@ -146,6 +146,11 @@ function pickHostStorage(storage: HostStorage): HostStorage {
  * so the frame styles itself, measures itself and asks the parent to follow
  * site links. It is injected before any authored markup, so a CSP declared by
  * the article applies only after this script has already run.
+ *
+ * The frame never scrolls sideways. Content wider than the article column
+ * would otherwise give the frame a horizontal scrollbar, and with classic
+ * scrollbars that bar takes height from the frame, so the article overflows
+ * vertically too and the frame traps the mouse wheel.
  */
 export function interactiveFrameSource(
   storage: HostStorage = DEFAULT_HOST_STORAGE,
@@ -154,6 +159,7 @@ export function interactiveFrameSource(
   return `${sizeSource(size)}${storageSource(storage)}
 (function(){
 var host=window.parent;if(host===window)return;
+document.documentElement.style.setProperty('overflow-x','hidden','important');
 var last=-1;
 function measure(){var body=document.body;if(!body)return;var rect=body.getBoundingClientRect();var marginBottom=parseFloat(getComputedStyle(body).marginBottom)||0;var height=Math.ceil(rect.top+window.scrollY+Math.max(rect.height,body.scrollHeight)+marginBottom);if(height<=0||height===last)return;last=height;host.postMessage({type:${JSON.stringify(FRAME_HEIGHT_MESSAGE)},height:height},'*');}
 function navigate(event){if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;var link=event.target&&event.target.closest?event.target.closest('a[href]'):null;if(!link||link.hasAttribute('download'))return;var href=link.getAttribute('href');if(!/^\\/(?![\\/\\\\])/.test(href)||(link.target&&link.target.toLowerCase()!=='_self'))return;event.preventDefault();host.postMessage({type:${JSON.stringify(FRAME_NAVIGATE_MESSAGE)},href:href},'*');}

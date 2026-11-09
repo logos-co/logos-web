@@ -298,6 +298,15 @@ describe('full HTML article integration', () => {
     ).toBe('white')
   })
 
+  it('never lets the frame scroll sideways, even when the article asks to', () => {
+    const { article } = mountArticle(
+      `<!doctype html><html style="overflow-x: scroll !important"><head></head><body></body></html>`
+    )
+    const root = article.documentElement
+    expect(root.style.getPropertyValue('overflow-x')).toBe('hidden')
+    expect(root.style.getPropertyPriority('overflow-x')).toBe('important')
+  })
+
   it('preserves same-tab targets and rel metadata while securing new tabs', () => {
     const { article } =
       mountArticle(`<a id="site" href="/media/articles">Site</a>
