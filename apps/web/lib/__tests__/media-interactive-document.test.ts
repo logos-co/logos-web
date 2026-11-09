@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
 import { buildInteractiveDocument } from '../media-interactive-document'
+import {
+  DEFAULT_HOST_STORAGE,
+  interactiveFrameScript,
+} from '../media-interactive-frame'
+
+const INTERACTIVE_FRAME_SCRIPT = interactiveFrameScript()
 
 describe('buildInteractiveDocument', () => {
   it('preserves a full document and its body attributes, styles and scripts', () => {
@@ -24,7 +30,44 @@ describe('buildInteractiveDocument', () => {
     )
     expect(html.match(/Content-Security-Policy/g)).toHaveLength(1)
     expect(html).toContain(csp)
-    expect(html).not.toContain('<script')
+    expect(html.match(/<script>/g)).toHaveLength(1)
+    expect(html).toContain(`<head>${INTERACTIVE_FRAME_SCRIPT}${csp}`)
+  })
+
+  it.each([
+    [
+      '<!doctype html><html lang="en"><meta http-equiv="Content-Security-Policy" content="default-src https:"><body>Article</body></html>',
+      '<html lang="en">',
+    ],
+    ['<header>Top</header><p>Article</p>', '<head><meta charset="utf-8" />'],
+  ])('injects the frame integration once into %s', (fullHtml, before) => {
+    const html = buildInteractiveDocument(fullHtml)
+    expect(html.split(INTERACTIVE_FRAME_SCRIPT)).toHaveLength(2)
+    expect(html).toContain(fullHtml.match(/<(body|header)>[^<]*/)![0])
+    expect(html.indexOf(before)).toBeLessThan(
+      html.indexOf(INTERACTIVE_FRAME_SCRIPT)
+    )
+  })
+
+  it('mirrors the given site storage support into the frame', () => {
+    const blocked = { ...DEFAULT_HOST_STORAGE, cookies: false, caches: false }
+    const html = buildInteractiveDocument('<p>Article</p>', blocked)
+    expect(html).toContain(interactiveFrameScript(blocked))
+    expect(html).not.toContain(INTERACTIVE_FRAME_SCRIPT)
+    expect(buildInteractiveDocument('<p>Article</p>')).toContain(
+      INTERACTIVE_FRAME_SCRIPT
+    )
+  })
+
+  it('passes the measured frame size to the frame script', () => {
+    const size = { width: 700, height: 480 }
+    const html = buildInteractiveDocument(
+      '<p>Article</p>',
+      DEFAULT_HOST_STORAGE,
+      size
+    )
+    expect(html).toContain(interactiveFrameScript(DEFAULT_HOST_STORAGE, size))
+    expect(html).toContain('{"innerWidth":700,"innerHeight":480}')
   })
 
   it('keeps legacy blog links pointing at the migrated article', () => {

@@ -8,6 +8,7 @@ import { prepareCmsLinks } from '@/lib/html-links'
 import { youtubeEmbedUrl } from '@/lib/media-embed'
 import { MEDIA_BODY_IMAGE_SIZES } from '@/lib/media-image-sizes'
 import { injectEmbedCsp } from '@/lib/media-interactive-document'
+import { INTERACTIVE_FRAME_SANDBOX } from '@/lib/media-interactive-frame'
 
 import { HtmlDocumentEmbed } from './html-document-embed'
 import { MediaImage } from './media-image'
@@ -105,6 +106,7 @@ function SrcDocEmbed({
 
     const handleMessage = (event: MessageEvent) => {
       if (
+        event.source !== iframeRef.current?.contentWindow ||
         typeof event.data !== 'object' ||
         event.data === null ||
         event.data.type !== 'logos-media-embed-height' ||
@@ -135,7 +137,7 @@ function SrcDocEmbed({
       ref={iframeRef}
       title={block.title || `Interactive content ${index + 1}`}
       srcDoc={buildSrcDoc(block, frameId)}
-      sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+      sandbox={INTERACTIVE_FRAME_SANDBOX}
       loading="lazy"
       className="media-detail-interactive"
       style={{ height }}

@@ -1,99 +1,197 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
-import { observeInteractiveFrame } from '../media-interactive-frame'
+import {
+  DEFAULT_HOST_STORAGE,
+  FRAME_HEIGHT_MESSAGE,
+  FRAME_NAVIGATE_MESSAGE,
+  FRAME_SYNC_MESSAGE,
+  INTERACTIVE_FRAME_SANDBOX,
+  observeInteractiveFrame,
+  probeHostStorage,
+} from '../media-interactive-frame'
 
-function createFrame(readyState = 'complete') {
-  const bounds = { top: 12, height: 600 }
-  const body = {
-    style: { setProperty: vi.fn() },
-    getBoundingClientRect: () => bounds,
-    get scrollHeight() {
-      return bounds.height
-    },
+function createFrame() {
+  const contentWindow = { postMessage: vi.fn() }
+  const location = {
+    href: 'https://logos.co/media/article/example',
+    origin: 'https://logos.co',
+    assign: vi.fn(),
   }
-  const view = Object.assign(new EventTarget(), {
-    scrollY: 0,
-    getComputedStyle: () => ({ marginBottom: '20px' }),
+  const host = Object.assign(new EventTarget(), { location })
+  const iframe = Object.assign(new EventTarget(), {
+    contentWindow,
+    ownerDocument: { defaultView: host },
   })
-  const document = Object.assign(new EventTarget(), {
-    body,
-    defaultView: view,
-    documentElement: { style: { setProperty: vi.fn() } },
-    querySelectorAll: () => [],
-    readyState,
-    fonts: { ready: Promise.resolve() },
-  })
-  const iframe = Object.assign(new EventTarget(), { contentDocument: document })
-  const observers: Array<{
-    notify: () => void
-    disconnect: ReturnType<typeof vi.fn>
-  }> = []
-  class Observer {
-    disconnect = vi.fn()
-    constructor(notify: () => void) {
-      observers.push({ notify, disconnect: this.disconnect })
-    }
-    observe() {}
-  }
-  vi.stubGlobal('MutationObserver', Observer)
-  vi.stubGlobal('ResizeObserver', Observer)
   const onHeight = vi.fn()
-  const connect = (
-    callback: ((height: number) => void) | undefined = onHeight
-  ) => observeInteractiveFrame(iframe as unknown as HTMLIFrameElement, callback)
-  return { bounds, document, iframe, onHeight, observers, connect }
+  const connect = (fixedHeight = false) =>
+    observeInteractiveFrame(
+      iframe as unknown as HTMLIFrameElement,
+      fixedHeight ? undefined : onHeight
+    )
+  const post = (data: unknown, source: unknown = contentWindow) =>
+    host.dispatchEvent(Object.assign(new Event('message'), { data, source }))
+  return { contentWindow, location, iframe, onHeight, connect, post }
 }
 
-afterEach(() => vi.unstubAllGlobals())
-
 describe('interactive frame observation', () => {
-  it('measures an already loaded document without executing article scripts', () => {
-    const { connect, onHeight } = createFrame()
-    const disconnect = connect()
-    expect(onHeight).toHaveBeenLastCalledWith(632)
-    disconnect()
+  it('keeps embed scripts off the site origin', () => {
+    expect(INTERACTIVE_FRAME_SANDBOX).toContain('allow-scripts')
+    expect(INTERACTIVE_FRAME_SANDBOX).not.toContain('allow-same-origin')
+    expect(INTERACTIVE_FRAME_SANDBOX).not.toContain('allow-top-navigation')
   })
 
-  it('waits for load and reconnects after navigation', () => {
-    const { connect, iframe, onHeight, bounds, observers } =
-      createFrame('loading')
+  it('asks the frame for its height on connect and on every load', () => {
+    const { connect, contentWindow, iframe } = createFrame()
     const disconnect = connect()
-    expect(onHeight).not.toHaveBeenCalled()
+    expect(contentWindow.postMessage).toHaveBeenCalledWith(
+      { type: FRAME_SYNC_MESSAGE },
+      '*'
+    )
     iframe.dispatchEvent(new Event('load'))
-    expect(onHeight).toHaveBeenLastCalledWith(632)
-    bounds.height = 900
-    iframe.dispatchEvent(new Event('load'))
-    expect(observers[0]!.disconnect).toHaveBeenCalledOnce()
-    expect(onHeight).toHaveBeenLastCalledWith(932)
+    expect(contentWindow.postMessage).toHaveBeenCalledTimes(2)
     disconnect()
   })
 
-  it('handles growth beyond 10000px and shrinkage without repeated updates', () => {
-    const { connect, bounds, onHeight, observers } = createFrame()
+  it('accepts heights only from its own frame and bounds them', () => {
+    const { connect, post, onHeight } = createFrame()
     const disconnect = connect()
-    bounds.height = 15000
-    observers.forEach(({ notify }) => notify())
-    expect(onHeight).toHaveBeenLastCalledWith(15032)
-    bounds.height = 300
-    observers.forEach(({ notify }) => notify())
-    expect(onHeight).toHaveBeenLastCalledWith(332)
-    expect(onHeight).toHaveBeenCalledTimes(3)
-    disconnect()
-  })
-
-  it('disconnects listeners, observers and pending font updates on cleanup', async () => {
-    const { connect, document, iframe, onHeight, observers } = createFrame()
-    const disconnect = connect()
-    disconnect()
+    post({ type: FRAME_HEIGHT_MESSAGE, height: 632.2 })
+    expect(onHeight).toHaveBeenLastCalledWith(633)
+    post({ type: FRAME_HEIGHT_MESSAGE, height: 15000 })
+    expect(onHeight).toHaveBeenLastCalledWith(15000)
+    post({ type: FRAME_HEIGHT_MESSAGE, height: 1e9 })
+    expect(onHeight).toHaveBeenLastCalledWith(100000)
     onHeight.mockClear()
-    observers.forEach(({ notify, disconnect: stop }) => {
-      expect(stop).toHaveBeenCalledOnce()
-      notify()
-    })
-    document.dispatchEvent(new Event('load'))
-    document.defaultView.dispatchEvent(new Event('resize'))
-    iframe.dispatchEvent(new Event('load'))
-    await Promise.resolve()
+    post({ type: FRAME_HEIGHT_MESSAGE, height: 500 }, {})
+    post({ type: FRAME_HEIGHT_MESSAGE, height: '500' })
+    post({ type: FRAME_HEIGHT_MESSAGE, height: Number.NaN })
+    post('height')
     expect(onHeight).not.toHaveBeenCalled()
+    disconnect()
+  })
+
+  it('ignores heights when the embed has a fixed height', () => {
+    const { connect, post, onHeight } = createFrame()
+    const disconnect = connect(true)
+    post({ type: FRAME_HEIGHT_MESSAGE, height: 500 })
+    expect(onHeight).not.toHaveBeenCalled()
+    disconnect()
+  })
+
+  it('follows site paths and nothing else', () => {
+    const { connect, post, location } = createFrame()
+    const disconnect = connect()
+    post({ type: FRAME_NAVIGATE_MESSAGE, href: '/media/articles?page=2#top' })
+    expect(location.assign).toHaveBeenCalledWith('/media/articles?page=2#top')
+    location.assign.mockClear()
+    for (const href of [
+      '//evil.example',
+      '/\\evil.example',
+      'https://evil.example/',
+      'javascript:alert(1)',
+      'media',
+      42,
+    ]) {
+      post({ type: FRAME_NAVIGATE_MESSAGE, href })
+    }
+    post({ type: FRAME_NAVIGATE_MESSAGE, href: '/media' }, {})
+    expect(location.assign).not.toHaveBeenCalled()
+    disconnect()
+  })
+
+  it('stops listening on cleanup', () => {
+    const { connect, post, iframe, onHeight, location, contentWindow } =
+      createFrame()
+    connect()()
+    contentWindow.postMessage.mockClear()
+    post({ type: FRAME_HEIGHT_MESSAGE, height: 500 })
+    post({ type: FRAME_NAVIGATE_MESSAGE, href: '/media' })
+    iframe.dispatchEvent(new Event('load'))
+    expect(onHeight).not.toHaveBeenCalled()
+    expect(location.assign).not.toHaveBeenCalled()
+    expect(contentWindow.postMessage).not.toHaveBeenCalled()
+  })
+})
+
+function memoryStorage() {
+  const data = new Map<string, string>()
+  return {
+    setItem: (key: string, value: string) => void data.set(key, value),
+    removeItem: (key: string) => void data.delete(key),
+    size: () => data.size,
+  }
+}
+
+/** A logos.co window whose cookie jar honours max-age=0. */
+function createHost(overrides: Record<string, unknown> = {}) {
+  const jar = new Map<string, string>()
+  const document = {
+    get cookie() {
+      return [...jar].map(([name, value]) => `${name}=${value}`).join('; ')
+    },
+    set cookie(raw: string) {
+      const [pair, ...attributes] = raw.split(';')
+      const [name, value] = pair.split('=')
+      if (attributes.some((attribute) => attribute.trim() === 'max-age=0')) {
+        jar.delete(name)
+      } else {
+        jar.set(name, value)
+      }
+    },
+  }
+  const view = {
+    document,
+    localStorage: memoryStorage(),
+    sessionStorage: memoryStorage(),
+    indexedDB: {},
+    caches: {},
+    navigator: { serviceWorker: {}, cookieEnabled: true },
+  }
+  // Copy descriptors so throwing getters stay getters.
+  Object.defineProperties(view, Object.getOwnPropertyDescriptors(overrides))
+  return { jar, view: view as unknown as Window }
+}
+
+describe('site storage probe', () => {
+  it('reports what logos.co allows and leaves nothing behind', () => {
+    const { view, jar } = createHost()
+    expect(probeHostStorage(view)).toEqual(DEFAULT_HOST_STORAGE)
+    expect(jar.size).toBe(0)
+    expect((view.localStorage as unknown as { size(): number }).size()).toBe(0)
+  })
+
+  it('reports blocked storage as unavailable', () => {
+    const throwing = {
+      setItem() {
+        throw new DOMException('Blocked', 'SecurityError')
+      },
+    }
+    const { view } = createHost({
+      // Browsers ignore cookie writes when cookies are blocked.
+      document: {
+        get cookie() {
+          return ''
+        },
+        set cookie(_: string) {},
+      },
+      localStorage: throwing,
+      get sessionStorage() {
+        throw new DOMException('Blocked', 'SecurityError')
+      },
+      indexedDB: undefined,
+      get caches() {
+        throw new DOMException('Blocked', 'SecurityError')
+      },
+      navigator: { cookieEnabled: false },
+    })
+    expect(probeHostStorage(view)).toEqual({
+      cookies: false,
+      cookieEnabled: false,
+      localStorage: false,
+      sessionStorage: false,
+      indexedDB: false,
+      caches: false,
+      serviceWorker: false,
+    })
   })
 })
