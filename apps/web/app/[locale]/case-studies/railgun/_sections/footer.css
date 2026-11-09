@@ -4,7 +4,13 @@
 }
 
 .railgun-footer [data-footer-part='logo'] .brand-lockup > :last-child {
-  width: 43px;
+  width: 47px;
+}
+
+.railgun-footer
+  :is([data-footer-part='research'], [data-footer-part='infrastructure'])
+  p {
+  font: 600 10px / 14px var(--mono);
 }
 
 .railgun-footer [data-footer-part='newsletter'] > p {
