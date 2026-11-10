@@ -132,7 +132,7 @@ country on the `city` field. The form shows the `cityPickRequired` message
 | `apps/api/src/lib/notion/constants.ts`                     | Notion API base URL, version, 2000 char text limit                                   |
 | `apps/api/src/lib/notion/evaluation-template.ts`           | Evaluation template blocks attached to every new page                                |
 | `apps/api/src/lib/notion/submit.ts`                        | `submitToNotion`: resolves the data source, builds properties, POSTs the page        |
-| `apps/api/src/lib/n8n/build-payload.ts`                    | `buildN8nPayload`: merges id-based answers with their labels                         |
+| `apps/api/src/lib/n8n/build-payload.ts`                    | `buildN8nPayload`: steward keys only, id-based answers merged with labels            |
 | `apps/api/src/lib/n8n/constants.ts`                        | `N8N_STEWARD_WEBHOOK_URL`                                                            |
 | `apps/api/src/lib/n8n/submit.ts`                           | `submitToN8n`: steward webhook POST                                                  |
 | `packages/funnel/src/index.ts`                             | `@repo/funnel` entry point; re-exports the modules below                             |
