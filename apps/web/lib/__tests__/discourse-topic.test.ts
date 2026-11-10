@@ -69,6 +69,36 @@ describe('parseDiscourseTopic', () => {
     expect(reply.displayName).toBe('user2')
   })
 
+  it('keeps basic formatting and images without active HTML or unsafe URLs', () => {
+    const cooked = [
+      '<p style="color:red">Hi <strong>Logos</strong></p>',
+      '<img src="https://example.com/photo.png" alt="Photo" onerror="alert(1)" srcset="https://example.com/other.png">',
+      '<a href="java&#x09;script:alert(1)" onclick="alert(1)">unsafe</a>',
+      '<img src="data:image/svg+xml,bad">',
+      '<script>alert(1)</script><iframe src="https://example.com"></iframe>',
+      '<form><button formaction="javascript:alert(1)">Send</button></form>',
+      '<svg><a href="javascript:alert(1)">svg</a></svg>',
+    ].join('')
+
+    const [reply] = parseDiscourseTopic(
+      1,
+      topic([post(1), post(2, { cooked })])
+    )!.posts
+
+    expect(reply.html).toBe(
+      '<p>Hi <strong>Logos</strong></p><img src="https://example.com/photo.png" alt="Photo"><a target="_blank" rel="noopener noreferrer">unsafe</a><img>'
+    )
+  })
+
+  it('skips a reply when sanitisation removes the entire fragment', () => {
+    const discussion = parseDiscourseTopic(
+      1,
+      topic([post(1), post(2, { cooked: '<script>alert(1)</script>' })])
+    )
+
+    expect(discussion).toMatchObject({ posts: [], postsCount: 1 })
+  })
+
   it('drops replies that are missing required fields', () => {
     const discussion = parseDiscourseTopic(
       1,

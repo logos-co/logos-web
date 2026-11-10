@@ -1,3 +1,6 @@
+import { rehype } from 'rehype'
+import rehypeSanitize from 'rehype-sanitize'
+
 import { EXTERNAL_URLS } from '@/constants/routes'
 import { prepareCmsLinks } from '@/lib/html-links'
 
@@ -12,6 +15,58 @@ const FORUM_ORIGIN = EXTERNAL_URLS.forum.replace(/\/$/, '')
 /** The article page previews the first few replies, like the legacy blog. */
 const PREVIEW_REPLY_COUNT = 3
 const AVATAR_SIZE = '40'
+
+const replyHtml = rehype()
+  .data('settings', { fragment: true })
+  .use(rehypeSanitize, {
+    tagNames: [
+      'a',
+      'b',
+      'blockquote',
+      'br',
+      'code',
+      'del',
+      'div',
+      'em',
+      'hr',
+      'i',
+      'img',
+      'li',
+      'ol',
+      'p',
+      'pre',
+      's',
+      'span',
+      'strong',
+      'ul',
+    ],
+    attributes: {
+      a: [
+        'href',
+        'title',
+        ['target', '_blank'],
+        ['rel', 'noopener', 'noreferrer', 'nofollow', 'ugc'],
+      ],
+      img: ['src', 'alt', 'title', 'width', 'height'],
+      ol: ['start'],
+    },
+    protocols: {
+      href: ['http', 'https', 'mailto'],
+      src: ['http', 'https'],
+    },
+    strip: [
+      'embed',
+      'form',
+      'iframe',
+      'math',
+      'object',
+      'script',
+      'style',
+      'svg',
+      'template',
+    ],
+  })
+  .freeze()
 
 export interface BlogDiscussionPost {
   id: string
@@ -44,8 +99,17 @@ function parseReply(post: Record<string, unknown>): BlogDiscussionPost | null {
   const username = stringValue(post.username)
   const avatarTemplate = stringValue(post.avatar_template)
   const createdAt = stringValue(post.created_at)
-  const html = stringValue(post.cooked)
-  if (!id || !username || !avatarTemplate || !createdAt || !html) return null
+  const cooked = stringValue(post.cooked)
+  if (!id || !username || !avatarTemplate || !createdAt || !cooked) return null
+
+  const html = String(
+    replyHtml.processSync(
+      prepareCmsLinks(
+        cooked.replace(/href="\/u\//g, `href="${FORUM_ORIGIN}/u/`)
+      )
+    )
+  ).trim()
+  if (!html) return null
 
   const avatarPath = avatarTemplate.replace('{size}', AVATAR_SIZE)
   return {
@@ -55,9 +119,7 @@ function parseReply(post: Record<string, unknown>): BlogDiscussionPost | null {
       : `${FORUM_ORIGIN}${avatarPath}`,
     createdAt,
     displayName: stringValue(post.display_username) || username,
-    html: prepareCmsLinks(
-      html.replace(/href="\/u\//g, `href="${FORUM_ORIGIN}/u/`)
-    ),
+    html,
   }
 }
 
