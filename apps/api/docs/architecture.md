@@ -41,9 +41,10 @@ apps/api/
    is not plausible. The list comes from `REQUIRED_FIELDS_BY_FORM` in
    `@repo/funnel`, which `apps/web` also builds its form schema from, and the
    `400` names the offending `fields`.
-4. Verify the hCaptcha token when `HCAPTCHA_SECRET` is set: a missing token is a
-   `400`, a failed check a `403`. Tokens are single-use, so this happens once and
-   both writers use that one result.
+4. Verify the hCaptcha token once: a missing token is a `400`, a failed check
+   a `403`. A missing or blank `HCAPTCHA_SECRET` returns `503` before any write
+   in Vercel Preview, Vercel Production and other production runs. Local
+   development and tests can omit the secret to skip verification.
 5. Forward the steward application (`afformActivistLeaderSteward`) to the
    n8n/Baserow webhook. Best-effort: a failure is logged and the request
    continues.
@@ -89,7 +90,7 @@ disallowed origin gets no `Access-Control-Allow-Origin` at all, because
 
 | Variable                           | Purpose                                                            |
 | ---------------------------------- | ------------------------------------------------------------------ |
-| `HCAPTCHA_SECRET`                  | Verify captcha tokens; unset = captcha not verified                |
+| `HCAPTCHA_SECRET`                  | Secret used to verify tokens; required in deployments              |
 | `NOTION_API_TOKEN`, `NOTION_DB_ID` | Notion intake target                                               |
 | `NOTION_DATA_SOURCE_ID`            | Pins writes when the database holds multiple data sources          |
 | `FUNNEL_INTAKE_NOTION_DISABLED`    | Skip the Notion write                                              |
