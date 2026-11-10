@@ -25,6 +25,9 @@ const CIRCLE_MARKER_PATTERN = /<strong[^>]*>\s*Local\s+context/gi
 /** Guardrail: an absurd parse result means the markup changed; ignore it. */
 const MAX_PLAUSIBLE_CIRCLES = 100
 
+// Next aborts a static page after 60s; give up early and use the floor.
+const WINNABLE_ISSUES_FETCH_TIMEOUT_MS = 10_000
+
 export function countWinnableIssueCircles(html: string): number {
   const matches = html.match(CIRCLE_MARKER_PATTERN)
   return matches ? matches.length : 0
@@ -34,6 +37,7 @@ async function fetchWinnableIssuesHtml(): Promise<string | null> {
   try {
     const response = await fetch(WINNABLE_ISSUES_PAGE_URL, {
       cache: 'force-cache',
+      signal: AbortSignal.timeout(WINNABLE_ISSUES_FETCH_TIMEOUT_MS),
     })
 
     if (!response.ok) {

@@ -37,7 +37,7 @@ describe('getSocialProofStats', () => {
     expect(fetchMock).toHaveBeenNthCalledWith(
       1,
       'https://hasura.bi.status.im/api/rest/contributions/count_all',
-      { cache: 'force-cache' }
+      { cache: 'force-cache', signal: expect.any(AbortSignal) }
     )
   })
 

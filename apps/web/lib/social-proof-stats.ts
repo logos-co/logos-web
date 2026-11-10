@@ -4,6 +4,9 @@ import {
 } from './logos-data-api'
 import { logger } from './logger'
 
+// Next aborts a static page after 60s; give up early and use the fallback.
+const CONTRIBUTIONS_FETCH_TIMEOUT_MS = 10_000
+
 const FALLBACK_SOCIAL_PROOF_STATS = {
   contributions: 3441,
   contributors: 218,
@@ -37,6 +40,7 @@ async function fetchContributionsData(): Promise<ContributionsApiData | null> {
   try {
     const response = await fetch(CONTRIBUTIONS_API_URL, {
       cache: 'force-cache',
+      signal: AbortSignal.timeout(CONTRIBUTIONS_FETCH_TIMEOUT_MS),
     })
 
     if (!response.ok) {
