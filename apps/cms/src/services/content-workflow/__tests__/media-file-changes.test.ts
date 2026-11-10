@@ -59,4 +59,23 @@ describe('collectReferencedCmsUploadChanges', () => {
       /referenced CMS upload is missing/
     )
   })
+
+  it('rejects a reference to a previously uploaded SVG', async () => {
+    const name = 'logo.SVG'
+    await mkdir(join(publicRoot, 'cms/uploads'), { recursive: true })
+    await writeFile(join(publicRoot, 'cms/uploads', name), '<svg/>')
+
+    await assert.rejects(
+      collectReferencedCmsUploadChanges({
+        changes: [
+          {
+            path: 'content/pages/en/home.json',
+            content: JSON.stringify({ src: `/cms/uploads/${name}` }),
+          },
+        ],
+        publicRoot,
+      }),
+      /CMS uploads must be raster images/
+    )
+  })
 })

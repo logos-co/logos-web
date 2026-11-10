@@ -2,7 +2,7 @@ import { readFile, stat } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import type { FileChange } from '@repo/content/github'
+import { isAllowedCmsUpload, type FileChange } from '@repo/content/github'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 const DEFAULT_PUBLIC_ROOT = path.resolve(dirname, '../../../../web/public')
@@ -73,6 +73,9 @@ export const collectReferencedCmsUploadChanges = async ({
 
   for (const uploadPath of uploadPaths) {
     const relativePublicPath = toSafeRelativePublicPath(uploadPath)
+    if (!isAllowedCmsUpload(relativePublicPath)) {
+      throw new Error(`CMS uploads must be raster images: ${uploadPath}`)
+    }
     const repoPath = `apps/web/public/${relativePublicPath}`
     if (existingPaths.has(repoPath)) continue
 

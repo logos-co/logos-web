@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { CMS_UPLOAD_MIME_TYPES } from '@repo/content/github'
 import type { CollectionBeforeChangeHook, CollectionConfig } from 'payload'
 
 import { authenticatedCollectionAccess } from './shared-fields'
@@ -35,7 +36,7 @@ export const Media: CollectionConfig = {
   access: authenticatedCollectionAccess,
   upload: {
     staticDir: mediaStaticDir,
-    mimeTypes: ['image/*'],
+    mimeTypes: [...CMS_UPLOAD_MIME_TYPES],
   },
   hooks: {
     beforeChange: [populatePublicPath],

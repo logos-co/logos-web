@@ -53,7 +53,10 @@ export async function findRecordPullRequest(
       ((pr.title && recordSubject(pr.title) === recordSubject(title)) ||
         pr.body?.split(/\r?\n/).includes(`- updates: \`${paths[0]}\``))
     if (!matchesFile && !keyedBranch && !legacyMirror) continue
-    const diff = await dependencies.verifyContentDiff(pr, comparison)
+    const diff = await dependencies.verifyContentDiff(pr, {
+      comparison,
+      allowLegacyUploads: true,
+    })
     if (legacyMirror) {
       if (
         !diff.length ||

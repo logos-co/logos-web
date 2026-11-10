@@ -1,6 +1,7 @@
 import { lookup } from 'mrmime'
 
 import { getOctokit } from './client'
+import { isAllowedCmsUpload } from './cms-uploads'
 import { getGithubConfig } from './config'
 
 interface GithubPullRequest {
@@ -105,7 +106,13 @@ export const compareContentFiles = async (pr: {
 
 export const verifyContentDiff = async (
   pr: { baseSha: string; headSha: string },
-  comparison?: Awaited<ReturnType<typeof compareContentFiles>>
+  {
+    comparison,
+    allowLegacyUploads = false,
+  }: {
+    comparison?: Awaited<ReturnType<typeof compareContentFiles>>
+    allowLegacyUploads?: boolean
+  } = {}
 ) => {
   const { owner, repo } = getGithubConfig()
   const octokit = getOctokit()
@@ -123,6 +130,17 @@ export const verifyContentDiff = async (
     throw new Error(
       'The complete PR diff must contain only content JSON and CMS uploads'
     )
+  if (
+    !allowLegacyUploads &&
+    files.some(
+      ({ filename, status }) =>
+        status !== 'removed' &&
+        filename.startsWith('apps/web/public/cms/uploads/') &&
+        !isAllowedCmsUpload(filename)
+    )
+  ) {
+    throw new Error('CMS uploads must be raster images')
+  }
 
   const { data } = await octokit.git.getTree({
     owner,
