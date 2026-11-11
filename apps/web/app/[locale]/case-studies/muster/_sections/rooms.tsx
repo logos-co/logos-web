@@ -30,9 +30,7 @@ export function Rooms({ copy }: { copy: MusterCopySection['rooms'] }) {
                   data-muster-reveal
                 />
               ) : (
-                <p className="muster-room-placeholder muster-mono">
-                  {room.placeholder}
-                </p>
+                <p className="muster-room-placeholder">{room.placeholder}</p>
               )}
             </section>
           ))}

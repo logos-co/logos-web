@@ -31,7 +31,7 @@ export function Basics({
         </div>
 
         <div className="muster-basics-divider">
-          <LogosLockup brand={brand} />
+          <LogosLockup brand={brand} size={24} />
           <div className="muster-split muster-basics-row">
             <div>
               <h2 className="muster-subheading">{copy.basecamp.title}</h2>

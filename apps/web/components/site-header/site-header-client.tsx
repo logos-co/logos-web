@@ -91,7 +91,6 @@ export default function SiteHeaderClient({
     useState(false)
   const pathname = usePathname()
   const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
-  const isMuster = normalizedPathname === ROUTES.muster
   const isBasecamp = normalizedPathname === ROUTES.basecamp
   const isFieldStation = normalizedPathname === ROUTES.fieldStation
   const usesBasecampDownloadCta = isBasecamp || isFieldStation
@@ -137,7 +136,7 @@ export default function SiteHeaderClient({
     normalizedPathname.endsWith(ROUTES.buildTheParallel) ||
     normalizedPathname.endsWith(ROUTES.fieldStation) ||
     normalizedPathname.endsWith(ROUTES.prifi) ||
-    isMuster
+    normalizedPathname === ROUTES.muster
   const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.media)
   const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
   const usesAccentTanHeaderTone =
@@ -227,15 +226,12 @@ export default function SiteHeaderClient({
           'left-0 right-0 top-0 z-50',
           usesOverlayHeader ? 'fixed' : 'sticky',
           isBasecamp && 'bg-[#1a1a1a]',
-          isMuster &&
-            (hasPassedHero ? 'bg-brand-off-white' : 'bg-brand-dark-green'),
           usesAccentTanHeaderTone && 'bg-accent-tan'
         )}
       >
         <div
           className={clsx(
-            'relative md:hidden',
-            !isMuster && 'transition-colors duration-300',
+            'relative transition-colors duration-300 md:hidden',
             showHomepageHighlight ? 'h-[119px]' : 'h-10',
             headerToneClass
           )}
@@ -300,8 +296,7 @@ export default function SiteHeaderClient({
 
         <div
           className={clsx(
-            'relative hidden h-[42px] md:block',
-            !isMuster && 'transition-colors duration-300',
+            'relative hidden h-[42px] transition-colors duration-300 md:block',
             headerToneClass
           )}
         >

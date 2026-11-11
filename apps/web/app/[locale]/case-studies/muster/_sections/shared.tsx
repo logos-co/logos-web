@@ -13,11 +13,17 @@ export function Paragraphs({ body }: { body: readonly string[] }) {
   )
 }
 
-export function LogosLockup({ brand }: { brand: string }) {
+export function LogosLockup({
+  brand,
+  size = 32,
+}: {
+  brand: string
+  size?: number
+}) {
   return (
     <span className="muster-logos">
       <span className="sr-only">{brand}</span>
-      <LogosMark size={32} />
+      <LogosMark size={size} />
       <LogosWordmark />
     </span>
   )

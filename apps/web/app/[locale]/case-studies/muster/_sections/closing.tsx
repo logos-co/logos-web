@@ -10,6 +10,13 @@ export function Closing({
   copy: MusterCopySection['closing']
   nextAvailable: boolean
 }) {
+  const nextCase = (
+    <>
+      {copy.next.label}
+      <ButtonArrowIcon width={48} height={24} />
+    </>
+  )
+
   return (
     <section
       className="muster-section muster-dark muster-closing"
@@ -41,13 +48,18 @@ export function Closing({
           {nextAvailable ? (
             <Link
               href={copy.next.href}
-              className="muster-heading muster-next-link"
+              className="muster-heading muster-next-case muster-next-link"
             >
-              {copy.next.label}
-              <ButtonArrowIcon width={34} height={34} />
+              {nextCase}
             </Link>
           ) : (
-            <span className="muster-heading">{copy.next.label}</span>
+            <span
+              className="muster-heading muster-next-case"
+              role="link"
+              aria-disabled="true"
+            >
+              {nextCase}
+            </span>
           )}
         </div>
       </div>
