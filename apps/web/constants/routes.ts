@@ -28,6 +28,9 @@ export const ROUTES = {
   messaging: '/technology-stack/messaging',
   storage: '/technology-stack/storage',
 
+  // Case studies
+  muster: '/case-studies/muster',
+
   // Builders Hub
   getStarted: '/get-started',
   buildersHub: '/builders-hub',

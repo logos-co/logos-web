@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/case-studies/muster",
+  "title": "Muster",
+  "description": "An experiment by Dr. Corey Petty to show the modularity of Basecamp.",
+  "seo": {
+    "metaTitle": "Muster Case Study",
+    "metaDescription": "An experiment by Dr. Corey Petty to show the modularity of Basecamp.",
+    "ogImage": {
+      "src": "/images/muster/cover.webp",
+      "alt": "People gathered inside a concrete pavilion in a meadow",
+      "width": 2172,
+      "height": 724
+    }
+  },
+  "sections": [
+    {
+      "componentType": "musterCopy",
+      "key": "muster.copy",
+      "hero": {
+        "brand": "Logos",
+        "project": "Muster",
+        "headline": [
+          "Muster is a room for",
+          "privacy-preserving coordination."
+        ],
+        "note": "An experiment by Dr. Corey Petty to show the modularity of Basecamp.",
+        "image": {
+          "src": "/images/muster/cover.webp",
+          "alt": "People gathered inside a concrete pavilion in a meadow",
+          "width": 2172,
+          "height": 724
+        }
+      },
+      "intro": {
+        "lead": "Muster is an open-source coordination client built on Logos. A group opens a room, agrees what to do, and does it, with privacy proven at every step.",
+        "body": [
+          "It runs inside Logos Basecamp, and keeps a transparent record of exposure at every step.",
+          "Muster uses Basecamp to plug into other modules built on Logos, including Delivery, the Logos Execution Zone, Logos Storage and RLN."
+        ],
+        "ctas": [
+          {
+            "label": "Get Basecamp",
+            "href": "/basecamp"
+          },
+          {
+            "label": "Build on Logos",
+            "href": "#build-on-logos"
+          }
+        ],
+        "image": {
+          "src": "/images/muster/muster-room.webp",
+          "alt": "A Muster room open in Logos Basecamp",
+          "width": 1280,
+          "height": 800
+        },
+        "stats": [
+          {
+            "title": "3",
+            "body": "Kinds of room in use today: a Monero multisig wallet, a bill split and a file share."
+          },
+          {
+            "title": "4",
+            "body": "Logos modules behind every room, loaded on demand by Basecamp."
+          },
+          {
+            "title": "7",
+            "body": "Stages of a transaction, each one shown as it happens."
+          }
+        ]
+      },
+      "basics": {
+        "room": {
+          "title": "What is Muster",
+          "body": [
+            "Muster is a local-first client for coordinating actions between several people inside a conversation. A group splits a bill, runs a shared wallet or shares files, and every proposal, approval and payment is agreed in the room.",
+            "The room is peer-to-peer, with no clouds or accounts required. Members propose actions as cards, check exactly what they would be signing, and approve with their own keys.",
+            "It is an educational tool under ongoing development. Walk through the whole lifecycle of a multi-party transaction and learn, at each step, what stays private and where data leaks."
+          ],
+          "steps": [
+            {
+              "title": "01 Open",
+              "body": "A member opens a room. The others join."
+            },
+            {
+              "title": "02 Propose",
+              "body": "Members propose actions as cards."
+            },
+            {
+              "title": "03 Check",
+              "body": "Each member sees exactly what they would sign."
+            },
+            {
+              "title": "04 Approve",
+              "body": "Members approve with their own keys. The group acts."
+            }
+          ]
+        },
+        "basecamp": {
+          "title": "Built on Basecamp",
+          "body": [
+            "Muster runs on Basecamp, a local-first launcher for peer-to-peer apps built on Logos.",
+            "Basecamp loads modules for Muster, installing apps and the functions they need through its package manager. There is no hosted frontend and no signup. Everything lives on your device."
+          ],
+          "features": [
+            {
+              "title": "Installs Muster",
+              "body": "Basecamp installs Muster and any Logos modules its rooms need to work."
+            },
+            {
+              "title": "Loads modules",
+              "body": "Delivery for room traffic, the Logos Execution Zone for blockchain execution, Storage for file transfer."
+            },
+            {
+              "title": "Guides the setup",
+              "body": "Muster walks you through any extra infrastructure a proposal needs."
+            },
+            {
+              "title": "Leaves custody with you",
+              "body": "You hold your data and your keys. Muster links tools without taking custody of any of it."
+            }
+          ]
+        },
+        "statement": [
+          "Muster coordinates the group.",
+          "Logos keeps the room private."
+        ]
+      },
+      "architecture": {
+        "title": "Built on Basecamp",
+        "body": [
+          "Muster is two Basecamp modules: a core and an interface. The interface provides a self-hosted frontend for the application, while the core connects to other modules and uses Basecamp to load them in where needed."
+        ],
+        "dependencies": {
+          "label": "Logos modules it depends on",
+          "nodes": [
+            {
+              "title": "Logos Delivery",
+              "body": "Room traffic."
+            },
+            {
+              "title": "Logos Execution Zone",
+              "body": "Blockchain execution."
+            },
+            {
+              "title": "Logos Storage",
+              "body": "File transfer."
+            },
+            {
+              "title": "RLN",
+              "body": "Spam resistance."
+            }
+          ]
+        },
+        "basecamp": {
+          "label": "Logos Basecamp",
+          "musterLabel": "Muster",
+          "interface": {
+            "title": "Muster interface",
+            "body": "Self-hosted frontend for the application."
+          },
+          "core": {
+            "title": "Muster core",
+            "body": "Connects to other modules and uses Basecamp to load them where needed."
+          },
+          "handoffLabel": "Hands off to",
+          "wallet": {
+            "title": "Basecamp wallet",
+            "body": "Holds keys and signs."
+          },
+          "app": {
+            "title": "[Basecamp app]",
+            "body": "Name the app Muster hands off to."
+          }
+        },
+        "reach": {
+          "label": "Users and chains it reaches",
+          "nodes": [
+            {
+              "title": "Other members",
+              "body": "Their own Muster clients, peer-to-peer."
+            },
+            {
+              "title": "Logos Execution Zone",
+              "body": "Payments, publicly or privately."
+            },
+            {
+              "title": "Other chains",
+              "body": "Monero, or any chain the group chooses."
+            }
+          ]
+        },
+        "caption": "Fig. 01. Basecamp installs Muster and loads the Logos modules a room needs. Muster hands keys and signing off to the Basecamp wallet."
+      },
+      "modules": {
+        "title": "Powered by Logos",
+        "body": [
+          "Every Muster room's communication is encrypted and served over Logos Delivery to its members. Keys rotate whenever someone joins or leaves, securing old data against new arrivals.",
+          "Everything the room does is written to a signed, hash-linked log that only members can read. Proposals, approvals and payment reports are each an entry signed by their author. Every member's client rebuilds the room's state from that log, no servers required.",
+          "Payments settle on whichever chain the group chooses. On the Logos Execution Zone, a payment can be made private, where the chain records no payer, payee or amount."
+        ],
+        "entries": [
+          {
+            "title": "Logos Delivery",
+            "body": "Room coordination, peer-to-peer."
+          },
+          {
+            "title": "Logos Execution Zone",
+            "body": "Settles payments publicly or privately."
+          },
+          {
+            "title": "RLN",
+            "body": "Spam resistance for room traffic."
+          },
+          {
+            "title": "Logos Storage",
+            "body": "Encrypted file transfer."
+          }
+        ],
+        "image": {
+          "src": "/images/muster/glass-and-leaves.webp",
+          "alt": "Green leaves behind wired glass with a mast beyond",
+          "width": 1914,
+          "height": 822
+        }
+      },
+      "rooms": {
+        "title": "What you can do on Muster",
+        "body": [
+          "Each Muster room is set up for what its members plan to do.",
+          "The tool is under active development, and it can already be used for a number of activities that need secure peer-to-peer coordination."
+        ],
+        "entries": [
+          {
+            "index": "01 / 03",
+            "title": "Monero multisig wallet",
+            "body": [
+              "Set up a 2-of-3 Monero multisig wallet from a Muster room, fund it, and coordinate the signing of transactions without an intermediary.",
+              "Each member's key stays in their own Monero wallet. Muster only facilitates the signing."
+            ],
+            "placeholder": "Screenshot to come: a Monero multisig wallet in a Muster room"
+          },
+          {
+            "index": "02 / 03",
+            "title": "Split the bill",
+            "body": [
+              "Split a bill without routing your spending data through someone else's server. Members choose to split publicly or privately, on whatever chain they like, and settle in any combination of supported tokens."
+            ],
+            "image": {
+              "src": "/images/muster/split-the-bill.webp",
+              "alt": "A bill split proposed in a Muster room",
+              "width": 1280,
+              "height": 800
+            }
+          },
+          {
+            "index": "03 / 03",
+            "title": "FileShare",
+            "body": [
+              "Share files without storing them on a central server. A file is encrypted before it is stored, and only its content identifier is shared in the room.",
+              "Members retrieve it through Logos Storage, so files move privately without handing control to a server."
+            ],
+            "placeholder": "Screenshot to come: FileShare in a Muster room"
+          }
+        ]
+      },
+      "prifi": {
+        "title": "Muster makes PriFi visible.",
+        "body": [
+          "To enable Private Finance (PriFi), primitives must be deployed on privacy-preserving, peer-to-peer infrastructure, on hardware you control.",
+          "Every transaction has seven stages, from finding a counterparty to enforcing the deal, and it is only as strong as its weakest link. Secure settlement alone is not enough to ensure privacy.",
+          "Muster walks a group through those stages as they happen. It shows what stays inside the room at each step, what reaches a chain or a store node, and how a conventional stack handles the same step."
+        ],
+        "stages": [
+          "Discovery",
+          "Negotiation",
+          "Ordering",
+          "[Stage 04]",
+          "Settlement",
+          "[Stage 06]",
+          "Enforcement"
+        ],
+        "cards": [
+          {
+            "title": "Stays in the room",
+            "body": "Proposals, terms and approvals pass peer-to-peer over Logos Delivery, encrypted to the room. No server logs who agreed to what.",
+            "label": "Logos Delivery"
+          },
+          {
+            "title": "Reaches a chain",
+            "body": "Payments settle on the group's chosen chain. On the Logos Execution Zone, a payment can be private.",
+            "label": "Logos Execution Zone"
+          },
+          {
+            "title": "Shown side by side",
+            "body": "At every stage, Muster shows how a conventional stack would handle the same step, and where it leaks.",
+            "label": "In Muster"
+          }
+        ],
+        "cta": {
+          "label": "Read the PriFi thesis",
+          "href": "/media/article/pri-fi-securing-transaction-supply-chain"
+        }
+      },
+      "build": {
+        "title": ["Basecamp is open", "to all builders"],
+        "body": [
+          "Muster needed a modular framework for privacy-preserving apps. With Basecamp, it delivers encrypted rooms, private settlement and file sharing in one app, on each member's own machine."
+        ],
+        "image": {
+          "src": "/images/muster/mast-and-ivy.webp",
+          "alt": "A mast lattice overgrown with ivy and moss",
+          "width": 1536,
+          "height": 1024
+        },
+        "install": {
+          "title": "Install Basecamp",
+          "body": "Run the Logos stack on your own machine. Basecamp installs Muster and every module its rooms need.",
+          "cta": {
+            "label": "Install Basecamp",
+            "href": "https://github.com/logos-co/logos-basecamp/releases/latest",
+            "external": true
+          }
+        },
+        "cards": [
+          {
+            "title": "Try Muster",
+            "body": "Open a room, propose an action and see what stays private at every step.",
+            "ctas": [
+              {
+                "label": "Learn more",
+                "href": "https://github.com/corpetty/muster",
+                "external": true
+              }
+            ]
+          },
+          {
+            "title": "Build on Logos",
+            "body": "Package your app as Basecamp modules and plug into Delivery, the Logos Execution Zone, Storage and RLN.",
+            "ctas": [
+              {
+                "label": "Read the docs",
+                "href": "https://docs.logos.co/basecamp",
+                "external": true
+              }
+            ]
+          },
+          {
+            "title": "Developer Programmes",
+            "body": "RFPs and the λ Prize: developer programmes that reward building private, peer-to-peer apps on Logos.",
+            "ctas": [
+              {
+                "label": "RFPs",
+                "href": "/rfp"
+              },
+              {
+                "label": "λ Prize",
+                "href": "/lambda-prize"
+              }
+            ]
+          }
+        ]
+      },
+      "closing": {
+        "lead": "A parallel society needs its own rooms.",
+        "left": ["Groups", "coordinate"],
+        "right": ["without", "a server."],
+        "cta": {
+          "label": "Get Basecamp",
+          "href": "/basecamp"
+        },
+        "nextLabel": "Next case study",
+        "next": {
+          "label": "RAILGUN",
+          "href": "/case-studies/railgun"
+        }
+      }
+    }
+  ]
+}

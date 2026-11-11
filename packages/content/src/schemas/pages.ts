@@ -44,6 +44,7 @@ export type { RfpProgrammeCopySection } from './pages/rfp-programme'
 import { lambdaPrizeCopySectionSchema } from './pages/lambda-prize'
 export { lambdaPrizeCopySectionSchema } from './pages/lambda-prize'
 export type { LambdaPrizeCopySection, LambdaPrize } from './pages/lambda-prize'
+import { musterCopySectionSchema } from './pages/muster'
 import { prifiCopySectionSchema } from './pages/prifi'
 import { basecampRenewalSectionSchema } from './pages/basecamp-renewal'
 import { developerProgrammesCopySectionSchema } from './pages/developer-programmes'
@@ -86,6 +87,7 @@ export type {
   ResearchCopySection,
   RoadmapCopySection,
 } from './pages/page-copy-sections'
+export type { MusterCopySection } from './pages/muster'
 export type { PrifiCopySection } from './pages/prifi'
 export type { BasecampRenewalSection } from './pages/basecamp-renewal'
 export type {
@@ -477,6 +479,7 @@ export const pageSectionSchema = z.discriminatedUnion('componentType', [
   mediaCalendarCopySectionSchema,
   mediaCopySectionSchema,
   podcastCopySectionSchema,
+  musterCopySectionSchema,
   prifiCopySectionSchema,
   broadcastCopySectionSchema,
   activistBuilderCopySectionSchema,

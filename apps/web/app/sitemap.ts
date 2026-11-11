@@ -57,6 +57,7 @@ const staticIndexableRoutes = [
   ROUTES.technologyStack,
   ROUTES.roadmap,
   ROUTES.basecamp,
+  ROUTES.muster,
   ROUTES.blockchain,
   ROUTES.messaging,
   ROUTES.networking,
