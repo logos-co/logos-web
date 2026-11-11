@@ -261,20 +261,18 @@ export const createSaveAsPullRequest =
         changes: contentChanges,
       })
       const changes = [...contentChanges, ...mediaChanges]
-      if (
-        candidate &&
-        !(
+      if (candidate) {
+        const hasMatchingMirror =
           cached?.branchName === candidate.pr.branchName &&
           cached.pullRequestNumber === candidate.pr.number &&
           cached.commitSha === parent
-        )
-      ) {
         changes.push(
           ...(await recoverRemovedUploads(
             candidate,
             paths,
             mediaChanges,
-            dependencies
+            dependencies,
+            hasMatchingMirror
           ))
         )
       }
