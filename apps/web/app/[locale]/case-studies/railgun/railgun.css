@@ -1206,7 +1206,7 @@
 }
 :where(.railgun) .stages {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(8, minmax(0, 1fr));
 }
 :where(.railgun) .stages span {
   font-size: 18px;
@@ -1225,7 +1225,7 @@
 }
 :where(.railgun) .spans {
   display: grid;
-  grid-template-columns: 3fr 2fr 2fr;
+  grid-template-columns: 4fr 2fr 2fr;
   gap: 12px;
   margin-top: 12px;
 }
@@ -2284,26 +2284,29 @@ body.railgun-lock {
   :where(.railgun) .life .stages > :nth-child(3) {
     grid-row: 3;
   }
-  :where(.railgun) .life .span.live {
-    grid-row: 4;
-  }
   :where(.railgun) .life .stages > :nth-child(4) {
-    grid-row: 5;
+    grid-row: 4;
   }
   :where(.railgun) .life .stages > :nth-child(5) {
     grid-row: 6;
   }
-  :where(.railgun) .life .span.test {
-    grid-row: 7;
-  }
   :where(.railgun) .life .stages > :nth-child(6) {
-    grid-row: 8;
+    grid-row: 7;
   }
   :where(.railgun) .life .stages > :nth-child(7) {
     grid-row: 9;
   }
-  :where(.railgun) .life .span.dev {
+  :where(.railgun) .life .stages > :nth-child(8) {
     grid-row: 10;
+  }
+  :where(.railgun) .life .span.live {
+    grid-row: 5;
+  }
+  :where(.railgun) .life .span.test {
+    grid-row: 8;
+  }
+  :where(.railgun) .life .span.dev {
+    grid-row: 11;
   }
 
   :where(.railgun) .life .span {
@@ -2331,7 +2334,7 @@ body.railgun-lock {
   }
 
   :where(.railgun) .life .closing {
-    grid-row: 11;
+    grid-row: 12;
     grid-column: 1 / -1;
     margin-top: 36px;
   }

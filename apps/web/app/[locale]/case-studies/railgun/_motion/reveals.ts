@@ -65,26 +65,26 @@ export function mountReveals(scope: MotionScope) {
     const width = lifeLine.clientWidth
     const vertical = compactLayout()
     const height = vertical ? lifeLine.clientHeight : 24
-    const col = width / 7
+    const col = width / 8
     const top = life.getBoundingClientRect().top
     const stops = vertical
       ? all('#life .stages > span').map(
           (stage) => stage.getBoundingClientRect().top - top + 11
         )
-      : Array.from({ length: 7 }, (_, i) => i * col + 3.5)
+      : Array.from({ length: 8 }, (_, i) => i * col + 3.5)
     const end = vertical
       ? stages[2].getBoundingClientRect().bottom - top
       : width
     const segments = vertical
       ? ([
-          [stops[0], stops[3], ''],
-          [stops[3], stops[5], '8 6'],
-          [stops[5], end, '1 5'],
+          [stops[0], stops[4], ''],
+          [stops[4], stops[6], '8 6'],
+          [stops[6], end, '1 5'],
         ] as const)
       : ([
-          [3.5, col * 3, ''],
-          [col * 3 + 3.5, col * 5, '8 6'],
-          [col * 5 + 3.5, end, '1 5'],
+          [3.5, col * 4, ''],
+          [col * 4 + 3.5, col * 6, '8 6'],
+          [col * 6 + 3.5, end, '1 5'],
         ] as const)
     const animate = !instant && !vertical
 
@@ -117,17 +117,17 @@ export function mountReveals(scope: MotionScope) {
         cx: vertical ? 12 : stop,
         cy: vertical ? stop : 12,
         r: 3.5,
-        fill: i < 5 ? '#152521' : '#DBDDD7',
+        fill: i < 6 ? '#152521' : '#DBDDD7',
         stroke: '#152521',
         'stroke-width': 1,
       })
       if (!animate) return
       const delay =
-        i <= 3
-          ? (i / 3) * 600
-          : i <= 5
-            ? 620 + (i - 3) * 230
-            : 1100 + (i - 5) * 230
+        i <= 4
+          ? (i / 4) * 600
+          : i <= 6
+            ? 620 + (i - 4) * 230
+            : 1100 + (i - 6) * 230
       dot.animate([{ opacity: 0 }, { opacity: 1 }], {
         duration: 80,
         delay,
