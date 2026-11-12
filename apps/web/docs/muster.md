@@ -4,6 +4,6 @@ The [Muster page](../app/[locale]/case-studies/muster/page.tsx) renders the case
 
 Page copy and CTA destinations come from [case-studies-muster.json](../../../content/pages/en/case-studies-muster.json). Local images and diagram assets follow the [desktop Figma frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3957-17134). The architecture columns and eight PriFi stages stack on narrow screens.
 
-The cover stays pinned on wider screens with enough height as the introduction scrolls over it. The cover image, title, selected images and diagrams have a short entrance. Body copy is visible immediately. The entrances respect the system reduced-motion setting.
+The cover stays pinned on wider screens with enough height as the introduction scrolls over it. A line draws before the cover image opens downwards and settles from a slight zoom. The title follows while the image opens; scrolling or interacting skips the remaining entrance. The 3, 4 and 8 statistics count up once on entering the viewport, with static values for screen readers. The Basecamp schematic draws its existing connections and briefly highlights the linked nodes, with each group triggered separately on mobile. Body copy is visible immediately. Entrances respect changes to the system reduced-motion setting and leave the final content visible without JavaScript.
 
 The next case study links to RAILGUN when its content is available in the same build.

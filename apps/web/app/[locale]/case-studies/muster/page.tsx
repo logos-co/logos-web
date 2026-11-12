@@ -14,6 +14,7 @@ import { Modules } from './_sections/modules'
 import { Prifi } from './_sections/prifi'
 import { Rooms } from './_sections/rooms'
 import './muster.css'
+import './muster-motion.css'
 
 export const generateMetadata = createPageMetadata(ROUTES.muster)
 

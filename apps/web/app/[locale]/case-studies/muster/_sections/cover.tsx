@@ -19,12 +19,14 @@ export function Cover({
           <span aria-hidden="true">×</span>
           <MusterLockup project={hero.project} light />
         </div>
-        <Image
-          {...hero.image}
-          className="muster-cover-image"
-          sizes="(min-width: 1920px) 1920px, 100vw"
-          preload
-        />
+        <div className="muster-cover-visual">
+          <Image
+            {...hero.image}
+            className="muster-cover-image"
+            sizes="(min-width: 1920px) 1920px, 100vw"
+            preload
+          />
+        </div>
         <div className="muster-container muster-cover-heading">
           <h1 className="muster-cover-title">
             {hero.headline[0]}
@@ -68,7 +70,16 @@ export function Cover({
           <dl className="muster-stats">
             {intro.stats.map(({ title, body }) => (
               <div key={title}>
-                <dt className="muster-heading">{title}</dt>
+                <dt className="muster-heading">
+                  <span className="sr-only">{title}</span>
+                  <span
+                    className="muster-stat-value"
+                    aria-hidden="true"
+                    data-muster-count={title}
+                  >
+                    {title}
+                  </span>
+                </dt>
                 <dd>{body}</dd>
               </div>
             ))}

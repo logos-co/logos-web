@@ -1,0 +1,192 @@
+@media (prefers-reduced-motion: no-preference) {
+  .muster-cover-visual::after {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    background: var(--muster-blue);
+    content: '';
+    transform-origin: left;
+    animation: muster-cover-line 1000ms cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+
+  .muster-cover-image {
+    animation: muster-photo-open 1050ms cubic-bezier(0.2, 0.65, 0.3, 1) 220ms
+      both;
+  }
+
+  .muster-cover-title,
+  .muster-cover-note,
+  .muster-revealed {
+    animation: muster-appear 480ms cubic-bezier(0.2, 0.65, 0.3, 1) both;
+  }
+
+  .muster-cover-title {
+    animation-delay: 520ms;
+  }
+
+  .muster-cover-note {
+    animation-delay: 850ms;
+  }
+
+  .muster-skip-hero .muster-cover-image,
+  .muster-skip-hero .muster-cover-visual::after,
+  .muster-skip-hero .muster-cover-title,
+  .muster-skip-hero .muster-cover-note {
+    animation-duration: 160ms;
+    animation-delay: 0ms;
+  }
+}
+
+@keyframes muster-cover-line {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+@keyframes muster-photo-open {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: scale(1.04);
+  }
+  to {
+    clip-path: inset(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes muster-appear {
+  from {
+    opacity: 0.6;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .muster-motion-enabled [data-muster-connections] {
+    --connection-delay: 0ms;
+    --node-delay: 0ms;
+  }
+
+  .muster-motion-enabled [data-muster-connections='dependencies'] {
+    --connection-delay: 400ms;
+  }
+
+  .muster-motion-enabled [data-muster-connections='reach'] {
+    --connection-delay: 1250ms;
+  }
+
+  .muster-motion-enabled .muster-diagram-side .muster-diagram-node::after {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  .muster-motion-enabled .muster-diagram-boundary dl > div + div::before,
+  .muster-motion-enabled .muster-handoff-nodes .muster-diagram-node::before {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .muster-motion-enabled .muster-handoff-lines {
+    clip-path: inset(0 50%);
+  }
+
+  .muster-motion-enabled .muster-connected .muster-diagram-node {
+    animation: muster-node-focus 550ms ease-out
+      calc(var(--connection-delay) + var(--node-delay)) both;
+  }
+
+  .muster-connected .muster-diagram-node:nth-child(2) {
+    --node-delay: 80ms;
+  }
+  .muster-connected .muster-diagram-node:nth-child(3) {
+    --node-delay: 160ms;
+  }
+  .muster-connected .muster-diagram-node:nth-child(4) {
+    --node-delay: 240ms;
+  }
+
+  .muster-motion-enabled .muster-connected .muster-diagram-node::after {
+    animation: muster-connect-horizontal 400ms ease-out
+      calc(var(--connection-delay) + var(--node-delay)) both;
+  }
+
+  .muster-motion-enabled
+    .muster-connected
+    .muster-diagram-boundary
+    dl
+    > div
+    + div::before {
+    animation: muster-connect-vertical 400ms ease-out both;
+  }
+
+  .muster-motion-enabled .muster-connected .muster-handoff-lines {
+    animation: muster-connect-branch 350ms ease-out 800ms both;
+  }
+
+  .muster-motion-enabled
+    .muster-connected
+    .muster-handoff-nodes
+    .muster-diagram-node::before {
+    animation: muster-connect-vertical 350ms ease-out 1000ms both;
+  }
+
+  .muster-motion-enabled
+    .muster-connected
+    .muster-handoff-nodes
+    .muster-diagram-node {
+    animation-delay: 1050ms;
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .muster-motion-enabled [data-muster-connections] {
+    --connection-delay: 0ms;
+  }
+}
+
+@keyframes muster-connect-horizontal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes muster-connect-vertical {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes muster-connect-branch {
+  from {
+    clip-path: inset(0 50%);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes muster-node-focus {
+  from {
+    background-color: var(--muster-blue);
+  }
+  to {
+    background-color: var(--muster-paper);
+  }
+}

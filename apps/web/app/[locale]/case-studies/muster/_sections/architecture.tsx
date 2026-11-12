@@ -14,9 +14,15 @@ function DiagramNode({ node }: { node: NodeCopy }) {
   )
 }
 
-function DiagramColumn({ group }: { group: ArchitectureCopy['reach'] }) {
+function DiagramColumn({
+  group,
+  connection,
+}: {
+  group: ArchitectureCopy['reach']
+  connection: 'dependencies' | 'reach'
+}) {
   return (
-    <div className="muster-diagram-side">
+    <div className="muster-diagram-side" data-muster-connections={connection}>
       <h3 className="muster-mono">{group.label}</h3>
       <dl>
         {group.nodes.map((node) => (
@@ -37,10 +43,16 @@ export function Architecture({ copy }: { copy: ArchitectureCopy }) {
           <h2 className="muster-heading">{copy.title}</h2>
           <Paragraphs body={copy.body} />
         </div>
-        <figure className="muster-architecture" data-muster-reveal>
+        <figure className="muster-architecture">
           <div className="muster-diagram">
-            <DiagramColumn group={copy.dependencies} />
-            <div className="muster-diagram-centre">
+            <DiagramColumn
+              group={copy.dependencies}
+              connection="dependencies"
+            />
+            <div
+              className="muster-diagram-centre"
+              data-muster-connections="centre"
+            >
               <h3 className="muster-mono">{basecamp.label}</h3>
               <div className="muster-diagram-boundary">
                 <h4 className="muster-mono">{basecamp.musterLabel}</h4>
@@ -58,7 +70,7 @@ export function Architecture({ copy }: { copy: ArchitectureCopy }) {
                 </dl>
               </div>
             </div>
-            <DiagramColumn group={copy.reach} />
+            <DiagramColumn group={copy.reach} connection="reach" />
           </div>
           <figcaption className="muster-mono">{copy.caption}</figcaption>
         </figure>
