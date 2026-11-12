@@ -12,7 +12,7 @@ export function Prifi({ copy }: { copy: RailgunCopySection['prifi'] }) {
           </h2>
           <div className="body">
             <p>{text('toEnablePrivateFinance')}</p>
-            <p>{text('everyTransactionHasEight')}</p>
+            <p>{text('everyTransactionHasSeven')}</p>
             <p>
               {text(
                 'railgunUsesLogosDelivery',
