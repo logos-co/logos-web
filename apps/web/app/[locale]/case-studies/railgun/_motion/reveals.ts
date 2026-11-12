@@ -65,13 +65,12 @@ export function mountReveals(scope: MotionScope) {
     const width = lifeLine.clientWidth
     const vertical = compactLayout()
     const height = vertical ? lifeLine.clientHeight : 24
-    const col = width / 8
+    const stageLabels = all('#life .stages > span')
+    const col = width / stageLabels.length
     const top = life.getBoundingClientRect().top
     const stops = vertical
-      ? all('#life .stages > span').map(
-          (stage) => stage.getBoundingClientRect().top - top + 11
-        )
-      : Array.from({ length: 8 }, (_, i) => i * col + 3.5)
+      ? stageLabels.map((stage) => stage.getBoundingClientRect().top - top + 11)
+      : Array.from({ length: stageLabels.length }, (_, i) => i * col + 3.5)
     const end = vertical
       ? stages[2].getBoundingClientRect().bottom - top
       : width
