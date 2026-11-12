@@ -576,7 +576,7 @@
 
 .muster-prifi-cards {
   display: grid;
-  grid-template-columns: minmax(0, 50fr) repeat(2, minmax(0, 33fr));
+  grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-top: 32px;
 }
