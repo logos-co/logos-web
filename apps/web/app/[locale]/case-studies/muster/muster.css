@@ -547,7 +547,7 @@
 .muster-prifi-stages {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 12px;
   list-style: none;
 }
@@ -559,9 +559,9 @@
   left: 0;
   height: 1px;
   background:
-    url('/images/muster/development-line.svg') right / 28.81% 1px no-repeat,
-    url('/images/muster/testnet-line.svg') 59.52% / 28.81% 1px no-repeat,
-    linear-gradient(var(--muster-ink), var(--muster-ink)) left / 42.38% 1px
+    url('/images/muster/development-line.svg') right / 25% 1px no-repeat,
+    url('/images/muster/testnet-line.svg') 66.6667% / 25% 1px no-repeat,
+    linear-gradient(var(--muster-ink), var(--muster-ink)) left / 50% 1px
       no-repeat;
   content: '';
 }

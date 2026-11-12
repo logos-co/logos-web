@@ -16,10 +16,10 @@ export function Prifi({ copy }: { copy: MusterCopySection['prifi'] }) {
         <div className="muster-prifi-graphic" data-muster-reveal>
           <ol className="muster-prifi-stages">
             {copy.stages.map((stage, index) => (
-              <li key={stage}>
+              <li key={`${index}-${stage}`}>
                 {stage}
                 <Image
-                  src={`${assetPath}/${index < 5 ? 'stage-node' : 'development-node'}.svg`}
+                  src={`${assetPath}/${index < 6 ? 'stage-node' : 'development-node'}.svg`}
                   width={7}
                   height={7}
                   alt=""

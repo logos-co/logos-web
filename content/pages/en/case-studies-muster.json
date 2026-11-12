@@ -269,17 +269,18 @@
         "title": "Muster makes PriFi visible.",
         "body": [
           "To enable Private Finance (PriFi), primitives must be deployed on privacy‑preserving, peer‑to‑peer infrastructure, on hardware you control.",
-          "Every transaction has seven stages, from finding a counterparty to enforcing the deal, and it is only as strong as its weakest link. Secure settlement alone is not enough to ensure privacy.",
+          "Every transaction has eight stages, from finding a counterparty to enforcing the deal, and it is only as strong as its weakest link. Secure settlement alone is not enough to ensure privacy.",
           "Muster walks a group through those stages as they happen. It shows what stays inside the room at each step, what reaches a chain or a store node, and how a conventional stack handles the same step."
         ],
         "stages": [
           "Discovery",
+          "Diligence",
           "Negotiation",
-          "Ordering",
-          "[Stage 04]",
+          "Contracting",
           "Settlement",
-          "[Stage 06]",
-          "Enforcement"
+          "Ordering",
+          "Settlement",
+          "Enforcement & Recourse"
         ],
         "cards": [
           {

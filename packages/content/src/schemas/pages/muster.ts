@@ -59,7 +59,7 @@ export const musterCopySectionSchema = z.object({
   }),
   rooms: textSection.extend({ entries: z.array(room).length(3) }),
   prifi: textSection.extend({
-    stages: z.array(text).length(7),
+    stages: z.array(text).length(8),
     cards: z.array(entry.extend({ label: text })).length(3),
     cta: ctaSchema,
   }),
