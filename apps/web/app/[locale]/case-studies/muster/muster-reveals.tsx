@@ -6,6 +6,26 @@ export function MusterReveals({ children }: { children: ReactNode }) {
   const root = useRef<HTMLElement>(null)
 
   useEffect(() => {
+    const poster = root.current?.querySelector<HTMLElement>('.muster-poster')
+    if (!poster) return
+
+    function measure() {
+      poster?.toggleAttribute(
+        'data-muster-pinned',
+        poster.scrollHeight <= window.innerHeight
+      )
+    }
+    const observer = new ResizeObserver(measure)
+    observer.observe(poster)
+    window.addEventListener('resize', measure)
+    measure()
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', measure)
+    }
+  }, [])
+
+  useEffect(() => {
     if (!root.current || !('IntersectionObserver' in window)) return
     const host = root.current
 

@@ -33,7 +33,7 @@ export function Cover({
             <br />
             {hero.headline[1]}
           </h1>
-          <p className="muster-mono muster-cover-note">{hero.note}</p>
+          <p className="muster-cover-note">{hero.note}</p>
         </div>
       </header>
       <section className="muster-intro">

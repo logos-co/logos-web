@@ -124,7 +124,7 @@
 }
 
 .muster-poster {
-  position: sticky;
+  position: relative;
   top: 0;
   min-height: 900px;
   padding: 72px 0 60px;
@@ -199,11 +199,16 @@
 }
 
 .muster-cover-note {
-  position: absolute;
-  top: 24%;
-  left: 75.2%;
-  max-width: min(22%, 300px);
-  line-height: 1.3;
+  max-width: 640px;
+  margin-top: 24px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) and (min-height: 641px) {
+  .muster-poster[data-muster-pinned] {
+    position: sticky;
+  }
 }
 
 .muster-intro {
@@ -788,12 +793,6 @@
     min-height: min(900px, 100svh);
   }
 
-  .muster-cover-note {
-    position: static;
-    max-width: 300px;
-    margin-top: 24px;
-  }
-
   .muster-prifi-stages {
     font-size: 14px;
   }
@@ -856,12 +855,6 @@
 
   .muster .muster-button {
     min-height: 44px;
-  }
-
-  .muster-cover-note {
-    position: static;
-    max-width: 300px;
-    margin-top: 24px;
   }
 
   .muster-intro-lead {
