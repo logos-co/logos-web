@@ -4,6 +4,7 @@ import type { MusterCopySection } from '@repo/content/schemas'
 import { Button } from '@/components/ui'
 
 import { LogosLockup, MusterLockup, Paragraphs } from './shared'
+import { DemoVideo } from './demo-video'
 
 export function Cover({
   hero,
@@ -60,12 +61,7 @@ export function Cover({
                 </Button>
               </div>
             </div>
-            <Image
-              {...intro.image}
-              className="muster-photo muster-room-image"
-              sizes="(min-width: 768px) 50vw, 100vw"
-              data-muster-reveal
-            />
+            <DemoVideo video={intro.video} />
           </div>
           <dl className="muster-stats">
             {intro.stats.map(({ title, body }) => (

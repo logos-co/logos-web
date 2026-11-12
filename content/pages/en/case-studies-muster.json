@@ -27,7 +27,7 @@
         ],
         "note": "Muster is an experiment by Dr. Corey Petty to showcase the modularity of Basecamp. It is shared for informational purposes. It is not reviewed by Logos and it may contain bugs, change without notice, or behave unexpectedly. Use at your own risk.",
         "image": {
-          "src": "/images/muster/cover-lake.webp",
+          "src": "/images/muster/cover-lake.jpg",
           "alt": "Three people overlooking a turquoise lake in the mountains",
           "width": 1440,
           "height": 377
@@ -49,12 +49,6 @@
             "href": "#build-on-logos"
           }
         ],
-        "image": {
-          "src": "/images/muster/muster-room.webp",
-          "alt": "A Muster room open in Logos Basecamp",
-          "width": 1280,
-          "height": 800
-        },
         "stats": [
           {
             "title": "3",
@@ -65,10 +59,17 @@
             "body": "Logos modules behind every room, loaded on demand by Basecamp."
           },
           {
-            "title": "8",
+            "title": "7",
             "body": "Stages of a transaction, each one shown as it happens."
           }
-        ]
+        ],
+        "video": {
+          "src": "/videos/muster/overview.mp4",
+          "alt": "Muster overview showing the room map, connections and transaction log",
+          "width": 1280,
+          "height": 1074,
+          "poster": "/images/muster/overview-poster.webp"
+        }
       },
       "basics": {
         "room": {
@@ -247,11 +248,12 @@
             "body": [
               "Split a bill without routing your spending data through someone else's server. Members choose to split publicly or privately, on whatever chain they like, and settle in any combination of supported tokens."
             ],
-            "image": {
-              "src": "/images/muster/split-the-bill.webp",
-              "alt": "A bill split proposed in a Muster room",
+            "video": {
+              "src": "/videos/muster/split-the-bill.mp4",
+              "alt": "Split the bill demo showing a proposal, payment approval and settlement in Muster",
               "width": 1280,
-              "height": 800
+              "height": 800,
+              "poster": "/images/muster/split-the-bill-poster.webp"
             }
           },
           {
@@ -269,7 +271,7 @@
         "title": "Muster makes PriFi visible.",
         "body": [
           "To enable Private Finance (PriFi), primitives must be deployed on privacy‑preserving, peer‑to‑peer infrastructure, on hardware you control.",
-          "Every transaction has eight stages, from finding a counterparty to enforcing the deal, and it is only as strong as its weakest link. Secure settlement alone is not enough to ensure privacy.",
+          "Every transaction has seven stages, from finding a counterparty to enforcing the deal, and it is only as strong as its weakest link. Secure settlement alone is not enough to ensure privacy.",
           "Muster walks a group through those stages as they happen. It shows what stays inside the room at each step, what reaches a chain or a store node, and how a conventional stack handles the same step."
         ],
         "stages": [
@@ -277,7 +279,6 @@
           "Diligence",
           "Negotiation",
           "Contracting",
-          "Settlement",
           "Ordering",
           "Settlement",
           "Enforcement & Recourse"

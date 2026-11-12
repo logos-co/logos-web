@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import type { MusterCopySection } from '@repo/content/schemas'
 
+import { DemoVideo } from './demo-video'
 import { Paragraphs } from './shared'
 
 export function Rooms({ copy }: { copy: MusterCopySection['rooms'] }) {
@@ -22,13 +22,8 @@ export function Rooms({ copy }: { copy: MusterCopySection['rooms'] }) {
                 <h3 className="muster-subheading">{room.title}</h3>
                 <Paragraphs body={room.body} />
               </div>
-              {'image' in room ? (
-                <Image
-                  {...room.image}
-                  className="muster-photo muster-room-image"
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                  data-muster-reveal
-                />
+              {'video' in room ? (
+                <DemoVideo video={room.video} />
               ) : (
                 <p className="muster-room-placeholder">{room.placeholder}</p>
               )}

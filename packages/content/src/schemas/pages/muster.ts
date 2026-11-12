@@ -7,15 +7,15 @@ const text = z.string().min(1)
 const paragraphs = z.array(text).min(1)
 const entry = z.object({ title: text, body: text })
 const textSection = z.object({ title: text, body: paragraphs })
+const video = mediaRefSchema.extend({
+  poster: text,
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+})
 
 const room = textSection
   .extend({ index: text })
-  .and(
-    z.union([
-      z.object({ image: mediaRefSchema }),
-      z.object({ placeholder: text }),
-    ])
-  )
+  .and(z.union([z.object({ video }), z.object({ placeholder: text })]))
 
 export const musterCopySectionSchema = z.object({
   componentType: z.literal('musterCopy'),
@@ -31,7 +31,7 @@ export const musterCopySectionSchema = z.object({
     lead: text,
     body: paragraphs,
     ctas: z.tuple([ctaSchema, ctaSchema]),
-    image: mediaRefSchema,
+    video,
     stats: z.array(entry).length(3),
   }),
   basics: z.object({
@@ -59,7 +59,7 @@ export const musterCopySectionSchema = z.object({
   }),
   rooms: textSection.extend({ entries: z.array(room).length(3) }),
   prifi: textSection.extend({
-    stages: z.array(text).length(8),
+    stages: z.array(text).length(7),
     cards: z.array(entry.extend({ label: text })).length(3),
     cta: ctaSchema,
   }),
