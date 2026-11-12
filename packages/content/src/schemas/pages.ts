@@ -45,6 +45,8 @@ import { lambdaPrizeCopySectionSchema } from './pages/lambda-prize'
 export { lambdaPrizeCopySectionSchema } from './pages/lambda-prize'
 export type { LambdaPrizeCopySection, LambdaPrize } from './pages/lambda-prize'
 import { prifiCopySectionSchema } from './pages/prifi'
+import { railgunCopySectionSchema } from './pages/railgun'
+export type { RailgunCopySection } from './pages/railgun'
 import { basecampRenewalSectionSchema } from './pages/basecamp-renewal'
 import { developerProgrammesCopySectionSchema } from './pages/developer-programmes'
 import { sectionKeySchema } from './pages/shared'
@@ -478,6 +480,7 @@ export const pageSectionSchema = z.discriminatedUnion('componentType', [
   mediaCopySectionSchema,
   podcastCopySectionSchema,
   prifiCopySectionSchema,
+  railgunCopySectionSchema,
   broadcastCopySectionSchema,
   activistBuilderCopySectionSchema,
   activistLeaderStewardCopySectionSchema,

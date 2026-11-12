@@ -120,7 +120,11 @@ export function Footer({
     <footer
       className={`relative min-h-[663px] overflow-hidden bg-brand-dark-green text-brand-off-white lg:min-h-[688px] ${className ?? ''}`}
     >
-      <div className="absolute top-6 left-3 flex w-[370px] max-w-[calc(100%-24px)] flex-col gap-3 lg:w-[345px]">
+      <div
+        data-footer-motion="left"
+        data-footer-part="newsletter"
+        className="absolute top-6 left-3 flex w-[370px] max-w-[calc(100%-24px)] flex-col gap-3 lg:w-[345px]"
+      >
         <p className="w-full max-w-[314px] font-sans text-[18px] leading-[1.15] tracking-[-0.18px] text-brand-off-white">
           {newsletter.title}
         </p>
@@ -156,33 +160,61 @@ export function Footer({
       </div>
 
       {/* Desktop pins the image 12px above the bottom edge so it stays there when the footer grows. */}
-      <div className="absolute top-[200px] left-3 h-[47px] w-[83px] overflow-hidden lg:top-auto lg:bottom-3 lg:h-[127px] lg:w-[226px] *:size-full *:object-cover">
+      <div
+        data-footer-motion="left"
+        data-footer-part="image"
+        className="absolute top-[200px] left-3 h-[47px] w-[83px] overflow-hidden lg:top-auto lg:bottom-3 lg:h-[127px] lg:w-[226px] *:size-full *:object-cover"
+      >
         {image}
       </div>
 
-      <div className="absolute top-[200px] left-[calc(50%+6px)] lg:top-6">
+      <div
+        data-footer-motion="right"
+        data-footer-part="logo"
+        className="absolute top-[200px] left-[calc(50%+6px)] lg:top-6"
+      >
         {logo}
       </div>
 
       {tagline && (
-        <p className="text-body-serif absolute top-[251px] left-[calc(50%+6px)] w-[175px] text-brand-off-white lg:top-[22px] lg:left-[calc(83.33%+2px)] lg:w-[226px]">
+        <p
+          data-footer-motion="right"
+          data-footer-part="tagline"
+          className="text-body-serif absolute top-[251px] left-[calc(50%+6px)] w-[175px] text-brand-off-white lg:top-[22px] lg:left-[calc(83.33%+2px)] lg:w-[226px]"
+        >
           {tagline}
         </p>
       )}
 
-      <div className="absolute top-[332px] left-3 lg:top-[133px] lg:left-[calc(50%+6px)]">
+      <div
+        data-footer-motion="right"
+        data-footer-part="main"
+        className="absolute top-[332px] left-3 lg:top-[133px] lg:left-[calc(50%+6px)]"
+      >
         <LinkList links={mainLinks} />
       </div>
 
-      <div className="absolute top-[332px] left-[calc(50%+6px)] lg:top-[133px] lg:left-[calc(83.33%+3px)]">
+      <div
+        data-footer-motion="right"
+        data-footer-part="social"
+        className="absolute top-[332px] left-[calc(50%+6px)] lg:top-[133px] lg:left-[calc(83.33%+3px)]"
+      >
         <LinkList links={socialLinks} />
       </div>
 
-      <div className="absolute top-[460px] left-3 lg:top-[322px] lg:left-[calc(50%+8px)]">
+      <div
+        data-footer-motion="right"
+        data-footer-part="research"
+        className="absolute top-[460px] left-3 lg:top-[322px] lg:left-[calc(50%+8px)]"
+      >
         <LinkList label="Research" links={researchLinks} />
       </div>
 
-      <div className="absolute top-[460px] left-[calc(50%+6px)] lg:top-[322px] lg:left-[calc(83.33%+3px)]">
+      <div
+        data-footer-motion="right"
+        data-footer-part="infrastructure"
+        className="absolute top-[460px] left-[calc(50%+6px)] lg:top-[322px] lg:left-[calc(83.33%+3px)]"
+      >
         <LinkList label="Infrastructure" links={infrastructureLinks} />
       </div>
 
@@ -192,7 +224,11 @@ export function Footer({
         three links land exactly on Figma's 663px / 688px heights, and any
         extra links extend the footer instead of being clipped.
       */}
-      <div className="pt-[591px] pb-3.5 pl-3 lg:pt-[617px] lg:pb-[13px] lg:pl-[calc(50%+6px)]">
+      <div
+        data-footer-motion="right"
+        data-footer-part="legal"
+        className="pt-[591px] pb-3.5 pl-3 lg:pt-[617px] lg:pb-[13px] lg:pl-[calc(50%+6px)]"
+      >
         <LinkList links={legalLinks} />
       </div>
     </footer>

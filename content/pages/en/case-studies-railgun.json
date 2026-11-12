@@ -1,0 +1,527 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/case-studies/railgun",
+  "title": "RAILGUN uses Logos to enable private DeFi on Ethereum.",
+  "description": "RAILGUN uses Logos Delivery to coordinate private transactions with zero-knowledge proofs on Ethereum, Arbitrum, Polygon and BNB Chain.",
+  "seo": {
+    "ogImage": {
+      "src": "/images/railgun/cover.jpg",
+      "alt": "Someone working on a laptop on a hilltop at golden hour beside a portable radio antenna",
+      "width": 1672,
+      "height": 941
+    }
+  },
+  "sections": [
+    {
+      "componentType": "railgunCopy",
+      "key": "railgun.copy",
+      "hero": {
+        "railgunUsesLogosTo": "RAILGUN uses Logos to enable private DeFi on Ethereum",
+        "photoAlt": "Someone working on a laptop on a hilltop at golden hour beside a portable radio antenna",
+        "heading": "RAILGUN uses Logos to enable private DeFi on Ethereum.",
+        "inProductionSince2023": "In production since 2023 on Ethereum, Arbitrum, Polygon and BNB Chain.",
+        "lineBreaks": {
+          "desktop": {
+            "heading": "RAILGUN uses Logos to\nenable private DeFi on\nEthereum.",
+            "inProductionSince2023": "In production since 2023 on Ethereum, Arbitrum,\nPolygon and BNB Chain."
+          },
+          "mobile": {
+            "heading": "RAILGUN uses\nLogos to enable\nprivate DeFi on\nEthereum.",
+            "inProductionSince2023": "In production since 2023 on Ethereum,\nArbitrum, Polygon and BNB Chain."
+          }
+        }
+      },
+      "intro": {
+        "railgunIsASystem": "RAILGUN is a system that enables private transactions with zero-knowledge proofs on Ethereum, Arbitrum, Polygon and BNB Chain.",
+        "toCoordinateTheseTransactions": "To coordinate these transactions without a centralised server, RAILGUN uses Logos Delivery.",
+        "useRailgun": "Use RAILGUN",
+        "buildOnLogos": "Build on Logos",
+        "label3Yrs": "3+ yrs",
+        "railgunSBroadcasterNetwork": "RAILGUN's Broadcaster network has run on Logos Delivery since 2023.",
+        "label567b": "$5.67B",
+        "cumulativePrivacySetTokens": "Cumulative privacy set: tokens sent to and from 0zk addresses since launch.",
+        "cumulativePrivacySetTokensMobile": "Cumulative privacy set since launch.",
+        "label0Eth": "0 ETH",
+        "neededToPayGas": "Needed to pay gas. A Broadcaster found over Logos Delivery pays it.",
+        "neededToPayGasMobile": "Needed to pay gas. A Broadcaster pays it.",
+        "n": "[N]",
+        "privateTransactionsRelayedOver": "Private transactions relayed over Logos to date. Figure to come from RAILGUN.",
+        "privateTransactionsRelayedOverMobile": "Private transactions relayed to date. Figure to come from RAILGUN.",
+        "lineBreaks": {
+          "desktop": {
+            "railgunIsASystem": "RAILGUN is a system that enables private\ntransactions with zero-knowledge proofs on\nEthereum, Arbitrum, Polygon and BNB\nChain.",
+            "toCoordinateTheseTransactions": "To coordinate these transactions without a centralised server,\nRAILGUN uses Logos Delivery.",
+            "railgunSBroadcasterNetwork": "RAILGUN's Broadcaster network has run on\nLogos Delivery since 2023.",
+            "cumulativePrivacySetTokens": "Cumulative privacy set: tokens sent to and\nfrom 0zk addresses since launch.",
+            "neededToPayGas": "Needed to pay gas. A Broadcaster found over\nLogos Delivery pays it.",
+            "privateTransactionsRelayedOver": "Private transactions relayed over Logos to\ndate. Figure to come from RAILGUN."
+          },
+          "mobile": {
+            "railgunIsASystem": "RAILGUN is a system that\nenables private transactions\nwith zero-knowledge proofs on\nEthereum, Arbitrum, Polygon\nand BNB Chain.",
+            "toCoordinateTheseTransactions": "To coordinate these transactions without a\ncentralised server, RAILGUN uses Logos\nDelivery.",
+            "railgunSBroadcasterNetwork": "RAILGUN's Broadcaster\nnetwork has run on\nLogos Delivery since\n2023.",
+            "cumulativePrivacySetTokensMobile": "Cumulative privacy set\nsince launch.",
+            "neededToPayGasMobile": "Needed to pay gas. A\nBroadcaster pays it.",
+            "privateTransactionsRelayedOverMobile": "Private transactions\nrelayed to date. Figure to\ncome from RAILGUN."
+          }
+        }
+      },
+      "basics": {
+        "railgun": "RAILGUN",
+        "poweringPrivateDefiOn": "Powering private DeFi on leading",
+        "blockchains": "blockchains",
+        "railgunIsASet": "RAILGUN is a set of smart contracts on Ethereum, Arbitrum, Polygon and BNB Chain. RAILGUN-compatible wallets provide a private 0zk address. From there you can send, swap, lend and borrow. Zero-knowledge proofs hide who sent what to whom. Non-custodial, private and decentralised: you control your funds.",
+        "label2021": "2021",
+        "railgunGoesLiveOn": "RAILGUN goes live on Ethereum.",
+        "feb2023": "Feb 2023",
+        "railgunPublishesItsRelayer": "RAILGUN publishes its relayer client, built on Waku, as an open library.",
+        "label2024": "2024",
+        "relayersAreRenamedBroadcasters": "Relayers are renamed Broadcasters. The client keeps running on Waku.",
+        "today": "Today",
+        "wakuIsNowLogos": "Waku is now Logos Delivery. RAILGUN's traffic runs on its own network of Delivery nodes.",
+        "logos": "Logos",
+        "aPeerToPeer": "A peer-to-peer communication layer",
+        "builtForPrivacy": "built for privacy",
+        "logosDeliveryIsA": "Logos Delivery is a peer-to-peer network for private communication. Messages pass between many nodes, so no single machine sees who sent what to whom. Previously called Waku, Delivery is the data transport layer of Logos, the open and modular stack for privacy-preserving applications.",
+        "findsABroadcaster": "Finds a Broadcaster",
+        "broadcastersPostTheirFees": "Broadcasters post their fees. Wallets listen and pick one.",
+        "deliversTheRequest": "Delivers the request",
+        "theSealedTransactionReaches": "The sealed transaction reaches the chosen Broadcaster. No one else can read it.",
+        "bringsBackTheResult": "Brings back the result",
+        "theBroadcasterRepliesEncrypted": "The Broadcaster replies, encrypted. Only the sender's wallet can open it.",
+        "railgunSProofsProtect": "RAILGUN's proofs protect the transaction.",
+        "logosDeliverySecuresTransmission": "Logos Delivery secures transmission.",
+        "lineBreaks": {
+          "desktop": {
+            "wakuIsNowLogos": "Waku is now Logos Delivery. RAILGUN's traffic runs on its own network of\nDelivery nodes.",
+            "logosDeliveryIsA": "Logos Delivery is a peer-to-peer network for private communication.\nMessages pass between many nodes, so no single machine sees who\nsent what to whom. Previously called Waku, Delivery is the data transport\nlayer of Logos, the open and modular stack for privacy-preserving\napplications.",
+            "theSealedTransactionReaches": "The sealed transaction reaches the chosen Broadcaster. No one else can\nread it.",
+            "railgunIsASet": "RAILGUN is a set of smart contracts on Ethereum, Arbitrum, Polygon and\nBNB Chain. RAILGUN-compatible wallets provide a private 0zk address.\nFrom there you can send, swap, lend and borrow. Zero-knowledge proofs\nhide who sent what to whom. Non-custodial, private and decentralised:\nyou control your funds."
+          },
+          "mobile": {
+            "railgunIsASet": "RAILGUN is a set of smart contracts on\nEthereum, Arbitrum, Polygon and BNB Chain.\nRAILGUN-compatible wallets provide a\nprivate 0zk address. From there you can\nsend, swap, lend and borrow. Zero-\nknowledge proofs hide who sent what to\nwhom. Non-custodial, private and\ndecentralised: you control your funds.",
+            "railgunPublishesItsRelayer": "RAILGUN publishes its relayer client, built\non Waku, as an open library.",
+            "relayersAreRenamedBroadcasters": "Relayers are renamed Broadcasters. The\nclient keeps running on Waku.",
+            "wakuIsNowLogos": "Waku is now Logos Delivery. RAILGUN's\ntraffic runs on its own network of Delivery\nnodes.",
+            "logosDeliveryIsA": "Logos Delivery is a peer-to-peer network for\nprivate communication. Messages pass\nbetween many nodes, so no single machine\nsees who sent what to whom. Previously\ncalled Waku, Delivery is the data transport\nlayer of Logos, the open and modular stack\nfor privacy-preserving applications.",
+            "theSealedTransactionReaches": "The sealed transaction reaches the chosen Broadcaster.\nNo one else can read it.",
+            "theBroadcasterRepliesEncrypted": "The Broadcaster replies, encrypted. Only the sender's\nwallet can open it.",
+            "bookend": "RAILGUN's proofs\nprotect the transaction.\nLogos Delivery secures\ntransmission."
+          }
+        }
+      },
+      "privacy": {
+        "privacyThroughDecentralisation": "Privacy through decentralisation",
+        "aRailgunCompatibleWallet": "A RAILGUN-compatible wallet uses a 0zk address. A zero-knowledge proof hides the sender, the receiver, the token and the amount. But a 0zk address can't pay gas. A public 0x wallet can, but it is public. Submitting the transaction yourself would reveal your identity.",
+        "railgunHandsYourTransaction": "RAILGUN hands your transaction to a Broadcaster, a public wallet that submits the transaction and pays the gas on your behalf. You pay the Broadcaster back privately, in whatever token you hold. On-chain, the transaction appears to come from the Broadcaster.",
+        "broadcasters": "Broadcasters",
+        "publicWalletsSubmitTransactions": "Public wallets submit transactions and pay gas.",
+        "feeQuotes": "Fee quotes",
+        "announcedOnOpenTopics": "Announced on open topics, per chain.",
+        "sealedRequests": "Sealed requests",
+        "readableByOneBroadcaster": "Readable by one Broadcaster only.",
+        "encryptedReplies": "Encrypted replies",
+        "successOrFailureNotifications": "Success or failure notifications are routed back to the sender.",
+        "photoAlt": "A person walking alone along a path through tall golden grass in a wide valley",
+        "whyRailgunChoseLogos": "Why RAILGUN chose Logos",
+        "railgunFirstTriedBuilding": "RAILGUN first tried building its networking on libp2p directly, but moved to Logos Delivery to stop IP addresses leaking and putting users' anonymity at risk.",
+        "ifThisCoordinationPassed": "If this coordination passed through a server, it would leave a trail to follow and rely on trusting a third party. That is the problem Logos Delivery solves.",
+        "whatAServerWould": "What a server would see",
+        "yourIpAddress": "Your IP address",
+        "whenYouSend": "When you send",
+        "howOftenYouSend": "How often you send",
+        "whichBroadcasterYouChose": "Which Broadcaster you chose",
+        "whichChainYouUse": "Which chain you use",
+        "whichTokenPaysYour": "Which token pays your gas",
+        "railgunSProofsProtect": "RAILGUN's proofs protect the transaction, but not its transmission. Logos Delivery replaces centralised relay servers with secure p2p communication, keeping metadata private.",
+        "lineBreaks": {
+          "desktop": {
+            "privacyThroughDecentralisation": "Privacy through\ndecentralisation",
+            "aRailgunCompatibleWallet": "A RAILGUN-compatible wallet uses a 0zk address. A zero-knowledge\nproof hides the sender, the receiver, the token and the amount. But a 0zk\naddress can't pay gas. A public 0x wallet can, but it is public. Submitting\nthe transaction yourself would reveal your identity.",
+            "railgunHandsYourTransaction": "RAILGUN hands your transaction to a Broadcaster, a public wallet that\nsubmits the transaction and pays the gas on your behalf. You pay the\nBroadcaster back privately, in whatever token you hold. On-chain, the\ntransaction appears to come from the Broadcaster.",
+            "successOrFailureNotifications": "Success or failure notifications are routed back\nto the sender.",
+            "railgunFirstTriedBuilding": "RAILGUN first tried building its networking on libp2p directly, but moved to Logos\nDelivery to stop IP addresses leaking and putting users' anonymity at risk.",
+            "ifThisCoordinationPassed": "If this coordination passed through a server, it would leave a trail to\nfollow and rely on trusting a third party. That is the problem Logos\nDelivery solves.",
+            "railgunSProofsProtect": "RAILGUN's proofs protect the transaction, but not its transmission. Logos\nDelivery replaces centralised relay servers with secure p2p communication,\nkeeping metadata private."
+          },
+          "mobile": {
+            "privacyThroughDecentralisation": "Privacy through\ndecentralisation",
+            "aRailgunCompatibleWallet": "A RAILGUN-compatible wallet uses a 0zk\naddress. A zero-knowledge proof hides the\nsender, the receiver, the token and the\namount. But a 0zk address can't pay gas. A\npublic 0x wallet can, but it is public.\nSubmitting the transaction yourself would\nreveal your identity.",
+            "railgunHandsYourTransaction": "RAILGUN hands your transaction to a\nBroadcaster, a public wallet that submits the\ntransaction and pays the gas on your behalf.\nYou pay the Broadcaster back privately, in\nwhatever token you hold. On-chain, the\ntransaction appears to come from the\nBroadcaster.",
+            "successOrFailureNotifications": "Success or failure notifications are routed back to\nthe sender.",
+            "railgunFirstTriedBuilding": "RAILGUN first tried building its networking on libp2p\ndirectly, but moved to Logos Delivery to stop IP\naddresses leaking and putting users' anonymity at risk.",
+            "railgunSProofsProtect": "RAILGUN's proofs protect the transaction, but not its\ntransmission. Logos Delivery replaces centralised relay\nservers with secure p2p communication, keeping\nmetadata private."
+          }
+        }
+      },
+      "transaction": {
+        "howAPrivateTransaction": "How a private transaction is sent over Logos Delivery",
+        "allCommunicationBetweenUsers": "All communication between users and RAILGUN Broadcasters is sent over Logos Delivery. Five steps, and no server at any point.",
+        "caption0": "Broadcasters post signed fee quotes. Wallets listen.",
+        "caption1": "The wallet picks a quote on the device. Nothing is sent.",
+        "caption2": "The request is sealed for one Broadcaster.",
+        "caption3": "Logos Delivery carries it to every Broadcaster. Only one can open it.",
+        "caption4": "The result comes back encrypted. Only your wallet opens it.",
+        "fiveSteps": "Five steps",
+        "announce": "Announce",
+        "choose": "Choose",
+        "encrypt": "Encrypt",
+        "gossip": "Gossip",
+        "reply": "Reply",
+        "eachBroadcasterSignsIts": "Each Broadcaster signs its fee schedule with its 0zk viewing key and posts it to the fees topic for its chain. Wallets receive the fees they are configured to listen for and drop any quote that is unsigned, stale or from an unsupported version.",
+        "noOneCanTell": "No one can tell which fees you are monitoring.",
+        "theWalletKeepsA": "The wallet keeps a local cache of live quotes and picks the best fee for the token it holds. The choice is made on the device. Nothing is sent.",
+        "yourPlanStaysOn": "Your plan stays on your device.",
+        "theWalletBuildsThe": "The wallet builds the zero-knowledge proof with a fee note for the chosen Broadcaster. It derives a shared key from a one-time private key and the Broadcaster's public key, encrypts the request and hides a random response key inside.",
+        "transactionDetailsAreKept": "Transaction details are kept private.",
+        "logosDeliverySLightpush": "Logos Delivery's LightPush protocol hands the sealed request to a service node, which relays it across RAILGUN's Delivery network on the transact topic. Every Broadcaster tries to decrypt it, but only the selected one can. It checks the fee and the proof, then signs and submits.",
+        "messageSourceAndDestination": "Message source and destination are obscured.",
+        "theBroadcasterEncryptsThe": "The Broadcaster encrypts the transaction hash, or the returned error, with the response key and posts it on the response topic. The wallet tries every response, and only its own opens. If none arrives in time, it resends or moves on.",
+        "transactionStatusIsReturned": "Transaction status is returned without exposing identity.",
+        "nextStepLabel": "Next: {step}",
+        "backToStart": "Back to start",
+        "initialNextStep": "Next: Choose",
+        "scrollClickAStep": "Scroll, click a step or use ←",
+        "wallet": "YOUR WALLET",
+        "broadcasters": "BROADCASTERS",
+        "receiver": "ONLY THIS ONE CAN OPEN IT",
+        "lineBreaks": {
+          "desktop": {
+            "howAPrivateTransaction": "How a private transaction is\nsent over Logos Delivery",
+            "allCommunicationBetweenUsers": "All communication between users and RAILGUN Broadcasters\nis sent over Logos Delivery. Five steps, and no server at any\npoint.",
+            "eachBroadcasterSignsIts": "Each Broadcaster signs its fee schedule with its 0zk viewing\nkey and posts it to the fees topic for its chain. Wallets receive\nthe fees they are configured to listen for and drop any quote\nthat is unsigned, stale or from an unsupported version."
+          },
+          "mobile": {
+            "howAPrivateTransaction": "How a private\ntransaction is sent over\nLogos Delivery",
+            "allCommunicationBetweenUsers": "All communication between users and\nRAILGUN Broadcasters is sent over Logos\nDelivery. Five steps, and no server at any\npoint.",
+            "eachBroadcasterSignsIts": "Each Broadcaster signs its fee schedule with\nits 0zk viewing key and posts it to the fees\ntopic for its chain. Wallets receive the fees\nthey are configured to listen for and drop any\nquote that is unsigned, stale or from an\nunsupported version.",
+            "noOneCanTell": "No one can tell which fees you are\nmonitoring.",
+            "caption0": "Broadcasters post signed fee quotes.\nWallets listen."
+          }
+        }
+      },
+      "stack": {
+        "howRailgunBuiltLogos": "How RAILGUN built Logos into its stack",
+        "railgunSBroadcasterClient": "RAILGUN's Broadcaster client is open source, with one package for the browser and one for Node.js. Each RAILGUN-compatible wallet starts a Logos Delivery light node, which does not relay traffic. It uses Delivery service nodes for three tasks: listening, sending and fetching missed messages.",
+        "replayStep1": "Fee quotes in",
+        "replayStep2": "Sealed request out",
+        "replayStep3": "Submit and pay gas",
+        "replayStep4": "Encrypted result back",
+        "replayLabel": "Replay the transaction",
+        "userSDevice": "User's device",
+        "railgunWallet": "RAILGUN wallet",
+        "buildsTheZkProof": "Builds the ZK proof and Private POI.",
+        "proof": "proof",
+        "broadcasterClient": "Broadcaster client",
+        "aLogosDeliveryLight": "A Logos Delivery light node.",
+        "filterHearsFeesAnd": "Filter hears fees and results.",
+        "lightpushSendsTheRequest": "LightPush sends the request.",
+        "storeFetchesWhatIt": "Store fetches what it missed.",
+        "noServerOfIts": "No server of its own",
+        "packagesForTheBrowser": "Packages for the browser and Node.js.",
+        "label1Fees": "1 fees",
+        "label2Request": "2 request",
+        "label4Result": "4 result",
+        "logosDelivery": "Logos Delivery",
+        "serviceNodes": "Service nodes",
+        "relayMessagesAcrossThe": "Relay messages across the network. Serve LightPush, Filter and Store.",
+        "railgunContentTopics": "RAILGUN content topics",
+        "threePerChainEthereum": "Three per chain. Ethereum is 0-1.",
+        "railgunV201": "/railgun/v2/0-1-fees/json",
+        "railgunV2012": "/railgun/v2/0-1-transact/json",
+        "railgunV2013": "/railgun/v2/0-1-transact-response/json",
+        "railgunSDeliveryNetwork": "RAILGUN's Delivery network",
+        "aClusterOfDelivery": "A cluster of Delivery nodes configured for RAILGUN. Peers join via DNS and peer exchange.",
+        "broadcaster": "Broadcaster",
+        "privatePoiNode": "Private POI node",
+        "syncsTheProofsA": "Syncs the proofs a Broadcaster checks.",
+        "poiData": "POI data",
+        "broadcasterService": "Broadcaster service",
+        "nodeJsPlusA": "Node.js plus a Logos Delivery node.",
+        "signsFeeQuotesWith": "Signs fee quotes with its 0zk key.",
+        "triesToDecryptEvery": "Tries to decrypt every request.",
+        "checksTheFeeAnd": "Checks the fee and Private POI.",
+        "label0xWallet": "0x wallet",
+        "signsTheTransactionAnd": "Signs the transaction and pays gas.",
+        "onChain": "On-chain",
+        "ethereumArbitrumPolygonAnd": "Ethereum, Arbitrum, Polygon and BNB Chain. Everything above this band happens off-chain.",
+        "ethereumArbitrumPolygonAndMobile": "Ethereum, Arbitrum, Polygon and BNB Chain.",
+        "railgunSmartContracts": "RAILGUN smart contracts",
+        "verifyTheProofUpdate": "Verify the proof. Update private balances.",
+        "label3SubmitPayGas": "3 submit, pay gas",
+        "arrowsIntoTheLight": "Arrows into the Light Blue column travel over Logos Delivery. Numbers follow one transaction: 1 quotes in, 2 sealed request out, 3 on-chain submission, 4 encrypted result back. Source: Railgun-Community, waku-broadcaster-client, June 2026.",
+        "arrowsIntoTheLightMobile": "Arrows into the Light Blue column travel over Logos Delivery. Numbers follow one transaction. Source: Railgun-Community, waku-broadcaster-client, June 2026.",
+        "lineBreaks": {
+          "desktop": {
+            "howRailgunBuiltLogos": "How RAILGUN built\nLogos into its stack",
+            "railgunSBroadcasterClient": "RAILGUN's Broadcaster client is open source, with one package\nfor the browser and one for Node.js. Each RAILGUN-compatible\nwallet starts a Logos Delivery light node, which does not relay\ntraffic. It uses Delivery service nodes for three tasks: listening,\nsending and fetching missed messages.",
+            "relayMessagesAcrossThe": "Relay messages across the network. Serve LightPush,\nFilter and Store.",
+            "aClusterOfDelivery": "A cluster of Delivery nodes configured for RAILGUN.\nPeers join via DNS and peer exchange.",
+            "ethereumArbitrumPolygonAnd": "Ethereum, Arbitrum, Polygon and BNB Chain. Everything\nabove this band happens off-chain.",
+            "arrowsIntoTheLight": "Arrows into the Light Blue column travel over Logos Delivery. Numbers follow one transaction: 1 quotes in, 2 sealed\nrequest out, 3 on-chain submission, 4 encrypted result back. Source: Railgun-Community, waku-broadcaster-client, June\n2026."
+          },
+          "mobile": {
+            "howRailgunBuiltLogos": "How RAILGUN built\nLogos into its stack",
+            "railgunSBroadcasterClient": "RAILGUN's Broadcaster client is open\nsource, with one package for the browser\nand one for Node.js. Each RAILGUN-\ncompatible wallet starts a Logos Delivery\nlight node, which does not relay traffic. It\nuses Delivery service nodes for three tasks:\nlistening, sending and fetching missed\nmessages.",
+            "relayMessagesAcrossThe": "Relay messages across the network. Serve\nLightPush, Filter and Store.",
+            "aClusterOfDelivery": "A cluster of Delivery nodes configured for\nRAILGUN. Peers join via DNS and peer exchange.",
+            "ethereumArbitrumPolygonAndMobile": "Ethereum, Arbitrum, Polygon\nand BNB Chain.",
+            "arrowsIntoTheLightMobile": "Arrows into the Light Blue column travel over Logos Delivery.\nNumbers follow one transaction. Source: Railgun-Community,\nwaku-broadcaster-client, June 2026."
+          }
+        },
+        "clientMobile": "A Logos Delivery light node. Filter hears fees and results, LightPush sends the request, Store fetches what it missed.",
+        "serviceMobile": "Node.js plus a Logos Delivery node. Signs fee quotes with its 0zk key, tries to decrypt every request, checks the fee and Private POI.",
+        "connectionMobile": "1 fees, 2 request, 4 result"
+      },
+      "production": {
+        "aPrivateFeeMarket": "A private fee market across four chains",
+        "ethereum": "Ethereum",
+        "arbitrum": "Arbitrum",
+        "polygon": "Polygon",
+        "bnbChain": "BNB Chain",
+        "everyTransactionSentThrough": "Every transaction sent through a Broadcaster uses Logos Delivery for private transport. Broadcasters compete on price, and wallets pick the best offer. No third parties required.",
+        "label5b": "$5B+",
+        "cumulativeShieldedVolume": "Cumulative shielded volume",
+        "label112m": "~$112M",
+        "valueLocked": "Value locked",
+        "label47m": "~$4.7M",
+        "annualisedProtocolFees": "Annualised protocol fees",
+        "label4": "4",
+        "chainsServed": "Chains served",
+        "toComeFromRailgun": "To come from RAILGUN",
+        "n": "[N]",
+        "broadcastersOnline": "Broadcasters online",
+        "transactionsRelayedOverLogos": "Transactions relayed over Logos Delivery a month",
+        "n2": "[N]%",
+        "ofRailgunVolumeSent": "Of RAILGUN volume sent through a Broadcaster",
+        "photoAlt": "A white door standing open on a green hill under a clear sky",
+        "itJustTurnedOut": "“It just turned out to be well-",
+        "suitedForOurNeeds": "suited for our needs, so we’ve",
+        "stuckWithIt": "stuck with it.”",
+        "keiranRailgunContributorOn": "Keiran, RAILGUN contributor, on choosing Waku, now Logos Delivery. Waku community call, March 2024.",
+        "resilientAndDurable": "Resilient and durable",
+        "any0xAddressCan": "Any 0x address can become a Broadcaster. None of them can access or modify a request. If any detail is changed, the proof is broken. Broadcasters can only refuse a transaction, and wallets will simply send it to the next one.",
+        "whatComesNext": "What comes next",
+        "inProgress": "In progress",
+        "railgunIsThePrivacy": "RAILGUN is the privacy layer in Kohaku, the Ethereum Foundation's toolkit for private wallets. Every wallet that ships it brings new users to the same Broadcasters, and more adoption of Logos technology.",
+        "lineBreaks": {
+          "desktop": {
+            "aPrivateFeeMarket": "A private fee market\nacross four chains",
+            "everyTransactionSentThrough": "Every transaction sent through a Broadcaster uses Logos\nDelivery for private transport. Broadcasters compete on price,\nand wallets pick the best offer. No third parties required.",
+            "keiranRailgunContributorOn": "Keiran, RAILGUN contributor, on choosing Waku, now Logos\nDelivery. Waku community call, March 2024.",
+            "any0xAddressCan": "Any 0x address can become a Broadcaster. None of them can access\nor modify a request. If any detail is changed, the proof is broken.\nBroadcasters can only refuse a transaction, and wallets will simply\nsend it to the next one.",
+            "railgunIsThePrivacy": "RAILGUN is the privacy layer in Kohaku, the Ethereum Foundation's\ntoolkit for private wallets. Every wallet that ships it brings new users\nto the same Broadcasters, and more adoption of Logos technology."
+          },
+          "mobile": {
+            "everyTransactionSentThrough": "Every transaction sent through a\nBroadcaster uses Logos Delivery for private\ntransport. Broadcasters compete on price,\nand wallets pick the best offer. No third\nparties required.",
+            "cumulativeShieldedVolume": "Cumulative shielded\nvolume",
+            "transactionsRelayedOverLogos": "Transactions relayed over\nLogos Delivery a month",
+            "ofRailgunVolumeSent": "Of RAILGUN volume sent\nthrough a Broadcaster",
+            "keiranRailgunContributorOn": "Keiran, RAILGUN contributor, on choosing Waku, now\nLogos Delivery. Waku community call, March 2024.",
+            "any0xAddressCan": "Any 0x address can become a Broadcaster.\nNone of them can access or modify a\nrequest. If any detail is changed, the proof is\nbroken. Broadcasters can only refuse a\ntransaction, and wallets will simply send it to\nthe next one.",
+            "railgunIsThePrivacy": "RAILGUN is the privacy layer in Kohaku, the\nEthereum Foundation's toolkit for private\nwallets. Every wallet that ships it brings new\nusers to the same Broadcasters, and more\nadoption of Logos technology.",
+            "quote": "“It just turned out to be\nwell-suited for our\nneeds, so we’ve stuck\nwith it.”"
+          }
+        }
+      },
+      "prifi": {
+        "builtIntoRailgunLogos": "Built into RAILGUN, Logos unlocks PriFi.",
+        "toEnablePrivateFinance": "To enable Private Finance (PriFi), primitives must be deployed on privacy-preserving, peer-to-peer infrastructure, on hardware you control.",
+        "everyTransactionHasSeven": "Every transaction has seven stages, from finding a counterparty to enforcing the deal, and it is only as strong as its weakest link. Secure settlement alone is not enough to ensure privacy.",
+        "railgunUsesLogosDelivery": "RAILGUN uses Logos Delivery to make the discovery, negotiation and ordering stages private. Broadcasters are found, fees agreed and transactions handed off peer-to-peer, with no server to log requests and track data.",
+        "railgunUsesLogosDeliveryMobile": "RAILGUN uses Logos Delivery to make the discovery, negotiation and ordering stages private.",
+        "railgunSProofsSecure": "RAILGUN's proofs secure the payment while Logos Delivery secures coordination.",
+        "stages": [
+          "Discovery",
+          "Diligence",
+          "Negotiation",
+          "Contracting",
+          "Ordering",
+          "Settlement",
+          "Enforcement & Recourse"
+        ],
+        "liveInRailgun": "Live in RAILGUN",
+        "logosDelivery": "Logos Delivery",
+        "discoveryQuotesAndRequests": "Discovery, quotes and requests pass peer to peer, with no server in the middle. RAILGUN uses it to find Broadcasters, agree on fees and hand off each transaction.",
+        "discoveryQuotesAndRequestsMobile": "Discovery, quotes and requests pass peer to peer, with no server in the middle.",
+        "onTestnet": "On testnet",
+        "blendAndPrivate": "Blend and private",
+        "settlement2": "settlement",
+        "blendHidesWhereA": "Blend hides where a transaction came from before it is ordered. Settlement on Logos is private by default, so no outside contract is needed to hide the payment.",
+        "blendHidesWhereAMobile": "Blend hides where a transaction came from before it is ordered. Settlement on Logos is private by default.",
+        "inDevelopment": "In development",
+        "logosZones": "Logos Zones",
+        "privateEnforcementForTerms": "Private enforcement for terms that outlive the payment: escrow, credit and delivery of real goods. The link no settlement layer reaches.",
+        "privateEnforcementForTermsMobile": "Private enforcement for terms that outlive the payment: escrow, credit and delivery of real goods.",
+        "logosBuildsPrivacyAcross": "Logos builds privacy across the entire lifecycle of a transaction.",
+        "logosDeliveryIsOne": "Logos Delivery is one component of the stack, and it is already",
+        "liveInRailgunAnd": "live in RAILGUN and other applications.",
+        "lineBreaks": {
+          "desktop": {
+            "builtIntoRailgunLogos": "Built into RAILGUN,\nLogos unlocks PriFi.",
+            "toEnablePrivateFinance": "To enable Private Finance (PriFi), primitives must be deployed\non privacy-preserving, peer-to-peer infrastructure, on hardware\nyou control.",
+            "everyTransactionHasSeven": "Every transaction has seven stages, from finding a\ncounterparty to enforcing the deal, and it is only as strong as its\nweakest link. Secure settlement alone is not enough to ensure\nprivacy.",
+            "railgunUsesLogosDelivery": "RAILGUN uses Logos Delivery to make the discovery,\nnegotiation and ordering stages private. Broadcasters are\nfound, fees agreed and transactions handed off peer-to-peer,\nwith no server to log requests and track data.",
+            "railgunSProofsSecure": "RAILGUN's proofs secure the payment while Logos Delivery\nsecures coordination.",
+            "discoveryQuotesAndRequests": "Discovery, quotes and requests pass peer to peer, with no server\nin the middle. RAILGUN uses it to find Broadcasters, agree on\nfees and hand off each transaction.",
+            "blendHidesWhereA": "Blend hides where a transaction came from before it\nis ordered. Settlement on Logos is private by default,\nso no outside contract is needed to hide the payment.",
+            "privateEnforcementForTerms": "Private enforcement for terms that outlive the\npayment: escrow, credit and delivery of real goods.\nThe link no settlement layer reaches."
+          },
+          "mobile": {
+            "builtIntoRailgunLogos": "Built into RAILGUN,\nLogos unlocks PriFi.",
+            "toEnablePrivateFinance": "To enable Private Finance (PriFi), primitives\nmust be deployed on privacy-preserving,\npeer-to-peer infrastructure, on hardware you\ncontrol.",
+            "everyTransactionHasSeven": "Every transaction has seven stages, from\nfinding a counterparty to enforcing the deal,\nand it is only as strong as its weakest link.\nSecure settlement alone is not enough to\nensure privacy.",
+            "railgunUsesLogosDeliveryMobile": "RAILGUN uses Logos Delivery to make the\ndiscovery, negotiation and ordering stages\nprivate.",
+            "railgunSProofsSecure": "RAILGUN's proofs secure the payment while\nLogos Delivery secures coordination.",
+            "discoveryQuotesAndRequestsMobile": "Discovery, quotes and requests pass peer to\npeer, with no server in the middle.",
+            "blendHidesWhereAMobile": "Blend hides where a transaction came from\nbefore it is ordered. Settlement on Logos is\nprivate by default.",
+            "privateEnforcementForTermsMobile": "Private enforcement for terms that outlive the\npayment: escrow, credit and delivery of real\ngoods.",
+            "logosBuildsPrivacyAcross": "Logos builds privacy across the\nentire lifecycle of a transaction."
+          }
+        }
+      },
+      "build": {
+        "photoAlt": "A person climbing a weather mast on a glacier under heavy cloud",
+        "logosIsOpenTo": "Logos is open to all builders",
+        "railgunNeededAWay": "RAILGUN needed a way to pass private requests between peers with no server in the middle. Logos Delivery is designed to solve that problem, and it is available to build on now. Use Logos protocols to build your private, peer-to-peer application.",
+        "railgunNeededAWayMobile": "RAILGUN needed a way to pass private requests between peers with no server in the middle. Logos Delivery is designed to solve that problem, and it is available to build on now.",
+        "useRailgun": "Use RAILGUN",
+        "shieldTokensAndUse": "Shield tokens and use DeFi from a 0zk address in an independent RAILGUN wallet. Pay gas in the token of your choice.",
+        "pickAWallet": "Pick a wallet",
+        "buildOnLogos": "Build on Logos",
+        "logosPackagesTheLogos": "Logos packages the Logos Delivery node as one module with an easy-to-use API. Build tools that communicate without intermediaries.",
+        "logosPackagesTheLogosMobile": "Logos packages the Logos Delivery node as one module with an easy-to-use API.",
+        "readTheDocs": "Read the docs",
+        "installBasecamp": "Install Basecamp",
+        "runTheLogosStack": "Run the Logos stack on your own machine. Basecamp is the launcher for peer-to-peer apps built on Logos.",
+        "developerProgrammes": "Developer Programmes",
+        "fundedRfpsAndThe": "Funded RFPs and the λ Prize for teams building private, peer-to-peer applications. [Copy to confirm]",
+        "rfps": "RFPs",
+        "prize": "Prize",
+        "lineBreaks": {
+          "desktop": {
+            "railgunNeededAWay": "RAILGUN needed a way to pass private requests between peers\nwith no server in the middle. Logos Delivery is designed to solve\nthat problem, and it is available to build on now. Use Logos\nprotocols to build your private, peer-to-peer application.",
+            "shieldTokensAndUse": "Shield tokens and use DeFi from a 0zk address in an\nindependent RAILGUN wallet. Pay gas in the token of your\nchoice."
+          },
+          "mobile": {
+            "logosIsOpenTo": "Logos is open to all\nbuilders",
+            "railgunNeededAWayMobile": "RAILGUN needed a way to pass private\nrequests between peers with no server in the\nmiddle. Logos Delivery is designed to solve\nthat problem, and it is available to build on\nnow.",
+            "shieldTokensAndUse": "Shield tokens and use DeFi from a 0zk address in\nan independent RAILGUN wallet. Pay gas in the\ntoken of your choice.",
+            "runTheLogosStack": "Run the Logos stack on your own machine.\nBasecamp is the launcher for peer-to-peer apps\nbuilt on Logos.",
+            "fundedRfpsAndThe": "Funded RFPs and the λ Prize for teams building\nprivate, peer-to-peer applications. [Copy to\nconfirm]"
+          }
+        }
+      },
+      "closing": {
+        "aParallelSocietyNeeds": "A parallel society needs an economy.",
+        "private": "Private",
+        "payments": "payments",
+        "shouldNotNeed": "should not need",
+        "permission": "permission.",
+        "readThePrifiThesis": "Read the PriFi thesis",
+        "nextCaseStudy": "Next case study",
+        "gatewayFm": "Gateway.fm",
+        "lineBreaks": {
+          "mobile": {
+            "aParallelSocietyNeeds": "A parallel society needs an\neconomy."
+          }
+        }
+      },
+      "gateway": {
+        "nextCaseStudyGateway": "Next case study: Gateway.fm",
+        "gateway": "Gateway.fm",
+        "backToRailgun": "Back to RAILGUN",
+        "nextCaseStudy": "Next case study",
+        "gatewayFm": "Gateway.fm",
+        "howGatewayFmRuns": "How Gateway.fm runs rollup infrastructure on Logos. Case study in production."
+      },
+      "footer": {
+        "tagline": "Pioneering a new era of freedom.",
+        "lineBreaks": {
+          "mobile": {
+            "tagline": "Pioneering a new era\nof freedom.",
+            "newsletterTitle": "Stay ahead with\nthe latest updates."
+          }
+        },
+        "newsletter": {
+          "title": "Stay ahead with the latest updates.",
+          "emailLabel": "Enter email",
+          "roleLabel": "Role",
+          "cityLabel": "city",
+          "submitLabel": "Submit"
+        },
+        "mainLinks": [
+          {
+            "label": "Work With Us",
+            "href": "https://free.technology/jobs"
+          },
+          {
+            "label": "Brand Guidelines",
+            "href": "/design-guide"
+          }
+        ],
+        "socialLinks": [
+          {
+            "label": "Twitter",
+            "href": "https://x.com/Logos_network"
+          },
+          {
+            "label": "Discord",
+            "href": "https://discord.gg/Ykv4eZyHUJ"
+          },
+          {
+            "label": "YouTube",
+            "href": "https://www.youtube.com/@logos_network"
+          },
+          {
+            "label": "Blog",
+            "href": "/media"
+          },
+          {
+            "label": "Github",
+            "href": "https://github.com/logos-co"
+          }
+        ],
+        "researchLinks": [
+          {
+            "label": "VacP2P",
+            "href": "https://github.com/vacp2p"
+          }
+        ],
+        "infrastructureLinks": [
+          {
+            "label": "Waku",
+            "href": "https://waku.org/"
+          },
+          {
+            "label": "Nimbus",
+            "href": "https://nimbus.team/"
+          },
+          {
+            "label": "Codex",
+            "href": "https://codex.storage/"
+          },
+          {
+            "label": "Nomos",
+            "href": "https://nomos.tech/"
+          }
+        ],
+        "legalLinks": [
+          {
+            "label": "Terms & Conditions",
+            "href": "/terms-and-conditions"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "/privacy-policy"
+          },
+          {
+            "label": "Security",
+            "href": "/security"
+          }
+        ]
+      }
+    }
+  ]
+}
