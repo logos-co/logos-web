@@ -12,7 +12,7 @@ export function Prifi({ copy }: { copy: RailgunCopySection['prifi'] }) {
           </h2>
           <div className="body">
             <p>{text('toEnablePrivateFinance')}</p>
-            <p>{text('everyTransactionHasSeven')}</p>
+            <p>{text('everyTransactionHasEight')}</p>
             <p>
               {text(
                 'railgunUsesLogosDelivery',
@@ -24,13 +24,9 @@ export function Prifi({ copy }: { copy: RailgunCopySection['prifi'] }) {
         </div>
         <div className="life rv" id="life">
           <div className="stages">
-            <span>{copy.discovery}</span>
-            <span>{copy.negotiation}</span>
-            <span>{copy.ordering}</span>
-            <span>{copy.stage04}</span>
-            <span>{copy.settlement}</span>
-            <span>{copy.stage06}</span>
-            <span>{copy.enforcement}</span>
+            {copy.stages.map((stage, index) => (
+              <span key={`${index}-${stage}`}>{stage}</span>
+            ))}
           </div>
           <div className="lline">
             <svg id="lsvg" aria-hidden="true" />
