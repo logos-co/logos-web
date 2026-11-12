@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { getFresh, LEAD_NODE } from '@/lib/chain-nodes'
+import { isChainId } from '@/lib/chain-query'
 import type { Block } from '@/lib/cryptarchia'
 import { formatTimestamp, parseBlock, parseChainTime } from '@/lib/cryptarchia'
 
@@ -16,8 +17,12 @@ import { formatTimestamp, parseBlock, parseChainTime } from '@/lib/cryptarchia'
 export const dynamic = 'force-dynamic'
 
 async function readBlock(id: string): Promise<Block | null> {
+  if (!isChainId(id)) return null
+
   try {
-    const response = await getFresh(`${LEAD_NODE}/cryptarchia/blocks/${id}`)
+    const response = await getFresh(
+      `${LEAD_NODE}/cryptarchia/blocks/${encodeURIComponent(id)}`
+    )
     if (!response.ok) return null
 
     const time = parseChainTime(
