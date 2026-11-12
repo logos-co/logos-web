@@ -24,7 +24,7 @@ renders the rest, so one quiet node doesn't take the view down.
 `/api/chain/stream` turns the node's newline-delimited block stream into
 server-sent events. `/api/chain/search` looks a query up against blocks,
 transactions and accounts, and answers `kind: "none"` when nothing matches.
-It refuses anything that is not hex (`isChainId` in
+It refuses anything that is not a 32-byte hex id (`isChainId` in
 [`src/lib/chain-query.ts`](../src/lib/chain-query.ts)) before calling the node,
 so a query cannot add `/`, `?`, `#` or `..` to the node URL. The block page
 checks its `id` the same way.

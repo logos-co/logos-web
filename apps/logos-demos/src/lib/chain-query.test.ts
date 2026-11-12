@@ -1,24 +1,28 @@
 import { describe, expect, it } from 'vitest'
 
-import { isChainId, MAX_CHAIN_ID_LENGTH } from './chain-query'
+import { isChainId } from './chain-query'
+
+const ID = 'a1B2c3d4'.repeat(8)
 
 describe('isChainId', () => {
-  it('accepts hex ids', () => {
-    expect(isChainId('a1B2c3')).toBe(true)
-    expect(isChainId('f'.repeat(MAX_CHAIN_ID_LENGTH))).toBe(true)
+  it('accepts 32-byte hex ids, with or without 0x', () => {
+    expect(isChainId(ID)).toBe(true)
+    expect(isChainId(`0x${ID}`)).toBe(true)
   })
 
   it('refuses anything that could change the node URL', () => {
     for (const value of [
       '',
       '../network/info#',
-      'abc/def',
-      'abc?x=1',
-      'abc#frag',
+      `${ID}/../../network/info`,
+      `${ID}?x=1`,
+      `${ID}#frag`,
+      `${ID}\n`,
+      `\n${ID}`,
       '%2e%2e',
-      'abc def',
-      'xyz',
-      'f'.repeat(MAX_CHAIN_ID_LENGTH + 1),
+      'z'.repeat(64),
+      ID.slice(1),
+      `${ID}0`,
     ]) {
       expect(isChainId(value)).toBe(false)
     }
