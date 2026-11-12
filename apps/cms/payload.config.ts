@@ -82,9 +82,12 @@ if (!databaseUrl) {
 }
 
 const payloadSecret = process.env.PAYLOAD_SECRET
-if (isProduction && !payloadSecret) {
+// Required in every environment. `pnpm dev` (scripts/dev.ts) generates a
+// random per-run secret when none is configured; there is no shared fallback.
+if (!payloadSecret) {
   throw new Error(
-    'PAYLOAD_SECRET environment variable is required in production'
+    'PAYLOAD_SECRET is required. Generate one with `openssl rand -hex 32` ' +
+      'and set it in apps/cms/.env, or start the CMS with `pnpm dev`.'
   )
 }
 
@@ -191,7 +194,7 @@ export default buildConfig({
     push: process.env.PAYLOAD_DB_PUSH !== 'false',
   }),
   editor: lexicalEditor(),
-  secret: payloadSecret || 'dev-only-insecure-secret',
+  secret: payloadSecret,
   serverURL,
   typescript: {
     declare: false,

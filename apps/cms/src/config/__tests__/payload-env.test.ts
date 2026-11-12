@@ -129,6 +129,16 @@ const readPayloadRuntimeURLs = async (
 }
 
 describe('Payload production env guard', () => {
+  it('refuses to boot without PAYLOAD_SECRET outside production', async () => {
+    const result = await importPayloadConfig({
+      DATABASE_URL: 'postgresql://user:pass@localhost:5432/logos',
+      NODE_ENV: 'development',
+      PAYLOAD_SECRET: undefined,
+    })
+
+    assert.match(result.stderr, /PAYLOAD_SECRET is required/)
+  })
+
   it('refuses self-hosted production without an explicit CMS origin', async () => {
     const result = await importPayloadConfig({
       DATABASE_URL: 'postgresql://user:pass@localhost:5432/logos',

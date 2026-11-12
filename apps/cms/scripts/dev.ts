@@ -1,5 +1,7 @@
 import { spawn } from 'node:child_process'
+import { createRequire } from 'node:module'
 
+import { resolveDevPayloadSecret } from './dev-payload-secret'
 import {
   createAutoSubmitState,
   isLocalSchemaPushAutomationAllowed,
@@ -16,8 +18,25 @@ if (!isLocalSchemaPushAutomationAllowed(process.env)) {
   process.exit(1)
 }
 
+interface NextEnv {
+  loadEnvConfig: (dir: string, dev?: boolean) => unknown
+}
+
+// Load apps/cms/.env* the same way `next dev` will, so a configured
+// PAYLOAD_SECRET is detected before deciding to generate one.
+const require = createRequire(import.meta.url)
+const { loadEnvConfig } = require('@next/env') as NextEnv
+loadEnvConfig(process.cwd(), true)
+
+const payloadSecret = resolveDevPayloadSecret(process.env.PAYLOAD_SECRET)
+if (payloadSecret.generated) {
+  console.warn(
+    'PAYLOAD_SECRET is unset; using a random secret for this dev run. Sessions reset on restart.'
+  )
+}
+
 const child = spawn('next', ['dev', '--port', '3001'], {
-  env: process.env,
+  env: { ...process.env, PAYLOAD_SECRET: payloadSecret.secret },
   stdio: ['pipe', 'pipe', 'pipe'],
 })
 
