@@ -5,13 +5,13 @@
   "title": "Muster",
   "description": "An experiment by Dr. Corey Petty to show the modularity of Basecamp.",
   "seo": {
-    "metaTitle": "Muster Case Study",
+    "metaTitle": "Muster / Logos | Case Study",
     "metaDescription": "An experiment by Dr. Corey Petty to show the modularity of Basecamp.",
     "ogImage": {
-      "src": "/images/muster/cover.webp",
-      "alt": "People gathered inside a concrete pavilion in a meadow",
-      "width": 2172,
-      "height": 724
+      "src": "/images/muster/social-lake.png",
+      "alt": "How Muster enables private coordination through Logos, over a photograph of three people overlooking a mountain lake",
+      "width": 1200,
+      "height": 600
     }
   },
   "sections": [
@@ -27,10 +27,10 @@
         ],
         "note": "Muster is an experiment by Dr. Corey Petty to showcase the modularity of Basecamp. It is shared for informational purposes. It is not reviewed by Logos and it may contain bugs, change without notice, or behave unexpectedly. Use at your own risk.",
         "image": {
-          "src": "/images/muster/cover.webp",
-          "alt": "People gathered inside a concrete pavilion in a meadow",
-          "width": 2172,
-          "height": 724
+          "src": "/images/muster/cover-lake.webp",
+          "alt": "Three people overlooking a turquoise lake in the mountains",
+          "width": 1440,
+          "height": 377
         }
       },
       "intro": {
