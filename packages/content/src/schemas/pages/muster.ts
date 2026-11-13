@@ -13,9 +13,7 @@ const video = mediaRefSchema.extend({
   height: z.number().int().positive(),
 })
 
-const room = textSection
-  .extend({ index: text })
-  .and(z.union([z.object({ video }), z.object({ placeholder: text })]))
+const room = textSection.extend({ index: text, video })
 
 export const musterCopySectionSchema = z.object({
   componentType: z.literal('musterCopy'),

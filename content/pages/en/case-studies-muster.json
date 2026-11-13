@@ -240,7 +240,13 @@
               "Set up a 2-of-3 Monero multisig wallet from a Muster room, fund it, and coordinate the signing of transactions without an intermediary.",
               "Each member's key stays in their own Monero wallet. Muster only facilitates the signing."
             ],
-            "placeholder": "Screenshot to come: a Monero multisig wallet in a Muster room"
+            "video": {
+              "src": "/videos/muster/xmr-multisig.mp4",
+              "alt": "Monero multisig demo showing a 2-of-3 wallet and a jointly approved payment in Muster",
+              "width": 1280,
+              "height": 800,
+              "poster": "/images/muster/xmr-multisig-poster.webp"
+            }
           },
           {
             "index": "02 / 03",
@@ -263,7 +269,13 @@
               "Share files without storing them on a central server. A file is encrypted before it is stored, and only its content identifier is shared in the room.",
               "Members retrieve it through Logos Storage, so files move privately without handing control to a server."
             ],
-            "placeholder": "Screenshot to come: FileShare in a Muster room"
+            "video": {
+              "src": "/videos/muster/fileshare.mp4",
+              "alt": "FileShare demo showing a file sent and received in a Muster room",
+              "width": 1280,
+              "height": 800,
+              "poster": "/images/muster/fileshare-poster.webp"
+            }
           }
         ]
       },

@@ -22,11 +22,7 @@ export function Rooms({ copy }: { copy: MusterCopySection['rooms'] }) {
                 <h3 className="muster-subheading">{room.title}</h3>
                 <Paragraphs body={room.body} />
               </div>
-              {'video' in room ? (
-                <DemoVideo video={room.video} />
-              ) : (
-                <p className="muster-room-placeholder">{room.placeholder}</p>
-              )}
+              <DemoVideo video={room.video} />
             </section>
           ))}
         </div>
