@@ -46,8 +46,9 @@ apps/api/
    in Vercel Preview, Vercel Production and other production runs. Local
    development and tests can omit the secret to skip verification.
 5. Forward the steward application (`afformActivistLeaderSteward`) to the
-   n8n/Baserow webhook. Best-effort: a failure is logged and the request
-   continues.
+   n8n/Baserow webhook with a five-second timeout. Best-effort: a failure or
+   timeout is logged and the request continues to Notion. This limit also
+   applies while reading the webhook response.
 6. Write the Notion page and answer `201`, or answer `201` without writing when
    `FUNNEL_INTAKE_NOTION_DISABLED` is truthy. A Notion failure is a `502`.
 
