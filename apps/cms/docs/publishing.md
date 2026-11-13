@@ -40,7 +40,10 @@ single shared file, so edits to different resources in one of those lists go int
 The CMS only reuses or merges an open PR that the CMS GitHub App opened from a branch with the
 configured content branch prefix against the configured PR base branch. Its full diff must contain
 only `content/**` JSON files and image uploads under `apps/web/public/cms/uploads/`, all regular
-files. Anything else stops the save or the merge with an error.
+files. The Media collection accepts raster images only. The CMS also rejects non-raster uploads
+referenced by a save or added or modified by a merge, including SVG files in older draft PRs.
+When you replace an SVG in a tracked draft, the save also undoes the draft's changes to the SVG
+so you can merge the same PR.
 
 **Merge** sends the PR head commit you were shown, and the CMS merges that exact commit. If someone
 saved a newer change since you loaded the page, the CMS asks you to refresh and review the PR again

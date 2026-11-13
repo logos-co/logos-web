@@ -35,7 +35,7 @@ function mockGithub({
   mode = '100644',
 }: {
   request?: typeof pr
-  files?: { filename: string; previous_filename?: string }[]
+  files?: { filename: string; previous_filename?: string; status?: string }[]
   mode?: string
 } = {}) {
   const writes: string[] = []
@@ -104,6 +104,29 @@ describe('CMS merge boundary', () => {
       files: [
         { filename: record },
         { filename: 'apps/web/public/cms/uploads/photo.heic' },
+      ],
+    })
+    assert.equal((await mergePullRequestToBase(input)).merged, true)
+    assert.deepEqual(writes, ['ready', 'merge'])
+  })
+
+  it('rejects an SVG in an existing draft before making it ready', async () => {
+    const writes = mockGithub({
+      files: [record, 'apps/web/public/cms/uploads/logo.svg'].map(
+        (filename) => ({
+          filename,
+          status: 'added',
+        })
+      ),
+    })
+    await assert.rejects(mergePullRequestToBase(input), /must be raster images/)
+    assert.deepEqual(writes, [])
+  })
+
+  it('allows removing a legacy SVG', async () => {
+    const writes = mockGithub({
+      files: [
+        { filename: 'apps/web/public/cms/uploads/logo.svg', status: 'removed' },
       ],
     })
     assert.equal((await mergePullRequestToBase(input)).merged, true)

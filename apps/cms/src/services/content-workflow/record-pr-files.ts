@@ -1,11 +1,18 @@
-import type { FileChange, listManagedPullRequests } from '@repo/content/github'
+import {
+  isAllowedCmsUpload,
+  type FileChange,
+  type listManagedPullRequests,
+} from '@repo/content/github'
 import type { SaveAsPullRequestDependencies } from './save-as-pr'
 import { getReferencedUploadPaths } from './media-file-changes'
 
 type OpenPr = Awaited<ReturnType<typeof listManagedPullRequests>>[number]
+const CMS_UPLOAD_DIR = 'apps/web/public/cms/uploads/'
+
 interface RecordPr {
   pr: OpenPr
   diff: string[]
+  blockedUploads: string[]
   mergeBase: string
 }
 
@@ -53,11 +60,14 @@ export async function findRecordPullRequest(
       ((pr.title && recordSubject(pr.title) === recordSubject(title)) ||
         pr.body?.split(/\r?\n/).includes(`- updates: \`${paths[0]}\``))
     if (!matchesFile && !keyedBranch && !legacyMirror) continue
-    const diff = await dependencies.verifyContentDiff(pr, comparison)
+    const diff = await dependencies.verifyContentDiff(pr, {
+      comparison,
+      allowLegacyUploads: true,
+    })
     if (legacyMirror) {
       if (
         !diff.length ||
-        !diff.every((path) => path.startsWith('apps/web/public/cms/uploads/'))
+        !diff.every((path) => path.startsWith(CMS_UPLOAD_DIR))
       )
         continue
       const referenced = await referencedUploads(
@@ -70,14 +80,25 @@ export async function findRecordPullRequest(
     }
     if (
       diff.some(
-        (path) =>
-          !paths.includes(path) &&
-          !path.startsWith('apps/web/public/cms/uploads/')
+        (path) => !paths.includes(path) && !path.startsWith(CMS_UPLOAD_DIR)
       )
     ) {
       throw new Error('This content PR includes changes to a different record')
     }
-    candidates.push({ pr, diff, mergeBase: comparison.mergeBaseSha })
+    const blockedUploads = (comparison.files ?? [])
+      .filter(
+        ({ filename, status }) =>
+          status !== 'removed' &&
+          filename.startsWith(CMS_UPLOAD_DIR) &&
+          !isAllowedCmsUpload(filename)
+      )
+      .map(({ filename }) => filename)
+    candidates.push({
+      pr,
+      diff,
+      blockedUploads,
+      mergeBase: comparison.mergeBaseSha,
+    })
   }
   if (candidates.length > 1) {
     throw new Error(
@@ -94,21 +115,26 @@ export async function recoverRemovedUploads(
   dependencies: Pick<
     SaveAsPullRequestDependencies,
     'readContentJson' | 'getFileBlobShas'
-  >
+  >,
+  hasMatchingMirror: boolean
 ): Promise<FileChange[]> {
   const retained = new Set(mediaChanges.map((change) => change.path))
-  const orphaned = candidate.diff.filter(
-    (path) =>
-      path.startsWith('apps/web/public/cms/uploads/') && !retained.has(path)
+  // A tracked draft can already contain an orphaned upload from an earlier save.
+  // Only undo the changes that would still block its merge.
+  const candidates = hasMatchingMirror
+    ? candidate.blockedUploads
+    : candidate.diff
+  const orphaned = candidates.filter(
+    (path) => path.startsWith(CMS_UPLOAD_DIR) && !retained.has(path)
   )
   if (!orphaned.length) return []
-  const referenced = await referencedUploads(
-    paths,
-    candidate.pr.headSha,
-    dependencies
-  )
-  for (const path of orphaned) {
-    if (!referenced.has(path))
+  if (!hasMatchingMirror) {
+    const referenced = await referencedUploads(
+      paths,
+      candidate.pr.headSha,
+      dependencies
+    )
+    if (orphaned.some((path) => !referenced.has(path)))
       throw new Error('This content PR includes an unrelated upload')
   }
   const blobs = await dependencies.getFileBlobShas(

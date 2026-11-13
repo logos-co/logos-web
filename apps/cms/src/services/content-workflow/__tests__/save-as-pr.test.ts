@@ -3,6 +3,15 @@ import { mkdir, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { afterEach, describe, it } from 'node:test'
 
+import {
+  __resetGithubConfigForTests,
+  __resetOctokitForTests,
+  getOctokit,
+  mergePullRequestToBase,
+  setGithubConfig,
+  verifyContentDiff,
+} from '@repo/content/github'
+
 import { buildContentBranchName, contentBranchStem } from '../branch-naming'
 import {
   createSaveAsPullRequest,
@@ -399,6 +408,143 @@ describe('createSaveAsPullRequest', () => {
       })
     )
     assert.equal((await save(createInput(payload))).pullRequestNumber, 42)
+  })
+
+  it('replaces SVGs in a tracked draft and lets the same PR merge', async () => {
+    const targetPath = 'content/pages/en/home.json'
+    const uploadDir = 'apps/web/public/cms/uploads'
+    const addedSvg = `${uploadDir}/added.svg`
+    const modifiedSvg = `${uploadDir}/modified.svg`
+    const removedSvg = `${uploadDir}/removed.svg`
+    const retainedImage = `${uploadDir}/other.webp`
+    const newImage = `${uploadDir}/hero.webp`
+    const diff = new Map([
+      [targetPath, 'modified'],
+      [addedSvg, 'added'],
+      [modifiedSvg, 'modified'],
+      [removedSvg, 'removed'],
+      [retainedImage, 'added'],
+    ])
+    const compare = () =>
+      [...diff].map(([filename, status]) => ({ filename, status }))
+    const { payload } = createPayload([
+      [
+        {
+          id: 1,
+          targetPath,
+          status: 'draft',
+          branchName: managedPr.branchName,
+          pullRequestNumber: managedPr.number,
+          commitSha: managedPr.headSha,
+        },
+      ],
+    ])
+    await mkdir(join(publicRoot, 'cms/uploads'), { recursive: true })
+    await writeFile(join(publicRoot, 'cms/uploads/hero.webp'), 'fake-image')
+
+    let headSha = managedPr.headSha
+    const dependencies = createDependencies({
+      listManagedPullRequests: async () => [managedPr],
+      compareContentFiles: async () => ({
+        files: compare() as never,
+        mergeBaseSha: 'base',
+      }),
+      verifyContentDiff,
+      getFileBlobShas: async (files, ref) => {
+        assert.equal(ref, 'base')
+        assert.deepEqual(files, [addedSvg, modifiedSvg])
+        return new Map([[modifiedSvg, 'base-svg-blob']])
+      },
+      createBranchAtSha: async () => assert.fail('must reuse the draft'),
+      commitFiles: async ({ branch, changes, expectedHeadSha }) => {
+        assert.equal(branch, managedPr.branchName)
+        assert.equal(expectedHeadSha, headSha)
+        assert.deepEqual(changes.slice(2), [
+          { path: addedSvg, deleted: true },
+          { path: modifiedSvg, blobSha: 'base-svg-blob' },
+        ])
+        for (const change of changes) {
+          if ('deleted' in change) diff.delete(change.path)
+          else if ('blobSha' in change) {
+            assert.equal(change.blobSha, 'base-svg-blob')
+            diff.delete(change.path)
+          } else {
+            diff.set(
+              change.path,
+              change.path === targetPath ? 'modified' : 'added'
+            )
+          }
+        }
+        headSha = 'replacement-head'
+        return { commitSha: headSha }
+      },
+    })
+    __resetOctokitForTests()
+    setGithubConfig(dependencies.getGithubConfig())
+    const writes: string[] = []
+    getOctokit().hook.wrap('request', async (_, options) => {
+      let data: unknown
+      switch (options.url) {
+        case '/app':
+          data = { slug: 'cms' }
+          break
+        case '/repos/{owner}/{repo}/pulls/{pull_number}':
+          data = {
+            number: managedPr.number,
+            state: 'open',
+            draft: true,
+            node_id: managedPr.nodeId,
+            html_url: managedPr.htmlUrl,
+            user: { type: 'Bot', login: 'cms[bot]' },
+            base: { ref: 'develop', sha: managedPr.baseSha },
+            head: {
+              ref: managedPr.branchName,
+              sha: headSha,
+              repo: { full_name: 'logos-co/logos-co' },
+            },
+          }
+          break
+        case '/repos/{owner}/{repo}/compare/{basehead}':
+          data = { files: compare(), merge_base_commit: { sha: 'base' } }
+          break
+        case '/repos/{owner}/{repo}/git/trees/{tree_sha}':
+          assert.equal(options.tree_sha, headSha)
+          data = {
+            truncated: false,
+            tree: compare()
+              .filter(({ status }) => status !== 'removed')
+              .map(({ filename }) => ({ path: filename, mode: '100644' })),
+          }
+          break
+        case '/graphql':
+          writes.push('ready')
+          data = { data: {} }
+          break
+        case '/repos/{owner}/{repo}/pulls/{pull_number}/merge':
+          assert.equal(options.pull_number, managedPr.number)
+          assert.equal(options.sha, 'replacement-head')
+          writes.push('merge')
+          data = { merged: true, sha: 'merged' }
+          break
+        default:
+          assert.fail(`Unexpected GitHub call: ${options.url}`)
+      }
+      return { status: 200, headers: {}, url: options.url, data } as never
+    })
+    try {
+      const save = createSaveAsPullRequest(dependencies)
+      const result = await save(createInput(payload, { withMedia: true }))
+      assert.equal(result.pullRequestNumber, managedPr.number)
+      assert.equal(diff.get(newImage), 'added')
+      assert.equal(diff.get(retainedImage), 'added')
+      assert.equal(diff.get(removedSvg), 'removed')
+      const merge = await mergePullRequestToBase(result)
+      assert.equal(merge.merged, true)
+      assert.deepEqual(writes, ['ready', 'merge'])
+    } finally {
+      __resetOctokitForTests()
+      __resetGithubConfigForTests()
+    }
   })
 
   it('rejects a recovered PR carrying an upload not referenced by the saved record', async () => {
