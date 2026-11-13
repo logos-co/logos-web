@@ -6,7 +6,7 @@ The page renders these sections in order: cover and intro, basics, architecture,
 
 Each section's content container spans the viewport with 12px side padding, matching the RAILGUN case study.
 
-Page copy and CTA destinations come from [case-studies-muster.json](../../../content/pages/en/case-studies-muster.json). The supplied JPEG lake banner is preserved without further compression and is separate from the 1200 x 600 social card, which includes its own text and is used for Open Graph and Twitter previews. The link-preview title is "Muster / Logos | Case Study". Diagram assets follow the [desktop Figma frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3957-17134). The architecture columns and seven PriFi stages stack on narrow screens.
+Page copy and CTA destinations come from [case-studies-muster.json](../../../content/pages/en/case-studies-muster.json). The supplied JPEG lake banner is preserved without further compression and is separate from the 1200 x 630 JPEG social card, which includes its own text and is used for Open Graph and Twitter previews. The social card crops the supplied artwork from the left to preserve its title and right margin. The link-preview title is "Muster / Logos | Case Study". Diagram assets follow the [desktop Figma frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Designs?node-id=3957-17134). The architecture columns and seven PriFi stages stack on narrow screens.
 
 The PriFi timeline shows Discovery, Diligence, Negotiation, Contracting, Ordering, Settlement and Enforcement & Recourse, in the order the content file lists them. The first six stages use a solid marker and the seventh uses the in-development marker.
 
