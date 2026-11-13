@@ -21,7 +21,7 @@ pnpm --filter web start      # serves out/ on port 3000 with python3 -m http.ser
 
 Build through turbo, never `pnpm --filter web build`: `@acid-info/logos-ui` must be compiled first and only turbo's task graph does that. Vercel and Jenkins run the same command.
 
-The build script runs `sync:basecamp-release`, `sync:active-circles` and `generate:media-assets` before `next build`, then copies the past-present-future export into `out/` and strips the `/en` prefix. Basecamp install CTAs get their download URLs from the latest full GitHub release, and a rejected release fails the build. See [docs/basecamp-release.md](docs/basecamp-release.md).
+The build script runs `sync:basecamp-release`, `sync:active-circles` and `generate:media-assets` before `next build --webpack`, then copies the past-present-future export into `out/` and strips the `/en` prefix. The bundler choice is explained in [docs/fonts.md](docs/fonts.md#google-fonts). Basecamp install CTAs get their download URLs from the latest full GitHub release, and a rejected release fails the build. See [docs/basecamp-release.md](docs/basecamp-release.md).
 
 [Article sharing metadata](app/[locale]/media/article/[slug]/page.tsx) uses the CMS OG image when it has positive width and height, otherwise the article cover. Open Graph, Twitter and Article JSON-LD use the same selection.
 
