@@ -75,7 +75,7 @@ export function SelectField({
           aria-label={label || placeholder}
           aria-expanded={isOpen}
           aria-haspopup="listbox"
-          className="flex h-11 w-full items-center justify-between gap-2 px-3 text-left font-sans text-[16px] text-brand-dark-green disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex h-11 w-full cursor-pointer items-center justify-between gap-2 px-3 text-left font-sans text-[16px] text-brand-dark-green disabled:cursor-not-allowed disabled:opacity-60"
         >
           <span className={cn('truncate', !value && 'text-brand-dark-green/50')}>
             {selected?.label ?? placeholder}
@@ -104,7 +104,7 @@ export function SelectField({
                   onClose()
                 }}
                 className={cn(
-                  'w-full px-3 py-2 text-left font-sans text-[14px] hover:bg-brand-dark-green/5',
+                  'w-full cursor-pointer px-3 py-2 text-left font-sans text-[14px] hover:bg-brand-dark-green/5',
                   value === opt.value && 'bg-brand-dark-green/10 font-semibold'
                 )}
               >
