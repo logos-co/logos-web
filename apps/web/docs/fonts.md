@@ -22,3 +22,8 @@ To add a self-hosted font, verify the license with the brand owner first, add a 
 - Open Sans (400), `--next-font-article`
 - Fira Code (400/500), `--next-font-mono`
 - Fira Mono (400/700), `--next-font-mono-body`
+
+The web build uses `next build --webpack` because the Turbopack Google font
+loader failed to resolve Fira Code during deployment. Fonts and their options
+are unchanged. Once a normal Turbopack build succeeds with the same fonts,
+remove `--webpack` from `build:app` in [`package.json`](../package.json).

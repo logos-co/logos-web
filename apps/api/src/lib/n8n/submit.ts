@@ -20,6 +20,7 @@ export async function submitToN8n(
   try {
     const res = await fetch(N8N_STEWARD_WEBHOOK_URL, {
       method: 'POST',
+      signal: AbortSignal.timeout(5_000),
       headers: {
         'Content-Type': 'application/json',
         'X-Webhook-Token': token,
