@@ -35,8 +35,9 @@ apps/api
 ```
 
 hCaptcha tokens are single-use, so the browser makes one POST and the endpoint
-does every write behind a single verification. That is why all three forms
-share one handler. Once the POST succeeds, `apps/web` sends the
+does every write behind a single verification. If verification is unavailable
+because the deployed API is missing its hCaptcha secret, the application is not
+saved. Once the POST succeeds, `apps/web` sends the
 [newsletter opt-ins](#newsletter-opt-ins) on its own; they are not part of the
 intake request.
 

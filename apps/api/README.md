@@ -21,8 +21,8 @@ Copy `.env.example` to `.env`. Notion writes need `NOTION_API_TOKEN` and
 forwarding needs `N8N_STEWARD_WEBHOOK_TOKEN`. Every variable is commented in
 [.env.example](.env.example).
 
-Two values are worth knowing for local runs. Leaving `HCAPTCHA_SECRET` unset
-turns verification off instead of failing, and setting
+Local development can leave `HCAPTCHA_SECRET` unset to skip verification.
+Deployed endpoints require it. Setting
 `FUNNEL_INTAKE_NOTION_DISABLED=1` skips the Notion write while still answering
 `201`.
 

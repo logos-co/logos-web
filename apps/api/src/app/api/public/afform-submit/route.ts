@@ -6,8 +6,6 @@ import { submitToN8n } from '@/lib/n8n/submit'
 import { resolveHearAboutLabel } from '@/lib/notion/build-notion-properties'
 import { submitToNotion } from '@/lib/notion/submit'
 
-const HCAPTCHA_SECRET = process.env.HCAPTCHA_SECRET ?? ''
-
 // Only the steward application funnels to the Circles n8n/Baserow CRM webhook.
 const N8N_STEWARD_FORM = 'afformActivistLeaderSteward'
 
@@ -20,6 +18,7 @@ const ALLOWED_FORMS = new Set([
 ])
 
 async function verifyHCaptcha(
+  secret: string,
   token: string,
   remoteip: string
 ): Promise<boolean> {
@@ -27,7 +26,7 @@ async function verifyHCaptcha(
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
-      secret: HCAPTCHA_SECRET,
+      secret,
       response: token,
       remoteip,
     }),
@@ -98,13 +97,30 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  if (HCAPTCHA_SECRET) {
+  const captchaSecret = process.env.HCAPTCHA_SECRET?.trim()
+  if (captchaSecret) {
     if (!captchaToken || typeof captchaToken !== 'string') {
       return jsonResponse({ error: 'Captcha token missing' }, 400)
     }
-    const valid = await verifyHCaptcha(captchaToken, getClientIp(req))
+    const valid = await verifyHCaptcha(
+      captchaSecret,
+      captchaToken,
+      getClientIp(req)
+    )
     if (!valid) {
       return jsonResponse({ error: 'Captcha verification failed' }, 403)
+    }
+  } else {
+    const isLocalRuntime =
+      process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
+    const isVercelDeployment =
+      process.env.VERCEL_ENV === 'preview' ||
+      process.env.VERCEL_ENV === 'production'
+    if (!isLocalRuntime || isVercelDeployment) {
+      return jsonResponse(
+        { error: 'Captcha verification is temporarily unavailable' },
+        503
+      )
     }
   }
 

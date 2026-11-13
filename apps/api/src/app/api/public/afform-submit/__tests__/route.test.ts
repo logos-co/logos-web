@@ -75,6 +75,8 @@ function makeRequest(body: Record<string, unknown>) {
 
 describe('POST /api/public/afform-submit', () => {
   beforeEach(() => {
+    vi.stubEnv('HCAPTCHA_SECRET', undefined)
+    vi.stubEnv('VERCEL_ENV', undefined)
     vi.stubGlobal('fetch', vi.fn())
     vi.mocked(isNotionIntakeSubmitEnabled).mockReturnValue(true)
     vi.mocked(submitToNotion).mockResolvedValue({ ok: true })
@@ -83,6 +85,7 @@ describe('POST /api/public/afform-submit', () => {
 
   afterEach(() => {
     vi.clearAllMocks()
+    vi.unstubAllEnvs()
     vi.unstubAllGlobals()
   })
 
@@ -97,6 +100,68 @@ describe('POST /api/public/afform-submit', () => {
       'afformActivistBuilder'
     )
   })
+
+  it.each([
+    { nodeEnv: 'production', vercelEnv: undefined, secret: undefined },
+    { nodeEnv: 'development', vercelEnv: 'production', secret: '' },
+    { nodeEnv: 'development', vercelEnv: 'preview', secret: '  ' },
+  ])(
+    'does not write when the secret is missing in $nodeEnv / $vercelEnv',
+    async ({ nodeEnv, vercelEnv, secret }) => {
+      vi.stubEnv('NODE_ENV', nodeEnv)
+      vi.stubEnv('VERCEL_ENV', vercelEnv)
+      vi.stubEnv('HCAPTCHA_SECRET', secret)
+
+      const res = await POST(
+        makeRequest(validPayload('afformActivistLeaderSteward'))
+      )
+
+      expect(res.status).toBe(503)
+      expect(fetch).not.toHaveBeenCalled()
+      expect(submitToNotion).not.toHaveBeenCalled()
+      expect(submitToN8n).not.toHaveBeenCalled()
+    }
+  )
+
+  it('requires a token when the secret is configured', async () => {
+    vi.stubEnv('HCAPTCHA_SECRET', 'test-secret')
+    vi.stubEnv('VERCEL_ENV', 'preview')
+
+    const res = await POST(
+      makeRequest(validPayload('afformActivistLeaderSteward'))
+    )
+
+    expect(res.status).toBe(400)
+    expect(await res.json()).toEqual({ error: 'Captcha token missing' })
+    expect(fetch).not.toHaveBeenCalled()
+    expect(submitToNotion).not.toHaveBeenCalled()
+    expect(submitToN8n).not.toHaveBeenCalled()
+  })
+
+  it.each([
+    { success: true, status: 201, writes: 1 },
+    { success: false, status: 403, writes: 0 },
+  ])(
+    'verifies a token once before any writes and returns $status',
+    async ({ success, status, writes }) => {
+      vi.stubEnv('NODE_ENV', 'production')
+      vi.stubEnv('HCAPTCHA_SECRET', 'test-secret')
+      vi.mocked(fetch).mockResolvedValue(Response.json({ success }))
+
+      const res = await POST(
+        makeRequest(
+          validPayload('afformActivistLeaderSteward', {
+            captchaToken: 'test-token',
+          })
+        )
+      )
+
+      expect(res.status).toBe(status)
+      expect(fetch).toHaveBeenCalledTimes(1)
+      expect(submitToNotion).toHaveBeenCalledTimes(writes)
+      expect(submitToN8n).toHaveBeenCalledTimes(writes)
+    }
+  )
 
   it('rejects an unknown form name', async () => {
     const res = await POST(
