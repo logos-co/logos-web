@@ -25,6 +25,8 @@ The build script runs `sync:basecamp-release`, `sync:active-circles` and `genera
 
 [Article sharing metadata](app/[locale]/media/article/[slug]/page.tsx) uses the CMS OG image when it has positive width and height, otherwise the article cover. Open Graph, Twitter and Article JSON-LD use the same selection.
 
+The public origin comes from `canonicalUrl` in [site settings](../../content/site/en/settings.json), currently `https://logos.co`. Canonical links, social metadata, structured data, sitemap entries and production robots directives use this origin in every deployment. Deployment hostnames do not override it; staging builds remain closed to crawlers through `NEXT_PUBLIC_API_MODE`.
+
 ## Environment
 
 Copy [.env.example](.env.example) to `.env.local` (or `.env`). Add new variables to [`lib/env.ts`](lib/env.ts) instead of reading `process.env` from feature code.

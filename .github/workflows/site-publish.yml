@@ -78,7 +78,6 @@ jobs:
         run: PRESS_CONTENT_SNAPSHOT="$GITHUB_WORKSPACE/site/press-snapshot.json" pnpm turbo run build --filter=web --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NEXT_PUBLIC_SITE_URL: ${{ steps.publication.outputs.site_url }}
           NEXT_PUBLIC_LOGOS_API_URL: ${{ steps.publication.outputs.api_url }}
           NEXT_PUBLIC_API_MODE: ${{ steps.publication.outputs.api_mode }}
           NEXT_PUBLIC_HCAPTCHA_SITEKEY: 2ec82f0e-5f3c-45d2-ba38-223ceb5eee42

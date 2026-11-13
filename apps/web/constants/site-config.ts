@@ -1,5 +1,3 @@
-import { env } from '@/lib/env'
-
 import siteSettings from '../../../content/site/en/settings.json'
 
 type SiteConfig = {
@@ -15,7 +13,7 @@ const siteConfig: SiteConfig = {
   name: 'Logos',
   title: siteSettings.siteTitle,
   description: siteSettings.siteDescription,
-  url: env.NEXT_PUBLIC_SITE_URL ?? 'https://logos.co',
+  url: siteSettings.canonicalUrl,
   keywords: siteSettings.keywords,
   defaultLocale: 'en',
 }

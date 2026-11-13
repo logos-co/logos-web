@@ -26,7 +26,6 @@ describe('env', () => {
       NEXT_PUBLIC_ADMIN_ACID_API_URL: '',
       NEXT_PUBLIC_API_MODE: '',
       NEXT_PUBLIC_CMS_URL: '',
-      NEXT_PUBLIC_SITE_URL: '',
       NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION: '',
       NODE_ENV: '',
     })
@@ -36,7 +35,6 @@ describe('env', () => {
       NEXT_PUBLIC_ADMIN_ACID_API_URL: undefined,
       NEXT_PUBLIC_API_MODE: undefined,
       NEXT_PUBLIC_CMS_URL: undefined,
-      NEXT_PUBLIC_SITE_URL: undefined,
       NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION: false,
     })
   })

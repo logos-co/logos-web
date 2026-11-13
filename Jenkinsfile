@@ -96,7 +96,6 @@ pipeline {
             string(credentialsId: 'logos-web-simplecast-access-token', variable: 'SIMPLECAST_ACCESS_TOKEN'),
           ]) {
             withEnv([
-              "NEXT_PUBLIC_SITE_URL=https://${deployDomain()}",
               "NEXT_PUBLIC_LOGOS_API_URL=${logosApiUrl()}",
               "NEXT_PUBLIC_HCAPTCHA_SITEKEY=${params.NEXT_PUBLIC_HCAPTCHA_SITEKEY}",
               "NEXT_PUBLIC_API_MODE=${apiMode()}",
@@ -110,7 +109,6 @@ pipeline {
                 // External CMS changes do not change Turbo's source hash.
                 nix.develop('pnpm turbo run build --filter=web --force',
                   keepEnv: [
-                    'NEXT_PUBLIC_SITE_URL',
                     'NEXT_PUBLIC_LOGOS_API_URL',
                     'NEXT_PUBLIC_HCAPTCHA_SITEKEY',
                     'NEXT_PUBLIC_API_MODE',

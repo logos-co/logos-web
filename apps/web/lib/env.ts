@@ -32,11 +32,6 @@ export type Env = {
    */
   BASE_PATH: string | undefined
   /**
-   * Public site URL (e.g. `https://logos-co-web.vercel.app`). Used for
-   * canonical, OG and Twitter absolute URLs. Set per environment.
-   */
-  NEXT_PUBLIC_SITE_URL: string | undefined
-  /**
    * Public CMS origin (e.g. `https://cms.logos.co` or `http://localhost:3001`).
    * Optional — only required by features that read directly from the Payload
    * REST/GraphQL API at runtime (preview tokens, draft fetches). The default
@@ -119,7 +114,6 @@ export const env: Env = {
     true
   ),
   BASE_PATH: readOptionalString(process.env.BASE_PATH),
-  NEXT_PUBLIC_SITE_URL: readOptionalString(process.env.NEXT_PUBLIC_SITE_URL),
   NEXT_PUBLIC_CMS_URL: readOptionalString(process.env.NEXT_PUBLIC_CMS_URL),
   NEXT_PUBLIC_ADMIN_ACID_API_URL: readOptionalString(
     process.env.NEXT_PUBLIC_ADMIN_ACID_API_URL
