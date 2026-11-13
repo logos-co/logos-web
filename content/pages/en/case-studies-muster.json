@@ -34,10 +34,10 @@
         }
       },
       "intro": {
-        "lead": "Muster is an open-source coordination client built on Logos. A group opens a room, agrees what to do, and does it, with privacy proven at every step.",
+        "lead": "Muster is a local-first coordination client built on Logos. A group opens a room, agrees what to do, and does it, with privacy proven at every step.",
         "body": [
           "It runs inside Logos Basecamp, and keeps a transparent record of exposure at every step.",
-          "Muster uses Basecamp to plug into other modules built on Logos, including Delivery, the Logos Execution Zone, Logos Storage and RLN."
+          "Muster uses Basecamp to plug into other modules built on Logos, including Delivery, the Logos Execution Zone, Logos Storage, and RLN."
         ],
         "ctas": [
           {
@@ -52,7 +52,7 @@
         "stats": [
           {
             "title": "3",
-            "body": "Kinds of room in use today: a Monero multisig wallet, a bill split and a file share."
+            "body": "Rooms in use today: a Monero multisig wallet, a bill split and a file share."
           },
           {
             "title": "4",
@@ -73,7 +73,7 @@
       },
       "basics": {
         "room": {
-          "title": "What is Muster",
+          "title": "What is Muster?",
           "body": [
             "Muster is a local-first client for coordinating actions between several people inside a conversation. A group splits a bill, runs a shared wallet or shares files, and every proposal, approval and payment is agreed in the room.",
             "The room is peer-to-peer, with no clouds or accounts required. Members propose actions as cards, check exactly what they would be signing, and approve with their own keys.",
@@ -198,8 +198,8 @@
         "title": "Powered by Logos",
         "body": [
           "Every Muster room's communication is encrypted and served over Logos Delivery to its members. Keys rotate whenever someone joins or leaves, securing old data against new arrivals.",
-          "Everything the room does is written to a signed, hash-linked log that only members can read. Proposals, approvals and payment reports are each an entry signed by their author. Every member's client rebuilds the room's state from that log, no servers required.",
-          "Payments settle on whichever chain the group chooses. On the Logos Execution Zone, a payment can be made private, where the chain records no payer, payee or amount."
+          "Everything the room does is written to a signed, hash-linked log that only members can read. Proposals, approvals, and payment reports are each an entry signed by their author. Every member's client rebuilds the room's state from that log, no servers required.",
+          "Payments settle on whichever chain the group chooses. On the Logos Execution Zone, a payment can be made private, where the chain records no payer, payee, or amount."
         ],
         "entries": [
           {
@@ -298,7 +298,7 @@
         "cards": [
           {
             "title": "Stays in the room",
-            "body": "Proposals, terms and approvals pass peer-to-peer over Logos Delivery, encrypted to the room. No server logs who agreed to what.",
+            "body": "Proposals, terms, and approvals pass peer-to-peer over Logos Delivery, encrypted to the room. No server logs who agreed to what.",
             "label": "Logos Delivery"
           },
           {
@@ -320,7 +320,7 @@
       "build": {
         "title": ["Basecamp is open", "to all builders"],
         "body": [
-          "Muster needed a modular framework for privacy-preserving apps. With Basecamp, it delivers encrypted rooms, private settlement and file sharing in one app, on each member's own machine."
+          "Muster needed a modular framework for building privacy-preserving apps. Basecamp gives it the ability to easily deliver encrypted rooms, private settlement, and file-sharing in one app, running on each member's own machine."
         ],
         "image": {
           "src": "/images/muster/mast-and-ivy.webp",
@@ -340,7 +340,7 @@
         "cards": [
           {
             "title": "Try Muster",
-            "body": "Open a room, propose an action and see what stays private at every step.",
+            "body": "Open a room, propose an action, and see what stays private at every step.",
             "ctas": [
               {
                 "label": "Learn more",
