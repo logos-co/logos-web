@@ -41,6 +41,10 @@ saved. Once the POST succeeds, `apps/web` sends the
 [newsletter opt-ins](#newsletter-opt-ins) on its own; they are not part of the
 intake request.
 
+The steward webhook is best-effort and cannot indefinitely delay the Notion
+write. Its timeout is described in the API's
+[request handling](../../apps/api/docs/architecture.md#request-handling).
+
 ## Shared values in @repo/funnel
 
 `packages/funnel` (`@repo/funnel`) holds every value the form and the endpoint
@@ -57,8 +61,8 @@ options, so to reword either you rename the property or option in Notion first.
 
 `src/form-options.ts` has `SKILLS_OPTIONS`, `CHAT_SERVICE_OPTIONS` and
 `COUNTRY_OPTIONS`, the option lists all three forms share. `apps/web` reads them
-through `AFFORM_OPTIONS` (`lib/funnel-forms/afform-options.ts`); `country` has no
-field of its own and is set by the [picked city](#city-suggestions). `apps/api`
+through `AFFORM_OPTIONS` (`lib/funnel-forms/afform-options.ts`); city and country
+entry are described under [city suggestions](#city-suggestions). `apps/api`
 turns ids back into labels with `SKILLS_MAP`, `CHAT_SERVICE_MAP`, `COUNTRY_MAP`
 and `HEAR_ABOUT_MAP`, each built by `toLabelMap()` from the same array. The
 `Skills` labels are also the options of the Notion `Skills` multi_select;
@@ -121,6 +125,21 @@ A city that was typed but not picked has no country, so the form refuses it.
 country on the `city` field. The form shows the `cityPickRequired` message
 ("Pick a city from the list.") under the city field. `country` stays in
 `REQUIRED_FIELDS_BY_FORM` because the intake still requires it.
+
+### Outage recovery
+
+Set `NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION=1` for `apps/web` before building to
+replace city autocomplete with a plain city input and a country dropdown on all
+three intake forms. The dropdown uses the existing `COUNTRY_OPTIONS` ids and
+the country remains required. These forms make no cities API request in this
+mode. hCaptcha, server validation and Notion writes remain enabled. The footer
+newsletter form is unchanged, and newsletter opt-ins still depend on logos-admin.
+
+After the cities API is healthy, remove the variable (or set it to `0`) and
+rebuild the static site. The original autocomplete and picked-city validation
+return without a code change. Removing the variable without rebuilding does
+not change an already published export. Keep the steward webhook timeout as a
+general intake safeguard, independently of this UI switch.
 
 ## Code layout
 

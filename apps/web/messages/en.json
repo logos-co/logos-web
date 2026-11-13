@@ -177,6 +177,7 @@
     }
   },
   "connectForm": {
+    "countryLabel": "Country",
     "submit": "Send",
     "submitting": "Sending...",
     "selectPlaceholder": "Select…",

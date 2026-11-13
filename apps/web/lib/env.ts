@@ -69,6 +69,8 @@ export type Env = {
    * hCaptcha public sitekey for connect forms.
    */
   NEXT_PUBLIC_HCAPTCHA_SITEKEY: string | undefined
+  /** Allow manual city and country entry while the cities API is unavailable. */
+  NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION: boolean
 }
 
 function assertOneOf<T extends string>(
@@ -136,4 +138,11 @@ export const env: Env = {
   NEXT_PUBLIC_HCAPTCHA_SITEKEY: readOptionalString(
     process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY
   ),
+  NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION:
+    assertOneOf(
+      process.env.NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION,
+      ['0', '1'] as const,
+      'NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION',
+      true
+    ) === '1',
 }

@@ -16,6 +16,7 @@ import {
 } from 'react'
 
 import { Button } from '@/components/ui/button'
+import { env } from '@/lib/env'
 import {
   buildFormSchema,
   MAX_TEXT_LENGTH,
@@ -94,15 +95,26 @@ export function ConnectFormSection({
   className,
 }: Props) {
   const t = useTranslations('connectForm')
+  const manualLocation = env.NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION
 
   const formFieldsWithKeys = useMemo(
-    () => (afform.fields ?? []).filter((f) => f.formKey && f.inputType),
-    [afform.fields]
+    () =>
+      (afform.fields ?? [])
+        .filter((f) => f.formKey && f.inputType)
+        .flatMap<AfformField>((field) =>
+          manualLocation && field.formKey === 'city'
+            ? [
+                field,
+                { formKey: 'country', label: 'country', inputType: 'select' },
+              ]
+            : [field]
+        ),
+    [afform.fields, manualLocation]
   )
 
   const { schema: formSchema, requiredFields: REQUIRED_FIELDS } = useMemo(
-    () => buildFormSchema(afform.fields ?? [], requiredFields),
-    [afform.fields, requiredFields]
+    () => buildFormSchema(formFieldsWithKeys, requiredFields),
+    [formFieldsWithKeys, requiredFields]
   )
 
   const initialData = useMemo(
@@ -118,7 +130,7 @@ export function ConnectFormSection({
           getOptionsForField(field, afformOptions),
         ])
       ),
-      // `country` has no field: the picked city sets it.
+      // Autocomplete supplies a country even when no country field is rendered.
       country: afformOptions.country ?? [],
     }),
     [formFieldsWithKeys, afformOptions]
@@ -446,7 +458,10 @@ export function ConnectFormSection({
           const hasFieldError = hasError(field.formKey)
           const isOverLimit =
             typeof value === 'string' && value.length > MAX_TEXT_LENGTH
-          const label = capitalizeLabel(field.label)
+          const label =
+            field.formKey === 'country'
+              ? t('countryLabel')
+              : capitalizeLabel(field.label)
           const placeholder =
             field.inputType === 'select' ? t('selectPlaceholder') : ''
 
@@ -744,7 +759,7 @@ export function ConnectFormSection({
 
           return (
             <div key={field.formKey} className="w-full">
-              {field.formKey === 'city' ? (
+              {field.formKey === 'city' && !manualLocation ? (
                 <CityField
                   {...inputProps}
                   value={String(value ?? '')}

@@ -11,6 +11,9 @@ const { searchCities } = vi.hoisted(() => ({
 }))
 
 vi.mock('@/lib/city-search', () => ({ searchCities }))
+vi.mock('@/lib/env', () => ({
+  env: { NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION: false },
+}))
 
 // Its Link pulls in next-intl navigation, which needs the Next runtime.
 vi.mock('@/components/ui/button', () => ({

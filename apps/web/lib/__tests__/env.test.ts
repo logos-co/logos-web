@@ -27,6 +27,7 @@ describe('env', () => {
       NEXT_PUBLIC_API_MODE: '',
       NEXT_PUBLIC_CMS_URL: '',
       NEXT_PUBLIC_SITE_URL: '',
+      NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION: '',
       NODE_ENV: '',
     })
 
@@ -36,6 +37,7 @@ describe('env', () => {
       NEXT_PUBLIC_API_MODE: undefined,
       NEXT_PUBLIC_CMS_URL: undefined,
       NEXT_PUBLIC_SITE_URL: undefined,
+      NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION: false,
     })
   })
 
@@ -56,5 +58,25 @@ describe('env', () => {
         NODE_ENV: 'production',
       })
     ).rejects.toThrow(/NEXT_PUBLIC_API_MODE="prod" is invalid/)
+  })
+
+  test.each([
+    { value: undefined, expected: false },
+    { value: '0', expected: false },
+    { value: '1', expected: true },
+  ])(
+    'manual location flag $value resolves to $expected',
+    async ({ value, expected }) => {
+      const { env } = await loadEnv({
+        NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION: value,
+      })
+      expect(env.NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION).toBe(expected)
+    }
+  )
+
+  test('rejects an invalid manual location flag', async () => {
+    await expect(
+      loadEnv({ NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION: 'true' })
+    ).rejects.toThrow(/NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION="true" is invalid/)
   })
 })
