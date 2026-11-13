@@ -135,7 +135,8 @@ export default function SiteHeaderClient({
     normalizedPathname.endsWith(ROUTES.about) ||
     normalizedPathname.endsWith(ROUTES.buildTheParallel) ||
     normalizedPathname.endsWith(ROUTES.fieldStation) ||
-    normalizedPathname.endsWith(ROUTES.prifi)
+    normalizedPathname.endsWith(ROUTES.prifi) ||
+    normalizedPathname === ROUTES.muster
   const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.media)
   const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
   const usesAccentTanHeaderTone =
