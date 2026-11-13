@@ -11,8 +11,6 @@ import {
   createWebSiteJsonLd,
 } from '@/lib/structured-data'
 
-// Derived, not hardcoded: siteConfig.url comes from NEXT_PUBLIC_SITE_URL, which
-// is set in some environments. These cases assert URL shape, not the hostname.
 const BASE_URL = siteConfig.url.replace(/\/+$/, '')
 
 describe('structured data', () => {
