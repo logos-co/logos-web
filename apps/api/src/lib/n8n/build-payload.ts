@@ -1,3 +1,4 @@
+import { NOTION_TEXT_MAX_LENGTH } from '@/lib/notion/constants'
 import {
   CHAT_SERVICE_MAP,
   COUNTRY_MAP,
@@ -15,17 +16,45 @@ export type IdLabel = { id: string; label: string }
 // stays connected to its service and the webhook needn't re-pair them.
 export type ChatEntry = { handle: string; service?: IdLabel }
 
-// The web client (buildInitialData) seeds a hardcoded, never-populated `socials`
-// key that is always '' and has no matching form field, so it is dropped here.
-const STRAY_KEYS = ['socials'] as const
+// The steward form's field keys: the fields in
+// `apps/web/lib/funnel-forms/afform-activist-leader-steward.ts`, plus `country`
+// (set by the city picker) and `hearAbout` (inserted by `withHearAboutField`). Only these keys reach the webhook: anything else a
+// client sends (`status`, `reviewer`, the never-populated `socials` seed) is
+// dropped so it cannot land in a Baserow column of the same name.
+const TEXT_KEYS = [
+  'name',
+  'city',
+  'email',
+  'affiliatedOrgs',
+  'backgroundLeader',
+  'activitiesVision',
+  'questions',
+] as const
+const BOOLEAN_KEYS = ['wantsEvents', 'wantsNewsletter'] as const
+
+// Caps every forwarded string, like the Notion builder does.
+export const N8N_TEXT_MAX_LENGTH = NOTION_TEXT_MAX_LENGTH
+
+// Caps repeatable answers. The form allows five websites; the other lists are
+// bounded by their option count or by hand, so 20 never cuts a real answer.
+const MAX_WEBSITES = 5
+const MAX_LIST_ITEMS = 20
+
+function clampText(value: string): string {
+  return value.slice(0, N8N_TEXT_MAX_LENGTH)
+}
 
 // Trims to a list of strings while preserving index/length (no empties removed),
 // so parallel arrays like chat/chatService stay aligned.
 function toTrimmedList(value: unknown): string[] {
   const raw = Array.isArray(value) ? value : value == null ? [] : [value]
-  return raw.map((v) =>
-    typeof v === 'string' ? v.trim() : v == null ? '' : String(v).trim()
-  )
+  return raw
+    .slice(0, MAX_LIST_ITEMS)
+    .map((v) =>
+      clampText(
+        typeof v === 'string' || typeof v === 'number' ? String(v).trim() : ''
+      )
+    )
 }
 
 // Drops empty entries; used for id-based single/multi fields.
@@ -58,29 +87,40 @@ function buildChat(formData: Record<string, unknown>): ChatEntry[] {
   return handles
     .map((handle, i): ChatEntry => {
       const svcId = serviceIds[i] ?? ''
-      return svcId ? { handle, service: resolve(svcId, CHAT_SERVICE_MAP) } : { handle }
+      return svcId
+        ? { handle, service: resolve(svcId, CHAT_SERVICE_MAP) }
+        : { handle }
     })
     .filter((entry) => entry.handle !== '')
 }
 
-// Builds the JSON body posted to the steward n8n webhook: the full submitted
-// form payload with plain text/boolean fields passed through unchanged, the
-// id-based fields (country, skills, hearAbout) replaced by merged { id, label }
-// shapes, the chat handles merged with their services, the stray `socials` seed
-// dropped, plus the form name as metadata.
+// Builds the JSON body posted to the steward n8n webhook from the steward
+// form's own keys only: text answers as clamped strings, the two checkboxes as
+// booleans, websites as a list, the id-based fields (country, skills, hearAbout)
+// as merged { id, label } shapes and the chat handles merged with their
+// services, plus the form name as metadata. Unknown keys and values of the
+// wrong type are dropped.
 export function buildN8nPayload(
   formData: Record<string, unknown>,
   formName: string
 ): Record<string, unknown> {
-  const payload: Record<string, unknown> = { ...formData, formName }
+  const payload: Record<string, unknown> = { formName }
 
-  for (const key of STRAY_KEYS) {
-    delete payload[key]
+  for (const key of TEXT_KEYS) {
+    const value = formData[key]
+    if (typeof value === 'string') payload[key] = clampText(value)
+  }
+  for (const key of BOOLEAN_KEYS) {
+    const value = formData[key]
+    if (typeof value === 'boolean') payload[key] = value
   }
 
+  if ('website' in formData) {
+    payload.website = toIds(formData.website).slice(0, MAX_WEBSITES)
+  }
   if ('country' in formData) {
-    const country = resolveScalar(formData.country, COUNTRY_MAP)
-    if (country) payload.country = country
+    const raw = toTrimmedList(formData.country)[0] ?? ''
+    payload.country = raw ? resolve(raw, COUNTRY_MAP) : raw
   }
   if ('skills' in formData) {
     payload.skills = resolveMulti(formData.skills, SKILLS_MAP)
@@ -92,7 +132,6 @@ export function buildN8nPayload(
   // Replace the two parallel chat arrays with a single merged one.
   if ('chat' in formData || 'chatService' in formData) {
     payload.chat = buildChat(formData)
-    delete payload.chatService
   }
 
   return payload
