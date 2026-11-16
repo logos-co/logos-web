@@ -23,6 +23,7 @@ import { logger } from './logger'
 
 type GraphqlResponse<TData> = {
   data?: TData
+  errors?: Array<{ message?: string }>
 }
 
 /**
@@ -43,6 +44,11 @@ async function postGraphql<TData>(url: string, query: string): Promise<TData> {
   }
 
   const payload = (await response.json()) as GraphqlResponse<TData>
+  // Hasura can answer with partial data next to errors: treat it as a failure.
+  if (payload.errors?.length) {
+    const messages = payload.errors.map((error) => error.message).join('; ')
+    throw new Error(`GraphQL request returned errors url=${url}: ${messages}`)
+  }
   if (!payload.data) {
     throw new Error(`GraphQL request returned no data url=${url}`)
   }
