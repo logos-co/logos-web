@@ -9,7 +9,7 @@ There are two templates. Copy `.env.example` to `apps/cms/.env` for local dev, a
 | Variable         | Purpose                                                                                                                                                      |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `DATABASE_URL`   | Postgres connection string. `payload.config.ts` throws when it is unset.                                                                                     |
-| `PAYLOAD_SECRET` | Generate with `openssl rand -hex 32`. `payload.config.ts` throws when it is unset and `NODE_ENV=production`; outside production it falls back to an insecure dev value. |
+| `PAYLOAD_SECRET` | Generate with `openssl rand -hex 32`. `payload.config.ts` throws when it is unset, in every environment. Only `pnpm dev` generates a random per-run value when none is set; Payload CLI commands (`generate-types`, `migrate`) need it configured. |
 
 ## URLs
 
