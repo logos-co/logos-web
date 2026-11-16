@@ -14,7 +14,7 @@
     "build": "pnpm build:app",
     "build:app": "pnpm sync:basecamp-release && pnpm sync:active-circles && pnpm generate:media-assets && pnpm generate:zines && next build --webpack && pnpm build:copy-past-present-future && pnpm build:strip-locale",
     "sync:basecamp-release": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/sync-basecamp-release.ts",
-    "sync:active-circles": "tsx scripts/sync-active-circles.ts",
+    "sync:active-circles": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/sync-active-circles.ts",
     "generate:media-assets": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/generate-media-assets.ts",
     "build:export": "pnpm build",
     "build:copy-past-present-future": "bash scripts/copy-past-present-future.sh",

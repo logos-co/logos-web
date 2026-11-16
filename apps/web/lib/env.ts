@@ -66,6 +66,12 @@ export type Env = {
   NEXT_PUBLIC_HCAPTCHA_SITEKEY: string | undefined
   /** Allow manual city and country entry while the cities API is unavailable. */
   NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION: boolean
+  /**
+   * Outage switch for build-time content fetches (blog CMS media and active
+   * circles). When set, a failed fetch falls back to the committed snapshot
+   * in `lib/data/` instead of failing the build.
+   */
+  ALLOW_CONTENT_FETCH_FAILURE: boolean
 }
 
 function assertOneOf<T extends string>(
@@ -137,6 +143,13 @@ export const env: Env = {
       process.env.NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION,
       ['0', '1'] as const,
       'NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION',
+      true
+    ) === '1',
+  ALLOW_CONTENT_FETCH_FAILURE:
+    assertOneOf(
+      process.env.ALLOW_CONTENT_FETCH_FAILURE,
+      ['0', '1'] as const,
+      'ALLOW_CONTENT_FETCH_FAILURE',
       true
     ) === '1',
 }

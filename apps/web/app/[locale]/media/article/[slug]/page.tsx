@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 
 import { isActiveLocale } from '@repo/content/locales'
@@ -7,6 +8,7 @@ import { ROUTES } from '@/constants/routes'
 import { routing } from '@/i18n/routing'
 import {
   getBlogArticleDetail,
+  PressPostUnavailableError,
   getBlogArticleSlugs,
   type BlogArticleDetail,
 } from '@/lib/blog-content'
@@ -21,6 +23,20 @@ import { ArticleDetailPage } from './_sections/article-detail-page'
 import type { ArticleDetailCopy } from './_sections/types'
 
 export const dynamicParams = false
+
+/**
+ * A post the CMS listed but that is unreadable during an outage, with
+ * ALLOW_CONTENT_FETCH_FAILURE=1, renders the 404 page instead of stopping the
+ * export. Every other failure still stops it.
+ */
+async function loadArticle(slug: string) {
+  try {
+    return await getBlogArticleDetail(slug)
+  } catch (error) {
+    if (error instanceof PressPostUnavailableError) notFound()
+    throw error
+  }
+}
 
 function getSocialImage(article: BlogArticleDetail) {
   const image = article.ogImage
@@ -49,7 +65,7 @@ export async function generateMetadata({
     throw new Error(`generateMetadata received non-active locale "${locale}"`)
   }
 
-  const article = await getBlogArticleDetail(slug)
+  const article = await loadArticle(slug)
   return createDefaultMetadata({
     title: `${article.title} | Logos`,
     description: article.summary,
@@ -74,11 +90,12 @@ export default async function ArticlePage({
     throw new Error(`ArticlePage received non-active locale "${locale}"`)
   }
 
-  // No catch: the slug came from generateStaticParams, so a failure here means
-  // the CMS is down or the content is malformed, and the export should stop
-  // rather than publish a 404 in place of a real page.
+  // The slug came from generateStaticParams, so a failure here means the CMS
+  // is down or the content is malformed, and the export should stop rather
+  // than publish a 404 in place of a real page (loadArticle has the one outage
+  // exception).
   const [article, t] = await Promise.all([
-    getBlogArticleDetail(slug),
+    loadArticle(slug),
     getTranslations('mediaDetail'),
   ])
 

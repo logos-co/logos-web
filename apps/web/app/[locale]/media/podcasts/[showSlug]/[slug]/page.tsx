@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 
 import { isActiveLocale } from '@repo/content/locales'
@@ -5,7 +6,11 @@ import { isActiveLocale } from '@repo/content/locales'
 import { JsonLd } from '@/components/seo/json-ld'
 import { ROUTES } from '@/constants/routes'
 import { routing } from '@/i18n/routing'
-import { getBlogPodcastDetail, getBlogPodcastPaths } from '@/lib/blog-content'
+import {
+  getBlogPodcastDetail,
+  getBlogPodcastPaths,
+  PressPostUnavailableError,
+} from '@/lib/blog-content'
 import { withLocalMediaImages } from '@/lib/media-image-manifest'
 import { absoluteUrl, createDefaultMetadata } from '@/lib/metadata'
 import {
@@ -17,6 +22,20 @@ import { PodcastDetailPage } from './_sections/podcast-detail-page'
 import type { PodcastDetailCopy } from './_sections/types'
 
 export const dynamicParams = false
+
+/**
+ * A post the CMS listed but that is unreadable during an outage, with
+ * ALLOW_CONTENT_FETCH_FAILURE=1, renders the 404 page instead of stopping the
+ * export. Every other failure still stops it.
+ */
+async function loadPodcast(showSlug: string, slug: string) {
+  try {
+    return await getBlogPodcastDetail(showSlug, slug)
+  } catch (error) {
+    if (error instanceof PressPostUnavailableError) notFound()
+    throw error
+  }
+}
 
 export async function generateStaticParams() {
   const paths = await getBlogPodcastPaths()
@@ -39,7 +58,7 @@ export async function generateMetadata({
     throw new Error(`generateMetadata received non-active locale "${locale}"`)
   }
 
-  const podcast = await getBlogPodcastDetail(showSlug, slug)
+  const podcast = await loadPodcast(showSlug, slug)
   return createDefaultMetadata({
     title: `${podcast.title} | Logos`,
     description: podcast.description,
@@ -60,11 +79,12 @@ export default async function PodcastPage({
     throw new Error(`PodcastPage received non-active locale "${locale}"`)
   }
 
-  // No catch: the slug came from generateStaticParams, so a failure here means
-  // the CMS is down or the content is malformed, and the export should stop
-  // rather than publish a 404 in place of a real page.
+  // The slug came from generateStaticParams, so a failure here means the CMS
+  // is down or the content is malformed, and the export should stop rather
+  // than publish a 404 in place of a real page (loadPodcast has the one outage
+  // exception).
   const [podcast, t] = await Promise.all([
-    getBlogPodcastDetail(showSlug, slug),
+    loadPodcast(showSlug, slug),
     getTranslations('mediaDetail'),
   ])
 

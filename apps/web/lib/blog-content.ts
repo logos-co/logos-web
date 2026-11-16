@@ -1,8 +1,14 @@
 import { cache } from 'react'
 
 import { mapWithConcurrency } from '@/lib/concurrency'
+import { allowContentFetchFailure } from '@/lib/content-fetch-fallback'
 import { env } from '@/lib/env'
-import { getPressSnapshot } from '@/lib/press-snapshot'
+import {
+  FALLBACK_PRESS_SNAPSHOT_PATH,
+  getFallbackPressSnapshot,
+  getPressSnapshot,
+  type PressSnapshot,
+} from '@/lib/press-snapshot'
 import { getPressPreviewSlugs } from '@/lib/press-preview'
 import { fetchDiscourseTopic, type BlogDiscussion } from '@/lib/discourse-topic'
 import { prepareCmsLinks } from '@/lib/html-links'
@@ -555,11 +561,39 @@ async function collectAllPages<T>(
 /** The CMS sits behind a proxy that now and then drops a connection. */
 const CMS_FETCH_ATTEMPTS = 3
 const CMS_RETRY_DELAY_MS = 1000
+/**
+ * The proxy answers a hung CMS with a 504 after 60s, which is also when Next
+ * gives up on a static page. Give up well before that.
+ */
+const CMS_FETCH_TIMEOUT_MS = 20_000
+
+const isTimeout = (error: unknown): boolean =>
+  error instanceof Error && error.name === 'TimeoutError'
+
+/**
+ * The CMS cannot be reached at all: no key, a dropped or timed out request,
+ * or a 5xx from the proxy in front of it. Unlike a GraphQL error or a bad
+ * post, this says nothing more will come from the CMS in this build.
+ */
+export class CmsUnavailableError extends Error {
+  override name = 'CmsUnavailableError'
+}
+
+/**
+ * A post the live CMS listed but that is neither readable from the CMS nor
+ * present in the committed snapshot. Only thrown with
+ * ALLOW_CONTENT_FETCH_FAILURE=1: listings skip the post and its page renders
+ * the 404 page.
+ */
+export class PressPostUnavailableError extends Error {
+  override name = 'PressPostUnavailableError'
+}
 
 /**
  * Reads a CMS response, retrying when the connection drops before the body
  * arrives, so one dropped socket does not fail the whole build. HTTP errors
- * come back as they are: retrying them would not change the answer.
+ * and timeouts come back as they are: retrying them would not change the
+ * answer, only make the build wait longer.
  */
 async function fetchCmsText(
   init: RequestInit,
@@ -567,14 +601,25 @@ async function fetchCmsText(
 ): Promise<{ ok: boolean; status: number; text: string }> {
   for (let attempt = 1; ; attempt += 1) {
     try {
-      const response = await fetch(CMS_PRESS_GRAPHQL_URL, init)
+      const response = await fetch(CMS_PRESS_GRAPHQL_URL, {
+        ...init,
+        signal: AbortSignal.timeout(CMS_FETCH_TIMEOUT_MS),
+      })
       return {
         ok: response.ok,
         status: response.status,
         text: await response.text(),
       }
     } catch (error) {
-      if (attempt >= CMS_FETCH_ATTEMPTS) throw error
+      if (attempt >= CMS_FETCH_ATTEMPTS || isTimeout(error)) {
+        const message = error instanceof Error ? error.message : String(error)
+        throw new CmsUnavailableError(
+          `${label} CMS request failed: ${message}`,
+          {
+            cause: error,
+          }
+        )
+      }
       logger.warn(`${label} CMS request dropped, retrying`, {
         attempt,
         error: error instanceof Error ? error.message : String(error),
@@ -594,7 +639,7 @@ async function fetchPressGraphql<T>(
   // The blog CMS is the only source of media content: there is no other
   // copy to fall back to once blog.logos.co is gone.
   if (!env.STRAPI_API_KEY) {
-    throw new Error(
+    throw new CmsUnavailableError(
       `${label} requires STRAPI_API_KEY to be set (see apps/web/.env.example)`
     )
   }
@@ -614,9 +659,10 @@ async function fetchPressGraphql<T>(
   )
   const { text } = response
   if (!response.ok) {
-    throw new Error(
-      `${label} GraphQL failed: status=${response.status} body=${truncate(text)}`
-    )
+    const message = `${label} GraphQL failed: status=${response.status} body=${truncate(text)}`
+    throw response.status >= 500
+      ? new CmsUnavailableError(message)
+      : new Error(message)
   }
 
   const json = JSON.parse(text) as GraphqlResponse<T>
@@ -1015,19 +1061,94 @@ async function getStrapiPodcastPaths(): Promise<
     .filter((path) => path.slug.length > 0)
 }
 
+/**
+ * Set once the CMS proved unreachable with ALLOW_CONTENT_FETCH_FAILURE=1. The
+ * rest of this process then reads the committed snapshot straight away
+ * instead of waiting on a dead CMS once per post. Other errors fall back for
+ * the failed read only.
+ */
+let cmsUnavailable = false
+/** Set once any read in this process came from the committed snapshot. */
+let usedFallback = false
+
+/**
+ * Reads live CMS content. A failure fails the build, unless
+ * ALLOW_CONTENT_FETCH_FAILURE=1, in which case the committed snapshot
+ * answers instead. A post the snapshot lacks (newer than it, or a staging
+ * draft) throws PressPostUnavailableError.
+ */
+async function fromCmsOrFallback<T>(
+  label: string,
+  readCms: () => Promise<T>,
+  readFallback: (snapshot: PressSnapshot) => T | undefined
+): Promise<T> {
+  if (!cmsUnavailable) {
+    try {
+      return await readCms()
+    } catch (error) {
+      allowContentFetchFailure(`Blog CMS (${label})`, error)
+      if (error instanceof CmsUnavailableError) cmsUnavailable = true
+    }
+  }
+  usedFallback = true
+
+  const value = readFallback(await getFallbackPressSnapshot())
+  if (value === undefined) {
+    throw new PressPostUnavailableError(
+      `${label} is missing from the committed press snapshot ${FALLBACK_PRESS_SNAPSHOT_PATH}`
+    )
+  }
+  return value
+}
+
+const articleSlugs = (snapshot: PressSnapshot): string[] =>
+  snapshot.articles.map((article) => article.slug)
+
+const podcastPaths = (
+  snapshot: PressSnapshot
+): Array<{ showSlug: string; slug: string }> =>
+  snapshot.podcasts.map(({ showSlug, slug }) => ({ showSlug, slug }))
+
+const findArticle = (
+  snapshot: PressSnapshot,
+  slug: string
+): BlogArticleDetail | undefined =>
+  snapshot.articles.find((article) => article.slug === slug)
+
+const findPodcast = (
+  snapshot: PressSnapshot,
+  showSlug: string,
+  slug: string
+): BlogPodcastDetail | undefined =>
+  snapshot.podcasts.find(
+    (podcast) => podcast.slug === slug && podcast.showSlug === showSlug
+  )
+
+/**
+ * True once this process gave up on an unreachable CMS and switched to the
+ * committed snapshot (ALLOW_CONTENT_FETCH_FAILURE=1).
+ */
+export function isCmsUnavailable(): boolean {
+  return cmsUnavailable
+}
+
+/** True when this process read media from a snapshot instead of the CMS. */
+export async function isUsingPressSnapshot(): Promise<boolean> {
+  return usedFallback || (await getPressSnapshot()) !== null
+}
+
 export async function getBlogArticleSlugs(): Promise<string[]> {
   const snapshot = await getPressSnapshot()
-  if (snapshot) return snapshot.articles.map((article) => article.slug)
-  return getStrapiArticleSlugs()
+  if (snapshot) return articleSlugs(snapshot)
+  return fromCmsOrFallback('Article slugs', getStrapiArticleSlugs, articleSlugs)
 }
 
 export async function getBlogPodcastPaths(): Promise<
   Array<{ showSlug: string; slug: string }>
 > {
   const snapshot = await getPressSnapshot()
-  if (snapshot)
-    return snapshot.podcasts.map(({ showSlug, slug }) => ({ showSlug, slug }))
-  return getStrapiPodcastPaths()
+  if (snapshot) return podcastPaths(snapshot)
+  return fromCmsOrFallback('Podcast slugs', getStrapiPodcastPaths, podcastPaths)
 }
 
 export async function getBlogPodcastShowSlugs(): Promise<string[]> {
@@ -1518,7 +1639,11 @@ export async function getBlogArticleDetail(
       throw new Error(`Article absent from reviewed preview: ${slug}`)
     return article
   }
-  return getStrapiArticle(slug)
+  return fromCmsOrFallback(
+    `Article ${slug}`,
+    () => getStrapiArticle(slug),
+    (fallback) => findArticle(fallback, slug)
+  )
 }
 
 export async function getBlogPodcastDetail(
@@ -1536,7 +1661,11 @@ export async function getBlogPodcastDetail(
       )
     return podcast
   }
-  return getStrapiPodcast(showSlug, slug)
+  return fromCmsOrFallback(
+    `Podcast ${showSlug}/${slug}`,
+    () => getStrapiPodcast(showSlug, slug),
+    (fallback) => findPodcast(fallback, showSlug, slug)
+  )
 }
 
 /** Live posts with a publish date: drafts render (noindex) but are never listed. */
@@ -1545,12 +1674,24 @@ export const isPublishedPost = (
 ): boolean => !post.isDraft && Boolean(post.publishedAt)
 
 /** Every article, newest first as the CMS returns them. */
+/** Drops a post that is unavailable during an outage, see PressPostUnavailableError. */
+const skipUnavailable = <T>(error: unknown): T | null => {
+  if (error instanceof PressPostUnavailableError) return null
+  throw error
+}
+
+const isPresent = <T>(value: T | null): value is T => value !== null
+
 export const getAllBlogArticles = cache(
   async (): Promise<BlogArticleDetail[]> => {
     const slugs = await getBlogArticleSlugs()
-    return mapWithConcurrency(slugs, DETAIL_FETCH_CONCURRENCY, (slug) =>
-      getBlogArticleDetail(slug)
+    const articles = await mapWithConcurrency(
+      slugs,
+      DETAIL_FETCH_CONCURRENCY,
+      (slug) =>
+        getBlogArticleDetail(slug).catch(skipUnavailable<BlogArticleDetail>)
     )
+    return articles.filter(isPresent)
   }
 )
 
@@ -1558,8 +1699,14 @@ export const getAllBlogArticles = cache(
 export const getAllBlogPodcasts = cache(
   async (): Promise<BlogPodcastDetail[]> => {
     const paths = await getBlogPodcastPaths()
-    return mapWithConcurrency(paths, DETAIL_FETCH_CONCURRENCY, (path) =>
-      getBlogPodcastDetail(path.showSlug, path.slug)
+    const podcasts = await mapWithConcurrency(
+      paths,
+      DETAIL_FETCH_CONCURRENCY,
+      (path) =>
+        getBlogPodcastDetail(path.showSlug, path.slug).catch(
+          skipUnavailable<BlogPodcastDetail>
+        )
     )
+    return podcasts.filter(isPresent)
   }
 )

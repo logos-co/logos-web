@@ -5,6 +5,8 @@ import {
   getAllBlogArticles,
   getAllBlogPodcasts,
   getBlogPodcastShowSlugs,
+  isCmsUnavailable,
+  isUsingPressSnapshot,
   type BlogArticleDetail,
   type BlogPodcastDetail,
 } from '../lib/blog-content'
@@ -22,11 +24,17 @@ import {
 import { MEDIA_SEARCH_INDEX_FILE } from '../lib/media-search'
 import { buildMediaSearchDocuments } from '../lib/media-search-index'
 import { buildAtomDocument, buildRssDocument } from '../lib/media-feeds'
+import {
+  FALLBACK_PRESS_SNAPSHOT_PATH,
+  writeFallbackPressSnapshot,
+} from '../lib/press-snapshot'
 
 /**
  * Reads every media post once, then writes what the static export needs next
  * to the pages: the RSS and Atom feeds, resized copies of the images the
- * detail pages show, and the index the media search runs on.
+ * detail pages show, and the index the media search runs on. After a live
+ * CMS read it also refreshes the committed press snapshot that builds fall
+ * back to with ALLOW_CONTENT_FETCH_FAILURE=1.
  */
 
 const outputRoot = path.resolve(process.cwd(), 'public')
@@ -114,25 +122,41 @@ async function writeMediaFeeds(
   ])
 }
 
+/**
+ * The images live on the CMS too. Once it is known to be down, each download
+ * would only wait out its timeout (two 60s attempts per image, a few hours
+ * for an empty cache), so use the cached variants and leave the rest alone.
+ */
+const cacheOnly = (): Promise<Buffer> =>
+  Promise.reject(new Error('CMS unavailable, image not cached'))
+
 async function writeMediaImages(
   posts: MediaPost[]
 ): Promise<MediaImageManifest> {
   const startedAt = Date.now()
+  const offline = isCmsUnavailable()
   const urls = [...new Set(posts.flatMap(collectMediaImageUrls))]
   const { manifest, failures, skipped } = await buildMediaImages({
     urls,
     cacheDir: MEDIA_IMAGE_CACHE_DIR,
     outputDir: MEDIA_IMAGE_OUTPUT_DIR,
+    ...(offline ? { fetchImage: cacheOnly } : {}),
   })
 
   await mkdir(path.dirname(MEDIA_IMAGE_MANIFEST_PATH), { recursive: true })
   await writeFile(MEDIA_IMAGE_MANIFEST_PATH, JSON.stringify(manifest))
 
   // A failed download only costs speed: the page keeps the CMS URL.
-  for (const failure of failures) {
+  if (offline) {
     console.warn(
-      `Media image stays on the CMS: ${failure.reason} url=${failure.url}`
+      `Media images: CMS unavailable, ${failures.length} uncached images stay on the CMS`
     )
+  } else {
+    for (const failure of failures) {
+      console.warn(
+        `Media image stays on the CMS: ${failure.reason} url=${failure.url}`
+      )
+    }
   }
   const seconds = Math.round((Date.now() - startedAt) / 1000)
   console.log(
@@ -164,6 +188,12 @@ async function main(): Promise<void> {
     getBlogPodcastShowSlugs(),
   ])
   const posts = [...articles, ...podcasts]
+
+  // Refresh the committed outage fallback from live content only.
+  if (!(await isUsingPressSnapshot())) {
+    await writeFallbackPressSnapshot(articles, podcasts)
+    console.log(`Press snapshot: ${FALLBACK_PRESS_SNAPSHOT_PATH}`)
+  }
 
   // Drafts get pages too (noindex), so their images are resized as well.
   const [manifest] = await Promise.all([

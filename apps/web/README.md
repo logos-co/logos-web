@@ -31,7 +31,7 @@ The public origin comes from `canonicalUrl` in [site settings](../../content/sit
 
 Copy [.env.example](.env.example) to `.env.local` (or `.env`). Add new variables to [`lib/env.ts`](lib/env.ts) instead of reading `process.env` from feature code.
 
-The build needs `STRAPI_API_KEY`; `/media` pages are built from the Strapi blog CMS and there is no other source. `SIMPLECAST_ACCESS_TOKEN` is optional locally but production builds fail without it.
+The build needs `STRAPI_API_KEY`; `/media` pages are built from the Strapi blog CMS. `SIMPLECAST_ACCESS_TOKEN` is optional locally but production builds fail without it. With `ALLOW_CONTENT_FETCH_FAILURE=1`, a failed CMS or active circles fetch falls back to the snapshots committed in `lib/data/` instead of failing the build; see [docs/deployment.md](../../docs/deployment.md#static-site-appsweb).
 
 ## Deploy
 
