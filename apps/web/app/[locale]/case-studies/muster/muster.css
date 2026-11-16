@@ -159,7 +159,13 @@
   height: auto;
 }
 
+.muster-poster-logos .muster-logos {
+  transform: translateY(-2px);
+}
+
 .muster-poster-logos .muster-logos > svg:last-child {
+  /* At this width, the L matches the capital M and lambda at 18.8px. */
+  width: 69.9px;
   /* Centre the letterforms above the baseline with the adjacent marks. */
   transform: translateY(10.7%);
 }
