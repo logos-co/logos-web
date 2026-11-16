@@ -12,7 +12,7 @@
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@playwright/test": "^1.63.0",
+    "@playwright/test": "^1.65.0",
     "@types/node": "^24.12.4",
     "dotenv": "^17.2.2",
     "eslint": "^10.2.1",
