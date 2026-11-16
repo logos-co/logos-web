@@ -25,6 +25,12 @@ vi.mock('@/lib/logger', () => ({
   logger: { warn: vi.fn(), error: vi.fn(), info: vi.fn(), debug: vi.fn() },
 }))
 
+const graphqlError = {
+  ok: true,
+  status: 200,
+  text: async () => JSON.stringify({ errors: [{ message: 'bad field' }] }),
+}
+
 const gatewayTimeout = {
   ok: false,
   status: 504,
@@ -80,11 +86,59 @@ describe('blog CMS outage', () => {
   it('names the post when the snapshot does not have it', async () => {
     envStub.ALLOW_CONTENT_FETCH_FAILURE = true
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(gatewayTimeout))
-    const { getBlogArticleDetail } = await loadBlogContent()
+    const { getBlogArticleDetail, PressPostUnavailableError } =
+      await loadBlogContent()
 
-    await expect(getBlogArticleDetail('new-article')).rejects.toThrow(
+    const detail = getBlogArticleDetail('new-article')
+    await expect(detail).rejects.toThrow(
       /Article new-article is missing from the committed press snapshot/
     )
+    await expect(detail).rejects.toBeInstanceOf(PressPostUnavailableError)
+  })
+
+  it('drops a live post the snapshot lacks from the listings', async () => {
+    // The CMS listed the posts, then went down before the new one was read.
+    envStub.ALLOW_CONTENT_FETCH_FAILURE = true
+    vi.stubGlobal(
+      'fetch',
+      vi
+        .fn()
+        .mockResolvedValueOnce({
+          ok: true,
+          status: 200,
+          text: async () =>
+            JSON.stringify({
+              data: {
+                posts: {
+                  data: [
+                    { attributes: { slug: 'new-article' } },
+                    { attributes: { slug: 'kept-article' } },
+                  ],
+                },
+              },
+            }),
+        })
+        .mockResolvedValue(gatewayTimeout)
+    )
+    const { getAllBlogArticles } = await loadBlogContent()
+
+    await expect(getAllBlogArticles()).resolves.toEqual([fallback.articles[0]])
+  })
+
+  it('falls back for one read only when the CMS answers with an error', async () => {
+    envStub.ALLOW_CONTENT_FETCH_FAILURE = true
+    const fetchMock = vi.fn().mockResolvedValue(graphqlError)
+    vi.stubGlobal('fetch', fetchMock)
+    const content = await loadBlogContent()
+
+    await expect(content.getBlogArticleSlugs()).resolves.toEqual([
+      'kept-article',
+    ])
+    await expect(content.getBlogPodcastPaths()).resolves.toHaveLength(1)
+    // The CMS is up, so each read still tries it and images still download.
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+    expect(content.isCmsUnavailable()).toBe(false)
+    await expect(content.isUsingPressSnapshot()).resolves.toBe(true)
   })
 
   it('also covers a build without the Strapi key', async () => {
@@ -108,6 +162,44 @@ describe('active circles outage', () => {
 
     await expect(buildActiveCirclesSnapshot(new Date())).rejects.toThrow(
       /GraphQL request failed: 504/
+    )
+  })
+})
+
+describe('active circles partial answer', () => {
+  it('fails when the API returns errors next to data', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: async () => ({ data: {}, errors: [{ message: 'timeout' }] }),
+      })
+    )
+    vi.resetModules()
+    const { buildActiveCirclesSnapshot } =
+      await import('@/lib/active-circles-source')
+
+    await expect(buildActiveCirclesSnapshot(new Date())).rejects.toThrow(
+      /returned errors.*timeout/
+    )
+  })
+})
+
+describe('the committed press snapshot', () => {
+  it('is readable by a production build', async () => {
+    const { FALLBACK_PRESS_SNAPSHOT_PATH, readPressSnapshot } =
+      await import('@/lib/press-snapshot')
+
+    const snapshot = await readPressSnapshot(FALLBACK_PRESS_SNAPSHOT_PATH)
+
+    expect(snapshot.version).toBe(1)
+    expect(snapshot.articles.length).toBeGreaterThan(0)
+    expect(snapshot.podcasts.length).toBeGreaterThan(0)
+    const posts = [...snapshot.articles, ...snapshot.podcasts]
+    expect(posts.filter((post) => post.isDraft)).toEqual([])
+    expect(snapshot.articles.filter((article) => article.discussion)).toEqual(
+      []
     )
   })
 })
