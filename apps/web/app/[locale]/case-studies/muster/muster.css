@@ -159,6 +159,11 @@
   height: auto;
 }
 
+.muster-poster-logos .muster-logos > svg:last-child {
+  /* Centre the letterforms above the baseline with the adjacent marks. */
+  transform: translateY(10.7%);
+}
+
 .muster-lockup {
   width: max-content;
   gap: 8px;

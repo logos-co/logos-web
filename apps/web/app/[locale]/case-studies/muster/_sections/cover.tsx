@@ -16,7 +16,7 @@ export function Cover({
     <div className="muster-cover muster-dark" data-header-tone="dark">
       <header className="muster-poster">
         <div className="muster-container muster-poster-logos">
-          <LogosLockup brand={hero.brand} />
+          <LogosLockup brand={hero.brand} size={28} />
           <span aria-hidden="true">×</span>
           <MusterLockup project={hero.project} light />
         </div>
