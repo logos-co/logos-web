@@ -42,6 +42,10 @@ const blockedPatterns = [
 ]
 const blockedPressResolver = ['resolve', 'Press', 'List'].join('')
 const skippedDirectories = new Set(['.next', 'node_modules', 'out'])
+// A copy of the blog CMS content: its links are edited in Strapi, not here.
+const skippedFiles = new Set([
+  join(repoRoot, 'apps/web/lib/data/press.snapshot.json'),
+])
 const repoPressArticlePaths = [
   'content/press',
   'packages/content/src/loaders/press.ts',
@@ -104,7 +108,7 @@ const collectTextFiles = (dir: string): string[] => {
     if (stat.isDirectory()) {
       return skippedDirectories.has(entry) ? [] : collectTextFiles(path)
     }
-    if (!/\.(json|ts|tsx)$/.test(path)) return []
+    if (!/\.(json|ts|tsx)$/.test(path) || skippedFiles.has(path)) return []
     return [path]
   })
 }

@@ -25,28 +25,28 @@ type GraphqlResponse<TData> = {
   data?: TData
 }
 
-async function postGraphql<TData>(
-  url: string,
-  query: string
-): Promise<TData | null> {
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query }),
-      cache: 'no-store',
-    })
+/**
+ * Throws on any failure: a half-fetched snapshot (stats without events, or
+ * the reverse) must not overwrite the committed one. The sync script decides
+ * whether the failure fails the build.
+ */
+async function postGraphql<TData>(url: string, query: string): Promise<TData> {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query }),
+    cache: 'no-store',
+  })
 
-    if (!response.ok) {
-      throw new Error(`GraphQL request failed: ${response.status}`)
-    }
-
-    const payload = (await response.json()) as GraphqlResponse<TData>
-    return payload.data ?? null
-  } catch (error) {
-    logger.error('Failed to fetch active circles data', { error })
-    return null
+  if (!response.ok) {
+    throw new Error(`GraphQL request failed: ${response.status} url=${url}`)
   }
+
+  const payload = (await response.json()) as GraphqlResponse<TData>
+  if (!payload.data) {
+    throw new Error(`GraphQL request returned no data url=${url}`)
+  }
+  return payload.data
 }
 
 function isoDaysAgo(now: Date, days: number): string {
@@ -81,7 +81,7 @@ async function fetchDistinctActiveCityCount(
     getCirclesGraphqlQuery(activeSinceDate)
   )
 
-  return data?.[CIRCLES_GRAPHQL_RESPONSE_KEY]?.aggregate?.count ?? null
+  return data[CIRCLES_GRAPHQL_RESPONSE_KEY]?.aggregate?.count ?? null
 }
 
 async function fetchCircleEvents(): Promise<ActiveCircleEvent[]> {
@@ -104,7 +104,7 @@ async function fetchCircleEvents(): Promise<ActiveCircleEvent[]> {
 }`
 
   const data = await postGraphql<ResponseData>(LOGOS_GRAPHQL_API_URL, query)
-  const events = data?.stg_external_circle_circle_event ?? []
+  const events = data.stg_external_circle_circle_event ?? []
 
   return [...events].sort((a, b) => {
     return new Date(b.start_at).getTime() - new Date(a.start_at).getTime()
@@ -218,7 +218,9 @@ async function fetchLumaCoverUrl(eventUrl: string): Promise<string | null> {
 
     try {
       const response = await fetch(eventUrl, {
-        headers: { 'User-Agent': 'Mozilla/5.0 (logos-web active-circles sync)' },
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (logos-web active-circles sync)',
+        },
         cache: 'no-store',
         signal: controller.signal,
       })

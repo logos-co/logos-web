@@ -10,6 +10,11 @@ if (env.PRESS_CONTENT_SNAPSHOT) {
     'Capture must read current Strapi content, not an existing snapshot'
   )
 }
+if (env.ALLOW_CONTENT_FETCH_FAILURE) {
+  throw new Error(
+    'Capture must read current Strapi content; unset ALLOW_CONTENT_FETCH_FAILURE'
+  )
+}
 const [articles, podcasts] = await Promise.all([
   getAllBlogArticles(),
   getAllBlogPodcasts(),

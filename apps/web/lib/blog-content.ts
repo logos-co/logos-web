@@ -1,8 +1,14 @@
 import { cache } from 'react'
 
 import { mapWithConcurrency } from '@/lib/concurrency'
+import { allowContentFetchFailure } from '@/lib/content-fetch-fallback'
 import { env } from '@/lib/env'
-import { getPressSnapshot } from '@/lib/press-snapshot'
+import {
+  FALLBACK_PRESS_SNAPSHOT_PATH,
+  getFallbackPressSnapshot,
+  getPressSnapshot,
+  type PressSnapshot,
+} from '@/lib/press-snapshot'
 import { getPressPreviewSlugs } from '@/lib/press-preview'
 import { fetchDiscourseTopic, type BlogDiscussion } from '@/lib/discourse-topic'
 import { prepareCmsLinks } from '@/lib/html-links'
@@ -555,11 +561,20 @@ async function collectAllPages<T>(
 /** The CMS sits behind a proxy that now and then drops a connection. */
 const CMS_FETCH_ATTEMPTS = 3
 const CMS_RETRY_DELAY_MS = 1000
+/**
+ * The proxy answers a hung CMS with a 504 after 60s, which is also when Next
+ * gives up on a static page. Give up well before that.
+ */
+const CMS_FETCH_TIMEOUT_MS = 20_000
+
+const isTimeout = (error: unknown): boolean =>
+  error instanceof Error && error.name === 'TimeoutError'
 
 /**
  * Reads a CMS response, retrying when the connection drops before the body
  * arrives, so one dropped socket does not fail the whole build. HTTP errors
- * come back as they are: retrying them would not change the answer.
+ * and timeouts come back as they are: retrying them would not change the
+ * answer, only make the build wait longer.
  */
 async function fetchCmsText(
   init: RequestInit,
@@ -567,14 +582,22 @@ async function fetchCmsText(
 ): Promise<{ ok: boolean; status: number; text: string }> {
   for (let attempt = 1; ; attempt += 1) {
     try {
-      const response = await fetch(CMS_PRESS_GRAPHQL_URL, init)
+      const response = await fetch(CMS_PRESS_GRAPHQL_URL, {
+        ...init,
+        signal: AbortSignal.timeout(CMS_FETCH_TIMEOUT_MS),
+      })
       return {
         ok: response.ok,
         status: response.status,
         text: await response.text(),
       }
     } catch (error) {
-      if (attempt >= CMS_FETCH_ATTEMPTS) throw error
+      if (attempt >= CMS_FETCH_ATTEMPTS || isTimeout(error)) {
+        const message = error instanceof Error ? error.message : String(error)
+        throw new Error(`${label} CMS request failed: ${message}`, {
+          cause: error,
+        })
+      }
       logger.warn(`${label} CMS request dropped, retrying`, {
         attempt,
         error: error instanceof Error ? error.message : String(error),
@@ -1015,19 +1038,81 @@ async function getStrapiPodcastPaths(): Promise<
     .filter((path) => path.slug.length > 0)
 }
 
+/**
+ * Set once a CMS read failed with ALLOW_CONTENT_FETCH_FAILURE=1. The rest of
+ * this process then reads the committed snapshot straight away instead of
+ * waiting on a dead CMS once per post.
+ */
+let cmsUnavailable = false
+
+/**
+ * Reads live CMS content. A failure fails the build, unless
+ * ALLOW_CONTENT_FETCH_FAILURE=1, in which case the committed snapshot
+ * answers instead.
+ */
+async function fromCmsOrFallback<T>(
+  label: string,
+  readCms: () => Promise<T>,
+  readFallback: (snapshot: PressSnapshot) => T | undefined
+): Promise<T> {
+  if (!cmsUnavailable) {
+    try {
+      return await readCms()
+    } catch (error) {
+      allowContentFetchFailure(`Blog CMS (${label})`, error)
+      cmsUnavailable = true
+    }
+  }
+
+  const value = readFallback(await getFallbackPressSnapshot())
+  if (value === undefined) {
+    throw new Error(
+      `${label} is missing from the committed press snapshot ${FALLBACK_PRESS_SNAPSHOT_PATH}`
+    )
+  }
+  return value
+}
+
+const articleSlugs = (snapshot: PressSnapshot): string[] =>
+  snapshot.articles.map((article) => article.slug)
+
+const podcastPaths = (
+  snapshot: PressSnapshot
+): Array<{ showSlug: string; slug: string }> =>
+  snapshot.podcasts.map(({ showSlug, slug }) => ({ showSlug, slug }))
+
+const findArticle = (
+  snapshot: PressSnapshot,
+  slug: string
+): BlogArticleDetail | undefined =>
+  snapshot.articles.find((article) => article.slug === slug)
+
+const findPodcast = (
+  snapshot: PressSnapshot,
+  showSlug: string,
+  slug: string
+): BlogPodcastDetail | undefined =>
+  snapshot.podcasts.find(
+    (podcast) => podcast.slug === slug && podcast.showSlug === showSlug
+  )
+
+/** True when this process read media from a snapshot instead of the CMS. */
+export async function isUsingPressSnapshot(): Promise<boolean> {
+  return cmsUnavailable || (await getPressSnapshot()) !== null
+}
+
 export async function getBlogArticleSlugs(): Promise<string[]> {
   const snapshot = await getPressSnapshot()
-  if (snapshot) return snapshot.articles.map((article) => article.slug)
-  return getStrapiArticleSlugs()
+  if (snapshot) return articleSlugs(snapshot)
+  return fromCmsOrFallback('Article slugs', getStrapiArticleSlugs, articleSlugs)
 }
 
 export async function getBlogPodcastPaths(): Promise<
   Array<{ showSlug: string; slug: string }>
 > {
   const snapshot = await getPressSnapshot()
-  if (snapshot)
-    return snapshot.podcasts.map(({ showSlug, slug }) => ({ showSlug, slug }))
-  return getStrapiPodcastPaths()
+  if (snapshot) return podcastPaths(snapshot)
+  return fromCmsOrFallback('Podcast slugs', getStrapiPodcastPaths, podcastPaths)
 }
 
 export async function getBlogPodcastShowSlugs(): Promise<string[]> {
@@ -1518,7 +1603,11 @@ export async function getBlogArticleDetail(
       throw new Error(`Article absent from reviewed preview: ${slug}`)
     return article
   }
-  return getStrapiArticle(slug)
+  return fromCmsOrFallback(
+    `Article ${slug}`,
+    () => getStrapiArticle(slug),
+    (fallback) => findArticle(fallback, slug)
+  )
 }
 
 export async function getBlogPodcastDetail(
@@ -1536,7 +1625,11 @@ export async function getBlogPodcastDetail(
       )
     return podcast
   }
-  return getStrapiPodcast(showSlug, slug)
+  return fromCmsOrFallback(
+    `Podcast ${showSlug}/${slug}`,
+    () => getStrapiPodcast(showSlug, slug),
+    (fallback) => findPodcast(fallback, showSlug, slug)
+  )
 }
 
 /** Live posts with a publish date: drafts render (noindex) but are never listed. */

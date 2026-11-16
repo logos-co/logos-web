@@ -7,14 +7,17 @@
 // keeps the two surfaces in sync by construction. It also runs as part of the
 // web build.
 //
-// Resilience: if the API is unreachable or returns no circles, the script logs
-// a warning, leaves the existing committed snapshot untouched, and exits 0 so
-// the build can proceed with the last known-good data.
+// Failures follow the same rule as the blog CMS: an unreachable API fails the
+// build, unless ALLOW_CONTENT_FETCH_FAILURE=1, in which case the existing
+// committed snapshot is kept. An API that answers with no circles at all keeps
+// the committed snapshot too.
 
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
 import { buildActiveCirclesSnapshot } from '../lib/active-circles-source'
+import type { ActiveCirclesSnapshot } from '../lib/active-circles-shared'
+import { allowContentFetchFailure } from '../lib/content-fetch-fallback'
 
 const OUTPUT_PATH = join(
   import.meta.dirname,
@@ -25,11 +28,17 @@ const OUTPUT_PATH = join(
 )
 
 async function main(): Promise<void> {
-  const snapshot = await buildActiveCirclesSnapshot(new Date())
+  let snapshot: ActiveCirclesSnapshot
+  try {
+    snapshot = await buildActiveCirclesSnapshot(new Date())
+  } catch (error) {
+    allowContentFetchFailure('Active circles', error)
+    return
+  }
 
   if (snapshot.circles.length === 0) {
     console.warn(
-      '[sync-active-circles] API returned 0 active circles — keeping the existing committed snapshot.'
+      '[sync-active-circles] API returned 0 active circles, keeping the existing committed snapshot.'
     )
     return
   }
@@ -43,10 +52,4 @@ async function main(): Promise<void> {
   )
 }
 
-main().catch((error: unknown) => {
-  console.warn(
-    '[sync-active-circles] failed to refresh snapshot — keeping the existing committed snapshot.',
-    error
-  )
-  // Non-fatal: never break the build over a transient API failure.
-})
+await main()

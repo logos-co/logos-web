@@ -1,4 +1,5 @@
-import { readFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
 
 import { env } from './env'
 import type { BlogArticleDetail, BlogPodcastDetail } from './blog-content'
@@ -47,4 +48,49 @@ export const getPressSnapshot = (): Promise<PressSnapshot | null> => {
   if (!env.PRESS_CONTENT_SNAPSHOT) return Promise.resolve(null)
   snapshot ??= readPressSnapshot(env.PRESS_CONTENT_SNAPSHOT)
   return snapshot
+}
+
+/**
+ * Last published media the build fetched from the CMS, committed so a build
+ * can still ship /media during a CMS outage (ALLOW_CONTENT_FETCH_FAILURE=1).
+ * `scripts/generate-media-assets.ts` rewrites it after every successful fetch.
+ */
+export const FALLBACK_PRESS_SNAPSHOT_PATH = join(
+  process.cwd(),
+  'lib',
+  'data',
+  'press.snapshot.json'
+)
+
+let fallbackSnapshot: Promise<PressSnapshot> | undefined
+
+export const getFallbackPressSnapshot = (): Promise<PressSnapshot> => {
+  fallbackSnapshot ??= readPressSnapshot(FALLBACK_PRESS_SNAPSHOT_PATH)
+  return fallbackSnapshot
+}
+
+/**
+ * Keeps published posts only, so the file is safe for production builds, and
+ * drops the forum replies: they change daily, and the page refreshes them in
+ * the browser anyway.
+ */
+export const toFallbackPressSnapshot = (
+  articles: BlogArticleDetail[],
+  podcasts: BlogPodcastDetail[]
+): PressSnapshot => ({
+  version: 1,
+  articles: articles
+    .filter((article) => !article.isDraft)
+    .map(({ discussion: _discussion, ...article }) => article),
+  podcasts: podcasts.filter((podcast) => !podcast.isDraft),
+})
+
+export const writeFallbackPressSnapshot = async (
+  articles: BlogArticleDetail[],
+  podcasts: BlogPodcastDetail[]
+): Promise<void> => {
+  await writeFile(
+    FALLBACK_PRESS_SNAPSHOT_PATH,
+    `${JSON.stringify(toFallbackPressSnapshot(articles, podcasts), null, 2)}\n`
+  )
 }

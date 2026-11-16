@@ -19,7 +19,9 @@ The site is a static export of `apps/web/out`, built with `pnpm turbo run build 
 
 Every build, whatever its deploy target, takes the origin for canonical links, social metadata, JSON-LD, robots and sitemap URLs from `canonicalUrl` in [`content/site/en/settings.json`](../content/site/en/settings.json) (`https://logos.co`). The pipelines pass no site URL, so staging and preview deployment hostnames stay out of SEO URLs.
 
-During a CMS outage, a preview can use a previous `press-snapshot` workflow artifact through `PRESS_CONTENT_SNAPSHOT`. Check its date and draft status, reuse the available media image cache, then build with `vercel build --target preview` and upload with `vercel deploy --prebuilt`. Record the snapshot date in the PR because its media content stays frozen at that point. Homepage statistics requests time out after ten seconds and use their existing fallback values.
+A failed fetch from the blog CMS or the active circles API fails the build. Set `ALLOW_CONTENT_FETCH_FAILURE=1` to fall back to the snapshots committed in [`apps/web/lib/data/`](../apps/web/lib/data/) instead: `press.snapshot.json` for /media and `active-circles.snapshot.json` for the circles pages. Both are rewritten by every build that reaches its API (`generate:media-assets` and `sync:active-circles`), so commit them from a local build now and then to keep the fallback recent. Media images still load from the CMS, so they break while it is down. The CMS requests time out after 20 seconds and the first failure switches the rest of that process to the snapshot.
+
+During a CMS outage, a preview can also use a previous `press-snapshot` workflow artifact through `PRESS_CONTENT_SNAPSHOT`. Check its date and draft status, reuse the available media image cache, then build with `vercel build --target preview` and upload with `vercel deploy --prebuilt`. Record the snapshot date in the PR because its media content stays frozen at that point. Homepage statistics requests time out after ten seconds and use their existing fallback values.
 
 Two jobs can build and publish it.
 
