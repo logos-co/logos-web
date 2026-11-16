@@ -40,8 +40,8 @@ export function Privacy({ copy }: { copy: RailgunCopySection['privacy'] }) {
         <div className="band reveal rv">
           <Image
             src={railgunImage('snowy-road.jpg')}
-            width={808}
-            height={346}
+            width={1416}
+            height={607}
             alt={copy.photoAlt}
             loading="lazy"
           />

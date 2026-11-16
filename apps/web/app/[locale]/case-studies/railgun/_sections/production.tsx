@@ -117,9 +117,9 @@ export function Production({
         </div>
         <figure className="qp rv" id="qp">
           <Image
-            src={railgunImage('quote.jpg')}
-            width={1672}
-            height={941}
+            src={railgunImage('snowy-mountains-at-night.jpg')}
+            width={1416}
+            height={760}
             alt={copy.photoAlt}
             loading="lazy"
           />

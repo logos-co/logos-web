@@ -594,7 +594,7 @@
   margin-top: 100px;
   border-radius: 12px;
   overflow: hidden;
-  aspect-ratio: 1416/608;
+  aspect-ratio: 1416/607;
   position: relative;
 }
 :where(.railgun) .band img,
@@ -1146,6 +1146,7 @@
   left: 40px;
   top: 40px;
   max-width: 640px;
+  color: var(--ow);
 }
 :where(.railgun) .qp blockquote {
   margin: 0;
@@ -1666,6 +1667,7 @@
   }
   :where(.railgun) .qp .q {
     position: static;
+    color: inherit;
   }
   :where(.railgun) .qp blockquote {
     --fz: 40px;
