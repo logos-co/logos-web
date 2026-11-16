@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { programmeItems, programmeStatus } from '@/lib/rfp-programme'
+import {
+  programmeItems,
+  programmeStatus,
+  rfpDetailBody,
+} from '@/lib/rfp-programme'
 import type { GithubRfp } from '@/lib/rfps-github'
 
 describe('RFP programme status', () => {
@@ -9,6 +13,18 @@ describe('RFP programme status', () => {
     expect(programmeStatus('upcoming')).toBe('upcoming')
     expect(programmeStatus('closed')).toBe('closed')
     expect(programmeStatus('awarded')).toBe('closed')
+  })
+
+  it('hides application instructions on closed and upcoming detail pages', () => {
+    const body =
+      '## Overview\nSpec.\n\n## ✏️ How to Apply\nSubmit here.\n\n## Resources\nDocs.'
+    expect(rfpDetailBody(body, 'open')).toBe(body)
+    expect(rfpDetailBody(body, 'closed')).toBe(
+      '## Overview\nSpec.\n\n## Resources\nDocs.'
+    )
+    expect(
+      rfpDetailBody('Spec.\n\n## How to Apply\nSubmit here.', 'upcoming')
+    ).toBe('Spec.')
   })
 
   it('keeps source data intact and excludes full Markdown from client props', () => {

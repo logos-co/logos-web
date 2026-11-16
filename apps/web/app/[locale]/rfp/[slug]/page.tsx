@@ -21,7 +21,7 @@ import {
   fetchGithubRfps,
   stripLeadingHeading,
 } from '@/lib/rfps-github'
-import { programmeStatus } from '@/lib/rfp-programme'
+import { programmeStatus, rfpDetailBody } from '@/lib/rfp-programme'
 import { createBreadcrumbListJsonLd } from '@/lib/structured-data'
 
 export async function generateStaticParams() {
@@ -66,6 +66,9 @@ export default async function RfpDetailPage({ params }: LocaleSlugParams) {
     getTranslations('pages.rfps.detail'),
   ])
 
+  const status = programmeStatus(rfp.status)
+  const body = rfpDetailBody(stripLeadingHeading(rfp.rawMarkdown), status)
+
   const meta = [
     { label: t('meta.status'), value: rfp.status },
     rfp.category ? { label: t('meta.category'), value: rfp.category } : null,
@@ -94,9 +97,9 @@ export default async function RfpDetailPage({ params }: LocaleSlugParams) {
         eyebrow={`${rfp.number} · ${rfp.status}`}
         title={rfp.title}
         tagline={rfp.summary}
-        body={<LegalMarkdown body={stripLeadingHeading(rfp.rawMarkdown)} />}
+        body={<LegalMarkdown body={body} />}
         primaryCta={
-          programmeStatus(rfp.status) === 'open'
+          status === 'open'
             ? { label: t('applyCta'), href: RFP_APPLY_URL, external: true }
             : undefined
         }

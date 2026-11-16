@@ -23,6 +23,15 @@ export function programmeStatus(status: string): RfpStatus {
   return value === 'open' ? 'open' : 'closed'
 }
 
+export function rfpDetailBody(body: string, status: RfpStatus): string {
+  if (status === 'open') return body
+  return body
+    .split(/(?=^#{1,2} )/m)
+    .filter((section) => !/^## (?:✏️ )?How to Apply[ \t]*\r?$/im.test(section))
+    .join('')
+    .trimEnd()
+}
+
 export function programmeItems(items: GithubRfp[]): ProgrammeRfp[] {
   return items.map(
     ({ number, slug, title, summary, category, tier, status }) => ({
