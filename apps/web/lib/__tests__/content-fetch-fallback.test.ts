@@ -49,9 +49,10 @@ afterEach(() => {
 describe('blog CMS outage', () => {
   it('fails the build by default', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(gatewayTimeout))
-    const { getBlogArticleSlugs } = await loadBlogContent()
+    const { getBlogArticleSlugs, isCmsUnavailable } = await loadBlogContent()
 
     await expect(getBlogArticleSlugs()).rejects.toThrow(/status=504/)
+    expect(isCmsUnavailable()).toBe(false)
   })
 
   it('reads the committed snapshot with ALLOW_CONTENT_FETCH_FAILURE', async () => {
@@ -70,6 +71,8 @@ describe('blog CMS outage', () => {
       fallback.articles[0]
     )
     await expect(content.isUsingPressSnapshot()).resolves.toBe(true)
+    // generate-media-assets reads this to skip image downloads.
+    expect(content.isCmsUnavailable()).toBe(true)
     // One failure is enough: the rest skips the dead CMS.
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })

@@ -1096,6 +1096,14 @@ const findPodcast = (
     (podcast) => podcast.slug === slug && podcast.showSlug === showSlug
   )
 
+/**
+ * True once this process gave up on an unreachable CMS and switched to the
+ * committed snapshot (ALLOW_CONTENT_FETCH_FAILURE=1).
+ */
+export function isCmsUnavailable(): boolean {
+  return cmsUnavailable
+}
+
 /** True when this process read media from a snapshot instead of the CMS. */
 export async function isUsingPressSnapshot(): Promise<boolean> {
   return cmsUnavailable || (await getPressSnapshot()) !== null
