@@ -55,6 +55,31 @@ apps/api/
 The handler drops a `fields` key from the body before it does anything else, so
 a client that sends one cannot push it into the Notion or n8n payloads.
 
+### Steward webhook payload
+
+`buildN8nPayload` in `src/lib/n8n/build-payload.ts` builds the webhook body from
+the steward form's own keys only, plus `formName`. Any other key a client sends
+(`status`, `reviewer`, the never-populated `socials` seed) is dropped, so it
+cannot land in a Baserow column of the same name. The keys are the fields in
+`apps/web/lib/funnel-forms/afform-activist-leader-steward.ts`, plus `country`
+(set by the city picker) and `hearAbout`.
+
+| Keys                                                                                           | Forwarded as                                         | Wrong type                    |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------- |
+| `name`, `city`, `email`, `affiliatedOrgs`, `backgroundLeader`, `activitiesVision`, `questions` | String                                               | Key left out                  |
+| `wantsEvents`, `wantsNewsletter`                                                               | Boolean                                              | Key left out                  |
+| `website`                                                                                      | List of non-empty strings, at most 5                 | Entry dropped, list kept      |
+| `country`                                                                                      | Merged `{ id, label }` shape                         | Key kept as an empty string   |
+| `skills`, `hearAbout`                                                                          | Merged `{ id, label }` shapes                        | Entry dropped                 |
+| `chat`, `chatService`                                                                          | One `chat` list of `{ handle, service? }` entries    | Entry dropped                 |
+
+For the list and id-based keys, the key appears whenever the client sends it:
+inside a list (or a single value treated as a list of one), only strings and
+numbers count, and anything else becomes an empty entry that is then dropped.
+List inputs are cut to 20 items before they are resolved. Every forwarded
+string is clipped to `N8N_TEXT_MAX_LENGTH`, which equals the Notion builder's
+2000-character limit.
+
 ### Notion write
 
 `submitToNotion` in `src/lib/notion/submit.ts` does four things:

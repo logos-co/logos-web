@@ -45,6 +45,30 @@ The steward webhook is best-effort and cannot indefinitely delay the Notion
 write. Its timeout is described in the API's
 [request handling](../../apps/api/docs/architecture.md#request-handling).
 
+### Steward webhook payload
+
+`buildN8nPayload` builds the body posted to the steward webhook from the
+steward form's own keys only. Any other key a client sends (`status`,
+`reviewer`, the never-populated `socials` seed) is dropped, so a scripted POST
+cannot add a key that n8n might map onto a Baserow column of the same name.
+
+| Key                                                                                           | Forwarded as                                                                          |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `formName`                                                                                    | Always set                                                                            |
+| `name`, `city`, `email`, `affiliatedOrgs`, `backgroundLeader`, `activitiesVision`, `questions` | String, clamped to 2000 chars (`N8N_TEXT_MAX_LENGTH`, equal to the Notion text limit) |
+| `wantsEvents`, `wantsNewsletter`                                                              | Boolean                                                                               |
+| `website`                                                                                     | List of non-empty strings, at most 5                                                  |
+| `country`                                                                                     | `{ id, label }` via `COUNTRY_MAP`, or `''` when empty                                 |
+| `skills`, `hearAbout`                                                                         | `{ id, label }` shapes via `SKILLS_MAP` and `HEAR_ABOUT_MAP`                          |
+| `chat`                                                                                        | List of `{ handle, service? }`, each handle merged with its `chatService` entry       |
+
+A text or checkbox answer of the wrong type is left out of the payload. The
+list and id-based keys are handled item by item instead: an item that is not a
+string or number is dropped, but the key is still forwarded when the body has
+it, so a bad `website` arrives as `[]` and a bad `country` as `''`.
+`chatService` is not forwarded on its own, since `chat` carries the services.
+List answers are read up to 20 items and each item is clamped to 2000 chars.
+
 ## Shared values in @repo/funnel
 
 `packages/funnel` (`@repo/funnel`) holds every value the form and the endpoint
