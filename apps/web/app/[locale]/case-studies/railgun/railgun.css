@@ -1974,6 +1974,7 @@ body.railgun-lock {
 
   :where(.railgun) .hero .lockup .x {
     font-size: 17.28px;
+    transform: translateY(1px);
   }
 
   :where(.railgun) .hero .lockup .railgun-wordmark {
