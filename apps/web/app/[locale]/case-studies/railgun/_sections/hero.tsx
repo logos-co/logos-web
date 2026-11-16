@@ -32,9 +32,8 @@ export function Hero({ copy }: { copy: RailgunCopySection['hero'] }) {
           </div>
           <div className="ph">
             <Image
-              src={railgunImage('cover.jpg')}
-              width={1672}
-              height={941}
+              src={railgunImage('snow-hikers.jpg')}
+              fill
               alt={copy.photoAlt}
               preload
             />

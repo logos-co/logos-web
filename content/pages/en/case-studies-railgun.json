@@ -6,10 +6,10 @@
   "description": "RAILGUN uses Logos Delivery to coordinate private transactions with zero-knowledge proofs on Ethereum, Arbitrum, Polygon and BNB Chain.",
   "seo": {
     "ogImage": {
-      "src": "/images/railgun/cover.jpg",
-      "alt": "Someone working on a laptop on a hilltop at golden hour beside a portable radio antenna",
-      "width": 1672,
-      "height": 941
+      "src": "/images/railgun/snow-hikers.jpg",
+      "alt": "Two hikers walking across a snowy slope in fog",
+      "width": 1447,
+      "height": 377
     }
   },
   "sections": [
@@ -18,7 +18,7 @@
       "key": "railgun.copy",
       "hero": {
         "railgunUsesLogosTo": "RAILGUN uses Logos to enable private DeFi on Ethereum",
-        "photoAlt": "Someone working on a laptop on a hilltop at golden hour beside a portable radio antenna",
+        "photoAlt": "Two hikers walking across a snowy slope in fog",
         "heading": "RAILGUN uses Logos to enable private DeFi on Ethereum.",
         "inProductionSince2023": "In production since 2023 on Ethereum, Arbitrum, Polygon and BNB Chain.",
         "lineBreaks": {
@@ -123,7 +123,7 @@
         "readableByOneBroadcaster": "Readable by one Broadcaster only.",
         "encryptedReplies": "Encrypted replies",
         "successOrFailureNotifications": "Success or failure notifications are routed back to the sender.",
-        "photoAlt": "A person walking alone along a path through tall golden grass in a wide valley",
+        "photoAlt": "A snow-covered road curving through a mountain valley",
         "whyRailgunChoseLogos": "Why RAILGUN chose Logos",
         "railgunFirstTriedBuilding": "RAILGUN first tried building its networking on libp2p directly, but moved to Logos Delivery to stop IP addresses leaking and putting users' anonymity at risk.",
         "ifThisCoordinationPassed": "If this coordination passed through a server, it would leave a trail to follow and rely on trusting a third party. That is the problem Logos Delivery solves.",
