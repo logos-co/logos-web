@@ -31,7 +31,9 @@ The public origin comes from `canonicalUrl` in [site settings](../../content/sit
 
 Copy [.env.example](.env.example) to `.env.local` (or `.env`). Add new variables to [`lib/env.ts`](lib/env.ts) instead of reading `process.env` from feature code.
 
-The build needs `STRAPI_API_KEY`; `/media` pages are built from the Strapi blog CMS. `SIMPLECAST_ACCESS_TOKEN` is optional locally but production builds fail without it. With `ALLOW_CONTENT_FETCH_FAILURE=1`, a failed CMS or active circles fetch falls back to the snapshots committed in `lib/data/` instead of failing the build; see [docs/deployment.md](../../docs/deployment.md#static-site-appsweb).
+The build needs `STRAPI_API_KEY`; `/media` pages are built from the Strapi blog CMS. `SIMPLECAST_ACCESS_TOKEN` is optional locally but production builds fail without it.
+
+A failed blog CMS or active circles fetch fails the build. During an outage, set `ALLOW_CONTENT_FETCH_FAILURE=1` and the build uses the snapshots committed in `lib/data/` (`press.snapshot.json` and `active-circles.snapshot.json`) instead, so that content can be stale. A missing `STRAPI_API_KEY` counts as a failure too. A post the CMS lists but the snapshot lacks is left out of listings, and its page renders the 404 page. `generate:media-assets` rewrites `press.snapshot.json` when all of its media reads came from the live CMS, and leaves it alone when any read used a snapshot. See [docs/deployment.md](../../docs/deployment.md#static-site-appsweb).
 
 ## Deploy
 

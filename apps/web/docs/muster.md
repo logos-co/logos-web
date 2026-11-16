@@ -12,6 +12,8 @@ The PriFi timeline shows Discovery, Diligence, Negotiation, Contracting, Orderin
 
 The cover stays pinned on wider screens only when its full content fits the viewport; otherwise it scrolls normally. The experiment disclaimer sits below the title in a readable, unanimated paragraph with a maximum width of 640px. A line draws before the cover image opens downwards and settles from a slight zoom. The title follows while the image opens; scrolling or interacting skips the remaining entrance. The 3, 4 and 7 statistics count up once on entering the viewport, with static values for screen readers. The Basecamp schematic draws its existing connections and briefly highlights the linked nodes, with each group triggered separately on mobile. Body copy is visible immediately. Entrances respect changes to the system reduced-motion setting and leave the final content visible without JavaScript.
 
+The cover header pairs the Logos lockup and the Muster lockup with a `×` between them. The Logos lockup renders at `size={28}`, and `muster.css` shifts its wordmark (the last SVG in `.muster-poster-logos .muster-logos`) down by `translateY(10.7%)` so the letterforms line up with the adjacent marks.
+
 The Build on Logos button in the intro jumps to the `#build-on-logos` section, which keeps a scroll margin so it lands below the header.
 
 The next case study links to RAILGUN when its content is available in the same build. If the page cannot find that content, the label still shows but is not a link (`aria-disabled="true"`).
