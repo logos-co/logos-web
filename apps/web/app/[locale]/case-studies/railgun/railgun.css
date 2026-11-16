@@ -1834,6 +1834,11 @@ body.railgun-lock {
   height: auto;
 }
 
+:where(.railgun) .hero .brand-lockup > svg:last-child {
+  /* Centre the letterforms above the baseline with the adjacent marks. */
+  transform: translateY(10.7%);
+}
+
 :where(.railgun) .hero .brand-lockup {
   min-height: 32.77px;
 }
