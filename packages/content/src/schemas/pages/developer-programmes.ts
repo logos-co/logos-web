@@ -5,18 +5,17 @@ import { sectionKeySchema } from './shared'
 
 const text = z.string().min(1)
 const link = z.object({ label: text, href: linkHrefSchema })
+const statLabel = z.object({ label: text })
+const staticStat = statLabel.extend({ value: text })
 const programme = z.object({
   name: text,
   panelTitle: text,
   tag: text,
   comparisonTag: text,
-  availability: text.optional(),
   image: mediaRefSchema,
   intro: text,
   body: text,
-  stats: z.array(z.object({ value: text, label: text })).length(3),
-  highlight: z.object({ label: text, title: text, detail: text }),
-  opportunities: z.array(z.object({ code: text, title: text, detail: text })),
+  highlight: z.object({ label: text }),
   cta: link,
   comparison: z.array(z.object({ label: text, body: text })).min(1),
   choice: z.object({ title: text, statements: z.array(text).min(1) }),
@@ -32,8 +31,14 @@ export const developerProgrammesCopySectionSchema = z.object({
     programmeImages: z.tuple([mediaRefSchema, mediaRefSchema]),
   }),
   programmes: z.tuple([
-    programme.extend({ id: z.literal('rfp') }),
-    programme.extend({ id: z.literal('prize') }),
+    programme.extend({
+      id: z.literal('rfp'),
+      stats: z.tuple([statLabel, staticStat, staticStat]),
+    }),
+    programme.extend({
+      id: z.literal('prize'),
+      stats: z.tuple([statLabel, statLabel, statLabel]),
+    }),
   ]),
   comparisonHeading: text,
   choiceHeading: text,

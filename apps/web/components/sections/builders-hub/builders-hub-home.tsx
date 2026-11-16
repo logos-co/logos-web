@@ -1,7 +1,5 @@
-import type {
-  BuilderHubHomeIdeaResolution,
-  BuilderHubHomeRfpResolution,
-} from '@repo/content/loaders'
+import type { BuilderHubHomeIdeaResolution } from '@repo/content/loaders'
+import type { ProgrammeCards } from '@/lib/programme-cards'
 import type { BuilderHubSettings } from '@repo/content/schemas'
 
 import { BuildersHubAppInstall } from './builders-hub-app-install'
@@ -17,13 +15,13 @@ import { SupportSection } from './_sections/support'
 
 type BuildersHubHomeProps = {
   settings: BuilderHubSettings
-  rfpResolution: BuilderHubHomeRfpResolution
+  programmeCards: ProgrammeCards
   ideaResolution: BuilderHubHomeIdeaResolution
 }
 
 export function BuildersHubHome({
   settings,
-  rfpResolution,
+  programmeCards,
   ideaResolution,
 }: BuildersHubHomeProps) {
   return (
@@ -39,7 +37,10 @@ export function BuildersHubHome({
       {settings.prepare ? <PrepareSection data={settings.prepare} /> : null}
       {settings.build ? <BuildSection data={settings.build} /> : null}
       {settings.programs ? (
-        <ProgramsSection data={settings.programs} rfps={rfpResolution.rfps} />
+        <ProgramsSection
+          data={settings.programs}
+          programmeCards={programmeCards}
+        />
       ) : null}
       {settings.support ? <SupportSection data={settings.support} /> : null}
       <BuildersHubAppInstall data={settings.appInstall} />

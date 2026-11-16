@@ -1,13 +1,10 @@
-import {
-  getBuilderHubSettings,
-  getPageCopy,
-  resolveBuilderHubHomeRfps,
-} from '@repo/content/loaders'
+import { getBuilderHubSettings, getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type { GetStartedCopySection } from '@repo/content/schemas'
 
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
+import { loadProgrammeCards } from '@/lib/programme-cards'
 import { createSectionFinder } from '@/lib/page-sections'
 
 import { GetStartedPage } from './_sections/get-started-page'
@@ -28,10 +25,10 @@ export default async function Page({
     throw new Error(`GetStartedPage received non-active locale "${locale}"`)
   }
 
-  const [page, builderHubSettings, rfpResolution] = await Promise.all([
+  const [page, builderHubSettings, programmeCards] = await Promise.all([
     getPageCopy(ROUTE, locale),
     getBuilderHubSettings(locale),
-    resolveBuilderHubHomeRfps(locale),
+    loadProgrammeCards(locale),
   ])
 
   const copySection = findSection<GetStartedCopySection>(
@@ -52,7 +49,7 @@ export default async function Page({
       data={copySection}
       basecampInstall={builderHubSettings.prepare}
       developerPrograms={builderHubSettings.programs}
-      rfps={rfpResolution.rfps}
+      programmeCards={programmeCards}
     />
   )
 }

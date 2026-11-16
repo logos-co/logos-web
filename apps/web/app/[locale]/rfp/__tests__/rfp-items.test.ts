@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { programmeItems, programmeStatus } from '../_sections/rfp-items'
+import { programmeItems, programmeStatus } from '@/lib/rfp-programme'
 import type { GithubRfp } from '@/lib/rfps-github'
 
 describe('RFP programme status', () => {

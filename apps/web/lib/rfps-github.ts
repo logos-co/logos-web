@@ -2,6 +2,7 @@ import matter from 'gray-matter'
 import { cache } from 'react'
 
 import { ROUTES } from '@/constants/routes'
+import { githubMarkdownDirectory } from '@/lib/github-markdown'
 import type { RfpListItem } from '@/lib/rfp-types'
 
 /**
@@ -15,14 +16,7 @@ import type { RfpListItem } from '@/lib/rfp-types'
  * the listing UI hides whatever is missing.
  */
 
-const RFP_CONTENTS_URL =
-  'https://api.github.com/repos/logos-co/rfp/contents/RFPs'
-const RFP_JSDELIVR_FLAT_URL =
-  'https://data.jsdelivr.com/v1/package/gh/logos-co/rfp@master/flat'
-const RFP_JSDELIVR_CONTENT_BASE_URL =
-  'https://cdn.jsdelivr.net/gh/logos-co/rfp@master/RFPs/'
-const RFP_GITHUB_BLOB_BASE_URL =
-  'https://github.com/logos-co/rfp/blob/master/RFPs/'
+const rfpDirectory = githubMarkdownDirectory('logos-co/rfp', 'RFPs')
 
 /** Where the detail-page "Apply" CTA points (GitHub issue template). */
 export const RFP_APPLY_URL =
@@ -30,34 +24,6 @@ export const RFP_APPLY_URL =
 
 /** The RFP repo, linked from the listing header and detail footer. */
 export const RFP_REPO_URL = 'https://github.com/logos-co/rfp'
-
-/**
- * GitHub's API rejects unauthenticated requests without a User-Agent. A token
- * (optional) lifts the 60 req/hr unauthenticated rate limit during CI builds.
- */
-const githubHeaders = (): Record<string, string> => {
-  const headers: Record<string, string> = {
-    Accept: 'application/vnd.github.v3+json',
-    'User-Agent': 'logos-web-build',
-  }
-  const token = process.env.GITHUB_TOKEN
-  if (token) headers.Authorization = `token ${token}`
-  return headers
-}
-
-const publicMirrorHeaders: Readonly<Record<string, string>> = {
-  'User-Agent': 'logos-web-build',
-}
-
-const contentHeaders = (url: string): Readonly<Record<string, string>> => {
-  try {
-    return new URL(url).hostname === 'api.github.com'
-      ? githubHeaders()
-      : publicMirrorHeaders
-  } catch {
-    return publicMirrorHeaders
-  }
-}
 
 export type GithubRfp = RfpListItem & {
   /** RFP identifier, e.g. `RFP-001`. */
@@ -71,151 +37,9 @@ export type GithubRfp = RfpListItem & {
   rawMarkdown: string
 }
 
-type GithubContentEntry = {
-  name: string
-  download_url: string | null
-  html_url: string | null
-  git_url?: string | null
-}
-
-const isContentEntry = (value: unknown): value is GithubContentEntry =>
-  typeof value === 'object' &&
-  value !== null &&
-  typeof (value as GithubContentEntry).name === 'string'
-
-type GithubBlobResponse = {
-  content?: string
-  encoding?: string
-}
-
-type JsDelivrFlatResponse = {
-  files?: unknown
-}
-
-/** Signals `withRetry` that the failure is transient and worth another round. */
-class RetryableError extends Error {
-  constructor(message: string, options?: { cause?: unknown }) {
-    super(message, options)
-    this.name = 'RetryableError'
-  }
-}
-
-const RETRY_ATTEMPTS = 3
-const RETRY_BASE_DELAY_MS = 500
-
-/**
- * Statuses worth a second look: GitHub answers rate limits with 403/429 and
- * transient upstream trouble with 5xx. A 404 is a definitive answer -- retrying
- * it only delays the next fallback URL.
- */
-const isRetryableStatus = (status: number): boolean =>
-  status === 403 || status === 429 || status >= 500
-
-const wait = (ms: number): Promise<void> =>
-  new Promise((resolve) => setTimeout(resolve, ms))
-
-/**
- * Runs `attempt` up to `RETRY_ATTEMPTS` times with exponential backoff, so a
- * transient GitHub failure doesn't fail the build on the first try. `attempt`
- * returns `null` to give up immediately and throws `RetryableError` to ask for
- * another round. Resolves to `null` once every attempt is spent.
- */
-const withRetry = async <T>(
-  attempt: () => Promise<T | null>
-): Promise<T | null> => {
-  for (let round = 1; round <= RETRY_ATTEMPTS; round++) {
-    try {
-      return await attempt()
-    } catch (error) {
-      if (!(error instanceof RetryableError) || round === RETRY_ATTEMPTS) {
-        return null
-      }
-      await wait(RETRY_BASE_DELAY_MS * 2 ** (round - 1))
-    }
-  }
-  return null
-}
-
-const fetchTextWithRetry = (
-  url: string,
-  headers: Readonly<Record<string, string>>
-): Promise<string | null> =>
-  withRetry(async () => {
-    let res: Response
-    try {
-      res = await fetch(url, { headers })
-    } catch (error) {
-      throw new RetryableError(`Request to ${url} failed`, { cause: error })
-    }
-    if (res.ok) return res.text()
-    if (isRetryableStatus(res.status)) {
-      throw new RetryableError(`${url} responded ${res.status}`)
-    }
-    return null
-  })
-
-const fetchGithubBlob = async (
-  url: string,
-  headers: Readonly<Record<string, string>>
-): Promise<string | null> => {
-  try {
-    const res = await fetch(url, { headers })
-    if (!res.ok) return null
-    const body = (await res.json()) as GithubBlobResponse
-    if (body.encoding !== 'base64' || typeof body.content !== 'string') {
-      return null
-    }
-    return Buffer.from(body.content.replace(/\s/g, ''), 'base64').toString(
-      'utf8'
-    )
-  } catch {
-    return null
-  }
-}
-
-const rawUrlFromHtmlUrl = (htmlUrl: string | null): string | null => {
-  if (!htmlUrl) return null
-  try {
-    const url = new URL(htmlUrl)
-    if (url.hostname !== 'github.com') return null
-    url.hostname = 'raw.githubusercontent.com'
-    url.pathname = url.pathname.replace('/blob/', '/')
-    return url.href
-  } catch {
-    return null
-  }
-}
-
-const fetchRfpMarkdownEntry = async (
-  entry: GithubContentEntry
-): Promise<string | null> => {
-  if (entry.download_url) {
-    const raw = await fetchTextWithRetry(
-      entry.download_url,
-      contentHeaders(entry.download_url)
-    )
-    if (raw) return raw
-  }
-
-  const rawUrl = rawUrlFromHtmlUrl(entry.html_url)
-  if (rawUrl && rawUrl !== entry.download_url) {
-    const raw = await fetchTextWithRetry(rawUrl, contentHeaders(rawUrl))
-    if (raw) return raw
-  }
-
-  if (entry.git_url) {
-    const blob = await fetchGithubBlob(
-      entry.git_url,
-      contentHeaders(entry.git_url)
-    )
-    if (blob) return blob
-  }
-
-  const fallbackUrl = `${RFP_JSDELIVR_CONTENT_BASE_URL}${encodeURIComponent(entry.name)}`
-  return fetchTextWithRetry(fallbackUrl, publicMirrorHeaders)
-}
-
-export const fetchRfpMarkdownEntryForTest = fetchRfpMarkdownEntry
+export const fetchRfpMarkdownEntryForTest = rfpDirectory.read
+export const fetchRfpListingForTest = rfpDirectory.list
+export const parseJsDelivrRfpListingForTest = rfpDirectory.parseListing
 
 /** `RFP-001-admin-authority-lib.md` → `admin-authority-lib`. */
 const toSlug = (filename: string, fallback: string): string => {
@@ -310,8 +134,9 @@ const truncateAtWord = (text: string, max: number): string => {
   if (text.length <= max) return text
   const clipped = text.slice(0, max)
   const lastSpace = clipped.lastIndexOf(' ')
-  const trimmed = (lastSpace > 0 ? clipped.slice(0, lastSpace) : clipped)
-    .replace(/[\s,;:.\-—]+$/, '')
+  const trimmed = (
+    lastSpace > 0 ? clipped.slice(0, lastSpace) : clipped
+  ).replace(/[\s,;:.\-—]+$/, '')
   return `${trimmed}…`
 }
 
@@ -418,93 +243,6 @@ export class RfpSourceError extends Error {
   }
 }
 
-const parseJsDelivrRfpListing = (
-  value: unknown
-): GithubContentEntry[] | null => {
-  if (typeof value !== 'object' || value === null) return null
-
-  const files = (value as JsDelivrFlatResponse).files
-  if (!Array.isArray(files)) return null
-
-  return files.flatMap((file): GithubContentEntry[] => {
-    if (typeof file !== 'object' || file === null) return []
-
-    const path = (file as { name?: unknown }).name
-    if (typeof path !== 'string' || !path.startsWith('/RFPs/')) return []
-
-    const name = path.slice('/RFPs/'.length)
-    if (!name || name.includes('/')) return []
-
-    const encodedName = encodeURIComponent(name)
-    return [
-      {
-        name,
-        download_url: `${RFP_JSDELIVR_CONTENT_BASE_URL}${encodedName}`,
-        html_url: `${RFP_GITHUB_BLOB_BASE_URL}${encodedName}`,
-        git_url: null,
-      },
-    ]
-  })
-}
-
-export const parseJsDelivrRfpListingForTest = parseJsDelivrRfpListing
-
-const fetchJsDelivrRfpListing = async (): Promise<
-  GithubContentEntry[] | null
-> => {
-  const raw = await fetchTextWithRetry(
-    RFP_JSDELIVR_FLAT_URL,
-    publicMirrorHeaders
-  )
-  if (!raw) return null
-
-  try {
-    return parseJsDelivrRfpListing(JSON.parse(raw))
-  } catch {
-    return null
-  }
-}
-
-/** Lists `RFPs/`, falling back to the public mirror after GitHub failures. */
-const fetchRfpListing = async (): Promise<GithubContentEntry[]> => {
-  let lastFailure = 'no response'
-  const entries = await withRetry<unknown>(async () => {
-    let res: Response
-    try {
-      res = await fetch(RFP_CONTENTS_URL, { headers: githubHeaders() })
-    } catch (error) {
-      lastFailure = error instanceof Error ? error.message : 'request failed'
-      throw new RetryableError(lastFailure, { cause: error })
-    }
-    if (!res.ok) {
-      lastFailure = `${res.status} ${res.statusText}`
-      if (isRetryableStatus(res.status)) throw new RetryableError(lastFailure)
-      return null
-    }
-    try {
-      return await res.json()
-    } catch (error) {
-      lastFailure = 'listing response was not valid JSON'
-      throw new RetryableError(lastFailure, { cause: error })
-    }
-  })
-
-  if (Array.isArray(entries)) {
-    return entries.filter(isContentEntry)
-  }
-
-  if (entries !== null) lastFailure = 'listing response was not an array'
-
-  const fallbackEntries = await fetchJsDelivrRfpListing()
-  if (fallbackEntries?.length) return fallbackEntries
-
-  throw new RfpSourceError(
-    `Failed to list RFPs from GitHub (${lastFailure}) and jsDelivr`
-  )
-}
-
-export const fetchRfpListingForTest = fetchRfpListing
-
 /**
  * Fetches and parses every published RFP from the GitHub repo, sorted by RFP
  * number. Drafts and the `RFP-000` template are excluded. Wrapped in React
@@ -518,23 +256,23 @@ export const fetchRfpListingForTest = fetchRfpListing
  * silently 404 (there is no runtime fallback under `output: 'export'`).
  */
 export const fetchGithubRfps = cache(async (): Promise<GithubRfp[]> => {
-  const entries = await fetchRfpListing()
+  const entries = await rfpDirectory.list().catch((error: Error) => {
+    throw new RfpSourceError(error.message, { cause: error })
+  })
 
-  const mdFiles = entries
-    .filter(isContentEntry)
-    .filter(
-      (entry) =>
-        entry.name.endsWith('.md') &&
-        entry.name.startsWith('RFP-') &&
-        !entry.name.startsWith('RFP-000') &&
-        entry.download_url
-    )
+  const mdFiles = entries.filter(
+    (entry) =>
+      entry.name.endsWith('.md') &&
+      entry.name.startsWith('RFP-') &&
+      !entry.name.startsWith('RFP-000') &&
+      entry.download_url
+  )
 
   const parsed = await Promise.all(
     mdFiles.map(async (entry): Promise<GithubRfp | null> => {
       let raw: string | null
       try {
-        raw = await fetchRfpMarkdownEntry(entry)
+        raw = await rfpDirectory.read(entry)
       } catch (error) {
         throw new RfpSourceError(`Failed to fetch ${entry.name}`, {
           cause: error,

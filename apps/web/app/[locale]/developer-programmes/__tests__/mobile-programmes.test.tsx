@@ -14,12 +14,25 @@ vi.mock('@/i18n/navigation', () => ({
     createElement('a', props, children),
 }))
 
+import { programmeSummaries } from '@/lib/programme-summaries'
 import { MobileProgrammes } from '../_sections/mobile-programmes'
 import { MobileComparison } from '../_sections/mobile-comparison'
 import { Comparison } from '../_sections/comparison'
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true
 const copy = developerProgrammesCopySectionSchema.parse(page.sections[0])
+const mobileProps = (data = copy) => ({
+  mobile: data.mobile,
+  programmes: programmeSummaries(
+    data.programmes,
+    {
+      items: [],
+      statuses: { open: 'Open', upcoming: 'Upcoming', closed: 'Closed' },
+    },
+    { openCards: [], openTotal: '$0', awardedCount: 0, largest: undefined },
+    '0 prizes open'
+  ),
+})
 let container: HTMLDivElement
 let root: Root
 beforeEach(() => {
@@ -34,7 +47,7 @@ afterEach(() => {
 
 describe('mobile programme content', () => {
   it('opens and closes each card independently with accessible state', () => {
-    act(() => root.render(createElement(MobileProgrammes, copy)))
+    act(() => root.render(createElement(MobileProgrammes, mobileProps())))
     const buttons = [...container.querySelectorAll('button')]
     const panels = buttons.map(
       (button) =>
@@ -62,7 +75,7 @@ describe('mobile programme content', () => {
     edited.programmes[1].comparison[0]!.body = 'Updated shared comparison'
     edited.programmes[1].comparison[0]!.label = 'Edited prize start label'
     edited.programmes[1].comparisonTag = 'Edited comparison tag'
-    act(() => root.render(createElement(MobileProgrammes, edited)))
+    act(() => root.render(createElement(MobileProgrammes, mobileProps(edited))))
     const button = container.querySelector('button')!
     expect(button.textContent).toContain('Read programme details')
     act(() => button.click())

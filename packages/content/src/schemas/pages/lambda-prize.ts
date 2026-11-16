@@ -25,27 +25,20 @@ export const lambdaPrizeCopySectionSchema = z.object({
       .array(
         z.object({
           id: z.enum(['open', 'total', 'largest', 'awarded']),
-          value: text,
           label: text,
         })
       )
       .length(4),
   }),
   featured: sectionIntro.extend({ body: text, cta: link }),
-  prizes: z
-    .array(
-      z.object({
-        id: text,
-        status: z.enum(['open', 'coming-soon']),
-        statusLabel: text,
-        title: text,
-        body: text,
-        amount: text,
-        cta: link.optional(),
-        featured: z.object({ image: mediaRefSchema, body: text }).optional(),
-      })
-    )
-    .min(1),
+  prizes: z.array(
+    z.object({
+      id: text,
+      comingSoon: z.boolean().optional(),
+      body: text.optional(),
+      featured: z.object({ image: mediaRefSchema, body: text }).optional(),
+    })
+  ),
   howItWorks: sectionIntro.extend({
     steps: z.array(row.extend({ number: text })).min(1),
     requirements: sectionIntro.extend({
@@ -66,7 +59,7 @@ export const lambdaPrizeCopySectionSchema = z.object({
     rows: z.array(row).min(1),
     cta: link,
   }),
-  openPrizes: sectionIntro.extend({ body: text, cta: link }),
+  openPrizes: sectionIntro.extend({ cta: link }),
   ownership: z.object({
     eyebrow: text,
     lines: z
@@ -75,7 +68,6 @@ export const lambdaPrizeCopySectionSchema = z.object({
     body: text,
   }),
   rewarded: sectionIntro.extend({
-    body: text,
     cta: link,
     solutions: z
       .array(z.object({ id: text, title: text, author: text, cta: link }))
@@ -95,5 +87,3 @@ export interface LambdaPrizeCopySection extends z.infer<
 > {
   componentType: 'lambdaPrizeCopy'
 }
-
-export type LambdaPrize = LambdaPrizeCopySection['prizes'][number]

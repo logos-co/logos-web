@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import Image from 'next/image'
-import type { BuilderHubHomeRfpResolution } from '@repo/content/loaders'
+import type { ProgrammeCards } from '@/lib/programme-cards'
+import { ROUTES } from '@/constants/routes'
 import type { BuilderHubSettings, MediaRef } from '@repo/content/schemas'
 import ContentWidth from '@/components/layout/content-width'
 import { LambdaLockup } from '@/components/ui/lambda-lockup'
@@ -11,7 +12,7 @@ interface DeveloperProgramsSectionProps {
   index: string
   title: string
   data: NonNullable<BuilderHubSettings['programs']>
-  rfps: BuilderHubHomeRfpResolution['rfps']
+  programmeCards: ProgrammeCards
   eventNames?: {
     prize: string
     rfps: string
@@ -23,10 +24,10 @@ export function DeveloperProgramsSection({
   index,
   title,
   data,
-  rfps,
+  programmeCards,
   eventNames,
 }: DeveloperProgramsSectionProps) {
-  const previewRfps = rfps.filter((rfp) => !rfp.featured).slice(0, 4)
+  const { prize, rfps, rfpLinkLabel, noOpenRfps } = programmeCards
 
   return (
     <ProgramPanelsSection
@@ -41,7 +42,7 @@ export function DeveloperProgramsSection({
       <ProgramImagePanel
         link={{
           href: data.prizeHref,
-          ariaLabel: `${data.prizeTitle}: ${data.prizeHeading}`,
+          ariaLabel: `${data.prizeTitle}: ${prize?.title ?? data.prizeHeading}`,
           eventName: eventNames?.prize,
         }}
         image={data.prizeImage}
@@ -52,6 +53,16 @@ export function DeveloperProgramsSection({
         }
         title={data.prizeHeading}
         description={data.prizeDescription}
+        featured={
+          prize && (
+            <div className="relative w-full max-w-[338px] rounded-xl border border-brand-off-white/50 px-4 py-3">
+              <p className="font-mono text-xs">
+                {prize.id} · {prize.amount}
+              </p>
+              <p className="mt-1 text-mono-s">{prize.title}</p>
+            </div>
+          )
+        }
       />
 
       <ProgramOutlinePanel
@@ -62,39 +73,39 @@ export function DeveloperProgramsSection({
         }}
         title={data.rfpsTitle}
         description={data.rfpsDescription}
-      >
-        <div className="mt-15 flex w-full justify-center gap-3 md:w-[1416px] md:-translate-x-[176px] md:justify-start">
-          {/* The copy stays in the flow: a tagline long enough to reach the
-              CTA grows the card (and its row) instead of covering the CTA. */}
-          {previewRfps.map((rfp, itemIndex) => (
-            <div
-              key={rfp.slug}
-              className={`relative hidden min-h-[166px] w-full max-w-[345px] shrink-0 flex-col overflow-hidden rounded-xl border border-brand-dark-green/50 p-4 first:flex md:flex md:w-[345px] ${
-                itemIndex % 2 === 1 ? 'opacity-50' : ''
-              }`}
-            >
-              {/* Two lines are reserved so the CTA lines up across cards. */}
-              <h4 className="min-h-[2lh] w-[249px] text-h4-sans">
-                {rfp.title}
-              </h4>
-              <span className="mt-3.5 self-start font-mono text-xs font-semibold uppercase underline underline-offset-[3px]">
-                {rfp.ctaLabel ?? data.rfpsTitle}
-              </span>
-              <p className="mt-auto w-[186px] pt-0.5 text-mono-s">
-                {rfp.tagline ?? rfp.summary}
-              </p>
-              {rfp.image ? (
-                <Image
-                  src={rfp.image.src}
-                  alt={rfp.image.alt}
-                  width={96}
-                  height={120}
-                  className="absolute right-[10px] bottom-[11px] h-[120px] w-[96px] object-cover max-[400px]:hidden"
-                />
-              ) : null}
+        actions={
+          rfps.length > 0 ? (
+            <div className="mt-6 flex w-full gap-3 overflow-x-auto p-1 pb-2">
+              {rfps.map((rfp) => (
+                <Link
+                  key={rfp.number}
+                  href={`${ROUTES.rfps}/${rfp.slug}`}
+                  className="flex w-[min(272px,90%)] shrink-0 cursor-pointer flex-col rounded-xl border border-brand-dark-green/50 p-3 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-dark-green"
+                >
+                  <p className="font-mono text-xs">{rfp.number}</p>
+                  <h4 className="mt-1 text-subhead-sans">{rfp.title}</h4>
+                  <div className="mt-2 flex gap-2">
+                    <p className="line-clamp-2 text-mono-s">{rfp.summary}</p>
+                    {rfp.image && (
+                      <Image
+                        src={rfp.image.src}
+                        alt={rfp.image.alt}
+                        width={36}
+                        height={36}
+                        className="h-9 w-9 shrink-0 rounded object-cover"
+                      />
+                    )}
+                  </div>
+                  <span className="mt-auto pt-2 font-mono text-xs underline underline-offset-3">
+                    {rfpLinkLabel}
+                  </span>
+                </Link>
+              ))}
             </div>
-          ))}
-        </div>
+          ) : undefined
+        }
+      >
+        {rfps.length === 0 && <p className="mt-6 text-mono-s">{noOpenRfps}</p>}
       </ProgramOutlinePanel>
     </ProgramPanelsSection>
   )
@@ -219,6 +230,7 @@ interface ProgramImagePanelProps {
   mark: ReactNode
   title: string
   description: string
+  featured?: ReactNode
 }
 
 export function ProgramImagePanel({
@@ -227,11 +239,12 @@ export function ProgramImagePanel({
   mark,
   title,
   description,
+  featured,
 }: ProgramImagePanelProps) {
   return (
     <ProgramPanel
       link={link}
-      className="relative flex h-[370px] flex-col items-center justify-center gap-10 overflow-hidden rounded-xl px-4 py-10 text-center text-brand-off-white"
+      className={`relative flex h-[370px] flex-col items-center justify-center overflow-hidden rounded-xl px-4 py-10 text-center text-brand-off-white ${featured ? 'gap-5' : 'gap-10'}`}
     >
       <Image
         src={image.src}
@@ -246,6 +259,7 @@ export function ProgramImagePanel({
         <h3 className="text-subhead-sans">{title}</h3>
         <p className="w-full max-w-[338px] text-mono-s">{description}</p>
       </div>
+      {featured}
     </ProgramPanel>
   )
 }
@@ -277,14 +291,16 @@ export function ProgramOutlinePanel({
     <ProgramPanel
       link={link}
       overlay={Boolean(actions)}
-      className="flex h-[370px] flex-col items-center justify-center overflow-hidden rounded-xl border border-brand-dark-green px-4 py-10"
+      className="flex h-[370px] min-w-0 flex-col items-center justify-center overflow-hidden rounded-xl border border-brand-dark-green px-4 py-10"
     >
       {mark ? <div className="mb-10">{mark}</div> : null}
-      <div className="flex flex-col items-center gap-3 text-center">
+      <div className="flex w-full min-w-0 flex-col items-center gap-3 text-center">
         <h3 className="text-subhead-sans">{title}</h3>
         <p className="w-full max-w-[338px] text-mono-s">{description}</p>
         {actions ? (
-          <div className="relative z-[2] text-mono-s">{actions}</div>
+          <div className="relative z-[2] w-full min-w-0 text-mono-s">
+            {actions}
+          </div>
         ) : null}
       </div>
       {children}

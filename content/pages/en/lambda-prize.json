@@ -46,22 +46,18 @@
         "stats": [
           {
             "id": "open",
-            "value": "5",
             "label": "PRIZES OPEN NOW"
           },
           {
             "id": "total",
-            "value": "$34,000",
             "label": "IN OPEN PRIZES"
           },
           {
             "id": "largest",
-            "value": "$20,000",
             "label": "LARGEST OPEN PRIZE"
           },
           {
             "id": "awarded",
-            "value": "11",
             "label": "PRIZES AWARDED"
           }
         ]
@@ -69,7 +65,7 @@
       "featured": {
         "eyebrow": "FEATURED PRIZES",
         "heading": "Featured prizes",
-        "body": "Three prizes to start with. Every open prize is listed further down.",
+        "body": "Start with these prizes or see the full list below.",
         "cta": {
           "label": "See all open prizes",
           "href": "#open-prizes"
@@ -78,15 +74,7 @@
       "prizes": [
         {
           "id": "LP-0021",
-          "status": "open",
-          "statusLabel": "OPEN · X-LARGE",
-          "title": "LEZ Wallet and Provider SDK",
           "body": "A wallet for a single LEZ zone, with public and private\naccounts and an SDK for third-party apps.",
-          "amount": "$20,000",
-          "cta": {
-            "label": "Learn more",
-            "href": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0021.md"
-          },
           "featured": {
             "image": {
               "src": "/images/lambda-prize/v3/wallet.webp",
@@ -97,15 +85,7 @@
         },
         {
           "id": "LP-0026",
-          "status": "open",
-          "statusLabel": "OPEN · LARGE",
-          "title": "Forum App",
           "body": "A public forum with privacy at its core, for open discussion\nwithout surveillance.",
-          "amount": "$5,500",
-          "cta": {
-            "label": "Learn more",
-            "href": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0026.md"
-          },
           "featured": {
             "image": {
               "src": "/images/lambda-prize/v3/forum.webp",
@@ -116,15 +96,7 @@
         },
         {
           "id": "LP-0001",
-          "status": "open",
-          "statusLabel": "OPEN · MEDIUM",
-          "title": "NFT Wallet Support and Private\nOwnership Proof",
           "body": "NFT support for the LEZ wallet, plus proof you hold an\nNFT from a collection without revealing which one.",
-          "amount": "$5,000",
-          "cta": {
-            "label": "Learn more",
-            "href": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0001.md"
-          },
           "featured": {
             "image": {
               "src": "/images/lambda-prize/v3/nft.webp",
@@ -135,35 +107,16 @@
         },
         {
           "id": "LP-0023",
-          "status": "open",
-          "statusLabel": "OPEN · MEDIUM",
-          "title": "LEZ Program Registry",
-          "body": "A registry that turns program IDs into named, searchable,\nsource-verified entries.",
-          "amount": "$2,000",
-          "cta": {
-            "label": "Learn more",
-            "href": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0023.md"
-          }
+          "body": "A registry that turns program IDs into named, searchable,\nsource-verified entries."
         },
         {
           "id": "LP-0018",
-          "status": "open",
-          "statusLabel": "OPEN · MEDIUM",
-          "title": "OpenStreetMap Integration",
-          "body": "Map data distributed through Logos Storage, with\nintegrity checks.",
-          "amount": "$1,500",
-          "cta": {
-            "label": "Learn more",
-            "href": "https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0018.md"
-          }
+          "body": "Map data distributed through Logos Storage, with\nintegrity checks."
         },
         {
           "id": "LP-0022",
-          "status": "coming-soon",
-          "statusLabel": "COMING SOON · LARGE",
-          "title": "Combined Blockchain and Zone\nWallet",
-          "body": "One wallet across the Logos blockchain and any number of\nLEZ zones, with staking and bridging.",
-          "amount": "$10,000"
+          "comingSoon": true,
+          "body": "One wallet across the Logos blockchain and any number of\nLEZ zones, with staking and bridging."
         }
       ],
       "howItWorks": {
@@ -271,7 +224,6 @@
       "openPrizes": {
         "eyebrow": "OPEN PRIZES",
         "heading": "Open prizes",
-        "body": "Five open now, one coming soon.",
         "cta": {
           "label": "All prizes on GitHub",
           "href": "https://github.com/logos-co/lambda-prize/tree/master/prizes"
@@ -302,7 +254,6 @@
       "rewarded": {
         "eyebrow": "Already shipped",
         "heading": "Already rewarded.",
-        "body": "11 prizes already have merged solutions.",
         "cta": {
           "label": "See past solutions",
           "href": "https://github.com/logos-co/lambda-prize/tree/master/solutions"

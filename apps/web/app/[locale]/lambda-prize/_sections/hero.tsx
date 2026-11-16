@@ -6,7 +6,15 @@ import { Link } from '@/i18n/navigation'
 import { Cta, Lines } from './atoms'
 import { Picture } from './picture'
 
-export function Hero({ copy }: { copy: LambdaPrizeCopySection['hero'] }) {
+type HeroCopy = LambdaPrizeCopySection['hero']
+
+export function Hero({
+  copy,
+  stats,
+}: {
+  copy: HeroCopy
+  stats: Record<HeroCopy['stats'][number]['id'], string>
+}) {
   return (
     <section className="lp-hero" aria-labelledby="lambda-title">
       <div className="lp-hero-meta">
@@ -62,7 +70,7 @@ export function Hero({ copy }: { copy: LambdaPrizeCopySection['hero'] }) {
           {copy.stats.map((stat) => (
             <div key={stat.id} className={`lp-stat lp-stat-${stat.id}`}>
               <dt className="lp-eyebrow">{stat.label}</dt>
-              <dd className="lp-display">{stat.value}</dd>
+              <dd className="lp-display">{stats[stat.id]}</dd>
             </div>
           ))}
         </dl>

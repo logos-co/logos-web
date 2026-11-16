@@ -1,8 +1,12 @@
+import { getTranslations } from 'next-intl/server'
 import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type { DeveloperProgrammesCopySection } from '@repo/content/schemas'
 
 import { ROUTES } from '@/constants/routes'
+import { loadLambdaProgramme } from '@/lib/lambda-programme'
+import { loadRfpProgramme } from '@/lib/rfp-programme'
+import { programmeSummaries } from '@/lib/programme-summaries'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
 
@@ -34,11 +38,23 @@ export default async function Page({ params }: PageProps) {
       `DeveloperProgrammesPage received non-active locale "${locale}"`
     )
   }
-  const page = await getPageCopy(ROUTES.developerProgrammes, locale)
+  const [page, rfp, prizes, t] = await Promise.all([
+    getPageCopy(ROUTES.developerProgrammes, locale),
+    loadRfpProgramme(locale),
+    loadLambdaProgramme(locale),
+    getTranslations({ locale, namespace: 'programmeData' }),
+  ])
   const copy = findSection<DeveloperProgrammesCopySection>(
     page.sections,
     'developerProgrammesCopy',
     'developerProgrammes.copy'
+  )
+
+  const summaries = programmeSummaries(
+    copy.programmes,
+    { items: rfp.items, statuses: rfp.copy.listing.statuses },
+    prizes,
+    t('availability', { count: prizes.openCards.length })
   )
 
   return (
@@ -46,8 +62,8 @@ export default async function Page({ params }: PageProps) {
       className={`developer-programmes text-small-compact ${programmeMono.variable}`}
     >
       <Hero copy={copy.hero} />
-      <Programmes programmes={copy.programmes} />
-      <MobileProgrammes programmes={copy.programmes} mobile={copy.mobile} />
+      <Programmes programmes={summaries} />
+      <MobileProgrammes programmes={summaries} mobile={copy.mobile} />
       <MobileComparison
         programmes={copy.programmes}
         heading={copy.comparisonHeading}

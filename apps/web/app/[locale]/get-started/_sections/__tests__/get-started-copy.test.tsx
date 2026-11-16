@@ -118,6 +118,13 @@ const developerPrograms = {
   items: [],
 }
 
+const programmeCards = {
+  prize: undefined,
+  rfps: [],
+  rfpLinkLabel: 'Learn more',
+  noOpenRfps: 'No RFPs are open',
+}
+
 describe('GetStartedPage – content-driven copy', () => {
   it('renders heading from data prop', () => {
     const html = renderToStaticMarkup(
@@ -125,7 +132,7 @@ describe('GetStartedPage – content-driven copy', () => {
         data: sectionData,
         basecampInstall: basecampInstall as never,
         developerPrograms: developerPrograms as never,
-        rfps: [],
+        programmeCards,
       })
     )
     expect(html).toContain('Get Started')
@@ -137,7 +144,7 @@ describe('GetStartedPage – content-driven copy', () => {
         data: sectionData,
         basecampInstall: basecampInstall as never,
         developerPrograms: developerPrograms as never,
-        rfps: [],
+        programmeCards,
       })
     )
     expect(html).toContain('Everything you need to start building privacy-first')
@@ -149,7 +156,7 @@ describe('GetStartedPage – content-driven copy', () => {
         data: sectionData,
         basecampInstall: basecampInstall as never,
         developerPrograms: developerPrograms as never,
-        rfps: [],
+        programmeCards,
       })
     )
     expect(html).toContain('Start Building')
@@ -161,7 +168,7 @@ describe('GetStartedPage – content-driven copy', () => {
         data: sectionData,
         basecampInstall: basecampInstall as never,
         developerPrograms: developerPrograms as never,
-        rfps: [],
+        programmeCards,
       })
     )
     expect(html).toContain('Join the community')

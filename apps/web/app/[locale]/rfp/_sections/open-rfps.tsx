@@ -7,7 +7,7 @@ import { Link } from '@/i18n/navigation'
 import { ROUTES } from '@/constants/routes'
 
 import { Lines, Cta, Photo, Tag, type RfpCopy } from './atoms'
-import type { ProgrammeRfp } from './rfp-items'
+import type { ProgrammeRfp } from '@/lib/rfp-programme'
 
 type Filter = 'open' | 'closed' | 'all'
 
@@ -31,7 +31,7 @@ export function OpenRfps({
   const curated = copy.featured.flatMap((feature) =>
     visible
       .filter((item) => item.number === feature.id)
-      .map((item) => ({ ...item, ...feature }))
+      .map((item) => ({ ...item, image: feature.image, body: feature.body }))
   )
   const featured =
     curated.length > 0
@@ -136,7 +136,9 @@ export function OpenRfps({
         )}
       </div>
       <div className="rfp-actions">
-        <Cta link={copy.submitCta} />
+        {items.some(({ status }) => status === 'open') && (
+          <Cta link={copy.submitCta} />
+        )}
         <Cta link={copy.githubCta} variant="secondary" />
       </div>
     </section>
