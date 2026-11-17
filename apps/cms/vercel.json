@@ -6,5 +6,6 @@
       "path": "/api/health",
       "schedule": "0 * * * *"
     }
-  ]
+  ],
+  "ignoreCommand": "node ../../scripts/vercel-ignore-build.mjs"
 }

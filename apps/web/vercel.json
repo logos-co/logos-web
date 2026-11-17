@@ -1,4 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "pnpm turbo run build --filter=web"
+  "buildCommand": "pnpm turbo run build --filter=web",
+  "ignoreCommand": "node ../../scripts/vercel-ignore-build.mjs"
 }
