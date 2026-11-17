@@ -27,6 +27,7 @@
     "test:perf": "tsx test/performance/export-performance.test.ts",
     "test:static": "tsx scripts/static-export-smoke.ts && tsx test/static-export/accessibility.test.ts && tsx test/static-export/navigation.test.ts",
     "test:watch": "vitest",
+    "generate:fonts": "bash scripts/generate-fonts.sh",
     "generate:zines": "tsx scripts/generate-zine-assets.ts",
     "generate:programme-images": "tsx scripts/generate-programme-images.ts",
     "generate:lambda-prize-images": "tsx scripts/generate-lambda-prize-images.ts"

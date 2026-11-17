@@ -10,20 +10,30 @@ Rhymes Display regular (`public/fonts/rhymes-display/rhymes-display-regular.woff
 
 ## Gitignore rules
 
-The root `.gitignore` ignores `*.woff`, `*.woff2`, `*.ttf` and `*.otf` under `apps/*/public/fonts`, then re-includes `apps/*/public/fonts/rhymes-display/*.woff2` because the license is verified and Vercel builds need the file.
+The root `.gitignore` ignores `*.woff`, `*.woff2`, `*.ttf` and `*.otf` under `apps/*/public/fonts`, then re-includes `apps/*/public/fonts/rhymes-display/*.woff2` because the license is verified and Vercel builds need the file. It also re-includes the four OFL font directories listed below.
 
 To add a self-hosted font, verify the license with the brand owner first, add a re-include rule for it and commit the file.
 
 ## Google fonts
 
-[`app/fonts.ts`](../app/fonts.ts) loads these with `next/font/google` rather than self-hosting:
+These Google Fonts families are self-hosted with `next/font/local`:
 
-- Public Sans (400/500/600/700), `--next-font-sans`
-- Open Sans (400), `--next-font-article`
-- Fira Code (400/500), `--next-font-mono`
-- Fira Mono (400/700), `--next-font-mono-body`
+| Family      | Weights            | File                                        | Variable                                          |
+| ----------- | ------------------ | ------------------------------------------- | ------------------------------------------------- |
+| Public Sans | 400-700 (variable) | `public-sans/public-sans-latin-wght.woff2`  | `--next-font-sans`                                |
+| Open Sans   | 400                | `open-sans/open-sans-latin-400.woff2`       | `--next-font-article`                             |
+| Fira Code   | 400-600 (variable) | `fira-code/fira-code-latin-wght.woff2`      | `--next-font-mono`, `--developer-programmes-mono` |
+| Fira Mono   | 400, 700           | `fira-mono/fira-mono-latin-{400,700}.woff2` | `--next-font-mono-body`                           |
+
+All four are under the SIL Open Font License; each directory ships its `OFL.txt`.
+
+We don't use `next/font/google` because it downloads the fonts during `next build`. Google Fonts sometimes answers with extensionless `/l/font?kit=` URLs, which crash the webpack loader with `TypeError: Cannot read properties of null (reading '1')` and fail CI at random ([vercel/next.js#99114](https://github.com/vercel/next.js/issues/99114)).
+
+The files only cover Latin and Latin Extended (the `latin` and `latin-ext` unicode ranges Google Fonts uses). Characters from other scripts, such as Cyrillic or Greek, render in the fallback font.
+
+To change weights or update the fonts, edit [`scripts/generate-fonts.sh`](../scripts/generate-fonts.sh) and run `pnpm --filter web generate:fonts`. It downloads the sources from a pinned `google/fonts` commit, trims the weight axes and subsets them with `fonttools` (needs `uv`). Then update the loaders in [`app/fonts.ts`](../app/fonts.ts) and commit the regenerated files.
 
 The web build uses `next build --webpack` because the Turbopack Google font
-loader failed to resolve Fira Code during deployment. Fonts and their options
-are unchanged. Once a normal Turbopack build succeeds with the same fonts,
-remove `--webpack` from `build:app` in [`package.json`](../package.json).
+loader failed to resolve Fira Code during deployment. No font comes from Google
+at build time any more, so once a normal Turbopack build succeeds, remove
+`--webpack` from `build:app` in [`package.json`](../package.json).
