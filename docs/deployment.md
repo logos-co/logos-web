@@ -35,6 +35,8 @@ Successful staging builds save the media they fetched as a `press-snapshot.json`
 
 [apps/web/vercel.json](../apps/web/vercel.json) sets the build command for Vercel preview deployments.
 
+The web, API and CMS `vercel.json` files use [`scripts/vercel-ignore-build.mjs`](../scripts/vercel-ignore-build.mjs) as the ignored build step. It skips the build when nothing the app builds from changed since the last deployment of the branch, or since `develop` for a new branch. That covers the app, its workspace dependencies, `packages/config`, `content/` for apps using `@repo/content` and the root build files. Changes to docs and tests are not counted. A redeploy of the same commit always builds.
+
 ## API (apps/api)
 
 Deployed on Vercel. [apps/api/vercel.json](../apps/api/vercel.json) sets the build command to `pnpm turbo run build --filter=api`.
