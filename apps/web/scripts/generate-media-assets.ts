@@ -166,7 +166,7 @@ async function writeMediaImages(
 
   // A failed download only costs speed: the page keeps the CMS URL.
   if (fixturesDir) {
-    console.log(
+    console.info(
       `Media images: using ${buildUrls.length} local fixtures, ${urls.length - buildUrls.length} other images keep their CMS URLs`
     )
   } else if (offline) {
