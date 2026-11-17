@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
 import {
@@ -130,24 +130,46 @@ async function writeMediaFeeds(
 const cacheOnly = (): Promise<Buffer> =>
   Promise.reject(new Error('CMS unavailable, image not cached'))
 
+const fixtureImageName = (url: string): string =>
+  `${path.parse(new URL(url).pathname).name}.webp`
+
 async function writeMediaImages(
   posts: MediaPost[]
 ): Promise<MediaImageManifest> {
   const startedAt = Date.now()
+  const fixturesDir = env.PRESS_MEDIA_IMAGE_FIXTURES_DIR
   const offline = isCmsUnavailable()
   const urls = [...new Set(posts.flatMap(collectMediaImageUrls))]
+  const fixtures = fixturesDir ? new Set(await readdir(fixturesDir)) : null
+  const buildUrls = fixtures
+    ? urls.filter((url) => fixtures.has(fixtureImageName(url)))
+    : urls
+  const fetchImage = fixturesDir
+    ? (url: string) => readFile(path.join(fixturesDir, fixtureImageName(url)))
+    : offline
+      ? cacheOnly
+      : undefined
   const { manifest, failures, skipped } = await buildMediaImages({
-    urls,
+    urls: buildUrls,
     cacheDir: MEDIA_IMAGE_CACHE_DIR,
     outputDir: MEDIA_IMAGE_OUTPUT_DIR,
-    ...(offline ? { fetchImage: cacheOnly } : {}),
+    fetchImage,
   })
 
+  if (fixturesDir && (buildUrls.length === 0 || failures.length > 0)) {
+    throw new Error(
+      `Press image fixtures could not be generated: ${failures.map(({ reason }) => reason).join('; ') || 'no fixture matches the snapshot'}`
+    )
+  }
   await mkdir(path.dirname(MEDIA_IMAGE_MANIFEST_PATH), { recursive: true })
   await writeFile(MEDIA_IMAGE_MANIFEST_PATH, JSON.stringify(manifest))
 
   // A failed download only costs speed: the page keeps the CMS URL.
-  if (offline) {
+  if (fixturesDir) {
+    console.log(
+      `Media images: using ${buildUrls.length} local fixtures, ${urls.length - buildUrls.length} other images keep their CMS URLs`
+    )
+  } else if (offline) {
     console.warn(
       `Media images: CMS unavailable, ${failures.length} uncached images stay on the CMS`
     )

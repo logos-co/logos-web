@@ -36,10 +36,9 @@ jobs:
       DEPLOYMENT_VERSION: ci
       # Use the committed circles snapshot if Hasura is unreachable.
       ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE: '1'
-      # The /media pages are built from the blog CMS, the only source of media
-      # content. With API mode production the build fails without either secret.
-      STRAPI_API_KEY: ${{ secrets.STRAPI_API_KEY }}
-      SIMPLECAST_ACCESS_TOKEN: ${{ secrets.SIMPLECAST_ACCESS_TOKEN }}
+      # Exercise the media export with committed data and images in CI.
+      PRESS_CONTENT_SNAPSHOT: ${{ github.workspace }}/apps/web/lib/data/press.snapshot.json
+      PRESS_MEDIA_IMAGE_FIXTURES_DIR: ${{ github.workspace }}/apps/web/test/fixtures/press-images
       NEXT_PUBLIC_API_MODE: production
       NEXT_PUBLIC_SERVER_URL: http://localhost:3001
       NEXT_PUBLIC_WEB_URL: http://localhost:3000
