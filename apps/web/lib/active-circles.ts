@@ -10,6 +10,7 @@
 import snapshotJson from './data/active-circles.snapshot.json' with { type: 'json' }
 import {
   UPCOMING_CIRCLE_EVENTS_LIMIT,
+  isUpcomingCircleEvent,
   type ActiveCircleMarker,
   type ActiveCircleUpcomingEvent,
   type ActiveCirclesOverview,
@@ -30,6 +31,13 @@ export {
 
 const snapshot = snapshotJson as ActiveCirclesSnapshot
 
+function getCurrentUpcomingEvents(): ActiveCircleUpcomingEvent[] {
+  const now = new Date()
+  return snapshot.upcomingEvents.filter(({ startAt }) =>
+    isUpcomingCircleEvent(startAt, now)
+  )
+}
+
 /**
  * Map markers for the active circles — one per distinct active city, already
  * sorted by "City, Country". Sourced from the committed snapshot.
@@ -46,7 +54,7 @@ export async function getActiveCircleMarkers(): Promise<ActiveCircleMarker[]> {
 export async function getUpcomingCircleEvents(
   limit: number = UPCOMING_CIRCLE_EVENTS_LIMIT
 ): Promise<ActiveCircleUpcomingEvent[]> {
-  return snapshot.upcomingEvents.slice(0, limit)
+  return getCurrentUpcomingEvents().slice(0, limit)
 }
 
 /**
@@ -54,12 +62,18 @@ export async function getUpcomingCircleEvents(
  * the same `snapshot.circles` the map uses, guaranteeing the two stay in sync.
  */
 export async function getActiveCirclesOverview(): Promise<ActiveCirclesOverview> {
+  const upcomingEventCount = getCurrentUpcomingEvents().length
   return {
+    snapshotDate: snapshot.generatedAt.slice(0, 10),
     activeSinceDate: snapshot.activeSinceDate,
     activeLocations: snapshot.circles.map((circle) => ({
       label: `${circle.city}, ${circle.country}`,
       href: circle.eventUrl,
     })),
-    stats: snapshot.stats,
+    stats: snapshot.stats.map((stat) =>
+      stat.id === 'upcomingEvents'
+        ? { ...stat, value: upcomingEventCount }
+        : stat
+    ),
   }
 }

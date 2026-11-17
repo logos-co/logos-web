@@ -72,6 +72,8 @@ export type Env = {
    * in `lib/data/` instead of failing the build.
    */
   ALLOW_CONTENT_FETCH_FAILURE: boolean
+  /** Allow the active circles sync alone to keep its committed snapshot. */
+  ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE: boolean
 }
 
 function assertOneOf<T extends string>(
@@ -150,6 +152,13 @@ export const env: Env = {
       process.env.ALLOW_CONTENT_FETCH_FAILURE,
       ['0', '1'] as const,
       'ALLOW_CONTENT_FETCH_FAILURE',
+      true
+    ) === '1',
+  ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE:
+    assertOneOf(
+      process.env.ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE,
+      ['0', '1'] as const,
+      'ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE',
       true
     ) === '1',
 }

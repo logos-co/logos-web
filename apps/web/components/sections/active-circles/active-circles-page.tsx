@@ -13,6 +13,7 @@ import { ACTIVE_CIRCLES_DAYS } from '@/lib/active-circles'
 
 type ActiveCirclesPageViewProps = {
   activeSinceDate: string
+  snapshotDate: string
   activeLocations: ActiveCircleLocation[]
   stats: ActiveCircleStat[]
 }
@@ -119,7 +120,13 @@ function LocationLink({ location }: { location: ActiveCircleLocation }) {
   return <div className={className}>{content}</div>
 }
 
-function ActiveCirclesHero({ activeSinceDate }: { activeSinceDate: string }) {
+function ActiveCirclesHero({
+  activeSinceDate,
+  snapshotDate,
+}: {
+  activeSinceDate: string
+  snapshotDate: string
+}) {
   const t = useTranslations('activeCircles')
 
   return (
@@ -144,7 +151,7 @@ function ActiveCirclesHero({ activeSinceDate }: { activeSinceDate: string }) {
           </div>
         </div>
         <p className="text-mono-s col-start-2 row-start-1 mt-28 max-w-[178px] text-brand-off-white/70 md:col-span-2 md:col-start-11 md:mt-16">
-          Live event data from Logos Circle sources.
+          {t('eventsAsOf', { date: snapshotDate })}
         </p>
       </ContentWidth>
     </section>
@@ -197,12 +204,16 @@ function LocationsSection({
 
 export default function ActiveCirclesPageView({
   activeSinceDate,
+  snapshotDate,
   activeLocations,
   stats,
 }: ActiveCirclesPageViewProps) {
   return (
     <>
-      <ActiveCirclesHero activeSinceDate={activeSinceDate} />
+      <ActiveCirclesHero
+        activeSinceDate={activeSinceDate}
+        snapshotDate={snapshotDate}
+      />
       <StatsSection stats={stats} />
       <LocationsSection locations={activeLocations} />
     </>

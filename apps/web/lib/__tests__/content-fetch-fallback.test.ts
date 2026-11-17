@@ -5,6 +5,7 @@ import type { PressSnapshot } from '@/lib/press-snapshot'
 const { envStub, fallback } = vi.hoisted(() => ({
   envStub: {
     ALLOW_CONTENT_FETCH_FAILURE: false,
+    ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE: false,
     NEXT_PUBLIC_API_MODE: undefined as string | undefined,
     PRESS_CONTENT_SNAPSHOT: undefined as string | undefined,
     STRAPI_API_KEY: 'test-key' as string | undefined,
@@ -45,6 +46,7 @@ const loadBlogContent = async () => {
 
 beforeEach(() => {
   envStub.ALLOW_CONTENT_FETCH_FAILURE = false
+  envStub.ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE = false
   envStub.STRAPI_API_KEY = 'test-key'
 })
 
@@ -213,6 +215,23 @@ describe('allowContentFetchFailure', () => {
     expect(() => allowContentFetchFailure('Source', error)).toThrow(error)
     envStub.ALLOW_CONTENT_FETCH_FAILURE = true
     expect(() => allowContentFetchFailure('Source', error)).not.toThrow()
+  })
+
+  it('allows the circles snapshot independently of the blog CMS', async () => {
+    const { allowContentFetchFailure } =
+      await import('@/lib/content-fetch-fallback')
+    const error = new Error('upstream 504')
+    const onCirclesFailure = () =>
+      allowContentFetchFailure(
+        'Active circles',
+        error,
+        'ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE'
+      )
+
+    expect(onCirclesFailure).toThrow(error)
+    envStub.ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE = true
+    expect(onCirclesFailure).not.toThrow()
+    expect(() => allowContentFetchFailure('Blog CMS', error)).toThrow(error)
   })
 })
 

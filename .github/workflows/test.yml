@@ -34,6 +34,8 @@ jobs:
       # the static export. The Actions-provided token lifts this to 1,000/hr.
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       DEPLOYMENT_VERSION: ci
+      # Use the committed circles snapshot if Hasura is unreachable.
+      ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE: '1'
       # The /media pages are built from the blog CMS, the only source of media
       # content. With API mode production the build fails without either secret.
       STRAPI_API_KEY: ${{ secrets.STRAPI_API_KEY }}
