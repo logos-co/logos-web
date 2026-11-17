@@ -35,7 +35,11 @@ export function mountReveals(scope: MotionScope) {
     for (const word of node.data.matchAll(/\S+/g)) {
       range.setStart(node, word.index)
       range.setEnd(node, word.index + word[0].length)
-      const { top } = range.getBoundingClientRect()
+      // WebKit can include a zero-width rect on the previous line at a break.
+      const wordRect = Array.from(range.getClientRects()).find(
+        (rect) => rect.width > 0
+      )
+      const top = wordRect?.top ?? range.getBoundingClientRect().top
       if (currentTop === undefined || Math.abs(currentTop - top) > 4)
         lines.push(word[0])
       else lines[lines.length - 1] += ` ${word[0]}`

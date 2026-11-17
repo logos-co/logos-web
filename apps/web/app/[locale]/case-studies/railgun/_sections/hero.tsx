@@ -18,7 +18,7 @@ export function Hero({ copy }: { copy: RailgunCopySection['hero'] }) {
           <div className="lockrow wrap">
             <span className="lockup">
               <span className="lg">
-                <BrandLockup />
+                <BrandLockup markSize={18.21} />
               </span>
               <span className="x">×</span>
               <Image

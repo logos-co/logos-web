@@ -1,3 +1,7 @@
+.railgun .railgun-footer {
+  background-color: var(--dark-bg);
+}
+
 .railgun-footer [data-footer-part='logo'] .brand-lockup {
   display: flex;
   gap: 4px;
