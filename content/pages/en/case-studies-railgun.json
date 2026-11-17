@@ -6,10 +6,10 @@
   "description": "RAILGUN uses Logos Delivery to coordinate private transactions with zero-knowledge proofs on Ethereum, Arbitrum, Polygon and BNB Chain.",
   "seo": {
     "ogImage": {
-      "src": "/images/railgun/snow-hikers.jpg",
-      "alt": "Two hikers walking across a snowy slope in fog",
-      "width": 1447,
-      "height": 377
+      "src": "/images/railgun/social-preview.jpg",
+      "alt": "Two hikers in the snow beside the title 'How RAILGUN uses Logos to enable private DeFi on Ethereum'",
+      "width": 1200,
+      "height": 630
     }
   },
   "sections": [

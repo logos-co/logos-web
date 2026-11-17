@@ -32,7 +32,7 @@ export function Hero({ copy }: { copy: RailgunCopySection['hero'] }) {
           </div>
           <div className="ph">
             <Image
-              src={railgunImage('snow-hikers.jpg')}
+              src={railgunImage('snow-hikers-banner.png')}
               fill
               alt={copy.photoAlt}
               preload
