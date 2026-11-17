@@ -17,7 +17,7 @@ Branch protection blocks direct pushes to `develop` and `master`. The `deploy-*`
 
 The site is a static export of `apps/web/out`, built with `pnpm turbo run build --filter=web --force`. The `--force` is deliberate: Turbo hashes source files, and most of the media comes from an external CMS, so a cache hit could ship last week's articles. Builds that fetch that media run `scripts/capture-press-snapshot.ts` first and pass the result through `PRESS_CONTENT_SNAPSHOT`, so feeds, cards and article pages all use one fetch.
 
-Every build, whatever its deploy target, takes the origin for canonical links, social metadata, JSON-LD, robots and sitemap URLs from `canonicalUrl` in [`content/site/en/settings.json`](../content/site/en/settings.json) (`https://logos.co`). The pipelines pass no site URL, so staging and preview deployment hostnames stay out of SEO URLs.
+Every build takes the origin for canonical links, JSON-LD, robots and sitemap URLs from `canonicalUrl` in [`content/site/en/settings.json`](../content/site/en/settings.json) (`https://logos.co`). Vercel Preview builds use the deployment hostname from `VERCEL_URL` for Open Graph page URLs and site-hosted Open Graph and X card images. Other builds use the canonical origin for those tags. Keep Vercel's system environment variables enabled. A link preview service must be able to fetch the page and image without signing in.
 
 A failed fetch from the blog CMS or the active circles API fails the build by default. Set `ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE=1` to allow only Active Circles to reuse its committed snapshot on error. The release test workflow sets this option. The Active Circles page shows the date of the snapshot and excludes past events from its upcoming count.
 

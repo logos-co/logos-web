@@ -23,6 +23,11 @@ type DefaultMetadataProps = {
 }
 
 const baseUrl = siteConfig.url.replace(/\/+$/, '')
+const canonicalOrigin = new URL(baseUrl).origin
+const previewOrigin =
+  env.VERCEL_ENV === 'preview' && env.VERCEL_URL
+    ? `https://${env.VERCEL_URL}`
+    : undefined
 
 export function absoluteUrl(
   path: string,
@@ -31,6 +36,13 @@ export function absoluteUrl(
   const localeSegment = locale === siteConfig.defaultLocale ? '' : `/${locale}`
   const normalizedPath = path === '' || path.startsWith('/') ? path : `/${path}`
   return `${baseUrl}${localeSegment}${normalizedPath}`
+}
+
+export function socialCardUrl(url: string) {
+  const resolved = new URL(url, `${baseUrl}/`)
+  return previewOrigin && resolved.origin === canonicalOrigin
+    ? `${previewOrigin}${resolved.pathname}${resolved.search}${resolved.hash}`
+    : resolved.href
 }
 
 export async function createDefaultMetadata({
@@ -50,12 +62,13 @@ export async function createDefaultMetadata({
   const _description = description || siteConfig.description
 
   const fullUrl = absoluteUrl(path)
-  const socialImage = image ?? {
-    url: absoluteUrl('/og.jpeg'),
+  const cardImage = image ?? {
+    url: '/og.jpeg',
     width: 1200,
     height: 630,
     alt: _title,
   }
+  const socialImage = { ...cardImage, url: socialCardUrl(cardImage.url) }
 
   return {
     title: _title,
@@ -78,7 +91,7 @@ export async function createDefaultMetadata({
     openGraph: {
       title: _title,
       description: _description,
-      url: fullUrl,
+      url: socialCardUrl(fullUrl),
       type: openGraphType,
       locale,
       siteName: siteConfig.name,

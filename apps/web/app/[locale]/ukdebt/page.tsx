@@ -2,12 +2,12 @@ import type { Metadata } from 'next'
 
 import siteConfig from '@/constants/site-config'
 import { ROUTES } from '@/constants/routes'
-import { absoluteUrl } from '@/lib/metadata'
+import { absoluteUrl, socialCardUrl } from '@/lib/metadata'
 import { env } from '@/lib/env'
 
 import UkDebtContent from './UkDebtContent'
 
-const OG_IMAGE = '/campaigns/ukdebt/og-image.jpg'
+const OG_IMAGE = socialCardUrl('/campaigns/ukdebt/og-image.jpg')
 const TITLE = 'UK Debt Crisis: Act Now | Logos'
 const DESCRIPTION =
   "The UK's debt is costing £114 billion in annual interest producing nothing. That's money that could fund public services, affordable housing, and robust community infrastructure. It's time to do something about it."
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    url: '/ukdebt',
+    url: socialCardUrl(ROUTES.ukDebt),
     type: 'article',
     images: [
       {
