@@ -50,6 +50,8 @@ export type Env = {
   GITHUB_TOKEN: string | undefined
   /** Internal build artifact containing the reviewed media content. */
   PRESS_CONTENT_SNAPSHOT: string | undefined
+  /** Local media inputs for a build that exercises image generation offline. */
+  PRESS_MEDIA_IMAGE_FIXTURES_DIR: string | undefined
   /**
    * Server-side Simplecast API token for legacy Logos Press Engine podcast
    * audio metadata.
@@ -72,6 +74,8 @@ export type Env = {
    * in `lib/data/` instead of failing the build.
    */
   ALLOW_CONTENT_FETCH_FAILURE: boolean
+  /** Allow the active circles sync alone to keep its committed snapshot. */
+  ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE: boolean
 }
 
 function assertOneOf<T extends string>(
@@ -129,6 +133,9 @@ export const env: Env = {
   PRESS_CONTENT_SNAPSHOT: readOptionalString(
     process.env.PRESS_CONTENT_SNAPSHOT
   ),
+  PRESS_MEDIA_IMAGE_FIXTURES_DIR: readOptionalString(
+    process.env.PRESS_MEDIA_IMAGE_FIXTURES_DIR
+  ),
   SIMPLECAST_ACCESS_TOKEN: readOptionalString(
     process.env.SIMPLECAST_ACCESS_TOKEN
   ),
@@ -150,6 +157,13 @@ export const env: Env = {
       process.env.ALLOW_CONTENT_FETCH_FAILURE,
       ['0', '1'] as const,
       'ALLOW_CONTENT_FETCH_FAILURE',
+      true
+    ) === '1',
+  ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE:
+    assertOneOf(
+      process.env.ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE,
+      ['0', '1'] as const,
+      'ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE',
       true
     ) === '1',
 }
