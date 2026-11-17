@@ -55,6 +55,9 @@ apps/api/
 The handler drops a `fields` key from the body before it does anything else, so
 a client that sends one cannot push it into the Notion or n8n payloads.
 
+The keys `buildN8nPayload` forwards are listed in the funnel doc's
+[steward webhook payload](../../../docs/funnel/README.md#steward-webhook-payload).
+
 ### Notion write
 
 `submitToNotion` in `src/lib/notion/submit.ts` does four things:

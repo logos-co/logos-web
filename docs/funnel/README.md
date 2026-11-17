@@ -45,6 +45,35 @@ The steward webhook is best-effort and cannot indefinitely delay the Notion
 write. Its timeout is described in the API's
 [request handling](../../apps/api/docs/architecture.md#request-handling).
 
+### Steward webhook payload
+
+`buildN8nPayload` (`apps/api/src/lib/n8n/build-payload.ts`) builds the body
+posted to the steward webhook from the steward form's own keys only, plus
+`formName`: the fields in
+`apps/web/lib/funnel-forms/afform-activist-leader-steward.ts`, plus `country`
+(set by the city picker) and `hearAbout`. Any other key a client sends
+(`status`, `reviewer`, the never-populated `socials` seed) is dropped, so a
+scripted POST cannot add a key that n8n might map onto a Baserow column of the
+same name.
+
+| Key                                                                                            | Forwarded as                                                                          |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `formName`                                                                                     | Always set                                                                            |
+| `name`, `city`, `email`, `affiliatedOrgs`, `backgroundLeader`, `activitiesVision`, `questions` | String, clamped to 2000 chars (`N8N_TEXT_MAX_LENGTH`, equal to the Notion text limit) |
+| `wantsEvents`, `wantsNewsletter`                                                               | Boolean                                                                               |
+| `website`                                                                                      | List of non-empty strings, at most 5                                                  |
+| `country`                                                                                      | `{ id, label }` via `COUNTRY_MAP`, or `''` when empty                                 |
+| `skills`, `hearAbout`                                                                          | `{ id, label }` shapes via `SKILLS_MAP` and `HEAR_ABOUT_MAP`                          |
+| `chat`                                                                                         | List of `{ handle, service? }`, each handle merged with its `chatService` entry       |
+
+A text or checkbox answer of the wrong type is left out of the payload. The
+list and id-based keys are handled item by item instead: an item that is not a
+string or number is dropped, but the key is still forwarded when the body has
+it, so a bad `website` arrives as `[]` and a bad `country` as `''`.
+`chatService` is not forwarded on its own, since `chat` carries the services.
+List answers are read up to 20 items before they are resolved and each item is
+clamped to 2000 chars.
+
 ## Shared values in @repo/funnel
 
 `packages/funnel` (`@repo/funnel`) holds every value the form and the endpoint
@@ -152,7 +181,7 @@ general intake safeguard, independently of this UI switch.
 | `apps/api/src/lib/notion/constants.ts`                     | Notion API base URL, version, 2000 char text limit                                   |
 | `apps/api/src/lib/notion/evaluation-template.ts`           | Evaluation template blocks attached to every new page                                |
 | `apps/api/src/lib/notion/submit.ts`                        | `submitToNotion`: resolves the data source, builds properties, POSTs the page        |
-| `apps/api/src/lib/n8n/build-payload.ts`                    | `buildN8nPayload`: merges id-based answers with their labels                         |
+| `apps/api/src/lib/n8n/build-payload.ts`                    | `buildN8nPayload`: steward keys only, id-based answers merged with labels            |
 | `apps/api/src/lib/n8n/constants.ts`                        | `N8N_STEWARD_WEBHOOK_URL`                                                            |
 | `apps/api/src/lib/n8n/submit.ts`                           | `submitToN8n`: steward webhook POST                                                  |
 | `packages/funnel/src/index.ts`                             | `@repo/funnel` entry point; re-exports the modules below                             |

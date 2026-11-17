@@ -24,9 +24,18 @@ renders the rest, so one quiet node doesn't take the view down.
 `/api/chain/stream` turns the node's newline-delimited block stream into
 server-sent events. `/api/chain/search` looks a query up against blocks,
 transactions and accounts, and answers `kind: "none"` when nothing matches.
+The node reads block ids, transaction hashes and account addresses as 32 bytes
+of hex with an optional `0x` prefix, so search accepts only that format
+(`isChainId` in [`src/lib/chain-query.ts`](../src/lib/chain-query.ts)). A query
+longer than 128 characters (`MAX_CHAIN_ID_LENGTH`) gets a 400. Any other query
+that is not a chain id answers `kind: "none"` without a node request, which
+keeps `/`, `?`, `#` and `..` out of the node URL. Valid ids are URL-encoded
+before they go into the path.
 
 The block page at `/blockchain/block/[id]` is server-rendered and calls the lead
-node directly, so it needs no route of its own.
+node directly, so it needs no route of its own. It checks its `id` with
+`isChainId` too and answers 404 for anything else, again without calling the
+node.
 
 ## Two shapes, two parsers
 
