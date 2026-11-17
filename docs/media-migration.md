@@ -21,7 +21,7 @@ Deploy the /media pages to logos.co first and check a few of them, then turn the
 
 Nothing in production. The media pages, the article cards across the site and the media search (a static index written at build time) read the CMS at cms-press.logos.co directly, and there is no fallback to the old blog.
 
-No build reads blog.logos.co either, but they all need `STRAPI_API_KEY` for that CMS: local dev, CI, Vercel previews and Jenkins fail without it ([`apps/web/lib/blog-content.ts`](../apps/web/lib/blog-content.ts)). Production builds also fail without `SIMPLECAST_ACCESS_TOKEN`; other builds leave Simplecast episodes without their audio file.
+Web builds read the current blog CMS through [the media loader](../apps/web/lib/blog-content.ts) when a press snapshot is not supplied. Live reads need `STRAPI_API_KEY`, and live production podcast reads also need `SIMPLECAST_ACCESS_TOKEN`. See [Deployment](deployment.md#static-site-appsweb) for which builds use snapshots.
 
 ## What stays on blog.logos.co for now
 

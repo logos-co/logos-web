@@ -7,6 +7,7 @@
 
 import {
   ACTIVE_CIRCLES_DAYS,
+  isUpcomingCircleEvent,
   type ActiveCircleEvent,
   type ActiveCircleMarker,
   type ActiveCircleStat,
@@ -20,6 +21,8 @@ import {
   LOGOS_GRAPHQL_API_URL,
 } from './logos-data-api'
 import { logger } from './logger'
+
+const CIRCLES_FETCH_TIMEOUT_MS = 15_000
 
 type GraphqlResponse<TData> = {
   data?: TData
@@ -37,6 +40,7 @@ async function postGraphql<TData>(url: string, query: string): Promise<TData> {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query }),
     cache: 'no-store',
+    signal: AbortSignal.timeout(CIRCLES_FETCH_TIMEOUT_MS),
   })
 
   if (!response.ok) {
@@ -159,21 +163,6 @@ function byCityCountry(a: ActiveCircleMarker, b: ActiveCircleMarker): number {
   return `${a.city}, ${a.country}`.localeCompare(`${b.city}, ${b.country}`)
 }
 
-function startOfUtcDayMs(now: Date): number {
-  const date = new Date(now)
-  date.setUTCHours(0, 0, 0, 0)
-  return date.getTime()
-}
-
-// The events API returns timezone-naive timestamps (e.g. "2026-06-06T11:00:00").
-// Parsing those with `new Date(...)` would use the runtime's local zone, making
-// the result depend on the build machine. Pin naive timestamps to UTC so the
-// wall-clock is interpreted deterministically everywhere.
-function parseEventInstantMs(iso: string): number {
-  const hasZone = /([zZ])|([+-]\d{2}:?\d{2})$/.test(iso)
-  return Date.parse(hasZone ? iso : `${iso}Z`)
-}
-
 function toUpcomingEvent(event: ActiveCircleEvent): ActiveCircleUpcomingEvent {
   return {
     id: event.event_id,
@@ -265,13 +254,8 @@ function getUpcomingEvents(
   events: ActiveCircleEvent[],
   now: Date
 ): ActiveCircleUpcomingEvent[] {
-  const startOfToday = startOfUtcDayMs(now)
-
   return events
-    .filter((event) => {
-      const start = parseEventInstantMs(event.start_at ?? '')
-      return !Number.isNaN(start) && start >= startOfToday
-    })
+    .filter((event) => isUpcomingCircleEvent(event.start_at, now))
     .sort((a, b) => a.start_at.localeCompare(b.start_at))
     .map(toUpcomingEvent)
 }

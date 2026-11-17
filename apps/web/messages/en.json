@@ -4,6 +4,7 @@
     "totalEvents": "Total Circle Events",
     "distinctCountries": "Distinct Countries",
     "upcomingEvents": "Upcoming Events",
+    "eventsAsOf": "Event data as of {date}.",
     "joinCircle": "Join a Circle"
   },
   "locale": {

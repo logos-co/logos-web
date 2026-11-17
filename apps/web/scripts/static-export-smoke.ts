@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
-import { join, relative } from 'node:path'
+import { join, relative, resolve, sep } from 'node:path'
 
 import { getAllIdeas, getCircles } from '@repo/content/loaders'
 
@@ -243,6 +243,21 @@ const isLocalAssetHref = (href: string): boolean => {
   )
 }
 
+const exportedAssetExists = (href: string): boolean => {
+  try {
+    const pathname = decodeURIComponent(href.split(/[?#]/, 1)[0] ?? '')
+    const filePath = resolve(outDir, pathname.replace(/^\/+/, ''))
+    return (
+      filePath.startsWith(outDir + sep) &&
+      existsSync(filePath) &&
+      statSync(filePath).isFile()
+    )
+  } catch (error) {
+    if (error instanceof URIError) return false
+    throw error
+  }
+}
+
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
 
@@ -323,8 +338,7 @@ const assertHtmlPage = (route: string, filePath: string): string[] => {
   for (const rawHref of refs) {
     if (!rawHref || !isLocalAssetHref(rawHref)) continue
     const assetPath = rawHref.split(/[?#]/, 1)[0]!
-    const absolutePath = join(outDir, assetPath.replace(/^\/+/, ''))
-    if (!existsSync(absolutePath) || !statSync(absolutePath).isFile()) {
+    if (!exportedAssetExists(assetPath)) {
       failures.push(
         `${route} references missing asset ${assetPath} from ${relative(
           outDir,
@@ -375,10 +389,7 @@ const assertMediaSearchIndex = (): string[] => {
       failures.push(`media search links to ${document.href}, which has no page`)
     }
     const imageUrl = document.image?.url ?? ''
-    if (
-      isLocalAssetHref(imageUrl) &&
-      !existsSync(join(outDir, imageUrl.replace(/^\/+/, '')))
-    ) {
+    if (isLocalAssetHref(imageUrl) && !exportedAssetExists(imageUrl)) {
       failures.push(`media search thumbnail ${imageUrl} was not exported`)
     }
     return failures

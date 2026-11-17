@@ -11,6 +11,14 @@ export const ACTIVE_CIRCLES_DAYS = 120
 /** Number of upcoming events surfaced in the `/circles` "Upcoming Events" list. */
 export const UPCOMING_CIRCLE_EVENTS_LIMIT = 3
 
+/** Treat timezone-naive warehouse timestamps as UTC on every build host. */
+export function isUpcomingCircleEvent(startAt: string, now: Date): boolean {
+  const today = new Date(now)
+  today.setUTCHours(0, 0, 0, 0)
+  const hasZone = /z$|[+-]\d{2}:?\d{2}$/i.test(startAt)
+  return Date.parse(hasZone ? startAt : `${startAt}Z`) >= today.getTime()
+}
+
 export type ActiveCircleEvent = {
   event_id: string
   event_name: string
@@ -64,6 +72,7 @@ export type ActiveCircleUpcomingEvent = {
 }
 
 export type ActiveCirclesOverview = {
+  snapshotDate: string
   activeSinceDate: string
   activeLocations: ActiveCircleLocation[]
   stats: ActiveCircleStat[]

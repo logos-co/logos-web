@@ -7,10 +7,9 @@
 // keeps the two surfaces in sync by construction. It also runs as part of the
 // web build.
 //
-// Failures follow the same rule as the blog CMS: an unreachable API fails the
-// build, unless ALLOW_CONTENT_FETCH_FAILURE=1, in which case the existing
-// committed snapshot is kept. An API that answers with no circles at all keeps
-// the committed snapshot too.
+// A failed refresh keeps the committed snapshot when either the circles-only
+// or the global content fallback switch is enabled. An empty circles response
+// also leaves the committed snapshot in place.
 
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
@@ -32,7 +31,11 @@ async function main(): Promise<void> {
   try {
     snapshot = await buildActiveCirclesSnapshot(new Date())
   } catch (error) {
-    allowContentFetchFailure('Active circles', error)
+    allowContentFetchFailure(
+      'Active circles',
+      error,
+      'ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE'
+    )
     return
   }
 
