@@ -12,6 +12,8 @@ const BLOCKED_REQUESTS = [/umami\.bi\.status\.im/]
 const IGNORED_CONSOLE_ERRORS = [
   // hCaptcha warns when the page is served from localhost (local runs only).
   /localhost detected\. Please use a valid host/,
+  // Firefox logs third-party cookies it rejects (YouTube embeds) as errors.
+  /Cookie “[^”]+” has been rejected because it is in a cross-site context/,
 ]
 
 export const LOGOS_WEB_RULES: SiteRules = {
