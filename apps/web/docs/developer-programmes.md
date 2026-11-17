@@ -6,11 +6,11 @@ The [`/developer-programmes` page](../app/[locale]/developer-programmes/page.tsx
 
 In CMS **Pages**, open the `developer-programmes` record and edit its `page` JSON. The normal content sync imports this fixture after deployment. Saving uses the existing validated GitHub PR workflow against `develop`; publication follows the normal CMS publishing process.
 
-The `developerProgrammesCopy` section groups `hero`, `programmes`, comparison and choice headings, `choiceHelp`, `principles`, `statement`, and `resources`. Each programme owns its labels, descriptions, CTA, comparison rows and choice statements. The RFP build timeline and decision timing are editorial values. Its CTA and name are reused across the page. Image paths and alternative text are editable alongside the copy. Page title, description and SEO fields use the standard page metadata.
+The `developerProgrammesCopy` section groups `hero`, `programmes`, comparison and choice headings, `choiceHelp`, `principles`, `statement`, and `resources`. Each programme owns its labels, descriptions, CTA, comparison rows and choice statements. Statistic values, highlight titles and the opportunity rows come from GitHub at build time (see [Programme data](#programme-data)), so the copy holds only their labels. The RFP build timeline and decision timing are the exception: they stay editorial values. Each programme's CTA and name are reused across the page. Image paths and alternative text are editable alongside the copy. Page title, description and SEO fields use the standard page metadata.
 
 The [schema](../../../packages/content/src/schemas/pages/developer-programmes.ts) validates both the build-time loader and the CMS save operation. The existing Pages JSON field stores the section without new database fields or a database migration.
 
-The schema fixes some parts of the page structure, and a save that breaks them fails. `programmes` holds exactly two entries, `rfp` first and `prize` second. Each programme needs exactly three `stats`, `principles.items` needs exactly three entries and `mobile.programmeImages` exactly two. Comparison rows, choice statements and resource items each need at least one entry. Copy and link labels must be non-empty. Image alternative text may be empty, as it is in the fixture. Link destinations go through the shared link check, which rejects unsafe values such as `javascript:` URLs.
+The schema fixes some parts of the page structure, and a save that breaks them fails. `programmes` holds exactly two entries, `rfp` first and `prize` second. Each programme needs exactly three `stats`. For `rfp`, the first stat holds only a `label` and the other two hold a `label` and a `value`; for `prize`, all three hold only a `label`. Each programme's `highlight` holds only a `label`. `principles.items` needs exactly three entries and `mobile.programmeImages` exactly two. Comparison rows, choice statements and resource items each need at least one entry. Copy and link labels must be non-empty. Image alternative text may be empty, as it is in the fixture. Link destinations go through the shared link check, which rejects unsafe values such as `javascript:` URLs.
 
 Each programme has a `tag` for its image panel and a separate `comparisonTag` for the comparison card. Edit them independently when their wording differs.
 
@@ -34,7 +34,20 @@ The RFP statistics give the longer delivery-time value a wider middle column on 
 
 ## Programme data
 
-The [programme summaries](../lib/programme-summaries.ts) reuse the GitHub data behind the [RFP](rfp.md) and [Lambda Prize](lambda-prize.md) pages to calculate counts, amounts and highlights. The summary uses published RFP statuses. The site refreshes these values when it is rebuilt and published.
+The page loads its copy together with the RFP data from [`rfp-programme.ts`](../lib/rfp-programme.ts) and the prize data from [`lambda-programme.ts`](../lib/lambda-programme.ts), the same GitHub sources behind the [RFP](rfp.md) and [Lambda Prize](lambda-prize.md) pages. The [programme summaries](../lib/programme-summaries.ts) merge them with the copy, and the desktop and mobile programme cards both render the result. The summary uses published RFP statuses. The site refreshes these values when it is rebuilt and published.
+
+For the RFP programme:
+
+- The first stat shows the number of published RFPs, whatever their status. The other two stats keep their values from the copy.
+- The highlight shows the number and title of the first open RFP. With no open RFP, the highlight is hidden.
+- Up to two opportunity rows list the next open RFPs, then upcoming ones, each with its status label from the RFP page's `listing.statuses`.
+
+For the Lambda Prize programme:
+
+- The three stats show the number of open prizes, the total of their amounts and the number of awarded prizes.
+- The highlight shows the ID, title and amount of the largest open prize, and is hidden when no prize is open.
+- Up to two opportunity rows list other open prizes with their amounts.
+- The availability line comes from the `programmeData.availability` message in [`messages/en.json`](../messages/en.json).
 
 The [Builder Programmes panels](../components/sections/shared/developer-programs-section.tsx) on [Get Started](../app/[locale]/get-started/page.tsx) and [Builders Hub](../app/[locale]/builders-hub/page.tsx) share the same data. They show up to four open RFPs with links to their details and the first open featured prize. If no featured prize is open, the panel shows the next open prize in the list. If there are no open prizes, the programme link stays visible.
 

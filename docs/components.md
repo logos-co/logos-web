@@ -357,6 +357,16 @@ type Props = {
 )
 ```
 
+## Developer programs section
+
+`DeveloperProgramsSection` in [`apps/web/components/sections/shared/developer-programs-section.tsx`](../apps/web/components/sections/shared/developer-programs-section.tsx) renders the Lambda Prize and RFP panels on `/builders-hub` and `/get-started#developer-programs`. The panel copy (titles, descriptions, links, image) comes from `data`, the `programs` block of the Builders Hub settings. The live programme data comes from `programmeCards`, which `loadProgrammeCards` in [`apps/web/lib/programme-cards.ts`](../apps/web/lib/programme-cards.ts) builds at build time from the RFP and Lambda Prize repositories on GitHub. Pages pass `eventNames` when they want analytics names on the two panel links.
+
+The prize panel (`ProgramImagePanel`) shows the heading and description from `data`. When a prize is open, it also shows a box with that prize's id, amount and title, passed in through the panel's optional `featured` slot, and the panel link's accessible name uses the prize title. The prize shown is the first open prize that has featured presentation in the Lambda Prize page copy, or else the first open prize.
+
+The RFP panel (`ProgramOutlinePanel`) shows up to four open RFPs as a row of cards that scrolls sideways. Each card is a link to the RFP's detail page under `/rfp/<slug>` and shows the RFP number, title, a two-line summary and, when the RFP page copy features that RFP, its thumbnail and featured body in place of the summary. The link label is the `learnMore` text from the RFP listing copy. When no RFP is open, the panel shows the `programmeData.noOpenRfps` message from `apps/web/messages/<locale>.json` instead of the cards.
+
+[developer-programmes.md](../apps/web/docs/developer-programmes.md), [lambda-prize.md](../apps/web/docs/lambda-prize.md) and [rfp.md](../apps/web/docs/rfp.md) cover the programme pages that share this data.
+
 ## Figma nodes
 
 | Component                       | Figma node       |
