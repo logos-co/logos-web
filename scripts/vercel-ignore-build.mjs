@@ -67,11 +67,16 @@ const findBase = () => {
     try {
       return git('rev-parse', '--verify', '--quiet', `${previous}^{commit}`)
     } catch {
-      // Vercel clones a few commits deep, so the commit may be missing.
+      // Vercel clones 10 commits deep, so the commit may be missing.
     }
   }
-  // A branch without a successful deployment is compared with develop.
-  git('fetch', '--quiet', '--depth=1', 'origin', previous || 'develop')
+  // Vercel's clone has no remote, so fetch from the public repo. A branch
+  // without a successful deployment is compared with develop.
+  const { VERCEL_GIT_REPO_OWNER: owner, VERCEL_GIT_REPO_SLUG: slug } =
+    process.env
+  const remote =
+    owner && slug ? `https://github.com/${owner}/${slug}.git` : 'origin'
+  git('fetch', '--quiet', '--depth=1', remote, previous || 'develop')
   return git('rev-parse', 'FETCH_HEAD')
 }
 
