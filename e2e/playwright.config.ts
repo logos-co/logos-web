@@ -30,7 +30,6 @@ export default defineConfig<SiteOptions>({
   outputDir: 'test-results/artifacts',
 
   use: {
-    ...devices['Desktop Chrome'],
     baseURL: LOGOS_WEB_URL,
     headless: true,
     screenshot: 'only-on-failure',
@@ -40,5 +39,8 @@ export default defineConfig<SiteOptions>({
     siteRules: LOGOS_WEB_RULES,
   },
 
-  projects: [{ name: 'logos.co' }],
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+  ],
 })

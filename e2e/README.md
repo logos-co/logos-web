@@ -7,13 +7,15 @@ Playwright end-to-end tests for the public site ([`apps/web`](../apps/web)). The
 Start the site, then run the suite from the repo root. `LOGOS_WEB_URL` defaults to `http://localhost:3000`.
 
 ```bash
-pnpm --filter e2e exec playwright install chromium   # once
+pnpm --filter e2e exec playwright install chromium firefox   # once
 pnpm turbo run build --filter=web --force && pnpm --filter web start
 pnpm test:e2e
 LOGOS_WEB_URL=https://dev.logos.co pnpm test:e2e
 ```
 
 `pnpm dev:web` works as a target too, but every route compiles on first visit and the media pages need `pnpm --filter web generate:media-assets` first. The intake form tests expect hCaptcha, so build with `NEXT_PUBLIC_HCAPTCHA_SITEKEY` set.
+
+The suite runs in two projects, `chromium` and `firefox`; run one with `pnpm test:e2e --project=firefox`.
 
 Inside `e2e/`: `pnpm test:e2e:headed`, `pnpm test:e2e:ui` and `pnpm test:e2e:report` (last HTML report). Settings go in `e2e/.env` or `e2e/.env.local`; [`.env.example`](.env.example) lists them.
 
