@@ -99,6 +99,10 @@ for (const mode of ['staging', 'live', 'changed-staging'] as const) {
       assert.ok(!files.includes('old.txt'))
       assert.ok(!files.includes('press-snapshot.json'))
       assert.deepEqual(
+        JSON.parse(git(remote, 'show', `${branch}:apps/web/vercel.json`)),
+        { git: { deploymentEnabled: false } }
+      )
+      assert.deepEqual(
         JSON.parse(git(remote, 'show', `${branch}:site-publish.json`)),
         { runId: 42, sourceSha: initial, previewRunId: live ? 41 : null }
       )

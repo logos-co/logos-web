@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process'
 import { cp, mkdtemp, readFile, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
+import { skipVercel } from './skip-vercel.mts'
 
 const branch = process.env.DEPLOY_BRANCH
 if (branch !== 'deploy-develop' && branch !== 'deploy-master')
@@ -48,6 +49,7 @@ await readFile(resolve(output, 'index.html'))
 await cp(output, directory, { recursive: true })
 await writeFile(resolve(directory, 'CNAME'), new URL(siteUrl).hostname + '\n')
 await writeFile(resolve(directory, '.nojekyll'), '')
+await skipVercel(directory)
 await writeFile(
   resolve(directory, 'site-publish.json'),
   JSON.stringify({

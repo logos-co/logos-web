@@ -129,6 +129,7 @@ pipeline {
         sshagent(credentials: ['status-im-auto-ssh']) {
           script {
             nix.develop("""
+              node scripts/site-publish/skip-vercel.mts apps/web/out &&
               # ghp-import uses the remote-tracking ref, which can become stale during the build.
               git fetch --no-tags origin \
                 refs/heads/${deployBranch()}:refs/remotes/origin/${deployBranch()} &&
