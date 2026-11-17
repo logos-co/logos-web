@@ -13,6 +13,8 @@ Which branch deploys where, and how each app gets there. It covers [`Jenkinsfile
 
 Branch protection blocks direct pushes to `develop` and `master`. The `deploy-*` branches are written by the build jobs below, never by hand.
 
+Vercel deploys every pushed branch by default. Both publish jobs run [`scripts/site-publish/skip-vercel.mts`](../scripts/site-publish/skip-vercel.mts), which adds a `vercel.json` turning deployments off at each Vercel project's root directory, so `deploy-*` pushes don't start builds. The docs bot branch `docs/repo/sync` is skipped through `git.deploymentEnabled` in each app's `vercel.json`.
+
 ## Static site (apps/web)
 
 The site is a static export of `apps/web/out`, built with `pnpm turbo run build --filter=web --force`. The `--force` is deliberate: Turbo hashes source files, and most of the media comes from an external CMS, so a cache hit could ship last week's articles. Builds that fetch that media run `scripts/capture-press-snapshot.ts` first and pass the result through `PRESS_CONTENT_SNAPSHOT`, so feeds, cards and article pages all use one fetch.
