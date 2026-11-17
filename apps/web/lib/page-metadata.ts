@@ -14,7 +14,7 @@
 import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 
-import { absoluteUrl, createDefaultMetadata } from '@/lib/metadata'
+import { createDefaultMetadata } from '@/lib/metadata'
 
 type RouteParams = { params: Promise<{ locale: string }> }
 
@@ -32,36 +32,19 @@ export function createPageMetadata(route: string) {
       throw new Error(`generateMetadata received non-active locale "${locale}"`)
     }
     const page = await getPageCopy(route, locale)
-    const metadata = await createDefaultMetadata({
+    const image = page.seo?.ogImage
+    return createDefaultMetadata({
       title: page.seo?.metaTitle ?? page.title,
       description: page.seo?.metaDescription ?? page.description,
       keywords: page.seo?.keywords,
       locale,
       path: route,
+      image: image && {
+        url: image.src,
+        width: image.width,
+        height: image.height,
+        alt: image.alt,
+      },
     })
-
-    const ogImage = page.seo?.ogImage
-    if (!ogImage) return metadata
-
-    const ogImageUrl = absoluteUrl(ogImage.src)
-
-    return {
-      ...metadata,
-      openGraph: {
-        ...metadata.openGraph,
-        images: [
-          {
-            url: ogImageUrl,
-            width: ogImage.width,
-            height: ogImage.height,
-            alt: ogImage.alt,
-          },
-        ],
-      },
-      twitter: {
-        ...metadata.twitter,
-        images: [ogImageUrl],
-      },
-    }
   }
 }

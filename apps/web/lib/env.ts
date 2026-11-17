@@ -15,12 +15,15 @@
 
 const NODE_ENV_VALUES = ['production', 'development', 'test'] as const
 const API_MODE_VALUES = ['production', 'staging', 'development'] as const
+const VERCEL_ENV_VALUES = ['production', 'preview', 'development'] as const
 
 type NodeEnv = (typeof NODE_ENV_VALUES)[number]
 type ApiMode = (typeof API_MODE_VALUES)[number]
 
 export type Env = {
   NODE_ENV: NodeEnv
+  VERCEL_ENV: (typeof VERCEL_ENV_VALUES)[number] | undefined
+  VERCEL_URL: string | undefined
   /**
    * Toggle for production-only behaviour gates (search-engine indexing,
    * analytics, etc.). Currently used by `lib/metadata.ts`.
@@ -117,6 +120,13 @@ export const env: Env = {
   NODE_ENV:
     assertOneOf(process.env.NODE_ENV, NODE_ENV_VALUES, 'NODE_ENV', true) ??
     'development',
+  VERCEL_ENV: assertOneOf(
+    process.env.VERCEL_ENV,
+    VERCEL_ENV_VALUES,
+    'VERCEL_ENV',
+    true
+  ),
+  VERCEL_URL: readOptionalString(process.env.VERCEL_URL),
   NEXT_PUBLIC_API_MODE: assertOneOf(
     process.env.NEXT_PUBLIC_API_MODE,
     API_MODE_VALUES,

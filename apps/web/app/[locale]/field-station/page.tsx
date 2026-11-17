@@ -4,7 +4,7 @@ import { isActiveLocale } from '@repo/content/locales'
 
 import { JsonLd } from '@/components/seo/json-ld'
 import { ROUTES } from '@/constants/routes'
-import { absoluteUrl, createDefaultMetadata } from '@/lib/metadata'
+import { createDefaultMetadata } from '@/lib/metadata'
 
 import { OG_IMAGE, SEO } from './_content'
 import { FieldStationPage } from './_sections/field-station-page'
@@ -25,34 +25,18 @@ export async function generateMetadata({
     throw new Error(`generateMetadata received non-active locale "${locale}"`)
   }
 
-  const metadata = await createDefaultMetadata({
+  return createDefaultMetadata({
     title: SEO.title,
     description: SEO.description,
     locale,
     path: ROUTE,
+    image: {
+      url: OG_IMAGE.src,
+      width: OG_IMAGE.width,
+      height: OG_IMAGE.height,
+      alt: OG_IMAGE.alt,
+    },
   })
-
-  // The site default card is `/og.jpeg`; this campaign ships its own.
-  const ogImageUrl = absoluteUrl(OG_IMAGE.src)
-
-  return {
-    ...metadata,
-    openGraph: {
-      ...metadata.openGraph,
-      images: [
-        {
-          url: ogImageUrl,
-          width: OG_IMAGE.width,
-          height: OG_IMAGE.height,
-          alt: OG_IMAGE.alt,
-        },
-      ],
-    },
-    twitter: {
-      ...metadata.twitter,
-      images: [ogImageUrl],
-    },
-  }
 }
 
 export default async function Page({
