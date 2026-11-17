@@ -1,4 +1,5 @@
-import type { LambdaPrize, LambdaPrizeCopySection } from '@repo/content/schemas'
+import type { LambdaPrizeCopySection } from '@repo/content/schemas'
+import type { PrizeCard } from '@/lib/lambda-programme'
 import { ButtonArrowIcon } from '@acid-info/logos-ui'
 
 import { Link } from '@/i18n/navigation'
@@ -11,8 +12,10 @@ export function FeaturedPrizes({
   prizes,
 }: {
   copy: LambdaPrizeCopySection['featured']
-  prizes: LambdaPrize[]
+  prizes: PrizeCard[]
 }) {
+  if (!prizes.some((prize) => prize.featured)) return null
+
   return (
     <section className="lp-featured" aria-labelledby="featured-heading">
       <SectionMeta copy={copy} />

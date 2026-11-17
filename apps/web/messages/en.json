@@ -1,4 +1,13 @@
 {
+  "programmeData": {
+    "noOpenRfps": "No RFPs are open at the moment.",
+    "open": "Open",
+    "comingSoon": "Coming soon",
+    "learnMore": "Learn more",
+    "availability": "{count, plural, one {# prize open} other {# prizes open}}",
+    "openDescription": "{open, plural, =0 {No prizes are open at the moment} one {# prize open now} other {# prizes open now}}{upcoming, plural, =0 {.} other {, # coming soon.}}",
+    "awardedDescription": "{count, plural, one {# prize has a merged solution.} other {# prizes have merged solutions.}}"
+  },
   "activeCircles": {
     "activeCircles": "Active Circles",
     "totalEvents": "Total Circle Events",

@@ -3,6 +3,8 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it, vi } from 'vitest'
 import { lambdaPrizeCopySectionSchema } from '@repo/content/schemas'
+import { parsePrizeMarkdown } from '@/lib/lambda-prizes-github'
+import { resolvePrizeProgramme } from '@/lib/lambda-programme'
 import lambdaPrizePage from '../../../../../../content/pages/en/lambda-prize.json' with { type: 'json' }
 
 vi.mock('next/image', () => ({
@@ -17,8 +19,62 @@ vi.mock('@/i18n/navigation', () => ({
 import { LambdaPrizePage } from '../_sections/lambda-prize-page'
 
 const copy = lambdaPrizeCopySectionSchema.parse(lambdaPrizePage.sections[0])
-const render = (data = copy) =>
-  renderToStaticMarkup(createElement(LambdaPrizePage, { copy: data }))
+const walletHref =
+  'https://github.com/logos-co/lambda-prize/blob/master/prizes/LP-0021.md'
+const wallet = parsePrizeMarkdown(
+  [
+    '# LP-0021: LEZ Wallet [OPEN]',
+    '**`Status: Open`**',
+    '## Overview',
+    'A wallet with public and private accounts.',
+    '## Prize Structure',
+    '- **Total Prize:** $21,000',
+    '- **Effort:** X-Large',
+  ].join('\n'),
+  'LP-0021',
+  walletHref
+)
+const draft = {
+  ...wallet,
+  id: 'LP-0022',
+  title: 'Upcoming test prize',
+  status: 'draft' as const,
+  href: walletHref.replace('0021', '0022'),
+}
+const newPrize = {
+  ...wallet,
+  id: 'LP-0100',
+  title: 'New test prize',
+  amount: 1000,
+}
+const labels = {
+  open: 'Open',
+  comingSoon: 'Coming soon',
+  learnMore: 'Learn more',
+}
+const formatAmount = new Intl.NumberFormat('en', {
+  style: 'currency',
+  currency: 'USD',
+  maximumFractionDigits: 0,
+}).format
+const source = {
+  prizes: [wallet, draft, newPrize],
+  awardedIds: new Set<string>(),
+}
+const resolve = (data = copy, input = source) =>
+  resolvePrizeProgramme(data, input, formatAmount, labels)
+
+const render = (data = copy, input = source) =>
+  renderToStaticMarkup(
+    createElement(LambdaPrizePage, {
+      programme: {
+        copy: data,
+        ...resolve(data, input),
+        openDescription: '',
+        awardedDescription: '',
+      },
+    })
+  )
 
 describe('Lambda Prize v3', () => {
   it('renders the complete page from CMS copy', () => {
@@ -74,64 +130,42 @@ describe('Lambda Prize v3', () => {
     ).toThrow()
   })
 
-  it('uses the same prize data for featured and open listings', () => {
-    const updated = structuredClone(copy)
-    updated.prizes[0].amount = '$21,000'
-    updated.prizes[0].title = 'Updated wallet'
-    const html = render(updated)
-    expect(html.match(/\$21,000/g)).toHaveLength(2)
+  it('uses the GitHub amount and title in both listings and the total', () => {
+    const html = render()
     const container = document.createElement('div')
     container.innerHTML = html
+    expect(html).toContain('$22,000')
     expect(
       [...container.querySelectorAll('h3')].filter(
-        (heading) => heading.textContent === 'Updated wallet'
+        (heading) => heading.textContent === 'LEZ Wallet'
       )
     ).toHaveLength(2)
+    const card = container.querySelector(
+      '[aria-labelledby="featured-heading"] a[aria-label="LEZ Wallet"]'
+    )!
+    expect(card.getAttribute('href')).toBe(walletHref)
+    expect(card.textContent).toContain('$21,000')
+    expect(card.querySelector('a, button')).toBeNull()
+    expect(html).toContain('New test prize')
   })
 
-  it('makes each featured card a single named link using its edited CMS destination', () => {
-    const updated = structuredClone(copy)
-    updated.prizes[0].cta = {
-      label: 'View this prize',
-      href: 'https://github.com/example/edited-prize',
-    }
-    const container = document.createElement('div')
-    container.innerHTML = render(updated)
-    const section = container.querySelector(
-      '[aria-labelledby="featured-heading"]'
-    )!
-    const featured = updated.prizes.filter(
-      (prize) => prize.featured && prize.cta
-    )
-
-    expect(section.querySelectorAll('a')).toHaveLength(featured.length + 1)
-    for (const prize of featured) {
-      const link = [...section.querySelectorAll('a')].find(
-        (item) =>
-          item.getAttribute('aria-label') ===
-          prize.title.replace(/\s+/g, ' ').trim()
-      )!
-      expect(link.getAttribute('href')).toBe(prize.cta!.href)
-      expect(link.querySelector('img')).not.toBeNull()
-      expect(link.querySelector('h3')).not.toBeNull()
-      expect(link.textContent).toContain(prize.cta!.label)
-      expect(link.querySelector('a, button')).toBeNull()
-    }
-  })
-
-  it('keeps a featured prize without a destination non-interactive', () => {
-    const updated = structuredClone(copy)
-    delete updated.prizes[0].cta
-    const container = document.createElement('div')
-    container.innerHTML = render(updated)
-    const section = container.querySelector(
-      '[aria-labelledby="featured-heading"]'
-    )!
-    const title = [...section.querySelectorAll('h3')].find(
-      (item) => item.textContent === updated.prizes[0].title
-    )!
-    expect(title).toBeDefined()
-    expect(title.closest('a')).toBeNull()
+  it('replaces a closed recommendation and keeps unapproved drafts hidden', () => {
+    const result = resolve(copy, {
+      prizes: [
+        { ...wallet, status: 'closed' },
+        newPrize,
+        draft,
+        { ...draft, id: 'LP-0101' },
+      ],
+      awardedIds: new Set([wallet.id]),
+    })
+    expect(result.recommended?.id).toBe(newPrize.id)
+    expect(result.openTotal).toBe('$1,000')
+    expect(result.awardedCount).toBe(1)
+    expect(result.cards.map(({ id, status }) => [id, status])).toEqual([
+      [newPrize.id, 'open'],
+      [draft.id, 'coming-soon'],
+    ])
   })
 
   it('links navigation to real section anchors and leaves coming-soon prizes without an action', () => {
@@ -140,7 +174,9 @@ describe('Lambda Prize v3', () => {
       expect(html).toContain(`href="${link.href}"`)
       expect(html).toContain(`id="${link.href.slice(1)}"`)
     }
-    const upcoming = copy.prizes.find((prize) => prize.status === 'coming-soon')
+    const upcoming = resolve().cards.find(
+      (prize) => prize.status === 'coming-soon'
+    )
     expect(upcoming?.cta).toBeUndefined()
     expect(html).not.toContain('/prizes/LP-0022.md')
   })

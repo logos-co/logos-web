@@ -1,20 +1,16 @@
 # Lambda Prize
 
-The [`/lambda-prize` page](../app/[locale]/lambda-prize/page.tsx) renders the [v3 page fixture](../../../content/pages/en/lambda-prize.json) through the shared content loader and CMS page workflow.
+The [`/lambda-prize` page](../app/[locale]/lambda-prize/page.tsx) combines the [page fixture](../../../content/pages/en/lambda-prize.json) and [build-time GitHub prize data](../lib/lambda-prizes-github.ts).
 
 The shared footer links to `/lambda-prize` and `/rfp` immediately after Roadmap, in that order. Labels and destinations are editable through the existing Site Footer content in [`footer.json`](../../../content/site/en/footer.json).
 
 ## Editing
 
-In CMS **Pages**, open `lambda-prize` and edit its `page` JSON. The `lambdaPrizeCopy` section contains the hero, statistics, featured introduction, prizes, steps and requirements, rules, ownership statement, rewarded solutions, resources and final CTA. All visible copy, amounts, status labels, images and link destinations are editable. Metadata uses the standard page title, description and SEO fields.
+In CMS **Pages**, open `lambda-prize` and edit its `page` JSON. The `lambdaPrizeCopy.prizes` array controls display order, short descriptions and featured images by prize ID. Set `comingSoon: true` only for a draft that should appear publicly as a preview. Open prizes without a CMS entry follow the curated order, highest ID first. The featured listing uses open prizes with a featured image. The showcased past solutions, introduction and programme guidance remain editorial.
 
-Desktop and mobile share the desktop Figma copy, including requirements and rewarded-solution headings. The RFP callout uses the same `resources.rfp.title` and `body` in both layouts; desktop displays them inline, while mobile uses separate title and body styling. CMS edits update both layouts.
+The [GitHub repository](https://github.com/logos-co/lambda-prize) owns prize titles, statuses, amounts and detail links. The loader reads each specification's status line, or its heading if the line is absent, and the amount and effort from Prize Structure. The live totals and largest prize count only open prizes. The awarded count uses closed prizes with a merged file in `solutions/`. A source failure stops the build so an empty listing cannot replace the deployed site.
 
-The `prizes` array is the source for both listings. A prize with a `featured` image and description also appears in the featured listing; its title, amount, status and CTA remain shared. Omit `cta` when an upcoming prize has no destination. Statistics are editorial values matching the design, not a live GitHub feed. Solution links point to the repositories identified in the published solution records.
-
-Featured prize cards link across their full area to the CMS CTA destination. The CTA label remains visible within the single card link. Hover and keyboard focus use the image-card treatment from the home and technology pages: a slight zoom, blur and dark overlay. Cards without a CTA remain non-interactive.
-
-The [schema](../../../packages/content/src/schemas/pages/lambda-prize.ts) validates both build-time loading and CMS saves. The existing Pages JSON field requires no additional Payload fields or database migration. Saving follows the existing GitHub PR workflow against `develop`. This change replaces the earlier Lambda Prize section shape, so existing CMS drafts must be refreshed from the new fixture before editing.
+The [schema](../../../packages/content/src/schemas/pages/lambda-prize.ts) validates the CMS copy. Saving follows the existing GitHub PR workflow against `develop`. Refresh existing drafts before editing the upcoming prize selection so the new `comingSoon` flag is present.
 
 ## Design and responsive behaviour
 

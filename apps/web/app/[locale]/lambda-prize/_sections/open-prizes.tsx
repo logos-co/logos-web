@@ -1,13 +1,16 @@
-import type { LambdaPrize, LambdaPrizeCopySection } from '@repo/content/schemas'
+import type { LambdaPrizeCopySection } from '@repo/content/schemas'
+import type { PrizeCard } from '@/lib/lambda-programme'
 
 import { Cta, Lines, SectionMeta } from './atoms'
 
 export function OpenPrizes({
   copy,
   prizes,
+  description,
 }: {
   copy: LambdaPrizeCopySection['openPrizes']
-  prizes: LambdaPrize[]
+  prizes: PrizeCard[]
+  description: string
 }) {
   return (
     <section
@@ -15,7 +18,7 @@ export function OpenPrizes({
       className="lp-open"
       aria-labelledby="open-heading"
     >
-      <SectionMeta copy={copy} />
+      <SectionMeta copy={{ ...copy, body: description }} />
       <h2 id="open-heading" className="lp-section-heading">
         {copy.heading}
       </h2>

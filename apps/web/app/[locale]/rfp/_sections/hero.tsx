@@ -2,7 +2,7 @@ import { Link } from '@/i18n/navigation'
 import { ROUTES } from '@/constants/routes'
 
 import { Cta, Photo, Tag, type RfpCopy } from './atoms'
-import type { ProgrammeRfp } from './rfp-items'
+import type { ProgrammeRfp } from '@/lib/rfp-programme'
 
 export function Hero({
   copy,

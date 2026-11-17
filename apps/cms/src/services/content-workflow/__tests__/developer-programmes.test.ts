@@ -20,7 +20,8 @@ describe('developer programmes page publishing', () => {
       label: 'See the briefs',
       href: '/builders-hub/rfps',
     }
-    copy.programmes[1]!.stats[0]!.value = '8'
+    copy.programmes[0]!.stats[1]!.value = '6 weeks to 6 months'
+    copy.programmes[1]!.stats[0]!.label = 'Open prizes'
     copy.programmes[1]!.comparisonTag =
       'An independently edited comparison label'
     copy.programmes[0]!.comparison[0]!.body = 'An updated proposal process.'

@@ -3,11 +3,12 @@
 import { useState } from 'react'
 import { ButtonArrowIcon } from '@acid-info/logos-ui'
 import type { DeveloperProgrammesCopySection } from '@repo/content/schemas'
+import type { ProgrammeSummary } from '@/lib/programme-summaries'
 import { Copy, Cta } from './atoms'
 import { ProgrammeImage } from './programme-image'
 
 interface MobileProgrammesProps {
-  programmes: DeveloperProgrammesCopySection['programmes']
+  programmes: ProgrammeSummary[]
   mobile: DeveloperProgrammesCopySection['mobile']
 }
 
@@ -65,11 +66,15 @@ export function MobileProgrammes({
                   </div>
                 ))}
               </dl>
-              <div className="dp-highlight">
-                <p className="dp-eyebrow">{programme.highlight.label}</p>
-                <p className="dp-intro">{programme.highlight.title}</p>
-                <p className="dp-mono">{programme.highlight.detail}</p>
-              </div>
+              {programme.highlight && (
+                <div className="dp-highlight">
+                  <p className="dp-eyebrow">{programme.highlight.label}</p>
+                  <p className="dp-intro">{programme.highlight.title}</p>
+                  {programme.highlight.detail && (
+                    <p className="dp-mono">{programme.highlight.detail}</p>
+                  )}
+                </div>
+              )}
               <ul className="dp-opportunities">
                 {programme.opportunities.map((item) => (
                   <li key={item.code}>

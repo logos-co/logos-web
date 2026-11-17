@@ -30,7 +30,6 @@
           "body": "RFPs provide funding to build and audit costly protocols, core building blocks and\ninfrastructure. It starts with a spec from Logos. Your team responds with a proposal\nincluding approach, milestones, budget. Selected teams get a grant, paid as each\nmilestone lands.",
           "stats": [
             {
-              "value": "14",
               "label": "RFPs published"
             },
             {
@@ -43,22 +42,8 @@
             }
           ],
           "highlight": {
-            "label": "Open now",
-            "title": "RFP-005  Multisig and Coordination",
-            "detail": "Proposals due 16 Oct 2026"
+            "label": "Open now"
           },
-          "opportunities": [
-            {
-              "code": "RFP-012",
-              "title": "Curated Lending Vaults",
-              "detail": "Reopening soon"
-            },
-            {
-              "code": "RFP-014",
-              "title": "Liquidation and Auction Engine",
-              "detail": "Reopening soon"
-            }
-          ],
           "cta": {
             "label": "Explore RFPs",
             "href": "/rfp"
@@ -112,35 +97,18 @@
           "body": "{mark}Prize rewards products that launch on the Logos stack and find real users. There is\nno application process. Develop in public and release early so usage grows as you\nbuild. Each prize sets its own success criteria and adoption target. Evaluators then\nconfirm the product runs and the usage is real. First one to meet all the criteria wins\nthat prize, paid in USDT.",
           "stats": [
             {
-              "value": "5",
               "label": "Prizes open now"
             },
             {
-              "value": "$34,000",
               "label": "In open prizes"
             },
             {
-              "value": "11",
               "label": "Prizes awarded"
             }
           ],
           "highlight": {
-            "label": "Largest open prize",
-            "title": "LP-0021  LEZ Wallet and Provider SDK",
-            "detail": "$20,000"
+            "label": "Largest open prize"
           },
-          "opportunities": [
-            {
-              "code": "LP-0026",
-              "title": "Forum App",
-              "detail": "$5,500"
-            },
-            {
-              "code": "LP-0001",
-              "title": "NFT Wallet and Private Ownership Proof",
-              "detail": "$5,000"
-            }
-          ],
           "cta": {
             "label": "Explore prizes",
             "href": "/lambda-prize"
@@ -178,8 +146,7 @@
               "You want privacy and\ndecentralisation at the core of\nyour product.",
               "You'd welcome a prize to kick off\nyour search for market fit."
             ]
-          },
-          "availability": "5 prizes open"
+          }
         }
       ],
       "comparisonHeading": "How they\ndiffer.",

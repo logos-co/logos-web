@@ -1,13 +1,10 @@
-import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
-import type { RfpProgrammeCopySection } from '@repo/content/schemas'
 
 import { JsonLd } from '@/components/seo/json-ld'
 import { ROUTES } from '@/constants/routes'
 import siteConfig from '@/constants/site-config'
 import { createPageMetadata } from '@/lib/page-metadata'
-import { createSectionFinder } from '@/lib/page-sections'
-import { fetchGithubRfps } from '@/lib/rfps-github'
+import { loadRfpProgramme } from '@/lib/rfp-programme'
 import { createBreadcrumbListJsonLd } from '@/lib/structured-data'
 
 import { programmeMono } from '../developer-programmes/fonts'
@@ -18,14 +15,12 @@ import { FinalCta } from './_sections/final-cta'
 import { Hero } from './_sections/hero'
 import { HowItWorks } from './_sections/how-it-works'
 import { OpenRfps } from './_sections/open-rfps'
-import { programmeItems } from './_sections/rfp-items'
 import { Terms } from './_sections/terms'
 import { Tiers } from './_sections/tiers'
 import './rfp.css'
 import './mobile.css'
 
 export const generateMetadata = createPageMetadata(ROUTES.rfps)
-const findSection = createSectionFinder('rfp')
 
 export default async function RfpsPage({
   params,
@@ -35,16 +30,7 @@ export default async function RfpsPage({
   const { locale } = await params
   if (!isActiveLocale(locale))
     throw new Error(`RfpsPage received non-active locale "${locale}"`)
-  const [page, rfps] = await Promise.all([
-    getPageCopy(ROUTES.rfps, locale),
-    fetchGithubRfps(),
-  ])
-  const copy = findSection<RfpProgrammeCopySection>(
-    page.sections,
-    'rfpProgrammeCopy',
-    'rfp.copy'
-  )
-  const items = programmeItems(rfps)
+  const { copy, items } = await loadRfpProgramme(locale)
   return (
     <div className={`rfp-programme ${programmeMono.variable}`}>
       <JsonLd

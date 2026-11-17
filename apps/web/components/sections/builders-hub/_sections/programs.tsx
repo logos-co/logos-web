@@ -1,14 +1,14 @@
-import type { BuilderHubHomeRfpResolution } from '@repo/content/loaders'
+import type { ProgrammeCards } from '@/lib/programme-cards'
 import type { BuilderHubSettings } from '@repo/content/schemas'
 
 import { DeveloperProgramsSection } from '@/components/sections/shared/developer-programs-section'
 
 export function ProgramsSection({
   data,
-  rfps,
+  programmeCards,
 }: {
   data: NonNullable<BuilderHubSettings['programs']>
-  rfps: BuilderHubHomeRfpResolution['rfps']
+  programmeCards: ProgrammeCards
 }) {
   return (
     <DeveloperProgramsSection
@@ -16,7 +16,7 @@ export function ProgramsSection({
       index="04"
       title={data.title}
       data={data}
-      rfps={rfps}
+      programmeCards={programmeCards}
     />
   )
 }

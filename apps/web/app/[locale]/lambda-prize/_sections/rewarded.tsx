@@ -4,8 +4,10 @@ import { Cta } from './atoms'
 
 export function Rewarded({
   copy,
+  description,
 }: {
   copy: LambdaPrizeCopySection['rewarded']
+  description: string
 }) {
   return (
     <section
@@ -18,7 +20,7 @@ export function Rewarded({
         <h2 id="rewarded-heading" className="lp-display lp-display-medium">
           {copy.heading}
         </h2>
-        <p className="lp-body">{copy.body}</p>
+        <p className="lp-body">{description}</p>
         <Cta link={copy.cta} variant="secondary" />
       </div>
       <ul className="lp-solutions">
