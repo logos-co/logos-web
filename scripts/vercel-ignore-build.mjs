@@ -21,7 +21,7 @@ const rootFiles = [
   'turbo.json',
 ]
 const ignored =
-  /(^|\/)(docs|__tests__)\/|(^|\/)(AGENTS|CHANGELOG|README)\.md$|\.test\.[cm]?[jt]sx?$/
+  /^((apps|packages)\/[^/]+\/)?docs\/|(^|\/)__tests__\/|(^|\/)(AGENTS|CHANGELOG|README)\.md$|\.test\.[cm]?[jt]sx?$/
 
 const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'))
 const git = (...args) =>
@@ -83,11 +83,13 @@ const findBase = () => {
 try {
   visit(app)
   const base = findBase()
-  if (previous && base === git('rev-parse', 'HEAD')) {
-    console.log('Building: redeploy of the same commit')
+  // Same commit: a redeploy, or the first deployment of develop.
+  if (base === git('rev-parse', 'HEAD')) {
+    console.log('Building: no earlier commit to compare with')
     process.exit(1)
   }
-  const relevant = git('diff', '--name-only', base, 'HEAD')
+  // Without renames, a file moved out of a watched path still counts.
+  const relevant = git('diff', '--name-only', '--no-renames', base, 'HEAD')
     .split('\n')
     .filter(
       (file) =>
