@@ -53,7 +53,7 @@ The [Builder Programmes panels](../components/sections/shared/developer-programs
 
 ## Monospace font
 
-The [page font module](../app/[locale]/developer-programmes/fonts.ts) loads the self-hosted Fira Code file with `next/font/local` (weights 400 to 600) and exposes it as `--developer-programmes-mono`. The `/lambda-prize` page imports the same font. Other site fonts are covered in [fonts.md](fonts.md).
+The page uses Fira Code through `programmeMono` from the generated [Google fonts module](../app/google-fonts.ts), which exposes it as `--developer-programmes-mono` (weights 400 to 600). `/lambda-prize` and `/rfp` use the same font. [fonts.md](fonts.md) covers how the fonts are generated.
 
 ## Images
 

@@ -27,7 +27,7 @@
     "test:perf": "tsx test/performance/export-performance.test.ts",
     "test:static": "tsx scripts/static-export-smoke.ts && tsx test/static-export/accessibility.test.ts && tsx test/static-export/navigation.test.ts",
     "test:watch": "vitest",
-    "generate:fonts": "bash scripts/generate-fonts.sh",
+    "generate:fonts": "tsx scripts/generate-fonts.ts && pnpm -w exec prettier --write apps/web/app/google-fonts.ts apps/web/app/google-fonts-fallback.css",
     "generate:zines": "tsx scripts/generate-zine-assets.ts",
     "generate:programme-images": "tsx scripts/generate-programme-images.ts",
     "generate:lambda-prize-images": "tsx scripts/generate-lambda-prize-images.ts"

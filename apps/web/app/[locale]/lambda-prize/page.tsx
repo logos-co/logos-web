@@ -1,10 +1,10 @@
 import { isActiveLocale } from '@repo/content/locales'
 
+import { programmeMono } from '@/app/google-fonts'
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { loadLambdaProgramme } from '@/lib/lambda-programme'
 
-import { programmeMono } from '../developer-programmes/fonts'
 import { LambdaPrizePage } from './_sections/lambda-prize-page'
 import './lambda-prize.css'
 import './responsive.css'

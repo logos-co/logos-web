@@ -16,22 +16,22 @@ To add a self-hosted font, verify the license with the brand owner first, add a 
 
 ## Google fonts
 
-These Google Fonts families are self-hosted with `next/font/local`:
+These Google Fonts families are self-hosted. [`scripts/generate-fonts.ts`](../scripts/generate-fonts.ts) generates their `next/font/local` loaders in [`app/google-fonts.ts`](../app/google-fonts.ts):
 
-| Family      | Weights            | File                                        | Variable                                          |
-| ----------- | ------------------ | ------------------------------------------- | ------------------------------------------------- |
-| Public Sans | 400-700 (variable) | `public-sans/public-sans-latin-wght.woff2`  | `--next-font-sans`                                |
-| Open Sans   | 400                | `open-sans/open-sans-latin-400.woff2`       | `--next-font-article`                             |
-| Fira Code   | 400-600 (variable) | `fira-code/fira-code-latin-wght.woff2`      | `--next-font-mono`, `--developer-programmes-mono` |
-| Fira Mono   | 400, 700           | `fira-mono/fira-mono-latin-{400,700}.woff2` | `--next-font-mono-body`                           |
+| Family      | Weights            | Directory                   | Variable                                          |
+| ----------- | ------------------ | --------------------------- | ------------------------------------------------- |
+| Public Sans | 400, 500, 600, 700 | `public/fonts/public-sans/` | `--next-font-sans`                                |
+| Open Sans   | 400                | `public/fonts/open-sans/`   | `--next-font-article`                             |
+| Fira Code   | 400, 500, 600      | `public/fonts/fira-code/`   | `--next-font-mono`, `--developer-programmes-mono` |
+| Fira Mono   | 400, 700           | `public/fonts/fira-mono/`   | `--next-font-mono-body`                           |
 
 All four are under the SIL Open Font License; each directory ships its `OFL.txt`.
 
 We don't use `next/font/google` because it downloads the fonts during `next build`. Google Fonts sometimes answers with extensionless `/l/font?kit=` URLs, which crash the webpack loader with `TypeError: Cannot read properties of null (reading '1')` and fail CI at random ([vercel/next.js#99114](https://github.com/vercel/next.js/issues/99114)).
 
-The files only cover Latin and Latin Extended (the `latin` and `latin-ext` unicode ranges Google Fonts uses). Characters from other scripts, such as Cyrillic or Greek, render in the fallback font.
+The committed files are the ones `next/font/google` served: the generator asks the Google Fonts CSS API for the weights above and downloads every unicode-range subset it returns (Latin, Latin Extended, Cyrillic, Greek, Vietnamese and so on). Each subset gets its own loader under the Google family name (`'Public Sans'`, not a generated one), so the browser merges them into one family and only downloads a subset when a page uses one of its characters. Only the Latin files are preloaded. The size-adjusted Arial fallbacks in [`app/google-fonts-fallback.css`](../app/google-fonts-fallback.css) use the same metrics as `next/font/google`.
 
-To change weights or update the fonts, edit [`scripts/generate-fonts.sh`](../scripts/generate-fonts.sh) and run `pnpm --filter web generate:fonts`. It downloads the sources from a pinned `google/fonts` commit, trims the weight axes and subsets them with `fonttools` (needs `uv`). Then update the loaders in [`app/fonts.ts`](../app/fonts.ts) and commit the regenerated files.
+To change weights or refresh the files, edit `FAMILIES` in the generator, run `pnpm --filter web generate:fonts` and commit the regenerated files.
 
 The web build uses `next build --webpack` because the Turbopack Google font
 loader failed to resolve Fira Code during deployment. No font comes from Google

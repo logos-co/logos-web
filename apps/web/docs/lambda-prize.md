@@ -22,7 +22,7 @@ The [mobile frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/Logos-Des
 
 Copy and punctuation follow the desktop Figma text layers. Both layouts use the title "Already rewarded."; the eyebrow and navigation label remain "Already shipped". The resource callout retains Figma's "RFP Program" spelling. The next-round callout has been removed from both layouts and the content schema. Existing CMS drafts should be refreshed from the fixture before editing.
 
-Display and body text use the site's font variables. Monospace text uses Fira Code, loaded as `programmeMono` from the [developer programmes fonts file](../app/[locale]/developer-programmes/fonts.ts), which the page shares with `/developer-programmes`. [fonts.md](fonts.md) covers the site's fonts.
+Display and body text use the site's font variables. Monospace text uses Fira Code, loaded as `programmeMono` from the generated [Google fonts module](../app/google-fonts.ts), which the page shares with `/developer-programmes`. [fonts.md](fonts.md) covers the site's fonts.
 
 ## Images
 
