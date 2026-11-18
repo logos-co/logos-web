@@ -24,7 +24,7 @@ function stubFetch(...responses: Response[]) {
 }
 
 describe('ONE_PAGER_ENDPOINTS', () => {
-  test('points each API mode at its own logos-admin host', () => {
+  test('points each API mode at its own admin-acid host', () => {
     expect(ONE_PAGER_ENDPOINTS).toEqual({
       // Kept in step with `SUBSCRIBE_ENDPOINTS`: same upstream app.
       development: 'http://localhost:3003/api/funnel/one-pager',

@@ -97,7 +97,7 @@ and `HEAR_ABOUT_MAP`, each built by `toLabelMap()` from the same array. The
 `Skills` labels are also the options of the Notion `Skills` multi_select;
 `Country` is rich text in Notion and accepts any label. Each country option is a
 `FunnelCountryOption`: besides `value` and `label` it carries `code`, the
-ISO 3166-1 alpha-2 code the logos-admin cities API uses, so a
+ISO 3166-1 alpha-2 code the admin-acid cities API uses, so a
 [city suggestion](#city-suggestions) maps back to an option.
 
 Skills options (16): `Developer`, `Web3 builder`, `Privacy domain expert`,
@@ -129,8 +129,8 @@ minimum length and keys are described with the
 hook.
 
 Suggestions come from `searchCities` in `apps/web/lib/city-search.ts`. It calls
-`GET /api/cities` on the logos-admin app with `q` and no `country`, so every
-country is searched, most populous first. The static export ships no city list,
+`GET /api/cities` on admin-acid with `q` and no `country`, so every country
+is searched. The static export ships no city list,
 which is why this is a runtime call. `NEXT_PUBLIC_API_MODE` picks the endpoint
 from `CITIES_ENDPOINTS`: `development` is `localhost:3003`, `staging` is
 `dev-admin-acid.logos.co`, and `production`, the default, is
@@ -162,7 +162,7 @@ replace city autocomplete with a plain city input and a country dropdown on all
 three intake forms. The dropdown uses the existing `COUNTRY_OPTIONS` ids and
 the country remains required. These forms make no cities API request in this
 mode. hCaptcha, server validation and Notion writes remain enabled. The footer
-newsletter form is unchanged, and newsletter opt-ins still depend on logos-admin.
+newsletter form is unchanged, and newsletter opt-ins still depend on admin-acid.
 
 After the cities API is healthy, remove the variable (or set it to `0`) and
 rebuild the static site. The original autocomplete and picked-city validation
@@ -201,68 +201,34 @@ destination, delete its folder and its one call in the orchestrator.
 
 ## Notion database schema
 
-Intake writes to the "IFT BD CRM" database. The table lists every property in
-it. In the Funnel column, "reused" means intake writes a property the BD team
-already had, "added" means the property was created for intake, and "no" means
-the team maintains it by hand. The written rows are exactly what
-`buildNotionProperties` produces.
+Intake writes to the "IFT BD CRM" database. The table lists the properties it
+writes, exactly what `buildNotionProperties` produces; the database has other
+properties that intake does not touch.
 
-| Property                              | Notion type      | Funnel      | Notes                                                                                                                                                                               |
-| ------------------------------------- | ---------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Name`                                | title            | yes, reused | From form `name`; fallback `"Unknown"`                                                                                                                                              |
-| `Email/Website`                       | email            | yes, reused | From `email`; omitted if empty                                                                                                                                                      |
-| `Profile`                             | select           | yes, reused | From `formName` via `getProfileForForm`; options are the three profile labels                                                                                                       |
-| `Mvmt Organization`                   | text             | yes, added  | From `affiliatedOrgs`, written verbatim (clamped to 2000 chars) rather than into the curated `Organization` select, which intake does not write; omitted if empty                   |
-| `Website`                             | url              | yes, reused | First entry of `website[]`                                                                                                                                                          |
-| `Website 2`                           | url              | yes, added  | Second entry of `website[]`; omitted if absent                                                                                                                                      |
-| `Website 3`                           | url              | yes, added  | Third entry; omitted if absent                                                                                                                                                      |
-| `Website 4`                           | url              | yes, added  | Fourth entry; omitted if absent                                                                                                                                                     |
-| `Website 5`                           | url              | yes, added  | Fifth entry; omitted if absent. The form caps the field at 5 rows (`MAX_WEBSITE_ROWS`)                                                                                              |
-| `Phone or Social Handle`              | phone_number     | yes, reused | `chat[]` + `chatService[]` joined as `handle (Service) \| ...`                                                                                                                      |
-| `Mvmt Status`                         | select           | yes, reused | Always `New Lead` on intake; other options include `Active`, `Onboarding`, `Approved`, `Redirected - Post Call`, `No Show`, `Call Scheduled`, `Redirected`, `Eligible`, `One Pager` |
-| `BU`                                  | multi_select     | yes, reused | Always `Movement`; other options: `IR`, `Comms`, `Ecodev`                                                                                                                           |
-| `Added`                               | created_time     | auto        | Set by Notion on row creation; not written by intake                                                                                                                                |
-| `City`                                | rich_text        | yes, added  | From `city`; omitted if empty                                                                                                                                                       |
-| `Country`                             | rich_text        | yes, added  | From `country` (id mapped via `COUNTRY_MAP`; unknown ids written as-is)                                                                                                             |
-| `Skills`                              | multi_select     | yes, added  | From `skills[]` (ids mapped via `SKILLS_MAP`; unknown ids written as-is); options: see shared values                                                                                |
-| `Background`                          | rich_text        | yes, added  | First non-empty of `backgroundPartner`, `backgroundBuilder`, `backgroundLeader`                                                                                                     |
-| `Tech Vision`                         | rich_text        | yes, added  | From `techVision`; Activist Builder only                                                                                                                                            |
-| `Activities Vision`                   | rich_text        | yes, added  | From `activitiesVision`; Activist Leader / Steward only                                                                                                                             |
-| `Questions`                           | rich_text        | yes, added  | From `questions`; omitted if empty                                                                                                                                                  |
-| `Wants Events`                        | checkbox         | yes, added  | From `wantsEvents`                                                                                                                                                                  |
-| `Wants Newsletter`                    | checkbox         | yes, added  | From `wantsNewsletter`                                                                                                                                                              |
-| `How did you first hear about Logos?` | select           | yes, added  | From `hearAbout` (id mapped via `HEAR_ABOUT_MAP`); unknown ids are dropped so tampering cannot create new options; options: see shared values                                       |
-| `Account Owner`                       | person           | no          | BD team member assigned to the row                                                                                                                                                  |
-| `Contacts`                            | rich_text        | no          | Free-form contact notes                                                                                                                                                             |
-| `Event Touchpoints`                   | multi_select     | no          | Options: `EthCC 2025`, `Protocolberg 2025`, `EthDenver 2025`, `EthDam`, `ETHCC`, `Inbound`, `Devcon 2024`, `Decentralized Data Summit`, `Devconnect 2025`                           |
-| `Last Contact`                        | date             | no          | Date of most recent BD interaction                                                                                                                                                  |
-| `Last edited time`                    | last_edited_time | no          | System-managed                                                                                                                                                                      |
-| `Nimbus Status`                       | status           | no          | Options: `Not started`, `In progress`, `Done`                                                                                                                                       |
-| `Platform`                            | multi_select     | no          | Options: `JS Browser`, `JS Electron`, `NodeJS`, `Rust`, `Golang`, `C++`                                                                                                             |
-| `Priority`                            | select           | no          | Options: `Low`, `Medium`, `High`, `To be established`                                                                                                                               |
-| `Segment`                             | multi_select     | no          | Options: `Social`, `Infrastructure`, `Cross-chain`, `L2`, `Studio`, `DeFi`, `Tooling`, `Nodes`, `AI`, `Wallets`, `Investor`, `Oracle`, `indexer`                                    |
-| `Stack`                               | multi_select     | no          | Options: `Nimbus`, `Logos Storage`, `Logos Messaging`, `Logos Blockchain`                                                                                                           |
-| `Status`                              | select           | no          | Options: `Lead`, `Qualified`, `Solution Eng`, `Preliminary interest`, `Confirmed`, `Future`, `Negotiation`, `Lost`, `Archive`                                                       |
-| `Tags`                                | multi_select     | no          | Options include `Wallet dapp SDK user`, `Chat SDK user`, `Potential Waku users`, `Grant Recipient`, `Operator`, and others                                                          |
-| `Total Funding`                       | number           | no          | Funding amount in USD                                                                                                                                                               |
-| `User Persona Type`                   | multi_select     | no          | Options include `Node Operator`, `Developer`, `Integrator`, `Partner`, `Investor`, `Community`, and others                                                                          |
-| `Waku Solution Engineers`             | person           | no          | Waku team member assigned to the row                                                                                                                                                |
-
-### How the intake columns were added
-
-The first thirteen intake columns went in through `notion-update-data-source`
-DDL. The pre-existing properties kept their definitions; the only change on
-that side is that `Website` now gets the first submitted website instead of
-the old pipe-joined string. `Mvmt Organization` came later. On 2026-07-06 the
-hear-about column was added to the production database (database
-`5b951a531bd94db9b0078e11640e1051`, data source
-`9fe0dc96-98dc-493b-8e09-37c17f020872`) for logos-web#90:
-
-    ADD COLUMN "How did you first hear about Logos?" SELECT('Friend or colleague','Social media','Search engine','Event or conference','Another community or organization','Podcast','News/article/blog','Other')
-
-Neither the Notion API nor the MCP can set "Hide when empty" on a property, so
-someone has to toggle it in the Notion UI for each added property, `Website 2`
-to `Website 5` included.
+| Property                              | Notion type  | Notes                                                                                                                                         |
+| ------------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Name`                                | title        | From form `name`; fallback `"Unknown"`                                                                                                        |
+| `Email/Website`                       | email        | From `email`; omitted if empty                                                                                                                |
+| `Profile`                             | select       | From `formName` via `getProfileForForm`; options are the three profile labels                                                                 |
+| `Mvmt Organization`                   | rich_text    | From `affiliatedOrgs`, clamped to 2000 chars; omitted if empty                                                                                |
+| `Website`                             | url          | First entry of `website[]`                                                                                                                    |
+| `Website 2`                           | url          | Second entry of `website[]`; omitted if absent                                                                                                |
+| `Website 3`                           | url          | Third entry; omitted if absent                                                                                                                |
+| `Website 4`                           | url          | Fourth entry; omitted if absent                                                                                                               |
+| `Website 5`                           | url          | Fifth entry; omitted if absent. The form caps the field at 5 rows (`MAX_WEBSITE_ROWS`)                                                        |
+| `Phone or Social Handle`              | phone_number | `chat[]` + `chatService[]` joined as `handle (Service) \| ...`                                                                                |
+| `Mvmt Status`                         | select       | Always `New Lead`                                                                                                                             |
+| `BU`                                  | multi_select | Always `Movement`                                                                                                                             |
+| `City`                                | rich_text    | From `city`; omitted if empty                                                                                                                 |
+| `Country`                             | rich_text    | From `country` (id mapped via `COUNTRY_MAP`; unknown ids written as-is)                                                                       |
+| `Skills`                              | multi_select | From `skills[]` (ids mapped via `SKILLS_MAP`; unknown ids written as-is); options: see shared values                                          |
+| `Background`                          | rich_text    | First non-empty of `backgroundPartner`, `backgroundBuilder`, `backgroundLeader`                                                               |
+| `Tech Vision`                         | rich_text    | From `techVision`; Activist Builder only                                                                                                      |
+| `Activities Vision`                   | rich_text    | From `activitiesVision`; Activist Leader / Steward only                                                                                       |
+| `Questions`                           | rich_text    | From `questions`; omitted if empty                                                                                                            |
+| `Wants Events`                        | checkbox     | From `wantsEvents`                                                                                                                            |
+| `Wants Newsletter`                    | checkbox     | From `wantsNewsletter`                                                                                                                        |
+| `How did you first hear about Logos?` | select       | From `hearAbout` (id mapped via `HEAR_ABOUT_MAP`); unknown ids are dropped so tampering cannot create new options; options: see shared values |
 
 ## Newsletter opt-ins
 
@@ -280,8 +246,8 @@ The Logos note is a `Profile:` line; the Regional note has `City:`,
 `Profile` select gets, from `getProfileForForm`. `country` arrives as a numeric
 option id and is resolved against the form's own options before it goes into
 the note; an id that resolves to nothing is dropped. The Regional request also
-sends `city` and `country` as top-level fields, because the upstream builds its
-city labels from those fields and never reads the note. The upstream rejects a
+sends `city` and `country` as top-level fields, because the upstream reads
+them from those fields, not from the note. The upstream rejects a
 Regional signup that is missing either of them; the footer signup
 (`submitDefaultNewsletterSignup`) therefore adds the Regional Newsletter only
 when both a city and a country were given.
@@ -305,10 +271,8 @@ A few constraints explain the shape of this code:
   its captcha token, so a failed subscription is logged and swallowed. Surfacing
   it would show a network error after a successful submission, and on every
   local submit.
-- The two subscriptions run one after the other, Logos first. The upstream
-  merges the note into the member's existing note with a read-modify-write
-  against the Ghost admin API, and two concurrent calls race that read and lose
-  one note.
+- The two subscriptions run one after the other, Logos first, so the
+  upstream never handles two updates to the same member at once.
 
 | Path                                       | Role                                                                                    |
 | ------------------------------------------ | --------------------------------------------------------------------------------------- |
@@ -317,25 +281,23 @@ A few constraints explain the shape of this code:
 
 ## One pager upload
 
-When someone sets a candidate's `Mvmt Status` to `One Pager`, the candidate gets
-an email with a link to `logos.co/one-pager`. They attach a PDF there, and it
-lands as a file block on their own Notion page.
+When a candidate's Notion `Mvmt Status` becomes `One Pager`, admin-acid
+(`admin-acid.logos.co`) emails them a signed link to `logos.co/one-pager`. They
+attach a PDF there, and admin-acid attaches it to the candidate's Notion page.
 
-All the server-side work happens in admin-acid (`admin-acid.logos.co`), which
-owns the funnel webhook, the email templates, the SMTP transport and a Notion
-client. `apps/web` is a static export with no API routes, so this repo has only
-the page and its transport. Read admin-acid's
+`apps/web` is a static export with no API routes, so this repo has only the
+page and its transport. Read admin-acid's
 [docs/funnel.md](https://github.com/acid-info/admin-acid.logos.co/blob/develop/docs/funnel.md)
-for the token format, the upload endpoint and the Notion write.
+for the server side.
 
 ```
 Notion: Mvmt Status -> "One Pager"
-  -> automation emails the candidate a signed link
+  -> admin-acid emails the candidate a signed link
 
 candidate opens logos.co/one-pager?t=<signed token>          (this repo)
   -> GET  admin-acid /api/funnel/one-pager?t=...  -> { valid, used }
   -> POST admin-acid /api/funnel/one-pager        (multipart: token + file)
-       -> admin-acid validates, writes to Notion, notifies the reviewers
+       -> admin-acid attaches the PDF to the candidate's Notion page
 ```
 
 The link expires and is good for one upload. admin-acid enforces both; the page
@@ -360,8 +322,8 @@ blocks it outright unless the page comes from a Logos-owned origin, so the
 
 - The page calls admin-acid straight from the browser, like the newsletter
   signup, and admin-acid only allows Logos-owned origins. Served from
-  `localhost`, the page can only reach a local admin run with `IS_DEV_ENV=true`
-  (`ONE_PAGER_ENDPOINTS.development` points at `localhost:3003`). Against the
+  `localhost`, the page can only reach a local admin-acid dev server (`next dev`,
+  port 3003), which `ONE_PAGER_ENDPOINTS.development` points at. Against the
   deployed hosts, the unit tests are the verification.
 - Neither request triggers a CORS preflight. The `GET` is safelisted, and the
   `POST` sends `multipart/form-data` with the token as a form field. Moving the
@@ -370,9 +332,9 @@ blocks it outright unless the page comes from a Logos-owned origin, so the
 - `useSearchParams` needs a `<Suspense>` boundary above it, or the static export
   build fails. The page provides one, and the upload section is the only client
   component.
-- A one pager must be two pages or fewer, and only admin-acid checks that. This
-  side checks type and size, and `ONE_PAGER_MAX_BYTES` must stay equal to the
-  upstream constant of the same name.
+- This side checks type and size, and `ONE_PAGER_MAX_BYTES` must stay equal to
+  the upstream limit. The upstream also rejects PDFs it cannot accept, such as
+  one over the page limit.
 - The route is unlisted: it has `noindex` metadata and no sitemap entry, since
   the page does nothing without the emailed token.
 

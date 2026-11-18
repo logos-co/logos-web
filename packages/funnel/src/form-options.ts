@@ -22,7 +22,7 @@ export interface FunnelFieldOption {
 }
 
 export interface FunnelCountryOption extends FunnelFieldOption {
-  /** ISO 3166-1 alpha-2, the country the logos-admin cities API speaks. */
+  /** ISO 3166-1 alpha-2, the country the admin-acid cities API speaks. */
   code: string
 }
 

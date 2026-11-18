@@ -1,5 +1,5 @@
 /**
- * City suggestions for the signup forms, from the logos-admin GeoNames index
+ * City suggestions for the signup forms, from admin-acid
  * (`GET /api/cities`), so the static export ships no gazetteer. Same upstream
  * app and CORS allowlist as `newsletter-signup.ts`.
  */
@@ -24,7 +24,7 @@ const COUNTRY_BY_CODE = new Map(
 )
 
 /**
- * Cities matching `query` across every country, most populous first. Resolves
+ * Cities matching `query` across every country. Resolves
  * to an empty list on any failure, so the field falls back to free text.
  * `country` is the option label: the value the footer submits, and the funnel
  * forms map back to the option id.
