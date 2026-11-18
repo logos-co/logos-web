@@ -129,8 +129,8 @@ minimum length and keys are described with the
 hook.
 
 Suggestions come from `searchCities` in `apps/web/lib/city-search.ts`. It calls
-`GET /api/cities` on the logos-admin app with `q` and no `country`, so every
-country is searched, most populous first. The static export ships no city list,
+`GET /api/cities` on admin-acid with `q` and no `country`, so every country
+is searched. The static export ships no city list,
 which is why this is a runtime call. `NEXT_PUBLIC_API_MODE` picks the endpoint
 from `CITIES_ENDPOINTS`: `development` is `localhost:3003`, `staging` is
 `dev-admin-acid.logos.co`, and `production`, the default, is
@@ -280,8 +280,8 @@ The Logos note is a `Profile:` line; the Regional note has `City:`,
 `Profile` select gets, from `getProfileForForm`. `country` arrives as a numeric
 option id and is resolved against the form's own options before it goes into
 the note; an id that resolves to nothing is dropped. The Regional request also
-sends `city` and `country` as top-level fields, because the upstream builds its
-city labels from those fields and never reads the note. The upstream rejects a
+sends `city` and `country` as top-level fields, because the upstream reads
+them from those fields, not from the note. The upstream rejects a
 Regional signup that is missing either of them; the footer signup
 (`submitDefaultNewsletterSignup`) therefore adds the Regional Newsletter only
 when both a city and a country were given.
@@ -305,10 +305,8 @@ A few constraints explain the shape of this code:
   its captcha token, so a failed subscription is logged and swallowed. Surfacing
   it would show a network error after a successful submission, and on every
   local submit.
-- The two subscriptions run one after the other, Logos first. The upstream
-  merges the note into the member's existing note with a read-modify-write
-  against the Ghost admin API, and two concurrent calls race that read and lose
-  one note.
+- The two subscriptions run one after the other, Logos first, because
+  concurrent calls for the same member can lose a note upstream.
 
 | Path                                       | Role                                                                                    |
 | ------------------------------------------ | --------------------------------------------------------------------------------------- |
@@ -317,25 +315,23 @@ A few constraints explain the shape of this code:
 
 ## One pager upload
 
-When someone sets a candidate's `Mvmt Status` to `One Pager`, the candidate gets
-an email with a link to `logos.co/one-pager`. They attach a PDF there, and it
-lands as a file block on their own Notion page.
+When a candidate's Notion `Mvmt Status` becomes `One Pager`, admin-acid
+(`admin-acid.logos.co`) emails them a signed link to `logos.co/one-pager`. They
+attach a PDF there, and admin-acid attaches it to the candidate's Notion page.
 
-All the server-side work happens in admin-acid (`admin-acid.logos.co`), which
-owns the funnel webhook, the email templates, the SMTP transport and a Notion
-client. `apps/web` is a static export with no API routes, so this repo has only
-the page and its transport. Read admin-acid's
+`apps/web` is a static export with no API routes, so this repo has only the
+page and its transport. Read admin-acid's
 [docs/funnel.md](https://github.com/acid-info/admin-acid.logos.co/blob/develop/docs/funnel.md)
-for the token format, the upload endpoint and the Notion write.
+for the server side.
 
 ```
 Notion: Mvmt Status -> "One Pager"
-  -> automation emails the candidate a signed link
+  -> admin-acid emails the candidate a signed link
 
 candidate opens logos.co/one-pager?t=<signed token>          (this repo)
   -> GET  admin-acid /api/funnel/one-pager?t=...  -> { valid, used }
   -> POST admin-acid /api/funnel/one-pager        (multipart: token + file)
-       -> admin-acid validates, writes to Notion, notifies the reviewers
+       -> admin-acid attaches the PDF to the candidate's Notion page
 ```
 
 The link expires and is good for one upload. admin-acid enforces both; the page
@@ -360,8 +356,8 @@ blocks it outright unless the page comes from a Logos-owned origin, so the
 
 - The page calls admin-acid straight from the browser, like the newsletter
   signup, and admin-acid only allows Logos-owned origins. Served from
-  `localhost`, the page can only reach a local admin run with `IS_DEV_ENV=true`
-  (`ONE_PAGER_ENDPOINTS.development` points at `localhost:3003`). Against the
+  `localhost`, the page can only reach a local admin-acid dev server (`next dev`,
+  port 3003), which `ONE_PAGER_ENDPOINTS.development` points at. Against the
   deployed hosts, the unit tests are the verification.
 - Neither request triggers a CORS preflight. The `GET` is safelisted, and the
   `POST` sends `multipart/form-data` with the token as a form field. Moving the
@@ -370,9 +366,9 @@ blocks it outright unless the page comes from a Logos-owned origin, so the
 - `useSearchParams` needs a `<Suspense>` boundary above it, or the static export
   build fails. The page provides one, and the upload section is the only client
   component.
-- A one pager must be two pages or fewer, and only admin-acid checks that. This
-  side checks type and size, and `ONE_PAGER_MAX_BYTES` must stay equal to the
-  upstream constant of the same name.
+- This side checks type and size, and `ONE_PAGER_MAX_BYTES` must stay equal to
+  the upstream limit. The upstream also rejects PDFs it cannot accept, such as
+  one over the page limit.
 - The route is unlisted: it has `noindex` metadata and no sitemap entry, since
   the page does nothing without the emailed token.
 

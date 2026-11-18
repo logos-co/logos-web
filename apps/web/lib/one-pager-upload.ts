@@ -5,8 +5,8 @@
  * proxy through: the browser talks to `admin-acid.logos.co` directly, the same
  * way `lib/newsletter-signup.ts` does. The deployed upstreams allowlist
  * Logos-owned origins for CORS, so a page served from `localhost` can only
- * reach a local admin run with `IS_DEV_ENV=true`; otherwise unit tests are the
- * verification.
+ * reach a local admin-acid dev server (`next dev`, port 3003); otherwise unit
+ * tests are the verification.
  *
  * Both requests are deliberately CORS-safelisted -- a `GET`, and a
  * `multipart/form-data` `POST` carrying the token as a form field rather than a
@@ -29,15 +29,14 @@ export const ONE_PAGER_MIME_TYPE = 'application/pdf'
 export const ONE_PAGER_ACCEPT = `.pdf,${ONE_PAGER_MIME_TYPE}`
 
 /**
- * Kept equal to `ONE_PAGER_MAX_BYTES` in logos-admin
- * (`lib/utils/one-pager-pdf.ts`), which is the authority. A client check only
- * saves the candidate an 8 MB round trip, so it must never be looser.
+ * Kept equal to the upload limit in admin-acid, which is the authority. A
+ * client check only saves the candidate an 8 MB round trip, so it must never be looser.
  */
 export const ONE_PAGER_MAX_BYTES = 8 * 1024 * 1024
 
 export const ONE_PAGER_MAX_MB = ONE_PAGER_MAX_BYTES / (1024 * 1024)
 
-/** The page count (<= 2) is checked server-side only: no PDF parser ships here. */
+/** The page count is checked upstream only: no PDF parser ships here. */
 export type FileValidationResult = { ok: true } | { ok: false; reason: FileError }
 
 export type FileError = 'type' | 'empty' | 'size'
