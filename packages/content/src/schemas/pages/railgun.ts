@@ -35,9 +35,6 @@ export const railgunCopySectionSchema = z.object({
     label0Eth: text,
     neededToPayGas: text,
     neededToPayGasMobile: text,
-    n: text,
-    privateTransactionsRelayedOver: text,
-    privateTransactionsRelayedOverMobile: text,
   }),
   basics: z.object({
     lineBreaks,

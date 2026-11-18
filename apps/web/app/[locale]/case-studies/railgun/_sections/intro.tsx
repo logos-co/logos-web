@@ -56,17 +56,6 @@ export function Intro({ copy }: { copy: RailgunCopySection['intro'] }) {
               {text('neededToPayGas', 'neededToPayGasMobile')}
             </span>
           </div>
-          <div className="stat" style={{ '--d': '300ms' } as CSSProperties}>
-            <span className="nv">
-              <span>{copy.n}</span>
-            </span>
-            <span className="lab">
-              {text(
-                'privateTransactionsRelayedOver',
-                'privateTransactionsRelayedOverMobile'
-              )}
-            </span>
-          </div>
         </div>
       </section>
     </>

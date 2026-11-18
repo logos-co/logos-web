@@ -20,15 +20,15 @@
         "railgunUsesLogosTo": "RAILGUN uses Logos to enable private DeFi on Ethereum",
         "photoAlt": "Two hikers walking across a snowy slope in fog",
         "heading": "RAILGUN uses Logos to enable private DeFi on Ethereum.",
-        "inProductionSince2023": "In production since 2023 on Ethereum, Arbitrum, Polygon and BNB Chain.",
+        "inProductionSince2023": "In production since 2023 on Ethereum, Arbitrum, Polygon, Base and BNB Chain.",
         "lineBreaks": {
           "desktop": {
             "heading": "RAILGUN uses Logos to\nenable private DeFi on\nEthereum.",
-            "inProductionSince2023": "In production since 2023 on Ethereum, Arbitrum,\nPolygon and BNB Chain."
+            "inProductionSince2023": "In production since 2023 on Ethereum, Arbitrum,\nPolygon, Base and BNB Chain."
           },
           "mobile": {
             "heading": "RAILGUN uses\nLogos to enable\nprivate DeFi on\nEthereum.",
-            "inProductionSince2023": "In production since 2023 on Ethereum,\nArbitrum, Polygon and BNB Chain."
+            "inProductionSince2023": "In production since 2023 on Ethereum,\nArbitrum, Polygon, Base and BNB Chain."
           }
         }
       },
@@ -45,25 +45,20 @@
         "label0Eth": "0 ETH",
         "neededToPayGas": "Needed to pay gas. A Broadcaster found over Logos Delivery pays it.",
         "neededToPayGasMobile": "Needed to pay gas. A Broadcaster pays it.",
-        "n": "[N]",
-        "privateTransactionsRelayedOver": "Private transactions relayed over Logos to date. Figure to come from RAILGUN.",
-        "privateTransactionsRelayedOverMobile": "Private transactions relayed to date. Figure to come from RAILGUN.",
         "lineBreaks": {
           "desktop": {
             "railgunIsASystem": "RAILGUN is a system that enables private\ntransactions with zero-knowledge proofs on\nEthereum, Arbitrum, Polygon, Base, and BNB\nChain.",
             "toCoordinateTheseTransactions": "To coordinate these transactions without a centralised server,\nRAILGUN uses Logos Delivery.",
             "railgunSBroadcasterNetwork": "RAILGUN's Broadcaster network has run on\nLogos Delivery since 2023.",
             "cumulativePrivacySetTokens": "Cumulative privacy set: tokens sent to and\nfrom 0zk addresses since launch.",
-            "neededToPayGas": "Needed to pay gas. A Broadcaster found over\nLogos Delivery pays it.",
-            "privateTransactionsRelayedOver": "Private transactions relayed over Logos to\ndate. Figure to come from RAILGUN."
+            "neededToPayGas": "Needed to pay gas. A Broadcaster found over\nLogos Delivery pays it."
           },
           "mobile": {
             "railgunIsASystem": "RAILGUN is a system that\nenables private transactions\nwith zero-knowledge proofs on\nEthereum, Arbitrum, Polygon,\nBase, and BNB Chain.",
             "toCoordinateTheseTransactions": "To coordinate these transactions without a\ncentralised server, RAILGUN uses Logos\nDelivery.",
             "railgunSBroadcasterNetwork": "RAILGUN's Broadcaster\nnetwork has run on\nLogos Delivery since\n2023.",
             "cumulativePrivacySetTokensMobile": "Cumulative privacy set\nsince launch.",
-            "neededToPayGasMobile": "Needed to pay gas. A\nBroadcaster pays it.",
-            "privateTransactionsRelayedOverMobile": "Private transactions\nrelayed to date. Figure to\ncome from RAILGUN."
+            "neededToPayGasMobile": "Needed to pay gas. A\nBroadcaster pays it."
           }
         }
       },

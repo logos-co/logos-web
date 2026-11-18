@@ -1925,6 +1925,9 @@ body.railgun-lock {
 }
 
 @media (min-width: 821px) {
+  :where(.railgun) .intro .stats4 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
   :where(.railgun) .intro {
     min-height: 546px;
   }
