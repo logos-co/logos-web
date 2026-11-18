@@ -248,22 +248,6 @@ the team maintains it by hand. The written rows are exactly what
 | `User Persona Type`                   | multi_select     | no          | Options include `Node Operator`, `Developer`, `Integrator`, `Partner`, `Investor`, `Community`, and others                                                                          |
 | `Waku Solution Engineers`             | person           | no          | Waku team member assigned to the row                                                                                                                                                |
 
-### How the intake columns were added
-
-The first thirteen intake columns went in through `notion-update-data-source`
-DDL. The pre-existing properties kept their definitions; the only change on
-that side is that `Website` now gets the first submitted website instead of
-the old pipe-joined string. `Mvmt Organization` came later. On 2026-07-06 the
-hear-about column was added to the production database (database
-`5b951a531bd94db9b0078e11640e1051`, data source
-`9fe0dc96-98dc-493b-8e09-37c17f020872`) for logos-web#90:
-
-    ADD COLUMN "How did you first hear about Logos?" SELECT('Friend or colleague','Social media','Search engine','Event or conference','Another community or organization','Podcast','News/article/blog','Other')
-
-Neither the Notion API nor the MCP can set "Hide when empty" on a property, so
-someone has to toggle it in the Notion UI for each added property, `Website 2`
-to `Website 5` included.
-
 ## Newsletter opt-ins
 
 After the intake POST succeeds, `apps/web` subscribes the submitted email to
