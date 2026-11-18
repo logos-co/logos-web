@@ -1,12 +1,14 @@
 import { existsSync } from 'node:fs'
-import { mkdtemp, readdir, rm, writeFile } from 'node:fs/promises'
+import { createServer, type Server } from 'node:http'
+import type { AddressInfo } from 'node:net'
+import { mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 import sharp from 'sharp'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { buildMediaImages } from '@/lib/media-image-variants'
+import { buildMediaImages, downloadImage } from '@/lib/media-image-variants'
 
 const CMS = 'https://cms-press.logos.co/uploads'
 
@@ -115,5 +117,187 @@ describe('buildMediaImages', () => {
 
     expect(existsSync(stale)).toBe(false)
     expect(existsSync(outputDir)).toBe(true)
+  })
+})
+
+describe('buildMediaImages markers', () => {
+  const DAY = 24 * 60 * 60 * 1000
+  const url = `${CMS}/stalled.png`
+
+  it('skips a failed URL for a day, then downloads it again', async () => {
+    const fetchImage = vi.fn().mockRejectedValue(new Error('no data for 10s'))
+    let time = 1_000_000
+    const options = {
+      urls: [url],
+      cacheDir,
+      outputDir,
+      fetchImage,
+      now: () => time,
+    }
+
+    const first = await buildMediaImages(options)
+    expect(first.failures).toEqual([{ url, reason: 'no data for 10s' }])
+
+    time += DAY - 1
+    const second = await buildMediaImages(options)
+    expect(fetchImage).toHaveBeenCalledTimes(1)
+    expect(second.failures).toEqual([])
+    expect(second.marked).toEqual([
+      { url, retryAfter: new Date(1_000_000 + DAY).toISOString() },
+    ])
+    expect(second.manifest).toEqual({})
+
+    time += 1
+    fetchImage.mockResolvedValue(await png(800, 400))
+    const third = await buildMediaImages(options)
+    expect(fetchImage).toHaveBeenCalledTimes(2)
+    expect(third.marked).toEqual([])
+    expect(third.manifest[url]?.width).toBe(800)
+  })
+
+  it('marks a downloaded file sharp cannot decode', async () => {
+    const fetchImage = vi.fn().mockResolvedValue(Buffer.from('not an image'))
+    const options = { urls: [url], cacheDir, outputDir, fetchImage }
+
+    const first = await buildMediaImages(options)
+    const second = await buildMediaImages(options)
+
+    expect(first.failures).toHaveLength(1)
+    expect(second.marked.map((item) => item.url)).toEqual([url])
+    expect(fetchImage).toHaveBeenCalledTimes(1)
+  })
+
+  it('ignores and writes no failure marker when markFailures is off', async () => {
+    const fetchImage = vi.fn().mockRejectedValue(new Error('CMS unavailable'))
+    const options = {
+      urls: [url],
+      cacheDir,
+      outputDir,
+      fetchImage,
+      markFailures: false,
+    }
+
+    await buildMediaImages(options)
+    const second = await buildMediaImages(options)
+
+    expect(fetchImage).toHaveBeenCalledTimes(2)
+    expect(second.marked).toEqual([])
+    expect(await readdir(cacheDir)).toEqual([])
+  })
+
+  it('remembers vector or animated files so they are not downloaded again', async () => {
+    const gif = `${CMS}/diagram.svg`
+    const fetchImage = vi
+      .fn()
+      .mockResolvedValue(
+        Buffer.from(
+          '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>'
+        )
+      )
+    const options = { urls: [gif], cacheDir, outputDir, fetchImage }
+
+    const first = await buildMediaImages(options)
+    const second = await buildMediaImages(options)
+
+    expect(first.skipped).toEqual([gif])
+    expect(second.skipped).toEqual([gif])
+    expect(fetchImage).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps cached variants when the CMS starts failing', async () => {
+    const fetchImage = vi.fn().mockResolvedValue(await png(800, 400))
+    const options = { urls: [url], cacheDir, outputDir, fetchImage }
+    const built = await buildMediaImages(options)
+
+    fetchImage.mockRejectedValue(new Error('down'))
+    const second = await buildMediaImages(options)
+    const third = await buildMediaImages(options)
+
+    expect(fetchImage).toHaveBeenCalledTimes(1)
+    for (const result of [second, third]) {
+      expect(result.manifest).toEqual(built.manifest)
+      expect(result.failures).toEqual([])
+      expect(result.marked).toEqual([])
+    }
+    const meta = (await readdir(cacheDir)).find((file) =>
+      file.endsWith('.json')
+    )!
+    expect(JSON.parse(await readFile(join(cacheDir, meta), 'utf8'))).toEqual(
+      built.manifest[url]
+    )
+  })
+})
+
+describe('downloadImage', () => {
+  let server: Server
+  let base: string
+  let closed: boolean
+
+  beforeEach(async () => {
+    closed = false
+    server = createServer((request, response) => {
+      if (request.url === '/stall') {
+        response.writeHead(200, { 'Content-Type': 'image/gif' })
+        response.write('GIF89a')
+        return
+      }
+      if (request.url === '/silent') return
+      if (request.url === '/missing') {
+        response.writeHead(404)
+        response.write('not found')
+        request.socket.on('close', () => (closed = true))
+        return
+      }
+      response.writeHead(200)
+      let sent = 0
+      const timer = setInterval(() => {
+        response.write('x')
+        sent += 1
+        if (sent === 5) {
+          clearInterval(timer)
+          response.end()
+        }
+      }, 20)
+    })
+    await new Promise<void>((resolve) => server.listen(0, resolve))
+    base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`
+  })
+
+  afterEach(async () => {
+    server.closeAllConnections()
+    await new Promise((resolve) => server.close(resolve))
+  })
+
+  it('fails fast when the body stalls after a few bytes', async () => {
+    const started = Date.now()
+    await expect(
+      downloadImage(`${base}/stall`, { idleMs: 100, totalMs: 5000 })
+    ).rejects.toThrow('no data for 0.1s')
+    expect(Date.now() - started).toBeLessThan(1000)
+  })
+
+  it('fails fast when no response arrives', async () => {
+    await expect(
+      downloadImage(`${base}/silent`, { idleMs: 100, totalMs: 5000 })
+    ).rejects.toThrow('no data for 0.1s')
+  })
+
+  it('keeps a slow but steady download alive past the idle timeout', async () => {
+    const body = await downloadImage(`${base}/slow`, {
+      idleMs: 60,
+      totalMs: 5000,
+    })
+    expect(body.toString()).toBe('xxxxx')
+  })
+
+  it('releases the connection of a failed response', async () => {
+    await expect(downloadImage(`${base}/missing`)).rejects.toThrow('status 404')
+    await vi.waitFor(() => expect(closed).toBe(true))
+  })
+
+  it('stops a trickle at the total timeout', async () => {
+    await expect(
+      downloadImage(`${base}/slow`, { idleMs: 60, totalMs: 50 })
+    ).rejects.toThrow('not done after 0.05s')
   })
 })

@@ -124,8 +124,8 @@ async function writeMediaFeeds(
 
 /**
  * The images live on the CMS too. Once it is known to be down, each download
- * would only wait out its timeout (two 60s attempts per image, a few hours
- * for an empty cache), so use the cached variants and leave the rest alone.
+ * would only wait out its timeout (10s per image, over an hour for an empty
+ * cache), so use the cached variants and leave the rest alone.
  */
 const cacheOnly = (): Promise<Buffer> =>
   Promise.reject(new Error('CMS unavailable, image not cached'))
@@ -149,11 +149,12 @@ async function writeMediaImages(
     : offline
       ? cacheOnly
       : undefined
-  const { manifest, failures, skipped } = await buildMediaImages({
+  const { manifest, failures, skipped, marked } = await buildMediaImages({
     urls: buildUrls,
     cacheDir: MEDIA_IMAGE_CACHE_DIR,
     outputDir: MEDIA_IMAGE_OUTPUT_DIR,
     fetchImage,
+    markFailures: !fixturesDir && !offline,
   })
 
   if (fixturesDir && (buildUrls.length === 0 || failures.length > 0)) {
@@ -176,13 +177,18 @@ async function writeMediaImages(
   } else {
     for (const failure of failures) {
       console.warn(
-        `Media image stays on the CMS: ${failure.reason} url=${failure.url}`
+        `Media image stays on the CMS, skipped for 24h: ${failure.reason} url=${failure.url}`
       )
     }
   }
+  for (const { url, retryAfter } of marked) {
+    console.warn(
+      `Media image stays on the CMS, failed in an earlier build, retry after ${retryAfter} url=${url}`
+    )
+  }
   const seconds = Math.round((Date.now() - startedAt) / 1000)
   console.log(
-    `Media images: ${Object.keys(manifest).length} resized, ${skipped.length} vector or animated, ${failures.length} failed (${seconds}s)`
+    `Media images: ${Object.keys(manifest).length} resized, ${skipped.length} vector or animated, ${failures.length} failed, ${marked.length} skipped after an earlier failure (${seconds}s)`
   )
   return manifest
 }
