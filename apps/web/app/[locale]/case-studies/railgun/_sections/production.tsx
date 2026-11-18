@@ -85,34 +85,9 @@ export function Production({
           </div>
           <div className="stat" style={{ '--d': '300ms' } as CSSProperties}>
             <span className="nv">
-              <span>{copy.label4}</span>
+              <span>{copy.label5}</span>
             </span>
             <span className="lab">{copy.chainsServed}</span>
-          </div>
-        </div>
-        <div className="tocome">
-          <span className="tagb">{copy.toComeFromRailgun}</span>
-          <div className="stats4 stats96 rv">
-            <div className="stat" style={{ '--d': '0ms' } as CSSProperties}>
-              <span className="nv">
-                <span>{copy.n}</span>
-              </span>
-              <span className="lab">{copy.broadcastersOnline}</span>
-            </div>
-            <div className="stat" style={{ '--d': '70ms' } as CSSProperties}>
-              <span className="nv">
-                <span>{copy.n}</span>
-              </span>
-              <span className="lab">
-                {text('transactionsRelayedOverLogos')}
-              </span>
-            </div>
-            <div className="stat" style={{ '--d': '170ms' } as CSSProperties}>
-              <span className="nv">
-                <span>{copy.n2}</span>
-              </span>
-              <span className="lab">{text('ofRailgunVolumeSent')}</span>
-            </div>
           </div>
         </div>
         <figure className="qp rv" id="qp">

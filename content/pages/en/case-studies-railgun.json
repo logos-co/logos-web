@@ -33,7 +33,7 @@
         }
       },
       "intro": {
-        "railgunIsASystem": "RAILGUN is a system that enables private transactions with zero-knowledge proofs on Ethereum, Arbitrum, Polygon and BNB Chain.",
+        "railgunIsASystem": "RAILGUN is a system that enables private transactions with zero-knowledge proofs on Ethereum, Arbitrum, Polygon, Base, and BNB Chain.",
         "toCoordinateTheseTransactions": "To coordinate these transactions without a centralised server, RAILGUN uses Logos Delivery.",
         "useRailgun": "Use RAILGUN",
         "buildOnLogos": "Build on Logos",
@@ -50,7 +50,7 @@
         "privateTransactionsRelayedOverMobile": "Private transactions relayed to date. Figure to come from RAILGUN.",
         "lineBreaks": {
           "desktop": {
-            "railgunIsASystem": "RAILGUN is a system that enables private\ntransactions with zero-knowledge proofs on\nEthereum, Arbitrum, Polygon and BNB\nChain.",
+            "railgunIsASystem": "RAILGUN is a system that enables private\ntransactions with zero-knowledge proofs on\nEthereum, Arbitrum, Polygon, Base, and BNB\nChain.",
             "toCoordinateTheseTransactions": "To coordinate these transactions without a centralised server,\nRAILGUN uses Logos Delivery.",
             "railgunSBroadcasterNetwork": "RAILGUN's Broadcaster network has run on\nLogos Delivery since 2023.",
             "cumulativePrivacySetTokens": "Cumulative privacy set: tokens sent to and\nfrom 0zk addresses since launch.",
@@ -58,7 +58,7 @@
             "privateTransactionsRelayedOver": "Private transactions relayed over Logos to\ndate. Figure to come from RAILGUN."
           },
           "mobile": {
-            "railgunIsASystem": "RAILGUN is a system that\nenables private transactions\nwith zero-knowledge proofs on\nEthereum, Arbitrum, Polygon\nand BNB Chain.",
+            "railgunIsASystem": "RAILGUN is a system that\nenables private transactions\nwith zero-knowledge proofs on\nEthereum, Arbitrum, Polygon,\nBase, and BNB Chain.",
             "toCoordinateTheseTransactions": "To coordinate these transactions without a\ncentralised server, RAILGUN uses Logos\nDelivery.",
             "railgunSBroadcasterNetwork": "RAILGUN's Broadcaster\nnetwork has run on\nLogos Delivery since\n2023.",
             "cumulativePrivacySetTokensMobile": "Cumulative privacy set\nsince launch.",
@@ -114,7 +114,7 @@
       "privacy": {
         "privacyThroughDecentralisation": "Privacy through decentralisation",
         "aRailgunCompatibleWallet": "A RAILGUN-compatible wallet uses a 0zk address. A zero-knowledge proof hides the sender, the receiver, the token and the amount. But a 0zk address can't pay gas. A public 0x wallet can, but it is public. Submitting the transaction yourself would reveal your identity.",
-        "railgunHandsYourTransaction": "RAILGUN hands your transaction to a Broadcaster, a public wallet that submits the transaction and pays the gas on your behalf. You pay the Broadcaster back privately, in whatever token you hold. On-chain, the transaction appears to come from the Broadcaster.",
+        "railgunHandsYourTransaction": "RAILGUN-enabled wallets hand your transaction to a Broadcaster, a public wallet that submits the transaction and pays the gas on your behalf. You pay the Broadcaster back privately, in whatever token you hold. On-chain, the transaction appears to come from the Broadcaster.",
         "broadcasters": "Broadcasters",
         "publicWalletsSubmitTransactions": "Public wallets submit transactions and pay gas.",
         "feeQuotes": "Fee quotes",
@@ -139,7 +139,7 @@
           "desktop": {
             "privacyThroughDecentralisation": "Privacy through\ndecentralisation",
             "aRailgunCompatibleWallet": "A RAILGUN-compatible wallet uses a 0zk address. A zero-knowledge\nproof hides the sender, the receiver, the token and the amount. But a 0zk\naddress can't pay gas. A public 0x wallet can, but it is public. Submitting\nthe transaction yourself would reveal your identity.",
-            "railgunHandsYourTransaction": "RAILGUN hands your transaction to a Broadcaster, a public wallet that\nsubmits the transaction and pays the gas on your behalf. You pay the\nBroadcaster back privately, in whatever token you hold. On-chain, the\ntransaction appears to come from the Broadcaster.",
+            "railgunHandsYourTransaction": "RAILGUN-enabled wallets hand your transaction to a Broadcaster, a\npublic wallet that submits the transaction and pays the gas on your\nbehalf. You pay the Broadcaster back privately, in whatever token you\nhold. On-chain, the transaction appears to come from the Broadcaster.",
             "successOrFailureNotifications": "Success or failure notifications are routed back\nto the sender.",
             "railgunFirstTriedBuilding": "RAILGUN first tried building its networking on libp2p directly, but moved to Logos\nDelivery to stop IP addresses leaking and putting users' anonymity at risk.",
             "ifThisCoordinationPassed": "If this coordination passed through a server, it would leave a trail to\nfollow and rely on trusting a third party. That is the problem Logos\nDelivery solves.",
@@ -148,7 +148,7 @@
           "mobile": {
             "privacyThroughDecentralisation": "Privacy through\ndecentralisation",
             "aRailgunCompatibleWallet": "A RAILGUN-compatible wallet uses a 0zk\naddress. A zero-knowledge proof hides the\nsender, the receiver, the token and the\namount. But a 0zk address can't pay gas. A\npublic 0x wallet can, but it is public.\nSubmitting the transaction yourself would\nreveal your identity.",
-            "railgunHandsYourTransaction": "RAILGUN hands your transaction to a\nBroadcaster, a public wallet that submits the\ntransaction and pays the gas on your behalf.\nYou pay the Broadcaster back privately, in\nwhatever token you hold. On-chain, the\ntransaction appears to come from the\nBroadcaster.",
+            "railgunHandsYourTransaction": "RAILGUN-enabled wallets hand your\ntransaction to a Broadcaster, a public\nwallet that submits the transaction and\npays the gas on your behalf. You pay the\nBroadcaster back privately, in whatever\ntoken you hold. On-chain, the transaction\nappears to come from the Broadcaster.",
             "successOrFailureNotifications": "Success or failure notifications are routed back to\nthe sender.",
             "railgunFirstTriedBuilding": "RAILGUN first tried building its networking on libp2p\ndirectly, but moved to Logos Delivery to stop IP\naddresses leaking and putting users' anonymity at risk.",
             "railgunSProofsProtect": "RAILGUN's proofs protect the transaction, but not its\ntransmission. Logos Delivery replaces centralised relay\nservers with secure p2p communication, keeping\nmetadata private."
@@ -275,7 +275,7 @@
         "connectionMobile": "1 fees, 2 request, 4 result"
       },
       "production": {
-        "aPrivateFeeMarket": "A private fee market across four chains",
+        "aPrivateFeeMarket": "A private fee market across five chains",
         "ethereum": "Ethereum",
         "arbitrum": "Arbitrum",
         "polygon": "Polygon",
@@ -287,14 +287,8 @@
         "valueLocked": "Value locked",
         "label47m": "~$4.7M",
         "annualisedProtocolFees": "Annualised protocol fees",
-        "label4": "4",
+        "label5": "5",
         "chainsServed": "Chains served",
-        "toComeFromRailgun": "To come from RAILGUN",
-        "n": "[N]",
-        "broadcastersOnline": "Broadcasters online",
-        "transactionsRelayedOverLogos": "Transactions relayed over Logos Delivery a month",
-        "n2": "[N]%",
-        "ofRailgunVolumeSent": "Of RAILGUN volume sent through a Broadcaster",
         "photoAlt": "Snow-covered mountain peaks under a starry sky",
         "itJustTurnedOut": "“It just turned out to be well-",
         "suitedForOurNeeds": "suited for our needs, so we’ve",
@@ -307,7 +301,7 @@
         "railgunIsThePrivacy": "RAILGUN is the privacy layer in Kohaku, the Ethereum Foundation's toolkit for private wallets. Every wallet that ships it brings new users to the same Broadcasters, and more adoption of Logos technology.",
         "lineBreaks": {
           "desktop": {
-            "aPrivateFeeMarket": "A private fee market\nacross four chains",
+            "aPrivateFeeMarket": "A private fee market\nacross five chains",
             "everyTransactionSentThrough": "Every transaction sent through a Broadcaster uses Logos\nDelivery for private transport. Broadcasters compete on price,\nand wallets pick the best offer. No third parties required.",
             "keiranRailgunContributorOn": "Keiran, RAILGUN contributor, on choosing Waku, now Logos\nDelivery. Waku community call, March 2024.",
             "any0xAddressCan": "Any 0x address can become a Broadcaster. None of them can access\nor modify a request. If any detail is changed, the proof is broken.\nBroadcasters can only refuse a transaction, and wallets will simply\nsend it to the next one.",
@@ -316,8 +310,6 @@
           "mobile": {
             "everyTransactionSentThrough": "Every transaction sent through a\nBroadcaster uses Logos Delivery for private\ntransport. Broadcasters compete on price,\nand wallets pick the best offer. No third\nparties required.",
             "cumulativeShieldedVolume": "Cumulative shielded\nvolume",
-            "transactionsRelayedOverLogos": "Transactions relayed over\nLogos Delivery a month",
-            "ofRailgunVolumeSent": "Of RAILGUN volume sent\nthrough a Broadcaster",
             "keiranRailgunContributorOn": "Keiran, RAILGUN contributor, on choosing Waku, now\nLogos Delivery. Waku community call, March 2024.",
             "any0xAddressCan": "Any 0x address can become a Broadcaster.\nNone of them can access or modify a\nrequest. If any detail is changed, the proof is\nbroken. Broadcasters can only refuse a\ntransaction, and wallets will simply send it to\nthe next one.",
             "railgunIsThePrivacy": "RAILGUN is the privacy layer in Kohaku, the\nEthereum Foundation's toolkit for private\nwallets. Every wallet that ships it brings new\nusers to the same Broadcasters, and more\nadoption of Logos technology.",
