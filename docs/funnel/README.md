@@ -201,52 +201,34 @@ destination, delete its folder and its one call in the orchestrator.
 
 ## Notion database schema
 
-Intake writes to the "IFT BD CRM" database. The table lists every property in
-it. In the Funnel column, "reused" means intake writes a property the BD team
-already had, "added" means the property was created for intake, and "no" means
-the team maintains it by hand. The written rows are exactly what
-`buildNotionProperties` produces.
+Intake writes to the "IFT BD CRM" database. The table lists the properties it
+writes, exactly what `buildNotionProperties` produces; the database has other
+properties that intake does not touch.
 
-| Property                              | Notion type      | Funnel      | Notes                                                                                                                                                                               |
-| ------------------------------------- | ---------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Name`                                | title            | yes, reused | From form `name`; fallback `"Unknown"`                                                                                                                                              |
-| `Email/Website`                       | email            | yes, reused | From `email`; omitted if empty                                                                                                                                                      |
-| `Profile`                             | select           | yes, reused | From `formName` via `getProfileForForm`; options are the three profile labels                                                                                                       |
-| `Mvmt Organization`                   | text             | yes, added  | From `affiliatedOrgs`, written verbatim (clamped to 2000 chars) rather than into the curated `Organization` select, which intake does not write; omitted if empty                   |
-| `Website`                             | url              | yes, reused | First entry of `website[]`                                                                                                                                                          |
-| `Website 2`                           | url              | yes, added  | Second entry of `website[]`; omitted if absent                                                                                                                                      |
-| `Website 3`                           | url              | yes, added  | Third entry; omitted if absent                                                                                                                                                      |
-| `Website 4`                           | url              | yes, added  | Fourth entry; omitted if absent                                                                                                                                                     |
-| `Website 5`                           | url              | yes, added  | Fifth entry; omitted if absent. The form caps the field at 5 rows (`MAX_WEBSITE_ROWS`)                                                                                              |
-| `Phone or Social Handle`              | phone_number     | yes, reused | `chat[]` + `chatService[]` joined as `handle (Service) \| ...`                                                                                                                      |
-| `Mvmt Status`                         | select           | yes, reused | Always `New Lead` on intake; other options include `Active`, `Onboarding`, `Approved`, `Redirected - Post Call`, `No Show`, `Call Scheduled`, `Redirected`, `Eligible`, `One Pager` |
-| `BU`                                  | multi_select     | yes, reused | Always `Movement`; other options: `IR`, `Comms`, `Ecodev`                                                                                                                           |
-| `Added`                               | created_time     | auto        | Set by Notion on row creation; not written by intake                                                                                                                                |
-| `City`                                | rich_text        | yes, added  | From `city`; omitted if empty                                                                                                                                                       |
-| `Country`                             | rich_text        | yes, added  | From `country` (id mapped via `COUNTRY_MAP`; unknown ids written as-is)                                                                                                             |
-| `Skills`                              | multi_select     | yes, added  | From `skills[]` (ids mapped via `SKILLS_MAP`; unknown ids written as-is); options: see shared values                                                                                |
-| `Background`                          | rich_text        | yes, added  | First non-empty of `backgroundPartner`, `backgroundBuilder`, `backgroundLeader`                                                                                                     |
-| `Tech Vision`                         | rich_text        | yes, added  | From `techVision`; Activist Builder only                                                                                                                                            |
-| `Activities Vision`                   | rich_text        | yes, added  | From `activitiesVision`; Activist Leader / Steward only                                                                                                                             |
-| `Questions`                           | rich_text        | yes, added  | From `questions`; omitted if empty                                                                                                                                                  |
-| `Wants Events`                        | checkbox         | yes, added  | From `wantsEvents`                                                                                                                                                                  |
-| `Wants Newsletter`                    | checkbox         | yes, added  | From `wantsNewsletter`                                                                                                                                                              |
-| `How did you first hear about Logos?` | select           | yes, added  | From `hearAbout` (id mapped via `HEAR_ABOUT_MAP`); unknown ids are dropped so tampering cannot create new options; options: see shared values                                       |
-| `Account Owner`                       | person           | no          | BD team member assigned to the row                                                                                                                                                  |
-| `Contacts`                            | rich_text        | no          | Free-form contact notes                                                                                                                                                             |
-| `Event Touchpoints`                   | multi_select     | no          | Options: `EthCC 2025`, `Protocolberg 2025`, `EthDenver 2025`, `EthDam`, `ETHCC`, `Inbound`, `Devcon 2024`, `Decentralized Data Summit`, `Devconnect 2025`                           |
-| `Last Contact`                        | date             | no          | Date of most recent BD interaction                                                                                                                                                  |
-| `Last edited time`                    | last_edited_time | no          | System-managed                                                                                                                                                                      |
-| `Nimbus Status`                       | status           | no          | Options: `Not started`, `In progress`, `Done`                                                                                                                                       |
-| `Platform`                            | multi_select     | no          | Options: `JS Browser`, `JS Electron`, `NodeJS`, `Rust`, `Golang`, `C++`                                                                                                             |
-| `Priority`                            | select           | no          | Options: `Low`, `Medium`, `High`, `To be established`                                                                                                                               |
-| `Segment`                             | multi_select     | no          | Options: `Social`, `Infrastructure`, `Cross-chain`, `L2`, `Studio`, `DeFi`, `Tooling`, `Nodes`, `AI`, `Wallets`, `Investor`, `Oracle`, `indexer`                                    |
-| `Stack`                               | multi_select     | no          | Options: `Nimbus`, `Logos Storage`, `Logos Messaging`, `Logos Blockchain`                                                                                                           |
-| `Status`                              | select           | no          | Options: `Lead`, `Qualified`, `Solution Eng`, `Preliminary interest`, `Confirmed`, `Future`, `Negotiation`, `Lost`, `Archive`                                                       |
-| `Tags`                                | multi_select     | no          | Options include `Wallet dapp SDK user`, `Chat SDK user`, `Potential Waku users`, `Grant Recipient`, `Operator`, and others                                                          |
-| `Total Funding`                       | number           | no          | Funding amount in USD                                                                                                                                                               |
-| `User Persona Type`                   | multi_select     | no          | Options include `Node Operator`, `Developer`, `Integrator`, `Partner`, `Investor`, `Community`, and others                                                                          |
-| `Waku Solution Engineers`             | person           | no          | Waku team member assigned to the row                                                                                                                                                |
+| Property                              | Notion type  | Notes                                                                                                                                         |
+| ------------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Name`                                | title        | From form `name`; fallback `"Unknown"`                                                                                                        |
+| `Email/Website`                       | email        | From `email`; omitted if empty                                                                                                                |
+| `Profile`                             | select       | From `formName` via `getProfileForForm`; options are the three profile labels                                                                 |
+| `Mvmt Organization`                   | rich_text    | From `affiliatedOrgs`, clamped to 2000 chars; omitted if empty                                                                                |
+| `Website`                             | url          | First entry of `website[]`                                                                                                                    |
+| `Website 2`                           | url          | Second entry of `website[]`; omitted if absent                                                                                                |
+| `Website 3`                           | url          | Third entry; omitted if absent                                                                                                                |
+| `Website 4`                           | url          | Fourth entry; omitted if absent                                                                                                               |
+| `Website 5`                           | url          | Fifth entry; omitted if absent. The form caps the field at 5 rows (`MAX_WEBSITE_ROWS`)                                                        |
+| `Phone or Social Handle`              | phone_number | `chat[]` + `chatService[]` joined as `handle (Service) \| ...`                                                                                |
+| `Mvmt Status`                         | select       | Always `New Lead`                                                                                                                             |
+| `BU`                                  | multi_select | Always `Movement`                                                                                                                             |
+| `City`                                | rich_text    | From `city`; omitted if empty                                                                                                                 |
+| `Country`                             | rich_text    | From `country` (id mapped via `COUNTRY_MAP`; unknown ids written as-is)                                                                       |
+| `Skills`                              | multi_select | From `skills[]` (ids mapped via `SKILLS_MAP`; unknown ids written as-is); options: see shared values                                          |
+| `Background`                          | rich_text    | First non-empty of `backgroundPartner`, `backgroundBuilder`, `backgroundLeader`                                                               |
+| `Tech Vision`                         | rich_text    | From `techVision`; Activist Builder only                                                                                                      |
+| `Activities Vision`                   | rich_text    | From `activitiesVision`; Activist Leader / Steward only                                                                                       |
+| `Questions`                           | rich_text    | From `questions`; omitted if empty                                                                                                            |
+| `Wants Events`                        | checkbox     | From `wantsEvents`                                                                                                                            |
+| `Wants Newsletter`                    | checkbox     | From `wantsNewsletter`                                                                                                                        |
+| `How did you first hear about Logos?` | select       | From `hearAbout` (id mapped via `HEAR_ABOUT_MAP`); unknown ids are dropped so tampering cannot create new options; options: see shared values |
 
 ## Newsletter opt-ins
 
