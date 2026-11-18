@@ -2423,35 +2423,6 @@ body.railgun-lock {
   }
 }
 
-:where(.railgun) footer form :is(input, button) {
-  transition-timing-function: var(--e-snap);
-  transition-duration: var(--t-hover);
-}
-
-:where(.railgun) footer form button[type='submit']:active {
-  transform: scale(0.97);
-}
-
-:where(.railgun) footer form :is([role='alert'], [role='status']) {
-  animation:
-    railgun-footer-feedback-opacity var(--t-ui) var(--e-snap),
-    railgun-footer-feedback-rise var(--t-ui) var(--e-out);
-}
-
-@keyframes railgun-footer-feedback-opacity {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes railgun-footer-feedback-rise {
-  from {
-    transform: translateY(-4px);
-  }
-  to {
-    transform: none;
-  }
+.railgun-footer-theme > footer {
+  background-color: #132430;
 }

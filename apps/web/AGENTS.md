@@ -23,7 +23,7 @@ Build through turbo, never `pnpm --filter web build`: `@acid-info/logos-ui` must
 
 ## Rules
 
-- Every build refreshes the four Basecamp download URLs from the latest full GitHub release. Reject drafts, prereleases and RC tags, fail the build rather than reuse a stale snapshot, and keep the web build task uncached in `apps/web/turbo.json`. [docs/basecamp-release.md](docs/basecamp-release.md) has the parsing rules.
+- Every build refreshes the four Basecamp download URLs from the latest full GitHub release. Reject drafts, prereleases and RC tags, fail the build rather than reuse a stale snapshot, and keep the web build task uncached in `apps/web/turbo.json`.
 - Unknown or unsupported clients fall back to `EXTERNAL_URLS.basecampRelease`. A content-level `external` flag must never bypass the resolver.
 - Don't move the four download URLs to `releases/latest/download/` until the Basecamp release workflow is live and all four assets are verified on the latest full release. Until then those URLs return 404, PR previews included.
 - Build-time content fetches (blog CMS, active circles) fail the build on error, unless `ALLOW_CONTENT_FETCH_FAILURE=1`; then they fall back to the snapshots in `lib/data/`. Active Circles also keeps its snapshot when `ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE=1`, which leaves the blog CMS rule unchanged. Route new fetches of that kind through `lib/content-fetch-fallback.ts` so the global switch covers them too.
@@ -39,7 +39,6 @@ Build through turbo, never `pnpm --filter web build`: `@acid-info/logos-ui` must
 
 ## Docs
 
-- [docs/basecamp-release.md](docs/basecamp-release.md): Basecamp download resolution and release parsing
 - [docs/media-calendar.md](docs/media-calendar.md): the `/media/calendar` page
 - [docs/fonts.md](docs/fonts.md): self-hosted and Google fonts
 - [docs/README.md](docs/README.md): index of the docs in this app

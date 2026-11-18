@@ -1,6 +1,5 @@
 import { z } from 'zod'
 
-import { footerSchema } from '../site'
 import { sectionKeySchema } from './shared'
 
 const text = z.string().min(1)
@@ -263,17 +262,6 @@ export const railgunCopySectionSchema = z.object({
     nextCaseStudy: text,
     gatewayFm: text,
   }),
-  footer: footerSchema
-    .pick({
-      newsletter: true,
-      tagline: true,
-      mainLinks: true,
-      socialLinks: true,
-      researchLinks: true,
-      infrastructureLinks: true,
-      legalLinks: true,
-    })
-    .extend({ lineBreaks }),
   gateway: z.object({
     nextCaseStudyGateway: text,
     gateway: text,

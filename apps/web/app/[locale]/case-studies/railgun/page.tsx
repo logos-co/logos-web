@@ -9,7 +9,6 @@ import { RailgunMotion } from './_motion/railgun-motion'
 import { Basics } from './_sections/basics'
 import { Build } from './_sections/build'
 import { Closing } from './_sections/closing'
-import { RailgunFooter } from './_sections/footer'
 import { Gateway } from './_sections/gateway'
 import { Hero } from './_sections/hero'
 import { Intro } from './_sections/intro'
@@ -58,9 +57,6 @@ export default async function RailgunPage({
         <Prifi copy={copy.prifi} />
         <Build copy={copy.build} />
         <Closing copy={copy.closing} />
-        <div data-header-tone="dark">
-          <RailgunFooter copy={copy.footer} locale={locale} />
-        </div>
       </div>
       <Gateway copy={copy.gateway} />
     </RailgunMotion>

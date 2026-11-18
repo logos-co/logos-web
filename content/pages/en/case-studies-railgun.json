@@ -109,7 +109,7 @@
       "privacy": {
         "privacyThroughDecentralisation": "Privacy through decentralisation",
         "aRailgunCompatibleWallet": "A RAILGUN-compatible wallet uses a 0zk address. A zero-knowledge proof hides the sender, the receiver, the token and the amount. But a 0zk address can't pay gas. A public 0x wallet can, but it is public. Submitting the transaction yourself would reveal your identity.",
-        "railgunHandsYourTransaction": "RAILGUN enabled wallets hands your transaction to a Broadcaster, a public wallet that submits the transaction and pays the gas on your behalf. You pay the Broadcaster back privately, in whatever token you hold. On-chain, the transaction appears to come from the Broadcaster.",
+        "railgunHandsYourTransaction": "RAILGUN-enabled wallets hands your transaction to a Broadcaster, a public wallet that submits the transaction and pays the gas on your behalf. You pay the Broadcaster back privately, in whatever token you hold. On-chain, the transaction appears to come from the Broadcaster.",
         "broadcasters": "Broadcasters",
         "publicWalletsSubmitTransactions": "Public wallets submit transactions and pay gas.",
         "feeQuotes": "Fee quotes",
@@ -134,7 +134,7 @@
           "desktop": {
             "privacyThroughDecentralisation": "Privacy through\ndecentralisation",
             "aRailgunCompatibleWallet": "A RAILGUN-compatible wallet uses a 0zk address. A zero-knowledge\nproof hides the sender, the receiver, the token and the amount. But a 0zk\naddress can't pay gas. A public 0x wallet can, but it is public. Submitting\nthe transaction yourself would reveal your identity.",
-            "railgunHandsYourTransaction": "RAILGUN enabled wallets hands your transaction to a Broadcaster, a\npublic wallet that submits the transaction and pays the gas on your\nbehalf. You pay the Broadcaster back privately, in whatever token you\nhold. On-chain, the transaction appears to come from the Broadcaster.",
+            "railgunHandsYourTransaction": "RAILGUN-enabled wallets hands your transaction to a Broadcaster, a\npublic wallet that submits the transaction and pays the gas on your\nbehalf. You pay the Broadcaster back privately, in whatever token you\nhold. On-chain, the transaction appears to come from the Broadcaster.",
             "successOrFailureNotifications": "Success or failure notifications are routed back\nto the sender.",
             "railgunFirstTriedBuilding": "RAILGUN first tried building its networking on libp2p directly, but moved to Logos\nDelivery to stop IP addresses leaking and putting users' anonymity at risk.",
             "ifThisCoordinationPassed": "If this coordination passed through a server, it would leave a trail to\nfollow and rely on trusting a third party. That is the problem Logos\nDelivery solves.",
@@ -143,7 +143,7 @@
           "mobile": {
             "privacyThroughDecentralisation": "Privacy through\ndecentralisation",
             "aRailgunCompatibleWallet": "A RAILGUN-compatible wallet uses a 0zk\naddress. A zero-knowledge proof hides the\nsender, the receiver, the token and the\namount. But a 0zk address can't pay gas. A\npublic 0x wallet can, but it is public.\nSubmitting the transaction yourself would\nreveal your identity.",
-            "railgunHandsYourTransaction": "RAILGUN enabled wallets hands your\ntransaction to a Broadcaster, a public\nwallet that submits the transaction and\npays the gas on your behalf. You pay the\nBroadcaster back privately, in whatever\ntoken you hold. On-chain, the transaction\nappears to come from the Broadcaster.",
+            "railgunHandsYourTransaction": "RAILGUN-enabled wallets hands your\ntransaction to a Broadcaster, a public\nwallet that submits the transaction and\npays the gas on your behalf. You pay the\nBroadcaster back privately, in whatever\ntoken you hold. On-chain, the transaction\nappears to come from the Broadcaster.",
             "successOrFailureNotifications": "Success or failure notifications are routed back to\nthe sender.",
             "railgunFirstTriedBuilding": "RAILGUN first tried building its networking on libp2p\ndirectly, but moved to Logos Delivery to stop IP\naddresses leaking and putting users' anonymity at risk.",
             "railgunSProofsProtect": "RAILGUN's proofs protect the transaction, but not its\ntransmission. Logos Delivery replaces centralised relay\nservers with secure p2p communication, keeping\nmetadata private."
@@ -423,92 +423,6 @@
         "nextCaseStudy": "Next case study",
         "gatewayFm": "Gateway.fm",
         "howGatewayFmRuns": "How Gateway.fm runs rollup infrastructure on Logos. Case study in production."
-      },
-      "footer": {
-        "tagline": "Pioneering a new era of freedom.",
-        "lineBreaks": {
-          "mobile": {
-            "tagline": "Pioneering a new era\nof freedom.",
-            "newsletterTitle": "Stay ahead with\nthe latest updates."
-          }
-        },
-        "newsletter": {
-          "title": "Stay ahead with the latest updates.",
-          "emailLabel": "Enter email",
-          "roleLabel": "Role",
-          "cityLabel": "city",
-          "submitLabel": "Submit"
-        },
-        "mainLinks": [
-          {
-            "label": "Work With Us",
-            "href": "https://free.technology/jobs"
-          },
-          {
-            "label": "Brand Guidelines",
-            "href": "/design-guide"
-          }
-        ],
-        "socialLinks": [
-          {
-            "label": "Twitter",
-            "href": "https://x.com/Logos_network"
-          },
-          {
-            "label": "Discord",
-            "href": "https://discord.gg/Ykv4eZyHUJ"
-          },
-          {
-            "label": "YouTube",
-            "href": "https://www.youtube.com/@logos_network"
-          },
-          {
-            "label": "Blog",
-            "href": "/media"
-          },
-          {
-            "label": "Github",
-            "href": "https://github.com/logos-co"
-          }
-        ],
-        "researchLinks": [
-          {
-            "label": "VacP2P",
-            "href": "https://github.com/vacp2p"
-          }
-        ],
-        "infrastructureLinks": [
-          {
-            "label": "Waku",
-            "href": "https://waku.org/"
-          },
-          {
-            "label": "Nimbus",
-            "href": "https://nimbus.team/"
-          },
-          {
-            "label": "Codex",
-            "href": "https://codex.storage/"
-          },
-          {
-            "label": "Nomos",
-            "href": "https://nomos.tech/"
-          }
-        ],
-        "legalLinks": [
-          {
-            "label": "Terms & Conditions",
-            "href": "/terms-and-conditions"
-          },
-          {
-            "label": "Privacy Policy",
-            "href": "/privacy-policy"
-          },
-          {
-            "label": "Security",
-            "href": "/security"
-          }
-        ]
       }
     }
   ]

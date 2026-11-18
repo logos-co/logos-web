@@ -196,7 +196,6 @@ export function mountReveals(scope: MotionScope) {
     }
   }
 
-  const footerGroups = new Map<HTMLElement, HTMLElement[]>()
   const autoObserver = scope.observe(
     (entries, io) => {
       const visible = entries
@@ -208,11 +207,8 @@ export function mountReveals(scope: MotionScope) {
         )
       visible.forEach(({ target }, i) => {
         if (target instanceof HTMLElement) {
-          const group = footerGroups.get(target) ?? [target]
-          for (const item of group) {
-            item.style.setProperty('--d0', `${Math.min(i * 80, 560)}ms`)
-            item.classList.add('on')
-          }
+          target.style.setProperty('--d0', `${Math.min(i * 80, 560)}ms`)
+          target.classList.add('on')
         }
         io.unobserve(target)
       })
@@ -249,15 +245,6 @@ export function mountReveals(scope: MotionScope) {
       card.classList.remove('ar-f')
       card.classList.add('ar-c')
       autoObserver.observe(card)
-    }
-
-    for (const side of ['left', 'right']) {
-      const parts = all(`footer [data-footer-motion="${side}"]`)
-      const first = parts[0]
-      if (!first || !eligible(first)) continue
-      parts.forEach((part) => part.classList.add('ar-f'))
-      footerGroups.set(first, parts)
-      autoObserver.observe(first)
     }
 
     for (const section of all('section.pad')) {
