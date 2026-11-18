@@ -172,7 +172,7 @@ export const EXTERNAL_URLS = {
   vacGithub: 'https://github.com/vacp2p',
 
   // Case studies
-  railgunWallets: 'https://www.railgun.org',
+  railgunWallets: 'https://railgun.org/',
 
   // Infrastructure projects
   nimbus: 'https://nimbus.team',
