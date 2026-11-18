@@ -31,7 +31,13 @@ We don't use `next/font/google` because it downloads the fonts during `next buil
 
 The committed files are the ones `next/font/google` served: the generator asks the Google Fonts CSS API for the weights above and downloads every unicode-range subset it returns (Latin, Latin Extended, Cyrillic, Greek, Vietnamese and so on). Each subset gets its own loader under the Google family name (`'Public Sans'`, not a generated one), so the browser merges them into one family and only downloads a subset when a page uses one of its characters. Only the Latin files are preloaded. The size-adjusted Arial fallbacks in [`app/google-fonts-fallback.css`](../app/google-fonts-fallback.css) use the same metrics as `next/font/google`.
 
-To change weights or refresh the files, edit `FAMILIES` in the generator, run `pnpm --filter web generate:fonts` and commit the regenerated files.
+To change weights or refresh the files, edit `FAMILIES` in the generator and run:
+
+```bash
+pnpm --filter web generate:fonts
+```
+
+The script deletes and rewrites each family directory under `public/fonts/`, including its `OFL.txt` from a pinned google/fonts commit, regenerates `app/google-fonts.ts` and `app/google-fonts-fallback.css`, then formats both with Prettier. Don't edit the generated files by hand. Commit everything the script writes.
 
 The web build uses `next build --webpack` because the Turbopack Google font
 loader failed to resolve Fira Code during deployment. No font comes from Google
