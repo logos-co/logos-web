@@ -20,8 +20,16 @@ import {
 
 const WEBP_QUALITY = 78
 const DEFAULT_CONCURRENCY = 6
-const DOWNLOAD_TIMEOUT_MS = 60_000
-const DOWNLOAD_ATTEMPTS = 2
+/**
+ * Healthy CMS downloads start in well under a second, so 10s without a byte
+ * means the server has stalled (some uploads send a few header bytes, then
+ * nothing). The total cap only stops a trickle; large files still finish.
+ * No retry: a second attempt on a stalled server only doubles the wait.
+ */
+const DOWNLOAD_IDLE_TIMEOUT_MS = 10_000
+const DOWNLOAD_TOTAL_TIMEOUT_MS = 60_000
+/** A failed URL is not downloaded again until this long after the failure. */
+const FAILURE_RETRY_MS = 24 * 60 * 60 * 1000
 /** Formats sharp can resize without losing animation or vector sharpness. */
 const RESIZABLE_FORMATS = new Set(['jpeg', 'png', 'webp', 'avif', 'tiff'])
 
@@ -33,6 +41,13 @@ export interface BuildMediaImagesOptions {
   outputDir: string
   fetchImage?: (url: string) => Promise<Buffer>
   concurrency?: number
+  /**
+   * Remember failed downloads in the cache so the next builds skip them for
+   * a day. Off for local fixtures and CMS outages, where a failure says
+   * nothing about the upload itself.
+   */
+  markFailures?: boolean
+  now?: () => number
 }
 
 export interface BuildMediaImagesResult {
@@ -40,27 +55,73 @@ export interface BuildMediaImagesResult {
   failures: Array<{ url: string; reason: string }>
   /** Vector or animated files that stay on the CMS. */
   skipped: string[]
+  /** Failed in an earlier build, not downloaded again until `retryAfter`. */
+  marked: Array<{ url: string; retryAfter: string }>
 }
 
 type ImageOutcome =
   | { kind: 'built'; url: string; entry: MediaImageEntry }
   | { kind: 'skipped'; url: string }
   | { kind: 'failed'; url: string; reason: string }
+  | { kind: 'marked'; url: string; retryAfter: string }
 
-async function downloadImage(url: string): Promise<Buffer> {
-  let lastError: unknown
-  for (let attempt = 1; attempt <= DOWNLOAD_ATTEMPTS; attempt += 1) {
-    try {
-      const response = await fetch(url, {
-        signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT_MS),
-      })
-      if (!response.ok) throw new Error(`status ${response.status}`)
-      return Buffer.from(await response.arrayBuffer())
-    } catch (error) {
-      lastError = error
-    }
+/** What `<stem>.json` in the cache holds besides a built entry. */
+interface SkippedMarker {
+  skipped: true
+}
+interface FailureMarker {
+  failedAt: number
+  reason: string
+}
+type CacheRecord = MediaImageEntry | SkippedMarker | FailureMarker
+
+export interface DownloadTimeouts {
+  idleMs: number
+  totalMs: number
+}
+
+export async function downloadImage(
+  url: string,
+  {
+    idleMs = DOWNLOAD_IDLE_TIMEOUT_MS,
+    totalMs = DOWNLOAD_TOTAL_TIMEOUT_MS,
+  }: Partial<DownloadTimeouts> = {}
+): Promise<Buffer> {
+  const controller = new AbortController()
+  let idleTimer: NodeJS.Timeout | undefined
+  const resetIdle = () => {
+    clearTimeout(idleTimer)
+    idleTimer = setTimeout(
+      () => controller.abort(new Error(`no data for ${idleMs / 1000}s`)),
+      idleMs
+    )
   }
-  throw lastError
+  const totalTimer = setTimeout(
+    () => controller.abort(new Error(`not done after ${totalMs / 1000}s`)),
+    totalMs
+  )
+
+  try {
+    resetIdle()
+    const response = await fetch(url, { signal: controller.signal })
+    if (!response.ok) throw new Error(`status ${response.status}`)
+    if (!response.body) throw new Error('empty response')
+
+    const chunks: Uint8Array[] = []
+    const reader = response.body.getReader()
+    for (;;) {
+      resetIdle()
+      const { done, value } = await reader.read()
+      if (done) break
+      chunks.push(value)
+    }
+    return Buffer.concat(chunks)
+  } catch (error) {
+    throw controller.signal.aborted ? controller.signal.reason : error
+  } finally {
+    clearTimeout(idleTimer)
+    clearTimeout(totalTimer)
+  }
 }
 
 /** Stable per URL: the readable CMS name plus a hash of the full URL. */
@@ -76,19 +137,27 @@ function targetWidths(sourceWidth: number): number[] {
   return [...new Set(widths)].sort((a, b) => a - b)
 }
 
-async function readCachedEntry(
+async function readCacheRecord(
   stem: string,
   cacheDir: string
-): Promise<MediaImageEntry | null> {
+): Promise<CacheRecord | null> {
   const metaPath = join(cacheDir, `${stem}.json`)
   if (!existsSync(metaPath)) return null
 
-  const entry = JSON.parse(await readFile(metaPath, 'utf8')) as MediaImageEntry
-  const complete = entry.variants.every((variant) =>
+  const record = JSON.parse(await readFile(metaPath, 'utf8')) as CacheRecord
+  if (!('variants' in record)) return record
+  const complete = record.variants.every((variant) =>
     existsSync(join(cacheDir, variant.file))
   )
-  return complete ? entry : null
+  return complete ? record : null
 }
+
+const writeCacheRecord = (
+  stem: string,
+  cacheDir: string,
+  record: CacheRecord
+): Promise<void> =>
+  writeFile(join(cacheDir, `${stem}.json`), JSON.stringify(record))
 
 async function createVariants(
   source: Buffer,
@@ -97,7 +166,10 @@ async function createVariants(
 ): Promise<MediaImageEntry | null> {
   const metadata = await sharp(source).metadata()
   const isAnimated = (metadata.pages ?? 1) > 1
-  if (!RESIZABLE_FORMATS.has(metadata.format ?? '') || isAnimated) return null
+  if (!RESIZABLE_FORMATS.has(metadata.format ?? '') || isAnimated) {
+    await writeCacheRecord(stem, cacheDir, { skipped: true })
+    return null
+  }
 
   const { width, height } = metadata.autoOrient
   const variants = await Promise.all(
@@ -112,26 +184,68 @@ async function createVariants(
     })
   )
   const entry: MediaImageEntry = { width, height, variants }
-  await writeFile(join(cacheDir, `${stem}.json`), JSON.stringify(entry))
+  await writeCacheRecord(stem, cacheDir, entry)
   return entry
+}
+
+type BuildOneOptions = Required<
+  Pick<
+    BuildMediaImagesOptions,
+    'cacheDir' | 'outputDir' | 'fetchImage' | 'markFailures' | 'now'
+  >
+>
+
+const errorMessage = (error: unknown): string =>
+  error instanceof Error ? error.message : String(error)
+
+/** Cached variants first, then the markers, then a download. */
+async function resolveEntry(
+  url: string,
+  stem: string,
+  options: BuildOneOptions
+): Promise<Exclude<ImageOutcome, { kind: 'built' }> | MediaImageEntry> {
+  const cached = await readCacheRecord(stem, options.cacheDir)
+  if (cached && 'variants' in cached) return cached
+  if (cached && 'skipped' in cached) return { kind: 'skipped', url }
+  if (cached && 'failedAt' in cached && options.markFailures) {
+    const retryAt = cached.failedAt + FAILURE_RETRY_MS
+    if (options.now() < retryAt) {
+      return {
+        kind: 'marked',
+        url,
+        retryAfter: new Date(retryAt).toISOString(),
+      }
+    }
+  }
+
+  let source: Buffer
+  try {
+    source = await options.fetchImage(url)
+  } catch (error) {
+    const reason = errorMessage(error)
+    if (options.markFailures) {
+      await writeCacheRecord(stem, options.cacheDir, {
+        failedAt: options.now(),
+        reason,
+      })
+    }
+    return { kind: 'failed', url, reason }
+  }
+  return (
+    (await createVariants(source, stem, options.cacheDir)) ?? {
+      kind: 'skipped',
+      url,
+    }
+  )
 }
 
 async function buildOne(
   url: string,
-  options: Required<Pick<BuildMediaImagesOptions, 'cacheDir' | 'outputDir'>> & {
-    fetchImage: (url: string) => Promise<Buffer>
-  }
+  options: BuildOneOptions
 ): Promise<ImageOutcome> {
-  const stem = variantStem(url)
   try {
-    const entry =
-      (await readCachedEntry(stem, options.cacheDir)) ??
-      (await createVariants(
-        await options.fetchImage(url),
-        stem,
-        options.cacheDir
-      ))
-    if (!entry) return { kind: 'skipped', url }
+    const entry = await resolveEntry(url, variantStem(url), options)
+    if ('kind' in entry) return entry
 
     await Promise.all(
       entry.variants.map((variant) =>
@@ -143,8 +257,7 @@ async function buildOne(
     )
     return { kind: 'built', url, entry }
   } catch (error) {
-    const reason = error instanceof Error ? error.message : String(error)
-    return { kind: 'failed', url, reason }
+    return { kind: 'failed', url, reason: errorMessage(error) }
   }
 }
 
@@ -154,6 +267,8 @@ export async function buildMediaImages({
   outputDir,
   fetchImage = downloadImage,
   concurrency = DEFAULT_CONCURRENCY,
+  markFailures = true,
+  now = Date.now,
 }: BuildMediaImagesOptions): Promise<BuildMediaImagesResult> {
   await rm(outputDir, { recursive: true, force: true })
   await Promise.all([
@@ -162,7 +277,7 @@ export async function buildMediaImages({
   ])
 
   const outcomes = await mapWithConcurrency(urls, concurrency, (url) =>
-    buildOne(url, { cacheDir, outputDir, fetchImage })
+    buildOne(url, { cacheDir, outputDir, fetchImage, markFailures, now })
   )
 
   return {
@@ -178,6 +293,11 @@ export async function buildMediaImages({
     ),
     skipped: outcomes.flatMap((outcome) =>
       outcome.kind === 'skipped' ? [outcome.url] : []
+    ),
+    marked: outcomes.flatMap((outcome) =>
+      outcome.kind === 'marked'
+        ? [{ url: outcome.url, retryAfter: outcome.retryAfter }]
+        : []
     ),
   }
 }
