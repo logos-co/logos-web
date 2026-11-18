@@ -18,6 +18,7 @@ import {
   type ReaderView,
   type ReaderPanel,
 } from '@/lib/zines/reader-state'
+import { useAvifSupport } from '@/lib/zines/use-avif-support'
 import { useReaderLocation } from '@/lib/zines/use-reader-location'
 import { ZineToolbar } from './zine-toolbar'
 import { ZineNavigation } from './zine-navigation'
@@ -40,6 +41,7 @@ export function ZineReader({
   const [document, setDocument] = useState<ZineDocument | null>(null)
   const [failed, setFailed] = useState(false)
   const [attempt, setAttempt] = useState(0)
+  const avif = useAvifSupport()
   const panel = state.panel
   const setPanel = (panel: ReaderPanel): void => navigate({ panel })
   const [hoverPage, setHoverPage] = useState<number | null>(null)
@@ -196,7 +198,14 @@ export function ZineReader({
         setPanel={setPanel}
       />
 
-      {!document ? (
+      {avif === false ? (
+        <div className="zine-loading" role="status">
+          <p>{t('unsupportedBrowser')}</p>
+          <Button href={issue.pdf} download className="cursor-pointer">
+            {t('download')}
+          </Button>
+        </div>
+      ) : !document || avif === null ? (
         <div className="zine-loading" role="status">
           <p>{t(failed ? 'loadFailed' : 'loading')}</p>
           {failed && (
@@ -238,7 +247,7 @@ export function ZineReader({
                       onClick={() => selectPage(item.number)}
                     >
                       <img
-                        src={`/zines/generated/${issue.slug}/${item.number}-thumb.webp`}
+                        src={`/zines/generated/${issue.slug}/${item.number}-thumb.avif`}
                         alt=""
                         width={320}
                         height={453}

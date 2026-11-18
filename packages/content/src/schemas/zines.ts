@@ -110,9 +110,10 @@ export const zinePageSchema = z.object({
 })
 export type ZinePage = z.infer<typeof zinePageSchema>
 export const zineDocumentSchema = z.object({
-  schemaVersion: schemaVersion(1),
+  schemaVersion: schemaVersion(2),
   slug: slugSchema,
   sourceHash: z.string(),
+  cacheKey: z.string(),
   pages: z.array(zinePageSchema).min(3),
 })
 export type ZineDocument = z.infer<typeof zineDocumentSchema>

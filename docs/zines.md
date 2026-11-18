@@ -57,7 +57,7 @@ Page `0` is the cover and the last page is the back cover, and contents entries 
 
 ## Reader
 
-`ZineReader` is a client component. It fetches `/zines/generated/<slug>/document.json` and checks it against `zineDocumentSchema`, the issue's slug and its page count. While it loads, the reader shows a status line and the PDF download; if the load fails, it shows a failure message, a retry button and the PDF download. Without JavaScript, a `<noscript>` message links to the PDF. On reader pages `ZineChromeGate` hides the site header and footer; the catalogue keeps them.
+`ZineReader` is a client component. It fetches `/zines/generated/<slug>/document.json` and checks it against `zineDocumentSchema`, the issue's slug and its page count. While it loads, the reader shows a status line and the PDF download; if the load fails, it shows a failure message, a retry button and the PDF download. The page images are AVIF, so the reader first decodes a 1px AVIF data URI ([`apps/web/lib/zines/use-avif-support.ts`](../apps/web/lib/zines/use-avif-support.ts)); a browser that can't decode it gets a notice and the PDF download in place of the pages. Without JavaScript, a `<noscript>` message links to the PDF. On reader pages `ZineChromeGate` hides the site header and footer; the catalogue keeps them.
 
 | View      | What it shows                                                                                      |
 | --------- | -------------------------------------------------------------------------------------------------- |
@@ -103,16 +103,27 @@ A `q` without `panel` opens search, except in guided view, and `panel=none` keep
 
 ## Generated assets
 
-`pnpm generate:zines` ([`apps/web/scripts/generate-zine-assets.ts`](../apps/web/scripts/generate-zine-assets.ts)) runs before `next dev`, and in `build:app` after `generate:media-assets` and before `next build`. For every readable edition it:
+`pnpm generate:zines` ([`apps/web/scripts/generate-zine-assets.ts`](../apps/web/scripts/generate-zine-assets.ts)) runs before `next dev`, and in `build:app` after `generate:media-assets` and before `next build`. The output is committed, so a build normally skips every issue. For each readable edition the script computes a cache key from the PDF's SHA-256, the text layer file (when the issue has one) and `ZINE_GENERATOR_VERSION` ([`apps/web/lib/zines/asset-cache.ts`](../apps/web/lib/zines/asset-cache.ts)). It skips the issue when the committed `document.json` stores the same `cacheKey` and every page file exists, and logs `Skipped <slug>`. Otherwise it deletes the issue's output folder and:
 
 1. Reads the issue's PDF from `apps/web/public/zine/`.
 2. Splits each sheet into pages: a landscape sheet becomes two facing pages, left then right. It removes `trim` from every edge.
-3. Renders each page 1600px wide as `<n>.webp`, plus a 320px thumbnail as `<n>-thumb.webp`.
+3. Renders each page 1600px wide as `<n>.avif` (sharp AVIF quality 65, effort 4), plus a 320px thumbnail as `<n>-thumb.avif` (quality 66, which matches the SSIM of the former WebP quality 82 thumbnails).
 4. Extracts word positions and reading blocks from the PDF text with pdf.js. Running headers and folios stay selectable but are not reading blocks. Issues with `textLayer` use their reviewed text layer instead.
 5. Turns `http(s)` and `mailto:` link annotations into page links, rewriting `forum.vac.dev` to `forum.research.logos.co`.
-6. Writes `document.json`, with the PDF's SHA-256 as `sourceHash`.
+6. Writes `document.json`, with the PDF's SHA-256 as `sourceHash` and the cache key as `cacheKey`.
 
-The output goes to `apps/web/public/zines/generated/<slug>/`, which is gitignored and ends up in the static export. The script fails when the number of pages it produces doesn't match `pageCount`. `pdfjs-dist`, `@napi-rs/canvas` and `sharp` are dev dependencies; the browser only loads the static files. Image-only issues use JPEG 2000, which pdf.js decodes with its bundled WASM during generation ([`apps/web/scripts/zines/pdf-options.ts`](../apps/web/scripts/zines/pdf-options.ts)).
+The output goes to `apps/web/public/zines/generated/<slug>/`, which is committed and ends up in the static export. Jenkins starts from a clean workspace on every run, so committing the output is what lets both Vercel and Jenkins skip rendering. A build still renders any issue that is stale or missing, so a deploy never ships broken pages.
+
+After you replace a PDF, edit a text layer, or change the render width, the encoder settings, the output format, `page-layout.ts` or `pdf-options.ts` (bump `ZINE_GENERATOR_VERSION` for the last four), regenerate and commit the result:
+
+```bash
+pnpm --filter web generate:zines
+git add apps/web/public/zines/generated
+```
+
+[`apps/web/lib/zines/__tests__/generated-assets.test.ts`](../apps/web/lib/zines/__tests__/generated-assets.test.ts) runs in `pnpm test` and fails when a committed issue's `cacheKey` or page files don't match.
+
+AVIF needs Chrome 85, Edge 121, Firefox 93 and Safari 16.4 (iOS 16.4); the `browserslist` in [`apps/web/package.json`](../apps/web/package.json) targets Chrome 111, Edge 121, Firefox 111 and Safari/iOS 16.4 to match. The script fails when the number of pages it produces doesn't match `pageCount`. `pdfjs-dist`, `@napi-rs/canvas` and `sharp` are dev dependencies; the browser only loads the static files. Image-only issues use JPEG 2000, which pdf.js decodes with its bundled WASM during generation ([`apps/web/scripts/zines/pdf-options.ts`](../apps/web/scripts/zines/pdf-options.ts)).
 
 ### Text measurement
 

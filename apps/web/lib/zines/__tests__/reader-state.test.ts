@@ -9,9 +9,10 @@ import {
 import type { ZineDocument } from '@repo/content/schemas'
 
 const document: ZineDocument = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   slug: 'test',
   sourceHash: 'test',
+  cacheKey: 'test',
   pages: [
     {
       number: 0,

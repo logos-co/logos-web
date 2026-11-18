@@ -59,7 +59,7 @@ export function ZinePage({
         aria-label={label}
       >
         <image
-          href={`/zines/generated/${slug}/${page.number}.webp`}
+          href={`/zines/generated/${slug}/${page.number}.avif`}
           width={page.width}
           height={page.height}
           aria-hidden="true"

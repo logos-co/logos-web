@@ -5,9 +5,10 @@ import { searchDocument } from '../reader-state'
 
 const layer = zineTextLayerSchema.parse(source)
 const document: ZineDocument = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   slug: 'open-source',
   sourceHash: layer.sourceHash,
+  cacheKey: 'test',
   pages: layer.pages.map((page, number) => ({
     ...page,
     number,
