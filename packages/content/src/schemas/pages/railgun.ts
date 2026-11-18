@@ -31,6 +31,8 @@ export const railgunCopySectionSchema = z.object({
     label567b: text,
     cumulativePrivacySetTokens: text,
     cumulativePrivacySetTokensMobile: text,
+    label16m: text,
+    messagesADay: text,
     label0Eth: text,
     neededToPayGas: text,
     neededToPayGasMobile: text,

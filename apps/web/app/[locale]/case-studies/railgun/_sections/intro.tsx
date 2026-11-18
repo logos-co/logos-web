@@ -50,6 +50,12 @@ export function Intro({ copy }: { copy: RailgunCopySection['intro'] }) {
           </div>
           <div className="stat" style={{ '--d': '170ms' } as CSSProperties}>
             <span className="nv">
+              <span>{copy.label16m}</span>
+            </span>
+            <span className="lab">{copy.messagesADay}</span>
+          </div>
+          <div className="stat" style={{ '--d': '240ms' } as CSSProperties}>
+            <span className="nv">
               <span>{copy.label0Eth}</span>
             </span>
             <span className="lab">
