@@ -10,10 +10,7 @@ export function Production({
 }: {
   copy: RailgunCopySection['production']
 }) {
-  const text = createCopyRenderer({
-    ...copy,
-    quote: `${copy.itJustTurnedOut}${copy.suitedForOurNeeds} ${copy.stuckWithIt}`,
-  })
+  const text = createCopyRenderer(copy)
   return (
     <>
       <section className="light pad wrap" id="numbers">
@@ -103,29 +100,6 @@ export function Production({
             alt={copy.photoAlt}
             loading="lazy"
           />
-          <figcaption className="q">
-            <blockquote className="lines">
-              <span className="desktop-copy">
-                <span className="ln">
-                  <span style={{ '--d': '0ms' } as CSSProperties}>
-                    {copy.itJustTurnedOut}
-                  </span>
-                </span>
-                <span className="ln">
-                  <span style={{ '--d': '90ms' } as CSSProperties}>
-                    {copy.suitedForOurNeeds}
-                  </span>
-                </span>{' '}
-                <span className="ln">
-                  <span style={{ '--d': '210ms' } as CSSProperties}>
-                    {copy.stuckWithIt}
-                  </span>
-                </span>
-              </span>
-              <span className="mobile-copy">{text('quote')}</span>
-            </blockquote>
-            <p className="att">{text('keiranRailgunContributorOn')}</p>
-          </figcaption>
         </figure>
         <div className="pair">
           <div>
