@@ -4,10 +4,10 @@
   "private": true,
   "browserslist": [
     "chrome 111",
-    "edge 111",
+    "edge 121",
     "firefox 111",
-    "safari 14",
-    "ios_saf 14"
+    "safari 16.4",
+    "ios_saf 16.4"
   ],
   "scripts": {
     "dev": "pnpm generate:zines && next dev --port 3000",

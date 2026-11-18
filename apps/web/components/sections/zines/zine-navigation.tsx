@@ -73,7 +73,7 @@ export function ZineNavigation({
                       onClick={() => selectPage(number)}
                     >
                       <img
-                        src={`/zines/generated/${issue.slug}/${number}-thumb.webp`}
+                        src={`/zines/generated/${issue.slug}/${number}-thumb.avif`}
                         alt=""
                         width={37}
                         height={52}

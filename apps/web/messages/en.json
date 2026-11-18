@@ -349,6 +349,7 @@
     "loading": "Loading the issue...",
     "loadFailed": "The issue could not be loaded. Try again or download the print PDF.",
     "retry": "Try again",
+    "unsupportedBrowser": "Your browser cannot show the pages of this reader. Update your browser, or download the print PDF to read the issue.",
     "javascriptRequired": "Enable JavaScript to use the interactive reader, or download the complete issue.",
     "printGuide": "Print guide",
     "closePrintGuide": "Close print guide",

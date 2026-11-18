@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { access, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createCanvas } from '@napi-rs/canvas'
@@ -15,8 +15,33 @@ import {
 import { extractPageText, printPageCrops } from './zines/page-layout'
 
 import { printPdfOptions } from './zines/pdf-options'
+import { ZINE_PAGE_FILES, zineCacheKey } from '../lib/zines/asset-cache'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+
+const THUMB_QUALITY = 66
+
+async function isCurrent(
+  output: string,
+  cacheKey: string,
+  pageCount: number
+): Promise<boolean> {
+  try {
+    const stored = zineDocumentSchema.parse(
+      JSON.parse(await readFile(resolve(output, 'document.json'), 'utf8'))
+    )
+    if (stored.cacheKey !== cacheKey || stored.pages.length !== pageCount)
+      return false
+    await Promise.all(
+      stored.pages
+        .flatMap((page) => ZINE_PAGE_FILES(page.number))
+        .map((file) => access(resolve(output, file)))
+    )
+    return true
+  } catch {
+    return false
+  }
+}
 
 async function main(): Promise<void> {
   const locale = getActiveLocales()[0]
@@ -25,15 +50,14 @@ async function main(): Promise<void> {
     const issue = await getZineIssue(locale, edition.slug)
     const source = await readFile(resolve(root, 'public', issue.pdf.slice(1)))
     const sourceHash = createHash('sha256').update(source).digest('hex')
-    const textLayer = issue.textLayer
-      ? zineTextLayerSchema.parse(
-          JSON.parse(
-            await readFile(
-              resolve(root, 'scripts/zines/text-layers', `${issue.slug}.json`),
-              'utf8'
-            )
-          )
+    const textLayerSource = issue.textLayer
+      ? await readFile(
+          resolve(root, 'scripts/zines/text-layers', `${issue.slug}.json`),
+          'utf8'
         )
+      : null
+    const textLayer = textLayerSource
+      ? zineTextLayerSchema.parse(JSON.parse(textLayerSource))
       : null
     if (
       textLayer &&
@@ -41,12 +65,19 @@ async function main(): Promise<void> {
         textLayer.pages.length !== issue.pageCount)
     )
       throw new Error(`Text layer does not match PDF for ${issue.slug}`)
+    const cacheKey = zineCacheKey(source, textLayerSource)
+    const output = resolve(root, 'public/zines/generated', issue.slug)
+    if (await isCurrent(output, cacheKey, issue.pageCount)) {
+      process.stdout.write(`Skipped ${issue.slug}: zine pages are current\n`)
+      continue
+    }
+    const started = performance.now()
+    await rm(output, { recursive: true, force: true })
     const task = getDocument({
       data: new Uint8Array(source),
       ...printPdfOptions,
     })
     const document = await task.promise
-    const output = resolve(root, 'public/zines/generated', issue.slug)
     await mkdir(output, { recursive: true })
     const pages: ZinePage[] = []
     for (let index = 0; index < document.numPages; index++) {
@@ -73,12 +104,12 @@ async function main(): Promise<void> {
         const buffer = canvas.toBuffer('image/png')
         await Promise.all([
           sharp(buffer)
-            .webp({ quality: 88 })
-            .toFile(resolve(output, `${number}.webp`)),
+            .avif({ quality: 65, effort: 4 })
+            .toFile(resolve(output, `${number}.avif`)),
           sharp(buffer)
             .resize({ width: 320 })
-            .webp({ quality: 82 })
-            .toFile(resolve(output, `${number}-thumb.webp`)),
+            .avif({ quality: THUMB_QUALITY, effort: 4 })
+            .toFile(resolve(output, `${number}-thumb.avif`)),
         ])
         const links = annotations.flatMap((annotation) => {
           if (
@@ -120,15 +151,16 @@ async function main(): Promise<void> {
     if (pages.length !== issue.pageCount)
       throw new Error(`Page count mismatch for ${issue.slug}`)
     const result = zineDocumentSchema.parse({
-      schemaVersion: 1,
+      schemaVersion: 2,
       slug: issue.slug,
       sourceHash,
+      cacheKey,
       pages,
     })
     await writeFile(resolve(output, 'document.json'), JSON.stringify(result))
     await task.destroy()
     process.stdout.write(
-      `Generated ${pages.length} zine pages for ${issue.slug}\n`
+      `Rendered ${pages.length} zine pages for ${issue.slug} in ${((performance.now() - started) / 1000).toFixed(1)}s\n`
     )
   }
 }
