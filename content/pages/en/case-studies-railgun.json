@@ -42,6 +42,8 @@
         "label567b": "$5.67B",
         "cumulativePrivacySetTokens": "Cumulative privacy set: tokens sent to and from 0zk addresses since launch.",
         "cumulativePrivacySetTokensMobile": "Cumulative privacy set since launch.",
+        "label16m": "~1.6M",
+        "messagesADay": "Messages a day published by broadcasters",
         "label0Eth": "0 ETH",
         "neededToPayGas": "Needed to pay gas. A Broadcaster found over Logos Delivery pays it.",
         "neededToPayGasMobile": "Needed to pay gas. A Broadcaster pays it.",
