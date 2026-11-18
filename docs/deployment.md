@@ -27,6 +27,8 @@ Set `ALLOW_CONTENT_FETCH_FAILURE=1` to fall back to the snapshots committed in [
 
 During a CMS outage, a preview can also use a previous `press-snapshot` workflow artifact through `PRESS_CONTENT_SNAPSHOT`. Check its date and draft status, reuse the available media image cache, then build with `vercel build --target preview` and upload with `vercel deploy --prebuilt`. Record the snapshot date in the PR because its media content stays frozen at that point. Homepage statistics requests time out after ten seconds and use their existing fallback values.
 
+Vercel previews for `web/muster` and `web/railgun` use the published media snapshot from 5 November 2026 while the CMS is unavailable. Branch-specific `PRESS_PREVIEW_SNAPSHOT_URL` and `PRESS_CONTENT_SNAPSHOT` variables supply the archive and its extracted path. The install command downloads the archive only when its URL is set.
+
 Two jobs can build and publish it.
 
 [Jenkinsfile](../Jenkinsfile) builds the web app with `STRAPI_API_KEY` and `SIMPLECAST_ACCESS_TOKEN`, because the /media pages come from the blog CMS and Simplecast, then pushes `apps/web/out` to `deploy-develop` or `deploy-master` with `ghp-import`. Unless it runs in site publish mode, the same run also builds the CMS image (see below).

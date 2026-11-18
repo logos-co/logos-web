@@ -104,6 +104,9 @@ export const ROUTES = {
   // Design system reference (internal)
   designSystems: '/design-systems',
 
+  // Case studies
+  railgun: '/case-studies/railgun',
+
   // Campaigns
   ukDebt: '/ukdebt',
   chatControl: '/chatcontrol',
@@ -167,6 +170,9 @@ export const EXTERNAL_URLS = {
   vacRfc: 'https://rfc.vac.dev/',
   logosHome: 'https://logos.co/',
   vacGithub: 'https://github.com/vacp2p',
+
+  // Case studies
+  railgunWallets: 'https://www.railgun.org',
 
   // Infrastructure projects
   nimbus: 'https://nimbus.team',
