@@ -29,6 +29,8 @@ During a CMS outage, a preview can also use a previous `press-snapshot` workflow
 
 Vercel previews for `web/muster` and `web/railgun` use the published media snapshot from 5 November 2026 while the CMS is unavailable. Branch-specific `PRESS_PREVIEW_SNAPSHOT_URL` and `PRESS_CONTENT_SNAPSHOT` variables supply the archive and its extracted path. The install command downloads the archive only when its URL is set.
 
+`generate:media-assets` keeps the resized images in `apps/web/.next/cache/media-images`, which Vercel keeps between builds. An image download fails after 10 seconds without data or 60 seconds in total, with no retry, and the image keeps its CMS URL. The cache then marks that URL as failed for 24 hours, so later builds skip it without a download; vector and animated files are marked as skipped for good. Delete the cache directory, or redeploy without the build cache, to retry them sooner. Jenkins starts from a clean workspace, so it pays the timeout on every run. The active circles requests time out after 10 seconds.
+
 Two jobs can build and publish it.
 
 [Jenkinsfile](../Jenkinsfile) builds the web app with `STRAPI_API_KEY` and `SIMPLECAST_ACCESS_TOKEN`, because the /media pages come from the blog CMS and Simplecast, then pushes `apps/web/out` to `deploy-develop` or `deploy-master` with `ghp-import`. Unless it runs in site publish mode, the same run also builds the CMS image (see below).

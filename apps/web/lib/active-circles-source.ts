@@ -22,7 +22,7 @@ import {
 } from './logos-data-api'
 import { logger } from './logger'
 
-const CIRCLES_FETCH_TIMEOUT_MS = 15_000
+const CIRCLES_FETCH_TIMEOUT_MS = 10_000
 
 type GraphqlResponse<TData> = {
   data?: TData
