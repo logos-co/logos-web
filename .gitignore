@@ -59,6 +59,11 @@ apps/*/public/fonts/**/*.ttf
 apps/*/public/fonts/**/*.otf
 # Rhymes Display — license verified, committed for Vercel builds
 !apps/*/public/fonts/rhymes-display/*.woff2
+# OFL fonts subset by apps/web/scripts/generate-fonts.sh
+!apps/web/public/fonts/fira-code/*.woff2
+!apps/web/public/fonts/fira-mono/*.woff2
+!apps/web/public/fonts/open-sans/*.woff2
+!apps/web/public/fonts/public-sans/*.woff2
 
 mcp.json
 .env*.local

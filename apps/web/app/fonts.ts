@@ -4,7 +4,12 @@
  * The CSS variables below are referenced by @acid-info/logos-tokens typography utilities
  * (e.g. `--font-display` → `var(--next-font-display)` in typography.css).
  *
- * Public Sans and Fira Code are loaded from Google Fonts via next/font/google.
+ * Public Sans, Open Sans, Fira Code and Fira Mono are Google Fonts files
+ * self-hosted from public/fonts and loaded in the generated google-fonts.ts.
+ * Do not switch back to next/font/google: it fetches Google Fonts during the
+ * build, and Google sometimes returns extensionless /l/font?kit= URLs that
+ * crash `next build` (vercel/next.js#99114). Regenerate them with
+ * `pnpm --filter web generate:fonts`.
  *
  * Rhymes Display is a commercial font and must be self-hosted. It is left
  * disabled by default so `pnpm dev` / `pnpm build` work without the woff2.
@@ -19,36 +24,9 @@
  * falls back to 'Times New Roman' → ui-serif.
  */
 
-import { Fira_Code, Fira_Mono, Open_Sans, Public_Sans } from 'next/font/google'
 import localFont from 'next/font/local'
 
-export const publicSans = Public_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-  variable: '--next-font-sans',
-})
-
-export const firaCode = Fira_Code({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  display: 'swap',
-  variable: '--next-font-mono',
-})
-
-export const firaMono = Fira_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  display: 'swap',
-  variable: '--next-font-mono-body',
-})
-
-export const openSans = Open_Sans({
-  subsets: ['latin'],
-  weight: ['400'],
-  display: 'swap',
-  variable: '--next-font-article',
-})
+import { firaCode, firaMono, openSans, publicSans } from './google-fonts'
 
 export const rhymesDisplay = localFont({
   src: [

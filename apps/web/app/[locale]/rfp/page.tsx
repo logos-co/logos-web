@@ -1,5 +1,6 @@
 import { isActiveLocale } from '@repo/content/locales'
 
+import { programmeMono } from '@/app/google-fonts'
 import { JsonLd } from '@/components/seo/json-ld'
 import { ROUTES } from '@/constants/routes'
 import siteConfig from '@/constants/site-config'
@@ -7,7 +8,6 @@ import { createPageMetadata } from '@/lib/page-metadata'
 import { loadRfpProgramme } from '@/lib/rfp-programme'
 import { createBreadcrumbListJsonLd } from '@/lib/structured-data'
 
-import { programmeMono } from '../developer-programmes/fonts'
 import { After } from './_sections/after'
 import { Applicants } from './_sections/applicants'
 import { Deliverables } from './_sections/deliverables'
