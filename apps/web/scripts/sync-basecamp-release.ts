@@ -1,8 +1,8 @@
-import { writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 import { fetchBasecampReleaseDownloads } from '@repo/content/basecamp'
 
+import { writeFileAtomic } from '../lib/atomic-write'
 import { env } from '../lib/env'
 
 async function main(): Promise<void> {
@@ -14,7 +14,7 @@ async function main(): Promise<void> {
     '..',
     'lib/data/basecamp-release.snapshot.json'
   )
-  writeFileSync(outputPath, `${JSON.stringify(release, null, 2)}\n`)
+  await writeFileAtomic(outputPath, `${JSON.stringify(release, null, 2)}\n`)
   console.info(
     `[sync-basecamp-release] refreshed all four downloads from ${release.tag}`
   )
