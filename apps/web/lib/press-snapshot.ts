@@ -1,6 +1,7 @@
-import { readFile, writeFile } from 'node:fs/promises'
+import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
+import { writeFileAtomic } from './atomic-write'
 import { env } from './env'
 import type { BlogArticleDetail, BlogPodcastDetail } from './blog-content'
 
@@ -89,7 +90,7 @@ export const writeFallbackPressSnapshot = async (
   articles: BlogArticleDetail[],
   podcasts: BlogPodcastDetail[]
 ): Promise<void> => {
-  await writeFile(
+  await writeFileAtomic(
     FALLBACK_PRESS_SNAPSHOT_PATH,
     `${JSON.stringify(toFallbackPressSnapshot(articles, podcasts), null, 2)}\n`
   )

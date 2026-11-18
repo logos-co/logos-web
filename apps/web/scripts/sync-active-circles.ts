@@ -11,9 +11,10 @@
 // or the global content fallback switch is enabled. An empty circles response
 // also leaves the committed snapshot in place.
 
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { mkdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
+import { writeFileAtomic } from '../lib/atomic-write'
 import { buildActiveCirclesSnapshot } from '../lib/active-circles-source'
 import type { ActiveCirclesSnapshot } from '../lib/active-circles-shared'
 import { allowContentFetchFailure } from '../lib/content-fetch-fallback'
@@ -47,7 +48,7 @@ async function main(): Promise<void> {
   }
 
   mkdirSync(dirname(OUTPUT_PATH), { recursive: true })
-  writeFileSync(OUTPUT_PATH, `${JSON.stringify(snapshot, null, 2)}\n`)
+  await writeFileAtomic(OUTPUT_PATH, `${JSON.stringify(snapshot, null, 2)}\n`)
 
   console.log(
     `[sync-active-circles] wrote ${snapshot.circles.length} active circles ` +
