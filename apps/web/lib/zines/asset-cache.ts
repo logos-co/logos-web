@@ -20,6 +20,10 @@ export function zineCacheKey(
   hash.update(createHash('sha256').update(source).digest('hex'))
   hash.update('\ntext-layer:')
   if (textLayer !== null)
-    hash.update(createHash('sha256').update(textLayer).digest('hex'))
+    hash.update(
+      createHash('sha256')
+        .update(textLayer.replace(/\r\n/g, '\n'))
+        .digest('hex')
+    )
   return hash.digest('hex')
 }
