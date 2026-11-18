@@ -305,8 +305,8 @@ A few constraints explain the shape of this code:
   its captcha token, so a failed subscription is logged and swallowed. Surfacing
   it would show a network error after a successful submission, and on every
   local submit.
-- The two subscriptions run one after the other, Logos first, because
-  concurrent calls for the same member can lose a note upstream.
+- The two subscriptions run one after the other, Logos first, so the
+  upstream never handles two updates to the same member at once.
 
 | Path                                       | Role                                                                                    |
 | ------------------------------------------ | --------------------------------------------------------------------------------------- |

@@ -162,8 +162,8 @@ export async function submitNewsletterSignup({
  * upstream rejects either alone. Throws only when the site newsletter
  * subscription fails.
  *
- * Sequential by necessity: concurrent calls for the same member can lose a
- * note upstream.
+ * Sequential, so the upstream never handles two updates to the same member at
+ * once.
  */
 export async function submitDefaultNewsletterSignup({
   email,

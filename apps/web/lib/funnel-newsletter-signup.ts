@@ -118,8 +118,8 @@ async function subscribeQuietly(
 /**
  * Subscribe to the newsletters the ticked checkboxes ask for. Never rejects.
  *
- * Sequential by necessity: the upstream merges the note into the member's
- * existing one with a read-modify-write, so concurrent calls lose a note.
+ * Sequential, Logos first, so the upstream never handles two updates to the
+ * same member at once.
  */
 export async function submitFunnelNewsletterSignups({
   email,
