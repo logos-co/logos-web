@@ -104,7 +104,10 @@ export async function downloadImage(
   try {
     resetIdle()
     const response = await fetch(url, { signal: controller.signal })
-    if (!response.ok) throw new Error(`status ${response.status}`)
+    if (!response.ok) {
+      await response.body?.cancel()
+      throw new Error(`status ${response.status}`)
+    }
     if (!response.body) throw new Error('empty response')
 
     const chunks: Uint8Array[] = []
@@ -117,7 +120,10 @@ export async function downloadImage(
     }
     return Buffer.concat(chunks)
   } catch (error) {
-    throw controller.signal.aborted ? controller.signal.reason : error
+    const reason = controller.signal.aborted ? controller.signal.reason : error
+    // Release the socket of a body that was not read to the end.
+    controller.abort(reason)
+    throw reason
   } finally {
     clearTimeout(idleTimer)
     clearTimeout(totalTimer)
@@ -218,9 +224,15 @@ async function resolveEntry(
     }
   }
 
-  let source: Buffer
+  // An upload sharp cannot decode fails the same way on every build.
   try {
-    source = await options.fetchImage(url)
+    const source = await options.fetchImage(url)
+    return (
+      (await createVariants(source, stem, options.cacheDir)) ?? {
+        kind: 'skipped',
+        url,
+      }
+    )
   } catch (error) {
     const reason = errorMessage(error)
     if (options.markFailures) {
@@ -231,12 +243,6 @@ async function resolveEntry(
     }
     return { kind: 'failed', url, reason }
   }
-  return (
-    (await createVariants(source, stem, options.cacheDir)) ?? {
-      kind: 'skipped',
-      url,
-    }
-  )
 }
 
 async function buildOne(

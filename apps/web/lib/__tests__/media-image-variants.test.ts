@@ -155,6 +155,18 @@ describe('buildMediaImages markers', () => {
     expect(third.manifest[url]?.width).toBe(800)
   })
 
+  it('marks a downloaded file sharp cannot decode', async () => {
+    const fetchImage = vi.fn().mockResolvedValue(Buffer.from('not an image'))
+    const options = { urls: [url], cacheDir, outputDir, fetchImage }
+
+    const first = await buildMediaImages(options)
+    const second = await buildMediaImages(options)
+
+    expect(first.failures).toHaveLength(1)
+    expect(second.marked.map((item) => item.url)).toEqual([url])
+    expect(fetchImage).toHaveBeenCalledTimes(1)
+  })
+
   it('ignores and writes no failure marker when markFailures is off', async () => {
     const fetchImage = vi.fn().mockRejectedValue(new Error('CMS unavailable'))
     const options = {
@@ -219,8 +231,10 @@ describe('buildMediaImages markers', () => {
 describe('downloadImage', () => {
   let server: Server
   let base: string
+  let closed: boolean
 
   beforeEach(async () => {
+    closed = false
     server = createServer((request, response) => {
       if (request.url === '/stall') {
         response.writeHead(200, { 'Content-Type': 'image/gif' })
@@ -228,6 +242,12 @@ describe('downloadImage', () => {
         return
       }
       if (request.url === '/silent') return
+      if (request.url === '/missing') {
+        response.writeHead(404)
+        response.write('not found')
+        request.socket.on('close', () => (closed = true))
+        return
+      }
       response.writeHead(200)
       let sent = 0
       const timer = setInterval(() => {
@@ -268,6 +288,11 @@ describe('downloadImage', () => {
       totalMs: 5000,
     })
     expect(body.toString()).toBe('xxxxx')
+  })
+
+  it('releases the connection of a failed response', async () => {
+    await expect(downloadImage(`${base}/missing`)).rejects.toThrow('status 404')
+    await vi.waitFor(() => expect(closed).toBe(true))
   })
 
   it('stops a trickle at the total timeout', async () => {
