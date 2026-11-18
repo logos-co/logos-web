@@ -30,7 +30,8 @@ export const ONE_PAGER_ACCEPT = `.pdf,${ONE_PAGER_MIME_TYPE}`
 
 /**
  * Kept equal to the upload limit in admin-acid, which is the authority. A
- * client check only saves the candidate an 8 MB round trip, so it must never be looser.
+ * client check only saves the candidate an 8 MB round trip, so it must never
+ * be looser.
  */
 export const ONE_PAGER_MAX_BYTES = 8 * 1024 * 1024
 

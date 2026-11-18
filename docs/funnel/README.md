@@ -97,7 +97,7 @@ and `HEAR_ABOUT_MAP`, each built by `toLabelMap()` from the same array. The
 `Skills` labels are also the options of the Notion `Skills` multi_select;
 `Country` is rich text in Notion and accepts any label. Each country option is a
 `FunnelCountryOption`: besides `value` and `label` it carries `code`, the
-ISO 3166-1 alpha-2 code the logos-admin cities API uses, so a
+ISO 3166-1 alpha-2 code the admin-acid cities API uses, so a
 [city suggestion](#city-suggestions) maps back to an option.
 
 Skills options (16): `Developer`, `Web3 builder`, `Privacy domain expert`,
@@ -162,7 +162,7 @@ replace city autocomplete with a plain city input and a country dropdown on all
 three intake forms. The dropdown uses the existing `COUNTRY_OPTIONS` ids and
 the country remains required. These forms make no cities API request in this
 mode. hCaptcha, server validation and Notion writes remain enabled. The footer
-newsletter form is unchanged, and newsletter opt-ins still depend on logos-admin.
+newsletter form is unchanged, and newsletter opt-ins still depend on admin-acid.
 
 After the cities API is healthy, remove the variable (or set it to `0`) and
 rebuild the static site. The original autocomplete and picked-city validation
