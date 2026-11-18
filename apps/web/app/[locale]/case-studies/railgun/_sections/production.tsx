@@ -1,3 +1,4 @@
+import { BaseLogoIcon } from '@acid-info/logos-ui'
 import { createCopyRenderer } from './copy-text'
 import type { CSSProperties } from 'react'
 import Image from 'next/image'
@@ -48,6 +49,10 @@ export function Production({
                   alt=""
                 />
                 {copy.polygon}
+              </span>
+              <span className="pill">
+                <BaseLogoIcon className="shrink-0" />
+                {copy.base}
               </span>
               <span className="pill">
                 <Image

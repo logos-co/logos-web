@@ -44,9 +44,9 @@ export function Basics({ copy }: { copy: RailgunCopySection['basics'] }) {
               </span>
             </div>
             <div className="row">
-              <span className="k">{copy.label2024}</span>
+              <span className="k">{copy.label2025}</span>
               <span className="small">
-                {text('relayersAreRenamedBroadcasters')}
+                {text('migrationToLightpushAndFilter')}
               </span>
             </div>
             <div className="row">

@@ -19,3 +19,4 @@ export {
   BasecampCheckIcon,
 } from './basecamp-app-icons'
 export { BasecampLogo } from './basecamp-logo'
+export { BaseLogoIcon } from './base-logo-icon'
