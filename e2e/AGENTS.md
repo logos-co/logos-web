@@ -13,12 +13,13 @@ Rules for agents working in `e2e/`. The root [AGENTS.md](../AGENTS.md) applies t
 - Assert on structure, not on copy or CMS content that editors change (article titles, headline text, counts).
 - Check GitHub releases through `@helpers/github-releases`, never with requests to github.com: GitHub answers anonymous traffic there with 504s when it is under load.
 - A known site bug that logs a console error goes in `src/constants/logos-web.ts` with a comment saying what is broken. Delete the entry when the bug is fixed.
-- Keep `src/fixtures/site.fixture.ts` in step with the copy in status-web (`e2e/src/fixtures/site.fixture.ts`); the two suites share its behaviour.
+- Keep `src/fixtures/site.fixture.ts` and `src/helpers/target-check.ts` in step with their copies in status-web (same paths under `e2e/`); the two suites share their behaviour.
 - Do not name a script `test`: turbo would run it in `pnpm test`, which has no site to test.
 
 ## Caveats
 
 - dev.logos.co and logos.co rate-limit each IP and answer 503. Remote runs use one worker and `testIntervalMs`; keep new API checks sequential.
+- `global-setup.ts` aborts the run when a deployed target sends no response. Do not turn that into a status check: tests report a 5xx themselves.
 - Unknown routes answer 200 on both deployed sites (a soft 404). The not-found test records it as an annotation instead of failing.
 - Chromium reports the host platform through `navigator.userAgentData`, so the Basecamp tests override it with an init script.
 
