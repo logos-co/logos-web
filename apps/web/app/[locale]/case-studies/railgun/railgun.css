@@ -214,9 +214,12 @@
     border-color var(--t-hover) var(--e-snap),
     transform var(--t-press) var(--e-snap);
 }
+/* Block-level so the svg never sits on the text baseline (fractional offset
+   that re-snaps when :active scales the button). The longer, eased slide stays
+   visible on .line buttons, whose colours cross through low contrast first. */
 :where(.railgun) .cta .arr {
-  display: inline-block;
-  transition: transform var(--t-hover) var(--e-snap);
+  display: flex;
+  transition: transform var(--t-ui) var(--e-sweep);
 }
 :where(.railgun) .cta:hover .arr {
   transform: translateX(3px);
@@ -1881,10 +1884,10 @@ body.railgun-lock {
 }
 
 :where(.railgun) .railgun-arrow {
-  display: inline-block;
+  display: block;
   flex: none;
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 10px;
 }
 
 :where(.railgun) .next {
