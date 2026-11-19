@@ -199,8 +199,7 @@ export function Transaction({
                   </span>
                 </button>
                 <span className="hint" id="hint">
-                  {copy.scrollClickAStep}{' '}
-                  <ButtonArrowIcon className="railgun-arrow" />
+                  {copy.scrollClickAStep}
                 </span>
               </div>
             </div>
