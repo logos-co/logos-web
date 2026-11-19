@@ -36,6 +36,8 @@ Every test also fails on an uncaught page error. On remote targets a `console.er
 
 [`e2e-daily.yml`](../.github/workflows/e2e-daily.yml) runs the suite every day at 05:47 UTC against dev.logos.co and logos.co, with the whole sitemap. A failure opens or comments on the issue labelled `e2e-daily`, and the next green run closes it. The report and traces are in the run artifacts for 14 days.
 
+Before the first test, [`global-setup.ts`](global-setup.ts) requests a deployed `LOGOS_WEB_URL` up to three times, 10 seconds each. If the site sends no response at all, the run stops there with one error instead of every test waiting out its 45-second navigation timeout. Any HTTP status counts as an answer.
+
 Against a deployed site the suite runs one test at a time, three seconds apart, because nginx answers 503 past about 10 requests a second from one IP. Same-origin requests carry an `x-e2e-bypass` header set from the `E2E_BYPASS_TOKEN` secret, so the server can exempt the run from that limit and from bot protection. The Basecamp test reads the latest release through the GitHub API with the workflow's `GITHUB_TOKEN`, since GitHub answers anonymous github.com traffic with 504s when it is under load.
 
 [`dependabot.yml`](../.github/dependabot.yml) checks every day and opens a PR when a new Playwright release is at least 3 days old, so the suite follows Playwright's Chromium build. The PR runs this workflow against both sites; merge it by hand once it passes. Dependabot PRs only read Dependabot secrets, so once `E2E_BYPASS_TOKEN` exists, add it there too.
