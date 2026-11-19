@@ -1,4 +1,9 @@
-import { LOGOS_WEB_URL, siteEnvironment } from './src/config/site'
+import {
+  BYPASS_HEADER,
+  BYPASS_TOKEN,
+  LOGOS_WEB_URL,
+  siteEnvironment,
+} from './src/config/site'
 import { assertTargetsAnswer } from './src/helpers/target-check'
 
 /**
@@ -8,5 +13,10 @@ import { assertTargetsAnswer } from './src/helpers/target-check'
  */
 export default async function globalSetup(): Promise<void> {
   if (siteEnvironment(LOGOS_WEB_URL) === 'local') return
-  await assertTargetsAnswer([LOGOS_WEB_URL])
+  // The only target is the site under test, so the token stays on its origin.
+  await assertTargetsAnswer(
+    [LOGOS_WEB_URL],
+    (): Record<string, string> =>
+      BYPASS_TOKEN ? { [BYPASS_HEADER]: BYPASS_TOKEN } : {}
+  )
 }
