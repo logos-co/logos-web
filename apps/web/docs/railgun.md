@@ -6,7 +6,7 @@ The [1440px desktop frame](https://www.figma.com/design/MALNxrjLTCy0TA9vaWEwBs/L
 
 The cover aligns the visible heights of the Logos and RAILGUN marks. Dark backgrounds use `#132430`.
 
-Each chapter owns its copy. Where a chapter has a `lineBreaks` entry, update that entry alongside its corresponding text. The authored desktop breaks apply from 1440px. Mobile breaks apply at the 393px reference width and its immediate neighbours. Other sizes wrap to available space. The transaction diagram pins only when its stage fits in the viewport. Its tabs work by click, tap and arrow keys.
+Each chapter owns its copy. Where a chapter has a `lineBreaks` entry, update that entry alongside its corresponding text. The authored desktop breaks apply from 1440px. Mobile breaks apply at the 393px reference width and its immediate neighbours. Other sizes wrap to available space. The transaction diagram pins only when its stage fits in the viewport. In the single-column layout, the diagram fills the same width as the tabs. Its tabs work by click, tap and arrow keys.
 
 The cover uses the prototype's three text-motion groups even when the approved mobile copy wraps onto four lines. On mobile, the title wraps within the cover's content width and scales down from the 56px reference size on narrower screens. The stack replay uses the prototype's packet travel distance across the shorter mobile card gaps. The PriFi timeline contains seven transaction stages, with Ordering followed by a single Settlement. On mobile, the vertical PriFi timeline is visible before the three cards reveal together. On desktop, the three timeline segments draw in sequence.
 
