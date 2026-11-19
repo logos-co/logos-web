@@ -179,7 +179,7 @@
         "nextStepLabel": "Next: {step}",
         "backToStart": "Back to start",
         "initialNextStep": "Next: Choose",
-        "scrollClickAStep": "Scroll, click a step or use ←",
+        "scrollClickAStep": "Scroll, click a step or use ← →",
         "wallet": "YOUR WALLET",
         "broadcasters": "BROADCASTERS",
         "receiver": "ONLY THIS ONE CAN OPEN IT",
