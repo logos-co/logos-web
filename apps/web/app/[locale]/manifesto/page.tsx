@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import Markdown from 'react-markdown'
 
 import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
@@ -65,8 +66,28 @@ export default async function ManifestoPage({
         </h1>
         <p className="font-mono-body mx-auto mt-6 w-[102px] text-center text-xs leading-[1.3] tracking-[0px] desktop:absolute desktop:top-[426px] desktop:left-1/2 desktop:mt-0 desktop:-translate-x-1/2">
           {data.author.map((line) => (
-            <span key={line} className="block">
-              {line}
+            <span
+              key={line}
+              className="block has-[>a]:relative has-[>a]:left-1/2 has-[>a]:w-max has-[>a]:-translate-x-1/2"
+            >
+              <Markdown
+                allowedElements={['a']}
+                unwrapDisallowed
+                components={{
+                  a: ({ href, children }) => (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cursor-pointer"
+                    >
+                      {children}
+                    </a>
+                  ),
+                }}
+              >
+                {line}
+              </Markdown>
             </span>
           ))}
         </p>
