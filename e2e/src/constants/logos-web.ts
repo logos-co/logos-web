@@ -3,7 +3,7 @@ import { LOGOS_WEB_URL, siteEnvironment, strictConsole } from '@config/site'
 import type { SiteRules } from '@fixtures/site.fixture'
 
 /** Analytics endpoints answered locally so test runs are not counted. */
-const BLOCKED_REQUESTS = [/umami\.bi\.status\.im/]
+const BLOCKED_REQUESTS = [/analytic\.logos\.co/]
 
 /**
  * Console errors that do not fail a test. Keep each entry commented; a known
