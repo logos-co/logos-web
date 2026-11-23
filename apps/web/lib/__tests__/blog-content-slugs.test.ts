@@ -149,7 +149,11 @@ describe('slug queries against Strapi', () => {
   })
 })
 
-const strapiArticle = (slug: string, publishDate: string) =>
+const strapiArticle = (
+  slug: string,
+  publishDate: string,
+  content?: { body: string; summary: string }
+) =>
   jsonResponse({
     data: {
       posts: {
@@ -160,6 +164,7 @@ const strapiArticle = (slug: string, publishDate: string) =>
               slug,
               title: slug.toUpperCase(),
               publish_date: publishDate,
+              ...content,
             },
           },
         ],
@@ -225,6 +230,54 @@ describe('getAllBlogArticles', () => {
       'FIRST',
       'SECOND',
     ])
+  })
+})
+
+describe('Strapi article HTML', () => {
+  it('sanitises normal HTML after generating headings, references and video embeds', async () => {
+    useStrapi()
+    const fixture = strapiArticle('reviewed', '2026-07-01T00:00:00.000Z', {
+      summary: '<p data-extra="ignored">A <strong>summary</strong></p>',
+      body: [
+        '<h2>Overview</h2>',
+        '<h2 id="café">Café</h2><p><a href="#caf%C3%A9">Jump to Café</a> <a href="#title-anchor">Top</a></p>',
+        '<p>References <sup class="footnote" data-id="source" data-index="1" data-content="&lt;em data-extra=&quot;ignored&quot;&gt;Source&lt;/em&gt;">1</sup></p>',
+        '<figure class="media"><oembed url="https://www.youtube.com/watch?v=abcdefghijk&amp;t=1m30s"></oembed></figure>',
+        '<figure class="image"><img src="/uploads/sample.png" style="aspect-ratio:4/3;"><figcaption>Example image</figcaption></figure>',
+        '<object data="https://example.com/document"></object>',
+        '<iframe src="https://www.youtube-nocookie.com/embed/abcdefghijk?start=30&amp;playsinline=1&amp;origin=ignored"></iframe>',
+        '<iframe src="https://example.com/embed/abcdefghijk"></iframe>',
+      ].join(''),
+    })
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(fixture))
+
+    const article = await getBlogArticleDetail('reviewed')
+
+    expect(article.summaryHtml).toBe('<p>A <strong>summary</strong></p>')
+    expect(article.toc.map((item) => item.href)).toEqual([
+      '#overview',
+      '#caf%C3%A9',
+    ])
+    expect(article.bodyHtml).toContain(
+      '<h2 id="media-content-overview">Overview</h2>'
+    )
+    expect(article.bodyHtml).toContain('<h2 id="media-content-café">Café</h2>')
+    expect(article.bodyHtml).toContain('href="#caf%C3%A9"')
+    expect(article.bodyHtml).toContain('href="#title-anchor"')
+    expect(article.bodyHtml).toContain('id="media-content-fntref-source"')
+    expect(article.bodyHtml).toContain('href="#fnt-source"')
+    expect(article.footnotes[0].valueHTML).toBe('<em>Source</em>')
+    expect(article.bodyHtml).toContain(
+      'src="https://www.youtube.com/embed/abcdefghijk?start=90"'
+    )
+    expect(article.bodyHtml).toContain('style="aspect-ratio:4/3;"')
+    expect(article.bodyHtml).toContain('<figcaption>Example image</figcaption>')
+    expect(article.bodyHtml).not.toContain('<object')
+    expect(article.bodyHtml).toContain(
+      'src="https://www.youtube-nocookie.com/embed/abcdefghijk?start=30&#x26;playsinline=1"'
+    )
+    expect(article.bodyHtml).not.toContain('<iframe></iframe>')
+    expect(article.bodyHtml).not.toContain('https://example.com')
   })
 })
 

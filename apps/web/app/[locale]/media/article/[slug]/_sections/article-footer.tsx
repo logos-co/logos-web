@@ -6,6 +6,7 @@ import type {
   BlogPostMeta,
 } from '@/lib/blog-content'
 
+import { mediaAnchorId, mediaFragmentHref } from '@/lib/media-anchors'
 import { MediaCollapse } from '../../../_components/media-collapse'
 import { ArticleDiscussion } from './article-discussion'
 import type { ArticleDetailCopy } from './types'
@@ -85,11 +86,14 @@ export function ArticleFooter({
             {footnotes.map((footnote) => (
               <div
                 key={footnote.id}
-                id={`fnt-${footnote.id}`}
+                id={mediaAnchorId(
+                  `fnt-${footnote.id}`,
+                  article.mediaAnchorPrefix
+                )}
                 className="flex gap-2 px-[14px] py-2 font-sans text-[12px] leading-4"
               >
                 <a
-                  href={`#${footnote.refId}`}
+                  href={mediaFragmentHref(footnote.refId)}
                   className="cursor-pointer shrink-0 underline underline-offset-2"
                 >
                   {footnote.refValue}

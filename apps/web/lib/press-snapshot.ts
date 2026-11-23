@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import { writeFileAtomic } from './atomic-write'
 import { env } from './env'
 import type { BlogArticleDetail, BlogPodcastDetail } from './blog-content'
+import { sanitiseMediaArticle, sanitiseMediaPodcast } from './media-html'
 
 export interface PressSnapshot {
   version: 1 | 2
@@ -40,7 +41,11 @@ export const readPressSnapshot = async (
       'A snapshot containing drafts is staging-only. Publish reviewed posts and capture a new snapshot before production.'
     )
   }
-  return snapshot
+  return {
+    ...snapshot,
+    articles: snapshot.articles.map(sanitiseMediaArticle),
+    podcasts: snapshot.podcasts.map(sanitiseMediaPodcast),
+  }
 }
 
 let snapshot: Promise<PressSnapshot> | undefined

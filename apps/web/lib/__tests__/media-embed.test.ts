@@ -12,6 +12,16 @@ describe('youtubeEmbedUrl', () => {
     expect(youtubeEmbedUrl(src)).toBe(`https://www.youtube.com/embed/${id}`)
   })
 
+  test.each([
+    ['https://youtu.be/c8N9Nng5fz0?t=45', '45'],
+    ['https://www.youtube.com/watch?v=c8N9Nng5fz0&t=1h2m3s', '3723'],
+    ['https://www.youtube.com/embed/c8N9Nng5fz0?start=28&t=1m', '28'],
+  ])('keeps the starting position from %s', (src, seconds) => {
+    expect(youtubeEmbedUrl(src)).toBe(
+      `https://www.youtube.com/embed/c8N9Nng5fz0?start=${seconds}`
+    )
+  })
+
   test('rejects non-YouTube URLs', () => {
     expect(youtubeEmbedUrl('https://example.com/video')).toBeUndefined()
   })

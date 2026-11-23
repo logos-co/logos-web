@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { BlogContentBlock, BlogDynamicBlock } from '@/lib/blog-content'
 import { cn } from '@/lib/cn'
-import { prepareCmsLinks } from '@/lib/html-links'
 import { youtubeEmbedUrl } from '@/lib/media-embed'
 import { MEDIA_BODY_IMAGE_SIZES } from '@/lib/media-image-sizes'
 import { injectEmbedCsp } from '@/lib/media-interactive-document'
@@ -42,7 +41,7 @@ function renderEmbed(src: string, html: string) {
   return (
     <div
       className="media-detail-embed"
-      dangerouslySetInnerHTML={{ __html: prepareCmsLinks(html) }}
+      dangerouslySetInnerHTML={{ __html: html }}
     />
   )
 }
@@ -64,7 +63,7 @@ function ContentBlock({ block }: { block: BlogContentBlock }) {
   return (
     <div
       className="contents"
-      dangerouslySetInnerHTML={{ __html: prepareCmsLinks(block.html) }}
+      dangerouslySetInnerHTML={{ __html: block.html }}
     />
   )
 }
@@ -157,7 +156,7 @@ function DynamicBlock({
     return (
       <div
         className="contents"
-        dangerouslySetInnerHTML={{ __html: prepareCmsLinks(block.body) }}
+        dangerouslySetInnerHTML={{ __html: block.body }}
       />
     )
   }
@@ -194,7 +193,7 @@ export function MediaRichContent({
     return (
       <section
         className={cn('media-detail-content', className)}
-        dangerouslySetInnerHTML={{ __html: prepareCmsLinks(bodyHtml) }}
+        dangerouslySetInnerHTML={{ __html: bodyHtml }}
       />
     )
   }

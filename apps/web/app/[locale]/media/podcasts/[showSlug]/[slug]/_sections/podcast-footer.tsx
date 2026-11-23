@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { ROUTES } from '@/constants/routes'
 import type { BlogPodcastDetail } from '@/lib/blog-content'
 
+import { mediaAnchorId, mediaFragmentHref } from '@/lib/media-anchors'
 import { MediaCollapse } from '../../../../_components/media-collapse'
 import { MediaRichContent } from '../../../../_components/media-rich-content'
 import { MediaLink } from '../../../../_sections/blog-atoms'
@@ -51,11 +52,14 @@ export function PodcastFooter({ copy, podcast }: PodcastFooterProps) {
               {podcast.footnotes.map((footnote) => (
                 <div
                   key={footnote.id}
-                  id={`fnt-${footnote.id}`}
+                  id={mediaAnchorId(
+                    `fnt-${footnote.id}`,
+                    podcast.mediaAnchorPrefix
+                  )}
                   className="flex items-start gap-[3px] font-sans text-[14px] leading-5"
                 >
                   <a
-                    href={`#${footnote.refId}`}
+                    href={mediaFragmentHref(footnote.refId)}
                     className="shrink-0 cursor-pointer no-underline hover:underline"
                   >
                     {footnote.refValue.replace('[', '').replace(']', '')}.
