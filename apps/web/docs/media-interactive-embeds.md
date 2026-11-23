@@ -13,7 +13,9 @@ When this was written, only three `html_file` articles used this code (`browser-
 
 ## Rich text on media pages
 
-[Media HTML sanitisation](../lib/media-html.ts) applies to regular article and podcast markup when [fetching Strapi content](../lib/blog-content.ts) and [reading a press snapshot](../lib/press-snapshot.ts). It keeps supported HTML formatting, in-page anchors, images and YouTube video frames. Authored interactive documents and blocks render in the sandbox described below.
+[Media HTML sanitisation](../lib/media-html.ts) applies to regular article and podcast markup when [fetching Strapi content](../lib/blog-content.ts) and [reading a press snapshot](../lib/press-snapshot.ts). It keeps supported HTML formatting, in-page anchors, images and YouTube video frames with supported playback options, including the starting position on shared YouTube links. Authored interactive documents and blocks render in the sandbox described below.
+
+Media content IDs and named anchors use a `media-content-` namespace that is distinct from the original IDs on each page. Public fragment links, including the article contents and footnotes, retain the original IDs so they stay valid when the internal namespace changes. The detail pages resolve both existing and new fragment URLs to the scoped anchors after JavaScript loads.
 
 ## Sandbox
 

@@ -4,10 +4,12 @@ import { useEffect, useMemo, useState } from 'react'
 
 import type { BlogTocItem } from '@/lib/blog-content'
 import { cn } from '@/lib/cn'
+import { mediaAnchorId, mediaFragmentId } from '@/lib/media-anchors'
 
 interface ArticleSidebarProps {
   contentsLabel: string
   title: string
+  prefix?: string
   toc: BlogTocItem[]
 }
 
@@ -15,7 +17,11 @@ interface SidebarItem extends BlogTocItem {
   id: string
 }
 
-function normaliseItems(title: string, toc: BlogTocItem[]): SidebarItem[] {
+function normaliseItems(
+  title: string,
+  toc: BlogTocItem[],
+  prefix?: string
+): SidebarItem[] {
   const hasTitle = toc.some((item) => item.level === 0)
   const items = hasTitle
     ? toc
@@ -32,20 +38,28 @@ function normaliseItems(title: string, toc: BlogTocItem[]): SidebarItem[] {
 
   return items.map((item) => {
     const href = item.level === 0 ? '#title-anchor' : item.href
+    const fragment = mediaFragmentId(href)
     return {
       ...item,
       href,
-      id: href.replace(/^#/, ''),
+      id:
+        item.level === 0 || !prefix
+          ? fragment
+          : mediaAnchorId(fragment, prefix),
     }
   })
 }
 
 export function ArticleSidebar({
   contentsLabel,
+  prefix,
   title,
   toc,
 }: ArticleSidebarProps) {
-  const items = useMemo(() => normaliseItems(title, toc), [title, toc])
+  const items = useMemo(
+    () => normaliseItems(title, toc, prefix),
+    [title, toc, prefix]
+  )
   const [activeId, setActiveId] = useState(items[0]?.id ?? '')
 
   useEffect(() => {
@@ -67,16 +81,21 @@ export function ArticleSidebar({
     elements.forEach((element) => observer.observe(element))
 
     const handleHashChange = () => {
-      const id = window.location.hash.replace(/^#/, '')
-      setActiveId(id || items[0]?.id || '')
+      const id = mediaFragmentId(window.location.hash)
+      const active =
+        items.find((item) => item.id === id) ??
+        items.find((item) => item.id === mediaAnchorId(id, prefix))
+      if (active) setActiveId(active.id)
+      else if (!id) setActiveId(items[0]?.id ?? '')
     }
+    handleHashChange()
     window.addEventListener('hashchange', handleHashChange)
 
     return () => {
       observer.disconnect()
       window.removeEventListener('hashchange', handleHashChange)
     }
-  }, [items])
+  }, [items, prefix])
 
   if (items.length === 0) return null
 

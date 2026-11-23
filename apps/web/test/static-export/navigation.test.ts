@@ -1,6 +1,8 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join, relative } from 'node:path'
 
+import { mediaAnchorId, mediaFragmentId } from '../../lib/media-anchors'
+
 import {
   collectHtmlFiles,
   getAttribute,
@@ -16,12 +18,21 @@ const htmlRouteExists = (path: string): boolean => {
 }
 
 const hasAnchorTarget = (htmlFile: string, hash: string): boolean => {
-  const id = hash.replace(/^#/, '')
-  if (!id) return true
+  const id = mediaFragmentId(hash.split(':~:', 1)[0])
+  if (!id || id.toLowerCase() === 'top') return true
   if (id.includes('=')) return true
   const html = readFileSync(htmlFile, 'utf8')
-  const escaped = id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  return new RegExp(`\\bid=["']${escaped}["']`).test(html)
+  const hasId = (target: string) => {
+    const escaped = target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    return (
+      new RegExp(`\\bid=["']${escaped}["']`).test(html) ||
+      new RegExp(`<a\\b[^>]*\\sname=["']${escaped}["']`).test(html)
+    )
+  }
+  if (hasId(id)) return true
+
+  const prefix = / data-media-anchor-prefix="([^"]+)"/.exec(html)?.[1]
+  return Boolean(prefix && hasId(mediaAnchorId(id, prefix)))
 }
 
 const assertNavigation = (htmlFile: string): string[] => {
@@ -33,7 +44,12 @@ const assertNavigation = (htmlFile: string): string[] => {
     const attributes = match[1] ?? ''
     const href = getAttribute(attributes, 'href')
     if (!href) {
-      failures.push(`${routeLabel} has an anchor without href`)
+      if (
+        !getAttribute(attributes, 'name') &&
+        !getAttribute(attributes, 'id')
+      ) {
+        failures.push(`${routeLabel} has an anchor without href`)
+      }
       continue
     }
     if (href === '#') {

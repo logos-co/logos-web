@@ -1,3 +1,5 @@
+import { MediaFragmentNavigation } from '../../../_components/media-fragment-navigation'
+
 import { ArticleBody } from './article-body'
 import { ArticleFooter } from './article-footer'
 import { ArticleHero } from './article-hero'
@@ -16,12 +18,17 @@ export function ArticleDetailPage({
   canonicalUrl,
 }: ArticleDetailPageProps) {
   return (
-    <div className="media-detail-page bg-accent-tan pt-6 text-brand-dark-green lg:pt-[52px]">
+    <div
+      data-media-anchor-prefix={article.mediaAnchorPrefix}
+      className="media-detail-page bg-accent-tan pt-6 text-brand-dark-green lg:pt-[52px]"
+    >
+      <MediaFragmentNavigation prefix={article.mediaAnchorPrefix} />
       <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 px-4 pb-24 md:grid-cols-[repeat(16,minmax(0,1fr))] md:gap-4 lg:px-0">
         <ArticleSidebar
           contentsLabel={copy.contents}
           title={article.title}
           toc={article.toc}
+          prefix={article.mediaAnchorPrefix}
         />
         <article className="flex min-w-0 max-w-[700px] flex-col gap-4 md:col-span-10 md:col-start-6 lg:col-span-8 lg:col-start-5">
           <ArticleHero

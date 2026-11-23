@@ -12,6 +12,7 @@ import {
 import { getPressPreviewSlugs } from '@/lib/press-preview'
 import { fetchDiscourseTopic, type BlogDiscussion } from '@/lib/discourse-topic'
 import { logger } from '@/lib/logger'
+import { mediaFragmentHref } from '@/lib/media-anchors'
 import { youtubeEmbedUrl } from '@/lib/media-embed'
 import { sanitiseMediaArticle, sanitiseMediaPodcast } from '@/lib/media-html'
 import { resolveAudioFromApplePodcasts } from '@/lib/podcast-feed'
@@ -136,6 +137,7 @@ export interface BlogPostMeta {
   subtitle?: string
   summary: string
   summaryHtml?: string
+  mediaAnchorPrefix?: string
   publishedAt: string | null
   modifiedAt: string | null
   createdAt: string | null
@@ -498,7 +500,7 @@ function normaliseArticleHtml(rawHtml: string): {
       toc.push({
         level: Number.parseInt(level, 10),
         tag,
-        href: `#${id}`,
+        href: mediaFragmentHref(id),
         title,
         blockIndex,
       })

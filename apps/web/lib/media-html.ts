@@ -8,8 +8,10 @@ import type {
   BlogPostMeta,
 } from './blog-content'
 import { prepareCmsLinks } from './html-links'
+import { defaultMediaAnchorPrefix } from './media-anchors'
+import { mediaAnchorScope, type MediaHtmlTree } from './media-html-anchors'
 
-const anchorId: [string, RegExp] = ['id', /^[-\w]+$/]
+const anchorId: [string, RegExp] = ['id', /^\S+$/u]
 const widthStyle: [string, RegExp] = ['style', /^width:\s*\d+(?:\.\d+)?%;?$/]
 
 const mediaHtml = rehype()
@@ -25,13 +27,12 @@ const mediaHtml = rehype()
       'iframe',
       'u',
     ],
-    // Heading and span IDs are the targets of published links and footnotes.
-    // Named elements and IDs on other elements are excluded by the allowlist.
-    clobber: [],
+    clobberPrefix: defaultMediaAnchorPrefix,
     attributes: {
-      '*': ['dir', 'lang', 'title'],
+      '*': [anchorId, 'dir', 'lang', 'title'],
       a: [
         'href',
+        ['name', /^\S+$/u],
         ['target', '_blank', '_self'],
         ['rel', 'noopener', 'noreferrer', 'nofollow', 'ugc', 'sponsored'],
         ['className', 'footnote'],
@@ -50,17 +51,8 @@ const mediaHtml = rehype()
         ],
       ],
       figure: [['className', 'image', 'media', 'table'], widthStyle],
-      h1: [anchorId],
-      h2: [anchorId],
-      h3: [anchorId],
-      h4: [anchorId],
-      h5: [anchorId],
-      h6: [anchorId],
       iframe: [
-        [
-          'src',
-          /^https:\/\/www\.youtube(?:-nocookie)?\.com\/embed\/[\w-]{11}$/,
-        ],
+        'src',
         ['className', 'media-detail-video'],
         [
           'allow',
@@ -81,7 +73,7 @@ const mediaHtml = rehype()
       ],
       ol: ['start', 'reversed', 'type'],
       source: ['srcSet', 'sizes', 'media', 'type'],
-      span: [anchorId, ['className', 'anchor']],
+      span: [['className', 'anchor']],
       sup: [['className', 'footnote']],
       table: [['className', 'ck-table-resized']],
       td: ['colSpan', 'rowSpan', 'headers'],
@@ -105,65 +97,124 @@ const mediaHtml = rehype()
   })
   .freeze()
 
-function sanitiseHtml(html: string): string
-function sanitiseHtml(html: string | undefined): string | undefined
-function sanitiseHtml(html: string | undefined): string | undefined {
-  return html ? String(mediaHtml.processSync(prepareCmsLinks(html))) : html
+type HtmlTransform = (html: string | undefined) => string | undefined
+type MediaPost = BlogArticleDetail | BlogPodcastDetail
+
+function mapSummary<T extends BlogPostMeta>(post: T, transform: HtmlTransform) {
+  return { ...post, summaryHtml: transform(post.summaryHtml) }
 }
 
-function sanitiseMeta<T extends BlogPostMeta>(post: T): T {
-  return { ...post, summaryHtml: sanitiseHtml(post.summaryHtml) }
-}
-
-function sanitiseContentBlock(block: BlogContentBlock): BlogContentBlock {
+function mapContent(
+  block: BlogContentBlock,
+  transform: HtmlTransform
+): BlogContentBlock {
   if (block.type !== 'text') return block
 
   return {
     ...block,
-    html: sanitiseHtml(block.html),
+    html: transform(block.html) ?? '',
     embed: block.embed && {
       ...block.embed,
-      html: sanitiseHtml(block.embed.html),
+      html: transform(block.embed.html) ?? '',
     },
   }
 }
 
-function sanitiseDetail<T extends BlogArticleDetail | BlogPodcastDetail>(
-  post: T
-): T {
+function mapDetail<T extends MediaPost>(post: T, transform: HtmlTransform): T {
   return {
-    ...sanitiseMeta(post),
-    bodyHtml: sanitiseHtml(post.bodyHtml),
+    ...mapSummary(post, transform),
+    bodyHtml: transform(post.bodyHtml),
     footnotes: post.footnotes?.map((footnote) => ({
       ...footnote,
-      valueHTML: sanitiseHtml(footnote.valueHTML),
+      valueHTML: transform(footnote.valueHTML) ?? '',
     })),
-    content: post.content?.map(sanitiseContentBlock),
+    content: post.content?.map((block) => mapContent(block, transform)),
     blocks: post.blocks?.map((block) =>
       block.type === 'rich-text'
-        ? { ...block, body: sanitiseHtml(block.body) }
+        ? { ...block, body: transform(block.body) ?? '' }
         : block
     ),
+  }
+}
+
+function mapArticle(
+  article: BlogArticleDetail,
+  transform: HtmlTransform
+): BlogArticleDetail {
+  return {
+    ...mapDetail(article, transform),
+    relatedArticles: article.relatedArticles?.map((item) =>
+      mapSummary(item, transform)
+    ),
+    articlesFromSameAuthors: article.articlesFromSameAuthors?.map((item) =>
+      mapSummary(item, transform)
+    ),
+  }
+}
+
+function mapPodcast(
+  podcast: BlogPodcastDetail,
+  transform: HtmlTransform
+): BlogPodcastDetail {
+  return {
+    ...mapDetail(podcast, transform),
+    creditsHtml: transform(podcast.creditsHtml),
+    credits: podcast.credits?.map((block) => mapContent(block, transform)),
+  }
+}
+
+function sanitisePost<T extends MediaPost>(
+  post: T,
+  mapHtml: (post: T, transform: HtmlTransform) => T
+) {
+  const anchors = mediaAnchorScope(post.mediaAnchorPrefix)
+  const prepared = new Map<string, MediaHtmlTree>()
+  post.footnotes?.forEach((note) => {
+    if (note.id) anchors.targets.add(`fnt-${note.id}`)
+  })
+
+  // IDs in other fragments, such as credits and footnotes, are valid link targets.
+  mapHtml(post, (html) => {
+    if (html && !prepared.has(html)) {
+      const tree = mediaHtml.runSync(mediaHtml.parse(prepareCmsLinks(html)))
+      tree.children.forEach(anchors.collect)
+      prepared.set(html, tree)
+    }
+    return html
+  })
+
+  const prefix = anchors.prefix()
+  const sanitised = mapHtml(post, (html) => {
+    const tree = html && prepared.get(html)
+    return tree ? mediaHtml.stringify(anchors.rewriteTree(tree, prefix)) : html
+  })
+  return {
+    sanitised: {
+      ...sanitised,
+      mediaAnchorPrefix: anchors.targets.size > 0 ? prefix : undefined,
+    },
+    rewriteHref: (href: string) => anchors.rewriteHref(href),
   }
 }
 
 export function sanitiseMediaArticle(
   article: BlogArticleDetail
 ): BlogArticleDetail {
+  const { sanitised, rewriteHref } = sanitisePost(article, mapArticle)
   return {
-    ...sanitiseDetail(article),
-    relatedArticles: article.relatedArticles?.map(sanitiseMeta),
-    articlesFromSameAuthors: article.articlesFromSameAuthors?.map(sanitiseMeta),
+    ...sanitised,
+    toc: article.toc?.map((item) =>
+      item.level === 0 ? item : { ...item, href: rewriteHref(item.href) }
+    ),
   }
 }
 
 export function sanitiseMediaPodcast(
   podcast: BlogPodcastDetail
 ): BlogPodcastDetail {
+  const { sanitised } = sanitisePost(podcast, mapPodcast)
   return {
-    ...sanitiseDetail(podcast),
-    creditsHtml: sanitiseHtml(podcast.creditsHtml),
-    credits: podcast.credits?.map(sanitiseContentBlock),
+    ...sanitised,
     relatedEpisodes: podcast.relatedEpisodes?.map(sanitiseMediaPodcast),
   }
 }
