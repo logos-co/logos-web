@@ -41,7 +41,7 @@ export default function GlobalNotFound() {
         />
         <Script
           strategy="afterInteractive"
-          src="https://umami.bi.status.im/script.js"
+          src="https://analytic.logos.co/script.js"
           data-website-id="144fa9a5-fe44-4bf3-a585-45742cfa89cc"
           data-domains="logos.co"
         />
