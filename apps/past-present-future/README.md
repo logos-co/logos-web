@@ -20,6 +20,10 @@ The build writes static HTML to `build/`. [`svelte.config.js`](svelte.config.js)
 
 In a full web build, Turbo builds this app first because `apps/web` lists it as a workspace dependency, then the copy script drops `build/` into `apps/web/out/past-present-future`.
 
+## TomorrowMart
+
+The Future section links to [TomorrowMart](src/routes/tomorrowmart/index.html) at `/past-present-future/tomorrowmart`. The [route](src/routes/tomorrowmart/+server.js) prerenders the standalone shop as HTML. Its images and country data live in [static/tomorrowmart](static/tomorrowmart/).
+
 ## Nedu
 
 The Nedu card on [`/choices`](src/routes/choices/+page.svelte) opens [`/choices/nedu`](src/routes/choices/nedu/+page.svelte), an interactive film with five decisions. Its components and story data live in [`src/lib/choices/nedu/`](src/lib/choices/nedu/), with MP4 and WebM clips in [`static/choices/nedu/videos/`](static/choices/nedu/videos/). The card portrait is [`static/choices/faces/nedu.webp`](static/choices/faces/nedu.webp).
