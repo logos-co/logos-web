@@ -11,6 +11,10 @@ Two kinds of media content render in `srcdoc` iframes with the `media-detail-int
 
 When this was written, only three `html_file` articles used this code (`browser-betrayed-you`, `dispersive-medium` and `logos-basecamp`), and no post used dynamic blocks.
 
+## Rich text on media pages
+
+[Media HTML sanitisation](../lib/media-html.ts) applies to regular article and podcast markup when [fetching Strapi content](../lib/blog-content.ts) and [reading a press snapshot](../lib/press-snapshot.ts). It keeps supported HTML formatting, in-page anchors, images and YouTube video frames. Authored interactive documents and blocks render in the sandbox described below.
+
 ## Sandbox
 
 Both components set `sandbox={INTERACTIVE_FRAME_SANDBOX}`:

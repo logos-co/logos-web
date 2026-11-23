@@ -55,6 +55,67 @@ describe('reviewed press content', () => {
     ).rejects.toThrow(/absent from reviewed preview/)
     expect(network).not.toHaveBeenCalled()
   })
+  it('sanitises normal HTML in existing snapshots and preserves isolated embeds', async () => {
+    const { readPressSnapshot } = await import('../press-snapshot')
+    directory = await mkdtemp(join(tmpdir(), 'press-snapshot-'))
+    const path = join(directory, 'press.json')
+    const html = '<p data-extra="ignored">Reviewed <strong>text</strong></p>'
+    const clean = '<p>Reviewed <strong>text</strong></p>'
+    const interactive = {
+      type: 'interactive-embed',
+      html: '<section class="authored-layout">Interactive article</section>',
+    }
+    const legacy = { type: 'text', html, embed: { src: '', html } }
+    await writeFile(
+      path,
+      JSON.stringify({
+        version: 1,
+        articles: [
+          {
+            slug: 'article',
+            summaryHtml: html,
+            bodyHtml:
+              html + '<iframe src="https://example.com/document"></iframe>',
+            content: [legacy],
+            blocks: [{ type: 'rich-text', body: html }, interactive],
+            relatedArticles: [{ summaryHtml: html }],
+          },
+        ],
+        podcasts: [
+          {
+            slug: 'episode',
+            creditsHtml: html,
+            credits: [legacy],
+            footnotes: [{ valueHTML: html }],
+            relatedEpisodes: [{ bodyHtml: html }],
+          },
+        ],
+      })
+    )
+
+    const snapshot = await readPressSnapshot(path)
+
+    expect(snapshot).toMatchObject({
+      articles: [
+        {
+          summaryHtml: clean,
+          content: [{ html: clean, embed: { html: clean } }],
+          blocks: [{ type: 'rich-text', body: clean }, interactive],
+          relatedArticles: [{ summaryHtml: clean }],
+        },
+      ],
+      podcasts: [
+        {
+          creditsHtml: clean,
+          credits: [{ html: clean }],
+          footnotes: [{ valueHTML: clean }],
+          relatedEpisodes: [{ bodyHtml: clean }],
+        },
+      ],
+    })
+    expect(snapshot.articles[0].bodyHtml).toContain(clean)
+    expect(snapshot.articles[0].bodyHtml).not.toContain('https://example.com')
+  })
   it('fails closed on a missing or incompatible artifact', async () => {
     const { readPressSnapshot } = await import('../press-snapshot')
     await expect(

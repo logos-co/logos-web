@@ -11,9 +11,9 @@ import {
 } from '@/lib/press-snapshot'
 import { getPressPreviewSlugs } from '@/lib/press-preview'
 import { fetchDiscourseTopic, type BlogDiscussion } from '@/lib/discourse-topic'
-import { prepareCmsLinks } from '@/lib/html-links'
 import { logger } from '@/lib/logger'
 import { youtubeEmbedUrl } from '@/lib/media-embed'
+import { sanitiseMediaArticle, sanitiseMediaPodcast } from '@/lib/media-html'
 import { resolveAudioFromApplePodcasts } from '@/lib/podcast-feed'
 
 export type { BlogDiscussion, BlogDiscussionPost } from '@/lib/discourse-topic'
@@ -401,7 +401,7 @@ function uniqueSlug(base: string, used: Set<string>): string {
 function normaliseSummaryHtml(value: string): string | undefined {
   const html = value.replace(/<section\b[^>]*>[\s\S]*?<\/section>/gi, '').trim()
 
-  return html ? prepareCmsLinks(html) : undefined
+  return html || undefined
 }
 
 function escapeHtmlAttribute(value: string): string {
@@ -485,7 +485,7 @@ function normaliseArticleHtml(rawHtml: string): {
 
   const toc: BlogTocItem[] = []
   let blockIndex = 0
-  const html = prepareCmsLinks(withFootnoteRefs).replace(
+  const html = withFootnoteRefs.replace(
     /<h([1-6])([^>]*)>([\s\S]*?)<\/h\1>/gi,
     (match, level, rawAttrs, innerHtml) => {
       const title = stripBlogHtml(innerHtml)
@@ -1411,7 +1411,7 @@ async function getStrapiArticle(slug: string): Promise<BlogArticleDetail> {
     article.readingTime = estimateReadingTime(result.data)
   }
   article.discussion = await fetchDiscussion(article.discourseTopicId)
-  return article
+  return sanitiseMediaArticle(article)
 }
 
 const PODCAST_DETAIL_QUERY = `
@@ -1625,7 +1625,9 @@ async function getStrapiPodcast(
     ) ?? []
 
   return enrichApplePodcastsChannel(
-    await enrichSimplecastChannels(mapGraphqlPodcast(post, relatedEpisodes))
+    await enrichSimplecastChannels(
+      sanitiseMediaPodcast(mapGraphqlPodcast(post, relatedEpisodes))
+    )
   )
 }
 

@@ -149,7 +149,11 @@ describe('slug queries against Strapi', () => {
   })
 })
 
-const strapiArticle = (slug: string, publishDate: string) =>
+const strapiArticle = (
+  slug: string,
+  publishDate: string,
+  content?: { body: string; summary: string }
+) =>
   jsonResponse({
     data: {
       posts: {
@@ -160,6 +164,7 @@ const strapiArticle = (slug: string, publishDate: string) =>
               slug,
               title: slug.toUpperCase(),
               publish_date: publishDate,
+              ...content,
             },
           },
         ],
@@ -225,6 +230,38 @@ describe('getAllBlogArticles', () => {
       'FIRST',
       'SECOND',
     ])
+  })
+})
+
+describe('Strapi article HTML', () => {
+  it('sanitises normal HTML after generating headings, references and video embeds', async () => {
+    useStrapi()
+    const fixture = strapiArticle('reviewed', '2026-07-01T00:00:00.000Z', {
+      summary: '<p data-extra="ignored">A <strong>summary</strong></p>',
+      body: [
+        '<h2>Overview</h2>',
+        '<p>References <sup class="footnote" data-id="source" data-index="1" data-content="&lt;em data-extra=&quot;ignored&quot;&gt;Source&lt;/em&gt;">1</sup></p>',
+        '<figure class="media"><oembed url="https://www.youtube.com/watch?v=abcdefghijk"></oembed></figure>',
+        '<figure class="image"><img src="/uploads/sample.png" style="aspect-ratio:4/3;"><figcaption>Example image</figcaption></figure>',
+        '<object data="https://example.com/document"></object>',
+      ].join(''),
+    })
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(fixture))
+
+    const article = await getBlogArticleDetail('reviewed')
+
+    expect(article.summaryHtml).toBe('<p>A <strong>summary</strong></p>')
+    expect(article.toc[0].href).toBe('#overview')
+    expect(article.bodyHtml).toContain('<h2 id="overview">Overview</h2>')
+    expect(article.bodyHtml).toContain('id="fntref-source"')
+    expect(article.bodyHtml).toContain('href="#fnt-source"')
+    expect(article.footnotes[0].valueHTML).toBe('<em>Source</em>')
+    expect(article.bodyHtml).toContain(
+      'src="https://www.youtube.com/embed/abcdefghijk"'
+    )
+    expect(article.bodyHtml).toContain('style="aspect-ratio:4/3;"')
+    expect(article.bodyHtml).toContain('<figcaption>Example image</figcaption>')
+    expect(article.bodyHtml).not.toContain('<object')
   })
 })
 
