@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import {
+  fetchGithubRfps,
   fetchRfpMarkdownEntryForTest,
   fetchRfpListingForTest,
   parseJsDelivrRfpListingForTest,
@@ -125,6 +126,29 @@ describe('fetchRfpMarkdownEntry', () => {
     expect(fetchMock.mock.calls[2]).toEqual([
       'https://cdn.jsdelivr.net/gh/logos-co/rfp@master/RFPs/RFP-001-admin-authority-lib.md',
       { headers: { 'User-Agent': 'logos-web-build' } },
+    ])
+  })
+})
+
+describe('fetchGithubRfps', () => {
+  it.each([
+    ['invalid YAML', '---\ntitle: Unquoted: colon'],
+    ['an unsupported format', '---json\n{"title":"Ignored"}'],
+  ])('falls back to the Markdown body for %s', async (_, opening) => {
+    const url =
+      'https://raw.githubusercontent.com/logos-co/rfp/master/RFPs/RFP-001-example.md'
+    const content = '# RFP-001 Example\n\n**Status**: upcoming'
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(
+        Response.json([
+          { name: 'RFP-001-example.md', download_url: url, html_url: url },
+        ])
+      )
+      .mockResolvedValueOnce(new Response(`${opening}\n---\n${content}`))
+
+    await expect(fetchGithubRfps()).resolves.toMatchObject([
+      { title: 'Example', status: 'upcoming', rawMarkdown: content },
     ])
   })
 })
