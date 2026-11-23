@@ -1,9 +1,9 @@
-import matter from 'gray-matter'
 import { cache } from 'react'
 
 import { ROUTES } from '@/constants/routes'
 import { githubMarkdownDirectory } from '@/lib/github-markdown'
 import type { RfpListItem } from '@/lib/rfp-types'
+import { parseYamlFrontMatter } from '@/lib/yaml-front-matter'
 
 /**
  * Build-time RFP source. RFPs live as markdown in the public GitHub repo
@@ -168,8 +168,8 @@ const str = (value: unknown): string | undefined =>
 
 /**
  * Frontmatter parse that never throws. Upstream RFP files occasionally carry
- * invalid YAML (e.g. an unquoted colon in `title:`), which `gray-matter` would
- * throw on. Rather than dropping the whole RFP, we strip the frontmatter block
+ * invalid YAML (e.g. an unquoted colon in `title:`). For invalid YAML or an
+ * unsupported frontmatter language, strip the frontmatter block
  * and parse the body only, so the markdown-heuristic path (`# heading`,
  * `**Field**` lines) still populates the listing — matching the documented
  * predates-frontmatter fallback.
@@ -179,13 +179,16 @@ const safeMatter = (
   filename: string
 ): { data: Record<string, unknown>; content: string } => {
   try {
-    return matter(raw)
+    return parseYamlFrontMatter(raw)
   } catch (error) {
     console.error(
       `Invalid frontmatter in ${filename}, parsing body only:`,
       error
     )
-    const body = raw.replace(/^\uFEFF?\s*---\r?\n[\s\S]*?\r?\n---\r?\n?/, '')
+    const body = raw.replace(
+      /^\uFEFF?---(?!-)[^\n]*\n(?:[\s\S]*?\n)?---[ \t]*(?:\r?\n|$)/,
+      ''
+    )
     return { data: {}, content: body }
   }
 }
@@ -193,7 +196,7 @@ const safeMatter = (
 /**
  * Parses one RFP markdown file. RFP files carry YAML frontmatter
  * (`id`, `title`, `tier`, `funding`, `status`, `category`) followed by the
- * body. `gray-matter` strips the frontmatter so it never renders as text, and
+ * body. The parser strips the frontmatter so it never renders as text, and
  * its parsed fields are preferred over markdown heuristics; the `**Field**`
  * regexes remain as a fallback for any file that predates frontmatter.
  */

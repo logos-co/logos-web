@@ -1,8 +1,9 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-import matter from 'gray-matter'
 import { z } from 'zod'
+
+import { parseYamlFrontMatter } from './yaml-front-matter'
 
 /**
  * Loader for markdown-managed legal / info documents (terms, privacy,
@@ -47,13 +48,15 @@ export function getLegalDoc(slug: string): LegalDoc {
     })
   }
 
-  const { data, content } = matter(raw)
+  const { data, content } = parseYamlFrontMatter(raw)
   const result = frontmatterSchema.safeParse(data)
   if (!result.success) {
     const issues = result.error.issues
       .map((issue) => `${issue.path.join('.') || '<root>'}: ${issue.message}`)
       .join('; ')
-    throw new Error(`invalid frontmatter in legal document "${slug}": ${issues}`)
+    throw new Error(
+      `invalid frontmatter in legal document "${slug}": ${issues}`
+    )
   }
 
   const body = content.trim()
