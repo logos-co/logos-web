@@ -1684,7 +1684,15 @@
       "art": "",
       "food": 33.0,
       "foodAsOf": "Jul 2026",
-      "verified": true
+      "verified": true,
+      "shelfPrices2026": {
+        "Ground Beef": 450,
+        "Beer": 130,
+        "Peanut Butter": 208,
+        "Honey": 270,
+        "Blueberries": 299,
+        "Bananas": 38
+      }
     },
     {
       "c": "UG",

@@ -24,6 +24,8 @@ In a full web build, Turbo builds this app first because `apps/web` lists it as 
 
 The Future section links to [TomorrowMart](src/routes/tomorrowmart/index.html) at `/past-present-future/tomorrowmart`. The [route](src/routes/tomorrowmart/+server.js) prerenders the standalone shop as HTML. Its images and country data live in [static/tomorrowmart](static/tomorrowmart/).
 
+In [rates.json](static/tomorrowmart/rates.json), a country's optional `shelfPrices2026` maps product names to 2026 shelf prices in that country's currency. Products without a local price use the default US price converted at the country's exchange rate.
+
 ## Nedu
 
 The Nedu card on [`/choices`](src/routes/choices/+page.svelte) opens [`/choices/nedu`](src/routes/choices/nedu/+page.svelte), an interactive film with five decisions. Its components and story data live in [`src/lib/choices/nedu/`](src/lib/choices/nedu/), with MP4 and WebM clips in [`static/choices/nedu/videos/`](static/choices/nedu/videos/). The card portrait is [`static/choices/faces/nedu.webp`](static/choices/faces/nedu.webp).

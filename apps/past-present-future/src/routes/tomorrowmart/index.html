@@ -1534,7 +1534,11 @@ const money = n => {
        return usdAmbiguous() ? out.replace(/^\$/, 'US$') : out; }
   catch(_){ return '$'+n.toFixed(2); }
 };
-const localBase = p => p.base * FX;                       // today's shelf price, local money
+function baseShelfPrice(co, p, fx = co.fx){
+  const local = co.shelfPrices2026?.[p.name];
+  return local === undefined ? p.base * fx : local * (fx / co.fx);
+}
+const localBase = p => baseShelfPrice(CO, p, FX);
 const baseUnit  = p => localBase(p) / p.baseSize;          // today's price per unit
 function stageAt(p, year){
   if(!SHOW_PACKS) return p.stages[0];
@@ -1548,7 +1552,7 @@ function packPrice(p, year){ return unitPrice(p, year) * stageAt(p, year).size; 
 function priceAt(p, year){ return unitPrice(p, year) * p.baseSize; }                  // today's amount, that year
 function inflationOnly(p, year){ return localBase(p) * Math.pow(1+PRICE_RATE, year-Y0); }
 /* the local-currency figure for HYPER countries: raw maths at the country's own rate, in its own money */
-const localRaw = (p, year) => p.base * CO.fx * Math.pow(1+RATE, year-Y0);
+const localRaw = (p, year) => baseShelfPrice(CO, p) * Math.pow(1+RATE, year-Y0);
 /* local line: if the local sign is a dollar-type sign ($, R$, HK$…) use the ISO code instead, so "ARS 4.190" can't be read as US dollars */
 const localDisplay = () => /\$/.test(curSymbolOf(CO.loc, CO.cur)) ? 'code' : 'symbol';
 const moneyLocal = n => {
@@ -1646,7 +1650,7 @@ const XS = { el:null, mode:'product', p:null, co:null };
 const handleFor = code => { const L = LEADERS[code]; if(!L) return ''; return L.office_handle || L.handle || ''; };   // office account first: it outlives the person
 const priceIn = (co, p, year) => {   // a product's price in another country's money at that country's rate, without switching the store
   const r = rateOf(co, SCEN)/100;
-  const v = p.base*co.fx*Math.pow(1+r, year-Y0);
+  const v = baseShelfPrice(co, p) * Math.pow(1+r, year-Y0);
   if(Math.abs(v) >= 1e9) return `${co.cur} ${bigWords(v)}`;
   try{ return new Intl.NumberFormat(co.loc,{style:'currency',currency:co.cur,maximumFractionDigits:(co.fx>50?0:2),minimumFractionDigits:(co.fx>50?0:2)}).format(v); }catch(_){ return '$'+v.toFixed(2); }
 };
@@ -2215,8 +2219,11 @@ function applyCountry(code, quiet){
   document.getElementById('locName').textContent = CO.n;
 
   const srcHtml = `<a class="srcl" href="${CO.srcUrl}" target="_blank" rel="noopener">${CO.src}</a>, ${CO.asOf}`;
+  const shelfNote = CO.shelfPrices2026
+    ? 'Some shelf prices use local estimates, so your local shop may differ.'
+    : 'Shelf prices are a national average, so your local shop may differ.';
   const fs = document.getElementById('footSource');
-  if(fs) fs.innerHTML = `Inflation rate for ${CO.art||''}${CO.n}: <b>${CO.rate}%</b>, from ${srcHtml}. Shelf prices are a national average, so your local shop may differ. Nothing here is for sale. <a href="#method">How it's calculated</a>.`;
+  if(fs) fs.innerHTML = `Inflation rate for ${CO.art||''}${CO.n}: <b>${CO.rate}%</b>, from ${srcHtml}. ${shelfNote} Nothing here is for sale. <a href="#method">How it's calculated</a>.`;
   const heroLine = {
     current: `Every price rises <b>${rateOf(CO,SCEN)}% a year</b>, ${CO.art||''}${CO.n}'s current inflation rate.`,
     high:    `Every price rises <b>${rateOf(CO,SCEN)}% a year</b>, half as much again as ${CO.art||''}${CO.n}'s current rate. The worst case.`,
@@ -2234,7 +2241,7 @@ function applyCountry(code, quiet){
     `<b>Today</b> This is the official inflation rate right now (headline CPI, all items), dated at source.
      <b>Worst case</b> This is today's rate plus 50%, i.e. ${CO.rate}% x 1.5 = ${rateOf(CO,'high')}%. It is not a forecast but the potential that inflation continues to rise rather than staying consistent.`;
   document.getElementById('methodNote').innerHTML =
-    `Per-country figures are taken from each national statistics office (for ${CO.art||''}${CO.n}, ${srcHtml}) and cross-checked against <a class="srcl" href="${(META&&META.primarySource.crossCheckUrl)||'#'}" target="_blank" rel="noopener">Trading Economics' August 2026 inflation table</a>. The rate is headline CPI, all items, including food, because it is the official figure each country reports. A rate is held constant across the whole period as an illustration; real inflation moves year to year. Shelf prices are typical 2026 prices converted at approximate exchange rates. TomorrowMart is a demonstration: nothing here is for sale.`;
+    `Per-country figures are taken from each national statistics office (for ${CO.art||''}${CO.n}, ${srcHtml}) and cross-checked against <a class="srcl" href="${(META&&META.primarySource.crossCheckUrl)||'#'}" target="_blank" rel="noopener">Trading Economics' August 2026 inflation table</a>. The rate is headline CPI, all items, including food, because it is the official figure each country reports. A rate is held constant across the whole period as an illustration; real inflation moves year to year. Shelf prices use local 2026 estimates where available. The rest use typical 2026 US prices converted at approximate exchange rates. TomorrowMart is a demonstration: nothing here is for sale.`;
 
   const find = document.getElementById('repFind');
   if(CO.rep){ find.href = CO.rep; find.style.display=''; }
