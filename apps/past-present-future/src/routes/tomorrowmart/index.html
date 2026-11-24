@@ -363,7 +363,7 @@
   .rc-overlay.on{display:flex}
   .rc-backdrop{position:fixed;inset:0;background:rgba(0,25,50,.66);backdrop-filter:blur(3px)}
   .rc-scroll{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:20px;width:100%}
-  .rc-receipt{position:relative;width:100%;max-width:430px;background:#fff;color:var(--ink);
+  .rc-receipt{position:relative;width:100%;max-width:430px;container-type:inline-size;background:#fff;color:var(--ink);
     padding:40px 30px 30px;font-family:var(--receipt-mono);font-size:13px;line-height:1.6;font-variant-numeric:tabular-nums;
     box-shadow:0 34px 70px -28px rgba(0,20,40,.6);
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08  0 0 0 0 0.14  0 0 0 0 0.13  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)' opacity='0.45'/></svg>");
@@ -386,11 +386,12 @@
   .rc-row .v{text-align:right}
   .rc-items,.rc-fees{display:flex;flex-direction:column;gap:7px}
   .rc-line{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-  .rc-line .nm{flex-shrink:0;font-size:12.5px}
-  .rc-line .dots{flex:1;border-bottom:1px dotted rgba(0,0,0,.35);height:0;transform:translateY(-4px);min-width:12px}
-  .rc-line .num{font-size:12.5px}
+  .rc-line .nm{min-width:0;font-size:12.5px;overflow-wrap:anywhere}
+  .rc-line .dots{flex:1;border-bottom:1px dotted rgba(0,0,0,.35);height:0;transform:translateY(-4px);min-width:0}
+  .rc-line .num{flex:none;max-width:68%;font-size:12.5px;text-align:right;overflow-wrap:anywhere}
   .rc-line.muted .nm,.rc-line.muted .num{color:var(--grey)}
-  .rc-total{display:flex;justify-content:space-between;align-items:baseline;font-size:25px;font-weight:700;letter-spacing:-.01em}
+  .rc-total{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:25px;font-weight:700;letter-spacing:-.01em}
+  #rcTotal{min-width:0;text-align:right;overflow-wrap:anywhere}
   .rc-stat{margin-top:10px;text-align:center;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--blue-d);line-height:1.6}
   .rc-stat b{color:var(--ink)}
   .rc-foot{text-align:center;margin-top:4px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
@@ -682,14 +683,24 @@
 
   /* ================= RECEIPT LADDER + REP ================= */
   .rc-ladder-h{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin-bottom:8px}
-  .rc-ladder{display:flex;flex-direction:column;gap:6px}
-  .rc-lrow{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:12.5px}
-  .rc-lrow .yr{font-weight:700;width:4ch}
-  .rc-lrow .bar{flex:1;height:7px;background:rgba(0,0,0,.08);position:relative;overflow:hidden}
+  .rc-ladder{display:grid;grid-template-columns:max-content minmax(0,1fr) fit-content(42%) fit-content(37%);gap:6px 10px;align-items:center;font-size:12.5px}
+  .rc-lrow{display:contents}
+  .rc-lrow .yr{font-weight:700}
+  .rc-lrow .bar{height:7px;background:rgba(0,0,0,.08);position:relative;overflow:hidden}
   .rc-lrow .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink);display:block}
-  .rc-lrow .amt{width:9ch;text-align:right;font-variant-numeric:tabular-nums}
-  .rc-lrow .pc{width:7ch;text-align:right;color:var(--grey);font-variant-numeric:tabular-nums}
+  .rc-lrow .amt,.rc-lrow .pc{min-width:0;text-align:right;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+  .rc-lrow .pc{color:var(--grey)}
   .rc-lrow.now .bar i{background:var(--blue)}
+  @container (max-width:320px){
+    .rc-total{flex-wrap:wrap;row-gap:2px}
+    #rcTotal{max-width:100%;margin-left:auto;font-size:clamp(18px,9cqi,25px)}
+    .rc-ladder{display:flex;flex-direction:column;align-items:stretch;gap:10px}
+    .rc-lrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,65%);gap:2px 8px;align-items:center}
+    .rc-lrow .yr{grid-area:1 / 1}
+    .rc-lrow .amt{grid-area:1 / 2}
+    .rc-lrow .bar{grid-area:2 / 1}
+    .rc-lrow .pc{grid-area:2 / 2}
+  }
 
   .rep{position:relative;z-index:1;width:100%;max-width:520px;background:#fff;border-radius:8px;
     border-left:5px solid var(--blue);padding:22px 24px 24px}
@@ -1560,7 +1571,6 @@ function unitPrice(p, year){
 }
 function packPrice(p, year){ return unitPrice(p, year) * stageAt(p, year).size; }   // the shrunken pack on shelf
 function priceAt(p, year){ return unitPrice(p, year) * p.baseSize; }                  // today's amount, that year
-function inflationOnly(p, year){ return localBase(p) * Math.pow(1+PRICE_RATE, year-Y0); }
 /* the local-currency figure for HYPER countries: raw maths at the country's own rate, in its own money */
 const localRaw = (p, year) => baseShelfPrice(CO, p) * Math.pow(1+RATE, year-Y0);
 /* local line: if the local sign is a dollar-type sign ($, R$, HK$…) use the ISO code instead, so "ARS 4.190" can't be read as US dollars */
@@ -1712,42 +1722,28 @@ async function shareProduct(p, btn){ openShare('product', p); }
 /* ================= CART ================= */
 const badge = document.getElementById('badge');
 const cart = {};
-let cartCount = 0;
-const cartKey = (name, year) => `${name}|${year}`;
-const cartName = key => key.split('|')[0];
-const cartYear = key => +key.split('|')[1] || Y0;
 function addToCart(p, el){
-  const k = cartKey(p.name, curYear);
-  cart[k] = (cart[k]||0)+1;
-  cartCount++; badge.textContent = cartCount;
+  cart[p.name] = (cart[p.name]||0)+1;
+  updateBasket();
   badge.classList.remove('pop'); void badge.offsetWidth; badge.classList.add('pop');
   const b = el.querySelector('[data-add]');
   b.textContent='Added ✓'; b.classList.add('added');
   setTimeout(()=>{ b.textContent='Add'; b.classList.remove('added'); }, 850);
-  updateBasket();
 }
-function basketAt(year){   // the whole basket re-priced at one year (used for the ladder and projections)
-  let total=0, count=0, inf=0;
-  for(const key in cart){
-    const q=cart[key]; if(!q) continue;
-    const p = PRODUCTS.find(x=>x.name===cartName(key));
-    total += priceAt(p, year)*q;
-    inf   += inflationOnly(p, year)*q;
-    count += q;
-  }
-  return {total, inf, count};
-}
-function basketLocked(){   // what you actually put in: each line at the year you added it
-  let total=0, count=0, years=new Set();
-  for(const key in cart){
-    const q=cart[key]; if(!q) continue;
-    const p = PRODUCTS.find(x=>x.name===cartName(key)), y = cartYear(key);
-    total += priceAt(p, y)*q; count += q; years.add(y);
-  }
-  return {total, count, years:[...years].sort()};
+function basketAt(year){
+  let total=0, count=0;
+  const items = Object.entries(cart).map(([name, quantity])=>{
+    const product = PRODUCTS.find(p=>p.name===name);
+    const amount = priceAt(product, year)*quantity;
+    total += amount;
+    count += quantity;
+    return {name, quantity, amount};
+  });
+  return {items, total, count};
 }
 function updateBasket(){
-  const {total,count} = basketLocked(), base = basketAt(Y0).total;
+  const {total,count} = basketAt(curYear), base = basketAt(Y0).total;
+  badge.textContent = count;
   document.getElementById('basketTotal').textContent = money(total);
   document.getElementById('cartAmt').textContent = money(total);
   document.getElementById('basketYr').textContent = curYear;
@@ -1918,6 +1914,7 @@ function render(year){
   paintSpecials(year);
   if(typeof paintStickers==='function' && document.getElementById('heroSticker').dataset.key) paintStickers(false);
   updateBasket();
+  if(overlay.classList.contains('on')) openCheckout(true);
 }
 
 
@@ -2262,7 +2259,6 @@ function applyCountry(code, quiet){
     try{ sessionStorage.setItem('tm-country', CO.c); }catch(_){}
   }
   render(curYear);
-  if(document.getElementById('checkout').classList.contains('on')) openCheckout(true);
 }
 sel.addEventListener('change', e=>applyCountry(e.target.value));
 
@@ -2370,36 +2366,32 @@ function rcLine(name, val, muted){
 }
 function openCheckout(silent){
   const year = curYear, n = year - Y0;
-  const entries = Object.entries(cart).filter(([,q])=>q>0);
-  if(entries.length===0){
+  const {items, total:subtotal, count} = basketAt(year);
+  if(count===0){
     const b=document.getElementById('checkoutBtn'), old=b.textContent;
     b.textContent='Basket is empty'; b.classList.add('shake');
     setTimeout(()=>{ b.textContent=old; b.classList.remove('shake'); },1200);
     return;
   }
-  let subtotal=0;
-  const locked = basketLocked(), mixed = locked.years.length > 1;
-  const itemsHtml = entries.sort((a,b)=>cartYear(a[0])-cartYear(b[0])).map(([key,qty])=>{
-    const p=PRODUCTS.find(x=>x.name===cartName(key)), y=cartYear(key), line=priceAt(p,y)*qty;
-    subtotal += line;
-    return rcLine(p.name+(qty>1?' ×'+qty:'')+` <span class="k2">· ${y}</span>`, money(line));
+  const itemsHtml = items.map(({name, quantity, amount})=>{
+    return rcLine(name+(quantity>1?' ×'+quantity:'')+` <span class="k2">· ${year}</span>`, money(amount));
   }).join('');
-  const base = basketAt(Y0).total;
+  const base = basketAt(Y0).total, rate = rateOf(CO, SCEN);
 
   document.getElementById('rcItems').innerHTML = itemsHtml;
   let fees = rcLine("At today's prices", money(base));
-  if(subtotal - base > 0.005) fees += rcLine(mixed ? `Inflation · ${rateOf(CO,SCEN)}%/yr, years as added` : `Inflation · ${rateOf(CO,SCEN)}%/yr × ${n}yr`, '+'+money(subtotal-base));
+  if(subtotal - base > 0.005) fees += rcLine(`Inflation · ${rate}%/yr × ${n}yr`, '+'+money(subtotal-base));
   document.getElementById('rcFees').innerHTML = fees;
   document.getElementById('rcTotal').textContent = money(subtotal);
-  document.getElementById('rcSub').textContent = (mixed ? `Trading years ${locked.years[0]} to ${locked.years[locked.years.length-1]}` : `Trading year ${year}`) + ` · ${CO.n}`;
+  document.getElementById('rcSub').textContent = `Trading year ${year} · ${CO.n}`;
   document.getElementById('rcRate').innerHTML =
-    `${rateOf(CO,SCEN)}% a year <span class="k2">(${SCEN_LABEL[SCEN]})</span><br><span class="k2">${CO.src}, ${CO.asOf}</span>`;
-  document.getElementById('rcYear').textContent = mixed ? locked.years.join(', ') : year;
-  document.getElementById('rcBasket').textContent = `${cartCount} item${cartCount>1?'s':''} · same amounts as today`;
+    `${rate}% a year <span class="k2">(${SCEN_LABEL[SCEN]})</span><br><span class="k2">${CO.src}, ${CO.asOf}</span>`;
+  document.getElementById('rcYear').textContent = year;
+  document.getElementById('rcBasket').textContent = `${count} item${count>1?'s':''} · same amounts as today`;
   document.getElementById('rcOrder').textContent = '#'+Math.floor(100000+Math.random()*899999);
   document.getElementById('rcId').textContent = `TXN ${year}-${Math.floor(1000+Math.random()*8999)}`;
   document.getElementById('rcStat').innerHTML = subtotal - base > 0.005
-    ? `Same basket today: <b>${money(base)}</b><br/>${mixed ? 'As added' : 'In '+year}: <b>${money(subtotal)}</b>, up <b>${pct(subtotal/base-1)}</b>`
+    ? `Same basket today: <b>${money(base)}</b><br/>In ${year}: <b>${money(subtotal)}</b>, up <b>${pct(subtotal/base-1)}</b>`
     : `This is your basket at today's prices.`;
 
   // decade ladder
@@ -2413,7 +2405,7 @@ function openCheckout(silent){
   }).join('');
 
   buildLetter();
-  overlay.dataset.share = `A weekly shop of ${cartCount} items costs ${money(base)} today in ${CO.n}. At ${CO.rate}% inflation it is ${money(basketAt(Y1).total)} by 2056.`;
+  overlay.dataset.share = `A weekly shop of ${count} items costs ${money(base)} today in ${CO.n}. At ${CO.rate}% inflation it is ${money(max)} by 2056.`;
   if(silent) return;
 
   overlay.classList.add('on'); overlay.setAttribute('aria-hidden','false');
@@ -2543,10 +2535,10 @@ function regionPhrase(){
   if(REGION_KIND==='state') return `${REGION}`;
   return `${REGION}, ${CO.art||''}${CO.n}`;
 }
-function refreshLetter(){ if(cartCount) buildLetter(); }
+function refreshLetter(){ if(Object.keys(cart).length) buildLetter(); }
 
 function buildLetter(){
-  const base = basketAt(Y0).total, rate = rateOf(CO, SCEN);
+  const {total:base, count} = basketAt(Y0), rate = rateOf(CO, SCEN);
   const basis = SCEN==='current'
     ? `the official annual inflation rate for ${CO.art||''}${CO.n} (headline CPI, ${CO.src}, ${CO.asOf})`
     : `50% above the official inflation rate for ${CO.art||''}${CO.n}`;
@@ -2555,7 +2547,7 @@ function buildLetter(){
 
 I am a constituent in ${regionPhrase()}.
 
-Today, a weekly basket of ${cartCount} everyday grocery item${cartCount>1?'s':''} costs ${money(base)}.
+Today, a weekly basket of ${count} everyday grocery item${count>1?'s':''} costs ${money(base)}.
 
 Held at ${rate}% a year (${basis}), the same basket costs:
 
@@ -2585,13 +2577,13 @@ document.getElementById('repMail').addEventListener('click', ()=>{
 });
 
 /* ================= RECEIPT AS AN IMAGE ================= */
-async function receiptImage(){
+async function receiptImage(year){
   const W=1080, H=1560, S=2;
   const cv=document.createElement('canvas'); cv.width=W*S; cv.height=H*S;
   const x=cv.getContext('2d'); x.scale(S,S);
   const mono='500 22px ui-monospace, SFMono-Regular, Menlo, monospace';
   const sans=w=>`${w} 26px Inter, system-ui, sans-serif`;
-  const base=basketAt(Y0).total, now=basketLocked().total, rate=rateOf(CO,SCEN);
+  const {items, total:now}=basketAt(year), base=basketAt(Y0).total, rate=rateOf(CO,SCEN);
 
   x.fillStyle='#F7F5F0'; x.fillRect(0,0,W,H);
   x.fillStyle='#fff'; x.fillRect(60,60,W-120,H-120);
@@ -2600,7 +2592,7 @@ async function receiptImage(){
   x.textAlign='center'; x.fillStyle='#15171C';
   x.font=sans(900); x.fillText('TOMORROWMART', W/2, y); y+=54;
   x.font=mono; x.fillStyle='#6E7178';
-  x.fillText(`TRADING YEAR ${curYear} · ${CO.n.toUpperCase()}`, W/2, y); y+=50;
+  x.fillText(`TRADING YEAR ${year} · ${CO.n.toUpperCase()}`, W/2, y); y+=50;
 
   const dash=()=>{ x.strokeStyle='#D9D6CE'; x.setLineDash([6,7]); x.beginPath();
     x.moveTo(110,y); x.lineTo(W-110,y); x.stroke(); x.setLineDash([]); y+=44; };
@@ -2612,19 +2604,18 @@ async function receiptImage(){
     x.textAlign='left';  x.fillText(l,110,y);
     x.textAlign='right'; x.fillText(r,W-110,y); y+=38;
   };
-  Object.entries(cart).filter(([,q])=>q>0).sort((a,b)=>cartYear(a[0])-cartYear(b[0])).slice(0,12).forEach(([k,q])=>{
-    const p=PRODUCTS.find(v=>v.name===cartName(k)), y=cartYear(k);
-    line(cartName(k)+(q>1?' x'+q:'')+' · '+y, money(priceAt(p,y)*q));
+  items.slice(0,12).forEach(({name, quantity, amount})=>{
+    line(name+(quantity>1?' x'+quantity:'')+' · '+year, money(amount));
   });
   y+=8; dash();
   line("At today's prices", money(base), true);
-  if(now-base>0.005) line(basketLocked().years.length>1 ? `Inflation ${rate}%/yr, years as added` : `Inflation ${rate}%/yr x ${curYear-Y0}yr`, '+'+money(now-base), true);
+  if(now-base>0.005) line(`Inflation ${rate}%/yr x ${year-Y0}yr`, '+'+money(now-base), true);
   y+=6; dash();
   x.font=sans(900); x.fillStyle='#15171C';
   x.textAlign='left';  x.fillText('TOTAL',110,y);
   x.textAlign='right'; x.fillText(money(now),W-110,y); y+=56;
 
-  if(curYear>Y0){
+  if(year>Y0){
     x.textAlign='center'; x.font=sans(700); x.fillStyle='#1A4FD6';
     x.fillText(`UP ${pct(now/base-1)} ON TODAY`, W/2, y); y+=54;
   }
@@ -2637,7 +2628,7 @@ async function receiptImage(){
     const t=basketAt(yr).total;
     x.fillStyle='#15171C'; x.font=mono; x.textAlign='left'; x.fillText(String(yr),110,y);
     x.fillStyle='#EAE7DF'; x.fillRect(200,y-16,540,18);
-    x.fillStyle = yr===curYear ? '#1A4FD6' : '#15171C';
+    x.fillStyle = yr===year ? '#1A4FD6' : '#15171C';
     x.fillRect(200,y-16,Math.max(8,540*(t/maxT)),18);
     x.textAlign='right'; x.fillStyle='#15171C'; x.fillText(money(t),W-110,y); y+=40;
   });
@@ -2657,10 +2648,11 @@ async function receiptImage(){
 }
 document.getElementById('btnImage').addEventListener('click', async e=>{
   const b=e.currentTarget, old=b.textContent;
+  const year=curYear;
   b.textContent='Rendering…';
   try{
-    const blob = await receiptImage();
-    const file = new File([blob], `tomorrowmart-${curYear}.png`, {type:'image/png'});
+    const blob = await receiptImage(year);
+    const file = new File([blob], `tomorrowmart-${year}.png`, {type:'image/png'});
     if(navigator.canShare && navigator.canShare({files:[file]})){
       await navigator.share({files:[file], title:'TomorrowMart receipt'});
     } else {
