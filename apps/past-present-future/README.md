@@ -1,6 +1,6 @@
 # past-present-future
 
-A SvelteKit app served at `/past-present-future` on the public site. Every route is prerendered with `@sveltejs/adapter-static` ([`svelte.config.js`](svelte.config.js)), and the web build copies its output into the Next.js export with [`apps/web/scripts/copy-past-present-future.sh`](../web/scripts/copy-past-present-future.sh).
+A SvelteKit app served at `/past-present-future` on the public site, including the TomorrowMart shop in its Future section. Every route is prerendered with `@sveltejs/adapter-static` ([`svelte.config.js`](svelte.config.js)), and the web build copies its output into the Next.js export with [`apps/web/scripts/copy-past-present-future.sh`](../web/scripts/copy-past-present-future.sh).
 
 ## Run
 
@@ -22,7 +22,7 @@ In a full web build, Turbo builds this app first because `apps/web` lists it as 
 
 ## TomorrowMart
 
-The Future section links to [TomorrowMart](src/routes/tomorrowmart/index.html) at `/past-present-future/tomorrowmart`. The [route](src/routes/tomorrowmart/+server.js) prerenders the standalone shop as HTML. Its images and country data live in [static/tomorrowmart](static/tomorrowmart/).
+The Visit TomorrowMart link in the Future section opens [TomorrowMart](src/routes/tomorrowmart/index.html) at `/past-present-future/tomorrowmart`, a standalone shop that prices a grocery basket by country and year. The [route](src/routes/tomorrowmart/+server.js) prerenders the shop as HTML. Its images and country data live in [static/tomorrowmart](static/tomorrowmart/). The menu's Future card and the Future section background play the TomorrowMart clip from [`static/video/`](static/video/).
 
 The shop uses [its own artwork](static/tomorrowmart/og.png) for its Open Graph and X image. The route writes absolute share URLs at build time, using the Vercel branch or deployment URL for preview builds and `https://logos.co` for production.
 
