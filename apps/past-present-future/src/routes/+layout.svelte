@@ -7,8 +7,6 @@
 
 	const chapters = $derived(!page.url.pathname.endsWith('/museum-of-civil-liberties'));
 
-	
-	
 	const isChoices = $derived(page.url.pathname.includes('/past-present-future/choices'));
 	const siteOrigin = 'https://logos.co';
 	const ogImage = $derived(

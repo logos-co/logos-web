@@ -6,13 +6,11 @@
 	const POINTS = [
 		{
 			era: "past",
-			soon: false,
 			video: "/past-present-future/video/museum",
 			label: "Explore the Past",
 		},
 		{
 			era: "present",
-			soon: false,
 			kick: "Present",
 			cardTitle: "Life’s<br />Choices",
 			video: "/past-present-future/video/promise",
@@ -20,7 +18,8 @@
 		},
 		{
 			era: "future",
-			soon: true,
+			kick: "Future",
+			cardTitle: "TomorrowMart",
 			video: "/past-present-future/video/tomorrowmart",
 			label: "Discover the Future",
 		},
@@ -325,7 +324,6 @@
 	}
 	function pointClick(p) {
 		if (moved > 8) return;
-		if (p.soon) return;
 		requestClose();
 		goTo(ERA_PANEL[p.era]);
 	}
@@ -701,7 +699,6 @@
 								<!-- svelte-ignore a11y_no_static_element_interactions -->
 								<div
 									class="tl-point"
-									class:soon={p.soon}
 									data-era={p.era}
 									onpointerenter={() => pointEnter(i)}
 									onpointerleave={() => pointLeave(i)}
@@ -732,11 +729,7 @@
 										</video>
 										<span class="rp-scrim"></span>
 										<figcaption class="rp-meta">
-											{#if p.soon}
-												<span class="rp-title"
-													>Coming soon</span
-												>
-											{:else if p.cardTitle}
+											{#if p.cardTitle}
 												<span class="rp-kick"
 													>{p.kick}</span
 												><span class="rp-title"
@@ -758,7 +751,6 @@
 										class="tl-label"
 										type="button"
 										data-slide={p.era}
-										aria-disabled={p.soon || undefined}
 										onclick={() => pointClick(p)}
 										>{p.label}</button
 									>
@@ -862,8 +854,16 @@
 						onpointerenter={() => (revealIdx = 3)}
 						onpointerleave={() => (revealIdx = -1)}
 					>
-						<span class="cta soon" aria-disabled="true" use:scramble
-							>Coming soon</span
+						<a
+							class="cta"
+							href="/past-present-future/tomorrowmart"
+							data-sveltekit-reload
+							use:scramble
+							onfocus={() => (revealIdx = 3)}
+							onblur={() => (revealIdx = -1)}
+							onclick={(e) => {
+								if (moved > 8) e.preventDefault();
+							}}>Visit TomorrowMart <span class="arw">→</span></a
 						>
 					</div>
 				</div>
@@ -1279,11 +1279,6 @@
 		font-size: 10.1px;
 		padding: 9.8px 16.8px;
 	}
-	.cta.soon {
-		opacity: 1;
-		cursor: default;
-		pointer-events: none;
-	}
 	.intro-bg {
 		position: absolute;
 		inset: 0;
@@ -1636,9 +1631,6 @@
 			opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
 			transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 	}
-	.tl-point.soon {
-		cursor: not-allowed;
-	}
 	.stage.revealed .tl-point {
 		opacity: 1;
 		transform: none;
@@ -1659,16 +1651,12 @@
 		height: 11px;
 		border-radius: 50%;
 		border: 1px solid #f5f5f5;
-		background: transparent;
+		background: #f5f5f5;
 		transition:
 			background 0.35s ease,
 			border-color 0.35s ease,
 			transform 0.35s ease,
 			box-shadow 0.35s ease;
-	}
-	.tl-point:not(.soon) .tl-dot {
-		background: #f5f5f5;
-		border-color: #f5f5f5;
 	}
 	.tl-pulse {
 		position: absolute;
@@ -1760,26 +1748,6 @@
 	.tl-point:hover .tl-label {
 		opacity: 0.75;
 	}
-	.tl-point.soon .tl-label {
-		opacity: 0.6;
-		cursor: not-allowed;
-	}
-	.tl-point.soon:hover .tl-label {
-		opacity: 0.6;
-	}
-	.tl-point.soon .tl-dot {
-		opacity: 0.45;
-	}
-	.timeline:hover .tl-point.soon .tl-dot,
-	.timeline:focus-within .tl-point.soon .tl-dot {
-		opacity: 1;
-	}
-	.tl-point.soon .rp-card {
-		pointer-events: none;
-	}
-	.tl-point.soon .rp-card.show {
-		opacity: 1;
-	}
 	.rp-card {
 		position: absolute;
 		left: 50%;
@@ -1813,9 +1781,6 @@
 	.rp-card[data-era="present"] .rp-vid {
 		transform: scale(1.15);
 	}
-	.tl-point.soon .rp-vid {
-		filter: blur(6px) brightness(0.4) saturate(0.8);
-	}
 	.rp-scrim {
 		position: absolute;
 		inset: 0;
@@ -1824,9 +1789,6 @@
 			rgba(10, 12, 11, 0.12) 0,
 			rgba(10, 12, 11, 0.72) 100%
 		);
-	}
-	.tl-point.soon .rp-scrim {
-		background: rgba(8, 10, 9, 0.62);
 	}
 	.rp-meta {
 		position: absolute;
@@ -1837,13 +1799,6 @@
 		text-align: center;
 		padding: clamp(10.4px, 1.15vw, 15.2px) clamp(12.8px, 1.41vw, 19.2px)
 			clamp(16.8px, 1.79vw, 23.2px);
-	}
-	.tl-point.soon .rp-meta {
-		inset: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0;
 	}
 	.rp-kick {
 		display: block;
@@ -1863,14 +1818,6 @@
 		font-size: clamp(13.4px, 1.3vw, 18.2px);
 		margin-top: 4.8px;
 		color: #e2e0c9;
-	}
-	.tl-point.soon .rp-title {
-		font-family: "Fira Code", monospace;
-		font-weight: 300;
-		color: #fff;
-		text-transform: uppercase;
-		letter-spacing: 0.12em;
-		font-size: clamp(10.7px, 1.11vw, 15.5px);
 	}
 	@media (max-width: 900px) {
 		.rp-card {

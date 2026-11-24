@@ -1,0 +1,864 @@
+{
+  "note": "Head-of-government X handles for the 'Post to X' window. Checked against fetched sources on checkedOn (see each row's source). handle = the person's own account, office_handle = the institutional account (preferred when present, it outlives the person). null = no confirmed account; the post then goes out without a tag. 100 countries, checked 7 Oct 2026 (two passes; raw output in leaders.verified.json + leaders.batch2.json). Re-verify after elections: NZ 7 Nov 2026, Brazil Oct 2026, Sweden PM vote pending. Weak rows flagged in notes: RO (caretaker), MM (account reportedly hacked 2025), UZ/HR/RS/KZ personal handles from Wikidata only. No account: CN, MW, SA.",
+  "checkedOn": "2026-10-07",
+  "leaders": {
+    "AR": {
+      "leader": "Javier Milei",
+      "title": "President",
+      "handle": "JMilei",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/JMilei",
+      "note": "Also runs an official English account @jmilei_english."
+    },
+    "AU": {
+      "leader": "Anthony Albanese",
+      "title": "Prime Minister",
+      "handle": "AlboMP",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/albomp"
+    },
+    "BR": {
+      "leader": "Luiz Inácio Lula da Silva",
+      "title": "President",
+      "handle": "LulaOficial",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/lulaoficial",
+      "note": "General election Oct 2026; Lula remains president until 1 Jan 2027 regardless of result."
+    },
+    "CA": {
+      "leader": "Mark Carney",
+      "title": "Prime Minister",
+      "handle": "MarkJCarney",
+      "office_handle": "CanadianPM",
+      "verified": true,
+      "source": "https://x.com/CanadianPM"
+    },
+    "CL": {
+      "leader": "José Antonio Kast",
+      "title": "President",
+      "handle": "joseantoniokast",
+      "office_handle": "PresidenteKast",
+      "verified": true,
+      "source": "https://x.com/PresidenteKast",
+      "note": "In office since 11 Mar 2026 (https://www.npr.org/2026/03/11/nx-s1-5743653/chile-turns-right-kast-inaugurated-as-nations-most-conservative-leader-since-pinochet)."
+    },
+    "CN": {
+      "leader": "Li Qiang",
+      "title": "Premier",
+      "handle": null,
+      "office_handle": null,
+      "verified": false,
+      "source": "https://en.wikipedia.org/wiki/Li_Qiang",
+      "note": "No official X account for the Premier or State Council found."
+    },
+    "CO": {
+      "leader": "Abelardo de la Espriella",
+      "title": "President",
+      "handle": "ABDELAESPRIELLA",
+      "office_handle": "infopresidencia",
+      "verified": true,
+      "source": "https://www.infobae.com/colombia/2026/08/09/abelardo-de-la-espriella-estreno-su-cuenta-oficial-de-presidencia-en-x-comenzo-una-nueva-etapa-para-colombia/",
+      "note": "In office since 7 Aug 2026."
+    },
+    "DK": {
+      "leader": "Mette Frederiksen",
+      "title": "Prime Minister",
+      "handle": null,
+      "office_handle": "Statsmin",
+      "verified": true,
+      "source": "https://x.com/statsmin",
+      "note": "PM communicates via the Prime Minister's Office account @Statsmin. A @PMofDenmark account exists but could not be confirmed as official."
+    },
+    "EG": {
+      "leader": "Abdel Fattah el-Sisi",
+      "title": "President",
+      "handle": "AlsisiOfficial",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/alsisiofficial"
+    },
+    "FR": {
+      "leader": "Emmanuel Macron",
+      "title": "President",
+      "handle": "EmmanuelMacron",
+      "office_handle": "Elysee",
+      "verified": true,
+      "source": "https://x.com/Elysee"
+    },
+    "DE": {
+      "leader": "Friedrich Merz",
+      "title": "Chancellor",
+      "handle": "_FriedrichMerz",
+      "office_handle": "bundeskanzler",
+      "verified": true,
+      "source": "https://www.bundeskanzler.de/bk-de",
+      "note": "bundeskanzler.de lists x.com/bundeskanzler as the Chancellor's X account."
+    },
+    "IN": {
+      "leader": "Narendra Modi",
+      "title": "Prime Minister",
+      "handle": "narendramodi",
+      "office_handle": "PMOIndia",
+      "verified": true,
+      "source": "https://x.com/PMOIndia"
+    },
+    "ID": {
+      "leader": "Prabowo Subianto",
+      "title": "President",
+      "handle": "prabowo",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/prabowo"
+    },
+    "IE": {
+      "leader": "Micheál Martin",
+      "title": "Taoiseach",
+      "handle": "MichealMartinTD",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/michealmartintd",
+      "note": "Government of Ireland account is @GovIE (whole government, not the Taoiseach's office)."
+    },
+    "IT": {
+      "leader": "Giorgia Meloni",
+      "title": "Prime Minister",
+      "handle": "GiorgiaMeloni",
+      "office_handle": "Palazzo_Chigi",
+      "verified": true,
+      "source": "https://x.com/Palazzo_Chigi"
+    },
+    "JP": {
+      "leader": "Sanae Takaichi",
+      "title": "Prime Minister",
+      "handle": "takaichi_sanae",
+      "office_handle": "kantei",
+      "verified": true,
+      "source": "https://x.com/kantei/status/1980518955480674565",
+      "note": "PM since 21 Oct 2025. @kantei is Japanese-language; English office account is @JPN_PMO."
+    },
+    "KE": {
+      "leader": "William Ruto",
+      "title": "President",
+      "handle": "WilliamsRuto",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/williamsruto"
+    },
+    "MX": {
+      "leader": "Claudia Sheinbaum",
+      "title": "President",
+      "handle": "Claudiashein",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/Claudiashein"
+    },
+    "NL": {
+      "leader": "Rob Jetten",
+      "title": "Prime Minister",
+      "handle": "RobJetten",
+      "office_handle": "MinPres",
+      "verified": true,
+      "source": "https://x.com/eucopresident/status/2025887352564977728",
+      "note": "PM since 23 Feb 2026 (https://en.wikipedia.org/wiki/Rob_Jetten)."
+    },
+    "NZ": {
+      "leader": "Christopher Luxon",
+      "title": "Prime Minister",
+      "handle": "chrisluxonmp",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/chrisluxonmp",
+      "note": "General election 7 Nov 2026 — re-check after."
+    },
+    "NG": {
+      "leader": "Bola Tinubu",
+      "title": "President",
+      "handle": "officialABAT",
+      "office_handle": "NGRPresident",
+      "verified": true,
+      "source": "https://x.com/officialABAT"
+    },
+    "NO": {
+      "leader": "Jonas Gahr Støre",
+      "title": "Prime Minister",
+      "handle": "jonasgahrstore",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://www.wikidata.org/wiki/Q467948"
+    },
+    "PK": {
+      "leader": "Shehbaz Sharif",
+      "title": "Prime Minister",
+      "handle": "CMShehbaz",
+      "office_handle": "PakPMO",
+      "verified": true,
+      "source": "https://x.com/PakPMO"
+    },
+    "PH": {
+      "leader": "Ferdinand Marcos Jr.",
+      "title": "President",
+      "handle": "bongbongmarcos",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/bongbongmarcos"
+    },
+    "PL": {
+      "leader": "Donald Tusk",
+      "title": "Prime Minister",
+      "handle": "donaldtusk",
+      "office_handle": "PremierRP",
+      "verified": true,
+      "source": "https://x.com/premierrp"
+    },
+    "PT": {
+      "leader": "Luís Montenegro",
+      "title": "Prime Minister",
+      "handle": "LMontenegro_PT",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/LMontenegro_PT",
+      "note": "@LMontenegropm exists but is dormant (0 posts, protected) — do not use."
+    },
+    "SG": {
+      "leader": "Lawrence Wong",
+      "title": "Prime Minister",
+      "handle": "LawrenceWongST",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/LawrenceWongST"
+    },
+    "ZA": {
+      "leader": "Cyril Ramaphosa",
+      "title": "President",
+      "handle": "CyrilRamaphosa",
+      "office_handle": "PresidencyZA",
+      "verified": true,
+      "source": "https://x.com/PresidencyZA"
+    },
+    "KR": {
+      "leader": "Lee Jae Myung",
+      "title": "President",
+      "handle": "Jaemyung_Lee",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/Jaemyung_Lee",
+      "note": "Profile links to president.go.kr. A second account @20th_presidentK also surfaced; not used."
+    },
+    "ES": {
+      "leader": "Pedro Sánchez",
+      "title": "Prime Minister",
+      "handle": "sanchezcastejon",
+      "office_handle": "desdelamoncloa",
+      "verified": true,
+      "source": "https://x.com/SpainMFA/status/1214554943002157057"
+    },
+    "SE": {
+      "leader": "Ulf Kristersson (caretaker)",
+      "title": "Prime Minister",
+      "handle": null,
+      "office_handle": "SwedishPM",
+      "verified": true,
+      "source": "https://x.com/SwedishPM/status/1582410064383860738",
+      "note": "Kristersson resigned 17 Sep 2026 after losing the 13 Sep election; Magdalena Andersson was tasked with forming a government on 18 Sep. As of 7 Oct the Riksdag had not yet confirmed a new PM (https://en.wikipedia.org/wiki/Ulf_Kristersson). @SwedishPM is the office account and passes to the new PM."
+    },
+    "CH": {
+      "leader": "Guy Parmelin",
+      "title": "President of the Confederation (2026)",
+      "handle": "ParmelinG",
+      "office_handle": "BR_Sprecher",
+      "verified": true,
+      "source": "https://x.com/ParmelinG",
+      "note": "Collective executive; Parmelin holds the rotating presidency for 2026. @BR_Sprecher = Federal Council spokesperson."
+    },
+    "TH": {
+      "leader": "Anutin Charnvirakul",
+      "title": "Prime Minister",
+      "handle": null,
+      "office_handle": "prdthailand",
+      "verified": true,
+      "source": "https://x.com/prdthailand",
+      "note": "No personal X account for Anutin could be confirmed in 3 attempts. @prdthailand = Government Public Relations Dept, Office of the Prime Minister."
+    },
+    "TR": {
+      "leader": "Recep Tayyip Erdoğan",
+      "title": "President",
+      "handle": "RTErdogan",
+      "office_handle": "trpresidency",
+      "verified": true,
+      "source": "https://x.com/trpresidency/status/1743340119858274317"
+    },
+    "AE": {
+      "leader": "Mohammed bin Rashid Al Maktoum",
+      "title": "Prime Minister",
+      "handle": "HHShkMohd",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/HHShkMohd"
+    },
+    "GB": {
+      "leader": "Andy Burnham",
+      "title": "Prime Minister",
+      "handle": "andyburnham",
+      "office_handle": "10DowningStreet",
+      "verified": true,
+      "source": "https://x.com/10downingstreet",
+      "note": "PM since 20 Jul 2026, succeeding Keir Starmer (https://en.wikipedia.org/wiki/Andy_Burnham). @10DowningStreet bio names @andyburnham."
+    },
+    "US": {
+      "leader": "Donald Trump",
+      "title": "President",
+      "handle": "realDonaldTrump",
+      "office_handle": "POTUS",
+      "verified": true,
+      "source": "https://x.com/POTUS"
+    },
+    "VN": {
+      "leader": "Lê Minh Hưng",
+      "title": "Prime Minister",
+      "handle": null,
+      "office_handle": "VNGovtPortal",
+      "verified": true,
+      "source": "https://x.com/VNGovtPortal",
+      "note": "PM since 7 Apr 2026 (https://www.bernama.com/en/news.php?id=2542115). No personal X account; @VNGovtPortal is the official Government Portal, not a PM-specific office account."
+    },
+    "ZW": {
+      "leader": "Emmerson Mnangagwa",
+      "title": "President",
+      "handle": "edmnangagwa",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/edmnangagwa"
+    },
+    "SD": {
+      "leader": "Kamil Idris",
+      "title": "Prime Minister",
+      "handle": "sdprimeminister",
+      "office_handle": "SudanPMO",
+      "verified": true,
+      "source": "https://x.com/sdprimeminister",
+      "note": "@SudanPMO = Office of the Prime Minister (Arabic)."
+    },
+    "LB": {
+      "leader": "Nawaf Salam",
+      "title": "Prime Minister",
+      "handle": "nawafsalam",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/nawafsalam",
+      "note": "Profile links to pcm.gov.lb. No separate PM-office account confirmed."
+    },
+    "ET": {
+      "leader": "Abiy Ahmed",
+      "title": "Prime Minister",
+      "handle": "AbiyAhmedAli",
+      "office_handle": "PMEthiopia",
+      "verified": true,
+      "source": "https://x.com/PMEthiopia/status/2107108752608374847",
+      "note": "New Medemer government formed 5 Oct 2026 after the 2026 election; Abiy remains PM."
+    },
+    "BO": {
+      "leader": "Rodrigo Paz",
+      "title": "President",
+      "handle": "Rodrigo_PazP",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/Rodrigo_PazP",
+      "note": "In office since 8 Nov 2025."
+    },
+    "GH": {
+      "leader": "John Dramani Mahama",
+      "title": "President",
+      "handle": "JDMahama",
+      "office_handle": "GhanaPresidency",
+      "verified": true,
+      "source": "https://x.com/GhanaPresidency"
+    },
+    "HT": {
+      "leader": "Alix Didier Fils-Aimé",
+      "title": "Prime Minister",
+      "handle": "citoyendidier",
+      "office_handle": "PrimatureHT",
+      "verified": true,
+      "source": "https://x.com/PrimatureHT",
+      "note": "Sole leader since the Transitional Presidential Council dissolved 7 Feb 2026 (https://en.wikipedia.org/wiki/Alix_Didier_Fils-Aim%C3%A9)."
+    },
+    "MW": {
+      "leader": "Peter Mutharika",
+      "title": "President",
+      "handle": null,
+      "office_handle": null,
+      "verified": false,
+      "source": "https://en.wikipedia.org/wiki/Peter_Mutharika",
+      "note": "No X account for the President or State House found in 3 searches; only a Facebook page (APMutharika). President since 4 Oct 2025."
+    },
+    "SA": {
+      "leader": "Mohammed bin Salman",
+      "title": "Crown Prince and Prime Minister",
+      "handle": null,
+      "office_handle": null,
+      "verified": false,
+      "source": "https://x.com/HRHMBNSALMAAN",
+      "note": "Only account found is @HRHMBNSALMAAN, which labels itself 'Informal' — not official. No PM-office account found."
+    },
+    "IL": {
+      "leader": "Benjamin Netanyahu",
+      "title": "Prime Minister",
+      "handle": "netanyahu",
+      "office_handle": "IsraeliPM",
+      "verified": true,
+      "source": "https://x.com/IsraeliPM/status/2103213112174555617"
+    },
+    "QA": {
+      "leader": "Mohammed bin Abdulrahman Al Thani",
+      "title": "Prime Minister",
+      "handle": "MBA_AlThani_",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/MofaQatar_EN/status/2068697055460040972",
+      "note": "Handle as tagged by Qatar MOFA; note the trailing underscore."
+    },
+    "KW": {
+      "leader": "Ahmad Al-Abdullah Al-Sabah",
+      "title": "Prime Minister",
+      "handle": null,
+      "office_handle": "KuwaitiCM",
+      "verified": true,
+      "source": "https://x.com/KuwaitiCM",
+      "note": "@KuwaitiCM = Council of Ministers (Arabic). No personal PM account found."
+    },
+    "JO": {
+      "leader": "Jafar Hassan",
+      "title": "Prime Minister",
+      "handle": "JafarHassan",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/JafarHassan"
+    },
+    "IQ": {
+      "leader": "Ali al-Zaidi",
+      "title": "Prime Minister",
+      "handle": "AliFalihAlzaidy",
+      "office_handle": "IraqiPMO",
+      "verified": true,
+      "source": "https://x.com/alifalihalzaidy",
+      "note": "PM since 14 May 2026 (https://en.wikipedia.org/wiki/Ali_al-Zaidi). @IraqiPMO = PM Media Office."
+    },
+    "MA": {
+      "leader": "Fatima Ezzahra El Mansouri",
+      "title": "Head of Government",
+      "handle": null,
+      "office_handle": "ChefGov_ma",
+      "verified": true,
+      "source": "https://www.maroc.ma/en/news/govt-head-office-alerts-false-account-x-usurping-govt-head-name-title",
+      "note": "Appointed 29 Sep 2026, first woman in the role (https://en.wikipedia.org/wiki/2026_Moroccan_general_election). No personal X account confirmed in 2 searches."
+    },
+    "DZ": {
+      "leader": "Sifi Ghrieb",
+      "title": "Prime Minister",
+      "handle": null,
+      "office_handle": "pm_gov_dz",
+      "verified": true,
+      "source": "https://x.com/pm_gov_dz",
+      "note": "@pm_gov_dz = Services du Premier Ministre. No personal account found."
+    },
+    "TN": {
+      "leader": "Sarra Zaafrani Zenzri",
+      "title": "Head of Government",
+      "handle": null,
+      "office_handle": "Gouvernementtn",
+      "verified": true,
+      "source": "https://x.com/Gouvernementtn",
+      "note": "@Gouvernementtn = Présidence du Gouvernement. No personal account found."
+    },
+    "TZ": {
+      "leader": "Samia Suluhu Hassan",
+      "title": "President",
+      "handle": "SuluhuSamia",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/SuluhuSamia"
+    },
+    "UG": {
+      "leader": "Yoweri Museveni",
+      "title": "President",
+      "handle": "KagutaMuseveni",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/KagutaMuseveni",
+      "note": "Re-elected 15 Jan 2026 (https://en.wikipedia.org/wiki/2026_Ugandan_general_election)."
+    },
+    "AO": {
+      "leader": "João Lourenço",
+      "title": "President",
+      "handle": "jlprdeangola",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/jlprdeangola"
+    },
+    "CI": {
+      "leader": "Alassane Ouattara",
+      "title": "President",
+      "handle": "AOuattara_PRCI",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/AOuattara_PRCI",
+      "note": "A second account @AdoOuattara also exists; @AOuattara_PRCI is the primary (1.5M followers)."
+    },
+    "SN": {
+      "leader": "Ahmadou Al Aminou Lo",
+      "title": "Prime Minister",
+      "handle": null,
+      "office_handle": "PrimatureSN",
+      "verified": true,
+      "source": "https://x.com/PrimatureSN",
+      "note": "PM since 25 May 2026 after Sonko's dismissal (https://en.wikipedia.org/wiki/Prime_Minister_of_Senegal). Primature warned of a fake account in his name — no official personal account."
+    },
+    "CM": {
+      "leader": "Joseph Dion Ngute",
+      "title": "Prime Minister",
+      "handle": "joDionNgute",
+      "office_handle": "CameroonPm237",
+      "verified": true,
+      "source": "https://x.com/cameroonpm237"
+    },
+    "RW": {
+      "leader": "Paul Kagame",
+      "title": "President",
+      "handle": "PaulKagame",
+      "office_handle": "UrugwiroVillage",
+      "verified": true,
+      "source": "https://x.com/urugwirovillage"
+    },
+    "MZ": {
+      "leader": "Daniel Chapo",
+      "title": "President",
+      "handle": "daniel_chapo24",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/daniel_chapo24"
+    },
+    "ZM": {
+      "leader": "Hakainde Hichilema",
+      "title": "President",
+      "handle": "HHichilema",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/HHichilema",
+      "note": "Re-elected Aug 2026, sworn in 1 Sep 2026 (https://www.aljazeera.com/news/2026/9/1/hakainde-hichilema-returns-as-zambias-president-following-disputed-vote)."
+    },
+    "PE": {
+      "leader": "Keiko Fujimori",
+      "title": "President",
+      "handle": "KeikoFujimori",
+      "office_handle": "presidenciaperu",
+      "verified": true,
+      "source": "https://x.com/presidenciaperu",
+      "note": "In office since 28 Jul 2026 (https://en.wikipedia.org/wiki/2026_Peruvian_general_election)."
+    },
+    "EC": {
+      "leader": "Daniel Noboa",
+      "title": "President",
+      "handle": "DanielNoboaOk",
+      "office_handle": "Presidencia_Ec",
+      "verified": true,
+      "source": "https://x.com/Presidencia_Ec/status/1744469882001883224"
+    },
+    "UY": {
+      "leader": "Yamandú Orsi",
+      "title": "President",
+      "handle": "OrsiYamandu",
+      "office_handle": "compresidencia",
+      "verified": true,
+      "source": "https://x.com/compresidencia/status/1895934442482573587"
+    },
+    "PY": {
+      "leader": "Santiago Peña",
+      "title": "President",
+      "handle": "SantiPenap",
+      "office_handle": "PresidenciaPy",
+      "verified": true,
+      "source": "https://x.com/PresidenciaPy"
+    },
+    "GT": {
+      "leader": "Bernardo Arévalo",
+      "title": "President",
+      "handle": "BArevalodeLeon",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/BArevalodeLeon"
+    },
+    "DO": {
+      "leader": "Luis Abinader",
+      "title": "President",
+      "handle": "luisabinader",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/luisabinader"
+    },
+    "CR": {
+      "leader": "Laura Fernández",
+      "title": "President",
+      "handle": "laurapresi2026",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/SG_OEA_OAS/status/2018319580343472639",
+      "note": "In office since 8 May 2026 (https://www.aljazeera.com/news/2026/5/8/laura-fernandez-sworn-in-as-costa-ricas-new-president). Handle as tagged by the OAS Secretary General."
+    },
+    "PA": {
+      "leader": "José Raúl Mulino",
+      "title": "President",
+      "handle": "JoseRaulMulino",
+      "office_handle": "presidenciapma",
+      "verified": true,
+      "source": "https://x.com/presidenciapma"
+    },
+    "AT": {
+      "leader": "Christian Stocker",
+      "title": "Chancellor",
+      "handle": "_CStocker",
+      "office_handle": "bkagvat",
+      "verified": true,
+      "source": "https://x.com/bkagvat/status/2046929128109023306",
+      "note": "@bkagvat = Bundeskanzleramt."
+    },
+    "BE": {
+      "leader": "Bart De Wever",
+      "title": "Prime Minister",
+      "handle": "Bart_DeWever",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/Bart_DeWever"
+    },
+    "FI": {
+      "leader": "Petteri Orpo",
+      "title": "Prime Minister",
+      "handle": "PetteriOrpo",
+      "office_handle": "FinGovernment",
+      "verified": true,
+      "source": "https://x.com/FinGovernment/status/1896923117068697838",
+      "note": "@FinGovernment = Finnish Government (whole government, not PM-specific)."
+    },
+    "GR": {
+      "leader": "Kyriakos Mitsotakis",
+      "title": "Prime Minister",
+      "handle": "kmitsotakis",
+      "office_handle": "PrimeministerGR",
+      "verified": true,
+      "source": "https://x.com/PrimeministerGR"
+    },
+    "CZ": {
+      "leader": "Andrej Babiš",
+      "title": "Prime Minister",
+      "handle": "AndrejBabis",
+      "office_handle": "strakovka",
+      "verified": true,
+      "source": "https://x.com/strakovka",
+      "note": "PM since 9 Dec 2025. @strakovka = Úřad vlády ČR (Office of the Government)."
+    },
+    "HU": {
+      "leader": "Péter Magyar",
+      "title": "Prime Minister",
+      "handle": "magyarpeterMP",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/magyarpeterMP",
+      "note": "PM since 9 May 2026 (https://en.wikipedia.org/wiki/P%C3%A9ter_Magyar). An older account @magyarpeti also exists; @magyarpeterMP is the active one tagged by other heads of government."
+    },
+    "RO": {
+      "leader": "Ilie Bolojan (caretaker)",
+      "title": "Prime Minister",
+      "handle": "Bolojan",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/Bolojan",
+      "note": "Caretaker since the May 2026 no-confidence vote; PM-designate Siegfried Mureșan failed the investiture vote on 30 Sep 2026 (https://english.news.cn/20261001/5bc8ce29c19d4669b02cf8b82c137788/c.html). Re-check after a new government is invested or early elections."
+    },
+    "SK": {
+      "leader": "Robert Fico",
+      "title": "Prime Minister",
+      "handle": "RobertFicoSVK",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/RobertFicoSVK"
+    },
+    "HR": {
+      "leader": "Andrej Plenković",
+      "title": "Prime Minister",
+      "handle": "andrejplenkovic",
+      "office_handle": "PremijerRH",
+      "verified": true,
+      "source": "https://x.com/PremijerRH",
+      "note": "@PremijerRH = official PM account (English); personal handle from Wikidata Q11685764."
+    },
+    "BG": {
+      "leader": "Rumen Radev",
+      "title": "Prime Minister",
+      "handle": "rumradev",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/rumradev",
+      "note": "PM since 8 May 2026 (https://www.gov.bg/en/Cabinet/Prime-Minister/Rumen-Radev). Profile bio still reads as a presidential-era account; no Council of Ministers X account found."
+    },
+    "RS": {
+      "leader": "Đuro Macut",
+      "title": "Prime Minister",
+      "handle": null,
+      "office_handle": "SerbianGov",
+      "verified": true,
+      "source": "https://x.com/SerbianGov/status/1912564524898517144",
+      "note": "Government says Macut has no personal account and flagged impostors. Wikidata (Q835586) also lists a PM-office account @serbianpm; @SerbianGov is the confirmed active English account."
+    },
+    "UA": {
+      "leader": "Serhii Koretskyi",
+      "title": "Prime Minister",
+      "handle": "KoretskyiUA",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/KoretskyiUA",
+      "note": "PM since 16 Jul 2026 (https://en.wikipedia.org/wiki/Prime_Minister_of_Ukraine), succeeding Yulia Svyrydenko."
+    },
+    "IS": {
+      "leader": "Kristrún Frostadóttir",
+      "title": "Prime Minister",
+      "handle": "KristrunFrosta",
+      "office_handle": "PMofIceland",
+      "verified": true,
+      "source": "https://x.com/PMofIceland"
+    },
+    "LT": {
+      "leader": "Mindaugas Sinkevičius",
+      "title": "Prime Minister",
+      "handle": "mindaugassink",
+      "office_handle": "LithuanianGovt",
+      "verified": true,
+      "source": "https://x.com/mindaugassink",
+      "note": "PM since 14 Jul 2026 (https://en.wikipedia.org/wiki/Mindaugas_Sinkevi%C4%8Dius). @LithuanianGovt = Government of Lithuania."
+    },
+    "LV": {
+      "leader": "Andris Kulbergs",
+      "title": "Prime Minister",
+      "handle": "AndrisKulbergs",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/AndrisKulbergs",
+      "note": "PM since 28 May 2026 (https://en.wikipedia.org/wiki/Andris_Kulbergs)."
+    },
+    "EE": {
+      "leader": "Kristen Michal",
+      "title": "Prime Minister",
+      "handle": "KristenMichalPM",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/kristenmichalpm"
+    },
+    "RU": {
+      "leader": "Mikhail Mishustin",
+      "title": "Prime Minister",
+      "handle": null,
+      "office_handle": "GovernmentRF",
+      "verified": true,
+      "source": "https://x.com/GovernmentRF",
+      "note": "Mishustin has no personal X account. @GovernmentRF = Government of Russia (English); Russian-language @Pravitelstvo_RF."
+    },
+    "BD": {
+      "leader": "Tarique Rahman",
+      "title": "Prime Minister",
+      "handle": "trahmanbnp",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/trahmanbnp",
+      "note": "PM since 17 Feb 2026 (https://en.wikipedia.org/wiki/2026_Bangladeshi_general_election)."
+    },
+    "MY": {
+      "leader": "Anwar Ibrahim",
+      "title": "Prime Minister",
+      "handle": "anwaribrahim",
+      "office_handle": "MalaysiaPMO",
+      "verified": true,
+      "source": "https://x.com/malaysiapmo"
+    },
+    "TW": {
+      "leader": "Lai Ching-te",
+      "title": "President",
+      "handle": "ChingteLai",
+      "office_handle": "TaiwanPresSPOX",
+      "verified": true,
+      "source": "https://x.com/ChingteLai",
+      "note": "@TaiwanPresSPOX = Presidential Office Spokesperson."
+    },
+    "HK": {
+      "leader": "John Lee Ka-chiu",
+      "title": "Chief Executive",
+      "handle": null,
+      "office_handle": "newsgovhk",
+      "verified": true,
+      "source": "https://x.com/newsgovhk/status/2069435237814460855",
+      "note": "John Lee has no X account. @newsgovhk = HKSAR Government news account, not CE-specific."
+    },
+    "LK": {
+      "leader": "Anura Kumara Dissanayake",
+      "title": "President",
+      "handle": "anuradisanayake",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/anuradisanayake"
+    },
+    "NP": {
+      "leader": "Balen Shah",
+      "title": "Prime Minister",
+      "handle": "ShahBalen",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/ShahBalen",
+      "note": "PM since the 5 Mar 2026 election (https://en.wikipedia.org/wiki/Premiership_of_Balen_Shah)."
+    },
+    "KZ": {
+      "leader": "Olzhas Bektenov",
+      "title": "Prime Minister",
+      "handle": null,
+      "office_handle": "PrimeMinisterEn",
+      "verified": true,
+      "source": "https://x.com/PrimeMinisterEn",
+      "note": "@PrimeMinisterEn = official English PM resource; main account @primeminister_k per Wikidata Q2416315. No personal account found."
+    },
+    "UZ": {
+      "leader": "Abdulla Aripov",
+      "title": "Prime Minister",
+      "handle": "aripov_abdulla",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://www.wikidata.org/wiki/Q28002959",
+      "note": "Handle from Wikidata only; profile could not be fetched directly."
+    },
+    "MM": {
+      "leader": "Min Aung Hlaing",
+      "title": "President",
+      "handle": "Min_Aung_Hlaing",
+      "office_handle": null,
+      "verified": true,
+      "source": "https://x.com/min_aung_hlaing",
+      "note": "PM office abolished 10 Apr 2026 when Min Aung Hlaing became president (https://en.wikipedia.org/wiki/Prime_Minister_of_Myanmar). Account was reportedly hacked in Feb 2025 (https://x.com/WuBlockchain/status/1893250080586502316) — treat with caution."
+    },
+    "LA": {
+      "leader": "Saleumxay Kommasith",
+      "title": "Prime Minister",
+      "handle": null,
+      "office_handle": null,
+      "verified": false,
+      "source": "https://www.thestar.com.my/aseanplus/aseanplus-news/2026/10/05/sonexay-siphandone-elected-president-of-lao-national-assembly-saleumxay-kommasith-made-prime-minister",
+      "note": "LSB homepage table: Sep 2026 CPI 277.0, y/y 7.8%, m/m 1.1%; Aug 7.7%. Xinhua/The Star (2 Oct 2026) body text says 7.9% but headline says 7.8% — LSB figure used. Trading Economics also 7.8%."
+    },
+    "JM": {
+      "leader": "Andrew Holness",
+      "title": "Prime Minister",
+      "handle": "andrewholnessjm",
+      "office_handle": "OPMJamaica",
+      "verified": true,
+      "source": "https://opm.gov.jm/",
+      "note": "Released 16 Oct 2026. STATIN homepage (new.statinja.gov.jm) still showed Aug point-to-point 7.9% at fetch time but Sep m/m 1.5% and CPI 155.8. Gleaner, Observer and Trading Economics all report Sep y/y 8.6%, highest since Dec 2022. Food +12.4% y/y. BOJ policy rate raised to 6.0% on 29 Sep 2026."
+    }
+  }
+}

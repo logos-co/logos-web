@@ -1,0 +1,2695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TomorrowMart. Today's Inflation. Tomorrow's Prices.</title>
+<meta name="description" content="The same lettuce, eggs and everyday groceries of today, priced forward with your country's real inflation rate." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="__SHARE_ORIGIN__/past-present-future/tomorrowmart" />
+<meta property="og:title" content="TomorrowMart. Today's Inflation. Tomorrow's Prices." />
+<meta property="og:description" content="The same lettuce, eggs and everyday groceries of today, priced forward with your country's real inflation rate." />
+<meta property="og:image" content="__SHARE_ORIGIN__/past-present-future/tomorrowmart/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="__SHARE_ORIGIN__/past-present-future/tomorrowmart/og.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Anton&family=Permanent+Marker&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --blue:#1A4FD6;
+    --blue-d:#0B2C7A;
+    --blue-l:#EAF0FD;
+    --sky:#FFF1C2;          /* pale yellow hero */
+    --yellow:#FFD233;
+    --yellow-d:#E9B800;
+    --ink:#101425;          /* blue-black, never grey */
+    --grey:#4A5B86;         /* blue slate for secondary text */
+    --green:#0B7A3E;
+    --red:#D7262C;          /* price-up flash */
+    --line:#D5E0F5;         /* blue-tinted rules */
+    --paper:#ffffff;
+    --canvas:#F4F7FE;       /* palest blue, not grey */
+    --font:'Inter', system-ui, -apple-system, sans-serif;
+    --receipt-mono: ui-monospace, 'SF Mono', Menlo, 'Courier New', monospace;
+    --dialH:172px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{background:var(--canvas);color:var(--ink);font-family:var(--font);
+    -webkit-font-smoothing:antialiased;line-height:1.45;overflow-x:hidden}
+  .wrap{max-width:1400px;margin:0 auto;padding:0 clamp(12px,2.4vw,28px)}
+  button,input{font-family:inherit}
+
+  /* ================= TOP BLUE BAR ================= */
+  .tm-top{background:var(--blue);color:#fff}
+  .tm-top-in{max-width:1400px;margin:0 auto;padding:12px clamp(12px,2.4vw,28px);
+    display:flex;align-items:center;gap:clamp(8px,1.4vw,18px)}
+  .brand{display:flex;align-items:center;flex-shrink:0;text-decoration:none}
+  .brand img{display:block;height:38px;width:auto}
+  .brand .logo-mark{display:none}
+  @media(max-width:900px){.brand .logo-full{display:none}.brand .logo-mark{display:block;height:36px}}
+  .tm-search{flex:1;min-width:0;display:flex;align-items:center;gap:8px;background:#fff;border-radius:8px;
+    padding:4px 4px 4px 16px;height:46px;border:2px solid rgba(255,255,255,.25)}
+  .tm-search input{flex:1;min-width:0;border:0;outline:0;background:none;font-size:15px;color:var(--ink)}
+  .tm-search input::placeholder{color:var(--grey)}
+  .tm-search button{width:38px;height:38px;border-radius:6px;border:0;background:var(--ink);color:#fff;
+    display:grid;place-items:center;cursor:pointer;flex-shrink:0}
+  .tm-search button svg{width:19px;height:19px;stroke:#fff;stroke-width:2.4;fill:none}
+  .tm-util{display:flex;align-items:center;gap:8px;color:var(--ink);background:var(--yellow);cursor:pointer;flex-shrink:0;height:46px;padding:0 14px 0 12px;border-radius:999px}
+  .tm-util > span:not(.ico){display:inline-flex;align-items:center;line-height:1.3}
+  .tm-util:hover{background:#fff}
+  .tm-util .ico{font-size:18px;line-height:1;display:inline-flex;align-items:center}
+  .tm-util .l1{font-size:10.5px;line-height:1.15;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-d)}
+  .tm-util .l2{font-size:14px;font-weight:700;line-height:1.3;padding:1px 0}
+  .tm-util .caret{width:14px;height:14px;margin-left:6px;color:var(--blue-d);flex-shrink:0}
+  .tm-cart{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.1);border:0;color:#fff;cursor:pointer;
+    padding:7px 13px;border-radius:8px;flex-shrink:0;height:46px}
+  .tm-cart:hover{background:rgba(255,255,255,.12)}
+  .tm-cart .cwrap{position:relative}
+  .tm-cart svg{width:27px;height:27px;stroke:#fff;stroke-width:1.8;fill:none;display:block}
+  .tm-cart .badge{position:absolute;top:-7px;right:-9px;background:var(--yellow);color:var(--ink);
+    font-size:11px;font-weight:800;min-width:19px;height:19px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;padding:0 4px;transition:transform .18s cubic-bezier(.34,1.56,.64,1)}
+  .tm-cart .badge.pop{transform:scale(1.55)}
+  .tm-cart .amt{font-size:13.5px;font-weight:700}
+  @media(max-width:1120px){.tm-util.hide-md{display:none}}
+  @media(max-width:560px){
+    .tm-top-in{display:grid;grid-template-columns:auto minmax(0,1fr) auto}
+    .tm-search{grid-column:1/-1;grid-row:2;height:42px}
+    .tm-search button{width:34px;height:34px}
+    .tm-util{min-width:0;justify-self:start;padding:0 10px;height:42px}
+    #locPick .l2{min-width:0}
+    .tm-util .l2,.tm-util .caret{display:none}
+    .tm-util .ico{font-size:20px}
+  }
+
+  /* ================= THE TIME DIAL ================= */
+  .dial{position:sticky;top:0;z-index:40;background:var(--blue-d);color:#fff;
+    box-shadow:0 10px 30px -18px rgba(0,0,0,.6)}
+  .dial::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 180% at 88% 0%,rgba(255,194,32,.30),transparent 58%)}
+  .dial-in{max-width:1400px;margin:0 auto;padding:14px clamp(12px,2.4vw,28px) 16px;
+    display:grid;grid-template-columns:auto 1fr auto;gap:clamp(14px,2.4vw,34px);align-items:center;position:relative}
+
+  .dial-yr{display:flex;flex-direction:column;align-items:flex-start;line-height:1}
+  .dial-yr .lab{font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:600;margin-top:6px;
+    color:var(--yellow);line-height:1;margin-bottom:0}
+  .dial-yr .num{font-size:clamp(44px,6.4vw,74px);font-weight:900;letter-spacing:-.045em;
+    font-variant-numeric:tabular-nums;transition:transform .12s cubic-bezier(.34,1.7,.64,1)}
+  .dial-yr .num.kick{transform:scale(1.07)}
+
+  .dial-mid{min-width:0}
+  .dial-rail{position:relative;height:40px;cursor:grab;touch-action:none;user-select:none}
+  .dial-rail.drag{cursor:grabbing}
+  .rail-bg{position:absolute;top:50%;left:0;right:0;height:12px;transform:translateY(-50%);
+    background:rgba(255,255,255,.17);border-radius:100px;overflow:hidden}
+  .rail-fill{position:absolute;inset:0;width:0;border-radius:100px;
+    background:linear-gradient(90deg,var(--yellow) 0%,#FFD75C 55%,#FF8A3D 100%)}
+  .rail-ticks{position:absolute;inset:0;pointer-events:none}
+  .rail-tick{position:absolute;top:50%;transform:translate(-50%,-50%);width:2px;height:9px;
+    background:rgba(255,255,255,.34);border-radius:2px}
+  .rail-tick.major{height:20px;background:rgba(255,255,255,.6)}
+  .rail-thumb{position:absolute;top:50%;left:0;width:34px;height:34px;border-radius:50%;
+    transform:translate(-50%,-50%);background:#fff;border:3px solid var(--blue-d);
+    box-shadow:0 4px 14px rgba(0,0,0,.35);display:grid;place-items:center;
+    color:var(--yellow-d);font-size:15px;font-weight:900;transition:transform .1s ease}
+  .rail-thumb i{width:11px;height:11px;border-radius:50%;background:var(--blue);display:block}
+  .dial-rail.drag .rail-thumb{transform:translate(-50%,-50%) scale(1.14)}
+  .dial-rail:focus{outline:0}
+  .dial-rail:focus-visible .rail-thumb{box-shadow:0 0 0 4px var(--blue-d),0 0 0 7px var(--yellow)}
+  .dial-stops{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .dial-flags{display:flex;align-items:center;gap:6px;margin-top:10px;flex-wrap:nowrap;overflow:hidden}
+  .dial-mid{position:relative}
+  .cpop{position:absolute;left:0;top:0;z-index:60;width:min(420px,92vw);background:#fff;color:var(--ink);border-radius:12px;
+    box-shadow:0 24px 60px -20px rgba(0,20,60,.55),0 0 0 1px var(--line);padding:10px;max-height:420px;display:flex;flex-direction:column}
+  .cpop[hidden]{display:none}
+  .cpop input{width:100%;border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;font:inherit;font-size:14px;outline:0;margin-bottom:8px}
+  .cpop input:focus{border-color:var(--blue)}
+  .cpop-list{overflow:auto;display:grid;gap:2px}
+  .cpop-row{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:10px;padding:8px 10px;border:0;background:none;border-radius:8px;
+    font:inherit;font-size:14px;font-weight:600;color:var(--ink);text-align:left;cursor:pointer}
+  .cpop-row:hover,.cpop-row.active{background:var(--canvas)}
+  .cpop-row.on{background:var(--blue-l);color:var(--blue-d)}
+  .cpop-row .f{font-size:18px;line-height:1}
+  .cpop-row .r{font-size:12.5px;color:var(--grey);font-variant-numeric:tabular-nums}
+  .cpop-row.on .r{color:var(--blue-d)}
+  .hyper{margin-top:10px;background:var(--yellow);color:var(--ink);border-radius:6px;padding:7px 11px;font-size:12px;font-weight:600;line-height:1.35}
+  .hyper b{font-weight:800}
+  .hyper[hidden]{display:none}
+  .dial-flags .lab{font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--yellow);margin-right:4px}
+  .dflag{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:#fff;
+    border-radius:999px;padding:4px 10px 4px 6px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;line-height:1.2;white-space:nowrap}
+  .dflag .f{font-size:16px;line-height:1}
+  .dflag small{font-weight:600;opacity:.8}
+  .dflag:hover{background:rgba(255,255,255,.2)}
+  .dflag.on{background:var(--yellow);color:var(--ink);border-color:var(--yellow)}
+  .dflag.on small{opacity:.9}
+  .dflag.more{background:#fff;color:var(--blue-d);border-color:#fff;margin-left:auto}
+  @media(max-width:900px){.dial-flags{display:none}}
+  .stop{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:#fff;
+    border-radius:999px;padding:5px 12px;font-size:11.5px;font-weight:700;letter-spacing:.02em;cursor:pointer;
+    transition:background .16s,color .16s,border-color .16s}
+  .stop:hover{background:rgba(255,255,255,.2)}
+  .stop.on{background:var(--yellow);border-color:var(--yellow);color:var(--ink)}
+  .dial-hint{margin-left:auto;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+    color:rgba(255,255,255,.62);align-self:center}
+
+  .dial-meter{text-align:right;flex-shrink:0}
+  .dial-meter .mi{display:flex;align-items:center;justify-content:flex-end;gap:8px;font-size:10px;font-weight:600;letter-spacing:.13em;
+    text-transform:uppercase;color:rgba(255,255,255,.7);line-height:1;margin-bottom:7px}
+  .dial-meter .mi .pc{background:var(--yellow);color:var(--ink);font-weight:800;letter-spacing:.04em;padding:4px 7px;border-radius:3px;
+    font-variant-numeric:tabular-nums;transition:background .25s}
+  .dial-meter .mi .pc.red{background:var(--red);color:#fff}
+  .dial-meter .mx{font-size:clamp(26px,3.4vw,40px);font-weight:900;letter-spacing:-.03em;color:var(--yellow);
+    line-height:1;font-variant-numeric:tabular-nums;position:relative;display:inline-block;white-space:nowrap}
+  .dial-meter .mx.l1{font-size:clamp(22px,2.6vw,30px)}   /* 9-12 chars, e.g. COP 30,682 */
+  .dial-meter .mx.l2{font-size:clamp(16px,1.8vw,21px)}   /* longer, e.g. Bs.S 105 septillion */
+  .dial-meter .ml{font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+    color:rgba(255,255,255,.7);margin-top:6px;line-height:1.4}
+
+  /* ===== PRICE CHANGE: flash + tick on every year move ===== */
+  .pz{position:relative;display:inline-block}
+  .pz.up{animation:pzUp .55s ease-out}
+  .pz.down{animation:pzDown .55s ease-out}
+  .dial-meter .mx.up{animation:pzUpLight .55s ease-out}
+  .dial-meter .mx.down{animation:pzDownLight .55s ease-out}
+  .pz::after{content:"▲";position:absolute;left:100%;top:0;margin-left:4px;font-size:.5em;line-height:1;font-weight:900;
+    color:var(--red);opacity:0;pointer-events:none}
+  .pz.up::after{animation:pzTickUp .7s ease-out}
+  .pz.down::after{content:"▼";color:var(--green);animation:pzTickDown .7s ease-out}
+  @keyframes pzUp{0%{color:var(--red);transform:translateY(-2px)}100%{color:inherit;transform:none}}
+  @keyframes pzDown{0%{color:var(--green);transform:translateY(2px)}100%{color:inherit;transform:none}}
+  @keyframes pzUpLight{0%{color:#FF7A6B;transform:translateY(-2px)}100%{color:var(--yellow);transform:none}}
+  @keyframes pzDownLight{0%{color:#7CF2A9;transform:translateY(2px)}100%{color:var(--yellow);transform:none}}
+  @keyframes pzTickUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-10px)}}
+  @keyframes pzTickDown{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(10px)}}
+  @media(prefers-reduced-motion:reduce){.pz,.pz::after,.dial-meter .mx{animation:none !important}}
+  @media(max-width:900px){
+    .dial-in{grid-template-columns:1fr auto;gap:12px;padding-bottom:14px}
+    .dial-mid{grid-column:1/-1;order:3}
+    .dial-hint{display:none}
+  }
+
+  /* ================= HERO CAROUSEL ================= */
+  .hero{position:relative;margin-top:18px;border-radius:28px;overflow:hidden;min-height:330px;border:1px solid var(--line);
+    background:var(--sky);display:grid;grid-template-columns:1.05fr 1fr;isolation:isolate}
+  .hero-text{padding:32px clamp(24px,3.4vw,46px) 34px;display:flex;flex-direction:column;justify-content:center;z-index:2}
+  .hero-text .hero-head{margin-top:-7px}   /* eat the headline's own top leading so the gap above matches the gap below */
+  .hero-text .hero-basis{line-height:1.3}
+  .hero-eyebrow{display:inline-block;align-self:flex-start;background:var(--ink);color:#fff;
+    font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    padding:6px 11px;border-radius:5px;margin-bottom:16px}
+  .hero-head{font-size:clamp(30px,4.6vw,58px);font-weight:900;letter-spacing:-.035em;line-height:1.02;color:var(--ink)}
+  .hero-sub{font-size:clamp(13.5px,1.3vw,16px);color:#31343B;margin-top:14px;max-width:38ch;line-height:1.45}
+  .hero-cta{margin-top:22px;align-self:flex-start;background:var(--blue);color:#fff;border:0;border-radius:999px;
+    padding:13px 26px;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;
+    transition:transform .15s,background .2s;box-shadow:4px 4px 0 var(--blue-d)}
+  .hero-cta:hover{background:var(--blue-d);transform:translate(2px,2px);box-shadow:2px 2px 0 var(--yellow)}
+  .hero-art{position:relative;display:flex;align-items:center;justify-content:center;gap:0;padding:20px}
+  .hero-art img{width:32%;max-height:78%;object-fit:contain;filter:drop-shadow(0 18px 26px rgba(0,40,80,.22));
+    transition:filter .5s ease,transform .5s ease}
+  .hero-art img:nth-child(2){width:38%;z-index:2;transform:translateY(-6px) scale(1.06)}
+  .hero-art img:nth-child(1){transform:rotate(-7deg) translateX(10px)}
+  .hero-art img:nth-child(3){transform:rotate(7deg) translateX(-10px)}
+  @media(max-width:760px){.hero{grid-template-columns:1fr;min-height:0}.hero-art{order:-1;min-height:190px}}
+
+  /* ================= RAILS ================= */
+  #store,.rail{scroll-margin-top:calc(var(--dialH) + 12px)}
+  .rail{padding-top:34px}
+  .rail-head{display:flex;align-items:flex-end;gap:14px;margin-bottom:14px}
+  .rail-head h2{font-size:clamp(19px,2.1vw,25px);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+  .rail-head .sub{font-size:13.5px;color:var(--grey);margin-top:3px}
+  .rail-head{border-bottom:2px solid var(--line);padding-bottom:12px}
+  .rail-scroll{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;padding:2px 0 10px;align-items:stretch}
+  @media(max-width:1140px){.rail-scroll{grid-template-columns:repeat(4,1fr)}}
+  @media(max-width:880px){.rail-scroll{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:620px){.rail-scroll{grid-template-columns:repeat(2,1fr)}}
+
+  .card{background:#fff;border:1px solid var(--line);height:100%;
+    border-radius:22px;padding:10px 10px 16px;display:flex;flex-direction:column;position:relative;
+    transition:box-shadow .22s,border-color .22s,transform .22s}
+  .card:hover{box-shadow:5px 5px 0 rgba(21,23,28,.09);border-color:var(--ink);transform:translate(-1px,-1px)}
+  .card.hide{display:none}
+  .heart{position:absolute;top:15px;right:15px;z-index:3;width:28px;height:28px;border:1px solid var(--line);
+    background:rgba(255,255,255,.92);border-radius:6px;cursor:pointer;display:grid;place-items:center;
+    color:var(--ink);font-size:14px;line-height:1}
+  .heart:hover{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+  .heart.on{color:#E1341E}
+  .thumb{position:relative;aspect-ratio:1/1;background:var(--blue-l);border-radius:16px;overflow:hidden;margin-bottom:12px}
+  .thumb svg{width:100%;height:100%;padding:12px;display:block}
+  .thumb svg.pack{padding:14px;transition:filter .5s ease,transform .35s ease}
+  .card:hover .thumb svg.pack{transform:scale(1.04)}
+  .thumb img{width:100%;height:100%;object-fit:contain;padding:18px;display:block;
+    transition:filter .5s ease,transform .35s ease}
+  .card:hover .thumb img{transform:scale(1.06)}
+  .thumb .ov{position:absolute;inset:0;background:var(--blue);opacity:0;transition:opacity .5s;pointer-events:none;mix-blend-mode:multiply}
+  .thumb.synth .ov{opacity:.14}
+  .flag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.03em;padding:3px 8px;border-radius:3px;margin-bottom:8px;
+    line-height:1.4;align-self:flex-start}
+  .flag.hidden{display:none}
+  .flag.blue{border:1px solid var(--blue);color:var(--blue);background:var(--blue-l)}
+  .flag.yellow{background:var(--yellow);color:var(--ink)}
+  .flag.ink{background:var(--blue-d);color:var(--yellow)}
+  .price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;line-height:1;min-height:0;margin-top:2px}
+  .price .big{font-size:clamp(19px,1.9vw,24px);font-weight:800;letter-spacing:-.025em;line-height:1.05;overflow-wrap:anywhere;
+    font-variant-numeric:tabular-nums}
+  .price .big.xl{font-size:15px}
+  .price s{color:var(--grey);font-size:12.5px;font-weight:500;overflow-wrap:anywhere}
+  .price .mult{flex-basis:100%;display:inline-flex;align-items:center;gap:5px;margin-top:7px;
+    background:var(--yellow);color:var(--ink);font-size:11px;font-weight:800;letter-spacing:.02em;
+    padding:3px 8px;border-radius:3px;width:fit-content}
+  .plocal{font-size:11.5px;color:var(--grey);margin-top:4px;line-height:1.35;overflow-wrap:anywhere}
+  .plocal b{color:var(--ink);font-weight:700}
+  .plocal[hidden]{display:none}
+  .pname{font-size:13.5px;line-height:1.35;margin-top:7px;color:var(--ink);font-weight:600;min-height:2.7em}
+  .pqty{font-size:12.5px;color:var(--grey);margin-top:3px;min-height:1.4em}
+  .pnote{font-size:12px;color:var(--blue-d);margin-top:6px;margin-bottom:12px;line-height:1.35;font-style:italic}
+  .add{margin-top:auto;align-self:stretch;background:var(--blue);color:#fff;border:1.5px solid var(--blue);border-radius:999px;
+    padding:9px 20px;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s,color .2s,transform .14s}
+  .add:hover{background:var(--blue-d);border-color:var(--blue-d);color:#fff}
+  .add:active{transform:scale(.95)}
+  .add.added{background:var(--yellow);color:var(--ink);border-color:var(--yellow)}
+  .sres{scroll-margin-top:calc(var(--dialH) + 12px);display:none;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;padding:12px 16px;
+    background:var(--sky);border:1px solid var(--yellow-d);border-radius:8px;font-size:14px;font-weight:600;color:var(--ink)}
+  .sres.on{display:flex}
+  .sres b{font-weight:800}
+  .sres button{background:none;border:0;font:inherit;font-weight:800;color:var(--blue);cursor:pointer;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+  body.searching .hero,body.searching .abroad{display:none}
+  body.searching .rail{padding-top:22px}
+  .empty{display:none;text-align:center;padding:70px 0;color:var(--grey);font-size:14px}
+  .empty.on{display:block}
+
+  /* ================= SPONSORED BANNERS ================= */
+  .ad{margin-top:40px;border-radius:28px;overflow:hidden;display:grid;grid-template-columns:1.1fr .9fr;
+    min-height:340px;position:relative;border:1px solid var(--blue-d)}
+  .ad.t1{background:var(--yellow);color:var(--ink)}
+  .ad.t2{background:var(--blue);color:#fff}
+  .ad.t3{background:#fff;color:var(--blue-d)}
+  .ad-text{padding:clamp(24px,3.4vw,48px);display:flex;flex-direction:column;justify-content:center}
+  .ad-spon{font-size:10.5px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;opacity:.55;margin-bottom:18px}
+  .ad-kicker{display:inline-block;align-self:flex-start;font-size:12px;font-weight:900;letter-spacing:.18em;
+    text-transform:uppercase;margin-bottom:14px;padding:6px 12px;background:var(--ink);color:var(--yellow)}
+  .ad.t2 .ad-kicker{background:var(--yellow);color:var(--ink)}
+  .ad.t3 .ad-kicker{background:var(--blue);color:var(--yellow)}
+  .ad-head{font-size:clamp(34px,5.4vw,68px);font-weight:900;letter-spacing:-.045em;line-height:.9;text-transform:uppercase}
+  .ad-sub{font-size:clamp(14px,1.5vw,18px);margin-top:18px;max-width:36ch;line-height:1.4;opacity:.9}
+  .ad-row{display:flex;align-items:center;gap:14px;margin-top:26px;flex-wrap:wrap}
+  .ad-cta{background:var(--blue-d);color:#fff;border:0;border-radius:999px;padding:14px 28px;font-size:13.5px;
+    font-weight:800;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;text-decoration:none;
+    transition:transform .15s,box-shadow .15s;box-shadow:5px 5px 0 rgba(0,0,0,.35)}
+  .ad.t2 .ad-cta{background:var(--yellow);color:var(--ink)}
+  .ad.t3 .ad-cta{background:var(--blue);color:#fff}
+  .ad-cta:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 rgba(0,0,0,.35)}
+  .ad-was{font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.75}
+  .ad-media{position:relative;display:flex;align-items:center;justify-content:center;align-self:stretch;height:auto;min-height:clamp(320px,27vw,400px);
+    background:rgba(255,255,255,.16);border-left:1px solid var(--blue-d)}
+  .ad.t1 .ad-media{background:rgba(255,255,255,.55)}
+  .ad.t3 .ad-media{background:var(--blue-l)}
+  .ad-media img{position:absolute;top:5%;left:50%;width:auto;height:240%;max-width:none;object-fit:contain;padding:0;transition:filter .5s ease;transform-origin:top center;
+    filter:drop-shadow(0 16px 26px rgba(0,0,0,.25))}
+  .ad-media svg{width:78%;height:78%}
+  .ad-media img.tall{height:150%}
+  .ad-media img.wide{height:auto;width:100%;top:50%}   /* square or landscape shots: full column width, centred, cropped top and bottom only — never clipped at the sides */
+  .ad-media.art{background:#F4F1EA}
+  .ad-flag{position:absolute;top:14px;right:14px;width:clamp(104px,10.5vw,138px);aspect-ratio:1;display:grid;place-items:center;
+    filter:drop-shadow(0 6px 10px rgba(16,20,37,.22));transform:rotate(6deg);z-index:2}
+  .ad-flag svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+  .ad-flag svg path{fill:var(--yellow);stroke:#2A6FC0;stroke-width:5;stroke-linejoin:round}
+  .ad.t1 .ad-flag svg path{fill:var(--blue-d);stroke:var(--yellow)}
+  .ad-flag:hover svg{transform:rotate(360deg)}
+  .ad-flag-t{position:relative;text-align:center;line-height:1;color:var(--ink);transform:rotate(-6deg);padding:0 10px;max-width:100%}
+  .ad.t1 .ad-flag-t{color:var(--yellow)}
+  .ad-flag b{display:block;font-size:clamp(17px,1.8vw,23px);font-weight:900;letter-spacing:-.04em;font-variant-numeric:tabular-nums;word-break:break-all}
+  .ad-flag.long b{font-size:clamp(12px,1.25vw,16px)}
+  .ad-flag small{display:block;font-size:8.5px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;margin-top:5px;opacity:.75}
+  @media(max-width:760px){.ad{grid-template-columns:1fr}.ad-media{order:-1;height:250px;min-height:250px;border-left:0;border-bottom:1px solid var(--blue-d)}}
+
+  /* ================= BASKET BAR ================= */
+  .basket{position:sticky;bottom:0;z-index:35;margin-top:40px}
+  .basket-in{background:var(--blue-d);color:#fff;border-radius:8px 8px 0 0;
+    padding:14px clamp(14px,2.4vw,26px);display:flex;align-items:center;justify-content:space-between;gap:16px;
+    box-shadow:0 -14px 40px -16px rgba(0,0,0,.4)}
+  .basket .lhs{font-size:12.5px;color:rgba(255,255,255,.75);line-height:1.6}
+  .basket .lhs b{color:#fff;font-weight:700}
+  .basket .rhs{display:flex;align-items:center;gap:clamp(12px,2vw,22px)}
+  .basket .total{font-size:clamp(22px,3vw,32px);font-weight:900;letter-spacing:-.02em;line-height:1}
+  .basket .delta{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--yellow);margin-top:5px}
+  .checkout-btn{background:var(--yellow);color:var(--ink);border:0;border-radius:999px;padding:14px 26px;
+    font-size:14px;font-weight:800;cursor:pointer;transition:transform .15s,background .2s;white-space:nowrap}
+  .checkout-btn:hover{background:#FFE066;transform:translateY(-1px)}
+  .checkout-btn.shake{animation:shake .35s ease}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  @media(max-width:600px){.basket .lhs{display:none}}
+
+  /* ================= FOOTER ================= */
+  footer{background:var(--blue-d);color:#fff;margin-top:0;padding:44px 0 56px;text-align:center}
+  footer .fline{font-size:12px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;opacity:.9}
+  footer .fnav{margin-top:18px;display:inline-flex;flex-wrap:wrap;justify-content:center;gap:8px}
+  footer .fnav a{padding:9px 18px;border:1px solid rgba(255,255,255,.35);border-radius:6px;font-size:12.5px;
+    font-weight:600;color:#fff;text-decoration:none}
+  footer .fnav a:hover{background:var(--yellow);color:var(--ink);border-color:var(--yellow)}
+  footer .fine{margin-top:24px;font-size:13px;opacity:.95;max-width:62ch;margin-inline:auto;line-height:1.65}
+  footer .fine a{color:var(--yellow);font-weight:700}
+  footer .fine b{color:var(--yellow)}
+
+  /* ================= RECEIPT ================= */
+  .rc-overlay{position:fixed;inset:0;z-index:100;display:none;align-items:flex-start;justify-content:center;
+    overflow-y:auto;padding:clamp(20px,5vh,64px) 16px}
+  .rc-overlay.on{display:flex}
+  .rc-backdrop{position:fixed;inset:0;background:rgba(0,25,50,.66);backdrop-filter:blur(3px)}
+  .rc-scroll{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:20px;width:100%}
+  .rc-receipt{position:relative;width:100%;max-width:430px;container-type:inline-size;background:#fff;color:var(--ink);
+    padding:40px 30px 30px;font-family:var(--receipt-mono);font-size:13px;line-height:1.6;font-variant-numeric:tabular-nums;
+    box-shadow:0 34px 70px -28px rgba(0,20,40,.6);
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08  0 0 0 0 0.14  0 0 0 0 0.13  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23p)' opacity='0.45'/></svg>");
+    background-size:240px 240px;background-blend-mode:multiply}
+  .rc-receipt::before,.rc-receipt::after{content:"";position:absolute;left:0;right:0;height:13px;
+    background-image:linear-gradient(45deg,#F7F8F9 25%,transparent 25%),linear-gradient(-45deg,#F7F8F9 25%,transparent 25%);
+    background-size:13px 13px}
+  .rc-receipt::before{top:-1px;transform:rotate(180deg)}
+  .rc-receipt::after{bottom:-1px}
+  .rc-x{position:absolute;top:10px;right:12px;background:none;border:0;font-size:22px;line-height:1;color:var(--grey);cursor:pointer;padding:4px}
+  .rc-head{text-align:center}
+  .rc-mark{display:inline-block;padding:6px 11px;border:1px solid var(--ink);font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+  .rc-head h3{margin-top:16px;font-size:32px;line-height:1;letter-spacing:-.02em;font-weight:700}
+  .rc-sub{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin-top:8px}
+  .rc-sep{border:0;border-top:1px dashed rgba(0,0,0,.4);margin:16px 0}
+  .rc-meta{display:flex;flex-direction:column;gap:5px}
+  .rc-row{display:flex;justify-content:space-between;gap:14px}
+  .rc-row .k{color:var(--grey);text-transform:uppercase;letter-spacing:.08em;font-size:10.5px}
+  .rc-row .k2{color:var(--grey);font-size:10.5px}
+  .rc-row .v{text-align:right}
+  .rc-items,.rc-fees{display:flex;flex-direction:column;gap:7px}
+  .rc-line{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .rc-line .nm{min-width:0;font-size:12.5px;overflow-wrap:anywhere}
+  .rc-line .dots{flex:1;border-bottom:1px dotted rgba(0,0,0,.35);height:0;transform:translateY(-4px);min-width:0}
+  .rc-line .num{flex:none;max-width:68%;font-size:12.5px;text-align:right;overflow-wrap:anywhere}
+  .rc-line.muted .nm,.rc-line.muted .num{color:var(--grey)}
+  .rc-total{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:25px;font-weight:700;letter-spacing:-.01em}
+  #rcTotal{min-width:0;text-align:right;overflow-wrap:anywhere}
+  .rc-stat{margin-top:10px;text-align:center;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--blue-d);line-height:1.6}
+  .rc-stat b{color:var(--ink)}
+  .rc-foot{text-align:center;margin-top:4px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+  .rc-foot .rc-big{font-family:var(--font);font-style:italic;font-size:14px;letter-spacing:0;text-transform:none;color:var(--ink);margin-bottom:12px}
+  .rc-foot .barcode{margin:12px auto 8px;height:30px;width:78%;
+    background:repeating-linear-gradient(to right,var(--ink) 0 1px,transparent 1px 3px,var(--ink) 3px 5px,transparent 5px 6px,var(--ink) 6px 9px,transparent 9px 12px,var(--ink) 12px 13px,transparent 13px 17px,var(--ink) 17px 19px,transparent 19px 22px)}
+  .rc-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .rc-cta{background:var(--yellow);color:var(--ink);border:0;border-radius:999px;padding:13px 24px;
+    font-size:13.5px;font-weight:800;cursor:pointer;transition:background .2s,transform .15s}
+  .rc-cta:hover{transform:translateY(-1px);background:#FFD75C}
+  .rc-cta.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);font-weight:600;border-radius:6px}
+  .rc-cta.ghost:hover{background:rgba(255,255,255,.14)}
+  @keyframes rc-print{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+  @keyframes rc-jitter{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.4px)}}
+  @keyframes rc-fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .rc-scroll.printing .rc-receipt{animation:rc-print 1.5s steps(26,end) both, rc-jitter .1s steps(2,end) 0s 14}
+  .rc-scroll.printing .rc-actions{animation:rc-fadein .45s ease 1.45s both}
+  @media (prefers-reduced-motion: reduce){
+    .rc-scroll.printing .rc-receipt,.rc-scroll.printing .rc-actions{animation:none}
+  }
+  @media print{
+    body>*:not(.rc-overlay){display:none !important}
+    .rc-overlay{position:static;display:block !important;padding:0;overflow:visible}
+    .rc-backdrop,.rc-x,.rc-actions{display:none !important}
+    .rc-receipt{box-shadow:none;max-width:none;background:#fff;background-image:none}
+    .rc-receipt::before,.rc-receipt::after{display:none}
+  }
+
+  /* ================= COUNTRY PICKER ================= */
+  #locPick{position:relative}
+  #locPick select{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+  #locPick .l2{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;line-height:1.3}
+  .rate-pill{display:inline-flex;align-items:center;gap:6px;background:var(--yellow);color:var(--ink);
+    border-radius:4px;padding:3px 8px;font-size:11px;font-weight:800;letter-spacing:.02em}
+
+  /* ================= HERO / SPECIALS ================= */
+  .hero{display:grid;grid-template-columns:minmax(0,2.1fr) minmax(330px,1fr);background:var(--sky);align-items:stretch}
+  .hero-head{font-size:clamp(32px,5vw,62px);font-weight:900;letter-spacing:-.04em;line-height:.98}
+  .hero-sub{font-size:clamp(14px,1.4vw,18px);max-width:34ch;margin-top:16px;color:#31343B;line-height:1.45}
+  .hero-basis{margin-top:18px;font-size:13px;font-weight:600;color:var(--ink);background:rgba(255,255,255,.6);
+    border-left:3px solid var(--blue);padding:9px 12px;max-width:40ch;line-height:1.45}
+  /* film hero: video under a blue wash so the type stays readable */
+  .hero-text{position:relative;overflow:hidden;min-height:430px;isolation:isolate}
+  .hero-media{position:absolute;inset:0;z-index:-1;background:var(--blue-d) url('/past-present-future/tomorrowmart/media/hero-still-06.jpg') center/cover no-repeat}
+  .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block}
+  .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .hero-media::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(100deg,rgba(6,22,64,.62) 0%,rgba(6,22,64,.44) 55%,rgba(6,22,64,.34) 100%)}
+  .hero-text .hero-head{color:var(--yellow);font-family:'Anton','Inter',sans-serif;font-weight:400;font-size:clamp(44px,6.4vw,84px);line-height:.95;letter-spacing:.01em;text-transform:uppercase;text-shadow:none}
+  /* ===== HEADLINE: wild typewriter on load, then still. Letters keep their space so nothing reflows. ===== */
+  .hero-head .l1,.hero-head .l2{display:inline}
+  .hero-head .w{display:inline-block;white-space:nowrap}
+  .hero-head .ch{display:inline-block;position:relative}
+  .hero-head.typing .ch{visibility:hidden}
+  .hero-head.typing .ch.on{visibility:visible}
+  .hero-head .ch.bad{color:var(--red)}
+  .hero-head .ch.cur::after{content:"";position:absolute;left:100%;top:.08em;width:.5em;height:.86em;margin-left:.06em;background:var(--yellow);
+    animation:curblink .9s steps(2,start) infinite}
+  .hero-head .ch.cur.bad::after{background:var(--red)}
+  @keyframes curblink{to{visibility:hidden}}
+  .hero-text .hero-sub{color:#fff;text-shadow:none}
+  .hero-text .hero-basis{margin-top:auto;padding:0;background:none;border:0;max-width:52ch;
+    font-size:11.5px;font-weight:500;line-height:1.45;color:rgba(255,255,255,.72);text-shadow:0 1px 8px rgba(0,0,0,.45)}
+  .hero-text .hero-basis b{font-weight:700;color:rgba(255,255,255,.9)}
+  .hero-text .hero-basis .src{display:inline;margin:0;font-size:inherit;color:inherit}
+  .hero-text .hero-basis .src::before{content:" · "}
+  .hero-text .hero-basis a{color:inherit}
+  .hero-text .hero-cta{margin-bottom:26px}
+  .hero-text .hero-cta{box-shadow:4px 4px 0 var(--yellow)}
+  @media(max-width:860px){.hero-video{display:none}.hero-text{min-height:360px}}
+  @media(prefers-reduced-motion:reduce){.hero-video{display:none}}
+  .specials{background:#fff;border-left:1px solid var(--line);padding:16px 20px 16px;display:flex;flex-direction:column;min-height:400px;position:relative}
+  .specials .sp img{max-width:240px;height:180px}
+  .stk.big{--w:clamp(120px,10.5vw,150px)}
+
+  /* ================= UPPY ================= */
+  .uppy{position:fixed;right:18px;bottom:84px;z-index:50;display:flex;flex-direction:column;align-items:flex-end;gap:10px;pointer-events:none}
+  .uppy.off{display:none}
+  .uppy-char{pointer-events:auto;width:118px;height:80px;border:0;background:none;padding:0;cursor:pointer;
+    filter:drop-shadow(0 8px 14px rgba(11,44,122,.28));animation:uppybob 3.2s ease-in-out infinite;transform-origin:50% 100%}
+  .uppy-char svg{width:100%;height:100%;overflow:visible;display:block}
+  .uppy-body{fill:var(--yellow);stroke:var(--blue-d);stroke-width:4;stroke-linejoin:round}
+  .uppy-char:hover{animation-play-state:paused;transform:rotate(-6deg) scale(1.06)}
+  .uppy-char:active{transform:scale(.94)}
+  .uppy.talk .uppy-char{animation:uppywig .5s ease-in-out 2}
+  .uppy-mouth{transition:d .25s}
+  .uppy.talk .uppy-mouth{d:path("M84 74 Q100 98 116 74")}
+  @keyframes uppybob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6px) rotate(2deg)}}
+  @keyframes uppywig{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+  .uppy-bubble{pointer-events:auto;position:relative;width:min(300px,calc(100vw - 36px));background:#fff;border:3px solid var(--blue-d);
+    border-radius:12px;padding:14px 16px 14px;box-shadow:5px 5px 0 var(--yellow);animation:uppyin .3s cubic-bezier(.3,1.4,.5,1) both}
+  .uppy-bubble::after{content:"";position:absolute;right:44px;bottom:-14px;width:22px;height:22px;background:#fff;
+    border-right:3px solid var(--blue-d);border-bottom:3px solid var(--blue-d);transform:rotate(45deg);border-radius:0 0 4px 0}
+  @keyframes uppyin{from{opacity:0;transform:translateY(10px) scale(.95)}to{opacity:1;transform:none}}
+  .uppy-name{font-size:10.5px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+  .uppy-text{font-size:14.5px;line-height:1.4;color:var(--ink);font-weight:500}
+  .uppy-text b{font-weight:800}
+  .uppy-btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .uppy-btns:empty{display:none}
+  .uppy-btns button{font:inherit;font-size:12.5px;font-weight:800;padding:7px 14px;border-radius:999px;cursor:pointer;
+    border:1.5px solid var(--blue);background:var(--blue);color:#fff}
+  .uppy-btns button.ghost{background:#fff;color:var(--blue)}
+  .uppy-btns button:hover{background:var(--blue-d);border-color:var(--blue-d);color:#fff}
+  .uppy-x{position:absolute;top:6px;right:8px;border:0;background:none;font-size:20px;line-height:1;color:var(--grey);cursor:pointer;padding:2px 4px}
+  .uppy-x:hover{color:var(--ink)}
+  @media(max-width:600px){.uppy{right:12px;bottom:92px}.uppy-char{width:92px;height:62px}}
+  @media print{.uppy{display:none}}
+
+  /* ================= POST TO X ================= */
+  .xs{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(11,44,122,.72);backdrop-filter:blur(3px)}
+  .xs[hidden]{display:none}
+  .xs-card{position:relative;background:#fff;border:3px solid var(--blue-d);border-radius:12px;max-width:560px;width:100%;padding:clamp(22px,3vw,34px);
+    box-shadow:8px 8px 0 var(--yellow);animation:wcin .35s cubic-bezier(.3,1.4,.5,1) both}
+  .xs-k{font-size:10.5px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+  .xs-card h3{font-size:clamp(26px,3.4vw,36px);font-weight:900;letter-spacing:-.035em;line-height:1;color:var(--ink)}
+  .xs-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+  .xs-card label{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--grey)}
+  .xs-card select,.xs-card input,.xs-card textarea{display:block;width:100%;margin-top:6px;font:inherit;font-size:14.5px;font-weight:600;color:var(--ink);
+    border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;background:#fff;text-transform:none;letter-spacing:0}
+  .xs-card textarea{resize:vertical;line-height:1.45;font-weight:500}
+  .xs-card select:focus,.xs-card input:focus,.xs-card textarea:focus{outline:0;border-color:var(--blue)}
+  .xs-who{margin-top:8px;font-size:12.5px;color:var(--grey);line-height:1.4}
+  .xs-who b{color:var(--ink)}
+  .xs-who .warn{display:inline-block;background:var(--sky);color:var(--ink);border:1px solid var(--yellow-d);border-radius:4px;padding:2px 7px;font-size:11px;font-weight:800;margin-left:6px}
+  .xs-text-l{margin-top:14px}
+  .xs-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .xs-go{flex:1;display:grid;place-items:center;background:var(--ink);color:#fff;border-radius:999px;padding:14px 20px;font-size:15px;font-weight:800;text-decoration:none;box-shadow:4px 4px 0 var(--yellow)}
+  .xs-go:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--yellow)}
+  .xs-copy{background:#fff;color:var(--blue);border:1.5px solid var(--blue);border-radius:999px;padding:13px 18px;font:inherit;font-size:14px;font-weight:800;cursor:pointer}
+  .xs-copy:hover{background:var(--blue);color:#fff}
+  .xs-fine{margin-top:12px;font-size:11.5px;color:var(--grey);line-height:1.4}
+  .xs-x{position:absolute;top:10px;right:12px;border:0;background:none;font-size:24px;line-height:1;color:var(--grey);cursor:pointer}
+  @media(max-width:560px){.xs-grid{grid-template-columns:1fr}}
+
+  /* ================= WELCOME MODAL ================= */
+  .welcome{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:20px;
+    background:rgba(11,44,122,.72);backdrop-filter:blur(3px)}
+  .welcome.on{display:flex}
+  .welcome-card{position:relative;background:#fff;border:3px solid var(--blue-d);border-radius:12px;max-width:560px;width:100%;
+    padding:clamp(28px,4vw,44px);box-shadow:8px 8px 0 var(--yellow);animation:wcin .4s cubic-bezier(.3,1.4,.5,1) both}
+  @keyframes wcin{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
+  .welcome-card h2{font-size:clamp(34px,5vw,54px);font-weight:900;letter-spacing:-.045em;line-height:.95;color:var(--ink)}
+  .welcome-card ul{list-style:none;margin:22px 0 0;display:grid;gap:12px}
+  .welcome-card li{font-size:clamp(14.5px,1.3vw,16.5px);line-height:1.45;color:var(--grey);padding-left:18px;position:relative}
+  .welcome-card li::before{content:"";position:absolute;left:0;top:.38em;width:9px;height:9px;border-radius:50%;background:var(--yellow);border:2px solid var(--blue-d)}
+  .welcome-card li b{color:var(--ink);font-weight:800}
+  .welcome-go{margin-top:26px;width:100%;background:var(--blue);color:#fff;border:0;border-radius:999px;padding:15px 20px;
+    font-size:16px;font-weight:800;cursor:pointer;box-shadow:4px 4px 0 var(--blue-d);transition:transform .14s,box-shadow .14s}
+  .welcome-go:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--blue-d)}
+  .welcome-how{display:block;text-align:center;margin-top:14px;font-size:13px;font-weight:700;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+  .welcome-seal{position:absolute;top:-26px;right:-22px;width:92px;height:92px;pointer-events:none;
+    background:url('/past-present-future/tomorrowmart/logos/tomorrowmart-mark.svg') center/contain no-repeat;transform:rotate(8deg);transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+  .welcome-card:hover .welcome-seal{transform:rotate(368deg)}
+  @media(max-width:600px){.welcome-seal{width:70px;height:70px;top:-20px;right:-10px}}
+
+  /* ================= STICKERS (ON SALE starbursts) ================= */
+  .stk{position:absolute;display:grid;place-items:center;cursor:default;z-index:4;
+    filter:drop-shadow(0 6px 10px rgba(16,20,37,.18))}
+  .stk svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+  .stk:hover svg{transform:rotate(360deg)}
+  .stk:hover .stk-t{transform:rotate(0) scale(1.06);transition:transform .35s}
+  .stk svg path{fill:var(--yellow);stroke:#2A6FC0;stroke-width:5;stroke-linejoin:round}
+  .stk.worst svg path{fill:var(--blue-d);stroke:var(--yellow)}
+  .stk-t{position:relative;text-align:center;color:var(--ink);line-height:1;transform:rotate(-6deg)}
+  .stk.worst .stk-t{color:var(--yellow)}
+  .stk-t small{display:block;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+  .stk-t b{display:block;font-weight:900;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+  .stk.pop{animation:stkpop .45s cubic-bezier(.3,1.6,.5,1) both}
+  @keyframes stkpop{0%{transform:scale(.72) rotate(-16deg)}100%{transform:scale(1) rotate(0)}}
+  .stk.big{--w:clamp(140px,13vw,170px);width:var(--w);aspect-ratio:1;top:48px;right:12px}
+  .stk.big .stk-t small{font-size:calc(var(--w) * .062);letter-spacing:.12em}
+  .stk.big .stk-t b{font-size:calc(var(--w) * .2);margin:5px 0 6px;letter-spacing:-.04em;max-width:calc(var(--w) * .72);line-height:.95}
+  .stk.big .stk-t b.n6{font-size:calc(var(--w) * .16)}
+  .stk.big .stk-t b.n9{font-size:calc(var(--w) * .125)}
+  .stk.big .stk-t b.words{font-size:calc(var(--w) * .11);line-height:1.05;letter-spacing:-.02em}
+  @media(max-width:860px){.stk.big{top:40px;right:10px}}
+
+  /* ================= SHOP ABROAD (league table) ================= */
+  .league{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .lg{display:grid;grid-template-columns:34px 44px minmax(160px,1.2fr) 3fr 96px;align-items:center;gap:14px;
+    padding:12px 18px;border-top:1px solid var(--line);text-align:left;background:#fff;color:var(--ink);font:inherit;width:100%;border-left:0;border-right:0;border-bottom:0;cursor:pointer;
+    transition:background .15s}
+  .lg:first-child{border-top:0}
+  .lg:hover{background:var(--canvas)}
+  .lg.on{background:var(--blue-l);cursor:default}
+  .lg.gap{display:block;padding:6px 18px;text-align:center;color:var(--grey);font-size:13px;letter-spacing:.3em;cursor:default;background:#fff}
+  .lg .rk{font-size:12px;font-weight:800;color:var(--grey);font-variant-numeric:tabular-nums}
+  .lg .f{font-size:26px;line-height:1}
+  .lg .n{font-size:15px;font-weight:800;letter-spacing:-.01em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lg .n small{display:block;font-size:11px;font-weight:600;color:var(--grey);margin-top:2px}
+  .lg .bar{height:12px;background:var(--canvas);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+  .lg .bar i{display:block;height:100%;background:var(--yellow);border-radius:6px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+  .lg.on .bar i{background:var(--blue)}
+  .lg .r{font-size:clamp(18px,1.6vw,22px);font-weight:900;letter-spacing:-.04em;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+  .lg .r small{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);display:block;margin-top:1px}
+  .lg .go{justify-self:end;font-size:12.5px;font-weight:800;color:var(--blue);border:1.5px solid var(--blue);border-radius:999px;padding:7px 12px;white-space:nowrap}
+  .lg:hover .go{background:var(--blue);color:#fff}
+  .lg.on .go{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .lg .tag{display:inline-block;margin-left:8px;background:var(--yellow);color:var(--ink);font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;padding:3px 6px;border-radius:3px;vertical-align:middle;white-space:nowrap}
+  .lg .tag.mid{background:var(--canvas);color:var(--grey);border:1px solid var(--line)}
+  .lg .tag.cool{background:var(--blue-l);color:var(--blue)}
+  .lg .tag.me{background:var(--blue);color:#fff}
+  .league-more{display:block;width:100%;margin-top:10px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:13px;
+    font:inherit;font-size:13.5px;font-weight:800;color:var(--blue);cursor:pointer}
+  .league-more:hover{border-color:var(--ink);background:var(--canvas)}
+  @media(max-width:760px){.lg{grid-template-columns:26px 34px 1fr 72px;gap:10px;padding:12px 14px}.lg .bar,.lg .n small{display:none}.lg .f{font-size:22px}}
+  .specials-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:12px;
+    border-bottom:1px solid var(--line);margin-bottom:4px}
+  .specials-h b{font-size:21px;font-weight:800;letter-spacing:-.02em}
+  .specials-h span{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+  .spstage{flex:1;display:flex;align-items:center;justify-content:center;padding:6px 0 2px;min-height:250px}
+  .sp{width:100%;text-align:center;animation:spin .38s ease both}
+  @keyframes spin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .sp img{width:100%;max-width:320px;height:250px;object-fit:contain;display:block;margin:0 auto 14px;
+    filter:drop-shadow(0 14px 22px rgba(0,40,80,.16))}
+  .sp-n{font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+  .sp-q{font-size:12.5px;color:var(--grey);margin-top:4px}
+  .sp-p{margin-top:8px;display:flex;align-items:baseline;justify-content:center;gap:10px;flex-wrap:wrap;min-height:42px}
+  .sp-now{font-size:clamp(28px,3.4vw,38px);font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+  .sp-was{font-size:14px;color:var(--grey)}
+  .sp-was s{text-decoration:line-through}
+  .sp .add{display:block;margin:10px auto 0;min-width:170px;background:var(--blue);color:#fff;border-color:var(--blue)}
+  .sp .add:hover{background:var(--blue-d);border-color:var(--blue-d)}
+  .sp-local{font-size:12px;color:var(--grey);margin-top:6px}
+  .sp-local b{color:var(--ink)}
+  .sp-up.ghost{visibility:hidden}
+  .sp-up{display:inline-block;margin-top:8px;background:var(--yellow);color:var(--ink);border-radius:4px;
+    padding:5px 10px;font-size:12px;font-weight:800;letter-spacing:.01em}
+  .spnav{display:flex;align-items:center;justify-content:center;gap:14px;padding:8px 0 0}
+  .spnav button{width:30px;height:30px;border:1px solid var(--line);background:#fff;border-radius:6px;
+    font-size:15px;font-weight:800;color:var(--ink);cursor:pointer;line-height:1}
+  .spnav button:hover{border-color:var(--ink);background:var(--canvas)}
+  .spdots{display:flex;gap:6px}
+  .spdots i{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;display:block}
+  .spdots i.on{background:var(--blue)}
+  .specials-f{margin-top:auto;padding-top:10px;font-size:12.5px;font-weight:500;color:var(--grey);text-align:center;
+    text-decoration:underline;text-underline-offset:3px}
+  @media(max-width:860px){.hero{grid-template-columns:1fr}.specials{border-left:0;border-top:1px solid var(--line)}}
+
+  /* ================= CARD EXTRAS ================= */
+  .cardtools{position:absolute;top:15px;right:15px;z-index:3;display:flex;gap:6px}
+  .cardtools button{width:28px;height:28px;border:1px solid var(--line);background:rgba(255,255,255,.92);border-radius:999px;
+    border-radius:6px;cursor:pointer;display:grid;place-items:center;color:var(--blue);font-size:13px;line-height:1}
+  .cardtools button:hover{border-color:var(--ink)}
+  .cardtools button.on{color:#E1341E}
+  .punit{font-size:11.5px;color:var(--blue-d);margin-top:8px;font-variant-numeric:tabular-nums;
+    background:var(--blue-l);border:1px solid var(--line);border-radius:4px;padding:5px 7px;line-height:1.35}
+  .punit s{color:var(--grey)}
+  .psold{font-size:11.5px;color:var(--grey);margin-top:7px;line-height:1.4}
+  .psold b{color:var(--ink);font-weight:700}
+  .punit b{color:var(--blue)}
+
+  /* ================= METHOD ================= */
+  .method{background:var(--blue-d);color:#EAF0FD;padding:52px 0 56px}
+  .method h2{font-size:clamp(20px,2.4vw,28px);font-weight:800;letter-spacing:-.02em;margin-bottom:26px}
+  .method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.4vw,34px)}
+  .method-grid b{display:block;font-size:14.5px;font-weight:800;color:var(--yellow);margin-bottom:8px}
+  .method-grid strong{color:var(--yellow);font-weight:800}
+  .method-grid p{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.78)}
+  .method-note{margin-top:28px;font-size:12.5px;line-height:1.6;color:rgba(255,255,255,.55);max-width:80ch;
+    border-top:1px solid rgba(255,255,255,.14);padding-top:18px}
+  @media(max-width:760px){.method-grid{grid-template-columns:1fr}}
+
+  /* ================= SCENARIO PILLS + SOURCES ================= */
+  .dial-scen{margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .dial-scen b{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-right:2px}
+  .scenb{cursor:help}
+  .scenb{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;
+    padding:5px 11px;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap;
+    transition:background .16s,color .16s,border-color .16s}
+  .scenb:hover{background:rgba(255,255,255,.2)}
+  .scenb .info{display:inline-grid;place-items:center;width:14px;height:14px;margin-left:5px;border-radius:50%;border:1px solid currentColor;font-size:9px;font-weight:800;font-style:italic;line-height:1;vertical-align:1px;opacity:.85}
+  .scenb.on{background:#fff;border-color:#fff;color:var(--ink)}
+  .src{display:block;margin-top:8px;font-size:11.5px;font-weight:500;color:var(--grey)}
+  .srcl{color:var(--blue);text-decoration:underline;text-underline-offset:2px}
+  @media(max-width:900px){.dial-scen{margin-left:0;width:100%}}
+
+  /* ================= REP FIELDS ================= */
+  .rep-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+  .rep-row .rep-field{flex:1;min-width:180px;margin-top:0}
+  .rep-field select{width:100%;border:1.5px solid var(--line);border-radius:6px;padding:11px 13px;font-size:14px;
+    background:#fff;outline:0}
+  .rep-look{background:var(--ink);color:#fff;border:0;border-radius:6px;padding:12px 18px;font-size:13.5px;
+    font-weight:700;cursor:pointer;white-space:nowrap}
+  .rep-look:hover{background:var(--blue)}
+  .rep-found{margin-top:9px;font-size:12.5px;color:var(--ink);background:var(--blue-l);border-radius:5px;padding:8px 11px}
+  .rep-found b{font-weight:800}
+  .rep-found.err{background:#FBEAE7;color:#9B2C17}
+
+  /* ================= RECEIPT LADDER + REP ================= */
+  .rc-ladder-h{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin-bottom:8px}
+  .rc-ladder{display:grid;grid-template-columns:max-content minmax(0,1fr) fit-content(42%) fit-content(37%);gap:6px 10px;align-items:center;font-size:12.5px}
+  .rc-lrow{display:contents}
+  .rc-lrow .yr{font-weight:700}
+  .rc-lrow .bar{height:7px;background:rgba(0,0,0,.08);position:relative;overflow:hidden}
+  .rc-lrow .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink);display:block}
+  .rc-lrow .amt,.rc-lrow .pc{min-width:0;text-align:right;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+  .rc-lrow .pc{color:var(--grey)}
+  .rc-lrow.now .bar i{background:var(--blue)}
+  @container (max-width:320px){
+    .rc-total{flex-wrap:wrap;row-gap:2px}
+    #rcTotal{max-width:100%;margin-left:auto;font-size:clamp(18px,9cqi,25px)}
+    .rc-ladder{display:flex;flex-direction:column;align-items:stretch;gap:10px}
+    .rc-lrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,65%);gap:2px 8px;align-items:center}
+    .rc-lrow .yr{grid-area:1 / 1}
+    .rc-lrow .amt{grid-area:1 / 2}
+    .rc-lrow .bar{grid-area:2 / 1}
+    .rc-lrow .pc{grid-area:2 / 2}
+  }
+
+  .rep{position:relative;z-index:1;width:100%;max-width:520px;background:#fff;border-radius:8px;
+    border-left:5px solid var(--blue);padding:22px 24px 24px}
+  .rep h3{font-size:18px;font-weight:800;letter-spacing:-.02em}
+  .rep-sub{font-size:13px;color:var(--grey);margin-top:6px;line-height:1.5}
+  .rep-field{display:block;margin-top:16px}
+  .rep-field span{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--grey);margin-bottom:6px}
+  .rep-field input{width:100%;border:1.5px solid var(--line);border-radius:6px;padding:11px 13px;font-size:14px;outline:0}
+  .rep-field input:focus{border-color:var(--ink)}
+  .rep-letter{margin-top:14px;background:var(--canvas);border:1px solid var(--line);border-radius:6px;
+    padding:14px 15px;font-family:var(--receipt-mono);font-size:11.5px;line-height:1.65;white-space:pre-wrap;
+    max-height:190px;overflow:auto;color:#2E2F32}
+  .rep-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .rc-cta.ghost.dark{color:var(--ink);border-color:var(--line);text-decoration:none;display:inline-flex;align-items:center}
+  .rc-cta.ghost.dark:hover{background:var(--canvas);border-color:var(--ink)}
+  #repFind{display:none !important}   /* replaced by Post to X (Jack, 6 Oct) */
+  @media print{ .rep{display:none !important} }
+  /* desktop: receipt left, share + letter right, actions under the share panel — all on screen at once */
+  @media(min-width:1000px){
+    .rc-scroll{display:grid;grid-template-columns:430px 520px;grid-template-areas:"receipt rep" "receipt actions";
+      align-items:start;justify-content:center;column-gap:28px;row-gap:16px}
+    .rc-receipt{grid-area:receipt}
+    .rep{grid-area:rep;position:sticky;top:0}
+    .rc-actions{grid-area:actions;justify-content:flex-start}
+    .rc-overlay{padding-top:clamp(16px,3vh,40px)}
+  }
+
+  /* ================= AD BANNERS: poster feel (Omega-style) ================= */
+  .ad{border-width:1.5px}
+  .ad.t1{border-color:var(--blue-d)}
+  .ad.t2{border-color:var(--yellow)}
+  .ad.t3{border-color:var(--blue-d)}
+  .ad-spon{display:none}
+  .ad-kicker{font-family:'Permanent Marker',cursive;font-size:clamp(24px,2.6vw,36px);letter-spacing:0;text-transform:none;font-weight:400;
+    background:none;padding:0;margin-bottom:2px;transform:rotate(-3deg);transform-origin:left bottom;line-height:1}
+  .ad.t1 .ad-kicker{color:var(--blue-d);background:none;text-shadow:2px 2px 0 #fff}
+  .ad.t2 .ad-kicker{color:#fff;background:none;text-shadow:3px 3px 0 var(--blue-d)}
+  .ad.t3 .ad-kicker{color:var(--blue);background:none;text-shadow:2px 2px 0 var(--yellow)}
+  .ad-head{font-family:'Anton','Inter',sans-serif;font-weight:400;font-size:clamp(68px,8.6vw,136px);line-height:.84;letter-spacing:.01em;margin-top:4px}
+  .ad.t1 .ad-head{color:var(--blue-d);text-shadow:5px 5px 0 #fff}
+  .ad.t2 .ad-head{color:var(--yellow);text-shadow:5px 5px 0 var(--blue-d)}
+  .ad.t3 .ad-head{color:var(--blue-d);text-shadow:5px 5px 0 var(--yellow)}
+  .ad-sub{font-size:clamp(15px,1.5vw,19px);font-weight:600;margin-top:16px;max-width:30ch}
+  .ad-cta{font-family:'Inter',sans-serif;font-weight:800;font-size:13.5px;letter-spacing:.04em;padding:13px 26px}
+  .ad-media img{filter:drop-shadow(0 22px 26px rgba(0,0,0,.32)) !important;transform:translateX(-50%) rotate(-4deg)}
+  .ad-media img.tall{transform:translateX(-50%) rotate(-5deg)}
+  .ad-media img.wide{transform:translate(-50%,-50%) rotate(-4deg)}
+  .ad-media{overflow:hidden}
+  .ad-flag{z-index:3}
+  .ad-flag{transform:rotate(8deg)}
+  @media(max-width:760px){.ad-head{font-size:clamp(56px,16vw,84px)}}
+  /* banner price tag: a tilted rectangular sticker, not the seal — big number, small "today" */
+  .ad-flag{width:auto;aspect-ratio:auto;top:16px;right:16px;display:block;background:var(--yellow);border:3px solid var(--blue-d);border-radius:12px;
+    padding:12px 24px 14px;transform:rotate(6deg);box-shadow:5px 5px 0 var(--blue-d);filter:none;border-width:4px;border-radius:16px}
+  .ad.t1 .ad-flag{background:var(--blue-d);border-color:var(--yellow);box-shadow:4px 4px 0 rgba(0,0,0,.25)}
+  .ad-flag svg{display:none}
+  .ad-flag-t{transform:none;padding:0;text-align:center;line-height:1}
+  .ad-flag small{display:block;font-size:13px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;margin:0 0 4px;opacity:.8}
+  .ad-flag b{display:block;font-family:'Anton','Inter',sans-serif;font-weight:400;font-size:clamp(40px,3.8vw,56px);letter-spacing:.01em;word-break:normal;white-space:nowrap}
+  .ad-flag.long b{font-size:clamp(28px,2.6vw,38px)}
+  .ad-flag-t{display:flex;flex-direction:column-reverse}
+  .ad-flag:hover{transform:rotate(0deg)}
+  .ad-flag:hover svg{transform:none}
+  /* no hard seam between text and photo: one soft diagonal blend across the whole banner */
+  .ad.t1{background:linear-gradient(104deg,#FFD233 0%,#FFD233 46%,#FFF1C2 64%,#FFF1C2 100%)}
+  .ad.t2{background:linear-gradient(104deg,#1A4FD6 0%,#1A4FD6 46%,#4A73E3 64%,#4A73E3 100%)}
+  .ad.t3{background:linear-gradient(104deg,#ffffff 0%,#ffffff 46%,#EAF0FD 64%,#EAF0FD 100%)}
+  .ad .ad-media,.ad.t1 .ad-media,.ad.t3 .ad-media{background:transparent;border-left:0}
+  @media(max-width:760px){
+    .ad.t1{background:linear-gradient(176deg,#FFF1C2 0%,#FFF1C2 30%,#FFD233 48%,#FFD233 100%)}
+    .ad.t2{background:linear-gradient(176deg,#4A73E3 0%,#4A73E3 30%,#1A4FD6 48%,#1A4FD6 100%)}
+    .ad.t3{background:linear-gradient(176deg,#EAF0FD 0%,#EAF0FD 30%,#ffffff 48%,#ffffff 100%)}
+    .ad .ad-media{border-bottom:0}
+  }
+
+  /* ===== BANNERS, FIGMA PASS (26 Oct 2026, file mYWaWeLd0FuAvyeWvGvv43) =====
+     flat solid tints, 3px navy border, Inter Black headline with a hard offset shadow,
+     pill kicker, pill CTA with a hard shadow, product tilted and bleeding off the bottom,
+     price badge = wavy seal (or price tag via AD_BADGE). */
+  .ad{border:3px solid var(--blue-d);border-radius:31px;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);background-image:none}
+  .ad.t1{background:var(--yellow);border-color:var(--blue-d)}
+  .ad.t2{background:var(--blue);border-color:var(--blue-d)}
+  .ad.t3{background:#fff;border-color:var(--blue-d)}
+  .ad-text{padding:clamp(26px,3.4vw,48px)}
+  .ad-kicker{font-family:var(--font);font-size:clamp(10.5px,1vw,14px);font-weight:900;letter-spacing:.18em;text-transform:uppercase;
+    padding:7px 14px;border-radius:31px;text-shadow:none;margin:0;line-height:1.2}
+  .ad.t1 .ad-kicker{background:var(--blue);color:#fff}
+  .ad.t2 .ad-kicker,.ad.t3 .ad-kicker{background:var(--yellow);color:var(--blue-d)}
+  .ad-kicker,.ad.t1 .ad-kicker,.ad.t2 .ad-kicker,.ad.t3 .ad-kicker{transform:none;text-shadow:none}
+  .ad-head{font-family:var(--font);font-weight:900;font-size:clamp(44px,6.6vw,96px);line-height:.9;letter-spacing:-.037em;margin-top:17px;text-transform:uppercase}
+  .ad.t1 .ad-head{color:var(--blue);text-shadow:.05em .05em 0 #fff}
+  .ad.t2 .ad-head{color:#fff;text-shadow:.05em .05em 0 var(--blue-d)}
+  .ad.t3 .ad-head{color:var(--blue);text-shadow:.05em .05em 0 var(--yellow)}
+  .ad-sub{font-weight:400;font-size:clamp(15px,1.4vw,20px);line-height:1.2;margin-top:20px;max-width:46ch;opacity:1}
+  .ad.t1 .ad-sub{color:var(--blue-d)}
+  .ad.t2 .ad-sub{color:#fff}
+  .ad.t3 .ad-sub{color:var(--blue)}
+  .ad-row{margin-top:30px}
+  .ad-cta{font-weight:800;font-size:clamp(13px,1.15vw,16px);letter-spacing:.04em;text-transform:uppercase;padding:16px 31px;border-radius:31px;
+    box-shadow:6px 6px 0 var(--blue-d);transition:transform .15s,box-shadow .15s}
+  .ad.t1 .ad-cta{background:var(--blue);color:#fff}
+  .ad.t2 .ad-cta,.ad.t3 .ad-cta{background:var(--yellow);color:var(--blue-d)}
+  .ad-cta:hover{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--blue-d)}
+  .ad-media{overflow:hidden;background:transparent}
+  .ad-media img,.ad-media img.tall,.ad-media img.wide{top:-4%;left:12%;width:auto;height:137%;max-width:none;
+    transform:rotate(-6.3deg);transform-origin:top left;filter:drop-shadow(0 18px 22px rgba(0,0,0,.22)) !important}
+  .ad-media img.wide{height:122%;left:2%;top:4%}
+  /* badge */
+  .ad-flag,.ad-flag.seal{top:clamp(14px,3.6vw,54px);right:clamp(12px,3.2vw,52px);width:clamp(112px,18.5vw,256px);aspect-ratio:1;
+    background:none;border:0;box-shadow:none;transform:none;border-radius:0;padding:0;display:grid;place-items:center}
+  .ad.t1 .ad-flag,.ad.t2 .ad-flag,.ad.t3 .ad-flag{background:none;border:0;box-shadow:none;filter:none;padding:0;border-radius:0}
+  .ad-flag.tag{width:clamp(130px,17.5vw,244px);aspect-ratio:244/149}
+  .ad-flag svg{display:block;position:absolute;inset:0;width:100%;height:100%;overflow:visible;transform:none;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+  .ad-flag svg path{fill:var(--blue);stroke:var(--blue-d);stroke-width:7;stroke-linejoin:round}
+  .ad.t2 .ad-flag svg path{fill:var(--yellow);stroke:var(--blue-d)}
+  .ad.t1 .ad-flag svg path{fill:var(--blue);stroke:var(--blue-d)}
+  .ad-flag.seal:hover svg{transform:rotate(360deg)}
+  .ad-flag:hover{transform:none}
+  .ad-flag-t{position:relative;display:flex;flex-direction:column-reverse;align-items:center;transform:none;padding:0;color:#fff;text-align:center;line-height:1}
+  .ad.t1 .ad-flag-t,.ad.t3 .ad-flag-t{color:#fff}
+  .ad.t2 .ad-flag-t{color:var(--blue-d)}
+  .ad-flag.tag .ad-flag-t{padding-left:12%}
+  .ad-flag small{display:block;font-family:var(--font);font-size:clamp(10px,1.4vw,20px);font-weight:600;letter-spacing:-.04em;text-transform:uppercase;margin:0 0 .3em;opacity:1}
+  .ad-flag b{display:block;font-family:var(--font);font-weight:900;font-size:clamp(22px,3.7vw,52px);letter-spacing:-.03em;white-space:nowrap;word-break:normal}
+  .ad-flag.long b{font-size:clamp(15px,2.3vw,32px)}
+  @media(max-width:760px){
+    .ad{grid-template-columns:1fr;border-radius:24px}
+    .ad.t1,.ad.t2,.ad.t3{background-image:none}
+    .ad-media{order:-1;height:290px;min-height:290px;border:0}
+    .ad-media img,.ad-media img.tall,.ad-media img.wide{height:132%;left:-6%;top:-1%}
+    .ad-media img.tall{height:146%;left:-2%;top:-4%}
+    .ad-head{font-size:clamp(44px,13vw,72px)}
+    .ad-flag,.ad-flag.seal{width:124px;top:14px;right:12px}
+  }
+</style>
+</head>
+<body>
+<!-- ========== UPPY ========== -->
+<div class="uppy" id="uppy" aria-live="polite">
+  <div class="uppy-bubble" id="uppyBubble" hidden>
+    <button type="button" class="uppy-x" id="uppyX" aria-label="Close">×</button>
+    <div class="uppy-name">Uppy</div>
+    <div class="uppy-text" id="uppyText"></div>
+    <div class="uppy-btns" id="uppyBtns"></div>
+  </div>
+  <button type="button" class="uppy-char" id="uppyChar" aria-label="Uppy, your TomorrowMart assistant">
+    <svg viewBox="0 0 164 110" aria-hidden="true">
+      <path class="uppy-body" d="M29.5 12.1C31.4 9.4 34.5 7.8 37.8 7.8H153.7C155.9 7.8 158 8.6 159.6 10.2C161.1 11.8 162 13.9 162 16.1V94.1C162 96.3 161.1 98.4 159.6 99.9C158 101.5 155.9 102.4 153.7 102.4H37.8C34.5 102.4 31.4 100.8 29.5 98L3.9 60.7C1.5 57.3 1.5 52.8 3.9 49.4L29.5 12.1Z"/>
+      <circle cx="29.6" cy="55.1" r="7.1" fill="#1A4FD6" stroke="#0B2C7A" stroke-width="3"/>
+      <g class="uppy-eye" transform="translate(78 44)"><circle r="15" fill="#fff" stroke="#0B2C7A" stroke-width="3"/><circle class="uppy-pupil" r="6.5" fill="#0B2C7A"/></g>
+      <g class="uppy-eye" transform="translate(122 44)"><circle r="15" fill="#fff" stroke="#0B2C7A" stroke-width="3"/><circle class="uppy-pupil" r="6.5" fill="#0B2C7A"/></g>
+      <path class="uppy-mouth" d="M84 76 Q100 92 116 76" fill="none" stroke="#0B2C7A" stroke-width="5" stroke-linecap="round"/>
+      <path d="M136 22 l12 -8 l-2 14" fill="none" stroke="#0B2C7A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
+
+
+<!-- ========== WELCOME ========== -->
+<div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-labelledby="welcomeH">
+  <div class="welcome-card">
+    <div class="welcome-seal" aria-hidden="true"></div>
+    <h2 id="welcomeH">Welcome to<br>TomorrowMart</h2>
+    <ul>
+      <li>These are today's shelf prices in your country.</li>
+      <li>Every price rises at your country's official inflation rate.</li>
+      <li>Nothing is for sale. Move the year to see what your shopping costs in 2036, 2046 or 2056.</li>
+    </ul>
+    <button type="button" class="welcome-go" id="welcomeGo">Start shopping</button>
+    <a class="welcome-how" href="#method" id="welcomeHow">How the prices are worked out</a>
+  </div>
+</div>
+
+<!-- ========== TOP BLUE BAR ========== -->
+<header class="tm-top">
+  <div class="tm-top-in">
+    <a class="brand" href="#top" aria-label="TomorrowMart">
+      <img class="logo-full" src="/past-present-future/tomorrowmart/logos/tomorrowmart-logo.svg" alt="TomorrowMart" width="842" height="99" />
+      <img class="logo-mark" src="/past-present-future/tomorrowmart/logos/tomorrowmart-mark.svg" alt="TomorrowMart" width="164" height="99" />
+    </a>
+
+    <label class="tm-search">
+      <input id="search" type="text" placeholder="Search everything at TomorrowMart online and in store" aria-label="Search the store" autocomplete="off" />
+      <button type="button" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+    </label>
+
+    <div class="tm-util" id="locPick" title="Change country">
+      <span class="ico" id="locFlag">🌍</span>
+      <span>
+        <span class="l2" id="locName">Detecting…</span><svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <select id="locSelect" aria-label="Choose your country"></select>
+    </div>
+
+    <button class="tm-cart" id="cartBtn" aria-label="Open basket and checkout">
+      <span class="cwrap">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.2"/><circle cx="18" cy="21" r="1.2"/><path d="M2 3h2.2l2.3 12.5a1.5 1.5 0 0 0 1.5 1.2h8.7a1.5 1.5 0 0 0 1.5-1.2L21 7H6"/></svg>
+        <span class="badge" id="badge">0</span>
+      </span>
+      <span class="amt" id="cartAmt">$0.00</span>
+    </button>
+  </div>
+</header>
+
+<!-- ========== THE TIME DIAL ========== -->
+<section class="dial">
+  <div class="dial-in">
+    <div class="dial-yr">
+      <span class="num" id="dialYear">2026</span>
+      <span class="lab">Trading year</span>
+    </div>
+
+    <div class="dial-mid">
+      <div class="dial-rail" id="rail" role="slider" tabindex="0"
+           aria-label="Shopping year" aria-valuemin="2026" aria-valuemax="2056"
+           aria-valuenow="2026" aria-valuetext="Year 2026">
+        <div class="rail-bg"><div class="rail-fill" id="fill"></div></div>
+        <div class="rail-ticks" id="ticks"></div>
+        <div class="rail-thumb" id="thumb"><i></i></div>
+      </div>
+      <div class="dial-stops" id="stops">
+        <span class="dial-scen" id="scen"></span>
+      </div>
+      <div class="dial-flags" id="dialFlags" aria-label="Shop in another country"></div>
+      <div class="hyper" id="hyperNote" hidden></div>
+      <div class="cpop" id="cpop" hidden>
+        <input type="text" id="cpopSearch" placeholder="Type a country" autocomplete="off" spellcheck="false" />
+        <div class="cpop-list" id="cpopList"></div>
+      </div>
+    </div>
+
+    <div class="dial-meter">
+      <div class="mi"><span id="dialItem">A dozen eggs</span><span class="pc" id="dialMult">Today</span></div>
+      <div class="mx" id="dialPrice">—</div>
+      <div class="ml" id="dialMultLab">Today's prices</div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-media" aria-hidden="true"></div>
+      <h1 class="hero-head" aria-label="Today's Inflation. Tomorrow's Prices."><span class="l1" aria-hidden="true">Today's Inflation.</span><br/><span class="l2" id="heroL2" aria-hidden="true">Tomorrow's Prices.</span></h1>
+      <p class="hero-sub">The same lettuce, eggs and everyday groceries of today, with prices from the future.</p>
+      <a class="hero-cta" href="#store">Start shopping</a>
+      <p class="hero-basis" id="heroBasis" hidden></p>
+    </div>
+    <aside class="specials">
+      <div class="stk big" id="heroSticker" aria-live="polite"></div>
+      <div class="specials-h"><b>This week's specials</b><span id="specialsYr">2026</span></div>
+      <div class="spstage" id="specialsList"></div>
+      <div class="spnav">
+        <button id="spPrev" aria-label="Previous special">‹</button>
+        <div class="spdots" id="spDots"></div>
+        <button id="spNext" aria-label="Next special">›</button>
+      </div>
+      <a class="specials-f" href="#method">How these prices are calculated</a>
+    </aside>
+  </section>
+
+  <div class="sres" id="sres"><span id="sresText"></span><button type="button" id="sresClear">Clear search ×</button></div>
+  <main id="store"></main>
+
+  <!-- ========== SHOP ABROAD ========== -->
+  <section class="rail abroad" id="abroad" aria-label="Shop in another country">
+    <div class="rail-head">
+      <div><h2>Shopping abroad</h2><div class="sub" id="abroadSub">Every country, ranked by inflation rate. Tap one to shop there.</div></div>
+    </div>
+    <div class="league" id="abroadRow"></div>
+    <button type="button" class="league-more" id="abroadMore"></button>
+  </section>
+  <div class="empty" id="empty">Nothing on the shelf by that name.</div>
+</div>
+
+<!-- ========== BASKET BAR ========== -->
+<div class="basket"><div class="wrap" style="padding-top:0;padding-bottom:0">
+  <div class="basket-in">
+    <div class="lhs">Your basket · <b id="basketCount">0</b> items · trading year <b id="basketYr">2026</b></div>
+    <div class="rhs">
+      <div>
+        <span class="total" id="basketTotal">$0.00</span>
+        <span class="delta" id="basketDelta">Add items to begin</span>
+      </div>
+      <button class="checkout-btn" id="checkoutBtn">Checkout →</button>
+    </div>
+  </div>
+</div></div>
+
+<section class="method" id="method"><div class="wrap">
+  <h2>How these prices are calculated</h2>
+  <div class="method-grid">
+    <div>
+      <b>The rate we use</b>
+      <p id="m1">Every price on this site compounds at the same annual rate: your country's latest published inflation rate. Nothing is weighted, nothing is exaggerated.</p>
+    </div>
+    <div>
+      <b>How it adds up each year</b>
+      <p id="m2">Price in year N = today's shelf price × (1 + rate)<sup>N</sup>. The same arithmetic a pension forecast uses.</p>
+    </div>
+    <div>
+      <b>Today versus worst case</b>
+      <p id="m3"></p>
+    </div>
+  </div>
+  <p class="method-note" id="methodNote"></p>
+</div></section>
+
+<footer>
+  <div class="fline">Today's Inflation. Tomorrow's Prices.</div>
+  <div class="fnav">
+    <a href="/past-present-future/?to=future">Back to Past. Present. Future.</a>
+    <a href="#" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'})">Back to top ↑</a>
+  </div>
+  <div class="fine" id="footSource">Inflation rates come from each country's national statistics office. Shelf prices are a national average, so your local shop may differ. Nothing here is for sale.</div>
+</footer>
+
+
+<!-- ========== POST TO X ========== -->
+<div class="xs" id="xshare" role="dialog" aria-modal="true" aria-labelledby="xsH" hidden>
+  <div class="xs-card">
+    <button type="button" class="xs-x" id="xsClose" aria-label="Close">×</button>
+    <div class="xs-k">Share this price</div>
+    <h3 id="xsH">Who should see this?</h3>
+    <div class="xs-grid">
+      <label>Country<select id="xsCountry"></select></label>
+      <label>Tag<input id="xsHandle" type="text" placeholder="@handle" autocomplete="off" spellcheck="false" /></label>
+    </div>
+    <div class="xs-who" id="xsWho"></div>
+    <label class="xs-text-l">Your post<textarea id="xsText" rows="5"></textarea></label>
+    <div class="xs-actions">
+      <a class="xs-go" id="xsGo" href="#" target="_blank" rel="noopener">Post on X →</a>
+      <button type="button" class="xs-copy" id="xsCopy">Copy text</button>
+    </div>
+    <div class="xs-fine">X opens with the post written. You press Post. Nothing is sent by this site.</div>
+  </div>
+</div>
+
+<!-- ========== CHECKOUT RECEIPT ========== -->
+<div class="rc-overlay" id="checkout" aria-hidden="true">
+  <div class="rc-backdrop" data-close></div>
+  <div class="rc-scroll" id="rcScroll">
+    <article class="rc-receipt" id="receipt">
+      <button class="rc-x" data-close aria-label="Close">×</button>
+      <div class="rc-head">
+        <span class="rc-mark">TomorrowMart</span>
+        <h3>Receipt</h3>
+        <div class="rc-sub" id="rcSub">Trading year 2026 · Simulation 01</div>
+      </div>
+      <hr class="rc-sep" />
+      <div class="rc-meta">
+        <div class="rc-row"><span class="k">Order</span><span class="v" id="rcOrder">#000000</span></div>
+        <div class="rc-row"><span class="k">Basket</span><span class="v" id="rcBasket">Weekly shop</span></div>
+        <div class="rc-row"><span class="k">Trading year</span><span class="v" id="rcYear">2026</span></div>
+        <div class="rc-row"><span class="k">Rate applied</span><span class="v" id="rcRate">-</span></div>
+      </div>
+      <hr class="rc-sep" />
+      <div class="rc-items" id="rcItems"></div>
+      <hr class="rc-sep" />
+      <div class="rc-fees" id="rcFees"></div>
+      <hr class="rc-sep" />
+      <div class="rc-total"><span>Total</span><span id="rcTotal">$0.00</span></div>
+      <div class="rc-stat" id="rcStat"></div>
+      <hr class="rc-sep" />
+      <div class="rc-ladder-h">Same basket, by decade</div>
+      <div class="rc-ladder" id="rcLadder"></div>
+      <hr class="rc-sep" />
+      <div class="rc-foot">
+        <div class="rc-big">Thanks for shopping.</div>
+        <div class="barcode" aria-hidden="true"></div>
+        <div id="rcId">TXN 0000</div>
+        <div style="margin-top:6px">a simulated shop · not for sale, not for shipping</div>
+      </div>
+    </article>
+    <section class="rep" id="rep">
+      <h3>Share this receipt</h3>
+      <p class="rep-sub">Send this receipt to the person who can do something about it. Post it to X, or send the letter.</p>
+      <div id="repFields"></div>
+      <div class="rep-letter" id="repLetter"></div>
+      <div class="rep-actions">
+        <button class="rc-cta" id="repPostX">Post to X</button>
+        <button class="rc-cta ghost dark" id="repCopy">Copy the letter</button>
+        <button class="rc-cta ghost dark" id="repMail">Open email draft</button>
+        <a class="rc-cta ghost dark" id="repFind" target="_blank" rel="noopener" hidden>Find your representative</a>
+      </div>
+    </section>
+
+    <div class="rc-actions">
+      <button class="rc-cta" id="btnImage">Save as image</button>
+      <button class="rc-cta ghost" id="btnPrint">Print</button>
+      <button class="rc-cta ghost" id="btnShare">Share</button>
+      <button class="rc-cta ghost" data-close>Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const Y0 = 2026, Y1 = 2056, SPAN = Y1 - Y0;
+
+/* ================= COUNTRIES =================
+   Country figures are maintained in rates.json. */
+let COUNTRIES = [], META = null;
+const TZ = {'Europe/London':'GB','Europe/Dublin':'IE','Europe/Berlin':'DE','Europe/Paris':'FR','Europe/Madrid':'ES',
+  'Europe/Rome':'IT','Europe/Amsterdam':'NL','Europe/Lisbon':'PT','Europe/Warsaw':'PL','Europe/Stockholm':'SE',
+  'Europe/Oslo':'NO','Europe/Copenhagen':'DK','Europe/Zurich':'CH','Europe/Istanbul':'TR',
+  'America/New_York':'US','America/Chicago':'US','America/Denver':'US','America/Los_Angeles':'US','America/Phoenix':'US',
+  'America/Toronto':'CA','America/Vancouver':'CA','America/Edmonton':'CA','America/Mexico_City':'MX',
+  'America/Sao_Paulo':'BR','America/Argentina/Buenos_Aires':'AR','America/Santiago':'CL','America/Bogota':'CO',
+  'Africa/Lagos':'NG','Africa/Cairo':'EG','Africa/Johannesburg':'ZA','Africa/Nairobi':'KE',
+  'Asia/Tokyo':'JP','Asia/Seoul':'KR','Asia/Kolkata':'IN','Asia/Calcutta':'IN','Asia/Karachi':'PK','Asia/Jakarta':'ID',
+  'Asia/Manila':'PH','Asia/Singapore':'SG','Asia/Bangkok':'TH','Asia/Ho_Chi_Minh':'VN','Asia/Shanghai':'CN','Asia/Dubai':'AE',
+  'Australia/Sydney':'AU','Australia/Melbourne':'AU','Australia/Brisbane':'AU','Australia/Perth':'AU','Pacific/Auckland':'NZ','Asia/Vientiane':'LA'};
+
+function detectCountry(){
+  try{
+    try{ localStorage.removeItem('tm-country'); }catch(_){}          // old sticky choice — retired
+    const saved = sessionStorage.getItem('tm-country');
+    if(saved && COUNTRIES.some(c=>c.c===saved)) return saved;
+  }catch(_){}
+  try{
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if(TZ[tz]) return TZ[tz];
+  }catch(_){}
+  try{
+    for(const l of (navigator.languages||[navigator.language||''])){
+      const r = (l.split('-')[1]||'').toUpperCase();
+      if(COUNTRIES.some(c=>c.c===r)) return r;
+    }
+  }catch(_){}
+  return 'US';
+}
+let CO = null;
+let countryPicked = false;
+
+/* ================= SHELF ================= */
+const CATS = [
+  {key:'produce',   name:'Fresh Produce',   sub:'Fruit and vegetables', basis:'food'},
+  {key:'dairy',     name:'Dairy & Eggs',    sub:'Milk, eggs, butter and cheese',              basis:'food'},
+  {key:'bakery',    name:'Bakery',          sub:'Bread and pastries',                          basis:'food'},
+  {key:'meat',      name:'Meat & Seafood',  sub:'Meat and fish',             basis:'food'},
+  {key:'pantry',    name:'Pantry',          sub:'Rice, pasta, oil and sugar',                              basis:'food'},
+  {key:'drinks',    name:'Drinks',          sub:'Soft drinks, beer, tea and coffee',                           basis:'food'},
+  {key:'counter',   name:'Bakery Counter',  sub:'Rolls, muffins and biscuits',    basis:'food'},
+  {key:'cupboard',  name:'Cupboard & Snacks', sub:'Spreads, tins and treats',  basis:'food'},
+  {key:'fruitveg',  name:'Fruit & Veg',     sub:'Potatoes, carrots and fruit',               basis:'food'},
+  {key:'freezer',   name:'Freezer & Snacks', sub:'Frozen food and snacks',           basis:'food'},
+  {key:'household', name:'Household',       sub:'Toilet paper, batteries and the rest', basis:'food'},
+  {key:'own',       name:"Tomorrow's Own",  sub:"Our own brand. You won't find these anywhere else.", basis:'food'},
+];
+/* Drawn (vector) packs are parked until real packshots arrive — flip to true to bring Household + Tomorrow's Own back. */
+const SHOW_DRAWN_PACKS = true;   // packshots arrived 6 Oct — every product has a photo now
+
+
+
+/* base = typical 2026 US shelf price in USD · size = amount in `unit` */
+const PRODUCTS = [
+  {cat:'produce', name:'Avocado', photo:'/past-present-future/tomorrowmart/media/products/avocado-1.png', img:'Avocado', base:1.99, unit:'avocado', stages:[
+    {y:2026, qty:'1 ripe · each', size:1},
+    {y:2038, qty:'½ · spread-grade', size:0.5, note:'Now sold by the half.', tag:'size'},
+    {y:2048, qty:'60g pot · avocado spread', size:0.3, note:'New: ready-to-spread pot.', tag:'recipe'},
+  ]},
+  {cat:'produce', name:'Bananas', img:'Banana', base:0.69, unit:'kg', stages:[
+    {y:2026, qty:'1 lb bunch · 450g', size:0.45},
+    {y:2038, qty:'5-banana bunch · 350g', size:0.35, note:'Now in easy-carry bunches.', tag:'size'},
+    {y:2048, qty:'3-banana pack · 220g', size:0.22, note:'Now sold in threes.', tag:'size'},
+  ]},
+  {cat:'produce', name:'Vine Tomatoes', photo:'/past-present-future/tomorrowmart/media/products/tomatoes.png', img:'Tomatoes', base:2.49, unit:'kg', stages:[
+    {y:2026, qty:'1 lb on the vine · 450g', size:0.45},
+    {y:2040, qty:'4-tomato punnet · 300g', size:0.30, note:'New 4-tomato punnet.', tag:'size'},
+    {y:2050, qty:'2-tomato punnet · 180g', size:0.18, note:'Now sold in twos.', tag:'size'},
+  ]},
+  {cat:'produce', name:'Lettuce', img:'Lettuce', base:1.99, unit:'head', stages:[
+    {y:2026, qty:'1 head', size:1},
+    {y:2038, qty:'half head, wrapped', size:0.5, note:'New half-head pack, less waste.', tag:'size'},
+    {y:2050, qty:'mini head · hydroponic', size:0.35, note:'New hydroponic mini.', tag:'recipe'},
+  ]},
+  {cat:'produce', name:'Apples', img:'Apple', base:1.49, unit:'kg', stages:[
+    {y:2026, qty:'1 lb loose · 450g', size:0.45},
+    {y:2040, qty:'3-apple pack · 330g', size:0.33, note:'Now sold in threes.', tag:'size'},
+    {y:2050, qty:'2-apple pack · 220g', size:0.22, note:'Now sold in twos.', tag:'size'},
+  ]},
+
+  {cat:'dairy', name:'Whole Milk', photo:'/past-present-future/tomorrowmart/media/products/milk-v2.webp', img:'Whole%20Milk', base:3.20, unit:'litre', stages:[
+    {y:2026, qty:'1 litre', size:1},
+    {y:2036, qty:'1 litre · dairy blend', size:1, note:'New recipe.', tag:'recipe'},
+    {y:2046, qty:'750ml · dairy blend', size:0.75, note:'New 750ml bottle.', tag:'size'},
+    {y:2054, qty:'500ml · 30% dairy', size:0.5, note:'New recipe, now plant-blended.', tag:'plant'},
+  ]},
+  {cat:'dairy', name:'Eggs', img:'Eggs', base:3.99, unit:'egg', stages:[
+    {y:2026, qty:'dozen · large', size:12},
+    {y:2036, qty:'8-pack · large', size:8, note:'New 8-pack.', tag:'size'},
+    {y:2046, qty:'6-pack · medium', size:6, note:'Now sold in sixes.', tag:'size'},
+    {y:2054, qty:'single egg', size:1, note:'Now sold individually.', tag:'size'},
+  ]},
+  {cat:'dairy', name:'Butter', photo:'/past-present-future/tomorrowmart/media/products/butter.png', img:'Butter', base:3.49, unit:'kg', stages:[
+    {y:2026, qty:'250g block', size:0.25},
+    {y:2040, qty:'180g spreadable', size:0.18, note:'New spreadable tub.', tag:'recipe'},
+    {y:2050, qty:'125g · butter blend', size:0.125, note:'New recipe, blended with oils.', tag:'recipe'},
+  ]},
+  {cat:'dairy', name:'Yoghurt', photo:'/past-present-future/tomorrowmart/media/products/yoghurt.png', img:'Yogurt', base:2.79, unit:'kg', stages:[
+    {y:2026, qty:'500g pot · natural', size:0.5},
+    {y:2040, qty:'400g pot', size:0.4, note:'New 400g pot.', tag:'size'},
+    {y:2050, qty:'300g pot', size:0.3, note:'New 300g pot.', tag:'size'},
+  ]},
+  {cat:'dairy', name:'Cheese', photo:'/past-present-future/tomorrowmart/media/products/cheese.png', img:'Cheese', base:5.49, unit:'kg', stages:[
+    {y:2026, qty:'400g block', size:0.4},
+    {y:2040, qty:'250g block', size:0.25, note:'New 250g size.', tag:'size'},
+    {y:2050, qty:'150g · cheese blend', size:0.15, note:'New recipe.', tag:'recipe'},
+  ]},
+
+  {cat:'bakery', name:'Sourdough', photo:'/past-present-future/tomorrowmart/media/products/sourdough.png', img:'Bread', base:4.50, unit:'kg', stages:[
+    {y:2026, qty:'800g loaf', size:0.8},
+    {y:2040, qty:'500g loaf', size:0.5, note:'New bakery size.', tag:'size'},
+    {y:2050, qty:'300g half loaf', size:0.3, note:'Now sold as a half loaf.', tag:'size'},
+  ]},
+  {cat:'bakery', name:'Bagels', photo:'/past-present-future/tomorrowmart/media/products/bagels.png?v=2', img:'Bread%20Rolls', base:3.99, unit:'bagel', stages:[
+    {y:2026, qty:'6-pack', size:6},
+    {y:2040, qty:'4-pack', size:4, note:'New 4-pack.', tag:'size'},
+    {y:2050, qty:'2-pack', size:2, note:'Now sold in twos.', tag:'size'},
+  ]},
+  {cat:'bakery', name:'Croissant', photo:'/past-present-future/tomorrowmart/media/products/croissant.png', img:'Puff%20Pastry', base:1.50, unit:'croissant', stages:[
+    {y:2026, qty:'each · all butter', size:1},
+    {y:2040, qty:'each · butter blend', size:1, note:'New recipe.', tag:'recipe'},
+    {y:2050, qty:'each · vegetable oil pastry', size:1, note:'New recipe, now plant-based.', tag:'plant'},
+  ]},
+  {cat:'bakery', name:'Baguette', img:'Baguette', base:1.89, unit:'kg', stages:[
+    {y:2026, qty:'1 stick · 250g', size:0.25},
+    {y:2040, qty:'1 stick · 200g', size:0.2, note:'New bakery size.', tag:'size'},
+    {y:2050, qty:'demi · 150g', size:0.15, note:'Now sold as a demi.', tag:'size'},
+  ]},
+  {cat:'bakery', name:'Tortillas', img:'Tortillas', base:2.99, unit:'tortilla', stages:[
+    {y:2026, qty:'10-pack', size:10},
+    {y:2040, qty:'6-pack', size:6, note:'New 6-pack.', tag:'size'},
+    {y:2050, qty:'4-pack · wheat blend', size:4, note:'New recipe.', tag:'recipe'},
+  ]},
+
+  {cat:'meat', name:'Ground Beef', img:'Minced%20Beef', base:5.50, unit:'kg', stages:[
+    {y:2026, qty:'500g · 100% beef', size:0.5},
+    {y:2036, qty:'400g · 80% beef', size:0.4, note:'New recipe, extended with plant protein.', tag:'recipe'},
+    {y:2046, qty:'300g · 40% beef', size:0.3, note:'New recipe.', tag:'recipe'},
+    {y:2054, qty:'300g · cultured', size:0.3, note:'New: cultured protein.', tag:'plant'},
+  ]},
+  {cat:'meat', name:'Chicken Breast', photo:'/past-present-future/tomorrowmart/media/products/chicken-breast.png', img:'Chicken', base:4.99, unit:'kg', stages:[
+    {y:2026, qty:'500g · 2 fillets', size:0.5},
+    {y:2040, qty:'350g · 2 fillets', size:0.35, note:'New 350g pack.', tag:'size'},
+    {y:2050, qty:'250g · cultured fillet', size:0.25, note:'New: cultured fillet.', tag:'plant'},
+  ]},
+  {cat:'meat', name:'Salmon Fillet', img:'Salmon', base:8.99, unit:'kg', stages:[
+    {y:2026, qty:'200g · wild caught', size:0.2},
+    {y:2040, qty:'120g · farmed', size:0.12, note:'Now responsibly farmed.', tag:'recipe'},
+    {y:2050, qty:'100g · plant fillet', size:0.1, note:'New recipe, now plant-based.', tag:'plant'},
+  ]},
+  {cat:'meat', name:'Pork Chops', img:'Pork', base:6.49, unit:'kg', stages:[
+    {y:2026, qty:'2 chops · 450g', size:0.45},
+    {y:2040, qty:'2 chops · 350g', size:0.35, note:'New 350g tray.', tag:'size'},
+    {y:2050, qty:'1 chop · 200g', size:0.2, note:'Now sold singly.', tag:'size'},
+  ]},
+  {cat:'meat', name:'Bacon', photo:'/past-present-future/tomorrowmart/media/products/bacon.png', img:'Streaky%20Bacon', base:4.49, unit:'rasher', stages:[
+    {y:2026, qty:'8 rashers', size:8},
+    {y:2040, qty:'5 rashers', size:5, note:'New 5-rasher pack.', tag:'size'},
+    {y:2050, qty:'3 rashers · smoked protein', size:3, note:'New recipe.', tag:'recipe'},
+  ]},
+
+  {cat:'pantry', name:'Rice', photo:'/past-present-future/tomorrowmart/media/products/rice-v3.webp', img:'Rice', base:2.99, unit:'kg', stages:[
+    {y:2026, qty:'1 kg bag', size:1},
+    {y:2040, qty:'750g bag', size:0.75, note:'New 750g bag.', tag:'size'},
+    {y:2050, qty:'500g bag', size:0.5, note:'New 500g bag.', tag:'size'},
+  ]},
+  {cat:'pantry', name:'Pasta', photo:'/past-present-future/tomorrowmart/media/products/pasta-v3.webp', img:'Penne%20Pasta', base:1.49, unit:'kg', stages:[
+    {y:2026, qty:'500g box', size:0.5},
+    {y:2040, qty:'400g box', size:0.4, note:'New 400g box.', tag:'size'},
+    {y:2050, qty:'300g · wheat blend', size:0.3, note:'New recipe.', tag:'recipe'},
+  ]},
+  {cat:'pantry', name:'Olive Oil', photo:'/past-present-future/tomorrowmart/media/products/olive-oil.png', img:'Olive%20Oil', base:8.99, unit:'litre', stages:[
+    {y:2026, qty:'750ml · extra virgin', size:0.75},
+    {y:2038, qty:'500ml · olive blend', size:0.5, note:'New blended recipe.', tag:'recipe'},
+    {y:2048, qty:'250ml · oil blend', size:0.25, note:'New 250ml bottle.', tag:'size'},
+  ]},
+  {cat:'pantry', name:'Sugar', photo:'/past-present-future/tomorrowmart/media/products/sugar-v3.webp', img:'Sugar', base:2.29, unit:'kg', stages:[
+    {y:2026, qty:'1 kg bag', size:1},
+    {y:2040, qty:'750g bag', size:0.75, note:'New 750g bag.', tag:'size'},
+    {y:2050, qty:'500g bag', size:0.5, note:'New 500g bag.', tag:'size'},
+  ]},
+  {cat:'pantry', name:'Coffee', photo:'/past-present-future/tomorrowmart/media/products/coffee.png', img:'Coffee', base:6.00, unit:'kg', stages:[
+    {y:2026, qty:'250g · whole beans', size:0.25},
+    {y:2036, qty:'200g · house blend', size:0.2, note:'New blend.', tag:'recipe'},
+    {y:2046, qty:'150g · house blend', size:0.15, note:'New 150g pack.', tag:'size'},
+    {y:2054, qty:'100g · instant blend', size:0.1, note:'New instant format.', tag:'recipe'},
+  ]},
+
+  {cat:'drinks', name:'Cola', photo:'/past-present-future/tomorrowmart/media/products/cola-v2.webp', img:'Coca-Cola', base:2.49, unit:'litre', stages:[
+    {y:2026, qty:'330ml can', size:0.33},
+    {y:2036, qty:'250ml slimline can', size:0.25, note:'New slimline can.', tag:'size'},
+    {y:2046, qty:'200ml can', size:0.2, note:'New 200ml size.', tag:'size'},
+    {y:2054, qty:'sachet · makes 200ml', size:0.2, note:'New concentrate sachet.', tag:'recipe'},
+  ]},
+  {cat:'drinks', name:'Orange Juice', photo:'/past-present-future/tomorrowmart/media/products/orange-juice.png', img:'Orange', base:3.99, unit:'litre', stages:[
+    {y:2026, qty:'1 litre · not from concentrate', size:1},
+    {y:2038, qty:'750ml · from concentrate', size:0.75, note:'New recipe.', tag:'recipe'},
+    {y:2048, qty:'500ml · juice drink', size:0.5, note:'New 500ml size.', tag:'size'},
+  ]},
+  {cat:'drinks', name:'Beer', img:'Beer', base:1.99, unit:'litre', stages:[
+    {y:2026, qty:'500ml can · 5%', size:0.5},
+    {y:2040, qty:'440ml can · 4.5%', size:0.44, note:'New 440ml can.', tag:'size'},
+    {y:2050, qty:'330ml can · 3.5%', size:0.33, note:'New 330ml can.', tag:'size'},
+  ]},
+  {cat:'drinks', name:'Tea', photo:'/past-present-future/tomorrowmart/media/products/tea.png', img:'Tea', base:3.49, unit:'bag', stages:[
+    {y:2026, qty:'80 bags · everyday', size:80},
+    {y:2040, qty:'60 bags', size:60, note:'New 60-bag box.', tag:'size'},
+    {y:2050, qty:'40 bags', size:40, note:'New 40-bag box.', tag:'size'},
+  ]},
+  {cat:'drinks', name:'Drinking Water', photo:'/past-present-future/tomorrowmart/media/products/water-2.png', img:'Water', base:0.99, unit:'litre', stages:[
+    {y:2026, qty:'1.5 litre bottle', size:1.5},
+    {y:2036, qty:'1 litre bottle', size:1, note:'New 1 litre bottle.', tag:'size'},
+    {y:2046, qty:'500ml bottle', size:0.5, note:'New 500ml bottle.', tag:'size'},
+  ]},
+
+  /* ---- Bakery Counter + Cupboard: photo products (Daniel's packshots + the food CDN) ---- */
+  {cat:'counter', name:'Cinnamon Rolls', photo:'/past-present-future/tomorrowmart/media/products/cinnamon-rolls.png', img:'Bread', base:3.49, unit:'roll', stages:[
+    {y:2026, qty:'4 pack · iced', size:4},
+    {y:2040, qty:'3 pack · iced', size:3, note:'New 3-pack.', tag:'size'},
+  ]},
+  {cat:'counter', name:'Dinner Rolls', photo:'/past-present-future/tomorrowmart/media/products/dinner-rolls.png', img:'Bread%20Rolls', base:2.29, unit:'roll', stages:[
+    {y:2026, qty:'6 pack · white', size:6},
+    {y:2042, qty:'4 pack · white', size:4, note:'New 4-pack.', tag:'size'},
+  ]},
+  {cat:'counter', name:'English Muffins', photo:'/past-present-future/tomorrowmart/media/products/english-muffins.png', img:'Bread', base:2.49, unit:'muffin', stages:[
+    {y:2026, qty:'4 pack', size:4},
+  ]},
+  {cat:'counter', name:'Pita Bread', photo:'/past-present-future/tomorrowmart/media/products/pita-bread.png', img:'Bread', base:1.79, unit:'pita', stages:[
+    {y:2026, qty:'6 pack · white', size:6},
+    {y:2046, qty:'5 pack · white', size:5, note:'Now in fives.', tag:'size'},
+  ]},
+  {cat:'counter', name:'Digestive Biscuits', photo:'/past-present-future/tomorrowmart/media/products/biscuits.png', img:'Digestive%20Biscuits', base:1.99, unit:'kg', stages:[
+    {y:2026, qty:'400g pack', size:0.4},
+    {y:2038, qty:'300g pack', size:0.3, note:'New 300g pack.', tag:'size'},
+  ]},
+  {cat:'cupboard', name:'Milk Powder', photo:'/past-present-future/tomorrowmart/media/products/milk-powder.png', img:'Milk', base:4.99, unit:'kg', stages:[
+    {y:2026, qty:'1kg bag · skimmed', size:1},
+    {y:2044, qty:'750g bag · skimmed', size:0.75, note:'New 750g bag.', tag:'size'},
+  ]},
+  {cat:'cupboard', name:'Peanut Butter', photo:'/past-present-future/tomorrowmart/media/products/peanut-butter.png', img:'Peanut%20Butter', base:3.29, unit:'kg', stages:[
+    {y:2026, qty:'340g jar · crunchy', size:0.34},
+  ]},
+  {cat:'cupboard', name:'Honey', img:'Honey', base:4.49, unit:'kg', stages:[
+    {y:2026, qty:'340g squeezy', size:0.34},
+    {y:2040, qty:'250g squeezy', size:0.25, note:'New 250g squeezy.', tag:'size'},
+  ]},
+  {cat:'cupboard', name:'Dark Chocolate', photo:'/past-present-future/tomorrowmart/media/products/chocolate-bar.png', img:'Dark%20Chocolate', base:2.19, unit:'bar', stages:[
+    {y:2026, qty:'100g bar · 70%', size:1},
+    {y:2036, qty:'90g bar · 70%', size:0.9, note:'Now 90g. Same wrapper.', tag:'size'},
+  ]},
+  {cat:'cupboard', name:'Baked Beans', photo:'/past-present-future/tomorrowmart/media/products/beans.png', img:'Baked%20Beans', base:0.99, unit:'tin', stages:[
+    {y:2026, qty:'400g tin', size:1},
+  ]},
+
+  /* ---- Fruit & Veg + Freezer & Snacks (Daniel's packshots, 6 Oct) ---- */
+  {cat:'fruitveg', name:'Potatoes', photo:'/past-present-future/tomorrowmart/media/products/potatoes.png', img:'Potatoes', base:1.99, unit:'kg', stages:[
+    {y:2026, qty:'2kg bag · white', size:2},
+    {y:2040, qty:'1.5kg bag · white', size:1.5, note:'New 1.5kg bag.', tag:'size'},
+  ]},
+  {cat:'fruitveg', name:'Carrots', photo:'/past-present-future/tomorrowmart/media/products/carrots.png', img:'Carrots', base:0.89, unit:'kg', stages:[
+    {y:2026, qty:'1kg bag', size:1},
+  ]},
+  {cat:'fruitveg', name:'Oranges', photo:'/past-present-future/tomorrowmart/media/products/orange.png', img:'Orange', base:2.49, unit:'kg', stages:[
+    {y:2026, qty:'1kg net · 6-7 fruit', size:1},
+    {y:2044, qty:'750g net · 5 fruit', size:0.75, note:'Now a 5-fruit net.', tag:'size'},
+  ]},
+  {cat:'fruitveg', name:'Strawberries', photo:'/past-present-future/tomorrowmart/media/products/strawberry.png?v=2', img:'Strawberries', base:2.99, unit:'kg', stages:[
+    {y:2026, qty:'400g punnet', size:0.4},
+    {y:2036, qty:'300g punnet', size:0.3, note:'New 300g punnet.', tag:'size'},
+  ]},
+  {cat:'fruitveg', name:'Blueberries', photo:'/past-present-future/tomorrowmart/media/products/blueberries.png', img:'Blueberries', base:2.79, unit:'kg', stages:[
+    {y:2026, qty:'150g punnet', size:0.15},
+    {y:2042, qty:'125g punnet', size:0.125, note:'New 125g punnet.', tag:'size'},
+  ]},
+  {cat:'freezer', name:'Frozen Pizza', photo:'/past-present-future/tomorrowmart/media/products/frozen-pizza.png', img:'Flour', base:3.49, unit:'pizza', stages:[
+    {y:2026, qty:'Pepperoni · 525g', size:1},
+    {y:2040, qty:'Pepperoni · 450g', size:0.86, note:'Slightly smaller pizza. Same box.', tag:'size'},
+  ]},
+  {cat:'freezer', name:'Fish Fingers', photo:'/past-present-future/tomorrowmart/media/products/fish-fingers.png', img:'Cod', base:2.99, unit:'finger', stages:[
+    {y:2026, qty:'15 fingers · cod', size:15},
+    {y:2038, qty:'12 fingers · cod', size:12, note:'Now 12. Still fingers.', tag:'size'},
+  ]},
+  {cat:'freezer', name:'Ice Cream', photo:'/past-present-future/tomorrowmart/media/products/icecream-v3.webp', img:'Ice%20Cream', base:3.99, unit:'litre', stages:[
+    {y:2026, qty:'1 litre tub · strawberry', size:1},
+    {y:2036, qty:'900ml tub · strawberry', size:0.9, note:'New 900ml tub.', tag:'size'},
+    {y:2048, qty:'750ml tub · strawberry', size:0.75, note:'New 750ml tub.', tag:'size'},
+  ]},
+  {cat:'freezer', name:'Frozen Peas', photo:'/past-present-future/tomorrowmart/media/products/frozen-peas.png', img:'Peas', base:1.29, unit:'kg', stages:[
+    {y:2026, qty:'1kg bag · garden', size:1},
+    {y:2044, qty:'800g bag · garden', size:0.8, note:'New 800g bag.', tag:'size'},
+  ]},
+  {cat:'freezer', name:'Salted Peanuts', photo:'/past-present-future/tomorrowmart/media/products/salted-peanuts.png', img:'Peanuts', base:1.79, unit:'kg', stages:[
+    {y:2026, qty:'200g bag', size:0.2},
+    {y:2040, qty:'150g bag', size:0.15, note:'New 150g bag.', tag:'size'},
+  ]},
+
+  /* ---- Household: Tomorrow's Own essentials (designed packs; parked while SHOW_DRAWN_PACKS is false) ---- */
+  {cat:'household', name:'Toilet Paper', photo:'/past-present-future/tomorrowmart/media/products/toilet-paper.png', base:3.29, unit:'roll', pack:{shape:'roll', tint:'white', l1:'Toilet', l2:'Paper', tag:'4 rolls', sub:'2-ply today'}, stages:[
+    {y:2026, qty:'4 rolls · 2-ply', size:4},
+    {y:2038, qty:'4 rolls · 1-ply', size:3, note:'Now 1-ply. Lighter to carry.', tag:'size'},
+    {y:2050, qty:'2 rolls · 1-ply', size:1.5, note:'New handy 2-pack.', tag:'size'},
+  ]},
+  {cat:'household', name:'Sparkling Water', photo:'/past-present-future/tomorrowmart/media/products/sparkling-water.png', base:0.79, unit:'litre', pack:{shape:'bottle', tint:'blue', l1:'Sparkling', l2:'Water', tag:'1 litre', sub:'Bubbles included'}, stages:[
+    {y:2026, qty:'1 litre bottle', size:1},
+    {y:2040, qty:'750ml bottle', size:0.75, note:'New 750ml bottle.', tag:'size'},
+  ]},
+  {cat:'household', name:'Washing-up Liquid', photo:'/past-present-future/tomorrowmart/media/products/washing-up-liquid.png', base:1.49, unit:'bottle', pack:{shape:'squeeze', tint:'yellow', l1:'Washing-up', l2:'Liquid', tag:'500ml', sub:'Lemon-ish'}, stages:[
+    {y:2026, qty:'500ml · lemon', size:1},
+    {y:2042, qty:'400ml · lemon', size:0.8, note:'New easy-grip 400ml.', tag:'size'},
+  ]},
+  {cat:'household', name:'AA Batteries', photo:'/past-present-future/tomorrowmart/media/products/aa-batteries.png', base:3.99, unit:'pack', pack:{shape:'box', tint:'blue', l1:'AA', l2:'Batteries', tag:'4 pack', sub:'Long-ish life'}, stages:[
+    {y:2026, qty:'4 pack', size:1},
+    {y:2044, qty:'2 pack', size:0.5, note:'New 2-pack. Half the weight.', tag:'size'},
+  ]},
+  {cat:'household', name:'Dog Food', photo:'/past-present-future/tomorrowmart/media/products/dog-food.png', base:1.19, unit:'tin', pack:{shape:'can', tint:'yellow', l1:'Dog', l2:'Food', tag:'400g', sub:'Meaty chunks (some)'}, stages:[
+    {y:2026, qty:'400g tin · meaty chunks', size:1},
+    {y:2036, qty:'300g tin · meaty chunks', size:0.75, note:'New 300g tin.', tag:'size'},
+  ]},
+
+  /* ---- Tomorrow's Own: the unhinged aisle ---- */
+  {cat:'own', name:'Shrinkflakes', photo:'/past-present-future/tomorrowmart/media/products/shrinkflakes.png', base:3.49, unit:'box', pack:{shape:'box', tint:'yellow', l1:'Shrink', l2:'Flakes', tag:'New!', sub:'Same box. Fewer flakes. More air.'}, stages:[
+    {y:2026, qty:'500g box · now with air', size:1},
+    {y:2036, qty:'500g box · 380g flakes', size:0.76, note:'Now 24% more air.', tag:'size'},
+    {y:2046, qty:'500g box · 250g flakes', size:0.5, note:'Box unchanged. Contents optional.', tag:'size'},
+  ]},
+  {cat:'own', name:'One Egg', photo:'/past-present-future/tomorrowmart/media/products/one-egg.png', base:0.89, unit:'egg', pack:{shape:'box', tint:'white', l1:'One', l2:'Egg', tag:'Family size', sub:'Individually wrapped. Serves 1.'}, stages:[
+    {y:2026, qty:'1 egg · gift boxed', size:1},
+  ]},
+  {cat:'own', name:'Instant Pension Noodles', photo:'/past-present-future/tomorrowmart/media/products/instant-pension-noodles.png', base:0.99, unit:'pack', pack:{shape:'bag', tint:'blue', l1:'Instant', l2:'Pension', tag:'Just add 40 yrs', sub:'Noodle flavour. Retire in 3 minutes.'}, stages:[
+    {y:2026, qty:'85g pack · retirement flavour', size:1},
+    {y:2046, qty:'70g pack · retirement flavour', size:0.82, note:'Retirement age raised. Noodles reduced.', tag:'size'},
+  ]},
+  {cat:'own', name:'Compound Butter', photo:'/past-present-future/tomorrowmart/media/products/butter.png', base:3.99, unit:'block', pack:{shape:'box', tint:'yellow', l1:'Compound', l2:'Butter', tag:'Compounds annually', sub:'Spreads thin. Grows fast.'}, stages:[
+    {y:2026, qty:'250g block · compounds annually', size:1},
+  ]},
+  {cat:'own', name:"Yesterday's Bread", photo:'/past-present-future/tomorrowmart/media/products/yesterdays-bread.png', base:2.49, unit:'loaf', pack:{shape:'bag', tint:'white', l1:"Yesterday's", l2:'Bread', tag:"Tomorrow's price", sub:'Baked then. Priced later.'}, stages:[
+    {y:2026, qty:'800g loaf · baked yesterday', size:1},
+    {y:2040, qty:'600g loaf · baked yesterday', size:0.75, note:'Smaller loaf. Same yesterday.', tag:'size'},
+  ]},
+];
+
+/* Product image: Daniel's packshot if we have one, else the food CDN. */
+const imgOf = p => p.photo || `https://www.themealdb.com/images/ingredients/${p.img}.png`;
+
+/* Designed packs for products without a photo. Flat, blue/yellow/white, no cartoon shading. */
+function packSVG(pk, name){
+  const C = {blue:['#1A4FD6','#FFD233','#fff'], yellow:['#FFD233','#0B2C7A','#0B2C7A'], white:['#fff','#1A4FD6','#0B2C7A']}[pk.tint||'blue'];
+  const [bg, acc, ink] = C, S='#0B2C7A', sw=5;
+  const label = (x,y,w,h)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${bg}" stroke="${S}" stroke-width="${sw}"/>`;
+  let body='';
+  if(pk.shape==='box')     body = `<rect x="78" y="40" width="144" height="220" rx="6" fill="${bg}" stroke="${S}" stroke-width="${sw}"/>`;
+  if(pk.shape==='bag')     body = `<path d="M70 62 Q150 36 230 62 L220 262 Q150 274 80 262 Z" fill="${bg}" stroke="${S}" stroke-width="${sw}" stroke-linejoin="round"/><path d="M84 60 L216 60" stroke="${S}" stroke-width="3" stroke-dasharray="4 5"/>`;
+  if(pk.shape==='can')     body = `<rect x="84" y="56" width="132" height="200" rx="10" fill="${bg}" stroke="${S}" stroke-width="${sw}"/><ellipse cx="150" cy="56" rx="66" ry="14" fill="#fff" stroke="${S}" stroke-width="${sw}"/><ellipse cx="150" cy="56" rx="48" ry="8" fill="none" stroke="${S}" stroke-width="3"/>`;
+  if(pk.shape==='bottle')  body = `<rect x="128" y="22" width="44" height="26" rx="5" fill="${acc}" stroke="${S}" stroke-width="${sw}"/><path d="M118 48 H182 L196 92 V248 Q196 262 182 262 H118 Q104 262 104 248 V92 Z" fill="${bg}" stroke="${S}" stroke-width="${sw}" stroke-linejoin="round"/>`;
+  if(pk.shape==='squeeze') body = `<rect x="132" y="22" width="36" height="22" rx="4" fill="${S}"/><path d="M110 44 H190 Q206 44 206 60 V246 Q206 262 190 262 H110 Q94 262 94 246 V60 Q94 44 110 44 Z" fill="${bg}" stroke="${S}" stroke-width="${sw}"/>`;
+  if(pk.shape==='roll')    body = `<rect x="70" y="70" width="160" height="150" fill="#fff" stroke="${S}" stroke-width="${sw}"/><ellipse cx="150" cy="70" rx="80" ry="26" fill="#fff" stroke="${S}" stroke-width="${sw}"/><ellipse cx="150" cy="70" rx="22" ry="8" fill="${bg==='#fff'?'#EAF0FD':bg}" stroke="${S}" stroke-width="3"/><path d="M70 220 Q150 246 230 220" fill="none" stroke="${S}" stroke-width="${sw}"/>`;
+  // label band
+  const ly = pk.shape==='roll' ? 128 : 118, lh = 104;
+  const band = pk.shape==='roll' ? `<rect x="70" y="${ly}" width="160" height="${lh}" fill="${bg==='#fff'?'#1A4FD6':bg}" stroke="${S}" stroke-width="${sw}"/>` : '';
+  const tInk = pk.shape==='roll' ? '#fff' : ink, tAcc = pk.shape==='roll' ? '#FFD233' : acc;
+  const fs = {box:30, bag:30, roll:27, can:25, squeeze:23, bottle:20}[pk.shape] || 28;   // narrow shapes get smaller type
+  const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const txt = `
+    <text x="150" y="${ly+40}" text-anchor="middle" font-family="Inter,sans-serif" font-weight="900" font-size="${fs}" letter-spacing="-1" fill="${tInk}">${esc(pk.l1)}</text>
+    <text x="150" y="${ly+40+fs+4}" text-anchor="middle" font-family="Inter,sans-serif" font-weight="900" font-size="${fs}" letter-spacing="-1" fill="${tAcc}">${esc(pk.l2)}</text>
+    <text x="150" y="${ly+94}" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="10.5" fill="${tInk}" opacity=".85">${esc(pk.sub||'')}</text>
+    <text x="150" y="${ly+lh+(pk.shape==='roll'?-2:22)}" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="9" letter-spacing="2" fill="${tInk}" opacity=".7">${esc(("TOMORROW'S OWN").toUpperCase())}</text>`;
+  const tag = pk.tag ? `<g transform="translate(222 62) rotate(12)"><ellipse rx="40" ry="18" fill="${S}"/><text text-anchor="middle" dominant-baseline="middle" font-family="Inter,sans-serif" font-weight="900" font-size="10" fill="#FFD233">${esc(pk.tag.toUpperCase())}</text></g>` : '';
+  return `<svg class="pack" data-img viewBox="0 0 300 300" role="img" aria-label="${esc(name)}">${body}${band}${txt}${tag}</svg>`;
+}
+
+const FLAGS = {
+  size  :['blue','New size'],
+  recipe:['blue','New recipe'],
+  plant :['ink','Now plant-based'],
+};
+
+const ADS = [
+  {after:'produce', link:'Whole Milk', img:'Whole%20Milk', tint:'t1', stages:[
+    {y:2026, kicker:'★ Everyday low price ★', head:'Whole milk', sub:'Same milk as 2026, now with an out of this world price!', cta:'Shop dairy'},
+    {y:2040, kicker:'★ Everyday low price ★', head:'Whole milk', sub:'Same milk as 2026, now with an out of this world price!', cta:'Shop dairy'},
+    {y:2052, kicker:'★ Everyday low price ★', head:'Whole milk', sub:'Same milk as 2026, now with an out of this world price!', cta:'Shop dairy'},
+  ]},
+  {after:'drinks', link:'Cola', img:'Coca-Cola', tint:'t1', stages:[
+    {y:2026, kicker:'★ Chiller deal ★', head:'Cola', sub:'A 330ml can, cold from the chiller by the till. Same fizz, same sugar, same ring pull. Only one thing on it changes, and it isn\'t the recipe.', cta:'Shop drinks'},
+    {y:2040, kicker:'★ Chiller deal ★', head:'Cola', sub:'Same can, same fizz, same ring pull. Only the number changed, and it is still going up.', cta:'Shop drinks'},
+    {y:2052, kicker:'★ Chiller deal ★', head:'Cola', sub:'Same can, same fizz, same ring pull. Only the number changed, and it is still going up.', cta:'Shop drinks'},
+  ]},
+  {after:'bakery', link:'Coffee', img:'Coffee', tint:'t2', stages:[
+    {y:2026, kicker:'★ Morning essentials ★', head:'Coffee', sub:'250g of whole beans, roasted this week and ground to order at the counter.', cta:'Shop coffee'},
+    {y:2040, kicker:'★ Morning essentials ★', head:'Coffee', sub:'The same 250g of coffee, at that year\'s price.', cta:'Shop coffee'},
+    {y:2052, kicker:'★ Morning essentials ★', head:'Coffee', sub:'The same 250g of coffee, at that year\'s price.', cta:'Shop coffee'},
+  ]},
+  {after:'pantry', link:'Pasta', img:'Penne%20Pasta', tint:'t3', stages:[
+    {y:2026, kicker:'★ Pantry staple ★', head:'Penne', sub:'A 500g bag of penne. Dinner for four, most nights of the week.', cta:'Shop pantry'},
+    {y:2040, kicker:'★ Pantry staple ★', head:'Penne', sub:'The same bag of pasta, at that year\'s price.', cta:'Shop pantry'},
+    {y:2052, kicker:'★ Pantry staple ★', head:'Penne', sub:'The cheap dinner isn\'t cheap any more.', cta:'Shop pantry'},
+  ]},
+];
+
+/* ================= MONEY + PRICING =================
+   One rate for everything. Every price compounds at the chosen country's
+   headline CPI inflation — nothing else moves it.
+   (Pack-size changes are modelled but switched off; flip SHOW_PACKS to true.) */
+const SHOW_PACKS = false;
+const SHRINK_PREMIUM = 0;
+PRODUCTS.forEach(p=>{
+  p.baseSize = p.stages[0].size;
+  let steps = 0, last = p.stages[0].size;
+  p.stages.forEach((st,i)=>{
+    if(i>0 && st.size < last) steps++;
+    last = st.size;
+    st.steps = steps;
+  });
+});
+let SCEN = 'current';
+let RATE = 0, FX = 1;
+let HYPER = false, PRICE_RATE = 0;
+const EUROPE = new Set(['AT','BE','BG','HR','CZ','DK','EE','FI','FR','DE','GR','HU','IS','IE','IT','LV','LT','NL','NO','PL','PT','RO','RS','SK','ES','SE','CH','UA','GB']);
+let REF_CUR = 'USD', REF_LOC = 'en-US', REF_FX = 1, LOCAL_LINE = false;
+const eurFx = () => { const e = COUNTRIES.find(c=>c.cur==='EUR'); return e ? e.fx : 0.9; };          // HYPER: rate ≥ 50% → shelf priced in USD at US inflation, local currency shown small
+const HYPER_FROM = 50;
+const usRate = () => { const us = COUNTRIES.find(c=>c.c==='US'); return us ? us.rate/100 : 0.03; };
+const WORST_FACTOR = 1.5;   // worst case = today's rate + 50%
+const rateOf = (co, sc) => sc==='low' ? co.low : sc==='high' ? Math.round(co.rate*WORST_FACTOR*10 + 1e-9)/10 : co.rate;   // +1e-9: 4.1×1.5 is 6.1499… in floating point
+const BIGWORDS = ['million','billion','trillion','quadrillion','quintillion','sextillion','septillion','octillion','nonillion','decillion'];
+function bigWords(n){   // 1.3e26 → "130 septillion"; beyond decillion → "10^N"
+  const e = Math.floor(Math.log10(Math.abs(n)));
+  const i = Math.floor(e/3) - 2;
+  if(i >= BIGWORDS.length) return `10^${e}`;
+  const v = n / Math.pow(10, (i+2)*3);
+  return (v >= 100 ? Math.round(v) : v >= 10 ? v.toFixed(1) : v.toFixed(2)).toString().replace(/\.0+$/,'') + ' ' + BIGWORDS[i];
+}
+const _symCache = {};
+const curSymbolOf = (loc, cur) => {   // "Bs.S", "€", "₹" — pulled from the real formatter so it matches the normal prices
+  const k = loc+'|'+cur; if(_symCache[k]) return _symCache[k];
+  let v; try{ v = new Intl.NumberFormat(loc,{style:'currency',currency:cur}).formatToParts(1).find(p=>p.type==='currency').value; }catch(_){ v = cur; }
+  return (_symCache[k] = v);
+};
+const usdAmbiguous = () => REF_CUR==='USD' && CO.cur!=='USD' && /\$/.test(curSymbolOf(CO.loc, CO.cur));
+const curSymbol = () => usdAmbiguous() ? 'US$' : curSymbolOf(REF_LOC, REF_CUR);
+const money = n => {
+  if(!CO) return '';
+  const loc = 'en', cur = REF_CUR;                   // English digit grouping (1,234.56) for every currency, per Jack
+  if(Math.abs(n) >= 1e9) return `${curSymbol()} ${bigWords(n)}`;
+  try{ const out = new Intl.NumberFormat(loc,{style:'currency',currency:cur,
+        maximumFractionDigits:(FX>50?0:2),minimumFractionDigits:(FX>50?0:2)}).format(n);
+       return usdAmbiguous() ? out.replace(/^\$/, 'US$') : out; }
+  catch(_){ return '$'+n.toFixed(2); }
+};
+function baseShelfPrice(co, p, fx = co.fx){
+  const local = co.shelfPrices2026?.[p.name];
+  return local === undefined ? p.base * fx : local * (fx / co.fx);
+}
+const localBase = p => baseShelfPrice(CO, p, FX);
+const baseUnit  = p => localBase(p) / p.baseSize;          // today's price per unit
+function stageAt(p, year){
+  if(!SHOW_PACKS) return p.stages[0];
+  let s=p.stages[0]; for(const st of p.stages){ if(year>=st.y) s=st; } return s;
+}
+function unitPrice(p, year){
+  const st = stageAt(p, year);
+  return baseUnit(p) * Math.pow(1+PRICE_RATE, year-Y0) * (1 + SHRINK_PREMIUM*st.steps);
+}
+function packPrice(p, year){ return unitPrice(p, year) * stageAt(p, year).size; }   // the shrunken pack on shelf
+function priceAt(p, year){ return unitPrice(p, year) * p.baseSize; }                  // today's amount, that year
+/* the local-currency figure for HYPER countries: raw maths at the country's own rate, in its own money */
+const localRaw = (p, year) => baseShelfPrice(CO, p) * Math.pow(1+RATE, year-Y0);
+/* local line: if the local sign is a dollar-type sign ($, R$, HK$…) use the ISO code instead, so "ARS 4.190" can't be read as US dollars */
+const localDisplay = () => /\$/.test(curSymbolOf(CO.loc, CO.cur)) ? 'code' : 'symbol';
+const moneyLocal = n => {
+  const sym = localDisplay()==='code' ? CO.cur : curSymbolOf(CO.loc, CO.cur);
+  if(Math.abs(n) >= 1e9) return `${sym} ${bigWords(n)}`;
+  try{ return new Intl.NumberFormat('en',{style:'currency',currency:CO.cur,currencyDisplay:localDisplay(),maximumFractionDigits:(CO.fx>50?0:2),minimumFractionDigits:(CO.fx>50?0:2)}).format(n).replace(/\u00a0/g,' '); }
+  catch(_){ return `${CO.cur} ${n.toFixed(0)}`; }
+};
+const pct = x => { const v=x*100; if(v >= 1e6) return bigWords(v) + '%'; return (v<10 ? v.toFixed(1) : Math.round(v).toLocaleString('en-US')) + '%'; };
+
+/* ================= BUILD ================= */
+/* the wavy seal used by every price sticker on the page */
+const STAR = (()=>{ const pts=[]; const N=160, L=8; for(let i=0;i<N;i++){ const a=2*Math.PI*i/N, r=44+5*Math.cos(L*a); pts.push((i?'L':'M')+(50+r*Math.cos(a)).toFixed(2)+' '+(50+r*Math.sin(a)).toFixed(2)); } return pts.join('')+'Z'; })();
+const starSVG = `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="${STAR}"/></svg>`;
+/* Figma banner badges (file mYWaWeLd0FuAvyeWvGvv43): wavy seal + price tag */
+const SEAL_D = "M77.0567 13.355C91.5927 -4.45167 118.804 -4.45167 133.34 13.355V13.355C140.118 21.6575 150.225 26.5437 160.942 26.706V26.706C183.843 27.0528 200.696 48.5287 195.97 70.9393V70.9393C193.753 81.4478 196.252 92.571 202.791 101.091V101.091C216.787 119.327 210.805 145.937 190.277 156.282V156.282C180.7 161.108 173.691 169.999 171.165 180.421V180.421C165.772 202.68 141.286 214.68 120.531 204.996V204.996C110.812 200.461 99.5846 200.461 89.8659 204.996V204.996C69.111 214.68 44.6253 202.68 39.2315 180.421V180.421C36.7059 169.999 29.6965 161.108 20.1197 156.282V156.282C-0.408331 145.937 -6.38996 119.327 7.60562 101.091V101.091C14.1444 92.571 16.6437 81.4478 14.4273 70.9393V70.9393C9.70051 48.5287 26.5543 27.0528 49.4553 26.706V26.706C60.1716 26.5437 70.2792 21.6575 77.0567 13.355V13.355Z";
+const TAG_D = "M226.587 3.64669C230.273 3.64678 233.808 5.11082 236.414 7.717C239.02 10.3232 240.485 13.8585 240.485 17.5442V131.385C240.484 135.07 239.02 138.605 236.414 141.211C233.808 143.817 230.273 145.281 226.587 145.281H57.4621C52.0584 145.281 47.001 142.621 43.9397 138.168L6.53439 83.7609C2.68449 78.161 2.68443 70.7671 6.53439 65.1672L43.9397 10.76C47.001 6.30723 52.0585 3.64677 57.4621 3.64669H226.587ZM45.4768 64.1154C39.7613 64.1157 35.1282 68.7486 35.1281 74.4641C35.1281 80.1796 39.7613 84.8134 45.4768 84.8137C51.1924 84.8137 55.8264 80.1797 55.8264 74.4641C55.8263 68.7485 51.1924 64.1154 45.4768 64.1154Z";
+const sealSVG = `<svg class="badge-seal" viewBox="0 0 210.4 208.4" aria-hidden="true"><path d="${SEAL_D}"/></svg>`;
+const tagSVG  = `<svg class="badge-tag" viewBox="0 0 244.2 149" aria-hidden="true"><path d="${TAG_D}"/></svg>`;
+const AD_BADGE = 'seal';   // 'seal' or 'tag' (both drawn in the Figma)
+const store = document.getElementById('store');
+const cardEls = [], adEls = [];
+const catOf = name => (PRODUCTS.find(p=>p.name===name)||{}).cat;
+
+function buildAd(ad){
+  const el = document.createElement('section');
+  el.className = 'ad '+ad.tint;
+  el.innerHTML = `
+    <div class="ad-text">
+      <div class="ad-spon">Sponsored · TomorrowMart</div>
+      <div class="ad-kicker" data-ad-kicker></div>
+      <div class="ad-head" data-ad-head></div>
+      <div class="ad-sub" data-ad-sub></div>
+      <div class="ad-row">
+        <a class="ad-cta" href="#rail-${catOf(ad.link)}" data-ad-cta></a>
+
+      </div>
+    </div>
+    <div class="ad-media">
+      <img data-ad-img src="${(PRODUCTS.find(p=>p.name===ad.link)||{}).photo || `https://www.themealdb.com/images/ingredients/${ad.img}.png`}" alt="" />
+      <div class="ad-flag ${AD_BADGE}">${AD_BADGE==='tag' ? tagSVG : sealSVG}<div class="ad-flag-t"><b data-ad-price></b><small data-ad-unit></small></div></div>
+    </div>`;
+  const aimg = el.querySelector('[data-ad-img]');
+  const shape = ()=>{ if(!aimg.naturalWidth) return; aimg.classList.toggle('tall', aimg.naturalHeight > aimg.naturalWidth*1.5); aimg.classList.toggle('wide', aimg.naturalHeight <= aimg.naturalWidth*1.05); };
+  aimg.addEventListener('load', shape); if(aimg.complete) shape();
+  return el;
+}
+
+CATS.forEach(cat=>{
+  const items = PRODUCTS.filter(p=>p.cat===cat.key && (SHOW_DRAWN_PACKS || !p.pack));
+  if(!items.length) return;
+  const sec = document.createElement('section');
+  sec.className='rail'; sec.id='rail-'+cat.key;
+  sec.innerHTML = `<div class="rail-head">
+      <div><h2>${cat.name}</h2><div class="sub">${cat.sub}</div></div>
+    </div>`;
+  const row = document.createElement('div'); row.className='rail-scroll';
+  items.forEach(p=>{
+    const src = imgOf(p);
+    const el = document.createElement('article');
+    el.className='card'; el.dataset.name = p.name.toLowerCase();
+    el.innerHTML = `
+      <div class="cardtools">
+        <button data-save aria-label="Save ${p.name}">♡</button>
+        <button data-share aria-label="Share ${p.name}">↗</button>
+      </div>
+      <div class="thumb" data-thumb>${(p.pack && !p.photo) ? packSVG(p.pack, p.name) : `<img data-img src="${src}" alt="${p.name}" loading="lazy" />`}<div class="ov"></div></div>
+      <span class="flag hidden" data-flag></span>
+      <div class="price" data-price></div>
+      <div class="pname">${p.name}</div>
+      <div class="pqty" data-qty></div>
+      <div class="plocal" data-local hidden></div>
+      <div class="punit" data-unit></div>
+      <div class="psold" data-sold></div>
+      <div class="pnote" data-note></div>
+      <button class="add" data-add>Add</button>`;
+    el.querySelector('[data-add]').addEventListener('click',()=>addToCart(p, el));
+    el.querySelector('[data-save]').addEventListener('click', e=>{
+      const b=e.currentTarget, on=b.classList.toggle('on');
+      b.textContent = on ? '♥' : '♡';    });
+    el.querySelector('[data-share]').addEventListener('click', e=>shareProduct(p, e.currentTarget));
+    row.appendChild(el);
+    cardEls.push({p, el});
+  });
+  sec.appendChild(row);
+  store.appendChild(sec);
+  const ad = ADS.find(a=>a.after===cat.key);
+  if(ad){ const ael = buildAd(ad); store.appendChild(ael); adEls.push({ad, el:ael}); }
+});
+
+/* ================= SHARE ================= */
+let LEADERS = {};
+fetch('/past-present-future/tomorrowmart/leaders.json?t='+Date.now(), {cache:'no-store'}).then(r=>r.json()).then(j=>{ LEADERS = j.leaders||{}; }).catch(()=>{});
+const XS = { el:null, mode:'product', p:null, co:null };
+const handleFor = code => { const L = LEADERS[code]; if(!L) return ''; return L.office_handle || L.handle || ''; };   // office account first: it outlives the person
+const priceIn = (co, p, year) => {   // a product's price in another country's money at that country's rate, without switching the store
+  const r = rateOf(co, SCEN)/100;
+  const v = baseShelfPrice(co, p) * Math.pow(1+r, year-Y0);
+  if(Math.abs(v) >= 1e9) return `${co.cur} ${bigWords(v)}`;
+  try{ return new Intl.NumberFormat(co.loc,{style:'currency',currency:co.cur,maximumFractionDigits:(co.fx>50?0:2),minimumFractionDigits:(co.fx>50?0:2)}).format(v); }catch(_){ return '$'+v.toFixed(2); }
+};
+const aPhrase = p => {   // "a dozen eggs", "a litre of milk" — falls back to "Eggs (dozen · large)"
+  const q = (p.stages[0].qty||'').toLowerCase();
+  if(/dozen/.test(q)) return `a dozen ${p.name.toLowerCase()}`;
+  if(/^1 litre|^1\.5 litre|^1 l\b/.test(q)) return `a litre of ${p.name.toLowerCase()}`;
+  if(/^1 (ripe|head|stick|loaf|pack|box)/.test(q) || /each$/.test(q)) return `one ${p.name.toLowerCase()}`;
+  return `${p.name} (${p.stages[0].qty})`;
+};
+function xsText(){
+  const co = XS.co, year = curYear===Y0 ? Y1 : curYear;
+  const h = document.getElementById('xsHandle').value.trim().replace(/^@/,'');
+  const tag = h ? `@${h}, how are people meant to afford this?` : `How are people meant to afford this?`;
+  let line;
+  if(XS.mode==='product') line = `In ${year}, ${aPhrase(XS.p)} could cost ${priceIn(co, XS.p, year)}.`;
+  else { const t = basketAt(year).total, t0 = basketAt(Y0).total; line = `In ${year}, my weekly shop could cost ${money(t)}. Today it's ${money(t0)}.`; }
+  return `${line}\n${tag}\nToday's Inflation. Tomorrow's Prices.\n${location.origin}${location.pathname}`;
+}
+function xsPaint(){
+  const co = XS.co, L = LEADERS[co.c];
+  const who = document.getElementById('xsWho');
+  who.innerHTML = L
+    ? `${co.f} <b>${L.leader}</b>, ${L.title} of ${co.art||''}${co.n}${(L.office_handle||L.handle)?'':' · no confirmed X account'}${L.verified ? (L.office_handle ? ' · office account' : '') : '<span class="warn">Unverified</span>'}`
+    : `${co.f} ${co.art||''}${co.n}. Add the handle of the person who should see this.`;
+  document.getElementById('xsText').value = xsText();
+  document.getElementById('xsGo').href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.getElementById('xsText').value);
+}
+function openShare(mode, p){
+  XS.mode = mode; XS.p = p || null; XS.co = CO;
+  const sel = document.getElementById('xsCountry');
+  if(!sel.options.length) COUNTRIES.slice().sort((a,b)=>a.n.localeCompare(b.n)).forEach(c=>{ const o=document.createElement('option'); o.value=c.c; o.textContent=`${c.f}  ${c.n}`; sel.appendChild(o); });
+  sel.value = CO.c;
+  document.getElementById('xsHandle').value = handleFor(CO.c) ? '@'+handleFor(CO.c) : '';
+  xsPaint();
+  document.getElementById('xshare').hidden = false;
+  setTimeout(()=>document.getElementById('xsHandle').focus(), 50);
+}
+function closeShare(){ document.getElementById('xshare').hidden = true; }
+document.getElementById('xsCountry').addEventListener('change', e=>{ XS.co = COUNTRIES.find(c=>c.c===e.target.value)||CO; document.getElementById('xsHandle').value = handleFor(XS.co.c) ? '@'+handleFor(XS.co.c) : ''; xsPaint(); });
+document.getElementById('xsHandle').addEventListener('input', xsPaint);
+document.getElementById('xsText').addEventListener('input', ()=>{ document.getElementById('xsGo').href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.getElementById('xsText').value); });
+document.getElementById('xsClose').addEventListener('click', closeShare);
+document.getElementById('xshare').addEventListener('click', e=>{ if(e.target.id==='xshare') closeShare(); });
+window.addEventListener('keydown', e=>{ if(e.key==='Escape' && !document.getElementById('xshare').hidden) closeShare(); });
+document.getElementById('xsCopy').addEventListener('click', async e=>{ try{ await navigator.clipboard.writeText(document.getElementById('xsText').value); const b=e.currentTarget, o=b.textContent; b.textContent='Copied ✓'; setTimeout(()=>b.textContent=o,1300); }catch(_){} });
+async function shareProduct(p, btn){ openShare('product', p); }
+
+/* ================= CART ================= */
+const badge = document.getElementById('badge');
+const cart = {};
+function addToCart(p, el){
+  cart[p.name] = (cart[p.name]||0)+1;
+  updateBasket();
+  badge.classList.remove('pop'); void badge.offsetWidth; badge.classList.add('pop');
+  const b = el.querySelector('[data-add]');
+  b.textContent='Added ✓'; b.classList.add('added');
+  setTimeout(()=>{ b.textContent='Add'; b.classList.remove('added'); }, 850);
+}
+function basketAt(year){
+  let total=0, count=0;
+  const items = Object.entries(cart).map(([name, quantity])=>{
+    const product = PRODUCTS.find(p=>p.name===name);
+    const amount = priceAt(product, year)*quantity;
+    total += amount;
+    count += quantity;
+    return {name, quantity, amount};
+  });
+  return {items, total, count};
+}
+function updateBasket(){
+  const {total,count} = basketAt(curYear), base = basketAt(Y0).total;
+  badge.textContent = count;
+  document.getElementById('basketTotal').textContent = money(total);
+  document.getElementById('cartAmt').textContent = money(total);
+  document.getElementById('basketYr').textContent = curYear;
+  document.getElementById('basketCount').textContent = count;
+  const d = document.getElementById('basketDelta');
+  if(count===0) d.textContent = 'Add items to begin';
+  else if(curYear===Y0) d.textContent = "Today's prices";
+  else d.textContent = `+${pct(total/base-1)} on today`;
+}
+
+/* ================= RENDER ================= */
+let curYear = Y0;
+const dialYear = document.getElementById('dialYear');
+const SPECIALS = ['Lettuce','Eggs','Whole Milk','Coffee','Sourdough','Ground Beef'];
+let spI = 0, spTimer = null;
+
+/* ===== PRICE CHANGE helpers ===== */
+const TWEEN_MS = 380;
+function tweenMoney(el, to, fmt){
+  // roll the displayed number from what is on screen to `to`
+  fmt = fmt || money;
+  const from = (typeof el._shown === 'number') ? el._shown : to;
+  if(el._raf) cancelAnimationFrame(el._raf);
+  if(el._safe) clearTimeout(el._safe);
+  if(from === to || document.hidden || matchMedia('(prefers-reduced-motion:reduce)').matches){
+    el._shown = to; el.textContent = fmt(to); return;
+  }
+  const t0 = performance.now();
+  const step = now => {
+    const k = Math.min(1, (now - t0) / TWEEN_MS), e = 1 - Math.pow(1 - k, 3);
+    const v = from + (to - from) * e;
+    el._shown = v; el.textContent = fmt(v);
+    if(k < 1) el._raf = requestAnimationFrame(step); else { el._raf = null; el._shown = to; el.textContent = fmt(to); }
+  };
+  el._raf = requestAnimationFrame(step);
+  el._safe = setTimeout(()=>{ if(el._raf){ cancelAnimationFrame(el._raf); el._raf=null; } el._shown = to; el.textContent = fmt(to); }, TWEEN_MS + 80);
+}
+function flash(el, dir){
+  if(!el || !dir) return;
+  el.classList.remove('up','down'); void el.offsetWidth; el.classList.add(dir);
+}
+let lastYear = Y0;
+/* ===== HEADLINE TYPEWRITER (on load only) ===== */
+const HEAD = document.querySelector('.hero-head');
+(function splitHeadline(){
+  if(!HEAD) return;
+  let i=0;
+  HEAD.querySelectorAll('.l1,.l2').forEach(line=>{
+    line.innerHTML = line.textContent.split(' ').map(w=>`<span class="w">${[...w].map(c=>`<span class="ch" data-c="${c}" style="--i:${i++}">${c}</span>`).join('')}</span>`).join(' ');
+  });
+  HEAD.classList.add('typing');
+})();
+let typedOnce = false;
+function typeHeadline(){
+  if(typedOnce || !HEAD) return; typedOnce = true;
+  const chars = [...HEAD.querySelectorAll('.ch')];
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){ HEAD.classList.remove('typing'); return; }
+  const WRONG = '$€£%#0123456789+↑';
+  const rnd = (a,b) => a + Math.random()*(b-a);
+  let k = 0, cur = null;
+  const setCur = el => { if(cur) cur.classList.remove('cur'); cur = el; if(el) el.classList.add('cur'); };
+  const step = () => {
+    if(k >= chars.length){
+      // cursor blinks a couple of times on the full stop, then goes
+      setTimeout(()=>{ setCur(null); HEAD.classList.remove('typing'); }, 1400);
+      return;
+    }
+    const el = chars[k], real = el.dataset.c;
+    const wrong = Math.random() < 0.14 && /[A-Za-z]/.test(real);
+    if(wrong){
+      el.textContent = WRONG[Math.floor(Math.random()*WRONG.length)];
+      el.classList.add('on','bad'); setCur(el);
+      setTimeout(()=>{ el.classList.remove('on','bad'); el.textContent = real; setCur(chars[k-1]||null);   // backspace
+        setTimeout(()=>{ el.classList.add('on'); setCur(el); k++; setTimeout(step, rnd(28,70)); }, rnd(60,120));
+      }, rnd(90,170));
+      return;
+    }
+    el.classList.add('on'); setCur(el); k++;
+    const burst = Math.random() < 0.25;                      // sometimes it rattles off a few fast
+    setTimeout(step, real==='.' ? 420 : burst ? rnd(14,30) : rnd(32,85));
+  };
+  setTimeout(step, 250);
+}
+function render(year){
+  const changed = year !== curYear;
+  curYear = year;
+  const n = year - Y0, ratio = n/SPAN, mult = Math.pow(1+RATE, n);
+
+  dialYear.textContent = year;
+  if(changed){ dialYear.classList.remove('kick'); void dialYear.offsetWidth; dialYear.classList.add('kick'); }
+  document.getElementById('fill').style.width = (ratio*100)+'%';
+  document.getElementById('thumb').style.left = (ratio*100)+'%';
+  rail.setAttribute('aria-valuenow', year);
+  rail.setAttribute('aria-valuetext', 'Year '+year);
+  [...document.querySelectorAll('.stop')].forEach(b=>{
+    const v=+b.dataset.y; b.classList.toggle('on', year>=v && year<v+10);
+  });
+
+  const dir = year > lastYear ? 'up' : year < lastYear ? 'down' : null;
+  lastYear = year;
+  const dm = document.getElementById('dialMult');
+  dm.textContent = n===0 ? 'Today' : '+'+pct(mult-1);
+  dm.classList.toggle('red', n>0);
+  const eggs = PRODUCTS.find(x=>x.name==='Eggs') || PRODUCTS[0];
+  document.getElementById('dialItem').textContent = eggs.name==='Eggs' ? 'A dozen eggs' : eggs.name;
+  const dp = document.getElementById('dialPrice');
+  tweenMoney(dp, priceAt(eggs, year)); flash(dp, dir);
+  { const L = money(priceAt(eggs, year)).length; dp.classList.toggle('l1', L>8 && L<=12); dp.classList.toggle('l2', L>12); }
+  fitDialFlags();
+  const hy = document.getElementById('hyperNote');
+  if(hy){ hy.hidden = !HYPER; if(HYPER) hy.innerHTML = `<b>Hyperinflation.</b> It usually ends within a few years. These prices assume it doesn't.`; }
+  document.getElementById('dialMultLab').innerHTML = n===0
+    ? `${CO.n}<br>Today's price`
+    : `Today ${money(priceAt(eggs, Y0))}<br>${n} years at ${CO.rate}% a year`;
+
+  cardEls.forEach(({p, el})=>{
+    const price = priceAt(p, year), st = stageAt(p, year);
+    const u0 = baseUnit(p), u = unitPrice(p, year);
+
+    const img = el.querySelector('[data-img]');
+    if(img) img.style.filter = `grayscale(${(ratio*0.4).toFixed(2)})`;
+    el.querySelector('[data-thumb]').classList.toggle('synth', st.tag==='plant');
+    el.querySelector('[data-qty]').textContent = p.stages[0].qty;
+    el.querySelector('[data-note]').textContent = st.note || '';
+    const sold = el.querySelector('[data-sold]');
+    sold.innerHTML = (!SHOW_PACKS || st === p.stages[0])
+      ? ''
+      : `On shelf in ${year}: <b>${st.qty}</b> at ${money(packPrice(p, year))}`;
+
+    const flag = el.querySelector('[data-flag]');
+    if(SHOW_PACKS && st.tag){ const [cls,txt]=FLAGS[st.tag]; flag.className='flag '+cls; flag.textContent=txt; }
+    else { flag.className='flag hidden'; flag.textContent='·'; }
+
+    const lc = el.querySelector('[data-local]');
+    if(lc){ lc.hidden = !LOCAL_LINE; if(LOCAL_LINE) lc.innerHTML = `<b>${moneyLocal(localRaw(p, year))}</b>${localDisplay()==='code'?'':' '+CO.cur}${n>0?` · ${moneyLocal(localRaw(p, Y0))} today`:''}`; }
+    const priceTxt = money(price);
+    const pw = el.querySelector('[data-price]');
+    let big = pw.querySelector('.big');
+    const shown = big ? big._shown : undefined;
+    pw.innerHTML = n>0
+      ? `<span class="big pz${priceTxt.length>14?' xl':''}">${priceTxt}</span><s>${money(localBase(p))}</s>`
+      : `<span class="big pz${priceTxt.length>14?' xl':''}">${priceTxt}</span>`;
+    big = pw.querySelector('.big');
+    if(typeof shown === 'number') big._shown = shown;
+    tweenMoney(big, price); flash(big, dir);
+    el.querySelector('[data-unit]').innerHTML = n>0
+      ? `${money(u)} / ${p.unit} &nbsp;·&nbsp; <s>${money(u0)}</s> today &nbsp;<b>+${pct(u/u0-1)}</b>`
+      : `${money(u0)} / ${p.unit}`;
+  });
+
+  adEls.forEach(({ad, el})=>{
+    let st = ad.stages[0];
+    for(const s of ad.stages){ if(year>=s.y) st=s; }
+    el.querySelector('[data-ad-kicker]').textContent = st.kicker;
+    el.querySelector('[data-ad-head]').textContent = st.head;
+    el.querySelector('[data-ad-sub]').textContent = st.sub;
+    el.querySelector('[data-ad-cta]').textContent = st.cta;
+    const prod = PRODUCTS.find(p=>p.name===ad.link);
+    const adPrice = money(priceAt(prod, year));
+    const ap = el.querySelector('[data-ad-price]');
+    ap.classList.add('pz'); tweenMoney(ap, priceAt(prod, year)); flash(ap, dir);
+    el.querySelector('.ad-flag').classList.toggle('long', adPrice.replace(/\s/g,'').length > 8);
+    el.querySelector('[data-ad-unit]').textContent = year>Y0 ? 'in '+year : 'Today';
+    const aimg = el.querySelector('[data-ad-img]');
+    if(aimg) aimg.style.filter = `grayscale(${(ratio*0.4).toFixed(2)})`;
+  });
+
+  paintSpecials(year);
+  if(typeof paintStickers==='function' && document.getElementById('heroSticker').dataset.key) paintStickers(false);
+  updateBasket();
+  if(overlay.classList.contains('on')) openCheckout(true);
+}
+
+
+function paintSpecials(year){
+  const n = year - Y0;
+  document.getElementById('specialsYr').textContent = n===0 ? 'Today' : year;
+  const p = PRODUCTS.find(x=>x.name===SPECIALS[spI]);
+  if(!p) return;
+  const st = stageAt(p, year), now = priceAt(p, year), then = localBase(p);
+  const prevNow = document.querySelector('#specialsList .sp-now');
+  const prevShown = (prevNow && prevNow.dataset.p===p.name) ? prevNow._shown : undefined;
+  const spDir = (year > (paintSpecials.lastYear ?? year)) ? 'up' : (year < (paintSpecials.lastYear ?? year)) ? 'down' : null;
+  paintSpecials.lastYear = year;
+  document.getElementById('specialsList').innerHTML = `<div class="sp">
+      <img src="${imgOf(p)}" alt="${p.name}" />
+      <div class="sp-n">${p.name}</div>
+      <div class="sp-q">${p.stages[0].qty}${(SHOW_PACKS&&st!==p.stages[0])?` · now ${st.qty}`:''}</div>
+      <div class="sp-p">
+        <span class="sp-now pz" data-p="${p.name}">${money(now)}</span>
+        ${n>0 ? `<span class="sp-was">Today ${money(then)}</span>` : `<span class="sp-was">Today's price</span>`}
+      </div>
+      ${LOCAL_LINE ? `<div class="sp-local"><b>${moneyLocal(localRaw(p, year))}</b>${localDisplay()==='code'?'':' '+CO.cur}</div>` : ''}
+
+      <button class="add sp-add" data-add type="button">Add to basket</button>
+    </div>`;
+  const spEl = document.querySelector('#specialsList .sp');
+  spEl.querySelector('[data-add]').addEventListener('click', ()=>addToCart(p, spEl));
+  const spNow = spEl.querySelector('.sp-now');
+  if(typeof prevShown === 'number'){ spNow._shown = prevShown; tweenMoney(spNow, now); flash(spNow, spDir); }
+  else spNow._shown = now;
+  const dots = document.getElementById('spDots');
+  if(dots.children.length !== SPECIALS.length){
+    dots.innerHTML = SPECIALS.map(()=>'<i></i>').join('');
+    [...dots.children].forEach((d,i)=>d.addEventListener('click',()=>spGo(i)));
+  }
+  [...dots.children].forEach((d,i)=>d.classList.toggle('on', i===spI));
+}
+function spGo(i){ spI = (i + SPECIALS.length) % SPECIALS.length; paintSpecials(curYear); spStart(); }
+function spStart(){ clearInterval(spTimer); spTimer = setInterval(()=>spGo(spI+1), 5200); }
+document.getElementById('spNext').addEventListener('click', ()=>spGo(spI+1));
+document.getElementById('spPrev').addEventListener('click', ()=>spGo(spI-1));
+document.querySelector('.specials').addEventListener('mouseenter', ()=>clearInterval(spTimer));
+document.querySelector('.specials').addEventListener('mouseleave', spStart);
+spStart();
+
+/* ================= WELCOME ================= */
+const welcome = document.getElementById('welcome');
+function closeWelcome(){ welcome.classList.remove('on'); if(typeof typeHeadline==='function') setTimeout(typeHeadline, 150); try{ sessionStorage.setItem('tm-welcome','1'); }catch(_){} setTimeout(()=>{ if(typeof uppyIntro==='function') uppyIntro(); }, 900); }
+(function(){ let seen=false; try{ seen = !!sessionStorage.getItem('tm-welcome'); }catch(_){} if(!seen) welcome.classList.add('on'); else { setTimeout(()=>uppyIntro(), 1800); if(typeof typeHeadline==='function') setTimeout(typeHeadline, 300); } })();
+document.getElementById('welcomeGo').addEventListener('click', closeWelcome);
+document.getElementById('welcomeHow').addEventListener('click', closeWelcome);
+welcome.addEventListener('click', e=>{ if(e.target===welcome) closeWelcome(); });
+window.addEventListener('keydown', e=>{ if(e.key==='Escape' && welcome.classList.contains('on')) closeWelcome(); });
+
+/* ================= UPPY ================= */
+const UP = {
+  el: document.getElementById('uppy'), bubble: document.getElementById('uppyBubble'),
+  text: document.getElementById('uppyText'), btns: document.getElementById('uppyBtns'),
+  last: 0, timer: null, tip: 0, shownIntro: false
+};
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const eggsP = () => PRODUCTS.find(p=>p.name==='Eggs');
+const UPPY_TIPS = [
+  "Tip: eggs don't get cheaper if you stare at them. I've tried.",
+  "I used to be a paperclip. Then inflation hit.",
+  "The Worst Case button is just today's rate × 1.5. I did the maths. You're welcome.",
+  "Try searching for <b>bread</b>. I love bread. I can't eat. But I love it.",
+  "Argentina: 33.5% a year. Sweden: 0.3%. The flags are at the bottom. Go on, have a look.",
+  "This trolley is a time machine. A slow, expensive one.",
+  "Fun fact: I'm made of 100% recycled price tags.",
+  "Press ← and → to move the year. I'll be here. Watching the prices.",
+  "Nothing here is for sale. Which, given the prices, is probably for the best.",
+];
+function uppySay(html, buttons, opts={}){
+  const now = Date.now();
+  if(!opts.force && now - UP.last < 7000) return;        // don't nag
+  UP.last = now;
+  UP.text.innerHTML = html;
+  UP.btns.innerHTML = '';
+  (buttons||[]).forEach(([label, fn, ghost])=>{
+    const b=document.createElement('button'); b.type='button'; b.textContent=label; if(ghost) b.className='ghost';
+    b.addEventListener('click', ()=>fn()); UP.btns.appendChild(b);
+  });
+  UP.bubble.hidden = false;
+  UP.el.classList.remove('talk'); void UP.el.offsetWidth; UP.el.classList.add('talk');
+  clearTimeout(UP.timer);
+  UP.timer = setTimeout(()=>{ UP.bubble.hidden = true; UP.el.classList.remove('talk'); }, opts.hold || 11000);
+}
+function uppyHide(){ UP.bubble.hidden = true; clearTimeout(UP.timer); UP.el.classList.remove('talk'); }
+function uppyTip(){ uppySay(UPPY_TIPS[UP.tip++ % UPPY_TIPS.length], [['Another one', uppyTip],['Thanks, Uppy', uppyHide, true]], {force:true}); }
+function uppyIntro(){
+  if(UP.shownIntro) return; UP.shownIntro = true;
+  uppySay("Hi! I'm <b>Uppy</b>. It looks like you're trying to afford groceries. Would you like help with that?", [
+    ['Yes please', ()=>uppySay("Great. Step one: be born earlier. Step two: slide the year back to 2026 and stay there.", [['Got it', uppyHide, true]], {force:true})],
+    ['No thanks', ()=>uppySay("Nobody ever does. I'll be down here. Watching the prices go up.", [['Fine', uppyHide, true]], {force:true}), true],
+  ], {force:true, hold:16000});
+}
+document.getElementById('uppyChar').addEventListener('click', ()=>{ if(!UP.bubble.hidden) uppyHide(); else if(!UP.shownIntro) uppyIntro(); else uppyTip(); });
+document.getElementById('uppyX').addEventListener('click', uppyHide);
+// eyes follow the cursor
+(function(){
+  const pupils = [...document.querySelectorAll('.uppy-pupil')], eyes = [...document.querySelectorAll('.uppy-eye')];
+  let raf=null, mx=0, my=0;
+  window.addEventListener('pointermove', e=>{ mx=e.clientX; my=e.clientY; if(!raf) raf=requestAnimationFrame(look); }, {passive:true});
+  function look(){ raf=null; eyes.forEach((g,i)=>{ const r=g.getBoundingClientRect(); const cx=r.x+r.width/2, cy=r.y+r.height/2;
+    const a=Math.atan2(my-cy, mx-cx); pupils[i].setAttribute('transform', `translate(${(Math.cos(a)*6).toFixed(1)} ${(Math.sin(a)*6).toFixed(1)})`); }); }
+})();
+// hooks: the store tells Uppy what just happened
+const _render = render;
+function uppyYear(year, prev){
+  if(!UP.shownIntro || year===prev) return;
+  const n = year - Y0;
+  if(year===Y0 && prev!==Y0) uppySay("Welcome back to 2026. Everything's cheaper here. Enjoy it while it lasts.");
+  else if(n>=10) uppySay(pick([
+    `It looks like you're shopping in <b>${year}</b>. Eggs are now <b>${money(priceAt(eggsP(),year))}</b>. Would you like to sit down?`,
+    `<b>${year}</b>. That's ${n} years of inflation on one lettuce. Impressive, in a bad way.`,
+    `Everything's up <b>${pct(Math.pow(1+RATE,n)-1)}</b> on today. I'd offer a discount, but I'm a tag, not a manager.`,
+    `${year}: your trolley is <b>${pct(Math.pow(1+RATE,n)-1)}</b> dearer. Want a cheaper country?`,
+  ]), [['Show me cheaper countries', ()=>{ uppyHide(); document.getElementById('abroad').scrollIntoView({behavior:'smooth',block:'start'}); }],['No thanks', uppyHide, true]]);
+}
+render = function(year){
+  const prev = curYear; _render(year);
+  if(year===prev) return;
+  if(typeof dragging!=='undefined' && dragging){ UP.dragFrom = UP.dragFrom ?? prev; return; }   // wait for the drag to end
+  uppyYear(year, prev);
+};
+document.addEventListener('pointerup', ()=>{ if(UP.dragFrom!==undefined && UP.dragFrom!==null){ const from=UP.dragFrom; UP.dragFrom=null; setTimeout(()=>uppyYear(curYear, from), 60); } });
+const _addToCart = addToCart;
+addToCart = function(p, el){
+  _addToCart(p, el);
+  const p56 = money(priceAt(p, Y1));
+  uppySay(pick([
+    `${p.name}. Good choice. In <b>2056</b> that's <b>${p56}</b>. Maybe buy two now?`,
+    `Added. ${curYear===Y0 ? `Same ${p.name.toLowerCase()} will be <b>${p56}</b> in 2056.` : `In ${curYear} that's <b>${money(priceAt(p,curYear))}</b>.`} I don't make the rules.`,
+    `${p.name} in the trolley. Spoiler: it's <b>${p56}</b> by 2056. Still want it?`,
+  ]), [['Still want it', uppyHide, true]]);
+};
+const _applyCountry = applyCountry;
+applyCountry = function(code, quiet){
+  const prevC = CO && CO.c, prevS = UP.scen;
+  _applyCountry(code, quiet);
+  UP.scen = SCEN;
+  if(quiet || !UP.shownIntro) return;
+  if(CO.c!==prevC) uppySay(`Welcome to <b>${CO.art||''}${CO.n}</b>! Prices rise <b>${CO.rate}%</b> a year here. ${CO.rate>=50 ? 'Bring a wheelbarrow for the notes.' : CO.rate>=15 ? 'Hold on tight.' : CO.rate<1.5 ? 'Lovely and calm. Boring, even.' : 'Could be worse. See Argentina.'}`, [['Noted', uppyHide, true]], {force:true});
+  else if(prevS && SCEN!==prevS) uppySay(SCEN==='high'
+    ? "Worst case on. I've informed your bank. (I haven't. I'm a price tag.)"
+    : "Back to today's rate. Phew. Still going up, though.", [['OK', uppyHide, true]], {force:true});
+};
+const _openCheckout = openCheckout;
+openCheckout = function(silent){
+  _openCheckout(silent);
+  if(!silent && UP.shownIntro) uppySay("It looks like you're checking out. Would you like a receipt you can't afford?", [['Go on then', uppyHide, true]], {force:true, hold:6000});
+};
+
+/* ================= STICKERS ================= */
+function paintStickers(pop=true){
+  const r = rateOf(CO,SCEN), worst = SCEN==='high', n = curYear - Y0;
+  const h = document.getElementById('heroSticker');
+  h.classList.toggle('worst', worst);
+  const num = `${r}%`;
+  const cls = num.length>=9 ? 'n9' : num.length>=6 ? 'n6' : '';
+  const t = `<small>${worst?'Worst case':(r<0?'Going down':'Going up')}</small><b class="${cls}">${num}</b><small>every year</small>`;
+  const key = (worst?'w':'c')+t;
+  if(h.dataset.key === key) return;
+  h.dataset.key = key;
+  h.innerHTML = starSVG + `<div class="stk-t">${t}</div>`;
+  if(pop){ h.classList.remove('pop'); void h.offsetWidth; h.classList.add('pop'); }
+}
+
+/* ================= SHOP ABROAD (league table) ================= */
+let ABROAD = [], ABROAD_OPEN = false;
+const fmtRate = r => Math.round(r*10)/10;
+function buildAbroad(){
+  ABROAD = COUNTRIES.slice().sort((a,b)=>b.rate-a.rate);
+  const more = document.getElementById('abroadMore');
+  more.addEventListener('click', ()=>{ ABROAD_OPEN = !ABROAD_OPEN; paintAbroad(); if(!ABROAD_OPEN) document.getElementById('abroad').scrollIntoView({behavior:'smooth',block:'start'}); });
+}
+const QUIPS = {
+  hot:  ['Hold on tight','Buckle up','Bring a helmet'],
+  warm: ['Spicy','Toasty','Running hot'],
+  mild: ['Brisk','Bubbling','On the boil'],
+  mid:  ['Creeping up','Steady climb','Normal-ish'],
+  cool: ['Mild','Gentle','Barely moving'],
+  cold: ['Sleepy','Snoozing','Glacial'],
+};
+function quip(c, i){
+  if(c.c===CO.c) return ['me', "You're here"];
+  if(i===0) return ['hot','Wildest'];
+  if(i===ABROAD.length-1) return ['cool','Calmest'];
+  const r=c.rate, band = r>=20?'hot': r>=10?'warm': r>=5?'mild': r>=3?'mid': r>=1.5?'cool':'cold';
+  const cls = (band==='hot'||band==='warm'||band==='mild') ? '' : (band==='mid' ? 'mid' : 'cool');
+  return [cls, QUIPS[band][i % 3]];
+}
+function paintAbroad(){
+  const row = document.getElementById('abroadRow'), max = ABROAD[0].rate;
+  const TOP = 5, myIdx = ABROAD.findIndex(c=>c.c===CO.c);
+  let list;
+  if(ABROAD_OPEN) list = ABROAD.map((c,i)=>({c,i}));
+  else { list = ABROAD.slice(0,TOP).map((c,i)=>({c,i})); if(myIdx>=TOP){ list.push({gap:true}); list.push({c:ABROAD[myIdx], i:myIdx}); } }
+  row.innerHTML = list.map(x => x.gap ? `<div class="lg gap">···</div>` : `
+    <button class="lg${x.c.c===CO.c?' on':''}" data-co="${x.c.c}" type="button" aria-label="Shop in ${x.c.n}, ${fmtRate(x.c.rate)}% inflation">
+      <span class="rk">${x.i+1}</span><span class="f">${x.c.f}</span>
+      <span class="n">${x.c.n}${(([cls,txt])=>`<span class="tag ${cls}">${txt}</span>`)(quip(x.c,x.i))}<small>${x.c.src} · ${x.c.asOf}</small></span>
+      <span class="bar"><i style="width:${Math.max(2,(x.c.rate/max)*100).toFixed(1)}%"></i></span>
+      <span class="r">${fmtRate(x.c.rate)}%<small>a year</small></span>
+    </button>`).join('');
+  row.querySelectorAll('[data-co]').forEach(b=>b.addEventListener('click',()=>{
+    if(b.dataset.co===CO.c) return;
+    applyCountry(b.dataset.co);
+    window.scrollTo({top:0,behavior:'smooth'});
+  }));
+  document.getElementById('abroadMore').textContent = ABROAD_OPEN ? 'Show top 5 only ↑' : `Show all ${ABROAD.length} countries ↓`;
+  document.getElementById('abroadSub').innerHTML = myIdx===0
+    ? `You're in the country with the highest rate. Tap another to compare.`
+    : `${CO.art||''}${CO.n} is <b>#${myIdx+1}</b> of ${ABROAD.length}. Tap a country to shop there.`;
+}
+
+/* ================= DIAL FLAGS (obvious country switch) ================= */
+function paintDialFlags(){
+  const wrap = document.getElementById('dialFlags'); if(!wrap || !COUNTRIES.length) return;
+  const top = COUNTRIES.slice().sort((a,b)=>b.rate-a.rate).filter(c=>c.c!==CO.c).slice(0,5);   // you + the 5 highest rates
+  const list = [CO, ...top];
+  wrap.innerHTML = '<span class="lab">Shop in</span>' + list.map(c=>`<button type="button" class="dflag${c.c===CO.c?' on':''}" data-co="${c.c}" title="${c.n}"><span class="f">${c.f}</span>${c.n}<small>${Math.round(c.rate*10)/10}%</small></button>`).join('') +
+    `<button type="button" class="dflag more" id="dflagMore">All ${COUNTRIES.length} ▾</button>`;
+  wrap.querySelectorAll('[data-co]').forEach(b=>b.addEventListener('click', ()=>{ if(b.dataset.co!==CO.c) applyCountry(b.dataset.co); }));
+  document.getElementById('dflagMore').addEventListener('click', e=>{ e.stopPropagation(); cpopToggle(); });
+  fitDialFlags();
+}
+/* keep "All 100" visible: drop the last top-rate chips until the strip fits */
+function fitDialFlags(){
+  const wrap = document.getElementById('dialFlags'); if(!wrap) return;
+  const chips = [...wrap.querySelectorAll('.dflag:not(.more):not(.on)')];
+  chips.forEach(c=>c.hidden=false);
+  let guard = 0;
+  while(wrap.scrollWidth > wrap.clientWidth + 1 && guard++ < 6){
+    const last = chips.filter(c=>!c.hidden).pop(); if(!last) break; last.hidden = true;
+  }
+}
+window.addEventListener('resize', fitDialFlags);
+/* the "All 100" panel: a real dropdown with a type-to-filter box */
+const cpop = document.getElementById('cpop'), cpopList = document.getElementById('cpopList'), cpopSearch = document.getElementById('cpopSearch');
+function cpopPaint(q=''){
+  const needle = q.trim().toLowerCase();
+  const rows = COUNTRIES.slice().sort((a,b)=>a.n.localeCompare(b.n)).filter(c=>!needle || c.n.toLowerCase().includes(needle) || c.c.toLowerCase()===needle);
+  cpopList.innerHTML = rows.map(c=>`<button type="button" class="cpop-row${c.c===CO.c?' on':''}" data-co="${c.c}"><span class="f">${c.f}</span><span>${c.n}</span><span class="r">${Math.round(c.rate*10)/10}%</span></button>`).join('') || `<div class="cpop-row" style="color:var(--grey)">No country by that name.</div>`;
+  cpopList.querySelectorAll('[data-co]').forEach(b=>b.addEventListener('click', ()=>{ cpopClose(); if(b.dataset.co!==CO.c) applyCountry(b.dataset.co); }));
+}
+function cpopOpen(){
+  cpopPaint(''); cpopSearch.value=''; cpop.hidden=false;
+  // sit right under the "All" chip, right edges aligned, never past the left edge of the dial
+  const chip = document.getElementById('dflagMore'), host = cpop.offsetParent;
+  if(chip && host){
+    const hr = host.getBoundingClientRect(), cr = chip.getBoundingClientRect();
+    cpop.style.left = Math.max(0, Math.round(cr.right - hr.left - cpop.offsetWidth)) + 'px';
+    cpop.style.top  = Math.round(cr.bottom - hr.top + 8) + 'px';
+  }
+  setTimeout(()=>cpopSearch.focus(), 30);
+}
+function cpopClose(){ cpop.hidden=true; }
+function cpopToggle(){ cpop.hidden ? cpopOpen() : cpopClose(); }
+cpopSearch.addEventListener('input', ()=>cpopPaint(cpopSearch.value));
+cpopSearch.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){ cpopClose(); return; }
+  if(e.key==='Enter'){ const first=cpopList.querySelector('[data-co]'); if(first) first.click(); }
+});
+cpop.addEventListener('click', e=>e.stopPropagation());
+document.addEventListener('click', ()=>{ if(!cpop.hidden) cpopClose(); });
+window.addEventListener('keydown', e=>{ if(e.key==='Escape' && !cpop.hidden) cpopClose(); });
+
+/* ================= COUNTRY UI ================= */
+const sel = document.getElementById('locSelect');
+function buildCountrySelect(){
+  sel.innerHTML='';
+  COUNTRIES.slice().sort((a,b)=>a.n.localeCompare(b.n)).forEach(c=>{
+    const o=document.createElement('option'); o.value=c.c; o.textContent=`${c.f}  ${c.n} · ${c.rate}%`;
+    sel.appendChild(o);
+  });
+}
+function buildScenarios(){
+  const wrap = document.getElementById('scen');
+  const LBL = [
+    ['current','Today', `${CO.art||''}${CO.n}'s official inflation rate, ${CO.rate}%. ${CO.src}, ${CO.asOf}.`],
+    ['high','Worst case <span class="info" aria-hidden="true">i</span>', `Today's rate plus 50%: ${CO.rate}% x 1.5 = ${rateOf(CO,'high')}%. Not a forecast, just what happens if inflation keeps rising.`],
+  ];
+  wrap.innerHTML = '<b>Inflation</b>' + LBL.map(([k,label,tip])=>
+    `<button class="scenb${k===SCEN?' on':''}" data-scen="${k}" title="${tip.replace(/"/g,'&quot;')}">${label}</button>`
+  ).join('');
+  wrap.querySelectorAll('.scenb').forEach(b=>b.addEventListener('click',()=>{
+    SCEN = b.dataset.scen; applyCountry(CO.c);
+  }));
+}
+const SCEN_LABEL = {current:'current', high:'worst-case'};
+function applyCountry(code, quiet){
+  CO = COUNTRIES.find(c=>c.c===code) || CO;
+  RATE = rateOf(CO, SCEN)/100;
+  HYPER = CO.rate >= HYPER_FROM;
+  /* 12 Oct: back to LOCAL currency as the main price (inflation belongs to the local money; a dollar price rising at
+     the local rate was wrong). Big numbers are handled by bigWords() + shrinking type. REFERENCE_CURRENCY flips it back. */
+  const REFERENCE_CURRENCY = false;
+  if(REFERENCE_CURRENCY && EUROPE.has(CO.c)){ REF_CUR='EUR'; REF_LOC = CO.cur==='EUR' ? CO.loc : 'de-DE'; REF_FX = eurFx(); }
+  else if(REFERENCE_CURRENCY){ REF_CUR='USD'; REF_LOC='en-US'; REF_FX = 1; }
+  else { REF_CUR = CO.cur; REF_LOC = CO.loc; REF_FX = CO.fx; }
+  LOCAL_LINE = CO.cur !== REF_CUR;
+  FX = REF_FX;
+  PRICE_RATE = RATE;                        // same rate for the big price and the local line: the big number IS the conversion
+  sel.value = CO.c;
+  buildScenarios();
+  document.getElementById('locFlag').textContent = CO.f;
+  document.getElementById('locName').textContent = CO.n;
+
+  const srcHtml = `<a class="srcl" href="${CO.srcUrl}" target="_blank" rel="noopener">${CO.src}</a>, ${CO.asOf}`;
+  const shelfNote = CO.shelfPrices2026
+    ? 'Some shelf prices use local estimates, so your local shop may differ.'
+    : 'Shelf prices are a national average, so your local shop may differ.';
+  const fs = document.getElementById('footSource');
+  if(fs) fs.innerHTML = `Inflation rate for ${CO.art||''}${CO.n}: <b>${CO.rate}%</b>, from ${srcHtml}. ${shelfNote} Nothing here is for sale. <a href="#method">How it's calculated</a>.`;
+  const heroLine = {
+    current: `Every price rises <b>${rateOf(CO,SCEN)}% a year</b>, ${CO.art||''}${CO.n}'s current inflation rate.`,
+    high:    `Every price rises <b>${rateOf(CO,SCEN)}% a year</b>, half as much again as ${CO.art||''}${CO.n}'s current rate. The worst case.`,
+  }[SCEN];
+  const refName = REF_CUR==='EUR' ? 'euros' : 'US dollars';
+  document.getElementById('heroBasis').innerHTML = (heroLine + (LOCAL_LINE ? ` Prices shown in ${refName}, with ${CO.cur} small on every card.` : '')) +
+    `<span class="src">Inflation today: ${CO.rate}% · ${srcHtml}</span>`;
+  paintStickers();
+  paintAbroad();
+  paintDialFlags();
+
+  document.getElementById('m1').innerHTML =
+    `Every price compounds at one rate: <strong>${rateOf(CO,SCEN)}%</strong>, ${CO.art||''}${CO.n}'s ${SCEN_LABEL[SCEN]} inflation rate (headline CPI, the official figure). Every product uses the same rate. Change the country or the rate and the whole shelf updates.`;
+  document.getElementById('m3').innerHTML =
+    `<b>Today</b> This is the official inflation rate right now (headline CPI, all items), dated at source.
+     <b>Worst case</b> This is today's rate plus 50%, i.e. ${CO.rate}% x 1.5 = ${rateOf(CO,'high')}%. It is not a forecast but the potential that inflation continues to rise rather than staying consistent.`;
+  document.getElementById('methodNote').innerHTML =
+    `Per-country figures are taken from each national statistics office (for ${CO.art||''}${CO.n}, ${srcHtml}) and cross-checked against <a class="srcl" href="${(META&&META.primarySource.crossCheckUrl)||'#'}" target="_blank" rel="noopener">Trading Economics' August 2026 inflation table</a>. The rate is headline CPI, all items, including food, because it is the official figure each country reports. A rate is held constant across the whole period as an illustration; real inflation moves year to year. Shelf prices use local 2026 estimates where available. The rest use typical 2026 US prices converted at approximate exchange rates. TomorrowMart is a demonstration: nothing here is for sale.`;
+
+  const find = document.getElementById('repFind');
+  if(CO.rep){ find.href = CO.rep; find.style.display=''; }
+  else { find.style.display='none'; }
+  buildRepFields();
+  if(!quiet){
+    countryPicked = true;
+    try{ sessionStorage.setItem('tm-country', CO.c); }catch(_){}
+  }
+  render(curYear);
+}
+sel.addEventListener('change', e=>applyCountry(e.target.value));
+
+/* ================= THE DIAL ================= */
+const rail = document.getElementById('rail');
+const ticksWrap = document.getElementById('ticks');
+for(let y=Y0; y<=Y1; y+=2){
+  const major=(y-Y0)%10===0, p=((y-Y0)/SPAN)*100;
+  const t=document.createElement('div'); t.className='rail-tick'+(major?' major':''); t.style.left=p+'%';
+  ticksWrap.appendChild(t);
+}
+const stopsWrap = document.getElementById('stops');
+const hintEl = document.getElementById('scen');
+[2026,2036,2046,2056].forEach(y=>{
+  const b=document.createElement('button');
+  b.className='stop'; b.dataset.y=y; b.textContent=y;
+  b.addEventListener('click',()=>{ render(y); });
+  stopsWrap.insertBefore(b, hintEl);
+});
+let dragging=false;
+function yearFromX(x){
+  const r=rail.getBoundingClientRect();
+  return Y0 + Math.round(Math.max(0,Math.min(1,(x-r.left)/r.width))*SPAN);
+}
+function pointerSet(e){ const y=yearFromX(e.clientX); if(y!==curYear){ render(y); } }
+rail.addEventListener('pointerdown', e=>{ dragging=true; rail.classList.add('drag'); rail.setPointerCapture(e.pointerId); pointerSet(e); });
+rail.addEventListener('pointermove', e=>{ if(dragging) pointerSet(e); });
+rail.addEventListener('pointerup', ()=>{ dragging=false; rail.classList.remove('drag'); });
+rail.addEventListener('pointercancel', ()=>{ dragging=false; rail.classList.remove('drag'); });
+window.addEventListener('keydown', e=>{
+  if(e.target.id==='search' || e.target.id==='repRegion') return;
+  if(e.key==='ArrowRight' && curYear<Y1) render(curYear+1);
+  if(e.key==='ArrowLeft'  && curYear>Y0) render(curYear-1);
+});
+
+/* ================= SEARCH ================= */
+const empty = document.getElementById('empty');
+const SYN = {
+  'Avocado':'avo guacamole fruit', 'Bananas':'banana fruit', 'Vine Tomatoes':'tomato tomatoes veg vegetable salad',
+  'Lettuce':'salad greens veg vegetable', 'Apples':'apple fruit',
+  'Whole Milk':'milk dairy', 'Eggs':'egg dozen dairy', 'Butter':'spread dairy', 'Yoghurt':'yogurt yoghurt dairy', 'Cheese':'cheddar dairy',
+  'Sourdough':'bread loaf bakery', 'Bagels':'bagel bread bakery', 'Croissant':'croissants pastry bakery', 'Baguette':'bread french bakery', 'Tortillas':'tortilla wrap wraps bakery',
+  'Ground Beef':'mince minced beef meat burger', 'Chicken Breast':'chicken meat poultry', 'Salmon Fillet':'salmon fish seafood', 'Pork Chops':'pork chop meat', 'Bacon':'rashers pork meat breakfast',
+  'Rice':'grain pantry', 'Pasta':'penne spaghetti noodles pantry', 'Olive Oil':'oil cooking pantry', 'Sugar':'sweet baking pantry', 'Coffee':'beans espresso drink pantry',
+  'Cola':'coke soda pop soft drink fizzy', 'Orange Juice':'juice oj drink', 'Beer':'lager ale alcohol drink', 'Tea':'teabags drink', 'Drinking Water':'water bottle drink',
+  'Toilet Paper':'loo roll tissue bathroom household', 'Sparkling Water':'fizzy water soda bubbles drink', 'Washing-up Liquid':'dish soap detergent cleaning household', 'AA Batteries':'battery power household', 'Dog Food':'pet dog tin household',
+  'Cinnamon Rolls':'bun pastry sweet bakery', 'Dinner Rolls':'bread rolls buns bakery', 'English Muffins':'muffin bread breakfast bakery', 'Pita Bread':'pitta flatbread bread bakery', 'Digestive Biscuits':'biscuit cookie snack',
+  'Milk Powder':'powdered milk dairy cupboard', 'Peanut Butter':'spread nut jar cupboard', 'Honey':'sweet jar cupboard', 'Dark Chocolate':'choc bar snack sweet', 'Baked Beans':'beans tin cupboard',
+  'Potatoes':'potato spuds veg vegetable', 'Carrots':'carrot veg vegetable', 'Oranges':'orange fruit citrus', 'Strawberries':'strawberry fruit berries', 'Blueberries':'blueberry fruit berries',
+  'Frozen Pizza':'pizza freezer margherita', 'Fish Fingers':'fish freezer cod kids', 'Ice Cream':'icecream freezer strawberry dessert', 'Frozen Peas':'peas freezer veg', 'Salted Peanuts':'nuts snack peanuts',
+  'Shrinkflakes':'cereal breakfast shrinkflation own', 'One Egg':'egg eggs own', 'Instant Pension Noodles':'noodles ramen pension retirement own', 'Compound Butter':'butter spread compound interest own', "Yesterday's Bread":'bread loaf stale own'
+};
+const norm = t => t.toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim();
+cardEls.forEach(({p, el})=>{
+  const cat = CATS.find(c=>c.key===p.cat) || {name:''};
+  el.dataset.kw  = norm([p.name, p.unit, p.stages[0].qty, SYN[p.name]||''].join(' '));   // the item itself
+  el.dataset.kwc = norm([cat.name, p.cat].join(' '));                                        // its aisle (fallback only)
+});
+function matches(kw, q){
+  const words = kw.split(' ');
+  // every query token must prefix-match some keyword word (so "tomat" hits "tomatoes", "egg" hits "eggs")
+  return q.split(' ').every(t => words.some(w => w.startsWith(t) || (t.length>3 && w.startsWith(t.replace(/s$/,'')))));
+}
+const sres = document.getElementById('sres'), sresText = document.getElementById('sresText');
+const searchEl = document.getElementById('search');
+function runSearch(){
+  const q = norm(searchEl.value);
+  let count=0;
+  let hits = q ? cardEls.filter(({el})=>matches(el.dataset.kw, q)) : cardEls;
+  if(q && !hits.length) hits = cardEls.filter(({el})=>matches(el.dataset.kwc+' '+el.dataset.kw, q));   // whole aisle, e.g. "dairy"
+  cardEls.forEach(c=>{ const hit = hits.includes(c); c.el.classList.toggle('hide', !hit); if(hit) count++; });
+  document.querySelectorAll('.rail:not(.abroad)').forEach(sec=>{
+    sec.style.display = [...sec.querySelectorAll('.card')].some(c=>!c.classList.contains('hide')) ? '' : 'none';
+  });
+  document.querySelectorAll('.ad').forEach(a=>{ a.style.display = q ? 'none' : ''; });
+  document.body.classList.toggle('searching', !!q);
+  sres.classList.toggle('on', !!q);
+  if(q){
+    const query = searchEl.value.trim();
+    if(count){
+      const total = document.createElement('b');
+      total.textContent = count;
+      sresText.replaceChildren(total, ` ${count===1?'item':'items'} for "${query}"`);
+    }else{
+      sresText.textContent = `Nothing on the shelf for "${query}". Try "bread", "milk" or "meat".`;
+    }
+  }
+  empty.classList.toggle('on', !!q && !count);
+}
+function clearSearch(){ searchEl.value=''; runSearch(); }
+searchEl.addEventListener('input', runSearch);
+searchEl.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){ clearSearch(); searchEl.blur(); }
+  if(e.key==='Enter'){ e.preventDefault(); searchEl.blur(); if(searchEl.value.trim()) sres.scrollIntoView({behavior:'smooth',block:'start'}); }
+});
+document.querySelector('.tm-search button').addEventListener('click', ()=>{
+  if(searchEl.value.trim()){ runSearch(); sres.scrollIntoView({behavior:'smooth',block:'start'}); } else searchEl.focus();
+});
+document.getElementById('sresClear').addEventListener('click', ()=>{ clearSearch(); window.scrollTo({top:0,behavior:'smooth'}); });
+
+/* ================= CHECKOUT ================= */
+const overlay = document.getElementById('checkout');
+function rcLine(name, val, muted){
+  return `<div class="rc-line${muted?' muted':''}"><span class="nm">${name}</span><span class="dots"></span><span class="num">${val}</span></div>`;
+}
+function openCheckout(silent){
+  const year = curYear, n = year - Y0;
+  const {items, total:subtotal, count} = basketAt(year);
+  if(count===0){
+    const b=document.getElementById('checkoutBtn'), old=b.textContent;
+    b.textContent='Basket is empty'; b.classList.add('shake');
+    setTimeout(()=>{ b.textContent=old; b.classList.remove('shake'); },1200);
+    return;
+  }
+  const itemsHtml = items.map(({name, quantity, amount})=>{
+    return rcLine(name+(quantity>1?' ×'+quantity:'')+` <span class="k2">· ${year}</span>`, money(amount));
+  }).join('');
+  const base = basketAt(Y0).total, rate = rateOf(CO, SCEN);
+
+  document.getElementById('rcItems').innerHTML = itemsHtml;
+  let fees = rcLine("At today's prices", money(base));
+  if(subtotal - base > 0.005) fees += rcLine(`Inflation · ${rate}%/yr × ${n}yr`, '+'+money(subtotal-base));
+  document.getElementById('rcFees').innerHTML = fees;
+  document.getElementById('rcTotal').textContent = money(subtotal);
+  document.getElementById('rcSub').textContent = `Trading year ${year} · ${CO.n}`;
+  document.getElementById('rcRate').innerHTML =
+    `${rate}% a year <span class="k2">(${SCEN_LABEL[SCEN]})</span><br><span class="k2">${CO.src}, ${CO.asOf}</span>`;
+  document.getElementById('rcYear').textContent = year;
+  document.getElementById('rcBasket').textContent = `${count} item${count>1?'s':''} · same amounts as today`;
+  document.getElementById('rcOrder').textContent = '#'+Math.floor(100000+Math.random()*899999);
+  document.getElementById('rcId').textContent = `TXN ${year}-${Math.floor(1000+Math.random()*8999)}`;
+  document.getElementById('rcStat').innerHTML = subtotal - base > 0.005
+    ? `Same basket today: <b>${money(base)}</b><br/>In ${year}: <b>${money(subtotal)}</b>, up <b>${pct(subtotal/base-1)}</b>`
+    : `This is your basket at today's prices.`;
+
+  // decade ladder
+  const max = basketAt(Y1).total;
+  document.getElementById('rcLadder').innerHTML = [2026,2036,2046,2056].map(y=>{
+    const t = basketAt(y).total, up = y===Y0 ? '-' : '+'+pct(t/base-1);
+    return `<div class="rc-lrow${y===year?' now':''}">
+      <span class="yr">${y}</span>
+      <span class="bar"><i style="width:${Math.max(3,(t/max)*100).toFixed(1)}%"></i></span>
+      <span class="amt">${money(t)}</span><span class="pc">${up}</span></div>`;
+  }).join('');
+
+  buildLetter();
+  overlay.dataset.share = `A weekly shop of ${count} items costs ${money(base)} today in ${CO.n}. At ${CO.rate}% inflation it is ${money(max)} by 2056.`;
+  if(silent) return;
+
+  overlay.classList.add('on'); overlay.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  const sc=document.getElementById('rcScroll');
+  sc.classList.remove('printing'); void sc.offsetWidth; sc.classList.add('printing');
+}
+function closeCheckout(){
+  overlay.classList.remove('on'); overlay.setAttribute('aria-hidden','true');
+  document.getElementById('rcScroll').classList.remove('printing');
+  document.body.style.overflow='';
+}
+document.getElementById('checkoutBtn').addEventListener('click', ()=>openCheckout());
+document.getElementById('cartBtn').addEventListener('click', ()=>openCheckout());
+overlay.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click', closeCheckout));
+window.addEventListener('keydown', e=>{ if(e.key==='Escape' && overlay.classList.contains('on')) closeCheckout(); });
+document.getElementById('btnPrint').addEventListener('click', ()=>window.print());
+document.getElementById('repPostX').addEventListener('click', ()=>openShare('basket'));
+document.getElementById('btnShare').addEventListener('click', ()=>openShare('basket'));
+(document.getElementById('btnShareLegacy')||{addEventListener(){}}).addEventListener('click', async ()=>{
+  const text = overlay.dataset.share || 'TomorrowMart';
+  if(navigator.share){ try{ await navigator.share({title:'TomorrowMart', text, url:location.href}); return; }catch(_){} }
+  try{
+    await navigator.clipboard.writeText(text+' '+location.href);
+    const b=document.getElementById('btnShare'), old=b.textContent;
+    b.textContent='Copied ✓'; setTimeout(()=>b.textContent=old,1400);
+  }catch(_){}
+});
+
+/* ================= LETTER TO A REPRESENTATIVE ================= */
+const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware',
+ 'District of Columbia','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky',
+ 'Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana',
+ 'Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota',
+ 'Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas',
+ 'Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
+
+let REGION = '', REGION_KIND = '';   // kind: 'state' | 'constituency' | 'region'
+let letterText = '';
+
+function buildRepFields(){
+  const wrap = document.getElementById('repFields');
+  if(!wrap || !CO) return;
+  REGION = ''; REGION_KIND = '';
+
+  if(CO.c === 'US'){
+    REGION_KIND = 'state';
+    wrap.innerHTML = `
+      <div class="rep-row">
+        <label class="rep-field" style="flex:2">
+          <span>Your state</span>
+          <select id="repState"><option value="">Choose a state…</option>
+            ${US_STATES.map(st=>`<option>${st}</option>`).join('')}</select>
+        </label>
+        <label class="rep-field" style="flex:1">
+          <span>ZIP (optional)</span>
+          <input id="repZip" type="text" inputmode="numeric" maxlength="5" placeholder="90210" autocomplete="off" />
+        </label>
+      </div>
+      <div class="rep-found" id="repFound">Your two senators and your representative are listed by state on <b>house.gov</b> and <b>senate.gov</b>. Enter your ZIP to find your exact district.</div>`;
+    const st = document.getElementById('repState'), zip = document.getElementById('repZip');
+    st.addEventListener('change', ()=>{ REGION = st.value; refreshLetter(); syncFind(zip.value); });
+    zip.addEventListener('input', ()=>syncFind(zip.value));
+  }
+  else if(CO.c === 'GB'){
+    REGION_KIND = 'constituency';
+    wrap.innerHTML = `
+      <div class="rep-row">
+        <label class="rep-field">
+          <span>Your postcode</span>
+          <input id="repPc" type="text" placeholder="e.g. M1 4BT" autocomplete="off" />
+        </label>
+        <button class="rep-look" id="repLook">Find my constituency</button>
+      </div>
+      <div class="rep-found" id="repFound" hidden></div>`;
+    const pc = document.getElementById('repPc');
+    document.getElementById('repLook').addEventListener('click', ()=>lookupUK(pc.value));
+    pc.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); lookupUK(pc.value); } });
+  }
+  else {
+    REGION_KIND = 'region';
+    wrap.innerHTML = `
+      <label class="rep-field">
+        <span>Your region or constituency</span>
+        <input id="repRegion" type="text" placeholder="optional" autocomplete="off" />
+      </label>`;
+    const inp = document.getElementById('repRegion');
+    inp.addEventListener('input', ()=>{ REGION = inp.value.trim(); refreshLetter(); });
+  }
+  refreshLetter();
+}
+
+function syncFind(zip){
+  const find = document.getElementById('repFind');
+  if(CO.c!=='US') return;
+  find.href = /^\d{5}$/.test((zip||'').trim())
+    ? 'https://ziplook.house.gov/htbin/findrep?ZIP=' + zip.trim()
+    : CO.rep;
+}
+
+async function lookupUK(pcRaw){
+  const box = document.getElementById('repFound');
+  const pc = (pcRaw||'').trim();
+  if(!pc){ return; }
+  box.hidden = false; box.className='rep-found'; box.textContent = 'Looking up…';
+  try{
+    const r = await fetch('https://api.postcodes.io/postcodes/'+encodeURIComponent(pc));
+    const d = await r.json();
+    const con = d && d.result && d.result.parliamentary_constituency;
+    if(!con) throw new Error('no constituency');
+    REGION = con;
+    const constituency = document.createElement('b');
+    constituency.textContent = con;
+    box.replaceChildren('Constituency: ', constituency, '. Your MP is listed on members.parliament.uk');
+    document.getElementById('repFind').href =
+      'https://members.parliament.uk/constituencies?searchText=' + encodeURIComponent(con);
+    refreshLetter();
+  }catch(_){
+    box.className='rep-found err';
+    box.textContent = "Couldn't find that postcode. You can type your constituency into the letter instead.";
+  }
+}
+
+function regionPhrase(){
+  if(!REGION) return `${CO.art||''}${CO.n}`;
+  if(REGION_KIND==='constituency') return `the constituency of ${REGION}`;
+  if(REGION_KIND==='state') return `${REGION}`;
+  return `${REGION}, ${CO.art||''}${CO.n}`;
+}
+function refreshLetter(){ if(Object.keys(cart).length) buildLetter(); }
+
+function buildLetter(){
+  const {total:base, count} = basketAt(Y0), rate = rateOf(CO, SCEN);
+  const basis = SCEN==='current'
+    ? `the official annual inflation rate for ${CO.art||''}${CO.n} (headline CPI, ${CO.src}, ${CO.asOf})`
+    : `50% above the official inflation rate for ${CO.art||''}${CO.n}`;
+  letterText =
+`Dear Representative,
+
+I am a constituent in ${regionPhrase()}.
+
+Today, a weekly basket of ${count} everyday grocery item${count>1?'s':''} costs ${money(base)}.
+
+Held at ${rate}% a year (${basis}), the same basket costs:
+
+  ${money(basketAt(2036).total)} in 2036  (+${pct(basketAt(2036).total/base-1)})
+  ${money(basketAt(2046).total)} in 2046  (+${pct(basketAt(2046).total/base-1)})
+  ${money(basketAt(Y1).total)} in 2056  (+${pct(basketAt(Y1).total/base-1)})
+
+That is the same food, in the same quantities, at one published rate of inflation. No other assumption has been made.
+
+Inflation is not a line on a chart to the people who pay it at the till every week. I would like to know what you are doing to bring it down, and what protection exists for households who cannot absorb another decade of it.
+
+Yours faithfully,`;
+  const el = document.getElementById('repLetter');
+  if(el) el.textContent = letterText;
+}
+
+document.getElementById('repCopy').addEventListener('click', async e=>{
+  try{
+    await navigator.clipboard.writeText(letterText);
+    const b=e.currentTarget, old=b.textContent;
+    b.textContent='Copied ✓'; setTimeout(()=>b.textContent=old,1500);
+  }catch(_){}
+});
+document.getElementById('repMail').addEventListener('click', ()=>{
+  const subj = encodeURIComponent(`The cost of a weekly shop in ${CO.art||''}${CO.n}, 2026 to 2056`);
+  window.location.href = `mailto:?subject=${subj}&body=${encodeURIComponent(letterText)}`;
+});
+
+/* ================= RECEIPT AS AN IMAGE ================= */
+async function receiptImage(year){
+  const W=1080, H=1560, S=2;
+  const cv=document.createElement('canvas'); cv.width=W*S; cv.height=H*S;
+  const x=cv.getContext('2d'); x.scale(S,S);
+  const mono='500 22px ui-monospace, SFMono-Regular, Menlo, monospace';
+  const sans=w=>`${w} 26px Inter, system-ui, sans-serif`;
+  const {items, total:now}=basketAt(year), base=basketAt(Y0).total, rate=rateOf(CO,SCEN);
+
+  x.fillStyle='#F7F5F0'; x.fillRect(0,0,W,H);
+  x.fillStyle='#fff'; x.fillRect(60,60,W-120,H-120);
+
+  let y=140;
+  x.textAlign='center'; x.fillStyle='#15171C';
+  x.font=sans(900); x.fillText('TOMORROWMART', W/2, y); y+=54;
+  x.font=mono; x.fillStyle='#6E7178';
+  x.fillText(`TRADING YEAR ${year} · ${CO.n.toUpperCase()}`, W/2, y); y+=50;
+
+  const dash=()=>{ x.strokeStyle='#D9D6CE'; x.setLineDash([6,7]); x.beginPath();
+    x.moveTo(110,y); x.lineTo(W-110,y); x.stroke(); x.setLineDash([]); y+=44; };
+  dash();
+
+  x.textAlign='left'; x.font=mono; x.fillStyle='#15171C';
+  const line=(l,r,muted)=>{
+    x.fillStyle = muted ? '#6E7178' : '#15171C';
+    x.textAlign='left';  x.fillText(l,110,y);
+    x.textAlign='right'; x.fillText(r,W-110,y); y+=38;
+  };
+  items.slice(0,12).forEach(({name, quantity, amount})=>{
+    line(name+(quantity>1?' x'+quantity:'')+' · '+year, money(amount));
+  });
+  y+=8; dash();
+  line("At today's prices", money(base), true);
+  if(now-base>0.005) line(`Inflation ${rate}%/yr x ${year-Y0}yr`, '+'+money(now-base), true);
+  y+=6; dash();
+  x.font=sans(900); x.fillStyle='#15171C';
+  x.textAlign='left';  x.fillText('TOTAL',110,y);
+  x.textAlign='right'; x.fillText(money(now),W-110,y); y+=56;
+
+  if(year>Y0){
+    x.textAlign='center'; x.font=sans(700); x.fillStyle='#1A4FD6';
+    x.fillText(`UP ${pct(now/base-1)} ON TODAY`, W/2, y); y+=54;
+  }
+  dash();
+
+  x.textAlign='left'; x.font=mono; x.fillStyle='#6E7178';
+  x.fillText('SAME BASKET, BY DECADE', 110, y); y+=42;
+  const maxT=basketAt(Y1).total;
+  [2026,2036,2046,2056].forEach(yr=>{
+    const t=basketAt(yr).total;
+    x.fillStyle='#15171C'; x.font=mono; x.textAlign='left'; x.fillText(String(yr),110,y);
+    x.fillStyle='#EAE7DF'; x.fillRect(200,y-16,540,18);
+    x.fillStyle = yr===year ? '#1A4FD6' : '#15171C';
+    x.fillRect(200,y-16,Math.max(8,540*(t/maxT)),18);
+    x.textAlign='right'; x.fillStyle='#15171C'; x.fillText(money(t),W-110,y); y+=40;
+  });
+  y+=10; dash();
+
+  x.textAlign='center'; x.font='500 20px ui-monospace, monospace'; x.fillStyle='#6E7178';
+  const wrap=(t,max)=>{ const w=t.split(' '); const out=[]; let l='';
+    w.forEach(v=>{ if((l+' '+v).trim().length>max){ out.push(l.trim()); l=v; } else l+=' '+v; });
+    out.push(l.trim()); return out; };
+  wrap(`${rate}% a year, ${CO.src}, ${CO.asOf}. Same food, same quantities, one published rate.`,62)
+    .forEach(l=>{ x.fillText(l,W/2,y); y+=30; });
+  y+=14;
+  x.font=sans(800); x.fillStyle='#15171C';
+  x.fillText('tomorrowmart-inflation.vercel.app', W/2, y);
+
+  return new Promise(res=>cv.toBlob(res,'image/png'));
+}
+document.getElementById('btnImage').addEventListener('click', async e=>{
+  const b=e.currentTarget, old=b.textContent;
+  const year=curYear;
+  b.textContent='Rendering…';
+  try{
+    const blob = await receiptImage(year);
+    const file = new File([blob], `tomorrowmart-${year}.png`, {type:'image/png'});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({files:[file], title:'TomorrowMart receipt'});
+    } else {
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob); a.download=file.name; a.click();
+      setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+    }
+    b.textContent='Saved ✓';
+  }catch(_){ b.textContent='Could not save'; }
+  setTimeout(()=>b.textContent=old, 1800);
+});
+
+/* ================= MISC ================= */
+
+fetch('/past-present-future/tomorrowmart/rates.json',{cache:'no-store'})
+  .then(r=>r.json())
+  .then(d=>{
+    META = d; COUNTRIES = d.countries;
+    buildCountrySelect();
+    buildAbroad();
+    CO = COUNTRIES.find(c=>c.c===detectCountry()) || COUNTRIES.find(c=>c.c==='US') || COUNTRIES[0];
+    applyCountry(CO.c, true);
+    (async ()=>{   // IP wins over timezone unless the visitor already picked a country this session
+      let picked = null; try{ picked = sessionStorage.getItem('tm-country'); }catch(_){}
+      if(picked) return;
+      const tryUrl = async (u, k) => { const r = await fetch(u, {cache:'no-store'}); if(!r.ok) throw 0; const j = await r.json(); return (j[k]||'').toUpperCase(); };
+      let code = '';
+      try{ code = await tryUrl('https://ipwho.is/', 'country_code'); }catch(_){}
+      if(!code){ try{ code = await tryUrl('https://ipapi.co/json/', 'country_code'); }catch(_){} }
+      if(!countryPicked && code && code!==CO.c && COUNTRIES.some(c=>c.c===code)) applyCountry(code, true);
+    })();
+  })
+  .catch(()=>{
+    document.getElementById('heroBasis').textContent = 'Could not load the inflation figures. Reload the page to try again.';
+  });
+
+</script>
+
+</body>
+</html>
