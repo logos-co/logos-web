@@ -5,21 +5,19 @@
 
 	let { children } = $props();
 
-	const chapters = $derived(!page.url.pathname.endsWith('/museum-of-civil-liberties'));
-
-	
-	
+	const isMuseum = $derived(page.url.pathname.endsWith('/museum-of-civil-liberties'));
+	const chapters = $derived(!isMuseum);
 	const isChoices = $derived(page.url.pathname.includes('/past-present-future/choices'));
 	const siteOrigin = 'https://logos.co';
 	const ogImage = $derived(
 		siteOrigin +
-			(page.url.pathname.endsWith('/museum-of-civil-liberties')
+			(isMuseum
 				? '/past-present-future/og-museum.jpg'
 				: isChoices
 					? '/past-present-future/choices/og.png'
-					: '/past-present-future/og.jpg')
+					: '/past-present-future/og-tomorrowmart.png')
 	);
-	const ogSize = $derived(isChoices ? { w: '1200', h: '630', type: 'image/png' } : { w: '2400', h: '1260', type: 'image/jpeg' });
+	const ogSize = $derived(isMuseum ? { w: '2400', h: '1260', type: 'image/jpeg' } : { w: '1200', h: '630', type: 'image/png' });
 	const canonical = $derived(siteOrigin + page.url.pathname);
 
 	const ogTitle = $derived(isChoices ? 'Life’s Choices · Experience the Present' : 'Past. Present. Future.');
