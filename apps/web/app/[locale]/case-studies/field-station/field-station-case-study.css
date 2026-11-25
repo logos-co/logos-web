@@ -832,3 +832,25 @@
     border-radius: 8px;
   }
 }
+
+@media (min-width: 768px) {
+  .field-case-cover h1 {
+    white-space: pre-line;
+  }
+}
+
+@media (min-width: 1280px) {
+  .field-case :is(h2, h3, h4, p, dd) {
+    white-space: pre-line;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1439px) {
+  .field-case-next p {
+    font-size: clamp(17px, 1.25vw, 18px);
+  }
+
+  .field-case-diagram p {
+    font-size: clamp(12px, 0.9722vw, 14px);
+  }
+}
