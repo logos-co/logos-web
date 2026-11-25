@@ -7,7 +7,10 @@ import { Photo } from './shared'
 export function BuildAndClosing({
   build,
   closing,
-}: Pick<FieldStationCaseStudyCopySection, 'build' | 'closing'>) {
+  fieldStationCta,
+}: Pick<FieldStationCaseStudyCopySection, 'build' | 'closing'> & {
+  fieldStationCta: FieldStationCaseStudyCopySection['intro']['fieldStationCta']
+}) {
   return (
     <>
       <section className="field-case-section field-case-build">
@@ -51,6 +54,7 @@ export function BuildAndClosing({
               <div key={line}>{line}</div>
             ))}
           </div>
+          <span className="field-case-closing-line" aria-hidden="true" />
           <div>
             {closing.right.map((line) => (
               <div key={line}>{line}</div>
@@ -58,7 +62,14 @@ export function BuildAndClosing({
           </div>
         </div>
         <div className="field-case-split field-case-closing-body">
-          <p>{closing.body}</p>
+          <div>
+            <p>{closing.body}</p>
+            <div className="field-case-actions">
+              <Button href={fieldStationCta.href}>
+                {fieldStationCta.label}
+              </Button>
+            </div>
+          </div>
           <p className="field-case-disclaimer">{closing.disclaimer}</p>
         </div>
         <Link className="field-case-next-link" href={closing.next.href}>

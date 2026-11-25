@@ -28,6 +28,7 @@ export function Cover({
             image={hero.image}
             className="field-case-cover-photo muster-cover-image"
             preload
+            fullWidth
           />
         </div>
         <div className="field-case-cover-bottom">
@@ -37,8 +38,8 @@ export function Cover({
       </header>
       <section className="field-case-section field-case-intro">
         <div className="field-case-split">
+          <h2 className="field-case-subheading">{intro.lead}</h2>
           <div>
-            <h2 className="field-case-subheading">{intro.lead}</h2>
             <p>{intro.body}</p>
             <div className="field-case-actions">
               <InstallButton label={intro.installLabel} />
@@ -47,12 +48,13 @@ export function Cover({
               </Button>
             </div>
           </div>
-          <Photo
-            image={intro.image}
-            className="field-case-intro-photo"
-            reveal
-          />
         </div>
+        <Photo
+          image={intro.image}
+          className="field-case-intro-photo"
+          fullWidth
+          reveal
+        />
         <dl className="field-case-stats">
           {intro.stats.map((stat) => (
             <div key={stat.title}>

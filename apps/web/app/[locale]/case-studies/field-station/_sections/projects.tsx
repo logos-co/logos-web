@@ -54,7 +54,10 @@ export function Projects({
   const project = copy.entries[active]
   return (
     <>
-      <section className="field-case-section field-case-projects">
+      <section
+        className="field-case-section field-case-dark field-case-projects"
+        data-header-tone="dark"
+      >
         <div className="field-case-split">
           <h2>{copy.title}</h2>
           <div>
@@ -96,7 +99,7 @@ export function Projects({
           onTouchEnd={handleTouchEnd}
         >
           {project.image ? (
-            <Photo image={project.image} reveal />
+            <Photo image={project.image} eager reveal />
           ) : (
             <div className="field-case-project-empty" aria-hidden="true" />
           )}
@@ -131,7 +134,7 @@ export function Projects({
         </div>
       </section>
       <div className="field-case-testimonial">
-        <Photo image={testimonial.image} reveal />
+        <Photo image={testimonial.image} fullWidth reveal />
       </div>
       <section className="field-case-section">
         <h2>{next.title}</h2>

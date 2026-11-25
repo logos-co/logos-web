@@ -40,7 +40,11 @@ export default async function FieldStationCaseStudyPage({
         next={copy.next}
       />
       <Technology modules={copy.modules} architecture={copy.architecture} />
-      <BuildAndClosing build={copy.build} closing={copy.closing} />
+      <BuildAndClosing
+        build={copy.build}
+        closing={copy.closing}
+        fieldStationCta={copy.intro.fieldStationCta}
+      />
     </CaseStudyMotion>
   )
 }

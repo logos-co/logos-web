@@ -22,7 +22,9 @@
         "title": "Field Station brought 30 people together to create a parallel society.",
         "label": "Field Station / Rajasthan",
         "image": {
-          "src": "/images/field-station-case-study/cover.png",
+          "src": "/images/field-station-case-study/cover-1200.webp",
+          "width": 1200,
+          "height": 797,
           "alt": "Dhun in Rajasthan"
         }
       },
@@ -30,7 +32,9 @@
         "lead": "Field Station / Rajasthan was a Logos residency, run with ZuGrama at Dhun from 23 to 31 October 2026.",
         "body": "Independent residents built prototype projects on Logos in eight days. These early proof-of-concept deployments showcase the local-first approach to parallel organising championed by Logos.",
         "image": {
-          "src": "/images/field-station-case-study/intro.png",
+          "src": "/images/field-station-case-study/intro-896.webp",
+          "width": 896,
+          "height": 654,
           "alt": "Residents gathering at dusk in Dhun"
         },
         "stats": [
@@ -62,7 +66,9 @@
           "On the first day, Dhun’s founder, Manvendra Singh Shekhawat, asked the residents to build tools that solve local and national challenges."
         ],
         "image": {
-          "src": "/images/field-station-case-study/basics.png",
+          "src": "/images/field-station-case-study/basics-896.webp",
+          "width": 896,
+          "height": 658,
           "alt": "A communal meal at Dhun"
         },
         "label": "The Dhun residency ran four tracks:",
@@ -98,11 +104,15 @@
         ],
         "images": [
           {
-            "src": "/images/field-station-case-study/community.png",
+            "src": "/images/field-station-case-study/community-4000.webp",
+            "width": 4000,
+            "height": 3000,
             "alt": "Residents building together around a table"
           },
           {
-            "src": "/images/field-station-case-study/community2.png",
+            "src": "/images/field-station-case-study/community2-4000.webp",
+            "width": 4000,
+            "height": 3000,
             "alt": "Residents gathered around an evening fire"
           }
         ]
@@ -117,7 +127,9 @@
             "lead": "Offline Zcash is an open-source wallet and mesh network for Basecamp that sends private Zcash payments without an internet connection.",
             "body": "The wallet signs a payment on the device. Nearby devices pass the sealed payment along until it reaches the payee, and a gateway with internet access settles it on Zcash later. The devices relaying it cannot read it.",
             "image": {
-              "src": "/images/field-station-case-study/projects.png",
+              "src": "/images/field-station-case-study/projects-2622.webp",
+              "width": 2622,
+              "height": 1348,
               "alt": "Offline Zcash project website"
             },
             "cta": {
@@ -158,7 +170,9 @@
       },
       "testimonial": {
         "image": {
-          "src": "/images/field-station-case-study/testimonial.png",
+          "src": "/images/field-station-case-study/testimonial-4000.webp",
+          "width": 4000,
+          "height": 2252,
           "alt": "Sunset over Dhun"
         }
       },
@@ -265,7 +279,9 @@
         "title": "Open to all builders",
         "body": "Logos is open to every type of builder and activist, whether you want to create a private peer-to-peer application or organise your peers to create a parallel society.",
         "image": {
-          "src": "/images/field-station-case-study/build.png",
+          "src": "/images/field-station-case-study/build-1404.webp",
+          "width": 1404,
+          "height": 1252,
           "alt": "Grasses against the sky at Dhun"
         },
         "cards": [

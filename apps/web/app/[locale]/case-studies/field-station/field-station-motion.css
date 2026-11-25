@@ -16,7 +16,7 @@
   }
 
   .field-case.muster-motion-enabled .muster-connected article {
-    animation: field-case-node-focus 550ms ease-out both;
+    animation: field-case-node-focus 550ms ease-out backwards;
   }
 
   .field-case.muster-motion-enabled .muster-connected article:nth-child(2) {
