@@ -26,7 +26,7 @@ export function Cover({
         <div className="muster-cover-visual field-case-cover-visual">
           <Photo
             image={hero.image}
-            desktopSrc="/images/field-station-case-study/cover-desktop.webp"
+            desktopSrc="/images/field-station-case-study/cover-desktop-2730.jpg"
             className="field-case-cover-photo muster-cover-image"
             preload
             fullWidth

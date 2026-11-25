@@ -2,6 +2,10 @@ import Image from 'next/image'
 import { LogosMark, LogosWordmark } from '@acid-info/logos-ui'
 import type { MediaRef } from '@repo/content/schemas'
 
+import imageSourceManifest from './image-sources.json'
+
+const imageSources: Partial<Record<string, string>> = imageSourceManifest
+
 export function Photo({
   image,
   className = '',
@@ -21,30 +25,17 @@ export function Photo({
 }) {
   const width = image.width ?? 1440
   const sizes = fullWidth ? '100vw' : '(min-width: 768px) 50vw, 100vw'
-  const hasVariants =
-    /^\/images\/field-station-case-study\/(cover-1200|intro-896|basics-896|community-4000|community2-4000|projects-2622|project-bosphorus-2870|project-pukaar-1920|project-dhun-1800|testimonial-4000|build-1404)\.webp$/.test(
-      image.src
-    )
-  const srcSet = [640, 1280, width]
-    .filter(
-      (size, index, sizes) => size <= width && sizes.indexOf(size) === index
-    )
-    .map(
-      (size) => `${image.src.replace(/-\d+\.webp$/, `-${size}.webp`)} ${size}w`
-    )
-    .join(', ')
+  const srcSet = imageSources[image.src]
   return (
     <picture className="field-case-picture">
       {desktopSrc && (
         <source
           media="(min-width: 768px)"
-          type="image/webp"
-          srcSet={desktopSrc}
+          srcSet={imageSources[desktopSrc] ?? desktopSrc}
+          sizes={sizes}
         />
       )}
-      {hasVariants && (
-        <source type="image/webp" srcSet={srcSet} sizes={sizes} />
-      )}
+      {srcSet && <source srcSet={srcSet} sizes={sizes} />}
       <Image
         src={image.src}
         alt={image.alt}

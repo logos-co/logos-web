@@ -22,7 +22,7 @@
         "title": "Field Station brought 30 people together to create a parallel society.",
         "label": "Field Station / Rajasthan",
         "image": {
-          "src": "/images/field-station-case-study/cover-1200.webp",
+          "src": "/images/field-station-case-study/cover-1200.jpg",
           "width": 1200,
           "height": 797,
           "alt": "Dhun in Rajasthan"
@@ -32,7 +32,7 @@
         "lead": "Field Station / Rajasthan was a Logos residency, run with ZuGrama at Dhun from 23 to 31 October 2026.",
         "body": "Independent residents built prototype projects on Logos in eight days. These early proof-of-concept deployments showcase the local-first approach to parallel organising championed by Logos.",
         "image": {
-          "src": "/images/field-station-case-study/intro-896.webp",
+          "src": "/images/field-station-case-study/intro-896.jpg",
           "width": 896,
           "height": 654,
           "alt": "Residents gathering at dusk in Dhun"
@@ -66,7 +66,7 @@
           "On the first day, Dhun’s founder, Manvendra Singh Shekhawat, asked the residents to build tools that solve local and national challenges."
         ],
         "image": {
-          "src": "/images/field-station-case-study/basics-896.webp",
+          "src": "/images/field-station-case-study/basics-896.jpg",
           "width": 896,
           "height": 658,
           "alt": "A communal meal at Dhun"
@@ -146,7 +146,7 @@
               "href": "https://github.com/merkle-groot/bosphorus"
             },
             "image": {
-              "src": "/images/field-station-case-study/project-bosphorus-2870.webp",
+              "src": "/images/field-station-case-study/project-bosphorus-2870.jpg",
               "width": 2870,
               "height": 1563,
               "alt": "Bosphorus private lending application in Logos Basecamp"
@@ -161,10 +161,10 @@
               "href": "https://pukaar-logos.vercel.app/"
             },
             "image": {
-              "src": "/images/field-station-case-study/project-pukaar-1920.webp",
+              "src": "/images/field-station-case-study/project-pukaar-3520.jpg",
               "alt": "Aditya demonstrating Pukaar at the residency",
-              "width": 1920,
-              "height": 1080
+              "width": 3520,
+              "height": 1980
             },
             "imageFit": "cover"
           },
@@ -177,7 +177,7 @@
               "href": "https://github.com/abhinavnowinew/dhun-commons"
             },
             "image": {
-              "src": "/images/field-station-case-study/project-dhun-1800.webp",
+              "src": "/images/field-station-case-study/project-dhun-1800.jpg",
               "alt": "Dhun Commons treasury and coordination application",
               "width": 1800,
               "height": 1082
@@ -191,7 +191,7 @@
         "quote": "\"[Quote from Manvendra Singh Shekhawat on what the residents built for Dhun.]\"",
         "attribution": "Manvendra Singh Shekhawat, founder, Dhun",
         "desktopImage": {
-          "src": "/images/field-station-case-study/testimonial-desktop.webp",
+          "src": "/images/field-station-case-study/testimonial-desktop-1623.jpg",
           "alt": "Residents gathered outdoors at Dhun at night",
           "width": 1623,
           "height": 969
@@ -306,7 +306,7 @@
         "title": "Open to all builders",
         "body": "Logos is open to every type of builder and activist, whether you want to create a private peer-to-peer application or organise your peers to create a parallel society.",
         "image": {
-          "src": "/images/field-station-case-study/build-1404.webp",
+          "src": "/images/field-station-case-study/build-1404.jpg",
           "width": 1404,
           "height": 1252,
           "alt": "Grasses against the sky at Dhun"
