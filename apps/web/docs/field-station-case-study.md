@@ -1,0 +1,21 @@
+# Field Station case study
+
+The [Field Station case study](../app/[locale]/case-studies/field-station/page.tsx) renders at `/case-studies/field-station` using [page content](../../../content/pages/en/case-studies-field-station.json) validated by the [content schema](../../../packages/content/src/schemas/pages/field-station-case-study.ts).
+
+The page presents the Rajasthan residency, the four winning prototypes, follow-up support, the Logos stack and a Basecamp diagram. The project selector supports tabs, arrow keys, previous and next controls, and swipe. The Basecamp buttons use the shared platform-aware download resolver. Start a Circle links to `/movement`; the legacy `/take-action` path is not a page route. The final link leads to the Muster case study.
+
+The testimonial uses the night photograph on desktop and mobile, with the mobile crop centred at 53.3%. Two quotations from Yesh and Manvendra use the Rhymes Text font already supplied by the museum app, with left and right alignment and responsive placement. The quotations share the same punctuation on desktop and mobile. All four project tabs use their supplied Figma images; each project requires an image in the content schema. The next Field Station application destination is not established, so the page links to the existing Field Station campaign instead. The page uses the requested count of 17 projects. The cover includes the supplied experiment disclaimer, right-aligned on desktop and below the title on mobile.
+
+The case study keeps the compact navigation through tablet and narrow laptop widths, and uses the desktop navigation when its links have room. Sections span the viewport with 12px side padding, matching the Muster and RAILGUN case studies. The cover pins only when it fits the viewport. The shared case study motion draws the cover line, reveals the cover and photographs, counts the statistics and animates the diagram connections. Reduced motion leaves the finished page visible.
+
+Photographs use pre-generated responsive sources listed in [the image manifest](../app/[locale]/case-studies/field-station/_sections/image-sources.json). The browser chooses a file for the rendered width and pixel density, including separate desktop cover and testimonial sources. JPEG originals are preserved at their native dimensions, with high-quality WebP variants for smaller displays. The desktop cover uses the 2730px original with a centred cover crop in the Figma 1440:377 frame ratio, preserving the photograph's proportions at every desktop width. Pukaar uses the 3520px original. The introduction photograph has an 896px Figma original, which limits detail on larger displays. The residency photograph uses the updated 2390px night-time discussion image. The mobile cover uses the sunset image cropped from its 2730px original to match the Figma composition. Below-the-fold photographs load lazily; the cover and the selected project load eagerly.
+
+Desktop copy retains the line endings from the Figma text layers in the content strings. The cover preserves its explicit breaks from 768px, with 30 starting the second line. Other headings and paragraphs preserve design line endings from 1280px; narrower layouts collapse the newlines into normal spaces so text wraps to the available width.
+
+The application CTA reads "Apply to the next Field Station" in the introduction and closing sections. Mobile button labels wrap when needed to fit narrow screens.
+
+The page's Open Graph and Twitter cards use the supplied 1200x630 [social image](../public/images/field-station-case-study/og-image.png), selected through the page's `seo.ogImage` content field.
+
+The cover uses Rhymes Text on desktop and self-hosted Newsreader on mobile. Newsreader is bundled with its SIL Open Font License. Both cover fonts and the quotation font load locally through `next/font`.
+
+The Bosphorus tab uses its updated 702:461 media frame, proportional top and bottom image padding, and a title aligned to the top of that frame. Its tab, content and navigation spacing follow the updated desktop carousel state, while smaller layouts keep the stacked project flow.

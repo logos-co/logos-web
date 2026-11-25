@@ -10,6 +10,7 @@ Reference for the public web app in [`apps/web`](../README.md). These docs cover
 - [railgun.md](railgun.md): the RAILGUN case study, responsive copy and prototype motion
 - [rfp.md](rfp.md): RFP routes and redirects from the previous URLs
 - [lambda-prize.md](lambda-prize.md): editable v3 prize content, responsive layout and image generation
+- [field-station-case-study.md](field-station-case-study.md): the Field Station case study and its pending assets
 - [muster.md](muster.md): the Muster case study, its content and entrance animations
 
 Rules for coding agents are in [AGENTS.md](../AGENTS.md).

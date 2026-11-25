@@ -45,6 +45,8 @@ import { lambdaPrizeCopySectionSchema } from './pages/lambda-prize'
 export { lambdaPrizeCopySectionSchema } from './pages/lambda-prize'
 export type { LambdaPrizeCopySection } from './pages/lambda-prize'
 import { musterCopySectionSchema } from './pages/muster'
+import { fieldStationCaseStudyCopySectionSchema } from './pages/field-station-case-study'
+export type { FieldStationCaseStudyCopySection } from './pages/field-station-case-study'
 import { prifiCopySectionSchema } from './pages/prifi'
 import { railgunCopySectionSchema } from './pages/railgun'
 export type { RailgunCopySection } from './pages/railgun'
@@ -482,6 +484,7 @@ export const pageSectionSchema = z.discriminatedUnion('componentType', [
   mediaCopySectionSchema,
   podcastCopySectionSchema,
   musterCopySectionSchema,
+  fieldStationCaseStudyCopySectionSchema,
   prifiCopySectionSchema,
   railgunCopySectionSchema,
   broadcastCopySectionSchema,

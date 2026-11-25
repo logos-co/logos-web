@@ -2,7 +2,13 @@
 
 import { useEffect, useRef, type ReactNode } from 'react'
 
-export function MusterReveals({ children }: { children: ReactNode }) {
+export function CaseStudyMotion({
+  children,
+  className,
+}: {
+  children: ReactNode
+  className: string
+}) {
   const root = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -125,7 +131,7 @@ export function MusterReveals({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <article className="muster" ref={root}>
+    <article className={className} ref={root}>
       {children}
     </article>
   )

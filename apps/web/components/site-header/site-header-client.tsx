@@ -131,6 +131,8 @@ export default function SiteHeaderClient({
     !isHomepageHighlightDismissed
 
   const isRailgun = normalizedPathname.endsWith(ROUTES.railgun)
+  const isFieldStationCaseStudy =
+    normalizedPathname === ROUTES.fieldStationCaseStudy
   const usesHeroHeaderTone =
     isRailgun ||
     normalizedPathname === ROUTES.home ||
@@ -139,6 +141,7 @@ export default function SiteHeaderClient({
     normalizedPathname.endsWith(ROUTES.buildTheParallel) ||
     normalizedPathname.endsWith(ROUTES.fieldStation) ||
     normalizedPathname.endsWith(ROUTES.prifi) ||
+    normalizedPathname === ROUTES.fieldStationCaseStudy ||
     normalizedPathname === ROUTES.muster
   const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.media)
   const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
@@ -238,12 +241,15 @@ export default function SiteHeaderClient({
           'left-0 right-0 top-0 z-50',
           usesOverlayHeader ? 'fixed' : 'sticky',
           isBasecamp && 'bg-[#1a1a1a]',
+          isFieldStationCaseStudy &&
+            (hasPassedHero ? 'bg-brand-off-white' : 'bg-brand-dark-green'),
           usesAccentTanHeaderTone && 'bg-accent-tan'
         )}
       >
         <div
           className={clsx(
-            'relative transition-colors duration-300 md:hidden',
+            'relative transition-colors duration-300',
+            isFieldStationCaseStudy ? 'min-[1344px]:hidden' : 'md:hidden',
             showHomepageHighlight ? 'h-[119px]' : 'h-10',
             headerToneClass
           )}
@@ -308,7 +314,8 @@ export default function SiteHeaderClient({
 
         <div
           className={clsx(
-            'relative hidden h-[42px] transition-colors duration-300 md:block',
+            'relative hidden h-[42px] transition-colors duration-300',
+            isFieldStationCaseStudy ? 'min-[1344px]:block' : 'md:block',
             headerToneClass
           )}
         >
@@ -381,7 +388,10 @@ export default function SiteHeaderClient({
 
       {/* Full-screen overlay — shared primitive from @acid-info/logos-ui */}
       <NavOverlay
-        className={isBasecamp ? 'basecamp-nav-overlay' : undefined}
+        className={clsx(
+          isBasecamp && 'basecamp-nav-overlay',
+          isFieldStationCaseStudy && 'field-case-nav-overlay'
+        )}
         isOpen={isOpen}
         onClose={close}
         initialSelectedPanelLabel={initialPanelLabel ?? undefined}

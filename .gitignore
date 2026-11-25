@@ -64,6 +64,8 @@ apps/*/public/fonts/**/*.otf
 !apps/web/public/fonts/fira-mono/*.woff2
 !apps/web/public/fonts/open-sans/*.woff2
 !apps/web/public/fonts/public-sans/*.woff2
+# Newsreader Latin is distributed under the bundled SIL Open Font License
+!apps/web/public/fonts/newsreader/*.woff2
 
 mcp.json
 .env*.local

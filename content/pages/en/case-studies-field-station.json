@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/case-studies/field-station",
+  "title": "Field Station",
+  "description": "How residents built local-first prototypes at Field Station / Rajasthan.",
+  "seo": {
+    "metaTitle": "Field Station / Logos | Case Study",
+    "metaDescription": "How residents built local-first prototypes at Field Station / Rajasthan.",
+    "ogImage": {
+      "src": "/images/field-station-case-study/og-image.png",
+      "alt": "Field Station case study over a sunset at Dhun",
+      "width": 1200,
+      "height": 630
+    }
+  },
+  "sections": [
+    {
+      "componentType": "fieldStationCaseStudyCopy",
+      "key": "fieldStationCaseStudy.copy",
+      "hero": {
+        "title": "Field Station brought\n30 people together to create\na parallel society.",
+        "label": "Field Station / Rajasthan",
+        "image": {
+          "src": "/images/field-station-case-study/cover-mobile-1203.webp",
+          "width": 1203,
+          "height": 919,
+          "alt": "Sunset over Dhun in Rajasthan"
+        },
+        "disclaimer": "Field Station is an experiment. Projects started there are shared for\ninformational purposes. They are not reviewed by Logos and may contain\nbugs, change without notice, or behave unexpectedly. Use at your own risk."
+      },
+      "intro": {
+        "lead": "Field Station / Rajasthan was a Logos\nresidency, run with ZuGrama at Dhun from\n23 to 31 October 2026.",
+        "body": "Independent residents built prototype projects on Logos in\neight days. These early proof-of-concept deployments\nshowcase the local-first approach to parallel organising\nchampioned by Logos.",
+        "image": {
+          "src": "/images/field-station-case-study/intro-896.jpg",
+          "width": 896,
+          "height": 654,
+          "alt": "Residents gathering at dusk in Dhun"
+        },
+        "stats": [
+          {
+            "title": "30",
+            "body": "residents came together to live and build at Dhun."
+          },
+          {
+            "title": "17",
+            "body": "projects built using Logos Basecamp during the residency."
+          },
+          {
+            "title": "1",
+            "body": "new currency (Field Tokens) created at\nDhun and spent by residents on meals and\ngoods."
+          }
+        ],
+        "installLabel": "Get Basecamp",
+        "fieldStationCta": {
+          "label": "Apply to the next Field Station",
+          "href": "/field-station"
+        }
+      },
+      "basics": {
+        "title": "A residency inside a\nworking community",
+        "body": [
+          "Field Station is a Logos residency that places builders inside a\nreal parallel community for eight days. Residents live where\nthey build, and each project starts from a local problem.",
+          "The first Field Station took place at Dhun, a 500-acre\nregenerative project in Rajasthan's Jaipur district, run with\nZuGrama.",
+          "Residents shared meals, walks, and morning rituals. They held\nsessions on everything from breath work to AI safety, enjoyed\nimpromptu cricket games and music evenings, and shared in\nmeal preparation and hosting. Each day had its own programme\nof resident-curated activities, as well as a four-hour build cycle.",
+          "On the first day, Dhun's founder, Manvendra Singh Shekhawat,\nasked the residents to build tools that solve local and national\nchallenges."
+        ],
+        "image": {
+          "src": "/images/field-station-case-study/basics-night-2390.jpg",
+          "width": 2390,
+          "height": 1792,
+          "alt": "Residents talking together outdoors at Dhun at night"
+        },
+        "label": "The Dhun residency ran four tracks:",
+        "tracks": [
+          {
+            "title": "The Logos Civic Prize",
+            "body": "Tools to rebuild civil society, set against two\nprizes defined by Logos Circles: civic\nreporting and community response, and\nprivacy-preserving mutual aid."
+          },
+          {
+            "title": "Sovereignty and\nPrivacy",
+            "body": "Private-by-default tools that let people and\ncommunities hold their own money, data and\nrecords, built on the Logos stack."
+          },
+          {
+            "title": "d/acc, led by ZuGrama",
+            "body": "Decentralised acceleration across AI,\nneurotech, and bio-resilience, meeting the\nLogos stack where AI, cryptography, and\nsovereignty overlap."
+          },
+          {
+            "title": "Residents",
+            "body": "For organisers, artists, writers, and testers\nwho joined to use the tools as they were built,\nrather than to ship code."
+          }
+        ]
+      },
+      "community": {
+        "title": "Technology built through\ncommunity",
+        "body": [
+          "Logos is a technology stack and a social movement that\ndevelop together. The parallel communities putting private,\npeer-to-peer technology to work also shape the design of the\ntools comprising the stack.",
+          "Field Station aligns both privacy-preserving technology and the\nmovement for parallel societies."
+        ],
+        "statement": "At Dhun, residents designed\nfor households, farms, and\nthe village as a whole.",
+        "details": [
+          "Living on the land, sharing meals, and measuring their output\nagainst the needs of a regenerative community, residents at\nDhun came from across India.",
+          "Meals were long and phone-free, people walked everywhere,\nand evenings meant horse rides and cricket on the lawn, played\nbadly and with great enthusiasm."
+        ],
+        "images": [
+          {
+            "src": "/images/field-station-case-study/community-4000.webp",
+            "width": 4000,
+            "height": 3000,
+            "alt": "Residents building together around a table"
+          },
+          {
+            "src": "/images/field-station-case-study/community2-4000.webp",
+            "width": 4000,
+            "height": 3000,
+            "alt": "Residents gathered around an evening fire"
+          }
+        ]
+      },
+      "projects": {
+        "title": "What the residents built",
+        "body": "Four winners were chosen from the 23 applications developed\nat the residency. These are early proof-of-concept tools running\non test networks.",
+        "disclaimer": "These tools are shared for informational purposes. Code is not reviewed\nby Logos and may contain bugs, change without notice, or behave\nunexpectedly.",
+        "entries": [
+          {
+            "title": "Offline Zcash",
+            "lead": "Offline Zcash is an open-source wallet and mesh\nnetwork for Basecamp that sends private Zcash\npayments without an internet connection.",
+            "body": "The wallet signs a payment on the device. Nearby devices pass the\nsealed payment along until it reaches the payee, and a gateway with\ninternet access settles it on Zcash later. The devices relaying it\ncannot read it.",
+            "image": {
+              "src": "/images/field-station-case-study/projects-2622.webp",
+              "width": 2622,
+              "height": 1348,
+              "alt": "Offline Zcash project website"
+            },
+            "cta": {
+              "label": "Learn more",
+              "href": "https://offlinezcash.com/"
+            }
+          },
+          {
+            "title": "Bosphorus",
+            "lead": "Bosphorus is a wallet and lending app that runs inside\nLogos Basecamp. Users move funds from a public\naccount into a private one, then lend, or borrow against\ncollateral in isolated markets.",
+            "body": "Positions stay public so anyone can check their health and liquidate\nthem, but nothing on the chain links a position to its owner: each\nstep is proved on the user's own machine. Bosphorus covers the\ncredit side: borrowing, repaying and liquidation, with the borrower's\nidentity kept private.",
+            "cta": {
+              "label": "Learn more",
+              "href": "https://github.com/merkle-groot/bosphorus"
+            },
+            "image": {
+              "src": "/images/field-station-case-study/project-bosphorus-2870.jpg",
+              "width": 2870,
+              "height": 1563,
+              "alt": "Bosphorus private lending application in Logos Basecamp"
+            }
+          },
+          {
+            "title": "Pukaar",
+            "lead": "Pukaar is a decentralised community issue tracker that\nruns in Basecamp.",
+            "body": "Residents log faults and follow each one until it is fixed. A steward\ncan mark a fix as done, but it is only confirmed once the person who\nreported it, or two other residents, confirm it. The person who\nreported the issue can reopen it at any time.",
+            "cta": {
+              "label": "Learn more",
+              "href": "https://pukaar-logos.vercel.app/"
+            },
+            "image": {
+              "src": "/images/field-station-case-study/project-pukaar-3520.jpg",
+              "alt": "Aditya demonstrating Pukaar at the residency",
+              "width": 3520,
+              "height": 1980
+            },
+            "imageFit": "cover"
+          },
+          {
+            "title": "Dhun Commons",
+            "lead": "Dhun Commons is a wallet and coordination space for\nthe farmers and stewards of Dhun's 500 acres, running\nin Basecamp.",
+            "body": "Each season has one treasury, shared by three parties, and every\nrelease of funds needs two signatures. When a milestone is reached,\nthe treasury releases on quorum, with eight percent going to\nconservation. A field map, advisories, and a coordination room keep\nevidence for each decision, served through Logos Storage.",
+            "cta": {
+              "label": "Learn more",
+              "href": "https://github.com/abhinavnowinew/dhun-commons"
+            },
+            "image": {
+              "src": "/images/field-station-case-study/project-dhun-1800.jpg",
+              "alt": "Dhun Commons treasury and coordination application",
+              "width": 1800,
+              "height": 1082
+            }
+          }
+        ],
+        "previousLabel": "Previous project",
+        "nextLabel": "Next project"
+      },
+      "testimonial": {
+        "image": {
+          "src": "/images/field-station-case-study/testimonial-desktop-1623.jpg",
+          "alt": "Residents gathered outdoors at Dhun at night",
+          "width": 1623,
+          "height": 969
+        },
+        "quotes": [
+          {
+            "quote": "\"Culture can be something we consciously experiment with.\nWith Fieldstation and the technological freedoms enabled by\nLogos, we have an opportunity to explore this in practice. At\nZuGrama, we are building a permanent node to put this\ninto a long-term experiment.\"",
+            "attribution": "Yesh, Founder, ZuGrama"
+          },
+          {
+            "quote": "\"Field Station brought some wonderfully curious\npeople to Dhun. The range of their pursuits and the\nconviction behind them sparked our imagination.\nMy team and I are keen to see what we might build together.\"",
+            "attribution": "Manvendra, Managing Director, Dhun Foundation"
+          }
+        ]
+      },
+      "next": {
+        "title": "From prototypes to Circles",
+        "entries": [
+          {
+            "label": "In progress",
+            "title": "Mentorship",
+            "body": "The four winners will work with mentors from\nLogos and ZuGrama across technical work,\nbusiness development, ecosystem development,\nand the Logos movement, with in-person support at\nZuGrama's space in Bangalore."
+          },
+          {
+            "label": "In progress",
+            "title": "Milestone grants",
+            "body": "Each winning project will receive milestone-based\ngrant funding to support further development."
+          },
+          {
+            "label": "Next",
+            "title": "Into Logos Circles",
+            "body": "Logos contributors will work with each team on\nextending their project into Logos Circles, so local\ncommunities can adopt and use it."
+          }
+        ]
+      },
+      "modules": {
+        "title": "Built on Logos",
+        "body": [
+          "The Logos tech stack lays the groundwork for peer-to-peer\napplications built for parallel societies.",
+          "The winning projects use the Logos stack for jobs a village\nwould otherwise hand to a central server, demonstrating the\nreal-world utility of tools built for parallel systems."
+        ],
+        "entries": [
+          {
+            "title": "Logos Delivery",
+            "body": "Logos peer-to-peer data transport protocols carry the coordination: reports,\nconfirmations, and approvals pass directly between residents' devices, encrypted to\nthe people taking part without needing a middleman."
+          },
+          {
+            "title": "Logos Storage",
+            "body": "Logos Storage allows users to privately serve and retrieve files between each other\nthemselves without needing to hand custody to a third party."
+          },
+          {
+            "title": "Logos Execution Zone",
+            "body": "The Logos execution stack supports elective privacy, allowing users to choose when\nand how their value transfers are kept hidden while also enabling public transparency\nwhere it is needed."
+          }
+        ]
+      },
+      "architecture": {
+        "title": "Local-first on Basecamp",
+        "body": [
+          "Logos Basecamp is a local-first launcher for peer-to-peer apps\nbuilt on Logos. It loads each app and the modules it needs on\nyour own machine, with no hosted frontend and no sign-up.",
+          "Each winning tool from the Field Station uses Basecamp to\nremove dependence on a company's server, allowing users to\nhold their own data."
+        ],
+        "features": [
+          {
+            "title": "Run on Basecamp",
+            "body": "Bosphorus, Pukaar, Offline Zcash, and Dhun Commons run as\napps or modules inside Basecamp."
+          },
+          {
+            "title": "No central server",
+            "body": "Using Logos tools provided through Basecamp, these\napplications do not rely on servers. They are peer-to-peer."
+          }
+        ],
+        "basecamp": "Logos Basecamp",
+        "appsLabel": "What the residents built",
+        "apps": [
+          {
+            "title": "Bosphorus",
+            "body": "A wallet and lending app that runs inside Logos Basecamp"
+          },
+          {
+            "title": "Offline Zcash",
+            "body": "Sends private Zcash payments without an internet\nconnection"
+          },
+          {
+            "title": "Dhun Commons",
+            "body": "Every release of funds needs two signatures"
+          },
+          {
+            "title": "Pukaar",
+            "body": "A decentralised community issue tracker"
+          }
+        ],
+        "zcash": {
+          "title": "Zcash",
+          "body": "A gateway with internet access settles it on Zcash later"
+        },
+        "modules": [
+          {
+            "title": "Logos Delivery",
+            "body": "Reports, confirmations, and approvals pass directly between\nresidents' devices"
+          },
+          {
+            "title": "Logos Storage",
+            "body": "Privately serve and retrieve files between each other"
+          },
+          {
+            "title": "Logos Execution Zone",
+            "body": "Choose when and how their value transfers are kept hidden"
+          }
+        ],
+        "loads": "Loads each app and the modules it needs",
+        "modulesLabel": "Logos modules",
+        "caption": "Fig. 01"
+      },
+      "build": {
+        "title": "Open to all builders",
+        "body": "Logos is open to every type of builder and activist, whether you\nwant to create a private peer-to-peer application or organise\nyour peers to create a parallel society.",
+        "image": {
+          "src": "/images/field-station-case-study/build-1404.jpg",
+          "width": 1404,
+          "height": 1252,
+          "alt": "Grasses against the sky at Dhun"
+        },
+        "cards": [
+          {
+            "title": "Install Basecamp",
+            "body": "Run the Logos stack on your own machine and try the apps built\non it.",
+            "ctas": [
+              {
+                "label": "Install Basecamp",
+                "href": "/basecamp"
+              }
+            ]
+          },
+          {
+            "title": "Start a Circle",
+            "body": "Bring Logos to your own community and use privacy-preserving\ntools to solve real problems.",
+            "ctas": [
+              {
+                "label": "Start a Circle",
+                "href": "/movement"
+              }
+            ]
+          },
+          {
+            "title": "Build on Logos",
+            "body": "Read the docs, or find funding through RFPs and the λ Prize.",
+            "ctas": [
+              {
+                "label": "Read the docs",
+                "href": "https://docs.logos.co/"
+              },
+              {
+                "label": "RFPs",
+                "href": "/rfp"
+              },
+              {
+                "label": "λ Prize",
+                "href": "/lambda-prize"
+              }
+            ]
+          },
+          {
+            "title": "Discover Field Station",
+            "body": "Learn about Field Station / Rajasthan.",
+            "ctas": [
+              {
+                "label": "Learn more",
+                "href": "/field-station"
+              }
+            ]
+          }
+        ]
+      },
+      "closing": {
+        "left": ["A parallel", "society"],
+        "right": ["is built in", "the real world."],
+        "body": "Field Station shows what happens when a technology stack\nbuilt for parallel societies meets a movement with local\nproblems in mind.",
+        "disclaimer": "Field Station / Rajasthan was a Logos residency run with ZuGrama at Dhun. All\nprojects shown are prototypes built by independent residents. None has been\naudited. They run on test networks, and none should be used with real money.",
+        "nextLabel": "Next case study",
+        "next": {
+          "label": "Muster",
+          "href": "/case-studies/muster"
+        }
+      }
+    }
+  ]
+}

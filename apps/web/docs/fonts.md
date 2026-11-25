@@ -8,9 +8,11 @@ Rhymes Display regular (`public/fonts/rhymes-display/rhymes-display-regular.woff
 
 [`app/fonts.ts`](../app/fonts.ts) loads it with `next/font/local` and exposes it as `var(--next-font-display)`. The typography utilities in [`packages/tokens/src/typography.css`](../../../packages/tokens/src/typography.css) (`text-hero`, `text-h1` and the rest) read `--font-display`, which resolves through `var(--next-font-display)`.
 
+The Field Station case study also reuses the Rhymes Text file already committed in [the museum app](../../past-present-future/static/fonts/rhymes-text.woff2), loaded through its [feature font module](../app/[locale]/case-studies/field-station/_sections/fonts.ts). No additional commercial font file is committed.
+
 ## Gitignore rules
 
-The root `.gitignore` ignores `*.woff`, `*.woff2`, `*.ttf` and `*.otf` under `apps/*/public/fonts`, then re-includes `apps/*/public/fonts/rhymes-display/*.woff2` because the license is verified and Vercel builds need the file. It also re-includes the four OFL font directories listed below.
+The root `.gitignore` ignores `*.woff`, `*.woff2`, `*.ttf` and `*.otf` under `apps/*/public/fonts`, then re-includes `apps/*/public/fonts/rhymes-display/*.woff2` because the license is verified and Vercel builds need the file. It also re-includes the OFL font directories listed below.
 
 To add a self-hosted font, verify the license with the brand owner first, add a re-include rule for it and commit the file.
 
@@ -26,6 +28,8 @@ These Google Fonts families are self-hosted. [`scripts/generate-fonts.ts`](../sc
 | Fira Mono   | 400, 700           | `public/fonts/fira-mono/`   | `--next-font-mono-body`                           |
 
 All four are under the SIL Open Font License; each directory ships its `OFL.txt`.
+
+The Field Station feature font module also loads Latin Newsreader at weight 400 from `public/fonts/newsreader/`, alongside its SIL Open Font License. This family is scoped to the mobile case study cover and is not part of the shared font generator.
 
 We don't use `next/font/google` because it downloads the fonts during `next build`. Google Fonts sometimes answers with extensionless `/l/font?kit=` URLs, which crash the webpack loader with `TypeError: Cannot read properties of null (reading '1')` and fail CI at random ([vercel/next.js#99114](https://github.com/vercel/next.js/issues/99114)).
 
