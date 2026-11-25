@@ -15,3 +15,5 @@ Desktop copy retains the line endings from the Figma text layers in the content 
 The page's Open Graph and Twitter cards use the supplied 1200x630 [social image](../public/images/field-station-case-study/og-image.png), selected through the page's `seo.ogImage` content field.
 
 The cover uses Rhymes Text on desktop and self-hosted Newsreader on mobile. Newsreader is bundled with its SIL Open Font License. Both cover fonts and the quotation font load locally through `next/font`.
+
+The Bosphorus tab uses its updated 702:461 media frame, proportional top and bottom image padding, and a title aligned to the top of that frame. Its tab, content and navigation spacing follow the updated desktop carousel state, while smaller layouts keep the stacked project flow.

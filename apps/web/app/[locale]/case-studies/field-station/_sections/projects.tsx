@@ -61,6 +61,7 @@ export function Projects({
       <section
         className="field-case-section field-case-dark field-case-projects"
         data-header-tone="dark"
+        data-active-project={project.title}
       >
         <div className="field-case-split">
           <h2>{copy.title}</h2>

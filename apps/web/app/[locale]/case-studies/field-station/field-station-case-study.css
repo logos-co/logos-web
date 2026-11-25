@@ -932,3 +932,33 @@
     margin-top: 72px;
   }
 }
+
+.field-case-projects[data-active-project='Bosphorus']
+  .field-case-project
+  .field-case-photo {
+  aspect-ratio: 702 / 461;
+  padding: 6.8376% 0 3.4188%;
+  object-position: center top;
+}
+.field-case-projects[data-active-project='Bosphorus']
+  .field-case-project
+  > div:last-child {
+  padding: 0;
+}
+@media (min-width: 768px) {
+  .field-case-projects[data-active-project='Bosphorus']
+    > .field-case-split:first-child
+    > div {
+    padding-top: 4px;
+  }
+  .field-case-projects[data-active-project='Bosphorus'] .field-case-tabs {
+    margin-top: clamp(48px, 8.8889vw, 128px);
+  }
+  .field-case-projects[data-active-project='Bosphorus'] .field-case-project {
+    margin-top: clamp(48px, 5.2778vw, 76px);
+  }
+  .field-case-projects[data-active-project='Bosphorus']
+    .field-case-project-controls {
+    margin-top: clamp(52px, 8.2vw, 118px);
+  }
+}
