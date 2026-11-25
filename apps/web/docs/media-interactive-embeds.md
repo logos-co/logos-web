@@ -6,7 +6,7 @@ How `apps/web` isolates CMS-authored interactive embeds from the site origin whi
 
 Two kinds of media content render in `srcdoc` iframes with the `media-detail-interactive` class:
 
-- `html_file` articles, rendered by `HtmlDocumentEmbed` from a full HTML document.
+- `html_file` articles, rendered by `HtmlDocumentEmbed` from a full HTML document. The build downloads the file with `fetchPressHtmlFile` in [`blog-content.ts`](../lib/blog-content.ts), which only accepts `https://cms-press.logos.co/uploads/` URLs, refuses redirects and fails the build on bodies over 2 MiB.
 - Interactive embed blocks inside rich content, rendered by `SrcDocEmbed` in `media-rich-content.tsx`.
 
 When this was written, only three `html_file` articles used this code (`browser-betrayed-you`, `dispersive-medium` and `logos-basecamp`), and no post used dynamic blocks.
