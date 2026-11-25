@@ -9,6 +9,7 @@ export function Photo({
   reveal = false,
   fullWidth = false,
   eager = false,
+  desktopSrc,
 }: {
   image: MediaRef
   className?: string
@@ -16,6 +17,7 @@ export function Photo({
   reveal?: boolean
   fullWidth?: boolean
   eager?: boolean
+  desktopSrc?: string
 }) {
   const width = image.width ?? 1440
   const sizes = fullWidth ? '100vw' : '(min-width: 768px) 50vw, 100vw'
@@ -33,6 +35,13 @@ export function Photo({
     .join(', ')
   return (
     <picture className="field-case-picture">
+      {desktopSrc && (
+        <source
+          media="(min-width: 768px)"
+          type="image/webp"
+          srcSet={desktopSrc}
+        />
+      )}
       {hasVariants && (
         <source type="image/webp" srcSet={srcSet} sizes={sizes} />
       )}

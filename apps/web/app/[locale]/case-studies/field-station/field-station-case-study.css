@@ -98,6 +98,12 @@
   height: 100%;
   border-radius: 0;
 }
+@media (min-width: 768px) {
+  .field-case-cover-photo {
+    object-fit: fill;
+    object-position: bottom;
+  }
+}
 .field-case-cover-bottom {
   display: flex;
   align-items: end;
