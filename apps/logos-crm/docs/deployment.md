@@ -8,11 +8,12 @@ How `apps/logos-crm` runs in Docker and how its schema gets applied. The files t
 
 Docker Compose is the only deployment setup in the repo. It runs a PostgreSQL service, a
 short-lived setup container and the web service; there is no worker, SMTP, authentication proxy or
-file volume.
+file volume. There is no hosted deployment: the Vercel project `logos-crm` is being deleted.
 
-Treat it as local or demo only. The app has no authentication and `compose.yaml` hard-codes the
-database credentials (`logos`/`logos`). Both ports bind to `127.0.0.1`, and they should stay that
-way until there is authentication and real secrets.
+Treat it as local or demo only. Access is one shared token (`CRM_AUTH_TOKEN`, see
+[backend.md](backend.md#access-control)) and `compose.yaml` hard-codes the database credentials
+(`logos`/`logos`). Both ports bind to `127.0.0.1`, and they should stay that way until there are
+real secrets.
 
 ## Compose services
 
@@ -28,8 +29,11 @@ as build context, and both connect as `postgresql://logos:logos@crm-db:5432/logo
 ## Run
 
 ```bash
-docker compose -f apps/logos-crm/compose.yaml up --build
+CRM_AUTH_TOKEN=$(openssl rand -hex 32) docker compose -f apps/logos-crm/compose.yaml up --build
 ```
+
+Compose refuses to start `crm-web` without `CRM_AUTH_TOKEN`. The healthcheck uses `/api/health`,
+the one route the token does not cover.
 
 Because `crm-setup` migrates and seeds before `crm-web` starts, a clean `up --build` gives you a
 ready database and the CRM on `http://localhost:3004`.
@@ -39,7 +43,8 @@ ready database and the CRM on `http://localhost:3004`.
 The image starts from `node:24-alpine` and enables pnpm 11.1.0 through corepack. It installs the
 workspace, builds `@acid-info/logos-ui`, then builds the app with a placeholder `DATABASE_URL`
 (`postgresql://build:build@localhost:5432/build`). The container runs
-`pnpm --filter logos-crm start`, which is `next start --port 3004`.
+`next start --port 3004 -H 0.0.0.0` so the published port reaches it; the `dev` and `start` scripts
+bind `127.0.0.1` instead.
 
 ## Migrations
 
@@ -57,8 +62,9 @@ Never edit the generated SQL by hand; change the schema and regenerate.
 
 ## Environment
 
-[`src/server/env.ts`](../src/server/env.ts) validates the environment with Zod. The only variable is
-`DATABASE_URL`, a PostgreSQL connection string. For local development outside Docker, copy
+[`src/server/env.ts`](../src/server/env.ts) validates `DATABASE_URL`, a PostgreSQL connection
+string. `CRM_AUTH_TOKEN` is the shared access token read by [`src/proxy.ts`](../src/proxy.ts); it is
+optional under `next dev` and required everywhere else. For local development outside Docker, copy
 `.env.example` to `.env`.
 
 ## Backup and recovery

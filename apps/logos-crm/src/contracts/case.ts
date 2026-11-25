@@ -1,5 +1,6 @@
 import { z } from 'zod/v4'
 
+import { listPageSchema } from './pagination'
 import { casePriorities, caseStatuses } from './values'
 
 export const caseStatusSchema = z.enum(caseStatuses)
@@ -21,7 +22,7 @@ export const updateCaseStatusSchema = z.object({
   status: caseStatusSchema,
 })
 
-export const caseListQuerySchema = z.object({
+export const caseListQuerySchema = listPageSchema.extend({
   q: z.string().trim().max(120).optional(),
   status: caseStatusSchema.optional(),
 })

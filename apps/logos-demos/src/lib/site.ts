@@ -1,13 +1,13 @@
 /**
  * Facts about this site that metadata needs.
  *
- * Deliberately constants rather than environment reads. Metadata for a
- * statically prerendered page is resolved at build time, so an environment
- * read would be frozen into the output, and `turbo.json` strips undeclared
- * variables from the build anyway. A constant has neither problem.
+ * The app has no hosted deployment, so the URL defaults to the local dev
+ * server. Metadata for a prerendered page is resolved at build time, so
+ * `NEXT_PUBLIC_SITE_URL` is read then; `turbo.json` declares it for the build.
  */
 
-export const SITE_URL = 'https://logos-demos.vercel.app'
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3005'
 
 export const SITE_NAME = 'Logos Demos'
 

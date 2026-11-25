@@ -3,12 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --port 3004",
+    "dev": "next dev --port 3004 -H 127.0.0.1",
     "build": "next build",
-    "start": "next start --port 3004",
+    "start": "next start --port 3004 -H 127.0.0.1",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "check-types": "tsc --noEmit",
+    "test": "node --import tsx --test \"src/**/*.test.ts\"",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx src/server/db/seed.ts"

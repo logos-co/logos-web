@@ -12,4 +12,4 @@ RUN pnpm install --frozen-lockfile \
 
 EXPOSE 3004
 
-CMD ["pnpm", "--filter", "logos-crm", "start"]
+CMD ["pnpm", "--filter", "logos-crm", "exec", "next", "start", "--port", "3004", "-H", "0.0.0.0"]

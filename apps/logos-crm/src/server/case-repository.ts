@@ -1,6 +1,17 @@
-import { and, count, desc, eq, ilike, inArray, or, type SQL } from 'drizzle-orm'
+import {
+  and,
+  asc,
+  count,
+  desc,
+  eq,
+  ilike,
+  inArray,
+  or,
+  type SQL,
+} from 'drizzle-orm'
 
 import type { CaseRecord, CaseStatus, CreateCaseInput } from '@/contracts/case'
+import type { ListPage } from '@/contracts/pagination'
 import { db } from '@/server/db'
 import {
   caseOrganisations,
@@ -9,8 +20,9 @@ import {
   organisations,
   people,
 } from '@/server/db/schema'
+import { withPage } from '@/server/pagination'
 
-export interface CaseListFilters {
+export interface CaseListFilters extends Partial<ListPage> {
   q?: string
   status?: CaseStatus
 }
@@ -103,11 +115,15 @@ export async function listCases(
     if (searchCondition) conditions.push(searchCondition)
   }
 
-  const rows = await db
-    .select()
-    .from(cases)
-    .where(conditions.length > 0 ? and(...conditions) : undefined)
-    .orderBy(desc(cases.updatedAt))
+  const rows = await withPage(
+    db
+      .select()
+      .from(cases)
+      .where(conditions.length > 0 ? and(...conditions) : undefined)
+      .orderBy(desc(cases.updatedAt), asc(cases.id))
+      .$dynamic(),
+    filters
+  )
 
   return hydrateCaseRecords(rows)
 }

@@ -1,9 +1,0 @@
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "git": {
-    "deploymentEnabled": {
-      "docs/repo/sync": false
-    }
-  },
-  "buildCommand": "pnpm turbo run build --filter=logos-demos"
-}

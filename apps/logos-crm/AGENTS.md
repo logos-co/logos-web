@@ -36,8 +36,11 @@ database. It is not a static export and never calls the GitHub API or the public
 - Activities and tasks need exactly one subject (case, person or organisation), enforced by a
   Postgres `CHECK`. Create them through `work-repository.ts`, not raw inserts.
 - The `version` column on people and organisations is never read or incremented.
-- There is no authentication and `compose.yaml` hard-codes the database credentials. Keep both
-  ports bound to `127.0.0.1` and never describe the setup as safe to expose.
+- Access is one shared `CRM_AUTH_TOKEN`, checked in `src/proxy.ts`; with it unset only
+  `next dev` is allowed. Keep the proxy covering every route but `/api/health`, and never trust
+  forwarded headers or client addresses as an access check.
+- `compose.yaml` hard-codes the database credentials. Keep both ports and the `dev` and `start`
+  scripts bound to `127.0.0.1`, and never describe the setup as safe to expose.
 
 ## Docs
 

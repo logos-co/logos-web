@@ -36,6 +36,7 @@ services:
       dockerfile: apps/logos-crm/Dockerfile
     environment:
       DATABASE_URL: postgresql://logos:logos@crm-db:5432/logos_crm
+      CRM_AUTH_TOKEN: ${CRM_AUTH_TOKEN:?Set CRM_AUTH_TOKEN to the CRM access token}
     ports:
       - '127.0.0.1:3004:3004'
     depends_on:

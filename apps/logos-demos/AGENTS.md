@@ -22,7 +22,7 @@ Run from the repo root:
     pnpm --filter logos-demos test:e2e
 
 Never run `pnpm --filter logos-demos build`: `@acid-info/logos-ui` must be built
-first and only turbo does that. Vercel runs the turbo command from `vercel.json`.
+first and only turbo does that.
 
 ## Rules
 
@@ -54,7 +54,7 @@ first and only turbo does that. Vercel runs the turbo command from `vercel.json`
 - Don't read `process.env` from prerendered pages: the value freezes at build
   and turbo strips undeclared vars. See [docs/deployment.md](docs/deployment.md).
 - Before calling a fix done, run `E2E_BASE_URL=<url> pnpm --filter logos-demos
-  test:e2e` against a deployment.
+test:e2e` against a deployment.
 - Never run `vercel deploy` from the repo root; it targets `logos-co-web`.
 - After editing `globals.css`, delete `.next` and restart the dev server.
 

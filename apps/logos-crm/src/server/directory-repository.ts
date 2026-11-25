@@ -18,6 +18,7 @@ import type {
   UpdateOrganisationInput,
   UpdatePersonInput,
 } from '@/contracts/directory'
+import type { ListPage } from '@/contracts/pagination'
 import { db } from '@/server/db'
 import {
   caseOrganisations,
@@ -27,8 +28,9 @@ import {
   people,
   personOrganisationRelationships,
 } from '@/server/db/schema'
+import { withPage } from '@/server/pagination'
 
-export interface DirectoryListFilters {
+export interface DirectoryListFilters extends Partial<ListPage> {
   q?: string
 }
 
@@ -52,11 +54,15 @@ export async function listOrganisations(
       )
     : undefined
 
-  const rows = await db
-    .select()
-    .from(organisations)
-    .where(condition)
-    .orderBy(asc(organisations.displayName))
+  const rows = await withPage(
+    db
+      .select()
+      .from(organisations)
+      .where(condition)
+      .orderBy(asc(organisations.displayName), asc(organisations.id))
+      .$dynamic(),
+    filters
+  )
 
   if (rows.length === 0) return []
   const ids = rows.map((row) => row.id)
@@ -121,11 +127,15 @@ export async function listPeople(
     if (search) conditions.push(search)
   }
 
-  const rows = await db
-    .select()
-    .from(people)
-    .where(conditions.length > 0 ? and(...conditions) : undefined)
-    .orderBy(asc(people.fullName))
+  const rows = await withPage(
+    db
+      .select()
+      .from(people)
+      .where(conditions.length > 0 ? and(...conditions) : undefined)
+      .orderBy(asc(people.fullName), asc(people.id))
+      .$dynamic(),
+    filters
+  )
 
   if (rows.length === 0) return []
   const ids = rows.map((row) => row.id)

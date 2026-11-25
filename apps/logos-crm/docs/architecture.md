@@ -12,8 +12,8 @@ is not a static export: it runs `next start` and reads the database from Route H
 
 It is a vertical slice of the product. You get a dashboard, a searchable case queue with a status
 pipeline, case detail with a next action, people and organisation directories with contact methods,
-links between cases and directory records, and activities and tasks on each record. There is no
-authentication, and `db:seed` loads demo data.
+links between cases and directory records, and activities and tasks on each record. Access is a
+single shared token (see [backend.md](backend.md#access-control)), and `db:seed` loads demo data.
 
 ## Stack
 
@@ -68,7 +68,7 @@ seed and three repository modules (cases, directory, work). The App Router route
 
 An earlier specification proposed a larger v1. None of the following exists, not even as stubs:
 
-- Authentication and authorisation: no identity proxy, users, roles, CASL or permission checks.
+- User accounts and authorisation: no identity proxy, users, roles, CASL or permission checks.
   `cases.owner`, `tasks.assignee` and `activities.created_by` are free text, and the UI hardcodes
   demo names such as "Mara Chen".
 - Graphile Worker jobs, email and Discord notifications, reminders and SMTP.

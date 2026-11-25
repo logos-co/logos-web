@@ -1,10 +1,11 @@
 import { z } from 'zod/v4'
 
+import { listPageSchema } from './pagination'
 import { directoryStatuses } from './values'
 
 export const directoryStatusSchema = z.enum(directoryStatuses)
 
-export const directoryListQuerySchema = z.object({
+export const directoryListQuerySchema = listPageSchema.extend({
   q: z.string().trim().max(120).optional(),
 })
 
@@ -12,7 +13,17 @@ export const createOrganisationSchema = z.object({
   displayName: z.string().trim().min(2).max(140),
   domain: z.string().trim().max(160).optional(),
   website: z
-    .union([z.string().trim().url().max(240), z.literal('')])
+    .union([
+      z
+        .string()
+        .trim()
+        .url()
+        .max(240)
+        .refine((value) => /^https?:\/\//i.test(value), {
+          message: 'Use an http or https URL.',
+        }),
+      z.literal(''),
+    ])
     .optional(),
   status: directoryStatusSchema.optional(),
   summary: z.string().trim().max(600).optional(),

@@ -1,8 +1,8 @@
 # logos-crm
 
 The Logos CRM, a self-hosted workspace for tracking people, organisations and cases. It is a
-Next.js 16 server app with its own PostgreSQL database, and today it is a working demo: there is no
-login, and it runs on `http://localhost:3004`.
+Next.js 16 server app with its own PostgreSQL database, and today it is a working demo: access is
+one shared token, and it runs on `http://localhost:3004`.
 
 ## Run
 
@@ -24,12 +24,17 @@ running `db:seed`.
 
 ## Environment
 
-Copy `.env.example` to `.env`. The only variable is `DATABASE_URL`, a PostgreSQL connection string.
+Copy `.env.example` to `.env`. `DATABASE_URL` is a PostgreSQL connection string. `CRM_AUTH_TOKEN`
+is the shared access token: `pnpm dev:logos-crm` works without it, but `next start` and Docker
+answer 401 to everything until it is set. Send it as `Authorization: Bearer <token>`, or enter it as
+the password in the browser prompt (any user name). Compose refuses to start without it:
+
+    CRM_AUTH_TOKEN=$(openssl rand -hex 32) docker compose -f apps/logos-crm/compose.yaml up --build
 
 ## Deploy
 
-Docker Compose is the only setup in the repo, and it is for local or demo use: the app has no
-authentication and `compose.yaml` hard-codes the database credentials. See
+Docker Compose is the only setup in the repo, and it is for local or demo use: the app has only a
+shared token and `compose.yaml` hard-codes the database credentials. See
 [docs/deployment.md](docs/deployment.md).
 
 ## More

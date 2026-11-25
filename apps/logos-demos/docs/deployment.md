@@ -1,34 +1,22 @@
 # Deployment
 
-How `apps/logos-demos` ships to Vercel, and the build and dev server traps in
-this monorepo. Config: [`vercel.json`](../vercel.json),
-[`playwright.config.ts`](../playwright.config.ts) and the root `turbo.json`.
-Current as of 2026-10-22.
+How `apps/logos-demos` is built and run, and the build and dev server traps in
+this monorepo. Config: [`playwright.config.ts`](../playwright.config.ts),
+[`src/lib/site.ts`](../src/lib/site.ts) and the root `turbo.json`.
 
-## Vercel project
+## No hosted deployment
 
-The project is `logos-demos` on the IFT team (`status-im-web`), with production
-at https://logos-demos.vercel.app.
+The app has no hosted deployment and no `vercel.json`; it runs locally on
+port 3005 (`pnpm dev`, or `pnpm turbo run build --filter=logos-demos` then
+`pnpm --filter logos-demos start`). The Vercel project `logos-demos` on the IFT
+team (`status-im-web`) is being deleted, and so is `logos-crm`; they had
+Deployment Protection off, which made every preview public.
 
-| Setting               | Value                                                   |
-| --------------------- | ------------------------------------------------------- |
-| Root Directory        | `apps/logos-demos`                                      |
-| Framework             | Next.js                                                 |
-| Build Command         | `pnpm turbo run build --filter=logos-demos`, from `vercel.json` |
-| Deployment Protection | off                                                     |
-
-Protection is off, as on `logos-crm` and `logos-co-web`, so anyone with a
-preview link can open it without a Vercel account. For a demo that is what we
-want.
-
-The project is connected to `logos-co/logos-web` with `develop` as the
-production branch. Pull requests get preview deployments (Vercel skips the ones
-that don't touch the app), and merging to `develop` updates production.
-
-Keep Root Directory at `apps/logos-demos` and leave the Ignored Build Step
-empty. Vercel checks the root directory before it runs the ignore command, and
-pointing Root Directory at the repo root fails with `No Next.js version
-detected`.
+`SITE_URL` in `src/lib/site.ts` comes from `NEXT_PUBLIC_SITE_URL` at build time
+and defaults to `http://localhost:3005`, so `robots.txt`, the sitemap and the
+Open Graph metadata point at the local server unless you set it. If the demos
+get a hosted home again, set the variable for that build and add Deployment
+Protection or decide explicitly that previews are public.
 
 ## Never run `vercel deploy` from the repo root
 
@@ -99,8 +87,8 @@ A prerendered page freezes anything it reads from `process.env` at build time,
 and the build doesn't see most variables anyway: `turbo.json` declares an `env`
 allowlist and Turborepo strips the rest. If you need something about the
 deployment, ask a route handler, which runs per request and needs no
-declaration. For the same reason `src/lib/site.ts` holds the site URL and
-description as constants.
+declaration. The one exception is `NEXT_PUBLIC_SITE_URL`, which is declared in
+`turbo.json` and meant to be frozen into the build.
 
 ## End-to-end against a deployment
 
