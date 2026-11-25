@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/components/ui'
+import { Button } from './button'
 import { EXTERNAL_URLS } from '@/constants/routes'
 import { useBasecampInstallLink } from '@/lib/use-basecamp-install-link'
 

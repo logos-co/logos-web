@@ -13,6 +13,7 @@ import { BuildAndClosing } from './_sections/build-and-closing'
 import '../muster/muster-motion.css'
 import './field-station-case-study.css'
 import './field-station-motion.css'
+import './field-station-interactions.css'
 
 export const generateMetadata = createPageMetadata(ROUTES.fieldStationCaseStudy)
 
@@ -31,7 +32,7 @@ export default async function FieldStationCaseStudyPage({
   if (!copy) throw new Error('Missing Field Station case study copy')
 
   return (
-    <CaseStudyMotion className="field-case">
+    <CaseStudyMotion className="field-case" revealContent>
       <Cover hero={copy.hero} intro={copy.intro} />
       <Story basics={copy.basics} community={copy.community} />
       <Projects

@@ -1,0 +1,139 @@
+.field-case {
+  --field-snap: cubic-bezier(0.2, 0, 0, 1);
+  --field-sweep: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.field-case :focus-visible {
+  outline: 2px solid var(--color-accent-light-blue);
+  outline-offset: 3px;
+}
+
+.field-case .field-case-button {
+  transition:
+    background-color 140ms var(--field-snap),
+    color 140ms var(--field-snap),
+    border-color 140ms var(--field-snap),
+    transform 90ms var(--field-snap);
+}
+
+.field-case .field-case-button-primary {
+  background: var(--field-ink);
+  color: var(--field-paper);
+  border-color: var(--field-ink);
+}
+
+.field-case .field-case-button-secondary {
+  background: transparent;
+  color: var(--field-ink);
+  border-color: #15252180;
+}
+
+.field-case-dark .field-case-button-primary {
+  background: var(--field-paper);
+  color: var(--field-ink);
+  border-color: var(--field-paper);
+}
+
+.field-case-dark .field-case-button-secondary {
+  background: transparent;
+  color: var(--field-paper);
+  border-color: #f5f5ef80;
+}
+
+.field-case .field-case-button svg,
+.field-case-next-link svg {
+  flex-shrink: 0;
+  transition: transform 200ms var(--field-sweep);
+}
+
+.field-case-tabs button {
+  transition:
+    color 140ms var(--field-snap),
+    border-color 140ms var(--field-snap);
+}
+
+.field-case-project-controls button {
+  border-radius: 50%;
+  transition:
+    background-color 140ms var(--field-snap),
+    color 140ms var(--field-snap),
+    transform 90ms var(--field-snap);
+}
+
+@media (hover: hover) {
+  .field-case .field-case-button-primary:hover {
+    background: #24403a;
+    border-color: #24403a;
+  }
+
+  .field-case .field-case-button-secondary:hover {
+    background: var(--field-ink);
+    color: var(--field-paper);
+    border-color: var(--field-ink);
+  }
+
+  .field-case-dark .field-case-button-primary:hover {
+    background: var(--color-accent-light-blue);
+    border-color: var(--color-accent-light-blue);
+  }
+
+  .field-case-dark .field-case-button-secondary:hover {
+    background: var(--field-paper);
+    color: var(--field-ink);
+    border-color: var(--field-paper);
+  }
+
+  .field-case .field-case-button:hover svg,
+  .field-case-next-link:hover svg {
+    transform: translateX(3px);
+  }
+
+  .field-case-tabs button:hover {
+    color: var(--field-paper);
+    border-bottom-color: var(--field-paper);
+  }
+
+  .field-case-project-controls button:hover {
+    color: var(--field-ink);
+    background: var(--field-paper);
+  }
+}
+
+.field-case .field-case-button:active,
+.field-case-project-controls button:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .field-case-project {
+    animation: field-case-project-enter 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@keyframes field-case-project-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field-case .field-case-button,
+  .field-case .field-case-button svg,
+  .field-case-tabs button,
+  .field-case-project-controls button,
+  .field-case-next-link svg {
+    transition: none;
+  }
+
+  .field-case .field-case-button:active,
+  .field-case .field-case-button:hover svg,
+  .field-case-project-controls button:active,
+  .field-case-next-link:hover svg {
+    transform: none;
+  }
+}
