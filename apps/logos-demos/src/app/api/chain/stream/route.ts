@@ -28,25 +28,61 @@ const STREAM_BUDGET_MS = 4 * 60 * 1000
  */
 const HEARTBEAT_MS = 15000
 
+/**
+ * Every open stream holds one connection to the lead node, so the relay caps
+ * how many it holds at once. One viewer tab needs one stream; 20 covers a
+ * room of people watching the demo while keeping a script that opens streams
+ * in a loop from fanning out onto a single testnet node.
+ */
+export const MAX_CONCURRENT_STREAMS = 20
+let openStreams = 0
+
+/** Bounds the connect only. Once headers arrive the body may run its budget. */
+const CONNECT_TIMEOUT_MS = 15000
+
 export async function GET(request: Request) {
+  if (openStreams >= MAX_CONCURRENT_STREAMS) {
+    return new Response('Too many open streams.', {
+      status: 503,
+      headers: { 'Retry-After': '30' },
+    })
+  }
+  openStreams += 1
+
+  let released = false
+  const release = () => {
+    if (released) return
+    released = true
+    openStreams -= 1
+  }
+
+  const connect = new AbortController()
+  const connectTimer = setTimeout(() => connect.abort(), CONNECT_TIMEOUT_MS)
+  const abortUpstream = () => connect.abort()
+  request.signal.addEventListener('abort', abortUpstream)
+
   let upstream: Response
   try {
     upstream = await fetch(`${LEAD_NODE}/cryptarchia/events/blocks/stream`, {
-      signal: AbortSignal.timeout(15000),
+      signal: connect.signal,
       cache: 'no-store',
     })
   } catch {
+    release()
     return new Response('Could not open the node stream.', { status: 502 })
+  } finally {
+    clearTimeout(connectTimer)
   }
 
   if (!upstream.ok || !upstream.body) {
+    release()
+    void upstream.body?.cancel().catch(() => {})
     return new Response('The node refused the stream.', { status: 502 })
   }
 
   const reader = upstream.body.getReader()
   const decoder = new TextDecoder()
   const encoder = new TextEncoder()
-  const deadline = Date.now() + STREAM_BUDGET_MS
 
   const stream = new ReadableStream({
     async start(controller) {
@@ -55,6 +91,8 @@ export async function GET(request: Request) {
       let buffer = ''
 
       const close = () => {
+        release()
+        request.signal.removeEventListener('abort', abortUpstream)
         void reader.cancel().catch(() => {})
         try {
           controller.close()
@@ -78,8 +116,11 @@ export async function GET(request: Request) {
       // The client disconnecting must release the upstream connection too.
       request.signal.addEventListener('abort', close)
 
+      // Cancelling the reader ends a read that is waiting for the next block.
+      const budget = setTimeout(close, STREAM_BUDGET_MS)
+
       try {
-        while (Date.now() < deadline) {
+        while (true) {
           const { done, value } = await reader.read()
           if (done) break
 
@@ -96,6 +137,7 @@ export async function GET(request: Request) {
         // A dropped upstream is ordinary; the client will reconnect.
       } finally {
         clearInterval(heartbeat)
+        clearTimeout(budget)
         close()
       }
     },

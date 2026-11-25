@@ -22,7 +22,10 @@ and the wallet routes), and nothing here should go near them.
 There are three routes. `/api/chain` skips any node that doesn't answer and
 renders the rest, so one quiet node doesn't take the view down.
 `/api/chain/stream` turns the node's newline-delimited block stream into
-server-sent events. `/api/chain/search` looks a query up against blocks,
+server-sent events. It holds at most 20 streams at once
+(`MAX_CONCURRENT_STREAMS`) and answers 503 beyond that; the 15 second timeout
+covers the connect only, and each stream closes after four minutes so
+`EventSource` reconnects. `/api/chain/search` looks a query up against blocks,
 transactions and accounts, and answers `kind: "none"` when nothing matches.
 The node reads block ids, transaction hashes and account addresses as 32 bytes
 of hex with an optional `0x` prefix, so search accepts only that format
