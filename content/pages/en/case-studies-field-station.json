@@ -140,8 +140,8 @@
           },
           {
             "title": "Bosphorus",
-            "lead": "Bosphorus is a wallet and lending app that runs inside\nLogos Basecamp. A user moves funds from a public\naccount into a private one then borrows against\ncollateral.",
-            "body": "The app proves the loan is safely collateralised without revealing\nwho it belongs to. Bosphorus covers the credit link of the chain,\nagreeing a loan and settling it while the borrower's position stays\nprivate.",
+            "lead": "Bosphorus is a wallet and lending app that runs inside\nLogos Basecamp. Users move funds from a public\naccount into a private one, then lend, or borrow against\ncollateral in isolated markets.",
+            "body": "Positions stay public so anyone can check their health and liquidate\nthem, but nothing on the chain links a position to its owner: each\nstep is proved on the user's own machine. Bosphorus covers the\ncredit side: borrowing, repaying and liquidation, with the borrower's\nidentity kept private.",
             "cta": {
               "label": "Learn more",
               "href": "https://github.com/merkle-groot/bosphorus"
