@@ -2,6 +2,7 @@
 
 Reference for the public web app in [`apps/web`](../README.md). These docs cover `apps/web` only; anything spanning several apps lives in the root [`docs/`](../../../docs/README.md).
 
+- [ghost-migration.md](ghost-migration.md): Nomos and Codex capture, draft import, staging snapshots and source verification
 - [media-calendar.md](media-calendar.md): the `/media/calendar` page and the shared `EventsCalendar` it uses
 - [media-interactive-embeds.md](media-interactive-embeds.md): how interactive media embeds are isolated from the site origin, mirror site storage and talk to the page over `postMessage`
 - [media-discussion.md](media-discussion.md): how article discussion previews read and sanitise forum replies
