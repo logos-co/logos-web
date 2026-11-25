@@ -11,7 +11,12 @@ const section = z.object({ title: text, body: paragraphs })
 export const fieldStationCaseStudyCopySectionSchema = z.object({
   componentType: z.literal('fieldStationCaseStudyCopy'),
   key: sectionKeySchema,
-  hero: z.object({ title: text, label: text, image: mediaRefSchema }),
+  hero: z.object({
+    title: text,
+    label: text,
+    disclaimer: text,
+    image: mediaRefSchema,
+  }),
   intro: z.object({
     lead: text,
     body: text,
@@ -51,9 +56,7 @@ export const fieldStationCaseStudyCopySectionSchema = z.object({
   }),
   testimonial: z.object({
     image: mediaRefSchema,
-    desktopImage: mediaRefSchema,
-    quote: text,
-    attribution: text,
+    quotes: z.array(z.object({ quote: text, attribution: text })).length(2),
   }),
   next: z.object({
     title: text,

@@ -5,13 +5,17 @@ import { Button } from '@/components/ui'
 
 import { BrandLockup, Photo } from './shared'
 import { InstallButton } from './install-button'
+import { newsreader, rhymesText } from './fonts'
 
 export function Cover({
   hero,
   intro,
 }: Pick<FieldStationCaseStudyCopySection, 'hero' | 'intro'>) {
   return (
-    <div className="field-case-dark" data-header-tone="dark">
+    <div
+      className={`field-case-dark ${rhymesText.variable} ${newsreader.variable}`}
+      data-header-tone="dark"
+    >
       <header className="field-case-cover muster-poster">
         <div className="field-case-lockup">
           <BrandLockup />
@@ -34,7 +38,10 @@ export function Cover({
         </div>
         <div className="field-case-cover-bottom">
           <h1 className="muster-cover-title">{hero.title}</h1>
-          <p className="field-case-label">{hero.label}</p>
+          <div className="field-case-cover-meta">
+            <p className="field-case-cover-disclaimer">{hero.disclaimer}</p>
+            <p className="field-case-label">{hero.label}</p>
+          </div>
         </div>
       </header>
       <section className="field-case-section field-case-intro">

@@ -107,15 +107,17 @@
   }
 }
 .field-case-cover-bottom {
+  position: relative;
   display: flex;
   align-items: end;
   gap: 24px;
   justify-content: space-between;
-  margin-top: clamp(70px, 10vw, 142px);
+  margin-top: 54px;
   padding: 0 12px;
 }
 .field-case-cover h1 {
-  max-width: 1050px;
+  font-family: var(--field-text-font);
+  max-width: 1100px;
   font-size: clamp(56px, 6.67vw, 96px);
   line-height: 0.98;
   letter-spacing: -0.04em;
@@ -340,23 +342,34 @@
 }
 .field-case-testimonial blockquote {
   position: absolute;
-  top: 57px;
-  left: 60px;
-  right: 60px;
+  top: 80px;
+  left: 52px;
   z-index: 1;
+  width: calc(100% - 104px);
+  max-width: 1013px;
   color: var(--field-paper);
 }
+.field-case-testimonial blockquote + blockquote {
+  top: 330px;
+  right: 98px;
+  left: auto;
+  width: calc(100% - 150px);
+  max-width: 1056px;
+  text-align: right;
+}
 .field-case-testimonial blockquote p {
-  max-width: 960px;
-  font: 400 56px/1 var(--font-display);
-  letter-spacing: -0.03em;
+  max-width: none;
+  font: 400 clamp(24px, 2.6389vw, 38px) / 1 var(--field-text-font);
+  letter-spacing: -0.04em;
 }
 .field-case-testimonial blockquote footer {
-  margin-top: 23px;
-  max-width: 420px;
+  margin-top: 26px;
   font-size: 14px;
   line-height: 1.2;
   letter-spacing: 0;
+}
+.field-case-testimonial blockquote + blockquote footer {
+  margin-top: 30px;
 }
 .field-case-next {
   margin-top: 100px;
@@ -593,7 +606,8 @@
     padding: 0 12px;
   }
   .field-case-cover h1 {
-    font-size: clamp(44px, 14vw, 56px);
+    font-family: var(--field-mobile-title-font);
+    font-size: clamp(36px, 11.45vw, 45px);
   }
   .field-case-label {
     margin-top: 24px;
@@ -654,15 +668,24 @@
     background: #15252159;
   }
   .field-case-testimonial blockquote {
-    top: auto;
-    right: 12px;
-    bottom: 60px;
-    left: 12px;
+    top: 25px;
+    right: 33px;
+    left: 24px;
+    width: auto;
+    max-width: none;
+  }
+  .field-case-testimonial blockquote + blockquote {
+    top: 288px;
+    right: 22px;
+    left: 41px;
+    width: auto;
+    max-width: none;
   }
   .field-case-testimonial blockquote p {
-    font-size: 30px;
+    font-size: clamp(18px, 5.3435vw, 21px);
   }
-  .field-case-testimonial blockquote footer {
+  .field-case-testimonial blockquote footer,
+  .field-case-testimonial blockquote + blockquote footer {
     margin-top: 20px;
   }
   .field-case-grey.field-case-split > div > .field-case-paragraphs {
@@ -870,5 +893,42 @@
 
   .field-case-testimonial .field-case-photo {
     object-position: 53.3% center;
+  }
+}
+
+.field-case-cover-meta {
+  position: absolute;
+  right: 74px;
+  bottom: -21px;
+  width: 285px;
+  text-align: right;
+}
+.field-case-cover-meta .field-case-cover-disclaimer {
+  max-width: 285px;
+  font-size: 8px;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+.field-case-cover-meta .field-case-label {
+  margin-top: 9px;
+}
+@media (min-width: 768px) and (max-width: 1279px) {
+  .field-case-cover-bottom {
+    display: block;
+  }
+  .field-case-cover-meta {
+    position: static;
+    margin-top: 24px;
+    margin-left: auto;
+  }
+}
+@media (max-width: 767px) {
+  .field-case-cover-meta {
+    position: static;
+    margin-top: 20px;
+    text-align: left;
+  }
+  .field-case-cover-meta .field-case-label {
+    margin-top: 72px;
   }
 }

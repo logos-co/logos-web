@@ -26,7 +26,8 @@
           "width": 1203,
           "height": 919,
           "alt": "Sunset over Dhun in Rajasthan"
-        }
+        },
+        "disclaimer": "Field Station is an experiment. Projects started there are shared for\ninformational purposes. They are not reviewed by Logos and may contain\nbugs, change without notice, or behave unexpectedly. Use at your own risk."
       },
       "intro": {
         "lead": "Field Station / Rajasthan was a Logos\nresidency, run with ZuGrama at Dhun from\n23 to 31 October 2026.",
@@ -188,20 +189,22 @@
         "nextLabel": "Next project"
       },
       "testimonial": {
-        "quote": "\"[Quote from Manvendra Singh Shekhawat\non what the residents built for Dhun.]\"",
-        "attribution": "Manvendra Singh Shekhawat, founder, Dhun",
-        "desktopImage": {
-          "src": "/images/field-station-case-study/testimonial-desktop-1623.jpg",
-          "alt": "Residents gathered outdoors at Dhun at night",
-          "width": 1623,
-          "height": 969
-        },
         "image": {
           "src": "/images/field-station-case-study/testimonial-desktop-1623.jpg",
           "alt": "Residents gathered outdoors at Dhun at night",
           "width": 1623,
           "height": 969
-        }
+        },
+        "quotes": [
+          {
+            "quote": "\"Culture can be something we consciously experiment with.\nWith Fieldstation and the technological freedoms enabled by\nLogos, we have an opportunity to explore this in practice. At\nZuGrama, we are building a permanent node to put this\ninto a long-term experiment.\"",
+            "attribution": "Yesh, Founder, ZuGrama"
+          },
+          {
+            "quote": "\"Field Station brought some wonderfully curious\npeople to Dhun. The range of their pursuits and the\nconviction behind them sparked our imagination.\nMy team and I are keen to see what we might build together.\"",
+            "attribution": "Manvendra, Managing Director, Dhun Foundation"
+          }
+        ]
       },
       "next": {
         "title": "From prototypes to Circles",

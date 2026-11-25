@@ -6,6 +6,7 @@ import type { FieldStationCaseStudyCopySection } from '@repo/content/schemas'
 
 import { Button } from '@/components/ui'
 import { Photo } from './shared'
+import { Testimonial } from './testimonial'
 
 export function Projects({
   copy,
@@ -136,19 +137,7 @@ export function Projects({
           </div>
         </div>
       </section>
-      <figure className="field-case-testimonial" data-header-tone="dark">
-        <Photo
-          image={testimonial.image}
-          desktopSrc={testimonial.desktopImage.src}
-          sizes="(max-width: 767px) 1072px, 100vw"
-          fullWidth
-          reveal
-        />
-        <blockquote>
-          <p>{testimonial.quote}</p>
-          <footer>{testimonial.attribution}</footer>
-        </blockquote>
-      </figure>
+      <Testimonial copy={testimonial} />
       <section className="field-case-section">
         <h2>{next.title}</h2>
         <div className="field-case-grid-three field-case-next">
