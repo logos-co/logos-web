@@ -169,11 +169,19 @@
         "nextLabel": "Next project"
       },
       "testimonial": {
+        "quote": "\"[Quote from Manvendra Singh Shekhawat on what the residents built for Dhun.]\"",
+        "attribution": "Manvendra Singh Shekhawat, founder, Dhun",
+        "desktopImage": {
+          "src": "/images/field-station-case-study/testimonial-desktop.webp",
+          "alt": "Residents gathered outdoors at Dhun at night",
+          "width": 1623,
+          "height": 969
+        },
         "image": {
           "src": "/images/field-station-case-study/testimonial-4000.webp",
           "width": 4000,
           "height": 2252,
-          "alt": "Sunset over Dhun"
+          "alt": "Dhun during the Field Station residency"
         }
       },
       "next": {

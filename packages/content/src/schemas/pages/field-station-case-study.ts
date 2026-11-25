@@ -48,7 +48,12 @@ export const fieldStationCaseStudyCopySectionSchema = z.object({
       )
       .length(4),
   }),
-  testimonial: z.object({ image: mediaRefSchema }),
+  testimonial: z.object({
+    image: mediaRefSchema,
+    desktopImage: mediaRefSchema,
+    quote: text,
+    attribution: text,
+  }),
   next: z.object({
     title: text,
     entries: z.array(entry.extend({ label: text })).length(3),

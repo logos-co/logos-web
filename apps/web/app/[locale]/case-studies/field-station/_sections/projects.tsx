@@ -133,9 +133,18 @@ export function Projects({
           </div>
         </div>
       </section>
-      <div className="field-case-testimonial">
-        <Photo image={testimonial.image} fullWidth reveal />
-      </div>
+      <figure className="field-case-testimonial" data-header-tone="dark">
+        <Photo
+          image={testimonial.image}
+          desktopSrc={testimonial.desktopImage.src}
+          fullWidth
+          reveal
+        />
+        <blockquote>
+          <p>{testimonial.quote}</p>
+          <footer>{testimonial.attribution}</footer>
+        </blockquote>
+      </figure>
       <section className="field-case-section">
         <h2>{next.title}</h2>
         <div className="field-case-grid-three field-case-next">

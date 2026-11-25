@@ -328,7 +328,27 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: #15252173;
+  background: transparent;
+}
+.field-case-testimonial blockquote {
+  position: absolute;
+  top: 57px;
+  left: 60px;
+  right: 60px;
+  z-index: 1;
+  color: var(--field-paper);
+}
+.field-case-testimonial blockquote p {
+  max-width: 960px;
+  font: 400 56px/1 var(--font-display);
+  letter-spacing: -0.03em;
+}
+.field-case-testimonial blockquote footer {
+  margin-top: 23px;
+  max-width: 420px;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 .field-case-next {
   margin-top: 100px;
@@ -621,6 +641,21 @@
   }
   .field-case-testimonial {
     height: 640px;
+  }
+  .field-case-testimonial::after {
+    background: #15252159;
+  }
+  .field-case-testimonial blockquote {
+    top: auto;
+    right: 12px;
+    bottom: 60px;
+    left: 12px;
+  }
+  .field-case-testimonial blockquote p {
+    font-size: 30px;
+  }
+  .field-case-testimonial blockquote footer {
+    margin-top: 20px;
   }
   .field-case-grey.field-case-split > div > .field-case-paragraphs {
     margin-top: 24px;
