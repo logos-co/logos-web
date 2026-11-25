@@ -102,8 +102,8 @@
 }
 @media (min-width: 768px) {
   .field-case-cover-photo {
-    object-fit: fill;
-    object-position: bottom;
+    object-fit: cover;
+    object-position: center;
   }
 }
 .field-case-cover-bottom {
@@ -729,7 +729,8 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: clamp(250px, 26.2vw, 420px);
+  height: auto;
+  aspect-ratio: 1440 / 377;
   margin: 28px 0 0;
 }
 .field-case-intro {
