@@ -30,9 +30,9 @@ apps/api/
 
 `POST /api/public/afform-submit` is the only handler. In order:
 
-1. Parse the JSON body and reject a `formName` that is not
-   `afformActivistBuilder`, `afformActivistLeaderSteward` or
-   `afformCoalitionPartner`.
+1. Parse the JSON body, reject one that is not an object, and reject a
+   `formName` that is not `afformActivistBuilder`,
+   `afformActivistLeaderSteward` or `afformCoalitionPartner`.
 2. Reject a submission whose `hearAbout` does not resolve to a known option id,
    the same check `buildNotionProperties` uses before writing it. It runs
    whatever `FUNNEL_INTAKE_NOTION_DISABLED` says, so the requirement cannot lapse
@@ -40,17 +40,24 @@ apps/api/
 3. Reject a submission missing a field its form marks required, or whose `email`
    is not plausible. The list comes from `REQUIRED_FIELDS_BY_FORM` in
    `@repo/funnel`, which `apps/web` also builds its form schema from, and the
-   `400` names the offending `fields`.
-4. Verify the hCaptcha token once: a missing token is a `400`, a failed check
-   a `403`. A missing or blank `HCAPTCHA_SECRET` returns `503` before any write
-   in Vercel Preview, Vercel Production and other production runs. Local
-   development and tests can omit the secret to skip verification.
-5. Forward the steward application (`afformActivistLeaderSteward`) to the
-   n8n/Baserow webhook with a five-second timeout. Best-effort: a failure or
-   timeout is logged and the request continues to Notion. This limit also
-   applies while reading the webhook response.
-6. Write the Notion page and answer `201`, or answer `201` without writing when
-   `FUNNEL_INTAKE_NOTION_DISABLED` is truthy. A Notion failure is a `502`.
+   `400` names the offending `fields`. Only `skills` may be an array; every
+   other required answer must be a string.
+4. Verify the hCaptcha token once, with a five-second timeout: a missing token
+   is a `400`, a failed check a `403`. The check sends the form's
+   `captchaSitekey` (or the first key of `HCAPTCHA_SITEKEYS` when the form sends
+   none), which must be listed in `HCAPTCHA_SITEKEYS`, and the `hostname`
+   hCaptcha returns must belong to an origin `src/lib/public-cors.ts` allows.
+   hCaptcha's `not-provided` hostname, sent under heavy traffic, is accepted. A
+   missing or blank `HCAPTCHA_SECRET` returns `503` before any write in Vercel
+   Preview, Vercel Production and other production runs. Local development and
+   tests can omit the secret to skip verification.
+5. Write the Notion page, unless `FUNNEL_INTAKE_NOTION_DISABLED` is truthy. A
+   Notion failure is logged and answered with a generic `502`, before anything
+   reaches n8n, so a retry cannot leave a duplicate n8n row.
+6. Forward the steward application (`afformActivistLeaderSteward`) to the
+   n8n/Baserow webhook with a five-second timeout, then answer `201`.
+   Best-effort: a failure or timeout is logged and the request still succeeds.
+   This limit also applies while reading the webhook response.
 
 The handler drops a `fields` key from the body before it does anything else, so
 a client that sends one cannot push it into the Notion or n8n payloads.
@@ -71,7 +78,7 @@ The keys `buildN8nPayload` forwards are listed in the funnel doc's
    the funnel doc.
 4. `POST /v1/pages` with `parent.data_source_id`, the properties and the blocks
    from `src/lib/notion/evaluation-template.ts`. Every request sends
-   `Notion-Version: 2026-03-11`.
+   `Notion-Version: 2026-03-11` and times out after ten seconds.
 
 Empty optional properties are left out, so rows stay sparse. Text is clipped to
 2000 characters, Notion's limit for one rich-text element.
@@ -92,14 +99,15 @@ disallowed origin gets no `Access-Control-Allow-Origin` at all, because
 
 [`apps/api/.env.example`](../.env.example) holds the same list with comments.
 
-| Variable                           | Purpose                                                            |
-| ---------------------------------- | ------------------------------------------------------------------ |
-| `HCAPTCHA_SECRET`                  | Secret used to verify tokens; required in deployments              |
-| `NOTION_API_TOKEN`, `NOTION_DB_ID` | Notion intake target                                               |
-| `NOTION_DATA_SOURCE_ID`            | Pins writes when the database holds multiple data sources          |
-| `FUNNEL_INTAKE_NOTION_DISABLED`    | Skip the Notion write                                              |
-| `N8N_STEWARD_WEBHOOK_TOKEN`        | `X-Webhook-Token` for the steward webhook; unset = forward skipped |
-| `CORS_ALLOWED_ORIGINS`             | Extra comma-separated origins for `/api/public/*`                  |
+| Variable                           | Purpose                                                             |
+| ---------------------------------- | ------------------------------------------------------------------- |
+| `HCAPTCHA_SECRET`                  | Secret used to verify tokens; required in deployments               |
+| `HCAPTCHA_SITEKEYS`                | Accepted site keys, comma separated; defaults to the production key |
+| `NOTION_API_TOKEN`, `NOTION_DB_ID` | Notion intake target                                                |
+| `NOTION_DATA_SOURCE_ID`            | Pins writes when the database holds multiple data sources           |
+| `FUNNEL_INTAKE_NOTION_DISABLED`    | Skip the Notion write                                               |
+| `N8N_STEWARD_WEBHOOK_TOKEN`        | `X-Webhook-Token` for the steward webhook; unset = forward skipped  |
+| `CORS_ALLOWED_ORIGINS`             | Extra comma-separated origins for `/api/public/*`                   |
 
 ## Checks
 

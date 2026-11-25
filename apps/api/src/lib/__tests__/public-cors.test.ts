@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import {
   getPublicCorsHeaders,
   isPublicCorsOriginAllowed,
+  isPublicSiteHostnameAllowed,
 } from '@/lib/public-cors'
 
 const PREVIEW_WEB_ORIGIN =
@@ -17,6 +18,29 @@ describe('public-cors', () => {
     setEnvVar('CORS_ALLOWED_ORIGINS', undefined)
     setEnvVar('VERCEL_ENV', undefined)
     setEnvVar('NODE_ENV', undefined)
+  })
+
+  describe('isPublicSiteHostnameAllowed', () => {
+    it('accepts the hostnames of the allowed origins only', () => {
+      setEnvVar('VERCEL_ENV', 'production')
+      setEnvVar('CORS_ALLOWED_ORIGINS', 'https://staging.example.org')
+
+      expect(isPublicSiteHostnameAllowed('logos.co')).toBe(true)
+      expect(isPublicSiteHostnameAllowed('dev.logos.co')).toBe(true)
+      expect(isPublicSiteHostnameAllowed('staging.example.org')).toBe(true)
+      expect(isPublicSiteHostnameAllowed('localhost')).toBe(false)
+      expect(isPublicSiteHostnameAllowed('evil.example')).toBe(false)
+      expect(isPublicSiteHostnameAllowed('logos.co/x')).toBe(false)
+    })
+
+    it('adds localhost and the web previews outside production', () => {
+      setEnvVar('VERCEL_ENV', 'preview')
+
+      expect(isPublicSiteHostnameAllowed('localhost')).toBe(true)
+      expect(
+        isPublicSiteHostnameAllowed(new URL(PREVIEW_WEB_ORIGIN).hostname)
+      ).toBe(true)
+    })
   })
 
   describe('isPublicCorsOriginAllowed', () => {

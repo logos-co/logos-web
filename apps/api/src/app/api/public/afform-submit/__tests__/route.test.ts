@@ -65,12 +65,19 @@ function answers(
   return { ...REQUIRED_ANSWERS[formName], ...overrides }
 }
 
-function makeRequest(body: Record<string, unknown>) {
+function makeRequest(body: unknown) {
   return new NextRequest('http://localhost/api/public/afform-submit', {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify(body),
   })
+}
+
+const DEFAULT_SITEKEY = '2ec82f0e-5f3c-45d2-ba38-223ceb5eee42'
+
+function siteverifyBody(): URLSearchParams {
+  const init = vi.mocked(fetch).mock.calls[0]?.[1]
+  return init?.body as URLSearchParams
 }
 
 describe('POST /api/public/afform-submit', () => {
@@ -146,7 +153,9 @@ describe('POST /api/public/afform-submit', () => {
     async ({ success, status, writes }) => {
       vi.stubEnv('NODE_ENV', 'production')
       vi.stubEnv('HCAPTCHA_SECRET', 'test-secret')
-      vi.mocked(fetch).mockResolvedValue(Response.json({ success }))
+      vi.mocked(fetch).mockResolvedValue(
+        Response.json({ success, hostname: 'logos.co' })
+      )
 
       const res = await POST(
         makeRequest(
@@ -160,6 +169,95 @@ describe('POST /api/public/afform-submit', () => {
       expect(fetch).toHaveBeenCalledTimes(1)
       expect(submitToNotion).toHaveBeenCalledTimes(writes)
       expect(submitToN8n).toHaveBeenCalledTimes(writes)
+    }
+  )
+
+  describe('with a captcha secret', () => {
+    beforeEach(() => {
+      vi.stubEnv('NODE_ENV', 'production')
+      vi.stubEnv('HCAPTCHA_SECRET', 'test-secret')
+    })
+
+    function submitWithToken(overrides: Record<string, unknown> = {}) {
+      return POST(
+        makeRequest(
+          validPayload('afformActivistBuilder', {
+            captchaToken: 'test-token',
+            ...overrides,
+          })
+        )
+      )
+    }
+
+    it('binds the token to the default site key', async () => {
+      vi.mocked(fetch).mockResolvedValue(
+        Response.json({ success: true, hostname: 'logos.co' })
+      )
+
+      const res = await submitWithToken()
+
+      expect(res.status).toBe(201)
+      expect(siteverifyBody().get('sitekey')).toBe(DEFAULT_SITEKEY)
+      expect(submitToNotion).toHaveBeenCalledWith(
+        answers('afformActivistBuilder'),
+        'afformActivistBuilder'
+      )
+    })
+
+    it('uses the site key the form sent when HCAPTCHA_SITEKEYS lists it', async () => {
+      vi.stubEnv('HCAPTCHA_SITEKEYS', 'prod-key, staging-key')
+      vi.mocked(fetch).mockResolvedValue(
+        Response.json({ success: true, hostname: 'dev.logos.co' })
+      )
+
+      const res = await submitWithToken({ captchaSitekey: 'staging-key' })
+
+      expect(res.status).toBe(201)
+      expect(siteverifyBody().get('sitekey')).toBe('staging-key')
+    })
+
+    it('rejects a site key outside HCAPTCHA_SITEKEYS without calling hCaptcha', async () => {
+      const res = await submitWithToken({ captchaSitekey: 'someone-else' })
+
+      expect(res.status).toBe(403)
+      expect(fetch).not.toHaveBeenCalled()
+      expect(submitToNotion).not.toHaveBeenCalled()
+    })
+
+    it.each([
+      { hostname: 'evil.example', status: 403 },
+      { hostname: undefined, status: 403 },
+      { hostname: 'not-provided', status: 201 },
+    ])(
+      'answers $status for a token solved on $hostname',
+      async ({ hostname, status }) => {
+        vi.mocked(fetch).mockResolvedValue(
+          Response.json({ success: true, hostname })
+        )
+
+        const res = await submitWithToken()
+
+        expect(res.status).toBe(status)
+      }
+    )
+
+    it('rejects when hCaptcha does not answer', async () => {
+      vi.mocked(fetch).mockRejectedValue(new Error('timeout'))
+
+      const res = await submitWithToken()
+
+      expect(res.status).toBe(403)
+      expect(submitToNotion).not.toHaveBeenCalled()
+    })
+  })
+
+  it.each([null, ['afformActivistBuilder'], 'afformActivistBuilder'])(
+    'rejects the non-object body %j',
+    async (body) => {
+      const res = await POST(makeRequest(body))
+
+      expect(res.status).toBe(400)
+      expect(await res.json()).toEqual({ error: 'Invalid request body' })
     }
   )
 
@@ -268,13 +366,42 @@ describe('POST /api/public/afform-submit', () => {
     expect(res.status).toBe(201)
   })
 
-  it('accepts a required select submitted as an array', async () => {
+  it('rejects an array for a single-value field', async () => {
     const res = await POST(
-      makeRequest(validPayload('afformActivistBuilder', { country: ['1226'] }))
+      makeRequest(
+        validPayload('afformActivistBuilder', {
+          country: ['1226'],
+          email: ['ada@example.com'],
+        })
+      )
     )
+    const body = await res.json()
 
-    expect(res.status).toBe(201)
+    expect(res.status).toBe(400)
+    expect(body.fields).toEqual(['country', 'email'])
   })
+
+  it('rejects skills submitted as a string', async () => {
+    const res = await POST(
+      makeRequest(validPayload('afformActivistBuilder', { skills: '1' }))
+    )
+    const body = await res.json()
+
+    expect(res.status).toBe(400)
+    expect(body.fields).toEqual(['skills'])
+  })
+
+  it.each(['constructor', '__proto__', 'toString'])(
+    'rejects the inherited key %s as a hear-about answer',
+    async (hearAbout) => {
+      const res = await POST(
+        makeRequest(validPayload('afformActivistBuilder', { hearAbout }))
+      )
+
+      expect(res.status).toBe(400)
+      expect(submitToNotion).not.toHaveBeenCalled()
+    }
+  )
 
   it('rejects a missing required field even when Notion is disabled', async () => {
     vi.mocked(isNotionIntakeSubmitEnabled).mockReturnValue(false)
@@ -288,7 +415,8 @@ describe('POST /api/public/afform-submit', () => {
     expect(vi.mocked(submitToN8n)).toHaveBeenCalledTimes(0)
   })
 
-  it('returns 502 when the Notion submission fails', async () => {
+  it('returns 502 without the upstream detail when Notion fails', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     vi.mocked(submitToNotion).mockResolvedValue({
       ok: false,
       message: 'Notion unavailable',
@@ -298,8 +426,35 @@ describe('POST /api/public/afform-submit', () => {
     const body = await res.json()
 
     expect(res.status).toBe(502)
-    expect(body.error).toBe('Failed to submit form. Please try again.')
-    expect(body.detail).toBe('Notion unavailable')
+    expect(body).toEqual({ error: 'Failed to submit form. Please try again.' })
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Notion unavailable')
+    )
+    errorSpy.mockRestore()
+  })
+
+  it('does not forward the steward form to n8n when Notion fails', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.mocked(submitToNotion).mockResolvedValue({
+      ok: false,
+      message: 'Notion unavailable',
+    })
+
+    const res = await POST(
+      makeRequest(validPayload('afformActivistLeaderSteward'))
+    )
+
+    expect(res.status).toBe(502)
+    expect(submitToN8n).not.toHaveBeenCalled()
+    errorSpy.mockRestore()
+  })
+
+  it('writes to Notion before forwarding to n8n', async () => {
+    await POST(makeRequest(validPayload('afformActivistLeaderSteward')))
+
+    expect(vi.mocked(submitToNotion).mock.invocationCallOrder[0]).toBeLessThan(
+      vi.mocked(submitToN8n).mock.invocationCallOrder[0]
+    )
   })
 
   it('skips Notion when the destination is disabled', async () => {

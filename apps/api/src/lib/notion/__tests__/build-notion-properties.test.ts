@@ -103,9 +103,7 @@ describe('buildNotionProperties', () => {
       rich_text: [{ type: 'text', text: { content: 'Leader bio' } }],
     })
     expect(properties['Activities Vision']).toEqual({
-      rich_text: [
-        { type: 'text', text: { content: 'Community workshops' } },
-      ],
+      rich_text: [{ type: 'text', text: { content: 'Community workshops' } }],
     })
   })
 
@@ -182,6 +180,48 @@ describe('buildNotionProperties', () => {
     )
 
     expect(properties['How did you first hear about Logos?']).toBeUndefined()
+  })
+
+  it.each(['constructor', '__proto__', 'toString'])(
+    'drops the inherited key %s from every id lookup',
+    (id) => {
+      const properties = buildNotionProperties(
+        { ...baseData, hearAbout: id, country: id, skills: [id] },
+        'afformActivistBuilder'
+      )
+
+      expect(properties['How did you first hear about Logos?']).toBeUndefined()
+      expect(properties.Country).toBeUndefined()
+      expect(properties.Skills).toEqual({ multi_select: [] })
+    }
+  )
+
+  it('writes known skills only, each once', () => {
+    const properties = buildNotionProperties(
+      { ...baseData, skills: ['1', 'Hacked option', '1', ' 6 ', 42] },
+      'afformActivistBuilder'
+    )
+
+    expect(properties.Skills).toEqual({
+      multi_select: [{ name: 'Developer' }, { name: 'Researcher' }],
+    })
+  })
+
+  it('drops an unknown country and chat service instead of writing the raw id', () => {
+    const properties = buildNotionProperties(
+      {
+        ...baseData,
+        country: 'Atlantis',
+        chat: ['adal'],
+        chatService: ['evil'],
+      },
+      'afformActivistBuilder'
+    )
+
+    expect(properties.Country).toBeUndefined()
+    expect(properties['Phone or Social Handle']).toEqual({
+      phone_number: 'adal',
+    })
   })
 
   it('omits the hear-about property when hearAbout is missing', () => {

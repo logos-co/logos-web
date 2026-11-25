@@ -32,6 +32,12 @@ function trim(s: unknown): string {
   return s && typeof s === 'string' ? s.trim() : ''
 }
 
+// Only known ids resolve. Notion creates multi-select options on write, and
+// staff read the rich-text columns, so a raw id must never reach either.
+function lookup(map: Record<string, string>, id: string): string | undefined {
+  return Object.hasOwn(map, id) ? map[id] : undefined
+}
+
 function clampText(content: string): string {
   return content.slice(0, NOTION_TEXT_MAX_LENGTH)
 }
@@ -65,7 +71,7 @@ export function resolveHearAboutLabel(
   data: Record<string, unknown>
 ): string | undefined {
   const hearAboutId = toArray(data.hearAbout).map(trim).filter(Boolean)[0] ?? ''
-  return HEAR_ABOUT_MAP[hearAboutId]
+  return lookup(HEAR_ABOUT_MAP, hearAboutId)
 }
 
 export function buildNotionProperties(
@@ -76,7 +82,7 @@ export function buildNotionProperties(
   const email = trim(data.email)
   const city = trim(data.city)
   const countryId = trim(data.country)
-  const country = COUNTRY_MAP[countryId] ?? countryId
+  const country = lookup(COUNTRY_MAP, countryId)
   const affiliatedOrgs = trim(data.affiliatedOrgs)
 
   const background = getBackground(data)
@@ -86,10 +92,10 @@ export function buildNotionProperties(
   const wantsEvents = data.wantsEvents === true
   const wantsNewsletter = data.wantsNewsletter === true
 
-  const skillIds = toArray(data.skills)
-  const skillNames = skillIds
-    .map((id) => SKILLS_MAP[id] ?? id)
-    .filter(Boolean)
+  const skillNames = [...new Set(toArray(data.skills).map(trim))]
+    .map((id) => lookup(SKILLS_MAP, id))
+    .filter((label): label is string => Boolean(label))
+    .slice(0, Object.keys(SKILLS_MAP).length)
     .map((skillName) => ({ name: skillName }))
 
   const websiteArr = toArray(data.website).map(trim).filter(Boolean)
@@ -100,7 +106,7 @@ export function buildNotionProperties(
     .map((handle, i): string | null => {
       if (!handle) return null
       const svcId = chatServiceArr[i] ?? ''
-      const svcLabel = CHAT_SERVICE_MAP[svcId] ?? svcId
+      const svcLabel = lookup(CHAT_SERVICE_MAP, svcId)
       return svcLabel ? `${handle} (${svcLabel})` : handle
     })
     .filter((v): v is string => v !== null)
@@ -133,11 +139,9 @@ export function buildNotionProperties(
   if (profileName) {
     properties.Profile = { select: { name: profileName } }
   }
-  websiteArr
-    .slice(0, WEBSITE_PROPERTY_NAMES.length)
-    .forEach((url, index) => {
-      properties[WEBSITE_PROPERTY_NAMES[index]] = { url }
-    })
+  websiteArr.slice(0, WEBSITE_PROPERTY_NAMES.length).forEach((url, index) => {
+    properties[WEBSITE_PROPERTY_NAMES[index]] = { url }
+  })
   if (chatStr) {
     properties['Phone or Social Handle'] = { phone_number: chatStr }
   }
@@ -154,7 +158,8 @@ export function buildNotionProperties(
   if (techVisionProp) properties['Tech Vision'] = techVisionProp
 
   const activitiesVisionProp = optionalRichText(activitiesVision)
-  if (activitiesVisionProp) properties['Activities Vision'] = activitiesVisionProp
+  if (activitiesVisionProp)
+    properties['Activities Vision'] = activitiesVisionProp
 
   const questionsProp = optionalRichText(questions)
   if (questionsProp) properties.Questions = questionsProp

@@ -54,12 +54,18 @@ export function getRequiredFieldsForForm(formName?: string): readonly string[] {
 /** Looser than the client's zod `.email()`, so it can only reject non-addresses. */
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-/** Selects arrive both ways: `country` as a string, `skills` as an array. */
-function isAnswered(value: unknown): boolean {
-  const values = Array.isArray(value) ? value : [value]
-  return values.some(
-    (entry) => typeof entry === 'string' && entry.trim() !== ''
-  )
+/** Only the `skills` multi-select may arrive as an array; every other key is a string. */
+const ARRAY_FIELDS = new Set(['skills'])
+
+function isFilledString(value: unknown): value is string {
+  return typeof value === 'string' && value.trim() !== ''
+}
+
+function isAnswered(formKey: string, value: unknown): boolean {
+  if (ARRAY_FIELDS.has(formKey)) {
+    return Array.isArray(value) && value.some(isFilledString)
+  }
+  return isFilledString(value)
 }
 
 /** Required formKeys left unanswered, plus `email` when it is not an address. */
@@ -69,8 +75,8 @@ export function findInvalidRequiredFields(
 ): string[] {
   return getRequiredFieldsForForm(formName).filter((formKey) => {
     const value = data[formKey]
-    if (!isAnswered(value)) return true
+    if (!isAnswered(formKey, value)) return true
     if (formKey !== 'email') return false
-    return !EMAIL_PATTERN.test(String(value).trim())
+    return !EMAIL_PATTERN.test((value as string).trim())
   })
 }

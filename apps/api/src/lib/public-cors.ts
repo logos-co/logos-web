@@ -45,6 +45,26 @@ export function isPublicCorsOriginAllowed(origin: string): boolean {
   return builtInOriginPatterns().some((pattern) => pattern.test(origin))
 }
 
+/**
+ * True when `hostname` belongs to an allowed origin. hCaptcha reports the
+ * hostname a token was solved on, without scheme or port.
+ */
+export function isPublicSiteHostnameAllowed(hostname: string): boolean {
+  if (!/^[a-z0-9.-]+$/i.test(hostname)) return false
+  if (
+    extraAllowedOrigins().some(
+      (origin) => URL.parse(origin)?.hostname === hostname
+    )
+  ) {
+    return true
+  }
+  return builtInOriginPatterns().some(
+    (pattern) =>
+      pattern.test(`https://${hostname}`) ||
+      pattern.test(`http://${hostname}:80`)
+  )
+}
+
 export function getPublicCorsHeaders(origin: string | null): HeadersInit {
   if (!origin || !isPublicCorsOriginAllowed(origin)) {
     return {}
