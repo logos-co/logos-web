@@ -1,5 +1,6 @@
 import type { FieldStationCaseStudyCopySection } from '@repo/content/schemas'
-import { Button, ButtonArrowIcon } from '@/components/ui'
+import { ButtonArrowIcon } from '@/components/ui'
+import { Button } from './button'
 import { Link } from '@/i18n/navigation'
 import { InstallButton } from './install-button'
 import { Photo } from './shared'
@@ -48,7 +49,7 @@ export function BuildAndClosing({
         className="field-case-section field-case-dark field-case-closing"
         data-header-tone="dark"
       >
-        <div className="field-case-closing-title">
+        <div className="field-case-closing-title" data-case-study-reveal>
           <div>
             {closing.left.map((line) => (
               <div key={line}>{line}</div>

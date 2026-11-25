@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import type { FieldStationCaseStudyCopySection } from '@repo/content/schemas'
 
-import { Button } from '@/components/ui'
+import { Button } from './button'
 
 import { BrandLockup, Photo } from './shared'
 import { InstallButton } from './install-button'

@@ -1,13 +1,16 @@
 'use client'
 
 import { useEffect, useRef, type ReactNode } from 'react'
+import { mountCaseStudyReveals } from './case-study-reveals'
 
 export function CaseStudyMotion({
   children,
   className,
+  revealContent = false,
 }: {
   children: ReactNode
   className: string
+  revealContent?: boolean
 }) {
   const root = useRef<HTMLElement>(null)
 
@@ -48,6 +51,9 @@ export function CaseStudyMotion({
       const frames = new Set<number>()
       const controller = new AbortController()
       host.classList.add('muster-motion-enabled')
+      const disposeReveals = revealContent
+        ? mountCaseStudyReveals(host)
+        : () => {}
 
       function frame(callback: FrameRequestCallback) {
         const id = requestAnimationFrame((now) => {
@@ -105,6 +111,7 @@ export function CaseStudyMotion({
 
       return () => {
         observer.disconnect()
+        disposeReveals()
         controller.abort()
         window.clearTimeout(timer)
         frames.forEach(cancelAnimationFrame)
@@ -128,7 +135,7 @@ export function CaseStudyMotion({
       dispose()
       preference.removeEventListener('change', onPreferenceChange)
     }
-  }, [])
+  }, [revealContent])
 
   return (
     <article className={className} ref={root}>

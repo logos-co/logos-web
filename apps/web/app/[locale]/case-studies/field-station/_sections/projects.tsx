@@ -4,7 +4,7 @@ import { useRef, useState, type KeyboardEvent, type TouchEvent } from 'react'
 import { CircleArrowIcon } from '@acid-info/logos-ui'
 import type { FieldStationCaseStudyCopySection } from '@repo/content/schemas'
 
-import { Button } from '@/components/ui'
+import { Button } from './button'
 import { Photo } from './shared'
 import { Testimonial } from './testimonial'
 
