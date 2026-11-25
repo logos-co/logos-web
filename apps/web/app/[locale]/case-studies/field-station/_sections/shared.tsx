@@ -14,6 +14,7 @@ export function Photo({
   fullWidth = false,
   eager = false,
   desktopSrc,
+  sizes: sizesOverride,
 }: {
   image: MediaRef
   className?: string
@@ -22,9 +23,11 @@ export function Photo({
   fullWidth?: boolean
   eager?: boolean
   desktopSrc?: string
+  sizes?: string
 }) {
   const width = image.width ?? 1440
-  const sizes = fullWidth ? '100vw' : '(min-width: 768px) 50vw, 100vw'
+  const sizes =
+    sizesOverride ?? (fullWidth ? '100vw' : '(min-width: 768px) 50vw, 100vw')
   const srcSet = imageSources[image.src]
   return (
     <picture className="field-case-picture">

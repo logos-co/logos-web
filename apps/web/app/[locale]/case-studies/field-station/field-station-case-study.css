@@ -187,7 +187,9 @@
   grid-area: photo;
   align-self: start;
   margin-top: 48px;
-  aspect-ratio: 3 / 2;
+  max-width: 680px;
+  aspect-ratio: 680 / 491;
+  object-position: center top;
 }
 .field-case-tracks {
   margin-top: 100px;
@@ -853,5 +855,20 @@
 
   .field-case-diagram p {
     font-size: clamp(12px, 0.9722vw, 14px);
+  }
+}
+
+@media (max-width: 767px) {
+  .field-case-cover-photo {
+    object-position: left center;
+  }
+
+  .field-case-basics .field-case-photo {
+    max-width: none;
+    aspect-ratio: 369 / 266;
+  }
+
+  .field-case-testimonial .field-case-photo {
+    object-position: 53.3% center;
   }
 }

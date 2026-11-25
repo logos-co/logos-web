@@ -140,6 +140,7 @@ export function Projects({
         <Photo
           image={testimonial.image}
           desktopSrc={testimonial.desktopImage.src}
+          sizes="(max-width: 767px) 1072px, 100vw"
           fullWidth
           reveal
         />
