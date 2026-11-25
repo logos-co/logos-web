@@ -49,7 +49,7 @@ if (isProduction && !isVercel) {
   }
   if (!process.env.NEXT_PUBLIC_WEB_URL) {
     throw new Error(
-      'NEXT_PUBLIC_WEB_URL is required in production (self-hosted) — set it to the public web origin used for CORS / CSRF.'
+      'NEXT_PUBLIC_WEB_URL is required in production (self-hosted) — set it to the public web origin.'
     )
   }
 }
@@ -67,8 +67,6 @@ const serverURL =
   (process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
     : 'http://localhost:3001')
-
-const frontendURL = process.env.NEXT_PUBLIC_WEB_URL || 'http://localhost:3000'
 
 // Database — Postgres (Supabase / Neon / Vercel Postgres). The schema name
 // scopes Payload tables under a dedicated namespace, so coexisting with other
@@ -172,8 +170,10 @@ export default buildConfig({
     user: Users.slug,
   },
   collections,
-  cors: [serverURL, frontendURL],
-  csrf: [serverURL, frontendURL],
+  // Only the CMS origin may send credentialed requests. apps/web is a static export and never calls
+  // this API from the browser; adding its origin lets any script on it act as a signed-in editor.
+  cors: [serverURL],
+  csrf: [serverURL],
   db: userRolesPostgresAdapter({
     pool: {
       connectionString: databaseUrl,

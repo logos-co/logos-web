@@ -14,7 +14,13 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
   },
-  auth: true,
+  // Strict keeps the session cookie off cross-site requests; secure stays off locally so HTTP dev can sign in.
+  auth: {
+    cookies: {
+      sameSite: 'Strict',
+      secure: process.env.NODE_ENV === 'production',
+    },
+  },
   access: {
     admin: ({ req }) => Boolean(req.user),
     create: isAdmin,

@@ -16,7 +16,7 @@ There are two templates. Copy `.env.example` to `apps/cms/.env` for local dev, a
 | Variable                 | Default                 | Notes                                                                                                                                         |
 | ------------------------ | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | `NEXT_PUBLIC_SERVER_URL` | `http://localhost:3001` | Public CMS origin. Required in self-hosted production, where the build throws without it. On Vercel it falls back to `https://$VERCEL_URL`. |
-| `NEXT_PUBLIC_WEB_URL`    | `http://localhost:3000` | Public web origin, used for CORS and CSRF. Required in self-hosted production.                                                                |
+| `NEXT_PUBLIC_WEB_URL`    | `http://localhost:3000` | Public web origin. Not allowed by CORS or CSRF. Required in self-hosted production.                                                                |
 
 ## Build time
 
