@@ -22,7 +22,7 @@ export function Photo({
   const width = image.width ?? 1440
   const sizes = fullWidth ? '100vw' : '(min-width: 768px) 50vw, 100vw'
   const hasVariants =
-    /^\/images\/field-station-case-study\/(cover-1200|intro-896|basics-896|community-4000|community2-4000|projects-2622|testimonial-4000|build-1404)\.webp$/.test(
+    /^\/images\/field-station-case-study\/(cover-1200|intro-896|basics-896|community-4000|community2-4000|projects-2622|project-pukaar-1920|project-dhun-1800|testimonial-4000|build-1404)\.webp$/.test(
       image.src
     )
   const srcSet = [640, 1280, width]

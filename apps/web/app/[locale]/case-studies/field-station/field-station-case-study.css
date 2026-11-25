@@ -251,6 +251,13 @@
   object-fit: contain;
   background: #f5f5ef0d;
 }
+.field-case-project[data-image-fit='cover'] .field-case-photo {
+  object-fit: cover;
+}
+.field-case-projects .field-case-disclaimer {
+  max-width: 480px;
+  opacity: 0.7;
+}
 .field-case-disclaimer {
   margin-top: 16px;
   font-size: 14px;
@@ -266,10 +273,13 @@
   flex: 1 0 140px;
   text-align: left;
   padding: 16px 0;
-  border-bottom: 1px solid currentColor;
+  color: #f5f5ef80;
+  border-bottom: 1px solid #f5f5ef4d;
   cursor: pointer;
 }
 .field-case-tabs button[aria-selected='true'] {
+  color: var(--field-paper);
+  border-bottom-color: #e2e0c9;
   border-bottom-width: 2px;
 }
 .field-case-project {
@@ -295,6 +305,7 @@
 }
 .field-case-project p:not(.field-case-project-lead) {
   max-width: 560px;
+  opacity: 0.8;
 }
 .field-case-project a {
   margin-top: 32px;

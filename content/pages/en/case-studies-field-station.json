@@ -119,7 +119,7 @@
       },
       "projects": {
         "title": "What the residents built",
-        "body": "Four winning prototypes emerged from 17 projects built using Logos Basecamp during the residency. These are early proof-of-concept tools.",
+        "body": "Four winners were chosen from the 23 applications developed at the residency. These are early proof-of-concept tools running on test networks.",
         "disclaimer": "These tools are shared for informational purposes. Code is not reviewed by Logos and may contain bugs, change without notice, or behave unexpectedly.",
         "entries": [
           {
@@ -139,8 +139,8 @@
           },
           {
             "title": "Bosphorus",
-            "lead": "Bosphorus enables private lending inside Logos Basecamp.",
-            "body": "The project explores a wallet and lending application for private coordination.",
+            "lead": "Bosphorus is a wallet and lending app that runs inside Logos Basecamp. A user moves funds from a public account into a private one then borrows against collateral.",
+            "body": "The app proves the loan is safely collateralised without revealing who it belongs to. Bosphorus covers the credit link of the chain, agreeing a loan and settling it while the borrower's position stays private.",
             "cta": {
               "label": "Learn more",
               "href": "https://github.com/merkle-groot/bosphorus"
@@ -148,20 +148,33 @@
           },
           {
             "title": "Pukaar",
-            "lead": "Pukaar lets residents report issues and verify completed repairs.",
-            "body": "The project explores a decentralised community issue tracker.",
+            "lead": "Pukaar is a decentralised community issue tracker that runs in Basecamp.",
+            "body": "Residents log faults and follow each one until it is fixed. A steward can mark a fix as done, but it is only confirmed once the person who reported it, or two other residents, confirm it. The person who reported the issue can reopen it at any time.",
             "cta": {
               "label": "Learn more",
               "href": "https://pukaar-logos.vercel.app/"
-            }
+            },
+            "image": {
+              "src": "/images/field-station-case-study/project-pukaar-1920.webp",
+              "alt": "Aditya demonstrating Pukaar at the residency",
+              "width": 1920,
+              "height": 1080
+            },
+            "imageFit": "cover"
           },
           {
             "title": "Dhun Commons",
-            "lead": "Dhun Commons provides a shared treasury and coordination tool for farmers and land stewards.",
-            "body": "The project explores shared decision-making and two-signature releases of funds.",
+            "lead": "Dhun Commons is a wallet and coordination space for the farmers and stewards of Dhun's 500 acres, running in Basecamp.",
+            "body": "Each season has one treasury, shared by three parties, and every release of funds needs two signatures. When a milestone is reached, the treasury releases on quorum, with eight percent going to conservation. A field map, advisories, and a coordination room keep evidence for each decision, served through Logos Storage.",
             "cta": {
               "label": "Learn more",
               "href": "https://github.com/abhinavnowinew/dhun-commons"
+            },
+            "image": {
+              "src": "/images/field-station-case-study/project-dhun-1800.webp",
+              "alt": "Dhun Commons treasury and coordination application",
+              "width": 1800,
+              "height": 1082
             }
           }
         ],

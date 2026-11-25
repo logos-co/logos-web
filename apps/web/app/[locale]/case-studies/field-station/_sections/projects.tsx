@@ -40,6 +40,9 @@ export function Projects({
     if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
       event.preventDefault()
       select(index + (event.key === 'ArrowRight' ? 1 : -1), true)
+    } else if (event.key === 'Home' || event.key === 'End') {
+      event.preventDefault()
+      select(event.key === 'Home' ? 0 : copy.entries.length - 1, true)
     }
   }
   const handleTouchEnd = (event: TouchEvent) => {
@@ -86,10 +89,12 @@ export function Projects({
           ))}
         </div>
         <div
+          key={project.title}
           className="field-case-split field-case-project"
           id="field-project-panel"
           role="tabpanel"
           aria-labelledby={`field-project-tab-${active}`}
+          data-image-fit={project.imageFit ?? 'contain'}
           onTouchStart={(event) => {
             touchStart.current = {
               x: event.touches[0].clientX,
@@ -107,7 +112,9 @@ export function Projects({
             <h3>{project.title}</h3>
             <p className="field-case-project-lead">{project.lead}</p>
             <p>{project.body}</p>
-            <Button href={project.cta.href}>{project.cta.label}</Button>
+            <Button href={project.cta.href} variant="secondary">
+              {project.cta.label}
+            </Button>
           </div>
         </div>
         <div className="field-case-project-controls">
