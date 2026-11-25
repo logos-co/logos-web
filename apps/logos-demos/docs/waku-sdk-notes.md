@@ -61,6 +61,17 @@ network.
 
 If the store query fails, show an empty backlog and keep the page working.
 
+## Never trust a payload
+
+Anyone can publish on the topic, and the store replays it to every tab for 24
+hours, so one bad message breaks the page for everyone until it expires.
+`parsePayload` in [`src/lib/waku.ts`](../src/lib/waku.ts) drops anything off
+contract, including a `sentAt` that is not a safe integer between 0 and one day
+ahead of the local clock (`new Date(1e300)` throws on render). The list is
+ordered by receive time, since `sentAt` is the sender's claim, and keeps the
+newest 500 messages (`MESSAGE_LIMIT`). `src/app/messaging/error.tsx` and
+`src/app/error.tsx` turn any throw that gets past this into a retry panel.
+
 ## Connecting takes seconds
 
 The node runs DNS discovery, dials peers, then sets up a filter subscription.

@@ -6,9 +6,12 @@ import {
   buildPayload,
   CONTENT_TOPIC,
   type ChatMessage,
+  type ChatPayload,
   decodePayload,
   encodePayload,
+  insertMessage,
   isBlank,
+  MESSAGE_LIMIT,
   type NodeSnapshot,
 } from '@/lib/waku'
 
@@ -50,16 +53,25 @@ export function useWakuNode() {
   > | null>(null)
 
   // Ids we have already rendered. The network re-delivers messages and echoes
-  // our own publishes back, so every arrival is checked against this.
+  // our own publishes back, so every arrival is checked against this. It keeps
+  // twice the list's length, dropping the oldest id, so a flood cannot grow it
+  // forever and a message just pushed off the list is not re-added.
   const seenIdsRef = useRef<Set<string>>(new Set())
 
-  const appendMessage = useCallback((message: ChatMessage) => {
-    if (seenIdsRef.current.has(message.id)) return
-    seenIdsRef.current.add(message.id)
-    setMessages((current) =>
-      [...current, message].sort((a, b) => a.sentAt - b.sentAt),
-    )
-  }, [])
+  const appendMessage = useCallback(
+    (payload: ChatPayload, fromSelf: boolean) => {
+      const seen = seenIdsRef.current
+      if (seen.has(payload.id)) return
+      seen.add(payload.id)
+      if (seen.size > MESSAGE_LIMIT * 2) {
+        seen.delete(seen.values().next().value as string)
+      }
+      setMessages((current) =>
+        insertMessage(current, { ...payload, fromSelf, receivedAt: Date.now() }),
+      )
+    },
+    [],
+  )
 
   useEffect(() => {
     let cancelled = false
@@ -103,7 +115,7 @@ export function useWakuNode() {
         // Anything that fails the contract is dropped: this is a public topic
         // and other applications may publish here too.
         if (!payload) return
-        appendMessage({ ...payload, fromSelf: false })
+        appendMessage(payload, false)
       })
       if (cancelled) return
 
@@ -120,7 +132,7 @@ export function useWakuNode() {
             if (!wakuMessage.payload) return
             const historic = decodePayload(wakuMessage.payload)
             if (!historic) return
-            appendMessage({ ...historic, fromSelf: false })
+            appendMessage(historic, false)
           },
           {
             timeStart: new Date(Date.now() - HISTORY_WINDOW_MS),
@@ -185,7 +197,7 @@ export function useWakuNode() {
 
       // Render immediately, then publish. Showing our own message only after
       // the network echoes it back would make the app feel broken.
-      appendMessage({ ...payload, fromSelf: true })
+      appendMessage(payload, true)
 
       const result = await node.lightPush!.send(encoder, {
         payload: encodePayload(payload),
