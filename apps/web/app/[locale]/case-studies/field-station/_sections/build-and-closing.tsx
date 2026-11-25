@@ -12,7 +12,7 @@ export function BuildAndClosing({
     <>
       <section className="field-case-section field-case-build">
         <div className="field-case-split">
-          <Photo image={build.image} />
+          <Photo image={build.image} reveal />
           <div>
             <h2>{build.title}</h2>
             <p>{build.body}</p>

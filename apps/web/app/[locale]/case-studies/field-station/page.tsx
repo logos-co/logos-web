@@ -2,6 +2,7 @@ import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 
 import { ROUTES } from '@/constants/routes'
+import { CaseStudyMotion } from '@/components/case-study-motion'
 import { createPageMetadata } from '@/lib/page-metadata'
 
 import { Cover } from './_sections/cover'
@@ -9,7 +10,9 @@ import { Story } from './_sections/story'
 import { Projects } from './_sections/projects'
 import { Technology } from './_sections/technology'
 import { BuildAndClosing } from './_sections/build-and-closing'
+import '../muster/muster-motion.css'
 import './field-station-case-study.css'
+import './field-station-motion.css'
 
 export const generateMetadata = createPageMetadata(ROUTES.fieldStationCaseStudy)
 
@@ -28,7 +31,7 @@ export default async function FieldStationCaseStudyPage({
   if (!copy) throw new Error('Missing Field Station case study copy')
 
   return (
-    <div className="field-case">
+    <CaseStudyMotion className="field-case">
       <Cover hero={copy.hero} intro={copy.intro} />
       <Story basics={copy.basics} community={copy.community} />
       <Projects
@@ -38,6 +41,6 @@ export default async function FieldStationCaseStudyPage({
       />
       <Technology modules={copy.modules} architecture={copy.architecture} />
       <BuildAndClosing build={copy.build} closing={copy.closing} />
-    </div>
+    </CaseStudyMotion>
   )
 }

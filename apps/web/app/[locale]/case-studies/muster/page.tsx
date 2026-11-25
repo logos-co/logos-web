@@ -4,7 +4,7 @@ import { isActiveLocale } from '@repo/content/locales'
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 
-import { MusterReveals } from './muster-reveals'
+import { CaseStudyMotion } from '@/components/case-study-motion'
 import { Architecture } from './_sections/architecture'
 import { Basics } from './_sections/basics'
 import { Build } from './_sections/build'
@@ -42,7 +42,7 @@ export default async function MusterPage({
   )
 
   return (
-    <MusterReveals>
+    <CaseStudyMotion className="muster">
       <Cover hero={copy.hero} intro={copy.intro} />
       <Basics
         copy={copy.basics}
@@ -55,6 +55,6 @@ export default async function MusterPage({
       <Prifi copy={copy.prifi} />
       <Build copy={copy.build} />
       <Closing copy={copy.closing} nextAvailable={nextCase !== null} />
-    </MusterReveals>
+    </CaseStudyMotion>
   )
 }

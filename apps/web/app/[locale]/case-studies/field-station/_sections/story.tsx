@@ -11,7 +11,7 @@ export function Story({
         <div className="field-case-split field-case-basics">
           <h2>{basics.title}</h2>
           <Paragraphs body={basics.body} />
-          <Photo image={basics.image} />
+          <Photo image={basics.image} reveal />
         </div>
         <div className="field-case-tracks">
           <h3>{basics.label}</h3>
@@ -36,7 +36,7 @@ export function Story({
         </div>
         <div className="field-case-split field-case-photos">
           {community.images.map((image) => (
-            <Photo key={image.src} image={image} />
+            <Photo key={image.src} image={image} reveal />
           ))}
         </div>
       </section>

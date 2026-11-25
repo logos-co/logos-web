@@ -96,7 +96,7 @@ export function Projects({
           onTouchEnd={handleTouchEnd}
         >
           {project.image ? (
-            <Photo image={project.image} />
+            <Photo image={project.image} reveal />
           ) : (
             <div className="field-case-project-empty" aria-hidden="true" />
           )}
@@ -131,7 +131,7 @@ export function Projects({
         </div>
       </section>
       <div className="field-case-testimonial">
-        <Photo image={testimonial.image} />
+        <Photo image={testimonial.image} reveal />
       </div>
       <section className="field-case-section">
         <h2>{next.title}</h2>

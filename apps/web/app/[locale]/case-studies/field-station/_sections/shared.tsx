@@ -5,9 +5,13 @@ import type { MediaRef } from '@repo/content/schemas'
 export function Photo({
   image,
   className = '',
+  preload = false,
+  reveal = false,
 }: {
   image: MediaRef
   className?: string
+  preload?: boolean
+  reveal?: boolean
 }) {
   return (
     <Image
@@ -16,6 +20,8 @@ export function Photo({
       width={image.width ?? 1440}
       height={image.height ?? 900}
       sizes="(min-width: 768px) 50vw, 100vw"
+      preload={preload}
+      data-muster-reveal={reveal ? '' : undefined}
       className={`field-case-photo ${className}`}
     />
   )

@@ -12,7 +12,7 @@ export function Cover({
 }: Pick<FieldStationCaseStudyCopySection, 'hero' | 'intro'>) {
   return (
     <div className="field-case-dark" data-header-tone="dark">
-      <header className="field-case-cover">
+      <header className="field-case-cover muster-poster">
         <div className="field-case-lockup">
           <BrandLockup />
           <span aria-hidden="true">×</span>
@@ -23,16 +23,22 @@ export function Cover({
             alt="Zu-Grama"
           />
         </div>
-        <Photo image={hero.image} className="field-case-cover-photo" />
+        <div className="muster-cover-visual field-case-cover-visual">
+          <Photo
+            image={hero.image}
+            className="field-case-cover-photo muster-cover-image"
+            preload
+          />
+        </div>
         <div className="field-case-cover-bottom">
-          <h1>{hero.title}</h1>
+          <h1 className="muster-cover-title">{hero.title}</h1>
           <p className="field-case-label">{hero.label}</p>
         </div>
       </header>
       <section className="field-case-section field-case-intro">
         <div className="field-case-split">
-          <h2 className="field-case-subheading">{intro.lead}</h2>
           <div>
+            <h2 className="field-case-subheading">{intro.lead}</h2>
             <p>{intro.body}</p>
             <div className="field-case-actions">
               <InstallButton label={intro.installLabel} />
@@ -41,12 +47,25 @@ export function Cover({
               </Button>
             </div>
           </div>
+          <Photo
+            image={intro.image}
+            className="field-case-intro-photo"
+            reveal
+          />
         </div>
-        <Photo image={intro.image} className="field-case-intro-photo" />
         <dl className="field-case-stats">
           {intro.stats.map((stat) => (
             <div key={stat.title}>
-              <dt>{stat.title}</dt>
+              <dt>
+                <span className="sr-only">{stat.title}</span>
+                <span
+                  aria-hidden="true"
+                  className="field-case-stat-value"
+                  data-muster-count={stat.title}
+                >
+                  {stat.title}
+                </span>
+              </dt>
               <dd>{stat.body}</dd>
             </div>
           ))}

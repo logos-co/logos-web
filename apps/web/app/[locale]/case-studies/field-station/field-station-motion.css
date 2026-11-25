@@ -1,0 +1,70 @@
+@media (prefers-reduced-motion: no-preference) {
+  .field-case.muster-motion-enabled [data-muster-connections] article {
+    transition: background-color 550ms ease-out;
+  }
+
+  .field-case.muster-motion-enabled
+    [data-muster-connections]
+    .field-case-diagram-zcash::before {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  .field-case.muster-motion-enabled
+    .muster-connected
+    .field-case-diagram-zcash::before {
+    animation: muster-connect-horizontal 400ms ease-out 400ms both;
+  }
+
+  .field-case.muster-motion-enabled .muster-connected article {
+    animation: field-case-node-focus 550ms ease-out both;
+  }
+
+  .field-case.muster-motion-enabled .muster-connected article:nth-child(2) {
+    animation-delay: 80ms;
+  }
+
+  .field-case.muster-motion-enabled .muster-connected article:nth-child(3) {
+    animation-delay: 160ms;
+  }
+
+  .field-case.muster-motion-enabled .muster-connected article:nth-child(4) {
+    animation-delay: 240ms;
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .field-case.muster-motion-enabled
+    .muster-connected
+    .field-case-diagram-zcash::before {
+    animation-name: muster-connect-vertical;
+  }
+}
+
+@keyframes field-case-node-focus {
+  from {
+    background-color: var(--color-accent-light-blue);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .field-case.muster-motion-enabled .field-case-diagram-modules::before,
+  .field-case.muster-motion-enabled
+    .field-case-diagram-modules
+    article::before {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  .field-case.muster-motion-enabled
+    .field-case-diagram-modules.muster-connected::before {
+    animation: muster-connect-horizontal 400ms ease-out both;
+  }
+
+  .field-case.muster-motion-enabled
+    .field-case-diagram-modules.muster-connected
+    article::before {
+    animation: muster-connect-vertical 350ms ease-out 400ms both;
+  }
+}

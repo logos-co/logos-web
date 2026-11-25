@@ -1,6 +1,7 @@
 .field-case {
   --field-ink: var(--color-brand-dark-green);
   --field-paper: var(--color-brand-off-white);
+  --muster-blue: var(--color-accent-light-blue);
   color: var(--field-ink);
   background: var(--field-paper);
   font-family: var(--font-sans);
@@ -16,7 +17,7 @@
   background: #dbddd7;
 }
 .field-case-section {
-  padding: 100px max(12px, calc((100% - 1440px) / 2));
+  padding: clamp(56px, 7vw, 100px) 12px;
 }
 .field-case h1,
 .field-case h2,
@@ -58,18 +59,17 @@
   object-fit: cover;
   border-radius: 12px;
 }
-.field-case-cover {
+.field-case .field-case-cover {
+  position: relative;
+  top: 0;
   min-height: 900px;
-  height: min(100svh, 1000px);
-  display: flex;
-  flex-direction: column;
-  padding-top: 72px;
+  padding: 72px 0 60px;
 }
 .field-case-lockup {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 0 max(12px, calc((100% - 1440px) / 2));
+  padding: 0 12px;
   font-size: 24px;
 }
 .field-case-lockup > img {
@@ -85,17 +85,17 @@
   height: auto;
 }
 .field-case-cover-photo {
-  margin-top: 28px;
+  width: 100%;
+  height: 100%;
   border-radius: 0;
-  height: clamp(300px, 27vw, 400px);
 }
 .field-case-cover-bottom {
-  flex: 1;
   display: flex;
   align-items: end;
   gap: 24px;
   justify-content: space-between;
-  padding: 48px max(12px, calc((100% - 1440px) / 2)) 60px;
+  margin-top: clamp(70px, 10vw, 142px);
+  padding: 0 12px;
 }
 .field-case-cover h1 {
   max-width: 1050px;
@@ -115,6 +115,7 @@
 }
 .field-case-intro .field-case-subheading {
   max-width: 640px;
+  margin-bottom: 40px;
 }
 .field-case-actions {
   display: flex;
@@ -132,25 +133,26 @@
   border-color: #f5f5ef80;
 }
 .field-case-intro-photo {
-  margin-top: 100px;
-  aspect-ratio: 1416 / 797;
+  align-self: start;
+  aspect-ratio: 4 / 3;
 }
 .field-case-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin-top: 100px;
-  border-top: 1px solid #f5f5ef80;
 }
 .field-case-stats > div {
-  padding-top: 24px;
+  padding-top: 0;
 }
 .field-case-stats dt {
   font-size: clamp(56px, 8.4vw, 120px);
 }
 .field-case-stats dd {
   margin-top: 12px;
-  max-width: 360px;
+  max-width: 345px;
+  font-size: 14px;
+  line-height: 1.2;
 }
 .field-case-basics .field-case-photo {
   margin-top: 48px;
@@ -423,20 +425,20 @@
     grid-template-columns: 1fr;
     gap: 24px;
   }
-  .field-case-cover {
-    min-height: 805px;
-    height: auto;
-    padding-top: 60px;
+  .field-case .field-case-cover {
+    min-height: 0;
+    padding: 60px 0 48px;
   }
   .field-case-lockup {
     gap: 12px;
   }
-  .field-case-cover-photo {
+  .field-case .field-case-cover-visual {
     height: 300px;
   }
   .field-case-cover-bottom {
     display: block;
-    padding: 32px 12px 48px;
+    margin-top: 32px;
+    padding: 0 12px;
   }
   .field-case-cover h1 {
     font-size: clamp(44px, 14vw, 56px);
@@ -444,13 +446,15 @@
   .field-case-label {
     margin-top: 24px;
   }
-  .field-case-intro-photo,
   .field-case-photos,
   .field-case-statement,
   .field-case-features,
   .field-case-diagram,
   .field-case-next {
     margin-top: 48px;
+  }
+  .field-case-intro .field-case-subheading {
+    margin-bottom: 24px;
   }
   .field-case-stats {
     display: block;
@@ -520,24 +524,31 @@
   }
 }
 
-@media (min-width: 768px) and (min-height: 900px) {
-  .field-case-cover {
+@media (min-width: 768px) and (min-height: 641px) {
+  .field-case .field-case-cover[data-muster-pinned] {
     position: sticky;
-    top: 0;
-  }
-  .field-case-intro {
-    position: relative;
-    background: var(--field-ink);
   }
 }
-@media (min-width: 375px) and (max-width: 767px) and (min-height: 900px) {
-  .field-case-cover {
-    position: sticky;
-    top: 0;
-  }
-  .field-case-intro {
-    position: relative;
-    background: var(--field-ink);
+.field-case .field-case-cover-visual {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: clamp(250px, 26.2vw, 420px);
+  margin: 28px 0 0;
+}
+.field-case-intro {
+  position: relative;
+  background: var(--field-ink);
+  border-top: 1px solid color-mix(in srgb, var(--field-paper) 35%, transparent);
+}
+.field-case-stat-value {
+  display: inline-block;
+  min-width: 1ch;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 767px) {
+  .field-case .field-case-cover-visual {
+    height: 300px;
   }
 }
 .field-case-diagram-top {
@@ -583,5 +594,45 @@
   }
   .field-case-nav-overlay > div > a.absolute {
     display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .field-case-diagram-modules {
+    position: relative;
+    margin-top: 36px;
+  }
+
+  .field-case-diagram-modules::before {
+    position: absolute;
+    top: -20px;
+    right: 16.6667%;
+    left: 16.6667%;
+    height: 1px;
+    background: currentColor;
+    content: '';
+  }
+
+  .field-case-diagram-modules article {
+    position: relative;
+  }
+
+  .field-case-diagram-modules article::before {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    width: 1px;
+    height: 20px;
+    background: currentColor;
+    content: '';
+  }
+}
+
+@media (max-width: 767px) {
+  .field-case-diagram-modules {
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid currentColor;
+    border-radius: 8px;
   }
 }

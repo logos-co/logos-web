@@ -35,7 +35,7 @@ export function Technology({
           ))}
         </div>
         <figure className="field-case-diagram">
-          <div className="field-case-diagram-top">
+          <div className="field-case-diagram-top" data-muster-connections>
             <div className="field-case-diagram-container">
               <div className="field-case-diagram-label">
                 {architecture.basecamp}
@@ -63,7 +63,10 @@ export function Technology({
           <div className="field-case-diagram-label">
             {architecture.modulesLabel}
           </div>
-          <div className="field-case-grid-three field-case-diagram-modules">
+          <div
+            className="field-case-grid-three field-case-diagram-modules"
+            data-muster-connections
+          >
             {architecture.modules.map((item) => (
               <article key={item.title}>
                 <h4>{item.title}</h4>
