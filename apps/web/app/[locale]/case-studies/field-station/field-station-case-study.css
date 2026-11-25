@@ -583,8 +583,15 @@
   .field-case-split,
   .field-case-grid-three,
   .field-case-grid-four {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 24px;
+  }
+  .field-case-actions a {
+    max-width: 100%;
+  }
+  .field-case-actions a span {
+    min-width: 0;
+    white-space: normal;
   }
   .field-case-basics {
     grid-template-areas: 'title' 'body' 'photo';
