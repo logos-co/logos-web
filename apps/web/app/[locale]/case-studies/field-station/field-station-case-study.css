@@ -243,8 +243,7 @@
   margin-top: 100px;
 }
 .field-case-photos .field-case-photo,
-.field-case-project .field-case-photo,
-.field-case-project-empty {
+.field-case-project .field-case-photo {
   aspect-ratio: 4 / 3;
 }
 .field-case-project .field-case-photo {
@@ -284,10 +283,6 @@
 }
 .field-case-project {
   margin-top: 48px;
-}
-.field-case-project-empty {
-  background: #f5f5ef0d;
-  border-radius: 12px;
 }
 .field-case-project > div:last-child {
   padding: 28px 0;

@@ -144,6 +144,12 @@
             "cta": {
               "label": "Learn more",
               "href": "https://github.com/merkle-groot/bosphorus"
+            },
+            "image": {
+              "src": "/images/field-station-case-study/project-bosphorus-2870.webp",
+              "width": 2870,
+              "height": 1563,
+              "alt": "Bosphorus private lending application in Logos Basecamp"
             }
           },
           {

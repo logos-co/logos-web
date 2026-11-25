@@ -103,11 +103,7 @@ export function Projects({
           }}
           onTouchEnd={handleTouchEnd}
         >
-          {project.image ? (
-            <Photo image={project.image} eager reveal />
-          ) : (
-            <div className="field-case-project-empty" aria-hidden="true" />
-          )}
+          <Photo image={project.image} eager reveal />
           <div>
             <h3>{project.title}</h3>
             <p className="field-case-project-lead">{project.lead}</p>

@@ -42,7 +42,7 @@ export const fieldStationCaseStudyCopySectionSchema = z.object({
           title: text,
           lead: text,
           body: text,
-          image: mediaRefSchema.optional(),
+          image: mediaRefSchema,
           imageFit: z.enum(['contain', 'cover']).optional(),
           cta: ctaSchema,
         })
