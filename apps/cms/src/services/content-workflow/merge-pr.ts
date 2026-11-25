@@ -14,7 +14,33 @@ export interface MergeContentPullRequestInput {
   headSha: string
   payload: Payload
   pullRequestNumber: number
+  user: { id: number }
 }
+
+export const SELF_MERGE_REFUSED_MESSAGE =
+  'You edited this change, so someone else has to merge it. Ask another editor, or have a maintainer review and merge the PR on GitHub.'
+export const UNKNOWN_AUTHOR_REFUSED_MESSAGE =
+  'This change has no recorded author, so the CMS cannot merge it. A maintainer has to review and merge the PR on GitHub.'
+
+const toUserId = (value: unknown): string | null => {
+  if (typeof value === 'string' || typeof value === 'number')
+    return String(value)
+  if (value && typeof value === 'object' && 'id' in value)
+    return toUserId(value.id)
+  return null
+}
+
+export const getChangeRequestContributors = (
+  changeRequest: Record<string, unknown>
+): Set<string> =>
+  new Set(
+    [
+      changeRequest.createdBy,
+      ...(Array.isArray(changeRequest.contributors)
+        ? changeRequest.contributors
+        : []),
+    ].flatMap((value) => toUserId(value) ?? [])
+  )
 
 export interface MergeContentPullRequestResult {
   contentChangeRequestId: string | number | null
@@ -55,6 +81,10 @@ export const createMergeContentPullRequest =
       throw new Error(
         'No matching open CMS change for this PR. Refresh the page and review it again.'
       )
+    const contributors = getChangeRequestContributors(changeRequest)
+    if (!contributors.size) throw new Error(UNKNOWN_AUTHOR_REFUSED_MESSAGE)
+    if (contributors.has(String(input.user.id)))
+      throw new Error(SELF_MERGE_REFUSED_MESSAGE)
     const result = await mergePullRequestToBase({
       pullRequestNumber: pr.number,
       branchName: pr.branchName,
@@ -67,6 +97,8 @@ export const createMergeContentPullRequest =
       data: {
         commitSha: result.sha ?? undefined,
         status: 'merged',
+        mergedBy: input.user.id,
+        mergedAt: new Date().toISOString(),
       },
     })
 

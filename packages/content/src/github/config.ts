@@ -16,7 +16,10 @@ export type GithubConfig = {
   repo: string
   /** Long-lived branch where CMS PRs are merged into first. Default: develop. */
   stagingBranch: string
-  /** Production branch — promoted to via a separate develop→master PR. */
+  /**
+   * Production branch. The CMS fast-forwards it when the diff from staging is
+   * content only, and opens a staging to production release PR otherwise.
+   */
   productionBranch: string
   /** Base branch for new content PRs (defaults to staging). */
   prBaseBranch: string

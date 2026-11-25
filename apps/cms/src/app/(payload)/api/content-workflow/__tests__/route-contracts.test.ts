@@ -15,7 +15,7 @@ const request = (
   init?: ConstructorParameters<typeof NextRequest>[1]
 ) => new NextRequest(url, init)
 
-const createPayload = ({ user = { id: 'user-1' } }: { user?: unknown } = {}) =>
+const createPayload = ({ user = { id: 1 } }: { user?: unknown } = {}) =>
   ({
     auth: async () => ({ user }),
     find: async () => ({ docs: [] }),
@@ -218,6 +218,7 @@ describe('content workflow route contracts', () => {
       }),
       getPayload: async () => createPayload({ user: null }),
       loadGithubConfigFromEnv: () => ({ owner: 'logos-co' }) as never,
+      recordPromotion: async () => undefined,
       setGithubConfig: () => undefined,
       syncProductionToStaging: async () => ({}) as never,
     })
@@ -242,6 +243,7 @@ describe('content workflow route contracts', () => {
       loadGithubConfigFromEnv: () => {
         throw new Error('missing github env')
       },
+      recordPromotion: async () => undefined,
       setGithubConfig: () => undefined,
       syncProductionToStaging: async () => ({}) as never,
     })
@@ -251,5 +253,186 @@ describe('content workflow route contracts', () => {
     )
 
     assert.equal(response.status, 500)
+  })
+
+  it('hides raw GitHub errors from a failed merge', async () => {
+    const handler = createMergePrPostHandler({
+      getPayload: async () => createPayload(),
+      loadGithubConfigFromEnv: () => ({ owner: 'logos-co' }) as never,
+      mergeContentPullRequest: async () => {
+        throw Object.assign(
+          new Error('Resource not accessible by integration'),
+          {
+            status: 403,
+          }
+        )
+      },
+      setGithubConfig: () => undefined,
+    })
+    const originalError = console.error
+    console.error = () => undefined
+    try {
+      const response = await handler(
+        request('http://localhost/api/content-workflow/merge-pr', {
+          headers: {
+            'Sec-Fetch-Site': 'same-origin',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            headSha: 'a'.repeat(40),
+            pullRequestNumber: 123,
+          }),
+          method: 'POST',
+        })
+      )
+      assert.equal(response.status, 422)
+      assert.doesNotMatch(
+        String((await readJson(response)).error),
+        /integration/
+      )
+    } finally {
+      console.error = originalError
+    }
+  })
+
+  it('passes the signed-in user to the merge service', async () => {
+    const users: unknown[] = []
+    const handler = createMergePrPostHandler({
+      getPayload: async () => createPayload({ user: { id: 9 } }),
+      loadGithubConfigFromEnv: () => ({ owner: 'logos-co' }) as never,
+      mergeContentPullRequest: async ({ user }) => {
+        users.push(user)
+        return {} as never
+      },
+      setGithubConfig: () => undefined,
+    })
+    await handler(
+      request('http://localhost/api/content-workflow/merge-pr', {
+        headers: {
+          'Sec-Fetch-Site': 'same-origin',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          headSha: 'a'.repeat(40),
+          pullRequestNumber: 123,
+        }),
+        method: 'POST',
+      })
+    )
+    assert.deepEqual(users, [{ id: 9 }])
+  })
+
+  const syncHandlers = (
+    overrides: Partial<Parameters<typeof createSyncProductionHandlers>[0]> = {}
+  ) =>
+    createSyncProductionHandlers({
+      compareProductionToStaging: async () => ({}) as never,
+      getBranchSyncDecision: () => ({ kind: 'already-synced', sha: 'sha' }),
+      getBranchSyncLinks: () => ({
+        compareUrl: '',
+        productionBranchUrl: '',
+        stagingBranchUrl: '',
+      }),
+      getPayload: async () => createPayload(),
+      loadGithubConfigFromEnv: () => ({ owner: 'logos-co' }) as never,
+      recordPromotion: async () => undefined,
+      setGithubConfig: () => undefined,
+      syncProductionToStaging: async () => assert.fail('must not sync'),
+      ...overrides,
+    })
+
+  const syncPost = (headers: Record<string, string>) =>
+    request('http://localhost/api/content-workflow/sync-production', {
+      headers,
+      body: '{}',
+      method: 'POST',
+    })
+
+  it('requires a same-origin JSON request to promote', async () => {
+    const { POST } = syncHandlers()
+    for (const headers of <Record<string, string>[]>[
+      { 'Content-Type': 'application/json' },
+      { 'Sec-Fetch-Site': 'same-origin', 'Content-Type': 'text/plain' },
+    ]) {
+      assert.equal((await POST(syncPost(headers))).status, 403)
+    }
+  })
+
+  it('records who promoted a fast-forward', async () => {
+    const promoted: unknown[] = []
+    const { POST } = syncHandlers({
+      getPayload: async () => createPayload({ user: { id: 4 } }),
+      recordPromotion: async ({ userId }) => {
+        promoted.push(userId)
+      },
+      syncProductionToStaging: async () =>
+        ({
+          decision: { kind: 'fast-forward', sha: 'sha' },
+          promotion: { kind: 'fast-forward' },
+          updated: true,
+        }) as never,
+    })
+    const response = await POST(
+      syncPost({
+        'Sec-Fetch-Site': 'same-origin',
+        'Content-Type': 'application/json',
+      })
+    )
+    assert.equal(response.status, 200)
+    assert.deepEqual(promoted, [4])
+  })
+
+  it('explains a release PR opened because promotion is not enabled', async () => {
+    const { POST } = syncHandlers({
+      recordPromotion: async () => assert.fail('nothing was promoted'),
+      syncProductionToStaging: async () =>
+        ({
+          decision: { kind: 'fast-forward', sha: 'sha' },
+          promotion: {
+            kind: 'release-pr',
+            reason: 'fast-forward-refused',
+            pullRequestNumber: 7,
+            pullRequestUrl: 'https://github.com/pr/7',
+          },
+          updated: false,
+        }) as never,
+    })
+    const body = await readJson(
+      await POST(
+        syncPost({
+          'Sec-Fetch-Site': 'same-origin',
+          'Content-Type': 'application/json',
+        })
+      )
+    )
+    assert.match(
+      String(body.message),
+      /ask an admin to enable content promotion/i
+    )
+  })
+
+  it('hides raw GitHub errors from a failed promotion', async () => {
+    const { POST } = syncHandlers({
+      syncProductionToStaging: async () => {
+        throw Object.assign(new Error('Bad credentials'), { status: 401 })
+      },
+    })
+    const originalError = console.error
+    console.error = () => undefined
+    try {
+      const response = await POST(
+        syncPost({
+          'Sec-Fetch-Site': 'same-origin',
+          'Content-Type': 'application/json',
+        })
+      )
+      assert.equal(response.status, 502)
+      assert.doesNotMatch(
+        String((await readJson(response)).error),
+        /credentials/
+      )
+    } finally {
+      console.error = originalError
+    }
   })
 })

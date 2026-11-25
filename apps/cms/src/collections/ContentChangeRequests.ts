@@ -107,6 +107,32 @@ export const ContentChangeRequests: CollectionConfig = {
         description: 'Payload user who triggered this change request.',
       },
     },
+    {
+      name: 'contributors',
+      type: 'json',
+      admin: {
+        description:
+          'Ids of every Payload user who saved into this change request. None of them may merge it.',
+      },
+    },
+    {
+      name: 'mergedBy',
+      type: 'relationship',
+      relationTo: 'users',
+    },
+    { name: 'mergedAt', type: 'date' },
+    {
+      name: 'promotedBy',
+      type: 'relationship',
+      relationTo: 'users',
+    },
+    { name: 'promotedAt', type: 'date' },
+    {
+      name: 'publishedBy',
+      type: 'relationship',
+      relationTo: 'users',
+    },
+    { name: 'publishedAt', type: 'date' },
   ],
   timestamps: true,
 }

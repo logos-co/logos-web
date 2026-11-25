@@ -2,6 +2,7 @@ import { getOctokit } from './client'
 import { getGithubConfig } from './config'
 import { getBranchSha } from './mutations'
 import { getManagedPullRequest, verifyContentDiff } from './managed-pr'
+import { createOrGetPullRequest } from './pull-requests'
 
 export type BranchComparisonStatus =
   | 'ahead'
@@ -39,10 +40,23 @@ export interface BranchSyncLinks {
   stagingBranchUrl: string
 }
 
+export type ReleasePullRequestReason = 'code-changes' | 'fast-forward-refused'
+
+export type BranchPromotion =
+  | { kind: 'fast-forward' }
+  | {
+      kind: 'release-pr'
+      reason: ReleasePullRequestReason
+      pullRequestNumber: number
+      pullRequestUrl: string
+    }
+
 export interface BranchSyncResult {
   comparison: BranchSyncComparison
   decision: BranchSyncDecision
   links: BranchSyncLinks
+  /** How production moved. Absent when there was nothing to promote. */
+  promotion?: BranchPromotion
   updated: boolean
 }
 
@@ -146,11 +160,33 @@ export const compareProductionToStaging =
     }
   }
 
-export const syncProductionBranchToStaging =
-  async (): Promise<BranchSyncResult> => {
-    const comparison = await compareProductionToStaging()
+export interface SyncProductionDependencies {
+  compareProductionToStaging: () => Promise<BranchSyncComparison>
+  createReleasePullRequest: (input: {
+    base: string
+    branchName: string
+    title: string
+    body: string
+  }) => Promise<{ htmlUrl: string; number: number }>
+  fastForward: (input: { branch: string; sha: string }) => Promise<void>
+  isContentOnly: (diff: { baseSha: string; headSha: string }) => Promise<void>
+}
+
+export interface SyncProductionOptions {
+  onFastForwardRefused?: (error: unknown) => void
+}
+
+const releasePullRequestBody = (reason: ReleasePullRequestReason): string =>
+  reason === 'code-changes'
+    ? 'Opened by the CMS. The changes include more than content, so a maintainer has to review and merge this release.'
+    : 'Opened by the CMS. The CMS could not fast-forward production, so a maintainer has to review and merge this release.'
+
+export const createSyncProductionBranchToStaging =
+  (dependencies: SyncProductionDependencies) =>
+  async (options: SyncProductionOptions = {}): Promise<BranchSyncResult> => {
+    const comparison = await dependencies.compareProductionToStaging()
     const decision = getBranchSyncDecision(comparison)
-    const { owner, repo } = getGithubConfig()
+    const { owner, repo, productionBranch, stagingBranch } = getGithubConfig()
     const links = getBranchSyncLinks({
       owner,
       repo,
@@ -158,31 +194,79 @@ export const syncProductionBranchToStaging =
       stagingBranch: comparison.stagingBranch,
     })
     if (decision.kind !== 'fast-forward') {
+      return { comparison, decision, links, updated: false }
+    }
+
+    const openReleasePullRequest = async (
+      reason: ReleasePullRequestReason
+    ): Promise<BranchSyncResult> => {
+      const pr = await dependencies.createReleasePullRequest({
+        base: productionBranch,
+        branchName: stagingBranch,
+        title: `Release ${stagingBranch} to ${productionBranch}`,
+        body: releasePullRequestBody(reason),
+      })
       return {
         comparison,
         decision,
         links,
+        promotion: {
+          kind: 'release-pr',
+          reason,
+          pullRequestNumber: pr.number,
+          pullRequestUrl: pr.htmlUrl,
+        },
         updated: false,
       }
     }
 
-    const octokit = getOctokit()
-    const { productionBranch } = getGithubConfig()
-    await octokit.git.updateRef({
-      owner,
-      repo,
-      force: false,
-      ref: `heads/${productionBranch}`,
-      sha: decision.sha,
-    })
+    try {
+      await dependencies.isContentOnly({
+        baseSha: comparison.productionSha,
+        headSha: decision.sha,
+      })
+    } catch {
+      return openReleasePullRequest('code-changes')
+    }
+
+    try {
+      await dependencies.fastForward({
+        branch: productionBranch,
+        sha: decision.sha,
+      })
+    } catch (error) {
+      options.onFastForwardRefused?.(error)
+      return openReleasePullRequest('fast-forward-refused')
+    }
 
     return {
       comparison,
       decision,
       links,
+      promotion: { kind: 'fast-forward' },
       updated: true,
     }
   }
+
+export const syncProductionBranchToStaging =
+  createSyncProductionBranchToStaging({
+    compareProductionToStaging,
+    createReleasePullRequest: (input) =>
+      createOrGetPullRequest({ ...input, draft: false }),
+    fastForward: async ({ branch, sha }) => {
+      const { owner, repo } = getGithubConfig()
+      await getOctokit().git.updateRef({
+        owner,
+        repo,
+        force: false,
+        ref: `heads/${branch}`,
+        sha,
+      })
+    },
+    isContentOnly: async (diff) => {
+      await verifyContentDiff(diff)
+    },
+  })
 
 export const mergePullRequestToBase = async ({
   pullRequestNumber,

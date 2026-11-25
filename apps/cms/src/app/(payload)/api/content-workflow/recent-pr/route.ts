@@ -12,6 +12,7 @@ import {
   getContentWorkflowTargetPath,
 } from '@/services/content-workflow/collection-metadata'
 import { matchesRecentPullRequestScope } from '@/services/content-workflow/recent-pr-matching'
+import { logWorkflowError } from '@/services/github-errors'
 
 type PayloadClient = Awaited<ReturnType<typeof getPayload>>
 
@@ -33,9 +34,6 @@ type ChangeRequestDoc = {
   status?: string | null
   updatedAt?: string | null
 }
-
-const getErrorMessage = (error: unknown): string =>
-  error instanceof Error ? error.message : String(error)
 
 export const createRecentPrGetHandler =
   ({
@@ -95,8 +93,9 @@ export const createRecentPrGetHandler =
       result = lookupResults[0]
       livePullRequests = lookupResults[1]
     } catch (error) {
+      logWorkflowError('recent-pr', error)
       return NextResponse.json(
-        { error: `GitHub PR lookup failed: ${getErrorMessage(error)}` },
+        { error: 'GitHub PR lookup failed' },
         { status: 500 }
       )
     }

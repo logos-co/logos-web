@@ -1,16 +1,23 @@
 import { getPayload } from 'payload'
 
+import { recordProductionPublish } from '@/services/content-workflow/record-release'
+
 import { loadPublishStatus, triggerPublish } from '@/services/site-publish'
 import { createSitePublishHandlers } from '@/services/site-publish/handlers'
 
+const loadPayload = async () => {
+  const { default: config } = await import('@payload-config')
+  return getPayload({ config })
+}
+
 const handlers = createSitePublishHandlers({
   authenticate: async (headers) => {
-    const { default: config } = await import('@payload-config')
-    const payload = await getPayload({ config })
-    const { user } = await payload.auth({ headers })
-    return Boolean(user)
+    const { user } = await (await loadPayload()).auth({ headers })
+    return user ? { id: Number(user.id) } : null
   },
   loadPublishStatus,
+  recordProductionPublish: async (userId) =>
+    recordProductionPublish({ payload: await loadPayload(), userId }),
   triggerPublish,
 })
 

@@ -4,6 +4,10 @@ import { getPayload } from 'payload'
 import { loadGithubConfigFromEnv, setGithubConfig } from '@repo/content/github'
 
 import { mergeContentPullRequest } from '@/services/content-workflow'
+import {
+  getEditorErrorMessage,
+  githubConfigErrorResponse,
+} from '@/services/github-errors'
 
 type PayloadClient = Awaited<ReturnType<typeof getPayload>>
 
@@ -13,9 +17,6 @@ export interface MergePrRouteDependencies {
   mergeContentPullRequest: typeof mergeContentPullRequest
   setGithubConfig: typeof setGithubConfig
 }
-
-const getErrorMessage = (error: unknown): string =>
-  error instanceof Error ? error.message : String(error)
 
 const loadGithubConfigResponse = ({
   loadGithubConfigFromEnv,
@@ -28,10 +29,7 @@ const loadGithubConfigResponse = ({
     setGithubConfig(loadGithubConfigFromEnv())
     return null
   } catch (error) {
-    return NextResponse.json(
-      { error: `GitHub config not loaded: ${getErrorMessage(error)}` },
-      { status: 500 }
-    )
+    return githubConfigErrorResponse('merge-pr', error)
   }
 }
 
@@ -91,6 +89,12 @@ export const createMergePrPostHandler =
       return request
     }
 
+    const payload = await getPayload()
+    const { user } = await payload.auth({ headers: req.headers })
+    if (!user) {
+      return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
+    }
+
     const githubConfigResponse = loadGithubConfigResponse({
       loadGithubConfigFromEnv,
       setGithubConfig,
@@ -99,21 +103,22 @@ export const createMergePrPostHandler =
       return githubConfigResponse
     }
 
-    const payload = await getPayload()
-    const { user } = await payload.auth({ headers: req.headers })
-    if (!user) {
-      return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
-    }
-
     try {
       const result = await mergeContentPullRequest({
         payload,
+        user: { id: Number(user.id) },
         ...request,
       })
       return NextResponse.json(result)
     } catch (error) {
       return NextResponse.json(
-        { error: getErrorMessage(error) },
+        {
+          error: getEditorErrorMessage(
+            error,
+            'GitHub refused the merge. Refresh the page and try again, or ask a maintainer to check the PR.',
+            'merge-pr'
+          ),
+        },
         { status: 422 }
       )
     }
