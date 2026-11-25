@@ -11,7 +11,7 @@ Which branch deploys where, and how each app gets there. It covers [`Jenkinsfile
 | `deploy-develop` | Built static site for staging, served at `dev.logos.co`. |
 | `deploy-master`  | Built static site for production, served at `logos.co`.  |
 
-Branch protection blocks direct pushes to `develop` and `master`. The `deploy-*` branches are written by the build jobs below, never by hand.
+Nobody pushes to `develop` or `master` directly; [CMS publishing](../apps/cms/docs/publishing.md#promoting-develop-to-master) lists the rulesets an admin has to set up to enforce that. The `deploy-*` branches are written by the build jobs below, never by hand.
 
 Vercel deploys every pushed branch by default. Both publish jobs run [`scripts/site-publish/skip-vercel.mts`](../scripts/site-publish/skip-vercel.mts), which adds a `vercel.json` turning deployments off at each Vercel project's root directory, so `deploy-*` pushes don't start builds. The docs bot branch `docs/repo/sync` is skipped through `git.deploymentEnabled` in each app's `vercel.json`.
 

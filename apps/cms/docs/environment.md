@@ -54,7 +54,7 @@ The Admin "Create PR" action needs these. It authenticates as a GitHub App insta
 | `GITHUB_INSTALLATION_ID`        | none       | Required for "Create PR".                                                              |
 | `GITHUB_PR_BASE_BRANCH`         | `develop`  | Branch that content PRs open against.                                                  |
 | `GITHUB_STAGING_BRANCH`         | `develop`  | Long-lived staging branch.                                                             |
-| `GITHUB_PRODUCTION_BRANCH`      | `master`   | Production branch, updated through a `develop` to `master` PR.                         |
+| `GITHUB_PRODUCTION_BRANCH`      | `master`   | Production branch, see [publishing.md](publishing.md#promoting-develop-to-master).     |
 | `GITHUB_CONTENT_BRANCH_PREFIX`  | `content/` | Prefix for every branch the CMS creates.                                               |
 | `CONTENT_DIRECT_COMMIT_ENABLED` | `false`    | While false, the CMS refuses direct commits to the staging or production branch. Only set `true` in local dev. |
 

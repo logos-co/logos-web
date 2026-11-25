@@ -2,7 +2,8 @@
 
 Editors publish articles in Strapi and then push the site live from the Payload dashboard, without
 touching Jenkins. This page covers the two dashboard buttons, the workflow behind them, the
-reservation that stops two publishes from running at once and the checks on merging content PRs.
+reservation that stops two publishes from running at once, the checks on merging content PRs and
+promoting `develop` to `master`.
 Code:
 [`.github/workflows/site-publish.yml`](../../../.github/workflows/site-publish.yml),
 [`apps/cms/src/services/site-publish`](../src/services/site-publish),
@@ -54,8 +55,46 @@ the same PR.
 saved a newer change since you loaded the page, the CMS asks you to refresh and review the PR again
 before merging.
 
+Nobody merges their own change. The change request records the id of every editor who saved into
+the PR in `contributors`, and **Merge** is refused for any of them, so a second editor has to merge
+it. A change request with no recorded author (rows from before this check, when `createdBy` was not
+set) cannot be merged from the CMS at all; a maintainer reviews and merges that PR on GitHub.
+
 The Content Change Requests collection mirrors these PRs. Signed-in editors can view its records,
-but only the CMS workflow creates, edits or deletes them.
+but only the CMS workflow creates, edits or deletes them. Each record also keeps the audit trail:
+`mergedBy` and `mergedAt` when the CMS merges it, `promotedBy` and `promotedAt` when a CMS
+fast-forward takes it to `master`, and `publishedBy` and `publishedAt` when a live publish follows
+that promotion. Releases merged through a release PR on GitHub are not recorded there; GitHub's PR
+history is the record for those.
+
+## Promoting `develop` to `master`
+
+The live build runs from `master`, so merged content has to reach `master` first. **Sync
+production** on the Content Change Requests list does that in one of two ways:
+
+1. When the whole `master...develop` diff passes the same content-only check as a content PR
+   merge, the CMS App fast-forwards `master` to the `develop` commit it checked, never with force.
+2. When the diff contains anything else, or the fast-forward fails for any reason, the CMS opens
+   (or reuses) a `develop` to `master` release PR and links to it. A maintainer reviews and
+   merges it.
+
+The response says which path ran. When the fast-forward is refused, the CMS logs GitHub's error and
+tells the editor to ask an admin to enable content promotion. Until the rulesets below exist, every
+promotion ends as a release PR.
+
+The request has to come from the CMS admin itself: a same-origin JSON `POST`, like **Merge** and the
+publish buttons.
+
+### Required admin setup
+
+These are GitHub rulesets an org admin has to create; the code does not depend on them for safety,
+but without them the fast-forward cannot run and people can still push by hand.
+
+- `master`: require a pull request with 1 approval, block deletions and force pushes, include
+  administrators, and add the CMS GitHub App as the only bypass actor.
+- `develop`: require a pull request with 0 approvals, block deletions and force pushes, no actor
+  restriction. A required approval would stop the CMS App merging content PRs; the two-person rule
+  for content is the merge check above.
 
 ## What the buttons need before they work
 

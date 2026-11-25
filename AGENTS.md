@@ -41,7 +41,7 @@ pnpm generate-types   # cms only
 
 1. `apps/web` reads `content/**` at build time and never calls the GitHub API at request time.
 2. CMS edits are PRs, not DB writes. Payload's Postgres keeps users, sessions, drafts, the open-PR mirror and publish reservations; published content changes through a PR against `develop`.
-3. Branch model: `develop` is default + staging, `master` is production. Direct commits to either are blocked. CMS-generated PRs target `develop`.
+3. `develop` is default + staging, `master` is production; no direct pushes. CMS PRs target `develop`. Promotion: [publishing](apps/cms/docs/publishing.md).
 
 ## Code conventions
 
