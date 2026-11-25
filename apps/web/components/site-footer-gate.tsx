@@ -20,7 +20,10 @@ export default function SiteFooterGate({ children }: { children: ReactNode }) {
   if (isBasecamp) {
     return <div className="basecamp-footer-theme">{children}</div>
   }
-  if (pathname?.replace(/\/$/, '').endsWith(ROUTES.muster)) {
+  if (
+    route?.endsWith(ROUTES.muster) ||
+    route?.endsWith(ROUTES.fieldStationCaseStudy)
+  ) {
     return <div data-header-tone="dark">{children}</div>
   }
   return <>{children}</>

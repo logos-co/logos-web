@@ -30,6 +30,7 @@ export const ROUTES = {
 
   // Case studies
   muster: '/case-studies/muster',
+  fieldStationCaseStudy: '/case-studies/field-station',
 
   // Builders Hub
   getStarted: '/get-started',

@@ -1,0 +1,72 @@
+import type { FieldStationCaseStudyCopySection } from '@repo/content/schemas'
+import { Button, ButtonArrowIcon } from '@/components/ui'
+import { Link } from '@/i18n/navigation'
+import { InstallButton } from './install-button'
+import { Photo } from './shared'
+
+export function BuildAndClosing({
+  build,
+  closing,
+}: Pick<FieldStationCaseStudyCopySection, 'build' | 'closing'>) {
+  return (
+    <>
+      <section className="field-case-section field-case-build">
+        <div className="field-case-split">
+          <Photo image={build.image} />
+          <div>
+            <h2>{build.title}</h2>
+            <p>{build.body}</p>
+          </div>
+        </div>
+        <div className="field-case-split field-case-build-cards">
+          {build.cards.map((card, index) => (
+            <article
+              key={card.title}
+              className={index === 0 ? 'field-case-dark' : ''}
+            >
+              <h3>{card.title}</h3>
+              <p>{card.body}</p>
+              <div className="field-case-actions">
+                {index === 0 ? (
+                  <InstallButton label={card.ctas[0].label} />
+                ) : (
+                  card.ctas.map((cta) => (
+                    <Button href={cta.href} key={cta.href}>
+                      {cta.label}
+                    </Button>
+                  ))
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section
+        className="field-case-section field-case-dark field-case-closing"
+        data-header-tone="dark"
+      >
+        <div className="field-case-closing-title">
+          <div>
+            {closing.left.map((line) => (
+              <div key={line}>{line}</div>
+            ))}
+          </div>
+          <div>
+            {closing.right.map((line) => (
+              <div key={line}>{line}</div>
+            ))}
+          </div>
+        </div>
+        <div className="field-case-split field-case-closing-body">
+          <p>{closing.body}</p>
+          <p className="field-case-disclaimer">{closing.disclaimer}</p>
+        </div>
+        <Link className="field-case-next-link" href={closing.next.href}>
+          <span>{closing.nextLabel}</span>
+          <strong>{closing.next.label}</strong>
+          <ButtonArrowIcon />
+        </Link>
+      </section>
+    </>
+  )
+}
