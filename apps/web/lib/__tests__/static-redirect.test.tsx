@@ -95,6 +95,21 @@ describe('static redirect metadata', () => {
     expect(replace).toHaveBeenCalledWith('/book')
   })
 
+  test('cannot close the inline script from the target', async () => {
+    const { StaticRedirect } = await loadStaticRedirect('production')
+    const target = '/x</script><script>alert(1)</script>'
+    const html = renderToStaticMarkup(
+      await StaticRedirect({ target, locale: 'en' })
+    )
+    const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]
+    expect(scripts).toHaveLength(1)
+    const replace = vi.fn()
+    runInNewContext(scripts[0]![1]!, {
+      window: { location: { replace, search: '', hash: '' } },
+    })
+    expect(replace).toHaveBeenCalledWith(target)
+  })
+
   test('never marks a redirect source noindex in production', async () => {
     const { createRedirectMetadata } = await loadStaticRedirect('production')
 
