@@ -1,5 +1,6 @@
 import Markdown, { type Components } from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
 
 import { Link } from '@/i18n/navigation'
@@ -9,7 +10,8 @@ import { Link } from '@/i18n/navigation'
  * provided by `FieldGuideShell`. Styling comes entirely from the ported
  * `field-guide.css` (element selectors under `.fg-article`), so the output is
  * visually identical to the reference site. `rehype-raw` renders the raw HTML
- * the source contains (headerless tables, `<kbd>`, `<strong>`); only internal
+ * the source contains (headerless tables, `<kbd>`, `<strong>`) and
+ * `rehype-sanitize` drops anything outside GitHub's allowlist; only internal
  * links are remapped to the i18n `Link` for client-side navigation.
  */
 
@@ -52,7 +54,7 @@ export function FieldGuideContent({ body }: FieldGuideContentProps) {
   return (
     <Markdown
       remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeRaw]}
+      rehypePlugins={[rehypeRaw, rehypeSanitize]}
       components={components}
     >
       {body}
