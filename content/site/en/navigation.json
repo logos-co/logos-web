@@ -165,7 +165,7 @@
             {
               "label": "Case Studies",
               "href": "/case-studies",
-              "description": "Real-world applications of the Logos stack.",
+              "description": "Real-world applications of the\nLogos stack.",
               "image": {
                 "src": "/images/about/case-2.webp",
                 "alt": ""

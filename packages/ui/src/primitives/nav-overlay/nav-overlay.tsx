@@ -280,7 +280,7 @@ function MenuCard({
       <p className="mr-[54px] max-w-[148px] font-sans text-[14px] leading-[1.2]">
         {label}
       </p>
-      <p className="font-sans text-xs font-medium leading-[1.2] text-brand-off-white/50">
+      <p className="font-sans text-xs font-medium leading-[1.2] whitespace-pre-line text-brand-off-white/50">
         {description}
       </p>
       {imageNodes.length > 0 && (
