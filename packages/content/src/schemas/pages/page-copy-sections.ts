@@ -278,60 +278,59 @@ export const researchCopySectionSchema = z.object({
 })
 export type ResearchCopySection = z.infer<typeof researchCopySectionSchema>
 
-const nodeProgrammeStackItemSchema = z.object({
-  title: z.string().min(1),
-  body: z.string().min(1),
-  icon: z.string().min(1),
-  alt: z.string().min(1),
-})
-
-const nodeProgrammeUseCaseItemSchema = z.object({
-  title: z.string().min(1),
-  body: z.string().min(1),
+const nodeProgrammeLinkSchema = z.object({
+  label: z.string().min(1),
+  href: linkHrefSchema,
 })
 
 export const nodeProgrammeCopySectionSchema = z.object({
   componentType: z.literal('nodeProgrammeCopy'),
   key: sectionKeySchema,
   hero: z.object({
-    eyebrow: z.string().min(1),
     title: z.string().min(1),
     body: z.string().min(1),
-    cta: z.string().min(1),
-    secondaryCta: z.string().min(1),
-    guideCta: z.string().min(1),
-  }),
-  builders: z.object({
-    eyebrow: z.string().min(1),
-    title: z.string().min(1),
-    body: z.string().min(1),
-    imageAlt: z.string().min(1),
-  }),
-  stack: z.object({
-    title: z.string().min(1),
-    titleMuted: z.string().min(1),
-    items: z.array(nodeProgrammeStackItemSchema).min(1),
-  }),
-  useCases: z.object({
-    title: z.string().min(1),
-    titleMuted: z.string().min(1),
-    items: z.array(nodeProgrammeUseCaseItemSchema).min(1),
+    image: mediaRefSchema,
+    discordCta: z.string().min(1),
   }),
   signup: z.object({
-    title: z.string().min(1),
     emailLabel: z.string().min(1),
     emailPlaceholder: z.string().min(1),
-    roleLabel: z.string().min(1),
-    rolePlaceholder: z.string().min(1),
-    roles: z.array(z.string().min(1)).min(1),
     submit: z.string().min(1),
     submitting: z.string().min(1),
     invalidEmail: z.string().min(1),
-    missingRole: z.string().min(1),
     genericError: z.string().min(1),
     success: z.string().min(1),
     successLink: z.string().min(1),
-    imageAlt: z.string().min(1),
+  }),
+  basecamp: z.object({
+    title: z.string().min(1),
+    body: z.string().min(1),
+    privacy: z.string().min(1),
+    installCta: nodeProgrammeLinkSchema,
+    versionsCta: nodeProgrammeLinkSchema,
+    guideCta: nodeProgrammeLinkSchema,
+    platforms: z.string().min(1),
+    versionLabel: z.string().min(1),
+    testnetLabel: z.string().min(1),
+  }),
+  faqs: z.object({
+    title: z.string().min(1),
+    cta: nodeProgrammeLinkSchema,
+    items: z
+      .array(
+        z.object({
+          question: z.string().min(1),
+          answer: z
+            .array(
+              z.object({
+                text: z.string().min(1),
+                href: linkHrefSchema.optional(),
+              })
+            )
+            .min(1),
+        })
+      )
+      .min(1),
   }),
 })
 export type NodeProgrammeCopySection = z.infer<

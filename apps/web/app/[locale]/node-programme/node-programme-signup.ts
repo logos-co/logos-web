@@ -1,13 +1,9 @@
 import { submitNewsletterSignup } from '@/lib/newsletter-signup'
 
-interface NodeProgrammeSignupInput {
+export interface NodeProgrammeSignupInput {
   email: string
-  role: string
 }
 
-export function submitNodeProgrammeSignup({
-  email,
-  role,
-}: NodeProgrammeSignupInput): Promise<void> {
-  return submitNewsletterSignup({ email, role })
+export function submitNodeProgrammeSignup({ email }: NodeProgrammeSignupInput) {
+  return submitNewsletterSignup({ email, note: 'Source: Node programme' })
 }

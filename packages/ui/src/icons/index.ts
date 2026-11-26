@@ -20,3 +20,4 @@ export {
 } from './basecamp-app-icons'
 export { BasecampLogo } from './basecamp-logo'
 export { BaseLogoIcon } from './base-logo-icon'
+export { FaqOpenIcon, FaqCloseIcon } from './faq-icons'

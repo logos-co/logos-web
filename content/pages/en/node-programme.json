@@ -3,106 +3,157 @@
   "language": "en",
   "route": "/node-programme",
   "title": "Node Programme | Logos",
-  "description": "Sign up for early access to the Logos node programme and help decentralise the network.",
+  "description": "The Logos Node Referral Programme is coming soon. Sign up for updates, join Discord and prepare to run a node with Basecamp.",
   "sections": [
     {
       "componentType": "nodeProgrammeCopy",
       "key": "nodeProgramme.copy",
       "hero": {
-        "eyebrow": "Node Programme",
-        "title": "Be the first to join the node programme",
-        "body": "Sign up for early access to the upcoming node programme and help decentralise the network.",
-        "cta": "Sign up",
-        "secondaryCta": "View the stack",
-        "guideCta": "Node operator guide"
-      },
-      "builders": {
-        "eyebrow": "Operate",
-        "title": "Calling builders and node operators",
-        "body": "The node programme is for anyone who wants to join our movement to revitalise civil society using decentralised technologies. Whether you are a builder or a node operator, there is a role for you.",
-        "imageAlt": "Logos node programme builders and node operators"
-      },
-      "stack": {
-        "title": "The Logos technology stack is a unified ecosystem.",
-        "titleMuted": "Private-by-default. Built for real life.",
-        "items": [
-          {
-            "title": "Blockchain",
-            "body": "Advanced privacy for a new era of decentralised applications and social institutions.",
-            "icon": "/images/node-programme/blockchain.png",
-            "alt": "Blockchain"
-          },
-          {
-            "title": "Messaging",
-            "body": "Private peer-to-peer communication that resists surveillance and censorship.",
-            "icon": "/images/node-programme/messaging.png",
-            "alt": "Messaging"
-          },
-          {
-            "title": "Storage",
-            "body": "Secure decentralised storage enabling fully decentralised apps and file sharing.",
-            "icon": "/images/node-programme/storage.png",
-            "alt": "Storage"
-          }
-        ]
-      },
-      "useCases": {
-        "title": "Use cases.",
-        "titleMuted": "We know today's systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
-        "items": [
-          {
-            "title": "Community governance",
-            "body": "Self-organising groups that define and enforce their own rules, voluntarily and transparently."
-          },
-          {
-            "title": "Corruption-resistant public registries",
-            "body": "Tamper-proof records for votes, land, licences, and trade agreements."
-          },
-          {
-            "title": "Private financial networks",
-            "body": "Money that moves securely and freely, without borders."
-          },
-          {
-            "title": "Decentralised archives",
-            "body": "Permanent, censorship-resistant preservation of knowledge, culture, and history."
-          },
-          {
-            "title": "Secure communications",
-            "body": "Resilient, private messaging for coordination in hostile environments."
-          }
-        ]
+        "title": "Logos Node\nReferral Programme",
+        "body": "The Logos Node Referral Programme is coming soon. Enter your email or join the community Discord channel to stay up to date on the latest news about the programme.",
+        "image": {
+          "src": "/images/node-programme/hero.webp",
+          "alt": "A tower under construction above a misty forest"
+        },
+        "discordCta": "Join Discord"
       },
       "signup": {
-        "title": "Sign up for the node programme",
-        "emailLabel": "Email address",
-        "emailPlaceholder": "Enter email",
-        "roleLabel": "Role",
-        "rolePlaceholder": "Select role",
-        "roles": [
-          "Node operator",
-          "Builder",
-          "Activist"
-        ],
-        "submit": "Submit",
-        "submitting": "Submitting",
+        "emailLabel": "Enter your email",
+        "emailPlaceholder": "Email",
+        "submit": "Sign up",
+        "submitting": "Signing up",
         "invalidEmail": "Please enter a valid email address.",
-        "missingRole": "Please select a role.",
-        "genericError": "Failed to submit. Please try again.",
-        "success": "Thanks for stepping in early.",
-        "successLink": "Join our server",
-        "imageAlt": "Forest landscape for the Logos node programme"
-      }
-    },
-    {
-      "componentType": "ctaPanel",
-      "key": "nodeProgramme.basecampGuide",
-      "title": "Run a node with Basecamp",
-      "description": "Use the Basecamp node guide to run a node through a graphical interface. This guide currently covers Testnet v0.2.1 and has not yet been updated for v0.3.",
-      "cta": {
-        "label": "Basecamp node guide (v0.3)",
-        "href": "https://docs.logos.co/blockchain/get-started/run-a-logos-blockchain-node-from-basecamp",
-        "external": true,
-        "variant": "link"
+        "genericError": "Failed to sign up. Please try again.",
+        "success": "You're signed up for updates.",
+        "successLink": "Join Discord"
+      },
+      "basecamp": {
+        "title": "Basecamp runs\nyour node.",
+        "body": "Prepare for the programme and install Basecamp. Basecamp is a local-first launcher for peer-to-peer apps built on Logos.",
+        "privacy": "No cloud. No accounts. Private-by-default.",
+        "installCta": {
+          "label": "Install Basecamp",
+          "href": "https://github.com/logos-co/logos-basecamp/releases/latest"
+        },
+        "versionsCta": {
+          "label": "View all versions",
+          "href": "https://github.com/logos-co/logos-basecamp/releases"
+        },
+        "guideCta": {
+          "label": "Basecamp node guide (v0.3)",
+          "href": "https://docs.logos.co/blockchain/get-started/run-a-logos-blockchain-node-from-basecamp"
+        },
+        "platforms": "macOS (Apple silicon), Linux and Windows",
+        "versionLabel": "Basecamp v{version}",
+        "testnetLabel": "Testnet v0.3"
+      },
+      "faqs": {
+        "title": "Common\nquestions.",
+        "cta": {
+          "label": "See all questions",
+          "href": "/testnet-faqs"
+        },
+        "items": [
+          {
+            "question": "What is the Logos node programme?",
+            "answer": [
+              {
+                "text": "A community of independent operators running Logos nodes (blockchain, messaging and storage) to help build and decentralise the network ahead of mainnet."
+              }
+            ]
+          },
+          {
+            "question": "Is the testnet incentivised?",
+            "answer": [
+              {
+                "text": "No. Testnet tokens have no value. Testnet v0.3 is about stress-testing the network and getting familiar with the stack before mainnet."
+              }
+            ]
+          },
+          {
+            "question": "When is mainnet?",
+            "answer": [
+              {
+                "text": "Planned for Q1 to Q2 2027. See "
+              },
+              {
+                "text": "roadmap.logos.co",
+                "href": "https://roadmap.logos.co"
+              },
+              {
+                "text": "."
+              }
+            ]
+          },
+          {
+            "question": "Who can run a node? Do I need to be technical?",
+            "answer": [
+              {
+                "text": "Anyone can join. The testnet is permissionless. You can run a node with the Basecamp app or from the command line."
+              }
+            ]
+          },
+          {
+            "question": "What hardware do I need?",
+            "answer": [
+              {
+                "text": "A modest Linux machine or VPS is enough. Full requirements are in the "
+              },
+              {
+                "text": "node operator guide",
+                "href": "https://docs.logos.co/run-a-node"
+              },
+              {
+                "text": "."
+              }
+            ]
+          },
+          {
+            "question": "Do I need tokens to start?",
+            "answer": [
+              {
+                "text": "No. There's no faucet: you get your first tokens by mining (EmPoWering) once your node is running."
+              }
+            ]
+          },
+          {
+            "question": "Can I run it on a Raspberry Pi?",
+            "answer": [
+              {
+                "text": "Yes, but it's not obligatory."
+              }
+            ]
+          },
+          {
+            "question": "Where do I get help?",
+            "answer": [
+              {
+                "text": "Join the "
+              },
+              {
+                "text": "Logos Discord",
+                "href": "https://discord.gg/Ykv4eZyHUJ"
+              },
+              {
+                "text": ", pick the node operator role in "
+              },
+              {
+                "text": "#choose-your-path",
+                "href": "https://discord.com/channels/973324189794697286/1372894505396867082"
+              },
+              {
+                "text": ", and ask in "
+              },
+              {
+                "text": "#node-operators",
+                "href": "https://discord.com/channels/973324189794697286/1468535289604735038"
+              },
+              {
+                "text": ". The team and other operators are active there and always happy to help with any questions you have!"
+              }
+            ]
+          }
+        ]
       }
     }
   ]
