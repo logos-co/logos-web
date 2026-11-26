@@ -38,6 +38,9 @@ import {
   researchCopySectionSchema,
   roadmapCopySectionSchema,
 } from './pages/page-copy-sections'
+import { nodeReferralProgrammeCopySectionSchema } from './pages/node-referral-programme'
+export { nodeReferralProgrammeCopySectionSchema } from './pages/node-referral-programme'
+export type { NodeReferralProgrammeCopySection } from './pages/node-referral-programme'
 import { rfpProgrammeCopySectionSchema } from './pages/rfp-programme'
 export { rfpProgrammeCopySectionSchema } from './pages/rfp-programme'
 export type { RfpProgrammeCopySection } from './pages/rfp-programme'
@@ -476,6 +479,7 @@ export const pageSectionSchema = z.discriminatedUnion('componentType', [
   researchCopySectionSchema,
   roadmapCopySectionSchema,
   nodeProgrammeCopySectionSchema,
+  nodeReferralProgrammeCopySectionSchema,
   operatorsCopySectionSchema,
   lambdaPrizeCopySectionSchema,
   rfpProgrammeCopySectionSchema,

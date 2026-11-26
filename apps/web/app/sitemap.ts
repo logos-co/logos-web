@@ -44,6 +44,7 @@ const staticIndexableRoutes = [
   ROUTES.railgun,
   ROUTES.pastPresentFuture,
   ROUTES.nodeProgramme,
+  ROUTES.nodeReferralProgramme,
   ROUTES.operators,
   ROUTES.mediaPodcasts,
   ROUTES.media,

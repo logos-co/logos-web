@@ -89,82 +89,41 @@ test('researchCopy parses a minimal valid value and routes through the union', (
   assert.equal(pageSectionSchema.parse(value).componentType, 'researchCopy')
 })
 
-test('nodeProgrammeCopy parses a temporary page and rejects unsafe FAQ links', () => {
+test('nodeProgrammeCopy parses a minimal valid value and routes through the union', () => {
   const value = {
     componentType: 'nodeProgrammeCopy',
     key: 'nodeProgramme.copy',
-    hero: {
-      title: 'Logos Node Referral Programme',
-      body: 'Coming soon.',
-      image: { src: '/images/node-programme/hero.webp', alt: 'Misty forest' },
-      discordCta: 'Join Discord',
+    hero: { eyebrow: 'Node Programme', title: 'Be the first', body: 'Sign up for early access.', cta: 'Sign up', secondaryCta: 'View the stack', guideCta: 'Node operator guide' },
+    builders: { eyebrow: 'Operate', title: 'Calling builders', body: 'The node programme is for anyone.', imageAlt: 'Builders image' },
+    stack: {
+      title: 'The Logos technology stack.',
+      titleMuted: 'Private-by-default.',
+      items: [{ title: 'Blockchain', body: 'Advanced privacy.', icon: '/images/blockchain.png', alt: 'Blockchain' }],
+    },
+    useCases: {
+      title: 'Use cases.',
+      titleMuted: 'We build alternatives.',
+      items: [{ title: 'Community governance', body: 'Self-organising groups.' }],
     },
     signup: {
+      title: 'Sign up',
       emailLabel: 'Email address',
-      emailPlaceholder: 'Email',
-      submit: 'Sign up',
-      submitting: 'Signing up',
-      invalidEmail: 'Invalid email.',
-      genericError: 'Failed to sign up.',
-      success: 'Signed up.',
-      successLink: 'Join Discord',
-    },
-    basecamp: {
-      title: 'Basecamp runs your node.',
-      body: 'Prepare for the programme.',
-      privacy: 'No cloud.',
-      installCta: {
-        label: 'Install Basecamp',
-        href: 'https://github.com/logos-co/logos-basecamp/releases/latest',
-      },
-      versionsCta: {
-        label: 'View all versions',
-        href: 'https://github.com/logos-co/logos-basecamp/releases',
-      },
-      guideCta: {
-        label: 'Node guide',
-        href: 'https://docs.logos.co/run-a-node',
-      },
-      platforms: 'Linux',
-      versionLabel: 'Basecamp v{version}',
-      testnetLabel: 'Testnet v0.3',
-    },
-    faqs: {
-      title: 'Common questions.',
-      cta: { label: 'See all questions', href: '/testnet-faqs' },
-      items: [
-        {
-          question: 'Where do I get help?',
-          answer: [
-            { text: 'Discord', href: 'https://discord.gg/logosnetwork' },
-          ],
-        },
-      ],
+      emailPlaceholder: 'Enter email',
+      roleLabel: 'Role',
+      rolePlaceholder: 'Select role',
+      roles: ['Node operator'],
+      submit: 'Submit',
+      submitting: 'Submitting',
+      invalidEmail: 'Please enter a valid email address.',
+      missingRole: 'Please select a role.',
+      genericError: 'Failed to submit.',
+      success: 'Thanks for stepping in early.',
+      successLink: 'Join our server',
+      imageAlt: 'Forest landscape',
     },
   }
-  assert.equal(
-    nodeProgrammeCopySectionSchema.parse(value).componentType,
-    'nodeProgrammeCopy'
-  )
-  assert.equal(
-    pageSectionSchema.parse(value).componentType,
-    'nodeProgrammeCopy'
-  )
-  assert.equal(
-    nodeProgrammeCopySectionSchema.safeParse({
-      ...value,
-      faqs: {
-        ...value.faqs,
-        items: [
-          {
-            question: 'Help?',
-            answer: [{ text: 'Unsafe', href: 'javascript:alert(1)' }],
-          },
-        ],
-      },
-    }).success,
-    false
-  )
+  assert.equal(nodeProgrammeCopySectionSchema.parse(value).componentType, 'nodeProgrammeCopy')
+  assert.equal(pageSectionSchema.parse(value).componentType, 'nodeProgrammeCopy')
 })
 
 test('operatorsCopy parses a minimal valid value and routes through the union', () => {

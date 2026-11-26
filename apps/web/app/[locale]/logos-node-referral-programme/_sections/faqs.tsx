@@ -1,11 +1,11 @@
-import type { NodeProgrammeCopySection } from '@repo/content/schemas'
+import type { NodeReferralProgrammeCopySection } from '@repo/content/schemas'
 import { FaqCloseIcon, FaqOpenIcon } from '@acid-info/logos-ui'
 
-import ContentWidth from '@/components/layout/content-width'
-import { Button } from '@/components/ui'
+import { ProgrammeWidth } from './layout'
+import { ProgrammeButton } from './button'
 
 interface NodeProgrammeFaqsProps {
-  data: NodeProgrammeCopySection['faqs']
+  data: NodeReferralProgrammeCopySection['faqs']
 }
 
 export function NodeProgrammeFaqs({ data }: NodeProgrammeFaqsProps) {
@@ -14,18 +14,18 @@ export function NodeProgrammeFaqs({ data }: NodeProgrammeFaqsProps) {
       className="bg-accent-steel-teal/20 py-16 md:py-25"
       aria-labelledby="node-programme-faqs"
     >
-      <ContentWidth className="grid gap-10 lg:grid-cols-2 lg:gap-3">
+      <ProgrammeWidth className="grid gap-10 lg:grid-cols-2 lg:gap-3">
         <div>
           <h2 id="node-programme-faqs" className="text-h1 whitespace-pre-line">
             {data.title}
           </h2>
-          <Button
+          <ProgrammeButton
             href={data.cta.href}
             variant="tertiary"
             className="mt-6 cursor-pointer"
           >
             {data.cta.label}
-          </Button>
+          </ProgrammeButton>
         </div>
         <div>
           {data.items.map((item, index) => (
@@ -35,7 +35,7 @@ export function NodeProgrammeFaqs({ data }: NodeProgrammeFaqsProps) {
               open={index === 0}
               className="group border-t border-brand-dark-green/35 last:border-b"
             >
-              <summary className="cursor-pointer list-none py-[13px] focus-visible:outline-2 focus-visible:outline-offset-4 [&::-webkit-details-marker]:hidden">
+              <summary className="cursor-pointer list-none py-[18px] group-open:py-[13px] focus-visible:outline-2 focus-visible:outline-offset-4 [&::-webkit-details-marker]:hidden">
                 <h3 className="flex min-h-6 items-center justify-between gap-6 font-sans text-lg leading-[1.15] tracking-[-0.01em]">
                   {item.question}
                   <FaqOpenIcon className="shrink-0 group-open:hidden" />
@@ -62,7 +62,7 @@ export function NodeProgrammeFaqs({ data }: NodeProgrammeFaqsProps) {
             </details>
           ))}
         </div>
-      </ContentWidth>
+      </ProgrammeWidth>
     </section>
   )
 }

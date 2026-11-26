@@ -406,6 +406,7 @@ const buildCirclesChecks = (locale: Language): Check[] => [
 
 const PAGE_ROUTES: ReadonlyArray<{ route: string; minSections: number }> = [
   { route: '/', minSections: 1 },
+  { route: '/logos-node-referral-programme', minSections: 1 },
   { route: '/builders-hub', minSections: 0 },
   { route: '/circles', minSections: 0 },
   { route: '/technology-stack', minSections: 1 },

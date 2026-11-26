@@ -1,12 +1,12 @@
-import type { NodeProgrammeCopySection } from '@repo/content/schemas'
+import type { NodeReferralProgrammeCopySection } from '@repo/content/schemas'
 
-import ContentWidth from '@/components/layout/content-width'
-import { BasecampDownloadLink } from '@/components/sections/basecamp/_sections/basecamp-download-link'
-import { Button, ButtonArrowIcon } from '@/components/ui'
+import { ProgrammeWidth } from './layout'
+import { ProgrammeButton } from './button'
+import { InstallButton } from './install-button'
 import basecampRelease from '@/lib/data/basecamp-release.snapshot.json'
 
 interface NodeProgrammeBasecampProps {
-  data: NodeProgrammeCopySection['basecamp']
+  data: NodeReferralProgrammeCopySection['basecamp']
 }
 
 export function NodeProgrammeBasecamp({ data }: NodeProgrammeBasecampProps) {
@@ -15,7 +15,7 @@ export function NodeProgrammeBasecamp({ data }: NodeProgrammeBasecampProps) {
       className="py-16 md:py-25 lg:min-h-[894px]"
       aria-labelledby="node-programme-basecamp"
     >
-      <ContentWidth>
+      <ProgrammeWidth>
         <h2
           id="node-programme-basecamp"
           className="text-h1 whitespace-pre-line"
@@ -30,27 +30,21 @@ export function NodeProgrammeBasecamp({ data }: NodeProgrammeBasecampProps) {
             {data.privacy}
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-4">
-            <BasecampDownloadLink
-              cta={data.installCta}
-              className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl bg-brand-dark-green px-3 py-2 font-mono text-xs leading-[1.35] font-semibold text-brand-off-white uppercase transition-colors hover:bg-accent-steel-teal focus-visible:outline-2 focus-visible:outline-offset-4"
-            >
-              {data.installCta.label}
-              <ButtonArrowIcon />
-            </BasecampDownloadLink>
-            <Button
+            <InstallButton cta={data.installCta} />
+            <ProgrammeButton
               href={data.versionsCta.href}
               variant="tertiary"
               className="cursor-pointer"
             >
               {data.versionsCta.label}
-            </Button>
-            <Button
+            </ProgrammeButton>
+            <ProgrammeButton
               href={data.guideCta.href}
               variant="tertiary"
               className="cursor-pointer"
             >
               {data.guideCta.label}
-            </Button>
+            </ProgrammeButton>
           </div>
           <p className="mt-6 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[10px] leading-[1.3] text-brand-dark-green/70">
             <span>{data.platforms}</span>
@@ -63,7 +57,7 @@ export function NodeProgrammeBasecamp({ data }: NodeProgrammeBasecampProps) {
             <span>{data.testnetLabel}</span>
           </p>
         </div>
-      </ContentWidth>
+      </ProgrammeWidth>
     </section>
   )
 }
