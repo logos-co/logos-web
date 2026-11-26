@@ -59,7 +59,8 @@ COPY --from=deps /app/ ./
 COPY . .
 RUN --mount=type=secret,id=next_server_actions_encryption_key,required=true \
     NEXT_SERVER_ACTIONS_ENCRYPTION_KEY="$(cat /run/secrets/next_server_actions_encryption_key)" \
-    pnpm --filter cms build
+    pnpm --filter cms build \
+    && rm -rf apps/cms/.next/cache
 
 # -----------------------------------------------------------------------------
 # runner — production runtime. Runs `next start` via pnpm.
