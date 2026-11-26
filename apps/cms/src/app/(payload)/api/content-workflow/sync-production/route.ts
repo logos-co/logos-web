@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { getPayload } from 'payload'
 
 import {
+  type BranchPromotion,
   type BranchSyncComparison,
   type BranchSyncDecision,
   compareProductionToStaging,
@@ -34,9 +35,30 @@ export interface SyncProductionRouteDependencies {
 }
 
 export const PROMOTION_NOT_ENABLED_MESSAGE =
-  'Content promotion is not enabled yet, so the CMS opened a release PR instead. Ask an admin to enable content promotion, or have a maintainer review and merge the release PR.'
+  'Content promotion is not enabled yet, so the CMS opened a release PR instead. Ask an admin to enable content promotion.'
 export const RELEASE_PR_MESSAGE =
-  'The changes include more than content, so the CMS opened a release PR. A maintainer has to review and merge it.'
+  'The changes include more than content, so the CMS opened a release PR. Once a maintainer approves it, click Sync production again to release it.'
+export const RELEASE_PR_PENDING_MESSAGE =
+  'The release PR is waiting for an approval of its latest commit. Once a maintainer approves it, click Sync production again.'
+export const RELEASE_PR_REFUSED_MESSAGE =
+  'The release PR is approved, but the CMS could not fast-forward production. Ask an admin to enable content promotion.'
+
+const getPromotionMessage = (
+  promotion: BranchPromotion | undefined
+): string | undefined => {
+  switch (promotion?.kind) {
+    case 'release-pr':
+      return promotion.reason === 'fast-forward-refused'
+        ? PROMOTION_NOT_ENABLED_MESSAGE
+        : RELEASE_PR_MESSAGE
+    case 'release-pr-pending':
+      return RELEASE_PR_PENDING_MESSAGE
+    case 'release-pr-refused':
+      return RELEASE_PR_REFUSED_MESSAGE
+    default:
+      return undefined
+  }
+}
 
 const loadGithubConfigResponse = ({
   loadGithubConfigFromEnv,
@@ -151,7 +173,7 @@ export const createSyncProductionHandlers = ({
       )
     }
 
-    if (result.promotion?.kind === 'fast-forward') {
+    if (result.updated) {
       // Production already moved; a failed audit write must not report a failed promotion.
       await recordPromotion({
         payload: session.payload,
@@ -160,12 +182,7 @@ export const createSyncProductionHandlers = ({
         logWorkflowError('sync-production audit', error)
       )
     }
-    const message =
-      result.promotion?.kind === 'release-pr'
-        ? result.promotion.reason === 'fast-forward-refused'
-          ? PROMOTION_NOT_ENABLED_MESSAGE
-          : RELEASE_PR_MESSAGE
-        : undefined
+    const message = getPromotionMessage(result.promotion)
     const status = result.decision.kind === 'blocked' ? 409 : 200
     return NextResponse.json(
       { ...result, ...(message && { message }) },

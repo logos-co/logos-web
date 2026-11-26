@@ -2,8 +2,8 @@ import type { Payload } from 'payload'
 
 /**
  * Marks every merged change request that production has not received yet.
- * A release PR merged on GitHub is not recorded here, so `promotedBy` only
- * covers fast-forwards made from the CMS.
+ * Called after every fast-forward made from the CMS, including an approved
+ * release PR; a push to `master` made outside the CMS is not recorded.
  */
 export const recordPromotion = async ({
   payload,

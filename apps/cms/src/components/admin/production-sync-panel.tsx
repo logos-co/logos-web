@@ -29,8 +29,11 @@ type BranchSyncComparison = {
 type BranchPromotion =
   | { kind: 'fast-forward' }
   | {
-      kind: 'release-pr'
-      reason: 'code-changes' | 'fast-forward-refused'
+      kind:
+        | 'release-pr'
+        | 'release-pr-fast-forward'
+        | 'release-pr-pending'
+        | 'release-pr-refused'
       pullRequestNumber: number
       pullRequestUrl: string
     }
@@ -54,7 +57,10 @@ const getStatusText = (response: BranchSyncResponse | null): string => {
     return 'Sync status unavailable'
 
   const { comparison, decision } = response
-  if (response.promotion?.kind === 'release-pr') {
+  if (response.promotion?.kind === 'release-pr-fast-forward') {
+    return `Release PR #${response.promotion.pullRequestNumber} released: ${comparison.productionBranch} fast-forwarded to ${comparison.stagingBranch}.`
+  }
+  if (response.promotion && response.promotion.kind !== 'fast-forward') {
     return response.message ?? 'The CMS opened a release PR.'
   }
   if (response.updated) {
@@ -136,7 +142,9 @@ export const ProductionSyncPanel = () => {
     response.updated !== true &&
     !response.promotion
   const releasePullRequest =
-    response?.promotion?.kind === 'release-pr' ? response.promotion : null
+    response?.promotion && response.promotion.kind !== 'fast-forward'
+      ? response.promotion
+      : null
 
   return (
     <div

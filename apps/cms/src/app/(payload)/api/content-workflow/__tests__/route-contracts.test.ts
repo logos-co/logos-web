@@ -411,6 +411,64 @@ describe('content workflow route contracts', () => {
     )
   })
 
+  it('records who released an approved release PR', async () => {
+    const promoted: unknown[] = []
+    const { POST } = syncHandlers({
+      getPayload: async () => createPayload({ user: { id: 5 } }),
+      recordPromotion: async ({ userId }) => {
+        promoted.push(userId)
+      },
+      syncProductionToStaging: async () =>
+        ({
+          decision: { kind: 'fast-forward', sha: 'sha' },
+          promotion: {
+            kind: 'release-pr-fast-forward',
+            pullRequestNumber: 9,
+            pullRequestUrl: 'https://github.com/pr/9',
+          },
+          updated: true,
+        }) as never,
+    })
+    const response = await POST(
+      syncPost({
+        'Sec-Fetch-Site': 'same-origin',
+        'Content-Type': 'application/json',
+      })
+    )
+    assert.equal(response.status, 200)
+    assert.deepEqual(promoted, [5])
+  })
+
+  for (const [kind, pattern] of [
+    ['release-pr-pending', /waiting for an approval/i],
+    ['release-pr-refused', /ask an admin to enable content promotion/i],
+  ] as const) {
+    it(`explains a ${kind} result without recording a promotion`, async () => {
+      const { POST } = syncHandlers({
+        recordPromotion: async () => assert.fail('nothing was promoted'),
+        syncProductionToStaging: async () =>
+          ({
+            decision: { kind: 'fast-forward', sha: 'sha' },
+            promotion: {
+              kind,
+              pullRequestNumber: 9,
+              pullRequestUrl: 'https://github.com/pr/9',
+            },
+            updated: false,
+          }) as never,
+      })
+      const body = await readJson(
+        await POST(
+          syncPost({
+            'Sec-Fetch-Site': 'same-origin',
+            'Content-Type': 'application/json',
+          })
+        )
+      )
+      assert.match(String(body.message), pattern)
+    })
+  }
+
   it('hides raw GitHub errors from a failed promotion', async () => {
     const { POST } = syncHandlers({
       syncProductionToStaging: async () => {

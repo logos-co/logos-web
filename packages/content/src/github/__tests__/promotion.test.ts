@@ -100,7 +100,11 @@ describe('syncProductionBranchToStaging', () => {
       fastForward: async ({ branch, sha }) => {
         calls.push(`fast-forward ${branch} ${sha}`)
       },
+      compareCommits: async () => 'ahead',
+      findReleasePullRequest: async () => null,
+      getBranchSha: async () => 'develop-sha',
       isContentOnly: async () => undefined,
+      listReviews: async () => [],
       ...overrides,
     })
     return { calls, sync }
@@ -166,5 +170,114 @@ describe('syncProductionBranchToStaging', () => {
     const result = await sync()
     assert.deepEqual(calls, [])
     assert.equal(result.promotion, undefined)
+  })
+
+  describe('with an open release PR', () => {
+    const releasePullRequest = {
+      headSha: 'develop-sha',
+      htmlUrl: 'https://github.com/pr/9',
+      number: 9,
+    }
+    const ref = {
+      pullRequestNumber: 9,
+      pullRequestUrl: 'https://github.com/pr/9',
+    }
+    const approved = [
+      { commitId: 'develop-sha', reviewer: 'alice', state: 'APPROVED' },
+    ]
+    const withReleasePr = (
+      overrides: Partial<SyncProductionDependencies> = {}
+    ) =>
+      createSync({
+        findReleasePullRequest: async () => releasePullRequest,
+        listReviews: async () => approved,
+        isContentOnly: async () => {
+          throw new Error('not content')
+        },
+        ...overrides,
+      })
+
+    it('fast-forwards master to an approved, current head', async () => {
+      const { calls, sync } = withReleasePr()
+      const result = await sync()
+      assert.deepEqual(calls, ['fast-forward master develop-sha'])
+      assert.deepEqual(result.promotion, {
+        kind: 'release-pr-fast-forward',
+        ...ref,
+      })
+      assert.equal(result.updated, true)
+    })
+
+    it('waits when the approval is for an older commit', async () => {
+      const { calls, sync } = withReleasePr({
+        listReviews: async () => [
+          { commitId: 'old-sha', reviewer: 'alice', state: 'APPROVED' },
+        ],
+      })
+      const result = await sync()
+      assert.deepEqual(calls, [])
+      assert.deepEqual(result.promotion, { kind: 'release-pr-pending', ...ref })
+    })
+
+    it('waits while a reviewer still requests changes', async () => {
+      const { calls, sync } = withReleasePr({
+        listReviews: async () => [
+          ...approved,
+          { commitId: 'old-sha', reviewer: 'bob', state: 'CHANGES_REQUESTED' },
+          { commitId: 'develop-sha', reviewer: 'bob', state: 'COMMENTED' },
+        ],
+      })
+      const result = await sync()
+      assert.deepEqual(calls, [])
+      assert.equal(result.promotion?.kind, 'release-pr-pending')
+    })
+
+    it('uses the latest review of each reviewer', async () => {
+      const { calls, sync } = withReleasePr({
+        listReviews: async () => [
+          { commitId: 'old-sha', reviewer: 'bob', state: 'CHANGES_REQUESTED' },
+          ...approved,
+          { commitId: 'develop-sha', reviewer: 'bob', state: 'APPROVED' },
+        ],
+      })
+      await sync()
+      assert.deepEqual(calls, ['fast-forward master develop-sha'])
+    })
+
+    it('waits when develop moved past the approved head', async () => {
+      const { calls, sync } = withReleasePr({
+        getBranchSha: async () => 'newer-sha',
+      })
+      const result = await sync()
+      assert.deepEqual(calls, [])
+      assert.equal(result.promotion?.kind, 'release-pr-pending')
+    })
+
+    it('refuses without merging when master is not an ancestor', async () => {
+      const { calls, sync } = withReleasePr({
+        compareCommits: async () => 'diverged',
+      })
+      const result = await sync()
+      assert.deepEqual(calls, [])
+      assert.equal(result.decision.kind, 'blocked')
+      assert.equal(result.promotion, undefined)
+      assert.equal(result.updated, false)
+    })
+
+    it('reports a refused fast-forward without opening another PR', async () => {
+      const refusals: unknown[] = []
+      const refusal = new Error('Protected branch')
+      const { calls, sync } = withReleasePr({
+        fastForward: async () => {
+          throw refusal
+        },
+      })
+      const result = await sync({
+        onFastForwardRefused: (error) => refusals.push(error),
+      })
+      assert.deepEqual(calls, [])
+      assert.deepEqual(result.promotion, { kind: 'release-pr-refused', ...ref })
+      assert.deepEqual(refusals, [refusal])
+    })
   })
 })

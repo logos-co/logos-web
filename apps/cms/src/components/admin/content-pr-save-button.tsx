@@ -78,7 +78,11 @@ type BranchSyncResponse = {
   promotion?:
     | { kind: 'fast-forward' }
     | {
-        kind: 'release-pr'
+        kind:
+          | 'release-pr'
+          | 'release-pr-fast-forward'
+          | 'release-pr-pending'
+          | 'release-pr-refused'
         pullRequestNumber: number
         pullRequestUrl: string
       }
@@ -92,7 +96,9 @@ const getSyncStatusMessage = (
   response: BranchSyncResponse | null
 ): string | null => {
   if (!response || response.error || !response.decision) return null
-  if (response.promotion?.kind === 'release-pr')
+  if (response.promotion?.kind === 'release-pr-fast-forward')
+    return `Release PR #${response.promotion.pullRequestNumber} released to production.`
+  if (response.promotion && response.promotion.kind !== 'fast-forward')
     return response.message ?? 'The CMS opened a release PR.'
   if (response.updated) return 'Production synced to develop.'
   if (response.decision.kind === 'already-synced') {
@@ -479,7 +485,7 @@ export const ContentPrSaveButton = () => {
     syncResponse.updated !== true &&
     !syncResponse.promotion
   const releasePullRequest =
-    syncResponse?.promotion?.kind === 'release-pr'
+    syncResponse?.promotion && syncResponse.promotion.kind !== 'fast-forward'
       ? syncResponse.promotion
       : null
   const hasStatusDetails =

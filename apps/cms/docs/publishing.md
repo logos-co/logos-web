@@ -63,24 +63,36 @@ set) cannot be merged from the CMS at all; a maintainer reviews and merges that 
 The Content Change Requests collection mirrors these PRs. Signed-in editors can view its records,
 but only the CMS workflow creates, edits or deletes them. Each record also keeps the audit trail:
 `mergedBy` and `mergedAt` when the CMS merges it, `promotedBy` and `promotedAt` when a CMS
-fast-forward takes it to `master`, and `publishedBy` and `publishedAt` when a live publish follows
-that promotion. Releases merged through a release PR on GitHub are not recorded there; GitHub's PR
-history is the record for those.
+fast-forward (content-only or an approved release PR) takes it to `master`, and `publishedBy` and
+`publishedAt` when a live publish follows that promotion. A push to `master` made outside the CMS is
+not recorded there.
 
 ## Promoting `develop` to `master`
 
-The live build runs from `master`, so merged content has to reach `master` first. **Sync
-production** on the Content Change Requests list does that in one of two ways:
+The live build runs from `master`, so merged content has to reach `master` first. `master` and
+`develop` must share the same history, so `master` only ever moves by fast-forward to a `develop`
+commit; squash and rebase merges would give it new SHAs. **Sync production** on the Content Change
+Requests list works like this:
 
-1. When the whole `master...develop` diff passes the same content-only check as a content PR
-   merge, the CMS App fast-forwards `master` to the `develop` commit it checked, never with force.
-2. When the diff contains anything else, or the fast-forward fails for any reason, the CMS opens
-   (or reuses) a `develop` to `master` release PR and links to it. A maintainer reviews and
-   merges it.
+1. If a `develop` to `master` release PR is open, the CMS releases it once it is approved: some
+   reviewer's latest review approves the PR's current head, and no reviewer's latest review requests
+   changes. Right before the update it checks that `develop` still points at that head and that
+   `master` is an ancestor of it, then fast-forwards `master` to the head, never with force. GitHub
+   marks the PR as merged on its own once its commits are reachable from `master` (see
+   [indirect merges](https://docs.github.com/en/pull-requests/reference/pull-request-merges#indirect-merges)).
+   Until then, or when `develop` has moved past the approved commit, the CMS links to the PR and
+   says it is waiting for review. It never opens a second one.
+2. With no open release PR, when the whole `master...develop` diff passes the same content-only
+   check as a content PR merge, the CMS App fast-forwards `master` to the `develop` commit it
+   checked.
+3. Otherwise, or when that fast-forward fails, the CMS opens a release PR and links to it. A
+   maintainer reviews it on GitHub, and an editor clicks Sync production again after the approval.
 
-The response says which path ran. When the fast-forward is refused, the CMS logs GitHub's error and
-tells the editor to ask an admin to enable content promotion. Until the rulesets below exist, every
-promotion ends as a release PR.
+The response's `promotion.kind` says which path ran: `fast-forward`, `release-pr` (just opened),
+`release-pr-pending`, `release-pr-fast-forward` or `release-pr-refused`. When a fast-forward is
+refused, the CMS logs GitHub's error and tells the editor to ask an admin to enable content
+promotion; it never falls back to a merge. Until the rulesets below exist, every promotion ends as a
+release PR that cannot be released.
 
 The request has to come from the CMS admin itself: a same-origin JSON `POST`, like **Merge** and the
 publish buttons.
@@ -95,6 +107,12 @@ but without them the fast-forward cannot run and people can still push by hand.
 - `develop`: require a pull request with 0 approvals, block deletions and force pushes, no actor
   restriction. A required approval would stop the CMS App merging content PRs; the two-person rule
   for content is the merge check above.
+
+Never use the GitHub merge button on a release PR: the repo only allows squash and rebase merges,
+and either one makes `master` diverge from `develop`, after which every fast-forward fails. As a
+break-glass, an admin can fast-forward `master` from a clean, up-to-date clone with
+`git push origin <sha>:master`, where `<sha>` is a `develop` commit that contains `master`. Never
+add `--force`.
 
 ## What the buttons need before they work
 
