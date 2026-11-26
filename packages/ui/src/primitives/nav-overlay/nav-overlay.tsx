@@ -260,9 +260,11 @@ function MenuCard({
   description,
   href,
   image,
+  compact = false,
   onClose,
   linkAs: LinkAs,
 }: NavOverlayCommunityCard & {
+  compact?: boolean
   onClose: () => void
   linkAs: LinkLikeComponent
 }) {
@@ -272,7 +274,7 @@ function MenuCard({
     <LinkAs
       href={href}
       onClick={onClose}
-      className="relative flex h-[117px] w-full cursor-pointer flex-col justify-between overflow-hidden rounded-xl bg-brand-off-white/10 p-3 text-brand-off-white transition-opacity hover:opacity-80 md:h-[170px] md:min-w-0 md:flex-1"
+      className={`relative flex h-[117px] w-full cursor-pointer flex-col justify-between overflow-hidden rounded-xl bg-brand-off-white/10 p-3 text-brand-off-white transition-opacity hover:opacity-80 md:min-w-0 md:flex-1 ${compact ? 'md:h-[136px]' : 'md:h-[170px]'}`}
       {...externalLinkProps(href)}
     >
       <p className="mr-[54px] max-w-[148px] font-sans text-[14px] leading-[1.2]">
@@ -293,10 +295,12 @@ function MenuCard({
 
 function CardSection({
   section,
+  compact = false,
   onClose,
   linkAs,
 }: {
   section: NavOverlayCardSection
+  compact?: boolean
   onClose: () => void
   linkAs: LinkLikeComponent
 }) {
@@ -312,11 +316,14 @@ function CardSection({
         {section.label}
       </p>
       <div className="h-px w-full bg-brand-off-white/10" />
-      <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+      <div
+        className={`grid w-full grid-cols-1 gap-3 md:grid-cols-2 ${compact ? 'lg:w-[calc((100%-12px)*2/3)]' : 'lg:grid-cols-3'}`}
+      >
         {section.cards.map((card) => (
           <MenuCard
             key={card.href + card.label}
             {...card}
+            compact={compact}
             onClose={onClose}
             linkAs={linkAs}
           />
@@ -359,6 +366,7 @@ function DesktopPanel({
               {cardSections[index] && (
                 <CardSection
                   section={cardSections[index]}
+                  compact={panel.label === 'Explore'}
                   onClose={onClose}
                   linkAs={linkAs}
                 />

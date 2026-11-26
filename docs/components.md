@@ -51,6 +51,8 @@ On mobile the same bar stays on top, the sitemap links stack full width, the com
 
 `NavOverlay` is a client component; import it from `@acid-info/logos-ui/client`. `isOpen` and `onClose` drive it, `sitemap`, `community`, `blog`, `menuPanels` and `primaryCta` carry the content, `labels` carries the localised strings and `linkAs` routes internal links through next-intl. `NavOverlayProps` in the source file has the remaining optional slots.
 
+The Explore panel uses a compact two-column card layout. Its Case Studies entry and placeholder route are described in the [web app reference](../apps/web/docs/case-studies.md).
+
 ## Footer
 
 Implementation: [`packages/ui/src/primitives/footer/footer.tsx`](../packages/ui/src/primitives/footer/footer.tsx). The site wrapper that wires the Logos links is [`apps/web/components/site-footer.tsx`](../apps/web/components/site-footer.tsx).

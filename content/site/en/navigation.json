@@ -163,6 +163,15 @@
               }
             },
             {
+              "label": "Case Studies",
+              "href": "/case-studies",
+              "description": "Real-world applications of the Logos stack.",
+              "image": {
+                "src": "/images/about/case-2.webp",
+                "alt": ""
+              }
+            },
+            {
               "label": "Past. Present. Future",
               "href": "/past-present-future",
               "description": "Examining where society has been, is now and is going.",
