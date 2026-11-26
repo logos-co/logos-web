@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url'
 import { it } from 'node:test'
 
 const script = fileURLToPath(new URL('./publish.mts', import.meta.url))
+const sourceSha = 'e'.repeat(40)
 const env = {
   ...process.env,
   SITE_PUBLISH_TOKEN: 'local-test-token',
@@ -58,9 +59,10 @@ for (const mode of ['staging', 'live', 'changed-staging'] as const) {
         )
         git(site, 'push', '--quiet', 'origin', 'HEAD:refs/heads/deploy-develop')
       }
-      mkdirSync(resolve(site, 'apps/web/out'), { recursive: true })
+      const exported = resolve(directory, 'export')
+      mkdirSync(exported)
       writeFileSync(
-        resolve(site, 'apps/web/out/index.html'),
+        resolve(exported, 'index.html'),
         '<html>Reviewed export</html>'
       )
       writeFileSync(
@@ -73,6 +75,8 @@ for (const mode of ['staging', 'live', 'changed-staging'] as const) {
           ...env,
           DEPLOY_BRANCH: branch,
           DEPLOY_BASELINE: initial,
+          SITE_EXPORT: exported,
+          SOURCE_SHA: sourceSha,
           STAGING_BASELINE: live ? initial : '',
           PREVIEW_BUILD: live ? '41' : '',
           SITE_URL: `https://${domain}`,
@@ -104,7 +108,7 @@ for (const mode of ['staging', 'live', 'changed-staging'] as const) {
       )
       assert.deepEqual(
         JSON.parse(git(remote, 'show', `${branch}:site-publish.json`)),
-        { runId: 42, sourceSha: initial, previewRunId: live ? 41 : null }
+        { runId: 42, sourceSha, previewRunId: live ? 41 : null }
       )
       assert.equal(
         readFileSync(resolve(site, 'press-snapshot.json'), 'utf8'),
@@ -159,9 +163,10 @@ for (const timing of ['before', 'during'] as const) {
         `#!/bin/sh\ngit -C '${competitor}' push --quiet origin HEAD:refs/heads/deploy-develop\n`,
         { mode: 0o755 }
       )
-    mkdirSync(resolve(site, 'apps/web/out'), { recursive: true })
+    const exported = resolve(directory, 'export')
+    mkdirSync(exported)
     writeFileSync(
-      resolve(site, 'apps/web/out/index.html'),
+      resolve(exported, 'index.html'),
       '<html>Stale publication</html>'
     )
     const result = spawnSync(process.execPath, [script], {
@@ -170,6 +175,8 @@ for (const timing of ['before', 'during'] as const) {
         ...env,
         DEPLOY_BRANCH: 'deploy-develop',
         DEPLOY_BASELINE: git(site, 'rev-parse', 'HEAD'),
+        SITE_EXPORT: exported,
+        SOURCE_SHA: sourceSha,
         SITE_URL: 'https://dev.logos.co',
         GITHUB_RUN_ID: '43',
       },
@@ -183,3 +190,20 @@ for (const timing of ['before', 'during'] as const) {
     )
   })
 }
+
+it('refuses to publish without the built source commit', () => {
+  for (const value of ['', 'develop', 'E'.repeat(40)]) {
+    const result = spawnSync(process.execPath, [script], {
+      env: {
+        ...env,
+        DEPLOY_BRANCH: 'deploy-develop',
+        SITE_URL: 'https://dev.logos.co',
+        SITE_EXPORT: tmpdir(),
+        SOURCE_SHA: value,
+      },
+      encoding: 'utf8',
+    })
+    assert.notEqual(result.status, 0)
+    assert.match(result.stderr, /built source commit is required/)
+  }
+})

@@ -15,75 +15,126 @@ on:
         type: string
         required: false
 
-permissions:
-  contents: read
-  actions: read
+permissions: {}
 
 concurrency:
   group: site-publish
   cancel-in-progress: false
 
+# The site build runs repository code (and its dependencies) with no publishing credential. Only
+# the publish job, which never installs or runs that code, can mint the CMS App token, and only
+# from the protected site-publish environment.
 jobs:
-  publish:
+  prepare:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-    defaults:
-      run:
-        working-directory: site
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      environment: ${{ steps.publication.outputs.environment }}
+      source_sha: ${{ steps.publication.outputs.source_sha }}
+      deploy_branch: ${{ steps.publication.outputs.deploy_branch }}
+      deploy_baseline: ${{ steps.publication.outputs.deploy_baseline }}
+      staging_baseline: ${{ steps.publication.outputs.staging_baseline }}
+      site_url: ${{ steps.publication.outputs.site_url }}
+      api_mode: ${{ steps.publication.outputs.api_mode }}
+      api_url: ${{ steps.publication.outputs.api_url }}
+      preview_build: ${{ steps.publication.outputs.preview_build }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
-          path: workflow-tools
-      - uses: actions/setup-node@v6
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           node-version: 24
       - name: Validate the publication request
         id: publication
-        working-directory: workflow-tools
         run: node scripts/site-publish/prepare.mts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: read
+    steps:
       - name: Check out the site source
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
-          ref: ${{ steps.publication.outputs.source_ref }}
+          ref: ${{ needs.prepare.outputs.source_sha }}
           fetch-depth: 1
-          path: site
           persist-credentials: false
-      - uses: pnpm/action-setup@v5
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
         with:
           version: 11.1.0
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           node-version: 24
           cache: pnpm
-          cache-dependency-path: site/pnpm-lock.yaml
       - run: CI=true pnpm install --frozen-lockfile
       - name: Capture staging media
-        if: steps.publication.outputs.environment == 'dev'
+        if: needs.prepare.outputs.environment == 'dev'
         run: pnpm --filter web exec tsx scripts/capture-press-snapshot.ts
         env:
           NEXT_PUBLIC_API_MODE: staging
           STRAPI_API_KEY: ${{ secrets.STRAPI_API_KEY }}
           SIMPLECAST_ACCESS_TOKEN: ${{ secrets.SIMPLECAST_ACCESS_TOKEN }}
       - name: Restore reviewed media
-        if: steps.publication.outputs.environment == 'production'
-        uses: actions/download-artifact@v5
+        if: needs.prepare.outputs.environment == 'production'
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           name: press-snapshot
-          run-id: ${{ steps.publication.outputs.preview_build }}
+          run-id: ${{ needs.prepare.outputs.preview_build }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path: site
       - name: Build the static site
-        run: PRESS_CONTENT_SNAPSHOT="$GITHUB_WORKSPACE/site/press-snapshot.json" pnpm turbo run build --filter=web --force
+        run: PRESS_CONTENT_SNAPSHOT="$GITHUB_WORKSPACE/press-snapshot.json" pnpm turbo run build --filter=web --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NEXT_PUBLIC_LOGOS_API_URL: ${{ steps.publication.outputs.api_url }}
-          NEXT_PUBLIC_API_MODE: ${{ steps.publication.outputs.api_mode }}
+          NEXT_PUBLIC_LOGOS_API_URL: ${{ needs.prepare.outputs.api_url }}
+          NEXT_PUBLIC_API_MODE: ${{ needs.prepare.outputs.api_mode }}
           NEXT_PUBLIC_HCAPTCHA_SITEKEY: 2ec82f0e-5f3c-45d2-ba38-223ceb5eee42
+      - name: Hand the export to the publish job
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: site-export
+          path: apps/web/out
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 1
+      - name: Archive staging media
+        if: needs.prepare.outputs.environment == 'dev'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: press-snapshot
+          path: press-snapshot.json
+          if-no-files-found: error
+          retention-days: 14
+
+  publish:
+    needs: [prepare, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: site-publish
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: site-export
+          path: ${{ runner.temp }}/site-export
       - name: Authenticate the publisher as the CMS GitHub App
         id: publish-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
         with:
           app-id: ${{ vars.SITE_PUBLISH_APP_ID }}
           private-key: ${{ secrets.SITE_PUBLISH_APP_PRIVATE_KEY }}
@@ -91,23 +142,17 @@ jobs:
           repositories: ${{ github.event.repository.name }}
           permission-contents: write
       - name: Publish the static export
-        run: node ../workflow-tools/scripts/site-publish/publish.mts
+        run: node scripts/site-publish/publish.mts
         env:
           SITE_PUBLISH_TOKEN: ${{ steps.publish-token.outputs.token }}
-          DEPLOY_BRANCH: ${{ steps.publication.outputs.deploy_branch }}
-          DEPLOY_BASELINE: ${{ steps.publication.outputs.deploy_baseline }}
-          STAGING_BASELINE: ${{ steps.publication.outputs.staging_baseline }}
-          SITE_URL: ${{ steps.publication.outputs.site_url }}
-          PREVIEW_BUILD: ${{ steps.publication.outputs.preview_build }}
+          SITE_EXPORT: ${{ runner.temp }}/site-export
+          SOURCE_SHA: ${{ needs.prepare.outputs.source_sha }}
+          DEPLOY_BRANCH: ${{ needs.prepare.outputs.deploy_branch }}
+          DEPLOY_BASELINE: ${{ needs.prepare.outputs.deploy_baseline }}
+          STAGING_BASELINE: ${{ needs.prepare.outputs.staging_baseline }}
+          SITE_URL: ${{ needs.prepare.outputs.site_url }}
+          PREVIEW_BUILD: ${{ needs.prepare.outputs.preview_build }}
       - name: Confirm the site has updated
-        run: node ../workflow-tools/scripts/site-publish/verify.mts
+        run: node scripts/site-publish/verify.mts
         env:
-          SITE_URL: ${{ steps.publication.outputs.site_url }}
-      - name: Archive successful staging media
-        if: steps.publication.outputs.environment == 'dev'
-        uses: actions/upload-artifact@v4
-        with:
-          name: press-snapshot
-          path: site/press-snapshot.json
-          if-no-files-found: error
-          retention-days: 14
+          SITE_URL: ${{ needs.prepare.outputs.site_url }}

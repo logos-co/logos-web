@@ -59,10 +59,18 @@ describe('site publication input', () => {
     assert.throws(() => validateReviewedRun(run, 43))
     assert.throws(() => validateReviewedRun(run, undefined))
   })
-  it('rejects previews replaced by another publisher', () => {
-    validateDeployedPreview({ runId: 42 }, 42)
-    for (const marker of [null, {}, { runId: 43 }, { runId: '42' }]) {
-      assert.throws(() => validateDeployedPreview(marker, 42))
+  it('rejects previews replaced by another publisher or built from another commit', () => {
+    const sha = 'a'.repeat(40)
+    validateDeployedPreview({ runId: 42, sourceSha: sha }, 42, sha)
+    for (const marker of [
+      null,
+      {},
+      { runId: 43, sourceSha: sha },
+      { runId: '42', sourceSha: sha },
+      { runId: 42 },
+      { runId: 42, sourceSha: 'b'.repeat(40) },
+    ]) {
+      assert.throws(() => validateDeployedPreview(marker, 42, sha))
     }
   })
 })

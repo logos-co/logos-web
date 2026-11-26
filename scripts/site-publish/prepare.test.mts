@@ -9,8 +9,15 @@ import { it } from 'node:test'
 const script = fileURLToPath(new URL('./prepare.mts', import.meta.url))
 const stagingSha = 'a'.repeat(40)
 const liveSha = 'b'.repeat(40)
+const developSha = 'c'.repeat(40)
+const masterSha = 'd'.repeat(40)
 
-const prepare = (environment: string, markerRun = 42, expired = false) => {
+const prepare = (
+  environment: string,
+  markerRun = 42,
+  expired = false,
+  markerSource = masterSha
+) => {
   const directory = mkdtempSync(resolve(tmpdir(), 'logos-prepare-test-'))
   const event = resolve(directory, 'event.json')
   const output = resolve(directory, 'output.txt')
@@ -27,6 +34,8 @@ const prepare = (environment: string, markerRun = 42, expired = false) => {
   const responses = {
     'git/ref/heads/deploy-develop': { object: { sha: stagingSha } },
     'git/ref/heads/deploy-master': { object: { sha: liveSha } },
+    'git/ref/heads/develop': { object: { sha: developSha } },
+    'git/ref/heads/master': { object: { sha: masterSha } },
     'actions/runs/42': run,
     'actions/workflows/site-publish.yml/runs?branch=develop&per_page=100': {
       workflow_runs: [run],
@@ -37,9 +46,9 @@ const prepare = (environment: string, markerRun = 42, expired = false) => {
       ],
     },
     [`contents/site-publish.json?ref=${stagingSha}`]: {
-      content: Buffer.from(JSON.stringify({ runId: markerRun })).toString(
-        'base64'
-      ),
+      content: Buffer.from(
+        JSON.stringify({ runId: markerRun, sourceSha: markerSource })
+      ).toString('base64'),
     },
   }
   writeFileSync(
@@ -76,15 +85,15 @@ it('captures the deployment baseline before staging builds', () => {
   const { result, output } = prepare('dev')
   assert.equal(result.status, 0, result.stderr)
   const values = readFileSync(output, 'utf8')
-  assert.match(values, /source_ref=develop\n/)
+  assert.match(values, new RegExp(`source_sha=${developSha}\n`))
   assert.match(values, new RegExp(`deploy_baseline=${stagingSha}\n`))
 })
 
-it('uses master source and freezes the reviewed staging deployment for live', () => {
+it('pins the reviewed master commit and freezes the reviewed staging deployment for live', () => {
   const { result, output } = prepare('production')
   assert.equal(result.status, 0, result.stderr)
   const values = readFileSync(output, 'utf8')
-  assert.match(values, /source_ref=master\n/)
+  assert.match(values, new RegExp(`source_sha=${masterSha}\n`))
   assert.match(values, new RegExp(`deploy_baseline=${liveSha}\n`))
   assert.match(values, new RegExp(`staging_baseline=${stagingSha}\n`))
   assert.match(values, /preview_build=42\n/)
@@ -97,4 +106,10 @@ it('rejects a replaced staging deployment or expired snapshot before building li
   const { result } = prepare('production', 42, true)
   assert.notEqual(result.status, 0)
   assert.match(result.stderr, /snapshot has expired/)
+})
+
+it('rejects a live publish when master is not the reviewed preview source', () => {
+  const { result } = prepare('production', 42, false, developSha)
+  assert.notEqual(result.status, 0)
+  assert.match(result.stderr, /master does not match the reviewed preview/)
 })
