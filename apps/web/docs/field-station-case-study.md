@@ -16,7 +16,7 @@ Desktop copy retains the line endings from the Figma text layers in the content 
 
 The application CTA reads "Apply to the next Field Station" in the introduction and closing sections. Mobile button labels wrap when needed to fit narrow screens.
 
-The page's Open Graph and Twitter cards use the supplied 1200x630 [social image](../public/images/field-station-case-study/og-image.png), selected through the page's `seo.ogImage` content field.
+The page's Open Graph and Twitter cards use the supplied 1200x630 [social image](../public/images/field-station-case-study/og-image-30.png), selected through the page's `seo.ogImage` content field.
 
 The cover uses Rhymes Text on desktop and self-hosted Newsreader on mobile. Newsreader is bundled with its SIL Open Font License. Both cover fonts and the quotation font load locally through `next/font`.
 
