@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   review:
-    uses: acid-info/ai-tools/.github/workflows/ai-review.yml@ai-review/v1
+    uses: acid-info/ai-tools/.github/workflows/ai-review.yml@40bde8349e34b75af6d6cbd92d7c8dd0eff6324b # ai-review/v1
     secrets:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
