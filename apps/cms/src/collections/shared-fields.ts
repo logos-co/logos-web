@@ -20,7 +20,7 @@ export const shouldOpenCollapsible = (fields: readonly Field[]): boolean =>
   collapsibleHasRequiredField(fields)
 
 export const authenticatedCollectionAccess: CollectionConfig['access'] = {
-  read: () => true,
+  read: ({ req }) => Boolean(req.user),
   create: ({ req }) => Boolean(req.user),
   update: ({ req }) => Boolean(req.user),
   delete: ({ req }) => Boolean(req.user),

@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
-import { collapsibleHasRequiredField } from '../shared-fields'
+import type { PayloadRequest } from 'payload'
+
+import {
+  authenticatedCollectionAccess,
+  collapsibleHasRequiredField,
+} from '../shared-fields'
 
 describe('collapsibleHasRequiredField', () => {
   it('detects direct required fields', () => {
@@ -43,5 +48,19 @@ describe('collapsibleHasRequiredField', () => {
       ]),
       false
     )
+  })
+})
+
+describe('authenticatedCollectionAccess', () => {
+  const read = authenticatedCollectionAccess?.read
+  const check = (user: unknown) =>
+    read?.({ req: { user } as unknown as PayloadRequest })
+
+  it('denies anonymous reads', () => {
+    assert.equal(check(null), false)
+  })
+
+  it('allows reads with a session', () => {
+    assert.equal(check({ id: 1 }), true)
   })
 })

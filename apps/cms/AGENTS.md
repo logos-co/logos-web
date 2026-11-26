@@ -36,6 +36,7 @@ After any collection or schema change, run `pnpm generate-types` from the root a
 
 - `payload.config.ts` throws when `NEXT_PUBLIC_SERVER_URL` or `NEXT_PUBLIC_WEB_URL` is missing in a production build outside Vercel. Fix the environment; don't weaken the check.
 - `scripts/dev.ts` refuses to run when `NODE_ENV=production` or a Vercel env var is set, and it auto-accepts Payload's schema-push prompts. Deployed environments use reviewed migrations only: `docker-entrypoint.sh` runs `payload migrate`, and Payload never pushes the schema when `NODE_ENV=production`.
+- All reads need a session. `/api/users/first-register` opens only while `users` is empty.
 - The concurrent save and resource tests skip unless `CMS_TEST_DATABASE_URL` points at a Postgres database. CI sets it in `.github/workflows/test.yml`.
 
 ## Docs

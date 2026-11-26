@@ -85,6 +85,16 @@ No environment variable creates the first admin. After the first deploy, the `us
 
 **Create that account straight after the first deploy.** Until it exists, anyone who reaches `/admin` can claim it, so keep `/admin` behind the reverse proxy or network controls until then.
 
+After each deploy, check that `POST /api/users/first-register` returns 403 on the deployed origin. Payload only opens it while the `users` table is empty, so a 200 there means the database was reset or pointed at a new one.
+
+## API access
+
+The content collections and `media` (including files under `/api/media/file/`) are readable only with a Payload session, so anonymous REST and GraphQL reads return 403. Nothing outside the admin UI reads them: `apps/web` builds from `content/**` and serves uploads from `apps/web/public/cms/uploads`.
+
+## Login lockout
+
+Payload's defaults apply: 5 failed logins lock an account for 10 minutes. Anyone who knows an editor's email can keep that account locked by retrying every 10 minutes. Do not raise the limit to work around this, since that only helps password guessing. Throttle `POST /api/users/login` per client IP at the reverse proxy instead; an administrator can unlock an account from the Users collection.
+
 ## Health check
 
-Docker's `HEALTHCHECK` calls `GET /api/health`. Vercel also hits it hourly through the cron in [`apps/cms/vercel.json`](../vercel.json).
+Docker's `HEALTHCHECK` calls `GET /api/health`. Vercel also hits it hourly through the cron in [`apps/cms/vercel.json`](../vercel.json). It returns 200 `{ ok, db, latencyMs }` or 503 with the same shape; the failure detail and database diagnostics go to the server log only.
