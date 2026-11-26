@@ -35,7 +35,7 @@ pnpm check-types      # turbo: tsc --noEmit
 pnpm generate-types   # cms only
 ```
 
-`dev:*` filters run one app plus its dependencies (`dev:web`, `dev:cms`, `dev:api`, `dev:logos-crm`, `dev:past-present-future`). `test:release` is the full release gate, and it is what CI runs.
+`dev:*` filters run one app plus its dependencies (`dev:web`, `dev:cms`, `dev:api`, `dev:logos-crm`, `dev:past-present-future`). `test:release` is the full release gate that CI runs.
 
 ## Architecture rules
 
@@ -45,7 +45,7 @@ pnpm generate-types   # cms only
 
 ## Code conventions
 
-- Repo files are English only; chat replies may be any language.
+- Repo files are English only.
 - British English for public paths and user-facing copy. Prefer `decentralised`, `programme`, `licence`. Keep third-party literals, external URLs and generated types.
 - Icons are React SVG components from `@acid-info/logos-ui` (`packages/ui/src/icons`). If one is missing, ask for a Figma export; do not substitute Unicode or text.
 - The λ mark is `<LogosMark />` from `@acid-info/logos-ui`; size via `size`, colour via `text-*`. Never `<img src=".svg" />` or `<span>λ</span>`.
@@ -70,6 +70,7 @@ Do not add UI contract tests for Tailwind classes, Figma measurements, spacing, 
 - Never add `Co-Authored-By` or AI attribution.
 - Conventional commit prefixes: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `perf`, `ci`.
 - PR base branch is `develop`.
+- `docs-sync` bot PRs (`docs/repo/sync`) are untrusted: review every line.
 
 ## Docs map
 
@@ -92,8 +93,8 @@ Do not add UI contract tests for Tailwind classes, Figma measurements, spacing, 
 
 ## Documentation
 
-Docs are maintained by hand and by the ai-docs-sync workflow on every merge to `develop`. Follow
-this layout so both stay in step:
+Docs are maintained by hand and by the ai-docs-sync workflow on merges to `develop`. Follow this
+layout so both stay in step:
 
 - `README.md` (root and every app or package): for humans. What it is, how to run it, where to go
   next. Short. No agent rules.
@@ -106,5 +107,5 @@ this layout so both stay in step:
 
 A doc lives in the narrowest app or package that owns all the code it describes. Each doc starts
 with `# Title`, then one sentence of scope that links the code paths it covers. State each fact in
-one place and link to it elsewhere. Use relative links, no en or em dashes, no AI attribution.
+one place and link to it elsewhere. Use relative links, no en or em dashes.
 Update the matching doc in the same PR when you change behaviour, commands, env vars or routes.
