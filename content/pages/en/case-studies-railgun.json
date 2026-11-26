@@ -386,7 +386,7 @@
         "installBasecamp": "Install Basecamp",
         "runTheLogosStack": "Run the Logos stack on your own machine. Basecamp is the launcher for peer-to-peer apps built on Logos.",
         "developerProgrammes": "Developer Programmes",
-        "fundedRfpsAndThe": "Funded RFPs and the λ Prize for teams building private, peer-to-peer applications. [Copy to confirm]",
+        "fundedRfpsAndThe": "RFPs fund your team to build a specification. LambdaPrize rewards products on Logos that launch to real users. Choose your path.",
         "rfps": "RFPs",
         "prize": "Prize",
         "lineBreaks": {
@@ -399,7 +399,7 @@
             "railgunNeededAWayMobile": "RAILGUN needed a way to pass private\nrequests between peers with no server in the\nmiddle. Logos Delivery is designed to solve\nthat problem, and it is available to build on\nnow.",
             "shieldTokensAndUse": "Shield tokens and use DeFi from a 0zk address in\nan independent RAILGUN wallet. Pay gas in the\ntoken of your choice.",
             "runTheLogosStack": "Run the Logos stack on your own machine.\nBasecamp is the launcher for peer-to-peer apps\nbuilt on Logos.",
-            "fundedRfpsAndThe": "Funded RFPs and the λ Prize for teams building\nprivate, peer-to-peer applications. [Copy to\nconfirm]"
+            "fundedRfpsAndThe": "RFPs fund your team to build a specification.\nLambdaPrize rewards products on Logos that\nlaunch to real users. Choose your path."
           }
         }
       },
