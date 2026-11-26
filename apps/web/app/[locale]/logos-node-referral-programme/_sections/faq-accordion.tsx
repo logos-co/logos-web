@@ -25,7 +25,7 @@ interface FaqAccordionProps {
 
 export function FaqAccordion({ items }: FaqAccordionProps) {
   const id = useId()
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
   const reducedMotion = useSyncExternalStore(
     subscribeToMotionPreference,
     prefersReducedMotion,
