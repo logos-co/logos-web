@@ -32,6 +32,19 @@ const DETAIL_FETCH_CONCURRENCY = 6
 const SLUG_PAGE_SIZE = 100
 /** Safety valve: 100 full pages is far beyond any realistic archive. */
 const MAX_SLUG_PAGES = 100
+/** Slugs become file names in the static export and the RSS output. Mixed case
+ * stays: the archive has `April-progress`. */
+const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/i
+
+export function isSafeSlug(slug: string): boolean {
+  return SAFE_SLUG.test(slug)
+}
+
+function keepSafeSlug(label: string, slug: string): boolean {
+  if (isSafeSlug(slug)) return true
+  logger.warn(`Skipping ${label} with an unsafe slug`, { slug })
+  return false
+}
 /**
  * The blog CMS. Its address is public and the same for every build, so it
  * lives here; only the API key is configuration.
@@ -48,7 +61,6 @@ export interface BlogTag {
 export interface BlogAuthor {
   id: string
   name: string
-  emailAddress?: string
 }
 
 export interface BlogImage {
@@ -249,7 +261,7 @@ type GraphqlPostAttributes = {
   authors?: {
     data?: Array<{
       id?: string
-      attributes?: { name?: string | null; email_address?: string | null }
+      attributes?: { name?: string | null }
     }>
   }
   podcast_show?: {
@@ -286,7 +298,7 @@ type GraphqlPodcastShowAttributes = {
   hosts?: {
     data?: Array<{
       id?: string
-      attributes?: { name?: string | null; email_address?: string | null }
+      attributes?: { name?: string | null }
     }>
   }
 }
@@ -830,7 +842,6 @@ function mapGraphqlAuthors(attrs: GraphqlPostAttributes): BlogAuthor[] {
       ?.map((author) => ({
         id: author.id ?? '',
         name: author.attributes?.name ?? '',
-        emailAddress: author.attributes?.email_address ?? undefined,
       }))
       .filter((author) => author.name.length > 0) ?? []
   )
@@ -952,7 +963,6 @@ function mapGraphqlShow(
         ?.map((host) => ({
           id: host.id ?? '',
           name: host.attributes?.name ?? '',
-          emailAddress: host.attributes?.email_address ?? undefined,
         }))
         .filter((host) => host.name.length > 0) ?? [],
   }
@@ -1141,16 +1151,32 @@ export async function isUsingPressSnapshot(): Promise<boolean> {
 
 export async function getBlogArticleSlugs(): Promise<string[]> {
   const snapshot = await getPressSnapshot()
-  if (snapshot) return articleSlugs(snapshot)
-  return fromCmsOrFallback('Article slugs', getStrapiArticleSlugs, articleSlugs)
+  const slugs = snapshot
+    ? articleSlugs(snapshot)
+    : await fromCmsOrFallback(
+        'Article slugs',
+        getStrapiArticleSlugs,
+        articleSlugs
+      )
+  return slugs.filter((slug) => keepSafeSlug('article', slug))
 }
 
 export async function getBlogPodcastPaths(): Promise<
   Array<{ showSlug: string; slug: string }>
 > {
   const snapshot = await getPressSnapshot()
-  if (snapshot) return podcastPaths(snapshot)
-  return fromCmsOrFallback('Podcast slugs', getStrapiPodcastPaths, podcastPaths)
+  const paths = snapshot
+    ? podcastPaths(snapshot)
+    : await fromCmsOrFallback(
+        'Podcast slugs',
+        getStrapiPodcastPaths,
+        podcastPaths
+      )
+  return paths.filter(
+    (path) =>
+      keepSafeSlug('podcast', path.slug) &&
+      keepSafeSlug('podcast show', path.showSlug)
+  )
 }
 
 export async function getBlogPodcastShowSlugs(): Promise<string[]> {
@@ -1216,7 +1242,6 @@ const ARTICLE_DETAIL_QUERY = `
               id
               attributes {
                 name
-                email_address
               }
             }
           }
@@ -1280,7 +1305,6 @@ const ARTICLE_DETAIL_QUERY = `
                     id
                     attributes {
                       name
-                      email_address
                     }
                   }
                 }
@@ -1341,7 +1365,6 @@ const SAME_AUTHOR_ARTICLES_QUERY = `
               id
               attributes {
                 name
-                email_address
               }
             }
           }
@@ -1461,7 +1484,6 @@ const PODCAST_DETAIL_QUERY = `
                     id
                     attributes {
                       name
-                      email_address
                     }
                   }
                 }
@@ -1514,7 +1536,6 @@ const PODCAST_DETAIL_QUERY = `
               id
               attributes {
                 name
-                email_address
               }
             }
           }
@@ -1593,7 +1614,6 @@ const PODCAST_DETAIL_QUERY = `
                     id
                     attributes {
                       name
-                      email_address
                     }
                   }
                 }
