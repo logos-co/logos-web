@@ -2,7 +2,7 @@
 
 The temporary [`/logos-node-referral-programme` page](../app/[locale]/logos-node-referral-programme/page.tsx) reads its signup, Basecamp preparation links and FAQ copy from [`content/pages/en/logos-node-referral-programme.json`](../../../content/pages/en/logos-node-referral-programme.json).
 
-The page has a photo hero, an email-only update form, a Discord link, Basecamp installation links and eight FAQ accordions. The first answer starts expanded. Opening another question closes the previous answer; the native details elements also work without JavaScript. The site header and footer remain shared.
+The page has a responsive photo hero, a Basecamp product screenshot, an email-only update form, a Discord link, Basecamp installation links and eight FAQ accordions. The first answer starts expanded. Opening another question closes the previous answer. FAQ buttons support Enter and Space, expose their expanded state and keep closed answer links out of the tab order. Question rows keep the same height and title position in both states. Answers expand downwards and fade over 280ms using the shared ease-out curve. Reduced motion disables these transitions, including preference changes while the page is open. The site header and footer remain shared.
 
 The form uses the existing site newsletter through [`submitNodeProgrammeSignup`](../app/[locale]/logos-node-referral-programme/node-programme-signup.ts), with `Source: Node programme` in the note. It does not create referral links, track invites or calculate rewards. Email validation, pending, success and retry states are handled by the form.
 
@@ -13,3 +13,5 @@ FAQ links include the roadmap, node requirements, Discord invite and the choose-
 This is a standalone page. The existing `/node-programme` route, content and signup form are unchanged. The page uses the full viewport width with 12px outer gutters, including on 4K displays.
 
 CTA feedback matches the Railgun case study: a 3px arrow movement over 200ms, 140ms colour feedback and a 0.97 press scale over 90ms. The page reuses the shared case study content reveals. Reduced-motion preferences disable the movement and reveals, including preference changes while the page is open.
+
+The hero uses static AVIF and WebP sources at 640, 960, 1440 and 1920px, with eager high-priority loading. The browser selects the source for its viewport and pixel density. The Basecamp screenshot loads lazily, sits beside the copy on desktop and stacks below it on mobile and tablet.

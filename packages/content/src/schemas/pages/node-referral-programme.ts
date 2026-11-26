@@ -14,7 +14,10 @@ export const nodeReferralProgrammeCopySectionSchema = z.object({
   hero: z.object({
     title: z.string().min(1),
     body: z.string().min(1),
-    image: mediaRefSchema,
+    image: mediaRefSchema.extend({
+      srcSet: z.string().min(1),
+      avifSrcSet: z.string().min(1),
+    }),
     discordCta: z.string().min(1),
   }),
   signup: z.object({
@@ -29,6 +32,7 @@ export const nodeReferralProgrammeCopySectionSchema = z.object({
   }),
   basecamp: z.object({
     title: z.string().min(1),
+    image: mediaRefSchema,
     body: z.string().min(1),
     privacy: z.string().min(1),
     installCta: nodeReferralProgrammeLinkSchema,

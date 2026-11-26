@@ -20,14 +20,27 @@ export function NodeProgrammeHero({ hero, signup }: NodeProgrammeHeroProps) {
     >
       <ProgrammeWidth>
         <div className="relative flex min-h-[480px] items-end overflow-hidden rounded-xl p-5 md:h-[640px] md:px-6 md:pt-6 md:pb-7">
-          <Image
-            src={hero.image.src}
-            alt={hero.image.alt}
-            fill
-            preload
-            sizes="calc(100vw - 24px)"
-            className="object-cover"
-          />
+          <picture>
+            <source
+              type="image/avif"
+              srcSet={hero.image.avifSrcSet}
+              sizes="calc(100vw - 24px)"
+            />
+            <source
+              type="image/webp"
+              srcSet={hero.image.srcSet}
+              sizes="calc(100vw - 24px)"
+            />
+            <Image
+              src={hero.image.src}
+              alt={hero.image.alt}
+              fill
+              loading="eager"
+              fetchPriority="high"
+              sizes="calc(100vw - 24px)"
+              className="object-cover"
+            />
+          </picture>
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(21,37,33,0.25)_0%,rgba(21,37,33,0.15)_45%,rgba(21,37,33,0.85)_100%)]" />
           <h1
             id="node-programme-title"

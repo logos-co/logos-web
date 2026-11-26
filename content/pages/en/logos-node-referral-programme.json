@@ -12,8 +12,10 @@
         "title": "Logos Node\nReferral Programme",
         "body": "The Logos Node Referral Programme is coming soon. Enter your email or join the community Discord channel to stay up to date on the latest news about the programme.",
         "image": {
-          "src": "/images/node-programme/hero.webp",
-          "alt": "A tower under construction above a misty forest"
+          "src": "/images/logos-node-referral-programme/hero-1920.webp",
+          "alt": "A tower under construction above a misty forest",
+          "srcSet": "/images/logos-node-referral-programme/hero-640.webp 640w, /images/logos-node-referral-programme/hero-960.webp 960w, /images/logos-node-referral-programme/hero-1440.webp 1440w, /images/logos-node-referral-programme/hero-1920.webp 1920w",
+          "avifSrcSet": "/images/logos-node-referral-programme/hero-640.avif 640w, /images/logos-node-referral-programme/hero-960.avif 960w, /images/logos-node-referral-programme/hero-1440.avif 1440w, /images/logos-node-referral-programme/hero-1920.avif 1920w"
         },
         "discordCta": "Join Discord"
       },
@@ -45,7 +47,11 @@
         },
         "platforms": "macOS (Apple silicon), Linux and Windows",
         "versionLabel": "Basecamp v{version}",
-        "testnetLabel": "Testnet v0.3"
+        "testnetLabel": "Testnet v0.3",
+        "image": {
+          "src": "/images/logos-node-referral-programme/basecamp.webp",
+          "alt": "Logos Basecamp package manager showing blockchain, messaging and storage packages"
+        }
       },
       "faqs": {
         "title": "Common\nquestions.",

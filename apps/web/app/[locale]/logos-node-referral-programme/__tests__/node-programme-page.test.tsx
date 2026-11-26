@@ -42,7 +42,9 @@ describe('temporary node programme page', () => {
 
   it('renders the eight supplied FAQs and direct support channel links', async () => {
     const html = await renderPage()
-    expect(html.match(/<details\b/g)).toHaveLength(8)
+    expect(html.match(/aria-controls=/g)).toHaveLength(8)
+    expect(html.match(/aria-expanded="true"/g)).toHaveLength(1)
+    expect(html.match(/inert=""/g)).toHaveLength(7)
     expect(html).toContain('Testnet tokens have no value.')
     expect(html).toContain('Planned for Q1 to Q2 2027.')
     expect(html).toContain(
