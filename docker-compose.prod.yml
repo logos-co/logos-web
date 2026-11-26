@@ -53,7 +53,7 @@ services:
       NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL}
       NEXT_PUBLIC_WEB_URL: ${NEXT_PUBLIC_WEB_URL}
       PAYLOAD_DB_SCHEMA: ${PAYLOAD_DB_SCHEMA:-payload}
-      PAYLOAD_DB_PUSH: ${PAYLOAD_DB_PUSH:-true}
+      PAYLOAD_DB_PUSH: ${PAYLOAD_DB_PUSH:-false}
       PAYLOAD_DB_POOL_MAX: ${PAYLOAD_DB_POOL_MAX:-10}
       # Seed/refresh DB from git content/ on every boot. Set false to stop git
       # content from overwriting Admin-managed data.

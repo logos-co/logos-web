@@ -39,7 +39,7 @@ All timeouts are in milliseconds.
 
 ## Schema sync
 
-`PAYLOAD_DB_PUSH` defaults to `true` and makes Payload create or sync the schema on boot. Payload never pushes when `NODE_ENV=production`, so in practice it only affects local dev. Deployed environments use migrations; see [deployment.md](deployment.md#database-migrations).
+`PAYLOAD_DB_PUSH` defaults to `true` and makes Payload create or sync the schema on boot. Payload never pushes when `NODE_ENV=production`, so in practice it only affects local dev. `docker-compose.prod.yml` defaults it to `false`. Deployed environments use migrations; see [deployment.md](deployment.md#database-migrations).
 
 ## GitHub PR workflow
 
