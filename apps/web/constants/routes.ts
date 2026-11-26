@@ -55,6 +55,7 @@ export const ROUTES = {
 
   // Node Programme
   nodeProgramme: '/node-programme',
+  nodeReferralProgramme: '/logos-node-referral-programme',
   operators: '/operators',
 
   // Movement / Top-level nav
