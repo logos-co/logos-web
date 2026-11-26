@@ -59,7 +59,10 @@ function Notice({
 
 export function OnePagerUpload() {
   const t = useTranslations('pages.onePager')
-  const token = useSearchParams().get('t')
+  const queryToken = useSearchParams().get('t')
+  // Kept in state so stripping `t` from the URL does not drop the token.
+  const [token, setToken] = useState(queryToken)
+  if (queryToken && queryToken !== token) setToken(queryToken)
 
   // `null` while the check is in flight -- distinct from a resolved `'unknown'`,
   // which falls through to the form.
@@ -68,6 +71,13 @@ export function OnePagerUpload() {
   const [file, setFile] = useState<File | null>(null)
   const [error, setError] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (!queryToken) return
+    const url = new URL(window.location.href)
+    url.searchParams.delete('t')
+    window.history.replaceState(window.history.state, '', url)
+  }, [queryToken])
 
   useEffect(() => {
     if (!token) return

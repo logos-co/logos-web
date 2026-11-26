@@ -44,6 +44,7 @@ export default function GlobalNotFound() {
           src="https://analytic.logos.co/script.js"
           data-website-id="144fa9a5-fe44-4bf3-a585-45742cfa89cc"
           data-domains="logos.co"
+          data-exclude-search="true"
         />
       </head>
       <body>
