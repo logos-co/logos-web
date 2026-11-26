@@ -27,7 +27,7 @@ To run against an external Postgres such as Supabase, build the image yourself f
 export NEXT_SERVER_ACTIONS_ENCRYPTION_KEY='<stable openssl rand -base64 32 value>'
 
 docker build -f apps/cms/Dockerfile \
-  --build-arg NEXT_SERVER_ACTIONS_ENCRYPTION_KEY="$NEXT_SERVER_ACTIONS_ENCRYPTION_KEY" \
+  --secret id=next_server_actions_encryption_key,env=NEXT_SERVER_ACTIONS_ENCRYPTION_KEY \
   --build-arg NEXT_PUBLIC_SERVER_URL=https://cms.logos.co \
   --build-arg NEXT_PUBLIC_WEB_URL=https://logos.co \
   -t logos-cms .
@@ -45,7 +45,7 @@ docker run -d --name logos-cms -p 3001:3000 \
   logos-cms
 ```
 
-Next.js inlines the `NEXT_PUBLIC_*` values into the client bundle, so pass the real public origins as `--build-arg`; changing them later means rebuilding. `DATABASE_URL` and `PAYLOAD_SECRET` are only read at runtime, and the build never connects to the database.
+Next.js inlines the `NEXT_PUBLIC_*` values into the client bundle, so pass the real public origins as `--build-arg`; changing them later means rebuilding. The Server Actions key goes in as a BuildKit secret, so it stays out of the process list and the image history. `DATABASE_URL` and `PAYLOAD_SECRET` are only read at runtime, and the build never connects to the database.
 
 ## Database migrations
 

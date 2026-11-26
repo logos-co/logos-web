@@ -5,13 +5,14 @@
 # packages (@repo/content). From the repo root:
 #
 #   docker build -f apps/cms/Dockerfile \
-#     --build-arg NEXT_SERVER_ACTIONS_ENCRYPTION_KEY="$NEXT_SERVER_ACTIONS_ENCRYPTION_KEY" \
+#     --secret id=next_server_actions_encryption_key,env=NEXT_SERVER_ACTIONS_ENCRYPTION_KEY \
 #     --build-arg NEXT_PUBLIC_SERVER_URL=https://cms.example.com \
 #     --build-arg NEXT_PUBLIC_WEB_URL=https://www.example.com \
 #     -t logos-cms .
 #
 # NEXT_PUBLIC_* values are inlined into the client bundle at build time, so
-# they must be the real public origins here — not at runtime.
+# they must be the real public origins here — not at runtime. The Server
+# Actions key is a BuildKit secret so it stays out of the image history.
 # =============================================================================
 
 FROM node:24-bookworm-slim AS base
@@ -40,14 +41,12 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
 # builder — copy sources and build the Next.js production output.
 # -----------------------------------------------------------------------------
 FROM base AS builder
-ARG NEXT_SERVER_ACTIONS_ENCRYPTION_KEY
 ARG NEXT_PUBLIC_SERVER_URL
 ARG NEXT_PUBLIC_WEB_URL
 # Build-time placeholders: payload.config.ts validates these env vars at module
 # load (during `next build`). DATABASE_URL/PAYLOAD_SECRET are NOT inlined and
 # are overridden with real values at runtime; the build never connects to the DB.
 ENV NODE_ENV=production \
-    NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=${NEXT_SERVER_ACTIONS_ENCRYPTION_KEY} \
     NEXT_TELEMETRY_DISABLED=1 \
     NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL} \
     NEXT_PUBLIC_WEB_URL=${NEXT_PUBLIC_WEB_URL} \
@@ -58,7 +57,9 @@ ENV NODE_ENV=production \
 # monorepo sources on top.
 COPY --from=deps /app/ ./
 COPY . .
-RUN pnpm --filter cms build
+RUN --mount=type=secret,id=next_server_actions_encryption_key,required=true \
+    NEXT_SERVER_ACTIONS_ENCRYPTION_KEY="$(cat /run/secrets/next_server_actions_encryption_key)" \
+    pnpm --filter cms build
 
 # -----------------------------------------------------------------------------
 # runner — production runtime. Runs `next start` via pnpm.

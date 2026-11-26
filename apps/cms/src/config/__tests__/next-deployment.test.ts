@@ -167,25 +167,31 @@ describe('Next deployment configuration', () => {
 })
 
 describe('self-host deployment environment wiring', () => {
-  it('passes only the Server Actions key into the Docker build', async () => {
-    const [composeFile, dockerfile, envExample, jenkinsfile] = await Promise.all([
-      readFile('../../docker-compose.prod.yml', 'utf8'),
-      readFile('Dockerfile', 'utf8'),
-      readFile('.env.docker.example', 'utf8'),
-      readFile('../../Jenkinsfile', 'utf8'),
-    ])
+  it('passes the Server Actions key into the Docker build as a secret', async () => {
+    const [composeFile, dockerfile, envExample, jenkinsfile] =
+      await Promise.all([
+        readFile('../../docker-compose.prod.yml', 'utf8'),
+        readFile('Dockerfile', 'utf8'),
+        readFile('.env.docker.example', 'utf8'),
+        readFile('../../Jenkinsfile', 'utf8'),
+      ])
 
     assert.match(
       composeFile,
-      /NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: \$\{NEXT_SERVER_ACTIONS_ENCRYPTION_KEY\}/
+      /next_server_actions_encryption_key:\n\s+environment: NEXT_SERVER_ACTIONS_ENCRYPTION_KEY/
     )
     assert.doesNotMatch(composeFile, /DEPLOYMENT_VERSION/)
-    assert.match(dockerfile, /ARG NEXT_SERVER_ACTIONS_ENCRYPTION_KEY/)
+    assert.doesNotMatch(dockerfile, /ARG NEXT_SERVER_ACTIONS_ENCRYPTION_KEY/)
     assert.doesNotMatch(dockerfile, /ARG DEPLOYMENT_VERSION/)
     assert.match(
       dockerfile,
-      /NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=\$\{NEXT_SERVER_ACTIONS_ENCRYPTION_KEY\}/
+      /--mount=type=secret,id=next_server_actions_encryption_key,required=true/
     )
+    assert.match(
+      jenkinsfile,
+      /--secret id=next_server_actions_encryption_key,env=NEXT_SERVER_ACTIONS_ENCRYPTION_KEY/
+    )
+    assert.doesNotMatch(jenkinsfile, /--build-arg NEXT_SERVER_ACTIONS/)
     assert.doesNotMatch(jenkinsfile, /DEPLOYMENT_VERSION/)
     assert.match(envExample, /NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=/)
     assert.doesNotMatch(envExample, /DEPLOYMENT_VERSION/)
