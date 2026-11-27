@@ -4,6 +4,7 @@ import { join, resolve } from 'node:path'
 import { rehype } from 'rehype'
 import type { GhostPost } from './convert'
 import type { BlogArticleDetail } from '../../lib/blog-content'
+import { injectedGhostHosts, removeInjectedGhostLinks } from './source-cleanup'
 
 const [directoryArg, exportArg = 'out'] = process.argv.slice(2)
 if (!directoryArg)
@@ -68,12 +69,24 @@ for (const article of plan.articles) {
   const source = posts.find((post) => post.slug === article.slug)!
   const sourceElements = parser
     .parse(source.html)
-    .children.flatMap((node) => elements(node))
+    .children.flatMap(removeInjectedGhostLinks)
+    .flatMap((node) => elements(node))
   const html = await readFile(
     join(exportArg, 'media/article', article.slug, 'index.html'),
     'utf8'
   )
   const nodes = parser.parse(html).children.flatMap((node) => elements(node))
+  for (const host of injectedGhostHosts) {
+    assert(
+      !html.includes(host),
+      `Injected link remains: ${article.slug} ${host}`
+    )
+    const document = search.documents.find((post) => post.slug === article.slug)
+    assert(
+      !JSON.stringify(document).includes(host),
+      `Injected search content: ${article.slug} ${host}`
+    )
+  }
   const body = nodes.find(
     (node) =>
       node.tagName === 'section' &&

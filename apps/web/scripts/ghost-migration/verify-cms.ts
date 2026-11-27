@@ -6,6 +6,7 @@ import sharp from 'sharp'
 import { env } from '../../lib/env'
 import type { BlogArticleDetail } from '../../lib/blog-content'
 import { cmsTagName } from './cms-values'
+import { injectedGhostHosts } from './source-cleanup'
 
 interface Entity {
   id: number
@@ -109,6 +110,11 @@ for (const article of plan.articles) {
   for (const [local, file] of Object.entries(receipt.assets))
     body = body.replaceAll(local, new URL(file.url, origin).href)
   assert.equal(attributes.body, body, `Body mismatch: ${article.slug}`)
+  for (const host of injectedGhostHosts)
+    assert(
+      !body.includes(host),
+      `Injected link remains: ${article.slug} ${host}`
+    )
   assert(
     !/\/images\/ghost-migration\/|\/files\/ghost-migration\//.test(body),
     `Repository asset dependency: ${article.slug}`

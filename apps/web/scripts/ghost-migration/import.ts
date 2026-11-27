@@ -5,6 +5,7 @@ import { env } from '../../lib/env'
 import type { BlogArticleDetail } from '../../lib/blog-content'
 import type { GhostPost } from './convert'
 import { cmsAssetName, cmsTagName } from './cms-values'
+import { cleanGhostHtml } from './source-cleanup'
 
 interface Entity {
   id: number
@@ -226,11 +227,19 @@ for (const article of plan.articles) {
   if (
     existing &&
     (existing.attributes.publishedAt ||
-      existing.attributes.body !== body ||
+      cleanGhostHtml(String(existing.attributes.body ?? '')) !== body ||
       existing.attributes.markdown_body !== sourceMarker(source))
   )
     throw new Error(`CMS article changed: ${article.slug}`)
   const saved = existing ?? (await create('posts', data))
+  if (existing && existing.attributes.body !== body) {
+    await request(`/api/posts/${existing.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ data: { body } }),
+    })
+    process.stdout.write(`Removed injected links: ${article.slug}\n`)
+  }
   const verification = await request<{ data: Entity }>(
     `/api/posts/${saved.id}?publicationState=preview`
   )

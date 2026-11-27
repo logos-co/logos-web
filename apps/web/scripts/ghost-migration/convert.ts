@@ -1,5 +1,6 @@
 import { rehype } from 'rehype'
 import type { BlogArticleDetail } from '../../lib/blog-content'
+import { removeInjectedGhostLinks } from './source-cleanup'
 
 export interface GhostPost {
   id: string
@@ -49,6 +50,7 @@ export function convertPost(
     ...post.html.matchAll(/<pre\b[^>]*>([\s\S]*?)<\/pre>/gi),
   ].map((match) => match[1]!)
   const tree = processor.parse(post.html)
+  tree.children = tree.children.flatMap(removeInjectedGhostLinks)
   let codeIndex = 0
   const toc: BlogArticleDetail['toc'] = []
   const assets = new Set<string>(

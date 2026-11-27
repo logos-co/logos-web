@@ -7,6 +7,7 @@ import {
   cmsAssetName,
   cmsTagName,
 } from '../../scripts/ghost-migration/cms-values'
+import { cleanGhostHtml } from '../../scripts/ghost-migration/source-cleanup'
 
 describe('Strapi migration values', () => {
   it('maps Ghost tag labels to the CMS identifier convention without losing acronyms', () => {
@@ -50,6 +51,35 @@ function post(html: string): GhostPost {
 }
 
 describe('Ghost article conversion', () => {
+  it('removes injected promotional anchors and their text while preserving legitimate prose and links', () => {
+    const html =
+      '<p>Read the <a href="https://rpubs.com/codex/report">report</a>. <a href="https://1winmd.lol/"><u>1winmd.lol</u></a> <a href="https://slotmonkey-casino.site/">casino bonus SlotMonkey</a></p>'
+    const result = convertPost(post(html), new Map())
+    expect(result.body).toBe(
+      '<p>Read the <a href="https://rpubs.com/codex/report">report</a>.  </p>'
+    )
+    expect(cleanGhostHtml(html)).toBe(result.body)
+    expect(cleanGhostHtml(result.body)).toBe(result.body)
+    expect(
+      cleanGhostHtml(html.replace('Read the', 'Edited introduction: read the'))
+    ).not.toBe(result.body)
+  })
+  it('matches reviewed injected hosts without treating URL query values or host suffixes as injected links', () => {
+    const html =
+      '<p><a href="//WWW.1WINMD.LOL/path">spam</a><a href="https://github.com/example?ref=1winmd.lol">Code</a><a href="https://1winmd.lol.example.org/">Other host</a></p>'
+    expect(cleanGhostHtml(html)).toBe(
+      '<p><a href="https://github.com/example?ref=1winmd.lol">Code</a><a href="https://1winmd.lol.example.org/">Other host</a></p>'
+    )
+  })
+  it('preserves every byte outside reviewed injected anchors when repairing CMS bodies', () => {
+    const before = "<p class='editorial'>Keep &amp; preserve  whitespace. "
+    const after = "<a href='https://github.com/codex-storage'>Code</a></p>"
+    expect(
+      cleanGhostHtml(
+        before + '<a href="https://1winmd.lol/">Injected text</a>' + after
+      )
+    ).toBe(before + after)
+  })
   it('preserves code, captions, footnotes and incoming heading IDs', () => {
     const result = convertPost(
       post(
