@@ -3,6 +3,24 @@ import {
   convertPost,
   type GhostPost,
 } from '../../scripts/ghost-migration/convert'
+import {
+  cmsAssetName,
+  cmsTagName,
+} from '../../scripts/ghost-migration/cms-values'
+
+describe('Strapi migration values', () => {
+  it('maps Ghost tag labels to the CMS identifier convention without losing acronyms', () => {
+    expect(cmsTagName('Parallel Societies')).toBe('Parallel_Societies')
+    expect(cmsTagName('long-term storage')).toBe('long_term_storage')
+    expect(cmsTagName('zkVM')).toBe('zkVM')
+  })
+  it('keeps normal asset names and shortens oversized names before the CMS adds variant suffixes', () => {
+    expect(cmsAssetName('short-image.png')).toBe('short-image.png')
+    expect(cmsAssetName('5f867e76bbc8608f-' + 'x'.repeat(200) + '.png')).toBe(
+      '5f867e76bbc8608f.png'
+    )
+  })
+})
 
 function post(html: string): GhostPost {
   return {

@@ -12,7 +12,8 @@ Run from `apps/web`:
 
 ```bash
 pnpm exec tsx scripts/ghost-migration/prepare.ts /path/to/capture-directory
-pnpm exec tsx --env-file=.env.local scripts/ghost-migration/import.ts /path/to/capture-directory --apply
+pnpm exec tsx --env-file=/path/to/.env.migration scripts/ghost-migration/import.ts /path/to/capture-directory --apply
+pnpm exec tsx --env-file=/path/to/.env.migration scripts/ghost-migration/verify-cms.ts /path/to/capture-directory
 PRESS_CONTENT_SNAPSHOT=/path/to/capture-directory/press-snapshot.json pnpm exec tsx scripts/ghost-migration/verify.ts /path/to/capture-directory
 ```
 
@@ -20,11 +21,19 @@ Preparation expects `nomos-published.json` and `codex-published.json`, each with
 
 The draft preview snapshot combines these 87 articles with the committed published media baseline. It uses version 2, marks every imported article as a draft and is rejected outside staging. The allowlist enables staging search and draft queries. Drafts remain excluded from public feeds and the sitemap. The 26 November preview uses the committed 5 November published baseline because `cms-press.logos.co` timed out; it is not a fresh capture of the existing Logos articles.
 
+On 28 November 2026, all 87 articles were imported as CMS drafts and all 256 assets were uploaded. Verification re-read every draft, checked every public asset, confirmed PDF bytes and GIF frame counts, and compared all exported articles with the original captures. The replacement preview uses a fresh CMS capture and builds with no repository migration assets. The temporary `public/images/ghost-migration/` and `public/files/ghost-migration/` copies were removed after that build passed. The articles remain unpublished.
+
+The [CMS image mapper](../lib/blog-content.ts) converts caption markup to plain text, keeps alternative text separate from credits and falls back to the article title when cover alternative text is missing.
+
 ## CMS import and release
 
 Import requires a Strapi token with post, author, tag and upload access. It preflights all slugs, reuses matching authors and public tags, uploads images and creates draft Articles only. The CMS `body` contains migrated HTML and `markdown_body` holds a source ID and SHA-256 fingerprint. Complete original HTML and Ghost Lexical documents remain in the source capture, so CMS article fields do not retain retired asset URLs. Repeating an import accepts only identical drafts and stops on a published post or editorial changes. Verified IDs are written to `imported.json` after each article.
 
 `STRAPI_API_KEY` is configured separately in GitHub Actions secrets, Vercel environments and the ignored local `apps/web/.env.local` file. Updating GitHub or Vercel does not refresh the local copy. Pull the current Vercel environment before testing credentials. GitHub exposes a secret's update time, not its value. Successful authenticated GET requests do not prove write access: a token can read the collections and upload list while receiving HTTP 403 from `POST /api/upload`. Use a separate temporary migration token with the required write permissions rather than widening the site's build token. Keep it in an ignored environment file outside the repository and pass that file to `tsx --env-file`.
+
+Use the operator-provided write credential only for migration commands. Do not copy it into GitHub or Vercel site environments. Uploads run three at a time and reuse existing files by their stable names. Names longer than 100 characters use their existing URL hash and extension because the upload service adds suffixes for generated image variants. CMS verification re-reads every draft and checks body and metadata equality, uploaded asset availability, PDF bytes, image dimensions and GIF frame counts. It records byte equality for all assets in `cms-verification.json`.
+
+Tag identifiers follow the existing CMS convention: spaces and hyphens become underscores, while original casing is retained. Existing tags are reused case-insensitively. The article renderer already displays underscores as spaces, so no CMS schema change is needed.
 
 A preview built from the prepared snapshot does not imply that CMS import succeeded. Check `imported.json` and re-read all 87 CMS posts before reporting that the CMS drafts exist. If the CMS is unavailable, keep the import pending and label the deployed site as a snapshot preview.
 
@@ -39,9 +48,9 @@ The repository copies are temporary preview inputs. The final source of truth is
 Complete the handover in this order:
 
 1. Import all articles and assets into Strapi. Re-read every CMS article and verify its title, slug, publication date, authors, tags, body, cover and social image. Check every migrated image and PDF at its CMS storage URL against the retained source bytes. CMS article fields must contain no retired blog asset URLs or repository migration asset paths.
-2. Capture a new staging snapshot from the live CMS, without pointing `PRESS_CONTENT_SNAPSHOT` at the prepared migration snapshot. Build and review the 87 CMS drafts with both repository migration asset directories absent. Verify that article pages, search, images, videos and the PDF work using CMS content and uploaded assets alone.
+2. Capture a new staging snapshot from the live CMS, without pointing `PRESS_CONTENT_SNAPSHOT` at the prepared migration snapshot. Build and review the 87 CMS drafts with both repository migration asset directories absent. Verify that article pages, search, images, videos and the PDF work using CMS content and uploaded assets alone. Remove the repository asset copies once this verification passes, retaining the external source backup.
 3. After the reviewed articles are published through the normal workflow, capture published CMS content again and verify that the snapshot is version 1. Remove only these 87 slugs from `lib/press-preview-articles.json`, preserving the existing Waku entries.
-4. Remove `public/images/ghost-migration/`, `public/files/ghost-migration/`, `scripts/ghost-migration/` and `lib/__tests__/ghost-migration.test.ts`. Update the preview allowlist test to match the remaining entries. Remove this migration document and its index entry after retaining the handover evidence outside the repository. Remove any build configuration that points to the prepared migration snapshot; retire the temporary Vercel preview after the replacement deployment is verified.
+4. Remove any remaining repository migration asset directories, `scripts/ghost-migration/` and `lib/__tests__/ghost-migration.test.ts`. Update the preview allowlist test to match the remaining entries. Remove this migration document and its index entry after retaining the handover evidence outside the repository. Remove any build configuration that points to the prepared migration snapshot; retire the temporary Vercel preview after the replacement deployment is verified.
 5. Build again through the normal CMS pipeline and verify the deployed result before completing the handover. Keep the existing CMS loader, image generator and standard CMS-derived outage snapshot mechanism. They are the normal site architecture, not migration-specific source files.
 
 Keep the original captures, asset backups, redirect map and CMS import receipt outside the repository until handover and redirect verification are complete. Do not delete preview inputs before the CMS-only replacement has passed verification.

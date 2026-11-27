@@ -831,7 +831,10 @@ export function resolveAssetUrl(rawUrl?: string | null): string {
   return `${CMS_PRESS_ORIGIN}${rawUrl.startsWith('/') ? rawUrl : `/${rawUrl}`}`
 }
 
-function mapGraphqlImage(image?: GraphqlImageRelation): BlogImage | null {
+function mapGraphqlImage(
+  image?: GraphqlImageRelation,
+  fallbackAlt = ''
+): BlogImage | null {
   const attrs = image?.data?.attributes
   const url = resolveAssetUrl(attrs?.url)
   if (!url) return null
@@ -840,8 +843,8 @@ function mapGraphqlImage(image?: GraphqlImageRelation): BlogImage | null {
     url,
     width: attrs?.width ?? 0,
     height: attrs?.height ?? 0,
-    caption: attrs?.caption ?? '',
-    alt: attrs?.caption ?? attrs?.alternativeText ?? '',
+    caption: stripBlogHtml(attrs?.caption ?? ''),
+    alt: attrs?.alternativeText || fallbackAlt,
   }
 }
 
@@ -917,8 +920,8 @@ function mapGraphqlPostMeta(entity: GraphqlPostEntity): BlogPostMeta {
     createdAt: attrs.publish_date ?? attrs.publishedAt ?? null,
     tags: mapGraphqlTags(attrs),
     authors: mapGraphqlAuthors(attrs),
-    coverImage: mapGraphqlImage(attrs.cover_image),
-    ogImage: mapGraphqlImage(attrs.og_image),
+    coverImage: mapGraphqlImage(attrs.cover_image, attrs.title ?? ''),
+    ogImage: mapGraphqlImage(attrs.og_image, attrs.title ?? ''),
     isDraft: !attrs.publishedAt,
     discourseTopicId: attrs.discourse_topic_id ?? undefined,
   }

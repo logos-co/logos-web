@@ -4,6 +4,7 @@ import { join, resolve } from 'node:path'
 import { env } from '../../lib/env'
 import type { BlogArticleDetail } from '../../lib/blog-content'
 import type { GhostPost } from './convert'
+import { cmsAssetName, cmsTagName } from './cms-values'
 
 interface Entity {
   id: number
@@ -51,10 +52,14 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     redirect: 'error',
     signal: AbortSignal.timeout(20000),
   })
-  if (!response.ok)
+  if (!response.ok) {
+    const error = (await response.json().catch(() => null)) as {
+      error?: { message?: string }
+    } | null
     throw new Error(
-      `CMS ${init.method ?? 'GET'} ${path}: HTTP ${response.status}`
+      `CMS ${init.method ?? 'GET'} ${path}: HTTP ${response.status}${error?.error?.message ? ` (${error.error.message})` : ''}`
     )
+  }
   return response.json() as Promise<T>
 }
 async function all(collection: string): Promise<Entity[]> {
@@ -109,8 +114,9 @@ for (const article of plan.articles) {
 }
 async function relation(
   collection: 'authors' | 'tags',
-  name: string
+  inputName: string
 ): Promise<number> {
+  const name = collection === 'tags' ? cmsTagName(inputName) : inputName
   const records = collection === 'authors' ? authors : tags
   const existing = records.find(
     (record) =>
@@ -122,17 +128,28 @@ async function relation(
   return entity.id
 }
 const uploads = new Map<string, Upload>()
-for (const asset of Object.values(plan.assets)) {
-  const existing = await request<Upload[]>(
-    `/api/upload/files?filters[name][$eq]=${encodeURIComponent(asset.name)}`
-  )
-  let file = existing.find((file) => file.name === asset.name)
+const knownUploads = new Map(
+  (
+    await request<Upload[]>(
+      '/api/upload/files?pagination[pageSize]=1000&sort=id:desc'
+    )
+  ).map((file) => [file.name, file])
+)
+async function uploadAsset(asset: Asset): Promise<void> {
+  const name = cmsAssetName(asset.name)
+  let file = knownUploads.get(name)
+  if (!file) {
+    const existing = await request<Upload[]>(
+      `/api/upload/files?filters[name][$eq]=${encodeURIComponent(name)}`
+    )
+    file = existing.find((file) => file.name === name)
+  }
   if (!file) {
     const form = new FormData()
     form.append(
       'fileInfo',
       JSON.stringify({
-        name: asset.name,
+        name,
         alternativeText: asset.alt,
         caption: asset.caption,
       })
@@ -142,11 +159,18 @@ for (const asset of Object.values(plan.assets)) {
       new Blob([await readFile(join(directory, 'assets', asset.name))], {
         type: asset.mime,
       }),
-      asset.name
+      name
     )
-    file = (
-      await request<Upload[]>('/api/upload', { method: 'POST', body: form })
-    )[0]
+    try {
+      file = (
+        await request<Upload[]>('/api/upload', { method: 'POST', body: form })
+      )[0]
+    } catch (error) {
+      throw new Error(
+        `Asset ${asset.name}: ${error instanceof Error ? error.message : String(error)}`,
+        { cause: error }
+      )
+    }
   }
   if (!file?.id) throw new Error(`Upload missing: ${asset.name}`)
   uploads.set(asset.url, file)
@@ -158,6 +182,13 @@ for (const asset of Object.values(plan.assets)) {
       `Assets verified: ${uploads.size}/${Object.keys(plan.assets).length}\n`
     )
 }
+const assets = Object.values(plan.assets)
+let nextAsset = 0
+await Promise.all(
+  Array.from({ length: 3 }, async () => {
+    while (nextAsset < assets.length) await uploadAsset(assets[nextAsset++]!)
+  })
+)
 const imported: Array<{ slug: string; id: number }> = []
 for (const article of plan.articles) {
   let body = article.bodyHtml ?? ''

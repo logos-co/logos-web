@@ -82,6 +82,27 @@ for (const article of plan.articles) {
   )!
   assert(body, `Body absent: ${article.slug}`)
   const rendered = elements(body)
+  const articleNode = nodes.find((node) => node.tagName === 'article')!
+  const hero = elements(articleNode, 'header')[0]!
+  const cover = elements(hero, 'img')[0]
+  if (cover)
+    assert.equal(
+      cover.properties.alt,
+      article.coverImage!.alt,
+      `Cover alternative: ${article.slug}`
+    )
+  const heroCaption = elements(hero, 'figcaption')[0]
+  if (heroCaption)
+    assert.equal(
+      normalise(text(heroCaption)),
+      normalise(
+        parser
+          .parse(article.coverImage?.caption ?? '')
+          .children.map(text)
+          .join('')
+      ),
+      `Cover caption: ${article.slug}`
+    )
   assert.deepEqual(
     rendered.filter((node) => /^h[2-6]$/.test(node.tagName)).map(text),
     sourceElements.filter((node) => /^h[1-6]$/.test(node.tagName)).map(text),
@@ -139,10 +160,28 @@ for (const article of plan.articles) {
     sourceElements.filter((node) => node.tagName === 'img').length,
     `Image count: ${article.slug}`
   )
-  for (const image of images)
-    await access(
-      join(exportArg, String(image.properties.src).replace(/^\//, ''))
-    )
+  assert.deepEqual(
+    images.map((node) => node.properties.alt ?? ''),
+    sourceElements
+      .filter((node) => node.tagName === 'img')
+      .map((node) => node.properties.alt ?? ''),
+    `Image alternatives: ${article.slug}`
+  )
+  for (const image of images) {
+    const src = String(image.properties.src)
+    if (src.startsWith('https://')) {
+      assert.equal(
+        new URL(src).origin,
+        'https://cms-press.logos.co',
+        `Unexpected image host: ${src}`
+      )
+      const response = await fetch(src, {
+        method: 'HEAD',
+        signal: AbortSignal.timeout(20000),
+      })
+      assert(response.ok, `CMS image HTTP ${response.status}: ${src}`)
+    } else await access(join(exportArg, src.replace(/^\//, '')))
+  }
   assert.equal(
     rendered.filter((node) => node.tagName === 'iframe').length,
     sourceElements.filter((node) => node.tagName === 'iframe').length,
