@@ -70,6 +70,7 @@ jobs:
         if: steps.publication.outputs.environment == 'dev'
         run: pnpm --filter web sync:broadcast-events
         env:
+          ALLOW_BROADCAST_EVENTS_FETCH_FAILURE: '1'
           ADMIN_ACID_API_URL: ${{ vars.ADMIN_ACID_API_URL }}
           ADMIN_ACID_API_AUTHORIZATION: ${{ secrets.ADMIN_ACID_API_AUTHORIZATION }}
       - name: Restore reviewed media

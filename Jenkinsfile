@@ -99,13 +99,14 @@ pipeline {
               "NEXT_PUBLIC_LOGOS_API_URL=${logosApiUrl()}",
               "NEXT_PUBLIC_HCAPTCHA_SITEKEY=${params.NEXT_PUBLIC_HCAPTCHA_SITEKEY}",
               "NEXT_PUBLIC_API_MODE=${apiMode()}",
+              "ALLOW_BROADCAST_EVENTS_FETCH_FAILURE=1",
             ]) {
               if (!(params.SITE_PUBLISH && isMasterBranch())) {
                 // Resolve media once so feeds, cards and article pages use the same content.
                 nix.develop('pnpm --filter web exec tsx scripts/capture-press-snapshot.ts',
                   keepEnv: ['STRAPI_API_KEY', 'SIMPLECAST_ACCESS_TOKEN', 'NEXT_PUBLIC_API_MODE'])
                 nix.develop('pnpm --filter web sync:broadcast-events',
-                  keepEnv: ['ADMIN_ACID_API_URL', 'ADMIN_ACID_API_AUTHORIZATION'])
+                  keepEnv: ['ADMIN_ACID_API_URL', 'ADMIN_ACID_API_AUTHORIZATION', 'ALLOW_BROADCAST_EVENTS_FETCH_FAILURE'])
               }
               withEnv([
                 "PRESS_CONTENT_SNAPSHOT=${env.WORKSPACE}/press-snapshot.json",

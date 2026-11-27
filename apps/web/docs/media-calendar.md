@@ -62,7 +62,7 @@ Both server pages call [`lib/broadcast-events.ts`](../lib/broadcast-events.ts) d
 
 ### Reviewed snapshots
 
-Set `BROADCAST_EVENTS_SNAPSHOT` to an existing snapshot file to reuse it without a live request or a new capture time. The file must contain a valid calendar response and an ISO `generatedAt` timestamp; a missing or invalid reviewed snapshot fails the build rather than silently using different live data. The Site publish workflow and Jenkins capture calendar events for staging and archive them alongside the press snapshot. Production promotion restores both reviewed snapshots, so the published calendar matches the staging review even if events changed meanwhile.
+Set `BROADCAST_EVENTS_SNAPSHOT` to an existing snapshot file to reuse it without a live request or a new capture time. The file must contain a valid calendar response and an ISO `generatedAt` timestamp; a missing or invalid reviewed snapshot fails the build rather than silently using different live data. The Site publish workflow and Jenkins capture calendar events for staging and archive them alongside the press snapshot. Both jobs enable the calendar-only fallback so releases can use the committed calendar while upstream build access is unavailable. Production promotion restores both reviewed snapshots, so the published calendar matches the staging review even if events changed meanwhile.
 
 ### Event change trigger
 
@@ -74,7 +74,7 @@ The sender in admin-acid must dispatch this event after a successful event creat
 { "event_type": "calendar-updated" }
 ```
 
-This trigger starts a new capture, so keep the upstream read credentials available to the build runner. A capture failure leaves the prior deployment in place and fails the run.
+This trigger starts a new capture, so keep the upstream read credentials available to the build runner. If the upstream is unavailable, the configured calendar fallback reuses the committed schedule. A missing or invalid snapshot still fails the run and leaves the prior deployment in place.
 
 ## Opening position and selection
 
