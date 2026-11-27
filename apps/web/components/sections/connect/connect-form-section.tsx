@@ -355,6 +355,7 @@ export function ConnectFormSection({
         body: JSON.stringify({
           ...formData,
           captchaToken,
+          captchaSitekey: hcaptchaSitekey,
           ...extraPayload,
         }),
       })

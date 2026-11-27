@@ -28,7 +28,7 @@ redirects to the home page and has no form, so the endpoint rejects any other
 
 ```
 apps/web (static, ConnectFormSection)
-  -> POST { formName, captchaToken, ...formFields }
+  -> POST { formName, captchaToken, captchaSitekey, ...formFields }
 apps/api
   POST /api/public/afform-submit
   -> validates, verifies hCaptcha, forwards to Notion and (steward only) n8n
@@ -37,12 +37,16 @@ apps/api
 hCaptcha tokens are single-use, so the browser makes one POST and the endpoint
 does every write behind a single verification. If verification is unavailable
 because the deployed API is missing its hCaptcha secret, the application is not
-saved. Once the POST succeeds, `apps/web` sends the
+saved. The endpoint only accepts tokens solved on a site key listed in
+`HCAPTCHA_SITEKEYS` (default: the production key) and on a hostname its CORS
+policy allows, so a staging deployment with its own key must add it to that
+list; see [request handling](../../apps/api/docs/architecture.md#request-handling).
+Notion is written before n8n, so a Notion failure stops the request before
+the steward webhook fires. Once the POST succeeds, `apps/web` sends the
 [newsletter opt-ins](#newsletter-opt-ins) on its own; they are not part of the
 intake request.
 
-The steward webhook is best-effort and cannot indefinitely delay the Notion
-write. Its timeout is described in the API's
+The steward webhook is best-effort and cannot indefinitely delay the response. Its timeout is described in the API's
 [request handling](../../apps/api/docs/architecture.md#request-handling).
 
 ### Steward webhook payload
@@ -220,8 +224,8 @@ properties that intake does not touch.
 | `Mvmt Status`                         | select       | Always `New Lead`                                                                                                                             |
 | `BU`                                  | multi_select | Always `Movement`                                                                                                                             |
 | `City`                                | rich_text    | From `city`; omitted if empty                                                                                                                 |
-| `Country`                             | rich_text    | From `country` (id mapped via `COUNTRY_MAP`; unknown ids written as-is)                                                                       |
-| `Skills`                              | multi_select | From `skills[]` (ids mapped via `SKILLS_MAP`; unknown ids written as-is); options: see shared values                                          |
+| `Country`                             | rich_text    | From `country` (id mapped via `COUNTRY_MAP`; unknown ids are dropped)                                                                         |
+| `Skills`                              | multi_select | From `skills[]` (ids mapped via `SKILLS_MAP`; unknown and repeated ids are dropped); options: see shared values                               |
 | `Background`                          | rich_text    | First non-empty of `backgroundPartner`, `backgroundBuilder`, `backgroundLeader`                                                               |
 | `Tech Vision`                         | rich_text    | From `techVision`; Activist Builder only                                                                                                      |
 | `Activities Vision`                   | rich_text    | From `activitiesVision`; Activist Leader / Steward only                                                                                       |

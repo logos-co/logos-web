@@ -26,10 +26,14 @@ export interface FunnelCountryOption extends FunnelFieldOption {
   code: string
 }
 
+/** Null prototype, so ids like `constructor` or `__proto__` resolve to nothing. */
 export function toLabelMap(
   options: readonly FunnelFieldOption[]
 ): Record<string, string> {
-  return Object.fromEntries(options.map(({ value, label }) => [value, label]))
+  return Object.assign(
+    Object.create(null) as Record<string, string>,
+    Object.fromEntries(options.map(({ value, label }) => [value, label]))
+  )
 }
 
 export const SKILLS_OPTIONS: FunnelFieldOption[] = [

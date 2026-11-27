@@ -6,6 +6,8 @@ type NotionDatabaseResponse = {
   data_sources?: { id: string; name: string }[]
 }
 
+const NOTION_TIMEOUT_MS = 10_000
+
 function notionHeaders(token: string): HeadersInit {
   return {
     Authorization: `Bearer ${token}`,
@@ -30,6 +32,7 @@ async function resolveDataSourceId(
 
   const res = await fetch(`${NOTION_API_BASE_URL}/databases/${databaseId}`, {
     headers: notionHeaders(token),
+    signal: AbortSignal.timeout(NOTION_TIMEOUT_MS),
   })
 
   if (!res.ok) {
@@ -53,9 +56,7 @@ async function resolveDataSourceId(
   )
 }
 
-export type NotionSubmitResult =
-  | { ok: true }
-  | { ok: false; message: string }
+export type NotionSubmitResult = { ok: true } | { ok: false; message: string }
 
 export async function submitToNotion(
   formData: Record<string, unknown>,
@@ -75,6 +76,7 @@ export async function submitToNotion(
     const res = await fetch(`${NOTION_API_BASE_URL}/pages`, {
       method: 'POST',
       headers: notionHeaders(token),
+      signal: AbortSignal.timeout(NOTION_TIMEOUT_MS),
       body: JSON.stringify({
         parent: { type: 'data_source_id', data_source_id: dataSourceId },
         properties,
