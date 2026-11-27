@@ -60,11 +60,11 @@ There is also an [apps/cms/vercel.json](../apps/cms/vercel.json) (region `iad1`,
 
 ## Demos (apps/logos-demos)
 
-Deployed on Vercel. [apps/logos-demos/vercel.json](../apps/logos-demos/vercel.json) sets the build command to `pnpm turbo run build --filter=logos-demos`.
+Not deployed. The app runs locally on port 3005 and its Vercel project is being deleted. See [apps/logos-demos/docs/deployment.md](../apps/logos-demos/docs/deployment.md).
 
 ## CRM (apps/logos-crm)
 
-Runs locally or in Docker with [apps/logos-crm/compose.yaml](../apps/logos-crm/compose.yaml) and [apps/logos-crm/Dockerfile](../apps/logos-crm/Dockerfile). This repo has no Jenkins or Vercel config for it, so where it runs in production isn't recorded here. See [apps/logos-crm/docs/deployment.md](../apps/logos-crm/docs/deployment.md).
+Runs locally or in Docker with [apps/logos-crm/compose.yaml](../apps/logos-crm/compose.yaml) and [apps/logos-crm/Dockerfile](../apps/logos-crm/Dockerfile). It has no hosted deployment, and its Vercel project is being deleted. Outside `next dev`, every request except `/api/health` needs the `CRM_AUTH_TOKEN` shared token; see [apps/logos-crm/docs/deployment.md](../apps/logos-crm/docs/deployment.md).
 
 ## CI
 

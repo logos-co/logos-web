@@ -8,6 +8,8 @@ export async function GET(request: Request): Promise<Response> {
     const query = caseListQuerySchema.parse({
       q: url.searchParams.get('q') || undefined,
       status: url.searchParams.get('status') || undefined,
+      limit: url.searchParams.get('limit') || undefined,
+      offset: url.searchParams.get('offset') || undefined,
     })
     const items = await listCases(query)
     return Response.json({ items })

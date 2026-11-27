@@ -13,6 +13,8 @@ export async function GET(request: Request): Promise<Response> {
     const url = new URL(request.url)
     const query = directoryListQuerySchema.parse({
       q: url.searchParams.get('q') || undefined,
+      limit: url.searchParams.get('limit') || undefined,
+      offset: url.searchParams.get('offset') || undefined,
     })
     return Response.json({ items: await listOrganisations(query) })
   } catch (error) {

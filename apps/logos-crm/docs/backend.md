@@ -27,7 +27,9 @@ import server modules. Types come from `z.infer`; there are no handwritten DTO i
 - `values.ts`: the seven controlled value lists used by the contracts and the Drizzle enums.
 - `case.ts`: `createCaseSchema`, `updateCaseStatusSchema`, `caseListQuerySchema`, `caseRecordSchema`.
 - `directory.ts`: create and update schemas for people and organisations, the list query and the
-  record schemas.
+  record schemas. `website` must be an `http` or `https` URL.
+- `pagination.ts`: `listPageSchema`, the `limit` (1 to 500, default 500) and `offset` (default 0)
+  shared by the case, organisation and people list queries.
 - `work.ts`: `workListQuerySchema` plus the create and update schemas for activities and tasks.
 
 Route handlers call `.parse` on the input. A failure throws a `ZodError`, which `apiException`
@@ -52,21 +54,22 @@ the status becomes `completed` and cleared otherwise.
 
 ## API surface
 
-Every route returns JSON. There is no pagination; lists return all rows.
+Every route returns JSON. The case, organisation and people lists take `limit` and `offset`
+and return at most 500 rows; the activity and task lists return all rows for one subject.
 
 | Method  | Path                        | Purpose                                         |
 | ------- | --------------------------- | ----------------------------------------------- |
 | `GET`   | `/api/health`               | Liveness probe, returns `{ status, service }`   |
 | `GET`   | `/api/v1/dashboard`         | `{ total, openTotal, byStatus }` summary        |
-| `GET`   | `/api/v1/cases`             | List cases, optional `q` and `status`           |
+| `GET`   | `/api/v1/cases`             | List cases, optional `q`, `status`, paging      |
 | `POST`  | `/api/v1/cases`             | Create a case (201)                             |
 | `GET`   | `/api/v1/cases/:id`         | Case detail or 404                              |
 | `PATCH` | `/api/v1/cases/:id`         | Update case status only                         |
-| `GET`   | `/api/v1/organisations`     | List organisations, optional `q`                |
+| `GET`   | `/api/v1/organisations`     | List organisations, optional `q`, paging        |
 | `POST`  | `/api/v1/organisations`     | Create an organisation (201)                    |
 | `GET`   | `/api/v1/organisations/:id` | Organisation detail or 404                      |
 | `PATCH` | `/api/v1/organisations/:id` | Update an organisation                          |
-| `GET`   | `/api/v1/people`            | List people, optional `q`                       |
+| `GET`   | `/api/v1/people`            | List people, optional `q`, paging               |
 | `POST`  | `/api/v1/people`            | Create a person (201)                           |
 | `GET`   | `/api/v1/people/:id`        | Person detail or 404                            |
 | `PATCH` | `/api/v1/people/:id`        | Update a person                                 |
@@ -103,8 +106,18 @@ Only validation errors include `fields`. The codes in use are:
 | `RELATED_RECORD_NOT_FOUND` | 400    | Postgres foreign-key violation `23503`       |
 | `INTERNAL_ERROR`           | 500    | Anything else                                |
 
+## Access control
+
+[`src/proxy.ts`](../src/proxy.ts) runs before every page and API route except `/api/health`, and
+[`src/lib/access.ts`](../src/lib/access.ts) decides. When `CRM_AUTH_TOKEN` is set, a request must
+send it as `Authorization: Bearer <token>` or as the basic-auth password with any user name, so a
+browser can sign in through its native prompt. Tokens are compared in constant time. When the
+variable is unset, only `next dev` (`NODE_ENV=development`) is let through; anything else gets a
+401, so a deployment without the token fails closed. The check never looks at client addresses or
+forwarded headers.
+
 ## Not present
 
-There is no authentication or authorisation, no actor resolution, no jobs or notifications, no
+There are no user accounts or per-user authorisation, no actor resolution, no jobs or notifications, no
 imports or exports, and no audit log. The client sends owner, assignee and `created_by` as free
 text, and the API trusts them.
