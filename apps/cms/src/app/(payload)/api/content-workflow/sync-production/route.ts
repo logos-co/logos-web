@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { getPayload } from 'payload'
 
 import {
+  type BranchPromotion,
   type BranchSyncComparison,
   type BranchSyncDecision,
   compareProductionToStaging,
@@ -12,6 +13,11 @@ import {
 } from '@repo/content/github'
 
 import { syncProductionToStaging } from '@/services/content-workflow'
+import { recordPromotion } from '@/services/content-workflow/record-release'
+import {
+  githubConfigErrorResponse,
+  logWorkflowError,
+} from '@/services/github-errors'
 
 type PayloadClient = Awaited<ReturnType<typeof getPayload>>
 
@@ -23,12 +29,36 @@ export interface SyncProductionRouteDependencies {
   getBranchSyncLinks: typeof getBranchSyncLinks
   getPayload: () => Promise<PayloadClient>
   loadGithubConfigFromEnv: typeof loadGithubConfigFromEnv
+  recordPromotion: typeof recordPromotion
   setGithubConfig: typeof setGithubConfig
   syncProductionToStaging: typeof syncProductionToStaging
 }
 
-const getErrorMessage = (error: unknown): string =>
-  error instanceof Error ? error.message : String(error)
+export const PROMOTION_NOT_ENABLED_MESSAGE =
+  'Content promotion is not enabled yet, so the CMS opened a release PR instead. Ask an admin to enable content promotion.'
+export const RELEASE_PR_MESSAGE =
+  'The changes include more than content, so the CMS opened a release PR. Once a maintainer approves it, click Sync production again to release it.'
+export const RELEASE_PR_PENDING_MESSAGE =
+  'The release PR is waiting for an approval of its latest commit. Once a maintainer approves it, click Sync production again.'
+export const RELEASE_PR_REFUSED_MESSAGE =
+  'The release PR is approved, but the CMS could not fast-forward production. Ask an admin to enable content promotion.'
+
+const getPromotionMessage = (
+  promotion: BranchPromotion | undefined
+): string | undefined => {
+  switch (promotion?.kind) {
+    case 'release-pr':
+      return promotion.reason === 'fast-forward-refused'
+        ? PROMOTION_NOT_ENABLED_MESSAGE
+        : RELEASE_PR_MESSAGE
+    case 'release-pr-pending':
+      return RELEASE_PR_PENDING_MESSAGE
+    case 'release-pr-refused':
+      return RELEASE_PR_REFUSED_MESSAGE
+    default:
+      return undefined
+  }
+}
 
 const loadGithubConfigResponse = ({
   loadGithubConfigFromEnv,
@@ -41,26 +71,28 @@ const loadGithubConfigResponse = ({
     setGithubConfig(loadGithubConfigFromEnv())
     return null
   } catch (error) {
-    return NextResponse.json(
-      { error: `GitHub config not loaded: ${getErrorMessage(error)}` },
-      { status: 500 }
-    )
+    return githubConfigErrorResponse('sync-production', error)
   }
 }
 
-const requireUser = async ({
+const authenticate = async ({
   getPayload,
   req,
 }: {
   getPayload: SyncProductionRouteDependencies['getPayload']
   req: NextRequest
-}): Promise<NextResponse | null> => {
+}) => {
   const payload = await getPayload()
   const { user } = await payload.auth({ headers: req.headers })
-  return user
-    ? null
-    : NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
+  return user ? { payload, user } : null
 }
+
+const unauthenticated = (): NextResponse =>
+  NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
+
+const isSameOriginJson = (req: NextRequest): boolean =>
+  req.headers.get('sec-fetch-site') === 'same-origin' &&
+  req.headers.get('content-type')?.split(';')[0]?.trim() === 'application/json'
 
 export const createSyncProductionHandlers = ({
   compareProductionToStaging,
@@ -68,6 +100,7 @@ export const createSyncProductionHandlers = ({
   getBranchSyncLinks,
   getPayload,
   loadGithubConfigFromEnv,
+  recordPromotion,
   setGithubConfig,
   syncProductionToStaging,
 }: SyncProductionRouteDependencies): {
@@ -75,17 +108,14 @@ export const createSyncProductionHandlers = ({
   POST: (req: NextRequest) => Promise<NextResponse>
 } => {
   const GET = async (req: NextRequest): Promise<NextResponse> => {
+    if (!(await authenticate({ getPayload, req }))) return unauthenticated()
+
     const githubConfigResponse = loadGithubConfigResponse({
       loadGithubConfigFromEnv,
       setGithubConfig,
     })
     if (githubConfigResponse) {
       return githubConfigResponse
-    }
-
-    const authResponse = await requireUser({ getPayload, req })
-    if (authResponse) {
-      return authResponse
     }
 
     try {
@@ -102,14 +132,25 @@ export const createSyncProductionHandlers = ({
         }),
       })
     } catch (error) {
+      logWorkflowError('sync-production', error)
       return NextResponse.json(
-        { error: getErrorMessage(error) },
+        { error: 'GitHub branch status is unavailable' },
         { status: 502 }
       )
     }
   }
 
   const POST = async (req: NextRequest): Promise<NextResponse> => {
+    if (!isSameOriginJson(req)) {
+      return NextResponse.json(
+        { error: 'A same-origin JSON request is required' },
+        { status: 403 }
+      )
+    }
+
+    const session = await authenticate({ getPayload, req })
+    if (!session) return unauthenticated()
+
     const githubConfigResponse = loadGithubConfigResponse({
       loadGithubConfigFromEnv,
       setGithubConfig,
@@ -118,21 +159,35 @@ export const createSyncProductionHandlers = ({
       return githubConfigResponse
     }
 
-    const authResponse = await requireUser({ getPayload, req })
-    if (authResponse) {
-      return authResponse
-    }
-
+    let result: Awaited<ReturnType<typeof syncProductionToStaging>>
     try {
-      const result = await syncProductionToStaging()
-      const status = result.decision.kind === 'blocked' ? 409 : 200
-      return NextResponse.json(result, { status })
+      result = await syncProductionToStaging({
+        onFastForwardRefused: (error) =>
+          logWorkflowError('sync-production fast-forward refused', error),
+      })
     } catch (error) {
+      logWorkflowError('sync-production', error)
       return NextResponse.json(
-        { error: getErrorMessage(error) },
+        { error: 'Production could not be updated. Try again later.' },
         { status: 502 }
       )
     }
+
+    if (result.updated) {
+      // Production already moved; a failed audit write must not report a failed promotion.
+      await recordPromotion({
+        payload: session.payload,
+        userId: Number(session.user.id),
+      }).catch((error: unknown) =>
+        logWorkflowError('sync-production audit', error)
+      )
+    }
+    const message = getPromotionMessage(result.promotion)
+    const status = result.decision.kind === 'blocked' ? 409 : 200
+    return NextResponse.json(
+      { ...result, ...(message && { message }) },
+      { status }
+    )
   }
 
   return { GET, POST }
@@ -147,6 +202,7 @@ const handlers = createSyncProductionHandlers({
     return getPayload({ config })
   },
   loadGithubConfigFromEnv,
+  recordPromotion,
   setGithubConfig,
   syncProductionToStaging,
 })

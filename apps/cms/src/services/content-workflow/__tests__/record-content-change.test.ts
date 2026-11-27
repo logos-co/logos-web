@@ -19,7 +19,7 @@ it(
       await db.query(`CREATE SCHEMA "${schema}";
       CREATE TABLE "${schema}".content_change_requests (
         id serial PRIMARY KEY, branch_name text UNIQUE, content_type text, target_path text,
-        pull_request_number numeric, pull_request_url text, commit_sha text, created_by_id integer,
+        pull_request_number numeric, pull_request_url text, commit_sha text, created_by_id integer, contributors jsonb,
         status text, updated_at timestamptz DEFAULT now()
       );`)
       const branchName = 'content/page-home-20261104-1111'
@@ -85,6 +85,62 @@ it(
         pullRequests.map((pr: { headSha: string }) => pr.headSha),
         ['B']
       )
+    } finally {
+      try {
+        await db.query(`DROP SCHEMA IF EXISTS "${schema}" CASCADE`)
+      } finally {
+        await db.end()
+      }
+    }
+  }
+)
+
+it(
+  'records every editor who saved into the change request once',
+  { skip: !process.env.CMS_TEST_DATABASE_URL },
+  async () => {
+    const db = new Pool({ connectionString: process.env.CMS_TEST_DATABASE_URL })
+    const schema = 'cms_test_' + randomUUID().replaceAll('-', '')
+
+    try {
+      await db.query(`CREATE SCHEMA "${schema}";
+      CREATE TABLE "${schema}".content_change_requests (
+        id serial PRIMARY KEY, branch_name text UNIQUE, content_type text, target_path text,
+        pull_request_number numeric, pull_request_url text, commit_sha text, created_by_id integer, contributors jsonb,
+        status text, updated_at timestamptz DEFAULT now()
+      );`)
+      const payload = {
+        db: { drizzle: drizzle(db), schemaName: schema },
+      } as unknown as Payload
+      const change = {
+        payload,
+        branchName: 'content/page-home-20261125-1111',
+        targetPath: 'content/pages/en/home.json',
+        contentType: 'page',
+        pullRequestNumber: 42,
+        pullRequestUrl: 'https://example.com/pr/42',
+      }
+      const saves: [number, string][] = [
+        [1, 'A'],
+        [2, 'B'],
+        [1, 'C'],
+      ]
+      let parentSha = 'base'
+      for (const [payloadUserId, commitSha] of saves) {
+        await recordContentChangeRequest({
+          ...change,
+          parentSha,
+          commitSha,
+          editor: { payloadUserId },
+        })
+        parentSha = commitSha
+      }
+      const {
+        rows: [row],
+      } = await db.query(
+        `SELECT contributors FROM "${schema}".content_change_requests`
+      )
+      assert.deepEqual(row.contributors, [1, 2])
     } finally {
       try {
         await db.query(`DROP SCHEMA IF EXISTS "${schema}" CASCADE`)

@@ -74,6 +74,18 @@ type BranchSyncResponse = {
   decision?: BranchSyncDecision
   error?: string
   links?: BranchSyncLinks
+  message?: string
+  promotion?:
+    | { kind: 'fast-forward' }
+    | {
+        kind:
+          | 'release-pr'
+          | 'release-pr-fast-forward'
+          | 'release-pr-pending'
+          | 'release-pr-refused'
+        pullRequestNumber: number
+        pullRequestUrl: string
+      }
   updated?: boolean
 }
 
@@ -84,6 +96,10 @@ const getSyncStatusMessage = (
   response: BranchSyncResponse | null
 ): string | null => {
   if (!response || response.error || !response.decision) return null
+  if (response.promotion?.kind === 'release-pr-fast-forward')
+    return `Release PR #${response.promotion.pullRequestNumber} released to production.`
+  if (response.promotion && response.promotion.kind !== 'fast-forward')
+    return response.message ?? 'The CMS opened a release PR.'
   if (response.updated) return 'Production synced to develop.'
   if (response.decision.kind === 'already-synced') {
     return `Production already matches develop at ${shortSha(
@@ -436,7 +452,9 @@ export const ContentPrSaveButton = () => {
     setSyncing(true)
     try {
       const response = await fetch('/api/content-workflow/sync-production', {
+        body: '{}',
         credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
         method: 'POST',
       })
       const json = (await response.json()) as BranchSyncResponse
@@ -464,7 +482,12 @@ export const ContentPrSaveButton = () => {
   const syncStatusMessage = getSyncStatusMessage(syncResponse)
   const canSync =
     syncResponse?.decision?.kind === 'fast-forward' &&
-    syncResponse.updated !== true
+    syncResponse.updated !== true &&
+    !syncResponse.promotion
+  const releasePullRequest =
+    syncResponse?.promotion && syncResponse.promotion.kind !== 'fast-forward'
+      ? syncResponse.promotion
+      : null
   const hasStatusDetails =
     !statusPanelDismissed &&
     Boolean(
@@ -579,6 +602,16 @@ export const ContentPrSaveButton = () => {
               Merged PR #{mergeResult.pullRequestNumber ?? '?'}
             </a>
           ) : null}
+          {releasePullRequest ? (
+            <a
+              href={releasePullRequest.pullRequestUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={statusLinkStyle({})}
+            >
+              Release PR #{releasePullRequest.pullRequestNumber}
+            </a>
+          ) : null}
           {syncResponse?.links?.productionBranchUrl ? (
             <a
               href={syncResponse.links.productionBranchUrl}
@@ -620,7 +653,12 @@ export const ContentPrSaveButton = () => {
             </span>
           ) : null}
           {mergeResult?.error ? (
-            <span style={statusTextStyle({ tone: 'error' })}>Merge failed</span>
+            <span
+              style={statusTextStyle({ tone: 'error' })}
+              title={mergeResult.error}
+            >
+              Merge failed: {mergeResult.error}
+            </span>
           ) : null}
           {recentPr?.draft ? (
             <span style={statusTextStyle({ tone: 'warning' })}>

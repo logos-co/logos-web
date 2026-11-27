@@ -653,6 +653,24 @@ export interface ContentChangeRequest {
    * Payload user who triggered this change request.
    */
   createdBy?: (number | null) | User;
+  /**
+   * Ids of every Payload user who saved into this change request. None of them may merge it.
+   */
+  contributors?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  mergedBy?: (number | null) | User;
+  mergedAt?: string | null;
+  promotedBy?: (number | null) | User;
+  promotedAt?: string | null;
+  publishedBy?: (number | null) | User;
+  publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1034,6 +1052,13 @@ export interface ContentChangeRequestsSelect<T extends boolean = true> {
   status?: T;
   commitSha?: T;
   createdBy?: T;
+  contributors?: T;
+  mergedBy?: T;
+  mergedAt?: T;
+  promotedBy?: T;
+  promotedAt?: T;
+  publishedBy?: T;
+  publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

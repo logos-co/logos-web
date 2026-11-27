@@ -1,11 +1,13 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { isPublishEnvironment } from './environments'
 import { PublishBlockedError } from './trigger-publish'
+import { getEditorErrorMessage, logWorkflowError } from '../github-errors'
 import type { loadPublishStatus, triggerPublish } from './index'
 
 export interface SitePublishRouteDependencies {
-  authenticate: (headers: Headers) => Promise<boolean>
+  authenticate: (headers: Headers) => Promise<{ id: number } | null>
   loadPublishStatus: typeof loadPublishStatus
+  recordProductionPublish: (userId: number) => Promise<void>
   triggerPublish: typeof triggerPublish
 }
 
@@ -15,22 +17,23 @@ export const createSitePublishHandlers = (
   GET: (req: NextRequest) => Promise<NextResponse>
   POST: (req: NextRequest) => Promise<NextResponse>
 } => {
-  const requireUser = async (req: NextRequest): Promise<NextResponse | null> =>
-    (await dependencies.authenticate(req.headers))
-      ? null
-      : NextResponse.json({ error: 'Unauthenticated' }, { status: 401 })
+  const unauthenticated = (): NextResponse =>
+    NextResponse.json({ error: 'Unauthenticated' }, { status: 401 })
   const failure = (error: unknown): NextResponse =>
     NextResponse.json(
       {
-        error:
-          error instanceof Error ? error.message : 'Site publishing failed',
+        error: getEditorErrorMessage(
+          error,
+          'Site publishing failed',
+          'site-publish'
+        ),
       },
       { status: error instanceof PublishBlockedError ? 409 : 502 }
     )
   return {
     GET: async (req) => {
-      const blocked = await requireUser(req)
-      if (blocked) return blocked
+      if (!(await dependencies.authenticate(req.headers)))
+        return unauthenticated()
       try {
         return NextResponse.json(await dependencies.loadPublishStatus(), {
           headers: { 'Cache-Control': 'no-store' },
@@ -40,8 +43,8 @@ export const createSitePublishHandlers = (
       }
     },
     POST: async (req) => {
-      const blocked = await requireUser(req)
-      if (blocked) return blocked
+      const user = await dependencies.authenticate(req.headers)
+      if (!user) return unauthenticated()
       // Custom Next routes do not inherit Payload's endpoint CSRF checks.
       if (
         req.headers.get('sec-fetch-site') !== 'same-origin' ||
@@ -78,17 +81,23 @@ export const createSitePublishHandlers = (
           { status: 400 }
         )
       }
+      let result: Awaited<ReturnType<typeof dependencies.triggerPublish>>
       try {
-        return NextResponse.json(
-          await dependencies.triggerPublish(
-            body.environment,
-            typeof previewBuild === 'number' ? previewBuild : undefined
-          ),
-          { status: 202 }
+        result = await dependencies.triggerPublish(
+          body.environment,
+          typeof previewBuild === 'number' ? previewBuild : undefined
         )
       } catch (error) {
         return failure(error)
       }
+      if (body.environment === 'production') {
+        await dependencies
+          .recordProductionPublish(user.id)
+          .catch((error: unknown) =>
+            logWorkflowError('site-publish audit', error)
+          )
+      }
+      return NextResponse.json(result, { status: 202 })
     },
   }
 }

@@ -53,11 +53,12 @@ export const listOpenPullRequests = async (): Promise<PullRequestSummary[]> => {
 }
 
 /**
- * Find the PR for a given source branch. Returns `null` when no open PR
- * exists for that branch.
+ * Find the PR for a given source branch, optionally into one base branch.
+ * Returns `null` when no open PR exists for that branch.
  */
 export const findPullRequestByBranch = async (
-  branchName: string
+  branchName: string,
+  base?: string
 ): Promise<PullRequestSummary | null> => {
   const octokit = getOctokit()
   const { owner, repo } = getGithubConfig()
@@ -66,27 +67,30 @@ export const findPullRequestByBranch = async (
     repo,
     state: 'open',
     head: `${owner}:${branchName}`,
+    ...(base && { base }),
     per_page: 1,
   })
   return data[0] ? toSummary(data[0]) : null
 }
 
 /**
- * Create a PR from a content branch into the configured base branch.
- * Idempotent: if a PR already exists for the source branch, returns it.
+ * Create a PR from a branch into `base`, by default the configured PR base
+ * branch. Idempotent: if a PR already exists for the source branch, returns it.
  */
 export const createOrGetPullRequest = async ({
   branchName,
+  base,
   title,
   body,
   draft,
 }: {
   branchName: string
+  base?: string
   title: string
   body?: string
   draft?: boolean
 }): Promise<PullRequestSummary> => {
-  const existing = await findPullRequestByBranch(branchName)
+  const existing = await findPullRequestByBranch(branchName, base)
   if (existing) return existing
 
   const octokit = getOctokit()
@@ -95,7 +99,7 @@ export const createOrGetPullRequest = async ({
     owner,
     repo,
     head: branchName,
-    base: prBaseBranch,
+    base: base ?? prBaseBranch,
     title,
     body,
     draft,

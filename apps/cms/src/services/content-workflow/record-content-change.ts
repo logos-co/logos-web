@@ -32,6 +32,11 @@ export async function recordContentChangeRequest(
   const table = sql`${sql.identifier(adapter.schemaName ?? 'payload')}."content_change_requests"`
   let expectedSha: string | null = input.parentSha
   let expectedStatus = 'open'
+  const editorId = input.editor?.payloadUserId ?? null
+  const contributor =
+    editorId === null
+      ? sql`'[]'::jsonb`
+      : sql`jsonb_build_array(${editorId}::integer)`
 
   for (;;) {
     // The conflict predicate runs under the Postgres row lock. A delayed save
@@ -39,13 +44,18 @@ export async function recordContentChangeRequest(
     const saved = await db.execute<{
       id: number
     }>(sql`INSERT INTO ${table} AS mirror
-         (branch_name, content_type, target_path, pull_request_number, pull_request_url, commit_sha, created_by_id, status)
-       VALUES (${input.branchName}, ${input.contentType}, ${input.targetPath}, ${input.pullRequestNumber}, ${input.pullRequestUrl}, ${input.commitSha}, ${input.editor?.payloadUserId ?? null}, 'open')
+         (branch_name, content_type, target_path, pull_request_number, pull_request_url, commit_sha, created_by_id, contributors, status)
+       VALUES (${input.branchName}, ${input.contentType}, ${input.targetPath}, ${input.pullRequestNumber}, ${input.pullRequestUrl}, ${input.commitSha}, ${editorId}, ${contributor}, 'open')
        ON CONFLICT (branch_name) DO UPDATE SET
          content_type = EXCLUDED.content_type, target_path = EXCLUDED.target_path,
          pull_request_number = EXCLUDED.pull_request_number, pull_request_url = EXCLUDED.pull_request_url,
          commit_sha = EXCLUDED.commit_sha, status = 'open', updated_at = NOW(),
-         created_by_id = COALESCE(EXCLUDED.created_by_id, mirror.created_by_id)
+         created_by_id = COALESCE(EXCLUDED.created_by_id, mirror.created_by_id),
+         contributors = COALESCE(mirror.contributors, '[]'::jsonb) || (
+           SELECT COALESCE(jsonb_agg(added), '[]'::jsonb)
+           FROM jsonb_array_elements(EXCLUDED.contributors) AS added
+           WHERE NOT COALESCE(mirror.contributors, '[]'::jsonb) @> jsonb_build_array(added)
+         )
        WHERE mirror.commit_sha IS NOT DISTINCT FROM ${expectedSha} AND mirror.status = ${expectedStatus}
        RETURNING id`)
     if (saved.rows[0]) return saved.rows[0].id

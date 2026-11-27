@@ -20,7 +20,8 @@ const setup = (authenticated = true) => {
   return {
     submitted,
     handlers: createSitePublishHandlers({
-      authenticate: async () => authenticated,
+      authenticate: async () => (authenticated ? { id: 1 } : null),
+      recordProductionPublish: async () => undefined,
       loadPublishStatus: async () => {
         throw new Error('not configured')
       },
@@ -80,7 +81,8 @@ describe('site publish HTTP handlers', () => {
   })
   it('returns a conflict for a stale preview', async () => {
     const handlers = createSitePublishHandlers({
-      authenticate: async () => true,
+      authenticate: async () => ({ id: 1 }),
+      recordProductionPublish: async () => undefined,
       loadPublishStatus: setup().handlers.GET as never,
       triggerPublish: async () => {
         throw new PublishBlockedError('Review the latest preview')
@@ -113,7 +115,8 @@ describe('site publish HTTP handlers', () => {
   })
   it('maps GitHub Actions failures to 502 for status reads and submissions', async () => {
     const handlers = createSitePublishHandlers({
-      authenticate: async () => true,
+      authenticate: async () => ({ id: 1 }),
+      recordProductionPublish: async () => undefined,
       loadPublishStatus: async () => {
         throw new Error('GitHub Actions unavailable')
       },
@@ -130,5 +133,46 @@ describe('site publish HTTP handlers', () => {
         error: 'GitHub Actions unavailable',
       })
     }
+  })
+  it('hides raw GitHub client errors from editors', async () => {
+    const handlers = createSitePublishHandlers({
+      authenticate: async () => ({ id: 1 }),
+      recordProductionPublish: async () => undefined,
+      loadPublishStatus: async () => {
+        throw Object.assign(new Error('Bad credentials for app 123'), {
+          status: 401,
+        })
+      },
+      triggerPublish: async () => assert.fail('must not publish'),
+    })
+    const originalError = console.error
+    console.error = () => undefined
+    try {
+      const response = await handlers.GET(request({}))
+      assert.equal(response.status, 502)
+      assert.deepEqual(await response.json(), {
+        error: 'Site publishing failed',
+      })
+    } finally {
+      console.error = originalError
+    }
+  })
+  it('records who published a live build', async () => {
+    const recorded: number[] = []
+    const handlers = createSitePublishHandlers({
+      authenticate: async () => ({ id: 7 }),
+      recordProductionPublish: async (userId) => {
+        recorded.push(userId)
+      },
+      loadPublishStatus: async () => assert.fail('not used'),
+      triggerPublish: async (environment) => ({ environment, label: 'Live' }),
+    })
+    await handlers.POST(request({ environment: 'dev' }))
+    assert.deepEqual(recorded, [])
+    const response = await handlers.POST(
+      request({ environment: 'production', previewBuild: 12 })
+    )
+    assert.equal(response.status, 202)
+    assert.deepEqual(recorded, [7])
   })
 })

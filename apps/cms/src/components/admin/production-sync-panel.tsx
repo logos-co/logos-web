@@ -26,10 +26,24 @@ type BranchSyncComparison = {
   status: string
 }
 
+type BranchPromotion =
+  | { kind: 'fast-forward' }
+  | {
+      kind:
+        | 'release-pr'
+        | 'release-pr-fast-forward'
+        | 'release-pr-pending'
+        | 'release-pr-refused'
+      pullRequestNumber: number
+      pullRequestUrl: string
+    }
+
 type BranchSyncResponse = {
   comparison?: BranchSyncComparison
   decision?: BranchSyncDecision
   error?: string
+  message?: string
+  promotion?: BranchPromotion
   updated?: boolean
 }
 
@@ -43,6 +57,12 @@ const getStatusText = (response: BranchSyncResponse | null): string => {
     return 'Sync status unavailable'
 
   const { comparison, decision } = response
+  if (response.promotion?.kind === 'release-pr-fast-forward') {
+    return `Release PR #${response.promotion.pullRequestNumber} released: ${comparison.productionBranch} fast-forwarded to ${comparison.stagingBranch}.`
+  }
+  if (response.promotion && response.promotion.kind !== 'fast-forward') {
+    return response.message ?? 'The CMS opened a release PR.'
+  }
   if (response.updated) {
     return `${comparison.productionBranch} synced to ${comparison.stagingBranch}.`
   }
@@ -90,7 +110,9 @@ export const ProductionSyncPanel = () => {
     setPending(true)
     try {
       const res = await fetch('/api/content-workflow/sync-production', {
+        body: '{}',
         credentials: 'same-origin',
+        headers: { 'content-type': 'application/json' },
         method: 'POST',
       })
       const json = (await res.json()) as BranchSyncResponse
@@ -116,7 +138,13 @@ export const ProductionSyncPanel = () => {
   }, [fetchStatus])
 
   const canSync =
-    response?.decision?.kind === 'fast-forward' && response.updated !== true
+    response?.decision?.kind === 'fast-forward' &&
+    response.updated !== true &&
+    !response.promotion
+  const releasePullRequest =
+    response?.promotion && response.promotion.kind !== 'fast-forward'
+      ? response.promotion
+      : null
 
   return (
     <div
@@ -137,6 +165,16 @@ export const ProductionSyncPanel = () => {
         <div style={{ marginTop: 4, opacity: 0.78 }}>
           {getStatusText(response)}
         </div>
+        {releasePullRequest && (
+          <a
+            href={releasePullRequest.pullRequestUrl}
+            rel="noreferrer"
+            target="_blank"
+            style={{ cursor: 'pointer', display: 'inline-block', marginTop: 4 }}
+          >
+            Open release PR #{releasePullRequest.pullRequestNumber}
+          </a>
+        )}
       </div>
       <button
         type="button"

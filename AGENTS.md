@@ -35,13 +35,13 @@ pnpm check-types      # turbo: tsc --noEmit
 pnpm generate-types   # cms only
 ```
 
-`dev:*` filters run one app plus its dependencies (`dev:web`, `dev:cms`, `dev:api`, `dev:logos-crm`, `dev:past-present-future`). `test:release` is the full release gate, and it is what CI runs.
+`dev:*` filters run one app plus its dependencies (`dev:web`, `dev:cms`, `dev:api`, `dev:logos-crm`, `dev:past-present-future`). `test:release` is the full release gate that CI runs.
 
 ## Architecture rules
 
 1. `apps/web` reads `content/**` at build time and never calls the GitHub API at request time.
 2. CMS edits are PRs, not DB writes. Payload's Postgres keeps users, sessions, drafts, the open-PR mirror and publish reservations; published content changes through a PR against `develop`.
-3. Branch model: `develop` is default + staging, `master` is production. Direct commits to either are blocked. CMS-generated PRs target `develop`.
+3. `develop` is default + staging, `master` is production (fast-forward only; never merge release PRs). CMS PRs target `develop`. [Publishing](apps/cms/docs/publishing.md).
 
 ## Code conventions
 
