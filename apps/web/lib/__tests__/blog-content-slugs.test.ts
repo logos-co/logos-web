@@ -325,9 +325,12 @@ describe('staging preview queries', () => {
       vi.fn().mockResolvedValue(strapiPostPage([{ slug: 'published' }]))
     )
     const slugs = await getBlogArticleSlugs()
-    expect(slugs).toHaveLength(19)
+    expect(slugs).toHaveLength(106)
     expect(slugs).toContain('published')
     expect(slugs).toContain('waku-roadmap')
+    expect(slugs).toContain('2025-year-in-review')
+    expect(slugs).toContain('codex-july-updates')
+    expect(slugs).not.toContain('unrelated-draft')
   })
 
   it('reads approved drafts only on staging; other details remain live-only', async () => {
@@ -359,5 +362,52 @@ describe('isPublishedPost', () => {
       false
     )
     expect(isPublishedPost({ isDraft: false, publishedAt: null })).toBe(false)
+  })
+})
+
+describe('CMS image metadata', () => {
+  it('keeps image alternatives separate from caption markup and falls back to the article title', async () => {
+    useStrapi()
+    for (const alternativeText of ['Source diagram description', null]) {
+      const slug = alternativeText ? 'described-cover' : 'caption-only-cover'
+      vi.stubGlobal(
+        'fetch',
+        vi.fn().mockResolvedValue(
+          jsonResponse({
+            data: {
+              posts: {
+                data: [
+                  {
+                    id: slug,
+                    attributes: {
+                      slug,
+                      title: 'Article title',
+                      publish_date: '2025-01-01',
+                      cover_image: {
+                        data: {
+                          attributes: {
+                            url: '/uploads/cover.png',
+                            width: 1200,
+                            height: 630,
+                            alternativeText,
+                            caption:
+                              '<span style="white-space:pre-wrap">Image credit</span>',
+                          },
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          })
+        )
+      )
+      const article = await getBlogArticleDetail(slug)
+      expect(article.coverImage).toMatchObject({
+        alt: alternativeText || 'Article title',
+        caption: 'Image credit',
+      })
+    }
   })
 })

@@ -14,8 +14,8 @@ afterEach(() => {
 })
 
 describe('public staging article previews', () => {
-  it('allows only the selected Waku slugs on staging', () => {
-    expect(getPressPreviewSlugs()).toHaveLength(18)
+  it('allows only the selected migrated slugs on staging', () => {
+    expect(getPressPreviewSlugs()).toHaveLength(105)
     expect(
       isPressPreviewArticle({ slug: 'waku-roadmap', publishedAt: '2023-11-17' })
     ).toBe(true)
