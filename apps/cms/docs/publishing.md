@@ -75,8 +75,10 @@ commit; squash and rebase merges would give it new SHAs. **Sync production** on 
 Requests list works like this:
 
 1. If a `develop` to `master` release PR is open, the CMS releases it once it is approved: some
-   reviewer's latest review approves the PR's current head, and no reviewer's latest review requests
-   changes. Right before the update it checks that `develop` still points at that head and that
+   reviewer with write access (owner, member or collaborator) has a latest review that approves the
+   PR's current head, and no reviewer with write access has a latest review that requests changes.
+   Reviews from accounts without write access are ignored, because anyone can review a public repo.
+   Right before the update it checks that `develop` still points at that head and that
    `master` is an ancestor of it, then fast-forwards `master` to the head, never with force. GitHub
    marks the PR as merged on its own once its commits are reachable from `master` (see
    [indirect merges](https://docs.github.com/en/pull-requests/reference/pull-request-merges#indirect-merges)).

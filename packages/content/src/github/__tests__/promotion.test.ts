@@ -183,7 +183,12 @@ describe('syncProductionBranchToStaging', () => {
       pullRequestUrl: 'https://github.com/pr/9',
     }
     const approved = [
-      { commitId: 'develop-sha', reviewer: 'alice', state: 'APPROVED' },
+      {
+        authorAssociation: 'MEMBER',
+        commitId: 'develop-sha',
+        reviewer: 'alice',
+        state: 'APPROVED',
+      },
     ]
     const withReleasePr = (
       overrides: Partial<SyncProductionDependencies> = {}
@@ -211,7 +216,12 @@ describe('syncProductionBranchToStaging', () => {
     it('waits when the approval is for an older commit', async () => {
       const { calls, sync } = withReleasePr({
         listReviews: async () => [
-          { commitId: 'old-sha', reviewer: 'alice', state: 'APPROVED' },
+          {
+            authorAssociation: 'MEMBER',
+            commitId: 'old-sha',
+            reviewer: 'alice',
+            state: 'APPROVED',
+          },
         ],
       })
       const result = await sync()
@@ -219,12 +229,54 @@ describe('syncProductionBranchToStaging', () => {
       assert.deepEqual(result.promotion, { kind: 'release-pr-pending', ...ref })
     })
 
+    it('ignores an approval from a reviewer without write access', async () => {
+      const { calls, sync } = withReleasePr({
+        listReviews: async () => [
+          {
+            authorAssociation: 'NONE',
+            commitId: 'develop-sha',
+            reviewer: 'outsider',
+            state: 'APPROVED',
+          },
+        ],
+      })
+      const result = await sync()
+      assert.deepEqual(calls, [])
+      assert.deepEqual(result.promotion, { kind: 'release-pr-pending', ...ref })
+    })
+
+    it('releases on a maintainer approval despite an outsider review', async () => {
+      const { calls, sync } = withReleasePr({
+        listReviews: async () => [
+          ...approved,
+          {
+            authorAssociation: 'FIRST_TIME_CONTRIBUTOR',
+            commitId: 'develop-sha',
+            reviewer: 'outsider',
+            state: 'CHANGES_REQUESTED',
+          },
+        ],
+      })
+      await sync()
+      assert.deepEqual(calls, ['fast-forward master develop-sha'])
+    })
+
     it('waits while a reviewer still requests changes', async () => {
       const { calls, sync } = withReleasePr({
         listReviews: async () => [
           ...approved,
-          { commitId: 'old-sha', reviewer: 'bob', state: 'CHANGES_REQUESTED' },
-          { commitId: 'develop-sha', reviewer: 'bob', state: 'COMMENTED' },
+          {
+            authorAssociation: 'MEMBER',
+            commitId: 'old-sha',
+            reviewer: 'bob',
+            state: 'CHANGES_REQUESTED',
+          },
+          {
+            authorAssociation: 'MEMBER',
+            commitId: 'develop-sha',
+            reviewer: 'bob',
+            state: 'COMMENTED',
+          },
         ],
       })
       const result = await sync()
@@ -235,9 +287,19 @@ describe('syncProductionBranchToStaging', () => {
     it('uses the latest review of each reviewer', async () => {
       const { calls, sync } = withReleasePr({
         listReviews: async () => [
-          { commitId: 'old-sha', reviewer: 'bob', state: 'CHANGES_REQUESTED' },
+          {
+            authorAssociation: 'MEMBER',
+            commitId: 'old-sha',
+            reviewer: 'bob',
+            state: 'CHANGES_REQUESTED',
+          },
           ...approved,
-          { commitId: 'develop-sha', reviewer: 'bob', state: 'APPROVED' },
+          {
+            authorAssociation: 'MEMBER',
+            commitId: 'develop-sha',
+            reviewer: 'bob',
+            state: 'APPROVED',
+          },
         ],
       })
       await sync()

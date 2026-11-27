@@ -175,14 +175,23 @@ export interface ReleasePullRequest {
 }
 
 export interface PullRequestReview {
+  authorAssociation: string
   commitId: string | null
   reviewer: string
   state: string
 }
 
+/** Associations GitHub gives reviewers who can write to a public repo. */
+const writeAccessAuthorAssociations = new Set([
+  'COLLABORATOR',
+  'MEMBER',
+  'OWNER',
+])
+
 /**
- * True when some reviewer's latest review approves `headSha` and no
- * reviewer's latest review requests changes. Reviews arrive oldest first.
+ * True when some reviewer with write access approved `headSha` and no reviewer
+ * with write access requests changes. Reviews arrive oldest first. Association
+ * comes from the review, because anyone can review a public repo.
  */
 export const isReleasePullRequestApproved = (
   reviews: readonly PullRequestReview[],
@@ -191,6 +200,7 @@ export const isReleasePullRequestApproved = (
   const latest = new Map<string, PullRequestReview>()
   for (const review of reviews) {
     if (review.state === 'COMMENTED' || review.state === 'PENDING') continue
+    if (!writeAccessAuthorAssociations.has(review.authorAssociation)) continue
     latest.set(review.reviewer, review)
   }
   const states = [...latest.values()]
@@ -401,6 +411,7 @@ export const syncProductionBranchToStaging =
         { owner, repo, pull_number: pullRequestNumber, per_page: 100 }
       )
       return reviews.map((review) => ({
+        authorAssociation: review.author_association,
         commitId: review.commit_id ?? null,
         reviewer: review.user?.login ?? String(review.id),
         state: review.state,
