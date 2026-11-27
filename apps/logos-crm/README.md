@@ -7,13 +7,17 @@ one shared token, and it runs on `http://localhost:3004`.
 ## Run
 
 The quickest way is Docker Compose, which starts PostgreSQL, applies migrations, loads the demo
-seed and serves the app on port 3004:
+seed and serves the app on port 3004. Compose refuses to start without `CRM_AUTH_TOKEN`:
 
-    docker compose -f apps/logos-crm/compose.yaml up --build
+    CRM_AUTH_TOKEN=$(openssl rand -hex 32) docker compose -f apps/logos-crm/compose.yaml up --build
 
 To run the app outside Docker you still need PostgreSQL. `.env.example` points at the Compose
-database on `localhost:5434`, so `docker compose -f apps/logos-crm/compose.yaml up crm-db` is
-enough. Then, from the repo root:
+database on `localhost:5434`, so starting only `crm-db` is enough (Compose still needs the token
+set):
+
+    CRM_AUTH_TOKEN=$(openssl rand -hex 32) docker compose -f apps/logos-crm/compose.yaml up crm-db
+
+Then, from the repo root:
 
     pnpm --filter logos-crm db:migrate
     pnpm --filter logos-crm db:seed
@@ -27,9 +31,7 @@ running `db:seed`.
 Copy `.env.example` to `.env`. `DATABASE_URL` is a PostgreSQL connection string. `CRM_AUTH_TOKEN`
 is the shared access token: `pnpm dev:logos-crm` works without it, but `next start` and Docker
 answer 401 to everything until it is set. Send it as `Authorization: Bearer <token>`, or enter it as
-the password in the browser prompt (any user name). Compose refuses to start without it:
-
-    CRM_AUTH_TOKEN=$(openssl rand -hex 32) docker compose -f apps/logos-crm/compose.yaml up --build
+the password in the browser prompt (any user name).
 
 ## Deploy
 
