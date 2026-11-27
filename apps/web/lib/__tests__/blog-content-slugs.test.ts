@@ -325,9 +325,12 @@ describe('staging preview queries', () => {
       vi.fn().mockResolvedValue(strapiPostPage([{ slug: 'published' }]))
     )
     const slugs = await getBlogArticleSlugs()
-    expect(slugs).toHaveLength(19)
+    expect(slugs).toHaveLength(106)
     expect(slugs).toContain('published')
     expect(slugs).toContain('waku-roadmap')
+    expect(slugs).toContain('2025-year-in-review')
+    expect(slugs).toContain('codex-july-updates')
+    expect(slugs).not.toContain('unrelated-draft')
   })
 
   it('reads approved drafts only on staging; other details remain live-only', async () => {

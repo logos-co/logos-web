@@ -150,6 +150,13 @@ for (const asset of Object.values(plan.assets)) {
   }
   if (!file?.id) throw new Error(`Upload missing: ${asset.name}`)
   uploads.set(asset.url, file)
+  if (
+    uploads.size % 25 === 0 ||
+    uploads.size === Object.keys(plan.assets).length
+  )
+    process.stdout.write(
+      `Assets verified: ${uploads.size}/${Object.keys(plan.assets).length}\n`
+    )
 }
 const imported: Array<{ slug: string; id: number }> = []
 for (const article of plan.articles) {
