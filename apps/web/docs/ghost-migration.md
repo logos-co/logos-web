@@ -39,7 +39,7 @@ Tag identifiers follow the existing CMS convention: spaces and hyphens become un
 
 A preview built from the prepared snapshot does not imply that CMS import succeeded. Check `imported.json` and re-read all 87 CMS posts before reporting that the CMS drafts exist. If the CMS is unavailable, keep the import pending and label the deployed site as a snapshot preview.
 
-Verification compares every complete exported article against captured source paragraphs, headings, captions, literal code blocks, images and video counts. It also checks local anchor targets, noindex, search inclusion and exclusion from the sitemap and feed. Local fragment links remain fragments during conversion so the normal HTML sanitiser can namespace footnote IDs and their links together. Follow this with desktop and mobile browser checks.
+Verification compares every complete exported article against captured source paragraphs, headings, captions, literal code blocks, images and video counts. It also checks local anchor targets, noindex, search inclusion and exclusion from the sitemap and feed. Local fragment links remain fragments during conversion so the normal media navigation can resolve namespaced footnote IDs, including repeated clicks on the same reference. Follow this with desktop and mobile browser checks.
 
 Publish reviewed CMS posts and capture a new version 1 snapshot before production promotion. Coordinate the generated `redirects.json` map with the infrastructure owner only after production destinations are verified. See [deployment](../../../docs/deployment.md) for the normal staging and production process.
 

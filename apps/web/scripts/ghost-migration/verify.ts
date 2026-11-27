@@ -82,6 +82,11 @@ for (const article of plan.articles) {
   )!
   assert(body, `Body absent: ${article.slug}`)
   const rendered = elements(body)
+  const articleNode = nodes.find((node) => node.tagName === 'article')!
+  const prefix = String(
+    nodes.find((node) => node.properties.dataMediaAnchorPrefix)?.properties
+      .dataMediaAnchorPrefix ?? ''
+  )
   const targets = new Set(rendered.map((node) => node.properties.id))
   for (const anchor of rendered.filter((node) => node.tagName === 'a')) {
     const href = anchor.properties.href
@@ -92,11 +97,22 @@ for (const article of plan.articles) {
       url.hash
     )
       assert(
-        targets.has(decodeURIComponent(url.hash.slice(1))),
+        [url.hash.slice(1), prefix + url.hash.slice(1)].some((id) =>
+          targets.has(decodeURIComponent(id))
+        ),
         `Missing anchor target: ${article.slug} ${href}`
       )
   }
-  const articleNode = nodes.find((node) => node.tagName === 'article')!
+  for (const link of sourceElements.filter((node) => node.tagName === 'a')) {
+    const href = link.properties.href
+    if (typeof href === 'string' && href.startsWith('#'))
+      assert(
+        rendered.some(
+          (node) => node.tagName === 'a' && node.properties.href === href
+        ),
+        `Local fragment link changed: ${article.slug} ${href}`
+      )
+  }
   const hero = elements(articleNode, 'header')[0]!
   const cover = elements(hero, 'img')[0]
   if (cover)
