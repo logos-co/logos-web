@@ -5,7 +5,9 @@ import { logger } from './logger'
 export function allowContentFetchFailure(
   label: string,
   error: unknown,
-  sourceOverride?: 'ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE'
+  sourceOverride?:
+    | 'ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE'
+    | 'ALLOW_BROADCAST_EVENTS_FETCH_FAILURE'
 ): void {
   const flag =
     sourceOverride && env[sourceOverride]

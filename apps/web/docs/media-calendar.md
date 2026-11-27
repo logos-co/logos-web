@@ -4,22 +4,21 @@ The `/media/calendar` page lists live streams, updates and regular programming a
 
 ## Page structure
 
-The page renders two sections on an `accent-tan` background. `MediaListingIntro` renders the page heading and the `Logos Media` back link; `description` is optional on it and this page leaves it out. `MediaEventsCalendar` receives `copy`, `details` and `referenceTime` from the page, loads the events through `LiveBroadcastEvents`, and renders `EventsCalendar` with those events, `details`, `syncMonthToUrl` and `compact`.
+The page renders two sections on an `accent-tan` background. `MediaListingIntro` renders the page heading and the `Logos Media` back link; `description` is optional on it and this page leaves it out. The server page reads `getBroadcastEvents()` from the build snapshot and passes the events, `copy`, `details` and `referenceTime` to `MediaEventsCalendar`, which renders `EventsCalendar` with `syncMonthToUrl` and `compact`.
 
 ## Shared calendar
 
 The calendar used to sit in `app/[locale]/logos-broadcast-network/_sections/`. It moved to `components/sections/events-calendar/` so the broadcast page and the media calendar can share it.
 
-| File                         | Role                                                                          |
-| ---------------------------- | ----------------------------------------------------------------------------- |
-| `events-calendar.tsx`        | Client component: month state, URL sync, hydration switch, layout              |
-| `live-broadcast-events.tsx`  | Fetches events in the browser; renders loading, error and retry states        |
-| `media-events-calendar.tsx`  | Media page wrapper: `LiveBroadcastEvents` around `EventsCalendar`             |
-| `calendar-dates.ts`          | Date helpers: day grid, opening anchor, year options, `?year=&month=` parsing |
-| `calendar-days.tsx`          | Desktop `CalendarCell` and mobile `MobileDayCarousel`                         |
-| `calendar-controls.tsx`      | `MonthSelect`, `YearSelect`, previous / today / next buttons                  |
-| `event-details.tsx`          | Details panel for the selected day                                            |
-| `types.ts`                   | `EventsCalendarCopy`, `EventDetailsCopy`                                      |
+| File                        | Role                                                                          |
+| --------------------------- | ----------------------------------------------------------------------------- |
+| `events-calendar.tsx`       | Client component: month state, URL sync, hydration switch, layout             |
+| `media-events-calendar.tsx` | Media page wrapper passing build-time events to `EventsCalendar`              |
+| `calendar-dates.ts`         | Date helpers: day grid, opening anchor, year options, `?year=&month=` parsing |
+| `calendar-days.tsx`         | Desktop `CalendarCell` and mobile `MobileDayCarousel`                         |
+| `calendar-controls.tsx`     | `MonthSelect`, `YearSelect`, previous / today / next buttons                  |
+| `event-details.tsx`         | Details panel for the selected day                                            |
+| `types.ts`                  | `EventsCalendarCopy`, `EventDetailsCopy`                                      |
 
 ```ts
 interface EventsCalendarProps {
@@ -55,11 +54,27 @@ The broadcast page passes neither `details` nor `syncMonthToUrl`, so it behaves 
 
 ## Events data
 
-Events are loaded in the browser by `LiveBroadcastEvents` from `<origin>/calendar/public`. `lib/broadcast-events.ts` takes the origin from `NEXT_PUBLIC_ADMIN_ACID_API_URL` (read through `lib/env.ts`) and falls back to `https://admin-acid.logos.co/api` when it is unset, so the endpoint a given deployment uses depends on its environment. It requests uncached data, and `parseBroadcastEvents` from `@repo/content/calendar` validates and maps the response. Neither the media calendar nor the Broadcast Network event cards fetch events during the static build, so admin changes do not require a website deployment.
+[`scripts/sync-broadcast-events.ts`](../scripts/sync-broadcast-events.ts) runs during `build:assets`. It reads `<origin>/calendar/public`, with the origin from the server-only `ADMIN_ACID_API_URL` (through [`lib/env.ts`](../lib/env.ts)), defaulting to `https://admin-acid.logos.co/api`. `ADMIN_ACID_API_AUTHORIZATION` optionally supplies an Authorization header accepted by the upstream proxy; configure that access with the infrastructure team. Requests bypass the cache, time out after ten seconds and validate the complete response with the shared `@repo/content/calendar` schema.
 
-The shared React Query cache refreshes on each mount, every minute while the page is visible, and on focus or reconnect when stale (after one minute). Each response replaces the complete list, including edits and deletions. The Broadcast Network cards and calendar use the same response. Loading and request failures show the translated `calendar.loading` and `calendar.error` messages from `messages/<locale>.json`, and failures add a `calendar.retry` button; an error is never shown as an empty schedule. A successful empty list still displays the calendar.
+The sync strips fields the calendar does not use and atomically writes [`lib/data/broadcast-events.snapshot.json`](../lib/data/broadcast-events.snapshot.json), including its `generatedAt` capture time. A successful empty response replaces the snapshot with an empty list, so removed events do not return. Failed requests or invalid responses fail the build and leave the existing deployed site intact. During an outage, `ALLOW_CONTENT_FETCH_FAILURE=1` or the calendar-only `ALLOW_BROADCAST_EVENTS_FETCH_FAILURE=1` permits the build to validate and reuse the committed snapshot. Commit refreshed snapshots periodically so a clean checkout has a recent fallback. The initial snapshot contains 49 events captured from the public-feed route in an authenticated administrator session while anonymous requests were blocked by OAuth2 Proxy.
 
-`BroadcastEventRow` carries `typeLabel`, `topic`, `guest`, `speakers`, `notes` and `links`. Placeholder values such as `null` or blank strings are dropped. The API must allow the website origin through CORS. It allows `logos.co` and `dev.logos.co`; local development and other preview origins need an API origin that permits their requests.
+Both server pages call [`lib/broadcast-events.ts`](../lib/broadcast-events.ts) during the static export and pass the captured events to their client components. Browsers never call admin-acid for calendar events and do not poll or retry. CORS and backend availability cannot affect an already deployed calendar. Event additions, edits and deletions appear after the next successful build and deployment. `BroadcastEventRow` carries `typeLabel`, `topic`, `guest`, `speakers`, `notes` and `links`; placeholder values such as `null` or blank strings are dropped.
+
+### Reviewed snapshots
+
+Set `BROADCAST_EVENTS_SNAPSHOT` to an existing snapshot file to reuse it without a live request or a new capture time. The file must contain a valid calendar response and an ISO `generatedAt` timestamp; a missing or invalid reviewed snapshot fails the build rather than silently using different live data. The Site publish workflow and Jenkins capture calendar events for staging and archive them alongside the press snapshot. Production promotion restores both reviewed snapshots, so the published calendar matches the staging review even if events changed meanwhile.
+
+### Event change trigger
+
+The [Site publish workflow](../../../.github/workflows/site-publish.yml) accepts an authenticated GitHub `repository_dispatch` with `event_type: "calendar-updated"`. It always rebuilds staging from `develop`, even if the payload requests production. The existing reviewed-preview promotion is still required for production.
+
+The sender in admin-acid must dispatch this event after a successful event create, edit, delete or CSV import. That backend hook and its GitHub App credentials are an external integration requirement; this web repository implements the receiver. No backend change notifications are sent by the browser. For example, the trusted backend can POST the following body to `https://api.github.com/repos/logos-co/logos-web/dispatches` with a repository-scoped GitHub App token:
+
+```json
+{ "event_type": "calendar-updated" }
+```
+
+This trigger starts a new capture, so keep the upstream read credentials available to the build runner. A capture failure leaves the prior deployment in place and fails the run.
 
 ## Opening position and selection
 
@@ -81,7 +96,7 @@ The heading is the selected date, for example `13 October 2026`. Each event, in 
 
 ## Timezone behaviour
 
-The static HTML contains the loading state. Events are fetched after hydration and placed using the viewer's timezone. The shared calendar retains its hydration guard for date and URL handling, and the details panel shows viewer-local times.
+The static HTML contains saved events placed on their UTC dates. The first client render uses the same dates to avoid a hydration mismatch, then the shared calendar places them in the viewer's timezone. The details panel shows viewer-local times.
 
 ## URL state
 

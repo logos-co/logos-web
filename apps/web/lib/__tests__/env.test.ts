@@ -23,7 +23,9 @@ afterEach(() => {
 describe('env', () => {
   test('defaults NODE_ENV to development and keeps empty optional values undefined', async () => {
     const { env } = await loadEnv({
-      NEXT_PUBLIC_ADMIN_ACID_API_URL: '',
+      ADMIN_ACID_API_URL: '',
+      ADMIN_ACID_API_AUTHORIZATION: '',
+      BROADCAST_EVENTS_SNAPSHOT: '',
       NEXT_PUBLIC_API_MODE: '',
       NEXT_PUBLIC_CMS_URL: '',
       NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION: '',
@@ -32,7 +34,9 @@ describe('env', () => {
 
     expect(env).toMatchObject({
       NODE_ENV: 'development',
-      NEXT_PUBLIC_ADMIN_ACID_API_URL: undefined,
+      ADMIN_ACID_API_URL: undefined,
+      ADMIN_ACID_API_AUTHORIZATION: undefined,
+      BROADCAST_EVENTS_SNAPSHOT: undefined,
       NEXT_PUBLIC_API_MODE: undefined,
       NEXT_PUBLIC_CMS_URL: undefined,
       NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION: false,

@@ -5,6 +5,7 @@ import type { BroadcastCopySection } from '@repo/content/schemas'
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
+import { getBroadcastEvents } from '@/lib/broadcast-events'
 import { getLatestBlogPodcasts } from '@/lib/blog-engine'
 
 import { BroadcastNetworkPage } from './_sections/broadcast-network-page'
@@ -41,11 +42,12 @@ export default async function LogosBroadcastNetworkPage({
   const data = findSection<BroadcastCopySection>(
     page.sections,
     'broadcastCopy',
-    'logosBroadcastNetwork.copy',
+    'logosBroadcastNetwork.copy'
   )
 
   return (
     <BroadcastNetworkPage
+      events={getBroadcastEvents()}
       podcasts={podcasts}
       referenceTime={Date.now()}
       copy={{

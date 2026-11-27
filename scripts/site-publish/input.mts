@@ -18,6 +18,7 @@ const record = (value: unknown): Record<string, unknown> => {
 
 export const publicationInput = (event: unknown): PublicationInput => {
   const data = record(event)
+  if (data.action === 'calendar-updated') return { environment: 'dev' }
   const input = record(data.client_payload ?? data.inputs)
   if (input.environment !== 'dev' && input.environment !== 'production')
     throw new Error('environment must be dev or production')

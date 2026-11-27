@@ -79,7 +79,7 @@ pipeline {
           copyArtifacts(
             projectName: '/website/dev.logos.co',
             selector: specific(params.PREVIEW_BUILD),
-            filter: 'press-snapshot.json',
+            filter: 'press-snapshot.json,apps/web/lib/data/broadcast-events.snapshot.json',
             fingerprintArtifacts: true,
           )
         }
@@ -104,8 +104,13 @@ pipeline {
                 // Resolve media once so feeds, cards and article pages use the same content.
                 nix.develop('pnpm --filter web exec tsx scripts/capture-press-snapshot.ts',
                   keepEnv: ['STRAPI_API_KEY', 'SIMPLECAST_ACCESS_TOKEN', 'NEXT_PUBLIC_API_MODE'])
+                nix.develop('pnpm --filter web sync:broadcast-events',
+                  keepEnv: ['ADMIN_ACID_API_URL', 'ADMIN_ACID_API_AUTHORIZATION'])
               }
-              withEnv(["PRESS_CONTENT_SNAPSHOT=${env.WORKSPACE}/press-snapshot.json"]) {
+              withEnv([
+                "PRESS_CONTENT_SNAPSHOT=${env.WORKSPACE}/press-snapshot.json",
+                "BROADCAST_EVENTS_SNAPSHOT=${env.WORKSPACE}/apps/web/lib/data/broadcast-events.snapshot.json",
+              ]) {
                 // External CMS changes do not change Turbo's source hash.
                 nix.develop('pnpm turbo run build --filter=web --force',
                   keepEnv: [
@@ -114,7 +119,8 @@ pipeline {
                     'NEXT_PUBLIC_API_MODE',
                     'STRAPI_API_KEY',
                     'SIMPLECAST_ACCESS_TOKEN',
-                    'PRESS_CONTENT_SNAPSHOT'
+                    'PRESS_CONTENT_SNAPSHOT',
+                    'BROADCAST_EVENTS_SNAPSHOT'
                   ]
                 )
               }
@@ -177,7 +183,7 @@ pipeline {
   post {
     success {
       // Only successful previews expose a promotable snapshot to the master job.
-      archiveArtifacts artifacts: 'press-snapshot.json', fingerprint: true
+      archiveArtifacts artifacts: 'press-snapshot.json,apps/web/lib/data/broadcast-events.snapshot.json', fingerprint: true
     }
     cleanup { cleanWs() }
   }

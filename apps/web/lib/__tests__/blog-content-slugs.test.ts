@@ -11,7 +11,6 @@ import {
 const { envStub } = vi.hoisted(() => ({
   envStub: {
     NEXT_PUBLIC_API_MODE: undefined as string | undefined,
-    NEXT_PUBLIC_ADMIN_ACID_API_URL: undefined as string | undefined,
     SIMPLECAST_ACCESS_TOKEN: undefined as string | undefined,
     STRAPI_API_KEY: undefined as string | undefined,
   },

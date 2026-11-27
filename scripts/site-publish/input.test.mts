@@ -8,6 +8,18 @@ import {
 } from './input.mts'
 
 describe('site publication input', () => {
+  it('rebuilds staging for calendar changes even if the payload requests production', () => {
+    assert.deepEqual(publicationInput({ action: 'calendar-updated' }), {
+      environment: 'dev',
+    })
+    assert.deepEqual(
+      publicationInput({
+        action: 'calendar-updated',
+        client_payload: { environment: 'production', previewBuild: 42 },
+      }),
+      { environment: 'dev' }
+    )
+  })
   it('accepts App dispatches and manual workflow runs', () => {
     assert.deepEqual(
       publicationInput({ client_payload: { environment: 'dev' } }),

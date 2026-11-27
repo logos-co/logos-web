@@ -2,6 +2,7 @@ import { calendarResponseSchema, type CalendarEvent } from './schema'
 import type { BroadcastEventRow } from './types'
 
 export type { BroadcastEventRow } from './types'
+export { calendarResponseSchema } from './schema'
 
 const formatEventDateLabel = (iso: string) =>
   new Intl.DateTimeFormat('en-US', {

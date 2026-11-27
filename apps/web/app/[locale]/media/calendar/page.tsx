@@ -4,6 +4,7 @@ import type { MediaCalendarCopySection } from '@repo/content/schemas'
 
 import { MediaEventsCalendar } from '@/components/sections/events-calendar/media-events-calendar'
 import { MediaListingIntro } from '@/components/sections/media/media-listing-intro'
+import { getBroadcastEvents } from '@/lib/broadcast-events'
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
@@ -41,6 +42,7 @@ export default async function MediaCalendarPage({
         }}
       />
       <MediaEventsCalendar
+        events={getBroadcastEvents()}
         referenceTime={Date.now()}
         copy={data.calendar}
         details={data.details}

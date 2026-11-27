@@ -1,21 +1,17 @@
 'use client'
 
+import type { BroadcastEventRow } from '@repo/content/calendar'
+
 import { EventsCalendar } from './events-calendar'
-import { LiveBroadcastEvents } from './live-broadcast-events'
 import type { EventDetailsCopy, EventsCalendarCopy } from './types'
 
 interface MediaEventsCalendarProps {
+  events: BroadcastEventRow[]
   copy: EventsCalendarCopy
   details: EventDetailsCopy
   referenceTime: number
 }
 
 export function MediaEventsCalendar(props: MediaEventsCalendarProps) {
-  return (
-    <LiveBroadcastEvents>
-      {(events) => (
-        <EventsCalendar {...props} events={events} syncMonthToUrl compact />
-      )}
-    </LiveBroadcastEvents>
-  )
+  return <EventsCalendar {...props} syncMonthToUrl compact />
 }

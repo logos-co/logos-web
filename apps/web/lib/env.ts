@@ -41,10 +41,12 @@ export type Env = {
    * content pipeline reads from local files, not this URL.
    */
   NEXT_PUBLIC_CMS_URL: string | undefined
-  /**
-   * Public calendar API origin used by the browser for live event listings.
-   */
-  NEXT_PUBLIC_ADMIN_ACID_API_URL: string | undefined
+  /** Server-side calendar API origin used only by the snapshot build step. */
+  ADMIN_ACID_API_URL: string | undefined
+  /** Optional Authorization header accepted by the calendar API's proxy. */
+  ADMIN_ACID_API_AUTHORIZATION: string | undefined
+  /** Reviewed calendar snapshot to reuse without fetching live events. */
+  BROADCAST_EVENTS_SNAPSHOT: string | undefined
   /**
    * Server-side Strapi API token for legacy Logos Press Engine content.
    */
@@ -72,13 +74,15 @@ export type Env = {
   /** Allow manual city and country entry while the cities API is unavailable. */
   NEXT_PUBLIC_FUNNEL_MANUAL_LOCATION: boolean
   /**
-   * Outage switch for build-time content fetches (blog CMS media and active
-   * circles). When set, a failed fetch falls back to the committed snapshot
-   * in `lib/data/` instead of failing the build.
+   * Outage switch for build-time content fetches (blog CMS media, active
+   * circles and broadcast events). Failed fetches use committed snapshots
+   * in `lib/data/` instead of failing the build when enabled.
    */
   ALLOW_CONTENT_FETCH_FAILURE: boolean
   /** Allow the active circles sync alone to keep its committed snapshot. */
   ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE: boolean
+  /** Allow the broadcast events sync alone to keep its committed snapshot. */
+  ALLOW_BROADCAST_EVENTS_FETCH_FAILURE: boolean
 }
 
 function assertOneOf<T extends string>(
@@ -135,8 +139,12 @@ export const env: Env = {
   ),
   BASE_PATH: readOptionalString(process.env.BASE_PATH),
   NEXT_PUBLIC_CMS_URL: readOptionalString(process.env.NEXT_PUBLIC_CMS_URL),
-  NEXT_PUBLIC_ADMIN_ACID_API_URL: readOptionalString(
-    process.env.NEXT_PUBLIC_ADMIN_ACID_API_URL
+  ADMIN_ACID_API_URL: readOptionalString(process.env.ADMIN_ACID_API_URL),
+  ADMIN_ACID_API_AUTHORIZATION: readOptionalString(
+    process.env.ADMIN_ACID_API_AUTHORIZATION
+  ),
+  BROADCAST_EVENTS_SNAPSHOT: readOptionalString(
+    process.env.BROADCAST_EVENTS_SNAPSHOT
   ),
   STRAPI_API_KEY: readOptionalString(process.env.STRAPI_API_KEY),
   GITHUB_TOKEN: readOptionalString(process.env.GITHUB_TOKEN),
@@ -174,6 +182,13 @@ export const env: Env = {
       process.env.ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE,
       ['0', '1'] as const,
       'ALLOW_ACTIVE_CIRCLES_FETCH_FAILURE',
+      true
+    ) === '1',
+  ALLOW_BROADCAST_EVENTS_FETCH_FAILURE:
+    assertOneOf(
+      process.env.ALLOW_BROADCAST_EVENTS_FETCH_FAILURE,
+      ['0', '1'] as const,
+      'ALLOW_BROADCAST_EVENTS_FETCH_FAILURE',
       true
     ) === '1',
 }

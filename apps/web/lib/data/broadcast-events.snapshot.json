@@ -1,0 +1,825 @@
+{
+  "generatedAt": "2026-11-27T15:19:57.176Z",
+  "success": true,
+  "data": [
+    {
+      "id": 49,
+      "date": "2025-11-11",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "Community",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 48,
+      "date": "2025-11-06",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Tech winners",
+      "speakers": [
+        "Sterlin",
+        "Chair"
+      ],
+      "topic": "Building the Commons: Tools for Freedom",
+      "notes": "Vaclav, hackathon winners",
+      "links": []
+    },
+    {
+      "id": 47,
+      "date": "2025-11-04",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "community",
+      "speakers": [
+        "Sterlin",
+        "Amelia",
+        "Roxana"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 46,
+      "date": "2025-10-30",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Edge City",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "Human Potential Meets Cypherpunk",
+      "notes": "Timour Koster",
+      "links": []
+    },
+    {
+      "id": 45,
+      "date": "2025-10-28",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "community",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 44,
+      "date": "2025-10-23",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Mykola (Web 3 Privacy Now)",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "The Drivers of Cypherpunk",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 43,
+      "date": "2025-10-21",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "community",
+      "speakers": [
+        "Sterlin",
+        "Chair",
+        "Amelia",
+        "Roxana"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 42,
+      "date": "2025-10-16",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Ben Colier",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "The Secret History of Tor",
+      "notes": "Ben Colier",
+      "links": []
+    },
+    {
+      "id": 41,
+      "date": "2025-10-14",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "community",
+      "speakers": [
+        "Amelia",
+        "Roxana",
+        "Chair",
+        "Sterlin"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 40,
+      "date": "2025-10-09",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Lyudmila",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "Debanked: When Privacy Becomes a Crime",
+      "notes": "Lyudmila",
+      "links": []
+    },
+    {
+      "id": 39,
+      "date": "2025-10-07",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "community",
+      "speakers": [
+        "Sterlin",
+        "Chair",
+        "Amelia",
+        "Roxana"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 38,
+      "date": "2025-10-02",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Harry Halpin",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "Sovereignty and privacy: The Nym Way",
+      "notes": "Harry Halpin",
+      "links": []
+    },
+    {
+      "id": 37,
+      "date": "2025-10-01",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Internet Archive",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "Activist Spotlight: Saving the Archive",
+      "notes": "Internet Archive",
+      "links": []
+    },
+    {
+      "id": 36,
+      "date": "2025-09-30",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "community",
+      "speakers": [
+        "Sterlin",
+        "Chair",
+        "Amelia",
+        "Roxana",
+        "Isaac"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 35,
+      "date": "2025-09-25",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Community",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "Privacy is Nonnegotiable",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 34,
+      "date": "2025-09-23",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "Community",
+      "speakers": [
+        "Sterlin",
+        "Chair",
+        "Amelia",
+        "Roxana"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 33,
+      "date": "2025-09-18",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Logos Commiunity",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "From States to Networks",
+      "notes": "Logos community",
+      "links": []
+    },
+    {
+      "id": 32,
+      "date": "2025-09-16",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "Community",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 31,
+      "date": "2025-09-15",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Simon, Deca",
+      "speakers": [
+        "Roxana",
+        "Chair"
+      ],
+      "topic": "Are New Governance Models on the Horizon",
+      "notes": "Simon, Deca",
+      "links": []
+    },
+    {
+      "id": 30,
+      "date": "2025-09-12",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "community",
+      "speakers": [
+        "Sterlin",
+        "Chair",
+        "Roxana",
+        "Arseniy"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 29,
+      "date": "2025-09-11",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Michel Bauwens",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "Geopolitics, Cosmolocalism, and the Cyberstate",
+      "notes": "Michel",
+      "links": []
+    },
+    {
+      "id": 28,
+      "date": "2025-09-09",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "Community",
+      "speakers": [
+        "Sterlin",
+        "Chair",
+        "Roxana"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 27,
+      "date": "2025-09-04",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Martha",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "Grassroots Activism and Freer Human Futures",
+      "notes": "Martha Bueno",
+      "links": []
+    },
+    {
+      "id": 26,
+      "date": "2025-09-02",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "Communiy",
+      "speakers": [
+        "Sterlin",
+        "Arseniy",
+        "Chair"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 25,
+      "date": "2025-08-21",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Jason, Matt",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "Free Thought in the Cyberstate",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 24,
+      "date": "2025-08-19",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "Comunity",
+      "speakers": [
+        "Sterlin",
+        "Arseniy",
+        "Roxana",
+        "Chair"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 23,
+      "date": "2025-08-14",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Anna Riedl",
+      "speakers": [
+        "Sterlin",
+        "Roxana",
+        "Chair"
+      ],
+      "topic": "Cognitive Sovereignty and the Cyberstate",
+      "notes": "Courting Anna Reidl as the guest",
+      "links": []
+    },
+    {
+      "id": 22,
+      "date": "2025-08-12",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "Community",
+      "speakers": [
+        "Sterlin",
+        "Chair",
+        "Amelia",
+        "Roxana"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 21,
+      "date": "2025-08-07",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Zano",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "In Cryptography we Trust",
+      "notes": "Zano guest",
+      "links": []
+    },
+    {
+      "id": 20,
+      "date": "2025-08-05",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "Community",
+      "speakers": [
+        "Sterlin",
+        "Chair",
+        "Roxana",
+        "Arseniy"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 19,
+      "date": "2025-07-31",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Paul Puey",
+      "speakers": [
+        "Sterlin",
+        "Chair"
+      ],
+      "topic": "Cypherpunk Now: Self-Custody, Privacy, and  the Peer-to-Peer Frontier",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 18,
+      "date": "2025-07-29",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "Community",
+      "speakers": [
+        "Sterlin",
+        "Chair",
+        "Roxana",
+        "Arseniy",
+        "Amelia"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 17,
+      "date": "2025-07-24",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Aaron Day",
+      "speakers": [
+        "Sterlin",
+        "Chair"
+      ],
+      "topic": "CBDCs and Stablecoins: Is it Time to Exit?",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 16,
+      "date": "2025-07-22",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "Community",
+      "speakers": [
+        "Chair",
+        "Sterlin",
+        "Roxana"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 15,
+      "date": "2025-07-17",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Ned",
+      "speakers": [
+        "Sterlin",
+        "Arseniy"
+      ],
+      "topic": "From Gameworlds to Cyberstates",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 14,
+      "date": "2025-07-15",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "Community",
+      "speakers": [
+        "Amelia",
+        "Roxana",
+        "Sterlin"
+      ],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 13,
+      "date": "2025-07-10",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Logos",
+      "speakers": [
+        "Sterlin",
+        "Cyp",
+        "Arseniy"
+      ],
+      "topic": "Ready Network Citizen: Gaming to Kickstart Parallel Economies",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 12,
+      "date": "2025-07-08",
+      "time": "00:00",
+      "type": {
+        "label": "Tuesday Circle",
+        "value": "tuesday-circle"
+      },
+      "guest": "Community",
+      "speakers": [],
+      "topic": "Logos Circle: Online",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 11,
+      "date": "2025-07-03",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Zanzalu",
+      "speakers": [],
+      "topic": "Zanzalu: Building an Innovation Ecosystem IRL",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 10,
+      "date": "2025-06-26",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Ernesto",
+      "speakers": [],
+      "topic": "Centralisation, IFFs and Corruption",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 9,
+      "date": "2025-06-19",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Balaji",
+      "speakers": [],
+      "topic": "Nation States and Network States",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 8,
+      "date": "2025-06-12",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Roc Zacharias",
+      "speakers": [],
+      "topic": "Are Blockchain Communities Inevitable?",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 7,
+      "date": "2025-06-05",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "John Vibes",
+      "speakers": [],
+      "topic": "Collaboration and Conflict in a Post-State Future",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 6,
+      "date": "2025-05-29",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Veronica Shrenk",
+      "speakers": [],
+      "topic": "Exile and Exit in Cyberstates",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 5,
+      "date": "2025-05-22",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Jan (Puncar) Brezina (maybe Kevin Owocki)",
+      "speakers": [],
+      "topic": "Limits of Blockchain-Based Governance",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 4,
+      "date": "2025-05-13",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Corey Petty, Jessie Santiago",
+      "speakers": [],
+      "topic": "Infrastructure for Exit",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 3,
+      "date": "2025-05-06",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Rose O'Leary",
+      "speakers": [
+        "Sterlin"
+      ],
+      "topic": "Cypherpunks as the New Enlightenment Philosophers",
+      "notes": null,
+      "links": []
+    },
+    {
+      "id": 2,
+      "date": "2025-04-29",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Timour Koster",
+      "speakers": [
+        "Amelia"
+      ],
+      "topic": "What comes after the nation state?",
+      "notes": "₩₩1",
+      "links": []
+    },
+    {
+      "id": 1,
+      "date": "2025-04-22",
+      "time": "00:00",
+      "type": {
+        "label": "Thursday Spaces",
+        "value": "thursday-spaces"
+      },
+      "guest": "Peter Ludlow",
+      "speakers": [
+        "Sterlin",
+        "Chair",
+        "Amelia"
+      ],
+      "topic": "Are nation states obsolete?",
+      "notes": null,
+      "links": []
+    }
+  ]
+}
