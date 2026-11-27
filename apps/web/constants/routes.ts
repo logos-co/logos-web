@@ -29,6 +29,7 @@ export const ROUTES = {
   storage: '/technology-stack/storage',
 
   // Case studies
+  caseStudies: '/case-studies',
   muster: '/case-studies/muster',
   fieldStationCaseStudy: '/case-studies/field-station',
 

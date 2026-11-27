@@ -65,6 +65,7 @@ const staticIndexableRoutes = [
   ROUTES.networking,
   ROUTES.storage,
   ROUTES.terms,
+  // /case-studies is excluded until the empty index page has content.
   // /contact is excluded -- it redirects to the homepage and should not be indexed
   ROUTES.activistBuilder,
   ROUTES.activistLeaderSteward,
