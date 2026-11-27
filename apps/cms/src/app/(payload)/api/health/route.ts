@@ -134,12 +134,12 @@ const withTimeout = async <T>(
  *      inactive databases.
  *
  * Public, unauthenticated. Returns no internal detail beyond OK / not-OK so
- * it is safe to expose. Cache disabled — every poll must hit the DB to be
+ * it is safe to expose; failure details go to the server log only. Cache disabled — every poll must hit the DB to be
  * meaningful as a keep-alive.
  *
  * Response:
  *   200 { ok: true,  db: "ok",   latencyMs: number }
- *   503 { ok: false, db: "down", error: string }
+ *   503 { ok: false, db: "down", latencyMs: number }
  */
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -154,15 +154,12 @@ export const GET = async (): Promise<NextResponse> => {
       { headers: { 'Cache-Control': 'no-store' } }
     )
   } catch (err) {
+    console.error('CMS health check failed', {
+      detail: formatError(err),
+      diagnostics: getDatabaseDiagnostics(),
+    })
     return NextResponse.json(
-      {
-        ok: false,
-        db: 'down',
-        detail: formatError(err),
-        diagnostics: getDatabaseDiagnostics(),
-        error: err instanceof Error ? err.message : String(err),
-        latencyMs: Date.now() - startedAt,
-      },
+      { ok: false, db: 'down', latencyMs: Date.now() - startedAt },
       { status: 503, headers: { 'Cache-Control': 'no-store' } }
     )
   }
