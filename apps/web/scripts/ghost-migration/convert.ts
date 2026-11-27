@@ -139,7 +139,11 @@ export function convertPost(
         blockIndex: toc.length,
       })
     }
-    if (node.tagName === 'a' && typeof node.properties.href === 'string') {
+    if (
+      node.tagName === 'a' &&
+      typeof node.properties.href === 'string' &&
+      !node.properties.href.startsWith('#')
+    ) {
       const url = new URL(node.properties.href, post.url)
       if (
         ['blog.nomos.tech', 'blog.codex.storage'].includes(url.hostname) &&
@@ -159,8 +163,7 @@ export function convertPost(
         url.href === 'https://blog.codex.storage/what-is-depin/codex.storage'
       )
         node.properties.href = 'https://codex.storage/'
-      else if (!node.properties.href.startsWith('#'))
-        node.properties.href = url.href
+      else node.properties.href = url.href
     }
     if (node.tagName === 'img' && typeof node.properties.src === 'string') {
       const url = new URL(node.properties.src, post.url).href

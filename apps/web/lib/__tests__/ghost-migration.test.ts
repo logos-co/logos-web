@@ -55,7 +55,7 @@ describe('Ghost article conversion', () => {
       post(
         '<h1 id="heading">Heading</h1><pre><code>&lt;UploadFileResponse&gt;</code></pre><figure><img src="/content/images/a.png" alt="Alternative"><figcaption>Caption</figcaption></figure><a href="#note">1</a><p id="note">Footnote</p>'
       ),
-      new Map()
+      new Map([['https://blog.nomos.tech/source', '/media/article/source']])
     )
     expect(result.body).toContain('<h2 id="heading">Heading</h2>')
     expect(result.body).toMatch(/(?:&lt;|&#x3C;)UploadFileResponse>/)

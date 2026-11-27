@@ -82,6 +82,20 @@ for (const article of plan.articles) {
   )!
   assert(body, `Body absent: ${article.slug}`)
   const rendered = elements(body)
+  const targets = new Set(rendered.map((node) => node.properties.id))
+  for (const anchor of rendered.filter((node) => node.tagName === 'a')) {
+    const href = anchor.properties.href
+    if (typeof href !== 'string') continue
+    const url = new URL(href, `https://logos.co/media/article/${article.slug}`)
+    if (
+      url.pathname.replace(/\/$/, '') === `/media/article/${article.slug}` &&
+      url.hash
+    )
+      assert(
+        targets.has(decodeURIComponent(url.hash.slice(1))),
+        `Missing anchor target: ${article.slug} ${href}`
+      )
+  }
   const articleNode = nodes.find((node) => node.tagName === 'article')!
   const hero = elements(articleNode, 'header')[0]!
   const cover = elements(hero, 'img')[0]
