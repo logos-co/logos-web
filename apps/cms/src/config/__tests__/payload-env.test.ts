@@ -97,7 +97,7 @@ const readPayloadCollections = async (): Promise<
 
 const readPayloadRuntimeURLs = async (
   overrides: Record<string, string | undefined>
-): Promise<{ csrf: string[]; serverURL: string }> => {
+): Promise<{ cors: string[]; csrf: string[]; serverURL: string }> => {
   const env = { ...process.env }
   for (const [key, value] of Object.entries(overrides)) {
     if (value === undefined) {
@@ -116,7 +116,7 @@ const readPayloadRuntimeURLs = async (
       [
         "const { default: configPromise } = await import('./payload.config.ts')",
         'const config = await configPromise',
-        'console.log(JSON.stringify({ csrf: config.csrf, serverURL: config.serverURL }))',
+        'console.log(JSON.stringify({ cors: config.cors, csrf: config.csrf, serverURL: config.serverURL }))',
       ].join('; '),
     ],
     {
@@ -125,7 +125,11 @@ const readPayloadRuntimeURLs = async (
     }
   )
 
-  return JSON.parse(stdout) as { csrf: string[]; serverURL: string }
+  return JSON.parse(stdout) as {
+    cors: string[]
+    csrf: string[]
+    serverURL: string
+  }
 }
 
 describe('Payload production env guard', () => {
@@ -207,12 +211,30 @@ describe('Payload production env guard', () => {
 
     assert.equal(runtimeURLs.serverURL, 'https://cms.logos.co')
   })
+
+  it('allows credentialed requests from the CMS origin only', async () => {
+    const runtimeURLs = await readPayloadRuntimeURLs({
+      DATABASE_URL: 'postgresql://user:pass@localhost:5432/logos',
+      NEXT_PUBLIC_SERVER_URL: 'https://cms.logos.co',
+      NEXT_PUBLIC_WEB_URL: 'https://logos.co',
+      NODE_ENV: 'production',
+      PAYLOAD_SECRET: 'test-secret',
+      VERCEL: undefined,
+      VERCEL_URL: undefined,
+    })
+
+    assert.deepEqual(runtimeURLs.cors, ['https://cms.logos.co'])
+    assert.deepEqual([...new Set(runtimeURLs.csrf)], ['https://cms.logos.co'])
+  })
 })
 
 describe('Payload Vercel env propagation', () => {
   it('exposes Payload runtime tuning env vars to the Turborepo build task', async () => {
     const turboConfig = JSON.parse(
-      await readFile(new URL('../../../../../turbo.json', import.meta.url), 'utf8')
+      await readFile(
+        new URL('../../../../../turbo.json', import.meta.url),
+        'utf8'
+      )
     ) as { tasks?: { build?: { env?: string[] } } }
 
     const buildEnv = new Set(turboConfig.tasks?.build?.env ?? [])
@@ -224,7 +246,11 @@ describe('Payload Vercel env propagation', () => {
       'PAYLOAD_DB_IDLE_TIMEOUT_MS',
       'PAYLOAD_HEALTH_TIMEOUT_MS',
     ]) {
-      assert.equal(buildEnv.has(name), true, `${name} must be listed in turbo.json build.env`)
+      assert.equal(
+        buildEnv.has(name),
+        true,
+        `${name} must be listed in turbo.json build.env`
+      )
     }
   })
 })
