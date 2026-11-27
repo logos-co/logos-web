@@ -64,8 +64,14 @@ export const validateReviewedRun = (
 
 export const validateDeployedPreview = (
   marker: unknown,
-  previewBuild: number
+  previewBuild: number,
+  masterSha: string
 ): void => {
-  if (record(marker).runId !== previewBuild)
+  const data = record(marker)
+  if (data.runId !== previewBuild)
     throw new Error('Staging has changed. Build and review a new preview.')
+  if (data.sourceSha !== masterSha)
+    throw new Error(
+      'master does not match the reviewed preview. Promote it, then build and review a new preview.'
+    )
 }

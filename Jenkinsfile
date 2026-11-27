@@ -1,20 +1,16 @@
 #!/usr/bin/env groovy
 library 'status-jenkins-lib@v1.9.24'
 
+// Each stage gets its own agent and a clean checkout, so code that runs during the web build
+// cannot change the publishing tools or the CMS sources before they are used. Only the CMS
+// image stage mounts the Docker socket, and only the publish stage holds the SSH key.
+
 pipeline {
 
-  agent {
-    docker {
-      label 'linuxcontainer'
-      image 'harbor.status.im/infra/ci-build-containers:linux-base-1.0.0'
-      args '--volume=/nix:/nix ' +
-           '--volume=/etc/nix:/etc/nix ' +
-           '--volume=/var/run/docker.sock:/var/run/docker.sock ' +
-           '--user jenkins'
-    }
-  }
+  agent none
 
   options {
+    skipDefaultCheckout()
     disableConcurrentBuilds()
     copyArtifactPermission('/website/logos.co')
     buildDiscarder(logRotator(
@@ -45,16 +41,6 @@ pipeline {
       description: 'Public hCaptcha site key for the apps/web hCaptcha widget.',
     )
     string(
-      name: 'DOCKER_CRED',
-      description: 'Name of Docker Registry credential.',
-      defaultValue: params.DOCKER_CRED ?: 'harbor-logos-web-robot',
-    )
-    string(
-      name: 'DOCKER_REGISTRY_URL',
-      description: 'URL of the Docker Registry',
-      defaultValue: params.DOCKER_REGISTRY_URL ?: 'https://harbor.status.im',
-    )
-    string(
       name: 'IMAGE_TAG',
       description: 'Image tag',
       defaultValue: params.IMAGE_TAG ?: deployBranch(),
@@ -68,27 +54,32 @@ pipeline {
 
   stages {
 
-    stage('Restore reviewed media') {
-      when { expression { params.SITE_PUBLISH && isMasterBranch() } }
-      steps {
-        script {
-          if (!(params.PREVIEW_BUILD ==~ /[1-9][0-9]*/)) {
-            error('Review dev.logos.co and select its successful build number before publishing live.')
-          }
-          // The deployed website jobs are named after domains, not Git branches.
-          copyArtifacts(
-            projectName: '/website/dev.logos.co',
-            selector: specific(params.PREVIEW_BUILD),
-            filter: 'press-snapshot.json',
-            fingerprintArtifacts: true,
-          )
+    stage('Build the web app') {
+      agent {
+        docker {
+          label 'linuxcontainer'
+          image 'harbor.status.im/infra/ci-build-containers:linux-base-1.0.0'
+          args '--volume=/nix:/nix ' +
+               '--volume=/etc/nix:/etc/nix ' +
+               '--user jenkins'
         }
       }
-    }
-
-    stage('Build the web app') {
       steps {
+        cleanWs()
+        checkout scm
         script {
+          if (params.SITE_PUBLISH && isMasterBranch()) {
+            if (!(params.PREVIEW_BUILD ==~ /[1-9][0-9]*/)) {
+              error('Review dev.logos.co and select its successful build number before publishing live.')
+            }
+            // The deployed website jobs are named after domains, not Git branches.
+            copyArtifacts(
+              projectName: '/website/dev.logos.co',
+              selector: specific(params.PREVIEW_BUILD),
+              filter: 'press-snapshot.json',
+              fingerprintArtifacts: true,
+            )
+          }
           /* The /media pages are built from the blog CMS (Strapi) and Simplecast,
            * so the build fails without these. */
           withCredentials([
@@ -121,11 +112,27 @@ pipeline {
             }
           }
         }
+        stash name: 'web-export', includes: 'apps/web/out/**', useDefaultExcludes: false
+        stash name: 'press-snapshot', includes: 'press-snapshot.json'
       }
+      post { cleanup { cleanWs() } }
     }
 
     stage('Publish web app') {
+      agent {
+        docker {
+          label 'linuxcontainer'
+          image 'harbor.status.im/infra/ci-build-containers:linux-base-1.0.0'
+          args '--volume=/nix:/nix ' +
+               '--volume=/etc/nix:/etc/nix ' +
+               '--user jenkins'
+        }
+      }
       steps {
+        cleanWs()
+        checkout scm
+        unstash 'web-export'
+        unstash 'press-snapshot'
         sshagent(credentials: ['status-im-auto-ssh']) {
           script {
             nix.develop("""
@@ -140,46 +147,46 @@ pipeline {
             """, sandbox: false,
                  keepEnv: ['SSH_AUTH_SOCK'])
           }
-         }
+        }
+        // Only published previews expose a promotable snapshot to the master job.
+        archiveArtifacts artifacts: 'press-snapshot.json', fingerprint: true
       }
+      post { cleanup { cleanWs() } }
     }
 
-    stage('Build CMS docker image') {
+    stage('Build and push CMS docker image') {
       when { expression { !params.SITE_PUBLISH } }
-      steps {
-        script {
-          withCredentials([string(credentialsId: 'logos-cms-actions-encryption-key', variable: 'NEXT_SERVER_ACTIONS_ENCRYPTION_KEY')]) {
-            image = docker.build(
-              "${params.IMAGE_NAME}:${params.IMAGE_TAG}",
-              "--build-arg NEXT_PUBLIC_SERVER_URL=https://${cmsDomain()} " +
-              "--build-arg NEXT_PUBLIC_WEB_URL=https://${deployDomain()} " +
-              "--build-arg NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=${NEXT_SERVER_ACTIONS_ENCRYPTION_KEY} " +
-              "-f ./apps/cms/Dockerfile ."
-            )
-          }
+      agent {
+        docker {
+          label 'linuxcontainer'
+          image 'harbor.status.im/infra/ci-build-containers:linux-base-1.0.0'
+          args '--volume=/var/run/docker.sock:/var/run/docker.sock --user jenkins'
         }
       }
-    }
-
-    stage('Push CMS docker image'){
-      when { expression { !params.SITE_PUBLISH } }
       steps {
+        cleanWs()
+        checkout scm
         script {
+          withCredentials([string(credentialsId: 'logos-cms-actions-encryption-key', variable: 'NEXT_SERVER_ACTIONS_ENCRYPTION_KEY')]) {
+            withEnv(['DOCKER_BUILDKIT=1']) {
+              image = docker.build(
+                "${params.IMAGE_NAME}:${params.IMAGE_TAG}",
+                "--build-arg NEXT_PUBLIC_SERVER_URL=https://${cmsDomain()} " +
+                "--build-arg NEXT_PUBLIC_WEB_URL=https://${deployDomain()} " +
+                '--secret id=next_server_actions_encryption_key,env=NEXT_SERVER_ACTIONS_ENCRYPTION_KEY ' +
+                '-f ./apps/cms/Dockerfile .'
+              )
+            }
+          }
           withDockerRegistry([
-            credentialsId: params.DOCKER_CRED, url: params.DOCKER_REGISTRY_URL
+            credentialsId: 'harbor-logos-web-robot', url: 'https://harbor.status.im'
           ]) {
             image.push()
           }
         }
       }
+      post { cleanup { cleanWs() } }
     }
-  }
-  post {
-    success {
-      // Only successful previews expose a promotable snapshot to the master job.
-      archiveArtifacts artifacts: 'press-snapshot.json', fingerprint: true
-    }
-    cleanup { cleanWs() }
   }
 }
 def isMasterBranch() { GIT_BRANCH ==~ /.*master/ }

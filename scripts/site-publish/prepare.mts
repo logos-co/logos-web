@@ -41,6 +41,9 @@ const deployBranch = live ? 'deploy-master' : 'deploy-develop'
 const baseline = await github<{ object: { sha: string } }>(
   `git/ref/heads/${deployBranch}`
 )
+const source = await github<{ object: { sha: string } }>(
+  `git/ref/heads/${live ? 'master' : 'develop'}`
+)
 let stagingBaseline = ''
 if (input.environment === 'production') {
   const run = await github<ReviewedRun>(`actions/runs/${input.previewBuild}`)
@@ -76,14 +79,15 @@ if (input.environment === 'production') {
   )
   validateDeployedPreview(
     JSON.parse(Buffer.from(marker.content, 'base64').toString('utf8')),
-    input.previewBuild!
+    input.previewBuild!,
+    source.object.sha
   )
 }
 await appendFile(
   required('GITHUB_OUTPUT'),
   [
     `environment=${input.environment}`,
-    `source_ref=${live ? 'master' : 'develop'}`,
+    `source_sha=${source.object.sha}`,
     `deploy_branch=${deployBranch}`,
     `deploy_baseline=${baseline.object.sha}`,
     `staging_baseline=${stagingBaseline}`,

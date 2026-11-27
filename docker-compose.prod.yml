@@ -35,9 +35,11 @@ services:
     build:
       context: .
       dockerfile: apps/cms/Dockerfile
+      # A BuildKit secret, so the key stays out of the image history.
+      secrets:
+        - next_server_actions_encryption_key
       args:
         # Baked into the production build — changing these requires a rebuild.
-        NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: ${NEXT_SERVER_ACTIONS_ENCRYPTION_KEY}
         NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL}
         NEXT_PUBLIC_WEB_URL: ${NEXT_PUBLIC_WEB_URL}
     restart: unless-stopped
@@ -78,3 +80,7 @@ services:
 volumes:
   pgdata:
   cms_uploads:
+
+secrets:
+  next_server_actions_encryption_key:
+    environment: NEXT_SERVER_ACTIONS_ENCRYPTION_KEY

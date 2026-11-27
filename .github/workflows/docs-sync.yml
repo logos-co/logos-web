@@ -27,7 +27,7 @@ jobs:
       contents: write
       pull-requests: write
       statuses: write
-    uses: acid-info/ai-tools/.github/workflows/ai-docs-sync.yml@ai-docs-sync/v1
+    uses: acid-info/ai-tools/.github/workflows/ai-docs-sync.yml@40bde8349e34b75af6d6cbd92d7c8dd0eff6324b # ai-docs-sync/v1
     with:
       # Optional. Forces the target branch. Omitted: `develop` if it exists, else the default
       # branch. Lives here rather than in .github/docs-sync.yml because the config file is read

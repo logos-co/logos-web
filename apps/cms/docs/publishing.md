@@ -65,7 +65,8 @@ but only the CMS workflow creates, edits or deletes them.
   changing them. The dispatch itself uses Contents, and the status and snapshot checks use Actions.
 - The `STRAPI_API_KEY` and `SIMPLECAST_ACCESS_TOKEN` repository secrets, which the staging build
   already uses. The App ID goes in the `SITE_PUBLISH_APP_ID` repository variable and a private key
-  for that App in the `SITE_PUBLISH_APP_PRIVATE_KEY` secret. No Vault or CMS host variables are
+  for that App in the `SITE_PUBLISH_APP_PRIVATE_KEY` secret of the `site-publish` environment,
+  whose deployment branches are limited to `develop` and `master`. No Vault or CMS host variables are
   involved.
 - The CMS App on the push allowlist of `deploy-master`, next to `status-im-auto` and every other
   entry branch protection already has. The workflow's own `GITHUB_TOKEN` cannot push there.
@@ -73,8 +74,9 @@ but only the CMS workflow creates, edits or deletes them.
   the workflow polls `site-publish.json` on the deployed site and only reports success once that
   marker shows the new build.
 
-The workflow creates a short-lived installation token just before publishing and revokes it when
-the job ends. Jenkins code deployments are a separate path and keep working as before.
+The workflow builds the site in one job and publishes it from another, which downloads the export
+and never runs the site code. Only that job creates a short-lived installation token, and the
+token is revoked when the job ends. Jenkins code deployments are a separate path and keep working as before.
 
 ## Media snapshots
 
@@ -102,5 +104,7 @@ migration before enabling the buttons.
 Both environments are serialised and pushed as fast-forwards, so the workflow records the
 deployment branch it is about to extend and rejects the publish if another publisher moved it in
 the meantime. A live publish also rechecks the staging marker, which catches a preview that Jenkins
-or someone else replaced, including a change made while the live build was running. In all these
+or someone else replaced, including a change made while the live build was running, and refuses
+to start unless `master` points at the commit the reviewed preview was built from. Promote first,
+then build a new staging preview if `master` and `develop` differ. In all these
 cases you get a failure in the card, not a half-published site: rebuild staging and publish again.

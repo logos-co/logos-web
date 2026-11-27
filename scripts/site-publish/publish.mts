@@ -14,6 +14,12 @@ if (
 )
   throw new Error('The deployment branch and site URL do not match')
 
+const sourceSha = process.env.SOURCE_SHA
+if (!sourceSha || !/^[0-9a-f]{40}$/.test(sourceSha))
+  throw new Error('The built source commit is required')
+const exportDirectory = process.env.SITE_EXPORT
+if (!exportDirectory) throw new Error('The static export directory is required')
+
 const token = process.env.SITE_PUBLISH_TOKEN
 if (!token) throw new Error('The publishing App token is required')
 const git = (args: string[], cwd?: string): string =>
@@ -44,7 +50,7 @@ if (branch === 'deploy-master') {
     throw new Error('Staging changed during the build. Review a new preview.')
 }
 const directory = await mkdtemp(resolve(tmpdir(), 'logos-site-publish-'))
-const output = resolve('apps/web/out')
+const output = resolve(exportDirectory)
 await readFile(resolve(output, 'index.html'))
 await cp(output, directory, { recursive: true })
 await writeFile(resolve(directory, 'CNAME'), new URL(siteUrl).hostname + '\n')
@@ -54,7 +60,7 @@ await writeFile(
   resolve(directory, 'site-publish.json'),
   JSON.stringify({
     runId: Number(process.env.GITHUB_RUN_ID),
-    sourceSha: git(['rev-parse', 'HEAD']),
+    sourceSha,
     previewRunId: process.env.PREVIEW_BUILD
       ? Number(process.env.PREVIEW_BUILD)
       : null,
