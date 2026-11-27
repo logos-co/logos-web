@@ -15,8 +15,11 @@
   font-family: sans-serif;
 }
 
-.media-detail-content :where(h1, h2, h3, h4, h5, h6) {
+.media-detail-page :where([id], a[name]) {
   scroll-margin-top: 95px;
+}
+
+.media-detail-content :where(h1, h2, h3, h4, h5, h6) {
   color: var(--color-brand-dark-green);
   font-family: serif;
   font-weight: 400;

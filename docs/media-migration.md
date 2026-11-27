@@ -50,3 +50,9 @@ Once the new listings are live, add HTTP 301 redirects in the logos.co Cloudflar
 | `/podcasts/<show>` | `/media/podcasts` |
 
 These infrastructure rules are managed outside this repository. Leave article and episode detail URLs unchanged.
+
+## Nomos and Codex
+
+The 41 public Nomos articles and 46 public Codex articles captured on 26 November 2026 are published in `cms-press.logos.co`. Their 255 images and one PDF are stored in the CMS upload storage. The site reads them through the normal media loader and keeps published content in the standard outage snapshot. Article fragments and footnotes use the header offset in [the media styles](../apps/web/app/[locale]/media/media-detail.css), keeping the target visible below the navigation. Temporary migration scripts, source files and asset directories are no longer site inputs.
+
+After verifying the production destinations, configure the old hosts to redirect `/<slug>` to `https://logos.co/media/article/<slug>` for the captured article map, preserving query strings. Redirect each blog home to `https://logos.co/media/articles`. Retain the external source capture, asset backup, import receipt and redirect map until the infrastructure redirects have been verified.
