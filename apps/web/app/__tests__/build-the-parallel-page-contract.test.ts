@@ -73,7 +73,7 @@ describe('build the parallel page contract', () => {
     )
 
     expect(circlesMap?.cta).toMatchObject({
-      label: 'Propose a Cricle',
+      label: 'Propose a Circle',
       href: 'https://logos.co/activist-leader-steward',
       external: true,
     })
