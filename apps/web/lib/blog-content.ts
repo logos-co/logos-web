@@ -39,6 +39,51 @@ const MAX_SLUG_PAGES = 100
 export const CMS_PRESS_ORIGIN = 'https://cms-press.logos.co'
 const CMS_PRESS_GRAPHQL_URL = `${CMS_PRESS_ORIGIN}/graphql`
 const BODY_SNIPPET_LIMIT = 200
+/** About 28 times the largest article HTML file in the snapshot (73 KB). */
+export const MAX_HTML_FILE_BYTES = 2 * 1024 * 1024
+
+/** Only Strapi uploads may be downloaded and published as article HTML. */
+export function resolvePressUploadUrl(rawUrl: string): string {
+  const url = new URL(rawUrl, CMS_PRESS_ORIGIN)
+  if (
+    url.origin !== CMS_PRESS_ORIGIN ||
+    !url.pathname.startsWith('/uploads/')
+  ) {
+    throw new Error(
+      `Refusing HTML file outside ${CMS_PRESS_ORIGIN}/uploads/: ${rawUrl}`
+    )
+  }
+  return url.href
+}
+
+/** Downloads an article HTML upload without following redirects, capped in size. */
+export async function fetchPressHtmlFile(
+  rawUrl: string,
+  label: string
+): Promise<string> {
+  const url = resolvePressUploadUrl(rawUrl)
+  const response = await fetch(url, { cache: 'force-cache', redirect: 'error' })
+  if (!response.ok || !response.body) {
+    throw new Error(`${label} failed: status=${response.status} url=${url}`)
+  }
+
+  const reader = response.body.getReader()
+  const chunks: Uint8Array[] = []
+  let size = 0
+  for (;;) {
+    const { done, value } = await reader.read()
+    if (done) break
+    size += value.byteLength
+    if (size > MAX_HTML_FILE_BYTES) {
+      await reader.cancel()
+      throw new Error(
+        `${label} is larger than ${MAX_HTML_FILE_BYTES} bytes: url=${url}`
+      )
+    }
+    chunks.push(value)
+  }
+  return Buffer.concat(chunks).toString('utf8')
+}
 
 export interface BlogTag {
   id: string
@@ -204,8 +249,6 @@ export interface BlogPodcastDetail extends BlogPostMeta {
   relatedEpisodes: BlogPodcastDetail[]
   footnotes: BlogFootnote[]
 }
-
-type FetchResult<T> = { ok: true; data: T } | { ok: false; error: Error }
 
 type GraphqlResponse<T> = {
   data?: T
@@ -512,29 +555,6 @@ function normaliseArticleHtml(rawHtml: string): {
   )
 
   return { html, toc, footnotes }
-}
-
-async function tryFetchText(
-  url: string,
-  init: RequestInit,
-  label: string
-): Promise<FetchResult<string>> {
-  try {
-    const response = await fetch(url, init)
-    const text = await response.text()
-    if (!response.ok) {
-      return {
-        ok: false,
-        error: new Error(
-          `${label} failed: status=${response.status} url=${url} body=${truncate(text)}`
-        ),
-      }
-    }
-    return { ok: true, data: text }
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error)
-    return { ok: false, error: new Error(`${label} fetch threw: ${message}`) }
-  }
 }
 
 /**
@@ -1394,23 +1414,21 @@ async function getStrapiArticle(slug: string): Promise<BlogArticleDetail> {
   )
   const htmlFileUrl = post.attributes?.html_file?.data?.attributes?.url
   if (htmlFileUrl) {
-    const result = await tryFetchText(
-      resolveAssetUrl(htmlFileUrl),
-      { cache: 'force-cache' },
+    const fullHtml = await fetchPressHtmlFile(
+      htmlFileUrl,
       `Article ${slug} HTML document`
     )
-    if (!result.ok) throw result.error
 
     article.bodyHtml = undefined
     article.blocks = [
       {
         type: 'interactive-embed',
         title: article.title,
-        fullHtml: result.data,
+        fullHtml,
         html: '',
       },
     ]
-    article.readingTime = estimateReadingTime(result.data)
+    article.readingTime = estimateReadingTime(fullHtml)
   }
   article.discussion = await fetchDiscussion(article.discourseTopicId)
   return sanitiseMediaArticle(article)
