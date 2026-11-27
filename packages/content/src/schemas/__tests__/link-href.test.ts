@@ -13,6 +13,9 @@ test('linkHrefSchema rejects protocol-relative and other schemes', () => {
   for (const href of [
     '//evil.example',
     '//',
+    '/\\evil.example',
+    '/\\/evil.example',
+    '/\t/evil.example',
     'http://logos.co',
     'javascript:alert(1)',
   ]) {

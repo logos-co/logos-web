@@ -33,10 +33,12 @@ export const linkHrefSchema = z
   .min(1)
   .refine(
     (value) =>
-      (value.startsWith('/') && !value.startsWith('//')) ||
+      (value.startsWith('/') &&
+        !value.startsWith('//') &&
+        !/[\\\t\r\n]/.test(value)) ||
       value.startsWith('https://') ||
       value.startsWith('#'),
-    'href must start with "/" (internal, not "//"), "https://" (external), or "#" (anchor)'
+    'href must start with "/" (internal, not "//", no backslash, tab or newline), "https://" (external), or "#" (anchor)'
   )
 
 export const httpsUrlSchema = z
