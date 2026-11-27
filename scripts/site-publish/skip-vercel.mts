@@ -6,8 +6,6 @@ import { fileURLToPath } from 'node:url'
 export const vercelRootDirectories = [
   'apps/api',
   'apps/cms',
-  'apps/logos-crm',
-  'apps/logos-demos',
   'apps/web',
 ]
 
