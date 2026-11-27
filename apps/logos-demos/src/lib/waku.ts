@@ -41,6 +41,11 @@ export type ChatPayload = {
 export type ChatMessage = ChatPayload & {
   /** True when this browser is the sender. */
   fromSelf: boolean
+  /**
+   * When this browser received it. The list orders on `sentAt` clamped to
+   * this, because `sentAt` is whatever the sender claims.
+   */
+  receivedAt: number
 }
 
 export type NodeStatus = 'idle' | 'starting' | 'connecting' | 'ready' | 'failed'
@@ -57,6 +62,12 @@ export type NodeSnapshot = {
 }
 
 const MAX_TEXT_LENGTH = 512
+
+/** How far ahead of our clock a sender's `sentAt` may be. */
+const MAX_CLOCK_SKEW_MS = 24 * 60 * 60 * 1000
+
+/** Newest messages a tab keeps; older ones fall off the top. */
+export const MESSAGE_LIMIT = 500
 
 export function isBlank(value: string): boolean {
   return value.trim().length === 0
@@ -76,7 +87,8 @@ export function parsePayload(raw: unknown): ChatPayload | null {
   if (v !== 1) return null
   if (typeof id !== 'string' || isBlank(id)) return null
   if (typeof nickname !== 'string' || typeof text !== 'string') return null
-  if (typeof sentAt !== 'number' || !Number.isFinite(sentAt)) return null
+  if (typeof sentAt !== 'number' || !Number.isSafeInteger(sentAt)) return null
+  if (sentAt < 0 || sentAt > Date.now() + MAX_CLOCK_SKEW_MS) return null
   if (isBlank(text)) return null
 
   return {
@@ -86,6 +98,28 @@ export function parsePayload(raw: unknown): ChatPayload | null {
     text: text.slice(0, MAX_TEXT_LENGTH),
     sentAt,
   }
+}
+
+/**
+ * Adds a message to the list, ordered by send time clamped to receive time
+ * (so a future-dated `sentAt` cannot pin a message as newest), keeping the newest
+ * `limit`. Returns the input unchanged when the id is already present.
+ */
+export function insertMessage(
+  current: readonly ChatMessage[],
+  message: ChatMessage,
+  limit = MESSAGE_LIMIT
+): ChatMessage[] {
+  if (current.some((existing) => existing.id === message.id)) {
+    return current as ChatMessage[]
+  }
+  return [...current, message]
+    .sort((a, b) => orderKey(a) - orderKey(b))
+    .slice(-limit)
+}
+
+function orderKey(message: ChatMessage): number {
+  return Math.min(message.sentAt, message.receivedAt)
 }
 
 export function encodePayload(payload: ChatPayload): Uint8Array {

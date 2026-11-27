@@ -20,6 +20,8 @@ import { FLEET_URL, FLEETS } from '@/lib/storage-fleet'
 /** The roster changes rarely, so a short shared cache is plenty. */
 const CACHE_SECONDS = 60
 
+const FETCH_TIMEOUT_MS = 10000
+
 const isFleet = (value: string | null): value is FleetName =>
   FLEETS.includes(value as FleetName)
 
@@ -37,6 +39,7 @@ export async function GET(request: Request) {
 
   try {
     const response = await fetch(FLEET_URL(requested), {
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
       next: { revalidate: CACHE_SECONDS },
     })
 
