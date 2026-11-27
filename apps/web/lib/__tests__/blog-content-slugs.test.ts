@@ -147,6 +147,42 @@ describe('slug queries against Strapi', () => {
     expect(slugs).toContain('tail-article')
     expect(slugs).not.toContain('')
   })
+
+  it('skips articles whose slug is not a safe path segment', async () => {
+    useStrapi()
+    vi.stubGlobal(
+      'fetch',
+      vi
+        .fn()
+        .mockResolvedValueOnce(
+          strapiPostPage([
+            { slug: 'kept-article' },
+            { slug: '../../escape' },
+            { slug: 'two words' },
+          ])
+        )
+    )
+
+    await expect(getBlogArticleSlugs()).resolves.toEqual(['kept-article'])
+  })
+
+  it('skips episodes whose slug or show slug is not a safe path segment', async () => {
+    useStrapi()
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValueOnce(
+        strapiPostPage([
+          { slug: 'kept-episode', showSlug: 'logos-state' },
+          { slug: 'bad/episode', showSlug: 'logos-state' },
+          { slug: 'episode', showSlug: '../../../tmp/feed' },
+        ])
+      )
+    )
+
+    await expect(getBlogPodcastPaths()).resolves.toEqual([
+      { showSlug: 'logos-state', slug: 'kept-episode' },
+    ])
+  })
 })
 
 const strapiArticle = (

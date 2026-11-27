@@ -74,7 +74,7 @@ export async function StaticRedirect({
       <meta httpEquiv="refresh" content={`0; url=${target}`} />
       <script
         dangerouslySetInnerHTML={{
-          __html: `window.location.replace(${JSON.stringify(target)}${preserveSearchAndHash ? ' + window.location.search + window.location.hash' : ''})`,
+          __html: `window.location.replace(${JSON.stringify(target).replace(/</g, '\\u003c')}${preserveSearchAndHash ? ' + window.location.search + window.location.hash' : ''})`,
         }}
       />
       <noscript>
