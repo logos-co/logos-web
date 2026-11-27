@@ -42,8 +42,8 @@ export type ChatMessage = ChatPayload & {
   /** True when this browser is the sender. */
   fromSelf: boolean
   /**
-   * When this browser received it. The list orders on this, because `sentAt`
-   * is whatever the sender claims.
+   * When this browser received it. The list orders on `sentAt` clamped to
+   * this, because `sentAt` is whatever the sender claims.
    */
   receivedAt: number
 }
@@ -101,7 +101,8 @@ export function parsePayload(raw: unknown): ChatPayload | null {
 }
 
 /**
- * Adds a message to the list, ordered by receive time, keeping the newest
+ * Adds a message to the list, ordered by send time clamped to receive time
+ * (so a future-dated `sentAt` cannot pin a message as newest), keeping the newest
  * `limit`. Returns the input unchanged when the id is already present.
  */
 export function insertMessage(
@@ -113,8 +114,12 @@ export function insertMessage(
     return current as ChatMessage[]
   }
   return [...current, message]
-    .sort((a, b) => a.receivedAt - b.receivedAt)
+    .sort((a, b) => orderKey(a) - orderKey(b))
     .slice(-limit)
+}
+
+function orderKey(message: ChatMessage): number {
+  return Math.min(message.sentAt, message.receivedAt)
 }
 
 export function encodePayload(payload: ChatPayload): Uint8Array {

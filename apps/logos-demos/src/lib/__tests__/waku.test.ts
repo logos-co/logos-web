@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { type ChatMessage, insertMessage, parsePayload } from './waku'
+import { type ChatMessage, insertMessage, parsePayload } from '../waku'
 
 const base = {
   v: 1,
@@ -10,8 +10,12 @@ const base = {
   sentAt: 1_700_000_000_000,
 }
 
-function message(id: string, receivedAt: number): ChatMessage {
-  return { ...base, v: 1, id, fromSelf: false, receivedAt }
+function message(
+  id: string,
+  receivedAt: number,
+  sentAt = receivedAt,
+): ChatMessage {
+  return { ...base, v: 1, id, fromSelf: false, receivedAt, sentAt }
 }
 
 describe('parsePayload', () => {
@@ -31,10 +35,27 @@ describe('parsePayload', () => {
 })
 
 describe('insertMessage', () => {
-  it('orders on receive time, not on the claimed send time', () => {
-    const future = { ...message('f', 1), sentAt: Date.now() + 3_600_000 }
+  it('does not let a future sentAt pin a message as newest', () => {
+    const future = message('f', 1, Date.now() + 3_600_000)
     const list = insertMessage([future], message('b', 2))
     expect(list.map((m) => m.id)).toEqual(['f', 'b'])
+  })
+
+  it('orders a newest-first paged backlog and a live message', () => {
+    const now = 10_000
+    // Two store pages, newest page first, each oldest first within the page.
+    const arrivals = [
+      message('p2a', now, 300),
+      message('p2b', now, 400),
+      message('live', now, now),
+      message('p1a', now + 1, 100),
+      message('p1b', now + 1, 200),
+    ]
+    const list = arrivals.reduce<ChatMessage[]>(
+      (list, m) => insertMessage(list, m),
+      [],
+    )
+    expect(list.map((m) => m.id)).toEqual(['p1a', 'p1b', 'p2a', 'p2b', 'live'])
   })
 
   it('keeps the newest messages up to the limit', () => {
