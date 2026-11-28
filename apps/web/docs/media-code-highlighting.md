@@ -8,4 +8,4 @@ Use a `language-*` or `lang-*` class on a `<pre><code>` element to select a supp
 
 Structured CMS `code-block` entries keep their original code and language fields. The pipeline generates `highlightedHtml` from those fields for [the media renderer](../app/[locale]/media/_components/media-rich-content.tsx); it never trusts an incoming `highlightedHtml` value. Interactive document embeds retain their own styles and are not processed by this pipeline.
 
-The existing code block background, font and horizontal scrolling remain in place. Token colours are scoped to media `<pre>` elements. Check desktop and mobile layouts in a browser when changing them.
+Code blocks use a near-black background with light text and token colours. The existing font and horizontal scrolling remain in place. Token colours are scoped to media `<pre>` elements. Check desktop and mobile layouts in a browser when changing them.
