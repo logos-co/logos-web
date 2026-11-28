@@ -232,10 +232,11 @@
 .media-detail-content pre {
   margin: 16px 0;
   overflow-x: auto;
-  border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  border: 1px solid #343c38;
   border-radius: 4px;
   padding: 16px;
-  background: color-mix(in srgb, currentColor 5%, transparent);
+  background: #151918;
+  color: #e4e7dc;
   font-family: var(--font-mono);
   font-size: 14px;
   line-height: 1.6;
@@ -256,6 +257,42 @@
   padding: 0;
   background: none;
   font: inherit;
+}
+
+.media-detail-content pre :where(.hljs-comment, .hljs-quote) {
+  color: #a6ad9e;
+}
+
+.media-detail-content
+  pre
+  :where(.hljs-keyword, .hljs-selector-tag, .hljs-name) {
+  color: #c6a0f6;
+}
+
+.media-detail-content
+  pre
+  :where(.hljs-string, .hljs-regexp, .hljs-symbol, .hljs-addition) {
+  color: #a6da95;
+}
+
+.media-detail-content pre :where(.hljs-number, .hljs-literal, .hljs-attr) {
+  color: #f5a97f;
+}
+
+.media-detail-content pre :where(.hljs-title, .hljs-built_in, .hljs-type) {
+  color: #8cc7f2;
+}
+
+.media-detail-content pre :where(.hljs-meta, .hljs-deletion) {
+  color: #ed8796;
+}
+
+.media-detail-content pre .hljs-emphasis {
+  font-style: italic;
+}
+
+.media-detail-content pre .hljs-strong {
+  font-weight: 700;
 }
 
 .media-detail-content .media-detail-table {

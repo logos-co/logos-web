@@ -161,6 +161,14 @@ function DynamicBlock({
     )
   }
   if (block.type === 'code-block') {
+    if (block.highlightedHtml) {
+      return (
+        <div
+          className="contents"
+          dangerouslySetInnerHTML={{ __html: block.highlightedHtml }}
+        />
+      )
+    }
     return (
       <pre>
         <code className={block.language ? `language-${block.language}` : ''}>

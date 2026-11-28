@@ -169,6 +169,7 @@ export interface BlogDynamicCodeBlock {
   type: 'code-block'
   language?: string
   code: string
+  highlightedHtml?: string
 }
 
 export interface BlogDynamicInteractiveEmbedBlock {
