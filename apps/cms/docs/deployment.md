@@ -89,7 +89,7 @@ After each deploy, check that `POST /api/users/first-register` returns 403 on th
 
 ## API access
 
-The content collections and `media` (including files under `/api/media/file/`) are readable only with a Payload session, so anonymous REST and GraphQL reads return 403. Nothing outside the admin UI reads them: `apps/web` builds from `content/**` and serves uploads from `apps/web/public/cms/uploads`.
+The content collections and `media` (including files under `/api/media/file/`) are readable only with a Payload session, so anonymous REST and GraphQL reads (for example `GET /api/pages?draft=true`) return 403. Nothing outside the admin UI reads them: `apps/web` builds from `content/**` and serves uploads from `apps/web/public/cms/uploads`, and the admin components call the API on the same origin with the session cookie.
 
 ## Login lockout
 
@@ -97,4 +97,4 @@ Payload's defaults apply: 5 failed logins lock an account for 10 minutes. Anyone
 
 ## Health check
 
-Docker's `HEALTHCHECK` calls `GET /api/health`. Vercel also hits it hourly through the cron in [`apps/cms/vercel.json`](../vercel.json). It returns 200 `{ ok, db, latencyMs }` or 503 with the same shape; the failure detail and database diagnostics go to the server log only.
+Docker's `HEALTHCHECK` calls `GET /api/health`. Vercel also hits it hourly through the cron in [`apps/cms/vercel.json`](../vercel.json). The endpoint is public and uncached. It returns 200 `{ ok: true, db: "ok", latencyMs }` or 503 `{ ok: false, db: "down", latencyMs }`; the failure detail and database diagnostics go to the server log only.

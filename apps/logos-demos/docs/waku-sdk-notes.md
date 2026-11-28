@@ -57,7 +57,9 @@ Subscribe first and query second; the other order drops anything published
 during the query. Then de-duplicate the overlap. The demo puts a
 sender-generated id in every message and keeps a `Set` of the ids it has
 rendered, which also lets it recognise its own messages coming back off the
-network.
+network. The set holds at most twice `MESSAGE_LIMIT` (1,000 ids) and drops the
+oldest id past that, so a flood cannot grow it forever and a message just pushed
+off the list is not added again.
 
 If the store query fails, show an empty backlog and keep the page working.
 
@@ -67,12 +69,15 @@ Anyone can publish on the topic, and the store replays it to every tab for 24
 hours, so one bad message breaks the page for everyone until it expires.
 `parsePayload` in [`src/lib/waku.ts`](../src/lib/waku.ts) drops anything off
 contract, including a `sentAt` that is not a safe integer between 0 and one day
-ahead of the local clock (`new Date(1e300)` throws on render). The list is
-ordered by `sentAt` clamped to receive time, so store pages arriving newest
-first still render oldest first while a future-dated `sentAt` cannot pin a
-message as newest; it keeps the
-newest 500 messages (`MESSAGE_LIMIT`). `src/app/messaging/error.tsx` and
-`src/app/error.tsx` turn any throw that gets past this into a retry panel.
+ahead of the local clock (`new Date(1e300)` throws on render).
+
+A sender can still claim any `sentAt` inside that window, so `insertMessage`
+orders the list on `sentAt` clamped to the time this browser received the
+message (`receivedAt`). Store pages that arrive newest first still render
+oldest first, and a future-dated `sentAt` cannot pin a message as newest. The
+list keeps the newest 500 messages (`MESSAGE_LIMIT`) and older ones fall off
+the top. `src/app/messaging/error.tsx` and `src/app/error.tsx` turn any throw
+that gets past this into a retry panel.
 
 ## Connecting takes seconds
 

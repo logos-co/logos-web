@@ -6,7 +6,7 @@ How `apps/web` isolates CMS-authored interactive embeds from the site origin whi
 
 Two kinds of media content render in `srcdoc` iframes with the `media-detail-interactive` class:
 
-- `html_file` articles, rendered by `HtmlDocumentEmbed` from a full HTML document. The build downloads the file with `fetchPressHtmlFile` in [`blog-content.ts`](../lib/blog-content.ts), which only accepts `https://cms-press.logos.co/uploads/` URLs, refuses redirects and fails the build on bodies over 2 MiB.
+- `html_file` articles, rendered by `HtmlDocumentEmbed` from a full HTML document. The build downloads the file with `fetchPressHtmlFile` in [`blog-content.ts`](../lib/blog-content.ts). It only accepts `https://cms-press.logos.co/uploads/` URLs (relative `/uploads/` paths resolve against that origin), refuses redirects and stops reading at 2 MiB (`MAX_HTML_FILE_BYTES`). Any of these failures fails the build. The rules stop a Strapi author from making the build fetch and publish an internal address. The 2 MiB cap is about 28 times the largest current file (`dispersive-medium`, 73 KB).
 - Interactive embed blocks inside rich content, rendered by `SrcDocEmbed` in `media-rich-content.tsx`.
 
 When this was written, only three `html_file` articles used this code (`browser-betrayed-you`, `dispersive-medium` and `logos-basecamp`), and no post used dynamic blocks.
@@ -96,6 +96,12 @@ Run the unit and DOM tests:
 
 ```bash
 pnpm --filter web exec vitest run lib/__tests__/media-interactive
+```
+
+The download rules for `html_file` articles have their own tests:
+
+```bash
+pnpm --filter web exec vitest run lib/__tests__/press-html-file.test.ts
 ```
 
 Happy DOM does not run scripts inside iframes, so `media-interactive-frame-dom.test.ts` evaluates `interactiveFrameSource` against the frame window by hand. Happy DOM has no layout either, so the wrapping tests stub `clientWidth`, `scrollWidth` and `getBoundingClientRect` to make an element stick out of the frame.

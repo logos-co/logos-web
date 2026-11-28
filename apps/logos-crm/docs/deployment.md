@@ -32,11 +32,13 @@ as build context, and both connect as `postgresql://logos:logos@crm-db:5432/logo
 CRM_AUTH_TOKEN=$(openssl rand -hex 32) docker compose -f apps/logos-crm/compose.yaml up --build
 ```
 
-Compose refuses to start `crm-web` without `CRM_AUTH_TOKEN`. The healthcheck uses `/api/health`,
-the one route the token does not cover.
+Compose refuses to start without `CRM_AUTH_TOKEN` and prints "Set CRM_AUTH_TOKEN to the CRM access
+token". The healthcheck uses `/api/health`, the one route the token does not cover.
 
 Because `crm-setup` migrates and seeds before `crm-web` starts, a clean `up --build` gives you a
-ready database and the CRM on `http://localhost:3004`.
+ready database and the CRM on `http://localhost:3004`. Every other page and `/api/v1` route answers
+401 with a basic-auth prompt until you send the token: enter it as the password (any user name) in
+the browser prompt, or send `Authorization: Bearer <token>` from a script.
 
 ## Image build
 
@@ -64,8 +66,8 @@ Never edit the generated SQL by hand; change the schema and regenerate.
 
 [`src/server/env.ts`](../src/server/env.ts) validates `DATABASE_URL`, a PostgreSQL connection
 string. `CRM_AUTH_TOKEN` is the shared access token read by [`src/proxy.ts`](../src/proxy.ts); it is
-optional under `next dev` and required everywhere else. For local development outside Docker, copy
-`.env.example` to `.env`.
+optional under `next dev` and required everywhere else. Once set, it is required under `next dev`
+too. For local development outside Docker, copy `.env.example` to `.env`.
 
 ## Backup and recovery
 
