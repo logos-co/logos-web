@@ -16,7 +16,10 @@ and the route handlers in [`src/app/api`](../src/app/api).
 | `src/server/case-repository.ts`      | Case queries, status updates and the dashboard summary                  |
 | `src/server/directory-repository.ts` | People and organisation queries and mutations                           |
 | `src/server/work-repository.ts`      | Activity and task queries and mutations                                 |
+| `src/server/pagination.ts`           | `withPage`, which applies `limit` and `offset` to a list query          |
 | `src/server/api-response.ts`         | Error envelope helpers                                                  |
+| `src/proxy.ts`                       | Access check in front of every route except `/api/health`               |
+| `src/lib/access.ts`                  | `isAuthorised`, the token comparison used by the proxy                  |
 | `src/app/api/`                       | Next.js Route Handlers                                                  |
 
 ## Contracts
@@ -115,6 +118,10 @@ browser can sign in through its native prompt. Tokens are compared in constant t
 variable is unset, only `next dev` (`NODE_ENV=development`) is let through; anything else gets a
 401, so a deployment without the token fails closed. The check never looks at client addresses or
 forwarded headers.
+
+The proxy's 401 does not use the error envelope: its body is the plain text
+`Authentication required.` and it carries the header
+`WWW-Authenticate: Basic realm="Logos CRM", charset="UTF-8"`.
 
 ## Not present
 

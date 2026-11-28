@@ -6,11 +6,10 @@ this monorepo. Config: [`playwright.config.ts`](../playwright.config.ts),
 
 ## No hosted deployment
 
-The app has no hosted deployment and no `vercel.json`; it runs locally on
-port 3005 (`pnpm dev`, or `pnpm turbo run build --filter=logos-demos` then
-`pnpm --filter logos-demos start`). The Vercel project `logos-demos` on the IFT
-team (`status-im-web`) is being deleted, and so is `logos-crm`; they had
-Deployment Protection off, which made every preview public.
+The repo no longer configures a hosted deployment for the app: `vercel.json` is
+gone, and the app runs locally on port 3005 (`pnpm dev`, or
+`pnpm turbo run build --filter=logos-demos` then
+`pnpm --filter logos-demos start`).
 
 `SITE_URL` in `src/lib/site.ts` comes from `NEXT_PUBLIC_SITE_URL` at build time
 and defaults to `http://localhost:3005`, so `robots.txt`, the sitemap and the
