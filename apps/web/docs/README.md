@@ -5,6 +5,7 @@ Reference for the public web app in [`apps/web`](../README.md). These docs cover
 - [media-calendar.md](media-calendar.md): the `/media/calendar` page and the shared `EventsCalendar` it uses
 - [media-interactive-embeds.md](media-interactive-embeds.md): how interactive media embeds are isolated from the site origin, mirror site storage and talk to the page over `postMessage`
 - [media-discussion.md](media-discussion.md): how article discussion previews read and sanitise forum replies
+- [media-code-highlighting.md](media-code-highlighting.md): build-time syntax highlighting for media code blocks
 - [fonts.md](fonts.md): the fonts [`app/fonts.ts`](../app/fonts.ts) loads, and which files are committed
 - [developer-programmes.md](developer-programmes.md): editable programme copy, desktop line breaks and the developer programmes route
 - [railgun.md](railgun.md): the RAILGUN case study, responsive copy and prototype motion

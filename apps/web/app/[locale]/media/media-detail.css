@@ -258,6 +258,42 @@
   font: inherit;
 }
 
+.media-detail-content pre :where(.hljs-comment, .hljs-quote) {
+  color: #515c50;
+}
+
+.media-detail-content
+  pre
+  :where(.hljs-keyword, .hljs-selector-tag, .hljs-name) {
+  color: #68388b;
+}
+
+.media-detail-content
+  pre
+  :where(.hljs-string, .hljs-regexp, .hljs-symbol, .hljs-addition) {
+  color: #2e6239;
+}
+
+.media-detail-content pre :where(.hljs-number, .hljs-literal, .hljs-attr) {
+  color: #85440d;
+}
+
+.media-detail-content pre :where(.hljs-title, .hljs-built_in, .hljs-type) {
+  color: #1d5379;
+}
+
+.media-detail-content pre :where(.hljs-meta, .hljs-deletion) {
+  color: #8c3837;
+}
+
+.media-detail-content pre .hljs-emphasis {
+  font-style: italic;
+}
+
+.media-detail-content pre .hljs-strong {
+  font-weight: 700;
+}
+
 .media-detail-content .media-detail-table {
   max-width: 100%;
   overflow-x: auto;

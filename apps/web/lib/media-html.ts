@@ -1,9 +1,11 @@
 import { rehype } from 'rehype'
+import rehypeHighlight from 'rehype-highlight'
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize'
 
 import type {
   BlogArticleDetail,
   BlogContentBlock,
+  BlogDynamicCodeBlock,
   BlogPodcastDetail,
   BlogPostMeta,
 } from './blog-content'
@@ -38,7 +40,14 @@ const mediaHtml = rehype()
         ['className', 'footnote'],
       ],
       blockquote: ['cite', ['className', 'twitter-tweet']],
-      code: [['className', /^language-[\w-]+$/]],
+      code: [
+        [
+          'className',
+          /^lang(?:uage)?-[\w#+-]+$/,
+          'no-highlight',
+          'nohighlight',
+        ],
+      ],
       col: [widthStyle, 'span'],
       colgroup: ['span'],
       details: ['open'],
@@ -95,10 +104,37 @@ const mediaHtml = rehype()
       'template',
     ],
   })
+  .use(rehypeHighlight, {
+    detect: true,
+    plainText: ['text', 'txt', 'plain', 'plaintext'],
+  })
   .freeze()
 
 type HtmlTransform = (html: string | undefined) => string | undefined
 type MediaPost = BlogArticleDetail | BlogPodcastDetail
+
+function codeBlockHtml(block: BlogDynamicCodeBlock): string {
+  return mediaHtml.stringify({
+    type: 'root',
+    children: [
+      {
+        type: 'element',
+        tagName: 'pre',
+        properties: {},
+        children: [
+          {
+            type: 'element',
+            tagName: 'code',
+            properties: {
+              className: block.language ? [`language-${block.language}`] : [],
+            },
+            children: [{ type: 'text', value: block.code }],
+          },
+        ],
+      },
+    ],
+  })
+}
 
 function mapSummary<T extends BlogPostMeta>(post: T, transform: HtmlTransform) {
   return { ...post, summaryHtml: transform(post.summaryHtml) }
@@ -129,11 +165,13 @@ function mapDetail<T extends MediaPost>(post: T, transform: HtmlTransform): T {
       valueHTML: transform(footnote.valueHTML) ?? '',
     })),
     content: post.content?.map((block) => mapContent(block, transform)),
-    blocks: post.blocks?.map((block) =>
-      block.type === 'rich-text'
-        ? { ...block, body: transform(block.body) ?? '' }
-        : block
-    ),
+    blocks: post.blocks?.map((block) => {
+      if (block.type === 'rich-text')
+        return { ...block, body: transform(block.body) ?? '' }
+      if (block.type === 'code-block')
+        return { ...block, highlightedHtml: transform(codeBlockHtml(block)) }
+      return block
+    }),
   }
 }
 
